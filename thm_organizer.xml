@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="component" version="1.6.0" method="install">
+    <name>THM_Organizer</name>
+    <author>James Antrim</author>
+    <authorEMail>jamesDOTantrimATyahooDOTcom</authorEMail>
+    <author>Wolf Rost</author>
+    <authorEMail></authorEMail>
+    <authorUrl>www.mni.fh-giessen.de</authorUrl>
+    <creationDate>01/03/2011</creationDate>
+    <copyright>TH Mittelhessen 2011</copyright>
+    <licence>GNU GPL v.2</licence>
+    <version>0.0.1</version>
+    <description>THM Organizer is a component designed to handle the scheduling and planning needs of the University of Applied Middle Hessen in Giessen, Germany.</description>
+
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">install.sql</file>
+        </sql>
+    </install>
+    <installfile>install.thm_organizer.php</installfile>
+    <files folder="site">
+            <filename>index.html</filename>
+            <filename>thm_organizer.php</filename>
+            <filename>controller.php</filename>
+            <filename>LICENSE.php</filename>
+            <folder>views</folder>
+            <folder>models</folder>
+            <folder>controllers</folder>
+            <folder>assets</folder>
+    </files>
+    <administration>
+        <menu img="../favicon.ico">THM - Organizer</menu>
+        <submenu>
+            <menu img="../favicon.ico" view="category_manager">Category Manager</menu>
+            <menu img="../favicon.ico" view="monitor_manager">Monitor Manager</menu>
+            <menu img="../favicon.ico" view="semester_manager">Semester Manager</menu>
+            <menu img="../favicon.ico" view="scheduler_application_settings">Scheduler Application Settings</menu>
+            <menu img="../favicon.ico" view="virtual_schedules">Virtual Schedules</menu>
+        </submenu>
+        <files folder="admin">
+            <filename>index.html</filename>
+            <filename>thm_organizer.php</filename>
+            <filename>controller.php</filename>
+            <filename>install.sql</filename>
+            <filename>LICENSE.php</filename>
+            <folder>views</folder>
+            <folder>models</folder>
+            <folder>controllers</folder>
+        </files>
+    </administration>
+</extension>
+
