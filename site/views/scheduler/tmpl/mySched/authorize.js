@@ -10,14 +10,18 @@ MySched.Authorize = function () {
 		init: function (accessArray) {
 			this.additionalRights = {};
 			this.accArr = accessArray;
-			if (!this.role) this.role = accessArray.defaultRole;
+			if (!this.role) {
+                        this.role = accessArray.defaultRole;
+                        }
 		},
 		/**
 		 * Setzt die Zusaetzlichen Rechte (zu den RollenRechten) fest
 		 * @param {Object} rights
 		 */
 		setAdditionalRights: function (rights) {
-			if (this.additionalRights == rights) return false;
+			if (this.additionalRights === rights) {
+                        return false;
+                        }
 			this.additionalRights = rights;
 			return true;
 		},
@@ -28,14 +32,16 @@ MySched.Authorize = function () {
 		 * @param {Object} rights
 		 */
 		changeRole: function (role, rights) {
-			if (!this.setAdditionalRights(rights) && this.role == role) return false;
+			if (!this.setAdditionalRights(rights) && this.role === role) {
+                        return false;
+                        }
 			this.role = role;
 			MySched.Tree.refreshTreeData();
 			return true;
 		},
 		// Verifiziere das Token bei dem Server
 		verifyToken: function (t, success, scope) {
-			if (t == this.authentificatedToken) {
+			if (t === this.authentificatedToken) {
 				return true;
 			}
 			Ext.Ajax.request({
@@ -46,7 +52,7 @@ MySched.Authorize = function () {
 					scheduletask: "User.auth"
 				},
 				success: function (response, request) {
-					if (response.responseText != "Permission Denied!") {
+					if (response.responseText !== "Permission Denied!") {
 						var json = Ext.decode(response.responseText);
 						if (json.success) {
 							this.authentificatedToken = t;
@@ -59,8 +65,7 @@ MySched.Authorize = function () {
 							}
 
 						}
-					}
-					else {
+					} else {
 						Ext.Msg.alert('Authentifizierungsfehler', "Ihr Token wurde zur&uuml;ckgewisen.", this.showAuthForm(), this);
 					}
 				},
@@ -94,8 +99,10 @@ MySched.Authorize = function () {
 			//Ext.ComponentMgr.get('btnPEvent').show();
 			//Ext.ComponentMgr.get('btnAdd').show();
 			//Ext.ComponentMgr.get('btnDel').show();
-			if (obj.role != "registered") {
-				if (typeof Ext.ComponentMgr.get('btnEvent') != "undefined") Ext.ComponentMgr.get('btnEvent').show();
+			if (obj.role !== "registered") {
+				if (typeof Ext.ComponentMgr.get('btnEvent') !== "undefined") {
+                                Ext.ComponentMgr.get('btnEvent').show();
+                                }
 			}
 			//Ext.ComponentMgr.get('btnFreeBusy').show();
 			// Erstellt den Stundenplan des Benutzers
@@ -115,39 +122,59 @@ MySched.Authorize = function () {
 			var part = false;
 			// Ueberprueft vorkommen in ALL und dann in type - entweder muss * oder id vorkommen
 			if (this.accArr.ALL[type]) {
-				if (this.accArr.ALL[type] == '*') return 'full';
-				part = true
+				if (this.accArr.ALL[type] === '*') {
+                                return 'full';
+                                }
+				part = true;
 			}
 			if (this.accArr[this.role][type]) {
-				if (this.accArr[this.role][type] == '*') return 'full';
-				part = true
+				if (this.accArr[this.role][type] === '*') {
+                                return 'full';
+                                }
+				part = true;
 			}
 			if (this.additionalRights[type]) {
-				if (this.additionalRights[type] == '*') return 'full';
-				part = true
+				if (this.additionalRights[type] === '*') {
+                                return 'full';
+                                }
+				part = true;
 			}
 
 			return part ? 'part' : 'none';
 		},
 		// Ueberprueft ob der Zugriff auf dieses Objekt erlaubt ist
 		checkAccess: function (type, id) {
-			if (Ext.isEmpty(id)) id = 'keyKommtBestimmtNichtVor';
+			if (Ext.isEmpty(id)) {
+                        id = 'keyKommtBestimmtNichtVor';
+                        }
 			id = id.toLowerCase();
 
 			// Ueberprueft vorkommen in ALL und dann in type - entweder muss * oder id vorkommen
-			if (this.accArr.ALL[type]) if (this.accArr.ALL[type] == '*' || this.accArr.ALL[type].indexOf(id) != -1) return true;
+			if (this.accArr.ALL[type]) {
+                        if (this.accArr.ALL[type] === '*' || this.accArr.ALL[type].indexOf(id) !== -1) {
+                        return true;
+                        }
+                        }
 
 			// SPezifische Rollenrechte
-			if (this.accArr[this.role][type]) if (this.accArr[this.role][type] == '*' || this.accArr[this.role][type].indexOf(id) != -1) return true;
+			if (this.accArr[this.role][type]) {
+                        if (this.accArr[this.role][type] === '*' || this.accArr[this.role][type].indexOf(id) !== -1) {
+                        return true;
+                        }
+                        }
 
 			// Persoenliche Userrechte
-			if (this.additionalRights[type]) if (this.additionalRights[type] == '*' || this.additionalRights[type].indexOf(id) != -1) return true;
+			if (this.additionalRights[type]) {
+                        if (this.additionalRights[type] === '*' || this.additionalRights[type].indexOf(id) !== -1) {
+                        return true;
+                        }
+                        }
 
 			return false;
 		},
 		// Schaut nach ob im Cookie ein Token enthalten ist und veranlasst eine Pruefung
 		checkCookieToken: function () {
-			var token = MySched.CookieProvider.get('authToken')
+			var token = MySched.CookieProvider.get('authToken');
 			if (token) {
 				this.verifyToken(token, this.verifySuccess, this);
 				return true;
@@ -159,7 +186,9 @@ MySched.Authorize = function () {
 		 * Gibt true zurueck wenn der User bereits Authentifiziert ist
 		 */
 		showAuthForm: function (funcAfterAuth) {
-			if (this.user && MySched.Base.sid) return true;
+			if (this.user && MySched.Base.sid) {
+                        return true;
+                        }
 
 			// Funktion die nach dem Auth ausgefuehrt wird
 			this.afterAuthCallback = funcAfterAuth;
@@ -169,27 +198,33 @@ MySched.Authorize = function () {
 				Ext.Msg.hide();
 			}
 
-			if (this.authWindow) this.authWindow.show();
+			if (this.authWindow) {
+                        this.authWindow.show();
+                        }
 
 			return false;
 		},
 		saveIfAuth: function (showWindow) {
 			// Formular anzeigen wenn nicht eingeloggt und dann speichern
 			// ...ansonsten speichern
-			if (
-			this.showAuthForm(
-			MySched.selectedSchedule.save.createDelegate(
-			MySched.Schedule, [_C('ajaxHandler')], showWindow), "UserSchedule.save"))
-			if (showWindow == null)
-				showWindow = true;
+			if (this.showAuthForm(MySched.selectedSchedule.save.createDelegate(MySched.Schedule, [_C('ajaxHandler')], showWindow), "UserSchedule.save")) {
+				if (showWindow === null) {
+					showWindow = true;
+				}
+			}
 			var task = "";
-			if (MySched.selectedSchedule.id == "mySchedule") task = "UserSchedule.save";
-			else task = "saveScheduleChanges";
+			if (MySched.selectedSchedule.id === "mySchedule") {
+				task = "UserSchedule.save";
+			} else {
+			 task = "saveScheduleChanges";
+			}
 			MySched.selectedSchedule.save.call(MySched.selectedSchedule, _C('ajaxHandler'), showWindow, task);
 		},
 		isClassSemesterAuthor: function () {
-			if (this.user == MySched.class_semester_author) return true;
+			if (this.user === MySched.class_semester_author) {
+				return true;
+			}
 			return false;
 		}
-	}
+	};
 }();

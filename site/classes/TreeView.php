@@ -1,10 +1,9 @@
 <?php
-// Wenn die Anfragen nicht durch Ajax von MySched kommt
-if ( isset( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) ) {
-	if ( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] != 'XMLHttpRequest' )
-		die( 'Permission Denied!' );
-} else
-	die( 'Permission Denied!' );
+
+// no direct access
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
+require_once(JPATH_COMPONENT."/classes/TreeNode.php");
 
 class TreeView
 {
@@ -13,10 +12,13 @@ class TreeView
 	private $type = null;
 	private $sid = null;
 
-	function __construct($JDA, $CFG)
+	function __construct($JDA, $CFG, $options = array())
 	{
-		$this->type = $JDA->getRequest( "type" );
-		$this->sid  = $JDA->getRequest( "sid" );
+		if(isset($options["type"]))
+			$this->type = $options["type"];
+		else
+			$this->type = $JDA->getRequest( "type" );
+		$this->sid  = $JDA->getSemID();
 		$this->JDA = $JDA;
 		$this->cfg = $CFG->getCFG();
 	}
@@ -31,8 +33,37 @@ class TreeView
 				$arr = $this->getRooms( "room", $this->sid );
 			elseif ( $this->type == "doz" )
 				$arr = $this->getTeachers( "teacher", $this->sid );
+
+			$treeNode = array();
+			$childNodes = array();
+
+			foreach($arr as $key=>$value)
+			{
+				$childNodes = array();
+				foreach($value as $childkey=>$childvalue)
+				{
+					$childNodes[] = new TreeNode($childvalue["id"],
+												$childvalue["name"],
+												$this->type . "-node",
+												true,
+												true,
+												false,
+												NULL);
+				}
+
+				$treeNode[] = new TreeNode(
+					$key,							// id - autom. generated
+					$key,							// text	for the node
+					$this->type . '-root',			// iconCls
+					false,							// leaf
+					false,							// draggable
+					true,							// singleClickExpand
+					$childNodes						// children
+				);
+			}
+
 			$arr[ "type" ] = $this->type;
-			return array("success"=>true,"data"=>$arr );
+			return array("success"=>true,"data"=>array("tree"=>$treeNode,"treeData"=>$arr));
 		} else {
 			return array("success"=>false,"data"=>array());
 		}

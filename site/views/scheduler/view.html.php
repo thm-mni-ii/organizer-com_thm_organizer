@@ -24,10 +24,36 @@ class GiessenSchedulerViewScheduler extends JView
 		$session =& JFactory::getSession();
 		$session->set('scheduler_semID', $this->semesterID);
 		$semAuthor = $model->getSemesterAuthor();
-		$jsid = $model->getSessionID();
-		$this->jsid = $jsid;
+		$this->jsid = $model->getSessionID();
 		$this->semAuthor = $semAuthor;
 		$this->hasBackendAccess = $hasBackendAccess;
+
+		$doc =& JFactory::getDocument();
+		$doc->addStyleSheet(JURI::root(true)."/components/com_giessenscheduler/views/scheduler/tmpl/ext/resources/css/ext-all.css");
+		$doc->addStyleSheet(JURI::root(true)."/components/com_giessenscheduler/views/scheduler/tmpl/ext/resources/css/MultiSelect.css");
+		$doc->addStyleSheet(JURI::root(true)."/components/com_giessenscheduler/views/scheduler/tmpl/mySched/style.css");
+
+		$schedulearr = array();
+
+		$model = JModel::getInstance('Ajaxhandler', 'GiessenSchedulerModel', array('ignore_request' => false));
+
+		$schedulearr["Grid.load"] = $model->executeTask("Grid.load");
+
+		$schedulearr["Events.load"] = $model->executeTask("Events.load");
+
+		$schedulearr["UserSchedule.load"] = array();
+		$schedulearr["UserSchedule.load"]["respChanges"] = $model->executeTask("UserSchedule.load", array("username"=>"respChanges"));
+
+		$schedulearr["ScheduleDescription.load"] = $model->executeTask("ScheduleDescription.load");
+
+		$schedulearr["UserSchedule.load"]["delta"] = $model->executeTask("UserSchedule.load", array("username"=>"delta"));
+
+		$schedulearr["TreeView.load"] = array();
+		$schedulearr["TreeView.load"]["doz"] = $model->executeTask("TreeView.load", array("type"=>"doz"));
+		$schedulearr["TreeView.load"]["room"] = $model->executeTask("TreeView.load", array("type"=>"room"));
+		$schedulearr["TreeView.load"]["clas"] = $model->executeTask("TreeView.load", array("type"=>"clas"));
+
+		$this->startup = rawurlencode(json_encode($schedulearr));
 
         parent::display($tpl);
     }

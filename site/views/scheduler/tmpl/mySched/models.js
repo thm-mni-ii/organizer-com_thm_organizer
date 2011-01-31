@@ -109,7 +109,7 @@ mSchedule = function (id, title, config) {
 Ext.extend(mSchedule, MySched.Model, {
 	init: function (type, value) {
 
-		if (type == "Diff") this.data = MySched.delta.data;
+		if (type == "delta") this.data = MySched.delta.data;
 		else if (type == "respChanges") this.data = MySched.responsibleChanges.data;
 		else {
 			var valuearr = value.split(";");
@@ -183,7 +183,7 @@ Ext.extend(mSchedule, MySched.Model, {
 	 */
 	getLecture: function (id) {
 		if (id.match('##')) id = id.split('##')[1];
-		if (MySched.selectedSchedule.id == "Diff") return MySched.delta.data.get(id);
+		if (MySched.selectedSchedule.id == "delta") return MySched.delta.data.get(id);
 		var Plesson = MySched.Schedule.data.get(id);
 		if (Plesson != null) if (Plesson.data != null) if (Plesson.data.type == "personal") return MySched.Schedule.data.get(id);
 		return this.data.get(id);
@@ -230,7 +230,7 @@ Ext.extend(mSchedule, MySched.Model, {
 			}
 		}
 
-		if (wp.format("Y-m-d") < MySched.session["begin"] && this.id != "Diff") {
+		if (wp.format("Y-m-d") < MySched.session["begin"] && this.id != "delta") {
 			Ext.Msg.show({
 				title: "Hinweis",
 				buttons: {
@@ -283,7 +283,7 @@ Ext.extend(mSchedule, MySched.Model, {
 
 						date = wp.format("Y-m-d");
 
-						if ((date >= MySched.session["begin"] && date <= MySched.session["end"]) || (this.id == "Diff" || this.id == "respChanges")) ret[bl][wd].push(v.getCellView(this));
+						if ((date >= MySched.session["begin"] && date <= MySched.session["end"]) || (this.id == "delta" || this.id == "respChanges")) ret[bl][wd].push(v.getCellView(this));
 					}
 				}
 			}
@@ -595,7 +595,7 @@ Ext.extend(mSchedule, MySched.Model, {
 		if (ret) return this.grid;
 		var name = this.title.replace(/\s*\/\s*/g, ' ');
 		MySched.layout.createTab(this.getId(), name, this.grid, this.type);
-		if (this.getId() == "Diff") {
+		if (this.getId() == "delta") {
 			MySched.selectedSchedule.data = MySched.delta.data;
 		}
 		else {
@@ -864,7 +864,7 @@ Ext.extend(mLecture, MySched.Model, {
 		var ret = '<div class="status_icons"> ';
 
 		if (MySched.Authorize.user != null && MySched.Authorize.user != "") {
-			if (d.parentId != 'Diff') {
+			if (d.parentId != 'delta') {
 				if (d.parentId == 'mySchedule') ret += '<img qtip="Veranstaltung aus Ihrem Stundenplan entfernen" class="status_icons_add" src="' + MySched.mainPath + '/images/delete.png" width="12" heigth="12"/>';
 				else if (d.parentId != 'mySchedule' && MySched.Schedule.lectureExists(this)) ret += '<img qtip="Veranstaltung aus Ihrem Stundenplan entfernen" class="status_icons_add" src="' + MySched.mainPath + '/images/delete.png" width="12" heigth="12"/>';
 				else ret += '<img qtip="Veranstaltung Ihrem Stundenplan hinzuf&uuml;gen" class="status_icons_add" src="' + MySched.mainPath + '/images/add.png" width="12" heigth="12"/>';

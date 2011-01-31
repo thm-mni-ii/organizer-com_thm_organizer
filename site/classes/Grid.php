@@ -1,12 +1,9 @@
 <?php
-// Wenn die Anfragen nicht durch Ajax von MySched kommt
-if ( isset( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) ) {
-	if ( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] != 'XMLHttpRequest' )
-		die( 'Permission Denied!' );
-} else
-	die( 'Permission Denied!' );
 
-class GridData
+// no direct access
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
+class Grid
 {
 	private $JDA = null;
 	private $semID = null;
@@ -14,7 +11,7 @@ class GridData
 	function __construct($JDA, $CFG)
 	{
 		$this->JDA = $JDA;
-		$this->semID = (int)$JDA->getRequest( "class_semester_id" );
+		$this->semID = $JDA->getSemID();
 	}
 
 	public function load()

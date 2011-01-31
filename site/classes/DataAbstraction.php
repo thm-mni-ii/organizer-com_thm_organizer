@@ -1,4 +1,8 @@
 <?php
+
+// no direct access
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
 class DataAbstraction
 {
     private $dbo;
@@ -16,6 +20,11 @@ class DataAbstraction
     public function getUserName( )
     {
         return $this->user->username;
+    }
+
+    public function getUserSessionID( )
+    {
+    	return session_id();
     }
 
     public function getUserRoles( )

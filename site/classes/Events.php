@@ -1,10 +1,7 @@
 <?php
-// Wenn die Anfragen nicht durch Ajax von MySched kommt
-if ( isset( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) ) {
-	if ( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] != 'XMLHttpRequest' )
-		die( 'Permission Denied!' );
-} else
-	die( 'Permission Denied!' );
+
+// no direct access
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once( JPATH_COMPONENT."/views/scheduler/tmpl/wsapi/class.mySchedImport.php" );
 
@@ -20,7 +17,7 @@ class Events
 		$this->JDA = $JDA;
 		$this->CFG = $CFG;
 		$this->cfg = $CFG->getCFG();
-		$this->jsid = $JDA->getRequest( "jsid" );
+		$this->jsid = $JDA->getUserSessionID();
 	}
 
 	public function load()

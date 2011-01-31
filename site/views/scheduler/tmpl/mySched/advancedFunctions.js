@@ -8,11 +8,11 @@ MySched.layout.getMainToolbar = function () {
 		hidden: false,
 		iconCls: 'tbEvent',
 		handler: addNewEvent
-	}
+	};
 	var ToolbarObjects = oldMainToolbar();
 	var newMainToolbar = ToolbarObjects.AddTo(3, btnEvent);
 	return newMainToolbar;
-}
+};
 
 var addEvent = {
 	text: "Termin hinzuf&uuml;gen",
@@ -26,27 +26,34 @@ MySched.BlockMenu.Menu[MySched.BlockMenu.Menu.length] = addEvent;
 
 var processResult = function (a, b, c, d, e) {
 	alert(a);
-}
+};
 
 window.onbeforeunload = function () {
+	if(typeof MySched.layout.tabpanel === "undefined")
+		return;
 	var tabs = MySched.layout.tabpanel.items.items;
 	var temptabs = tabs;
 	var check = false;
 	var tosave = false;
-	for (var i = 0; i < tabs.length; i++) {
-		if (tabs[i].mSchedule.status == "unsaved") {
+        var i = 0;
+        var ti = 0;
+
+	for (i = 0; i < tabs.length; i++) {
+		if (tabs[i].mSchedule.status === "unsaved") {
 			check = confirm("Sie haben Ihren Plan geändert.\nMöchten Sie die Änderungen speichern (OK) oder die Bearbeitung ohne Änderung abbrechen?");
-			if (check == true) {
-				for (var ti = 0; ti < temptabs.length; ti++) {
-					if (temptabs[ti].mSchedule.status == "unsaved") {
-						if (temptabs[ti].mSchedule.id == "mySchedule") temptabs[ti].mSchedule.save(_C('ajaxHandler'), false, "UserSchedule.save");
-						else temptabs[ti].mSchedule.save(_C('ajaxHandler'), false, "saveScheduleChanges");
+			if (check === true) {
+				for (ti = 0; ti < temptabs.length; ti++) {
+					if (temptabs[ti].mSchedule.status === "unsaved") {
+						if (temptabs[ti].mSchedule.id === "mySchedule") {
+                        	temptabs[ti].mSchedule.save(_C('ajaxHandler'), false, "UserSchedule.save");
+                        } else {
+                        	temptabs[ti].mSchedule.save(_C('ajaxHandler'), false, "saveScheduleChanges");
+                        }
 						tosave = true;
 					}
 				}
 				break;
-			}
-			else {
+			} else {
 				break;
 			}
 		}
@@ -63,4 +70,4 @@ window.onbeforeunload = function () {
 			undsek = undjetzt.getSeconds();
 		}
 	}
-}
+};

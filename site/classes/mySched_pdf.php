@@ -1,4 +1,8 @@
 <?php
+
+// no direct access
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
 define( 'FPDF_FONTPATH', B . '/fpdf/font/' );
 require_once( B . "/fpdf/table/class.fpdf_table.php" );
 

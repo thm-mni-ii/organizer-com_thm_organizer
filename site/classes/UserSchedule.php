@@ -1,4 +1,8 @@
 <?php
+
+// no direct access
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
 class UserSchedule
 {
 	private $jsid = null;
@@ -11,13 +15,18 @@ class UserSchedule
 	private $tempusername = null;
 	private $classemesterid = null;
 
-	function __construct($JDA, $CFG)
+	function __construct($JDA, $CFG, $options = array())
 	{
 		$this->JDA = $JDA;
-		$this->jsid = $this->JDA->getRequest( "jsid" );
+		$this->jsid = $this->JDA->getUserSessionID();
 		$this->sid  = $this->JDA->getRequest( "sid" );
 		$this->json = $this->JDA->getDBO()->getEscaped( file_get_contents( "php://input" ) );
 
+		if(isset($options["username"]))
+		{
+			$this->username = $options["username"];
+		}
+		else
 		if($this->JDA->getRequest( "username" ))
 			$this->username = $this->JDA->getRequest( "username" );
 		else
@@ -67,7 +76,7 @@ class UserSchedule
 	}
 
 	public function load()
-      {
+    {
           if (isset($this->username) && isset($this->semID)) {
               if ($this->username != "delta" && $this->username != "respChanges") {
                   $this->username = $this->JDA->getUserName();

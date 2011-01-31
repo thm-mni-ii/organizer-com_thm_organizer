@@ -46,7 +46,6 @@ SchedGrid = function (schedObj, config) {
 		width: 35
 	});
 
-	var blabla = MySched.daytime;
 	for (var i = 1; i < MySched.daytime.length; i++) {
 		this.columns[this.columns.length] = {
 			id: MySched.daytime[i].engName,
@@ -337,7 +336,7 @@ MySched.lectureCellRenderer = function (data, meta, record, rowIndex, colIndex, 
 	if (colIndex == 0 && rowIndex == 3) return '<div class="scheduleBox MySched_pause">' + data + '</div>';
 	if (colIndex == 0) return '<div class="scheduleBox timeBox">' + data + '</div>';
 	if (rowIndex > 3) rowIndex--;
-	if (grid.id != 'mySchedule' && grid.id != 'Diff') {
+	if (grid.id != 'mySchedule' && grid.id != 'delta') {
 		if (MySched.Schedule.getBlockStatus(colIndex - 1, rowIndex + 1) == 1 && (data[0] != "<i>Mittagspause</i>" && data[0] != "<i> </i>")) {
 			meta.css += cl('blockBusy');
 			meta.css += cl('conMenu');

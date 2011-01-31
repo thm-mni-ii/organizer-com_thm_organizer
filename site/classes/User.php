@@ -1,5 +1,8 @@
 <?php
-// Binde Configdatei ein
+
+// no direct access
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
 require_once( dirname( __FILE__ ) . '/auth.php' );
 // Dummywerte, nur zum testen
 // *********************

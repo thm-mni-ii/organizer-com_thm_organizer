@@ -1,5 +1,8 @@
 <?php
 
+// no direct access
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
 require_once( dirname( __FILE__ ) . "/pdf.php" );
 require_once( dirname( __FILE__ ) . "/ics.php" );
 require_once( dirname( __FILE__ ) . "/ical.php" );
