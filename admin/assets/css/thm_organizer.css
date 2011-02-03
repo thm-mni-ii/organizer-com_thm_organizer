@@ -1,9 +1,10 @@
 @CHARSET "ISO-8859-1";
 
+/*********************************************************************************************/
+/* com_thm_organizer.admin                                                                   */
+/*********************************************************************************************/
 
-/*********************************************************************************************/
-/* com_thm_organizer.admin view: thm_organizers                                              */
-/*********************************************************************************************/
+/* com_thm_organizer.admin view: thm_organizers***********************************************/
 
 #thm_organizer_main{ }
 
@@ -12,20 +13,69 @@
     clear: both;
     padding-bottom: 8px;
 }
+
 .thm_organizer_main_submenu{
     width: 100%;
     clear: both;
     margin-top: 4px;
 }
+
 .thm_organizer_main_linkdiv{
     float:left;
 }
+
 .thm_organizer_main_image{
     height: 40px;
     width: 40px;
 }
+
 .thm_organizer_main_descriptiondiv{
     float: left;
     padding: 5px;
     font-size: 13px;
+}
+
+/* com_thm_organizer.admin view: thm_organizers***********************************************/
+
+#thm_organizer_mm{
+    width: 60%;
+    text-align: center;
+}
+
+.thm_organizer_mm_table{}
+
+#thm_organizer_mm_col_checkbox{
+    width: 10%;
+}
+
+#thm_organizer_mm_col_ip{
+    width: 30%;
+}
+
+#thm_organizer_mm_col_room{
+    width: 20%;
+}
+
+#thm_organizer_mm_col_semester{
+    width: 40%;
+}
+
+.thm_organizer_mm_row_even{}
+
+.thm_organizer_monitor_row_odd{}
+
+.thm_organizer_mm_checkbox{
+
+}
+
+.thm_organizer_mm_room{
+    text-align: center;
+}
+
+.thm_organizer_mm_ip{
+    text-align: center;
+}
+
+.thm_organizer_mm_semester{
+    text-align: center;
 }
