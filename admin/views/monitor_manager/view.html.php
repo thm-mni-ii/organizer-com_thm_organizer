@@ -1,37 +1,45 @@
 <?php
-
-defined( '_JEXEC' ) or die( 'Restricted access' );
-
-jimport( 'joomla.application.component.view');
-
 /**
- * View class for the Giessen Scheduler Monitors screen
- *
- * @package Joomla
- * @subpackage Giessen Scheduler
+ * @package     Joomla.Administrator
+ * @subpackage  com_thm_organizer
+ * @name        view monitor_manager
+ * @description lists registered monitors along with associated rooms and display content
+ * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @copyright   TH Mittelhessen 2011
+ * @license     GNU GPL v.2
+ * @link        www.mni.fh-giessen.de
+ * @version     0.0.1
  */
-class thm_organizersViewRoom_IP_List extends JView
+defined( '_JEXEC' ) or die( 'Restricted access' );
+jimport( 'joomla.application.component.view');
+require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
+
+class thm_organizersViewmonitor_manager extends JView
 {
-    function display($tpl = null)
+
+    public function display($tpl = null)
     {
-        JToolBarHelper::title( JText::_( 'Monitor Verwaltung' ), 'generic.png' );
-        JToolBarHelper::addNewX();
-        JToolBarHelper::editListX();
-        JToolBarHelper::deleteList();
-
-        //Create Submenu
+        $document = & JFactory::getDocument();
+        $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
+        $this->addToolBar();
+        thm_organizerHelper::addSubmenu('monitor_manager');
         $model = $this->getModel();
-        foreach($model->data->links as $link)
-        {
-            JSubMenuHelper::addEntry( JText::_( $link['name'] ), 'index.php?'.$link['link']);
-        }
-
-        // Get data from the model
-        $items =& $model->data->data;
-
-        $this->assignRef( 'items', $items );
-
+        $monitors = $model->monitors;
+        $this->assignRef( 'monitors', $monitors );
         parent::display($tpl);
     }
+
+    private function addToolBar()
+    {
+        JToolBarHelper::title( JText::_( 'Monitor Manager' ), 'generic.png' );
+        $allowedActions = thm_organizerHelper::getActions('monitor_manager');
+        if($allowedActions->get("core.admin") or $allowedActions->get("core.manage"))
+        {
+            if($allowedActions->get("core.admin") or $allowedActions->get("core.create")) JToolBarHelper::addNewX();
+            if($allowedActions->get("core.admin") or $allowedActions->get("core.edit")) JToolBarHelper::editListX();
+            if($allowedActions->get("core.admin") or $allowedActions->get("core.delete")) JToolBarHelper::deleteList();
+        }
+    }
+
 }
 	
