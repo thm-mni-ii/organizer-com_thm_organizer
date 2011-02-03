@@ -1,0 +1,31 @@
+@CHARSET "ISO-8859-1";
+
+
+/*********************************************************************************************/
+/* com_thm_organizer.admin view: thm_organizers                                              */
+/*********************************************************************************************/
+
+#thm_organizer_main{ }
+
+#thm_organizer_main_description{
+    font-size: 14px;
+    clear: both;
+    padding-bottom: 8px;
+}
+.thm_organizer_main_submenu{
+    width: 100%;
+    clear: both;
+    margin-top: 4px;
+}
+.thm_organizer_main_linkdiv{
+    float:left;
+}
+.thm_organizer_main_image{
+    height: 40px;
+    width: 40px;
+}
+.thm_organizer_main_descriptiondiv{
+    float: left;
+    padding: 5px;
+    font-size: 13px;
+}
