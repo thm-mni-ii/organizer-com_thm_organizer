@@ -119,14 +119,15 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_prereq` (
 UNIQUE (`pid`, `cid`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_roomip`(
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_monitors`(
+`monitorID` int(11) unsigned NOT NULL auto_increment,
 `room` varchar(4) NOT NULL,
-`ip` varchar (11) NOT NULL,
+`ip` varchar (15) NOT NULL,
 `sid` varchar (11) NOT NULL default '',
-UNIQUE (`room`,`ip`)
+PRIMARY KEY (`monitorID`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
-INSERT IGNORE INTO `#__thm_organizer_roomip` (room, ip) VALUES
+INSERT IGNORE INTO `#__thm_organizer_monitors` (room, ip) VALUES
 ('I007', '10.48.0.87'),
 ('I008', '10.48.0.47'),
 ('I009', '10.48.0.48'),
