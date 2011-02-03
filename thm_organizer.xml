@@ -31,11 +31,11 @@
     <administration>
         <menu img="../favicon.ico">THM - Organizer</menu>
         <submenu>
-            <menu img="../favicon.ico" view="category_manager">Category Manager</menu>
-            <menu img="../favicon.ico" view="monitor_manager">Monitor Manager</menu>
-            <menu img="../favicon.ico" view="semester_manager">Semester Manager</menu>
-            <menu img="../favicon.ico" view="scheduler_application_settings">Scheduler Application Settings</menu>
-            <menu img="../favicon.ico" view="virtual_schedules">Virtual Schedules</menu>
+            <menu img="../favicon.ico" view="category_manager">Category_Manager</menu>
+            <menu img="../favicon.ico" view="monitor_manager">Monitor_Manager</menu>
+            <menu img="../favicon.ico" view="semester_manager">Semester_Manager</menu>
+            <menu img="../favicon.ico" view="scheduler_application_settings">Scheduler_Application_Settings</menu>
+            <menu img="../favicon.ico" view="virtual_schedules">Virtual_Schedules</menu>
         </submenu>
         <files folder="admin">
             <filename>index.html</filename>
