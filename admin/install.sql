@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_eventobjects` (
 `sid` int(11) unsigned NOT NULL
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_semester` (
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_semesters` (
 `sid` int(11) unsigned NOT NULL auto_increment,
 `author` varchar(20) NOT NULL,
 `orgunit` varchar(10) NOT NULL,

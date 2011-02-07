@@ -1,41 +1,50 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
-<form action="index.php" method="post" name="adminForm" id="adminForm">
-<div class="col100">
-	<fieldset class="adminform">
-		<legend><?php echo JText::_( 'Details' ); ?></legend>
-		<table class="admintable">
-			<tr>
-				<td style="width: 20px;" align="right" class="key">
-					<label for="room">Raum</label>
-				</td>
-				<td>
-					<input class="text_area" type="text" name="room" id="room" size="6" maxlength="6" 
-							value="<?php echo $this->room_ip->room;?>" />
-				</td>
-			</tr>
-			<tr>
-				<td style="width: 20px;" align="right" class="key">
-					<label for="points">IP</label>
-				</td>
-				<td>
-					<input class="text_area" type="text" name="ip" id="ip" size="6" maxlength="20"
- 							value="<?php echo $this->room_ip->ip;?>" />
-				</td>
-			</tr>
-			<tr>
-				<td style="width: 20px;" align="right" class="key">
-					<label for="points">Semester</label>
-				</td>
-				<td>
-					<?php echo $this->semesterbox;?>
-				</td>
-			</tr>
-		</table>
-	</fieldset>
+<?php
+/**
+ * @package     Joomla.Administrator
+ * @subpackage  com_thm_organizer
+ * @name        default template thm_organizer monitor editor view
+ * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @copyright   TH Mittelhessen <year>
+ * @license     GNU GPL v.2
+ * @link        www.mni.fh-giessen.de
+ * @version     0.0.1
+ */
+
+defined('_JEXEC') or die('Restricted access'); ?>
+<div id="thm_organizer_me" >
+    <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>" method="post" name="adminForm">
+        <table class="admintable">
+            <colgroup>
+                <col id="thm_organizer_me_label_column" />
+                <col id="thm_organizer_me_data_column" />
+            </colgroup>
+            <tr>
+                <td class="thm_organizer_me_label_data" >
+                    <label for="room"><?php echo JText::_('Room:'); ?></label>
+                </td>
+                <td>
+                    <input class="text_area" type="text" name="room" id="room" size="6" maxlength="6"
+                                    value="<?php echo $this->room;?>" />
+                </td>
+            </tr>
+            <tr>
+                <td class="thm_organizer_me_label_data" >
+                    <label for="ip"><?php echo JText::_('IP Address:'); ?></label>
+                </td>
+                <td>
+                    <input class="text_area" type="text" name="ip" id="ip" size="6" maxlength="20"
+                                    value="<?php echo $this->ip;?>" />
+                </td>
+            </tr>
+            <tr>
+                <td class="thm_organizer_me_label_data" >
+                    <label for="semester">Semester</label>
+                </td>
+                <td><?php echo $this->semesterbox;?></td>
+            </tr>
+        </table>
+        <input type="hidden" name="monitorID" value="<?php echo $this->monitorID; ?>" />
+        <input type="hidden" name="task" value="" />
+        <?php echo JHtml::_('form.token'); ?>
+    </form>
 </div>
-<div class="clr"></div>
-<input type="hidden" name="option" value="com_thm_organizer" />
-<input type="hidden" name="id" value="<?php echo $this->room_ip->ip; ?>" />
-<input type="hidden" name="task" value="" />
-<input type="hidden" name="controller" value="room_ip" />
-</form>

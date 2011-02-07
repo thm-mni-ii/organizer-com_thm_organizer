@@ -1,108 +1,122 @@
 <?php
+/**
+ * @package     Joomla.Administrator
+ * @subpackage  com_thm_organizer
+ * @name        monitor editor model
+ * @description database abstraction and persistance file for monitors
+ * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @copyright   TH Mittelhessen <year>
+ * @license     GNU GPL v.2
+ * @link        www.mni.fh-giessen.de
+ * @version     0.0.1
+ */
+
 defined('_JEXEC') or die('Restriced Access');
 jimport('joomla.application.component.model');
-class thm_organizersModelRoom_IP extends JModel
+class thm_organizersModelmonitor_edit extends JModel
 {
-	var $_id = null;
-	var $_data = null;
+    public $monitorID;
+    public $sid;
+    public $room;
+    public $ip;
+    public $semesters;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->getData();
+        $this->getSemesters();
+    }
+
+    /**
+     * private function getData
+     *
+     * fills the monitor relevant object variables
+     */
+    private function getData()
+    {
+        $monitorIDs = JRequest::getVar('cid',  null, '', 'array');
+        if(isset($monitorIDs) and count($monitorIDs) > 0) $monitorID = $monitorIDs[0];
+        if(!isset($monitorID)) $monitorID = JRequest::getVar('monitorID');
+        if(is_numeric($monitorID) and $monitorID != 0)
+        {
+            $dbo = JFactory::getDBO();
+            $query = $dbo->getQuery(true);
+            $query->select("*");
+            $query->from("#__thm_organizer_monitors");
+            $query->where("monitorID = $monitorID");
+            $dbo->setQuery((string)$query);
+            $monitorData = $dbo->loadAssoc();
+            if(!empty($monitorData))
+                foreach($monitorData as $k => $v)$this->$k = $v;
+
+        }
+        else
+        {
+            $this->monitorID = 0;
+            $this->sid = 0;
+            $this->room = '';
+            $this->ip = '';
+        }
+
+    }
+
+    /**
+     * private function getSemesters
+     *
+     * gets the IDs and names of the available semesters
+     */
+    private function getSemesters()
+    {
+        $dbo = & JFactory::getDBO();
+        $query = $dbo->getQuery(true);
+        $query->select("sid, CONCAT(orgunit, '-', semester) AS name");
+        $query->from("#__thm_organizer_semesters");
+        $dbo->setQuery((string)$query );
+        $this->semesters = $dbo->loadObjectList();
+    }
+
+    public function store()
+    {
+        $monitorID = JRequest::getVar('monitorID');
+        $room = JRequest::getVar('room', '');
+        $ip = JRequest::getVar('ip', '');
+        $sid = JRequest::getVar('sid', '');
+
+        $dbo = & JFactory::getDBO();
+        $query = $dbo->getQuery(true);
+        if(empty($monitorID))
+            $query->insert("#__thm_organizer_monitors (room, ip, sid) VALUES ( '$room', '$ip', '$sid' )");
+        else
+        {
+            $query->update("#__thm_organizer_monitors");
+            $query->set("room = '$room', sid = '$sid', ip = '$ip'");
+            $query->where("monitorID = '$monitorID'");
+        }
+        $dbo->setQuery((string)$query );
+        $dbo->query();
+        return print_r($monitorID, true);
+//        if ($dbo->getErrorNum())
+//            return "Ein Fehler is aufgetretten.";
+//        return "Erfolgreich gespeichert.";
+    }
 	
-	function __construct()
-	{
-		parent::__construct();
-	}
+    public function delete()
+    {
+        $monitorIDs = JRequest::getVar( 'cid', array(0), 'post', 'array' );
+        if(count($monitorIDs) > 0)
+        {
+            $dbo = & JFactory::getDBO();
+            $query = $dbo->getQuery(true);
+            $query->delete("#__thm_organizer_monitors");
+            $monitorIDs = "'".implode("', '", $monitorIDs)."'";
+            $query->where("monitorID IN ( $monitorIDs )");
+            $dbo->setQuery((string)$query);
+            $result = $dbo->query();
+            if ($dbo->getErrorNum()) return false;
+            else return true;
+        }
+        return true;
+    }
 	
-	function getData()
-	{
-		if (empty( $this->_id ))
-		{ 
-			$ids = JRequest::getVar('cid',  0, '', 'array');
-			$id = $ids[0];
-			$query = "SELECT * 
-						FROM #__giessen_scheduler_roomip AS rip
-							LEFT JOIN #__giessen_scheduler_semester AS s
-								ON s.sid = rip.sid
-						WHERE ip = '$id';";
-			//echo $query;
-			$this->_db->setQuery( $query );
-			$result = $this->_db->loadObject();
-			if($result)
-			{
-				$this->_id = $result->ip;
-				$this->_data->ip = $result->ip;
-				$this->_data->room = $result->room;
-				$this->_data->orgunit = $result->orgunit;
-				$this->_data->semester = $result->semester;
-				$this->_data->semester = $result->sid;
-			}
-		}
-		if (!$this->_data)
-		{
-			$this->_data = new stdClass();
-			$this->_data->ip = '';
-			$this->_data->room = '';
-			$this->_data->orgunit = '';
-			$this->_data->semester = '';
-			$this->_data->sid = '';
-		}
-		return $this->_data;
-	}
-	
-	function store()
-	{
-		$dbo = & JFactory::getDBO();
-		$query = "SELECT * FROM #__giessen_scheduler_roomip WHERE ip ='".$_POST['ip']."'";
-		$dbo->setQuery( $query );
-		$result = $dbo->loadAssocList();
-		if(count($result) == 0)
-		{
-			$query = "INSERT INTO #__giessen_scheduler_roomip (room, ip, sid)
-						VALUES ( '".$_POST['room']."', '".$_POST['ip']."', '".$_POST['semester']."' );";
-		} 
-		else
-		{ 
-			$query = "UPDATE #__giessen_scheduler_roomip 
-						SET room = '".$_POST['room']."',
-							sid = '".$_POST['semester']."'
-						WHERE ip ='".$_POST['ip']."';";
-		}
-		$dbo->setQuery( $query );
-		$dbo->query();	
-		if ($dbo->getErrorNum())
-		{
-			return "Ein Fehler is aufgetretten.";
-		}
-		return "Erfolgreich gespeichert.";
-	}
-	
-	function delete()
-	{
-		$ips = JRequest::getVar( 'cid', array(0), 'post', 'array' );
-		if (count( $ips ))
-		{
-			$where = "";
-			foreach($ips as $ip)
-			{
-				if($where != "") $where .= ",";
-				$where .= " '$ip'";
-			}
-			$dbo = & JFactory::getDBO();
-			$query = "DELETE FROM #__giessen_scheduler_roomip WHERE ip IN ( $where );";
-			$dbo->setQuery( $query );
-			$result = $dbo->query();
-			if ($dbo->getErrorNum())
-			{
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	function getSemesters()
-	{
-			$dbo = & JFactory::getDBO();
-			$query = "SELECT sid, CONCAT(orgunit, '-', semester) AS name 
-						FROM #__giessen_scheduler_semester;";
-			$dbo->setQuery( $query );
-			return $dbo->loadObjectList();
-	}
 }

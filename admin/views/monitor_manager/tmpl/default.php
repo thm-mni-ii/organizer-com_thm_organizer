@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access');?>
 <div id="thm_organizer_mm" >
-    <form action="index.php" method="post" name="adminForm">
+    <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>" method="post" name="adminForm">
         <div id="editcell">
             <table class="adminlist thm_organizer_mm_table">
                 <colgroup>
@@ -19,7 +19,7 @@
                 </thead>
 <?php $k = 0; if(!empty($this->monitors)): foreach($this->monitors as $monitor) :
         $checked = JHTML::_( 'grid.id', $k, $monitor['monitorID'] );
-        $class = ($k % 2 == 0)?  'thm_organizer_mm_row_even' : 'thm_organizer_monitor_row_odd';
+        $class = ($k % 2 == 0)?  'row0' : 'row1';
         $linkstart = "<a href='".$monitor['link']."' >";
         $linkend = "</a>";
         $k++ ?>
@@ -32,9 +32,8 @@
 <?php endforeach; endif;?>
 	    </table>
 	</div>
-	<input type="hidden" name="option" value="com_thm_organizer" />
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="controller" value="monitor" />
+        <?php echo JHtml::_('form.token'); ?>
     </form>
 </div>

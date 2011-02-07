@@ -35,9 +35,12 @@ class thm_organizersViewmonitor_manager extends JView
         $allowedActions = thm_organizerHelper::getActions('monitor_manager');
         if($allowedActions->get("core.admin") or $allowedActions->get("core.manage"))
         {
-            if($allowedActions->get("core.admin") or $allowedActions->get("core.create")) JToolBarHelper::addNewX();
-            if($allowedActions->get("core.admin") or $allowedActions->get("core.edit")) JToolBarHelper::editListX();
-            if($allowedActions->get("core.admin") or $allowedActions->get("core.delete")) JToolBarHelper::deleteList();
+            if($allowedActions->get("core.admin") or $allowedActions->get("core.create"))
+                    JToolBarHelper::addNew( 'monitor.new' );
+            if($allowedActions->get("core.admin") or $allowedActions->get("core.edit"))
+                    JToolBarHelper::editList('monitor.edit');
+            if($allowedActions->get("core.admin") or $allowedActions->get("core.delete"))
+                    JToolBarHelper::deleteList( JText::_('Are you sure you wish to delete the marked entries?'), 'monitor.delete');
         }
     }
 
