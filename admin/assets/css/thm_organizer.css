@@ -1,10 +1,10 @@
 @CHARSET "ISO-8859-1";
 
-/*********************************************************************************************/
-/* com_thm_organizer.admin                                                                   */
-/*********************************************************************************************/
+/******************************************************************************/
+/* com_thm_organizer.admin                                                    */
+/******************************************************************************/
 
-/* com_thm_organizer.admin view: thm_organizers***********************************************/
+/* com_thm_organizer.admin view: thm_organizers********************************/
 
 #thm_organizer_main{ }
 
@@ -35,7 +35,7 @@
     font-size: 13px;
 }
 
-/* com_thm_organizer.admin view: thm_organizers***********************************************/
+/* com_thm_organizer.admin view: monitor_manager*******************************/
 
 #thm_organizer_mm{
     width: 60%;
@@ -60,13 +60,7 @@
     width: 40%;
 }
 
-.thm_organizer_mm_row_even{}
-
-.thm_organizer_monitor_row_odd{}
-
-.thm_organizer_mm_checkbox{
-
-}
+.thm_organizer_mm_checkbox{}
 
 .thm_organizer_mm_room{
     text-align: center;
@@ -78,4 +72,14 @@
 
 .thm_organizer_mm_semester{
     text-align: center;
+}
+
+/* com_thm_organizer.admin view: monitor_edit**********************************/
+
+#thm_organizer_me_label_column{
+    width: 20px;
+}
+
+.thm_organizer_me_label_data{
+    text-align: right;
 }
