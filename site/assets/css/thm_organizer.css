@@ -1,9 +1,7 @@
 @CHARSET "ISO-8859-1";
-
-/*==============================================================================
-    Registered Room Display
-==============================================================================*/
-
+/*********************************************************************************************/
+/* com_thm_organizer view: roomdisplay template: registered                                  */
+/*********************************************************************************************/
 /* HEADER */
 
 .header {
@@ -137,7 +135,240 @@ ul{
     margin-bottom: 20px;
 }
 
+/*********************************************************************************************/
+/* com_thm_organizer view: eventlist                                                         */
+/*********************************************************************************************/
 
+
+#thm_organizer_el{
+    margin: -10px -10px 10px -10px;
+}
+
+#thm_organizer_el_newevent{
+    float: right;
+}
+
+#thm_organizer_el_newevent img{
+    height: 20px;
+    width: 20px;
+}
+
+#thm_organizer_el_eventcattable{
+    margin: -10px -10px 0px -4px;
+}
+
+.thm_organizer_el_catimage{
+    width: 80px;
+    height: 80px;
+}
+
+#thm_organizer_el_searchform{
+    background-color: #DDDDDD;
+}
+
+#thm_organizer_el_searchform #date_img{
+    margin: 0px 3px -4px 0px;
+}
+
+#thm_organizer_el_filter{
+    width: 15%;
+}
+
+#thm_organizer_el_eventtable{
+    border: 0;
+    text-align: left;
+    width: 100%;
+    table-layout: fixed;
+    margin: -20px 0px 0px 0px;
+}
+a.sortLink{
+    font-size: 14px;
+    color: black;
+}
+
+#thm_organizer_el_eventtitlehead{
+    min-width: 25%;
+}
+
+#thm_organizer_el_eventroomhead{
+    min-width: 10%;
+}
+
+#thm_organizer_el_eventcathead{
+    min-width: 15%;
+}
+
+#thm_organizer_el_eventdthead{
+}
+
+#thm_organizer_el_eventedithead{
+    width: 3%;
+}
+
+#thm_organizer_el_eventdeletehead{
+    width: 3%;
+}
+
+.thm_organizer_el_eventeven{
+    background-color: #DDDDDD;
+}
+
+.pageslinks{
+margin-top:20px;
+}
+
+#thm_organizer_el_eventtable tr td img{
+    margin:0px;
+    height: 16px;
+    width: 16px;
+}
+
+/*********************************************************************************************/
+/* com_thm_organizer view: event                                                             */
+/*********************************************************************************************/
+
+.thm_organizer_e_block_div{
+    float: left;
+    padding-top: 10px;
+    min-width: 450px;
+    max-width: 450px;
+}
+
+#thm_organizer_e_header{
+    margin-top: -10px;
+    margin-bottom:-4px;
+    width: 100%;
+    height: 35px;
+}
+
+#thm_organizer_e_headerlinks{
+    float: right;
+    clear: both;
+}
+
+.thm_organizer_e_block_head{
+    width: 100%;
+    padding-bottom: 5px;
+    margin-left: 0px;
+}
+
+#thm_organizer_e_resources{
+    padding-top: 10px;
+    min-width: 100%;
+}
+
+#thm_organizer_e_content{
+    padding-top: 10px;
+    min-width: 100%;
+}
+
+/*********************************************************************************************/
+/* com_thm_organizer view: edit event                                                        */
+/*********************************************************************************************/
+
+#thm_organizer_ee{
+    margin-top: -10px;
+}
+
+.thm_organizer_ee_shortlabel{
+    float: left;
+    width: 80px;
+}
+
+.thm_organizer_ee_longlabel{
+    float: left;
+    width: 140px;
+}
+
+
+#thm_organizer_ee table{
+    margin: 0px;
+}
+
+#thm_organizer_ee fieldset{
+    border:#a8b5c5 solid 2px;
+    padding: 5px;
+}
+
+#thm_organizer_ee legend{
+    padding: 2px;
+    margin-left:20px;
+}
+
+#thm_organizer_ee #btnreset{
+    padding:0px 3px;
+}
+
+#thm_organizer_ee table img{
+    margin: 0px 3px -5px 0px
+}
+
+
+/*********************************************************************************************/
+/* com_thm_organizer view: room list                                                         */
+/*********************************************************************************************/
+
+#thm_organizer_rl{}
+#thm_organizer_rl_fieldset{
+    margin: 0 0 1em 0;
+    padding: 1em;
+    border: 2px solid #a8b5c5;
+    width: 40%;
+}
+#thm_organizer_rl_fieldset img{
+    margin-bottom: -3px;
+}
+#thm_organizer_rl_legend{
+    padding: 0.3em;
+    font-weight: bold;
+    font-size: 12px;
+}
+#thm_organizer_rl_calendar{}
+
+
+/*********************************************************************************************/
+/* com_thm_organizer view: room display  template: unregistered                              */
+/*********************************************************************************************/
+#thm_organizer_rd table{
+    margin: 5px 0px;
+    width: 100%;
+}
+
+#thm_organizer_rd h3{
+    background-color: #a8b5c5;
+}
+
+#thm_organizer_rd_head{
+    background-color: #667e9a;
+    font-weight: bolder;
+    font-size: 16px;
+    text-align: right;
+    width: 100%;
+}
+#thm_organizer_rd_lessons{
+    margin-top:5px;
+    float:left;
+    clear: right;
+}
+.thm_organizer_rd_events{
+    margin-top:5px;
+    float:left;
+    clear: right;
+    margin-left: 5px;
+}
+
+.thm_organizer_rd_row_odd{
+    background-color: #dddddd;
+}
+
+
+/*********************************************************************************************/
+/* mod_thm_mylink                                                                        */
+/*********************************************************************************************/
+
+.mod_giessen_mylink_image{
+    border: 1px solid rgb(33, 0, 124);
+}
 
 
 
