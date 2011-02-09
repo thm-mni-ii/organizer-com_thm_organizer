@@ -1,34 +1,40 @@
 <?php
 /**
- * 
- * giessen_times.php
- * 
-*/
- 
-// No direct access
+ * @package     Joomla.Administrator
+ * @subpackage  com_thm_organizer
+ * @name        entry file thm_organizer
+ * @description the entry file for the administrative area of thm_organizer
+ *              accepts the controller/task parameters and redirects to specific
+ *              controllers
+ * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @copyright   TH Mittelhessen <year>
+ * @license     GNU GPL v.2
+ * @link        www.mni.fh-giessen.de
+ * @version     0.0.1
+ */
+
 defined( '_JEXEC' ) or die( 'Restricted access' );
- 
-// Require the base controller
- 
 require_once( JPATH_COMPONENT.DS.'controller.php' );
- 
-// Require specific controller if requested
-if($controller = JRequest::getVar('controller')) {
-    $path = JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php';
-    if (file_exists($path)) {
-        require_once $path;
-    } else {
-        $controller = '';
+$controller = "";
+$handler = explode(".", JRequest::getVar('task'));
+if(!empty($handler))
+{
+    if(count($handler) == 2)
+    {
+        $controller = $handler[0];
+        $task = $handler[1];
     }
+    else
+       $task = JRequest::getVar('task');
 }
- 
-// Create the controller
-$classname    = 'thm_organizersController'.$controller;
-$controller   = new $classname( );
- 
-// Perform the Request task
-$controller->execute( JRequest::getVar( 'task' ) );
- 
-// Redirect if set by the controller
+if(!empty($controller))
+{
+    $path = JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php';
+    if (file_exists($path)) require_once $path;
+    else $controller = '';
+}
+$classname = 'thm_organizersController'.$controller;
+$controller = new $classname();
+$controller->execute($task);
 $controller->redirect();
  

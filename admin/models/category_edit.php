@@ -23,7 +23,7 @@ class thm_organizersModelCategory extends JModel
 		{
 			$ids = JRequest::getVar('cid',  0, '', 'array');
 			$id = $ids[0];
-			$query = "SELECT * FROM #__thm_organizer_categories 
+			$query = "SELECT * FROM #__giessen_scheduler_categories 
 						WHERE ecid = '$id';";
 			$this->_db->setQuery( $query );
 			$result = $this->_db->loadObject();
@@ -115,7 +115,7 @@ class thm_organizersModelCategory extends JModel
 		}
 		if($ecid != 0)
 		{
-			$query = "UPDATE #__thm_organizer_categories
+			$query = "UPDATE #__giessen_scheduler_categories
 						 SET ecname = '$ecname',
 						 	 ecalias = '$ecalias',
 						 	 ecdescription = '$ecdescription',
@@ -128,10 +128,10 @@ class thm_organizersModelCategory extends JModel
 		else
 		{
 			if($ecimage)
-				$query = "INSERT INTO #__thm_organizer_categories (ecname, ecalias, ecdescription, ecimage, access, globalp, reservingp)
+				$query = "INSERT INTO #__giessen_scheduler_categories (ecname, ecalias, ecdescription, ecimage, access, globalp, reservingp)
 							VALUES ( '$ecname', '$ecalias', '$ecdescription', '$ecimage', '$access', '$globalp','$reservingp' );";
 			else
-				$query = "INSERT INTO #__thm_organizer_categories (ecname, ecalias, ecdescription, access, globalp, reservingp)
+				$query = "INSERT INTO #__giessen_scheduler_categories (ecname, ecalias, ecdescription, access, globalp, reservingp)
 							VALUES ( '$ecname', '$ecalias', '$ecdescription', '$access', '$globalp','$reservingp' );";
 		}
 		$dbo = & JFactory::getDBO();
@@ -158,7 +158,7 @@ class thm_organizersModelCategory extends JModel
 				$where .= " '$id'";
 			}
 			$dbo = & JFactory::getDBO();
-			$query = "DELETE FROM #__thm_organizer_categories WHERE ecid IN ( $where );";
+			$query = "DELETE FROM #__giessen_scheduler_categories WHERE ecid IN ( $where );";
 			$dbo->setQuery( $query );
 			$dbo->query();
 			if ($dbo->getErrorNum())

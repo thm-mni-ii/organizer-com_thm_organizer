@@ -1,4 +1,16 @@
-<?php defined('_JEXEC') or die('Restricted access');?>
+<?php
+/**
+ * @package     Joomla.Administrator
+ * @subpackage  com_thm_organizer
+ * @name        monitor manager default template
+ * @description standard template for the display of registered monitors
+ * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @copyright   TH Mittelhessen 2011
+ * @license     GNU GPL v.2
+ * @link        www.mni.fh-giessen.de
+ * @version     0.0.1
+ */
+defined('_JEXEC') or die('Restricted access');?>
 <div id="thm_organizer_mm" >
     <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>" method="post" name="adminForm">
         <div id="editcell">

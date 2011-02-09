@@ -36,6 +36,7 @@ class thm_organizersModelmonitor_manager extends JModel
         $this->monitors = $monitors;
     }
 
+    //todo change monitorID to monitor in usages
     private function setMonitorEditLinks()
     {
         foreach($this->monitors as $mKey => $mValue)

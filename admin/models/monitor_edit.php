@@ -36,8 +36,8 @@ class thm_organizersModelmonitor_edit extends JModel
     private function getData()
     {
         $monitorIDs = JRequest::getVar('cid',  null, '', 'array');
-        if(isset($monitorIDs) and count($monitorIDs) > 0) $monitorID = $monitorIDs[0];
-        if(!isset($monitorID)) $monitorID = JRequest::getVar('monitorID');
+        if(!empty($monitorIDs)) $monitorID = $monitorIDs[0];
+        if(!isset($monitorID)) $monitorID = JRequest::getVar('monitor');
         if(is_numeric($monitorID) and $monitorID != 0)
         {
             $dbo = JFactory::getDBO();
