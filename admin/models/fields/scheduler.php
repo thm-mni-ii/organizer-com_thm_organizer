@@ -28,7 +28,7 @@ class JFormFieldScheduler extends JFormFieldList
                 $db = JFactory::getDBO();
                 $query = $db->getQuery(true);
                 $query->select('sid,CONCAT(orgunit, "-", semester, " (", author, ")") as semester');
-                $query->from('#__giessen_scheduler_semester');
+                $query->from('#__thm_organizer_semester');
                 $db->setQuery((string)$query);
                 $semesters = $db->loadObjectList();
                 $options = array();

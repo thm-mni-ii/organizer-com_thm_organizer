@@ -16,7 +16,7 @@ MySched.responsibleChanges = null;
 MySched.session = new Array();
 MySched.daytime = new Array();
 MySched.loadedLessons = new Array();
-MySched.mainPath = '../components/com_giessenscheduler/views/scheduler/tmpl/';
+MySched.mainPath = '../components/com_thm_organizer/views/scheduler/tmpl/';
 //set ajax timeout to 10 seconds
 Ext.Ajax.timeout = 10000;
 
@@ -25,7 +25,7 @@ MySched.Config.addAll({
   // Bestimt die art und weise der Anzeige von Zusatzinfos
   infoMode: 'popup',
   // layout | popup
-  ajaxHandler: '../index.php?option=com_giessenscheduler&view=ajaxhandler&format=raw',
+  ajaxHandler: '../index.php?option=com_thm_organizer&view=ajaxhandler&format=raw',
   estudycourse: MySched.mainPath + 'php/estudy_course.php',
   infoUrl: MySched.mainPath + 'php/info.php',
   showHeader: false,
@@ -682,8 +682,8 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
   hoverEl: new MySched.Collection(),
   selectButton: null,
   selectLectureId: null,
-  lectureAddButton: '../components/com_giessenscheduler/views/scheduler/tmpl/images/add.png',
-  lectureRemoveButton: '../components/com_giessenscheduler/views/scheduler/tmpl/images/delete.png',
+  lectureAddButton: '../components/com_thm_organizer/views/scheduler/tmpl/images/add.png',
+  lectureRemoveButton: '../components/com_thm_organizer/views/scheduler/tmpl/images/delete.png',
   /**
    * Initalisierung
    */

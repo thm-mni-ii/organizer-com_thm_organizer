@@ -29,7 +29,7 @@ class TableMembermanager extends JTable
 	var $sid = null;
 
     function TableMembermanager( &$db ) {
-        parent::__construct('#__giessen_scheduler_virtual_schedules', 'vid', $db);
+        parent::__construct('#__thm_organizer_virtual_schedules', 'vid', $db);
     }
 
 }

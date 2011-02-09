@@ -3,6 +3,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
+require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
 
 /**
  * View class for the  Giessen Scheduler Monitors screen
@@ -19,24 +20,19 @@ class  GiessenSchedulersViewvirtualschedule extends JView {
 		JToolBarHelper::addNewX();
         JToolBarHelper::editListX();
         /**
-         * ToDo: Virtuelle StundenplÃ¤ne sollen kopiert werden kÃ¶nnen.
+         * ToDo: Virtuelle Stundenpläne sollen kopiert werden können.
          */
         //JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', JText::_('Copy') );
 		JToolBarHelper::deleteListX('Really?');
         JToolBarHelper::back();
 
-        //Create Submenu
-        JSubMenuHelper::addEntry( JText::_( 'Main Menu' ), 'index.php?option=com_giessenscheduler&view=giessenschedulers');
-        JSubMenuHelper::addEntry( JText::_( 'Category Manager' ), 'index.php?option=com_giessenscheduler&view=category_list');
-        JSubMenuHelper::addEntry( JText::_( 'Monitor Manager' ), 'index.php?option=com_giessenscheduler&view=monitor_list');
-        JSubMenuHelper::addEntry( JText::_( 'Semester Manager' ), 'index.php?option=com_giessenscheduler&view=semester_list');
-        JSubMenuHelper::addEntry( JText::_( 'Scheduler Application Settings' ), 'index.php?option=com_giessenscheduler&view=scheduler_application_settings');
+        thm_organizerHelper::addSubmenu('virtual_schedule_manager');
 
 		$mainframe = JFactory::getApplication("administrator");
 		$option = $mainframe->scope;
 		$db  		= & JFactory::getDBO();
 
-		$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order",		'filter_order',		'#__giessen_scheduler_virtual_schedules.sid, #__giessen_scheduler_virtual_schedules.vid', '' );
+		$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order",		'filter_order',		'#__thm_organizer_virtual_schedules.sid, #__thm_organizer_virtual_schedules.vid', '' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'', '' );
 		$filter_type		= $mainframe->getUserStateFromRequest( "$option.filter_type",		'filter_type', 		0,			'string' );
 		$filter_logged		= $mainframe->getUserStateFromRequest( "$option.filter_logged",		'filter_logged', 	0,			'int' );

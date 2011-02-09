@@ -14,7 +14,7 @@ class thm_organizersModelScheduler_Application_Settings extends JModel
 		global $mainframe;
 		$dbo = & JFactory::getDBO();
 		$query = "SELECT ecid as id, ecname as name
-					FROM #__giessen_scheduler_categories";
+					FROM #__thm_organizer_categories";
 		$dbo->setQuery( $query );
 		$usergroups = $dbo->loadObjectList();
 		return $usergroups;
@@ -25,7 +25,7 @@ class thm_organizersModelScheduler_Application_Settings extends JModel
 		global $mainframe;
 		$dbo = & JFactory::getDBO();
 		$query = "SELECT *
-					FROM #__giessen_scheduler_settings WHERE id=1";
+					FROM #__thm_organizer_settings WHERE id=1";
 		$dbo->setQuery( $query );
 		$usergroups = $dbo->loadObjectList();
 		return $usergroups;
@@ -43,11 +43,11 @@ class thm_organizersModelScheduler_Application_Settings extends JModel
 		if(isset($scheduler_downFolder) && isset($scheudler_vacationcat) && isset($scheduler_eStudyPath) && isset($scheduler_eStudywsapiPath) && isset($scheduler_eStudyCreateCoursePath) && isset($scheduler_eStudySoapSchema))
 		{
 			$dbo = & JFactory::getDBO();
-			$querydel = "DELETE FROM #__giessen_scheduler_settings WHERE id IN ( 1 );";
+			$querydel = "DELETE FROM #__thm_organizer_settings WHERE id IN ( 1 );";
 			$dbo->setQuery($querydel);
 			$dbo->query();
 
-			$queryinsert = "INSERT INTO #__giessen_scheduler_settings
+			$queryinsert = "INSERT INTO #__thm_organizer_settings
 					 (id, downFolder, vacationcat, eStudyPath, eStudywsapiPath, eStudyCreateCoursePath, eStudySoapSchema)
 					 VALUES (1, '$scheduler_downFolder', '$scheudler_vacationcat', '$scheduler_eStudyPath', '$scheduler_eStudywsapiPath', '$scheduler_eStudyCreateCoursePath', '$scheduler_eStudySoapSchema')";
 			$dbo->setQuery($queryinsert);

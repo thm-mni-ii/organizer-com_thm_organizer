@@ -23,7 +23,7 @@ class thm_organizersModelSemester extends JModel
 		{
 			$ids = JRequest::getVar('cid',  '', '', 'array');
 			$id = $ids[0];
-			$query = "SELECT * FROM #__giessen_scheduler_semester 
+			$query = "SELECT * FROM #__thm_organizer_semester 
 						WHERE sid = '$id';";
 			$this->_db->setQuery( $query );
 			$result = $this->_db->loadObject();
@@ -58,10 +58,10 @@ class thm_organizersModelSemester extends JModel
 		
 		$dbo = & JFactory::getDBO();
 		if($sid == 0)
-			$query = "INSERT INTO #__giessen_scheduler_semester (author, orgunit, semester)
+			$query = "INSERT INTO #__thm_organizer_semester (author, orgunit, semester)
 						VALUES ( '$author', '$orgunit', '$semester' );";
 		else
-			$query = "UPDATE #__giessen_scheduler_semester
+			$query = "UPDATE #__thm_organizer_semester
 							 SET author = '$author',
 							 	 orgunit = '$orgunit',
 							 	 semester = '$semester'
@@ -89,7 +89,7 @@ class thm_organizersModelSemester extends JModel
 				$where .= "$id";
 			}
 			$dbo = & JFactory::getDBO();
-			$query = "DELETE FROM #__giessen_scheduler_semester WHERE sid IN ( $where );";
+			$query = "DELETE FROM #__thm_organizer_semester WHERE sid IN ( $where );";
 			$dbo->setQuery( $query );
 			$dbo->query();
 			if ($dbo->getErrorNum())

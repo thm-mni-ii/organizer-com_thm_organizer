@@ -41,8 +41,8 @@ class GiessenSchedulerModelRoomDisplay extends JModel
 //        if(isset($this->data->layout) && $this->data->layout == registered)
 //        {
 //            $query = "SELECT MAX(start) AS start, url, sid
-//                      FROM #__giessen_scheduler_monitor_schedule AS ms
-//                        INNER JOIN #__giessen_scheduler_monitors AS m
+//                      FROM #__thm_organizer_monitor_schedule AS ms
+//                        INNER JOIN #__thm_organizer_monitors AS m
 //                            ON ms.monitorid = m.monitorid
 //                      WHERE room = '".$this->data->roomname."'
 //                          AND start <= '".$this->data->postdate."'";
@@ -51,15 +51,15 @@ class GiessenSchedulerModelRoomDisplay extends JModel
 //        else
 //        {
 //            $query = "SELECT MAX(start) AS start, url, sid
-//                      FROM #__giessen_scheduler_monitor_schedule AS ms
-//                        INNER JOIN #__giessen_scheduler_monitors AS m
+//                      FROM #__thm_organizer_monitor_schedule AS ms
+//                        INNER JOIN #__thm_organizer_monitors AS m
 //                            ON ms.monitorid = m.monitorid
 //                      WHERE room = '".$this->data->roomname."'
 //                          AND start <= '".$this->data->postdate."'
 //                          AND sid != '-1'";
 //        }
         $dbo = & JFactory::getDBO();
-        $query = "SELECT sid FROM #__giessen_scheduler_roomip WHERE room = '".$this->data->roomname."'";
+        $query = "SELECT sid FROM #__thm_organizer_roomip WHERE room = '".$this->data->roomname."'";
         $dbo->setQuery( $query );
         $result = $dbo->loadAssoc();
         if(!isset($result) || empty($result))
@@ -85,8 +85,8 @@ class GiessenSchedulerModelRoomDisplay extends JModel
         $client = $_SERVER['REMOTE_ADDR'];
         $dbo = & JFactory::getDBO();
         $query = "SELECT room, oid
-                  FROM #__giessen_scheduler_roomip
-                    INNER JOIN #__giessen_scheduler_objects ON oname = room
+                  FROM #__thm_organizer_roomip
+                    INNER JOIN #__thm_organizer_objects ON oname = room
                   WHERE ip = '$client'";
         $dbo->setQuery( $query );
         $result = $dbo->loadAssoc();
@@ -101,7 +101,7 @@ class GiessenSchedulerModelRoomDisplay extends JModel
         {
             $roomname = JRequest::getVar('room');
             $query = "SELECT oname, oid
-                      FROM #__giessen_scheduler_objects
+                      FROM #__thm_organizer_objects
                       WHERE oname = '$roomname'";
             $dbo->setQuery( $query );
             $result = $dbo->loadAssoc();
@@ -179,7 +179,7 @@ class GiessenSchedulerModelRoomDisplay extends JModel
         $query = "SELECT tpid, period,
                     SUBSTRING(starttime, 1, 5) AS starttime,
                     SUBSTRING(endtime, 1, 5) AS endtime
-                  FROM #__giessen_scheduler_timeperiods
+                  FROM #__thm_organizer_timeperiods
                   WHERE sid ='".$this->data->semester."'
                         AND day = '".$this->data->daynumber."'";
         $dbo->setQuery( $query );
@@ -215,9 +215,9 @@ class GiessenSchedulerModelRoomDisplay extends JModel
                             OR (startdate = '".$this->data->postdate."' AND enddate = '0000-00-00'))";
 
         $query = "SELECT lid AS lessonid, oname AS name, period, oalias AS moduleid, tp.tpid
-                  FROM #__giessen_scheduler_lessonperiods AS lp
-                    INNER JOIN #__giessen_scheduler_objects AS o ON lid = oid
-                    INNER JOIN #__giessen_scheduler_timeperiods AS tp ON lp.tpid = tp.tpid
+                  FROM #__thm_organizer_lessonperiods AS lp
+                    INNER JOIN #__thm_organizer_objects AS o ON lid = oid
+                    INNER JOIN #__thm_organizer_timeperiods AS tp ON lp.tpid = tp.tpid
                   WHERE rid = '$roomid'
                     AND lp.sid = '$semester'
                     AND o.sid = '$semester'
@@ -240,8 +240,8 @@ class GiessenSchedulerModelRoomDisplay extends JModel
 
                 //teacher processing
                 $query = "SELECT tid
-                          FROM #__giessen_scheduler_lessonperiods AS lp
-                            INNER JOIN #__giessen_scheduler_objects ON tid = oid
+                          FROM #__thm_organizer_lessonperiods AS lp
+                            INNER JOIN #__thm_organizer_objects ON tid = oid
                           WHERE lid = '".$lessons[$k]['lessonid']."'
                             AND tpid = '".$lessons[$k]['tpid']."'
                             AND lp.sid = '$semester'";
@@ -253,8 +253,8 @@ class GiessenSchedulerModelRoomDisplay extends JModel
                     $globalobjects[] = $btid;
                 }
                 $query = "SELECT DISTINCT oname
-                          FROM #__giessen_scheduler_lessonperiods AS lp
-                            INNER JOIN #__giessen_scheduler_objects ON tid = oid
+                          FROM #__thm_organizer_lessonperiods AS lp
+                            INNER JOIN #__thm_organizer_objects ON tid = oid
                           WHERE lid = '".$lessons[$k]['lessonid']."'
                             AND tpid = '".$lessons[$k]['tpid']."'
                             AND lp.sid = '$semester'";
@@ -264,8 +264,8 @@ class GiessenSchedulerModelRoomDisplay extends JModel
 
                 //class processing
                 $query = "SELECT cid
-                          FROM #__giessen_scheduler_lessons AS l
-                            INNER JOIN #__giessen_scheduler_objects ON cid = oid
+                          FROM #__thm_organizer_lessons AS l
+                            INNER JOIN #__thm_organizer_objects ON cid = oid
                           WHERE lid = '".$lessons[$k]['lessonid']."'
                             AND l.sid = '$semester'";
                 $dbo->setQuery( $query );
@@ -283,9 +283,9 @@ class GiessenSchedulerModelRoomDisplay extends JModel
             $query = "SELECT DISTINCT (eid), title,
                         SUBSTRING(starttime, 1, 5) AS starttime,
                         SUBSTRING(endtime, 1, 5) AS endtime
-                      FROM #__giessen_scheduler_events as gse
-                        LEFT JOIN #__giessen_scheduler_eventobjects ON eid = eventid
-                        INNER JOIN #__giessen_scheduler_categories ON ecatid = ecid
+                      FROM #__thm_organizer_events as gse
+                        LEFT JOIN #__thm_organizer_eventobjects ON eid = eventid
+                        INNER JOIN #__thm_organizer_categories ON ecatid = ecid
                       WHERE $wheretime
                         AND access = '0'
                         AND reservingp = '1'
@@ -310,9 +310,9 @@ class GiessenSchedulerModelRoomDisplay extends JModel
         $query = "SELECT DISTINCT (eid), title, edescription, startdate, enddate, name AS author,
                     SUBSTRING(starttime, 1, 5) AS starttime,
                     SUBSTRING(endtime, 1, 5) AS endtime
-                  FROM #__giessen_scheduler_events as gse
-                    LEFT JOIN #__giessen_scheduler_eventobjects ON eid = eventid
-                    INNER JOIN #__giessen_scheduler_categories ON ecatid = ecid
+                  FROM #__thm_organizer_events as gse
+                    LEFT JOIN #__thm_organizer_eventobjects ON eid = eventid
+                    INNER JOIN #__thm_organizer_categories ON ecatid = ecid
                     INNER JOIN #__users ON created_by = id
                   WHERE $wheretime
                     AND access = '0'
@@ -337,9 +337,9 @@ class GiessenSchedulerModelRoomDisplay extends JModel
         $query = "SELECT DISTINCT (eid), title, edescription, startdate, enddate, name AS author,
                     SUBSTRING(starttime, 1, 5) AS starttime,
                     SUBSTRING(endtime, 1, 5) AS endtime
-                  FROM #__giessen_scheduler_events as gse
-                    LEFT JOIN #__giessen_scheduler_eventobjects ON eid = eventid
-                    INNER JOIN #__giessen_scheduler_categories ON ecatid = ecid
+                  FROM #__thm_organizer_events as gse
+                    LEFT JOIN #__thm_organizer_eventobjects ON eid = eventid
+                    INNER JOIN #__thm_organizer_categories ON ecatid = ecid
                     INNER JOIN #__users ON created_by = id
                   WHERE $wheretime
                     AND access = '0'
@@ -362,9 +362,9 @@ class GiessenSchedulerModelRoomDisplay extends JModel
         $query = "SELECT DISTINCT (eid), title, edescription, startdate, enddate, name AS author,
                     SUBSTRING(starttime, 1, 5) AS starttime,
                     SUBSTRING(endtime, 1, 5) AS endtime
-                  FROM #__giessen_scheduler_events as gse
-                    LEFT JOIN #__giessen_scheduler_eventobjects ON eid = eventid
-                    INNER JOIN #__giessen_scheduler_categories ON ecatid = ecid
+                  FROM #__thm_organizer_events as gse
+                    LEFT JOIN #__thm_organizer_eventobjects ON eid = eventid
+                    INNER JOIN #__thm_organizer_categories ON ecatid = ecid
                     INNER JOIN #__users ON created_by = id
                   WHERE startdate > '".$this->data->postdate."'
                     AND access = '0'
@@ -387,9 +387,9 @@ class GiessenSchedulerModelRoomDisplay extends JModel
         $query = "SELECT DISTINCT (eid), title, edescription, startdate, enddate, name AS author,
                     SUBSTRING(starttime, 1, 5) AS starttime,
                     SUBSTRING(endtime, 1, 5) AS endtime
-                  FROM #__giessen_scheduler_events as gse
-                    LEFT JOIN #__giessen_scheduler_eventobjects ON eid = eventid
-                    INNER JOIN #__giessen_scheduler_categories ON ecatid = ecid
+                  FROM #__thm_organizer_events as gse
+                    LEFT JOIN #__thm_organizer_eventobjects ON eid = eventid
+                    INNER JOIN #__thm_organizer_categories ON ecatid = ecid
                     INNER JOIN #__users ON created_by = id
                   WHERE $wheretime
                     AND access = '0'
@@ -453,7 +453,7 @@ class GiessenSchedulerModelRoomDisplay extends JModel
     function goodbye($partingthoughts)
     {
             $app =& JFactory::getApplication();
-            $rd_string = 'index.php?option=com_giessenscheduler&view=roomlist';
+            $rd_string = 'index.php?option=com_thm_organizer&view=roomlist';
             $app->redirect($rd_string, $partingthoughts);
     }
 }

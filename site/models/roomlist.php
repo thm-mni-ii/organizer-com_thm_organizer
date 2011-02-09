@@ -35,14 +35,14 @@ class GiessenSchedulerModelRoomList extends JModel
     {
         $ipaddress = $_SERVER['REMOTE_ADDR'];
         $dbo = & JFactory::getDBO();
-        $query = "SELECT room FROM #__giessen_scheduler_roomip WHERE ip = '$ipaddress'";
+        $query = "SELECT room FROM #__thm_organizer_roomip WHERE ip = '$ipaddress'";
         $dbo->setQuery( $query );
         $result = $dbo->query();
         $room = $dbo->loadResult();
         if(isset($room) && $room != '')
         {
             $app =& JFactory::getApplication();
-            $rd_string = 'index.php?option=com_giessenscheduler&view=roomdisplay';
+            $rd_string = 'index.php?option=com_thm_organizer&view=roomdisplay';
             $rd_string .= '&room='.$room.'&template=giessenstyleroomdisplay';
             $app->redirect($rd_string);
         }
@@ -57,7 +57,7 @@ class GiessenSchedulerModelRoomList extends JModel
     function getRooms()
     {
         $dbo =& JFactory::getDBO();
-        $query = "SELECT room FROM #__giessen_scheduler_roomip ORDER BY room";
+        $query = "SELECT room FROM #__thm_organizer_roomip ORDER BY room";
         $dbo->setQuery( $query );
         //joomla requires objects in most library functions even where arrays
         //would have been sufficient

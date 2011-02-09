@@ -31,7 +31,7 @@ class GiessenSchedulerModelSemesterList extends JModel
         
 		//establish db object
 		$dbo = & JFactory::getDBO();
-		$query = "SELECT sid, orgunit, semester FROM #__giessen_scheduler_semester WHERE author = '$username';";
+		$query = "SELECT sid, orgunit, semester FROM #__thm_organizer_semester WHERE author = '$username';";
 		$dbo->setQuery( $query );
 		$semesters = $dbo->loadObjectList();
 		return $semesters;

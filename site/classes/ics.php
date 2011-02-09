@@ -69,17 +69,17 @@ class ICSBauer extends abstrakterBauer
 				$item->edate = $arr[ count( $arr ) - 1 ]->edate;
 
 				$classes    = explode( " ", trim( $item->clas ) );
-				$query      = 'SELECT oname FROM #__giessen_scheduler_objects WHERE oid IN("' . implode( '", "', $classes ) . '")';
+				$query      = 'SELECT oname FROM #__thm_organizer_objects WHERE oid IN("' . implode( '", "', $classes ) . '")';
 				$res        = $this->JDA->query( $query, true );
 				$item->clas = implode( ", ", $res );
 
 				$dozs      = explode( " ", trim( $item->doz ) );
-				$query     = 'SELECT oname FROM #__giessen_scheduler_objects WHERE oid IN("' . implode( '", "', $dozs ) . '")';
+				$query     = 'SELECT oname FROM #__thm_organizer_objects WHERE oid IN("' . implode( '", "', $dozs ) . '")';
 				$res       = $this->JDA->query( $query, true );
 				$item->doz = implode( ", ", $res );
 
 				$rooms      = explode( " ", trim( $item->room ) );
-				$query      = 'SELECT oname FROM #__giessen_scheduler_objects WHERE oid IN("' . implode( '", "', $rooms ) . '")';
+				$query      = 'SELECT oname FROM #__thm_organizer_objects WHERE oid IN("' . implode( '", "', $rooms ) . '")';
 				$res        = $this->JDA->query( $query, true );
 				$item->room = implode( ", ", $res );
 			}

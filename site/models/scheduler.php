@@ -43,7 +43,7 @@ class GiessenSchedulerModelScheduler extends JModel
 	function getSemesterAuthor()
 	{
 		$dbo = & JFactory::getDBO();
-		$dbo->setQuery("SELECT DISTINCT author FROM #__giessen_scheduler_semester WHERE sid = ".$this->semesterID);
+		$dbo->setQuery("SELECT DISTINCT author FROM #__thm_organizer_semester WHERE sid = ".$this->semesterID);
 		$rows = $dbo->loadObjectList();
 		if($rows == null)
 			return "";

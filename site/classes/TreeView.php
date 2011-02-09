@@ -73,9 +73,9 @@ class TreeView
 	private function getClasses()
 	{
 		$classesquery = "SELECT DISTINCT classes.cid, semester, department, oname, otype, manager, count(lessons.cid) as lessonamount
-	           FROM #__giessen_scheduler_classes AS classes
-	             INNER JOIN #__giessen_scheduler_objects AS objects
-	             ON classes.cid = objects.oid LEFT JOIN #__giessen_scheduler_lessons as lessons
+	           FROM #__thm_organizer_classes AS classes
+	             INNER JOIN #__thm_organizer_objects AS objects
+	             ON classes.cid = objects.oid LEFT JOIN #__thm_organizer_lessons as lessons
 	                       ON classes.cid = lessons.cid GROUP BY classes.cid";
 
 		$classesarray = array( );
@@ -128,9 +128,9 @@ class TreeView
 	private function getRooms()
 	{
 		$roomquery = "SELECT DISTINCT rooms.rid, capacity, rtype, department, oname, otype, manager, count( lessonperiods.lid ) as lessonamount
-	          	FROM #__giessen_scheduler_rooms AS rooms
-	            INNER JOIN #__giessen_scheduler_objects AS objects
-	            ON rooms.rid = objects.oid LEFT JOIN #__giessen_scheduler_lessonperiods AS lessonperiods
+	          	FROM #__thm_organizer_rooms AS rooms
+	            INNER JOIN #__thm_organizer_objects AS objects
+	            ON rooms.rid = objects.oid LEFT JOIN #__thm_organizer_lessonperiods AS lessonperiods
 	            ON rooms.rid = lessonperiods.rid GROUP BY rooms.rid";
 
 		$roomarray = array( );
@@ -187,9 +187,9 @@ class TreeView
 	private function getTeachers()
 	{
 		$teacherquery = "SELECT DISTINCT teachers.tid, department, oname, otype, manager, count(lessonperiods.tid) as lessonamount
-	           FROM #__giessen_scheduler_teachers AS teachers
-	            INNER JOIN #__giessen_scheduler_objects AS objects
-	            ON teachers.tid = objects.oid LEFT JOIN #__giessen_scheduler_lessonperiods as lessonperiods
+	           FROM #__thm_organizer_teachers AS teachers
+	            INNER JOIN #__thm_organizer_objects AS objects
+	            ON teachers.tid = objects.oid LEFT JOIN #__thm_organizer_lessonperiods as lessonperiods
 	                  ON teachers.tid = lessonperiods.tid GROUP BY teachers.tid";
 
 		$teacherarray = array( );
@@ -242,8 +242,8 @@ class TreeView
 	private function getVirtualSchedules()
 	{
 		$vsquery = "SELECT DISTINCT vs.vid, vname, vtype, department, vresponsible, eid
-	         FROM #__giessen_scheduler_virtual_schedules as vs
-	         INNER JOIN #__giessen_scheduler_virtual_schedules_elements as vse
+	         FROM #__thm_organizer_virtual_schedules as vs
+	         INNER JOIN #__thm_organizer_virtual_schedules_elements as vse
 	         ON vs.vid = vse.vid AND vs.sid = vse.sid
 	         WHERE vtype = '" . $this->type . "' AND vs.sid = '" . $this->sid . "'";
 		$res     = $this->JDA->query( $vsquery );
@@ -253,21 +253,21 @@ class TreeView
 
 	private function getCountTeacherLessons( $resourcename, $fachsemester )
 	{
-		$query = "SELECT * " . " FROM #__giessen_scheduler_lessonperiods " . " WHERE tid = '" . $resourcename . "' AND sid = '" . $fachsemester . "'";
+		$query = "SELECT * " . " FROM #__thm_organizer_lessonperiods " . " WHERE tid = '" . $resourcename . "' AND sid = '" . $fachsemester . "'";
 		$hits  = $this->JDA->query( $query );
 		return count( $hits );
 	}
 
 	private function getCountRoomLessons( $resourcename, $fachsemester )
 	{
-		$query = "SELECT * " . " FROM #__giessen_scheduler_lessonperiods " . " WHERE rid = '" . $resourcename . "' AND sid = '" . $fachsemester . "'";
+		$query = "SELECT * " . " FROM #__thm_organizer_lessonperiods " . " WHERE rid = '" . $resourcename . "' AND sid = '" . $fachsemester . "'";
 		$hits  = $this->JDA->query( $query );
 		return count( $hits );
 	}
 
 	private function getCountClassLessons( $resourcename, $fachsemester )
 	{
-		$query = "SELECT * " . " FROM #__giessen_scheduler_lessons " . " WHERE cid = '" . $resourcename . "' AND sid = '" . $fachsemester . "'";
+		$query = "SELECT * " . " FROM #__thm_organizer_lessons " . " WHERE cid = '" . $resourcename . "' AND sid = '" . $fachsemester . "'";
 		$hits  = $this->JDA->query( $query );
 		return count( $hits );
 	}

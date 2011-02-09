@@ -1,5 +1,5 @@
 // Link auf ein lokales Blankes Bild
-Ext.BLANK_IMAGE_URL = '../components/com_giessenscheduler/views/scheduler/tmpl/ext/resources/images/default/s.gif';
+Ext.BLANK_IMAGE_URL = '../components/com_thm_organizer/views/scheduler/tmpl/ext/resources/images/default/s.gif';
 Ext.MessageBox.buttonText.yes = 'Ja';
 Ext.MessageBox.buttonText.no = 'Nein';
 Ext.namespace('MySched');

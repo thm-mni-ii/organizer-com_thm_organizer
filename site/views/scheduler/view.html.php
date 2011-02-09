@@ -29,9 +29,9 @@ class GiessenSchedulerViewScheduler extends JView
 		$this->hasBackendAccess = $hasBackendAccess;
 
 		$doc =& JFactory::getDocument();
-		$doc->addStyleSheet(JURI::root(true)."/components/com_giessenscheduler/views/scheduler/tmpl/ext/resources/css/ext-all.css");
-		$doc->addStyleSheet(JURI::root(true)."/components/com_giessenscheduler/views/scheduler/tmpl/ext/resources/css/MultiSelect.css");
-		$doc->addStyleSheet(JURI::root(true)."/components/com_giessenscheduler/views/scheduler/tmpl/mySched/style.css");
+		$doc->addStyleSheet(JURI::root(true)."/components/com_thm_organizer/views/scheduler/tmpl/ext/resources/css/ext-all.css");
+		$doc->addStyleSheet(JURI::root(true)."/components/com_thm_organizer/views/scheduler/tmpl/ext/resources/css/MultiSelect.css");
+		$doc->addStyleSheet(JURI::root(true)."/components/com_thm_organizer/views/scheduler/tmpl/mySched/style.css");
 
 		$schedulearr = array();
 

@@ -99,15 +99,15 @@ class UserSchedule
               }
 
               $data = json_decode($data);
-              $query = "SELECT CONCAT(CONCAT(jos_giessen_scheduler_lessons.lid, ' '),jos_giessen_scheduler_lessonperiods.tpid) AS mykey, cid, rid, tid, ltype, jos_giessen_scheduler_timeperiods.day AS dow, period AS block, oname AS name, jos_giessen_scheduler_objects.oalias AS description, jos_giessen_scheduler_objects.oid AS id, (SELECT 'cyclic') AS type
-				        FROM jos_giessen_scheduler_lessons
-				        INNER JOIN jos_giessen_scheduler_lessonperiods
-				        ON jos_giessen_scheduler_lessons.lid = jos_giessen_scheduler_lessonperiods.lid
-				        INNER JOIN jos_giessen_scheduler_timeperiods
-				        ON jos_giessen_scheduler_lessonperiods.tpid = jos_giessen_scheduler_timeperiods.tpid
-				        INNER JOIN jos_giessen_scheduler_objects
-				        ON jos_giessen_scheduler_lessonperiods.lid = jos_giessen_scheduler_objects.oid
-				        WHERE otype = 'lesson' AND jos_giessen_scheduler_lessons.sid = '".$this->semID."' AND jos_giessen_scheduler_lessons.lid IN (";
+              $query = "SELECT CONCAT(CONCAT(#__thm_organizer_lessons.lid, ' '),#__thm_organizer_lessonperiods.tpid) AS mykey, cid, rid, tid, ltype, #__thm_organizer_timeperiods.day AS dow, period AS block, oname AS name, #__thm_organizer_objects.oalias AS description, #__thm_organizer_objects.oid AS id, (SELECT 'cyclic') AS type
+				        FROM #__thm_organizer_lessons
+				        INNER JOIN #__thm_organizer_lessonperiods
+				        ON #__thm_organizer_lessons.lid = #__thm_organizer_lessonperiods.lid
+				        INNER JOIN #__thm_organizer_timeperiods
+				        ON #__thm_organizer_lessonperiods.tpid = #__thm_organizer_timeperiods.tpid
+				        INNER JOIN #__thm_organizer_objects
+				        ON #__thm_organizer_lessonperiods.lid = #__thm_organizer_objects.oid
+				        WHERE otype = 'lesson' AND #__thm_organizer_lessons.sid = '".$this->semID."' AND #__thm_organizer_lessons.lid IN (";
 
               if (isset($data))
                   if (is_array($data))

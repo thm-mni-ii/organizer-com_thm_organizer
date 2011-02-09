@@ -54,7 +54,7 @@ class GiessenSchedulerModelEventList extends JModel
 
         //echo print_r($_POST, true)."<br /><br /><br />";
         // Get the paramaters of the active menu item
-        $params =& $mainframe->getParams('com_giessenscheduler');
+        $params =& $mainframe->getParams('com_thm_organizer');
 
         /*
          * Display Types
@@ -70,7 +70,7 @@ class GiessenSchedulerModelEventList extends JModel
         $display_type = $params->get('display_type');
 
         //get the number of events from database
-        $limit = $mainframe->getUserStateFromRequest('com_giessenscheduler.giessenscheduler_el.limit', 'limit', 10, 'int');
+        $limit = $mainframe->getUserStateFromRequest('com_thm_organizer.giessenscheduler_el.limit', 'limit', 10, 'int');
         $this->setState('limit', $limit);
 
         $limitstart = JRequest::getVar('limitstart', 0, '', 'int');
@@ -82,7 +82,7 @@ class GiessenSchedulerModelEventList extends JModel
         {
             $category = JRequest::getVar('category');
             if(!isset($category))
-                $category = $mainframe->getUserStateFromRequest('com_giessenscheduler.giessenscheduler_el.category', 'category', -1, 'int');
+                $category = $mainframe->getUserStateFromRequest('com_thm_organizer.giessenscheduler_el.category', 'category', -1, 'int');
         }
         $this->setState('category', $category);
 
@@ -97,16 +97,16 @@ class GiessenSchedulerModelEventList extends JModel
         if(isset($author))
             $this->setState('author', $author);
 
-        $date = $mainframe->getUserStateFromRequest('com_giessenscheduler.giessenscheduler_el.date', 'date', '');
+        $date = $mainframe->getUserStateFromRequest('com_thm_organizer.giessenscheduler_el.date', 'date', '');
         if(isset($date) && $date != '')$this->setState('date', $date);
 
-        $filter = $mainframe->getUserStateFromRequest('com_giessenscheduler.giessenscheduler_el.filter', 'filter', '');
+        $filter = $mainframe->getUserStateFromRequest('com_thm_organizer.giessenscheduler_el.filter', 'filter', '');
         if(isset($filter)) $this->setState('filter', $filter);
         
-        $orderby = $mainframe->getUserStateFromRequest('com_giessenscheduler.giessenscheduler_el.orderby', 'orderby', 'date');
+        $orderby = $mainframe->getUserStateFromRequest('com_thm_organizer.giessenscheduler_el.orderby', 'orderby', 'date');
         if(isset($orderby)) $this->setState('orderby', $orderby);
         
-        $orderbydir = $mainframe->getUserStateFromRequest('com_giessenscheduler.giessenscheduler_el.orderbydir', 'orderbydir', 'ASC');
+        $orderbydir = $mainframe->getUserStateFromRequest('com_thm_organizer.giessenscheduler_el.orderbydir', 'orderbydir', 'ASC');
         if(isset($orderbydir)) $this->setState('orderbydir', $orderbydir);
         
     }
@@ -153,15 +153,15 @@ class GiessenSchedulerModelEventList extends JModel
                 {
                     $event->displaydt = $event->startdate." ".$timestring;
                 }
-                $event->detlink = "index.php?option=com_giessenscheduler&view=event&eventid=".$event->eid."&Itemid=";
-                $event->editlink = "index.php?option=com_giessenscheduler&view=editevent&eventid=".$event->eid."&Itemid=";
-                $event->dellink = "index.php?option=com_giessenscheduler&controller=editevent&task=delete_event&eventid=".$event->eid."&Itemid=";
-                $event->catlink = "index.php?option=com_giessenscheduler&view=eventlist&category=".$event->ecid."&Itemid=";
-                $event->filterlink = "index.php?option=com_giessenscheduler&view=eventlist&Itemid=";
+                $event->detlink = "index.php?option=com_thm_organizer&view=event&eventid=".$event->eid."&Itemid=";
+                $event->editlink = "index.php?option=com_thm_organizer&view=editevent&eventid=".$event->eid."&Itemid=";
+                $event->dellink = "index.php?option=com_thm_organizer&controller=editevent&task=delete_event&eventid=".$event->eid."&Itemid=";
+                $event->catlink = "index.php?option=com_thm_organizer&view=eventlist&category=".$event->ecid."&Itemid=";
+                $event->filterlink = "index.php?option=com_thm_organizer&view=eventlist&Itemid=";
             }
             //echo $query."<br /><br /><br />";
 
-            $params =& $mainframe->getParams('com_giessenscheduler');
+            $params =& $mainframe->getParams('com_thm_organizer');
             $show_room = $params->get('show_room');
             if(isset($show_room) && $show_room == 1) $this->addRooms();
         }
@@ -182,9 +182,9 @@ class GiessenSchedulerModelEventList extends JModel
         if(empty($this->_categories))
         {
             $query = "SELECT ecid, ecname, ecimage, ecdescription
-                      FROM #__giessen_scheduler_categories
+                      FROM #__thm_organizer_categories
                       WHERE access <= '$gid'";
-            $params =& $mainframe->getParams('com_giessenscheduler');
+            $params =& $mainframe->getParams('com_thm_organizer');
             $display_type = $params->get('display_type');
             if(isset($display_type) && ($display_type == 1 || $display_type == 5))
                 $category = $params->get('category');
@@ -245,10 +245,10 @@ class GiessenSchedulerModelEventList extends JModel
                     DATE_FORMAT(startdate, '%d.%m.%Y') AS startdate, DATE_FORMAT(enddate, '%d.%m.%Y') AS enddate,
                     SUBSTR(starttime, 1, 5) AS starttime, SUBSTR(endtime, 1, 5) AS endtime,
                     e.title, ecname, ecid, username, access, recurrence_type AS rec_type
-                  FROM #__giessen_scheduler_events AS e
+                  FROM #__thm_organizer_events AS e
                   INNER JOIN #__users
                         ON created_by = id
-                  INNER JOIN #__giessen_scheduler_categories
+                  INNER JOIN #__thm_organizer_categories
                         ON ecid = ecatid "
                   .$where
                   .$orderby;
@@ -287,7 +287,7 @@ class GiessenSchedulerModelEventList extends JModel
         $category = $this->getState('category');
         $date =  $this->getState('date');
 
-        $params =& $mainframe->getParams('com_giessenscheduler');
+        $params =& $mainframe->getParams('com_thm_organizer');
         $display_type = $params->get('display_type');
 
         if(isset($author))  $wherray[] = "(username = '$author')";
@@ -356,12 +356,12 @@ class GiessenSchedulerModelEventList extends JModel
         }
         $where = $this->_buildEventsWhere();
         $query = "SELECT eid, oname
-        FROM #__giessen_scheduler_events AS e
-        INNER JOIN #__giessen_scheduler_eventobjects
+        FROM #__thm_organizer_events AS e
+        INNER JOIN #__thm_organizer_eventobjects
                 ON eid = eventid
-        INNER JOIN #__giessen_scheduler_objects
+        INNER JOIN #__thm_organizer_objects
                 ON oid = objectid
-        INNER JOIN #__giessen_scheduler_categories
+        INNER JOIN #__thm_organizer_categories
                 ON ecid = ecatid
         INNER JOIN #__users
                 ON e.created_by = id

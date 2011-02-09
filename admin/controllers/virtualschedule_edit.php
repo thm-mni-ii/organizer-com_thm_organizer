@@ -17,7 +17,7 @@ class GiessenSchedulersControllervirtualschedule_edit extends JController
 
 	    if($vscheduler_name == null)
 	    {
-	      $this->setRedirect( 'index.php?option=com_giessenscheduler&view=virtualschedule_edit', JText::_('Der Name darf nicht leer sein.'), 'error');
+	      $this->setRedirect( 'index.php?option=com_thm_organizer&view=virtual_schedule_edit', JText::_('Der Name darf nicht leer sein.'), 'error');
 	      $session =& JFactory::getSession();
 	      $session->set('oldPost', $_POST);
 	      return;
@@ -25,7 +25,7 @@ class GiessenSchedulersControllervirtualschedule_edit extends JController
 	    $idCheckRet = $model->idExists("VS_".$vscheduler_name);
 	    if($idCheckRet == true && $vscheduler_id == null)
 	    {
-	      $this->setRedirect( 'index.php?option=com_giessenscheduler&view=virtualschedule_edit', JText::_('Der angebene Name existiert bereits.'), 'error');
+	      $this->setRedirect( 'index.php?option=com_thm_organizer&view=virtual_schedule_edit', JText::_('Der angebene Name existiert bereits.'), 'error');
 	      $session =& JFactory::getSession();
 	      $session->set('oldPost', $_POST);
 	      return;
@@ -72,7 +72,7 @@ class GiessenSchedulersControllervirtualschedule_edit extends JController
 			if(!isset($vscheduler_teachers) && $vscheduler_types == "teacher")
 				$msg .= "vscheduler_teachers<br/>";
 
-			$this->setRedirect( 'index.php?option=com_giessenscheduler&view=virtualschedule_edit', JText::_($msg), 'error');
+			$this->setRedirect( 'index.php?option=com_thm_organizer&view=virtual_schedule_edit', JText::_($msg), 'error');
 	      	$session =& JFactory::getSession();
 	      	$session->set('oldPost', $_POST);
 	      	return;
@@ -109,14 +109,14 @@ class GiessenSchedulersControllervirtualschedule_edit extends JController
 			if($torf === "1")
 			{
 				if($vscheduler_id == null)
-					$this->setRedirect( 'index.php?option=com_giessenscheduler&view=virtualschedule', JText::_('Virtuellen Stundenplan '.$vscheduler_name.' erfolgreich angelegt.'));
+					$this->setRedirect( 'index.php?option=com_thm_organizer&view=virtual_schedule_manager', JText::_('Virtuellen Stundenplan '.$vscheduler_name.' erfolgreich angelegt.'));
 				else
-					$this->setRedirect( 'index.php?option=com_giessenscheduler&view=virtualschedule', JText::_('Virtuellen Stundenplan '.$vscheduler_id.' erfolgreich bearbeitet.'));
+					$this->setRedirect( 'index.php?option=com_thm_organizer&view=virtual_schedule_manager', JText::_('Virtuellen Stundenplan '.$vscheduler_id.' erfolgreich bearbeitet.'));
 				return;
 			}
 			else
 			{
-				$this->setRedirect( 'index.php?option=com_giessenscheduler&view=virtualschedule_edit', JText::_("Error: ".$torf), 'error');
+				$this->setRedirect( 'index.php?option=com_thm_organizer&view=virtual_schedule_edit', JText::_("Error: ".$torf), 'error');
 		      	$session =& JFactory::getSession();
 		      	$session->set('oldPost', $_POST);
 		      	return;
@@ -126,7 +126,7 @@ class GiessenSchedulersControllervirtualschedule_edit extends JController
 
 	function cancel()
 	{
-	    $this->setRedirect( 'index.php?option=com_giessenscheduler&view=virtualschedule');
+	    $this->setRedirect( 'index.php?option=com_thm_organizer&view=virtual_schedule_manager');
 	}
 }
 ?>

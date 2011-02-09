@@ -45,7 +45,7 @@ class thm_organizerControllerEditEvent extends JController
         //get author
         if($eventid != 0)
         {
-            $query = "SELECT created_by FROM #__giessen_scheduler_events WHERE eid = $eventid";
+            $query = "SELECT created_by FROM #__thm_organizer_events WHERE eid = $eventid";
             $dbo->setQuery($query);
             $author = $dbo->loadResult();
         }
@@ -95,7 +95,7 @@ class thm_organizerControllerEditEvent extends JController
 		$itemid = JRequest::getVar('Itemid');
 		
 		//get author
-    	$query = "SELECT created_by FROM #__giessen_scheduler_events WHERE eid = $eventid";
+    	$query = "SELECT created_by FROM #__thm_organizer_events WHERE eid = $eventid";
 	  	$dbo->setQuery($query);
 	  	$author = $dbo->loadResult();
 

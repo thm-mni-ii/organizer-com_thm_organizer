@@ -48,7 +48,7 @@ class GiessenSchedulerModelEditEvent extends JModel
         $user =& JFactory::getUser();
         $gid = $user->gid;
 
-        $query = "SELECT contentid FROM #__giessen_scheduler_events WHERE eid = '$eventid'";
+        $query = "SELECT contentid FROM #__thm_organizer_events WHERE eid = '$eventid'";
         $dbo->setQuery( $query );
         $savedcid = $dbo->loadResult();
         //check whether associated content was changed external to giessen scheduler
@@ -65,23 +65,23 @@ class GiessenSchedulerModelEditEvent extends JModel
                         SUBSTR(starttime, 1, 5) AS starttime, SUBSTR(endtime, 1, 5) AS endtime,
                         SUBSTR(publish_up, 1, 11) AS publish_up, SUBSTR(publish_down, 1, 11) AS publish_down,
                         sectionid, catid AS ccatid
-                     FROM #__giessen_scheduler_events AS gse
+                     FROM #__thm_organizer_events AS gse
                      INNER JOIN #__content AS c ON id = contentid
-                     INNER JOIN #__giessen_scheduler_categories AS ec ON ecatid = ecid
+                     INNER JOIN #__thm_organizer_categories AS ec ON ecatid = ecid
                      WHERE eid='$eventid'";
             $dbo->setQuery( $query );
             $fetchedevent = $dbo->loadAssoc();
         }
         else
         {	
-            $query = "INSERT INTO #__giessen_scheduler_events (contentid) VALUES ('0') WHERE eid = '$eventid'";
+            $query = "INSERT INTO #__thm_organizer_events (contentid) VALUES ('0') WHERE eid = '$eventid'";
             $dbo->setQuery($query);
             $dbo->query();	  
             $query = "SELECT gse.eid AS eventid, gse.title, edescription AS description,
                         gse.created_by AS author, ecatid, startdate, enddate, ec.access, recurrence_type,
                         SUBSTR(starttime, 1, 5) AS starttime, SUBSTR(endtime, 1, 5) AS endtime
-                      FROM #__giessen_scheduler_events AS gse
-                      INNER JOIN #__giessen_scheduler_categories AS ec ON ecatid = ecid
+                      FROM #__thm_organizer_events AS gse
+                      INNER JOIN #__thm_organizer_categories AS ec ON ecatid = ecid
                       WHERE eid='$eventid'";
             $dbo->setQuery( $query );
             $fetchedevent = $dbo->loadAssoc();
@@ -98,14 +98,14 @@ class GiessenSchedulerModelEditEvent extends JModel
             if(isset($fetchedevent['endtime']) && $fetchedevent['endtime'] == '00:00')
                 unset($fetchedevent['endtime']);
             $query = "SELECT oid
-                      FROM #__giessen_scheduler_objects
-                      INNER JOIN #__giessen_scheduler_eventobjects ON objectid = oid
+                      FROM #__thm_organizer_objects
+                      INNER JOIN #__thm_organizer_eventobjects ON objectid = oid
                       WHERE eventid = '$eventid'";
             $dbo->setQuery( $query );
             $savedSchedObjects = $dbo->loadResultArray();
             $query = "SELECT id AS oid, name AS oname
                       FROM #__giessen_staff_groups
-                      INNER JOIN #__giessen_scheduler_eventobjects ON objectid = id
+                      INNER JOIN #__thm_organizer_eventobjects ON objectid = id
                       WHERE eventid = '$eventid'";
             $dbo->setQuery( $query );
             $savedStaffObjects = $dbo->loadResultArray();
@@ -113,13 +113,13 @@ class GiessenSchedulerModelEditEvent extends JModel
         }
         
         //load information for select boxes
-        $query = "SELECT oid, oname FROM #__giessen_scheduler_objects WHERE otype = 'teacher' ORDER BY oname";
+        $query = "SELECT oid, oname FROM #__thm_organizer_objects WHERE otype = 'teacher' ORDER BY oname";
         $dbo->setQuery( $query );
         $fetchedevent['teachers'] = $dbo->loadObjectList();
-        $query = "SELECT oid, oname FROM #__giessen_scheduler_objects WHERE otype = 'room' ORDER BY oname";
+        $query = "SELECT oid, oname FROM #__thm_organizer_objects WHERE otype = 'room' ORDER BY oname";
         $dbo->setQuery( $query );
         $fetchedevent['rooms'] = $dbo->loadObjectList();
-        $query = "SELECT oid, oname FROM #__giessen_scheduler_objects WHERE otype = 'class' ORDER BY oname";
+        $query = "SELECT oid, oname FROM #__thm_organizer_objects WHERE otype = 'class' ORDER BY oname";
         $dbo->setQuery( $query );
         $fetchedevent['semesters'] = $dbo->loadObjectList();
         $query = "SELECT id AS oid, name AS oname FROM #__giessen_staff_groups ORDER BY name";
@@ -131,7 +131,7 @@ class GiessenSchedulerModelEditEvent extends JModel
         $query = "SELECT id, section, title FROM #__categories WHERE section NOT LIKE 'com%'";
         $dbo->setQuery( $query );
         $fetchedevent['ccategories'] = $dbo->loadAssocList();
-        $query = "SELECT ecid, ecname FROM #__giessen_scheduler_categories WHERE access <= '$gid'";
+        $query = "SELECT ecid, ecname FROM #__thm_organizer_categories WHERE access <= '$gid'";
         $dbo->setQuery( $query );
         $fetchedevent['ecategories'] = $dbo->loadAssocList();
 
@@ -238,7 +238,7 @@ class GiessenSchedulerModelEditEvent extends JModel
 
         if($eventid != 0)//existing event
         {
-            $query = "UPDATE #__giessen_scheduler_events
+            $query = "UPDATE #__thm_organizer_events
                       SET contentid = '$contentid',
                           title = '".$_POST['title']."',
                           ealias = '".strtolower($_POST['title'])."',
@@ -258,7 +258,7 @@ class GiessenSchedulerModelEditEvent extends JModel
             if($dbo->getErrorNum())return 0;
 
             //remove all existing relations to resources
-            $query = "DELETE FROM #__giessen_scheduler_eventobjects WHERE eventid = '".$_POST['eventid']."';";
+            $query = "DELETE FROM #__thm_organizer_eventobjects WHERE eventid = '".$_POST['eventid']."';";
             $dbo->setQuery( $query );
             $dbo->query();
             if($dbo->getErrorNum())return 0;
@@ -309,7 +309,7 @@ class GiessenSchedulerModelEditEvent extends JModel
 
                 if($objectstring != "")
                 {
-                    $query = "INSERT IGNORE INTO #__giessen_scheduler_eventobjects (eventid, objectid) VALUES $objectstring;";
+                    $query = "INSERT IGNORE INTO #__thm_organizer_eventobjects (eventid, objectid) VALUES $objectstring;";
                     $dbo->setQuery( $query );
                     $dbo->query();
                     if($dbo->getErrorNum())return 0;
@@ -317,7 +317,7 @@ class GiessenSchedulerModelEditEvent extends JModel
         }
         else//create new event
         {
-            $query = "INSERT INTO #__giessen_scheduler_events
+            $query = "INSERT INTO #__thm_organizer_events
                           (
                               contentid, title, ealias, created_by,
                               created, edescription, ecatid, startdate,
@@ -337,7 +337,7 @@ class GiessenSchedulerModelEditEvent extends JModel
             //event is newly created the relation to objects must be created
             //the biggest id with attributes the same as the request variables will always be the correct
             $query = $query = "SELECT MAX(eid)
-                      FROM #__giessen_scheduler_events
+                      FROM #__thm_organizer_events
                       WHERE title = '".$_POST['title']."'
                             AND edescription = '".$description."';";
             $dbo->setQuery($query);
@@ -389,7 +389,7 @@ class GiessenSchedulerModelEditEvent extends JModel
 
             if($objectstring != "")
             {
-                $query = "INSERT INTO #__giessen_scheduler_eventobjects	(eventid, objectid) VALUES $objectstring";
+                $query = "INSERT INTO #__thm_organizer_eventobjects	(eventid, objectid) VALUES $objectstring";
                 $dbo->setQuery( $query );
                 $dbo->query();
                 if($dbo->getErrorNum())return 0;
@@ -410,7 +410,7 @@ class GiessenSchedulerModelEditEvent extends JModel
     {
         //establish db object
         $dbo = & JFactory::getDBO();
-        $query = "SELECT contentid FROM #__giessen_scheduler_events WHERE eid = '$eventid'";
+        $query = "SELECT contentid FROM #__thm_organizer_events WHERE eid = '$eventid'";
         $dbo->setQuery($query);
         $contentid = $dbo->loadResult();
         if(isset($contentid) && $contentid != 0)
@@ -420,11 +420,11 @@ class GiessenSchedulerModelEditEvent extends JModel
             $dbo->query();
             if ($dbo->getErrorNum())return false;
         }
-        $query = "DELETE FROM #__giessen_scheduler_events WHERE eid = '$eventid'";
+        $query = "DELETE FROM #__thm_organizer_events WHERE eid = '$eventid'";
         $dbo->setQuery($query);
         $dbo->query();
         if ($dbo->getErrorNum())return false;
-        $query = "DELETE FROM #__giessen_scheduler_eventobjects WHERE eventid = '$eventid'";
+        $query = "DELETE FROM #__thm_organizer_eventobjects WHERE eventid = '$eventid'";
         $dbo->setQuery($query);
         $dbo->query();
         if ($dbo->getErrorNum())return false;

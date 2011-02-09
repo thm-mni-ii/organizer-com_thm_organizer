@@ -526,7 +526,7 @@ class thm_organizerControllerScheduleList extends JController
 				unset($lesson, $lessonnodes, $dDoc);
 								
 				$content = addslashes($content);
-				$query = "INSERT INTO #__giessen_scheduler_schedules 
+				$query = "INSERT INTO #__thm_organizer_schedules 
 							(filename, file, includedate, creationdate, startdate, enddate, sid)
 						  VALUES ('$fileName', '$content', '$date','$creationdate', '$startdate', '$enddate', '$sid')";
 				$dbo->setQuery( $query );
@@ -567,7 +567,7 @@ class thm_organizerControllerScheduleList extends JController
 		$sid = JRequest::getVar('semesterid');
 		$badboylink = JRoute::_('index.php');
 		$link = JRoute::_('index.php?option=com_thm_organizer&view=schedulelist&semesterid='.$sid);
-		$query = "SELECT author FROM #__giessen_scheduler_semester WHERE sid = '$sid'";
+		$query = "SELECT author FROM #__thm_organizer_semester WHERE sid = '$sid'";
 		$dbo->setQuery( $query );
 		$username = $dbo->loadResult();
 		if($user->username != $username) $this->setRedirect($badboylink, "Zugriff verweigert", 'error' );
@@ -576,7 +576,7 @@ class thm_organizerControllerScheduleList extends JController
 			$id = JRequest::getVar('schedule_id');
 			
 			//load the schedule to be activated from the file in the database
-			$query = "SELECT file, filename FROM #__giessen_scheduler_schedules WHERE id = '$id'";
+			$query = "SELECT file, filename FROM #__thm_organizer_schedules WHERE id = '$id'";
 			$dbo->setQuery( $query );
 			$result = $dbo->query();
 			if ($dbo->getErrorNum())
@@ -589,7 +589,7 @@ class thm_organizerControllerScheduleList extends JController
 			if($file)
 			{
 				$query = "SELECT filename
-						  FROM #__giessen_scheduler_schedules 
+						  FROM #__thm_organizer_schedules 
 						  WHERE active IS NOT NULL
 						  	AND sid = '$sid'";			
 				$dbo->setQuery( $query );
@@ -599,8 +599,8 @@ class thm_organizerControllerScheduleList extends JController
 					
 					$oldlessons = array();
 					$query = "SELECT l.lid, o.oname AS name, o.oalias AS description
-							  FROM #__giessen_scheduler_lessons AS l
-							  	INNER JOIN #__giessen_scheduler_objects AS o
+							  FROM #__thm_organizer_lessons AS l
+							  	INNER JOIN #__thm_organizer_objects AS o
 							  		ON l.lid = o.oid
 							  WHERE l.sid = '$sid'
 							  	AND o.sid = '$sid'";
@@ -612,7 +612,7 @@ class thm_organizerControllerScheduleList extends JController
 						$oldlessons[$lv['lid']]['desc'] = $lv['description'];
 						//classes are independant of the implementing periods
 						$query = "SELECT cid
-							  FROM #__giessen_scheduler_lessons
+							  FROM #__thm_organizer_lessons
 							  WHERE lid = '".$lv['lid']."'
 							  	AND sid = '$sid'";
 						$dbo->setQuery($query);
@@ -626,8 +626,8 @@ class thm_organizerControllerScheduleList extends JController
 						//if the timeperiod stays the same
 						$query = "SELECT lp.rid, lp.tid, tp.tpid, tp.day,
 									tp.period, tp.starttime, tp.endtime
-								  FROM #__giessen_scheduler_lessonperiods AS lp
-								  	INNER JOIN #__giessen_scheduler_timeperiods as tp
+								  FROM #__thm_organizer_lessonperiods AS lp
+								  	INNER JOIN #__thm_organizer_timeperiods as tp
 								  		ON lp.tpid = tp.tpid
 								  WHERE lid = '".$lv['lid']."'
 								  	AND lp.sid = '$sid'
@@ -654,16 +654,16 @@ class thm_organizerControllerScheduleList extends JController
 					//$dptdump = print_r($oldlessons, true);
 					
 					//remove active data
-					$query = "DELETE FROM #__giessen_scheduler_objects WHERE sid = '$sid';";
+					$query = "DELETE FROM #__thm_organizer_objects WHERE sid = '$sid';";
 					$dbo->setQuery($query);
 					$dbo->query();
-					$query = "DELETE FROM #__giessen_scheduler_lessons WHERE sid = '$sid';";
+					$query = "DELETE FROM #__thm_organizer_lessons WHERE sid = '$sid';";
 					$dbo->setQuery($query);
 					$dbo->query();
-					$query = "DELETE FROM #__giessen_scheduler_lessonperiods WHERE sid = '$sid';";
+					$query = "DELETE FROM #__thm_organizer_lessonperiods WHERE sid = '$sid';";
 					$dbo->setQuery($query);
 					$dbo->query();
-					$query = "DELETE FROM #__giessen_scheduler_timeperiods WHERE sid = '$sid';";
+					$query = "DELETE FROM #__thm_organizer_timeperiods WHERE sid = '$sid';";
 					$dbo->setQuery($query);
 					$dbo->query();
 				}
@@ -747,7 +747,7 @@ class thm_organizerControllerScheduleList extends JController
 				    $timeperiods[$tpid]['starttime']= $starttime;
 				    $timeperiods[$tpid]['endtime']= $endtime;
 				    
-				    $query = "INSERT IGNORE INTO #__giessen_scheduler_timeperiods 
+				    $query = "INSERT IGNORE INTO #__thm_organizer_timeperiods 
 				    								(tpid, day, period, starttime, endtime, sid)
 				    							 VALUES('$tpid', '$day', '$period', '$starttime', '$endtime', '$sid');";
 				    $dbo->setQuery($query);
@@ -798,12 +798,12 @@ class thm_organizerControllerScheduleList extends JController
 			    	$teachers[$oid]['oname'] = $oname;
 			    	$teachers[$oid]['manager'] = $prno;
 			    	$teachers[$oid]['department'] = $dept;
-				    $query = "INSERT IGNORE INTO #__giessen_scheduler_objects 
+				    $query = "INSERT IGNORE INTO #__thm_organizer_objects 
 				    			(oid, oname, otype, manager,  sid)
 				    		  VALUES('$oid', '$oname', 'teacher', '$manager', '0');";
 				    $dbo->setQuery($query);
 				    $dbo->query();
-				    $query = "INSERT IGNORE INTO #__giessen_scheduler_teachers 
+				    $query = "INSERT IGNORE INTO #__thm_organizer_teachers 
 				    			(tid, department)
 				    		  VALUES('$oid', '$dept');";
 				    $dbo->setQuery($query);
@@ -838,12 +838,12 @@ class thm_organizerControllerScheduleList extends JController
 				    $classes[$oid]['manager'] = $manager;
 				    $classes[$oid]['department'] = $department;
 				    $classes[$oid]['semester'] = $semester;
-				    $query = "INSERT IGNORE INTO #__giessen_scheduler_objects
+				    $query = "INSERT IGNORE INTO #__thm_organizer_objects
 				    			(oid, oname, oalias, otype, manager, sid)
 			    			  VALUES('$oid', '$oname', '$oalias', 'class', '$manager', '0');";
 				    $dbo->setQuery($query);
 				    $dbo->query();
-				    $query = "INSERT IGNORE INTO #__giessen_scheduler_classes
+				    $query = "INSERT IGNORE INTO #__thm_organizer_classes
 				    			(cid, department, semester)
 			    			  VALUES('$oid', '$department', '$semester');";
 				    $dbo->setQuery($query);
@@ -879,12 +879,12 @@ class thm_organizerControllerScheduleList extends JController
 				    $rooms[$oid]['capacity'] = $capacity;
 				    $rooms[$oid]['rtype'] = $rtype;
 				    $rooms[$oid]['department'] = $department;
-				    $query = "INSERT IGNORE INTO #__giessen_scheduler_objects
+				    $query = "INSERT IGNORE INTO #__thm_organizer_objects
 				    			(oid, oname, otype, oalias, sid)
 				    		  VALUES('$oid', '$oname', 'room', '$oalias', '0');";
 				    $dbo->setQuery($query);
 				    $dbo->query();
-				    $query = "INSERT IGNORE INTO #__giessen_scheduler_rooms
+				    $query = "INSERT IGNORE INTO #__thm_organizer_rooms
 				    			(rid, capacity, rtype, department)
 				    		  VALUES('$oid', '$capacity', '$rtype', '$department');";
 				    $dbo->setQuery($query);
@@ -918,7 +918,7 @@ class thm_organizerControllerScheduleList extends JController
 			    	$lessons[$oid]['desc'] = $oalias;
 			    	
 			    	//details common to all resources
-					$query = "INSERT INTO #__giessen_scheduler_objects (oid, oname, oalias, otype, sid)
+					$query = "INSERT INTO #__thm_organizer_objects (oid, oname, oalias, otype, sid)
 					    			VALUES('$oid', '$oname', '$oalias', 'lesson', '$sid');";
 					$dbo->setQuery( $query );
 					$dbo->query();
@@ -938,7 +938,7 @@ class thm_organizerControllerScheduleList extends JController
 				    unset($classesnl);
 				    foreach($lessons[$oid]['classes'] as $classid)
 		    		{
-		    			$query = "INSERT INTO #__giessen_scheduler_lessons (lid, cid, ltype, sid)
+		    			$query = "INSERT INTO #__thm_organizer_lessons (lid, cid, ltype, sid)
 			    					VALUES('$oid', '$classid', '$lessontype', '$sid');";
 						$dbo->setQuery( $query );
 						$dbo->query();
@@ -970,7 +970,7 @@ class thm_organizerControllerScheduleList extends JController
 					    $lessons[$oid]['periods'][$tpid]['endtime'] = $timeperiods[$tpid]['endtime'];
 					    $lessons[$oid]['periods'][$tpid]['teachers'][$tid] = $tid;
 					    $lessons[$oid]['periods'][$tpid]['rooms'][$rid] = $rid;
-					    $query = "INSERT INTO #__giessen_scheduler_lessonperiods (lid, rid, tpid, tid, sid)
+					    $query = "INSERT INTO #__thm_organizer_lessonperiods (lid, rid, tpid, tid, sid)
 						    			VALUES('$oid', '$rid', '$tpid', '$tid', '$sid');";
 						$dbo->setQuery( $query );
 						$dbo->query();
@@ -1238,13 +1238,13 @@ class thm_organizerControllerScheduleList extends JController
 							str_replace('\u00df', 'ß', $malformedjsondelta)))))));
 			
 			//deletes old delta
-			$query = "DELETE FROM #__giessen_scheduler_user_schedules WHERE username = 'delta'";
+			$query = "DELETE FROM #__thm_organizer_user_schedules WHERE username = 'delta'";
 			$dbo->setQuery( $query );
 			$dbo->query();
 					
 			//inserts new delta
 			$currenttime = time();
-			$query = "INSERT INTO #__giessen_scheduler_user_schedules (username, data, created)
+			$query = "INSERT INTO #__thm_organizer_user_schedules (username, data, created)
 			VALUES ('delta', '$jsondelta', '$currenttime')";
 			$dbo->setQuery( $query );
 			$dbo->query();	
@@ -1257,13 +1257,13 @@ class thm_organizerControllerScheduleList extends JController
 			//$this->buildModules($subjects);
 
 			//set old active to false
-			$query = "UPDATE #__giessen_scheduler_schedules SET active = NULL WHERE sid = '$sid';";
+			$query = "UPDATE #__thm_organizer_schedules SET active = NULL WHERE sid = '$sid';";
 			$dbo->setQuery( $query );
 			$dbo->query();	
 
 			$currentdate = date('Y-m-d H:i:s');
 			//set new active to true
-			$query = "UPDATE #__giessen_scheduler_schedules SET active = '$currentdate' WHERE id = '$id'";
+			$query = "UPDATE #__thm_organizer_schedules SET active = '$currentdate' WHERE id = '$id'";
 			$dbo->setQuery( $query );
 			$dbo->query();
 			$link = JRoute::_('index.php?option=com_thm_organizer&view=schedulelist&semesterid='.$sid);
@@ -1301,26 +1301,26 @@ class thm_organizerControllerScheduleList extends JController
 			$link = JRoute::_('index.php?option=com_thm_organizer&view=schedulelist&semesterid='.$sid);
 			
 			//set active to false
-			$query = "UPDATE #__giessen_scheduler_schedules SET active = NULL WHERE active IS NOT NULL AND sid = '$sid';";
+			$query = "UPDATE #__thm_organizer_schedules SET active = NULL WHERE active IS NOT NULL AND sid = '$sid';";
 			$dbo->setQuery( $query );
 			$dbo->query();
 			
-			$query = "DELETE FROM #__giessen_scheduler_user_schedules WHERE username = 'delta' AND sid = '$sid';";
+			$query = "DELETE FROM #__thm_organizer_user_schedules WHERE username = 'delta' AND sid = '$sid';";
 			$dbo->setQuery( $query );
 			$dbo->query();//no error check there may be no delta in the db
 			
 			
 			//remove active data
-			$query = "DELETE FROM #__giessen_scheduler_objects WHERE sid = '$sid';";
+			$query = "DELETE FROM #__thm_organizer_objects WHERE sid = '$sid';";
 			$dbo->setQuery($query);
 			$dbo->query();
-			$query = "DELETE FROM #__giessen_scheduler_lessons WHERE sid = '$sid';";
+			$query = "DELETE FROM #__thm_organizer_lessons WHERE sid = '$sid';";
 			$dbo->setQuery($query);
 			$dbo->query();
-			$query = "DELETE FROM #__giessen_scheduler_lessonperiods WHERE sid = '$sid';";
+			$query = "DELETE FROM #__thm_organizer_lessonperiods WHERE sid = '$sid';";
 			$dbo->setQuery($query);
 			$dbo->query();
-			$query = "DELETE FROM #__giessen_scheduler_timeperiods WHERE sid = '$sid';";
+			$query = "DELETE FROM #__thm_organizer_timeperiods WHERE sid = '$sid';";
 			$dbo->setQuery($query);
 			$dbo->query();
 			
@@ -1346,7 +1346,7 @@ class thm_organizerControllerScheduleList extends JController
 			$sid = JRequest::getVar('semesterid');
 			$link = JRoute::_('index.php?option=com_thm_organizer&view=schedulelist&semesterid='.$sid);
 			$id = JRequest::getVar('schedule_id');
-		  	$query = "DELETE FROM #__giessen_scheduler_schedules WHERE id = $id";
+		  	$query = "DELETE FROM #__thm_organizer_schedules WHERE id = $id";
 		  	$dbo->setQuery($query);
 		  	$dbo->query();
 			if ($dbo->getErrorNum())
@@ -1377,7 +1377,7 @@ class thm_organizerControllerScheduleList extends JController
 			$id = JRequest::getVar('schedule_id');
 			$description = JRequest::getVar('description');
 			$dbo = & JFactory::getDBO();
-			$query = "UPDATE #__giessen_scheduler_schedules SET description = '$description' WHERE id = '$id'";
+			$query = "UPDATE #__thm_organizer_schedules SET description = '$description' WHERE id = '$id'";
 			$dbo->setQuery( $query );
 			$dbo->query();	
 			if ($dbo->getErrorNum())
@@ -1432,7 +1432,7 @@ class thm_organizerControllerScheduleList extends JController
 						{
 							if($va->getName() == "anmerkung") continue;
 							$value = (string) $va;
-							$query = "INSERT IGNORE INTO #__giessen_scheduler_prereq (pid, cid)
+							$query = "INSERT IGNORE INTO #__thm_organizer_prereq (pid, cid)
 										VALUES ('$value', '$modid')";
 							$dbo->setQuery( $query );
 							$dbo->query();	
@@ -1441,13 +1441,13 @@ class thm_organizerControllerScheduleList extends JController
 						foreach($module->verwendbarkeit[0] as $k => $vw)
 						{
 							$value = (string) $vw;
-							$query = "INSERT IGNORE INTO #__giessen_scheduler_prereq (pid, cid)
+							$query = "INSERT IGNORE INTO #__thm_organizer_prereq (pid, cid)
 										VALUES ('$modid', '$value')";
 							$dbo->setQuery( $query );
 							$dbo->query();	
 						}
 					$query = "INSERT IGNORE 
-								INTO #__giessen_scheduler_modules 
+								INTO #__thm_organizer_modules 
 									( modid, mtitle, shortname, objective, content, lit, lp, required, test, tstamp)
 								VALUES 
 									( '$modid','$mtitle','$shortname','$objective','$content','$lit','$lp','$required','$test','$tstamp');";
@@ -1455,14 +1455,14 @@ class thm_organizerControllerScheduleList extends JController
 					$dbo->query();
 					
 					$query = "SELECT mid 
-								FROM #__giessen_scheduler_modules
+								FROM #__thm_organizer_modules
 								WHERE modid = '$modid'
 									AND tstamp = '$tstamp'";
 					$dbo->setQuery( $query );
 					$mid = $dbo->loadResult();
 					
 					$query = "INSERT IGNORE 
-								INTO #__giessen_scheduler_modulesemester (mid, sid)
+								INTO #__thm_organizer_modulesemester (mid, sid)
 								VALUES ('$mid','$sid')";
 					$dbo->setQuery( $query );
 					$dbo->query();

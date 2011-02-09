@@ -315,7 +315,7 @@ class ICALBauer extends abstrakterBauer
 
 	private function getResource( $resourcename )
 	{
-		$query = "SELECT oname FROM #__giessen_scheduler_objects WHERE oid ='" . $resourcename . "'";
+		$query = "SELECT oname FROM #__thm_organizer_objects WHERE oid ='" . $resourcename . "'";
 		$hits  = $this->JDA->query( $query );
 		return $hits;
 	}

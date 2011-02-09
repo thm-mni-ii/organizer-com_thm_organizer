@@ -25,7 +25,7 @@ class thm_organizersModelCategory_List extends JModel
 
     function getData()
     {
-        $query = "SELECT * FROM #__giessen_scheduler_categories";
+        $query = "SELECT * FROM #__thm_organizer_categories";
 	$this->data->data = $this->_getList( $query );
         $this->getLinks();
     }

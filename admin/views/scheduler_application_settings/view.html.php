@@ -3,6 +3,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
+require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
 
 /**
  * View class for the  Giessen Scheduler Monitors screen
@@ -20,11 +21,7 @@ class  thm_organizersViewScheduler_Application_Settings extends JView {
 
 
             //Create Submenu
-            JSubMenuHelper::addEntry( JText::_( 'Main Menu' ), 'index.php?option=com_thm_organizer&view=thm_organizers');
-            JSubMenuHelper::addEntry( JText::_( 'Category Manager' ), 'index.php?option=com_thm_organizer&view=category_list');
-            JSubMenuHelper::addEntry( JText::_( 'Monitor Manager' ), 'index.php?option=com_thm_organizer&view=monitor_list');
-            JSubMenuHelper::addEntry( JText::_( 'Semester Manager' ), 'index.php?option=com_thm_organizer&view=semester_list');
-            JSubMenuHelper::addEntry( JText::_( 'Virtual Schedule' ), 'index.php?option=com_thm_organizer&view=virtualschedule');
+           thm_organizerHelper::addSubmenu('scheduler_application_settings');
 
 	 		$model = $this->getModel();
 	 		$settings = $model->getSettings();

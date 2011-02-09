@@ -89,7 +89,7 @@ class Ressource
 
 	private function getElements( $id, $sid )
 	{
-		$query = "SELECT eid " . "FROM #__giessen_scheduler_virtual_schedules_elements " . "WHERE vid = '" . $id . "' " . "AND sid = '" . $sid . "'";
+		$query = "SELECT eid " . "FROM #__thm_organizer_virtual_schedules_elements " . "WHERE vid = '" . $id . "' " . "AND sid = '" . $sid . "'";
 		$ret   = $this->JDA->query( $query );
 		return $ret;
 	}
@@ -97,15 +97,15 @@ class Ressource
 	private function getAllRes( $less, $classemesterid )
 	{
 		foreach ( $less as $lesson ) {
-			$query = "SELECT CONCAT(CONCAT(jos_giessen_scheduler_lessons.lid, ' '),jos_giessen_scheduler_lessonperiods.tpid) AS mykey, cid, rid, tid, ltype, jos_giessen_scheduler_timeperiods.day AS dow, period AS block, oname AS name, jos_giessen_scheduler_objects.oalias AS description, jos_giessen_scheduler_objects.oid AS id, (SELECT 'cyclic') AS type
-	          FROM jos_giessen_scheduler_lessons
-	          INNER JOIN jos_giessen_scheduler_lessonperiods
-	          ON jos_giessen_scheduler_lessons.lid = jos_giessen_scheduler_lessonperiods.lid
-	          INNER JOIN jos_giessen_scheduler_timeperiods
-	          ON jos_giessen_scheduler_lessonperiods.tpid = jos_giessen_scheduler_timeperiods.tpid
-	          INNER JOIN jos_giessen_scheduler_objects
-	          ON jos_giessen_scheduler_lessonperiods.lid = jos_giessen_scheduler_objects.oid
-	          WHERE otype = 'lesson' AND jos_giessen_scheduler_lessons.sid = '$classemesterid' AND jos_giessen_scheduler_lessons.lid IN ('" . $lesson[ "id" ] . "');";
+			$query = "SELECT CONCAT(CONCAT(#__thm_organizer_lessons.lid, ' '),#__thm_organizer_lessonperiods.tpid) AS mykey, cid, rid, tid, ltype, #__thm_organizer_timeperiods.day AS dow, period AS block, oname AS name, #__thm_organizer_objects.oalias AS description, #__thm_organizer_objects.oid AS id, (SELECT 'cyclic') AS type
+	          FROM #__thm_organizer_lessons
+	          INNER JOIN #__thm_organizer_lessonperiods
+	          ON #__thm_organizer_lessons.lid = #__thm_organizer_lessonperiods.lid
+	          INNER JOIN #__thm_organizer_timeperiods
+	          ON #__thm_organizer_lessonperiods.tpid = #__thm_organizer_timeperiods.tpid
+	          INNER JOIN #__thm_organizer_objects
+	          ON #__thm_organizer_lessonperiods.lid = #__thm_organizer_objects.oid
+	          WHERE otype = 'lesson' AND #__thm_organizer_lessons.sid = '$classemesterid' AND #__thm_organizer_lessons.lid IN ('" . $lesson[ "id" ] . "');";
 
 			$ret = $this->JDA->query( $query );
 
@@ -171,23 +171,23 @@ class Ressource
 		$query = "SELECT lp.lid, lp.tpid, lo.oid AS id, lo.oalias AS description, lo.oid AS subject, l.ltype AS category, lo.oname AS name, co.oid AS clas, tobj.oid AS doz, ro.oid AS room, day AS dow, period AS block, (SELECT 'cyclic') AS type, ";
 		if ($this->JDA->isComponentavailable("com_giessenlsf"))
 		{
-			$query .= " modultitel AS longname FROM jos_giessen_scheduler_objects AS lo LEFT JOIN #__giessen_lsf_modules AS mo ON lo.oalias = mo.modulnummer ";
+			$query .= " modultitel AS longname FROM #__thm_organizer_objects AS lo LEFT JOIN #__giessen_lsf_modules AS mo ON lo.oalias = mo.modulnummer ";
 		}
 		else
 		{
-			$query .= " '' AS longname FROM jos_giessen_scheduler_objects AS lo ";
+			$query .= " '' AS longname FROM #__thm_organizer_objects AS lo ";
 		}
-		$query .= " INNER JOIN jos_giessen_scheduler_lessons AS l
+		$query .= " INNER JOIN #__thm_organizer_lessons AS l
 	             ON lo.oid = l.lid
-	          INNER JOIN jos_giessen_scheduler_lessonperiods AS lp
+	          INNER JOIN #__thm_organizer_lessonperiods AS lp
 	             ON l.lid = lp.lid
-	          INNER JOIN jos_giessen_scheduler_objects as ro
+	          INNER JOIN #__thm_organizer_objects as ro
 	             ON lp.rid = ro.oid
-	          INNER JOIN jos_giessen_scheduler_objects as tobj
+	          INNER JOIN #__thm_organizer_objects as tobj
 	             ON lp.tid = tobj.oid
-	          INNER JOIN jos_giessen_scheduler_objects AS co
+	          INNER JOIN #__thm_organizer_objects AS co
 	             ON co.oid = l.cid
-	          INNER JOIN jos_giessen_scheduler_timeperiods AS tp
+	          INNER JOIN #__thm_organizer_timeperiods AS tp
 	             ON lp.tpid = tp.tpid
 	          WHERE lo.otype = 'lesson' AND lo.sid = '$fachsemester' AND l.sid = '$fachsemester' AND lp.sid = '$fachsemester' AND tp.sid = '$fachsemester'
 	             AND ( co.oid = '".$ressourcename."' OR tobj.oname = '".$ressourcename."' OR tobj.oid = '".$ressourcename."' OR ro.oid = '".$ressourcename."' )";

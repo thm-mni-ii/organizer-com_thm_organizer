@@ -10,7 +10,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
  
 jimport( 'joomla.application.component.model' );
-require_once(JPATH_SITE.DS.'components'.DS.'com_giessenscheduler'.DS.'assets'.DS.'ICalender'.DS.'ical.php');
+require_once(JPATH_SITE.DS.'components'.DS.'com_thm_organizer'.DS.'assets'.DS.'ICalender'.DS.'ical.php');
  
 /**
  * Room Model

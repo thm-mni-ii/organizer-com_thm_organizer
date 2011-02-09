@@ -25,7 +25,7 @@ class thm_organizersModelSemester_List extends JModel
 
     function getData()
     {
-        $query = "SELECT * FROM #__giessen_scheduler_semester";
+        $query = "SELECT * FROM #__thm_organizer_semester";
         $this->data->data = $this->_getList( $query );
         $this->getLinks();
     }

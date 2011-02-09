@@ -69,7 +69,7 @@ class DataAbstraction
 
     public function getSettings( )
     {
-        $settings = $this->query( "SELECT * FROM #__giessen_scheduler_settings WHERE id=1" );
+        $settings = $this->query( "SELECT * FROM #__thm_organizer_settings WHERE id=1" );
         if($settings)
         	$settings = $settings[ 0 ];
         else

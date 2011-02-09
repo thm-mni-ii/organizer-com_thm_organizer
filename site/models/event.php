@@ -48,7 +48,7 @@ class GiessenSchedulerModelEvent extends JModel
         $eventid = $data->eventid;
 
         $dbo = & JFactory::getDBO();
-        $query = "SELECT contentid FROM #__giessen_scheduler_events WHERE eid = '$eventid'";
+        $query = "SELECT contentid FROM #__thm_organizer_events WHERE eid = '$eventid'";
         $dbo->setQuery( $query );
         $savedcid = $dbo->loadResult();
 
@@ -68,11 +68,11 @@ class GiessenSchedulerModelEvent extends JModel
                              DATE(publish_up) AS publish_up, DATE(publish_down) AS publish_down,
                              sect.title AS sectname, sect.description AS secttext, cats.title AS ccatname,
                              ecname, ec.access, ec.ecdescription, u.name AS author, reservingp, globalp
-                     FROM #__giessen_scheduler_events AS gse
+                     FROM #__thm_organizer_events AS gse
                         INNER JOIN #__content AS c ON id = contentid
                         INNER JOIN #__sections AS sect ON sect.id = c.sectionid
                         INNER JOIN #__categories AS cats ON cats.id = c.catid
-                        INNER JOIN #__giessen_scheduler_categories AS ec ON ecatid = ecid
+                        INNER JOIN #__thm_organizer_categories AS ec ON ecatid = ecid
                         INNER JOIN #__users AS u ON gse.created_by = u.id
                      WHERE eid='$eventid'";
             $dbo->setQuery( $query );
@@ -84,8 +84,8 @@ class GiessenSchedulerModelEvent extends JModel
                         u.name AS author, ecname, startdate, enddate, SUBSTR(starttime, 1, 5) AS starttime,
                         SUBSTR(endtime, 1, 5) AS endtime,  ec.access, ec.ecdescription, reservingp, globalp,
                         recurrence_type AS rec_type
-                     FROM #__giessen_scheduler_events AS gse
-                     INNER JOIN #__giessen_scheduler_categories AS ec ON ecatid = ecid
+                     FROM #__thm_organizer_events AS gse
+                     INNER JOIN #__thm_organizer_categories AS ec ON ecatid = ecid
                      INNER JOIN #__users AS u ON gse.created_by = u.id
                      WHERE eid='$eventid'";
             $dbo->setQuery( $query );
@@ -118,29 +118,29 @@ class GiessenSchedulerModelEvent extends JModel
             $data->$k = $v;
         }
         $query = "SELECT oname
-                  FROM #__giessen_scheduler_objects
-                    INNER JOIN #__giessen_scheduler_eventobjects ON objectid = oid
+                  FROM #__thm_organizer_objects
+                    INNER JOIN #__thm_organizer_eventobjects ON objectid = oid
                   WHERE eventid = '$eventid'
                     AND otype = 'teacher'";
         $dbo->setQuery( $query );
         $data->teachers = $dbo->loadResultArray();
         $query = "SELECT oname
-                  FROM #__giessen_scheduler_objects
-                    INNER JOIN #__giessen_scheduler_eventobjects ON objectid = oid
+                  FROM #__thm_organizer_objects
+                    INNER JOIN #__thm_organizer_eventobjects ON objectid = oid
                   WHERE eventid = '$eventid'
                     AND otype = 'class'";
         $dbo->setQuery( $query );
         $data->classes = $dbo->loadResultArray();
         $query = "SELECT oname
-                  FROM #__giessen_scheduler_objects
-                    INNER JOIN #__giessen_scheduler_eventobjects ON objectid = oid
+                  FROM #__thm_organizer_objects
+                    INNER JOIN #__thm_organizer_eventobjects ON objectid = oid
                   WHERE eventid = '$eventid'
                     AND otype = 'room'";
         $dbo->setQuery( $query );
         $data->rooms = $dbo->loadResultArray();
         $query = "SELECT name AS oname
                   FROM #__giessen_staff_groups
-                  INNER JOIN #__giessen_scheduler_eventobjects ON objectid = id
+                  INNER JOIN #__thm_organizer_eventobjects ON objectid = id
                   WHERE eventid = '$eventid'";
         $dbo->setQuery( $query );
         $query2 = $query;

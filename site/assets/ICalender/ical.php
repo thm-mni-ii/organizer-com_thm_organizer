@@ -35,7 +35,7 @@ class icaltestlib
 			return array('error'=>'User nicht vorhanden');
 		}
 		$query = "SELECT ecid, ecname
-				  FROM #__giessen_scheduler_categories
+				  FROM #__thm_organizer_categories
 				  WHERE access <= '$gid'";
 		$dbo->setQuery($query);
 		return $dbo->loadAssocList();	
@@ -54,7 +54,7 @@ class icaltestlib
 			return array('error'=>'User nicht vorhanden');
 		}
 		$query = "SELECT ecid
-				  FROM #__giessen_scheduler_categories
+				  FROM #__thm_organizer_categories
 				  WHERE access <= '$gid'";
 		if($categoryid) $query .= " AND ecid = '$categoryid'";
 		$dbo->setQuery($query);
@@ -68,8 +68,8 @@ class icaltestlib
 					REPLACE( startdate, '-', '') AS sdate,
 					REPLACE( enddate, '-', '') AS edate,
 					starttime AS stime, endtime AS etime
-				  FROM #__giessen_scheduler_events
-				  	INNER JOIN #__giessen_scheduler_categories
+				  FROM #__thm_organizer_events
+				  	INNER JOIN #__thm_organizer_categories
 				  		ON ecatid = ecid
 				  WHERE ecid = '$cid'";
 		$wtf = $query;
@@ -79,8 +79,8 @@ class icaltestlib
 		foreach($events as $event)
 			$eventids[] = $event['lid'];
 		$query = "SELECT eventid AS lid, oname, otype
-				  FROM #__giessen_scheduler_eventobjects
-				  	INNER JOIN #__giessen_scheduler_objects
+				  FROM #__thm_organizer_eventobjects
+				  	INNER JOIN #__thm_organizer_objects
 				  		ON objectid = oid
 				  WHERE eventid IN ( '".implode("', '", $eventids)."' )";
 		$dbo->setQuery($query);
@@ -134,7 +134,7 @@ class icaltestlib
 	{
 		$dbo =& JFactory::getDBO();
 		$query = "SELECT sid, CONCAT(orgunit, '/', semester) AS fachsemester
-				  FROM #__giessen_scheduler_semesters";
+				  FROM #__thm_organizer_semesters";
 		$dbo->setQuery($query);
 		return $dbo->loadAssocList();
 	}
@@ -153,7 +153,7 @@ class icaltestlib
 			return array('error'=>'User nicht vorhanden');
 		}
 		$query = "SELECT otype
-				  FROM #__giessen_scheduler_objects 
+				  FROM #__thm_organizer_objects 
 				  WHERE oname LIKE '%$resourcename%'";
 		$dbo->setQuery($query);
 		$types = $dbo->loadAssocList();
@@ -169,18 +169,18 @@ class icaltestlib
 		$query = "SELECT lo.oid AS lid, lo.oname AS name, co.oname AS clas, 
 							(SELECT 'cyclic') AS type, (SELECT '') AS sdate, (SELECT '') AS edate,
 							tobj.oname AS doz, ro.oname AS room, day AS dow, starttime AS stime, endtime AS etime
-				  FROM #__giessen_scheduler_objects AS lo
-				  	INNER JOIN #__giessen_scheduler_lessons AS l
+				  FROM #__thm_organizer_objects AS lo
+				  	INNER JOIN #__thm_organizer_lessons AS l
 				  		ON lo.oid = l.lid
-				  	INNER JOIN #__giessen_scheduler_timeperiods AS tp
+				  	INNER JOIN #__thm_organizer_timeperiods AS tp
 				  		ON l.tpid = tp.tpid
-				  	INNER JOIN #__giessen_scheduler_objects as ro
+				  	INNER JOIN #__thm_organizer_objects as ro
 				  		ON l.rid = ro.oid
-				  	INNER JOIN #__giessen_scheduler_objects as tobj
+				  	INNER JOIN #__thm_organizer_objects as tobj
 				  		ON l.tid = tobj.oid
-				  	LEFT JOIN #__giessen_scheduler_moduleclasses AS mc
+				  	LEFT JOIN #__thm_organizer_moduleclasses AS mc
 				  		ON lo.oalias = mc.modid
-				  	LEFT JOIN #__giessen_scheduler_objects AS co
+				  	LEFT JOIN #__thm_organizer_objects AS co
 				  		ON mc.cid = co.oid
 				  WHERE lo.otype = 'lesson'
 				  	AND lo.sid = '$fachsemester'
@@ -225,12 +225,12 @@ class icaltestlib
 					REPLACE( startdate, '-', '') AS sdate,
 					REPLACE( enddate, '-', '') AS edate,
 					starttime AS stime, endtime AS etime
-				  FROM #__giessen_scheduler_events
-				  	INNER JOIN #__giessen_scheduler_eventobjects
+				  FROM #__thm_organizer_events
+				  	INNER JOIN #__thm_organizer_eventobjects
 				  		ON eid = eventid
-				  	INNER JOIN #__giessen_scheduler_objects
+				  	INNER JOIN #__thm_organizer_objects
 				  		ON objectid = oid
-				  	INNER JOIN #__giessen_scheduler_categories
+				  	INNER JOIN #__thm_organizer_categories
 				  		ON ecatid = ecid
 				  WHERE oname = '$resourcename'
 				  	AND access <= '$gid'";
@@ -241,8 +241,8 @@ class icaltestlib
 		foreach($events as $event)
 			$eventids[] = $event['lid'];
 		$query = "SELECT eventid AS lid, oname, otype
-				  FROM #__giessen_scheduler_eventobjects
-				  	INNER JOIN #__giessen_scheduler_objects
+				  FROM #__thm_organizer_eventobjects
+				  	INNER JOIN #__thm_organizer_objects
 				  		ON objectid = oid
 				  WHERE eventid IN ( '".implode("', '", $eventids)."' )";
 		$dbo->setQuery($query);
@@ -281,7 +281,7 @@ class icaltestlib
 	{
 		$dbo =& JFactory::getDBO();
 		$query = "SELECT *
-				  FROM #__giessen_scheduler_timeperiods
+				  FROM #__thm_organizer_timeperiods
 				  WHERE day = '$day'
 				  	AND sid = '$sid'";
 		$dbo->setQuery($query);

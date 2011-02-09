@@ -62,7 +62,7 @@ class GiessenSchedulersModelvirtualschedule_edit extends JModel
     $mainframe = JFactory::getApplication("administrator");
     $dbo = & JFactory::getDBO();
     $query = "SELECT cid as id, CONCAT(department, ' ', semester) as name
-          FROM #__giessen_scheduler_classes
+          FROM #__thm_organizer_classes
           ORDER BY name";
     $dbo->setQuery( $query );
     $classes = $dbo->loadObjectList();
@@ -74,8 +74,8 @@ class GiessenSchedulersModelvirtualschedule_edit extends JModel
     $mainframe = JFactory::getApplication("administrator");
     $dbo = & JFactory::getDBO();
     $query = "SELECT rid as id, oname as name
-          FROM #__giessen_scheduler_rooms
-          INNER JOIN #__giessen_scheduler_objects
+          FROM #__thm_organizer_rooms
+          INNER JOIN #__thm_organizer_objects
           ON rid = oid
           ORDER BY name";
     $dbo->setQuery( $query );
@@ -88,8 +88,8 @@ class GiessenSchedulersModelvirtualschedule_edit extends JModel
     $mainframe = JFactory::getApplication("administrator");
     $dbo = & JFactory::getDBO();
     $query = "SELECT tid as id, oname as name
-          FROM #__giessen_scheduler_teachers
-          INNER JOIN #__giessen_scheduler_objects
+          FROM #__thm_organizer_teachers
+          INNER JOIN #__thm_organizer_objects
           ON tid = oid
           ORDER BY name";
     $dbo->setQuery( $query );
@@ -102,7 +102,7 @@ class GiessenSchedulersModelvirtualschedule_edit extends JModel
     $mainframe = JFactory::getApplication("administrator");
     $dbo = & JFactory::getDBO();
     $query = "SELECT sid as id, Concat(orgunit, '-', semester, ' (', author, ')') as name
-          FROM #__giessen_scheduler_semester
+          FROM #__thm_organizer_semester
           ORDER BY name";
     $dbo->setQuery( $query );
     $semesters = $dbo->loadObjectList();
@@ -117,7 +117,7 @@ class GiessenSchedulersModelvirtualschedule_edit extends JModel
     $mainframe = JFactory::getApplication("administrator");
     $dbo = & JFactory::getDBO();
     $query = "SELECT DISTINCT CONCAT(department, '-', rtype) as id, CONCAT(department, '-', rtype) as name
-          FROM #__giessen_scheduler_rooms
+          FROM #__thm_organizer_rooms
           ORDER BY department";
     $dbo->setQuery( $query );
     $departments = $dbo->loadObjectList();
@@ -132,7 +132,7 @@ class GiessenSchedulersModelvirtualschedule_edit extends JModel
     $mainframe = JFactory::getApplication("administrator");
     $dbo = & JFactory::getDBO();
     $query = "SELECT DISTINCT department as id, department as name
-          FROM #__giessen_scheduler_".$type."
+          FROM #__thm_organizer_".$type."
           ORDER BY department";
     $dbo->setQuery( $query );
     $departments = $dbo->loadObjectList();
@@ -147,7 +147,7 @@ class GiessenSchedulersModelvirtualschedule_edit extends JModel
     $mainframe = JFactory::getApplication("administrator");
     $dbo = & JFactory::getDBO();
     $query = "SELECT DISTINCT rtype as id, rtype as name
-          FROM #__giessen_scheduler_rooms
+          FROM #__thm_organizer_rooms
           ORDER BY name";
     $dbo->setQuery( $query );
     $roomType = $dbo->loadObjectList();
@@ -162,7 +162,7 @@ class GiessenSchedulersModelvirtualschedule_edit extends JModel
     $mainframe = JFactory::getApplication("administrator");
     $dbo = & JFactory::getDBO();
     $query = "SELECT DISTINCT semester as id, semester as name
-          FROM #__giessen_scheduler_classes
+          FROM #__thm_organizer_classes
           ORDER BY name";
     $dbo->setQuery( $query );
     $classTypes = $dbo->loadObjectList();
@@ -174,7 +174,7 @@ class GiessenSchedulersModelvirtualschedule_edit extends JModel
     $mainframe = JFactory::getApplication("administrator");
     $dbo = & JFactory::getDBO();
     $query = "SELECT count(vid) as id_anz
-          FROM #__giessen_scheduler_virtual_schedules
+          FROM #__thm_organizer_virtual_schedules
           WHERE vid = '".$id."';";
     $dbo->setQuery( $query );
     $id_anz = $dbo->loadObjectList();
@@ -203,7 +203,7 @@ class GiessenSchedulersModelvirtualschedule_edit extends JModel
     $mainframe = JFactory::getApplication("administrator");
     $dbo = & JFactory::getDBO();
     $query = "";
-    $query = "INSERT INTO #__giessen_scheduler_virtual_schedules (vid, vname, vtype, vresponsible, department, sid)
+    $query = "INSERT INTO #__thm_organizer_virtual_schedules (vid, vname, vtype, vresponsible, department, sid)
           VALUES ( '".$vscheduler_id."', '".$vscheduler_name."', '".$vscheduler_types."', '".$vscheduler_resps."', '".$vscheduler_Departments."', '".$vscheduler_semid."' ); ";
     $dbo->setQuery( $query );
     $dbo->query();
@@ -216,7 +216,7 @@ class GiessenSchedulersModelvirtualschedule_edit extends JModel
       $query = "";
       foreach($vscheduler_elements as $v)
       {
-        $query = "INSERT INTO #__giessen_scheduler_virtual_schedules_elements (vid, eid, sid)
+        $query = "INSERT INTO #__thm_organizer_virtual_schedules_elements (vid, eid, sid)
             VALUES ( '".$vscheduler_id."', '".$v."', '".$vscheduler_semid."' ); ";
         $dbo->setQuery( $query );
         $dbo->query();
@@ -224,12 +224,12 @@ class GiessenSchedulersModelvirtualschedule_edit extends JModel
         {
           foreach($vscheduler_elements as $i)
           {
-            $query = "DELETE FROM #__giessen_scheduler_virtual_schedules_elements
+            $query = "DELETE FROM #__thm_organizer_virtual_schedules_elements
                WHERE vid = '".$vscheduler_id."'";
             $dbo->setQuery( $query );
             $dbo->query();
           }
-          $query = "DELETE FROM #__giessen_scheduler_virtual_schedules
+          $query = "DELETE FROM #__thm_organizer_virtual_schedules
                WHERE vid = '".$vscheduler_id."'; ";
           $dbo->setQuery( $query );
           $dbo->query();
@@ -245,7 +245,7 @@ class GiessenSchedulersModelvirtualschedule_edit extends JModel
     $mainframe = JFactory::getApplication("administrator");
     $dbo = & JFactory::getDBO();
 
-    $query = 'DELETE FROM #__giessen_scheduler_virtual_schedules'
+    $query = 'DELETE FROM #__thm_organizer_virtual_schedules'
              . ' WHERE vid IN ( "'. $id .'" );';
 
     $dbo->setQuery( $query );
@@ -257,7 +257,7 @@ class GiessenSchedulersModelvirtualschedule_edit extends JModel
     }
     else
     {
-      $query = 'DELETE FROM #__giessen_scheduler_virtual_schedules_elements'
+      $query = 'DELETE FROM #__thm_organizer_virtual_schedules_elements'
              . ' WHERE vid IN ( "'. $id .'" );';
 
       $dbo->setQuery( $query );
@@ -270,10 +270,10 @@ class GiessenSchedulersModelvirtualschedule_edit extends JModel
   {
     $mainframe = JFactory::getApplication("administrator");
     $dbo = & JFactory::getDBO();
-    $query='SELECT * FROM #__giessen_scheduler_virtual_schedules ' .
-        'INNER JOIN #__giessen_scheduler_virtual_schedules_elements ' .
-        'ON #__giessen_scheduler_virtual_schedules.vid = #__giessen_scheduler_virtual_schedules_elements.vid ' .
-        'WHERE #__giessen_scheduler_virtual_schedules.vid = "'.$id.'"';
+    $query='SELECT * FROM #__thm_organizer_virtual_schedules ' .
+        'INNER JOIN #__thm_organizer_virtual_schedules_elements ' .
+        'ON #__thm_organizer_virtual_schedules.vid = #__thm_organizer_virtual_schedules_elements.vid ' .
+        'WHERE #__thm_organizer_virtual_schedules.vid = "'.$id.'"';
     $dbo->setQuery( $query );
     $dbo->query();
     if ($dbo->getErrorNum())

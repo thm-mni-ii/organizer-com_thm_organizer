@@ -19,7 +19,7 @@ class GiessenSchedulersControllervirtualschedule extends JController
  	 * @return void
  	 */
 	function edit(){
-    	JRequest::setVar( 'view', 'virtualschedule_edit' );
+    	JRequest::setVar( 'view', 'virtual_schedule_edit' );
     	JRequest::setVar( 'hidemainmenu', 1);
     	parent::display();
 
@@ -35,7 +35,7 @@ class GiessenSchedulersControllervirtualschedule extends JController
 		$cids = str_replace(',', '","', $cids);
 		$cids = '"'.$cids.'"';
 
-		$query = 'DELETE FROM #__giessen_scheduler_virtual_schedules'
+		$query = 'DELETE FROM #__thm_organizer_virtual_schedules'
 		         . ' WHERE vid IN ( '. $cids .' );';
 
 		$dbo->setQuery( $query );
@@ -43,11 +43,11 @@ class GiessenSchedulersControllervirtualschedule extends JController
 
         if ($dbo->getErrorNum())
 		{
-			$msg =   JText::_( 'Fehler beim LÃ¶schen.' );
+			$msg =   JText::_( 'Fehler beim Löschen.' );
 		}
 		else
 		{
-			$query = 'DELETE FROM #__giessen_scheduler_virtual_schedules_elements'
+			$query = 'DELETE FROM #__thm_organizer_virtual_schedules_elements'
 		         . ' WHERE vid IN ( '. $cids .' );';
 
 			$dbo->setQuery( $query );
@@ -55,11 +55,11 @@ class GiessenSchedulersControllervirtualschedule extends JController
 		}
 
 		if(count($cid) > 1)
-       		$msg =   JText::_( 'Virtuelle StundenplÃ¤ne '.$cids_temp.' gelÃ¶scht.' );
+       		$msg =   JText::_( 'Virtuelle Stundenpläne '.$cids_temp.' gelöscht.' );
        	else
-        	$msg =   JText::_( 'Virtuellen Stundenplan '.$cids_temp.' gelÃ¶scht.' );
+        	$msg =   JText::_( 'Virtuellen Stundenplan '.$cids_temp.' gelöscht.' );
 
-        $this->setRedirect( 'index.php?option=com_giessenscheduler&view=virtualschedule',$msg );
+        $this->setRedirect( 'index.php?option=com_thm_organizer&view=virtual_schedule_manager',$msg );
 
 	}
 }

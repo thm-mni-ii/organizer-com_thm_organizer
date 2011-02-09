@@ -20,14 +20,14 @@ class GiessenSchedulerModelScheduleList extends JModel
 		$dbo = & JFactory::getDBO();
        	$user =& JFactory::getUser();
        	$username = $user->username;
-       	$query = "SELECT author FROM #__giessen_scheduler_semester
+       	$query = "SELECT author FROM #__thm_organizer_semester
    					WHERE author = '$username';";
    		$dbo->setQuery($query); 
    		$result = $dbo->query();
    		if(!empty($result))
    		{   		
 	   		$query = "SELECT id, includedate, filename, active, description, sid 
-	   					FROM #__giessen_scheduler_schedules
+	   					FROM #__thm_organizer_schedules
 	   					WHERE sid = '$sid';";
 	   		$dbo->setQuery($query); 
 	   		$schedules = $dbo->loadObjectList();
@@ -40,7 +40,7 @@ class GiessenSchedulerModelScheduleList extends JModel
    		else
    		{
 			$app =& JFactory::getApplication();
-			$app->redirect('index.php?option=com_giessenscheduler&view=semesterlist', JText::_('Zugriff Verweigert'));
+			$app->redirect('index.php?option=com_thm_organizer&view=semesterlist', JText::_('Zugriff Verweigert'));
    		}	
 	}
 }
