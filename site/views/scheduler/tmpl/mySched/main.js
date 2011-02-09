@@ -1622,17 +1622,20 @@ MySched.TreeManager = function () {
     {
     	var children = json["tree"];
     	var treeData = json["treeData"];
-		var ret = baseTree.root.appendChild(
-	        new Ext.tree.TreeNode({
-	          text: name,
-	          id: type,
-	          IconCls: type + '-root',
-	          expanded: false,
-	          draggable: false,
-	          singleClickExpand: true,
-	        }));
+    	if (accMode != 'none')
+    	{
+			var ret = baseTree.root.appendChild(
+		        new Ext.tree.TreeNode({
+		          text: name,
+		          id: type,
+		          IconCls: type + '-root',
+		          expanded: false,
+		          draggable: false,
+		          singleClickExpand: true,
+		        }));
 
-		ret.appendChild(children);
+			ret.appendChild(children);
+		}
 
 		for(var item in treeData)
 			if(Ext.isObject(treeData[item]))

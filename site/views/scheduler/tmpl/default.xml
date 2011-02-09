@@ -4,7 +4,7 @@
 		<message>Stundenplan</message>
 	</layout>
 	<fields name="request"
-			addfieldpath="/administrator/components/com_giessenscheduler/models/fields">
+			addfieldpath="/administrator/components/com_thm_organizer/models/fields">
 		<fieldset name="request">
 			<field name="id"
                    type="scheduler"

@@ -56,7 +56,6 @@ class GiessenSchedulerModelScheduler extends JModel
 	 */
 	public function getSemesterID()
 	{
-		var_dump($_REQUEST);
 		if (!isset($this->semesterID))
 		{
 			$id = JRequest::getInt('id');
