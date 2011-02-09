@@ -11,7 +11,7 @@
    * @package    Giessen Scheduler
    */
 
-  class GiessenSchedulerViewAjaxHandler extends JView
+  class thm_organizerViewAjaxHandler extends JView
   {
       function display($tpl = null)
       {

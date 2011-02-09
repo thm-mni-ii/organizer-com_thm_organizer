@@ -12,7 +12,7 @@ jimport( 'joomla.application.component.view');
  * @package    Giessen Scheduler
  */
 
-class GiessenSchedulerViewScheduler extends JView
+class thm_organizerViewScheduler extends JView
 {
     function display($tpl = null)
     {

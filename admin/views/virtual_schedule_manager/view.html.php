@@ -11,7 +11,7 @@ require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
  * @package Joomla
  * @subpackage  Giessen Scheduler
  */
-class  GiessenSchedulersViewvirtualschedule extends JView {
+class thm_organizersViewvirtualschedule extends JView {
 
 	function display($tpl = null)
 	{

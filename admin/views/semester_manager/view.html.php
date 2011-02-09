@@ -10,7 +10,7 @@ jimport( 'joomla.application.component.view');
  * @package Joomla
  * @subpackage Giessen Scheduler
  */
-class thm_organizersViewSemester_List extends JView {
+class thm_organizersViewSemester_Manager extends JView {
 
     function display($tpl = null)
     {
@@ -35,4 +35,3 @@ class thm_organizersViewSemester_List extends JView {
         parent::display($tpl);
     }
 }
-	

@@ -10,7 +10,7 @@ jimport( 'joomla.application.component.view');
  * @package Joomla
  * @subpackage  Giessen Scheduler
  */
-class  GiessenSchedulersViewvirtualschedule_edit extends JView {
+class thm_organizersViewvirtualschedule_edit extends JView {
 
 	function display($tpl = null)
 	{
