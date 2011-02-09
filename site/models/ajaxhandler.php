@@ -9,7 +9,7 @@ jimport( 'joomla.application.component.model' );
 include_once(JPATH_COMPONENT."/assets/classes/DataAbstraction.php");
 include_once(JPATH_COMPONENT."/assets/classes/config.php");
 
-class GiessenSchedulerModelAjaxhandler extends JModel
+class thm_organizerModelAjaxhandler extends JModel
 {
 	private $semID = null;
 	private $JDA = null;

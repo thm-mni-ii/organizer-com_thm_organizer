@@ -10,7 +10,7 @@ jimport( 'joomla.application.component.model' );
  * RoomList Model
  *
  */
-class GiessenSchedulerModelScheduler extends JModel
+class thm_organizerModelScheduler extends JModel
 {
 	public $semesterID = null;
 	 /**
