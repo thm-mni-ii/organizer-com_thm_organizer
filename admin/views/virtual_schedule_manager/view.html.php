@@ -22,7 +22,7 @@ class  thm_organizersViewvirtualschedule extends JView {
          * ToDo: Virtuelle Stundenpläne sollen kopiert werden können.
          */
         //JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', JText::_('Copy') );
-		JToolBarHelper::deleteListX();
+        JToolBarHelper::deleteListX('Really?');
         JToolBarHelper::back();
 
         //Create Submenu
