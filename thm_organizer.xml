@@ -27,6 +27,8 @@
             <folder>models</folder>
             <folder>controllers</folder>
             <folder>assets</folder>
+            <folder>classes</folder>
+            <folder>down</folder>
     </files>
     <administration>
         <menu img="../favicon.ico">THM - Organizer</menu>
