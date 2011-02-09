@@ -1,7 +1,7 @@
 <?php
 defined('_JEXEC') or die('Restriced Access');
 jimport('joomla.application.component.model');
-class thm_organizersModelvirtualschedule extends JModel
+class GiessenSchedulersModelvirtualschedule extends JModel
 {
 	 /* Items total
      * @var integer
@@ -17,7 +17,8 @@ class thm_organizersModelvirtualschedule extends JModel
 	function __construct(){
  		parent::__construct();
 
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication("administrator");
+		$option = $mainframe->scope;
 
 		// Get pagination request variables
 		$limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
@@ -32,10 +33,11 @@ class thm_organizersModelvirtualschedule extends JModel
 
 	function _buildQuery()
 	{
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication("administrator");
+		$option = $mainframe->scope;
 
-		$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order",		'filter_order',		"#__giessen_scheduler_virtual_schedules.sid", 'string' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	"#__giessen_scheduler_virtual_schedules.vid", 'string' );
+		$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order",		'filter_order',		"#__giessen_scheduler_virtual_schedules.sid, #__giessen_scheduler_virtual_schedules.vid", 'string' );
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	"", 'string' );
 		$filter_type		= $mainframe->getUserStateFromRequest( "$option.filter_type",		'filter_type', 		0,			'string' );
 		$filter_logged		= $mainframe->getUserStateFromRequest( "$option.filter_logged",		'filter_logged', 	0,			'int' );
 		$filter 			= $mainframe->getUserStateFromRequest( $option.'.filter', 'filter', '', 'int' );
@@ -44,16 +46,16 @@ class thm_organizersModelvirtualschedule extends JModel
 		$rolesFilter 		= $mainframe->getUserStateFromRequest( $option.'.rolesFilters', 'rolesFilters', '', 'int' );
 		$search 			= $this->_db->getEscaped( trim(JString::strtolower( $search ) ) );
 
-		if (!$filter_order) { $filter_order = '#__giessen_scheduler_virtual_schedules.sid'; }
-		if (!$filter_order_Dir) {$filter_order_Dir = '#__giessen_scheduler_virtual_schedules.vid'; }
+		if (!$filter_order) { $filter_order = '#__giessen_scheduler_virtual_schedules.sid, #__giessen_scheduler_virtual_schedules.vid'; }
+		if (!$filter_order_Dir) {$filter_order_Dir = ''; }
 
 		$orderby     = "\n ORDER BY $filter_order $filter_order_Dir";
 
-	      $query='SELECT ' .
+	      $query='SELECT DISTINCT ' .
 	      		'#__giessen_scheduler_virtual_schedules.vid as id, #__giessen_scheduler_virtual_schedules.vname as name,' .
 	      		'vtype as type, #__users.name as responsible,' .
 	      		' department as department,' .
-	      		'CONCAT(#__giessen_scheduler_semester.orgunit, "-",#__giessen_scheduler_semester.semester, " (", #__giessen_scheduler_semester.author, ")" ) as semesterid, #__giessen_scheduler_virtual_schedules_elements.eid as eid' .
+	      		'CONCAT(#__giessen_scheduler_semester.orgunit, "-",#__giessen_scheduler_semester.semester, " (", #__giessen_scheduler_semester.author, ")" ) as semesterid, #__giessen_scheduler_virtual_schedules.sid as sid' .
 	      		' FROM #__giessen_scheduler_virtual_schedules' .
 	      		' INNER JOIN #__giessen_scheduler_virtual_schedules_elements' .
 	      		' ON #__giessen_scheduler_virtual_schedules.vid = #__giessen_scheduler_virtual_schedules_elements.vid' .
@@ -141,6 +143,15 @@ class thm_organizersModelvirtualschedule extends JModel
  		    $this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
  		}
  		return $this->_pagination;
+  	}
+
+  	function getElements()
+  	{
+  		$query = 'SELECT * FROM #__giessen_scheduler_virtual_schedules_elements';
+	    $db =& JFactory::getDBO();
+		$db->setQuery($query);
+		$rows = $db->loadObjectList();
+ 		return $rows;
   	}
 }
 ?>

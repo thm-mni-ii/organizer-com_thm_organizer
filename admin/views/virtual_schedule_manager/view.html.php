@@ -10,7 +10,7 @@ jimport( 'joomla.application.component.view');
  * @package Joomla
  * @subpackage  Giessen Scheduler
  */
-class  thm_organizersViewvirtualschedule extends JView {
+class  GiessenSchedulersViewvirtualschedule extends JView {
 
 	function display($tpl = null)
 	{
@@ -22,21 +22,22 @@ class  thm_organizersViewvirtualschedule extends JView {
          * ToDo: Virtuelle Stundenpläne sollen kopiert werden können.
          */
         //JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', JText::_('Copy') );
-        JToolBarHelper::deleteListX('Really?');
+		JToolBarHelper::deleteListX('Really?');
         JToolBarHelper::back();
 
         //Create Submenu
-        JSubMenuHelper::addEntry( JText::_( 'Main Menu' ), 'index.php?option=com_thm_organizer&view=thm_organizers');
-        JSubMenuHelper::addEntry( JText::_( 'Category Manager' ), 'index.php?option=com_thm_organizer&view=category_list');
-        JSubMenuHelper::addEntry( JText::_( 'Monitor Manager' ), 'index.php?option=com_thm_organizer&view=monitor_list');
-        JSubMenuHelper::addEntry( JText::_( 'Semester Manager' ), 'index.php?option=com_thm_organizer&view=semester_list');
-        JSubMenuHelper::addEntry( JText::_( 'Scheduler Application Settings' ), 'index.php?option=com_thm_organizer&view=scheduler_application_settings');
+        JSubMenuHelper::addEntry( JText::_( 'Main Menu' ), 'index.php?option=com_giessenscheduler&view=giessenschedulers');
+        JSubMenuHelper::addEntry( JText::_( 'Category Manager' ), 'index.php?option=com_giessenscheduler&view=category_list');
+        JSubMenuHelper::addEntry( JText::_( 'Monitor Manager' ), 'index.php?option=com_giessenscheduler&view=monitor_list');
+        JSubMenuHelper::addEntry( JText::_( 'Semester Manager' ), 'index.php?option=com_giessenscheduler&view=semester_list');
+        JSubMenuHelper::addEntry( JText::_( 'Scheduler Application Settings' ), 'index.php?option=com_giessenscheduler&view=scheduler_application_settings');
 
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication("administrator");
+		$option = $mainframe->scope;
 		$db  		= & JFactory::getDBO();
 
-		$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order",		'filter_order',		'#__giessen_scheduler_virtual_schedules.sid', '' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'#__giessen_scheduler_virtual_schedules.vid', '' );
+		$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order",		'filter_order',		'#__giessen_scheduler_virtual_schedules.sid, #__giessen_scheduler_virtual_schedules.vid', '' );
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'', '' );
 		$filter_type		= $mainframe->getUserStateFromRequest( "$option.filter_type",		'filter_type', 		0,			'string' );
 		$filter_logged		= $mainframe->getUserStateFromRequest( "$option.filter_logged",		'filter_logged', 	0,			'int' );
 		$filter 			= $mainframe->getUserStateFromRequest( $option.'.filter', 'filter', '', 'int' );
@@ -53,24 +54,33 @@ class  thm_organizersViewvirtualschedule extends JView {
 		$items =& $this->get('Data');
 		$newitem = array();
 
-		foreach($items as $k=>$v)
+		$elements = $model->getElements();
+
+		foreach($elements as $k=>$v)
 		{
-			if(!isset($newitem[$v->id]))
+			if(!isset($newitem[$v->vid]))
 			{
-				$newitem[$v->id] = $v;
+				$newitem[$v->vid] = $v;
 			}
 			else
 			{
-				$newitem[$v->id]->eid = $newitem[$v->id]->eid.";".$v->eid;
+				$newitem[$v->vid]->eid = $newitem[$v->vid]->eid.";".$v->eid;
 			}
-			if($newitem[$v->id]->type == "CL")
-				$newitem[$v->id]->type = "class";
-			if($newitem[$v->id]->type == "TR")
-				$newitem[$v->id]->type = "teacher";
-			if($newitem[$v->id]->type == "RM")
-				$newitem[$v->id]->type = "room";
 		}
-		$items = array_values($newitem);
+		$elements = array_values($newitem);
+
+		foreach($items as $ik=>$iv)
+		{
+			foreach($elements as $ek=>$ev)
+			{
+				if($iv->id == $ev->vid && $iv->sid == $ev->sid)
+				{
+					if(isset($iv->eid))
+						$iv->eid = "";
+					$iv->eid = $ev->eid;
+				}
+			}
+		}
 
 		$pagination = & $this->get('Pagination');
 

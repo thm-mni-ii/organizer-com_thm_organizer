@@ -93,7 +93,7 @@ defined('_JEXEC') or die ('Restricted access');
 
 <div id="itemselector" class="demo-ct"></div>
 
-<input type="hidden" name="option" value="com_thm_organizer" />
+<input type="hidden" name="option" value="com_giessenscheduler" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="view" value="virtualschedule_edit" />
 <input type="hidden" name="controller" value="virtualschedule_edit" />
@@ -101,6 +101,6 @@ defined('_JEXEC') or die ('Restricted access');
 
 </form>
 
-<script type="text/javascript" src="../components/com_thm_organizer/views/scheduler/tmpl/ext/adapter/ext/ext-base.js"></script>
-<script type="text/javascript" src="../components/com_thm_organizer/views/scheduler/tmpl/ext/ext-all.js"></script>
-<script type="text/javascript" src="components/com_thm_organizer/views/virtualschedule_edit/tmpl/js/hideshowmultiselect.js"></script>
+<script type="text/javascript" src="../components/com_giessenscheduler/views/scheduler/tmpl/ext/adapter/ext/ext-base.js"></script>
+<script type="text/javascript" src="../components/com_giessenscheduler/views/scheduler/tmpl/ext/ext-all.js"></script>
+<script type="text/javascript" src="components/com_giessenscheduler/views/virtualschedule_edit/tmpl/js/hideshowmultiselect.js"></script>

@@ -2,7 +2,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport('joomla.application.component.controller');
 
-class thm_organizersControllervirtualschedule extends JController
+class GiessenSchedulersControllervirtualschedule extends JController
 {
 	/**
  	 * constructor (registers additional tasks to methods)
@@ -59,7 +59,7 @@ class thm_organizersControllervirtualschedule extends JController
        	else
         	$msg =   JText::_( 'Virtuellen Stundenplan '.$cids_temp.' gelöscht.' );
 
-        $this->setRedirect( 'index.php?option=com_thm_organizer&view=virtualschedule',$msg );
+        $this->setRedirect( 'index.php?option=com_giessenscheduler&view=virtualschedule',$msg );
 
 	}
 }

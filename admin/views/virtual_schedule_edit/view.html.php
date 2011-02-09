@@ -10,7 +10,7 @@ jimport( 'joomla.application.component.view');
  * @package Joomla
  * @subpackage  Giessen Scheduler
  */
-class  thm_organizersViewvirtualschedule_edit extends JView {
+class  GiessenSchedulersViewvirtualschedule_edit extends JView {
 
 	function display($tpl = null)
 	{
@@ -19,11 +19,24 @@ class  thm_organizersViewvirtualschedule_edit extends JView {
 
 		$model = $this->getModel();
 		$responsibles = $model->getResponsibles();
+
+		if(!is_array($responsibles))
+			$responsibles = array();
 		$types = $model->getTypes();
+		if(!is_array($types))
+			$types = array();
 		$classes = $model->getClasses();
+		if(!is_array($classes))
+			$classes = array();
 		$rooms = $model->getRooms();
+		if(!is_array($rooms))
+			$rooms = array();
 		$teachers = $model->getTeachers();
+		if(!is_array($teachers))
+			$teachers = array();
 		$semesters = $model->getSemesters();
+		if(!is_array($semesters))
+			$semesters = array();
 
 		$roomDepartments = $model->getRoomDepartments();
 		$teacherDepartments = $model->getDepartments("teachers");
@@ -32,7 +45,7 @@ class  thm_organizersViewvirtualschedule_edit extends JView {
 		$tempDepartments = null;
 		$tempDepartments[0]["id"] = "none";
 		$tempDepartments[0]["name"] = "keins";
-
+		if(is_array($roomDepartments))
 		foreach($roomDepartments as $v)
 			$tempDepartments[] = $v;
 
@@ -43,6 +56,7 @@ class  thm_organizersViewvirtualschedule_edit extends JView {
 		$tempDepartments[0]["id"] = "none";
 		$tempDepartments[0]["name"] = "keins";
 
+		if(is_array($teacherDepartments))
 		foreach($teacherDepartments as $v)
 			$tempDepartments[] = $v;
 
@@ -53,6 +67,7 @@ class  thm_organizersViewvirtualschedule_edit extends JView {
 		$tempDepartments[0]["id"] = "none";
 		$tempDepartments[0]["name"] = "keins";
 
+		if(is_array($classesDepartments))
 		foreach($classesDepartments as $v)
 			$tempDepartments[] = $v;
 
