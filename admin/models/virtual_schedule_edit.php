@@ -1,7 +1,7 @@
 <?php
 defined('_JEXEC') or die('Restriced Access');
 jimport('joomla.application.component.model');
-class GiessenSchedulersModelvirtualschedule_edit extends JModel
+class thm_organizersModelvirtual_schedule_edit extends JModel
 {
   function __construct(){
      parent::__construct();
@@ -140,7 +140,7 @@ class GiessenSchedulersModelvirtualschedule_edit extends JModel
   }
 
   /**
-   * Holt alle Typen von Räumen
+   * Holt alle Typen von RÃ¤umen
    */
     function getRoomTypes()
   {
@@ -286,5 +286,6 @@ class GiessenSchedulersModelvirtualschedule_edit extends JModel
     }
     return $data;
   }
+
 }
 ?>

@@ -1,7 +1,7 @@
 <?php
 defined('_JEXEC') or die('Restriced Access');
 jimport('joomla.application.component.model');
-class GiessenSchedulersModelvirtualschedule extends JModel
+class thm_organizersModelvirtual_schedule_manager extends JModel
 {
 	 /* Items total
      * @var integer
@@ -113,6 +113,8 @@ class GiessenSchedulersModelvirtualschedule extends JModel
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+		if(!is_array($this->_data))
+			$this->_data = array();
 		return $this->_data;
 	}
 
