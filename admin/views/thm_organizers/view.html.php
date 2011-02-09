@@ -22,6 +22,8 @@ class thm_organizersViewthm_organizers extends JView
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
         $pane = & JPane::getInstance('sliders');
         $user = & JFactory::getUser();
+        $mainframe = JFactory::getApplication("administrator");
+		$this->option = $mainframe->scope;
 
         //build toolbar
         JToolBarHelper::title( JText::_( 'THM - Organizer: Main Menu' ), 'home.png' );

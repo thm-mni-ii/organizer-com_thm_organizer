@@ -47,6 +47,8 @@
             <folder>views</folder>
             <folder>models</folder>
             <folder>controllers</folder>
+            <folder>assets</folder>
+            <folder>tables</folder>
         </files>
     </administration>
 </extension>
