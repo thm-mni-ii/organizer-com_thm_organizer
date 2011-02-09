@@ -11,7 +11,7 @@ require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
  * @package Joomla
  * @subpackage  Giessen Scheduler
  */
-class thm_organizersViewvirtualschedule extends JView {
+class  thm_organizersViewvirtual_schedule_manager extends JView {
 
 	function display($tpl = null)
 	{
@@ -20,7 +20,7 @@ class thm_organizersViewvirtualschedule extends JView {
 		JToolBarHelper::addNewX();
         JToolBarHelper::editListX();
         /**
-         * ToDo: Virtuelle Stundenpläne sollen kopiert werden können.
+         * ToDo: Virtuelle Stundenplï¿½ne sollen kopiert werden kï¿½nnen.
          */
         //JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', JText::_('Copy') );
 		JToolBarHelper::deleteListX('Really?');

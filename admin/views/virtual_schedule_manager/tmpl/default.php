@@ -61,7 +61,7 @@ defined('_JEXEC') or die ('Restricted access');
 	for ($i=0, $n=count($this->items); $i < $n; $i++){
 		$row = &$this->items[$i];
 		$checked  = JHTML::_('grid.id',   $i, $row->id );
-		$link = JRoute::_('index.php?option=com_thm_organizer&controller=virtualschedule&task=edit&cid[]='.$row->id);
+		$link = JRoute::_('index.php?option=com_thm_organizer&controller=virtual_schedule_manager&task=edit&cid[]='.$row->id);
 		?>
 	<tr class="<?php echo "row".$k; ?>">
 		<td><?php echo $row->id; ?></td>
@@ -91,7 +91,7 @@ defined('_JEXEC') or die ('Restricted access');
 <input type="hidden" name="grchecked" value="off" />
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="view" value="virtual_schedule_manager" />
-<input type="hidden" name="controller" value="virtualschedule" />
+<input type="hidden" name="controller" value="virtual_schedule_manager" />
 <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
 

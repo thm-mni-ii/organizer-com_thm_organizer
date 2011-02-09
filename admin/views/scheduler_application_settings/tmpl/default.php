@@ -10,7 +10,7 @@
 				</td>
 				<td>
 					<input class="text_area" type="text" name="scheduler_downFolder" id="scheduler_downFolder" size="100" maxlength="100"
-							value="<?php echo $this->settings[0]->downFolder; ?>" />
+							value="<?php if($this->settings != false) echo $this->settings[0]->downFolder; ?>" />
 				</td>
 			</tr>
 			<tr>
@@ -32,7 +32,7 @@
 				</td>
 				<td>
 					<input class="text_area" type="text" name="scheduler_eStudyPath" id="scheduler_eStudyPath" size="100" maxlength="100"
-							value="<?php echo $this->settings[0]->eStudyPath; ?>" />
+							value="<?php if($this->settings != false) echo $this->settings[0]->eStudyPath; ?>" />
 				</td>
 			</tr>
 			<tr>
@@ -41,7 +41,7 @@
 				</td>
 				<td>
 					<input class="text_area" type="text" name="scheduler_eStudywsapiPath" id="scheduler_eStudywsapiPath" size="100" maxlength="100"
-							value="<?php echo $this->settings[0]->eStudywsapiPath; ?>" />
+							value="<?php if($this->settings != false) echo $this->settings[0]->eStudywsapiPath; ?>" />
 				</td>
 			</tr>
 			<tr>
@@ -50,7 +50,7 @@
 				</td>
 				<td>
 					<input class="text_area" type="text" name="scheduler_eStudyCreateCoursePath" id="scheduler_eStudyCreateCoursePath" size="100" maxlength="100"
-							value="<?php echo $this->settings[0]->eStudyCreateCoursePath; ?>" />
+							value="<?php if($this->settings != false) echo $this->settings[0]->eStudyCreateCoursePath; ?>" />
 				</td>
 			</tr>
 			<tr>
@@ -59,7 +59,7 @@
 				</td>
 				<td>
 					<input class="text_area" type="text" name="scheduler_eStudySoapSchema" id="scheduler_eStudySoapSchema" size="100" maxlength="100"
-							value="<?php echo $this->settings[0]->eStudySoapSchema; ?>" />
+							value="<?php if($this->settings != false) echo $this->settings[0]->eStudySoapSchema; ?>" />
 				</td>
 			</tr>
 		</table>

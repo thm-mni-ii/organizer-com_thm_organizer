@@ -21,13 +21,19 @@ class  thm_organizersViewScheduler_Application_Settings extends JView {
 
 
             //Create Submenu
-           thm_organizerHelper::addSubmenu('scheduler_application_settings');
+           	thm_organizerHelper::addSubmenu('scheduler_application_settings');
 
 	 		$model = $this->getModel();
 	 		$settings = $model->getSettings();
 	 		$this->assignRef('settings', $settings);
             $categories = $model->getCategories();
-			$this->assignRef('categories', JHTML::_('select.genericlist', $categories, 'scheduler_vacationcat','size="1" class="inputbox"', 'id', 'name', $settings[0]->vacationcat));
+			if($categories === false)
+            	$this->assignRef('categories', JHTML::_('select.genericlist', array("no category found!"), 'scheduler_vacationcat','size="1" class="inputbox"', 'id', 'name'));
+            else
+            if($settings === false)
+				$this->assignRef('categories', JHTML::_('select.genericlist', $categories, 'scheduler_vacationcat','size="1" class="inputbox"', 'id', 'name'));
+			else
+				$this->assignRef('categories', JHTML::_('select.genericlist', $categories, 'scheduler_vacationcat','size="1" class="inputbox"', 'id', 'name', $settings[0]->vacationcat));
 
             parent::display($tpl);
 	}

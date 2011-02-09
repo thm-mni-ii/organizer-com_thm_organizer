@@ -96,7 +96,7 @@ defined('_JEXEC') or die ('Restricted access');
 <input type="hidden" name="option" value="com_thm_organizer" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="view" value="virtual_schedule_edit" />
-<input type="hidden" name="controller" value="virtualschedule_edit" />
+<input type="hidden" name="controller" value="virtual_schedule_edit" />
 <input type="hidden" name="cid" value="<?php if(isset($this->cid)) echo $this->cid ?>" />
 
 </form>
