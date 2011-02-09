@@ -6,8 +6,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.model' );
 
-include_once(JPATH_COMPONENT."/classes/DataAbstraction.php");
-include_once(JPATH_COMPONENT."/classes/config.php");
+include_once(JPATH_COMPONENT."/assets/classes/DataAbstraction.php");
+include_once(JPATH_COMPONENT."/assets/classes/config.php");
 
 class GiessenSchedulerModelAjaxhandler extends JModel
 {
@@ -41,7 +41,7 @@ class GiessenSchedulerModelAjaxhandler extends JModel
 		$taskarr = explode(".", $task);
 		try
 		{
-			require_once(JPATH_COMPONENT."/classes/".$taskarr[0].".php");
+			require_once(JPATH_COMPONENT."/assets/classes/".$taskarr[0].".php");
 			$classname = $taskarr[0];
 			if(count($options) == 0)
 				$class = new $classname($this->JDA, $this->CFG);
