@@ -20,11 +20,13 @@ class thm_organizersModelmonitor_edit extends JModel
     public $room;
     public $ip;
     public $semesters;
+    public $rooms;
 
     public function __construct()
     {
         parent::__construct();
         $this->getData();
+        $this->getRooms();
         $this->getSemesters();
     }
 
@@ -37,7 +39,7 @@ class thm_organizersModelmonitor_edit extends JModel
     {
         $monitorIDs = JRequest::getVar('cid',  null, '', 'array');
         if(!empty($monitorIDs)) $monitorID = $monitorIDs[0];
-        if(!isset($monitorID)) $monitorID = JRequest::getVar('monitor');
+        if(!isset($monitorID)) $monitorID = JRequest::getVar('monitorID');
         if(is_numeric($monitorID) and $monitorID != 0)
         {
             $dbo = JFactory::getDBO();
@@ -58,11 +60,10 @@ class thm_organizersModelmonitor_edit extends JModel
             $this->room = '';
             $this->ip = '';
         }
-
     }
 
     /**
-     * private function getSemesters
+     * private function getRooms
      *
      * gets the IDs and names of the available semesters
      */
@@ -73,7 +74,22 @@ class thm_organizersModelmonitor_edit extends JModel
         $query->select("sid, CONCAT(orgunit, '-', semester) AS name");
         $query->from("#__thm_organizer_semesters");
         $dbo->setQuery((string)$query );
-        $this->semesters = $dbo->loadObjectList();
+        $this->rooms = $dbo->loadObjectList();
+    }
+
+    /**
+     * private function getSemesters
+     *
+     * gets the IDs and names of the available semesters
+     */
+    private function getRooms()
+    {
+        $dbo = & JFactory::getDBO();
+        $query = $dbo->getQuery(true);
+        $query->select("id, name");
+        $query->from("#__thm_organizer_rooms");
+        $dbo->setQuery((string)$query );
+        $this->rooms = $dbo->loadObjectList();
     }
 
     public function store()

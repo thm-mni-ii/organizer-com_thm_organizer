@@ -32,8 +32,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_semesters` (
 `manager` int(11) NOT NULL,
 `organization` varchar(20) NOT NULL,
 `semesterDesc` varchar(20) NOT NULL,
-PRIMARY KEY  (`sid`),
-UNIQUE (`orgunit`, `semester`)
+PRIMARY KEY  (`id`),
+UNIQUE (`organization`, `semesterDesc`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_classes` (
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
 `image` varchar(100) NOT NULL default '',
 `manager` varchar(50) NOT NULL default '',
 PRIMARY KEY (`id`),
-UNIQUE (`gpuntisid`, `sid`),
+UNIQUE (`gpuntisid`, `sid`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons_times` (
@@ -113,8 +113,9 @@ INSERT IGNORE INTO `#__thm_organizer_monitors` (roomID, ip) VALUES
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_categories` (
 `id` int(11) unsigned NOT NULL auto_increment,
 `globaldisplay` boolean NOT NULL default false,
-`reservesobjects` boolean NOT NULL default false
-PRIMARY KEY (`id`)
+`reservesobjects` boolean NOT NULL default false,
+PRIMARY KEY (`id`),
+FOREIGN KEY (`id`) REFERENCES `#__categories` (`id`)
 ) TYPE=MyISAM;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_application_settings` (
@@ -129,17 +130,18 @@ UNIQUE KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
-  `id` int(11) NOT NULL auto_increment,
-  `filename` varchar(100) NOT NULL,
-  `file` mediumblob NOT NULL,
-  `includedate` date NOT NULL,
-  `description` text NOT NULL,
-  `active` date default NULL,
-  `creationdate` date default NULL,
-  `startdate` date default NULL,
-  `enddate` date default NULL,
-  `sid` int(11) unsigned NOT NULL,
-  PRIMARY KEY  (`id`,`sid`)
+`id` int(11) NOT NULL auto_increment,
+`filename` varchar(100) NOT NULL,
+`file` mediumblob NOT NULL,
+`includedate` date NOT NULL,
+`description` text NOT NULL,
+`active` date default NULL,
+`creationdate` date default NULL,
+`startdate` date default NULL,
+`enddate` date default NULL,
+`sid` int(11) unsigned NOT NULL,
+PRIMARY KEY  (`id`,`sid`),
+FOREIGN KEY (`sid`) REFERENCES `#__thm_organizer_semesters` (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_user_schedules`(
@@ -159,11 +161,14 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_virtual_schedules` (
 `unittype` varchar(50) NOT NULL,
 `department` varchar(50) NOT NULL default '',
 `sid` int(11) unsigned NOT NULL,
-UNIQUE KEY `vid` (`vid`)
+UNIQUE KEY `vid` (`vid`),
+FOREIGN KEY (`sid`) REFERENCES `#__thm_organizer_semesters` (`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_virtual_schedules_elements` (
 `vid` varchar(20) NOT NULL,
 `eid` varchar(20) NOT NULL,
-`sid` varchar (11) NOT NULL default ''
+`sid` varchar (11) NOT NULL default '',
+FOREIGN KEY (`vid`) REFERENCES `#__thm_organizer_virtual_schedules` (`vid`),
+FOREIGN KEY (`sid`) REFERENCES `#__thm_organizer_semesters` (`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';

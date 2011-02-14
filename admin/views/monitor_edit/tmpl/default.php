@@ -20,15 +20,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
             </colgroup>
             <tr>
                 <td class="thm_organizer_me_label_data" >
-                    <label for="room"><?php echo JText::_('Room:'); ?></label>
-                </td>
-                <td>
-                    <input class="text_area" type="text" name="room" id="room" size="6" maxlength="6"
-                                    value="<?php echo $this->room;?>" />
-                </td>
-            </tr>
-            <tr>
-                <td class="thm_organizer_me_label_data" >
                     <label for="ip"><?php echo JText::_('IP Address:'); ?></label>
                 </td>
                 <td>
@@ -36,12 +27,24 @@ defined('_JEXEC') or die('Restricted access'); ?>
                                     value="<?php echo $this->ip;?>" />
                 </td>
             </tr>
+<?php if(!empty($this->roombox)) : ?>
+            <tr>
+                <td class="thm_organizer_me_label_data" >
+                    <label for="room"><?php echo JText::_('Room:'); ?></label>
+                </td>
+                <td>
+                    <input class="text_area" type="text" name="room" id="room" size="6" maxlength="6"
+                                    value="<?php echo $this->room;?>" />
+                </td>
+            </tr>
+<?php endif; if(!empty($this->semesterbox)) : ?>
             <tr>
                 <td class="thm_organizer_me_label_data" >
                     <label for="semester">Semester</label>
                 </td>
                 <td><?php echo $this->semesterbox;?></td>
             </tr>
+<?php endif; ?>
         </table>
         <input type="hidden" name="monitorID" value="<?php echo $this->monitorID; ?>" />
         <input type="hidden" name="task" value="" />

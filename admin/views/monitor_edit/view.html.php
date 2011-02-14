@@ -29,14 +29,20 @@ class thm_organizersViewmonitor_edit extends JView
         $this->assignRef( 'ip', $ip );
 
         $room = $model->room;
-        $this->assignRef( 'room', $room );
+        $rooms = $model->rooms;
+        if(!empty($rooms))
+        {
+            $roombox = JHTML::_('select.genericlist', $rooms, 'room', 'id="thm_organizer_me_roombox" class="thm_organizer_me_rsemesterbox" size="1"', 'id', 'name', $room);
+            $this->assignRef('roombox', $roombox);
+        }
 
         $sid = $model->sid;
-        $this->assignRef( 'sid', $sid );
-
         $semesters = $model->semesters;
-        $semesterbox =  JHTML::_('select.genericlist', $semesters, 'semester', 'id="semester" class="inputbox" size="1"', 'sid', 'name', $sid);
-        $this->assignRef('semesterbox', $semesterbox);
+        if(!empty($semesters))
+        {
+            $semesterbox =  JHTML::_('select.genericlist', $semesters, 'semester', 'id="thm_organizer_me_rsemesterbox" class="thm_organizer_me_rsemesterbox" size="1"', 'sid', 'name', $sid);
+            $this->assignRef('semesterbox', $semesterbox);
+        }
 
         $isNew = ($monitorID == 0)? true : false;
         $allowedActions = thm_organizerHelper::getActions('monitor_edit');
