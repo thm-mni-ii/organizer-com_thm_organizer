@@ -29,7 +29,7 @@ FOREIGN KEY (`eventid`) REFERENCES `#__thm_organizer_events`(`id`)
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_departments` (
 `id` varchar(10) NOT NULL,
-`name` varchar(50) NOT NULL default ''
+`name` varchar(50) NOT NULL default '',
 PRIMARY KEY (`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
