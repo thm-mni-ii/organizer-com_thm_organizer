@@ -11,16 +11,9 @@
     <licence>GNU GPL v.2</licence>
     <version>0.0.1</version>
     <description></description>
-	<layout title="Layout: Scheduler">
-		<message>Stundenplan</message>
+	<layout title="Layout: semesterlist">
+		<message>
+			 <message>semesterlist</message>
+		</message>
 	</layout>
-	<fields name="request"
-			addfieldpath="/administrator/components/com_thm_organizer/models/fields">
-		<fieldset name="request">
-			<field name="id"
-                   type="scheduler"
-                   label="Semester Display"
-                   description="Tooltip ;)" />
-           </fieldset>
-	</fields>
 </metadata>
