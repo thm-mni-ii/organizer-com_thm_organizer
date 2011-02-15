@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_classes` (
 `semester` varchar(50) NOT NULL,
 `dptID` varchar(10) NOT NULL default '',
 PRIMARY KEY (`id`),
-FOREIGN KEY (`dptID`) REFERENCES `#__thm_organizer_depeartments`(`id`)
+FOREIGN KEY (`dptID`) REFERENCES `#__thm_organizer_departments`(`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_teachers` (
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_teachers` (
 `manager` varchar(50) NOT NULL default '',
 `dptID` varchar(10) NOT NULL default '',
 PRIMARY KEY (`id`),
-FOREIGN KEY (`dptID`) REFERENCES `#__thm_organizer_depeartments`(`id`)
+FOREIGN KEY (`dptID`) REFERENCES `#__thm_organizer_departments`(`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
 `type` varchar(20) NOT NULL default '',
 `dptID` varchar(10) NOT NULL default '',
 PRIMARY KEY (`id`),
-FOREIGN KEY (`dptID`) REFERENCES `#__thm_organizer_depeartments`(`id`)
+FOREIGN KEY (`dptID`) REFERENCES `#__thm_organizer_departments`(`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
