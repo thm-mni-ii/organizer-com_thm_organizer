@@ -26,7 +26,7 @@ FOREIGN KEY (`modified_by`) REFERENCES `#__users`(`id`)
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_resources` (
 `eventid` int(11) unsigned NOT NULL,
 `resourceid` int(11) NOT NULL,
-`resource_type` varchar(40) NOT NULL,
+`resource_table` varchar(40) NOT NULL,
 FOREIGN KEY (`eventid`) REFERENCES `#__thm_organizer_events`(`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
@@ -104,13 +104,26 @@ FOREIGN KEY (`semesterID`) REFERENCES `#__thm_organizer_semesters`(`id`),
 FOREIGN KEY (`manager`) REFERENCES `#__usergroups`(`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons_times` (
-`lessonID` int(11) NOT NULL,
-`roomID` varchar(10) NOT NULL,
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_periods` (
+`id` varchar(10) NOT NULL,
+`gpuntisID` varchar(10) NOT NULL,
+`semesterID` int(11) NOT NULL,
 `day` int(1) unsigned NOT NULL,
 `period` int(1) unsigned NOT NULL,
+`starttime` time NOT NULL,
+`endtime` time NOT NULL,
+PRIMARY KEY (`id`),
+FOREIGN KEY (`semesterID`) REFERENCES `#__thm_organizer_semesters`(`id`),
+UNIQUE (`gpuntisID`, `semesterID`)
+) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons_times` (
+`lessonID` int(11) NOT NULL,
+`roomID` int(11) NOT NULL,
+`periodID` int(11) NOT NULL,
 FOREIGN KEY (`lessonID`) REFERENCES `#__thm_organizer_lessons`(`id`),
-FOREIGN KEY (`roomID`) REFERENCES `#__thm_organizer_rooms`(`id`)
+FOREIGN KEY (`roomID`) REFERENCES `#__thm_organizer_rooms`(`id`),
+FOREIGN KEY (`periodID`) REFERENCES `#__thm_organizer_periods`(`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_teachers` (
@@ -118,6 +131,13 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_teachers` (
 `teacherID` varchar(10) NOT NULL,
 FOREIGN KEY (`lessonID`) REFERENCES `#__thm_organizer_lessons`(`id`),
 FOREIGN KEY (`teacherID`) REFERENCES `#__thm_organizer_teachers`(`id`)
+) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_classes` (
+`lessonID` varchar(10) NOT NULL,
+`classID` varchar(10) NOT NULL,
+FOREIGN KEY (`lessonID`) REFERENCES `#__thm_organizer_lessons`(`id`),
+FOREIGN KEY (`classID`) REFERENCES `#__thm_organizer_classes`(`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_monitors`(
