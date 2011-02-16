@@ -105,7 +105,7 @@ FOREIGN KEY (`manager`) REFERENCES `#__usergroups`(`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_periods` (
-`id` varchar(10) NOT NULL,
+`id` int(11) unsigned NOT NULL auto_increment,
 `gpuntisID` varchar(10) NOT NULL,
 `semesterID` int(11) NOT NULL,
 `day` int(1) unsigned NOT NULL,
