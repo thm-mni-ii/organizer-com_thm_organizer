@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
 `alias` varchar(50) NOT NULL default '',
 `manager` varchar(50) NOT NULL default '',
 PRIMARY KEY (`id`),
-UNIQUE (`gpuntisid`, `sid`),
+UNIQUE (`gp-untisID`, `semesterID`),
 FOREIGN KEY (`semesterID`) REFERENCES `#__thm_organizer_semesters`(`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
