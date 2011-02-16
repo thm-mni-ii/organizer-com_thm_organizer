@@ -123,17 +123,17 @@ FOREIGN KEY (`semesterID`) REFERENCES `#__thm_organizer_semesters`(`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
 INSERT IGNORE INTO `#__thm_organizer_monitors` (roomID, ip) VALUES
-('RM_I007', '10.48.0.87'),
-('RM_I008', '10.48.0.47'),
-('RM_I009', '10.48.0.48'),
-('RM_I107', '10.48.0.49'),
-('RM_I108', '10.48.0.50'),
-('RM_I109', '10.48.0.51'),
-('RM_I136', '10.48.0.86'),
-('RM_I207', '10.48.0.55'),
-('RM_I208', '10.48.0.53'),
-('RM_I209', '10.48.0.54'),
-('RM_I210', '10.48.0.88');
+('I007', '10.48.0.87'),
+('I008', '10.48.0.47'),
+('I009', '10.48.0.48'),
+('I107', '10.48.0.49'),
+('I108', '10.48.0.50'),
+('I109', '10.48.0.51'),
+('I136', '10.48.0.86'),
+('I207', '10.48.0.55'),
+('I208', '10.48.0.53'),
+('I209', '10.48.0.54'),
+('I210', '10.48.0.88');
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_categories` (
 `id` int(11) unsigned NOT NULL auto_increment,
