@@ -14,8 +14,8 @@ class thm_organizersViewvirtual_schedule_edit extends JView {
 
 	function display($tpl = null)
 	{
-		JToolBarHelper::save();
-		JToolBarHelper::cancel();
+		JToolBarHelper::save('virtual_schedule_edit.save');
+		JToolBarHelper::cancel('virtual_schedule_edit.cancel');
 
 		$model = $this->getModel();
 		$responsibles = $model->getResponsibles();

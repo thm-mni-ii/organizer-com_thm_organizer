@@ -18,7 +18,7 @@
 defined('_JEXEC') or die ('Restricted access');
 ?>
 
-<form action="index.php" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>" method="post" name="adminForm">
 <table class="adminform">
 	<tr>
 		<td>
@@ -86,12 +86,9 @@ defined('_JEXEC') or die ('Restricted access');
 </table>
 </div>
 
-<input type="hidden" name="option" value="com_thm_organizer" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="grchecked" value="off" />
 <input type="hidden" name="boxchecked" value="0" />
-<input type="hidden" name="view" value="virtual_schedule_manager" />
-<input type="hidden" name="controller" value="virtual_schedule_manager" />
 <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
 

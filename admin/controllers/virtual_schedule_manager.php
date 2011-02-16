@@ -20,9 +20,7 @@ class thm_organizersControllervirtual_schedule_manager extends JController
  	 */
 	function edit(){
     	JRequest::setVar( 'view', 'virtual_schedule_edit' );
-    	JRequest::setVar( 'hidemainmenu', 1);
     	parent::display();
-
 	}
 
 	function remove(){

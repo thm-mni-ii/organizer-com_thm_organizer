@@ -50,7 +50,7 @@ class thm_organizersControllervirtual_schedule_edit extends JController
 	       !isset($vscheduler_roomDepartments) ||
 	       (!isset($vscheduler_classes) && !isset($vscheduler_rooms) && !isset($vscheduler_teachers)))
 		{
-			$msg = "Folgende Felder haben ungÃ¼ltige Werte:<br/>";
+			$msg = "Folgende Felder haben ungültige Werte:<br/>";
 			if(!isset($vscheduler_name))
 				$msg .= "vscheduler_name<br/>";
 			if(!isset($vscheduler_types))

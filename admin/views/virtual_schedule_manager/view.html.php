@@ -17,14 +17,13 @@ class  thm_organizersViewvirtual_schedule_manager extends JView {
 	{
 		//Create Toolbar
         JToolBarHelper::title( JText::_( 'Giessen Scheduler - Virtual Schedule' ), 'generic.png' );
-		JToolBarHelper::addNewX();
-        JToolBarHelper::editListX();
+		JToolBarHelper::addNewX('virtual_schedule_manager.add');
+        JToolBarHelper::editListX('virtual_schedule_manager.edit');
         /**
          * ToDo: Virtuelle Stundenpl�ne sollen kopiert werden k�nnen.
          */
         //JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', JText::_('Copy') );
 		JToolBarHelper::deleteListX('Really?');
-        JToolBarHelper::back();
 
         thm_organizerHelper::addSubmenu('virtual_schedule_manager');
 
