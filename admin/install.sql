@@ -18,13 +18,15 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_events` (
 `recurrence_counter` date NOT NULL default '0000-00-00',
 `register` tinyint(1) NOT NULL default '0',
 `unregister` tinyint(1) NOT NULL default '0',
-PRIMARY KEY  (`id`)
+PRIMARY KEY  (`id`),
+FOREIGN KEY (`created_by`) REFERENCES `#__users`(`id`),
+FOREIGN KEY (`modified_by`) REFERENCES `#__users`(`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_resources` (
 `eventid` int(11) unsigned NOT NULL,
 `resourceid` int(11) NOT NULL,
-`resource_type` int(11) NOT NULL,
+`resource_type` varchar(40) NOT NULL,
 FOREIGN KEY (`eventid`) REFERENCES `#__thm_organizer_events`(`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
@@ -37,7 +39,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_departments` (
 `location` varchar(50) NOT NULL default '',
 `department` varchar(50) NOT NULL default '',
 `curriculum` varchar(50) NOT NULL default '',
-PRIMARY KEY (`id`)
+PRIMARY KEY (`id`),
+FOREIGN KEY (`manager`) REFERENCES `#__usergroups`(`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_semesters` (
@@ -47,7 +50,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_semesters` (
 `organization` varchar(50) NOT NULL default '',
 `semesterDesc` varchar(20) NOT NULL default '',
 PRIMARY KEY  (`id`),
-UNIQUE (`organization`, `semesterDesc`)
+UNIQUE (`organization`, `semesterDesc`),
+FOREIGN KEY (`manager`) REFERENCES `#__usergroups`(`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_classes` (
@@ -55,11 +59,12 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_classes` (
 `gp-untisID` varchar(10) NOT NULL,
 `name` varchar(50) NOT NULL default '',
 `image` varchar(100) NOT NULL default '',
-`manager` varchar(50) NOT NULL default '',
+`manager` int(11),
 `semester` varchar(50) NOT NULL,
 `dptID` varchar(10) NOT NULL default '',
 PRIMARY KEY (`id`),
-FOREIGN KEY (`dptID`) REFERENCES `#__thm_organizer_departments`(`id`)
+FOREIGN KEY (`dptID`) REFERENCES `#__thm_organizer_departments`(`id`),
+FOREIGN KEY (`manager`) REFERENCES `#__usergroups`(`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_teachers` (
@@ -69,19 +74,21 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_teachers` (
 `manager` varchar(50) NOT NULL default '',
 `dptID` varchar(10) NOT NULL default '',
 PRIMARY KEY (`id`),
-FOREIGN KEY (`dptID`) REFERENCES `#__thm_organizer_departments`(`id`)
+FOREIGN KEY (`dptID`) REFERENCES `#__thm_organizer_departments`(`id`),
+FOREIGN KEY (`manager`) REFERENCES `#__users`(`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
 `id` int(11) unsigned NOT NULL auto_increment,
 `gp-untisID` varchar(10) NOT NULL,
 `name` varchar(50) NOT NULL default '',
-`manager` varchar(50) NOT NULL default '',
+`manager` int(11),
 `capacity` int(4),
 `type` varchar(20) NOT NULL default '',
 `dptID` int(11) NOT NULL,
 PRIMARY KEY (`id`),
-FOREIGN KEY (`dptID`) REFERENCES `#__thm_organizer_departments`(`id`)
+FOREIGN KEY (`dptID`) REFERENCES `#__thm_organizer_departments`(`id`),
+FOREIGN KEY (`manager`) REFERENCES `#__usergroups`(`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
@@ -90,10 +97,11 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
 `semesterID` int(11) unsigned NOT NULL,
 `name` varchar(50) NOT NULL default '',
 `alias` varchar(50) NOT NULL default '',
-`manager` varchar(50) NOT NULL default '',
+`manager` int(11),
 PRIMARY KEY (`id`),
 UNIQUE (`gp-untisID`, `semesterID`),
-FOREIGN KEY (`semesterID`) REFERENCES `#__thm_organizer_semesters`(`id`)
+FOREIGN KEY (`semesterID`) REFERENCES `#__thm_organizer_semesters`(`id`),
+FOREIGN KEY (`manager`) REFERENCES `#__usergroups`(`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons_times` (
