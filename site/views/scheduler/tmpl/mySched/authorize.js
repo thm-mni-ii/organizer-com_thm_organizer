@@ -52,7 +52,8 @@ MySched.Authorize = function () {
 					scheduletask: "User.auth"
 				},
 				success: function (response, request) {
-					if (response.responseText !== "Permission Denied!") {
+					try
+					{
 						var json = Ext.decode(response.responseText);
 						if (json.success) {
 							this.authentificatedToken = t;
@@ -65,9 +66,11 @@ MySched.Authorize = function () {
 							}
 
 						}
-					} else {
-						Ext.Msg.alert('Authentifizierungsfehler', "Ihr Token wurde zur&uuml;ckgewisen.", this.showAuthForm(), this);
 					}
+			        catch(e)
+			        {
+						Ext.Msg.alert('Authentifizierungsfehler', "Ihr Token wurde zur&uuml;ckgewisen.", this.showAuthForm(), this);
+			        }
 				},
 				scope: scope || this
 			});

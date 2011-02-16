@@ -33,6 +33,7 @@ class Events
 
 			$arr = array( );
 
+			if(is_array( $res ))
 			for ( $i = 0; $i < count( $res ); $i++ ) {
 				$temp = $res[ $i ];
 				if ( !isset( $arr[ $temp->eid ] ) )

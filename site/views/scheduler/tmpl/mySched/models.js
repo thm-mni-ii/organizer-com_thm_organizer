@@ -723,7 +723,7 @@ Ext.extend(mSchedule, MySched.Model, {
 				params: defaultParams,
 				success: function (resp, ret) {
 					if (savewait != null) Ext.MessageBox.hide();
-					if (resp.responseText != "Permission Denied!") {
+					try {
 						var json = Ext.decode(resp.responseText);
 						if (json["code"]) {
 							if (json["code"] != 1) {
@@ -742,6 +742,8 @@ Ext.extend(mSchedule, MySched.Model, {
 							}
 						}
 					}
+					catch(e)
+					{}
 				}
 			});
 			this.fireEvent("save", this, url);
@@ -1472,7 +1474,7 @@ function getModuledesc(mninr) {
 		},
 		success: function (response, req) {
 			var responseData = new Array();
-			if (response.responseText != "Permission Denied!") {
+			try {
 				responseData = Ext.decode(response.responseText);
 				waitDesc.hide();
 				if (responseData.success == true) //Modulnummer wurde gefunden :)
@@ -1500,7 +1502,7 @@ function getModuledesc(mninr) {
 					});
 				}
 			}
-			else {
+			catch(e){
 				waitDesc.hide();
 				Ext.Msg.show({
 					minWidth: 250,

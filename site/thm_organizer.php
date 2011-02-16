@@ -15,11 +15,11 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport('joomla.application.component.controller');
 
 // Require the base controller
- 
+
 require_once( JPATH_COMPONENT.DS.'controller.php' );
- 
+
 // Require specific controller if requested
-$controllername = 'thm_organizerController';
+$controllerName = 'thm_organizer';
 $specificControllerName = JRequest::getVar('controller');
 if(isset($specificControllerName))
 {

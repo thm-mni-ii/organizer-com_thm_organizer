@@ -59,7 +59,8 @@ class thm_organizerModelScheduler extends JModel
 		if (!isset($this->semesterID))
 		{
 			$id = JRequest::getInt('id');
-
+			if($id === 0)
+				$id = null;
 			$this->semesterID = $id;
 		}
 		return $this->semesterID;

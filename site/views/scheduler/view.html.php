@@ -35,7 +35,7 @@ class thm_organizerViewScheduler extends JView
 
 		$schedulearr = array();
 
-		$model = JModel::getInstance('Ajaxhandler', 'GiessenSchedulerModel', array('ignore_request' => false));
+		$model = JModel::getInstance('Ajaxhandler', 'thm_organizerModel', array('ignore_request' => false));
 
 		$schedulearr["Grid.load"] = $model->executeTask("Grid.load");
 

@@ -105,7 +105,12 @@ MySched.Base = function () {
   return {
     init: function () {
       if(Ext.isString(MySched.startup) === true)
-        MySched.startup = Ext.decode(decodeURIComponent(MySched.startup));
+	      try
+	      {
+          	MySched.startup = Ext.decode(decodeURIComponent(MySched.startup));
+          }
+          catch(e)
+          {}
       if(checkStartup("Grid.load") === true)
       {
         MySched.Base.startMySched(MySched.startup["Grid.load"].data);
@@ -118,13 +123,19 @@ MySched.Base = function () {
           class_semester_id: MySched.class_semester_id,
           scheduletask: "Grid.load"
         },
-        failure: function (response) { },
+        failure: function (response) {
+			var bla = response;
+        },
         success: function (response) {
-
-          if (response.responseText != "Permission Denied!") {
-            var json = Ext.decode(response.responseText);
-            MySched.Base.startMySched(json);
-          }
+        	try
+        	{
+	            var json = Ext.decode(response.responseText);
+	            MySched.Base.startMySched(json);
+	        }
+	        catch(e)
+	        {
+	        	Ext.Msg.alert('Fehler beim Laden', response.responseText);
+	        }
         }
       });
     },
@@ -259,7 +270,7 @@ MySched.Base = function () {
           MySched.Base.myschedInit(ret);
         },
         success: function (response, request) {
-          if (response.responseText != "Permission Denied!") {
+          try {
             var jsonData = new Array();
 
             if (response.responseText.length > 0) {
@@ -270,6 +281,8 @@ MySched.Base = function () {
 
             MySched.Base.myschedInit(ret);
           }
+          catch(e)
+          {}
         }
       });
     },
@@ -327,8 +340,12 @@ MySched.Base = function () {
            }*/
           var jsonData = new Array();
           if (resp.responseText.length > 0) {
-            jsonData = Ext.decode(resp.responseText);
-            MySched.Base.setScheduleDescription(jsonData);
+          	try {
+	            jsonData = Ext.decode(resp.responseText);
+	            MySched.Base.setScheduleDescription(jsonData);
+	        }
+	        catch(e)
+	        {}
           }
         }
       });
@@ -484,7 +501,7 @@ MySched.Base = function () {
                 },
                 failure: function (response) {},
                 success: function (response) {
-                  if (response.responseText != "Permission Denied!") {
+                  try {
                     var json = Ext.decode(response.responseText);
                     for (var item in json) {
                       if (Ext.isObject(json[item])) {
@@ -507,6 +524,8 @@ MySched.Base = function () {
                     MySched.selectedSchedule.eventsloaded = null;
                     MySched.Schedule.refreshView();
                   }
+                  catch(e)
+                  {}
                 }
               });
             }
@@ -630,14 +649,18 @@ MySched.InfoPanel = function () {
         },
         scope: this,
         success: function (resp) {
-          var json = Ext.decode(resp.responseText);
-          if (!json.success) {
-            if (!json.error) json.error = 'Unbekannter Fehler!';
-            this.showDetailInfo(json.error, 'Fehler');
-            return;
-          }
-          // Zeigt ermittelte Info an
-          this.showDetailInfo(new Ext.Template(json.template).apply(json.data), 'Information');
+	        try {
+	          var json = Ext.decode(resp.responseText);
+	          if (!json.success) {
+	            if (!json.error) json.error = 'Unbekannter Fehler!';
+	            this.showDetailInfo(json.error, 'Fehler');
+	            return;
+	          }
+	          // Zeigt ermittelte Info an
+	          this.showDetailInfo(new Ext.Template(json.template).apply(json.data), 'Information');
+	        }
+	        catch(e)
+	        {}
         }
       });
     },
@@ -944,7 +967,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
         },
         failure: function (response) {},
         success: function (response) {
-          if (response.responseText != "Permission Denied!") {
+          try {
             var json = Ext.decode(response.responseText);
             for (var item in json) {
               if (Ext.isObject(json[item])) {
@@ -956,6 +979,8 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
             new mSchedule(id, title).init(type, id).show();
             MySched.loadedLessons[id] = true;
           }
+          catch(e)
+          {}
         }
       });
     }
@@ -1673,10 +1698,12 @@ MySched.TreeManager = function () {
             var bla = response;
           },
           success: function (response) {
-            if (response.responseText != "Permission Denied!") {
+            try {
               var json = Ext.decode(response.responseText);
               MySched.TreeManager.processTreeData(json, type, accMode, name, baseTree);
             }
+            catch(e)
+            {}
           }
         });
       }
@@ -2267,7 +2294,7 @@ MySched.layout = function () {
             },
             success: function (response, ret) {
               Ext.MessageBox.hide();
-              if (response.responseText != "Permission Denied!") {
+              try {
                 var responseData = new Array();
                 responseData = Ext.decode(response.responseText);
                 if (responseData['url'] != "false") {
@@ -2323,7 +2350,7 @@ MySched.layout = function () {
                   func.defer(2000);
                 }
               }
-              else {
+              catch(e) {
                 Ext.Msg.alert('Es ist ein Fehler beim Erstellen des ICal aufgetreten.');
               }
             }
@@ -3298,7 +3325,7 @@ MySched.Tree = function () {
                 },
                 failure: function (response) {},
                 success: function (response) {
-                  if (response.responseText != "Permission Denied!") {
+                  try {
                     var json = Ext.decode(response.responseText);
                     for (var item in json) {
                       if (Ext.isObject(json[item])) {
@@ -3314,6 +3341,8 @@ MySched.Tree = function () {
                     else new mSchedule(n.id, title).init(path[2], n.id).show();
                     MySched.loadedLessons[n.id] = true;
                   }
+                  catch(e)
+                  {}
                 }
               });
             }

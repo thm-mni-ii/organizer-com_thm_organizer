@@ -3,7 +3,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JPATH_COMPONENT."/classes/TreeNode.php");
+require_once(JPATH_COMPONENT."/assets/classes/TreeNode.php");
 
 class TreeView
 {
@@ -69,7 +69,6 @@ class TreeView
 		}
 	}
 
-
 	private function getClasses()
 	{
 		$classesquery = "SELECT DISTINCT classes.cid, semester, department, oname, otype, manager, count(lessons.cid) as lessonamount
@@ -80,6 +79,7 @@ class TreeView
 
 		$classesarray = array( );
 		$res          = $this->JDA->query( $classesquery );
+		if(is_array( $res ) === true)
 		if ( count( $res ) != 0 ) {
 			for ( $i = 0; $i < count( $res ); $i++ ) {
 				$data = $res[ $i ];
@@ -135,6 +135,7 @@ class TreeView
 
 		$roomarray = array( );
 		$res       = $this->JDA->query( $roomquery );
+		if(is_array( $res ) === true)
 		if ( count( $res ) != 0 ) {
 			for ( $i = 0; $i < count( $res ); $i++ ) {
 				$data = $res[ $i ];
@@ -194,6 +195,8 @@ class TreeView
 
 		$teacherarray = array( );
 		$res          = $this->JDA->query( $teacherquery );
+
+		if(is_array( $res ) === true)
 		if ( count( $res ) != 0 ) {
 			for ( $i = 0; $i < count( $res ); $i++ ) {
 				$data = $res[ $i ];

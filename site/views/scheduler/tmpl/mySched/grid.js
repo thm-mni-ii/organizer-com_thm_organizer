@@ -242,7 +242,7 @@ function addNewEvent(eventid, sdate, stime, etime) {
 				scheduletask: "Events.load"
 			},
 			success: function (response, request) {
-				if (response.responseText != "Permission Denied!") {
+				try {
 					var jsonData = new Array();
 
 					if (response.responseText.length > 0) {
@@ -251,6 +251,9 @@ function addNewEvent(eventid, sdate, stime, etime) {
 					MySched.selectedSchedule.eventsloaded = null;
 					MySched.TreeManager.afterloadEvents(jsonData);
 					MySched.selectedSchedule.refreshView();
+				}
+				catch(e)
+				{
 				}
 				win.close();
 			}
