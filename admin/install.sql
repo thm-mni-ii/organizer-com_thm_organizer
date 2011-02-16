@@ -32,7 +32,7 @@ FOREIGN KEY (`eventid`) REFERENCES `#__thm_organizer_events`(`id`)
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_departments` (
 `id` int(11) unsigned NOT NULL auto_increment,
-`gp-untisID` varchar(10) NOT NULL default '',
+`gpuntisID` varchar(10) NOT NULL default '',
 `manager` int(11),
 `name` varchar(50) NOT NULL default '',
 `parent_organization` varchar(50) NOT NULL default '',
@@ -45,7 +45,7 @@ FOREIGN KEY (`manager`) REFERENCES `#__usergroups`(`id`)
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_semesters` (
 `id` int(11) unsigned NOT NULL auto_increment,
-`gp-untisID` varchar(10) NOT NULL default '',
+`gpuntisID` varchar(10) NOT NULL default '',
 `manager` int(11),
 `organization` varchar(50) NOT NULL default '',
 `semesterDesc` varchar(20) NOT NULL default '',
@@ -56,7 +56,7 @@ FOREIGN KEY (`manager`) REFERENCES `#__usergroups`(`id`)
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_classes` (
 `id` int(11) unsigned NOT NULL auto_increment,
-`gp-untisID` varchar(10) NOT NULL,
+`gpuntisID` varchar(10) NOT NULL,
 `name` varchar(50) NOT NULL default '',
 `image` varchar(100) NOT NULL default '',
 `manager` int(11),
@@ -69,7 +69,7 @@ FOREIGN KEY (`manager`) REFERENCES `#__usergroups`(`id`)
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_teachers` (
 `id` int(11) unsigned NOT NULL auto_increment,
-`gp-untisID` varchar(10) NOT NULL,
+`gpuntisID` varchar(10) NOT NULL,
 `name` varchar(50) NOT NULL default '',
 `manager` varchar(50) NOT NULL default '',
 `dptID` varchar(10) NOT NULL default '',
@@ -80,7 +80,7 @@ FOREIGN KEY (`manager`) REFERENCES `#__users`(`id`)
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
 `id` int(11) unsigned NOT NULL auto_increment,
-`gp-untisID` varchar(10) NOT NULL,
+`gpuntisID` varchar(10) NOT NULL,
 `name` varchar(50) NOT NULL default '',
 `manager` int(11),
 `capacity` int(4),
@@ -93,13 +93,13 @@ FOREIGN KEY (`manager`) REFERENCES `#__usergroups`(`id`)
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
 `id` int(11) NOT NULL,
-`gp-untisID` varchar(10) NOT NULL default '',
+`gpuntisID` varchar(10) NOT NULL default '',
 `semesterID` int(11) unsigned NOT NULL,
 `name` varchar(50) NOT NULL default '',
 `alias` varchar(50) NOT NULL default '',
 `manager` int(11),
 PRIMARY KEY (`id`),
-UNIQUE (`gp-untisID`, `semesterID`),
+UNIQUE (`gpuntisID`, `semesterID`),
 FOREIGN KEY (`semesterID`) REFERENCES `#__thm_organizer_semesters`(`id`),
 FOREIGN KEY (`manager`) REFERENCES `#__usergroups`(`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
