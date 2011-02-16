@@ -23,29 +23,37 @@ PRIMARY KEY  (`id`)
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_resources` (
 `eventid` int(11) unsigned NOT NULL,
-`resourceid` varchar(10) NOT NULL,
+`resourceid` int(11) NOT NULL,
+`resource_type` int(11) NOT NULL,
 FOREIGN KEY (`eventid`) REFERENCES `#__thm_organizer_events`(`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_departments` (
-`id` varchar(10) NOT NULL,
+`id` int(11) unsigned NOT NULL auto_increment,
+`gp-untisID` varchar(10) NOT NULL default '',
+`manager` int(11),
 `name` varchar(50) NOT NULL default '',
+`parent_organization` varchar(50) NOT NULL default '',
+`location` varchar(50) NOT NULL default '',
+`department` varchar(50) NOT NULL default '',
+`curriculum` varchar(50) NOT NULL default '',
 PRIMARY KEY (`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_semesters` (
 `id` int(11) unsigned NOT NULL auto_increment,
-`manager` int(11) NOT NULL,
-`organization` varchar(20) NOT NULL,
-`semesterDesc` varchar(20) NOT NULL,
+`gp-untisID` varchar(10) NOT NULL default '',
+`manager` int(11),
+`organization` varchar(50) NOT NULL default '',
+`semesterDesc` varchar(20) NOT NULL default '',
 PRIMARY KEY  (`id`),
 UNIQUE (`organization`, `semesterDesc`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_classes` (
-`id` varchar(10) NOT NULL,
+`id` int(11) unsigned NOT NULL auto_increment,
+`gp-untisID` varchar(10) NOT NULL,
 `name` varchar(50) NOT NULL default '',
-`alias` varchar(50) NOT NULL default '',
 `image` varchar(100) NOT NULL default '',
 `manager` varchar(50) NOT NULL default '',
 `semester` varchar(50) NOT NULL,
@@ -55,9 +63,9 @@ FOREIGN KEY (`dptID`) REFERENCES `#__thm_organizer_departments`(`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_teachers` (
-`id` varchar(10) NOT NULL,
+`id` int(11) unsigned NOT NULL auto_increment,
+`gp-untisID` varchar(10) NOT NULL,
 `name` varchar(50) NOT NULL default '',
-`alias` varchar(50) NOT NULL default '',
 `manager` varchar(50) NOT NULL default '',
 `dptID` varchar(10) NOT NULL default '',
 PRIMARY KEY (`id`),
@@ -65,27 +73,27 @@ FOREIGN KEY (`dptID`) REFERENCES `#__thm_organizer_departments`(`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
-`id` varchar(10) NOT NULL,
+`id` int(11) unsigned NOT NULL auto_increment,
+`gp-untisID` varchar(10) NOT NULL,
 `name` varchar(50) NOT NULL default '',
-`alias` varchar(50) NOT NULL default '',
-`image` varchar(100) NOT NULL default '',
 `manager` varchar(50) NOT NULL default '',
-`capacity` int(4) NOT NULL default '0',
+`capacity` int(4),
 `type` varchar(20) NOT NULL default '',
-`dptID` varchar(10) NOT NULL default '',
+`dptID` int(11) NOT NULL,
 PRIMARY KEY (`id`),
 FOREIGN KEY (`dptID`) REFERENCES `#__thm_organizer_departments`(`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
 `id` int(11) NOT NULL,
-`gpuntisid` varchar(10) NOT NULL,
-`sid` int(11) unsigned NOT NULL,
+`gp-untisID` varchar(10) NOT NULL default '',
+`semesterID` int(11) unsigned NOT NULL,
 `name` varchar(50) NOT NULL default '',
 `alias` varchar(50) NOT NULL default '',
 `manager` varchar(50) NOT NULL default '',
 PRIMARY KEY (`id`),
-UNIQUE (`gpuntisid`, `sid`)
+UNIQUE (`gpuntisid`, `sid`),
+FOREIGN KEY (`semesterID`) REFERENCES `#__thm_organizer_semesters`(`id`)
 ) TYPE=MyISAM DEFAULT CHARACTER SET 'utf8';
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons_times` (
