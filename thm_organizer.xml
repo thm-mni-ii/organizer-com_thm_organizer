@@ -27,15 +27,16 @@
             <folder>models</folder>
             <folder>controllers</folder>
             <folder>assets</folder>
+            <folder>language</folder>
     </files>
     <administration>
-        <menu img="../favicon.ico">THM - Organizer</menu>
+        <menu img="../favicon.ico">COM_THM_ORGANIZER_MAIN_NAME</menu>
         <submenu>
-            <menu img="../favicon.ico" view="category_manager">Category_Manager</menu>
-            <menu img="../favicon.ico" view="monitor_manager">Monitor_Manager</menu>
-            <menu img="../favicon.ico" view="semester_manager">Semester_Manager</menu>
-            <menu img="../favicon.ico" view="scheduler_application_settings">Scheduler_Application_Settings</menu>
-            <menu img="../favicon.ico" view="virtual_schedule_manager">Virtual_Schedules</menu>
+            <menu img="../favicon.ico" view="category_manager">COM_THM_ORGANIZER_CM_NAME</menu>
+            <menu img="../favicon.ico" view="monitor_manager">COM_THM_ORGANIZER_MM_NAME</menu>
+            <menu img="../favicon.ico" view="semester_manager">COM_THM_ORGANIZER_SM_NAME</menu>
+            <menu img="../favicon.ico" view="scheduler_application_settings">COM_THM_ORGANIZER_SAS_NAME</menu>
+            <menu img="../favicon.ico" view="virtual_schedule_manager">COM_THM_ORGANIZER_VSM_NAME</menu>
         </submenu>
         <files folder="admin">
             <filename>index.html</filename>
@@ -48,6 +49,7 @@
             <folder>controllers</folder>
             <folder>assets</folder>
             <folder>tables</folder>
+            <folder>language</folder>
         </files>
     </administration>
 </extension>
