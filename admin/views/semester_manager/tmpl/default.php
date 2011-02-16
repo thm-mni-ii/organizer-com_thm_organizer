@@ -17,15 +17,17 @@ defined('_JEXEC') or die('Restricted access');?>
             <colgroup>
                 <col id="thm_organizer_sm_checkbox_column" />
                 <col id="thm_organizer_sm_org_column" />
-                <col id="thm_organizer_sm_semester_column" />
+                <col id="thm_organizer_sm_pp_column" />
                 <col id="thm_organizer_sm_mng_column" />
+                <col id="thm_organizer_sm_content_column" />
             </colgroup>
             <thead>
                 <tr>
                     <th />
                     <th><?php echo JText::_('Organization'); ?></th>
-                    <th><?php echo JText::_('Semester'); ?></th>
+                    <th><?php echo JText::_('Planning Period'); ?></th>
                     <th><?php echo JText::_('Management (Group)'); ?></th>
+                    <th><?php echo JText::_('Actual Content'); ?></th>
                 </tr>
             </thead>
 <?php
@@ -33,19 +35,22 @@ if(!empty($this->semesters)){
     $k = 0;
     foreach($this->semesters as $semester){
         $k % 2 == 0? $class = "row0" : $class = "row1"; $k++;
-        $checked = JHTML::_( 'grid.id', $semester->sid, $semester->sid ); ?>
+        $checked = JHTML::_( 'grid.id', $semester["id"], $semester["id"] ); ?>
             <tr class="<?php echo "row$k"; ?>">
-                <td align="center">
+                <td class="thm_organizer_sm_checkbox">
                     <?php echo $checked; ?>
                 </td>
-                <td align="center">
-                    <a href='<?php echo $semester->link; ?>'><?php echo $row->orgunit; ?></a>
+                <td class="thm_organizer_sm_orgdata">
+                    <a href='<?php echo $semester["link"]; ?>'><?php echo $semester["organization"]; ?></a>
                 </td>
-                <td align="center">
-                    <a href='<?php echo $semester->link; ?>'><?php echo $row->semester; ?></a>
+                <td class="thm_organizer_sm_semesterdata">
+                    <a href='<?php echo $semester["link"]; ?>'><?php echo $semester["semesterDesc"]; ?></a>
                 </td>
-                <td align="center">
-                    <a href='<?php echo $semester->link; ?>'><?php echo $row->author; ?></a>
+                <td class="thm_organizer_sm_managerdata">
+                    <a href='<?php echo $semester["link"]; ?>'><?php echo $semester["title"]; ?></a>
+                </td>
+                <td class="thm_organizer_sm_displaydata">
+                    <a href='<?php echo $semester["link"]; ?>'><?php echo $semester["display"]; ?></a>
                 </td>
             </tr>
 <?php } } ?>

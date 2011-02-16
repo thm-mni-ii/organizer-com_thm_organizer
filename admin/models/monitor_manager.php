@@ -29,10 +29,12 @@ class thm_organizersModelmonitor_manager extends JModel
         $query = $dbo->getQuery(true);
         $query->select('*');
         $query->from('#__thm_organizer_monitors AS m');
-        $query->leftJoin('#__thm_organizer_semesters AS s ON m.sid = s.sid');
+        $query->leftJoin('#__thm_organizer_semesters AS s ON m.semesterID = s.id');
+        $query->leftJoin('#__thm_organizer_rooms AS r ON r.id = m.roomID');
         $dbo->setQuery((string)$query);
-
         $monitors = $dbo->loadAssocList();
+        foreach($monitors as $k => $v)
+            if(empty($v['name']))$monitors[$k]['name'] = $monitors[$k]['roomID'];
         $this->monitors = $monitors;
     }
 

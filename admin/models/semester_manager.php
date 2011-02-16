@@ -23,16 +23,16 @@ class thm_organizersModelsemester_manager extends JModel
         parent::__construct();
         $this->loadSemesters();
         if(!empty($this->semesters))
-            $this->setSemesterEditLinks();
+            $this->addLinks();
     }
 
     private function loadSemesters()
     {
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);
-        $query->select('*');
+        $query->select("s.id as id, semesterDesc, organization, title, '' AS display");
         $query->from('#__thm_organizer_semesters AS s');
-        $query->leftJoin('#__thm_organizer_usergroups AS ug ON s.author = ug.id');
+        $query->leftJoin('#__usergroups AS ug ON s.manager = ug.id');
         $dbo->setQuery((string)$query);
         $semesters = $dbo->loadAssocList();
         $this->semesters = $semesters;
@@ -42,7 +42,7 @@ class thm_organizersModelsemester_manager extends JModel
     {
         foreach($this->semesters as $sKey => $sValue)
         {
-            $this->semesters[$sKey]['link'] = 'index.php?option=com_thm_organizer&view=semester_edit&semester='.$sValue['sid'];
+            $this->semesters[$sKey]['link'] = 'index.php?option=com_thm_organizer&view=semester_edit&semesterID='.$sValue['id'];
         }
     }
 }

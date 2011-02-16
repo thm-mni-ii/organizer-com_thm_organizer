@@ -36,11 +36,15 @@ class thm_organizersViewsemester_manager extends JView {
         if($allowedActions->get("core.admin") or $allowedActions->get("core.manage"))
         {
             if($allowedActions->get("core.admin") or $allowedActions->get("core.create"))
-                    JToolBarHelper::addNew( 'semester.new' );
+                JToolBarHelper::addNew( 'semester.new' );
             if($allowedActions->get("core.admin") or $allowedActions->get("core.edit"))
-                    JToolBarHelper::editList('semester.edit');
+                JToolBarHelper::editList('semester.edit');
             if($allowedActions->get("core.admin") or $allowedActions->get("core.delete"))
-                    JToolBarHelper::deleteList( JText::_('Are you sure you wish to delete the marked entries?'), 'semester.delete');
+                    JToolBarHelper::deleteList
+                    (
+                        JText::_( 'The deletetion of a semester effects multiple resources such as schedules and monitors.  Are you sure you wish to delete the selected semesters?'),
+                        'semester.delete'
+                    );
         }
     }
 }
