@@ -98,6 +98,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
 `name` varchar(50) NOT NULL default '',
 `alias` varchar(50) NOT NULL default '',
 `manager` int(11),
+'type' varchar(1) NOT NULL default 'V',
 PRIMARY KEY (`id`),
 UNIQUE (`gpuntisID`, `semesterID`),
 FOREIGN KEY (`semesterID`) REFERENCES `#__thm_organizer_semesters`(`id`),
