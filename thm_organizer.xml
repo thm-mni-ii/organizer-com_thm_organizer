@@ -35,7 +35,7 @@
             <menu img="../favicon.ico" view="monitor_manager">Monitor_Manager</menu>
             <menu img="../favicon.ico" view="semester_manager">Semester_Manager</menu>
             <menu img="../favicon.ico" view="scheduler_application_settings">Scheduler_Application_Settings</menu>
-            <menu img="../favicon.ico" view="virtual_schedules">Virtual_Schedules</menu>
+            <menu img="../favicon.ico" view="virtual_schedule_manager">Virtual_Schedules</menu>
         </submenu>
         <files folder="admin">
             <filename>index.html</filename>
