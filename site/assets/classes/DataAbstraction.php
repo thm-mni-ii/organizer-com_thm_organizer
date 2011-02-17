@@ -79,7 +79,10 @@ class DataAbstraction
 
     public function isComponentavailable( $com )
     {
-    	return JComponentHelper::getComponent($com , true)->enabled;
+    	$com = JComponentHelper::getComponent($com , true);
+    	if(is_object( $com ))
+    		return JComponentHelper::getComponent($com , true)->enabled;
+    	return false;
     }
 
     public function getSemID()
