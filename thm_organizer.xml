@@ -41,7 +41,6 @@
             <filename>index.html</filename>
             <filename>thm_organizer.php</filename>
             <filename>controller.php</filename>
-            <filename>install.sql</filename>
             <filename>LICENSE.php</filename>
             <folder>views</folder>
             <folder>models</folder>
