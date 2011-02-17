@@ -210,7 +210,7 @@ class thm_organizersModelsemester_edit extends JModel
         $file = simplexml_load_file($tmpName);
         $creationdate = (string)$file[0]['date'];
         $startdate = (string)$file->general->schoolyearbegindate;
-        $startdate = (string)$file->general->schoolyearenddate;
+        $enddate = (string)$file->general->schoolyearenddate;
         $this->validate(&$file, &$errors);
         unset($file);
 
@@ -250,140 +250,116 @@ class thm_organizersModelsemester_edit extends JModel
         $subjectobjects = array();
         $teachers = array();
 
-        $creationdate = $document->getAttribute("date");
-        if(!$creationdate)
-        {
-                $error = "Fehlende Erzeugungsdatum des Dokuments.";
-        if(!in_array($error,$erray))$erray[] = $error;
-        }
 
-        $begindatenodes = $document->getElementsByTagName("schoolyearbegindate");
-        if($begindatenodes)
-            foreach($begindatenodes as $bdn)
-            {
-                    $startdate = trim($bdn->textContent);
-                if(!$startdate)
-                {
-                    $error = "Fehlende Beginndatum.";
-                    if(!in_array($error,$erray))$erray[] = $error;
-                }
-            }
+        $creationdate = (string)$file[0]['date'];
+        if(empty($creationdate))
+        {
+            $error = JText::_("Document creation date missing.");
+            if(!in_array($errors['dataerrors'],$error))$errors['dataerrors'][] = $error;
+        }
+        $startdate = (string)$file->general->schoolyearbegindate;
+        if(empty($startdate)) $errors['dataerrors'][] = JText::_("Schedule startdate is missing.");
+        $enddate = (string)$file->general->schoolyearenddate;
+        if(empty($enddate)) $errors['dataerrors'][] = JText::_("Schedule enddate is missing.");
+        $header1 = (string)$file->general->header1;
+        if(empty($header1))
+            $errors['dataerrors'][] = JText::_("Creating department information is missing.");
         else
         {
-                $error = "Fehlende Beginndatum.";
-        if(!in_array($error,$erray))$erray[] = $error;
+            list($parentOrg, $location, $department) = explode(",", $header1);
+            if(empty($parentOrg))
+                $errors['dataerrors'][] = JText::_("Parent organization information is missing in header 1.");
+            if(empty($location))
+                $errors['dataerrors'][] = JText::_("Location information is missing in header 1.");
+            if(empty($department))
+                $errors['dataerrors'][] = JText::_("Department information is missing in header 1.");
         }
-        unset($begindatenodes, $bdn);
 
-        $enddatenodes = $document->getElementsByTagName("schoolyearenddate");
-        if($enddatenodes)
-            foreach($enddatenodes as $edn)
-            {
-                    $enddate = trim($edn->textContent);
-                if(!$enddate)
-                {
-                    $error = "Fehlende Enddatum.";
-                    if(!in_array($error,$erray))$erray[] = $error;
-                }
-            }
+        $descriptions = $file->descriptions;
+        if(empty($descriptions))
+            $errors['dataerrors'][] = JText::_("Room description information is completely missing.");
         else
         {
-                $error = "Fehlende Enddatum.";
-        if(!in_array($error,$erray))$erray[] = $error;
-        }
-        unset($enddatenodes, $edn);
-
-        $header1nodes = $document->getElementsByTagName("header1");
-        if($header1nodes)
-            foreach($header1nodes as $h1n)
+            foreach($descriptions->children() as $description)
             {
-                $details = explode(',', $h1n->textContent);
-                if(!count($details) > 3)
+                $id = (string)$description[0]['id'];
+                $name = (string)$description->longname;
+                if(empty($name))
                 {
-                    $error = "Fehlende Angaben zum Document Department.";
-                    if(!in_array($error,$erray))$erray[] = $error;
+                    $error = JText::_("Missing text for description")." $id.";
+                    if(!in_array($error, $errors['dataerrors']))
+                        $errors['dataerrors'][] = $error;
                 }
+                else
+                    $descriptions[$id] = $name;
             }
+        }
+
+        $departmentsnode = $file->departments;
+        if(empty($departmentsnode))
+            $errors['dataerrors'][] = JText::_("Department information is completely missing.");
         else
         {
-                $error = "Fehlende Angabe zum Document Department.";
-        if(!in_array($error,$erray))$erray[] = $error;
-        }
-        unset($header1nodes, $h1n);
-
-        //descriptions are used to "type" a room
-        $descriptionnodes = $document->getElementsByTagName( "description" );
-        if($descriptionnodes)
-            foreach( $descriptionnodes as $description )
+            foreach($departmentsnode->children() as $dptnode)
             {
-                $descid = "";
-                $descid = trim($description->getAttribute("id"));
-                foreach($description->getElementsByTagName("longname") as $longname)
+                $id = (string)$dptnode[0]['id'];
+                $departments[$id] = array();
+                $details = explode(",",(string)$dptnode->longname);
+                if(count($details) == 1)
                 {
-                    $desc = trim($longname->textContent);
-                }
-                if(!$desc)
-                {
-                    $error = "Fehlende Longname in Descriptions $descid.";
-                    if(!in_array($error,$erray))$erray[] = $error;
+                    $errors['dataerrors'][] = JText::_("Missing information in department")." $id.";
                     continue;
                 }
-                $descriptions[$descid] = $desc;
-                unset( $longname);
-            }
-        else
-        {
-                $error = "S&auml;mtliche Descriptionangaben fehlen.";
-        if(!in_array($error,$erray))$erray[] = $error;
-        }
-        unset($description, $descriptionnodes);
-
-        //collects data specific to departments
-        //departments are used to assign an org. unit to installations
-        //or dept(curricula) to teachers
-        $departmentnodes = $document->getElementsByTagName( "department" );
-        if(count($departmentnodes) > 0)
-            foreach( $departmentnodes as $department )
-            {
-                $deptid = "";
-                $deptid = trim($department->getAttribute("id"));
-                foreach($department->getElementsByTagName("longname") as $longname)
+                $departments[$id]['school'] = trim($details [0]);
+                if(empty($departments[$deptid]['school']))
                 {
-                    $details = explode(',', $longname->textContent);
-                    if(!count($details) > 0)
-                    {
-                        $error = "Fehlende Angaben in Department $deptid.";
-                        if(!in_array($error,$erray))$erray[] = $error;
-                        continue;
-                    }
-                    $departments[$deptid]['school'] = trim($details [0]);
-                    if(!isset($departments[$deptid]['school']))
-                    {
-                        $error = "Fehlende Hochschuleangabe in Department $deptid.";
-                        if(!in_array($error,$erray))$erray[] = $error;
-                    }
-                    $departments[$deptid]['campus'] = trim($details [1]);
-                    if(!isset($departments[$deptid]['campus']))
-                    {
-                        $error = "Fehlende Campusangabe in Department $deptid.";
-                        if(!in_array($error,$erray))$erray[] = $error;
-                    }
-                    $departments[$deptid]['department'] = trim($details [2]);
-                    if(!isset($departments[$deptid]['department']))
-                    {
-                        $error = "Fehlende Departmentangabe in Department $deptid.";
-                        if(!in_array($error,$erray))$erray[] = $error;
-                    }
-                    $departments[$deptid]['curriculum'] = trim($details [3]);
+                    $error = "Fehlende Hochschuleangabe in Department $deptid.";
+                    if(!in_array($error,$erray))$erray[] = $error;
                 }
-                unset($longname);
+                $departments[$id]['campus'] = trim($details [1]);
+                if(empty($departments[$deptid]['campus']))
+                {
+                    $error = "Fehlende Campusangabe in Department $deptid.";
+                    if(!in_array($error,$erray))$erray[] = $error;
+                }
+                $departments[$id]['department'] = trim($details [2]);
+                if(!isset($departments[$deptid]['department']))
+                {
+                    $error = "Fehlende Departmentangabe in Department $deptid.";
+                    if(!in_array($error,$erray))$erray[] = $error;
+                }
+                $departments[$id]['curriculum'] = trim($details [3]);
+
+
+                if(empty($parentOrg))
+                    $errors['dataerrors'][] = JText::_("Parent organization information is missing in header 1.");
+                if(empty($location))
+                    $errors['dataerrors'][] = JText::_("Location information is missing in header 1.");
+                if(empty($department))
+                    $errors['dataerrors'][] = JText::_("Department information is missing in header 1.");
+                unset($parentOrg, $location, $department);
+                if(empty($name))
+                {
+                    $error = JText::_("Missing text for description")." $id.";
+                    if(!in_array($error, $errors['dataerrors']))
+                        $errors['dataerrors'][] = $error;
+                }
+                else
+                    $descriptions[$id] = $name;
             }
-        else
-        {
-            $error = "S&auml;mtliche Departmentangaben fehlen.";
-            if(!in_array($error,$erray))$erray[] = $error;
         }
-        unset($department, $departmentnodes);
+
+
+
+
+
+
+
+
+
+
+
+
 
         //collects data specific to time periods
         $timeperiodnodes = $document->getElementsByTagName( "timeperiod" );
@@ -700,7 +676,7 @@ class thm_organizersModelsemester_edit extends JModel
             unset($time);
         }
         unset($lesson, $lessonnodes, $dDoc);
-    }*/
+    }
 
     /**
      * public funtion activate
