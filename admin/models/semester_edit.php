@@ -266,16 +266,36 @@ class thm_organizersModelsemester_edit extends JModel
             $errors['dataerrors'][] = JText::_("Creating department information is missing.");
         else
         {
-            list($parentOrg, $location, $department) = explode(",", $header1);
-            if(empty($parentOrg))
-                $errors['dataerrors'][] = JText::_("Parent organization information is missing in header 1.");
-            if(empty($location))
-                $errors['dataerrors'][] = JText::_("Location information is missing in header 1.");
+            list($institution, $location, $department) = explode(",", $header1);
+            if(empty($institution))
+                $errors['dataerrors'][] = JText::_("Institution information is missing in header 1.");
+            if(empty($campus))
+                $errors['dataerrors'][] = JText::_("Campus information is missing in header 1.");
             if(empty($department))
                 $errors['dataerrors'][] = JText::_("Department information is missing in header 1.");
         }
 
-        $descriptions = $file->descriptions;
+        $timeperiodsnode = $file->timeperiods;
+        if(empty($timeperiodsnode))
+            $errors['dataerrors'][] = JText::_("Time period information is completely missing.");
+        foreach( $timeperiodsnode->children() as $timeperiod )
+        {
+            $tpid = "";
+            $tpid = trim($timeperiod->getAttribute("id"));
+            foreach($timeperiod->getElementsByTagName("day") as $eday)
+            {
+                $day = trim($eday->textContent);
+            }
+            foreach($timeperiod->getElementsByTagName("period") as $eperiod)
+            {
+                $period = trim($eperiod->textContent);
+            }
+            unset($eday, $eperiod);
+            $timeperiods[$day][$period] = $tpid;
+        }
+        unset($tpid, $timeperiod, $timeperiodnodes);
+
+        $descriptionsnode = $file->descriptions;
         if(empty($descriptions))
             $errors['dataerrors'][] = JText::_("Room description information is completely missing.");
         else
@@ -303,82 +323,24 @@ class thm_organizersModelsemester_edit extends JModel
             foreach($departmentsnode->children() as $dptnode)
             {
                 $id = (string)$dptnode[0]['id'];
+                if(empty($id))
+                {
+                    $errors['dataerrors'][] = JText::_("A department is missing an id.");
+                    continue;
+                }
                 $departments[$id] = array();
                 $details = explode(",",(string)$dptnode->longname);
-                if(count($details) == 1)
+                if(count($details) < 3)
                 {
                     $errors['dataerrors'][] = JText::_("Missing information in department")." $id.";
                     continue;
                 }
-                $departments[$id]['school'] = trim($details [0]);
-                if(empty($departments[$deptid]['school']))
-                {
-                    $error = "Fehlende Hochschuleangabe in Department $deptid.";
-                    if(!in_array($error,$erray))$erray[] = $error;
-                }
+                $departments[$id]['institution'] = trim($details [0]);
                 $departments[$id]['campus'] = trim($details [1]);
-                if(empty($departments[$deptid]['campus']))
-                {
-                    $error = "Fehlende Campusangabe in Department $deptid.";
-                    if(!in_array($error,$erray))$erray[] = $error;
-                }
                 $departments[$id]['department'] = trim($details [2]);
-                if(!isset($departments[$deptid]['department']))
-                {
-                    $error = "Fehlende Departmentangabe in Department $deptid.";
-                    if(!in_array($error,$erray))$erray[] = $error;
-                }
                 $departments[$id]['curriculum'] = trim($details [3]);
-
-
-                if(empty($parentOrg))
-                    $errors['dataerrors'][] = JText::_("Parent organization information is missing in header 1.");
-                if(empty($location))
-                    $errors['dataerrors'][] = JText::_("Location information is missing in header 1.");
-                if(empty($department))
-                    $errors['dataerrors'][] = JText::_("Department information is missing in header 1.");
-                unset($parentOrg, $location, $department);
-                if(empty($name))
-                {
-                    $error = JText::_("Missing text for description")." $id.";
-                    if(!in_array($error, $errors['dataerrors']))
-                        $errors['dataerrors'][] = $error;
-                }
-                else
-                    $descriptions[$id] = $name;
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //collects data specific to time periods
-        $timeperiodnodes = $document->getElementsByTagName( "timeperiod" );
-        foreach( $timeperiodnodes as $timeperiod )
-        {
-            $tpid = "";
-            $tpid = trim($timeperiod->getAttribute("id"));
-            foreach($timeperiod->getElementsByTagName("day") as $eday)
-            {
-                $day = trim($eday->textContent);
-            }
-            foreach($timeperiod->getElementsByTagName("period") as $eperiod)
-            {
-                $period = trim($eperiod->textContent);
-            }
-            unset($eday, $eperiod);
-            $timeperiods[$day][$period] = $tpid;
-        }
-        unset($tpid, $timeperiod, $timeperiodnodes);
 
         //subjects are abstract guidelines for lessons
         //lessons implement subjects and carry their names
