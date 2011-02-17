@@ -225,7 +225,7 @@ class Ressource
 	    	$query .= "( #__thm_organizer_classes.gpuntisID = '".$ressourcename."')";
 	    else if($type === "room")
 	    	$query .= "( #__thm_organizer_rooms.gpuntisID = '".$ressourcename."')";
-	    else if(type === "class")
+	    else if($type === "class")
 	    	$query .= "( #__thm_organizer_teachers.gpuntisID = '".$ressourcename."')";
 
 		$hits  = $this->JDA->query( $query );
