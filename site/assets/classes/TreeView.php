@@ -71,11 +71,19 @@ class TreeView
 
 	private function getClasses()
 	{
-		$classesquery = "SELECT DISTINCT classes.cid, semester, department, oname, otype, manager, count(lessons.cid) as lessonamount
-	           FROM #__thm_organizer_classes AS classes
-	             INNER JOIN #__thm_organizer_objects AS objects
-	             ON classes.cid = objects.oid LEFT JOIN #__thm_organizer_lessons as lessons
-	                       ON classes.cid = lessons.cid GROUP BY classes.cid";
+		$classesquery = "SELECT DISTINCT classes.gpuntisID AS cid, " .
+						"classes.name AS semester, " .
+						"#__thm_organizer_departments.name AS department, " .
+						"classes.name AS oname, " .
+						"'lesson' AS otype, " .
+						"classes.manager AS manager, " .
+						"count(lesson_classes.lessonID) AS lessonamount " .
+						"FROM #__thm_organizer_classes AS classes " .
+						"INNER JOIN #__thm_organizer_departments " .
+						"ON #__thm_organizer_departments.id = classes.dptID " .
+						"INNER JOIN #__thm_organizer_lesson_classes AS lesson_classes " .
+					 	"ON classes.id = lesson_classes.classID " .
+						"GROUP BY classes.id";
 
 		$classesarray = array( );
 		$res          = $this->JDA->query( $classesquery );
@@ -127,11 +135,20 @@ class TreeView
 
 	private function getRooms()
 	{
-		$roomquery = "SELECT DISTINCT rooms.rid, capacity, rtype, department, oname, otype, manager, count( lessonperiods.lid ) as lessonamount
-	          	FROM #__thm_organizer_rooms AS rooms
-	            INNER JOIN #__thm_organizer_objects AS objects
-	            ON rooms.rid = objects.oid LEFT JOIN #__thm_organizer_lessonperiods AS lessonperiods
-	            ON rooms.rid = lessonperiods.rid GROUP BY rooms.rid";
+		$roomquery = "SELECT DISTINCT rooms.gpuntisID AS rid, " .
+					 "rooms.capacity, " .
+					 "rooms.type as rtype, " .
+					 "#__thm_organizer_departments.name AS department, " .
+					 "rooms.name AS oname, " .
+					 "'room' AS otype, " .
+					 "rooms.manager, " .
+					 "count(lesson_times.lessonID) AS lessonamount " .
+					 "FROM #__thm_organizer_rooms AS rooms " .
+					 "INNER JOIN #__thm_organizer_departments " .
+					 "ON #__thm_organizer_departments.id = rooms.dptID " .
+					 "INNER JOIN #__thm_organizer_lessons_times AS lesson_times " .
+					 "ON rooms.id = lesson_times.roomID " .
+					 "GROUP BY rooms.id";
 
 		$roomarray = array( );
 		$res       = $this->JDA->query( $roomquery );
@@ -187,11 +204,18 @@ class TreeView
 
 	private function getTeachers()
 	{
-		$teacherquery = "SELECT DISTINCT teachers.tid, department, oname, otype, manager, count(lessonperiods.tid) as lessonamount
-	           FROM #__thm_organizer_teachers AS teachers
-	            INNER JOIN #__thm_organizer_objects AS objects
-	            ON teachers.tid = objects.oid LEFT JOIN #__thm_organizer_lessonperiods as lessonperiods
-	                  ON teachers.tid = lessonperiods.tid GROUP BY teachers.tid";
+		$teacherquery = "SELECT DISTINCT teachers.gpuntisID AS tid, " .
+						"departments.name AS department, " .
+						"teachers.name, " .
+						"'teacher' AS otype, " .
+						"teachers.manager, " .
+						"count(lesson_teacher.lessonID) AS lessonamount " .
+						"FROM #__thm_organizer_teachers AS teachers " .
+						"INNER JOIN #__thm_organizer_departments AS departments " .
+						"ON teachers.dptID = departments.id " .
+						"INNER JOIN #__thm_organizer_lesson_teachers AS lesson_teacher " .
+						"ON teachers.id = lesson_teacher.teacherID " .
+						"GROUP BY teachers.id";
 
 		$teacherarray = array( );
 		$res          = $this->JDA->query( $teacherquery );
@@ -206,7 +230,7 @@ class TreeView
 				$teacherarray[ $data->department ][ $data->tid ]                   = array( );
 				$teacherarray[ $data->department ][ $data->tid ][ "id" ]           = $data->tid;
 				$teacherarray[ $data->department ][ $data->tid ][ "department" ]   = $data->department;
-				$teacherarray[ $data->department ][ $data->tid ][ "name" ]         = $data->oname;
+				$teacherarray[ $data->department ][ $data->tid ][ "name" ]         = $data->name;
 				$teacherarray[ $data->department ][ $data->tid ][ "otype" ]        = $data->otype;
 				$teacherarray[ $data->department ][ $data->tid ][ "manager" ]      = $data->manager;
 				$teacherarray[ $data->department ][ $data->tid ][ "lessonamount" ] = $data->lessonamount;

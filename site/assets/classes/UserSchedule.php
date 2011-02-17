@@ -78,10 +78,11 @@ class UserSchedule
 	public function load()
     {
           if (isset($this->username) && isset($this->semID)) {
+          	  $tempusername = $this->username;
               if ($this->username != "delta" && $this->username != "respChanges") {
                   $this->username = $this->JDA->getUserName();
               } elseif ($this->username == "respChanges") {
-                  $data = $this->JDA->query("SELECT orgunit, semester FROM " . $this->cfg['jdb_table_semester'] . " WHERE sid ='" . $this->semID . "'");
+                  $data = $this->JDA->query("SELECT organization AS orgunit, semesterDesc AS semester FROM #__thm_organizer_semesters WHERE id ='" . $this->semID . "'");
                   $data = $data[0];
                   $this->username = $data->orgunit . "-" . $data->semester;
               } else {
@@ -94,7 +95,7 @@ class UserSchedule
                   $data = $data->data;
               } else
                   $data = array();
-              if ($this->username == "delta" || $this->username == "respChanges") {
+              if ($tempusername == "delta" || $tempusername == "respChanges") {
               	return array("success"=>true, "data"=>$data);
               }
 

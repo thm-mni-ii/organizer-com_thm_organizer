@@ -18,7 +18,7 @@ class ScheduleDescription
 
 	public function load()
 	{
-		$obj = $this->JDA->query( "SELECT description, startdate, enddate, creationdate FROM " . $this->cfg[ 'db_scheduletable' ] . " WHERE active != 'null' && sid = " . $this->semID );
+		$obj = $this->JDA->query( "SELECT description, startdate, enddate, creationdate FROM #__thm_organizer_schedules WHERE active != 'null' && sid = " . $this->semID );
 
 		if ( count( $obj ) == 0 || $obj == false )
 			return array("success"=>true,"data"=>"" );

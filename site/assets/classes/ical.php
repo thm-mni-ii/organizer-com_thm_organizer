@@ -50,7 +50,7 @@ class ICALBauer extends abstrakterBauer
 		$t->setComponent( $ts );
 		$v->setComponent( $t );
 
-		$query = "SELECT startdate, enddate, starttime, endtime FROM " . $this->cfg[ 'jdb_table_events' ] . " WHERE ecatid = " . $this->cfg[ 'vacation_id' ];
+		$query = "SELECT startdate, enddate, starttime, endtime FROM #__thm_organizer_events WHERE categoryid = " . $this->cfg[ 'vacation_id' ];
 		$res   = $this->JDA->query( $query );
 
 		if ( is_array( $res ) ) {
@@ -313,9 +313,25 @@ class ICALBauer extends abstrakterBauer
 		return $days[ $daynum ];
 	}
 
-	private function getResource( $resourcename )
+	private function getResource( $resourcename, $type )
 	{
-		$query = "SELECT oname FROM #__thm_organizer_objects WHERE oid ='" . $resourcename . "'";
+		$table = "";
+		if($type === "doz")
+		{
+			$table = "#__thm_organizer_teachers";
+		}
+		else if($type === "room")
+		{
+			$table = "#__thm_organizer_rooms";
+		}
+		else if($type === "class")
+		{
+			$table = "#__thm_organizer_classes";
+		}
+		else
+			return false;
+
+		$query = "SELECT name as oname FROM ".$table." WHERE gpuntisID ='" . $resourcename . "'";
 		$hits  = $this->JDA->query( $query );
 		return $hits;
 	}

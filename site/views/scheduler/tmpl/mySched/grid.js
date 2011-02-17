@@ -78,18 +78,15 @@ Ext.extend(SchedGrid, Ext.grid.GridPanel, {
 	loadData: function (data) {
 		this.setSporadicLectures(data.sporadic);
 
-		if (MySched.daytime.length > 0) for (var i = 0; i < MySched.daytime[1].length; i++) {
-			if (i < 3) data.items[i].time = MySched.daytime[1][i + 1].stime + '<br/>-<br/>' + MySched.daytime[1][i + 1].etime;
-			else if (i == 3) data.items[3].time = '<i style="padding-left:40px;">Mittagspause</i>';
-			else data.items[i].time = MySched.daytime[1][i].stime + '<br/>-<br/>' + MySched.daytime[1][i].etime;
-		}
-		/*data.items[0].time = '8:00<br/>-<br/>9:30';
-		 data.items[1].time = '9:50<br/>-<br/>11:20';
-		 data.items[2].time = '11:30<br/>-<br/>13:00';
-		 data.items[3].time = '';
-		 data.items[4].time = '14:00<br/>-<br/>15:30';
-		 data.items[5].time = '15:45<br/>-<br/>17:15';
-		 data.items[6].time = '17:30<br/>-<br/>19:00';*/
+		if (MySched.daytime.length > 0)
+			for (var i = 0; i < MySched.daytime[1].length; i++) {
+				if (i < 3)
+					data.items[i].time = MySched.daytime[1][i + 1].stime + '<br/>-<br/>' + MySched.daytime[1][i + 1].etime;
+				else if (i == 3)
+					data.items[3].time = '<i style="padding-left:40px;">Mittagspause</i>';
+				else
+					data.items[i].time = MySched.daytime[1][i].stime + '<br/>-<br/>' + MySched.daytime[1][i].etime;
+			}
 
 		// Wenn das grid auch angezeigt ist, zeige die Sporatischen Veranstaltungen dazu an
 		if (MySched.selectedSchedule.grid == this) {

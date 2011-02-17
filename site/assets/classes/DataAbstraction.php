@@ -69,7 +69,7 @@ class DataAbstraction
 
     public function getSettings( )
     {
-        $settings = $this->query( "SELECT * FROM #__thm_organizer_settings WHERE id=1" );
+        $settings = $this->query( "SELECT * FROM #__thm_organizer_application_settings WHERE id=1" );
         if($settings)
         	$settings = $settings[ 0 ];
         else
@@ -79,10 +79,7 @@ class DataAbstraction
 
     public function isComponentavailable( $com )
     {
-    	$com = JComponentHelper::getComponent($com , true);
-    	if(is_object( $com ))
-    		return JComponentHelper::getComponent($com , true)->enabled;
-    	return false;
+    	return JComponentHelper::getComponent($com , true)->enabled;
     }
 
     public function getSemID()

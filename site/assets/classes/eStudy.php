@@ -27,7 +27,7 @@ class eStudy
 	{
 		if ( isset( $this->jsid ) && isset( $this->semID ) && isset( $this->mnr )) {
 		    $username = $this->JDA->getUserName();
-		    $res      = $this->JDA->query( "SELECT semester FROM " . $this->cfg['jdb_table_semester' ] . " WHERE sid ='" . $this->semID . "'");
+		    $res      = $this->JDA->query( "SELECT semesterDesc FROM #__thm_organizer_semesters WHERE id ='" . $this->semID . "'");
 		    if ( count( $res ) == 1 ) {
 		        $data     = $res[ 0 ];
 		        $semester = $data->semester;

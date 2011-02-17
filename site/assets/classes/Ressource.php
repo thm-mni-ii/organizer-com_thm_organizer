@@ -34,8 +34,16 @@ class Ressource
 					else
 						$retlessons[ "elements" ] .= ";" . $v->eid;
 				}
-			} else
-				$lessons = $this->getResourcePlan( $this->res, $this->semID );
+			} else {
+				if ( stripos( $this->res, "RM_" ) === 0 ) {
+					$type = "room";
+				} else if ( stripos( $this->res, "TR_" ) === 0 ) {
+					$type = "doz";
+				} else if ( stripos( $this->res, "CL_" ) === 0 ) {
+					$type = "class";
+				}
+				$lessons = $this->getResourcePlan( $this->res, $this->semID, $type );
+			}
 
 			if(is_array($lessons))
 			foreach ( $lessons as $item ) {
@@ -97,15 +105,27 @@ class Ressource
 	private function getAllRes( $less, $classemesterid )
 	{
 		foreach ( $less as $lesson ) {
-			$query = "SELECT CONCAT(CONCAT(#__thm_organizer_lessons.lid, ' '),#__thm_organizer_lessonperiods.tpid) AS mykey, cid, rid, tid, ltype, #__thm_organizer_timeperiods.day AS dow, period AS block, oname AS name, #__thm_organizer_objects.oalias AS description, #__thm_organizer_objects.oid AS id, (SELECT 'cyclic') AS type
-	          FROM #__thm_organizer_lessons
-	          INNER JOIN #__thm_organizer_lessonperiods
-	          ON #__thm_organizer_lessons.lid = #__thm_organizer_lessonperiods.lid
-	          INNER JOIN #__thm_organizer_timeperiods
-	          ON #__thm_organizer_lessonperiods.tpid = #__thm_organizer_timeperiods.tpid
-	          INNER JOIN #__thm_organizer_objects
-	          ON #__thm_organizer_lessonperiods.lid = #__thm_organizer_objects.oid
-	          WHERE otype = 'lesson' AND #__thm_organizer_lessons.sid = '$classemesterid' AND #__thm_organizer_lessons.lid IN ('" . $lesson[ "id" ] . "');";
+			$query = "SELECT CONCAT(CONCAT(#__thm_organizer_lessons.gpuntisID, ' '), " .
+					 "#__thm_organizer_lessonperiods.gpuntisID) AS mykey, " .
+					 "#__thm_organizer_classes.id as cid, " .
+					 "#__thm_organizer_rooms.id as rid, " .
+					 "#__thm_organizer_teachers.id as tid, " .
+					 "#__thm_organizer_lessons.type as ltype, " .
+					 "#__thm_organizer_periods.day AS dow, " .
+					 "#__thm_organizer_periods.period AS block, " .
+					 "#__thm_organizer_lessons.name, " .
+					 "#__thm_organizer_lessons.alias AS description, " .
+					 "#__thm_organizer_lessons.gpuntisID AS id, " .
+					 "(SELECT 'cyclic') AS type " .
+					 "FROM #__thm_organizer_lessons " .
+					 "INNER JOIN #__thm_organizer_lessons_times ON #__thm_organizer_lessons.id = #__thm_organizer_lessons_times.lessonID " .
+					 "INNER JOIN #__thm_organizer_periods ON #__thm_organizer_lessons_times.periodID = #__thm_organizer_periods.id " .
+					 "INNER JOIN #__thm_organizer_rooms ON #__thm_organizer_lessons_times.roomID = #__thm_organizer_rooms.id " .
+					 "INNER JOIN #__thm_organizer_lesson_teachers ON #__thm_organizer_lesson_teachers.lessonID = #__thm_organizer_lessons.id " .
+					 "INNER JOIN #__thm_organizer_teachers ON #__thm_organizer_lesson_teachers.teacherID = #__thm_organizer_teachers.id " .
+					 "INNER JOIN #__thm_organizer_lesson_classes ON #__thm_organizer_lesson_classes.lessonID = #__thm_organizer_teachers.id " .
+					 "INNER JOIN #__thm_organizer_classes ON #__thm_organizer_lesson_classes.classID = #__thm_organizer_classes.id" .
+					 "WHERE AND #__thm_organizer_lessons.semesterID = '$classemesterid' AND #__thm_organizer_lessons.gpuntisID IN ('" . $lesson[ "id" ] . "');";
 
 			$ret = $this->JDA->query( $query );
 
@@ -166,33 +186,49 @@ class Ressource
 		return $less;
 	}
 
-	private function getResourcePlan( $ressourcename, $fachsemester )
+	private function getResourcePlan( $ressourcename, $fachsemester, $type )
 	{
-		$query = "SELECT lp.lid, lp.tpid, lo.oid AS id, lo.oalias AS description, lo.oid AS subject, l.ltype AS category, lo.oname AS name, co.oid AS clas, tobj.oid AS doz, ro.oid AS room, day AS dow, period AS block, (SELECT 'cyclic') AS type, ";
+		$query = "SELECT " .
+				 "#__thm_organizer_lessons.gpuntisID AS lid, " .
+				 "#__thm_organizer_periods.gpuntisID AS tpid, " .
+				 "#__thm_organizer_lessons.gpuntisID AS id, " .
+				 "#__thm_organizer_lessons.alias AS description, " .
+				 "#__thm_organizer_lessons.gpuntisID AS subject, " .
+				 "#__thm_organizer_lessons.type AS category, " .
+				 "#__thm_organizer_lessons.name AS name, " .
+				 "#__thm_organizer_classes.gpuntisID AS clas, " .
+				 "#__thm_organizer_teachers.gpuntisID AS doz, " .
+				 "#__thm_organizer_rooms.gpuntisID AS room, " .
+				 "#__thm_organizer_periods.day AS dow, " .
+				 "#__thm_organizer_periods.period AS block, " .
+				 "(SELECT 'cyclic') AS type, ";
+
 		if ($this->JDA->isComponentavailable("com_giessenlsf"))
 		{
 			$query .= " modultitel AS longname FROM #__thm_organizer_objects AS lo LEFT JOIN #__giessen_lsf_modules AS mo ON lo.oalias = mo.modulnummer ";
 		}
 		else
 		{
-			$query .= " '' AS longname FROM #__thm_organizer_objects AS lo ";
+			$query .= " '' AS longname ";
 		}
-		$query .= " INNER JOIN #__thm_organizer_lessons AS l
-	             ON lo.oid = l.lid
-	          INNER JOIN #__thm_organizer_lessonperiods AS lp
-	             ON l.lid = lp.lid
-	          INNER JOIN #__thm_organizer_objects as ro
-	             ON lp.rid = ro.oid
-	          INNER JOIN #__thm_organizer_objects as tobj
-	             ON lp.tid = tobj.oid
-	          INNER JOIN #__thm_organizer_objects AS co
-	             ON co.oid = l.cid
-	          INNER JOIN #__thm_organizer_timeperiods AS tp
-	             ON lp.tpid = tp.tpid
-	          WHERE lo.otype = 'lesson' AND lo.sid = '$fachsemester' AND l.sid = '$fachsemester' AND lp.sid = '$fachsemester' AND tp.sid = '$fachsemester'
-	             AND ( co.oid = '".$ressourcename."' OR tobj.oname = '".$ressourcename."' OR tobj.oid = '".$ressourcename."' OR ro.oid = '".$ressourcename."' )";
-		$hits  = $this->JDA->query( $query );
+		$query .= "FROM #__thm_organizer_lessons " .
+				  "INNER JOIN #__thm_organizer_lessons_times ON #__thm_organizer_lessons.id = #__thm_organizer_lessons_times.lessonID " .
+				  "INNER JOIN #__thm_organizer_periods ON #__thm_organizer_lessons_times.periodID = #__thm_organizer_periods.id " .
+				  "INNER JOIN #__thm_organizer_rooms ON #__thm_organizer_lessons_times.roomID = #__thm_organizer_rooms.id " .
+				  "INNER JOIN #__thm_organizer_lesson_teachers ON #__thm_organizer_lesson_teachers.lessonID = #__thm_organizer_lessons.id " .
+				  "INNER JOIN #__thm_organizer_teachers ON #__thm_organizer_lesson_teachers.teacherID = #__thm_organizer_teachers.id " .
+				  "INNER JOIN #__thm_organizer_lesson_classes ON #__thm_organizer_lesson_classes.lessonID = #__thm_organizer_teachers.id " .
+				  "INNER JOIN #__thm_organizer_classes ON #__thm_organizer_lesson_classes.classID = #__thm_organizer_classes.id " .
+	         	  "WHERE #__thm_organizer_lessons.semesterID = '$fachsemester' ".
+	              "AND ";
+	    if($type === "doz")
+	    	$query .= "( #__thm_organizer_classes.gpuntisID = '".$ressourcename."')";
+	    else if($type === "room")
+	    	$query .= "( #__thm_organizer_rooms.gpuntisID = '".$ressourcename."')";
+	    else if(type === "class")
+	    	$query .= "( #__thm_organizer_teachers.gpuntisID = '".$ressourcename."')";
 
+		$hits  = $this->JDA->query( $query );
 		return $hits;
 	}
 }

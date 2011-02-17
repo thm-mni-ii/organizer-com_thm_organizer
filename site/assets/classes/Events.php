@@ -24,11 +24,8 @@ class Events
 	{
 		if ( isset( $this->jsid ) ) {
 			$timestamp = time();
-			$query     = "SELECT eid, title, startdate, enddate, starttime, endtime, edescription, objectid, recurrence_type " . "FROM " . $this->cfg[ 'jdb_table_events' ] . " LEFT OUTER JOIN " . $this->cfg[ 'jdb_table_event_objects' ] . " ON eid = eventid ";
-			/*"WHERE " .
-			"IF(enddate != '0000-00-00', " .
-			"('".date("Y-m-d",$timestamp)."' <= enddate) OR ('".date("Y-m-d",$timestamp)."' = enddate AND '".date("H:i:s",$timestamp)."' <= endtime), " .
-			"('".date("Y-m-d",$timestamp)."' <= startdate)) ORDER BY startdate";*/
+			$query     = "SELECT id as eid, title, startdate, enddate, starttime, endtime, description as edescription, recurrence_type, resourceid, resource_type " .
+						 "FROM #__thm_organizer_events LEFT JOIN #__thm_organizer_event_resources ON id = eventid ORDER BY resource_type";
 			$res       = $this->JDA->query( $query );
 
 			$arr = array( );
@@ -36,6 +33,17 @@ class Events
 			if(is_array( $res ))
 			for ( $i = 0; $i < count( $res ); $i++ ) {
 				$temp = $res[ $i ];
+				$temp->objectid = null;
+				if($temp->resource_type !== null)
+				{
+					$query     = "SELECT gpuntisID as objectid " .
+							 	 "FROM ".$temp->resource_type." WHERE id = ".$temp->resourceid;
+					$res2       = $this->JDA->query( $query );
+
+					if(is_array($res2))
+						if(count($res2) > 0)
+							$temp->objectid = $res2[0]->objectid;
+				}
 				if ( !isset( $arr[ $temp->eid ] ) )
 					$arr[ $temp->eid ] = array( );
 				$arr[ $temp->eid ][ "eid" ]       = $temp->eid;
@@ -53,7 +61,9 @@ class Events
 				$arr[ $temp->eid ][ "recurrence_type" ] = $temp->recurrence_type;
 				if ( !isset( $arr[ $temp->eid ][ "objects" ] ) )
 					$arr[ $temp->eid ][ "objects" ] = array( );
-				$arr[ $temp->eid ][ "objects" ][ $temp->objectid ] = $temp->objectid;
+				if($temp->objectid !== null)
+					if(is_string($temp->objectid))
+						$arr[ $temp->eid ][ "objects" ][ $temp->objectid ] = $temp->objectid;
 			}
 
 			$username = $this->JDA->getUserName();
