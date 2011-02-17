@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension type="component" version="1.6.0" method="install">
+<extension type="component" version="1.6.0" method="update">
     <name>THM_Organizer</name>
     <author>James Antrim</author>
     <authorEMail>jamesDOTantrimATyahooDOTcom</authorEMail>
@@ -11,23 +11,22 @@
     <licence>GNU GPL v.2</licence>
     <version>0.0.1</version>
     <description>THM Organizer is a component designed to handle the scheduling and planning needs of the University of Applied Middle Hessen in Giessen, Germany.</description>
-
-    <install>
+    <update>
         <sql>
-            <file driver="mysql" charset="utf8">install.sql</file>
+            <schemapath type="mysql">sql</schemapath>
         </sql>
-    </install>
+    </update>
     <installfile>install.thm_organizer.php</installfile>
     <files folder="site">
-            <filename>index.html</filename>
-            <filename>thm_organizer.php</filename>
-            <filename>controller.php</filename>
-            <filename>LICENSE.php</filename>
-            <folder>views</folder>
-            <folder>models</folder>
-            <folder>controllers</folder>
-            <folder>assets</folder>
-            <folder>language</folder>
+        <filename>index.html</filename>
+        <filename>thm_organizer.php</filename>
+        <filename>controller.php</filename>
+        <filename>LICENSE.php</filename>
+        <folder>views</folder>
+        <folder>models</folder>
+        <folder>controllers</folder>
+        <folder>assets</folder>
+        <folder>language</folder>
     </files>
     <administration>
         <menu img="../favicon.ico">COM_THM_ORGANIZER_MAIN_NAME</menu>
