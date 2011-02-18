@@ -30,8 +30,5 @@ jimport('joomla.application.component.controller');
  * @subpackage Giessen_Events
  * @since 0.9
  */
-class thm_organizersController extends JController {
-	function display() {
-		parent::display();
-	}
-} 
+class thm_organizersController extends JController
+{ public function display() { parent::display(); } }
