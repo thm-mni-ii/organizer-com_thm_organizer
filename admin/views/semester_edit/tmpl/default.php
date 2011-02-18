@@ -2,16 +2,15 @@
 $temp = str_replace("/index.php", "",$_SERVER['SCRIPT_NAME']);
 ?>
 <div id="thm_organizer_se">
-    <div class="t"><div class="t"><div class="t"></div></div></div>
-    <div class="m" id="thm_organizer_se_meta">
-        <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>"
-              enctype="multipart/form-data" method="post" name="adminForm" id="adminForm">
+    <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>"
+          enctype="multipart/form-data" method="post" name="adminForm" id="adminForm">
+        <div class="t"><div class="t"><div class="t"></div></div></div>
+        <div class="m" id="thm_organizer_se_meta">
             <table class="admintable">
                 <colgroup>
                     <col id="thm_organizer_se_org_label" /><col />
                     <col id="thm_organizer_se_pp_label" /><col />
                     <col id="thm_organizer_se_mngr_label" /><col />
-                    <!--<col id="thm_organizer_se_display_label" /><col />-->
                 </colgroup>
                 <tr>
                     <td class="thm_organizer_se_label_data">
@@ -34,30 +33,42 @@ $temp = str_replace("/index.php", "",$_SERVER['SCRIPT_NAME']);
                     <td><?php echo $this->userGroupsBox; ?></td>
                 </tr>
             </table>
-            <input type="hidden" name="semesterID" value="<?php echo $this->id; ?>" />
-            <input type="hidden" name="task" value="" />
-        </form>
-    </div>
-    <div id="thm_organizer_se_seperator" class="b"><div class="b"><div class="b"></div></div></div>
-    <div class="t"><div class="t"><div class="t"></div></div></div>
-    <div class="m" id="thm_organizer_se_schedules">
+        </div>
+        <div class="b"><div class="b"><div class="b"></div></div></div>
+        <div id="thm_organizer_se_seperator"></div>
+        <div class="t"><div class="t"><div class="t"></div></div></div>
+        <div class="m" id="thm_organizer_se_schedules">
 <?php if($this->id == 0){ ?>
             <span id="thm_organizer_se_add_content_tip"><?php echo $this->scheduleText; ?></span>
 <?php }else{ ?>
-<?php if(!empty($this->schedules)) { ?>
+<?php if(!empty($this->schedules)) { $k = 0;?>
             <table class="admintable">
+                <colgroup>
+                    <col id="thm_organizer_se_checkbox_column" />
+                    <col id="thm_organizer_se_active_column" />
+                    <col id="thm_organizer_se_file_column" />
+                    <col id="thm_organizer_se_upload_date_column" />
+                    <col id="thm_organizer_se_description_column" />
+                    <col id="thm_organizer_se_startdate_column" />
+                    <col id="thm_organizer_se_enddate_column" />
+                </colgroup>
                 <thead>
                     <td />
-                    <td><h4>Filename</h4></td>
-                    <td><h4>Upload Date</h4></td>
                     <td />
-                    <td />
-                    <td><h4>Description</h4></td>
-                    <td />
+                    <td><?php echo JText::_("Filename"); ?></td>
+                    <td><?php echo JText::_("Upload Date"); ?></td>
+                    <td><?php echo JText::_("Description"); ?></td>
+                    <td><?php echo JText::_("Start Date"); ?></td>
+                    <td><?php echo JText::_("End Date"); ?></td>
                 </thead>
                 <tbody>
-<?php foreach($this->schedules as $schedule){ ?>
-                    <tr>
+<?php foreach($this->schedules as $schedule){
+        $k % 2 == 0? $class = "row0" : $class = "row1"; $k++;
+        $checked = JHTML::_( 'grid.id', $schedule["id"], $schedule["id"] ); ?>
+                    <tr class="<?php echo "row$k"; ?>">
+                        <td class="thm_organizer_sm_checkbox">
+                            <?php echo $checked; ?>
+                        </td>
                         <td>
 <?php if($schedule['active']){ ?>
                             <img id="thm_organizer_se_active_image"
@@ -68,28 +79,10 @@ $temp = str_replace("/index.php", "",$_SERVER['SCRIPT_NAME']);
                         <td><?php echo $schedule['filename']; ?></td>
                         <td><?php echo $schedule['includedate']; ?></td>
                         <td>
-                            <?php if($schedule['active']) echo $schedule['deactivatelink'];
-                                  else echo $schedule['activatelink']; ?>
+                            <input type='text' name='description' size='50' value='<?php echo $schedule['description']; ?>' />
                         </td>
-                        <td>
-                            <?php if(!$schedule['active']) echo $schedule['deletelink']; ?>
-                        </td>
-                        <td>
-                            <form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>" method="post">
-                                <table class="thm_organizer_se_textupdate_table">
-                                    <tr>
-                                        <td>
-                                            <input type='text' name='description' size='50' value='<?php echo $schedule->description; ?>' />
-                                        </td>
-                                        <td>
-                                            <?php echo $schedule['updatelink']; ?>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <input type="hidden" name="task" value="semester.updatetext" />
-                                <input type="hidden" name="scheduleID" value="<?php echo $schedule['id']; ?>" />
-                            </form>
-                        </td>
+                        <td><?php echo $schedule['startdate']; ?></td>
+                        <td><?php echo $schedule['enddate']; ?></td>
                     </tr>
 <?php } ?>
                 </tbody>
@@ -111,6 +104,9 @@ $temp = str_replace("/index.php", "",$_SERVER['SCRIPT_NAME']);
                 </form>
             </div>
 <?php } ?>
-    </div>
-    <div class="b"><div class="b"><div class="b"></div></div></div>
+        </div>
+        <div class="b"><div class="b"><div class="b"></div></div></div>
+        <input type="hidden" name="semesterID" value="<?php echo $this->id; ?>" />
+        <input type="hidden" name="task" value="" />
+    </form>
 </div>

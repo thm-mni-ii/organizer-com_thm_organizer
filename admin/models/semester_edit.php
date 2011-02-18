@@ -84,7 +84,7 @@ class thm_organizersModelsemester_edit extends JModel
     {		
         $dbo = & JFactory::getDBO();
         $query = $dbo->getQuery(true);
-        $query->select("id, includedate, filename, active, description");
+        $query->select("id, includedate, filename, active, description, startdate, enddate");
         $query->from("#__thm_organizer_schedules");
         $query->where("sid = '{$this->id}'");
         $dbo->setQuery((string)$query);
@@ -205,34 +205,32 @@ class thm_organizersModelsemester_edit extends JModel
      */
     public function uploadXML(&$errors)
     {
-        $sid = JRequest::getVar('semesterID');
+        $fileName = $_FILES['file']['name'];
+
         $tmpName  = $_FILES['file']['tmp_name'];
-        $file = simplexml_load_file($tmpName);
-        $creationdate = (string)$file[0]['date'];
-        $startdate = (string)$file->general->schoolyearbegindate;
-        $enddate = (string)$file->general->schoolyearenddate;
-        $this->validate(&$file, &$errors);
-        unset($file);
+        $schedule = simplexml_load_file($tmpName);
+        $this->validate(&$schedule, &$errors);
 
-        if(count($errors['dataerrors']) === 0)
-        {
-            $fileSize = $_FILES['file']['size'];
-            $fileName = $_FILES['file']['name'];
-            $date = date('Y-m-d');
-            $fp = fopen($tmpName, 'r');
-            $content = fread($fp, filesize($tmpName));
-            fclose($fp);
-            $content = addslashes($content);
+        $fp = fopen($tmpName, 'r');
+        $file = fread($fp, filesize($tmpName));
+        fclose($fp);
+        $file = addslashes($file);
 
-            $dbo = JFactory::getDBO();
-            $query = $dbo->getQuery(true);
-            $statement = "#__thm_organizer_schedules(filename, file, includedate, creationdate, startdate, enddate, sid)
-                          VALUES ('$fileName', '$content', '$date','$creationdate', '$startdate', '$enddate', '$sid')";
-            $query->insert($statement);
-            $dbo->setQuery((string)$query );
-            $dbo->query();
-            if ($dbo->getErrorNum())$errors['dberrors'] = true;
-        }
+        $includedate = date('Y-m-d');
+        $creationdate = (string)$schedule[0]['date'];
+        $startdate = (string)$schedule->general->schoolyearbegindate;
+        $enddate = (string)$schedule->general->schoolyearenddate;
+        unset($schedule);
+        $sid = JRequest::getVar('semesterID');
+
+        $dbo = JFactory::getDBO();
+        $query = $dbo->getQuery(true);
+        $statement = "#__thm_organizer_schedules( filename, file, includedate, creationdate, startdate, enddate, sid )
+                      VALUES ( '$fileName', '$file', '$includedate', '$creationdate', '$startdate', '$enddate', '$sid' )";
+        $query->insert($statement);
+        $dbo->setQuery((string)$query );
+        $dbo->query();
+        if ($dbo->getErrorNum())$errors['dberrors'] = true;
     }
 
     /**
@@ -242,20 +240,12 @@ class thm_organizersModelsemester_edit extends JModel
      */
     public function validate(&$file, &$errors)
     {
-
-        //variables for checking data consistency
-        $descriptions = array(); $departments = array(); $timeperiods = array();
-        $subjects = array(); $classes = array(); $teachers = array(); $rooms = array();
-        $lessons = array(); $lessonclasses = array();
-        $subjectobjects = array();
-        $teachers = array();
-
-
         $creationdate = (string)$file[0]['date'];
         if(empty($creationdate))
         {
             $error = JText::_("Document creation date missing.");
             if(!in_array($errors['dataerrors'],$error))$errors['dataerrors'][] = $error;
+            unset($error);
         }
         $startdate = (string)$file->general->schoolyearbegindate;
         if(empty($startdate)) $errors['dataerrors'][] = JText::_("Schedule startdate is missing.");
@@ -266,55 +256,86 @@ class thm_organizersModelsemester_edit extends JModel
             $errors['dataerrors'][] = JText::_("Creating department information is missing.");
         else
         {
-            list($institution, $location, $department) = explode(",", $header1);
-            if(empty($institution))
-                $errors['dataerrors'][] = JText::_("Institution information is missing in header 1.");
-            if(empty($campus))
-                $errors['dataerrors'][] = JText::_("Campus information is missing in header 1.");
-            if(empty($department))
-                $errors['dataerrors'][] = JText::_("Department information is missing in header 1.");
+            $details = explode(",", $header1);
+            if(count($details) < 3)  $errors['dataerrors'][] = JText::_("Header is missing information (institution/campus/department).");
         }
 
+        $timeperiods = array();
         $timeperiodsnode = $file->timeperiods;
         if(empty($timeperiodsnode))
             $errors['dataerrors'][] = JText::_("Time period information is completely missing.");
-        foreach( $timeperiodsnode->children() as $timeperiod )
+        else
         {
-            $tpid = "";
-            $tpid = trim($timeperiod->getAttribute("id"));
-            foreach($timeperiod->getElementsByTagName("day") as $eday)
+            foreach( $timeperiodsnode->children() as $timeperiod )
             {
-                $day = trim($eday->textContent);
+                $id = (string)$timeperiod[0]['id'];
+                if(empty($id))
+                {
+                    $error = JText::_("One or more timeperiods are missing their id attribute.");
+                    if(!in_array($error, $errors['dataerrors'])) $errors['dataerrors'][] = $error;
+                    unset($error);
+                    continue;
+                }
+                $day = (string)$timeperiod->day;
+                if(empty($day))
+                {
+                    $errors['dataerrors'][] =
+                        JText::_("Timeperiod")." $id ".JText::_("does not have a day.");
+                    continue;
+                }
+                $period = (string)$timeperiod->period;
+                if(empty($period))
+                {
+                    $errors['dataerrors'][] =
+                        JText::_("Timeperiod")." $id ".JText::_("does not have a period.");
+                    continue;
+                }
+                $timeperiods[$day][$period]['id'] = $id;
+                $starttime = (string)$timeperiod->starttime;
+                if(empty($starttime))
+                    $errors['dataerrors'][] =
+                        JText::_("Timeperiod")." $id ".JText::_("does not have a starttime.");
+                else $timeperiods[$day][$period]['starttime'] = $starttime;
+                $endtime = (string)$timeperiod->endtime;
+                if(empty($endtime))
+                    $errors['dataerrors'][] =
+                        JText::_("Timeperiod")." $id ".JText::_("does not have an endtime.");
+                else $timeperiods[$day][$period]['endtime'] = $endtime;
+                unset($id, $day, $period, $starttime, $endtime);
             }
-            foreach($timeperiod->getElementsByTagName("period") as $eperiod)
-            {
-                $period = trim($eperiod->textContent);
-            }
-            unset($eday, $eperiod);
-            $timeperiods[$day][$period] = $tpid;
         }
-        unset($tpid, $timeperiod, $timeperiodnodes);
+        unset($timeperiodsnode);
 
+        $descriptions = array();
         $descriptionsnode = $file->descriptions;
-        if(empty($descriptions))
+        if(empty($descriptionsnode))
             $errors['dataerrors'][] = JText::_("Room description information is completely missing.");
         else
         {
-            foreach($descriptions->children() as $description)
+            foreach($descriptionsnode->children() as $description)
             {
                 $id = (string)$description[0]['id'];
+                if(empty($id))
+                {
+                    $error = JText::_("One or more descriptions are missing their id attribute.");
+                    if(!in_array($error, $errors['dataerrors'])) $errors['dataerrors'][] = $error;
+                    unset($error);
+                    continue;
+                }
                 $name = (string)$description->longname;
                 if(empty($name))
                 {
-                    $error = JText::_("Missing text for description")." $id.";
-                    if(!in_array($error, $errors['dataerrors']))
-                        $errors['dataerrors'][] = $error;
+                    $errors['dataerrors'][] =
+                        JText::_("Description")." $id ".JText::_("does not have a description.");
+                    continue;
                 }
-                else
-                    $descriptions[$id] = $name;
+                else $descriptions[$id] = $name;
+                unset($id, $name);
             }
         }
+        unset($descriptionsnode);
 
+        $departments = array();
         $departmentsnode = $file->departments;
         if(empty($departmentsnode))
             $errors['dataerrors'][] = JText::_("Department information is completely missing.");
@@ -325,319 +346,281 @@ class thm_organizersModelsemester_edit extends JModel
                 $id = (string)$dptnode[0]['id'];
                 if(empty($id))
                 {
-                    $errors['dataerrors'][] = JText::_("A department is missing an id.");
+                    $error = JText::_("One or more departments are missing their id attributes.");
+                    if(!in_array($error, $errors['dataerrors']))$errors['dataerrors'][] = $error;
+                    unset($error);
                     continue;
                 }
-                $departments[$id] = array();
                 $details = explode(",",(string)$dptnode->longname);
                 if(count($details) < 3)
                 {
-                    $errors['dataerrors'][] = JText::_("Missing information in department")." $id.";
+                    $errors['dataerrors'][] = JText::_("Department")." $id ".JText::_("does not have all its required information.");
                     continue;
                 }
+                $departments[$id] = array();
                 $departments[$id]['institution'] = trim($details [0]);
                 $departments[$id]['campus'] = trim($details [1]);
                 $departments[$id]['department'] = trim($details [2]);
-                $departments[$id]['curriculum'] = trim($details [3]);
+                if(isset($details [3])) $departments[$id]['curriculum'] = trim($details [3]);
+                unset($id, $details);
             }
         }
+        unset($departmentsnode);
 
-        //subjects are abstract guidelines for lessons
-        //lessons implement subjects and carry their names
-        $subjectnodes = $document->getElementsByTagName( "subject" );
-        if(count($subjectnodes) > 0 )
-            foreach( $subjectnodes as $subject )
-            {
-                $suid = "";
-                $suid = trim($subject->getAttribute("id"));
-                $subjects[$suid]['id'] = $suid;
-                foreach($subject->getElementsByTagName("longname") as $longname)
-                {
-                    $subjects[$suid]['name'] = trim($longname->textContent);
-                }
-                if(!isset($subjects[$suid]['name']))
-                {
-                    $error = "Fehlende Angabe zum Subjectname in $suid.";
-                    if(!in_array($error,$erray))$erray[] = $error;
-                }
-                unset($longname, $sge);
-            }
+        $rooms = array();
+        $roomsnode = $file->rooms;
+        if(empty($roomsnode))
+            $errors['dataerrors'][] = JText::_("Room information is completely missing.");
         else
         {
-            $error = "S&auml;mtliche Subjects fehlen.";
-            if(!in_array($error,$erray))$erray[] = $error;
-        }
-        unset($subject, $subjectnodes);
-
-        $teachernodes = $document->getElementsByTagName( "teacher" );
-        if(count($teachernodes) > 0 )
-                foreach( $teachernodes as $teacher )
-                {
-                        $oid = $oname = "";
-                    $oid = trim($teacher->getAttribute("id"));
-                        $teachers[$tid]['id'] = $oid;
-                    foreach($teacher->getElementsByTagName("surname") as $surname)
-                    {
-                        $oname = trim($surname->textContent);
-                    }
-                if(!$oname)
-                {
-                    $error = "Fehlende Nachname zum Dozent $oid.";
-                    if(!in_array($error,$erray))$erray[] = $error;
-                }
-                $payrollnumbers = $teacher->getElementsByTagName("payrollnumber");
-                if($payrollnumbers)
-                        foreach($payrollnumbers as $prn)
-                        {
-                            $manager = trim($prn->textContent);
-                        }
-                if(!$manager)
-                {
-                    $error = "Kein Username eingetragen für Dozent $oid.";
-                    if(!in_array($error,$erray))$erray[] = $error;
-                }
-                foreach($teacher->getElementsByTagName("teacher_department") as $td)
-                {
-                    $dept = trim($departments[$td->getAttribute("id")]['curriculum']);
-                }
-                if(!$dept)
-                {
-                    $error = "Fehlendes Department für Dozent $oid.";
-                    if(!in_array($error,$erray))$erray[] = $error;
-                }
-                            unset($surname, $prn, $td);
-                    $teachers[$oid]['manager'] = $manager;
-                    }
-            else
+            foreach($roomsnode->children() as $room)
             {
-                $error = "S&auml;mtliche Teachers fehlen.";
-                if(!in_array($error,$erray))$erray[] = $error;
-            }
-            unset($teachernodes, $teacher);
-
-				//classes are majors divided among their semesters
-				//exceptions being other departments using rooms under the management of IT dept
-				$classnodes = $document->getElementsByTagName( "class" );
-				if($classnodes)
-					foreach( $classnodes as $class )
-					{
-						$oid = $oname = $manager = $tid = "";
-					    $oid = $class->getAttribute("id");
-					    $oname = str_replace("CL_", "", $oid);
-					    foreach($class->getElementsByTagName("longname") as $ln)
-					    {
-					    	$oalias = trim($ln->textContent);
-					    	$parts = explode(',', $oalias);
-						    if(!count($parts) > 0)
-						    {
-						    	$error = "Fehlende Department und Semester in Class $oid.";
-				    			if(!in_array($error,$erray))$erray[] = $error;
-				    			continue;
-						    }
-					    	$department = trim($parts[0]);
-						    if(!$department)
-						    {
-						    	$error = "Fehlendes Department in Class $oid.";
-				    			if(!in_array($error,$erray))$erray[] = $error;
-						    }
-					    	$semester = trim($parts[1]);
-						    if(!$semester)
-						    {
-						    	$error = "Fehlender Semester in Class $oid.";
-				    			if(!in_array($error,$erray))$erray[] = $error;
-						    }
-					    }
-					    foreach($class->getElementsByTagName("class_teacher") as $ct)
-					    {
-					    	$tid = trim($ct->getAttribute('id'));
-					    }
-					    if(!$tid)
-					    {
-					    	$error = "Fehlende Verantwortliche in Class $oid.";
-			    			if(!in_array($error,$erray))$erray[] = $error;
-					    }
-						unset($ln, $ct);
-						if($tid)
-						{
-						    $manager = $teachers[$tid]['manager'];
-						    if(!$manager)
-						    {
-						    	$error = "Referenzierte Verantwortliche $tid in Class $oid existiert nicht.";
-				    			if(!in_array($error,$erray))$erray[] = $error;
-						    }
-						}
-					}
-				else
-				{
-					$error = "S&auml;mtliche Classen fehlen.";
-	    			if(!in_array($error,$erray))$erray[] = $error;
-				}
-				unset($classnodes, $class);
-
-				$roomnodes = $document->getElementsByTagName( "room" );
-				if($roomnodes)
-					foreach( $roomnodes as $room )
-					{
-						$oid = $oname = $oalias = $capacity = $typeid = $rtype = $deptid = $department = "";
-					    $oid = trim($room->getAttribute("id"));
-					    $rooms[$oid] = $oid;
-					    $oname = str_replace("RM_","",$oid);
-					    foreach($room->getElementsByTagName("longname") as $longname)
-					    {
-					    	$oalias = trim($longname->textContent);
-					    }
-					    if(!$oalias)
-					    {
-					    	$error = "Fehlende Longname in Room $oid.";
-			    			if(!in_array($error,$erray))$erray[] = $error;
-					    }
-					    foreach($room->getElementsByTagName("capacity") as $cap)
-					    {
-					    	$capacity = trim($cap->textContent);
-					    }
-					    if(!$oalias)
-					    {
-					    	$error = "Fehlende Longname in Room $oid.";
-			    			if(!in_array($error,$erray))$erray[] = $error;
-					    }
-					    foreach($room->getElementsByTagName("room_description") as $rdesc)
-					    {
-					    	$typeid = trim($rdesc->getAttribute("id"));
-						    $rtype = $descriptions[$typeid];
-						    if(!$rtype)
-						    {
-						    	$error = "Referenzierter Raumtyp $typeid in Room $oid existiert nicht.";
-				    			if(!in_array($error,$erray))$erray[] = $error;
-						    }
-					    }
-					    if(!$rtype)
-					    {
-					    	$error = "Fehlender Raumtyp in Room $oid.";
-			    			if(!in_array($error,$erray))$erray[] = $error;
-					    }
-					    foreach($room->getElementsByTagName("room_department") as $rdept)
-					    {
-					    	$deptid = trim($rdept->getAttribute("id"));
-					    	$department = $departments[$deptid]['department'];
-						    if(!$department)
-						    {
-						    	$error = "Referenzierter Department $deptid in Room $oid existiert nicht.";
-				    			if(!in_array($error,$erray))$erray[] = $error;
-						    }
-					    }
-					    if(!$department)
-					    {
-					    	$error = "Fehlendes Department in $oid.";
-			    			if(!in_array($error,$erray))$erray[] = $error;
-					    }
-					    unset($longname, $cap, $rdesc, $rdept);
-					}
-				else
-				{
-					$error = "S&auml;mtliche R&auml;ume fehlen.";
-	    			if(!in_array($error,$erray))$erray[] = $error;
-				}
-				unset($roomnodes, $room);
-
-				$lessonnodes = $document->getElementsByTagName( "lesson" );
-				foreach( $lessonnodes as $lesson )
-				{
-					$oid = $suid = $lessontype = $oname = $oalias = null;
-					$oid = substr($lesson->getAttribute("id"), 0, strlen($lesson->getAttribute("id")) - 2);
-				    foreach($lesson->getElementsByTagName("lesson_subject") as $subjectnl)
-				    {
-				    	$suid= $subjectnl->getAttribute("id");
-				    	if(!isset($subjects[$suid]))
-				    	{
-					    	$error = "Referentzierte Subject ID $suid in Lesson $oid existiert nicht.";
-			    			if(!in_array($error,$erray))$erray[] = $error;
-				    	}
-				    }
-				    unset($subjectnl);
-				    if(!$suid)
-				    {
-				    	$error = "Fehlendes Subject in $oid.";
-		    			if(!in_array($error,$erray))$erray[] = $error;
-				    }
-					foreach($lesson->getElementsByTagName("text1") as $t1)
-				    {
-				    	$lessontype = $t1->textContent;
-				    }
-				    unset($t1);
-				    if(!$lessontype)
-				    {
-				    	$error = "Fehlende Lessontype in $oid.";
-		    			if(!in_array($error,$erray))$erray[] = $error;
-				    }
-					if(!isset($lessoncount[$oid])) $lessoncount[$oid] = 0;
-					else $lessoncount[$oid] = $lessoncount[$oid] + 1;
-					foreach($lesson->getElementsByTagName("lesson_classes") as $classesnl)
-				    {
-				    	$classids = $classesnl->getAttribute("id");
-					    $tempclassidarray = explode(" ", $classids);
-					    foreach($tempclassidarray as $tempclassid)
-					    {
-					    	if($lessoncount[$oid] > 0)
-					    	{
-					    		if(count($lessons[$oid]['classes']) != count($tempclassidarray))
-					    		{
-					    			$error = "Inkonsistente Klassen in $oid.";
-					    			if(!in_array($error,$erray))$erray[] = $error;
-					    		}
-					    		if(!$lessons[$oid]['classes'][$tempclassid])
-					    		{
-					    			$lessons[$oid]['classes'][$tempclassid] = $tempclassid;
-					    			$error = "Inkonsistente Klassen in $oid.";
-					    			if(!in_array($error,$erray))$erray[] = $error;
-					    		}
-					    	}
-					    	else
-					    		$lessons[$oid]['classes'][$tempclassid] = $tempclassid;
-					    }
-				    }
-				    unset($classesnl);
-				    if(!count($lessons[$oid]['classes']) > 0)
-			    	{
-				    	$error = "S&auml;mtliche Classes fehlen in Lesson $oid.";
-		    			if(!in_array($error,$erray))$erray[] = $error;
-			    	}
-					foreach($lesson->getElementsByTagName("lesson_teacher") as $teachernl)
-				    {
-				    	$tid = $teachernl->getAttribute("id");
-				    	if(!isset($teachers[$tid]))
-				    	{
-					    	$error = "Referenzierter Dozent $tid in Lesson $oid existiert nicht.";
-			    			if(!in_array($error,$erray))$erray[] = $error;
-				    	}
-				    }
-				    unset($teachernl);
-					if(!$tid)
-			    	{
-				    	$error = "Fehlender Dozent in $oid.";
-		    			if(!in_array($error,$erray))$erray[] = $error;
-			    	}
-					foreach($lesson->getElementsByTagName("time") as $time)
-				    {
-                foreach($time->getElementsByTagName("assigned_room") as $roomnl)
+                $id = (string)$room[0]['id'];
+                if(empty($id))
                 {
-                    $rid = $roomnl->getAttribute("id");
-                        if(!isset($rooms[$rid]))
-                        {
-                            $error = "Referenzierter Raum $rid in Lesson $oid existiert nicht.";
-                            if(!in_array($error,$erray))$erray[] = $error;
-                        }
+                    $error = JText::_("One or more rooms are missing their id attributes.");
+                    if(!in_array($error, $errors['dataerrors']))$errors['dataerrors'][] = $error;
+                    unset($error);
+                    continue;
                 }
-                if(!$rid)
-                {
-                    $error = "Fehlender Raum in $oid.";
-                    if(!in_array($error,$erray))$erray[] = $error;
-                }
-                unset($rid, $day, $period, $tpid);
-                unset($lid);
+                $name = str_replace("RM_","",$id);
+                $rooms[$id]['name'] = $name;
+                $longname = trim($room->longname);
+                if(empty($longname))
+                    $errors['dataerrors'][] = JText::_("Room")." $name ($id) ".JText::_("does not have a longname.");
+                else $rooms[$id]['longname'] = $longname;
+                $capacity = trim($room->capacity);
+                if(empty($capacity))
+                    $errors['dataerrors'][] = JText::_("Room")." $name ($id) ".JText::_("does not have a capacity.");
+                else $rooms[$id]['capacity'] = $capacity;
+                $descid = trim($room->description);
+                if(empty($descid))
+                    $errors['dataerrors'][] = JText::_("Room")." $name ($id) ".JText::_("does not reference a description.");
+                else if(empty($descriptions[$descid]))
+                    $errors['dataerrors'][] = JText::_("Room")." $name ($id) ".JText::_("references the missing or incomplete description")." $descid.";
+                else $rooms[$id]['description'] = $descriptions[$descid];
+                $dptid = trim($room->department);
+                if(empty($dptid))
+                    $errors['dataerrors'][] = JText::_("Room")." $name ($id) ".JText::_("does not reference a department.");
+                else if(empty($departments[$dptid]) or count($departments[$dptid]) < 3)
+                    $errors['dataerrors'][] =
+                        JText::_("Room")." $name ($id) ".JText::_("references the missing or incomplete department")." $dptid.";
+                else $rooms['department'] = $departments[$dptid];
+                unset($id, $longname, $capacity, $descid, $dptid);
             }
-            unset($time);
         }
-        unset($lesson, $lessonnodes, $dDoc);
+        unset($roomsnode, $descriptions);
+
+        $subjects = array();
+        $subjectsnode = $file->subjects;
+        if(empty($subjectsnode))
+            $errors['dataerrors'][] = JText::_("Subject information is completely missing.");
+        else
+        {
+            foreach($subjectsnode->children() as $subject)
+            {
+                $id = (string)$subject[0]['id'];
+                if(empty($id))
+                {
+                    $error = JText::_("One or more subjects are missing their id attributes.");
+                    if(!in_array($error, $errors['dataerrors']))$errors['dataerrors'][] = $error;
+                    unset($error);
+                    continue;
+                }
+                $longname = trim($subject->longname);
+                if(empty($longname))
+                {
+                    $errors['dataerrors'][] = JText::_("Subject")." $id ".JText::_("does not have a longname.");
+                    continue;
+                }
+                else $subjects[$id]['longname'] = $longname;
+                $subjectgroup = trim($subject->subjectgroup);
+                if(empty($subjectgroup))
+                    $errors['dataerrors'][] = JText::_("Subject")." $longname ($id) ".JText::_("does not have a subjectgroup/module number.");
+                else $subjects[$id]['subjectgroup'] = $subjectgroup;
+                unset($id, $longname, $subjectgroup);
+            }
+        }
+        unset($subjectsnode);
+
+        $teachers = array();
+        $teachersnode = $file->teachers;
+        if(empty($teachersnode))
+            $errors['dataerrors'][] = JText::_("Teacher information is completely missing.");
+        else
+        {
+            foreach($teachersnode->children() as $teacher)
+            {
+                $id = (string)$teacher[0]['id'];
+                if(empty($id))
+                {
+                    $error = JText::_("One or more teachers are missing their id attributes.");
+                    if(!in_array($error, $errors['dataerrors']))$errors['dataerrors'][] = $error;
+                    unset($error);
+                    continue;
+                }
+                $surname = trim($teacher->surname);
+                if(empty($surname))
+                {
+                    $errors['dataerrors'][] = JText::_("Teacher")." $id ".JText::_("does not have a surname.");
+                    continue;
+                }
+                else $teachers[$id]['surname'] = $surname;
+                $userid = trim($teacher->payrollnumber);
+                if(empty($userid))
+                    $errors['dataerrors'][] = JText::_("Teacher")." $surname ($id) ".JText::_("does not have a username(payrollnumber).");
+                else $teachers[$id]['userid'] = $userid;
+                $dptid = trim($teacher->teacher_department[0]['id']);
+                if(empty($dptid))
+                    $errors['dataerrors'][] = JText::_("Teacher")." $surname ($id) ".JText::_("does not reference a department.");
+                else if(empty($departments[$dptid]) or count($departments[$dptid]) < 3)
+                    $errors['dataerrors'][] =
+                        JText::_("Teacher")." $surname ($id) ".JText::_("references the missing or incomplete department")." $dptid.";
+                else $teachers['department'] = $departments[$dptid];
+                unset($id, $surname, $userid, $dptid);
+            }
+        }
+        unset($teachersnode);
+
+        $classes = array();
+        $classesnode = $file->classes;
+        if(empty($classesnode))
+            $errors['dataerrors'][] = JText::_("Class(Semester) information is completely missing.");
+        else
+        {
+            foreach($classesnode->children() as $class)
+            {
+                $id = (string)$class[0]['id'];
+                if(empty($id))
+                {
+                    $error = JText::_("One or more classes(semesters) are missing their id attributes.");
+                    if(!in_array($error, $errors['dataerrors']))$errors['dataerrors'][] = $error;
+                    unset($error);
+                    continue;
+                }
+                $longname = trim($class->longname);
+                if(empty($longname))
+                {
+                    $errors['dataerrors'][] = JText::_("Class")." $id ".JText::_("does not have a longname.");
+                    continue;
+                }
+                else
+                {
+                    $details = explode(",", $longname);
+                    if(count($details) < 2)
+                        $errors['dataerrors'][] = JText::_("The longname attribute of class")." $id ".JText::_("is missing information.");
+                    else
+                    {
+                        $classes[$id]['major'] = $details[0];
+                        $classes[$id]['semester'] = $details[1];
+                    }
+                }
+                $teacherid = trim($class->class_teacher[0]['id']);
+                if(empty($teacherid))
+                    $errors['dataerrors'][] = JText::_("Class")." $longname ($id) ".JText::_("does not reference a teacher.");
+                else if(empty($teachers[$teacherid]) or count($teachers[$teacherid]) < 3)
+                    $errors['dataerrors'][] = JText::_("Class")." $longname ($id) ".JText::_("references the missing or incomplete teacher")." $teacherid.";
+                else $classes[$id]['teacher'] = $teachers[$teacherid];
+            }
+        }
+        unset($classesnode);
+
+        $lessonsnode = $file->lessons;
+        if(empty($lessonsnode))
+            $errors['dataerrors'][] = JText::_("Lesson information is completely missing.");
+        else
+        {
+            foreach($lessonsnode->children() as $lesson)
+            {
+                $id = (string)$lesson[0]['id'];
+                if(empty($id))
+                {
+                    $error = JText::_("One or more lessons are missing their id attributes.");
+                    if(!in_array($error, $errors['dataerrors']))$errors['dataerrors'][] = $error;
+                    unset($error);
+                    continue;
+                }
+                $subjectid = (string)$lesson->lesson_subject[0]['id'];
+                if(empty($subjectid))
+                {
+                    $errors['dataerrors'][] = JText::_("Lesson")." $id ".JText::_("does not have an associated subject.");
+                    continue;
+                }
+                else if(empty($subjects[$subjectid]))
+                {
+                    $errors['dataerrors'][] = JText::_("Lesson")." $id ".JText::_("references the missing or incomplete subject")." $subjectid.";
+                    continue;
+                }
+                else $name = $subjects[$subjectid]['longname'];
+                $lerrorstart = JText::_("Lesson")." $name ($id) ";
+                $teacherid = (string)$lesson->lesson_teacher[0]['id'];
+                if(empty($teacherid))
+                    $errors['dataerrors'][] = $lerrorstart.JText::_("does not have an associated teacher.");
+                else if(empty($teachers[$teacherid]))
+                {
+                    $errors['dataerrors'][] = $lerrorstart.JText::_("references the missing or incomplete teacher")." $teacherid.";
+                    continue;
+                }
+                $classids = (string)$lesson->lesson_classes[0]['id'];
+                if(empty($classids))
+                    $errors['dataerrors'][] = $lerrorstart.JText::_("does not have any associated classes(semesters).");
+                else
+                {
+                    $classids = explode(" ", $classids);
+                    foreach($classids as $classid)
+                    {
+                        if(!in_array($classid, $classes))
+                            $errors['dataerrors'][] = $lerrorstart.JText::_("references the missing or incomplete class")." $classid.";
+                    }
+                }
+                $lessontype = $lesson->text1;
+                if(empty($lessontype))
+                    $errors['dataerrors'][] = $lerrorstart.JText::_("does not have a type.");
+                $periods = trim($lesson->periods);
+                if(empty($periods))
+                    $errors['dataerrors'][] = $lerrorstart.JText::_("does not have a periods attribute.");
+                $times = $lesson->times;
+                $timescount = count($times->children());
+                if(isset($periods) and $periods != $timescount)
+                    $errors['dataerrors'][] = $lerrorstart.JText::_("allocates")." $periods ".JText::_("instances").", $times ".JText::_("were found");
+                foreach($times->children() as $instance)
+                {
+                    $day = (string)$instance->assigned_day;
+                    if(empty($day))
+                    {
+                        $error = $lerrorstart.JText::_("contains a time period which does not have a day attribute.");
+                        if(!in_array($error, $errors['dataerrors']))$errors['dataerrors'][] = $error;
+                        unset($error);
+                    }
+                    $period = (string)$instance->assigned_period;
+                    if(empty($period))
+                    {
+                        $error = $lerrorstart.JText::_("contains a time period which does not have a period attribute.");
+                        if(!in_array($error, $errors['dataerrors']))$errors['dataerrors'][] = $error;
+                        unset($error);
+                    }
+                    if(isset($day) and isset($period) and empty($timeperiods[$day][$period]))
+                        $errors['dataerrors'][] =
+                            $lerrorstart.JText::_("contains a time period which is missing or incomplete. Day:")." $day ".JText::_("Period:")." $period";
+                    $roomid = (string)$instance->assigned_room[0]['id'];
+                    if(empty($roomid))
+                    {
+                        $error = $lerrorstart.JText::_("contains a time period which does not have a room attribute.");
+                        if(!in_array($error, $errors['dataerrors']))$errors['dataerrors'][] = $error;
+                        unset($error);
+                    }
+                    else if(!in_array($roomid, $rooms))
+                    {
+                        $error = $lerrorstart.JText::_("contains a time period which references the missing or incomplete room")." $roomid.";
+                        if(!in_array($error, $errors['dataerrors']))$errors['dataerrors'][] = $error;
+                        unset($error);
+                    }
+                    unset($day, $period, $roomid);
+                }
+                unset($id, $subjectid, $name, $lerrorstart, $teacherid, $classids, $lessontype, $periods, $times);
+            }
+        }
+        unset($lessonsnode);
     }
 
     /**

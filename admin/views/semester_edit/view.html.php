@@ -39,10 +39,6 @@ class thm_organizersViewsemester_edit extends JView
         $this->assignRef('userGroupsBox', $userGroupsBox);
 
         $isNew = ($id == 0)? true : false;
-        $allowedActions = thm_organizerHelper::getActions('semester_edit');
-        if($allowedActions->get("core.admin") or $allowedActions->get("core.manage"))
-            $this->addToolBar($allowedActions, $isNew);
-
         if($isNew)
         {
             $scheduleText = JText::_("Once the schedule has been created by saving it, schedules and display content can be added here.");
@@ -53,8 +49,8 @@ class thm_organizersViewsemester_edit extends JView
             $schedules = $model->schedules;
             if(!empty($schedules))
             {
-                $links = $this->buildLinks(&$schedules);
                 $this->assignRef( 'schedules', $schedules );
+                $schedsExist = true;
             }
             else
             {
@@ -63,11 +59,25 @@ class thm_organizersViewsemester_edit extends JView
             }
         }
 
+        $allowedActions = thm_organizerHelper::getActions('semester_edit');
+        if($allowedActions->get("core.admin") or $allowedActions->get("core.manage"))
+            $this->addToolBar($allowedActions, $isNew, $schedsExist);
+
         parent::display($tpl);
     }
 
-    private function addToolBar($allowedActions, $isNew = true)
+    private function addToolBar($allowedActions, $isNew = true, $schedsExist = false)
     {
+        /*
+         *
+            JToolBarHelper::custom('articles.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
+		}
+
+		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
+			JToolBarHelper::deleteList('', 'articles.delete','JTOOLBAR_EMPTY_TRASH');
+			JToolBarHelper::divider();
+			JToolBarHelper::trash('articles.trash','JTOOLBAR_TRASH');
+         */
         $canSave = false;
         if($isNew)
         {
@@ -81,53 +91,24 @@ class thm_organizersViewsemester_edit extends JView
             if($allowedActions->get("core.edit")) $canSave = true;
         }
         JToolBarHelper::title( $titleText, 'generic.png' );
-        if($canSave) JToolBarHelper::save('semester.save', 'JTOOLBAR_SAVE');
-        if($allowedActions->get("core.create"))
-            JToolBarHelper::custom('semester.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+        if($canSave)
+        {
+            if($schedsExist)
+            {
+                JToolBarHelper::custom('semester.activate', 'publish.png', 'publish_f2.png','Activate', true);
+                JToolBarHelper::custom('semester.deactivate', 'unpublish.png', 'unpublish_f2.png', 'Deactivate', true);
+		JToolBarHelper::trash('semester.schedule_delete','Delete');
+                JToolBarHelper::custom('semester.comment', 'edit.png', 'edit_f2.png', 'Edit', true);
+                JToolBarHelper::divider();
+            }
+            JToolBarHelper::apply('semester.apply', 'Apply');
+            JToolBarHelper::save('semester.save', 'Save');
+        }
         
 //            JToolBarHelper::custom ($task, $icon, $iconOver, $alt, $listSelect)
         if($isNew and $allowedActions->get("core.edit"))
             JToolBarHelper::custom('semester.save2schedules', 'edit.png', '', JText::_("Save & Manage Schedules"), false);
-        if($isNew) JToolBarHelper::cancel('semester.cancel', 'JTOOLBAR_CANCEL');
-        else JToolBarHelper::cancel( 'semester.cancel', 'JTOOLBAR_CANCEL');
-    }
-
-    private function buildLinks(&$schedules)
-    {
-        $links = array();
-        if(!empty($schedules))
-            foreach($schedules as $k => $v)
-            {
-                $attribs = "class='thm_organizer_se_image_button'";
-
-                $image = JHTML::_('image.site', 'publish.png', 'components/com_thm_organizer/assets/images/', NULL, NULL, NULL, $attribs);
-                $tiptext = JText::_( 'Activate this schedule.' );
-                $tiptitle = JText::_( 'Activate' );
-                $link = 'index.php?option=com_thm_organizer&task=schedule.activate&scheduleID='.$schedule['id'];
-                $class = "thm_organizer_se_activate_button";
-                $schedules[$k]['activatelink'] = "<a href='".JRoute::_($link)."' class='$class hasTip' title='$tiptitle::$tiptext'>$image</a>";
-
-                $image = JHTML::_('image.site', 'unpublish.png', 'components/com_thm_organizer/assets/images/', NULL, NULL, NULL, $attribs);
-                $tiptext = JText::_( 'Deactivate this schedule.' );
-                $tiptitle = JText::_( 'Deactivate' );
-                $link = 'index.php?option=com_thm_organizer&task=schedule.deactivate&scheduleID='.$schedule['id'];
-                $class = "thm_organizer_se_deactivate_button";
-                $schedules[$k]['deactivatelink'] = "<a href='".JRoute::_($link)."' class='$class hasTip' title='$tiptitle::$tiptext'>$image</a>";
-
-                $image = JHTML::_('image.site', 'delete.png', 'components/com_thm_organizer/assets/images/', NULL, NULL, NULL, $attribs);
-                $tiptext = JText::_( 'Delete this schedule.' );
-                $tiptitle = JText::_( 'Delete' );
-                $link = 'index.php?option=com_thm_organizer&task=schedule.delete_schedule&scheduleID='.$schedule['id'];
-                $class = "thm_organizer_se_delete_button";
-                $schedules[$k]['deletelink'] = "<a href='".JRoute::_($link)."' class='$class hasTip' title='$tiptitle::$tiptext'>$image</a>";
-
-                $image = JHTML::_('image.site', 'edit.png', 'components/com_thm_organizer/assets/images/', NULL, NULL, NULL, $attribs);
-                $tiptext = JText::_( 'Add/Edit the description of this schedule.' );
-                $tiptitle = JText::_( 'Description' );
-                $class = "thm_organizer_se_update_button";
-                $schedules[$k]['updatelink'] = "<input type='image' class='$class hasTip' title='$tiptitle::$tiptext'src='$image' name='submit' value='submit' />";
-
-           }
+        JToolBarHelper::cancel( 'semester.cancel', 'Close');
     }
 }?>
 	

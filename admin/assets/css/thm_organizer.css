@@ -83,3 +83,27 @@
 .thm_organizer_me_label_data{
     text-align: right;
 }
+
+/* com_thm_organizer.admin view: semester_edit*********************************/
+
+#thm_organizer_se_checkbox_column{
+    width: 2%;
+}
+#thm_organizer_se_active_column{
+    width: 2%;
+}
+#thm_organizer_se_file_column{
+    width: 15%;
+}
+#thm_organizer_se_upload_date_column{
+    width: 5%;
+}
+#thm_organizer_se_description_column{
+    width: 20%;
+}
+#thm_organizer_se_startdate_column{
+    width: 5%;
+}
+#thm_organizer_se_enddate_column{
+    width: 5%;
+}

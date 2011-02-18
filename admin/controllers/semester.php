@@ -128,7 +128,7 @@ class thm_organizersControllerSemester extends JController
                         $msg = JText::_("The schedule has been successfully uploaded.");
                         $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $result);
                     }
-                    else if($errors['dataerrors'])
+                    else if(!empty($errors['dataerrors']))
                     {
                         foreach($errors['dataerrors'] as $k => $v) $errors['dataerrors'][$k] = JText::_($v);
                         $errorstring = "<br />".implode("<br />", $erray)."<br />";
@@ -136,7 +136,7 @@ class thm_organizersControllerSemester extends JController
                         $msg = $messagestring.$errorstring;
                         $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'notice');
                     }
-                    else if($errors['dberrors'])
+                    else if(!empty($errors['dberrors']))
                     {
                         $msg = JText::_("An error has occured while uploading the file.");
                         $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'error');
