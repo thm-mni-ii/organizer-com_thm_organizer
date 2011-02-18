@@ -6,7 +6,7 @@
 		<table class="admintable">
 			<tr>
 				<td style="width: 20px;" align="right" class="key">
-					<label for="ecname">Name</label>
+					<label for="ecname"><?php echo JText::_('NAME');?></label>
 				</td>
 				<td>
 					<input class="text_area" type="text" name="ecname" id="ecname" size="25" maxlength="100" 
