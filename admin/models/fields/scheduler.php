@@ -27,8 +27,8 @@ class JFormFieldScheduler extends JFormFieldList
         {
                 $db = JFactory::getDBO();
                 $query = $db->getQuery(true);
-                $query->select('sid,CONCAT(orgunit, "-", semester, " (", author, ")") as semester');
-                $query->from('#__thm_organizer_semester');
+                $query->select('id,CONCAT(organization, "-", semesterDesc, " (", manager, ")") as semester');
+                $query->from('#__thm_organizer_semesters');
                 $db->setQuery((string)$query);
                 $semesters = $db->loadObjectList();
                 $options = array();
@@ -36,7 +36,7 @@ class JFormFieldScheduler extends JFormFieldList
                 {
                         foreach($semesters as $semester)
                         {
-                                $options[] = JHtml::_('select.option', $semester->sid, $semester->semester);
+                                $options[] = JHtml::_('select.option', $semester->id, $semester->semester);
                         }
                 }
                 $options = array_merge(parent::getOptions(), $options);
