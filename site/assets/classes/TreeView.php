@@ -392,8 +392,8 @@ class TreeView
 
 		$curiculumTeachersquery = "SELECT #__thm_organizer_departments.id AS department_id, #__thm_organizer_departments.name AS department_name, #__thm_organizer_teachers.id AS teachers_id, #__thm_organizer_teachers.name AS teachers_name
 						FROM #__thm_organizer_lessons
-						INNER JOIN #__thm_organizer_plantyp
-						ON #__thm_organizer_lessons.plantypID = #__thm_organizer_plantyp.id
+						INNER JOIN #__thm_organizer_plantype
+						ON #__thm_organizer_lessons.plantypeID = #__thm_organizer_plantype.id
 
 						INNER JOIN #__thm_organizer_lesson_teachers
 						ON #__thm_organizer_lesson_teachers.lessonID = #__thm_organizer_lessons.id
