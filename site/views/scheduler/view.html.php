@@ -53,6 +53,8 @@ class thm_organizerViewScheduler extends JView
 		$schedulearr["TreeView.load"]["room"] = $model->executeTask("TreeView.load", array("type"=>"room"));
 		$schedulearr["TreeView.load"]["clas"] = $model->executeTask("TreeView.load", array("type"=>"clas"));
 
+		$schedulearr["TreeView.curiculumTeachers"] = $model->executeTask("TreeView.curiculumTeachers", array("type"=>"curtea"));
+
 		$this->startup = rawurlencode(json_encode($schedulearr));
 
         parent::display($tpl);
