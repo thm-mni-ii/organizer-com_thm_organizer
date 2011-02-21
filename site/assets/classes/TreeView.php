@@ -69,6 +69,94 @@ class TreeView
 		}
 	}
 
+	public function curiculumTeachers()
+	{
+		$arr  = array( );
+		$arr2 = array( );
+		$arr3 = array( );
+		if ( isset( $this->type ) ) {
+			if ( $this->type == "curtea" )
+				$arr = $this->getCuriculumTeachers( "curiculumteachers", $this->sid );
+
+			$arr2 = array ();
+			$arr2[] = "Semester";
+			$arr2[] = "Dozent";
+
+			$arr3 = array ();
+			$arr3[] = "$this->sid.'Lehrplan'";
+
+			$treeNode = array();
+			$childNodes = array();
+			$lernplanNode = array();
+			$viewNodes = array();
+
+
+
+					foreach($arr as $key=>$value)
+					{
+
+						$childNodes = array();
+
+						foreach($value as $childkey=>$childvalue)
+						{
+							$childNodes[] = new TreeNode($childvalue["department_name"],
+														$childvalue["teachers_name"],
+														$this->type . "-node",
+														true,
+														true,
+														false,
+														NULL);
+						}
+
+						$treeNode[] = new TreeNode(
+							$key,							// id - autom. generated
+							$key,							// text	for the node
+							$this->type . '-root',			// iconCls
+							false,							// leaf
+							false,							// draggable
+							true,							// singleClickExpand
+							$childNodes						// children
+						);
+					}
+
+					$viewNodes[] = new TreeNode(
+						$this->sid.'_Lehrplan'.'_Dozent',							// id - autom. generated
+						'Dozent',							// text	for the node
+						'dozent-root',						// iconCls
+						false,								// leaf
+						false,								// draggable
+						true,								// singleClickExpand
+						$treeNode							// children
+					);
+
+					$viewNodes[] = new TreeNode(
+						$this->sid.'_Lehrplan'.'_Semester',							// id - autom. generated
+						'Semester',							// text	for the node
+						'semester-root',					// iconCls
+						false,								// leaf
+						false,								// draggable
+						true,								// singleClickExpand
+						$treeNode							// children
+					);
+
+
+				$lernplanNode[] = new TreeNode(
+					$this->sid.'_Lehrplan',				// id - autom. generated
+					'Lehrplan',							// text	for the node
+					'lernplan-root',					// iconCls
+					false,								// leaf
+					false,								// draggable
+					true,								// singleClickExpand
+					$viewNodes							// children
+				);
+
+			$arr[ "type" ] = $this->type;
+			return array("success"=>true,"data"=>array("tree"=>$lernplanNode,"treeData"=>$arr));
+		} else {
+			return array("success"=>false,"data"=>array());
+		}
+	}
+
 	private function getClasses()
 	{
 		$classesquery = "SELECT DISTINCT classes.gpuntisID AS cid, " .
@@ -297,6 +385,50 @@ class TreeView
 		$query = "SELECT * " . " FROM #__thm_organizer_lessons " . " WHERE cid = '" . $resourcename . "' AND sid = '" . $fachsemester . "'";
 		$hits  = $this->JDA->query( $query );
 		return count( $hits );
+	}
+
+	private function getCuriculumTeachers()
+	{
+
+		$curiculumTeachersquery = "SELECT #__thm_organizer_departments.id AS department_id, #__thm_organizer_departments.name AS department_name, #__thm_organizer_teachers.id AS teachers_id, #__thm_organizer_teachers.name AS teachers_name
+						FROM #__thm_organizer_lessons
+						INNER JOIN #__thm_organizer_plantyp
+						ON #__thm_organizer_lessons.plantypID = #__thm_organizer_plantyp.id
+
+						INNER JOIN #__thm_organizer_lesson_teachers
+						ON #__thm_organizer_lesson_teachers.lessonID = #__thm_organizer_lessons.id
+
+						INNER JOIN #__thm_organizer_teachers
+						ON #__thm_organizer_teachers.id = #__thm_organizer_lesson_teachers.teacherID
+
+						INNER JOIN #__thm_organizer_departments
+						ON #__thm_organizer_departments.id = #__thm_organizer_teachers.dptID
+
+						GROUP BY #__thm_organizer_teachers.id";
+
+    	$curiculumTeachers = array( );
+
+		$res          = $this->JDA->query( $curiculumTeachersquery );
+
+		if(is_array( $res ) === true)
+		if ( count( $res ) != 0 ) {
+
+
+			for ( $i = 0; $i < count( $res ); $i++ ) {
+				$data = $res[ $i ];
+
+				if ( !isset( $curiculumTeachersarray[ $data->department_name] ) ) {
+					$curiculumTeachersarray[ $data->department_name] = array( );
+				}
+
+				$curiculumTeachersarray[ $data->department_name][ $data->teachers_name ]                       = array( );
+				$curiculumTeachersarray[ $data->department_name][ $data->teachers_name ][ "department_id" ]    = $data->department_id;
+				$curiculumTeachersarray[ $data->department_name][ $data->teachers_name ][ "department_name" ]  = $data->department_name;
+				$curiculumTeachersarray[ $data->department_name][ $data->teachers_name ][ "teacher_id" ]        = $data->teachers_id;
+				$curiculumTeachersarray[ $data->department_name][ $data->teachers_name ][ "teachers_name" ]     = $data->teachers_name;
+			}
+		}
+		return $curiculumTeachersarray;
 	}
 }
 ?>
