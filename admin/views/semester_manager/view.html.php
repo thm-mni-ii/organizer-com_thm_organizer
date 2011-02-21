@@ -43,7 +43,7 @@ class thm_organizersViewsemester_manager extends JView {
                     JToolBarHelper::deleteList
                     (
                         JText::_( 'The deletetion of a semester effects multiple resources such as schedules and monitors.  Are you sure you wish to delete the selected semesters?'),
-                        'semester.delete'
+                        'semester.delete_semester'
                     );
         }
     }

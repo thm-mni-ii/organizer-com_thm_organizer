@@ -38,6 +38,7 @@ class thm_organizersViewsemester_edit extends JView
         $userGroupsBox = JHTML::_('select.genericlist', $userGroups, 'manager', 'id="manager" class="thm_organizer_" size="1"', 'id', 'title', $manager);
         $this->assignRef('userGroupsBox', $userGroupsBox);
 
+        $schedsExist = false;
         $isNew = ($id == 0)? true : false;
         if($isNew)
         {
@@ -68,16 +69,6 @@ class thm_organizersViewsemester_edit extends JView
 
     private function addToolBar($allowedActions, $isNew = true, $schedsExist = false)
     {
-        /*
-         *
-            JToolBarHelper::custom('articles.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
-		}
-
-		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'articles.delete','JTOOLBAR_EMPTY_TRASH');
-			JToolBarHelper::divider();
-			JToolBarHelper::trash('articles.trash','JTOOLBAR_TRASH');
-         */
         $canSave = false;
         if($isNew)
         {
@@ -93,22 +84,20 @@ class thm_organizersViewsemester_edit extends JView
         JToolBarHelper::title( $titleText, 'generic.png' );
         if($canSave)
         {
+            if(!$isNew)
+                JToolBarHelper::custom('semester.upload', 'upload', 'upload', 'Upload', false);
             if($schedsExist)
             {
-                JToolBarHelper::custom('semester.activate', 'publish.png', 'publish_f2.png','Activate', true);
-                JToolBarHelper::custom('semester.deactivate', 'unpublish.png', 'unpublish_f2.png', 'Deactivate', true);
-		JToolBarHelper::trash('semester.schedule_delete','Delete');
-                JToolBarHelper::custom('semester.comment', 'edit.png', 'edit_f2.png', 'Edit', true);
+                JToolBarHelper::custom('semester.activate_schedule', 'publish.png', 'publish_f2.png','Activate', true);
+                JToolBarHelper::custom('semester.deactivate_schedule', 'unpublish.png', 'unpublish_f2.png', 'Deactivate', true);
+		JToolBarHelper::deleteList( JText::_( 'Are you sure you wish to delete the selected schedules?'), 'semester.delete_schedule');
+                JToolBarHelper::custom('semester.comment_schedule', 'edit.png', 'edit_f2.png', 'Edit', true);
                 JToolBarHelper::divider();
             }
             JToolBarHelper::apply('semester.apply', 'Apply');
             JToolBarHelper::save('semester.save', 'Save');
         }
-        
-//            JToolBarHelper::custom ($task, $icon, $iconOver, $alt, $listSelect)
-        if($isNew and $allowedActions->get("core.edit"))
-            JToolBarHelper::custom('semester.save2schedules', 'edit.png', '', JText::_("Save & Manage Schedules"), false);
-        JToolBarHelper::cancel( 'semester.cancel', 'Close');
+        JToolBarHelper::cancel('semester.cancel', 'Close');
     }
 }?>
 	

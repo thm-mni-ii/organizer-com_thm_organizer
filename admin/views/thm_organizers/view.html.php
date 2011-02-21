@@ -14,6 +14,7 @@ class thm_organizersViewthm_organizers extends JView
 {
     function display($tpl = null)
     {
+        var_dump($_REQUEST);
         //Load pane behavior
         jimport('joomla.html.pane');
 

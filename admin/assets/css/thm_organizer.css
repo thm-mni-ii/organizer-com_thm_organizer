@@ -85,25 +85,52 @@
 }
 
 /* com_thm_organizer.admin view: semester_edit*********************************/
+#thm_organizer_se_meta{
+    margin-bottom: 10px;
+}
 
+#thm_organizer_se_label{
+    text-align:right;
+    width: 140px;
+}
+#thm_organizer_se_meta_data{
+    width: 140px;
+}
+#thm_organizer_se_gpu{
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    color: #146295;
+    border: 2px solid #cccccc;
+}
+
+.thm_organizer_se_th{
+    text-align: left;
+}
 #thm_organizer_se_checkbox_column{
     width: 2%;
+    align: left;
 }
 #thm_organizer_se_active_column{
     width: 2%;
 }
 #thm_organizer_se_file_column{
     width: 15%;
+    text-align: center;
 }
 #thm_organizer_se_upload_date_column{
     width: 5%;
+    text-align: center;
 }
 #thm_organizer_se_description_column{
     width: 20%;
+    text-align: center;
 }
 #thm_organizer_se_startdate_column{
     width: 5%;
+    text-align: center;
 }
 #thm_organizer_se_enddate_column{
     width: 5%;
+    text-align: center;
 }
