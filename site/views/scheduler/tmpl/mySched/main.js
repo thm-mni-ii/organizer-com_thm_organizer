@@ -46,7 +46,8 @@ MySched.Authorize.init({
   // ALL definiert den gemeinsammen Nenner aller Rollen
   ALL: {
     clas: '*',
-    diff: '*'
+    diff: '*',
+    curtea: '*'
   },
   // jede Rolle kann ein Array mit Keys oder ein string mit '*' zugewiesen bekommen
   user: {
@@ -1574,10 +1575,10 @@ function showBlockMenu(e) {
 }
 
 /**
- * Ist fuer die Verwaltung und erstellung der Uebersichtslisten zustaendig
+ * Ist fuer die Verwaltung und Erstellung der Uebersichtslisten zustaendig
  */
 MySched.TreeManager = function () {
-  var dozTree, roomTree, clasTree;
+  var dozTree, roomTree, clasTree, curteaTree; //neu
 
   return {
     /**
@@ -1587,6 +1588,7 @@ MySched.TreeManager = function () {
       this.dozTree = new MySched.Collection();
       this.roomTree = new MySched.Collection();
       this.clasTree = new MySched.Collection();
+      this.curteaTree = new MySched.Collection();//neu
     },
     afterloadEvents: function (arr, refresh) {
       for (var e in arr) {
@@ -1606,6 +1608,7 @@ MySched.TreeManager = function () {
         this.dozTree.addAll(lecture.getDoz().asArray());
         this.roomTree.addAll(lecture.getRoom().asArray());
         this.clasTree.addAll(lecture.getClas().asArray());
+        //this.unsltTree.addAll(lecture.getUnslt().asArray());//neu
       }
     },
     /**
@@ -1643,6 +1646,14 @@ MySched.TreeManager = function () {
     createrespChangesTree: function (tree) {
       return this.createTree(tree, 'respChanges');
     },
+     /**
+     * Sucht alle Lessons
+     * @param {Object} tree Basis Tree dem die Liste hinzugefuegt wird
+     */
+    createCurteaTree: function (tree) {//neu->
+      return this.createTree(tree, 'curtea', this.curteaTree, 'Lehrplan');//UnsetTimes
+    },
+
     processTreeData: function(json, type, accMode, name, baseTree)
     {
     	var children = json["tree"];
@@ -1662,10 +1673,11 @@ MySched.TreeManager = function () {
 			ret.appendChild(children);
 		}
 
-		for(var item in treeData)
-			if(Ext.isObject(treeData[item]))
-				for(var childitem in treeData[item])
-					MySched.Mapping[type].add(treeData[item][childitem].id, treeData[item][childitem]);
+		if(type != "curtea")
+			for(var item in treeData)
+				if(Ext.isObject(treeData[item]))
+					for(var childitem in treeData[item])
+						MySched.Mapping[type].add(treeData[item][childitem].id, treeData[item][childitem]);
 
     },
     /**
@@ -1680,7 +1692,7 @@ MySched.TreeManager = function () {
       // Generelle Rechteuberpruefung auf diese Uebersichtsliste
       var accMode = MySched.Authorize.checkAccessMode(type);
 
-      if (type != "diff" && type != "respChanges") {
+      if (type != "diff" && type != "respChanges" && type != "curtea") {
         if(checkStartup("TreeView.load", type) === true)
         {
           MySched.TreeManager.processTreeData(MySched.startup["TreeView.load"][type].data, type, accMode, name, baseTree);
@@ -1708,6 +1720,21 @@ MySched.TreeManager = function () {
         });
       }
 
+      if (type == "curtea") {//neu->
+          MySched.TreeManager.processTreeData(MySched.startup["TreeView.curiculumTeachers"].data, type, accMode, name, baseTree);
+          /*var ret = baseTree.root.appendChild(
+		        new Ext.tree.TreeNode({
+		          text: name,
+		          id: type,
+		          IconCls: type + '-root',
+		          expanded: false,
+		          draggable: false,
+		          singleClickExpand: true,
+		        }));*/
+
+			//ret.appendChild(MySched.startup["TreeView.curiculumTeachers"].data["tree"]);
+        return ret;
+      }
       // Keine Rechte, also nicht anzeigen
       if (accMode == 'none') return null;
 
@@ -1736,6 +1763,8 @@ MySched.TreeManager = function () {
         }));
         return ret;
       }
+
+
       /*// Generelle Rechteuberpruefung auf diese Uebersichtsliste
        var accMode = MySched.Authorize.checkAccessMode( type );
 
@@ -3253,7 +3282,7 @@ Ext.ux.collapsedPanelTitlePlugin = function () {
  * Baumobjekt fuer Stundenplanlisten
  */
 MySched.Tree = function () {
-  var tree, doz, room, clas, diff, dragNode, respChanges;
+  var tree, doz, room, clas, diff, dragNode, respChanges, curtea;
 
   return {
     init: function () {
@@ -3374,6 +3403,7 @@ MySched.Tree = function () {
       if (this.clas) this.root.removeChild(this.clas);
       if (this.diff) this.root.removeChild(this.diff);
       if (this.respChanges) this.root.removeChild(this.respChanges);
+      if (this.curtea) this.root.removeChild(this.curtea);
       this.loadTreeData();
     },
     /**
@@ -3383,9 +3413,13 @@ MySched.Tree = function () {
     loadTreeData: function () {
       this.diff = MySched.TreeManager.createDiffTree(this.tree); //Zum Aufrufen des Tab �nderungem im Baum
       this.respChanges = MySched.TreeManager.createrespChangesTree(this.tree); //Zum Aufrufen des Tab �nderungem von Verantwortlichen im Baum
+      this.curtea = MySched.TreeManager.createCurteaTree(this.tree);
       MySched.TreeManager.createDozTree(this.tree);
       MySched.TreeManager.createRoomTree(this.tree);
       MySched.TreeManager.createClasTree(this.tree);
+	  this.tree.render();
+		var bla = "";
+
       /*MySched.layout.w_infoPanel.hide();
        MySched.layout.w_infoPanel.expand();*/
     },
