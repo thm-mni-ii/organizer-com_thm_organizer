@@ -78,17 +78,25 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_resources` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
   `id` int(11) NOT NULL,
+  `plantypeID` int(1) NOT NULL,
   `gpuntisID` varchar(10) NOT NULL DEFAULT '',
   `semesterID` int(11) unsigned NOT NULL,
   `name` varchar(50) NOT NULL DEFAULT '',
   `alias` varchar(50) NOT NULL DEFAULT '',
   `manager` int(11) DEFAULT NULL,
-  `lesson_type` varchar(1) NOT NULL DEFAULT 'V',
+  `type` varchar(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `gpuntisID` (`gpuntisID`,`semesterID`),
   KEY `semesterID` (`semesterID`),
+  KEY `plantypeID` (`plantypeID`),
   KEY `manager` (`manager`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_plantype` (
+  `id` int(1) NOT NULL,
+  `plantype` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons_times` (
   `lessonID` int(11) NOT NULL,
