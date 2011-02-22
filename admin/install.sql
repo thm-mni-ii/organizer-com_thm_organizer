@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_classes` (
   `alias` varchar(50) NOT NULL DEFAULT '',
   `manager` int(11) DEFAULT NULL,
   `semester` varchar(50) NOT NULL,
-  `dptID` varchar(10) NOT NULL DEFAULT '',
+  `major` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `dptID` (`dptID`),
   KEY `manager` (`manager`)
