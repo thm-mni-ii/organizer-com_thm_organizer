@@ -53,6 +53,7 @@
         </files>
         <languages folder="admin">
             <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.ini</language>
+            <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.sys.ini</language>
         </languages>
     </administration>
 </extension>
