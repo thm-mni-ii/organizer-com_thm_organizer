@@ -12,6 +12,8 @@ class TreeView
 	private $type = null;
 	private $sid = null;
 
+
+
 	function __construct($JDA, $CFG, $options = array())
 	{
 		if(isset($options["type"]))
@@ -21,6 +23,7 @@ class TreeView
 		$this->sid  = $JDA->getSemID();
 		$this->JDA = $JDA;
 		$this->cfg = $CFG->getCFG();
+
 	}
 
 	public function load()
@@ -74,7 +77,7 @@ class TreeView
 		$arr  = array( );
 		$arr2 = array( );
 		$arr3 = array( );
-		if ( isset( $this->type ) ) {
+		if ( isset( $this->type )) {
 			if ( $this->type == "curtea" )
 				$arr = $this->getCuriculumTeachers( "curiculumteachers", $this->sid );
 
@@ -210,14 +213,13 @@ class TreeView
 				$classesarray[ $data->department ][ $data->vid ][ "name" ]       = $data->vname;
 				$classesarray[ $data->department ][ $data->vid ][ "manager" ]    = $data->vresponsible;
 				if ( !isset( $classesarray[ $data->department ][ $data->vid ][ "elements" ] ) )
-					$classesarray[ $data->department ][ $data->vid ][ "elements" ] = array( );
+				  $classesarray[ $data->department ][ $data->vid ][ "elements" ] = array( );
 				$classesarray[ $data->department ][ $data->vid ][ "elements" ][ $data->eid ] = $data->eid;
 				if ( !isset( $classesarray[ $data->department ][ $data->vid ][ "lessonamount" ] ) )
-					$classesarray[ $data->department ][ $data->vid ][ "lessonamount" ] = 0;
+			      $classesarray[ $data->department ][ $data->vid ][ "lessonamount" ] = 0;
 				$classesarray[ $data->department ][ $data->vid ][ "lessonamount" ] = $classesarray[ $data->department ][ $data->vid ][ "lessonamount" ] + $this->getCountClassLessons( $data->eid, $this->sid );
 			}
 		}
-
 		return $classesarray;
 	}
 
@@ -390,8 +392,12 @@ class TreeView
 	private function getCuriculumTeachers()
 	{
 
-		$curiculumTeachersquery = "SELECT #__thm_organizer_departments.id AS department_id, #__thm_organizer_departments.name AS department_name, #__thm_organizer_teachers.id AS teachers_id, #__thm_organizer_teachers.name AS teachers_name
-						FROM #__thm_organizer_lessons
+		$curiculumTeachersquery = "SELECT #__thm_organizer_departments.id AS department_id,
+						#__thm_organizer_departments.name AS department_name,
+				        #__thm_organizer_teachers.id AS teachers_id,
+				        #__thm_organizer_teachers.name AS teachers_name
+
+					 	FROM #__thm_organizer_lessons
 						INNER JOIN #__thm_organizer_plantype
 						ON #__thm_organizer_lessons.plantypeID = #__thm_organizer_plantype.id
 
@@ -403,6 +409,8 @@ class TreeView
 
 						INNER JOIN #__thm_organizer_departments
 						ON #__thm_organizer_departments.id = #__thm_organizer_teachers.dptID
+
+						WHERE #__thm_organizer_lessons.semesterID = ".$this->sid."
 
 						GROUP BY #__thm_organizer_teachers.id";
 
@@ -424,8 +432,8 @@ class TreeView
 				$curiculumTeachersarray[ $data->department_name][ $data->teachers_name ]                       = array( );
 				$curiculumTeachersarray[ $data->department_name][ $data->teachers_name ][ "department_id" ]    = $data->department_id;
 				$curiculumTeachersarray[ $data->department_name][ $data->teachers_name ][ "department_name" ]  = $data->department_name;
-				$curiculumTeachersarray[ $data->department_name][ $data->teachers_name ][ "teacher_id" ]        = $data->teachers_id;
-				$curiculumTeachersarray[ $data->department_name][ $data->teachers_name ][ "teachers_name" ]     = $data->teachers_name;
+				$curiculumTeachersarray[ $data->department_name][ $data->teachers_name ][ "teacher_id" ]       = $data->teachers_id;
+				$curiculumTeachersarray[ $data->department_name][ $data->teachers_name ][ "teachers_name" ]    = $data->teachers_name;
 			}
 		}
 		return $curiculumTeachersarray;
