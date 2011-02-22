@@ -9,10 +9,10 @@
  * @link        www.mni.fh-giessen.de
  * @version     0.0.1
  */
-defined('_JEXEC') or die('Restricted access');
+defined("_JEXEC") or die("Restricted access");
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>"
-      enctype="multipart/form-data" method="post" name="adminForm" id="adminForm" >
+<form action="<?php echo JRoute::_("index.php?option=com_thm_organizer"); ?>"
+      enctype="multipart/form-data" method="post" name="adminForm" id="adminForm">
     <div id="thm_organizer_se_meta">
         <table class="admintable">
             <colgroup>
@@ -45,29 +45,23 @@ defined('_JEXEC') or die('Restricted access');
                     <?php echo $this->userGroupsBox; ?>
                 </td>
             </tr>
+        <?php if($this->id != 0){ ?>
+            <tr>
+                <td>
+                    <label class="thm_organizer_se_label" for="file">
+                        <?php echo JText::_("Upload a Schedule:"); ?>
+                    </label>
+                </td>
+                <td>
+                    <input name="file" type="file" />
+                </td>
+                <td />
+                <td />
+                <td />
+                <td />
+            </tr>
+        <?php } ?>
         </table>
-    <?php if($this->id != 0){ ?>
-        <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>"
-              enctype="multipart/form-data" method="post" name="adminForm" id="adminForm">
-            <table class="admintable">
-                <tr>
-                    <td>
-                        <label class="thm_organizer_se_label" for="file">
-                            <?php echo JText::_('File:'); ?>
-                        </label>
-                    </td>
-                    <td>
-                        <input name="file" type="file" />
-                    </td>
-                    <td>
-                        <input type="submit" name="upload" value="<?php echo JText::_('Upload');?>" />
-                    </td>
-                </tr>
-            </table>
-            <input type="hidden" name="task" value="semester.upload" />
-            <input type="hidden" name="semesterID" value="<?php echo $this->id; ?>" />
-        </form>
-    <?php } ?>
     </div>
     <div id="thm_organizer_se_seperator"></div>
     <div id="thm_organizer_se_schedules">
@@ -102,25 +96,25 @@ defined('_JEXEC') or die('Restricted access');
             <tbody>
             <?php foreach($this->schedules as $schedule){
                 $k % 2 == 0? $class = "row0" : $class = "row1"; $k++;
-                $checked = JHTML::_( 'grid.id', $schedule["id"], $schedule["id"] ); ?>
+                $checked = JHTML::_( "grid.id", $schedule["id"], $schedule["id"] ); ?>
                 <tr class="<?php echo "row$k"; ?>">
                     <td class="thm_organizer_sm_checkbox">
                         <?php echo $checked; ?>
                     </td>
                     <td>
-                    <?php if($schedule['active']){ ?>
+                    <?php if($schedule["active"]){ ?>
                         <img id="thm_organizer_se_active_image"
-                             src="<?php echo 'components/com_thm_organizer/assets/images/active.png'; ?>"
+                             src="<?php echo "components/com_thm_organizer/assets/images/active.png"; ?>"
                              alt="Active" />
                     <?php } ?>
                     </td>
-                    <td><?php echo $schedule['filename']; ?></td>
-                    <td><?php echo $schedule['includedate']; ?></td>
+                    <td><?php echo $schedule["filename"]; ?></td>
+                    <td><?php echo $schedule["includedate"]; ?></td>
                     <td>
-                        <input type='text' name='description' size='50' value='<?php echo $schedule['description']; ?>' />
+                        <input type="text" name="description<?php echo $schedule["id"]; ?>" size="50" value="<?php echo $schedule["description"]; ?>" />
                     </td>
-                    <td><?php echo $schedule['startdate']; ?></td>
-                    <td><?php echo $schedule['enddate']; ?></td>
+                    <td><?php echo $schedule["startdate"]; ?></td>
+                    <td><?php echo $schedule["enddate"]; ?></td>
                 </tr>
             <?php } ?>
             </tbody>

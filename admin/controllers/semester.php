@@ -125,32 +125,29 @@ class thm_organizersControllerSemester extends JController
             $model = $this->getModel('schedule');
             $id = JRequest::getVar('semesterID');
             $fileType = $_FILES['file']['type'];
-            $wrongType = false;
-            $errors = array('dberrors' => false, 'dataerrors' => array());
+            $wrongType = false;;
             if($fileType == "text/xml")
             {
-                $result = $model->uploadGPUntis(&$errors);
-                if(!$errors['dberrors'] and empty($errors['dataerrors']))
+                $result = $model->uploadGPUntis();
+                if($result === true)
                 {
                     $msg = JText::_("The schedule has been successfully uploaded.");
-                    $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $result);
+                    $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg);
                 }
-                else if(!empty($errors['dataerrors']))
-                {
-                    foreach($errors['dataerrors'] as $k => $v) $errors['dataerrors'][$k] = JText::_($v);
-                    $errorstring = "<br />".implode("<br />", $errors['dataerrors'])."<br />";
-                    $messagestring = JText::_('The file was not saved to the database due to the following data inconsistencies:');
-                    $msg = $messagestring.$errorstring;
-                    $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'notice');
-                }
-                else if(!empty($errors['dberrors']))
+                else if($result === false)
                 {
                     $msg = JText::_("An error has occured while uploading the file.");
                     $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'error');
                 }
+                else if(isset($result))
+                {
+                    $messagestring = JText::_('The file was not saved to the database due to the following data inconsistencies:');
+                    $msg = $messagestring.$result;
+                    $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'notice');
+                }
                 else
                 {
-                    $msg = JText::_("what the fuck.");
+                    $msg = JText::_("An unknown error has occurred while uploading the file.");
                     $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'error');
                 }
             }
@@ -213,12 +210,12 @@ class thm_organizersControllerSemester extends JController
             $result = $model->activate();
             if($result)
             {
-                $msg = JText::_("The schedule  successfully activated.");
+                $msg = JText::_("The schedule(s) have been successfully activated.");
                 $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg);
             }
             else
             {
-                $msg = JText::_("An error has occurred while activating the schedule.");
+                $msg = JText::_("An error has occurred while activating the schedule(s).");
                 $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'error');
             }
         }
@@ -265,22 +262,22 @@ class thm_organizersControllerSemester extends JController
      *
      * adds or updates the description of the schedule.
      */
-    public function comment_schedule()
+    public function edit_comment()
     {
         $allowedActions = thm_organizerHelper::getActions('semester_edit');
         if($allowedActions->get("core.edit"))
         {
-            $id = JRequest::getVar('semesterID');
+            $id = JRequest::getInt('semesterID');
             $model = $this->getModel('schedule');
-            $result = $model->comment();
+            $result = $model->edit_comment();
             if($result)
             {
-                $msg = JText::_("The description of the schedule has been updated successfully.");
+                $msg = JText::_("The description(s) of the schedule(s) has been updated successfully.");
                 $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg);
             }
             else
             {
-                $msg = JText::_("An error has occurred while updating the description of the schedule.");
+                $msg = JText::_("An error has occurred while updating the description(s) of the schedule(s).");
                 $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'error');
             }
         }
