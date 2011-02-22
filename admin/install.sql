@@ -160,7 +160,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_periods` (
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `gpuntisID` varchar(10) NOT NULL,
-  `name` varchar(50) NOT NULL DEFAULT '',
+  `name` varchar(10) NOT NULL DEFAULT '',
+  `alias` varchar(50) NOT NULL,
   `manager` int(11) DEFAULT NULL,
   `capacity` int(4) DEFAULT NULL,
   `type` varchar(20) NOT NULL DEFAULT '',
