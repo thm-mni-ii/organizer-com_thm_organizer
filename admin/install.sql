@@ -181,8 +181,10 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
   `startdate` date DEFAULT NULL,
   `enddate` date DEFAULT NULL,
   `sid` int(11) unsigned NOT NULL,
+  `plantypeID` int(1) NOT NULL,
   PRIMARY KEY (`id`,`sid`),
-  KEY `sid` (`sid`)
+  KEY `sid` (`sid`),
+  KEY `plantypeID` (`plantypeID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_semesters` (
