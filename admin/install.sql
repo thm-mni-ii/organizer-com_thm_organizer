@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_departments` (
   `institution` varchar(50) NOT NULL DEFAULT '',
   `campus` varchar(50) NOT NULL DEFAULT '',
   `department` varchar(50) NOT NULL DEFAULT '',
-  `curriculum` varchar(50) NOT NULL DEFAULT '',
+  `subdepartment` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `manager` (`manager`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
