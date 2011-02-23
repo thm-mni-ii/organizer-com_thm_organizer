@@ -84,13 +84,11 @@ CREATE TABLE IF NOT EXISTS `jos_thm_organizer_lessons` (
   `name` varchar(50) NOT NULL DEFAULT '',
   `alias` varchar(50) NOT NULL DEFAULT '',
   `moduleID` varchar(10) NOT NULL DEFAULT '',
-  `manager` int(11) DEFAULT NULL,
   `type` varchar(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `gpuntisID` (`gpuntisID`,`semesterID`),
   KEY `semesterID` (`semesterID`),
-  KEY `plantypeID` (`plantypeID`),
-  KEY `manager` (`manager`)
+  KEY `plantypeID` (`plantypeID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_plantype` (
