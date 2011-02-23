@@ -11,7 +11,7 @@ class TreeView
 	private $cfg = null;
 	private $type = null;
 	private $sid = null;
-
+	private $semDesc = null;
 
 
 	function __construct($JDA, $CFG, $options = array())
@@ -23,7 +23,6 @@ class TreeView
 		$this->sid  = $JDA->getSemID();
 		$this->JDA = $JDA;
 		$this->cfg = $CFG->getCFG();
-
 	}
 
 	public function load()
@@ -72,28 +71,67 @@ class TreeView
 		}
 	}
 
-	public function curiculumTeachers()
+	public function plantype()
 	{
+
 		$arr  = array( );
 		$arr2 = array( );
 		$arr3 = array( );
-		if ( isset( $this->type )) {
-			if ( $this->type == "curtea" )
-				$arr = $this->getCuriculumTeachers( "curiculumteachers", $this->sid );
 
-			$arr2 = array ();
-			$arr2[] = "Semester";
-			$arr2[] = "Dozent";
+	    if ( isset( $this->type )) {
+			if ( $this->type == "ptype" )
+				$arr = $this->getCuriculumTeachers( "plantype", $this->sid );
 
 			$arr3 = array ();
-			$arr3[] = "$this->sid.'Lehrplan'";
+			$arr3["sid_l"] = $this->sid."_Lehrplan";
+
+			$sem_Desc = $this->getSemDesc();
+
+			$lernplanNode = array();
+			$viewNodes = array();
+			$semesterNode = array();
+
+			$viewNodes = $this->curiculumTeachers($viewNodes);
+
+			$viewNodes = $this->curiculumClasses($viewNodes);
+
+		    $lehrplanNode[] = new TreeNode(
+				$arr3["sid_l"],				// id - autom. generated
+				'Lehrplan',							// text	for the node
+				'lernplan-root',					// iconCls
+				false,								// leaf
+				false,								// draggable
+				true,								// singleClickExpand
+				$viewNodes							// children
+			);
+			$semesterNode[] = new TreeNode(
+				$this->sid,				            // id - autom. generated
+				$sem_Desc,							// text	for the node
+				'semester-root',					// iconCls
+				false,								// leaf
+				false,								// draggable
+				true,								// singleClickExpand
+				$lehrplanNode							// children
+			);
+
+		$arr[ "type" ] = $this->type;
+			return array("success"=>true,"data"=>array("tree"=>$semesterNode,"treeData"=>$arr));
+		} else {
+			return array("success"=>false,"data"=>array());
+		}
+	}
+
+	public function curiculumTeachers($viewNodes)
+	{
+		if ( isset( $this->type )) {
+			$arr = $this->getCuriculumTeachers( $this->sid );
+
+			$arr2 = array ();
+			$arr2["sid_l_d"] = $this->sid."_Lehrplan"."_Dozent";
+			$arr2["sid_l_s"] = $this->sid."_Lehrplan"."_Semester";
 
 			$treeNode = array();
 			$childNodes = array();
-			$lernplanNode = array();
-			$viewNodes = array();
-
-
 
 					foreach($arr as $key=>$value)
 					{
@@ -122,42 +160,107 @@ class TreeView
 						);
 					}
 
-					$viewNodes[] = new TreeNode(
-						$this->sid.'_Lehrplan'.'_Dozent',							// id - autom. generated
-						'Dozent',							// text	for the node
-						'dozent-root',						// iconCls
-						false,								// leaf
-						false,								// draggable
-						true,								// singleClickExpand
-						$treeNode							// children
-					);
 
-					$viewNodes[] = new TreeNode(
-						$this->sid.'_Lehrplan'.'_Semester',							// id - autom. generated
-						'Semester',							// text	for the node
-						'semester-root',					// iconCls
-						false,								// leaf
-						false,								// draggable
-						true,								// singleClickExpand
-						$treeNode							// children
-					);
-
-
-				$lernplanNode[] = new TreeNode(
-					$this->sid.'_Lehrplan',				// id - autom. generated
-					'Lehrplan',							// text	for the node
-					'lernplan-root',					// iconCls
-					false,								// leaf
-					false,								// draggable
-					true,								// singleClickExpand
-					$viewNodes							// children
-				);
+					{
+						$viewNodes[] = new TreeNode(
+							$arr2["sid_l_d"],							// id - autom. generated
+							'Dozent',							// text	for the node
+							'dozent-root',						// iconCls
+							false,								// leaf
+							false,								// draggable
+							true,								// singleClickExpand
+							$treeNode							// children
+						);
+					}
 
 			$arr[ "type" ] = $this->type;
-			return array("success"=>true,"data"=>array("tree"=>$lernplanNode,"treeData"=>$arr));
+			return $viewNodes;
 		} else {
 			return array("success"=>false,"data"=>array());
 		}
+	}
+
+	public function curiculumClasses($viewNodes)
+	{
+		if ( isset( $this->type )) {
+			$arr = $this->getCuriculumClasses( $this->sid );
+
+			$arr2 = array ();
+			$arr2["sid_l_d"] = $this->sid."_Lehrplan"."_Dozent";
+			$arr2["sid_l_s"] = $this->sid."_Lehrplan"."_Semester";
+
+			$treeNode = array();
+			$childNodes = array();
+
+					foreach($arr as $key=>$value)
+					{
+						$childNodes = array();
+
+						foreach($value as $childkey=>$childvalue)
+						{
+							$childNodes[] = new TreeNode($childvalue["department_name"],
+														$childvalue["classes_name"],
+														$this->type . "-node",
+														true,
+														true,
+														false,
+														NULL);
+						}
+
+						$treeNode[] = new TreeNode(
+							$key,							// id - autom. generated
+							$key,							// text	for the node
+							$this->type . '-root',			// iconCls
+							false,							// leaf
+							false,							// draggable
+							true,							// singleClickExpand
+							$childNodes						// children
+						);
+					}
+
+						$viewNodes[] = new TreeNode(
+							$arr2["sid_l_s"],							// id - autom. generated
+							'Semester',							// text	for the node
+							'semester-root',					// iconCls
+							false,								// leaf
+							false,								// draggable
+							true,								// singleClickExpand
+							$treeNode							// children
+						);
+
+
+			$arr[ "type" ] = $this->type;
+			return $viewNodes;
+		} else {
+			return array("success"=>false,"data"=>array());
+		}
+	}
+
+	public function getSemDesc(){
+		$semDescquery = "SELECT #__thm_organizer_semesters.semesterDesc AS sem_semDesc
+				      FROM #__thm_organizer_semesters
+				      WHERE #__thm_organizer_semesters.id = " . $this->sid;
+
+		$res          = $this->JDA->query( $semDescquery );
+
+		if(is_array( $res ) === true)
+		if ( count( $res ) != 0 ) {
+
+
+			for ( $i = 0; $i < count( $res ); $i++ ) {
+				$data = $res[ $i ];
+
+				if ( !isset( $semDescarray[ $data->sem_semDesc] ) ) {
+					$semDescarray[ $data->sem_semDesc] = array( );
+				}
+
+				$semDescarray[ $data->sem_semDesc]                       = array( );
+            	$semDescarray[ $data->sem_semDesc][ "sem_semDesc" ]    = $data->sem_semDesc;
+			}
+		}
+		$semDesc = $semDescarray[$data->sem_semDesc][ "sem_semDesc" ];
+
+		return $semDesc;
 	}
 
 	private function getClasses()
@@ -389,7 +492,7 @@ class TreeView
 		return count( $hits );
 	}
 
-	private function getCuriculumTeachers()
+	private function getCuriculumTeachers($fachsemester)
 	{
 
 		$curiculumTeachersquery = "SELECT #__thm_organizer_departments.id AS department_id,
@@ -410,11 +513,11 @@ class TreeView
 						INNER JOIN #__thm_organizer_departments
 						ON #__thm_organizer_departments.id = #__thm_organizer_teachers.dptID
 
-						WHERE #__thm_organizer_lessons.semesterID = ".$this->sid."
+						WHERE #__thm_organizer_lessons.semesterID = ". $fachsemester ."
 
 						GROUP BY #__thm_organizer_teachers.id";
 
-    	$curiculumTeachers = array( );
+    	$curiculumTeachersarray = array( );
 
 		$res          = $this->JDA->query( $curiculumTeachersquery );
 
@@ -437,6 +540,56 @@ class TreeView
 			}
 		}
 		return $curiculumTeachersarray;
+	}
+
+	private function getCuriculumClasses($fachsemester)
+	{
+
+		$curiculumClassesquery = "SELECT #__thm_organizer_departments.id AS department_id,
+						#__thm_organizer_departments.name AS department_name,
+				        #__thm_organizer_classes.id AS classes_id,
+				        #__thm_organizer_classes.name AS classes_name
+
+					 	FROM #__thm_organizer_lessons
+						INNER JOIN #__thm_organizer_plantype
+						ON #__thm_organizer_lessons.plantypeID = #__thm_organizer_plantype.id
+
+						INNER JOIN #__thm_organizer_lesson_classes
+						ON #__thm_organizer_lesson_classes.lessonID = #__thm_organizer_lessons.id
+
+						INNER JOIN #__thm_organizer_classes
+						ON #__thm_organizer_classes.id = #__thm_organizer_lesson_classes.classID
+
+						INNER JOIN #__thm_organizer_departments
+						ON #__thm_organizer_departments.id = #__thm_organizer_classes.dptID
+
+						WHERE #__thm_organizer_lessons.semesterID = ". $fachsemester ."
+
+						GROUP BY #__thm_organizer_classes.id";
+
+    	$curiculumClassesarray = array( );
+
+		$res          = $this->JDA->query( $curiculumClassesquery );
+
+		if(is_array( $res ) === true)
+		if ( count( $res ) != 0 ) {
+
+
+			for ( $i = 0; $i < count( $res ); $i++ ) {
+				$data = $res[ $i ];
+
+				if ( !isset( $curiculumClassesarray[ $data->department_name] ) ) {
+					$curiculumClassesarray[ $data->department_name] = array( );
+				}
+
+				$curiculumClassesarray[ $data->department_name][ $data->classes_name ]                       = array( );
+				$curiculumClassesarray[ $data->department_name][ $data->classes_name ][ "department_id" ]    = $data->department_id;
+				$curiculumClassesarray[ $data->department_name][ $data->classes_name ][ "department_name" ]  = $data->department_name;
+				$curiculumClassesarray[ $data->department_name][ $data->classes_name ][ "classes_id" ]       = $data->classes_id;
+				$curiculumClassesarray[ $data->department_name][ $data->classes_name ][ "classes_name" ]    = $data->classes_name;
+			}
+		}
+		return $curiculumClassesarray;
 	}
 }
 ?>
