@@ -76,13 +76,14 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_resources` (
   KEY `eventid` (`eventid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
+CREATE TABLE IF NOT EXISTS `jos_thm_organizer_lessons` (
   `id` int(11) NOT NULL,
   `plantypeID` int(1) NOT NULL,
   `gpuntisID` varchar(10) NOT NULL DEFAULT '',
   `semesterID` int(11) unsigned NOT NULL,
   `name` varchar(50) NOT NULL DEFAULT '',
   `alias` varchar(50) NOT NULL DEFAULT '',
+  `moduleID` varchar(10) NOT NULL DEFAULT '',
   `manager` int(11) DEFAULT NULL,
   `type` varchar(1) NOT NULL,
   PRIMARY KEY (`id`),
