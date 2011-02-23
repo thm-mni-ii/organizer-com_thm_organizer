@@ -19,10 +19,11 @@ class thm_organizersModelvirtual_schedule_manager extends JModel
 
 		$mainframe = JFactory::getApplication("administrator");
 		$option = $mainframe->scope;
+		$view = JRequest::getString('view');
 
 		// Get pagination request variables
 		$limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
-		$limitstart = $mainframe->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0, 'int');
+		$limitstart = $mainframe->getUserStateFromRequest($option.$view.'.limitstart', 'limitstart', 0, 'int');
 
 		// In case limit has been changed, adjust it
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
@@ -35,15 +36,16 @@ class thm_organizersModelvirtual_schedule_manager extends JModel
 	{
 		$mainframe = JFactory::getApplication("administrator");
 		$option = $mainframe->scope;
+		$view = JRequest::getString('view');
 
-		$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order",		'filter_order',		"#__thm_organizer_virtual_schedules.sid, #__thm_organizer_virtual_schedules.vid", 'string' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	"", 'string' );
-		$filter_type		= $mainframe->getUserStateFromRequest( "$option.filter_type",		'filter_type', 		0,			'string' );
-		$filter_logged		= $mainframe->getUserStateFromRequest( "$option.filter_logged",		'filter_logged', 	0,			'int' );
-		$filter 			= $mainframe->getUserStateFromRequest( $option.'.filter', 'filter', '', 'int' );
-		$search 			= $mainframe->getUserStateFromRequest( $option.'.search', 'search', '', 'string' );
-		$groupFilter 		= $mainframe->getUserStateFromRequest( $option.'.groupFilters', 'groupFilters', '', 'int' );
-		$rolesFilter 		= $mainframe->getUserStateFromRequest( $option.'.rolesFilters', 'rolesFilters', '', 'int' );
+		$filter_order		= $mainframe->getUserStateFromRequest( "$option.$view.filter_order",		'filter_order',		"#__thm_organizer_virtual_schedules.sid, #__thm_organizer_virtual_schedules.vid", 'string' );
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$view.filter_order_Dir",	'filter_order_Dir',	"", 'string' );
+		$filter_type		= $mainframe->getUserStateFromRequest( "$option.$view.filter_type",		'filter_type', 		0,			'string' );
+		$filter_logged		= $mainframe->getUserStateFromRequest( "$option.$view.filter_logged",		'filter_logged', 	0,			'int' );
+		$filter 			= $mainframe->getUserStateFromRequest( $option.$view.'.filter', 'filter', '', 'int' );
+		$search 			= $mainframe->getUserStateFromRequest( $option.$view.'.search', 'search', '', 'string' );
+		$groupFilter 		= $mainframe->getUserStateFromRequest( $option.$view.'.groupFilters', 'groupFilters', '', 'int' );
+		$rolesFilter 		= $mainframe->getUserStateFromRequest( $option.$view.'.rolesFilters', 'rolesFilters', '', 'int' );
 		$search 			= $this->_db->getEscaped( trim(JString::strtolower( $search ) ) );
 
 		if (!$filter_order) { $filter_order = '#__thm_organizer_virtual_schedules.sid, #__thm_organizer_virtual_schedules.vid'; }

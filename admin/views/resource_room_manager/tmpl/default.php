@@ -42,17 +42,17 @@ defined('_JEXEC') or die ('Restricted access');
 			<th width="1"><input type="checkbox" name="toggle" value=""
 				onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
 
-			<th nowrap="nowrap"><?php echo JHTML::_('grid.sort', JText::_('Name'), 'name', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
+			<th nowrap="nowrap"><?php echo JHTML::_('grid.sort', JText::_('gpuntisID'), 'gpuntisID', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
-			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('Type'), 'type', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
+			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('Name'), 'name', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
-			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('Responsible'), 'responsible', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
+			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('Manager'), 'userName', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
-			<th align="center"><?php echo JHTML::_('grid.sort',JText::_('Department'), 'department', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
+			<th align="center"><?php echo JHTML::_('grid.sort',JText::_('Type'), 'type', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
-			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('Elements'), 'eid', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
+			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('Capacity'), 'capacity', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
-			<th nowrap="nowrap"><?php echo JHTML::_('grid.sort', JText::_('Semester'), 'semesterid', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
+			<th nowrap="nowrap"><?php echo JHTML::_('grid.sort', JText::_('Department'), 'dptName', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
 		</tr>
 	</thead>
@@ -64,15 +64,15 @@ defined('_JEXEC') or die ('Restricted access');
 		$link = JRoute::_('index.php?option=com_thm_organizer&controller=virtual_schedule_manager&task=edit&cid[]='.$row->id);
 		?>
 	<tr class="<?php echo "row".$k; ?>">
-		<td><?php echo $row->id; ?></td>
-		<td><?php echo $checked; ?></td>
+		<td align="center"><?php echo $row->id; ?></td>
+		<td align="center"><?php echo $checked; ?></td>
 
-		<td><?php echo $row->name; ?></td>
-		<td><?php echo $row->type; ?></td>
-		<td><?php echo $row->responsible;?></td>
-		<td><?php echo $row->department; ?></td>
-		<td><?php echo $row->eid; ?></td>
-		<td><?php echo $row->semesterid; ?></td>
+		<td align="center"><?php echo $row->gpuntisID; ?></td>
+		<td align="center"><?php echo $row->name; ?></td>
+		<td align="center"><?php echo $row->userName;?></td>
+		<td align="center"><?php echo $row->type; ?></td>
+		<td align="center"><?php echo $row->capacity; ?></td>
+		<td align="center"><?php echo $row->dptName; ?></td>
 	</tr>
 	<?php
 	$k = 1 -   $k;
@@ -87,7 +87,7 @@ defined('_JEXEC') or die ('Restricted access');
 </div>
 
 <input type="hidden" name="task" value="" />
-<input type="hidden" name="view" value="virtual_schedule_manager" />
+<input type="hidden" name="view" value="resource_room_manager" />
 <input type="hidden" name="grchecked" value="off" />
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
