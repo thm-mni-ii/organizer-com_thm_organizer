@@ -145,15 +145,11 @@ INSERT INTO `#__thm_organizer_monitors` (`monitorID`, `roomID`, `ip`, `semesterI
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_periods` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `gpuntisID` varchar(10) NOT NULL,
-  `semesterID` int(11) NOT NULL,
   `day` int(1) unsigned NOT NULL,
   `period` int(1) unsigned NOT NULL,
   `starttime` time NOT NULL,
   `endtime` time NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `gpuntisID` (`gpuntisID`,`semesterID`),
-  KEY `semesterID` (`semesterID`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
