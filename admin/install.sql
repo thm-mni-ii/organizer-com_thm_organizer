@@ -26,7 +26,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_classes` (
   `manager` int(11) unsigned DEFAULT NULL,
   `semester` varchar(50) NOT NULL,
   `major` varchar(50) NOT NULL DEFAULT '',
-  `dpt` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `manager` (`manager`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
