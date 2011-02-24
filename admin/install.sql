@@ -34,7 +34,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_classes` (
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_departments` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `gpuntisID` varchar(10) NOT NULL DEFAULT '',
-  `manager` int(11) unsigned DEFAULT NULL,
   `name` varchar(50) NOT NULL DEFAULT '',
   `institution` varchar(50) NOT NULL DEFAULT '',
   `campus` varchar(50) NOT NULL DEFAULT '',
@@ -127,6 +126,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_times` (
   `lessonID` int(11) NOT NULL,
   `roomID` int(11) NOT NULL,
   `periodID` int(11) NOT NULL,
+  UNIQUE `lt` (`lessonID`, `roomID`, `periodID`),
   KEY `lessonID` (`lessonID`),
   KEY `roomID` (`roomID`),
   KEY `periodID` (`periodID`)
@@ -135,6 +135,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_times` (
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_classes` (
   `lessonID` varchar(10) NOT NULL,
   `classID` varchar(10) NOT NULL,
+  UNIQUE `lc` (`lessonID`, `classID`),
   KEY `lessonID` (`lessonID`),
   KEY `classID` (`classID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -142,6 +143,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_classes` (
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_teachers` (
   `lessonID` varchar(10) NOT NULL,
   `teacherID` varchar(10) NOT NULL,
+  UNIQUE `lt` (`lessonID`, `teacherID`),
   KEY `lessonID` (`lessonID`),
   KEY `teacherID` (`teacherID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
