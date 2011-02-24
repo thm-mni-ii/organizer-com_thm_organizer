@@ -76,17 +76,25 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_resources` (
   KEY `eventid` (`eventid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
   `id` int(11) NOT NULL,
-  `plantypeID` int(1) NOT NULL,
   `gpuntisID` varchar(10) NOT NULL DEFAULT '',
-  `semesterID` int(11) unsigned NOT NULL,
   `name` varchar(50) NOT NULL DEFAULT '',
   `alias` varchar(50) NOT NULL DEFAULT '',
   `moduleID` varchar(10) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  UNIQUE `gpuntisID` (`gpuntisID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
+  `id` int(11) NOT NULL,
+  `gpuntisID` varchar(10) NOT NULL DEFAULT '',
+  `subjectID` int(11) unsigned NOT NULL,
+  `semesterID` int(11) unsigned NOT NULL,
+  `plantypeID` int(1) NOT NULL,
   `type` varchar(1) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `gpuntisID` (`gpuntisID`,`semesterID`),
+  KEY `subjectID` (`subjectID`),
   KEY `semesterID` (`semesterID`),
   KEY `plantypeID` (`plantypeID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -151,7 +159,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_periods` (
   `period` int(1) unsigned NOT NULL,
   `starttime` time NOT NULL,
   `endtime` time NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
   KEY `semesterID` (`semesterID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
