@@ -1,7 +1,7 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_application_settings` (
-  `id` int(11) NOT NULL,
+  `id` int(11) unsigned NOT NULL,
   `downFolder` varchar(100) NOT NULL,
   `vacationcat` tinyint(4) NOT NULL,
   `eStudyPath` varchar(100) NOT NULL,
@@ -23,10 +23,10 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_classes` (
   `gpuntisID` varchar(10) NOT NULL,
   `name` varchar(10) NOT NULL DEFAULT '',
   `alias` varchar(50) NOT NULL DEFAULT '',
-  `manager` int(11) DEFAULT NULL,
+  `manager` int(11) unsigned DEFAULT NULL,
   `semester` varchar(50) NOT NULL,
   `major` varchar(50) NOT NULL DEFAULT '',
-  `dpt` int(11) DEFAULT NULL,
+  `dpt` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `manager` (`manager`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_classes` (
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_departments` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `gpuntisID` varchar(10) NOT NULL DEFAULT '',
-  `manager` int(11) DEFAULT NULL,
+  `manager` int(11) unsigned DEFAULT NULL,
   `name` varchar(50) NOT NULL DEFAULT '',
   `institution` varchar(50) NOT NULL DEFAULT '',
   `campus` varchar(50) NOT NULL DEFAULT '',
@@ -59,8 +59,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_events` (
   `enddate` date DEFAULT NULL,
   `starttime` time DEFAULT NULL,
   `endtime` time DEFAULT NULL,
-  `recurrence_number` int(2) NOT NULL DEFAULT '0',
-  `recurrence_type` int(2) NOT NULL DEFAULT '0',
+  `recurrence_number` int(2) unsigned  NOT NULL DEFAULT '0',
+  `recurrence_type` int(2) unsigned NOT NULL DEFAULT '0',
   `recurrence_counter` date NOT NULL DEFAULT '0000-00-00',
   `register` tinyint(1) NOT NULL DEFAULT '0',
   `unregister` tinyint(1) NOT NULL DEFAULT '0',
@@ -69,11 +69,25 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_events` (
   KEY `modified_by` (`modified_by`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_resources` (
-  `eventid` int(11) unsigned NOT NULL,
-  `resourceid` int(11) NOT NULL,
-  `resource_table` varchar(40) NOT NULL,
-  KEY `eventid` (`eventid`)
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_teachers` (
+  `eventID` int(11) unsigned NOT NULL,
+  `teacherID` int(11) unsigned NOT NULL,
+  KEY `eventID` (`eventID`),
+  KEY `teacherID` (`teacherID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_rooms` (
+  `eventID` int(11) unsigned NOT NULL,
+  `roomID` int(11) unsigned NOT NULL,
+  KEY `eventID` (`eventID`),
+  KEY `roomID` (`roomID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_usergroups` (
+  `eventID` int(11) unsigned NOT NULL,
+  `groupID` int(11) unsigned NOT NULL,
+  KEY `eventID` (`eventID`),
+  KEY `groupID` (`groupID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
@@ -87,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `gpuntisID` varchar(10) NOT NULL DEFAULT '',
   `subjectID` int(11) unsigned NOT NULL,
   `semesterID` int(11) unsigned NOT NULL,
@@ -100,10 +114,14 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_plantype` (
-  `id` int(1) NOT NULL,
+  `id` int(1) NOT NULL AUTO_INCREMENT,
   `plantype` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `#__thm_organizer_plantype` (`id`, `plantype`) VALUES
+(1, 'GP-Untis Schedules'),
+(2, 'Curricula');
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons_times` (
   `lessonID` int(11) NOT NULL,
@@ -168,10 +186,10 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
   `gpuntisID` varchar(10) NOT NULL,
   `name` varchar(10) NOT NULL DEFAULT '',
   `alias` varchar(50) NOT NULL,
-  `manager` int(11) DEFAULT NULL,
-  `capacity` int(4) DEFAULT NULL,
+  `manager` int(11) unsigned DEFAULT NULL,
+  `capacity` int(4) unsigned DEFAULT NULL,
   `type` varchar(20) NOT NULL DEFAULT '',
-  `dptID` int(11) NOT NULL,
+  `dptID` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `dptID` (`dptID`),
   KEY `manager` (`manager`)
@@ -197,7 +215,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_semesters` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `gpuntisID` varchar(10) NOT NULL DEFAULT '',
-  `manager` int(11) DEFAULT NULL,
+  `manager` int(11) unsigned DEFAULT NULL,
   `organization` varchar(50) NOT NULL DEFAULT '',
   `semesterDesc` varchar(20) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
@@ -219,7 +237,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_teachers` (
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_user_schedules` (
   `username` varchar(100) NOT NULL,
   `data` text NOT NULL,
-  `created` int(11) NOT NULL,
+  `created` int(11) unsigned NOT NULL,
   `sid` int(11) unsigned NOT NULL,
   `checked_out` datetime DEFAULT NULL,
   PRIMARY KEY (`username`,`sid`)
