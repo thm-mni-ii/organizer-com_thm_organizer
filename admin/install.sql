@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_resources` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `gpuntisID` varchar(10) NOT NULL DEFAULT '',
   `name` varchar(50) NOT NULL DEFAULT '',
   `alias` varchar(50) NOT NULL DEFAULT '',
