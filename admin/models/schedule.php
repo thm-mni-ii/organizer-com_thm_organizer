@@ -22,6 +22,9 @@ class thm_organizersModelschedule extends JModel
      * public function upload
      *
      * saves a gp-untis schedule file in the database for later use
+     *
+     * @return $result boolean true on success, false on db error, string listing
+     * data inconsistancies
      */
     public function uploadGPUntis()
     {
@@ -30,26 +33,28 @@ class thm_organizersModelschedule extends JModel
         $tmpName  = $_FILES['file']['tmp_name'];
         $schedule = simplexml_load_file($tmpName);
         $result = $this->validateGPUntis(&$schedule);
+        if($result === true)
+        {
+            $fp = fopen($tmpName, 'r');
+            $file = fread($fp, filesize($tmpName));
+            fclose($fp);
+            $file = addslashes($file);
 
-        $fp = fopen($tmpName, 'r');
-        $file = fread($fp, filesize($tmpName));
-        fclose($fp);
-        $file = addslashes($file);
+            $includedate = date('Y-m-d');
+            $creationdate = trim((string)$schedule[0]['date']);
+            $startdate = trim((string)$schedule->general->schoolyearbegindate);
+            $enddate = trim((string)$schedule->general->schoolyearenddate);
+            unset($schedule);
+            $sid = JRequest::getInt('semesterID');
 
-        $includedate = date('Y-m-d');
-        $creationdate = (string)$schedule[0]['date'];
-        $startdate = (string)$schedule->general->schoolyearbegindate;
-        $enddate = (string)$schedule->general->schoolyearenddate;
-        unset($schedule);
-        $sid = JRequest::getVar('semesterID');
-
-        $dbo = JFactory::getDBO();
-        $query = $dbo->getQuery(true);
-        $statement = "#__thm_organizer_schedules( filename, file, includedate, creationdate, startdate, enddate, sid )
-                      VALUES ( '$fileName', '$file', '$includedate', '$creationdate', '$startdate', '$enddate', '$sid' )";
-        $query->insert($statement);
-        $dbo->setQuery((string)$query );
-        $dbo->query();
+            $dbo = JFactory::getDBO();
+            $query = $dbo->getQuery(true);
+            $statement = "#__thm_organizer_schedules( filename, file, includedate, creationdate, startdate, enddate, sid, plantypeID )
+                          VALUES ( '$fileName', '$file', '$includedate', '$creationdate', '$startdate', '$enddate', '$sid', 1 )";
+            $query->insert($statement);
+            $dbo->setQuery((string)$query );
+            $dbo->query();
+        }
         if ($dbo->getErrorNum())return false;
         else return $result;
     }
@@ -58,28 +63,34 @@ class thm_organizersModelschedule extends JModel
      * public funtion validate
      *
      * checks a given schedule in gp-untis xml format for data completeness and consistency
+     *
+     * inconsistancies purposefully not handled: teachers missing userid, rooms missing capacity,
+     * subjects missing module number
+     *
+     * @param $file the gpuntis xml file to be validated
+     * @return $result string listing inconsistancies or boolean on successful parce
      */
     public function validateGPUntis(&$file)
     {
         $erray = array();
-        $creationdate = (string)$file[0]['date'];
+        $creationdate = trim((string)$file[0]['date']);
         if(empty($creationdate))
         {
             $error = JText::_("Document creation date missing.");
             if(!in_array($erray,$error))$erray[] = $error;
             unset($error);
         }
-        $startdate = (string)$file->general->schoolyearbegindate;
+        $startdate = trim((string)$file->general->schoolyearbegindate);
         if(empty($startdate)) $erray[] = JText::_("Schedule startdate is missing.");
-        $enddate = (string)$file->general->schoolyearenddate;
+        $enddate = trim((string)$file->general->schoolyearenddate);
         if(empty($enddate)) $erray[] = JText::_("Schedule enddate is missing.");
-        $header1 = (string)$file->general->header1;
+        $header1 = trim((string)$file->general->header1);
         if(empty($header1))
             $erray[] = JText::_("Creating department information is missing.");
         else
         {
             $details = explode(",", $header1);
-            if(count($details) < 3)  $erray[] = JText::_("Header is missing information (institution/campus/department).");
+            if(count($details) < 3) $erray[] = JText::_("Header is missing information (institution/campus/department).");
         }
 
         $timeperiods = array();
@@ -90,7 +101,7 @@ class thm_organizersModelschedule extends JModel
         {
             foreach( $timeperiodsnode->children() as $timeperiod )
             {
-                $id = (string)$timeperiod[0]['id'];
+                $id = trim((string)$timeperiod[0]['id']);
                 if(empty($id))
                 {
                     $error = JText::_("One or more timeperiods are missing their id attribute.");
@@ -98,24 +109,24 @@ class thm_organizersModelschedule extends JModel
                     unset($error);
                     continue;
                 }
-                $day = (string)$timeperiod->day;
+                $day = (int)$timeperiod->day;
                 if(empty($day))
                 {
                     $erray[] = JText::_("Timeperiod")." $id ".JText::_("does not have a day.");
                     continue;
                 }
-                $period = (string)$timeperiod->period;
+                $period = (int)$timeperiod->period;
                 if(empty($period))
                 {
                     $erray[] = JText::_("Timeperiod")." $id ".JText::_("does not have a period.");
                     continue;
                 }
                 $timeperiods[$day][$period]['id'] = $id;
-                $starttime = (string)$timeperiod->starttime;
+                $starttime = trim((string)$timeperiod->starttime);
                 if(empty($starttime))
                     $erray[] = JText::_("Timeperiod")." $id ".JText::_("does not have a starttime.");
                 else $timeperiods[$day][$period]['starttime'] = $starttime;
-                $endtime = (string)$timeperiod->endtime;
+                $endtime = trim((string)$timeperiod->endtime);
                 if(empty($endtime))
                     $erray[] = JText::_("Timeperiod")." $id ".JText::_("does not have an endtime.");
                 else $timeperiods[$day][$period]['endtime'] = $endtime;
@@ -132,7 +143,7 @@ class thm_organizersModelschedule extends JModel
         {
             foreach($descriptionsnode->children() as $description)
             {
-                $id = (string)$description[0]['id'];
+                $id = trim((string)$description[0]['id']);
                 if(empty($id))
                 {
                     $error = JText::_("One or more descriptions are missing their id attribute.");
@@ -140,14 +151,14 @@ class thm_organizersModelschedule extends JModel
                     unset($error);
                     continue;
                 }
-                $name = (string)$description->longname;
-                if(empty($name))
+                $longname = trim((string)$description->longname);
+                if(empty($longname))
                 {
                     $erray[] =
                         JText::_("Description")." $id ".JText::_("does not have a description.");
                     continue;
                 }
-                else $descriptions[$id] = $name;
+                else $descriptions[$id] = $longname;
                 unset($id, $name);
             }
         }
@@ -161,7 +172,7 @@ class thm_organizersModelschedule extends JModel
         {
             foreach($departmentsnode->children() as $dptnode)
             {
-                $id = (string)$dptnode[0]['id'];
+                $id = trim((string)$dptnode[0]['id']);
                 if(empty($id))
                 {
                     $error = JText::_("One or more departments are missing their id attributes.");
@@ -169,7 +180,7 @@ class thm_organizersModelschedule extends JModel
                     unset($error);
                     continue;
                 }
-                $details = explode(",",(string)$dptnode->longname);
+                $details = explode(",",trim((string)$dptnode->longname));
                 if(count($details) < 3)
                 {
                     $erray[] = JText::_("Department")." $id ".JText::_("does not have all its required information.");
@@ -179,7 +190,7 @@ class thm_organizersModelschedule extends JModel
                 $departments[$id]['institution'] = trim($details [0]);
                 $departments[$id]['campus'] = trim($details [1]);
                 $departments[$id]['department'] = trim($details [2]);
-                if(isset($details [3])) $departments[$id]['curriculum'] = trim($details [3]);
+                if(isset($details [3])) $departments[$id]['subdepartment'] = trim($details [3]);
                 unset($id, $details);
             }
         }
@@ -193,7 +204,7 @@ class thm_organizersModelschedule extends JModel
         {
             foreach($roomsnode->children() as $room)
             {
-                $id = (string)$room[0]['id'];
+                $id = trim((string)$room[0]['id']);
                 if(empty($id))
                 {
                     $error = JText::_("One or more rooms are missing their id attributes.");
@@ -201,13 +212,11 @@ class thm_organizersModelschedule extends JModel
                     unset($error);
                     continue;
                 }
-                $name = str_replace("RM_","",$id);
-                $rooms[$id]['name'] = $name;
-                $longname = trim($room->longname);
+                $longname = trim((string)$room->longname);
                 if(empty($longname))
                     $erray[] = JText::_("Room")." $name ($id) ".JText::_("does not have a longname.");
                 else $rooms[$id]['longname'] = $longname;
-                $capacity = trim($room->capacity);
+                $capacity = trim((int)$room->capacity);
                 if(!empty($capacity)) $rooms[$id]['capacity'] = $capacity;
                 $descid = trim($room->room_description[0]['id']);
                 if(empty($descid))
@@ -455,608 +464,815 @@ class thm_organizersModelschedule extends JModel
      */
     public function activate()
     {
-        $dbo = & JFactory::getDBO();
-        $semesterID = JRequest::getVar('semesterID');
-        $id = JRequest::getVar('schedule_id');
-
-        //load the schedule to be activated from the file in the database
-        $query = "SELECT file, filename FROM #__thm_organizer_schedules WHERE id = '$id'";
-        $dbo->setQuery( $query );
-        $result = $dbo->query();
-        if ($dbo->getErrorNum())
+        $dbo = JFactory::getDBO();
+        $semesterID = JRequest::getInt('semesterID');
+        $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
+        if(count($scheduleIDs) > 1)
         {
-            $this->setRedirect($link, JText::_("Ein Fehler ist aufgetreten."), 'error'  );
+            $query = $dbo->getQuery(true);
+            $query->select("DISTINCT plantypeID");
+            $query->from("#__thm_organizer_schedules");
+            $query->where("id IN ('".implode("', '", $scheduleIDs)."')");
+            $dbo->setQuery((string)$query);
+            $countTypes = count($dbo->loadAssoc());
+            if($countTypes < count($scheduleIDs))
+                return JText::_("Only one file per type can be activated");
         }
-        list($file, $to) = mysql_fetch_array($result);
-
-        //create php structures from the xml structures
-        if($file)
+        foreach($scheduleIDs as $scheduleID)
         {
-                $query = "SELECT filename
-                                  FROM #__thm_organizer_schedules
-                                  WHERE active IS NOT NULL
-                                        AND sid = '$sid'";
-                $dbo->setQuery( $query );
-                $from = $dbo->loadResult();
-                if($from)
+            $query = $dbo->getQuery(true);
+            $query->select("file, filename, plantypeID");
+            $query->from("#__thm_organizer_schedules");
+            $query->where("id = '$scheduleID'");            
+            $dbo->setQuery((string)$query);
+            $row = $dbo->loadAssoc();
+            unset($query);
+            if($dbo->getErrorNum()) return JText::_("An error occured while loading a the schedule to be activated.");
+            $file = $row['file'];
+            if(empty($file)) return JText::_("The file selected was not found.");
+            $filename = $row['filename'];
+            $plantypeID = $row['plantypeID'];
+
+            $query = $dbo->getQuery(true);
+            $query->select("filename");
+            $query->from("#__thm_organizer_schedules");
+            $query->where("active IS NOT NULL");
+            $query->where("sid = '$semesterID'");
+            $query->where("plantypeID = '$plantypeID'");
+            $dbo->setQuery((string)$query);
+            $from = $dbo->loadResult();
+            if(isset($from)) $olddata = $this->handleDeprecatedData($plantype);
+            $newData = $this->getNewData(&$file, $plantypeID);
+            unset($file);
+            if(isset($olddata) and isset($newdata)) $result = $this->calculateDelta();
+            return $result;
+        }
+    }
+
+    /**
+     * private function getNewData
+     */
+    private function getNewData(&$file, $planType)
+    {
+        $dbo = JFactory::getDbo();
+        $semesterID = JRequest::getInt('semesterID');
+        $schedule = simplexml_load_string($file);
+
+        $timeperiods = array();
+        $timeperiodsnode = $schedule->timeperiods;
+        foreach( $timeperiodsnode->children() as $timeperiod )
+        {
+            $id = trim((string)$timeperiod[0]['id']);
+            $day = (int)$timeperiod->day;
+            if(!isset($timeperiods[$day])) $timeperiods[$day] = array();
+            $period = (int)$timeperiod->period;
+            $timeperiods[$day][$period] = array();
+            $timeperiods[$day][$period]['gpuntisID'] = $id;
+            $starttime = trim((string)$timeperiod->starttime);
+            $starttime = substr($starttime, 0, 2).":".substr($starttime, 2, 2).":00";
+            $timeperiods[$day][$period]['starttime'] = $starttime;
+            $endtime = trim((string)$timeperiod->endtime);
+            $endtime = substr($endtime, 0, 2).":".substr($endtime, 2, 2).":00";
+            $timeperiods[$day][$period]['endtime'] = $endtime;
+
+            $query = $dbo->getQuery(true);
+            $statement = "#__thm_organizer_periods ( gpuntisID, day, period, starttime, endtime ) ";
+            $statement .= "VALUES ( '$id', '$day', '$period', '$starttime', '$endtime' )";
+            $query->insert($statement);
+            $dbo->setQuery((string)$query);
+            $dbo->query();
+            unset($query);
+
+            $query = $dbo->getQuery(true);
+            $query->select("id");
+            $query->from("#__thm_organizer_periods");
+            $query->where("gpuntisID = '$id'");
+            $query->where("semesterID = '$semesterID'");
+            $dbo->setQuery((string)$query);
+            $timeperiods[$day][$period]['id'] = $dbo->loadResult();
+            unset($id, $day, $period, $starttime, $endtime, $query);
+        }
+        unset($timeperiodsnode);
+
+        $descriptions = array();
+        $descriptionsnode = $schedule->descriptions;
+        foreach($descriptionsnode->children() as $description)
+        {
+            $id = trim((string)$description[0]['id']);
+            $name = trim((string)$description->longname);
+            $descriptions[$id] = $name;
+            unset($id, $name);
+        }
+        unset($descriptionsnode);
+
+        $departments = array();
+        $departmentsnode = $schedule->departments;
+        foreach($departmentsnode->children() as $dptnode)
+        {
+            $id = (string)$dptnode[0]['id'];
+            $details = explode(",",(string)$dptnode->longname);
+            $departments[$id] = array();
+            $institution = trim($details [0]);
+            $departments[$id]['institution'] = $institution;
+            $campus = trim($details [1]);
+            $departments[$id]['campus'] = $campus;
+            $department = trim($details [2]);
+            $departments[$id]['department'] = $department;
+            if(isset($details [3]))
+            {
+                $name = $curriculum = trim($details [3]);
+                $departments[$id]['curriculum'] = trim($details [3]);
+            }
+            else
+            {
+                $name = $department;
+                $departments[$id]['curriculum'] = "";
+            }
+            $departments[$id]['name'] = $name;
+
+            $query = $dbo->getQuery(true);
+            $query->select("id");
+            $query->from("#__thm_organizer_departments");
+            $query->where("gpuntisID = '$id'");
+            $dbo->setQuery((string)$query);
+            $savedID = $dbo->loadResult();
+            unset($query);
+
+            if(empty($savedID))
+            {
+                $query = $dbo->getQuery(true);
+                $statement = "#__thm_organizer_departments
+                              ( gpuntisID, name, institution, campus, department, curriculum )
+                              VALUES
+                              ( '$id', '$name', '$institution', '$campus', '$department', '$curriculum' )";
+                $query->insert($statement);
+                $dbo->setQuery((string)$query);
+                $dbo->query();
+                unset($query);
+
+                $query = $dbo->getQuery(true);
+                $query->select("id");
+                $query->from("#__thm_organizer_departments");
+                $query->where("gpuntisID = '$id'");
+                $dbo->setQuery((string)$query);
+                $departments[$id]['id'] = $dbo->loadResult();
+                unset($query);
+            }
+            else
+            {
+                $departments[$id]['id'] = $savedID;
+                $query = $dbo->getQuery(true);
+                $query->update("#__thm_organizer_departments");
+                $set = "name = '$name', institution = '$institution', campus = '$campus', ";
+                $set .= "department = '$department',curriculum = '$curriculum' ";
+                $query->set($set);
+                $query->where("id = '$savedID'");
+                $dbo->setQuery((string)$query);
+                $dbo->query();
+                unset($query, $savedID, $set);
+            }
+            unset($id, $details, $institution, $campus, $department, $curriculum, $name);
+        }
+        unset($departmentsnode);
+
+        $rooms = array();
+        $roomsnode = $schedule->rooms;
+        foreach($roomsnode->children() as $room)
+        {
+            $id = trim((string)$room[0]['id']);
+            $name = str_replace("RM_","",$id);
+            $rooms[$id]['name'] = $name;
+            $longname = trim((string)$room->longname);
+            $rooms[$id]['longname'] = $longname;
+            $capacity = (int)$room->capacity;
+            if(empty($capacity)) $capacity = 0;
+            $rooms[$id]['capacity'] = $capacity;
+            $descid = trim((string)$room->room_description[0]['id']);
+            $description = $descriptions[$descid];
+            $rooms[$id]['description'] = $description;
+            $dptid = trim((string)$room->room_department[0]['id']);
+            $rooms[$id]['department'] = $dptid;
+
+            $query = $dbo->getQuery(true);
+            $query->select("id");
+            $query->from("#__thm_organizer_rooms");
+            $query->where("gpuntisID = '$id'");
+            $dbo->setQuery((string)$query);
+            $savedID = $dbo->loadResult();
+            unset($query);
+
+            if(empty($savedID))
+            {
+                $query = $dbo->getQuery(true);
+                $statement = "#__thm_organizer_rooms
+                              ( gpuntisID, name, alias, capacity, type, dptID )
+                              VALUES
+                              ( '$id', '$name', '$longname', '$capacity', '$description', '$dptid' )";
+                $query->insert($statement);
+                $dbo->setQuery((string)$query);
+                $dbo->query();
+                unset($query);
+
+                $query = $dbo->getQuery(true);
+                $query->select("id");
+                $query->from("#__thm_organizer_rooms");
+                $query->where("gpuntisID = '$id'");
+                $dbo->setQuery((string)$query);
+                $rooms[$id]['id'] = $dbo->loadResult();
+                unset($query);
+            }
+            else
+            {
+                $rooms[$id]['id'] = $savedID;
+                $query = $dbo->getQuery(true);
+                $query->update("#__thm_organizer_rooms");
+                $set = "name = '$name', alias = '$longname', capacity = '$capacity', type = '$description', dptID = '$dptid'";
+                $query->set($set);
+                $query->where("id = '$savedID'");
+                $dbo->setQuery((string)$query);
+                $dbo->query();
+                unset($query, $savedID, $set);
+            }
+            unset($id, $name, $longname, $capacity, $descid, $description, $dptid);
+        }
+        unset($roomsnode, $descriptions);
+
+        $subjects = array();
+        $subjectsnode = $schedule->subjects;
+        foreach($subjectsnode->children() as $subject)
+        {
+            $id = trim((string)$subject[0]['id']);
+            $subjects[$id]['name'] = str_replace("SU_","",$id);
+            $subjects[$id]['longname'] = trim((string)$subject->longname);
+            $moduleID = trim($subject->subjectgroup);
+            if(empty($modID)) $modID = '';
+            $subjects[$id]['moduleID'] = $moduleID;
+            unset($id, $name, $longname, $subjectgroup);
+        }
+        unset($subjectsnode);
+
+        $teachers = array();
+        $teachersnode = $schedule->teachers;
+        foreach($teachersnode->children() as $teacher)
+        {
+            $id = trim((string)$teacher[0]['id']);
+            $name = trim((string)$teacher->surname);
+            $dptid = trim((string)$teacher->teacher_department[0]['id']);
+            $teachers[$id]['name'] = $name;
+            $teachers[$id]['department'] = $dptid;
+            $userID = trim((string)$teacher->payrollnumber);
+            if(empty($userID)) $userID = '';
+            $teachers[$id]['userID'] = $userID;
+
+            $query = $dbo->getQuery(true);
+            $query->select("id");
+            $query->from("#__thm_organizer_teachers");
+            $query->where("gpuntisID = '$id'");
+            $dbo->setQuery((string)$query);
+            $savedID = $dbo->loadResult();
+            unset($query);
+
+            if(empty($savedID))
+            {
+                $query = $dbo->getQuery(true);
+                $statement = "#__thm_organizer_teachers ( gpuntisID, name, manager, dptID )
+                              VALUES ( '$id', '$name', '$userID', '$dptid' )";
+                $query->insert($statement);
+                $dbo->setQuery((string)$query);
+                $dbo->query();
+                unset($query);
+
+                $query = $dbo->getQuery(true);
+                $query->select("id");
+                $query->from("#__thm_organizer_teachers");
+                $query->where("gpuntisID = '$id'");
+                $dbo->setQuery((string)$query);
+                $teachers[$id]['id']= $dbo->loadResult();
+            }
+            else
+            {
+                $teachers[$id]['id']= $savedID;
+                $query = $dbo->getQuery(true);
+                $query->update("#__thm_organizer_teachers");
+                $set = "name = '$name', manager = '$manager', dptID = '$dptid'";
+                $query->set($set);
+                $query->where("id = '$savedID'");
+                $dbo->setQuery((string)$query);
+                $dbo->query();
+                unset($query, $savedID, $set);
+            }
+            unset($id, $name, $userid, $dptid);
+        }
+        unset($teachersnode);
+
+        $classes = array();
+        $classesnode = $schedule->classes;
+        foreach($classesnode->children() as $class)
+        {
+            $id = trim((string)$class[0]['id']);
+            $name = str_replace("CL_", "", $id);
+            $longname = trim((string)$class->longname);
+            $details = explode(",", $longname);
+            $major = $details[0];
+            $semester = $details[1];
+            $classes[$id]['name'] = $name;
+            $classes[$id]['alias'] = $longname;
+            $classes[$id]['teacher'] = $teacherid;
+            $classes[$id]['major'] = $major;
+            $classes[$id]['semester'] = $semester;
+            if(isset($teachers[$teacherid]) and isset($teachers[$teacherid]['manager']))
+                $manager = $teachers[$teacherid]['manager'];
+            else $manager = "";
+
+            $query = $dbo->getQuery(true);
+            $query->select("id");
+            $query->from("#__thm_organizer_classes");
+            $query->where("gpuntisID = '$id'");
+            $dbo->setQuery((string)$query);
+            $savedID = $dbo->loadResult();
+            unset($query);
+
+            if(empty($savedID))
+            {
+                $query = $dbo->getQuery(true);
+                $statement = "#__thm_organizer_classes
+                              ( gpuntisID, name, alias, manager, semester, major )
+                              VALUES
+                              ( '$id', '$name', '$longname', '$manager', '$semester', '$major' )";
+                $query->insert($statement);
+                $dbo->setQuery((string)$query);
+                $dbo->query();
+                unset($query);
+
+                $query = $dbo->getQuery(true);
+                $query->select("id");
+                $query->from("#__thm_organizer_classes");
+                $query->where("gpuntisID = '$id'");
+                $dbo->setQuery((string)$query);
+                $classes[$id]['id'] = $dbo->loadResult();
+                unset($query);
+            }
+            else
+            {
+                $classes[$id]['name'] = $savedID;
+                $query = $dbo->getQuery(true);
+                $query->update("#__thm_organizer_classes");
+                $set = "name = '$name', alias = '$longname',  manager = '$manager',
+                        semester = '$semseter',  major = '$major'";
+                $query->set($set);
+                $query->where("id = '$savedID'");
+                $dbo->setQuery((string)$query);
+                $dbo->query();
+                unset($query, $savedID, $set);
+            }
+            unset($id, $name, $longname, $manager, $semester, $major, $details);
+        }
+        unset($classesnode);
+
+        $lessons = array();
+        $lessonsnode = $schedule->lessons;
+        if(empty($lessonsnode))return false;
+        else
+        {
+            foreach($lessonsnode->children() as $lesson)
+            {
+                $id = trim((string)$lesson[0]['id']);
+                $id = substr($id, 0, strlen($id) - 2);
+                if(!isset($lessons[$id])) $lessons[$id] = array();
+                $subjectid = trim((string)$lesson->lesson_subject[0]['id']);
+                $name = $subjects[$subjectid]['name'];
+                $alias = $subjects[$subjectid]['alias'];
+                $moduleID = $subjects[$subjectid]['moduleID'];
+                if(empty($moduleID))$moduleID = "NN";
+                $lessontype = trim((string)$lesson->text1);
+                if($lessontype != "V")
+                    $name = $name."-".$lessontype;
+
+                $query = $dbo->getQuery(true);
+                $query->select("id");
+                $query->from("#__thm_organizer_lessons");
+                $query->where("semesterID = '$semesterID'");
+                $query->where("gpuntisID = '$id'");
+                $dbo->setQuery((string)$query);
+                $lessonID = $dbo->loadResult();
+
+                if(empty($savedID))
                 {
+                    $query = $dbo->getQuery(true);
+                    $statement = "#__thm_organizer_lessons
+                                  ( plantypeID, gpuntisID, semesterID, name, alias, moduleID, type )
+                                  VALUES
+                                  ( '1', '$id', '$semesterID', '$name', '$longname', '$moduleID', '$lessontype' )";
+                    $query->insert($statement);
+                    $dbo->setQuery((string)$query);
+                    $dbo->query();
+                    unset($query);
 
-                        $oldlessons = array();
-                        $query = "SELECT l.lid, o.oname AS name, o.oalias AS description
-                                          FROM #__thm_organizer_lessons AS l
-                                                INNER JOIN #__thm_organizer_objects AS o
-                                                        ON l.lid = o.oid
-                                          WHERE l.sid = '$sid'
-                                                AND o.sid = '$sid'";
-                        $dbo->setQuery($query);
-                        $lids = $dbo->loadAssocList();
-                        foreach($lids as $lk => $lv)
-                        {
-                                $oldlessons[$lv['lid']]['name'] = $lv['name'];
-                                $oldlessons[$lv['lid']]['desc'] = $lv['description'];
-                                //classes are independant of the implementing periods
-                                $query = "SELECT cid
-                                          FROM #__thm_organizer_lessons
-                                          WHERE lid = '".$lv['lid']."'
-                                                AND sid = '$sid'";
-                                $dbo->setQuery($query);
-                                $cids = $dbo->loadAssocList();
-                                foreach($cids as $ck => $cv)
-                                {
-                                        $oldlessons[$lv['lid']]['classes'][$cv['cid']] = $cv['cid'];
-                                }
-                                //teachers and rooms are dependant on the implementing periods
-                                //timeperiod data is checked here because is otherwise impossible to display time changes
-                                //if the timeperiod stays the same
-                                $query = "SELECT lp.rid, lp.tid, tp.tpid, tp.day,
-                                                        tp.period, tp.starttime, tp.endtime
-                                                  FROM #__thm_organizer_lessonperiods AS lp
-                                                        INNER JOIN #__thm_organizer_timeperiods as tp
-                                                                ON lp.tpid = tp.tpid
-                                                  WHERE lid = '".$lv['lid']."'
-                                                        AND lp.sid = '$sid'
-                                                        AND tp.sid = '$sid'";
-                                $dbo->setQuery($query);
-                                $lpdata = $dbo->loadAssocList();
-                                foreach($lpdata as $lpdk => $lpdv)
-                                {
-                                        if(!$oldlessons[$lv['lid']]['periods'][$lpdv['tpid']]['day'])
-                                                $oldlessons[$lv['lid']]['periods'][$lpdv['tpid']]['day'] = $lpdv['day'];
-                                        if(!$oldlessons[$lv['lid']]['periods'][$lpdv['tpid']]['period'])
-                                                $oldlessons[$lv['lid']]['periods'][$lpdv['tpid']]['period'] = $lpdv['period'];
-                                        if(!$oldlessons[$lv['lid']]['periods'][$lpdv['tpid']]['startime'])
-                                                $oldlessons[$lv['lid']]['periods'][$lpdv['tpid']]['starttime'] = $lpdv['starttime'];
-                                        if(!$oldlessons[$lv['lid']]['periods'][$lpdv['tpid']]['endtime'])
-                                                $oldlessons[$lv['lid']]['periods'][$lpdv['tpid']]['endtime'] = $lpdv['endtime'];
-                                        if(!$oldlessons[$lv['lid']]['periods'][$lpdv['tpid']]['rooms'][$lpdv['rid']])
-                                                $oldlessons[$lv['lid']]['periods'][$lpdv['tpid']]['rooms'][$lpdv['rid']] = $lpdv['rid'];
-                                        if(!$oldlessons[$lv['lid']]['periods'][$lpdv['tpid']]['teachers'][$lpdv['tid']])
-                                                $oldlessons[$lv['lid']]['periods'][$lpdv['tpid']]['teachers'][$lpdv['tid']] = $lpdv['tid'];
+                    $query = $dbo->getQuery(true);
+                    $query->select("id");
+                    $query->from("#__thm_organizer_lessons");
+                    $query->where("semesterID = '$semesterID'");
+                    $query->where("gpuntisID = '$id'");
+                    $dbo->setQuery((string)$query);
+                    $lessonID = $dbo->loadResult();
+                }
 
-                                }
-                        }
-                        //$dptdump = print_r($oldlessons, true);
+                $teacherID = trim((string)$lesson->lesson_teacher[0]['id']);
+                $teacherID = $teachers[$teacherid]['id'];
+                if(!isset($lessons[$id]['teachers'])) $lessons[$id]['teachers'] = array();
+                if(!in_array($teacherID, $lessons[$id]['teachers']))
+                    $lessons[$id]['teachers'][] = $teacherID;
 
-                        //remove active data
-                        $query = "DELETE FROM #__thm_organizer_objects WHERE sid = '$sid';";
-                        $dbo->setQuery($query);
+                $query = $dbo->getQuery(true);
+                $query->select("id");
+                $query->from("#__thm_organizer_lesson_teachers");
+                $query->where("lessonID = '$lessonID'");
+                $query->where("gpuntisID = '$id'");
+                $dbo->setQuery((string)$query);
+                $temp = $dbo->loadResult();
+
+                if(empty($temp))
+                {
+                    $query = $dbo->getQuery(true);
+                    $statement = "#__thm_organizer_lesson_teachers ( lessonID, teacherID )
+                                  VALUES ( '$lessonID', '$teacherID' )";
+                    $query->insert($statement);
+                    $dbo->setQuery((string)$query);
+                    $dbo->query();
+                    unset($query);
+                }
+                else unset($temp);
+
+                $classIDs = trim((string)$lesson->lesson_classes[0]['id']);
+                $classIDs = explode(" ", $classIDs);
+
+                foreach($classIDS as $classID)
+                {
+                    if(!isset($lessons[$id]['classes'])) $lessons[$id]['classes'] = array();
+                    if(!in_array($classID, $lessons[$id]['classes']))
+                        $lessons[$id]['classes'][] = $classID;
+                }
+
+                foreach($classIDS as $k => $v)
+                    $classIDs[$k] = $classes[$v]['id'];
+
+                foreach($classIDs as $classID)
+                {
+                    $query = $dbo->getQuery(true);
+                    $query->select("id");
+                    $query->from("#__thm_organizer_lesson_classes");
+                    $query->where("lessonID = '$lessonID'");
+                    $query->where("classID = '$classID'");
+                    $dbo->setQuery((string)$query);
+                    $temp = $dbo->loadResult();
+
+                    if(empty($temp))
+                    {
+                        $query = $dbo->getQuery(true);
+                        $statement = "#__thm_organizer_lesson_classes ( lessonID, classID )
+                                      VALUES ( '$lessonID', '$classID' )";
+                        $query->insert($statement);
+                        $dbo->setQuery((string)$query);
                         $dbo->query();
-                        $query = "DELETE FROM #__thm_organizer_lessons WHERE sid = '$sid';";
-                        $dbo->setQuery($query);
-                        $dbo->query();
-                        $query = "DELETE FROM #__thm_organizer_lessonperiods WHERE sid = '$sid';";
-                        $dbo->setQuery($query);
-                        $dbo->query();
-                        $query = "DELETE FROM #__thm_organizer_timeperiods WHERE sid = '$sid';";
-                        $dbo->setQuery($query);
-                        $dbo->query();
+                        unset($query);
+                    }
+                    else unset($temp);
                 }
 
-                //arrays to contain the lists of resources from the schedule
-                $descriptions = array(); $departments = array();
-                $timeperiods = array(); $classes = array();
-                $lessonclasses = array(); $subjects = array();
-                $subjectobjects = array(); $teachers = array();
-                $lessons = array(); $rooms = array();
-
-                $dDoc = new DOMDocument();
-                $dDoc->loadXML($file);
-                $document = $dDoc->documentElement;
-
-                //descriptions are used to "type" a room
-                $descriptionnodes = $document->getElementsByTagName( "description" );
-                if($descriptionnodes)
-                        foreach( $descriptionnodes as $description )
-                        {
-                            $descid = trim($description->getAttribute("id"));
-                            foreach($description->getElementsByTagName("longname") as $longname)
-                            {
-                                $desc = trim($longname->textContent);
-                            }
-                            $descriptions[$descid] = $desc;
-                            unset( $longname);
-                        }
-                unset($description, $descriptionnodes);
-
-                //collects data specific to departments
-                //departments are used to assign an org. unit to installations
-                //or dept(curricula) to teachers
-                $departmentnodes = $document->getElementsByTagName( "department" );
-                if(count($departmentnodes) > 0)
-                        foreach( $departmentnodes as $department )
-                        {
-                            $deptid = trim($department->getAttribute("id"));
-                            foreach($department->getElementsByTagName("longname") as $longname)
-                            {
-                                $details = explode(',', $longname->textContent);
-                                $departments[$deptid]['school'] = trim($details [0]);
-                                $departments[$deptid]['campus'] = trim($details [1]);
-                                $departments[$deptid]['department'] = trim($details [2]);
-                                $departments[$deptid]['curriculum'] = trim($details [3]);
-                            }
-                                unset($longname);
-                        }
-                unset($department, $departmentnodes);
-
-                //collects data specific to time periods
-                $timeperiodnodes = $document->getElementsByTagName( "timeperiod" );
-                foreach( $timeperiodnodes as $timeperiod )
+                $times = $lesson->times;
+                foreach($times->children() as $instance)
                 {
-                    $tpid = trim($timeperiod->getAttribute("id"));
-                    foreach($timeperiod->getElementsByTagName("day") as $eday)
-                    {
-                        $day = trim($eday->textContent);
-                    }
-                    foreach($timeperiod->getElementsByTagName("period") as $eperiod)
-                    {
-                        $period = trim($eperiod->textContent);
-                    }
-                    foreach($timeperiod->getElementsByTagName("starttime") as $estarttime)
-                    {
-                        $tstarttime = trim($estarttime->textContent);
-                        $starttime = substr($tstarttime, 0, 2).":".substr($tstarttime, 2, 2).":00";
-                    }
-                    foreach($timeperiod->getElementsByTagName("endtime") as $eendtime)
-                    {
-                        $tendtime = trim($eendtime->textContent);
-                        $endtime = substr($tendtime, 0, 2).":".substr($tendtime, 2, 2).":00";
-                    }
-                    unset($eday, $eperiod, $estarttime, $eendtime);
-                    $starttime = $starttime;
-                    $endtime = $endtime;
-                    $timeperiods[$day][$period] = $tpid;
-                    $timeperiods[$tpid]['tpid']= $tpid;
-                    $timeperiods[$tpid]['day']= $day;
-                    $timeperiods[$tpid]['period']= $period;
-                    $timeperiods[$tpid]['starttime']= $starttime;
-                    $timeperiods[$tpid]['endtime']= $endtime;
+                    $day = (int)$instance->assigned_day;
+                    $period = (int)$instance->assigned_period;
+                    $periodID = $timeperiods[$day][$period]['gpuntisID'];
+                    $roomID = trim((string)$instance->assigned_room[0]['id']);
+                    
+                    if(!isset($lessons[$id]['times'])) $lessons[$id]['times'] = array();
+                    $gparray = array('roomID' => $roomID, 'periodID' => $periodID);
+                    if(!in_array($gparray, $lessons[$id]['times']))
+                        $lessons[$id]['times'][] = $gparray;
 
-                    $query = "INSERT IGNORE INTO #__thm_organizer_timeperiods
-                                                                                (tpid, day, period, starttime, endtime, sid)
-                                                                         VALUES('$tpid', '$day', '$period', '$starttime', '$endtime', '$sid');";
-                    $dbo->setQuery($query);
+                    $roomID = $rooms[$roomID]['id'];
+                    $periodID = $timeperiods[$day][$period]['id'];
+
+                    $query = $dbo->getQuery(true);
+                    $statement = "#__thm_organizer_lesson_times ( lessonID, roomID, periodID )
+                                  VALUES ( '$lessonID', '$roomID', '$periodID' )";
+                    $query->insert($statement);
+                    $dbo->setQuery((string)$query);
                     $dbo->query();
-                }
-                unset($tpid, $timeperiod, $timeperiodnodes);
 
-                //subjects are abstract guidelines for lessons
-                //lessons implement subjects and carry their names
-                $subjectnodes = $document->getElementsByTagName( "subject" );
-                foreach( $subjectnodes as $subject )
-                {
-                    $suid = trim($subject->getAttribute("id"));
-                        $subjects[$suid]['id'] = $suid;
-                    foreach($subject->getElementsByTagName("longname") as $longname)
-                    {
-                        $subjects[$suid]['name'] = trim($longname->textContent);
-                    }
-                    foreach($subject->getElementsByTagName("subjectgroup") as $sge)
-                    {
-                        $subjects[$suid]['module'] = trim($sge->textContent);
-                    }
-                        unset($longname, $sge);
+                    unset($day, $period, $periodID, $roomid, $query);
                 }
-                unset($subject, $subjectnodes);
+                unset($id, $subjectid, $name, $teacherid, $classids, $lessontype, $periods, $times);
+            }
+        }
+        unset($lessonsnode);
+        return $lessons;
+    }
 
-                $teachernodes = $document->getElementsByTagName( "teacher" );
-                foreach( $teachernodes as $teacher )
-                {
-                    $oid = trim($teacher->getAttribute("id"));
-                        $teachers[$tid]['id'] = $oid;
-                    foreach($teacher->getElementsByTagName("surname") as $surname)
-                    {
-                        $oname = trim($surname->textContent);
-                    }
-                    $payrollnumbers = $teacher->getElementsByTagName("payrollnumber");
-                    if($payrollnumbers)
-                            foreach($payrollnumbers as $prn)
-                            {
-                                $manager = trim($prn->textContent);
-                            }
-                    foreach($teacher->getElementsByTagName("teacher_department") as $td)
-                    {
-                        $dept = trim($departments[$td->getAttribute("id")]['curriculum']);
-                    }
-                        unset($surname, $prn, $td);
-                $teachers[$oid]['oid'] = $oid;
-                $teachers[$oid]['oname'] = $oname;
-                $teachers[$oid]['manager'] = $prno;
-                $teachers[$oid]['department'] = $dept;
-                    $query = "INSERT IGNORE INTO #__thm_organizer_objects
-                                        (oid, oname, otype, manager,  sid)
-                                  VALUES('$oid', '$oname', 'teacher', '$manager', '0');";
-                    $dbo->setQuery($query);
-                    $dbo->query();
-                    $query = "INSERT IGNORE INTO #__thm_organizer_teachers
-                                        (tid, department)
-                                  VALUES('$oid', '$dept');";
-                    $dbo->setQuery($query);
-                    $lastquery;
-                    $dbo->query();
-                }
-                unset($subject, $subjectnodes);
+    /**
+     * private function getDeprecatedData
+     *
+     * retrieves lesson data for the currently active schedule/semester/type
+     * and encapsulates it in a php array structure, then removes it.
+     */
+    private function handleDeprecatedData($planType)
+    {
+        $dbo = JFactory::getDbo();
+        $semesterID = JRequest::getInt('semesterID');
+        $lessons = array();
 
-                //classes are majors divided among their semesters
-                //exceptions being other departments using rooms under the management of IT dept
-                $classnodes = $document->getElementsByTagName( "class" );
-                foreach( $classnodes as $class )
-                {
-                    $oid = $class->getAttribute("id");
-                    $oname = str_replace("CL_", "", $oid);
-                    foreach($class->getElementsByTagName("longname") as $ln)
-                    {
-                        $oalias = trim($ln->textContent);
-                        $parts = explode(',', $oalias);
-                        $department = trim($parts[0]);
-                        $semester = trim($parts[1]);
-                    }
-                    foreach($class->getElementsByTagName("class_teacher") as $ct)
-                    {
-                        $tid = trim($ct->textContenttrim);
-                    }
-                        unset($ln, $ct);
-                    $classes[$oid]['oid'] = $oid;
-                    $classes[$oid]['oname'] = $oname;
-                    $classes[$oid]['oalias'] = $oalias;
-                    $manager = $teachers[$tid]['manager'];
-                    $classes[$oid]['manager'] = $manager;
-                    $classes[$oid]['department'] = $department;
-                    $classes[$oid]['semester'] = $semester;
-                    $query = "INSERT IGNORE INTO #__thm_organizer_objects
-                                        (oid, oname, oalias, otype, manager, sid)
-                                  VALUES('$oid', '$oname', '$oalias', 'class', '$manager', '0');";
-                    $dbo->setQuery($query);
-                    $dbo->query();
-                    $query = "INSERT IGNORE INTO #__thm_organizer_classes
-                                        (cid, department, semester)
-                                  VALUES('$oid', '$department', '$semester');";
-                    $dbo->setQuery($query);
-                    $dbo->query();
-                }
-                unset($classnodes, $class);
+        $query = $dbo->getQuery(true);
+        $query->select("id");
+        $query->from("#__thm_organizer_lessons");
+        $query->where("plantype = '$planType'");
+        $query->where("semesterID = '$semesterID'");
+        $dbo->setQuery($query);
+        $lessonIDs = $dbo->loadResultArray();
 
-                $roomnodes = $document->getElementsByTagName( "room" );
-                foreach( $roomnodes as $room )
-                {
-                    $oid = trim($room->getAttribute("id"));
-                    $oname = str_replace("RM_","",$oid);
-                    foreach($room->getElementsByTagName("longname") as $longname)
-                    {
-                        $oalias = trim($longname->textContent);
-                    }
-                    foreach($room->getElementsByTagName("capacity") as $cap)
-                    {
-                        $capacity = trim($cap->textContent);
-                    }
-                    foreach($room->getElementsByTagName("room_description") as $rdesc)
-                    {
-                        $rtype = $descriptions[trim($rdesc->getAttribute("id"))];
-                    }
-                    foreach($room->getElementsByTagName("room_department") as $rdept)
-                    {
-                        $department = $departments[trim($rdept->getAttribute("id"))]['department'];
-                    }
-                    unset($longname, $cap, $rdesc, $rdept);
-                    $rooms[$oid]['oid'] = $oid;
-                    $rooms[$oid]['oname'] = $oname;
-                    $rooms[$oid]['oalias'] = $oalias;
-                    $rooms[$oid]['capacity'] = $capacity;
-                    $rooms[$oid]['rtype'] = $rtype;
-                    $rooms[$oid]['department'] = $department;
-                    $query = "INSERT IGNORE INTO #__thm_organizer_objects
-                                        (oid, oname, otype, oalias, sid)
-                                  VALUES('$oid', '$oname', 'room', '$oalias', '0');";
-                    $dbo->setQuery($query);
-                    $dbo->query();
-                    $query = "INSERT IGNORE INTO #__thm_organizer_rooms
-                                        (rid, capacity, rtype, department)
-                                  VALUES('$oid', '$capacity', '$rtype', '$department');";
-                    $dbo->setQuery($query);
-                    $dbo->query();
-                }
-                unset($roomnodes, $room);
+        $lessonIDString = "'".implode("', '", $lessonIDs)."'";
 
-                $lessonnodes = $document->getElementsByTagName( "lesson" );
-                foreach( $lessonnodes as $lesson )
-                {
-                        $oid = $suid = $lessontype = $oname = $oalias = null;
-                        $oid = substr($lesson->getAttribute("id"), 0, strlen($lesson->getAttribute("id")) - 2);
-                        $lessons[$oid]['oldid'] = $oldid;
-                    foreach($lesson->getElementsByTagName("lesson_subject") as $subjectnl)
-                    {
-                        $suid= $subjectnl->getAttribute("id");
-                    }
-                    unset($subjectnl);
-                    $lessons[$oid]['subjectid'] = $suid;
-                $oname = $subjects[$suid]['name'];
-                        foreach($lesson->getElementsByTagName("text1") as $t1)
-                    {
-                        $lessontype = $t1->textContent;
-                    }
-                    unset($t1);
-                    if($lessontype != "V")//V(Vorlesung) does not need to be specially identified in the name
-                        $oname = $oname."-".$lessontype;
-                $lessons[$oid]['name'] = $oname;
-                $oalias = $subjects[$suid]['module'];
-                if(!$oalias) $oalias = "";
-                $lessons[$oid]['desc'] = $oalias;
+        $query = $dbo->getQuery(true);
+        $query->delete();
+        $query->from("#__thm_organizer_lessons");
+        $query->where("id IN ( $lessonIDString )");
+        $dbo->setQuery((string)$query);
+        $dbo->query();
+        unset($query);
 
-                //details common to all resources
-                        $query = "INSERT INTO #__thm_organizer_objects (oid, oname, oalias, otype, sid)
-                                                VALUES('$oid', '$oname', '$oalias', 'lesson', '$sid');";
-                        $dbo->setQuery( $query );
-                        $dbo->query();
+        foreach($lessonIDs as $lessonID)
+        {
+            $lessons[$lessonID] = array();
 
-                        if(!isset($lessoncount[$oid])) $lessoncount[$oid] = 0;
-                        else $lessoncount[$oid] = $lessoncount[$oid] + 1;
-                        //details specific to a lesson
-                        foreach($lesson->getElementsByTagName("lesson_classes") as $classesnl)
-                    {
-                        $classids = $classesnl->getAttribute("id");
-                            $tempclassidarray = explode(" ", $classids);
-                            foreach($tempclassidarray as $tempclassid)
-                            {
-                                $lessons[$oid]['classes'][$tempclassid] = $tempclassid;
-                            }
-                    }
-                    unset($classesnl);
-                    foreach($lessons[$oid]['classes'] as $classid)
-                {
-                        $query = "INSERT INTO #__thm_organizer_lessons (lid, cid, ltype, sid)
-                                                VALUES('$oid', '$classid', '$lessontype', '$sid');";
-                                $dbo->setQuery( $query );
-                                $dbo->query();
-                }
-                        //details specific to a lesson period
-                        foreach($lesson->getElementsByTagName("lesson_teacher") as $teachernl)
-                    {
-                        $tid = $teachernl->getAttribute("id");
-                    }
-                    unset($teachernl);
-                        foreach($lesson->getElementsByTagName("time") as $time)
-                    {
-                                foreach($time->getElementsByTagName("assigned_day") as $daynl)
-                            {
-                                $day = $daynl->textContent;
-                            }
-                                foreach($time->getElementsByTagName("assigned_period") as $periodnl)
-                            {
-                                $period = $periodnl->textContent;
-                            }
-                                foreach($time->getElementsByTagName("assigned_room") as $roomnl)
-                            {
-                                $rid = $roomnl->getAttribute("id");
-                            }
-                            $tpid = $timeperiods[$day][$period];
-                            $lessons[$oid]['periods'][$tpid]['day'] = $day;
-                            $lessons[$oid]['periods'][$tpid]['period'] = $period;
-                            $lessons[$oid]['periods'][$tpid]['starttime'] = $timeperiods[$tpid]['starttime'];
-                            $lessons[$oid]['periods'][$tpid]['endtime'] = $timeperiods[$tpid]['endtime'];
-                            $lessons[$oid]['periods'][$tpid]['teachers'][$tid] = $tid;
-                            $lessons[$oid]['periods'][$tpid]['rooms'][$rid] = $rid;
-                            $query = "INSERT INTO #__thm_organizer_lessonperiods (lid, rid, tpid, tid, sid)
-                                                        VALUES('$oid', '$rid', '$tpid', '$tid', '$sid');";
-                                $dbo->setQuery( $query );
-                                $dbo->query();
-                            unset($rid, $day, $period, $tpid);
-                            unset($lid);
-                    }
-                    unset($time);
-                }
-                unset($lesson, $lessonnodes, $dDoc);
+            $query = $dbo->getQuery(true);
+            $query->select("teacherID");
+            $query->from("#__thm_organizer_lesson_teachers");
+            $query->where("lessonID = '$lessonID'");
+            $dbo->setQuery((string)$query);
+            $lessons[$lessonID]['teachers'] = $dbo->loadResultArray();
+            unset($query);
+                        
+            $query = $dbo->getQuery(true);
+            $query->select("classID");
+            $query->from("#__thm_organizer_lesson_classes");
+            $query->where("lessonID = '$lessonID'");
+            $dbo->setQuery((string)$query);
+            $lessons[$lessonID]['classes'] = $dbo->loadResultArray();
+            unset($query);
+                        
+            $query = $dbo->getQuery(true);
+            $query->select("roomID, periodID");
+            $query->from("#__thm_organizer_lesson_times");
+            $query->where("lessonID = '$lessonID'");
+            $dbo->setQuery((string)$query);
+            $lessons[$lessonID]['times'] = $dbo->loadAssocList();
+            unset($query);
+
+            $query = $dbo->getQuery(true);
+            $query->select("periodID");
+            $query->from("#__thm_organizer_lesson_times");
+            $query->where("lessonID = '$lessonID'");
+            $dbo->setQuery((string)$query);
+            $periodIDs = $dbo->loadResultArray();
+            unset($query);
+
+            $query = $dbo->getQuery(true);
+            $query->delete();
+            $query->from("#__thm_organizer_lesson_times");
+            $query->where("lessonID = '$lessonID'");
+            $dbo->setQuery((string)$query);
+            $dbo->query();
+            unset($query);
+
+            $periodIDString = "'".implode("', '", $periodIDs)."'";
+            unset($periodIDs);
+
+            $query = $dbo->getQuery(true);
+            $query->delete();
+            $query->from("#__thm_organizer_periods");
+            $query->where("periodID IN ( $periodIDString )");
+            $dbo->setQuery((string)$query);
+            $dbo->query();
+            unset($query);
         }
 
-        //build the delta
-        if($from)
+        $query = $dbo->getQuery(true);
+        $query->delete();
+        $query->from("#__thm_organizer_lesson_teachers");
+        $query->where("id IN ( $lessonIDString )");
+        $dbo->setQuery((string)$query);
+        $dbo->query();
+        unset($query);
+
+        $query = $dbo->getQuery(true);
+        $query->delete();
+        $query->from("#__thm_organizer_lesson_classes");
+        $query->where("id IN ( $lessonIDString )");
+        $dbo->setQuery((string)$query);
+        $dbo->query();
+        unset($query, $lessonIDString, $lessonIDs);
+
+        return $lessons;
+    }
+
+    /**
+     * private funtion delta
+     *
+     * creates a change set between the currently active schedule and the schedule to
+     * become active, and saves this data as a json string in the structure used by
+     * the scheduler rich internet application
+     */
+    private function delta()
+    {
+        return true;
+
+        $type = "cyclic";
+        $predelta = array();
+        $lessonsdelta = array();//holds a running count of movedto/movedfrom lessons
+        foreach($lessons as $lessonkey => $lessonvalue)
         {
-                $type = "cyclic";
-                $predelta = array();
-                $lessonsdelta = array();//holds a running count of movedto/movedfrom lessons
-                foreach($lessons as $lessonkey => $lessonvalue)
+            //if a lesson does not exist in the old plan than every period is new
+            if(!array_key_exists($lessonkey, $oldlessons))
+            {
+                foreach($lessons[$lessonkey]['periods'] as $lpkey => $lpvalue)
                 {
-                        //if a lesson does not exist in the old plan than every period is new
-                        if(!array_key_exists($lessonkey, $oldlessons))
+                    $key = $lessonkey." ".$lpkey;
+                    $predelta[$key]['type'] = $type;
+                    $predelta[$key]['dow'] = $lessons[$lessonkey]['periods'][$lpkey]['day'];
+                    $predelta[$key]['block'] = $lessons[$lessonkey]['periods'][$lpkey]['period'];
+                    $predelta[$key]['clas'] = implode(" ", $lessons[$lessonkey]['classes']);
+                    $predelta[$key]['room'] = implode(" ", $lessons[$lessonkey]['periods'][$lpkey]['rooms']);
+                    $predelta[$key]['doz'] = implode(" ", $lessons[$lessonkey]['periods'][$lpkey]['teachers']);
+                    $predelta[$key]['key'] = $lessonkey." ".$lpkey;
+                    $predelta[$key]['name'] = $lessons[$lessonkey]['name'];
+                    $predelta[$key]['desc'] = $lessons[$lessonkey]['desc'];
+                    $predelta[$key]['css'] = 'new';
+                    unset($key);
+                }
+            }
+            else//the lesson exists in both plans
+            {
+                    $css = "";
+                    $changes = array();
+                    foreach($lessons[$lessonkey]['classes'] as $ck => $cv)
+                    {
+                            //classes new to the lesson
+                            if(!array_key_exists($ck, $oldlessons[$lessonkey]['classes']))
+                            {
+                                    if(!$changes['classes'][$ck])$changes['classes'][$ck] = "new";
+                                    $css = "changed";
+                            }
+                    }
+                    foreach($oldlessons[$lessonkey]['classes'] as $ck => $cv)
+                    {
+                            //classes removed from the lesson
+                            if(!array_key_exists($ck, $lessons[$lessonkey]['classes']))
+                            {
+                                    if(!$changes['classes'][$ck])$changes['classes'][$ck] = "removed";
+                                    $css = "changed";
+                            }
+                    }
+                    foreach($lessons[$lessonkey]['periods'] as $lpkey => $lpvalue)
+                    {
+                        //if the time period does not exist, but the lesson does
+                        //than a period in the old plan was moved here
+                        if(!array_key_exists($lpkey, $oldlessons[$lessonkey]['periods']))
                         {
-                                foreach($lessons[$lessonkey]['periods'] as $lpkey => $lpvalue)
-                                {
-                                        $key = $lessonkey." ".$lpkey;
-                                        $predelta[$key]['type'] = $type;
-                                        $predelta[$key]['dow'] = $lessons[$lessonkey]['periods'][$lpkey]['day'];
-                                        $predelta[$key]['block'] = $lessons[$lessonkey]['periods'][$lpkey]['period'];
-                                        $predelta[$key]['clas'] = implode(" ", $lessons[$lessonkey]['classes']);
-                                        $predelta[$key]['room'] = implode(" ", $lessons[$lessonkey]['periods'][$lpkey]['rooms']);
-                                        $predelta[$key]['doz'] = implode(" ", $lessons[$lessonkey]['periods'][$lpkey]['teachers']);
-                                        $predelta[$key]['key'] = $lessonkey." ".$lpkey;
-                                        $predelta[$key]['name'] = $lessons[$lessonkey]['name'];
-                                        $predelta[$key]['desc'] = $lessons[$lessonkey]['desc'];
-                                        $predelta[$key]['css'] = 'new';
-                                        unset($key);
-                                }
+                            $key = $lessonkey." ".$lpkey;
+                            $predelta[$key]['type'] = $type;
+                            $predelta[$key]['dow'] = $lessons[$lessonkey]['periods'][$lpkey]['day'];
+                            $predelta[$key]['block'] = $lessons[$lessonkey]['periods'][$lpkey]['period'];
+                            $predelta[$key]['clas'] = implode(" ", $lessons[$lessonkey]['classes']);
+                            $predelta[$key]['room'] = implode(" ", $lessons[$lessonkey]['periods'][$lpkey]['rooms']);
+                            $predelta[$key]['doz'] = implode(" ", $lessons[$lessonkey]['periods'][$lpkey]['teachers']);
+                            $predelta[$key]['key'] = $key ;
+                            $predelta[$key]['name'] = $lessons[$lessonkey]['name'];
+                            $predelta[$key]['desc'] = $lessons[$lessonkey]['desc'];
+                            if($css == "changed")
+                            {
+                                    $predelta[$key]['changes'] = $changes;
+                                    $predelta[$key]['css'] = 'movedto '.$css;
+                            }
+                            else $predelta[$key]['css'] = 'movedto';
+                            if($lessonsdelta[$lessonkey]['movedto'])
+                                    $lessonsdelta[$lessonkey]['movedto'] = $lessonsdelta[$lessonkey]['movedto'] + 1;
+                            else $lessonsdelta[$lessonkey]['movedto'] = 1;
+                            unset($key);
                         }
-                        //the lesson exists in both plans
+                        //check if the data represented by the time period has changed
+                        //i.e. the timeperiod are the same, but the day, block, etc. have changed
                         else
                         {
-                                $css = "";
-                                $changes = array();
-                                foreach($lessons[$lessonkey]['classes'] as $ck => $cv)
+                            $oldperiod = $oldlessons[$lessonkey]['periods'][$lpkey];
+                            if($oldperiod['starttime'] != $lpvalue['starttime'])
+                            {
+                                $css = "changed";
+                                $changes['starttime'] = $oldperiod['starttime']." => ".$lpvalue['starttime'];
+                            }
+                            if($oldperiod['endtime'] != $lpvalue['endtime'])
+                            {
+                                $css = "changed";
+                                $changes['endtime'] = $oldperiod['endtime']." => ".$lpvalue['endtime'];
+                            }
+                            foreach($lessons[$lessonkey]['periods'][$lpkey]['teachers'] as $lptkey => $lptvalue)
+                            {
+                                if(!array_key_exists($lptkey, $oldlessons[$lessonkey]['periods'][$lpkey]['teachers']))
                                 {
-                                        //classes new to the lesson
-                                        if(!array_key_exists($ck, $oldlessons[$lessonkey]['classes']))
-                                        {
-                                                if(!$changes['classes'][$ck])$changes['classes'][$ck] = "new";
-                                                $css = "changed";
-                                        }
+                                    $css = "changed";
+                                    $changes['teachers'][$lptkey] = "new";
                                 }
-                                foreach($oldlessons[$lessonkey]['classes'] as $ck => $cv)
+                                else
+                                    unset($oldlessons[$lessonkey]['periods'][$lpkey]['teachers'][$lptkey]);
+                            }
+                            if(count($oldlessons[$lessonkey]['periods'][$lpkey]['teachers']) > 0)
+                                foreach($oldlessons[$lessonkey]['periods'][$lpkey]['teachers'] as $optkey => $optvalue)
                                 {
-                                        //classes removed from the lesson
-                                        if(!array_key_exists($ck, $lessons[$lessonkey]['classes']))
-                                        {
-                                                if(!$changes['classes'][$ck])$changes['classes'][$ck] = "removed";
-                                                $css = "changed";
-                                        }
+                                    $css = "changed";
+                                    $changes['teachers'][$optkey] = "removed";
                                 }
-                                foreach($lessons[$lessonkey]['periods'] as $lpkey => $lpvalue)
+                            foreach($lessons[$lessonkey]['periods'][$lpkey]['rooms'] as $lprkey => $lprvalue)
+                            {
+                                if(!array_key_exists($lprkey, $oldlessons[$lessonkey]['periods'][$lpkey]['rooms']))
                                 {
-                                        //if the time period does not exist, but the lesson does
-                                        //than a period in the old plan was moved here
-                                        if(!array_key_exists($lpkey, $oldlessons[$lessonkey]['periods']))
-                                        {
-                                                $key = $lessonkey." ".$lpkey;
-                                                $predelta[$key]['type'] = $type;
-                                                $predelta[$key]['dow'] = $lessons[$lessonkey]['periods'][$lpkey]['day'];
-                                                $predelta[$key]['block'] = $lessons[$lessonkey]['periods'][$lpkey]['period'];
-                                                $predelta[$key]['clas'] = implode(" ", $lessons[$lessonkey]['classes']);
-                                                $predelta[$key]['room'] = implode(" ", $lessons[$lessonkey]['periods'][$lpkey]['rooms']);
-                                                $predelta[$key]['doz'] = implode(" ", $lessons[$lessonkey]['periods'][$lpkey]['teachers']);
-                                                $predelta[$key]['key'] = $key ;
-                                                $predelta[$key]['name'] = $lessons[$lessonkey]['name'];
-                                                $predelta[$key]['desc'] = $lessons[$lessonkey]['desc'];
-                                                if($css == "changed")
-                                                {
-                                                        $predelta[$key]['changes'] = $changes;
-                                                        $predelta[$key]['css'] = 'movedto '.$css;
-                                                }
-                                                else $predelta[$key]['css'] = 'movedto';
-                                                if($lessonsdelta[$lessonkey]['movedto'])
-                                                        $lessonsdelta[$lessonkey]['movedto'] = $lessonsdelta[$lessonkey]['movedto'] + 1;
-                                                else $lessonsdelta[$lessonkey]['movedto'] = 1;
-                                                unset($key);
-                                        }
-                                        //check if the data represented by the time period has changed
-                                        //i.e. the timeperiod are the same, but the day, block, etc. have changed
-                                        else
-                                        {
-                                                $oldperiod = $oldlessons[$lessonkey]['periods'][$lpkey];
-                                                if($oldperiod['starttime'] != $lpvalue['starttime'])
-                                                {
-                                                        $css = "changed";
-                                                        $changes['starttime'] = $oldperiod['starttime']." => ".$lpvalue['starttime'];
-                                                }
-                                                if($oldperiod['endtime'] != $lpvalue['endtime'])
-                                                {
-                                                        $css = "changed";
-                                                        $changes['endtime'] = $oldperiod['endtime']." => ".$lpvalue['endtime'];
-                                                }
-                                                foreach($lessons[$lessonkey]['periods'][$lpkey]['teachers'] as $lptkey => $lptvalue)
-                                                {
-                                                        if(!array_key_exists($lptkey, $oldlessons[$lessonkey]['periods'][$lpkey]['teachers']))
-                                                        {
-                                                                $css = "changed";
-                                                                $changes['teachers'][$lptkey] = "new";
-                                                        }
-                                                        else
-                                                                unset($oldlessons[$lessonkey]['periods'][$lpkey]['teachers'][$lptkey]);
-                                                }
-                                                if(count($oldlessons[$lessonkey]['periods'][$lpkey]['teachers']) > 0)
-                                                        foreach($oldlessons[$lessonkey]['periods'][$lpkey]['teachers'] as $optkey => $optvalue)
-                                                        {
-                                                                $css = "changed";
-                                                                $changes['teachers'][$optkey] = "removed";
-                                                        }
-                                                foreach($lessons[$lessonkey]['periods'][$lpkey]['rooms'] as $lprkey => $lprvalue)
-                                                {
-                                                        if(!array_key_exists($lprkey, $oldlessons[$lessonkey]['periods'][$lpkey]['rooms']))
-                                                        {
-                                                                $css = "changed";
-                                                                $changes['rooms'][$lprkey] = "new";
-                                                        }
-                                                        else
-                                                                unset($oldlessons[$lessonkey]['periods'][$lpkey]['rooms'][$lprkey]);
-                                                }
-                                                if(count($oldlessons[$lessonkey]['periods'][$lpkey]['rooms']) > 0)
-                                                        foreach($oldlessons[$lessonkey]['periods'][$lpkey]['rooms'] as $oprkey => $oprvalue)
-                                                        {
-                                                                $css = "changed";
-                                                                $changes['rooms'][$oprkey] = "removed";
-                                                        }
-                                                if($css == "changed")
-                                                {
-                                                        $key = $lessonkey." ".$lpkey;
-                                                        $predelta[$key]['type'] = $type;
-                                                        $predelta[$key]['dow'] = $lessons[$lessonkey]['periods'][$lpkey]['day'];
-                                                        $predelta[$key]['block'] = $lessons[$lessonkey]['periods'][$lpkey]['period'];
-                                                        $predelta[$key]['clas'] = implode(" ", $lessons[$lessonkey]['classes']);
-                                                        $predelta[$key]['room'] = implode(" ", $lessons[$lessonkey]['periods'][$lpkey]['rooms']);
-                                                        $predelta[$key]['doz'] = implode(" ", $lessons[$lessonkey]['periods'][$lpkey]['teachers']);
-                                                        $predelta[$key]['key'] = $key;
-                                                        $predelta[$key]['name'] = $lessons[$lessonkey]['name'];
-                                                        $predelta[$key]['desc'] = $lessons[$lessonkey]['desc'];
-                                                        $predelta[$key]['css'] = 'changed';
-                                                        $predelta[$key]['changes'] = $changes;
-                                                        unset($key);
-                                                }
-                                                unset($oldlessons[$lessonkey]['periods'][$lpkey]);
-                                        }
+                                    $css = "changed";
+                                    $changes['rooms'][$lprkey] = "new";
                                 }
-                                //periods that were not in the new plan have been moved
-                                if(count($oldlessons[$lessonkey]['periods']) > 0)
+                                else
+                                    unset($oldlessons[$lessonkey]['periods'][$lpkey]['rooms'][$lprkey]);
+                            }
+                            if(count($oldlessons[$lessonkey]['periods'][$lpkey]['rooms']) > 0)
+                                foreach($oldlessons[$lessonkey]['periods'][$lpkey]['rooms'] as $oprkey => $oprvalue)
                                 {
-                                        foreach($oldlessons[$lessonkey]['periods'] as $lpkey => $lpvalue)
-                                        {
-                                                $key = $lessonkey." ".$lpkey;
-                                                $predelta[$key]['type'] = $type;
-                                                $predelta[$key]['dow'] = $oldlessons[$lessonkey]['periods'][$lpkey]['day'];
-                                                $predelta[$key]['block'] = $oldlessons[$lessonkey]['periods'][$lpkey]['period'];
-                                                $predelta[$key]['clas'] = implode(" ", $oldlessons[$lessonkey]['classes']);
-                                                $predelta[$key]['room'] = implode(" ", $oldlessons[$lessonkey]['periods'][$lpkey]['rooms']);
-                                                $predelta[$key]['doz'] = implode(" ", $oldlessons[$lessonkey]['periods'][$lpkey]['teachers']);
-                                                $predelta[$key]['key'] = $key;
-                                                $predelta[$key]['name'] = $oldlessons[$lessonkey]['name'];
-                                                $predelta[$key]['desc'] = $oldlessons[$lessonkey]['desc'];
-                                                $predelta[$key]['css'] = 'movedfrom';
-                                                if($lessonsdelta[$lessonkey]['movedfrom'])
-                                                        $lessonsdelta[$lessonkey]['movedfrom'] = $lessonsdelta[$lessonkey]['movedfrom'] + 1;
-                                                else $lessonsdelta[$lessonkey]['movedfrom'] = 1;
-                                                unset($key);
-                                        }
+                                    $css = "changed";
+                                    $changes['rooms'][$oprkey] = "removed";
                                 }
-                                unset($oldlessons[$lessonkey], $changes);
+                            if($css == "changed")
+                            {
+                                $key = $lessonkey." ".$lpkey;
+                                $predelta[$key]['type'] = $type;
+                                $predelta[$key]['dow'] = $lessons[$lessonkey]['periods'][$lpkey]['day'];
+                                $predelta[$key]['block'] = $lessons[$lessonkey]['periods'][$lpkey]['period'];
+                                $predelta[$key]['clas'] = implode(" ", $lessons[$lessonkey]['classes']);
+                                $predelta[$key]['room'] = implode(" ", $lessons[$lessonkey]['periods'][$lpkey]['rooms']);
+                                $predelta[$key]['doz'] = implode(" ", $lessons[$lessonkey]['periods'][$lpkey]['teachers']);
+                                $predelta[$key]['key'] = $key;
+                                $predelta[$key]['name'] = $lessons[$lessonkey]['name'];
+                                $predelta[$key]['desc'] = $lessons[$lessonkey]['desc'];
+                                $predelta[$key]['css'] = 'changed';
+                                $predelta[$key]['changes'] = $changes;
+                                unset($key);
+                            }
+                            unset($oldlessons[$lessonkey]['periods'][$lpkey]);
                         }
-                }
-                unset($lessons);
-                if(count($oldlessons) > 0)
-                {
-                        foreach($oldlessons as $olk => $olv)
+                    }
+                    //periods that were not in the new plan have been moved
+                    if(count($oldlessons[$lessonkey]['periods']) > 0)
+                    {
+                        foreach($oldlessons[$lessonkey]['periods'] as $lpkey => $lpvalue)
                         {
-                                foreach($olv['periods'] as $olpkey => $olpvalue)
-                                {
-                                        $key = $olk." ".$olpkey;
-                                        $predelta[$key]['type'] = $type;
-                                        $predelta[$key]['dow'] = $oldlessons[$olk]['periods'][$olpkey]['day'];
-                                        $predelta[$key]['block'] = $oldlessons[$olk]['periods'][$olpkey]['period'];
-                                        $predelta[$key]['clas'] = implode(" ", $oldlessons[$olk]['classes']);
-                                        $predelta[$key]['room'] = implode(" ", $oldlessons[$olk]['periods'][$olpkey]['rooms']);
-                                        $predelta[$key]['doz'] = implode(" ", $oldlessons[$olk]['periods'][$olpkey]['teachers']);
-                                        $predelta[$key]['key'] = $olk." ".$olpkey;
-                                        $predelta[$key]['name'] = $oldlessons[$olk]['name'];
-                                        $predelta[$key]['desc'] = $oldlessons[$olk]['desc'];
-                                        $predelta[$key]['css'] = 'removed';
-                                        unset($key);
-                                }
+                            $key = $lessonkey." ".$lpkey;
+                            $predelta[$key]['type'] = $type;
+                            $predelta[$key]['dow'] = $oldlessons[$lessonkey]['periods'][$lpkey]['day'];
+                            $predelta[$key]['block'] = $oldlessons[$lessonkey]['periods'][$lpkey]['period'];
+                            $predelta[$key]['clas'] = implode(" ", $oldlessons[$lessonkey]['classes']);
+                            $predelta[$key]['room'] = implode(" ", $oldlessons[$lessonkey]['periods'][$lpkey]['rooms']);
+                            $predelta[$key]['doz'] = implode(" ", $oldlessons[$lessonkey]['periods'][$lpkey]['teachers']);
+                            $predelta[$key]['key'] = $key;
+                            $predelta[$key]['name'] = $oldlessons[$lessonkey]['name'];
+                            $predelta[$key]['desc'] = $oldlessons[$lessonkey]['desc'];
+                            $predelta[$key]['css'] = 'movedfrom';
+                            if($lessonsdelta[$lessonkey]['movedfrom'])
+                                $lessonsdelta[$lessonkey]['movedfrom'] = $lessonsdelta[$lessonkey]['movedfrom'] + 1;
+                            else $lessonsdelta[$lessonkey]['movedfrom'] = 1;
+                            unset($key);
                         }
+                    }
+                    unset($oldlessons[$lessonkey], $changes);
                 }
-        }
+            }
+            unset($lessons);
+            if(count($oldlessons) > 0)
+            {
+                foreach($oldlessons as $olk => $olv)
+                {
+                    foreach($olv['periods'] as $olpkey => $olpvalue)
+                    {
+                        $key = $olk." ".$olpkey;
+                        $predelta[$key]['type'] = $type;
+                        $predelta[$key]['dow'] = $oldlessons[$olk]['periods'][$olpkey]['day'];
+                        $predelta[$key]['block'] = $oldlessons[$olk]['periods'][$olpkey]['period'];
+                        $predelta[$key]['clas'] = implode(" ", $oldlessons[$olk]['classes']);
+                        $predelta[$key]['room'] = implode(" ", $oldlessons[$olk]['periods'][$olpkey]['rooms']);
+                        $predelta[$key]['doz'] = implode(" ", $oldlessons[$olk]['periods'][$olpkey]['teachers']);
+                        $predelta[$key]['key'] = $olk." ".$olpkey;
+                        $predelta[$key]['name'] = $oldlessons[$olk]['name'];
+                        $predelta[$key]['desc'] = $oldlessons[$olk]['desc'];
+                        $predelta[$key]['css'] = 'removed';
+                        unset($key);
+                    }
+                }
+            }
 
         //sometimes a lesson block is cancelled or added which leads to uneven numbers of movedfrom and movedto
         $discrepancies = array();
@@ -1080,34 +1296,34 @@ class thm_organizersModelschedule extends JModel
         unset($lessonsdelta);
         foreach($discrepancies as $lessonkey => $lessondisc)
         {
-                $ld = $lessondisc['delta'];
-                foreach($predelta as $dk => $dv)
+            $ld = $lessondisc['delta'];
+            foreach($predelta as $dk => $dv)
+            {
+                $keyparts = explode(' ', $dk);
+                if($keyparts[0] == $lessonkey)
                 {
-                        $keyparts = explode(' ', $dk);
-                        if($keyparts[0] == $lessonkey)
+                    if($lessondisc['count'] > 0)
+                    {
+                        if($dv['css'] == ($ld == 'movedto'))
                         {
-                                if($lessondisc['count'] > 0)
-                                {
-                                        if($dv['css'] == ($ld == 'movedto'))
-                                        {
-                                                $predelta[$dk]['css'] = 'new';
-                                                $lessondisc['count'] = $lessondisc['count'] - 1;
-                                        }
-                                        if($dv['css'] == ($ld == 'movedfrom'))
-                                        {
-                                                $predelta[$dk]['css'] = 'removed';
-                                                $lessondisc['count'] = $lessondisc['count'] - 1;
-                                        }
-                                }
+                            $predelta[$dk]['css'] = 'new';
+                            $lessondisc['count'] = $lessondisc['count'] - 1;
                         }
+                        if($dv['css'] == ($ld == 'movedfrom'))
+                        {
+                            $predelta[$dk]['css'] = 'removed';
+                            $lessondisc['count'] = $lessondisc['count'] - 1;
+                        }
+                    }
                 }
+            }
         }
         $index = 0;
         $delta = array();
         foreach($predelta as $pdk => $pdv)
         {
-                $delta[$index] = $predelta[$pdk];
-                $index++;
+            $delta[$index] = $predelta[$pdk];
+            $index++;
         }
 
 
@@ -1164,21 +1380,8 @@ class thm_organizersModelschedule extends JModel
                 }
             else $this->setRedirect($link, $return.JText::_('Der aktueller Stundenplan wurde auf ').$to.JText::_(" gesetzt." ));
         }
-        $this->delta();
-    }
 
-    /**
-     * private funtion delta
-     *
-     * creates a change set between the currently active schedule and the schedule to
-     * become active, and saves this data as a json string in the structure used by
-     * the scheduler rich internet application
-     */
-    private function delta()
-    {
-        return true;
     }
-
 
     /**
     * public function deactivate
