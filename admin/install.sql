@@ -123,7 +123,7 @@ INSERT INTO `#__thm_organizer_plantype` (`id`, `plantype`) VALUES
 (1, 'GP-Untis Schedules'),
 (2, 'Curricula');
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons_times` (
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_times` (
   `lessonID` int(11) NOT NULL,
   `roomID` int(11) NOT NULL,
   `periodID` int(11) NOT NULL,
