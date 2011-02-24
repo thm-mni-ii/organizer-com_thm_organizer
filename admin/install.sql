@@ -190,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
   `manager` int(11) unsigned DEFAULT NULL,
   `capacity` int(4) unsigned DEFAULT NULL,
   `type` varchar(20) NOT NULL DEFAULT '',
-  `dptID` int(11) unsigned NOT NULL,
+  `departmentID` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `dptID` (`dptID`),
   KEY `manager` (`manager`)
