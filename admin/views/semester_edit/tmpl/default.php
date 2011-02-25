@@ -86,7 +86,7 @@ defined("_JEXEC") or die("Restricted access");
                 <th align="left">
                     <input type="checkbox" name="checkall-toggle" value="" onclick="checkAll(this)" />
                 </th>
-                <th />
+                <th class="thm_organizer_se_th" ><?php echo JText::_("Active"); ?></th>
                 <th class="thm_organizer_se_th" ><?php echo JText::_("Filename"); ?></th>
                 <th class="thm_organizer_se_th" ><?php echo JText::_("Upload Date"); ?></th>
                 <th class="thm_organizer_se_th" ><?php echo JText::_("Description"); ?></th>
@@ -101,12 +101,13 @@ defined("_JEXEC") or die("Restricted access");
                     <td class="thm_organizer_sm_checkbox">
                         <?php echo $checked; ?>
                     </td>
-                    <td>
-                    <?php if($schedule["active"]){ ?>
-                        <img id="thm_organizer_se_active_image"
-                             src="<?php echo "components/com_thm_organizer/assets/images/active.png"; ?>"
-                             alt="Active" />
-                    <?php } ?>
+                    <td align="center">
+                    <?php if($schedule["active"]){
+                        echo JHTML::_('image',
+                                      'administrator/templates/bluestork/images/admin/tick.png',
+                                      JText::_( 'Active' ),
+                                      array( 'class' => 'thm_organizer_se_tick'));
+                        } ?>
                     </td>
                     <td><?php echo $schedule["filename"]; ?></td>
                     <td><?php echo $schedule["includedate"]; ?></td>

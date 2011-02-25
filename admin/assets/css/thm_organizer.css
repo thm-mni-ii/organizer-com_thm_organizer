@@ -77,8 +77,10 @@
 /* com_thm_organizer.admin view: monitor_edit**********************************/
 
 #thm_organizer_me_label_column{
-    width: 20px;
+    width: 80px;
 }
+
+#thm_organizer_me_data_column{}
 
 .thm_organizer_me_label_data{
     text-align: right;

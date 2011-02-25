@@ -38,8 +38,8 @@ defined('_JEXEC') or die('Restricted access');?>
 	        <tr class="<?php echo $class; ?>">
 	            <td class="thm_organizer_mm_checkbox"><?php echo $checked; ?></td>
 	            <td class="thm_organizer_mm_ip"><?php echo $linkstart.$monitor['ip'].$linkend; ?></td>
-	            <td class="thm_organizer_mm_room"><?php echo $linkstart.$monitor['name'].$linkend; ?></td>
-	            <td class="thm_organizer_mm_semester"><?php echo $linkstart.$monitor['organization']."-".$monitor['semesterDesc'].$linkend; ?></td>
+	            <td class="thm_organizer_mm_room"><?php echo $linkstart.$monitor['room'].$linkend; ?></td>
+	            <td class="thm_organizer_mm_semester"><?php echo $linkstart.$monitor['semester'].$linkend; ?></td>
 	        </tr>
 <?php endforeach; endif;?>
 	    </table>

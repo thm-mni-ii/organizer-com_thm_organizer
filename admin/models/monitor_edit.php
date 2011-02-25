@@ -16,8 +16,8 @@ jimport('joomla.application.component.model');
 class thm_organizersModelmonitor_edit extends JModel
 {
     public $monitorID;
-    public $sid;
-    public $room;
+    public $semesterID;
+    public $roomID;
     public $ip;
     public $semesters;
     public $rooms;
@@ -49,32 +49,17 @@ class thm_organizersModelmonitor_edit extends JModel
             $query->where("monitorID = $monitorID");
             $dbo->setQuery((string)$query);
             $monitorData = $dbo->loadAssoc();
+            unset($query);
             if(!empty($monitorData))
                 foreach($monitorData as $k => $v)$this->$k = $v;
-
         }
         else
         {
             $this->monitorID = 0;
-            $this->sid = 0;
-            $this->room = '';
+            $this->semesterID = 0;
+            $this->roomID = 0;
             $this->ip = '';
         }
-    }
-
-    /**
-     * private function getRooms
-     *
-     * gets the IDs and names of the available semesters
-     */
-    private function getSemesters()
-    {
-        $dbo = & JFactory::getDBO();
-        $query = $dbo->getQuery(true);
-        $query->select("sid, CONCAT(orgunit, '-', semester) AS name");
-        $query->from("#__thm_organizer_semesters");
-        $dbo->setQuery((string)$query );
-        $this->rooms = $dbo->loadObjectList();
     }
 
     /**
@@ -92,21 +77,42 @@ class thm_organizersModelmonitor_edit extends JModel
         $this->rooms = $dbo->loadObjectList();
     }
 
+    /**
+     * private function getRooms
+     *
+     * gets the IDs and names of the available semesters
+     */
+    private function getSemesters()
+    {
+        $dbo = & JFactory::getDBO();
+        $query = $dbo->getQuery(true);
+        $query->select("id, CONCAT(organization, '-', semesterDesc) AS name");
+        $query->from("#__thm_organizer_semesters");
+        $dbo->setQuery((string)$query );
+        $this->semesters = $dbo->loadObjectList();
+    }
+
     public function store()
     {
         $monitorID = JRequest::getVar('monitorID');
-        $room = JRequest::getVar('room', '');
+        $roomID = JRequest::getVar('room', '');
         $ip = JRequest::getVar('ip', '');
-        $sid = JRequest::getVar('sid', '');
+        $semesterID = JRequest::getVar('semester', '');
 
         $dbo = & JFactory::getDBO();
         $query = $dbo->getQuery(true);
         if(empty($monitorID))
-            $query->insert("#__thm_organizer_monitors (room, ip, sid) VALUES ( '$room', '$ip', '$sid' )");
+        {
+            $statement = "#__thm_organizer_monitors ";
+            $statement .= "(roomID, ip, semesterID) ";
+            $statement .= "VALUES ";
+            $statement .= "( '$roomID', '$ip', '$semesterID' ) ";
+            $query->insert($statement);
+        }
         else
         {
             $query->update("#__thm_organizer_monitors");
-            $query->set("room = '$room', sid = '$sid', ip = '$ip'");
+            $query->set("roomID = '$roomID', semesterID = '$semesterID', ip = '$ip'");
             $query->where("monitorID = '$monitorID'");
         }
         $dbo->setQuery((string)$query );

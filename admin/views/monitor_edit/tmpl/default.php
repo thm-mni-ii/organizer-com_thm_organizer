@@ -17,6 +17,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
             <colgroup>
                 <col id="thm_organizer_me_label_column" />
                 <col id="thm_organizer_me_data_column" />
+                <col id="thm_organizer_me_label_column" />
+                <col id="thm_organizer_me_data_column" />
+                <col id="thm_organizer_me_label_column" />
+                <col id="thm_organizer_me_data_column" />
             </colgroup>
             <tr>
                 <td class="thm_organizer_me_label_data" >
@@ -26,25 +30,22 @@ defined('_JEXEC') or die('Restricted access'); ?>
                     <input class="text_area" type="text" name="ip" id="ip" size="6" maxlength="20"
                                     value="<?php echo $this->ip;?>" />
                 </td>
-            </tr>
-<?php if(!empty($this->roombox)) : ?>
-            <tr>
+<?php if(!empty($this->room)): ?>
                 <td class="thm_organizer_me_label_data" >
                     <label for="room"><?php echo JText::_('Room:'); ?></label>
                 </td>
-                <td>
-                    <input class="text_area" type="text" name="room" id="room" size="6" maxlength="6"
-                                    value="<?php echo $this->room;?>" />
-                </td>
-            </tr>
-<?php endif; if(!empty($this->semesterbox)) : ?>
-            <tr>
+                <td><?php echo $this->room;?></td>
+<?php else: ?>
+                <td /><td />
+<?php endif; if(!empty($this->semester)) : ?>
                 <td class="thm_organizer_me_label_data" >
                     <label for="semester">Semester</label>
                 </td>
-                <td><?php echo $this->semesterbox;?></td>
-            </tr>
+                <td><?php echo $this->semester;?></td>
+<?php else: ?>
+                <td /><td />
 <?php endif; ?>
+            </tr>
         </table>
         <input type="hidden" name="monitorID" value="<?php echo $this->monitorID; ?>" />
         <input type="hidden" name="task" value="" />

@@ -29,11 +29,10 @@ class thm_organizersModelschedule extends JModel
     public function uploadGPUntis()
     {
         $fileName = $_FILES['file']['name'];
-
         $tmpName  = $_FILES['file']['tmp_name'];
         $schedule = simplexml_load_file($tmpName);
         $result = $this->validateGPUntis(&$schedule);
-        if($result === true)
+        if(!isset($result['errors']))
         {
             $fp = fopen($tmpName, 'r');
             $file = fread($fp, filesize($tmpName));
@@ -54,9 +53,9 @@ class thm_organizersModelschedule extends JModel
             $query->insert($statement);
             $dbo->setQuery((string)$query );
             $dbo->query();
+            if ($dbo->getErrorNum())return false;
         }
-        if ($dbo->getErrorNum())return false;
-        else return $result;
+        return $result;
     }
 
     /**
@@ -73,6 +72,7 @@ class thm_organizersModelschedule extends JModel
     public function validateGPUntis(&$file)
     {
         $erray = array();
+        $warray = array();
         $creationdate = trim((string)$file[0]['date']);
         if(empty($creationdate))
         {
@@ -86,11 +86,11 @@ class thm_organizersModelschedule extends JModel
         if(empty($enddate)) $erray[] = JText::_("Schedule enddate is missing.");
         $header1 = trim((string)$file->general->header1);
         if(empty($header1))
-            $erray[] = JText::_("Creating department information is missing.");
+            $warray[] = JText::_("Information regarding the creating department is completely missing.");
         else
         {
             $details = explode(",", $header1);
-            if(count($details) < 3) $erray[] = JText::_("Header is missing information (institution/campus/department).");
+            if(count($details) < 3) $warray[] = JText::_("Header is missing information (institution/campus/department).");
         }
 
         $timeperiods = array();
@@ -181,7 +181,7 @@ class thm_organizersModelschedule extends JModel
                     continue;
                 }
                 $details = explode(",",trim((string)$dptnode->longname));
-                if(count($details) < 3)
+                if(empty($details) or count($details) == 0)
                 {
                     $erray[] = JText::_("Department")." $id ".JText::_("does not have all its required information.");
                     continue;
@@ -212,6 +212,7 @@ class thm_organizersModelschedule extends JModel
                     unset($error);
                     continue;
                 }
+                $name = str_replace("RM_", "", $id);
                 $longname = trim((string)$room->longname);
                 if(empty($longname))
                     $erray[] = JText::_("Room")." $name ($id) ".JText::_("does not have a longname.");
@@ -261,6 +262,7 @@ class thm_organizersModelschedule extends JModel
                 else $subjects[$id]['longname'] = $longname;
                 $subjectgroup = trim($subject->subjectgroup);
                 if(!empty($subjectgroup)) $subjects[$id]['subjectgroup'] = $subjectgroup;
+                else $warray[] =  JText::_("Subject")." $longname ($id) ".JText::_("does not have a module number (Fachgruppe).");
                 unset($id, $longname, $subjectgroup);
             }
         }
@@ -291,15 +293,15 @@ class thm_organizersModelschedule extends JModel
                 else $teachers[$id]['surname'] = $surname;
                 $userid = trim((string)$teacher->payrollnumber);
                 if(!empty($userid)) $teachers[$id]['userid'] = $userid;
-//                if(empty($userid))
-//                    $erray[] = JText::_("Teacher")." $surname ($id) ".JText::_("does not have a username(payrollnumber).");
-//                else $teachers[$id]['userid'] = $userid;
+                if(empty($userid))
+                    $warray[] = JText::_("Teacher")." $surname ($id) ".JText::_("does not have a user account name(Pers. Nr.).");
+                else $teachers[$id]['userid'] = $userid;
                 $dptid = trim((string)$teacher->teacher_department[0]['id']);
                 if(empty($dptid))
                     $erray[] = JText::_("Teacher")." $surname ($id) ".JText::_("does not reference a department.");
-                else if(empty($departments[$dptid]) or count($departments[$dptid]) < 3)
+                else if(empty($departments[$dptid]) or empty($departments[$dptid]['subdepartment']))
                     $erray[] =
-                        JText::_("Teacher")." $surname ($id) ".JText::_("references the missing or incomplete department")." $dptid.";
+                        JText::_("Teacher")." $surname ($id) ".JText::_("references the missing or subdepartment")." $dptid.";
                 else $teachers[$id]['department'] = $dptid;
                 unset($id, $surname, $userid, $dptid);
             }
@@ -342,8 +344,8 @@ class thm_organizersModelschedule extends JModel
                 $teacherid = trim((string)$class->class_teacher[0]['id']);
                 if(empty($teacherid))
                     $erray[] = JText::_("Class")." $longname ($id) ".JText::_("does not reference a teacher.");
-                else if(empty($teachers[$teacherid]) or count($teachers[$teacherid]) < 3)
-                    $erray[] = JText::_("Class")." $longname ($id) ".JText::_("references the missing or incomplete teacher")." $teacherid.";
+                else if(empty($teachers[$teacherid]) or empty($teachers[$teacherid]['userid']))
+                    $warray[] = JText::_("Class")." $longname ($id) ".JText::_("references the missing or incomplete teacher")." $teacherid.";
                 else $classes[$id]['teacher'] = $teacherid;
                 unset($id, $longname, $teacherid);
             }
@@ -407,7 +409,7 @@ class thm_organizersModelschedule extends JModel
                 $times = $lesson->times;
                 $timescount = count($times->children());
                 if(isset($periods) and $periods != $timescount)
-                    $erray[] = $lerrorstart.JText::_("allocates")." $periods ".JText::_("instances").", $times ".JText::_("were found");
+                    $warray[] = $lerrorstart.JText::_("is planned for")." $periods ".JText::_("blocks, only ")." $timescount ".JText::_("has been scheduled.");
                 foreach($times->children() as $instance)
                 {
                     $day = (string)$instance->assigned_day;
@@ -446,16 +448,33 @@ class thm_organizersModelschedule extends JModel
             }
         }
         unset($lessonsnode);
-        $errors = "";
-        foreach($erray as $k => $v)
+        if(count($erray) > 0 or count($warray) > 0)
         {
-            if($v == "") unset($erray[$k]);
-            else $errors .= "<br />".$v;
+            $inconsistencies = array();
+            if(count($erray) > 0 )
+            {
+                $errors = "";
+                foreach($erray as $k => $v)
+                {
+                    if($v == "") unset($erray[$k]);
+                    else $errors .= "<br />".$v;
+                }
+                $inconsistencies['errors'] = $errors;
+            }
+            if(count($warray) > 0)
+            {
+                $warnings = "";
+                foreach($warray as $k => $v)
+                {
+                    if($v == "") unset($warray[$k]);
+                    else $warnings .= "<br />".$v;
+                }
+                $inconsistencies['warnings'] = $warnings;
+            }
+            return $inconsistencies;
         }
-        if( $errors != "") return $errors;
         else return true;
     }
-
 
     /**
      * public funtion activate
@@ -501,8 +520,8 @@ class thm_organizersModelschedule extends JModel
             $query->where("plantypeID = '$plantypeID'");
             $dbo->setQuery((string)$query);
             $from = $dbo->loadResult();
-            if(isset($from)) $olddata = $this->handleDeprecatedData($plantype);
-            $newData = $this->getNewData(&$file, $plantypeID);
+            if(isset($from)) $olddata = $this->handleDeprecatedData($plantypeID);
+            $newData = $this->getNewData(&$file, $plantypeID, $scheduleID);
             unset($file);
             if(isset($olddata) and isset($newdata)) $result = $this->calculateDelta();
             return $result;
@@ -512,7 +531,7 @@ class thm_organizersModelschedule extends JModel
     /**
      * private function getNewData
      */
-    private function getNewData(&$file, $planType)
+    private function getNewData(&$file, $planType, $scheduleID)
     {
         $dbo = JFactory::getDbo();
         $semesterID = JRequest::getInt('semesterID');
@@ -536,8 +555,10 @@ class thm_organizersModelschedule extends JModel
             $timeperiods[$day][$period]['endtime'] = $endtime;
 
             $query = $dbo->getQuery(true);
-            $statement = "#__thm_organizer_periods ( gpuntisID, day, period, starttime, endtime ) ";
-            $statement .= "VALUES ( '$id', '$day', '$period', '$starttime', '$endtime' )";
+            $statement = "#__thm_organizer_periods ";
+            $statement .= "( gpuntisID, semesterID, day, period, starttime, endtime ) ";
+            $statement .= "VALUES ";
+            $statement .= "( '$id', '$semesterID', '$day', '$period', '$starttime', '$endtime' )";
             $query->insert($statement);
             $dbo->setQuery((string)$query);
             $dbo->query();
@@ -570,25 +591,20 @@ class thm_organizersModelschedule extends JModel
         foreach($departmentsnode->children() as $dptnode)
         {
             $id = (string)$dptnode[0]['id'];
-            $details = explode(",",(string)$dptnode->longname);
             $departments[$id] = array();
-            $institution = trim($details [0]);
-            $departments[$id]['institution'] = $institution;
-            $campus = trim($details [1]);
-            $departments[$id]['campus'] = $campus;
-            $department = trim($details [2]);
-            $departments[$id]['department'] = $department;
-            if(isset($details [3]))
-            {
-                $name = $curriculum = trim($details [3]);
-                $departments[$id]['curriculum'] = trim($details [3]);
-            }
-            else
-            {
-                $name = $department;
-                $departments[$id]['curriculum'] = "";
-            }
+
+            $details = explode(",",(string)$dptnode->longname);
+            $name = $details[count($details) - 1];
             $departments[$id]['name'] = $name;
+            $institution = $campus = $department = $subdepartment = "";
+            if(isset($details [0]))$institution = trim($details [0]);
+            $departments[$id]['institution'] = $institution;
+            if(isset($details [1]))$campus = trim($details [1]);
+            $departments[$id]['campus'] = $campus;
+            if(isset($details [2]))$department = trim($details [2]);
+            $departments[$id]['department'] = $department;
+            if(isset($details [3]))$subdepartment = trim($details [3]);
+            $departments[$id]['subdepartment'] = $subdepartment;
 
             $query = $dbo->getQuery(true);
             $query->select("id");
@@ -602,9 +618,9 @@ class thm_organizersModelschedule extends JModel
             {
                 $query = $dbo->getQuery(true);
                 $statement = "#__thm_organizer_departments
-                              ( gpuntisID, name, institution, campus, department, curriculum )
+                              ( gpuntisID, name, institution, campus, department, subdepartment )
                               VALUES
-                              ( '$id', '$name', '$institution', '$campus', '$department', '$curriculum' )";
+                              ( '$id', '$name', '$institution', '$campus', '$department', '$subdepartment' )";
                 $query->insert($statement);
                 $dbo->setQuery((string)$query);
                 $dbo->query();
@@ -624,14 +640,14 @@ class thm_organizersModelschedule extends JModel
                 $query = $dbo->getQuery(true);
                 $query->update("#__thm_organizer_departments");
                 $set = "name = '$name', institution = '$institution', campus = '$campus', ";
-                $set .= "department = '$department',curriculum = '$curriculum' ";
+                $set .= "department = '$department', subdepartment = '$subdepartment' ";
                 $query->set($set);
                 $query->where("id = '$savedID'");
                 $dbo->setQuery((string)$query);
                 $dbo->query();
                 unset($query, $savedID, $set);
             }
-            unset($id, $details, $institution, $campus, $department, $curriculum, $name);
+            unset($id, $details, $institution, $campus, $department, $subdepartment, $name);
         }
         unset($departmentsnode);
 
@@ -650,8 +666,9 @@ class thm_organizersModelschedule extends JModel
             $descid = trim((string)$room->room_description[0]['id']);
             $description = $descriptions[$descid];
             $rooms[$id]['description'] = $description;
-            $dptid = trim((string)$room->room_department[0]['id']);
-            $rooms[$id]['department'] = $dptid;
+            $departmentID = trim((string)$room->room_department[0]['id']);
+            $rooms[$id]['department'] = $departmentID;
+            $departmentID = $departments[$departmentID]['id'];
 
             $query = $dbo->getQuery(true);
             $query->select("id");
@@ -665,9 +682,9 @@ class thm_organizersModelschedule extends JModel
             {
                 $query = $dbo->getQuery(true);
                 $statement = "#__thm_organizer_rooms
-                              ( gpuntisID, name, alias, capacity, type, dptID )
+                              ( gpuntisID, name, alias, capacity, type, departmentID )
                               VALUES
-                              ( '$id', '$name', '$longname', '$capacity', '$description', '$dptid' )";
+                              ( '$id', '$name', '$longname', '$capacity', '$description', '$departmentID' )";
                 $query->insert($statement);
                 $dbo->setQuery((string)$query);
                 $dbo->query();
@@ -686,7 +703,8 @@ class thm_organizersModelschedule extends JModel
                 $rooms[$id]['id'] = $savedID;
                 $query = $dbo->getQuery(true);
                 $query->update("#__thm_organizer_rooms");
-                $set = "name = '$name', alias = '$longname', capacity = '$capacity', type = '$description', dptID = '$dptid'";
+                $set = "name = '$name', alias = '$longname', capacity = '$capacity', ";
+                $set .= "type = '$description', departmentID = '$departmentID'";
                 $query->set($set);
                 $query->where("id = '$savedID'");
                 $dbo->setQuery((string)$query);
@@ -702,12 +720,54 @@ class thm_organizersModelschedule extends JModel
         foreach($subjectsnode->children() as $subject)
         {
             $id = trim((string)$subject[0]['id']);
-            $subjects[$id]['name'] = str_replace("SU_","",$id);
-            $subjects[$id]['longname'] = trim((string)$subject->longname);
+            $subjects[$id]['gpuntisID'] = $id;
+            $name = str_replace("SU_","",$id);
+            $subjects[$id]['name'] = $name;
+            $alias = trim((string)$subject->longname);
+            $subjects[$id]['longname'] = $alias;
             $moduleID = trim($subject->subjectgroup);
-            if(empty($modID)) $modID = '';
+            if(empty($moduleID)) $moduleID = '';
             $subjects[$id]['moduleID'] = $moduleID;
-            unset($id, $name, $longname, $subjectgroup);
+
+            $query = $dbo->getQuery(true);
+            $query->select("id");
+            $query->from("#__thm_organizer_subjects");
+            $query->where("gpuntisID = '$id' ");
+            $dbo->setQuery((string)$query);
+            $savedID = $dbo->loadResult();
+            unset($query);
+
+            if(empty($savedID))
+            {
+                $query = $dbo->getQuery(true);
+                $statement = "#__thm_organizer_subjects ( gpuntisID, name, alias, moduleID )
+                              VALUES ( '$id', '$name', '$alias', '$moduleID' )";
+                $query->insert($statement);
+                $dbo->setQuery((string)$query);
+                $dbo->query();
+                unset($query);
+
+                $query = $dbo->getQuery(true);
+                $query->select("id");
+                $query->from("#__thm_organizer_subjects");
+                $query->where("gpuntisID = '$id' ");
+                $dbo->setQuery((string)$query);
+                $subjects[$id]['id'] = $dbo->loadResult();
+                unset($query);
+            }
+            else
+            {
+                $subjects[$id]['id'] = $savedID;
+                $query = $dbo->getQuery(true);
+                $query->update("#__thm_organizer_subjects");
+                $set = "name = '$name', alias = '$alias', moduleID = '$moduleID'";
+                $query->set($set);
+                $query->where("id = '$savedID'");
+                $dbo->setQuery((string)$query);
+                $dbo->query();
+                unset($query, $savedID, $set);
+            }
+            unset($id, $name, $alias, $moduleID);
         }
         unset($subjectsnode);
 
@@ -754,7 +814,7 @@ class thm_organizersModelschedule extends JModel
                 $teachers[$id]['id']= $savedID;
                 $query = $dbo->getQuery(true);
                 $query->update("#__thm_organizer_teachers");
-                $set = "name = '$name', manager = '$manager', dptID = '$dptid'";
+                $set = "name = '$name', manager = '$userID', dptID = '$dptid'";
                 $query->set($set);
                 $query->where("id = '$savedID'");
                 $dbo->setQuery((string)$query);
@@ -775,13 +835,14 @@ class thm_organizersModelschedule extends JModel
             $details = explode(",", $longname);
             $major = $details[0];
             $semester = $details[1];
+            $teacherID = trim((string)$class->class_teacher[0]['id']);
             $classes[$id]['name'] = $name;
             $classes[$id]['alias'] = $longname;
-            $classes[$id]['teacher'] = $teacherid;
             $classes[$id]['major'] = $major;
             $classes[$id]['semester'] = $semester;
-            if(isset($teachers[$teacherid]) and isset($teachers[$teacherid]['manager']))
-                $manager = $teachers[$teacherid]['manager'];
+            $classes[$id]['teacher'] = $teacherID;
+            if(isset($teachers[$teacherID]) and isset($teachers[$teacherID]['userID']))
+                $manager = $teachers[$teacherID]['userID'];
             else $manager = "";
 
             $query = $dbo->getQuery(true);
@@ -814,11 +875,11 @@ class thm_organizersModelschedule extends JModel
             }
             else
             {
-                $classes[$id]['name'] = $savedID;
+                $classes[$id]['id'] = $savedID;
                 $query = $dbo->getQuery(true);
                 $query->update("#__thm_organizer_classes");
                 $set = "name = '$name', alias = '$longname',  manager = '$manager',
-                        semester = '$semseter',  major = '$major'";
+                        semester = '$semester',  major = '$major'";
                 $query->set($set);
                 $query->where("id = '$savedID'");
                 $dbo->setQuery((string)$query);
@@ -839,14 +900,9 @@ class thm_organizersModelschedule extends JModel
                 $id = trim((string)$lesson[0]['id']);
                 $id = substr($id, 0, strlen($id) - 2);
                 if(!isset($lessons[$id])) $lessons[$id] = array();
-                $subjectid = trim((string)$lesson->lesson_subject[0]['id']);
-                $name = $subjects[$subjectid]['name'];
-                $alias = $subjects[$subjectid]['alias'];
-                $moduleID = $subjects[$subjectid]['moduleID'];
-                if(empty($moduleID))$moduleID = "NN";
+                $subjectID = trim((string)$lesson->lesson_subject[0]['id']);
+                $subjectID = $subjects[$subjectID]['id'];
                 $lessontype = trim((string)$lesson->text1);
-                if($lessontype != "V")
-                    $name = $name."-".$lessontype;
 
                 $query = $dbo->getQuery(true);
                 $query->select("id");
@@ -860,9 +916,9 @@ class thm_organizersModelschedule extends JModel
                 {
                     $query = $dbo->getQuery(true);
                     $statement = "#__thm_organizer_lessons
-                                  ( plantypeID, gpuntisID, semesterID, name, alias, moduleID, type )
+                                  ( gpuntisID, subjectID, semesterID, plantypeID,  type )
                                   VALUES
-                                  ( '1', '$id', '$semesterID', '$name', '$longname', '$moduleID', '$lessontype' )";
+                                  ( '$id', '$subjectID', '$semesterID','1', '$lessontype' )";
                     $query->insert($statement);
                     $dbo->setQuery((string)$query);
                     $dbo->query();
@@ -878,20 +934,20 @@ class thm_organizersModelschedule extends JModel
                 }
 
                 $teacherID = trim((string)$lesson->lesson_teacher[0]['id']);
-                $teacherID = $teachers[$teacherid]['id'];
+                $teacherID = $teachers[$teacherID]['id'];
                 if(!isset($lessons[$id]['teachers'])) $lessons[$id]['teachers'] = array();
                 if(!in_array($teacherID, $lessons[$id]['teachers']))
                     $lessons[$id]['teachers'][] = $teacherID;
 
                 $query = $dbo->getQuery(true);
-                $query->select("id");
+                $query->select("COUNT(*)");
                 $query->from("#__thm_organizer_lesson_teachers");
                 $query->where("lessonID = '$lessonID'");
-                $query->where("gpuntisID = '$id'");
+                $query->where("teacherID = '$teacherID'");
                 $dbo->setQuery((string)$query);
-                $temp = $dbo->loadResult();
+                $countLT = $dbo->loadResult();
 
-                if(empty($temp))
+                if($countLT == 0)
                 {
                     $query = $dbo->getQuery(true);
                     $statement = "#__thm_organizer_lesson_teachers ( lessonID, teacherID )
@@ -901,32 +957,32 @@ class thm_organizersModelschedule extends JModel
                     $dbo->query();
                     unset($query);
                 }
-                else unset($temp);
+                unset($countLT);
 
                 $classIDs = trim((string)$lesson->lesson_classes[0]['id']);
                 $classIDs = explode(" ", $classIDs);
 
-                foreach($classIDS as $classID)
+                foreach($classIDs as $classID)
                 {
                     if(!isset($lessons[$id]['classes'])) $lessons[$id]['classes'] = array();
                     if(!in_array($classID, $lessons[$id]['classes']))
                         $lessons[$id]['classes'][] = $classID;
                 }
 
-                foreach($classIDS as $k => $v)
+                foreach($classIDs as $k => $v)
                     $classIDs[$k] = $classes[$v]['id'];
 
                 foreach($classIDs as $classID)
                 {
                     $query = $dbo->getQuery(true);
-                    $query->select("id");
+                    $query->select("COUNT(*)");
                     $query->from("#__thm_organizer_lesson_classes");
                     $query->where("lessonID = '$lessonID'");
                     $query->where("classID = '$classID'");
                     $dbo->setQuery((string)$query);
-                    $temp = $dbo->loadResult();
+                    $countLC = $dbo->loadResult();
 
-                    if(empty($temp))
+                    if($countLC == 0)
                     {
                         $query = $dbo->getQuery(true);
                         $statement = "#__thm_organizer_lesson_classes ( lessonID, classID )
@@ -936,7 +992,7 @@ class thm_organizersModelschedule extends JModel
                         $dbo->query();
                         unset($query);
                     }
-                    else unset($temp);
+                    unset($countLC);
                 }
 
                 $times = $lesson->times;
@@ -956,18 +1012,38 @@ class thm_organizersModelschedule extends JModel
                     $periodID = $timeperiods[$day][$period]['id'];
 
                     $query = $dbo->getQuery(true);
-                    $statement = "#__thm_organizer_lesson_times ( lessonID, roomID, periodID )
-                                  VALUES ( '$lessonID', '$roomID', '$periodID' )";
-                    $query->insert($statement);
+                    $query->select("COUNT(*)");
+                    $query->from("#__thm_organizer_lesson_times");
+                    $query->where("lessonID = '$lessonID'");
+                    $query->where("roomID = '$roomID'");
+                    $query->where("periodID = '$periodID'");
                     $dbo->setQuery((string)$query);
-                    $dbo->query();
+                    $countLT = $dbo->loadResult();
 
-                    unset($day, $period, $periodID, $roomid, $query);
+                    if($countLT == 0)
+                    {
+                        $query = $dbo->getQuery(true);
+                        $statement = "#__thm_organizer_lesson_times ( lessonID, roomID, periodID )
+                                      VALUES ( '$lessonID', '$roomID', '$periodID' )";
+                        $query->insert($statement);
+                        $dbo->setQuery((string)$query);
+                        $dbo->query();
+                    }
+                    unset($countLT, $day, $period, $periodID, $roomid, $query);
                 }
                 unset($id, $subjectid, $name, $teacherid, $classids, $lessontype, $periods, $times);
             }
         }
         unset($lessonsnode);
+
+        $date = date('Y-m-d');
+        $query = $dbo->getQuery(true);
+        $query->update("#__thm_organizer_schedules");
+        $query->set("active = '$date'");
+        $query->where("id = '$scheduleID'");
+        $dbo->setQuery((string)$query);
+        $dbo->query();
+        
         return $lessons;
     }
 
@@ -1389,38 +1465,103 @@ class thm_organizersModelschedule extends JModel
     * sets the current active schedule to inactive. this entails the deletion
     * of the delta, and the removal of schedule specific data from the db.
     */
-    public function deactivate($id = null)
+    public function deactivate()
     {
-        $semesterID = JRequest::getVar('semesterID');
+        $dbo = JFactory::getDBO();
+        $semesterID = JRequest::getInt('semesterID');
+        $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
 
-        $dbo = & JFactory::getDBO();
-        $query = $dbo->getQuery(true);
-        $query->update("#__thm_organizer_schedules");
-        //set active to false
-        $query = "UPDATE #__giessen_scheduler_schedules SET active = NULL WHERE active IS NOT NULL AND sid = '$sid';";
-        $dbo->setQuery( $query );
-        $dbo->query();
+        foreach($scheduleIDs as $scheduleID)
+        {
+            $query = $dbo->getQuery(true);
+            $query->select("plantypeID");
+            $query->from("#__thm_organizer_schedules");
+            $query->where("id = '$scheduleID'");
+            $dbo->setQuery((string)$query);
+            $plantypeID = $dbo->loadResult();
+            unset($query);
 
-        $query = "DELETE FROM #__giessen_scheduler_user_schedules WHERE username = 'delta' AND sid = '$sid';";
-        $dbo->setQuery( $query );
-        $dbo->query();//no error check there may be no delta in the db
+            $query = $dbo->getQuery(true);
+            $query->select("DISTINCT ( id )");
+            $query->from("#__thm_organizer_lessons");
+            $query->where("semesterID = '$semesterID'");
+            $query->where("plantypeID = '$plantypeID'");
+            $dbo->setQuery((string)$query);
+            $lessonIDs = $dbo->loadResultArray();
+            unset($query);
 
+            $lessonIDs = "'".implode("', '", $lessonIDs)."'";
 
-        //remove active data
-        $query = "DELETE FROM #__giessen_scheduler_objects WHERE sid = '$sid';";
-        $dbo->setQuery($query);
-        $dbo->query();
-        $query = "DELETE FROM #__giessen_scheduler_lessons WHERE sid = '$sid';";
-        $dbo->setQuery($query);
-        $dbo->query();
-        $query = "DELETE FROM #__giessen_scheduler_lessonperiods WHERE sid = '$sid';";
-        $dbo->setQuery($query);
-        $dbo->query();
-        $query = "DELETE FROM #__giessen_scheduler_timeperiods WHERE sid = '$sid';";
-        $dbo->setQuery($query);
-        $dbo->query();
+            $query = $dbo->getQuery(true);
+            $query->delete();
+            $query->from("#__thm_organizer_lessons");
+            $query->where("semesterID = '$semesterID'");
+            $query->where("plantypeID = '$plantypeID'");
+            $dbo->setQuery((string)$query);
+            $dbo->query();
+            unset($query);
 
-        $this->setRedirect($link, JText::_("Die Datei wurde inaktive gestellt").".");
+            $query = $dbo->getQuery(true);
+            $query->delete();
+            $query->from("#__thm_organizer_lesson_teachers");
+            $query->where("lessonID IN ( $lessonIDs )");
+            $dbo->setQuery((string)$query);
+            $dbo->query();
+            unset($query);
+
+            $query = $dbo->getQuery(true);
+            $query->delete();
+            $query->from("#__thm_organizer_lesson_classes");
+            $query->where("lessonID IN ( $lessonIDs )");
+            $dbo->setQuery((string)$query);
+            $dbo->query();
+            unset($query);
+
+            $query = $dbo->getQuery(true);
+            $query->select("DISTINCT ( periodID )");
+            $query->from("#__thm_organizer_lesson_times");
+            $query->where("lessonID IN ( $lessonIDs )");
+            $dbo->setQuery((string)$query);
+            $periodIDs = $dbo->loadResultArray();
+            unset($query);
+
+            $periodIDs = "'".implode("', '", $periodIDs)."'";
+
+            $query = $dbo->getQuery(true);
+            $query->delete();
+            $query->from("#__thm_organizer_lesson_times");
+            $query->where("lessonID IN ( $lessonIDs )");
+            $dbo->setQuery((string)$query);
+            $dbo->query();
+            unset($query, $lessonIDs);
+            
+            $query = $dbo->getQuery(true);
+            $query->delete();
+            $query->from("#__thm_organizer_periods");
+            $query->where("id IN ( $periodIDs )");
+            $dbo->setQuery((string)$query);
+            $dbo->query();
+            unset($query, $lessonIDs);
+
+            $query = $dbo->getQuery(true);
+            $query->update("#__thm_organizer_schedules");
+            $query->set("active = NULL");
+            $query->where("active IS NOT NULL");
+            $query->where("sid = '$semesterID'");
+            $query->where("plantypeID = '$plantypeID'");
+            $dbo->setQuery( $query );
+            $dbo->query();
+
+            $query = $dbo->getQuery(true);
+            $query->delete();
+            $query->from("#__thm_organizer_user_schedules");
+            $query->where("username = 'delta$plantypeID'");
+            $query->where("sid = '$semesterID'");
+            $dbo->setQuery( $query );
+            $dbo->query();
+        }
+        if($dbo->getErrorNum())return false;
+        else return true;
     }
 
     /**

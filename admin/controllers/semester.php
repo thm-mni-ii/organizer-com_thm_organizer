@@ -139,10 +139,21 @@ class thm_organizersControllerSemester extends JController
                     $msg = JText::_("An error has occured while uploading the file.");
                     $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'error');
                 }
-                else if(isset($result))
+                else if(isset($result['errors']))
                 {
-                    $messagestring = JText::_('The file was not saved to the database due to the following data inconsistencies:');
-                    $msg = $messagestring.$result;
+                    $errorText = JText::_('The file was not saved to the database due to the following critical inconsistencies:');
+                    $msg = $errorText.$result['errors'];
+                    if(isset($result['warnings']))
+                    {
+                        $warningText = "<br />".JText::_('The file additionally displayed the following minor inconsistencies:');
+                        $msg .= $warningText.$result['warnings'];
+                    }
+                    $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'error');
+                }
+                else if(isset($result['warnings']))
+                {
+                    $warningText =  JText::_('The file has been saved, however, it displayed the following minor inconsistencies:');
+                    $msg = $warningText.$result['warnings'];
                     $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'notice');
                 }
                 else
@@ -211,7 +222,7 @@ class thm_organizersControllerSemester extends JController
             if($result)
             {
                 $msg = JText::_("The schedule(s) have been successfully activated.");
-                $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg);
+                $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $result);
             }
             else
             {

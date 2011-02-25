@@ -28,21 +28,13 @@ class thm_organizersViewmonitor_edit extends JView
         $ip = $model->ip;
         $this->assignRef( 'ip', $ip );
 
-        $room = $model->room;
-        $rooms = $model->rooms;
-        if(!empty($rooms))
-        {
-            $roombox = JHTML::_('select.genericlist', $rooms, 'room', 'id="thm_organizer_me_roombox" class="thm_organizer_me_rsemesterbox" size="1"', 'id', 'name', $room);
-            $this->assignRef('roombox', $roombox);
-        }
-
-        $sid = $model->sid;
         $semesters = $model->semesters;
         if(!empty($semesters))
-        {
-            $semesterbox =  JHTML::_('select.genericlist', $semesters, 'semester', 'id="thm_organizer_me_rsemesterbox" class="thm_organizer_me_rsemesterbox" size="1"', 'sid', 'name', $sid);
-            $this->assignRef('semesterbox', $semesterbox);
-        }
+            $this->makeSelectBox($semesters, "semester", $model->semesterID);
+
+        $rooms = $model->rooms;
+        if(!empty($rooms))
+            $this->makeSelectBox($rooms, "room", $model->roomID);
 
         $isNew = ($monitorID == 0)? true : false;
         $allowedActions = thm_organizerHelper::getActions('monitor_edit');
@@ -50,6 +42,12 @@ class thm_organizersViewmonitor_edit extends JView
             $this->addToolBar($allowedActions, $isNew);
 
         parent::display($tpl);
+    }
+
+    private function makeSelectBox($dataobjects, $name, $selected = null)
+    {
+        $selectBox =  JHTML::_("select.genericlist", $dataobjects, "$name", 'class="thm_organizer_me_selectbox" size="1"', 'id', 'name', $selected);
+        $this->assignRef($name, $selectBox);
     }
 
     private function addToolBar($allowedActions, $isNew = true)
