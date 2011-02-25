@@ -38,8 +38,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_departments` (
   `campus` varchar(50) NOT NULL DEFAULT '',
   `department` varchar(50) NOT NULL DEFAULT '',
   `subdepartment` varchar(50) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`),
-  KEY `manager` (`manager`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_events` (
@@ -229,9 +228,9 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_teachers` (
   `gpuntisID` varchar(10) NOT NULL,
   `name` varchar(50) NOT NULL DEFAULT '',
   `manager` varchar(50) NOT NULL DEFAULT '',
-  `dptID` varchar(10) NOT NULL DEFAULT '',
+  `departmentID` varchar(10) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
-  KEY `dptID` (`dptID`),
+  KEY `departmentID` (`departmentID`),
   KEY `manager` (`manager`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
