@@ -26,12 +26,12 @@ class thm_organizersModelschedule extends JModel
      * @return $result boolean true on success, false on db error, string listing
      * data inconsistancies
      */
-    public function uploadGPUntis()
+    public function upload()
     {
         $fileName = $_FILES['file']['name'];
         $tmpName  = $_FILES['file']['tmp_name'];
         $schedule = simplexml_load_file($tmpName);
-        $result = $this->validateGPUntis(&$schedule);
+        $result = $this->validate(&$schedule);
         if(!isset($result['errors']))
         {
             $fp = fopen($tmpName, 'r');
@@ -69,7 +69,7 @@ class thm_organizersModelschedule extends JModel
      * @param $file the gpuntis xml file to be validated
      * @return $result string listing inconsistancies or boolean on successful parce
      */
-    public function validateGPUntis(&$file)
+    public function validate(&$file)
     {
         $erray = array();
         $warray = array();
@@ -444,7 +444,7 @@ class thm_organizersModelschedule extends JModel
                     }
                     unset($day, $period, $roomid);
                 }
-                unset($id, $subjectid, $name, $lerrorstart, $teacherid, $classids, $lessontype, $periods, $times);
+                unset($id, $subjectid, $name, $lerrorstart, $teacherid, $classids, $lessontype, $times);
             }
         }
         unset($lessonsnode);
@@ -483,48 +483,58 @@ class thm_organizersModelschedule extends JModel
      */
     public function activate()
     {
-        $dbo = JFactory::getDBO();
         $semesterID = JRequest::getInt('semesterID');
         $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
         if(count($scheduleIDs) > 1)
-        {
-            $query = $dbo->getQuery(true);
-            $query->select("DISTINCT plantypeID");
-            $query->from("#__thm_organizer_schedules");
-            $query->where("id IN ('".implode("', '", $scheduleIDs)."')");
-            $dbo->setQuery((string)$query);
-            $countTypes = count($dbo->loadAssoc());
-            if($countTypes < count($scheduleIDs))
-                return JText::_("Only one file per type can be activated");
-        }
-        foreach($scheduleIDs as $scheduleID)
-        {
-            $query = $dbo->getQuery(true);
-            $query->select("file, filename, plantypeID");
-            $query->from("#__thm_organizer_schedules");
-            $query->where("id = '$scheduleID'");            
-            $dbo->setQuery((string)$query);
-            $row = $dbo->loadAssoc();
-            unset($query);
-            if($dbo->getErrorNum()) return JText::_("An error occured while loading a the schedule to be activated.");
-            $file = $row['file'];
-            if(empty($file)) return JText::_("The file selected was not found.");
-            $filename = $row['filename'];
-            $plantypeID = $row['plantypeID'];
+            return JText::_("Only one file per type can be activated.");
+        else $scheduleID = $scheduleIDs[0];
 
-            $query = $dbo->getQuery(true);
-            $query->select("filename");
-            $query->from("#__thm_organizer_schedules");
-            $query->where("active IS NOT NULL");
-            $query->where("sid = '$semesterID'");
-            $query->where("plantypeID = '$plantypeID'");
-            $dbo->setQuery((string)$query);
-            $from = $dbo->loadResult();
-            if(isset($from)) $olddata = $this->handleDeprecatedData($plantypeID);
-            $newData = $this->getNewData(&$file, $plantypeID, $scheduleID);
-            unset($file);
-            if(isset($olddata) and isset($newdata)) $result = $this->calculateDelta();
-            return $result;
+        $dbo = JFactory::getDBO();
+
+        $query = $dbo->getQuery(true);
+        $query->select("file, filename, plantypeID");
+        $query->from("#__thm_organizer_schedules");
+        $query->where("id = '$scheduleID'");
+        $dbo->setQuery((string)$query);
+        $row = $dbo->loadAssoc();
+        if(empty($row))
+            return JText::_("The file selected could not be found.");
+
+        $file = $row['file'];
+        $to = $row['filename'];
+        $plantypeID = $row['plantypeID'];
+
+        $query = $dbo->getQuery(true);
+        $query->select("filename");
+        $query->from("#__thm_organizer_schedules");
+        $query->where("active IS NOT NULL");
+        $query->where("sid = '$semesterID'");
+        $query->where("plantypeID = '$plantypeID'");
+        $dbo->setQuery((string)$query);
+        $from = $dbo->loadResult();
+        if(isset($from)) $oldData = $this->handleDeprecatedData($plantypeID);
+        $newData = $this->getNewData(&$file, $plantypeID, $scheduleID);
+        unset($file);
+        if(isset($oldData) and isset($newData))
+        {
+            $deltaSuccess = $this->calculateDelta($oldData, $newData, $plantypeID);
+            if($deltaSuccess)
+            {
+                $msg = JText::_('Der aktueller Stundenplan wurde ge&auml;ndert von ');
+                $msg .= $from.JText::_(' auf ');
+                $msg .= $to.JText::_(" ge&auml;ndert.");
+                return $msg;
+            }
+        }
+        else
+        {
+            if(isset($newData))
+            {
+                $msg = JText::_('Der aktueller Stundenplan wurde auf ');
+                $msg .= $to.JText::_(" gesetzt.");
+                return $msg;
+            }
+            else return false;
         }
     }
 
@@ -650,7 +660,7 @@ class thm_organizersModelschedule extends JModel
             unset($id, $details, $institution, $campus, $department, $subdepartment, $name);
         }
         unset($departmentsnode);
-
+        
         $rooms = array();
         $roomsnode = $schedule->rooms;
         foreach($roomsnode->children() as $room)
@@ -780,6 +790,7 @@ class thm_organizersModelschedule extends JModel
             $dptid = trim((string)$teacher->teacher_department[0]['id']);
             $teachers[$id]['name'] = $name;
             $teachers[$id]['department'] = $dptid;
+            $departmentID = $departments[$dptid]['id'];
             $userID = trim((string)$teacher->payrollnumber);
             if(empty($userID)) $userID = '';
             $teachers[$id]['userID'] = $userID;
@@ -795,8 +806,8 @@ class thm_organizersModelschedule extends JModel
             if(empty($savedID))
             {
                 $query = $dbo->getQuery(true);
-                $statement = "#__thm_organizer_teachers ( gpuntisID, name, manager, dptID )
-                              VALUES ( '$id', '$name', '$userID', '$dptid' )";
+                $statement = "#__thm_organizer_teachers ( gpuntisID, name, manager, departmentID )
+                              VALUES ( '$id', '$name', '$userID', '$departmentID' )";
                 $query->insert($statement);
                 $dbo->setQuery((string)$query);
                 $dbo->query();
@@ -814,7 +825,7 @@ class thm_organizersModelschedule extends JModel
                 $teachers[$id]['id']= $savedID;
                 $query = $dbo->getQuery(true);
                 $query->update("#__thm_organizer_teachers");
-                $set = "name = '$name', manager = '$userID', dptID = '$dptid'";
+                $set = "name = '$name', manager = '$userID', departmentID = '$departmentID'";
                 $query->set($set);
                 $query->where("id = '$savedID'");
                 $dbo->setQuery((string)$query);
@@ -899,7 +910,6 @@ class thm_organizersModelschedule extends JModel
             {
                 $id = trim((string)$lesson[0]['id']);
                 $id = substr($id, 0, strlen($id) - 2);
-                if(!isset($lessons[$id])) $lessons[$id] = array();
                 $subjectID = trim((string)$lesson->lesson_subject[0]['id']);
                 $subjectID = $subjects[$subjectID]['id'];
                 $lessontype = trim((string)$lesson->text1);
@@ -912,7 +922,7 @@ class thm_organizersModelschedule extends JModel
                 $dbo->setQuery((string)$query);
                 $lessonID = $dbo->loadResult();
 
-                if(empty($savedID))
+                if(empty($lessonID))
                 {
                     $query = $dbo->getQuery(true);
                     $statement = "#__thm_organizer_lessons
@@ -935,9 +945,6 @@ class thm_organizersModelschedule extends JModel
 
                 $teacherID = trim((string)$lesson->lesson_teacher[0]['id']);
                 $teacherID = $teachers[$teacherID]['id'];
-                if(!isset($lessons[$id]['teachers'])) $lessons[$id]['teachers'] = array();
-                if(!in_array($teacherID, $lessons[$id]['teachers']))
-                    $lessons[$id]['teachers'][] = $teacherID;
 
                 $query = $dbo->getQuery(true);
                 $query->select("COUNT(*)");
@@ -945,9 +952,9 @@ class thm_organizersModelschedule extends JModel
                 $query->where("lessonID = '$lessonID'");
                 $query->where("teacherID = '$teacherID'");
                 $dbo->setQuery((string)$query);
-                $countLT = $dbo->loadResult();
+                $countTeachers = $dbo->loadResult();
 
-                if($countLT == 0)
+                if($countTeachers == 0)
                 {
                     $query = $dbo->getQuery(true);
                     $statement = "#__thm_organizer_lesson_teachers ( lessonID, teacherID )
@@ -957,18 +964,9 @@ class thm_organizersModelschedule extends JModel
                     $dbo->query();
                     unset($query);
                 }
-                unset($countLT);
 
                 $classIDs = trim((string)$lesson->lesson_classes[0]['id']);
                 $classIDs = explode(" ", $classIDs);
-
-                foreach($classIDs as $classID)
-                {
-                    if(!isset($lessons[$id]['classes'])) $lessons[$id]['classes'] = array();
-                    if(!in_array($classID, $lessons[$id]['classes']))
-                        $lessons[$id]['classes'][] = $classID;
-                }
-
                 foreach($classIDs as $k => $v)
                     $classIDs[$k] = $classes[$v]['id'];
 
@@ -980,9 +978,9 @@ class thm_organizersModelschedule extends JModel
                     $query->where("lessonID = '$lessonID'");
                     $query->where("classID = '$classID'");
                     $dbo->setQuery((string)$query);
-                    $countLC = $dbo->loadResult();
+                    $countClasses = $dbo->loadResult();
 
-                    if($countLC == 0)
+                    if($countClasses == 0)
                     {
                         $query = $dbo->getQuery(true);
                         $statement = "#__thm_organizer_lesson_classes ( lessonID, classID )
@@ -992,7 +990,6 @@ class thm_organizersModelschedule extends JModel
                         $dbo->query();
                         unset($query);
                     }
-                    unset($countLC);
                 }
 
                 $times = $lesson->times;
@@ -1000,16 +997,9 @@ class thm_organizersModelschedule extends JModel
                 {
                     $day = (int)$instance->assigned_day;
                     $period = (int)$instance->assigned_period;
-                    $periodID = $timeperiods[$day][$period]['gpuntisID'];
-                    $roomID = trim((string)$instance->assigned_room[0]['id']);
-                    
-                    if(!isset($lessons[$id]['times'])) $lessons[$id]['times'] = array();
-                    $gparray = array('roomID' => $roomID, 'periodID' => $periodID);
-                    if(!in_array($gparray, $lessons[$id]['times']))
-                        $lessons[$id]['times'][] = $gparray;
-
-                    $roomID = $rooms[$roomID]['id'];
                     $periodID = $timeperiods[$day][$period]['id'];
+                    $roomID = trim((string)$instance->assigned_room[0]['id']);
+                    $roomID = $rooms[$roomID]['id'];
 
                     $query = $dbo->getQuery(true);
                     $query->select("COUNT(*)");
@@ -1018,9 +1008,9 @@ class thm_organizersModelschedule extends JModel
                     $query->where("roomID = '$roomID'");
                     $query->where("periodID = '$periodID'");
                     $dbo->setQuery((string)$query);
-                    $countLT = $dbo->loadResult();
+                    $countLTimes = $dbo->loadResult();
 
-                    if($countLT == 0)
+                    if($countLTimes == 0)
                     {
                         $query = $dbo->getQuery(true);
                         $statement = "#__thm_organizer_lesson_times ( lessonID, roomID, periodID )
@@ -1029,9 +1019,55 @@ class thm_organizersModelschedule extends JModel
                         $dbo->setQuery((string)$query);
                         $dbo->query();
                     }
-                    unset($countLT, $day, $period, $periodID, $roomid, $query);
+
+                    $tpID = $timeperiods[$day][$period]['gpuntisID'];
+                    if(!isset($lessons[$id]))$lessons[$id] = array();
+                    $lessons[$id][$tpID] = array();
+                    $lessons[$id][$tpID]['source'] = $planType;
+                    $lessons[$id][$tpID]['subjectID'] = $subjectID;
+
+                    if(!isset($lessons[$id][$tpID]['classIDs']))
+                        $lessons[$id][$tpID]['classIDs'] = array();
+                    foreach($classIDs as $classID)
+                    {
+                        if(!in_array($classID, $lessons[$id][$tpID]['classIDs']))
+                            $lessons[$id][$tpID]['classIDs'][] = $classID;
+                    }
+
+                    $query = $dbo->getQuery(true);
+                    $query->select("teacherID");
+                    $query->from("#__thm_organizer_lesson_teachers");
+                    $query->where("lessonID = '$lessonID'");
+                    $dbo->setQuery((string)$query);
+                    $lessonTeachers = $dbo->loadResultArray();
+                    
+                    if(!isset($lessons[$id][$tpID]['teacherIDs']))
+                        $lessons[$id][$tpID]['teacherIDs'] = array();
+                    foreach($lessonTeachers as $lessonTeacher)
+                    {
+                        if(!in_array($lessonTeacher, $lessons[$id][$tpID]['teacherIDs']))
+                            $lessons[$id][$tpID]['teacherIDs'][] = $lessonTeacher;
+                    }
+
+                    $query = $dbo->getQuery(true);
+                    $query->select("roomID");
+                    $query->from("#__thm_organizer_lesson_times");
+                    $query->where("lessonID = '$lessonID'");
+                    $query->where("periodID = '$periodID'");
+                    $dbo->setQuery((string)$query);
+                    $lessonRooms = $dbo->loadResultArray();
+
+                    if(!isset($lessons[$id][$tpID]['roomIDs']))
+                        $lessons[$id][$tpID]['roomIDs'] = array();
+                    foreach($lessonRooms as $lessonRoom)
+                    {
+                        if(!in_array($roomID, $lessons[$id][$tpID]['roomIDs']))
+                            $lessons[$id][$tpID]['roomIDs'][] = $lessonRoom;
+                    }
+
+                    unset($countLT, $day, $period, $periodID, $roomID, $tpID);
                 }
-                unset($id, $subjectid, $name, $teacherid, $classids, $lessontype, $periods, $times);
+                unset($id, $subjectid, $name, $teacherid, $classGPIDs, $classIDs, $lessontype, $periods, $times);
             }
         }
         unset($lessonsnode);
@@ -1053,101 +1089,119 @@ class thm_organizersModelschedule extends JModel
      * retrieves lesson data for the currently active schedule/semester/type
      * and encapsulates it in a php array structure, then removes it.
      */
-    private function handleDeprecatedData($planType)
+    private function handleDeprecatedData($plantypeID)
     {
         $dbo = JFactory::getDbo();
         $semesterID = JRequest::getInt('semesterID');
         $lessons = array();
 
         $query = $dbo->getQuery(true);
-        $query->select("id");
+        $query->select("id, gpuntisID");
         $query->from("#__thm_organizer_lessons");
-        $query->where("plantype = '$planType'");
+        $query->where("plantypeID = '$plantypeID'");
         $query->where("semesterID = '$semesterID'");
         $dbo->setQuery($query);
-        $lessonIDs = $dbo->loadResultArray();
+        $lessonIDs = $dbo->loadResultArray(0);
+        $assocIDs = $dbo->loadAssocList();
 
+        //string containin all lesson ids formatted for sql queries
         $lessonIDString = "'".implode("', '", $lessonIDs)."'";
-
-        $query = $dbo->getQuery(true);
-        $query->delete();
-        $query->from("#__thm_organizer_lessons");
-        $query->where("id IN ( $lessonIDString )");
-        $dbo->setQuery((string)$query);
-        $dbo->query();
-        unset($query);
+        
+        $lessonGPIDs = array();
+        foreach($assocIDs as $assoc)
+            $lessonGPIDs[$assoc['id']] = $assoc['gpuntisID'];
 
         foreach($lessonIDs as $lessonID)
         {
-            $lessons[$lessonID] = array();
+            $gpid = $lessonGPIDs[$lessonID];
 
             $query = $dbo->getQuery(true);
-            $query->select("teacherID");
-            $query->from("#__thm_organizer_lesson_teachers");
-            $query->where("lessonID = '$lessonID'");
-            $dbo->setQuery((string)$query);
-            $lessons[$lessonID]['teachers'] = $dbo->loadResultArray();
-            unset($query);
+            $query->select("subjectID");
+            $query->from("#__thm_organizer_lessons");
+            $query->where("id = '$lessonID'");
+            $dbo->setQuery($query);
+            $subjectID = $dbo->loadResult();
                         
             $query = $dbo->getQuery(true);
-            $query->select("classID");
-            $query->from("#__thm_organizer_lesson_classes");
+            $query->select("roomID, gpuntisID");
+            $query->from("#__thm_organizer_lesson_times AS lt");
+            $query->leftJoin("#__thm_organizer_periods AS p on p.id = lt.periodID");
             $query->where("lessonID = '$lessonID'");
             $dbo->setQuery((string)$query);
-            $lessons[$lessonID]['classes'] = $dbo->loadResultArray();
-            unset($query);
-                        
-            $query = $dbo->getQuery(true);
-            $query->select("roomID, periodID");
-            $query->from("#__thm_organizer_lesson_times");
-            $query->where("lessonID = '$lessonID'");
-            $dbo->setQuery((string)$query);
-            $lessons[$lessonID]['times'] = $dbo->loadAssocList();
-            unset($query);
+            $periods = $dbo->loadAssocList();
+            
+            foreach($periods as $period)
+            {
+                $tpID = $period['gpuntisID'];
 
-            $query = $dbo->getQuery(true);
-            $query->select("periodID");
-            $query->from("#__thm_organizer_lesson_times");
-            $query->where("lessonID = '$lessonID'");
-            $dbo->setQuery((string)$query);
-            $periodIDs = $dbo->loadResultArray();
-            unset($query);
+                if(!isset($lessons[$gpid])) $lessons[$gpid] = array();
+                if(!isset($lessons[$gpid][$tpID])) $lessons[$gpid][$tpID] = array();
+                $lessons[$gpid][$tpID]['source'] = $plantypeID;
+                $lessons[$gpid][$tpID]['subjectID'] = $subjectID;
 
-            $query = $dbo->getQuery(true);
-            $query->delete();
-            $query->from("#__thm_organizer_lesson_times");
-            $query->where("lessonID = '$lessonID'");
-            $dbo->setQuery((string)$query);
-            $dbo->query();
-            unset($query);
+                if(!isset($lessons[$gpid][$tpID]['roomIDs']))
+                    $lessons[$gpid][$tpID]['roomIDs'] = array();
+                if(!in_array($period['roomID'], $lessons[$gpid][$tpID]['roomIDs']))
+                    $lessons[$gpid][$tpID]['roomIDs'][] = $period['roomID'];
 
-            $periodIDString = "'".implode("', '", $periodIDs)."'";
-            unset($periodIDs);
+                $query = $dbo->getQuery(true);
+                $query->select("teacherID");
+                $query->from("#__thm_organizer_lesson_teachers");
+                $query->where("lessonID = '$lessonID'");
+                $dbo->setQuery((string)$query);
+                $lessons[$gpid][$tpID]['teacherIDs'] = $dbo->loadResultArray();
 
-            $query = $dbo->getQuery(true);
-            $query->delete();
-            $query->from("#__thm_organizer_periods");
-            $query->where("periodID IN ( $periodIDString )");
-            $dbo->setQuery((string)$query);
-            $dbo->query();
-            unset($query);
+                $query = $dbo->getQuery(true);
+                $query->select("classID");
+                $query->from("#__thm_organizer_lesson_classes");
+                $query->where("lessonID = '$lessonID'");
+                $dbo->setQuery((string)$query);
+                $lessons[$gpid][$tpID]['classIDs'] = $dbo->loadResultArray();
+            }
         }
 
         $query = $dbo->getQuery(true);
         $query->delete();
-        $query->from("#__thm_organizer_lesson_teachers");
+        $query->from("#__thm_organizer_periods");
+        $query->where("semesterID = '$semesterID'");
+        $dbo->setQuery((string)$query);
+        $dbo->query();
+
+        $query = $dbo->getQuery(true);
+        $query->delete();
+        $query->from("#__thm_organizer_lessons");
         $query->where("id IN ( $lessonIDString )");
         $dbo->setQuery((string)$query);
         $dbo->query();
-        unset($query);
+
+        $query = $dbo->getQuery(true);
+        $query->delete();
+        $query->from("#__thm_organizer_lesson_teachers");
+        $query->where("lessonID IN ( $lessonIDString )");
+        $dbo->setQuery((string)$query);
+        $dbo->query();
 
         $query = $dbo->getQuery(true);
         $query->delete();
         $query->from("#__thm_organizer_lesson_classes");
-        $query->where("id IN ( $lessonIDString )");
+        $query->where("lessonID IN ( $lessonIDString )");
         $dbo->setQuery((string)$query);
         $dbo->query();
-        unset($query, $lessonIDString, $lessonIDs);
+
+        $query = $dbo->getQuery(true);
+        $query->delete();
+        $query->from("#__thm_organizer_lesson_times");
+        $query->where("lessonID IN ( $lessonIDString )");
+        $dbo->setQuery((string)$query);
+        $dbo->query();
+
+        $query = $dbo->getQuery(true);
+        $query->update("#__thm_organizer_schedules");
+        $query->set("active = NULL");
+        $query->where("plantypeID = '$plantypeID'");
+        $query->where("sid = '$semesterID'");
+        $dbo->setQuery((string)$query);
+        $dbo->query();
 
         return $lessons;
     }
@@ -1159,304 +1213,181 @@ class thm_organizersModelschedule extends JModel
      * become active, and saves this data as a json string in the structure used by
      * the scheduler rich internet application
      */
-    private function delta()
+    private function calculateDelta($oldData, $newData, $plantypeID)
     {
-        return true;
-
-        $type = "cyclic";
-        $predelta = array();
-        $lessonsdelta = array();//holds a running count of movedto/movedfrom lessons
-        foreach($lessons as $lessonkey => $lessonvalue)
-        {
-            //if a lesson does not exist in the old plan than every period is new
-            if(!array_key_exists($lessonkey, $oldlessons))
-            {
-                foreach($lessons[$lessonkey]['periods'] as $lpkey => $lpvalue)
-                {
-                    $key = $lessonkey." ".$lpkey;
-                    $predelta[$key]['type'] = $type;
-                    $predelta[$key]['dow'] = $lessons[$lessonkey]['periods'][$lpkey]['day'];
-                    $predelta[$key]['block'] = $lessons[$lessonkey]['periods'][$lpkey]['period'];
-                    $predelta[$key]['clas'] = implode(" ", $lessons[$lessonkey]['classes']);
-                    $predelta[$key]['room'] = implode(" ", $lessons[$lessonkey]['periods'][$lpkey]['rooms']);
-                    $predelta[$key]['doz'] = implode(" ", $lessons[$lessonkey]['periods'][$lpkey]['teachers']);
-                    $predelta[$key]['key'] = $lessonkey." ".$lpkey;
-                    $predelta[$key]['name'] = $lessons[$lessonkey]['name'];
-                    $predelta[$key]['desc'] = $lessons[$lessonkey]['desc'];
-                    $predelta[$key]['css'] = 'new';
-                    unset($key);
-                }
-            }
-            else//the lesson exists in both plans
-            {
-                    $css = "";
-                    $changes = array();
-                    foreach($lessons[$lessonkey]['classes'] as $ck => $cv)
-                    {
-                            //classes new to the lesson
-                            if(!array_key_exists($ck, $oldlessons[$lessonkey]['classes']))
-                            {
-                                    if(!$changes['classes'][$ck])$changes['classes'][$ck] = "new";
-                                    $css = "changed";
-                            }
-                    }
-                    foreach($oldlessons[$lessonkey]['classes'] as $ck => $cv)
-                    {
-                            //classes removed from the lesson
-                            if(!array_key_exists($ck, $lessons[$lessonkey]['classes']))
-                            {
-                                    if(!$changes['classes'][$ck])$changes['classes'][$ck] = "removed";
-                                    $css = "changed";
-                            }
-                    }
-                    foreach($lessons[$lessonkey]['periods'] as $lpkey => $lpvalue)
-                    {
-                        //if the time period does not exist, but the lesson does
-                        //than a period in the old plan was moved here
-                        if(!array_key_exists($lpkey, $oldlessons[$lessonkey]['periods']))
-                        {
-                            $key = $lessonkey." ".$lpkey;
-                            $predelta[$key]['type'] = $type;
-                            $predelta[$key]['dow'] = $lessons[$lessonkey]['periods'][$lpkey]['day'];
-                            $predelta[$key]['block'] = $lessons[$lessonkey]['periods'][$lpkey]['period'];
-                            $predelta[$key]['clas'] = implode(" ", $lessons[$lessonkey]['classes']);
-                            $predelta[$key]['room'] = implode(" ", $lessons[$lessonkey]['periods'][$lpkey]['rooms']);
-                            $predelta[$key]['doz'] = implode(" ", $lessons[$lessonkey]['periods'][$lpkey]['teachers']);
-                            $predelta[$key]['key'] = $key ;
-                            $predelta[$key]['name'] = $lessons[$lessonkey]['name'];
-                            $predelta[$key]['desc'] = $lessons[$lessonkey]['desc'];
-                            if($css == "changed")
-                            {
-                                    $predelta[$key]['changes'] = $changes;
-                                    $predelta[$key]['css'] = 'movedto '.$css;
-                            }
-                            else $predelta[$key]['css'] = 'movedto';
-                            if($lessonsdelta[$lessonkey]['movedto'])
-                                    $lessonsdelta[$lessonkey]['movedto'] = $lessonsdelta[$lessonkey]['movedto'] + 1;
-                            else $lessonsdelta[$lessonkey]['movedto'] = 1;
-                            unset($key);
-                        }
-                        //check if the data represented by the time period has changed
-                        //i.e. the timeperiod are the same, but the day, block, etc. have changed
-                        else
-                        {
-                            $oldperiod = $oldlessons[$lessonkey]['periods'][$lpkey];
-                            if($oldperiod['starttime'] != $lpvalue['starttime'])
-                            {
-                                $css = "changed";
-                                $changes['starttime'] = $oldperiod['starttime']." => ".$lpvalue['starttime'];
-                            }
-                            if($oldperiod['endtime'] != $lpvalue['endtime'])
-                            {
-                                $css = "changed";
-                                $changes['endtime'] = $oldperiod['endtime']." => ".$lpvalue['endtime'];
-                            }
-                            foreach($lessons[$lessonkey]['periods'][$lpkey]['teachers'] as $lptkey => $lptvalue)
-                            {
-                                if(!array_key_exists($lptkey, $oldlessons[$lessonkey]['periods'][$lpkey]['teachers']))
-                                {
-                                    $css = "changed";
-                                    $changes['teachers'][$lptkey] = "new";
-                                }
-                                else
-                                    unset($oldlessons[$lessonkey]['periods'][$lpkey]['teachers'][$lptkey]);
-                            }
-                            if(count($oldlessons[$lessonkey]['periods'][$lpkey]['teachers']) > 0)
-                                foreach($oldlessons[$lessonkey]['periods'][$lpkey]['teachers'] as $optkey => $optvalue)
-                                {
-                                    $css = "changed";
-                                    $changes['teachers'][$optkey] = "removed";
-                                }
-                            foreach($lessons[$lessonkey]['periods'][$lpkey]['rooms'] as $lprkey => $lprvalue)
-                            {
-                                if(!array_key_exists($lprkey, $oldlessons[$lessonkey]['periods'][$lpkey]['rooms']))
-                                {
-                                    $css = "changed";
-                                    $changes['rooms'][$lprkey] = "new";
-                                }
-                                else
-                                    unset($oldlessons[$lessonkey]['periods'][$lpkey]['rooms'][$lprkey]);
-                            }
-                            if(count($oldlessons[$lessonkey]['periods'][$lpkey]['rooms']) > 0)
-                                foreach($oldlessons[$lessonkey]['periods'][$lpkey]['rooms'] as $oprkey => $oprvalue)
-                                {
-                                    $css = "changed";
-                                    $changes['rooms'][$oprkey] = "removed";
-                                }
-                            if($css == "changed")
-                            {
-                                $key = $lessonkey." ".$lpkey;
-                                $predelta[$key]['type'] = $type;
-                                $predelta[$key]['dow'] = $lessons[$lessonkey]['periods'][$lpkey]['day'];
-                                $predelta[$key]['block'] = $lessons[$lessonkey]['periods'][$lpkey]['period'];
-                                $predelta[$key]['clas'] = implode(" ", $lessons[$lessonkey]['classes']);
-                                $predelta[$key]['room'] = implode(" ", $lessons[$lessonkey]['periods'][$lpkey]['rooms']);
-                                $predelta[$key]['doz'] = implode(" ", $lessons[$lessonkey]['periods'][$lpkey]['teachers']);
-                                $predelta[$key]['key'] = $key;
-                                $predelta[$key]['name'] = $lessons[$lessonkey]['name'];
-                                $predelta[$key]['desc'] = $lessons[$lessonkey]['desc'];
-                                $predelta[$key]['css'] = 'changed';
-                                $predelta[$key]['changes'] = $changes;
-                                unset($key);
-                            }
-                            unset($oldlessons[$lessonkey]['periods'][$lpkey]);
-                        }
-                    }
-                    //periods that were not in the new plan have been moved
-                    if(count($oldlessons[$lessonkey]['periods']) > 0)
-                    {
-                        foreach($oldlessons[$lessonkey]['periods'] as $lpkey => $lpvalue)
-                        {
-                            $key = $lessonkey." ".$lpkey;
-                            $predelta[$key]['type'] = $type;
-                            $predelta[$key]['dow'] = $oldlessons[$lessonkey]['periods'][$lpkey]['day'];
-                            $predelta[$key]['block'] = $oldlessons[$lessonkey]['periods'][$lpkey]['period'];
-                            $predelta[$key]['clas'] = implode(" ", $oldlessons[$lessonkey]['classes']);
-                            $predelta[$key]['room'] = implode(" ", $oldlessons[$lessonkey]['periods'][$lpkey]['rooms']);
-                            $predelta[$key]['doz'] = implode(" ", $oldlessons[$lessonkey]['periods'][$lpkey]['teachers']);
-                            $predelta[$key]['key'] = $key;
-                            $predelta[$key]['name'] = $oldlessons[$lessonkey]['name'];
-                            $predelta[$key]['desc'] = $oldlessons[$lessonkey]['desc'];
-                            $predelta[$key]['css'] = 'movedfrom';
-                            if($lessonsdelta[$lessonkey]['movedfrom'])
-                                $lessonsdelta[$lessonkey]['movedfrom'] = $lessonsdelta[$lessonkey]['movedfrom'] + 1;
-                            else $lessonsdelta[$lessonkey]['movedfrom'] = 1;
-                            unset($key);
-                        }
-                    }
-                    unset($oldlessons[$lessonkey], $changes);
-                }
-            }
-            unset($lessons);
-            if(count($oldlessons) > 0)
-            {
-                foreach($oldlessons as $olk => $olv)
-                {
-                    foreach($olv['periods'] as $olpkey => $olpvalue)
-                    {
-                        $key = $olk." ".$olpkey;
-                        $predelta[$key]['type'] = $type;
-                        $predelta[$key]['dow'] = $oldlessons[$olk]['periods'][$olpkey]['day'];
-                        $predelta[$key]['block'] = $oldlessons[$olk]['periods'][$olpkey]['period'];
-                        $predelta[$key]['clas'] = implode(" ", $oldlessons[$olk]['classes']);
-                        $predelta[$key]['room'] = implode(" ", $oldlessons[$olk]['periods'][$olpkey]['rooms']);
-                        $predelta[$key]['doz'] = implode(" ", $oldlessons[$olk]['periods'][$olpkey]['teachers']);
-                        $predelta[$key]['key'] = $olk." ".$olpkey;
-                        $predelta[$key]['name'] = $oldlessons[$olk]['name'];
-                        $predelta[$key]['desc'] = $oldlessons[$olk]['desc'];
-                        $predelta[$key]['css'] = 'removed';
-                        unset($key);
-                    }
-                }
-            }
-
-        //sometimes a lesson block is cancelled or added which leads to uneven numbers of movedfrom and movedto
-        $discrepancies = array();
-        foreach($lessonsdelta as $ldk => $ldv)
-        {
-                if(!$ldv['movedto'])$ldv['movedto'] = 0;
-                if(!$ldv['movedfrom'])$lkv['movedfrom'] = 0;
-                if($ldv['movedto'] > $ldv['movedfrom'])
-                {
-                        $count = $ldv['movedto'] - $ldv['movedfrom'];
-                        $discrepancies[$ldk]['count'] = $count;
-                        $discrepancies[$ldk]['delta'] = 'movedto';
-                }
-                else if($ldv['movedto'] < $ldv['movedfrom'])
-                {
-                        $count = $ldv['movedfrom'] - $ldv['movedto'];
-                        $discrepancies[$ldk]['count'] = $count;
-                        $discrepancies[$ldk]['delta'] = 'movedfrom';
-                }
-        }
-        unset($lessonsdelta);
-        foreach($discrepancies as $lessonkey => $lessondisc)
-        {
-            $ld = $lessondisc['delta'];
-            foreach($predelta as $dk => $dv)
-            {
-                $keyparts = explode(' ', $dk);
-                if($keyparts[0] == $lessonkey)
-                {
-                    if($lessondisc['count'] > 0)
-                    {
-                        if($dv['css'] == ($ld == 'movedto'))
-                        {
-                            $predelta[$dk]['css'] = 'new';
-                            $lessondisc['count'] = $lessondisc['count'] - 1;
-                        }
-                        if($dv['css'] == ($ld == 'movedfrom'))
-                        {
-                            $predelta[$dk]['css'] = 'removed';
-                            $lessondisc['count'] = $lessondisc['count'] - 1;
-                        }
-                    }
-                }
-            }
-        }
-        $index = 0;
         $delta = array();
-        foreach($predelta as $pdk => $pdv)
+        foreach($newData as $lessonKey => $lessonValue)
         {
-            $delta[$index] = $predelta[$pdk];
-            $index++;
+            if(!key_exists($lessonKey, $oldData))//lesson did not exist
+            {
+                $delta[$lessonKey] = $lessonValue;
+                $delta[$lessonKey]['changes'] = 'new';
+                unset($newData[$lessonKey]);
+            }
+            else//lesson occurs in both plans
+            {
+                foreach($lessonValue as $periodKey => $periodValue)
+                {
+                    if(!key_exists($periodKey, $oldData[$lessonKey]))
+                    {
+                        $delta[$lessonKey][$periodKey] = $periodValue;
+                        $delta[$lessonKey][$periodKey]['changes'] = 'new';
+                        unset($newData[$lessonKey][$periodKey]);
+                    }
+                    else
+                    {
+                        foreach($periodValue['classIDs'] as $newClassKey => $newClassValue)
+                        {
+                            if(in_array($newClassValue, $oldData[$lessonKey][$periodKey]['classIDs']))
+                                continue;
+                            else
+                            {
+                                if(!isset($delta[$lessonKey][$periodKey]))
+                                    $delta[$lessonKey][$periodKey] = $periodValue;
+                                if(!isset($delta[$lessonKey][$periodKey]['changes']))
+                                    $delta[$lessonKey][$periodKey]['changes'] = array();
+                                if(!isset($delta[$lessonKey][$periodKey]['changes']['classIDs']))
+                                    $delta[$lessonKey][$periodKey]['changes']['classIDs'] = array();
+                                if(!key_exists($newClassValue, $delta[$lessonKey][$periodKey]['changes']['classIDs']))
+                                    $delta[$lessonKey][$periodKey]['changes']['classIDs'][$newClassValue] = "new";
+                            }
+                        }
+                        foreach($oldData[$lessonKey][$periodKey]['classIDs'] as $oldClassKey => $oldClassValue)
+                        {
+                            if(in_array($oldClassValue, $periodValue['classIDs']))
+                                continue;
+                            else
+                            {
+                                if(!isset($delta[$lessonKey][$periodKey]))
+                                    $delta[$lessonKey][$periodKey] = $periodValue;
+                                if(!isset($delta[$lessonKey][$periodKey]['changes']))
+                                    $delta[$lessonKey][$periodKey]['changes'] = array();
+                                if(!isset($delta[$lessonKey][$periodKey]['changes']['classIDs']))
+                                    $delta[$lessonKey][$periodKey]['changes']['classIDs'] = array();
+                                if(!key_exists($oldClassValue, $delta[$lessonKey][$periodKey]['changes']['classIDs']))
+                                    $delta[$lessonKey][$periodKey]['changes']['classIDs'][$oldClassValue] = "removed";
+                            }
+                        }
+                        foreach($periodValue['teacherIDs'] as $newTeacherKey => $newTeacherValue)
+                        {
+                            if(in_array($newTeacherValue, $oldData[$lessonKey][$periodKey]['teacherIDs']))
+                                continue;
+                            else
+                            {
+                                if(!isset($delta[$lessonKey][$periodKey]))
+                                    $delta[$lessonKey][$periodKey] = $periodValue;
+                                if(!isset($delta[$lessonKey][$periodKey]['changes']))
+                                    $delta[$lessonKey][$periodKey]['changes'] = array();
+                                if(!isset($delta[$lessonKey][$periodKey]['changes']['teacherIDs']))
+                                    $delta[$lessonKey][$periodKey]['changes']['teacherIDs'] = array();
+                                if(!key_exists($newTeacherValue, $delta[$lessonKey][$periodKey]['changes']['teacherIDs']))
+                                    $delta[$lessonKey][$periodKey]['changes']['teacherIDs'][$newTeacherValue] = "new";
+                            }
+                        }
+                        foreach($oldData[$lessonKey][$periodKey]['teacherIDs'] as $oldTeacherKey => $oldTeacherValue)
+                        {
+                            if(in_array($oldTeacherValue, $periodValue['teacherIDs']))
+                                continue;
+                            else
+                            {
+                                if(!isset($delta[$lessonKey]))
+                                    $delta[$lessonKey][$periodKey] = $periodValue;
+                                if(!isset($delta[$lessonKey][$periodKey]['changes']))
+                                    $delta[$lessonKey][$periodKey]['changes'] = array();
+                                if(!isset($delta[$lessonKey][$periodKey]['changes']['teacherIDs']))
+                                    $delta[$lessonKey][$periodKey]['changes']['teacherIDs'] = array();
+                                if(!key_exists($oldTeacherValue, $delta[$lessonKey][$periodKey]['changes']['teacherIDs']))
+                                    $delta[$lessonKey][$periodKey]['changes']['teacherIDs'][$oldTeacherValue] = "removed";
+                            }
+                        }
+                        foreach($periodValue['roomIDs'] as $newRoomKey => $newRoomValue)
+                        {
+                            if(in_array($newRoomValue, $oldData[$lessonKey][$periodKey]['roomIDs']))
+                                continue;
+                            else
+                            {
+                                if(!isset($delta[$lessonKey][$periodKey]))
+                                    $delta[$lessonKey][$periodKey] = $periodValue;
+                                if(!isset($delta[$lessonKey][$periodKey]['changes']))
+                                    $delta[$lessonKey][$periodKey]['changes'] = array();
+                                if(!isset($delta[$lessonKey][$periodKey]['changes']['roomIDs']))
+                                    $delta[$lessonKey][$periodKey]['changes']['roomIDs'] = array();
+                                if(!key_exists($newRoomValue, $delta[$lessonKey][$periodKey]['changes']['roomIDs']))
+                                    $delta[$lessonKey][$periodKey]['changes']['roomIDs'][$newRoomValue] = "new";
+                            }
+                        }
+                        foreach($oldData[$lessonKey][$periodKey]['roomIDs'] as $oldRoomKey => $oldRoomValue)
+                        {
+                            if(in_array($oldRoomValue, $periodValue['roomIDs']))
+                                continue;
+                            else
+                            {
+                                if(!isset($delta[$lessonKey][$periodKey]))
+                                    $delta[$lessonKey][$periodKey] = $periodValue;
+                                if(!isset($delta[$lessonKey][$periodKey]['changes']))
+                                    $delta[$lessonKey][$periodKey]['changes'] = array();
+                                if(!isset($delta[$lessonKey][$periodKey]['changes']['roomIDs']))
+                                    $delta[$lessonKey][$periodKey]['changes']['roomIDs'] = array();
+                                if(!key_exists($oldRoomValue, $delta[$lessonKey][$periodKey]['changes']['roomIDs']))
+                                    $delta[$lessonKey][$periodKey]['changes']['roomIDs'][$oldRoomValue] = "removed";
+                            }
+                        }
+                    }
+                    unset($oldData[$lessonKey][$periodKey]);
+                }
+                if(count($oldData[$lessonKey]) > 0)
+                {
+                    foreach($oldData[$lessonKey] as $periodKey => $periodValue)
+                    {
+                        $delta[$lessonKey][$periodKey] = $periodValue;
+                        $delta[$lessonKey][$periodKey]['changes'] = 'removed';
+                        unset($oldData[$lessonKey]);
+                    }
+                }
+            }
+            unset($oldData[$lessonKey]);
         }
-
+        if(count($oldData) > 0)
+        {
+            foreach($oldData as $lessonKey => $lessonValue)
+            {
+                $delta[$lessonKey] = $lessonValue;
+                $delta[$lessonKey]['changes'] = 'removed';
+                unset($oldData[$lessonKey]);
+            }
+        }
 
         //json_encode does not handle umlaute properly
         $malformedjsondelta = json_encode($delta);
         $jsondelta = str_replace('\u00d6', 'Ö',
-                                        str_replace('\u00f6', 'ö',
-                                        str_replace('\u00c4', 'Ä',
-                                        str_replace('\u00e4', 'ä',
-                                        str_replace('\u00dc', 'Ü',
-                                        str_replace('\u00fc', 'ü',
-                                        str_replace('\u00df', 'ß', $malformedjsondelta)))))));
+                     str_replace('\u00f6', 'ö',
+                     str_replace('\u00c4', 'Ä',
+                     str_replace('\u00e4', 'ä',
+                     str_replace('\u00dc', 'Ü',
+                     str_replace('\u00fc', 'ü',
+                     str_replace('\u00df', 'ß', $malformedjsondelta)))))));
 
-        //deletes old delta
-        $query = "DELETE FROM #__thm_organizer_user_schedules WHERE username = 'delta'";
-        $dbo->setQuery( $query );
-        $dbo->query();
-
-        //inserts new delta
+        $dbo = JFactory::getDbo();
+        $semesterID = JRequest::getInt('semesterID');
         $currenttime = time();
-        $query = "INSERT INTO #__thm_organizer_user_schedules (username, data, created)
-        VALUES ('delta', '$jsondelta', '$currenttime')";
-        $dbo->setQuery( $query );
-        $dbo->query();
-        if ($dbo->getErrorNum())
-        {
-                $this->setRedirect($link, JText::_("Ein Fehler ist aufgetreten."), 'error'  );
-        }
 
-        //save the most recent module catalogue
-        //$this->buildModules($subjects);
-
-        //set old active to false
-        $query = "UPDATE #__thm_organizer_schedules SET active = NULL WHERE sid = '$sid';";
-        $dbo->setQuery( $query );
+        $query = $dbo->getQuery(true);
+        $query->delete();
+        $query->from("#__thm_organizer_user_schedules");
+        $query->where("username = 'delta$plantypeID'");
+        $query->where("sid = '$semesterID'");
+        $dbo->setQuery( (string) $query );
         $dbo->query();
 
-        $currentdate = date('Y-m-d H:i:s');
-        //set new active to true
-        $query = "UPDATE #__thm_organizer_schedules SET active = '$currentdate' WHERE id = '$id'";
-        $dbo->setQuery( $query );
+        $query = $dbo->getQuery(true);
+        $statement = "#__thm_organizer_user_schedules (username, data, created, sid ) ";
+        $statement .= "VALUES ( 'delta$plantypeID', '$jsondelta', '$currenttime', '$semesterID' ) ";
+        $query->insert($statement);
+        $dbo->setQuery( (string) $query );
         $dbo->query();
-        $link = JRoute::_('index.php?option=com_thm_organizer&view=schedulelist&semesterid='.$sid);
-        $dump = print_r($dptdump, true);
-        if ($dbo->getErrorNum())
-        {
-                        $this->setRedirect($link, JText::_("Ein Fehler ist aufgetreten."), 'error' );
-        }
-        else
-        {
-                if($from)
-                {
-                        $this->setRedirect($link, $return.JText::_('Der aktueller Stundenplan wurde ge&auml;ndert von ').$from.JText::_(' auf ').$to.JText::_(" ge&auml;ndert.") );
-                }
-            else $this->setRedirect($link, $return.JText::_('Der aktueller Stundenplan wurde auf ').$to.JText::_(" gesetzt." ));
-        }
-
+        
+        if ($dbo->getErrorNum())return false;
+        else return true;
     }
 
     /**
@@ -1465,8 +1396,9 @@ class thm_organizersModelschedule extends JModel
     * sets the current active schedule to inactive. this entails the deletion
     * of the delta, and the removal of schedule specific data from the db.
     */
-    public function deactivate()
+    public function deactivate($id = null)
     {
+        //todo work around double code in handle deprecated by calling this function for the deletes
         $dbo = JFactory::getDBO();
         $semesterID = JRequest::getInt('semesterID');
         $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');

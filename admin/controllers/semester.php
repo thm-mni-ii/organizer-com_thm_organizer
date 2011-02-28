@@ -56,6 +56,7 @@ class thm_organizersControllerSemester extends JController
             $this->setRedirect("index.php?option=com_thm_organizer&view=semester_manager", $msg, 'error');
         }
     }
+
     /**
      * public function save_semester
      *
@@ -128,13 +129,13 @@ class thm_organizersControllerSemester extends JController
             $wrongType = false;;
             if($fileType == "text/xml")
             {
-                $result = $model->uploadGPUntis();
-                if($result === true)
+                $result = $model->upload();
+                if($result == true)
                 {
                     $msg = JText::_("The schedule has been successfully uploaded.");
                     $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg);
                 }
-                else if($result === false)
+                else if($result == false)
                 {
                     $msg = JText::_("An error has occured while uploading the file.");
                     $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'error');
@@ -155,6 +156,10 @@ class thm_organizersControllerSemester extends JController
                     $warningText =  JText::_('The file has been saved, however, it displayed the following minor inconsistencies:');
                     $msg = $warningText.$result['warnings'];
                     $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'notice');
+                }
+                else if(is_string($result))
+                {
+                    $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $result, 'error');
                 }
                 else
                 {
@@ -219,16 +224,17 @@ class thm_organizersControllerSemester extends JController
             $id = JRequest::getVar('semesterID');
             $model = $this->getModel('schedule');
             $result = $model->activate();
-            if($result)
+            $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $result);
+            /*if($result)
             {
                 $msg = JText::_("The schedule(s) have been successfully activated.");
-                $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $result);
+                $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg);
             }
             else
             {
                 $msg = JText::_("An error has occurred while activating the schedule(s).");
                 $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'error');
-            }
+            }*/
         }
         else
         {

@@ -102,27 +102,42 @@ class thm_organizersModelsemester_edit extends JModel
 
         $dbo = & JFactory::getDBO();
         $query = $dbo->getQuery(true);
-        if(empty($id))
-        {
-            $query->insert("#__thm_organizer_semesters ( manager, organization, semesterDesc)
-                            VALUES ( '$manager', '$organization', '$semester' );");
-        }
-        else
-        {
-            $query->update("#__thm_organizer_semesters");
-            $query->set("manager = '$manager', organization = '$organization', semesterDesc = '$semester'");
-            $query->where("id = '$id';");
-        }
-        $dbo->setQuery((string)$query);
-        $dbo->query();
-        if($dbo->getErrorNum()) return (string)$query;
-
         $query->select("id");
         $query->from("#__thm_organizer_semesters");
-        $query->where("manager = '$manager' AND semesterDesc = '$semester'");
+        $query->where("organization = '$organization'");
+        $query->where("semesterDesc = '$semester'");
         $dbo->setQuery((string)$query);
-        $id = $dbo->loadResult();
-        if($dbo->getErrorNum()) return (string)$query;
+        $savedID = $dbo->loadResult();
+        unset($query);
+
+        if(empty($savedID))
+        {
+            $query = $dbo->getQuery(true);
+            if(empty($id))
+            {
+                $query->insert("#__thm_organizer_semesters ( manager, organization, semesterDesc)
+                                VALUES ( '$manager', '$organization', '$semester' );");
+            }
+            else
+            {
+                $query->update("#__thm_organizer_semesters");
+                $query->set("manager = '$manager', organization = '$organization', semesterDesc = '$semester'");
+                $query->where("id = '$id';");
+            }
+            $dbo->setQuery((string)$query);
+            $dbo->query();
+            unset($query);
+
+            $query = $dbo->getQuery(true);
+            $query->select("id");
+            $query->from("#__thm_organizer_semesters");
+            $query->where("organization = '$organization'");
+            $query->where("semesterDesc = '$semester'");
+            $dbo->setQuery((string)$query);
+            $savedID = $dbo->loadResult();
+            unset($query);
+        }
+        if(isset($savedID)) return $savedID;
         else return $id;
     }
 
