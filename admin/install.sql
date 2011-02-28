@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_classes` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_departments` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `gpuntisID` varchar(10) NOT NULL DEFAULT '',
+  `gpuntisID` varchar(50) NOT NULL DEFAULT '',
   `name` varchar(50) NOT NULL DEFAULT '',
   `institution` varchar(50) NOT NULL DEFAULT '',
   `campus` varchar(50) NOT NULL DEFAULT '',
@@ -191,7 +191,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
   `type` varchar(20) NOT NULL DEFAULT '',
   `departmentID` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `dptID` (`dptID`),
+  KEY `departmentID` (`departmentID`),
   KEY `manager` (`manager`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -214,7 +214,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_semesters` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `gpuntisID` varchar(10) NOT NULL DEFAULT '',
   `manager` int(11) unsigned DEFAULT NULL,
   `organization` varchar(50) NOT NULL DEFAULT '',
   `semesterDesc` varchar(20) NOT NULL DEFAULT '',
