@@ -18,33 +18,34 @@ class thm_organizersViewcategory_edit extends JView
 {
     function display($tpl = null)
     {
-        $model = $this->getModel();
         $document = & JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
 
-        $categoryID = $model->categoryID;
-        $this->assignRef( 'categoryID', $categoryID );
+        $model = $this->getModel();
 
-        $ip = $model->ip;
-        $this->assignRef( 'ip', $ip );
+        $id = $model->id;
+        $this->assignRef( 'id', $id );
+        $title = $model->title;
+        $this->assignRef( 'title', $title );
+        $description = $model->description;
+        $this->assignRef( 'description', $description );
+        $global = $model->global;
+        $this->assignRef( 'global', $global );
+        $reserves = $model->reserves;
+        $this->assignRef( 'reserves', $reserves );
 
-        $room = $model->room;
-        $rooms = $model->rooms;
-        if(!empty($rooms))
+        $contentCat = $model->contentCat;
+        $contentCategories = $model->contentCategories;
+        if(count($contentCategories))
         {
-            $roombox = JHTML::_('select.genericlist', $rooms, 'room', 'id="thm_organizer_me_roombox" class="thm_organizer_me_rsemesterbox" size="1"', 'id', 'name', $room);
-            $this->assignRef('roombox', $roombox);
+            $attributes = array( 'id' => 'thm_organizer_se_content_cat_box',
+                                 'class' => 'thm_organizer_se_content_cat_box',
+                                 'size' => '1' );
+            $contentCatBox =  JHTML::_('select.genericlist', $contentCategories, 'contentCat', $attributes, 'id', 'title', $contentCat);
+            $this->assignRef('contentCatBox', $contentCatBox);
         }
 
-        $sid = $model->sid;
-        $semesters = $model->semesters;
-        if(!empty($semesters))
-        {
-            $semesterbox =  JHTML::_('select.genericlist', $semesters, 'semester', 'id="thm_organizer_me_rsemesterbox" class="thm_organizer_me_rsemesterbox" size="1"', 'sid', 'name', $sid);
-            $this->assignRef('semesterbox', $semesterbox);
-        }
-
-        $isNew = ($categoryID == 0)? true : false;
+        $isNew = (!$id)? true : false;
         $allowedActions = thm_organizerHelper::getActions('category_edit');
         if($allowedActions->get("core.admin") or $allowedActions->get("core.manage"))
             $this->addToolBar($allowedActions, $isNew);
@@ -57,21 +58,20 @@ class thm_organizersViewcategory_edit extends JView
         $canSave = false;
         if($isNew)
         {
-            $titleText = JText::_( 'category Manager: Add a New category' );
+            $titleText = JText::_( 'Category Manager: Add a New Category' );
             if($allowedActions->get("core.create") or $allowedActions->get("core.edit"))
-                    $canSave = true;
+                $canSave = true;
         }
         else
         {
-            $titleText = JText::_( 'category Manager: Edit an Existing category' );
+            $titleText = JText::_( 'Category Manager: Edit an Existing Category' );
             if($allowedActions->get("core.edit")) $canSave = true;
         }
         JToolBarHelper::title( $titleText, 'generic.png' );
         if($canSave) JToolBarHelper::save('category.save', 'JTOOLBAR_SAVE');
         if($allowedActions->get("core.create"))
             JToolBarHelper::custom('category.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
-        if($isNew) JToolBarHelper::cancel('category.cancel', 'JTOOLBAR_CANCEL');
-        else JToolBarHelper::cancel( 'category.cancel', 'JTOOLBAR_CANCEL');
+        JToolBarHelper::cancel( 'category.cancel', 'JTOOLBAR_CANCEL');
     }
 }
 	

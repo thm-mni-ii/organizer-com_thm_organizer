@@ -13,8 +13,7 @@ class thm_organizersControllerCategory extends JController
 	
     function edit()
     {
-        JRequest::setVar( 'view', 'category' );
-        JRequest::setVar( 'hidemainmenu', 1 );
+        JRequest::setVar( 'view', 'category_edit' );
         parent::display();
     }
 	

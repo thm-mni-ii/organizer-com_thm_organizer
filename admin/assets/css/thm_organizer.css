@@ -95,6 +95,7 @@
     text-align:right;
     width: 140px;
 }
+
 #thm_organizer_se_meta_data{
     width: 140px;
 }
@@ -109,9 +110,10 @@
 .thm_organizer_se_th{
     text-align: left;
 }
+
 #thm_organizer_se_checkbox_column{
     width: 2%;
-    align: left;
+    text-align: left;
 }
 #thm_organizer_se_active_column{
     width: 2%;
@@ -135,4 +137,55 @@
 #thm_organizer_se_enddate_column{
     width: 5%;
     text-align: center;
+}
+
+
+/* com_thm_organizer.admin view: category_edit*********************************/
+
+#thm_organizer_ce{}
+
+#thm_organizer_ce_ecat{
+    width: 50%;
+    float: left;
+}
+
+#thm_organizer_ce_ccat{
+    width: 50%;
+    float: right;
+}
+.thm_organizer_ce_label{
+    width: 15%;
+    text-align: right;
+    float: left;
+}
+
+.thm_organizer_ce_data{
+    width: 80%;
+    float: left;
+    clear: none;
+}
+
+#thm_organizer_ce_ecat_name_div{
+    width: 100%;
+    clear: both;
+    margin-bottom: 20px;
+}
+#thm_organizer_ce_ecat_desc_div{
+    width: 100%;
+    clear: both;
+    margin-bottom: 20px;
+}
+
+.thm_organizer_ce_ecat_display_div{
+    width: 100%;
+    clear: both;
+    margin-bottom: 20px;
+}
+
+.thm_organizer_ce_explanation_div{
+
+}
+
+.thm_organizer_ce_explanation{
+    
 }

@@ -1,102 +1,62 @@
 <?php defined('_JEXEC') or die('Restricted access');?>
-<form enctype="multipart/form-data" action="index.php" method="post" name="adminForm" id="adminForm">
-<div class="col100">
-	<fieldset class="adminform">
-		<legend><?php echo JText::_( 'Details' ); ?></legend>
-		<table class="admintable">
-			<tr>
-				<td style="width: 20px;" align="right" class="key">
-					<label for="ecname"><?php echo JText::_('NAME');?></label>
-				</td>
-				<td>
-					<input class="text_area" type="text" name="ecname" id="ecname" size="25" maxlength="100" 
-							value="<?php echo $this->category->ecname;?>" />
-				</td>
-			</tr>
-			<tr>
-				<td style="width: 20px;" align="right" class="key">
-					<label for="ecdescription"><?php echo JText::_('DESCRIPTION');?></label>
-				</td>
-				<td>
-					<textarea name='ecdescription' rows='5' cols='48' id='ecdescription'><?php echo $this->category->ecdescription;?></textarea>
-				</td>
-			</tr>
-			<tr>
-				<td style="width: 20px;" align="right" class="key">
-					<label for="access"><?php echo JText::_('ACCESS LEVEL');?></label>
-				</td>
-				<td>
-					<?php echo $this->usergroups;?><br>
-				</td>
-			</tr>
-			<tr>
-				<td style="width: 20px;" align="right" class="key">
-					<label for="globalp"><?php echo JText::_('GLOBAL');?></label>
-				</td>
-				<td>
-					<input type="radio" name="globalp" value="1"
-						<?php if($this->category->globalp) echo 'checked="checked"';?>
-					>
-						<?php echo JText::_('YES');?><br>
-					<input type="radio" name="globalp" value="0"
-						<?php if(!$this->category->globalp) echo 'checked="checked"';?>
-					>
-						<?php echo JText::_('NO');?><br>
-				</td>
-			</tr>
-			<tr>
-				<td style="width: 20px;" align="right" class="key">
-					<label for="reservingp"><?php echo JText::_('Reservierend');?></label>
-				</td>
-				<td>
-					<input type="radio" name="reservingp" value="1"
-						<?php if($this->category->reservingp) echo 'checked="checked"';?>
-					>
-						<?php echo JText::_('YES');?><br>
-					<input type="radio" name="reservingp" value="0"
-						<?php if(!$this->category->reservingp) echo 'checked="checked"';?>
-					>
-						<?php echo JText::_('NO');?><br>
-				</td>
-			</tr>
-			<tr>
-				<td style="width: 20px;" align="right" class="key">
-					<label for="ecimage"><?php echo JText::_('Bild Hochladen');?></label>
-				</td>
-				<td>
-					<input name="ecimage" type="file" id="ecimage" size="25" />
-				</td>
-			</tr>
-			<tr>
-				<td style="width: 20px;" align="right" class="key">
-					<label for="ecimage"><?php echo JText::_('Bild Ausw&auml;hlen');?></label>
-				</td>
-				<td>
-					<?php echo $this->imagelist;?>
-				</td>
-			</tr>
-			<tr>
-				<td style="width: 20px;" align="right" class="key">
-					<label for="ecimage"><?php echo JText::_('preview');?></label>
-				</td>
-				<td>
-					<script language="javascript" type="text/javascript">
-					if (document.forms[0].image.options.value!=''){
-						jsimg='../images/thm_organizer/categories/' + getSelectedValue( 'adminForm', 'image' );
-					} else {
-						jsimg='../images/M_images/blank.png';
-					}
-					document.write('<img src=' + jsimg + ' name="imagelib" width="80" height="80" border="2" alt="Preview" />');
-					</script>
-					<br /><br />
-				</td>
-			</tr>
-		</table>
-	</fieldset>
+<div id="thm_organizer_ce" >
+    <form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>"
+          method="post" name="adminForm" id="adminForm">
+        <div id="thm_organizer_ce_ecat">
+            <div id="thm_organizer_ce_ecat_name_div">
+                <div class="thm_organizer_ce_label">
+                    <label for="name"><?php echo JText::_('Name');?></label>
+                </div>
+                <div class="thm_organizer_ce_data">
+                    <input type="text" name="title" size="25" maxlength="100" value="<?php echo $this->title;?>" />
+                </div>
+            </div>
+            <div id="thm_organizer_ce_ecat_desc_div">
+                <div class="thm_organizer_ce_label">
+                    <label for="description"><?php echo JText::_('Description:');?></label>
+                </div>
+                <div class="thm_organizer_ce_data">
+                    <textarea name='description' rows='5' cols='48' id='description'><?php
+                        echo $this->description;
+                    ?></textarea>
+                </div>
+            </div>
+            <div class="thm_organizer_ce_ecat_display_div">
+                <div class="thm_organizer_ce_label">
+                    <label for="globalp"><?php echo JText::_('GLOBAL');?></label>
+                </div>
+                <div class="thm_organizer_ce_data">
+                    <input type="radio" name="globalp" value="1" <?php if($this->global) echo 'checked="checked"';?> >
+                        <?php echo JText::_('YES');?><br>
+                    <input type="radio" name="globalp" value="0" <?php if(!$this->global) echo 'checked="checked"';?> >
+                        <?php echo JText::_('NO');?><br>
+                </div>
+                <div class="thm_organizer_ce_explanation_div">
+                    <span class="thm_organizer_ce_explanation">
+                        <?php echo JText::_("Global events are of general importance and are displayed on all monitors."); ?>
+                    </span>
+                </div>
+            </div>
+            <div class="thm_organizer_ce_ecat_display_div">
+                <div class="thm_organizer_ce_label">
+                    <label for="reserves"><?php echo JText::_('RESERVES');?></label>
+                </div>
+                <div class="thm_organizer_ce_data">
+                    <input type="radio" name="reserves" value="1" <?php if($this->reserves) echo 'checked="checked"';?> >
+                        <?php echo JText::_('YES');?><br>
+                    <input type="radio" name="reserves" value="0" <?php if(!$this->reserves) echo 'checked="checked"';?> >
+                        <?php echo JText::_('NO');?><br>
+                </div>
+                <div class="thm_organizer_ce_explanation_div">
+                    <span class="thm_organizer_ce_explanation">
+                        <?php echo JText::_("COM_THM_ORGANIZER_RESERVING_EXPLANATION"); ?>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div id="thm_organizer_ce_ccat">hi
+        </div>
+        <input type="hidden" name="id" value="<?php echo $this->id; ?>" />
+        <input type="hidden" name="task" value="" />
+    </form>
 </div>
-<div class="clr"></div>
-<input type="hidden" name="option" value="com_thm_organizer" />
-<input type="hidden" name="id" value="<?php echo $this->category->ecid; ?>" />
-<input type="hidden" name="task" value="" />
-<input type="hidden" name="controller" value="category" />
-</form>
