@@ -11,7 +11,7 @@ class DataAbstraction
 
     public function __construct( )
     {
-        $this->mainframe = JFactory::getApplication( 'site' );
+        $this->mainframe = JFactory::getApplication( );
         $this->mainframe->initialise();
         $this->dbo =& JFactory::getDBO();
         $this->user =& JFactory::getUser();

@@ -15,9 +15,13 @@ class TreeNode {
     public $draggable = false;
     public $singleClickExpand = false;
     public $children = NULL;
+    public $gpuntisID = null;
+    public $plantype = null;
+    public $type = null;
+    public $semesterID = null;
 
     function  __construct($id,$text,$iconCls,$leaf,$draggable,
-            $singleClickExpand,$children) {
+            $singleClickExpand,$gpuntisID,$plantype,$type,$children,$semesterID) {
 
         $this->id = $id;
         $this->text = $text;
@@ -26,6 +30,10 @@ class TreeNode {
         $this->draggable = $draggable;
         $this->singleClickExpand = $singleClickExpand;
         $this->children = $children;
+        $this->gpuntisID = $gpuntisID;
+        $this->plantype = $plantype;
+        $this->type = $type;
+        $this->semesterID = $semesterID;
     }
 }
 ?>

@@ -42,22 +42,55 @@ class thm_organizerViewScheduler extends JView
 		$schedulearr["Events.load"] = $model->executeTask("Events.load");
 
 		$schedulearr["UserSchedule.load"] = array();
+
+		if($user->id !== null)
+			$schedulearr["UserSchedule.load"] = $model->executeTask("UserSchedule.load", array("username"=>$user->name));
+
 		$schedulearr["UserSchedule.load"]["respChanges"] = $model->executeTask("UserSchedule.load", array("username"=>"respChanges"));
 
 		$schedulearr["ScheduleDescription.load"] = $model->executeTask("ScheduleDescription.load");
 
 		$schedulearr["UserSchedule.load"]["delta"] = $model->executeTask("UserSchedule.load", array("username"=>"delta"));
 
-		$schedulearr["TreeView.load"] = array();
-		$schedulearr["TreeView.load"]["doz"] = $model->executeTask("TreeView.load", array("type"=>"doz"));
-		$schedulearr["TreeView.load"]["room"] = $model->executeTask("TreeView.load", array("type"=>"room"));
-		$schedulearr["TreeView.load"]["clas"] = $model->executeTask("TreeView.load", array("type"=>"clas"));
+		$schedulearr["TreeView.load"] = $model->executeTask("TreeView.load");
 
-		$schedulearr["TreeView.curiculumTeachers"] = $model->executeTask("TreeView.curiculumTeachers", array("type"=>"curtea"));
+		$path = explode("/", $_REQUEST["id"]);
+		unset($path[0]);
+		unset($path[1]);
+
+		foreach($path as $value)
+		{
+			$temp = $this->search($value, $schedulearr["TreeView.load"]["data"]["tree"]);
+			if($temp !== false)
+				$schedulearr["TreeView.load"]["data"]["tree"] = $temp;
+			else
+				break;
+		}
 
 		$this->startup = rawurlencode(json_encode($schedulearr));
 
         parent::display($tpl);
     }
+
+    private function search($needle, $array)
+    {
+    	if(!is_array($array))
+    		if(is_array($array->children))
+    			$array = $array->children;
+    		else
+    			return false;
+		foreach($array as $value)
+		{
+			if(isset($value->id))
+			{
+				if($value->id === $needle)
+				{
+					return $value;
+				}
+			}
+		}
+		return false;
+    }
+
 }
 ?>

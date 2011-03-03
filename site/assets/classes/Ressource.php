@@ -9,11 +9,15 @@ class Ressource
 	private $CFG = null;
 	private $res = null;
 	private $semID = null;
+	private $type = null;
+	private $plantype = null;
 
 	function __construct($JDA, $CFG)
 	{
 		$this->JDA = $JDA;
 		$this->res = $JDA->getRequest( "res" );
+		$this->plantype = $JDA->getRequest( "plantype" );
+		$this->type = $JDA->getRequest( "type" );
 		$this->semID = $JDA->getSemID();
 	}
 
@@ -35,14 +39,7 @@ class Ressource
 						$retlessons[ "elements" ] .= ";" . $v->eid;
 				}
 			} else {
-				if ( stripos( $this->res, "RM_" ) === 0 ) {
-					$type = "room";
-				} else if ( stripos( $this->res, "TR_" ) === 0 ) {
-					$type = "doz";
-				} else if ( stripos( $this->res, "CL_" ) === 0 ) {
-					$type = "class";
-				}
-				$lessons = $this->getResourcePlan( $this->res, $this->semID, $type );
+				$lessons = $this->getResourcePlan( $this->res, $this->semID, $this->type );
 			}
 
 			if(is_array($lessons))
@@ -78,7 +75,7 @@ class Ressource
 					$retlessons[ $key ][ "room" ] = $item->room;
 
 				$retlessons[ $key ][ "category" ] = $item->category;
-				$retlessons[ $key ][ "key" ]      = $key;
+				$retlessons[ $key ][ "key" ]      = $this->semID.".".$this->plantype.".".$key;
 				$retlessons[ $key ][ "owner" ]    = "gpuntis";
 				$retlessons[ $key ][ "showtime" ] = "none";
 				$retlessons[ $key ][ "etime" ]    = null;
@@ -88,9 +85,11 @@ class Ressource
 				$retlessons[ $key ][ "cell" ]     = "";
 				$retlessons[ $key ][ "css" ]      = "";
 				$retlessons[ $key ][ "longname" ] = $item->longname;
+				$retlessons[ $key ][ "plantypeID" ] = $this->plantype;
+				$retlessons[ $key ][ "semesterID" ] = $this->semID;
 			}
 
-			$retlessons = $this->getAllRes( $retlessons, $this->semID );
+//			$retlessons = $this->getAllRes( $retlessons, $this->semID );
 			return array("success"=>true,"data"=>$retlessons );
 		}
 	}
@@ -192,10 +191,10 @@ class Ressource
 				 "#__thm_organizer_lessons.gpuntisID AS lid, " .
 				 "#__thm_organizer_periods.gpuntisID AS tpid, " .
 				 "#__thm_organizer_lessons.gpuntisID AS id, " .
-				 "#__thm_organizer_lessons.alias AS description, " .
-				 "#__thm_organizer_lessons.gpuntisID AS subject, " .
+				 "#__thm_organizer_subjects.alias AS description, " .
+				 "#__thm_organizer_subjects.gpuntisID AS subject, " .
 				 "#__thm_organizer_lessons.type AS category, " .
-				 "#__thm_organizer_lessons.name AS name, " .
+				 "#__thm_organizer_subjects.name AS name, " .
 				 "#__thm_organizer_classes.gpuntisID AS clas, " .
 				 "#__thm_organizer_teachers.gpuntisID AS doz, " .
 				 "#__thm_organizer_rooms.gpuntisID AS room, " .
@@ -212,20 +211,22 @@ class Ressource
 			$query .= " '' AS longname ";
 		}
 		$query .= "FROM #__thm_organizer_lessons " .
-				  "INNER JOIN #__thm_organizer_lessons_times ON #__thm_organizer_lessons.id = #__thm_organizer_lessons_times.lessonID " .
-				  "INNER JOIN #__thm_organizer_periods ON #__thm_organizer_lessons_times.periodID = #__thm_organizer_periods.id " .
-				  "INNER JOIN #__thm_organizer_rooms ON #__thm_organizer_lessons_times.roomID = #__thm_organizer_rooms.id " .
+				  "INNER JOIN #__thm_organizer_lesson_times ON #__thm_organizer_lessons.id = #__thm_organizer_lesson_times.lessonID " .
+				  "INNER JOIN #__thm_organizer_periods ON #__thm_organizer_lesson_times.periodID = #__thm_organizer_periods.id " .
+				  "INNER JOIN #__thm_organizer_rooms ON #__thm_organizer_lesson_times.roomID = #__thm_organizer_rooms.id " .
 				  "INNER JOIN #__thm_organizer_lesson_teachers ON #__thm_organizer_lesson_teachers.lessonID = #__thm_organizer_lessons.id " .
 				  "INNER JOIN #__thm_organizer_teachers ON #__thm_organizer_lesson_teachers.teacherID = #__thm_organizer_teachers.id " .
-				  "INNER JOIN #__thm_organizer_lesson_classes ON #__thm_organizer_lesson_classes.lessonID = #__thm_organizer_teachers.id " .
+				  "INNER JOIN #__thm_organizer_lesson_classes ON #__thm_organizer_lesson_classes.lessonID = #__thm_organizer_lessons.id " .
 				  "INNER JOIN #__thm_organizer_classes ON #__thm_organizer_lesson_classes.classID = #__thm_organizer_classes.id " .
-	         	  "WHERE #__thm_organizer_lessons.semesterID = '$fachsemester' ".
+				  "INNER JOIN #__thm_organizer_subjects ON #__thm_organizer_lessons.subjectID = #__thm_organizer_subjects.id " .
+	         	  "WHERE #__thm_organizer_lessons.semesterID = '$fachsemester' " .
+	         	  "AND #__thm_organizer_lessons.plantypeID = '$this->plantype' ".
 	              "AND ";
-	    if($type === "doz")
+	    if($type === "clas")
 	    	$query .= "( #__thm_organizer_classes.gpuntisID = '".$ressourcename."')";
 	    else if($type === "room")
 	    	$query .= "( #__thm_organizer_rooms.gpuntisID = '".$ressourcename."')";
-	    else if($type === "class")
+	    else if($type === "doz")
 	    	$query .= "( #__thm_organizer_teachers.gpuntisID = '".$ressourcename."')";
 
 		$hits  = $this->JDA->query( $query );

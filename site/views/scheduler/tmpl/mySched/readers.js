@@ -260,7 +260,7 @@ Ext.extend(SchedJsonReader, Ext.data.JsonReader, {
 				this[this.length] = new mLecture(e.key, e);
 		}, records);
 
-		if(typeof records.length !== "undefined")
+		if(typeof records.length === "undefined")
 			records.length = 0;
 
 		return {

@@ -845,3 +845,13 @@ div.MySchedexternURLClass_DIS {
 .x-grid3-hd-row td {
 	border-right: 1px solid #D0D0D0 !important;
 }
+
+#main ul {
+	margin: 0.5px !important;
+	padding: 0.5px !important;
+	list-style-type: none  !important;
+}
+
+#main ul li, #main ol li {
+	padding: 0.5px !important;
+}

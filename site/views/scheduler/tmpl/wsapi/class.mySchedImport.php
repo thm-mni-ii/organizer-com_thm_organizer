@@ -12,32 +12,37 @@ class mySchedImport {
 	private $clientCalendar;
 
 	function __construct($username, $joomlaSID, $CFG) {
-		ini_set("soap.wsdl_cache_enabled", "0");
-		$this->cfg = $CFG;
-		$this->clientCourse = new Zend_Soap_Client($this->cfg->getestudyWsapiPath() . '/course.php?wsdl');
-		$this->clientCourse->addSoapInputHeader(
-			new SoapHeader(
-				$this->cfg->getSoapSchema(),
-				"authenticateUser",
-				array(
-					$username,
-					$joomlaSID
-				)
-			),
-			true
-		);
+		try
+		{
+			ini_set("soap.wsdl_cache_enabled", "0");
+			$this->cfg = $CFG;
+			$this->clientCourse = new Zend_Soap_Client($this->cfg->getestudyWsapiPath() . '/course.php?wsdl');
+			$this->clientCourse->addSoapInputHeader(
+				new SoapHeader(
+					$this->cfg->getSoapSchema(),
+					"authenticateUser",
+					array(
+						$username,
+						$joomlaSID
+					)
+				),
+				true
+			);
 
-		$this->clientCalendar = new Zend_Soap_Client($this->cfg->getestudyWsapiPath() . '/calendar.php?wsdl');
-		$this->clientCalendar->addSoapInputHeader(
-			new SoapHeader(
-				$this->cfg->getSoapSchema(),
-				"authenticateUser",
-				array(
-					$username,
-					$joomlaSID)
-			),
-			true
-		);
+			$this->clientCalendar = new Zend_Soap_Client($this->cfg->getestudyWsapiPath() . '/calendar.php?wsdl');
+			$this->clientCalendar->addSoapInputHeader(
+				new SoapHeader(
+					$this->cfg->getSoapSchema(),
+					"authenticateUser",
+					array(
+						$username,
+						$joomlaSID)
+				),
+				true
+			);
+		}
+		catch(Exception $e)
+		{}
 	}
 
 

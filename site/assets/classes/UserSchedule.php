@@ -100,15 +100,42 @@ class UserSchedule
               }
 
               $data = json_decode($data);
-              $query = "SELECT CONCAT(CONCAT(#__thm_organizer_lessons.lid, ' '),#__thm_organizer_lessonperiods.tpid) AS mykey, cid, rid, tid, ltype, #__thm_organizer_timeperiods.day AS dow, period AS block, oname AS name, #__thm_organizer_objects.oalias AS description, #__thm_organizer_objects.oid AS id, (SELECT 'cyclic') AS type
-				        FROM #__thm_organizer_lessons
-				        INNER JOIN #__thm_organizer_lessonperiods
-				        ON #__thm_organizer_lessons.lid = #__thm_organizer_lessonperiods.lid
-				        INNER JOIN #__thm_organizer_timeperiods
-				        ON #__thm_organizer_lessonperiods.tpid = #__thm_organizer_timeperiods.tpid
-				        INNER JOIN #__thm_organizer_objects
-				        ON #__thm_organizer_lessonperiods.lid = #__thm_organizer_objects.oid
-				        WHERE otype = 'lesson' AND #__thm_organizer_lessons.sid = '".$this->semID."' AND #__thm_organizer_lessons.lid IN (";
+
+              $query = "SELECT " .
+              			 "CONCAT(CONCAT(#__thm_organizer_lessons.gpuntisID, ' '),#__thm_organizer_periods.gpuntisID) AS mykey," .
+						 "#__thm_organizer_lessons.gpuntisID AS lid, " .
+						 "#__thm_organizer_periods.gpuntisID AS tpid, " .
+						 "#__thm_organizer_lessons.gpuntisID AS id, " .
+						 "#__thm_organizer_subjects.alias AS description, " .
+						 "#__thm_organizer_subjects.gpuntisID AS subject, " .
+						 "#__thm_organizer_lessons.type AS ltype, " .
+						 "#__thm_organizer_subjects.name AS name, " .
+						 "#__thm_organizer_classes.gpuntisID AS cid, " .
+						 "#__thm_organizer_teachers.gpuntisID AS tid, " .
+						 "#__thm_organizer_rooms.gpuntisID AS rid, " .
+						 "#__thm_organizer_periods.day AS dow, " .
+						 "#__thm_organizer_periods.period AS block, " .
+						 "(SELECT 'cyclic') AS type, ";
+
+				if ($this->JDA->isComponentavailable("com_giessenlsf"))
+				{
+					$query .= " modultitel AS longname FROM #__thm_organizer_objects AS lo LEFT JOIN #__giessen_lsf_modules AS mo ON lo.oalias = mo.modulnummer ";
+				}
+				else
+				{
+					$query .= " '' AS longname ";
+				}
+
+				$query .= "FROM #__thm_organizer_lessons " .
+				  "INNER JOIN #__thm_organizer_lesson_times ON #__thm_organizer_lessons.id = #__thm_organizer_lesson_times.lessonID " .
+				  "INNER JOIN #__thm_organizer_periods ON #__thm_organizer_lesson_times.periodID = #__thm_organizer_periods.id " .
+				  "INNER JOIN #__thm_organizer_rooms ON #__thm_organizer_lesson_times.roomID = #__thm_organizer_rooms.id " .
+				  "INNER JOIN #__thm_organizer_lesson_teachers ON #__thm_organizer_lesson_teachers.lessonID = #__thm_organizer_lessons.id " .
+				  "INNER JOIN #__thm_organizer_teachers ON #__thm_organizer_lesson_teachers.teacherID = #__thm_organizer_teachers.id " .
+				  "INNER JOIN #__thm_organizer_lesson_classes ON #__thm_organizer_lesson_classes.lessonID = #__thm_organizer_lessons.id " .
+				  "INNER JOIN #__thm_organizer_classes ON #__thm_organizer_lesson_classes.classID = #__thm_organizer_classes.id " .
+				  "INNER JOIN #__thm_organizer_subjects ON #__thm_organizer_lessons.subjectID = #__thm_organizer_subjects.id " .
+	         	  "WHERE #__thm_organizer_lessons.semesterID = '$this->semID' AND #__thm_organizer_lessons.gpuntisID IN (";
 
               if (isset($data))
                   if (is_array($data))
@@ -164,7 +191,7 @@ class UserSchedule
                           $lessons[$key]["stime"] = null;
                           $lessons[$key]["key"] = $key;
                           $lessons[$key]["id"] = $v->id;
-                          $lessons[$key]["subject"] = $v->id;
+                          $lessons[$key]["subject"] = $v->subject;
                           $lessons[$key]["type"] = $v->type;
                       }
 
@@ -281,6 +308,7 @@ class UserSchedule
                               }
                       }
               $retlesson = json_encode($retlesson);
+
               return array("data"=>$retlesson);
           } else {
               // SESSION FEHLER

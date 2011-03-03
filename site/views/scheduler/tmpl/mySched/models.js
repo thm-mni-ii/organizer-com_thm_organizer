@@ -486,13 +486,13 @@ Ext.extend(mSchedule, MySched.Model, {
 		MySched.selectedSchedule.eventsloaded = null;
 		MySched.selectedSchedule.refreshView();
 
-		MySched.SelectionManager.stopSelection();
-		MySched.SelectionManager.startSelection();
+        var func = function () {
+        	MySched.SelectionManager.stopSelection();
+       		MySched.SelectionManager.startSelection();
+        }
+        func.defer(50);
 
-		var func = function () {
-			Ext.MessageBox.hide();
-		}
-		func.defer(100);
+		Ext.MessageBox.hide();
 	},
 	/**
 	 * Prueft verschiedene Vorbedinungen
@@ -613,8 +613,11 @@ Ext.extend(mSchedule, MySched.Model, {
 	refreshView: function () {
 		if (!this.grid) return this.show();
 		this.grid.loadData(this.getGridData());
-		MySched.SelectionManager.stopSelection(this.grid.getEl());
-		MySched.SelectionManager.startSelection(this.grid.getEl());
+		var func = function () {
+        	MySched.SelectionManager.stopSelection();
+       		MySched.SelectionManager.startSelection();
+        }
+        func.defer(50);
 	},
 	getBlockStatus: function (wd, block) {
 		var weekdays = {
@@ -876,7 +879,7 @@ Ext.extend(mLecture, MySched.Model, {
 
 		if ((d.owner == MySched.Authorize.user || (MySched.Authorize.user == MySched.class_semester_author && d.type == "personal")) && MySched.Authorize.user != null && MySched.Authorize.user != "") {
 			ret += '<img qtip="Veranstaltung Ã¤ndern" class="status_icons_edit" src="' + MySched.mainPath + 'images/icon-edit.png" width="12" heigth="12"/>';
-			ret += '<img qtip="Veranstaltung löschen" class="status_icons_delete" src="' + MySched.mainPath + 'images/icon-delete.png" width="12" heigth="12"/>';
+			ret += '<img qtip="Veranstaltung lï¿½schen" class="status_icons_delete" src="' + MySched.mainPath + 'images/icon-delete.png" width="12" heigth="12"/>';
 		}
 
 		ret += '<img qtip="Informationen anzeigen" class="status_icons_info" src="' + MySched.mainPath + '/images/information.png" width="12" heigth="12"/>';

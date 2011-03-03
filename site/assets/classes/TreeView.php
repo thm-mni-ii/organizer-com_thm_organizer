@@ -3,280 +3,343 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JPATH_COMPONENT."/assets/classes/TreeNode.php");
+require_once(JPATH_ROOT."/components/com_thm_organizer/assets/classes/TreeNode.php");
 
 class TreeView
 {
 	private $JDA = null;
 	private $cfg = null;
 	private $type = null;
-	private $sid = null;
-	private $semDesc = null;
-
 
 	function __construct($JDA, $CFG, $options = array())
 	{
-		if(isset($options["type"]))
-			$this->type = $options["type"];
-		else
-			$this->type = $JDA->getRequest( "type" );
-		$this->sid  = $JDA->getSemID();
 		$this->JDA = $JDA;
 		$this->cfg = $CFG->getCFG();
 	}
 
 	public function load()
 	{
-		$arr  = array( );
-		if ( isset( $this->type ) ) {
-			if ( $this->type == "clas" )
-				$arr = $this->getClasses( "class", $this->sid );
-			elseif ( $this->type == "room" )
-				$arr = $this->getRooms( "room", $this->sid );
-			elseif ( $this->type == "doz" )
-				$arr = $this->getTeachers( "teacher", $this->sid );
+		$semesterJahrNode = array();
+		$semesterarray = array();
 
-			$treeNode = array();
-			$childNodes = array();
+		$semesterarray = $this->getSemester();
 
-			foreach($arr as $key=>$value)
-			{
-				$childNodes = array();
-				foreach($value as $childkey=>$childvalue)
-				{
-					$childNodes[] = new TreeNode($childvalue["id"],
-												$childvalue["name"],
-												$this->type . "-node",
-												true,
-												true,
-												false,
-												NULL);
-				}
+		$treeData["clas"] = array();
+		$treeData["room"] = array();
+		$treeData["doz"] = array();
 
-				$treeNode[] = new TreeNode(
+		foreach($semesterarray as $key=>$value)
+		{
+			$semesterJahrNode[] = new TreeNode(
+					'semesterjahr' . $value->id,							// id - autom. generated
+					$value->semesterDesc,							// text	for the node
+					'semesterjahr' . '-root',			// iconCls
+					false,								// leaf
+					false,								// draggable
+					true,								// singleClickExpand
+					$value->id,							// key
+					null,								// plantype
+					null,								// type
+					$this->plantype('semesterjahr' . $value->id, $value->id),
+					$value->id
+				);
+
+			$treeData["clas"] = array_merge( $treeData["clas"], $this->getStundenplanClassData(1, $value->id) );
+			$treeData["room"] = array_merge( $treeData["room"], $this->getStundenplanRoomData(1, $value->id) );
+			$treeData["doz"] = array_merge( $treeData["doz"], $this->getStundenplanDozData(1, $value->id) );
+		}
+
+		return array("success"=>true,"data"=>array("tree"=>$semesterJahrNode,"treeData"=>$treeData));
+	}
+
+	private function getSemester()
+	{
+		$semesterquery = "SELECT id, organization, semesterDesc " .
+						 "FROM #__thm_organizer_semesters";
+
+		$semesterarray       = $this->JDA->query( $semesterquery );
+
+		return $semesterarray;
+	}
+
+	private function plantype($key, $semesterID)
+	{
+		$plantypeNode = array();
+		$plantypequery = "SELECT #__thm_organizer_plantype.id ," .
+						"#__thm_organizer_plantype.plantype " .
+						"FROM #__thm_organizer_plantype";
+
+		$plantypes       = $this->JDA->query( $plantypequery );
+
+		foreach($plantypes as $k=>$v)
+		{
+			$function = (string)$v->plantype."View";
+			$function = str_replace(" ", "_", $function);
+			$function = str_replace("-", "", $function);
+			$key = $key.".".$v->plantype.$v->id;
+			$plantypeNode[] = new TreeNode(
 					$key,							// id - autom. generated
-					$key,							// text	for the node
-					$this->type . '-root',			// iconCls
+					$v->plantype,					// text	for the node
+					$v->plantype . '-root',			// iconCls
 					false,							// leaf
 					false,							// draggable
 					true,							// singleClickExpand
-					$childNodes						// children
+					$v->id,
+					$v->id,
+					null,
+					$this->$function($key, $v->id, $semesterID),
+					$semesterID
 				);
-			}
-
-			$arr[ "type" ] = $this->type;
-			return array("success"=>true,"data"=>array("tree"=>$treeNode,"treeData"=>$arr));
-		} else {
-			return array("success"=>false,"data"=>array());
 		}
+		return $plantypeNode;
 	}
 
-	public function plantype()
+	private function StundenplanView($key, $planid, $semesterID)
 	{
-
-		$arr  = array( );
-		$arr2 = array( );
-		$arr3 = array( );
-
-	    if ( isset( $this->type )) {
-			if ( $this->type == "ptype" )
-				$arr = $this->getCuriculumTeachers( "plantype", $this->sid );
-
-			$arr3 = array ();
-			$arr3["sid_l"] = $this->sid."_Lehrplan";
-
-			$sem_Desc = $this->getSemDesc();
-
-			$lernplanNode = array();
-			$viewNodes = array();
-			$semesterNode = array();
-
-			$viewNodes = $this->curiculumTeachers($viewNodes);
-
-			$viewNodes = $this->curiculumClasses($viewNodes);
-
-		    $lehrplanNode[] = new TreeNode(
-				$arr3["sid_l"],				// id - autom. generated
-				'Lehrplan',							// text	for the node
-				'lernplan-root',					// iconCls
-				false,								// leaf
-				false,								// draggable
-				true,								// singleClickExpand
-				$viewNodes							// children
-			);
-			$semesterNode[] = new TreeNode(
-				$this->sid,				            // id - autom. generated
-				$sem_Desc,							// text	for the node
-				'semester-root',					// iconCls
-				false,								// leaf
-				false,								// draggable
-				true,								// singleClickExpand
-				$lehrplanNode							// children
-			);
-
-		$arr[ "type" ] = $this->type;
-			return array("success"=>true,"data"=>array("tree"=>$semesterNode,"treeData"=>$arr));
-		} else {
-			return array("success"=>false,"data"=>array());
-		}
+		$viewNode = array();
+		$viewNode[] = new TreeNode(
+					$key.".doz",							// id - autom. generated
+					"Dozent",						// text	for the node
+					'view' . '-root',				// iconCls
+					false,							// leaf
+					false,							// draggable
+					true,							// singleClickExpand
+					"doz",
+					$planid,
+					null,
+					$this->getStundenplanDoz($key.".doz", $planid, $semesterID),
+					$semesterID
+				);
+		$viewNode[] = new TreeNode(
+					$key.".room",							// id - autom. generated
+					"Raum",							// text	for the node
+					'view' . '-root',				// iconCls
+					false,							// leaf
+					false,							// draggable
+					true,							// singleClickExpand
+					"room",
+					$planid,
+					null,
+					$this->getStundenplanRoom($key.".room", $planid, $semesterID),
+					$semesterID
+				);
+		$viewNode[] = new TreeNode(
+					$key.".clas",							// id - autom. generated
+					"Semester",						// text	for the node
+					'view' . '-root',				// iconCls
+					false,							// leaf
+					false,							// draggable
+					true,							// singleClickExpand
+					"clas",
+					$planid,
+					null,
+					$this->getStundenplanClass($key.".clas", $planid, $semesterID),
+					$semesterID
+				);
+		$viewNode[] = new TreeNode(
+					$key.".delta",						// id - autom. generated
+					"Änderungen (zentral)",			// text	for the node
+					'delta' . '-node',				// iconCls
+					true,							// leaf
+					false,							// draggable
+					false,							// singleClickExpand
+					"delta",
+					$planid,
+					null,
+					null,
+					$semesterID
+				);
+		$viewNode[] = new TreeNode(
+					$key.".respChanges",					// id - autom. generated
+					"Änderungen (eigene)",			// text	for the node
+					'respChanges' . '-node',		// iconCls
+					true,							// leaf
+					false,							// draggable
+					false,							// singleClickExpand
+					"respChanges",
+					$planid,
+					null,
+					null,
+					$semesterID
+				);
+		return $viewNode;
 	}
 
-	public function curiculumTeachers($viewNodes)
+	private function LehrplanView($key, $planid, $semesterID)
 	{
-		if ( isset( $this->type )) {
-			$arr = $this->getCuriculumTeachers( $this->sid );
+		$viewNode = array();
 
-			$arr2 = array ();
-			$arr2["sid_l_d"] = $this->sid."_Lehrplan"."_Dozent";
-			$arr2["sid_l_s"] = $this->sid."_Lehrplan"."_Semester";
+		$viewNode[] = new TreeNode(
+					$key.".doz",					// id - autom. generated
+					"Dozent",						// text	for the node
+					'view' . '-root',				// iconCls
+					false,							// leaf
+					false,							// draggable
+					true,							// singleClickExpand
+					"doz",
+					$planid,
+					null,
+					$this->getStundenplanDoz($key.".doz", $planid, $semesterID)
+,					$semesterID
+				);
+		$viewNode[] = new TreeNode(
+					$key.".clas",					// id - autom. generated
+					"Semester",						// text	for the node
+					'view' . '-root',				// iconCls
+					false,							// leaf
+					false,							// draggable
+					true,							// singleClickExpand
+					"clas",
+					$planid,
+					null,
+					$this->getStundenplanClass($key.".clas", $planid, $semesterID),
+					$semesterID
+				);
+		return $viewNode;
+	}
 
-			$treeNode = array();
+	private function getStundenplanDoz($key, $planid, $semesterID)
+	{
+		$treeNode = array();
+		$childNodes = array();
+
+		$arr = $this->getStundenplanDozData($planid, $semesterID);
+
+		foreach($arr as $k=>$value)
+		{
 			$childNodes = array();
 
-					foreach($arr as $key=>$value)
-					{
-
-						$childNodes = array();
-
-						foreach($value as $childkey=>$childvalue)
-						{
-							$childNodes[] = new TreeNode($childvalue["department_name"],
-														$childvalue["teachers_name"],
-														$this->type . "-node",
-														true,
-														true,
-														false,
-														NULL);
-						}
-
-						$treeNode[] = new TreeNode(
-							$key,							// id - autom. generated
-							$key,							// text	for the node
-							$this->type . '-root',			// iconCls
-							false,							// leaf
-							false,							// draggable
-							true,							// singleClickExpand
-							$childNodes						// children
-						);
-					}
-
-
-					{
-						$viewNodes[] = new TreeNode(
-							$arr2["sid_l_d"],							// id - autom. generated
-							'Dozent',							// text	for the node
-							'dozent-root',						// iconCls
-							false,								// leaf
-							false,								// draggable
-							true,								// singleClickExpand
-							$treeNode							// children
-						);
-					}
-
-			$arr[ "type" ] = $this->type;
-			return $viewNodes;
-		} else {
-			return array("success"=>false,"data"=>array());
-		}
-	}
-
-	public function curiculumClasses($viewNodes)
-	{
-		if ( isset( $this->type )) {
-			$arr = $this->getCuriculumClasses( $this->sid );
-
-			$arr2 = array ();
-			$arr2["sid_l_d"] = $this->sid."_Lehrplan"."_Dozent";
-			$arr2["sid_l_s"] = $this->sid."_Lehrplan"."_Semester";
-
-			$treeNode = array();
-			$childNodes = array();
-
-					foreach($arr as $key=>$value)
-					{
-						$childNodes = array();
-
-						foreach($value as $childkey=>$childvalue)
-						{
-							$childNodes[] = new TreeNode($childvalue["department_name"],
-														$childvalue["classes_name"],
-														$this->type . "-node",
-														true,
-														true,
-														false,
-														NULL);
-						}
-
-						$treeNode[] = new TreeNode(
-							$key,							// id - autom. generated
-							$key,							// text	for the node
-							$this->type . '-root',			// iconCls
-							false,							// leaf
-							false,							// draggable
-							true,							// singleClickExpand
-							$childNodes						// children
-						);
-					}
-
-						$viewNodes[] = new TreeNode(
-							$arr2["sid_l_s"],							// id - autom. generated
-							'Semester',							// text	for the node
-							'semester-root',					// iconCls
-							false,								// leaf
-							false,								// draggable
-							true,								// singleClickExpand
-							$treeNode							// children
-						);
-
-
-			$arr[ "type" ] = $this->type;
-			return $viewNodes;
-		} else {
-			return array("success"=>false,"data"=>array());
-		}
-	}
-
-	public function getSemDesc(){
-		$semDescquery = "SELECT #__thm_organizer_semesters.semesterDesc AS sem_semDesc
-				      FROM #__thm_organizer_semesters
-				      WHERE #__thm_organizer_semesters.id = " . $this->sid;
-
-		$res          = $this->JDA->query( $semDescquery );
-
-		if(is_array( $res ) === true)
-		if ( count( $res ) != 0 ) {
-
-
-			for ( $i = 0; $i < count( $res ); $i++ ) {
-				$data = $res[ $i ];
-
-				if ( !isset( $semDescarray[ $data->sem_semDesc] ) ) {
-					$semDescarray[ $data->sem_semDesc] = array( );
-				}
-
-				$semDescarray[ $data->sem_semDesc]                       = array( );
-            	$semDescarray[ $data->sem_semDesc][ "sem_semDesc" ]    = $data->sem_semDesc;
+			foreach($value as $childkey=>$childvalue)
+			{
+				$childNodes[] = new TreeNode($key.".".$k.".".$childvalue["id"],
+											$childvalue["name"],
+											"leaf" . "-node",
+											true,
+											true,
+											false,
+											$childvalue["gpuntisID"],
+											$planid,
+											"doz",
+											NULL,
+											$semesterID
+											);
 			}
+			$treeNode[] = new TreeNode(
+				$key.".".$k,							// id - autom. generated
+				$k,							// text	for the node
+				'studiengang-root',			// iconCls
+				false,							// leaf
+				false,							// draggable
+				true,							// singleClickExpand
+				$k,
+				$planid,
+				null,
+				$childNodes,
+				$semesterID
+			);
 		}
-		$semDesc = $semDescarray[$data->sem_semDesc][ "sem_semDesc" ];
 
-		return $semDesc;
+		return $treeNode;
 	}
 
-	private function getClasses()
+	private function getStundenplanRoom($key, $planid, $semesterID)
+	{
+		$treeNode = array();
+		$childNodes = array();
+
+		$arr = $this->getStundenplanRoomData($planid, $semesterID);
+
+		foreach($arr as $k=>$value)
+		{
+			$childNodes = array();
+			foreach($value as $childkey=>$childvalue)
+			{
+				$childNodes[] = new TreeNode($key.".".$k.".".$childvalue["id"],
+											$childvalue["name"],
+											"leaf" . "-node",
+											true,
+											true,
+											false,
+											$childvalue["gpuntisID"],
+											$planid,
+											"room",
+											NULL,
+											$semesterID);
+			}
+			$treeNode[] = new TreeNode(
+				$key.".".$k,					// id - autom. generated
+				$k,								// text	for the node
+				'studiengang-root',			// iconCls
+				false,							// leaf
+				false,							// draggable
+				true,							// singleClickExpand
+				$k,
+				$planid,
+				null,
+				$childNodes,
+				$semesterID
+			);
+		}
+		return $treeNode;
+	}
+
+	private function getStundenplanClass($key, $planid, $semesterID)
+	{
+		$treeNode = array();
+		$childNodes = array();
+
+		$arr = $this->getStundenplanClassData($planid, $semesterID);
+
+		foreach($arr as $k=>$value)
+		{
+			$childNodes = array();
+			foreach($value as $childkey=>$childvalue)
+			{
+				$childNodes[] = new TreeNode($key.".".$k.".".$childvalue["id"],
+											$childvalue["name"],
+											"leaf" . "-node",
+											true,
+											true,
+											false,
+											$childvalue["gpuntisID"],
+											$planid,
+											"clas",
+											NULL,
+											$semesterID);
+			}
+			$treeNode[] = new TreeNode(
+				$key.".".$k,					// id - autom. generated
+				$k,								// text	for the node
+				'studiengang-root',			// iconCls
+				false,							// leaf
+				false,							// draggable
+				true,							// singleClickExpand
+				$k,
+				$planid,
+				null,
+				$childNodes,
+				$semesterID
+			);
+		}
+		return $treeNode;
+	}
+
+	private function getStundenplanClassData($planid, $semesterID)
 	{
 		$classesquery = "SELECT DISTINCT classes.gpuntisID AS cid, " .
-						"classes.name AS semester, " .
-						"#__thm_organizer_departments.name AS department, " .
+						"classes.semester AS semester, " .
+						"classes.major AS department, " .
 						"classes.name AS oname, " .
 						"'lesson' AS otype, " .
 						"classes.manager AS manager, " .
 						"count(lesson_classes.lessonID) AS lessonamount " .
 						"FROM #__thm_organizer_classes AS classes " .
-						"INNER JOIN #__thm_organizer_departments " .
-						"ON #__thm_organizer_departments.id = classes.dptID " .
 						"INNER JOIN #__thm_organizer_lesson_classes AS lesson_classes " .
 					 	"ON classes.id = lesson_classes.classID " .
+					 	"INNER JOIN #__thm_organizer_lessons " .
+					 	"ON lesson_classes.lessonID = #__thm_organizer_lessons.id " .
+					 	"WHERE #__thm_organizer_lessons.plantypeID = " .$planid." " .
+					 	"AND #__thm_organizer_lessons.semesterID = " .$semesterID." " .
 						"GROUP BY classes.id";
 
 		$classesarray = array( );
@@ -285,21 +348,25 @@ class TreeView
 		if ( count( $res ) != 0 ) {
 			for ( $i = 0; $i < count( $res ); $i++ ) {
 				$data = $res[ $i ];
+				$key = $data->cid;
 				if ( !isset( $classesarray[ $data->department ] ) ) {
 					$classesarray[ $data->department ] = array( );
 				}
-				$classesarray[ $data->department ][ $data->cid ]                   = array( );
-				$classesarray[ $data->department ][ $data->cid ][ "id" ]           = $data->cid;
-				$classesarray[ $data->department ][ $data->cid ][ "department" ]   = $data->department;
-				$classesarray[ $data->department ][ $data->cid ][ "shortname" ]    = $data->oname;
-				$classesarray[ $data->department ][ $data->cid ][ "otype" ]        = $data->otype;
-				$classesarray[ $data->department ][ $data->cid ][ "name" ]         = $data->semester;
-				$classesarray[ $data->department ][ $data->cid ][ "manager" ]      = $data->manager;
-				$classesarray[ $data->department ][ $data->cid ][ "lessonamount" ] = $data->lessonamount;
+				$classesarray[ $data->department ][ $key ]                   = array( );
+				$classesarray[ $data->department ][ $key ][ "id" ]           = $key;
+				$classesarray[ $data->department ][ $key ][ "department" ]   = $data->department;
+				$classesarray[ $data->department ][ $key ][ "shortname" ]    = $data->oname;
+				$classesarray[ $data->department ][ $key ][ "otype" ]        = $data->otype;
+				$classesarray[ $data->department ][ $key ][ "name" ]         = $data->semester;
+				$classesarray[ $data->department ][ $key ][ "manager" ]      = $data->manager;
+				$classesarray[ $data->department ][ $key ][ "lessonamount" ] = $data->lessonamount;
+				$classesarray[ $data->department ][ $key ][ "gpuntisID" ] = $data->cid;
+				$classesarray[ $data->department ][ $key ][ "semesterID" ] = $semesterID;
+				$classesarray[ $data->department ][ $key ][ "plantypeID" ] = $planid;
 			}
 		}
 
-		$res = $this->getVirtualSchedules();
+		$res = $this->getVirtualSchedules("clas", $semesterID);
 		if ( count( $res ) != 0 ) {
 			for ( $i = 0; $i < count( $res ); $i++ ) {
 				$data = $res[ $i ];
@@ -320,13 +387,13 @@ class TreeView
 				$classesarray[ $data->department ][ $data->vid ][ "elements" ][ $data->eid ] = $data->eid;
 				if ( !isset( $classesarray[ $data->department ][ $data->vid ][ "lessonamount" ] ) )
 			      $classesarray[ $data->department ][ $data->vid ][ "lessonamount" ] = 0;
-				$classesarray[ $data->department ][ $data->vid ][ "lessonamount" ] = $classesarray[ $data->department ][ $data->vid ][ "lessonamount" ] + $this->getCountClassLessons( $data->eid, $this->sid );
+				$classesarray[ $data->department ][ $data->vid ][ "lessonamount" ] = $classesarray[ $data->department ][ $data->vid ][ "lessonamount" ] + $this->getCountClassLessons( $data->eid, $semesterID );
 			}
 		}
 		return $classesarray;
 	}
 
-	private function getRooms()
+	private function getStundenplanRoomData($planid, $semesterID)
 	{
 		$roomquery = "SELECT DISTINCT rooms.gpuntisID AS rid, " .
 					 "rooms.capacity, " .
@@ -338,9 +405,13 @@ class TreeView
 					 "count(lesson_times.lessonID) AS lessonamount " .
 					 "FROM #__thm_organizer_rooms AS rooms " .
 					 "INNER JOIN #__thm_organizer_departments " .
-					 "ON #__thm_organizer_departments.id = rooms.dptID " .
-					 "INNER JOIN #__thm_organizer_lessons_times AS lesson_times " .
+					 "ON #__thm_organizer_departments.id = rooms.departmentID " .
+					 "INNER JOIN #__thm_organizer_lesson_times AS lesson_times " .
 					 "ON rooms.id = lesson_times.roomID " .
+					 "INNER JOIN #__thm_organizer_lessons " .
+					 "ON lesson_times.lessonID = #__thm_organizer_lessons.id " .
+					 "WHERE #__thm_organizer_lessons.plantypeID = " .$planid." " .
+					 "AND #__thm_organizer_lessons.semesterID = " .$semesterID." " .
 					 "GROUP BY rooms.id";
 
 		$roomarray = array( );
@@ -350,22 +421,26 @@ class TreeView
 			for ( $i = 0; $i < count( $res ); $i++ ) {
 				$data = $res[ $i ];
 				$key  = $data->department . "-" . $data->rtype;
+				$roomid = $data->rid;
 				if ( !isset( $roomarray[ $key ] ) ) {
 					$roomarray[ $key ] = array( );
 				}
-				$roomarray[ $key ][ $data->rid ]                   = array( );
-				$roomarray[ $key ][ $data->rid ][ "id" ]           = $data->rid;
-				$roomarray[ $key ][ $data->rid ][ "department" ]   = $data->department;
-				$roomarray[ $key ][ $data->rid ][ "name" ]         = $data->oname;
-				$roomarray[ $key ][ $data->rid ][ "otype" ]        = $data->otype;
-				$roomarray[ $key ][ $data->rid ][ "rtype" ]        = $data->rtype;
-				$roomarray[ $key ][ $data->rid ][ "capacity" ]     = $data->capacity;
-				$roomarray[ $key ][ $data->rid ][ "manager" ]      = $data->manager;
-				$roomarray[ $key ][ $data->rid ][ "lessonamount" ] = $data->lessonamount;
+				$roomarray[ $key ][ $roomid ]                   = array( );
+				$roomarray[ $key ][ $roomid ][ "id" ]           = $roomid;
+				$roomarray[ $key ][ $roomid ][ "department" ]   = $data->department;
+				$roomarray[ $key ][ $roomid ][ "name" ]         = $data->oname;
+				$roomarray[ $key ][ $roomid ][ "otype" ]        = $data->otype;
+				$roomarray[ $key ][ $roomid ][ "rtype" ]        = $data->rtype;
+				$roomarray[ $key ][ $roomid ][ "capacity" ]     = $data->capacity;
+				$roomarray[ $key ][ $roomid ][ "manager" ]      = $data->manager;
+				$roomarray[ $key ][ $roomid ][ "lessonamount" ] = $data->lessonamount;
+				$roomarray[ $key ][ $roomid ][ "gpuntisID" ] = $data->rid;
+				$roomarray[ $key ][ $roomid ][ "semesterID" ] = $semesterID;
+				$roomarray[ $key ][ $roomid ][ "plantypeID" ] = $planid;
 			}
 		}
 
-		$res = $this->getVirtualSchedules();
+		$res = $this->getVirtualSchedules("room", $semesterID);
 
 		if ( count( $res ) != 0 ) {
 			for ( $i = 0; $i < count( $res ); $i++ ) {
@@ -388,14 +463,14 @@ class TreeView
 				$roomarray[ $data->department ][ $data->vid ][ "elements" ][ $data->eid ] = $data->eid;
 				if ( !isset( $roomarray[ $data->department ][ $data->vid ][ "lessonamount" ] ) )
 					$roomarray[ $data->department ][ $data->vid ][ "lessonamount" ] = 0;
-				$roomarray[ $data->department ][ $data->vid ][ "lessonamount" ] = $roomarray[ $data->department ][ $data->vid ][ "lessonamount" ] + $this->getCountRoomLessons( $data->eid, $this->sid );
+				$roomarray[ $data->department ][ $data->vid ][ "lessonamount" ] = $roomarray[ $data->department ][ $data->vid ][ "lessonamount" ] + $this->getCountRoomLessons( $data->eid, $semesterID );
 			}
 		}
 
 		return $roomarray;
 	}
 
-	private function getTeachers()
+	private function getStundenplanDozData($planid, $semesterID)
 	{
 		$teacherquery = "SELECT DISTINCT teachers.gpuntisID AS tid, " .
 						"departments.name AS department, " .
@@ -405,9 +480,13 @@ class TreeView
 						"count(lesson_teacher.lessonID) AS lessonamount " .
 						"FROM #__thm_organizer_teachers AS teachers " .
 						"INNER JOIN #__thm_organizer_departments AS departments " .
-						"ON teachers.dptID = departments.id " .
+						"ON teachers.departmentID = departments.id " .
 						"INNER JOIN #__thm_organizer_lesson_teachers AS lesson_teacher " .
 						"ON teachers.id = lesson_teacher.teacherID " .
+						"INNER JOIN #__thm_organizer_lessons " .
+						"ON lesson_teacher.lessonID = #__thm_organizer_lessons.id " .
+						"WHERE #__thm_organizer_lessons.plantypeID = " .$planid." " .
+					 	"AND #__thm_organizer_lessons.semesterID = " .$semesterID." " .
 						"GROUP BY teachers.id";
 
 		$teacherarray = array( );
@@ -417,20 +496,24 @@ class TreeView
 		if ( count( $res ) != 0 ) {
 			for ( $i = 0; $i < count( $res ); $i++ ) {
 				$data = $res[ $i ];
+				$key = $data->tid;
 				if ( !isset( $teacherarray[ $data->department ] ) ) {
 					$teacherarray[ $data->department ] = array( );
 				}
-				$teacherarray[ $data->department ][ $data->tid ]                   = array( );
-				$teacherarray[ $data->department ][ $data->tid ][ "id" ]           = $data->tid;
-				$teacherarray[ $data->department ][ $data->tid ][ "department" ]   = $data->department;
-				$teacherarray[ $data->department ][ $data->tid ][ "name" ]         = $data->name;
-				$teacherarray[ $data->department ][ $data->tid ][ "otype" ]        = $data->otype;
-				$teacherarray[ $data->department ][ $data->tid ][ "manager" ]      = $data->manager;
-				$teacherarray[ $data->department ][ $data->tid ][ "lessonamount" ] = $data->lessonamount;
+				$teacherarray[ $data->department ][ $key ]                   = array( );
+				$teacherarray[ $data->department ][ $key ][ "id" ]           = $key;
+				$teacherarray[ $data->department ][ $key ][ "department" ]   = $data->department;
+				$teacherarray[ $data->department ][ $key ][ "name" ]         = $data->name;
+				$teacherarray[ $data->department ][ $key ][ "otype" ]        = $data->otype;
+				$teacherarray[ $data->department ][ $key ][ "manager" ]      = $data->manager;
+				$teacherarray[ $data->department ][ $key ][ "lessonamount" ] = $data->lessonamount;
+				$teacherarray[ $data->department ][ $key ][ "gpuntisID" ] = $data->tid;
+				$teacherarray[ $data->department ][ $key ][ "semesterID" ] = $semesterID;
+				$teacherarray[ $data->department ][ $key ][ "plantypeID" ] = $planid;
 			}
 		}
 
-		$res = $this->getVirtualSchedules();
+		$res = $this->getVirtualSchedules("doz", $semesterID);
 
 		if ( count( $res ) != 0 ) {
 			for ( $i = 0; $i < count( $res ); $i++ ) {
@@ -452,20 +535,20 @@ class TreeView
 
 				if ( !isset( $teacherarray[ $data->department ][ $data->vid ][ "lessonamount" ] ) )
 					$teacherarray[ $data->department ][ $data->vid ][ "lessonamount" ] = 0;
-				$teacherarray[ $data->department ][ $data->vid ][ "lessonamount" ] = $teacherarray[ $data->department ][ $data->vid ][ "lessonamount" ] + $this->getCountTeacherLessons( $data->eid, $this->sid );
+				$teacherarray[ $data->department ][ $data->vid ][ "lessonamount" ] = $teacherarray[ $data->department ][ $data->vid ][ "lessonamount" ] + $this->getCountTeacherLessons( $data->eid, $semesterID );
 			}
 		}
 
 		return $teacherarray;
 	}
 
-	private function getVirtualSchedules()
+	private function getVirtualSchedules($type, $semesterID)
 	{
 		$vsquery = "SELECT DISTINCT vs.vid, vname, vtype, department, vresponsible, eid
 	         FROM #__thm_organizer_virtual_schedules as vs
 	         INNER JOIN #__thm_organizer_virtual_schedules_elements as vse
 	         ON vs.vid = vse.vid AND vs.sid = vse.sid
-	         WHERE vtype = '" . $this->type . "' AND vs.sid = '" . $this->sid . "'";
+	         WHERE vtype = '" . $type . "' AND vs.sid = '" . $semesterID . "'";
 		$res     = $this->JDA->query( $vsquery );
 
 		return $res;
@@ -492,104 +575,5 @@ class TreeView
 		return count( $hits );
 	}
 
-	private function getCuriculumTeachers($fachsemester)
-	{
-
-		$curiculumTeachersquery = "SELECT #__thm_organizer_departments.id AS department_id,
-						#__thm_organizer_departments.name AS department_name,
-				        #__thm_organizer_teachers.id AS teachers_id,
-				        #__thm_organizer_teachers.name AS teachers_name
-
-					 	FROM #__thm_organizer_lessons
-						INNER JOIN #__thm_organizer_plantype
-						ON #__thm_organizer_lessons.plantypeID = #__thm_organizer_plantype.id
-
-						INNER JOIN #__thm_organizer_lesson_teachers
-						ON #__thm_organizer_lesson_teachers.lessonID = #__thm_organizer_lessons.id
-
-						INNER JOIN #__thm_organizer_teachers
-						ON #__thm_organizer_teachers.id = #__thm_organizer_lesson_teachers.teacherID
-
-						INNER JOIN #__thm_organizer_departments
-						ON #__thm_organizer_departments.id = #__thm_organizer_teachers.dptID
-
-						WHERE #__thm_organizer_lessons.semesterID = ". $fachsemester ."
-
-						GROUP BY #__thm_organizer_teachers.id";
-
-    	$curiculumTeachersarray = array( );
-
-		$res          = $this->JDA->query( $curiculumTeachersquery );
-
-		if(is_array( $res ) === true)
-		if ( count( $res ) != 0 ) {
-
-
-			for ( $i = 0; $i < count( $res ); $i++ ) {
-				$data = $res[ $i ];
-
-				if ( !isset( $curiculumTeachersarray[ $data->department_name] ) ) {
-					$curiculumTeachersarray[ $data->department_name] = array( );
-				}
-
-				$curiculumTeachersarray[ $data->department_name][ $data->teachers_name ]                       = array( );
-				$curiculumTeachersarray[ $data->department_name][ $data->teachers_name ][ "department_id" ]    = $data->department_id;
-				$curiculumTeachersarray[ $data->department_name][ $data->teachers_name ][ "department_name" ]  = $data->department_name;
-				$curiculumTeachersarray[ $data->department_name][ $data->teachers_name ][ "teacher_id" ]       = $data->teachers_id;
-				$curiculumTeachersarray[ $data->department_name][ $data->teachers_name ][ "teachers_name" ]    = $data->teachers_name;
-			}
-		}
-		return $curiculumTeachersarray;
-	}
-
-	private function getCuriculumClasses($fachsemester)
-	{
-
-		$curiculumClassesquery = "SELECT #__thm_organizer_departments.id AS department_id,
-						#__thm_organizer_departments.name AS department_name,
-				        #__thm_organizer_classes.id AS classes_id,
-				        #__thm_organizer_classes.name AS classes_name
-
-					 	FROM #__thm_organizer_lessons
-						INNER JOIN #__thm_organizer_plantype
-						ON #__thm_organizer_lessons.plantypeID = #__thm_organizer_plantype.id
-
-						INNER JOIN #__thm_organizer_lesson_classes
-						ON #__thm_organizer_lesson_classes.lessonID = #__thm_organizer_lessons.id
-
-						INNER JOIN #__thm_organizer_classes
-						ON #__thm_organizer_classes.id = #__thm_organizer_lesson_classes.classID
-
-						INNER JOIN #__thm_organizer_departments
-						ON #__thm_organizer_departments.id = #__thm_organizer_classes.dptID
-
-						WHERE #__thm_organizer_lessons.semesterID = ". $fachsemester ."
-
-						GROUP BY #__thm_organizer_classes.id";
-
-    	$curiculumClassesarray = array( );
-
-		$res          = $this->JDA->query( $curiculumClassesquery );
-
-		if(is_array( $res ) === true)
-		if ( count( $res ) != 0 ) {
-
-
-			for ( $i = 0; $i < count( $res ); $i++ ) {
-				$data = $res[ $i ];
-
-				if ( !isset( $curiculumClassesarray[ $data->department_name] ) ) {
-					$curiculumClassesarray[ $data->department_name] = array( );
-				}
-
-				$curiculumClassesarray[ $data->department_name][ $data->classes_name ]                       = array( );
-				$curiculumClassesarray[ $data->department_name][ $data->classes_name ][ "department_id" ]    = $data->department_id;
-				$curiculumClassesarray[ $data->department_name][ $data->classes_name ][ "department_name" ]  = $data->department_name;
-				$curiculumClassesarray[ $data->department_name][ $data->classes_name ][ "classes_id" ]       = $data->classes_id;
-				$curiculumClassesarray[ $data->department_name][ $data->classes_name ][ "classes_name" ]    = $data->classes_name;
-			}
-		}
-		return $curiculumClassesarray;
-	}
 }
 ?>
