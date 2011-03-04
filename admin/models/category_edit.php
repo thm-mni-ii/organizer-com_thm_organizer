@@ -13,13 +13,15 @@ class thm_organizersModelcategory_edit extends JModel
     public $contentCategories = null;
     public $userGroups = null;
 
+    public $temp = array();
+
 
     public function __construct()
     {
         parent::__construct();
         $this->loadCategory();
-        $this->loadContentCategories();
         $this->loadUserGroups();
+        $this->loadContentCategories();
     }
 
     private function loadCategory()
@@ -51,37 +53,116 @@ class thm_organizersModelcategory_edit extends JModel
     {
         $dbo = & JFactory::getDBO();
         $query = $dbo->getQuery(true);
-        $query->select("c.id, c.title, c.description, rules");
+        $query->select("c.id, c.title, c.description, REPLACE ( rules, 'core.', '' ) AS rules");
         $query->from("#__categories AS c");
         $query->innerJoin("#__assets AS a ON c.asset_id = a.id");
         $query->where("extension = 'com_content'");
+        $query->where("published = '1'");
         $query->order("c.title ASC");
         $dbo->setQuery((string)$query);
+        $this->temp = (string) $query;
         $contentCategories = $dbo->loadObjectList();
         if(count($contentCategories))
+        {
+            foreach($contentCategories as $k => $v)
+            {
+                $contentCategories[$k] = (array) $v;
+                $contentCategories[$k]['rules'] = (array) json_decode($contentCategories[$k]['rules']);
+                foreach($contentCategories[$k]['rules'] as $permissionName => $usergroups)
+                    $contentCategories[$k]['rules'][$permissionName] = (array) $usergroups;
+                $contentCategories[$k]['actiontable'] = $this->resolvePermissions($contentCategories[$k]['rules']);
+            }
             $this->contentCategories = $contentCategories;
+        }
     }
 
     private function loadUserGroups()
     {
         $dbo = & JFactory::getDBO();
         $query = $dbo->getQuery(true);
-        $query->select("c.id, c.title, c.description, rules");
-        $query->from("#__categories AS c");
-        $query->innerJoin("#__assets AS a ON c.asset_id = a.id");
-        $query->where("extension = 'com_content'");
-        $query->order("c.title ASC");
+        $query->select("id, title");
+        $query->from("#__usergroups");
         $dbo->setQuery((string)$query);
-        $contentCategories = $dbo->loadObjectList();
-        if(count($contentCategories))
-            $this->contentCategories = $contentCategories;
+        $results = $dbo->loadAssocList();
+        if(count($results))
+        {
+            $userGroups = array();
+            foreach($results as $k => $v) $userGroups[$v['id']] = $v['title'];
+            $this->userGroups = $userGroups;
+        }
+    }
+
+    private function resolvePermissions($permissions)
+    {
+        //create an array of actions (create => CREATE)
+        $permissionNames = array_keys($permissions);
+        $permissionNames = array_flip($permissionNames);
+        foreach($permissionNames as $k => $v)
+        {
+            $name = strtoupper($k);
+            $name = str_replace(".", "", $name);
+            $permissionNames[$k] = $name;
+        }
+
+        //collects the ids and group names of groups with permissions granted
+        //other groups do not show up here
+        $permissionGroups = array();
+        foreach($permissions as $k => $v)
+        {
+            foreach($v as $groupKey)
+                $permissionGroups[$groupKey] = $this->userGroups[$groupKey];
+            $permissions[$k] = (array) $v;
+        }
+        $this->temp = array_merge($this->temp, $permissionGroups);
+
+        $table = "<table id='com_thm_organizer_ce_permissions'>";
+
+        $columngroup = "<colgroup>";
+        $columngroup .= "<col id='com_thm_organizer_ce_usergroups' />";
+        foreach($permissionNames as $name)
+            $columngroup .= "<col id='com_thm_organizer_action_column' />";
+        $columngroup .= "</colgroup>";
+
+        $tablehead = "<thead>";
+        $tablehead .= "<td>".JText::_('COM_THM_ORGANIZER_CE_USERGROUP_ACTIONS')."</td>";
+        foreach($permissionNames as $name)
+            $tablehead .= "<td>".JText::_($name)."</td>";
+        $tablehead .= "</thead>";
+
+        $tablebody = "<tbody>";
+        foreach($permissionGroups as $groupKey => $groupName)
+        {
+            $tablerow = "<tr>";
+            $tabledata = "<td align='right'>".$v."</td>";
+            $tablerow .= $tabledata;
+            $groupname = $this->userGroups[$groupKey];
+            $groupPermissions = array();
+            foreach($permissionNames as $permissionKey => $permissionValue)
+            {
+                $tabledata = "<td align='center'>";
+                if(key_exists($k, $permissions[$permissionKey]))
+                {
+                   $tabledata .= JHTML::_('image', 'administrator/templates/bluestork/images/admin/tick.png',
+                                            JText::_( 'Active' ), array( 'class' => 'thm_organizer_se_tick'));
+                }
+                else
+                {
+                   $tabledata .= JHTML::_('image', 'administrator/templates/bluestork/images/admin/tick.png',
+                                            JText::_( 'Active' ), array( 'class' => 'thm_organizer_se_tick'));
+                }
+                $tabledata .= "</td>";
+            }
+            $tablerow .= $tabledata."</tr>";
+            $tablebody .= $tablerow;
+        }
+        $table .= $columngroup.$tablehead.$tablebody."</table>";
+        return $table;
     }
 
     public function store()
     {
         $post = print_r($_POST, true);
 
-        //Sanitize
         $id = JRequest::getVar('id');
         $title = trim(JRequest::getString('title'));
         $alias = str_replace(' ', '_', strtolower($title));

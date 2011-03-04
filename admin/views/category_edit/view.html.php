@@ -33,6 +33,8 @@ class thm_organizersViewcategory_edit extends JView
         $this->assignRef( 'global', $global );
         $reserves = $model->reserves;
         $this->assignRef( 'reserves', $reserves );
+        $temp = $model->temp;
+        $this->assignRef( 'temp', $temp );
 
         $contentCat = $model->contentCat;
         $contentCategories = $model->contentCategories;
