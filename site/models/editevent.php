@@ -197,16 +197,9 @@ class thm_organizerModeleditevent extends JModel
             if(count($results))
             {
                 $categories = array();
-                $initial = true;
+                $initialID = $results[0]['id'];
                 foreach($results as $k => $v)
-                {
                     $categories[$v['id']] = $v;
-                    if($initial)
-                    {
-                        $initialID = $v['id'];
-                        $inital = false;
-                    }
-                }
                 if(!$this->event['categoryID'])
                     $this->event['categoryID'] = $initialID;
                 $this->categories = $categories;
