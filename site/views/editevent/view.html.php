@@ -14,88 +14,95 @@ class thm_organizerViewEditEvent extends JView
     {
         JHTML::_('behavior.formvalidation');
         JHTML::_('behavior.tooltip');
+        
+        $document = & JFactory::getDocument();
+        $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
 
-        $model =& $this->getModel();
-
-        $user =& JFactory::getUser();
-        $this->assignRef( 'userid', $user->id );
-        $this->assignRef( 'usergid', $user->gid );
-
-        $itemid = JRequest::getVar('Itemid');
-        $this->assignRef( 'itemid', $itemid);
-
+        $model = $this->getModel();
         $event = $model->event;
-        if(isset($event)) $this->assignRef('event', $event);
+        $this->assignRef('event', $event);
+        $rooms = $model->rooms;
+        $this->assignRef('rooms', $rooms);
+        $teachers = $model->teachers;
+        $this->assignRef('teachers', $teachers);
+        $groups = $model->groups;
+        $this->assignRef('groups', $groups);
+        $categories = $model->categories;
+        $this->assignRef('categories', $categories);
 
-        $this->assignRef( 'lists', $this->buildLists());
-
+        $this->createHTMLElements();
         parent::display($tpl);
     }
 
-    /*
-     * Creates HTML Elements for the edit event form
-     */
-    function buildLists()
+    private function createHTMLElements()
     {
-        if(!isset($this->event['sectionid'])) $this->event['sectionid'] = $this->event['sections'][0]['id'];
-        $javascript = 'onchange="changeCCatList( \'ccatid\', sectioncategories, document.eventForm.sectionid.options[document.eventForm.sectionid.selectedIndex].value);"';
-        $lists['sectionid'] = JHTML::_('select.genericlist',  $this->event['sections'], 'sectionid', 'class="inputbox" size="1" '.$javascript, 'id', 'title', $this->event['sectionid']);
-        
-        $sectioncategories = array ();
-        // Uncategorized category mapped to uncategorized section
-        foreach ($this->event['sections'] as $section)
+        $event = $this->event;
+
+        $startcalendar = JHTML::_('calendar', $event['startdate'], 'startdate', 'startdate', '%d.%m.%Y',
+                                  array('class' => 'inputbox required validate-date', 'size'=>'7',  'maxlength'=>'11'));
+        $this->assignRef('startcalendar', $startcalendar);
+        $endcalendar = JHTML::_('calendar', $event['enddate'], 'enddate', 'enddate', '%d.%m.%Y',
+                                  array('class' => 'inputbox required validate-date', 'size'=>'7',  'maxlength'=>'11'));
+        $this->assignRef('endcalendar', $endcalendar);
+
+        $otherrooms = array();
+        $otherrooms[] = array('id' => '-1', 'name' => 'keine Räume');
+        //$otherrooms[] = array( 'id' => '-2', 'name' => 'alle Räume' );
+        $rooms = array_merge($otherrooms, $this->rooms);
+        if(isset($this->event['rooms']))
         {
-            $sectioncategories[$section['id']] = array ();
-            $rows2 = array ();
-            foreach ($this->event['ccategories'] as $ccat)
-                if($ccat['section'] == $section['id']) $rows2[] = $ccat;
-            foreach ($rows2 as $row2)
-                $sectioncategories[$section['id']][] = JHTML::_('select.option', $row2['id'], $row2['title'], 'id', 'title');
+            $roomselect = JHTML::_('select.genericlist', $rooms, 'rooms[]',
+                                   'id="rooms" class="inputbox" size="4" multiple="multiple"',
+                                   'id', 'name', $this->event['rooms']);
         }
-
-        $lists['sectioncategories'] = $sectioncategories;
-        if(isset($this->event['ccatid']))
-            $lists['ccats'] = JHTML::_('select.genericlist',  $sectioncategories[$this->event['sectionid']], 'ccatid', 'class="inputbox" size="1"', 'id', 'title', $this->event['ccatid']);
         else
-            $lists['ccats'] = JHTML::_('select.genericlist',  $sectioncategories[$this->event['sectionid']], 'ccatid', 'class="inputbox" size="1"', 'id', 'title');
+        {
+            $roomselect = JHTML::_('select.genericlist', $rooms, 'rooms[]',
+                                   'id="rooms" class="inputbox" size="4" multiple="multiple"',
+                                   'id', 'name');
+        }
+        $this->assignRef('roomselect', $roomselect);
 
-        if(isset($this->event['ecatid']))
-            $lists['ecats'] = JHTML::_('select.genericlist', $this->event['ecategories'], 'ecatid','size="1" class="inputbox"', 'ecid', 'ecname', $this->event['ecatid'] );
+        $otherteachers = array();
+        $otherteachers[] = array('id' => '-1', 'name' => 'keine Dozenten');
+        //$otherteachers[] = array( 'oid' => '-2', 'oname' => 'alle Dozenten' );
+        $teachers = array_merge($otherteachers, $this->teachers);
+        if(isset($this->event['teachers']))
+        {
+            $teacherselect = JHTML::_('select.genericlist', $teachers, 'teachers[]',
+                                      'id="teachers" class="inputbox" size="4" multiple="multiple"',
+                                      'id', 'name', $this->event['teachers']);
+        }
         else
-            $lists['ecats'] = JHTML::_('select.genericlist', $this->event['ecategories'], 'ecatid','size="1" class="inputbox"', 'ecid', 'ecname' );
+        {
+            $teacherselect = JHTML::_('select.genericlist', $teachers, 'teachers[]',
+                                      'id="teachers" class="inputbox" size="4" multiple="multiple"',
+                                      'id', 'name');
+        }
+        $this->assignRef('teacherselect', $teacherselect);
 
-        $othersemesters = array(1=>array('oid' => '-1', 'oname' => 'keine Semestergänge')/*, 2 => array( 'oid' => '-2', 'oname' => 'alle Semestergänge' )*/);
-        $semesters = array_merge($othersemesters, $this->event['semesters']);
-        if(isset($semesters) && isset($this->event['savedObjects']))
-            $lists['semesters'] = JHTML::_('select.genericlist', $semesters, 'semesters[]', 'id="fachsemesters" class="inputbox" size="4" multiple="multiple"', 'oid', 'oname', $this->event['savedObjects']);
-        else if(isset($semesters))
-            $lists['semesters'] = JHTML::_('select.genericlist', $semesters, 'semesters[]', 'id="fachsemesters" class="inputbox" size="4" multiple="multiple"', 'oid', 'oname');
-        else $lists['semesters'] = null;
 
-        $otherrooms = array(1=>array('oid' => '-1', 'oname' => 'keine Räume')/*, 2 => array( 'oid' => '-2', 'oname' => 'alle Räume' )*/);
-        $rooms = array_merge($otherrooms, $this->event['rooms']);
-        if(isset($rooms) && isset($this->event['savedObjects']))
-            $lists['rooms'] = JHTML::_('select.genericlist', $rooms, 'rooms[]', 'id="rooms" class="inputbox" size="4" multiple="multiple"', 'oid', 'oname', $this->event['savedObjects']);
-        else if(isset($rooms))
-            $lists['rooms'] = JHTML::_('select.genericlist', $rooms, 'rooms[]', 'id="rooms" class="inputbox" size="4" multiple="multiple"', 'oid', 'oname');
-        else $lists['rooms'] = null;
+        $othergroups = array();
+        $othergroups[] = array( 'id' => '-1', 'name' => 'keine Gruppen' );
+        //$othergroups[] = array( 'oid' => '-2', 'oname' => 'alle Gruppen' );
+        $groups = array_merge($othergroups, $this->groups);
+        if(isset($this->event['groups']))
+        {
+            $groupselect = JHTML::_('select.genericlist', $groups, 'groups[]',
+                                    'id="groups" class="inputbox" size="4" multiple="multiple"',
+                                    'id', 'name', $this->event['groups']);
+        }
+        else
+        {
+            $groupselect = JHTML::_('select.genericlist', $groups, 'groups[]',
+                                    'id="groups" class="inputbox" size="4" multiple="multiple"',
+                                    'id', 'name');
+        }
+        $this->assignRef('groupselect', $groupselect);
 
-        $otherteachers = array(1=>array('oid' => '-1', 'oname' => 'keine Dozenten')/*, 2 => array( 'oid' => '-2', 'oname' => 'alle Dozenten' )*/);
-        $teachers = array_merge($otherteachers, $this->event['teachers']);
-        if(isset($teachers) && isset($this->event['savedObjects']))
-            $lists['teachers'] = JHTML::_('select.genericlist', $teachers, 'teachers[]', 'id="teachers" class="inputbox" size="4" multiple="multiple"', 'oid', 'oname', $this->event['savedObjects']);
-        else if(isset($teachers))
-            $lists['teachers'] = JHTML::_('select.genericlist', $teachers, 'teachers[]', 'id="teachers" class="inputbox" size="4" multiple="multiple"', 'oid', 'oname');
-        else $lists['teachers'] = null;
-
-        $othergroups = array(1 => array('oid' => '-1', 'oname' => 'keine Gruppen' )/*, 2 => array( 'oid' => '-2', 'oname' => 'alle Gruppen' )*/);
-        $groups = array_merge($othergroups, $this->event['groups']);
-        if(isset($groups) && isset($this->event['savedObjects']))
-            $lists['groups'] = JHTML::_('select.genericlist', $groups, 'groups[]', 'id="groups" class="inputbox" size="4" multiple="multiple"', 'oid', 'oname', $this->event['savedObjects']);
-        else if(isset($groups))
-            $lists['groups'] = JHTML::_('select.genericlist', $groups, 'groups[]', 'id="groups" class="inputbox" size="4" multiple="multiple"', 'oid', 'oname');
-        else $lists['groups'] = null;
-
-        return $lists;
+        $categoryselect = JHTML::_('select.genericlist', $this->categories, 'category',
+                                       'id="category" class="inputbox"', 'id', 'title',
+                                       $this->event['categoryID']);
+        $this->assignRef('categoryselect', $categoryselect);
     }
 }

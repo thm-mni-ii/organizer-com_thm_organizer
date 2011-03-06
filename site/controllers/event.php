@@ -1,32 +1,20 @@
 <?php
 /**
- *
- * controllereditevent.php
- *
+ * @package     Joomla.Site
+ * @subpackage  com_thm_organizer
+ * @name        create/edit appointment/event controller
+ * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @copyright   TH Mittelhessen <year>
+ * @license     GNU GPL v.2
+ * @link        www.mni.fh-giessen.de
+ * @version     0.0.1
  */
-
-// No direct access
-
 defined( '_JEXEC' ) or die( 'Restricted access' );
-
 jimport('joomla.application.component.controller');
 
-/**
- *
- * Giessen Times Component Controller Schedule List
- *
- */
-class thm_organizerControllerEditEvent extends JController
+class thm_organizerControllerevent extends JController
 {
-	 /**
-     * Method to display the view
-     *
-     * @access    public
-     */
-    function display()
-    {
-        parent::display();
-    }
+    function display(){ parent::display(); }
 
     /**
     * Saves the event

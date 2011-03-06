@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<name>THM_Organizer</name>
+    <name>THM_Organizer</name>
     <author>James Antrim</author>
     <authorEMail>jamesDOTantrimATyahooDOTcom</authorEMail>
     <author>Wolf Rost</author>
-    <authorEMail>wolfDOTrostATmniDOTthMINUSmittelhessenDOTde</authorEMail>
+    <authorEMail>wolfDOTrostATmniDOTthDASHmittelhessenDOTde</authorEMail>
     <authorUrl>www.mni.fh-giessen.de</authorUrl>
     <creationDate>01/03/2011</creationDate>
     <copyright>TH Mittelhessen 2011</copyright>
     <licence>GNU GPL v.2</licence>
     <version>0.0.1</version>
     <description></description>
-	<layout title="Layout: editevent">
+	<layout title="Layout: Edit Appointment/Event">
 		<message>
-			 <message>editevent</message>
+			 <message>Edit Appointment/Event</message>
 		</message>
 	</layout>
 </metadata>

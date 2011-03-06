@@ -1,148 +1,225 @@
 <?php
 /**
- * 
- * Edit Event Model for Giessen Scheduler Component
- *
- * extensive use of objects are used in order to use functions provided by the joomla framework
- * not because of any personal preference for large memory usage
- * 
+ * @package     Joomla.Site
+ * @subpackage  com_thm_organizer
+ * @name        create/edit appointment/event model
+ * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @copyright   TH Mittelhessen <year>
+ * @license     GNU GPL v.2
+ * @link        www.mni.fh-giessen.de
+ * @version     0.0.1
  */
- 
-// No direct access
- 
+
 defined( '_JEXEC' ) or die( 'Restricted access' );
- 
 jimport( 'joomla.application.component.model' );
- 
-/**
- * Room Model
- *
- */
-class GiessenSchedulerModelEditEvent extends JModel
+
+class thm_organizerModeleditevent extends JModel
 {
-    var $dbo = null;
-    var $event = null;
-	
-    /**
-     * Constructor
-     *
-     * @since 1.5
-     */
-    function __construct()
+    public $event = null;
+    public $rooms = null;
+    public $teachers = null;
+    public $groups = null;
+    public $categories = null;
+
+    public function __construct()
     {
         parent::__construct();
-        $this->dbo = & JFactory::getDBO();
-        $eventid = JRequest::getVar('eventid');
-        $this->loadEvent($eventid);
+        $this->loadEvent();
+        if($this->event['id'])$this->loadEventResources();
+        $this->loadResources();
+        $this->loadCategories();
     }
-		
-    /**
-    * Load object variable $event with the event from the db tables
-    *
-    * @param int $eventid the id of the event
-    */
-    function loadEvent($eventid)
-    {
-        global $mainframe;
-        $dbo =& $this->dbo;
-        $user =& JFactory::getUser();
-        $gid = $user->gid;
 
-        $query = "SELECT contentid FROM #__thm_organizer_events WHERE eid = '$eventid'";
-        $dbo->setQuery( $query );
-        $savedcid = $dbo->loadResult();
-        //check whether associated content was changed external to giessen scheduler
-        if(isset($savedcid))
+    public function loadEvent()
+    {
+        $eventid = JRequest::getInt('eventID')? JRequest::getInt('eventID'): 0;
+        $dbo = JFactory::getDBO();
+        $user = JFactory::getUser();
+
+        $query = $dbo->getQuery(true);
+        $query->select("*");
+        $query->from("#__thm_organizer_events");
+        $query->where("id = '$eventid'");
+        $dbo->setQuery((string)$query);
+        $event = $dbo->loadAssoc();
+
+        if(count($event))
         {
-            $query = "SELECT title FROM #__content WHERE id = '$savedcid' AND state != '-2'";
-            $dbo->setQuery($query);
-            $confirmtitle = $dbo->loadResult();
-        }
-        if(isset($confirmtitle))
-        {
-            $query = "SELECT gse.eid AS eventid, c.id AS contentid, gse.title, edescription AS description, 
-                        gse.created_by AS author, ecatid, startdate, enddate, ec.access, recurrence_type,
-                        SUBSTR(starttime, 1, 5) AS starttime, SUBSTR(endtime, 1, 5) AS endtime,
-                        SUBSTR(publish_up, 1, 11) AS publish_up, SUBSTR(publish_down, 1, 11) AS publish_down,
-                        sectionid, catid AS ccatid
-                     FROM #__thm_organizer_events AS gse
-                     INNER JOIN #__content AS c ON id = contentid
-                     INNER JOIN #__thm_organizer_categories AS ec ON ecatid = ecid
-                     WHERE eid='$eventid'";
-            $dbo->setQuery( $query );
-            $fetchedevent = $dbo->loadAssoc();
+            //clean event data
+            $event['starttime'] = substr($event['starttime'], 0, 5);
+            $event['endtime'] = substr($event['endtime'], 0, 5);
+            $event['startdate'] = strrev(str_replace("-", ".", $event['startdate']));
+            $event['enddate'] = strrev(str_replace("-", ".", $event['enddate']));
         }
         else
-        {	
-            $query = "INSERT INTO #__thm_organizer_events (contentid) VALUES ('0') WHERE eid = '$eventid'";
-            $dbo->setQuery($query);
-            $dbo->query();	  
-            $query = "SELECT gse.eid AS eventid, gse.title, edescription AS description,
-                        gse.created_by AS author, ecatid, startdate, enddate, ec.access, recurrence_type,
-                        SUBSTR(starttime, 1, 5) AS starttime, SUBSTR(endtime, 1, 5) AS endtime
-                      FROM #__thm_organizer_events AS gse
-                      INNER JOIN #__thm_organizer_categories AS ec ON ecatid = ecid
-                      WHERE eid='$eventid'";
-            $dbo->setQuery( $query );
-            $fetchedevent = $dbo->loadAssoc();
-        }
-        if(isset($fetchedevent))
         {
-            if(isset($fetchedevent['access']) && $fetchedevent['access']  > $gid) $mainframe->redirect();
-            if(isset($fetchedevent['startdate']) && $fetchedevent['startdate'] == '0000-00-00')
-                unset($fetchedevent['startdate']);
-            if(isset($fetchedevent['enddate']) && $fetchedevent['enddate'] == '0000-00-00')
-                unset($fetchedevent['enddate']);
-            if(isset($fetchedevent['starttime']) && $fetchedevent['starttime'] == '00:00')
-                unset($fetchedevent['starttime']);
-            if(isset($fetchedevent['endtime']) && $fetchedevent['endtime'] == '00:00')
-                unset($fetchedevent['endtime']);
-            $query = "SELECT oid
-                      FROM #__thm_organizer_objects
-                      INNER JOIN #__thm_organizer_eventobjects ON objectid = oid
-                      WHERE eventid = '$eventid'";
-            $dbo->setQuery( $query );
-            $savedSchedObjects = $dbo->loadResultArray();
-            $query = "SELECT id AS oid, name AS oname
-                      FROM #__giessen_staff_groups
-                      INNER JOIN #__thm_organizer_eventobjects ON objectid = id
-                      WHERE eventid = '$eventid'";
-            $dbo->setQuery( $query );
-            $savedStaffObjects = $dbo->loadResultArray();
-            $fetchedevent['savedObjects'] = array_merge($savedSchedObjects, $savedStaffObjects);
+            $event = array();
+            $event['id'] = 0;
+            $event['title'] = '';
+            $event['alias'] = '';
+            $event['description'] = '';
+            $event['categoryID'] = 0;
+            $event['contentID'] = 0;
+            $event['startdate'] = '';
+            $event['enddate'] = '';
+            $event['starttime'] = '';
+            $event['endtime'] = '';
+            $event['created_by'] = 0;
+            $event['created'] = '';
+            $event['modified_by'] = 0;
+            $event['modified'] = '';
+            $event['recurrence_number'] = 0;
+            $event['recurrence_type'] = 0;
+            $event['recurrence_counter'] = 0;
+            $event['image'] = '';
+            $event['register'] = 0;
+            $event['unregister'] = 0;
         }
-        
-        //load information for select boxes
-        $query = "SELECT oid, oname FROM #__thm_organizer_objects WHERE otype = 'teacher' ORDER BY oname";
-        $dbo->setQuery( $query );
-        $fetchedevent['teachers'] = $dbo->loadObjectList();
-        $query = "SELECT oid, oname FROM #__thm_organizer_objects WHERE otype = 'room' ORDER BY oname";
-        $dbo->setQuery( $query );
-        $fetchedevent['rooms'] = $dbo->loadObjectList();
-        $query = "SELECT oid, oname FROM #__thm_organizer_objects WHERE otype = 'class' ORDER BY oname";
-        $dbo->setQuery( $query );
-        $fetchedevent['semesters'] = $dbo->loadObjectList();
-        $query = "SELECT id AS oid, name AS oname FROM #__giessen_staff_groups ORDER BY name";
-        $dbo->setQuery( $query );
-        $fetchedevent['groups'] = $dbo->loadObjectList();
-        $query = "SELECT id, title FROM #__sections";
-        $dbo->setQuery( $query );
-        $fetchedevent['sections'] = $dbo->loadAssocList();
-        $query = "SELECT id, section, title FROM #__categories WHERE section NOT LIKE 'com%'";
-        $dbo->setQuery( $query );
-        $fetchedevent['ccategories'] = $dbo->loadAssocList();
-        $query = "SELECT ecid, ecname FROM #__thm_organizer_categories WHERE access <= '$gid'";
-        $dbo->setQuery( $query );
-        $fetchedevent['ecategories'] = $dbo->loadAssocList();
-
-
-
-        $this->event = $fetchedevent;
+        $this->event = $event;
     }
-    
+
+    private function loadEventResources()
+    {
+        $this->loadEventRooms();
+        $this->loadEventTeachers();
+        $this->loadEventGroups();
+    }
+
+    private function loadEventRooms()
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('roomID');
+        $query->from('#__thm_organizer_event_rooms');
+        $dbo->setQuery((string)$query);
+        $rooms = $dbo->loadResultArray();
+        $this->event['rooms'] = count($rooms)? $rooms : array();
+    }
+
+    private function loadEventTeachers()
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('teacherID');
+        $query->from('#__thm_organizer_event_rooms');
+        $dbo->setQuery((string)$query);
+        $teachers = $dbo->loadResultArray();
+        $this->event['teachers'] = count($teachers)? $teachers : array();
+    }
+
+    private function loadEventGroups()
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('groupID');
+        $query->from('#__thm_organizer_event_groups');
+        $dbo->setQuery((string)$query);
+        $groups = $dbo->loadResultArray();
+        $this->event['groups'] = count($groups)? $groups : array();
+    }
+
+
+    private function loadResources()
+    {
+        $this->loadRooms();
+        $this->loadTeachers();
+        $this->loadGroups();
+    }
+
+    private function loadRooms()
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('id, name');
+        $query->from('#__thm_organizer_rooms');
+        $dbo->setQuery((string)$query);
+        $rooms = $dbo->loadAssocList();
+        $this->rooms = count($rooms)? $rooms : array();
+    }
+
+    private function loadTeachers()
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('id, name');
+        $query->from('#__thm_organizer_teachers');
+        $dbo->setQuery((string)$query);
+        $teachers = $dbo->loadAssocList();
+        $this->teachers = count($teachers)? $teachers : array();
+    }
+
+    private function loadGroups()
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('id, title AS name');
+        $query->from('#__usergroups');
+        $query->where('title != "Public"');
+        $query->where('title != "Super Users"');
+        $dbo->setQuery((string)$query);
+        $groups = $dbo->loadAssocList();
+        $this->groups = count($groups)? $groups : array();
+    }
+
+    private function loadCategories()
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $select = 'toc.id AS id, toc.title AS title, toc.globaldisplay AS global, ';
+        $select .= 'toc.reservesobjects AS reserves, toc.description as description, ';
+        $select .= 'c.id AS contentCatID, c.title AS contentCat, c.description AS contentCatDesc, ';
+        $select .= 'vl.title AS access ';
+        $query->select($select);
+        $query->from('#__thm_organizer_categories AS toc');
+        $query->innerJoin('#__categories AS c ON toc.contentCatID = c.id');
+        $query->innerJoin('#__viewlevels AS vl ON c.access = vl.id');
+        $query->order('toc.title ASC');
+        $dbo->setQuery((string)$query);
+        $results = $dbo->loadAssocList();
+        if(count($results))
+        {
+            $userID = JFactory::getUser()->id;
+            $isAuthor = ($this->event['created_by'] == $userID)? true : false;
+            foreach($results as $k => $v)
+            {
+                $asset = "com_content".".category.".$v['contentCatID'];
+                if($this->event['id'] == 0)
+                    $access = JAccess::check($userID, 'core.create', $asset);
+                else if($this->event['id'] > 0)
+                {
+                    if($isAuthor) $canEditOwn = JAccess::check($userID, 'core.edit.own', $asset);
+                    else $canEditOwn = false;
+                    $canEdit = JAccess::check($userID, 'core.edit', $asset);
+                    $access = $canEdit or $canEditOwn;
+                }
+                if(!$access)unset($results[$k]);
+            }
+            if(count($results))
+            {
+                $categories = array();
+                $initial = true;
+                foreach($results as $k => $v)
+                {
+                    $categories[$v['id']] = $v;
+                    if($initial)
+                    {
+                        $initialID = $v['id'];
+                        $inital = false;
+                    }
+                }
+                if(!$this->event['categoryID'])
+                    $this->event['categoryID'] = $initialID;
+                $this->categories = $categories;
+            }
+            else $this->categories = array();
+        }
+        else $this->categories = array();
+    }
+
+
     /**
     * Function to save events and content
-    * 
+    *
     *@return true if no db errors occured; false otherwise
     */
     function save()
@@ -153,7 +230,7 @@ class GiessenSchedulerModelEditEvent extends JModel
         //¿allows special characters to retain coding?
         $description = JRequest::getVar( 'description', '', 'post','string', JREQUEST_ALLOWRAW );
 
-        //clean event date/time 
+        //clean event date/time
         $startdate = trim($_POST['startdate']);
         $newdate = strtotime ( '+1 day' , strtotime ( $startdate ) ) ;
         $newdate = date ( 'Y-m-j' , $newdate );
@@ -183,7 +260,7 @@ class GiessenSchedulerModelEditEvent extends JModel
             $publish_up = date("Y-m-d H:i:s", $publish_up);
             $publish_down = date("Y-m-d H:i:s", $publish_down);
             $initial = true;
-            
+
             if($contentid != 0)//existing content
             {
                 $query = "UPDATE #__content
@@ -397,7 +474,7 @@ class GiessenSchedulerModelEditEvent extends JModel
         }
         return $eventid;
     }
-    
+
 
     /**
      * Deletes entries in events, eventobjects, and content
@@ -431,4 +508,3 @@ class GiessenSchedulerModelEditEvent extends JModel
         return true;
     }
 }
-	
