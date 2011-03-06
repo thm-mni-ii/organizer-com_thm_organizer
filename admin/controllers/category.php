@@ -19,25 +19,54 @@ class thm_organizersControllerCategory extends JController
 	
     function save()
     {
-        $model = $this->getModel('category');
+        $model = $this->getModel('category_edit');
         $result = $model->store();
-        $this->setRedirect( 'index.php?option=com_thm_organizer&view=category_list', $result);
+        if($result)
+        {
+            $msg = JText::_("The category has been successfully saved.");
+            $this->setRedirect( 'index.php?option=com_thm_organizer&view=category_manager', $msg);
+        }
+        else
+        {
+            $msg = JText::_("An error occured while saving the category.");
+            $this->setRedirect( 'index.php?option=com_thm_organizer&view=category_manager', $msg, 'error');
+        }
+    }
+
+    function save2new()
+    {
+        $model = $this->getModel('category_edit');
+        $result = $model->store();
+        if($result)
+        {
+            $msg = JText::_("The category has been successfully saved.");
+            $this->setRedirect( 'index.php?option=com_thm_organizer&view=category_edit', $msg);
+        }
+        else
+        {
+            $msg = JText::_("An error occured while saving the category.");
+            $this->setRedirect( 'index.php?option=com_thm_organizer&view=category_edit', $msg, 'error');
+        }
     }
 	
-    function remove()
+    function delete()
     {
-        $model = $this->getModel('category');
-        $res = $model->delete();
-        if(isset($res) and $res == true)
-            $msg = JText::_('Category has been successfully removed.');
+        $model = $this->getModel('category_edit');
+        $result = $model->delete();
+        if($result)
+        {
+            $msg = JText::_('The selected categories have been successfully removed.');
+            $this->setRedirect( 'index.php?option=com_thm_organizer&view=category_manager', $msg);
+        }
         else
-            $msg = JText::_('An error has occurred.');
-        $this->setRedirect( 'index.php?option=com_thm_organizer&view=category_manager', $msg);
+        {
+            $msg = JText::_('An error has while deleting the selected categories.');
+            $this->setRedirect( 'index.php?option=com_thm_organizer&view=category_manager', $msg, 'error');
+        }
     }
 	
     function cancel()
     {
-        $msg = JText::_('Cancelled');
-        $this->setRedirect( 'index.php?option=com_thm_organizer&view=category_manager', $msg );
+        $this->setRedirect( 'index.php?option=com_thm_organizer&view=category_manager' );
     }
 }

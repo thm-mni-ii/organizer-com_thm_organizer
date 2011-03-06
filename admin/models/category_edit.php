@@ -8,12 +8,9 @@ class thm_organizersModelcategory_edit extends JModel
     public $description = '';
     public $global = false;
     public $reserves = false;
-
     public $contentCat = 0;
     public $contentCategories = null;
     public $userGroups = null;
-
-    public $temp = array();
 
 
     public function __construct()
@@ -22,12 +19,22 @@ class thm_organizersModelcategory_edit extends JModel
         $this->loadCategory();
         $this->loadUserGroups();
         $this->loadContentCategories();
+        if($this->contentCat == 0)
+            foreach($this->contentCategories as $category)
+            {
+                $this->contentCat = $category['id'];
+                break;
+            }
     }
 
     private function loadCategory()
     {
-        $ids = JRequest::getString('cid',  0, '', 'array');
-        $id = (int)$ids[0];
+        $id = JRequest::getInt('categoryID');
+        if(empty($id))
+        {
+            $ids = JRequest::getVar('cid',  0, '', 'array');
+            $id = (int)$ids[0];
+        }
         if($id)
         {
             $dbo = JFactory::getDbo();
@@ -53,9 +60,9 @@ class thm_organizersModelcategory_edit extends JModel
     {
         $dbo = & JFactory::getDBO();
         $query = $dbo->getQuery(true);
-        $query->select("c.id, c.title, c.description, REPLACE ( rules, 'core.', '' ) AS rules");
+        $query->select("c.id, c.title, c.description, vl.title AS view_level");
         $query->from("#__categories AS c");
-        $query->innerJoin("#__assets AS a ON c.asset_id = a.id");
+        $query->innerJoin("#__viewlevels AS vl ON c.access = vl.id");
         $query->where("extension = 'com_content'");
         $query->where("published = '1'");
         $query->order("c.title ASC");
@@ -67,10 +74,7 @@ class thm_organizersModelcategory_edit extends JModel
             foreach($contentCategories as $k => $v)
             {
                 $contentCategories[$k] = (array) $v;
-                $contentCategories[$k]['rules'] = (array) json_decode($contentCategories[$k]['rules']);
-                foreach($contentCategories[$k]['rules'] as $permissionName => $usergroups)
-                    $contentCategories[$k]['rules'][$permissionName] = (array) $usergroups;
-                $contentCategories[$k]['actiontable'] = $this->resolvePermissions($contentCategories[$k]['rules']);
+                $contentCategories[$k]['actions'] = $this->makeActionsTable($contentCategories[$k]['id']);
             }
             $this->contentCategories = $contentCategories;
         }
@@ -92,80 +96,74 @@ class thm_organizersModelcategory_edit extends JModel
         }
     }
 
-    private function resolvePermissions($permissions)
+    private function makeActionsTable($id)
     {
-        //create an array of actions (create => CREATE)
-        $permissionNames = array_keys($permissions);
-        $permissionNames = array_flip($permissionNames);
-        foreach($permissionNames as $k => $v)
-        {
-            $name = strtoupper($k);
-            $name = str_replace(".", "", $name);
-            $permissionNames[$k] = $name;
-        }
-
-        //collects the ids and group names of groups with permissions granted
-        //other groups do not show up here
-        $permissionGroups = array();
-        foreach($permissions as $k => $v)
-        {
-            foreach($v as $groupKey)
-                $permissionGroups[$groupKey] = $this->userGroups[$groupKey];
-            $permissions[$k] = (array) $v;
-        }
-        $this->temp = array_merge($this->temp, $permissionGroups);
+        $actions = array( 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete' );
+        $asset = "com_content".".category.".$id;
 
         $table = "<table id='com_thm_organizer_ce_permissions'>";
 
         $columngroup = "<colgroup>";
         $columngroup .= "<col id='com_thm_organizer_ce_usergroups' />";
-        foreach($permissionNames as $name)
-            $columngroup .= "<col id='com_thm_organizer_action_column' />";
+        foreach($actions as $action)
+            $columngroup .= "<col id='com_thm_organizer_ce_action_column' />";
         $columngroup .= "</colgroup>";
+        $table .= $columngroup;
 
-        $tablehead = "<thead>";
-        $tablehead .= "<td>".JText::_('COM_THM_ORGANIZER_CE_USERGROUP_ACTIONS')."</td>";
-        foreach($permissionNames as $name)
-            $tablehead .= "<td>".JText::_($name)."</td>";
-        $tablehead .= "</thead>";
-
-        $tablebody = "<tbody>";
-        foreach($permissionGroups as $groupKey => $groupName)
+        $tablehead = "<thead id='thm_organizer_ce_actions_head' class='row1'>";
+        foreach($actions as $action)
         {
-            $tablerow = "<tr>";
-            $tabledata = "<td align='right'>".$v."</td>";
-            $tablerow .= $tabledata;
-            $groupname = $this->userGroups[$groupKey];
-            $groupPermissions = array();
-            foreach($permissionNames as $permissionKey => $permissionValue)
+            $name = str_replace('CORE', '', str_replace('.', ' ', strtoupper($action)));
+            $tablehead .= "<td align='center'>".JText::_($name)."</td>";
+        }
+        $tablehead .= "<td class='thm_organizer_ce_leftcolumn' />";
+        $tablehead .= "</thead>";
+        $table .= $tablehead;
+
+        $rowcount = 0;
+        $tablebody = "<tbody>";
+        foreach($this->userGroups as $k => $v)
+        {
+            $found = false;
+            $rowclass = $rowcount % 2 == 0? 'row0' : 'row1';
+            $tablerow = "<tr class='$rowclass'>";
+            foreach($actions as $action)
             {
                 $tabledata = "<td align='center'>";
-                if(key_exists($k, $permissions[$permissionKey]))
+                $access = JAccess::checkGroup($k, $action, $asset);
+                if($access)
                 {
                    $tabledata .= JHTML::_('image', 'administrator/templates/bluestork/images/admin/tick.png',
-                                            JText::_( 'Active' ), array( 'class' => 'thm_organizer_se_tick'));
+                                            JText::_( 'Allowed' ), array( 'class' => 'thm_organizer_se_tick'));
+                   $found = true;
                 }
                 else
                 {
-                   $tabledata .= JHTML::_('image', 'administrator/templates/bluestork/images/admin/tick.png',
-                                            JText::_( 'Active' ), array( 'class' => 'thm_organizer_se_tick'));
+                   $tabledata .= JHTML::_('image', 'administrator/templates/bluestork/images/admin/publish_x.png',
+                                            JText::_( 'Denied' ), array( 'class' => 'thm_organizer_se_tick'));
                 }
                 $tabledata .= "</td>";
+                $tablerow .= $tabledata;
             }
-            $tablerow .= $tabledata."</tr>";
-            $tablebody .= $tablerow;
+            $tabledata = "<td align='left' class='thm_organizer_ce_leftcolumn'>".$v."</td>";
+            $tablerow .= $tabledata;
+            $tablerow .= "</tr>";
+            if($found)
+            {
+                $tablebody .= $tablerow;
+                $rowcount++;
+            }
         }
-        $table .= $columngroup.$tablehead.$tablebody."</table>";
-        return $table;
+
+        $table .= $tablebody."</table>";
+        if($rowcount)return $table;
+        else return '';
     }
 
     public function store()
     {
-        $post = print_r($_POST, true);
-
         $id = JRequest::getVar('id');
         $title = trim(JRequest::getString('title'));
-        $alias = str_replace(' ', '_', strtolower($title));
         $description = trim(JRequest::getString('description'));
         $global = JRequest::getBool('global');
         $reserves = JRequest::getBool('reserves');
@@ -175,8 +173,8 @@ class thm_organizersModelcategory_edit extends JModel
         $query = $dbo->getQuery(true);
         if($id)
         {
-            $query->update("__thm_organizer_categories");
-            $conditions = "title = '$title', alias = '$alias', description = '$description', ";
+            $query->update("#__thm_organizer_categories");
+            $conditions = "title = '$title', description = '$description', ";
             $conditions .= "globaldisplay = '$global', reservesobjects = '$reserves', ";
             $conditions .= "contentCatID = '$contentCatID' ";
             $query->set($conditions);
@@ -185,10 +183,11 @@ class thm_organizersModelcategory_edit extends JModel
         else
         {
             $statement = "#__thm_organizer_categories ";
-            $statement .= "(title, alias, description, globaldisplay, reservesobjects, contentCatID) ";
+            $statement .= "(title, description, globaldisplay, reservesobjects, contentCatID) ";
             $statement .= "VALUES ";
-            $statement .= "( '$title', '$alias', '$description', '$global','$reserves', '$contentCatID' );";
+            $statement .= "( '$title', '$description', '$global','$reserves', '$contentCatID' );";
             $query->insert($statement);
+
         }
         $dbo->setQuery((string)$query);
         $dbo->query();
@@ -198,12 +197,13 @@ class thm_organizersModelcategory_edit extends JModel
 	
     public function delete()
     {
-        global $mainframe;
-
-        $ids = JRequest::getVar('cid', array(0), 'post', 'array');
-        if(count( $ids ))
+        $ids = array();
+        $ids[0] = JRequest::getInt('id');
+        if(empty($ids[0]))
+            $ids = JRequest::getVar('cid', array(0), 'post', 'array');
+        if(count($ids))
         {
-            $idsString = "'".implode("', '", $ids);
+            $idsString = "'".implode("', '", $ids)."'";
             $dbo = & JFactory::getDBO();
             $query = $dbo->getQuery(true);
             $query->delete();

@@ -18,31 +18,29 @@ class thm_organizersModelcategory_manager extends JModel
     public function __construct()
     {
         parent::__construct();
-        $this->categories = array();
         $this->loadCategories();
-        if(count($this->categories) > 0) $this->setcategoryEditLinks();
+        if(count($this->categories) > 0) $this->setCategoryEditLinks();
     }
 
-    private function loadcategories()
+    private function loadCategories()
     {
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);
-        $query->select('*');
-        $query->from('#__thm_organizer_categories AS c');
-        $query->leftJoin('#__thm_organizer_categories AS r ON r.id = c.id');
+        $query->select('toc.id AS id, toc.title AS title, globaldisplay AS global, reservesobjects AS reserves, c.title AS contentCat');
+        $query->from('#__thm_organizer_categories AS toc');
+        $query->innerJoin('#__categories AS c ON toc.contentCatID = c.id');
         $dbo->setQuery((string)$query);
         $categories = $dbo->loadAssocList();
-        foreach($categories as $k => $v)
-            if(empty($v['name']))$categories[$k]['name'] = $categories[$k]['id'];
-        $this->categories = $categories;
+        if(empty($categories)) $this->categories = array();
+        else $this->categories = $categories;
     }
 
     //todo change categoryID to category in usages
-    private function setcategoryEditLinks()
+    private function setCategoryEditLinks()
     {
-        foreach($this->categories as $mKey => $mValue)
+        foreach($this->categories as $key => $value)
         {
-            $this->categories[$mKey]['link'] = 'index.php?option=com_thm_organizer&view=category_edit&categoryID='.$mValue['id'];
+            $this->categories[$key]['link'] = 'index.php?option=com_thm_organizer&view=category_edit&categoryID='.$value['id'];
         }
     }
 }

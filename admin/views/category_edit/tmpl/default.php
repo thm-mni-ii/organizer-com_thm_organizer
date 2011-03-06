@@ -1,4 +1,33 @@
 <?php defined('_JEXEC') or die('Restricted access');?>
+<script type="text/javascript">
+    var categories = new Array;
+<?php
+$i = 0;
+foreach($this->contentCategories as $category)
+{
+    echo "categories[{$category['id']}] = new Array(
+        '".addslashes($category['description'])."',
+        '".addslashes($category['actions'])."',
+        '".addslashes($category['view_level'])."' );\n";
+}
+?>
+    /**
+    * Changes a dynamically generated list
+    * @param string The name of the list to change
+    * @param array A javascript array of list options in the form [key,value,text]
+    * @param string The key to display
+    * @param string The original key that was selected
+    * @param string The original item value that was selected
+    */
+    function changeCategoryInformation()
+    {
+        var index = document.getElementById('contentCat').selectedIndex;
+        var id = document.getElementById('contentCat').options[index].value;
+        document.getElementById('thm_organizer_ce_content_description').innerHTML = categories[id][0];
+        document.getElementById('thm_organizer_ce_content_permissions').innerHTML = categories[id][1];
+    }
+
+</script>
 <div id="thm_organizer_ce" >
     <form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>"
           method="post" name="adminForm" id="adminForm">
@@ -84,23 +113,34 @@
                     <?php echo $this->contentCatBox;?>
                 </div>
             </div>
-            <div id="thm_organizer_ce_ecat_desc_div">
+            <div id="thm_organizer_ce_ccat_desc_div">
                 <div class="thm_organizer_ce_label">
-                    <label for="description"><?php echo JText::_('COM_THM_ORGANIZER_CONTENT_CATEGORY_DESCRIPTION');?></label>
+                    <label><?php echo JText::_('COM_THM_ORGANIZER_CONTENT_CATEGORY_DESCRIPTION');?></label>
                 </div>
                 <div class="thm_organizer_ce_data" id="thm_organizer_ce_content_description">
+                <?php foreach($this->contentCategories as $category): if($category['id'] == $this->contentCat): ?>
+                        <?php echo $category['description']; break; ?>
+                <?php endif; endforeach; ?>
                 </div>
             </div>
-            <div class="thm_organizer_ce_ecat_display_div">
+            <div id="thm_organizer_ce_ccat_viewlevel_div">
                 <div class="thm_organizer_ce_label">
-                    <label for="global"><?php echo JText::_('COM_THM_ORGANIZER_CONTENT_CATEGORY_PERMISSIONS');?></label>
+                    <label><?php echo JText::_('COM_THM_ORGANIZER_CONTENT_VIEW_LEVEL');?></label>
+                </div>
+                <div class="thm_organizer_ce_data" id="thm_organizer_ce_content_view_level">
+                <?php foreach($this->contentCategories as $category): if($category['id'] == $this->contentCat): ?>
+                        <?php echo $category['view_level']; break; ?>
+                <?php endif; endforeach; ?>
+                </div>
+            </div>
+            <div class="thm_organizer_ce_ccat_actions_div">
+                <div class="thm_organizer_ce_label">
+                    <label><?php echo JText::_('COM_THM_ORGANIZER_CONTENT_CATEGORY_PERMISSIONS');?></label>
                 </div>
                 <div class="thm_organizer_ce_data" id="thm_organizer_ce_content_permissions">
-                    <?php 
-                        var_dump($this->temp);
-                        echo "<br /><br />";
-                    ?>
-                </div>
+                <?php foreach($this->contentCategories as $category): if($category['id'] == $this->contentCat): ?>
+                        <?php echo $category['actions']; break; ?>
+                <?php endif; endforeach; ?></div>
             </div>
         </div>
         <input type="hidden" name="id" value="<?php echo $this->id; ?>" />

@@ -33,16 +33,17 @@ class thm_organizersViewcategory_edit extends JView
         $this->assignRef( 'global', $global );
         $reserves = $model->reserves;
         $this->assignRef( 'reserves', $reserves );
-        $temp = $model->temp;
-        $this->assignRef( 'temp', $temp );
 
         $contentCat = $model->contentCat;
+        $this->assignRef( 'contentCat', $contentCat );
         $contentCategories = $model->contentCategories;
+        $this->assignRef( 'contentCategories', $contentCategories );
         if(count($contentCategories))
         {
             $attributes = array( 'id' => 'thm_organizer_se_content_cat_box',
                                  'class' => 'thm_organizer_se_content_cat_box',
-                                 'size' => '1' );
+                                 'size' => '1',
+                                 'onChange' => "changeCategoryInformation();");
             $contentCatBox =  JHTML::_('select.genericlist', $contentCategories, 'contentCat', $attributes, 'id', 'title', $contentCat);
             $this->assignRef('contentCatBox', $contentCatBox);
         }
@@ -73,7 +74,7 @@ class thm_organizersViewcategory_edit extends JView
         if($canSave) JToolBarHelper::save('category.save', 'JTOOLBAR_SAVE');
         if($allowedActions->get("core.create"))
             JToolBarHelper::custom('category.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
-        JToolBarHelper::cancel( 'category.cancel', 'JTOOLBAR_CANCEL');
+        JToolBarHelper::cancel( 'category.cancel', 'JTOOLBAR_CLOSE');
     }
 }
 	

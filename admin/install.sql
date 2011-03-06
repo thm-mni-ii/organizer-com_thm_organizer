@@ -13,9 +13,13 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_application_settings` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_categories` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(50) NOT NULL,
+  `description` text NOT NULL default '',
   `globaldisplay` tinyint(1) NOT NULL DEFAULT '0',
   `reservesobjects` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+  `contentCatID` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `contentCatID` ( `contentCatID` )
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_classes` (
@@ -46,22 +50,25 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_events` (
   `title` varchar(100) NOT NULL DEFAULT '',
   `alias` varchar(100) NOT NULL DEFAULT '',
   `description` mediumtext NOT NULL,
-  `image` varchar(100) NOT NULL DEFAULT '',
-  `created_by` int(11) unsigned NOT NULL DEFAULT '0',
-  `created` datetime NOT NULL,
-  `modified_by` int(11) unsigned NOT NULL DEFAULT '0',
-  `modified` datetime NOT NULL,
-  `categoryid` int(11) unsigned NOT NULL DEFAULT '0',
+  `categoryID` int(11) unsigned NOT NULL,
+  `contentID` int(11) unsigned NOT NULL,
   `startdate` date NOT NULL DEFAULT '0000-00-00',
   `enddate` date DEFAULT NULL,
   `starttime` time DEFAULT NULL,
   `endtime` time DEFAULT NULL,
+  `created_by` int(11) unsigned NOT NULL DEFAULT '0',
+  `created` datetime NOT NULL,
+  `modified_by` int(11) unsigned NOT NULL DEFAULT '0',
+  `modified` datetime NOT NULL,
   `recurrence_number` int(2) unsigned  NOT NULL DEFAULT '0',
   `recurrence_type` int(2) unsigned NOT NULL DEFAULT '0',
   `recurrence_counter` date NOT NULL DEFAULT '0000-00-00',
+  `image` varchar(100) NOT NULL DEFAULT '',
   `register` tinyint(1) NOT NULL DEFAULT '0',
   `unregister` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
+  KEY `categoryID` (`categoryID`),
+  KEY `contentID` (`contentID`),
   KEY `created_by` (`created_by`),
   KEY `modified_by` (`modified_by`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -80,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_rooms` (
   KEY `roomID` (`roomID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_usergroups` (
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_groups` (
   `eventID` int(11) unsigned NOT NULL,
   `groupID` int(11) unsigned NOT NULL,
   KEY `eventID` (`eventID`),

@@ -15,6 +15,8 @@ class thm_organizersViewCategory_manager extends JView
         $this->addToolBar();
         thm_organizerHelper::addSubmenu('category_manager');
 
+        $this->assignIcons();
+
         $model = $this->getModel();
         $categories = $model->categories;
         $this->assignRef( 'categories', $categories );
@@ -33,8 +35,18 @@ class thm_organizersViewCategory_manager extends JView
             if($allowedActions->get("core.admin") or $allowedActions->get("core.edit"))
                 JToolBarHelper::custom ('category.edit', 'edit.png', 'edit.png', JText::_('Edit'), false);
             if($allowedActions->get("core.admin") or $allowedActions->get("core.delete"))
-                JToolBarHelper::deleteList( JText::_('Are you sure you wish to delete the marked categories?'), 'category.delete');
+                JToolBarHelper::deleteList( JText::_('Are you sure you wish to delete the selected categories?'), 'category.delete');
         }
+    }
+
+    private function assignIcons()
+    {
+        $yes = JHTML::_('image', 'administrator/templates/bluestork/images/admin/tick.png',
+                        JText::_( 'Allowed' ), array( 'class' => 'thm_organizer_sm_icon'));
+        $this->assignRef('yes', $yes);
+        $no = JHTML::_('image', 'administrator/templates/bluestork/images/admin/publish_x.png',
+                       JText::_( 'Denied' ), array( 'class' => 'thm_organizer_sm_icon'));
+        $this->assignRef('no', $no);
     }
 	
 	
