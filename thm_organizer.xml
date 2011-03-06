@@ -4,14 +4,13 @@
     <author>James Antrim</author>
     <authorEMail>jamesDOTantrimATyahooDOTcom</authorEMail>
     <author>Wolf Rost</author>
-    <authorEMail>wolfDOTrostATmniDOTthMINUSmittelhessenDOTde</authorEMail>
+    <authorEMail>wolfDOTrostATmniDOTthDASHmittelhessenDOTde</authorEMail>
     <authorUrl>www.mni.fh-giessen.de</authorUrl>
     <creationDate>01/03/2011</creationDate>
     <copyright>TH Mittelhessen 2011</copyright>
     <licence>GNU GPL v.2</licence>
     <version>0.0.1</version>
-    <description>THM Organizer is a component designed to handle the scheduling and planning needs of the University of Applied Middle Hessen in Giessen, Germany.</description>
-
+    <description>COM_THM_ORGANIZER_MAIN_DESCRIPTION</description>
     <install>
         <sql>
             <file driver="mysql" charset="utf8">install.sql</file>
@@ -27,8 +26,11 @@
             <folder>models</folder>
             <folder>controllers</folder>
             <folder>assets</folder>
-            <folder>language</folder>
     </files>
+    <languages folder="site">
+        <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.ini</language>
+        <language tag="de-DE">language/de-DE/de-DE.com_thm_organizer.ini</language>
+    </languages>
     <administration>
         <menu img="../favicon.ico">COM_THM_ORGANIZER_MAIN_NAME</menu>
         <submenu>
@@ -49,11 +51,12 @@
             <folder>controllers</folder>
             <folder>assets</folder>
             <folder>tables</folder>
-            <folder>language</folder>
         </files>
         <languages folder="admin">
             <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.ini</language>
             <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.sys.ini</language>
+            <language tag="de-DE">language/de-DE/de-DE.com_thm_organizer.ini</language>
+            <language tag="de-DE">language/de-DE/de-DE.com_thm_organizer.sys.ini</language>
         </languages>
     </administration>
 </extension>
