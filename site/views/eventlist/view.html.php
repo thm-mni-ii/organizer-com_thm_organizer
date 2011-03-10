@@ -70,7 +70,7 @@ class thm_organizerViewEventList extends JView
         $lists	= $this->buildLists();
         $this->assign('lists' , $lists);
 
-        $this->assign('newlink', JRoute::_( "index.php?option=com_thm_organizer&view=editevent&eventid=0&Itemid=$this->itemid" ));
+        $this->assign('newlink', JRoute::_( "index.php?option=com_thm_organizer&view=event_edit&eventid=0&Itemid=$this->itemid" ));
 
         parent::display($tpl);
     }

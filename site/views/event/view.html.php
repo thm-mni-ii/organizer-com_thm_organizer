@@ -50,16 +50,16 @@ class thm_organizerViewEvent extends JView
                                NULL, NULL, JText::_( 'Bearbeiten' ));
         $edittiptext = JText::_( 'diesen Termin bearbeiten' );
         $edittiptitle = JText::_( 'Termin bearbeiten' );
-        $editurl = 'index.php?option=com_thm_organizer&view=editevent&eventid='
+        $editurl = 'index.php?option=com_thm_organizer&view=event_edit&eventid='
                     .$this->event->eventid.'&Itemid='.$this->itemid;
-        $editlink = '<a href="'.JRoute::_($editurl).'" class="editEventLink hasTip"
+        $editlink = '<a href="'.JRoute::_($editurl).'" class="event_editLink hasTip"
                         title="'.$edittiptitle.'::'.$edittiptext.'">'.$editimage.'</a>';
         $this->assignRef( 'editlink', $editlink );
         $deleteimage = JHTML::_('image.site', 'delete.png', 'components/com_thm_organizer/assets/images/',
                             NULL, NULL, JText::_( 'L&ouml;schen' ));
         $deletetiptext = JText::_( 'diesen Termin l&ouml;schen?' );
         $deletetiptitle = JText::_( 'Termin l&ouml;schen' );
-        $deleteurl = 'index.php?option=com_thm_organizer&controller=editevent&task=delete_event&eventid='.$this->event->eventid.'&Itemid='.$this->itemid;
+        $deleteurl = 'index.php?option=com_thm_organizer&controller=event_edit&task=delete_event&eventid='.$this->event->eventid.'&Itemid='.$this->itemid;
         $deletelink = '<a href="'.JRoute::_($deleteurl).'" class="deleteEventLink hasTip"
                           title="'.$deletetiptitle.'::'.$deletetiptext.'">'.$deleteimage.'</a>';
         $this->assignRef( 'deletelink', $deletelink );

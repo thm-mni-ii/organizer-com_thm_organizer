@@ -223,8 +223,8 @@ function addNewEvent(eventid, sdate, stime, etime) {
 		height: 450,
 		modal: true,
 		closeAction: 'close',
-		//src:'http://localhost/joomla/index.php?option=com_thm_organizer&view=editevent&eventid='+eventid+'&tmpl=component'
-		html: '<iframe onLoad="newEventonLoad(this)" id="iframeNewEvent" class="mysched_iframeNewEvent" src="http://localhost/joomla/index.php?option=com_thm_organizer&view=editevent&eventid=' + eventid + '&tmpl=component' + adds + '"></iframe>'
+		//src:'http://localhost/joomla/index.php?option=com_thm_organizer&view=event_edit&eventid='+eventid+'&tmpl=component'
+		html: '<iframe onLoad="newEventonLoad(this)" id="iframeNewEvent" class="mysched_iframeNewEvent" src="http://localhost/joomla/index.php?option=com_thm_organizer&view=event_edit&eventid=' + eventid + '&tmpl=component' + adds + '"></iframe>'
 		/*items:[
 		 panel
 		 ]*/

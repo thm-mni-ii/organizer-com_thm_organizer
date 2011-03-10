@@ -1,31 +1,37 @@
 <?php
 /**
- * @package     Joomla.Site | Joomla.Administrator
- * @subpackage  [typ]_thm_[name]
- * @author      [Vorname] [Nachname] [Email]
- * @copyright   TH Mittelhessen <Jahr>
+ * @package     Joomla.Site
+ * @subpackage  com_thm_organizer
+ * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
  * @link        www.mni.fh-giessen.de
- * @version     [versionsnr]
+ * @version     0.011
  */
-
-
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport('joomla.application.component.controller');
-
-// Require the base controller
-
 require_once( JPATH_COMPONENT.DS.'controller.php' );
 
-// Require specific controller if requested
-$controllerName = 'thm_organizer';
-$specificControllerName = JRequest::getVar('controller');
-if(isset($specificControllerName))
+$controller = "";
+$handler = explode(".", JRequest::getVar('task'));
+if(!empty($handler))
 {
-    require_once JPATH_COMPONENT.DS.'controllers'.DS.$specificControllerName.'.php';
-    $controllerName .= $specificControllerName;
+    if(count($handler) == 2)
+    {
+        $controller = $handler[0];
+        $task = $handler[1];
+    }
+    else
+       $task = JRequest::getVar('task');
 }
-$controller = JController::getInstance($controllerName);
-$controller->execute(JRequest::getCmd('task'));
+if(!empty($controller))
+{
+    $path = JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php';
+    if (file_exists($path)) require_once $path;
+    else $controller = '';
+}
+$classname = 'thm_organizerController'.$controller;
+$controller = new $classname();
+$controller->execute($task);
 $controller->redirect();
