@@ -154,8 +154,8 @@ class GiessenSchedulerModelEventList extends JModel
                     $event->displaydt = $event->startdate." ".$timestring;
                 }
                 $event->detlink = "index.php?option=com_thm_organizer&view=event&eventid=".$event->eid."&Itemid=";
-                $event->editlink = "index.php?option=com_thm_organizer&view=editevent&eventid=".$event->eid."&Itemid=";
-                $event->dellink = "index.php?option=com_thm_organizer&controller=editevent&task=delete_event&eventid=".$event->eid."&Itemid=";
+                $event->editlink = "index.php?option=com_thm_organizer&view=event_edit&eventid=".$event->eid."&Itemid=";
+                $event->dellink = "index.php?option=com_thm_organizer&controller=event_edit&task=delete_event&eventid=".$event->eid."&Itemid=";
                 $event->catlink = "index.php?option=com_thm_organizer&view=eventlist&category=".$event->ecid."&Itemid=";
                 $event->filterlink = "index.php?option=com_thm_organizer&view=eventlist&Itemid=";
             }

@@ -1,7 +1,12 @@
 @CHARSET "ISO-8859-1";
-/*********************************************************************************************/
-/* com_thm_organizer view: roomdisplay template: registered                                  */
-/*********************************************************************************************/
+
+/******************************************************************************/
+/* com_thm_organizer front end styles                                         */
+/******************************************************************************/
+
+
+/* com_thm_organizer view: roomdisplay template: registered********************/
+
 /* HEADER */
 
 .header {
@@ -135,10 +140,7 @@ ul{
     margin-bottom: 20px;
 }
 
-/*********************************************************************************************/
-/* com_thm_organizer view: eventlist                                                         */
-/*********************************************************************************************/
-
+/* com_thm_organizer view: eventlist*******************************************/
 
 #thm_organizer_el{
     margin: -10px -10px 10px -10px;
@@ -223,9 +225,7 @@ margin-top:20px;
     width: 16px;
 }
 
-/*********************************************************************************************/
-/* com_thm_organizer view: event                                                             */
-/*********************************************************************************************/
+/* com_thm_organizer view: event***********************************************/
 
 .thm_organizer_e_block_div{
     float: left;
@@ -262,9 +262,28 @@ margin-top:20px;
     min-width: 100%;
 }
 
-/*********************************************************************************************/
-/* com_thm_organizer view: edit event                                                        */
-/*********************************************************************************************/
+/* com_thm_organizer view: edit event******************************************/
+
+#thm_organizer_ee{
+    color: #4a5c66;
+}
+
+#thm_organizer_ee option{
+    color: #4a5c66;
+}
+
+#thm_organizer_ee_head_div{
+    height: 24px;
+    width: 100%;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #bbbbbb;
+    font-size: 20px;
+    font-weight: bold;
+    vertical-align: middle;
+    padding: 2px;
+}
+
+
 #thm_organizer_ee form div table tr{
     padding: 2px;
     border: none;
@@ -280,9 +299,6 @@ margin-top:20px;
     float: left;
     text-align: right;
     padding-right: 5px;
-}
-
-.thm_organizer_ee_label{
 }
 
 .thm_organizer_ee_data_div{
@@ -305,7 +321,7 @@ margin-top:20px;
     max-width: 62%;
     float: left;
     clear: left;
-    padding-left: 17px;
+    padding-left: 13px;
     margin-bottom: 10px;
 }
 
@@ -313,13 +329,17 @@ margin-top:20px;
 #thm_organizer_ee_resource_selection_div{
     max-width: 62%;
     float: left;
-    clear: both;
+    clear: left;
     margin-bottom: 10px;
 }
 
 #thm_organizer_ee_category_div{
-    width: 38%;
+    width: 36%;
     float: right;
+    clear: right;
+    background: #eeeeee;
+    border: 1px solid #bbbbbb;
+    padding: 0.4em;
 }
 
 #thm_organizer_ee_category_select_div{
@@ -334,8 +354,7 @@ margin-top:20px;
 #thm_organizer_ee_content_cat_desc_div{}
 
 #thm_organizer_ee_button_div{
-    float: left;
-    clear: both;
+    float: right;
 }
 
 #thm_organizer_ee #btnreset{
@@ -346,9 +365,22 @@ margin-top:20px;
     margin: 0px 3px -5px 0px
 }
 
-/*********************************************************************************************/
-/* com_thm_organizer view: room list                                                         */
-/*********************************************************************************************/
+.thm_organizer_ee_highlight{
+    font-weight: bold;
+}
+
+.thm_organizer_ee_image_button{
+    white-space: nowrap;
+    cursor: pointer;
+    margin: 0px auto;
+    width: 24px;
+    height: 24px;
+    border: none;
+}
+
+
+
+/* com_thm_organizer view: room list*******************************************/
 
 #thm_organizer_rl{}
 #thm_organizer_rl_fieldset{
@@ -367,10 +399,8 @@ margin-top:20px;
 }
 #thm_organizer_rl_calendar{}
 
+/* com_thm_organizer view: room display  template: unregistered****************/
 
-/*********************************************************************************************/
-/* com_thm_organizer view: room display  template: unregistered                              */
-/*********************************************************************************************/
 #thm_organizer_rd table{
     margin: 5px 0px;
     width: 100%;
@@ -404,9 +434,13 @@ margin-top:20px;
 }
 
 
-/*********************************************************************************************/
-/* mod_thm_mylink                                                                        */
-/*********************************************************************************************/
+
+
+
+
+/******************************************************************************/
+/* mod_thm_mylink                                                             */
+/******************************************************************************/
 
 .mod_giessen_mylink_image{
     border: 1px solid rgb(33, 0, 124);

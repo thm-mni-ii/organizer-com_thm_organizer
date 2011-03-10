@@ -47,19 +47,11 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_departments` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_events` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(100) NOT NULL DEFAULT '',
-  `alias` varchar(100) NOT NULL DEFAULT '',
-  `description` mediumtext NOT NULL,
   `categoryID` int(11) unsigned NOT NULL,
-  `contentID` int(11) unsigned NOT NULL,
   `startdate` date NOT NULL DEFAULT '0000-00-00',
   `enddate` date DEFAULT NULL,
   `starttime` time DEFAULT NULL,
   `endtime` time DEFAULT NULL,
-  `created_by` int(11) unsigned NOT NULL DEFAULT '0',
-  `created` datetime NOT NULL,
-  `modified_by` int(11) unsigned NOT NULL DEFAULT '0',
-  `modified` datetime NOT NULL,
   `recurrence_number` int(2) unsigned  NOT NULL DEFAULT '0',
   `recurrence_type` int(2) unsigned NOT NULL DEFAULT '0',
   `recurrence_counter` date NOT NULL DEFAULT '0000-00-00',
@@ -67,10 +59,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_events` (
   `register` tinyint(1) NOT NULL DEFAULT '0',
   `unregister` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `categoryID` (`categoryID`),
-  KEY `contentID` (`contentID`),
-  KEY `created_by` (`created_by`),
-  KEY `modified_by` (`modified_by`)
+  KEY `categoryID` (`categoryID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_teachers` (
