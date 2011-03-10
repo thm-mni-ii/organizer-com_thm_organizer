@@ -16,7 +16,7 @@ MySched.layout.getMainToolbar = function () {
 
 var addEvent = {
 	text: "Termin hinzuf&uuml;gen",
-	icon: MySched.mainPath + "images/notice-note.png",
+	icon: MySched.mainPath + "images/calendar_add.png",
 	handler: function () {
 		addNewEvent(null, MySched.BlockMenu.day, MySched.BlockMenu.stime, MySched.BlockMenu.etime);
 	}

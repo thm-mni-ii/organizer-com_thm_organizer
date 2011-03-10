@@ -137,7 +137,7 @@ class TreeView
 					$semesterID
 				);
 		$viewNode[] = new TreeNode(
-					$key.".delta",						// id - autom. generated
+					$key.".delta",					// id - autom. generated
 					"Änderungen (zentral)",			// text	for the node
 					'delta' . '-node',				// iconCls
 					true,							// leaf

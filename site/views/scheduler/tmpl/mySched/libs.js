@@ -190,12 +190,6 @@ Ext.override(Ext.grid.GridView, {
 				}
 				cb[cb.length] = ct.apply(p);
 
-				/*if((p.value == "&#160;" || p.value.search("<div id=\"") != -1) && MySched.selectedSchedule.responsible == MySched.Authorize.user)
-				 {
-				 var time = r.data.time.split("<br/>-<br/>");
-				 var day = p.id;
-				 cb[cb.length-1] = cb[cb.length-1].replace("</td>", "<span class='addNotice'><img src='./images/calendar_add.png' onclick='newPEvent(\""+day+","+time[0]+","+time[1]+"\")' width='15px' height='15px' alt='neu' style='cursor:pointer;' qtip='F&uuml;gt eine pers&ouml;nliche Veranstaltung dem eigenen Stundenplan hinzu'/></span></td>");
-				 }*/
 				if (j == 3 && i == 0) {
 					cb[cb.length - 1] = cb[cb.length - 1].replace("<td class=", "<td colspan=\"7\" class=");
 					break;

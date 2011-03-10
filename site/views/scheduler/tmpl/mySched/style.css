@@ -213,15 +213,6 @@ img.tbSavePdf{
 img.tbSaveTxt{
 	background: url(../images/new.png) no-repeat left center;
 }
-Button.tbEmpty{
-	background: url(../images/bin_empty.png) no-repeat left center;
-}
-Button.tbAdd{
-	background: url(../images/table_row_insert.png) no-repeat left center;
-}
-Button.tbTrash{
-	background: url(../images/table_row_delete.png) no-repeat left center;
-}
 Button.tbLogin{
 	background: url(../images/key.png) no-repeat left center;
 }
@@ -234,9 +225,6 @@ Button.tbInfo{
 Button.tbSubscribe{
 	background: url(../images/table_edit.png) no-repeat left center;
 }
-Button.tbFreeBusy{
-	background: url(../images/table_row_insert.png) no-repeat left center;
-}
 img.tbSaveICal{
 	background: url(../images/ICalIcon.png) no-repeat left center;
 }
@@ -244,7 +232,7 @@ Button.tbPEvent{
 	background: url(/../images/calendar_add.png) no-repeat left center;
 }
 Button.tbEvent{
-	background: url(../images/notice-note.png) no-repeat left center;
+	background: url(../images/calendar_add.png) no-repeat left center;
 }
 Button.tbDownload{
 	background: url(../images/down.png) no-repeat left center;
@@ -605,7 +593,6 @@ small.classhorter:hover {
 	background: url(../images/ajax-loader.gif) no-repeat left center;
 	width: 64px;
 	height: 64px;
-	//float: left;
 }
 
 .ajaxloader_DIS

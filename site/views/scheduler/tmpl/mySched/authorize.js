@@ -36,7 +36,6 @@ MySched.Authorize = function () {
                         return false;
                         }
 			this.role = role;
-			MySched.Tree.refreshTreeData();
 			return true;
 		},
 		// Verifiziere das Token bei dem Server
@@ -89,29 +88,18 @@ MySched.Authorize = function () {
 			this.role = obj.role;
 			MySched.Authorize.changeRole(obj.role, obj.additional_rights);
 
-			//Ext.ComponentMgr.get('btnLogin').setIconClass('tbLogout');
-			//Ext.ComponentMgr.get('btnLogin').setText('');
-			/*Ext.ComponentMgr.get('btnLogin').setHandler( function(){
-			 Ext.Msg.confirm( 'Abmelden', 'Wollen Sie die aktuelle Sitzung wirklich beenden?', function(btn){
-			 if (btn=='yes')
-			 document.location.href = _C('logoutTarget');
-			 })
-			 });*/
 			Ext.ComponentMgr.get('btnSave').show();
-			//Ext.ComponentMgr.get('btnEmpty').show();
-			//Ext.ComponentMgr.get('btnPEvent').show();
-			//Ext.ComponentMgr.get('btnAdd').show();
-			//Ext.ComponentMgr.get('btnDel').show();
+
 			if (obj.role !== "registered") {
 				if (typeof Ext.ComponentMgr.get('btnEvent') !== "undefined") {
                                 Ext.ComponentMgr.get('btnEvent').show();
                                 }
 			}
-			//Ext.ComponentMgr.get('btnFreeBusy').show();
+
 			// Erstellt den Stundenplan des Benutzers
 			MySched.Base.createUserSchedule();
 			MySched.Authorize.loadUserSchedule();
-			//MySched.selectedSchedule.grid.showSporadics();
+
 			MySched.layout.viewport.doLayout();
 			MySched.selectedSchedule.responsible = this.user;
 			MySched.selectedSchedule.status = "saved";

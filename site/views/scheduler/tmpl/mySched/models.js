@@ -109,8 +109,10 @@ mSchedule = function (id, title, config) {
 Ext.extend(mSchedule, MySched.Model, {
 	init: function (type, value) {
 
-		if (type == "delta") this.data = MySched.delta.data;
-		else if (type == "respChanges") this.data = MySched.responsibleChanges.data;
+		if (type == "delta")
+			this.data = MySched.delta.data;
+		else if (type == "respChanges")
+			this.data = MySched.responsibleChanges.data;
 		else {
 			var valuearr = value.split(";");
 			for (var i = 0; i < valuearr.length; i++) {
@@ -183,7 +185,7 @@ Ext.extend(mSchedule, MySched.Model, {
 	 */
 	getLecture: function (id) {
 		if (id.match('##')) id = id.split('##')[1];
-		if (MySched.selectedSchedule.id == "delta") return MySched.delta.data.get(id);
+		if (MySched.selectedSchedule.type == "delta") return MySched.delta.data.get(id);
 		var Plesson = MySched.Schedule.data.get(id);
 		if (Plesson != null) if (Plesson.data != null) if (Plesson.data.type == "personal") return MySched.Schedule.data.get(id);
 		return this.data.get(id);
@@ -230,7 +232,7 @@ Ext.extend(mSchedule, MySched.Model, {
 			}
 		}
 
-		if (wp.format("Y-m-d") < MySched.session["begin"] && this.id != "delta") {
+		if (wp.format("Y-m-d") < MySched.session["begin"] && this.type != "delta") {
 			Ext.Msg.show({
 				title: "Hinweis",
 				buttons: {
@@ -283,7 +285,8 @@ Ext.extend(mSchedule, MySched.Model, {
 
 						date = wp.format("Y-m-d");
 
-						if ((date >= MySched.session["begin"] && date <= MySched.session["end"]) || (this.id == "delta" || this.id == "respChanges")) ret[bl][wd].push(v.getCellView(this));
+						if ((date >= MySched.session["begin"] && date <= MySched.session["end"]) || (this.type == "delta" || this.id == "respChanges"))
+							ret[bl][wd].push(v.getCellView(this));
 					}
 				}
 			}
@@ -373,7 +376,7 @@ Ext.extend(mSchedule, MySched.Model, {
 			username: username,
 			sid: MySched.Base.sid,
 			jsid: MySched.SessionId,
-			class_semester_id: MySched.class_semester_id,
+			sid: MySched.class_semester_id,
 			scheduletask: 'UserSchedule.load'
 		};
 		var conn = new Ext.data.Connection({
@@ -399,7 +402,7 @@ Ext.extend(mSchedule, MySched.Model, {
 				schedule: this
 			}
 		});
-		//this.proxy.load( {}, this.reader, { goto:this.preParseLectures }, this, {callback:cb, scope:scope, treeManagerInit:tmi, params: { schedule: this } } );
+
 	},
 	/**
 	 * Ueberprueft ob existierende Veranstaltungen noch existieren
@@ -462,22 +465,6 @@ Ext.extend(mSchedule, MySched.Model, {
 			newdatas.removeKey(keystoremove[i]);
 		}
 
-		// Nach Veranstaltungen suchen die das gleiche Subject haben und nun im Delta als moveto hinzugekommen sind
-		// Nicht so gut da es sonst bei jedem Aufruf passiert :(
-		/*for(var i = 0; i < this.data.length; i++)
-		 {
-		 for(var n = 0; n < MySched.delta.data.length; n++)
-		 {
-		 if(this.data.items[i].data.subject.toString() ==  MySched.delta.data.items[n].data.id.toString())
-		 if(MySched.delta.data.items[n].data.css.toString() == "movedto")
-		 if(!newdatas.containsKey(MySched.delta.data.items[n].data.key.toLowerCase()))
-		 {
-		 newdatas.add(MySched.delta.data.items[n].data.key, MySched.delta.data.items[n]);
-		 newdatas.get(MySched.delta.data.items[n].data.key).data["subject"] = MySched.delta.data.items[n].data.id.toString();
-		 }
-		 }
-		 }*/
-
 		this.data.clear();
 		this.data.addAll(newdatas.items);
 
@@ -528,12 +515,7 @@ Ext.extend(mSchedule, MySched.Model, {
 				if (Ext.isEmpty(e.data.dow)) {
 					continue;
 				}
-				if(this.id == "mysched")
-				{
-					var bla = "";
-				}
 				this.data.add(e.data.key, e);
-
 			}
 		}
 		if (arg.callback) arg.callback.createDelegate(arg.scope)(arg.params);
@@ -595,7 +577,7 @@ Ext.extend(mSchedule, MySched.Model, {
 		if (ret) return this.grid;
 		var name = this.title.replace(/\s*\/\s*/g, ' ');
 		MySched.layout.createTab(this.getId(), name, this.grid, this.type);
-		if (this.getId() == "delta") {
+		if (this.type === "delta") {
 			MySched.selectedSchedule.data = MySched.delta.data;
 		}
 		else {
@@ -950,24 +932,6 @@ Ext.extend(mLecture, MySched.Model, {
 			var mydoz = arr.split(" ");
 			Ext.each(mydoz, function (e) {
 				var ndoz = new mDozent(e);
-				Ext.each(MySched.Mapping.doz.items, function (d) {
-					if (this.id == d.id) {
-						/*var objects = d.objects;
-						 var objectarr = objects.split(",");
-						 for(var ind = 0; ind < objectarr.length; ind++ )
-						 {
-						 objectarr[ind].replace (/^\s+/, '').replace (/\s+$/, '');
-						 }
-
-						 //Verantwortlichen setzen
-						 if(objectarr[0])
-						 this.responsible = objectarr[0];
-						 if(objectarr[1])
-						 this.object1 = objectarr[1];
-						 if(objectarr[2])
-						 this.object2 = objectarr[2];*/
-					}
-				}, ndoz)
 				this.doz.add(ndoz);
 			}, this)
 		}

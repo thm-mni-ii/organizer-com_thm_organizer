@@ -90,7 +90,7 @@ Ext.extend(SchedGrid, Ext.grid.GridPanel, {
 
 		// Wenn das grid auch angezeigt ist, zeige die Sporatischen Veranstaltungen dazu an
 		if (MySched.selectedSchedule.grid == this) {
-			MySched.layout.viewport.doLayout(); /*this.showSporadics(this);*/
+			MySched.layout.viewport.doLayout();
 		}
 		return this.store.loadData(data);
 	},
@@ -113,6 +113,7 @@ function showEventdesc(index) {
 			id: "datdescription",
 			title: MySched.eventlist[index]['title'] + " - Beschreibung",
 			bodyStyle: "background-color: #FFF; padding: 7px;",
+			frame:false,
 			buttons: [{
 				text: "Schlie&szlig;en",
 				handler: function () {
@@ -222,12 +223,9 @@ function addNewEvent(eventid, sdate, stime, etime) {
 		title: wintitle,
 		height: 450,
 		modal: true,
+		frame:false,
 		closeAction: 'close',
-		//src:'http://localhost/joomla/index.php?option=com_thm_organizer&view=event_edit&eventid='+eventid+'&tmpl=component'
-		html: '<iframe onLoad="newEventonLoad(this)" id="iframeNewEvent" class="mysched_iframeNewEvent" src="http://localhost/joomla/index.php?option=com_thm_organizer&view=event_edit&eventid=' + eventid + '&tmpl=component' + adds + '"></iframe>'
-		/*items:[
-		 panel
-		 ]*/
+		html: '<iframe onLoad="newEventonLoad(this)" id="iframeNewEvent" class="mysched_iframeNewEvent" src="http://localhost/joomla/index.php?option=com_thm_organizer&view=editevent&eventid=' + eventid + '&tmpl=component' + adds + '"></iframe>'
 	});
 
 	win.on("close", function (panel) {
@@ -336,7 +334,7 @@ MySched.lectureCellRenderer = function (data, meta, record, rowIndex, colIndex, 
 	if (colIndex == 0 && rowIndex == 3) return '<div class="scheduleBox MySched_pause">' + data + '</div>';
 	if (colIndex == 0) return '<div class="scheduleBox timeBox">' + data + '</div>';
 	if (rowIndex > 3) rowIndex--;
-	if (grid.id != 'mySchedule' && grid.id != 'delta') {
+	if (grid.id != 'mySchedule' && grid.mSchedule.type != 'delta') {
 		if (MySched.Schedule.getBlockStatus(colIndex - 1, rowIndex + 1) == 1 && (data[0] != "<i>Mittagspause</i>" && data[0] != "<i> </i>")) {
 			meta.css += cl('blockBusy');
 			meta.css += cl('conMenu');

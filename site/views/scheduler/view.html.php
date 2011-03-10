@@ -50,13 +50,15 @@ class thm_organizerViewScheduler extends JView
 
 		$schedulearr["ScheduleDescription.load"] = $model->executeTask("ScheduleDescription.load");
 
-		$schedulearr["UserSchedule.load"]["delta"] = $model->executeTask("UserSchedule.load", array("username"=>"delta"));
-
 		$schedulearr["TreeView.load"] = $model->executeTask("TreeView.load");
 
 		$path = explode("/", $_REQUEST["id"]);
 		unset($path[0]);
 		unset($path[1]);
+
+		$sid = str_replace("semesterjahr", "", $path[2]);
+
+		$schedulearr["UserSchedule.load"]["delta"] = $model->executeTask("UserSchedule.load", array("username"=>"delta".$sid));
 
 		foreach($path as $value)
 		{

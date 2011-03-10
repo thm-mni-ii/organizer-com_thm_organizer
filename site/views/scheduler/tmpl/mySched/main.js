@@ -125,7 +125,6 @@ MySched.Base = function () {
           scheduletask: "Grid.load"
         },
         failure: function (response) {
-			var bla = response;
         },
         success: function (response) {
         	try
@@ -246,7 +245,6 @@ MySched.Base = function () {
       // Stundenplandaten werden in einem 'gesamten' Stundenplan gespeichert
       this.schedule = new mSchedule();
       this.afterLoad();
-      //this.schedule.load( url, 'xml', this.schedule.preParseLectures, this.afterLoad, this, "xml", true );
     },
     /**
      * Aufgaben nachdem die XMLDaten erfolgreich geladen wurden
@@ -291,10 +289,6 @@ MySched.Base = function () {
       // Initialisiert "Mein Stundenplan"
       MySched.Schedule = new mSchedule('mySchedule', 'Mein Stundenplan');
 
-      // Initialisiert "Änderungen"
-      MySched.delta = new mSchedule("delta", "Änderungen (zentral)");
-      MySched.delta.responsible = "delta";
-
       // Initialisiert "Änderungen der Verantwortlichen"
       MySched.responsibleChanges = new mSchedule("respChanges", "Änderungen (eigene)");
 
@@ -334,11 +328,6 @@ MySched.Base = function () {
         },
         success: function (resp) {
           // Zeigt das Erstellungsdatum der Stundenplandaten an
-          /*if (ret.schedule.reader.version)
-           {
-           Ext.ComponentMgr.get('leftMenu').setTitle("Stand vom "+ret.schedule.reader.version.format('d.m.Y')+"");
-
-           }*/
           var jsonData = new Array();
           if (resp.responseText.length > 0) {
           	try {
@@ -381,21 +370,31 @@ MySched.Base = function () {
           Ext.ComponentMgr.get('btnDel').disable();
         });
 
+		MySched.Tree.refreshTreeData();
+
+		var tree = MySched.Tree.tree;
+
+        var id = tree.root.childNodes[0].attributes.id;
+
+        id = id + ".delta";
+
+        // Initialisiert "Änderungen"
+        MySched.delta = new mSchedule(id, "Änderungen (zentral)");
+     	MySched.delta.responsible = "delta";
+
         if (MySched.SessionId) {
           MySched.Authorize.verifyToken(MySched.SessionId, MySched.Authorize.verifySuccess, MySched.Authorize);
           // Lädt Delta Daten
           MySched.delta.load(_C('ajaxHandler'), 'json', MySched.delta.loadsavedLectures, function (params) {}, this, "delta");
         }
         else {
-          //Ext.MessageBox.wait( 'Änderungen werden geladen', 'Änderungen werden geladen', { interval: 100, duration: 2000} );
           Ext.MessageBox.show({
             cls: 'mySched_noBackground',
             closable: false,
             msg: '<div class="ajaxloader"/>'
           });
-          MySched.Tree.loadTreeData();
           MySched.delta.load(_C('ajaxHandler'), 'json', MySched.delta.loadsavedLectures, function (params) {
-            var deltaSched = new mSchedule("delta", "Änderungen (zentral)").init("delta", "delta");
+            var deltaSched = new mSchedule(id, "Änderungen (zentral)").init("delta", id);
             deltaSched.show();
             //MySched.selectedSchedule.grid.showSporadics();
             MySched.layout.viewport.doLayout();
@@ -599,10 +598,6 @@ MySched.InfoPanel = function () {
   return {
     init: function () {
       this.el = Ext.get('infoPanel');
-      // Beim Auswaehlen einer Veranstaltung wird die Info angezeigt
-      //MySched.SelectionManager.on( 'select', this.showInfo, this );
-      // Beim deselektieren einer Veranstaltung wird die Info ausgeblendet
-      //MySched.SelectionManager.on( 'unselect', this.clearInfo, this );
     },
     /**
      * Zeigt eine Info in dem Info Panel unterhalb des Baumes an
@@ -1047,6 +1042,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
       title: 'Modulbeschreibung: ' + l.name + ' (' + l.desc.toUpperCase() + ')',
       height: 450,
       modal: true,
+	  frame:false,
       closeAction: 'close',
       html: '<iframe id="iframeModule" class="mysched_iframeModule" src="http://www.mni.fh-giessen.de/index.php?option=com_giessenlsf&view=details&layout=default&nrmni=' + l.desc.toUpperCase() + '&tmpl=component&mysched=true"></iframe>'
     });
@@ -1089,99 +1085,6 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
     });
 
     ttInfo.showAt(xy);
-
-    /*var senddata = [];
-    for (var di = 0; di < l.doz.items.length; di++) {
-      senddata[di] = new Object();
-      senddata[di]["id"] = MySched.Mapping.doz.map[l.doz.items[di].id].manager;
-    }
-    var jsonDataPack = Ext.encode(senddata);
-
-    Ext.Ajax.request({
-      url: _C('ajaxHandler'),
-      jsonData: jsonDataPack,
-      method: 'POST',
-      params: {
-        jsid: MySched.SessionId,
-        mnr: l.desc,
-        class_semester_id: MySched.class_semester_id,
-        scheduletask: "eStudy.getCourseLink"
-      },
-      failure: function (response, request) {
-        var tooltip = Ext.getCmp('content-anchor-tip');
-        if (tooltip) {
-          tooltip.setTitle(tooltip.title.replace("ajaxloader", "ajaxloader_DIS"));
-          tooltip.render();
-        }
-      },
-      success: function (response, request) {
-        if (response.responseText != "Permission Denied!") {
-          var estudylink = "";
-          if (response.responseText != "") {
-            var json = Ext.decode(response.responseText);
-
-            //var estudyDoz = MySched.Authorize.user;
-            var testl = l;
-            var estudyLessonName = l.name;
-            var estudyLessonLongName = l.longname;
-            var estudyModuleNr = l.desc;
-            var addLink = "";
-
-            if (typeof estudyLessonName == "undefined" || estudyLessonName == null) estudyLessonName = "";
-
-            estudyLessonName = estudyLessonName.replace(/-\u00dc/g, "");
-            estudyLessonName = estudyLessonName.replace(/-P/g, "");
-
-            addLink += "&name=" + estudyLessonName;
-
-            if (typeof estudyLessonLongName == "undefined" || estudyLessonLongName == null) estudyLessonLongName = "";
-            addLink += "&lname=" + estudyLessonLongName;
-
-            if (typeof estudyModuleNr == "undefined" || estudyModuleNr == null) estudyModuleNr = "";
-            addLink += "&modulnr=" + estudyModuleNr;
-            var estudytext = "";
-            if (json.msg == true) {
-              estudylink = '<div class="estudy_logo" qtip="Zum eStudy-Kurs" href="' + json.link + addLink + '"/>'
-              estudytext = "Sie betreten nun den Kurs " + estudyLessonName + ".";
-            }
-            else if (json.msg == false && json.link != "") {
-              estudylink = '<div class="estudy_addCourse" qtip="eStudy-Kurs anlegen" href="' + json.link + addLink + '"/>'
-              estudytext = "Sie legen nun den Kurs " + estudyLessonName + ".";
-            }
-            else {
-              estudylink = false;
-            }
-          }
-
-          var tooltip = Ext.getCmp('content-anchor-tip');
-          if (tooltip && estudylink != false) {
-            tooltip.setTitle(tooltip.title.replace("ajaxloader", "ajaxloader_DIS") + ' ' + estudylink);
-            tooltip.render();
-            // Aboniert Events für externen estudy Kurs
-            Ext.select('div[class^=estudy_]', false, tooltip.header.dom).on({
-              'click': function (ev) {
-                if (ev.button == 0) //links Klick
-                {
-                  var ele = ev.getTarget('div[class^=estudy_]', 5, true);
-                  ev.stopEvent();
-                  var link = ele.dom.attributes.getNamedItem("href").value;
-
-                  gotoExtURL(link, estudytext);
-                }
-              },
-              scope: this
-            });
-          }
-          else {
-            var tooltip = Ext.getCmp('content-anchor-tip');
-            if (tooltip) {
-              tooltip.setTitle(tooltip.title.replace("ajaxloader", "ajaxloader_DIS"));
-              tooltip.render();
-            }
-          }
-        }
-      }
-    });*/
   },
   /**
    * Wenn das MouseOver Event ausgeloest wurde
@@ -1309,36 +1212,6 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
   onMouseDown: function (e) {
     var el = e.getTarget('.lectureBox', 5, true)
     if (el == null) return; // Element ist schon selektiert
-    /*var className = "";
-     if(e.browserEvent.originalTarget != null)
-     {	//Firefox
-     className = e.browserEvent.originalTarget.className;
-     }
-     else
-     {	//IE8
-     className = e.browserEvent.srcElement.className;
-     }
-
-     if(className != "mySched_terminicon")
-     {
-     if(!Ext.ComponentMgr.get('sporadicPanel').collapsed)
-     Ext.ComponentMgr.get('sporadicPanel').collapse();
-
-     var counterall = 0;
-     var allrooms = Ext.ComponentMgr.get('sporadicPanel').body.select("p[id]");
-     for(var index in allrooms.elements)
-     if(!Ext.isFunction(allrooms.elements[index]))
-     {
-     if(allrooms.elements[index].style != null)
-     {
-     allrooms.elements[index].style.display = "block";
-     counterall++;
-     }
-     }
-
-     var tmp = Ext.ComponentMgr.get('sporadicPanel').setTitle( 'Einzel Termine - &Uuml;bersicht ('+counterall+')');
-     }*/
-
     // Selektiere Element
     if (!Ext.isEmpty(this.selectEl)) this.unselect(this.selectEl);
     this.select(el)
@@ -1534,7 +1407,7 @@ function showLessonMenu(e) {
       menuItems[menuItems.length] = delLesson;
     }
     else {
-      if (MySched.selectedSchedule.id != 'delta') {
+      if (MySched.selectedSchedule.type != 'delta') {
         menuItems[menuItems.length] = addLesson;
       }
     }
@@ -1613,7 +1486,6 @@ MySched.TreeManager = function () {
         this.dozTree.addAll(lecture.getDoz().asArray());
         this.roomTree.addAll(lecture.getRoom().asArray());
         this.clasTree.addAll(lecture.getClas().asArray());
-        //this.unsltTree.addAll(lecture.getUnslt().asArray());//neu
       }
     },
     /**
@@ -1668,6 +1540,9 @@ MySched.TreeManager = function () {
 			baseTree.root.appendChild(children);
 		}
 
+		baseTree.root.renderChildren();
+		baseTree.root.childNodes[0].renderChildren();
+
 		for(var item in treeData)
 			if(Ext.isObject(treeData[item]))
 				for(var childitem in treeData[item])
@@ -1718,17 +1593,6 @@ MySched.TreeManager = function () {
 
       if (type == "curtea") {//neu->
           MySched.TreeManager.processTreeData(MySched.startup["TreeView.curiculumTeachers"].data, type, accMode, name, baseTree);
-          /*var ret = baseTree.root.appendChild(
-		        new Ext.tree.TreeNode({
-		          text: name,
-		          id: type,
-		          IconCls: type + '-root',
-		          expanded: false,
-		          draggable: false,
-		          singleClickExpand: true,
-		        }));*/
-
-			//ret.appendChild(MySched.startup["TreeView.curiculumTeachers"].data["tree"]);
         return ret;
       }
       // Keine Rechte, also nicht anzeigen
@@ -1759,155 +1623,6 @@ MySched.TreeManager = function () {
         }));
         return ret;
       }
-
-
-      /*// Generelle Rechteuberpruefung auf diese Uebersichtsliste
-       var accMode = MySched.Authorize.checkAccessMode( type );
-
-       // Keine Rechte, also nicht anzeigen
-       if (accMode == 'none')
-       return null;
-
-       if(type == "diff")
-       {
-       // Fuegt die Liste der Uebersicht an
-       var ret = baseTree.root.appendChild(
-       new Ext.tree.TreeNode({
-       text:'Aenderungen',
-       id:'Diff',
-       cls:type+'-root',
-       draggable:false,
-       leaf:true
-       })
-       );
-       return ret;
-       }
-
-       if(type == "respChanges")
-       {
-       // Fuegt die Liste der Uebersicht an
-       var ret = baseTree.root.appendChild(
-       new Ext.tree.TreeNode({
-       text:'Change Log',
-       id:'respChanges',
-       cls:type+'-root',
-       draggable:false,
-       leaf:true
-       })
-       );
-       return ret;
-       }
-
-       // Erstellt die Liste mit Elemente wo eine Berechtigung existiert
-       var nodes = [];
-
-       var counter = 0;
-       var position = 0;
-       var substring = "";
-       var mnodes = [];
-       var erstelleneu = true;
-       var bla = MySched.Mapping.doz;
-       data.eachKey( function(k,e){
-       if (accMode != 'full')
-       if (!MySched.Authorize.checkAccess( type, k ))
-       return;
-
-       var name = e.getName();
-       var objects = e.getObjects();
-       var objectarr = objects.split(",");
-       for(var ind = 0; ind < objectarr.length; ind++ )
-       {
-       objectarr[ind].replace (/^\s+/, '').replace (/\s+$/, '');
-       }
-
-       //Verantwortlichen setzen
-       if(objectarr[0])
-       e.responsible = objectarr[0];
-       if(objectarr[1])
-       e.object1 = objectarr[1];
-       if(objectarr[2])
-       e.object2 = objectarr[2];
-
-       if(objectarr[1])
-       {
-       var text = objectarr[1];
-       if(objectarr[2])
-       text = text + "-" + objectarr[2];
-
-       for(var i = 0; i < nodes.length; i++)
-       {
-       if(nodes[i].text == text)
-       {
-       mnodes[counter] = nodes[i];
-       erstelleneu = false;
-       }
-       }
-
-       if(erstelleneu)
-       {
-       mnodes[counter] = new Ext.tree.TreeNode({
-       id: text,
-       text: text,
-       cls:type+'-root',
-       expanded:false,
-       draggable:false,
-       singleClickExpand:true,
-       items: nodes
-       });
-       }
-       counter++;
-       erstelleneu = true;
-       }
-       if(this[0] == "clas")
-       {
-       name = name.split(",");
-       if(name.length != 2)
-       name = name[0].split(";");
-       name = name[1];
-       }
-       mnodes[counter] = new Ext.tree.TreeNode({
-       id: k,
-       text:name,
-       iconCls: type+'-node',
-       draggable:true,
-       leaf:true
-       });
-
-       if(counter != 0)
-       {
-       for(var i = counter-1; i >= 0; i--)
-       {
-       mnodes[i].appendChild(mnodes[i+1]);
-       }
-       }
-
-       nodes.push( mnodes[0] );
-
-       position = 0;
-       counter = 0;
-       name = "";
-       }, {0:type});
-
-       // Keine Leere Liste
-       if (nodes.length == 0)
-       {
-       return null;
-       }
-
-       // Fuegt die Liste der Uebersicht an
-       var ret = baseTree.root.appendChild(
-       new Ext.tree.TreeNode({
-       text:name,
-       id:type,
-       cls:type+'-root',
-       expanded:false,
-       draggable:false,
-       singleClickExpand:true,
-       items: nodes
-       })
-       );
-       ret.appendChild( nodes );
-       return ret;*/
     }
   }
 }();
@@ -2000,23 +1715,6 @@ MySched.layout = function () {
           bbar: this.getMainToolbar()
         });
       }
-      // Infopanel erstellen
-      /*this.w_infoPanel = new Ext.Panel( {
-       title: "Informationen",
-       region: "south",
-       //iconCls: 'myInfoIcon',
-       height: 200,
-       autoScroll: true,
-       collapsed: true,
-       floatable:false,
-       width: 242,
-       minSize: 242,
-       maxSize: 242,
-       collapsible: true,
-       bodyStyle: 'background-color:#E6E6E6; bottom no-repeat; ',
-       html: '<div id="infoPanel"></div>',
-       plugins: new Ext.ux.collapsedPanelTitlePlugin ()
-       } );*/
 
       // Linker Bereich der Info und Ubersichtsliste enthaelt
       this.w_leftMenu = new Ext.Panel({
@@ -2101,6 +1799,7 @@ MySched.layout = function () {
           width: 675,
           height: 380,
           autoScroll: true,
+          frame:false,
           bodyStyle: 'background-color: #FFF; padding: 7px;',
           buttons: [{
             text: 'Schlie&szlig;en',
@@ -2132,7 +1831,7 @@ MySched.layout = function () {
               if (typeof v.setCellTemplate != "undefined") v.setCellTemplate(type);
             });
           }
-          if (MySched.Authorize.role == "user" && id == "delta") {
+          if (MySched.Authorize.role == "user" && type == "delta") {
             var tab = Ext.apply(
             // Defaultwerte - wenn schon gesetzt bleiben sie
             Ext.applyIf(grid, {
@@ -2491,21 +2190,12 @@ MySched.layout = function () {
         }
       }
 
-      /*          var btnEvent = {
-       // Event anlegen
-       text:'Termin anlegen',
-       id:'btnEvent',
-       hidden: true,
-       iconCls: 'tbEvent',
-       handler: addNewEvent
-       }*/
       Ext.DatePicker.prototype.startDay = 1;
 
       var inidate = new Date();
 
       var menuedatepicker = new Ext.form.DateField({
         id: 'menuedatepicker',
-        //readOnly: true,
         showWeekNumber: true,
         format: 'd.m.Y',
         useQuickTips: false,
@@ -3074,6 +2764,7 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name, 
     title: 'Veranstaltung hinzufügen',
     height: 337,
     modal: true,
+    frame:false,
     closeAction: 'close',
     items: [
     addterminpanel]
@@ -3325,10 +3016,12 @@ MySched.Tree = function () {
             var semesterID = n.attributes.semesterID;
             var plantype = n.attributes.plantype;
             var type = n.attributes.type;
+            if(type === null)
+            	type = res;
             var department = null;
-            if (key == "delta")
+            if (res == "delta")
               title = "Änderungen (zentral)";
-            else if (key == "respChanges")
+            else if (res == "respChanges")
               title = "Änderungen (eigene)";
             else
             {
@@ -3410,17 +3103,6 @@ MySched.Tree = function () {
      */
     loadTreeData: function () {
       MySched.TreeManager.processTreeData(MySched.startup["TreeView.load"].data, null, null, null, this.tree);
-      /*this.diff = MySched.TreeManager.createDiffTree(this.tree); //Zum Aufrufen des Tab �nderungem im Baum
-      this.respChanges = MySched.TreeManager.createrespChangesTree(this.tree); //Zum Aufrufen des Tab �nderungem von Verantwortlichen im Baum
-      this.curtea = MySched.TreeManager.createCurteaTree(this.tree);
-      MySched.TreeManager.createDozTree(this.tree);
-      MySched.TreeManager.createRoomTree(this.tree);
-      MySched.TreeManager.createClasTree(this.tree);
-	  this.tree.render();
-		var bla = "";*/
-
-      /*MySched.layout.w_infoPanel.hide();
-       MySched.layout.w_infoPanel.expand();*/
     },
     /**
      * Setzt die Daten im Baum
