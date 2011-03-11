@@ -45,7 +45,15 @@ class thm_organizerModelevent_list extends JModel
         $params = JFactory::getApplication()->getParams();
         $username = JFactory::getUser()->username;
 
-        $display_type = $params->get('display_type');
+		if(is_array($callParameters) && is_int($callParameters["display_type"]))
+		{
+			$display_type = $callParameters["display_type"];
+		}
+		else
+		{
+			$display_type = $params->get('display_type');
+		}
+
         switch ($display_type) {
             case 1://current + category
                 $categoryID = $params->get('category_restriction');
@@ -88,6 +96,7 @@ class thm_organizerModelevent_list extends JModel
         if(isset($orderby)) $this->setState('orderby', $orderby);
         $orderbydir = $app->getUserStateFromRequest('com_thm_organizer.event_list.orderbydir', 'orderbydir', 'ASC');
         if(isset($orderbydir)) $this->setState('orderbydir', $orderbydir);
+
         $limit = $app->getUserStateFromRequest('com_thm_organizer.event_list.limit', 'limit', 10, 'int');
         $this->setState('limit', $limit);
         $limitstart = JRequest::getInt('limitstart');
