@@ -82,18 +82,6 @@ class thm_organizerControllerevent_edit extends JController
         }
         else
         {
-
-//            $user = JFactory::getUser();
-//            $actionPermissions = new JObject;
-//            $assetID = "com_content.category.$contentCatID";
-//            $actions = array( 'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete' );
-//            foreach ($actions as $action) {
-//                    $actionPermissions->set($action, $user->authorise($action, $assetName));
-//            }
-//
-//            $msg = "<pre>".print_r($actionPermissions, true)."</pre>";
-//            $link = JRoute::_("index.php?option=com_thm_organizer&view=event_edit&Itemid=$menuID", false);
-//            $this->setRedirect($link, $msg, 'error');
             JError::raiseError( 777, JText::_('COM_THM_ORGANIZER_ERROR_NOAUTH') );
             return;
         }
@@ -140,10 +128,13 @@ class thm_organizerControllerevent_edit extends JController
     
 
 
-	function cancelevent()
-	{
-            $itemid = JRequest::getVar('Itemid');
-            $eventlist = JRoute::_("index.php?option=com_thm_organizer&view=eventlist&Itemid=$itemid", false);
-            $this->setRedirect( $eventlist, JText::_("Aktion Abgebrochen").".");
-	}
+    function cancel()
+    {
+        $itemID = JRequest::getVar('Itemid');
+        if(isset($itemID))
+            $link = JRoute::_("index.php?option=com_thm_organizer&view=event_list&Itemid=$itemid", false);
+        else
+            $link = JRoute::_("index.php?option=com_thm_organizer&view=event_list", false);
+        $this->setRedirect( $link, JText::_("COM_THM_ORGANIZER_EE_CANCELED").".");
+    }
 }
