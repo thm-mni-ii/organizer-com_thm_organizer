@@ -382,17 +382,19 @@ MySched.Base = function () {
         MySched.delta = new mSchedule(id, "Änderungen (zentral)");
      	MySched.delta.responsible = "delta";
 
+		Ext.MessageBox.show({
+          	id: 'ajaxloader',
+            cls: 'mySched_noBackground',
+            closable: false,
+            msg: '<div class="ajaxloader"/>'
+        });
+
         if (MySched.SessionId) {
           MySched.Authorize.verifyToken(MySched.SessionId, MySched.Authorize.verifySuccess, MySched.Authorize);
           // Lädt Delta Daten
           MySched.delta.load(_C('ajaxHandler'), 'json', MySched.delta.loadsavedLectures, function (params) {}, this, "delta");
         }
         else {
-          Ext.MessageBox.show({
-            cls: 'mySched_noBackground',
-            closable: false,
-            msg: '<div class="ajaxloader"/>'
-          });
           MySched.delta.load(_C('ajaxHandler'), 'json', MySched.delta.loadsavedLectures, function (params) {
             var deltaSched = new mSchedule(id, "Änderungen (zentral)").init("delta", id);
             deltaSched.show();
@@ -400,7 +402,6 @@ MySched.Base = function () {
             MySched.layout.viewport.doLayout();
             MySched.selectedSchedule.responsible = "delta";
             MySched.selectedSchedule.status = "saved";
-            Ext.MessageBox.hide();
           }, this, "delta");
         }
       }
@@ -440,8 +441,6 @@ MySched.Base = function () {
 	       		MySched.SelectionManager.startSelection();
 	        }
 	        func.defer(50);
-
-            Ext.MessageBox.hide();
             MySched.selectedSchedule.eventsloaded = null;
             MySched.selectedSchedule.refreshView();
             //MySched.Schedule.checkLectureVersion( MySched.Base.schedule );
@@ -453,7 +452,6 @@ MySched.Base = function () {
               iconCls: 'myScheduleIcon'
             });
             MySched.layout.createTab('mySchedule', 'Mein Stundenplan', grid, "mySchedule");
-            Ext.MessageBox.hide();
           }
           // Buttons aktivieren wenn nicht leer
           if (!MySched.Schedule.isEmpty()) {
@@ -465,12 +463,11 @@ MySched.Base = function () {
           // tab 'Mein Stundenplan' wird DropArea
           var dropTarget = new Ext.dd.DropTarget(Ext.get('tabpanel__mySchedule'), this.getDropConfig());
         }
-        else {
-          Ext.MessageBox.hide();
-        }
       }, this, MySched.Authorize.user);
       //MySched.selectedSchedule.grid.showSporadics();
       MySched.layout.viewport.doLayout();
+
+	  Ext.MessageBox.hide();
     },
     /**
      * Gibt die Drop-Konfiguration fuer Drag'n'Drop zurueck
@@ -1039,11 +1036,11 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
       layout: 'form',
       id: 'moduleWin',
       width: 564,
-      title: 'Modulbeschreibung: ' + l.name + ' (' + l.desc.toUpperCase() + ')',
       height: 450,
       modal: true,
 	  frame:false,
-      closeAction: 'close',
+	  hideLabel: true,
+      closeable: true,
       html: '<iframe id="iframeModule" class="mysched_iframeModule" src="http://www.mni.fh-giessen.de/index.php?option=com_giessenlsf&view=details&layout=default&nrmni=' + l.desc.toUpperCase() + '&tmpl=component&mysched=true"></iframe>'
     });
 
@@ -1761,24 +1758,6 @@ MySched.layout = function () {
         plugins: ['fittoparent'],
         items: [
         this.w_topMenu, this.w_leftMenu, this.tabpanel
-        /* new Ext.Panel({
-         layout: 'border',
-         region: 'center',
-         items: [
-         this.tabpanel
-         ,new Ext.Panel({
-         id: 'sporadicPanel',
-         region: 'south',
-         split: true,
-         floatable:false,
-         height: 70,
-         autoScroll: true,
-         collapsible: true,
-         title: 'Einzel Termine - &Uuml;bersicht (0)',
-         plugins: new Ext.ux.collapsedPanelTitlePlugin ()
-         })
-         ]
-         })*/
         ]
       });
       var calendar = Ext.ComponentMgr.get('menuedatepicker');

@@ -24,7 +24,7 @@ class ScheduleDescription
 			return array("success"=>false,"data"=>"" );
 		else {
 			return array("success"=>true,"data"=>array(
-				 $obj[ 0 ]->description,
+				$obj[ 0 ]->description,
 				$obj[ 0 ]->startdate,
 				$obj[ 0 ]->enddate,
 				$obj[ 0 ]->creationdate

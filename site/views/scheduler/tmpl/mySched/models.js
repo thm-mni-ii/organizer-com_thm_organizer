@@ -220,8 +220,11 @@ Ext.extend(mSchedule, MySched.Model, {
 		var wpMO = null;
 		var cd = Ext.ComponentMgr.get('menuedatepicker');
 		var wp = null;
-		if (typeof cd.menu == "undefined") wp = cd.initialConfig.value;
-		else wp = cd.menu.picker.activeDate;
+
+		if (cd.menu == null)
+			wp = cd.initialConfig.value;
+		else
+			wp = cd.menu.picker.activeDate;
 
 		wpMO = wp.clone();
 
@@ -232,9 +235,10 @@ Ext.extend(mSchedule, MySched.Model, {
 			}
 		}
 
-		if (wp.format("Y-m-d") < MySched.session["begin"] && this.type != "delta") {
+		if (wp.format("Y-m-d") < MySched.session["begin"] && cd.menu == null) {
 			Ext.Msg.show({
 				title: "Hinweis",
+				cls: "mysched_semesterbegin",
 				buttons: {
 					ok: 'Zum Semesteranfang',
 					cancel: 'OK'
@@ -244,22 +248,20 @@ Ext.extend(mSchedule, MySched.Model, {
 				modal: true,
 				closable: false,
 				fn: function (btn) {
-					if (btn == "cancel") {
-						Ext.MessageBox.hide();
-						return;
-					}
 					if (btn == "ok") {
 						var cd = Ext.ComponentMgr.get('menuedatepicker');
 						var inidate = new Date(MySched.session["begin"]);
-						if (typeof cd.menu == "undefined") cd.initialConfig.value = inidate;
+						if (typeof cd.menu == "undefined")
+							cd.initialConfig.value = inidate;
 						else {
 							cd.menu.picker.value = inidate;
 							cd.menu.picker.activeDate = inidate;
 						}
 						cd.setValue(MySched.session["begin"]);
-						if (typeof cd.menu != "undefined") cd.menu.picker.update();
-						return;
+						if (typeof cd.menu != "undefined")
+							cd.menu.picker.update();
 					}
+            		Ext.MessageBox.hide();
 				}
 			});
 		}
@@ -386,14 +388,7 @@ Ext.extend(mSchedule, MySched.Model, {
 		this.proxy = new Ext.data.HttpProxy(conn);
 		if (type == 'json') this.reader = new SchedJsonReader();
 		else this.reader = new SchedXmlReader();
-		if (username == MySched.Authorize.user) {
-			//Ext.MessageBox.show( {cls:'mySched_noBackground', closable:false, msg:'<div id="loadMessage"><span id="preloadMessagetext">Stundenplan wird geladen...</span></div>'} );
-			Ext.MessageBox.show({
-				cls: 'mySched_noBackground',
-				closable: false,
-				msg: '<div class="ajaxloader"/>'
-			});
-		}
+
 		this.proxy.doRequest('read', null, {}, this.reader, call, this, {
 			callback: cb,
 			scope: scope,
@@ -478,8 +473,6 @@ Ext.extend(mSchedule, MySched.Model, {
        		MySched.SelectionManager.startSelection();
         }
         func.defer(50);
-
-		Ext.MessageBox.hide();
 	},
 	/**
 	 * Prueft verschiedene Vorbedinungen
@@ -518,7 +511,14 @@ Ext.extend(mSchedule, MySched.Model, {
 				this.data.add(e.data.key, e);
 			}
 		}
-		if (arg.callback) arg.callback.createDelegate(arg.scope)(arg.params);
+		if (arg.callback)
+			arg.callback.createDelegate(arg.scope)(arg.params);
+
+		var semesterbegin = Ext.select(".mysched_semesterbegin");
+
+		if(!semesterbegin.elements[0])
+			Ext.MessageBox.hide();
+
 		return;
 	},
 	/**
@@ -698,7 +698,8 @@ Ext.extend(mSchedule, MySched.Model, {
 				}
 				var data = this.exportData("json", "personal");
 			}
-			if (success != false) var savewait = Ext.MessageBox.wait('Ihr Stundenplan wird gespeichert', 'Bitte warten...');
+			if (success != false)
+				var savewait = Ext.MessageBox.wait('Ihr Stundenplan wird gespeichert', 'Bitte warten...');
 			else var savewait = null;
 			Ext.Ajax.request({
 				url: url,
@@ -707,7 +708,8 @@ Ext.extend(mSchedule, MySched.Model, {
 				method: 'POST',
 				params: defaultParams,
 				success: function (resp, ret) {
-					if (savewait != null) Ext.MessageBox.hide();
+					if (savewait != null)
+						Ext.MessageBox.hide();
 					try {
 						var json = Ext.decode(resp.responseText);
 						if (json["code"]) {
@@ -1265,8 +1267,10 @@ Ext.extend(mEventlist, MySched.Model, {
 						var bl = null;
 						var clickeddate = Ext.ComponentMgr.get('menuedatepicker');
 						var weekpointer = null;
-						if (clickeddate.menu == null) weekpointer = clickeddate.originalValue;
-						else weekpointer = clickeddate.menu.picker.activeDate;
+						if (clickeddate.menu == "undefined")
+							weekpointer = clickeddate.initialConfig.value;
+						else
+							weekpointer = clickeddate.menu.picker.activeDate;
 						if (weekpointer != "") {
 							while (weekpointer.getDay() != 1) //Montag ermitteln
 							{

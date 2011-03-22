@@ -95,13 +95,20 @@ class UserSchedule
 
               $data = $this->JDA->query("SELECT data FROM " . $this->cfg['db_table'] . " WHERE username='".$this->username."'");
 
-              if (count($data) == 1) {
-                  $data = $data[0];
-                  $data = $data->data;
-              } else
-                  $data = array();
+			  if(is_array($data))
+			  {
+	              if (count($data) == 1) {
+	                  $data = $data[0];
+	                  $data = $data->data;
+	              } else
+	                  $data = array();
+			  }
+			  else
+			  	  $data = array();
 
               if (strpos( strtolower( $this->username ), "delta" ) === 0) {
+              	if(is_array($data))
+              		return array("data"=>$data);
               	$data = json_decode($data);
               	$deltadata = array();
 

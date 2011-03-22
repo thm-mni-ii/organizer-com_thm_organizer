@@ -79,7 +79,21 @@ class DataAbstraction
 
     public function isComponentavailable( $com )
     {
-    	return JComponentHelper::getComponent($com , true)->enabled;
+		$query	= $this->dbo->getQuery(true);
+		$query->select('extension_id AS "id", element AS "option", params, enabled');
+		$query->from('#__extensions');
+		$query->where('`type` = '.$this->dbo->quote('component'));
+		$query->where('`element` = '.$this->dbo->quote($com));
+		$this->dbo->setQuery($query);
+    	if ($error = $this->dbo->getErrorMsg())
+    		return false;
+
+		$result = $this->dbo->loadObject();
+
+		if($result === null)
+			return false;
+
+    	return true;
     }
 
     public function getSemID()

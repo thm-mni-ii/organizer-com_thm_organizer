@@ -43,7 +43,7 @@ class thm_organizerViewScheduler extends JView
 
 		$schedulearr["UserSchedule.load"] = array();
 
-		if($user->id !== null)
+		if($user->id !== null && $user->id !== 0)
 			$schedulearr["UserSchedule.load"] = $model->executeTask("UserSchedule.load", array("username"=>$user->name));
 
 		$schedulearr["UserSchedule.load"]["respChanges"] = $model->executeTask("UserSchedule.load", array("username"=>"respChanges"));

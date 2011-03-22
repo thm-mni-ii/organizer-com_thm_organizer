@@ -113,7 +113,7 @@ function showEventdesc(index) {
 			id: "datdescription",
 			title: MySched.eventlist[index]['title'] + " - Beschreibung",
 			bodyStyle: "background-color: #FFF; padding: 7px;",
-			frame:false,
+			frame:false ,
 			buttons: [{
 				text: "Schlie&szlig;en",
 				handler: function () {

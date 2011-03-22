@@ -705,8 +705,7 @@ img.status_icons_delete {
 	list-style-image: url("");
 }
 
-a:link, a:active, a:visited, a:focus {
-	color:#002959;
+.x-tree-node a span {
 	font:11px arial,tahoma,helvetica,sans-serif;
 	text-decoration:none;
 }
