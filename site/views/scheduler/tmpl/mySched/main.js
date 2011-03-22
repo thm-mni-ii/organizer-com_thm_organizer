@@ -1069,7 +1069,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
 
     var l = MySched.selectedSchedule.getLecture(el.id);
     var ttInfo = new Ext.ToolTip({
-      title: '<div class="mySched_lesson_tooltip"> ' + l.data.name + " " + '</div>',
+      title: '<div class="mySched_lesson_tooltip"> ' + l.data.desc + " " + '</div>',
       id: 'content-anchor-tip',
       target: 'leftCallout',
       anchor: 'left',
