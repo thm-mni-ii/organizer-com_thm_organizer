@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_plantype` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__thm_organizer_plantype` (`id`, `plantype`) VALUES
+INSERT IGNORE INTO `#__thm_organizer_plantype` (`id`, `plantype`) VALUES
 (1, 'GP-Untis Schedules'),
 (2, 'Curricula');
 
@@ -152,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_monitors` (
   KEY `semesterID` (`semesterID`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
-INSERT INTO `#__thm_organizer_monitors` (`monitorID`, `roomID`, `ip`, `semesterID`) VALUES
+INSERT IGNORE INTO `#__thm_organizer_monitors` (`monitorID`, `roomID`, `ip`, `semesterID`) VALUES
 (1, 'I007', '10.48.0.87', ''),
 (2, 'I008', '10.48.0.47', ''),
 (3, 'I009', '10.48.0.48', ''),
