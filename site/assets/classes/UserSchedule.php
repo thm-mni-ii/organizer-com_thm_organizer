@@ -288,7 +288,7 @@ class UserSchedule
               $data = json_decode($data);
 
               $query = "SELECT " .
-              			 "CONCAT(CONCAT(#__thm_organizer_lessons.gpuntisID, ' '),#__thm_organizer_periods.gpuntisID) AS mykey," .
+              			 "CONCAT('1.',CONCAT('".$this->semID."',CONCAT('.',CONCAT(CONCAT(#__thm_organizer_lessons.gpuntisID, ' '),#__thm_organizer_periods.gpuntisID)))) AS mykey," .
 						 "#__thm_organizer_lessons.gpuntisID AS lid, " .
 						 "#__thm_organizer_periods.gpuntisID AS tpid, " .
 						 "#__thm_organizer_lessons.gpuntisID AS id, " .
@@ -392,82 +392,12 @@ class UserSchedule
                                   $found = false;
                                   foreach ($lessons as $litem) {
                                       if (isset($v->key))
+                                      {
                                           if ($v->key == $litem['key']) {
                                               //Veranstaltung existiert
                                               if ($v->clas != $litem['clas'] || $v->room != $litem['room'] || $v->doz != $litem['doz']) {
                                                   $litem["css"] = " movedtomysched";
                                                   $retlesson[count($retlesson)] = $litem;
-                                                  /*            if(!isset($retlesson[count($retlesson)-1]["changes"]))
-                                                   $retlesson[count($retlesson)-1]["changes"] = array();
-                                                   if($v->clas != $litem['clas'])
-                                                   {
-                                                   if(!isset($retlesson[count($retlesson)-1]["changes"]["classes"]))
-                                                   $retlesson[count($retlesson)-1]["changes"]["classes"] = array();
-
-                                                   $arr = explode(' ', $v->clas);
-                                                   $arrnew = explode(' ', $litem['clas']);
-
-                                                   foreach($arrnew as $ci)
-                                                   {
-                                                   if(strpos($ci, $v->clas) === false)
-                                                   {
-                                                   $retlesson[count($retlesson)-1]["changes"]["classes"][$ci] = "removed";
-                                                   }
-                                                   }
-                                                   foreach($arr as $ci)
-                                                   {
-                                                   if(strpos($ci, $litem['clas']) === false)
-                                                   {
-                                                   $retlesson[count($retlesson)-1]["changes"]["classes"][$ci] = "new";
-                                                   }
-                                                   }
-                                                   }
-                                                   if($v->room != $litem['room'])
-                                                   {
-                                                   if(!isset($retlesson[count($retlesson)-1]["changes"]["rooms"]))
-                                                   $retlesson[count($retlesson)-1]["changes"]["rooms"] = array();
-
-                                                   $arr = explode(' ', $v->room);
-                                                   $arrnew = explode(' ', $litem['room']);
-
-                                                   foreach($arrnew as $ci)
-                                                   {
-                                                   if(strpos($ci, $v->room) === false)
-                                                   {
-                                                   $retlesson[count($retlesson)-1]["changes"]["rooms"][$ci] = "removed";
-                                                   }
-                                                   }
-                                                   foreach($arr as $ci)
-                                                   {
-                                                   if(strpos($ci, $litem['room']) === false)
-                                                   {
-                                                   $retlesson[count($retlesson)-1]["changes"]["rooms"][$ci] = "new";
-                                                   }
-                                                   }
-                                                   }
-                                                   if($v->doz != $litem['doz'])
-                                                   {
-                                                   if(!isset($retlesson[count($retlesson)-1]["changes"]["teachers"]))
-                                                   $retlesson[count($retlesson)-1]["changes"]["teachers"] = array();
-
-                                                   $arr = explode(' ', $v->doz);
-                                                   $arrnew = explode(' ', $litem['doz']);
-
-                                                   foreach($arrnew as $ci)
-                                                   {
-                                                   if(strpos($ci, $v->doz) === false)
-                                                   {
-                                                   $retlesson[count($retlesson)-1]["changes"]["teachers"][$ci] = "removed";
-                                                   }
-                                                   }
-                                                   foreach($arr as $ci)
-                                                   {
-                                                   if(strpos($ci, $litem['doz']) === false)
-                                                   {
-                                                   $retlesson[count($retlesson)-1]["changes"]["teachers"][$ci] = "new";
-                                                   }
-                                                   }
-                                                   }*/
                                               } else {
                                                   $v->css = "";
                                                   $retlesson[count($retlesson)] = $v;
@@ -475,6 +405,7 @@ class UserSchedule
                                               $found = true;
                                               break;
                                           }
+                                      }
                                   }
                                   if ($found == false) {
                                       foreach ($lessons as $litem) {
