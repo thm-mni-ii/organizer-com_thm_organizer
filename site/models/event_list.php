@@ -11,26 +11,59 @@
  */
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
-
 jimport( 'joomla.application.component.model' );
+
+define('CURRENT', 0);
+define('CURRENT_CATEGORY', 1);
+define('CURRENT_ROOM', 2);
+define('CURRENT_OWN', 3);
+define('ALL', 4);
+define('ALL_CATEGORY', 5);
+define('ALL_ROOM', 6);
+define('ALL_OWN', 7);
 
 class thm_organizerModelevent_list extends JModel
 {
+    private $callParameters = null;
+    private $menuParameters = null;
+    public $display_type;
     public $events = null;
-    private $total = null;
+    public $total = null;
     public $pagination = null;
     public $categories = null;
+    public $canWrite = false;
+    public $canEdit = true;
 
 
     /**
-    * Constructor
-    *
-    */
+     * Constructor
+     *
+     * @param array $callParameters an array containing the values normally in post
+     *  for external calls on this model
+     * <pre>
+     *  'display_type': int values 0-7 **REQUIRED**
+     *  'categoryID': int id of an entry in #__thm_organizer_event_categories
+     *  'roomID': int id of an entry in #__thm_organizer_rooms
+     *  'author': int id of an entry in #__users
+     *  'fromDate': date the 'since when' date
+     *  'toDate': date the 'until when' date
+     *  'search': string a comma seperated list of search items
+     *  'orderby': sort criteria for result set
+     *  'orderbydir': string values ASC/DESC sort criteria direction
+     *  'limit': the maximal number of entries which should be retrieved
+     *  'limitstart': the lower inclusive bound for the entry set
+     * </pre>
+     **/
     function __construct($callParameters = null)
     {
         parent::__construct();
-        $this->restoreState($callParameters);
+        if(isset($callParameters)) $this->callParameters = $callParameters;
+        $this->menuParameters = JFactory::getApplication()->getParams();
+        $this->restoreState();
         $this->loadEvents();
+        $this->loadEventResources();
+        $this->loadCategories();
+        $this->setUserPermissions();
     }
 
     /**
@@ -40,69 +73,117 @@ class thm_organizerModelevent_list extends JModel
      *
      * @access private
      **/
-    private function restoreState($callParameters = null)
+    private function restoreState()
     {
-        $params = JFactory::getApplication()->getParams();
         $username = JFactory::getUser()->username;
-
-		if(is_array($callParameters) && is_int($callParameters["display_type"]))
-		{
-			$display_type = $callParameters["display_type"];
-		}
-		else
-		{
-			$display_type = $params->get('display_type');
-		}
-
-        switch ($display_type) {
-            case 1://current + category
-                $categoryID = $params->get('category_restriction');
-                $this->setState('categoryID', $categoryID);
+        $this->display_type = (count($this->callParameters))?
+            $this->callParameters["display_type"] : $this->menuParameters->get('display_type');
+        switch ($this->display_type)
+        {
+            case CURRENT_CATEGORY:
+                $this->setCategoryID();
                 break;
-            case 2://current + room
-                $roomID = $params->get('room_restriction');
-                $this->setState('roomID', $roomID);
+            case CURRENT_ROOM:
+                $this->setRoomID();
                 break;
-            case 3://current + own
+            case CURRENT_OWN:
                 $this->setState('author', $username);
                 break;
-            case 5://all + category
-                $categoryID = $params->get('category_restriction');
-                $this->setState('categoryID', $categoryID);
+            case ALL_CATEGORY:
+                $this->setCategoryID();
                 break;
-            case 6://all + rrom
-                $roomID = $params->get('room_restriction');
-                $this->setState('roomID', $roomID);
+            case ALL_ROOM:
+                $this->setRoomID();
                 break;
-            case 7://all + own
+            case ALL_OWN:
                 $this->setState('author', $username);
                 break;
             default:
                 break;
         }
-
-        if(!isset($categoryID)) $categoryID = JRequest::getVar('categoryID');
-        if(!isset($categoryID))
-            $categoryID = $app->getUserStateFromRequest('com_thm_organizer.event_list.categoryID', 'categoryID', -1, 'int');
-        $this->setState('category', $category);
-
-        $fromDate = $app->getUserStateFromRequest('com_thm_organizer.event_list.fromdate', 'fromdate', '');
-        if(!empty($fromDate)) $this->setState('fromdate', $fromDate);
-        $todate = $app->getUserStateFromRequest('com_thm_organizer.event_list.todate', 'todate', '');
-        if(!empty($todate)) $this->setState('todate', $todate);
-        $search = $app->getUserStateFromRequest('com_thm_organizer.event_list.search', 'search', '');
-        if(isset($search)) $this->setState('search', $search);
-        $orderby = $app->getUserStateFromRequest('com_thm_organizer.event_list.orderby', 'orderby', 'date');
-        if(isset($orderby)) $this->setState('orderby', $orderby);
-        $orderbydir = $app->getUserStateFromRequest('com_thm_organizer.event_list.orderbydir', 'orderbydir', 'ASC');
-        if(isset($orderbydir)) $this->setState('orderbydir', $orderbydir);
-
-        $limit = $app->getUserStateFromRequest('com_thm_organizer.event_list.limit', 'limit', 10, 'int');
-        $this->setState('limit', $limit);
-        $limitstart = JRequest::getInt('limitstart');
-        $this->setState('limitstart', $limitstart);
+        $this->setFromDate();
+        $this->setToDate();
+        $this->setSearch();
+        $this->setOrderBy();
+        $this->setLimit();
     }
 
+    private function setCategoryID()
+    {
+        $application = JFactory::getApplication();
+        if(isset($callParameters) and isset($callParameters["categoryID"]))
+            $categoryID = $callParameters["categoryID"];
+        else if($this->menuParameters->get('category_restriction'))
+            $categoryID = $this->menuParameters->get('category_restriction');
+        else if(JRequest::getVar('categoryID'))
+            $categoryID = JRequest::getVar('categoryID');
+        else $categoryID = $application->getUserStateFromRequest('com_thm_organizer.event_list.categoryID', 'categoryID', -1, 'int');
+        $this->setState('categoryID', $categoryID);
+    }
+
+    private function setRoomID()
+    {
+        $roomID = (isset($this->callParameters) and isset($this->callParameters['roomID']))?
+            $callParameters["roomID"] : $this->menuParameters->get('room_restriction');
+        if(isset($roomID)) $this->setState('roomID', $roomID);
+    }
+
+    private function setFromDate()
+    {
+        $application = JFactory::getApplication();
+        if(isset($this->callParameters) and isset($this->callParameters["fromDate"]))
+            $fromDate = $this->callParameters["fromDate"];
+        else $fromDate = $application->getUserStateFromRequest('com_thm_organizer.event_list.fromdate', 'fromdate', '');
+        if($fromDate) $this->setState('fromdate', $fromDate);
+    }
+
+    private function setToDate()
+    {
+        $application = JFactory::getApplication();
+        if(isset($this->callParameters) and isset($this->callParameters["toDate"]))
+            $toDate = $this->callParameters["fromDate"];
+        else $toDate = $application->getUserStateFromRequest('com_thm_organizer.event_list.todate', 'todate', '');
+        if($toDate) $this->setState('todate', $toDate);
+    }
+
+    private function setSearch()
+    {
+        $application = JFactory::getApplication();
+        if(isset($this->callParameters) and isset($this->callParameters["search"]))
+            $search = $this->callParameters["fromDate"];
+        else $search = $application->getUserStateFromRequest('com_thm_organizer.event_list.search', 'search', '');
+        if($search) $this->setState('search', $search);
+    }
+
+    private function setOrderBy()
+    {
+        $application = JFactory::getApplication();
+        if(isset($this->callParameters) and isset($this->callParameters["orderby"]))
+            $orderby = $this->callParameters["orderby"];
+        else $orderby = $application->getUserStateFromRequest('com_thm_organizer.event_list.orderby', 'orderby', 'date');
+        $this->setState('orderby', $orderby);
+
+        if(isset($this->callParameters) and isset($this->callParameters["orderbydir"]))
+            $orderbydir = $this->callParameters["orderbydir"];
+        else $orderbydir = $application->getUserStateFromRequest('com_thm_organizer.event_list.orderbydir', 'orderbydir', 'ASC');
+        $this->setState('orderbydir', $orderbydir);
+    }
+
+    private function setLimit()
+    {
+        $application = JFactory::getApplication();
+        if(isset($this->callParameters) and isset($this->callParameters["limit"]))
+            $limit = $this->callParameters["limit"];
+        else if(!isset($this->callParameters))
+            $limit = $application->getUserStateFromRequest('com_thm_organizer.event_list.limit', 'limit', 10, 'int');
+        if(isset($limit)) $this->setState('limit', $limit);
+
+        if(isset($this->callParameters) and isset($this->callParameters["limitstart"]))
+            $limitstart = $this->callParameters["limitstart"];
+        else if(!isset($this->callParameters))
+            $limitstart = JRequest::getInt('limitstart');
+        if(isset($limitstart)) $this->setState('limitstart', $limitstart);
+    }
 
     /**
      * loadEvents()
@@ -114,62 +195,51 @@ class thm_organizerModelevent_list extends JModel
     private function loadEvents()
     {
         $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery();
+        $query = $dbo->getQuery(true);
         $query->select($this->getSelect());
         $query->from("#__thm_organizer_events");
         $query->innerJoin("#__content ON #__thm_organizer_events.id = #__content.id");
         $query->innerJoin("#__thm_organizer_categories ON #__thm_organizer_events.categoryID = #__thm_organizer_categories.id");
         $query->innerJoin("#__categories ON #__thm_organizer_categories.contentCatID = #__categories.id");
         $query->innerJoin("#__users ON #__content.created_by = #__users.id");
-        $query->where($this->getWhere());
-        $where = $this->_buildEventsWhere();
-        $orderby = $this->_buildEventsOrderBy();
+        //$query->where($this->getWhere());
+        //$query->order($this->getOrderBy());
+        $query = (string)$query;
+        //$query = $query.$limit;
 
-        return $query;
-        $query = $this->buildQuery();
-        $pagination = $this->getPagination();
-        $this->_data = $this->_getList( $query, $pagination->limitstart, $pagination->limit );
-        foreach ($this->_data as $event)
+//        $pagination = $this->getPagination();
+//        $results = $this->_getList( (string) $query, $pagination->limitstart, $pagination->limit );
+
+
+        $dbo->setQuery($query);
+        $events = $dbo->loadAssocList();
+        foreach ($events as $k => $v)
         {
-                $displaydate = $displaytime = "";
-                if($event->starttime != "00:00" && $event->endtime != "00:00")
-                    $timestring = " (".substr($event->starttime, 0, 5)."-".substr($event->endtime, 0, 5).")";
-                else if($event->starttime != "00:00")
-                    $timestring = " (ab ".substr($event->starttime, 0, 5).")";
-                else if($event->endtime != "00:00")
-                    $timestring = " (bis ".substr($event->endtime, 0, 5).")";
-                if($event->enddate != "00.00.0000")
-                {
-                    switch($event->rec_type)
-                    {
-                        case 0:
-                            $starttime = $endtime = "";
-                            if($event->starttime != '00:00') $starttime = "(".$event->starttime.")";
-                            if($event->endtime != '00:00') $endtime = "(".$event->endtime.") ";
-                            $event->displaydt = $event->startdate." ".$starttime." - ".$event->enddate." ".$endtime;
-                            break;
-                        case 1:
-                            $event->displaydt = $event->startdate."  -  ".$event->enddate." ".$timestring;
-                            break;
-                    }
-                }
-                else
-                {
-                    $event->displaydt = $event->startdate." ".$timestring;
-                }
-                $event->detlink = "index.php?option=com_thm_organizer&view=event&eventid=".$event->eid."&Itemid=";
-                $event->editlink = "index.php?option=com_thm_organizer&view=event_edit&eventid=".$event->eid."&Itemid=";
-                $event->dellink = "index.php?option=com_thm_organizer&controller=event_edit&task=delete_event&eventid=".$event->eid."&Itemid=";
-                $event->catlink = "index.php?option=com_thm_organizer&view=eventlist&category=".$event->ecid."&Itemid=";
-                $event->filterlink = "index.php?option=com_thm_organizer&view=eventlist&Itemid=";
+            $edSet = $stSet = $etSet = false;
+            $displayDates = $timestring = "";
+            $edSet = $v['enddate'] != "00.00.0000";
+            $stSet = $v['starttime'] != "00:00";
+            $etSet = $v['endtime'] != "00:00";
+            if($stSet and $etSet) $timestring = " ({$v['starttime']} - {$v['endtime']})";
+            else if($stSet) $timestring = " (ab {$v['starttime']})";
+            else if($etSet) $timestring = " (bis {$v['endtime']})";
+            if($edSet and $v['rec_type'] == 0)
+            {
+                $displayDates = "{$v['startdate']}";
+                if($stSet) $displayDates .= " ( {$v['starttime']} )";
+                $displayDates .= " - {$v['enddate']}";
+                if($etSet) $displayDates .= " ( {$v['endtime']} )";
+                $events[$k]['displayDates'] = $displayDates;
             }
-            //echo $query."<br /><br /><br />";
-
-            $params = JFactory::getApplication()->getParams();
-            $show_room = $params->get('show_room');
-            if(isset($show_room) && $show_room == 1) $this->addRooms();
+            else if($edSet and $v['rec_type'] == 1)
+                $events[$k]['displayDates'] = $v['startdate']." - ".$v['enddate']." ".$timestring;
+            else
+                $events[$k]['displayDates'] = $v['startdate']." ".$timestring;
+            $events[$k]['detailsLink'] = "index.php?option=com_thm_organizer&view=event&eventID=".$v['id']."&Itemid=";
+            $events[$k]['userCanEdit'] = true;
         }
-        return $this->_data;
+        $this->total = count($events);
+        $this->events = $events;
     }
 
     private function getSelect()
@@ -188,36 +258,33 @@ class thm_organizerModelevent_list extends JModel
         $select .= "#__content.access AS contentAccess, ";
         $select .= "#__categories.title AS contentCategory, ";
         $select .= "#__categories.access AS contentCategoryAccess, ";
+        $select .= "#__users.name AS author, ";
         $select .= "#__users.id AS authorID ";
         return $select;
     }
 
     /**
-    * Build the where clause
-    *
-    * @access private
-    * @return string
-    */
-    private function buildWhere()
+     * getWhere()
+     *
+     * Build the where clause
+     *
+     * @access private
+     * @return string $where the where clause to a query based on model state information
+     *
+     */
+    private function getWhere()
     {
-        $filter = $this->getState('filter');
+        $search = $this->getState('search');
         $author = $this->getState('author');
         $room = $this->getState('room');
         $category = $this->getState('category');
-        $date = $this->getState('date');
+        $fromdate = $this->getState('fromdate');
+        $todate = $this->getState('todate');
+        $display_type = $this->display_type;
 
-        $params = JFactory::getApplication()->getParams();
-        $display_type = $params->get('display_type');
-
-        if(isset($author))  $wherray[] = "(username = '$author')";
-
-        if(isset($room) && is_array($room) && $room[0] != "")
-            $wherray[] = "(oid = '".implode("' OR oid = '", $room)."')";
-        else if(isset($room)) $wherray[] = "(oid = '$room')";
-
-        if(isset($category) && is_array($category) && $category[0] != ""&& $category[0] != "-1")
-            $wherray[] = "(ecid = '".implode("' OR ecid = '", $category)."')";
-        else if(isset($category) && !is_array($category) && $category != -1 ) $wherray[] = "(ecid = '$category')";
+        if(isset($author)) $wherray[] = "(author = '$author')";
+        if(isset($room)) $wherray[] = "( id = '$room' )";
+        if(isset($category)) $wherray[] = "(id = '$category')";
 
         if(isset($date) && $date != '')  $wherray[] = "(startdate <= '$date' AND enddate >= '$date')";
         else if((!isset($filter) || $filter == '') && isset($display_type) && ($display_type <= 3))
@@ -264,23 +331,24 @@ class thm_organizerModelevent_list extends JModel
      * @access public
      * @return category information packed in objects?
      */
-    function getCategories()
+    function loadCategories()
     {
-        $user =& JFactory::getUser();
-        $gid = $user->gid;
-        if(empty($this->_categories))
+        $dbo = JFactory::getDbo();
+        $userAccessLevels = JAccess::getAuthorisedViewLevels(JFactory::getUser()->id);
+        sort($userAccessLevels);
+        $maxLevel = array_pop($userAccessLevels);
+        $query = $dbo->getQuery(true);
+        $query->select('toc.id, toc.title, toc.description');
+        $query->from('#__thm_organizer_categories AS toc');
+        $query->innerJoin('#__categories AS c ON c.id = toc.contentCatID');
+        $query->where("c.access < '$maxLevel'");
+        if($this->display_type == 1 or $this->display_type == 5)
         {
-            $query = "SELECT ecid, ecname, ecimage, ecdescription
-                      FROM #__thm_organizer_categories
-                      WHERE access <= '$gid'";
-            $params = JFactory::getApplication()->getParams();
-            $display_type = $params->get('display_type');
-            if(isset($display_type) && ($display_type == 1 || $display_type == 5))
-                $category = $params->get('category');
-            if(isset($category)) $query = $query." AND ecid = '$category'";
-            $this->_categories = $this->_getList($query);
+            $category = $this->getState('category');
+            $query->where("toc.id = '$category'");
         }
-        return $this->_categories;
+        $dbo->setQuery((string)$query);
+        $this->categories = $dbo->loadAssocList();
     }
 
     /**
@@ -312,7 +380,7 @@ class thm_organizerModelevent_list extends JModel
         if (empty($this->_pagination))
         {
             jimport('joomla.html.pagination');
-            $this->_pagination = new JPagination( $this->getTotal(),  $this->getState('limitstart'), $this->getState('limit') );
+            $this->_pagination = new JPagination( $this->total,  $this->getState('limitstart'), $this->getState('limit') );
         }
         return $this->_pagination;
     }
@@ -334,48 +402,95 @@ class thm_organizerModelevent_list extends JModel
     }
 
     /**
-    * Build the order clause
-    *
-    * @access private
-    * @return string
-    */
-    function addRooms()
+     * Build the order clause
+     *
+     * @access private
+     * @return string
+     */
+    private function loadEventResources()
     {
-        $eids = ''; $initial = true;
-        foreach($this->_data as $event)
+        $dbo = JFactory::getDbo();
+        foreach($this->events as $k => $v)
         {
-            if(!$initial) $eids .= ', ';
-            else $initial = false;
-            $eids .= "'".$event->eid."'";
+            $id = $v['id'];
+            $resourcesResults = array();
+
+            $query = $dbo->getQuery(true);
+            $query->select('id, title AS name');
+            $query->from('#__thm_organizer_event_groups AS eg');
+            $query->innerJoin('#__usergroups AS ug ON eg.groupID = ug.id');
+            $query->where("eventID = '$id'");
+            $dbo->setQuery((string)$query);
+            $resourcesResults = array_merge($resourcesResults, $dbo->loadAssocList());
+            
+            $query = $dbo->getQuery(true);
+            $query->select('id, name');
+            $query->from('#__thm_organizer_event_teachers AS et');
+            $query->innerJoin('#__thm_organizer_teachers AS t ON et.teacherID = t.id');
+            $query->where("eventID = '$id'");
+            $dbo->setQuery((string)$query);
+            $resourcesResults = array_merge($resourcesResults, $dbo->loadAssocList());
+
+            $query = $dbo->getQuery(true);
+            $query->select('id, name');
+            $query->from('#__thm_organizer_event_rooms AS er');
+            $query->innerJoin('#__thm_organizer_rooms AS r ON er.roomID = r.id');
+            $query->where("eventID = '$id'");
+            $dbo->setQuery((string)$query);
+            $resourcesResults = array_merge($resourcesResults, $dbo->loadAssocList());
+
+            $resources = array();
+            foreach($resourcesResults as $result) $resources[$result['id']] = $result['name'];
+
+            $resourceString = (count($resources))? implode(", ", $resources) : "";
+            $this->events[$k]['resourceArray'] = $resources;
+            $this->events[$k]['resources'] = $resourceString;
+
         }
-        $where = $this->_buildEventsWhere();
-        $query = "SELECT eid, oname
-        FROM #__thm_organizer_events AS e
-        INNER JOIN #__thm_organizer_eventobjects
-                ON eid = eventid
-        INNER JOIN #__thm_organizer_objects
-                ON oid = objectid
-        INNER JOIN #__thm_organizer_categories
-                ON ecid = ecatid
-        INNER JOIN #__users
-                ON e.created_by = id
-        $where
-        AND eid in ( $eids )";
-        $roomlist = $this->_getList($query);
-        if(count($roomlist) > 0)
-            foreach($this->_data as $event)
-            {
-                foreach($roomlist as $room)
-                {
-                    if($event->eid == $room->eid)
-                    {
-                        if(isset($event->rooms))$event->rooms .= ", ".$room->oname;
-                        else $event->rooms = $room->oname;
-                    }
-                }
-            }
     }
 
+    private function setUserPermissions()
+    {
+        $this->canWrite = $this->canUserWrite();
+        $this->canEdit = $this->canUserEdit();
+    }
 
+    /**
+     * function canWrite
+     *
+     * checks whether the registered user has permission to write content in at
+     * least one associated content category
+     *
+     * @access private
+     * @return boolean $canWrite true if user can write an an associated content
+     * category, otherwise false
+     */
+    private function canUserWrite()
+    {
+        $canWrite = false;
+
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("DISTINCT asset_id");
+        $query->from("#__categories AS c");
+        $query->innerJoin("#__thm_organizer_categories AS ec ON ec.contentCatID = c.id");
+        $dbo->setQuery((string)$query);
+        $assetIDs = $dbo->loadResultArray();
+        if(count($assetIDs))
+        {
+            foreach($assetIDs as $assetID)
+            {
+                if($canWrite == true)return $canWrite;
+                else $canWrite = JAccess::check (JFactory::getUser ()->id, 'core.create', $assetID);
+            }
+            return $canWrite;
+        }
+        return $canWrite;
+    }
+
+    private function canUserEdit()
+    {
+        return true;
+    }
 
 }

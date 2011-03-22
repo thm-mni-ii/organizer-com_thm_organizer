@@ -12,6 +12,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
+JHtml::core();
 
 /**
 * HTML View class for the Giessen Scheduler Component
@@ -21,187 +22,187 @@ jimport( 'joomla.application.component.view');
 
 class thm_organizerViewevent_list extends JView
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
-        //var_dump($this);
-        global $mainframe;
-        $model =& $this->getModel();
-        $user =& JFactory::getUser();
-        $username = $user->username;
-        $this->assign('username' , $username);
-        $usergid = $user->gid;
-        $this->assign('usergid' , $usergid);
+        $document = JFactory::getDocument();
+        $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
 
+        $model = $this->getModel();
+        $events = $model->events;
+        //echo "<pre>".print_r($events, true)."</pre>";
+        $this->assign('events', $events);
+        $display_type = $model->display_type;
+        $this->assign('display_type', $display_type);
+        
+        $categories = $model->categories;
+        $this->assignRef('categories', $categories);
+        $category = ($model->getState('category'))? $model->getState('category') : -1;
+        $this->assignRef('category', $category);
+        $this->makeCategorySelect($categories, $category);
 
-        //get data from model
-        $events =  $model->getEvents();
-        $categories =  $model->getCategories();
-        $this->assign('categories', $categories);
-        $total 	=  $model->getTotal();
-        if(isset($events))
-            foreach ($events as $event)
-            {
-                if(isset($event->author) == $username || $usergid >= 24) $event->access = true;
-                else $event->access = false ;
-            }
+        $canWrite = $model->canWrite;
+        $this->assignRef('canWrite', $canWrite);
+        $canEdit = $model->canEdit;
+        $this->assignRef('canEdit', $canEdit);
+        $this->assign('itemID' , JRequest::getInt('Itemid'));
+
+        $total = $model->total;
+        $this->assign('total', $total);
+        
         // Create the pagination object
         $pageNav = & $this->get('Pagination');
-        $this->assign('itemid' , JRequest::getInt('Itemid'));
-        $this->assign('total', $total);
-        $this->assign('events', $events);
         $this->assign('pageNav', $pageNav);
-        $date = $model->getState('date');
-        if(isset($date))
-                $this->assign('date', $date);
-        $filter = $model->getState('filter');
-        if(isset($filter))
-                $this->assign('filter', strtolower($filter));
-        $category = $model->getState('category');
-        if(isset($category))
-                $this->assign('category', $category);
+
+        //form state variables
+        $search = $model->getState('search');
+        $search = (empty($search))? "" : $search;
+        $this->assignRef('search', $search);
         $orderby = $model->getState('orderby');
-        if(isset($orderby))
-                $this->assign('orderby', $orderby);
+        $orderby = (empty($orderby))? "startdate" : $orderby;
+        $this->assign('orderby', $orderby);
         $orderbydir = $model->getState('orderbydir');
-        if(isset($orderbydir))
-                $this->assign('orderbydir', $orderbydir);
+        $orderbydir = (empty($orderbydir))? "ASC" : $orderbydir;
+        $this->assign('orderbydir', $orderbydir);
 
+
+
+
+        $this->buildHTMLElements();
         //create select lists
-        $lists	= $this->buildLists();
-        $this->assign('lists' , $lists);
-
-        $this->assign('newlink', JRoute::_( "index.php?option=com_thm_organizer&view=event_edit&eventid=0&Itemid=$this->itemid" ));
+        //$lists	= $this->buildLists();
+        //$this->assign('lists' , $lists);
 
         parent::display($tpl);
     }
 
-    /**
-    * Method to build the sortlists
-    *
-    * @access private
-    * @return array
-    * @since 0.9
-    */
-    function buildLists()
+
+    private function buildHTMLElements()
     {
-        JHTML::_('behavior.tooltip');
-        $lists['newimage'] = JHTML::_('image.site', 'add.png', 'components/com_thm_organizer/assets/images/', NULL, NULL, JText::_( 'Termin Erzeugen' ));
-        $lists['newtext'] = JText::_( 'Neuer Termin erstellen' );
-        $lists['newtitle'] = JText::_( 'Neues Event' );
-        $lists['editimage'] = JHTML::_('image.site', 'edit.png', 'components/com_thm_organizer/assets/images/', NULL, NULL, JText::_( 'Termin Editieren' ));
-        $lists['edittext'] = JText::_( 'Dieser Termin editieren' );
-        $lists['edittitle'] = JText::_( 'Event Editieren' );
-        $lists['deleteimage']= JHTML::_('image.site', 'delete.png', 'components/com_thm_organizer/assets/images/', NULL, NULL, JText::_( 'Termin L&ouml;schen' ));
-        $lists['deletetext']= JText::_( 'Dieser Termin l&ouml;schen' );
-        $lists['deletetitle'] = JText::_( 'Event L&ouml;schen' );
+        $model = $this->getModel();
 
-        //the column is sorted with ascending values so the displayed image is an up arrow, but the link will sort them to have descending values
-        $downsortimage= JHTML::_('image.site', 'uparrow.png', 'administrator/images/', NULL, NULL, JText::_( 'Absteigend Sortieren' ));
-        $downsorttext= JText::_( 'Nach dieser Spalte absteigend sortieren.' );
-        //the column is sorted with decending values so the displayed image is a down arrow, but the link will sort them to have ascending values
-        $upsortimage= JHTML::_('image.site', 'downarrow.png', 'administrator/images/', NULL, NULL, JText::_( 'Aufsteigend Sortieren' ));
-        $upsorttext= JText::_( 'Nach dieser Spalte aufsteigend sortieren.' );
+        $newImage = JHTML::_('image.site', 'add.png', 'components/com_thm_organizer/assets/images/', NULL, NULL, JText::_( 'Termin Erzeugen' ));
+        $this->assignRef('newImage', $newImage);
+        $editImage = JHTML::_('image.site', 'edit.png', 'components/com_thm_organizer/assets/images/', NULL, NULL, JText::_( 'Termin EBearbeiten' ));
+        $this->assignRef('editImage', $editImage);
+        $deleteimage= JHTML::_('image.site', 'delete.png', 'components/com_thm_organizer/assets/images/', NULL, NULL, JText::_( 'Termin Löschen' ));
+        $this->assignRef('deleteImage', $deleteImage);
 
-        $columnlinkstart = "<h2 class='thm_organizer_el_headlinktext'><a class='sortLink hasTip' title='";
-        $columnlinkmiddle = "' href='javascript:reSort(";
-        $lists['titlehead'] = $columnlinkstart."Titel::";
-        $lists['authorhead'] = $columnlinkstart."Author::";
-        $lists['roomhead'] = "<h2 class='thm_organizer_el_headlinktext'>Ressourcen</h2>";
-        $lists['categoryhead'] = $columnlinkstart."Category::";
-        $lists['datehead'] = $columnlinkstart."Datum::";
-        if(isset($this->orderbydir) && isset($this->orderby))
+        $fromdate = $model->getState('fromdate');
+        $fromdate = (empty($fromdate))? "" : $fromdate;
+        $fromdate =  JHTML::_('calendar', $fromdate, 'fromdate', 'fromdate', '%d.%m.%Y', array('size'=>'7',  'maxlength'=>'10'));
+        $this->assignRef('fromdate', $fromdate);
+        $todate = $model->getState('todate');
+        $todate = (empty($todate))? "" : $todate;
+        $todate =  JHTML::_('calendar', $todate, 'fromdate', 'fromdate', '%d.%m.%Y', array('size'=>'7',  'maxlength'=>'10'));
+        $this->assignRef('todate', $todate);
+
+        $attribs = array();
+        $attribs['class'] = "thm_organizer_el_sortLink hasTip";
+        $spanOpen = "<span class='thm_organizer_el_th'>";
+        $spanClose = "</span>";
+        $ascImage= JHTML::_('image.site', 'sort_asc.png', 'media/system/images/', NULL, NULL, JText::_( 'Aufsteigend Sortieren' ));
+        $descImage= JHTML::_('image.site', 'sort_desc.png', 'media/system/images/', NULL, NULL, JText::_( 'Absteigend Sortieren' ));
+
+        $titleText = JText::_('COM_THM_ORGANIZER_EL_TITLE');
+        $titleAttribs = array();
+        $titleAttribs['title'] = JText::_('COM_THM_ORGANIZER_EL_SORT');
+        $titleLink = "javascript:reSort(";
+        if($this->orderby == 'title' and $this->orderbydir == 'ASC')
         {
-            if($this->orderby == 'title')
-            {
-                if($this->orderbydir == 'ASC')
-                {
-                    $lists['titlehead'] .= $downsorttext.$columnlinkmiddle."\"title\", \"DESC\")' >";
-                    $lists['titlehead'] .= "Titel".$downsortimage."</a></h2>";
-                }
-                else
-                {
-                    $lists['titlehead'] .= $upsorttext.$columnlinkmiddle."\"title\", \"ASC\")' >";
-                    $lists['titlehead'] .= "Titel".$upsortimage."</a></h2>";
-                }
-            }
-            else
-            {
-                $lists['titlehead'] .= $upsorttext.$columnlinkmiddle."\"title\", \"ASC\")' >";
-                $lists['titlehead'] .= "Titel</a></h2>";
-            }
-            if($this->orderby == 'author')
-            {
-                if($this->orderbydir == 'ASC')
-                {
-                    $lists['authorhead'] .= $downsorttext.$columnlinkmiddle."\"author\", \"DESC\")' >";
-                    $lists['authorhead'] .= "Author".$downsortimage."</a></h2>";
-                }
-                else
-                {
-                    $lists['authorhead'] .= $upsorttext.$columnlinkmiddle."\"author\", \"ASC\")' >";
-                    $lists['authorhead'] .= "Author".$upsortimage."</a></h2>";
-                }
-            }
-            else
-            {
-                $lists['authorhead'] .= $upsorttext.$columnlinkmiddle."\"author\", \"ASC\")' >";
-                $lists['authorhead'] .= "Author</a></h2>";
-            }
-            if($this->orderby == 'category')
-            {
-                if($this->orderbydir == 'ASC')
-                {
-                    $lists['categoryhead'] .= $downsorttext.$columnlinkmiddle."\"category\", \"DESC\")' >";
-                    $lists['categoryhead'] .= "Kategorie".$downsortimage."</a></h2>";
-                }
-                else
-                {
-                    $lists['categoryhead'] .= $upsorttext.$columnlinkmiddle."\"category\", \"ASC\")' >";
-                    $lists['categoryhead'] .= "Kategorie".$upsortimage."</a></h2>";
-                }
-            }
-            else
-            {
-                $lists['categoryhead'] .= $upsorttext.$columnlinkmiddle."\"category\", \"ASC\")' >";
-                $lists['categoryhead'] .= "Kategorie</a></h2>";
-            }
-            if($this->orderby == 'date')
-            {
-                if($this->orderbydir == 'ASC')
-                {
-                    $lists['datehead'] .= $downsorttext.$columnlinkmiddle."\"date\", \"DESC\")' >";
-                    $lists['datehead'] .= "Datum".$downsortimage."</a></h2>";
-                }
-                else
-                {
-                    $lists['datehead'] .= $upsorttext.$columnlinkmiddle."\"date\", \"ASC\")' >";
-                    $lists['datehead'] .= "Datum".$upsortimage."</a></h2>";
-                }
-            }
-            else
-            {
-                $lists['datehead'] .= $upsorttext.$columnlinkmiddle."\"date\", \"ASC\")' >";
-                $lists['datehead'] .= "Datum</a></h2>";
-            }
+            $titleText .= $ascImage;
+            $titleAttribs['title'] .= "::".JText::_('COM_THM_ORGANIZER_EL_DESC_DESCRIPTION');
+            $titleLink .= '"title", "DESC")';
         }
         else
         {
-            $lists['titlehead'] .= $upsorttext.$columnlinkmiddle."\"title\", \"ASC\")' >";
-            $lists['titlehead'] .= "Titel</a></h2>";
-            $lists['authorhead'] .= $upsorttext.$columnlinkmiddle."\"author\", \"ASC\")' >";
-            $lists['authorhead'] .= "Author</a></h2>";
-            $lists['categoryhead'] .= $upsorttext.$columnlinkmiddle."\"category\", \"ASC\")' >";
-            $lists['categoryhead'] .= "Kategorie</a></h2>";
-            $lists['datehead'] .= $downsorttext.$columnlinkmiddle."\"date\", \"DESC\")' >";
-            $lists['datehead'] .= "Datum".$downsortimage."</a></h2>";
+            $titleText .= ($this->orderby == 'title')? $descImage : "";
+            $titleAttribs['title'] .= "::".JText::_('COM_THM_ORGANIZER_EL_ASC_DESCRIPTION');
+            $titleLink .= '"title", "ASC")';
         }
+        $titleAttribs = array_merge($titleAttribs, $attribs);
+        $titleHead = $spanOpen.JHTML::_('link', $titleLink, $titleText, $titleAttribs).$spanClose;
+        $this->assignRef('titleHead', $titleHead);
 
-        $lists['date'] =  JHTML::_('calendar', $this->date = "", 'date', 'date', '%Y-%m-%d', array('size'=>'7',  'maxlength'=>'10'));
 
-        $nocategories = array(1=>array('ecid'=>'-1','ecname'=>JText::_('Alle Kategorien')));
-        $categories = array_merge($nocategories, $this->categories);
-        $lists['category'] = JHTML::_('select.genericlist', $categories, 'category[]','id="category" class="inputbox" size="1"', 'ecid', 'ecname', $this->category );
+        $authorText = JText::_('COM_THM_ORGANIZER_EL_AUTHOR');
+        $authorAttribs = array();
+        $authorAttribs['title'] = JText::_('COM_THM_ORGANIZER_EL_SORT');
+        $authorLink = "javascript:reSort(";
+        if($this->orderby == 'author' and $this->orderbydir == 'ASC')
+        {
+            $authorText .= $ascImage;
+            $authorAttribs['title'] .= "::".JText::_('COM_THM_ORGANIZER_EL_DESC_DESCRIPTION');
+            $authorLink .= '"author", "DESC")';
+        }
+        else
+        {
+            $authorText .= ($this->orderby == 'author')? $descImage : "";
+            $authorAttribs['title'] .= "::".JText::_('COM_THM_ORGANIZER_EL_ASC_DESCRIPTION');
+            $authorLink .= '"author", "ASC")';
+        }
+        $authorAttribs = array_merge($authorAttribs, $attribs);
+        $authorHead = $spanOpen.JHTML::_('link', $authorLink, $authorText, $authorAttribs).$spanClose;
+        $this->assignRef('authorHead', $authorHead);
 
-        return $lists;
+        $resourceHead = $spanOpen.JText::_('COM_THM_ORGANIZER_EL_RESOURCE').$spanClose;
+        $this->assignRef('resourceHead', $resourceHead);
+
+        $categoryText = JText::_('COM_THM_ORGANIZER_EL_CATEGORY');
+        $categoryAttribs = array();
+        $categoryAttribs['title'] = JText::_('COM_THM_ORGANIZER_EL_SORT');
+        $categoryLink = "javascript:reSort(";
+        if($this->orderby == 'category' and $this->orderbydir == 'ASC')
+        {
+            $categoryText .= $ascImage;
+            $categoryAttribs['title'] .= "::".JText::_('COM_THM_ORGANIZER_EL_DESC_DESCRIPTION');
+            $categoryLink .= '"category", "DESC")';
+        }
+        else
+        {
+            $categoryText .= ($this->orderby == 'category')? $descImage : "";
+            $categoryAttribs['title'] .= "::".JText::_('COM_THM_ORGANIZER_EL_ASC_DESCRIPTION');
+            $categoryLink .= '"category", "ASC")';
+        }
+        $categoryAttribs = array_merge($categoryAttribs, $attribs);
+        $categoryHead = $spanOpen.JHTML::_('link', $categoryLink, $categoryText, $categoryAttribs).$spanClose;
+        $this->assignRef('categoryHead', $categoryHead);
+
+        $dateText = JText::_('COM_THM_ORGANIZER_EL_DATE');
+        $dateAttribs = array();
+        $dateAttribs['title'] = JText::_('COM_THM_ORGANIZER_EL_SORT');
+        $dateLink = "javascript:reSort(";
+        if($this->orderby == 'date' and $this->orderbydir == 'ASC')
+        {
+            $dateText .= $ascImage;
+            $dateAttribs['title'] .= "::".JText::_('COM_THM_ORGANIZER_EL_DESC_DESCRIPTION');
+            $dateLink .= '"date", "DESC")';
+        }
+        else
+        {
+            $dateText .= ($this->orderby == 'date')? $descImage : "";
+            $dateAttribs['title'] .= "::".JText::_('COM_THM_ORGANIZER_EL_ASC_DESCRIPTION');
+            $dateLink .= '"date", "ASC")';
+        }
+        $dateAttribs = array_merge($dateAttribs, $attribs);
+        $dateHead = $spanOpen.JHTML::_('link', $dateLink, $dateText, $dateAttribs).$spanClose;
+        $this->assignRef('dateHead', $dateHead);
     }
+
+    private function makeCategorySelect($categories, $selected)
+    {
+        //echo "<pre>".print_r($categories, true)."</pre>";
+        $nocategories = array(1=>array('id'=>'-1','title'=>JText::_('Alle Kategorien')));
+        $categories = array_merge($nocategories, $categories);
+        $categorySelect = JHTML::_('select.genericlist', $categories, 'category[]','id="category" class="inputbox" size="1"', 'id', 'title', $selected );
+        $this->assignRef('categorySelect', $categorySelect);
+    }
+    /*
+                <button onclick="document.getElementById('thm_organizer_el_form').submit();">
+                    <?php echo JText::_( 'Los' ); ?>
+                </button>
+                <input type="submit"
+                       onclick="document.getElementById('filter').value='';
+                                 document.getElementById('date').value=''
+                                 document.getElementById('thm_organizer_el_form').submit();"
+                       value="<?php echo JText::_( 'Reset' ); ?>" >*/
 }

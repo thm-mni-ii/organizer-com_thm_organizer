@@ -142,87 +142,138 @@ ul{
 
 /* com_thm_organizer view: eventlist*******************************************/
 
-#thm_organizer_el{
-    margin: -10px -10px 10px -10px;
-}
-
-#thm_organizer_el_newevent{
+#thm_organizer_el_action_div{
     float: right;
 }
-
-#thm_organizer_el_newevent img{
-    height: 20px;
-    width: 20px;
+.thm_organizer_el_action_link{
+display: block;
+float: left;
+margin: 0px;
+padding-bottom: 1px;
+padding-top: 1px;
+padding-right: 5px;
+padding-left: 5px;
+text-align: center;
+text-decoration: none;
+white-space: nowrap;
 }
 
-#thm_organizer_el_eventcattable{
-    margin: -10px -10px 0px -4px;
+.thm_organizer_el_action_span{
+display: block;
+float: none;
+height: 32px;
+width: 32px;
+margin-bottom: 0px;
+margin-top: 0px;
+margin-left: auto;
+margin-right: auto;
 }
 
-.thm_organizer_el_catimage{
-    width: 80px;
-    height: 80px;
+#thm_organizer_el_new_span{
+background-image: url("../images/icon-32-new.png");
 }
 
-#thm_organizer_el_searchform{
-    background-color: #DDDDDD;
+#thm_organizer_el_edit_span{
+background-image: url("../images/icon-32-edit.png");
 }
 
-#thm_organizer_el_searchform #date_img{
-    margin: 0px 3px -4px 0px;
+#thm_organizer_el_delete_span{
+background-image: url("../images/icon-32-trash.png");
 }
 
-#thm_organizer_el_filter{
-    width: 15%;
+#thm_organizer_el_submit_span{
+background-image: url("../images/icon-32-forward.png");
 }
 
-#thm_organizer_el_eventtable{
-    border: 0;
-    text-align: left;
+#thm_organizer_el_reset_span{
+background-image: url("../images/icon-32-refresh.png");
+}
+
+.thm_organizer_el_divider_span{
+    border-right: solid 1px #c7c7c7;
+    height: 48px;
+    width: 2px;
+    padding-top: 1px;
+    padding-left: 4px;
+    padding-right: 1px;
+    display: block;
+    float: left;
+    margin-right: 4px;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+#thm_organizer_el_form_div{
     width: 100%;
-    table-layout: fixed;
-    margin: -20px 0px 0px 0px;
-}
-a.sortLink{
-    font-size: 14px;
-    color: black;
+    margin-top: 5px;
+    float: left;
+    clear: both;
 }
 
-#thm_organizer_el_eventtitlehead{
-    min-width: 25%;
+#thm_organizer_el_search_div{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    width: 100%;
+    border-radius: 3px;
+    border: #bbbbbb 1px solid;
+    background-color: rgb(238, 238, 238);
+}
+#thm_organizer_el_search_div .calendar{
+    margin-bottom: -5px;
 }
 
-#thm_organizer_el_eventroomhead{
-    min-width: 10%;
+.thm_organizer_el_label_span{
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
-#thm_organizer_el_eventcathead{
-    min-width: 15%;
+#thm_organizer_el_events_div{
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 3px;
+    border: #bbbbbb 1px solid;
+    padding: 5px;
+    background-color: rgb(238, 238, 238);
+}
+#thm_organizer_el_eventtable{
+    width: 100%;
+    cell-spacing: 0px;
 }
 
-#thm_organizer_el_eventdthead{
+#thm_organizer_el_eventtable thead tr{
+    border: none;
 }
 
-#thm_organizer_el_eventedithead{
-    width: 3%;
+#thm_organizer_el_eventtable thead th{
+    padding: 5px;
 }
 
-#thm_organizer_el_eventdeletehead{
-    width: 3%;
+.thm_organizer_el_row_even{
+    background-color: white;
+    border: #bbbbbb 1px solid;
 }
 
-.thm_organizer_el_eventeven{
-    background-color: #DDDDDD;
+.thm_organizer_el_row_odd{
+    border: #bbbbbb 1px solid;
 }
 
-.pageslinks{
-margin-top:20px;
+#thm_organizer_el_eventtable thead th a{
+    text-decoration: none;
 }
 
-#thm_organizer_el_eventtable tr td img{
-    margin:0px;
-    height: 16px;
-    width: 16px;
+#thm_organizer_el_eventtable tr td{
+    padding: 5px;
+    border: none;
+}
+
+#thm_organizer_el_eventtable tr td a{
+    text-decoration: none;
+}
+
+#thm_organizer_el_col_check{
+    width: 18px;
 }
 
 /* com_thm_organizer view: event***********************************************/
