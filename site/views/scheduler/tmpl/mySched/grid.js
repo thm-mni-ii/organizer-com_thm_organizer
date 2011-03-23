@@ -195,7 +195,7 @@ function addNewEvent(eventid, sdate, stime, etime) {
 
 		for (var i = 0; i < 7; i++) {
 			if (weekpointer.getDay() == daynumber) {
-				date = weekpointer.format("Y-m-d");
+				date = weekpointer.format("d.m.Y");
 				break;
 			}
 			else weekpointer.setDate(weekpointer.getDate() + 1);
@@ -204,7 +204,7 @@ function addNewEvent(eventid, sdate, stime, etime) {
 	else {
 		var splitteddate = Ext.ComponentMgr.get('menuedatepicker').value.split(".");
 		weekpointer = new Date(splitteddate[2], splitteddate[1] - 1, splitteddate[0]);
-		date = weekpointer.format("Y-m-d");
+		date = weekpointer.format("d.m.Y");
 	}
 
 	if (typeof etime == "undefined") etime = "";
@@ -225,7 +225,7 @@ function addNewEvent(eventid, sdate, stime, etime) {
 		modal: true,
 		frame:false,
 		closeAction: 'close',
-		html: '<iframe onLoad="newEventonLoad(this)" id="iframeNewEvent" class="mysched_iframeNewEvent" src="http://localhost/joomla/index.php?option=com_thm_organizer&view=editevent&eventid=' + eventid + '&tmpl=component' + adds + '"></iframe>'
+		html: '<iframe onLoad="newEventonLoad(this)" id="iframeNewEvent" class="mysched_iframeNewEvent" src="' + MySched.eventLink + eventid + '&tmpl=component' + adds + '"></iframe>'
 	});
 
 	win.on("close", function (panel) {

@@ -29,6 +29,7 @@
 			echo 'MySched.class_semester_id = \''.$this->semesterID.'\';';
 			echo 'MySched.class_semester_author = \''.$this->semAuthor.'\';';
 			echo 'MySched.startup = \''.$this->startup.'\';';
+			echo 'MySched.eventLink = \''.JRoute::_('index.php?option=com_thm_organizer&view=event_edit&eventID=').'\';';
 	?>
 
 		Ext.onReady(MySched.Base.init, MySched.Base);

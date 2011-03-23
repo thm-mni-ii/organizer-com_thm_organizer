@@ -18,7 +18,7 @@ class mySchedImport {
 			$this->cfg = $CFG;
 			$this->clientCourse = new Zend_Soap_Client($this->cfg->getestudyWsapiPath() . '/course.php?wsdl');
 			$this->clientCourse->addSoapInputHeader(
-				new SoapHeader(
+				@new SoapHeader(
 					$this->cfg->getSoapSchema(),
 					"authenticateUser",
 					array(
@@ -31,7 +31,7 @@ class mySchedImport {
 
 			$this->clientCalendar = new Zend_Soap_Client($this->cfg->getestudyWsapiPath() . '/calendar.php?wsdl');
 			$this->clientCalendar->addSoapInputHeader(
-				new SoapHeader(
+				@new SoapHeader(
 					$this->cfg->getSoapSchema(),
 					"authenticateUser",
 					array(

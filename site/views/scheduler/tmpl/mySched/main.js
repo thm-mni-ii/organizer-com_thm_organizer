@@ -347,10 +347,8 @@ MySched.Base = function () {
 
         MySched.session["begin"] = jsonData[1];
         MySched.session["end"] = jsonData[2];
-        var tempdate = jsonData[3];
-        var tempdatearr = tempdate.split('-');
         MySched.session["creationdate"] = jsonData[3];
-        Ext.ComponentMgr.get('leftMenu').setTitle("Stand vom " + tempdatearr[2] + "." + tempdatearr[1] + "." + tempdatearr[0] + "");
+        Ext.ComponentMgr.get('leftMenu').setTitle("Stand vom " +  MySched.session["creationdate"]);
         // Managed die Sichtbarkeit der Add/Del Buttons in der Toolbar
         MySched.SelectionManager.on('select', function (el) {
           if (MySched.Schedule.lectureExists(el.id)) {
@@ -1068,6 +1066,9 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
     xy[0] = xy[0] + el.getWidth() + 10;
 
     var l = MySched.selectedSchedule.getLecture(el.id);
+    var title = l.data.desc;
+    if(l.longname != "")
+    	title = l.longname
     var ttInfo = new Ext.ToolTip({
       title: '<div class="mySched_lesson_tooltip"> ' + l.data.desc + " " + '</div>',
       id: 'content-anchor-tip',
@@ -2527,7 +2528,7 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name, 
 
         if (titel && day && stime && etime) {
           var blocks = timetoblocks(Ext.getCmp('starttiid').getValue(), Ext.getCmp('endtiid').getValue());
-          var date = new Date().format('Y-m-d-H:i:s');
+          var date = new Date().format('d.m.Y H:i:s');
           var dozs = Ext.getCmp('dozid').getValue();
           var rooms = Ext.getCmp('roomid').getValue();
           var classes = Ext.getCmp('clasid').getValue();

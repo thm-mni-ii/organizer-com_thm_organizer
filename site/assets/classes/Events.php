@@ -22,94 +22,91 @@ class Events
 
 	public function load()
 	{
-		if ( isset( $this->jsid ) ) {
-			$timestamp = time();
-			$query     = "SELECT id as eid, title, startdate, enddate, starttime, endtime, description as edescription, recurrence_type, resourceid, resource_type " .
-						 "FROM #__thm_organizer_events LEFT JOIN #__thm_organizer_event_resources ON id = eventid ORDER BY resource_type";
-			$res       = $this->JDA->query( $query );
+		$eventmodel = JModel::getInstance('event_list', 'thm_organizerModel', array('ignore_request' => false, 'display_type'=>4));
 
-			$arr = array( );
+		$events = $eventmodel->events;
 
-			if(is_array( $res ))
-			for ( $i = 0; $i < count( $res ); $i++ ) {
-				$temp = $res[ $i ];
-				$temp->objectid = null;
-				if($temp->resource_type !== null)
-				{
-					$query     = "SELECT gpuntisID as objectid " .
-							 	 "FROM ".$temp->resource_type." WHERE id = ".$temp->resourceid;
-					$res2       = $this->JDA->query( $query );
+		$arr = array( );
 
-					if(is_array($res2))
-						if(count($res2) > 0)
-							$temp->objectid = $res2[0]->objectid;
-				}
-				if ( !isset( $arr[ $temp->eid ] ) )
-					$arr[ $temp->eid ] = array( );
-				$arr[ $temp->eid ][ "eid" ]       = $temp->eid;
-				$arr[ $temp->eid ][ "title" ]     = $temp->title;
-				$arr[ $temp->eid ][ "startdate" ] = $temp->startdate;
-				if ( $temp->enddate == "0000-00-00" || $temp->enddate == null || $temp->enddate == "" )
-					$arr[ $temp->eid ][ "enddate" ] = $temp->startdate;
+		if(is_array( $events ))
+		for ( $i = 0; $i < count( $events ); $i++ ) {
+			$temp = $events[$i];
+			if ( !isset( $arr[ $temp["id"] ] ) )
+				$arr[ $temp["id"] ] = array( );
+			$arr[ $temp["id"] ][ "eid" ]       = $temp["id"];
+			$arr[ $temp["id"] ][ "title" ]     = $temp["title"];
+			$arr[ $temp["id"] ][ "startdate" ] = $temp["startdate"];
+			if ( $temp["enddate"] == "0000-00-00" || $temp["enddate"] == null || $temp["enddate"] == "" )
+				$arr[ $temp["id"] ][ "enddate" ] = $temp["startdate"];
+			else
+				$arr[ $temp["id"] ][ "enddate" ] = $temp["enddate"];
+			$arr[ $temp["id"] ][ "starttime" ]    = $temp["starttime"];
+			$arr[ $temp["id"] ][ "endtime" ]      = $temp["endtime"];
+			$arr[ $temp["id"] ][ "edescription" ] = $temp["description"];
+			$arr[ $temp["id"] ][ "facultative" ]  = "";
+			$arr[ $temp["id"] ][ "source" ]       = "joomla";
+			$arr[ $temp["id"] ][ "recurrence_type" ] = $temp["rec_type"];
+
+			if ( !isset( $arr[ $temp["id"] ][ "objects" ] ) )
+				$arr[ $temp["id"] ][ "objects" ] = array( );
+
+			$dbo = $this->JDA->getDBO();
+
+			foreach($temp["resourceArray"] as $k=>$v)
+			{
+				$query	= $dbo->getQuery(true);
+				$query->select('gpuntisID');
+				if($v["type"] === "teacher")
+					$query->from('#__thm_organizer_teachers');
+				else if($v["type"] === "room")
+					$query->from('#__thm_organizer_rooms');
 				else
-					$arr[ $temp->eid ][ "enddate" ] = $temp->enddate;
-				$arr[ $temp->eid ][ "starttime" ]    = $temp->starttime;
-				$arr[ $temp->eid ][ "endtime" ]      = $temp->endtime;
-				$arr[ $temp->eid ][ "edescription" ] = $temp->edescription;
-				$arr[ $temp->eid ][ "facultative" ]  = "";
-				$arr[ $temp->eid ][ "source" ]       = "joomla";
-				$arr[ $temp->eid ][ "recurrence_type" ] = $temp->recurrence_type;
-				if ( !isset( $arr[ $temp->eid ][ "objects" ] ) )
-					$arr[ $temp->eid ][ "objects" ] = array( );
-				if($temp->objectid !== null)
-					if(is_string($temp->objectid))
-						$arr[ $temp->eid ][ "objects" ][ $temp->objectid ] = $temp->objectid;
+					continue;
+				$query->where('`id` = '.$v["id"]);
+				$dbo->setQuery($query);
+
+				$result = $dbo->loadObject();
+
+				$arr[ $temp["id"] ][ "objects" ][ $result->gpuntisID ] = $result->gpuntisID;
 			}
 
-			$username = $this->JDA->getUserName();
+		}
 
-			$pregres = preg_match( "/[^[:alnum:]]/", $this->jsid );
-			if ( $pregres == 0 && strlen( $this->jsid ) > 0 && $username != "" ) {
-				try {
-					$SI           = new mySchedImport( $username, $this->jsid, $this->CFG );
-					$estudycalres = $SI->getCalendar();
+		$username = $this->JDA->getUserName();
 
-					if ( $estudycalres != null ) {
-						$temp = array( );
-						if ( is_array( $estudycalres ) ) {
-							foreach ( $estudycalres as $v ) {
-								$temp[ "eid" ]          = "";
-								$temp[ "title" ]        = $v->summary;
-								$temp[ "startdate" ]    = date( "Y-m-d", strtotime( $v->start ) );
-								$temp[ "enddate" ]      = date( "Y-m-d", strtotime( $v->end ) );
-								$temp[ "starttime" ]    = date( "H:i:s", strtotime( $v->start ) );
-								$temp[ "endtime" ]      = date( "H:i:s", strtotime( $v->end ) );
-								$temp[ "edescription" ] = $v->description;
-								$temp[ "source" ]       = "estudy";
-								$temp[ "recurrence_type" ] = 0;
-								$temp[ "facultative" ]  = $v->isFacultative;
-								$temp[ "objects" ]      = array( );
-								array_push( $arr, $temp );
-								$temp = array( );
-							}
+		$pregres = preg_match( "/[^[:alnum:]]/", $this->jsid );
+		if ( $pregres == 0 && strlen( $this->jsid ) > 0 && $username != "" ) {
+			try {
+				$SI           = new mySchedImport( $username, $this->jsid, $this->CFG );
+				$estudycalres = $SI->getCalendar();
+
+				if ( $estudycalres != null ) {
+					$temp = array( );
+					if ( is_array( $estudycalres ) ) {
+						foreach ( $estudycalres as $v ) {
+							$temp[ "eid" ]          = "";
+							$temp[ "title" ]        = $v->summary;
+							$temp[ "startdate" ]    = date( "Y-m-d", strtotime( $v->start ) );
+							$temp[ "enddate" ]      = date( "Y-m-d", strtotime( $v->end ) );
+							$temp[ "starttime" ]    = date( "H:i:s", strtotime( $v->start ) );
+							$temp[ "endtime" ]      = date( "H:i:s", strtotime( $v->end ) );
+							$temp[ "edescription" ] = $v->description;
+							$temp[ "source" ]       = "estudy";
+							$temp[ "recurrence_type" ] = 0;
+							$temp[ "facultative" ]  = $v->isFacultative;
+							$temp[ "objects" ]      = array( );
+							array_push( $arr, $temp );
+							$temp = array( );
 						}
 					}
-					return array("success"=>true,"data"=>$arr );
 				}
-				catch ( Exception $e ) {
-					return array("success"=>false,"data"=>$arr );
-				}
-			} else {
+				return array("success"=>true,"data"=>$arr );
+			}
+			catch ( Exception $e ) {
 				return array("success"=>true,"data"=>$arr );
 			}
 		} else {
-			// DB-FEHLER
-			return array("success"=>false,"data"=>array(
-				 'code' => '403',
-				'errors' => array(
-					 'reason' => 'Permission Denied!'
-				)
-			) );
+			return array("success"=>true,"data"=>$arr );
 		}
 	}
 }

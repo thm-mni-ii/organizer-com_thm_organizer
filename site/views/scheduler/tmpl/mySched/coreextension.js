@@ -99,17 +99,17 @@ Ext.DatePicker.prototype.update = function (date, forceRefresh) {
 
 			cell.children[0].events = new Array();
 
-			if (MySched.session["begin"] == d.format("Y-m-d")) {
+			if (MySched.session["begin"] == d.format("d.m.Y")) {
 				cell.className += ' x-date-highlight_semester';
 				var len = cell.children[0].events.length;
 				cell.children[0].events[len] = "Semesteranfang";
 			}
-			else if (MySched.session["end"] == d.format("Y-m-d")) {
+			else if (MySched.session["end"] == d.format("d.m.Y")) {
 				cell.className += ' x-date-highlight_semester';
 				var len = cell.children[0].events.length;
 				cell.children[0].events[len] = "Semesterende";
 			}
-			else if (MySched.session["begin"] <= d.format("Y-m-d") && MySched.session["end"] >= d.format("Y-m-d")) {
+			else if (MySched.session["begin"] <= d.format("d.m.Y") && MySched.session["end"] >= d.format("d.m.Y")) {
 				cell.className += ' x-date-highlight_semester';
 				var len = cell.children[0].events.length;
 				cell.children[0].events[len] = "Semester";
@@ -119,7 +119,13 @@ Ext.DatePicker.prototype.update = function (date, forceRefresh) {
 			var EL = MySched.eventlist.data;
 
 			for (var ELindex = 0; ELindex < EL.length; ELindex++) {
-				if (EL.items[ELindex].data.startdate <= d.format("Y-m-d") && EL.items[ELindex].data.enddate >= d.format("Y-m-d")) {
+
+				var startdate = EL.items[ELindex].data.startdate.split(".");
+				startdate = new Date(startdate[2], startdate[1]-1, startdate[0]);
+				var enddate = EL.items[ELindex].data.enddate.split(".");
+				enddate = new Date(enddate[2], enddate[1]-1, enddate[0]);
+
+				if (startdate <= d && enddate >= d) {
 					if (cell.className.contains(" x-date-highlight_joomla") == false && cell.className.contains(" x-date-highlight_estudy") == false) cell.className += ' x-date-highlight_' + EL.items[ELindex].data.source;
 
 					var len = cell.children[0].events.length;

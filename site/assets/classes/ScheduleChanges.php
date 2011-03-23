@@ -41,7 +41,7 @@ class ScheduleChanges
 				$data     = $res[ 0 ];
 				$username = $data->username;
 
-				$res               = $this->JDA->query( "SELECT manager, organization, semesterDesc FROM #__thm_organizer_semesters WHERE id=" . $this->class_semester_id );
+				$res               = $this->JDA->query( "SELECT username as author, organization, semesterDesc FROM #__thm_organizer_semesters INNER JOIN ON #__users manager = #__users.id WHERE #__thm_organizer_semesters.id = " . $this->class_semester_id );
 				$ret               = $res[ 0 ];
 				$author            = $ret->author;
 				$this->class_semester_id = $ret->orgunit . "-" . $ret->semester;

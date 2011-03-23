@@ -235,7 +235,7 @@ Ext.extend(mSchedule, MySched.Model, {
 			}
 		}
 
-		if (wp.format("Y-m-d") < MySched.session["begin"] && cd.menu == null) {
+		if (wp.format("d.m.Y") < MySched.session["begin"] && cd.menu == null) {
 			Ext.Msg.show({
 				title: "Hinweis",
 				cls: "mysched_semesterbegin",
@@ -250,7 +250,8 @@ Ext.extend(mSchedule, MySched.Model, {
 				fn: function (btn) {
 					if (btn == "ok") {
 						var cd = Ext.ComponentMgr.get('menuedatepicker');
-						var inidate = new Date(MySched.session["begin"]);
+			            var begindate = MySched.session["begin"].split("-");
+			            var inidate = new Date(begindate[0], begindate[1], begindate[2]);
 						if (typeof cd.menu == "undefined")
 							cd.initialConfig.value = inidate;
 						else {
@@ -285,7 +286,7 @@ Ext.extend(mSchedule, MySched.Model, {
 
 						wp.setDate(wp.getDate() + dow);
 
-						date = wp.format("Y-m-d");
+						date = wp.format("d.m.Y");
 
 						if ((date >= MySched.session["begin"] && date <= MySched.session["end"]) || (this.type == "delta" || this.id == "respChanges"))
 							ret[bl][wd].push(v.getCellView(this));
@@ -308,7 +309,13 @@ Ext.extend(mSchedule, MySched.Model, {
 				}
 
 				for (var counter = 0; counter < 5; counter++) {
-					if (v.data.startdate <= weekpointer.format("Y-m-d") && v.data.enddate >= weekpointer.format("Y-m-d")) {
+
+					var startdate = v.data.startdate.split(".");
+					startdate = new Date(startdate[2], startdate[1]-1, startdate[0]);
+					var enddate = v.data.enddate.split(".");
+					enddate = new Date(enddate[2], enddate[1]-1, enddate[0]);
+
+					if (startdate <= weekpointer && enddate >= weekpointer) {
 						wd = numbertoday(weekpointer.getDay());
 						for (var i = 1; i <= 6; i++) {
 							var blotimes = blocktotime(i);
@@ -330,7 +337,7 @@ Ext.extend(mSchedule, MySched.Model, {
 							else
 								if(v.data.recurrence_type == 0) //durchgängig
 								{
-									if( v.data.startdate == weekpointer.format("Y-m-d") )
+									if( startdate == weekpointer )
 									{
 										if ( v.data.starttime <= blotimes[0] )
 											bl = i;
@@ -338,7 +345,7 @@ Ext.extend(mSchedule, MySched.Model, {
 										if (v.data.starttime >= blotimes[0] && v.data.starttime < blotimes[1])
 											bl = i;
 									}
-									else if( v.data.enddate == weekpointer.format("Y-m-d") )
+									else if( enddate == weekpointer)
 									{
 										if ( v.data.endtime >= blotimes[1] )
 											bl = i;
@@ -347,7 +354,8 @@ Ext.extend(mSchedule, MySched.Model, {
 											bl = i;
 									}
 									else
-										bl = i;
+										if (v.data.starttime <= blotimes[0] && v.data.endtime > blotimes[1])
+											bl = i;
 								}
 
 							if (bl != null) {
@@ -631,7 +639,7 @@ Ext.extend(mSchedule, MySched.Model, {
 
 		wpMO.setDate(wpMO.getDate() + dow);
 
-		var date = wpMO.format("Y-m-d");
+		var date = wpMO.format("d.m.Y");
 
 		if ((date >= MySched.session["begin"] && date <= MySched.session["end"])) {
 			// Numerischer Index erlaubt
@@ -800,20 +808,13 @@ mLecture = function (id, data) {
 	if (MySched.selectedSchedule != null) this.setCellTemplate(MySched.selectedSchedule.type);
 	else this.setCellTemplate(MySched.selectedSchedule);
 
-	//Anzeige eines blauen i's ;)
-	//room
-	//<img src="images/information.png" class="detailInfoBtn" id="info_room_{room}"/>
-	//doz
-	//<img src="images/information.png" class="detailInfoBtn" id="info_doz_{doz}"/>
-	//clas
-	//<img src="images/information.png" class="detailInfoBtn" id="info_clas_{clas}"/>
-	var infoTemplateString = '<div>' + '<small><span class="def">Modul-Nr.: </span><i><a href=# onClick=getModuledesc(\"{desc}\")>{desc}</a></i><br/>' + '<span class="def">Raum:</span> {room_name}<br/>' + '<span class="def">Dozent:</span><big> {doz_n}</big><br/>' + '<span class="def">Semester:</span> <br/>{clas_full}<br/>';
+	var infoTemplateString = '<div>' + '<small><span class="def">Raum:</span> {room_name}<br/>' + '<span class="def">Dozent:</span><big> {doz_n}</big><br/>' + '<span class="def">Semester:</span> <br/>{clas_full}<br/>';
 	if (this.data.changes) infoTemplateString += '<span class="def">Changes:</span> {changes_all}';
 	infoTemplateString += '</small></div>';
 
 	this.infoTemplate = new Ext.Template(infoTemplateString);
 
-	this.sporadicTemplate = new Ext.Template('<div id="{parentId}##{key}" class="sporadicBox lectureBox{css}">' + '<b>{name}</b> <small><i>({desc:defaultValue("Keine Beschreibung")})</i> Raum: {room_short} - Dozent: {doz_name} - {clas_short}</small>' + '</div>');
+	this.sporadicTemplate = new Ext.Template('<div id="{parentId}##{key}" class="sporadicBox lectureBox{css}">' + '<b>{desc}</b> <small><i>({desc:defaultValue("Keine Beschreibung")})</i> Raum: {room_short} - Dozent: {doz_name} - {clas_short}</small>' + '</div>');
 }
 
 Ext.extend(mLecture, MySched.Model, {
@@ -841,7 +842,6 @@ Ext.extend(mLecture, MySched.Model, {
 	getEvents: function (d) {
 		var ret = "";
 		ret = MySched.eventlist.checkRessource(this.data.room + " " + this.data.doz + " " + this.data.clas, this.data.dow, this.data.block);
-
 		return ret;
 	},
 	getTopIcon: function (d) {
@@ -1155,19 +1155,19 @@ Ext.extend(mLecture, MySched.Model, {
 		if (t == "room") {
 			var dozroomstring = stripHTML((this.getDozNames(this.getDoz()) + this.getClasShorter(this.getClas())));
 			if (dozroomstring.length * 5.5 < width) {
-				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{name}</b><br/>{doz_name} / {clas_shorter} ' + time + ' {events} {status_icons}</div>');
+				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}</b><br/>{doz_name} / {clas_shorter} ' + time + ' {events} {status_icons}</div>');
 			}
 			else {
-				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{name}</b><br/>{doz_name}<br/>{clas_shorter} ' + time + ' {events} {status_icons}</div>');
+				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}</b><br/>{doz_name}<br/>{clas_shorter} ' + time + ' {events} {status_icons}</div>');
 			}
 		}
 		else if (t == "doz") {
 			var dozroomstring = stripHTML((this.getClasShorter(this.getClas()) + this.getShort(this.getRoom())));
 			if (dozroomstring.length * 5.5 < width) {
-				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{name}</b><br/>{clas_shorter} / {room_shortname} ' + time + ' {events} {status_icons}</div>');
+				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}</b><br/>{clas_shorter} / {room_shortname} ' + time + ' {events} {status_icons}</div>');
 			}
 			else {
-				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{name}</b><br/>{clas_shorter}<br/>{room_shortname} ' + time + ' {events} {status_icons}</div>');
+				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}</b><br/>{clas_shorter}<br/>{room_shortname} ' + time + ' {events} {status_icons}</div>');
 			}
 		}
 		else {
@@ -1184,10 +1184,10 @@ Ext.extend(mLecture, MySched.Model, {
 			}
 
 			if (dozroomstring.length * 5.5 < width) {
-				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="' + classcss + ' {css}">' + '{top_icon}<b class="' + lecturecss + '">{name}</b><br/>{doz_name} / {room_shortname} ' + time + ' {events} {status_icons}</div>');
+				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="' + classcss + ' {css}">' + '{top_icon}<b class="' + lecturecss + '">{desc}</b><br/>{doz_name} / {room_shortname} ' + time + ' {events} {status_icons}</div>');
 			}
 			else {
-				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="' + classcss + ' {css}">' + '{top_icon}<b class="' + lecturecss + '">{name}</b><br/>{doz_name}<br/>{room_shortname} ' + time + ' {events} {status_icons}</div>');
+				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="' + classcss + ' {css}">' + '{top_icon}<b class="' + lecturecss + '">{desc}</b><br/>{doz_name}<br/>{room_shortname} ' + time + ' {events} {status_icons}</div>');
 			}
 		}
 	},
@@ -1257,20 +1257,23 @@ Ext.extend(mEventlist, MySched.Model, {
 		var found = false;
 		dow = dow - 1;
 
-		if (Ext.isNumber(this.data.items.length) == true) for (var y = 0; y < this.data.items.length; y++) {
+		if (Ext.isNumber(this.data.items.length) == true)
+			for (var y = 0; y < this.data.items.length; y++) {
 			found = false;
-			if (Ext.isEmpty(this.data.items[y].data.objects) == false) for (var item in this.data.items[y].data.objects) {
-				if (Ext.isNumber(resarr.length) == true) for (var i = 0; i < resarr.length; i++) {
-					if (resarr[i] == item) {
+			if (Ext.isEmpty(this.data.items[y].data.objects) == false)
+				for (var item in this.data.items[y].data.objects) {
+				if (Ext.isNumber(resarr.length) == true)
+					for (var i = 0; i < resarr.length; i++) {
+					if (resarr[i].toLowerCase() == item.toLowerCase()) {
 						//sporadischer Termin
 						var wd = null;
 						var bl = null;
 						var clickeddate = Ext.ComponentMgr.get('menuedatepicker');
 						var weekpointer = null;
-						if (clickeddate.menu == "undefined")
-							weekpointer = clickeddate.initialConfig.value;
-						else
+						if (clickeddate.menu)
 							weekpointer = clickeddate.menu.picker.activeDate;
+						else
+							weekpointer = clickeddate.initialConfig.value;
 						if (weekpointer != "") {
 							while (weekpointer.getDay() != 1) //Montag ermitteln
 							{
@@ -1280,8 +1283,13 @@ Ext.extend(mEventlist, MySched.Model, {
 
 						var lessondate = weekpointer;
 						lessondate.setDate(weekpointer.getDate() + dow);
-						lessondate = lessondate.format("Y-m-d");
-						if (this.data.items[y].data.startdate <= lessondate && this.data.items[y].data.enddate >= lessondate) {
+
+						var startdate = this.data.items[y].data.startdate.split(".");
+						startdate = new Date(startdate[2], startdate[1]-1, startdate[0]);
+						var enddate = this.data.items[y].data.enddate.split(".");
+						enddate = new Date(enddate[2], enddate[1]-1, enddate[0]);
+
+						if (startdate <= lessondate && enddate >= lessondate) {
 							var blotimes = blocktotime(parseInt(block));
 
 							var sbtime = blotimes[0];
@@ -1302,7 +1310,7 @@ Ext.extend(mEventlist, MySched.Model, {
 								found = true;
 								break;
 							}
-							else if (this.data.items[y].data.endtime >= sbtime && this.data.items[y].data.endtime <= ebtime) {
+							else if (this.data.items[y].data.endtime > sbtime && this.data.items[y].data.endtime <= ebtime) {
 								ret += this.data.items[y].getEventView();
 								found = true;
 								break;
@@ -1342,7 +1350,7 @@ mEvent = function (id, data) {
 
 	var MySchedEventClass = 'MySchedEvent_' + this.data.source;
 
-	this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + '{top_icon}<b id="MySchedEvent_{id}" class="MySchedEvent_name">{event_name}</div>');
+	this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + '{top_icon}<b id="MySchedEvent_{id}" class="MySchedEvent_name">{event_name}</b></div>');
 }
 
 Ext.extend(mEvent, MySched.Model, {
@@ -1367,9 +1375,7 @@ Ext.extend(mEvent, MySched.Model, {
 		return this.eventTemplate.apply(d);
 	},
 	getEventInfoView: function () {
-		var startdatearr = this.data.startdate.split('-');
-		var enddatearr = this.data.enddate.split('-');
-		var infoTemplateString = "<div id='MySchedEventInfo_" + this.id + "' class='MySchedEventInfo'>" + "<span class='MySchedEvent_desc'>Beschreibung: " + this.data.edescription + "</span><br/>" + "<span class='MySchedEvent_sdate'>Datum: " + startdatearr[2] + "." + startdatearr[1] + "." + startdatearr[0] + " - " + enddatearr[2] + "." + enddatearr[1] + "." + enddatearr[0] + "</span><br/>" + "<span class='MySchedEvent_stime'>Zeit: " + this.data.starttime + " - " + this.data.endtime + "</span><br/>";
+		var infoTemplateString = "<div id='MySchedEventInfo_" + this.id + "' class='MySchedEventInfo'>" + "<span class='MySchedEvent_desc'>Beschreibung: " + this.data.edescription + "</span><br/>" + "<span class='MySchedEvent_sdate'>Datum: " + this.data.startdate + " - " + this.data.enddate + "</span><br/>" + "<span class='MySchedEvent_stime'>Zeit: " + this.data.starttime + " - " + this.data.endtime + "</span><br/>";
 		var resString = "";
 		var dozS = "",
 			roomS = "",

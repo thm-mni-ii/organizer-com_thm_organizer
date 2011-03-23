@@ -19,15 +19,26 @@ class ScheduleDescription
 	public function load()
 	{
 		$query = "SELECT description, startdate, enddate, creationdate FROM #__thm_organizer_schedules WHERE active != 'null' && sid = " . $this->semID;
+
 		$obj = $this->JDA->query( $query );
 		if ( count( $obj ) == 0 || $obj == false )
 			return array("success"=>false,"data"=>"" );
 		else {
+
+			$startdate = explode("-", $obj[ 0 ]->startdate);
+			$startdate =  $startdate[2].".".$startdate[1].".".$startdate[0];
+
+			$enddate = explode("-", $obj[ 0 ]->enddate);
+			$enddate =  $enddate[2].".".$enddate[1].".".$enddate[0];
+
+			$creationdate = explode("-", $obj[ 0 ]->creationdate);
+			$creationdate =  $creationdate[2].".".$creationdate[1].".".$creationdate[0];
+
 			return array("success"=>true,"data"=>array(
 				$obj[ 0 ]->description,
-				$obj[ 0 ]->startdate,
-				$obj[ 0 ]->enddate,
-				$obj[ 0 ]->creationdate
+				$startdate,
+				$enddate,
+				$creationdate
 			) );
 		}
 	}

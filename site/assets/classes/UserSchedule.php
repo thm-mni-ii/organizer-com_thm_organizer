@@ -30,7 +30,10 @@ class UserSchedule
 		else
 			$this->username = $this->JDA->getUserName();
 		$this->cfg = $CFG->getCFG();
-		$this->semID = $this->JDA->getRequest( "sid" );
+		if(isset($options["sid"]))
+			$this->semID = $options["sid"];
+		else
+			$this->semID = $this->JDA->getRequest( "sid" );
 	}
 
 	public function save()
@@ -111,7 +114,6 @@ class UserSchedule
               		return array("data"=>$data);
               	$data = json_decode($data);
               	$deltadata = array();
-
 
               	foreach($data as $lessonkey=>$lessonvalue)
               	{
@@ -285,10 +287,13 @@ class UserSchedule
 					return array("success"=>true, "data"=>$data);
               	}
 
+				if(count($data) === 0)
+					return array("data"=>$data);
+
               $data = json_decode($data);
 
               $query = "SELECT " .
-              			 "CONCAT('1.',CONCAT('".$this->semID."',CONCAT('.',CONCAT(CONCAT(#__thm_organizer_lessons.gpuntisID, ' '),#__thm_organizer_periods.gpuntisID)))) AS mykey," .
+              			 "CONCAT('".$this->semID."',CONCAT('.1',CONCAT('.',CONCAT(CONCAT(#__thm_organizer_lessons.gpuntisID, ' '),#__thm_organizer_periods.gpuntisID)))) AS mykey," .
 						 "#__thm_organizer_lessons.gpuntisID AS lid, " .
 						 "#__thm_organizer_periods.gpuntisID AS tpid, " .
 						 "#__thm_organizer_lessons.gpuntisID AS id, " .
@@ -321,7 +326,7 @@ class UserSchedule
 				  "INNER JOIN #__thm_organizer_lesson_classes ON #__thm_organizer_lesson_classes.lessonID = #__thm_organizer_lessons.id " .
 				  "INNER JOIN #__thm_organizer_classes ON #__thm_organizer_lesson_classes.classID = #__thm_organizer_classes.id " .
 				  "INNER JOIN #__thm_organizer_subjects ON #__thm_organizer_lessons.subjectID = #__thm_organizer_subjects.id " .
-	         	  "WHERE #__thm_organizer_lessons.semesterID = '$this->semID' AND #__thm_organizer_lessons.gpuntisID IN (";
+	         	  "WHERE #__thm_organizer_lessons.semesterID = '".$this->semID."' AND #__thm_organizer_lessons.gpuntisID IN (";
 
               if (isset($data))
                   if (is_array($data))
