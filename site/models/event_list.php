@@ -61,7 +61,7 @@ class thm_organizerModelevent_list extends JModel
         $this->menuParameters = JFactory::getApplication()->getParams();
         $this->restoreState();
         $this->loadEvents();
-        $this->loadEventResources();
+        if(count($this->events))$this->loadEventResources();
         $this->loadCategories();
         $this->setUserPermissions();
     }
@@ -213,6 +213,8 @@ class thm_organizerModelevent_list extends JModel
 
         $dbo->setQuery($query);
         $events = $dbo->loadAssocList();
+
+        //check for empty
         foreach ($events as $k => $v)
         {
             $edSet = $stSet = $etSet = false;
@@ -416,7 +418,7 @@ class thm_organizerModelevent_list extends JModel
             $resourcesResults = array();
 
             $query = $dbo->getQuery(true);
-            $query->select('id, title AS name');
+            $query->select('id, title AS name, "group" AS type ');
             $query->from('#__thm_organizer_event_groups AS eg');
             $query->innerJoin('#__usergroups AS ug ON eg.groupID = ug.id');
             $query->where("eventID = '$id'");
@@ -424,7 +426,7 @@ class thm_organizerModelevent_list extends JModel
             $resourcesResults = array_merge($resourcesResults, $dbo->loadAssocList());
             
             $query = $dbo->getQuery(true);
-            $query->select('id, name');
+            $query->select('id, name, "teacher" AS type');
             $query->from('#__thm_organizer_event_teachers AS et');
             $query->innerJoin('#__thm_organizer_teachers AS t ON et.teacherID = t.id');
             $query->where("eventID = '$id'");
@@ -432,7 +434,7 @@ class thm_organizerModelevent_list extends JModel
             $resourcesResults = array_merge($resourcesResults, $dbo->loadAssocList());
 
             $query = $dbo->getQuery(true);
-            $query->select('id, name');
+            $query->select('id, name, "room" AS type');
             $query->from('#__thm_organizer_event_rooms AS er');
             $query->innerJoin('#__thm_organizer_rooms AS r ON er.roomID = r.id');
             $query->where("eventID = '$id'");
@@ -440,10 +442,10 @@ class thm_organizerModelevent_list extends JModel
             $resourcesResults = array_merge($resourcesResults, $dbo->loadAssocList());
 
             $resources = array();
-            foreach($resourcesResults as $result) $resources[$result['id']] = $result['name'];
+            foreach($resourcesResults as $result) $resources[] = $result['id'];
 
             $resourceString = (count($resources))? implode(", ", $resources) : "";
-            $this->events[$k]['resourceArray'] = $resources;
+            $this->events[$k]['resourceArray'] = $resourcesResults;
             $this->events[$k]['resources'] = $resourceString;
 
         }

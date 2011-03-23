@@ -163,6 +163,7 @@ class thm_organizerModelevent_edit extends JModelForm
     private function loadCategories()
     {
         $dbo = JFactory::getDbo();
+        $user = JFactory::getUser();
         $query = $dbo->getQuery(true);
         $select = 'toc.id AS id, toc.title AS title, toc.globaldisplay AS global, ';
         $select .= 'toc.reservesobjects AS reserves, toc.description as description, ';
@@ -183,12 +184,12 @@ class thm_organizerModelevent_edit extends JModelForm
             {
                 $asset = "com_content".".category.".$v['contentCatID'];
                 if($this->event['id'] == 0)
-                    $access = JAccess::check($userID, 'core.create', $asset);
+                    $access = $user->authorise ('core.create', $asset);
                 else if($this->event['id'] > 0)
                 {
-                    if($isAuthor) $canEditOwn = JAccess::check($userID, 'core.edit.own', $asset);
+                    if($isAuthor) $canEditOwn = $user->authorise ('core.edit.own', $asset);
                     else $canEditOwn = false;
-                    $canEdit = JAccess::check($userID, 'core.edit', $asset);
+                    $canEdit = $user->authorise ('core.edit', $asset);
                     $access = $canEdit or $canEditOwn;
                 }
                 if(!$access)unset($results[$k]);
