@@ -235,7 +235,10 @@ Ext.extend(mSchedule, MySched.Model, {
 			}
 		}
 
-		if (wp.format("d.m.Y") < MySched.session["begin"] && cd.menu == null) {
+		var begin = MySched.session["begin"].split(".");
+		begin = new Date(begin[2], begin[1]-1, begin[0]);
+
+		if (wp < begin && cd.menu == null) {
 			Ext.Msg.show({
 				title: "Hinweis",
 				cls: "mysched_semesterbegin",
@@ -286,9 +289,14 @@ Ext.extend(mSchedule, MySched.Model, {
 
 						wp.setDate(wp.getDate() + dow);
 
-						date = wp.format("d.m.Y");
+						date = wp;
 
-						if ((date >= MySched.session["begin"] && date <= MySched.session["end"]) || (this.type == "delta" || this.id == "respChanges"))
+						var begin = MySched.session["begin"].split(".");
+						begin = new Date(begin[2], begin[1]-1, begin[0]);
+						var end = MySched.session["end"].split(".");
+						end = new Date(end[2], end[1]-1, end[0]);
+
+						if ((date >= begin && date <= end) || (this.type == "delta" || this.id == "respChanges"))
 							ret[bl][wd].push(v.getCellView(this));
 					}
 				}
@@ -639,9 +647,14 @@ Ext.extend(mSchedule, MySched.Model, {
 
 		wpMO.setDate(wpMO.getDate() + dow);
 
-		var date = wpMO.format("d.m.Y");
+		var date = wpMO;
 
-		if ((date >= MySched.session["begin"] && date <= MySched.session["end"])) {
+		var begin = MySched.session["begin"].split(".");
+		begin = new Date(begin[2], begin[1]-1, begin[0]);
+		var end = MySched.session["end"].split(".");
+		end = new Date(end[2], end[1]-1, end[0]);
+
+		if ((date >= begin && date <= end)) {
 			// Numerischer Index erlaubt
 			if (weekdays[wd]) wd = weekdays[wd];
 			if (this.getBlockCache()[wd]) if (this.blockCache[wd][block - 1]) return this.blockCache[wd][block - 1];
@@ -1370,7 +1383,8 @@ Ext.extend(mEvent, MySched.Model, {
 		var d = this.getEventDetailData();
 
 		if (MySched.Authorize.user != null && MySched.Authorize.role != 'user' && MySched.Authorize.role != 'registered') {
-			if (!this.eventTemplate.html.contains("MySchedEvent_joomla access")) this.eventTemplate.html = this.eventTemplate.html.replace("MySchedEvent_joomla", 'MySchedEvent_joomla access');
+			if (!this.eventTemplate.html.contains("MySchedEvent_joomla access"))
+				this.eventTemplate.html = this.eventTemplate.html.replace("MySchedEvent_joomla", 'MySchedEvent_joomla access');
 		}
 		return this.eventTemplate.apply(d);
 	},

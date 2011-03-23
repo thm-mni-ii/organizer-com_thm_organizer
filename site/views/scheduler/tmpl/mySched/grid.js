@@ -219,7 +219,7 @@ function addNewEvent(eventid, sdate, stime, etime) {
 	var win = new Ext.Window({
 		layout: 'form',
 		id: 'terminWin',
-		width: 564,
+		width: 650,
 		title: wintitle,
 		height: 450,
 		modal: true,

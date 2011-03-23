@@ -281,6 +281,7 @@ class PDFBauer extends abstrakterBauer
 				foreach ( $sporadic as $l )
 					$pdf->Cell( 0, 5, $l, 0, 2 );
 			}
+
 			// Dokument wird lokal gespeichern
 			@$pdf->Output( $pdfLink, 'F' );
 

@@ -40,7 +40,7 @@ div.scheduleBox {
 div.lectureBox {
  	font-size: 11px !important;
    	cursor: move;
-    	z-index: 1000;
+    z-index: 1000;
 	padding: 2px;
  	margin: 2px;
 	background: #EEE;
@@ -249,36 +249,13 @@ Button.tbDownload{
 }
 
 /* Farben im Tab Änderungen */
-div.new {
-	/*background-color: #00FF00;*/
-}
 
 div.removed {
-	/*background-color: #FF4444;*/
 	color: #aaaaaa;
 	text-decoration: line-through;
 }
 
-div.movedto {
-	/*background-color: #FFFF00;*/
-}
-
-div.movedtomysched {
-	/*background: #FFFF00;*/
-	/* CSS3 */
-	/*background: -moz-linear-gradient(top, #FFFF00, #FFFFAA) #FFFF00;
-	background: -webkit-gradient(linear, left top, left bottom, from(#FFFF00), to(#FFFFAA)) #FFFF00;*/
-}
-
-div.mysched_proposal {
-	/*background: #25FF00;*/
-	/* CSS3 */
-	/*background: -moz-linear-gradient(top, #25FF00, #55FF00) #25FF00;
-	background: -webkit-gradient(linear, left top, left bottom, from(#25FF00), to(#55FF00)) #25FF00;*/
-}
-
 div.movedfrom {
-	/*background-color: #FFAA00;*/
 	color: #aaaaaa;
 }
 
@@ -354,9 +331,9 @@ ul.x-tab-strip-top {
 }
 
 .x-tab-panel-header, .x-tab-panel-footer {
-	border:1px solid #8DB2E3;
-	background-color:#CBD3DD;
-	border-color:#8DB2E3;
+	border: 0px solid #8DB2E3;
+	background-color: #CBD3DD;
+	border-color: #8DB2E3;
 }
 
 .x-panel-body {
@@ -536,13 +513,6 @@ td:hover .addNotice {
 	border-color:#FFAD1B !important;
 }
 
-
-.MySched_event_joomla {
-	font-size:11px;
-	padding-left: 2px;
-	text-align: left;
-}
-
 small.dozname:hover {
 	text-decoration:underline;
 	cursor: pointer;
@@ -614,27 +584,6 @@ small.classhorter:hover {
 
 .mySched_gotoMessage_index {
 	z-index: 20000 !important;
-}
-
-.MySched_event_estudy {
-	background: #CFCFFF;
-	font-size:11px;
-	font-weight: bold;
-	margin: 2px;
-	padding: 2px;
-	text-align: center;
-	border: 1px solid #CCCCCC;
-	overflow: hidden;
-	text-shadow: 0px 1px 1px white;
-	/* CSS3 */
-	background: -moz-linear-gradient(top, #AFAFFF, #CFCFFF) #CFCFFF;
-	background: -webkit-gradient(linear, left top, left bottom, from(#AFAFFF), to(#CFCFFF)) #CFCFFF;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-}
-
-.MySched_event_joomla {
-	background-color: #7fff00;
 }
 
 .timeBox {
@@ -840,4 +789,12 @@ div.MySchedexternURLClass_DIS {
 
 #main ul li, #main ol li {
 	padding: 0.5px !important;
+}
+
+tr, td{
+	border: 0px !important;
+}
+
+.x-panel-header {
+	padding: 5px 3px 5px 5px;
 }

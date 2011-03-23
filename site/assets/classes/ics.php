@@ -74,12 +74,14 @@ class ICSBauer extends abstrakterBauer
 				$item->clas = implode( ", ", $res );
 
 				$dozs      = explode( " ", trim( $item->doz ) );
-				$query     = 'SELECT name as oname FROM #__thm_organizer_teachers WHERE id IN("' . implode( '", "', $dozs ) . '")';
+				var_dump( $dozs );
+				$query     = 'SELECT name as oname FROM #__thm_organizer_teachers WHERE gpuntisID IN("' . implode( '", "', $dozs ) . '")';
 				$res       = $this->JDA->query( $query, true );
 				$item->doz = implode( ", ", $res );
 
 				$rooms      = explode( " ", trim( $item->room ) );
-				$query      = 'SELECT name as oname FROM #__thm_organizer_rooms WHERE id IN("' . implode( '", "', $rooms ) . '")';
+				var_dump( $rooms );
+				$query      = 'SELECT name as oname FROM #__thm_organizer_rooms WHERE gpuntisID IN("' . implode( '", "', $rooms ) . '")';
 				$res        = $this->JDA->query( $query, true );
 				$item->room = implode( ", ", $res );
 			}

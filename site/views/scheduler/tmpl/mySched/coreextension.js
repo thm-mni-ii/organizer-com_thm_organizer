@@ -99,17 +99,22 @@ Ext.DatePicker.prototype.update = function (date, forceRefresh) {
 
 			cell.children[0].events = new Array();
 
-			if (MySched.session["begin"] == d.format("d.m.Y")) {
+			var begin = MySched.session["begin"].split(".");
+			begin = new Date(begin[2], begin[1]-1, begin[0]);
+			var end = MySched.session["end"].split(".");
+			end = new Date(end[2], end[1]-1, end[0]);
+
+			if (begin == d) {
 				cell.className += ' x-date-highlight_semester';
 				var len = cell.children[0].events.length;
 				cell.children[0].events[len] = "Semesteranfang";
 			}
-			else if (MySched.session["end"] == d.format("d.m.Y")) {
+			else if (end == d) {
 				cell.className += ' x-date-highlight_semester';
 				var len = cell.children[0].events.length;
 				cell.children[0].events[len] = "Semesterende";
 			}
-			else if (MySched.session["begin"] <= d.format("d.m.Y") && MySched.session["end"] >= d.format("d.m.Y")) {
+			else if (begin <= d && end >= d) {
 				cell.className += ' x-date-highlight_semester';
 				var len = cell.children[0].events.length;
 				cell.children[0].events[len] = "Semester";
