@@ -513,7 +513,7 @@ MySched.Base = function () {
                       n.elements = json["elements"];
                       var s = new mSchedule(key, '_tmpSchedule').init(type, json["elements"]);
                     }
-                    else var s = new mSchedule(key, '_tmpSchedule').init(type, key);
+                    else var s = new mSchedule(key, '_tmpSchedule').init(type, gpuntisID);
 
                     Ext.each(s.getLectures(), function (e) {
                       MySched.Schedule.addLecture(e);
@@ -529,8 +529,10 @@ MySched.Base = function () {
             }
             else {
 
-              if (typeof n.elements != "undefined") var s = new mSchedule(key, '_tmpSchedule').init(key, n.elements);
-              else var s = new mSchedule(key, '_tmpSchedule').init(key, key);
+              if (typeof n.elements != "undefined")
+              	var s = new mSchedule(key, '_tmpSchedule').init(type, n.elements);
+              else
+              	var s = new mSchedule(key, '_tmpSchedule').init(type, gpuntisID);
 
               Ext.each(s.getLectures(), function (e) {
                 MySched.Schedule.addLecture(e);

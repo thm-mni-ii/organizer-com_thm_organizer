@@ -1,5 +1,5 @@
 <?php defined('_JEXEC') or die('Restricted access');?>
-<form enctype="multipart/form-data" action="index.php" method="post" name="adminForm" id="adminForm">
+<form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm" id="adminForm">
 <div class="col100">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_( 'Allgemein' ); ?></legend>
@@ -67,5 +67,4 @@
 </div>
 <input type="hidden" name="option" value="com_thm_organizer" />
 <input type="hidden" name="task" value="" />
-<input type="hidden" name="controller" value="scheduler_application_settings" />
 </form>

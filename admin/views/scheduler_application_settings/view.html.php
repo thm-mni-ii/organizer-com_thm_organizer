@@ -16,7 +16,8 @@ class  thm_organizersViewScheduler_Application_Settings extends JView {
 	function display($tpl = null)
 	{
             JToolBarHelper::title( JText::_( 'Giessen Scheduler - Scheduler Application Settings' ), 'generic.png' );
-    		JToolBarHelper::save();
+
+    		JToolBarHelper::save('scheduler_application_settings.save');
             JToolBarHelper::back();
 
 

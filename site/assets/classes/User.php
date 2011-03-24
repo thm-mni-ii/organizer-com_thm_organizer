@@ -74,6 +74,7 @@ class User
 		    $auth = new Auth($this->JDA, $this->cfg);
 		    return array("data"=> $auth->ldap( $this->username, $this->passwd ) );
 		}
+
 	}
 }
 

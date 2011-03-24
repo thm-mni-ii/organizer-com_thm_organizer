@@ -13,7 +13,7 @@ class thm_organizersModelScheduler_Application_Settings extends JModel
 	{
 		$mainframe = JFactory::getApplication("administrator");
 		$dbo = & JFactory::getDBO();
-		$query = "SELECT ecid as id, ecname as name
+		$query = "SELECT id, title as name
 					FROM #__thm_organizer_categories";
 		$dbo->setQuery( $query );
 		$usergroups = $dbo->loadObjectList();
@@ -27,7 +27,7 @@ class thm_organizersModelScheduler_Application_Settings extends JModel
 		$mainframe = JFactory::getApplication("administrator");
 		$dbo = & JFactory::getDBO();
 		$query = "SELECT *
-					FROM #__thm_organizer_settings WHERE id=1";
+					FROM #__thm_organizer_application_settings WHERE id=1";
 		$dbo->setQuery( $query );
 		$usergroups = $dbo->loadObjectList();
 		if(count($usergroups) <= 0)
@@ -47,11 +47,11 @@ class thm_organizersModelScheduler_Application_Settings extends JModel
 		if(isset($scheduler_downFolder) && isset($scheudler_vacationcat) && isset($scheduler_eStudyPath) && isset($scheduler_eStudywsapiPath) && isset($scheduler_eStudyCreateCoursePath) && isset($scheduler_eStudySoapSchema))
 		{
 			$dbo = & JFactory::getDBO();
-			$querydel = "DELETE FROM #__thm_organizer_settings WHERE id IN ( 1 );";
+			$querydel = "DELETE FROM #__thm_organizer_application_settings WHERE id IN ( 1 );";
 			$dbo->setQuery($querydel);
 			$dbo->query();
 
-			$queryinsert = "INSERT INTO #__thm_organizer_settings
+			$queryinsert = "INSERT INTO #__thm_organizer_application_settings
 					 (id, downFolder, vacationcat, eStudyPath, eStudywsapiPath, eStudyCreateCoursePath, eStudySoapSchema)
 					 VALUES (1, '$scheduler_downFolder', '$scheudler_vacationcat', '$scheduler_eStudyPath', '$scheduler_eStudywsapiPath', '$scheduler_eStudyCreateCoursePath', '$scheduler_eStudySoapSchema')";
 			$dbo->setQuery($queryinsert);
