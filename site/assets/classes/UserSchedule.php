@@ -111,7 +111,9 @@ class UserSchedule
 
               if (strpos( strtolower( $this->username ), "delta" ) === 0) {
               	if(is_array($data))
+              	{
               		return array("data"=>$data);
+              	}
               	$data = json_decode($data);
               	$deltadata = array();
 

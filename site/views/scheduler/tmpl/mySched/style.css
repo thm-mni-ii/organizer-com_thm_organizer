@@ -808,28 +808,41 @@ tr, td{
 	border-radius: 8px 8px 0px 0px;
 }
 
-.x-tab-strip-top .x-tab-strip-active .x-tab-left {
+.x-tab-strip-top .x-tab-strip-over .x-tab-right {
 	background-position: 0px !important;
+	background: -moz-linear-gradient(top, #AFAFFF, #CFCFFF) #AFAFFF !important;
+	background: -webkit-gradient(linear, left top, left bottom, from(#AFAFFF), to(#CFCFFF)) #AFAFFF !important;
+}
+
+.x-tab-strip-top .x-tab-strip-active .x-tab-right {
+	background-position: 0px !important;
+	background: -moz-linear-gradient(top, #AFAFFF, #CFCFFF) #AFAFFF !important;
+	background: -webkit-gradient(linear, left top, left bottom, from(#AFAFFF), to(#CFCFFF)) #AFAFFF !important;
+    border-right: 1px solid #AFAFFF !important;
+    border-top: 1px solid #AFAFFF !important;
 }
 
 .x-tab-strip-top .x-tab-strip-over .x-tab-left {
 	background-position: 0px !important;
-}
-
-.x-tab-strip-top .x-tab-right {
-	border: 1px solid #AAAFFF;
-}
-
-li.x-tab-strip-over a {
-    /* CSS3 */
 	background: -moz-linear-gradient(top, #AFAFFF, #CFCFFF) #AFAFFF !important;
 	background: -webkit-gradient(linear, left top, left bottom, from(#AFAFFF), to(#CFCFFF)) #AFAFFF !important;
-	border-radius: 8px 8px 0px 0px;
+}
+
+.x-tab-strip-top .x-tab-strip-active .x-tab-left {
+	background-position: 0px !important;
+	background: -moz-linear-gradient(top, #AFAFFF, #CFCFFF) #AFAFFF !important;
+	background: -webkit-gradient(linear, left top, left bottom, from(#AFAFFF), to(#CFCFFF)) #AFAFFF !important;
+}
+
+.x-tab-right {
+    border-left: 1px solid #AFAFFF !important;
+    border-top: 1px solid #AFAFFF !important;
 }
 
 .x-tab-strip-wrap
 {
-	margin-bottom: -3px !important;
+	margin-bottom: -2px !important;
+	padding-top: 1.5px;
 }
 
 div.x-tree-node-over a {
@@ -847,4 +860,13 @@ div.x-tree-selected a {
 	background: -webkit-gradient(linear, left top, left bottom, from(#AFAFFF), to(#CFCFFF)) #AFAFFF !important;
 	border-radius: 8px;
 	padding: 1px;
+}
+
+.content_column li {
+	list-style-image: url() !important;
+	margin: 0px !important;
+}
+
+.x-window-body {
+	background: #FFFFFF !important;
 }

@@ -219,13 +219,13 @@ function addNewEvent(eventid, sdate, stime, etime) {
 	var win = new Ext.Window({
 		layout: 'form',
 		id: 'terminWin',
-		width: 650,
+		width: 800,
 		title: wintitle,
 		height: 450,
 		modal: true,
 		frame:false,
 		closeAction: 'close',
-		html: '<iframe onLoad="newEventonLoad(this)" id="iframeNewEvent" class="mysched_iframeNewEvent" src="' + MySched.eventLink + eventid + '&tmpl=component' + adds + '"></iframe>'
+		html: '<iframe onLoad="newEventonLoad(this)" id="iframeNewEvent" class="mysched_iframeNewEvent" src="' + externLinks.eventLink + eventid + '&tmpl=component' + adds + '"></iframe>'
 	});
 
 	win.on("close", function (panel) {

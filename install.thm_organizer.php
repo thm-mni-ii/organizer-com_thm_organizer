@@ -34,7 +34,7 @@ function com_install()
     if(!isset($downexists)) $downexists = false;
     if(!$downexists)
     {
-    	$makedir = JFolder::create( JPATH_SITE.'/components/thm_organizer/down' );
+    	$downmakedir = JFolder::create( JPATH_SITE.'/components/thm_organizer/down' );
     }
 ?>
 <div>
@@ -57,7 +57,7 @@ function com_install()
         <?php }else{ ?>
             <font color='red'>The directory /images/thm_organizer/objects could not be created.</font><br />
         <?php }
-        if($makedir){ ?>
+        if($downmakedir){ ?>
             <font color='green'>The directory /components/thm_organizer/down has been created.</font><br />
         <?php }else{ ?>
             <font color='red'>The directory /components/thm_organizer/down could not be created.</font><br />

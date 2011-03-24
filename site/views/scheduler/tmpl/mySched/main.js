@@ -16,7 +16,7 @@ MySched.responsibleChanges = null;
 MySched.session = new Array();
 MySched.daytime = new Array();
 MySched.loadedLessons = new Array();
-MySched.mainPath = '../components/com_thm_organizer/views/scheduler/tmpl/';
+MySched.mainPath = externLinks.mainPath;
 //set ajax timeout to 10 seconds
 Ext.Ajax.timeout = 10000;
 
@@ -701,8 +701,8 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
   hoverEl: new MySched.Collection(),
   selectButton: null,
   selectLectureId: null,
-  lectureAddButton: '../components/com_thm_organizer/views/scheduler/tmpl/images/add.png',
-  lectureRemoveButton: '../components/com_thm_organizer/views/scheduler/tmpl/images/delete.png',
+  lectureAddButton: externLinks.lectureAddButton,
+  lectureRemoveButton: externLinks.lectureRemoveButton,
   /**
    * Initalisierung
    */
@@ -1835,7 +1835,7 @@ MySched.layout = function () {
               tabTip: title,
               closable: true,
               layout: 'fit',
-              iconCls: type + 'Icon',
+              //iconCls: type + 'Icon',
               width: 'auto'
             }), {
               // Diese werden Ueberschrieben, falls sie Existieren

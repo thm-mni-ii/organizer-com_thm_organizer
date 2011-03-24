@@ -83,33 +83,19 @@ class Auth
 		$addRights               = array( );
 		$_SESSION[ 'joomlaSid' ] = $token;
 
-		// Verifizierung der Joomla SessionID und abfragen von Usernamen und Gruppe
-		$res = $this->JDA->query( "SELECT username FROM " . $this->cfg[ 'jdb_table_session' ] . " WHERE session_id='$token'" );
-		if ( count( $res ) == 1 ) {
-			$data = $res[ 0 ];
-
-			$userroles = $this->JDA->getUserRoles();
-			$userrole = "user";
-			if(is_array($userroles))
-				foreach($userroles as $k=>$v)
-					$userrole = $k;
-
-			// ALLES OK
-			return array(
-				'success' => true,
-				'username' => $data->username,
-				'role' => strtolower( $userrole ), // user, registered, author, editor, publisher
-				'additional_rights' => $addRights // 'doz' => array( 'knei', 'igle' ), ...
-			);
+		$userrolearr = $this->JDA->getUserRoles();
+		foreach($userrolearr as $k=>$v)
+		{
+			$userrole = $k;
+			break;
 		}
 
-		// FEHLER
+		// ALLES OK
 		return array(
-			 'success' => false,
-			'clearToken' => true,
-			'errors' => array(
-				 'reason' => 'Authentifizierung fehlgeschlagen. Ihr Login konnte nicht von der Fachhochschulhomepage übernommern werden. Bitte melden Sie sich erneut an.'
-			)
+			'success' => true,
+			'username' => $this->JDA->getUserName(),
+			'role' => strtolower( $userrole ), // user, registered, author, editor, publisher
+			'additional_rights' => $addRights // 'doz' => array( 'knei', 'igle' ), ...
 		);
 	}
 

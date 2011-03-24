@@ -1,5 +1,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
+<script type="text/javascript" charset="utf-8">
+<?php
+	echo 'var externLinks = [];';
+	echo 'externLinks.eventLink = \''.JRoute::_('index.php?option=com_thm_organizer&view=event_edit&eventID=').'\';';
+	echo 'externLinks.blankImageLink = \''.JURI::root(true).'/components/com_thm_organizer/views/scheduler/tmpl/ext/resources/images/default/s.gif\';';
+	echo 'externLinks.lectureAddButton = \''.JURI::root(true).'/components/com_thm_organizer/views/scheduler/tmpl/images/add.png\';';
+	echo 'externLinks.lectureRemoveButton = \''.JURI::root(true).'/components/com_thm_organizer/views/scheduler/tmpl/images/delete.png\';';
+	echo 'externLinks.mainPath = \''.JURI::root(true).'/components/com_thm_organizer/views/scheduler/tmpl/\';';
+?>
+</script>
+
 <div id="MySchedMainW" class="MySchedMainW">
 	<script type="text/javascript" charset="utf-8" src="components/com_thm_organizer/views/scheduler/tmpl/mySched/preLoadingMessage.js"></script>
 	<script type="text/javascript" charset="utf-8" src="components/com_thm_organizer/views/scheduler/tmpl/ext/adapter/ext/ext-base.js"></script>
@@ -29,7 +40,6 @@
 			echo 'MySched.class_semester_id = \''.$this->semesterID.'\';';
 			echo 'MySched.class_semester_author = \''.$this->semAuthor.'\';';
 			echo 'MySched.startup = \''.$this->startup.'\';';
-			echo 'MySched.eventLink = \''.JRoute::_('index.php?option=com_thm_organizer&view=event_edit&eventID=').'\';';
 	?>
 
 		Ext.onReady(MySched.Base.init, MySched.Base);
