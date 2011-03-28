@@ -29,14 +29,16 @@ class Ressource
 			$retlessons = array( );
 
 			if ( stripos( $this->res, "VS_" ) === 0 ) {
-				$elements                 = $this->getElements( $this->res, $this->semID );
+				$elements                 = $this->getElements( $this->res, $this->semID, $this->type );
 				$retlessons[ "elements" ] = "";
+
 				foreach ( $elements as $k => $v ) {
-					$lessons = array_merge( $lessons, $this->getResourcePlan( $v->eid, $this->semID ) );
+					$lessons = array_merge( $lessons, $this->getResourcePlan( $v->gpuntisID, $this->semID, $this->type ) );
+
 					if ( $retlessons[ "elements" ] == "" )
-						$retlessons[ "elements" ] .= $v->eid;
+						$retlessons[ "elements" ] .= $v->gpuntisID;
 					else
-						$retlessons[ "elements" ] .= ";" . $v->eid;
+						$retlessons[ "elements" ] .= ";" . $v->gpuntisID;
 				}
 			} else {
 				$lessons = $this->getResourcePlan( $this->res, $this->semID, $this->type );
@@ -87,6 +89,7 @@ class Ressource
 				$retlessons[ $key ][ "longname" ] = $item->longname;
 				$retlessons[ $key ][ "plantypeID" ] = $this->plantype;
 				$retlessons[ $key ][ "semesterID" ] = $this->semID;
+				$retlessons[ $key ][ "moduleID" ] = $item->moduleID;
 			}
 
 //			$retlessons = $this->getAllRes( $retlessons, $this->semID );
@@ -94,9 +97,27 @@ class Ressource
 		}
 	}
 
-	private function getElements( $id, $sid )
+	private function getElements( $id, $sid, $type )
 	{
-		$query = "SELECT eid " . "FROM #__thm_organizer_virtual_schedules_elements " . "WHERE vid = '" . $id . "' " . "AND sid = '" . $sid . "'";
+		$query = "SELECT gpuntisID " .
+				 "FROM #__thm_organizer_virtual_schedules_elements ";
+
+				 if($type === "clas")
+				 {
+					 $query .= "INNER JOIN #__thm_organizer_classes " .
+					 "ON #__thm_organizer_virtual_schedules_elements.eid = #__thm_organizer_classes.id ";
+				 }
+				 else if($type === "room")
+				 {
+				 	$query .= "INNER JOIN #__thm_organizer_rooms " .
+					 "ON #__thm_organizer_virtual_schedules_elements.eid = #__thm_organizer_rooms.id ";
+				 }
+				 else
+				 {
+					$query .= "INNER JOIN #__thm_organizer_teachers " .
+					 "ON #__thm_organizer_virtual_schedules_elements.eid = #__thm_organizer_teachers.id ";
+				 }
+				 $query .= "WHERE vid = '" . $id . "' " . "AND sid = '" . $sid . "'";
 		$ret   = $this->JDA->query( $query );
 		return $ret;
 	}
@@ -200,6 +221,7 @@ class Ressource
 				 "#__thm_organizer_rooms.gpuntisID AS room, " .
 				 "#__thm_organizer_periods.day AS dow, " .
 				 "#__thm_organizer_periods.period AS block, " .
+				 "#__thm_organizer_subjects.moduleID as moduleID, " .
 				 "(SELECT 'cyclic') AS type, ";
 
 		if ($this->JDA->isComponentavailable("com_giessenlsf"))

@@ -57,12 +57,12 @@ class thm_organizersModelvirtual_schedule_manager extends JModel
 	      		'#__thm_organizer_virtual_schedules.vid as id, #__thm_organizer_virtual_schedules.vname as name,' .
 	      		'vtype as type, #__users.name as responsible,' .
 	      		' department as department,' .
-	      		'CONCAT(#__thm_organizer_semester.orgunit, "-",#__thm_organizer_semester.semester, " (", #__thm_organizer_semester.author, ")" ) as semesterid, #__thm_organizer_virtual_schedules.sid as sid' .
+	      		'CONCAT(#__thm_organizer_semesters.organization, "-",#__thm_organizer_semesters.semesterDesc, " (", #__thm_organizer_semesters.manager, ")" ) as semesterid, #__thm_organizer_virtual_schedules.sid as sid' .
 	      		' FROM #__thm_organizer_virtual_schedules' .
 	      		' INNER JOIN #__thm_organizer_virtual_schedules_elements' .
 	      		' ON #__thm_organizer_virtual_schedules.vid = #__thm_organizer_virtual_schedules_elements.vid' .
-	      		' INNER JOIN #__thm_organizer_semester' .
-	      		' ON #__thm_organizer_virtual_schedules.sid = #__thm_organizer_semester.sid' .
+	      		' INNER JOIN #__thm_organizer_semesters' .
+	      		' ON #__thm_organizer_virtual_schedules.sid = #__thm_organizer_semesters.id' .
 	      		' INNER JOIN #__users' .
 	      		' ON #__thm_organizer_virtual_schedules.vresponsible = #__users.username' .
 	      		' WHERE #__thm_organizer_virtual_schedules.sid = #__thm_organizer_virtual_schedules_elements.sid';

@@ -211,7 +211,26 @@ class TreeView
 
 			foreach($value as $childkey=>$childvalue)
 			{
-				$childNodes[] = new TreeNode($key.".".$k.".".$childvalue["id"],
+				if(!isset($childvalue["gpuntisID"]))
+				{
+					$childvalue["gpuntisID"] = $childvalue["id"];
+				}
+
+				if($k == null)
+					$treeNode[] = new TreeNode($key.".".$k.".".$childvalue["id"],
+											$childvalue["name"],
+											"leaf" . "-node",
+											true,
+											true,
+											false,
+											$childvalue["gpuntisID"],
+											$planid,
+											"doz",
+											NULL,
+											$semesterID
+											);
+				else
+					$childNodes[] = new TreeNode($key.".".$k.".".$childvalue["id"],
 											$childvalue["name"],
 											"leaf" . "-node",
 											true,
@@ -224,19 +243,20 @@ class TreeView
 											$semesterID
 											);
 			}
-			$treeNode[] = new TreeNode(
-				$key.".".$k,							// id - autom. generated
-				$k,							// text	for the node
-				'studiengang-root',			// iconCls
-				false,							// leaf
-				false,							// draggable
-				true,							// singleClickExpand
-				$k,
-				$planid,
-				null,
-				$childNodes,
-				$semesterID
-			);
+			if($k != null)
+				$treeNode[] = new TreeNode(
+					$key.".".$k,							// id - autom. generated
+					$k,							// text	for the node
+					'studiengang-root',			// iconCls
+					false,							// leaf
+					false,							// draggable
+					true,							// singleClickExpand
+					$k,
+					$planid,
+					null,
+					$childNodes,
+					$semesterID
+				);
 		}
 
 		return $treeNode;
@@ -254,7 +274,25 @@ class TreeView
 			$childNodes = array();
 			foreach($value as $childkey=>$childvalue)
 			{
-				$childNodes[] = new TreeNode($key.".".$k.".".$childvalue["id"],
+				if(!isset($childvalue["gpuntisID"]))
+				{
+					$childvalue["gpuntisID"] = $childvalue["id"];
+				}
+
+				if($k == null)
+					$treeNode[] = new TreeNode($key.".".$k.".".$childvalue["id"],
+											$childvalue["name"],
+											"leaf" . "-node",
+											true,
+											true,
+											false,
+											$childvalue["gpuntisID"],
+											$planid,
+											"room",
+											NULL,
+											$semesterID);
+				else
+					$childNodes[] = new TreeNode($key.".".$k.".".$childvalue["id"],
 											$childvalue["name"],
 											"leaf" . "-node",
 											true,
@@ -266,20 +304,22 @@ class TreeView
 											NULL,
 											$semesterID);
 			}
-			$treeNode[] = new TreeNode(
-				$key.".".$k,					// id - autom. generated
-				$k,								// text	for the node
-				'studiengang-root',			// iconCls
-				false,							// leaf
-				false,							// draggable
-				true,							// singleClickExpand
-				$k,
-				$planid,
-				null,
-				$childNodes,
-				$semesterID
-			);
+			if($k != null)
+				$treeNode[] = new TreeNode(
+					$key.".".$k,					// id - autom. generated
+					$k,								// text	for the node
+					'studiengang-root',			// iconCls
+					false,							// leaf
+					false,							// draggable
+					true,							// singleClickExpand
+					$k,
+					$planid,
+					null,
+					$childNodes,
+					$semesterID
+				);
 		}
+
 		return $treeNode;
 	}
 
@@ -295,7 +335,25 @@ class TreeView
 			$childNodes = array();
 			foreach($value as $childkey=>$childvalue)
 			{
-				$childNodes[] = new TreeNode($key.".".$k.".".$childvalue["id"],
+				if(!isset($childvalue["gpuntisID"]))
+				{
+					$childvalue["gpuntisID"] = $childvalue["id"];
+				}
+
+				if($k == null)
+					$treeNode[] = new TreeNode($key.".".$k.".".$childvalue["id"],
+											$childvalue["name"],
+											"leaf" . "-node",
+											true,
+											true,
+											false,
+											$childvalue["gpuntisID"],
+											$planid,
+											"clas",
+											NULL,
+											$semesterID);
+				else
+					$childNodes[] = new TreeNode($key.".".$k.".".$childvalue["id"],
 											$childvalue["name"],
 											"leaf" . "-node",
 											true,
@@ -307,20 +365,22 @@ class TreeView
 											NULL,
 											$semesterID);
 			}
-			$treeNode[] = new TreeNode(
-				$key.".".$k,					// id - autom. generated
-				$k,								// text	for the node
-				'studiengang-root',			// iconCls
-				false,							// leaf
-				false,							// draggable
-				true,							// singleClickExpand
-				$k,
-				$planid,
-				null,
-				$childNodes,
-				$semesterID
-			);
+			if($k != null)
+				$treeNode[] = new TreeNode(
+					$key.".".$k,					// id - autom. generated
+					$k,								// text	for the node
+					'studiengang-root',			// iconCls
+					false,							// leaf
+					false,							// draggable
+					true,							// singleClickExpand
+					$k,
+					$planid,
+					null,
+					$childNodes,
+					$semesterID
+				);
 		}
+
 		return $treeNode;
 	}
 
@@ -366,7 +426,8 @@ class TreeView
 			}
 		}
 
-		$res = $this->getVirtualSchedules("clas", $semesterID);
+		$res = $this->getVirtualSchedules("class", $semesterID);
+
 		if ( count( $res ) != 0 ) {
 			for ( $i = 0; $i < count( $res ); $i++ ) {
 				$data = $res[ $i ];
@@ -456,7 +517,12 @@ class TreeView
 				$roomarray[ $data->department ][ $data->vid ][ "name" ]       = $data->vname;
 				$roomarray[ $data->department ][ $data->vid ][ "otype" ]      = $data->vtype;
 				$rtype                                                        = explode( '-', $data->department );
-				$roomarray[ $data->department ][ $data->vid ][ "rtype" ]      = $rtype[ 1 ];
+
+				if(count($rtype) == 1)
+					$roomarray[ $data->department ][ $data->vid ][ "rtype" ]      = $data->department;
+				else
+					$roomarray[ $data->department ][ $data->vid ][ "rtype" ]      = $rtype[ 1 ];
+
 				$roomarray[ $data->department ][ $data->vid ][ "manager" ]    = $data->vresponsible;
 				if ( !isset( $roomarray[ $data->department ][ $data->vid ][ "elements" ] ) )
 					$roomarray[ $data->department ][ $data->vid ][ "elements" ] = array( );
@@ -513,7 +579,7 @@ class TreeView
 			}
 		}
 
-		$res = $this->getVirtualSchedules("doz", $semesterID);
+		$res = $this->getVirtualSchedules("teacher", $semesterID);
 
 		if ( count( $res ) != 0 ) {
 			for ( $i = 0; $i < count( $res ); $i++ ) {
@@ -544,11 +610,14 @@ class TreeView
 
 	private function getVirtualSchedules($type, $semesterID)
 	{
-		$vsquery = "SELECT DISTINCT vs.vid, vname, vtype, department, vresponsible, eid
+		$vsquery = "SELECT DISTINCT vs.vid, vname, vtype, IF(CHAR_LENGTH(#__thm_organizer_departments.subdepartment) = 0,#__thm_organizer_departments.department,CONCAT(#__thm_organizer_departments.department, '-', #__thm_organizer_departments.subdepartment)) as department, vresponsible, eid
 	         FROM #__thm_organizer_virtual_schedules as vs
 	         INNER JOIN #__thm_organizer_virtual_schedules_elements as vse
 	         ON vs.vid = vse.vid AND vs.sid = vse.sid
-	         WHERE vtype = '" . $type . "' AND vs.sid = '" . $semesterID . "'";
+	         LEFT JOIN #__thm_organizer_departments
+	         ON #__thm_organizer_departments.id = vs.department
+	         WHERE vtype = '" . $type . "' AND vs.sid = " . $semesterID ;
+
 		$res     = $this->JDA->query( $vsquery );
 
 		return $res;

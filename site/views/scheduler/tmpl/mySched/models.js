@@ -643,7 +643,7 @@ Ext.extend(mSchedule, MySched.Model, {
 			}
 		}
 
-		var dow = wd - 1;
+		var dow = wd;
 
 		wpMO.setDate(wpMO.getDate() + dow);
 

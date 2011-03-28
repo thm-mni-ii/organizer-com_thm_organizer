@@ -18,7 +18,7 @@ MySched.daytime = new Array();
 MySched.loadedLessons = new Array();
 MySched.mainPath = externLinks.mainPath;
 //set ajax timeout to 10 seconds
-Ext.Ajax.timeout = 10000;
+Ext.Ajax.timeout = 30000;
 
 // Setzte die initalwerte fuer das Konfigurationsobjekt
 MySched.Config.addAll({
@@ -1022,12 +1022,12 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
 
     var l = MySched.selectedSchedule.getLecture(el.id);
     l = l.data;
-    if (typeof l.desc == "undefined") {
+    if (typeof l.moduleID == "undefined") {
       Ext.Msg.alert('Hinweis', 'Für diese Veranstaltung ist keine Modulnummer hinterlegt');
       return;
     }
 
-    if (l.desc == "" || l.desc == null) {
+    if (l.moduleID == "" || l.moduleID == null) {
       Ext.Msg.alert('Hinweis', 'Für diese Veranstaltung ist keine Modulnummer hinterlegt');
       return;
     }
@@ -1041,7 +1041,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
 	  frame:false,
 	  hideLabel: true,
       closeable: true,
-      html: '<iframe id="iframeModule" class="mysched_iframeModule" src="http://www.mni.fh-giessen.de/index.php?option=com_giessenlsf&view=details&layout=default&nrmni=' + l.desc.toUpperCase() + '&tmpl=component&mysched=true"></iframe>'
+      html: '<iframe id="iframeModule" class="mysched_iframeModule" src="' + externLinks.lsfLink + '&nrmni=' + l.moduleID.toUpperCase() + '"></iframe>'
     });
 
     modulewin.show();
