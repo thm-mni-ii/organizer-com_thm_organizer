@@ -276,11 +276,39 @@ background-image: url("../images/icon-32-refresh.png");
     width: 18px;
 }
 
+#thm_organizer_el_noauth{
+    background-color: rgb(230, 192, 192);
+    color: #c00;
+    border-bottom: 3px solid #de7a7b;
+    border-top: 3px solid #de7a7b;
+    padding: 5px;
+    font-weight: bolder;
+}
+
 /* com_thm_organizer view: event***********************************************/
+
+#thm_organizer_e_title{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.thm_organizer_e_action_link{
+display: block;
+float: left;
+margin: 0px;
+padding-bottom: 1px;
+padding-top: 1px;
+padding-right: 5px;
+padding-left: 5px;
+text-align: center;
+text-decoration: none;
+white-space: nowrap;
+}
 
 .thm_organizer_e_block_div{
     float: left;
     padding-top: 10px;
+    margin-top: 5px;
     min-width: 450px;
     max-width: 450px;
 }
@@ -292,9 +320,15 @@ background-image: url("../images/icon-32-refresh.png");
     height: 35px;
 }
 
+#thm_organizer_e_header hr{
+    width: 100%;
+    margin-left: 0px;
+}
+
 #thm_organizer_e_headerlinks{
     float: right;
     clear: both;
+    margin-right: 0px;
 }
 
 .thm_organizer_e_block_head{
@@ -315,6 +349,46 @@ background-image: url("../images/icon-32-refresh.png");
 
 /* com_thm_organizer view: edit event******************************************/
 
+#thm_organizer_ee_title{
+    font-size: 20px;
+    font-weight: bold;
+    position: absolute;
+    left: 10px;
+    top: 12px;
+}
+
+.thm_organizer_ee_action_link{
+display: block;
+float: left;
+margin: 0px;
+padding-bottom: 1px;
+padding-top: 1px;
+padding-right: 5px;
+padding-left: 5px;
+text-align: center;
+text-decoration: none;
+white-space: nowrap;
+}
+
+.thm_organizer_ee_action_span{
+display: block;
+float: none;
+height: 32px;
+width: 32px;
+margin-bottom: 0px;
+margin-top: 0px;
+margin-left: auto;
+margin-right: auto;
+}
+
+#thm_organizer_ee_save_span{
+background-image: url("../images/icon-32-save.png");
+}
+
+#thm_organizer_ee_save_new_span{
+background-image: url("../images/icon-32-save-new.png");
+}
+
 #thm_organizer_ee{
     color: #4a5c66;
 }
@@ -324,14 +398,12 @@ background-image: url("../images/icon-32-refresh.png");
 }
 
 #thm_organizer_ee_head_div{
-    height: 24px;
+    height: 48px;
     width: 100%;
-    margin-bottom: 10px;
+    margin-top: -24px;
+    margin-bottom: 12px;
     border-bottom: 1px solid #bbbbbb;
-    font-size: 20px;
-    font-weight: bold;
-    vertical-align: middle;
-    padding: 2px;
+    padding-bottom: 5px;
 }
 
 
@@ -406,6 +478,7 @@ background-image: url("../images/icon-32-refresh.png");
 
 #thm_organizer_ee_button_div{
     float: right;
+    margin: 5px;
 }
 
 #thm_organizer_ee #btnreset{

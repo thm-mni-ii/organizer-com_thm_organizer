@@ -18,55 +18,123 @@ jimport( 'joomla.application.component.view');
  * @package    Giessen Scheduler
  */
  
-class thm_organizerViewEvent extends JView
+class thm_organizerViewevent extends JView
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
-    	$model =& $this->getModel();
-       	$user =& JFactory::getUser();
-        $userid = $user->id;
-        $usergid = $user->gid;
-        
-    	//data specific to one event
-	$data = & $model->data;
-        $this->assignRef( 'event', $data );
+        JHTML::_('behavior.tooltip');
+        $document = JFactory::getDocument();
+        $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
 
-        //joomla menu item #
-        $itemid = JRequest::getVar('Itemid');
-        $this->assignRef( 'itemid', $itemid );
-
-        //assign specifics
-        $authorid = $data->authorid;
-        if($authorid == $userid || $usergid >= 24) $this->setLinks();
+    	$model = $this->getModel();
+	$event = $model->event;
+        $this->assignRef('event', $event);
+        $itemID = JRequest::getVar('Itemid');
+        $this->assignRef( 'itemID', $itemID );
+        $this->createTextElements(&$event);
 
         parent::display($tpl);
     }
-    
-    function setLinks()
+
+    private function createTextElements(&$event)
     {
-        JHTML::_('behavior.tooltip');
 
-        $editimage = JHTML::_( 'image.site', 'edit.png', 'components/com_thm_organizer/assets/images/',
-                               NULL, NULL, JText::_( 'Bearbeiten' ));
-        $edittiptext = JText::_( 'diesen Termin bearbeiten' );
-        $edittiptitle = JText::_( 'Termin bearbeiten' );
-        $editurl = 'index.php?option=com_thm_organizer&view=event_edit&eventid='
-                    .$this->event->eventid.'&Itemid='.$this->itemid;
-        $editlink = '<a href="'.JRoute::_($editurl).'" class="event_editLink hasTip"
-                        title="'.$edittiptitle.'::'.$edittiptext.'">'.$editimage.'</a>';
-        $this->assignRef( 'editlink', $editlink );
-        $deleteimage = JHTML::_('image.site', 'delete.png', 'components/com_thm_organizer/assets/images/',
-                            NULL, NULL, JText::_( 'L&ouml;schen' ));
-        $deletetiptext = JText::_( 'diesen Termin l&ouml;schen?' );
-        $deletetiptitle = JText::_( 'Termin l&ouml;schen' );
-        $deleteurl = 'index.php?option=com_thm_organizer&controller=event_edit&task=delete_event&eventid='.$this->event->eventid.'&Itemid='.$this->itemid;
-        $deletelink = '<a href="'.JRoute::_($deleteurl).'" class="deleteEventLink hasTip"
-                          title="'.$deletetiptitle.'::'.$deletetiptext.'">'.$deleteimage.'</a>';
-        $this->assignRef( 'deletelink', $deletelink );
+        //creation of the sentence display of the dates & times
+        $dateTimeText = JText::_("COM_THM_ORGANIZER_E_DATES_START");
+        $timeText = "";
+        if(isset($event['starttime']) && isset($event['endtime']))
+        {
+            $timeText = JText::_("COM_THM_ORGANIZER_E_BETWEEN");
+            $timeText .= $event['starttime'].JText::_("COM_THM_ORGANIZER_E_AND").$event['endtime'];
+        }
+        else if(isset($event['starttime']))
+            $timeText = JText::_("COM_THM_ORGANIZER_E_FROM").$event['starttime'];
+        else if(isset($event['endtime']))
+            $timeText = JText::_("COM_THM_ORGANIZER_E_TO").$event['endtime'];
 
-        return;
+
+        if(isset($event['startdate']) && isset($event['enddate']))
+        {
+            if($event['rec_type'] == 0)
+            {
+                if(isset($event['starttime']) && isset($event['endtime']))
+                {
+                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_BETWEEN").$event['starttime'];
+                    $dateTimeText.= JText::_("COM_THM_ORGANIZER_E_ON").$event['startdate'];
+                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_AND").$event['endtime'];
+                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_ON").$event['enddate'];
+                }
+                else if(isset($event['starttime']))
+                {
+                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_FROM").$event['starttime'];
+                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_ON").$event['startdate'];
+                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_TO").$event['enddate'];
+                }
+                else if(isset($event['endtime']))
+                {
+                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_FROM").$event['startdate'];
+                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_TO").$event['endtime'];
+                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_ON").$event['enddate'];
+                }
+            }
+            else
+            {
+                $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_FROM").$event['startdate'];
+                $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_UNTIL").$event['enddate'];
+                $dateTimeText .= $timeText;
+            }
+        }
+        else
+        {
+            $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_ON").$event['startdate'].$timeText;
+        }
+        $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_DATES_END");
+        $this->assignRef('dateTimeText', $dateTimeText);
+
+        $published = JText::_("COM_THM_ORGANIZER_E_PUBLISHED_START").$event['publish_up'];
+        $published .= JText::_("COM_THM_ORGANIZER_E_UNTIL").$event['publish_down'];
+        $published .= JText::_("COM_THM_ORGANIZER_E_PUBLISHED_END");
+        $this->assignRef('published', $published);
+
+        $teachers = $rooms = $groups = false;
+        if(count($event['teachers']) > 0)
+        {
+            if(count($event['teachers']) > 1) $teachersLabel = JText::_("COM_THM_ORGANIZER_E_TEACHERS");
+            else $teachersLabel = JText::_("COM_THM_ORGANIZER_E_TEACHER");
+            $this->assignRef('teachersLabel', $teachersLabel);
+            $teachers = implode(', ', $event['teachers']);
+            $this->assignRef('teachers', $teachers);
+        }
+        else $this->assignRef('teachers', $teachers);
+        if(count($event['rooms']) > 0)
+        {
+            if(count($event['rooms']) > 1) $roomsLabel = JText::_("COM_THM_ORGANIZER_E_ROOMS");
+            else $roomsLabel = JText::_("COM_THM_ORGANIZER_E_ROOM");
+            $this->assignRef('roomsLabel', $roomsLabel);
+            $rooms = implode(', ', $event['rooms']);
+            $this->assignRef('rooms', $rooms);
+        }
+        else $this->assignRef('rooms', $rooms);
+        if(count($event['groups']) > 0)
+        {
+            if(count($event['groups']) > 1) $groupsLabel = JText::_("COM_THM_ORGANIZER_E_GROUPS");
+            else $groupsLabel = JText::_("COM_THM_ORGANIZER_E_GROUP");
+            $this->assignRef('groupsLabel', $groupsLabel);
+            $groups = implode(', ', $event['groups']);
+            $this->assignRef('groups', $groups);
+        }
+        else $this->assignRef('groups', $groups);
+
+
+        $contentorg = "";
+        if(isset($event['sectname']) && isset($event['ccatname']))
+                $contentorg = $event['sectname']." / ".$event['ccatname'];
+        else if(isset($event['sectname']))
+                $contentorg = $event['sectname'];
+        if(isset($event['publish_up']) && isset($event['publish_down']))
+            $published = "Der Beitrag wird vom ".$event['publish_up']." bis ".$event['publish_down']." angezeigt";
+
+
+
     }
-    
-	
-
 }

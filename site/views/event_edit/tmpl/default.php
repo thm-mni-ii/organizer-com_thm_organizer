@@ -1,9 +1,10 @@
 <?php
 // No direct access
 defined('_JEXEC') or die('Restricted access');
-$event = $this->event;?>
+if(count($this->categories))
+{
+$event = $this->event; ?>
 <script language="javascript" type="text/javascript">
-
     var categories = new Array;
 <?php
 $i = 0;
@@ -18,70 +19,61 @@ foreach($this->categories as $category)
 }
 ?>
 
-    /**
-    * Changes a dynamically generated list
-    * @param string The original key that was selected
-    * @param string The original item value that was selected
-    */
-    function changeCategoryInformation()
+Joomla.submitbutton = function(task)
+{
+    if (task == '') { return false; }
+    else
     {
-        var index = document.getElementById('category').selectedIndex;
-        var id = document.getElementById('category').options[index].value;
-        document.getElementById('thm_organizer_ee_event_cat_desc_div').innerHTML = categories[id][0];
-        document.getElementById('thm_organizer_ee_event_cat_disp_div').innerHTML = categories[id][1];
-        document.getElementById('thm_organizer_ee_content_cat_name_div').innerHTML = categories[id][2];
-        document.getElementById('thm_organizer_ee_content_cat_desc_div').innerHTML = categories[id][3];
-        document.getElementById('thm_organizer_ee_content_cat_access_div').innerHTML = categories[id][4];
-    }
-
-    Joomla.submitbutton = function(task)
-    {
-        if (task == '') { return false; }
-        else {
-            var isValid=true;
-            var action = task.split('.');
-            if (action[1] != 'cancel' && action[1] != 'close')
+        var isValid=true;
+        var action = task.split('.');
+        if (action[1] != 'cancel' && action[1] != 'close')
+        {
+            var forms = $$('form.form-validate');
+            for (var i=0;i<forms.length;i++)
             {
-                var forms = $$('form.form-validate');
-                for (var i=0;i<forms.length;i++)
+                if (!document.formvalidator.isValid(forms[i]))
                 {
-                    if (!document.formvalidator.isValid(forms[i]))
-                    {
-                        isValid = false;
-                        break;
-                    }
+                    isValid = false;
+                    break;
                 }
             }
+        }
 
-            if (isValid)
-            {
-                Joomla.submitform(task);
-                return true;
-            }
-            else
-            {
-                alert('<?php echo addslashes(JText::_('COM_THM_ORGANIZER_EE_INVALID_FORM')); ?>');
-                return false;
-            }
+        if (isValid)
+        {
+            Joomla.submitform(task);
+            return true;
+        }
+        else
+        {
+            alert('<?php echo addslashes(JText::_('COM_THM_ORGANIZER_EE_INVALID_FORM')); ?>');
+            return false;
         }
     }
+}
+
 
 </script>
 <div id="thm_organizer_ee">
     <form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>"
           method="post" name="eventForm" id="eventForm" class="eventForm form-validate">
         <div id="thm_organizer_ee_head_div">
-            <?php echo ($this->event['id'] == 0)? JText::_('COM_THM_ORGANIZER_EE_NEW') : JText::_('COM_THM_ORGANIZER_EE_EDIT'); ?>
+            <span id="thm_organizer_ee_title">
+                <?php echo ($this->event['id'] == 0)? JText::_('COM_THM_ORGANIZER_EE_NEW') : JText::_('COM_THM_ORGANIZER_EE_EDIT'); ?>
+            </span>
             <div id="thm_organizer_ee_button_div">
-                <input type="image"
-                       src="<?php echo JRoute::_('components/com_thm_organizer/assets/images/save.png') ?>"
-                       onclick="Joomla.submitbutton('event.save')" >
-                <input type="image"
-                       src="<?php echo JRoute::_('components/com_thm_organizer/assets/images/reset.png') ?>"
-                       onclick="history.go();">
-                <input type="image"
-                       src="<?php echo JRoute::_('components/com_thm_organizer/assets/images/cancel.png') ?>"
-                       onclick="Joomla.submitbutton('event.cancel');">
+                <a  class="hasTip thm_organizer_ee_action_link"
+                    title="<?php echo JText::_('COM_THM_ORGANIZER_EE_SAVE_TITLE')."::".JText::_('COM_THM_ORGANIZER_EE_SAVE_DESCRIPTION');?>"
+                    onclick="Joomla.submitbutton('events.save')">
+                    <span id="thm_organizer_ee_save_span" class="thm_organizer_el_action_span"></span>
+                    <?php echo JText::_('COM_THM_ORGANIZER_EE_SAVE'); ?>
+                </a>
+                <a  class="hasTip thm_organizer_ee_action_link"
+                    title="<?php echo JText::_('COM_THM_ORGANIZER_EE_SAVE_NEW_TITLE')."::".JText::_('COM_THM_ORGANIZER_EE_SAVE_NEW_DESCRIPTION');?>"
+                    onclick="Joomla.submitbutton('events.save2new')">
+                    <span id="thm_organizer_ee_save_new_span" class="thm_organizer_el_action_span"></span>
+                    <?php echo JText::_('COM_THM_ORGANIZER_EE_SAVE_NEW'); ?>
+                </a>
             </div>
         </div>
         <div id="thm_organizer_ee_category_div">
@@ -202,3 +194,6 @@ foreach($this->categories as $category)
         <?php echo JHtml::_('form.token'); ?>
     </form>
 </div>
+<?php }else{ ?>
+<span id="thm_organizer_el_noauth" ><?php echo JText::_('COM_THM_ORGANIZER_EE_NOAUTH'); ?></span>
+<?php }

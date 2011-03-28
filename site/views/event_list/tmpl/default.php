@@ -3,6 +3,13 @@ defined('_JEXEC') or die('Restricted access');
 $rowcount = 0;
 ?>
 <script type="text/javascript">
+    function submitForm(task, id)
+    {
+        document.getElementById('thm_organizer_el_task').value = task;
+        document.getElementById('thm_organizer_el_eventID').value = id;
+        document.getElementById('thm_organizer_el_form').submit();
+    }
+
     function reSort( col, dir )
     {
         document.getElementById('thm_organizer_el_orderby').value=col;
@@ -11,60 +18,58 @@ $rowcount = 0;
     }
 </script>
 <div id="thm_organizer_el">
-    <div id="thm_organizer_el_top_div" >
-        <?php if($this->category != -1) { ?>
-        <div id="thm_organizer_el_category_desc_div">
-            <img class="thm_organizer_el_catimage" alt="Category Image"
-                 src="images/thm_organizer/categories/<?php echo $cat->ecimage; ?>"/>
-                    <h2><?php echo $cat->ecname; ?></h2><br />
-            <?php if(isset($this->categories[$this->category]['description'])): ?>
-                <?php echo $this->categories[$this->category]['description']; ?>
-            <?php endif; ?>
+    <form id='thm_organizer_el_form' enctype='multipart/form-data' method='post'
+          action='<?php echo JRoute::_("index.php?option=com_thm_organizer"); ?>' >
+        <div id="thm_organizer_el_top_div" >
+            <?php if($this->category != -1) { ?>
+            <div id="thm_organizer_el_category_desc_div">
+                <img class="thm_organizer_el_catimage" alt="Category Image"
+                     src="images/thm_organizer/categories/<?php echo $cat->ecimage; ?>"/>
+                        <h2><?php echo $cat->ecname; ?></h2><br />
+                <?php if(isset($this->categories[$this->category]['description'])): ?>
+                    <?php echo $this->categories[$this->category]['description']; ?>
+                <?php endif; ?>
+            </div>
+            <?php } ?>
+            <div id="thm_organizer_el_action_div">
+                <?php if($this->canWrite): ?>
+                <a  class="hasTip thm_organizer_el_action_link"
+                    title="<?php echo JText::_('COM_THM_ORGANIZER_EL_NEW_TITLE')."::".JText::_('COM_THM_ORGANIZER_EL_NEW_DESCRIPTION');?>"
+                    onClick="submitForm('event_list.edit', 0);" >
+                    <span id="thm_organizer_el_new_span" class="thm_organizer_el_action_span"></span>
+                    <?php echo JText::_('COM_THM_ORGANIZER_EL_NEW'); ?>
+                </a>
+                <?php endif; if($this->canEdit): ?>
+                <a  class="hasTip thm_organizer_el_action_link"
+                    title="<?php echo JText::_('COM_THM_ORGANIZER_EL_EDIT_TITLE')."::".JText::_('COM_THM_ORGANIZER_EL_EDIT_DESCRIPTION');?>"
+                    href="">
+                    <span id="thm_organizer_el_edit_span" class="thm_organizer_el_action_span"></span>
+                    <?php echo JText::_('COM_THM_ORGANIZER_EL_EDIT'); ?>
+                </a>
+                <a  class="hasTip thm_organizer_el_action_link"
+                    title="<?php echo JText::_('COM_THM_ORGANIZER_EL_DELETE_TITLE')."::".JText::_('COM_THM_ORGANIZER_EL_DELETE_DESCRIPTION');?>"
+                    href="<?php echo JRoute::_( "index.php?option=com_thm_organizer&view=event_edit&Itemid=$this->itemID" ); ?>">
+                    <span id="thm_organizer_el_delete_span" class="thm_organizer_el_action_span"></span>
+                    <?php echo JText::_('COM_THM_ORGANIZER_EL_DELETE'); ?>
+                </a>
+                <?php endif; if($this->canWrite or $this->canEdit): ?>
+                <span class="thm_organizer_el_divider_span"></span>
+                <?php endif; ?>
+                <a  class="hasTip thm_organizer_el_action_link"
+                    title="<?php echo JText::_('COM_THM_ORGANIZER_EL_SUBMIT_TITLE')."::".JText::_('COM_THM_ORGANIZER_EL_SUBMIT_DESCRIPTION');?>"
+                    href="<?php echo JRoute::_( "index.php?option=com_thm_organizer&view=event_edit&Itemid=$this->itemID" ); ?>">
+                    <span id="thm_organizer_el_submit_span" class="thm_organizer_el_action_span"></span>
+                    <?php echo JText::_('COM_THM_ORGANIZER_EL_SUBMIT'); ?>
+                </a>
+                <a  class="hasTip thm_organizer_el_action_link"
+                    title="<?php echo JText::_('COM_THM_ORGANIZER_EL_RESET_TITLE')."::".JText::_('COM_THM_ORGANIZER_EL_RESET_DESCRIPTION');?>"
+                    href="<?php echo JRoute::_( "index.php?option=com_thm_organizer&view=event_edit&Itemid=$this->itemID" ); ?>">
+                    <span id="thm_organizer_el_reset_span" class="thm_organizer_el_action_span"></span>
+                    <?php echo JText::_('COM_THM_ORGANIZER_EL_RESET'); ?>
+                </a>
+            </div>
         </div>
-        <?php } ?>
-        <div id="thm_organizer_el_action_div">
-            <?php if($this->canWrite): ?>
-            <a  class="hasTip thm_organizer_el_action_link"
-                title="<?php echo JText::_('COM_THM_ORGANIZER_EL_NEW_TITLE')."::".JText::_('COM_THM_ORGANIZER_EL_NEW_DESCRIPTION');?>"
-                href="<?php echo JRoute::_( "index.php?option=com_thm_organizer&view=event_edit&Itemid=$this->itemID" ); ?>">
-                <span id="thm_organizer_el_new_span" class="thm_organizer_el_action_span"></span>
-                <?php echo JText::_('COM_THM_ORGANIZER_EL_NEW'); ?>
-            </a>
-            <?php endif; if($this->canEdit): ?>
-            <a  class="hasTip thm_organizer_el_action_link"
-                title="<?php echo JText::_('COM_THM_ORGANIZER_EL_EDIT_TITLE')."::".JText::_('COM_THM_ORGANIZER_EL_EDIT_DESCRIPTION');?>"
-                href="">
-                <span id="thm_organizer_el_edit_span" class="thm_organizer_el_action_span"></span>
-                <?php echo JText::_('COM_THM_ORGANIZER_EL_EDIT'); ?>
-            </a>
-            <a  class="hasTip thm_organizer_el_action_link"
-                title="<?php echo JText::_('COM_THM_ORGANIZER_EL_DELETE_TITLE')."::".JText::_('COM_THM_ORGANIZER_EL_DELETE_DESCRIPTION');?>"
-                href="<?php echo JRoute::_( "index.php?option=com_thm_organizer&view=event_edit&Itemid=$this->itemID" ); ?>">
-                <span id="thm_organizer_el_delete_span" class="thm_organizer_el_action_span"></span>
-                <?php echo JText::_('COM_THM_ORGANIZER_EL_DELETE'); ?>
-            </a>
-            <?php endif; if($this->canWrite or $this->canEdit): ?>
-            <span class="thm_organizer_el_divider_span"></span>
-            <?php endif; ?>
-            <a  class="hasTip thm_organizer_el_action_link"
-                title="<?php echo JText::_('COM_THM_ORGANIZER_EL_SUBMIT_TITLE')."::".JText::_('COM_THM_ORGANIZER_EL_SUBMIT_DESCRIPTION');?>"
-                href="<?php echo JRoute::_( "index.php?option=com_thm_organizer&view=event_edit&Itemid=$this->itemID" ); ?>">
-                <span id="thm_organizer_el_submit_span" class="thm_organizer_el_action_span"></span>
-                <?php echo JText::_('COM_THM_ORGANIZER_EL_SUBMIT'); ?>
-            </a>
-            <a  class="hasTip thm_organizer_el_action_link"
-                title="<?php echo JText::_('COM_THM_ORGANIZER_EL_RESET_TITLE')."::".JText::_('COM_THM_ORGANIZER_EL_RESET_DESCRIPTION');?>"
-                href="<?php echo JRoute::_( "index.php?option=com_thm_organizer&view=event_edit&Itemid=$this->itemID" ); ?>">
-                <span id="thm_organizer_el_reset_span" class="thm_organizer_el_action_span"></span>
-                <?php echo JText::_('COM_THM_ORGANIZER_EL_RESET'); ?>
-            </a>
-        </div>
-    </div>
-    <div id="thm_organizer_el_form_div" >
-        <form id='thm_organizer_el_form' enctype='multipart/form-data' method='post'
-              action='<?php echo JRoute::_("index.php?option=com_thm_organizer&view=event_list&Itemid=$this->itemID"); ?>' >
-            <input type="hidden" id="thm_organizer_el_orderby" name="orderby" value="<?php echo $this->orderby; ?>" />
-            <input type="hidden" id="thm_organizer_el_orderbydir"name="orderbydir" value="<?php echo $this->orderbydir; ?>" />
+        <div id="thm_organizer_el_form_div" >
             <div id='thm_organizer_el_search_div'>
                 <span class="thm_organizer_el_label_span" >
                     <label for="search"><?php echo JText::_('COM_THM_ORGANIZER_EL_SEARCH'); ?></label>
@@ -131,18 +136,19 @@ $rowcount = 0;
                         </tr>
                     </thead>
                     <?php foreach($this->events as $event){
-                        $rowclass = ($rowcount % 2 === 0)? "thm_organizer_el_row_even" : "thm_organizer_el_row_odd";
-                        $checked = JHTML::_( 'grid.id', $event['id'], $event['id'] );?>
+                        $rowclass = ($rowcount % 2 === 0)? "thm_organizer_el_row_even" : "thm_organizer_el_row_odd"; ?>
                     <tr class="<?php echo $rowclass; ?>">
                         <?php if($event['userCanEdit']): ?>
-                        <td class="thm_organizer_ce_checkbox"><?php echo $checked; ?></td>
+                        <td class="thm_organizer_ce_checkbox">
+                            <input type="checkbox" name="eventIDs[]" value="<?php echo $event['id']; ?>">
+                        </td>
                         <?php else: ?>
                         <td />
                         <?php endif; ?>
                         <td>
                             <span class="thm_organizer_el_eventtitle hasTip"
                                   title="<?php echo JText::_('COM_THM_ORGANIZER_EL_EVENT_TITLE')."::".JText::_('COM_THM_ORGANIZER_EL_EVENT_DESCRIPTION');?>">
-                                <a href="<?php echo $event['link'].$this->itemid; ?>">
+                                <a href="<?php echo $event['detailsLink'].$this->itemID; ?>">
                                     <?php echo $event['title']; ?>
                                 </a>
                             </span>
@@ -151,7 +157,7 @@ $rowcount = 0;
                         <td>
                             <span class="thm_organizer_el_eventauthor hasTip"
                                   title="Author::Events, die von diesem Author erstellt wurden.">
-                                <a href="<?php echo $event['authorlink'].$this->itemid; ?>">
+                                <a href="<?php echo $event['authorlink'].$this->itemID; ?>">
                                     <?php echo $event['author']; ?>
                                 </a>
                             </span>
@@ -186,7 +192,12 @@ $rowcount = 0;
             <br />
             <h4><?php echo JText::_("Keine Events erf&uuml;llen die Suchkriterien"); ?></h4>
             <?php } ?>
-        </form>
-    </div>
-    <div class="pageslinks"><?php echo $this->pageNav->getPagesLinks(); ?></div>
+        </div>
+        <div class="pageslinks"><?php echo $this->pageNav->getPagesLinks(); ?></div>
+        <input type="hidden" id="thm_organizer_el_orderby" name="orderby" value="<?php echo $this->orderby; ?>" />
+        <input type="hidden" id="thm_organizer_el_orderbydir" name="orderbydir" value="<?php echo $this->orderbydir; ?>" />
+        <input type="hidden" id="thm_organizer_el_itemID" name="Itemid" value="<?php echo $this->itemID; ?>" />
+        <input type="hidden" id="thm_organizer_el_eventID" name="eventID" value="" />
+        <input type="hidden" id="thm_organizer_el_task" name="task" value="" />
+    </form>
 </div>

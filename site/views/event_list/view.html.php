@@ -26,6 +26,7 @@ class thm_organizerViewevent_list extends JView
     {
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
+        $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/event_list.js'));
 
         $model = $this->getModel();
         $events = $model->events;
@@ -63,14 +64,8 @@ class thm_organizerViewevent_list extends JView
         $orderbydir = $model->getState('orderbydir');
         $orderbydir = (empty($orderbydir))? "ASC" : $orderbydir;
         $this->assign('orderbydir', $orderbydir);
-
-
-
-
+        
         $this->buildHTMLElements();
-        //create select lists
-        //$lists	= $this->buildLists();
-        //$this->assign('lists' , $lists);
 
         parent::display($tpl);
     }

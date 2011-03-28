@@ -4,12 +4,13 @@
  * @subpackage  com_thm_organizer
  * @name        model for
  * @author      James Antrim jamesDOTantrimATyahooDOTcom
- * @copyright   TH Mittelhessen <year>
+ * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
  * @link        www.mni.fh-giessen.de
  * @version     0.0.1
  */
 
+//echo "<pre>".print_r($this->menuParameters, true)."</pre>"; //template for test outputs
 defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.model' );
 
@@ -111,13 +112,14 @@ class thm_organizerModelevent_list extends JModel
     private function setCategoryID()
     {
         $application = JFactory::getApplication();
-        if(isset($callParameters) and isset($callParameters["categoryID"]))
-            $categoryID = $callParameters["categoryID"];
+        if(isset($this->callParameters) and isset($this->callParameters["categoryID"]))
+            $categoryID = $this->callParameters["categoryID"];
         else if($this->menuParameters->get('category_restriction'))
             $categoryID = $this->menuParameters->get('category_restriction');
         else if(JRequest::getVar('categoryID'))
             $categoryID = JRequest::getVar('categoryID');
         else $categoryID = $application->getUserStateFromRequest('com_thm_organizer.event_list.categoryID', 'categoryID', -1, 'int');
+
         $this->setState('categoryID', $categoryID);
     }
 
@@ -197,12 +199,8 @@ class thm_organizerModelevent_list extends JModel
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select($this->getSelect());
-        $query->from("#__thm_organizer_events");
-        $query->innerJoin("#__content ON #__thm_organizer_events.id = #__content.id");
-        $query->innerJoin("#__thm_organizer_categories ON #__thm_organizer_events.categoryID = #__thm_organizer_categories.id");
-        $query->innerJoin("#__categories ON #__thm_organizer_categories.contentCatID = #__categories.id");
-        $query->innerJoin("#__users ON #__content.created_by = #__users.id");
-        //$query->where($this->getWhere());
+        $this->getFrom(&$query);
+        $this->getWhere(&$query);
         //$query->order($this->getOrderBy());
         $query = (string)$query;
         //$query = $query.$limit;
@@ -246,23 +244,46 @@ class thm_organizerModelevent_list extends JModel
 
     private function getSelect()
     {
-        $select = "#__thm_organizer_events.id AS id, ";
-        $select .= "#__thm_organizer_events.categoryID AS eventCategoryID, ";
-        $select .= "DATE_FORMAT(#__thm_organizer_events.startdate, '%d.%m.%Y') AS startdate, ";
-        $select .= "DATE_FORMAT(#__thm_organizer_events.enddate, '%d.%m.%Y') AS enddate, ";
-        $select .= "SUBSTR(#__thm_organizer_events.starttime, 1, 5) AS starttime, ";
-        $select .= "SUBSTR(#__thm_organizer_events.endtime, 1, 5) AS endtime, ";
-        $select .= "#__thm_organizer_events.recurrence_type AS rec_type, ";
-        $select .= "#__thm_organizer_categories.title AS eventCategory, ";
-        $select .= "#__thm_organizer_categories.contentCatID AS contentCategoryID, ";
-        $select .= "#__content.title AS title, ";
-        $select .= "#__content.introtext AS description, ";
-        $select .= "#__content.access AS contentAccess, ";
-        $select .= "#__categories.title AS contentCategory, ";
-        $select .= "#__categories.access AS contentCategoryAccess, ";
-        $select .= "#__users.name AS author, ";
-        $select .= "#__users.id AS authorID ";
+        $select = "DISTINCT(e.id) AS id, ";
+        $select .= "e.categoryID AS eventCategoryID, ";
+        $select .= "DATE_FORMAT(e.startdate, '%d.%m.%Y') AS startdate, ";
+        $select .= "DATE_FORMAT(e.enddate, '%d.%m.%Y') AS enddate, ";
+        $select .= "SUBSTR(e.starttime, 1, 5) AS starttime, ";
+        $select .= "SUBSTR(e.endtime, 1, 5) AS endtime, ";
+        $select .= "e.recurrence_type AS rec_type, ";
+        $select .= "ecat.title AS eventCategory, ";
+        $select .= "ecat.contentCatID AS contentCategoryID, ";
+        $select .= "c.title AS title, ";
+        $select .= "c.introtext AS description, ";
+        $select .= "c.access AS contentAccess, ";
+        $select .= "ccat.title AS contentCategory, ";
+        $select .= "ccat.access AS contentCategoryAccess, ";
+        $select .= "u.name AS author, ";
+        $select .= "u.id AS authorID ";
         return $select;
+    }
+
+    /**
+     * getFrom
+     * 
+     * sets the query's from clause
+     * 
+     * @access private
+     * @param object $query JDatabaseQuery Object the query to be modified
+     */
+    private function getFrom(&$query)
+    {
+        $query->from("#__thm_organizer_events AS e");
+        $query->innerJoin("#__content AS c ON e.id = c.id");
+        $query->innerJoin("#__thm_organizer_categories AS ecat ON e.categoryID = ecat.id");
+        $query->innerJoin("#__categories AS ccat ON ecat.contentCatID = ccat.id");
+        $query->innerJoin("#__users AS u ON c.created_by = u.id");
+        $query->leftJoin("#__thm_organizer_event_teachers AS et ON e.id = et.eventID");
+        $query->leftJoin("#__thm_organizer_teachers AS t ON et.teacherID = t.id");
+        $query->leftJoin("#__thm_organizer_event_rooms AS er ON e.id = er.eventID");
+        $query->leftJoin("#__thm_organizer_rooms AS r ON er.roomID = r.id");
+        $query->leftJoin("#__thm_organizer_event_groups AS eg ON e.id = eg.eventID");
+        $query->leftJoin("#__usergroups AS ug ON eg.groupID = ug.id");
     }
 
     /**
@@ -274,57 +295,51 @@ class thm_organizerModelevent_list extends JModel
      * @return string $where the where clause to a query based on model state information
      *
      */
-    private function getWhere()
+    private function getWhere(&$query)
     {
-        $search = $this->getState('search');
+        //view access
+        $user = JFactory::getUser();
+        $viewAccessLevels = $user->getAuthorisedViewLevels();
+        sort($viewAccessLevels);
+        $maxViewAccessLevel = array_pop($viewAccessLevels);
+        $query->where("c.access <= '$maxViewAccessLevel' AND ccat.access <= '$maxViewAccessLevel'");
+
+        //menu restrictions
         $author = $this->getState('author');
+        if(isset($author)) $query->where("author = '$author'");
         $room = $this->getState('room');
-        $category = $this->getState('category');
-        $fromdate = $this->getState('fromdate');
-        $todate = $this->getState('todate');
-        $display_type = $this->display_type;
+        if(isset($room)) $query->where("r.id = '$room'");
+        $categoryID = $this->getState('categoryID');
+        if(isset($categoryID)) $query->where("e.categoryID = '$categoryID'");
 
-        if(isset($author)) $wherray[] = "(author = '$author')";
-        if(isset($room)) $wherray[] = "( id = '$room' )";
-        if(isset($category)) $wherray[] = "(id = '$category')";
-
-        if(isset($date) && $date != '')  $wherray[] = "(startdate <= '$date' AND enddate >= '$date')";
-        else if((!isset($filter) || $filter == '') && isset($display_type) && ($display_type <= 3))
-            $wherray[] = "(startdate >= '".date('Y-m-d')."' OR enddate >= '".date('Y-m-d')."')";
-
-        if(isset($filter) && $filter != '')
+        //search items
+        $search = $this->getState('search');
+        $searchItems = array();
+        if(!empty($search))$searchItems = explode(",", $search);
+        if(count($searchItems))
         {
-            $filters = explode(",", $filter);
-            if(count($filters) > 1)
+            $wherray = array();
+            foreach($searchItems as $item)
             {
-                foreach($filters as $f)
-                {
-                    $f = strtolower($f);
-                    $filterray[] = "(startdate <= '$f' AND enddate >= '$f')";
-                    $filterray[] = "(ecname LIKE '%$f%')";
-                    $filterray[] = "(oname LIKE '%$f%')";
-                    $filterray[] = "(title LIKE '%$f%')";
-                    $filterray[] = "(name LIKE '%$f%')";
-                    $likeobjects[] = "( ".implode(" OR ", $filterray)." )";
-                    unset($filterray);
-                }
-                $wherray[] = "( ".implode(" AND ", $likeobjects)." )";
+                $restriction = "(c.title LIKE '%$item%') ";
+                $restriction .= "OR (c.introtext LIKE '%$item%') ";
+                $restriction .= "OR (ecat.title LIKE '%$item%') ";
+                $restriction .= "OR (ccat.title LIKE '%$item%') ";
+                $restriction .= "OR (r.name LIKE '%$item%') ";
+                $restriction .= "OR (t.name LIKE '%$item%') ";
+                $restriction .= "OR (ug.title LIKE '%$item%') ";
+                $wherray[] = "(".$restriction.")";
             }
-            else
-            {
-                $f = strtolower($filter);
-                $likeobjects[] = "(startdate <= '$f' AND enddate >= '$f')";
-                $likeobjects[] = "(ecname LIKE '%$f%')";
-                $likeobjects[] = "(oname LIKE '%$f%')";
-                $likeobjects[] = "(title LIKE '%$f%')";
-                $likeobjects[] = "(name LIKE '%$f%')";
-                $wherray[] = "( ".implode(" OR ", $likeobjects)." )";
-            }
+            $query->where(implode(" AND ", $wherray));
         }
-        $user =& JFactory::getUser();
-        $gid = $user->gid;
-        $wherray[] = "(access <= '$gid')";
-        return "WHERE ( ".implode(" AND ", $wherray)." )";
+
+        $fromdate = $this->getState('fromdate');
+        if(empty($fromdate) AND $this->display_type < 4) $fromdate = date ('Y-m-d');
+        if(!empty($fromdate))
+            $query->where("startdate >= '$fromdate' OR enddate >= '$fromdate'");
+        $todate = $this->getState('todate');
+        if(!empty($todate))
+            $query->where("startdate <= '$todate' OR enddate <= '$todate'");
     }
 
     /**
@@ -416,6 +431,7 @@ class thm_organizerModelevent_list extends JModel
         {
             $id = $v['id'];
             $resourcesResults = array();
+            $resourceNames = array();
 
             $query = $dbo->getQuery(true);
             $query->select('id, title AS name, "group" AS type ');
@@ -424,6 +440,7 @@ class thm_organizerModelevent_list extends JModel
             $query->where("eventID = '$id'");
             $dbo->setQuery((string)$query);
             $resourcesResults = array_merge($resourcesResults, $dbo->loadAssocList());
+            $resourceNames = array_merge($resourceNames, $dbo->loadResultArray(1));
             
             $query = $dbo->getQuery(true);
             $query->select('id, name, "teacher" AS type');
@@ -432,6 +449,7 @@ class thm_organizerModelevent_list extends JModel
             $query->where("eventID = '$id'");
             $dbo->setQuery((string)$query);
             $resourcesResults = array_merge($resourcesResults, $dbo->loadAssocList());
+            $resourceNames = array_merge($resourceNames, $dbo->loadResultArray(1));
 
             $query = $dbo->getQuery(true);
             $query->select('id, name, "room" AS type');
@@ -440,13 +458,12 @@ class thm_organizerModelevent_list extends JModel
             $query->where("eventID = '$id'");
             $dbo->setQuery((string)$query);
             $resourcesResults = array_merge($resourcesResults, $dbo->loadAssocList());
+            $resourceNames = array_merge($resourceNames, $dbo->loadResultArray(1));
 
-            $resources = array();
-            foreach($resourcesResults as $result) $resources[] = $result['id'];
+            $resourceNames = (count($resourceNames))? implode(", ", $resourceNames) : "";
 
-            $resourceString = (count($resources))? implode(", ", $resources) : "";
             $this->events[$k]['resourceArray'] = $resourcesResults;
-            $this->events[$k]['resources'] = $resourceString;
+            $this->events[$k]['resources'] = $resourceNames;
 
         }
     }
@@ -492,7 +509,25 @@ class thm_organizerModelevent_list extends JModel
 
     private function canUserEdit()
     {
-        return true;
+        $canWrite = false;
+
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("DISTINCT asset_id");
+        $query->from("#__categories AS c");
+        $query->innerJoin("#__thm_organizer_categories AS ec ON ec.contentCatID = c.id");
+        $dbo->setQuery((string)$query);
+        $assetIDs = $dbo->loadResultArray();
+        if(count($assetIDs))
+        {
+            foreach($assetIDs as $assetID)
+            {
+                if($canWrite == true)return $canWrite;
+                else $canWrite = JAccess::check (JFactory::getUser ()->id, 'core.create', $assetID);
+            }
+            return $canWrite;
+        }
+        return $canWrite;
     }
 
 }

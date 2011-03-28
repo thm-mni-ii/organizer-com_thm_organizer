@@ -37,19 +37,17 @@ class thm_organizerModelevent_edit extends JModelForm
         $user = JFactory::getUser();
 
         $query = $dbo->getQuery(true);
-        $query->select("*");
-        $query->from("#__thm_organizer_events");
-        $query->where("id = '$eventid'");
+        $query->select($this->getSelect());
+        $query->from("#__thm_organizer_events AS e");
+        $query->innerJoin("#__content AS c ON e.id = c.id");
+        $query->where("e.id = '$eventid'");
         $dbo->setQuery((string)$query);
         $event = $dbo->loadAssoc();
 
-        if(count($event))
+        if(isset($event))
         {
-            //clean event data
-            $event['starttime'] = substr($event['starttime'], 0, 5);
-            $event['endtime'] = substr($event['endtime'], 0, 5);
-            $event['startdate'] = strrev(str_replace("-", ".", $event['startdate']));
-            $event['enddate'] = strrev(str_replace("-", ".", $event['enddate']));
+            $form = $this->getForm();
+            $form->bind($event);
         }
         else
         {
@@ -78,6 +76,24 @@ class thm_organizerModelevent_edit extends JModelForm
         $this->event = $event;
     }
 
+
+    private function getSelect()
+    {
+        $select = "e.id AS id, ";
+        $select .= "e.categoryID AS categoryID, ";
+        $select .= "DATE_FORMAT(e.startdate, '%d.%m.%Y') AS startdate, ";
+        $select .= "DATE_FORMAT(e.enddate, '%d.%m.%Y') AS enddate, ";
+        $select .= "SUBSTR(e.starttime, 1, 5) AS starttime, ";
+        $select .= "SUBSTR(e.endtime, 1, 5) AS endtime, ";
+        $select .= "e.recurrence_type, ";
+        $select .= "e.recurrence_number, ";
+        $select .= "e.recurrence_counter, ";
+        $select .= "c.title AS title, ";
+        $select .= "c.introtext AS description, ";
+        $select .= "c.created_by";
+        return $select;
+    }
+
     private function loadEventResources()
     {
         $this->loadEventRooms();
@@ -101,7 +117,7 @@ class thm_organizerModelevent_edit extends JModelForm
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('teacherID');
-        $query->from('#__thm_organizer_event_rooms');
+        $query->from('#__thm_organizer_event_teachers');
         $dbo->setQuery((string)$query);
         $teachers = $dbo->loadResultArray();
         $this->event['teachers'] = count($teachers)? $teachers : array();

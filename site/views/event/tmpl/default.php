@@ -1,148 +1,76 @@
-<?php
-// No direct access
-defined('_JEXEC') or die('Restricted access');
+<?php defined('_JEXEC') or die('Restricted access');
 $event = $this->event;
-//var_dump($event);
-
-//creation of the sentence display of the dates & times
-$dtstring = "Dieser Termin findet";
-if(isset($event->starttime) && isset($event->endtime))
-    $timestring = " zwischen ".$event->starttime." und ".$event->endtime;
-else if(isset($event->starttime))
-    $timestring = " ab ".$event->starttime;
-else if(isset($event->endtime))
-    $timestring = " bis ".$event->endtime;
-if(isset($event->startdate) && isset($event->enddate))
-{
-    if($event->rec_type == 0)
-    {
-        if(isset($event->starttime) && isset($event->endtime))
-            $dtstring .= " zwischen ".$event->starttime." am ".$event->startdate." und ".$event->endtime." am ".$event->enddate;
-        else if(isset($event->starttime))
-            $dtstring .= " vom ".$event->starttime." am ".$event->startdate." bis ".$event->enddate;
-        else if(isset($event->endtime))
-            $dtstring .= " vom ".$event->startdate." bis ".$event->endtime." am ".$event->enddate;
-    }
-    else
-    {
-        isset($timestring)? $dtstring .= " vom ".$event->startdate." bis dem ".$event->enddate.$timestring : $dtstring .= " vom ".$event->startdate." bis dem ".$event->enddate;
-    }
-}
-else
-{
-    isset($timestring)? $dtstring .= " am ".$event->startdate.$timestring : $dtstring .= " am ".$event->startdate;
-}
-$dtstring .= " statt.";
-
-$teachers = $classes = $rooms = $usergroups = false;
-if(count($event->teachers) > 0)
-{
-    $teachers = true;
-    $tstring = implode(', ', $event->teachers);
-    if(count($event->teachers) > 1) $theadstring = "Dozenten:  ";
-    else $theadstring = "Dozent:  ";
-}
-if(count($event->rooms) > 0)
-{
-    $rooms = true;
-    $rstring = implode(', ', $event->rooms);
-    if(count($event->rooms) > 1) $rheadstring = "R&auml;ume:  ";
-    else $rheadstring = "Raum:  ";
-}
-if(count($event->classes) > 0)
-{
-    $classes = true;
-    $cstring = implode(', ', $event->classes);
-    if(count($event->classes) > 1) $cheadstring = "Semesterg&auml;nge:  ";
-    else $cheadstring = "Semestergang:  ";
-}
-if(count($event->usergroups) > 0)
-{
-    $usergroups = true;
-    $ugstring = implode(', ', $event->usergroups);
-    if(count($event->usergroups) > 1) $ugheadstring = "Benutzergruppen:  ";
-    else $ugheadstring = "Benutzergruppe:  ";
-}
-$contentorg = "";
-if(isset($event->sectname) && isset($event->ccatname))
-        $contentorg = $event->sectname." / ".$event->ccatname;
-else if(isset($event->sectname))
-        $contentorg = $event->sectname;
-if(isset($event->publish_up) && isset($event->publish_down))
-    $published = "Der Beitrag wird vom ".$event->publish_up." bis ".$event->publish_down." angezeigt";
-?>
+//echo "<pre>".print_r($event, true)."</pre>";?>
 <div id="thm_organizer_e">
     <div id="thm_organizer_e_header">
-        <span class="componentheading"><?php echo $event->title; ?></span>
+        <span id="thm_organizer_e_title"><?php echo $event['title']; ?></span>
         <div id="thm_organizer_e_headerlinks">
-            <?php if(isset($this->editlink)) echo $this->editlink; ?>
-            <?php if(isset($this->deletelink)) echo $this->deletelink; ?>
+        <?php if($event['access']): ?>
+            <a  class="hasTip thm_organizer_e_action_link"
+                title="<?php echo JText::_('COM_THM_ORGANIZER_E_EDIT_TITLE')."::".JText::_('COM_THM_ORGANIZER_E_EDIT_DESCRIPTION');?>"
+                href="<?php echo JRoute::_( "index.php?option=com_thm_organizer&task=events.edit&eventID={$this->event['id']}&Itemid=$this->itemID" ); ?>">
+                <span id="thm_organizer_el_edit_span" class="thm_organizer_el_action_span"></span>
+                <?php echo JText::_('COM_THM_ORGANIZER_E_EDIT'); ?>
+            </a>
+            <a  class="hasTip thm_organizer_e_action_link"
+                title="<?php echo JText::_('COM_THM_ORGANIZER_E_DELETE_TITLE')."::".JText::_('COM_THM_ORGANIZER_E_DELETE_DESCRIPTION');?>"
+                href="<?php echo JRoute::_( "index.php?option=com_thm_organizer&task=events.delete&eventID={$this->event['id']}&Itemid=$this->itemID" ); ?>">
+                <span id="thm_organizer_el_delete_span" class="thm_organizer_el_action_span"></span>
+                <?php echo JText::_('COM_THM_ORGANIZER_E_DELETE'); ?>
+            </a>
+        <?php endif; ?>
         </div>
-    </div><!-- end header -->
-    <div id="thm_organizer_e_hr">
         <hr/>
     </div>
     <div class="thm_organizer_e_block_div" >
-<?php if(isset($event->description) && trim($event->description) != ''): ?>
+        <div id='thm_organizer_e_author'>
+            <p><?php echo JText::_('COM_THM_ORGANIZER_E_WRITTEN_BY').$event['author']; ?></p>
+        </div>
+        <?php if(!empty($event['description'])): ?>
         <div id='thm_organizer_e_description'>
-            <p><?php echo trim($event->description); ?></p>
-        </div><!-- end description -->
-<?php endif; ?>
+            <p><?php echo $event['description']; ?></p>
+        </div>
+        <?php endif; ?>
         <div id="thm_organizer_e_time">
-            <p><?php echo $dtstring; ?></p>
-        </div><!-- end date / time -->
-<?php
-if($teachers || $rooms || $classes || $usergroups)
-{
-?>
+            <p><?php echo $this->dateTimeText; ?></p>
+        </div>
+        <?php if($this->teachers or $this->rooms or $this->groups){ ?>
         <div id="thm_organizer_e_resources" >
-            <h3><?php echo JText::_( 'der Termin betrifft:' ); ?></h3>
-<?php if($teachers): ?>
+            <h3><?php echo JText::_( 'COM_THM_ORGANIZER_E_RESOURCE_HEAD' ); ?></h3>
+            <?php if($this->teachers): ?>
             <p>
-                <?php echo JText::_($theadstring); ?>
-                <?php echo $tstring; ?>
+                <?php echo $this->teachersLabel; ?>
+                <?php echo $this->teachers; ?>
             </p>
-<?php endif; ?>
-<?php if($rooms): ?>
+            <?php endif; if($this->rooms): ?>
             <p>
-                <?php echo JText::_($rheadstring); ?>
-                <?php echo $rstring; ?>
+                <?php echo $this->roomsLabel; ?>
+                <?php echo $this->rooms; ?>
             </p>
-<?php endif; ?>
-<?php if($classes): ?>
+            <?php endif; if($this->groups): ?>
             <p>
-                <?php echo JText::_($cheadstring); ?>
-                <?php echo $cstring; ?>
+                <?php echo $this->groupsLabel; ?>
+                <?php echo $this->groups; ?>
             </p>
-<?php endif; ?>
-<?php if($usergroups): ?>
-            <p>
-                <?php echo JText::_($ugheadstring); ?>
-                <?php echo $ugstring; ?>
-            </p>
-<?php endif; ?>
-        </div><!-- end resource div -->
-<?php }?>
-    </div><!-- end event specific div -->
+            <?php endif; ?>
+        </div>
+        <?php }?>
+    </div>
     <div class="thm_organizer_e_block_div">
         <div id="thm_organizer_e_category" >
-            <h3><?php echo JText::_( 'Kategorie' ).":&nbsp;".$event->ecname; ?></h3>
-<?php if(isset($event->ecdescription)): ?>
-            <br /><?php echo $event->ecdescription; ?><br />
-<?php endif; ?>
-            <p><?php echo $event->displaybehaviour; ?></p>
-        </div><!-- end event category div -->
-<?php if(isset($event->sectname)): ?>
+            <h3><?php echo JText::_('COM_THM_ORGANIZER_E_CATEGORY').$event['eventCategory']; ?></h3>
+            <?php if(!empty($event['eventCategoryDesc'])): ?>
+            <p><?php echo $event['eventCategoryDesc']; ?></p>
+            <?php endif; ?>
+            <p><?php echo $event['displaybehavior']; ?></p>
+        </div>
         <div id="thm_organizer_e_content" >
-            <h3><?php echo JText::_( 'Beitrag' ); ?></h3>
-            <p>
-                <?php echo JText::_( 'Dieser Termin gibt es auch als Beitrag unter ' ).$contentorg."."; ?>
-            </p>
-            <p>
-                <?php echo $published; ?>
-            </p>
-        </div><!-- end content div -->
-<?php endif; ?>
-    </div><!-- end extra details div -->
-</div><!-- end event view -->
+            <h3><?php echo JText::_( 'COM_THM_ORGANIZER_E_CONTENT_CATEGORY' ).$event['contentCategory']; ?></h3>
+            <?php if(!empty($event['contentCategoryDesc'])): ?>
+            <p><?php echo $event['contentCategoryDesc']; ?></p>
+            <?php endif; ?>
+            <p><?php echo $this->published; ?></p>
+        </div>
+    </div>
+</div>
 	

@@ -19,3 +19,17 @@ window.addEvent('domready', function() {
         function (value) { return (trim(value) != '');
     });
 });
+
+/**
+* Changes a dynamically generated list
+*/
+function changeCategoryInformation()
+{
+    var index = document.getElementById('category').selectedIndex;
+    var id = document.getElementById('category').options[index].value;
+    document.getElementById('thm_organizer_ee_event_cat_desc_div').innerHTML = categories[id][0];
+    document.getElementById('thm_organizer_ee_event_cat_disp_div').innerHTML = categories[id][1];
+    document.getElementById('thm_organizer_ee_content_cat_name_div').innerHTML = categories[id][2];
+    document.getElementById('thm_organizer_ee_content_cat_desc_div').innerHTML = categories[id][3];
+    document.getElementById('thm_organizer_ee_content_cat_access_div').innerHTML = categories[id][4];
+}
