@@ -239,7 +239,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_user_schedules` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_virtual_schedules` (
-  `vid` varchar(20) NOT NULL,
+  `vid` varchar(50) NOT NULL,
   `vname` varchar(50) NOT NULL,
   `vtype` varchar(50) NOT NULL,
   `vresponsible` varchar(50) NOT NULL,
@@ -251,7 +251,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_virtual_schedules` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_virtual_schedules_elements` (
-  `vid` varchar(20) NOT NULL,
+  `vid` varchar(50) NOT NULL,
   `eid` varchar(20) NOT NULL,
   `sid` varchar(11) NOT NULL DEFAULT '',
   KEY `vid` (`vid`),
