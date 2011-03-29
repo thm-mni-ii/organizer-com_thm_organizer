@@ -3,7 +3,7 @@
 <script type="text/javascript" charset="utf-8">
 <?php
 	echo 'var externLinks = [];';
-	echo 'externLinks.eventLink = \''.JRoute::_('index.php?option=com_thm_organizer&view=event_edit&eventID=').'\';';
+	echo 'externLinks.eventLink = \''.JRoute::_('index.php?option=com_thm_organizer&view=event_edit&schedulerCall=true&eventID=').'\';';
 	echo 'externLinks.blankImageLink = \''.JURI::root(true).'/components/com_thm_organizer/views/scheduler/tmpl/ext/resources/images/default/s.gif\';';
 	echo 'externLinks.lectureAddButton = \''.JURI::root(true).'/components/com_thm_organizer/views/scheduler/tmpl/images/add.png\';';
 	echo 'externLinks.lectureRemoveButton = \''.JURI::root(true).'/components/com_thm_organizer/views/scheduler/tmpl/images/delete.png\';';
