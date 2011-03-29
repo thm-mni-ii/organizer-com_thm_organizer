@@ -84,7 +84,7 @@ class mySchedConfig {
         $this->cfg['jdb_table_event_objects'] = 'jos_thm_organizer_eventobjects';
         $this->cfg['jdb_table_objects'] = 'jos_thm_organizer_objects';
         $this->cfg['jdb_table_categories'] = 'jos_thm_organizer_categories';
-        $this->cfg['jdb_table_semester'] = 'jos_thm_organizer_semester';
+        $this->cfg['jdb_table_semester'] = 'jos_thm_organizer_semesters';
 
     }
 
