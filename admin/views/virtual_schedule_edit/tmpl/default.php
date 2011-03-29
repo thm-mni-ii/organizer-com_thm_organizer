@@ -31,6 +31,8 @@ defined('_JEXEC') or die ('Restricted access');
 					<input class="text_area" type="text" name="vscheduler_name" id="vscheduler_name" maxlength="100"
 							value="<?php echo $this->name; ?>" />
 				</td>
+				<td></td>
+				<td></td>
 			</tr>
 			<tr>
 				<td class="key">
@@ -39,6 +41,8 @@ defined('_JEXEC') or die ('Restricted access');
 				<td>
 					<?php echo $this->types; ?>
 				</td>
+				<td></td>
+				<td></td>
 			</tr>
 			<tr>
 				<td class="key">
@@ -47,6 +51,8 @@ defined('_JEXEC') or die ('Restricted access');
 				<td>
 					<?php echo $this->semesters; ?>
 				</td>
+				<td></td>
+				<td></td>
 			</tr>
 			<tr>
 				<td class="key">
@@ -55,6 +61,8 @@ defined('_JEXEC') or die ('Restricted access');
 				<td>
 					<?php echo $this->resps; ?>
 				</td>
+				<td></td>
+				<td></td>
 			</tr>
 			<tr>
 				<td class="key">
@@ -62,10 +70,10 @@ defined('_JEXEC') or die ('Restricted access');
 				</td>
 				<td>
 					<?php echo $this->classesDepartments; ?>
-				</td
+				</td>
 				<td>
 					<?php echo $this->teacherDepartments; ?>
-				</td
+				</td>
 				<td>
 					<?php echo $this->roomDepartments; ?>
 				</td>

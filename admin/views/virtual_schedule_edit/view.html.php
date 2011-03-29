@@ -39,7 +39,7 @@ class thm_organizersViewvirtual_schedule_edit extends JView {
 			$semesters = array();
 
 		$roomDepartments = $model->getRoomDepartments();
-		$teacherDepartments = $model->getDepartments("teachers");
+		$teacherDepartments = $model->getTeacherDepartments();
 		$classesDepartments = $model->getDepartments("classes");
 
 		$tempDepartments = null;
@@ -154,6 +154,7 @@ class thm_organizersViewvirtual_schedule_edit extends JView {
 		$this->assignRef('resps', JHTML::_('select.genericlist', $responsibles, 'vscheduler_resps','size="1" class="inputbox"', 'id', 'name', $vscheduler_resps));
 		$this->assignRef('types', JHTML::_('select.genericlist', $types, 'vscheduler_types','size="1" class="inputbox" onChange="setRessource();"', 'id', 'name', $vscheduler_types));
 		$this->assignRef('semesters', JHTML::_('select.genericlist', $semesters, 'vscheduler_semid','size="1" class="inputbox"', 'id', 'name', $vscheduler_semid));
+
 		$this->assignRef('roomDepartments', JHTML::_('select.genericlist', $roomDepartments, 'vscheduler_roomDepartments','size="1" class="inputbox"', 'id', 'name', $vscheduler_roomDepartments));
 		$this->assignRef('teacherDepartments', JHTML::_('select.genericlist', $teacherDepartments, 'vscheduler_teacherDepartments','size="1" class="inputbox"', 'id', 'name', $vscheduler_teacherDepartments));
 		$this->assignRef('classesDepartments', JHTML::_('select.genericlist', $classesDepartments, 'vscheduler_classesDepartments','size="1" class="inputbox"', 'id', 'name', $vscheduler_classesDepartments));
