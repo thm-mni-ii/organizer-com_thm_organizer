@@ -38,10 +38,9 @@ Joomla.submitbutton = function(task)
                 }
             }
         }
-
         if (isValid)
         {
-            Joomla.submitform(task);
+            Joomla.submitform(task, document.getElementById('eventForm'));
             return true;
         }
         else
@@ -51,8 +50,6 @@ Joomla.submitbutton = function(task)
         }
     }
 }
-
-
 </script>
 <div id="thm_organizer_ee">
     <form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>"

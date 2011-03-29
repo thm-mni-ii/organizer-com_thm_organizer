@@ -1,4 +1,15 @@
-<?php // no direct access
+<?php
+/**
+ * @package     Joomla.Site
+ * @subpackage  com_thm_organizer
+ * @name        create/edit appointment/event view
+ * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @copyright   TH Mittelhessen 2011
+ * @license     GNU GPL v.2
+ * @link        www.mni.fh-giessen.de
+ * @version     0.0.1
+ */
+
 defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.view');
 
@@ -18,7 +29,6 @@ class thm_organizerViewevent_edit extends JView
         $document = & JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
         $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/event_edit.js'));
-
 
         $this->form = $this->get('Form');
         $item->item = $this->get('Item');

@@ -14,6 +14,65 @@ jimport('joomla.application.component.controller');
 
 class thm_organizerControllerevents extends JController
 {
+    private function canCreate()
+    {
+        $canCreate = false;
+        $dbo = JFactory::getDbo();
+        $user = JFactory::getUser();
+
+        $query = $dbo->getQuery(true);
+        $query->select("ccat.id");
+        $query->from('#__thm_organizer_categories AS ecat');
+        $query->innerJoin('#__categories AS ccat');
+        $dbo->setQuery((string)$query);
+        $associatedCategories = $dbo->loadResultArray();
+
+        if(isset($associatedCategoryIDs) and count($associatedCategoryIDs))
+        {
+            foreach($associatedCategoryIDs as $associatedCategoryID)
+            {
+                $assetname = "com_content.category.$associatedCategoryID";
+                $canWrite = $user->authorise('core.create', $assetname);
+                if($canWrite)
+                {
+                    $canCreate = true;
+                    break;
+                }
+            }
+        }
+
+        return $canCreate;
+    }
+
+    private function canEdit($eventID)
+    {
+        $user = JFactory::getUser();
+        $assetname = "com_content.article.$eventID";
+        $canEdit = $user->authorise('edit', $assetname);
+        if(!isset($canEdit))$canEdit = false;
+        return $canEdit;
+    }
+
+    private function canEditOwn($eventID)
+    {
+        $canEditOwn = false;
+        $dbo = JFactory::getDbo();
+        $user = JFactory::getUser();
+
+        $query = $dbo->getQuery(true);
+        $query->select("created_by AS author");
+        $query->from("#__content");
+        $query->where("id = '$eventID'");
+        $dbo->setQuery((string)$query);
+        $author = $dbo->loadResult();
+        $isAuthor = ($user->id == $author)? true : false;
+
+        $assetname = "com_content.article.$eventID";
+        if($isAuthor) $canEditOwn = $user->authorise('edit.own', $assetname);
+
+        return $canEditOwn;
+    }
+
     /**
      * edit
      * 
@@ -29,43 +88,8 @@ class thm_organizerControllerevents extends JController
         $user = JFactory::getUser();
         $access = false;
 
-        if($eventID)
-        {
-            $query = $dbo->getQuery(true);
-            $query->select("created_by AS author");
-            $query->from("#__content");
-            $query->where("id = '$eventID'");
-            $dbo->setQuery((string)$query);
-            $author = $dbo->loadResult();
-            $isAuthor = ($user->id == $author)? true : false;
-
-            $assetname = "com_content.article.$eventID";
-            if($isAuthor) $canEditOwn = $user->authorise('edit.own', $assetname);
-            $canEdit = $user->authorise('edit', $assetname);
-            $access = $canEdit or $canEditOwn;
-        }
-        else
-        {
-            $query = $dbo->getQuery(true);
-            $query->select("ccat.id");
-            $query->from('#__thm_organizer_categories AS ecat');
-            $query->innerJoin('#__categories AS ccat');
-            $dbo->setQuery((string)$query);
-            $associatedCategories = $dbo->loadResultArray();
-            if(isset($associatedCategoryIDs) and count($associatedCategoryIDs))
-            {
-                foreach($associatedCategoryIDs as $associatedCategoryID)
-                {
-                    $assetname = "com_content.category.$associatedCategoryID";
-                    $canWrite = $user->authorise('core.create', $assetname);
-                    if($canWrite)
-                    {
-                        $access = true;
-                        break;
-                    }
-                }
-            }
-        }
+        if($eventID) $access = $this->canEdit($eventID) or $this->canEditOwn($eventID);
+        else $acces = $this->canCreate();
 
         if($access)
         {
@@ -114,23 +138,21 @@ class thm_organizerControllerevents extends JController
             $isAuthor = ($contentInfo['created_by'] == $userID)? true : false;
         }
 
-        $actionPermissions = array();
-        $assetName = "com_content.category.$contentCatID";
-        $actions = array( 'core.create', 'core.edit', 'core.edit.own' );
-        foreach($actions as $action) $actionPermissions[$action] = $user->authorise($action, $assetName);
-
-        $canSave = false;
-        if($eventID == 0) $canSave = $actionPermissions['core.create'];
-        else if(($isAuthor and $actionPermissions['core.edit.own']) or $actionPermissions['core.edit'])
-            $canSave = true;
+        if($eventID == 0) $canSave = $this->canCreate();
+        else $canSave = $this->canEdit($eventID) or $this->canEditOwn($eventID);
             
         $menuID = JRequest::getVar('Itemid');
         if($canSave)
         {
             $schedulerCall = JRequest::getVar('schedulerCall');
-            $model = $this->getModel('event_edit');
+            $model = $this->getModel('events');
             $eventID = $model->save();
-            if($eventID)
+
+            $msg = "<pre>".print_r($eventID, true)."</pre>";
+            $link = JRoute::_('index.php?option=com_thm_organizer&view=event_list', false);
+            $this->setRedirect($link, $msg);
+            
+            /*if($eventID)
             {
                 $msg = JText::_( 'COM_THM_ORGANIZER_EE_SAVED' );
                 if($schedulerCall)
@@ -144,12 +166,15 @@ class thm_organizerControllerevents extends JController
                 if($schedulerCall) $link = JRoute::_('index.php?option=com_thm_organizer&view=event_edit&eventID=0&tmpl=component', false);
                 else $link = JRoute::_("index.php?option=com_thm_organizer&view=event_edit&Itemid=$menuID", false);
                 $this->setRedirect($link, $msg, 'error');
-            }
+            }*/
         }
         else
         {
-            JError::raiseError( 777, JText::_('COM_THM_ORGANIZER_ERROR_NOAUTH') );
-            return;
+            $msg = "<pre>".."</pre>";
+            $link = JRoute::_('index.php?option=com_thm_organizer&view=event_list', false);
+            $this->setRedirect($link, $msg);
+//            JError::raiseError( 777, JText::_('COM_THM_ORGANIZER_ERROR_NOAUTH') );
+//            return;
         }
 
     }

@@ -15,9 +15,7 @@ window.addEvent('domready', function() {
 });
 
 window.addEvent('domready', function() {
-    document.formvalidator.setHandler('title',
-        function (value) { return (trim(value) != '');
-    });
+    document.formvalidator.setHandler('title', function (value) { return value != ''; });
 });
 
 /**
