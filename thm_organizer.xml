@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="component" version="1.6.0" method="install">
-    <name>THM_Organizer</name>
+    <name>COM_THM_ORGANIZER_MAIN_NAME</name>
     <author>James Antrim</author>
     <authorEMail>jamesDOTantrimATyahooDOTcom</authorEMail>
     <author>Wolf Rost</author>
