@@ -3008,7 +3008,7 @@ MySched.Tree = function () {
             else
             {
               department = MySched.Mapping.getObjectField(type, res, "department");
-              if (typeof department == "undefined" || department == "none" || department == null)
+              if (typeof department == "undefined" || department == "none" || department == null || department == res)
                 title = MySched.Mapping.getName(type, res);
               else
                 title = MySched.Mapping.getName(type, res) + " - " + MySched.Mapping.getObjectField(type, res, "department");
