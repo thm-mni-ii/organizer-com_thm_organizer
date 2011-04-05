@@ -142,8 +142,19 @@ ul{
 
 /* com_thm_organizer view: eventlist*******************************************/
 
+#thm_organizer_el_top_div
+{
+    float: left;
+    width: 100%;
+}
+#thm_organizer_el_category_desc_div
+{
+    float: left;
+}
+
 #thm_organizer_el_action_div{
     float: right;
+    margin-bottom: 0px;
 }
 .thm_organizer_el_action_link{
 display: block;

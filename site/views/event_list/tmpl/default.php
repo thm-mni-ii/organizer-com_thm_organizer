@@ -3,31 +3,71 @@ defined('_JEXEC') or die('Restricted access');
 $rowcount = 0;
 ?>
 <script type="text/javascript">
-    function submitForm(task, id)
+    function checkAll()
     {
-        document.getElementById('thm_organizer_el_task').value = task;
-        document.getElementById('thm_organizer_el_eventID').value = id;
+        var checkbox = document.getElementsByName('eventIDs[]');
+        if(checkbox[0].checked == true)
+            for (i = 0; i < checkbox.length; i++) checkbox[i].checked = true;
+        else unCheckAll();
+    }
+    function unCheckAll()
+    {
+        var checkbox = document.getElementsByName('eventIDs[]');
+        for (i = 0; i < checkbox.length; i++) checkbox[i].checked = false ;
+    }
+    function submitForm(task)
+    {
+        if(task == 'events.new')
+        {
+            unCheckAll();
+            task = 'events.edit';
+        }
+        document.getElementById('task').value = task;
         document.getElementById('thm_organizer_el_form').submit();
     }
-
     function reSort( col, dir )
     {
-        document.getElementById('thm_organizer_el_orderby').value=col;
-        document.getElementById('thm_organizer_el_orderbydir').value=dir;
+        document.getElementById('orderby').value=col;
+        document.getElementById('orderbydir').value=dir;
+        document.getElementById('thm_organizer_el_form').submit();
+    }
+    function resetForm()
+    {
+        document.getElementById('thm_organizer_el_search_text').value='';
+        var category = document.getElementById('category');
+        if(category != null)
+        {
+            var index = 0;
+            for(index = 0; index < category.length; index++)
+            {
+                if(category[index].value == '<?php JText::_('Alle Kategorien') ?>')
+                    category.selectedIndex = index;
+            }
+        }
+        var limit = document.getElementById('limit');
+        if(limit != null)
+        {
+            var index = 0;
+            for(index = 0; index < limit.length; index++)
+            {
+                if(limit[index].value == '10') limit.selectedIndex = index;
+            }
+        }
+        document.getElementById('fromdate').value='';
+        document.getElementById('todate').value='';
         document.getElementById('thm_organizer_el_form').submit();
     }
 </script>
+<pre><?php print_r($_REQUEST, true) ?></pre>
 <div id="thm_organizer_el">
-    <form id='thm_organizer_el_form' enctype='multipart/form-data' method='post'
+    <form id='thm_organizer_el_form' name='thm_organizer_el_form' enctype='multipart/form-data' method='post'
           action='<?php echo JRoute::_("index.php?option=com_thm_organizer"); ?>' >
         <div id="thm_organizer_el_top_div" >
-            <?php if($this->category != -1) { ?>
+            <?php if($this->categoryID != -1) { ?>
             <div id="thm_organizer_el_category_desc_div">
-                <img class="thm_organizer_el_catimage" alt="Category Image"
-                     src="images/thm_organizer/categories/<?php echo $cat->ecimage; ?>"/>
-                        <h2><?php echo $cat->ecname; ?></h2><br />
-                <?php if(isset($this->categories[$this->category]['description'])): ?>
-                    <?php echo $this->categories[$this->category]['description']; ?>
+                <h2><?php echo $this->categories[0]['title']; ?></h2>
+                <?php if(isset($this->categories[0]['description'])): ?>
+                <?php echo $this->categories[0]['description']; ?>
                 <?php endif; ?>
             </div>
             <?php } ?>
@@ -35,20 +75,20 @@ $rowcount = 0;
                 <?php if($this->canWrite): ?>
                 <a  class="hasTip thm_organizer_el_action_link"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_EL_NEW_TITLE')."::".JText::_('COM_THM_ORGANIZER_EL_NEW_DESCRIPTION');?>"
-                    onClick="submitForm('event_list.edit', 0);" >
+                    onClick="submitForm('events.new');" >
                     <span id="thm_organizer_el_new_span" class="thm_organizer_el_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_EL_NEW'); ?>
                 </a>
                 <?php endif; if($this->canEdit): ?>
                 <a  class="hasTip thm_organizer_el_action_link"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_EL_EDIT_TITLE')."::".JText::_('COM_THM_ORGANIZER_EL_EDIT_DESCRIPTION');?>"
-                    href="">
+                    onClick="submitForm('events.edit');">
                     <span id="thm_organizer_el_edit_span" class="thm_organizer_el_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_EL_EDIT'); ?>
                 </a>
                 <a  class="hasTip thm_organizer_el_action_link"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_EL_DELETE_TITLE')."::".JText::_('COM_THM_ORGANIZER_EL_DELETE_DESCRIPTION');?>"
-                    href="<?php echo JRoute::_( "index.php?option=com_thm_organizer&view=event_edit&Itemid=$this->itemID" ); ?>">
+                    onClick="submitForm('events.delete');">
                     <span id="thm_organizer_el_delete_span" class="thm_organizer_el_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_EL_DELETE'); ?>
                 </a>
@@ -57,13 +97,13 @@ $rowcount = 0;
                 <?php endif; ?>
                 <a  class="hasTip thm_organizer_el_action_link"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_EL_SUBMIT_TITLE')."::".JText::_('COM_THM_ORGANIZER_EL_SUBMIT_DESCRIPTION');?>"
-                    href="<?php echo JRoute::_( "index.php?option=com_thm_organizer&view=event_edit&Itemid=$this->itemID" ); ?>">
+                    onClick="document.getElementById('thm_organizer_el_form').submit();">
                     <span id="thm_organizer_el_submit_span" class="thm_organizer_el_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_EL_SUBMIT'); ?>
                 </a>
                 <a  class="hasTip thm_organizer_el_action_link"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_EL_RESET_TITLE')."::".JText::_('COM_THM_ORGANIZER_EL_RESET_DESCRIPTION');?>"
-                    href="<?php echo JRoute::_( "index.php?option=com_thm_organizer&view=event_edit&Itemid=$this->itemID" ); ?>">
+                    onClick="resetForm();">
                     <span id="thm_organizer_el_reset_span" class="thm_organizer_el_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_EL_RESET'); ?>
                 </a>
@@ -72,25 +112,23 @@ $rowcount = 0;
         <div id="thm_organizer_el_form_div" >
             <div id='thm_organizer_el_search_div'>
                 <span class="thm_organizer_el_label_span" >
-                    <label for="search"><?php echo JText::_('COM_THM_ORGANIZER_EL_SEARCH'); ?></label>
+                    <?php echo $this->form->getLabel('thm_organizer_el_search_text'); ?>
                 </span>
-                <input type="text" name="search" id="thm_organizer_el_search_text"
-                       value="<?php echo $this->search; ?>" class="inputbox"
-                       onchange="document.getElementById('thm_organizer_el_form').submit();" />
+                <?php echo $this->form->getInput('thm_organizer_el_search_text'); ?>
                 <?php if($this->display_type != 1 and $this->display_type != 5): ?>
                 <span class="thm_organizer_el_label_span" >
-                    <label for="category"><?php echo JText::_('COM_THM_ORGANIZER_EL_CATEGORY'); ?></label>
+                    <?php echo $this->form->getLabel('categoryDummy'); ?>
                     <?php echo $this->categorySelect; ?>
                 </span>
                 <?php endif; ?>
                 <span class="thm_organizer_el_label_span" >
-                    <label for="fromdate"><?php echo JText::_('COM_THM_ORGANIZER_EL_FROMDATE'); ?></label>
+                    <?php echo $this->form->getLabel('fromdate'); ?>
                 </span>
-                <?php echo $this->fromdate; ?>
+                <?php echo $this->form->getInput('fromdate'); ?>
                 <span class="thm_organizer_el_label_span" >
-                    <label for="todate"><?php echo JText::_('COM_THM_ORGANIZER_EL_TODATE'); ?></label>
+                    <?php echo $this->form->getLabel('todate'); ?>
                 </span>
-                <?php echo $this->todate; ?>
+                <?php echo $this->form->getInput('todate'); ?>
                 <span class="thm_organizer_el_label_span" >
                     <label for="limit"
                            title="<?php echo JText::_('COM_THM_ORGANIZER_EL_COUNT_TITLE')."::".JText::_('COM_THM_ORGANIZER_EL_COUNT_DESCRIPTION');?>">
@@ -121,9 +159,13 @@ $rowcount = 0;
                     </colgroup>
                     <thead>
                         <tr>
+                            <?php if($this->canEdit): ?>
                             <th align="left">
-                                <input type="checkbox" name="checkall-toggle" value="" onclick="checkAll(this)" />
+                                <input type="checkbox" name="eventIDs[]" value="0" onclick="checkAll()" />
                             </th>
+                            <?php else: ?>
+                            <th />
+                            <?php endif;?>
                             <th id="thm_organizer_el_eventtitlehead"><?php echo $this->titleHead; ?></th>
                             <?php if($this->display_type != 3 and $this->display_type != 7): ?>
                             <th id="thm_organizer_el_eventauthorhead"><?php echo $this->authorHead; ?></th>
@@ -194,10 +236,9 @@ $rowcount = 0;
             <?php } ?>
         </div>
         <div class="pageslinks"><?php echo $this->pageNav->getPagesLinks(); ?></div>
-        <input type="hidden" id="thm_organizer_el_orderby" name="orderby" value="<?php echo $this->orderby; ?>" />
-        <input type="hidden" id="thm_organizer_el_orderbydir" name="orderbydir" value="<?php echo $this->orderbydir; ?>" />
-        <input type="hidden" id="thm_organizer_el_itemID" name="Itemid" value="<?php echo $this->itemID; ?>" />
-        <input type="hidden" id="thm_organizer_el_eventID" name="eventID" value="" />
-        <input type="hidden" id="thm_organizer_el_task" name="task" value="" />
+        <input type="hidden" id="orderby" name="orderby" value="<?php echo $this->orderby; ?>" />
+        <input type="hidden" id="orderbydir" name="orderbydir" value="<?php echo $this->orderbydir; ?>" />
+        <input type="hidden" id="itemID" name="Itemid" value="<?php echo $this->itemID; ?>" />
+        <input type="hidden" id="task" name="task" value="" />
     </form>
 </div>

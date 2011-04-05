@@ -70,15 +70,15 @@ class thm_organizerModelevents extends JModel
         {
             $query = $dbo->getQuery(true);
             $query->update('#__content');
-            $conditions = "title = '$title'";
-            $conditions .= "alias = '$alias'";
-            $conditions .= "introtext = '$description'";
-            $conditions .= "state = '1'";
-            $conditions .= "catid = '$contentCatID'";
-            $conditions .= "modified = '".date('Y-m-d H:i:s')."'";
-            $conditions .= "modified_by = '$userID'";
-            $conditions .= "publish_up = '$publish_up'";
-            $conditions .= "publish_down = '$publish_down'";
+            $conditions = "title = '$title', ";
+            $conditions .= "alias = '$alias', ";
+            $conditions .= "introtext = '$description', ";
+            $conditions .= "state = '1', ";
+            $conditions .= "catid = '$contentCatID', ";
+            $conditions .= "modified = '".date('Y-m-d H:i:s')."', ";
+            $conditions .= "modified_by = '$userID', ";
+            $conditions .= "publish_up = '$publish_up', ";
+            $conditions .= "publish_down = '$publish_down' ";
             $query->set($conditions);
             $query->where("id = '$eventID'");
             $dbo->setQuery((string)$query );
@@ -87,12 +87,12 @@ class thm_organizerModelevents extends JModel
 
             $query = $dbo->getQuery(true);
             $query->update("#__thm_organizer_events");
-            $conditions = "categoryID = '$categoryID'";
-            $conditions .= "startdate = '$startdate'";
-            $conditions .= "enddate = '$enddate'";
-            $conditions .= "starttime = '$starttime'";
-            $conditions .= "endtime = '$endtime'";
-            $conditions .= "recurrence_type = '$rec_type'";
+            $conditions = "categoryID = '$categoryID', ";
+            $conditions .= "startdate = '$startdate', ";
+            $conditions .= "enddate = '$enddate', ";
+            $conditions .= "starttime = '$starttime', ";
+            $conditions .= "endtime = '$endtime', ";
+            $conditions .= "recurrence_type = '$rec_type' ";
             $query->set($conditions);
             $query->where("id = '$eventID'");
             $dbo->setQuery((string)$query );
@@ -102,7 +102,19 @@ class thm_organizerModelevents extends JModel
             $query = $dbo->getQuery(true);
             $query->delete();
             $query->from("#__thm_organizer_event_groups");
+            $query->where("eventID = '$eventID'");
+            $dbo->setQuery((string)$query);
+            $dbo->query();
+
+            $query = $dbo->getQuery(true);
+            $query->delete();
             $query->from("#__thm_organizer_event_rooms");
+            $query->where("eventID = '$eventID'");
+            $dbo->setQuery((string)$query);
+            $dbo->query();
+
+            $query = $dbo->getQuery(true);
+            $query->delete();
             $query->from("#__thm_organizer_event_teachers");
             $query->where("eventID = '$eventID'");
             $dbo->setQuery((string)$query);
@@ -134,7 +146,7 @@ class thm_organizerModelevents extends JModel
 
             /*
              * joomla assets table is nested and everything is interdependant for the
-             * rgt and lft values therefore in orde to create an entry in this table
+             * rgt and lft values therefore in order to create an entry in this table
              * space must be made in these values, for articles this amount of space
              * is 2 units.
              */
@@ -274,147 +286,87 @@ class thm_organizerModelevents extends JModel
 
 
     /**
-     * Deletes entries in events, eventobjects, and content
-     * associated with a particular event
+     * function delete
      *
-     * @return boolean true on success, false on failure
+     * deletes events
+     *
+     * @return boolean true on success, false on db error
      */
     function delete()
     {
         $eventID = JRequest::getInt('eventID');
         $eventIDs = JRequest::getVar('eventIDs');
 
-        if(isset($eventID))
+        if(!empty($eventID))
         {
             $success = $this->deleteIndividualEvent($eventID);
             return $success;
         }
-        else if(isset($eventIDs))
+        else if(isset($eventIDs) and count($eventIDs))
         {
             foreach($eventIDs as $eventID)
             {
                 $success = $this->deleteIndividualEvent($eventID);
                 if(!$success) return $success;
             }
+            return $success;
         }
     }
 
+    /**
+     * function deleteIndividualEvent
+     *
+     * deletes entries in assets, content, events, event_teachers,
+     * event_rooms, and event_groups associated with a particular event
+     *
+     * @access private
+     * @param int $eventID id of the event and associated content to be deleted
+     * @return boolean true on success, false on db error
+     */
     private function deleteIndividualEvent($eventID)
     {
         $dbo = JFactory::getDbo();
-        
 
         $query = $dbo->getQuery(true);
-        $statement = "#__content ";
-        $statement .= "( title, alias, introtext, state, catid, created, ";
-        $statement .= "created_by, publish_up, publish_down ) ";
-        $statement .= "VALUES ";
-        $statement .= "( '$title', '$alias', '$description', '1', '$contentCatID', ";
-        $statement .= "'".date('Y-m-d H:i:s')."', '$userID', '$publish_up', '$publish_down' ) ";
-        $query->insert($statement);
-        $dbo->setQuery((string)$query );
-        $dbo->query();
-        if($dbo->getErrorNum())return false;
-
-        $query = $dbo->getQuery(true);
-        $query->select('MAX(id)');
-        $query->from('#__content');
-        $query->where("title = '$title'");
-        $query->where("introtext = '$description'");
-        $query->where("catid = '$contentCatID'");
-        $dbo->setQuery((string)$query);
-        $eventID = $dbo->loadResult();
-        if($dbo->getErrorNum())return false;
-
-        /*
-         * joomla assets table is nested and everything is interdependant for the
-         * rgt and lft values therefore in orde to create an entry in this table
-         * space must be made in these values, for articles this amount of space
-         * is 2 units.
-         */
-
-        $query = $dbo->getQuery(true);
-        $query->select("id, lft, rgt");
+        $query->select("rgt");
         $query->from("#__assets");
-        $query->where("name = 'com_content.category.$contentCatID'");
-        $dbo->setQuery((string)$query);
-        $assetParentValues = $dbo->loadAssoc();
-        if($dbo->getErrorNum())return false;
-
-        $query = $dbo->getQuery(true);
-        $query->select("lft, MAX(rgt) AS rgt");
-        $query->from("#__assets");
-        $query->where("parent_id = '{$assetParentValues['id']}'");
-        $dbo->setQuery((string)$query);
-        $assetRightSiblingValues = $dbo->loadAssoc();
-        if($dbo->getErrorNum())return false;
-        if($assetRightSiblingValues['lft'] == null)//parent without children
-        {
-            $assetRightSiblingValues['lft'] = $assetParentValues['lft'];
-            $assetRightSiblingValues['rgt'] = $assetParentValues['lft'];
-        }
-
-        // Create space in the tree at the new location for the new node in right ids.
-        $query = $dbo->getQuery(true);
-        $query->update("#__assets");
-        $query->set('rgt = rgt + 2');
-        $query->where("rgt >= {$assetParentValues['rgt']}");
-        $dbo->setQuery((string)$query );
-        $dbo->query();
-        if($dbo->getErrorNum())return false;
-
-        // Create space in the tree at the new location for the new node in left ids.
-        $query = $dbo->getQuery(true);
-        $query->update("#__assets");
-        $query->set("lft = lft + 2");
-        $query->where("lft > {$assetRightSiblingValues['lft']}");
-        $dbo->setQuery((string)$query );
-        $dbo->query();
-        if($dbo->getErrorNum())return false;
-
-        $assetLFT = $assetRightSiblingValues['rgt'] + 1;
-        $assetRGT = $assetLFT + 1;
-        $rules = '{"core.delete":[],"core.edit":[],"core.edit.state":[]}';
-
-        $query = $dbo->getQuery(true);
-        $statement = "#__assets ";
-        $statement .= "( parent_id, level, lft, rgt, name, title, rules ) ";
-        $statement .= "VALUES ";
-        $statement .= "( '{$assetParentValues['id']}', '3', '$assetLFT', '$assetRGT', ";
-        $statement .= "'com_content.article.$eventID', '$title', '$rules' ) ";
-        $query->insert($statement);
-        $dbo->setQuery((string)$query );
-        $dbo->query();
-        if($dbo->getErrorNum())return false;
-
-        $query = $dbo->getQuery(true);
-        $query->select('id');
-        $query->from('#__assets');
         $query->where("name = 'com_content.article.$eventID'");
         $dbo->setQuery((string)$query);
-        $assetID = $dbo->loadResult();
+        $right = $dbo->loadResult();
         if($dbo->getErrorNum())return false;
 
         $query = $dbo->getQuery(true);
-        $query->update("#__content");
-        $query->set("asset_id = '$assetID'");
+        $query->update("#__assets");
+        $query->set('rgt = rgt - 2');
+        $query->set('lft = lft - 2');
+        $query->where("lft >= '$right'");
+        $dbo->setQuery((string)$query );
+        $dbo->query();
+        if($dbo->getErrorNum())return false;
+
+        $query = $dbo->getQuery(true);
+        $query->delete();
+        $query->from("#__assets");
+        $query->where("name = 'com_content.article.$eventID'");
+        $dbo->setQuery((string)$query );
+        $dbo->query();
+        if($dbo->getErrorNum())return false;
+
+        $query = $dbo->getQuery(true);
+        $query->delete();
+        $query->from("#__content");
         $query->where("id = '$eventID'");
         $dbo->setQuery((string)$query );
         $dbo->query();
         if($dbo->getErrorNum())return false;
 
         $query = $dbo->getQuery(true);
-        $statement = "#__thm_organizer_events";
-        $statement .= "( id, categoryID, startdate, enddate, ";
-        $statement .= "starttime, endtime, recurrence_type ) ";
-        $statement .= "VALUES ";
-        $statement .= "( '$eventID', '$categoryID', '$startdate', '$enddate', ";
-        $statement .= "'$starttime', '$endtime', '$rec_type' ) ";
-        $query->insert($statement);
-        $dbo->setQuery( $query );
+        $query->delete();
+        $query->from("#__thm_organizer_events");
+        $query->where("id = '$eventID'");
+        $dbo->setQuery((string)$query );
         $dbo->query();
         if($dbo->getErrorNum())return false;
-
 
         $query = $dbo->getQuery(true);
         $query->delete();

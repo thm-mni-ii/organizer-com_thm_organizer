@@ -12,7 +12,7 @@
 
 //echo "<pre>".print_r($this->menuParameters, true)."</pre>"; //template for test outputs
 defined( '_JEXEC' ) or die( 'Restricted access' );
-jimport( 'joomla.application.component.model' );
+jimport('joomla.application.component.modelform');
 
 define('CURRENT', 0);
 define('CURRENT_CATEGORY', 1);
@@ -23,10 +23,11 @@ define('ALL_CATEGORY', 5);
 define('ALL_ROOM', 6);
 define('ALL_OWN', 7);
 
-class thm_organizerModelevent_list extends JModel
+class thm_organizerModelevent_list extends JModelForm
 {
     private $callParameters = null;
     private $menuParameters = null;
+    private $formParameters = null;
     public $display_type;
     public $events = null;
     public $total = null;
@@ -57,14 +58,22 @@ class thm_organizerModelevent_list extends JModel
      **/
     function __construct($callParameters = null)
     {
+        echo "<pre>".print_r($_REQUEST, true)."</pre>";
         parent::__construct();
         if(isset($callParameters)) $this->callParameters = $callParameters;
         $this->menuParameters = JFactory::getApplication()->getParams();
         $this->restoreState();
-        $this->loadEvents();
-        if(count($this->events))$this->loadEventResources();
+        $this->getTotal();
+        $this->getPagination();
+        if($this->total)
+        {
+            $this->loadEvents();
+            $this->loadEventResources();
+        }
         $this->loadCategories();
         $this->setUserPermissions();
+        $form = $this->getForm();
+        $form->bind($this->formParameters);
     }
 
     /**
@@ -102,11 +111,12 @@ class thm_organizerModelevent_list extends JModel
             default:
                 break;
         }
+        $this->formParameters = array();
         $this->setFromDate();
         $this->setToDate();
         $this->setSearch();
         $this->setOrderBy();
-        $this->setLimit();
+        $this->setLimits();
     }
 
     private function setCategoryID()
@@ -116,8 +126,7 @@ class thm_organizerModelevent_list extends JModel
             $categoryID = $this->callParameters["categoryID"];
         else if($this->menuParameters->get('category_restriction'))
             $categoryID = $this->menuParameters->get('category_restriction');
-        else if(JRequest::getVar('categoryID'))
-            $categoryID = JRequest::getVar('categoryID');
+        else if(JRequest::getVar('categoryID')) $categoryID = JRequest::getVar('categoryID');
         else $categoryID = $application->getUserStateFromRequest('com_thm_organizer.event_list.categoryID', 'categoryID', -1, 'int');
 
         $this->setState('categoryID', $categoryID);
@@ -133,28 +142,50 @@ class thm_organizerModelevent_list extends JModel
     private function setFromDate()
     {
         $application = JFactory::getApplication();
+        $jform = JRequest::getVar('jform');
         if(isset($this->callParameters) and isset($this->callParameters["fromDate"]))
             $fromDate = $this->callParameters["fromDate"];
+        else if(isset($jform) and isset($jform['fromdate'])) $fromDate = $jform['fromdate'];
         else $fromDate = $application->getUserStateFromRequest('com_thm_organizer.event_list.fromdate', 'fromdate', '');
-        if($fromDate) $this->setState('fromdate', $fromDate);
+        if(isset($fromDate))
+        {
+            $this->setState('fromdate', $fromDate);
+            $this->formParameters['fromdate'] = $fromDate;
+        }
+        else $this->formParameters['fromdate'] = "";
     }
 
     private function setToDate()
     {
         $application = JFactory::getApplication();
+        $jform = JRequest::getVar('jform');
         if(isset($this->callParameters) and isset($this->callParameters["toDate"]))
             $toDate = $this->callParameters["fromDate"];
+        else if(isset($jform) and isset($jform['todate'])) $toDate = $jform['todate'];
         else $toDate = $application->getUserStateFromRequest('com_thm_organizer.event_list.todate', 'todate', '');
-        if($toDate) $this->setState('todate', $toDate);
+        if(isset($toDate))
+        {
+            $this->setState('todate', $toDate);
+            $this->formParameters['todate'] = $toDate;
+        }
+        else $this->formParameters['todate'] = "";
     }
 
     private function setSearch()
     {
         $application = JFactory::getApplication();
+        $jform = JRequest::getVar('jform');
         if(isset($this->callParameters) and isset($this->callParameters["search"]))
             $search = $this->callParameters["fromDate"];
+        else if(isset($jform) and isset($jform['thm_organizer_el_search_text']))
+            $search = $jform['thm_organizer_el_search_text'];
         else $search = $application->getUserStateFromRequest('com_thm_organizer.event_list.search', 'search', '');
-        if($search) $this->setState('search', $search);
+        if(isset($search))
+        {
+            $this->setState('search', $search);
+            $this->formParameters['thm_organizer_el_search_text'] = $search;
+        }
+        else $this->formParameters['thm_organizer_el_search_text'] = "";
     }
 
     private function setOrderBy()
@@ -171,7 +202,7 @@ class thm_organizerModelevent_list extends JModel
         $this->setState('orderbydir', $orderbydir);
     }
 
-    private function setLimit()
+    private function setLimits()
     {
         $application = JFactory::getApplication();
         if(isset($this->callParameters) and isset($this->callParameters["limit"]))
@@ -188,86 +219,29 @@ class thm_organizerModelevent_list extends JModel
     }
 
     /**
-     * loadEvents()
+     * funtion getTotal()
      *
-     * loads event entries
+     * counts the total number of entries fulfilling the search criteria
      *
-     * @access private
-     **/
-    private function loadEvents()
+     * @return int $total
+     */
+    private function getTotal()
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select($this->getSelect());
+        $query->select('COUNT(DISTINCT(e.id))');
         $this->getFrom(&$query);
         $this->getWhere(&$query);
-        //$query->order($this->getOrderBy());
-        $query = (string)$query;
-        //$query = $query.$limit;
-
-//        $pagination = $this->getPagination();
-//        $results = $this->_getList( (string) $query, $pagination->limitstart, $pagination->limit );
-
-
-        $dbo->setQuery($query);
-        $events = $dbo->loadAssocList();
-
-        //check for empty
-        foreach ($events as $k => $v)
-        {
-            $edSet = $stSet = $etSet = false;
-            $displayDates = $timestring = "";
-            $edSet = $v['enddate'] != "00.00.0000";
-            $stSet = $v['starttime'] != "00:00";
-            $etSet = $v['endtime'] != "00:00";
-            if($stSet and $etSet) $timestring = " ({$v['starttime']} - {$v['endtime']})";
-            else if($stSet) $timestring = " (ab {$v['starttime']})";
-            else if($etSet) $timestring = " (bis {$v['endtime']})";
-            if($edSet and $v['rec_type'] == 0)
-            {
-                $displayDates = "{$v['startdate']}";
-                if($stSet) $displayDates .= " ( {$v['starttime']} )";
-                $displayDates .= " - {$v['enddate']}";
-                if($etSet) $displayDates .= " ( {$v['endtime']} )";
-                $events[$k]['displayDates'] = $displayDates;
-            }
-            else if($edSet and $v['rec_type'] == 1)
-                $events[$k]['displayDates'] = $v['startdate']." - ".$v['enddate']." ".$timestring;
-            else
-                $events[$k]['displayDates'] = $v['startdate']." ".$timestring;
-            $events[$k]['detailsLink'] = "index.php?option=com_thm_organizer&view=event&eventID=".$v['id']."&Itemid=";
-            $events[$k]['userCanEdit'] = true;
-        }
-        $this->total = count($events);
-        $this->events = $events;
-    }
-
-    private function getSelect()
-    {
-        $select = "DISTINCT(e.id) AS id, ";
-        $select .= "e.categoryID AS eventCategoryID, ";
-        $select .= "DATE_FORMAT(e.startdate, '%d.%m.%Y') AS startdate, ";
-        $select .= "DATE_FORMAT(e.enddate, '%d.%m.%Y') AS enddate, ";
-        $select .= "SUBSTR(e.starttime, 1, 5) AS starttime, ";
-        $select .= "SUBSTR(e.endtime, 1, 5) AS endtime, ";
-        $select .= "e.recurrence_type AS rec_type, ";
-        $select .= "ecat.title AS eventCategory, ";
-        $select .= "ecat.contentCatID AS contentCategoryID, ";
-        $select .= "c.title AS title, ";
-        $select .= "c.introtext AS description, ";
-        $select .= "c.access AS contentAccess, ";
-        $select .= "ccat.title AS contentCategory, ";
-        $select .= "ccat.access AS contentCategoryAccess, ";
-        $select .= "u.name AS author, ";
-        $select .= "u.id AS authorID ";
-        return $select;
+        $dbo->setQuery((string)$query);
+        $total = $dbo->loadResult();
+        $this->total = $total;
     }
 
     /**
      * getFrom
-     * 
+     *
      * sets the query's from clause
-     * 
+     *
      * @access private
      * @param object $query JDatabaseQuery Object the query to be modified
      */
@@ -327,6 +301,7 @@ class thm_organizerModelevent_list extends JModel
                 $restriction .= "OR (ccat.title LIKE '%$item%') ";
                 $restriction .= "OR (r.name LIKE '%$item%') ";
                 $restriction .= "OR (t.name LIKE '%$item%') ";
+                $restriction .= "OR (u.name LIKE '%$item%') ";
                 $restriction .= "OR (ug.title LIKE '%$item%') ";
                 $wherray[] = "(".$restriction.")";
             }
@@ -336,10 +311,124 @@ class thm_organizerModelevent_list extends JModel
         $fromdate = $this->getState('fromdate');
         if(empty($fromdate) AND $this->display_type < 4) $fromdate = date ('Y-m-d');
         if(!empty($fromdate))
-            $query->where("startdate >= '$fromdate' OR enddate >= '$fromdate'");
+        {
+            $fromdate = substr($fromdate, 6).".".substr($fromdate, 3, 2).".".substr($fromdate, 0, 2);
+            $query->where("( startdate >= '$fromdate' OR enddate >= '$fromdate' )");
+        }
         $todate = $this->getState('todate');
         if(!empty($todate))
-            $query->where("startdate <= '$todate' OR enddate <= '$todate'");
+        {
+            $todate = substr($todate, 6).".".substr($todate, 3, 2).".".substr($todate, 0, 2);
+            $query->where("( startdate <= '$todate' OR enddate <= '$todate' )");
+        }
+    }
+
+    /**
+     * Method to get a pagination object for the events
+     *
+     * @access public
+     * @return integer
+     */
+    function getPagination()
+    {
+        if (empty($this->pagination))
+        {
+            jimport('joomla.html.pagination');
+            $this->pagination = new JPagination($this->total, $this->getState('limitstart'), $this->getState('limit'));
+        }
+    }
+
+    /**
+     * loadEvents()
+     *
+     * loads event entries
+     *
+     * @access private
+     */
+    private function loadEvents()
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+
+        $this->getSelect(&$query);
+        $this->getFrom(&$query);
+        $this->getWhere(&$query);
+        $this->getOrderBy(&$query);
+        $query = (string) $query;
+        $query .= " LIMIT {$this->pagination->limitstart}, {$this->pagination->limit} ";
+        $dbo->setQuery($query);
+        $events = $dbo->loadAssocList();
+
+        //check for empty
+        foreach ($events as $k => $v)
+        {
+            $edSet = $stSet = $etSet = false;
+            $displayDates = $timestring = "";
+            $edSet = $v['enddate'] != "00.00.0000";
+            $stSet = $v['starttime'] != "00:00";
+            $etSet = $v['endtime'] != "00:00";
+            if($stSet and $etSet) $timestring = " ({$v['starttime']} - {$v['endtime']})";
+            else if($stSet) $timestring = " (ab {$v['starttime']})";
+            else if($etSet) $timestring = " (bis {$v['endtime']})";
+            if($edSet and $v['rec_type'] == 0)
+            {
+                $displayDates = "{$v['startdate']}";
+                if($stSet) $displayDates .= " ( {$v['starttime']} )";
+                $displayDates .= " - {$v['enddate']}";
+                if($etSet) $displayDates .= " ( {$v['endtime']} )";
+                $events[$k]['displayDates'] = $displayDates;
+            }
+            else if($edSet and $v['rec_type'] == 1)
+                $events[$k]['displayDates'] = $v['startdate']." - ".$v['enddate']." ".$timestring;
+            else
+                $events[$k]['displayDates'] = $v['startdate']." ".$timestring;
+            $events[$k]['detailsLink'] = "index.php?option=com_thm_organizer&view=event&eventID=".$v['id']."&Itemid=";
+        }
+        $this->total = count($events);
+        $this->events = $events;
+    }
+
+    private function getSelect(&$query)
+    {
+        $select = "DISTINCT(e.id) AS id, ";
+        $select .= "e.categoryID AS eventCategoryID, ";
+        $select .= "DATE_FORMAT(e.startdate, '%d.%m.%Y') AS startdate, ";
+        $select .= "DATE_FORMAT(e.startdate, '%Y.%m.%d') AS startdateStandardFormat, ";
+        $select .= "DATE_FORMAT(e.enddate, '%d.%m.%Y') AS enddate, ";
+        $select .= "SUBSTR(e.starttime, 1, 5) AS starttime, ";
+        $select .= "SUBSTR(e.endtime, 1, 5) AS endtime, ";
+        $select .= "e.recurrence_type AS rec_type, ";
+        $select .= "ecat.title AS eventCategory, ";
+        $select .= "ecat.contentCatID AS contentCategoryID, ";
+        $select .= "c.title AS title, ";
+        $select .= "c.introtext AS description, ";
+        $select .= "c.access AS contentAccess, ";
+        $select .= "ccat.title AS contentCategory, ";
+        $select .= "ccat.access AS contentCategoryAccess, ";
+        $select .= "u.name AS author, ";
+        $select .= "u.id AS authorID ";
+        $query->select($select);
+    }
+
+    /**
+    * Build the order clause
+    *
+    * @access private
+    * @return string
+    */
+    function getOrderBy(&$query)
+    {
+        $orderby = $this->getState('orderby');
+        $sortCriteria = array('title', 'author', 'eventCategory', 'date');
+        if(isset($orderby) && in_array($orderby, $sortCriteria))
+        {
+            $orderbydir = $this->getState('orderbydir');
+            $orderbydir = isset($orderbydir)? $orderbydir : 'ASC';
+            if($orderby == 'date') $orderbyClause = "starttime $orderbydir, startdateStandardFormat $orderbydir";
+            else $orderbyClause = "$orderby $orderbydir";
+            $query->order($orderbyClause);
+        }
+        else $query->order('starttime, startdateStandardFormat ASC');
     }
 
     /**
@@ -351,71 +440,16 @@ class thm_organizerModelevent_list extends JModel
     function loadCategories()
     {
         $dbo = JFactory::getDbo();
-        $userAccessLevels = JAccess::getAuthorisedViewLevels(JFactory::getUser()->id);
-        sort($userAccessLevels);
-        $maxLevel = array_pop($userAccessLevels);
         $query = $dbo->getQuery(true);
-        $query->select('toc.id, toc.title, toc.description');
-        $query->from('#__thm_organizer_categories AS toc');
-        $query->innerJoin('#__categories AS c ON c.id = toc.contentCatID');
-        $query->where("c.access < '$maxLevel'");
+        $query->select('id, title, description');
+        $query->from('#__thm_organizer_categories');
         if($this->display_type == 1 or $this->display_type == 5)
         {
-            $category = $this->getState('category');
-            $query->where("toc.id = '$category'");
+            $categoryID = $this->getState('categoryID');
+            $query->where("id = '$categoryID'");
         }
         $dbo->setQuery((string)$query);
         $this->categories = $dbo->loadAssocList();
-    }
-
-    /**
-    * Total nr of events
-    *
-    * @access public
-    * @return integer
-    */
-    function getTotal()
-    {
-        // Lets load the total nr if it doesn't already exist
-        if(empty($this->_total))
-        {
-            $query = $this->_buildQuery();
-            $this->_total = $this->_getListCount($query);
-        }
-        return $this->_total;
-    }
-
-    /**
-    * Method to get a pagination object for the events
-    *
-    * @access public
-    * @return integer
-    */
-    function getPagination()
-    {
-        // Lets load the content if it doesn't already exist
-        if (empty($this->_pagination))
-        {
-            jimport('joomla.html.pagination');
-            $this->_pagination = new JPagination( $this->total,  $this->getState('limitstart'), $this->getState('limit') );
-        }
-        return $this->_pagination;
-    }
-
-    /**
-    * Build the order clause
-    *
-    * @access private
-    * @return string
-    */
-    function _buildEventsOrderBy()
-    {
-        $orderby = $this->getState('orderby');
-        if(isset($orderby) && $orderby == 'date')$orderby = 'startdate';
-        if(isset($orderby) && $orderby == 'category')$orderby = 'ecname';
-        $orderbydir = $this->getState('orderbydir');
-        if(isset($orderby) && isset($orderbydir)) return "ORDER BY $orderby $orderbydir";
-        else return'ORDER BY startdate ASC';
     }
 
     /**
@@ -509,25 +543,35 @@ class thm_organizerModelevent_list extends JModel
 
     private function canUserEdit()
     {
-        $canWrite = false;
-
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select("DISTINCT asset_id");
-        $query->from("#__categories AS c");
-        $query->innerJoin("#__thm_organizer_categories AS ec ON ec.contentCatID = c.id");
-        $dbo->setQuery((string)$query);
-        $assetIDs = $dbo->loadResultArray();
-        if(count($assetIDs))
-        {
-            foreach($assetIDs as $assetID)
+        $user = JFactory::getUser();
+        $allowEdit = false;
+        if(count($this->events))
+            foreach($this->events as $k => $v)
             {
-                if($canWrite == true)return $canWrite;
-                else $canWrite = JAccess::check (JFactory::getUser ()->id, 'core.create', $assetID);
+                $isAuthor = ($user->id == $v['authorID'])? true : false;
+                $assetname = "com_conten.article.{$v['id']}";
+                $canEdit = $user->authorise('core.edit', $assetname);
+                $canEditOwn = ($isAuthor)? $user->authorise('core.edit.own') : false;
+                $shouldAllowEdit = $canEdit or $canEditOwn;
+                $this->events[$k]['userCanEdit'] = $shouldAllowEdit;
+                if($shouldAllowEdit) $allowEdit = true;
             }
-            return $canWrite;
-        }
-        return $canWrite;
+        return $allowEdit;
+    }
+
+    /**
+     * Method to get the record form.
+     *
+     * @param array   $data Data for the form.
+     * @param boolean $loadData True if the form is to load its own data (default case), false if not.
+     * @return mixed A JForm object on success, false on failure
+     */
+    public function getForm($data = array(), $loadData = true)
+    {
+        $form = $this->loadForm('com_thm_organizer.event_list', 'event_list',
+                                array('control' => 'jform', 'load_data' => $loadData));
+        if(empty($form)) return false;
+        return $form;
     }
 
 }

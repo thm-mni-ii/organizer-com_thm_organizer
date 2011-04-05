@@ -1,24 +1,19 @@
 <?php
-
 /**
-* Notelist View Class for the Giessen Times Component
-*
-* @package    Giessen Scheduler
-*/
-
-
-// no direct access
+ * @package     Joomla.Site
+ * @subpackage  com_thm_organizer
+ * @name        event list view
+ * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @copyright   TH Mittelhessen 2011
+ * @license     GNU GPL v.2
+ * @link        www.mni.fh-giessen.de
+ * @version     0.0.1
+ */
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
-
 jimport( 'joomla.application.component.view');
 JHtml::core();
-
-/**
-* HTML View class for the Giessen Scheduler Component
-*
-* @package    Giessen Scheduler
-*/
+//echo "<pre>".print_r($events, true)."</pre>";
 
 class thm_organizerViewevent_list extends JView
 {
@@ -29,17 +24,19 @@ class thm_organizerViewevent_list extends JView
         $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/event_list.js'));
 
         $model = $this->getModel();
+
+        $this->form = $this->get('Form');
+
         $events = $model->events;
-        //echo "<pre>".print_r($events, true)."</pre>";
         $this->assign('events', $events);
         $display_type = $model->display_type;
         $this->assign('display_type', $display_type);
         
         $categories = $model->categories;
         $this->assignRef('categories', $categories);
-        $category = ($model->getState('category'))? $model->getState('category') : -1;
-        $this->assignRef('category', $category);
-        $this->makeCategorySelect($categories, $category);
+        $categoryID = ($model->getState('categoryID'))? $model->getState('categoryID') : -1;
+        $this->assignRef('categoryID', $categoryID);
+        $this->makeCategorySelect($categories, $categoryID);
 
         $canWrite = $model->canWrite;
         $this->assignRef('canWrite', $canWrite);
@@ -51,7 +48,7 @@ class thm_organizerViewevent_list extends JView
         $this->assign('total', $total);
         
         // Create the pagination object
-        $pageNav = & $this->get('Pagination');
+        $pageNav = $model->pagination;
         $this->assign('pageNav', $pageNav);
 
         //form state variables
@@ -82,15 +79,6 @@ class thm_organizerViewevent_list extends JView
         $deleteimage= JHTML::_('image.site', 'delete.png', 'components/com_thm_organizer/assets/images/', NULL, NULL, JText::_( 'Termin Löschen' ));
         $this->assignRef('deleteImage', $deleteImage);
 
-        $fromdate = $model->getState('fromdate');
-        $fromdate = (empty($fromdate))? "" : $fromdate;
-        $fromdate =  JHTML::_('calendar', $fromdate, 'fromdate', 'fromdate', '%d.%m.%Y', array('size'=>'7',  'maxlength'=>'10'));
-        $this->assignRef('fromdate', $fromdate);
-        $todate = $model->getState('todate');
-        $todate = (empty($todate))? "" : $todate;
-        $todate =  JHTML::_('calendar', $todate, 'fromdate', 'fromdate', '%d.%m.%Y', array('size'=>'7',  'maxlength'=>'10'));
-        $this->assignRef('todate', $todate);
-
         $attribs = array();
         $attribs['class'] = "thm_organizer_el_sortLink hasTip";
         $spanOpen = "<span class='thm_organizer_el_th'>";
@@ -106,13 +94,13 @@ class thm_organizerViewevent_list extends JView
         {
             $titleText .= $ascImage;
             $titleAttribs['title'] .= "::".JText::_('COM_THM_ORGANIZER_EL_DESC_DESCRIPTION');
-            $titleLink .= '"title", "DESC")';
+            $titleLink .= "'title', 'DESC')";
         }
         else
         {
             $titleText .= ($this->orderby == 'title')? $descImage : "";
             $titleAttribs['title'] .= "::".JText::_('COM_THM_ORGANIZER_EL_ASC_DESCRIPTION');
-            $titleLink .= '"title", "ASC")';
+            $titleLink .= "'title', 'ASC')";
         }
         $titleAttribs = array_merge($titleAttribs, $attribs);
         $titleHead = $spanOpen.JHTML::_('link', $titleLink, $titleText, $titleAttribs).$spanClose;
@@ -127,13 +115,13 @@ class thm_organizerViewevent_list extends JView
         {
             $authorText .= $ascImage;
             $authorAttribs['title'] .= "::".JText::_('COM_THM_ORGANIZER_EL_DESC_DESCRIPTION');
-            $authorLink .= '"author", "DESC")';
+            $authorLink .= "'author', 'DESC')";
         }
         else
         {
             $authorText .= ($this->orderby == 'author')? $descImage : "";
             $authorAttribs['title'] .= "::".JText::_('COM_THM_ORGANIZER_EL_ASC_DESCRIPTION');
-            $authorLink .= '"author", "ASC")';
+            $authorLink .= "'author', 'ASC')";
         }
         $authorAttribs = array_merge($authorAttribs, $attribs);
         $authorHead = $spanOpen.JHTML::_('link', $authorLink, $authorText, $authorAttribs).$spanClose;
@@ -146,17 +134,17 @@ class thm_organizerViewevent_list extends JView
         $categoryAttribs = array();
         $categoryAttribs['title'] = JText::_('COM_THM_ORGANIZER_EL_SORT');
         $categoryLink = "javascript:reSort(";
-        if($this->orderby == 'category' and $this->orderbydir == 'ASC')
+        if($this->orderby == 'eventCategory' and $this->orderbydir == 'ASC')
         {
             $categoryText .= $ascImage;
             $categoryAttribs['title'] .= "::".JText::_('COM_THM_ORGANIZER_EL_DESC_DESCRIPTION');
-            $categoryLink .= '"category", "DESC")';
+            $categoryLink .= "'eventCategory', 'DESC')";
         }
         else
         {
-            $categoryText .= ($this->orderby == 'category')? $descImage : "";
+            $categoryText .= ($this->orderby == 'eventCategory')? $descImage : "";
             $categoryAttribs['title'] .= "::".JText::_('COM_THM_ORGANIZER_EL_ASC_DESCRIPTION');
-            $categoryLink .= '"category", "ASC")';
+            $categoryLink .= "'eventCategory', 'ASC')";
         }
         $categoryAttribs = array_merge($categoryAttribs, $attribs);
         $categoryHead = $spanOpen.JHTML::_('link', $categoryLink, $categoryText, $categoryAttribs).$spanClose;
@@ -170,13 +158,13 @@ class thm_organizerViewevent_list extends JView
         {
             $dateText .= $ascImage;
             $dateAttribs['title'] .= "::".JText::_('COM_THM_ORGANIZER_EL_DESC_DESCRIPTION');
-            $dateLink .= '"date", "DESC")';
+            $dateLink .= "'date', 'DESC')";
         }
         else
         {
             $dateText .= ($this->orderby == 'date')? $descImage : "";
             $dateAttribs['title'] .= "::".JText::_('COM_THM_ORGANIZER_EL_ASC_DESCRIPTION');
-            $dateLink .= '"date", "ASC")';
+            $dateLink .= "'date', 'ASC')";
         }
         $dateAttribs = array_merge($dateAttribs, $attribs);
         $dateHead = $spanOpen.JHTML::_('link', $dateLink, $dateText, $dateAttribs).$spanClose;
@@ -188,16 +176,7 @@ class thm_organizerViewevent_list extends JView
         //echo "<pre>".print_r($categories, true)."</pre>";
         $nocategories = array(1=>array('id'=>'-1','title'=>JText::_('Alle Kategorien')));
         $categories = array_merge($nocategories, $categories);
-        $categorySelect = JHTML::_('select.genericlist', $categories, 'category[]','id="category" class="inputbox" size="1"', 'id', 'title', $selected );
+        $categorySelect = JHTML::_('select.genericlist', $categories, 'categoryID','id="categoryID" class="inputbox" size="1"', 'id', 'title', $selected );
         $this->assignRef('categorySelect', $categorySelect);
     }
-    /*
-                <button onclick="document.getElementById('thm_organizer_el_form').submit();">
-                    <?php echo JText::_( 'Los' ); ?>
-                </button>
-                <input type="submit"
-                       onclick="document.getElementById('filter').value='';
-                                 document.getElementById('date').value=''
-                                 document.getElementById('thm_organizer_el_form').submit();"
-                       value="<?php echo JText::_( 'Reset' ); ?>" >*/
 }

@@ -35,6 +35,14 @@
                    key_field="id"
                    value_field="name"
                    default="" />
+            <field name="group_restriction"
+                   type="sql"
+                   label="COM_THM_ORGANIZER_EL_GROUP_SELECT_LABEL"
+                   description="COM_THM_ORGANIZER_EL_GROUP_SELECT_DESC"
+                   query="SELECT id, title as name FROM #__usergroups"
+                   key_field="id"
+                   value_field="name"
+                   default="" />
         </fieldset>
     </fields>
 </metadata>
