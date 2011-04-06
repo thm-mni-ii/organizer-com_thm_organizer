@@ -44,12 +44,7 @@ class thm_organizerModelevent_edit extends JModelForm
         $dbo->setQuery((string)$query);
         $event = $dbo->loadAssoc();
 
-        if(isset($event))
-        {
-            $form = $this->getForm();
-            $form->bind($event);
-        }
-        else
+        if(!isset($event))
         {
             $event = array();
             $event['id'] = 0;
@@ -73,6 +68,9 @@ class thm_organizerModelevent_edit extends JModelForm
             $event['register'] = 0;
             $event['unregister'] = 0;
         }
+        $form = $this->getForm();
+        $form->bind($event);
+
         $this->event = $event;
     }
 
