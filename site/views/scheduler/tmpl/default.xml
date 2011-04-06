@@ -3,9 +3,9 @@
 	<layout title="Layout: Scheduler">
 		<message>Stundenplan</message>
 	</layout>
-	<fields name="request"
+	<fields name="params"
 			addfieldpath="/components/com_thm_organizer/models/fields">
-		<fieldset name="request">
+		<fieldset name="params">
 			<field name="tree"
                    type="scheduler"
                    label="Semester Display"
@@ -13,6 +13,6 @@
             <field name="id"
                    type="hidden"
                    description="Tooltip ;)"/>
-           </fieldset>
+        </fieldset>
 	</fields>
 </metadata>

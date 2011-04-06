@@ -310,9 +310,9 @@ class UserSchedule
 						 "#__thm_organizer_periods.period AS block, " .
 						 "(SELECT 'cyclic') AS type, ";
 
-				if ($this->JDA->isComponentavailable("com_giessenlsf"))
+				if ($this->JDA->isComponentavailable("com_thm_lsf"))
 				{
-					$query .= " modultitel AS longname FROM #__thm_organizer_objects AS lo LEFT JOIN #__giessen_lsf_modules AS mo ON lo.oalias = mo.modulnummer ";
+					$query .= " modultitel_de AS longname ";
 				}
 				else
 				{
@@ -320,15 +320,19 @@ class UserSchedule
 				}
 
 				$query .= "FROM #__thm_organizer_lessons " .
-				  "INNER JOIN #__thm_organizer_lesson_times ON #__thm_organizer_lessons.id = #__thm_organizer_lesson_times.lessonID " .
-				  "INNER JOIN #__thm_organizer_periods ON #__thm_organizer_lesson_times.periodID = #__thm_organizer_periods.id " .
-				  "INNER JOIN #__thm_organizer_rooms ON #__thm_organizer_lesson_times.roomID = #__thm_organizer_rooms.id " .
-				  "INNER JOIN #__thm_organizer_lesson_teachers ON #__thm_organizer_lesson_teachers.lessonID = #__thm_organizer_lessons.id " .
-				  "INNER JOIN #__thm_organizer_teachers ON #__thm_organizer_lesson_teachers.teacherID = #__thm_organizer_teachers.id " .
-				  "INNER JOIN #__thm_organizer_lesson_classes ON #__thm_organizer_lesson_classes.lessonID = #__thm_organizer_lessons.id " .
-				  "INNER JOIN #__thm_organizer_classes ON #__thm_organizer_lesson_classes.classID = #__thm_organizer_classes.id " .
-				  "INNER JOIN #__thm_organizer_subjects ON #__thm_organizer_lessons.subjectID = #__thm_organizer_subjects.id " .
-	         	  "WHERE #__thm_organizer_lessons.semesterID = '".$this->semID."' AND #__thm_organizer_lessons.gpuntisID IN (";
+				 	"INNER JOIN #__thm_organizer_lesson_times ON #__thm_organizer_lessons.id = #__thm_organizer_lesson_times.lessonID " .
+				  	"INNER JOIN #__thm_organizer_periods ON #__thm_organizer_lesson_times.periodID = #__thm_organizer_periods.id " .
+				  	"INNER JOIN #__thm_organizer_rooms ON #__thm_organizer_lesson_times.roomID = #__thm_organizer_rooms.id " .
+				  	"INNER JOIN #__thm_organizer_lesson_teachers ON #__thm_organizer_lesson_teachers.lessonID = #__thm_organizer_lessons.id " .
+				  	"INNER JOIN #__thm_organizer_teachers ON #__thm_organizer_lesson_teachers.teacherID = #__thm_organizer_teachers.id " .
+				  	"INNER JOIN #__thm_organizer_lesson_classes ON #__thm_organizer_lesson_classes.lessonID = #__thm_organizer_lessons.id " .
+				  	"INNER JOIN #__thm_organizer_classes ON #__thm_organizer_lesson_classes.classID = #__thm_organizer_classes.id " .
+				  	"INNER JOIN #__thm_organizer_subjects ON #__thm_organizer_lessons.subjectID = #__thm_organizer_subjects.id ";
+					if ($this->JDA->isComponentavailable("com_thm_lsf"))
+		  			{
+						$query .= "LEFT JOIN #__thm_lsf_modules AS mo ON #__thm_organizer_subjects.moduleID = mo.modulnummer ";
+		  			}
+	         	  	$query .= "WHERE #__thm_organizer_lessons.semesterID = '".$this->semID."' AND #__thm_organizer_lessons.gpuntisID IN (";
 
               if (isset($data))
                   if (is_array($data))

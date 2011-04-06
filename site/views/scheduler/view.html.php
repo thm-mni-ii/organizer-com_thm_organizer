@@ -47,27 +47,25 @@ class thm_organizerViewScheduler extends JView
 
 		$schedulearr["ScheduleDescription.load"] = $model->executeTask("ScheduleDescription.load");
 
-		$schedulearr["TreeView.load"] = $model->executeTask("TreeView.load");
-
 		$path = explode("/", $_REQUEST["id"]);
-		unset($path[0]);
-		unset($path[1]);
 
-		$sid = str_replace("semesterjahr", "", $path[2]);
+		$schedulearr["TreeView.load"] = $model->executeTask("TreeView.load", array("path"=>$path, "hide"=>true));
+
+		$sid = str_replace("semesterjahr", "", $path[0]);
 
 		if($user->id !== null && $user->id !== 0)
 			$schedulearr["UserSchedule.load"] = $model->executeTask("UserSchedule.load", array("username"=>$user->name, "sid"=>$sid));
 
 		$schedulearr["UserSchedule.load"]["delta"] = $model->executeTask("UserSchedule.load", array("username"=>"delta".$sid));
 
-		foreach($path as $value)
-		{
-			$temp = $this->search($value, $schedulearr["TreeView.load"]["data"]["tree"]);
-			if($temp !== false)
-				$schedulearr["TreeView.load"]["data"]["tree"] = $temp;
-			else
-				break;
-		}
+//		foreach($path as $value)
+//		{
+//			$temp = $this->search($value, $schedulearr["TreeView.load"]["data"]["tree"]);
+//			if($temp !== false)
+//				$schedulearr["TreeView.load"]["data"]["tree"] = $temp;
+//			else
+//				break;
+//		}
 
 		$this->startup = rawurlencode(json_encode($schedulearr));
 

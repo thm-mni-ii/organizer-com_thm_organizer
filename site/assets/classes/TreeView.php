@@ -10,11 +10,101 @@ class TreeView
 	private $JDA = null;
 	private $cfg = null;
 	private $type = null;
+	private $checked = null;
+	private $hideCheckBox = null;
 
 	function __construct($JDA, $CFG, $options = array())
 	{
 		$this->JDA = $JDA;
 		$this->cfg = $CFG->getCFG();
+		if(isset($options["path"]))
+		{
+			$this->checked = $options["path"];
+		}
+		else
+		{
+			$this->checked = null;
+		}
+		if(isset($options["hide"]))
+		{
+			$this->hideCheckBox = $options["hide"];
+		}
+		else
+		{
+			$this->hideCheckBox = false;
+		}
+	}
+
+	private function createTreeNode($id,
+		    						$text,
+		    						$iconCls,
+		    						$leaf,
+		    						$draggable,
+		    						$singleClickExpand,
+		    						$gpuntisID,
+		    						$plantype,
+		    						$type,
+		    						$children,
+		    						$semesterID)
+	{
+
+		$checked = null;
+		$treeNode = null;
+
+		if($this->hideCheckBox == true)
+		{
+			$checked = null;
+		}
+		else
+		{
+			if($this->checked != null)
+			{
+				if(array_search($id, $this->checked) !== false)
+					$checked = true;
+				else
+					$checked = false;
+			}
+			else
+			{
+				$checked = false;
+			}
+		}
+
+		if($this->hideCheckBox == true)
+		{
+			if(array_search($id, $this->checked) !== false)
+				$treeNode = new TreeNode(
+						$id,							// id - autom. generated
+						$text,							// text	for the node
+						$iconCls,			// iconCls
+						$leaf,								// leaf
+						$draggable,								// draggable
+						$singleClickExpand,								// singleClickExpand
+						$gpuntisID,							// key
+						$plantype,								// plantype
+						$type,								// type
+						$children,
+						$semesterID,
+						$checked
+					);
+		}
+		else
+			$treeNode = new TreeNode(
+						$id,							// id - autom. generated
+						$text,							// text	for the node
+						$iconCls,			// iconCls
+						$leaf,								// leaf
+						$draggable,								// draggable
+						$singleClickExpand,								// singleClickExpand
+						$gpuntisID,							// key
+						$plantype,								// plantype
+						$type,								// type
+						$children,
+						$semesterID,
+						$checked
+					);
+
+		return $treeNode;
 	}
 
 	public function load()
@@ -30,7 +120,7 @@ class TreeView
 
 		foreach($semesterarray as $key=>$value)
 		{
-			$semesterJahrNode[] = new TreeNode(
+			$temp = $this->createTreeNode(
 					'semesterjahr' . $value->id,							// id - autom. generated
 					$value->semesterDesc,							// text	for the node
 					'semesterjahr' . '-root',			// iconCls
@@ -43,6 +133,8 @@ class TreeView
 					$this->plantype('semesterjahr' . $value->id, $value->id),
 					$value->id
 				);
+			if($temp != null)
+				$semesterJahrNode[] = $temp;
 
 			$treeData["clas"] = array_merge( $treeData["clas"], $this->getStundenplanClassData(1, $value->id) );
 			$treeData["room"] = array_merge( $treeData["room"], $this->getStundenplanRoomData(1, $value->id) );
@@ -77,7 +169,7 @@ class TreeView
 			$function = str_replace(" ", "_", $function);
 			$function = str_replace("-", "", $function);
 			$key = $key.".".$v->plantype.$v->id;
-			$plantypeNode[] = new TreeNode(
+			$temp = $this->createTreeNode(
 					$key,							// id - autom. generated
 					$v->plantype,					// text	for the node
 					$v->plantype . '-root',			// iconCls
@@ -90,6 +182,8 @@ class TreeView
 					$this->$function($key, $v->id, $semesterID),
 					$semesterID
 				);
+			if($temp != null)
+				$plantypeNode[] = $temp;
 		}
 		return $plantypeNode;
 	}
@@ -97,7 +191,7 @@ class TreeView
 	private function StundenplanView($key, $planid, $semesterID)
 	{
 		$viewNode = array();
-		$viewNode[] = new TreeNode(
+		$temp = $this->createTreeNode(
 					$key.".doz",							// id - autom. generated
 					"Dozent",						// text	for the node
 					'view' . '-root',				// iconCls
@@ -107,10 +201,12 @@ class TreeView
 					"doz",
 					$planid,
 					null,
-					$this->getStundenplanDoz($key.".doz", $planid, $semesterID),
+					$this->getStundenplan($key.".doz", $planid, $semesterID, "doz"),
 					$semesterID
 				);
-		$viewNode[] = new TreeNode(
+		if($temp != null)
+			$viewNode[] = $temp;
+		$temp = $this->createTreeNode(
 					$key.".room",							// id - autom. generated
 					"Raum",							// text	for the node
 					'view' . '-root',				// iconCls
@@ -120,10 +216,12 @@ class TreeView
 					"room",
 					$planid,
 					null,
-					$this->getStundenplanRoom($key.".room", $planid, $semesterID),
+					$this->getStundenplan($key.".room", $planid, $semesterID, "room"),
 					$semesterID
 				);
-		$viewNode[] = new TreeNode(
+		if($temp != null)
+			$viewNode[] = $temp;
+		$temp = $this->createTreeNode(
 					$key.".clas",							// id - autom. generated
 					"Semester",						// text	for the node
 					'view' . '-root',				// iconCls
@@ -133,10 +231,12 @@ class TreeView
 					"clas",
 					$planid,
 					null,
-					$this->getStundenplanClass($key.".clas", $planid, $semesterID),
+					$this->getStundenplan($key.".clas", $planid, $semesterID, "class"),
 					$semesterID
 				);
-		$viewNode[] = new TreeNode(
+		if($temp != null)
+			$viewNode[] = $temp;
+		$temp = $this->createTreeNode(
 					$key.".delta",					// id - autom. generated
 					"Änderungen (zentral)",			// text	for the node
 					'delta' . '-node',				// iconCls
@@ -149,7 +249,9 @@ class TreeView
 					null,
 					$semesterID
 				);
-		$viewNode[] = new TreeNode(
+		if($temp != null)
+			$viewNode[] = $temp;
+		$temp = $this->createTreeNode(
 					$key.".respChanges",					// id - autom. generated
 					"Änderungen (eigene)",			// text	for the node
 					'respChanges' . '-node',		// iconCls
@@ -162,6 +264,8 @@ class TreeView
 					null,
 					$semesterID
 				);
+		if($temp != null)
+			$viewNode[] = $temp;
 		return $viewNode;
 	}
 
@@ -169,7 +273,7 @@ class TreeView
 	{
 		$viewNode = array();
 
-		$viewNode[] = new TreeNode(
+		$temp = $this->createTreeNode(
 					$key.".doz",					// id - autom. generated
 					"Dozent",						// text	for the node
 					'view' . '-root',				// iconCls
@@ -179,10 +283,12 @@ class TreeView
 					"doz",
 					$planid,
 					null,
-					$this->getStundenplanDoz($key.".doz", $planid, $semesterID)
+					$this->getStundenplan($key.".doz", $planid, $semesterID, "doz")
 ,					$semesterID
 				);
-		$viewNode[] = new TreeNode(
+		if($temp != null)
+			$viewNode[] = $temp;
+		$temp = $this->createTreeNode(
 					$key.".clas",					// id - autom. generated
 					"Semester",						// text	for the node
 					'view' . '-root',				// iconCls
@@ -192,18 +298,26 @@ class TreeView
 					"clas",
 					$planid,
 					null,
-					$this->getStundenplanClass($key.".clas", $planid, $semesterID),
+					$this->getStundenplan($key.".clas", $planid, $semesterID, "class"),
 					$semesterID
 				);
+		if($temp != null)
+			$viewNode[] = $temp;
 		return $viewNode;
 	}
 
-	private function getStundenplanDoz($key, $planid, $semesterID)
+	private function getStundenplan($key, $planid, $semesterID, $type)
 	{
 		$treeNode = array();
 		$childNodes = array();
+		$arr = array();
 
-		$arr = $this->getStundenplanDozData($planid, $semesterID);
+		if($type == "doz")
+			$arr = $this->getStundenplanDozData($planid, $semesterID);
+		else if($type == "room")
+			$arr = $this->getStundenplanRoomData($planid, $semesterID);
+		else
+			$arr = $this->getStundenplanClassData($planid, $semesterID);
 
 		foreach($arr as $k=>$value)
 		{
@@ -217,7 +331,8 @@ class TreeView
 				}
 
 				if($k == null)
-					$treeNode[] = new TreeNode($key.".".$k.".".$childvalue["id"],
+				{
+					$temp = $this->createTreeNode($key.".".$k.".".$childvalue["id"],
 											$childvalue["name"],
 											"leaf" . "-node",
 											true,
@@ -225,12 +340,16 @@ class TreeView
 											false,
 											$childvalue["gpuntisID"],
 											$planid,
-											"doz",
+											$type,
 											NULL,
 											$semesterID
 											);
+					if($temp != null)
+						$treeNode[] = $temp;
+				}
 				else
-					$childNodes[] = new TreeNode($key.".".$k.".".$childvalue["id"],
+				{
+					$temp = $this->createTreeNode($key.".".$k.".".$childvalue["id"],
 											$childvalue["name"],
 											"leaf" . "-node",
 											true,
@@ -238,13 +357,17 @@ class TreeView
 											false,
 											$childvalue["gpuntisID"],
 											$planid,
-											"doz",
+											$type,
 											NULL,
 											$semesterID
 											);
+					if($temp != null)
+						$childNodes[] = $temp;
+				}
 			}
 			if($k != null)
-				$treeNode[] = new TreeNode(
+			{
+				$temp = $this->createTreeNode(
 					$key.".".$k,							// id - autom. generated
 					$k,							// text	for the node
 					'studiengang-root',			// iconCls
@@ -257,6 +380,9 @@ class TreeView
 					$childNodes,
 					$semesterID
 				);
+					if($temp != null)
+						$treeNode[] = $temp;
+			}
 		}
 
 		return $treeNode;
@@ -280,7 +406,7 @@ class TreeView
 				}
 
 				if($k == null)
-					$treeNode[] = new TreeNode($key.".".$k.".".$childvalue["id"],
+					$treeNode[] = $this->createTreeNode($key.".".$k.".".$childvalue["id"],
 											$childvalue["name"],
 											"leaf" . "-node",
 											true,
@@ -290,9 +416,10 @@ class TreeView
 											$planid,
 											"room",
 											NULL,
-											$semesterID);
+											$semesterID
+											);
 				else
-					$childNodes[] = new TreeNode($key.".".$k.".".$childvalue["id"],
+					$childNodes[] = $this->createTreeNode($key.".".$k.".".$childvalue["id"],
 											$childvalue["name"],
 											"leaf" . "-node",
 											true,
@@ -302,10 +429,11 @@ class TreeView
 											$planid,
 											"room",
 											NULL,
-											$semesterID);
+											$semesterID
+					);
 			}
 			if($k != null)
-				$treeNode[] = new TreeNode(
+				$treeNode[] = $this->createTreeNode(
 					$key.".".$k,					// id - autom. generated
 					$k,								// text	for the node
 					'studiengang-root',			// iconCls
@@ -341,7 +469,7 @@ class TreeView
 				}
 
 				if($k == null)
-					$treeNode[] = new TreeNode($key.".".$k.".".$childvalue["id"],
+					$treeNode[] = $this->createTreeNode($key.".".$k.".".$childvalue["id"],
 											$childvalue["name"],
 											"leaf" . "-node",
 											true,
@@ -351,9 +479,10 @@ class TreeView
 											$planid,
 											"clas",
 											NULL,
-											$semesterID);
+											$semesterID
+											);
 				else
-					$childNodes[] = new TreeNode($key.".".$k.".".$childvalue["id"],
+					$childNodes[] = $this->createTreeNode($key.".".$k.".".$childvalue["id"],
 											$childvalue["name"],
 											"leaf" . "-node",
 											true,
@@ -363,10 +492,11 @@ class TreeView
 											$planid,
 											"clas",
 											NULL,
-											$semesterID);
+											$semesterID
+											);
 			}
 			if($k != null)
-				$treeNode[] = new TreeNode(
+				$treeNode[] = $this->createTreeNode(
 					$key.".".$k,					// id - autom. generated
 					$k,								// text	for the node
 					'studiengang-root',			// iconCls
@@ -625,21 +755,21 @@ class TreeView
 
 	private function getCountTeacherLessons( $resourcename, $fachsemester )
 	{
-		$query = "SELECT * " . " FROM #__thm_organizer_lessonperiods " . " WHERE tid = '" . $resourcename . "' AND sid = '" . $fachsemester . "'";
+		$query = "SELECT * " . " FROM #__thm_organizer_lesson_teachers INNER JOIN #__thm_organizer_teachers ON teacherID = #__thm_organizer_teachers.id INNER JOIN #__thm_organizer_lessons ON #__thm_organizer_lesson_teachers.lessonID = #__thm_organizer_lessons.id " . " WHERE #__thm_organizer_teachers.gpuntisID = '" . $resourcename . "' AND semesterID = '" . $fachsemester . "' AND plantypeID = 1";
 		$hits  = $this->JDA->query( $query );
 		return count( $hits );
 	}
 
 	private function getCountRoomLessons( $resourcename, $fachsemester )
 	{
-		$query = "SELECT * " . " FROM #__thm_organizer_lessonperiods " . " WHERE rid = '" . $resourcename . "' AND sid = '" . $fachsemester . "'";
+		$query = "SELECT * " . " FROM #__thm_organizer_lesson_times INNER JOIN #__thm_organizer_rooms ON roomID = #__thm_organizer_rooms.id INNER JOIN #__thm_organizer_lessons ON #__thm_organizer_lesson_times.lessonID = #__thm_organizer_lessons.id " . " WHERE #__thm_organizer_rooms.gpuntisID = '" . $resourcename . "' AND semesterID = '" . $fachsemester . "' AND plantypeID = 1";
 		$hits  = $this->JDA->query( $query );
 		return count( $hits );
 	}
 
 	private function getCountClassLessons( $resourcename, $fachsemester )
 	{
-		$query = "SELECT * " . " FROM #__thm_organizer_lessons " . " WHERE cid = '" . $resourcename . "' AND sid = '" . $fachsemester . "'";
+		$query = "SELECT * " . " FROM #__thm_organizer_lesson_classes INNER JOIN #__thm_organizer_classes ON classID = #__thm_organizer_classes.id INNER JOIN #__thm_organizer_lessons ON #__thm_organizer_lesson_classes.lessonID = #__thm_organizer_lessons.id " . " WHERE #__thm_organizer_classes.gpuntisID = '" . $resourcename . "' AND semesterID = '" . $fachsemester . "' AND plantypeID = 1";
 		$hits  = $this->JDA->query( $query );
 		return count( $hits );
 	}

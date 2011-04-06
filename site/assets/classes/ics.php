@@ -95,7 +95,7 @@ class ICSBauer extends abstrakterBauer
 				$ret .= "<tr>
 		         <td>" . $item->longname . "</td>
 		         <td>" . $item->name . "</td>
-		         <td>" . $item->desc . "</td>
+		         <td>" . $item->moduleID . "</td>
 		         <td>" . $item->category . "</td>
 		         <td>" . $this->daynumtoday( $item->dow ) . "</td>
 		         <td>" . $item->block . "</td>

@@ -212,9 +212,7 @@ function addNewEvent(eventid, sdate, stime, etime) {
 
 	adds = "&startdate=" + date + "&starttime=" + stime + "&endtime=" + etime;
 
-	var wintitle = "Termin";
-	if (eventid == 0) wintitle = "Termin hinzufügen";
-	else wintitle = "Termin ändern";
+	var wintitle = "";
 
 	var win = new Ext.Window({
 		layout: 'form',

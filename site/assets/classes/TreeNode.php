@@ -19,9 +19,21 @@ class TreeNode {
     public $plantype = null;
     public $type = null;
     public $semesterID = null;
+    public $checked = null;
+    public $expanded = false;
 
-    function  __construct($id,$text,$iconCls,$leaf,$draggable,
-            $singleClickExpand,$gpuntisID,$plantype,$type,$children,$semesterID) {
+    function  __construct(	$id,
+    						$text,
+    						$iconCls,
+    						$leaf,
+    						$draggable,
+    						$singleClickExpand,
+    						$gpuntisID,
+    						$plantype,
+    						$type,
+    						$children,
+    						$semesterID,
+    						$checked) {
 
         $this->id = $id;
         $this->text = $text;
@@ -34,6 +46,9 @@ class TreeNode {
         $this->plantype = $plantype;
         $this->type = $type;
         $this->semesterID = $semesterID;
+        $this->checked = $checked;
+        if($checked === true)
+        	$this->expanded = true;
     }
 }
 ?>
