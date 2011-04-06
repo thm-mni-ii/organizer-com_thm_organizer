@@ -58,10 +58,10 @@ class thm_organizerModelevent_edit extends JModelForm
             $event['description'] = '';
             $event['categoryID'] = 0;
             $event['contentID'] = 0;
-            $event['startdate'] = '';
+            $event['startdate'] = (JRequest::getString('startdate'))? JRequest::getString('startdate'): '';
             $event['enddate'] = '';
-            $event['starttime'] = '';
-            $event['endtime'] = '';
+            $event['starttime'] = (JRequest::getString('starttime'))? JRequest::getString('starttime'): '';
+            $event['endtime'] = (JRequest::getString('endtime'))? JRequest::getString('endtime'): '';
             $event['created_by'] = 0;
             $event['created'] = '';
             $event['modified_by'] = 0;
