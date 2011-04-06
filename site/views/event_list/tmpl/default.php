@@ -65,10 +65,10 @@ $rowcount = 0;
         <div id="thm_organizer_el_top_div" >
             <?php if($this->categoryID != -1) { ?>
             <div id="thm_organizer_el_category_desc_div">
-                <h2><?php echo $this->categories[0]['title']; ?></h2>
-                <?php if(isset($this->categories[0]['description'])): ?>
-                <?php echo $this->categories[0]['description']; ?>
-                <?php endif; ?>
+            <?php foreach($this->categories as $category){ if($category['id'] == $this->categoryID){ ?>
+                <h2><?php echo $category['title']; ?></h2>
+                <?php if(isset($category['description'])){ echo $category['description']; } ?>
+            <?php break; }} ?>
             </div>
             <?php } ?>
             <div id="thm_organizer_el_action_div">
@@ -215,7 +215,7 @@ $rowcount = 0;
                         <td>
                             <span class="thm_organizer_el_eventcat hasTip"
                                   title="Kategorie Ansicht::Events dieser Kategorie betrachten.">
-                                <a href="<?php echo $event->catlink.$this->itemid; ?>">
+                                <a href="<?php echo $event['categoryLink'].$this->itemID; ?>">
                                     <?php echo $event['eventCategory']; ?>
                                 </a>
                             </span>

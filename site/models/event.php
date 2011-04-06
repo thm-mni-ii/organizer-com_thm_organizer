@@ -169,8 +169,8 @@ class thm_organizerModelevent extends JModel
         $user = JFactory::getUser();
         $isAuthor = ($user->id == $this->event['authorID'])? true : false;
         $assetname = "com_content.article.{$this->event['id']}";
-        if($isAuthor) $canEditOwn = $user->authorise('edit.own', $assetname);
-        $canEdit = $user->authorise('edit', $assetname);
+        $canEditOwn = ($isAuthor)? $user->authorise('core.edit.own', $assetname) : false;
+        $canEdit = $user->authorise('core.edit', $assetname);
         $access = $canEdit or $canEditOwn;
         $this->event['access'] = $access;
     }

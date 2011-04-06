@@ -63,8 +63,12 @@ class thm_organizerModelevent_list extends JModelForm
         if(isset($callParameters)) $this->callParameters = $callParameters;
         $this->menuParameters = JFactory::getApplication()->getParams();
         $this->restoreState();
+
+        jimport('joomla.html.pagination');
         $this->getTotal();
-        $this->getPagination();
+        $this->setLimits();
+        $this->pagination = new JPagination($this->total, $this->getState('limitstart'), $this->getState('limit'));
+
         if($this->total)
         {
             $this->loadEvents();
@@ -90,17 +94,11 @@ class thm_organizerModelevent_list extends JModelForm
             $this->callParameters["display_type"] : $this->menuParameters->get('display_type');
         switch ($this->display_type)
         {
-            case CURRENT_CATEGORY:
-                $this->setCategoryID();
-                break;
             case CURRENT_ROOM:
                 $this->setRoomID();
                 break;
             case CURRENT_OWN:
                 $this->setState('author', $username);
-                break;
-            case ALL_CATEGORY:
-                $this->setCategoryID();
                 break;
             case ALL_ROOM:
                 $this->setRoomID();
@@ -112,24 +110,26 @@ class thm_organizerModelevent_list extends JModelForm
                 break;
         }
         $this->formParameters = array();
+        $this->setCategoryID();
         $this->setFromDate();
         $this->setToDate();
         $this->setSearch();
         $this->setOrderBy();
-        $this->setLimits();
     }
 
     private function setCategoryID()
     {
         $application = JFactory::getApplication();
+        $categoryRestriction = $this->display_type == ALL_CATEGORY or $this->display_type == CURRENT_CATEGORY;
         if(isset($this->callParameters) and isset($this->callParameters["categoryID"]))
             $categoryID = $this->callParameters["categoryID"];
-        else if($this->menuParameters->get('category_restriction'))
+        else if($categoryRestriction and $this->menuParameters->get('category_restriction'))
             $categoryID = $this->menuParameters->get('category_restriction');
-        else if(JRequest::getVar('categoryID')) $categoryID = JRequest::getVar('categoryID');
-        else $categoryID = $application->getUserStateFromRequest('com_thm_organizer.event_list.categoryID', 'categoryID', -1, 'int');
-
-        $this->setState('categoryID', $categoryID);
+        else if(JRequest::getVar('categoryID'))
+            $categoryID = JRequest::getVar('categoryID');
+        else
+            $categoryID = $application->getUserStateFromRequest('com_thm_organizer.event_list.categoryID', 'categoryID', -1, 'int');
+        if($categoryID != -1) $this->setState('categoryID', $categoryID);
     }
 
     private function setRoomID()
@@ -176,7 +176,7 @@ class thm_organizerModelevent_list extends JModelForm
         $application = JFactory::getApplication();
         $jform = JRequest::getVar('jform');
         if(isset($this->callParameters) and isset($this->callParameters["search"]))
-            $search = $this->callParameters["fromDate"];
+            $search = $this->callParameters["search"];
         else if(isset($jform) and isset($jform['thm_organizer_el_search_text']))
             $search = $jform['thm_organizer_el_search_text'];
         else $search = $application->getUserStateFromRequest('com_thm_organizer.event_list.search', 'search', '');
@@ -204,18 +204,11 @@ class thm_organizerModelevent_list extends JModelForm
 
     private function setLimits()
     {
-        $application = JFactory::getApplication();
-        if(isset($this->callParameters) and isset($this->callParameters["limit"]))
-            $limit = $this->callParameters["limit"];
-        else if(!isset($this->callParameters))
-            $limit = $application->getUserStateFromRequest('com_thm_organizer.event_list.limit', 'limit', 10, 'int');
-        if(isset($limit)) $this->setState('limit', $limit);
+        $limit = (JRequest::getInt('limit'))? JRequest::getInt('limit') : 5;
+        $this->setState('limit', $limit);
 
-        if(isset($this->callParameters) and isset($this->callParameters["limitstart"]))
-            $limitstart = $this->callParameters["limitstart"];
-        else if(!isset($this->callParameters))
-            $limitstart = JRequest::getInt('limitstart');
-        if(isset($limitstart)) $this->setState('limitstart', $limitstart);
+        $limitstart = (JRequest::getInt('limitstart'))? JRequest::getInt('limitstart') : $this->total;
+        $this->setState('limitstart', $limitstart);
     }
 
     /**
@@ -324,21 +317,6 @@ class thm_organizerModelevent_list extends JModelForm
     }
 
     /**
-     * Method to get a pagination object for the events
-     *
-     * @access public
-     * @return integer
-     */
-    function getPagination()
-    {
-        if (empty($this->pagination))
-        {
-            jimport('joomla.html.pagination');
-            $this->pagination = new JPagination($this->total, $this->getState('limitstart'), $this->getState('limit'));
-        }
-    }
-
-    /**
      * loadEvents()
      *
      * loads event entries
@@ -355,8 +333,7 @@ class thm_organizerModelevent_list extends JModelForm
         $this->getWhere(&$query);
         $this->getOrderBy(&$query);
         $query = (string) $query;
-        $query .= " LIMIT {$this->pagination->limitstart}, {$this->pagination->limit} ";
-        $dbo->setQuery($query);
+        $dbo->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
         $events = $dbo->loadAssocList();
 
         //check for empty
@@ -383,6 +360,7 @@ class thm_organizerModelevent_list extends JModelForm
             else
                 $events[$k]['displayDates'] = $v['startdate']." ".$timestring;
             $events[$k]['detailsLink'] = "index.php?option=com_thm_organizer&view=event&eventID=".$v['id']."&Itemid=";
+            $events[$k]['categoryLink'] = "index.php?option=com_thm_organizer&view=event_list&categoryID=".$v['eventCategoryID']."&Itemid=";
         }
         $this->total = count($events);
         $this->events = $events;
@@ -424,11 +402,11 @@ class thm_organizerModelevent_list extends JModelForm
         {
             $orderbydir = $this->getState('orderbydir');
             $orderbydir = isset($orderbydir)? $orderbydir : 'ASC';
-            if($orderby == 'date') $orderbyClause = "starttime $orderbydir, startdateStandardFormat $orderbydir";
+            if($orderby == 'date') $orderbyClause = "startdateStandardFormat $orderbydir, starttime $orderbydir";
             else $orderbyClause = "$orderby $orderbydir";
             $query->order($orderbyClause);
         }
-        else $query->order('starttime, startdateStandardFormat ASC');
+        else $query->order('startdateStandardFormat ASC, starttime ASC');
     }
 
     /**

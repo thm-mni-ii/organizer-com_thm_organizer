@@ -41,6 +41,7 @@ class thm_organizerModelevents extends JModel
             $enddate = trim($enddate);
             $enddate = explode(".", $enddate);
             $enddate = "{$enddate[2]}-{$enddate[1]}-{$enddate[0]}";
+            if($enddate < $startdate) $enddate = $startdate;
             $publish_down = date("Y-m-d H:i:s", strtotime('+1 day', strtotime($enddate)));
         }
         else
