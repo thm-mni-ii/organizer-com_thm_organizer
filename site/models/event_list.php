@@ -58,7 +58,6 @@ class thm_organizerModelevent_list extends JModelForm
      **/
     function __construct($callParameters = null)
     {
-        echo "<pre>".print_r($_REQUEST, true)."</pre>";
         parent::__construct();
         if(isset($callParameters)) $this->callParameters = $callParameters;
         $this->menuParameters = JFactory::getApplication()->getParams();
@@ -204,10 +203,10 @@ class thm_organizerModelevent_list extends JModelForm
 
     private function setLimits()
     {
-        $limit = (JRequest::getInt('limit'))? JRequest::getInt('limit') : 5;
+        $limit = (JRequest::getInt('limit'))? JRequest::getInt('limit') : $this->total;
         $this->setState('limit', $limit);
 
-        $limitstart = (JRequest::getInt('limitstart'))? JRequest::getInt('limitstart') : $this->total;
+        $limitstart = (JRequest::getInt('limitstart'))? JRequest::getInt('limitstart') : 0;
         $this->setState('limitstart', $limitstart);
     }
 
