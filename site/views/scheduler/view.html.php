@@ -47,7 +47,12 @@ class thm_organizerViewScheduler extends JView
 
 		$schedulearr["ScheduleDescription.load"] = $model->executeTask("ScheduleDescription.load");
 
-		$path = explode("/", $_REQUEST["id"]);
+		$menuparams = JFactory::getApplication()->getParams();
+
+		$menuparamsID = $menuparams->get("id");
+
+		$path = explode("/", $menuparamsID);
+
 
 		$schedulearr["TreeView.load"] = $model->executeTask("TreeView.load", array("path"=>$path, "hide"=>true));
 
