@@ -197,12 +197,7 @@ $rowcount = 0;
                         </td>
                         <?php if($this->display_type != 3 and $this->display_type != 7): ?>
                         <td>
-                            <span class="thm_organizer_el_eventauthor hasTip"
-                                  title="Author::Events, die von diesem Author erstellt wurden.">
-                                <a href="<?php echo $event['authorlink'].$this->itemID; ?>">
-                                    <?php echo $event['author']; ?>
-                                </a>
-                            </span>
+                            <span><?php echo $event['author']; ?></span>
                         </td>
                         <?php endif; if($this->display_type != 2 and $this->display_type != 6): ?>
                         <td>

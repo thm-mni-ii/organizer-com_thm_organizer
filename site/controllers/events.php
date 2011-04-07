@@ -125,8 +125,19 @@ class thm_organizerControllerevents extends JController
         $eventIDs = JRequest::getVar('eventIDs', null);
         $menuID = JRequest::getInt('Itemid');
         $access = false;
-        if(!isset($eventID) and isset($eventIDs)) $eventID = array_shift($eventIDs);
-        if(isset($eventID)) $access = $this->canEdit($eventID) or $this->canEditOwn($eventID);
+        if(!isset($eventID) and isset($eventIDs))
+        {
+            $eventID = 0;
+            foreach($eventIDs as $selectedID)
+            {
+                if($selectedID != 0)
+                {
+                    $eventID = $selectedID;
+                    break;
+                }
+            }
+        }
+        if(isset($eventID) and $eventID > 0) $access = $this->canEdit($eventID) or $this->canEditOwn($eventID);
         else $access = $this->canCreate();
         if($access)
         {
