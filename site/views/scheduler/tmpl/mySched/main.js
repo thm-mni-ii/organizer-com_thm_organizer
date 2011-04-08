@@ -833,7 +833,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
       scope: this
     });
 
-    // Aboniert Events f�r Dozentennamen
+    // Aboniert Events für Dozentennamen
     Ext.select('.dozname', false, tab.dom).on({
       'click': function (e) {
         if (e.button == 0) //links Klick
@@ -842,7 +842,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
       scope: this
     });
 
-    // Aboniert Events f�r Lecturenamen
+    // Aboniert Events für Lecturenamen
     Ext.select('.lecturename', false, tab.dom).on({
       'mouseover': function (e) {
         e.stopEvent();
@@ -874,7 +874,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
       scope: this
     });
 
-    // Aboniert Events f�r Dozentennamen
+    // Aboniert Events für Dozentennamen
     Ext.select('.roomshortname', false, tab.dom).on({
       'click': function (e) {
         if (e.button == 0) //links Klick
