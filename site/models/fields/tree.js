@@ -85,13 +85,11 @@ Ext.onReady(function(){
 		});
 
 		tree.on('check', function() {
-			Ext.get('jform_params_id').dom.value = tree.getChecked().join('/');
+			var paramID = Ext.get('jform_params_id');
+			var paramValue = tree.getChecked().join('/');
+			paramID.dom.value = paramValue;
 		}, tree);
 
 		// render the tree
 	    tree.render('tree-div');
 	});
-
-/*Ext.EventManager.on(document,'mousedown',function(e){
-	alert( e.getKey() )
-});*/

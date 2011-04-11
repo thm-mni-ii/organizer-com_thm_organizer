@@ -27,7 +27,14 @@ class JFormFieldScheduler extends JFormField
 			$db->setQuery($query);
 			$rows = $db->loadObjectList();
 
-			$idString = json_decode( $rows[0]->params )->id;
+			$jsonObj = json_decode( $rows[0]->params );
+
+			var_dump($jsonObj);
+
+			if(isset($jsonObj->id))
+				$idString = $jsonObj->id;
+			else
+				$idString = "";
 
 			$doc =& JFactory::getDocument();
 			$doc->addStyleSheet(JURI::root(true)."/components/com_thm_organizer/views/scheduler/tmpl/ext/resources/css/ext-all.css");
