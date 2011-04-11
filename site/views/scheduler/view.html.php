@@ -21,8 +21,7 @@ class thm_organizerViewScheduler extends JView
 		$user = & JFactory::getUser();
 		$hasBackendAccess = $user->authorise("core.login.admin");
 		$this->semesterID = $model->getSemesterID();
-		$session =& JFactory::getSession();
-		$session->set('scheduler_semID', $this->semesterID);
+
 		$semAuthor = $model->getSemesterAuthor();
 		$this->jsid = $model->getSessionID();
 		$this->semAuthor = $semAuthor;
@@ -62,6 +61,9 @@ class thm_organizerViewScheduler extends JView
 			$schedulearr["UserSchedule.load"] = $model->executeTask("UserSchedule.load", array("username"=>$user->name, "sid"=>$sid));
 
 		$schedulearr["UserSchedule.load"]["delta"] = $model->executeTask("UserSchedule.load", array("username"=>"delta".$sid));
+
+		$session =& JFactory::getSession();
+		$session->set('scheduler_semID', $sid);
 
 //		foreach($path as $value)
 //		{
