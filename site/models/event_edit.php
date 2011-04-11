@@ -71,6 +71,9 @@ class thm_organizerModelevent_edit extends JModelForm
             $event['register'] = 0;
             $event['unregister'] = 0;
         }
+        $event['enddate'] = ($event['enddate'] == '00.00.0000')? '' : $event['enddate'];
+        $event['starttime'] = ($event['starttime'] == '00:00')? '' : $event['starttime'];
+        $event['endtime'] = ($event['endtime'] == '00:00')? '' : $event['endtime'];
         $form = $this->getForm();
         $form->bind($event);
 
