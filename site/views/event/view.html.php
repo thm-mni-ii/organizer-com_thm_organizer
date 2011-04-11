@@ -54,6 +54,8 @@ class thm_organizerViewevent extends JView
             $timeText = JText::_("COM_THM_ORGANIZER_E_FROM").$event['starttime'];
         else if(isset($event['endtime']))
             $timeText = JText::_("COM_THM_ORGANIZER_E_TO").$event['endtime'];
+        else
+            $timeText = JText::_ ("COM_THM_ORGANIZER_E_ALLDAY");
 
 
         if(isset($event['startdate']) && isset($event['enddate']))

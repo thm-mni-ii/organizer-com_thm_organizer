@@ -346,12 +346,13 @@ class thm_organizerModelevent_list extends JModelForm
             if($stSet and $etSet) $timestring = " ({$v['starttime']} - {$v['endtime']})";
             else if($stSet) $timestring = " (ab {$v['starttime']})";
             else if($etSet) $timestring = " (bis {$v['endtime']})";
+            else $timestring = " ".JText::_("COM_THM_ORGANIZER_EL_ALLDAY");
             if($edSet and $v['rec_type'] == 0)
             {
                 $displayDates = "{$v['startdate']}";
-                if($stSet) $displayDates .= " ( {$v['starttime']} )";
+                if($stSet) $displayDates .= " ({$v['starttime']})";
                 $displayDates .= " - {$v['enddate']}";
-                if($etSet) $displayDates .= " ( {$v['endtime']} )";
+                if($etSet) $displayDates .= " ({$v['endtime']})";
                 $events[$k]['displayDates'] = $displayDates;
             }
             else if($edSet and $v['rec_type'] == 1)
