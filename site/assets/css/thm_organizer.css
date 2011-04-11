@@ -218,31 +218,18 @@ ul{
 
 /* com_thm_organizer view: eventlist*******************************************/
 
-#thm_organizer_el_top_div
-{
+#thm_organizer_el_top_div{
     float: left;
     width: 100%;
 }
-#thm_organizer_el_category_desc_div
-{
+
+#thm_organizer_el_category_desc_div{
     float: left;
 }
 
 #thm_organizer_el_action_div{
     float: right;
     margin-bottom: 0px;
-}
-.thm_organizer_el_action_link{
-display: block;
-float: left;
-margin: 0px;
-padding-bottom: 1px;
-padding-top: 1px;
-padding-right: 5px;
-padding-left: 5px;
-text-align: center;
-text-decoration: none;
-white-space: nowrap;
 }
 
 #thm_organizer_el_form_div{
@@ -289,6 +276,11 @@ white-space: nowrap;
 
 #thm_organizer_el_eventtable thead th{
     padding: 5px;
+}
+
+.thm_organizer_el_sortLink img{
+    margin-left: 4px;
+    border: none;
 }
 
 .thm_organizer_el_row_even{
