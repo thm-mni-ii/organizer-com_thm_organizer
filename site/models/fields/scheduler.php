@@ -29,8 +29,6 @@ class JFormFieldScheduler extends JFormField
 
 			$jsonObj = json_decode( $rows[0]->params );
 
-			var_dump($jsonObj);
-
 			if(isset($jsonObj->id))
 				$idString = $jsonObj->id;
 			else
