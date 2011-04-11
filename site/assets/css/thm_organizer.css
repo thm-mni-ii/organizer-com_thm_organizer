@@ -4,6 +4,82 @@
 /* com_thm_organizer front end styles                                         */
 /******************************************************************************/
 
+/* com thm organizer form toolbar styles **************************************/
+
+.thm_organizer_action_link{
+display: block;
+float: left;
+margin: 0px;
+padding-bottom: 1px;
+padding-top: 1px;
+padding-right: 5px;
+padding-left: 5px;
+text-align: center;
+text-decoration: none;
+white-space: nowrap;
+}
+
+.thm_organizer_action_span{
+display: block;
+float: none;
+height: 32px;
+width: 32px;
+margin-bottom: 0px;
+margin-top: 0px;
+margin-left: auto;
+margin-right: auto;
+}
+
+#thm_organizer_new_span{
+background-image: url("../images/icon-32-new.png");
+}
+
+#thm_organizer_edit_span{
+background-image: url("../images/icon-32-edit.png");
+}
+
+#thm_organizer_delete_span{
+background-image: url("../images/icon-32-trash.png");
+}
+
+#thm_organizer_submit_span{
+background-image: url("../images/icon-32-forward.png");
+}
+
+#thm_organizer_reset_span{
+background-image: url("../images/icon-32-refresh.png");
+}
+
+#thm_organizer_list_span{
+background-image: url("../images/icon-32-list.png");
+}
+
+#thm_organizer_event_span{
+background-image: url("../images/icon-32-event.png");
+}
+
+#thm_organizer_save_span{
+background-image: url("../images/icon-32-save.png");
+}
+
+#thm_organizer_save_new_span{
+background-image: url("../images/icon-32-save-new.png");
+}
+
+.thm_organizer_divider_span{
+    border-right: solid 1px #c7c7c7;
+    height: 48px;
+    width: 2px;
+    padding-top: 1px;
+    padding-left: 4px;
+    padding-right: 1px;
+    display: block;
+    float: left;
+    margin-right: 4px;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+}
 
 /* com_thm_organizer view: roomdisplay template: registered********************/
 
@@ -169,52 +245,6 @@ text-decoration: none;
 white-space: nowrap;
 }
 
-.thm_organizer_el_action_span{
-display: block;
-float: none;
-height: 32px;
-width: 32px;
-margin-bottom: 0px;
-margin-top: 0px;
-margin-left: auto;
-margin-right: auto;
-}
-
-#thm_organizer_el_new_span{
-background-image: url("../images/icon-32-new.png");
-}
-
-#thm_organizer_el_edit_span{
-background-image: url("../images/icon-32-edit.png");
-}
-
-#thm_organizer_el_delete_span{
-background-image: url("../images/icon-32-trash.png");
-}
-
-#thm_organizer_el_submit_span{
-background-image: url("../images/icon-32-forward.png");
-}
-
-#thm_organizer_el_reset_span{
-background-image: url("../images/icon-32-refresh.png");
-}
-
-.thm_organizer_el_divider_span{
-    border-right: solid 1px #c7c7c7;
-    height: 48px;
-    width: 2px;
-    padding-top: 1px;
-    padding-left: 4px;
-    padding-right: 1px;
-    display: block;
-    float: left;
-    margin-right: 4px;
-    text-align: center;
-    text-decoration: none;
-    white-space: nowrap;
-}
-
 #thm_organizer_el_form_div{
     width: 100%;
     margin-top: 5px;
@@ -303,19 +333,6 @@ background-image: url("../images/icon-32-refresh.png");
     font-weight: bold;
 }
 
-.thm_organizer_e_action_link{
-display: block;
-float: left;
-margin: 0px;
-padding-bottom: 1px;
-padding-top: 1px;
-padding-right: 5px;
-padding-left: 5px;
-text-align: center;
-text-decoration: none;
-white-space: nowrap;
-}
-
 .thm_organizer_e_block_div{
     float: left;
     padding-top: 10px;
@@ -368,39 +385,11 @@ white-space: nowrap;
     top: 12px;
 }
 
-.thm_organizer_ee_action_link{
-display: block;
-float: left;
-margin: 0px;
-padding-bottom: 1px;
-padding-top: 1px;
-padding-right: 5px;
-padding-left: 5px;
-text-align: center;
-text-decoration: none;
-white-space: nowrap;
-}
-
-.thm_organizer_ee_action_span{
-display: block;
-float: none;
-height: 32px;
-width: 32px;
-margin-bottom: 0px;
-margin-top: 0px;
-margin-left: auto;
-margin-right: auto;
-}
-
-#thm_organizer_ee_save_span{
-background-image: url("../images/icon-32-save.png");
-}
-
-#thm_organizer_ee_save_new_span{
-background-image: url("../images/icon-32-save-new.png");
-}
-
 #thm_organizer_ee{
+    color: #4a5c66;
+}
+
+#thm_organizer_ee a:visited{
     color: #4a5c66;
 }
 

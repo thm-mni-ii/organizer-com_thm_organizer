@@ -17,6 +17,7 @@ class thm_organizerModelevent extends JModel
 {
     public $id = 0;
     public $event = null;
+    public $listLink = "";
 
     public function __construct()
     {
@@ -26,6 +27,7 @@ class thm_organizerModelevent extends JModel
         {
             $this->loadEventResources();
             $this->setAccess();
+            $this->setListLink();
         }
     }
 
@@ -173,5 +175,23 @@ class thm_organizerModelevent extends JModel
         $canEdit = $user->authorise('core.edit', $assetname);
         $access = $canEdit or $canEditOwn;
         $this->event['access'] = $access;
+    }
+
+    /**
+     * funtion setMenuLink
+     */
+    private function setListLink()
+    {
+        $menuID = JRequest::getInt('Itemid');
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("link");
+        $query->from("#__menu AS eg");
+        $query->where("id = $menuID");
+        $query->where("link LIKE '%event_list%'");
+        $dbo->setQuery((string)$query);
+        $listLink = $dbo->loadResult();
+        if(isset($listLink) and $listLink != "")
+            $this->listLink = JRoute::_ ($listLink);
     }
 }

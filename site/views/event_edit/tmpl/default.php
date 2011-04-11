@@ -3,7 +3,10 @@
 defined('_JEXEC') or die('Restricted access');
 if(count($this->categories))
 {
-$event = $this->event; ?>
+$event = $this->event;
+$showListLink = (isset($this->listLink) and $this->listLink != "")? true : false;
+$showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : false;
+?>
 <script language="javascript" type="text/javascript">
     var categories = new Array;
 <?php
@@ -59,17 +62,34 @@ Joomla.submitbutton = function(task)
                 <?php echo ($this->event['id'] == 0)? JText::_('COM_THM_ORGANIZER_EE_NEW') : JText::_('COM_THM_ORGANIZER_EE_EDIT'); ?>
             </span>
             <div id="thm_organizer_ee_button_div">
-                <a  class="hasTip thm_organizer_ee_action_link"
-                    title="<?php echo JText::_('COM_THM_ORGANIZER_EE_SAVE_TITLE')."::".JText::_('COM_THM_ORGANIZER_EE_SAVE_DESCRIPTION');?>"
-                    onclick="Joomla.submitbutton('events.save')">
-                    <span id="thm_organizer_ee_save_span" class="thm_organizer_el_action_span"></span>
-                    <?php echo JText::_('COM_THM_ORGANIZER_EE_SAVE'); ?>
+                <?php if($showListLink): ?>
+                <a  class="hasTip thm_organizer_action_link"
+                    title="<?php echo JText::_('COM_THM_ORGANIZER_LIST_TITLE')."::".JText::_('COM_THM_ORGANIZER_LIST_DESCRIPTION');?>"
+                    href="<?php echo $this->listLink ?>">
+                    <span id="thm_organizer_list_span" class="thm_organizer_action_span"></span>
+                    <?php echo JText::_('COM_THM_ORGANIZER_LIST'); ?>
                 </a>
-                <a  class="hasTip thm_organizer_ee_action_link"
-                    title="<?php echo JText::_('COM_THM_ORGANIZER_EE_SAVE_NEW_TITLE')."::".JText::_('COM_THM_ORGANIZER_EE_SAVE_NEW_DESCRIPTION');?>"
+                <?php endif; if($showEventLink): ?>
+                <a  class="hasTip thm_organizer_action_link"
+                    title="<?php echo JText::_('COM_THM_ORGANIZER_EVENT_TITLE')."::".JText::_('COM_THM_ORGANIZER_EVENT_DESCRIPTION');?>"
+                    href="<?php echo $this->eventLink ?>">
+                    <span id="thm_organizer_event_span" class="thm_organizer_action_span"></span>
+                    <?php echo JText::_('COM_THM_ORGANIZER_EVENT'); ?>
+                </a>
+                <?php endif; if($showListLink or $showEventLink): ?>
+                <span class="thm_organizer_divider_span"></span>
+                <?php endif; ?>
+                <a  class="hasTip thm_organizer_action_link"
+                    title="<?php echo JText::_('COM_THM_ORGANIZER_SAVE_TITLE')."::".JText::_('COM_THM_ORGANIZER_SAVE_DESCRIPTION');?>"
+                    onclick="Joomla.submitbutton('events.save')">
+                    <span id="thm_organizer_save_span" class="thm_organizer_action_span"></span>
+                    <?php echo JText::_('COM_THM_ORGANIZER_SAVE'); ?>
+                </a>
+                <a  class="hasTip thm_organizer_action_link"
+                    title="<?php echo JText::_('COM_THM_ORGANIZER_SAVE_NEW_TITLE')."::".JText::_('COM_THM_ORGANIZER_SAVE_NEW_DESCRIPTION');?>"
                     onclick="Joomla.submitbutton('events.save2new')">
-                    <span id="thm_organizer_ee_save_new_span" class="thm_organizer_el_action_span"></span>
-                    <?php echo JText::_('COM_THM_ORGANIZER_EE_SAVE_NEW'); ?>
+                    <span id="thm_organizer_save_new_span" class="thm_organizer_action_span"></span>
+                    <?php echo JText::_('COM_THM_ORGANIZER_SAVE_NEW'); ?>
                 </a>
             </div>
         </div>

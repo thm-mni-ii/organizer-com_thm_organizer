@@ -73,39 +73,39 @@ $rowcount = 0;
             <?php } ?>
             <div id="thm_organizer_el_action_div">
                 <?php if($this->canWrite): ?>
-                <a  class="hasTip thm_organizer_el_action_link"
-                    title="<?php echo JText::_('COM_THM_ORGANIZER_EL_NEW_TITLE')."::".JText::_('COM_THM_ORGANIZER_EL_NEW_DESCRIPTION');?>"
+                <a  class="hasTip thm_organizer_action_link"
+                    title="<?php echo JText::_('COM_THM_ORGANIZER_NEW_TITLE')."::".JText::_('COM_THM_ORGANIZER_NEW_DESCRIPTION');?>"
                     onClick="submitForm('events.new');" >
-                    <span id="thm_organizer_el_new_span" class="thm_organizer_el_action_span"></span>
-                    <?php echo JText::_('COM_THM_ORGANIZER_EL_NEW'); ?>
+                    <span id="thm_organizer_new_span" class="thm_organizer_action_span"></span>
+                    <?php echo JText::_('COM_THM_ORGANIZER_NEW'); ?>
                 </a>
                 <?php endif; if($this->canEdit): ?>
-                <a  class="hasTip thm_organizer_el_action_link"
-                    title="<?php echo JText::_('COM_THM_ORGANIZER_EL_EDIT_TITLE')."::".JText::_('COM_THM_ORGANIZER_EL_EDIT_DESCRIPTION');?>"
+                <a  class="hasTip thm_organizer_action_link"
+                    title="<?php echo JText::_('COM_THM_ORGANIZER_EDIT_TITLE')."::".JText::_('COM_THM_ORGANIZER_EDIT_DESCRIPTION');?>"
                     onClick="submitForm('events.edit');">
-                    <span id="thm_organizer_el_edit_span" class="thm_organizer_el_action_span"></span>
-                    <?php echo JText::_('COM_THM_ORGANIZER_EL_EDIT'); ?>
+                    <span id="thm_organizer_edit_span" class="thm_organizer_action_span"></span>
+                    <?php echo JText::_('COM_THM_ORGANIZER_EDIT'); ?>
                 </a>
-                <a  class="hasTip thm_organizer_el_action_link"
-                    title="<?php echo JText::_('COM_THM_ORGANIZER_EL_DELETE_TITLE')."::".JText::_('COM_THM_ORGANIZER_EL_DELETE_DESCRIPTION');?>"
+                <a  class="hasTip thm_organizer_action_link"
+                    title="<?php echo JText::_('COM_THM_ORGANIZER_DELETE_TITLE')."::".JText::_('COM_THM_ORGANIZER_DELETE_DESCRIPTION');?>"
                     onClick="submitForm('events.delete');">
-                    <span id="thm_organizer_el_delete_span" class="thm_organizer_el_action_span"></span>
-                    <?php echo JText::_('COM_THM_ORGANIZER_EL_DELETE'); ?>
+                    <span id="thm_organizer_delete_span" class="thm_organizer_action_span"></span>
+                    <?php echo JText::_('COM_THM_ORGANIZER_DELETE'); ?>
                 </a>
                 <?php endif; if($this->canWrite or $this->canEdit): ?>
-                <span class="thm_organizer_el_divider_span"></span>
+                <span class="thm_organizer_divider_span"></span>
                 <?php endif; ?>
-                <a  class="hasTip thm_organizer_el_action_link"
-                    title="<?php echo JText::_('COM_THM_ORGANIZER_EL_SUBMIT_TITLE')."::".JText::_('COM_THM_ORGANIZER_EL_SUBMIT_DESCRIPTION');?>"
+                <a  class="hasTip thm_organizer_action_link"
+                    title="<?php echo JText::_('COM_THM_ORGANIZER_SUBMIT_TITLE')."::".JText::_('COM_THM_ORGANIZER_SUBMIT_DESCRIPTION');?>"
                     onClick="document.getElementById('thm_organizer_el_form').submit();">
-                    <span id="thm_organizer_el_submit_span" class="thm_organizer_el_action_span"></span>
-                    <?php echo JText::_('COM_THM_ORGANIZER_EL_SUBMIT'); ?>
+                    <span id="thm_organizer_submit_span" class="thm_organizer_action_span"></span>
+                    <?php echo JText::_('COM_THM_ORGANIZER_SUBMIT'); ?>
                 </a>
-                <a  class="hasTip thm_organizer_el_action_link"
+                <a  class="hasTip thm_organizer_action_link"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_EL_RESET_TITLE')."::".JText::_('COM_THM_ORGANIZER_EL_RESET_DESCRIPTION');?>"
                     onClick="resetForm();">
-                    <span id="thm_organizer_el_reset_span" class="thm_organizer_el_action_span"></span>
-                    <?php echo JText::_('COM_THM_ORGANIZER_EL_RESET'); ?>
+                    <span id="thm_organizer_reset_span" class="thm_organizer_action_span"></span>
+                    <?php echo JText::_('COM_THM_ORGANIZER_RESET'); ?>
                 </a>
             </div>
         </div>
@@ -149,7 +149,7 @@ $rowcount = 0;
                         <?php if($this->display_type != 3 and $this->display_type != 7): ?>
                         <col id="thm_organizer_el_col_author" />
                         <?php endif; if($this->display_type != 2 and $this->display_type != 6): ?>
-                        <col width="<?php echo $room_width; ?>%" id="thm_organizer_el_col_room" />
+                        <col id="thm_organizer_el_col_room" />
                         <?php endif; if($this->display_type != 1 and $this->display_type != 5): ?>
                         <col id="thm_organizer_el_col_category" />
                         <?php endif; ?>

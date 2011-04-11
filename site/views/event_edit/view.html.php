@@ -45,6 +45,11 @@ class thm_organizerViewevent_edit extends JView
         $categories = $model->categories;
         $this->categories = $categories;
 
+        $listLink = $model->listLink;
+        $this->assignRef('listLink', $listLink);
+        $eventLink = $model->eventLink;
+        $this->assignRef('eventLink', $eventLink);
+
         if($event['recurrence_type'])
         {
             $blockchecked = '';

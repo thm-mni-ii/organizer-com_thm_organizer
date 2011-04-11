@@ -145,66 +145,24 @@ class thm_organizerModelevents extends JModel
             $eventID = $dbo->loadResult();
             if($dbo->getErrorNum())return false;
 
-            /*
-             * joomla assets table is nested and everything is interdependant for the
-             * rgt and lft values therefore in order to create an entry in this table
-             * space must be made in these values, for articles this amount of space
-             * is 2 units.
-             */
-
             $query = $dbo->getQuery(true);
-            $query->select("id, lft, rgt");
+            $query->select("id");
             $query->from("#__assets");
             $query->where("name = 'com_content.category.$contentCatID'");
             $dbo->setQuery((string)$query);
-            $assetParentValues = $dbo->loadAssoc();
+            $parentID = $dbo->loadResult();
             if($dbo->getErrorNum())return false;
 
-            $query = $dbo->getQuery(true);
-            $query->select("lft, MAX(rgt) AS rgt");
-            $query->from("#__assets");
-            $query->where("parent_id = '{$assetParentValues['id']}'");
-            $dbo->setQuery((string)$query);
-            $assetRightSiblingValues = $dbo->loadAssoc();
-            if($dbo->getErrorNum())return false;
-            if($assetRightSiblingValues['lft'] == null)//parent without children
-            {
-                $assetRightSiblingValues['lft'] = $assetParentValues['lft'];
-                $assetRightSiblingValues['rgt'] = $assetParentValues['lft'];
-            }
-
-            // Create space in the tree at the new location for the new node in right ids.
-            $query = $dbo->getQuery(true);
-            $query->update("#__assets");
-            $query->set('rgt = rgt + 2');
-            $query->where("rgt >= {$assetParentValues['rgt']}");
-            $dbo->setQuery((string)$query );
-            $dbo->query();
-            if($dbo->getErrorNum())return false;
-
-            // Create space in the tree at the new location for the new node in left ids.
-            $query = $dbo->getQuery(true);
-            $query->update("#__assets");
-            $query->set("lft = lft + 2");
-            $query->where("lft > {$assetRightSiblingValues['lft']}");
-            $dbo->setQuery((string)$query );
-            $dbo->query();
-            if($dbo->getErrorNum())return false;
-
-            $assetLFT = $assetRightSiblingValues['rgt'] + 1;
-            $assetRGT = $assetLFT + 1;
-            $rules = '{"core.delete":[],"core.edit":[],"core.edit.state":[]}';
-
-            $query = $dbo->getQuery(true);
-            $statement = "#__assets ";
-            $statement .= "( parent_id, level, lft, rgt, name, title, rules ) ";
-            $statement .= "VALUES ";
-            $statement .= "( '{$assetParentValues['id']}', '3', '$assetLFT', '$assetRGT', ";
-            $statement .= "'com_content.article.$eventID', '$title', '$rules' ) ";
-            $query->insert($statement);
-            $dbo->setQuery((string)$query );
-            $dbo->query();
-            if($dbo->getErrorNum())return false;
+            $assetsTable = JTable::getInstance('asset');
+            $assetValues = array();
+            $assetValues['parent_id'] = $parentID;
+            $assetValues['name'] = "com_content.article.$eventID";
+            $assetValues['title'] = $title;
+            $assetValues['rules'] = "{}";
+            $bound = $assetsTable->bind($assetValues);
+            if(!$bound)return false;
+            else $success = $assetsTable->store();
+            if(!$success)return false;
 
             $query = $dbo->getQuery(true);
             $query->select('id');
@@ -298,7 +256,7 @@ class thm_organizerModelevents extends JModel
         $eventID = JRequest::getInt('eventID');
         $eventIDs = JRequest::getVar('eventIDs');
 
-        if(!empty($eventID))
+        if(isset($eventID) and $eventID > 0)
         {
             $success = $this->deleteIndividualEvent($eventID);
             return $success;
@@ -307,6 +265,7 @@ class thm_organizerModelevents extends JModel
         {
             foreach($eventIDs as $eventID)
             {
+                if($eventID == 0)continue;
                 $success = $this->deleteIndividualEvent($eventID);
                 if(!$success) return $success;
             }
@@ -329,29 +288,15 @@ class thm_organizerModelevents extends JModel
         $dbo = JFactory::getDbo();
 
         $query = $dbo->getQuery(true);
-        $query->select("rgt");
+        $query->select("id");
         $query->from("#__assets");
         $query->where("name = 'com_content.article.$eventID'");
         $dbo->setQuery((string)$query);
-        $right = $dbo->loadResult();
+        $assetID = $dbo->loadResult();
         if($dbo->getErrorNum())return false;
 
-        $query = $dbo->getQuery(true);
-        $query->update("#__assets");
-        $query->set('rgt = rgt - 2');
-        $query->set('lft = lft - 2');
-        $query->where("lft >= '$right'");
-        $dbo->setQuery((string)$query );
-        $dbo->query();
-        if($dbo->getErrorNum())return false;
-
-        $query = $dbo->getQuery(true);
-        $query->delete();
-        $query->from("#__assets");
-        $query->where("name = 'com_content.article.$eventID'");
-        $dbo->setQuery((string)$query );
-        $dbo->query();
-        if($dbo->getErrorNum())return false;
+        $assetsTable = JTable::getInstance('asset');
+        $assetsTable->delete($assetID);
 
         $query = $dbo->getQuery(true);
         $query->delete();

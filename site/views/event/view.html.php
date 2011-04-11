@@ -31,6 +31,9 @@ class thm_organizerViewevent extends JView
         $this->assignRef('event', $event);
         $itemID = JRequest::getVar('Itemid');
         $this->assignRef( 'itemID', $itemID );
+        $listLink = $model->listLink;
+        $this->assignRef('listLink', $listLink);
+
         $this->createTextElements(&$event);
 
         parent::display($tpl);
@@ -133,8 +136,6 @@ class thm_organizerViewevent extends JView
                 $contentorg = $event['sectname'];
         if(isset($event['publish_up']) && isset($event['publish_down']))
             $published = "Der Beitrag wird vom ".$event['publish_up']." bis ".$event['publish_down']." angezeigt";
-
-
 
     }
 }
