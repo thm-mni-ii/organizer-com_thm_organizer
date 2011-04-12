@@ -227,9 +227,18 @@ ul{
     float: left;
 }
 
-#thm_organizer_el_action_div{
+.thm_organizer_el_action_div{
     float: right;
     margin-bottom: 0px;
+}
+
+.thm_organizer_el_submit_div{
+    float: right;
+    margin-bottom: 10px;
+}
+
+.thm_organizer_el_action_div button{
+    padding: 1px;
 }
 
 #thm_organizer_el_form_div{
@@ -240,9 +249,7 @@ ul{
 }
 
 #thm_organizer_el_search_div{
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 5px;
+    padding: 5px;
     width: 100%;
     border-radius: 3px;
     border: #bbbbbb 1px solid;

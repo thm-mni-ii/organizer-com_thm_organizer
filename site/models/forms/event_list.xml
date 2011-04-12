@@ -7,7 +7,8 @@
 			type="text"
 			label="COM_THM_ORGANIZER_EL_SEARCH_TITLE"
 			description="COM_THM_ORGANIZER_EL_SEARCH_DESC"
-			class="inputbox" />
+			class="inputbox"
+			size="15" />
 		<field
 			id="categoryDummy"
 			name="categoryDummy"

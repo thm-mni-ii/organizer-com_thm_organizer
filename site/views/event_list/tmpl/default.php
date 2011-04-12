@@ -2,35 +2,6 @@
 defined('_JEXEC') or die('Restricted access');
 $rowcount = 0;
 ?>
-<script type="text/javascript">
-function resetForm()
-{
-    var searchTextInput = document.getElementById('jform_thm_organizer_el_search_text');
-    searchTextInput.value='';
-    var category = document.getElementById('category');
-    if(category != null)
-    {
-        var index = 0;
-        for(index = 0; index < category.length; index++)
-        {
-            if(category[index].value == '<?php JText::_('Alle Kategorien') ?>')
-                category.selectedIndex = index;
-        }
-    }
-    var limit = document.getElementById('limit');
-    if(limit != null)
-    {
-        var index = 0;
-        for(index = 0; index < limit.length; index++)
-        {
-            if(limit[index].value == '10') limit.selectedIndex = index;
-        }
-    }
-    document.getElementById('jform_fromdate').value='';
-    document.getElementById('jform_todate').value='';
-    document.getElementById('thm_organizer_el_form').submit();
-}
-</script>
 <pre><?php print_r($this->form, true) ?></pre>
 <div id="thm_organizer_el">
     <form id='thm_organizer_el_form' name='thm_organizer_el_form' enctype='multipart/form-data' method='post'
@@ -44,7 +15,7 @@ function resetForm()
             <?php break; }} ?>
             </div>
             <?php } ?>
-            <div id="thm_organizer_el_action_div">
+            <div class="thm_organizer_el_action_div">
                 <?php if($this->canWrite): ?>
                 <a  class="hasTip thm_organizer_action_link"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_NEW_TITLE')."::".JText::_('COM_THM_ORGANIZER_NEW_DESCRIPTION');?>"
@@ -65,21 +36,7 @@ function resetForm()
                     <span id="thm_organizer_delete_span" class="thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_DELETE'); ?>
                 </a>
-                <?php endif; if($this->canWrite or $this->canEdit): ?>
-                <span class="thm_organizer_divider_span"></span>
                 <?php endif; ?>
-                <a  class="hasTip thm_organizer_action_link"
-                    title="<?php echo JText::_('COM_THM_ORGANIZER_SUBMIT_TITLE')."::".JText::_('COM_THM_ORGANIZER_SUBMIT_DESCRIPTION');?>"
-                    onClick="document.getElementById('thm_organizer_el_form').submit();">
-                    <span id="thm_organizer_submit_span" class="thm_organizer_action_span"></span>
-                    <?php echo JText::_('COM_THM_ORGANIZER_SUBMIT'); ?>
-                </a>
-                <a  class="hasTip thm_organizer_action_link"
-                    title="<?php echo JText::_('COM_THM_ORGANIZER_RESET_TITLE')."::".JText::_('COM_THM_ORGANIZER_RESET_DESCRIPTION');?>"
-                    onClick="resetForm();">
-                    <span id="thm_organizer_reset_span" class="thm_organizer_action_span"></span>
-                    <?php echo JText::_('COM_THM_ORGANIZER_RESET'); ?>
-                </a>
             </div>
         </div>
         <div id="thm_organizer_el_form_div" >
@@ -112,6 +69,18 @@ function resetForm()
                 <span id="thm_organizer_el_count2">
                     <?php echo JText::_('COM_THM_ORGANIZER_EL_COUNT_COUNT2'); ?>
                 </span>
+                <div class="thm_organizer_el_submit_div">
+                    <button type="submit" class="hasTip thm_organizer_action_button"
+                        title="<?php echo JText::_('COM_THM_ORGANIZER_SUBMIT_TITLE')."::".JText::_('COM_THM_ORGANIZER_SUBMIT_DESCRIPTION');?>"
+                        onClick="document.getElementById('thm_organizer_el_form').submit();">
+                        <?php echo JText::_('COM_THM_ORGANIZER_SUBMIT'); ?>
+                    </button>
+                    <button type="button"  class="hasTip thm_organizer_action_button"
+                        title="<?php echo JText::_('COM_THM_ORGANIZER_RESET_TITLE')."::".JText::_('COM_THM_ORGANIZER_RESET_DESCRIPTION');?>"
+                        onclick="resetForm()">
+                        <?php echo JText::_('COM_THM_ORGANIZER_RESET'); ?>
+                    </button>
+                </div>
             </div>
     <?php if(count($this->events) > 0){ ?>
             <div id="thm_organizer_el_events_div" >
