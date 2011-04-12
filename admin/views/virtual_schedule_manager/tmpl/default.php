@@ -30,7 +30,7 @@ defined('_JEXEC') or die ('Restricted access');
 		</td>
 		<td>
 			<button onclick="this.form.submit();"><?php echo JText::_( "COM_THM_ORGANIZER_VSM_BUTTON_GO" ); ?></button>
-			<button onclick="this.form.getElementById('search').value='';this.form.getElementById('groupFilters').value='0';this.form.getElementById('rolesFilters').value='0';this.form.submit();"><?php echo JText::_( COM_THM_ORGANIZER_VSM_BUTTON_RESET ); ?></button>
+			<button onclick="this.form.getElementById('search').value='';this.form.getElementById('groupFilters').value='0';this.form.getElementById('rolesFilters').value='0';this.form.submit();"><?php echo JText::_( "COM_THM_ORGANIZER_VSM_BUTTON_RESET" ); ?></button>
 		</td>
 	</tr>
 </table>
