@@ -23,7 +23,7 @@ defined('_JEXEC') or die ('Restricted access');
 	<tr>
 		<td>
 			<?php
-			echo "<span title='".JText::_( "COM_THM_ORGANIZER_VSM_FIELD_DESCRIPTION" )."'>" . JText::_( "COM_THM_ORGANIZER_VSM_FIELD_SEARCH" ) . "</span>" ;
+			echo "<span title='".JText::_( "COM_THM_ORGANIZER_VSM_LABEL_DESCRIPTION" )."'>" . JText::_( "COM_THM_ORGANIZER_VSM_LABEL_SEARCH" ) . "</span>" ;
 			//echo "&nbsp;" . $this->lists['filter'];
 			?>
 			<input type="text" name="search" id="search" value="<?php echo $this->lists['search']; ?>" class="text_area" onChange="document.adminForm.submit();" />
@@ -44,7 +44,7 @@ defined('_JEXEC') or die ('Restricted access');
 
 			<th nowrap="nowrap"><?php echo JHTML::_('grid.sort', JText::_( "COM_THM_ORGANIZER_VSM_LABEL_NAME" ), 'name', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
-			<th align="center"><?php echo JHTML::_('grid.sort', JText::_( "COM_THM_ORGANIZER_VSM_LABEL_TYPE "), 'type', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
+			<th align="center"><?php echo JHTML::_('grid.sort', JText::_( "COM_THM_ORGANIZER_VSM_LABEL_TYPE" ), 'type', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
 			<th align="center"><?php echo JHTML::_('grid.sort', JText::_( "COM_THM_ORGANIZER_VSM_LABEL_RESPONSIBLE" ), 'responsible', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
