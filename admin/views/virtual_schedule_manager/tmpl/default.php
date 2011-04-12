@@ -23,14 +23,14 @@ defined('_JEXEC') or die ('Restricted access');
 	<tr>
 		<td>
 			<?php
-			echo "<span title='Filter nach Vorname, Name oder Benutzerkennung'>" . JText::_( 'SEARCH' ) . "</span>" ;
+			echo "<span title='".JText::_( "COM_THM_ORGANIZER_VSM_FIELD_DESCRIPTION" )."'>" . JText::_( "COM_THM_ORGANIZER_VSM_FIELD_SEARCH" ) . "</span>" ;
 			//echo "&nbsp;" . $this->lists['filter'];
 			?>
 			<input type="text" name="search" id="search" value="<?php echo $this->lists['search']; ?>" class="text_area" onChange="document.adminForm.submit();" />
 		</td>
 		<td>
-			<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
-			<button onclick="this.form.getElementById('search').value='';this.form.getElementById('groupFilters').value='0';this.form.getElementById('rolesFilters').value='0';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+			<button onclick="this.form.submit();"><?php echo JText::_( "COM_THM_ORGANIZER_VSM_BUTTON_GO" ); ?></button>
+			<button onclick="this.form.getElementById('search').value='';this.form.getElementById('groupFilters').value='0';this.form.getElementById('rolesFilters').value='0';this.form.submit();"><?php echo JText::_( COM_THM_ORGANIZER_VSM_BUTTON_RESET ); ?></button>
 		</td>
 	</tr>
 </table>
@@ -38,24 +38,25 @@ defined('_JEXEC') or die ('Restricted access');
 <table class="adminlist">
 	<thead>
 		<tr>
-			<th width="1"><?php echo JText::_( 'NUM' ); ?></th>
+			<th width="1"><?php echo JText::_( "COM_THM_ORGANIZER_VSM_LABEL_KEY" ); ?></th>
 			<th width="1"><input type="checkbox" name="toggle" value=""
 				onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
 
-			<th nowrap="nowrap"><?php echo JHTML::_('grid.sort', JText::_('Name'), 'name', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
+			<th nowrap="nowrap"><?php echo JHTML::_('grid.sort', JText::_( "COM_THM_ORGANIZER_VSM_LABEL_NAME" ), 'name', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
-			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('Type'), 'type', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
+			<th align="center"><?php echo JHTML::_('grid.sort', JText::_( "COM_THM_ORGANIZER_VSM_LABEL_TYPE "), 'type', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
-			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('Responsible'), 'responsible', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
+			<th align="center"><?php echo JHTML::_('grid.sort', JText::_( "COM_THM_ORGANIZER_VSM_LABEL_RESPONSIBLE" ), 'responsible', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
-			<th align="center"><?php echo JHTML::_('grid.sort',JText::_('Department'), 'department', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
+			<th align="center"><?php echo JHTML::_('grid.sort',JText::_( "COM_THM_ORGANIZER_VSM_LABEL_DEPARTMENT" ), 'department', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
-			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('Elements'), 'eid', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
+			<th align="center"><?php echo JHTML::_('grid.sort', JText::_( "COM_THM_ORGANIZER_VSM_LABEL_ELEMENTS" ), 'eid', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
-			<th nowrap="nowrap"><?php echo JHTML::_('grid.sort', JText::_('Semester'), 'semesterid', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
+			<th nowrap="nowrap"><?php echo JHTML::_('grid.sort', JText::_( "COM_THM_ORGANIZER_VSM_LABEL_SEMESTER" ), 'semesterid', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
 		</tr>
 	</thead>
+	<tbody>
 	<?php
 	$k = 0;
 	for ($i=0, $n=count($this->items); $i < $n; $i++){
@@ -75,9 +76,10 @@ defined('_JEXEC') or die ('Restricted access');
 		<td><?php echo $row->semesterid; ?></td>
 	</tr>
 	<?php
-	$k = 1 -   $k;
+	$k = 1 - $k;
 	}
 	?>
+	</tbody>
 	<tfoot>
 		<tr>
 			<td colspan="10"><?php echo $this->pagination->getListFooter(); ?></td>

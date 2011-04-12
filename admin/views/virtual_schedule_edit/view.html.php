@@ -44,7 +44,7 @@ class thm_organizersViewvirtual_schedule_edit extends JView {
 
 		$tempDepartments = null;
 		$tempDepartments[0]["id"] = "none";
-		$tempDepartments[0]["name"] = "keins";
+		$tempDepartments[0]["name"] = JText::_( "COM_THM_ORGANIZER_VSE_VALUE_NONE" );
 		if(is_array($roomDepartments))
 		foreach($roomDepartments as $v)
 			$tempDepartments[] = $v;
@@ -54,7 +54,7 @@ class thm_organizersViewvirtual_schedule_edit extends JView {
 
 		$tempDepartments = null;
 		$tempDepartments[0]["id"] = "none";
-		$tempDepartments[0]["name"] = "keins";
+		$tempDepartments[0]["name"] = JText::_( "COM_THM_ORGANIZER_VSE_VALUE_NONE" );
 
 		if(is_array($teacherDepartments))
 		foreach($teacherDepartments as $v)
@@ -65,7 +65,7 @@ class thm_organizersViewvirtual_schedule_edit extends JView {
 
 		$tempDepartments = null;
 		$tempDepartments[0]["id"] = "none";
-		$tempDepartments[0]["name"] = "keins";
+		$tempDepartments[0]["name"] = JText::_( "COM_THM_ORGANIZER_VSE_VALUE_NONE" );
 
 		if(is_array($classesDepartments))
 		foreach($classesDepartments as $v)

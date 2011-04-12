@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');?>
 
 <div id="thm_organizer_main" >
     <div id="thm_organizer_main_description">
-        THM - Organizer is designed to handle the resource management and scheduling needs of the Univeristy of Applied Sciences at Giessen, Germany.
+        COM_THM_ORGANIZER_MAIN_DESCRIPTION
     </div>
     <div id="cpanel">
         <div class="thm_organizer_main_submenu" >
@@ -24,13 +24,11 @@ defined('_JEXEC') or die('Restricted access');?>
                                       'components/com_thm_organizer/assets/images/category_manager.png',
                                       JText::_( 'Category Manager' ),
                                       array( 'class' => 'thm_organizer_main_image'));
-                        ?><span><?php echo JText::_( 'Category Manager' ); ?></span></a>
+                        ?><span><?php echo JText::_( COM_THM_ORGANIZER_CM_NAME ); ?></span></a>
                 </div>
             </div>
             <div class="thm_organizer_main_descriptiondiv" >
-                The category manager associates event types with corresponding category types from the content<br />
-                component. This enables the administrator to set and use the access permissions of the associated<br />
-                content category.
+                COM_THM_ORGANIZER_CM_DESCRIPTION
             </div>
         </div>
         <div class="thm_organizer_main_submenu" >
@@ -41,12 +39,11 @@ defined('_JEXEC') or die('Restricted access');?>
                                       'components/com_thm_organizer/assets/images/monitor_manager.png',
                                       JText::_( 'Monitor Manager' ),
                                       array( 'class' => 'thm_organizer_main_image'));
-                        ?><span><?php echo JText::_( 'Monitor Manager' ); ?></span></a>
+                        ?><span><?php echo JText::_( COM_THM_ORGANIZER_MM_NAME ); ?></span></a>
                 </div>
             </div>
             <div class="thm_organizer_main_descriptiondiv" >
-                The monitor manager associates the IP addresses of monitors with the room where they are displayed<br />
-                and the content which is to be displayed on them.
+                COM_THM_ORGANIZER_MM_DESCRIPTION
             </div>
         </div>
         <div class="thm_organizer_main_submenu" >
@@ -57,13 +54,11 @@ defined('_JEXEC') or die('Restricted access');?>
                                       'components/com_thm_organizer/assets/images/semester_manager.png',
                                       JText::_( 'Semester Manager' ),
                                       array( 'class' => 'thm_organizer_main_image'));
-                        ?><span><?php echo JText::_( 'Semester Manager' ); ?></span></a>
+                        ?><span><?php echo JText::_( COM_THM_ORGANIZER_SM_NAME ); ?></span></a>
                 </div>
             </div>
             <div class="thm_organizer_main_descriptiondiv" >
-                The semester manager creates semesters. Semesters, as used here, are a relation of an organizational<br />
-                unit such as a university department with an actual semester. In addition a user group can be selected which<br />
-                then has permission to administrate the schedule(s) associated with this semester.
+                COM_THM_ORGANIZER_SM_DESCRIPTION
             </div>
         </div>
         <div class="thm_organizer_main_submenu" >
@@ -74,11 +69,11 @@ defined('_JEXEC') or die('Restricted access');?>
                                       'components/com_thm_organizer/assets/images/scheduler_application_settings.jpg',
                                       JText::_( 'Scheduler Application Settings' ),
                                       array( 'class' => 'thm_organizer_main_image'));
-                        ?><span><?php echo JText::_( 'Scheduler Application Settings' ); ?></span></a>
+                        ?><span><?php echo JText::_( COM_THM_ORGANIZER_SAS_NAME ); ?></span></a>
                 </div>
             </div>
             <div class="thm_organizer_main_descriptiondiv" >
-                Dummy text.
+                COM_THM_ORGANIZER_SAS_DESCRIPTION
             </div>
         </div>
         <div class="thm_organizer_main_submenu" >
@@ -89,11 +84,11 @@ defined('_JEXEC') or die('Restricted access');?>
                                       'components/com_thm_organizer/assets/images/virtual_manager.png',
                                       JText::_( 'Virtual Schedule Manager' ),
                                       array( 'class' => 'thm_organizer_main_image'));
-                        ?><span><?php echo JText::_( 'Virtual Schedule Manager' ); ?></span></a>
+                        ?><span><?php echo JText::_( COM_THM_ORGANIZER_VSM_NAME ); ?></span></a>
                 </div>
             </div>
             <div class="thm_organizer_main_descriptiondiv" >
-                Dummy text.
+                COM_THM_ORGANIZER_VSM_DESCRIPTION
             </div>
         </div>
     </div>
