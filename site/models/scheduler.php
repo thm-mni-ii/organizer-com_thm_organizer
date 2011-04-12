@@ -43,7 +43,7 @@ class thm_organizerModelScheduler extends JModel
 	function getSemesterAuthor()
 	{
 		$dbo = & JFactory::getDBO();
-		$dbo->setQuery("SELECT DISTINCT username as author FROM #__thm_organizer_semesters INNER JOIN #__users ON manager = #__users.id WHERE #__thm_organizer_semesters.id = ".$this->semesterID);
+		$dbo->setQuery("SELECT DISTINCT username as author FROM #__thm_organizer_semesters INNER JOIN #__users ON manager = #__users.id WHERE #__thm_organizer_semesters.id = ".$this->getSemesterID());
 		$rows = $dbo->loadObjectList();
 		if($rows == null)
 			return "";
@@ -56,13 +56,7 @@ class thm_organizerModelScheduler extends JModel
 	 */
 	public function getSemesterID()
 	{
-		if (!isset($this->semesterID))
-		{
-			$id = JRequest::getInt('id');
-			if($id === 0)
-				$id = null;
-			$this->semesterID = $id;
-		}
-		return $this->semesterID;
+		$session =& JFactory::getSession();
+		return $session->get('scheduler_semID');
 	}
 }

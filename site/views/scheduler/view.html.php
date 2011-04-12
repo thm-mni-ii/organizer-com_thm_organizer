@@ -20,12 +20,22 @@ class thm_organizerViewScheduler extends JView
 		$model = & $this->getModel();
 		$user = & JFactory::getUser();
 		$hasBackendAccess = $user->authorise("core.login.admin");
-		$this->semesterID = $model->getSemesterID();
-
-		$semAuthor = $model->getSemesterAuthor();
 		$this->jsid = $model->getSessionID();
-		$this->semAuthor = $semAuthor;
 		$this->hasBackendAccess = $hasBackendAccess;
+		$menuparams = JFactory::getApplication()->getParams();
+
+		$menuparamsID = $menuparams->get("id");
+
+		$path = explode("/", $menuparamsID);
+
+		$sid = str_replace("semesterjahr", "", $path[0]);
+
+		$session =& JFactory::getSession();
+		$session->set('scheduler_semID', $sid);
+
+		$this->semesterID = $model->getSemesterID();
+		$semAuthor = $model->getSemesterAuthor();
+		$this->semAuthor = $semAuthor;
 
 		$doc =& JFactory::getDocument();
 		$doc->addStyleSheet(JURI::root(true)."/components/com_thm_organizer/views/scheduler/tmpl/ext/resources/css/ext-all.css");
@@ -46,24 +56,12 @@ class thm_organizerViewScheduler extends JView
 
 		$schedulearr["ScheduleDescription.load"] = $model->executeTask("ScheduleDescription.load");
 
-		$menuparams = JFactory::getApplication()->getParams();
-
-		$menuparamsID = $menuparams->get("id");
-
-		$path = explode("/", $menuparamsID);
-
-
 		$schedulearr["TreeView.load"] = $model->executeTask("TreeView.load", array("path"=>$path, "hide"=>true));
-
-		$sid = str_replace("semesterjahr", "", $path[0]);
 
 		if($user->id !== null && $user->id !== 0)
 			$schedulearr["UserSchedule.load"] = $model->executeTask("UserSchedule.load", array("username"=>$user->name, "sid"=>$sid));
 
 		$schedulearr["UserSchedule.load"]["delta"] = $model->executeTask("UserSchedule.load", array("username"=>"delta".$sid));
-
-		$session =& JFactory::getSession();
-		$session->set('scheduler_semID', $sid);
 
 //		foreach($path as $value)
 //		{

@@ -231,7 +231,7 @@ class TreeView
 					"clas",
 					$planid,
 					null,
-					$this->getStundenplan($key.".clas", $planid, $semesterID, "clas"),
+					$this->getStundenplan($key.".clas", $planid, $semesterID, "class"),
 					$semesterID
 				);
 		if($temp != null)
@@ -298,7 +298,7 @@ class TreeView
 					"clas",
 					$planid,
 					null,
-					$this->getStundenplan($key.".clas", $planid, $semesterID, "clas"),
+					$this->getStundenplan($key.".clas", $planid, $semesterID, "class"),
 					$semesterID
 				);
 		if($temp != null)
