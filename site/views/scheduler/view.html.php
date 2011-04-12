@@ -28,7 +28,9 @@ class thm_organizerViewScheduler extends JView
 
 		$path = explode("/", $menuparamsID);
 
-		$sid = str_replace("semesterjahr", "", $path[0]);
+		$sid = explode(".", $path[0]);
+
+		$sid = str_replace("semesterjahr", "", $sid[0]);
 
 		$session =& JFactory::getSession();
 		$session->set('scheduler_semID', $sid);

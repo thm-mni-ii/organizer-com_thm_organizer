@@ -1,40 +1,17 @@
 Ext.tree.TreeNode.prototype.check = function(state, descend, bulk) {
 
 	var tree = this.getOwnerTree();
-	var parentNode = this.parentNode;
 
-	if( typeof bulk == 'undefined' ) {
-		bulk = false;
-	}
-	if( typeof state == 'undefined' || state === null ) {
-		state = this.ui.checkbox.checked;
-		descend = !state;
-		if( state ) {
-			this.expand(false, false);
-		}
-	} else {
-		if(typeof this.ui.checkbox.checked != "undefined")
-			this.ui.checkbox.checked = state;
-		else
-			return;
-	}
-	if(typeof this.attributes.checked != "undefined")
-		this.attributes.checked = state;
-	else
-		return;
+	this.attributes.checked = state;
+	this.ui.checkbox.checked = state;
 
-	// do we have parents?
-	if( parentNode !== null && state ) {
-		if( !parentNode.ui.checkbox.checked ) {
-			parentNode.check(state, false, true);
-		}
-	}
 	if( descend && !this.isLeaf() ) {
 		var cs = this.childNodes;
       	for(var i = 0; i < cs.length; i++) {
       		cs[i].check(state, true, true);
       	}
 	}
+
 	if( !bulk ) {
 		tree.fireEvent('check', this, state);
 	}
@@ -53,6 +30,12 @@ Ext.tree.TreePanel.prototype.getChecked = function(node){
 			}
 		}
 	}
+	else
+		if( !node.isLeaf() ) {
+			for( i = 0; i < node.childNodes.length; i++ ) {
+				checked = checked.concat( this.getChecked(node.childNodes[i]) );
+			}
+		}
 	return checked;
 };
 
@@ -79,7 +62,10 @@ Ext.onReady(function(){
 	        listeners: {
 	            checkchange: function(node, checked)
 	            {
-	            	node.check();
+	            	/*var paramID = Ext.get('jform_params_id');
+					var paramValue = tree.getChecked().join('/');
+					paramID.dom.value = paramValue;*/
+					node.check(checked, true, false);
 	            }
        	    }
 		});

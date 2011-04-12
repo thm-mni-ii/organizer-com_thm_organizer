@@ -104,6 +104,8 @@ class TreeView
 						$checked
 					);
 
+		if($treeNode == null)
+			return $children;
 		return $treeNode;
 	}
 
