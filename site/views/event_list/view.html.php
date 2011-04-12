@@ -12,13 +12,13 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.view');
-JHtml::core();
-//echo "<pre>".print_r($events, true)."</pre>";
 
 class thm_organizerViewevent_list extends JView
 {
     public function display($tpl = null)
     {
+        JHTML::_('behavior.formvalidation');
+        JHTML::_('behavior.tooltip');
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
         $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/event_list.js'));

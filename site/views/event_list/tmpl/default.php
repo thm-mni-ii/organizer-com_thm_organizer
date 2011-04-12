@@ -3,62 +3,35 @@ defined('_JEXEC') or die('Restricted access');
 $rowcount = 0;
 ?>
 <script type="text/javascript">
-    function checkAll()
+function resetForm()
+{
+    var searchTextInput = document.getElementById('jform_thm_organizer_el_search_text');
+    searchTextInput.value='';
+    var category = document.getElementById('category');
+    if(category != null)
     {
-        var checkbox = document.getElementsByName('eventIDs[]');
-        if(checkbox[0].checked == true)
-            for (i = 0; i < checkbox.length; i++) checkbox[i].checked = true;
-        else unCheckAll();
-    }
-    function unCheckAll()
-    {
-        var checkbox = document.getElementsByName('eventIDs[]');
-        for (i = 0; i < checkbox.length; i++) checkbox[i].checked = false ;
-    }
-    function submitForm(task)
-    {
-        if(task == 'events.new')
+        var index = 0;
+        for(index = 0; index < category.length; index++)
         {
-            unCheckAll();
-            task = 'events.edit';
+            if(category[index].value == '<?php JText::_('Alle Kategorien') ?>')
+                category.selectedIndex = index;
         }
-        document.getElementById('task').value = task;
-        document.getElementById('thm_organizer_el_form').submit();
     }
-    function reSort( col, dir )
+    var limit = document.getElementById('limit');
+    if(limit != null)
     {
-        document.getElementById('orderby').value=col;
-        document.getElementById('orderbydir').value=dir;
-        document.getElementById('thm_organizer_el_form').submit();
-    }
-    function resetForm()
-    {
-        document.getElementById('thm_organizer_el_search_text').value='';
-        var category = document.getElementById('category');
-        if(category != null)
+        var index = 0;
+        for(index = 0; index < limit.length; index++)
         {
-            var index = 0;
-            for(index = 0; index < category.length; index++)
-            {
-                if(category[index].value == '<?php JText::_('Alle Kategorien') ?>')
-                    category.selectedIndex = index;
-            }
+            if(limit[index].value == '10') limit.selectedIndex = index;
         }
-        var limit = document.getElementById('limit');
-        if(limit != null)
-        {
-            var index = 0;
-            for(index = 0; index < limit.length; index++)
-            {
-                if(limit[index].value == '10') limit.selectedIndex = index;
-            }
-        }
-        document.getElementById('fromdate').value='';
-        document.getElementById('todate').value='';
-        document.getElementById('thm_organizer_el_form').submit();
     }
+    document.getElementById('jform_fromdate').value='';
+    document.getElementById('jform_todate').value='';
+    document.getElementById('thm_organizer_el_form').submit();
+}
 </script>
-<pre><?php print_r($_REQUEST, true) ?></pre>
+<pre><?php print_r($this->form, true) ?></pre>
 <div id="thm_organizer_el">
     <form id='thm_organizer_el_form' name='thm_organizer_el_form' enctype='multipart/form-data' method='post'
           action='<?php echo JRoute::_("index.php?option=com_thm_organizer"); ?>' >
@@ -102,7 +75,7 @@ $rowcount = 0;
                     <?php echo JText::_('COM_THM_ORGANIZER_SUBMIT'); ?>
                 </a>
                 <a  class="hasTip thm_organizer_action_link"
-                    title="<?php echo JText::_('COM_THM_ORGANIZER_EL_RESET_TITLE')."::".JText::_('COM_THM_ORGANIZER_EL_RESET_DESCRIPTION');?>"
+                    title="<?php echo JText::_('COM_THM_ORGANIZER_RESET_TITLE')."::".JText::_('COM_THM_ORGANIZER_RESET_DESCRIPTION');?>"
                     onClick="resetForm();">
                     <span id="thm_organizer_reset_span" class="thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_RESET'); ?>
