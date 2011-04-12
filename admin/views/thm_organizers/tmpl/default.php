@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');?>
 
 <div id="thm_organizer_main" >
     <div id="thm_organizer_main_description">
-        COM_THM_ORGANIZER_MAIN_DESCRIPTION
+        <?php echo JText::_( "COM_THM_ORGANIZER_MAIN_DESCRIPTION" ); ?>
     </div>
     <div id="cpanel">
         <div class="thm_organizer_main_submenu" >
@@ -24,11 +24,11 @@ defined('_JEXEC') or die('Restricted access');?>
                                       'components/com_thm_organizer/assets/images/category_manager.png',
                                       JText::_( 'Category Manager' ),
                                       array( 'class' => 'thm_organizer_main_image'));
-                        ?><span><?php echo JText::_( COM_THM_ORGANIZER_CM_NAME ); ?></span></a>
+                        ?><span><?php echo JText::_( "COM_THM_ORGANIZER_CM_NAME" ); ?></span></a>
                 </div>
             </div>
             <div class="thm_organizer_main_descriptiondiv" >
-                COM_THM_ORGANIZER_CM_DESCRIPTION
+                <?php echo JText::_( "COM_THM_ORGANIZER_CM_DESCRIPTION" ); ?>
             </div>
         </div>
         <div class="thm_organizer_main_submenu" >
@@ -39,11 +39,11 @@ defined('_JEXEC') or die('Restricted access');?>
                                       'components/com_thm_organizer/assets/images/monitor_manager.png',
                                       JText::_( 'Monitor Manager' ),
                                       array( 'class' => 'thm_organizer_main_image'));
-                        ?><span><?php echo JText::_( COM_THM_ORGANIZER_MM_NAME ); ?></span></a>
+                        ?><span><?php echo JText::_( "COM_THM_ORGANIZER_MM_NAME" ); ?></span></a>
                 </div>
             </div>
             <div class="thm_organizer_main_descriptiondiv" >
-                COM_THM_ORGANIZER_MM_DESCRIPTION
+                <?php echo JText::_( "COM_THM_ORGANIZER_MM_DESCRIPTION"); ?>
             </div>
         </div>
         <div class="thm_organizer_main_submenu" >
@@ -54,11 +54,11 @@ defined('_JEXEC') or die('Restricted access');?>
                                       'components/com_thm_organizer/assets/images/semester_manager.png',
                                       JText::_( 'Semester Manager' ),
                                       array( 'class' => 'thm_organizer_main_image'));
-                        ?><span><?php echo JText::_( COM_THM_ORGANIZER_SM_NAME ); ?></span></a>
+                        ?><span><?php echo JText::_( "COM_THM_ORGANIZER_SM_NAME" ); ?></span></a>
                 </div>
             </div>
             <div class="thm_organizer_main_descriptiondiv" >
-                COM_THM_ORGANIZER_SM_DESCRIPTION
+                <?php echo JText::_( "COM_THM_ORGANIZER_SM_DESCRIPTION"); ?>
             </div>
         </div>
         <div class="thm_organizer_main_submenu" >
@@ -69,11 +69,11 @@ defined('_JEXEC') or die('Restricted access');?>
                                       'components/com_thm_organizer/assets/images/scheduler_application_settings.jpg',
                                       JText::_( 'Scheduler Application Settings' ),
                                       array( 'class' => 'thm_organizer_main_image'));
-                        ?><span><?php echo JText::_( COM_THM_ORGANIZER_SAS_NAME ); ?></span></a>
+                        ?><span><?php echo JText::_( "COM_THM_ORGANIZER_SAS_NAME" ); ?></span></a>
                 </div>
             </div>
             <div class="thm_organizer_main_descriptiondiv" >
-                COM_THM_ORGANIZER_SAS_DESCRIPTION
+                <?php echo JText::_( "COM_THM_ORGANIZER_SAS_DESCRIPTION" ); ?>
             </div>
         </div>
         <div class="thm_organizer_main_submenu" >
@@ -84,11 +84,11 @@ defined('_JEXEC') or die('Restricted access');?>
                                       'components/com_thm_organizer/assets/images/virtual_manager.png',
                                       JText::_( 'Virtual Schedule Manager' ),
                                       array( 'class' => 'thm_organizer_main_image'));
-                        ?><span><?php echo JText::_( COM_THM_ORGANIZER_VSM_NAME ); ?></span></a>
+                        ?><span><?php echo JText::_( "COM_THM_ORGANIZER_VSM_NAME" ); ?></span></a>
                 </div>
             </div>
             <div class="thm_organizer_main_descriptiondiv" >
-                COM_THM_ORGANIZER_VSM_DESCRIPTION
+                <?php echo JText::_( "COM_THM_ORGANIZER_VSM_DESCRIPTION" ); ?>
             </div>
         </div>
     </div>
