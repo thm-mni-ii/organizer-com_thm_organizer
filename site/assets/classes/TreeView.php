@@ -12,6 +12,7 @@ class TreeView
 	private $type = null;
 	private $checked = null;
 	private $hideCheckBox = null;
+	private $inTree = array();
 
 	function __construct($JDA, $CFG, $options = array())
 	{
@@ -73,6 +74,7 @@ class TreeView
 		if($this->hideCheckBox == true)
 		{
 			if(array_search($id, $this->checked) !== false)
+			{
 				$treeNode = new TreeNode(
 						$id,							// id - autom. generated
 						$text,							// text	for the node
@@ -87,6 +89,8 @@ class TreeView
 						$semesterID,
 						$checked
 					);
+					$this->inTree[] = $gpuntisID;
+			}
 		}
 		else
 			$treeNode = new TreeNode(
@@ -555,6 +559,10 @@ class TreeView
 				$classesarray[ $data->department ][ $key ][ "gpuntisID" ] = trim($data->cid);
 				$classesarray[ $data->department ][ $key ][ "semesterID" ] = trim($semesterID);
 				$classesarray[ $data->department ][ $key ][ "plantypeID" ] = trim($planid);
+				if(in_array($key, $this->inTree))
+					$classesarray[ $data->department ][ $key ][ "treeLoaded" ] = true;
+				else
+					$classesarray[ $data->department ][ $key ][ "treeLoaded" ] = false;
 			}
 		}
 
@@ -630,6 +638,11 @@ class TreeView
 				$roomarray[ $key ][ $roomid ][ "gpuntisID" ] = trim($data->rid);
 				$roomarray[ $key ][ $roomid ][ "semesterID" ] = trim($semesterID);
 				$roomarray[ $key ][ $roomid ][ "plantypeID" ] = trim($planid);
+
+				if(in_array($roomid, $this->inTree))
+					$roomarray[ $key ][ $roomid ][ "treeLoaded" ] = true;
+				else
+					$roomarray[ $key ][ $roomid ][ "treeLoaded" ] = false;
 			}
 		}
 
@@ -708,6 +721,11 @@ class TreeView
 				$teacherarray[ $data->department ][ $key ][ "gpuntisID" ] = trim($data->tid);
 				$teacherarray[ $data->department ][ $key ][ "semesterID" ] = trim($semesterID);
 				$teacherarray[ $data->department ][ $key ][ "plantypeID" ] = trim($planid);
+
+				if(in_array($key, $this->inTree))
+					$teacherarray[ $data->department ][ $key ][ "treeLoaded" ] = true;
+				else
+					$teacherarray[ $data->department ][ $key ][ "treeLoaded" ] = false;
 			}
 		}
 

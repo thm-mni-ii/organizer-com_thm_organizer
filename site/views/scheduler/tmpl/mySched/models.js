@@ -987,27 +987,24 @@ Ext.extend(mLecture, MySched.Model, {
 	},
 	getShort: function (col, tag, lec) {
 		var ret = [];
-		var tempname;
-		var temp;
 		var css = "";
 		var rooms = [];
 		if (lec) if (lec.changes) if (lec.changes.rooms) rooms = lec.changes.rooms;
 		for (var n = 0; n < col.length; n++) {
 			var tempString = "";
 			var arr = col.items[n].getName().split(",");
+			var roomKey = col.keys[n].split(",");
 			for (var i = 0; i < arr.length; i++) {
-				tempname = MySched.Mapping.getRoomName(arr[i]);
-				tempname = tempname.split("/");
-				tempname = tempname[tempname.length - 1];
-				temp = tempname.replace(/^\s+/, '').replace(/\s+$/, '');
+				var roomtemp = arr[i];
 				var add = false;
+				var roomLink = false;
 
-				var roomtemp = tempname;
-				var ok = false;
 				if (MySched.selectedSchedule != null) {
-					if (MySched.Authorize.accArr["ALL"]["room"] == "*" || MySched.Authorize.accArr[MySched.Authorize.role]["room"] == "*") ok = true;
+					if (MySched.Authorize.accArr["ALL"]["room"] == "*" || MySched.Authorize.accArr[MySched.Authorize.role]["room"] == "*")
+						roomLink = true;
 				}
-				else ok = true;
+				else
+					roomLink = true;
 
 				if (rooms.length > 0) for (var room in rooms) if (col.keys[n] == room) css = rooms[room];
 				var oldroom = "";
@@ -1020,10 +1017,12 @@ Ext.extend(mLecture, MySched.Model, {
 						}
 					}
 				}
-				if (tag && ok && this.data.css != "movedfrom" && this.data.css != "removed") {
+
+				if (tag && roomLink && this.data.css != "movedfrom" && this.data.css != "removed" && MySched.Mapping.room.map[roomKey[i]].treeLoaded == true) {
 					roomtemp = '<small class="roomshortname ' + css + '">' + roomtemp + '</small>';
 				}
-				else roomtemp = '<small class="' + css + '">' + roomtemp + '</small>';
+				else
+					roomtemp = '<small class="' + css + '">' + roomtemp + '</small>';
 				roomtemp = oldroom + " " + roomtemp;
 				if (tempString == "") tempString = roomtemp;
 				else tempString = tempString + " " + roomtemp;
@@ -1042,6 +1041,7 @@ Ext.extend(mLecture, MySched.Model, {
 			var tempString = "";
 			var tempdoz = "";
 			var arr = col.items[n].getName().split(",");
+			var dozKey = col.keys[n].split(",");
 			for (var i = 0; i < arr.length; i++) {
 				var ok = false;
 				if (MySched.selectedSchedule != null) {
@@ -1059,7 +1059,7 @@ Ext.extend(mLecture, MySched.Model, {
 						}
 					}
 				}
-				if (tag && ok && this.data.css != "movedfrom" && this.data.css != "removed") {
+				if (tag && ok && this.data.css != "movedfrom" && this.data.css != "removed" && MySched.Mapping.doz.map[dozKey[i]].treeLoaded == true) {
 					tempdoz = '<small class="dozname ' + css + '">' + MySched.Mapping.getDozName(arr[i]).replace(/^\s+/, '').replace(/\s+$/, '') + '</small>';
 				}
 				else {
@@ -1110,7 +1110,7 @@ Ext.extend(mLecture, MySched.Model, {
 				if (MySched.Authorize.accArr["ALL"]["clas"] == "*" || MySched.Authorize.accArr[MySched.Authorize.role]["clas"] == "*") ok = true;
 			}
 			else ok = true;
-			if (tag && ok) {
+			if (tag && ok  && MySched.Mapping.clas.map[e.getId()].treeLoaded == true) {
 				for (var clas in classes)
 				if (e.id == clas) css = classes[clas];
 				clastemp = '<small class="classhorter ' + css + '">' + clastemp + '</small>';
