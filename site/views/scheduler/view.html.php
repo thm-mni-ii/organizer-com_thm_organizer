@@ -65,39 +65,9 @@ class thm_organizerViewScheduler extends JView
 
 		$schedulearr["UserSchedule.load"]["delta"] = $model->executeTask("UserSchedule.load", array("username"=>"delta".$sid));
 
-//		foreach($path as $value)
-//		{
-//			$temp = $this->search($value, $schedulearr["TreeView.load"]["data"]["tree"]);
-//			if($temp !== false)
-//				$schedulearr["TreeView.load"]["data"]["tree"] = $temp;
-//			else
-//				break;
-//		}
-
 		$this->startup = rawurlencode(json_encode($schedulearr));
 
         parent::display($tpl);
     }
-
-    private function search($needle, $array)
-    {
-    	if(!is_array($array))
-    		if(is_array($array->children))
-    			$array = $array->children;
-    		else
-    			return false;
-		foreach($array as $value)
-		{
-			if(isset($value->id))
-			{
-				if($value->id === $needle)
-				{
-					return $value;
-				}
-			}
-		}
-		return false;
-    }
-
 }
 ?>

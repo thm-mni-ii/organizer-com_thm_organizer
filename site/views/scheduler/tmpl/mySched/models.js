@@ -131,19 +131,19 @@ Ext.extend(mSchedule, MySched.Model, {
 		this.changed = false;
 		this.type = type;
 
-		if (type == "clas" && MySched.Mapping.clas.map[this.id]) {
-			this.responsible = MySched.Mapping.clas.map[this.id].manager;
-			this.object1 = MySched.Mapping.clas.map[this.id].department;
+		if (type == "clas" && MySched.Mapping.clas.map[value]) {
+			this.responsible = MySched.Mapping.clas.map[value].manager;
+			this.object1 = MySched.Mapping.clas.map[value].department;
 			this.object2 = "";
 		}
-		else if (type == "room" && MySched.Mapping.room.map[this.id]) {
-			this.responsible = MySched.Mapping.room.map[this.id].manager;
-			this.object1 = MySched.Mapping.room.map[this.id].department;
-			this.object2 = MySched.Mapping.room.map[this.id].rtype;
+		else if (type == "room" && MySched.Mapping.room.map[value]) {
+			this.responsible = MySched.Mapping.room.map[value].manager;
+			this.object1 = MySched.Mapping.room.map[value].department;
+			this.object2 = MySched.Mapping.room.map[value].rtype;
 		}
-		else if (type == "doz" && MySched.Mapping.doz.map[this.id]) {
-			this.responsible = MySched.Mapping.doz.map[this.id].manager;
-			this.object1 = MySched.Mapping.doz.map[this.id].department;
+		else if (type == "doz" && MySched.Mapping.doz.map[value]) {
+			this.responsible = MySched.Mapping.doz.map[value].manager;
+			this.object1 = MySched.Mapping.doz.map[value].department;
 			this.object2 = "";
 		}
 

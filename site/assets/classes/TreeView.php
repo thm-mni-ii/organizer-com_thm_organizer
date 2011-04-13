@@ -545,16 +545,16 @@ class TreeView
 					$classesarray[ $data->department ] = array( );
 				}
 				$classesarray[ $data->department ][ $key ]                   = array( );
-				$classesarray[ $data->department ][ $key ][ "id" ]           = $key;
-				$classesarray[ $data->department ][ $key ][ "department" ]   = $data->department;
-				$classesarray[ $data->department ][ $key ][ "shortname" ]    = $data->oname;
-				$classesarray[ $data->department ][ $key ][ "otype" ]        = $data->otype;
-				$classesarray[ $data->department ][ $key ][ "name" ]         = $data->semester;
-				$classesarray[ $data->department ][ $key ][ "manager" ]      = $data->manager;
-				$classesarray[ $data->department ][ $key ][ "lessonamount" ] = $data->lessonamount;
-				$classesarray[ $data->department ][ $key ][ "gpuntisID" ] = $data->cid;
-				$classesarray[ $data->department ][ $key ][ "semesterID" ] = $semesterID;
-				$classesarray[ $data->department ][ $key ][ "plantypeID" ] = $planid;
+				$classesarray[ $data->department ][ $key ][ "id" ]           = trim($key);
+				$classesarray[ $data->department ][ $key ][ "department" ]   = trim($data->department);
+				$classesarray[ $data->department ][ $key ][ "shortname" ]    = trim($data->oname);
+				$classesarray[ $data->department ][ $key ][ "otype" ]        = trim($data->otype);
+				$classesarray[ $data->department ][ $key ][ "name" ]         = trim($data->semester);
+				$classesarray[ $data->department ][ $key ][ "manager" ]      = trim($data->manager);
+				$classesarray[ $data->department ][ $key ][ "lessonamount" ] = trim($data->lessonamount);
+				$classesarray[ $data->department ][ $key ][ "gpuntisID" ] = trim($data->cid);
+				$classesarray[ $data->department ][ $key ][ "semesterID" ] = trim($semesterID);
+				$classesarray[ $data->department ][ $key ][ "plantypeID" ] = trim($planid);
 			}
 		}
 
@@ -569,15 +569,15 @@ class TreeView
 				if ( !isset( $classesarray[ $data->department ][ $data->vid ] ) ) {
 					$classesarray[ $data->department ][ $data->vid ] = array( );
 				}
-				$classesarray[ $data->department ][ $data->vid ][ "id" ]         = $data->vid;
-				$classesarray[ $data->department ][ $data->vid ][ "department" ] = $data->department;
-				$classesarray[ $data->department ][ $data->vid ][ "shortname" ]  = $data->vname;
-				$classesarray[ $data->department ][ $data->vid ][ "otype" ]      = $data->vtype;
-				$classesarray[ $data->department ][ $data->vid ][ "name" ]       = $data->vname;
-				$classesarray[ $data->department ][ $data->vid ][ "manager" ]    = $data->vresponsible;
+				$classesarray[ $data->department ][ $data->vid ][ "id" ]         = trim($data->vid);
+				$classesarray[ $data->department ][ $data->vid ][ "department" ] = trim($data->department);
+				$classesarray[ $data->department ][ $data->vid ][ "shortname" ]  = trim($data->vname);
+				$classesarray[ $data->department ][ $data->vid ][ "otype" ]      = trim($data->vtype);
+				$classesarray[ $data->department ][ $data->vid ][ "name" ]       = trim($data->vname);
+				$classesarray[ $data->department ][ $data->vid ][ "manager" ]    = trim($data->vresponsible);
 				if ( !isset( $classesarray[ $data->department ][ $data->vid ][ "elements" ] ) )
 				  $classesarray[ $data->department ][ $data->vid ][ "elements" ] = array( );
-				$classesarray[ $data->department ][ $data->vid ][ "elements" ][ $data->eid ] = $data->eid;
+				$classesarray[ $data->department ][ $data->vid ][ "elements" ][ $data->eid ] = trim($data->eid);
 				if ( !isset( $classesarray[ $data->department ][ $data->vid ][ "lessonamount" ] ) )
 			      $classesarray[ $data->department ][ $data->vid ][ "lessonamount" ] = 0;
 				$classesarray[ $data->department ][ $data->vid ][ "lessonamount" ] = $classesarray[ $data->department ][ $data->vid ][ "lessonamount" ] + $this->getCountClassLessons( $data->eid, $semesterID );
@@ -619,17 +619,17 @@ class TreeView
 					$roomarray[ $key ] = array( );
 				}
 				$roomarray[ $key ][ $roomid ]                   = array( );
-				$roomarray[ $key ][ $roomid ][ "id" ]           = $roomid;
-				$roomarray[ $key ][ $roomid ][ "department" ]   = $data->department;
-				$roomarray[ $key ][ $roomid ][ "name" ]         = $data->oname;
-				$roomarray[ $key ][ $roomid ][ "otype" ]        = $data->otype;
-				$roomarray[ $key ][ $roomid ][ "rtype" ]        = $data->rtype;
-				$roomarray[ $key ][ $roomid ][ "capacity" ]     = $data->capacity;
-				$roomarray[ $key ][ $roomid ][ "manager" ]      = $data->manager;
-				$roomarray[ $key ][ $roomid ][ "lessonamount" ] = $data->lessonamount;
-				$roomarray[ $key ][ $roomid ][ "gpuntisID" ] = $data->rid;
-				$roomarray[ $key ][ $roomid ][ "semesterID" ] = $semesterID;
-				$roomarray[ $key ][ $roomid ][ "plantypeID" ] = $planid;
+				$roomarray[ $key ][ $roomid ][ "id" ]           = trim($roomid);
+				$roomarray[ $key ][ $roomid ][ "department" ]   = trim($data->department);
+				$roomarray[ $key ][ $roomid ][ "name" ]         = trim($data->oname);
+				$roomarray[ $key ][ $roomid ][ "otype" ]        = trim($data->otype);
+				$roomarray[ $key ][ $roomid ][ "rtype" ]        = trim($data->rtype);
+				$roomarray[ $key ][ $roomid ][ "capacity" ]     = trim($data->capacity);
+				$roomarray[ $key ][ $roomid ][ "manager" ]      = trim($data->manager);
+				$roomarray[ $key ][ $roomid ][ "lessonamount" ] = trim($data->lessonamount);
+				$roomarray[ $key ][ $roomid ][ "gpuntisID" ] = trim($data->rid);
+				$roomarray[ $key ][ $roomid ][ "semesterID" ] = trim($semesterID);
+				$roomarray[ $key ][ $roomid ][ "plantypeID" ] = trim($planid);
 			}
 		}
 
@@ -644,21 +644,21 @@ class TreeView
 				if ( !isset( $roomarray[ $data->department ][ $data->vid ] ) ) {
 					$roomarray[ $data->department ][ $data->vid ] = array( );
 				}
-				$roomarray[ $data->department ][ $data->vid ][ "id" ]         = $data->vid;
-				$roomarray[ $data->department ][ $data->vid ][ "department" ] = $data->department;
-				$roomarray[ $data->department ][ $data->vid ][ "name" ]       = $data->vname;
-				$roomarray[ $data->department ][ $data->vid ][ "otype" ]      = $data->vtype;
+				$roomarray[ $data->department ][ $data->vid ][ "id" ]         = trim($data->vid);
+				$roomarray[ $data->department ][ $data->vid ][ "department" ] = trim($data->department);
+				$roomarray[ $data->department ][ $data->vid ][ "name" ]       = trim($data->vname);
+				$roomarray[ $data->department ][ $data->vid ][ "otype" ]      = trim($data->vtype);
 				$rtype                                                        = explode( '-', $data->department );
 
 				if(count($rtype) == 1)
-					$roomarray[ $data->department ][ $data->vid ][ "rtype" ]      = $data->department;
+					$roomarray[ $data->department ][ $data->vid ][ "rtype" ]      = trim($data->department);
 				else
-					$roomarray[ $data->department ][ $data->vid ][ "rtype" ]      = $rtype[ 1 ];
+					$roomarray[ $data->department ][ $data->vid ][ "rtype" ]      = trim($rtype[ 1 ]);
 
-				$roomarray[ $data->department ][ $data->vid ][ "manager" ]    = $data->vresponsible;
+				$roomarray[ $data->department ][ $data->vid ][ "manager" ]    = trim($data->vresponsible);
 				if ( !isset( $roomarray[ $data->department ][ $data->vid ][ "elements" ] ) )
 					$roomarray[ $data->department ][ $data->vid ][ "elements" ] = array( );
-				$roomarray[ $data->department ][ $data->vid ][ "elements" ][ $data->eid ] = $data->eid;
+				$roomarray[ $data->department ][ $data->vid ][ "elements" ][ $data->eid ] = trim($data->eid);
 				if ( !isset( $roomarray[ $data->department ][ $data->vid ][ "lessonamount" ] ) )
 					$roomarray[ $data->department ][ $data->vid ][ "lessonamount" ] = 0;
 				$roomarray[ $data->department ][ $data->vid ][ "lessonamount" ] = $roomarray[ $data->department ][ $data->vid ][ "lessonamount" ] + $this->getCountRoomLessons( $data->eid, $semesterID );
@@ -699,15 +699,15 @@ class TreeView
 					$teacherarray[ $data->department ] = array( );
 				}
 				$teacherarray[ $data->department ][ $key ]                   = array( );
-				$teacherarray[ $data->department ][ $key ][ "id" ]           = $key;
-				$teacherarray[ $data->department ][ $key ][ "department" ]   = $data->department;
-				$teacherarray[ $data->department ][ $key ][ "name" ]         = $data->name;
-				$teacherarray[ $data->department ][ $key ][ "otype" ]        = $data->otype;
-				$teacherarray[ $data->department ][ $key ][ "manager" ]      = $data->manager;
-				$teacherarray[ $data->department ][ $key ][ "lessonamount" ] = $data->lessonamount;
-				$teacherarray[ $data->department ][ $key ][ "gpuntisID" ] = $data->tid;
-				$teacherarray[ $data->department ][ $key ][ "semesterID" ] = $semesterID;
-				$teacherarray[ $data->department ][ $key ][ "plantypeID" ] = $planid;
+				$teacherarray[ $data->department ][ $key ][ "id" ]           = trim($key);
+				$teacherarray[ $data->department ][ $key ][ "department" ]   = trim($data->department);
+				$teacherarray[ $data->department ][ $key ][ "name" ]         = trim($data->name);
+				$teacherarray[ $data->department ][ $key ][ "otype" ]        = trim($data->otype);
+				$teacherarray[ $data->department ][ $key ][ "manager" ]      = trim($data->manager);
+				$teacherarray[ $data->department ][ $key ][ "lessonamount" ] = trim($data->lessonamount);
+				$teacherarray[ $data->department ][ $key ][ "gpuntisID" ] = trim($data->tid);
+				$teacherarray[ $data->department ][ $key ][ "semesterID" ] = trim($semesterID);
+				$teacherarray[ $data->department ][ $key ][ "plantypeID" ] = trim($planid);
 			}
 		}
 
@@ -722,14 +722,14 @@ class TreeView
 				if ( !isset( $teacherarray[ $data->department ][ $data->vid ] ) ) {
 					$teacherarray[ $data->department ][ $data->vid ] = array( );
 				}
-				$teacherarray[ $data->department ][ $data->vid ][ "id" ]         = $data->vid;
-				$teacherarray[ $data->department ][ $data->vid ][ "department" ] = $data->department;
-				$teacherarray[ $data->department ][ $data->vid ][ "name" ]       = $data->vname;
-				$teacherarray[ $data->department ][ $data->vid ][ "otype" ]      = $data->vtype;
-				$teacherarray[ $data->department ][ $data->vid ][ "manager" ]    = $data->vresponsible;
+				$teacherarray[ $data->department ][ $data->vid ][ "id" ]         = trim($data->vid);
+				$teacherarray[ $data->department ][ $data->vid ][ "department" ] = trim($data->department);
+				$teacherarray[ $data->department ][ $data->vid ][ "name" ]       = trim($data->vname);
+				$teacherarray[ $data->department ][ $data->vid ][ "otype" ]      = trim($data->vtype);
+				$teacherarray[ $data->department ][ $data->vid ][ "manager" ]    = trim($data->vresponsible);
 				if ( !isset( $teacherarray[ $data->department ][ $data->vid ][ "elements" ] ) )
 					$teacherarray[ $data->department ][ $data->vid ][ "elements" ] = array( );
-				$teacherarray[ $data->department ][ $data->vid ][ "elements" ][ $data->eid ] = $data->eid;
+				$teacherarray[ $data->department ][ $data->vid ][ "elements" ][ $data->eid ] = trim($data->eid);
 
 				if ( !isset( $teacherarray[ $data->department ][ $data->vid ][ "lessonamount" ] ) )
 					$teacherarray[ $data->department ][ $data->vid ][ "lessonamount" ] = 0;
