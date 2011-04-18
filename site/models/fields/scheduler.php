@@ -16,18 +16,19 @@ class JFormFieldScheduler extends JFormField
         protected function getInput()
         {
 
-			$menuid = JRequest::getInt("id", null);
+			$menuid = JRequest::getInt("id", 0);
 
 			//get database
 			$db		= JFactory::getDbo();
-			$query	= $db->getQuery(true);
+			$query	= $db->getQuery( true );
 			$query->select('params');
 			$query->from($db->nameQuote('#__menu'));
 			$query->where('id = '.$menuid);
 			$db->setQuery($query);
 			$rows = $db->loadObjectList();
 
-			$jsonObj = json_decode( $rows[0]->params );
+			if(count($rows) > 0)
+				$jsonObj = json_decode( $rows[0]->params );
 
 			if(isset($jsonObj->id))
 				$idString = $jsonObj->id;
