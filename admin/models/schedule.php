@@ -1021,7 +1021,11 @@ class thm_organizersModelschedule extends JModel
                     }
 
                     $tpID = $timeperiods[$day][$period]['gpuntisID'];
-                    if(!isset($lessons[$id]))$lessons[$id] = array();
+                    if(!isset($lessons[$id]))
+                    {
+                        $lessons[$id] = array();
+                        $lessons[$id]['type'] = $lessontype;
+                    }
                     $lessons[$id][$tpID] = array();
                     $lessons[$id][$tpID]['source'] = $planType;
                     $lessons[$id][$tpID]['subjectID'] = $subjectID;
@@ -1096,7 +1100,7 @@ class thm_organizersModelschedule extends JModel
         $lessons = array();
 
         $query = $dbo->getQuery(true);
-        $query->select("id, gpuntisID");
+        $query->select("id, gpuntisID, type");
         $query->from("#__thm_organizer_lessons");
         $query->where("plantypeID = '$plantypeID'");
         $query->where("semesterID = '$semesterID'");
@@ -1109,11 +1113,17 @@ class thm_organizersModelschedule extends JModel
         
         $lessonGPIDs = array();
         foreach($assocIDs as $assoc)
-            $lessonGPIDs[$assoc['id']] = $assoc['gpuntisID'];
+        {
+            if(!isset($lessonGPIDs[$assoc['id']]))
+                $lessonGPIDs[$assoc['id']] = array();
+            $lessonGPIDs[$assoc['id']]['gpuntisID'] = $assoc['gpuntisID'];
+            $lessonGPIDs[$assoc['id']]['type'] = $assoc['type'];
+        }
 
         foreach($lessonIDs as $lessonID)
         {
-            $gpid = $lessonGPIDs[$lessonID];
+            $gpid = $lessonGPIDs[$lessonID]['gpuntisID'];
+            $type = $lessonGPIDs[$lessonID]['type'];
 
             $query = $dbo->getQuery(true);
             $query->select("subjectID");
@@ -1134,7 +1144,11 @@ class thm_organizersModelschedule extends JModel
             {
                 $tpID = $period['gpuntisID'];
 
-                if(!isset($lessons[$gpid])) $lessons[$gpid] = array();
+                if(!isset($lessons[$gpid]))
+                {
+                    $lessons[$gpid] = array();
+                    $lessons[$gpid]['type'] = $type;
+                }
                 if(!isset($lessons[$gpid][$tpID])) $lessons[$gpid][$tpID] = array();
                 $lessons[$gpid][$tpID]['source'] = $plantypeID;
                 $lessons[$gpid][$tpID]['subjectID'] = $subjectID;
@@ -1236,6 +1250,8 @@ class thm_organizersModelschedule extends JModel
                     }
                     else
                     {
+                        //echo "<pre>periodValue".print_r($periodValue, true)."</pre>";
+                        echo ($periodValue['classIDs']);
                         foreach($periodValue['classIDs'] as $newClassKey => $newClassValue)
                         {
                             if(in_array($newClassValue, $oldData[$lessonKey][$periodKey]['classIDs']))
@@ -1356,6 +1372,7 @@ class thm_organizersModelschedule extends JModel
                 unset($oldData[$lessonKey]);
             }
         }
+        exit();
 
         //json_encode does not handle umlaute properly
         $malformedjsondelta = json_encode($delta);
