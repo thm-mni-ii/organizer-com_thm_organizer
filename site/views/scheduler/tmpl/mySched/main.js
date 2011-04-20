@@ -324,7 +324,7 @@ MySched.Base = function () {
         },
         failure: function (resp, req) {
           Ext.MessageBox.hide();
-          Ext.Msg.alert('Es ist ein Fehler beim Laden der Beschreibung des Stundenplans aufgetreten.');
+          Ext.Msg.alert("Stundenplan laden", 'Es ist ein Fehler beim Laden der Beschreibung des Stundenplans aufgetreten.');
         },
         success: function (resp) {
           // Zeigt das Erstellungsdatum der Stundenplandaten an
@@ -380,7 +380,7 @@ MySched.Base = function () {
         MySched.delta = new mSchedule(id, "Änderungen (zentral)");
      	MySched.delta.responsible = "delta";
 
-		Ext.MessageBox.show({
+		Ext.Msg.show({
           	id: 'ajaxloader',
             cls: 'mySched_noBackground',
             closable: false,
@@ -641,7 +641,7 @@ MySched.InfoPanel = function () {
         },
         method: 'POST',
         failure: function () {
-          Ext.Msg.alert('Es ist ein Fehler beim ermitteln der Information aufgetreten.');
+          Ext.Msg.alert("Hinweis", 'Es ist ein Fehler beim ermitteln der Information aufgetreten.');
         },
         scope: this,
         success: function (resp) {
@@ -1939,7 +1939,7 @@ MySched.layout = function () {
             scope: pdfwait,
             failure: function () {
               Ext.MessageBox.hide();
-              Ext.Msg.alert('Es ist ein Fehler beim Erstellen der PDF aufgetreten.');
+              Ext.Msg.alert("PDF download", 'Es ist ein Fehler beim Erstellen der PDF aufgetreten.');
             },
             success: function (response) {
               Ext.MessageBox.hide();
@@ -1958,7 +1958,7 @@ MySched.layout = function () {
                 func.defer(2000);
               }
               else {
-                Ext.Msg.alert('Es ist ein Fehler beim Erstellen der PDF aufgetreten.');
+                Ext.Msg.alert("PDF download", 'Es ist ein Fehler beim Erstellen der PDF aufgetreten.');
               }
             }
           })
@@ -1991,7 +1991,7 @@ MySched.layout = function () {
             scope: icalwait,
             failure: function (response, ret) {
               Ext.MessageBox.hide();
-              Ext.Msg.alert('Es ist ein Fehler beim Erstellen des ICal aufgetreten.');
+              Ext.Msg.alert("ICal download", 'Es ist ein Fehler beim Erstellen des ICal aufgetreten.');
             },
             success: function (response, ret) {
               Ext.MessageBox.hide();
@@ -2052,7 +2052,7 @@ MySched.layout = function () {
                 }
               }
               catch(e) {
-                Ext.Msg.alert('Es ist ein Fehler beim Erstellen des ICal aufgetreten.');
+                Ext.Msg.alert("ICal download", 'Es ist ein Fehler beim Erstellen des ICal aufgetreten.');
               }
             }
           })
@@ -2086,7 +2086,7 @@ MySched.layout = function () {
             scope: txtwait,
             failure: function () {
               Ext.MessageBox.hide();
-              Ext.Msg.alert('Es ist ein Fehler beim Erstellen aufgetreten.');
+              Ext.Msg.alert("Hinweis", 'Es ist ein Fehler beim Erstellen aufgetreten.');
             },
             success: function (response) {
               Ext.MessageBox.hide();
@@ -2095,7 +2095,7 @@ MySched.layout = function () {
                 Ext.DomHelper.append(Ext.getBody(), {
                   tag: 'iframe',
                   id: 'downloadIframe',
-                  src: _C('ajaxHandler') + '&username=' + MySched.Authorize.user + "&title=" + encodeURIComponent(MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' ')) + "&what=html&save=false&scheduletask=Download.schedule",
+                  src: _C('ajaxHandler') + '&username=' + MySched.Authorize.user + "&title=" + encodeURIComponent(MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' ')) + "&what=xls&save=false&scheduletask=Download.schedule",
                   style: 'display:none;z-index:10000;'
                 });
                 // Iframe wird nach 2 Sec geloescht.
@@ -2105,7 +2105,7 @@ MySched.layout = function () {
                 func.defer(2000);
               }
               else {
-                Ext.Msg.alert('Es ist ein Fehler beim Erstellen aufgetreten.');
+                Ext.Msg.alert("Hinweis", 'Es ist ein Fehler beim Erstellen aufgetreten.');
               }
             }
           })

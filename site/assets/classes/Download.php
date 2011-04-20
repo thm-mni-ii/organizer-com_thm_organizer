@@ -55,7 +55,7 @@ class Download
 		        @copy( $file, $this->cfg[ 'pdf_downloadFolder' ] . $path .$this->username . '.' . $this->what );
 		    } elseif ( $this->what == "pdf" ) {
 		        $this->doc->setMimeEncoding('application/pdf');
-		    } elseif ( $this->what == "html" ) {
+		    } elseif ( $this->what == "xls" ) {
 		        $this->doc->setMimeEncoding('application/vnd.ms-excel');
 		    } else {
 		        // ics
@@ -67,7 +67,7 @@ class Download
 		    //Datei senden
 		    @readfile( $file );
 		    //Datei loeschen
-		    @unlink( $file );
+		    //@unlink( $file );
 		}
 	}
 }

@@ -24,7 +24,7 @@ class ICSBauer extends abstrakterBauer
 		$output .= $this->tableFooter();
 		if ( $title == "Mein Stundenplan" )
 			$title = $username . " - " . $title;
-		$newfile = JPATH_COMPONENT . $this->cfg[ 'pdf_downloadFolder' ] . $title . ".html";
+		$newfile = JPATH_COMPONENT . $this->cfg[ 'pdf_downloadFolder' ] . $title . ".xls";
 		$file    = fopen( $newfile, "w" );
 		fwrite( $file, $output );
 		fclose( $file );
