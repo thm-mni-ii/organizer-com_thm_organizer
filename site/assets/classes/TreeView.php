@@ -147,7 +147,29 @@ class TreeView
 			$treeData["doz"] = array_merge( $treeData["doz"], $this->getStundenplanDozData(1, $value->id) );
 		}
 
+		$this->expandSingleNode(& $semesterJahrNode);
+
 		return array("success"=>true,"data"=>array("tree"=>$semesterJahrNode,"treeData"=>$treeData));
+	}
+
+	private function expandSingleNode(& $arr)
+	{
+		foreach($arr as $k=>$v)
+		{
+			if(!isset($v->children))
+				$this->expandSingleNode(& $v);
+			else if(is_array($v->children))
+			{
+				$v->expanded = true;
+
+				var_dump(count($v->children));
+
+				if(count($v->children) > 1 )
+					return;
+
+				$this->expandSingleNode(& $v->children);
+			}
+		}
 	}
 
 	private function getSemester()
