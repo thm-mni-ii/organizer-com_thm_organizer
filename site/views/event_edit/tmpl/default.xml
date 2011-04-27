@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<name>THM_ORGANIZER</name>
-<author>James Antrim</author>
-<creationDate>15.04.2011</creationDate>
-<copyright>TH Mittelhessen 2011</copyright>
-<licence>GNU GPL v.2</licence>
-<authorEMail>jamesDOTantrimATyahooDOTcom</authorEMail>
-<authorUrl>www.mni.th-mittelhessen.de</authorUrl>
-<version>0.0.1</version>
 <metadata>
-    <layout title="THM_ORGANIZER_EE_LAYOUT_TITLE">
+    <name>THM_ORGANIZER</name>
+    <author>James Antrim</author>
+    <creationDate>15.04.2011</creationDate>
+    <copyright>TH Mittelhessen 2011</copyright>
+    <licence>GNU GPL v.2</licence>
+    <authorEMail>jamesDOTantrimATyahooDOTcom</authorEMail>
+    <authorUrl>www.mni.th-mittelhessen.de</authorUrl>
+    <version>0.0.1</version>
+    <layout title="COM_THM_ORGANIZER_EE_LAYOUT_TITLE">
         <message>COM_THM_ORGANIZER_EE_LAYOUT_DESCRIPTION</message>
     </layout>
 </metadata>
