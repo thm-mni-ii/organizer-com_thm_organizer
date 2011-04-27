@@ -9,10 +9,8 @@
  * @link        www.mni.fh-giessen.de
  * @version     0.0.1
  */
-
 defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport('joomla.application.component.modelform');
-
 class thm_organizerModelevent_edit extends JModelForm
 {
     public $event = null;
