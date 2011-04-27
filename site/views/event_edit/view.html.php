@@ -9,16 +9,8 @@
  * @link        www.mni.fh-giessen.de
  * @version     0.0.1
  */
-
 defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.view');
-
-/**
-* HTML View class for the Giessen Scheduler Component
-*
-* @package    Giessen Scheduler
-*/
-
 class thm_organizerViewevent_edit extends JView
 {
     function display($tpl = null)
@@ -64,7 +56,6 @@ class thm_organizerViewevent_edit extends JView
         $this->assignRef('dailychecked', $dailychecked);
 
         $isNew = ($event['id'] == 0);
-        $document = JFactory::getDocument();
         $document->setTitle($isNew ? JText::_('COM_THM_ORGANIZER_EE_TITLE_NEW') : JText::_('COM_THM_ORGANIZER_EE_TITLE_EDIT'));
         
         $this->createHTMLElements();
