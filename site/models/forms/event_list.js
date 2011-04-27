@@ -5,7 +5,6 @@ window.addEvent('domready', function() {
                 return regex.test(value);
     });
 });
-
 function checkAll()
 {
     var checkbox = document.getElementsByName('eventIDs[]');

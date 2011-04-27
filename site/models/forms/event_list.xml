@@ -1,45 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset>
-		<field
-			id="thm_organizer_el_search_text"
-			name="thm_organizer_el_search_text"
-			type="text"
-			label="COM_THM_ORGANIZER_EL_SEARCH_TITLE"
-			description="COM_THM_ORGANIZER_EL_SEARCH_DESC"
-			class="inputbox"
-			size="15" />
-		<field
-			id="categoryDummy"
-			name="categoryDummy"
-			type="list"
-			label="COM_THM_ORGANIZER_EL_CATEGORY_TITLE"
-			description="COM_THM_ORGANIZER_EL_CATEGORY_DESC" />
-		<field
-			id="fromdate"
-			name="fromdate"
-			type="calendar"
-			label="COM_THM_ORGANIZER_EL_FROMDATE_TITLE"
-			description="COM_THM_ORGANIZER_EL_FROMDATE_DESC"
-			class="inputbox validate-germandate"
-                        validate="germandate"
-			format="%d.%m.%Y"
-			size="7" />
-		<field
-			id="todate"
-			name="todate"
-			type="calendar"
-			label="COM_THM_ORGANIZER_EL_TODATE_TITLE"
-			description="COM_THM_ORGANIZER_EL_TODATE_DESC"
-			class="inputbox validate-germandate"
-                        validate="germandate"
-			format="%d.%m.%Y"
-			size="7" />
-		<field
-			id="task"
-			name="task"
-			type="hidden"
-			class="inputbox"
-			default="events.search" />
-	</fieldset>
+    <name>THM_ORGANIZER</name>
+    <author>James Antrim</author>
+    <creationDate>15.04.2011</creationDate>
+    <copyright>TH Mittelhessen 2011</copyright>
+    <licence>GNU GPL v.2</licence>
+    <authorEMail>jamesDOTantrimATyahooDOTcom</authorEMail>
+    <authorUrl>www.mni.th-mittelhessen.de</authorUrl>
+    <version>0.0.1</version>
+    <fieldset>
+        <field  id="thm_organizer_el_search_text"
+                name="thm_organizer_el_search_text"
+                type="text"
+                label="COM_THM_ORGANIZER_EL_SEARCH_TITLE"
+                description="COM_THM_ORGANIZER_EL_SEARCH_DESC"
+                class="inputbox"
+                size="15" />
+        <field  id="categoryDummy"
+                name="categoryDummy"
+                type="list"
+                label="COM_THM_ORGANIZER_EL_CATEGORY_TITLE"
+                description="COM_THM_ORGANIZER_EL_CATEGORY_DESC" />
+        <field  id="fromdate"
+                name="fromdate"
+                type="calendar"
+                label="COM_THM_ORGANIZER_EL_FROMDATE_TITLE"
+                description="COM_THM_ORGANIZER_EL_FROMDATE_DESC"
+                class="inputbox validate-germandate"
+                validate="germandate"
+                format="%d.%m.%Y"
+                size="7" />
+        <field  id="todate"
+                name="todate"
+                type="calendar"
+                label="COM_THM_ORGANIZER_EL_TODATE_TITLE"
+                description="COM_THM_ORGANIZER_EL_TODATE_DESC"
+                class="inputbox validate-germandate"
+                validate="germandate"
+                format="%d.%m.%Y"
+                size="7" />
+        <field  id="task"
+                name="task"
+                type="hidden"
+                class="inputbox"
+                default="events.search" />
+    </fieldset>
 </form>
