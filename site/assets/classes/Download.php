@@ -67,7 +67,7 @@ class Download
 		    //Datei senden
 		    @readfile( $file );
 		    //Datei loeschen
-		    //@unlink( $file );
+		    @unlink( $file );
 		}
 	}
 }

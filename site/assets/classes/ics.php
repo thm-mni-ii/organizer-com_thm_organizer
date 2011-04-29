@@ -4,11 +4,14 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once( dirname( __FILE__ ) . "/abstrakterBauer.php" );
+error_reporting(0);
 
 class ICSBauer extends abstrakterBauer
 {
 	private $JDA = null;
 	private $cfg = null;
+	private $workbook = null;
+	private $worksheet = null;
 
 	function __construct($JDA, $cfg)
 	{
@@ -18,46 +21,60 @@ class ICSBauer extends abstrakterBauer
 
 	public function erstelleStundenplan( $arr, $username, $title )
 	{
-		$output = "";
-		$output .= $this->tableHead();
-		$output .= $this->tableContent( $arr );
-		$output .= $this->tableFooter();
-		if ( $title == "Mein Stundenplan" )
-			$title = $username . " - " . $title;
-		$newfile = JPATH_COMPONENT . $this->cfg[ 'pdf_downloadFolder' ] . $title . ".xls";
-		$file    = fopen( $newfile, "w" );
-		fwrite( $file, $output );
-		fclose( $file );
-		if(is_file($file))
+		$success = false;
+		try
+		{
+			require_once JPATH_COMPONENT.'/assets/Spreadsheet/Excel/Writer.php';
+
+			if ( $title == "Mein Stundenplan" )
+				$title = $username . " - " . $title;
+
+			// Creating a workbook
+			$this->workbook = new Spreadsheet_Excel_Writer(JPATH_COMPONENT . $this->cfg[ 'pdf_downloadFolder' ] . $title . ".xls");
+
+			$this->workbook->setVersion(8);
+
+			// Creating a worksheet
+			$this->worksheet = & $this->workbook->addWorksheet($title);
+
+			$this->worksheet->setInputEncoding("UTF-8");
+
+			// The actual data
+			$success = $this->setHead();
+			if($success)
+				$success = $this->setContent( $arr );
+
+			if($success)
+				// Let's send the file
+				$this->workbook->close();
+		}
+		catch(Exception $e)
+		{
+			$success = false;
+		}
+
+		if($success)
 			return array("success"=>true,"data"=>"File created!");
 		else
 			return array("success"=>false,"data"=>"No file was created!");
 	}
 
-	private function tableHead( )
+	private function setHead( )
 	{
-		return '
-        <HTML>
-      <HEAD>
-      <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <META http-equiv="Content-Script-Type" content="text/javascript">
-      <table cellpadding="0" cellspacing="0" border="1">
-      <tr>
-       <th><b>Titel der Veranstaltung</b> </th>
-       <th><b>Abkürzung</b></th>
-       <th><b>ModulNr</b></th>
-       <th><b>Typ</b></th>
-       <th><b>Wochentag</b></th>
-       <th><b>Block</b></th>
-       <th><b>Raum</b></th>
-       <th><b>Dozent</b></th>
-      </tr>
-    ';
+		$this->worksheet->write(0, 0, 'Titel der Veranstaltung');
+		$this->worksheet->write(0, 1, 'Abkürzung');
+		$this->worksheet->write(0, 2, 'ModulNr');
+		$this->worksheet->write(0, 3, 'Typ');
+		$this->worksheet->write(0, 4, 'Wochentag');
+		$this->worksheet->write(0, 5, 'Block');
+		$this->worksheet->write(0, 6, 'Raum');
+		$this->worksheet->write(0, 7, 'Dozent');
+		return true;
 	}
 
-	private function tableContent( $arr )
+	private function setContent( $arr )
 	{
-		$ret = "";
+
 		foreach ( $arr as $item ) {
 			if ( isset( $item->clas ) && isset( $item->doz ) && isset( $item->room ) ) {
 				if ( isset( $item->block ) && $item->block > 0 ) {
@@ -74,46 +91,39 @@ class ICSBauer extends abstrakterBauer
 				$item->clas = implode( ", ", $res );
 
 				$dozs      = explode( " ", trim( $item->doz ) );
-				var_dump( $dozs );
+
 				$query     = 'SELECT name as oname FROM #__thm_organizer_teachers WHERE gpuntisID IN("' . implode( '", "', $dozs ) . '")';
 				$res       = $this->JDA->query( $query, true );
 				$item->doz = implode( ", ", $res );
 
 				$rooms      = explode( " ", trim( $item->room ) );
-				var_dump( $rooms );
+
 				$query      = 'SELECT name as oname FROM #__thm_organizer_rooms WHERE gpuntisID IN("' . implode( '", "', $rooms ) . '")';
 				$res        = $this->JDA->query( $query, true );
 				$item->room = implode( ", ", $res );
 			}
 		}
+
+		$row = 1;
 		foreach ( $arr as $item ) {
 			if ( isset( $item->clas ) && isset( $item->doz ) && isset( $item->room ) ) {
 				if(!isset($item->longname))
 					$item->longname = "";
 				if(!isset($item->category))
 					$item->category = "";
-				$ret .= "<tr>
-		         <td>" . $item->longname . "</td>
-		         <td>" . $item->name . "</td>
-		         <td>" . $item->moduleID . "</td>
-		         <td>" . $item->category . "</td>
-		         <td>" . $this->daynumtoday( $item->dow ) . "</td>
-		         <td>" . $item->block . "</td>
-		         <td>" . $item->room . "</td>
-		         <td>" . $item->doz . "</td>
-		        </tr>";
+
+				$this->worksheet->write($row, 0, $item->longname);
+				$this->worksheet->write($row, 1, $item->name);
+				$this->worksheet->write($row, 2, $item->moduleID);
+				$this->worksheet->write($row, 3, $item->category);
+				$this->worksheet->write($row, 4, $this->daynumtoday( $item->dow ));
+				$this->worksheet->write($row, 5, $item->block);
+				$this->worksheet->write($row, 6, $item->room);
+				$this->worksheet->write($row, 7, $item->doz);
+				$row++;
 			}
 		}
-		return $ret;
-	}
-
-	private function tableFooter( )
-	{
-		return '
-      </table>
-      </BODY>
-      </HTML>
-    ';
+		return true;
 	}
 
 	private function blocktotime( $block )

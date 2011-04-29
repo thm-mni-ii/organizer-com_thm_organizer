@@ -243,7 +243,7 @@ class Ressource
 		  	"INNER JOIN #__thm_organizer_subjects ON #__thm_organizer_lessons.subjectID = #__thm_organizer_subjects.id ";
 		  	if ($this->JDA->isComponentavailable("com_thm_lsf"))
 		  	{
-				$query .= "LEFT JOIN #__thm_lsf_modules AS mo ON #__thm_organizer_subjects.moduleID = mo.modulnummer ";
+				$query .= "LEFT JOIN #__thm_lsf_modules AS mo ON #__thm_organizer_subjects.moduleID = mo.lsf_modulnummer ";
 		  	}
      	  	$query .= "WHERE #__thm_organizer_lessons.semesterID = '$fachsemester' " .
      	  	"AND #__thm_organizer_lessons.plantypeID = '$this->plantype' ".
