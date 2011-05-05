@@ -27,7 +27,7 @@ class thm_organizerModelevent extends JModel
         {
             $this->loadEventResources();
             $this->setAccess();
-            $this->setListLink();
+            $this->setMenuLinks();
         }
     }
 
@@ -180,7 +180,7 @@ class thm_organizerModelevent extends JModel
     /**
      * funtion setMenuLink
      */
-    private function setListLink()
+    private function setMenuLinks()
     {
         $menuID = JRequest::getInt('Itemid');
         $dbo = JFactory::getDbo();
@@ -190,8 +190,7 @@ class thm_organizerModelevent extends JModel
         $query->where("id = $menuID");
         $query->where("link LIKE '%event_list%'");
         $dbo->setQuery((string)$query);
-        $listLink = $dbo->loadResult();
-        if(isset($listLink) and $listLink != "")
-            $this->listLink = JRoute::_ ($listLink);
+        $link = $dbo->loadResult();
+        if(isset($link) and $link != "") $this->listLink = JRoute::_($link);
     }
 }

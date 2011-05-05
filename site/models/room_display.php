@@ -24,26 +24,28 @@ class thm_organizerModelroom_display extends JModel
     public $dayName = '';
     public $lessonsExist = false;
     public $eventsExist = false;
+    private $eventIDs = array();
     public $appointments = array();
     public $information = array();
     public $notices = array();
     public $upcoming = array();
+    public $roomSelectLink = "";
 
 
     public function __construct()
     {
         parent::__construct();
-        $this->data = array();
         $this->setRoomInformation();//sets roomname and layout
         $this->setSemesters();
         $this->setDateInformation();//sets date variables
         $this->setBlocks();
         $this->setScheduleData();
+        $this->setMenuLinks();
     }
 
     /**
      * checks whether the room is valid and sets room and layout variables
-     * redirects to the calling room selection
+     * redirects to the calling room selection if no room was found with the given information
      */
     function setRoomInformation()
     {
@@ -53,11 +55,10 @@ class thm_organizerModelroom_display extends JModel
         $query = $dbo->getQuery(true);
         $query->select("r.id AS id, r.name AS name");
         $query->from("#__thm_organizer_monitors AS m");
-        $query->innerJoin("#__thm_organizer_rooms AS r ON m.roomID = r.name");
+        $query->innerJoin("#__thm_organizer_rooms AS r ON m.roomID = r.id");
         $query->where("ip = '$ip'");
         $dbo->setQuery((string)$query);
         $room = $dbo->loadAssoc();
-        var_dump($room);
         if(!empty($room))
         {
             $this->name = $room['name'];
@@ -87,7 +88,7 @@ class thm_organizerModelroom_display extends JModel
             }
         }
         //room does not exist => redirect to selection
-        $this->redirect('COM_THM_ORGANIZER_RD_NO_ROOM');
+        //$this->redirect('COM_THM_ORGANIZER_RD_NO_ROOM');
     }
 
     /**
@@ -119,10 +120,11 @@ class thm_organizerModelroom_display extends JModel
      */
     private function setDateInformation()
     {
-        $postDate = JRequest::getVar('date');
+        $request = JRequest::getVar('jform');
+        $postDate = $request['date'];
         if(isset($postDate))
         {
-            $postDate = substr($postDate, 5, 4).".".substr($postDate, 3, 2).".".substr($postDate, 0, 2);
+            $postDate = substr($postDate, 6, 4)."-".substr($postDate, 3, 2)."-".substr($postDate, 0, 2);
             $date = strtotime($postDate);
         }
         else $date = false;
@@ -269,13 +271,14 @@ class thm_organizerModelroom_display extends JModel
                 $extraInformation = implode (", ", $lessonTeacherNames);
                 $block['extraInformation'] = $extraInformation;
             }
-            $block['lessonExists'] = true;
+            $block['type'] = 'COM_THM_ORGANIZER_RD_TYPE_LESSON';
             $this->lessonsExist = true;
         }
         else
         {
-            $block['lessonExists'] = false;
             $block['title'] = JText::_('COM_THM_ORGANIZER_NO_LESSON');
+            $block['extraInformation'] = '';
+            $block['type'] = 'empty';
         }
     }
 
@@ -312,19 +315,24 @@ class thm_organizerModelroom_display extends JModel
                 $block['title'] = $appointments[0]['title'];
                 $block['extraInformation'] = $this->makeEventTime($appointments[0]);
                 $block['eventID'] = $appointments[0]['id'];
+                $block['link'] = $this->getEventLink($appointments[0]['id'], $appointments[0]['title']);
+                $block['type'] = 'COM_THM_ORGANIZER_RD_TYPE_APPOINTMENT';
             }
             if(count($appointments) > 1)
             {
                 $block['title'] = "verschiedene Termine";
                 $block['extraInformation'] = "";
+                $block['type'] = 'COM_THM_ORGANIZER_RD_TYPE_APPOINTMENTS';
             }
             foreach($appointments as $k => $appointment)
             {
-                if(in_array($appointment, $this->appointments))
+                if(in_array($appointment['id'], $this->eventIDs))
                 {
                     unset($appointments[$k]);
                     continue;
                 }
+                $this->eventIDs[] = $appointment['id'];
+                $appointments[$k]['displayDates'] = $this->makeEventDates($appointment);
                 $appointments[$k]['link'] = $this->getEventLink($appointment['id'], $appointment['title']);
             }
             $this->eventsExist = true;
@@ -353,7 +361,7 @@ class thm_organizerModelroom_display extends JModel
         if(isset($block['teacherIDs']))
         {
             $teacherIDs = "'".implode("', '", $block['teacherIDs'])."'";
-            $query->where("r.name = '$this->name' OR t.id IN ( $teacherIDs )");
+            $query->where("( r.name = '$this->name' OR t.id IN ( $teacherIDs ) )");
         }
         else $query->where("r.name = '$this->name'");
         $dbo->setQuery((string)$query);
@@ -362,11 +370,13 @@ class thm_organizerModelroom_display extends JModel
         {
             foreach($notices as $k => $notice)
             {
-                if(in_array($notice, $this->notices))
+                if(in_array($notice['id'], $this->eventIDs))
                 {
                     unset($notices[$k]);
                     continue;
                 }
+                $this->eventIDs[] = $notice['id'];
+                $notices[$k]['displayDates'] = $this->makeEventDates($notice);
                 $notices[$k]['link'] = $this->getEventLink($notice['id'], $notice['title']);
             }
             $this->eventsExist = true;
@@ -396,16 +406,13 @@ class thm_organizerModelroom_display extends JModel
         {
             foreach($information as $k => $info)
             {
-                if(in_array($info, $this->information))
+                if(in_array($info['id'], $this->eventIDs))
                 {
                     unset($information[$k]);
                     continue;
                 }
-                if(in_array($info, $this->appointments))
-                {
-                    unset($information[$k]);
-                    continue;
-                }
+                $this->eventIDs[] = $info['id'];
+                $information[$k]['displayDates'] = $this->makeEventDates($info);
                 $information[$k]['link'] = $this->getEventLink($info['id'], $info['title']);
             }
             if($this->layout != 'default') $this->eventsExist = true;
@@ -440,16 +447,13 @@ class thm_organizerModelroom_display extends JModel
         {
             foreach($upcoming as $k => $coming)
             {
-                if(in_array($coming, $this->upcoming))
+                if(in_array($coming['id'], $this->eventIDs))
                 {
                     unset($upcoming[$k]);
                     continue;
                 }
-                if(in_array($coming, $this->appointments))
-                {
-                    unset($upcoming[$k]);
-                    continue;
-                }
+                $this->eventIDs[] = $coming['id'];
+                $upcoming[$k]['displayDates'] = $this->makeEventDates($coming);
                 $upcoming[$k]['link'] = $this->getEventLink($coming['id'], $coming['title']);
             }
             $this->eventsExist = true;
@@ -465,9 +469,12 @@ class thm_organizerModelroom_display extends JModel
     private function eventSelect(&$query)
     {
         $select = "DISTINCT (e.id) AS id, c.title AS title, ";
+        $select .= "DATE_FORMAT(e.startdate, '%d.%m.%Y') AS startdate, ";
+        $select .= "DATE_FORMAT(e.enddate, '%d.%m.%Y') AS enddate, ";
         $select .= "c.introtext AS description, ";
         $select .= "SUBSTRING(e.starttime, 1, 5) AS starttime, ";
-        $select .= "SUBSTRING(e.endtime, 1, 5) AS endtime";
+        $select .= "SUBSTRING(e.endtime, 1, 5) AS endtime, ";
+        $select .= "e.recurrence_type AS rec_type";
         $query->select($select);
     }
 
@@ -482,11 +489,11 @@ class thm_organizerModelroom_display extends JModel
         $query->innerJoin("#__content AS c ON e.id = c.id");
         $query->innerJoin("#__thm_organizer_categories AS ec ON e.categoryID = ec.id");
         $query->leftJoin("#__thm_organizer_event_rooms AS er ON e.id = er.eventID");
-        $query->innerJoin("#__thm_organizer_rooms AS r ON er.roomID = r.id");
+        $query->leftJoin("#__thm_organizer_rooms AS r ON er.roomID = r.id");
         if(isset($block) and isset($block['teacherIDs']))
         {
             $query->leftJoin("#__thm_organizer_event_teachers AS et ON e.id = et.eventID");
-            $query->innerJoin("#__thm_organizer_teachers AS t ON et.teacherID = t.id");
+            $query->leftJoin("#__thm_organizer_teachers AS t ON et.teacherID = t.id");
         }
     }
 
@@ -546,7 +553,7 @@ class thm_organizerModelroom_display extends JModel
         }
         else if(isset($event['endtime']) && $event['endtime'] != "00:00")
             $timestring .= " bis ".$event['endtime'];
-        else $timestring .= "ganzt&auml;giges Ereignis";
+        else $timestring .= JText::_("COM_THM_ORGANIZER_EL_ALLDAY");
         return $timestring;
     }
 
@@ -557,16 +564,29 @@ class thm_organizerModelroom_display extends JModel
      * @param array $e sql result array
      * @return string date(s) of event
      */
-    function makeEventDate($e)
+    function makeEventDates($event)
     {
-        if(!isset($e['startdate']))return '';
-        $datestring = "";
-        if(isset($e['enddate']) && $e['enddate'] != "0000-00-00")
+        $edSet = $stSet = $etSet = false;
+        $displayDates = $timestring = "";
+        $edSet = $event['enddate'] != "00.00.0000";
+        $stSet = $event['starttime'] != "00:00";
+        $etSet = $event['endtime'] != "00:00";
+        if($stSet and $etSet) $timestring = " ({$event['starttime']} - {$event['endtime']})";
+        else if($stSet) $timestring = " (ab {$event['starttime']})";
+        else if($etSet) $timestring = " (bis {$event['endtime']})";
+        else $timestring = " ".JText::_("COM_THM_ORGANIZER_EL_ALLDAY");
+        if($edSet and $event['rec_type'] == 0)
         {
-            $datestring = "ab ".$e['startdate']." bis ".$e['enddate'];
+            $displayDates = "{$event['startdate']}";
+            if($stSet) $displayDates .= " ({$event['starttime']})";
+            $displayDates .= JText::_('COM_THM_ORGANIZER_RD_UNTIL').$event['enddate'];
+            if($etSet) $displayDates .= " ({$event['endtime']})";
         }
-        else $datestring = "am ".$e['startdate'];
-        return $datestring;
+        else if($edSet and $event['rec_type'] == 1)
+            $displayDates = $event['startdate'].JText::_('COM_THM_ORGANIZER_RD_UNTIL').$event['enddate']." ".$timestring;
+        else
+            $displayDates = $event['startdate']." ".$timestring;
+        return $displayDates;
     }
 
     /**
@@ -581,10 +601,26 @@ class thm_organizerModelroom_display extends JModel
     private function getEventLink($id, $title)
     {
         $url = "index.php?option=com_thm_organizer&view=event&eventID=$id";
-        $attribs = array();
         $attribs['title'] = "$title::".JText::_('COM_THM_ORGANIZER_RD_EVENT_LINK_TEXT');
-        $link = JHtml::_('link', $url, $title, $attribs);
-        return "<span class='thm_organizer_rd_event_link'>".$link."</span>";
+        return JHtml::_('link', $url, $title);
+    }
+
+
+    /**
+     * funtion setMenuLink
+     */
+    private function setMenuLinks()
+    {
+        $menuID = JRequest::getInt('Itemid');
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("link");
+        $query->from("#__menu AS eg");
+        $query->where("id = $menuID");
+        $query->where("link LIKE '%room_select%'");
+        $dbo->setQuery((string)$query);
+        $link = $dbo->loadResult();
+        if(isset($link) and $link != "") $this->roomSelectLink = JRoute::_($link);
     }
 
     /**

@@ -1,156 +1,112 @@
 <?php
+/**
+ * @package     Joomla.Site
+ * @subpackage  com_thm_organizer
+ * @name        template for registered monitors
+ * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @copyright   TH Mittelhessen 2011
+ * @license     GNU GPL v.2
+ * @link        www.mni.fh-giessen.de
+ * @version     0.0.1
+ */
 // No direct access
-defined('_JEXEC') or die('Restricted access');
-//var_dump($this);
-$style = "font-weight: bold; font-size:18px;";
-?>
-<div class="thm_organizer_roomdisplay">
-    <div class="header">
-        <div class="block_head_room"><?php  echo $this->roomname; ?></div>
-        <div class="block_head_logo">
-            <img src="components/com_thm_organizer/assets/images/logo.png" alt="Logo">
+defined('_JEXEC') or die('Restricted access');?>
+<div id="thm_organizer_rd_registered">
+    <div id="thm_organizer_rd_head">
+        <div id="thm_organizer_rd_head_left">
+            <div id="thm_organizer_rd_head_upper">
+                <div id="thm_organizer_rd_thm_logo_div">
+                    <?php echo $this->thm_logo_image; ?>
+                </div>
+                <div id="thm_organizer_rd_divider_div"></div>
+                <div id="thm_organizer_rd_room_div">
+                    <?php  echo $this->name; ?>
+                </div>
+            </div>
+            <div id="thm_organizer_rd_head_lower">
+                <?php echo $this->thm_text_image; ?>
+            </div>
         </div>
-        <div class="block_head_date">
-                <?php echo $this->day; ?>, <?php echo $this->date; ?>
-                <?php echo date('H:i'); ?>
+        <div id="thm_organizer_rd_head_right">
+            <?php echo $this->day; ?><br />
+            <?php echo $this->date; ?><br />
+            <?php echo date('H:i'); ?>
         </div>
     </div>
-    <div class="left_area">
-<?php
-if(isset($this->blocks))
-{
-    foreach($this->blocks as $bk => $bv)
-    {
-        if($bk % 2 == 1) $blockclass = "white_block";
-        else  $blockclass = "green_block";
-        if(isset($bv['subject'])) $dataclass = "right_block_data";
-        else $dataclass = "right_block_nodata"
-?>
-        <div class="<?php echo $blockclass; ?>">
-            <div class="left_block">
-<?php if(date('H:i')>= $bv['starttime'] && date('H:i')<= $bv['endtime']): ?>
-                    <img src="components/com_thm_organizer/assets/images/Raute.gif" alt="Raute">
-<?php endif; ?>
+    <div id="thm_organizer_rd_break_div"></div>
+    <?php $widthClass = ($this->eventsExist)? 'thm_organizer_rd_short' : 'thm_organizer_rd_long'; ?>
+    <div id="thm_organizer_rd_schedule_area" class="<?php echo $widthClass; ?>">
+    <?php if(isset($this->blocks) and count($this->blocks) > 0){
+        $blockNo = 0; $time = date('H:i');
+        foreach($this->blocks as $blockKey => $block){
+        $blockClass = ($blockNo % 2 == 0)? 'thm_organizer_rd_even' : 'thm_organizer_rd_odd';
+        $activeClass = ($time >= $block['starttime'] and $time <= $block['endtime'])? 'thm_organizer_rd_active' : '';
+        $contentClass = ($block['title'] != JText::_('COM_THM_ORGANIZER_NO_LESSON'))? 'thm_organizer_rd_full' : 'thm_organizer_rd_empty';?>
+        <div class="thm_organizer_rd_block <?php echo $blockClass." ".$activeClass; ?>">
+            <div class="thm_organizer_rd_time_div">
+                <?php echo $block['starttime']; ?><br />-<br /><?php echo $block['endtime']; ?>
             </div>
-            <div class="middle_block">
-                <center>
-                    <?php echo substr($bv[starttime], 0, 5); ?><br />-<br /><?php echo substr($bv[endtime], 0, 5); ?>
-                </center>
-            </div>
-            <div class="<?php  echo $dataclass; ?>">
-                <span class="lesson">
-<?php
-        if(isset($bv['subject']))
-        {
-            if(isset($bv['times'])) $moreinfo = $bv['times'];
-            else if(isset($bv['teachers'])) $moreinfo = $bv['teachers'];
-?>
-                    <?php  echo $bv['subject']; ?>
-                    <br />
-                    <span class='info'><?php  echo $moreinfo; ?></span>
-<?php
-        }
-        else echo "keine Veranstaltung";
-?>
+            <div class="thm_organizer_rd_data <?php  echo $contentClass; ?>">
+                <span class="thm_organizer_rd_title_span"><?php  echo $block['title']; ?></span>
+            <?php if($block['extraInformation'] != ''): ?>
+                <br />
+                <span class="thm_organizer_rd_extrainfo_span">
+                    <?php  echo $block['extraInformation']; ?>
                 </span>
+            <?php endif; ?>
             </div>
         </div>
-<?php
-    }
-}
-else
-{
-?>
+    <?php $blockNo++;}}else{ ?>
         <br /><br /><h2>An diesem Tag sind keine Veranstaltungen eingeplannt.</h2>
-<?php
-}
-?>
-	</div>
-	<div class="right_area">
-		<div class="notes">	
-<?php
-$areevents = false;
-if(isset($this->reservingevents)):
-    $areevents = true;
-?>
-	<h1>Vorsicht</h1>
-        <hr style="height:3px;color:white"/>
-        <hr class="hr2" style="height:3px;color:white"/>
-	<ul>
-<?php foreach($this->reservingevents as $k => $v): ?>
+    <?php } ?>
+    </div>
+    <?php if($this->eventsExist){ $metric = 0;?>
+    <div id="thm_organizer_rd_events_area">
+        <?php if(count($this->appointments) > 0){ $metric++;?>
+            <h1><?php echo JText::_('COM_THM_ORGANIZER_RD_APPOINTMENTS_REGISTERED'); ?></h1>
+            <ul>
+            <?php foreach($this->appointments as  $event){ $metric++; if($metric < 6){?>
             <li>
-                <h2><?php echo $v['title']; ?></h2>
-                <br style='line-height: 0px;' />
-		<?php echo $v['times'] ?>
-                <br style='line-height: 0px;' />
-		<?php echo $v['edescription']; ?>
+                <h2><?php echo $event['title']; ?></h2>
+                <p><?php echo $event['displayDates']; ?></p>
+                <p><?php echo $event['description']; ?></p>
             </li>
-<?php endforeach; ?>
-        </ul>
-<?php
-endif;
-if(isset($this->notes)):
-    $areevents = true;
-?>
-	<h1>spezielle Infos</h1>
-	<hr style="height:3px;color:white"/>
-	<hr class="hr2" style="height:3px;color:white"/>
+            <?php }} ?>
+            </ul>
+        <?php } if(count($this->notices) > 0 and $metric < 5){ $metric++; ?>
+	<h1><?php echo JText::_('COM_THM_ORGANIZER_RD_NOTICES_REGISTERED'); ?></h1>
 	<ul>
-<?php foreach($this->notes as $k => $v): ?>
+        <?php foreach($this->notices as $event){ $metric++; if($metric < 7){?>
             <li>
-                <h2><?php $v['title'] ?></h2>
-                <br style='line-height: 0px;' />
-                <?php echo $v['times']; ?>
-                <br  style='line-height: 0px;'/>
-                <?php echo $v['edescription']; ?>
+                <h2><?php echo $event['title']; ?></h2>
+                <p><?php echo $event['displayDates']; ?></p>
+                <p><?php echo $event['description']; ?></p>
             </li>
-<?php endforeach; ?>
+        <?php }} ?>
         </ul>
-<?php
-endif;
-if(isset($this->globalevents)):
-    $areevents = true;
-?>
-	<h1>allgemeine Infos</h1>
-	<hr style="height:3px;color:white"/>
-	<hr class="hr2" style="height:3px;color:white"/>
+        <?php } if(count($this->information) > 0 and $metric < 5){ $metric ++?>
+	<h1><?php echo JText::_('COM_THM_ORGANIZER_RD_INFORMATION_REGISTERED'); ?></h1>
 	<ul>
-<?php foreach($this->globalevents as $k => $v): ?>
+        <?php foreach($this->information as $event){ $metric++; if($metric < 7){ ?>
             <li>
-                <h2><?php echo$v['title']; ?></h2>
-                <br style='line-height: 0px;' />
-                <?php echo $v['times']; ?>
-                <br style='line-height: 0px;' />
-                <?php echo $v['edescription']; ?>
+                <h2><?php echo $event['title']; ?></h2>
+                <p><?php echo $event['displayDates']; ?></p>
+                <p><?php echo $event['description']; ?></p>
             </li>
-<?php endforeach; ?>
+        <?php }} ?>
         </ul>
-<?php
-endif;
-if(isset($this->futureevents)):
-    $areevents = true;
-?>
-	<h1>k&uuml;nftige Termine im Raum</h1>
-	<hr style="height:3px;color:white"/>
-	<hr class="hr2" style="height:3px;color:white"/>
+        <?php } if(count($this->upcoming) > 0 and $metric < 5){ $metric++; ?>
+	<h1><?php echo JText::_('COM_THM_ORGANIZER_RD_UPCOMING_REGISTERED'); ?></h1>
 	<ul>
-<?php foreach($this->futureevents as $k => $v): ?>
+        <?php foreach($this->upcoming as $event){ $metric++; if($metric < 7){ ?>
             <li>
-                <h2><?php echo$v['title']; ?></h2>
-                <br style='line-height: 0px;' />
-                <?php echo $v['dates']; ?>
-                <br style='line-height: 0px;' />
-                <?php echo $v['times']; ?>
-                <br style='line-height: 0px;' />
-                <?php echo $v['edescription']; ?>
+                <h2><?php echo $event['title']; ?></h2>
+                <p><?php echo $event['displayDates']; ?></p>
+                <p><?php echo $event['description']; ?></p>
             </li>
-<?php endforeach; ?>
+        <?php }} ?>
         </ul>
-<?php
-endif;
-if(!$areevents): ?>
-        <br /><br /><h2>Es gibt zur Zeit keine Hinweise f&uuml;r diesen Raum.</h2>
-<?php endif; ?>
-		</div>
-	</div>
+        <?php } ?>
+    </div>
+    <?php } ?>
 </div>

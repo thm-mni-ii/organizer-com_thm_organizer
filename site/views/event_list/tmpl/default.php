@@ -96,8 +96,6 @@ $rowcount = 0;
                         <col id="thm_organizer_el_col_category" />
                         <?php endif; ?>
                         <col id="thm_organizer_el_col_date" />
-                        <col id="thm_organizer_el_col_edit" />
-                        <col id="thm_organizer_el_col_delete" />
                     </colgroup>
                     <thead>
                         <tr>
