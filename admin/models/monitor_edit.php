@@ -16,10 +16,8 @@ jimport('joomla.application.component.model');
 class thm_organizersModelmonitor_edit extends JModel
 {
     public $monitorID;
-    public $semesterID;
     public $roomID;
     public $ip;
-    public $semesters;
     public $rooms;
 
     public function __construct()
@@ -27,7 +25,6 @@ class thm_organizersModelmonitor_edit extends JModel
         parent::__construct();
         $this->getData();
         $this->getRooms();
-        $this->getSemesters();
     }
 
     /**
@@ -63,9 +60,9 @@ class thm_organizersModelmonitor_edit extends JModel
     }
 
     /**
-     * private function getSemesters
+     * private function getRooms
      *
-     * gets the IDs and names of the available semesters
+     * gets the IDs and names of the available rooms
      */
     private function getRooms()
     {
@@ -77,42 +74,26 @@ class thm_organizersModelmonitor_edit extends JModel
         $this->rooms = $dbo->loadObjectList();
     }
 
-    /**
-     * private function getRooms
-     *
-     * gets the IDs and names of the available semesters
-     */
-    private function getSemesters()
-    {
-        $dbo = & JFactory::getDBO();
-        $query = $dbo->getQuery(true);
-        $query->select("id, CONCAT(organization, '-', semesterDesc) AS name");
-        $query->from("#__thm_organizer_semesters");
-        $dbo->setQuery((string)$query );
-        $this->semesters = $dbo->loadObjectList();
-    }
-
     public function store()
     {
         $monitorID = JRequest::getVar('monitorID');
         $roomID = JRequest::getVar('room', '');
         $ip = JRequest::getVar('ip', '');
-        $semesterID = JRequest::getVar('semester', '');
 
         $dbo = & JFactory::getDBO();
         $query = $dbo->getQuery(true);
         if(empty($monitorID))
         {
             $statement = "#__thm_organizer_monitors ";
-            $statement .= "(roomID, ip, semesterID) ";
+            $statement .= "(roomID, ip) ";
             $statement .= "VALUES ";
-            $statement .= "( '$roomID', '$ip', '$semesterID' ) ";
+            $statement .= "( '$roomID', '$ip', ) ";
             $query->insert($statement);
         }
         else
         {
             $query->update("#__thm_organizer_monitors");
-            $query->set("roomID = '$roomID', semesterID = '$semesterID', ip = '$ip'");
+            $query->set("roomID = '$roomID', ip = '$ip'");
             $query->where("monitorID = '$monitorID'");
         }
         $dbo->setQuery((string)$query );

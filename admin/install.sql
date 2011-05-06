@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_classes` (
   `gpuntisID` varchar(10) NOT NULL,
   `name` varchar(10) NOT NULL DEFAULT '',
   `alias` varchar(50) NOT NULL DEFAULT '',
-  `manager` int(11) unsigned DEFAULT NULL,
+  `manager` varchar(20) DEFAULT '',
   `semester` varchar(50) NOT NULL,
   `major` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
@@ -42,6 +42,15 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_departments` (
   `campus` varchar(50) NOT NULL DEFAULT '',
   `department` varchar(50) NOT NULL DEFAULT '',
   `subdepartment` varchar(50) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_descriptions` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `gpuntisID` varchar(50) NOT NULL DEFAULT '',
+  `category` varchar(50) NOT NULL DEFAULT '',
+  `description` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -146,24 +155,22 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_monitors` (
   `monitorID` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `roomID` varchar(4) NOT NULL,
   `ip` varchar(15) NOT NULL,
-  `semesterID` varchar(11) NOT NULL DEFAULT '',
   PRIMARY KEY (`monitorID`),
-  KEY `roomID` (`roomID`),
-  KEY `semesterID` (`semesterID`)
+  KEY `roomID` (`roomID`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
-INSERT IGNORE INTO `#__thm_organizer_monitors` (`monitorID`, `roomID`, `ip`, `semesterID`) VALUES
-(1, 'I007', '10.48.0.87', ''),
-(2, 'I008', '10.48.0.47', ''),
-(3, 'I009', '10.48.0.48', ''),
-(4, 'I107', '10.48.0.49', ''),
-(5, 'I108', '10.48.0.50', ''),
-(6, 'I109', '10.48.0.51', ''),
-(7, 'I136', '10.48.0.86', ''),
-(8, 'I207', '10.48.0.55', ''),
-(9, 'I208', '10.48.0.53', ''),
-(10, 'I209', '10.48.0.54', ''),
-(11, 'I210', '10.48.0.88', '');
+INSERT IGNORE INTO `#__thm_organizer_monitors` (`monitorID`, `roomID`, `ip`) VALUES
+(1, 'I007', '10.48.0.87'),
+(2, 'I008', '10.48.0.47'),
+(3, 'I009', '10.48.0.48'),
+(4, 'I107', '10.48.0.49'),
+(5, 'I108', '10.48.0.50'),
+(6, 'I109', '10.48.0.51'),
+(7, 'I136', '10.48.0.86'),
+(8, 'I207', '10.48.0.55'),
+(9, 'I208', '10.48.0.53'),
+(10, 'I209', '10.48.0.54'),
+(11, 'I210', '10.48.0.88');
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_periods` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -184,10 +191,9 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
   `alias` varchar(50) NOT NULL,
   `manager` int(11) unsigned DEFAULT NULL,
   `capacity` int(4) unsigned DEFAULT NULL,
-  `type` varchar(20) NOT NULL DEFAULT '',
-  `departmentID` int(11) unsigned NOT NULL,
+  `descriptionID` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `departmentID` (`departmentID`),
+  KEY `descriptionID` (`descriptionID`),
   KEY `manager` (`manager`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -222,11 +228,11 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_teachers` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `gpuntisID` varchar(10) NOT NULL,
   `name` varchar(50) NOT NULL DEFAULT '',
-  `manager` varchar(50) NOT NULL DEFAULT '',
+  `username` varchar(50) NOT NULL DEFAULT '',
   `departmentID` varchar(10) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `departmentID` (`departmentID`),
-  KEY `manager` (`manager`)
+  KEY `username` (`username`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_user_schedules` (

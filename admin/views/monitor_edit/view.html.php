@@ -28,10 +28,6 @@ class thm_organizersViewmonitor_edit extends JView
         $ip = $model->ip;
         $this->assignRef( 'ip', $ip );
 
-        $semesters = $model->semesters;
-        if(!empty($semesters))
-            $this->makeSelectBox($semesters, "semester", $model->semesterID);
-
         $rooms = $model->rooms;
         if(!empty($rooms))
             $this->makeSelectBox($rooms, "room", $model->roomID);

@@ -29,9 +29,8 @@ class thm_organizersModelmonitor_manager extends JModel
         $dbo = JFactory::getDBO();
 
         $query = $dbo->getQuery(true);
-        $query->select("monitorID, ip, roomID, CONCAT( organization, ' - ', semesterDesc ) AS semester, r.name AS room");
+        $query->select("monitorID, ip, roomID, r.name AS room");
         $query->from("#__thm_organizer_monitors AS m");
-        $query->leftJoin("#__thm_organizer_semesters AS s ON m.semesterID = s.id");
         $query->leftJoin("#__thm_organizer_rooms AS r ON r.id = m.roomID");
         $dbo->setQuery((string)$query);
         $monitors = $dbo->loadAssocList();

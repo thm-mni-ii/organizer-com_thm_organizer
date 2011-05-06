@@ -2,13 +2,13 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_thm_organizer
- * @name        [joomla type]
- * @description [description of the file and/or its purpose]
- * @author      [first name] [last name] [Email]
- * @copyright   TH Mittelhessen <year>
+ * @name        model schedule
+ * @description datase abstraction file for the schedules table
+ * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
  * @link        www.mni.fh-giessen.de
- * @version     [versionsnr]
+ * @version     0.0.1
  */
 
 defined('_JEXEC') or die('Restriced Access');
@@ -19,12 +19,13 @@ class thm_organizersModelschedule extends JModel
     function __construct(){ parent::__construct(); }
     
     /**
-     * public function upload
+     * upload
      *
      * saves a gp-untis schedule file in the database for later use
      *
-     * @return $result boolean true on success, false on db error, string listing
-     * data inconsistancies
+     * @access public
+     * @return $result boolean true on success, false on db error, array of
+     *         strings on data inconsistancies
      */
     public function upload()
     {
@@ -32,7 +33,7 @@ class thm_organizersModelschedule extends JModel
         $tmpName  = $_FILES['file']['tmp_name'];
         $schedule = simplexml_load_file($tmpName);
         $result = $this->validate(&$schedule);
-        if(!isset($result['errors']))
+        if($result and !isset($result['errors']))
         {
             $fp = fopen($tmpName, 'r');
             $file = fread($fp, filesize($tmpName));
@@ -59,17 +60,17 @@ class thm_organizersModelschedule extends JModel
     }
 
     /**
-     * public funtion validate
+     * validate
      *
-     * checks a given schedule in gp-untis xml format for data completeness and consistency
+     * checks a given schedule in gp-untis xml format for data completeness and
+     * consistency
      *
-     * inconsistancies purposefully not handled: teachers missing userid, rooms missing capacity,
-     * subjects missing module number
-     *
+     * @access private
      * @param $file the gpuntis xml file to be validated
-     * @return $result string listing inconsistancies or boolean on successful parce
+     * @return $result array of strings listing inconsistancies or boolean true
+     * on successful parce
      */
-    public function validate(&$file)
+    private function validate(&$file)
     {
         $erray = array();
         $warray = array();
@@ -158,7 +159,17 @@ class thm_organizersModelschedule extends JModel
                         JText::_("Description")." $id ".JText::_("does not have a description.");
                     continue;
                 }
-                else $descriptions[$id] = $longname;
+                else
+                {
+                    $details = explode(",", $longname);
+                    if(empty($details) or count($details) == 0)
+                    {
+                        $erray[] = JText::_("Description")." $id ".JText::_("does not have all its required information.");
+                        continue;
+                    }
+                    $descriptions[$id]['category'] = $details[0];
+                    if(isset($details[1]))$descriptions[$id]['description'] = $details[1];
+                }
                 unset($id, $name);
             }
         }
@@ -189,7 +200,7 @@ class thm_organizersModelschedule extends JModel
                 $departments[$id] = array();
                 $departments[$id]['institution'] = trim($details [0]);
                 $departments[$id]['campus'] = trim($details [1]);
-                $departments[$id]['department'] = trim($details [2]);
+                if(isset($details [2]))$departments[$id]['department'] = trim($details [2]);
                 if(isset($details [3])) $departments[$id]['subdepartment'] = trim($details [3]);
                 unset($id, $details);
             }
@@ -225,13 +236,6 @@ class thm_organizersModelschedule extends JModel
                 else if(empty($descriptions[$descid]))
                     $erray[] = JText::_("Room")." $name ($id) ".JText::_("references the missing or incomplete description")." $descid.";
                 else $rooms[$id]['description'] = $descriptions[$descid];
-                $dptid = trim($room->room_department[0]['id']);
-                if(empty($dptid))
-                    $erray[] = JText::_("Room")." $name ($id) ".JText::_("does not reference a department.");
-                else if(empty($departments[$dptid]) or count($departments[$dptid]) < 3)
-                    $erray[] =
-                        JText::_("Room")." $name ($id) ".JText::_("references the missing or incomplete department")." $dptid.";
-                else $rooms['department'] = $dptid;
                 unset($id, $longname, $capacity, $descid, $dptid);
             }
         }
@@ -307,7 +311,7 @@ class thm_organizersModelschedule extends JModel
             }
         }
         unset($teachersnode);
-
+        
         $classes = array();
         $classesnode = $file->classes;
         if(empty($classesnode))
@@ -477,28 +481,28 @@ class thm_organizersModelschedule extends JModel
     }
 
     /**
-     * public funtion activate
+     * activate
      *
-     * earmarks an gp-untis schedule as being active for the given planning period
+     * creates a field entry (date) in the database marking a gp-untis schedule
+     * as being active for the given planning period (semester)
+     *
+     * @return string on error
      */
     public function activate()
     {
         $semesterID = JRequest::getInt('semesterID');
         $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
-        if(count($scheduleIDs) > 1)
-            return JText::_("Only one file per type can be activated.");
+        if(count($scheduleIDs) > 1) return JText::_("Only one file per type can be activated.");
         else $scheduleID = $scheduleIDs[0];
 
         $dbo = JFactory::getDBO();
-
         $query = $dbo->getQuery(true);
         $query->select("file, filename, plantypeID");
         $query->from("#__thm_organizer_schedules");
         $query->where("id = '$scheduleID'");
         $dbo->setQuery((string)$query);
         $row = $dbo->loadAssoc();
-        if(empty($row))
-            return JText::_("The file selected could not be found.");
+        if(empty($row)) return JText::_("The file selected could not be found.");
 
         $file = $row['file'];
         $to = $row['filename'];
@@ -551,12 +555,12 @@ class thm_organizersModelschedule extends JModel
         $timeperiodsnode = $schedule->timeperiods;
         foreach( $timeperiodsnode->children() as $timeperiod )
         {
-            $id = trim((string)$timeperiod[0]['id']);
+            $gpuntisID = trim((string)$timeperiod[0]['id']);
             $day = (int)$timeperiod->day;
             if(!isset($timeperiods[$day])) $timeperiods[$day] = array();
             $period = (int)$timeperiod->period;
             $timeperiods[$day][$period] = array();
-            $timeperiods[$day][$period]['gpuntisID'] = $id;
+            $timeperiods[$day][$period]['gpuntisID'] = $gpuntisID;
             $starttime = trim((string)$timeperiod->starttime);
             $starttime = substr($starttime, 0, 2).":".substr($starttime, 2, 2).":00";
             $timeperiods[$day][$period]['starttime'] = $starttime;
@@ -565,34 +569,99 @@ class thm_organizersModelschedule extends JModel
             $timeperiods[$day][$period]['endtime'] = $endtime;
 
             $query = $dbo->getQuery(true);
-            $statement = "#__thm_organizer_periods ";
-            $statement .= "( gpuntisID, semesterID, day, period, starttime, endtime ) ";
-            $statement .= "VALUES ";
-            $statement .= "( '$id', '$semesterID', '$day', '$period', '$starttime', '$endtime' )";
-            $query->insert($statement);
-            $dbo->setQuery((string)$query);
-            $dbo->query();
-            unset($query);
-
-            $query = $dbo->getQuery(true);
             $query->select("id");
             $query->from("#__thm_organizer_periods");
-            $query->where("gpuntisID = '$id'");
+            $query->where("gpuntisID = '$gpuntisID'");
             $query->where("semesterID = '$semesterID'");
             $dbo->setQuery((string)$query);
-            $timeperiods[$day][$period]['id'] = $dbo->loadResult();
-            unset($id, $day, $period, $starttime, $endtime, $query);
+            $savedID = $dbo->loadResult();
+
+            if(empty($savedID))
+            {
+                $query = $dbo->getQuery(true);
+                $statement = "#__thm_organizer_periods ";
+                $statement .= "( gpuntisID, semesterID, day, period, starttime, endtime ) ";
+                $statement .= "VALUES ";
+                $statement .= "( '$gpuntisID', '$semesterID', '$day', '$period', '$starttime', '$endtime' )";
+                $query->insert($statement);
+                $dbo->setQuery((string)$query);
+                $dbo->query();
+
+                $query = $dbo->getQuery(true);
+                $query->select("id");
+                $query->from("#__thm_organizer_periods");
+                $query->where("gpuntisID = '$gpuntisID'");
+                $query->where("semesterID = '$semesterID'");
+                $dbo->setQuery((string)$query);
+                $timeperiods[$day][$period]['id'] = $dbo->loadResult();
+            }
+            else
+            {
+                $timeperiods[$day][$period]['id'] = $savedID;
+                $query = $dbo->getQuery(true);
+                $query->update("#__thm_organizer_periods");
+                $set = "day = '$day', period = '$period', ";
+                $set .= "starttime = '$startime', endtime = '$endtime' ";
+                $query->set($set);
+                $query->where("id = '$savedID'");
+                $dbo->setQuery((string)$query);
+                $dbo->query();
+                unset($set);
+            }
+            unset($gpuntisID, $day, $period, $starttime, $endtime, $savedID);
         }
         unset($timeperiodsnode);
 
         $descriptions = array();
         $descriptionsnode = $schedule->descriptions;
-        foreach($descriptionsnode->children() as $description)
+        foreach($descriptionsnode->children() as $descriptionNode)
         {
-            $id = trim((string)$description[0]['id']);
-            $name = trim((string)$description->longname);
-            $descriptions[$id] = $name;
-            unset($id, $name);
+            $gpuntisID = trim((string)$descriptionNode[0]['id']);
+            $details = explode(', ', trim((string)$descriptionNode->longname));
+            $category = $details[0];
+            $descriptions[$gpuntisID]['category'] = $category;
+            $description = (isset($details[1]))? $details[1] : '';
+            $descriptions[$gpuntisID]['description'] = $description;
+
+            $query = $dbo->getQuery(true);
+            $query->select("id");
+            $query->from("#__thm_organizer_descriptions");
+            $query->where("gpuntisID = '$gpuntisID'");
+            $dbo->setQuery((string)$query);
+            $savedID = $dbo->loadResult();
+
+            if(empty($savedID))
+            {
+                $query = $dbo->getQuery(true);
+                $statement = "#__thm_organizer_descriptions ";
+                $statement .= "( gpuntisID, category, description ) ";
+                $statement .= "VALUES ";
+                $statement .= "( '$gpuntisID', '$category', '$description' )";
+                $query->insert($statement);
+                $dbo->setQuery((string)$query);
+                $dbo->query();
+
+                $query = $dbo->getQuery(true);
+                $query->select("id");
+                $query->from("#__thm_organizer_descriptions");
+                $query->where("gpuntisID = '$gpuntisID'");
+                $dbo->setQuery((string)$query);
+                $descriptions[$gpuntisID]['id'] = $dbo->loadResult();
+                unset($statement);
+            }
+            else
+            {
+                $descriptions[$gpuntisID]['id'] = $savedID;
+                $query = $dbo->getQuery(true);
+                $query->update("#__thm_organizer_descriptions");
+                $set = "category = '$category', description = '$description' ";
+                $query->set($set);
+                $query->where("id = '$savedID'");
+                $dbo->setQuery((string)$query);
+                $dbo->query();
+                unset($set);
+            }
+            unset($gpuntisID, $details, $category, $description, $savedID);
         }
         unset($descriptionsnode);
 
@@ -600,29 +669,28 @@ class thm_organizersModelschedule extends JModel
         $departmentsnode = $schedule->departments;
         foreach($departmentsnode->children() as $dptnode)
         {
-            $id = (string)$dptnode[0]['id'];
-            $departments[$id] = array();
+            $gpuntisID = (string)$dptnode[0]['id'];
+            $departments[$gpuntisID] = array();
 
             $details = explode(",",(string)$dptnode->longname);
             $name = $details[count($details) - 1];
-            $departments[$id]['name'] = $name;
+            $departments[$gpuntisID]['name'] = $name;
             $institution = $campus = $department = $subdepartment = "";
             if(isset($details [0]))$institution = trim($details [0]);
-            $departments[$id]['institution'] = $institution;
+            $departments[$gpuntisID]['institution'] = $institution;
             if(isset($details [1]))$campus = trim($details [1]);
-            $departments[$id]['campus'] = $campus;
+            $departments[$gpuntisID]['campus'] = $campus;
             if(isset($details [2]))$department = trim($details [2]);
-            $departments[$id]['department'] = $department;
+            $departments[$gpuntisID]['department'] = $department;
             if(isset($details [3]))$subdepartment = trim($details [3]);
-            $departments[$id]['subdepartment'] = $subdepartment;
+            $departments[$gpuntisID]['subdepartment'] = $subdepartment;
 
             $query = $dbo->getQuery(true);
             $query->select("id");
             $query->from("#__thm_organizer_departments");
-            $query->where("gpuntisID = '$id'");
+            $query->where("gpuntisID = '$gpuntisID'");
             $dbo->setQuery((string)$query);
             $savedID = $dbo->loadResult();
-            unset($query);
 
             if(empty($savedID))
             {
@@ -630,23 +698,22 @@ class thm_organizersModelschedule extends JModel
                 $statement = "#__thm_organizer_departments
                               ( gpuntisID, name, institution, campus, department, subdepartment )
                               VALUES
-                              ( '$id', '$name', '$institution', '$campus', '$department', '$subdepartment' )";
+                              ( '$gpuntisID', '$name', '$institution', '$campus', '$department', '$subdepartment' )";
                 $query->insert($statement);
                 $dbo->setQuery((string)$query);
                 $dbo->query();
-                unset($query);
 
                 $query = $dbo->getQuery(true);
                 $query->select("id");
                 $query->from("#__thm_organizer_departments");
-                $query->where("gpuntisID = '$id'");
+                $query->where("gpuntisID = '$gpuntisID'");
                 $dbo->setQuery((string)$query);
-                $departments[$id]['id'] = $dbo->loadResult();
-                unset($query);
+                $departments[$gpuntisID]['id'] = $dbo->loadResult();
+                unset($statement);
             }
             else
             {
-                $departments[$id]['id'] = $savedID;
+                $departments[$gpuntisID]['id'] = $savedID;
                 $query = $dbo->getQuery(true);
                 $query->update("#__thm_organizer_departments");
                 $set = "name = '$name', institution = '$institution', campus = '$campus', ";
@@ -655,9 +722,9 @@ class thm_organizersModelschedule extends JModel
                 $query->where("id = '$savedID'");
                 $dbo->setQuery((string)$query);
                 $dbo->query();
-                unset($query, $savedID, $set);
+                unset($set);
             }
-            unset($id, $details, $institution, $campus, $department, $subdepartment, $name);
+            unset($gpuntisID, $details, $institution, $campus, $department, $subdepartment, $name, $savedID);
         }
         unset($departmentsnode);
         
@@ -665,63 +732,58 @@ class thm_organizersModelschedule extends JModel
         $roomsnode = $schedule->rooms;
         foreach($roomsnode->children() as $room)
         {
-            $id = trim((string)$room[0]['id']);
-            $name = str_replace("RM_","",$id);
-            $rooms[$id]['name'] = $name;
+            $gpuntisID = trim((string)$room[0]['id']);
+            $name = str_replace("RM_","",$gpuntisID);
+            $rooms[$gpuntisID]['name'] = $name;
             $longname = trim((string)$room->longname);
-            $rooms[$id]['longname'] = $longname;
+            $rooms[$gpuntisID]['longname'] = $longname;
             $capacity = (int)$room->capacity;
             if(empty($capacity)) $capacity = 0;
-            $rooms[$id]['capacity'] = $capacity;
-            $descid = trim((string)$room->room_description[0]['id']);
-            $description = $descriptions[$descid];
-            $rooms[$id]['description'] = $description;
-            $departmentID = trim((string)$room->room_department[0]['id']);
-            $rooms[$id]['department'] = $departmentID;
-            $departmentID = $departments[$departmentID]['id'];
+            $rooms[$gpuntisID]['capacity'] = $capacity;
+            $descriptionID =
+                $descriptions[trim((string)$room->room_description[0]['id'])]['id'];
+            $rooms[$gpuntisID]['descriptionID'] = $descriptionID;
 
             $query = $dbo->getQuery(true);
             $query->select("id");
             $query->from("#__thm_organizer_rooms");
-            $query->where("gpuntisID = '$id'");
+            $query->where("gpuntisID = '$gpuntisID'");
             $dbo->setQuery((string)$query);
             $savedID = $dbo->loadResult();
-            unset($query);
 
             if(empty($savedID))
             {
                 $query = $dbo->getQuery(true);
-                $statement = "#__thm_organizer_rooms
-                              ( gpuntisID, name, alias, capacity, type, departmentID )
-                              VALUES
-                              ( '$id', '$name', '$longname', '$capacity', '$description', '$departmentID' )";
+                $statement = "#__thm_organizer_rooms ";
+                $statement .= "( gpuntisID, name, alias, capacity, descriptionID ) ";
+                $statement .= "VALUES ";
+                $statement .= "( '$gpuntisID', '$name', '$longname', '$capacity', '$descriptionID' ) ";
                 $query->insert($statement);
                 $dbo->setQuery((string)$query);
                 $dbo->query();
-                unset($query);
 
                 $query = $dbo->getQuery(true);
                 $query->select("id");
                 $query->from("#__thm_organizer_rooms");
-                $query->where("gpuntisID = '$id'");
+                $query->where("gpuntisID = '$gpuntisID'");
                 $dbo->setQuery((string)$query);
-                $rooms[$id]['id'] = $dbo->loadResult();
-                unset($query);
+                $rooms[$gpuntisID]['id'] = $dbo->loadResult();
+                unset($statement);
             }
             else
             {
-                $rooms[$id]['id'] = $savedID;
+                $rooms[$gpuntisID]['id'] = $savedID;
                 $query = $dbo->getQuery(true);
                 $query->update("#__thm_organizer_rooms");
                 $set = "name = '$name', alias = '$longname', capacity = '$capacity', ";
-                $set .= "type = '$description', departmentID = '$departmentID'";
+                $set .= "descriptionID = '$descriptionID'";
                 $query->set($set);
                 $query->where("id = '$savedID'");
                 $dbo->setQuery((string)$query);
                 $dbo->query();
-                unset($query, $savedID, $set);
+                unset($set);
             }
-            unset($id, $name, $longname, $capacity, $descid, $description, $dptid);
+            unset($gpuntisID, $name, $longname, $capacity, $descriptionID, $savedID);
         }
         unset($roomsnode, $descriptions);
 
@@ -729,45 +791,43 @@ class thm_organizersModelschedule extends JModel
         $subjectsnode = $schedule->subjects;
         foreach($subjectsnode->children() as $subject)
         {
-            $id = trim((string)$subject[0]['id']);
-            $subjects[$id]['gpuntisID'] = $id;
-            $name = str_replace("SU_","",$id);
-            $subjects[$id]['name'] = $name;
+            $gpuntisID = trim((string)$subject[0]['id']);
+            $subjects[$gpuntisID]['gpuntisID'] = $gpuntisID;
+            $name = str_replace("SU_","",$gpuntisID);
+            $subjects[$gpuntisID]['name'] = $name;
             $alias = trim((string)$subject->longname);
-            $subjects[$id]['longname'] = $alias;
+            $subjects[$gpuntisID]['longname'] = $alias;
             $moduleID = trim($subject->subjectgroup);
             if(empty($moduleID)) $moduleID = '';
-            $subjects[$id]['moduleID'] = $moduleID;
+            $subjects[$gpuntisID]['moduleID'] = $moduleID;
 
             $query = $dbo->getQuery(true);
             $query->select("id");
             $query->from("#__thm_organizer_subjects");
-            $query->where("gpuntisID = '$id' ");
+            $query->where("gpuntisID = '$gpuntisID' ");
             $dbo->setQuery((string)$query);
             $savedID = $dbo->loadResult();
-            unset($query);
 
             if(empty($savedID))
             {
                 $query = $dbo->getQuery(true);
                 $statement = "#__thm_organizer_subjects ( gpuntisID, name, alias, moduleID )
-                              VALUES ( '$id', '$name', '$alias', '$moduleID' )";
+                              VALUES ( '$gpuntisID', '$name', '$alias', '$moduleID' )";
                 $query->insert($statement);
                 $dbo->setQuery((string)$query);
                 $dbo->query();
-                unset($query);
 
                 $query = $dbo->getQuery(true);
                 $query->select("id");
                 $query->from("#__thm_organizer_subjects");
-                $query->where("gpuntisID = '$id' ");
+                $query->where("gpuntisID = '$gpuntisID' ");
                 $dbo->setQuery((string)$query);
-                $subjects[$id]['id'] = $dbo->loadResult();
-                unset($query);
+                $subjects[$gpuntisID]['id'] = $dbo->loadResult();
+                unset($statement);
             }
             else
             {
-                $subjects[$id]['id'] = $savedID;
+                $subjects[$gpuntisID]['id'] = $savedID;
                 $query = $dbo->getQuery(true);
                 $query->update("#__thm_organizer_subjects");
                 $set = "name = '$name', alias = '$alias', moduleID = '$moduleID'";
@@ -775,9 +835,9 @@ class thm_organizersModelschedule extends JModel
                 $query->where("id = '$savedID'");
                 $dbo->setQuery((string)$query);
                 $dbo->query();
-                unset($query, $savedID, $set);
+                unset($set);
             }
-            unset($id, $name, $alias, $moduleID);
+            unset($gpuntisID, $name, $alias, $moduleID, $savedID);
         }
         unset($subjectsnode);
 
@@ -785,20 +845,20 @@ class thm_organizersModelschedule extends JModel
         $teachersnode = $schedule->teachers;
         foreach($teachersnode->children() as $teacher)
         {
-            $id = trim((string)$teacher[0]['id']);
+            $gpuntisID = trim((string)$teacher[0]['id']);
             $name = trim((string)$teacher->surname);
             $dptid = trim((string)$teacher->teacher_department[0]['id']);
-            $teachers[$id]['name'] = $name;
-            $teachers[$id]['department'] = $dptid;
+            $teachers[$gpuntisID]['name'] = $name;
+            $teachers[$gpuntisID]['department'] = $dptid;
             $departmentID = $departments[$dptid]['id'];
-            $userID = trim((string)$teacher->payrollnumber);
-            if(empty($userID)) $userID = '';
-            $teachers[$id]['userID'] = $userID;
+            $username = trim((string)$teacher->payrollnumber);
+            if(empty($username)) $username = '';
+            $teachers[$gpuntisID]['username'] = $username;
 
             $query = $dbo->getQuery(true);
             $query->select("id");
             $query->from("#__thm_organizer_teachers");
-            $query->where("gpuntisID = '$id'");
+            $query->where("gpuntisID = '$gpuntisID'");
             $dbo->setQuery((string)$query);
             $savedID = $dbo->loadResult();
             unset($query);
@@ -806,33 +866,33 @@ class thm_organizersModelschedule extends JModel
             if(empty($savedID))
             {
                 $query = $dbo->getQuery(true);
-                $statement = "#__thm_organizer_teachers ( gpuntisID, name, manager, departmentID )
-                              VALUES ( '$id', '$name', '$userID', '$departmentID' )";
+                $statement = "#__thm_organizer_teachers ( gpuntisID, name, username, departmentID )
+                              VALUES ( '$gpuntisID', '$name', '$username', '$departmentID' )";
                 $query->insert($statement);
                 $dbo->setQuery((string)$query);
                 $dbo->query();
-                unset($query);
 
                 $query = $dbo->getQuery(true);
                 $query->select("id");
                 $query->from("#__thm_organizer_teachers");
-                $query->where("gpuntisID = '$id'");
+                $query->where("gpuntisID = '$gpuntisID'");
                 $dbo->setQuery((string)$query);
-                $teachers[$id]['id']= $dbo->loadResult();
+                $teachers[$gpuntisID]['id']= $dbo->loadResult();
+                unset($statement);
             }
             else
             {
-                $teachers[$id]['id']= $savedID;
+                $teachers[$gpuntisID]['id']= $savedID;
                 $query = $dbo->getQuery(true);
                 $query->update("#__thm_organizer_teachers");
-                $set = "name = '$name', manager = '$userID', departmentID = '$departmentID'";
+                $set = "name = '$name', username = '$username', departmentID = '$departmentID'";
                 $query->set($set);
                 $query->where("id = '$savedID'");
                 $dbo->setQuery((string)$query);
                 $dbo->query();
-                unset($query, $savedID, $set);
+                unset($set);
             }
-            unset($id, $name, $userid, $dptid);
+            unset($gpuntisID, $name, $username, $dptid, $savedID);
         }
         unset($teachersnode);
 
@@ -840,64 +900,62 @@ class thm_organizersModelschedule extends JModel
         $classesnode = $schedule->classes;
         foreach($classesnode->children() as $class)
         {
-            $id = trim((string)$class[0]['id']);
-            $name = str_replace("CL_", "", $id);
+            $gpuntisID = trim((string)$class[0]['id']);
+            $name = str_replace("CL_", "", $gpuntisID);
             $longname = trim((string)$class->longname);
             $details = explode(",", $longname);
             $major = $details[0];
             $semester = $details[1];
             $teacherID = trim((string)$class->class_teacher[0]['id']);
-            $classes[$id]['name'] = $name;
-            $classes[$id]['alias'] = $longname;
-            $classes[$id]['major'] = $major;
-            $classes[$id]['semester'] = $semester;
-            $classes[$id]['teacher'] = $teacherID;
-            if(isset($teachers[$teacherID]) and isset($teachers[$teacherID]['userID']))
-                $manager = $teachers[$teacherID]['userID'];
-            else $manager = "";
+            $classes[$gpuntisID]['name'] = $name;
+            $classes[$gpuntisID]['alias'] = $longname;
+            $classes[$gpuntisID]['major'] = $major;
+            $classes[$gpuntisID]['semester'] = $semester;
+            $classes[$gpuntisID]['teacher'] = $teacherID;
+            $manager = $teachers[$teacherID]['username'];
 
             $query = $dbo->getQuery(true);
             $query->select("id");
             $query->from("#__thm_organizer_classes");
-            $query->where("gpuntisID = '$id'");
+            $query->where("gpuntisID = '$gpuntisID'");
             $dbo->setQuery((string)$query);
             $savedID = $dbo->loadResult();
-            unset($query);
 
             if(empty($savedID))
             {
                 $query = $dbo->getQuery(true);
-                $statement = "#__thm_organizer_classes
-                              ( gpuntisID, name, alias, manager, semester, major )
-                              VALUES
-                              ( '$id', '$name', '$longname', '$manager', '$semester', '$major' )";
+                $statement = "#__thm_organizer_classes ";
+                $statement .= "( gpuntisID, name, alias, manager, semester, major ) ";
+                $statement .= "VALUES ";
+                $statement .= "( '$gpuntisID', '$name', '$longname', '$manager', '$semester', '$major' ) ";
                 $query->insert($statement);
                 $dbo->setQuery((string)$query);
+                $stringquery = (string)$query;
+            echo "<pre>".print_r($stringquery, true)."</pre>";
                 $dbo->query();
-                unset($query);
 
                 $query = $dbo->getQuery(true);
                 $query->select("id");
                 $query->from("#__thm_organizer_classes");
-                $query->where("gpuntisID = '$id'");
+                $query->where("gpuntisID = '$gpuntisID'");
                 $dbo->setQuery((string)$query);
-                $classes[$id]['id'] = $dbo->loadResult();
-                unset($query);
+                $classes[$gpuntisID]['id'] = $dbo->loadResult();
+                unset($statement);
             }
             else
             {
-                $classes[$id]['id'] = $savedID;
+                $classes[$gpuntisID]['id'] = $savedID;
                 $query = $dbo->getQuery(true);
                 $query->update("#__thm_organizer_classes");
-                $set = "name = '$name', alias = '$longname',  manager = '$manager',
-                        semester = '$semester',  major = '$major'";
+                $set = "name = '$name', alias = '$longname',  manager = '$manager', ";
+                $set .= "semester = '$semester',  major = '$major'";
                 $query->set($set);
                 $query->where("id = '$savedID'");
                 $dbo->setQuery((string)$query);
                 $dbo->query();
-                unset($query, $savedID, $set);
+                unset($set);
             }
-            unset($id, $name, $longname, $manager, $semester, $major, $details);
+            unset($gpuntisID, $name, $longname, $manager, $semester, $major, $details, $savedID);
         }
         unset($classesnode);
 
@@ -908,8 +966,8 @@ class thm_organizersModelschedule extends JModel
         {
             foreach($lessonsnode->children() as $lesson)
             {
-                $id = trim((string)$lesson[0]['id']);
-                $id = substr($id, 0, strlen($id) - 2);
+                $gpuntisID = trim((string)$lesson[0]['id']);
+                $gpuntisID = substr($gpuntisID, 0, strlen($gpuntisID) - 2);
                 $subjectID = trim((string)$lesson->lesson_subject[0]['id']);
                 $subjectID = $subjects[$subjectID]['id'];
                 $lessontype = trim((string)$lesson->text1);
@@ -918,29 +976,29 @@ class thm_organizersModelschedule extends JModel
                 $query->select("id");
                 $query->from("#__thm_organizer_lessons");
                 $query->where("semesterID = '$semesterID'");
-                $query->where("gpuntisID = '$id'");
+                $query->where("gpuntisID = '$gpuntisID'");
                 $dbo->setQuery((string)$query);
                 $lessonID = $dbo->loadResult();
 
                 if(empty($lessonID))
                 {
                     $query = $dbo->getQuery(true);
-                    $statement = "#__thm_organizer_lessons
-                                  ( gpuntisID, subjectID, semesterID, plantypeID,  type )
-                                  VALUES
-                                  ( '$id', '$subjectID', '$semesterID','1', '$lessontype' )";
+                    $statement = "#__thm_organizer_lessons ";
+                    $statement .= "( gpuntisID, subjectID, semesterID, plantypeID,  type ) ";
+                    $statement .= "VALUES ";
+                    $statement .= "( '$gpuntisID', '$subjectID', '$semesterID','1', '$lessontype' ) ";
                     $query->insert($statement);
                     $dbo->setQuery((string)$query);
                     $dbo->query();
-                    unset($query);
 
                     $query = $dbo->getQuery(true);
                     $query->select("id");
                     $query->from("#__thm_organizer_lessons");
                     $query->where("semesterID = '$semesterID'");
-                    $query->where("gpuntisID = '$id'");
+                    $query->where("gpuntisID = '$gpuntisID'");
                     $dbo->setQuery((string)$query);
                     $lessonID = $dbo->loadResult();
+                    unset($statement);
                 }
 
                 $teacherID = trim((string)$lesson->lesson_teacher[0]['id']);
@@ -957,18 +1015,19 @@ class thm_organizersModelschedule extends JModel
                 if($countTeachers == 0)
                 {
                     $query = $dbo->getQuery(true);
-                    $statement = "#__thm_organizer_lesson_teachers ( lessonID, teacherID )
-                                  VALUES ( '$lessonID', '$teacherID' )";
+                    $statement = "#__thm_organizer_lesson_teachers ";
+                    $statement .= "( lessonID, teacherID ) ";
+                    $statement .= "VALUES ";
+                    $statement .= "( '$lessonID', '$teacherID' ) ";
                     $query->insert($statement);
                     $dbo->setQuery((string)$query);
                     $dbo->query();
-                    unset($query);
+                    unset($statement);
                 }
 
                 $classIDs = trim((string)$lesson->lesson_classes[0]['id']);
                 $classIDs = explode(" ", $classIDs);
-                foreach($classIDs as $k => $v)
-                    $classIDs[$k] = $classes[$v]['id'];
+                foreach($classIDs as $k => $v) $classIDs[$k] = $classes[$v]['id'];
 
                 foreach($classIDs as $classID)
                 {
@@ -983,12 +1042,14 @@ class thm_organizersModelschedule extends JModel
                     if($countClasses == 0)
                     {
                         $query = $dbo->getQuery(true);
-                        $statement = "#__thm_organizer_lesson_classes ( lessonID, classID )
-                                      VALUES ( '$lessonID', '$classID' )";
+                        $statement = "#__thm_organizer_lesson_classes ";
+                        $statement .= "( lessonID, classID ) ";
+                        $statement .= "VALUES ";
+                        $statement .= "( '$lessonID', '$classID' ) ";
                         $query->insert($statement);
                         $dbo->setQuery((string)$query);
                         $dbo->query();
-                        unset($query);
+                        unset($statement);
                     }
                 }
 
@@ -998,8 +1059,7 @@ class thm_organizersModelschedule extends JModel
                     $day = (int)$instance->assigned_day;
                     $period = (int)$instance->assigned_period;
                     $periodID = $timeperiods[$day][$period]['id'];
-                    $roomID = trim((string)$instance->assigned_room[0]['id']);
-                    $roomID = $rooms[$roomID]['id'];
+                    $roomID = $rooms[ trim((string)$instance->assigned_room[0]['id'])]['id'];
 
                     $query = $dbo->getQuery(true);
                     $query->select("COUNT(*)");
@@ -1013,29 +1073,31 @@ class thm_organizersModelschedule extends JModel
                     if($countLTimes == 0)
                     {
                         $query = $dbo->getQuery(true);
-                        $statement = "#__thm_organizer_lesson_times ( lessonID, roomID, periodID )
-                                      VALUES ( '$lessonID', '$roomID', '$periodID' )";
+                        $statement = "#__thm_organizer_lesson_times ";
+                        $statement .= "( lessonID, roomID, periodID ) ";
+                        $statement .= "VALUES ";
+                        $statement .= "( '$lessonID', '$roomID', '$periodID' ) ";
                         $query->insert($statement);
                         $dbo->setQuery((string)$query);
                         $dbo->query();
                     }
 
                     $tpID = $timeperiods[$day][$period]['gpuntisID'];
-                    if(!isset($lessons[$id]))
+                    if(!isset($lessons[$gpuntisID]))
                     {
-                        $lessons[$id] = array();
-                        $lessons[$id]['type'] = $lessontype;
+                        $lessons[$gpuntisID] = array();
+                        $lessons[$gpuntisID]['type'] = $lessontype;
                     }
-                    $lessons[$id][$tpID] = array();
-                    $lessons[$id][$tpID]['source'] = $planType;
-                    $lessons[$id][$tpID]['subjectID'] = $subjectID;
+                    $lessons[$gpuntisID][$tpID] = array();
+                    $lessons[$gpuntisID][$tpID]['source'] = $planType;
+                    $lessons[$gpuntisID][$tpID]['subjectID'] = $subjectID;
 
-                    if(!isset($lessons[$id][$tpID]['classIDs']))
-                        $lessons[$id][$tpID]['classIDs'] = array();
+                    if(!isset($lessons[$gpuntisID][$tpID]['classIDs']))
+                        $lessons[$gpuntisID][$tpID]['classIDs'] = array();
                     foreach($classIDs as $classID)
                     {
-                        if(!in_array($classID, $lessons[$id][$tpID]['classIDs']))
-                            $lessons[$id][$tpID]['classIDs'][] = $classID;
+                        if(!in_array($classID, $lessons[$gpuntisID][$tpID]['classIDs']))
+                            $lessons[$gpuntisID][$tpID]['classIDs'][] = $classID;
                     }
 
                     $query = $dbo->getQuery(true);
@@ -1045,12 +1107,12 @@ class thm_organizersModelschedule extends JModel
                     $dbo->setQuery((string)$query);
                     $lessonTeachers = $dbo->loadResultArray();
                     
-                    if(!isset($lessons[$id][$tpID]['teacherIDs']))
-                        $lessons[$id][$tpID]['teacherIDs'] = array();
+                    if(!isset($lessons[$gpuntisID][$tpID]['teacherIDs']))
+                        $lessons[$gpuntisID][$tpID]['teacherIDs'] = array();
                     foreach($lessonTeachers as $lessonTeacher)
                     {
-                        if(!in_array($lessonTeacher, $lessons[$id][$tpID]['teacherIDs']))
-                            $lessons[$id][$tpID]['teacherIDs'][] = $lessonTeacher;
+                        if(!in_array($lessonTeacher, $lessons[$gpuntisID][$tpID]['teacherIDs']))
+                            $lessons[$gpuntisID][$tpID]['teacherIDs'][] = $lessonTeacher;
                     }
 
                     $query = $dbo->getQuery(true);
@@ -1061,17 +1123,16 @@ class thm_organizersModelschedule extends JModel
                     $dbo->setQuery((string)$query);
                     $lessonRooms = $dbo->loadResultArray();
 
-                    if(!isset($lessons[$id][$tpID]['roomIDs']))
-                        $lessons[$id][$tpID]['roomIDs'] = array();
+                    if(!isset($lessons[$gpuntisID][$tpID]['roomIDs']))
+                        $lessons[$gpuntisID][$tpID]['roomIDs'] = array();
                     foreach($lessonRooms as $lessonRoom)
                     {
-                        if(!in_array($roomID, $lessons[$id][$tpID]['roomIDs']))
-                            $lessons[$id][$tpID]['roomIDs'][] = $lessonRoom;
+                        if(!in_array($roomID, $lessons[$gpuntisID][$tpID]['roomIDs']))
+                            $lessons[$gpuntisID][$tpID]['roomIDs'][] = $lessonRoom;
                     }
-
                     unset($countLT, $day, $period, $periodID, $roomID, $tpID);
                 }
-                unset($id, $subjectid, $name, $teacherid, $classGPIDs, $classIDs, $lessontype, $periods, $times);
+                unset($gpuntisID, $subjectid, $name, $teacherid, $classGPIDs, $classIDs, $lessontype, $periods, $times);
             }
         }
         unset($lessonsnode);
@@ -1552,7 +1613,7 @@ class thm_organizersModelschedule extends JModel
      *
      * Adds or updates the description of the schedule.
      */
-    function edit_comment()
+    public function edit_comment()
     {
         $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
         if(!empty($scheduleIDs))

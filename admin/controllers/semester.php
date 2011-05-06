@@ -130,30 +130,31 @@ class thm_organizersControllerSemester extends JController
             if($fileType == "text/xml")
             {
                 $result = $model->upload();
-                if($result == true)
+                $msg = "<pre>".print_r($result, true)."</pre>";
+                if($result === true)
                 {
                     $msg = JText::_("The schedule has been successfully uploaded.");
                     $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg);
                 }
-                else if($result == false)
+                else if($result === false)
                 {
                     $msg = JText::_("An error has occured while uploading the file.");
                     $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'error');
                 }
                 else if(isset($result['errors']))
                 {
-                    $errorText = JText::_('The file was not saved to the database due to the following critical inconsistencies:');
+                    $errorText = "<h3>".JText::_('The file was not saved to the database due to the following critical inconsistencies:')."</h3>";
                     $msg = $errorText.$result['errors'];
                     if(isset($result['warnings']))
                     {
-                        $warningText = "<br />".JText::_('The file additionally displayed the following minor inconsistencies:');
+                        $warningText = "<br /><h4>".JText::_('The file additionally displayed the following minor inconsistencies:')."</h4>";
                         $msg .= $warningText.$result['warnings'];
                     }
                     $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'error');
                 }
                 else if(isset($result['warnings']))
                 {
-                    $warningText =  JText::_('The file has been saved, however, it displayed the following minor inconsistencies:');
+                    $warningText =  "<h4>".JText::_('The file has been saved, however, it displayed the following minor inconsistencies:')."</h4>";
                     $msg = $warningText.$result['warnings'];
                     $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'notice');
                 }
