@@ -879,7 +879,7 @@ Ext.extend(mLecture, MySched.Model, {
 			ret += '<img qtip="Veranstaltung l�schen" class="status_icons_delete" src="' + MySched.mainPath + 'images/icon-delete.png" width="12" heigth="12"/>';
 		}
 
-		ret += '<img qtip="Informationen anzeigen" class="status_icons_info" src="' + MySched.mainPath + '/images/information.png" width="12" heigth="12"/>';
+		//ret += '<img qtip="Informationen anzeigen" class="status_icons_info" src="' + MySched.mainPath + '/images/information.png" width="12" heigth="12"/>';
 
 		return ret + ' </div>';
 	},

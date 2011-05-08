@@ -74,7 +74,6 @@ class ICSBauer extends abstrakterBauer
 
 	private function setContent( $arr )
 	{
-
 		foreach ( $arr as $item ) {
 			if ( isset( $item->clas ) && isset( $item->doz ) && isset( $item->room ) ) {
 				if ( isset( $item->block ) && $item->block > 0 ) {

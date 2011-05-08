@@ -162,8 +162,6 @@ class TreeView
 			{
 				$v->expanded = true;
 
-				var_dump(count($v->children));
-
 				if(count($v->children) > 1 )
 					return;
 

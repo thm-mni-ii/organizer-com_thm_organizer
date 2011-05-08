@@ -642,6 +642,10 @@ img.status_icons_delete {
 	padding-right: 1px;
 }
 
+.lecturename {
+	cursor: pointer;
+}
+
 .lesson_add {
 	background: url(../images/icon-publish.png) no-repeat left center;
 }

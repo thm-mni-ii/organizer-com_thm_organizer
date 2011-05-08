@@ -851,6 +851,11 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
       'mouseout': function () {
         if (Ext.getCmp('content-anchor-tip')) Ext.getCmp('content-anchor-tip').destroy();
       },
+      'click': function (e)
+      {
+		e.stopEvent();
+      	this.showModuleInformation(e);
+      },
       scope: this
     });
 
