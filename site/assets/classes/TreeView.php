@@ -257,7 +257,7 @@ class TreeView
 					"clas",
 					$planid,
 					null,
-					$this->getStundenplan($key.".clas", $planid, $semesterID, "class"),
+					$this->getStundenplan($key.".clas", $planid, $semesterID, "clas"),
 					$semesterID
 				);
 		if($temp != null)
@@ -324,7 +324,7 @@ class TreeView
 					"clas",
 					$planid,
 					null,
-					$this->getStundenplan($key.".clas", $planid, $semesterID, "class"),
+					$this->getStundenplan($key.".clas", $planid, $semesterID, "clas"),
 					$semesterID
 				);
 		if($temp != null)
@@ -618,19 +618,19 @@ class TreeView
 	{
 		$roomquery = "SELECT DISTINCT rooms.gpuntisID AS rid, " .
 					 "rooms.capacity, " .
-					 "rooms.type as rtype, " .
-					 "#__thm_organizer_departments.name AS department, " .
+					 "#__thm_organizer_descriptions.category as rtype," .
+					 "#__thm_organizer_descriptions.description as description, " .
 					 "rooms.name AS oname, " .
 					 "'room' AS otype, " .
 					 "rooms.manager, " .
 					 "count(lesson_times.lessonID) AS lessonamount " .
 					 "FROM #__thm_organizer_rooms AS rooms " .
-					 "INNER JOIN #__thm_organizer_departments " .
-					 "ON #__thm_organizer_departments.id = rooms.departmentID " .
 					 "INNER JOIN #__thm_organizer_lesson_times AS lesson_times " .
 					 "ON rooms.id = lesson_times.roomID " .
 					 "INNER JOIN #__thm_organizer_lessons " .
 					 "ON lesson_times.lessonID = #__thm_organizer_lessons.id " .
+					 "INNER JOIN #__thm_organizer_descriptions " .
+					 "ON #__thm_organizer_descriptions.id = rooms.descriptionID " .
 					 "WHERE #__thm_organizer_lessons.plantypeID = " .$planid." " .
 					 "AND #__thm_organizer_lessons.semesterID = " .$semesterID." " .
 					 "GROUP BY rooms.id";
@@ -641,14 +641,18 @@ class TreeView
 		if ( count( $res ) != 0 ) {
 			for ( $i = 0; $i < count( $res ); $i++ ) {
 				$data = $res[ $i ];
-				$key  = $data->department . "-" . $data->rtype;
+
+				if(strlen($data->description) == 0 || $data->description == null)
+					$key  = $data->rtype;
+				else
+					$key  = $data->rtype." (".$data->description.")";
 				$roomid = $data->rid;
 				if ( !isset( $roomarray[ $key ] ) ) {
 					$roomarray[ $key ] = array( );
 				}
 				$roomarray[ $key ][ $roomid ]                   = array( );
 				$roomarray[ $key ][ $roomid ][ "id" ]           = trim($roomid);
-				$roomarray[ $key ][ $roomid ][ "department" ]   = trim($data->department);
+				$roomarray[ $key ][ $roomid ][ "description" ]   = trim($data->description);
 				$roomarray[ $key ][ $roomid ][ "name" ]         = trim($data->oname);
 				$roomarray[ $key ][ $roomid ][ "otype" ]        = trim($data->otype);
 				$roomarray[ $key ][ $roomid ][ "rtype" ]        = trim($data->rtype);
@@ -671,30 +675,31 @@ class TreeView
 		if ( count( $res ) != 0 ) {
 			for ( $i = 0; $i < count( $res ); $i++ ) {
 				$data = $res[ $i ];
-				if ( !isset( $roomarray[ $data->department ] ) ) {
-					$roomarray[ $data->department ] = array( );
-				}
-				if ( !isset( $roomarray[ $data->department ][ $data->vid ] ) ) {
-					$roomarray[ $data->department ][ $data->vid ] = array( );
-				}
-				$roomarray[ $data->department ][ $data->vid ][ "id" ]         = trim($data->vid);
-				$roomarray[ $data->department ][ $data->vid ][ "department" ] = trim($data->department);
-				$roomarray[ $data->department ][ $data->vid ][ "name" ]       = trim($data->vname);
-				$roomarray[ $data->department ][ $data->vid ][ "otype" ]      = trim($data->vtype);
-				$rtype                                                        = explode( '-', $data->department );
 
-				if(count($rtype) == 1)
-					$roomarray[ $data->department ][ $data->vid ][ "rtype" ]      = trim($data->department);
+				if(strlen($data->description) == 0 || $data->description == null)
+					$key  = $data->rtype;
 				else
-					$roomarray[ $data->department ][ $data->vid ][ "rtype" ]      = trim($rtype[ 1 ]);
+					$key  = $data->rtype." (".$data->description.")";
 
-				$roomarray[ $data->department ][ $data->vid ][ "manager" ]    = trim($data->vresponsible);
-				if ( !isset( $roomarray[ $data->department ][ $data->vid ][ "elements" ] ) )
-					$roomarray[ $data->department ][ $data->vid ][ "elements" ] = array( );
-				$roomarray[ $data->department ][ $data->vid ][ "elements" ][ $data->eid ] = trim($data->eid);
-				if ( !isset( $roomarray[ $data->department ][ $data->vid ][ "lessonamount" ] ) )
-					$roomarray[ $data->department ][ $data->vid ][ "lessonamount" ] = 0;
-				$roomarray[ $data->department ][ $data->vid ][ "lessonamount" ] = $roomarray[ $data->department ][ $data->vid ][ "lessonamount" ] + $this->getCountRoomLessons( $data->eid, $semesterID );
+				if ( !isset( $roomarray[ $key ] ) ) {
+					$roomarray[ $key ] = array( );
+				}
+				if ( !isset( $roomarray[ $key ][ $data->vid ] ) ) {
+					$roomarray[ $key ][ $data->vid ] = array( );
+				}
+				$roomarray[ $key ][ $data->vid ][ "id" ]         = trim($data->vid);
+				$roomarray[ $key ][ $data->vid ][ "description" ] = trim($data->description);
+				$roomarray[ $key ][ $data->vid ][ "name" ]       = trim($data->vname);
+				$roomarray[ $key ][ $data->vid ][ "otype" ]      = trim($data->vtype);
+				$roomarray[ $key ][ $data->vid ][ "rtype" ]      =  trim($data->rtype);
+
+				$roomarray[ $key ][ $data->vid ][ "manager" ]    = trim($data->vresponsible);
+				if ( !isset( $roomarray[ $key ][ $data->vid ][ "elements" ] ) )
+					$roomarray[ $key ][ $data->vid ][ "elements" ] = array( );
+				$roomarray[ $key ][ $data->vid ][ "elements" ][ $data->eid ] = trim($data->eid);
+				if ( !isset( $roomarray[ $key ][ $data->vid ][ "lessonamount" ] ) )
+					$roomarray[ $keyt ][ $data->vid ][ "lessonamount" ] = 0;
+				$roomarray[ $key ][ $data->vid ][ "lessonamount" ] = $roomarray[ $key ][ $data->vid ][ "lessonamount" ] + $this->getCountRoomLessons( $data->eid, $semesterID );
 			}
 		}
 
@@ -707,7 +712,7 @@ class TreeView
 						"departments.name AS department, " .
 						"teachers.name, " .
 						"'teacher' AS otype, " .
-						"teachers.manager, " .
+						"teachers.username as manager, " .
 						"count(lesson_teacher.lessonID) AS lessonamount " .
 						"FROM #__thm_organizer_teachers AS teachers " .
 						"INNER JOIN #__thm_organizer_departments AS departments " .

@@ -294,6 +294,11 @@ class UserSchedule
 
               $data = json_decode($data);
 
+			  if (isset($data))
+              if (is_array($data))
+              if(count($data) > 1)
+              {
+
               $query = "SELECT " .
               			 "CONCAT('".$this->semID."',CONCAT('.1',CONCAT('.',CONCAT(CONCAT(#__thm_organizer_lessons.gpuntisID, ' '),#__thm_organizer_periods.gpuntisID)))) AS mykey," .
 						 "#__thm_organizer_lessons.gpuntisID AS lid, " .
@@ -345,7 +350,7 @@ class UserSchedule
               $query = $query . ");";
 
               $ret = $this->JDA->query($query);
-
+              }
               $lessons = array();
 
               if (isset($ret))
