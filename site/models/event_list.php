@@ -498,21 +498,22 @@ class thm_organizerModelevent_list extends JModelForm
      */
     private function canUserWrite()
     {
-        $canWrite = false;
-
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("DISTINCT asset_id");
+        $query->select("DISTINCT c.id");
         $query->from("#__categories AS c");
         $query->innerJoin("#__thm_organizer_categories AS ec ON ec.contentCatID = c.id");
         $dbo->setQuery((string)$query);
-        $assetIDs = $dbo->loadResultArray();
-        if(count($assetIDs))
+        $categoryIDs = $dbo->loadResultArray();
+
+        $canWrite = false;
+        $user = JFactory::getUser();
+        if(count($categoryIDs))
         {
-            foreach($assetIDs as $assetID)
+            foreach($categoryIDs as $categoryID)
             {
                 if($canWrite == true)return $canWrite;
-                else $canWrite = JAccess::check (JFactory::getUser ()->id, 'core.create', $assetID);
+                else $canWrite = $user->authorize('core.create', 'com_content.category'.$categoryID);
             }
             return $canWrite;
         }
