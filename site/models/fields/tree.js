@@ -6,7 +6,7 @@ Ext.tree.TreeNode.prototype.check = function(state, descend, bulk) {
 	this.ui.checkbox.checked = state;
 
 	if( descend && !this.isLeaf() ) {
-		var cs = this.childNodes;
+		var cs = this.attributes.children;
       	for(var i = 0; i < cs.length; i++) {
       		cs[i].check(state, true, true);
       	}
