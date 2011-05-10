@@ -38,7 +38,7 @@ Joomla.submitbutton = function(task)
         }
         if (isValid)
         {
-            Joomla.submitform(task, document.getElementById('eventForm'));
+            Joomla.submitform(task, document.eventForm);
             return true;
         }
         else
