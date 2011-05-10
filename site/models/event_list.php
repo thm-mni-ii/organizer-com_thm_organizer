@@ -512,10 +512,9 @@ class thm_organizerModelevent_list extends JModelForm
         {
             foreach($categoryIDs as $categoryID)
             {
-                if($canWrite == true)return $canWrite;
-                else $canWrite = $user->authorize('core.create', 'com_content.category'.$categoryID);
+                $canWrite = $user->authorize('core.create', 'com_content.category'.$categoryID);
+                if($canWrite == true)break;
             }
-            return $canWrite;
         }
         return $canWrite;
     }

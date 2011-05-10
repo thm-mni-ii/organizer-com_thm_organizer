@@ -281,7 +281,7 @@ class thm_organizerModelevent_edit extends JModelForm
         $query->where("link LIKE '%event_list%'");
         $dbo->setQuery((string)$query);
         $link = $dbo->loadResult();
-        if(isset($link) and $link != "");$this->listLink = JRoute::_ ($listLink);
+        if(isset($link) and $link != "");$this->listLink = JRoute::_($link);
 
         if($this->event['id'] > 0)
             $this->eventLink = JRoute::_("index.php?option=com_thm_organizer&view=event&eventID=".$this->event['id']."&Itemid=$menuID");

@@ -13,12 +13,7 @@ $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : fa
 $i = 0;
 foreach($this->categories as $category)
 {
-    echo "\tcategories[{$category['id']}] = new Array(
-        '".addslashes($category['description'])."',
-        '".addslashes($category['display'])."',
-        '".addslashes($category['contentCat'])."',
-        '".addslashes($category['contentCatDesc'])."',
-        '".addslashes($category['access'])."' );\n";
+    echo 'categories['.$category['id'].'] = new Array( "'.mysql_real_escape_string($category['description']).'", "'.addslashes($category['display']).'",  "'.addslashes($category['contentCat']).'", "'.addslashes($category['contentCatDesc']).'", "'.addslashes($category['access']).'" );';
 }
 ?>
 
@@ -103,19 +98,19 @@ Joomla.submitbutton = function(task)
                 </div>
             </div>
             <div id="thm_organizer_ee_event_cat_desc_div" >
-                <p><?php echo $this->categories[$this->event['categoryID']]['description']; ?></p>
+                <div><?php echo $this->categories[$this->event['categoryID']]['description']; ?></div>
             </div>
             <div id="thm_organizer_ee_event_cat_disp_div" >
-                <p><?php echo $this->categories[$this->event['categoryID']]['display']; ?></p>
+                <div><?php echo $this->categories[$this->event['categoryID']]['display']; ?></div>
             </div>
             <div id="thm_organizer_ee_content_cat_name_div" >
-                <p><?php echo $this->categories[$this->event['categoryID']]['contentCat']; ?></p>
+                <div><?php echo $this->categories[$this->event['categoryID']]['contentCat']; ?></div>
             </div>
             <div id="thm_organizer_ee_content_cat_desc_div" >
-                <p><?php echo $this->categories[$this->event['categoryID']]['contentCatDesc']; ?></p>
+                <div><?php echo $this->categories[$this->event['categoryID']]['contentCatDesc']; ?></div>
             </div>
             <div id="thm_organizer_ee_content_cat_access_div" >
-                <p><?php echo $this->categories[$this->event['categoryID']]['access']; ?></p>
+                <div><?php echo $this->categories[$this->event['categoryID']]['access']; ?></div>
             </div>
         </div>
         <div id="thm_organizer_ee_name_div">
