@@ -3,10 +3,11 @@ Ext.tree.TreeNode.prototype.check = function(state, descend, bulk) {
 	var tree = this.getOwnerTree();
 
 	this.attributes.checked = state;
-	this.ui.checkbox.checked = state;
+	if(this.ui.checkbox)
+		this.ui.checkbox.checked = state;
 
 	if( descend && !this.isLeaf() ) {
-		var cs = this.attributes.children;
+		var cs = this.childNodes;
       	for(var i = 0; i < cs.length; i++) {
       		cs[i].check(state, true, true);
       	}
@@ -39,7 +40,6 @@ Ext.tree.TreePanel.prototype.getChecked = function(node){
 	return checked;
 };
 
-
 Ext.onReady(function(){
 		Ext.QuickTips.init();
 		var Tree = Ext.tree;
@@ -59,12 +59,10 @@ Ext.onReady(function(){
 	            children: children,
 	            expanded: true
 	        },
+	        loader: new Ext.tree.TreeLoader({preloadChildren: true}),
 	        listeners: {
 	            checkchange: function(node, checked)
 	            {
-	            	/*var paramID = Ext.get('jform_params_id');
-					var paramValue = tree.getChecked().join('/');
-					paramID.dom.value = paramValue;*/
 					node.check(checked, true, false);
 	            }
        	    }
