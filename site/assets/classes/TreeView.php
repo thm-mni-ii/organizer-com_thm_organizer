@@ -160,10 +160,10 @@ class TreeView
 				$this->expandSingleNode(& $v);
 			else if(is_array($v->children))
 			{
-				$v->expanded = true;
-
-				if(count($v->children) > 1 )
+				if(count($arr) > 1)
 					return;
+
+				$v->expanded = true;
 
 				$this->expandSingleNode(& $v->children);
 			}

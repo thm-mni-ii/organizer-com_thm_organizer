@@ -75,7 +75,7 @@ class Events
 		$username = $this->JDA->getUserName();
 
 		$pregres = preg_match( "/[^[:alnum:]]/", $this->jsid );
-		if ( $pregres == 0 && strlen( $this->jsid ) > 0 && $username != "" ) {
+		if ( $pregres == 0 && strlen( $this->jsid ) > 0 && $username != "" && false) { //&& false weil es erstmal rausgenommen wurde
 			try {
 				$SI           = new mySchedImport( $username, $this->jsid, $this->CFG );
 				$estudycalres = $SI->getCalendar();
