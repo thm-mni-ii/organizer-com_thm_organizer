@@ -164,7 +164,7 @@ class thm_organizersModelcategory_edit extends JModel
     {
         $id = JRequest::getVar('id');
         $title = trim(JRequest::getString('title'));
-        $description = trim(JRequest::getString('description'));
+        $description = trim($_REQUEST['description']);
         $global = JRequest::getBool('global');
         $reserves = JRequest::getBool('reserves');
         $contentCatID = JRequest::getInt('contentCat');
@@ -191,8 +191,7 @@ class thm_organizersModelcategory_edit extends JModel
         }
         $dbo->setQuery((string)$query);
         $dbo->query();
-        if($dbo->getErrorNum()) return false;
-        else return true;
+        return ($dbo->getErrorNum())? false : true;
     }
 	
     public function delete()
