@@ -10,8 +10,7 @@ class ICSBauer extends abstrakterBauer
 {
 	private $JDA = null;
 	private $cfg = null;
-	private $workbook = null;
-	private $worksheet = null;
+	private $objPHPExcel = null;
 
 	function __construct($JDA, $cfg)
 	{
@@ -24,20 +23,19 @@ class ICSBauer extends abstrakterBauer
 		$success = false;
 		try
 		{
-			require_once JPATH_COMPONENT.'/assets/Spreadsheet/Excel/Writer.php';
+			/** PHPExcel */
+			require_once JPATH_COMPONENT.'/assets/ExcelClasses/PHPExcel.php';
+			$this->objPHPExcel = new PHPExcel();
 
 			if ( $title == "Mein Stundenplan" )
 				$title = $username . " - " . $title;
 
-			// Creating a workbook
-			$this->workbook = new Spreadsheet_Excel_Writer(JPATH_COMPONENT . $this->cfg[ 'pdf_downloadFolder' ] . $title . ".xls");
+			$this->objPHPExcel->getProperties()->setCreator($username)
+							 ->setLastModifiedBy($username)
+							 ->setTitle($title)
+							 ->setSubject($title);
 
-			$this->workbook->setVersion(8);
-
-			// Creating a worksheet
-			$this->worksheet = & $this->workbook->addWorksheet($title);
-
-			$this->worksheet->setInputEncoding("UTF-8");
+			$this->objPHPExcel->getActiveSheet()->setTitle($title);
 
 			// The actual data
 			$success = $this->setHead();
@@ -45,8 +43,10 @@ class ICSBauer extends abstrakterBauer
 				$success = $this->setContent( $arr );
 
 			if($success)
-				// Let's send the file
-				$this->workbook->close();
+			{
+				$objWriter = PHPExcel_IOFactory::createWriter($this->objPHPExcel, 'Excel5');
+				$objWriter->save(JPATH_COMPONENT . $this->cfg[ 'pdf_downloadFolder' ] . $title . ".xls");
+			}
 		}
 		catch(Exception $e)
 		{
@@ -61,14 +61,15 @@ class ICSBauer extends abstrakterBauer
 
 	private function setHead( )
 	{
-		$this->worksheet->write(0, 0, 'Titel der Veranstaltung');
-		$this->worksheet->write(0, 1, 'Abkürzung');
-		$this->worksheet->write(0, 2, 'ModulNr');
-		$this->worksheet->write(0, 3, 'Typ');
-		$this->worksheet->write(0, 4, 'Wochentag');
-		$this->worksheet->write(0, 5, 'Block');
-		$this->worksheet->write(0, 6, 'Raum');
-		$this->worksheet->write(0, 7, 'Dozent');
+		$this->objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('A1', 'Titel der Veranstaltung')
+            ->setCellValue('B1', 'Abkürzung')
+            ->setCellValue('C1', 'ModulNr')
+            ->setCellValue('D1', 'Typ')
+            ->setCellValue('E1', 'Wochentag')
+            ->setCellValue('F1', 'Block')
+            ->setCellValue('G1', 'Raum')
+            ->setCellValue('H1', 'Dozent');
 		return true;
 	}
 
@@ -103,7 +104,7 @@ class ICSBauer extends abstrakterBauer
 			}
 		}
 
-		$row = 1;
+		$row = 2;
 		foreach ( $arr as $item ) {
 			if ( isset( $item->clas ) && isset( $item->doz ) && isset( $item->room ) ) {
 				if(!isset($item->longname))
@@ -111,14 +112,16 @@ class ICSBauer extends abstrakterBauer
 				if(!isset($item->category))
 					$item->category = "";
 
-				$this->worksheet->write($row, 0, $item->longname);
-				$this->worksheet->write($row, 1, $item->name);
-				$this->worksheet->write($row, 2, $item->moduleID);
-				$this->worksheet->write($row, 3, $item->category);
-				$this->worksheet->write($row, 4, $this->daynumtoday( $item->dow ));
-				$this->worksheet->write($row, 5, $item->block);
-				$this->worksheet->write($row, 6, $item->room);
-				$this->worksheet->write($row, 7, $item->doz);
+
+				$this->objPHPExcel->setActiveSheetIndex(0)
+		            ->setCellValue('A'.$row, $item->longname)
+		            ->setCellValue('B'.$row, $item->name)
+		            ->setCellValue('C'.$row, $item->moduleID)
+		            ->setCellValue('D'.$row, $item->category)
+		            ->setCellValue('E'.$row, $this->daynumtoday( $item->dow ))
+		            ->setCellValue('F'.$row, $item->block)
+		            ->setCellValue('G'.$row, $item->room)
+		            ->setCellValue('H'.$row, $item->doz);
 				$row++;
 			}
 		}
