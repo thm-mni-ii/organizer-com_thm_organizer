@@ -273,6 +273,10 @@ Ext.extend(mSchedule, MySched.Model, {
 		this.data.eachKey(function (k, v) {
 			if (v.data.type == "cyclic" || v.data.type == "personal") {
 				//zyklischer Termin
+
+				if(MySched.eventlist.checkRessource(v.data.room + " " + v.data.doz + " " + v.data.clas, v.data.dow, v.data.block, true) != "")
+					return;
+
 				var wd = v.getWeekDay(),
 					bl = v.getBlock() - 1,
 					date = null;
@@ -323,7 +327,7 @@ Ext.extend(mSchedule, MySched.Model, {
 					var enddate = v.data.enddate.split(".");
 					enddate = new Date(enddate[2], enddate[1]-1, enddate[0]);
 
-					if (startdate <= weekpointer && enddate >= weekpointer) {
+					if (startdate <= weekpointer && enddate >= weekpointer && v.data.reserve == true) {
 						wd = numbertoday(weekpointer.getDay());
 						for (var i = 1; i <= 6; i++) {
 							var blotimes = blocktotime(i);
@@ -362,8 +366,12 @@ Ext.extend(mSchedule, MySched.Model, {
 											bl = i;
 									}
 									else
-										if (v.data.starttime <= blotimes[0] && v.data.endtime > blotimes[1])
+										if (v.data.starttime >= blotimes[0] && v.data.starttime < blotimes[1])
 											bl = i;
+										else if (v.data.starttime <= blotimes[0] && v.data.endtime > blotimes[1])
+											bl = i;
+											else if (v.data.endtime > blotimes[0] && v.data.endtime <= blotimes[1])
+												bl = i;
 								}
 
 							if (bl != null) {
@@ -1264,11 +1272,13 @@ Ext.extend(mEventlist, MySched.Model, {
 
 		return datas.items[0];
 	},
-	checkRessource: function (res, dow, block) {
+	checkRessource: function (res, dow, block, reserve) {
 		var ret = "";
 		var resarr = res.split(" ");
 		var found = false;
 		dow = dow - 1;
+		if(!reserve)
+			reserve = false;
 
 		if (Ext.isNumber(this.data.items.length) == true)
 			for (var y = 0; y < this.data.items.length; y++) {
@@ -1302,7 +1312,7 @@ Ext.extend(mEventlist, MySched.Model, {
 						var enddate = this.data.items[y].data.enddate.split(".");
 						enddate = new Date(enddate[2], enddate[1]-1, enddate[0]);
 
-						if (startdate <= lessondate && enddate >= lessondate) {
+						if (startdate <= lessondate && enddate >= lessondate && this.data.items[y].data.reserve === reserve) {
 							var blotimes = blocktotime(parseInt(block));
 
 							var sbtime = blotimes[0];

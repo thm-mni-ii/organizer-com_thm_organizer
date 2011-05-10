@@ -3045,7 +3045,8 @@ MySched.Tree = function () {
                       n.elements = json["elements"];
                       new mSchedule(key, title).init(type, json["elements"]).show();
                     }
-                    else new mSchedule(key, title).init(type, res).show();
+                    else
+                    	new mSchedule(key, title).init(type, res).show();
                     MySched.loadedLessons[key] = true;
                   }
                   catch(e)

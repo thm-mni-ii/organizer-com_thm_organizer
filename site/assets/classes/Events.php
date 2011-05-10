@@ -31,6 +31,7 @@ class Events
 		if(is_array( $events ))
 		for ( $i = 0; $i < count( $events ); $i++ ) {
 			$temp = $events[$i];
+
 			if ( !isset( $arr[ $temp["id"] ] ) )
 				$arr[ $temp["id"] ] = array( );
 			$arr[ $temp["id"] ][ "eid" ]       = $temp["id"];
@@ -46,6 +47,8 @@ class Events
 			$arr[ $temp["id"] ][ "facultative" ]  = "";
 			$arr[ $temp["id"] ][ "source" ]       = "joomla";
 			$arr[ $temp["id"] ][ "recurrence_type" ] = $temp["rec_type"];
+			$arr[ $temp["id"] ][ "reserve" ] = $eventmodel->reservesobjects($temp["eventCategoryID"]);
+			$arr[ $temp["id"] ][ "global" ] = $eventmodel->globaldisplay($temp["eventCategoryID"]);
 
 			if ( !isset( $arr[ $temp["id"] ][ "objects" ] ) )
 				$arr[ $temp["id"] ][ "objects" ] = array( );
