@@ -87,7 +87,7 @@ class thm_organizersModelmonitor_edit extends JModel
             $statement = "#__thm_organizer_monitors ";
             $statement .= "(roomID, ip) ";
             $statement .= "VALUES ";
-            $statement .= "( '$roomID', '$ip', ) ";
+            $statement .= "( '$roomID', '$ip' ) ";
             $query->insert($statement);
         }
         else
@@ -98,10 +98,7 @@ class thm_organizersModelmonitor_edit extends JModel
         }
         $dbo->setQuery((string)$query );
         $dbo->query();
-        return print_r($monitorID, true);
-//        if ($dbo->getErrorNum())
-//            return "Ein Fehler is aufgetretten.";
-//        return "Erfolgreich gespeichert.";
+        return ($dbo->getErrorNum())? false : true;
     }
 	
     public function delete()
