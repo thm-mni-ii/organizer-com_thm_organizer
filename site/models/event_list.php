@@ -453,7 +453,7 @@ class thm_organizerModelevent_list extends JModelForm
             $dbo->setQuery((string)$query);
             $resourcesResults = array_merge($resourcesResults, $dbo->loadAssocList());
             $resourceNames = array_merge($resourceNames, $dbo->loadResultArray(1));
-            
+
             $query = $dbo->getQuery(true);
             $query->select('id, name, "teacher" AS type');
             $query->from('#__thm_organizer_event_teachers AS et');
@@ -552,4 +552,25 @@ class thm_organizerModelevent_list extends JModelForm
         return $form;
     }
 
+    public function reservesobjects($catID)
+    {
+    	$dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("reservesobjects");
+        $query->from("#__thm_organizer_categories");
+        $query->where("id = $catID");
+        $dbo->setQuery((string)$query);
+        return (bool)$dbo->loadResult();
+    }
+
+    public function globaldisplay($catID)
+    {
+    	$dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("globaldisplay");
+        $query->from("#__thm_organizer_categories");
+        $query->where("id = $catID");
+        $dbo->setQuery((string)$query);
+        return (bool)$dbo->loadResult();
+    }
 }
