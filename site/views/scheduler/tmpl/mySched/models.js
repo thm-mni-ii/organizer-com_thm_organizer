@@ -124,12 +124,14 @@ Ext.extend(mSchedule, MySched.Model, {
 					var datatemp = MySched.Base.getLectures(type, valuearr[i].toLowerCase());
 					if (datatemp.length > 0) this.data.addAll(datatemp.items)
 				}
-				this.data.addAll(MySched.eventlist.getEvents(type, valuearr[i]));
+				//this.data.addAll(MySched.eventlist.getEvents(type, valuearr[i]));
+				this.data.addAll(MySched.eventlist.getEvents());
 			}
 		}
 
 		this.changed = false;
 		this.type = type;
+		this.gpUntisID = value;
 
 		if (type == "clas" && MySched.Mapping.clas.map[value]) {
 			this.responsible = MySched.Mapping.clas.map[value].manager;
@@ -271,41 +273,7 @@ Ext.extend(mSchedule, MySched.Model, {
 		}
 
 		this.data.eachKey(function (k, v) {
-			if (v.data.type == "cyclic" || v.data.type == "personal") {
-				//zyklischer Termin
-
-				if(MySched.eventlist.checkRessource(v.data.room + " " + v.data.doz + " " + v.data.clas, v.data.dow, v.data.block, true) != "")
-					return;
-
-				var wd = v.getWeekDay(),
-					bl = v.getBlock() - 1,
-					date = null;
-				if (bl > 2) bl++;
-				if (v.isSporadic()) {
-					sp.push(v.getSporadicView(this));
-				} else {
-					if (wd) if (typeof bl != "undefined") {
-						if (!ret[bl][wd]) ret[bl][wd] = [];
-
-						wp = wpMO.clone();
-
-						var dow = daytonumber(wd) - 1;
-
-						wp.setDate(wp.getDate() + dow);
-
-						date = wp;
-
-						var begin = MySched.session["begin"].split(".");
-						begin = new Date(begin[2], begin[1]-1, begin[0]);
-						var end = MySched.session["end"].split(".");
-						end = new Date(end[2], end[1]-1, end[0]);
-
-						if ((date >= begin && date <= end) || (this.type == "delta" || this.id == "respChanges"))
-							ret[bl][wd].push(v.getCellView(this));
-					}
-				}
-			}
-			else {
+			if (v.data.type != "cyclic" && v.data.type != "personal") {
 				//sporadischer Termin
 				var wd = null;
 				var bl = null;
@@ -377,23 +345,64 @@ Ext.extend(mSchedule, MySched.Model, {
 							if (bl != null) {
 								if (bl < 4) bl--;
 								if (!ret[bl][wd]) ret[bl][wd] = [];
-								var foundevent = false;
-								for(var retcount = 0; retcount<ret[bl][wd].length; retcount++)
-								{
-									var lessonitem = ret[bl][wd][retcount];
-									if(lessonitem.indexOf("\"MySchedEvent_"+v.data.eid+"\"") != -1)
-									{
-										foundevent = true;
-										break;
-									}
-								}
-								if(foundevent == false)
-									ret[bl][wd].push(v.getEventView(!v.data.reserve));
+
+								var lessonResult = this.data.filterBy(function (o, k) {
+									if (o.data.type == "cyclic" || o.data.type == "personal")
+										for(var eventObjects in v.data.objects)
+										{
+											if(this.gpUntisID === eventObjects)
+												return true;
+											if (o.doz.containsKey(eventObjects) || o.room.containsKey(eventObjects))
+												if(o.data.block == (bl+1) && numbertoday(o.data.dow) == wd)
+													return true;
+										}
+									return false;
+								}, this);
+
+								if(lessonResult.length > 0)
+									ret[bl][wd].push(v.getEventView(this.type));
 							}
 							bl = null;
 						}
 					}
 					weekpointer.setDate(weekpointer.getDate() + 1);
+				}
+			}
+		}, this);
+
+		this.data.eachKey(function (k, v) {
+			if (v.data.type == "cyclic" || v.data.type == "personal") {
+				//zyklischer Termin
+
+				if(MySched.eventlist.checkRessource(v.data.room + " " + v.data.doz + " " + v.data.clas, v.data.dow, v.data.block, true) != "")
+					return;
+
+				var wd = v.getWeekDay(),
+					bl = v.getBlock() - 1,
+					date = null;
+				if (bl > 2) bl++;
+				if (v.isSporadic()) {
+					sp.push(v.getSporadicView(this));
+				} else {
+					if (wd) if (typeof bl != "undefined") {
+						if (!ret[bl][wd]) ret[bl][wd] = [];
+
+						wp = wpMO.clone();
+
+						var dow = daytonumber(wd) - 1;
+
+						wp.setDate(wp.getDate() + dow);
+
+						date = wp;
+
+						var begin = MySched.session["begin"].split(".");
+						begin = new Date(begin[2], begin[1]-1, begin[0]);
+						var end = MySched.session["end"].split(".");
+						end = new Date(end[2], end[1]-1, end[0]);
+
+						if ((date >= begin && date <= end) || (this.type == "delta" || this.id == "respChanges"))
+							ret[bl][wd].push(v.getCellView(this));
+					}
 				}
 			}
 		}, this);
@@ -1187,19 +1196,19 @@ Ext.extend(mLecture, MySched.Model, {
 		if (t == "room") {
 			var dozroomstring = stripHTML((this.getDozNames(this.getDoz()) + this.getClasShorter(this.getClas())));
 			if (dozroomstring.length * 5.5 < width) {
-				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}-{category}</b><br/>{doz_name} / {clas_shorter} ' + time + ' {events} {status_icons}</div>');
+				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}-{category}</b><br/>{doz_name} / {clas_shorter} ' + time + ' {status_icons}</div>');
 			}
 			else {
-				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}-{category}</b><br/>{doz_name}<br/>{clas_shorter} ' + time + ' {events} {status_icons}</div>');
+				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}-{category}</b><br/>{doz_name}<br/>{clas_shorter} ' + time + ' {status_icons}</div>');
 			}
 		}
 		else if (t == "doz") {
 			var dozroomstring = stripHTML((this.getClasShorter(this.getClas()) + this.getShort(this.getRoom())));
 			if (dozroomstring.length * 5.5 < width) {
-				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}-{category}</b><br/>{clas_shorter} / {room_shortname} ' + time + ' {events} {status_icons}</div>');
+				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}-{category}</b><br/>{clas_shorter} / {room_shortname} ' + time + ' {status_icons}</div>');
 			}
 			else {
-				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}-{category}</b><br/>{clas_shorter}<br/>{room_shortname} ' + time + ' {events} {status_icons}</div>');
+				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}-{category}</b><br/>{clas_shorter}<br/>{room_shortname} ' + time + ' {status_icons}</div>');
 			}
 		}
 		else {
@@ -1216,10 +1225,10 @@ Ext.extend(mLecture, MySched.Model, {
 			}
 
 			if (dozroomstring.length * 5.5 < width) {
-				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="' + classcss + ' {css}">' + '{top_icon}<b class="' + lecturecss + '">{desc}-{category}</b><br/>{doz_name} / {room_shortname} ' + time + ' {events} {status_icons}</div>');
+				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="' + classcss + ' {css}">' + '{top_icon}<b class="' + lecturecss + '">{desc}-{category}</b><br/>{doz_name} / {room_shortname} ' + time + ' {status_icons}</div>');
 			}
 			else {
-				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="' + classcss + ' {css}">' + '{top_icon}<b class="' + lecturecss + '">{desc}-{category}</b><br/>{doz_name}<br/>{room_shortname} ' + time + ' {events} {status_icons}</div>');
+				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="' + classcss + ' {css}">' + '{top_icon}<b class="' + lecturecss + '">{desc}-{category}</b><br/>{doz_name}<br/>{room_shortname} ' + time + ' {status_icons}</div>');
 			}
 		}
 	},
@@ -1384,23 +1393,51 @@ mEvent = function (id, data) {
 
 	var MySchedEventClass = 'MySchedEvent_' + this.data.source;
 
-	this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + '{top_icon}<b id="MySchedEvent_{id}" class="MySchedEvent_name">{event_name}</b></div>');
+	this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + '{top_icon}<b id="MySchedEvent_{id}" class="MySchedEvent_name">{event_name}</b><br/>{doz} / {room}</div>');
 }
 
 Ext.extend(mEvent, MySched.Model, {
 	getEventDetailData: function () {
 		return Ext.apply(this.getData(this), {
 			'event_name': this.getName(),
-			'event_info': this.getEventInfoView()
+			'event_info': this.getEventInfoView(),
+			'doz': this.getDozName(),
+			'room': this.getRoomName()
 		});
 	},
 	getName: function () {
 		return this.data.title;
 	},
+	getDozName: function () {
+		var dozS = "";
+
+		for (var item in this.data.objects) {
+			if (item.substring(0, 3) == "TR_") {
+				if (dozS != "") {
+					dozS += ", "
+				}
+				dozS += MySched.Mapping.getName("doz", item);
+			}
+		}
+		return dozS;
+	},
+	getRoomName: function () {
+		var roomS = "";
+
+		for (var item in this.data.objects) {
+			if (item.substring(0, 3) == "RM_") {
+				if (roomS != "") {
+					roomS += ", "
+				}
+				roomS += MySched.Mapping.getName("room", item);
+			}
+		}
+		return roomS;
+	},
 	getData: function (addData) {
 		return mEvent.superclass.getData.call(this, addData);
 	},
-	getEventView: function (lessonborder) {
+	getEventView: function (type) {
 		var d = this.getEventDetailData();
 		var eventView = "";
 		if (MySched.Authorize.user != null && MySched.Authorize.role != 'user' && MySched.Authorize.role != 'registered') {
@@ -1408,44 +1445,22 @@ Ext.extend(mEvent, MySched.Model, {
 				this.eventTemplate.html = this.eventTemplate.html.replace("MySchedEvent_joomla", 'MySchedEvent_joomla access');
 		}
 
-		if(lessonborder === true)
-		{
-				var dozS = "";
-				var roomS = "";
-				var clasS = "";
+		var MySchedEventClass = 'MySchedEvent_' + this.data.source;
 
-				for (var item in this.data.objects) {
-					if (item.substring(0, 3) == "TR_") {
-						if (dozS != "") {
-							dozS += ", "
-						}
-						dozS += MySched.Mapping.getName("doz", item);
-					}
-					else if (item.substring(0, 3) == "RM_") {
-						if (roomS != "") {
-							roomS += ", "
-						}
-						roomS += MySched.Mapping.getName("room", item);
-					}
-					else if (item.substring(0, 3) == "CL_") {
-						if (clasS != "") {
-							clasS += ",<br/>"
-						}
-						var clasObj = MySched.Mapping.getObject("clas", item);
-						if (typeof clasObj == "undefined") {
-							clasS += item;
-						}
-					else clasS += clasObj.department + " - " + clasObj.name;
-					}
-				}
-			eventView += '<div id="'+d.data.eid+'" class="scheduleBox lectureBox">' + '<b class="lecturename">'+dozS +' / '+ roomS +' / '+ clasS+'</b><br/>';
-			eventView += this.eventTemplate.apply(d);
-			eventView += '</div>';
+		if(type === "doz")
+		{
+			this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + '{top_icon}<b id="MySchedEvent_{id}" class="MySchedEvent_name">{event_name}</b><br/><small class="event_resource">{room}</small></div>');
+		}
+		else if(type === "room")
+		{
+			this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + '{top_icon}<b id="MySchedEvent_{id}" class="MySchedEvent_name">{event_name}</b><br/><small class="event_resource">{doz}</small></div>');
 		}
 		else
-			eventView += this.eventTemplate.apply(d);
+		{
+			this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + '{top_icon}<b id="MySchedEvent_{id}" class="MySchedEvent_name">{event_name}</b><br/><small class="event_resource">{doz} / {room}</small></div>');
+		}
 
-		return eventView;
+		return this.eventTemplate.apply(d);
 	},
 	getEventInfoView: function () {
 		var infoTemplateString = "<div id='MySchedEventInfo_" + this.id + "' class='MySchedEventInfo'>" + "<span class='MySchedEvent_desc'>Beschreibung: " + this.data.edescription + "</span><br/>" + "<span class='MySchedEvent_sdate'>Datum: " + this.data.startdate + " - " + this.data.enddate + "</span><br/>" + "<span class='MySchedEvent_stime'>Zeit: " + this.data.starttime + " - " + this.data.endtime + "</span><br/>";

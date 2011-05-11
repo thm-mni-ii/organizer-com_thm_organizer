@@ -351,6 +351,8 @@ class TreeView
 
 			foreach($value as $childkey=>$childvalue)
 			{
+				if($childvalue["lessonamount"] == 0)
+					continue;
 				if(!isset($childvalue["gpuntisID"]))
 				{
 					$childvalue["gpuntisID"] = $childvalue["id"];
@@ -426,6 +428,8 @@ class TreeView
 			$childNodes = array();
 			foreach($value as $childkey=>$childvalue)
 			{
+				if($childvalue["lessonamount"] == 0)
+					continue;
 				if(!isset($childvalue["gpuntisID"]))
 				{
 					$childvalue["gpuntisID"] = $childvalue["id"];
@@ -489,6 +493,8 @@ class TreeView
 			$childNodes = array();
 			foreach($value as $childkey=>$childvalue)
 			{
+				if($childvalue["lessonamount"] == 0)
+					continue;
 				if(!isset($childvalue["gpuntisID"]))
 				{
 					$childvalue["gpuntisID"] = $childvalue["id"];
@@ -550,12 +556,14 @@ class TreeView
 						"classes.manager AS manager, " .
 						"count(lesson_classes.lessonID) AS lessonamount " .
 						"FROM #__thm_organizer_classes AS classes " .
-						"INNER JOIN #__thm_organizer_lesson_classes AS lesson_classes " .
+						"LEFT JOIN #__thm_organizer_lesson_classes AS lesson_classes " .
 					 	"ON classes.id = lesson_classes.classID " .
-					 	"INNER JOIN #__thm_organizer_lessons " .
+					 	"LEFT JOIN #__thm_organizer_lessons " .
 					 	"ON lesson_classes.lessonID = #__thm_organizer_lessons.id " .
 					 	"WHERE #__thm_organizer_lessons.plantypeID = " .$planid." " .
 					 	"AND #__thm_organizer_lessons.semesterID = " .$semesterID." " .
+					 	"OR (#__thm_organizer_lessons.plantypeID is null " .
+					 	"AND #__thm_organizer_lessons.semesterID is null) " .
 						"GROUP BY classes.id";
 
 		$classesarray = array( );
@@ -625,14 +633,16 @@ class TreeView
 					 "rooms.manager, " .
 					 "count(lesson_times.lessonID) AS lessonamount " .
 					 "FROM #__thm_organizer_rooms AS rooms " .
-					 "INNER JOIN #__thm_organizer_lesson_times AS lesson_times " .
+					 "LEFT JOIN #__thm_organizer_lesson_times AS lesson_times " .
 					 "ON rooms.id = lesson_times.roomID " .
-					 "INNER JOIN #__thm_organizer_lessons " .
+					 "LEFT JOIN #__thm_organizer_lessons " .
 					 "ON lesson_times.lessonID = #__thm_organizer_lessons.id " .
-					 "INNER JOIN #__thm_organizer_descriptions " .
+					 "LEFT JOIN #__thm_organizer_descriptions " .
 					 "ON #__thm_organizer_descriptions.id = rooms.descriptionID " .
 					 "WHERE #__thm_organizer_lessons.plantypeID = " .$planid." " .
 					 "AND #__thm_organizer_lessons.semesterID = " .$semesterID." " .
+				 	 "OR (#__thm_organizer_lessons.plantypeID is null " .
+				 	 "AND #__thm_organizer_lessons.semesterID is null) " .
 					 "GROUP BY rooms.id";
 
 		$roomarray = array( );
@@ -698,7 +708,7 @@ class TreeView
 					$roomarray[ $key ][ $data->vid ][ "elements" ] = array( );
 				$roomarray[ $key ][ $data->vid ][ "elements" ][ $data->eid ] = trim($data->eid);
 				if ( !isset( $roomarray[ $key ][ $data->vid ][ "lessonamount" ] ) )
-					$roomarray[ $keyt ][ $data->vid ][ "lessonamount" ] = 0;
+					$roomarray[ $key ][ $data->vid ][ "lessonamount" ] = 0;
 				$roomarray[ $key ][ $data->vid ][ "lessonamount" ] = $roomarray[ $key ][ $data->vid ][ "lessonamount" ] + $this->getCountRoomLessons( $data->eid, $semesterID );
 			}
 		}
@@ -715,14 +725,16 @@ class TreeView
 						"teachers.username as manager, " .
 						"count(lesson_teacher.lessonID) AS lessonamount " .
 						"FROM #__thm_organizer_teachers AS teachers " .
-						"INNER JOIN #__thm_organizer_departments AS departments " .
+						"LEFT JOIN #__thm_organizer_departments AS departments " .
 						"ON teachers.departmentID = departments.id " .
-						"INNER JOIN #__thm_organizer_lesson_teachers AS lesson_teacher " .
+						"LEFT JOIN #__thm_organizer_lesson_teachers AS lesson_teacher " .
 						"ON teachers.id = lesson_teacher.teacherID " .
-						"INNER JOIN #__thm_organizer_lessons " .
+						"LEFT JOIN #__thm_organizer_lessons " .
 						"ON lesson_teacher.lessonID = #__thm_organizer_lessons.id " .
-						"WHERE #__thm_organizer_lessons.plantypeID = " .$planid." " .
-					 	"AND #__thm_organizer_lessons.semesterID = " .$semesterID." " .
+						"WHERE (#__thm_organizer_lessons.plantypeID = " .$planid." " .
+					 	"AND #__thm_organizer_lessons.semesterID = " .$semesterID.") " .
+					 	"OR (#__thm_organizer_lessons.plantypeID is null " .
+					 	"AND #__thm_organizer_lessons.semesterID is null) " .
 						"GROUP BY teachers.id";
 
 		$teacherarray = array( );
@@ -818,6 +830,5 @@ class TreeView
 		$hits  = $this->JDA->query( $query );
 		return count( $hits );
 	}
-
 }
 ?>
