@@ -327,7 +327,7 @@ Ext.extend(mSchedule, MySched.Model, {
 					var enddate = v.data.enddate.split(".");
 					enddate = new Date(enddate[2], enddate[1]-1, enddate[0]);
 
-					if (startdate <= weekpointer && enddate >= weekpointer && v.data.reserve == true) {
+					if (startdate <= weekpointer && enddate >= weekpointer) {
 						wd = numbertoday(weekpointer.getDay());
 						for (var i = 1; i <= 6; i++) {
 							var blotimes = blocktotime(i);
@@ -377,7 +377,18 @@ Ext.extend(mSchedule, MySched.Model, {
 							if (bl != null) {
 								if (bl < 4) bl--;
 								if (!ret[bl][wd]) ret[bl][wd] = [];
-								ret[bl][wd].push(v.getEventView());
+								var foundevent = false;
+								for(var retcount = 0; retcount<ret[bl][wd].length; retcount++)
+								{
+									var lessonitem = ret[bl][wd][retcount];
+									if(lessonitem.indexOf("\"MySchedEvent_"+v.data.eid+"\"") != -1)
+									{
+										foundevent = true;
+										break;
+									}
+								}
+								if(foundevent == false)
+									ret[bl][wd].push(v.getEventView(!v.data.reserve));
 							}
 							bl = null;
 						}
@@ -1389,14 +1400,52 @@ Ext.extend(mEvent, MySched.Model, {
 	getData: function (addData) {
 		return mEvent.superclass.getData.call(this, addData);
 	},
-	getEventView: function () {
+	getEventView: function (lessonborder) {
 		var d = this.getEventDetailData();
-
+		var eventView = "";
 		if (MySched.Authorize.user != null && MySched.Authorize.role != 'user' && MySched.Authorize.role != 'registered') {
 			if (!this.eventTemplate.html.contains("MySchedEvent_joomla access"))
 				this.eventTemplate.html = this.eventTemplate.html.replace("MySchedEvent_joomla", 'MySchedEvent_joomla access');
 		}
-		return this.eventTemplate.apply(d);
+
+		if(lessonborder === true)
+		{
+				var dozS = "";
+				var roomS = "";
+				var clasS = "";
+
+				for (var item in this.data.objects) {
+					if (item.substring(0, 3) == "TR_") {
+						if (dozS != "") {
+							dozS += ", "
+						}
+						dozS += MySched.Mapping.getName("doz", item);
+					}
+					else if (item.substring(0, 3) == "RM_") {
+						if (roomS != "") {
+							roomS += ", "
+						}
+						roomS += MySched.Mapping.getName("room", item);
+					}
+					else if (item.substring(0, 3) == "CL_") {
+						if (clasS != "") {
+							clasS += ",<br/>"
+						}
+						var clasObj = MySched.Mapping.getObject("clas", item);
+						if (typeof clasObj == "undefined") {
+							clasS += item;
+						}
+					else clasS += clasObj.department + " - " + clasObj.name;
+					}
+				}
+			eventView += '<div id="'+d.data.eid+'" class="scheduleBox lectureBox">' + '<b class="lecturename">'+dozS +' / '+ roomS +' / '+ clasS+'</b><br/>';
+			eventView += this.eventTemplate.apply(d);
+			eventView += '</div>';
+		}
+		else
+			eventView += this.eventTemplate.apply(d);
+
+		return eventView;
 	},
 	getEventInfoView: function () {
 		var infoTemplateString = "<div id='MySchedEventInfo_" + this.id + "' class='MySchedEventInfo'>" + "<span class='MySchedEvent_desc'>Beschreibung: " + this.data.edescription + "</span><br/>" + "<span class='MySchedEvent_sdate'>Datum: " + this.data.startdate + " - " + this.data.enddate + "</span><br/>" + "<span class='MySchedEvent_stime'>Zeit: " + this.data.starttime + " - " + this.data.endtime + "</span><br/>";

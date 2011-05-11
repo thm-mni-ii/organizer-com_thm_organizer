@@ -322,8 +322,10 @@ MySched.lectureCellRenderer = function (data, meta, record, rowIndex, colIndex, 
 		if (numbertoday(weekpointer.getDay()) == this.id) {
 			var firstCh = ele[0].firstChild;
 			firstCh.parentNode.style.fontWeight = "";
-			firstCh.nodeValue = weekdayEtoD(this.id) + " (" + weekpointer.format("d.m.") + ")";
-			if (Ext.ComponentMgr.get('menuedatepicker').value == weekpointer.format("d.m.Y")) firstCh.parentNode.style.fontWeight = "bold";
+			if (Ext.ComponentMgr.get('menuedatepicker').value == weekpointer.format("d.m.Y"))
+				grid.colModel.config[daytonumber(this.id)].header = "<b>"+weekdayEtoD(this.id) + " (" + weekpointer.format("d.m.") + ")</b>";
+			else
+				grid.colModel.config[daytonumber(this.id)].header = weekdayEtoD(this.id) + " (" + weekpointer.format("d.m.") + ")";
 		}
 		weekpointer.setDate(weekpointer.getDate() + 1)
 	}
