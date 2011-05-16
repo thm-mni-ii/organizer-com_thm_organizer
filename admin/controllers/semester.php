@@ -225,17 +225,15 @@ class thm_organizersControllerSemester extends JController
             $id = JRequest::getVar('semesterID');
             $model = $this->getModel('schedule');
             $result = $model->activate();
-            $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $result);
-            /*if($result)
+            if($result)
             {
-                $msg = JText::_("The schedule(s) have been successfully activated.");
-                $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg);
+                $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $result);
             }
             else
             {
-                $msg = JText::_("An error has occurred while activating the schedule(s).");
+                $msg = JText::_("An error has occurred while activating the schedule.");
                 $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'error');
-            }*/
+            }
         }
         else
         {
