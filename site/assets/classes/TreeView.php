@@ -393,7 +393,7 @@ class TreeView
 						$childNodes[] = $temp;
 				}
 			}
-			if($k != null)
+			if($k != null && count($childNodes) > 0)
 			{
 				$temp = $this->createTreeNode(
 					$key.".".$k,							// id - autom. generated
@@ -418,6 +418,7 @@ class TreeView
 
 	private function getStundenplanRoom($key, $planid, $semesterID)
 	{
+		echo "bla";
 		$treeNode = array();
 		$childNodes = array();
 
@@ -429,7 +430,9 @@ class TreeView
 			foreach($value as $childkey=>$childvalue)
 			{
 				if($childvalue["lessonamount"] == "0")
+				{
 					continue;
+				}
 				if(!isset($childvalue["gpuntisID"]))
 				{
 					$childvalue["gpuntisID"] = $childvalue["id"];
