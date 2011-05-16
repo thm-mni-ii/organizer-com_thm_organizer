@@ -37,11 +37,10 @@ class ICSBauer extends abstrakterBauer
 
 			// The actual data
 			$success = $this->setHead();
-			var_dump($success);
+
 			if($success)
 				$success = $this->setContent( $arr );
 
-			var_dump($success);
 			if($success)
 			{
 				$objWriter = PHPExcel_IOFactory::createWriter($this->objPHPExcel, 'Excel5');
