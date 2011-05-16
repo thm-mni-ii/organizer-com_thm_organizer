@@ -351,7 +351,7 @@ class TreeView
 
 			foreach($value as $childkey=>$childvalue)
 			{
-				if($childvalue["lessonamount"] == 0)
+				if($childvalue["lessonamount"] == "0")
 					continue;
 				if(!isset($childvalue["gpuntisID"]))
 				{
@@ -428,7 +428,7 @@ class TreeView
 			$childNodes = array();
 			foreach($value as $childkey=>$childvalue)
 			{
-				if($childvalue["lessonamount"] == 0)
+				if($childvalue["lessonamount"] == "0")
 					continue;
 				if(!isset($childvalue["gpuntisID"]))
 				{
@@ -493,7 +493,7 @@ class TreeView
 			$childNodes = array();
 			foreach($value as $childkey=>$childvalue)
 			{
-				if($childvalue["lessonamount"] == 0)
+				if($childvalue["lessonamount"] == "0")
 					continue;
 				if(!isset($childvalue["gpuntisID"]))
 				{
