@@ -272,6 +272,7 @@ Ext.extend(mSchedule, MySched.Model, {
 			});
 		}
 
+		//sporadische Termine hinzufügen
 		this.data.eachKey(function (k, v) {
 			if (v.data.type != "cyclic" && v.data.type != "personal") {
 				//sporadischer Termin
@@ -289,7 +290,6 @@ Ext.extend(mSchedule, MySched.Model, {
 				}
 
 				for (var counter = 0; counter < 5; counter++) {
-
 					var startdate = v.data.startdate.split(".");
 					startdate = new Date(startdate[2], startdate[1]-1, startdate[0]);
 					var enddate = v.data.enddate.split(".");
@@ -360,7 +360,22 @@ Ext.extend(mSchedule, MySched.Model, {
 								}, this);
 
 								if(lessonResult.length > 0)
-									ret[bl][wd].push(v.getEventView(this.type));
+								{
+									lessonResult = lessonResult.filterBy(function (o, k) {
+									if (o.data.type == "cyclic" || o.data.type == "personal")
+										for(var eventObjects in v.data.objects)
+										{
+											if (o.doz.containsKey(eventObjects) || o.room.containsKey(eventObjects))
+												if(o.data.block == (bl+1) && numbertoday(o.data.dow) == wd)
+													return true;
+										}
+									return false;
+									}, this);
+									var collision = false;
+									if(lessonResult.length > 0)
+										collision = true;
+									ret[bl][wd].push(v.getEventView(this.type, bl, collision));
+								}
 							}
 							bl = null;
 						}
@@ -370,6 +385,7 @@ Ext.extend(mSchedule, MySched.Model, {
 			}
 		}, this);
 
+		//zyklische Termine hinzufügen
 		this.data.eachKey(function (k, v) {
 			if (v.data.type == "cyclic" || v.data.type == "personal") {
 				//zyklischer Termin
@@ -1437,7 +1453,7 @@ Ext.extend(mEvent, MySched.Model, {
 	getData: function (addData) {
 		return mEvent.superclass.getData.call(this, addData);
 	},
-	getEventView: function (type) {
+	getEventView: function (type, bl, collision) {
 		var d = this.getEventDetailData();
 		var eventView = "";
 		if (MySched.Authorize.user != null && MySched.Authorize.role != 'user' && MySched.Authorize.role != 'registered') {
@@ -1447,17 +1463,30 @@ Ext.extend(mEvent, MySched.Model, {
 
 		var MySchedEventClass = 'MySchedEvent_' + this.data.source;
 
+		var collisionIcon = "";
+
+		if(d.reserve === true && collision === true)
+		{
+			if(bl<4)
+				bl++;
+			var blocktimes = blocktotime(bl);
+			if(blocktimes[0] < d.starttime && blocktimes[1] > d.starttime)
+				collisionIcon = "C";
+			if(blocktimes[0] < d.endtime && blocktimes[1] > d.endtime)
+				collisionIcon = "C";
+		}
+
 		if(type === "doz")
 		{
-			this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + '{top_icon}<b id="MySchedEvent_{id}" class="MySchedEvent_name">{event_name}</b><br/><small class="event_resource">{room}</small></div>');
+			this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + collisionIcon + '<b id="MySchedEvent_{id}" class="MySchedEvent_name">{event_name}</b><br/><small class="event_resource">{room}</small></div>');
 		}
 		else if(type === "room")
 		{
-			this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + '{top_icon}<b id="MySchedEvent_{id}" class="MySchedEvent_name">{event_name}</b><br/><small class="event_resource">{doz}</small></div>');
+			this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + collisionIcon + '<b id="MySchedEvent_{id}" class="MySchedEvent_name">{event_name}</b><br/><small class="event_resource">{doz}</small></div>');
 		}
 		else
 		{
-			this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + '{top_icon}<b id="MySchedEvent_{id}" class="MySchedEvent_name">{event_name}</b><br/><small class="event_resource">{doz} / {room}</small></div>');
+			this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + collisionIcon + '<b id="MySchedEvent_{id}" class="MySchedEvent_name">{event_name}</b><br/><small class="event_resource">{doz} / {room}</small></div>');
 		}
 
 		return this.eventTemplate.apply(d);
