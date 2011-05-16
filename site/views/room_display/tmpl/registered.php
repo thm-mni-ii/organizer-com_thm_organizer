@@ -57,13 +57,13 @@ defined('_JEXEC') or die('Restricted access');?>
             </div>
         </div>
     <?php $blockNo++;}}else{ ?>
-        <br /><br /><h2>An diesem Tag sind keine Veranstaltungen eingeplannt.</h2>
+        <br /><br /><h2><?php echo JText::_('COM_THM_ORGANIZER_RD_NO_LESSONS'); ?></h2>
     <?php } ?>
     </div>
     <?php if($this->eventsExist){ $metric = 0;?>
     <div id="thm_organizer_is_events_area">
         <?php if(count($this->appointments) > 0){ $metric++;?>
-            <h1><?php echo JText::_('COM_THM_ORGANIZER_is_APPOINTMENTS_REGISTERED'); ?></h1>
+            <h1><?php echo JText::_('COM_THM_ORGANIZER_RD_APPOINTMENTS_REGISTERED'); ?></h1>
             <ul>
             <?php foreach($this->appointments as  $event){ $metric++; if($metric < 6){?>
             <li>
@@ -74,7 +74,7 @@ defined('_JEXEC') or die('Restricted access');?>
             <?php }} ?>
             </ul>
         <?php } if(count($this->notices) > 0 and $metric < 5){ $metric++; ?>
-	<h1><?php echo JText::_('COM_THM_ORGANIZER_is_NOTICES_REGISTERED'); ?></h1>
+	<h1><?php echo JText::_('COM_THM_ORGANIZER_RD_NOTICES_REGISTERED'); ?></h1>
 	<ul>
         <?php foreach($this->notices as $event){ $metric++; if($metric < 7){?>
             <li>
@@ -85,7 +85,7 @@ defined('_JEXEC') or die('Restricted access');?>
         <?php }} ?>
         </ul>
         <?php } if(count($this->information) > 0 and $metric < 5){ $metric ++?>
-	<h1><?php echo JText::_('COM_THM_ORGANIZER_is_INFORMATION_REGISTERED'); ?></h1>
+	<h1><?php echo JText::_('COM_THM_ORGANIZER_RD_INFORMATION_REGISTERED'); ?></h1>
 	<ul>
         <?php foreach($this->information as $event){ $metric++; if($metric < 7){ ?>
             <li>
@@ -96,7 +96,7 @@ defined('_JEXEC') or die('Restricted access');?>
         <?php }} ?>
         </ul>
         <?php } if(count($this->upcoming) > 0 and $metric < 5){ $metric++; ?>
-	<h1><?php echo JText::_('COM_THM_ORGANIZER_is_UPCOMING_REGISTERED'); ?></h1>
+	<h1><?php echo JText::_('COM_THM_ORGANIZER_RD_UPCOMING_REGISTERED'); ?></h1>
 	<ul>
         <?php foreach($this->upcoming as $event){ $metric++; if($metric < 7){ ?>
             <li>
