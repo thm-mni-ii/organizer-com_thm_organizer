@@ -519,6 +519,7 @@ class thm_organizersModelschedule extends JModel
         if(isset($from)) $oldData = $this->handleDeprecatedData($plantypeID);
         $newData = $this->getNewData(&$file, $plantypeID, $scheduleID);
         unset($file);
+        
         if(isset($oldData) and isset($newData))
         {
             $deltaSuccess = $this->calculateDelta($oldData, $newData, $plantypeID);
@@ -529,6 +530,7 @@ class thm_organizersModelschedule extends JModel
                 $msg .= $to.JText::_(" ge&auml;ndert.");
                 return $msg;
             }
+            else return false;
         }
         else
         {
@@ -930,8 +932,6 @@ class thm_organizersModelschedule extends JModel
                 $statement .= "( '$gpuntisID', '$name', '$longname', '$manager', '$semester', '$major' ) ";
                 $query->insert($statement);
                 $dbo->setQuery((string)$query);
-                $stringquery = (string)$query;
-            echo "<pre>".print_r($stringquery, true)."</pre>";
                 $dbo->query();
 
                 $query = $dbo->getQuery(true);
@@ -1303,6 +1303,7 @@ class thm_organizersModelschedule extends JModel
             {
                 foreach($lessonValue as $periodKey => $periodValue)
                 {
+                    if($periodKey == 'type') continue;
                     if(!key_exists($periodKey, $oldData[$lessonKey]))
                     {
                         $delta[$lessonKey][$periodKey] = $periodValue;
@@ -1311,8 +1312,7 @@ class thm_organizersModelschedule extends JModel
                     }
                     else
                     {
-                        //echo "<pre>periodValue".print_r($periodValue, true)."</pre>";
-                        echo ($periodValue['classIDs']);
+                        //echo ($periodValue['classIDs']);
                         foreach($periodValue['classIDs'] as $newClassKey => $newClassValue)
                         {
                             if(in_array($newClassValue, $oldData[$lessonKey][$periodKey]['classIDs']))
@@ -1433,7 +1433,6 @@ class thm_organizersModelschedule extends JModel
                 unset($oldData[$lessonKey]);
             }
         }
-        exit();
 
         //json_encode does not handle umlaute properly
         $malformedjsondelta = json_encode($delta);
