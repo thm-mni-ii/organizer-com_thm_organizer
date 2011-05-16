@@ -910,7 +910,9 @@ Ext.extend(mLecture, MySched.Model, {
 		var ret = '<div class="status_icons"> ';
 
 		if (MySched.Authorize.user != null && MySched.Authorize.user != "") {
-			if (d.parentId != 'delta') {
+			var parentIDArr = d.parentId.split(".");
+			parentIDArr = parentIDArr[(parentIDArr.length-1)];
+			if (parentIDArr != 'delta') {
 				if (d.parentId == 'mySchedule') ret += '<img qtip="Veranstaltung aus Ihrem Stundenplan entfernen" class="status_icons_add" src="' + MySched.mainPath + '/images/delete.png" width="12" heigth="12"/>';
 				else if (d.parentId != 'mySchedule' && MySched.Schedule.lectureExists(this)) ret += '<img qtip="Veranstaltung aus Ihrem Stundenplan entfernen" class="status_icons_add" src="' + MySched.mainPath + '/images/delete.png" width="12" heigth="12"/>';
 				else ret += '<img qtip="Veranstaltung Ihrem Stundenplan hinzuf&uuml;gen" class="status_icons_add" src="' + MySched.mainPath + '/images/add.png" width="12" heigth="12"/>';

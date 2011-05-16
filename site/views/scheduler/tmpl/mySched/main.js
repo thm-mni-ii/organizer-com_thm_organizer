@@ -3018,47 +3018,52 @@ MySched.Tree = function () {
               else
                 title = MySched.Mapping.getName(type, res) + " - " + MySched.Mapping.getObjectField(type, res, "department");
             }
-
-            if (MySched.loadedLessons[key] != true) {
-              Ext.Ajax.request({
-                url: _C('ajaxHandler'),
-                method: 'POST',
-                params: {
-                  res: res,
-                  class_semester_id: semesterID,
-                  scheduletask: "Ressource.load",
-                  plantype: plantype,
-                  type: type
-                },
-                failure: function (response) {},
-                success: function (response) {
-                  try {
-                    var json = Ext.decode(response.responseText);
-                    for (var item in json) {
-                      if (Ext.isObject(json[item])) {
-                        var record = new mLecture(json[item].key, json[item]);
-                        MySched.Base.schedule.addLecture(record);
-                        MySched.TreeManager.add(record);
-                      }
-                    }
-                    if (typeof json["elements"] != "undefined") {
-                      n.elements = json["elements"];
-                      new mSchedule(key, title).init(type, json["elements"]).show();
-                    }
-                    else
-                    	new mSchedule(key, title).init(type, res).show();
-                    MySched.loadedLessons[key] = true;
-                  }
-                  catch(e)
-                  {}
-                }
-              });
-            }
-            else {
-              if (typeof n.elements != "undefined") new mSchedule(key, title).init(type, n.elements).show();
-              else new mSchedule(key, title).init(type, res).show();
-            }
-
+			if(res == "delta")
+			{
+				new mSchedule(key, title).init(type, res).show();
+			}
+			else
+			{
+	            if (MySched.loadedLessons[key] != true) {
+	              Ext.Ajax.request({
+	                url: _C('ajaxHandler'),
+	                method: 'POST',
+	                params: {
+	                  res: res,
+	                  class_semester_id: semesterID,
+	                  scheduletask: "Ressource.load",
+	                  plantype: plantype,
+	                  type: type
+	                },
+	                failure: function (response) {},
+	                success: function (response) {
+	                  try {
+	                    var json = Ext.decode(response.responseText);
+	                    for (var item in json) {
+	                      if (Ext.isObject(json[item])) {
+	                        var record = new mLecture(json[item].key, json[item]);
+	                        MySched.Base.schedule.addLecture(record);
+	                        MySched.TreeManager.add(record);
+	                      }
+	                    }
+	                    if (typeof json["elements"] != "undefined") {
+	                      n.elements = json["elements"];
+	                      new mSchedule(key, title).init(type, json["elements"]).show();
+	                    }
+	                    else
+	                    	new mSchedule(key, title).init(type, res).show();
+	                    MySched.loadedLessons[key] = true;
+	                  }
+	                  catch(e)
+	                  {}
+	                }
+	              });
+	            }
+	            else {
+	              if (typeof n.elements != "undefined") new mSchedule(key, title).init(type, n.elements).show();
+	              else new mSchedule(key, title).init(type, res).show();
+	            }
+			}
           }
         }
       });
