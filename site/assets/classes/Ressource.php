@@ -99,24 +99,8 @@ class Ressource
 
 	private function getElements( $id, $sid, $type )
 	{
-		$query = "SELECT gpuntisID " .
+		$query = "SELECT eid as gpuntisID " .
 				 "FROM #__thm_organizer_virtual_schedules_elements ";
-
-				 if($type === "clas")
-				 {
-					 $query .= "INNER JOIN #__thm_organizer_classes " .
-					 "ON #__thm_organizer_virtual_schedules_elements.eid = #__thm_organizer_classes.id ";
-				 }
-				 else if($type === "room")
-				 {
-				 	$query .= "INNER JOIN #__thm_organizer_rooms " .
-					 "ON #__thm_organizer_virtual_schedules_elements.eid = #__thm_organizer_rooms.id ";
-				 }
-				 else
-				 {
-					$query .= "INNER JOIN #__thm_organizer_teachers " .
-					 "ON #__thm_organizer_virtual_schedules_elements.eid = #__thm_organizer_teachers.id ";
-				 }
 				 $query .= "WHERE vid = '" . $id . "' " . "AND sid = '" . $sid . "'";
 		$ret   = $this->JDA->query( $query );
 		return $ret;

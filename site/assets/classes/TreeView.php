@@ -154,6 +154,11 @@ class TreeView
 
 	private function expandSingleNode(& $arr)
 	{
+		if(gettype($arr) !== "object" && gettype($arr) !== "array" )
+		{
+			return;
+		}
+
 		foreach($arr as $k=>$v)
 		{
 			if(!isset($v->children))
@@ -418,7 +423,6 @@ class TreeView
 
 	private function getStundenplanRoom($key, $planid, $semesterID)
 	{
-		echo "bla";
 		$treeNode = array();
 		$childNodes = array();
 
@@ -622,6 +626,7 @@ class TreeView
 				$classesarray[ $data->department ][ $data->vid ][ "lessonamount" ] = $classesarray[ $data->department ][ $data->vid ][ "lessonamount" ] + $this->getCountClassLessons( $data->eid, $semesterID );
 			}
 		}
+
 		return $classesarray;
 	}
 
@@ -800,12 +805,10 @@ class TreeView
 
 	private function getVirtualSchedules($type, $semesterID)
 	{
-		$vsquery = "SELECT DISTINCT vs.vid, vname, vtype, IF(CHAR_LENGTH(#__thm_organizer_departments.subdepartment) = 0,#__thm_organizer_departments.department,CONCAT(#__thm_organizer_departments.department, '-', #__thm_organizer_departments.subdepartment)) as department, vresponsible, eid
+		$vsquery = "SELECT DISTINCT vs.vid, vname, vtype, department, vresponsible, eid
 	         FROM #__thm_organizer_virtual_schedules as vs
 	         INNER JOIN #__thm_organizer_virtual_schedules_elements as vse
 	         ON vs.vid = vse.vid AND vs.sid = vse.sid
-	         LEFT JOIN #__thm_organizer_departments
-	         ON #__thm_organizer_departments.id = vs.department
 	         WHERE vtype = '" . $type . "' AND vs.sid = " . $semesterID ;
 
 		$res     = $this->JDA->query( $vsquery );

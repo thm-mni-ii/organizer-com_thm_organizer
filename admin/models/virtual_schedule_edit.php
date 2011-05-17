@@ -61,7 +61,7 @@ class thm_organizersModelvirtual_schedule_edit extends JModel
   {
     $mainframe = JFactory::getApplication("administrator");
     $dbo = & JFactory::getDBO();
-    $query = "SELECT id, CONCAT(major, ' ', semester) as name
+    $query = "SELECT gpuntisID as id, CONCAT(major, ' ', semester) as name
           FROM #__thm_organizer_classes
           ORDER BY name";
     $dbo->setQuery( $query );
@@ -73,7 +73,7 @@ class thm_organizersModelvirtual_schedule_edit extends JModel
   {
     $mainframe = JFactory::getApplication("administrator");
     $dbo = & JFactory::getDBO();
-    $query = "SELECT id, alias as name
+    $query = "SELECT gpuntisID as id, alias as name
           FROM #__thm_organizer_rooms
           ORDER BY name";
     $dbo->setQuery( $query );
@@ -85,7 +85,7 @@ class thm_organizersModelvirtual_schedule_edit extends JModel
   {
     $mainframe = JFactory::getApplication("administrator");
     $dbo = & JFactory::getDBO();
-    $query = "SELECT id, name
+    $query = "SELECT gpuntisID as id, name
           FROM #__thm_organizer_teachers
           ORDER BY name";
     $dbo->setQuery( $query );
@@ -112,11 +112,9 @@ class thm_organizersModelvirtual_schedule_edit extends JModel
   {
     $mainframe = JFactory::getApplication("administrator");
     $dbo = & JFactory::getDBO();
-    $query = "SELECT DISTINCT #__thm_organizer_departments.id, IF(CHAR_LENGTH(#__thm_organizer_departments.subdepartment) = 0,#__thm_organizer_departments.department,CONCAT(#__thm_organizer_departments.department, '-', #__thm_organizer_departments.subdepartment)) as name
-          FROM #__thm_organizer_rooms " .
-          "INNER JOIN #__thm_organizer_departments " .
-          "WHERE #__thm_organizer_rooms.departmentID = #__thm_organizer_departments.id
-          ORDER BY name";
+    $query = "SELECT DISTINCT id, IF(CHAR_LENGTH(description) = 0,category,CONCAT(category, ' (', description, ')')) as name
+          FROM #__thm_organizer_descriptions " .
+          "ORDER BY name";
     $dbo->setQuery( $query );
     $departments = $dbo->loadObjectList();
     return $departments;
