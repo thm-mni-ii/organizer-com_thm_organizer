@@ -293,7 +293,7 @@ img.mySched_terminicon {
 }
 
 .x-tab-strip a, .x-tab-strip span, .x-tab-strip em {
-	background: #AFAFFF;
+	background: #CBD3DD;
 }
 
 .x-tab-strip-active span.x-tab-strip-text {
@@ -301,7 +301,7 @@ img.mySched_terminicon {
 }
 
 ul.x-tab-strip-top {
-	background:#CBD3DD;
+	background:#EEEEEE;
 	border-bottom:0px;
 }
 
@@ -311,7 +311,7 @@ ul.x-tab-strip-top {
 
 .x-tab-panel-header, .x-tab-panel-footer {
 	border: 0px solid #8DB2E3;
-	background-color: #CBD3DD;
+	background-color: #EEEEEE;
 	border-color: #8DB2E3;
 }
 
@@ -667,7 +667,7 @@ small.olddoz {
 }
 
 div.MySchedMainW {
-	width: 100%;
+	width: 968px;
 	height: 500px;
 }
 
@@ -766,8 +766,8 @@ tr, td{
 
 .x-tab-strip-top .x-tab-strip-active .x-tab-right {
 	background-position: 0px !important;
-    border-right: 1px solid #AFAFFF !important;
-    border-top: 1px solid #AFAFFF !important;
+   	border-right: 1px solid #CBD3DD !important;
+   	border-top: 1px solid #CBD3DD !important;
 }
 
 .x-tab-strip-top .x-tab-strip-over .x-tab-left {
@@ -823,10 +823,16 @@ div.x-tree-selected a {
 }
 
 ul.x-tab-strip li {
-	background-color: #AFAFFF;
+	background-color: #CBD3DD;
 	margin-left: 2px !important;
 }
 
 .x-tab-strip-top .x-tab-right, .x-tab-strip-top .x-tab-left, .x-tab-strip-top .x-tab-strip-inner {
 	background-image: url("");
+}
+
+#rightviewport, #leftviewport 
+{
+	padding-left: 12px;
+	padding-right: 12px;
 }

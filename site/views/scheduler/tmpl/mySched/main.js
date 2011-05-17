@@ -1762,6 +1762,9 @@ MySched.layout = function () {
         id: "rightviewport",
         region: 'center',
         layout: "border",
+        width: 702,
+        minSize: 702,
+        maxSize: 702,
         items: [
         	this.w_topMenu, this.tabpanel
         ]
@@ -1784,6 +1787,9 @@ MySched.layout = function () {
       	id: "viewport",
         layout: "border",
         renderTo: "MySchedMainW",
+        width: 968,
+        minSize: 968,
+        maxSize: 968,
         plugins: ['fittoparent'],
         items: [
         this.leftviewport, this.rightviewport
