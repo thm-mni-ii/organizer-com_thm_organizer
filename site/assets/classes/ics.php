@@ -67,6 +67,16 @@ class ICSBauer extends abstrakterBauer
             ->setCellValue('F1', 'Block')
             ->setCellValue('G1', 'Raum')
             ->setCellValue('H1', 'Dozent');
+
+		$this->objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+		$this->objPHPExcel->getActiveSheet()->getStyle('B1')->getFont()->setBold(true);
+		$this->objPHPExcel->getActiveSheet()->getStyle('C1')->getFont()->setBold(true);
+		$this->objPHPExcel->getActiveSheet()->getStyle('D1')->getFont()->setBold(true);
+		$this->objPHPExcel->getActiveSheet()->getStyle('E1')->getFont()->setBold(true);
+		$this->objPHPExcel->getActiveSheet()->getStyle('F1')->getFont()->setBold(true);
+		$this->objPHPExcel->getActiveSheet()->getStyle('G1')->getFont()->setBold(true);
+		$this->objPHPExcel->getActiveSheet()->getStyle('H1')->getFont()->setBold(true);
+
 		return true;
 	}
 
