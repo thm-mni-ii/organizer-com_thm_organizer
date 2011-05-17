@@ -1657,12 +1657,10 @@ MySched.layout = function () {
         minTabWidth: 155,
         tabWidth: 155,
         enableTabScroll: true,
-        //enableTabScroll: true,
-        //autoScroll: true,
         id: 'tabpanel',
         region: 'center',
         //style: 'overflow-y: auto; overflow-x: hidden;',
-        bodyStyle: 'overflow-y: auto; overflow-x: hidden;'
+        bodyStyle: 'overflow-y: scroll; overflow-x: hidden;'
       });
 
       // Setzt Events fuer Aenderung des Tabpanels
