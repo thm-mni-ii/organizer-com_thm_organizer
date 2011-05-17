@@ -19,7 +19,6 @@ tbody tr td.x-grid3-td-friday,
 tbody tr td.x-grid3-td-saturday {
 	border: 1px solid #aaa !important;
 	padding: 0 !important;
-	border-radius: 8px;
 }
 
 
@@ -44,10 +43,6 @@ div.lectureBox {
 	-moz-opacity: 0.9;
 	text-align: center !important;
 	text-shadow: 0px 1px 1px white;
-	/* CSS3 */
-	background: -moz-linear-gradient(top, #EEE, #FFF) #EEE;
-	background: -webkit-gradient(linear, left top, left bottom, from(#EEE), to(#FFF)) #EEE;
-	border-radius: 4px;
 	overflow: hidden;
 }
 
@@ -56,18 +51,11 @@ div.lectureBox_sel {
 	background: #DFE8F6 !important;
 	border: 2px solid #8DB2E3 !important;
 	margin: 1px;
-	/* CSS3 */
-	background: -moz-linear-gradient(top, #DFE8F6, #FFF) #DFE8F6 !important;
-	background: -webkit-gradient(linear, left top, left bottom, from(#DFE8F6), to(#FFF)) #DFE8F6 !important;
-
 }
 /* Lextures die in MySchedule sind */
 div.lectureBox_cho {
 	background: #b8c47e;
 	border: 1px solid #333;
-	/* CSS3 */
-	background: -moz-linear-gradient(top, #b8c47e, #e2e7c9) #b8c47e;
-	background: -webkit-gradient(linear, left top, left bottom, from(#b8c47e), to(#e2e7c9)) #b8c47e;
 }
 .timeCell {
 	background-color: #EBF3FD;
@@ -113,9 +101,6 @@ div.dozInfo div ul {
 }
 .blockBusy {
 	background-color: #667e9a;
-	/* CSS3 */
-	background: -moz-linear-gradient(top, #667e9a, #405080) #667e9a;
-	background: -webkit-gradient(linear, left top, left bottom, from(#667e9a), to(#405080)) #667e9a;
 }
 .blockOccupied {
 	background-color: #002959;
@@ -307,17 +292,8 @@ img.mySched_terminicon {
 	border-color:#FFFFFF;
 }
 
-.x-tab-strip-top .x-tab-right, .x-tab-strip-top .x-tab-left, .x-tab-strip-top {
-	/* CSS3 */
-	background: -moz-linear-gradient(top, #AFAFFF, #CFCFFF) #AFAFFF;
-	background: -webkit-gradient(linear, left top, left bottom, from(#AFAFFF), to(#CFCFFF)) #AFAFFF;
-	border-radius: 8px 8px 0px 0px;
-}
 .x-tab-strip a, .x-tab-strip span, .x-tab-strip em {
 	background: #AFAFFF;
-	/* CSS3 */
-	background: -moz-linear-gradient(top, #AFAFFF, #CFCFFF) #AFAFFF;
-	background: -webkit-gradient(linear, left top, left bottom, from(#AFAFFF), to(#CFCFFF)) #AFAFFF;
 }
 
 .x-tab-strip-active span.x-tab-strip-text {
@@ -337,7 +313,6 @@ ul.x-tab-strip-top {
 	border: 0px solid #8DB2E3;
 	background-color: #CBD3DD;
 	border-color: #8DB2E3;
-	border-radius: 8px 8px 0px 0px;
 }
 
 .x-panel-body {
@@ -353,11 +328,6 @@ ul.x-tab-strip-top {
 	border:1px solid #98C0F4;
 }
 
-.x-border-layout-ct {
-	background: #DDDDDD;
-	border-radius: 8px 8px 8px 8px;
-}
-
 .x-toolbar .x-item-disabled button {
 	font-weight:normal;
 }
@@ -369,7 +339,6 @@ ul.x-tab-strip-top {
  	margin: 220px auto 0pt;
  	text-align: center !important;
 	border:3px solid #002959;
-	border-radius:30px;
 	color:#8ac91a;
 }
 
@@ -380,7 +349,6 @@ ul.x-tab-strip-top {
  	margin: 0px auto;
  	text-align: center;
 	border:3px solid #002959;
-	border-radius:30px;
 	color:#8ac91a;
 }
 
@@ -408,11 +376,8 @@ ul.x-tab-strip-top {
 }
 
 .mySched_treeheader {
-	background:#E6E6E6 !important;
+	background:#FFFFFF !important;
 	border:0px !important;
-}
-
-.mySched_techheader {
 	border-left:0px;
 }
 
@@ -490,7 +455,6 @@ td.x-grid3-cell-first {
 .MySched_pause {
 	background-color: #A0AEBE;
 	text-align: center !important;
-	border-radius: 4px;
 }
 
 .x-fieldset{
@@ -546,7 +510,6 @@ small.classhorter:hover {
 	overflow:auto;
 	width:100%;
 	height:100%;
-	border-radius: 5px;
 }
 
 .estudy_logo {
@@ -690,10 +653,6 @@ div.lectureBox_dis {
 	-moz-opacity: 0.9;
 	text-align: center !important;
 	text-shadow: 0px 1px 1px white;
-	/* CSS3 */
-	background: -moz-linear-gradient(top, #EEE, #FFF) #EEE;
-	background: -webkit-gradient(linear, left top, left bottom, from(#EEE), to(#FFF)) #EEE;
-	border-radius: 4px;
 	overflow: hidden;
 }
 
@@ -733,10 +692,6 @@ div.MySchedexternURLClass_DIS {
 	-moz-opacity: 0.9;
 	text-align: center !important;
 	text-shadow: 0px 1px 1px white;
-	/* CSS3 */
-	background: -moz-linear-gradient(top, #7fff00, #FFF) #7fff00;
-	background: -webkit-gradient(linear, left top, left bottom, from(#7fff00), to(#FFF)) #7fff00;
-	border-radius: 4px;
 	overflow: hidden;
 }
 
@@ -755,10 +710,6 @@ div.MySchedexternURLClass_DIS {
 	-moz-opacity: 0.9;
 	text-align: center !important;
 	text-shadow: 0px 1px 1px white;
-	/* CSS3 */
-	background: -moz-linear-gradient(top, #AFAFFF, #CFCFFF) #AFAFFF;
-	background: -webkit-gradient(linear, left top, left bottom, from(#AFAFFF), to(#CFCFFF)) #AFAFFF;
-	border-radius: 4px;
 	overflow: hidden;
 }
 
@@ -803,43 +754,28 @@ tr, td{
 
 .x-panel-header {
 	padding: 5px 3px 5px 5px;
-	border-radius: 8px 8px 0px 0px;
-	border-left: 1px solid #99BBE8;
-	background: #CBD3DD none repeat scroll 0 0;
+	border-left: 1px solid;
+	border-color: #FFFFFF;
+	background: #FFFFFF none repeat scroll 0 0;
 	color: #15428B;
-}
-
-.x-tab-strip-top{
-	/* CSS3 */
-	background: -moz-linear-gradient(top, #AFAFFF, #CFCFFF) #AFAFFF;
-	background: -webkit-gradient(linear, left top, left bottom, from(#AFAFFF), to(#CFCFFF)) #AFAFFF;
-	border-radius: 8px 8px 0px 0px;
 }
 
 .x-tab-strip-top .x-tab-strip-over .x-tab-right {
 	background-position: 0px !important;
-	background: -moz-linear-gradient(top, #AFAFFF, #CFCFFF) #AFAFFF !important;
-	background: -webkit-gradient(linear, left top, left bottom, from(#AFAFFF), to(#CFCFFF)) #AFAFFF !important;
 }
 
 .x-tab-strip-top .x-tab-strip-active .x-tab-right {
 	background-position: 0px !important;
-	background: -moz-linear-gradient(top, #AFAFFF, #CFCFFF) #AFAFFF !important;
-	background: -webkit-gradient(linear, left top, left bottom, from(#AFAFFF), to(#CFCFFF)) #AFAFFF !important;
     border-right: 1px solid #AFAFFF !important;
     border-top: 1px solid #AFAFFF !important;
 }
 
 .x-tab-strip-top .x-tab-strip-over .x-tab-left {
 	background-position: 0px !important;
-	background: -moz-linear-gradient(top, #AFAFFF, #CFCFFF) #AFAFFF !important;
-	background: -webkit-gradient(linear, left top, left bottom, from(#AFAFFF), to(#CFCFFF)) #AFAFFF !important;
 }
 
 .x-tab-strip-top .x-tab-strip-active .x-tab-left {
 	background-position: 0px !important;
-	background: -moz-linear-gradient(top, #AFAFFF, #CFCFFF) #AFAFFF !important;
-	background: -webkit-gradient(linear, left top, left bottom, from(#AFAFFF), to(#CFCFFF)) #AFAFFF !important;
 }
 
 .x-tab-right {
@@ -853,20 +789,7 @@ tr, td{
 	padding-top: 1.5px;
 }
 
-div.x-tree-node-over a {
-    /* CSS3 */
-	background: -moz-linear-gradient(top, #EEEEEE, #FEEEEE) #EEEEEE !important;
-	background: -webkit-gradient(linear, left top, left bottom, from(#EEEEEE), to(#FEEEEE)) #EEEEEE !important;
-	border-radius: 8px;
-	/*background-color: #EEEEEE !important;*/
-	padding: 1px;
-}
-
 div.x-tree-selected a {
-    /* CSS3 */
-	background: -moz-linear-gradient(top, #AFAFFF, #CFCFFF) #AFAFFF !important;
-	background: -webkit-gradient(linear, left top, left bottom, from(#AFAFFF), to(#CFCFFF)) #AFAFFF !important;
-	border-radius: 8px;
 	padding: 1px;
 }
 
@@ -877,37 +800,33 @@ div.x-tree-selected a {
 
 .x-window-body {
 	background: #FFFFFF !important;
-	border-radius: 5px;
-}
-
-.x-toolbar input {
-	border-radius: 8px 0px 0px 8px;
 }
 
 .x-form-field-wrap .x-form-date-trigger {
-	border-radius: 0px 5px 5px 0px;
 	padding-left: 1px;
 }
 
-.x-date-menu .x-menu-list {
-	border-radius: 8px;
-}
-
-.x-date-menu, .x-color-menu {
-	border-radius: 8px;
-}
-
-.x-date-inner .x-date-today a {
-	border-radius: 8px;
-}
-
-.x-date-inner a:hover {
-	border-radius: 8px;
-}
 
 .x-window-header {
 	position: relative;
 	top: 21px;
 	left: -15px;
 	z-index: 2;
+}
+
+.x-tab-panel-body {
+	border-color: #FFFFFF;	
+}
+
+.x-tree-node-anchor {
+	padding-top: 1px;
+}
+
+ul.x-tab-strip li {
+	background-color: #AFAFFF;
+	margin-left: 2px !important;
+}
+
+.x-tab-strip-top .x-tab-right, .x-tab-strip-top .x-tab-left, .x-tab-strip-top .x-tab-strip-inner {
+	background-image: url("");
 }

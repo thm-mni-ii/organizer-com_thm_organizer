@@ -1725,14 +1725,14 @@ MySched.layout = function () {
       this.w_leftMenu = new Ext.Panel({
         id: 'leftMenu',
         title: ' ',
-        region: 'west',
+        region: 'center',
         layout: 'border',
         split: false,
         floatable: false,
         width: 242,
         minSize: 242,
         maxSize: 242,
-        collapsible: true,
+        collapsible: false,
         collapsed: false,
         headerCfg: {
           tag: '',
@@ -1742,7 +1742,6 @@ MySched.layout = function () {
         },
         items: [
         MySched.Tree.init()
-        //this.w_infoPanel
         ]
       });
 
@@ -1759,15 +1758,38 @@ MySched.layout = function () {
         }
       });
 
+      this.rightviewport = new Ext.Panel({
+        id: "rightviewport",
+        region: 'center',
+        layout: "border",
+        items: [
+        	this.w_topMenu, this.tabpanel
+        ]
+      });
+
+      this.leftviewport = new Ext.Panel({
+        id: "leftviewport",
+        region: 'west',
+        layout: "border",
+        width: 242,
+        minSize: 242,
+        maxSize: 242,
+        items: [
+        	this.w_leftMenu
+        ]
+      });
+
       // und schliesslich erstellung des gesamten Layouts
       this.viewport = new Ext.Panel({
+      	id: "viewport",
         layout: "border",
         renderTo: "MySchedMainW",
         plugins: ['fittoparent'],
         items: [
-        this.w_topMenu, this.w_leftMenu, this.tabpanel
+        this.leftviewport, this.rightviewport
         ]
       });
+
       var calendar = Ext.ComponentMgr.get('menuedatepicker');
       if (calendar) var imgs = Ext.DomQuery.select('img[class=x-form-trigger x-form-date-trigger]', calendar.container.dom);
       for (var i = 0; i < imgs.length; i++) {
@@ -2965,7 +2987,7 @@ MySched.Tree = function () {
         title: " ",
         id: 'selectTree',
         header: true,
-        bodyStyle: 'background-color:#E6E6E6; bottom no-repeat; border-left:6px; padding-left:6px',
+        bodyStyle: 'background-color:#FFFFFF; bottom no-repeat; border-left:6px; padding-left:6px',
         autoScroll: true,
         rootVisible: false,
         root: this.root,
