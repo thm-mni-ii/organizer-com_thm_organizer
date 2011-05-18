@@ -207,7 +207,21 @@ calendar_tooltip = function (e) {
 	var htmltext = "";
 	for (var i = 0; i < events.length; i++) {
 		if (Ext.isObject(events[i])) {
-			htmltext += events[i].data.title + "<br/>";
+			htmltext += events[i].data.title;
+			var name = "";
+			for(var obj in events[i].data.objects)
+			{;
+				if(name != "")
+					name += ", ";
+				if(obj.substring(0, 3) == "RM_") {
+					name += MySched.Mapping.getName("room", obj);
+				} else if(obj.substring(0, 3) == "TR_") {
+					name += MySched.Mapping.getName("doz", obj);
+				} else {
+					name += MySched.Mapping.getName("clas", obj);
+				}
+			}
+			htmltext += " ("+ name + ")<br/>";
 		}
 		else {
 			htmltext += events[i] + "<br/>";
@@ -220,6 +234,7 @@ calendar_tooltip = function (e) {
 			id: 'mySched_calendar-tip',
 			target: 'leftCallout',
 			anchor: 'left',
+			autoWidth: true,
 			autoHide: false,
 			html: htmltext,
 			cls: "mySched_tooltip_calendar"
