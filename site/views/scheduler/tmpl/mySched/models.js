@@ -1528,18 +1528,28 @@ Ext.extend(mEvent, MySched.Model, {
 			}
 		}
 
-		if (dozS.contains(", ")) dozS = "Dozenten: " + dozS;
-		else dozS = "Dozent: " + dozS;
+		if(dozS.length > 0)
+		{
+			if (dozS.contains(", ")) dozS = "Dozenten: " + dozS;
+			else dozS = "Dozent: " + dozS;
 
-		if (roomS.contains(", ")) roomS = "Räume: " + roomS;
-		else roomS = "Raum: " + roomS;
+			infoTemplateString += "<span class='MySchedEvent_doz'>" + dozS + "</span><br/>";
+		}
 
-		clasS = "Semester:<br/>" + clasS;
+		if(roomS.length > 0)
+		{
+			if (roomS.contains(", ")) roomS = "Räume: " + roomS;
+			else roomS = "Raum: " + roomS;
 
-		infoTemplateString += "<span class='MySchedEvent_doz'>" + dozS + "</span><br/>";
-		infoTemplateString += "<span class='MySchedEvent_room'>" + roomS + "</span><br/>";
-		infoTemplateString += "<span class='MySchedEvent_clas'>" + clasS + "</span><br/></div>";
+			infoTemplateString += "<span class='MySchedEvent_room'>" + roomS + "</span><br/>";
+		}
 
+		if(clasS.length > 0)
+		{
+			clasS = "Semester:<br/>" + clasS;
+
+			infoTemplateString += "<span class='MySchedEvent_clas'>" + clasS + "</span><br/></div>";
+		}
 		return infoTemplateString;
 	}
 });
