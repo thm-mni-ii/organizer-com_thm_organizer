@@ -1659,7 +1659,6 @@ MySched.layout = function () {
         enableTabScroll: true,
         id: 'tabpanel',
         region: 'center',
-        //style: 'overflow-y: auto; overflow-x: hidden;',
         bodyStyle: 'overflow-y: scroll; overflow-x: hidden;'
       });
 

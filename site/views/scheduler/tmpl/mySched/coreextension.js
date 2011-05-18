@@ -37,7 +37,7 @@ Ext.DatePicker.prototype.update = function (date, forceRefresh) {
 			cells = this.cells.elements,
 			textEls = this.textNodes,
 
-			d = (new Date(pm.getFullYear(), pm.getMonth(), prevStart, this.initHour)),
+			d = (new Date(pm.getFullYear(), pm.getMonth(), prevStart, 0)),
 			today = new Date().clearTime().getTime(),
 			sel = date.clearTime(true).getTime(),
 			min = this.minDate ? this.minDate.clearTime(true) : Number.NEGATIVE_INFINITY,

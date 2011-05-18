@@ -909,7 +909,7 @@ Ext.extend(mLecture, MySched.Model, {
 	getStatus: function (d) {
 		var ret = '<div class="status_icons"> ';
 
-		if (MySched.Authorize.user != null && MySched.Authorize.user != "") {
+		if (MySched.Authorize.user != null && MySched.Authorize.user != "" && typeof d.parentId != "undefined") {
 			var parentIDArr = d.parentId.split(".");
 			parentIDArr = parentIDArr[(parentIDArr.length-1)];
 			if (parentIDArr != 'delta') {
@@ -1405,6 +1405,9 @@ mEvent = function (id, data) {
 	var eventTemplate;
 	this.id = id;
 	this.data = data;
+
+	if(this.data.enddate == "00.00.0000")
+		this.data.enddate = this.data.startdate;
 
 	this.data.starttime = this.data.starttime.substring(0, 5);
 	this.data.endtime = this.data.endtime.substring(0, 5);
