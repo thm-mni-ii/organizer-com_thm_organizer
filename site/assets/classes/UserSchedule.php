@@ -136,14 +136,15 @@ class UserSchedule
               			$deltadata[count($deltadata)-1]["block"] = $ret[0]->period;
               			$deltadata[count($deltadata)-1]["dow"] = $ret[0]->day;
 
-						$query = "SELECT gpuntisID, alias, moduleID " .
+						$query = "SELECT gpuntisID, name, alias, moduleID " .
               					 "FROM #__thm_organizer_subjects " .
               					 "WHERE id = ".$periodvalue->subjectID.";";
 
               			$ret = $this->JDA->query($query);
 
-						$deltadata[count($deltadata)-1]["name"] = $ret[0]->alias;
-						$deltadata[count($deltadata)-1]["desc"] = $ret[0]->moduleID;
+						$deltadata[count($deltadata)-1]["name"] = $ret[0]->name;
+						$deltadata[count($deltadata)-1]["desc"] = $ret[0]->alias;
+						$deltadata[count($deltadata)-1]["moduleID"] = $ret[0]->moduleID;
 						$deltadata[count($deltadata)-1]["cell"] = "";
 
 						if(isset($lessonvalue->changes))
@@ -305,7 +306,8 @@ class UserSchedule
 						 "#__thm_organizer_periods.gpuntisID AS tpid, " .
 						 "#__thm_organizer_lessons.gpuntisID AS id, " .
 						 "#__thm_organizer_subjects.alias AS description, " .
-						 "#__thm_organizer_subjects.gpuntisID AS subject, " .
+						 "#__thm_organizer_subjects.gpuntisID AS subject," .
+						 "#__thm_organizer_subjects.moduleID AS moduleID, " .
 						 "#__thm_organizer_lessons.type AS ltype, " .
 						 "#__thm_organizer_subjects.name AS name, " .
 						 "#__thm_organizer_classes.gpuntisID AS cid, " .
@@ -395,6 +397,7 @@ class UserSchedule
                           $lessons[$key]["id"] = $v->id;
                           $lessons[$key]["subject"] = $v->subject;
                           $lessons[$key]["type"] = $v->type;
+                          $lessons[$key]["moduleID"] = $v->moduleID;
                       }
 
               $retlesson = array();
