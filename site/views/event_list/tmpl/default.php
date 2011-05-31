@@ -5,7 +5,7 @@ $rowcount = 0;
 <pre><?php print_r($this->form, true) ?></pre>
 <div id="thm_organizer_el">
     <form id='thm_organizer_el_form' name='thm_organizer_el_form' enctype='multipart/form-data' method='post'
-          action='<?php echo JRoute::_("index.php?option=com_thm_organizer"); ?>' >
+          action='<?php echo JRoute::_("index.php?option=com_thm_organizer&view=event_list"); ?>' >
         <div id="thm_organizer_el_top_div" >
             <?php if($this->categoryID != -1) { ?>
             <div id="thm_organizer_el_category_desc_div">
