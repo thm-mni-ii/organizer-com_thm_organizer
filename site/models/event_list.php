@@ -120,7 +120,7 @@ class thm_organizerModelevent_list extends JModelForm
     private function setCategoryID()
     {
         $application = JFactory::getApplication();
-        $categoryRestriction = $this->display_type == ALL_CATEGORY or $this->display_type == CURRENT_CATEGORY;
+        $categoryRestriction = ($this->display_type == ALL_CATEGORY or $this->display_type == CURRENT_CATEGORY);
         if(isset($this->callParameters) and isset($this->callParameters["categoryID"]))
             $categoryID = $this->callParameters["categoryID"];
         else if($categoryRestriction and $this->menuParameters->get('category_restriction'))
