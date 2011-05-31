@@ -62,7 +62,6 @@ class thm_organizerModelevent_list extends JModelForm
         if(isset($callParameters)) $this->callParameters = $callParameters;
         $this->menuParameters = JFactory::getApplication()->getParams();
         $this->restoreState();
-
         jimport('joomla.html.pagination');
         $this->getTotal();
         $this->setLimits();
@@ -89,8 +88,10 @@ class thm_organizerModelevent_list extends JModelForm
     private function restoreState()
     {
         $username = JFactory::getUser()->username;
-        $this->display_type = (count($this->callParameters))?
-            $this->callParameters["display_type"] : $this->menuParameters->get('display_type');
+        if(count($this->callParameters)) $this->display_type = $this->callParameters["display_type"];
+        else if($this->menuParameters->get('display_type'))
+            $this->display_type = $this->menuParameters->get('display_type');
+        else $this->display_type = 0;
         switch ($this->display_type)
         {
             case CURRENT_ROOM:
@@ -304,13 +305,15 @@ class thm_organizerModelevent_list extends JModelForm
         if(empty($fromdate) AND $this->display_type < 4) $fromdate = date ('Y-m-d');
         if(!empty($fromdate))
         {
-            $fromdate = substr($fromdate, 6).".".substr($fromdate, 3, 2).".".substr($fromdate, 0, 2);
+            $temptime = strtotime($fromdate);
+            $fromdate = date('Y-m-d', $temptime);
             $query->where("( startdate >= '$fromdate' OR enddate >= '$fromdate' )");
         }
         $todate = $this->getState('todate');
         if(!empty($todate))
         {
-            $todate = substr($todate, 6).".".substr($todate, 3, 2).".".substr($todate, 0, 2);
+            $temptime = strtotime($todate);
+            $todate = date('Y-m-d', $temptime);
             $query->where("( startdate <= '$todate' OR enddate <= '$todate' )");
         }
     }
