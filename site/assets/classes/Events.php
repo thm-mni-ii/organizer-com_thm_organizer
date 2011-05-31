@@ -45,6 +45,7 @@ class Events
 			$arr[ $temp["id"] ][ "endtime" ]      = $temp["endtime"];
 			$arr[ $temp["id"] ][ "edescription" ] = $temp["description"];
 			$arr[ $temp["id"] ][ "facultative" ]  = "";
+			$arr[ $temp["id"] ][ "category" ]  = $temp["eventCategory"];
 			$arr[ $temp["id"] ][ "source" ]       = "joomla";
 			$arr[ $temp["id"] ][ "recurrence_type" ] = $temp["rec_type"];
 			$arr[ $temp["id"] ][ "reserve" ] = $eventmodel->reservesobjects($temp["eventCategoryID"]);

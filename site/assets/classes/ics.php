@@ -21,6 +21,7 @@ class ICSBauer extends abstrakterBauer
 	public function erstelleStundenplan( $arr, $username, $title )
 	{
 		$success = false;
+		$arr = $arr[0];
 		try
 		{
 			/** PHPExcel */
@@ -35,15 +36,28 @@ class ICSBauer extends abstrakterBauer
 							 ->setTitle($title)
 							 ->setSubject($title);
 
-			// The actual data
-			$success = $this->setHead();
+
+			$this->objPHPExcel->getActiveSheet()->setTitle('zyklische Termine');
+
+			$success = $this->setLessonHead();
 			if($success)
-				$success = $this->setContent( $arr );
-			if($success)
-			{
-				$objWriter = PHPExcel_IOFactory::createWriter($this->objPHPExcel, 'Excel5');
-				$objWriter->save(JPATH_COMPONENT . $this->cfg[ 'pdf_downloadFolder' ] . $title . ".xls");
-			}
+				$success = $this->setLessonContent( $arr );
+
+				$this->objPHPExcel->createSheet();
+				$this->objPHPExcel->setActiveSheetIndex(1);
+				$this->objPHPExcel->getActiveSheet()->setTitle('sporadische Termine');
+
+				if($success)
+					$success = $this->setEventHead();
+					if($success)
+						$success = $this->setEventContent( $arr );
+
+				if($success)
+				{
+					$this->objPHPExcel->setActiveSheetIndex(0);
+					$objWriter = PHPExcel_IOFactory::createWriter($this->objPHPExcel, 'Excel5');
+					$objWriter->save(JPATH_COMPONENT . $this->cfg[ 'pdf_downloadFolder' ] . $title . ".xls");
+				}
 		}
 		catch(Exception $e)
 		{
@@ -56,7 +70,65 @@ class ICSBauer extends abstrakterBauer
 			return array("success"=>false,"data"=>"No file was created!");
 	}
 
-	private function setHead( )
+	private function setEventHead()
+	{
+		$this->objPHPExcel->getActiveSheet()
+            ->setCellValue('A1', 'Titel')
+            ->setCellValue('B1', 'Beschreibung')
+            ->setCellValue('C1', 'Betroffene Ressourcen')
+            ->setCellValue('D1', 'Kategorie')
+            ->setCellValue('E1', 'Datum(von)')
+            ->setCellValue('F1', 'Datum(bis)')
+            ->setCellValue('G1', 'Zeit(von)')
+            ->setCellValue('H1', 'Zeit(bis)');
+
+		$this->objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+		$this->objPHPExcel->getActiveSheet()->getStyle('B1')->getFont()->setBold(true);
+		$this->objPHPExcel->getActiveSheet()->getStyle('C1')->getFont()->setBold(true);
+		$this->objPHPExcel->getActiveSheet()->getStyle('D1')->getFont()->setBold(true);
+		$this->objPHPExcel->getActiveSheet()->getStyle('E1')->getFont()->setBold(true);
+		$this->objPHPExcel->getActiveSheet()->getStyle('F1')->getFont()->setBold(true);
+		$this->objPHPExcel->getActiveSheet()->getStyle('G1')->getFont()->setBold(true);
+		$this->objPHPExcel->getActiveSheet()->getStyle('H1')->getFont()->setBold(true);
+
+		return true;
+	}
+
+	private function setEventContent( $arr )
+	{
+		$row = 2;
+		foreach($arr->events as $item)
+		{
+			$resources = implode( '", "', (array)$item->data->objects );
+			var_dump( $item->data->objects );
+			$resString = "";
+			$res = array();
+			$query      = 'SELECT name as oname FROM #__thm_organizer_classes WHERE id IN("' . $resources . '")';
+			$res        = array_merge($res, $this->JDA->query( $query, true ));
+
+			$query     = 'SELECT name as oname FROM #__thm_organizer_teachers WHERE gpuntisID IN("' . $resources . '")';
+			$res       = array_merge($res, $this->JDA->query( $query, true ));
+
+			$query      = 'SELECT name as oname FROM #__thm_organizer_rooms WHERE gpuntisID IN("' . $resources . '")';
+			$res        = array_merge($res, $this->JDA->query( $query, true ));
+			if(count($res) > 0)
+				$resString = implode( ", ", $res );
+
+			$this->objPHPExcel->getActiveSheet()
+	            ->setCellValue('A'.$row, $item->data->title)
+	            ->setCellValue('B'.$row, $item->data->edescription)
+	            ->setCellValue('C'.$row, $resString)
+	            ->setCellValue('D'.$row, $item->data->category)
+	            ->setCellValue('E'.$row, $item->data->startdate)
+	            ->setCellValue('F'.$row, $item->data->enddate)
+	            ->setCellValue('G'.$row, $item->data->starttime)
+	            ->setCellValue('H'.$row, $item->data->endtime);
+			$row++;
+		}
+		return true;
+	}
+
+	private function setLessonHead( )
 	{
 		$this->objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A1', 'Titel der Veranstaltung')
@@ -80,17 +152,17 @@ class ICSBauer extends abstrakterBauer
 		return true;
 	}
 
-	private function setContent( $arr )
+	private function setLessonContent( $arr )
 	{
-		foreach ( $arr as $item ) {
+		foreach ( $arr->lessons as $item ) {
 			if ( isset( $item->clas ) && isset( $item->doz ) && isset( $item->room ) ) {
 				if ( isset( $item->block ) && $item->block > 0 ) {
 					$times       = $this->blocktotime( $item->block );
 					$item->stime = $times[ 0 ];
 					$item->etime = $times[ 1 ];
 				}
-				$item->sdate = $arr[ count( $arr ) - 1 ]->sdate;
-				$item->edate = $arr[ count( $arr ) - 1 ]->edate;
+				$item->sdate = $arr->session->sdate;
+				$item->edate = $arr->session->edate;
 
 				$classes    = explode( " ", trim( $item->clas ) );
 				$query      = 'SELECT name as oname FROM #__thm_organizer_classes WHERE id IN("' . implode( '", "', $classes ) . '")';
@@ -112,7 +184,7 @@ class ICSBauer extends abstrakterBauer
 		}
 
 		$row = 2;
-		foreach ( $arr as $item ) {
+		foreach ( $arr->lessons as $item ) {
 			if ( isset( $item->clas ) && isset( $item->doz ) && isset( $item->room ) ) {
 				if(!isset($item->longname))
 					$item->longname = "";

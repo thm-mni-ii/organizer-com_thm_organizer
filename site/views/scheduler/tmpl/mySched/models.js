@@ -78,6 +78,18 @@ Ext.extend(MySched.Model, Ext.util.Observable, {
 			return Ext.encode(d);
 			break;
 		}
+	},
+	exportAllData: function () {
+
+		var d = [];
+		d[0] = new Object();
+		d[0]["lessons"] = this.asArray();
+		d[0]["events"] = MySched.eventlist.data.items;
+		d[0]["session"] = new Object();
+		d[0]["session"]["sdate"] = MySched.session["begin"];
+		d[0]["session"]["edate"] = MySched.session["end"];
+
+		return Ext.encode(d);
 	}
 });
 

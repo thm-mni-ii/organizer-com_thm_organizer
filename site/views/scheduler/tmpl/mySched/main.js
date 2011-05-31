@@ -2102,10 +2102,10 @@ MySched.layout = function () {
             interval: 100,
             duration: 2000
           });
-          var blablub = MySched.selectedSchedule.exportData();
+
           Ext.Ajax.request({
             url: _C('ajaxHandler'),
-            jsonData: MySched.selectedSchedule.exportData(),
+            jsonData: MySched.selectedSchedule.exportAllData(),
             method: 'POST',
             params: {
               username: MySched.Authorize.user,
