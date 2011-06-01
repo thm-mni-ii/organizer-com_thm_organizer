@@ -125,10 +125,10 @@ class thm_organizerModelevents extends JModel
         {
             $query = $dbo->getQuery(true);
             $statement = "#__content ";
-            $statement .= "( title, alias, introtext, state, catid, created, ";
+            $statement .= "( title, alias, introtext, state, catid, created, access";
             $statement .= "created_by, publish_up, publish_down ) ";
             $statement .= "VALUES ";
-            $statement .= "( '$title', '$alias', '$description', '1', '$contentCatID', ";
+            $statement .= "( '$title', '$alias', '$description', '1', '$contentCatID', '1'";
             $statement .= "'".date('Y-m-d H:i:s')."', '$userID', '$publish_up', '$publish_down' ) ";
             $query->insert($statement);
             $dbo->setQuery((string)$query );
