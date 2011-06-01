@@ -135,28 +135,58 @@ class PDFBauer extends abstrakterBauer
 			$sched[ 5 ][ 0 ][ "TEXT" ] = "15:45\n-\n17:15";
 			$sched[ 6 ][ 0 ][ "TEXT" ] = "17:30\n-\n19:00";
 
-			// Daten in Tabellenformat umformattieren
-			foreach ( $arr as $l ) {
-				if ( isset( $l->cell ) ) {
-					$l->cell = str_replace( '<br/>', "\n", $l->cell );
-					$l->cell = str_replace( '<br>', "\n", $l->cell );
-					$l->cell = strip_tags( $l->cell, "<b><i><small>" );
-					$l->cell = preg_replace( "/class=\"lecturename_dis\s*\"/", "", $l->cell );
-					$l->cell = preg_replace( "/class=\"lecturename\s*\"/", "", $l->cell );
-					$l->cell = preg_replace( "/class=\"\"\s*/", "", $l->cell );
-					$l->cell = preg_replace( "/class=\"roomshortname\s*\"/", "", $l->cell );
-					$l->cell = preg_replace( "/class=\"oldroom\s*\"/", "", $l->cell );
+			if(isset($arr[0]->htmlView))
+			{
+				$lessons = $arr[0]->htmlView;
+				foreach( $lessons as $block=>$event )
+				{
+					foreach( $event as $day=>$html )
+					{
+						foreach($html as $value)
+						{
+							$cell = "";
+							$cell = str_replace( '<br/>', "\n", $value );
+							$cell = str_replace( '<br>', "\n", $cell );
+							$cell = strip_tags( $cell, "<b><i><small>" );
+							$cell = preg_replace( "/class=\"lecturename_dis\s*\"/", "", $cell );
+							$cell = preg_replace( "/class=\"lecturename\s*\"/", "", $cell );
+							$cell = preg_replace( "/class=\"\"\s*/", "", $cell );
+							$cell = preg_replace( "/class=\"roomshortname\s*\"/", "", $cell );
+							$cell = preg_replace( "/class=\"oldroom\s*\"/", "", $cell );
 
-					if ( $l->type == 'sporadic' ) {
-						$sporadic[ ] = strip_tags( $l->cell );
-					} else {
-						if ( ( $l->block ) > 3 )
-							$sched[ $l->block ][ $l->dow ][ ] = $l->cell;
-						else
-							$sched[ $l->block - 1 ][ $l->dow ][ ] = $l->cell;
+							if(is_int($assign[ $day ]))
+								$sched[ $block ][ $assign[ $day ] ][] = $cell;
+						}
 					}
 				}
 			}
+			else
+			{
+				$lessons = $arr;
+				foreach ( $lessons as $l ) {
+					if ( isset( $l->cell ) ) {
+						$l->cell = str_replace( '<br/>', "\n", $l->cell );
+						$l->cell = str_replace( '<br>', "\n", $l->cell );
+						$l->cell = strip_tags( $l->cell, "<b><i><small>" );
+						$l->cell = preg_replace( "/class=\"lecturename_dis\s*\"/", "", $l->cell );
+						$l->cell = preg_replace( "/class=\"lecturename\s*\"/", "", $l->cell );
+						$l->cell = preg_replace( "/class=\"\"\s*/", "", $l->cell );
+						$l->cell = preg_replace( "/class=\"roomshortname\s*\"/", "", $l->cell );
+						$l->cell = preg_replace( "/class=\"oldroom\s*\"/", "", $l->cell );
+
+						if ( $l->type == 'sporadic' ) {
+							$sporadic[ ] = strip_tags( $l->cell );
+						} else {
+							if ( ( $l->block ) > 3 )
+								$sched[ $l->block ][ $l->dow ][ ] = $l->cell;
+							else
+								$sched[ $l->block - 1 ][ $l->dow ][ ] = $l->cell;
+						}
+					}
+				}
+			}
+
+			echo print_r($sched, true);
 
 			// PDF Anlegen
 			$pdf = new MySchedPdf();
@@ -226,7 +256,9 @@ class PDFBauer extends abstrakterBauer
 					if ( isset($col[ 'TEXT' ]) )
 						continue;
 					if ( count( $col ) > $max )
+					{
 						$max = count( $col );
+					}
 				}
 
 				// Zeichnet abstandslinie
@@ -236,10 +268,12 @@ class PDFBauer extends abstrakterBauer
 				for ( $i = 0; $i < $max; $i++ ) {
 					$data = array( );
 					foreach ( $line as $k => $col ) {
-
-						if ( $counter == 4 && $k == 1 ) {
-							$data[ $k ][ 'TEXT' ]    = 'Mittagspause';
-							$data[ $k ][ 'COLSPAN' ] = 7;
+						if ( $counter == 4 ) {
+							if(is_int($k))
+							{
+								$data[ $k ][ 'TEXT' ]    = 'Mittagspause';
+								$data[ $k ][ 'COLSPAN' ] = 7;
+							}
 						} else {
 							// Textfeld in der Zeitspalte wird besonders behandelt
 							if ( $i == 0 && $k == 0 ) {
@@ -261,7 +295,6 @@ class PDFBauer extends abstrakterBauer
 							}
 						}
 					}
-
 					$pdf->Draw_Data( $data );
 				}
 			}

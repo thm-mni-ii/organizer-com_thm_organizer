@@ -1942,13 +1942,12 @@ MySched.layout = function () {
         }
       }
       var btnSavePdf = {
-        // PDF DownloadButton
-        text: 'PDF',
+        text: 'Stundenplan',
         id: 'btnPdf',
         iconCls: 'tbSavePdf',
         disabled: false,
         tooltip: {
-          text: 'Download des angezeigten Planes als PDF'
+          text: 'Download des Stundenplans als PDF'
         },
         handler: function () {
           var pdfwait = Ext.MessageBox.wait('Ihr Stundenplan wird generiert', 'PDF wird erstellt', {
@@ -1994,6 +1993,60 @@ MySched.layout = function () {
           })
         }
       }
+
+      var btnSaveWeekPdf = {
+        text: 'Wochenplan',
+        id: 'btnWeekPdf',
+        iconCls: 'tbSavePdf',
+        disabled: false,
+        tooltip: {
+          text: 'Download des Wochenplans als PDF'
+        },
+        handler: function () {
+          var pdfwait = Ext.MessageBox.wait('Ihr Wochenplan wird generiert', 'PDF wird erstellt', {
+            interval: 100,
+            duration: 2000
+          });
+
+          Ext.Ajax.request({
+            url: _C('ajaxHandler'),
+            jsonData: MySched.selectedSchedule.exportAllData(),
+            method: 'POST',
+            params: {
+              username: MySched.Authorize.user,
+              title: MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' '),
+              what: "pdf",
+              scheduletask: "Schedule.export"
+            },
+            scope: pdfwait,
+            failure: function () {
+              Ext.MessageBox.hide();
+              Ext.Msg.alert("PDF download", 'Es ist ein Fehler beim Erstellen der PDF aufgetreten.');
+            },
+            success: function (response) {
+              Ext.MessageBox.hide();
+              if (response.responseText != "Permission Denied!") {
+                // IFrame zum downloaden wird erstellt
+                Ext.DomHelper.append(Ext.getBody(), {
+                  tag: 'iframe',
+                  id: 'downloadIframe',
+                  src: _C('ajaxHandler') + '&username=' + MySched.Authorize.user + "&title=" + encodeURIComponent(MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' ')) + "&what=pdf&save=false&scheduletask=Download.schedule",
+                  style: 'display:none;z-index:10000;'
+                });
+                // Iframe wird nach 2 Sec geloescht.
+                var func = function () {
+                  Ext.get('downloadIframe').remove();
+                }
+                func.defer(2000);
+              }
+              else {
+                Ext.Msg.alert("PDF download", 'Es ist ein Fehler beim Erstellen der PDF aufgetreten.');
+              }
+            }
+          })
+        }
+      }
+
       var btnICal = {
         // ICal DownloadButton
         text: 'ICal',
@@ -2162,7 +2215,7 @@ MySched.layout = function () {
         id: 'btnMenu',
         iconCls: 'tbDownload',
         disabled: false,
-        menu: [btnSavePdf, btnICal, btnSaveTxt]
+        menu: [btnSavePdf, btnSaveWeekPdf, btnICal, btnSaveTxt]
       }
 
       var btnDel = {
