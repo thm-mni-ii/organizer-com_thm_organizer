@@ -33,7 +33,8 @@ class thm_organizerModelevents extends JModel
         $startdate = trim($startdate);
         $startdate = explode(".", $startdate);
         $startdate = "{$startdate[2]}-{$startdate[1]}-{$startdate[0]}";
-        $publish_up = date("Y-m-d H:i:s");
+        //ATTENTION: Quick Hack Joomla expects puplish up to be at least 2 hours in the past to actually publish
+        $publish_up = date("Y-m-d H:i:s", strtotime("-2 hours"));
 
         $enddate  = $jform['enddate'];
         if(!empty($enddate))
