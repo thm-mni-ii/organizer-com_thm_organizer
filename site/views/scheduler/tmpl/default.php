@@ -13,7 +13,7 @@
 </script>
 
 <div id="MySchedMainW" class="MySchedMainW">
-	<script type="text/javascript" charset="utf-8" src="components/com_thm_organizer/views/scheduler/tmpl/mySched/preLoadingMessage.js"></script>
+	<!--<script type="text/javascript" charset="utf-8" src="components/com_thm_organizer/views/scheduler/tmpl/mySched/preLoadingMessage.js"></script>-->
 	<script type="text/javascript" charset="utf-8" src="components/com_thm_organizer/views/scheduler/tmpl/ext/adapter/ext/ext-base.js"></script>
 	<script type="text/javascript" charset="utf-8" src="components/com_thm_organizer/views/scheduler/tmpl/ext/ext-all.js"></script>
 	<script type="text/javascript" charset="utf-8" src="components/com_thm_organizer/views/scheduler/tmpl/mySched/coreextension.js"></script>
