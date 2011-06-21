@@ -29,13 +29,22 @@ class thm_organizerModelevents extends JModel
         $categoryID = JRequest::getInt('category');
         $jform = JRequest::getVar('jform');
 
+        $hereZone = new DateTimeZone(JFactory::getApplication()->getCfg('offset'));
+        $hereTime = new DateTime("now", $hereZone);
+        $offset = $hereTime->getOffset();
+        if($offset > 0) $offset = " -{$offset} ";
+        else
+        {
+            $offset = 0 - $offset;
+            $offset = " +{$offest}";
+        }
+        $offset .= " seconds";
+        $publish_up = date("Y-m-d H:i:s", strtotime($offset));
+
         $startdate  = $jform['startdate'];
         $startdate = trim($startdate);
         $startdate = explode(".", $startdate);
         $startdate = "{$startdate[2]}-{$startdate[1]}-{$startdate[0]}";
-        //ATTENTION: Quick Hack Joomla expects puplish up to be at least 2 hours in the past to actually publish
-        $publish_up = date("Y-m-d H:i:s", strtotime("-2 hours"));
-
         $enddate  = $jform['enddate'];
         if(!empty($enddate))
         {
