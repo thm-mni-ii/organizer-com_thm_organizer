@@ -242,16 +242,18 @@
 
 /* com_thm_organizer view: edit event******************************************/
 
+#thm_organizer_ee{
+    color: #4a5c66;
+    margin-top: 12px;
+}
+
+#thm_organizer_ee_head_div{
+	padding: 5px;
+}
+
 #thm_organizer_ee_title{
     font-size: 20px;
     font-weight: bold;
-    position: absolute;
-    left: 10px;
-    top: 12px;
-}
-
-#thm_organizer_ee{
-    color: #4a5c66;
 }
 
 #thm_organizer_ee a:visited{
@@ -343,7 +345,7 @@
 
 #thm_organizer_ee_button_div{
     float: right;
-    margin: 5px;
+    margin-right: 5px;
 }
 
 #thm_organizer_ee #btnreset{
@@ -367,6 +369,9 @@
     border: none;
 }
 
+#editor-xtd-buttons{ display: none; }
+
+.toggle-editor{ display: none; }
 
 
 /* com_thm_organizer view: room list*******************************************/
