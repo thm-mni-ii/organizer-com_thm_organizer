@@ -15,7 +15,7 @@
 		<field
 			id="description"
 			name="description"
-			type="textarea"
+			type="editor"
 			label="COM_THM_ORGANIZER_EE_DESCRIPTION"
 			description="COM_THM_ORGANIZER_EE_DESCRIPTION_DESC"
 			class="inputbox"
