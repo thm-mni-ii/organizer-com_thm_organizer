@@ -58,14 +58,14 @@ class thm_organizerViewevent extends JView
             $timeText = JText::_ ("COM_THM_ORGANIZER_E_ALLDAY");
 
 
-        if(isset($event['startdate']) && isset($event['enddate']))
+        if(isset($event['startdate']) and isset($event['enddate']) and $event['startdate'] != $event['enddate'])
         {
             if($event['rec_type'] == 0)
             {
                 if(isset($event['starttime']) && isset($event['endtime']))
                 {
                     $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_BETWEEN").$event['starttime'];
-                    $dateTimeText.= JText::_("COM_THM_ORGANIZER_E_ON").$event['startdate'];
+                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_ON").$event['startdate'];
                     $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_AND").$event['endtime'];
                     $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_ON").$event['enddate'];
                 }

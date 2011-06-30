@@ -88,31 +88,6 @@ Joomla.submitbutton = function(task)
                 </a>
             </div>
         </div>
-        <div id="thm_organizer_ee_category_div">
-            <div id="thm_organizer_ee_category_select_div">
-                <div class="thm_organizer_ee_label_div" >
-                    <?php echo $this->form->getLabel('categoryDummy'); ?>
-                </div>
-                <div class="thm_organizer_ee_data_div" >
-                    <?php echo $this->categoryselect; ?>
-                </div>
-            </div>
-            <div id="thm_organizer_ee_event_cat_desc_div" >
-                <div><?php echo $this->categories[$this->event['categoryID']]['description']; ?></div>
-            </div>
-            <div id="thm_organizer_ee_event_cat_disp_div" >
-                <div><?php echo $this->categories[$this->event['categoryID']]['display']; ?></div>
-            </div>
-            <div id="thm_organizer_ee_content_cat_name_div" >
-                <div><?php echo $this->categories[$this->event['categoryID']]['contentCat']; ?></div>
-            </div>
-            <div id="thm_organizer_ee_content_cat_desc_div" >
-                <div><?php echo $this->categories[$this->event['categoryID']]['contentCatDesc']; ?></div>
-            </div>
-            <div id="thm_organizer_ee_content_cat_access_div" >
-                <div><?php echo $this->categories[$this->event['categoryID']]['access']; ?></div>
-            </div>
-        </div>
         <div id="thm_organizer_ee_name_div">
             <div class="thm_organizer_ee_label_div" >
                 <?php echo $this->form->getLabel('title'); ?>
@@ -180,6 +155,31 @@ Joomla.submitbutton = function(task)
                     </td>
                 </tr>
             </table>
+        </div>
+        <div id="thm_organizer_ee_category_div">
+            <div id="thm_organizer_ee_category_select_div">
+                <div class="thm_organizer_ee_label_div" >
+                    <?php echo $this->form->getLabel('categoryDummy'); ?>
+                </div>
+                <div class="thm_organizer_ee_data_div" >
+                    <?php echo $this->categoryselect; ?>
+                </div>
+            </div>
+            <div id="thm_organizer_ee_event_cat_desc_div" >
+                <div><?php echo $this->categories[$this->event['categoryID']]['description']; ?></div>
+            </div>
+            <div id="thm_organizer_ee_event_cat_disp_div" >
+                <div><?php echo $this->categories[$this->event['categoryID']]['display']; ?></div>
+            </div>
+            <div id="thm_organizer_ee_content_cat_name_div" >
+                <div><?php echo $this->categories[$this->event['categoryID']]['contentCat']; ?></div>
+            </div>
+            <div id="thm_organizer_ee_content_cat_desc_div" >
+                <div><?php echo $this->categories[$this->event['categoryID']]['contentCatDesc']; ?></div>
+            </div>
+            <div id="thm_organizer_ee_content_cat_access_div" >
+                <div><?php echo $this->categories[$this->event['categoryID']]['access']; ?></div>
+            </div>
         </div>
         <div id="thm_organizer_ee_resource_selection_div" >
             <table>

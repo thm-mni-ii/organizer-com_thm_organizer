@@ -91,7 +91,7 @@ class thm_organizerModelevent_edit extends JModelForm
         $select .= "e.recurrence_number, ";
         $select .= "e.recurrence_counter, ";
         $select .= "c.title AS title, ";
-        $select .= "c.introtext AS description, ";
+        $select .= "c.fulltext AS description, ";
         $select .= "c.created_by";
         return $select;
     }

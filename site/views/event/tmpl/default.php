@@ -38,7 +38,7 @@ $showListLink = (isset($this->listLink) and $this->listLink != "")? true : false
         </div>
         <?php if(!empty($event['description'])): ?>
         <div id='thm_organizer_e_description'>
-            <p><?php echo $event['description']; ?></p>
+            <?php echo $event['description']; ?>
         </div>
         <?php endif; ?>
         <div id="thm_organizer_e_time">

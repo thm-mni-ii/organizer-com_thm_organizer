@@ -343,7 +343,7 @@ class thm_organizerModelevent_list extends JModelForm
         {
             $edSet = $stSet = $etSet = false;
             $displayDates = $timestring = "";
-            $edSet = $v['enddate'] != "00.00.0000";
+            $edSet = ($v['enddate'] != "00.00.0000" and $v['enddate'] != $v['startdate']);
             $stSet = $v['starttime'] != "00:00";
             $etSet = $v['endtime'] != "00:00";
             if($stSet and $etSet) $timestring = " ({$v['starttime']} - {$v['endtime']})";

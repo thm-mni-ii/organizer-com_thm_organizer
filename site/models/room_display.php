@@ -471,7 +471,7 @@ class thm_organizerModelroom_display extends JModel
         $select = "DISTINCT (e.id) AS id, c.title AS title, ";
         $select .= "DATE_FORMAT(e.startdate, '%d.%m.%Y') AS startdate, ";
         $select .= "DATE_FORMAT(e.enddate, '%d.%m.%Y') AS enddate, ";
-        $select .= "c.introtext AS description, ";
+        $select .= "c.fulltext AS description, ";
         $select .= "SUBSTRING(e.starttime, 1, 5) AS starttime, ";
         $select .= "SUBSTRING(e.endtime, 1, 5) AS endtime, ";
         $select .= "e.recurrence_type AS rec_type";

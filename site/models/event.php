@@ -110,7 +110,7 @@ class thm_organizerModelevent extends JModel
         $select .= "ecat.globaldisplay, ";
         $select .= "ecat.reservesobjects, ";
         $select .= "c.title AS title, ";
-        $select .= "c.introtext AS description, ";
+        $select .= "c.fulltext AS description, ";
         $select .= "DATE_FORMAT(c.publish_up, '%d.%m.%Y') AS publish_up, ";
         $select .= "DATE_FORMAT(c.publish_down, '%d.%m.%Y') AS publish_down, ";
         $select .= "c.access AS contentAccess, ";
