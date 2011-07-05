@@ -10,7 +10,7 @@
     <copyright>TH Mittelhessen 2011</copyright>
     <licence>GNU GPL v.2</licence>
     <version>0.0.1</version>
-    <description>COM_THM_ORGANIZER_MAIN_DESCRIPTION</description>
+    <description>COM_THM_ORGANIZER_DESCRIPTION</description>
     <install>
         <sql>
             <file driver="mysql" charset="utf8">install.sql</file>
@@ -32,7 +32,7 @@
         <language tag="de-DE">language/de-DE/de-DE.com_thm_organizer.ini</language>
     </languages>
     <administration>
-        <menu img="../favicon.ico">COM_THM_ORGANIZER_MAIN_NAME</menu>
+        <menu img="../favicon.ico">THM_ORGANIZER</menu>
         <submenu>
             <menu img="../favicon.ico" view="category_manager">COM_THM_ORGANIZER_CM_NAME</menu>
             <menu img="../favicon.ico" view="monitor_manager">COM_THM_ORGANIZER_MM_NAME</menu>
