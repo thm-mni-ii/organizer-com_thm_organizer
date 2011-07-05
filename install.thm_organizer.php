@@ -23,9 +23,9 @@ function com_install()
         if(!isset($makedir)) $makedir = false;
         if($makedir)
         {
-            $eventdir = JFolder::create(JPATH_SITE.'/images/thm_organizer/events');
-            if(!isset($eventdir)) $eventdir = false;
-            $objectdir = JFolder::create(JPATH_SITE.'/images/thm_organizer/events');
+            $categorydir = JFolder::create(JPATH_SITE.'/images/thm_organizer/categories');
+            if(!isset($categorydir)) $categorydir = false;
+            $resourcedir = JFolder::create(JPATH_SITE.'/images/thm_organizer/resources');
             if(!isset($objectdir)) $objectdir = false;
         }
     }
@@ -47,15 +47,14 @@ function com_install()
             <font color='green'>The directory/images/thm_organizer had already been created.</font><br />
 <?php } else if($makedir) { ?>
             <font color='green'>The directory /images/thm_organizer has been created.</font><br />
-        <?php if($eventdir){ ?>
-            <font color='green'>The directory /images/thm_organizer/events has been created.</font><br />
-        <?php }else{ ?>
-            <font color='red'>The directory /images/thm_organizer/events could not be created.</font><br />
-        <?php } ?>
-        <?php if($objectdir){ ?>
-            <font color='green'>The directory /images/thm_organizer/objects has been created.</font><br />
-        <?php }else{ ?>
-            <font color='red'>The directory /images/thm_organizer/objects could not be created.</font><br />
+        <?php if($categorydir){ ?>
+            <font color='green'>The directory /images/thm_organizer/categories has been created.</font><br />
+        <?php } else { ?>
+            <font color='red'>The directory /images/thm_organizer/categories could not be created.</font><br />
+        <?php } if ($resourcedir){ ?>
+            <font color='green'>The directory /images/thm_organizer/resources has been created.</font><br />
+        <?php } else { ?>
+            <font color='red'>The directory /images/thm_organizer/resources could not be created.</font><br />
         <?php }
         if($downmakedir){ ?>
             <font color='green'>The directory /components/com_thm_organizer/down has been created.</font><br />
