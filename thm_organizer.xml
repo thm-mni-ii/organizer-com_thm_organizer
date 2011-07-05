@@ -32,11 +32,14 @@
         <language tag="de-DE">language/de-DE/de-DE.com_thm_organizer.ini</language>
     </languages>
     <administration>
-        <menu img="../favicon.ico">THM_ORGANIZER</menu>
+        <menu img="components/com_thm_organizer/assets/images/thm_organizer.png">THM_ORGANIZER</menu>
         <submenu>
-            <menu img="../favicon.ico" view="category_manager">COM_THM_ORGANIZER_CM_NAME</menu>
-            <menu img="../favicon.ico" view="monitor_manager">COM_THM_ORGANIZER_MM_NAME</menu>
-            <menu img="../favicon.ico" view="semester_manager">COM_THM_ORGANIZER_SM_NAME</menu>
+            <menu img="components/com_thm_organizer/assets/images/category_manager.png"
+                  view="category_manager">COM_THM_ORGANIZER_CM_NAME</menu>
+            <menu img="components/com_thm_organizer/assets/images/monitor_manager.png"
+                  view="monitor_manager">COM_THM_ORGANIZER_MM_NAME</menu>
+            <menu img="components/com_thm_organizer/assets/images/semester_manager.png"
+                  view="semester_manager">COM_THM_ORGANIZER_SM_NAME</menu>
             <menu img="../favicon.ico" view="scheduler_application_settings">COM_THM_ORGANIZER_SAS_NAME</menu>
             <menu img="../favicon.ico" view="virtual_schedule_manager">COM_THM_ORGANIZER_VSM_NAME</menu>
         </submenu>
