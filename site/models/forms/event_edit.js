@@ -31,3 +31,4 @@ function changeCategoryInformation()
     document.getElementById('thm_organizer_ee_content_cat_desc_div').innerHTML = categories[id][3];
     document.getElementById('thm_organizer_ee_content_cat_access_div').innerHTML = categories[id][4];
 }
+

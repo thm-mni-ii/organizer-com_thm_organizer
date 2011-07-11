@@ -29,24 +29,69 @@ class thm_organizerModelevents extends JModel
      */
     function save()
     {
-        date_default_timezone_set("UTC");
-        $dbo = JFactory::getDBO();
+        $data = $this->cleanRequestData();
+        if($data['eventID'] > 0) $success = $this->saveExistingEvent(&$data);
+        else $success = $this->saveNewEvent(&$data);
+        if(!$success) return 0;
+        $success = $this->saveResources("#__thm_organizer_event_teachers", "teachers", "teacherID", $data['eventID']);
+        if(!$success) return 0;
+        $success = $this->saveResources("#__thm_organizer_event_rooms", "rooms", "roomID", $data['eventID']);
+        if(!$success) return 0;
+        $success = $this->saveResources("#__thm_organizer_event_groups", "groups", "groupID", $data['eventID']);
+        if(!$success) return 0;
+        return $data['eventID'];
+    }
+
+    /**
+     * function cleanRequestData
+     *
+     * filters the data from the request
+     */
+    private function cleanRequestData()
+    {
         $data = JRequest::getVar('jform', null, null, null, 4);
         $data['eventID'] = JRequest::getInt('eventID');
         $data['categoryID'] = JRequest::getInt('category');
+        $data['userID'] = JFactory::getUser()->id;
+        $data['title'] = addslashes($data['title']);
+        $data['alias'] = JApplication::stringURLSafe($data['title']);
+        $data['fulltext'] = addslashes($data['description']);
+        $this->setContentCategoryData(&$data);
+        $this->handleDatesandTimes(&$data);
+        $this->createIntroText(&$data);
+        return $data;
+    }
 
+    /**
+     * function setContentCategoryData
+     *
+     * retrieves the content category id and title and places them in the
+     * data array
+     *
+     * @param array $data holds data from the request
+     */
+    private function setContentCategoryData(&$data)
+    {
+        $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);
         $query->select('title, contentCatID');
         $query->from('#__thm_organizer_categories');
         $query->where("id = '{$data['categoryID']}'");
         $dbo->setQuery((string)$query);
         $category = $dbo->loadAssoc();
-        $data['categoryName'] = $category['title'];
+        $data['contentCatName'] = $category['title'];
         $data['contentCatID'] = $category['contentCatID'];
-        $data['introtext'] = "<p>".JText::_('COM_THM_ORGANIZER_E_INTROTEXT_START');
-        $data['introtext'] .= '"'.$data['categoryName'].'"';
-        $data['introtext'] .= JText::_('COM_THM_ORGANIZER_E_INTROTEXT_HAPPENS');
+    }
 
+    /**
+     * handleDatesandTimes
+     *
+     * cleans and sets date and time related properties
+     *
+     * @param array $data holds data from the request
+     */
+    private function handleDatesandTimes(&$data)
+    {
         $data['rec_type'] = JRequest::getInt('rec_type');
         $data['startdate'] = trim($data['startdate']);
         $data['nativestartdate'] = $data['startdate'];
@@ -71,258 +116,25 @@ class thm_organizerModelevents extends JModel
             "0{$data['starttime']}" : $data['starttime'];
         $data['endtime'] = (strlen($data['endtime'])  == 4)?
             "0{$data['endtime']}" : $data['endtime'];
-        $data['introtext'] .= $this->getDateText($data);
 
-        $roomNames = $this->getNames('rooms', 'name', '#__thm_organizer_rooms');
-        if(count($roomNames))
-        {
-            if(count($roomNames) == 1)
-                $data['introtext'] .= JText::_('COM_THM_ORGANIZER_E_IN').$roomNames[0];
-            else
-            {
-                $data['introtext'] .= JText::_('COM_THM_ORGANIZER_E_IN_PLURAL');
-                $data['introtext'] .= implode(', ', $roomNames);
-            }
-        }
-        $data['introtext'] .= JText::_('COM_THM_ORGANIZER_E_INTROTEXT_END');
-
-        $teacherNames = $this->getNames('teachers', 'name', '#__thm_organizer_teachers');
-        if(count($teacherNames))
-            $data['introtext'] .= " ( ".implode(", ", $teacherNames)." )";
-
-        $groupNames = $this->getNames('groups', 'title', '#__usergroups');
-        if(count($groupNames))
-            $data['introtext'] .= " ".JText::_('COM_THM_ORGANIZER_E_AFFECTED').implode(", ", $groupNames);
-
-        $data['introtext'] .= "</p>";
-
-        $data['title'] = addslashes($data['title']);
-        $data['alias'] = JApplication::stringURLSafe($data['title']);
-        $data['fulltext'] = addslashes($data['description']);
-        $data['userID'] = JFactory::getUser()->id;
         $data['publish_up'] = $this->getPublishDate();
-
-        if($data['eventID'] > 0)
-        {
-            $query = $dbo->getQuery(true);
-            $query->update('#__content');
-            $conditions = "title = '{$data['title']}', ";
-            $conditions .= "alias = '{$data['alias']}', ";
-            $conditions .= "introtext = '{$data['introtext']}', ";
-            $conditions .= "#__content.fulltext = '{$data['fulltext']}', ";
-            $conditions .= "state = '1', ";
-            $conditions .= "catid = '{$data['contentCatID']}', ";
-            $conditions .= "modified = '".date('Y-m-d H:i:s')."', ";
-            $conditions .= "modified_by = '{$data['userID']}', ";
-            $conditions .= "publish_up = '{$data['publish_up']}', ";
-            $conditions .= "publish_down = '{$data['publish_down']}' ";
-            $query->set($conditions);
-            $query->where("id = '{$data['eventID']}'");
-            $dbo->setQuery((string)$query );
-            $dbo->query();
-            if($dbo->getErrorNum())return false;
-
-            $query = $dbo->getQuery(true);
-            $query->select("id, level");
-            $query->from("#__assets");
-            $query->where("name = 'com_content.category.{$data['contentCatID']}'");
-            $dbo->setQuery((string)$query);
-            $parentID = $dbo->loadResult();
-            if($dbo->getErrorNum())return false;
-
-            $asset = JTable::getInstance('Asset');
-            $asset->loadByName("com_content.article.{$data['eventID']}");
-            $asset->parent_id = $parentID;
-            $asset->title = $data['title'];
-            $asset->setLocation($parentID, 'last-child');
-            if (!$asset->store())
-            {
-                $this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
-                return false;
-            }
-
-            $query = $dbo->getQuery(true);
-            $query->update("#__thm_organizer_events");
-            $conditions = "categoryID = '{$data['categoryID']}', ";
-            $conditions .= "startdate = '{$data['startdate']}', ";
-            $conditions .= "enddate = '{$data['enddate']}', ";
-            $conditions .= "starttime = '{$data['starttime']}', ";
-            $conditions .= "endtime = '{$data['endtime']}', ";
-            $conditions .= "recurrence_type = '{$data['rec_type']}' ";
-            $query->set($conditions);
-            $query->where("id = '{$data['eventID']}'");
-            $dbo->setQuery((string)$query );
-            $dbo->query();
-            if($dbo->getErrorNum())return false;
-        }
-        else
-        {
-            $query = $dbo->getQuery(true);
-            $statement = "#__content";
-            $statement .= "( title, alias, ";
-            $statement .= "introtext, #__content.fulltext, ";
-            $statement .= "state, catid, ";
-            $statement .= "created, access, ";
-            $statement .= "created_by, publish_up, ";
-            $statement .= "publish_down ) ";
-            $statement .= "VALUES ";
-            $statement .= "( '{$data['title']}', '{$data['alias']}', ";
-            $statement .= "'{$data['introtext']}', '{$data['fulltext']}', ";
-            $statement .= "'1', '{$data['contentCatID']}', ";
-            $statement .= "'".date('Y-m-d H:i:s')."', '1', ";
-            $statement .= "'{$data['userID']}', '{$data['publish_up']}', ";
-            $statement .= "'{$data['publish_down']}' ) ";
-            $query->insert($statement);
-            $dbo->setQuery((string)$query );
-            $dbo->query();
-            if($dbo->getErrorNum())return false;
-
-            $query = $dbo->getQuery(true);
-            $query->select('MAX(id)');
-            $query->from('#__content');
-            $query->where("title = '{$data['title']}'");
-            $query->where("introtext = '{$data['introtext']}'");
-            $query->where("catid = '{$data['contentCatID']}'");
-            $dbo->setQuery((string)$query);
-            $data['eventID'] = $dbo->loadResult();
-            if($dbo->getErrorNum())return false;
-
-            $query = $dbo->getQuery(true);
-            $query->select("id");
-            $query->from("#__assets");
-            $query->where("name = 'com_content.category.{$data['contentCatID']}'");
-            $dbo->setQuery((string)$query);
-            $parentID = $dbo->loadResult();
-            if($dbo->getErrorNum())return false;
-
-            $asset = JTable::getInstance('Asset');
-            $asset->name = "com_content.article.{$data['eventID']}";
-            $asset->parent_id = $parentID;
-            $asset->rules = '{}';
-            $asset->title = $data['title'];
-            $asset->setLocation($parentID, 'last-child');
-            if (!$asset->store())
-            {
-                $this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
-                return false;
-            }
-
-            $query = $dbo->getQuery(true);
-            $query->select('id');
-            $query->from('#__assets');
-            $query->where("name = 'com_content.article.{$data['eventID']}'");
-            $dbo->setQuery((string)$query);
-            $assetID = $dbo->loadResult();
-            if($dbo->getErrorNum())return false;
-
-            $query = $dbo->getQuery(true);
-            $query->update("#__content");
-            $query->set("asset_id = '$assetID'");
-            $query->where("id = '{$data['eventID']}'");
-            $dbo->setQuery((string)$query );
-            $dbo->query();
-            if($dbo->getErrorNum())return false;
-
-            $query = $dbo->getQuery(true);
-            $statement = "#__thm_organizer_events";
-            $statement .= "( id, categoryID, startdate, enddate, ";
-            $statement .= "starttime, endtime, recurrence_type ) ";
-            $statement .= "VALUES ";
-            $statement .= "( '{$data['eventID']}', '{$data['categoryID']}', '{$data['startdate']}', '{$data['enddate']}', ";
-            $statement .= "'{$data['starttime']}', '{$data['endtime']}', '{$data['rec_type']}' ) ";
-            $query->insert($statement);
-            $dbo->setQuery( $query );
-            $dbo->query();
-            if($dbo->getErrorNum())return false;
-        }
-
-        //remove old teacher associations
-        $query = $dbo->getQuery(true);
-        $query->delete();
-        $query->from("#__thm_organizer_event_teachers");
-        $query->where("eventID = '{$data['eventID']}'");
-        $dbo->setQuery((string)$query);
-        $dbo->query();
-        //add new ones (if requested)
-        $teachers = (isset($_REQUEST['teachers']))? JRequest::getVar('teachers') : array();
-        $noTeacherIndex = array_search('-1', $teachers);
-        if($noTeacherIndex)unset($teachers[$noTeacherIndex]);
-        if(count($teachers))
-        {
-            $query = $dbo->getQuery(true);
-            $statement = "#__thm_organizer_event_teachers ";
-            $statement .= "( eventID, teacherID ) ";
-            $statement .= "VALUES ";
-            $statement .= "( '{$data['eventID']}', '".implode("' ), ( '{$data['eventID']}', '", $teachers)."' ) ";
-            $query->insert($statement);
-            $dbo->setQuery((string)$query );
-            $dbo->query();
-            if($dbo->getErrorNum())return false;
-        }
-
-        //remove old room associations
-        $query = $dbo->getQuery(true);
-        $query->delete();
-        $query->from("#__thm_organizer_event_rooms");
-        $query->where("eventID = '{$data['eventID']}'");
-        $dbo->setQuery((string)$query);
-        $dbo->query();
-        //add new ones (if requested)
-        $rooms = (isset($_REQUEST['rooms']))? JRequest::getVar('rooms') : array();
-        $noRoomIndex = array_search('-1', $rooms);
-        if($noRoomIndex)unset($rooms[$noRoomIndex]);
-        if(count($rooms))
-        {
-            $query = $dbo->getQuery(true);
-            $statement = "#__thm_organizer_event_rooms ";
-            $statement .= "( eventID, roomID ) ";
-            $statement .= "VALUES ";
-            $statement .= "( '{$data['eventID']}', '".  implode("' ), ( '{$data['eventID']}', '", $rooms)."' ) ";
-            $query->insert($statement);
-            $dbo->setQuery((string)$query );
-            $dbo->query();
-            if($dbo->getErrorNum())return false;
-        }
-
-        //remove old group associations
-        $query = $dbo->getQuery(true);
-        $query->delete();
-        $query->from("#__thm_organizer_event_groups");
-        $query->where("eventID = '{$data['eventID']}'");
-        $dbo->setQuery((string)$query);
-        $dbo->query();
-        //add new ones (if requested)
-        $groups = (isset($_REQUEST['groups']))? JRequest::getVar('groups') : array();
-        $noGroupIndex = array_search('-1', $groups);
-        if($noGroupIndex)unset($groups[$noGroupIndex]);
-        if(count($groups))
-        {
-            $query = $dbo->getQuery(true);
-            $statement = "#__thm_organizer_event_groups ";
-            $statement .= "( eventID, groupID ) ";
-            $statement .= "VALUES ";
-            $statement .= "( '{$data['eventID']}', '".  implode("' ), ( '{$data['eventID']}', '", $groups)."' ) ";
-            $query->insert($statement);
-            $dbo->setQuery((string)$query );
-            $dbo->query();
-            if($dbo->getErrorNum())return false;
-        }
-
-        return $data['eventID'];
     }
 
     /**
      * getPublishDate
-     * 
-     * uses the joomla configuration timezone to adjust the publish up date to 
+     *
+     * uses the joomla configuration timezone to adjust the publish up date to
      * UTC time
-     * 
+     *
      * @return date the date normalized to UTC time for content
      */
     private function getPublishDate()
     {
+        date_default_timezone_set("UTC");
         $hereZone = new DateTimeZone(JFactory::getApplication()->getCfg('offset'));
+        echo "<pre>".print_r($hereZone, true)."</pre>";
         $hereTime = new DateTime("now", $hereZone);
+        echo "<pre>".print_r($hereTime, true)."</pre>";
         $offset = $hereTime->getOffset();
         if($offset > 0) $offset = " -{$offset} ";
         else
@@ -332,6 +144,45 @@ class thm_organizerModelevents extends JModel
         }
         $offset .= " seconds";
         return date("Y-m-d H:i:s", strtotime($offset));
+    }
+
+    /**
+     * function createIntroText
+     *
+     * creates a short text to describe the appointment as such
+     *
+     * @param array $data holds data from the request
+     */
+    private function createIntroText(&$data)
+    {
+        $introText = "<p>".JText::_('COM_THM_ORGANIZER_E_INTROTEXT_START');
+        $introText .= '"'.$data['contentCatName'].'"';
+        $introText .= JText::_('COM_THM_ORGANIZER_E_INTROTEXT_HAPPENS');
+        $introText .= $this->getDateText($data);
+
+        $roomNames = $this->getNames('rooms', 'name', '#__thm_organizer_rooms');
+        if(count($roomNames))
+        {
+            if(count($roomNames) == 1)
+                $introText .= JText::_('COM_THM_ORGANIZER_E_IN').$roomNames[0];
+            else
+            {
+                $introText .= JText::_('COM_THM_ORGANIZER_E_IN_PLURAL');
+                $introText .= implode(', ', $roomNames);
+            }
+        }
+        $introText .= JText::_('COM_THM_ORGANIZER_E_INTROTEXT_END');
+
+        $teacherNames = $this->getNames('teachers', 'name', '#__thm_organizer_teachers');
+        if(count($teacherNames))
+            $introText .= " ( ".implode(", ", $teacherNames)." )";
+
+        $groupNames = $this->getNames('groups', 'title', '#__usergroups');
+        if(count($groupNames))
+            $introText .= " ".JText::_('COM_THM_ORGANIZER_E_AFFECTED').implode(", ", $groupNames);
+
+        $introText .= "</p>";
+        $data['introtext'] = $introText;
     }
 
     /**
@@ -415,9 +266,206 @@ class thm_organizerModelevents extends JModel
         return $names;
     }
 
+    private function saveExistingEvent(&$data)
+    {
+        $dbo = JFactory::getDBO();
+
+        $query = $dbo->getQuery(true);
+        $query->update('#__content');
+        $conditions = "title = '{$data['title']}', ";
+        $conditions .= "alias = '{$data['alias']}', ";
+        $conditions .= "introtext = '{$data['introtext']}', ";
+        $conditions .= "#__content.fulltext = '{$data['fulltext']}', ";
+        $conditions .= "state = '1', ";
+        $conditions .= "catid = '{$data['contentCatID']}', ";
+        $conditions .= "modified = '".date('Y-m-d H:i:s')."', ";
+        $conditions .= "modified_by = '{$data['userID']}', ";
+        $conditions .= "publish_up = '{$data['publish_up']}', ";
+        $conditions .= "publish_down = '{$data['publish_down']}' ";
+        $query->set($conditions);
+        $query->where("id = '{$data['eventID']}'");
+        $dbo->setQuery((string)$query );
+        $dbo->query();
+        if($dbo->getErrorNum())return false;
+
+        $query = $dbo->getQuery(true);
+        $query->select("id, level");
+        $query->from("#__assets");
+        $query->where("name = 'com_content.category.{$data['contentCatID']}'");
+        $dbo->setQuery((string)$query);
+        $parentID = $dbo->loadResult();
+        if($dbo->getErrorNum())return false;
+
+        $asset = JTable::getInstance('Asset');
+        $asset->loadByName("com_content.article.{$data['eventID']}");
+        $asset->parent_id = $parentID;
+        $asset->title = $data['title'];
+        $asset->setLocation($parentID, 'last-child');
+        if (!$asset->store())
+        {
+            $this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
+            return false;
+        }
+
+        $query = $dbo->getQuery(true);
+        $query->update("#__thm_organizer_events");
+        $conditions = "categoryID = '{$data['categoryID']}', ";
+        $conditions .= "startdate = '{$data['startdate']}', ";
+        $conditions .= "enddate = '{$data['enddate']}', ";
+        $conditions .= "starttime = '{$data['starttime']}', ";
+        $conditions .= "endtime = '{$data['endtime']}', ";
+        $conditions .= "recurrence_type = '{$data['rec_type']}' ";
+        $query->set($conditions);
+        $query->where("id = '{$data['eventID']}'");
+        $dbo->setQuery((string)$query );
+        $dbo->query();
+        if($dbo->getErrorNum())return false;
+
+        return true;
+    }
+    
+    /**
+     * saveNewEvent
+     * 
+     * saves a new event creating appropriate entries in the content, assets,
+     * and event tables
+     * 
+     * @param array $data holds data from the request
+     * @return boolean true on success false on failure
+     */
+    private function saveNewEvent(&$data)
+    {
+        $dbo = JFactory::getDBO();
+        
+        $query = $dbo->getQuery(true);
+        $statement = "#__content";
+        $statement .= "( title, alias, ";
+        $statement .= "introtext, #__content.fulltext, ";
+        $statement .= "state, catid, ";
+        $statement .= "created, access, ";
+        $statement .= "created_by, publish_up, ";
+        $statement .= "publish_down ) ";
+        $statement .= "VALUES ";
+        $statement .= "( '{$data['title']}', '{$data['alias']}', ";
+        $statement .= "'{$data['introtext']}', '{$data['fulltext']}', ";
+        $statement .= "'1', '{$data['contentCatID']}', ";
+        $statement .= "'".date('Y-m-d H:i:s')."', '1', ";
+        $statement .= "'{$data['userID']}', '{$data['publish_up']}', ";
+        $statement .= "'{$data['publish_down']}' ) ";
+        $query->insert($statement);
+        $dbo->setQuery((string)$query );
+        $dbo->query();
+        if($dbo->getErrorNum())return false;
+
+        $query = $dbo->getQuery(true);
+        $query->select('MAX(id)');
+        $query->from('#__content');
+        $query->where("title = '{$data['title']}'");
+        $query->where("introtext = '{$data['introtext']}'");
+        $query->where("catid = '{$data['contentCatID']}'");
+        $dbo->setQuery((string)$query);
+        $data['eventID'] = $dbo->loadResult();
+        if($dbo->getErrorNum())return false;
+
+        $query = $dbo->getQuery(true);
+        $query->select("id");
+        $query->from("#__assets");
+        $query->where("name = 'com_content.category.{$data['contentCatID']}'");
+        $dbo->setQuery((string)$query);
+        $parentID = $dbo->loadResult();
+        if($dbo->getErrorNum())return false;
+
+        $asset = JTable::getInstance('Asset');
+        $asset->name = "com_content.article.{$data['eventID']}";
+        $asset->parent_id = $parentID;
+        $asset->rules = '{}';
+        $asset->title = $data['title'];
+        $asset->setLocation($parentID, 'last-child');
+        if (!$asset->store())
+        {
+            $this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
+            return false;
+        }
+
+        $query = $dbo->getQuery(true);
+        $query->select('id');
+        $query->from('#__assets');
+        $query->where("name = 'com_content.article.{$data['eventID']}'");
+        $dbo->setQuery((string)$query);
+        $assetID = $dbo->loadResult();
+        if($dbo->getErrorNum())return false;
+
+        $query = $dbo->getQuery(true);
+        $query->update("#__content");
+        $query->set("asset_id = '$assetID'");
+        $query->where("id = '{$data['eventID']}'");
+        $dbo->setQuery((string)$query );
+        $dbo->query();
+        if($dbo->getErrorNum())return false;
+
+        $query = $dbo->getQuery(true);
+        $statement = "#__thm_organizer_events";
+        $statement .= "( id, categoryID, startdate, enddate, ";
+        $statement .= "starttime, endtime, recurrence_type ) ";
+        $statement .= "VALUES ";
+        $statement .= "( '{$data['eventID']}', '{$data['categoryID']}', '{$data['startdate']}', '{$data['enddate']}', ";
+        $statement .= "'{$data['starttime']}', '{$data['endtime']}', '{$data['rec_type']}' ) ";
+        $query->insert($statement);
+        $dbo->setQuery( $query );
+        $dbo->query();
+        if($dbo->getErrorNum())return false;
+        
+        return true;
+    }
 
     /**
-     * function delete
+     * saveEventResources
+     *
+     * saves associations of events and event resources
+     *
+     * @param string $tableName the name of the table where resource association
+     * is saved
+     * @param string $requestName the name of the request variable handling the
+     * resource
+     * @param string $resourceColumn the name of the column which holds the
+     * resource id
+     * @param int $eventID the id of the event
+     * @return boolean true on success false on failure
+     */
+    private function saveResources($tableName, $requestName, $resourceColumn, $eventID)
+    {
+        $dbo = JFactory::getDBO();
+
+        //remove old associations
+        $query = $dbo->getQuery(true);
+        $query->delete();
+        $query->from($tableName);
+        $query->where("eventID = '$eventID'");
+        $dbo->setQuery((string)$query);
+        $dbo->query();
+
+        //add new ones (if requested)
+        $resources = (isset($_REQUEST[$requestName]))? JRequest::getVar('groups') : array();
+        $noResourceIndex = array_search('-1', $resources);
+        if($noResourceIndex)unset($resources[$noResourceIndex]);
+        if(count($resources))
+        {
+            $query = $dbo->getQuery(true);
+            $statement = "$tableName ";
+            $statement .= "( eventID, $resourceColumn ) ";
+            $statement .= "VALUES ";
+            $statement .= "( '$eventID', '".  implode("' ), ( '$eventID', '", $resources)."' ) ";
+            $query->insert($statement);
+            $dbo->setQuery((string)$query );
+            $dbo->query();
+            if($dbo->getErrorNum())return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * delete
      *
      * deletes events
      *

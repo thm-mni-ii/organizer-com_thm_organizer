@@ -41,7 +41,6 @@ class thm_organizerViewevent extends JView
 
     private function createTextElements(&$event)
     {
-
         //creation of the sentence display of the dates & times
         $dateTimeText = JText::_("COM_THM_ORGANIZER_E_DATES_START");
         $timeText = "";
@@ -80,6 +79,12 @@ class thm_organizerViewevent extends JView
                     $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_FROM").$event['startdate'];
                     $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_TO").$event['endtime'];
                     $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_ON").$event['enddate'];
+                }
+                else
+                {
+                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_FROM").$event['startdate'];
+                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_UNTIL").$event['enddate'];
+                    $dateTimeText .= $timeText;
                 }
             }
             else

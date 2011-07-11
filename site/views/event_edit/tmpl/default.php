@@ -17,6 +17,10 @@ foreach($this->categories as $category)
 }
 ?>
 
+/**
+ * was not moved to edit_event.js because of use of joomla language support in
+ * alert output
+ */
 Joomla.submitbutton = function(task)
 {
     if (task == '') { return false; }
