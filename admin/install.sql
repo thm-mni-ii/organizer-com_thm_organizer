@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
   `gpuntisID` varchar(10) NOT NULL DEFAULT '',
   `name` varchar(50) NOT NULL DEFAULT '',
   `alias` varchar(50) NOT NULL DEFAULT '',
-  `moduleID` varchar(10) NOT NULL DEFAULT '',
+  `moduleID` varchar(20) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE `gpuntisID` (`gpuntisID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
