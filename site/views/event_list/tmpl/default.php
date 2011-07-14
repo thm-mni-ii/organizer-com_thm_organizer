@@ -2,7 +2,6 @@
 defined('_JEXEC') or die('Restricted access');
 $rowcount = 0;
 ?>
-<pre><?php print_r($this->form, true) ?></pre>
 <div id="thm_organizer_el">
     <form id='thm_organizer_el_form' name='thm_organizer_el_form' enctype='multipart/form-data' method='post'
           action='<?php echo JRoute::_("index.php?option=com_thm_organizer&view=event_list"); ?>' >

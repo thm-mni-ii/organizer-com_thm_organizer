@@ -34,6 +34,14 @@ class thm_organizerViewevent extends JView
         $listLink = $model->listLink;
         $this->assignRef('listLink', $listLink);
 
+        $item = new stdClass();
+	$dispatcher = JDispatcher::getInstance();
+        $item->text = $this->event['description'];
+        JPluginHelper::importPlugin('content');
+        $results = $dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$this->params, $offset));
+        $this->event['description'] = $item->text;
+        unset($item);
+
         $this->createTextElements(&$event);
 
         parent::display($tpl);

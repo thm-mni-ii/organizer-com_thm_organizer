@@ -173,7 +173,6 @@ class thm_organizerViewevent_list extends JView
 
     private function makeCategorySelect($categories, $selected)
     {
-        //echo "<pre>".print_r($categories, true)."</pre>";
         $nocategories = array(1=>array('id'=>'-1','title'=>JText::_('Alle Kategorien')));
         $categories = array_merge($nocategories, $categories);
         $categorySelect = JHTML::_('select.genericlist', $categories, 'categoryID','id="categoryID" class="inputbox" size="1"', 'id', 'title', $selected );

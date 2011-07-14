@@ -9,8 +9,6 @@
  * @link        www.mni.fh-giessen.de
  * @version     0.0.1
  */
-
-//echo "<pre>".print_r($this->menuParameters, true)."</pre>"; //template for test outputs
 defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport('joomla.application.component.modelform');
 

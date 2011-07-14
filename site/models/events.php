@@ -132,9 +132,7 @@ class thm_organizerModelevents extends JModel
     {
         date_default_timezone_set("UTC");
         $hereZone = new DateTimeZone(JFactory::getApplication()->getCfg('offset'));
-        echo "<pre>".print_r($hereZone, true)."</pre>";
         $hereTime = new DateTime("now", $hereZone);
-        echo "<pre>".print_r($hereTime, true)."</pre>";
         $offset = $hereTime->getOffset();
         if($offset > 0) $offset = " -{$offset} ";
         else
