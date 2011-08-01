@@ -443,7 +443,7 @@ class thm_organizerModelevents extends JModel
         $dbo->query();
 
         //add new ones (if requested)
-        $resources = (isset($_REQUEST[$requestName]))? JRequest::getVar('groups') : array();
+        $resources = (isset($_REQUEST[$requestName]))? JRequest::getVar($requestName) : array();
         $noResourceIndex = array_search('-1', $resources);
         if($noResourceIndex)unset($resources[$noResourceIndex]);
         if(count($resources))
