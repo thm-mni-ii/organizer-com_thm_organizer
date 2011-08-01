@@ -38,7 +38,7 @@ class thm_organizerViewevent extends JView
 	$dispatcher = JDispatcher::getInstance();
         $item->text = $this->event['description'];
         JPluginHelper::importPlugin('content');
-        $results = $dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$this->params, $offset));
+        $results = $dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$this->params));
         $this->event['description'] = $item->text;
         unset($item);
 
