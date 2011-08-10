@@ -79,6 +79,10 @@ class thm_organizerModelbooking extends JModel
     }
 
     /**
+     * prepareData
+     *
+     * loads data into the object from an array of test data or from the user
+     * request
      *
      * @param array $data test data for debugging
      */
@@ -91,7 +95,7 @@ class thm_organizerModelbooking extends JModel
             $this->enddate = ($data['enddate'] != "")? $data['enddate'] : $data['startdate'];
             $this->starttime = ($data['starttime'] != "")? $data['starttime'] : "00:00";
             $this->endtime = ($data['endtime'] != "")? $data['endtime'] : "00:00";
-            $this->rec_type = $data['endtime'];
+            $this->rec_type = $data['rec_type'];
             $this->rooms = $this->getResourceData('rooms', 'name', '#__thm_organizer_rooms');
             $this->roomKeys = (count($this->rooms))?
                     "( '".implode("', '", array_keys($this->rooms))."' )" : "";
@@ -238,7 +242,9 @@ class thm_organizerModelbooking extends JModel
         $select = "DISTINCT(c.id), c.title, u.name AS author, 'event' AS type, ";
         $select .= "DATE_FORMAT(e.startdate, '%d.%m.%Y') AS startdate, ";
         $select .= "DATE_FORMAT(e.enddate, '%d.%m.%Y') AS enddate, ";
-        $select .= "e.starttime, e.endtime, e.recurrence_type AS rec_type";
+        $select .= "SUBSTR(e.starttime, 1, 5) AS starttime, ";
+        $select .= "SUBSTR(e.endtime, 1, 5) AS endtime, ";
+        $select .= "e.recurrence_type AS rec_type";
         $query->select($select);
         $query->from("#__thm_organizer_events AS e");
         $query->innerJoin("#__content AS c ON e.id = c.id");
@@ -372,16 +378,23 @@ class thm_organizerModelbooking extends JModel
         $startdate = $this->dbDateFormat($this->startdate);
         $enddate = $this->dbDateFormat($this->enddate);
         $restriction = "( ";
-        $restriction .= "( e.startdate < '$startdate' AND e.enddate > '$enddate' ) OR ";
-        $restriction .= "( e.startdate > '$startdate' AND e.enddate < '$enddate') OR ";
-        $restriction .= "( e.startdate > '$startdate' AND e.startdate < '$enddate') OR ";
-        $restriction .= "( e.enddate > '$startdate' AND e.enddate < '$enddate') OR ";
+        if($startdate != $enddate)
+        {
+            $restriction .= "( e.startdate < '$startdate' AND e.enddate > '$startdate' ) OR ";
+            $restriction .= "( e.startdate > '$startdate' AND e.startdate < '$enddate') ";
+        }
         if($this->starttime != '00:00')
-            $restriction .= "( e.enddate = '{$this->startdate}' AND e.endtime > '{$this->starttime}' ) OR ";
-        else $restriction .= "( e.enddate = '$startdate' ) OR";
+        {
+            if($startdate != $enddate) $restriction .=  "OR ";
+            $restriction .= "( e.enddate = '$startdate' AND e.endtime >= '{$this->starttime}' ) ";
+        }
         if($this->endtime != '00:00')
-            $restriction .= "( e.startdate <= '{$this->enddate}' AND e.starttime < '{$this->endtime}' ) ";
-        else $restriction .= "( e.startdate = '$enddate' ) ";
+        {
+            if($startdate != $enddate or $this->starttime != '00:00') $restriction .=  "OR ";
+            $restriction .= "( e.startdate = '$enddate' AND e.starttime <= '{$this->endtime}' ) ";
+        }
+        if($startdate == $enddate and $this->starttime == '00:00' and $this->endtime == '00:00')
+            $restriction .= "( e.startdate = '$enddate' ) ";
         $restriction .= ")";
         return $restriction;
     }
@@ -402,11 +415,10 @@ class thm_organizerModelbooking extends JModel
         foreach($events as $key => $event)
         {
             $reformattedEvent = array();
-            $reformattedEvent['type'] = $event['type'];
-            $reformattedEvent['title'] = $event['title'];
-            $reformattedEvent['author'] = $event['author'];
-            $reformattedEvent['timeText'] = $this->makeEventTimeText($event);
-            $reformattedEvent['resourcestText'] = $this->getResourcesText($event['id']);
+            $reformattedEvent['details'] = JText::_('COM_THM_ORGANIZER_B_EVENT').": ".$event['title'];
+            $reformattedEvent['details'] .= " ".JText::_('COM_THM_ORGANIZER_B_EVENT_AUTHOR')." ".$event['author'];
+            $reformattedEvent['details'] .= " ".$this->makeEventTimeText($event);
+            $reformattedEvent['resourcesText'] = $this->getResourcesText($event['id'], 'event');
             $events[$key] = $reformattedEvent;
         }
     }
@@ -432,8 +444,8 @@ class thm_organizerModelbooking extends JModel
         if(isset($event['starttime']) && isset($event['endtime']))
         {
             $timeText = " ".JText::_("COM_THM_ORGANIZER_B_BETWEEN");
-            $timeText .= " ".$event['starttime']." ";
-            $timeText .= " ".JText::_("COM_THM_ORGANIZER_B_AND")." ";
+            $timeText .= " ".$event['starttime'];
+            $timeText .= " ".JText::_("COM_THM_ORGANIZER_B_AND");
             $timeText .= " ".$event['endtime'];
         }
         else if(isset($event['starttime']))
@@ -498,32 +510,45 @@ class thm_organizerModelbooking extends JModel
      * to be created
      * @return string preformatted text containing resource names
      */
-    private function getResourcesText($eventID)
+    private function getResourcesText($id, $type)
     {
         $resources = array();
-        $teacherIDs =
-            $this->getResourceIDs("#__thm_organizer_event_teachers", "teacherID", $eventID, $this->teacherKeys);
+        if($type == 'event')
+        {
+            $teacherIDs =
+                $this->getResourceIDs("#__thm_organizer_event_teachers", "eventID", "teacherID", $id, $this->teacherKeys);
+            $roomIDs =
+                $this->getResourceIDs("#__thm_organizer_event_rooms", "eventID", "roomID", $id, $this->roomKeys);
+            $groupIDs =
+                $this->getResourceIDs("#__thm_organizer_event_groups", "eventID",  "groupID", $id, $this->groupKeys);
+        }
+        else if($type == 'lesson')
+        {
+            $teacherIDs =
+                $this->getResourceIDs("#__thm_organizer_lesson_teachers", "lessonID", "teacherID", $id, $this->teacherKeys);
+            $roomIDs =
+                $this->getResourceIDs("#__thm_organizer_lesson_times", "lessonID", "roomID", $id, $this->roomKeys);
+            $groupIDs = array();
+        }
         if(count($teacherIDs))
         {
             $teachers = $this->resolveIDstoNames($this->teachers, $teacherIDs);
             $resources[] = implode(", ", $teachers);
         }
-        $roomIDs =
-            $this->getResourceIDs("#__thm_organizer_event_rooms", "roomID", $eventID, $this->roomKeys);
         if(count($roomIDs))
         {
             $rooms = $this->resolveIDstoNames($this->rooms, $roomIDs);
             $resources[] = implode(", ", $rooms);
         }
-        $groupIDs =
-            $this->getResourceIDs("#__thm_organizer_event_groups", "groupID", $eventID, $this->groupKeys);
         if(count($groupIDs))
         {
             $groups = $this->resolveIDstoNames($this->groups, $groupIDs);
             $resources[] = implode(", ", $groups);
         }
         $resources = implode(", ", $resources);
-        return JText::_('COM_THM_ORGANIZER_B_EVENT_RESOURCE_START')." ".$resources;
+        if($type == 'event') $resourceText = JText::_('COM_THM_ORGANIZER_B_EVENT_RESOURCE_START').": ".$resources;
+        else if($type == 'lesson') $resourceText = JText::_('COM_THM_ORGANIZER_B_LESSON_RESOURCE_START').": ".$resources;
+        return $resourceText;
     }
 
     /**
@@ -540,14 +565,14 @@ class thm_organizerModelbooking extends JModel
      * the sql statement
      * @return array list of associated resource ids
      */
-    private function getResourceIDs($tableName, $columnName, $eventID, $keys)
+    private function getResourceIDs($tableName, $keyColumn, $resourceColumn, $id, $keys)
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select($columnName);
+        $query->select($resourceColumn);
         $query->from($tableName);
-        $query->where("eventID = '$eventID'");
-        $query->where("$columnName IN $keys");
+        $query->where("$keyColumn = '$id'");
+        $query->where("$resourceColumn IN $keys");
         $dbo->setQuery((string)$query);
         return $dbo->loadResultArray();
     }
@@ -574,38 +599,64 @@ class thm_organizerModelbooking extends JModel
         $dbo = JFactory::getDbo();
 
         $query = $dbo->getQuery(true);
-        $query->select("DISTINCT(l.id), s.alias, 'lesson' as type");
+        $query->select("DISTINCT(l.id), s.alias AS title");
         $query->from("#__thm_organizer_lessons AS l");
         $query->innerJoin("#__thm_organizer_subjects AS s ON l.subjectID = s.id");
         $query->innerJoin("#__thm_organizer_lesson_times AS ltimes ON l.id = ltimes.lessonID");
-        $query->innerJoin("#__thm_organizer_rooms AS r ON ltimes.roomID = r.id");
         $query->innerJoin("#__thm_organizer_periods AS p ON ltimes.periodID = p.id");
         $query->innerJoin("#__thm_organizer_lesson_teachers AS lteachers ON l.id = lteachers.lessonID");
-        $query->innerJoin("#__thm_organizer_teachers AS t ON lteachers.teacherID = t.id");
         $query->where($this->lessonResourceRestriction());
         if(!empty($this->dayNumbers))
             $query->where("p.day IN {$this->dayNumbers}");
         $query->where($this->lessonTimeRestriction());
         $dbo->setQuery((string)$query);
         $lessons = $dbo->loadAssocList();
-        if(isset($lessons) and count($lessons))$this->prepareLessons(&$lessons);
+        if(isset($lessons) and count($lessons))
+        {
+            $this->prepareLessons(&$lessons);
+            $this->conflicts = array_merge($this->conflicts, $lessons);
+        }
     }
 
+    /**
+     * lessonResourceRestriction
+     *
+     * creates an sql clause to determine if the lesson uses the resources requested by the user
+     *
+     * @return string sql clause
+     */
     private function lessonResourceRestriction()
     {
         $restriction = "( ";
-        $restriction .= "r.id IN {$this->roomKeys} OR ";
-        $restriction .= "t.id IN {$this->teacherKeys} ";
+        $restriction .= "ltimes.roomID IN {$this->roomKeys} OR ";
+        $restriction .= "lteachers.teacherID IN {$this->teacherKeys} ";
         $restriction .= ") ";
         return $restriction;
     }
 
+    /**
+     * lessonTimeRestriction
+     *
+     * calls the appropriate function for the creation for the temporal inter-
+     * section clause based upon the reccurance type of the event
+     *
+     * @return string sql clause
+     */
     private function lessonTimeRestriction()
     {
-        if($this->rec_type == 0) return $this->blockLessonTimeRestriction();
-        if($this->rec_type == 1) return $this->dailyLessonTimeRestriction();
+        if($this->rec_type == 0)
+                return $this->blockLessonTimeRestriction();
+        if($this->rec_type == 1 and ($this->starttime or $this->endtime))
+                return $this->dailyLessonTimeRestriction();
     }
 
+    /**
+     * blockLessonTimeRestriction
+     *
+     * creates a sql clause to determine intersection of block events with lessons
+     *
+     * @return string sql clause
+     */
     private function blockLessonTimeRestriction()
     {
         $startdt = strtotime($this->dbDateFormat($this->startdate));
@@ -617,23 +668,46 @@ class thm_organizerModelbooking extends JModel
         $restriction = "( ";
 
         //between start and enddates modulo 7
-        $restriction .= "( p.day > '$startDoW' AND p.day > '$endDoW' ) OR ";
-        $restriction .= "( p.day < '$startDoW' AND p.day < '$endDoW' ) OR ";
-        $restriction .= "( p.day > '$startDoW' AND p.day < '$endDoW' ) OR ";
-
-        $restriction .= "( p.day = '$startDoW' AND p.endtime > '{$this->starttime}' ) OR ";
-        $restriction .= "( p.day = '$endDoW' AND p.starttime > '{$this->endtime}' ) ";
-
+        if($startDoW != $endDoW)
+        {
+            $restriction .= "( p.day > '$startDoW' AND p.day > '$endDoW' ) OR ";
+            $restriction .= "( p.day < '$startDoW' AND p.day < '$endDoW' ) OR ";
+            $restriction .= "( p.day > '$startDoW' AND p.day < '$endDoW' ) ";
+        }
+        if($this->starttime != '00:00')
+        {
+            if($startDoW != $endDoW) $restriction .= "OR ";
+            $restriction .= "( p.day = '$startDoW' AND p.endtime >= '{$this->starttime}' ) ";
+        }
+        if($this->endtime != '00:00')
+        {
+            if($startDoW != $endDoW or $this->starttime != '00:00') $restriction .= "OR ";
+            $restriction .= "( p.day = '$endDoW' AND p.starttime <= '{$this->endtime}' ) ";
+        }
         $restriction .= ")";
         return $restriction;
     }
 
+    /**
+     * dailyLessonTimeRestriction
+     *
+     * creates a sql clause to determine intersection of daily events with lessons
+     *
+     * @return string sql clause
+     */
     private function dailyLessonTimeRestriction()
     {
         $restriction = "( ";
-        $restriction .= "( p.starttime > '{$this->starttime}' AND p.starttime < '{$this->endtime}' ) OR ";
-        $restriction .= "( p.endtime > '{$this->starttime}' AND p.endtime < '{$this->endtime}' ) OR ";
-        $restriction .= "( p.starttime < '{$this->starttime}' AND p.endtime > '{$this->endtime}' ) OR";
+        if($this->starttime != '00:00' and $this->endtime != '00:00')
+        {
+            $restriction .= "( p.starttime > '{$this->starttime}' AND p.starttime < '{$this->endtime}' ) OR ";
+            $restriction .= "( p.endtime > '{$this->starttime}' AND p.endtime < '{$this->endtime}' ) OR ";
+            $restriction .= "( p.starttime < '{$this->starttime}' AND p.endtime > '{$this->endtime}' ) ";
+        }
+        else if($this->starttime != '00:00')
+            $restriction .= "p.endtime >= '{$this->starttime}' ";
+        else if($this->endtime != '00:00')
+            $restriction .= "p.starttime <= '{$this->endtime}' ";
         $restriction .= ")";
         return $restriction;
     }
@@ -642,10 +716,7 @@ class thm_organizerModelbooking extends JModel
      * prepareLessons
      *
      * reformats an array of conflicting lessons to the following structure:<br />
-     * <b>type</b> the type of object(here: event)<br/>
-     * <b>title</b> the title of event<br/>
-     * <b>author</b> the name of the user who created the event<br/>
-     * <b>timeText</b> a preformatted text explainng the run of the event<br/>
+     * <b>detailst</b> a preformatted text explaining the details of the lesson<br/>
      * <b>resourcesText</b> a formatted text with the names of conflicting resources
      * @param array $events array containing information about conflicting events
      */
@@ -654,27 +725,107 @@ class thm_organizerModelbooking extends JModel
         foreach($lessons as $key => $lesson)
         {
             $reformattedLesson = array();
-            $reformattedLesson['type'] = $lesson['type'];
-            $reformattedLesson['title'] = $lesson['title'];
-            $reformattedLesson['author'] = $this->getLessonTeachers($lesson['id']);
-            $reformattedLesson['timeText'] = $this->makeLessonTimeText($lesson['id']);
-            $reformattedLesson['resourcestText'] = $this->getResourcesText($lesson['id']);
+            $reformattedLesson['details'] = JText::_('COM_THM_ORGANIZER_B_LESSON').": ".$lesson['title'];
+            $reformattedLesson['details'] .= " ".JText::_('COM_THM_ORGANIZER_B_LESSON_TEACHERS');
+            $reformattedLesson['details'] .= " ".$this->getLessonTeachers($lesson['id']);
+            $reformattedLesson['details'] .= " ".$this->makeLessonTimeText($lesson['id']);
+            $reformattedLesson['resourcesText'] = $this->getResourcesText($lesson['id'], 'lesson').".";
             $lessons[$key] = $reformattedLesson;
+            unset($reformattedLesson);
         }
     }
 
+    /**
+     * getLessonTeachers
+     *
+     * retrieves an array of teachers holding the lesson and formats them into
+     * a text string for later output
+     *
+     * @param int $id the id under which the lesson is saved in the db
+     * @return string a comma seperated list of teachers
+     */
     private function getLessonTeachers($id)
     {
-
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("name");
+        $query->from("#__thm_organizer_lesson_teachers AS lt");
+        $query->innerJoin("#__thm_organizer_teachers AS t ON lt.teacherID = t.id");
+        $query->where("lessonID = '$id'");
+        $dbo->setQuery((string)$query);
+        $teacherNames = $dbo->loadResultArray();
+        return implode(", ", $teacherNames);
     }
-    
+
+    /**
+     * makeLessonTimeText
+     *
+     * creates a string expressing when a conflicting lesson is being held
+     *
+     * @param int $id the id of the lesson
+     * @return string
+     */
     private function makeLessonTimeText($id)
     {
-
-    }
-
-    private function getResourcesText($id)
-    {
-
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("day, SUBSTR( starttime , 1 , 5 ) AS starttime, SUBSTR( endtime , 1 , 5 ) AS endtime");
+        $query->from("#__thm_organizer_lesson_times AS ltimes");
+        $query->innerJoin("#__thm_organizer_periods AS p ON ltimes.periodID = p.id");
+        $query->innerJoin("#__thm_organizer_lesson_teachers AS lteachers ON ltimes.lessonID = lteachers.lessonID");
+        $query->where($this->lessonResourceRestriction());
+        if(!empty($this->dayNumbers))
+            $query->where("p.day IN {$this->dayNumbers}");
+        $query->where($this->lessonTimeRestriction());
+        $query->where("ltimes.lessonID = '$id'");
+        $dbo->setQuery((string)$query);
+        $periods = $dbo->loadAssocList();
+        if(isset($periods))
+        {
+            $timeText = JText::_('COM_THM_ORGANIZER_B_LESSON_START');
+            foreach($periods as $key => $period)
+            {
+                switch($period['day'])
+                {
+                    case 0:
+                        $period['day'] = JText::_('SUNDAY');
+                        break;
+                    case 1:
+                        $period['day'] = JText::_('MONDAY');
+                        break;
+                    case 2:
+                        $period['day'] = JText::_('TUESDAY');
+                        break;
+                    case 3:
+                        $period['day'] = JText::_('WEDNESDAY');
+                        break;
+                    case 4:
+                        $period['day'] = JText::_('THURSDAY');
+                        break;
+                    case 5:
+                        $period['day'] = JText::_('FRIDAY');
+                        break;
+                    case 6:
+                        $period['day'] = JText::_('SATURDAY');
+                        break;
+                }
+                $blockText = " ".$period['day']."s";
+                $blockText .= " ".JText::_('COM_THM_ORGANIZER_B_FROM');
+                $blockText .= " ".$period['starttime'];
+                $blockText .= " ".JText::_('COM_THM_ORGANIZER_B_TO');
+                $blockText .= " ".$period['endtime'];
+                $periods[$key] = $blockText;
+            }
+            for($i = 0; $i < COUNT($periods); $i++)
+            {
+                $timeText .= $periods[$i];
+                if($i == COUNT($periods) - 1)break;
+                else if($i == COUNT($periods) - 2)$timeText .= " ".JText::_('COM_THM_ORGANIZER_B_AND');
+                else $timeText .= ",";
+            }
+            $timeText .= " ".JText::_('COM_THM_ORGANIZER_B_END').".";
+            return $timeText;
+        }
+        else return "";
     }
 }

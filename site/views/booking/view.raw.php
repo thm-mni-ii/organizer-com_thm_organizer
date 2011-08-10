@@ -16,19 +16,16 @@ class thm_organizerViewbooking extends JView
     function display($tpl = null)
     {
         $model = $this->getModel();
+        $model->prepareData();
         $conflicts = $model->conflicts;
         if(count($conflicts)) $this->conflictList($conflicts);
-        else $this->free();
-    }
-
-    private function free()
-    {
-        echo JText::_('COM_THM_ORGANIZER_NO_COLLISIONS');
     }
 
     private function conflictList($conflicts)
     {
-        $message = "";
+        $message = JText::_('COM_THM_ORGANIZER_B_CONFLICTS_FOUND').":<br />";
+        foreach($conflicts as $conflict)
+            $message .= "<br/>".$conflict['details']."<br/>".$conflict['resourcesText']."<br/>";
         echo $message;
     }
 }
