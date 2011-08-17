@@ -98,7 +98,10 @@ class thm_organizerModelroom_display extends JModel
      */
      private function setSemesters()
      {
-         $date = date("Y-m-d");
+         $form = JRequest::getVar('jform');
+         $date = $form['date'];
+         if($date == '') $date = date("Y-m-d");
+         else $date = substr ($date, 6)."-".substr($date, 3, 2)."-".substr($date, 0, 2);
          $dbo = JFactory::getDbo();
          $query = $dbo->getQuery(true);
          $query->select("semesters.id");
