@@ -9,6 +9,7 @@ $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : fa
 ?>
 <script language="javascript" type="text/javascript">
     var categories = new Array;
+
 <?php
 $i = 0;
 foreach($this->categories as $category)
@@ -16,6 +17,34 @@ foreach($this->categories as $category)
     echo 'categories['.$category['id'].'] = new Array( "'.mysql_real_escape_string($category['description']).'", "'.addslashes($category['display']).'",  "'.addslashes($category['contentCat']).'", "'.addslashes($category['contentCatDesc']).'", "'.addslashes($category['access']).'" );';
 }
 ?>
+
+function getRecType()
+{
+    for(var i=0; i < document.eventForm.rec_type.length; i++)
+    {
+        if(document.eventForm.rec_type[i].checked)
+        {
+            return document.eventForm.rec_type[i].value;
+        }
+    }
+}
+
+function getResources(resourceID)
+{
+    var resourceObject = document.getElementById(resourceID);
+    var selectedResources = new Array();
+    var index;
+    var count = 0;
+    for (index = 0; index < resourceObject.options.length; index++)
+    {
+        if (resourceObject.options[index].selected) {
+            selectedResources[count] = resourceObject.options[index].value;
+            count++;
+        }
+    }
+    if(count)return selectedResources.toString();
+    else return '';
+}
 
 /**
  * was not moved to edit_event.js because of use of joomla language support in
@@ -42,8 +71,27 @@ Joomla.submitbutton = function(task)
         }
         if (isValid)
         {
-            Joomla.submitform(task, document.eventForm);
-            return true;
+            var requrl = '<?php echo $this->baseurl; ?>';
+            requrl = requrl + '/index.php?option=com_thm_organizer&view=booking&format=raw&eventID=';
+            requrl = requrl + document.getElementById('eventID').value + '&startdate=';
+            requrl = requrl + document.getElementById('jform_startdate').value + '&enddate=';
+            requrl = requrl + document.getElementById('jform_enddate').value + '&starttime=';
+            requrl = requrl + document.getElementById('jform_starttime').value + '&endtime=';
+            requrl = requrl + document.getElementById('jform_endtime').value + '&rec_type=';
+            requrl = requrl + getRecType() + '&teachers=';
+            requrl = requrl + getResources('teachers') + '&rooms=';
+            requrl = requrl + getResources('rooms') + '&groups=';
+            requrl = requrl + getResources('groups');
+            var message;
+            var a = new Request({
+                url: requrl,
+                onComplete: function(response){
+                    var confirmed = true;
+                    if(response){ confirmed = confirm(response); }
+                    if(confirmed){ Joomla.submitform(task, document.eventForm); }
+                    else{ return false; };
+                }
+            }).send();
         }
         else
         {
@@ -205,7 +253,7 @@ Joomla.submitbutton = function(task)
                 </tr>
             </table>
         </div>
-        <input type='hidden' name='eventID' value='<?php echo $this->event['id']; ?>' />
+        <input type='hidden' name='eventID' id='eventID' value='<?php echo $this->event['id']; ?>' />
         <input type='hidden' name='task' value='events.save' />
         <?php echo JHtml::_('form.token'); ?>
     </form>

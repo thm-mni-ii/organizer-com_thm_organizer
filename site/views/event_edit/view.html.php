@@ -15,9 +15,9 @@ class thm_organizerViewevent_edit extends JView
 {
     function display($tpl = null)
     {
+        JHtml::_('behavior.framework', true);
         JHTML::_('behavior.formvalidation');
         JHTML::_('behavior.tooltip');
-        JHTML::_('behavior.mootools');
 
         $document = & JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
