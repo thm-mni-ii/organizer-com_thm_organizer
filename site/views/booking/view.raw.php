@@ -23,9 +23,12 @@ class thm_organizerViewbooking extends JView
 
     private function conflictList($conflicts)
     {
-        $message = JText::_('COM_THM_ORGANIZER_B_CONFLICTS_FOUND').":<br />";
+        $message = JText::_('COM_THM_ORGANIZER_B_CONFLICTS_FOUND').":\r\n";
         foreach($conflicts as $conflict)
-            $message .= "<br/>".$conflict['details']."<br/>".$conflict['resourcesText']."<br/>";
+        {
+            $message .= "\r\n".$conflict['details'];
+            $message .= " ".$conflict['resourcesText']."\r\n";
+        }
         echo $message;
     }
 }
