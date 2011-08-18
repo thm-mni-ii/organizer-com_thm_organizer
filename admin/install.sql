@@ -61,6 +61,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_events` (
   `enddate` date DEFAULT NULL,
   `starttime` time DEFAULT NULL,
   `endtime` time DEFAULT NULL,
+  `start` int(15) DEFAULT '0',
+  `end` int(15) DEFAULT '0',
   `recurrence_number` int(2) unsigned  NOT NULL DEFAULT '0',
   `recurrence_type` int(2) unsigned NOT NULL DEFAULT '0',
   `recurrence_counter` date NOT NULL DEFAULT '0000-00-00',
