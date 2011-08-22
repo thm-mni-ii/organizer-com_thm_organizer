@@ -117,6 +117,9 @@ class thm_organizerModelevents extends JModel
         $data['endtime'] = (strlen($data['endtime'])  == 4)?
             "0{$data['endtime']}" : $data['endtime'];
 
+        $data['start'] = strtotime("{$data['startdate']} {$data['starttime']}");
+        $data['end'] = strtotime("{$data['enddate']} {$data['endtime']}");
+
         $data['publish_up'] = $this->getPublishDate();
     }
 
@@ -312,6 +315,8 @@ class thm_organizerModelevents extends JModel
         $conditions .= "enddate = '{$data['enddate']}', ";
         $conditions .= "starttime = '{$data['starttime']}', ";
         $conditions .= "endtime = '{$data['endtime']}', ";
+        $conditions .= "start = '{$data['start']}', ";
+        $conditions .= "end = '{$data['end']}', ";
         $conditions .= "recurrence_type = '{$data['rec_type']}' ";
         $query->set($conditions);
         $query->where("id = '{$data['eventID']}'");
@@ -404,10 +409,10 @@ class thm_organizerModelevents extends JModel
         $query = $dbo->getQuery(true);
         $statement = "#__thm_organizer_events";
         $statement .= "( id, categoryID, startdate, enddate, ";
-        $statement .= "starttime, endtime, recurrence_type ) ";
+        $statement .= "starttime, endtime, recurrence_type, start, end ) ";
         $statement .= "VALUES ";
         $statement .= "( '{$data['eventID']}', '{$data['categoryID']}', '{$data['startdate']}', '{$data['enddate']}', ";
-        $statement .= "'{$data['starttime']}', '{$data['endtime']}', '{$data['rec_type']}' ) ";
+        $statement .= "'{$data['starttime']}', '{$data['endtime']}', '{$data['rec_type']}', '{$data['start']}', '{$data['end']}' ) ";
         $query->insert($statement);
         $dbo->setQuery( $query );
         $dbo->query();
