@@ -221,8 +221,8 @@ class thm_organizerModelevent_list extends JModelForm
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('COUNT(DISTINCT(e.id))');
-        $this->getFrom(&$query);
-        $this->getWhere(&$query);
+        $this->getFrom($query);
+        $this->getWhere($query);
         $dbo->setQuery((string)$query);
         $total = $dbo->loadResult();
         $this->total = $total;
@@ -328,10 +328,10 @@ class thm_organizerModelevent_list extends JModelForm
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $this->getSelect(&$query);
-        $this->getFrom(&$query);
-        $this->getWhere(&$query);
-        $this->getOrderBy(&$query);
+        $this->getSelect($query);
+        $this->getFrom($query);
+        $this->getWhere($query);
+        $this->getOrderBy($query);
         $query = (string) $query;
         $dbo->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
         $events = $dbo->loadAssocList();
