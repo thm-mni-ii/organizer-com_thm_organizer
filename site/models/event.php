@@ -18,6 +18,7 @@ class thm_organizerModelevent extends JModel
     public $id = 0;
     public $event = null;
     public $listLink = "";
+    public $canWrite = false;
 
     public function __construct()
     {
@@ -28,6 +29,7 @@ class thm_organizerModelevent extends JModel
             $this->loadEventResources();
             $this->setAccess();
             $this->setMenuLinks();
+            $this->canWrite = $this->canUserWrite();
         }
     }
 
@@ -192,5 +194,38 @@ class thm_organizerModelevent extends JModel
         $dbo->setQuery((string)$query);
         $link = $dbo->loadResult();
         if(isset($link) and $link != "") $this->listLink = JRoute::_($link);
+    }
+
+    /**
+     * function canWrite
+     *
+     * checks whether the registered user has permission to write content in at
+     * least one associated content category
+     *
+     * @access private
+     * @return boolean $canWrite true if user can write an an associated content
+     * category, otherwise false
+     */
+    private function canUserWrite()
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("DISTINCT c.id");
+        $query->from("#__categories AS c");
+        $query->innerJoin("#__thm_organizer_categories AS ec ON ec.contentCatID = c.id");
+        $dbo->setQuery((string)$query);
+        $categoryIDs = $dbo->loadResultArray();
+
+        $canWrite = false;
+        $user = JFactory::getUser();
+        if(count($categoryIDs))
+        {
+            foreach($categoryIDs as $categoryID)
+            {
+                $canWrite = $user->authorize('core.create', 'com_content.category'.$categoryID);
+                if($canWrite == true)break;
+            }
+        }
+        return $canWrite;
     }
 }

@@ -6,13 +6,14 @@ $showListLink = (isset($this->listLink) and $this->listLink != "")? true : false
     <div id="thm_organizer_e_header">
         <span id="thm_organizer_e_title"><?php echo $event['title']; ?></span>
         <div id="thm_organizer_e_headerlinks">
+        <?php if($this->canWrite): ?>
             <a  class="hasTip thm_organizer_action_link"
                 title="<?php echo JText::_('COM_THM_ORGANIZER_NEW_TITLE')."::".JText::_('COM_THM_ORGANIZER_NEW_DESCRIPTION');?>"
                 href="<?php echo $this->baseurl; ?>/index.php?&option=com_thm_organizer&view=event_edit&Itemid=<?php echo JRequest::getInt('Itemid'); ?>"  >
                 <span id="thm_organizer_new_span" class="thm_organizer_action_span"></span>
                 <?php echo JText::_('COM_THM_ORGANIZER_NEW'); ?>
             </a>
-        <?php if($showListLink): ?>
+        <?php endif; if($showListLink): ?>
             <a  class="hasTip thm_organizer_action_link"
                 title="<?php echo JText::_('COM_THM_ORGANIZER_LIST_TITLE')."::".JText::_('COM_THM_ORGANIZER_LIST_DESCRIPTION');?>"
                 href="<?php echo $this->listLink ?>">

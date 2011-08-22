@@ -34,6 +34,9 @@ class thm_organizerViewevent extends JView
         $listLink = $model->listLink;
         $this->assignRef('listLink', $listLink);
 
+        $canWrite = $model->canWrite;
+        $this->assignRef('canWrite', $canWrite);
+        
         $item = new stdClass();
 	$dispatcher = JDispatcher::getInstance();
         $item->text = $this->event['description'];
