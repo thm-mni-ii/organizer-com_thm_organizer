@@ -1,0 +1,6 @@
+AddType application/xml .xml
+
+# 2 HOURS
+<FilesMatch "\.(html|htm|js|css|png|jpg|gif)$">
+Header set Cache-Control "max-age=7200, must-revalidate"
+</FilesMatch>
