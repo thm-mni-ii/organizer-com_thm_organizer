@@ -316,3 +316,19 @@ function numbertoday(number) {
 	};
 	return weekdays[number];
 }
+
+/**
+* Function which return the monday date to a given date in a week.
+**/
+function getMonday(date) {
+	var weekpointer = null;
+	if(Ext.isDate(date))
+	{
+		weekpointer = Ext.Date.clone(date);
+		while (weekpointer.getDay() != 1) //Montag ermitteln
+		{
+			weekpointer.setDate(weekpointer.getDate() - 1);
+		}
+	}
+	return weekpointer;
+}

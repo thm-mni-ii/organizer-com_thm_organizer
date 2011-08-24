@@ -1658,15 +1658,9 @@ MySched.layout = function () {
         height: 465,
         enableTabScroll: true,
         id: 'tabpanel',
-        region: 'center',
-        bodyStyle: 'overflow-y: scroll; overflow-x: hidden;'
+        region: 'center'/*,
+        bodyStyle: 'overflow-y: scroll; overflow-x: hidden;'*/
       });
-
-      // Setzt Events fuer Aenderung des Tabpanels
-      /*this.tabpanel.on('remove', function (panel, o) {
-        MySched.SelectionManager.selectButton.hide();
-        MySched.SelectionManager.unselect();
-      });*/
 
       this.tabpanel.on('tabchange', function (panel, o) {
         if (Ext.getCmp('content-anchor-tip')) Ext.getCmp('content-anchor-tip').destroy();
@@ -1757,9 +1751,6 @@ MySched.layout = function () {
       this.rightviewport = new Ext.Panel({
         id: "rightviewport",
         region: 'center',
-        width: 702,
-        minSize: 702,
-        maxSize: 702,
         items: [
         	this.w_topMenu, this.tabpanel
         ]
@@ -1848,11 +1839,6 @@ MySched.layout = function () {
               cls: 'schedule-tab',
               tabTip: title,
               closable: false,
-              height: 430,
-              layout: {
-			    type: 'fit',
-			    align: 'left'
-			  }
             }), {
               // Diese werden Ueberschrieben, falls sie Existieren
               id: id,
@@ -1866,11 +1852,6 @@ MySched.layout = function () {
               cls: 'schedule-tab',
               tabTip: title,
               closable: true,
-              height: 430,
-              layout: {
-			    type: 'fit',
-			    align: 'left'
-			  }
               //iconCls: type + 'Icon',
             }), {
               // Diese werden Ueberschrieben, falls sie Existieren
@@ -1922,7 +1903,7 @@ MySched.layout = function () {
        		MySched.SelectionManager.startSelection();
         }
         Ext.defer(func, 50);*/
-        MySched.selectedSchedule.refreshView();
+        //MySched.selectedSchedule.refreshView();
       }
     },
     /**
@@ -2298,15 +2279,16 @@ MySched.layout = function () {
 
       var inidate = new Date();
 
-      var menuedatepicker = new Ext.form.DateField({
+      var menuedatepicker = Ext.create('Ext.form.field.Date', {
         id: 'menuedatepicker',
         showWeekNumber: true,
         format: 'd.m.Y',
         useQuickTips: false,
         editable: false,
         value: inidate,
+        disabledDays: [0, 6],
         listeners: {
-          'valid': function () {
+          'change': function () {
             if (MySched.selectedSchedule != null) {
               MySched.selectedSchedule.eventsloaded = null;
               MySched.selectedSchedule.refreshView();
@@ -2317,9 +2299,9 @@ MySched.layout = function () {
 
 
       return [
-      menuedatepicker, btnSave, btnMenu, '->', btnInfo,
-      btnEmpty,
-      btnAdd, btnDel
+	      menuedatepicker, btnSave, btnMenu, '->', btnInfo,
+	      btnEmpty,
+	      btnAdd, btnDel
       ];
     }
   };
@@ -2652,7 +2634,7 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name, 
 
         if (titel && day && stime && etime) {
           var blocks = timetoblocks(Ext.getCmp('starttiid').getValue(), Ext.getCmp('endtiid').getValue());
-          var date = new Date().format('d.m.Y H:i:s');
+          var date = Ext.Date.format(new Date(), "d.m.Y");
           var dozs = Ext.getCmp('dozid').getValue();
           var rooms = Ext.getCmp('roomid').getValue();
           var classes = Ext.getCmp('clasid').getValue();
@@ -3162,8 +3144,17 @@ MySched.Tree = function () {
 		              });
 		            }
 		            else {
-		              if (typeof record.elements != "undefined") new mSchedule(key, title).init(type, record.elements).show();
-		              else new mSchedule(key, title).init(type, res).show();
+		            	if(typeof record != "undefined")
+		            	{
+		            		if (typeof record.elements != "undefined")
+		              			new mSchedule(key, title).init(type, record.elements).show();
+		              		else
+								new mSchedule(key, title).init(type, res).show();
+		            	}
+		            	else
+		            	{
+		            		new mSchedule(key, title).init(type, res).show();
+		            	}
 		            }
 				}
 	          }

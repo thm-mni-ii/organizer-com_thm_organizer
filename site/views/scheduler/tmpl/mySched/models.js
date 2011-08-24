@@ -231,7 +231,6 @@ Ext.define('mSchedule', {
 		{},
 		{},
 		{},
-		{},
 		{}]; // Muss fuer Grid festes Format haben
 		// Sporatisch, nicht regelmaessige Veranstaltungen
 		var sp = [];
@@ -239,19 +238,9 @@ Ext.define('mSchedule', {
 		var cd = Ext.ComponentMgr.get('menuedatepicker');
 		var wp = null;
 
-		if (cd.menu == null)
-			wp = cd.initialConfig.value;
-		else
-			wp = cd.menu.picker.activeDate;
+		wp = cd.value;
 
-		wpMO = Ext.Date.clone(wp);
-
-		if (wpMO != "") {
-			while (wpMO.getDay() != 1) //Montag ermitteln
-			{
-				wpMO.setDate(wpMO.getDate() - 1);
-			}
-		}
+		wpMO = getMonday(wp);
 
 		var begin = MySched.session["begin"].split(".");
 		begin = new Date(begin[2], begin[1]-1, begin[0]);
@@ -273,12 +262,14 @@ Ext.define('mSchedule', {
 						var cd = Ext.ComponentMgr.get('menuedatepicker');
 			            var begindate = MySched.session["begin"].split("-");
 			            var inidate = new Date(begindate[0], begindate[1], begindate[2]);
+
 						if (typeof cd.menu == "undefined")
 							cd.initialConfig.value = inidate;
 						else {
 							cd.menu.picker.value = inidate;
 							cd.menu.picker.activeDate = inidate;
 						}
+
 						cd.setValue(MySched.session["begin"]);
 						if (typeof cd.menu != "undefined")
 							cd.menu.picker.update();
@@ -412,7 +403,6 @@ Ext.define('mSchedule', {
 				var wd = v.getWeekDay(),
 					bl = v.getBlock() - 1,
 					date = null;
-				if (bl > 2) bl++;
 				if (v.isSporadic()) {
 					sp.push(v.getSporadicView(this));
 				} else {
@@ -685,17 +675,10 @@ Ext.define('mSchedule', {
 		var wpMO = null;
 		var cd = Ext.ComponentMgr.get('menuedatepicker');
 		var wp = null;
-		if (typeof cd.menu == "undefined") wp = cd.initialConfig.value;
-		else wp = cd.menu.picker.activeDate;
 
-		wpMO = Ext.Date.clone(wp);
+		wp = cd.value;
 
-		if (wpMO != "") {
-			while (wpMO.getDay() != 1) //Montag ermitteln
-			{
-				wpMO.setDate(wpMO.getDate() - 1);
-			}
-		}
+		wpMO = getMonday(wp);
 
 		var dow = wd;
 
@@ -875,7 +858,7 @@ Ext.define('mLecture', {
 		this.loadRoom(data.room);
 		this.data = data;
 		//New CellStyle
-		//this.setCellTemplate( type );
+		this.setCellTemplate( type );
 
 		var infoTemplateString = '<div>' + '<small><span class="def">Raum:</span> {room_name}<br/>' + '<span class="def">Dozent:</span><big> {doz_n}</big><br/>' + '<span class="def">Semester:</span> <br/>{clas_full}<br/>';
 		if (this.data.changes) infoTemplateString += '<span class="def">Changes:</span> {changes_all}';
@@ -1339,10 +1322,9 @@ Ext.define('mEventlist', {
 						var bl = null;
 						var clickeddate = Ext.ComponentMgr.get('menuedatepicker');
 						var weekpointer = null;
-						if (clickeddate.menu)
-							weekpointer = clickeddate.menu.picker.activeDate;
-						else
-							weekpointer = clickeddate.initialConfig.value;
+
+						weekpointer = clickeddate.value;
+
 						if (weekpointer != "") {
 							while (weekpointer.getDay() != 1) //Montag ermitteln
 							{
