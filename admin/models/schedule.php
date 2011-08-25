@@ -32,7 +32,7 @@ class thm_organizersModelschedule extends JModel
         $fileName = $_FILES['file']['name'];
         $tmpName  = $_FILES['file']['tmp_name'];
         $schedule = simplexml_load_file($tmpName);
-        $result = $this->validate(&$schedule);
+        $result = $this->validate($schedule);
         if($result and !isset($result['errors']))
         {
             $fp = fopen($tmpName, 'r');
@@ -517,7 +517,7 @@ class thm_organizersModelschedule extends JModel
         $dbo->setQuery((string)$query);
         $from = $dbo->loadResult();
         if(isset($from)) $oldData = $this->handleDeprecatedData($plantypeID);
-        $newData = $this->getNewData(&$file, $plantypeID, $scheduleID);
+        $newData = $this->getNewData($file, $plantypeID, $scheduleID);
         unset($file);
         
         if(isset($oldData) and isset($newData))
