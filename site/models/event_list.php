@@ -395,7 +395,7 @@ class thm_organizerModelevent_list extends JModelForm
     * @access private
     * @return string
     */
-    function getOrderBy(&$query)
+    private function getOrderBy(&$query)
     {
         $orderby = $this->getState('orderby');
         $sortCriteria = array('title', 'author', 'eventCategory', 'date');

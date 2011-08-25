@@ -30,8 +30,8 @@ class thm_organizerModelevents extends JModel
     function save()
     {
         $data = $this->cleanRequestData();
-        if($data['eventID'] > 0) $success = $this->saveExistingEvent(&$data);
-        else $success = $this->saveNewEvent(&$data);
+        if($data['eventID'] > 0) $success = $this->saveExistingEvent($data);
+        else $success = $this->saveNewEvent($data);
         if(!$success) return 0;
         $success = $this->saveResources("#__thm_organizer_event_teachers", "teachers", "teacherID", $data['eventID']);
         if(!$success) return 0;
@@ -56,9 +56,9 @@ class thm_organizerModelevents extends JModel
         $data['title'] = addslashes($data['title']);
         $data['alias'] = JApplication::stringURLSafe($data['title']);
         $data['fulltext'] = addslashes($data['description']);
-        $this->setContentCategoryData(&$data);
-        $this->handleDatesandTimes(&$data);
-        $this->createIntroText(&$data);
+        $this->setContentCategoryData($data);
+        $this->handleDatesandTimes($data);
+        $this->createIntroText($data);
         return $data;
     }
 

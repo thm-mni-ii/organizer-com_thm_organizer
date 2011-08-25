@@ -45,7 +45,7 @@ class thm_organizerViewevent extends JView
         $this->event['description'] = $item->text;
         unset($item);
 
-        $this->createTextElements(&$event);
+        $this->createTextElements($event);
 
         parent::display($tpl);
     }

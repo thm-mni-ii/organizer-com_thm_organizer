@@ -77,7 +77,8 @@ Joomla.submitbutton = function(task)
             requrl = requrl + document.getElementById('jform_startdate').value + '&enddate=';
             requrl = requrl + document.getElementById('jform_enddate').value + '&starttime=';
             requrl = requrl + document.getElementById('jform_starttime').value + '&endtime=';
-            requrl = requrl + document.getElementById('jform_endtime').value + '&rec_type=';
+            requrl = requrl + document.getElementById('jform_endtime').value + '&category=';
+            requrl = requrl + document.getElementById('category').value + '&rec_type=';
             requrl = requrl + getRecType() + '&teachers=';
             requrl = requrl + getResources('teachers') + '&rooms=';
             requrl = requrl + getResources('rooms') + '&groups=';
