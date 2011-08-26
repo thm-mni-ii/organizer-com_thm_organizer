@@ -297,10 +297,10 @@ class thm_organizerModelroom_display extends JModel
         $block =& $this->blocks[$blockIndex];
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $this->eventSelect(&$query);
-        $this->eventFrom(&$query, &$block);
+        $this->eventSelect($query);
+        $this->eventFrom($query, &$block);
         $query->where($this->whereDates());
-        $query->where($this->whereTimes(&$block));
+        $query->where($this->whereTimes($block));
         $query->where("c.access = '0'");
         $query->where("ec.reservesobjects = '1'");
         if(isset($block['teacherIDs']))
@@ -355,8 +355,8 @@ class thm_organizerModelroom_display extends JModel
         $block =& $this->blocks[$blockIndex];
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $this->eventSelect(&$query);
-        $this->eventFrom(&$query, &$block);
+        $this->eventSelect($query);
+        $this->eventFrom($query, &$block);
         $query->where($this->whereDates());
         $query->where("c.access = '0'");
         $query->where("ec.reservesobjects = '0'");
@@ -398,8 +398,8 @@ class thm_organizerModelroom_display extends JModel
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $this->eventSelect(&$query);
-        $this->eventFrom(&$query);
+        $this->eventSelect($query);
+        $this->eventFrom($query);
         $query->where($this->whereDates());
         $query->where("c.access = '0'");
         $query->where("ec.globaldisplay = '1'");
@@ -434,8 +434,8 @@ class thm_organizerModelroom_display extends JModel
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $this->eventSelect(&$query);
-        $this->eventFrom(&$query);
+        $this->eventSelect($query);
+        $this->eventFrom($query);
         $whereFutureDates = "( ";
         $whereFutureDates .= "(e.startdate > '{$this->postDate}' AND e.enddate > '{$this->postDate}') ";
         $whereFutureDates .= "OR (startdate > '{$this->postDate}' AND enddate = '0000-00-00') ";
