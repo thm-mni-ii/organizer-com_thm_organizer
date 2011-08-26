@@ -393,7 +393,7 @@ Ext.extend(Ext.ux.form.MultiSelect.DragZone, Ext.dd.DragZone, {
 	// override
 	onEndDrag: function (data, e) {
 		var d = Ext.get(this.dragData.ddel);
-		if (d && d.hasClass("multi-proxy")) {
+		if (d && d.hasCls("multi-proxy")) {
 			d.remove();
 		}
 	},

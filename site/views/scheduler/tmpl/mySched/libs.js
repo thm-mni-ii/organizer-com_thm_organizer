@@ -126,7 +126,7 @@ Ext.override(Ext.dd.DragZone, {
 		if (Ext.dd.Registry.getHandleFromEvent(e)) return Ext.dd.Registry.getHandleFromEvent(e);
 
 		// Lecture
-		var target = Ext.get(Ext.lib.Event.getTarget(e)).findParent('.lectureBox', 3, true);
+		var target = Ext.get(e.getTarget()).findParent('.lectureBox', 3, true);
 		if (target == null) return null;
 		target.ddel = target.dom;
 		return target;

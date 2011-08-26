@@ -193,13 +193,13 @@ MySched.Base = function () {
             if (_C('enableSubscribing')) Ext.ComponentMgr.get('btnSub').enable();
           }
           if (MySched.selectedSchedule.id == "mySchedule") Ext.ComponentMgr.get('btnSave').enable();
-          var tab = MySched.layout.tabpanel.getItem('mySchedule');
+          var tab = MySched.layout.tabpanel.getComponent('mySchedule');
           tab.mSchedule.status = "unsaved";
-          tab = Ext.get(MySched.layout.tabpanel.getTabEl(tab)).child('.myScheduleIcon');
-          if (tab) tab.replaceClass('myScheduleIcon', 'myScheduleIconSave');
+          //tab = Ext.get(MySched.layout.tabpanel.getTabEl(tab)).child('.myScheduleIcon');
+          //if (tab) tab.replaceClass('myScheduleIcon', 'myScheduleIconSave');
         },
         'save': function (s) {
-          var tab = MySched.layout.tabpanel.getItem('mySchedule');
+          var tab = MySched.layout.tabpanel.getComponent('mySchedule');
           tab.mSchedule.status = "saved";
           if (Ext.get(MySched.layout.tabpanel.getTabEl(tab)).child('.myScheduleIconSave')) Ext.get(MySched.layout.tabpanel.getTabEl(tab)).child('.myScheduleIconSave').replaceClass('myScheduleIconSave', 'myScheduleIcon');
           Ext.ComponentMgr.get('btnSave').disable();
@@ -207,7 +207,7 @@ MySched.Base = function () {
         'load': function (s) {
           MySched.Base.createUserSchedule();
           Ext.ComponentMgr.get('btnSave').disable();
-          var tab = MySched.layout.tabpanel.getItem('mySchedule');
+          var tab = MySched.layout.tabpanel.getComponent('mySchedule');
           if (Ext.get(MySched.layout.tabpanel.getTabEl(tab)).child('.myScheduleIconSave')) Ext.get(MySched.layout.tabpanel.getTabEl(tab)).child('.myScheduleIconSave').replaceClass('myScheduleIconSave', 'myScheduleIcon');
         },
         'clear': function (s) {}
@@ -220,14 +220,14 @@ MySched.Base = function () {
       MySched.selectedSchedule.on({
         'changed': function () {
           if (Ext.getCmp('content-anchor-tip')) Ext.getCmp('content-anchor-tip').destroy();
-          var tab = MySched.layout.tabpanel.getItem(id);
+          var tab = MySched.layout.tabpanel.getComponent(id);
           if (id != "mySchedule") Ext.ComponentMgr.get('btnSave').enable();
           tab.mSchedule.status = "unsaved";
-          tab = Ext.get(MySched.layout.tabpanel.getTabEl(tab)).child('.' + MySched.selectedSchedule.type + 'Icon');
-          if (tab) tab.replaceClass(MySched.selectedSchedule.type + 'Icon', MySched.selectedSchedule.type + 'IconSave');
+          //tab = Ext.get(MySched.layout.tabpanel.getTabEl(tab)).child('.' + MySched.selectedSchedule.type + 'Icon');
+          //if (tab) tab.replaceClass(MySched.selectedSchedule.type + 'Icon', MySched.selectedSchedule.type + 'IconSave');
         },
         'save': function (s) {
-          var tab = MySched.layout.tabpanel.getItem(id);
+          var tab = MySched.layout.tabpanel.getComponent(id);
           tab.mSchedule.status = "saved";
           if (Ext.get(MySched.layout.tabpanel.getTabEl(tab)).child('.' + MySched.selectedSchedule.type + 'IconSave')) Ext.get(MySched.layout.tabpanel.getTabEl(tab)).child('.' + MySched.selectedSchedule.type + 'IconSave').replaceClass(MySched.selectedSchedule.type + 'IconSave', MySched.selectedSchedule.type + 'Icon');
           Ext.ComponentMgr.get('btnSave').disable();
@@ -411,7 +411,7 @@ MySched.Base = function () {
      * Erstellt den Tab "Mein Stundenplan"
      */
     createUserSchedule: function () {
-      if (!MySched.layout.tabpanel.getItem('mySchedule')) {
+      if (!MySched.layout.tabpanel.getComponent('mySchedule')) {
         var grid = MySched.Schedule.show(true);
         Ext.apply(grid, {
           closable: false,
@@ -421,7 +421,8 @@ MySched.Base = function () {
 
         MySched.layout.createTab('mySchedule', 'Mein Stundenplan', grid, "mySchedule");
         // tab 'Mein Stundenplan' wird DropArea
-        var dropTarget = new Ext.dd.DropTarget(Ext.get('tabpanel__mySchedule'), this.getDropConfig());
+        var tabID = MySched.layout.tabpanel.getComponent('mySchedule').tab.el.dom;
+        var dropTarget = new Ext.dd.DropTarget(tabID, this.getDropConfig());
       }
     },
     /**
@@ -431,7 +432,7 @@ MySched.Base = function () {
       MySched.Schedule.load(_C('ajaxHandler'), 'json', MySched.Schedule.preParseLectures, function (params) {
         // Alles OK
         if (params.result && params.result.success) {
-          if (MySched.layout.tabpanel.getItem('mySchedule')) {
+          if (MySched.layout.tabpanel.getComponent('mySchedule')) {
             MySched.Schedule.save(_C('ajaxHandler'), false, "UserSchedule.save");
 	        var func = function () {
 	        	MySched.SelectionManager.stopSelection();
@@ -458,13 +459,11 @@ MySched.Base = function () {
           }
 
           // tab 'Mein Stundenplan' wird DropArea
-          var dropTarget = new Ext.dd.DropTarget(Ext.get('tabpanel__mySchedule'), this.getDropConfig());
+          var tabID = MySched.layout.tabpanel.getComponent('mySchedule').tab.el.dom;
+          var dropTarget = new Ext.dd.DropTarget(tabID, this.getDropConfig());
         }
       }, this, MySched.Authorize.user);
-      //MySched.selectedSchedule.grid.showSporadics();
       MySched.layout.viewport.doLayout();
-
-	  Ext.MessageBox.hide();
     },
     /**
      * Gibt die Drop-Konfiguration fuer Drag'n'Drop zurueck
@@ -1139,7 +1138,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
     }
     if (el.id.substr(0, 4) != "delta" && MySched.Authorize.user != null && MySched.Authorize.role != "user") {
       // Entfernt Veranstaltung
-      if (el.hasClass('lectureBox_cho') || id.split('##')[0] == 'mySchedule') {
+      if (el.hasCls('lectureBox_cho') || id.split('##')[0] == 'mySchedule') {
         if (typeof MySched.Base.getLecture(id) != "undefined") MySched.Schedule.removeLecture(MySched.Base.getLecture(id));
         else MySched.Schedule.removeLecture(MySched.Schedule.getLecture(id));
         // Minus Icon kann ueber mouseout nicht mehr ausgeblendet werden -> Also Manuell
@@ -1191,7 +1190,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
       }
     }
 
-    var tab = MySched.layout.tabpanel.getItem(MySched.Base.schedule.getLecture(id).data.responsible);
+    var tab = MySched.layout.tabpanel.getComponent(MySched.Base.schedule.getLecture(id).data.responsible);
     if (tab) tab.mSchedule.removeLecture(tab.mSchedule.getLecture(id));
     MySched.selectedSchedule.removeLecture(MySched.selectedSchedule.getLecture(id));
     MySched.Schedule.removeLecture(MySched.Schedule.getLecture(id));
@@ -1407,7 +1406,7 @@ function showLessonMenu(e) {
 
   if (MySched.Authorize.role != "user") {
     //menuItems[menuItems.length] = estudyLesson;
-    if (MySched.selectedSchedule.id == "mySchedule" || el.hasClass('lectureBox_cho')) {
+    if (MySched.selectedSchedule.id == "mySchedule" || el.hasCls('lectureBox_cho')) {
       menuItems[menuItems.length] = delLesson;
     }
     else {
@@ -1832,7 +1831,7 @@ MySched.layout = function () {
               if (typeof v.setCellTemplate != "undefined") v.setCellTemplate(type);
             });
           }
-          if (MySched.Authorize.role == "user" && type == "delta") {
+          if (MySched.Authorize.role == "user" && (type == "delta" || type == "mySchedule")) {
             tab = Ext.apply(
             // Defaultwerte - wenn schon gesetzt bleiben sie
             Ext.apply(grid, {
@@ -1947,7 +1946,7 @@ MySched.layout = function () {
                   MySched.selectedSchedule.removeLecture(MySched.selectedSchedule.getLecture(toremove[i]));
                 }
                 else {
-                  var tab = MySched.layout.tabpanel.getItem(MySched.Base.schedule.getLecture(toremove[i]).data.responsible);
+                  var tab = MySched.layout.tabpanel.getComponent(MySched.Base.schedule.getLecture(toremove[i]).data.responsible);
                   if (tab) tab.mSchedule.removeLecture(tab.mSchedule.getLecture(toremove[i]));
                   MySched.selectedSchedule.removeLecture(MySched.selectedSchedule.getLecture(toremove[i]));
                   MySched.Schedule.removeLecture(MySched.Schedule.getLecture(toremove[i]));

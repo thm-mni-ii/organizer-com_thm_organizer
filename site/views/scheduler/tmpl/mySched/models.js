@@ -457,7 +457,7 @@ Ext.define('mSchedule', {
 			reader: this.reader
 		});
 
-		this.proxy.doRequest(new Ext.data.Operation({action: 'read'}), cb, scope);
+		this.proxy.read(new Ext.data.Operation({action: 'read'}), cb, scope);
 	},
 	/**
 	 * Ueberprueft ob existierende Veranstaltungen noch existieren
@@ -780,7 +780,7 @@ Ext.define('mSchedule', {
 								});
 								MySched.selectedSchedule.status = "unsaved";
 								Ext.ComponentMgr.get('btnSave').enable();
-								var tab = MySched.layout.tabpanel.getItem(MySched.selectedSchedule.id);
+								var tab = MySched.layout.tabpanel.getComponent(MySched.selectedSchedule.id);
 								tab.mSchedule.status = "unsaved";
 								tab = Ext.get(MySched.layout.tabpanel.getTabEl(tab)).child('.' + MySched.selectedSchedule.type + 'Icon');
 								if (tab) tab.replaceClass('' + MySched.selectedSchedule.type + 'Icon', '' + MySched.selectedSchedule.type + 'IconSave');
