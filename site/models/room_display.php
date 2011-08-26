@@ -298,7 +298,7 @@ class thm_organizerModelroom_display extends JModel
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $this->eventSelect($query);
-        $this->eventFrom($query, &$block);
+        $this->eventFrom($query, $block);
         $query->where($this->whereDates());
         $query->where($this->whereTimes($block));
         $query->where("c.access = '0'");
@@ -356,7 +356,7 @@ class thm_organizerModelroom_display extends JModel
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $this->eventSelect($query);
-        $this->eventFrom($query, &$block);
+        $this->eventFrom($query, $block);
         $query->where($this->whereDates());
         $query->where("c.access = '0'");
         $query->where("ec.reservesobjects = '0'");
