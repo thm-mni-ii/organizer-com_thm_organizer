@@ -82,10 +82,6 @@
 }
 
 /* com_thm_organizer view: eventlist*******************************************/
-#content_column{
-    padding-top: 0px !important;
-    padding-left: 7px !important;
-}
 
 #thm_organizer_el button{
     border: none;
@@ -215,10 +211,10 @@
 }
 
 #thm_organizer_e_header{
-    margin-top: -10px;
     margin-bottom:-4px;
     width: 100%;
     height: 35px;
+    float: left;
 }
 
 #thm_organizer_e_header hr{
