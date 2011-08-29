@@ -482,12 +482,23 @@ class thm_organizerModelbooking extends JModel
     private function getEventBlockRestriction()
     {
         $newEventStart = ($this->starttime)? "{$this->startdate} {$this->starttime}" : "{$this->startdate} 00:00";
+        $flooredEventStart = strtotime("{$this->startdate} 00:00");
+        $ceilingEventStart = strtotime("{$this->startdate} 23:59");
         $newEventStart = strtotime($newEventStart);
         $newEventEnd = ($this->endtime)? "{$this->enddate} {$this->endtime}" : "{$this->enddate} 00:00";
+        $flooredEventEnd = strtotime("{$this->enddate} 00:00");
+        $ceilingEventEnd = strtotime("{$this->enddate} 23:59");
         $newEventEnd = strtotime($newEventEnd);
         $restriction = "( ";
         $restriction .= "(e.start <= '$newEventStart' AND e.end >= '$newEventStart' ) OR ";
-        $restriction .= "(e.start > '$newEventStart' AND e.start <= '$newEventEnd' ) ";
+        $restriction .= "(e.start > '$newEventStart' AND e.start <= '$newEventEnd' ) OR ";
+        $restriction .= "(e.starttime = '00:00:00' AND e.start <= '$flooredEventStart' AND e.end >= '$flooredEventStart' ) OR ";
+        $restriction .= "(e.endtime = '00:00:00' AND e.start <= '$flooredEventEnd' AND e.end >= '$flooredEventEnd' ) ";
+        if(!$this->starttime and !$this->endtime)
+        {
+            $restriction .= "OR (e.start >= '$flooredEventStart' AND e.start <= '$ceilingEventStart' ) ";
+            $restriction .= "OR (e.start >= '$flooredEventStart' AND e.start <= '$ceilingEventStart' ) ";
+        }
         $restriction .= ")";
         return $restriction;
     }
