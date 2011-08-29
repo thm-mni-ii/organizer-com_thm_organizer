@@ -35,7 +35,21 @@ $rowcount = 0;
                     <span id="thm_organizer_delete_span" class="thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_DELETE'); ?>
                 </a>
+                <?php endif; if($this->canWrite or $this->canEdit): ?>
+                <span id="thm_organizer_el_divider_span" class="thm_organizer_divider_span"></span>
                 <?php endif; ?>
+                <button type="submit" class="hasTip thm_organizer_action_button"
+                    title="<?php echo JText::_('COM_THM_ORGANIZER_SUBMIT_TITLE')."::".JText::_('COM_THM_ORGANIZER_SUBMIT_DESCRIPTION');?>"
+                    onClick="document.getElementById('thm_organizer_el_form').submit();">
+                    <span id="thm_organizer_submit_span" class="thm_organizer_action_span"></span>
+                    <?php echo JText::_('COM_THM_ORGANIZER_SUBMIT'); ?>
+                </button>
+                <button type="button"  class="hasTip thm_organizer_action_button"
+                    title="<?php echo JText::_('COM_THM_ORGANIZER_RESET_TITLE')."::".JText::_('COM_THM_ORGANIZER_RESET_DESCRIPTION');?>"
+                    onclick="resetForm()">
+                    <span id="thm_organizer_back_span" class="thm_organizer_action_span"></span>
+                    <?php echo JText::_('COM_THM_ORGANIZER_RESET'); ?>
+                </button>
             </div>
         </div>
         <div id="thm_organizer_el_form_div" >
@@ -68,18 +82,6 @@ $rowcount = 0;
                 <span id="thm_organizer_el_count2">
                     <?php echo JText::_('COM_THM_ORGANIZER_EL_COUNT_COUNT2'); ?>
                 </span>
-                <div class="thm_organizer_el_submit_div">
-                    <button type="submit" class="hasTip thm_organizer_action_button"
-                        title="<?php echo JText::_('COM_THM_ORGANIZER_SUBMIT_TITLE')."::".JText::_('COM_THM_ORGANIZER_SUBMIT_DESCRIPTION');?>"
-                        onClick="document.getElementById('thm_organizer_el_form').submit();">
-                        <?php echo JText::_('COM_THM_ORGANIZER_SUBMIT'); ?>
-                    </button>
-                    <button type="button"  class="hasTip thm_organizer_action_button"
-                        title="<?php echo JText::_('COM_THM_ORGANIZER_RESET_TITLE')."::".JText::_('COM_THM_ORGANIZER_RESET_DESCRIPTION');?>"
-                        onclick="resetForm()">
-                        <?php echo JText::_('COM_THM_ORGANIZER_RESET'); ?>
-                    </button>
-                </div>
             </div>
     <?php if(count($this->events) > 0){ ?>
             <div id="thm_organizer_el_events_div" >
