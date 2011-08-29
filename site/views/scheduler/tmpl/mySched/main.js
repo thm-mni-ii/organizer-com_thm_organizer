@@ -474,15 +474,15 @@ MySched.Base = function () {
         ddGroup: 'lecture',
         // Akzeptiert lectures
         notifyDrop: function (dd, e, data) {
-          if (data.node) {
+          if (data.records) {
             // Fuegt gesammten SemesterPlan dem eigenen Stundenplan hinzu
-            var n = data.node;
+            var n = data.records[0].raw;
 
-            var key = n.attributes.id;
-            var gpuntisID = n.attributes.gpuntisID;
-            var semesterID = n.attributes.semesterID;
-            var plantype = n.attributes.plantype;
-            var type = n.attributes.type;
+            var key = n.id;
+            var gpuntisID = n.gpuntisID;
+            var semesterID = n.semesterID;
+            var plantype = n.plantype;
+            var type = n.type;
 
             if (MySched.loadedLessons[key] != true) {
               Ext.Ajax.request({
@@ -3062,9 +3062,13 @@ MySched.Tree = function () {
 		    height: 470,
 		    autoscroll: true,
 		    rootVisible: false,
-		    ddGroup: 'lecture',
-	        ddConfig: {
-	        	enableDrag: true
+		    viewConfig: {
+	            plugins: {
+	                ptype: 'treeviewdragdrop',
+	                ddGroup: 'lecture',
+	                enableDrop: false,
+	                enableDrag: true
+	            }
 	        },
 			layout: {
 			    type: 'fit'
