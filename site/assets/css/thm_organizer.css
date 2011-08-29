@@ -215,11 +215,7 @@
     width: 100%;
     height: 35px;
     float: left;
-}
-
-#thm_organizer_e_header hr{
-    width: 100%;
-    margin-left: 0px;
+    border-bottom: 1px solid;
 }
 
 #thm_organizer_e_headerlinks{
