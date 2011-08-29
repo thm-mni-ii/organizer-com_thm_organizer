@@ -82,6 +82,15 @@
 }
 
 /* com_thm_organizer view: eventlist*******************************************/
+#content_column{
+    padding-top: 0px !important;
+    padding-left: 7px !important;
+}
+
+#thm_organizer_el button{
+    border: none;
+    background: none;
+}
 
 #thm_organizer_el_top_div{
     float: left;
@@ -94,12 +103,12 @@
 
 .thm_organizer_el_action_div{
     float: right;
-    margin-bottom: 0px;
+    margin-bottom: 2px;
 }
 
-.thm_organizer_el_submit_div{
-    float: right;
-    margin-bottom: 10px;
+#thm_organizer_el_divider_span{
+    width: 1px;
+    margin-right: 10px;
 }
 
 .thm_organizer_el_action_div button{
@@ -108,7 +117,6 @@
 
 #thm_organizer_el_form_div{
     width: 100%;
-    margin-top: 5px;
     float: left;
     clear: both;
 }
@@ -147,7 +155,7 @@
 }
 
 #thm_organizer_el_eventtable thead th{
-    padding: 5px;
+    padding: 3px;
 }
 
 .thm_organizer_el_sortLink img{
@@ -169,7 +177,7 @@
 }
 
 #thm_organizer_el_eventtable tr td{
-    padding: 5px;
+    padding: 3px;
     border: none;
 }
 
@@ -300,6 +308,10 @@
     margin-bottom: 10px;
 }
 
+#thm_organizer_ee_desc_div div.thm_organizer_ee_data_div{
+	max-width: 492px;
+}
+
 #thm_organizer_ee_desc_div{
     max-width: 62%;
     float: left;
@@ -372,6 +384,8 @@
 #editor-xtd-buttons{ display: none; }
 
 .toggle-editor{ display: none; }
+
+.wf_editor_toggle{ display:none !important; }
 
 
 /* com_thm_organizer view: room list*******************************************/
