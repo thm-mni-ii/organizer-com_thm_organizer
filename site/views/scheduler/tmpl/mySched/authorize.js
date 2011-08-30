@@ -196,13 +196,6 @@ MySched.Authorize = function () {
 			return false;
 		},
 		saveIfAuth: function (showWindow) {
-			// Formular anzeigen wenn nicht eingeloggt und dann speichern
-			// ...ansonsten speichern
-			if (this.showAuthForm(MySched.selectedSchedule.save.createDelegate(MySched.Schedule, [_C('ajaxHandler')], showWindow), "UserSchedule.save")) {
-				if (showWindow === null) {
-					showWindow = true;
-				}
-			}
 			var task = "";
 			if (MySched.selectedSchedule.id === "mySchedule") {
 				task = "UserSchedule.save";

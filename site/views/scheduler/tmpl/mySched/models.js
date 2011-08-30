@@ -439,7 +439,7 @@ Ext.define('mSchedule', {
 
 		return ret;
 	},
-	load: function (url, type, call, cb, scope, username, tmi) {
+	load: function (url, type, cb, scope, username, tmi) {
 		var defaultParams = {
 			username: username,
 			sid: MySched.Base.sid,
@@ -540,24 +540,17 @@ Ext.define('mSchedule', {
 	 * @param {Object} arg
 	 */
 	preParseLectures: function (o, arg) {
-		if (!o || !o.success) {
-			if (arg.callback != null) arg.callback.createDelegate(arg.scope)(arg.params);
-			return;
-		}
 		// Funktion nach dem Auth ausfuehren und loeschen -> SPeichern geklickt
 		if (MySched.Authorize.afterAuthCallback) {
 			MySched.Authorize.afterAuthCallback();
 			MySched.Authorize.afterAuthCallback = null;
 		}
-		return this.parseLectures(o, arg);
+		return this.schedule.parseLectures(o);
 	},
 	loadsavedLectures: function (o, arg) {
-		Ext.applyIf(arg.params, {
-			result: o
-		});
 
-		if (o != null) {
-			var r = o.records;
+		if (o.resultSet != null) {
+			var r = o.resultSet.records;
 
 			var l, key, e;
 
@@ -568,11 +561,11 @@ Ext.define('mSchedule', {
 				if (Ext.isEmpty(e.data.dow)) {
 					continue;
 				}
-				this.data.add(e.data.key, e);
+				this.schedule.data.add(e.data.key, e);
 			}
 		}
-		if (arg.callback)
-			arg.callback.createDelegate(arg.scope)(arg.params);
+		/*if (arg.callback)
+			arg.callback.createDelegate(arg.scope)(arg.params);*/
 
 		var semesterbegin = Ext.select(".mysched_semesterbegin");
 
@@ -586,13 +579,9 @@ Ext.define('mSchedule', {
 	 * @param {Object} o
 	 * @param {Object} arg
 	 */
-	parseLectures: function (o, arg) {
+	parseLectures: function (o) {
 		this.fireEvent('load', this);
-		// Fuegt dem Uebergabeparameter das Result hinzu
-		Ext.applyIf(arg.params, {
-			result: o
-		});
-		var r = o.records;
+		var r = o.resultSet.records;
 		var l, key;
 		for (var i = 0, len = r.length; i < len; i++) {
 			var e = r[i];
@@ -601,11 +590,40 @@ Ext.define('mSchedule', {
 				continue;
 			}
 			if (e.data != null) this.data.add(e.data.key, e);
-			if (arg.treeManagerInit) {
-				MySched.TreeManager.add(e);
-			}
 		};
-		if (arg.callback) arg.callback.createDelegate(arg.scope)(arg.params);
+
+		if (MySched.layout.tabpanel.getComponent('mySchedule')) {
+            MySched.Schedule.save(_C('ajaxHandler'), false, "UserSchedule.save");
+	        var func = function () {
+	        	MySched.SelectionManager.stopSelection();
+	       		MySched.SelectionManager.startSelection();
+	        }
+	        Ext.defer(func, 50);
+            MySched.selectedSchedule.eventsloaded = null;
+            MySched.selectedSchedule.refreshView();
+            //MySched.Schedule.checkLectureVersion( MySched.Base.schedule );
+          } else {
+            var grid = MySched.Schedule.show(true);
+            Ext.apply(grid, {
+              closable: false,
+              tabTip: 'Mein Stundenplan',
+              iconCls: 'myScheduleIcon'
+            });
+            MySched.layout.createTab('mySchedule', 'Mein Stundenplan', grid, "mySchedule");
+          }
+          // Buttons aktivieren wenn nicht leer
+          if (!MySched.Schedule.isEmpty()) {
+            Ext.ComponentMgr.get('btnEmpty').enable();
+            Ext.ComponentMgr.get('btnPdf').enable();
+            if (_C('enableSubscribing')) Ext.ComponentMgr.get('btnSub').enable();
+          }
+
+          // tab 'Mein Stundenplan' wird DropArea
+          var tabID = MySched.layout.tabpanel.getComponent('mySchedule').tab.el.dom;
+          var dropTarget = new Ext.dd.DropTarget(tabID, this.getDropConfig());
+        }
+      }
+
 		this.markUnchanged();
 	},
 	/**
