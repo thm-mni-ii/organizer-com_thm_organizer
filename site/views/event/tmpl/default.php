@@ -13,7 +13,7 @@ $showListLink = (isset($this->listLink) and $this->listLink != "")? true : false
                 <span id="thm_organizer_list_span" class="thm_organizer_action_span"></span>
                 <?php echo JText::_('COM_THM_ORGANIZER_LIST'); ?>
             </a>
-        <?php endif; if($showListLink or $event['access'] or $this->canWrite): ?>
+        <?php endif; if($showListLink and ($event['access'] or $this->canWrite)): ?>
             <span class="thm_organizer_divider_span"></span>
         <?php endif; if($this->canWrite): ?>
             <a  class="hasTip thm_organizer_action_link"
@@ -37,7 +37,6 @@ $showListLink = (isset($this->listLink) and $this->listLink != "")? true : false
             </a>
         <?php endif; ?>
         </div>
-        <hr/>
     </div>
     <div class="thm_organizer_e_block_div" >
         <div id='thm_organizer_e_author'>
