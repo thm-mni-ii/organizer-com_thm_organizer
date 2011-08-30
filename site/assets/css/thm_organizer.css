@@ -82,6 +82,9 @@
 }
 
 /* com_thm_organizer view: eventlist*******************************************/
+#thm_organizer_el{
+    margin-right: 8px;
+}
 
 #thm_organizer_el button{
     border: none;
@@ -211,23 +214,19 @@
 }
 
 #thm_organizer_e_header{
-    margin-bottom:-4px;
+    padding-bottom: 1px;
     width: 100%;
     height: 35px;
     float: left;
-    border-bottom: 1px solid;
+    display: table-cell;
+    vertical-align: middle;
+    border-bottom: 1px solid #bbbbbb;
 }
 
 #thm_organizer_e_headerlinks{
     float: right;
-    clear: both;
     margin-right: 0px;
-}
-
-.thm_organizer_e_block_head{
-    width: 100%;
-    padding-bottom: 5px;
-    margin-left: 0px;
+    margin-top: -1.5%;
 }
 
 #thm_organizer_e_resources{
