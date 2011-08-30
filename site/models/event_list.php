@@ -265,13 +265,12 @@ class thm_organizerModelevent_list extends JModelForm
         //view access
         $user = JFactory::getUser();
         $viewAccessLevels = $user->getAuthorisedViewLevels();
-        sort($viewAccessLevels);
-        $maxViewAccessLevel = array_pop($viewAccessLevels);
-        $query->where("c.access <= '$maxViewAccessLevel' AND ccat.access <= '$maxViewAccessLevel'");
+        $viewAccessLevels = "'".implode("', '", $viewAccessLevels)."'";
+        $query->where("c.access  IN ( $viewAccessLevels ) AND ccat.access IN ( $viewAccessLevels ) ");
 
         //menu restrictions
         $author = $this->getState('author');
-        if(isset($author)) $query->where("author = '$author'");
+        if(isset($author)) $query->where("u.username = '$author'");
         $room = $this->getState('room');
         if(isset($room)) $query->where("r.id = '$room'");
         $categoryID = $this->getState('categoryID');
