@@ -10,75 +10,6 @@ var hideHeaders = false;
 Ext.define('SchedGrid', {
 	extend: 'Ext.grid.Panel',
 
-	/*constructor: function (schedObj, config) {
-		Ext.applyIf(this, config);
-
-		this.store = new Ext.data.Store({
-		    model: 'Grid'
-		});
-
-		this.columns = new Array({
-			id: 'time',
-			dataIndex: 'time',
-			header: "Zeit",
-			sortable: false,
-			renderer: MySched.lectureCellRenderer,
-			resizable: false,
-			width: 35,
-			menuDisabled: true
-		});
-
-		for (var i = 1; i < MySched.daytime.length; i++) {
-			this.columns[this.columns.length] = {
-				id: MySched.daytime[i].engName,
-				dataIndex: MySched.daytime[i].engName,
-				header: MySched.daytime[i].gerName,
-				resizable: false,
-				renderer: MySched.lectureCellRenderer,
-				sortable: false,
-				menuDisabled: true
-			};
-		}
-
-		var rowBodyFeature = Ext.create('Ext.grid.feature.RowBody', {
-		    getAdditionalData: function(data, rowIndex, record, orig) {
-		        var headerCt = this.view.headerCt,
-		        colspan  = headerCt.getColumnCount();
-		        if(rowIndex === 3)
-		        {
-			        return {
-						rowBody: "Mittagspause", // do something with record
-			            rowBodyCls: 'MySched_pause',
-			            rowBodyColspan: colspan
-			        };
-		        }
-		    }
-		});
-
-		SchedGrid.superclass.constructor.call(this, {
-			loadMask: {
-				msg: 'Stundenplan wird geladen...'
-			},
-			viewConfig: {
-				features: [rowBodyFeature],
-				forceFit: true,
-				trackOver: false
-			},
-			selType: 'cellmodel',
-			height: 420,
-			layoutOnTabChange: true,
-			enableColumnHide: false,
-			enableColumnMove: false,
-			enableColumnResize: false
-			//hideHeaders: hideHeaders,
-		});
-
-		if(hideHeaders === false)
-			hideHeaders = true;
-
-		//this.selModel.setLocked(true); // Keine Auswahl erlauben
-		//this.enableHdMenu = false;
-	},*/
 	loadData: function (data) {
 		if (MySched.daytime.length > 0)
 			for (var i = 1; i < MySched.daytime[1].length; i++) {
@@ -246,7 +177,7 @@ function addNewEvent(eventid, sdate, stime, etime) {
 		}
 	}
 	else {
-		weekpointer = Ext.ComponentMgr.get('menuedatepicker').value
+		weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker').value);
 		date = Ext.Date.format(weekpointer, "d.m.Y");
 	}
 
@@ -350,7 +281,7 @@ MySched.lectureCellRenderer = function (data, meta, record, rowIndex, colIndex, 
 	}
 
 	//show date behind the day
-	if(colIndex > 0)
+	if(colIndex > 0 && rowIndex === 0)
 	{
 		var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker').value);
 
@@ -360,6 +291,8 @@ MySched.lectureCellRenderer = function (data, meta, record, rowIndex, colIndex, 
 		var headerCt = this.mSchedule.grid.getView().getHeaderCt();
 
 		var header = headerCt.getHeaderAtIndex(colIndex);
+
+		var bla = Ext.ComponentMgr.get('menuedatepicker');
 
 		if(Ext.Date.format(Ext.ComponentMgr.get('menuedatepicker').value, "d.m.Y") == Ext.Date.format(weekpointer, "d.m.Y"))
 			header.setText("<b>" + weekdayEtoD(numbertoday(colIndex)) + "(" + Ext.Date.format(weekpointer, "d.m.") + ")</b>");

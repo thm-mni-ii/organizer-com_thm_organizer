@@ -238,7 +238,7 @@ Ext.define('mSchedule', {
 		var cd = Ext.ComponentMgr.get('menuedatepicker');
 		var wp = null;
 
-		wp = cd.value;
+		wp = Ext.Date.clone(cd.value);
 
 		wpMO = getMonday(wp);
 
@@ -287,8 +287,8 @@ Ext.define('mSchedule', {
 				var bl = null;
 				var clickeddate = Ext.ComponentMgr.get('menuedatepicker');
 				var weekpointer = null;
-				if (typeof clickeddate.menu == "undefined") weekpointer = clickeddate.initialConfig.value;
-				else weekpointer = clickeddate.menu.picker.activeDate;
+				weekpointer = Ext.Date.clone(clickeddate.value);
+
 				if (weekpointer != "") {
 					while (weekpointer.getDay() != 1) //Montag ermitteln
 					{
@@ -429,12 +429,6 @@ Ext.define('mSchedule', {
 			}
 		}, this);
 
-		/*for (var i = 1; i <= 6; i++) {
-			ret[3][numbertoday(i)] = [];
-			if (i == 1) ret[3][numbertoday(i)].push("<i style='padding-left:40px;'>Mittagspause</i>");
-			else ret[3][numbertoday(i)].push("<i></i>");
-		}*/
-
 		this.htmlView = ret;
 
 		return ret;
@@ -545,7 +539,7 @@ Ext.define('mSchedule', {
 			MySched.Authorize.afterAuthCallback();
 			MySched.Authorize.afterAuthCallback = null;
 		}
-		return this.schedule.parseLectures(o);
+		return this.parseLectures(o);
 	},
 	loadsavedLectures: function (o, arg) {
 
@@ -561,16 +555,33 @@ Ext.define('mSchedule', {
 				if (Ext.isEmpty(e.data.dow)) {
 					continue;
 				}
-				this.schedule.data.add(e.data.key, e);
+				this.data.add(e.data.key, e);
 			}
 		}
-		/*if (arg.callback)
-			arg.callback.createDelegate(arg.scope)(arg.params);*/
 
 		var semesterbegin = Ext.select(".mysched_semesterbegin");
 
-		if(!semesterbegin.elements[0])
-			Ext.MessageBox.hide();
+		if(!MySched.SessionId)
+		{
+			var tree = MySched.Tree.tree;
+
+	    	var treeRoot = tree.getRootNode();
+
+	        var semid = treeRoot.firstChild.data.id;
+
+			semid = semid.split(".")
+
+			semid = semid[0];
+
+	        var deltaid = semid + ".delta";
+
+	        var deltaSched = new mSchedule(deltaid, "Änderungen (zentral)").init("delta", deltaid);
+            deltaSched.show();
+            //MySched.selectedSchedule.grid.showSporadics();
+            MySched.layout.viewport.doLayout();
+            MySched.selectedSchedule.responsible = "delta";
+            MySched.selectedSchedule.status = "saved";
+        }
 
 		return;
 	},
@@ -589,18 +600,19 @@ Ext.define('mSchedule', {
 			if (e.data != null) if (Ext.isEmpty(e.data.subject) || Ext.isEmpty(e.data.dow)) {
 				continue;
 			}
-			if (e.data != null) this.data.add(e.data.key, e);
-		};
+			if (e.data != null)
+				this.data.add(e.data.key, e);
+		}
 
 		if (MySched.layout.tabpanel.getComponent('mySchedule')) {
-            MySched.Schedule.save(_C('ajaxHandler'), false, "UserSchedule.save");
+            //MySched.Schedule.save(_C('ajaxHandler'), false, "UserSchedule.save");
 	        var func = function () {
 	        	MySched.SelectionManager.stopSelection();
 	       		MySched.SelectionManager.startSelection();
 	        }
 	        Ext.defer(func, 50);
-            MySched.selectedSchedule.eventsloaded = null;
-            MySched.selectedSchedule.refreshView();
+            this.eventsloaded = null;
+            this.refreshView();
             //MySched.Schedule.checkLectureVersion( MySched.Base.schedule );
           } else {
             var grid = MySched.Schedule.show(true);
@@ -620,9 +632,7 @@ Ext.define('mSchedule', {
 
           // tab 'Mein Stundenplan' wird DropArea
           var tabID = MySched.layout.tabpanel.getComponent('mySchedule').tab.el.dom;
-          var dropTarget = new Ext.dd.DropTarget(tabID, this.getDropConfig());
-        }
-      }
+          var dropTarget = new Ext.dd.DropTarget(tabID, MySched.Base.getDropConfig());
 
 		this.markUnchanged();
 	},
@@ -694,7 +704,7 @@ Ext.define('mSchedule', {
 		var cd = Ext.ComponentMgr.get('menuedatepicker');
 		var wp = null;
 
-		wp = cd.value;
+		wp = Ext.Date.clone(cd.value);
 
 		wpMO = getMonday(wp);
 
@@ -1341,7 +1351,7 @@ Ext.define('mEventlist', {
 						var clickeddate = Ext.ComponentMgr.get('menuedatepicker');
 						var weekpointer = null;
 
-						weekpointer = clickeddate.value;
+						weekpointer = Ext.Date.clone(clickeddate.value);
 
 						if (weekpointer != "") {
 							while (weekpointer.getDay() != 1) //Montag ermitteln

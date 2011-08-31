@@ -208,7 +208,7 @@ MySched.Base = function () {
           MySched.Base.createUserSchedule();
           Ext.ComponentMgr.get('btnSave').disable();
           var tab = MySched.layout.tabpanel.getComponent('mySchedule');
-          if (Ext.get(MySched.layout.tabpanel.getTabEl(tab)).child('.myScheduleIconSave')) Ext.get(MySched.layout.tabpanel.getTabEl(tab)).child('.myScheduleIconSave').replaceClass('myScheduleIconSave', 'myScheduleIcon');
+          //if (Ext.get(MySched.layout.tabpanel.getTabEl(tab)).child('.myScheduleIconSave')) Ext.get(MySched.layout.tabpanel.getTabEl(tab)).child('.myScheduleIconSave').replaceClass('myScheduleIconSave', 'myScheduleIcon');
         },
         'clear': function (s) {}
       });
@@ -389,17 +389,10 @@ MySched.Base = function () {
         if (MySched.SessionId) {
           MySched.Authorize.verifyToken(MySched.SessionId, MySched.Authorize.verifySuccess, MySched.Authorize);
           // Lädt Delta Daten
-          MySched.delta.load(_C('ajaxHandler'), 'json', MySched.delta.loadsavedLectures, function (params) {}, this, "delta");
+          MySched.delta.load(_C('ajaxHandler'), 'json', MySched.delta.loadsavedLectures, MySched.delta, "delta");
         }
         else {
-          MySched.delta.load(_C('ajaxHandler'), 'json', MySched.delta.loadsavedLectures, function (params) {
-            var deltaSched = new mSchedule(deltaid, "Änderungen (zentral)").init("delta", deltaid);
-            deltaSched.show();
-            //MySched.selectedSchedule.grid.showSporadics();
-            MySched.layout.viewport.doLayout();
-            MySched.selectedSchedule.responsible = "delta";
-            MySched.selectedSchedule.status = "saved";
-          }, this, "delta");
+          MySched.delta.load(_C('ajaxHandler'), 'json', MySched.delta.loadsavedLectures, MySched.delta, "delta");
         }
       }
       else {
@@ -429,7 +422,7 @@ MySched.Base = function () {
      * Laed den von dem User definierten Stundenplan
      */
     loadUserSchedule: function () {
-      MySched.Schedule.load(_C('ajaxHandler'), 'json', MySched.Schedule.preParseLectures, this, MySched.Authorize.user);
+      MySched.Schedule.load(_C('ajaxHandler'), 'json', MySched.Schedule.preParseLectures, MySched.Schedule, MySched.Authorize.user);
       MySched.layout.viewport.doLayout();
     },
     /**
@@ -3055,11 +3048,16 @@ MySched.Tree = function () {
 	    this.tree.on('itemclick', function (me, rec, item, index, event, options) {
 	          if (rec.isLeaf()) {
 	            var title = "";
-	            var key = rec.raw.id;
-	            var res = rec.raw.gpuntisID;
-	            var semesterID = rec.raw.semesterID;
-	            var plantype = rec.raw.plantype;
-	            var type = rec.raw.type;
+	            if(rec.raw)
+	            	var data = rec.raw;
+	            else
+	            	var data = rec.data;
+
+	            var key = data.id;
+	            var res = data.gpuntisID;
+	            var semesterID = data.semesterID;
+	            var plantype = data.plantype;
+	            var type = data.type;
 	            if(type === null)
 	            	type = res;
 	            var department = null;
