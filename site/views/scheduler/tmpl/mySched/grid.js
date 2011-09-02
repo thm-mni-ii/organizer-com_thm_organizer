@@ -295,9 +295,9 @@ MySched.lectureCellRenderer = function (data, meta, record, rowIndex, colIndex, 
 		var bla = Ext.ComponentMgr.get('menuedatepicker');
 
 		if(Ext.Date.format(Ext.ComponentMgr.get('menuedatepicker').value, "d.m.Y") == Ext.Date.format(weekpointer, "d.m.Y"))
-			header.setText("<b>" + weekdayEtoD(numbertoday(colIndex)) + "(" + Ext.Date.format(weekpointer, "d.m.") + ")</b>");
+			header.setText("<b>" + weekdayEtoD(numbertoday(colIndex)) + " (" + Ext.Date.format(weekpointer, "d.m.") + ")</b>");
 		else
-			header.setText(weekdayEtoD(numbertoday(colIndex)) + "(" + Ext.Date.format(weekpointer, "d.m.") + ")");
+			header.setText(weekdayEtoD(numbertoday(colIndex)) + " (" + Ext.Date.format(weekpointer, "d.m.") + ")");
 	}
 
 	// Spalte 0 -> Zeiten

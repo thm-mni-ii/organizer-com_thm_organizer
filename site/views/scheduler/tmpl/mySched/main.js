@@ -1794,7 +1794,7 @@ MySched.layout = function () {
               if (typeof v.setCellTemplate != "undefined") v.setCellTemplate(type);
             });
           }
-          if (MySched.Authorize.role == "user" && (type == "delta" || type == "mySchedule")) {
+          if ((MySched.Authorize.role == "user" && type == "delta") || type == "mySchedule") {
             tab = Ext.apply(
             // Defaultwerte - wenn schon gesetzt bleiben sie
             Ext.apply(grid, {
@@ -3058,6 +3058,7 @@ MySched.Tree = function () {
 	            var semesterID = data.semesterID;
 	            var plantype = data.plantype;
 	            var type = data.type;
+
 	            if(type === null)
 	            	type = res;
 	            var department = null;
@@ -3073,6 +3074,7 @@ MySched.Tree = function () {
 	              else
 	                title = MySched.Mapping.getName(type, res) + " - " + MySched.Mapping.getObjectField(type, res, "department");
 	            }
+
 				if(res == "delta")
 				{
 					new mSchedule(key, title).init(type, res).show();

@@ -255,10 +255,12 @@ Ext.extend(SchedJsonReader, Ext.data.JsonReader, {
 			};
 		}
 
-		Ext.each(o, function (e) {
-			if(typeof e.key !== "undefined")
-				this[this.length] = new mLecture(e.key, e);
-		}, records);
+
+
+		Ext.Array.each(o, function (item, index, allItems) {
+			if(typeof item.key !== "undefined")
+				records[records.length] = new mLecture(item.key, item);
+		});
 
 		if(typeof records.length === "undefined")
 			records.length = 0;
