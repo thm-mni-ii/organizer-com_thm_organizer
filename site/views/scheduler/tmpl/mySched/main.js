@@ -1956,7 +1956,7 @@ MySched.layout = function () {
               Ext.MessageBox.hide();
               if (response.responseText != "Permission Denied!") {
                 // IFrame zum downloaden wird erstellt
-                Ext.DomHelper.append(Ext.getBody(), {
+                Ext.core.DomHelper.append(Ext.getBody(), {
                   tag: 'iframe',
                   id: 'downloadIframe',
                   src: _C('ajaxHandler') + '&username=' + MySched.Authorize.user + "&title=" + encodeURIComponent(MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' ')) + "&what=pdf&save=false&scheduletask=Download.schedule",
@@ -2009,7 +2009,7 @@ MySched.layout = function () {
               Ext.MessageBox.hide();
               if (response.responseText != "Permission Denied!") {
                 // IFrame zum downloaden wird erstellt
-                Ext.DomHelper.append(Ext.getBody(), {
+                Ext.core.DomHelper.append(Ext.getBody(), {
                   tag: 'iframe',
                   id: 'downloadIframe',
                   src: _C('ajaxHandler') + '&username=' + MySched.Authorize.user + "&title=" + encodeURIComponent(MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' ')) + "&what=pdf&save=false&scheduletask=Download.schedule",
@@ -2072,7 +2072,7 @@ MySched.layout = function () {
                     fn: function (btn, text) {
                       if (btn == "yes") {
                         // IFrame zum downloaden wird erstellt
-                        Ext.DomHelper.append(Ext.getBody(), {
+                        Ext.core.DomHelper.append(Ext.getBody(), {
                           tag: 'iframe',
                           id: 'downloadIframe',
                           src: _C('ajaxHandler') + '&username=' + MySched.Authorize.user + "&title=" + encodeURIComponent(MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' ')) + "&what=ics&save=true&scheduletask=Download.schedule",
@@ -2086,7 +2086,7 @@ MySched.layout = function () {
                       }
                       else {
                         // IFrame zum downloaden wird erstellt
-                        Ext.DomHelper.append(Ext.getBody(), {
+                        Ext.core.DomHelper.append(Ext.getBody(), {
                           tag: 'iframe',
                           id: 'downloadIframe',
                           src: _C('ajaxHandler') + '&username=' + MySched.Authorize.user + "&title=" + encodeURIComponent(MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' ')) + "&what=ics&save=false&scheduletask=Download.schedule",
@@ -2103,7 +2103,7 @@ MySched.layout = function () {
                 }
                 else {
                   // IFrame zum downloaden wird erstellt
-                  Ext.DomHelper.append(Ext.getBody(), {
+                  Ext.core.DomHelper.append(Ext.getBody(), {
                     tag: 'iframe',
                     id: 'downloadIframe',
                     src: _C('ajaxHandler') + '&username=' + MySched.Authorize.user + "&title=" + encodeURIComponent(MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' ')) + "&what=ics&save=false&scheduletask=Download.schedule",
@@ -2157,7 +2157,7 @@ MySched.layout = function () {
               Ext.MessageBox.hide();
               if (response.responseText != "Permission Denied!") {
                 // IFrame zum downloaden wird erstellt
-                Ext.DomHelper.append(Ext.getBody(), {
+                Ext.core.DomHelper.append(Ext.getBody(), {
                   tag: 'iframe',
                   id: 'downloadIframe',
                   src: _C('ajaxHandler') + '&username=' + MySched.Authorize.user + "&title=" + encodeURIComponent(MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' ')) + "&what=xls&save=false&scheduletask=Download.schedule",
