@@ -85,6 +85,8 @@ Ext.define('MySched.Model', {
 		var d = [];
 		d[0] = new Object();
 		d[0]["htmlView"] = this.htmlView;
+		d[0]["lessons"] = this.visibleLessons;
+		d[0]["events"] = this.visibleEvents;
 		d[0]["session"] = new Object();
 		d[0]["session"]["sdate"] = MySched.session["begin"];
 		d[0]["session"]["edate"] = MySched.session["end"];
@@ -108,6 +110,8 @@ Ext.define('mSchedule', {
 		this.status = "saved";
 		this.id = id;
 		this.title = title;
+		this.visibleLessons = new Array();
+		this.visibleEvents = new Array();
 		mSchedule.superclass.constructor.call(this, id, new MySched.Collection());
 		if (config && config.type && config.value)
 			this.init(config.type, config.value);
@@ -237,6 +241,8 @@ Ext.define('mSchedule', {
 		var wpMO = null;
 		var cd = Ext.ComponentMgr.get('menuedatepicker');
 		var wp = null;
+		this.visibleLessons = new Array();
+		this.visibleEvents = new Array();
 
 		wp = Ext.Date.clone(cd.value);
 
@@ -382,6 +388,7 @@ Ext.define('mSchedule', {
 									if(lessonResult.length > 0)
 										collision = true;
 									ret[bl][wd].push(v.getEventView(this.type, bl, collision));
+									this.visibleEvents.push(v.data);
 								}
 							}
 							bl = null;
@@ -423,13 +430,16 @@ Ext.define('mSchedule', {
 						end = new Date(end[2], end[1]-1, end[0]);
 
 						if ((date >= begin && date <= end) || (this.type == "delta" || this.id == "respChanges"))
+						{
 							ret[bl][wd].push(v.getCellView(this));
+							this.visibleLessons.push(v.data);
+						}
 					}
 				}
 			}
 		}, this);
 
-		this.htmlView = ret;
+		this.htmlView = Ext.clone(ret);
 
 		return ret;
 	},

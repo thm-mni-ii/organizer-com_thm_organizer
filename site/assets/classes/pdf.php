@@ -155,7 +155,10 @@ class PDFBauer extends abstrakterBauer
 							$cell = preg_replace( "/class=\"oldroom\s*\"/", "", $cell );
 
 							if(is_int($assign[ $day ]))
-								$sched[ $block ][ $assign[ $day ] ][] = $cell;
+								if($block > 2)
+									$sched[ $block + 1 ][ $assign[ $day ] ][] = $cell;
+								else
+									$sched[ $block ][ $assign[ $day ] ][] = $cell;
 						}
 					}
 				}

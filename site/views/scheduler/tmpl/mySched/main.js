@@ -1992,7 +1992,7 @@ MySched.layout = function () {
 
           Ext.Ajax.request({
             url: _C('ajaxHandler'),
-            jsonData: MySched.selectedSchedule.exportAllData(),
+            jsonData: MySched.selectedSchedule.exportAllData(true),
             method: 'POST',
             params: {
               username: MySched.Authorize.user,

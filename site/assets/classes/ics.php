@@ -21,7 +21,11 @@ class ICSBauer extends abstrakterBauer
 	public function erstelleStundenplan( $arr, $username, $title )
 	{
 		$success = false;
+
+		var_dump($arr);
+
 		$arr = $arr[0];
+
 		try
 		{
 			/** PHPExcel */
