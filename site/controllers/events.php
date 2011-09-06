@@ -11,107 +11,10 @@
  */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport('joomla.application.component.controller');
+require_once(JPATH_COMPONENT."/assets/classes/eventAccess.php");
 
 class thm_organizerControllerevents extends JController
 {
-
-    private function isAuthor($eventID)
-    {
-        $dbo = JFactory::getDbo();
-        $user = JFactory::getUser();
-        $query = $dbo->getQuery(true);
-        $query->select("created_by AS author");
-        $query->from("#__content");
-        $query->where("id = '$eventID'");
-        $dbo->setQuery((string)$query);
-        $author = $dbo->loadResult();
-        $isAuthor = ($user->id == $author)? true : false;
-        return $isAuthor;
-    }
-
-    private function canCreate()
-    {
-        $canCreate = false;
-        $dbo = JFactory::getDbo();
-        $user = JFactory::getUser();
-        $query = $dbo->getQuery(true);
-        $query->select("ccat.id");
-        $query->from('#__thm_organizer_categories AS ecat');
-        $query->innerJoin('#__categories AS ccat ON ecat.contentCatID = ccat.id');
-        $dbo->setQuery((string)$query);
-        $associatedCategoryIDs = $dbo->loadResultArray();
-
-        if(isset($associatedCategoryIDs) and count($associatedCategoryIDs))
-        {
-            foreach($associatedCategoryIDs as $associatedCategoryID)
-            {
-                $assetname = "com_content.category.$associatedCategoryID";
-                $canWrite = $user->authorise('core.create', $assetname);
-                if($canWrite)
-                {
-                    $canCreate = true;
-                    break;
-                }
-            }
-        }
-        return $canCreate;
-    }
-
-    private function canEdit($eventID)
-    {
-        $user = JFactory::getUser();
-        $eventID = JRequest::getInt('eventID');
-        $eventIDs = JRequest::getVar('eventIDs');
-        if(isset($eventID))
-        {
-            $assetname = "com_content.article.$eventID";
-            $canEdit = $user->authorise('core.edit', $assetname);
-        }
-        else if(isset($eventIDs) and count($eventIDs))
-        {
-            foreach($eventIDs as $eventID)
-            {
-                $assetname = "com_content.article.$eventID";
-                $canEdit = $user->authorise('core.edit', $assetname);
-                if(!$canEdit) break;
-            }
-        }
-        $canEdit = (isset($canEdit))? $canEdit : false;
-        return $canEdit;
-    }
-
-    private function canEditOwn($eventID)
-    {
-        $user = JFactory::getUser();
-        $assetname = "com_content.article.$eventID";
-        $canEditOwn = $user->authorise('core.edit.own', $assetname);
-        if(!isset($canEditOwn))$canEditOwn = false;
-        return $canEditOwn;
-    }
-
-    private function canDelete()
-    {
-        $user = JFactory::getUser();
-        $eventID = JRequest::getInt('eventID');
-        $eventIDs = JRequest::getVar('eventIDs');
-        if(isset($eventID))
-        {
-            $assetname = "com_content.article.$eventID";
-            $canDelete = $user->authorise('core.delete', $assetname);
-        }
-        else if(isset($eventIDs) and count($eventIDs))
-        {
-            foreach($eventIDs as $eventID)
-            {
-                $assetname = "com_content.article.$eventID";
-                $canDelete = $user->authorise('core.delete', $assetname);
-                if(!$canDelete) break;
-            }
-        }
-        $canDelete = (isset($canDelete))? $canDelete : false;
-        return $canDelete;
-    }
-
     /**
      * edit
      * 
@@ -130,15 +33,16 @@ class thm_organizerControllerevents extends JController
             $eventID = 0;
             foreach($eventIDs as $selectedID)
             {
-                if($selectedID != 0)
+                if($selectedID)
                 {
                     $eventID = $selectedID;
                     break;
                 }
             }
         }
-        if(isset($eventID) and $eventID > 0) $access = $this->canEdit($eventID) or $this->canEditOwn($eventID);
-        else $access = $this->canCreate();
+        if(isset($eventID) and $eventID > 0)
+            $access = eventAccess::canEdit($eventID) or eventAccess::canEditOwn($eventID);
+        else $access = eventAccess::canCreate();
         if($access)
         {
             $url = "index.php?option=com_thm_organizer&view=event_edit";
@@ -163,13 +67,8 @@ class thm_organizerControllerevents extends JController
         $eventID = JRequest::getInt('eventID', 0);
         $menuID = JRequest::getVar('Itemid');
 
-        if($eventID == 0) $canSave = $this->canCreate();
-        else
-        {
-            $isAuthor = $this->isAuthor($eventID);
-            $canEditOwn = ($isAuthor)? $this->canEditOwn($eventID) : false;
-            $canSave = $this->canEdit($eventID) or $canEditOwn;
-        }
+        if($eventID == 0) $canSave = eventAccess::canCreate();
+        else $canSave = eventAccess::canEdit($eventID);
             
         if($canSave)
         {
@@ -181,7 +80,7 @@ class thm_organizerControllerevents extends JController
             {
                 $msg = JText::_( 'COM_THM_ORGANIZER_EVENT_SAVED' );
                 if($schedulerCall)
-                    $link = JRoute::_('index.php?option=com_thm_organizer&view=event_edit&eventID=0&tmpl=component', false);
+                    $link = JRoute::_("index.php?option=com_thm_organizer&view=event&eventID=$eventID&tmpl=component", false);
                 else $link = JRoute::_("index.php?option=com_thm_organizer&view=event&eventID=$eventID&Itemid=$menuID", false);
                 $this->setRedirect($link, $msg);
             }
@@ -209,12 +108,12 @@ class thm_organizerControllerevents extends JController
         $eventID = JRequest::getInt('eventID', 0);
         $menuID = JRequest::getVar('Itemid');
 
-        if($eventID == 0) $canSave = $this->canCreate();
+        if($eventID == 0) $canSave = eventAccess::canCreate();
         else
         {
-            $isAuthor = $this->isAuthor($eventID);
-            $canEditOwn = ($isAuthor)? $this->canEditOwn($eventID) : false;
-            $canSave = $this->canEdit($eventID) or $canEditOwn;
+            $isAuthor = eventAccess::isAuthor($eventID);
+            $canEditOwn = ($isAuthor)? eventAccess::canEditOwn($eventID) : false;
+            $canSave = eventAccess::canEdit($eventID) or $canEditOwn;
         }
 
         if($canSave)
@@ -255,29 +154,36 @@ class thm_organizerControllerevents extends JController
      */
     public function delete()
     {
-        $canDelete = $this->canDelete();
-        if($canDelete)
+        $eventID = JRequest::getInt('eventID');
+        $eventIDs = JRequest::getVar('eventIDs');
+        $menuID = JRequest::getVar('Itemid');
+
+        $success = false;
+        $model = $this->getModel('events');
+        if(isset($eventID))
         {
-            $menuID = JRequest::getVar('Itemid');
-            $model = $this->getModel('events');
-            $success = $model->delete();
-            if($success)
+            $canDelete = eventAccess::canDelete($eventID);
+            $success = $model->delete($eventID);
+        }
+        else if(isset($eventIDs) and count($eventIDs))
+        {
+            foreach($eventIDs as $eventID)
             {
-                $msg = JText::_( 'COM_THM_ORGANIZER_EVENT_DELETED' );
-                $link = JRoute::_("index.php?option=com_thm_organizer&view=event_list&Itemid=$menuID", false);
-                $this->setRedirect($link, $msg);
+                $canDelete = eventAccess::canDelete($eventID);
+                $success = $model->delete($eventID);
             }
-            else
-            {
-                $msg = JText::_( 'COM_THM_ORGANIZER_EVENT_DELETE_FAILED' );
-                $link = JRoute::_("index.php?option=com_thm_organizer&view=event_list&Itemid=$menuID", false);
-                $this->setRedirect($link, $msg, 'error');
-            }
+        }
+        if($success)
+        {
+            $msg = JText::_( 'COM_THM_ORGANIZER_EVENT_DELETED' );
+            $link = JRoute::_("index.php?option=com_thm_organizer&view=event_list&Itemid=$menuID", false);
+            $this->setRedirect($link, $msg);
         }
         else
         {
-            JError::raiseError( 777, JText::_('COM_THM_ORGANIZER_ERROR_NOAUTH') );
-            return;
+            $msg = JText::_( 'COM_THM_ORGANIZER_EVENT_DELETE_FAILED' );
+            $link = JRoute::_("index.php?option=com_thm_organizer&view=event_list&Itemid=$menuID", false);
+            $this->setRedirect($link, $msg, 'error');
         }
     }
 

@@ -468,45 +468,16 @@ class thm_organizerModelevents extends JModel
     }
 
     /**
-     * delete
-     *
-     * deletes events
-     *
-     * @return boolean true on success, false on db error
-     */
-    public function delete()
-    {
-        $eventID = JRequest::getInt('eventID');
-        $eventIDs = JRequest::getVar('eventIDs');
-
-        if(isset($eventID) and $eventID > 0)
-        {
-            $success = $this->deleteIndividualEvent($eventID);
-            return $success;
-        }
-        else if(isset($eventIDs) and count($eventIDs))
-        {
-            foreach($eventIDs as $eventID)
-            {
-                if($eventID == 0)continue;
-                $success = $this->deleteIndividualEvent($eventID);
-                if(!$success) return $success;
-            }
-            return $success;
-        }
-    }
-
-    /**
-     * function deleteIndividualEvent
+     * function delete
      *
      * deletes entries in assets, content, events, event_teachers,
      * event_rooms, and event_groups associated with a particular event
      *
-     * @access private
+     * @access public
      * @param int $eventID id of the event and associated content to be deleted
      * @return boolean true on success, false on db error
      */
-    private function deleteIndividualEvent($eventID)
+    public function delete($eventID)
     {
         $dbo = JFactory::getDbo();
 

@@ -11,6 +11,7 @@
  */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport('joomla.application.component.modelform');
+require_once(JPATH_COMPONENT."/assets/classes/eventAccess.php");
 
 define('CURRENT', 0);
 define('CURRENT_CATEGORY', 1);
@@ -32,7 +33,7 @@ class thm_organizerModelevent_list extends JModelForm
     public $pagination = null;
     public $categories = null;
     public $canWrite = false;
-    public $canEdit = true;
+    public $canEdit = false;
 
 
     /**
@@ -482,59 +483,14 @@ class thm_organizerModelevent_list extends JModelForm
 
     private function setUserPermissions()
     {
-        $this->canWrite = $this->canUserWrite();
-        $this->canEdit = $this->canUserEdit();
-    }
-
-    /**
-     * function canWrite
-     *
-     * checks whether the registered user has permission to write content in at
-     * least one associated content category
-     *
-     * @access private
-     * @return boolean $canWrite true if user can write an an associated content
-     * category, otherwise false
-     */
-    private function canUserWrite()
-    {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select("DISTINCT c.id");
-        $query->from("#__categories AS c");
-        $query->innerJoin("#__thm_organizer_categories AS ec ON ec.contentCatID = c.id");
-        $dbo->setQuery((string)$query);
-        $categoryIDs = $dbo->loadResultArray();
-
-        $canWrite = false;
-        $user = JFactory::getUser();
-        if(count($categoryIDs))
-        {
-            foreach($categoryIDs as $categoryID)
-            {
-                $canWrite = $user->authorize('core.create', 'com_content.category'.$categoryID);
-                if($canWrite == true)break;
-            }
-        }
-        return $canWrite;
-    }
-
-    private function canUserEdit()
-    {
-        $user = JFactory::getUser();
-        $allowEdit = false;
+        $this->canWrite = eventAccess::canCreate();
         if(count($this->events))
             foreach($this->events as $k => $v)
             {
-                $isAuthor = ($user->id == $v['authorID'])? true : false;
-                $assetname = "com_conten.article.{$v['id']}";
-                $canEdit = $user->authorise('core.edit', $assetname);
-                $canEditOwn = ($isAuthor)? $user->authorise('core.edit.own') : false;
-                $shouldAllowEdit = $canEdit or $canEditOwn;
+                $shouldAllowEdit = eventAccess::canEdit($v['id']);
                 $this->events[$k]['userCanEdit'] = $shouldAllowEdit;
-                if($shouldAllowEdit) $allowEdit = true;
+                if($shouldAllowEdit) $this->canEdit = true;
             }
-        return $allowEdit;
     }
 
     /**

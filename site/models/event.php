@@ -12,6 +12,7 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.model' );
+require_once(JPATH_COMPONENT."/assets/classes/eventAccess.php");
  
 class thm_organizerModelevent extends JModel
 {
@@ -27,10 +28,9 @@ class thm_organizerModelevent extends JModel
         if($this->event['id'] != 0)
         {
             $this->loadEventResources();
-            $this->setAccess();
             $this->setMenuLinks();
-            $this->canWrite = $this->canUserWrite();
         }
+        $this->canWrite = eventAccess::canCreate();
     }
 
     public function loadEvent()
@@ -94,6 +94,11 @@ class thm_organizerModelevent extends JModel
         $event['teachers'] = array();
         $event['groups'] = array();
         $event['rooms'] = array();
+
+        if($event['id'] != 0)
+            $this->event['access'] = eventAccess::canEdit($this->event['id']);
+
+
         $this->event = $event;
     }
 
@@ -167,18 +172,6 @@ class thm_organizerModelevent extends JModel
         $this->event['groups'] = $dbo->loadResultArray();
     }
 
-    private function setAccess()
-    {
-        $access = false;
-        $user = JFactory::getUser();
-        $isAuthor = ($user->id == $this->event['authorID'])? true : false;
-        $assetname = "com_content.article.{$this->event['id']}";
-        $canEditOwn = ($isAuthor)? $user->authorise('core.edit.own', $assetname) : false;
-        $canEdit = $user->authorise('core.edit', $assetname);
-        $access = $canEdit or $canEditOwn;
-        $this->event['access'] = $access;
-    }
-
     /**
      * funtion setMenuLink
      */
@@ -194,38 +187,5 @@ class thm_organizerModelevent extends JModel
         $dbo->setQuery((string)$query);
         $link = $dbo->loadResult();
         if(isset($link) and $link != "") $this->listLink = JRoute::_($link);
-    }
-
-    /**
-     * function canWrite
-     *
-     * checks whether the registered user has permission to write content in at
-     * least one associated content category
-     *
-     * @access private
-     * @return boolean $canWrite true if user can write an an associated content
-     * category, otherwise false
-     */
-    private function canUserWrite()
-    {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select("DISTINCT c.id");
-        $query->from("#__categories AS c");
-        $query->innerJoin("#__thm_organizer_categories AS ec ON ec.contentCatID = c.id");
-        $dbo->setQuery((string)$query);
-        $categoryIDs = $dbo->loadResultArray();
-
-        $canWrite = false;
-        $user = JFactory::getUser();
-        if(count($categoryIDs))
-        {
-            foreach($categoryIDs as $categoryID)
-            {
-                $canWrite = $user->authorize('core.create', 'com_content.category'.$categoryID);
-                if($canWrite == true)break;
-            }
-        }
-        return $canWrite;
     }
 }
