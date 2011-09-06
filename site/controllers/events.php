@@ -17,10 +17,9 @@ class thm_organizerControllerevents extends JController
 {
     /**
      * edit
-     * 
-     * reroutes to the event_edit view if access is allowed
-     * 
-     * @access public
+     *
+     * performs access checks for the current user against the id of the event
+     * to be edited, or content (event) creation access if id is missing or 0
      */
     public function edit()
     {
@@ -32,13 +31,11 @@ class thm_organizerControllerevents extends JController
         {
             $eventID = 0;
             foreach($eventIDs as $selectedID)
-            {
                 if($selectedID)
                 {
                     $eventID = $selectedID;
                     break;
                 }
-            }
         }
         if(isset($eventID) and $eventID > 0)
             $access = eventAccess::canEdit($eventID) or eventAccess::canEditOwn($eventID);
@@ -48,20 +45,17 @@ class thm_organizerControllerevents extends JController
             $url = "index.php?option=com_thm_organizer&view=event_edit";
             $url .= ($eventID)? "&eventID=$eventID" : "";
             $url .= (isset($menuID))? "&Itemid=$menuID" : "";
-            $link = JRoute::_($url, false);
-            $this->setRedirect($link);
+            $this->setRedirect(JRoute::_($url, false));
         }
-        else
-        {
-            JError::raiseError( 777, JText::_('COM_THM_ORGANIZER_ERROR_NOAUTH') );
-            return;
-        }
+        else eventAccess::noAccess();
     }
 
     /**
-    * Saves the event
-    *
-    */
+     * save
+     *
+     * performs access checks and calls the save function of the events model
+     * reroutes to the single event view of the created event upon success
+     */
     function save()
     {
         $eventID = JRequest::getInt('eventID', 0);
@@ -92,16 +86,15 @@ class thm_organizerControllerevents extends JController
                 $this->setRedirect($link, $msg, 'error');
             }
         }
-        else
-        {
-            JError::raiseError( 777, JText::_('COM_THM_ORGANIZER_ERROR_NOAUTH') );
-            return;
-        }
+        else eventAccess::noAccess();
     }
 
     /**
-     * Saves the event
+     * save2new
      *
+     * performs access checks and calls the save function of the events model
+     * reroutes to the event editing view for the creation of a new event upon
+     * success
      */
     function save2new()
     {
@@ -134,23 +127,18 @@ class thm_organizerControllerevents extends JController
             {
                 $msg = JText::_( 'COM_THM_ORGANIZER_EVENT_SAVE_FAILED' );
                 if($schedulerCall) $link = JRoute::_('index.php?option=com_thm_organizer&view=event_edit&eventID=0&tmpl=component', false);
-                else $link = JRoute::_("index.php?option=com_thm_organizer&view=event_edit&Itemid=$menuID", false);
+                else $link = JRoute::_("index.php?option=com_thm_organizer&view=event_edit&eventID=0&Itemid=$menuID", false);
                 $this->setRedirect($link, $msg, 'error');
             }
         }
-        else
-        {
-            JError::raiseError( 777, JText::_('COM_THM_ORGANIZER_ERROR_NOAUTH') );
-            return;
-        }
+        else eventAccess::noAccess();
     }
 
     /**
-     * function delete
+     * delete
      *
-     * deletes event(s) and associated items
-     *
-     * @access public
+     * performs access checks calls the delete function of the event model for
+     * one or multiple eventsted items
      */
     public function delete()
     {
@@ -160,17 +148,20 @@ class thm_organizerControllerevents extends JController
 
         $success = false;
         $model = $this->getModel('events');
-        if(isset($eventID))
+        if(isset($eventID) and eventAccess::canDelete($eventID))
         {
-            $canDelete = eventAccess::canDelete($eventID);
             $success = $model->delete($eventID);
+        }
+        else if(isset($eventID) and !eventAccess::canDelete($eventID))
+        {
+            eventAccess::noAccess();
         }
         else if(isset($eventIDs) and count($eventIDs))
         {
             foreach($eventIDs as $eventID)
             {
-                $canDelete = eventAccess::canDelete($eventID);
-                $success = $model->delete($eventID);
+                if(eventAccess::canDelete($eventID)) $success = $model->delete($eventID);
+                else eventAccess::noAccess();
             }
         }
         if($success)
@@ -191,14 +182,11 @@ class thm_organizerControllerevents extends JController
      * function search
      *
      * redirects to the event_list view which reformats its sql restriction
-     *
-     * @access public
      */
     public function search()
     {
         $menuID = JRequest::getVar('Itemid');
-        $msg = "im search angekommen";
         $link = JRoute::_("index.php?option=com_thm_organizer&view=event_list&Itemid=$menuID", false);
-        $this->setRedirect($link, $msg);
+        $this->setRedirect($link);
     }
 }

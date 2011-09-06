@@ -118,4 +118,15 @@ class eventAccess
         $canDelete = (isset($canDelete))? $canDelete : false;
         return $canDelete;
     }
+
+
+    /**
+     * noAccess
+     *
+     * issues a generic warning when unauthorized function calls are performed
+     */
+    public function noAccess()
+    {
+        JError::raiseError( 777, JText::_('COM_THM_ORGANIZER_ERROR_NOAUTH') );
+    }
 }
