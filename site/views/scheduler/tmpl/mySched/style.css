@@ -1,0 +1,291 @@
+.MySched_pause {
+	background-color: #A0AEBE;
+	text-align: center !important;
+}
+
+div.lectureBox {
+ 	font-size: 11px !important;
+   	cursor: move;
+    z-index: 1000;
+	padding: 2px;
+ 	margin: 2px;
+	background: #EEE;
+	border: 1px solid #CCC;
+	-moz-opacity: 0.9;
+	text-align: center !important;
+	text-shadow: 0px 1px 1px white;
+	overflow: hidden;
+	white-space: normal;
+}
+
+div.lectureBox_dis {
+ 	font-size: 11px !important;
+    z-index: 1000;
+	padding: 2px;
+ 	margin: 2px;
+	background: #EEE;
+	border: 1px solid #CCC;
+	-moz-opacity: 0.9;
+	text-align: center !important;
+	text-shadow: 0px 1px 1px white;
+	overflow: hidden;
+}
+
+div.lectureBox {
+ 	font-size: 11px !important;
+   	cursor: move;
+    z-index: 1000;
+	padding: 2px;
+ 	margin: 2px;
+	background: #EEE;
+	border: 1px solid #CCC;
+	-moz-opacity: 0.9;
+	text-align: center !important;
+	text-shadow: 0px 1px 1px white;
+	overflow: hidden;
+}
+
+/* Ausgewaehlte Lectures zur Infoanzeige */
+div.lectureBox_sel {
+	background: #DFE8F6 !important;
+	border: 2px solid #8DB2E3 !important;
+	margin: 1px;
+}
+/* Lextures die in MySchedule sind */
+div.lectureBox_cho {
+	background: #b8c47e;
+	border: 1px solid #333;
+}
+.timeCell {
+	background-color: #EBF3FD;
+}
+
+/* Anzeige von DozentenInformationen */
+div.dozInfo div {
+	margin-top: 15px;
+}
+div.dozInfo div ul {
+	list-style-type:circle;
+	padding-left: 25px;
+}
+
+.blockFree {
+	background-color: #FFFFFF;
+}
+.blockBusy {
+	background-color: #667e9a;
+}
+.blockOccupied {
+	background-color: #002959;
+}
+.blockFree_DIS, .blockBusy_DIS, .blockOccupied_DIS {
+	background-color: #FFFFFF;
+}
+
+.myScheduleIcon {
+	background: url(../images/table.png) no-repeat left center;
+}
+
+.myScheduleIconSave {
+	background: url(../images/table_save.png) no-repeat left center;
+}
+
+.respChangesIcon {
+	background: url(../images/table.png) no-repeat left center;
+}
+
+.respChangesIconSave {
+	background: url(../images/table_save.png) no-repeat left center;
+}
+
+.DiffIcon {
+	background: url(../images/table.png) no-repeat left center;
+}
+
+.DiffIconSave {
+	background: url(../images/table_save.png) no-repeat left center;
+}
+
+.clas-node {
+	background: url(../images/clasIcon.png) no-repeat !important;
+}
+.room-node {
+	background: url(../images/roomIcon.png) no-repeat !important;
+}
+.doz-node {
+	background: url(../images/dozIcon.png) no-repeat !important;
+}
+
+.dozIcon {
+	background: url(../images/dozIcon.png) no-repeat left center;
+}
+
+.dozIconSave {
+	background: url(../images/dozIcon_save.png) no-repeat left center;
+}
+
+.roomIcon {
+	background: url(../images/roomIcon.png) no-repeat left center;
+
+}
+
+.roomIconSave {
+	background: url(../images/roomIcon_save.png) no-repeat left center;
+}
+
+.clasIcon {
+	background: url(../images/clasIcon.png) no-repeat left center;
+}
+
+.clasIconSave {
+	background: url(../images/clasIcon_save.png) no-repeat left center;
+}
+
+#lectureSelectButton {
+	cursor: pointer;
+}
+
+/* Toolbar ButtonIcons */
+.tbSave{
+	background: url(../images/disk.png) no-repeat left center;
+}
+.tbSavePdf{
+	background: url(../images/page_white_acrobat.png) no-repeat left center;
+}
+.tbSaveTxt{
+	background: url(../images/new.png) no-repeat left center;
+}
+.tbLogin{
+	background: url(../images/key.png) no-repeat left center;
+}
+.tbLogout{
+	background: url(../images/door_in.png) no-repeat left center;
+}
+.tbInfo{
+	background: url(../images/information.png) no-repeat left center;
+}
+.tbSubscribe{
+	background: url(../images/table_edit.png) no-repeat left center;
+}
+.tbSaveICal{
+	background: url(../images/ICalIcon.png) no-repeat left center;
+}
+.tbPEvent{
+	background: url(/../images/calendar_add.png) no-repeat left center;
+}
+.tbEvent{
+	background: url(../images/calendar_add.png) no-repeat left center;
+}
+.tbDownload{
+	background: url(../images/down.png) no-repeat left center;
+}
+
+/* Drag and Drop */
+.dd-drag {
+    opacity: 0.4;
+    -moz-opacity: 0.4;
+    filter: alpha(opacity=40);
+}
+.dd-over {
+    background-color: #ffff60;
+}
+
+/* Farben im Tab Änderungen */
+
+div.removed {
+	color: #aaaaaa;
+	text-decoration: line-through;
+}
+
+div.movedfrom {
+	color: #aaaaaa;
+}
+
+small.new {
+	font-weight:bold;
+	color: #00FF00;
+}
+
+small.removed {
+	font-weight:bold;
+	color: #FF4444;
+}
+
+img.mySched_terminicon {
+	height:12px;
+	width:12px;
+	margin-bottom:-2px;
+}
+
+small.oldroom {
+	color: #aaaaaa;
+	text-decoration: line-through;
+}
+
+small.olddoz {
+	color: #aaaaaa;
+	text-decoration: line-through;
+}
+
+small.dozname:hover {
+	text-decoration:underline;
+	cursor: pointer;
+}
+
+small.roomshortname:hover {
+	text-decoration:underline;
+	cursor: pointer;
+}
+
+small.classhorter:hover {
+	text-decoration:underline;
+	cursor: pointer;
+}
+
+.MySched_SelectTree {
+	padding: 3px;
+	border: 0px;
+}
+
+/* Status Icons */
+div.status_icons {
+	text-align: right !important;
+	padding-top: 1px;
+}
+
+img.status_icons_add {
+	cursor: pointer;
+	padding-left: 1px;
+	padding-right: 1px;
+}
+
+img.status_icons_estudy {
+	cursor: pointer;
+	padding-left: 1px;
+	padding-right: 1px;
+}
+
+img.status_icons_info {
+	cursor: pointer;
+	padding-left: 1px;
+	padding-right: 1px;
+}
+
+img.status_icons_edit {
+	cursor: pointer;
+	padding-left: 1px;
+	padding-right: 1px;
+}
+
+img.status_icons_delete {
+	cursor: pointer;
+	padding-left: 1px;
+	padding-right: 1px;
+}
+
+/* Ext-Style overrides */
+.x-grid-row .x-grid-cell {
+	border-right: 1px solid #ECECEC;
+	border-bottom: 1px solid #ECECEC;
+    border-top: 0px;
+}
