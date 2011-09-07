@@ -77,12 +77,12 @@ function getSchedGrid(){
 	        {header: 'Freitag', menuDisabled:true, dataIndex: 'friday', renderer: MySched.lectureCellRenderer, flex: 1}
 	    ],
 	    viewConfig: {
-				features: [rowBodyFeature]
+			features: [rowBodyFeature],
+			overItemCls: '', //"disable" row over style
+			disableSelection: true
 		},
 		cls: 'MySched_ScheduleGrid',
-		scroll: 'vertical',
-		disableSelection: true,
-		overItemCls: ''
+		scroll: 'vertical'
 	});
 	return grid;
 }
