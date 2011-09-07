@@ -606,7 +606,10 @@ class TreeView
 			}
 		}
 
-		$res = $this->getVirtualSchedules("class", $semesterID);
+		if($planid == 1) //unschön, da direkt auf id von Stundenplan geprüft wird.
+			$res = $this->getVirtualSchedules("class", $semesterID);
+		else
+			$res = array();
 
 		if ( count( $res ) != 0 ) {
 			for ( $i = 0; $i < count( $res ); $i++ ) {
@@ -629,6 +632,7 @@ class TreeView
 				if ( !isset( $classesarray[ $data->department ][ $data->vid ][ "lessonamount" ] ) )
 			      $classesarray[ $data->department ][ $data->vid ][ "lessonamount" ] = 0;
 				$classesarray[ $data->department ][ $data->vid ][ "lessonamount" ] = $classesarray[ $data->department ][ $data->vid ][ "lessonamount" ] + $this->getCountClassLessons( $data->eid, $semesterID );
+				$classesarray[ $data->department ][ $data->vid ][ "plantypeID" ] = trim($planid);
 			}
 		}
 
@@ -694,7 +698,10 @@ class TreeView
 			}
 		}
 
-		$res = $this->getVirtualSchedules("room", $semesterID);
+		if($planid == 1) //unschön, da direkt auf id von Stundenplan geprüft wird.
+			$res = $this->getVirtualSchedules("room", $semesterID);
+		else
+			$res = array();
 
 		if ( count( $res ) != 0 ) {
 			for ( $i = 0; $i < count( $res ); $i++ ) {
@@ -724,6 +731,7 @@ class TreeView
 				if ( !isset( $roomarray[ $key ][ $data->vid ][ "lessonamount" ] ) )
 					$roomarray[ $key ][ $data->vid ][ "lessonamount" ] = 0;
 				$roomarray[ $key ][ $data->vid ][ "lessonamount" ] = $roomarray[ $key ][ $data->vid ][ "lessonamount" ] + $this->getCountRoomLessons( $data->eid, $semesterID );
+				$roomarray[ $key ][ $data->vid ][ "plantypeID" ] = trim($planid);
 			}
 		}
 
@@ -781,7 +789,10 @@ class TreeView
 			}
 		}
 
-		$res = $this->getVirtualSchedules("teacher", $semesterID);
+		if($planid == 1) //unschön, da direkt auf id von Stundenplan geprüft wird.
+			$res = $this->getVirtualSchedules("teacher", $semesterID);
+		else
+			$res = array();
 
 		if ( count( $res ) != 0 ) {
 			for ( $i = 0; $i < count( $res ); $i++ ) {
@@ -804,6 +815,7 @@ class TreeView
 				if ( !isset( $teacherarray[ $data->department ][ $data->vid ][ "lessonamount" ] ) )
 					$teacherarray[ $data->department ][ $data->vid ][ "lessonamount" ] = 0;
 				$teacherarray[ $data->department ][ $data->vid ][ "lessonamount" ] = $teacherarray[ $data->department ][ $data->vid ][ "lessonamount" ] + $this->getCountTeacherLessons( $data->eid, $semesterID );
+				$teacherarray[ $data->department ][ $data->vid ][ "plantypeID" ] = trim($planid);
 			}
 		}
 

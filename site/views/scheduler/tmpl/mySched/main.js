@@ -3033,7 +3033,8 @@ MySched.Tree = function () {
 	                ddGroup: 'lecture',
 	                enableDrop: false,
 	                enableDrag: true
-	            }
+	            },
+	            autoScroll: true
 	        },
 			layout: {
 			    type: 'fit'
