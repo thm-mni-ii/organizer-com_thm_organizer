@@ -16,11 +16,32 @@ require_once(JPATH_COMPONENT."/assets/classes/eventAccess.php");
  
 class thm_organizerModelevent extends JModel
 {
+    /**
+     * @var int the id of the event in the database
+     */
     public $id = 0;
+
+    /**
+     * @var array of event properties
+     */
     public $event = null;
+
+    /**
+     * @var string containing the url of the event list menu item from which
+     * the user came to this view (if the user came from the event list view)
+     */
     public $listLink = "";
+
+    /**
+     * @var boolean true if the user is allowed to create events, otherwise false
+     */
     public $canWrite = false;
 
+    /**
+     * construct
+     *
+     * calls class functions to load object variables with data
+     */
     public function __construct()
     {
         parent::__construct();
@@ -33,6 +54,12 @@ class thm_organizerModelevent extends JModel
         $this->canWrite = eventAccess::canCreate();
     }
 
+    /**
+     * loadEvent
+     *
+     * creates an event as an array of properties and sets this as an object
+     * variable
+     */
     public function loadEvent()
     {
         $eventID = JRequest::getInt('eventID')? JRequest::getInt('eventID'): 0;
@@ -94,14 +121,18 @@ class thm_organizerModelevent extends JModel
         $event['teachers'] = array();
         $event['groups'] = array();
         $event['rooms'] = array();
-
         if($event['id'] != 0)
-            $this->event['access'] = eventAccess::canEdit($this->event['id']);
-
-
+            $event['access'] = eventAccess::canEdit($this->event['id']);
         $this->event = $event;
     }
 
+    /**
+     * getSelect
+     *
+     * creates the select clause for the event properties
+     *
+     * @return string select clause
+     */
     private function getSelect()
     {
         $select = "e.id AS id, ";
@@ -129,6 +160,11 @@ class thm_organizerModelevent extends JModel
         return $select;
     }
 
+    /**
+     * loadEventResources
+     *
+     * calls functions for loading differing sorts of event resources
+     */
     private function loadEventResources()
     {
         $this->loadEventRooms();
@@ -136,6 +172,11 @@ class thm_organizerModelevent extends JModel
         $this->loadEventGroups();
     }
 
+    /**
+     * loadEventRooms
+     *
+     * loads room data into the event
+     */
     private function loadEventRooms()
     {
         $dbo = JFactory::getDbo();
@@ -148,6 +189,11 @@ class thm_organizerModelevent extends JModel
         $this->event['rooms'] = $dbo->loadResultArray();
     }
 
+    /**
+     * loadEventTeachers
+     *
+     * loads teacher data into the event
+     */
     private function loadEventTeachers()
     {
         $dbo = JFactory::getDbo();
@@ -160,6 +206,11 @@ class thm_organizerModelevent extends JModel
         $this->event['teachers'] = $dbo->loadResultArray();
     }
 
+    /**
+     * loadEventGroups
+     *
+     * loads group data into the event
+     */
     private function loadEventGroups()
     {
         $dbo = JFactory::getDbo();
@@ -174,6 +225,9 @@ class thm_organizerModelevent extends JModel
 
     /**
      * funtion setMenuLink
+     *
+     * retrieves the url of the event list menu item and sets the object
+     * variable listLink with it
      */
     private function setMenuLinks()
     {

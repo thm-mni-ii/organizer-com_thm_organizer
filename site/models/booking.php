@@ -724,9 +724,10 @@ class thm_organizerModelbooking extends JModel
         $restriction = "";
         if($this->numberOfDays < 8 and $this->rec_type == 0)
                 $restriction = $this->getLessonBlockRestriction();
-        else if($this->dayNumbers and $this->rec_type == 1)
+        else if($this->rec_type == 1)
         {
-            $query->where("p.day in {$this->dayNumbers}");
+            if($this->dayNumbers)
+                $query->where("p.day in {$this->dayNumbers}");
             if($this->starttime or $this->endtime)
                 $restriction = $this->getLessonDailyRestriction();
         }
