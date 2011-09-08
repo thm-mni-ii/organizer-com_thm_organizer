@@ -3,6 +3,21 @@
 	text-align: center !important;
 }
 
+.MySchedEvent_joomla {
+	font-size: 11px !important;
+   	cursor: move;
+    z-index: 1000;
+	padding: 2px;
+ 	margin: 2px;
+	background: #7fff00;
+	border: 1px solid #CCC;
+	-moz-opacity: 0.9;
+	text-align: center !important;
+	text-shadow: 0px 1px 1px white;
+	overflow: hidden;
+	white-space: normal;
+}
+
 div.lectureBox {
  	font-size: 11px !important;
    	cursor: move;
