@@ -1,12 +1,12 @@
 <?php
 /**
  * @package     Joomla.Site | Joomla.Administrator
- * @subpackage  [typ]_thm_[name]
- * @author      [Vorname] [Nachname] [Email]
- * @copyright   TH Mittelhessen <Jahr>
+ * @subpackage  com_thm_organizer
+ * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
- * @link        www.mni.fh-giessen.de
- * @version     [versionsnr]
+ * @link        www.mni.thm.de
+ * @version     0.0.1
  */
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
