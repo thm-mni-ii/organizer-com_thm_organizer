@@ -4,14 +4,15 @@ Ext.MessageBox.buttonText.yes = 'Ja';
 Ext.MessageBox.buttonText.no = 'Nein';
 Ext.ns('MySched');
 
+
 /**
  * Speicherung der Aenderungen am Layout im Cookie
  */
-MySched.CookieProvider = new Ext.state.CookieProvider({
+/*MySched.CookieProvider = new Ext.state.CookieProvider({
 	path: "/",
 	expires: new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 32 * 6)) //6 Monate
 });
-Ext.state.Manager.setProvider(MySched.CookieProvider);
+Ext.state.Manager.setProvider(MySched.CookieProvider);*/
 
 
 
