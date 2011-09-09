@@ -277,6 +277,12 @@ MySched.lectureCellRenderer = function (data, meta, record, rowIndex, colIndex, 
 		return cl + '_DIS ';
 	}
 
+	if(colIndex > 0)
+	{
+		 var times = blocktotime(rowIndex + 1);
+		 meta.tdAttr = "stime='"+times[0]+"' etime='"+times[1]+"'";
+	}
+
 	//show date behind the day
 	if(colIndex > 0 && rowIndex === 0)
 	{
@@ -288,8 +294,6 @@ MySched.lectureCellRenderer = function (data, meta, record, rowIndex, colIndex, 
 		var headerCt = this.mSchedule.grid.getView().getHeaderCt();
 
 		var header = headerCt.getHeaderAtIndex(colIndex);
-
-		var bla = Ext.ComponentMgr.get('menuedatepicker');
 
 		if(Ext.Date.format(Ext.ComponentMgr.get('menuedatepicker').value, "d.m.Y") == Ext.Date.format(weekpointer, "d.m.Y"))
 			header.setText("<b>" + weekdayEtoD(numbertoday(colIndex)) + " (" + Ext.Date.format(weekpointer, "d.m.") + ")</b>");

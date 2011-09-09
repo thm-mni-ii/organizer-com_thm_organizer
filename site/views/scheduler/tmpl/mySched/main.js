@@ -967,7 +967,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
     var ttInfo = Ext.create('Ext.tip.ToolTip', {
       title: '<div class="MySchedEvent_tooltip"> ' + l.data.title + " " + '</div>',
       id: 'content-anchor-tip',
-      target: 'leftCallout',
+      target: el.id,
       anchor: 'left',
       autoHide: false,
       html: l.getEventInfoView(),

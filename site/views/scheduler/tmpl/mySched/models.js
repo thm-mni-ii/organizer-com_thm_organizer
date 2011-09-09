@@ -924,8 +924,8 @@ Ext.define('mLecture', {
 			'category': this.getCategory(),
 			'changes_all': this.getChanges(d),
 			'status_icons': this.getStatus(d),
-			'top_icon': this.getTopIcon(d),
-			'events': this.getEvents(d)
+			'top_icon': this.getTopIcon(d)/*,
+			'events': this.getEvents(d)*/
 		});
 	},
 	getEvents: function (d) {
@@ -1391,9 +1391,12 @@ Ext.define('mEventlist', {
 								break;
 							}
 							else if ((this.data.items[y].data.starttime >= sbtime && this.data.items[y].data.starttime < ebtime) && (this.data.items[y].data.endtime >= sbtime && this.data.items[y].data.endtime <= ebtime)) {
-								ret += this.data.items[y].getEventView();
-								found = true;
-								break;
+								if(reserve != true)
+								{
+									ret += this.data.items[y].getEventView();
+									found = true;
+									break;
+								}
 							}
 							else if (this.data.items[y].data.starttime >= sbtime && this.data.items[y].data.starttime < ebtime) {
 								ret += this.data.items[y].getEventView();
@@ -1401,9 +1404,12 @@ Ext.define('mEventlist', {
 								break;
 							}
 							else if (this.data.items[y].data.endtime > sbtime && this.data.items[y].data.endtime <= ebtime) {
-								ret += this.data.items[y].getEventView();
-								found = true;
-								break;
+								if(reserve != true)
+								{
+									ret += this.data.items[y].getEventView();
+									found = true;
+									break;
+								}
 							}
 						}
 					}
@@ -1506,9 +1512,9 @@ Ext.define('mEvent', {
 				bl++;
 			var blocktimes = blocktotime(bl);
 			if(blocktimes[0] < d.starttime && blocktimes[1] > d.starttime)
-				collisionIcon = "C";
+				collisionIcon = "<img width='24px' height='16px' data-qtip='Kollision mit einer Veranstaltung' src='" + MySched.mainPath + "images/warning.png'></img>";
 			if(blocktimes[0] < d.endtime && blocktimes[1] > d.endtime)
-				collisionIcon = "C";
+				collisionIcon = "<img width='24px' height='16px' data-qtip='Kollision mit einer Veranstaltung' src='" + MySched.mainPath + "images/warning.png'></img>";
 		}
 
 		if(type === "doz")
