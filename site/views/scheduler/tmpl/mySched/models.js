@@ -144,7 +144,6 @@ Ext.define('mSchedule', {
 					var datatemp = MySched.Base.getLectures(type, valuearr[i].toLowerCase());
 					if (datatemp.length > 0) this.data.addAll(datatemp.items)
 				}
-				//this.data.addAll(MySched.eventlist.getEvents(type, valuearr[i]));
 				this.data.addAll(MySched.eventlist.getEvents());
 			}
 		}
@@ -295,12 +294,7 @@ Ext.define('mSchedule', {
 				var weekpointer = null;
 				weekpointer = Ext.Date.clone(clickeddate.value);
 
-				if (weekpointer != "") {
-					while (weekpointer.getDay() != 1) //Montag ermitteln
-					{
-						weekpointer.setDate(weekpointer.getDate() - 1);
-					}
-				}
+				weekpointer = getMonday(weekpointer);
 
 				for (var counter = 0; counter < 5; counter++) {
 					var startdate = v.data.startdate.split(".");
@@ -695,12 +689,13 @@ Ext.define('mSchedule', {
 	},
 	refreshView: function () {
 		if (!this.grid) return this.show();
+		this.data.addAll(MySched.eventlist.getEvents());
 		this.grid.loadData(this.getGridData());
-		var func = function () {
+		/*var func = function () {
         	MySched.SelectionManager.stopSelection();
        		MySched.SelectionManager.startSelection();
         }
-        Ext.defer(func, 50);
+        Ext.defer(func, 50);*/
 	},
 	getBlockStatus: function (wd, block) {
 		var weekdays = {
@@ -752,10 +747,13 @@ Ext.define('mSchedule', {
 				sunday: []
 			};
 			this.data.each(function (l) {
-				var wd = l.getWeekDay();
-				var b = l.getBlock() - 1;
-				if (!this.blockCache[wd][b]) this.blockCache[wd][b] = 1;
-				else this.blockCache[wd][b]++;
+				if(l.data.type)
+				{
+					var wd = l.getWeekDay();
+					var b = l.getBlock() - 1;
+					if (!this.blockCache[wd][b]) this.blockCache[wd][b] = 1;
+					else this.blockCache[wd][b]++;
+				}
 			}, this);
 		}
 

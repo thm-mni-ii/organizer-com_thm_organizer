@@ -22,6 +22,7 @@ Ext.define('SchedGrid', {
 			MySched.layout.viewport.doLayout();
 		}
 		return this.store.loadData(data);
+
 	},
 	/**
 	 * Leert die aktuell vorhanden Sportaischen Veranstaltungen und setzt die uebergebenen

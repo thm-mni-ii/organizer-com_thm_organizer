@@ -1401,7 +1401,7 @@ function showLessonMenu(e) {
 function showBlockMenu(e) {
   e.stopEvent();
 
-   var rMenu = Ext.getCmp('responsibleMenu');
+   //var rMenu = Ext.getCmp('responsibleMenu');
    var oMenu = Ext.getCmp('ownerMenu');
    if (typeof rMenu != "undefined") rMenu.destroy();
    if (typeof oMenu != "undefined") oMenu.destroy();
@@ -1443,7 +1443,6 @@ MySched.TreeManager = function () {
           MySched.eventlist.addEvent(event);
         }
       }
-      //MySched.eventlist = arr;
     },
     /**
      * Fuegt den Listen eine Veranstaltung hinzu
