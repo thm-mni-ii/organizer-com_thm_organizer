@@ -47,7 +47,9 @@
     text-align: center;
 }
 
-.thm_organizer_mm_table{}
+.thm_organizer_mm_table{
+    width: 30%;
+}
 
 #thm_organizer_mm_col_checkbox{
     width: 10%;
