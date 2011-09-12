@@ -123,6 +123,11 @@ class thm_organizerModelbooking extends JModel
     public $conflicts;
 
     /**
+     * @var string formatted list of active schedule ids for use in sql queries
+     */
+    private $activeSchedules;
+
+    /**
      * prepareData
      *
      * loads data into the object from an array or user request
@@ -177,6 +182,7 @@ class thm_organizerModelbooking extends JModel
         }
         $this->setReservingCatInfo();
         $this->setDayInfo();
+        $this->setActiveSchedules();
         if(($this->rooms or $this->teachers or $this->groups) and in_array($this->categoryID, $this->reservingCats))
         {
             $events = $this->getEvents();
@@ -485,7 +491,7 @@ class thm_organizerModelbooking extends JModel
         $flooredEventStart = strtotime("{$this->startdate} 00:00");
         $ceilingEventStart = strtotime("{$this->startdate} 23:59");
         $newEventStart = strtotime($newEventStart);
-        $newEventEnd = ($this->endtime)? "{$this->enddate} {$this->endtime}" : "{$this->enddate} 00:00";
+        $newEventEnd = ($this->endtime)? "{$this->enddate} {$this->endtime}" : "{$this->enddate} 23:59";
         $flooredEventEnd = strtotime("{$this->enddate} 00:00");
         $ceilingEventEnd = strtotime("{$this->enddate} 23:59");
         $newEventEnd = strtotime($newEventEnd);
@@ -697,17 +703,74 @@ class thm_organizerModelbooking extends JModel
         return $array;
     }
 
+    /**
+     * getLessons
+     *
+     * retrieves an array of lessons which conflict with the event to be saved
+     *
+     * @return array $lessons empty if no conflicts were found
+     */
     private function getLessons()
     {
-        if(!$this->roomKeys and !$this->teacherKeys) return array();
+        //if there is nothing to be reserved or no schedule is valid for the
+        //time period of the event no conflicts are possible
+        if((!$this->roomKeys and !$this->teacherKeys) or !$this->activeSchedules)
+            return array();
+
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $this->prepareLessonQuery($query);
         $query->select("DISTINCT(l.id), s.alias AS title, l.type");
+        $this->prepareLessonQuery($query);
         $dbo->setQuery((string)$query);
         $lessons = $dbo->loadAssocList();
         if(isset($lessons) and count($lessons)) $this->prepareLessons($lessons);
         return $lessons;
+    }
+
+    /**
+     * getActiveSchedules
+     *
+     * retrieves a sql formatted list of active schedule ids whos dates overlap
+     * those of the event
+     *
+     * @return string list of schedule ids
+     */
+    private function setActiveSchedules()
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("DISTINCT (id), startdate, enddate");
+        $query->from("#__thm_organizer_schedules");
+        $query->where("active IS NOT null");
+        $dbo->setQuery((string)$query);
+        $activeSchedules = $dbo->loadAssocList();
+        if(!isset($activeSchedules) or !count($activeSchedules)) return;
+
+        $newEventStart = ($this->starttime)? "{$this->startdate} {$this->starttime}" : "{$this->startdate} 00:00";
+        $newEventStart = strtotime($newEventStart);
+        $newEventEnd = ($this->endtime)? "{$this->enddate} {$this->endtime}" : "{$this->enddate} 23:59";
+        $newEventEnd = strtotime($newEventEnd);
+
+        $list = "";
+        foreach($activeSchedules as $k => $schedule)
+        {
+            $start = strtotime("{$schedule['startdate']} 00:00");
+            $end = strtotime("{$schedule['enddate']} 23:59");
+            if($start <= $newEventStart and $end >= $newEventStart)
+            {
+                if($list) $list .= ", ";
+                $list .= "'{$schedule['id']}'";
+                break;
+            }
+            if($start >= $newEventStart and $start <= $newEventEnd)
+            {
+                if($list) $list .= ", ";
+                $list .= "'{$schedule['id']}'";
+                break;
+            }
+        }
+        if($list) $list = "( $list ) ";
+        return $this->activeSchedules = $list;
     }
 
     private function prepareLessonQuery(&$query)
@@ -718,6 +781,7 @@ class thm_organizerModelbooking extends JModel
         $query->innerJoin("#__thm_organizer_periods AS p ON ltimes.periodID = p.id");
         $query->innerJoin("#__thm_organizer_lesson_teachers AS lteachers ON l.id = lteachers.lessonID");
         $query->where($this->lessonResourceRestriction());
+        $query->where("l.semesterID IN {$this->activeSchedules}");
 
         //if the event goes on longer than a week every lesson with the chosen
         //resource should cause a collision
