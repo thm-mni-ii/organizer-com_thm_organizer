@@ -2248,13 +2248,16 @@ MySched.layout = function () {
         useQuickTips: false,
         editable: false,
         value: inidate,
-        disabledDays: [0, 6],
+        //disabledDays: [0, 6],
         listeners: {
           'change': function () {
             if (MySched.selectedSchedule != null) {
               MySched.selectedSchedule.eventsloaded = null;
               MySched.selectedSchedule.refreshView();
             }
+          },
+          'beforeexpand': function(p, ani, eOpts) {
+          	var bla = "";
           }
         }
       });

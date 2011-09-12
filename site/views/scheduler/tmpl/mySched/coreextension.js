@@ -1,125 +1,122 @@
-/**
- * Make changes to display events
- **/
-Ext.DatePicker.prototype.update = function (date, forceRefresh) {
-	if (typeof date == "undefined") return;
-	if (this.rendered) {
-		var vd = this.activeDate,
-			vis = this.isVisible();
-		this.activeDate = date;
-		if (!forceRefresh && vd && this.el) {
-			var t = date.getTime();
-			if (vd.getMonth() == date.getMonth() && vd.getFullYear() == date.getFullYear()) {
-				this.cells.removeClass('x-date-selected');
-				this.cells.each(function (c) {
-					if (c.dom.firstChild.dateValue == t) {
-						c.addClass('x-date-selected');
-						if (vis && !this.cancelFocus) {
-							Ext.fly(c.dom.firstChild).focus(50);
-						}
-						return false;
-					}
-				}, this);
-				return;
-			}
-		}
-		var days = date.getDaysInMonth(),
-			firstOfMonth = date.getFirstDateOfMonth(),
-			startingPos = firstOfMonth.getDay() - this.startDay;
+Ext.override(Ext.picker.Date, {
+	fullUpdate: function(date, active){
+        var me = this,
+            cells = me.cells.elements,
+            textNodes = me.textNodes,
+            disabledCls = me.disabledCellCls,
+            eDate = Ext.Date,
+            i = 0,
+            extraDays = 0,
+            visible = me.isVisible(),
+            sel = +eDate.clearTime(date, true),
+            today = +eDate.clearTime(new Date()),
+            min = me.minDate ? eDate.clearTime(me.minDate, true) : Number.NEGATIVE_INFINITY,
+            max = me.maxDate ? eDate.clearTime(me.maxDate, true) : Number.POSITIVE_INFINITY,
+            ddMatch = me.disabledDatesRE,
+            ddText = me.disabledDatesText,
+            ddays = me.disabledDays ? me.disabledDays.join('') : false,
+            ddaysText = me.disabledDaysText,
+            format = me.format,
+            days = eDate.getDaysInMonth(date),
+            firstOfMonth = eDate.getFirstDateOfMonth(date),
+            startingPos = firstOfMonth.getDay() - me.startDay,
+            previousMonth = eDate.add(date, eDate.MONTH, -1),
+            longDayFormat = me.longDayFormat,
+            prevStart,
+            current,
+            disableToday,
+            tempDate,
+            setCellClass,
+            html,
+            cls,
+            formatValue,
+            value;
 
-		if (startingPos < 0) {
-			startingPos += 7;
-		}
-		days += startingPos;
+        if (startingPos < 0) {
+            startingPos += 7;
+        }
 
-		var pm = date.add('mo', -1),
-			prevStart = pm.getDaysInMonth() - startingPos,
-			cells = this.cells.elements,
-			textEls = this.textNodes,
+        days += startingPos;
+        prevStart = eDate.getDaysInMonth(previousMonth) - startingPos;
+        current = new Date(previousMonth.getFullYear(), previousMonth.getMonth(), prevStart, me.initHour);
 
-			d = (new Date(pm.getFullYear(), pm.getMonth(), prevStart, 0)),
-			today = new Date().clearTime().getTime(),
-			sel = date.clearTime(true).getTime(),
-			min = this.minDate ? this.minDate.clearTime(true) : Number.NEGATIVE_INFINITY,
-			max = this.maxDate ? this.maxDate.clearTime(true) : Number.POSITIVE_INFINITY,
-			ddMatch = this.disabledDatesRE,
-			ddText = this.disabledDatesText,
-			ddays = this.disabledDays ? this.disabledDays.join('') : false,
-			ddaysText = this.disabledDaysText,
-			format = this.format;
+        if (me.showToday) {
+            tempDate = eDate.clearTime(new Date());
+            disableToday = (tempDate < min || tempDate > max ||
+                (ddMatch && format && ddMatch.test(eDate.dateFormat(tempDate, format))) ||
+                (ddays && ddays.indexOf(tempDate.getDay()) != -1));
 
-		if (this.showToday) {
-			var td = new Date().clearTime(),
-				disable = (td < min || td > max || (ddMatch && format && ddMatch.test(td.dateFormat(format))) || (ddays && ddays.indexOf(td.getDay()) != -1));
+            if (!me.disabled) {
+                me.todayBtn.setDisabled(disableToday);
+                me.todayKeyListener.setDisabled(disableToday);
+            }
+        }
 
-			if (!this.disabled) {
-				this.todayBtn.setDisabled(disable);
-				this.todayKeyListener[disable ? 'disable' : 'enable']();
-			}
-		}
+        setCellClass = function(cell){
+            value = +eDate.clearTime(current, true);
+            //cell.title = eDate.format(current, longDayFormat);
+            cell.title = ' ';
+            //store dateValue number as an expando
+            cell.firstChild.dateValue = value;
+            if(value == today){
+                cell.className += ' ' + me.todayCls;
+                cell.title = me.todayText;
+            }
+            if(value == sel){
+                cell.className += ' ' + me.selectedCls;
+                me.el.dom.setAttribute('aria-activedescendant', cell.id);
+                if (visible && me.floating) {
+                    Ext.fly(cell.firstChild).focus(50);
+                }
+            }
+            // disabling
+            if(value < min) {
+                cell.className = disabledCls;
+                cell.title = me.minText;
+                return;
+            }
+            if(value > max) {
+                cell.className = disabledCls;
+                cell.title = me.maxText;
+                return;
+            }
+            if(ddays){
+                if(ddays.indexOf(current.getDay()) != -1){
+                    cell.title = ddaysText;
+                    cell.className = disabledCls;
+                }
+            }
+            if(ddMatch && format){
+                formatValue = eDate.dateFormat(current, format);
+                if(ddMatch.test(formatValue)){
+                    cell.title = ddText.replace('%0', formatValue);
+                    cell.className = disabledCls;
+                }
+            }
 
-		var setCellClass = function (cal, cell) {
-			cell.title = '';
-			var t = d.clearTime(true).getTime();
-			cell.firstChild.dateValue = t;
-			if (t == today) {
-				cell.className += ' x-date-today';
-				cell.title = cal.todayText;
-			}
-			if (t == sel) {
-				cell.className += ' x-date-selected';
-				if (vis) {
-					Ext.fly(cell.firstChild).focus(50);
-				}
-			}
-
-			if (t < min) {
-				cell.className = ' x-date-disabled';
-				cell.title = cal.minText;
-				return;
-			}
-			if (t > max) {
-				cell.className = ' x-date-disabled';
-				cell.title = cal.maxText;
-				return;
-			}
-			if (ddays) {
-				if (ddays.indexOf(d.getDay()) != -1) {
-					cell.title = ddaysText;
-					cell.className = ' x-date-disabled';
-				}
-			}
-			if (ddMatch && format) {
-				var fvalue = d.dateFormat(format);
-				if (ddMatch.test(fvalue)) {
-					cell.title = ddText.replace('%0', fvalue);
-					cell.className = ' x-date-disabled';
-				}
-			}
-
-			cell.children[0].events = new Array();
-
-			var begin = MySched.session["begin"].split(".");
+            var begin = MySched.session["begin"].split(".");
 			begin = new Date(begin[2], begin[1]-1, begin[0]);
 			var end = MySched.session["end"].split(".");
 			end = new Date(end[2], end[1]-1, end[0]);
 
-			if (begin == d) {
-				cell.className += ' x-date-highlight_semester';
-				var len = cell.children[0].events.length;
-				cell.children[0].events[len] = "Semesteranfang";
-			}
-			else if (end == d) {
-				cell.className += ' x-date-highlight_semester';
-				var len = cell.children[0].events.length;
-				cell.children[0].events[len] = "Semesterende";
-			}
-			else if (begin <= d && end >= d) {
-				cell.className += ' x-date-highlight_semester';
-				var len = cell.children[0].events.length;
-				cell.children[0].events[len] = "Semester";
-			}
+			cell.children[0].events = new Array();
 
+			begin.setHours(current.getHours());
+			end.setHours(current.getHours());
+
+			if(current >= begin && current <= end)
+			{
+				var len = cell.children[0].events.length;
+				if(current.compare(begin) === 0)
+					cell.children[0].events[len] = "Semesteranfang";
+				else if(current.compare(end) === 0)
+					cell.children[0].events[len] = "Semesterende";
+				else
+					cell.children[0].events[len] = "Semester";
+
+				cell.className += " MySched_Semester";
+				if (!cell.children[0].className.contains(" calendar_tooltip")) cell.children[0].className += " calendar_tooltip";
+			}
 
 			var EL = MySched.eventlist.data;
 
@@ -130,57 +127,33 @@ Ext.DatePicker.prototype.update = function (date, forceRefresh) {
 				var enddate = EL.items[ELindex].data.enddate.split(".");
 				enddate = new Date(enddate[2], enddate[1]-1, enddate[0]);
 
-				if (startdate <= d && enddate >= d) {
-					if (cell.className.contains(" x-date-highlight_joomla") == false && cell.className.contains(" x-date-highlight_estudy") == false) cell.className += ' x-date-highlight_' + EL.items[ELindex].data.source;
-
-					var len = cell.children[0].events.length;
-					cell.children[0].events[len] = EL.items[ELindex];
+				if (startdate <= current && enddate >= current) {
+					 cell.className += " MySched_CalendarEvent";
+					 var len = cell.children[0].events.length;
+					 cell.children[0].events[len] = EL.items[ELindex];
+					 if (!cell.children[0].className.contains(" calendar_tooltip")) cell.children[0].className += " calendar_tooltip";
 				}
 			}
-			if (!cell.children[0].className.contains(" calendar_tooltip")) cell.children[0].className += " calendar_tooltip";
-		};
+        };
 
-		var i = 0;
-		for (; i < startingPos; i++) {
-			textEls[i].innerHTML = (++prevStart);
-			d.setDate(d.getDate() + 1);
-			cells[i].className = 'x-date-prevday';
-			setCellClass(this, cells[i]);
-		}
-		for (; i < days; i++) {
-			var intDay = i - startingPos + 1;
-			textEls[i].innerHTML = (intDay);
-			d.setDate(d.getDate() + 1);
-			cells[i].className = 'x-date-active';
-			setCellClass(this, cells[i]);
-		}
-		var extraDays = 0;
-		for (; i < 42; i++) {
-			textEls[i].innerHTML = (++extraDays);
-			d.setDate(d.getDate() + 1);
-			cells[i].className = 'x-date-nextday';
-			setCellClass(this, cells[i]);
-		}
+        for(; i < me.numDays; ++i) {
+            if (i < startingPos) {
+                html = (++prevStart);
+                cls = me.prevCls;
+            } else if (i >= days) {
+                html = (++extraDays);
+                cls = me.nextCls;
+            } else {
+                html = i - startingPos + 1;
+                cls = me.activeCls;
+            }
+            textNodes[i].innerHTML = html;
+            cells[i].className = cls;
+            current.setDate(current.getDate() + 1);
+            setCellClass(cells[i]);
+        }
 
-		this.mbtn.setText(this.monthNames[date.getMonth()] + ' ' + date.getFullYear());
-
-		if (!this.internalRender) {
-			var main = this.el.dom.firstChild,
-				w = main.offsetWidth;
-			this.el.setWidth(w + this.el.getBorderWidth('lr'));
-			Ext.fly(main).setWidth(w);
-			this.internalRender = true;
-
-
-
-			if (Ext.isOpera && !this.secondPass) {
-				main.rows[0].cells[1].style.width = (w - (main.rows[0].cells[0].offsetWidth + main.rows[0].cells[2].offsetWidth)) + 'px';
-				this.secondPass = true;
-				this.update.defer(10, this, [date]);
-			}
-		}
-
-		Ext.select('.calendar_tooltip', false, document).removeAllListeners();
+        Ext.select('.calendar_tooltip', false, document).removeAllListeners();
 		Ext.select('.calendar_tooltip', false, document).on({
 			'mouseover': function (e) {
 				e.stopEvent();
@@ -193,9 +166,9 @@ Ext.DatePicker.prototype.update = function (date, forceRefresh) {
 			scope: this
 		});
 
-
-	}
-}
+        me.monthBtn.setText(me.monthNames[date.getMonth()] + ' ' + date.getFullYear());
+    }
+});
 
 calendar_tooltip = function (e) {
 	var el = e.getTarget('.calendar_tooltip', 5, true);
@@ -231,57 +204,16 @@ calendar_tooltip = function (e) {
 	}
 
 	if (events.length > 0) {
-		var ttInfo = Ext.create('Ext.ToolTip', {
+		var ttInfo = Ext.create('Ext.tip.ToolTip', {
 			title: '<div class="mySched_tooltip_calendar_title">Termin(e):</div>',
 			id: 'mySched_calendar-tip',
-			target: 'leftCallout',
+			target: el.id,
 			anchor: 'left',
-			autoWidth: true,
 			autoHide: false,
 			html: htmltext,
 			cls: "mySched_tooltip_calendar"
 		});
 
-		ttInfo.showAt(xy);
+		ttInfo.show(xy);
 	}
-}
-
-/**
- * Make changes to display the Columns correctly
- **/
-Ext.grid.View.prototype.updateAllColumnWidths = function () {
-	var tw = this.getTotalWidth(),
-		clen = this.cm.getColumnCount(),
-		ws = [],
-		len, i;
-
-	for (i = 0; i < clen; i++) {
-		ws[i] = this.getColumnWidth(i);
-	}
-
-	this.innerHd.firstChild.style.width = this.getOffsetWidth();
-	this.innerHd.firstChild.firstChild.style.width = tw;
-	this.mainBody.dom.style.width = tw;
-
-	for (i = 0; i < clen; i++) {
-		var hd = this.getHeaderCell(i);
-		hd.style.width = ws[i];
-	}
-
-	var ns = this.getRows(),
-		row, trow;
-	for (i = 0, len = ns.length; i < len; i++) {
-		row = ns[i];
-		row.style.width = tw;
-		if (row.firstChild) {
-			row.firstChild.style.width = tw;
-			trow = row.firstChild.rows[0];
-			for (var j = 0; j < clen; j++) {
-				if (j < trow.childNodes.length) // Added this because of the "Mittagspause" row.
-				trow.childNodes[j].style.width = ws[j];
-			}
-		}
-	}
-
-	this.onAllColumnWidthsUpdated(ws, tw);
 }

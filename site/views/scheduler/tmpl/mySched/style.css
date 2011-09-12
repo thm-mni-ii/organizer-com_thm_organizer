@@ -304,3 +304,11 @@ img.status_icons_delete {
 	border-bottom: 1px solid #ECECEC;
     border-top: 0px;
 }
+
+.MySched_Semester {
+	background-color: yellow;
+}
+
+.MySched_CalendarEvent {
+	background-color: #7fff00;
+}

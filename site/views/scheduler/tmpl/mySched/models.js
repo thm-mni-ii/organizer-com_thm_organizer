@@ -353,6 +353,13 @@ Ext.define('mSchedule', {
 								if (bl < 4) bl--;
 								if (!ret[bl][wd]) ret[bl][wd] = [];
 
+								var begin = MySched.session["begin"].split(".");
+								begin = new Date(begin[2], begin[1]-1, begin[0]);
+								var end = MySched.session["end"].split(".");
+								end = new Date(end[2], end[1]-1, end[0]);
+
+								var lessonResult = [];
+
 								var lessonResult = this.data.filterBy(function (o, k) {
 									if (o.data.type == "cyclic" || o.data.type == "personal")
 										for(var eventObjects in v.data.objects)
@@ -361,7 +368,8 @@ Ext.define('mSchedule', {
 												return true;
 											if (o.doz.containsKey(eventObjects) || o.room.containsKey(eventObjects))
 												if(o.data.block == (bl+1) && numbertoday(o.data.dow) == wd)
-													return true;
+													if(startdate >= begin && enddate <= end)
+														return true;
 										}
 									return false;
 								}, this);
@@ -374,7 +382,8 @@ Ext.define('mSchedule', {
 										{
 											if (o.doz.containsKey(eventObjects) || o.room.containsKey(eventObjects))
 												if(o.data.block == (bl+1) && numbertoday(o.data.dow) == wd)
-													return true;
+													if(startdate >= begin && enddate <= end)
+														return true;
 										}
 									return false;
 									}, this);
