@@ -48,7 +48,7 @@
 }
 
 .thm_organizer_mm_table{
-    width: 30%;
+    width: 30% !important;
 }
 
 #thm_organizer_mm_col_checkbox{
