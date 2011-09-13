@@ -1524,9 +1524,9 @@ Ext.define('mEvent', {
 				bl++;
 			var blocktimes = blocktotime(bl);
 			if(blocktimes[0] < d.starttime && blocktimes[1] > d.starttime)
-				collisionIcon = "<img width='24px' height='16px' data-qtip='Kollision mit einer Veranstaltung' src='" + MySched.mainPath + "images/warning.png'></img>";
+				collisionIcon = "<img class='MySched_EventCollision' width='24px' height='16px' data-qtip='Kollision mit einer Veranstaltung' src='" + MySched.mainPath + "images/warning.png'></img><br/>";
 			if(blocktimes[0] < d.endtime && blocktimes[1] > d.endtime)
-				collisionIcon = "<img width='24px' height='16px' data-qtip='Kollision mit einer Veranstaltung' src='" + MySched.mainPath + "images/warning.png'></img>";
+				collisionIcon = "<img class='MySched_EventCollision' width='24px' height='16px' data-qtip='Kollision mit einer Veranstaltung' src='" + MySched.mainPath + "images/warning.png'></img><br/>";
 		}
 
 		if(type === "doz")

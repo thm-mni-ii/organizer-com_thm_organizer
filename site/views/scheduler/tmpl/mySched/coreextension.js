@@ -207,16 +207,16 @@ calendar_tooltip = function (e) {
 	}
 
 	if (events.length > 0) {
+		var parentID = el.dom.getParent().id;
 		var ttInfo = Ext.create('Ext.tip.ToolTip', {
 			title: '<div class="mySched_tooltip_calendar_title">Termin(e):</div>',
 			id: 'mySched_calendar-tip',
-			target: el.id,
-			anchor: 'left',
+			target: parentID,
 			autoHide: false,
 			html: htmltext,
 			cls: "mySched_tooltip_calendar"
 		});
 
-		ttInfo.show(xy);
+		ttInfo.showAt(xy);
 	}
 }

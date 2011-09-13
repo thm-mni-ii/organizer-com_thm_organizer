@@ -968,7 +968,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
       title: '<div class="MySchedEvent_tooltip"> ' + l.data.title + " " + '</div>',
       id: 'content-anchor-tip',
       target: el.id,
-      anchor: 'left',
+      anchorToTarget: true,
       autoHide: false,
       html: l.getEventInfoView(),
       cls: "mySched_tooltip_index"
@@ -1048,7 +1048,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
       title: '<div class="mySched_lesson_tooltip"> ' + l.data.desc + " " + '</div>',
       id: 'content-anchor-tip',
       target: el.id,
-      anchor: 'left',
+      anchorToTarget: true,
       html: l.showInfoPanel(),
       autoHide: false,
       cls: "mySched_tooltip_index"
