@@ -306,15 +306,13 @@ MySched.lectureCellRenderer = function (data, meta, record, rowIndex, colIndex, 
 	if (colIndex == 0) return '<div class="scheduleBox timeBox">' + data + '</div>';
 
 	if (this.id != 'mySchedule' && this.mSchedule.type != 'delta') {
-		if (MySched.Schedule.getBlockStatus(colIndex - 1, rowIndex + 1) == 1 && (data[0] != "<i>Mittagspause</i>" && data[0] != "<i> </i>")) {
+		var bla = MySched.Schedule.getBlockStatus(colIndex - 1, rowIndex + 1);
+		if (MySched.Schedule.getBlockStatus(colIndex - 1, rowIndex + 1) == 1) {
 			meta.tdCls += cl('blockBusy');
 			meta.tdCls += cl('conMenu');
-		} else if (MySched.Schedule.getBlockStatus(colIndex - 1, rowIndex + 1) > 1 && (data[0] != "<i>Mittagspause</i>" && data[0] != "<i> </i>")) {
+		} else if (MySched.Schedule.getBlockStatus(colIndex - 1, rowIndex + 1) > 1) {
 			meta.tdCls += cl('blockOccupied');
 			meta.tdCls += cl('conMenu');
-		} else if (data == "<i>Mittagspause</i>" || data == "<i> </i>") {
-			meta.tdCls += cl('blockFree');
-			meta.tdCls += cl('MySched_pause');
 		}
 		else {
 			meta.tdCls += cl('blockFree');

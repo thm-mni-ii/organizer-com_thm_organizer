@@ -739,7 +739,9 @@ Ext.define('mSchedule', {
 		if ((date >= begin && date <= end)) {
 			// Numerischer Index erlaubt
 			if (weekdays[wd]) wd = weekdays[wd];
-			if (this.getBlockCache()[wd]) if (this.blockCache[wd][block - 1]) return this.blockCache[wd][block - 1];
+			if (this.getBlockCache()[wd])
+				if (this.blockCache[wd][block])
+					return this.blockCache[wd][block];
 		}
 		return 0;
 	},
@@ -759,7 +761,7 @@ Ext.define('mSchedule', {
 				if(l.data.type)
 				{
 					var wd = l.getWeekDay();
-					var b = l.getBlock() - 1;
+					var b = l.getBlock();
 					if (!this.blockCache[wd][b]) this.blockCache[wd][b] = 1;
 					else this.blockCache[wd][b]++;
 				}

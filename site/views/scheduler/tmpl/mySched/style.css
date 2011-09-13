@@ -85,16 +85,16 @@ div.dozInfo div ul {
 }
 
 .blockFree {
-	background-color: #FFFFFF;
+	background-color: #FFFFFF !important;
 }
 .blockBusy {
-	background-color: #667e9a;
+	background-color: #667e9a !important;
 }
 .blockOccupied {
-	background-color: #002959;
+	background-color: #002959 !important;
 }
 .blockFree_DIS, .blockBusy_DIS, .blockOccupied_DIS {
-	background-color: #FFFFFF;
+	background-color: #FFFFFF !important;
 }
 
 .myScheduleIcon {
