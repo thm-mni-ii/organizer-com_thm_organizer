@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
   `subjectID` int(11) unsigned NOT NULL,
   `semesterID` int(11) unsigned NOT NULL,
   `plantypeID` int(1) NOT NULL,
-  `type` varchar(1) NOT NULL,
+  `type` varchar(32) NOT NULL DEFAULT '',
   `comment` varchar(256) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `subjectID` (`subjectID`),

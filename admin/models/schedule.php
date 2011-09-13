@@ -970,7 +970,7 @@ class thm_organizersModelschedule extends JModel
                 $gpuntisID = substr($gpuntisID, 0, strlen($gpuntisID) - 2);
                 $subjectID = trim((string)$lesson->lesson_subject[0]['id']);
                 $subjectID = $subjects[$subjectID]['id'];
-                $lessontype = trim((string)$lesson->text1);
+                $lessontype = substr(trim((string)$lesson->text1), 0, 32);
                 $comment = substr(trim((string)$lesson->text2), 0, 256);
 
                 $query = $dbo->getQuery(true);
