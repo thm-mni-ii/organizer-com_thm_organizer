@@ -971,6 +971,7 @@ class thm_organizersModelschedule extends JModel
                 $subjectID = trim((string)$lesson->lesson_subject[0]['id']);
                 $subjectID = $subjects[$subjectID]['id'];
                 $lessontype = trim((string)$lesson->text1);
+                $comment = substr(trim((string)$lesson->text2), 0, 256);
 
                 $query = $dbo->getQuery(true);
                 $query->select("id");
@@ -984,9 +985,9 @@ class thm_organizersModelschedule extends JModel
                 {
                     $query = $dbo->getQuery(true);
                     $statement = "#__thm_organizer_lessons ";
-                    $statement .= "( gpuntisID, subjectID, semesterID, plantypeID,  type ) ";
+                    $statement .= "( gpuntisID, subjectID, semesterID, plantypeID, type, comment ) ";
                     $statement .= "VALUES ";
-                    $statement .= "( '$gpuntisID', '$subjectID', '$semesterID','1', '$lessontype' ) ";
+                    $statement .= "( '$gpuntisID', '$subjectID', '$semesterID','1', '$lessontype', '$comment' ) ";
                     $query->insert($statement);
                     $dbo->setQuery((string)$query);
                     $dbo->query();
@@ -999,6 +1000,18 @@ class thm_organizersModelschedule extends JModel
                     $dbo->setQuery((string)$query);
                     $lessonID = $dbo->loadResult();
                     unset($statement);
+                }
+                else
+                {
+                    $query = $dbo->getQuery(true);
+                    $query->update("#__thm_organizer_lessons");
+                    $set = "gpuntisID = '$gpuntisID', subjectID = '$subjectID', semesterID = '$semesterID', ";
+                    $set .= "plantypeID = '1', type = '$lessontype', comment = '$comment' ";
+                    $query->set($set);
+                    $query->where("id = '$lessonID'");
+                    $query->insert($statement);
+                    $dbo->setQuery((string)$query);
+                    $dbo->query();
                 }
 
                 $teacherID = trim((string)$lesson->lesson_teacher[0]['id']);
