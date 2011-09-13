@@ -94,7 +94,7 @@ class thm_organizersModelsemester_edit extends JModel
 
     function store()
     {
-        $id = JRequest::getVar('id');
+        $id = JRequest::getVar('semesterID');
         $manager =  JRequest::getVar('manager');
         $organization = trim(JRequest::getVar( 'organization', '', 'post','string', JREQUEST_ALLOWRAW ));
         $semester = trim(JRequest::getVar( 'semester', '', 'post','string', JREQUEST_ALLOWRAW ));
