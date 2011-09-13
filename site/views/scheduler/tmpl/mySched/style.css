@@ -3,6 +3,19 @@
 	text-align: center !important;
 }
 
+.MySchedexternURLClass {
+	display: block;
+}
+
+div.MySchedexternURLClass_DIS {
+	width: 100%;
+	height: 500px;
+}
+
+.MySchedexternURLClass_DIS {
+	display: none;
+}
+
 .MySched_Semester {
 	background-color: yellow;
 }
