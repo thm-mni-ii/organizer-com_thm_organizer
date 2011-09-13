@@ -304,8 +304,8 @@ Ext.define('mSchedule', {
 
 					if (startdate <= weekpointer && enddate >= weekpointer) {
 						wd = numbertoday(weekpointer.getDay());
-						for (var i = 1; i <= 6; i++) {
-							var blotimes = blocktotime(i);
+						for (var i = 0; i < 6; i++) {
+							var blotimes = blocktotime(i+1);
 							if(v.data.recurrence_type == 1) //täglich
 							{
 								if (v.data.starttime <= blotimes[0] && v.data.endtime >= blotimes[1]) {
@@ -350,8 +350,8 @@ Ext.define('mSchedule', {
 								}
 
 							if (bl != null) {
-								if (bl < 4) bl--;
-								if (!ret[bl][wd]) ret[bl][wd] = [];
+								if (!ret[bl][wd])
+									ret[bl][wd] = [];
 
 								var begin = MySched.session["begin"].split(".");
 								begin = new Date(begin[2], begin[1]-1, begin[0]);

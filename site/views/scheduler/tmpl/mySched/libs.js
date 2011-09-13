@@ -1,5 +1,5 @@
 // Link auf ein lokales Blankes Bild
-Ext.BLANK_IMAGE_URL = externLinks.blankImageLink;
+//Ext.BLANK_IMAGE_URL = externLinks.blankImageLink;
 Ext.MessageBox.buttonText.yes = 'Ja';
 Ext.MessageBox.buttonText.no = 'Nein';
 Ext.ns('MySched');

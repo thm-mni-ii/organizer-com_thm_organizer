@@ -127,6 +127,9 @@ Ext.override(Ext.picker.Date, {
 				var enddate = EL.items[ELindex].data.enddate.split(".");
 				enddate = new Date(enddate[2], enddate[1]-1, enddate[0]);
 
+				startdate.setHours(current.getHours());
+				enddate.setHours(current.getHours());
+
 				if (startdate <= current && enddate >= current) {
 					 cell.className += " MySched_CalendarEvent";
 					 var len = cell.children[0].events.length;
