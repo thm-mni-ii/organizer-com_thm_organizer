@@ -32,19 +32,16 @@ class thm_organizersViewsemester_manager extends JView {
     private function addToolBar()
     {
         JToolBarHelper::title( JText::_( 'Semester Manager' ), 'generic.png' );
-        $allowedActions = thm_organizerHelper::getActions('monitor_manager');
-        if($allowedActions->get("core.admin") or $allowedActions->get("core.manage"))
+        $allowedActions = thm_organizerHelper::getActions('semester_manager');
+        if($allowedActions->get("core.admin"))
         {
-            if($allowedActions->get("core.admin") or $allowedActions->get("core.create"))
-                JToolBarHelper::addNew( 'semester.new' );
-            if($allowedActions->get("core.admin") or $allowedActions->get("core.edit"))
-                JToolBarHelper::editList('semester.edit');
-            if($allowedActions->get("core.admin") or $allowedActions->get("core.delete"))
-                    JToolBarHelper::deleteList
-                    (
-                        JText::_( 'The deletetion of a semester effects multiple resources such as schedules and monitors.  Are you sure you wish to delete the selected semesters?'),
-                        'semester.delete_semester'
-                    );
+            JToolBarHelper::addNew( 'semester.new' );
+            JToolBarHelper::editList('semester.edit');
+            JToolBarHelper::deleteList
+            (
+                JText::_( 'The deletetion of a semester effects multiple resources such as schedules and monitors.  Are you sure you wish to delete the selected semesters?'),
+                'semester.delete_semester'
+            );
         }
     }
 }
