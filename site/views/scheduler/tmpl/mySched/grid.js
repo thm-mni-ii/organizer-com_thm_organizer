@@ -306,11 +306,11 @@ MySched.lectureCellRenderer = function (data, meta, record, rowIndex, colIndex, 
 	if (colIndex == 0) return '<div class="scheduleBox timeBox">' + data + '</div>';
 
 	if (this.id != 'mySchedule' && this.mSchedule.type != 'delta') {
-		var bla = MySched.Schedule.getBlockStatus(colIndex - 1, rowIndex + 1);
-		if (MySched.Schedule.getBlockStatus(colIndex - 1, rowIndex + 1) == 1) {
+		var blockStatus = MySched.Schedule.getBlockStatus(colIndex, rowIndex);
+		if (blockStatus == 1) {
 			meta.tdCls += cl('blockBusy');
 			meta.tdCls += cl('conMenu');
-		} else if (MySched.Schedule.getBlockStatus(colIndex - 1, rowIndex + 1) > 1) {
+		} else if (blockStatus > 1) {
 			meta.tdCls += cl('blockOccupied');
 			meta.tdCls += cl('conMenu');
 		}

@@ -700,21 +700,21 @@ Ext.define('mSchedule', {
 		if (!this.grid) return this.show();
 		this.data.addAll(MySched.eventlist.getEvents());
 		this.grid.loadData(this.getGridData());
-		/*var func = function () {
+		var func = function () {
         	MySched.SelectionManager.stopSelection();
        		MySched.SelectionManager.startSelection();
         }
-        Ext.defer(func, 50);*/
+        Ext.defer(func, 50);
 	},
 	getBlockStatus: function (wd, block) {
 		var weekdays = {
-			0: "monday",
-			1: "tuesday",
-			2: "wednesday",
-			3: "thursday",
-			4: "friday",
-			5: "saturday",
-			6: "saturday"
+			1: "monday",
+			2: "tuesday",
+			3: "wednesday",
+			4: "thursday",
+			5: "friday",
+			6: "saturday",
+			7: "saturday"
 		};
 
 		var wpMO = null;
@@ -762,6 +762,7 @@ Ext.define('mSchedule', {
 				{
 					var wd = l.getWeekDay();
 					var b = l.getBlock();
+					b = b - 1;
 					if (!this.blockCache[wd][b]) this.blockCache[wd][b] = 1;
 					else this.blockCache[wd][b]++;
 				}
