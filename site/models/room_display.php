@@ -254,7 +254,7 @@ class thm_organizerModelroom_display extends JModel
         $lessonInfo = $dbo->loadAssoc();
         if(isset($lessonInfo))
         {
-            if($lessonInfo['lessonType'] != 'V')
+            if($lessonInfo['lessonType'] != 'V' and $lessonInfo['lessonType'] != '')
                 $lessonName = $lessonInfo['lessonName']." - ".$lessonInfo['lessonType'];
             else $lessonName = $lessonInfo['lessonName'];
             $block['title'] = $lessonName;
