@@ -1,8 +1,8 @@
-Ext.tree.TreeNode.prototype.check = function(state, descend, bulk) {
+Ext.data.Tree.prototype.check = function(state, descend, bulk) {
 
-	var tree = this.getOwnerTree();
+	//var tree = this.getOwnerTree();
 
-	this.attributes.checked = state;
+	this.data.checked = state;
 	if(this.ui.checkbox)
 		this.ui.checkbox.checked = state;
 
@@ -14,17 +14,17 @@ Ext.tree.TreeNode.prototype.check = function(state, descend, bulk) {
 	}
 
 	if( !bulk ) {
-		tree.fireEvent('check', this, state);
+		this.fireEvent('check', this, state);
 	}
 };
 
-Ext.tree.TreePanel.prototype.getChecked = function(node){
+Ext.tree.Panel.prototype.getChecked = function(node){
 	var checked = [], i;
 	if( typeof node == 'undefined' ) {
 		node = this.rootVisible ? this.getRootNode() : this.getRootNode().firstChild;
 	}
-	if( node.attributes.checked ) {
-		checked.push(node.id);
+	if( node.data.checked ) {
+		checked.push(node.data.id);
 		if( !node.isLeaf() ) {
 			for( i = 0; i < node.childNodes.length; i++ ) {
 				checked = checked.concat( this.getChecked(node.childNodes[i]) );
@@ -42,28 +42,44 @@ Ext.tree.TreePanel.prototype.getChecked = function(node){
 
 Ext.onReady(function(){
 		Ext.QuickTips.init();
-		var Tree = Ext.tree;
 
-		var tree = new Tree.TreePanel({
-			useArrows: true,
-	        autoScroll: true,
-	        animate: true,
-	        enableDD: false,
-	        containerScroll: false,
-        	rootVisible: false,
-        	height: 400,
-	        root: {
-	        	id: 'rootTreeNode',
-	           	leaf: false,
-	           	text: 'root',
-	            children: children,
-	            expanded: true
+		var tree = Ext.create('Ext.tree.Panel', {
+		    title: ' ',
+		    singleExpand: true,
+		    id: 'selectTree',
+	        preventHeader: true,
+		    height: 470,
+		    autoscroll: true,
+		    rootVisible: false,
+		    ddGroup: 'lecture',
+	        ddConfig: {
+	        	enableDrag: true
 	        },
-	        loader: new Ext.tree.TreeLoader({preloadChildren: true}),
-	        listeners: {
+			layout: {
+			    type: 'fit'
+			},
+		    root: {
+		    	id: 'rootTreeNode',
+		        text: 'root',
+		        expanded: true,
+	            children: children
+		    },
+		    listeners: {
 	            checkchange: function(node, checked)
 	            {
-					node.check(checked, true, false);
+					node.expandChildren(true,
+						function(){
+							node.cascadeBy(
+								function(childNode)
+									{
+										childNode.set('checked', checked);
+
+									}
+							);
+						}
+					);
+
+					tree.fireEvent('check');
 	            }
        	    }
 		});

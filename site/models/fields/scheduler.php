@@ -53,8 +53,11 @@ class JFormFieldScheduler extends JFormField
 
 ?>
 
-<script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/views/scheduler/tmpl/ext/adapter/ext/ext-base.js"></script>
-<script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/views/scheduler/tmpl/ext/ext-all.js"></script>
+<!--<script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/views/scheduler/tmpl/ext/adapter/ext/ext-base.js"></script>
+<script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/views/scheduler/tmpl/ext/ext-all.js"></script>-->
+
+<!-- Ext 4 framework -->
+	<script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/views/scheduler/tmpl/ext/ext-all-dev.js"></script>
 
 <script type="text/javascript" charset="utf-8">
 	var children = <?php echo json_encode($treearr["data"]["tree"]); ?>;
@@ -71,7 +74,7 @@ class JFormFieldScheduler extends JFormField
 </style>
 
 
-<div style="width:auto;height:450px;" id="tree-div"></div>
+<div style="width:auto;height:auto;" id="tree-div"></div>
 
 <?php
         }
