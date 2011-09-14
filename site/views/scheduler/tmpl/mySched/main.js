@@ -822,7 +822,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
     });
 
     // Aboniert Events f�r Dozentennamen
-    Ext.select('.MySchedEvent_joomla', false, tab.dom).on({
+    Ext.select('.MySchedEvent_name', false, tab.dom).on({
       'mouseover': function (e) {
         if (e.button == 0) //links Klick
         {
