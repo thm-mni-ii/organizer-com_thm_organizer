@@ -1503,13 +1503,10 @@ MySched.TreeManager = function () {
     	var children = json["tree"];
     	var treeData = json["treeData"];
     	var treeRoot = baseTree.getRootNode();
-    	if (accMode != 'none')
+    	/*if (accMode != 'none')
     	{
 			treeRoot.appendChild(children);
-		}
-
-		/*baseTree.root.renderChildren();
-		baseTree.root.childNodes[0].renderChildren();*/
+		}*/
 
 		for(var item in treeData)
 			if(Ext.isObject(treeData[item]))
@@ -3020,9 +3017,21 @@ MySched.Tree = function () {
   return {
     init: function () {
 
+		var children = MySched.startup["TreeView.load"].data["tree"][0][0];
+
+		var treeStore = Ext.create('Ext.data.TreeStore', {
+			folderSort: true,
+			root: {
+		    	id: 'rootTreeNode',
+		        text: 'root',
+		        expanded: true,
+		        children: children
+		    }
+		});
+
 		this.tree = Ext.create('Ext.tree.Panel', {
 		    title: ' ',
-		    singleExpand: true,
+		    singleExpand: false,
 		    id: 'selectTree',
 	        preventHeader: true,
 		    height: 470,
@@ -3041,12 +3050,7 @@ MySched.Tree = function () {
 			layout: {
 			    type: 'fit'
 			},
-		    root: {
-		    	id: 'rootTreeNode',
-		        text: 'root',
-		        expanded: true,
-		        children: []
-		    }
+			store: treeStore
 		});
 
 		// Bei Klick Stundenplan oeffnen

@@ -251,19 +251,16 @@ Ext.define('mSchedule', {
 		begin = new Date(begin[2], begin[1]-1, begin[0]);
 
 		if (wp < begin && cd.menu == null) {
-			Ext.Msg.show({
-				title: "Hinweis",
+			Ext.MessageBox.show({
+				title: "Semester hat noch nicht angefangen",
 				cls: "mysched_semesterbegin",
-				buttons: {
-					ok: 'Zum Semesteranfang',
-					cancel: 'OK'
-				},
-				msg: "Semester hat noch nicht angefangen",
+				buttons: Ext.MessageBox.YESNO,
+				msg: "Wollen Sie zum Semesteranfang springen?",
 				width: 400,
 				modal: true,
 				closable: false,
 				fn: function (btn) {
-					if (btn == "ok") {
+					if (btn == "yes") {
 						var cd = Ext.ComponentMgr.get('menuedatepicker');
 			            var begindate = MySched.session["begin"].split("-");
 			            var inidate = new Date(begindate[0], begindate[1], begindate[2]);
