@@ -181,8 +181,9 @@ calendar_tooltip = function (e) {
 
 	var events = el.dom.events;
 	var htmltext = "";
-	for (var i = 0; i < events.length; i++) {
+	for (var i = 0; i < events.length; i++) {;
 		if (Ext.isObject(events[i])) {
+
 			htmltext += events[i].data.title;
 			var name = "";
 			for(var obj in events[i].data.objects)
@@ -200,12 +201,13 @@ calendar_tooltip = function (e) {
 			}
 			if(name != "")
 				htmltext += " ("+ name + ")<br/>";
+			else
+				htmltext += "<br/>";
 		}
 		else {
 			htmltext += events[i] + "<br/>";
 		}
 	}
-
 	if (events.length > 0) {
 		var parentID = el.dom.getParent().id;
 		var ttInfo = Ext.create('Ext.tip.ToolTip', {

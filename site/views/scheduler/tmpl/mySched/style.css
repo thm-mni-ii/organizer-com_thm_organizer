@@ -185,6 +185,24 @@ div.dozInfo div ul {
 	cursor: pointer;
 }
 
+/* MNI Style */
+
+.content_column table th {
+    padding: 0px !important;
+}
+
+.content_column table td {
+    padding: 0px !important;
+}
+
+.content_column table {
+    border: 0 solid #EEEEEE !important;
+}
+
+#content_column {
+    padding-top: 0px !important;
+}
+
 /* Toolbar ButtonIcons */
 .tbSave{
 	background: url(../images/disk.png) no-repeat left center;
