@@ -23,7 +23,7 @@ class  thm_organizersViewvirtual_schedule_manager extends JView {
          * ToDo: Virtuelle Stundenpl�ne sollen kopiert werden k�nnen.
          */
         //JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', JText::_('Copy') );
-		JToolBarHelper::deleteListX('Really?');
+		JToolBarHelper::deleteListX('Really?','virtual_schedule_manager.remove' );
 
         thm_organizerHelper::addSubmenu('virtual_schedule_manager');
 

@@ -24,7 +24,6 @@ class thm_organizersControllervirtual_schedule_manager extends JController
 	}
 
 	function remove(){
-		global $mainframe;
 		$dbo = & JFactory::getDBO();
     	$cid = JRequest::getVar( 'cid',   array(), 'post', 'array' );
     	$cids = implode( ',', $cid );
@@ -41,7 +40,7 @@ class thm_organizersControllervirtual_schedule_manager extends JController
 
         if ($dbo->getErrorNum())
 		{
-			$msg =   JText::_( 'Fehler beim L�schen.' );
+			$msg =   JText::_( 'Fehler beim Löschen.' );
 		}
 		else
 		{
@@ -53,9 +52,9 @@ class thm_organizersControllervirtual_schedule_manager extends JController
 		}
 
 		if(count($cid) > 1)
-       		$msg =   JText::_( 'Virtuelle Stundenpl�ne '.$cids_temp.' gel�scht.' );
+       		$msg =   JText::_( 'Virtuelle Stundenpläne '.$cids_temp.' gelöscht.' );
        	else
-        	$msg =   JText::_( 'Virtuellen Stundenplan '.$cids_temp.' gel�scht.' );
+        	$msg =   JText::_( 'Virtuellen Stundenplan '.$cids_temp.' gelöscht.' );
 
         $this->setRedirect( 'index.php?option=com_thm_organizer&view=virtual_schedule_manager',$msg );
 
