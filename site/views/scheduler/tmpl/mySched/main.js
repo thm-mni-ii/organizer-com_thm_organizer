@@ -457,7 +457,9 @@ MySched.Base = function () {
 	                  plantype: plantype,
 	                  type: type
 	                },
-	                failure: function (response) {},
+	                failure: function (response) {
+	                	Ext.Msg.alert('Fehler', "Beim Laden des Stundenplans ist ein Fehler aufgetreten.");
+	                },
 	                success: function (response) {
 	                  try {
 	                    var json = Ext.decode(response.responseText);
@@ -483,7 +485,9 @@ MySched.Base = function () {
 	                    MySched.Schedule.refreshView();
 	                  }
 	                  catch(e)
-	                  {}
+	                  {
+	                  	Ext.Msg.alert('Fehler', "Beim Laden des Stundenplans ist ein Fehler aufgetreten.");
+	                  }
 	                }
 	              });
 
@@ -934,7 +938,9 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
           class_semester_id: MySched.class_semester_id,
           scheduletask: "Ressource.load"
         },
-        failure: function (response) {},
+        failure: function (response) {
+        	Ext.Msg.alert('Fehler', "Beim Laden des Stundenplans ist ein Fehler aufgetreten.");
+        },
         success: function (response) {
           try {
             var json = Ext.decode(response.responseText);
@@ -949,7 +955,9 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
             MySched.loadedLessons[id] = true;
           }
           catch(e)
-          {}
+          {
+          	Ext.Msg.alert('Fehler', "Beim Laden des Stundenplans ist ein Fehler aufgetreten.");
+          }
         }
       });
     }
@@ -3105,7 +3113,9 @@ MySched.Tree = function () {
 		                  plantype: plantype,
 		                  type: type
 		                },
-		                failure: function (response) {},
+		                failure: function (response) {
+		                	Ext.Msg.alert('Fehler', "Beim Laden des Stundenplans ist ein Fehler aufgetreten.");
+		                },
 		                success: function (response) {
 		                  try {
 		                    var json = Ext.decode(response.responseText);
@@ -3125,7 +3135,9 @@ MySched.Tree = function () {
 		                    MySched.loadedLessons[key] = true;
 		                  }
 		                  catch(e)
-		                  {}
+		                  {
+							Ext.Msg.alert('Fehler', "Beim Laden des Stundenplans ist ein Fehler aufgetreten.");
+		                  }
 		                }
 		              });
 		            }
