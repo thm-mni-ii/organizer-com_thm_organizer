@@ -219,7 +219,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_semesters` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `manager` int(11) unsigned DEFAULT NULL,
   `organization` varchar(50) NOT NULL DEFAULT '',
   `semesterDesc` varchar(20) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),

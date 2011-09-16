@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');?>
 
 <div id="thm_organizer_main" >
     <div id="thm_organizer_main_description">
-        <?php echo JText::_( "COM_THM_ORGANIZER_DESCRIPTION" ); ?>
+        <?php echo JText::_( "COM_THM_ORGANIZER_MAIN_DESC" ); ?>
     </div>
     <div id="cpanel">
         <div class="thm_organizer_main_submenu" >

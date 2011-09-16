@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_thm_organizer
- * @name        model schedule
+ * @name        model schedule manager
  * @description datase abstraction file for the schedules table
  * @author      James Antrim jamesDOTantrimATyahooDOTcom
  * @copyright   TH Mittelhessen 2011
@@ -15,9 +15,6 @@ defined('_JEXEC') or die('Restriced Access');
 jimport('joomla.application.component.model');
 class thm_organizersModelschedule extends JModel
 {
-
-    function __construct(){ parent::__construct(); }
-    
     /**
      * upload
      *
@@ -1625,7 +1622,7 @@ class thm_organizersModelschedule extends JModel
      *
      * Adds or updates the description of the schedule.
      */
-    public function edit_comment()
+    public function apply()
     {
         $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
         if(!empty($scheduleIDs))

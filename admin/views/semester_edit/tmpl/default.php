@@ -9,124 +9,54 @@
  * @link        www.mni.fh-giessen.de
  * @version     0.0.1
  */
-defined("_JEXEC") or die("Restricted access");
-?>
+defined("_JEXEC") or die;?>
 <form action="<?php echo JRoute::_("index.php?option=com_thm_organizer"); ?>"
       enctype="multipart/form-data" method="post" name="adminForm" id="adminForm">
-    <div id="thm_organizer_se_meta">
+    <div class="m">
+        <div id="toolbar" class="toolbar-list">
+            <ul>
+                <li id="toolbar-apply" class="button">
+                    <button type="submit" class="hasTip"
+                       title="<?php echo JText::_('COM_THM_ORGANIZER_APPLY')."::".JText::_('COM_THM_ORGANIZER_SE_APPLY_DESC');?>">
+                        <span class="icon-32-apply"></span>
+                        <?php echo JText::_('COM_THM_ORGANIZER_APPLY'); ?>
+                    </button>
+                </li>
+                <li id="toolbar-close" class="button">
+                    <a onClick="window.parent.location.reload(true);"
+                       href="#" class="hasTip"
+                       title="<?php echo JText::_('COM_THM_ORGANIZER_CLOSE')."::".JText::_('COM_THM_ORGANIZER_SE_CLOSE_DESC');?>">
+                        <span class="icon-32-cancel"></span>
+                        <?php echo JText::_('COM_THM_ORGANIZER_CLOSE'); ?>
+                    </a>
+                </li>
+            </ul>
+            <div class="clr"></div>
+        </div>
+        <div class="pagetitle icon-48-generic">
+            <h2><?php echo $this->title; ?></h2>
+        </div>
+    </div>
+    <div id="thm_organizer_se">
         <table class="admintable">
-            <colgroup>
-                <col id="thm_organizer_se_org_label" />
-                <col />
-                <col id="thm_organizer_se_pp_label" />
-                <col />
-                <col id="thm_organizer_se_mngr_label" />
-                <col />
-            </colgroup>
             <tr>
                 <td class="thm_organizer_se_label" >
-                    <label for="orgunit"><?php echo JText::_("Organization:"); ?></label>
+                    <label for="organization"><?php echo JText::_("Organization:"); ?></label>
                 </td>
                 <td class="thm_organizer_se_meta_data" >
                     <input class="text_area" type="text" name="organization" id="ecname" size="25" maxlength="20"
                     value="<?php echo $this->organization;?>" />
                 </td>
                 <td class="thm_organizer_se_label" >
-                    <label for="ecdescription"><?php echo JText::_("Planning Period Name:"); ?></label>
+                    <label for="semester"><?php echo JText::_("Planning Period Name:"); ?></label>
                 </td>
-                <td class="thm_organizer_se_meta_data" >
+                <td class="thm_organizer_se_data" >
                     <input class="text_area" type="text" name="semester" id="ecname" size="25" maxlength="20"
                     value="<?php echo $this->semesterDesc;?>" />
                 </td>
-                <td class="thm_organizer_se_label" >
-                    <label for="globalp"><?php echo JText::_("Managing Usergroup:"); ?></label>
-                </td>
-                <td class="thm_organizer_se_meta_data" >
-                    <?php echo $this->userGroupsBox; ?>
-                </td>
             </tr>
-        <?php if($this->id != 0){ ?>
-            <tr>
-                <td>
-                    <label class="thm_organizer_se_label" for="file">
-                        <?php echo JText::_("Upload a Schedule:"); ?>
-                    </label>
-                </td>
-                <td>
-                    <input name="file" type="file" />
-                </td>
-                <td />
-                <td />
-                <td />
-                <td />
-            </tr>
-        <?php } ?>
         </table>
     </div>
-    <div id="thm_organizer_se_seperator"></div>
-    <div id="thm_organizer_se_schedules">
-    <?php if($this->id == 0){ ?>
-        <span id="thm_organizer_se_add_content_tip"><?php echo $this->scheduleText; ?></span>
-    <?php }else{ ?>
-    <?php if(!empty($this->schedules)) { $k = 0;?>
-        <div id="thm_organizer_se_gpu">
-            <?php echo JText::_("Schedules"); ?>
-        </div>
-        <table class="admintable">
-            <colgroup>
-                <col id="thm_organizer_se_checkbox_column" />
-                <col id="thm_organizer_se_active_column" />
-                <col id="thm_organizer_se_file_column" />
-                <col id="thm_organizer_se_upload_date_column" />
-                <col id="thm_organizer_se_description_column" />
-                <col id="thm_organizer_se_startdate_column" />
-                <col id="thm_organizer_se_enddate_column" />
-            </colgroup>
-            <thead>
-                <th align="left">
-                    <input type="checkbox" name="checkall-toggle" value="" onclick="checkAll(this)" />
-                </th>
-                <th class="thm_organizer_se_th" ><?php echo JText::_("Active"); ?></th>
-                <th class="thm_organizer_se_th" ><?php echo JText::_("Filename"); ?></th>
-                <th class="thm_organizer_se_th" ><?php echo JText::_("Upload Date"); ?></th>
-                <th class="thm_organizer_se_th" ><?php echo JText::_("Description"); ?></th>
-                <th class="thm_organizer_se_th" ><?php echo JText::_("Start Date"); ?></th>
-                <th class="thm_organizer_se_th" ><?php echo JText::_("End Date"); ?></th>
-            </thead>
-            <tbody>
-            <?php foreach($this->schedules as $schedule){
-                $k % 2 == 0? $class = "row0" : $class = "row1"; $k++;
-                $checked = JHTML::_( "grid.id", $schedule["id"], $schedule["id"] ); ?>
-                <tr class="<?php echo "row$k"; ?>">
-                    <td class="thm_organizer_sm_checkbox">
-                        <?php echo $checked; ?>
-                    </td>
-                    <td align="center">
-                    <?php if($schedule["active"]){
-                        echo JHTML::_('image',
-                                      'administrator/templates/bluestork/images/admin/tick.png',
-                                      JText::_( 'Active' ),
-                                      array( 'class' => 'thm_organizer_se_tick'));
-                        } ?>
-                    </td>
-                    <td><?php echo $schedule["filename"]; ?></td>
-                    <td><?php echo $schedule["includedate"]; ?></td>
-                    <td>
-                        <input type="text" name="description<?php echo $schedule["id"]; ?>" size="50" value="<?php echo $schedule["description"]; ?>" />
-                    </td>
-                    <td><?php echo $schedule["startdate"]; ?></td>
-                    <td><?php echo $schedule["enddate"]; ?></td>
-                </tr>
-            <?php } ?>
-            </tbody>
-        </table>
-    <?php }else{ ?>
-    <div id="thm_organizer_se_no_schedules">
-        <?php echo $this->noSchedulesText; ?>
-    </div>
-    <?php }  } ?>
-    </div>
-    <input type="hidden" name="task" value="" />
-    <input type="hidden" name="boxchecked" value="0" />
-    <input type="hidden" name="semesterID" value="<?php echo $this->id; ?>" />
+    <input type="hidden" name="task" value="semester.apply" />
+    <input type="hidden" name="semesterID" value="<?php echo $this->semesterID; ?>" />
 </form>

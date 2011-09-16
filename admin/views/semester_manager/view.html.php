@@ -19,9 +19,11 @@ class thm_organizersViewsemester_manager extends JView {
 
     function display($tpl = null)
     {
+        JHtml::_('behavior.modal', 'a.modal');
         $document = & JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
-        $this->addToolBar();
+        JToolBarHelper::title( JText::_( 'Semester Manager' ), 'generic.png' );
+        if(thm_organizerHelper::getActions('semester_manager')->get("core.admin"))$this->addToolBar();
         thm_organizerHelper::addSubmenu('semester_manager');
         $model = $this->getModel();
         $semesters = $model->semesters;
@@ -31,18 +33,15 @@ class thm_organizersViewsemester_manager extends JView {
 
     private function addToolBar()
     {
-        JToolBarHelper::title( JText::_( 'Semester Manager' ), 'generic.png' );
-        $allowedActions = thm_organizerHelper::getActions('semester_manager');
-        if($allowedActions->get("core.admin"))
-        {
-            JToolBarHelper::addNew( 'semester.new' );
-            JToolBarHelper::editList('semester.edit');
-            JToolBarHelper::deleteList
-            (
-                JText::_( 'The deletetion of a semester effects multiple resources such as schedules and monitors.  Are you sure you wish to delete the selected semesters?'),
-                'semester.delete_semester'
-            );
-        }
+        $semesterEditLink = 'index.php?option=com_thm_organizer&view=semester_edit';
+        $semesterEditLink .= '&layout=modal&tmpl=component&semesterID=0';
+        $tb = JToolBar::getInstance();
+        $tb->appendButton('Popup', 'new', JText::_('COM_THM_ORGANIZER_NEW'), $semesterEditLink, 600, 180 );
+        JToolBarHelper::deleteList
+        (
+            JText::_( 'COM_THM_ORGANIZER_SM_DELETE_CONFIRM'),
+            'semester.delete'
+        );
     }
 }
 	

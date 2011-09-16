@@ -26,7 +26,7 @@ class thm_organizersViewthm_organizers extends JView
 		$this->option = $mainframe->scope;
 
         //build toolbar
-        JToolBarHelper::title( JText::_( 'THM Organizer:' )." ".JText::_( "COM_THM_ORGANIZER_MAINMENU_TITLE" ), 'home.png' );
+        JToolBarHelper::title( JText::_( 'THM Organizer:' )." ".JText::_( "COM_THM_ORGANIZER_MAIN_TITLE" ), 'home.png' );
 
         //assign vars to the template
         $this->assignRef('pane', $pane);

@@ -18,12 +18,15 @@ defined('_JEXEC') or die('Restricted access');?>
                 <col id="thm_organizer_sm_checkbox_column" />
                 <col id="thm_organizer_sm_org_column" />
                 <col id="thm_organizer_sm_pp_column" />
+                <col class="thm_organizer_sm_button_column" />
             </colgroup>
             <thead>
                 <tr>
                     <th />
                     <th><?php echo JText::_('Organization'); ?></th>
                     <th><?php echo JText::_('Planning Period'); ?></th>
+                    <th />
+                    <th />
                 </tr>
             </thead>
 <?php if(!empty($this->semesters)){
@@ -37,10 +40,18 @@ defined('_JEXEC') or die('Restricted access');?>
                     <?php echo $checked; ?>
                 </td>
                 <td class="thm_organizer_sm_orgdata">
-                    <a href='<?php echo $semester["link"]; ?>'><?php echo $semester["organization"]; ?></a>
+                    <a href='<?php echo $semester["link"]; ?>'>
+                        <?php echo $semester["organization"]; ?>
+                    </a>
                 </td>
                 <td class="thm_organizer_sm_semesterdata">
-                    <a href='<?php echo $semester["link"]; ?>'><?php echo $semester["semesterDesc"]; ?></a>
+                    <a href='<?php echo $semester["link"]; ?>'>
+                        <?php echo $semester["semesterDesc"]; ?>
+                    </a>
+                </td>
+                <td id="thm_organizer_sm_buttons">
+                    <?php echo $semester["semesterEditButton"]; ?>
+                    <?php echo $semester["scheduleManagerButton"]; ?>
                 </td>
             </tr>
 <?php } } ?>
