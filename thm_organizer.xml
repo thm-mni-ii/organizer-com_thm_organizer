@@ -40,9 +40,9 @@
                   view="monitor_manager">COM_THM_ORGANIZER_MM_NAME</menu>
             <menu img="components/com_thm_organizer/assets/images/semester_manager.png"
                   view="semester_manager">COM_THM_ORGANIZER_SM_NAME</menu>
-            <menu img="components/com_thm_organizer/assets/images/scheduler_config.png"
+            <menu img="components/com_thm_organizer/assets/images/scheduler_application_settings.png"
             	  view="scheduler_application_settings">COM_THM_ORGANIZER_SAS_NAME</menu>
-            <menu img="components/com_thm_organizer/assets/images/virtual_scheduler.png"
+            <menu img="components/com_thm_organizer/assets/images/virtual_schedule_manager.png"
             	  view="virtual_schedule_manager">COM_THM_ORGANIZER_VSM_NAME</menu>
         </submenu>
         <files folder="admin">
