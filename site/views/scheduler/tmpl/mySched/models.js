@@ -933,9 +933,16 @@ Ext.define('mLecture', {
 			'category': this.getCategory(),
 			'changes_all': this.getChanges(d),
 			'status_icons': this.getStatus(d),
-			'top_icon': this.getTopIcon(d)/*,
+			'top_icon': this.getTopIcon(d),
+			'comment': this.getComment(d)/*,
 			'events': this.getEvents(d)*/
 		});
+	},
+	getComment: function (d) {
+		if(!Ext.isEmpty(d.comment))
+			return "("+d.comment+")";
+		else
+			return "";
 	},
 	getEvents: function (d) {
 		var ret = "";
@@ -1087,8 +1094,11 @@ Ext.define('mLecture', {
 				var roomLink = false;
 
 				if (MySched.selectedSchedule != null) {
-					if (MySched.Authorize.accArr["ALL"]["room"] == "*" || MySched.Authorize.accArr[MySched.Authorize.role]["room"] == "*")
+					if (MySched.Authorize.accArr["ALL"]["room"] == "*")
 						roomLink = true;
+					else if(isset(MySched.Authorize.accArr[MySched.Authorize.role]))
+						if(MySched.Authorize.accArr[MySched.Authorize.role]["room"] == "*")
+							roomLink = true;
 				}
 				else
 					roomLink = true;
@@ -1132,7 +1142,11 @@ Ext.define('mLecture', {
 			for (var i = 0; i < arr.length; i++) {
 				var ok = false;
 				if (MySched.selectedSchedule != null) {
-					if (MySched.Authorize.accArr["ALL"]["doz"] == "*" || MySched.Authorize.accArr[MySched.Authorize.role]["doz"] == "*") ok = true;
+					if (MySched.Authorize.accArr["ALL"]["doz"] == "*")
+						ok = true;
+					else if(isset(MySched.Authorize.accArr[MySched.Authorize.role]))
+						if(MySched.Authorize.accArr[MySched.Authorize.role]["doz"] == "*")
+							ok = true;
 				}
 				else ok = true;
 				if (teachers.length > 0) for (var teacher in teachers) if (col.keys[n] == teacher) css = teachers[teacher];
@@ -1194,7 +1208,11 @@ Ext.define('mLecture', {
 			var clastemp = e.getId().replace("CL_", "").replace("_", " ");
 			var ok = false;
 			if (MySched.selectedSchedule != null) {
-				if (MySched.Authorize.accArr["ALL"]["clas"] == "*" || MySched.Authorize.accArr[MySched.Authorize.role]["clas"] == "*") ok = true;
+				if (MySched.Authorize.accArr["ALL"]["clas"] == "*")
+					ok = true;
+				else if(isset(MySched.Authorize.accArr[MySched.Authorize.role]))
+					if(MySched.Authorize.accArr[MySched.Authorize.role]["clas"] == "*")
+						ok = true;
 			}
 			else ok = true;
 			if (tag && ok  && MySched.Mapping.clas.map[e.getId()].treeLoaded == true) {
@@ -1252,19 +1270,19 @@ Ext.define('mLecture', {
 		if (t == "room") {
 			var dozroomstring = stripHTML((this.getDozNames(this.getDoz()) + this.getClasShorter(this.getClas())));
 			if (dozroomstring.length * 5.5 < width) {
-				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}-{category}</b><br/>{doz_name} / {clas_shorter} ' + time + ' {status_icons}</div>');
+				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}-{category} {comment}</b><br/>{doz_name} / {clas_shorter} ' + time + ' {status_icons}</div>');
 			}
 			else {
-				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}-{category}</b><br/>{doz_name}<br/>{clas_shorter} ' + time + ' {status_icons}</div>');
+				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}-{category} {comment}</b><br/>{doz_name}<br/>{clas_shorter} ' + time + ' {status_icons}</div>');
 			}
 		}
 		else if (t == "doz") {
 			var dozroomstring = stripHTML((this.getClasShorter(this.getClas()) + this.getShort(this.getRoom())));
 			if (dozroomstring.length * 5.5 < width) {
-				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}-{category}</b><br/>{clas_shorter} / {room_shortname} ' + time + ' {status_icons}</div>');
+				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}-{category} {comment}</b><br/>{clas_shorter} / {room_shortname} ' + time + ' {status_icons}</div>');
 			}
 			else {
-				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}-{category}</b><br/>{clas_shorter}<br/>{room_shortname} ' + time + ' {status_icons}</div>');
+				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}-{category} {comment}</b><br/>{clas_shorter}<br/>{room_shortname} ' + time + ' {status_icons}</div>');
 			}
 		}
 		else {
@@ -1281,10 +1299,10 @@ Ext.define('mLecture', {
 			}
 
 			if (dozroomstring.length * 5.5 < width) {
-				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="' + classcss + ' {css}">' + '{top_icon}<b class="' + lecturecss + '">{desc}-{category}</b><br/>{doz_name} / {room_shortname} ' + time + ' {status_icons}</div>');
+				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="' + classcss + ' {css}">' + '{top_icon}<b class="' + lecturecss + '">{desc}-{category} {comment}</b><br/>{doz_name} / {room_shortname} ' + time + ' {status_icons}</div>');
 			}
 			else {
-				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="' + classcss + ' {css}">' + '{top_icon}<b class="' + lecturecss + '">{desc}-{category}</b><br/>{doz_name}<br/>{room_shortname} ' + time + ' {status_icons}</div>');
+				this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="' + classcss + ' {css}">' + '{top_icon}<b class="' + lecturecss + '">{desc}-{category} {comment}</b><br/>{doz_name}<br/>{room_shortname} ' + time + ' {status_icons}</div>');
 			}
 		}
 	},
