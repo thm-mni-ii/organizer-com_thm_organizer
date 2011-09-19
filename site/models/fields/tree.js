@@ -21,7 +21,7 @@ Ext.data.Tree.prototype.check = function(state, descend, bulk) {
 Ext.tree.Panel.prototype.getChecked = function(node){
 	var checked = [], i;
 	if( typeof node == 'undefined' ) {
-		node = this.rootVisible ? this.getRootNode() : this.getRootNode().firstChild;
+		node = this.getRootNode();
 	}
 	if( node.data.checked ) {
 		checked.push(node.data.id);
@@ -45,7 +45,7 @@ Ext.onReady(function(){
 
 		var tree = Ext.create('Ext.tree.Panel', {
 		    title: ' ',
-		    singleExpand: true,
+		    singleExpand: false,
 		    id: 'selectTree',
 	        preventHeader: true,
 		    height: 470,
@@ -73,7 +73,6 @@ Ext.onReady(function(){
 								function(childNode)
 									{
 										childNode.set('checked', checked);
-
 									}
 							);
 						}

@@ -369,7 +369,7 @@ class TreeView
 
 				if($k == null)
 				{
-					$temp = $this->createTreeNode($nodeKey.".".$childvalue["id"],
+					$temp = $this->createTreeNode($key.".".$nodeKey.".".$childvalue["id"],
 											$childvalue["name"],
 											"leaf" . "-node",
 											true,
@@ -386,7 +386,7 @@ class TreeView
 				}
 				else
 				{
-					$temp = $this->createTreeNode($nodeKey.".".$childvalue["id"],
+					$temp = $this->createTreeNode($key.".".$nodeKey.".".$childvalue["id"],
 											$childvalue["name"],
 											"leaf" . "-node",
 											true,
@@ -789,7 +789,7 @@ class TreeView
 			}
 		}
 
-		if($planid == 1) //unschön, da direkt auf id von Stundenplan geprüft wird.
+		if($planid == 1)
 			$res = $this->getVirtualSchedules("teacher", $semesterID);
 		else
 			$res = array();

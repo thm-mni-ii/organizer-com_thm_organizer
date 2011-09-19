@@ -18,6 +18,9 @@
 	<!-- Ext 4 framework -->
 	<script type="text/javascript" charset="utf-8" src="components/com_thm_organizer/views/scheduler/tmpl/ext/ext-all-dev.js"></script>
 
+	<!-- Ext 4 bootstrap -->
+	<!--<script type="text/javascript" charset="utf-8" src="components/com_thm_organizer/views/scheduler/tmpl/ext/bootstrap.js"></script>-->
+
 	<!-- Ext 3 Compatibility (remove after migration is complete) -->
 	<!--<script type="text/javascript" charset="utf-8" src="components/com_thm_organizer/views/scheduler/tmpl/ext/compatibility/ext3-core-compat.js"></script>
 	<script type="text/javascript" charset="utf-8" src="components/com_thm_organizer/views/scheduler/tmpl/ext/compatibility/ext3-compat.js"></script>-->

@@ -45,6 +45,7 @@ class thm_organizerViewScheduler extends JView
 		//$doc->addStyleSheet(JURI::root(true)."/components/com_thm_organizer/views/scheduler/tmpl/ext/resources/css/MultiSelect.css");
 		$doc->addStyleSheet(JURI::root(true)."/components/com_thm_organizer/views/scheduler/tmpl/mySched/style.css");
 
+
 		$schedulearr = array();
 
 		$model = JModel::getInstance('Ajaxhandler', 'thm_organizerModel', array('ignore_request' => false));
@@ -60,6 +61,8 @@ class thm_organizerViewScheduler extends JView
 		$schedulearr["ScheduleDescription.load"] = $model->executeTask("ScheduleDescription.load");
 
 		$schedulearr["TreeView.load"] = $model->executeTask("TreeView.load", array("path"=>$path, "hide"=>true));
+
+		//echo "<pre>".print_r($schedulearr["TreeView.load"],true)."</pre>";
 
 		if($user->id !== null && $user->id !== 0)
 			$schedulearr["UserSchedule.load"] = $model->executeTask("UserSchedule.load", array("username"=>$user->name, "sid"=>$sid));

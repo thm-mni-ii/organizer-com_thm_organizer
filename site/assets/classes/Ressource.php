@@ -92,7 +92,6 @@ class Ressource
 				$retlessons[ $key ][ "moduleID" ] = $item->moduleID;
 			}
 
-//			$retlessons = $this->getAllRes( $retlessons, $this->semID );
 			return array("success"=>true,"data"=>$retlessons );
 		}
 	}
@@ -104,90 +103,6 @@ class Ressource
 				 $query .= "WHERE vid = '" . $id . "' " . "AND sid = '" . $sid . "'";
 		$ret   = $this->JDA->query( $query );
 		return $ret;
-	}
-
-	private function getAllRes( $less, $classemesterid )
-	{
-		foreach ( $less as $lesson ) {
-			$query = "SELECT CONCAT(CONCAT(#__thm_organizer_lessons.gpuntisID, ' '), " .
-					 "#__thm_organizer_lessonperiods.gpuntisID) AS mykey, " .
-					 "#__thm_organizer_classes.id as cid, " .
-					 "#__thm_organizer_rooms.id as rid, " .
-					 "#__thm_organizer_teachers.id as tid, " .
-					 "#__thm_organizer_lessons.type as ltype, " .
-					 "#__thm_organizer_periods.day AS dow, " .
-					 "#__thm_organizer_periods.period AS block, " .
-					 "#__thm_organizer_lessons.name, " .
-					 "#__thm_organizer_lessons.alias AS description, " .
-					 "#__thm_organizer_lessons.gpuntisID AS id, " .
-					 "(SELECT 'cyclic') AS type " .
-					 "FROM #__thm_organizer_lessons " .
-					 "INNER JOIN #__thm_organizer_lessons_times ON #__thm_organizer_lessons.id = #__thm_organizer_lessons_times.lessonID " .
-					 "INNER JOIN #__thm_organizer_periods ON #__thm_organizer_lessons_times.periodID = #__thm_organizer_periods.id " .
-					 "INNER JOIN #__thm_organizer_rooms ON #__thm_organizer_lessons_times.roomID = #__thm_organizer_rooms.id " .
-					 "INNER JOIN #__thm_organizer_lesson_teachers ON #__thm_organizer_lesson_teachers.lessonID = #__thm_organizer_lessons.id " .
-					 "INNER JOIN #__thm_organizer_teachers ON #__thm_organizer_lesson_teachers.teacherID = #__thm_organizer_teachers.id " .
-					 "INNER JOIN #__thm_organizer_lesson_classes ON #__thm_organizer_lesson_classes.lessonID = #__thm_organizer_teachers.id " .
-					 "INNER JOIN #__thm_organizer_classes ON #__thm_organizer_lesson_classes.classID = #__thm_organizer_classes.id" .
-					 "WHERE AND #__thm_organizer_lessons.semesterID = '$classemesterid' AND #__thm_organizer_lessons.gpuntisID IN ('" . $lesson[ "id" ] . "');";
-
-			$ret = $this->JDA->query( $query );
-
-			$lessons = array( );
-
-			if ( isset( $ret ) )
-				if ( is_array( $ret ) )
-					foreach ( $ret as $v ) {
-						$key = $v->mykey;
-						if ( !isset( $lessons[ $key ] ) )
-							$lessons[ $key ] = array( );
-						$lessons[ $key ][ "category" ] = $v->ltype;
-						if ( isset( $lessons[ $key ][ "clas" ] ) ) {
-							$arr = explode( " ", $lessons[ $key ][ "clas" ] );
-							if ( !in_array( $v->cid, $arr ) )
-								$lessons[ $key ][ "clas" ] = $lessons[ $key ][ "clas" ] . " " . $v->cid;
-						} else
-							$lessons[ $key ][ "clas" ] = $v->cid;
-
-						if ( isset( $lessons[ $key ][ "doz" ] ) ) {
-							$arr = explode( " ", $lessons[ $key ][ "doz" ] );
-							if ( !in_array( $v->tid, $arr ) )
-								$lessons[ $key ][ "doz" ] = $lessons[ $key ][ "doz" ] . " " . $v->tid;
-						} else
-							$lessons[ $key ][ "doz" ] = $v->tid;
-
-						if ( isset( $lessons[ $key ][ "room" ] ) ) {
-							$arr = explode( " ", $lessons[ $key ][ "room" ] );
-							if ( !in_array( $v->rid, $arr ) )
-								$lessons[ $key ][ "room" ] = $lessons[ $key ][ "room" ] . " " . $v->rid;
-						} else
-							$lessons[ $key ][ "room" ] = $v->rid;
-
-						$lessons[ $key ][ "dow" ]      = $v->dow;
-						$lessons[ $key ][ "block" ]    = $v->block;
-						$lessons[ $key ][ "name" ]     = $v->name;
-						$lessons[ $key ][ "desc" ]     = $v->description;
-						$lessons[ $key ][ "cell" ]     = "";
-						$lessons[ $key ][ "css" ]      = "";
-						$lessons[ $key ][ "owner" ]    = "gpuntis";
-						$lessons[ $key ][ "showtime" ] = "none";
-						$lessons[ $key ][ "etime" ]    = null;
-						$lessons[ $key ][ "stime" ]    = null;
-						$lessons[ $key ][ "key" ]      = $key;
-						$lessons[ $key ][ "id" ]       = $v->id;
-						$lessons[ $key ][ "subject" ]  = $v->id;
-						$lessons[ $key ][ "type" ]     = $v->type;
-					}
-
-			foreach ( $lessons as $l ) {
-				if ( $lesson[ "key" ] == $l[ "key" ] ) {
-					$less[ $lesson[ "key" ] ][ "clas" ] = $l[ "clas" ];
-					$less[ $lesson[ "key" ] ][ "doz" ]  = $l[ "doz" ];
-					$less[ $lesson[ "key" ] ][ "room" ] = $l[ "room" ];
-				}
-			}
-		}
-		return $less;
 	}
 
 	private function getResourcePlan( $ressourcename, $fachsemester, $type )
