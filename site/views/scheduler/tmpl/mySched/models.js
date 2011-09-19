@@ -263,7 +263,7 @@ Ext.define('mSchedule', {
 					if (btn == "yes") {
 						var cd = Ext.ComponentMgr.get('menuedatepicker');
 			            var begindate = MySched.session["begin"].split(".");
-			            var inidate = new Date(begindate[2], begindate[1], begindate[0]);
+			            var inidate = new Date(begindate[2], begindate[1]-1, begindate[0]);
 
 						if (typeof cd.menu == "undefined")
 							cd.initialConfig.value = inidate;
