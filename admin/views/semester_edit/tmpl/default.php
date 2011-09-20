@@ -17,7 +17,7 @@ defined("_JEXEC") or die;?>
             <ul>
                 <li id="toolbar-apply" class="button">
                     <button type="submit" class="hasTip"
-                       title="<?php echo JText::_('COM_THM_ORGANIZER_APPLY')."::".JText::_('COM_THM_ORGANIZER_SE_APPLY_DESC');?>">
+                       title="<?php echo JText::_('COM_THM_ORGANIZER_APPLY')."::".JText::_('COM_THM_ORGANIZER_SM_APPLY_DESC');?>">
                         <span class="icon-32-apply"></span>
                         <?php echo JText::_('COM_THM_ORGANIZER_APPLY'); ?>
                     </button>
@@ -25,7 +25,7 @@ defined("_JEXEC") or die;?>
                 <li id="toolbar-close" class="button">
                     <a onClick="window.parent.location.reload(true);"
                        href="#" class="hasTip"
-                       title="<?php echo JText::_('COM_THM_ORGANIZER_CLOSE')."::".JText::_('COM_THM_ORGANIZER_SE_CLOSE_DESC');?>">
+                       title="<?php echo JText::_('COM_THM_ORGANIZER_CLOSE')."::".JText::_('COM_THM_ORGANIZER_SM_CLOSE_DESC');?>">
                         <span class="icon-32-cancel"></span>
                         <?php echo JText::_('COM_THM_ORGANIZER_CLOSE'); ?>
                     </a>

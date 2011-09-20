@@ -21,7 +21,6 @@
 
 .thm_organizer_main_submenu{
     width: 100%;
-    clear: both;
     margin-top: 4px;
 }
 
@@ -63,10 +62,6 @@
     width: 20%;
 }
 
-#thm_organizer_mm_col_semester{
-    width: 40%;
-}
-
 .thm_organizer_mm_checkbox{}
 
 .thm_organizer_mm_room{
@@ -93,60 +88,62 @@
     text-align: right;
 }
 
+/* com_thm_organizer.admin view: semester_manager*********************************/
+
+#thm_organizer_sm{}
+
+#thm_organizer_sm_checkbox_column{
+    width: 10px;
+}
+
+.thm_organizer_sm_orgdata, .thm_organizer_sm_semesterdata, .thm_organizer_sm_buttons{
+    width: 15%
+}
+
+#thm_organizer_sm form table.adminlist tbody tr td{
+    border: none;
+}
+
+#thm_organizer_sm form table.adminlist thead th{
+    border-left: none;
+    border-right: none;
+    text-align: left;
+}
+
 /* com_thm_organizer.admin view: semester_edit*********************************/
-#thm_organizer_se_meta{
-    margin-bottom: 10px;
+
+#thm_organizer_se{
+    color: #025a8d;
 }
 
-#thm_organizer_se_label{
-    text-align:right;
-    width: 140px;
+.thm_organizer_se_label{
+    width: 30%;
+}
+#thm_organizer_se table.admintable{
+    margin-top: 10px;
 }
 
-#thm_organizer_se_meta_data{
-    width: 140px;
-}
-#thm_organizer_se_gpu{
-    text-align: center;
-    font-weight: bold;
-    font-size: 14px;
-    color: #146295;
-    border: 2px solid #cccccc;
+#adminForm div.m{
+    padding: 5px;
 }
 
-.thm_organizer_se_th{
-    text-align: left;
+.thm_organizer_se_label{
+    padding-left: 5px;
 }
 
-#thm_organizer_se_checkbox_column{
-    width: 2%;
-    text-align: left;
-}
-#thm_organizer_se_active_column{
-    width: 2%;
-}
-#thm_organizer_se_file_column{
-    width: 15%;
-    text-align: center;
-}
-#thm_organizer_se_upload_date_column{
-    width: 5%;
-    text-align: center;
-}
-#thm_organizer_se_description_column{
-    width: 20%;
-    text-align: center;
-}
-#thm_organizer_se_startdate_column{
-    width: 5%;
-    text-align: center;
-}
-#thm_organizer_se_enddate_column{
-    width: 5%;
-    text-align: center;
+#toolbar-apply button{
+    background: none;
+    border: none;
+    color: #025a8d;
+    font-size: 1em;
+    margin-top: 1px;
 }
 
+#toolbar-close{
+    font-size: 1em;
+}
 
+/* com_thm_organizer.admin view: category manager*********************************/
 
 
 #thm_organizer_cm{

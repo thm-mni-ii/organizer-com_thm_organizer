@@ -47,12 +47,13 @@ class thm_organizerHelper
     public static function addSubmenu($thisSubmenu)
     {
         $possibleSubmenus = array(
-            'main_menu' => array('name' => 'Main Menu', 'link' => 'index.php?option=com_thm_organizer'),
-            'category_manager' => array('name' => 'Category Manager', 'link' => 'index.php?option=com_thm_organizer&amp;view=category_manager'),
-            'monitor_manager' => array('name' => 'Monitor Manager', 'link' => 'index.php?option=com_thm_organizer&amp;view=monitor_manager'),
-            'semester_manager' => array('name' => 'Semester Manager', 'link' => 'index.php?option=com_thm_organizer&amp;view=semester_manager'),
-            'schedule_application_settings' => array('name' => 'Scheduler Application Settings', 'link' => 'index.php?option=com_thm_organizer&amp;view=scheduler_application_settings'),
-            'virtual_schedule_manager' => array('name' => 'Virtual Schedule Manager', 'link' => 'index.php?option=com_thm_organizer&amp;view=virtual_schedule_manager')
+            'main_menu' => array('name' => 'COM_THM_ORGANIZER_MAIN_TITLE', 'link' => 'index.php?option=com_thm_organizer'),
+            'category_manager' => array('name' => 'COM_THM_ORGANIZER_CAT_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=category_manager'),
+            'monitor_manager' => array('name' => 'COM_THM_ORGANIZER_MON_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=monitor_manager'),
+            'semester_manager' => array('name' => 'COM_THM_ORGANIZER_SEM_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=semester_manager'),
+            'schedule_manager' => array('name' => 'COM_THM_ORGANIZER_SCH_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=schedule_manager'),
+            'schedule_application_settings' => array('name' => 'COM_THM_ORGANIZER_RIA_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=scheduler_application_settings'),
+            'virtual_schedule_manager' => array('name' => 'COM_THM_ORGANIZER_VSM_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=virtual_schedule_manager')
         );
         foreach($possibleSubmenus as $subKey => $subValue)
         {

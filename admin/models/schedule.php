@@ -1624,7 +1624,23 @@ class thm_organizersModelschedule extends JModel
      */
     public function apply()
     {
-        $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
+        $semesterID = JRequest::getInt('semesterID');
+        if(!$semesterID) return false;
+
+        $dbo = $this->getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('id');
+        $query->from('#__thm_organizer_schedules');
+        $query->where("sid = '$semesterID'");
+        $dbo->setQuery((string)$query);
+        $scheduleIDs = $dbo->loadResultArray();
+        if(!isset($scheduleIDs) or !count($scheduleIDs)) return false;
+
+        foreach($scheduleIDs as $scheduleID)
+        {
+
+        }
+
         if(!empty($scheduleIDs))
         {
             $dbo = & JFactory::getDBO();
