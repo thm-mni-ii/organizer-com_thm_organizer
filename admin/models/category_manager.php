@@ -1,16 +1,17 @@
 <?php
- 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
- 
-jimport( 'joomla.application.component.model' );
- 
 /**
- * Room IP List Model
- *
- * @package    Giessen Scheduler
- * @subpackage Components
+ * @package     Joomla.Administrator
+ * @subpackage  com_thm_organizer
+ * @name        model category manager view
+ * @description database abstraction file for the category manager view
+ * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @copyright   TH Mittelhessen 2011
+ * @license     GNU GPL v.2
+ * @link        www.mni.fh-giessen.de
+ * @version     1.7.0
  */
+defined('_JEXEC') or die;
+jimport( 'joomla.application.component.model' );
 class thm_organizersModelcategory_manager extends JModel
 {
     public $categories = null;
@@ -19,9 +20,15 @@ class thm_organizersModelcategory_manager extends JModel
     {
         parent::__construct();
         $this->loadCategories();
-        if(count($this->categories) > 0) $this->setCategoryEditLinks();
+        if(count($this->categories)) $this->setCategoryEditLinks();
     }
 
+    /**
+     * loadCategories
+     *
+     * retrieves information about saved categories and create links to the edit
+     * view
+     */
     private function loadCategories()
     {
         $dbo = JFactory::getDBO();
@@ -31,16 +38,13 @@ class thm_organizersModelcategory_manager extends JModel
         $query->innerJoin('#__categories AS c ON toc.contentCatID = c.id');
         $dbo->setQuery((string)$query);
         $categories = $dbo->loadAssocList();
-        if(empty($categories)) $this->categories = array();
-        else $this->categories = $categories;
-    }
-
-    //todo change categoryID to category in usages
-    private function setCategoryEditLinks()
-    {
-        foreach($this->categories as $key => $value)
+        if(empty($categories))$this->categories = array();
+        else
         {
-            $this->categories[$key]['link'] = 'index.php?option=com_thm_organizer&view=category_edit&categoryID='.$value['id'];
+            foreach($this->categories as $key => $value)
+                $this->categories[$key]['link'] = 'index.php?option=com_thm_organizer&view=category_edit&categoryID='.$value['id'];
+            $this->categories = $categories;
         }
+        
     }
 }

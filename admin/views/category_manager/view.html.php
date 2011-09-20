@@ -1,10 +1,20 @@
-<?php 
+<?php
+/**
+ * @package     Joomla.Administrator
+ * @subpackage  com_thm_organizer
+ * @name        view category manager
+ * @description lists saved event categories and basic information about them
+ * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @copyright   TH Mittelhessen 2011
+ * @license     GNU GPL v.2
+ * @link        www.mni.thm.de
+ * @version     1.7.0
+ */
 defined('_JEXEC') or die('Restricted Access');
-
 jimport('joomla.application.component.view');
 require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
 
-class thm_organizersViewCategory_manager extends JView
+class thm_organizersViewcategory_manager extends JView
 {
 	
     public function display($tpl = null)
@@ -12,41 +22,44 @@ class thm_organizersViewCategory_manager extends JView
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
 
-        $this->addToolBar();
+        if(thm_organizerHelper::isAdmin('category_manager')) $this->addToolBar();
         thm_organizerHelper::addSubmenu('category_manager');
 
-        $this->assignIcons();
-
         $model = $this->getModel();
-        $categories = $model->categories;
-        $this->assignRef( 'categories', $categories );
+        $this->categories = $model->categories;
+        if(count($this->categories))$this->setIcons();
 
         parent::display($tpl);
     }
-	
+
+    /**
+     * addToolBar
+     *
+     * generates buttons for user interaction
+     */
     private function addToolBar()
     {
-        JToolBarHelper::title( JText::_( 'Category Manager' ), 'generic.png' );
-        $allowedActions = thm_organizerHelper::getActions('category_manager');
-        if($allowedActions->get("core.admin") or $allowedActions->get("core.manage"))
+        JToolBarHelper::title( JText::_('COM_THM_ORGANIZER_CAT_TITLE' ), 'generic.png' );
+        $isAdmin = thm_organizerHelper::isAdmin('category_manager');
+        if($isAdmin)
         {
-            if($allowedActions->get("core.admin") or $allowedActions->get("core.create"))
-                JToolBarHelper::custom ('category.edit', 'new.png', 'new.png', JText::_('New'), false);
-            if($allowedActions->get("core.admin") or $allowedActions->get("core.edit"))
-                JToolBarHelper::custom ('category.edit', 'edit.png', 'edit.png', JText::_('Edit'), false);
-            if($allowedActions->get("core.admin") or $allowedActions->get("core.delete"))
-                JToolBarHelper::deleteList( JText::_('Are you sure you wish to delete the selected categories?'), 'category.delete');
+            JToolBarHelper::custom ('category.edit', 'new.png', 'new.png', JText::_('COM_THM_ORGANIZER_NEW'), false);
+            JToolBarHelper::custom ('category.edit', 'edit.png', 'edit.png', JText::_('COM_THM_ORGANIZER_EDIT'), false);
+            JToolBarHelper::deleteList( JText::_('COM_THM_ORGANIZER_CAT_DELETE_CONFIRM'), 'category.delete');
         }
     }
 
-    private function assignIcons()
+    /**
+     * setIcons
+     *
+     * sets images used for display of properties
+     */
+    private function setIcons()
     {
-        $yes = JHTML::_('image', 'administrator/templates/bluestork/images/admin/tick.png',
-                        JText::_( 'Allowed' ), array( 'class' => 'thm_organizer_sm_icon'));
-        $this->assignRef('yes', $yes);
-        $no = JHTML::_('image', 'administrator/templates/bluestork/images/admin/publish_x.png',
-                       JText::_( 'Denied' ), array( 'class' => 'thm_organizer_sm_icon'));
-        $this->assignRef('no', $no);
+        $this->yes = JHTML::_('image', 'administrator/templates/bluestork/images/admin/tick.png',
+                        JText::_( 'COM_THM_ORGANIZER_ALLOWED' ), array( 'class' => 'thm_organizer_sm_icon'));
+        $this->no = JHTML::_('image', 'administrator/templates/bluestork/images/admin/publish_x.png',
+                       JText::_( 'COM_THM_ORGANIZER_DENIED' ), array( 'class' => 'thm_organizer_sm_icon'));
     }
 	
 	

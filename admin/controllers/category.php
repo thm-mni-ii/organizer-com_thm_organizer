@@ -1,72 +1,103 @@
 <?php
+/**
+ * @package     Joomla.Administrator
+ * @subpackage  com_thm_organizer
+ * @name        controller category
+ * @description performs user access checks and redirects for categories
+ * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @copyright   TH Mittelhessen 2011
+ * @license     GNU GPL v.2
+ * @link        www.mni.fh-giessen.de
+ * @version     1.7.0
+ */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
 class thm_organizersControllerCategory extends JController
 {
-    function display(){  parent::display(); }
+    public function display(){  parent::display(); }
 	
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->registerTask( 'add', 'edit' );
     }
-	
-    function edit()
+
+    /**
+     * edit
+     *
+     * redirects to the category_edit view
+     */
+    public function edit()
     {
+        if(!thm_organizerHelper::isAdmin('category')) thm_organizerHelper::noAccess ();
         JRequest::setVar( 'view', 'category_edit' );
         parent::display();
     }
-	
-    function save()
+
+    /**
+     * save
+     *
+     * saves changes made to the category and redirects to the category_manager
+     * view
+     */
+    public function save()
     {
-        $model = $this->getModel('category_edit');
-        $result = $model->store();
+        if(!thm_organizerHelper::isAdmin('category')) thm_organizerHelper::noAccess ();
+        $model = $this->getModel('category');
+        $result = $model->save();
         if($result)
         {
-            $msg = JText::_("The category has been successfully saved.");
+            $msg = JText::_("COM_THM_ORGANIZER_CAT_SAVE_SUCCESS");
             $this->setRedirect( 'index.php?option=com_thm_organizer&view=category_manager', $msg);
         }
         else
         {
-            $msg = JText::_("An error occured while saving the category.");
+            $msg = JText::_("COM_THM_ORGANIZER_CAT_SAVE_FAIL");
             $this->setRedirect( 'index.php?option=com_thm_organizer&view=category_manager', $msg, 'error');
         }
     }
 
-    function save2new()
+    /**
+     * save2new
+     *
+     * saves changes made to the category and redirects to a new category
+     * creation form
+     */
+    public function save2new()
     {
-        $model = $this->getModel('category_edit');
-        $result = $model->store();
+        if(!thm_organizerHelper::isAdmin('category')) thm_organizerHelper::noAccess ();
+        $model = $this->getModel('category');
+        $result = $model->save();
         if($result)
         {
-            $msg = JText::_("The category has been successfully saved.");
+            $msg = JText::_("COM_THM_ORGANIZER_CAT_SAVE_SUCCESS");
             $this->setRedirect( 'index.php?option=com_thm_organizer&view=category_edit', $msg);
         }
         else
         {
-            $msg = JText::_("An error occured while saving the category.");
+            $msg = JText::_("COM_THM_ORGANIZER_CAT_SAVE_FAIL");
             $this->setRedirect( 'index.php?option=com_thm_organizer&view=category_edit', $msg, 'error');
         }
     }
-	
-    function delete()
+
+
+    public function delete()
     {
-        $model = $this->getModel('category_edit');
+        if(!thm_organizerHelper::isAdmin('category')) thm_organizerHelper::noAccess ();
+        $model = $this->getModel('category');
         $result = $model->delete();
         if($result)
         {
-            $msg = JText::_('The selected categories have been successfully removed.');
+            $msg = JText::_("COM_THM_ORGANIZER_CAT_DELETE_SUCCESS");
             $this->setRedirect( 'index.php?option=com_thm_organizer&view=category_manager', $msg);
         }
         else
         {
-            $msg = JText::_('An error has while deleting the selected categories.');
+            $msg = JText::_("COM_THM_ORGANIZER_CAT_DELETE_FAIL");
             $this->setRedirect( 'index.php?option=com_thm_organizer&view=category_manager', $msg, 'error');
         }
     }
 	
-    function cancel()
-    {
-        $this->setRedirect( 'index.php?option=com_thm_organizer&view=category_manager' );
-    }
+    public function cancel(){ $this->setRedirect( 'index.php?option=com_thm_organizer&view=category_manager' ); }
 }

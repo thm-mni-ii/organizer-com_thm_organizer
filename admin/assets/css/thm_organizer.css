@@ -150,8 +150,11 @@
     max-width: 80%;
 }
 
-#thm_organizer_cm_table{
+#thm_organizer_cm_table{}
 
+#thm_organizer_cm_table thead th,
+#thm_organizer_cm_table tr td{
+    text-align: left;
 }
 
 #thm_organizer_cm_checkbox_column{
@@ -159,7 +162,7 @@
 }
 
 #thm_organizer_cm_title_column{
-    min-width: 20%;
+    min-width: 15%;
 }
 
 #thm_organizer_cm_global_column{

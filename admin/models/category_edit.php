@@ -1,5 +1,16 @@
 <?php
-defined('_JEXEC') or die('Restriced Access');
+/**
+ * @package     Joomla.Administrator
+ * @subpackage  com_thm_organizer
+ * @name        model category editor view
+ * @description database abstraction file for the category editor view
+ * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @copyright   TH Mittelhessen 2011
+ * @license     GNU GPL v.2
+ * @link        www.mni.fh-giessen.de
+ * @version     1.7.0
+ */
+defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 class thm_organizersModelcategory_edit extends JModel
 {
@@ -27,6 +38,11 @@ class thm_organizersModelcategory_edit extends JModel
             }
     }
 
+    /**
+     * loadCategory
+     *
+     * loads saved category information into object variables if available
+     */
     private function loadCategory()
     {
         $id = JRequest::getInt('categoryID');
@@ -56,6 +72,12 @@ class thm_organizersModelcategory_edit extends JModel
         }
     }
 
+    /**
+     * loadContentCategories
+     *
+     * retrieves a list of published content categories and their properties
+     * from the database
+     */
     private function loadContentCategories()
     {
         $dbo = & JFactory::getDBO();
@@ -67,19 +89,22 @@ class thm_organizersModelcategory_edit extends JModel
         $query->where("published = '1'");
         $query->order("c.title ASC");
         $dbo->setQuery((string)$query);
-        $this->temp = (string) $query;
-        $contentCategories = $dbo->loadObjectList();
+        $contentCategories = $dbo->loadAssocList();
         if(count($contentCategories))
         {
             foreach($contentCategories as $k => $v)
-            {
-                $contentCategories[$k] = (array) $v;
                 $contentCategories[$k]['actions'] = $this->makeActionsTable($contentCategories[$k]['id']);
-            }
             $this->contentCategories = $contentCategories;
         }
+        else $this->contentCategories = array();
     }
 
+    /**
+     * loadUserGroups
+     *
+     * creates an array associating user group ids to user group names and loads
+     * it into $this->userGroups
+     */
     private function loadUserGroups()
     {
         $dbo = & JFactory::getDBO();
@@ -96,6 +121,15 @@ class thm_organizersModelcategory_edit extends JModel
         }
     }
 
+    /**
+     * makeActionsTable
+     *
+     * creates a table illustration which usergroups have which rights to act on
+     * a particular content category
+     *
+     * @param int $id
+     * @return string
+     */
     private function makeActionsTable($id)
     {
         $actions = array( 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete' );
@@ -134,13 +168,13 @@ class thm_organizersModelcategory_edit extends JModel
                 if($access)
                 {
                    $tabledata .= JHTML::_('image', 'administrator/templates/bluestork/images/admin/tick.png',
-                                            JText::_( 'Allowed' ), array( 'class' => 'thm_organizer_se_tick'));
+                                            JText::_( 'COM_THM_ORGANIZER_ALLOWED' ), array( 'class' => 'thm_organizer_se_tick'));
                    $found = true;
                 }
                 else
                 {
                    $tabledata .= JHTML::_('image', 'administrator/templates/bluestork/images/admin/publish_x.png',
-                                            JText::_( 'Denied' ), array( 'class' => 'thm_organizer_se_tick'));
+                                            JText::_( 'COM_THM_ORGANIZER_DENIED' ), array( 'class' => 'thm_organizer_se_tick'));
                 }
                 $tabledata .= "</td>";
                 $tablerow .= $tabledata;
@@ -158,64 +192,5 @@ class thm_organizersModelcategory_edit extends JModel
         $table .= $tablebody."</table>";
         if($rowcount)return $table;
         else return '';
-    }
-
-    public function store()
-    {
-        $id = JRequest::getVar('id');
-        $title = trim(JRequest::getString('title'));
-        $description = trim($_REQUEST['description']);
-        $global = JRequest::getBool('global');
-        $reserves = JRequest::getBool('reserves');
-        $contentCatID = JRequest::getInt('contentCat');
-
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        if($id)
-        {
-            $query->update("#__thm_organizer_categories");
-            $conditions = "title = '$title', description = '$description', ";
-            $conditions .= "globaldisplay = '$global', reservesobjects = '$reserves', ";
-            $conditions .= "contentCatID = '$contentCatID' ";
-            $query->set($conditions);
-            $query->where("id = '$id'");
-        }
-        else
-        {
-            $statement = "#__thm_organizer_categories ";
-            $statement .= "(title, description, globaldisplay, reservesobjects, contentCatID) ";
-            $statement .= "VALUES ";
-            $statement .= "( '$title', '$description', '$global','$reserves', '$contentCatID' );";
-            $query->insert($statement);
-
-        }
-        $dbo->setQuery((string)$query);
-        $dbo->query();
-        return ($dbo->getErrorNum())? false : true;
-    }
-	
-    public function delete()
-    {
-        $ids = array();
-        $ids[0] = JRequest::getInt('id');
-        if(empty($ids[0]))
-            $ids = JRequest::getVar('cid', array(0), 'post', 'array');
-        if(count($ids))
-        {
-            $idsString = "'".implode("', '", $ids)."'";
-            $dbo = & JFactory::getDBO();
-            $query = $dbo->getQuery(true);
-            $query->delete();
-            $query->from("#__thm_organizer_categories");
-            $query->where("id in ( $idsString )");
-            $dbo->setQuery( $query );
-            $dbo->query();
-
-            //TODO: delete associated events & content/resouce associations?
-
-            if ($dbo->getErrorNum()) return false;
-            else return true;
-        }
-        return true;
     }
 }

@@ -2,14 +2,14 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_thm_organizer
- * @name        monitor editor view
+ * @name        view category editor
+ * @description provides a form for editing information about an event category
  * @author      James Antrim jamesDOTantrimATyahooDOTcom
- * @copyright   TH Mittelhessen <year>
+ * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
  * @link        www.mni.fh-giessen.de
- * @version     0.0.1
+ * @version     1.7.0
  */
-
 defined('_JEXEC') or die( 'Restricted access' );
 jimport( 'joomla.application.component.view' );
 require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
@@ -23,58 +23,49 @@ class thm_organizersViewcategory_edit extends JView
 
         $model = $this->getModel();
 
-        $id = $model->id;
-        $this->assignRef( 'id', $id );
-        $title = $model->title;
-        $this->assignRef( 'title', $title );
-        $description = $model->description;
-        $this->assignRef( 'description', $description );
-        $global = $model->global;
-        $this->assignRef( 'global', $global );
-        $reserves = $model->reserves;
-        $this->assignRef( 'reserves', $reserves );
+        $this->id = $model->id;
+        $this->title = $model->title;
+        $this->description = $model->description;
+        $this->global = $model->global;
+        $this->reserves = $model->reserves;
 
-        $contentCat = $model->contentCat;
-        $this->assignRef( 'contentCat', $contentCat );
-        $contentCategories = $model->contentCategories;
-        $this->assignRef( 'contentCategories', $contentCategories );
-        if(count($contentCategories))
-        {
-            $attributes = array( 'id' => 'thm_organizer_se_content_cat_box',
-                                 'class' => 'thm_organizer_se_content_cat_box',
-                                 'size' => '1',
-                                 'onChange' => "changeCategoryInformation();");
-            $contentCatBox =  JHTML::_('select.genericlist', $contentCategories, 'contentCat', $attributes, 'id', 'title', $contentCat);
-            $this->assignRef('contentCatBox', $contentCatBox);
-        }
+        $this->contentCat = $model->contentCat;
+        $this->contentCategories = $model->contentCategories;
+        if(count($this->contentCategories))$this->addCategorySelectionBox();
 
-        $isNew = (!$id)? true : false;
-        $allowedActions = thm_organizerHelper::getActions('category_edit');
-        if($allowedActions->get("core.admin") or $allowedActions->get("core.manage"))
-            $this->addToolBar($allowedActions, $isNew);
+        if(thm_organizerHelper::isAdmin('category_edit')) $this->addToolBar($this->id);
 
         parent::display($tpl);
     }
 
-    private function addToolBar($allowedActions, $isNew = true)
+    /**
+     * addToolBar
+     *
+     * generates buttons for user interaction
+     */
+    private function addToolBar($id)
     {
-        $canSave = false;
-        if($isNew)
-        {
-            $titleText = JText::_( 'Category Manager: Add a New Category' );
-            if($allowedActions->get("core.create") or $allowedActions->get("core.edit"))
-                $canSave = true;
-        }
-        else
-        {
-            $titleText = JText::_( 'Category Manager: Edit an Existing Category' );
-            if($allowedActions->get("core.edit")) $canSave = true;
-        }
+        $titleText = ($id)?
+            JText::_( 'COM_THM_ORGANIZER_CAT_EDIT_TITLE' ) : JText::_( 'COM_THM_ORGANIZER_CAT_EDIT_TITLE_NEW' );
         JToolBarHelper::title( $titleText, 'generic.png' );
-        if($canSave) JToolBarHelper::save('category.save', 'JTOOLBAR_SAVE');
-        if($allowedActions->get("core.create"))
-            JToolBarHelper::custom('category.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+        JToolBarHelper::save('category.save', 'JTOOLBAR_SAVE');
+        JToolBarHelper::custom('category.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
         JToolBarHelper::cancel( 'category.cancel', 'JTOOLBAR_CLOSE');
+    }
+    
+    /**
+     * addCategorySelectionBox
+     *
+     * creates a select box for the associated content category
+     */
+    private function addCategorySelectionBox()
+    {
+        $attributes = array( 'id' => 'thm_organizer_se_content_cat_box',
+                             'class' => 'thm_organizer_se_content_cat_box',
+                             'size' => '1',
+                             'onChange' => "changeCategoryInformation();");
+        $this->contentCatBox =  JHTML::_('select.genericlist', $this->contentCategories, 'contentCat', $attributes, 'id', 'title', $this->contentCat);
+
     }
 }
 	

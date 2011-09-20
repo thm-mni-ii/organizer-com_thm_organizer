@@ -1,4 +1,16 @@
-<?php defined('_JEXEC') or die('Restricted access');?>
+<?php
+/**
+ * @package     Joomla.Administrator
+ * @subpackage  com_thm_organizer
+ * @name        template category editor view
+ * @description default template for the category editor view
+ * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @copyright   TH Mittelhessen <year>
+ * @license     GNU GPL v.2
+ * @link        www.mni.fh-giessen.de
+ * @version     1.7.0
+ */
+defined('_JEXEC') or die;?>
 <script type="text/javascript">
     var categories = new Array;
 <?php
@@ -34,7 +46,7 @@ foreach($this->contentCategories as $category)
         <div id="thm_organizer_ce_ecat">
             <div id="thm_organizer_ce_ecat_name_div">
                 <div class="thm_organizer_ce_label">
-                    <label for="name"><?php echo JText::_('Name:');?></label>
+                    <label for="name"><?php echo JText::_('COM_THM_ORGANIZER_NAME').":"; ?></label>
                 </div>
                 <div class="thm_organizer_ce_data">
                     <input type="text" name="title" size="25" maxlength="100" value="<?php echo $this->title;?>" />
@@ -42,7 +54,7 @@ foreach($this->contentCategories as $category)
             </div>
             <div id="thm_organizer_ce_ecat_desc_div">
                 <div class="thm_organizer_ce_label">
-                    <label for="description"><?php echo JText::_('Description:');?></label>
+                    <label for="description"><?php echo JText::_('COM_THM_ORGANIZER_DESCRIPTION').":";?></label>
                 </div>
                 <div class="thm_organizer_ce_data">
                     <textarea name='description' rows='5' cols='35' id='description'><?php
@@ -52,7 +64,7 @@ foreach($this->contentCategories as $category)
             </div>
             <div class="thm_organizer_ce_ecat_display_div">
                 <div class="thm_organizer_ce_label">
-                    <label for="global"><?php echo JText::_('COM_THM_ORGANIZER_GLOBAL_LABEL');?></label>
+                    <label for="global"><?php echo JText::_('COM_THM_ORGANIZER_CAT_GLOBAL');?></label>
                 </div>
                 <div class="thm_organizer_ce_data">
                     <table>
@@ -78,7 +90,7 @@ foreach($this->contentCategories as $category)
             </div>
             <div class="thm_organizer_ce_ecat_display_div">
                 <div class="thm_organizer_ce_label">
-                    <label for="reserves"><?php echo JText::_('COM_THM_ORGANIZER_RESERVES_LABEL');?></label>
+                    <label for="reserves"><?php echo JText::_('COM_THM_ORGANIZER_CAT_RESERVES');?></label>
                 </div>
                 <div class="thm_organizer_ce_data">
                     <table>
@@ -107,7 +119,7 @@ foreach($this->contentCategories as $category)
         <div id="thm_organizer_ce_ccat">
             <div id="thm_organizer_ce_ccat_name_div">
                 <div class="thm_organizer_ce_label">
-                    <label for="name"><?php echo JText::_('COM_THM_ORGANIZER_CONTENT_CATEGORY_LABEL');?></label>
+                    <label for="name"><?php echo JText::_('COM_THM_ORGANIZER_CAT_CONTENT_CATEGORY');?></label>
                 </div>
                 <div class="thm_organizer_ce_data">
                     <?php echo $this->contentCatBox;?>
@@ -115,7 +127,7 @@ foreach($this->contentCategories as $category)
             </div>
             <div id="thm_organizer_ce_ccat_desc_div">
                 <div class="thm_organizer_ce_label">
-                    <label><?php echo JText::_('COM_THM_ORGANIZER_CONTENT_CATEGORY_DESCRIPTION');?></label>
+                    <label><?php echo JText::_('COM_THM_ORGANIZER_CAT_CONTENT_CATEGORY_DESC');?></label>
                 </div>
                 <div class="thm_organizer_ce_data" id="thm_organizer_ce_content_description">
                 <?php foreach($this->contentCategories as $category): if($category['id'] == $this->contentCat): ?>
@@ -125,7 +137,7 @@ foreach($this->contentCategories as $category)
             </div>
             <div id="thm_organizer_ce_ccat_viewlevel_div">
                 <div class="thm_organizer_ce_label">
-                    <label><?php echo JText::_('COM_THM_ORGANIZER_CONTENT_VIEW_LEVEL');?></label>
+                    <label><?php echo JText::_('COM_THM_ORGANIZER_CAT_CONTENT_CATEGORY_VIEW_LEVELS');?></label>
                 </div>
                 <div class="thm_organizer_ce_data" id="thm_organizer_ce_content_view_level">
                 <?php foreach($this->contentCategories as $category): if($category['id'] == $this->contentCat): ?>
@@ -135,7 +147,7 @@ foreach($this->contentCategories as $category)
             </div>
             <div class="thm_organizer_ce_ccat_actions_div">
                 <div class="thm_organizer_ce_label">
-                    <label><?php echo JText::_('COM_THM_ORGANIZER_CONTENT_CATEGORY_PERMISSIONS');?></label>
+                    <label><?php echo JText::_('COM_THM_ORGANIZER_CAT_CONTENT_CATEGORY_PERM');?></label>
                 </div>
                 <div class="thm_organizer_ce_data" id="thm_organizer_ce_content_permissions">
                 <?php foreach($this->contentCategories as $category): if($category['id'] == $this->contentCat): ?>

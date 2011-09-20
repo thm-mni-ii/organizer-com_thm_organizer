@@ -23,22 +23,11 @@ class thm_organizerHelper
      * @return	JObject
      * @since	1.6
      */
-    public static function getActions($submenu, $assetID = 0)
+    public static function isAdmin($submenu)
     {
         $user = JFactory::getUser();
-        $result = new JObject;
-        $component = 'com_thm_organizer';
-
-        if(empty ($categoryID)) $assetName = $component;
-        else $assetName = $component.".$submenu.".(int) $assetID;
-
-        $actions = array( 'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete' );
-
-        foreach ($actions as $action) {
-                $result->set($action, $user->authorise($action, $assetName));
-        }
-
-        return $result;
+        $assetName = "com_thm_organizer.$submenu";
+        return $user->authorise('core.admin', $assetName);
     }
 
     /**
@@ -62,5 +51,14 @@ class thm_organizerHelper
         }
     }
 
+    /**
+     * noAccess
+     *
+     * issues a generic warning when unauthorized function calls are performed
+     */
+    public static function noAccess()
+    {
+        JError::raiseError( 777, JText::_('COM_THM_ORGANIZER_NO_ACCESS') );
+    }
 }
 ?>
