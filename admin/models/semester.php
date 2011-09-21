@@ -3,11 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_thm_organizer
  * @name        semester model
- * @description database abstraction for semester manipulation
+ * @description database persistance file for semesters
  * @author      James Antrim jamesDOTantrimATyahooDOTcom
  * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
- * @link        www.mni.fh-giessen.de
+ * @link        www.mni.thm.de
  * @version     1.7.0
  */
 defined('_JEXEC') or die('Restriced Access');

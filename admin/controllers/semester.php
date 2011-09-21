@@ -5,12 +5,11 @@
  * @name        semester controller
  * @description exectutes tasks from the semester manager and semester edit views
  * @author      James Antrim jamesDOTantrimATyahooDOTcom
- * @copyright   TH Mittelhessen <year>
+ * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
- * @link        www.mni.fh-giessen.de
+ * @link        www.mni.thm.de
  * @version     0.0.1
  */
-
 defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport('joomla.application.component.controller');
 require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';

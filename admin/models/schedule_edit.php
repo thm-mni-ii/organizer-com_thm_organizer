@@ -1,16 +1,14 @@
 <?php
 /**
- * @package     [Joomla.Site | Joomla.Administrator]
- * @subpackage  [extension type]_thm_[extension name]
- * @name        [joomla type]
- * @description [description of the file and/or its purpose]
- * @author      [first name] [last name] [Email]
- * @copyright   TH Mittelhessen <year>
+ * @package     Joomla.Administrator
+ * @subpackage  com_thm_organizer
+ * @name        model schedule edit
+ * @description database abstraction file for schedule edit view
+ * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
- * @link        www.mni.fh-giessen.de
- * @version     [versionsnr]
+ * @link        www.mni.thm.de
+ * @version     1.7.0
  */
-
-
 
 ?>

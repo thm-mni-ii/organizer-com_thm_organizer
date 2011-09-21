@@ -3,11 +3,12 @@
  * @package     Joomla.Administrator
  * @subpackage  com_thm_organizer
  * @name        semester editor view
+ * @description provides a form for editing semester information
  * @author      James Antrim jamesDOTantrimATyahooDOTcom
- * @copyright   TH Mittelhessen <year>
+ * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
- * @link        www.mni.fh-giessen.de
- * @version     0.0.1
+ * @link        www.mni.thm.de
+ * @version     1.7.0
  */
 
 defined('_JEXEC') or die( 'Restricted access' );

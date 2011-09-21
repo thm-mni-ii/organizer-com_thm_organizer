@@ -3,13 +3,12 @@
  * @package     Joomla.Administrator
  * @subpackage  com_thm_organizer
  * @name        helper submenuhelper
- * @description creates the links to other submenus,and gets the available actions
- *              for the user for submenus
+ * @description provides functions useful to multiple files
  * @author      James Antrim jamesDOTantrimATyahooDOTcom
  * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
- * @link        www.mni.fh-giessen.de
- * @version     0.0.1
+ * @link        www.mni.thm.de
+ * @version     1.7.0
  */
 class thm_organizerHelper
 {

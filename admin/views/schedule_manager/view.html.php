@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_thm_organizer
  * @name        schedule manager view
+ * @description provides a list of schedules
  * @author      James Antrim jamesDOTantrimATyahooDOTcom
- * @copyright   TH Mittelhessen <year>
+ * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
- * @link        www.mni.fh-giessen.de
- * @version     0.0.1
+ * @link        www.mni.thm.de
+ * @version     1.7.0
  */
-
 defined('_JEXEC') or die( 'Restricted access' );
 jimport( 'joomla.application.component.view' );
 require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';

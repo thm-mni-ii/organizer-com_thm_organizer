@@ -2,17 +2,16 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_thm_organizer
- * @name        entry file thm_organizer
+ * @name        controller thm_organizer
  * @description the entry file for the administrative area of thm_organizer
  *              accepts the controller/task parameters and redirects to specific
  *              controllers
  * @author      James Antrim jamesDOTantrimATyahooDOTcom
- * @copyright   TH Mittelhessen <year>
+ * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
- * @link        www.mni.fh-giessen.de
- * @version     0.0.1
+ * @link        www.mni.thm.de
+ * @version     1.7.0
  */
-
 defined( '_JEXEC' ) or die( 'Restricted access' );
 require_once( JPATH_COMPONENT.DS.'controller.php' );
 $controller = "";

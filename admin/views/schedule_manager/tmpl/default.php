@@ -6,7 +6,7 @@
  * @author      James Antrim jamesDOTantrimATyahooDOTcom
  * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
- * @link        www.mni.fh-giessen.de
+ * @link        www.mni.thm.de
  * @version     1.7.0
  */
 defined("_JEXEC") or die ?>
