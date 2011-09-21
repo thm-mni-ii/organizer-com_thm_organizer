@@ -7,10 +7,10 @@
  * @author      James Antrim jamesDOTantrimATyahooDOTcom
  * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
- * @link        www.mni.fh-giessen.de
- * @version     0.0.1
+ * @link        www.mni.thm.de
+ * @version     1.7.0
  */
-defined('_JEXEC') or die('Restricted access');?>
+defined('_JEXEC') or die;?>
 <div id="thm_organizer_mm" >
     <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>" method="post" name="adminForm">
         <div id="editcell">
@@ -23,20 +23,35 @@ defined('_JEXEC') or die('Restricted access');?>
                 <thead>
                     <tr>
                         <th />
-                        <th><?php echo JText::_( 'IP Address' ); ?></th>
-                        <th><?php echo JText::_( 'Room' ); ?></th>
+                        <th><?php echo JText::_('COM_THM_ORGANIZER_MON_IP'); ?></th>
+                        <th><?php echo JText::_('COM_THM_ORGANIZER_MON_ROOM'); ?></th>
                     </tr>
                 </thead>
 <?php $k = 0; if(!empty($this->monitors)): foreach($this->monitors as $monitor) :
         $checked = JHTML::_( 'grid.id', $k, $monitor['monitorID'] );
-        $class = ($k % 2 == 0)?  'row0' : 'row1';
-        $linkstart = "<a href='".$monitor['link']."' >";
-        $linkend = "</a>";
-        $k++ ?>
+        $class = ($k % 2 == 0)?  'row0' : 'row1'; $k++ ?>
 	        <tr class="<?php echo $class; ?>">
-	            <td class="thm_organizer_mm_checkbox"><?php echo $checked; ?></td>
-	            <td class="thm_organizer_mm_ip"><?php echo $linkstart.$monitor['ip'].$linkend; ?></td>
-	            <td class="thm_organizer_mm_room"><?php echo $linkstart.$monitor['room'].$linkend; ?></td>
+	            <td class="thm_organizer_mm_checkbox">
+                        <?php echo $checked; ?>
+                    </td>
+	            <td class="thm_organizer_mm_ip">
+                    <?php if($this->access){ ?>
+                        <a href='<?php echo $monitor['link']; ?>' >
+                            <?php echo $monitor['ip']; ?>
+                        </a>
+                    <?php }else{ ?>
+                        <?php echo $monitor['ip']; ?>
+                    <?php } ?>
+                    </td>
+	            <td class="thm_organizer_mm_room">
+                    <?php if($this->access){ ?>
+                        <a href='<?php echo $monitor['link']; ?>' >
+                            <?php echo $monitor['room']; ?>
+                        </a>
+                    <?php }else{ ?>
+                        <?php echo $monitor['room']; ?>
+                    <?php } ?>
+                    </td>
 	        </tr>
 <?php endforeach; endif;?>
 	    </table>

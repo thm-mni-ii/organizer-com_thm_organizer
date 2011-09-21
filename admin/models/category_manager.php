@@ -20,7 +20,6 @@ class thm_organizersModelcategory_manager extends JModel
     {
         parent::__construct();
         $this->loadCategories();
-        if(count($this->categories)) $this->setCategoryEditLinks();
     }
 
     /**
@@ -41,8 +40,8 @@ class thm_organizersModelcategory_manager extends JModel
         if(empty($categories))$this->categories = array();
         else
         {
-            foreach($this->categories as $key => $value)
-                $this->categories[$key]['link'] = 'index.php?option=com_thm_organizer&view=category_edit&categoryID='.$value['id'];
+            foreach($categories as $key => $value)
+                $categories[$key]['link'] = 'index.php?option=com_thm_organizer&view=category_edit&categoryID='.$value['id'];
             $this->categories = $categories;
         }
         

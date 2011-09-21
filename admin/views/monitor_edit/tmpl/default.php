@@ -4,13 +4,13 @@
  * @subpackage  com_thm_organizer
  * @name        default template thm_organizer monitor editor view
  * @author      James Antrim jamesDOTantrimATyahooDOTcom
- * @copyright   TH Mittelhessen <year>
+ * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
- * @link        www.mni.fh-giessen.de
- * @version     0.0.1
+ * @link        www.mni.thm.de
+ * @version     1.7.0
  */
 
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die; ?>
 <div id="thm_organizer_me" >
     <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>" method="post" name="adminForm">
         <table class="admintable">
@@ -22,20 +22,16 @@ defined('_JEXEC') or die('Restricted access'); ?>
             </colgroup>
             <tr>
                 <td class="thm_organizer_me_label_data" >
-                    <label for="ip"><?php echo JText::_('IP Address:'); ?></label>
+                    <label for="ip"><?php echo JText::_('COM_THM_ORGANIZER_MON_IP'); ?></label>
                 </td>
                 <td>
-                    <input class="text_area" type="text" name="ip" id="ip" size="6" maxlength="20"
-                                    value="<?php echo $this->ip;?>" />
+                    <input class="text_area" type="text" name="ip" id="ip"
+                           size="6" maxlength="20" value="<?php echo $this->ip;?>" />
                 </td>
-<?php if(!empty($this->room)): ?>
                 <td class="thm_organizer_me_label_data" >
-                    <label for="room"><?php echo JText::_('Room:'); ?></label>
+                    <label for="room"><?php echo JText::_('COM_THM_ORGANIZER_MON_ROOM'); ?></label>
                 </td>
                 <td><?php echo $this->room;?></td>
-<?php else: ?>
-                <td /><td />
-<?php endif; ?>
             </tr>
         </table>
         <input type="hidden" name="monitorID" value="<?php echo $this->monitorID; ?>" />

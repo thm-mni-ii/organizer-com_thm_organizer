@@ -40,24 +40,40 @@ defined('_JEXEC') or die('Restricted access');?>
                 <tr class="<?php echo $class; ?>">
                     <td class="thm_organizer_ce_checkbox"><?php echo $checked; ?></td>
                     <td class="thm_organizer_ce_name">
+                    <?php if($this->access){?>
                         <a href='<?php echo $category['link']; ?>' >
                             <?php echo $category['title']; ?>
                         </a>
+                    <?php }else{ ?>
+                        <?php echo $category['title']; ?>
+                    <?php }?>
                     </td>
                     <td class="thm_organizer_ce_global">
+                    <?php if($this->access){?>
                         <a href='<?php echo $category['link']; ?>' >
                             <?php echo ($category['global'])? $this->yes : $this->no; ?>
                         </a>
+                    <?php }else{ ?>
+                        <?php echo ($category['global'])? $this->yes : $this->no; ?>
+                    <?php }?>
                     </td>
                     <td class="thm_organizer_ce_reserve">
+                    <?php if($this->access){?>
                         <a href='<?php echo $category['link']; ?>' >
                             <?php echo ($category['reserves'])? $this->yes : $this->no; ?>
                         </a>
+                    <?php }else{ ?>
+                        <?php echo ($category['reserves'])? $this->yes : $this->no; ?>
+                    <?php }?>
                     </td>
                     <td class="thm_organizer_ce_reserve">
+                    <?php if($this->access){?>
                         <a href='<?php echo $category['link']; ?>' >
                             <?php echo $category['contentCat']; ?>
                         </a>
+                    <?php }else{ ?>
+                        <?php echo $category['contentCat']; ?>
+                    <?php }?>
                     </td>
                 </tr>
 <?php endforeach; endif;?>

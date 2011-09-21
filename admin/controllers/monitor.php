@@ -10,9 +10,9 @@
  * @link        www.mni.fh-giessen.de
  * @version     0.0.1
  */
-
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined( '_JEXEC' ) or die;
 jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
 class thm_organizersControllermonitor extends JController
 {
     public function display(){ parent::display(); }
@@ -25,54 +25,58 @@ class thm_organizersControllermonitor extends JController
 	
     public function edit()
     {
+        if(!thm_organizerHelper::isAdmin('monitor')) thm_organizerHelper::noAccess ();
         JRequest::setVar( 'view', 'monitor_edit' );
         parent::display();
     }
 
     public function save()
     {
-        $model = $this->getModel('monitor_edit');
-        $result = $model->store();
+        if(!thm_organizerHelper::isAdmin('monitor')) thm_organizerHelper::noAccess ();
+        $model = $this->getModel('monitor');
+        $result = $model->save();
         if($result)
         {
-            $msg = JText::_("The monitor entry has been saved successfully.");
+            $msg = JText::_("COM_THM_ORGANIZER_MON_SAVE_SUCCESS");
             $this->setRedirect( 'index.php?option=com_thm_organizer&view=monitor_manager', $msg);
         }
         else
         {
-            $msg = JText::_("An error has occurred while saving the monitor entry.");
+            $msg = JText::_("COM_THM_ORGANIZER_MON_SAVE_FAIL");
             $this->setRedirect( 'index.php?option=com_thm_organizer&view=monitor_manager', $msg, 'error');
         }
     }
 
     public function save2new()
     {
-        $model = $this->getModel('monitor_edit');
-        $result = $model->store();
+        if(!thm_organizerHelper::isAdmin('monitor')) thm_organizerHelper::noAccess ();
+        $model = $this->getModel('monitor');
+        $result = $model->save();
         if($result)
         {
-            $msg = JText::_("The monitor entry has been saved successfully.");
+            $msg = JText::_("COM_THM_ORGANIZER_MON_SAVE_SUCCESS");
             $this->setRedirect( 'index.php?option=com_thm_organizer&view=monitor_edit&monitorID=0', $msg);
         }
         else
         {
-            $msg = JText::_("An error has occurred while saving the monitor entry.");
+            $msg = JText::_("COM_THM_ORGANIZER_MON_SAVE_FAIL");
             $this->setRedirect( 'index.php?option=com_thm_organizer&view=monitor_edit&monitorID=0', $msg, 'error');
         }
     }
 	
     public function delete()
     {
-        $model = $this->getModel('monitor_edit');
+        if(!thm_organizerHelper::isAdmin('monitor')) thm_organizerHelper::noAccess ();
+        $model = $this->getModel('monitor');
         $result = $model->delete();
         if($result)
         {
-            $msg = JText::_("The monitor entry has been deleted successfully.");
+            $msg = JText::_("COM_THM_ORGANIZER_MON_DELETE_SUCCESS");
             $this->setRedirect( 'index.php?option=com_thm_organizer&view=monitor_manager', $msg);
         }
         else
         {
-            $msg = JText::_("An error has occurred while deleting the monitor entry.");
+            $msg = JText::_("COM_THM_ORGANIZER_MON_DELETE_FAIL");
             $this->setRedirect( 'index.php?option=com_thm_organizer&view=monitor_manager', $msg, 'error');
         }
     }

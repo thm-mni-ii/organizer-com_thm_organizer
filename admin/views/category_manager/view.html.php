@@ -22,12 +22,17 @@ class thm_organizersViewcategory_manager extends JView
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
 
-        if(thm_organizerHelper::isAdmin('category_manager')) $this->addToolBar();
-        thm_organizerHelper::addSubmenu('category_manager');
 
         $model = $this->getModel();
         $this->categories = $model->categories;
         if(count($this->categories))$this->setIcons();
+        JToolBarHelper::title( JText::_('COM_THM_ORGANIZER_CAT_TITLE' ), 'generic.png' );
+        $this->access = thm_organizerHelper::isAdmin('category_manager');
+        if($this->access)
+        {
+            $this->addToolBar();
+            thm_organizerHelper::addSubmenu('category_manager');
+        }
 
         parent::display($tpl);
     }
@@ -39,14 +44,9 @@ class thm_organizersViewcategory_manager extends JView
      */
     private function addToolBar()
     {
-        JToolBarHelper::title( JText::_('COM_THM_ORGANIZER_CAT_TITLE' ), 'generic.png' );
-        $isAdmin = thm_organizerHelper::isAdmin('category_manager');
-        if($isAdmin)
-        {
-            JToolBarHelper::custom ('category.edit', 'new.png', 'new.png', JText::_('COM_THM_ORGANIZER_NEW'), false);
-            JToolBarHelper::custom ('category.edit', 'edit.png', 'edit.png', JText::_('COM_THM_ORGANIZER_EDIT'), false);
-            JToolBarHelper::deleteList( JText::_('COM_THM_ORGANIZER_CAT_DELETE_CONFIRM'), 'category.delete');
-        }
+        JToolBarHelper::custom ('category.edit', 'new.png', 'new.png', JText::_('COM_THM_ORGANIZER_NEW'), false);
+        JToolBarHelper::custom ('category.edit', 'edit.png', 'edit.png', JText::_('COM_THM_ORGANIZER_EDIT'), false);
+        JToolBarHelper::deleteList( JText::_('COM_THM_ORGANIZER_CAT_DELETE_CONFIRM'), 'category.delete');
     }
 
     /**

@@ -3,22 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  com_thm_organizer
  * @name        monitor editor model
- * @description database abstraction and persistance file for monitors
+ * @description database abstraction file for monitors
  * @author      James Antrim jamesDOTantrimATyahooDOTcom
- * @copyright   TH Mittelhessen <year>
+ * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
- * @link        www.mni.fh-giessen.de
- * @version     0.0.1
+ * @link        www.mni.thm.de
+ * @version     1.7.0
  */
-
-defined('_JEXEC') or die('Restriced Access');
+defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 class thm_organizersModelmonitor_edit extends JModel
 {
-    public $monitorID;
-    public $roomID;
-    public $ip;
-    public $rooms;
+    public $monitorID = 0;
+    public $roomID = 0;
+    public $ip = '';
+    public $rooms = null;
 
     public function __construct()
     {
@@ -28,39 +27,31 @@ class thm_organizersModelmonitor_edit extends JModel
     }
 
     /**
-     * private function getData
+     * getData
      *
-     * fills the monitor relevant object variables
+     * fills object variables with data if existant
      */
     private function getData()
     {
         $monitorIDs = JRequest::getVar('cid',  null, '', 'array');
-        if(!empty($monitorIDs)) $monitorID = $monitorIDs[0];
-        if(!isset($monitorID)) $monitorID = JRequest::getVar('monitorID');
-        if(is_numeric($monitorID) and $monitorID != 0)
+        $monitorID = (empty($monitorIDs))? JRequest::getVar('monitorID') : $monitorIDs[0];
+        if($monitorID)
         {
-            $dbo = JFactory::getDBO();
+            $dbo = $this->getDbo();
             $query = $dbo->getQuery(true);
             $query->select("*");
             $query->from("#__thm_organizer_monitors");
             $query->where("monitorID = $monitorID");
             $dbo->setQuery((string)$query);
             $monitorData = $dbo->loadAssoc();
-            unset($query);
-            if(!empty($monitorData))
-                foreach($monitorData as $k => $v)$this->$k = $v;
-        }
-        else
-        {
-            $this->monitorID = 0;
-            $this->semesterID = 0;
-            $this->roomID = 0;
-            $this->ip = '';
+            if(isset($monitorData))
+                foreach($monitorData as $variable => $value)
+                    $this->$variable = $value;
         }
     }
 
     /**
-     * private function getRooms
+     * getRooms
      *
      * gets the IDs and names of the available rooms
      */
@@ -71,52 +62,7 @@ class thm_organizersModelmonitor_edit extends JModel
         $query->select("id, name");
         $query->from("#__thm_organizer_rooms");
         $dbo->setQuery((string)$query );
-        $this->rooms = $dbo->loadObjectList();
-    }
-
-    public function store()
-    {
-        $monitorID = JRequest::getVar('monitorID');
-        $roomID = JRequest::getVar('room', '');
-        $ip = JRequest::getVar('ip', '');
-
-        $dbo = & JFactory::getDBO();
-        $query = $dbo->getQuery(true);
-        if(empty($monitorID))
-        {
-            $statement = "#__thm_organizer_monitors ";
-            $statement .= "(roomID, ip) ";
-            $statement .= "VALUES ";
-            $statement .= "( '$roomID', '$ip' ) ";
-            $query->insert($statement);
-        }
-        else
-        {
-            $query->update("#__thm_organizer_monitors");
-            $query->set("roomID = '$roomID', ip = '$ip'");
-            $query->where("monitorID = '$monitorID'");
-        }
-        $dbo->setQuery((string)$query );
-        $dbo->query();
-        return ($dbo->getErrorNum())? false : true;
-    }
-	
-    public function delete()
-    {
-        $monitorIDs = JRequest::getVar( 'cid', array(0), 'post', 'array' );
-        if(count($monitorIDs) > 0)
-        {
-            $dbo = & JFactory::getDBO();
-            $query = $dbo->getQuery(true);
-            $query->delete("#__thm_organizer_monitors");
-            $monitorIDs = "'".implode("', '", $monitorIDs)."'";
-            $query->where("monitorID IN ( $monitorIDs )");
-            $dbo->setQuery((string)$query);
-            $result = $dbo->query();
-            if ($dbo->getErrorNum()) return false;
-            else return true;
-        }
-        return true;
-    }
-	
+        $rooms = $dbo->loadObjectList();
+        $this->rooms = (count($rooms))? $rooms : array();
+    }	
 }

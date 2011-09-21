@@ -28,12 +28,14 @@ class thm_organizersViewcategory_edit extends JView
         $this->description = $model->description;
         $this->global = $model->global;
         $this->reserves = $model->reserves;
-
         $this->contentCat = $model->contentCat;
         $this->contentCategories = $model->contentCategories;
         if(count($this->contentCategories))$this->addCategorySelectionBox();
-
-        if(thm_organizerHelper::isAdmin('category_edit')) $this->addToolBar($this->id);
+        $this->access = thm_organizerHelper::isAdmin('category_edit');
+        $titleText = ($this->id)?
+            JText::_( 'COM_THM_ORGANIZER_CAT_EDIT_TITLE' ) : JText::_( 'COM_THM_ORGANIZER_CAT_EDIT_TITLE_NEW' );
+        JToolBarHelper::title( $titleText, 'generic.png' );
+        if($this->access) $this->addToolBar();
 
         parent::display($tpl);
     }
@@ -43,11 +45,8 @@ class thm_organizersViewcategory_edit extends JView
      *
      * generates buttons for user interaction
      */
-    private function addToolBar($id)
+    private function addToolBar()
     {
-        $titleText = ($id)?
-            JText::_( 'COM_THM_ORGANIZER_CAT_EDIT_TITLE' ) : JText::_( 'COM_THM_ORGANIZER_CAT_EDIT_TITLE_NEW' );
-        JToolBarHelper::title( $titleText, 'generic.png' );
         JToolBarHelper::save('category.save', 'JTOOLBAR_SAVE');
         JToolBarHelper::custom('category.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
         JToolBarHelper::cancel( 'category.cancel', 'JTOOLBAR_CLOSE');

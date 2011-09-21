@@ -18,58 +18,71 @@ class thm_organizersModelmonitor_manager extends JModel
     public function __construct()
     {
         parent::__construct();
-        $this->monitors = array();
         $this->loadMonitors();
-        if(count($this->monitors) > 0) $this->setMonitorEditLinks();
     }
 
+    /**
+     * loadMonitors
+     *
+     * retrieves saved monitors from the database and creates a link to the
+     * monitor_edit view
+     */
     private function loadMonitors()
     {
-
-        $dbo = JFactory::getDBO();
-
+        $dbo = $this->getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("monitorID, ip, roomID, r.name AS room");
+        $query->select("m.monitorID, m.roomID, m.ip, r.name AS room");
         $query->from("#__thm_organizer_monitors AS m");
         $query->leftJoin("#__thm_organizer_rooms AS r ON r.id = m.roomID");
         $dbo->setQuery((string)$query);
         $monitors = $dbo->loadAssocList();
-        unset($query);
 
-        foreach($monitors as $k => $v)
-            if(empty($v['room']))
+        if(count($monitors))
+        {
+            $link = "index.php?option=com_thm_organizer&view=monitor_edit&monitorID=";
+            foreach($monitors as $k => $monitor)
             {
-                $room = $v['roomID'];
-                $query = $dbo->getQuery(true);
-                $query->select("id");
-                $query->from("#__thm_organizer_rooms");
-                $query->where("name = '{$v['roomID']}'");
-                $dbo->setQuery((string)$query);
-                $roomID = $dbo->loadResult();
-                unset($query);
-                
-                if(isset($roomID))
-                {
-                    $query = $dbo->getQuery(true);
-                    $query->update("#__thm_organizer_monitors");
-                    $query->where("monitorID = '{$v['monitorID']}'");
-                    $query->set("roomID = '$roomID'");
-                    $dbo->setQuery((string)$query);
-                    $dbo->query();
-                    unset($query);
-                }
-
-                $monitors[$k]['room'] = $room;
+                if(empty($monitor['room'])) $this->initializeRoom($monitors[$k]);
+                $monitors[$k]['link'] = $link.$monitor['monitorID'];
             }
+        }
+        else $monitors = array();
         $this->monitors = $monitors;
     }
 
-    //todo change monitorID to monitor in usages
-    private function setMonitorEditLinks()
+    /**
+     * initializeRoom
+     *
+     * the rooms are initially installed with names instead of ids since they
+     * dont exist at the time of installation. this makes sure the room id is
+     * properly set should resources be available.
+     *
+     * @param array $monitor the index for which had no associated room resource
+     */
+    private function initializeRoom(&$monitor)
     {
-        foreach($this->monitors as $mKey => $mValue)
+        //set display name to default
+        $monitor['room'] = $monitor['roomID'];
+
+        //check if resource is available
+        $dbo = $this->getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("id");
+        $query->from("#__thm_organizer_rooms");
+        $query->where("name = '{$monitor['roomID']}'");
+        $dbo->setQuery((string)$query);
+        $roomID = $dbo->loadResult();
+
+        //update monitor entry with resource id if found
+        if(isset($roomID))
         {
-            $this->monitors[$mKey]['link'] = 'index.php?option=com_thm_organizer&view=monitor_edit&monitorID='.$mValue['monitorID'];
+            $monitor['roomID'] = $roomID;
+            $query = $dbo->getQuery(true);
+            $query->update("#__thm_organizer_monitors");
+            $query->where("monitorID = '{$monitor['monitorID']}'");
+            $query->set("roomID = '$roomID'");
+            $dbo->setQuery((string)$query);
+            $dbo->query();
         }
     }
 }
