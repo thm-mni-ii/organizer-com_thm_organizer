@@ -222,8 +222,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_semesters` (
   `organization` varchar(50) NOT NULL DEFAULT '',
   `semesterDesc` varchar(20) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `organization` (`organization`,`semesterDesc`),
-  KEY `manager` (`manager`)
+  UNIQUE KEY `organization` (`organization`,`semesterDesc`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_teachers` (
