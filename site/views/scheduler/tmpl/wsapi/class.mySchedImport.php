@@ -1,7 +1,5 @@
 <?php
 
-require_once('Zend/Soap/Client.php');
-
 /**
  * @author m.homeniuk
  * @version 0.4
@@ -14,6 +12,7 @@ class mySchedImport {
 	function __construct($username, $joomlaSID, $CFG) {
 		try
 		{
+			require_once('Zend/Soap/Client.php');
 			ini_set("soap.wsdl_cache_enabled", "0");
 			$this->cfg = $CFG;
 			$this->clientCourse = new Zend_Soap_Client($this->cfg->getestudyWsapiPath() . '/course.php?wsdl');

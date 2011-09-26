@@ -3,7 +3,6 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once( JPATH_COMPONENT."/views/scheduler/tmpl/wsapi/class.mySchedImport.php" );
 
 class Events
 {
@@ -14,6 +13,7 @@ class Events
 
 	function __construct($JDA, $CFG)
 	{
+		require_once( JPATH_COMPONENT."/views/scheduler/tmpl/wsapi/class.mySchedImport.php" );
 		$this->JDA = $JDA;
 		$this->CFG = $CFG;
 		$this->cfg = $CFG->getCFG();

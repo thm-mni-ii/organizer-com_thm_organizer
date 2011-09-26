@@ -3,8 +3,6 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once( JPATH_COMPONENT."/views/scheduler/tmpl/wsapi/class.mySchedImport.php" );
-
 class eStudy
 {
 	private $jsid = null;
@@ -15,6 +13,7 @@ class eStudy
 
 	function __construct($JDA, $CFG)
 	{
+		require_once( JPATH_COMPONENT."/views/scheduler/tmpl/wsapi/class.mySchedImport.php" );
 		$this->JDA = $JDA;
 		$this->jsid  = $JDA->getRequest( "jsid" );
 		$this->semID = $JDA->getSemID();

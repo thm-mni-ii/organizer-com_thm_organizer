@@ -81,6 +81,7 @@ class UserSchedule
           if (isset($this->username)) {
 
           	  $tempusername = $this->username;
+          	  $data = null;
               if (strpos( strtolower( $this->username ), "delta" ) !== 0 && strpos( strtolower( $this->username ), "respChanges" ) !== 0)
               {
                   $this->username = $this->JDA->getUserName();
@@ -90,13 +91,15 @@ class UserSchedule
                   $data = $data[0];
                   $this->username = $data->orgunit . "-" . $data->semester;
               } else if($this->username == "delta")
-     		  {
-                  $this->username = $this->username.$this->semID;
+     	      {
+                  $this->username = $this->username."1";
+                  $data = $this->JDA->query("SELECT data FROM " . $this->cfg['db_table'] . " WHERE username='".$this->username."' AND sid = ".$this->semID);
               }
               else
 				$this->username = $this->username;
 
-              $data = $this->JDA->query("SELECT data FROM " . $this->cfg['db_table'] . " WHERE username='".$this->username."'");
+			  if(!isset($data))
+              	$data = $this->JDA->query("SELECT data FROM " . $this->cfg['db_table'] . " WHERE username='".$this->username."'");
 
 			  if(is_array($data))
 			  {
