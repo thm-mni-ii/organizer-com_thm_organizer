@@ -583,7 +583,7 @@ Ext.define('mSchedule', {
 
 			semid = semid[0];
 
-	        var deltaid = semid + ".delta";
+	        var deltaid = semid + ".Stundenplan1.delta";
 
 	        var deltaSched = new mSchedule(deltaid, "Änderungen (zentral)").init("delta", deltaid);
             deltaSched.show();

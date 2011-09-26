@@ -25,9 +25,14 @@ class thm_organizerViewScheduler extends JView
 		$this->jsid = $model->getSessionID();
 		$menuparams = JFactory::getApplication()->getParams();
 
+		$showSchedule = JRequest::getString('showSchedule');
+
 		$menuparamsID = $menuparams->get("id");
 
-		$path = explode("/", $menuparamsID);
+		if($showSchedule != '')
+			$path = explode("/", $showSchedule);
+		else
+			$path = explode("/", $menuparamsID);
 
 		$sid = explode(".", $path[0]);
 
@@ -45,7 +50,6 @@ class thm_organizerViewScheduler extends JView
 		//$doc->addStyleSheet(JURI::root(true)."/components/com_thm_organizer/views/scheduler/tmpl/ext/resources/css/MultiSelect.css");
 		$doc->addStyleSheet(JURI::root(true)."/components/com_thm_organizer/views/scheduler/tmpl/mySched/style.css");
 
-
 		$schedulearr = array();
 
 		$model = JModel::getInstance('Ajaxhandler', 'thm_organizerModel', array('ignore_request' => false));
@@ -62,12 +66,10 @@ class thm_organizerViewScheduler extends JView
 
 		$schedulearr["TreeView.load"] = $model->executeTask("TreeView.load", array("path"=>$path, "hide"=>true));
 
-		//echo "<pre>".print_r($schedulearr["TreeView.load"],true)."</pre>";
-
 		if($user->id !== null && $user->id !== 0)
 			$schedulearr["UserSchedule.load"] = $model->executeTask("UserSchedule.load", array("username"=>$user->name, "sid"=>$sid));
 
-		$schedulearr["UserSchedule.load"]["delta"] = $model->executeTask("UserSchedule.load", array("username"=>"delta".$sid));
+		$schedulearr["UserSchedule.load"]["delta"] = $model->executeTask("UserSchedule.load", array("username"=>"delta", "sid"=>$sid));
 
 		$this->startup = rawurlencode(json_encode($schedulearr));
 

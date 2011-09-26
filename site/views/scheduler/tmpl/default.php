@@ -9,6 +9,7 @@
 	echo 'externLinks.lectureRemoveButton = \''.JURI::root(true).'/components/com_thm_organizer/views/scheduler/tmpl/images/delete.png\';';
 	echo 'externLinks.mainPath = \''.JURI::root(true).'/components/com_thm_organizer/views/scheduler/tmpl/\';';
 	echo 'externLinks.lsfLink = \''.JRoute::_('index.php?option=com_thm_lsf&view=details&layout=default&tmpl=component&mysched=true').'\';';
+	echo 'externLinks.ajaxHandler = \''.JRoute::_('index.php?option=com_thm_organizer&view=ajaxhandler&format=raw').'\';';
 ?>
 </script>
 

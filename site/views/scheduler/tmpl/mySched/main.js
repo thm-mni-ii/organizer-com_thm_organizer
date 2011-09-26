@@ -25,7 +25,7 @@ MySched.Config.addAll({
   // Bestimt die art und weise der Anzeige von Zusatzinfos
   infoMode: 'popup',
   // layout | popup
-  ajaxHandler: '../index.php?option=com_thm_organizer&view=ajaxhandler&format=raw',
+  ajaxHandler: externLinks.ajaxHandler,
   estudycourse: MySched.mainPath + 'php/estudy_course.php',
   infoUrl: MySched.mainPath + 'php/info.php',
   showHeader: false,
@@ -35,7 +35,6 @@ MySched.Config.addAll({
   // Aktiviert den Button und die Funktion 'Einschreiben'
   logoutTarget: 'http://www.mni.fh-giessen.de'
 });
-
 
 // Authorize wir initalisiert
 // Mit dem Uebergebenen Array wird die Rolle auf rechte in MySched gemappt
@@ -380,7 +379,7 @@ MySched.Base = function () {
 
 		semid = semid[0];
 
-        var deltaid = semid + ".delta";
+        var deltaid = semid + ".Stundenplan1.delta";
 
         // Initialisiert "Änderungen"
         MySched.delta = new mSchedule(deltaid, "Änderungen (zentral)");
@@ -3025,7 +3024,11 @@ MySched.Tree = function () {
   return {
     init: function () {
 
-		var children = MySched.startup["TreeView.load"].data["tree"][0][0];
+		var children = MySched.startup["TreeView.load"].data["tree"];
+		while(isset(children[0]))
+		{
+			children = children[0];
+		}
 
 		var treeStore = Ext.create('Ext.data.TreeStore', {
 			folderSort: true,
