@@ -18,27 +18,29 @@ class thm_organizersViewsemester_manager extends JView {
 
     function display($tpl = null)
     {
-        JHtml::_('behavior.modal', 'a.modal');
         $document = & JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
-        JToolBarHelper::title( JText::_( 'Semester Manager' ), 'generic.png' );
-        if(thm_organizerHelper::getActions('semester_manager')->get("core.admin"))$this->addToolBar();
-        thm_organizerHelper::addSubmenu('semester_manager');
+
         $model = $this->getModel();
-        $semesters = $model->semesters;
-        $this->assignRef('semesters', $semesters);
+        $this->semesters = $model->semesters;
+
+        JToolBarHelper::title( JText::_( 'Semester Manager' ), 'generic.png' );
+        if(thm_organizerHelper::isAdmin('semester_manager'))
+        {
+            $this->addToolBar();
+            thm_organizerHelper::addSubmenu('semester_manager');
+        }
+
         parent::display($tpl);
     }
 
     private function addToolBar()
     {
-        $semesterEditLink = 'index.php?option=com_thm_organizer&view=semester_edit';
-        $semesterEditLink .= '&layout=modal&tmpl=component&semesterID=0';
-        $tb = JToolBar::getInstance();
-        $tb->appendButton('Popup', 'new', JText::_('COM_THM_ORGANIZER_NEW'), $semesterEditLink, 600, 180 );
+        JToolBarHelper::addNew('semester.add');
+        JToolBarHelper::editList('semester.edit');
         JToolBarHelper::deleteList
         (
-            JText::_( 'COM_THM_ORGANIZER_SM_DELETE_CONFIRM'),
+            JText::_( 'COM_THM_ORGANIZER_SEM_DELETE_CONFIRM'),
             'semester.delete'
         );
     }

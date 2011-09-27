@@ -55,7 +55,7 @@ class thm_organizersModelschedule_manager extends JModel
         $query = $dbo->getQuery(true);
         $select = "id, filename, active, description, ";
         $select .= "DATE_FORMAT(startdate, '%d.%m.%Y') AS startdate, ";
-        $select .= "DATE_FORMAT(startdate, '%d.%m.%Y') AS enddate, ";
+        $select .= "DATE_FORMAT(enddate, '%d.%m.%Y') AS enddate, ";
         $select .= "DATE_FORMAT(includedate, '%d.%m.%Y') AS includedate ";
         $query->select($select);
         $query->from("#__thm_organizer_schedules");

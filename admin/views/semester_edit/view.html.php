@@ -19,21 +19,29 @@ class thm_organizersViewsemester_edit extends JView
 {
     public function display($tpl = null)
     {
-        JHTML::_('behavior.tooltip');
-        JHtml::_('behavior.modal', 'a.modal');
-        
-        $model = $this->getModel();
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
 
-        $title = ($model->semesterID)?
-                JText::_('COM_THM_ORGANIZER_SM_SEMESTER_EDIT') : JText::_('COM_THM_ORGANIZER_SM_SEMESTER_NEW');
+        $model = $this->getModel();
         $this->assignRef( 'title', $title );
         $this->assignRef( 'semesterID', $model->semesterID );
         $this->assignRef( 'semesterDesc', $model->semesterDesc );
         $this->assignRef( 'organization', $model->organization );
 
+        $title = ($model->semesterID)?
+            JText::_('COM_THM_ORGANIZER_SEM_EDIT_TITLE') : JText::_('COM_THM_ORGANIZER_SEM_EDIT_TITLE_NEW');
+        JToolBarHelper::title($title);
+        if(thm_organizerHelper::isAdmin('semester_edit')) $this->addToolBar();
+
         parent::display($tpl);
+    }
+    
+    private function addToolBar()
+    {
+        JToolBarHelper::apply('semester.apply', JText::_('COM_THM_ORGANIZER_APPLY'));
+        JToolBarHelper::save('semester.save', JText::_('COM_THM_ORGANIZER_SAVE'));
+        JToolBarHelper::save2new('semester.save2new', JText::_('COM_THM_ORGANIZER_SAVE2NEW'));
+        JToolBarHelper::cancel('semester.cancel', JText::_('COM_THM_ORGANIZER_CLOSE'));
     }
 }?>
 	

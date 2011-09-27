@@ -24,8 +24,8 @@ class thm_organizersModelsemester extends JModel
     public function save()
     {
         $semesterID = (JRequest::getInt('semesterID'))? JRequest::getInt('semesterID'): 0;
-        $organization = trim(JRequest::getVar( 'organization', '', 'post','string', JREQUEST_ALLOWRAW ));
-        $semester = trim(JRequest::getVar( 'semester', '', 'post','string', JREQUEST_ALLOWRAW ));
+        $organization = addslashes(trim(JRequest::getVar('organization', '', 'post', 'string', JREQUEST_ALLOWRAW )));
+        $semester = addslashes(trim(JRequest::getVar('semester', '', 'post', 'string', JREQUEST_ALLOWRAW )));
         if(empty($organization) or empty($semester)) return 0;
 
         $dbo = JFactory::getDBO();

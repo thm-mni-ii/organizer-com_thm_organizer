@@ -10,20 +10,20 @@
  * @link        www.mni.thm.de
  * @version     1.7.0
  */
-
 defined('_JEXEC') or die('Restriced Access');
 jimport('joomla.application.component.model');
 class thm_organizersModelsemester_edit extends JModel
 {
-    public $semesterID;
-    public $organization;
-    public $semesterDesc;
+    public $semesterID = 0;
+    public $organization = '';
+    public $semesterDesc = '';
 
     function __construct()
     {
         parent::__construct();
 
-        $semesterID = JRequest::getVar('semesterID');
+        $semesterIDs = JRequest::getVar('cid',  null, '', 'array');
+        $semesterID = (empty($semesterIDs))? JRequest::getVar('semesterID') : $semesterIDs[0];
         if($semesterID)
         {
             $dbo = JFactory::getDBO();
@@ -39,21 +39,7 @@ class thm_organizersModelsemester_edit extends JModel
                 $this->organization = $semester['organization'];
                 $this->semesterDesc = $semester['semesterDesc'];
             }
-            else $this->setNewData();
         }
-        else $this->setNewData();
-    }
-
-    /**
-     * setNewData
-     *
-     * fills object variables with empty data
-     */
-    private function setNewData()
-    {
-        $this->semesterID = 0;
-        $this->organization = '';
-        $this->semesterDesc = '';
     }
 }
 ?>

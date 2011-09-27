@@ -96,9 +96,6 @@
     width: 10px;
 }
 
-.thm_organizer_sm_orgdata, .thm_organizer_sm_semesterdata, .thm_organizer_sm_buttons{
-    width: 15%
-}
 
 #thm_organizer_sm form table.adminlist tbody tr td{
     border: none;
@@ -116,8 +113,14 @@
     color: #025a8d;
 }
 
+#thm_organizer_se table.admintable{
+    width: 50%;
+}
+
 .thm_organizer_se_label{
-    width: 30%;
+    text-align: right;
+    width: 15%;
+    padding-right: 5px;
 }
 #thm_organizer_se table.admintable{
     margin-top: 10px;

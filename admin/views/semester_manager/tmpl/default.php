@@ -18,14 +18,17 @@ defined('_JEXEC') or die('Restricted access');?>
                 <col id="thm_organizer_sm_checkbox_column" />
                 <col id="thm_organizer_sm_org_column" />
                 <col id="thm_organizer_sm_pp_column" />
-                <col class="thm_organizer_sm_button_column" />
+                <col class="thm_organizer_sm_date_column" />
+                <col class="thm_organizer_sm_date_column" />
+                <col />
             </colgroup>
             <thead>
                 <tr>
                     <th />
-                    <th><?php echo JText::_('Organization'); ?></th>
-                    <th><?php echo JText::_('Planning Period'); ?></th>
-                    <th />
+                    <th><?php echo JText::_('COM_THM_ORGANIZER_SEM_ORG'); ?></th>
+                    <th><?php echo JText::_('COM_THM_ORGANIZER_SEM_PP'); ?></th>
+                    <th><?php echo JText::_('COM_THM_ORGANIZER_SEM_SD'); ?></th>
+                    <th><?php echo JText::_('COM_THM_ORGANIZER_SEM_ED'); ?></th>
                     <th />
                 </tr>
             </thead>
@@ -40,18 +43,27 @@ defined('_JEXEC') or die('Restricted access');?>
                     <?php echo $checked; ?>
                 </td>
                 <td class="thm_organizer_sm_orgdata">
-                    <a href='<?php echo $semester["link"]; ?>'>
+                    <a href='<?php echo $semester["url"]; ?>'>
                         <?php echo $semester["organization"]; ?>
                     </a>
                 </td>
                 <td class="thm_organizer_sm_semesterdata">
-                    <a href='<?php echo $semester["link"]; ?>'>
+                    <a href='<?php echo $semester["url"]; ?>'>
                         <?php echo $semester["semesterDesc"]; ?>
                     </a>
                 </td>
-                <td id="thm_organizer_sm_buttons">
-                    <?php echo $semester["semesterEditButton"]; ?>
-                    <?php echo $semester["scheduleManagerButton"]; ?>
+                <td class="thm_organizer_sm_date">
+                    <a href='<?php echo $semester["url"]; ?>'>
+                        <?php echo $semester["startdate"]; ?>
+                    </a>
+                </td>
+                <td class="thm_organizer_sm_date">
+                    <a href='<?php echo $semester["url"]; ?>'>
+                        <?php echo $semester["enddate"]; ?>
+                    </a>
+                </td>
+                <td>
+                    <?php echo $semester["schedules_button"]; ?>
                 </td>
             </tr>
 <?php } } ?>

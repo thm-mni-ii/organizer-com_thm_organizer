@@ -34,43 +34,49 @@ class thm_organizersModelsemester_manager extends JModel
      */
     private function loadSemesters()
     {
-        $dbo = JFactory::getDBO();
+        $dbo = $this->getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("id, semesterDesc, organization");
-        $query->from('#__thm_organizer_semesters');
+        $select = "DISTINCT s.id, s.organization, s.semesterDesc ";
+        $query->select($select);
+        $query->from("#__thm_organizer_semesters AS s");
         $dbo->setQuery((string)$query);
         $semesters = $dbo->loadAssocList();
         if(isset($semesters) and count($semesters))
         {
             foreach($semesters as $k => $semester)
             {
-                $linkButton = '<div class="button2-left"><div class="blank">';
-                $linkButton .= '<a class="modal" title="TITLETEXT" href="LINKTEXT" ';
-                $linkButton .= 'rel="{handler: \'iframe\', size: {DIMENSIONS}}">';
-                $linkButton .= 'TITLETEXT</a></div></div>';
+                $query = $dbo->getQuery(true);
+                $select = "DATE_FORMAT(startdate, '%d.%m.%Y') AS startdate, ";
+                $select .= "DATE_FORMAT(enddate, '%d.%m.%Y') AS enddate ";
+                $query->select($select);
+                $query->from("#__thm_organizer_schedules");
+                $query->where("active IS NOT NULL");
+                $query->where("sid = '{$semester['id']}'");
+                $dbo->setQuery((string)$query);
+                $dates = $dbo->loadAssoc();
 
-                $semesterEditLink = 'index.php?option=com_thm_organizer&view=semester_edit';
-                $semesterEditLink .= '&layout=modal&tmpl=component&semesterID='.$semester['id'];
-                $semesters[$k]['link'] = $semesterEditLink;
+                if(isset($dates))
+                {
+                    $semesters[$k]['startdate'] = $dates['startdate'];
+                    $semesters[$k]['enddate'] = $dates['enddate'];
+                }
+                else
+                {
+                    $semesters[$k]['startdate'] = '';
+                    $semesters[$k]['enddate'] = '';
+                }
 
-                $semesterEditButton = $linkButton;
-                $dimensions = 'x: 600, y: 180';
-                $semesterEditButton = str_replace('DIMENSIONS', $dimensions, $semesterEditButton);
-                $semesterEditButton = str_replace('LINKTEXT', $semesterEditLink, $semesterEditButton);
-                $semesterEditButton =
-                    str_replace('TITLETEXT', JText::_('COM_THM_ORGANIZER_SM_EDIT'), $semesterEditButton);
-                $semesters[$k]['semesterEditButton'] = $semesterEditButton;
+                $semesterEditLink = 'index.php?option=com_thm_organizer';
+                $semesterEditLink .= '&view=semester_edit&semesterID='.$semester['id'];
+                $semesters[$k]['url'] = $semesterEditLink;
 
-                $scheduleManagerLink = 'index.php?option=com_thm_organizer&view=schedule_manager';
-                $scheduleManagerLink .= '&layout=modal&tmpl=component&semesterID='.$semester['id'];
-
-                $scheduleManagerButton = $linkButton;
-                $dimensions = 'x: 900, y: 350';
-                $scheduleManagerButton = str_replace('DIMENSIONS', $dimensions, $scheduleManagerButton);
-                $scheduleManagerButton = str_replace('LINKTEXT', $scheduleManagerLink, $scheduleManagerButton);
-                $scheduleManagerButton =
-                    str_replace('TITLETEXT', JText::_('COM_THM_ORGANIZER_SM_SCHEDULE_MANAGER'), $scheduleManagerButton);
-                $semesters[$k]['scheduleManagerButton'] = $scheduleManagerButton;
+                $title = JText::_('COM_THM_ORGANIZER_SEM_MANAGE_SCHEDULES');
+                $schedules_link = "index.php?option=com_thm_organizer";
+                $schedules_link .= "&view=schedule_manager&semesterID={$semester['id']}";
+                $schedules_button = "<div class='button2-left'><div class='blank'>";
+                $schedules_button .= "<a title='$title' href='$schedules_link' >";
+                $schedules_button .= "$title</a></div></div>";
+                $semesters[$k]['schedules_button'] = $schedules_button;
             }
         }
         else $semesters = array();
