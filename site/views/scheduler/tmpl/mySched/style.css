@@ -187,6 +187,12 @@ div.dozInfo div ul {
 
 /* MNI Style */
 
+.mysched_iframeModule {
+	overflow:auto;
+	width:100%;
+	height:100%;
+}
+
 .content_column table th {
     padding: 0px !important;
 }
@@ -273,6 +279,12 @@ img.mySched_terminicon {
 	height:12px;
 	width:12px;
 	margin-bottom:-2px;
+}
+
+/* Lecture Styles */
+
+.lecturename {
+	cursor: pointer;
 }
 
 small.oldroom {

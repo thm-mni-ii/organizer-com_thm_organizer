@@ -24,8 +24,9 @@ class thm_organizerViewScheduler extends JView
 		$this->canWriteEvents = $canWriteEvents;
 		$this->jsid = $model->getSessionID();
 		$menuparams = JFactory::getApplication()->getParams();
-
 		$showSchedule = JRequest::getString('showSchedule');
+
+		$this->LSFisAvailable = $model->getLSFStatus("com_thm_lsf");
 
 		$menuparamsID = $menuparams->get("id");
 

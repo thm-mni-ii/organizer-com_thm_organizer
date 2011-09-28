@@ -14,7 +14,7 @@ class TreeView
 	private $hideCheckBox = null;
 	private $inTree = array();
 
-	function __construct($JDA, $CFG, $options = array())
+	public function __construct($JDA, $CFG, $options = array())
 	{
 		$this->JDA = $JDA;
 		$this->cfg = $CFG->getCFG();
@@ -367,9 +367,7 @@ class TreeView
 					$childvalue["gpuntisID"] = $childvalue["id"];
 				}
 
-				if($k == null)
-				{
-					$temp = $this->createTreeNode($key.".".$nodeKey.".".$childvalue["id"],
+				$temp = $this->createTreeNode($key.".".$nodeKey.".".$childvalue["id"],
 											$childvalue["name"],
 											"leaf" . "-node",
 											true,
@@ -381,26 +379,8 @@ class TreeView
 											NULL,
 											$semesterID
 											);
-					if($temp != null)
-						$treeNode[] = $temp;
-				}
-				else
-				{
-					$temp = $this->createTreeNode($key.".".$nodeKey.".".$childvalue["id"],
-											$childvalue["name"],
-											"leaf" . "-node",
-											true,
-											true,
-											false,
-											$childvalue["gpuntisID"],
-											$planid,
-											$type,
-											NULL,
-											$semesterID
-											);
-					if($temp != null)
-						$childNodes[] = $temp;
-				}
+				if($temp != null)
+					$childNodes[] = $temp;
 			}
 
 			if($k != null && count($childNodes) > 0)
@@ -447,32 +427,19 @@ class TreeView
 					$childvalue["gpuntisID"] = $childvalue["id"];
 				}
 
-				if($k == null)
-					$treeNode[] = $this->createTreeNode($key.".".$k.".".$childvalue["id"],
-											$childvalue["name"],
-											"leaf" . "-node",
-											true,
-											true,
-											false,
-											$childvalue["gpuntisID"],
-											$planid,
-											"room",
-											NULL,
-											$semesterID
-											);
-				else
-					$childNodes[] = $this->createTreeNode($key.".".$k.".".$childvalue["id"],
-											$childvalue["name"],
-											"leaf" . "-node",
-											true,
-											true,
-											false,
-											$childvalue["gpuntisID"],
-											$planid,
-											"room",
-											NULL,
-											$semesterID
-					);
+
+				$childNodes[] = $this->createTreeNode($key.".".$k.".".$childvalue["id"],
+										$childvalue["name"],
+										"leaf" . "-node",
+										true,
+										true,
+										false,
+										$childvalue["gpuntisID"],
+										$planid,
+										"room",
+										NULL,
+										$semesterID
+				);
 			}
 			if($k != null)
 				$treeNode[] = $this->createTreeNode(
@@ -512,32 +479,18 @@ class TreeView
 					$childvalue["gpuntisID"] = $childvalue["id"];
 				}
 
-				if($k == null)
-					$treeNode[] = $this->createTreeNode($key.".".$k.".".$childvalue["id"],
-											$childvalue["name"],
-											"leaf" . "-node",
-											true,
-											true,
-											false,
-											$childvalue["gpuntisID"],
-											$planid,
-											"clas",
-											NULL,
-											$semesterID
-											);
-				else
-					$childNodes[] = $this->createTreeNode($key.".".$k.".".$childvalue["id"],
-											$childvalue["name"],
-											"leaf" . "-node",
-											true,
-											true,
-											false,
-											$childvalue["gpuntisID"],
-											$planid,
-											"clas",
-											NULL,
-											$semesterID
-											);
+				$childNodes[] = $this->createTreeNode($key.".".$k.".".$childvalue["id"],
+										$childvalue["name"],
+										"leaf" . "-node",
+										true,
+										true,
+										false,
+										$childvalue["gpuntisID"],
+										$planid,
+										"clas",
+										NULL,
+										$semesterID
+										);
 			}
 			if($k != null)
 				$treeNode[] = $this->createTreeNode(

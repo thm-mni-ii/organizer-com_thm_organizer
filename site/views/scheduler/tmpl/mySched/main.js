@@ -481,7 +481,7 @@ MySched.Base = function () {
 	                    });
 	                    MySched.loadedLessons[key] = true;
 	                    MySched.selectedSchedule.eventsloaded = null;
-	                    MySched.Schedule.refreshView();
+      					MySched.selectedSchedule.refreshView();
 	                  }
 	                  catch(e)
 	                  {
@@ -502,14 +502,14 @@ MySched.Base = function () {
                 MySched.Schedule.addLecture(e);
               });
               MySched.selectedSchedule.eventsloaded = null;
-              MySched.Schedule.refreshView();
+      		  MySched.selectedSchedule.refreshView();
             }
             }
           } else {
             // Fuegt Veranstaltung zu eigenem Stundenplan hinzu
             MySched.Schedule.addLecture(MySched.Base.schedule.getLecture(data.id));
             MySched.selectedSchedule.eventsloaded = null;
-            MySched.Schedule.refreshView();
+      		MySched.selectedSchedule.refreshView();
           }
           return true;
         }
@@ -807,7 +807,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
       scope: this
     });
 
-    // Aboniert Events für Lecturenamen
+    // Aboniert Events f�r Lecturenamen
     Ext.select('.lecturename', false, tab.dom).on({
       'mouseover': function (e) {
         e.stopEvent();
@@ -984,6 +984,13 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
     ttInfo.showAt(xy);
   },
   showModuleInformation: function (e) {
+
+  	if(MySched.LSFisAvailable != true)
+	{
+		Ext.Msg.alert('LSF', "Diese Funktion steht zur Zeit nicht zur Verfügung.");
+		return;
+	}
+
     if (typeof e == "undefined") {
       var id = "";
       if (this.selectLectureId) {
@@ -1001,17 +1008,16 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
     var l = MySched.selectedSchedule.getLecture(el.id);
     l = l.data;
     if (typeof l.moduleID == "undefined") {
-      Ext.Msg.alert('Hinweis', 'Für diese Veranstaltung ist keine Modulnummer hinterlegt');
+      Ext.Msg.alert('Hinweis', 'F�r diese Veranstaltung ist keine Modulnummer hinterlegt');
       return;
     }
 
     if (l.moduleID == "" || l.moduleID == null) {
-      Ext.Msg.alert('Hinweis', 'Für diese Veranstaltung ist keine Modulnummer hinterlegt');
+      Ext.Msg.alert('Hinweis', 'F�r diese Veranstaltung ist keine Modulnummer hinterlegt');
       return;
     }
 
     var modulewin = Ext.create('Ext.Window', {
-      layout: 'form',
       id: 'moduleWin',
       width: 564,
       height: 450,
@@ -1691,6 +1697,7 @@ MySched.layout = function () {
         maxSize: 242,
         collapsible: false,
         collapsed: false,
+        autoScroll: true,
         headerCfg: {
           tag: '',
           cls: 'x-panel-header mySched_techheader',
@@ -3046,7 +3053,7 @@ MySched.Tree = function () {
 		    id: 'selectTree',
 	        preventHeader: true,
 		    height: 470,
-		    autoscroll: true,
+		    autoscroll: false,
 		    rootVisible: false,
 		    bodyCls: 'MySched_SelectTree',
 		    viewConfig: {
@@ -3056,7 +3063,7 @@ MySched.Tree = function () {
 	                enableDrop: false,
 	                enableDrag: true
 	            },
-	            autoScroll: true
+	            autoScroll: false
 	        },
 			layout: {
 			    type: 'fit'

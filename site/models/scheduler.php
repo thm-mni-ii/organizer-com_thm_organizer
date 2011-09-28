@@ -23,12 +23,12 @@ class thm_organizerModelScheduler extends JModel
 	 *
 	 * @since 1.5
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 	}
 
-	function getSessionID()
+	public function getSessionID()
 	{
        	$user =& JFactory::getUser();
        	if($user->username == NULL)
@@ -40,7 +40,7 @@ class thm_organizerModelScheduler extends JModel
 		return $rows['0']->session_id;
 	}
 
-	function getSemesterAuthor()
+	public function getSemesterAuthor()
 	{
 		$dbo = & JFactory::getDBO();
 		$dbo->setQuery("SELECT DISTINCT username as author FROM #__thm_organizer_semesters INNER JOIN #__users ON manager = #__users.id WHERE #__thm_organizer_semesters.id = ".$this->getSemesterID());
@@ -50,13 +50,33 @@ class thm_organizerModelScheduler extends JModel
 		return $rows['0']->author;
 	}
 
-	/**
-	 * Get the message
-	 * @return string The message to be displayed to the user
-	 */
 	public function getSemesterID()
 	{
 		$session =& JFactory::getSession();
 		return $session->get('scheduler_semID');
+	}
+
+	/**
+	 * Check if the component is available
+	 * @return Boolean
+	 */
+	public function getLSFStatus($com)
+	{
+		$dbo =& JFactory::getDBO();
+		$query	= $dbo->getQuery(true);
+		$query->select('extension_id AS "id", element AS "option", params, enabled');
+		$query->from('#__extensions');
+		$query->where('`type` = '.$dbo->quote('component'));
+		$query->where('`element` = '.$dbo->quote($com));
+		$dbo->setQuery($query);
+    	if ($error = $dbo->getErrorMsg())
+    		return false;
+
+		$result = $dbo->loadObject();
+
+		if($result === null)
+			return false;
+
+    	return true;
 	}
 }
