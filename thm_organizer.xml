@@ -35,15 +35,17 @@
         <menu img="components/com_thm_organizer/assets/images/thm_organizer.png">THM_ORGANIZER</menu>
         <submenu>
             <menu img="components/com_thm_organizer/assets/images/category_manager.png"
-                  view="category_manager">COM_THM_ORGANIZER_CM_NAME</menu>
+                  view="category_manager">COM_THM_ORGANIZER_CAT_NAME</menu>
             <menu img="components/com_thm_organizer/assets/images/monitor_manager.png"
-                  view="monitor_manager">COM_THM_ORGANIZER_MM_NAME</menu>
+                  view="monitor_manager">COM_THM_ORGANIZER_MON_NAME</menu>
             <menu img="components/com_thm_organizer/assets/images/semester_manager.png"
-                  view="semester_manager">COM_THM_ORGANIZER_SM_NAME</menu>
+                  view="semester_manager">COM_THM_ORGANIZER_SEM_NAME</menu>
+            <menu img="components/com_thm_organizer/assets/images/schedule_manager.png"
+                  view="semester_manager">COM_THM_ORGANIZER_SCH_NAME</menu>
             <menu img="components/com_thm_organizer/assets/images/scheduler_application_settings.png"
-            	  view="scheduler_application_settings">COM_THM_ORGANIZER_SAS_NAME</menu>
+                  view="scheduler_application_settings">COM_THM_ORGANIZER_RIA_NAME</menu>
             <menu img="components/com_thm_organizer/assets/images/virtual_schedule_manager.png"
-            	  view="virtual_schedule_manager">COM_THM_ORGANIZER_VSM_NAME</menu>
+                  view="virtual_schedule_manager">COM_THM_ORGANIZER_VSM_NAME</menu>
         </submenu>
         <files folder="admin">
             <filename>index.html</filename>
