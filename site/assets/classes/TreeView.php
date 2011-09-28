@@ -13,6 +13,7 @@ class TreeView
 	private $checked = null;
 	private $hideCheckBox = null;
 	private $inTree = array();
+	private $treeData = array();
 
 	public function __construct($JDA, $CFG, $options = array())
 	{
@@ -120,9 +121,10 @@ class TreeView
 
 		$semesterarray = $this->getSemester();
 
-		$treeData["clas"] = array();
-		$treeData["room"] = array();
-		$treeData["doz"] = array();
+
+		$this->treeData["clas"] = array();
+		$this->treeData["room"] = array();
+		$this->treeData["doz"] = array();
 
 		foreach($semesterarray as $key=>$value)
 		{
@@ -142,14 +144,14 @@ class TreeView
 			if($temp != null)
 				$semesterJahrNode[] = $temp;
 
-			$treeData["clas"] = array_merge( $treeData["clas"], $this->getStundenplanClassData(1, $value->id) );
-			$treeData["room"] = array_merge( $treeData["room"], $this->getStundenplanRoomData(1, $value->id) );
-			$treeData["doz"] = array_merge( $treeData["doz"], $this->getStundenplanDozData(1, $value->id) );
+			$this->treeData["clas"] = array_merge_recursive( $this->treeData["clas"], $this->getStundenplanClassData(1, $value->id, true));
+			$this->treeData["room"] = array_merge_recursive( $this->treeData["room"], $this->getStundenplanRoomData(1, $value->id, true));
+			$this->treeData["doz"] = array_merge_recursive( $this->treeData["doz"], $this->getStundenplanDozData(1, $value->id, true));
 		}
 
 		$this->expandSingleNode(& $semesterJahrNode);
 
-		return array("success"=>true,"data"=>array("tree"=>$semesterJahrNode,"treeData"=>$treeData));
+		return array("success"=>true,"data"=>array("tree"=>$semesterJahrNode,"treeData"=>$this->treeData));
 	}
 
 	private function expandSingleNode(& $arr)
@@ -511,7 +513,7 @@ class TreeView
 		return $treeNode;
 	}
 
-	private function getStundenplanClassData($planid, $semesterID)
+	private function getStundenplanClassData($planid, $semesterID, $checkTreeData = false)
 	{
 		$classesquery = "SELECT DISTINCT classes.gpuntisID AS cid, " .
 						"classes.semester AS semester, " .
@@ -541,6 +543,11 @@ class TreeView
 				if ( !isset( $classesarray[ $data->department ] ) ) {
 					$classesarray[ $data->department ] = array( );
 				}
+
+				if($checkTreeData === true)
+					if(isset($this->treeData["clas"][$data->department][$key]))
+						continue;
+
 				$classesarray[ $data->department ][ $key ]                   = array( );
 				$classesarray[ $data->department ][ $key ][ "id" ]           = trim($key);
 				$classesarray[ $data->department ][ $key ][ "department" ]   = trim($data->department);
@@ -592,7 +599,7 @@ class TreeView
 		return $classesarray;
 	}
 
-	private function getStundenplanRoomData($planid, $semesterID)
+	private function getStundenplanRoomData($planid, $semesterID, $checkTreeData = false)
 	{
 		$roomquery = "SELECT DISTINCT rooms.gpuntisID AS rid, " .
 					 "rooms.capacity, " .
@@ -631,6 +638,11 @@ class TreeView
 				if ( !isset( $roomarray[ $key ] ) ) {
 					$roomarray[ $key ] = array( );
 				}
+
+				if($checkTreeData === true)
+					if(isset($this->treeData["room"][$key][$roomid]))
+						continue;
+
 				$roomarray[ $key ][ $roomid ]                   = array( );
 				$roomarray[ $key ][ $roomid ][ "id" ]           = trim($roomid);
 				$roomarray[ $key ][ $roomid ][ "description" ]   = trim($data->description);
@@ -691,7 +703,7 @@ class TreeView
 		return $roomarray;
 	}
 
-	private function getStundenplanDozData($planid, $semesterID)
+	private function getStundenplanDozData($planid, $semesterID, $checkTreeData = false)
 	{
 		$teacherquery = "SELECT DISTINCT teachers.gpuntisID AS tid, " .
 						"departments.name AS department, " .
@@ -724,6 +736,11 @@ class TreeView
 				if ( !isset( $teacherarray[ $data->department ] ) ) {
 					$teacherarray[ $data->department ] = array( );
 				}
+
+				if($checkTreeData === true)
+					if(isset($this->treeData["doz"][$data->department][$key]))
+						continue;
+
 				$teacherarray[ $data->department ][ $key ]                   = array( );
 				$teacherarray[ $data->department ][ $key ][ "id" ]           = trim($key);
 				$teacherarray[ $data->department ][ $key ][ "department" ]   = trim($data->department);
