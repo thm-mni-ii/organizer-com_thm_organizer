@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
   KEY `plantypeID` (`plantypeID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_plantype` (
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_plantypes` (
   `id` int(1) NOT NULL AUTO_INCREMENT,
   `plantype` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
