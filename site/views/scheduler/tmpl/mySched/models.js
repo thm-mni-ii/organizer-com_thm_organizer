@@ -1115,7 +1115,12 @@ Ext.define('mLecture', {
 					}
 				}
 
-				if (tag && roomLink && this.data.css != "movedfrom" && this.data.css != "removed" && MySched.Mapping.room.map[roomKey[i]].treeLoaded == true) {
+				var treeLoaded = MySched.Mapping.room.map[roomKey[i]];
+				if(isset(treeLoaded))
+					if(isset(treeLoaded.treeLoaded))
+						treeLoaded = treeLoaded.treeLoaded;
+
+				if (tag && roomLink && this.data.css != "movedfrom" && this.data.css != "removed" && treeLoaded == true) {
 					roomtemp = '<small class="roomshortname ' + css + '">' + roomtemp + '</small>';
 				}
 				else
@@ -1160,7 +1165,13 @@ Ext.define('mLecture', {
 						}
 					}
 				}
-				if (tag && ok && this.data.css != "movedfrom" && this.data.css != "removed" && MySched.Mapping.doz.map[dozKey[i]].treeLoaded == true) {
+
+				var treeLoaded = MySched.Mapping.doz.map[dozKey[i]];
+				if(isset(treeLoaded))
+					if(isset(treeLoaded.treeLoaded))
+						treeLoaded = treeLoaded.treeLoaded;
+
+				if (tag && ok && this.data.css != "movedfrom" && this.data.css != "removed" && treeLoaded == true) {
 					tempdoz = '<small class="dozname ' + css + '">' + MySched.Mapping.getDozName(arr[i]).replace(/^\s+/, '').replace(/\s+$/, '') + '</small>';
 				}
 				else {
@@ -1215,7 +1226,13 @@ Ext.define('mLecture', {
 						ok = true;
 			}
 			else ok = true;
-			if (tag && ok  && MySched.Mapping.clas.map[e.getId()].treeLoaded == true) {
+
+			var treeLoaded = MySched.Mapping.clas.map[e.getId()];
+				if(isset(treeLoaded))
+					if(isset(treeLoaded.treeLoaded))
+						treeLoaded = treeLoaded.treeLoaded;
+
+			if (tag && ok  && treeLoaded == true) {
 				for (var clas in classes)
 				if (e.id == clas) css = classes[clas];
 				clastemp = '<small class="classhorter ' + css + '">' + clastemp + '</small>';

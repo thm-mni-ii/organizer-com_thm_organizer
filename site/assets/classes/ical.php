@@ -143,10 +143,14 @@ class ICALBauer extends abstrakterBauer
 
 	private function setEvent( $v, $arr, $semesterstart, $semesterend )
 	{
-		$endarr = explode( "-", $semesterend );
+		$semesterend = date( "Y-m-d",strtotime( $semesterend ));
+		$endarr = explode( "-", $semesterend);
+
 		if ( is_array( $arr ) )
 			foreach ( $arr as $event ) {
 				if ( isset( $event->dow ) && isset( $event->block ) ) {
+
+					$semesterstart = date( "Y-m-d",strtotime( $semesterstart ));
 					$tempdate = $semesterstart;
 
 					while ( date( "N", strtotime( $tempdate ) ) != 1 ) {
@@ -159,6 +163,7 @@ class ICALBauer extends abstrakterBauer
 						$tempdate = date( "Y-m-d", strtotime( "next monday", strtotime( $tempdate ) ) );
 						$tempdate = date( "Y-m-d", strtotime( "+" . ( ( (int) $event->dow ) - 1 ) . " day", strtotime( $tempdate ) ) );
 					}
+
 					if ( $tempdate > $semesterend ) {
 						return $v;
 					}
@@ -200,8 +205,10 @@ class ICALBauer extends abstrakterBauer
 
 					$dozarr  = explode( " ", $event->doz );
 					$doztemp = "";
+
 					foreach ( $dozarr as $dozitem ) {
-						$res = $this->getResource( $dozitem );
+						$res = $this->getResource( $dozitem, "doz" );
+
 						if ( count( $res ) == 0 )
 							$res[ 0 ]->oname = $dozitem;
 						if ( $doztemp == "" )
@@ -213,7 +220,7 @@ class ICALBauer extends abstrakterBauer
 					$roomarr  = explode( " ", $event->room );
 					$roomtemp = "";
 					foreach ( $roomarr as $roomitem ) {
-						$res = $this->getResource( $roomitem );
+						$res = $this->getResource( $roomitem, "room" );
 						if ( count( $res ) == 0 )
 							$res[ 0 ]->oname = $roomitem;
 						if ( $roomtemp == "" )
@@ -222,7 +229,7 @@ class ICALBauer extends abstrakterBauer
 							$roomtemp .= ", " . $res[ 0 ]->oname;
 					}
 
-					$desc = $event->name . " bei " . $doztemp . " im " . $roomtemp . "\n" . $this->nummerzutag( $event->dow ) . " " . $event->block . ".Block\nModulnummer: " . $event->desc . "\n";
+					$desc = $event->name . " bei " . $doztemp . " im " . $roomtemp . "\n" . $this->nummerzutag( $event->dow ) . " " . $event->block . ".Block\nModulnummer: " . $event->moduleID . "\n";
 
 					$e->setProperty( "ORGANIZER", $doztemp );
 					$e->setProperty( "DTSTART", $startdate );
@@ -260,30 +267,31 @@ class ICALBauer extends abstrakterBauer
 
 	private function blocktotime( $block )
 	{
+		//Immer eine Stunden weniger wegen tz=Europe/Berlin (+0100)
 		$times = array(
 			 1 => array(
-				 0 => "8:00",
-				1 => "9:30"
+				 0 => "7:00",
+				1 => "8:30"
 			),
 			2 => array(
-				 0 => "9:50",
-				1 => "11:20"
+				 0 => "8:50",
+				1 => "10:20"
 			),
 			3 => array(
-				 0 => "11:30",
-				1 => "13:00"
+				 0 => "10:30",
+				1 => "12:00"
 			),
 			4 => array(
-				 0 => "14:00",
-				1 => "15:30"
+				 0 => "13:00",
+				1 => "14:30"
 			),
 			5 => array(
-				 0 => "15:45",
-				1 => "17:15"
+				 0 => "14:45",
+				1 => "16:15"
 			),
 			6 => array(
-				 0 => "17:30",
-				1 => "19:00"
+				 0 => "16:30",
+				1 => "18:00"
 			)
 		);
 		return $times[ $block ];
@@ -332,7 +340,9 @@ class ICALBauer extends abstrakterBauer
 			return false;
 
 		$query = "SELECT name as oname FROM ".$table." WHERE gpuntisID ='" . $resourcename . "'";
+
 		$hits  = $this->JDA->query( $query );
+
 		return $hits;
 	}
 }
