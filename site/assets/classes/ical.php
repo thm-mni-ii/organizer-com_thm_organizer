@@ -130,19 +130,19 @@ class ICALBauer extends abstrakterBauer
 							$v = $this->setEvent( $v, $arr, date( "Y-m-d", strtotime( "+1 day", strtotime( $res[ $i - 1 ]->enddate ) ) ), $res[ $i ]->startdate );
 					}
 				} else {
-					$v = $this->setEvent( $v, $arr, $semesterstart, $semesterend );
+					$v = $this->setEvent( $v, $arr, $semesterstart, $semesterend, $res );
 				}
 			} else
-				$v = $this->setEvent( $v, $arr, $semesterstart, $semesterend );
+				$v = $this->setEvent( $v, $arr, $semesterstart, $semesterend, $res );
 		} else
-			$v = $this->setEvent( $v, $arr, $semesterstart, $semesterend );
+			$v = $this->setEvent( $v, $arr, $semesterstart, $semesterend, $res );
 
 		$v->saveCalendar( JPATH_COMPONENT . $this->cfg[ 'pdf_downloadFolder' ], $title . '.ics' );
 		$resparr[ 'url' ] = "false";
 		return array("success"=>true,"data"=>$resparr );
 	}
 
-	private function setEvent( $v, $arr, $semesterstart, $semesterend )
+	private function setEvent( $v, $arr, $semesterstart, $semesterend, $vacations )
 	{
 		$semesterend = date( "Y-m-d",strtotime( $semesterend ));
 		$endarr = explode( "-", $semesterend);
@@ -249,7 +249,39 @@ class ICALBauer extends abstrakterBauer
 					$e->setProperty( "SUMMARY", $event->name . " bei " . $doztemp . " im " . $roomtemp );
 					$e->setProperty( "PRIORITY", "5" );
 					$e->setProperty( "DESCRIPTION", $desc );
+
 					//Doesnt work in Thunderbird and Outlook 2003
+					foreach($vacations as $vacationKey=>$vacationValue)
+					{
+						$vacationStart = DateTime::createFromFormat("Y-m-d", $vacationValue->startdate);
+						$vacationEnd = DateTime::createFromFormat("Y-m-d", $vacationValue->enddate);
+						$interval = $vacationStart->diff($vacationEnd);
+						$diffDays = (int)$interval->format('%d');
+						while($diffDays != 0)
+						{
+							$e->setProperty( "EXDATE", array(
+								 array(
+									 "year" => $vacationStart->format('Y'),
+									 "month" => $vacationStart->format('m'),
+									 "day" => $vacationStart->format('d')
+								)
+							), array(
+								 'VALUE' => 'DATE'
+							) );
+							$vacationStart->add(new DateInterval('P1D'));
+							$interval = $vacationStart->diff($vacationEnd);
+							$diffDays = (int)$interval->format('%d');
+						}
+						$e->setProperty( "EXDATE", array(
+							 array(
+								 "year" => $vacationEnd->format('Y'),
+								 "month" => $vacationEnd->format('m'),
+								 "day" => $vacationEnd->format('d')
+							)
+						), array(
+							 'VALUE' => 'DATE'
+						) );
+					}
 					$e->setProperty( "EXDATE", array(
 						 array(
 							 "year" => $endarr[ 0 ],
@@ -259,6 +291,7 @@ class ICALBauer extends abstrakterBauer
 					), array(
 						 'VALUE' => 'DATE'
 					) );
+
 
 					$v->setComponent( $e );
 				}
