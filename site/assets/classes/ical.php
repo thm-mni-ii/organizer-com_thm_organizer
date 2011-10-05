@@ -4,7 +4,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once( dirname( __FILE__ ) . "/abstrakterBauer.php" );
-require_once( dirname( __FILE__ ) . "/iCalcreator.class.php" );
+require_once( dirname( __FILE__ ) . "/iCalcreator-2.10.5/iCalcreator.class.php" );
 
 class ICALBauer extends abstrakterBauer
 {
@@ -49,6 +49,7 @@ class ICALBauer extends abstrakterBauer
 
 		$t->setComponent( $ts );
 		$v->setComponent( $t );
+
 
 		$query = "SELECT startdate, enddate, starttime, endtime FROM #__thm_organizer_events WHERE categoryid = " . $this->cfg[ 'vacation_id' ];
 		$res   = $this->JDA->query( $query );
@@ -252,8 +253,8 @@ class ICALBauer extends abstrakterBauer
 					$e->setProperty( "EXDATE", array(
 						 array(
 							 "year" => $endarr[ 0 ],
-							"month" => $endarr[ 1 ],
-							"day" => $endarr[ 2 ]
+							 "month" => $endarr[ 1 ],
+							 "day" => $endarr[ 2 ]
 						)
 					), array(
 						 'VALUE' => 'DATE'

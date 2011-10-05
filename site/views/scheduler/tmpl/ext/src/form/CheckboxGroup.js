@@ -43,8 +43,8 @@ If you are unsure which license is appropriate for your use, please contact the 
  *         width: 300,
  *         height: 125,
  *         bodyPadding: 10,
- *         renderTo: Ext.getBody(),        
- *         items:[{            
+ *         renderTo: Ext.getBody(),
+ *         items:[{
  *             xtype: 'checkboxgroup',
  *             fieldLabel: 'Two Columns',
  *             // Arrange radio buttons into two columns, distributed vertically

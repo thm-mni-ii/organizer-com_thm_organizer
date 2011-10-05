@@ -22,8 +22,6 @@ class ICSBauer extends abstrakterBauer
 	{
 		$success = false;
 
-		var_dump($arr);
-
 		$arr = $arr[0];
 
 		try

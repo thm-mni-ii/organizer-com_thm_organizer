@@ -57,13 +57,16 @@ class JFormFieldScheduler extends JFormField
 <script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/views/scheduler/tmpl/ext/ext-all.js"></script>-->
 
 <!-- Ext 4 framework -->
-	<script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/views/scheduler/tmpl/ext/ext-all-dev.js"></script>
+<script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/views/scheduler/tmpl/ext/ext-all-dev.js"></script>
+<!--<script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/views/scheduler/tmpl/ext/bootstrap.js"></script>-->
 
 <script type="text/javascript" charset="utf-8">
 	var children = <?php echo json_encode($treearr["data"]["tree"]); ?>;
 </script>
 
 <script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/models/fields/tree.js"></script>
+
+<script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/models/fields/js/tristate-0.9.2.js"></script>
 
 <style type="text/css">
 

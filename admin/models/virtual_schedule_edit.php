@@ -1,6 +1,7 @@
 <?php
 defined('_JEXEC') or die('Restriced Access');
 jimport('joomla.application.component.model');
+
 class thm_organizersModelvirtual_schedule_edit extends JModel
 {
   function __construct(){
@@ -21,7 +22,7 @@ class thm_organizersModelvirtual_schedule_edit extends JModel
   function getResponsibles()
   {
     $mainframe = JFactory::getApplication("administrator");
-    $dbo = & JFactory::getDBO();
+    $dbo = JFactory::getDBO();
     $usergroups = array();
 
     $query = $dbo->getQuery(true);
@@ -32,7 +33,7 @@ class thm_organizersModelvirtual_schedule_edit extends JModel
 
     foreach($groups as $k=>$v)
     {
-      if(JAccess::checkGroup($v->id, 'core.login.admin'))
+      if(JAccess::checkGroup($v->id, 'core.login.admin') || $v->id == 8)
       {
 		$usergroups[] = $v->id;
       }
@@ -54,13 +55,14 @@ class thm_organizersModelvirtual_schedule_edit extends JModel
     $query .= " ORDER BY name";
     $dbo->setQuery( $query );
     $resps = $dbo->loadObjectList();
+
     return $resps;
   }
 
   function getClasses()
   {
     $mainframe = JFactory::getApplication("administrator");
-    $dbo = & JFactory::getDBO();
+    $dbo = JFactory::getDBO();
     $query = "SELECT gpuntisID as id, CONCAT(major, ' ', semester) as name
           FROM #__thm_organizer_classes
           ORDER BY name";
@@ -72,7 +74,7 @@ class thm_organizersModelvirtual_schedule_edit extends JModel
   function getRooms()
   {
     $mainframe = JFactory::getApplication("administrator");
-    $dbo = & JFactory::getDBO();
+    $dbo = JFactory::getDBO();
     $query = "SELECT gpuntisID as id, alias as name
           FROM #__thm_organizer_rooms
           ORDER BY name";
@@ -84,7 +86,7 @@ class thm_organizersModelvirtual_schedule_edit extends JModel
   function getTeachers()
   {
     $mainframe = JFactory::getApplication("administrator");
-    $dbo = & JFactory::getDBO();
+    $dbo = JFactory::getDBO();
     $query = "SELECT gpuntisID as id, name
           FROM #__thm_organizer_teachers
           ORDER BY name";
@@ -96,8 +98,8 @@ class thm_organizersModelvirtual_schedule_edit extends JModel
     function getSemesters()
   {
     $mainframe = JFactory::getApplication("administrator");
-    $dbo = & JFactory::getDBO();
-    $query = "SELECT id, Concat(organization, '-', semesterDesc, ' (', manager, ')') as name
+    $dbo = JFactory::getDBO();
+    $query = "SELECT id, Concat(organization, '-', semesterDesc) as name
           FROM #__thm_organizer_semesters
           ORDER BY name";
     $dbo->setQuery( $query );
@@ -111,7 +113,7 @@ class thm_organizersModelvirtual_schedule_edit extends JModel
   function getRoomDepartments()
   {
     $mainframe = JFactory::getApplication("administrator");
-    $dbo = & JFactory::getDBO();
+    $dbo = JFactory::getDBO();
     $query = "SELECT DISTINCT id, IF(CHAR_LENGTH(description) = 0,category,CONCAT(category, ' (', description, ')')) as name
           FROM #__thm_organizer_descriptions " .
           "ORDER BY name";
@@ -123,7 +125,7 @@ class thm_organizersModelvirtual_schedule_edit extends JModel
     function getTeacherDepartments()
   {
     $mainframe = JFactory::getApplication("administrator");
-    $dbo = & JFactory::getDBO();
+    $dbo = JFactory::getDBO();
     $query = "SELECT DISTINCT #__thm_organizer_departments.id, CONCAT(#__thm_organizer_departments.department, '-', #__thm_organizer_departments.subdepartment) as name
           FROM #__thm_organizer_teachers " .
           "INNER JOIN #__thm_organizer_departments " .
@@ -140,7 +142,7 @@ class thm_organizersModelvirtual_schedule_edit extends JModel
     function getDepartments($type)
   {
     $mainframe = JFactory::getApplication("administrator");
-    $dbo = & JFactory::getDBO();
+    $dbo = JFactory::getDBO();
     $query = "SELECT DISTINCT major as id, major as name
           FROM #__thm_organizer_".$type."
           ORDER BY major";
@@ -155,7 +157,7 @@ class thm_organizersModelvirtual_schedule_edit extends JModel
     function getRoomTypes()
   {
     $mainframe = JFactory::getApplication("administrator");
-    $dbo = & JFactory::getDBO();
+    $dbo = JFactory::getDBO();
     $query = "SELECT DISTINCT rtype as id, rtype as name
           FROM #__thm_organizer_rooms
           ORDER BY name";
@@ -170,7 +172,7 @@ class thm_organizersModelvirtual_schedule_edit extends JModel
     function getClassTypes()
   {
     $mainframe = JFactory::getApplication("administrator");
-    $dbo = & JFactory::getDBO();
+    $dbo = JFactory::getDBO();
     $query = "SELECT DISTINCT semester as id, semester as name
           FROM #__thm_organizer_classes
           ORDER BY name";
@@ -182,7 +184,7 @@ class thm_organizersModelvirtual_schedule_edit extends JModel
   function idExists($id)
   {
     $mainframe = JFactory::getApplication("administrator");
-    $dbo = & JFactory::getDBO();
+    $dbo = JFactory::getDBO();
     $query = "SELECT count(vid) as id_anz
           FROM #__thm_organizer_virtual_schedules
           WHERE vid = '".$id."';";
@@ -211,7 +213,7 @@ class thm_organizersModelvirtual_schedule_edit extends JModel
     }
 
     $mainframe = JFactory::getApplication("administrator");
-    $dbo = & JFactory::getDBO();
+    $dbo = JFactory::getDBO();
     $query = "";
     $query = "INSERT INTO #__thm_organizer_virtual_schedules (vid, vname, vtype, vresponsible, department, sid)
           VALUES ( '".$vscheduler_id."', '".$vscheduler_name."', '".$vscheduler_types."', '".$vscheduler_resps."', '".$vscheduler_Departments."', '".$vscheduler_semid."' ); ";
@@ -253,7 +255,7 @@ class thm_organizersModelvirtual_schedule_edit extends JModel
   function remove($id)
   {
     $mainframe = JFactory::getApplication("administrator");
-    $dbo = & JFactory::getDBO();
+    $dbo = JFactory::getDBO();
 
     $query = 'DELETE FROM #__thm_organizer_virtual_schedules'
              . ' WHERE vid IN ( "'. $id .'" );';
@@ -279,7 +281,7 @@ class thm_organizersModelvirtual_schedule_edit extends JModel
   function getData($id)
   {
     $mainframe = JFactory::getApplication("administrator");
-    $dbo = & JFactory::getDBO();
+    $dbo = JFactory::getDBO();
     $query='SELECT * FROM #__thm_organizer_virtual_schedules ' .
         'INNER JOIN #__thm_organizer_virtual_schedules_elements ' .
         'ON #__thm_organizer_virtual_schedules.vid = #__thm_organizer_virtual_schedules_elements.vid ' .

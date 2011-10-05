@@ -15,17 +15,17 @@ If you are unsure which license is appropriate for your use, please contact the 
 /**
  * @class Ext.form.FieldSet
  * @extends Ext.container.Container
- * 
+ *
  * A container for grouping sets of fields, rendered as a HTML `fieldset` element. The {@link #title}
  * config will be rendered as the fieldset's `legend`.
- * 
+ *
  * While FieldSets commonly contain simple groups of fields, they are general {@link Ext.container.Container Containers}
  * and may therefore contain any type of components in their {@link #items}, including other nested containers.
  * The default {@link #layout} for the FieldSet's items is `'anchor'`, but it can be configured to use any other
  * layout type.
- * 
+ *
  * FieldSets may also be collapsed if configured to do so; this can be done in two ways:
- * 
+ *
  * 1. Set the {@link #collapsible} config to true; this will result in a collapse button being rendered next to
  *    the {@link #title legend title}, or:
  * 2. Set the {@link #checkboxToggle} config to true; this is similar to using {@link #collapsible} but renders
@@ -36,7 +36,7 @@ If you are unsure which license is appropriate for your use, please contact the 
  * {@img Ext.form.FieldSet/Ext.form.FieldSet.png Ext.form.FieldSet component}
  *
  * ## Example usage
- * 
+ *
  *     Ext.create('Ext.form.Panel', {
  *         title: 'Simple Form with FieldSets',
  *         labelWidth: 75, // label settings here cascade unless overridden
@@ -82,7 +82,7 @@ If you are unsure which license is appropriate for your use, please contact the 
  *             }]
  *         }]
  *     });
- * 
+ *
  * @docauthor Jason Johnston <jason@sencha.com>
  */
 Ext.define('Ext.form.FieldSet', {
@@ -147,7 +147,7 @@ Ext.define('Ext.form.FieldSet', {
     ariaRole: '',
 
     renderTpl: ['<div class="{baseCls}-body"></div>'],
-    
+
     maskOnDisable: false,
 
     getElConfig: function(){
@@ -235,7 +235,7 @@ Ext.define('Ext.form.FieldSet', {
             cls: me.baseCls + '-header-text'
         });
         return me.titleCmp;
-        
+
     },
 
     /**
@@ -254,7 +254,7 @@ Ext.define('Ext.form.FieldSet', {
     createCheckboxCmp: function() {
         var me = this,
             suffix = '-checkbox';
-            
+
         me.checkboxCmp = Ext.create('Ext.form.field.Checkbox', {
             name: me.checkboxName || me.id + suffix,
             cls: me.baseCls + '-header' + suffix,
@@ -289,7 +289,7 @@ Ext.define('Ext.form.FieldSet', {
         });
         return me.toggleCmp;
     },
-    
+
     /**
      * Sets the title of this fieldset
      * @param {String} title The new title
@@ -302,15 +302,15 @@ Ext.define('Ext.form.FieldSet', {
         me.titleCmp.update(title);
         return me;
     },
-    
+
     getTargetEl : function() {
         return this.body || this.frameBody || this.el;
     },
-    
+
     getContentTarget: function() {
         return this.body;
     },
-    
+
     /**
      * @private
      * Include the legend component in the items for ComponentQuery
@@ -336,7 +336,7 @@ Ext.define('Ext.form.FieldSet', {
     expand : function(){
         return this.setExpanded(true);
     },
-    
+
     /**
      * Collapses the fieldset.
      * @return {Ext.form.FieldSet} this
@@ -353,11 +353,11 @@ Ext.define('Ext.form.FieldSet', {
             checkboxCmp = me.checkboxCmp;
 
         expanded = !!expanded;
-        
+
         if (checkboxCmp) {
             checkboxCmp.setValue(expanded);
         }
-        
+
         if (expanded) {
             me.removeCls(me.baseCls + '-collapsed');
         } else {

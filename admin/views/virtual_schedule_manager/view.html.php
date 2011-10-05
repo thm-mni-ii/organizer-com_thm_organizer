@@ -47,7 +47,7 @@ class  thm_organizersViewvirtual_schedule_manager extends JView {
 		$model =& $this->getModel();
 
 		// Get data from the model
-		$items =& $this->get('Data');
+		$items = & $this->get('Data');
 		$newitem = array();
 
 		$elements = $model->getElements();
@@ -80,15 +80,13 @@ class  thm_organizersViewvirtual_schedule_manager extends JView {
 
 		$pagination = & $this->get('Pagination');
 
-//		var_dump($pagination);
-
 		// search filter
 		$lists['search']= $search;
 
 		//assign data to template
-		$this->assignRef('lists'  , $lists);
+		$this->assignRef('lists', $lists);
 
-		$this->assignRef( 'items', $items );
+		$this->assignRef('items', $items );
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('lists', $lists);
 		if(isset($roleFilters_req))

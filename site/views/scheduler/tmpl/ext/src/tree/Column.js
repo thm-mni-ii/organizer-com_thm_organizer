@@ -15,10 +15,10 @@ If you are unsure which license is appropriate for your use, please contact the 
 /**
  * @class Ext.tree.Column
  * @extends Ext.grid.column.Column
- * 
+ *
  * Provides indentation and folder structure markup for a Tree taking into account
  * depth and position within the tree hierarchy.
- * 
+ *
  * @private
  */
 Ext.define('Ext.tree.Column', {
@@ -47,7 +47,7 @@ Ext.define('Ext.tree.Column', {
                 if (!record.isRoot() || (record.isRoot() && view.rootVisible)) {
                     if (record.getDepth() === depth) {
                         buf.unshift(format(imgText,
-                            treePrefix + 'icon ' + 
+                            treePrefix + 'icon ' +
                             treePrefix + 'icon' + (record.get('icon') ? '-inline ' : (record.isLeaf() ? '-leaf ' : '-parent ')) +
                             (record.get('iconCls') || ''),
                             record.get('icon') || Ext.BLANK_IMAGE_URL
@@ -68,7 +68,7 @@ Ext.define('Ext.tree.Column', {
                             } else {
                                 buf.unshift(format(imgText, (elbowPrefix + 'end'), Ext.BLANK_IMAGE_URL));
                             }
-                            
+
                         } else {
                             if (record.isExpandable()) {
                                 buf.unshift(format(imgText, (elbowPrefix + 'plus ' + expanderCls), Ext.BLANK_IMAGE_URL));
@@ -81,7 +81,7 @@ Ext.define('Ext.tree.Column', {
                             buf.unshift(format(imgText, (elbowPrefix + 'empty'), Ext.BLANK_IMAGE_URL));
                         } else if (record.getDepth() !== 0) {
                             buf.unshift(format(imgText, (elbowPrefix + 'line'), Ext.BLANK_IMAGE_URL));
-                        }                      
+                        }
                     }
                 }
                 record = record.parentNode;

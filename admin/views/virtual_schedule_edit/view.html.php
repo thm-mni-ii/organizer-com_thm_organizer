@@ -22,6 +22,7 @@ class thm_organizersViewvirtual_schedule_edit extends JView {
 
 		if(!is_array($responsibles))
 			$responsibles = array();
+
 		$types = $model->getTypes();
 		if(!is_array($types))
 			$types = array();
