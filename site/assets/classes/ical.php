@@ -43,8 +43,6 @@ class ICALBauer extends abstrakterBauer
 
 		$ts = new vtimezone( 'standard' );
 		$ts->setProperty( "DTSTART", 1601, 1, 1, 0, 0, 0 );
-		$ts->setProperty( "TZOFFSETFROM", "+0100" );
-		$ts->setProperty( "TZOFFSETTO", "+0100" );
 		$ts->setProperty( "TZNAME", "Standard Time" );
 
 		$t->setComponent( $ts );
@@ -176,25 +174,23 @@ class ICALBauer extends abstrakterBauer
 					$endtime   = explode( ":", $times[ 1 ] );
 
 					$startdate  = array(
-						 "year" => $beginarr[ 0 ],
+						"year" => $beginarr[ 0 ],
 						"month" => $beginarr[ 1 ],
 						"day" => $beginarr[ 2 ],
 						"hour" => $begintime[ 0 ],
 						"min" => $begintime[ 1 ],
-						"sec" => 0,
-						"tz" => "Europe/Berlin"
+						"sec" => 0
 					);
 					$enddate    = array(
-						 "year" => $beginarr[ 0 ],
+						"year" => $beginarr[ 0 ],
 						"month" => $beginarr[ 1 ],
 						"day" => $beginarr[ 2 ],
 						"hour" => $endtime[ 0 ],
 						"min" => $endtime[ 1 ],
-						"sec" => 0,
-						"tz" => "Europe/Berlin"
+						"sec" => 0
 					);
 					$endarrdate = array(
-						 "year" => $endarr[ 0 ],
+						"year" => $endarr[ 0 ],
 						"month" => $endarr[ 1 ],
 						"day" => $endarr[ 2 ],
 						"hour" => 0,
@@ -236,7 +232,7 @@ class ICALBauer extends abstrakterBauer
 					$e->setProperty( "DTSTART", $startdate );
 					$e->setProperty( "DTEND", $enddate );
 					$e->setProperty( "RRULE", array(
-						 "FREQ" => "WEEKLY",
+						"FREQ" => "WEEKLY",
 						"UNTIL" => $endarrdate,
 						"BYDAY" => array(
 							 "DAY" => $this->daynumtoday( $event->dow )
@@ -257,40 +253,25 @@ class ICALBauer extends abstrakterBauer
 						$vacationEnd = DateTime::createFromFormat("Y-m-d", $vacationValue->enddate);
 						$interval = $vacationStart->diff($vacationEnd);
 						$diffDays = (int)$interval->format('%d');
+						$vacationArray = array();
 						while($diffDays != 0)
 						{
-							$e->setProperty( "EXDATE", array(
-								 array(
+							$vacationArray[] = array(
 									 "year" => $vacationStart->format('Y'),
 									 "month" => $vacationStart->format('m'),
 									 "day" => $vacationStart->format('d')
-								)
-							), array(
-								 'VALUE' => 'DATE'
-							) );
+								);
 							$vacationStart->add(new DateInterval('P1D'));
 							$interval = $vacationStart->diff($vacationEnd);
 							$diffDays = (int)$interval->format('%d');
 						}
-						$e->setProperty( "EXDATE", array(
-							 array(
+						$vacationArray[] = array(
 								 "year" => $vacationEnd->format('Y'),
 								 "month" => $vacationEnd->format('m'),
 								 "day" => $vacationEnd->format('d')
-							)
-						), array(
-							 'VALUE' => 'DATE'
-						) );
+							);
 					}
-					$e->setProperty( "EXDATE", array(
-						 array(
-							 "year" => $endarr[ 0 ],
-							 "month" => $endarr[ 1 ],
-							 "day" => $endarr[ 2 ]
-						)
-					), array(
-						 'VALUE' => 'DATE'
-					) );
+					$e->setProperty( "EXDATE", $vacationArray);
 
 
 					$v->setComponent( $e );
@@ -304,28 +285,28 @@ class ICALBauer extends abstrakterBauer
 		//Immer eine Stunden weniger wegen tz=Europe/Berlin (+0100)
 		$times = array(
 			 1 => array(
-				 0 => "7:00",
-				1 => "8:30"
+				 0 => "8:00",
+				1 => "9:30"
 			),
 			2 => array(
-				 0 => "8:50",
-				1 => "10:20"
+				 0 => "9:50",
+				1 => "11:20"
 			),
 			3 => array(
-				 0 => "10:30",
-				1 => "12:00"
+				 0 => "11:30",
+				1 => "13:00"
 			),
 			4 => array(
-				 0 => "13:00",
-				1 => "14:30"
+				 0 => "14:00",
+				1 => "15:30"
 			),
 			5 => array(
-				 0 => "14:45",
-				1 => "16:15"
+				 0 => "15:45",
+				1 => "17:15"
 			),
 			6 => array(
-				 0 => "16:30",
-				1 => "18:00"
+				 0 => "17:30",
+				1 => "19:00"
 			)
 		);
 		return $times[ $block ];
