@@ -209,6 +209,13 @@ div.dozInfo div ul {
     padding-top: 0px !important;
 }
 
+.MySchedMainW *{
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-webkit-box-sizing: border-box
+}
+
 /* Toolbar ButtonIcons */
 .tbSave{
 	background: url(../images/disk.png) no-repeat left center;
@@ -357,5 +364,5 @@ img.status_icons_delete {
 .x-grid-row .x-grid-cell {
 	border-right: 1px solid #ECECEC;
 	border-bottom: 1px solid #ECECEC;
-    border-top: 0px;
+    	border-top: 0px;
 }
