@@ -256,23 +256,35 @@ class ICALBauer extends abstrakterBauer
 						$vacationArray = array();
 						while($diffDays != 0)
 						{
-							$vacationArray[] = array(
+							$e->setProperty( "EXDATE", array(
+								 array(
 									 "year" => $vacationStart->format('Y'),
 									 "month" => $vacationStart->format('m'),
-									 "day" => $vacationStart->format('d')
-								);
+									 "day" => $vacationStart->format('d'),
+									 "hour" => $begintime[ 0 ],
+									 "min" => $begintime[ 1 ],
+									 "sec" => 0
+								)
+							), array(
+								 'TZID' => 'Europe/Berlin'
+							) );
 							$vacationStart->add(new DateInterval('P1D'));
 							$interval = $vacationStart->diff($vacationEnd);
 							$diffDays = (int)$interval->format('%d');
 						}
-						$vacationArray[] = array(
-								 "year" => $vacationEnd->format('Y'),
-								 "month" => $vacationEnd->format('m'),
-								 "day" => $vacationEnd->format('d')
-							);
+						$e->setProperty( "EXDATE", array(
+								 array(
+									 "year" => $vacationEnd->format('Y'),
+									 "month" => $vacationEnd->format('m'),
+									 "day" => $vacationEnd->format('d'),
+									 "hour" => $begintime[ 0 ],
+									 "min" => $begintime[ 1 ],
+									 "sec" => 0
+								)
+							), array(
+								 'TZID' => 'Europe/Berlin'
+						) );
 					}
-					$e->setProperty( "EXDATE", $vacationArray);
-
 
 					$v->setComponent( $e );
 				}
