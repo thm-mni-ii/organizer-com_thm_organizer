@@ -3034,6 +3034,8 @@ MySched.Tree = function () {
 		var children = MySched.startup["TreeView.load"].data["tree"];
 		while(isset(children[0]))
 		{
+			if(isset(children[0]["id"]))
+				break;
 			children = children[0];
 		}
 
