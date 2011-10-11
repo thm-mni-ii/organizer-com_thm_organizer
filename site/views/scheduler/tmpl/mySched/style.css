@@ -185,6 +185,13 @@ div.dozInfo div ul {
 	cursor: pointer;
 }
 
+/* Änderungen Top Icon Style */
+
+.top_icon_image {
+	background-color: green;
+	font-weight: bold;
+}
+
 /* MNI Style */
 
 .mysched_iframeModule {

@@ -950,8 +950,8 @@ Ext.define('mLecture', {
 		return ret;
 	},
 	getTopIcon: function (d) {
-		if (this.data.css == "new") return '<img data-qtip="Diese Veranstaltung ist neu hinzugekommen" class="top_icon_image" src="' + MySched.mainPath + 'images/lecture_new.png"/><br/>';
-		else if (this.data.css == "mysched_proposal") return '<img data-qtip="Diese Veranstaltung wurde ihnen vorgeschlagen weil die ursprüngliche Veranstaltung nicht mehr vorhanden ist" class="top_icon_image" src="' + MySched.mainPath + 'images/lecture_proposal.png"/><br/>';
+		if (this.data.css == "new") return '<div data-qtip="Diese Veranstaltung ist neu hinzugekommen" class="top_icon_image">Neu</div>';
+		else if (this.data.css == "mysched_proposal") return '<div data-qtip="Diese Veranstaltung wurde ihnen vorgeschlagen weil die ursprüngliche Veranstaltung nicht mehr vorhanden ist" class="top_icon_image">Vorschlag</div><br/>';
 		else return "";
 	},
 	getStatus: function (d) {
