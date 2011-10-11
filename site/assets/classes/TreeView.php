@@ -21,7 +21,8 @@ class TreeView
     $this->cfg = $CFG->getCFG();
     if(isset($options["path"]))
     {
-      $this->checked = $options["path"];
+      $this->checked = (array)$options["path"];
+   	  //echo "<pre>".print_r($this->checked, true)."</pre>";
     }
     else
     {
@@ -61,20 +62,21 @@ class TreeView
     {
       if($this->checked != null)
       {
-        if(array_search($id, $this->checked) !== false)
-          $checked = true;
+
+        if(isset($this->checked[$id]))
+          $checked = $this->checked[$id];
         else
-          $checked = false;
+          $checked = "unchecked";
       }
       else
       {
-        $checked = false;
+        $checked = "unchecked";
       }
     }
 
     if($this->hideCheckBox == true)
     {
-      if(array_search($id, $this->checked) !== false)
+      if($this->nodeStatus($id))
       {
         $treeNode = new TreeNode(
             $id,							// id - autom. generated
@@ -112,6 +114,26 @@ class TreeView
     if($treeNode == null)
       return $children;
     return $treeNode;
+  }
+
+  private function nodeStatus($id)
+  {
+  	if(isset($this->checked[$id]) && ($this->checked[$id] === "checked" || $this->checked[$id] === "intermediate"))
+  	{
+		return true;
+  	}
+  	else
+	  	foreach($this->checked as $checkedKey=>$checkedValue)
+	  	{
+			if(strpos($id, $checkedKey) !== false)
+			{
+				if($checkedValue === "selected" || $checkedValue === "intermediate")
+				{
+					return true;
+				}
+			}
+	  	}
+  	return false;
   }
 
   public function load()
@@ -370,12 +392,12 @@ class TreeView
         }
 
 		if($nodeKey == "none")
-			$nodeID = $key.".".$childvalue["id"];
+			$nodeID = trim($key).".".trim($childvalue["id"]);
 		else
-			$nodeID = $key.".".$nodeKey.".".$childvalue["id"];
+			$nodeID = trim($key).".".trim($nodeKey).".".trim($childvalue["id"]);
 
         $temp = $this->createTreeNode($nodeID,
-                      $childvalue["name"],
+                      trim($childvalue["name"]),
                       "leaf" . "-node",
                       true,
                       true,
@@ -397,8 +419,8 @@ class TreeView
       if($k != null && $k != "none" && !empty($childNodes))
       {
         $temp = $this->createTreeNode(
-          $key.".".$k,							// id - autom. generated
-          $k,							// text	for the node
+          trim($key).".".trim($k),							// id - autom. generated
+          trim($k),							// text	for the node
           'studiengang-root',			// iconCls
           false,							// leaf
           false,							// draggable

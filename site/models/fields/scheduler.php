@@ -45,7 +45,10 @@ class JFormFieldScheduler extends JFormField
 			$JDA = new DataAbstraction();
 			$CFG = new mySchedConfig($JDA);
 
-			$treeids = explode("/",$idString);
+			if($idString != "")
+				$treeids = json_decode($idString);
+			else
+				$treeids = array();
 
 			$treeView = new TreeView($JDA, $CFG, array("path"=>$treeids, "hide"=>false));
 
@@ -62,11 +65,22 @@ class JFormFieldScheduler extends JFormField
 
 <script type="text/javascript" charset="utf-8">
 	var children = <?php echo json_encode($treearr["data"]["tree"]); ?>;
+
+	<?php
+		echo 'var images = [];';
+		echo 'images.unchecked = \''.JURI::root(true).'/components/com_thm_organizer/models/fields/images/unchecked.gif\';';
+		echo 'images.unchecked_highlighted = \''.JURI::root(true).'/components/com_thm_organizer/models/fields/images/unchecked_highlighted.gif\';';
+		echo 'images.checked = \''.JURI::root(true).'/components/com_thm_organizer/models/fields/images/checked.gif\';';
+		echo 'images.checked_highlighted = \''.JURI::root(true).'/components/com_thm_organizer/models/fields/images/checked_highlighted.gif\';';
+		echo 'images.intermediate = \''.JURI::root(true).'/components/com_thm_organizer/models/fields/images/intermediate.gif\';';
+		echo 'images.intermediate_highlighted = \''.JURI::root(true).'/components/com_thm_organizer/models/fields/images/intermediate_highlighted.gif\';';
+		echo 'images.selected = \''.JURI::root(true).'/components/com_thm_organizer/models/fields/images/selected.gif\';';
+		echo 'images.selected_highlighted = \''.JURI::root(true).'/components/com_thm_organizer/models/fields/images/selected_highlighted.gif\';';
+		echo 'images.base = \''.JURI::root(true).'/components/com_thm_organizer/models/fields/images/\';';
+	?>
 </script>
 
 <script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/models/fields/tree.js"></script>
-
-<script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/models/fields/js/tristate-0.9.2.js"></script>
 
 <style type="text/css">
 

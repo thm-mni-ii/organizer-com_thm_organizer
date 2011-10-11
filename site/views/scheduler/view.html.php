@@ -33,9 +33,19 @@ class thm_organizerViewScheduler extends JView
 		if($showSchedule != '')
 			$path = explode("/", $showSchedule);
 		else
-			$path = explode("/", $menuparamsID);
+		{
+			try{
+				$path = (array)json_decode($menuparamsID);
+			}
+			catch(Exception $e)
+			{
+				$path = array();
+			}
+		}
 
-		$sid = explode(".", $path[0]);
+		$firstValue = each($path);
+
+		$sid = explode(".", $firstValue["key"]);
 
 		$sid = str_replace("semesterjahr", "", $sid[0]);
 
