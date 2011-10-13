@@ -186,8 +186,6 @@ class TreeView
 
     $semesterJahrNode = $this->treeCorrect($semesterJahrNode);
 
-    echo "<pre>".print_r($semesterJahrNode, true)."<pre/>";
-
     return array("success"=>true,"data"=>array("tree"=>$semesterJahrNode,"treeData"=>$this->treeData));
   }
 
