@@ -695,7 +695,8 @@ Ext.define('mSchedule', {
 	},
 	refreshView: function () {
 		if (!this.grid) return this.show();
-		this.data.addAll(MySched.eventlist.getEvents());
+		if(this.type != "delta")
+			this.data.addAll(MySched.eventlist.getEvents());
 		this.grid.loadData(this.getGridData());
 		var func = function () {
         	MySched.SelectionManager.stopSelection();
