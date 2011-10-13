@@ -22,7 +22,7 @@ class TreeNode {
     public $checked = null;
     public $expanded = false;
 
-    function  __construct(	$id,
+    public function  __construct(	$id,
     						$text,
     						$iconCls,
     						$leaf,
@@ -49,6 +49,11 @@ class TreeNode {
         $this->checked = $checked;
         if($checked === true)
         	$this->expanded = true;
+    }
+
+    public function setChildren($children)
+    {
+    	$this->children = $children;
     }
 }
 ?>

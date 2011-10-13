@@ -3032,12 +3032,12 @@ MySched.Tree = function () {
     init: function () {
 
 		var children = MySched.startup["TreeView.load"].data["tree"];
-		while(isset(children[0]))
+		/*while(isset(children[0]))
 		{
 			if(isset(children[0]["id"]))
 				break;
 			children = children[0];
-		}
+		}*/
 
 		var treeStore = Ext.create('Ext.data.TreeStore', {
 			folderSort: true,
