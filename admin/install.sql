@@ -27,11 +27,11 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_classes` (
   `gpuntisID` varchar(10) NOT NULL,
   `name` varchar(10) NOT NULL DEFAULT '',
   `alias` varchar(50) NOT NULL DEFAULT '',
-  `manager` varchar(20) DEFAULT '',
+  `teacherID` int(11) NOT NULL DEFAULT '0',
   `semester` varchar(50) NOT NULL,
   `major` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
-  KEY `manager` (`manager`)
+  KEY `teacherID` (`teacherID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_departments` (
@@ -108,6 +108,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `gpuntisID` varchar(10) NOT NULL DEFAULT '',
   `subjectID` int(11) unsigned NOT NULL,
+  `periods` int(3) NOT NULL DEFAULT '0',
   `semesterID` int(11) unsigned NOT NULL,
   `plantypeID` int(1) NOT NULL,
   `type` varchar(32) NOT NULL DEFAULT '',
@@ -178,13 +179,11 @@ INSERT IGNORE INTO `#__thm_organizer_monitors` (`monitorID`, `roomID`, `ip`) VAL
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_periods` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `gpuntisID` varchar(10) NOT NULL DEFAULT '',
-  `semesterID` int(11) unsigned NOT NULL,
   `day` int(1) unsigned NOT NULL,
   `period` int(1) unsigned NOT NULL,
   `starttime` time NOT NULL,
   `endtime` time NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `semesterID` (`semesterID`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
@@ -216,6 +215,16 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
   KEY `sid` (`sid`),
   KEY `plantypeID` (`plantypeID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_deltas` (
+  `id` int(11) unsigned NOT NULL,
+  `semesterID` int(11) unsigned NOT NULL,
+  `plantypeID` int(11) unsigned NOT NULL,
+  `delta` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `semesterID` (`semesterID`),
+  KEY `plantypeID` (`plantypeID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_semesters` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
