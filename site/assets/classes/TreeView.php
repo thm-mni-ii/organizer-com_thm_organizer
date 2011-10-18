@@ -11,9 +11,11 @@ class TreeView
   private $cfg = null;
   private $type = null;
   private $checked = null;
+  private $publicDefault = null;
   private $hideCheckBox = null;
   private $inTree = array();
   private $treeData = array();
+  private $publicDefaultNode = null;
 
   public function __construct($JDA, $CFG, $options = array())
   {
@@ -26,6 +28,14 @@ class TreeView
     else
     {
       $this->checked = null;
+    }
+    if(isset($options["publicDefault"]))
+    {
+      $this->publicDefault = (array)$options["publicDefault"];
+    }
+    else
+    {
+      $this->publicDefault = null;
     }
     if(isset($options["hide"]))
     {
@@ -51,6 +61,7 @@ class TreeView
   {
 
     $checked = null;
+    $publicDefault = null;
     $treeNode = null;
 
     if($this->hideCheckBox == true)
@@ -73,6 +84,16 @@ class TreeView
       }
     }
 
+    if($this->publicDefault != null && $leaf === true)
+      {
+      	if(isset($this->publicDefault[$id]))
+      		$publicDefault = $this->publicDefault[$id];
+      	else
+      		$publicDefault = "notdefault";
+      }
+      	else if($leaf === true)
+      		$publicDefault = "notdefault";
+
     if($this->hideCheckBox == true)
     {
       if($this->nodeStatus($id))
@@ -89,7 +110,8 @@ class TreeView
             $type,								// type
             $children,
             $semesterID,
-            $checked
+            $checked,
+            $publicDefault
           );
           $this->inTree[] = $gpuntisID;
       }
@@ -107,8 +129,28 @@ class TreeView
             $type,								// type
             $children,
             $semesterID,
-            $checked
+            $checked,
+            $publicDefault
           );
+
+    if($publicDefault === "default")
+    {
+    	$this->publicDefaultNode = new TreeNode(
+							            $id,							// id - autom. generated
+							            $text,							// text	for the node
+							            $iconCls,			// iconCls
+							            $leaf,								// leaf
+							            $draggable,								// draggable
+							            $singleClickExpand,								// singleClickExpand
+							            $gpuntisID,							// key
+							            $plantype,								// plantype
+							            $type,								// type
+							            $children,
+							            $semesterID,
+							            $checked,
+							            $publicDefault
+							        );
+    }
 
     if($treeNode == null)
       return $children;
@@ -186,7 +228,7 @@ class TreeView
 
     $semesterJahrNode = $this->treeCorrect($semesterJahrNode);
 
-    return array("success"=>true,"data"=>array("tree"=>$semesterJahrNode,"treeData"=>$this->treeData));
+    return array("success"=>true,"data"=>array("tree"=>$semesterJahrNode,"treeData"=>$this->treeData, "treePublicDefault"=>$this->publicDefaultNode));
   }
 
   private function treeCorrect($node)
@@ -371,7 +413,7 @@ class TreeView
           false,							// singleClickExpand
           "delta",
           $planid,
-          null,
+          "delta",
           null,
           $semesterID
         );
@@ -390,7 +432,7 @@ class TreeView
           false,							// singleClickExpand
           "respChanges",
           $planid,
-          null,
+          "respChanges",
           null,
           $semesterID
         );

@@ -669,12 +669,14 @@ Ext.define('mSchedule', {
 		};
 		if (arg.callback) arg.callback.createDelegate(arg.scope)(arg.params);
 	},
-	show: function (ret) {
+	show: function (ret, closeable) {
+		if(closeable != false)
+			closeable = true;
 		this.grid = getSchedGrid(this.getGridData());
 		this.grid.mSchedule = this;
 		if (ret) return this.grid;
 		var name = this.title.replace(/\s*\/\s*/g, ' ');
-		MySched.layout.createTab(this.getId(), name, this.grid, this.type);
+		MySched.layout.createTab(this.getId(), name, this.grid, this.type, closeable);
 
 		if (this.type === "delta") {
 			MySched.selectedSchedule.data = MySched.delta.data;

@@ -388,10 +388,90 @@ MySched.Base = function () {
         if (MySched.SessionId) {
           MySched.Authorize.verifyToken(MySched.SessionId, MySched.Authorize.verifySuccess, MySched.Authorize);
           // Lädt Delta Daten
-          MySched.delta.load(_C('ajaxHandler'), 'json', MySched.delta.loadsavedLectures, MySched.delta, "delta");
+          //MySched.delta.load(_C('ajaxHandler'), 'json', MySched.delta.loadsavedLectures, MySched.delta, "delta");
         }
         else {
-          MySched.delta.load(_C('ajaxHandler'), 'json', MySched.delta.loadsavedLectures, MySched.delta, "delta");
+        	var publicDefaultNode = MySched.startup["TreeView.load"].data.treePublicDefault;
+
+        	if(publicDefaultNode["type"] == "delta")
+        	{
+         		MySched.delta.load(_C('ajaxHandler'), 'json', MySched.delta.loadsavedLectures, MySched.delta, "delta");
+         	}
+         	else
+         	{
+         		var key = publicDefaultNode["id"];
+         		var type = publicDefaultNode["type"];
+         		var res = publicDefaultNode["gpuntisID"];
+         		var semesterID = publicDefaultNode["semesterID"];
+         		var plantype = publicDefaultNode["plantype"];
+
+         		var department = null;
+	            if (res == "delta")
+	              title = "Änderungen (zentral)";
+	            else if (res == "respChanges")
+	              title = "Änderungen (eigene)";
+	            else
+	            {
+	              department = MySched.Mapping.getObjectField(type, res, "department");
+	              if (typeof department == "undefined" || department == "none" || department == null || department == res)
+	                title = MySched.Mapping.getName(type, res);
+	              else
+	                title = MySched.Mapping.getName(type, res) + " - " + MySched.Mapping.getObjectField(type, res, "department");
+	            }
+
+         		if (MySched.loadedLessons[key] != true) {
+		              Ext.Ajax.request({
+		                url: _C('ajaxHandler'),
+		                method: 'POST',
+		                params: {
+		                  res: res,
+		                  class_semester_id: semesterID,
+		                  scheduletask: "Ressource.load",
+		                  plantype: plantype,
+		                  type: type
+		                },
+		                failure: function (response) {
+		                	Ext.Msg.alert('Fehler', "Beim Laden des Stundenplans ist ein Fehler aufgetreten.");
+		                },
+		                success: function (response) {
+		                  try {
+		                    var json = Ext.decode(response.responseText);
+		                    for (var item in json) {
+		                      if (Ext.isObject(json[item])) {
+		                        var record = new mLecture(json[item].key, json[item], type);
+		                        MySched.Base.schedule.addLecture(record);
+		                        MySched.TreeManager.add(record);
+		                      }
+		                    }
+		                    if (typeof json["elements"] != "undefined") {
+		                      record.elements = json["elements"];
+		                      new mSchedule(key, title).init(type, json["elements"]).show(false, false);
+		                    }
+		                    else
+		                    	new mSchedule(key, title).init(type, res).show(false, false);
+		                    MySched.loadedLessons[key] = true;
+		                  }
+		                  catch(e)
+		                  {
+							Ext.Msg.alert('Fehler', "Beim Laden des Stundenplans ist ein Fehler aufgetreten.");
+		                  }
+		                }
+		              });
+		            }
+		            else {
+		            	if(typeof record != "undefined")
+		            	{
+		            		if (typeof record.elements != "undefined")
+		              			new mSchedule(key, title).init(type, record.elements).show(false, false);
+		              		else
+								new mSchedule(key, title).init(type, res).show(false, false);
+		            	}
+		            	else
+		            	{
+		            		new mSchedule(key, title).init(type, res).show(false, false);
+		            	}
+		            }
+         	}
         }
       }
       else {
@@ -1792,7 +1872,9 @@ MySched.layout = function () {
      * @param {Object} title Title des Tabs
      * @param {Object} grid Grid das angezeigt werden soll
      */
-    createTab: function (id, title, grid, type) {
+    createTab: function (id, title, grid, type, closeable) {
+    	if(closeable != false)
+    		closeable = true;
       var tab = null;
       if (MySched.Authorize.role == "user" && id == "mySchedule") {
         //DO NOTHING
@@ -1824,7 +1906,7 @@ MySched.layout = function () {
             Ext.apply(grid, {
               cls: 'MySched_ScheduleTab',
               tabTip: title,
-              closable: true,
+              closable: closeable,
               height: 440,
               //iconCls: type + 'Icon',
             }), {

@@ -35,6 +35,11 @@ class JFormFieldScheduler extends JFormField
 			else
 				$idString = "";
 
+			if(isset($jsonObj->publicDefaultID))
+				$publicDefaultString = $jsonObj->publicDefaultID;
+			else
+				$publicDefaultString = "";
+
 			$doc =& JFactory::getDocument();
 			$doc->addStyleSheet(JURI::root(true)."/components/com_thm_organizer/views/scheduler/tmpl/ext/resources/css/ext-all.css");
 
@@ -50,7 +55,12 @@ class JFormFieldScheduler extends JFormField
 			else
 				$treeids = array();
 
-			$treeView = new TreeView($JDA, $CFG, array("path"=>$treeids, "hide"=>false));
+			if($publicDefaultString != "")
+				$publicDefaultID = json_decode($publicDefaultString);
+			else
+				$publicDefaultID = array();
+
+			$treeView = new TreeView($JDA, $CFG, array("path"=>$treeids, "hide"=>false, "publicDefault"=>$publicDefaultID));
 
 			$treearr = $treeView->load();
 
@@ -76,6 +86,8 @@ class JFormFieldScheduler extends JFormField
 		echo 'images.intermediate_highlighted = \''.JURI::root(true).'/components/com_thm_organizer/models/fields/images/intermediate_highlighted.gif\';';
 		echo 'images.selected = \''.JURI::root(true).'/components/com_thm_organizer/models/fields/images/selected.gif\';';
 		echo 'images.selected_highlighted = \''.JURI::root(true).'/components/com_thm_organizer/models/fields/images/selected_highlighted.gif\';';
+		echo 'images.notdefault = \''.JURI::root(true).'/components/com_thm_organizer/models/fields/images/notdefault.png\';';
+		echo 'images.default = \''.JURI::root(true).'/components/com_thm_organizer/models/fields/images/default.png\';';
 		echo 'images.base = \''.JURI::root(true).'/components/com_thm_organizer/models/fields/images/\';';
 	?>
 </script>

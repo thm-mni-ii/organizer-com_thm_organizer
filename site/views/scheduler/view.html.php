@@ -29,6 +29,7 @@ class thm_organizerViewScheduler extends JView
 		$this->LSFisAvailable = $model->getLSFStatus("com_thm_lsf");
 
 		$menuparamsID = $menuparams->get("id");
+		$menuparamsPublicDefaultID = $menuparams->get("publicDefaultID");
 
 		if($showSchedule != '')
 			$path = explode("/", $showSchedule);
@@ -42,6 +43,14 @@ class thm_organizerViewScheduler extends JView
 				$path = array();
 			}
 		}
+
+		try{
+				$publicDefaultIDArray = (array)json_decode($menuparamsPublicDefaultID);
+			}
+			catch(Exception $e)
+			{
+				$publicDefaultIDArray = array();
+			}
 
 		$firstValue = each($path);
 
@@ -75,12 +84,7 @@ class thm_organizerViewScheduler extends JView
 
 		$schedulearr["ScheduleDescription.load"] = $model->executeTask("ScheduleDescription.load");
 
-		$schedulearr["TreeView.load"] = $model->executeTask("TreeView.load", array("path"=>$path, "hide"=>true));
-
-		if($user->id !== null && $user->id !== 0)
-			$schedulearr["UserSchedule.load"] = $model->executeTask("UserSchedule.load", array("username"=>$user->name, "sid"=>$sid));
-
-		$schedulearr["UserSchedule.load"]["delta"] = $model->executeTask("UserSchedule.load", array("username"=>"delta", "sid"=>$sid));
+		$schedulearr["TreeView.load"] = $model->executeTask("TreeView.load", array("path"=>$path, "hide"=>true, "publicDefault"=>$publicDefaultIDArray));
 
 		$this->startup = rawurlencode(json_encode($schedulearr));
 

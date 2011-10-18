@@ -10,13 +10,25 @@ Ext.override(Ext.tree.Column, {
                 treePrefix  = Ext.baseCSSPrefix + 'tree-',
                 elbowPrefix = treePrefix + 'elbow-',
                 expanderCls = treePrefix + 'expander',
-                imgText     = '<img src="{1}" class="{0}" />',
-                checkboxText= '<input id="'+record.data.id+'" type="hidden" value="'+record.data.checked+'" role="checkbox" class="{0}" {1} />';
-                checkboxText+= '<img id="'+record.data.id+'_fake" class="MySched_checkbox_fake" src="'+images[record.data.checked]+'">';
-                formattedValue = origRenderer.apply(origScope, arguments),
-                href = record.get('href'),
-                target = record.get('hrefTarget'),
-                cls = record.get('cls');
+                imgText     = '<img src="{1}" class="{0}" />';
+
+			var checkboxText = "";
+
+			if(record.raw.publicDefault)
+			{
+	            checkboxText += '<input id="'+record.data.id+'_default" type="hidden" value="'+record.raw.publicDefault+'" role="checkbox" />';
+				checkboxText += '<img id="'+record.data.id+'_default_fake" class="MySched_checkbox_default_fake" src="'+images[record.raw.publicDefault]+'">';
+			}
+			if(record.data.checked)
+			{
+	           	checkboxText += '<input id="'+record.data.id+'" type="hidden" value="'+record.data.checked+'" role="checkbox" class="{0}" {1} />';
+	           	checkboxText += '<img id="'+record.data.id+'_fake" class="MySched_checkbox_fake" src="'+images[record.data.checked]+'">';
+	        }
+
+            var formattedValue = origRenderer.apply(origScope, arguments),
+             	href = record.get('href'),
+             	target = record.get('hrefTarget'),
+             	cls = record.get('cls');
 
             while (record) {
                 if (!record.isRoot() || (record.isRoot() && view.rootVisible)) {
@@ -84,6 +96,38 @@ changeIconHighlight = function(event){
 	}
 	else
 		elImg.dom.src = images.base+elInput.value+".gif";
+}
+
+changePublicDefaultHighlight = function(event){
+	//Not implemented ( Keine macht mir nen Highlighted Icon :( )
+}
+
+setPublicDefaultStatus = function(event){
+	var elImg = event.getTarget('.MySched_checkbox_default_fake', 5, true);
+	var elInput = elImg.dom.getPrevious();
+	var newStatus = null;
+	var treeRoot = tree.getRootNode();
+
+	var record = treeRoot.findChild('id',elInput.id.replace("_default", ""),true);
+
+	if(elInput.value == "default")
+		newStatus = "notdefault";
+	else
+	{
+		var nodes = Ext.query('.MySched_checkbox_default_fake');
+		Ext.each(nodes, function (item, index, allItems) {
+		   item.src = images["notdefault"];
+		   item.getPrevious().value = "notdefault";
+		   var nodeTemp = treeRoot.findChild('id',item.id.replace("_default_fake", ""),true);
+		   nodeTemp.raw.publicDefault = "notdefault";
+		});
+		newStatus = "default";
+	}
+
+	elInput.value = newStatus;
+	elImg.dom.src = images[elInput.value];
+
+	record.raw.publicDefault = elInput.value;
 }
 
 setStatus = function(event){
@@ -177,6 +221,29 @@ Ext.tree.Panel.prototype.getChecked = function(node, checkedArr){
 	return checked;
 };
 
+Ext.tree.Panel.prototype.getPublicDefault = function(node, checkedArr){
+	if(checkedArr == null)
+		var checked = {};
+	else
+		checked = checkedArr;
+	var i;
+	if( typeof node == 'undefined' ) {
+		node = this.getRootNode();
+	}
+
+	if( Ext.isObject(node.raw) &&  node.raw.publicDefault == "default") {
+		checked[node.data.id] = node.raw.publicDefault;
+	}
+	else
+		if( !node.isLeaf() ) {
+			for( i = 0; i < node.childNodes.length; i++ ) {
+				var checkedChildren = this.getPublicDefault(node.childNodes[i]);
+				for (var attrname in checkedChildren) { checked[attrname] = checkedChildren[attrname];}
+			}
+		}
+	return checked;
+};
+
 var tree = null;
 
 Ext.onReady(function(){
@@ -184,7 +251,6 @@ Ext.onReady(function(){
 
 	tree = Ext.create('Ext.tree.Panel', {
 	    title: ' ',
-	    singleExpand: false,
 	    id: 'selectTree',
         preventHeader: true,
 	    height: 470,
@@ -204,20 +270,6 @@ Ext.onReady(function(){
             children: children
 	    },
 	    listeners: {
-            /*checkchange: function(node, checked)
-            {
-				node.expandChildren(true,
-					function(){
-						node.cascadeBy(
-							function(childNode)
-								{
-									childNode.set('checked', checked);
-								}
-						);
-					}
-				);
-				tree.fireEvent('check');
-            },*/
             itemmouseleave: function()
             {
             	Ext.select('.MySched_checkbox_fake').removeAllListeners();
@@ -238,16 +290,52 @@ Ext.onReady(function(){
 			        	}
 			      	}
 			    });
+
+			    Ext.select('.MySched_checkbox_default_fake').removeAllListeners();
+			    Ext.select('.MySched_checkbox_default_fake').on({
+					'mouseover': function (e) {
+						e.stopEvent();
+						changePublicDefaultHighlight(e);
+			      	},
+			      	'mouseout': function (e) {
+			        	e.stopEvent();
+						changePublicDefaultHighlight(e);
+			      	},
+			      	'click': function (e) {
+			        	if (e.button == 0) //links Klick
+			        	{
+			          		e.stopEvent();
+			          		setPublicDefaultStatus(e);
+			        	}
+			      	}
+			    });
+            },
+            afterrender: function() {
+            	var publicDefault = tree.getPublicDefault();
+			    for(var item in publicDefault)
+			    {
+			    	publicDefault = item;
+			    	break;
+			    }
+
+				publicDefault = publicDefault.split(".");
+
+				var nodePath = [];
+
+				for(var i = 0; i < publicDefault.length; i++)
+				{
+					var length = nodePath.length;
+					if(length == 0)
+						nodePath.push(publicDefault[i]);
+					else
+						nodePath.push(nodePath[(length - 1)]+"."+publicDefault[i]);
+				}
+
+				nodePath = "/"+tree.root.id+"/"+nodePath.join("/");
+    			tree.expandPath(nodePath);
             }
 		}
 	});
-
-	/*tree.on('check', function() {
-		var paramID = Ext.get('jform_params_id');
-		var treeChecked = tree.getChecked();
-		var paramValue = Ext.encode(treeChecked);
-		paramID.dom.value = paramValue;
-	}, tree);*/
 
 	// render the tree
     tree.render('tree-div');
@@ -269,6 +357,24 @@ Ext.onReady(function(){
         	}
       	}
     });
+
+    Ext.select('.MySched_checkbox_default_fake').on({
+		'mouseover': function (e) {
+			e.stopEvent();
+			changePublicDefaultHighlight(e);
+      	},
+      	'mouseout': function (e) {
+        	e.stopEvent();
+			changePublicDefaultHighlight(e);
+      	},
+      	'click': function (e) {
+        	if (e.button == 0) //links Klick
+        	{
+          		e.stopEvent();
+          		setPublicDefaultStatus(e);
+        	}
+      	}
+    });
 });
 
 Joomla.submitbutton = function(task, type)
@@ -278,6 +384,11 @@ Joomla.submitbutton = function(task, type)
 		var paramID = Ext.get('jform_params_id');
 		var treeChecked = tree.getChecked();
 		var paramValue = Ext.encode(treeChecked);
+		paramID.dom.value = paramValue;
+
+		var paramID = Ext.get('jform_params_publicDefaultID');
+		var publicDefault = tree.getPublicDefault();
+		var paramValue = Ext.encode(publicDefault);
 		paramID.dom.value = paramValue;
 	}
 

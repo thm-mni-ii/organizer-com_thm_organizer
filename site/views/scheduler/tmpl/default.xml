@@ -13,6 +13,9 @@
             <field name="id"
                    type="hidden"
                    description="Tooltip ;)"/>
+            <field name="publicDefaultID"
+                   type="hidden"
+                   description="Tooltip ;)"/>
         </fieldset>
 	</fields>
 </metadata>
