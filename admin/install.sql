@@ -217,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_deltas` (
-  `id` int(11) unsigned NOT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `semesterID` int(11) unsigned NOT NULL,
   `plantypeID` int(11) unsigned NOT NULL,
   `delta` text NOT NULL,
