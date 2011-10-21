@@ -11,15 +11,15 @@
  * @version     1.7.0
  */
 defined('_JEXEC') or die('Restricted access');?>
-<div id="thm_organizer_cm" >
+<div id="thm_organizer_cat" >
     <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>" method="post" name="adminForm">
-        <table class="adminlist" id="thm_organizer_cm_table">
+        <table class="adminlist" id="thm_organizer_cat_table">
             <colgroup>
-                <col id="thm_organizer_cm_checkbox_column" align="center" />
-                <col id="thm_organizer_cm_title_column" />
-                <col id="thm_organizer_cm_global_column" />
-                <col id="thm_organizer_cm_reserves_column" />
-                <col id="thm_organizer_cm_content_cat_column" />
+                <col id="thm_organizer_cat_checkbox_column" align="center" />
+                <col id="thm_organizer_cat_title_column" />
+                <col id="thm_organizer_cat_global_column" />
+                <col id="thm_organizer_cat_reserves_column" />
+                <col id="thm_organizer_cat_content_cat_column" />
             </colgroup>
             <thead>
                 <tr>
@@ -38,8 +38,8 @@ defined('_JEXEC') or die('Restricted access');?>
         $class = ($k % 2 == 0)?  'row0' : 'row1';
         $k++ ?>
                 <tr class="<?php echo $class; ?>">
-                    <td class="thm_organizer_ce_checkbox"><?php echo $checked; ?></td>
-                    <td class="thm_organizer_ce_name">
+                    <td class="thm_organizer_cat_checkbox"><?php echo $checked; ?></td>
+                    <td class="thm_organizer_cat_name">
                     <?php if($this->access){?>
                         <a href='<?php echo $category['link']; ?>' >
                             <?php echo $category['title']; ?>
@@ -48,7 +48,7 @@ defined('_JEXEC') or die('Restricted access');?>
                         <?php echo $category['title']; ?>
                     <?php }?>
                     </td>
-                    <td class="thm_organizer_ce_global">
+                    <td class="thm_organizer_cat_global">
                     <?php if($this->access){?>
                         <a href='<?php echo $category['link']; ?>' >
                             <?php echo ($category['global'])? $this->yes : $this->no; ?>
@@ -57,7 +57,7 @@ defined('_JEXEC') or die('Restricted access');?>
                         <?php echo ($category['global'])? $this->yes : $this->no; ?>
                     <?php }?>
                     </td>
-                    <td class="thm_organizer_ce_reserve">
+                    <td class="thm_organizer_cat_reserve">
                     <?php if($this->access){?>
                         <a href='<?php echo $category['link']; ?>' >
                             <?php echo ($category['reserves'])? $this->yes : $this->no; ?>
@@ -66,7 +66,7 @@ defined('_JEXEC') or die('Restricted access');?>
                         <?php echo ($category['reserves'])? $this->yes : $this->no; ?>
                     <?php }?>
                     </td>
-                    <td class="thm_organizer_ce_reserve">
+                    <td class="thm_organizer_cat_reserve">
                     <?php if($this->access){?>
                         <a href='<?php echo $category['link']; ?>' >
                             <?php echo $category['contentCat']; ?>

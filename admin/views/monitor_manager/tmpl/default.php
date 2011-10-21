@@ -11,14 +11,14 @@
  * @version     1.7.0
  */
 defined('_JEXEC') or die;?>
-<div id="thm_organizer_mm" >
+<div id="thm_organizer_mon" >
     <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>" method="post" name="adminForm">
         <div id="editcell">
-            <table class="adminlist thm_organizer_mm_table">
+            <table class="adminlist thm_organizer_mon_table">
                 <colgroup>
-                    <col id="thm_organizer_mm_col_checkbox" />
-                    <col id="thm_organizer_mm_col_ip" />
-                    <col id="thm_organizer_mm_col_room" />
+                    <col id="thm_organizer_mon_col_checkbox" />
+                    <col id="thm_organizer_mon_col_ip" />
+                    <col id="thm_organizer_mon_col_room" />
                 </colgroup>
                 <thead>
                     <tr>
@@ -31,10 +31,10 @@ defined('_JEXEC') or die;?>
         $checked = JHTML::_( 'grid.id', $k, $monitor['monitorID'] );
         $class = ($k % 2 == 0)?  'row0' : 'row1'; $k++ ?>
 	        <tr class="<?php echo $class; ?>">
-	            <td class="thm_organizer_mm_checkbox">
+	            <td class="thm_organizer_mon_checkbox">
                         <?php echo $checked; ?>
                     </td>
-	            <td class="thm_organizer_mm_ip">
+	            <td class="thm_organizer_mon_ip">
                     <?php if($this->access){ ?>
                         <a href='<?php echo $monitor['link']; ?>' >
                             <?php echo $monitor['ip']; ?>
@@ -43,7 +43,7 @@ defined('_JEXEC') or die;?>
                         <?php echo $monitor['ip']; ?>
                     <?php } ?>
                     </td>
-	            <td class="thm_organizer_mm_room">
+	            <td class="thm_organizer_mon_room">
                     <?php if($this->access){ ?>
                         <a href='<?php echo $monitor['link']; ?>' >
                             <?php echo $monitor['room']; ?>

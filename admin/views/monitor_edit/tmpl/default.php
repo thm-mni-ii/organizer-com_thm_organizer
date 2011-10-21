@@ -11,24 +11,24 @@
  */
 
 defined('_JEXEC') or die; ?>
-<div id="thm_organizer_me" >
+<div id="thm_organizer_mon" >
     <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>" method="post" name="adminForm">
         <table class="admintable">
             <colgroup>
-                <col id="thm_organizer_me_label_column" />
-                <col id="thm_organizer_me_data_column" />
-                <col id="thm_organizer_me_label_column" />
-                <col id="thm_organizer_me_data_column" />
+                <col id="thm_organizer_mon_label_column" />
+                <col id="thm_organizer_mon_data_column" />
+                <col id="thm_organizer_mon_label_column" />
+                <col id="thm_organizer_mon_data_column" />
             </colgroup>
             <tr>
-                <td class="thm_organizer_me_label_data" >
+                <td class="thm_organizer_mon_label_data" >
                     <label for="ip"><?php echo JText::_('COM_THM_ORGANIZER_MON_IP'); ?></label>
                 </td>
                 <td>
                     <input class="text_area" type="text" name="ip" id="ip"
                            size="6" maxlength="20" value="<?php echo $this->ip;?>" />
                 </td>
-                <td class="thm_organizer_me_label_data" >
+                <td class="thm_organizer_mon_label_data" >
                     <label for="room"><?php echo JText::_('COM_THM_ORGANIZER_MON_ROOM'); ?></label>
                 </td>
                 <td><?php echo $this->room;?></td>

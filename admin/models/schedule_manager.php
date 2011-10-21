@@ -11,128 +11,152 @@
  * @version     1.7.0
  */
 defined('_JEXEC') or die('Restriced Access');
-jimport('joomla.application.component.model');
-class thm_organizersModelschedule_manager extends JModel
+jimport('joomla.application.component.modellist');
+class thm_organizersModelschedule_manager extends JModelList
 {
-    public $semesterName;
-    public $semesterID;
-    public $schedules;
+    public $semesterName = '';
+    public $semesters = null;
 
-    public function __construct()
+    public function __construct($config = array())
     {
-        parent::__construct();
-        $this->semesterID = JRequest::getInt('semesterID');
-        $this->semesterName = $this->getSemesterName();
-        $this->schedules = $this->getSchedules();
+        if (empty($config['filter_fields'])) {
+			$config['filter_fields'] = array(
+				'filename', 'sch.filename',
+				'state', 'sch.active',
+				'semester', 'sch.sid',
+				'plantype', 'p.plantype',
+				'creationdate', 'sch.creationdate',
+			);
+		}
+        parent::__construct($config);
+        $this->semesters = $this->getSemesters();
+        $this->plantypes = $this->getPlantypes();
+    }
+
+    protected function getListQuery()
+    {
+        $dbo = $this->getDbo();
+        $query = $dbo->getQuery(true);
+
+        $select = "sch.id, sch.filename, sch.active, sch.description, p.plantype, ";
+        $select .= "DATE_FORMAT(sch.startdate, '%d.%m.%Y') AS startdate, ";
+        $select .= "DATE_FORMAT(sch.enddate, '%d.%m.%Y') AS enddate, ";
+        $select .= "DATE_FORMAT(sch.creationdate, '%d.%m.%Y') AS creationdate, ";
+        $select .= "sch.sid, CONCAT( sem.organization, ' - ', sem.semesterDesc ) AS semester";
+        $query->select($this->getState("list.select", $select));
+        $query->from("#__thm_organizer_schedules AS sch");
+        $query->innerJoin("#__thm_organizer_plantypes AS p ON p.id = sch.plantypeID");
+        $query->leftjoin('#__thm_organizer_semesters AS sem ON sem.id = sch.sid');
+
+        $search = $this->getState('filter.search');
+        if($search & $search != JText::_('COM_THM_ORGANIZER_SEARH_CRITERIA'))
+        {
+            $search = $dbo->Quote("%{$dbo->getEscaped($search, true)}%");
+            $query->where('sch.filename LIKE '.$search);
+        }
+
+        $state = $this->getState('filter.state');
+        if($state === '0') $query->where("sch.active IS NULL");
+        if($state === '1') $query->where("sch.active IS NOT NULL");
+
+        $semester = $this->getState('filter.semester');
+        if(is_numeric($semester)) $query->where("sch.sid = $semester");
+
+        $plantype = $this->getState('filter.type');
+        if(is_numeric($plantype)) $query->where("sch.plantypeID = $plantype");
+
+        $orderby = $dbo->getEscaped($this->getState('list.ordering', 'sch.creationdate'));
+        $direction = $dbo->getEscaped($this->getState('list.direction', 'ASC'));
+        $query->order("$orderby $direction");
+
+        return $query;
+    }
+
+    /**
+     * 
+     * @param <type> $ordering
+     * @param <type> $direction
+     */
+    protected function populateState($ordering = null, $direction = null)
+    {
+        //var_dump($_REQUEST);
+        // Load the filter state.
+        $search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+        $this->setState('filter.search', $search);
+
+        $state = $this->getUserStateFromRequest($this->context.'.filter.state', 'filter_state');
+        $this->setState('filter.state', $state);
+        
+        $referred = strpos($_SERVER['HTTP_REFERER'], 'view=semester_manager');
+        $semesterID = (is_numeric($referred))?
+            JRequest::getCmd('semesterID') : $this->getUserStateFromRequest($this->context.'.filter.semester', 'filter_semester');
+        $this->setState('filter.semester', $semesterID);
+        $this->setState('semesterName', $this->getSemesterName($semesterID));
+
+        $type = $this->getUserStateFromRequest($this->context.'.filter.type', 'filter_type');
+        $this->setState('filter.type', $type);
+
+        // List state information.
+        parent::populateState($ordering, $direction);
+    }
+
+    /**
+     * getPlantypes
+     *
+     * retrieves an array of saved plantypes from the database
+     *
+     * @return array
+     */
+    private function getPlantypes()
+    {
+        $dbo = $this->getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("id, plantype AS name");
+        $query->from("#__thm_organizer_plantypes");
+        $dbo->setQuery((string)$query);
+        $plantypes = $dbo->loadAssocList();
+        if(count($plantypes))
+        {
+            foreach($plantypes as $k => $type)
+                $plantypes[$k]['name'] = JText::_($type['name']);
+            return $plantypes;
+        }
+        else return array();
+    }
+
+    /**
+     * getSemesters
+     *
+     * retrieves an array of saved semesters from the database
+     *
+     * @return array
+     */
+    private function getSemesters()
+    {
+        $dbo = $this->getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("id, CONCAT( organization, ' - ', semesterDesc ) AS name");
+        $query->from("#__thm_organizer_semesters");
+        $dbo->setQuery((string)$query);
+        $semesters = $dbo->loadAssocList();
+        return (count($semesters))? $semesters : array();
     }
     
     /**
-     * getSemester
+     * getSemesterName
      * 
      * retrieves the name of a given semester
      * 
      * @return string the name of the semester
      */
-    private function getSemesterName()
+    private function getSemesterName($semesterID)
     {
         $dbo = $this->getDbo();
         $query = $dbo->getQuery(true);
         $query->select("CONCAT( organization, ' - ', semesterDesc ) AS semesterName");
         $query->from("#__thm_organizer_semesters");
-        $query->where("id = '{$this->semesterID}'");
+        $query->where("id = '$semesterID'");
         $dbo->setQuery((string)$query);
         return $dbo->loadResult();
     }
-
-    /**
-     * private function getSchedules
-     *
-     * creates a list of schedules asscociated with the selected semester
-     */
-    private function getSchedules()
-    {
-        $dbo = & JFactory::getDBO();
-        $query = $dbo->getQuery(true);
-        $select = "id, filename, active, description, ";
-        $select .= "DATE_FORMAT(startdate, '%d.%m.%Y') AS startdate, ";
-        $select .= "DATE_FORMAT(enddate, '%d.%m.%Y') AS enddate, ";
-        $select .= "DATE_FORMAT(includedate, '%d.%m.%Y') AS includedate ";
-        $query->select($select);
-        $query->from("#__thm_organizer_schedules");
-        $query->where("sid = '{$this->semesterID}'");
-        $dbo->setQuery((string)$query);
-        $schedules = $dbo->loadAssocList();
-        if(isset($schedules) and count($schedules))
-            $this->setHTML($schedules);
-        else $schedules = array();
-        return $schedules;
-    }
-
-    private function setHTML(&$schedules)
-    {
-        $url = "index.php?option=com_thm_organizer&task=TASKTEXT";
-        $url .= "&semesterID={$this->semesterID}&scheduleID=IDTEXT";
-
-        $activateTitle = JText::_('COM_THM_ORGANIZER_SM_ACTIVATE_TITLE');
-        $activateTitle .= "::".JText::_('COM_THM_ORGANIZER_SM_ACTIVATE_DESC');
-        $deactivateTitle = JText::_('COM_THM_ORGANIZER_SM_DEACTIVATE_TITLE');
-        $deactivateTitle .= "::".JText::_('COM_THM_ORGANIZER_SM_DEACTIVATE_DESC');
-        $deleteTitle = JText::_('COM_THM_ORGANIZER_SM_SCHEDULE_DELETE_TITLE');
-        $deleteTitle .= JText::_('COM_THM_ORGANIZER_SM_SCHEDULE_DELETE_DESC');
-        $startdateTitle = JText::_('COM_THM_ORGANIZER_SM_STARTDATE_TITLE');
-        $startdateTitle .= JText::_('COM_THM_ORGANIZER_SM_STARTDATE_DESC');
-        $enddateTitle = JText::_('COM_THM_ORGANIZER_SM_ENDDATE_TITLE');
-        $enddateTitle .= JText::_('COM_THM_ORGANIZER_SM_ENDDATE_DESC');
-
-        $attribs = array();
-        $attribs['class'] = "hasTip";
-        $attribs['title'] = "";
-
-        //public static function link($url, $text, $attribs = null)
-        $activeImage = JHTML::_('image',
-                         'administrator/templates/bluestork/images/admin/tick.png',
-                         JText::_( 'Active' ),
-                         array( 'class' => 'thm_organizer_schm_tick'));
-
-        $inactiveImage = JHTML::_('image',
-                         'administrator/templates/bluestork/images/admin/disabled.png',
-                         JText::_( 'Active' ),
-                         array( 'class' => 'thm_organizer_schm_tick'));
-
-        $deleteImage = JHTML::_('image',
-                         'administrator/templates/bluestork/images/admin/trash.png',
-                         JText::_( 'Active' ),
-                         array( 'class' => 'thm_organizer_schm_tick'));
-
-
-        foreach($schedules as $k => $schedule)
-        {
-            if($schedule["active"])
-            {
-                $attribs['title'] = $deactivateTitle;
-                $deactivateURL = str_replace('TASKTEXT', 'schedule.deactivate', $url);
-                $deactivateURL = str_replace('IDTEXT', $schedule['id'], $deactivateURL);
-                $schedules[$k]['publish'] = JHtml::_('link', $deactivateURL, $activeImage, $attribs);
-                $schedules[$k]['delete'] = "";
-            }
-            else
-            {   
-                $attribs['title'] = $activateTitle;
-                $activateURL = str_replace('TASKTEXT', 'schedule.activate', $url);
-                $activateURL = str_replace('IDTEXT', $schedule['id'], $activateURL);
-                $schedules[$k]['publish'] = JHtml::_('link', $activateURL, $inactiveImage, $attribs);
-                
-                $attribs['title'] = $deleteTitle;
-                $deleteURL = str_replace('TASKTEXT', 'schedule.delete', $url);
-                $deleteURL = str_replace('IDTEXT', $schedule['id'], $deleteURL);
-                $schedules[$k]['delete'] = JHtml::_('link', $deleteURL, $deleteImage, $attribs);
-            }
-            $attribs['size'] = '10';
-            $attribs['title'] = $startdateTitle;
-            $schedules[$k]['startdate'] = JHtml::_('calendar', $schedule['startdate'], 'startdate', 'startdate', 'Y.m.d');
-            $attribs['title'] = $enddateTitle;
-            $schedules[$k]['enddate'] = JHtml::_('calendar', $schedule['enddate'], 'enddate', 'enddate', 'Y.m.d');
-        }
-    }
 }
-?>

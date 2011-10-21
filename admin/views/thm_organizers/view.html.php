@@ -15,6 +15,8 @@ class thm_organizersViewthm_organizers extends JView
 {
     public function display($tpl = null)
     {
+        JHtml::_('behavior.tooltip');
+
         $document = & JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
 
@@ -39,7 +41,8 @@ class thm_organizersViewthm_organizers extends JView
      */
     private function addViews()
     {
-        $linkStart = "<a href='index.php?option={$this->option}&view=VIEWTEXT' >";
+        $linkStart = "<a href='index.php?option={$this->option}&view=VIEWTEXT' ";
+        $linkStart .= "class='hasTip' title='TITLETEXT' >";
         $views = array( 'category_manager' => array(),
                         'monitor_manager' => array(),
                         'semester_manager' => array(),
@@ -47,14 +50,26 @@ class thm_organizersViewthm_organizers extends JView
                         'scheduler_application_settings' => array(),
                         'virtual_schedule_manager' => array());
         $views['category_manager']['title'] = JText::_('COM_THM_ORGANIZER_CAT_TITLE');
+        $title_text = JText::_('COM_THM_ORGANIZER_CAT_TITLE')."::".JText::_('COM_THM_ORGANIZER_CAT_DESC');
+        $views['category_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
         $views['monitor_manager']['title'] = JText::_('COM_THM_ORGANIZER_MON_TITLE');
+        $title_text = JText::_('COM_THM_ORGANIZER_MON_TITLE')."::".JText::_('COM_THM_ORGANIZER_MON_DESC');
+        $views['monitor_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
         $views['semester_manager']['title'] = JText::_('COM_THM_ORGANIZER_SEM_TITLE');
+        $title_text = JText::_('COM_THM_ORGANIZER_SEM_TITLE')."::".JText::_('COM_THM_ORGANIZER_SEM_DESC');
+        $views['semester_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
         $views['schedule_manager']['title'] = JText::_('COM_THM_ORGANIZER_SCH_TITLE');
+        $title_text = JText::_('COM_THM_ORGANIZER_SCH_TITLE')."::".JText::_('COM_THM_ORGANIZER_SCH_DESC');
+        $views['schedule_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
         $views['scheduler_application_settings']['title'] = JText::_('COM_THM_ORGANIZER_RIA_TITLE');
+        $title_text = JText::_('COM_THM_ORGANIZER_RIA_TITLE')."::".JText::_('COM_THM_ORGANIZER_RIA_DESC');
+        $views['scheduler_application_settings']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
         $views['virtual_schedule_manager']['title'] = JText::_('COM_THM_ORGANIZER_VSM_TITLE');
+        $title_text = JText::_('COM_THM_ORGANIZER_VSM_TITLE')."::".JText::_('COM_THM_ORGANIZER_VSM_DESC');
+        $views['virtual_schedule_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
         foreach($views as $k => $view)
         {
-            $views[$k]['link_start'] = str_replace("VIEWTEXT", $k, $linkStart);
+            $views[$k]['link_start'] = str_replace("VIEWTEXT", $k, $views[$k]['link_start']);
             $views[$k]['image'] = JHTML::_("image",
                                            "components/com_thm_organizer/assets/images/$k.png",
                                            $view['title'],

@@ -14,9 +14,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.view');
 require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
 
-class thm_organizersViewsemester_manager extends JView {
-
-    function display($tpl = null)
+class thm_organizersViewsemester_manager extends JView
+{
+    public function display($tpl = null)
     {
         $document = & JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
@@ -24,7 +24,7 @@ class thm_organizersViewsemester_manager extends JView {
         $model = $this->getModel();
         $this->semesters = $model->semesters;
 
-        JToolBarHelper::title( JText::_( 'Semester Manager' ), 'generic.png' );
+        JToolBarHelper::title( JText::_( 'COM_THM_ORGANIZER_SEM_TITLE' ), 'generic.png' );
         if(thm_organizerHelper::isAdmin('semester_manager'))
         {
             $this->addToolBar();

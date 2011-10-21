@@ -59,5 +59,32 @@ class thm_organizerHelper
     {
         JError::raiseError( 777, JText::_('COM_THM_ORGANIZER_NO_ACCESS') );
     }
+
+    /**
+     * germanizeDate
+     *
+     * reformats db formatted dates to the german date format
+     *
+     * @param string $date the date from the db
+     * @return string a german formatted date
+     */
+    public static function germanizeDate($date)
+    {
+        $date = date("d.m.Y", strtotime($date));
+        return $date;
+    }
+    /**
+     * dbizeDate
+     *
+     * reformats german formatted dates to the db date format
+     *
+     * @param string $date the german formatted date
+     * @return string a db formatted date
+     */
+    public static function dbizeDate($date)
+    {
+        $date = date("Y-m-d", strtotime($date));
+        return $date;
+    }
 }
 ?>

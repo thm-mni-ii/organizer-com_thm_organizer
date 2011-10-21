@@ -10,203 +10,267 @@
  * @link        www.mni.thm.de
  * @version     1.7.0
  */
-
 defined( '_JEXEC' ) or die;
 jimport('joomla.application.component.controller');
 require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
-class thm_organizersControllerschedule_manager extends JController
+class thm_organizersControllerschedule extends JController
 {
     /**
-     * public function upload
+     * edit
      *
-     * uploads a file to the database
+     * redirects to the semester edit view to edit an existing semester
      */
-    public function upload()
+    public function edit()
     {
-        $id = JRequest::getVar('semesterID');
-        $fileType = $_FILES['file']['type'];
-        $allowedActions = thm_organizerHelper::getActions('semester_edit');
-        if($allowedActions->get("core.edit"))
-        {
-            $model = $this->getModel('schedule');
-            $id = JRequest::getVar('semesterID');
-            $fileType = $_FILES['file']['type'];
-            $wrongType = false;;
-            if($fileType == "text/xml")
-            {
-                $result = $model->upload();
-                $msg = "<pre>".print_r($result, true)."</pre>";
-                if($result === true)
-                {
-                    $msg = JText::_("The schedule has been successfully uploaded.");
-                    $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg);
-                }
-                else if($result === false)
-                {
-                    $msg = JText::_("An error has occured while uploading the file.");
-                    $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'error');
-                }
-                else if(isset($result['errors']))
-                {
-                    $errorText = "<h3>".JText::_('The file was not saved to the database due to the following critical inconsistencies:')."</h3>";
-                    $msg = $errorText.$result['errors'];
-                    if(isset($result['warnings']))
-                    {
-                        $warningText = "<br /><h4>".JText::_('The file additionally displayed the following minor inconsistencies:')."</h4>";
-                        $msg .= $warningText.$result['warnings'];
-                    }
-                    $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'error');
-                }
-                else if(isset($result['warnings']))
-                {
-                    $warningText =  "<h4>".JText::_('The file has been saved, however, it displayed the following minor inconsistencies:')."</h4>";
-                    $msg = $warningText.$result['warnings'];
-                    $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'notice');
-                }
-                else if(is_string($result))
-                {
-                    $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $result, 'error');
-                }
-                else
-                {
-                    $msg = JText::_("An unknown error has occurred while uploading the file.");
-                    $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'error');
-                }
-            }
-            else
-            {
-                $msg = JText::_("This file is of an unsupported type.");
-                $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'error');
-            }
-        }
-        else
-        {
-            $msg = JText::_("You do not have access to perform this action.");
-            $this->setRedirect( 'index.php', $msg, 'error');
-        }
+        if(!thm_organizerHelper::isAdmin('schedule')) thm_organizerHelper::noAccess ();
+        JRequest::setVar( 'view', 'schedule_edit' );
+        parent::display();
     }
-
+    
     /**
-     * function delete_schedule
+     * apply
      *
-     * removes schedules from a given semester
-     */
-    public function delete()
-    {
-        $allowedActions = thm_organizerHelper::getActions('semester_edit');
-        if($allowedActions->get("core.delete"))
-        {
-            $id = JRequest::getVar('semesterID');
-            $model = $this->getModel('schedule');
-            $result = $model->delete();
-            if($result)
-            {
-                $msg = JText::_("The selected schedule(s) has been successfully removed.");
-                $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg);
-            }
-            else
-            {
-                $msg = JText::_("An error has occurred while removing the schedule(s).");
-                $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'error');
-            }
-        }
-        else
-        {
-            $msg = JText::_("You do not have access to perform this action.");
-            $this->setRedirect( 'index.php', $msg, 'error');
-        }
-    }
-
-    /**
-     * function deactivate
-     *
-     * activates the chosen schedule in its context
-     */
-    public function activate()
-    {
-        $allowedActions = thm_organizerHelper::getActions('semester_edit');
-        if($allowedActions->get("core.edit"))
-        {
-            $id = JRequest::getVar('semesterID');
-            $model = $this->getModel('schedule');
-            $result = $model->activate();
-            if($result)
-            {
-                $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $result);
-            }
-            else
-            {
-                $msg = JText::_("An error has occurred while activating the schedule.");
-                $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'error');
-            }
-        }
-        else
-        {
-            $msg = JText::_("You do not have access to perform this action.");
-            $this->setRedirect( 'index.php', $msg, 'error');
-        }
-    }
-
-    /**
-     * function deactivate
-     *
-     * deactivates the chosen schedule
-     */
-    public function deactivate()
-    {
-        $allowedActions = thm_organizerHelper::getActions('semester_edit');
-        if($allowedActions->get("core.edit"))
-        {
-            $id = JRequest::getVar('semesterID');
-            $model = $this->getModel('schedule');
-            $result = $model->deactivate();
-            if($result)
-            {
-                $msg = JText::_("The schedule has been successfully deactivated.");
-                $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg);
-            }
-            else
-            {
-                $msg = JText::_("An error has occurred while deactivating the schedule.");
-                $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'error');
-            }
-        }
-        else
-        {
-            $msg = JText::_("You do not have access to perform this action.");
-            $this->setRedirect( 'index.php', $msg, 'error');
-        }
-    }
-
-    /**
-     * public function apply
-     *
-     * adds or updates the description and dates associated with a schedule
+     * adds or updates schedule information and redirects back to the schedule
+     * edit view for that schedule
      */
     public function apply()
     {
-        if(thm_organizerHelper::getActions('semester_edit')->get("core.admin"))
+        if(!thm_organizerHelper::isAdmin('schedule')) thm_organizerHelper::noAccess ();
+        $model = $this->getModel('schedule');
+        $result = $model->update();
+        $scheduleID = JRequest::getInt('scheduleID');
+        $url = "index.php?option=com_thm_organizer&view=schedule_edit&scheduleID=$scheduleID";
+        if($result)
         {
-            $id = JRequest::getInt('semesterID');
-            $model = $this->getModel('schedule');
-            $result = $model->apply();
-            if($result)
-            {
-                $msg = JText::_("COM_THM_ORGANIZER_SM_SCHEDULE_CHANGE_SUCCESS");
-                $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg);
-            }
-            else
-            {
-                $msg = JText::_("COM_THM_ORGANIZER_SM_SCHEDULE_CHANGE_FAIL");
-                $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'error');
-            }
+            $msg = JText::_("COM_THM_ORGANIZER_SCH_CHANGE_SUCCESS");
+            $this->setRedirect($url, $msg);
         }
         else
         {
-            $msg = JText::_("COM_THM_ORGANIZER_NO_ACCESS");
-            $this->setRedirect( 'index.php', $msg, 'error');
+            $msg = JText::_("COM_THM_ORGANIZER_SCH_CHANGE_FAIL");
+            $url ="JRequest::getInt('scheduleID');";
+            $this->setRedirect($url, $msg, 'error');
+        }
+    }
+    
+    /**
+     * update
+     *
+     * adds or updates schedule information and redirects to the schedule
+     * manager view
+     */
+    public function save()
+    {
+        if(!thm_organizerHelper::isAdmin('schedule')) thm_organizerHelper::noAccess ();
+        $model = $this->getModel('schedule');
+        $result = $model->update();
+        $scheduleID = JRequest::getInt('scheduleID');
+        $url = "index.php?option=com_thm_organizer&view=schedule_manager";
+        if($result)
+        {
+            $msg = JText::_("COM_THM_ORGANIZER_SCH_CHANGE_SUCCESS");
+            $this->setRedirect($url, $msg);
+        }
+        else
+        {
+            $msg = JText::_("COM_THM_ORGANIZER_SCH_CHANGE_FAIL");
+            $url ="JRequest::getInt('scheduleID');";
+            $this->setRedirect($url, $msg, 'error');
         }
     }
 
+    /**
+     * upload
+     *
+     * performs access checks and uses the model's upload function to save the
+     * file to the database and perform consistency checks
+     */
+    public function upload()
+    {
+        if(!thm_organizerHelper::isAdmin('schedule')) thm_organizerHelper::noAccess ();
+        $semesterID = JRequest::getVar('semesterID');
+        $url = "index.php?option=com_thm_organizer&view=schedule_manager";
+        $url .= ($semesterID)? "&semesterID=$semesterID" : "";
+        $fileType = $_FILES['file']['type'];
+        if($fileType == "text/xml")
+        {
+            $model = $this->getModel('schedulexml');
+            $problems = $model->validate();
+            if(isset($problems['errors']))//critical inconsistancies -> no upload
+            {
+                $errorText = "<h3>".JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_ERRORS").":</h3>";
+                $msg = $errorText.$problems['errors'];
+                if(isset($problems['warnings']))//minor inconsistancies
+                {
+                    $warningText = "<br /><h4>".JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_ERRORS_WARNINGS").":</h4>";
+                    $msg .= $warningText.$problems['warnings'];
+                }
+                $this->setRedirect($url, $msg, 'error');
+            }
+            $result = $model->upload();
+            if($result)//upload successful
+            {
+                if(isset($problems['warnings']))//minor inconsistancies
+                {
+                    $warningText =  "<h4>".JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_WARNINGS").":</h4>";
+                    $msg = $warningText.$problems['warnings'];
+                    $this->setRedirect($url, $msg, 'notice');
+                }
+                else
+                    $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_SUCCESS"));
+            }
+            else//db error
+                $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_FAIL"), 'error');
+        }
+        else
+        {
+            $msg = JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_TYPE_FAIL");
+            $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'notice');
+        }
+    }
 
-} ?>
+    /**
+     * delete
+     *
+     * performs access checks, removes schedules from the database, and
+     * redirects to the schedule manager view optionally to filtered to a
+     * specific semester
+     */
+    public function delete()
+    {
+        if(!thm_organizerHelper::isAdmin('schedule')) thm_organizerHelper::noAccess ();
+        
+        $semesterID = JRequest::getVar('semesterID');
+        $url = "index.php?option=com_thm_organizer&view=schedule_manager";
+        $url .= ($semesterID)? "&semesterID=$semesterID" : "";
+        
+        $model = null;
+        $success = true;
+        $return = array();
+        $return['errors'] = array();
+        $return['messsages'] = array();
+        $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
+        JTable::addIncludePath(JPATH_COMPONENT.DS.'tables');
+        $schedule = JTable::getInstance('schedules', 'thm_organizerTable');
+        foreach($scheduleIDs as $scheduleID)
+        {
+            $schedule->load($scheduleID);
+            switch ($table->plantypeID) {
+                case '1':
+                    $model = $this->getModel("schedulexml"); break;
+                case '2':
+                    $model = $this->getModel("schedulecsv"); break;
+            }
+            if($schedule->active)$success = $model->deactivate($schedule, $return);
+            //TODO: $return errors consequences...
+            if(!$success) break;
+            $success = $model->delete($scheduleID);
+            if(!$success) break;
+        }
+        if($success)
+        {
+            $msg = JText::_("COM_THM_ORGANIZER_SCH_DELETE_SUCCESS");
+            $this->setRedirect($url, $msg);
+        }
+        else
+        {
+            $msg = JText::_("COM_THM_ORGANIZER_SCH_DELETE_FAIL");
+            $this->setRedirect($url, $msg, 'error');
+        }
+    }
+
+    /**
+     * setDefault
+     *
+     * performs access checks, activates/deactivates the chosen schedule in the
+     * context of its planning period, and redirects to the schedule manager
+     * view optionally to filtered to a specific semester
+     */
+    public function setDefault()
+    {
+        if(!thm_organizerHelper::isAdmin('schedule')) thm_organizerHelper::noAccess ();
+        $semesterID = JRequest::getVar('semesterID');
+        $url = "index.php?option=com_thm_organizer&view=schedule_manager";
+        $url .= ($semesterID)? "&semesterID=$semesterID" : "";
+
+        if(JRequest::getInt("boxchecked") > 1)
+        {
+            $model = $this->getModel('schedule');
+            $activation_conflicts = $model->checkForActivationConflicts();
+            if($activation_conflicts)
+                $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_ACTIVATE_COUNT_FAIL"), 'error');
+        }
+        $this->activate();
+    }
+
+    private function activate()
+    {
+        $semesterID = JRequest::getVar('semesterID');
+        $url = "index.php?option=com_thm_organizer&view=schedule_manager";
+        $url .= ($semesterID)? "&semesterID=$semesterID" : "";
+        $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
+
+        $return = array();
+        $return['errors'] = array();
+        $return['messsages'] = array();
+        JTable::addIncludePath(JPATH_COMPONENT.DS.'tables');
+        $schedule = JTable::getInstance('schedules', 'thm_organizerTable');
+        foreach($scheduleIDs as $scheduleID)
+        {
+            $dbo = JFactory::getDbo();
+            $dbo->transactionStart();
+            $success = $schedule->load($scheduleID);
+            if($success)
+            {
+                switch ($schedule->plantypeID)
+                {
+                    case '1':
+                        $model = $this->getModel('schedulexml');
+                        ($schedule->active)?
+                            $model->deactivate($schedule->sid, $return, true): $model->activate($schedule, $return);
+                        break;
+                    case '2':
+                        $model = $this->getModel('schedulecsv');
+                        ($schedule->active)?
+                            $model->deactivate($schedule->sid, $return, true) : $model->activate($schedule, $return);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+                $return['errors'][] = JText::_("COM_THM_ORGANIZER_SCH_ACTIVATE_FIND_FAIL");
+            if($dbo->getErrorNum())
+            {
+                $dbo->transactionRollback();
+                $return['errors'][]= JText::_('COM_THM_ORGANIZER_SCH_ACTIVATE_DB_FAIL');
+                break;
+            }
+            else $dbo->transactionCommit();
+        }
+        $msg = "";
+        if(count($return['errors']))
+            $msg .= "<br />".implode("<br />", $return['errors']);
+        if(count($return['messages']))
+            $msg .= "<br />".implode("<br />", $return['messages']);
+        if(count($return['errors'])) $this->setRedirect($url, $msg, 'error');
+        else $this->setRedirect($url, $msg);
+    }
+
+    /**
+     * cancel
+     *
+     * performs access checks and redirects to the schedule manager view
+     * optionally to filtered to a specific semester
+     */
+    public function cancel()
+    {
+        if(!thm_organizerHelper::isAdmin('schedule')) thm_organizerHelper::noAccess ();
+        $semesterID = JRequest::getVar('semesterID');
+        $url = "index.php?option=com_thm_organizer&view=schedule_manager";
+        $url .= ($semesterID)? "&semesterID=$semesterID" : "";
+        $this->setRedirect($url);
+    }
+
+
+}
