@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_plantypes` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT IGNORE INTO `#__thm_organizer_plantype` (`id`, `plantype`) VALUES
+INSERT IGNORE INTO `#__thm_organizer_plantypes` (`id`, `plantype`) VALUES
 (1, 'COM_THM_ORGANIZER_SCHEDULE'),
 (2, 'COM_THM_ORGANIZER_CURRICULUM');
 
