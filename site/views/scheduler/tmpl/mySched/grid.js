@@ -70,12 +70,12 @@ function getSchedGrid(){
 	    title: 'unknown',
 	    store: Ext.data.StoreManager.lookup('gridStore'),
 	    columns: [
-	        {header: 'Zeit', menuDisabled:true, dataIndex: 'time', renderer: MySched.lectureCellRenderer, width: 35},
-	        {header: 'Montag', menuDisabled:true, dataIndex: 'monday', renderer: MySched.lectureCellRenderer, flex: 1},
-	        {header: 'Dienstag', menuDisabled:true, dataIndex: 'tuesday', renderer: MySched.lectureCellRenderer, flex: 1},
-	        {header: 'Mittwoch', menuDisabled:true, dataIndex: 'wednesday', renderer: MySched.lectureCellRenderer, flex: 1},
-	        {header: 'Donnerstag', menuDisabled:true, dataIndex: 'thursday', renderer: MySched.lectureCellRenderer, flex: 1},
-	        {header: 'Freitag', menuDisabled:true, dataIndex: 'friday', renderer: MySched.lectureCellRenderer, flex: 1}
+	        {header: 'Zeit', menuDisabled:true, sortable:false, dataIndex: 'time', renderer: MySched.lectureCellRenderer, width: 35},
+	        {header: 'Montag', menuDisabled:true, sortable:false, dataIndex: 'monday', renderer: MySched.lectureCellRenderer, flex: 1},
+	        {header: 'Dienstag', menuDisabled:true, sortable:false, dataIndex: 'tuesday', renderer: MySched.lectureCellRenderer, flex: 1},
+	        {header: 'Mittwoch', menuDisabled:true, sortable:false, dataIndex: 'wednesday', renderer: MySched.lectureCellRenderer, flex: 1},
+	        {header: 'Donnerstag', menuDisabled:true, sortable:false, dataIndex: 'thursday', renderer: MySched.lectureCellRenderer, flex: 1},
+	        {header: 'Freitag', menuDisabled:true, sortable:false, dataIndex: 'friday', renderer: MySched.lectureCellRenderer, flex: 1}
 	    ],
 	    viewConfig: {
 			features: [rowBodyFeature],
@@ -84,6 +84,7 @@ function getSchedGrid(){
 		},
 		cls: 'MySched_ScheduleGrid',
 		scroll: 'vertical'
+
 	});
 	return grid;
 }
