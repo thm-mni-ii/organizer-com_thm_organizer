@@ -195,7 +195,7 @@ class TreeView
     foreach($semesterarray as $key=>$value)
     {
       $temp = $this->createTreeNode(
-          'semesterjahr' . $value->id,							// id - autom. generated
+          $value->id,							// id - autom. generated
           $value->semesterDesc,							// text	for the node
           'semesterjahr' . '-root',			// iconCls
           false,								// leaf
@@ -207,7 +207,7 @@ class TreeView
           null,
           $value->id
         );
-	  $children = $this->plantype('semesterjahr' . $value->id, $value->id);
+	  $children = $this->plantype($value->id, $value->id);
 
       if($temp != null && !empty($temp))
       {
@@ -295,22 +295,20 @@ class TreeView
   private function plantype($key, $semesterID)
   {
     $plantypeNode = array();
-    $plantypequery = "SELECT #__thm_organizer_plantype.id ," .
-            "#__thm_organizer_plantype.plantype " .
-            "FROM #__thm_organizer_plantype";
+    $plantypequery = "SELECT #__thm_organizer_plantypes.id ," .
+            "#__thm_organizer_plantypes.plantype " .
+            "FROM #__thm_organizer_plantypes";
 
     $plantypes       = $this->JDA->query( $plantypequery );
 
     foreach($plantypes as $k=>$v)
     {
-      $function = (string)$v->plantype."View";
-      $function = str_replace(" ", "_", $function);
-      $function = str_replace("-", "", $function);
-      $key = $key.".".$v->plantype.$v->id;
+      $plantype = JText::_($v->plantype);
+      $key = $key.".".$v->id;
       $temp = $this->createTreeNode(
           $key,							// id - autom. generated
-          $v->plantype,					// text	for the node
-          $v->plantype . '-root',			// iconCls
+          $plantype,					// text	for the node
+          "plantype" . '-root',			// iconCls
           false,							// leaf
           false,							// draggable
           true,							// singleClickExpand
@@ -320,7 +318,10 @@ class TreeView
           null,
           $semesterID
         );
-      $children = $this->$function($key, $v->id, $semesterID);
+        if($v->id == 1)
+      		$children = $this->StundenplanView($key, $v->id, $semesterID);
+      	else if($v->id == 2)
+      		$children = $this->LehrplanView($key, $v->id, $semesterID);
       if($temp != null && !empty($temp))
       {
       	$temp->setChildren($children);
