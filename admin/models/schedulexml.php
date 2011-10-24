@@ -44,7 +44,7 @@ class thm_organizersModelschedulexml extends thm_organizersModelschedule
         $data['file'] = addslashes($file);
         $data['plantypeID'] = '1';
         $data['creationdate'] = trim((string)$schedule[0]['date']);
-        $data['startndate'] = trim((string)$schedule->general->schoolyearbegindate);
+        $data['startdate'] = trim((string)$schedule->general->schoolyearbegindate);
         $data['enddate'] = trim((string)$schedule->general->schoolyearenddate);
 
 
@@ -179,7 +179,7 @@ class thm_organizersModelschedulexml extends thm_organizersModelschedule
         if($oldScheduleName)
         {
             $oldData = $this->getOldData($semesterID);
-            $this->deactivate($semesterID, $return);
+            $this->deactivate($semesterID);
         }
         $newData = $this->processNewData($schedule);
 
@@ -484,20 +484,16 @@ class thm_organizersModelschedulexml extends thm_organizersModelschedule
     }
 
     /**
-     * public function deactivate
+     * deactivate
      *
      * sets the current active schedule to inactive. this entails the deletion
      * of the delta, and the removal of schedule specific data from the db.
      *
      * @param int $semesterID the id of the semester whose active plan is to be
      *                        deactivated
-     * @param array $return holds messages from the (de)activation routine
-     * @parm bool $confirm should the schedules deactivation be confirmed with a
-     *                     message in $return
      */
-    public function deactivate($semesterID, &$return, $confirm = false)
+    public function deactivate($semesterID)
     {
-        echo "in deactivate";
         $dbo = $this->getDbo();
 
         $query = $dbo->getQuery(true);
@@ -556,23 +552,14 @@ class thm_organizersModelschedulexml extends thm_organizersModelschedule
     /**
      * delete
      *
-     * removes the selected schedules
+     * removes the selected schedule
      *
-     * @return bool true on success, otherwise false
+     * @param int $scheduleID the id of the schedule to be deleted
      */
-    public function delete()
+    public function delete($scheduleID)
     {
-        $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
-        foreach($scheduleIDs as $scheduleID)
-        {
-            $table = JTable::getInstance('schedules', 'thm_organizerTable');
-            $table->load($scheduleID);
-            $success = true;
-            if($table->active != null)$success = $this->deactivate($scheduleID);
-            $success = ($success)? $table->delete($scheduleID) : $success;
-            return $success;
-        }
-        return true;
+        $schedule = JTable::getInstance('schedules', 'thm_organizerTable');
+        if($schedule->load($scheduleID))$schedule->delete($scheduleID);
     }
 }
 ?>
