@@ -73,7 +73,7 @@ class thm_organizersModelschedule_manager extends JModelList
     }
 
     /**
-     * 
+     *
      * @param <type> $ordering
      * @param <type> $direction
      */
@@ -86,7 +86,7 @@ class thm_organizersModelschedule_manager extends JModelList
 
         $state = $this->getUserStateFromRequest($this->context.'.filter.state', 'filter_state');
         $this->setState('filter.state', $state);
-        
+
         $referred = strpos($_SERVER['HTTP_REFERER'], 'view=semester_manager');
         $semesterID = (is_numeric($referred))?
             JRequest::getCmd('semesterID') : $this->getUserStateFromRequest($this->context.'.filter.semester', 'filter_semester');
@@ -141,12 +141,12 @@ class thm_organizersModelschedule_manager extends JModelList
         $semesters = $dbo->loadAssocList();
         return (count($semesters))? $semesters : array();
     }
-    
+
     /**
      * getSemesterName
-     * 
+     *
      * retrieves the name of a given semester
-     * 
+     *
      * @return string the name of the semester
      */
     private function getSemesterName($semesterID)
