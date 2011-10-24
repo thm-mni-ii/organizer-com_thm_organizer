@@ -104,7 +104,7 @@ class thm_organizersModeldepartment extends thm_organizersModelresource
         $institution = (isset($details [0]))? trim($details [0]) : "";
         $campus = (isset($details [1]))? trim($details [1]) : "";
         $department = (isset($details [2]))? trim($details [2]) : "";
-        $subdepartment = (isset($details [3]))? trim($details [2]) : "";
+        $subdepartment = (isset($details [3]))? trim($details [3]) : "";
 
         $department = JTable::getInstance('departments', 'thm_organizerTable');
         $loadData = array('gpuntisID' => $gpuntisID);
