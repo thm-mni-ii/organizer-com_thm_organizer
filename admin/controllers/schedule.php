@@ -144,38 +144,34 @@ class thm_organizersControllerschedule extends JController
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
         $url .= ($semesterID)? "&semesterID=$semesterID" : "";
         
-        $model = null;
-        $success = true;
-        $return = array();
-        $return['errors'] = array();
-        $return['messsages'] = array();
+        $dbo = JFactory::getDbo();
+        $dbo->transactionStart();
         $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
         JTable::addIncludePath(JPATH_COMPONENT.DS.'tables');
         $schedule = JTable::getInstance('schedules', 'thm_organizerTable');
         foreach($scheduleIDs as $scheduleID)
         {
             $schedule->load($scheduleID);
-            switch ($table->plantypeID) {
+            switch ($schedule->plantypeID) {
                 case '1':
                     $model = $this->getModel("schedulexml"); break;
                 case '2':
                     $model = $this->getModel("schedulecsv"); break;
             }
-            if($schedule->active)$success = $model->deactivate($schedule, $return);
-            //TODO: $return errors consequences...
-            if(!$success) break;
-            $success = $model->delete($scheduleID);
-            if(!$success) break;
+            if($schedule->active)$model->deactivate($schedule->sid);
+            $model->delete($scheduleID);
         }
-        if($success)
+        if($dbo->getErrorNum())
         {
-            $msg = JText::_("COM_THM_ORGANIZER_SCH_DELETE_SUCCESS");
-            $this->setRedirect($url, $msg);
+            $dbo->transactionRollback();
+            $msg = JText::_("COM_THM_ORGANIZER_SCH_DELETE_FAIL");
+            $this->setRedirect($url, $msg, 'error');
         }
         else
         {
-            $msg = JText::_("COM_THM_ORGANIZER_SCH_DELETE_FAIL");
-            $this->setRedirect($url, $msg, 'error');
+            $dbo->transactionCommit();
+            $msg = JText::_("COM_THM_ORGANIZER_SCH_DELETE_SUCCESS");
+            $this->setRedirect($url, $msg);
         }
     }
 
