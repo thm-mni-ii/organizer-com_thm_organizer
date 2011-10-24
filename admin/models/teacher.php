@@ -120,7 +120,7 @@ class thm_organizersModelteacher extends thm_organizersModelresource
         $gpuntisID = trim((string)$teachernode[0]['id']);
         $name = trim((string)$teachernode->surname);
         $departmentID = trim((string)$teachernode->teacher_department[0]['id']);
-        $departementID = $departments[$departmentID]['id'];
+        $departmentID = $departments[$departmentID]['id'];
         $username = ($teachernode->payrollnumber)? trim($teachernode->payrollnumber) : "";
 
         $teacher = JTable::getInstance('teachers', 'thm_organizerTable');
@@ -136,7 +136,7 @@ class thm_organizersModelteacher extends thm_organizersModelresource
         $teachers[$gpuntisID]['id'] = $teacher->id;
         $teachers[$gpuntisID]['name'] = $name;
         $teachers[$gpuntisID]['username'] = $username;
-        $teachers[$gpuntisID]['departmentID'] = $departementID;
+        $teachers[$gpuntisID]['departmentID'] = $departmentID;
     }
 }
 
