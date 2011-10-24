@@ -19,7 +19,6 @@ class Grid
 		if ( isset( $this->semID ) ) {
 			$query = "SELECT gpuntisID AS tpid, day, period, starttime, endtime
 		        FROM #__thm_organizer_periods
-		        WHERE semesterID = '".$this->semID."'
 		        ORDER BY CAST(SUBSTRING(tpid, 4) AS SIGNED INTEGER)";
 			$ret   = $this->JDA->query( $query );
 
