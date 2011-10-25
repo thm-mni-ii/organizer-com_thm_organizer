@@ -28,7 +28,6 @@ class thm_organizersViewschedule_manager extends JView
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
 
-        $model = $this->getModel();
         $this->schedules = $this->get('Items');
         $this->pagination = $this->get('Pagination');
         $this->state = $this->get('State');
