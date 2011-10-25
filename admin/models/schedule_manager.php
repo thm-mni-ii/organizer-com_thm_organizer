@@ -19,15 +19,17 @@ class thm_organizersModelschedule_manager extends JModelList
 
     public function __construct($config = array())
     {
-        if (empty($config['filter_fields'])) {
-			$config['filter_fields'] = array(
-				'filename', 'sch.filename',
-				'state', 'sch.active',
-				'semester', 'sch.sid',
-				'plantype', 'p.plantype',
-				'creationdate', 'sch.creationdate',
-			);
-		}
+        if (empty($config['filter_fields']))
+        {
+            $config['filter_fields'] =
+                array(
+                    'filename', 'sch.filename',
+                    'state', 'sch.active',
+                    'semester', 'sch.sid',
+                    'plantype', 'p.plantype',
+                    'creationdate', 'sch.creationdate',
+                );
+        }
         parent::__construct($config);
         $this->semesters = $this->getSemesters();
         $this->plantypes = $this->getPlantypes();
@@ -51,7 +53,7 @@ class thm_organizersModelschedule_manager extends JModelList
         $search = $this->getState('filter.search');
         if($search & $search != JText::_('COM_THM_ORGANIZER_SEARH_CRITERIA'))
         {
-            $search = $dbo->Quote("%{$dbo->getEscaped($search, true)}%");
+            $search = $dbo->Quote("%{$dbo->escape($search, true)}%");
             $query->where('sch.filename LIKE '.$search);
         }
 
@@ -74,13 +76,11 @@ class thm_organizersModelschedule_manager extends JModelList
 
     /**
      *
-     * @param <type> $ordering
-     * @param <type> $direction
+     * @param string $ordering
+     * @param string $direction
      */
     protected function populateState($ordering = null, $direction = null)
     {
-        //var_dump($_REQUEST);
-        // Load the filter state.
         $search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
         $this->setState('filter.search', $search);
 
