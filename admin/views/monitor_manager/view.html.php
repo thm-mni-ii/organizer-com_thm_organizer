@@ -18,11 +18,19 @@ class thm_organizersViewmonitor_manager extends JView
 
     public function display($tpl = null)
     {
+        JHtml::_('behavior.tooltip');
+        JHtml::_('behavior.multiselect');
+
+        $model = $this->getModel();
         $document = & JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
 
-        $model = $this->getModel();
-        $this->monitors = $model->monitors;
+        $this->monitors = $this->get('Items');
+        $this->prepareMonitors();
+        $this->state = $this->get('State');
+        $this->pagination = $this->get('Pagination');
+        $this->behaviours = $model->behaviours;
+        $this->rooms = $model->rooms;
         $this->access = thm_organizerHelper::isAdmin('monitor_manager');
         JToolBarHelper::title( JText::_( 'COM_THM_ORGANIZER_MON_TITLE' ), 'generic.png' );
         if($this->access)
@@ -32,6 +40,18 @@ class thm_organizersViewmonitor_manager extends JView
         }
 
         parent::display($tpl);
+    }
+
+    private function prepareMonitors()
+    {
+        if(!count($this->monitors))return;
+        $link = "index.php?option=com_thm_organizer&view=monitor_edit&monitorID=";
+        foreach($this->monitors as $k => $monitor)
+        {
+            if(empty($monitor->room)) $this->monitors[$k]->room = $monitor->roomID;
+            $this->monitors[$k]->behaviour = JText::_($monitor->behaviour);
+            $this->monitors[$k]->link = $link.$monitor->monitorID;
+        }
     }
 
     /**

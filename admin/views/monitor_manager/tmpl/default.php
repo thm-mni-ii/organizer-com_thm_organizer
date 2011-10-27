@@ -10,54 +10,111 @@
  * @link        www.mni.thm.de
  * @version     1.7.0
  */
-defined('_JEXEC') or die;?>
-<div id="thm_organizer_mon" >
-    <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>" method="post" name="adminForm">
-        <div id="editcell">
-            <table class="adminlist thm_organizer_mon_table">
-                <colgroup>
-                    <col id="thm_organizer_mon_col_checkbox" />
-                    <col id="thm_organizer_mon_col_ip" />
-                    <col id="thm_organizer_mon_col_room" />
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th />
-                        <th><?php echo JText::_('COM_THM_ORGANIZER_MON_IP'); ?></th>
-                        <th><?php echo JText::_('COM_THM_ORGANIZER_MON_ROOM'); ?></th>
-                    </tr>
-                </thead>
-<?php $k = 0; if(!empty($this->monitors)): foreach($this->monitors as $monitor) :
-        $checked = JHTML::_( 'grid.id', $k, $monitor['monitorID'] );
-        $class = ($k % 2 == 0)?  'row0' : 'row1'; $k++ ?>
-	        <tr class="<?php echo $class; ?>">
-	            <td class="thm_organizer_mon_checkbox">
-                        <?php echo $checked; ?>
+defined('_JEXEC') or die;
+$orderby = $this->escape($this->state->get('list.ordering'));
+$direction = $this->escape($this->state->get('list.direction'));
+?>
+<form action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>"
+      method="post" name="adminForm" id="adminForm">
+    <fieldset id="filter-bar">
+        <div class="filter-select fltrt">
+            <select name="filter_display" class="inputbox" onchange="this.form.submit()">
+                    <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_MON_SEARCH_BEHAVIOURS'); ?></option>
+                    <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_MON_ALL_BEHAVIOURS'); ?></option>
+                    <?php echo JHtml::_('select.options', $this->behaviours, 'id', 'behaviour', $this->state->get('filter.display'));?>
+            </select>
+        </div>
+        <div class="filter-select fltrt">
+            <select name="filter_room" class="inputbox" onchange="this.form.submit()">
+                    <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_MON_SEARCH_ROOMS'); ?></option>
+                    <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_MON_ALL_ROOMS'); ?></option>
+                    <?php echo JHtml::_('select.options', $this->rooms, 'id', 'name', $this->state->get('filter.room'));?>
+            </select>
+        </div>
+    </fieldset>
+    <div class="clr"> </div>
+<?php if(!empty($this->monitors)) { $k = 0;?>
+    <div>
+        <table class="adminlist" id="thm_organizer_mon_table">
+            <colgroup>
+                <col id="thm_organizer_mon_col_checkbox" />
+                <col id="thm_organizer_mon_col_room" />
+                <col id="thm_organizer_mon_col_ip" />
+                <col id="thm_organizer_mon_col_display" />
+                <col id="thm_organizer_mon_col_interval" />
+                <col id="thm_organizer_mon_col_content" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th />
+                    <th class="thm_organizer_th hasTip"
+                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_ROOM')."::".JText::_('COM_THM_ORGANIZER_MON_ROOM_DESC'); ?>">
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_ROOM', 'r.name', $direction, $orderby); ?>
+                    </th>
+                    <th class="thm_organizer_th hasTip"
+                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_IP')."::".JText::_('COM_THM_ORGANIZER_MON_IP_DESC'); ?>">
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_IP', 'm.ip', $direction, $orderby); ?>
+                    </th>
+                    <th class="thm_organizer_th hasTip"
+                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_DISPLAY')."::".JText::_('COM_THM_ORGANIZER_MON_DISPLAY_DESC'); ?>">
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_DISPLAY', 'd.behaviour', $direction, $orderby); ?>
+                    </th>
+                    <th class="thm_organizer_th hasTip"
+                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_INTERVAL')."::".JText::_('COM_THM_ORGANIZER_MON_INTERVAL_DESC'); ?>">
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_INTERVAL', 'm.interval', $direction, $orderby); ?>
+                    </th>
+                    <th class="thm_organizer_th hasTip"
+                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_CONTENT')."::".JText::_('COM_THM_ORGANIZER_MON_CONTENT_DESC'); ?>">
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_CONTENT', 'm.content', $direction, $orderby); ?>
+                    </th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="9">
+                        <?php echo $this->pagination->getListFooter(); ?>
                     </td>
-	            <td class="thm_organizer_mon_ip">
-                    <?php if($this->access){ ?>
-                        <a href='<?php echo $monitor['link']; ?>' >
-                            <?php echo $monitor['ip']; ?>
-                        </a>
-                    <?php }else{ ?>
-                        <?php echo $monitor['ip']; ?>
-                    <?php } ?>
+                </tr>
+            </tfoot>
+            <tbody>
+            <?php foreach($this->monitors as $k => $monitor){ ?>
+                <tr class="row<?php echo $k % 2;?>">
+                    <td><?php echo JHtml::_('grid.id', $k, $monitor->monitorID); ?></td>
+                    <td>
+                        <?php if($this->access): ?><a href='<?php echo $monitor->link; ?>' ><?php endif; ?>
+                        <?php echo $monitor->room; ?>
+                        <?php if($this->access): ?></a><?php endif; ?>
                     </td>
-	            <td class="thm_organizer_mon_room">
-                    <?php if($this->access){ ?>
-                        <a href='<?php echo $monitor['link']; ?>' >
-                            <?php echo $monitor['room']; ?>
-                        </a>
-                    <?php }else{ ?>
-                        <?php echo $monitor['room']; ?>
-                    <?php } ?>
+                    <td>
+                        <?php if($this->access): ?><a href='<?php echo $monitor->link; ?>' ><?php endif; ?>
+                        <?php echo $monitor->ip; ?>
+                        <?php if($this->access): ?></a><?php endif; ?>
                     </td>
-	        </tr>
-<?php endforeach; endif;?>
-	    </table>
-	</div>
-	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="boxchecked" value="0" />
-        <?php echo JHtml::_('form.token'); ?>
-    </form>
-</div>
+                    <td>
+                        <?php if($this->access): ?><a href='<?php echo $monitor->link; ?>' ><?php endif; ?>
+                        <?php echo $monitor->behaviour; ?>
+                        <?php if($this->access): ?></a><?php endif; ?>
+                    </td>
+                    <td>
+                        <?php if($this->access): ?><a href='<?php echo $monitor->link; ?>' ><?php endif; ?>
+                        <?php echo $monitor->interval; ?>
+                        <?php if($this->access): ?></a><?php endif; ?>
+                    </td>
+                    <td>
+                        <?php if($this->access): ?><a href='<?php echo $monitor->link; ?>' ><?php endif; ?>
+                        <?php echo $monitor->content; ?>
+                        <?php if($this->access): ?></a><?php endif; ?>
+                    </td>
+                </tr>
+            <?php } ?>
+            </tbody>
+        </table>
+    </div>
+<?php }?>
+    <input type="hidden" name="task" value="" />
+    <input type="hidden" name="boxchecked" value="0" />
+    <input type="hidden" name="filter_order" value="<?php echo $orderby; ?>" />
+    <input type="hidden" name="filter_order_Dir" value="<?php echo $direction; ?>" />
+    <input type="hidden" name="view" value="monitor_manager" />
+    <?php echo JHtml::_('form.token'); ?>
+</form>

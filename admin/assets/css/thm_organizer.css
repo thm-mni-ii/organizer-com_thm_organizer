@@ -65,8 +65,6 @@
     min-width: 20%;
 }
 
-
-
 #thm_organizer_cat{}
 
 #thm_organizer_cat_ecat{
@@ -140,31 +138,23 @@
 #com_thm_organizer_cat_action_column{ width:50px; }
 
 
-
-
-
-
 /*monitor manager & monitor edit views*****************************************/
 
-#thm_organizer_mon{ width: 60%; text-align: center; }
+#thm_organizer_mon_table{ width: auto; }
 
-.thm_organizer_mon_table{ width: 30% !important; }
+#thm_organizer_mon_table tbody tr td{ text-align: center; }
 
-#thm_organizer_mon_col_checkbox{ width: 10%; }
+#thm_organizer_mon_col_checkbox{ width: 10px; }
 
-#thm_organizer_mon_col_ip{ width: 30%; }
+#thm_organizer_mon_col_room{ width: 120px; }
 
-#thm_organizer_mon_col_room{ width: 20%; }
+#thm_organizer_mon_col_ip{ width: 90px; }
 
-.thm_organizer_mon_room{ text-align: center; }
+#thm_organizer_mon_col_display{ width: 150px; }
 
-.thm_organizer_mon_ip{ text-align: center; }
+#thm_organizer_mon_col_interval{ width: 70px;}
 
-.thm_organizer_mon_semester{ text-align: center; }
-
-#thm_organizer_mon_label_column{ width: 120px; }
-
-.thm_organizer_mon_label_data{ text-align: right; }
+#thm_organizer_mon_col_content{ width: 200px;}
 
 /*semester manager & semester edit views***************************************/
 
