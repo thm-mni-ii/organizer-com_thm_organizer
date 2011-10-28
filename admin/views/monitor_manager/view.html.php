@@ -61,7 +61,7 @@ class thm_organizersViewmonitor_manager extends JView
      */
     private function addToolBar()
     {
-        JToolBarHelper::addNew( 'monitor.new' );
+        JToolBarHelper::addNew( 'monitor.add' );
         JToolBarHelper::editList('monitor.edit');
         JToolBarHelper::deleteList( JText::_('COM_THM_ORGANIZER_MON_DELETE_CONFIRM'), 'monitor.delete');
     }

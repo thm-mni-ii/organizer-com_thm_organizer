@@ -16,26 +16,24 @@ class thm_organizersViewmonitor_edit extends JView
 {
     function display($tpl = null)
     {
+        JHtml::_('behavior.framework', true);
+        JHTML::_('behavior.formvalidation');
+        JHTML::_('behavior.tooltip');
         $document = & JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
+        $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/monitor_edit.js'));
 
         $model = $this->getModel();
-        $this->monitorID = $model->monitorID;
-        $this->ip = $model->ip;
-        $this->access = thm_organizerHelper::isAdmin('monitor_edit');
+        $this->form = $this->get('Form');
 
-        $rooms = $model->rooms;
-        if(!empty($rooms))
-        {
-            $attribs = array("class" => "thm_organizer_me_selectbox", "size" => "1");
-            $this->room =  JHTML::_("select.genericlist", $rooms, "room", $attribs,
-                                    "id", "name", $model->roomID);
-        }
+        $attribs = array();
+        $this->behaviour =  JHTML::_("select.genericlist", $model->behaviours, "display", $attribs, "id", "name", $this->form->getValue('display'));
 
-        $titleText = ($this->monitorID)?
-                JText::_('COM_THM_ORGANIZER_MON_EDIT_TITLE') : JText::_('COM_THM_ORGANIZER_MON_EDIT_TITLE_NEW');
+        $titleText = JText::_('COM_THM_ORGANIZER_MON_EDIT_TITLE').": ";
+        $titleText .= ($this->form->getValue('monitorID'))?
+                JText::_('COM_THM_ORGANIZER_MON_EDIT_TITLE') : JText::_('COM_THM_ORGANIZER_MON_NEW_TITLE');
         JToolBarHelper::title( $titleText, 'generic.png' );
-        if($this->access) $this->addToolBar();
+        if(thm_organizerHelper::isAdmin('monitor_edit')) $this->addToolBar();
 
         parent::display($tpl);
     }

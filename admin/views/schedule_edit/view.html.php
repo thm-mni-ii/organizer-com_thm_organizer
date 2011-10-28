@@ -14,7 +14,6 @@
 defined('_JEXEC') or die( 'Restricted access' );
 jimport( 'joomla.application.component.view' );
 require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
-
 class thm_organizersViewschedule_edit extends JView
 {
     public function display($tpl = null)

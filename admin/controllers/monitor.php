@@ -17,10 +17,13 @@ class thm_organizersControllermonitor extends JController
 {
     public function display(){ parent::display(); }
 
-    public function __construct()
+    public function __construct(){ parent::__construct(); }
+
+    public function add()
     {
-        parent::__construct();
-        $this->registerTask( 'new', 'edit' );
+        if(!thm_organizerHelper::isAdmin('monitor')) thm_organizerHelper::noAccess ();
+        JRequest::setVar( 'view', 'monitor_edit' );
+        parent::display();
     }
 	
     public function edit()

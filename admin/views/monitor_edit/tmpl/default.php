@@ -9,33 +9,38 @@
  * @link        www.mni.thm.de
  * @version     1.7.0
  */
-
-defined('_JEXEC') or die; ?>
-<div id="thm_organizer_mon" >
-    <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>" method="post" name="adminForm">
-        <table class="admintable">
-            <colgroup>
-                <col id="thm_organizer_mon_label_column" />
-                <col id="thm_organizer_mon_data_column" />
-                <col id="thm_organizer_mon_label_column" />
-                <col id="thm_organizer_mon_data_column" />
-            </colgroup>
-            <tr>
-                <td class="thm_organizer_mon_label_data" >
-                    <label for="ip"><?php echo JText::_('COM_THM_ORGANIZER_MON_IP'); ?></label>
-                </td>
-                <td>
-                    <input class="text_area" type="text" name="ip" id="ip"
-                           size="6" maxlength="20" value="<?php echo $this->ip;?>" />
-                </td>
-                <td class="thm_organizer_mon_label_data" >
-                    <label for="room"><?php echo JText::_('COM_THM_ORGANIZER_MON_ROOM'); ?></label>
-                </td>
-                <td><?php echo $this->room;?></td>
-            </tr>
-        </table>
-        <input type="hidden" name="monitorID" value="<?php echo $this->monitorID; ?>" />
+defined('_JEXEC') or die;
+$boxTitle = ($this->form->getValue('monitorID'))?
+        JText::_('COM_THM_ORGANIZER_MON_EDIT_TITLE') : JText::_('COM_THM_ORGANIZER_MON_NEW_TITLE');?>
+<form action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>" method="post" name="adminForm">
+    <div class="width-60 fltlft">
+        <fieldset class="adminform">
+            <legend><?php echo $boxTitle; ?></legend>
+            <ul class="adminformlist">
+                <li>
+                    <?php echo $this->form->getLabel('roomID'); ?>
+                    <?php echo $this->form->getInput('roomID'); ?>
+                </li>
+                <li>
+                    <?php echo $this->form->getLabel('ip'); ?>
+                    <?php echo $this->form->getInput('ip'); ?>
+                </li>
+                <li>
+                    <?php echo $this->form->getLabel('display'); ?>
+                    <?php echo $this->behaviour; ?>
+                </li>
+                <li>
+                    <?php echo $this->form->getLabel('interval'); ?>
+                    <?php echo $this->form->getInput('interval'); ?>
+                </li>
+                <li>
+                    <?php echo $this->form->getLabel('content'); ?>
+                    <?php echo $this->form->getInput('content'); ?>
+                </li>
+            </ul>
+        </fieldset>
+        <input type="hidden" name="monitorID" value="<?php echo $this->form->getValue('monitorID'); ?>" />
         <input type="hidden" name="task" value="" />
         <?php echo JHtml::_('form.token'); ?>
-    </form>
-</div>
+    </div>
+</form>

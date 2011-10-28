@@ -14,49 +14,36 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 class thm_organizersModelmonitor extends JModel
 {
-
+    /**
+     * save
+     *
+     * attempts to save the monitor form data
+     *
+     * @return bool true on success, otherwise false
+     */
     public function save()
     {
-        $monitorID = JRequest::getVar('monitorID');
-        $roomID = JRequest::getVar('room', '');
-        $ip = JRequest::getVar('ip', '');
-
-        $dbo = & JFactory::getDBO();
-        $query = $dbo->getQuery(true);
-        if(empty($monitorID))
-        {
-            $statement = "#__thm_organizer_monitors ";
-            $statement .= "(roomID, ip) ";
-            $statement .= "VALUES ";
-            $statement .= "( '$roomID', '$ip' ) ";
-            $query->insert($statement);
-        }
-        else
-        {
-            $query->update("#__thm_organizer_monitors");
-            $query->set("roomID = '$roomID', ip = '$ip'");
-            $query->where("monitorID = '$monitorID'");
-        }
-        $dbo->setQuery((string)$query );
-        $dbo->query();
-        return ($dbo->getErrorNum())? false : true;
+        $data = JRequest::getVar('jform', null, null, null, 4);
+        $data['display'] = JRequest::getInt('display');
+        if(JRequest::getInt('monitorID')) $data['monitorID'] = JRequest::getInt('monitorID');
+        $table = JTable::getInstance('monitors', 'thm_organizerTable');
+        return $table->save($data);
     }
 
+    /**
+     * delete
+     *
+     * attempts to delete the selected monitor entries
+     *
+     * @return
+     */
     public function delete()
     {
+        $dbo = JFactory::getDbo();
         $monitorIDs = JRequest::getVar( 'cid', array(0), 'post', 'array' );
+        $table = JTable::getInstance('monitors', 'thm_organizerTable');
         if(count($monitorIDs) > 0)
-        {
-            $dbo = & JFactory::getDBO();
-            $query = $dbo->getQuery(true);
-            $query->delete("#__thm_organizer_monitors");
-            $monitorIDs = "'".implode("', '", $monitorIDs)."'";
-            $query->where("monitorID IN ( $monitorIDs )");
-            $dbo->setQuery((string)$query);
-            $result = $dbo->query();
-            if ($dbo->getErrorNum()) return false;
-            else return true;
-        }
-        return true;
+            foreach($monitorIDs as $monitorID)$table->delete($monitorID);
+        return ($dbo->getErrorNum())? false : true;
     }
 }
