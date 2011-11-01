@@ -914,7 +914,7 @@ Ext.define('mLecture', {
     //New CellStyle
     this.setCellTemplate( type );
 
-    var infoTemplateString = '<div>' + '<small><span class="def">Raum:</span> {room_name}<br/>' + '<span class="def">Dozent:</span><big> {doz_n}</big><br/>' + '<span class="def">Semester:</span> <br/>{clas_full}<br/>';
+    var infoTemplateString = '<div>' + '<small><span class="def">Raum:</span> {room_shortname}<br/>' + '<span class="def">Dozent:</span><big> {doz_name}</big><br/>' + '<span class="def">Semester:</span> <br/>{clas_full}<br/>';
     if (this.data.changes) infoTemplateString += '<span class="def">Changes:</span> {changes_all}';
     infoTemplateString += '</small></div>';
 
@@ -925,15 +925,9 @@ Ext.define('mLecture', {
   getDetailData: function (d) {
     return Ext.apply(this.getData(d), {
       'doz_name': this.getDozNames(this.getDoz(), true, d),
-      'doz_n': this.getDozNames(this.getDoz()),
-      'clas_name': this.getNames(this.getClas()),
       'clas_full': this.getClassFull(this.getClas()),
-      'room_name': this.getRoomName(this.getRoom()),
-      'room_shortname': this.getShort(this.getRoom(), true, d),
-      'doz_short': this.getNames(this.getDoz(), true),
-      'clas_short': this.getNames(this.getClas(), true),
-      'clas_shorter': this.getClasShorter(this.getClas(), true, d),
-      'room_short': this.getNames(this.getRoom(), true),
+      'clas_short': this.getClasShorter(this.getClas(), true, d),
+      'room_shortname': this.getRoomShort(this.getRoom(), true, d),
       'week_day': weekdayEtoD(this.getWeekDay()),
       'block': this.getBlock(),
       'category': this.getCategory(),
@@ -956,9 +950,18 @@ Ext.define('mLecture', {
     return ret;
   },
   getTopIcon: function (d) {
-    if (this.data.lessonChanges.status == "new") return '<div data-qtip="Diese Veranstaltung ist neu hinzugekommen" class="top_icon_image">Neu</div>';
-    else if (this.data.css == "mysched_proposal") return '<div data-qtip="Diese Veranstaltung wurde ihnen vorgeschlagen weil die ursprüngliche Veranstaltung nicht mehr vorhanden ist" class="top_icon_image">Vorschlag</div><br/>';
-    else return "";
+  	if(isset(this.data.lessonChanges))
+    	if (this.data.lessonChanges.status == "new")
+    		return '<div data-qtip="Diese Veranstaltung ist neu hinzugekommen" class="top_icon_image">Neu</div>';
+
+    if(isset(this.data.periodChanges))
+    	if (this.data.periodChanges.status == "moved")
+    		return '<div data-qtip="Diese Veranstaltung ist neu hinzugekommen" class="top_icon_image">Neu</div>';
+
+   	if (this.data.css == "mysched_proposal")
+   		return '<div data-qtip="Diese Veranstaltung wurde ihnen vorgeschlagen weil die ursprüngliche Veranstaltung nicht mehr vorhanden ist" class="top_icon_image">Vorschlag</div><br/>';
+
+    return "";
   },
   getStatus: function (d) {
     var ret = '<div class="status_icons"> ';
@@ -987,7 +990,11 @@ Ext.define('mLecture', {
     var r = "";
     var t = "";
     var c = "";
+
+
     return "";
+
+
     if (lec) if (lec.changes) {
       if (lec.changes.rooms) {
         var rooms = lec.changes.rooms;
@@ -1073,128 +1080,74 @@ Ext.define('mLecture', {
     if (!this.data.desc) this.data.desc = this.getDesc();
     return mLecture.superclass.getData.call(this, addData);
   },
-  getRoomName: function (col) {
+  getRoomShort: function (col, tag, lec) {
+  	var removed = [];
     var ret = [];
-    col.each(function (e) {
-      var tempString = "";
-      var arr = e.getName().split(" ");
-      for (var i = 0; i < arr.length; i++) {
-        if (tempString == "") tempString = MySched.Mapping.getRoomName(arr[i]);
-        else tempString = tempString + " " + MySched.Mapping.getRoomName(arr[i]);
-      }
-      this.push(tempString);
-    }, ret);
-    return ret.join(', ');
-  },
-  getShort: function (col, tag, lec) {
-    var ret = [];
-    var css = "";
-    var rooms = [];
-    if (lec) if (lec.changes) if (lec.changes.rooms) rooms = lec.changes.rooms;
+
+	if(isset(this.data.periodChanges))
+	     	if (this.data.periodChanges.status == "changed") {
+	     		if(isset(this.data.periodChanges.roomIDs))
+	     		{
+	     			for(var roomID in this.data.periodChanges.roomIDs)
+	     			{
+	     				var roomIDValue = this.data.periodChanges.roomIDs[roomID];
+	     				if(roomIDValue == "removed")
+	     				{
+		     				var roomNameHTML = '<small class="oldroom">' + MySched.Mapping.getRoomName(roomID) + '</small>';
+		   	 				removed.push(roomNameHTML);
+	   	 				}
+	     			}
+	     		}
+	     	}
+
     for (var n = 0; n < col.length; n++) {
-      var tempString = "";
-      var arr = col.items[n].getName().split(",");
-      var roomKey = col.keys[n].split(",");
-      for (var i = 0; i < arr.length; i++) {
-        var roomtemp = arr[i];
-        var add = false;
-        var roomLink = false;
+		var roomName = col.items[n].getName();
+		var roomNameHTML = "";
+		if(isset(this.data.periodChanges))
+			if(isset(this.data.periodChanges.roomIDs))
+		    	if(isset(this.data.periodChanges.roomIDs[col.items[n].getId()]))
+		    		if(this.data.periodChanges.roomIDs[col.items[n].getId()] == "new")
+						roomNameHTML = '<em class="roomshortname">' + roomName + '</em>';
+		if(roomNameHTML == "")
+    		roomNameHTML = '<small class="roomshortname">' + roomName + '</small>';
 
-        if (MySched.selectedSchedule != null) {
-          if (MySched.Authorize.accArr["ALL"]["room"] == "*")
-            roomLink = true;
-          else if(isset(MySched.Authorize.accArr[MySched.Authorize.role]))
-            if(MySched.Authorize.accArr[MySched.Authorize.role]["room"] == "*")
-              roomLink = true;
-        }
-        else
-          roomLink = true;
-
-        if (rooms.length > 0)
-          for (var room in rooms)
-            if (col.keys[n] == room)
-              css = rooms[room];
-        var oldroom = "";
-        if (this.data.css == "changed") {
-          if (typeof this.data.changes.rooms != "undefined") {
-            for (var oroom in this.data.changes.rooms)
-            if (this.data.changes.rooms[oroom] == "removed") {
-              oldroom = '<small class="oldroom">' + MySched.Mapping.getRoomName(oroom) + '</small>';
-              break;
-            }
-          }
-        }
-
-        var treeLoaded = MySched.Mapping.room.map[roomKey[i]];
-        if(isset(treeLoaded))
-          if(isset(treeLoaded.treeLoaded))
-            treeLoaded = treeLoaded.treeLoaded;
-
-        if (tag && roomLink && this.data.css != "movedfrom" && this.data.css != "removed" && treeLoaded == true) {
-          roomtemp = '<small class="roomshortname ' + css + '">' + roomtemp + '</small>';
-        }
-        else
-          roomtemp = '<small class="' + css + '">' + roomtemp + '</small>';
-        roomtemp = oldroom + " " + roomtemp;
-        if (tempString == "") tempString = roomtemp;
-        else tempString = tempString + " " + roomtemp;
-        css = "";
-      }
-      ret.push(tempString.replace("_", " "));
+    	ret.push(roomNameHTML);
     }
-    return ret.join(', ');
+
+    return ret.join(', ')+" "+removed.join(', ');
   },
   getDozNames: function (col, tag, lec) {
     var ret = [];
-    var css = "";
-    var teachers = [];
-    if (lec) if (lec.changes) if (lec.changes.teachers) teachers = lec.changes.teachers;
-    for (var n = 0; n < col.length; n++) {
-      var tempString = "";
-      var tempdoz = "";
-      var arr = col.items[n].getName().split(",");
-      var dozKey = col.keys[n].split(",");
-      for (var i = 0; i < arr.length; i++) {
-        var ok = false;
-        if (MySched.selectedSchedule != null) {
-          if (MySched.Authorize.accArr["ALL"]["doz"] == "*")
-            ok = true;
-          else if(isset(MySched.Authorize.accArr[MySched.Authorize.role]))
-            if(MySched.Authorize.accArr[MySched.Authorize.role]["doz"] == "*")
-              ok = true;
-        }
-        else ok = true;
-        if (teachers.length > 0) for (var teacher in teachers) if (col.keys[n] == teacher) css = teachers[teacher];
-        var olddoz = "";
-        if (this.data.css == "changed") {
-          if (typeof this.data.changes.teachers != "undefined") {
-            for (var odoz in this.data.changes.teachers)
-            if (this.data.changes.teachers[odoz] == "removed") {
-              olddoz = '<small class="olddoz">' + MySched.Mapping.getDozName(odoz) + '</small>';
-              break;
-            }
-          }
-        }
+    var removed = [];
 
-        var treeLoaded = MySched.Mapping.doz.map[dozKey[i]];
-        if(isset(treeLoaded))
-          if(isset(treeLoaded.treeLoaded))
-            treeLoaded = treeLoaded.treeLoaded;
+    if(isset(this.data.lessonChanges))
+    	if(this.data.lessonChanges.status == "changed")
+    		if(isset(this.data.lessonChanges.teacherIDs))
+    			for(var teacherID in this.data.lessonChanges.teacherIDs)
+	     			{
+	     				var teacherIDValue = this.data.lessonChanges.teacherIDs[teacherID];
+	     				if(teacherIDValue == "removed")
+	     				{
+		     				var teacherNameHTML = '<small class="olddoz">' + MySched.Mapping.getDozName(teacherID) + '</small>';
+		   	 				removed.push(teacherNameHTML);
+	   	 				}
+	     			}
 
-        if (tag && ok && this.data.css != "movedfrom" && this.data.css != "removed" && treeLoaded == true) {
-          tempdoz = '<small class="dozname ' + css + '">' + MySched.Mapping.getDozName(arr[i]).replace(/^\s+/, '').replace(/\s+$/, '') + '</small>';
-        }
-        else {
-          tempdoz = '<small class="' + css + '">' + MySched.Mapping.getDozName(arr[i]).replace(/^\s+/, '').replace(/\s+$/, '') + '</small>';
-        }
-        tempdoz = olddoz + " " + tempdoz;
-        css = "";
-        if (tempString == "") tempString = tempdoz;
-        else tempString = tempString + " " + tempdoz;
-      }
-      ret.push(tempString.replace("_", " "));
+
+	for (var n = 0; n < col.length; n++) {
+    	var dozName = col.items[n].getName();
+		var dozNameHTML = "";
+		if(isset(this.data.lessonChanges))
+			if(isset(this.data.lessonChanges.teacherIDs))
+		    	if(isset(this.data.lessonChanges.teacherIDs[col.items[n].getId()]))
+		    		if(this.data.lessonChanges.teacherIDs[col.items[n].getId()] == "new")
+						dozNameHTML = '<em class="dozname">' + dozName + '</em>';
+		if(dozNameHTML == "")
+    		dozNameHTML = '<small class="dozname">' + dozName + '</small>';
+    	ret.push(dozNameHTML);
     }
-    return ret.join(', ');
+
+    return ret.join(', ')+" "+removed.join(', ');
   },
   getNames: function (col, shortVersion) {
     var ret = [];
@@ -1221,38 +1174,38 @@ Ext.define('mLecture', {
   },
   getClasShorter: function (col, tag, lec) {
     var ret = [];
-    var css = "";
-    var classes = [];
-    if (lec) if (lec.changes) if (lec.changes.classes) classes = lec.changes.classes;
-    col.each(function (e) {
-      // Abkuerzung anstatt Ausgeschrieben
-      var clastemp = e.getId().replace("CL_", "").replace("_", " ");
-      var ok = false;
-      if (MySched.selectedSchedule != null) {
-        if (MySched.Authorize.accArr["ALL"]["clas"] == "*")
-          ok = true;
-        else if(isset(MySched.Authorize.accArr[MySched.Authorize.role]))
-          if(MySched.Authorize.accArr[MySched.Authorize.role]["clas"] == "*")
-            ok = true;
-      }
-      else ok = true;
+    var removed = [];
 
-      var treeLoaded = MySched.Mapping.clas.map[e.getId()];
-        if(isset(treeLoaded))
-          if(isset(treeLoaded.treeLoaded))
-            treeLoaded = treeLoaded.treeLoaded;
+    if(isset(this.data.lessonChanges))
+    	if(this.data.lessonChanges.status == "changed")
+    		if(isset(this.data.lessonChanges.classIDs))
+    			for(var classID in this.data.lessonChanges.classIDs)
+	     			{
+	     				var classIDValue = this.data.lessonChanges.classIDs[classID];
+	     				if(classIDValue == "removed")
+	     				{
+		     				var classNameHTML = '<small class="oldclass">' + MySched.Mapping.getgetClasNameName(classID) + '</small>';
+		   	 				removed.push(classNameHTML);
+	   	 				}
+	     			}
 
-      if (tag && ok  && treeLoaded == true) {
-        for (var clas in classes)
-        if (e.id == clas) css = classes[clas];
-        clastemp = '<small class="classhorter ' + css + '">' + clastemp + '</small>';
-        css = "";
-      }
-      else clastemp = '<small class="' + css + '">' + clastemp + '</small>';
-      this.push(clastemp);
-    }, ret);
-    // Bei der kurzen Varianten ohne BLANK
-    return ret.join(', ');
+
+	for (var n = 0; n < col.length; n++) {
+    	var className = col.items[n].getName();
+
+    	var classNameHTML = "";
+		if(isset(this.data.lessonChanges))
+		if(isset(this.data.lessonChanges.classIDs))
+			if(isset(this.data.lessonChanges.classIDs[col.items[n].getId()]))
+				if(this.data.lessonChanges.classIDs[col.items[n].getId()] == "new")
+					classNameHTML = '<em class="classhorter">' + className + '</em>';
+		if(classNameHTML == "")
+			classNameHTML = '<small class="classhorter">' + className + '</small>';
+
+		ret.push(classNameHTML);
+    }
+
+    return ret.join(', ')+" "+removed.join(', ');
   },
   getName: function () {
     return MySched.Mapping.getLectureName(this.data.id);
@@ -1297,41 +1250,48 @@ Ext.define('mLecture', {
     if (t == "room") {
       var dozroomstring = stripHTML((this.getDozNames(this.getDoz()) + this.getClasShorter(this.getClas())));
       if (dozroomstring.length * 5.5 < width) {
-        this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}-{category} {comment}</b><br/>{doz_name} / {clas_shorter} ' + time + ' {status_icons}</div>');
+        this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}-{category} {comment}</b><br/>{doz_name} / {clas_short} ' + time + ' {status_icons}</div>');
       }
       else {
-        this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}-{category} {comment}</b><br/>{doz_name}<br/>{clas_shorter} ' + time + ' {status_icons}</div>');
+        this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}-{category} {comment}</b><br/>{doz_name}<br/>{clas_short} ' + time + ' {status_icons}</div>');
       }
     }
     else if (t == "doz") {
-      var dozroomstring = stripHTML((this.getClasShorter(this.getClas()) + this.getShort(this.getRoom())));
+      var dozroomstring = stripHTML((this.getClasShorter(this.getClas()) + this.getRoomShort(this.getRoom())));
       if (dozroomstring.length * 5.5 < width) {
-        this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}-{category} {comment}</b><br/>{clas_shorter} / {room_shortname} ' + time + ' {status_icons}</div>');
+        this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}-{category} {comment}</b><br/>{clas_short} / {room_shortname} ' + time + ' {status_icons}</div>');
       }
       else {
-        this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}-{category} {comment}</b><br/>{clas_shorter}<br/>{room_shortname} ' + time + ' {status_icons}</div>');
+        this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="scheduleBox lectureBox {css}">' + '<b class="lecturename">{desc}-{category} {comment}</b><br/>{clas_short}<br/>{room_shortname} ' + time + ' {status_icons}</div>');
       }
     }
     else {
-      var dozroomstring = stripHTML((this.getDozNames(this.getDoz()) + this.getShort(this.getRoom())));
-      var classcss = "scheduleBox";
-      var lecturecss = "";
+      	var dozroomstring = stripHTML((this.getDozNames(this.getDoz()) + this.getRoomShort(this.getRoom())));
+      	var classcss = "scheduleBox";
+      	var lecturecss = "";
 
-      if(isset(this.data.lessonChanges))
-      if (this.data.lessonChanges.status == "removed") {
-        classcss += " lectureBox_dis";
-        lecturecss = "lecturename_dis";
-      }
-      else if(isset(this.data.periodChanges))
-      	if (this.data.periodChanges.status == "removed") {
-	        classcss += " lectureBox_dis";
-	        lecturecss = "lecturename_dis";
-      	}
-      	else
+		if(isset(this.data.lessonChanges))
       	{
+	     	if (this.data.lessonChanges.status == "removed") {
+	        	classcss += " lectureBox_dis";
+	        	lecturecss = "lecturename_dis";
+	      	}
+	    }
+
+	    if(isset(this.data.periodChanges))
+	    {
+    		if (this.data.periodChanges.status == "removed") {
+	    		classcss += " lectureBox_dis";
+	    		lecturecss = "lecturename_dis";
+    		}
+     	}
+
+	    if(lecturecss == "")
+	    {
       		classcss += " lectureBox";
 	        lecturecss = "lecturename";
 	    }
+
 
       if (dozroomstring.length * 5.5 < width) {
         this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="' + classcss + ' {css}">' + '{top_icon}<b class="' + lecturecss + '">{desc}-{category} {comment}</b><br/>{doz_name} / {room_shortname} ' + time + ' {status_icons}</div>');
