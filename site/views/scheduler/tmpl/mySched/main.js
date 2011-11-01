@@ -388,7 +388,7 @@ MySched.Base = function () {
         if (MySched.SessionId) {
           MySched.Authorize.verifyToken(MySched.SessionId, MySched.Authorize.verifySuccess, MySched.Authorize);
           // Lädt Delta Daten
-          //MySched.delta.load(_C('ajaxHandler'), 'json', MySched.delta.loadsavedLectures, MySched.delta, "delta");
+          MySched.delta.load(_C('ajaxHandler'), 'json', MySched.delta.loadsavedLectures, MySched.delta, "delta");
         }
         else {
         	var publicDefaultNode = MySched.startup["TreeView.load"].data.treePublicDefault;
@@ -3194,7 +3194,6 @@ MySched.Tree = function () {
 				if(res == "delta")
 				{
 					new mSchedule(key, title).init(type, res).show();
-
 				}
 				else
 				{
