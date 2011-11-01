@@ -379,7 +379,7 @@ MySched.Base = function () {
 
 		semid = semid[0];
 
-        var deltaid = semid + ".Stundenplan1.delta";
+        var deltaid = semid + ".1.delta";
 
         // Initialisiert "Änderungen"
         MySched.delta = new mSchedule(deltaid, "Änderungen (zentral)");
