@@ -1088,12 +1088,12 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
     var l = MySched.selectedSchedule.getLecture(el.id);
     l = l.data;
     if (typeof l.moduleID == "undefined") {
-      Ext.Msg.alert('Hinweis', 'F�r diese Veranstaltung ist keine Modulnummer hinterlegt');
+      Ext.Msg.alert('Hinweis', 'Für diese Veranstaltung ist keine Modulnummer hinterlegt');
       return;
     }
 
     if (l.moduleID == "" || l.moduleID == null) {
-      Ext.Msg.alert('Hinweis', 'F�r diese Veranstaltung ist keine Modulnummer hinterlegt');
+      Ext.Msg.alert('Hinweis', 'Für diese Veranstaltung ist keine Modulnummer hinterlegt');
       return;
     }
 
