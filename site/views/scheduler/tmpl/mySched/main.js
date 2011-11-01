@@ -2312,6 +2312,7 @@ MySched.layout = function () {
         text: 'Info',
         id: 'btnInfo',
         iconCls: 'tbInfo',
+        hidden: true,
         handler: MySched.layout.showInfoWindow,
         scope: MySched.layout
       });
@@ -3193,6 +3194,7 @@ MySched.Tree = function () {
 				if(res == "delta")
 				{
 					new mSchedule(key, title).init(type, res).show();
+
 				}
 				else
 				{
