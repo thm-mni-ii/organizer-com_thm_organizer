@@ -1184,14 +1184,14 @@ Ext.define('mLecture', {
 	     				var classIDValue = this.data.lessonChanges.classIDs[classID];
 	     				if(classIDValue == "removed")
 	     				{
-		     				var classNameHTML = '<small class="oldclass">' + MySched.Mapping.getgetClasNameName(classID) + '</small>';
+		     				var classNameHTML = '<small class="oldclass">' + MySched.Mapping.getObjectField("clas", classID, "shortname") + '</small>';
 		   	 				removed.push(classNameHTML);
 	   	 				}
 	     			}
 
 
 	for (var n = 0; n < col.length; n++) {
-    	var className = col.items[n].getName();
+    	var className = MySched.Mapping.getObjectField("clas", col.items[n].getId(), "shortname");
 
     	var classNameHTML = "";
 		if(isset(this.data.lessonChanges))
