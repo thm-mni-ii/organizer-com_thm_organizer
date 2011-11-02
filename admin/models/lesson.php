@@ -198,6 +198,7 @@ class thm_organizersModellesson extends thm_organizersModelresource
         $periodCount = trim((string)$lessonnode->periods);
         $lessontype = substr(trim((string)$lessonnode->text1), 0, 32);
         $comment = substr(trim((string)$lessonnode->text2), 0, 256);
+        $comment = ($comment)? $comment : '';
 
         $lesson = JTable::getInstance('lessons', 'thm_organizerTable');
         $loadData = array('gpuntisID' => $gpuntisID,
