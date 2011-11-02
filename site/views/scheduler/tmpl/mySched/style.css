@@ -383,3 +383,36 @@ img.status_icons_delete {
 .x-panel .x-grid-body {
     border-width: 0px;
 }
+
+.x-panel-header-default {
+    background-color: #FFF;
+    background-image: none;
+    border-width: 0px;
+}
+
+.x-toolbar-default {
+    background-color: #FFF;
+    background-image: none;
+    border-color: #D0D0D0;
+}
+
+.x-tab-bar {
+    background-color: #FFF;
+    background-image: none;
+    border: 0px;
+}
+
+.x-toolbar {
+    border: 0px;
+}
+
+.x-tab-bar-body {
+    border-color: #FFF;
+}
+
+.x-panel-header-default-top {
+	-moz-box-shadow:#FFF 0 1px 0px 0 inset;
+	-webkit-box-shadow:#FFF 0 1px 0px 0 inset;
+	-o-box-shadow:#FFF 0 1px 0px 0 inset;
+	box-shadow:#FFF 0 1px 0px 0 inset
+}

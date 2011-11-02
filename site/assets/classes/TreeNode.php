@@ -14,7 +14,7 @@ class TreeNode {
     public $leaf = true;
     public $draggable = false;
     public $singleClickExpand = false;
-    public $children = NULL;
+    public $children = null;
     public $gpuntisID = null;
     public $plantype = null;
     public $type = null;
