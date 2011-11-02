@@ -13,18 +13,14 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.model' );
 class thm_organizerModelroom_display extends JModel
 {
-    public $name = '';
-    public $id;
-    public $layout = '';
+    public $roomName = '';
+    public $roomID;
+    public $layout = 'default';
     public $semesterIDs = null;
     public $blocks = array();
-    private $postDate = '';
-    private $dayNumber;
-    public $displayDate = '';
-    public $dayName = '';
+    public $date = null;
     public $lessonsExist = false;
     public $eventsExist = false;
-    private $eventIDs = array();
     public $appointments = array();
     public $information = array();
     public $notices = array();
@@ -35,74 +31,91 @@ class thm_organizerModelroom_display extends JModel
     public function __construct()
     {
         parent::__construct();
-        $this->setRoomInformation();//sets roomname and layout
-        $this->setSemesters();
-        $this->setDateInformation();//sets date variables
-        $this->setBlocks();
-        $this->setScheduleData();
+        $monitor = JTable::getInstance('monitors', thm_organizerTable);
+        $where = array('ip' => $_SERVER['REMOTE_ADDR']);
+        $registered = $monitor->load($where);
+        if($registered)
+        {
+            switch ($monitor->display)
+            {
+                case 1:
+                    $this->layout = 'registered';
+                    $this->setRoomInformation($monitor->roomID);
+                    $this->setScheduleInformation();
+                    break;
+                case 2:
+                    $this->determineDisplayBehaviour($monitor);
+                    break;
+                case 3:
+                    $this->layout = 'content';
+                    $this->content = $monitor->content;
+                    break;
+                default:
+                    $this->layout = 'registered';
+                    $this->setRoomInformation($monitor->roomID);
+                    $this->setScheduleInformation();
+                    break;
+            }
+        }
+        else
+        {
+            $this->layout = 'default';
+            $this->setRoomInformation();
+            $this->setScheduleInformation();
+        }
+    }
+
+    /**
+     * setRoomInformation
+     *
+     * retrieves the name and id of the room
+     *
+     * @param int $roomID the id of the room referenced in the monitors table
+     */
+    function setRoomInformation($roomID = 0)
+    {
+        if(!$roomID)
+        {
+            $request = JRequest::getVar('jform');
+            $where = array('name' => $request['room']);
+        }
+        $room = JTable::getInstance('rooms', 'thm_organizerTable');
+        $exists = $room->load(($roomID)? $roomID : $where);
+        if($exists)
+        {
+            $this->roomName = $room->name;
+            $this->roomID = $room->id;
+        }
+        else $this->redirect('COM_THM_ORGANIZER_RD_NO_ROOM');
+    }
+
+    /**
+     * setScheduleInformation
+     */
+    private function setScheduleInformation()
+    {
+        $request = JRequest::getVar('jform');
+        if(isset($request['date'])) strtotime($request['date']);
+        else $this->date = getdate();
+        $this->semesterIDs = $this->getSemesterIDs();
+        $this->blocks = $this->getBlocks();
+        $this->setInformation();
+        $this->setUpcoming();
         $this->setMenuLinks();
     }
 
     /**
-     * checks whether the room is valid and sets room and layout variables
-     * redirects to the calling room selection if no room was found with the given information
-     */
-    function setRoomInformation()
-    {
-        //check if registered
-        $ip = $_SERVER['REMOTE_ADDR'];
-        $dbo = JFactory::getDBO();
-        $query = $dbo->getQuery(true);
-        $query->select("r.id AS id, r.name AS name");
-        $query->from("#__thm_organizer_monitors AS m");
-        $query->innerJoin("#__thm_organizer_rooms AS r ON m.roomID = r.id");
-        $query->where("ip = '$ip'");
-        $dbo->setQuery((string)$query);
-        $room = $dbo->loadAssoc();
-        if(!empty($room))
-        {
-            $this->name = $room['name'];
-            $this->id = $room['id'];
-            $this->layout = 'registered';
-            return;
-        }
-        else//check if room exists
-        {
-            $request = JRequest::getVar('jform');
-            $roomname = $request['room'];
-            if(isset($roomname) && $roomname != '')
-            {
-                $query = $dbo->getQuery(true);
-                $query->select("id, name");
-                $query->from("#__thm_organizer_rooms");
-                $query->where("name = '$roomname'");
-                $dbo->setQuery((string)$query);
-                $room = $dbo->loadAssoc();
-                if(!empty($room))
-                {
-                    $this->name = $room['name'];
-                    $this->id = $room['id'];
-                    $this->layout = 'default';
-                    return;
-                }
-            }
-        }
-        //room does not exist => redirect to selection
-        //$this->redirect('COM_THM_ORGANIZER_RD_NO_ROOM');
-    }
-
-    /**
-     * function setSemester
+     * getSemester
      *
-     * checks which semesters currently has validity
+     * retireves a list of semester IDs valid for the requested date and formats
+     * them into a string suitable for an sql where clause
+     *
+     * @return string $semesterIDs
      */
-     private function setSemesters()
+     private function getSemesterIDs()
      {
-         $form = JRequest::getVar('jform');
-         $date = $form['date'];
-         if($date == '') $date = date("Y-m-d");
-         else $date = substr ($date, 6)."-".substr($date, 3, 2)."-".substr($date, 0, 2);
-         $dbo = JFactory::getDbo();
+         $date = date('Y-m-d', $this->date[0]);
+         $dbo = $this->getDbo();
          $query = $dbo->getQuery(true);
          $query->select("semesters.id");
          $query->from("#__thm_organizer_semesters AS semesters");
@@ -113,118 +126,35 @@ class thm_organizerModelroom_display extends JModel
          $dbo->setQuery((string)$query);
          $semesterIDs = $dbo->loadResultArray();
          if(empty($semesterIDs))$this->redirect(JText::_('COM_THM_ORGANIZER_RD_NO_SEMESTERS'));
-         else $this->semesterIDs = $semesterIDs;
+         return "( '".implode ("', '", $semesterIDs)."' )";
      }
 	
     /**
-     * Resolves a date from $_POST or system
-     * to its german name and a date string with german formatting.
+     * getBlocks
      *
+     * creates an array of blocks and fills them with data
+     *
+     * @return mixed $blocks
      */
-    private function setDateInformation()
-    {
-        $request = JRequest::getVar('jform');
-        $postDate = $request['date'];
-        if(isset($postDate))
-        {
-            $postDate = substr($postDate, 6, 4)."-".substr($postDate, 3, 2)."-".substr($postDate, 0, 2);
-            $date = strtotime($postDate);
-        }
-        else $date = false;
-        if($date)
-        {
-            $this->postDate = $postDate;
-            $date = getdate($date); //date info as array
-            $this->dayNumber = $date['wday'];
-            $this->displayDate = $date['mday'].".".$date['mon'].".".substr($date['year'], 2);
-        }
-        else
-        {
-            $this->postDate = date('y-m-d');
-            $this->dayNumber = date('w');
-            $this->displayDate = date('d.m.y');
-        }
-        switch($this->dayNumber)
-        {
-            case 0:
-                $this->dayName = JText::_('SUNDAY');
-                break;
-            case 1:
-                $this->dayName = JText::_('MONDAY');
-                break;
-            case 2:
-                $this->dayName = JText::_('TUESDAY');
-                break;
-            case 3:
-                $this->dayName = JText::_('WEDNESDAY');
-                break;
-            case 4:
-                $this->dayName = JText::_('THURSDAY');
-                break;
-            case 5:
-                $this->dayName = JText::_('FRIDAY');
-                break;
-            case 6:
-                $this->dayName = JText::_('SATURDAY');
-                break;
-        }
-    }
-
-    /**
-     * Creates an array with the start/endtimes of the periods and an associated id
-     */
-    private function setBlocks()
+    private function getBlocks()
     {
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);
-        $query->select("DISTINCT period, SUBSTRING(starttime, 1, 5) AS starttime, SUBSTRING(endtime, 1, 5) AS endtime");
+        $query->select("id, period, SUBSTRING(starttime, 1, 5) AS starttime, SUBSTRING(endtime, 1, 5) AS endtime");
         $query->from("#__thm_organizer_periods");
-        $semesters = "'".implode("', '", $this->semesterIDs)."'";
-        $query->where("semesterID IN ( $semesters )");
-        $query->where("day = '{$this->dayNumber}'");
+        $query->where("day = '{$this->date['wday']}'");
+        $query->order('period ASC');
         $dbo->setQuery((string)$query);
         $periods = $dbo->loadAssocList();
-        foreach($periods as $k => $period)
-        {
-            $query = $dbo->getQuery(true);
-            $query->select("id");
-            $query->from("#__thm_organizer_periods");
-            $query->where("semesterID IN ( $semesters )");
-            $query->where("period = '{$period['period']}'");
-            $query->where("SUBSTRING(starttime, 1, 5) = '{$period['starttime']}'");
-            $query->where("SUBSTRING(endtime, 1, 5) = '{$period['endtime']}'");
-            $query->where("day = '{$this->dayNumber}'");
-            $dbo->setQuery((string)$query);
-            $periods[$k]['ids'] = $dbo->loadResultArray();
-        }
-        if ($dbo->getErrorNum()) return "error";
         $blocks = array();
         foreach($periods as $period)
         {
-            $blocks[$period['period']]['starttime'] = $period['starttime'];
-            $blocks[$period['period']]['endtime'] = $period['endtime'];
-            $blocks[$period['period']]['displayTime'] = $period['starttime']." - ".$period['endtime'];
-            $blocks[$period['period']]['ids'] = $period['ids'];
+            $blocks[$period['period']] = $period;
+            $this->setLessonData($blocks[$period['period']]);
+            $this->setAppointments($blocks[$period['period']]);
+            $this->setNotices($blocks[$period['period']]);
         }
-        asort($blocks);
-        $this->blocks = $blocks;
-    }
-	
-    /**
-     * Gets the lessons for the room and day
-     *
-     * @return either an array of lessons or void if none were found
-     */
-    function setScheduleData()
-    {
-        foreach($this->blocks as $blockIndex => $blockValue)
-        {
-            $this->setLessonData($blockIndex);
-            $this->setAppointments($blockIndex);
-            $this->setNotices($blockIndex);
-        }
-        $this->setInformation();
-        $this->setUpcoming();
+        return $blocks;
     }
 
     /**
@@ -235,20 +165,19 @@ class thm_organizerModelroom_display extends JModel
      * @todo add teacher associations to user/thm_groups views
      * @todo add module associations to thm_lsf views
      */
-    private function setLessonData($blockIndex)
+    private function setLessonData(&$block)
     {
-        $block =& $this->blocks[$blockIndex];
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);
-        $select = "l.id AS lessonID, s.alias AS lessonName, l.type AS lessonType, s.moduleID AS moduleID";
+        $select = "l.id AS lessonID, s.alias AS lessonName, ";
+        $select .= "l.type AS lessonType, s.moduleID AS moduleID";
         $query->select($select);
         $query->from("#__thm_organizer_lessons AS l");
         $query->innerJoin("#__thm_organizer_subjects AS s ON l.subjectID = s.id");
         $lessonTimes = "#__thm_organizer_lesson_times AS lt ";
         $lessonTimes .= "ON lt.lessonID = l.id ";
-        $lessonTimes .= "AND lt.roomID = $this->id ";
-        $periodIDs = "'".implode("', '", $block['ids'])."'";
-        $lessonTimes .= "AND lt.periodID IN ( $periodIDs )";
+        $lessonTimes .= "AND lt.roomID = '{$this->roomID}' ";
+        $lessonTimes .= "AND lt.periodID = '{$block['id']}'";
         $query->innerJoin($lessonTimes);
         $dbo->setQuery((string)$query);
         $lessonInfo = $dbo->loadAssoc();
@@ -294,7 +223,6 @@ class thm_organizerModelroom_display extends JModel
      */
     private function setAppointments($blockIndex)
     {
-        $block =& $this->blocks[$blockIndex];
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $this->eventSelect($query);
@@ -352,7 +280,6 @@ class thm_organizerModelroom_display extends JModel
      */
     private function setNotices($blockIndex)
     {
-        $block =& $this->blocks[$blockIndex];
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $this->eventSelect($query);
@@ -633,9 +560,47 @@ class thm_organizerModelroom_display extends JModel
     {
         $application = JFactory::getApplication();
         $menuID = JRequest::getInt('Itemid');
-        $rd_string = 'index.php?option=com_thm_organizer&view=room_select';
+        $rd_string = 'index.php';
         if(isset($menuID))$rd_string .= "&Itemid=$menuID";
         $application->redirect($rd_string, $message, 'error');
+    }
+
+    /**
+     * determineDisplayBehaviour
+     *
+     * determines which display behaviour is desired based on the interval
+     * setting and session variables
+     *
+     * @param JTable $monitor
+     */
+    private function determineDisplayBehaviour(&$monitor)
+    {
+        $session = JFactory::getSession();
+        $displayTime = $session->get('displayTime', 0);
+        $displayContent = $session->get('displayContent', 'schedule');
+        if($displayTime % $monitor->interval == 0)
+            $displayContent = ($displayContent == 'schedule')? 'content' : 'schedule';
+        $displayTime++;
+        $session->set('displayTime', $displayTime);
+        $session->set('displayContent', $displayContent);
+
+        switch ($displayContent)
+        {
+            case 'schedule':
+                $this->layout = 'registered';
+                $this->setRoomInformation($monitor->roomID);
+                $this->setScheduleInformation();
+                break;
+            case 'content':
+                $this->layout = 'content';
+                $this->content = $monitor->content;
+                break;
+            default:
+                $this->layout = 'registered';
+                $this->setRoomInformation($monitor->roomID);
+                $this->setScheduleInformation();
+                break;
+        }
     }
 }
 

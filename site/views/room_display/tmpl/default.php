@@ -10,16 +10,37 @@
  * @version     0.0.1
  */
 defined('_JEXEC') or die('Restricted access');
+JHTML::_('behavior.tooltip');
+$document = JFactory::getDocument();
+$document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
+$title = JText::_('COM_THM_ORGANIZER_RD_TITLE');
+$title .= $this->roomname;
+$title .= JText::_('COM_THM_ORGANIZER_RD_ON');
+$title .= $this->displayDate;
+$document->setTitle($title);
+
+if(isset($model->roomSelectLink))
+{
+    $backSpan = "<span id='thm_organizer_back_span' class='thm_organizer_action_span'></span>";
+    $backTip = JText::_('COM_THM_ORGANIZER_RD_RS_LINK_TITLE');
+    $backTip .= "::";
+    $backTip .= JText::_('COM_THM_ORGANIZER_RD_RS_LINK_TEXT');
+    $attributes = array();
+    $attributes['title'] = $backTip;
+    $attributes['class'] = "hasTip thm_organizer_action_link";
+    $backLink = JHtml::link($model->roomSelectLink, $backSpan.JText::_('COM_THM_ORGANIZER_RD_RS_LINK_TITLE'), $attributes);
+    $this->backLink = $backLink;
+}
 ?>
 <div id="thm_organizer_rd">
     <div id="thm_organizer_rd_head">
         <div id ="thm_organizer_rd_title">
             <span id="thm_organizer_rd_highlight">
-                <?php echo $this->name; ?>
+                <?php echo $this->roomname; ?>
             </span>
             <?php echo JText::_('COM_THM_ORGANIZER_RD_ON'); ?>
             <span id="thm_organizer_rd_highlight" >
-                <?php echo $this->displayDate; ?>
+                <?php echo date('d.m.Y', $this->date[0]); ?>
             </span>
         </div>
         <div id="thm_organizer_rd_button_div">

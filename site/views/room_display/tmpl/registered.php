@@ -2,15 +2,21 @@
 /**
  * @package     Joomla.Site
  * @subpackage  com_thm_organizer
- * @name        template for registered monitors
+ * @name        template for display of scheduled lessons on registered monitors
  * @author      James Antrim jamesDOTantrimATyahooDOTcom
  * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
  * @link        www.mni.fh-giessen.de
- * @version     0.0.1
+ * @version     1.7.0
  */
 // No direct access
-defined('_JEXEC') or die('Restricted access');?>
+defined('_JEXEC') or die('Restricted access');
+$imagepath = 'components/com_thm_organizer/assets/images/';
+$this->thm_logo_image =
+        JHtml::image($imagepath.'thm_logo_giessen.png', JText::_('COM_THM_ORGANIZER_RD_LOGO_GIESSEN'));
+$this->thm_text_image =
+        JHtml::image($imagepath.'thm_text_dinpro_compact.png', JText::_('COM_THM_ORGANIZER_RD_THM'));
+?>
 <div id="thm_organizer_is_registered">
     <div id="thm_organizer_is_head">
         <div id="thm_organizer_is_head_left">
@@ -20,7 +26,7 @@ defined('_JEXEC') or die('Restricted access');?>
                 </div>
                 <div id="thm_organizer_is_divider_div"></div>
                 <div id="thm_organizer_is_room_div">
-                    <?php  echo $this->name; ?>
+                    <?php  echo $this->roomName; ?>
                 </div>
             </div>
             <div id="thm_organizer_is_head_lower">
@@ -28,15 +34,15 @@ defined('_JEXEC') or die('Restricted access');?>
             </div>
         </div>
         <div id="thm_organizer_is_head_right">
-            <?php echo $this->day; ?><br />
-            <?php echo $this->date; ?><br />
+            <?php echo JText::_(strtoupper(date('l'))); ?><br />
+            <?php echo date('d.m.Y'); ?><br />
             <?php echo date('H:i'); ?>
         </div>
     </div>
     <div id="thm_organizer_is_break_div"></div>
     <?php $widthClass = ($this->eventsExist)? 'thm_organizer_is_short' : 'thm_organizer_is_long'; ?>
     <div id="thm_organizer_is_schedule_area" class="<?php echo $widthClass; ?>">
-    <?php if(isset($this->blocks) and count($this->blocks) > 0){
+    <?php if(count($this->blocks)){
         $blockNo = 0; $time = date('H:i');
         foreach($this->blocks as $blockKey => $block){
         $blockClass = ($blockNo % 2 == 0)? 'thm_organizer_is_even' : 'thm_organizer_is_odd';

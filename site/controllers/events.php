@@ -145,22 +145,18 @@ class thm_organizerControllerevents extends JController
         $eventID = JRequest::getInt('eventID');
         $eventIDs = JRequest::getVar('eventIDs');
         $menuID = JRequest::getVar('Itemid');
-
         $success = false;
         $model = $this->getModel('events');
-        if(isset($eventID) and eventAccess::canDelete($eventID))
+        if(isset($eventID) && $eventID != 0)
         {
-            $success = $model->delete($eventID);
-        }
-        else if(isset($eventID) and !eventAccess::canDelete($eventID))
-        {
-            eventAccess::noAccess();
+            (eventAccess::canDelete($eventID))?
+                $success = $model->delete($eventID) : eventAccess::noAccess();
         }
         else if(isset($eventIDs) and count($eventIDs))
         {
-            foreach($eventIDs as $eventID)
+            foreach($eventIDs as $id)
             {
-                if(eventAccess::canDelete($eventID)) $success = $model->delete($eventID);
+                if(eventAccess::canDelete($id)) $success = $model->delete($id);
                 else eventAccess::noAccess();
             }
         }

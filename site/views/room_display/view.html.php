@@ -16,59 +16,23 @@ class thm_organizerViewroom_display extends JView
     function display($tpl = null)
     {
         $model = $this->getModel();
-        $this->assignRef( 'name', $model->name );
-        if(count($model->blocks) > 0)
-        {
-            $this->assignRef('blocks', $model->blocks);
-            $this->assignRef('lessonsExist', $model->lessonsExist);
-        }
-        $this->displayDate = "$model->dayName, $model->displayDate";
-        $this->day = $model->dayName;
-        $this->date = $model->displayDate;
-        $this->assignRef('eventsExist', $model->eventsExist);
-        $this->assignRef('appointments', $model->appointments);
-        $this->assignRef('notices', $model->notices);
-        $this->assignRef('information', $model->information);
-        $this->assignRef('upcoming', $model->upcoming);
         $this->setLayout($model->layout);
-        $this->setHTMLElements();
- 
-        parent::display($tpl);
-    }
-    
-    function setHTMLElements()
-    {
-        if($this->getLayout() == 'default')
+        if($model->layout == 'default' or $model->layout == 'registered')
         {
-            $model = $this->getModel();
-            JHTML::_('behavior.tooltip');
-            $document = & JFactory::getDocument();
-            $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
-            $title = JText::_('COM_THM_ORGANIZER_RD_TITLE');
-            $title .= $model->name;
-            $title .= JText::_('COM_THM_ORGANIZER_RD_ON');
-            $title .= $this->displayDate;
-            $document->setTitle($title);
-
-            if(isset($model->roomSelectLink))
+            $this->roomName = $model->roomName;
+            $this->date = $model->date;
+            if(count($model->blocks))
             {
-                $backSpan = "<span id='thm_organizer_back_span' class='thm_organizer_action_span'></span>";
-                $backTip = JText::_('COM_THM_ORGANIZER_RD_RS_LINK_TITLE');
-                $backTip .= "::";
-                $backTip .= JText::_('COM_THM_ORGANIZER_RD_RS_LINK_TEXT');
-                $attributes = array();
-                $attributes['title'] = $backTip;
-                $attributes['class'] = "hasTip thm_organizer_action_link";
-                $backLink = JHtml::link($model->roomSelectLink, $backSpan.JText::_('COM_THM_ORGANIZER_RD_RS_LINK_TITLE'), $attributes);
-                $this->backLink = $backLink;
+                $this->blocks = $model->blocks;
+                $this->lessonsExist = $model->lessonsExist;
             }
+            $this->eventsExist = $model->eventsExist;
+            $this->appointments = $model->appointments;
+            $this->notices = $model->notices;
+            $this->information = $model->information;
+            $this->upcoming = $model->upcoming;
         }
-        elseif($this->getLayout() == 'registered')
-        {
-            $this->thm_logo_image =
-                    JHtml::image('components/com_thm_organizer/assets/images/thm_logo_giessen.png', JText::_('COM_THM_ORGANIZER_RD_LOGO_GIESSEN'));
-            $this->thm_text_image =
-                    JHtml::image('components/com_thm_organizer/assets/images/thm_text_dinpro_compact.png', JText::_('COM_THM_ORGANIZER_RD_THM'));
-        }
+        else if($model->layout == 'content') $this->content = $model->content;
+        parent::display($tpl);
     }
 }
