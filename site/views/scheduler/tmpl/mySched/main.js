@@ -2015,6 +2015,7 @@ MySched.layout = function () {
           });
         }
       });
+
       var btnSavePdf = Ext.create('Ext.Button',{
         text: 'Stundenplan',
         id: 'btnPdf',
@@ -2024,6 +2025,7 @@ MySched.layout = function () {
           text: 'Download des Stundenplans als PDF'
         },
         handler: function () {
+        	clickMenuHandler();
           var pdfwait = Ext.MessageBox.wait('Ihr Stundenplan wird generiert', 'PDF wird erstellt', {
             interval: 100,
             duration: 2000
@@ -2077,6 +2079,7 @@ MySched.layout = function () {
           text: 'Download des Wochenplans als PDF'
         },
         handler: function () {
+        	clickMenuHandler();
           var pdfwait = Ext.MessageBox.wait('Ihr Wochenplan wird generiert', 'PDF wird erstellt', {
             interval: 100,
             duration: 2000
@@ -2131,6 +2134,7 @@ MySched.layout = function () {
           text: 'Download des angezeigten Planes als ICal'
         },
         handler: function () {
+        	clickMenuHandler();
           var icalwait = Ext.MessageBox.wait('Ihr Terminplan wird generiert', 'ICal wird erstellt', {
             interval: 100,
             duration: 2000
@@ -2226,6 +2230,7 @@ MySched.layout = function () {
           text: 'Download des angezeigten Planes als Excel'
         },
         handler: function () {
+        	clickMenuHandler();
           var txtwait = Ext.MessageBox.wait('Ihr Stundenplan wird generiert', 'Txt wird erstellt', {
             interval: 100,
             duration: 2000
@@ -2292,6 +2297,10 @@ MySched.layout = function () {
         disabled: false,
         menu: [btnSavePdf, btnSaveWeekPdf, btnICal, btnSaveTxt]
       });
+
+	function clickMenuHandler() {
+		btnMenu.hideMenu();
+	}
 
       var btnDel = Ext.create('Ext.Button',{
         // EntfernenButton
