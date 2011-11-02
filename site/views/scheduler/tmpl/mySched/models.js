@@ -955,8 +955,10 @@ Ext.define('mLecture', {
     		return '<div data-qtip="Diese Veranstaltung ist neu hinzugekommen" class="top_icon_image">Neu</div>';
 
     if(isset(this.data.periodChanges))
-    	if (this.data.periodChanges.status == "moved")
+    	if (this.data.periodChanges.status == "new")
     		return '<div data-qtip="Diese Veranstaltung ist neu hinzugekommen" class="top_icon_image">Neu</div>';
+    	else if(this.data.periodChanges.status == "moved")
+    		return '<div data-qtip="Diese Veranstaltung wurde verschoben" class="top_icon_image">Verschoben</div>';
 
    	if (this.data.css == "mysched_proposal")
    		return '<div data-qtip="Diese Veranstaltung wurde ihnen vorgeschlagen weil die ursprüngliche Veranstaltung nicht mehr vorhanden ist" class="top_icon_image">Vorschlag</div><br/>';
