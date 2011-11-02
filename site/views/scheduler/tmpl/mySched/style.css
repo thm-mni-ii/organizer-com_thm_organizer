@@ -375,3 +375,11 @@ img.status_icons_delete {
 	border-bottom: 1px solid #ECECEC;
     	border-top: 0px;
 }
+
+.x-panel-body-default {
+    border-width: 0px;
+}
+
+.x-panel .x-grid-body {
+    border-width: 0px;
+}
