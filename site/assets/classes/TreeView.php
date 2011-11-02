@@ -556,8 +556,12 @@ class TreeView
 
       if($k != null && $k != "none" && !empty($childNodes))
       {
+
+	      $parentKey = str_replace(" ", "", trim($key).".".trim($k));
+	      $parentKey = str_replace("(", "", $parentKey);
+	      $parentKey = str_replace(")", "", $parentKey);
         $temp = $this->createTreeNode(
-          trim($key).".".trim($k),							// id - autom. generated
+          $parentKey,							// id - autom. generated
           trim($k),							// text	for the node
           'studiengang-root',			// iconCls
           false,							// leaf

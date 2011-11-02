@@ -43,6 +43,9 @@
 												"FROM #__thm_organizer_subjects AS subjects " .
 												"WHERE subjects.id = '".$dataValue->subjectID."'");
 
+				if(!isset($lessonInfo[0]))
+					return array("data"=>json_encode($lessons));
+
 				$lessonInfo = $lessonInfo[0];
 
 				$periodIDList = implode(", ", array_keys((array)$dataValue->periods));

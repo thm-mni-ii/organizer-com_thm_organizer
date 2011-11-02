@@ -203,7 +203,8 @@ Ext.tree.Panel.prototype.getChecked = function(node, checkedArr){
 		node = this.getRootNode();
 	}
 	if( node.data.checked != "unchecked" && node.data.checked != null) {
-		checked[node.data.id] = node.data.checked;
+		var nodeID = node.data.id.replace(" ", "").replace("(", "").replace(")", "");
+		checked[nodeID] = node.data.checked;
 		if( !node.isLeaf() ) {
 			for( i = 0; i < node.childNodes.length; i++ ) {
 				var checkedChildren = this.getChecked(node.childNodes[i]);
@@ -232,7 +233,8 @@ Ext.tree.Panel.prototype.getPublicDefault = function(node, checkedArr){
 	}
 
 	if( Ext.isObject(node.raw) &&  node.raw.publicDefault == "default") {
-		checked[node.data.id] = node.raw.publicDefault;
+		var nodeID = node.data.id.replace(" ", "").replace("(", "").replace(")", "");
+		checked[nodeID] = node.raw.publicDefault;
 	}
 	else
 		if( !node.isLeaf() ) {
