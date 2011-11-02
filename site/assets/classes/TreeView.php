@@ -406,6 +406,29 @@ class TreeView
     	$viewNode[] = $children;
 
     $temp = $this->createTreeNode(
+          $key.".subject",							// id - autom. generated
+          "Fächer",						// text	for the node
+          'view' . '-root',				// iconCls
+          false,							// leaf
+          false,							// draggable
+          true,							// singleClickExpand
+          "subject",
+          $planid,
+          null,
+          null,
+          $semesterID
+        );
+
+    $children = $this->getStundenplan($key.".subject", $planid, $semesterID, "subject");
+    if($temp != null && !empty($temp))
+    {
+    	$temp->setChildren($children);
+      	$viewNode[] = $temp;
+    }
+    else if(!empty($children))
+    	$viewNode[] = $children;
+
+    $temp = $this->createTreeNode(
           $key.".delta",					// id - autom. generated
           "Änderungen (zentral)",			// text	for the node
           'delta' . '-node',				// iconCls
@@ -509,8 +532,10 @@ class TreeView
       $arr = $this->getStundenplanDozData($planid, $semesterID);
     else if($type == "room")
       $arr = $this->getStundenplanRoomData($planid, $semesterID);
-    else
+    else if($type == "clas")
       $arr = $this->getStundenplanClassData($planid, $semesterID);
+      	else
+      		$arr = $this->getStundenplanSubjectData($planid, $semesterID);
 
     foreach($arr as $k=>$value)
     {
@@ -608,7 +633,8 @@ class TreeView
              "AND #__thm_organizer_lessons.semesterID = " .$semesterID." " .
              "OR (#__thm_organizer_lessons.plantypeID is null " .
              "AND #__thm_organizer_lessons.semesterID is null) " .
-            "GROUP BY classes.id";
+            "GROUP BY classes.id " .
+           "ORDER BY department, oname";
 
     $classesarray = array( );
     $res          = $this->JDA->query( $classesquery );
@@ -698,9 +724,10 @@ class TreeView
            "ON #__thm_organizer_descriptions.id = rooms.descriptionID " .
            "WHERE #__thm_organizer_lessons.plantypeID = " .$planid." " .
            "AND #__thm_organizer_lessons.semesterID = " .$semesterID." " .
-            "OR (#__thm_organizer_lessons.plantypeID is null " .
-            "AND #__thm_organizer_lessons.semesterID is null) " .
-           "GROUP BY rooms.id";
+           "OR (#__thm_organizer_lessons.plantypeID is null " .
+           "AND #__thm_organizer_lessons.semesterID is null) " .
+           "GROUP BY rooms.id " .
+           "ORDER BY rtype, description, oname";
 
     $roomarray = array( );
     $res       = $this->JDA->query( $roomquery );
@@ -802,7 +829,8 @@ class TreeView
              "AND #__thm_organizer_lessons.semesterID = " .$semesterID.") " .
              "OR (#__thm_organizer_lessons.plantypeID is null " .
              "AND #__thm_organizer_lessons.semesterID is null) " .
-            "GROUP BY teachers.id";
+            "GROUP BY teachers.id " .
+            "ORDER BY departments.name, teachers.name";
 
     $teacherarray = array( );
     $res          = $this->JDA->query( $teacherquery );
@@ -870,6 +898,63 @@ class TreeView
     }
 
     return $teacherarray;
+  }
+
+  private function getStundenplanSubjectData($planid, $semesterID, $checkTreeData = false)
+  {
+    $subjectQuery = "SELECT DISTINCT subjects.gpuntisID AS sid, " .
+            "subjects.alias as name, " .
+            "SUBSTRING(subjects.moduleID, 1, 2) AS moduleID, " .
+            "'subject' AS otype, " .
+            "count(lessons.subjectID) AS lessonamount " .
+            "FROM #__thm_organizer_subjects AS subjects " .
+            "LEFT JOIN #__thm_organizer_lessons AS lessons " .
+            "ON lessons.subjectID = subjects.id " .
+            "WHERE (lessons.plantypeID = " .$planid." " .
+            "AND lessons.semesterID = " .$semesterID.") " .
+            "GROUP BY subjects.gpuntisID " .
+            "ORDER BY moduleID, name";
+
+    $subjectArray = array( );
+    $res          = $this->JDA->query( $subjectQuery );
+
+    if(is_array( $res ) === true)
+    if ( count( $res ) != 0 ) {
+      for ( $i = 0; $i < count( $res ); $i++ ) {
+        $data = $res[ $i ];
+        $key = $data->sid;
+        if(empty($data->moduleID))
+        {
+        	$department = "none";
+        }
+        else
+        	$department = $data->moduleID;
+        if ( !isset( $subjectArray[ $department ] ) ) {
+          $subjectArray[ $department ] = array( );
+        }
+
+        if($checkTreeData === true)
+          if(isset($this->treeData["subject"][$department][$key]))
+            continue;
+
+        $subjectArray[ $department ][ $key ]                   = array( );
+        $subjectArray[ $department ][ $key ][ "id" ]           = trim($key);
+        $subjectArray[ $department ][ $key ][ "department" ]   = trim($department);
+        $subjectArray[ $department ][ $key ][ "name" ]         = trim($data->name);
+        $subjectArray[ $department ][ $key ][ "otype" ]        = trim($data->otype);
+        $subjectArray[ $department ][ $key ][ "manager" ]      = trim("");
+        $subjectArray[ $department ][ $key ][ "lessonamount" ] = trim($data->lessonamount);
+        $subjectArray[ $department ][ $key ][ "gpuntisID" ] = trim($data->sid);
+        $subjectArray[ $department ][ $key ][ "semesterID" ] = trim($semesterID);
+        $subjectArray[ $department ][ $key ][ "plantypeID" ] = trim($planid);
+
+        if(in_array($key, $this->inTree))
+          $subjectArray[ $department ][ $key ][ "treeLoaded" ] = true;
+        else
+          $subjectArray[ $department ][ $key ][ "treeLoaded" ] = false;
+      }
+    }
+    return $subjectArray;
   }
 
   private function getVirtualSchedules($type, $semesterID)
