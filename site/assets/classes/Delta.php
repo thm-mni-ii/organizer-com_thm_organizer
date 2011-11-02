@@ -32,8 +32,9 @@
 			foreach($data as $dataKey=>$dataValue) {
 				$classIDList = implode(", ", $dataValue->classIDs);
 				$teacherIDList = implode(", ", $dataValue->teacherIDs);
-				$classList = $this->getGPUntisID($classIDList, "class");
-				$teacherList = $this->getGPUntisID($teacherIDList, "teacher");
+
+				$classMainList = $this->getGPUntisID($classIDList, "class");
+				$teacherMainList = $this->getGPUntisID($teacherIDList, "teacher");
 
 				$lessonInfo = $this->JDA->query("SELECT subjects.name, " .
 														"subjects.alias AS description, " .
@@ -53,13 +54,13 @@
 					$periods = $dataValue->periods;
 					$roomIDList = implode(", ", $periods->{$periodValue->id}->roomIDs);
 
-					$roomList = $this->getGPUntisID($roomIDList, "room");
+					$roomMainList = $this->getGPUntisID($roomIDList, "room");
 
 					$key = $this->semesterID.".1.".$dataKey." ".$periodValue->gpuntisID;
 
-					$lessons[$lessoncounter]["room"] = implode(",", $roomList);
-					$lessons[$lessoncounter]["clas"] = implode(",", $classList);
-					$lessons[$lessoncounter]["doz"] = implode(",", $teacherList);
+					$lessons[$lessoncounter]["room"] = implode(" ", $roomMainList);
+					$lessons[$lessoncounter]["clas"] = implode(" ", $classMainList);
+					$lessons[$lessoncounter]["doz"] = implode(" ", $teacherMainList);
 
                   	$lessons[$lessoncounter]["dow"] = $periodValue->day;
                   	$lessons[$lessoncounter]["block"] = $periodValue->period;
@@ -77,6 +78,7 @@
                   	$lessons[$lessoncounter]["type"] = "cyclic";
                   	$lessons[$lessoncounter]["category"] = $dataValue->type;
                   	$lessons[$lessoncounter]["moduleID"] = $lessonInfo->moduleID;
+                  	$lessons[$lessoncounter]["comment"] = $dataValue->comment;
 
 					if(isset($dataValue->status))
 						$lessons[$lessoncounter]["lessonChanges"]["status"] = $dataValue->status;
@@ -86,29 +88,34 @@
 							$teacherList = array();
 							foreach($dataValue->changes->teacherIDs as $teacherKey=>$teacherValue)
 							{
-								$teacherList[$this->getGPUntisID($teacherKey, "teacher")] = $teacherValue;
+								$teacherGPUntisID = $this->getGPUntisID($teacherKey, "teacher");
+								$teacherList[$teacherGPUntisID[0]] = $teacherValue;
 							}
-							$lessons[$lessoncounter]["lesssonChanges"]["teacherIDs"] = $teacherList;
+							$lessons[$lessoncounter]["lessonChanges"]["teacherIDs"] = $teacherList;
 						}
 						if(isset($dataValue->changes->classIDs)) {
 							$classList = array();
 							foreach($dataValue->changes->classIDs as $classKey=>$classValue)
 							{
-								$classList[$this->getGPUntisID($classKey, "class")] = $classValue;
+								$classGPUntisID = $this->getGPUntisID($classKey, "class");
+								$classList[$classGPUntisID[0]] = $classValue;
 							}
 							$lessons[$lessoncounter]["lesssonChanges"]["classIDs"] = $classList;
 						}
 					}
 
-					if(isset($periodValue->status))
-                  		$lessons[$lessoncounter]["periodChanges"]["status"] = $periodValue->status;
+					$period = $dataValue->periods->{$periodValue->id};
 
-					if(isset($periodValue->changes)) {
-						if(isset($dataValue->changes->roomIDs)) {
+					if(isset($period->status))
+                  		$lessons[$lessoncounter]["periodChanges"]["status"] = $period->status;
+
+					if(isset($period->changes)) {
+						if(isset($period->changes->roomIDs)) {
 							$roomList = array();
-							foreach($dataValue->changes->roomIDs as $roomKey=>$roomValue)
+							foreach($period->changes->roomIDs as $roomKey=>$roomValue)
 							{
-								$roomList[$this->getGPUntisID($classKey, "room")] = $roomValue;
+								$roomGPUntisID = $this->getGPUntisID($roomKey, "room");
+								$roomList[$roomGPUntisID[0]] = $roomValue;
 							}
 							$lessons[$lessoncounter]["periodChanges"]["roomIDs"] = $roomList;
 						}

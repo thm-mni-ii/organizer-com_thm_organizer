@@ -90,6 +90,7 @@ class Ressource
 				$retlessons[ $key ][ "plantypeID" ] = $this->plantype;
 				$retlessons[ $key ][ "semesterID" ] = $this->semID;
 				$retlessons[ $key ][ "moduleID" ] = $item->moduleID;
+				$retlessons[ $key ][ "comment" ] = $item->comment;
 			}
 
 			return array("success"=>true,"data"=>$retlessons );
@@ -121,7 +122,8 @@ class Ressource
 				 "#__thm_organizer_periods.day AS dow, " .
 				 "#__thm_organizer_periods.period AS block, " .
 				 "#__thm_organizer_subjects.moduleID as moduleID, " .
-				 "(SELECT 'cyclic') AS type, ";
+				 "(SELECT 'cyclic') AS type, " .
+				 "#__thm_organizer_lessons.comment AS comment, ";
 
 		if ($this->JDA->isComponentavailable("com_thm_lsf"))
 		{
