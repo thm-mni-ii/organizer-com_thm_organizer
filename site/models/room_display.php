@@ -179,6 +179,7 @@ class thm_organizerModelroom_display extends JModel
         $lessonTimes .= "AND lt.roomID = '{$this->roomID}' ";
         $lessonTimes .= "AND lt.periodID = '{$block['id']}'";
         $query->innerJoin($lessonTimes);
+        $query->where("l.sid IN {$this->semesterIDs}");
         $dbo->setQuery((string)$query);
         $lessonInfo = $dbo->loadAssoc();
         if(isset($lessonInfo))
