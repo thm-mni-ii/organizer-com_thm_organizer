@@ -155,6 +155,8 @@ class Ressource
 	    	$query .= "( #__thm_organizer_rooms.gpuntisID = '".$ressourcename."')";
 	    else if($type === "doz")
 	    	$query .= "( #__thm_organizer_teachers.gpuntisID = '".$ressourcename."')";
+	    else if($type === "subject")
+	    	$query .= "( #__thm_organizer_subjects.gpuntisID = '".$ressourcename."')";
 
 		$hits  = $this->JDA->query( $query );
 		return $hits;

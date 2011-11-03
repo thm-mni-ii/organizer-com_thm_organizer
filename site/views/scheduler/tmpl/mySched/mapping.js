@@ -9,7 +9,7 @@
  * Bei Dozenten, Studiengaengen, Modulen etc.
  */
 MySched.Mapping = function () {
-	var doz, clas, lecture, room, types;
+	var doz, clas, subject, lecture, room, types;
 
 	return {
 		init: function () {
@@ -20,7 +20,8 @@ MySched.Mapping = function () {
 			this.types = {
 				doz: "Dozent",
 				clas: "Studiengang",
-				room: "Raum"
+				room: "Raum",
+				subject: "Fächer"
 			};
 
 		},
@@ -144,6 +145,9 @@ MySched.Mapping = function () {
 		},
 		getRoomName: function (id) {
 			return this.def(this.room.get(id, id), 'name', id);
+		},
+		getSubjectName: function (id) {
+			return this.def(this.subject.get(id, id), 'name', id);
 		},
 		getLectureName: function (id) {
 			return this.def(this.subject.get(id, id), 'name', id);

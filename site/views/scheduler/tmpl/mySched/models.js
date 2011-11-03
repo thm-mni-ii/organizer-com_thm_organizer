@@ -906,10 +906,12 @@ Ext.define('mLecture', {
     this.doz = new MySched.Collection();
     this.clas = new MySched.Collection();
     this.room = new MySched.Collection();
+    this.subject = new MySched.Collection();
     mLecture.superclass.constructor.call(this, id, data);
     this.loadDoz(data.doz);
     this.loadClas(data.clas);
     this.loadRoom(data.room);
+    this.loadSubject(data.subject);
     this.data = data;
     //New CellStyle
     this.setCellTemplate( type );
@@ -1066,6 +1068,14 @@ Ext.define('mLecture', {
       var myroom = arr.split(" ");
       Ext.each(myroom, function (e) {
         this.room.add(new mRoom(e));
+      }, this)
+    }
+  },
+  loadSubject: function (arr) {
+    if (arr) {
+      var mySubject = arr.split(" ");
+      Ext.each(mySubject, function (e) {
+        this.subject.add(new mSubject(e));
       }, this)
     }
   },
@@ -1669,6 +1679,27 @@ Ext.define('mClas', {
   },
   getObjects: function () {
     return MySched.Mapping.getObjects("clas", this.id);
+  }
+});
+
+/**
+ * SubjectModel
+ * @param {Object} clas
+ */
+Ext.define('mSubject', {
+  extend: 'MySched.Model',
+
+  constructor: function (subject) {
+    mSubject.superclass.constructor.call(this, subject, subject);
+  },
+  getName: function () {
+    return MySched.Mapping.getSubjectName(this.id);
+  },
+  getFullName: function () {
+    return MySched.Mapping.getObjectField("subject", this.id, "department") + " - " + MySched.Mapping.getObjectField("subject", this.id, "name");
+  },
+  getObjects: function () {
+    return MySched.Mapping.getObjects("subject", this.id);
   }
 });
 

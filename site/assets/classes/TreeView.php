@@ -191,6 +191,7 @@ class TreeView
     $this->treeData["clas"] = array();
     $this->treeData["room"] = array();
     $this->treeData["doz"] = array();
+    $this->treeData["subject"] = array();
 
     foreach($semesterarray as $key=>$value)
     {
@@ -222,6 +223,7 @@ class TreeView
       $this->treeData["clas"] = array_merge_recursive( $this->treeData["clas"], $this->getStundenplanClassData(1, $value->id, true));
       $this->treeData["room"] = array_merge_recursive( $this->treeData["room"], $this->getStundenplanRoomData(1, $value->id, true));
       $this->treeData["doz"] = array_merge_recursive( $this->treeData["doz"], $this->getStundenplanDozData(1, $value->id, true));
+      $this->treeData["subject"] = array_merge_recursive( $this->treeData["subject"], $this->getStundenplanSubjectData(1, $value->id, true));
     }
 
     $this->expandSingleNode(& $semesterJahrNode);

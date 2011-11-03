@@ -8,7 +8,7 @@ MySched.freeBusyState = true;
 // verweiss auf aktuell ausgewaehlten Stundenplan
 MySched.selectedSchedule = null;
 // Versionsnummer
-MySched.version = '3.0.0';
+MySched.version = '3.1.0';
 // verweiss auf den Plan mit den Aenderungen
 MySched.delta = null;
 // verweiss auf den Plan mit dem ChangeLog
