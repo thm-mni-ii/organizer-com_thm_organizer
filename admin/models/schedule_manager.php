@@ -87,9 +87,13 @@ class thm_organizersModelschedule_manager extends JModelList
         $state = $this->getUserStateFromRequest($this->context.'.filter.state', 'filter_state');
         $this->setState('filter.state', $state);
 
-        $referred = strpos($_SERVER['HTTP_REFERER'], 'view=semester_manager');
-        $semesterID = (is_numeric($referred))?
-            JRequest::getCmd('semesterID') : $this->getUserStateFromRequest($this->context.'.filter.semester', 'filter_semester');
+        $selectedSemester = JRequest::getInt('filter_semester');
+        $referredSemester = JRequest::getInt('semesterID');
+        $stateSemester = $this->getUserStateFromRequest($this->context.'.filter.semester', 'filter_semester');
+        if($selectedSemester)$semesterID = $selectedSemester;
+        else if($referredSemester) $semesterID = $referredSemester;
+        else $semesterID = $stateSemester;
+
         $this->setState('filter.semester', $semesterID);
         $this->setState('semesterName', $this->getSemesterName($semesterID));
 
