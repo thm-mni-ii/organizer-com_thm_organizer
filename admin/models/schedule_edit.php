@@ -41,7 +41,7 @@ class thm_organizersModelschedule_edit extends JModelAdmin
     {
         $scheduleIDs = JRequest::getVar('cid',  null, '', 'array');
         $scheduleID = (empty($scheduleIDs))? JRequest::getVar('scheduleID') : $scheduleIDs[0];
-        $schedule = parent::getItem($scheduleID);
+        $schedule = ($scheduleID)? parent::getItem($scheduleID) : $this->getTable();
         return $schedule;
     }
 

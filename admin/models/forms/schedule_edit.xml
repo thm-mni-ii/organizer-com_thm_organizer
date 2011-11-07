@@ -21,6 +21,8 @@
             type="text"
             label="COM_THM_ORGANIZER_SCH_CREATION_DATE"
             description="COM_THM_ORGANIZER_SCH_CREATION_DATE_DESC"
+            readonly="true"
+            disabled="true"
             default=""/>
         <field
             id="description"
@@ -48,9 +50,9 @@
             description="COM_THM_ORGANIZER_SCH_START_DATE_DESC"
             class="inputbox validate-germandate"
             validate="germandate"
-            required="true"
             format="%d.%m.%Y"
-            size="7" />
+            size="7"
+            required="true" />
         <field
             id="enddate"
             name="enddate"
@@ -59,9 +61,9 @@
             description="COM_THM_ORGANIZER_SCH_END_DATE_DESC"
             class="inputbox validate-germandate"
             validate="germandate"
-            required="true"
             format="%d.%m.%Y"
-            size="7" />
+            size="7"
+            required="true" />
         <field
             id="plantypeID"
             name="plantypeID"

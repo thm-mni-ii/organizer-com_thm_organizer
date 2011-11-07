@@ -39,23 +39,37 @@ class thm_organizersViewschedule_manager extends JView
         $title = JText::_( 'COM_THM_ORGANIZER_SCH_TITLE' );
         $title .= ($this->state->get('semesterName'))? ": ".$this->state->get('semesterName') : '';
         JToolBarHelper::title($title);
-        if(thm_organizerHelper::isAdmin('schedule_manager'))
+        if($this->access)
         {
             $this->addToolBar();
             thm_organizerHelper::addSubmenu('schedule_manager');
+            if(count($this->semesters))$this->addLinks();
         }
          parent::display($tpl);
     }
 
+    /**
+     * addLinks
+     *
+     * creates links to the edit view for the particular schedule
+     */
+    private function addLinks()
+    {
+        $editURL = 'index.php?option=com_thm_organizer&view=schedule_edit&scheduleID=';
+        foreach($this->schedules as $key => $schedule)
+            $this->schedules[$key]->url = $editURL.$schedule->id;
+    }
+
+    /**
+     * addToolBar
+     *
+     * creates a joomla administrative tool bar
+     */
     private function addToolBar()
     {
-        if($this->state->get('semesterName'))
-        {
-            JToolBarHelper::custom('schedule.upload', 'upload', 'upload', 'COM_THM_ORGANIZER_SCH_UPLOAD', false);
-            JToolBarHelper::divider();
-        }
-        JToolBarHelper::makeDefault('schedule.setDefault', 'COM_THM_ORGANIZER_SCH_ACTIVATE_TITLE');
+        JToolBarHelper::addNew('schedule.add');
         JToolBarHelper::editList('schedule.edit');
+        JToolBarHelper::makeDefault('schedule.setDefault', 'COM_THM_ORGANIZER_SCH_ACTIVATE_TITLE');
         JToolBarHelper::deleteList
         (
             JText::_( 'COM_THM_ORGANIZER_SCH_DELETE_CONFIRM'),

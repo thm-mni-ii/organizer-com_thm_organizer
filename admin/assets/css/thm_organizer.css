@@ -199,3 +199,5 @@ table.adminlist thead th.thm_organizer_sm_th{ text-align: left; }
 .thm_organizer_sch_active_td{ text-align: center; }
 
 .thm_organizer_sch_date_column{ width: 85px; }
+
+li input[disabled=disabled]{ border: none; color: black;}

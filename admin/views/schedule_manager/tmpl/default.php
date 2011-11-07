@@ -18,39 +18,31 @@ $search = ($this->state->get('filter.search'))?
 <form action="<?php echo JRoute::_("index.php?option=com_thm_organizer"); ?>"
       enctype="multipart/form-data" method="post" name="adminForm" id="adminForm">
     <fieldset id="filter-bar">
-    <?php if($this->state->get('semesterName')): ?>
-        <div id="thm_organizer_search_div" class="filter-search fltlft">
-            <label class="thm_organizer_label" for="file">
-                <?php echo JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_TITLE"); ?>
-            </label>
-            <input name="file" type="file" />
-        </div>
-    <?php endif; ?>
         <div class="filter-search fltlft">
-                <input type="text" name="filter_search" id="filter_search" value="<?php echo $search; ?>"
-                       title="<?php echo JText::_('COM_THM_ORGANIZER_SEARCH_DESC'); ?>" />
-                <button type="submit"><?php echo JText::_('COM_THM_ORGANIZER_SEARCH'); ?></button>
-                <button type="button" onclick="document.id('filter_search').value='';this.form.submit();">
-                    <?php echo JText::_('COM_THM_ORGANIZER_SEARCH_CLEAR'); ?>
-                </button>
+            <input type="text" name="filter_search" id="filter_search" value="<?php echo $search; ?>"
+                   title="<?php echo JText::_('COM_THM_ORGANIZER_SEARCH_DESC'); ?>" />
+            <button type="submit"><?php echo JText::_('COM_THM_ORGANIZER_SEARCH'); ?></button>
+            <button type="button" onclick="document.id('filter_search').value='';this.form.submit();">
+                <?php echo JText::_('COM_THM_ORGANIZER_SEARCH_CLEAR'); ?>
+            </button>
         </div>
         <div class="filter-select fltrt">
-                <select name="filter_state" class="inputbox" onchange="this.form.submit()">
-                        <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_SEARCH_STATES'); ?></option>
-                        <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_ALL_STATES'); ?></option>
-                        <option value="0"><?php echo JText::_('COM_THM_ORGANIZER_SCH_INACTIVE'); ?></option>
-                        <option value="1"><?php echo JText::_('COM_THM_ORGANIZER_SCH_ACTIVE'); ?></option>
-                </select>
-                <select name="filter_semester" class="inputbox" onchange="this.form.submit()">
-                        <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_SEARCH_SEMESTERS'); ?></option>
-                        <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_ALL_SEMESTERS'); ?></option>
-                        <?php echo JHtml::_('select.options', $this->semesters, 'id', 'name', $this->state->get('filter.semester'));?>
-                </select>
-                <select name="filter_type" class="inputbox" onchange="this.form.submit()">
-                        <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_SEARCH_TYPES'); ?></option>
-                        <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_ALL_TYPES'); ?></option>
-                        <?php echo JHtml::_('select.options', $this->plantypes, 'id', 'name', $this->state->get('filter.type'));?>
-                </select>
+            <select name="filter_state" class="inputbox" onchange="this.form.submit()">
+                <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_SEARCH_STATES'); ?></option>
+                <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_ALL_STATES'); ?></option>
+                <option value="0"><?php echo JText::_('COM_THM_ORGANIZER_SCH_INACTIVE'); ?></option>
+                <option value="1"><?php echo JText::_('COM_THM_ORGANIZER_SCH_ACTIVE'); ?></option>
+            </select>
+            <select name="filter_semester" class="inputbox" onchange="this.form.submit()">
+                <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_SEARCH_SEMESTERS'); ?></option>
+                <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_ALL_SEMESTERS'); ?></option>
+                <?php echo JHtml::_('select.options', $this->semesters, 'id', 'name', $this->state->get('filter.semester'));?>
+            </select>
+            <select name="filter_type" class="inputbox" onchange="this.form.submit()">
+                <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_SEARCH_TYPES'); ?></option>
+                <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_ALL_TYPES'); ?></option>
+                <?php echo JHtml::_('select.options', $this->plantypes, 'id', 'name', $this->state->get('filter.type'));?>
+            </select>
         </div>
     </fieldset>
     <div class="clr"> </div>
@@ -108,7 +100,11 @@ $search = ($this->state->get('filter.search'))?
             <?php foreach($this->schedules as $k => $schedule){ ?>
                 <tr class="row<?php echo $k % 2;?>">
                     <td><?php echo JHtml::_('grid.id', $k, $schedule->id); ?></td>
-                    <td><?php echo $schedule->filename; ?></td>
+                    <td>
+                        <a href="<?php echo $schedule->url; ?>">
+                            <?php echo $schedule->filename; ?>
+                        </a>
+                    </td>
                     <td><?php echo $schedule->description; ?></td>
                     <td><?php echo $schedule->creationdate; ?></td>
                     <td><?php echo $schedule->startdate; ?></td>

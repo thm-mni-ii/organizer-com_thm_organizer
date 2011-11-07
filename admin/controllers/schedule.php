@@ -16,9 +16,22 @@ require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
 class thm_organizersControllerschedule extends JController
 {
     /**
+     * add
+     *
+     * redirects to the semester edit view to edit an existing schedule
+     */
+    public function add()
+    {
+        if(!thm_organizerHelper::isAdmin('schedule')) thm_organizerHelper::noAccess ();
+        JRequest::setVar( 'view', 'schedule_edit' );
+        JRequest::setVar( 'scheduleID', '0' );
+        parent::display();
+    }
+
+    /**
      * edit
      *
-     * redirects to the semester edit view to edit an existing semester
+     * redirects to the semester edit view to edit an existing schedule
      */
     public function edit()
     {
@@ -88,9 +101,7 @@ class thm_organizersControllerschedule extends JController
     public function upload()
     {
         if(!thm_organizerHelper::isAdmin('schedule')) thm_organizerHelper::noAccess ();
-        $semesterID = JRequest::getVar('semesterID');
-        $url = "index.php?option=com_thm_organizer&view=schedule_manager";
-        $url .= ($semesterID)? "&semesterID=$semesterID" : "";
+        $url = "index.php?option=com_thm_organizer&view=schedule_edit";
         $fileType = $_FILES['file']['type'];
         if($fileType == "text/xml")
         {
@@ -110,6 +121,7 @@ class thm_organizersControllerschedule extends JController
             $result = $model->upload();
             if($result)//upload successful
             {
+                $url .= "&scheduleID=$result";
                 if(isset($problems['warnings']))//minor inconsistancies
                 {
                     $warningText =  "<h4>".JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_WARNINGS").":</h4>";

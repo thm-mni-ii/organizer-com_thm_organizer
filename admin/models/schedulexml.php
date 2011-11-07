@@ -39,7 +39,7 @@ class thm_organizersModelschedulexml extends thm_organizersModelschedule
         $file = fread($fp, filesize($_FILES['file']['tmp_name']));
         fclose($fp);
 
-        $data['sid'] = JRequest::getInt('semesterID');
+        $data = JRequest::getVar('jform', null, null, null, 4);
         $data['filename'] = str_replace(".xml", "", $_FILES['file']['name']);
         $data['file'] = addslashes($file);
         $data['plantypeID'] = '1';
@@ -50,7 +50,7 @@ class thm_organizersModelschedulexml extends thm_organizersModelschedule
 
         $table = JTable::getInstance('schedules', 'thm_organizerTable');
         $success = $table->save($data);
-        return $success;
+        return ($success)? $table->id : $success;
     }
 
     /**
