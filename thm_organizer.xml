@@ -33,7 +33,6 @@
             <folder>models</folder>
             <folder>controllers</folder>
             <folder>assets</folder>
-            <folder>down</folder>
     </files>
     <languages folder="site">
         <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.ini</language>

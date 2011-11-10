@@ -5,7 +5,7 @@ defined('_JEXEC') or die('Restricted access');
 /**
  * Script file of thm_Organizer component
  */
-class com_thm_OrganizerInstallerScript
+class com_thm_organizerInstallerScript
 {
 	/**
 	 * method to install the component
@@ -122,7 +122,6 @@ class com_thm_OrganizerInstallerScript
 	{
 		// $parent is the class calling this method
 		// $type is the type of change (install, update or discover_install)
-		echo '<p>' . JText::_('COM_THM_ORGANIZER_PREFLIGHT_' . $type . '_TEXT') . '</p>';
 	}
 
 	/**
@@ -134,6 +133,5 @@ class com_thm_OrganizerInstallerScript
 	{
 		// $parent is the class calling this method
 		// $type is the type of change (install, update or discover_install)
-		echo '<p>' . JText::_('COM_THM_ORGANIZER_POSTFLIGHT_' . $type . '_TEXT') . '</p>';
 	}
 }
