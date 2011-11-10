@@ -3,9 +3,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Script file of HelloWorld component
+ * Script file of thm_Organizer component
  */
-class com_thm_organizerInstallerScript
+class com_thm_OrganizerInstallerScript
 {
 	/**
 	 * method to install the component
