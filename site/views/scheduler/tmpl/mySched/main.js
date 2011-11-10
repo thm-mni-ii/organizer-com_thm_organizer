@@ -1602,11 +1602,10 @@ MySched.TreeManager = function () {
 		}*/
 
 		for(var item in treeData)
-			if(Ext.isObject(treeData[item]))
+			if(Ext.isArray(treeData[item]))
 				for(var childitem in treeData[item])
 					if(Ext.isObject(treeData[item][childitem]))
-						for(var value in treeData[item][childitem])
-							MySched.Mapping[item].add(treeData[item][childitem][value].id, treeData[item][childitem][value]);
+							MySched.Mapping[item].add(treeData[item][childitem].id, treeData[item][childitem]);
 
     },
     /**

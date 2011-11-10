@@ -102,7 +102,6 @@ class ICSBauer extends abstrakterBauer
 		foreach($arr->events as $item)
 		{
 			$resources = implode( '", "', (array)$item->data->objects );
-			var_dump( $item->data->objects );
 			$resString = "";
 			$res = array();
 			$query      = 'SELECT name as oname FROM #__thm_organizer_classes WHERE id IN("' . $resources . '")';
