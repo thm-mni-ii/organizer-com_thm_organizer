@@ -25,8 +25,6 @@ class  thm_organizersViewvirtual_schedule_manager extends JView {
         //JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', JText::_('Copy') );
 		JToolBarHelper::deleteListX('Really?','virtual_schedule_manager.remove' );
 
-        thm_organizerHelper::addSubmenu('virtual_schedule_manager');
-
 		$mainframe = JFactory::getApplication("administrator");
 		$option = $mainframe->scope;
 		$view = JRequest::getString('view');
