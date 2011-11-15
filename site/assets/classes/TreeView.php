@@ -682,40 +682,6 @@ class TreeView
     $res          = $this->JDA->query( $classesquery );
 
     return $res;
-
-    if($planid == 1) //unschön, da direkt auf id von Stundenplan geprüft wird.
-      $res = $this->getVirtualSchedules("class", $semesterID);
-    else
-      $res = array();
-
-    if(is_array($res))
-    if ( count( $res ) != 0 ) {
-      for ( $i = 0; $i < count( $res ); $i++ ) {
-        $data = $res[ $i ];
-
-        if ( !isset( $classesarray[ $data->department ] ) ) {
-          $classesarray[ $data->department ] = array( );
-        }
-        if ( !isset( $classesarray[ $data->department ][ $data->vid ] ) ) {
-          $classesarray[ $data->department ][ $data->vid ] = array( );
-        }
-        $classesarray[ $data->department ][ $data->vid ][ "id" ]         = trim($data->vid);
-        $classesarray[ $data->department ][ $data->vid ][ "department" ] = trim($data->department);
-        $classesarray[ $data->department ][ $data->vid ][ "shortname" ]  = trim($data->vname);
-        $classesarray[ $data->department ][ $data->vid ][ "otype" ]      = trim($data->vtype);
-        $classesarray[ $data->department ][ $data->vid ][ "name" ]       = trim($data->vname);
-        $classesarray[ $data->department ][ $data->vid ][ "manager" ]    = trim($data->vresponsible);
-        if ( !isset( $classesarray[ $data->department ][ $data->vid ][ "elements" ] ) )
-          $classesarray[ $data->department ][ $data->vid ][ "elements" ] = array( );
-        $classesarray[ $data->department ][ $data->vid ][ "elements" ][ $data->eid ] = trim($data->eid);
-        if ( !isset( $classesarray[ $data->department ][ $data->vid ][ "lessonamount" ] ) )
-            $classesarray[ $data->department ][ $data->vid ][ "lessonamount" ] = 0;
-        $classesarray[ $data->department ][ $data->vid ][ "lessonamount" ] = $classesarray[ $data->department ][ $data->vid ][ "lessonamount" ] + $this->getCountClassLessons( $data->eid, $semesterID );
-        $classesarray[ $data->department ][ $data->vid ][ "plantypeID" ] = trim($planid);
-      }
-    }
-
-    return $classesarray;
   }
 
   private function getStundenplanRoomData($planid, $semesterID, $checkTreeData = false)
@@ -745,45 +711,6 @@ class TreeView
     $res       = $this->JDA->query( $roomquery );
 
     return $res;
-
-    if($planid == 1) //unschön, da direkt auf id von Stundenplan geprüft wird.
-      $res = $this->getVirtualSchedules("room", $semesterID);
-    else
-      $res = array();
-
-    if(is_array($res))
-    if ( count( $res ) != 0 ) {
-      for ( $i = 0; $i < count( $res ); $i++ ) {
-        $data = $res[ $i ];
-
-		if(!isset($data->description))
-          $key  = $data->department;
-        else
-          $key  = $data->rtype." (".$data->description.")";
-
-        if ( !isset( $roomarray[ $key ] ) ) {
-          $roomarray[ $key ] = array( );
-        }
-        if ( !isset( $roomarray[ $key ][ $data->vid ] ) ) {
-          $roomarray[ $key ][ $data->vid ] = array( );
-        }
-        $roomarray[ $key ][ $data->vid ][ "id" ]         = trim($data->vid);
-        $roomarray[ $key ][ $data->vid ][ "name" ]       = trim($data->vname);
-        $roomarray[ $key ][ $data->vid ][ "otype" ]      = trim($data->vtype);
-        $roomarray[ $key ][ $data->vid ][ "rtype" ]      =  trim($data->department);
-
-        $roomarray[ $key ][ $data->vid ][ "manager" ]    = trim($data->vresponsible);
-        if ( !isset( $roomarray[ $key ][ $data->vid ][ "elements" ] ) )
-          $roomarray[ $key ][ $data->vid ][ "elements" ] = array( );
-        $roomarray[ $key ][ $data->vid ][ "elements" ][ $data->eid ] = trim($data->eid);
-        if ( !isset( $roomarray[ $key ][ $data->vid ][ "lessonamount" ] ) )
-          $roomarray[ $key ][ $data->vid ][ "lessonamount" ] = 0;
-        $roomarray[ $key ][ $data->vid ][ "lessonamount" ] = $roomarray[ $key ][ $data->vid ][ "lessonamount" ] + $this->getCountRoomLessons( $data->eid, $semesterID );
-        $roomarray[ $key ][ $data->vid ][ "plantypeID" ] = trim($planid);
-      }
-    }
-
-    return $roomarray;
   }
 
   private function getStundenplanDozData($planid, $semesterID, $checkTreeData = false)
@@ -825,39 +752,6 @@ class TreeView
 	}
 
 	return $return;
-
-    if($planid == 1)
-      $res = $this->getVirtualSchedules("teacher", $semesterID);
-    else
-      $res = array();
-
-    if(is_array($res))
-    if ( count( $res ) != 0 ) {
-      for ( $i = 0; $i < count( $res ); $i++ ) {
-        $data = $res[ $i ];
-        if ( !isset( $teacherarray[ $data->department ] ) ) {
-          $teacherarray[ $data->department ] = array( );
-        }
-        if ( !isset( $teacherarray[ $data->department ][ $data->vid ] ) ) {
-          $teacherarray[ $data->department ][ $data->vid ] = array( );
-        }
-        $teacherarray[ $data->department ][ $data->vid ][ "id" ]         = trim($data->vid);
-        $teacherarray[ $data->department ][ $data->vid ][ "department" ] = trim($data->department);
-        $teacherarray[ $data->department ][ $data->vid ][ "name" ]       = trim($data->vname);
-        $teacherarray[ $data->department ][ $data->vid ][ "otype" ]      = trim($data->vtype);
-        $teacherarray[ $data->department ][ $data->vid ][ "manager" ]    = trim($data->vresponsible);
-        if ( !isset( $teacherarray[ $data->department ][ $data->vid ][ "elements" ] ) )
-          $teacherarray[ $data->department ][ $data->vid ][ "elements" ] = array( );
-        $teacherarray[ $data->department ][ $data->vid ][ "elements" ][ $data->eid ] = trim($data->eid);
-
-        if ( !isset( $teacherarray[ $data->department ][ $data->vid ][ "lessonamount" ] ) )
-          $teacherarray[ $data->department ][ $data->vid ][ "lessonamount" ] = 0;
-        $teacherarray[ $data->department ][ $data->vid ][ "lessonamount" ] = $teacherarray[ $data->department ][ $data->vid ][ "lessonamount" ] + $this->getCountTeacherLessons( $data->eid, $semesterID );
-        $teacherarray[ $data->department ][ $data->vid ][ "plantypeID" ] = trim($planid);
-      }
-    }
-
-    return $teacherarray;
   }
 
   private function getStundenplanSubjectData($planid, $semesterID, $checkTreeData = false)
