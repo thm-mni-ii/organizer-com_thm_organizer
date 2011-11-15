@@ -1677,7 +1677,7 @@ Ext.define('mClas', {
     return MySched.Mapping.getClasName(this.id);
   },
   getFullName: function () {
-    return MySched.Mapping.getObjectField("clas", this.id, "parent") + " - " + MySched.Mapping.getObjectField("clas", this.id, "name");
+    return MySched.Mapping.getObjectField("clas", this.id, "parentName") + " - " + MySched.Mapping.getObjectField("clas", this.id, "name");
   },
   getObjects: function () {
     return MySched.Mapping.getObjects("clas", this.id);
@@ -1698,7 +1698,7 @@ Ext.define('mSubject', {
     return MySched.Mapping.getSubjectName(this.id);
   },
   getFullName: function () {
-    return MySched.Mapping.getObjectField("subject", this.id, "parent") + " - " + MySched.Mapping.getObjectField("subject", this.id, "name");
+    return MySched.Mapping.getObjectField("subject", this.id, "parentName") + " - " + MySched.Mapping.getObjectField("subject", this.id, "name");
   },
   getObjects: function () {
     return MySched.Mapping.getObjects("subject", this.id);

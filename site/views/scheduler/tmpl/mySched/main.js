@@ -926,7 +926,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
         if (name == MySched.Mapping.getDozName(l.doz.keys[i])) {
           nodeKey = l.doz.keys[i];
           gpuntisID = MySched.Mapping.getObjectField(type, l.doz.keys[i], "gpuntisID");
-          parent = MySched.Mapping.getObjectField(type, l.doz.keys[i], "parent");
+          parent = MySched.Mapping.getObjectField(type, l.doz.keys[i], "parentName");
           break;
         }
       }
@@ -937,7 +937,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
         if (name == room[room.length - 1].replace(/^\s+/, '').replace(/\s+$/, '')) {
           nodeKey = l.room.keys[i];
           gpuntisID = MySched.Mapping.getObjectField(type, l.room.keys[i], "gpuntisID");
-          parent = MySched.Mapping.getObjectField(type, l.room.keys[i], "parent");
+          parent = MySched.Mapping.getObjectField(type, l.room.keys[i], "parentName");
           break;
         }
       }
@@ -947,7 +947,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
         if (name == MySched.Mapping.getObjectField(type, l.clas.keys[i], "shortname")) {
           nodeKey = l.clas.keys[i];
           gpuntisID = MySched.Mapping.getObjectField(type, l.clas.keys[i], "gpuntisID");
-          parent = MySched.Mapping.getObjectField(type, l.clas.keys[i], "parent");
+          parent = MySched.Mapping.getObjectField(type, l.clas.keys[i], "parentName");
           break;
         }
       }
@@ -3121,11 +3121,11 @@ MySched.Tree = function () {
              title = "Änderungen (eigene)";
            else
            {
-             department = MySched.Mapping.getObjectField(type, nodeKey, "parent");
+             department = MySched.Mapping.getObjectField(type, nodeKey, "parentName");
              if (typeof department == "undefined" || department == "none" || department == null || department == nodeKey)
                title = MySched.Mapping.getName(type, nodeKey);
              else
-               title = MySched.Mapping.getName(type, nodeKey) + " - " + MySched.Mapping.getObjectField(type, nodeKey, "parent");
+               title = MySched.Mapping.getName(type, nodeKey) + " - " + MySched.Mapping.getObjectField(type, nodeKey, "parentName");
            }
 
 		if(type == "delta")

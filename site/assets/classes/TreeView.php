@@ -555,14 +555,14 @@ class TreeView
       for ( $i = 0; $i < count( $datas ); $i++ ) {
         $data = $datas[ $i ];
         $id = trim($data->id);
-        $parent = trim($data->parent);
+        $parent = trim($data->parentID);
         if ( !isset( $dataArray[ $parent ] ) ) {
           $dataArray[ $parent ] = array( );
         }
 
 		$dataArray[ $parent ][ $id ]                   = array( );
 		$dataArray[ $parent ][ $id ][ "id" ]           = trim($id);
-		$dataArray[ $parent ][ $id ][ "department" ]   = trim($parent);
+		$dataArray[ $parent ][ $id ][ "department" ]   = trim($data->parentName);
 		$dataArray[ $parent ][ $id ][ "shortname" ]    = trim($data->shortname);
 		$dataArray[ $parent ][ $id ][ "type" ]        = trim($data->type);
 		$dataArray[ $parent ][ $id ][ "name" ]         = trim($data->name);
@@ -585,7 +585,7 @@ class TreeView
       $nodeKey = str_replace(" ", "", $dataKey);
       $nodeKey = str_replace("(", "", $nodeKey);
       $nodeKey = str_replace(")", "", $nodeKey);
-
+      $parentName = "";
       foreach($dataValue as $childkey=>$childvalue)
       {
         if($childvalue["lessonamount"] == "0")
@@ -618,6 +618,8 @@ class TreeView
           		$childNodes = $temp;
           	else
           		$childNodes[] = $temp;
+
+        $parentName = $childvalue["department"];
       }
 
       if($nodeKey != null && $nodeKey != "none" && !empty($childNodes))
@@ -628,7 +630,7 @@ class TreeView
 	      $parentKey = str_replace(")", "", $parentKey);
         $temp = $this->createTreeNode(
           $parentKey,							// id - autom. generated
-          trim($dataKey),							// text	for the node
+          trim($parentName),							// text	for the node
           'studiengang-root',			// iconCls
           false,							// leaf
           false,							// draggable
@@ -662,7 +664,8 @@ class TreeView
     $classesquery = "SELECT DISTINCT classes.id AS id, " .
     		"classes.gpuntisID AS gpuntisID, " .
             "classes.semester AS name, " .
-            "classes.major AS parent, " .
+            "classes.major AS parentName, " .
+            "REPLACE(REPLACE(REPLACE(classes.major, ' ', ''), '(', ''), ')', '') AS parentID, " .
             "classes.name AS shortname, " .
             "'lesson' AS type, " .
             "count(lesson_classes.lessonID) AS lessonamount " .
@@ -676,7 +679,7 @@ class TreeView
              "OR (#__thm_organizer_lessons.plantypeID is null " .
              "AND #__thm_organizer_lessons.semesterID is null) " .
             "GROUP BY classes.id " .
-           "ORDER BY parent, name";
+           "ORDER BY parentName, name";
 
     $classesarray = array( );
     $res          = $this->JDA->query( $classesquery );
@@ -688,7 +691,8 @@ class TreeView
   {
     $roomquery = "SELECT DISTINCT rooms.id AS id, " .
     		"rooms.gpuntisID AS gpuntisID, " .
-           "CONCAT(descriptions.category, ' (', descriptions.description, ')') as parent," .
+           "CONCAT(descriptions.category, ' (', descriptions.description, ')') as parentName, " .
+           "descriptions.id AS parentID, " .
            "rooms.alias AS name, " .
            "rooms.name AS shortname, " .
            "'room' AS type, " .
@@ -705,7 +709,7 @@ class TreeView
            "OR (#__thm_organizer_lessons.plantypeID is null " .
            "AND #__thm_organizer_lessons.semesterID is null) " .
            "GROUP BY rooms.id " .
-           "ORDER BY parent, name";
+           "ORDER BY parentName, name";
 
     $roomarray = array( );
     $res       = $this->JDA->query( $roomquery );
@@ -717,6 +721,7 @@ class TreeView
   {
     $teacherquery = "SELECT DISTINCT teachers.id AS id, " .
     		"teachers.gpuntisID AS gpuntisID, " .
+    		"departments.id AS parentID, " .
             "departments.department AS department, " .
             "departments.subdepartment AS subdepartment, " .
             "teachers.name AS name, " .
@@ -745,9 +750,9 @@ class TreeView
 	foreach($res as $resKey=>$resValue)
 	{
 		if($resValue->subdepartment != "")
-			$resValue->parent = $resValue->subdepartment;
+			$resValue->parentName = $resValue->subdepartment;
 		else
-			$resValue->parent = $resValue->department;
+			$resValue->parentName = $resValue->department;
 		$return[$resKey] = $resValue;
 	}
 
@@ -760,7 +765,8 @@ class TreeView
     		"subjects.gpuntisID AS gpuntisID, " .
             "subjects.alias as name, " .
             "subjects.name AS shortname, " .
-            "SUBSTRING(subjects.moduleID, 1, 2) AS parent, " .
+            "SUBSTRING(subjects.moduleID, 1, 2) AS parentName, " .
+            "SUBSTRING(subjects.moduleID, 1, 2) AS parentID, " .
             "'subject' AS type, " .
             "count(lessons.subjectID) AS lessonamount " .
             "FROM #__thm_organizer_subjects AS subjects " .
