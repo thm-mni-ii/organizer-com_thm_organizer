@@ -1,44 +1,39 @@
 /* Erweiterung der ExtJS Styles */
 td.x-grid3-col {
 	font-size: 12px !important;
- 	padding: 0 !important;
+	padding: 0 !important;
 }
 
 .x-grid3-col-time {
 	background: #F9F9F9 repeat-x scroll 0pt bottom !important;
 }
+
 .x-grid3-tr-time {
 	background: #EBF3FD repeat-x scroll left bottom !important;
-	}
+}
 
-tbody tr td.x-grid3-td-monday,
-tbody tr td.x-grid3-td-tuesday,
-tbody tr td.x-grid3-td-wednesday,
-tbody tr td.x-grid3-td-thursday,
-tbody tr td.x-grid3-td-friday,
-tbody tr td.x-grid3-td-saturday {
+tbody tr td.x-grid3-td-monday,tbody tr td.x-grid3-td-tuesday,tbody tr td.x-grid3-td-wednesday,tbody tr td.x-grid3-td-thursday,tbody tr td.x-grid3-td-friday,tbody tr td.x-grid3-td-saturday
+	{
 	border: 1px solid #aaa !important;
 	padding: 0 !important;
 }
-
 
 .x-grid3-cell-inner {
 	padding: 0 !important;
 	margin: 0 !important;
 }
 
-
 /* MySched Styles */
 div.scheduleBox {
- 	margin: 2px !important;
+	margin: 2px !important;
 }
 
 div.lectureBox {
- 	font-size: 11px !important;
-   	cursor: move;
-    z-index: 1000;
+	font-size: 11px !important;
+	cursor: move;
+	z-index: 1000;
 	padding: 2px;
- 	margin: 2px;
+	margin: 2px;
 	background: #EEE;
 	border: 1px solid #CCC;
 	-moz-opacity: 0.9;
@@ -53,11 +48,13 @@ div.lectureBox_sel {
 	border: 2px solid #8DB2E3 !important;
 	margin: 1px;
 }
+
 /* Lextures die in MySchedule sind */
 div.lectureBox_cho {
 	background: #b8c47e;
 	border: 1px solid #333;
 }
+
 .timeCell {
 	background-color: #EBF3FD;
 }
@@ -74,15 +71,18 @@ div#infoPanel {
 	font-family: Verdana, Arial;
 	font-size: 14px;
 }
+
 div#infoPanel span.def {
 	line-height: 18px;
 	color: #555;
 	font-weight: bold;
 }
+
 div#infoPanel b {
 	display: block;
 	color: #555;
 }
+
 /* InfoIcons in den InfoPanel fuer Detailiertere Infos */
 div .detailInfoBtn {
 	cursor: pointer;
@@ -92,21 +92,25 @@ div .detailInfoBtn {
 div.dozInfo div {
 	margin-top: 15px;
 }
+
 div.dozInfo div ul {
-	list-style-type:circle;
+	list-style-type: circle;
 	padding-left: 25px;
 }
 
 .blockFree {
 	background-color: #FFFFFF;
 }
+
 .blockBusy {
 	background-color: #667e9a;
 }
+
 .blockOccupied {
 	background-color: #002959;
 }
-.blockFree_DIS, .blockBusy_DIS, .blockOccupied_DIS {
+
+.blockFree_DIS,.blockBusy_DIS,.blockOccupied_DIS {
 	background-color: #FFFFFF;
 }
 
@@ -137,9 +141,11 @@ div.dozInfo div ul {
 .clas-node {
 	background: url(../images/clasIcon.png) no-repeat !important;
 }
+
 .room-node {
 	background: url(../images/roomIcon.png) no-repeat !important;
 }
+
 .doz-node {
 	background: url(../images/dozIcon.png) no-repeat !important;
 }
@@ -154,7 +160,6 @@ div.dozInfo div ul {
 
 .roomIcon {
 	background: url(../images/roomIcon.png) no-repeat left center;
-
 }
 
 .roomIconSave {
@@ -173,64 +178,75 @@ div.dozInfo div ul {
 	cursor: pointer;
 }
 
-
-.step1{
+.step1 {
 	background: url(../images/step_1.png) no-repeat left center;
 }
-.step2{
+
+.step2 {
 	background: url(../images/step_2.png) no-repeat left center;
 }
-.step3{
+
+.step3 {
 	background: url(../images/step_3.png) no-repeat left center;
 }
 
 /* Toolbar ButtonIcons */
-Button.tbSave{
+Button.tbSave {
 	background: url(../images/disk.png) no-repeat left center;
 }
-img.tbSavePdf{
+
+img.tbSavePdf {
 	background: url(../images/page_white_acrobat.png) no-repeat left center;
 }
-img.tbSaveTxt{
+
+img.tbSaveTxt {
 	background: url(../images/new.png) no-repeat left center;
 }
-Button.tbLogin{
+
+Button.tbLogin {
 	background: url(../images/key.png) no-repeat left center;
 }
-Button.tbLogout{
+
+Button.tbLogout {
 	background: url(../images/door_in.png) no-repeat left center;
 }
-Button.tbInfo{
+
+Button.tbInfo {
 	background: url(../images/information.png) no-repeat left center;
 }
-Button.tbSubscribe{
+
+Button.tbSubscribe {
 	background: url(../images/table_edit.png) no-repeat left center;
 }
-img.tbSaveICal{
+
+img.tbSaveICal {
 	background: url(../images/ICalIcon.png) no-repeat left center;
 }
-Button.tbPEvent{
+
+Button.tbPEvent {
 	background: url(/../images/calendar_add.png) no-repeat left center;
 }
-Button.tbEvent{
+
+Button.tbEvent {
 	background: url(../images/calendar_add.png) no-repeat left center;
 }
-Button.tbDownload{
+
+Button.tbDownload {
 	background: url(../images/down.png) no-repeat left center;
 }
 
 /* Drag and Drop */
 .dd-drag {
-    opacity: 0.4;
-    -moz-opacity: 0.4;
-    filter: alpha(opacity=40);
+	opacity: 0.4;
+	-moz-opacity: 0.4;
+	filter: alpha(opacity = 40);
 }
+
 .dd-over {
-    background-color: #ffff60;
+	background-color: #ffff60;
 }
 
 /* Farben im Tab Änderungen */
-
 div.removed {
 	color: #aaaaaa;
 	text-decoration: line-through;
@@ -241,188 +257,187 @@ div.movedfrom {
 }
 
 small.new {
-	font-weight:bold;
+	font-weight: bold;
 	color: #00FF00;
 }
 
 small.removed {
-	font-weight:bold;
+	font-weight: bold;
 	color: #FF4444;
 }
 
 img.mySched_terminicon {
-	height:12px;
-	width:12px;
-	margin-bottom:-2px;
+	height: 12px;
+	width: 12px;
+	margin-bottom: -2px;
 }
 
 /*
  * MNI STYLE
  */
-
 .x-toolbar {
-	background-color:#FFFFFF;
-	background-image:url();
-	border-color:#FFFFFF;
+	background-color: #FFFFFF;
+	background-image: url();
+	border-color: #FFFFFF;
 }
 
-.x-panel-body-noheader, .x-panel-mc .x-panel-body {
-	border-top-color:#FFFFFF;
+.x-panel-body-noheader,.x-panel-mc .x-panel-body {
+	border-top-color: #FFFFFF;
 }
 
 .x-panel-body {
-	background-color:#FFFFFF;
-	border-color:#FFFFFF;
+	background-color: #FFFFFF;
+	border-color: #FFFFFF;
 }
 
-.x-btn-click .x-btn-text, .x-btn-menu-active .x-btn-text, .x-btn-pressed .x-btn-text {
-	color:#00316B;
+.x-btn-click .x-btn-text,.x-btn-menu-active .x-btn-text,.x-btn-pressed .x-btn-text
+	{
+	color: #00316B;
 }
 
 .x-btn-click button {
-	color:#00316B;
-	font-weight:bold;
+	color: #00316B;
+	font-weight: bold;
 }
 
 .x-btn button {
-	color:#00316B;
-	font-weight:bold;
+	color: #00316B;
+	font-weight: bold;
 }
 
-.x-panel-bbar .x-toolbar, .x-panel-tbar .x-toolbar {
-	border-color:#FFFFFF;
+.x-panel-bbar .x-toolbar,.x-panel-tbar .x-toolbar {
+	border-color: #FFFFFF;
 }
 
-.x-tab-strip a, .x-tab-strip span, .x-tab-strip em {
+.x-tab-strip a,.x-tab-strip span,.x-tab-strip em {
 	background: #CBD3DD;
 }
 
 .x-tab-strip-active span.x-tab-strip-text {
-	color:#333333;
+	color: #333333;
 }
 
 ul.x-tab-strip-top {
-	background:#EEEEEE;
-	border-bottom:0px;
+	background: #EEEEEE;
+	border-bottom: 0px;
 }
 
 .x-tab-strip span.x-tab-strip-text {
-	color:#555555;
+	color: #555555;
 }
 
-.x-tab-panel-header, .x-tab-panel-footer {
+.x-tab-panel-header,.x-tab-panel-footer {
 	border: 0px solid #8DB2E3;
 	background-color: #EEEEEE;
 	border-color: #8DB2E3;
 }
 
 .x-panel-body {
-	border-width:0 1px 1px;
+	border-width: 0 1px 1px;
 }
 
 .x-panel-body {
-	border-width:0 0 0;
+	border-width: 0 0 0;
 }
 
 .x-layout-collapsed {
-	background-color:#DDDDDD;
-	border:1px solid #98C0F4;
+	background-color: #DDDDDD;
+	border: 1px solid #98C0F4;
 }
 
 .x-toolbar .x-item-disabled button {
-	font-weight:normal;
+	font-weight: normal;
 }
 
 #preloadMessage {
 	width: 200px;
- 	height: 50px;
- 	background-color: #E6E6E6;
- 	margin: 220px auto 0pt;
- 	text-align: center !important;
-	border:3px solid #002959;
-	color:#8ac91a;
+	height: 50px;
+	background-color: #E6E6E6;
+	margin: 220px auto 0pt;
+	text-align: center !important;
+	border: 3px solid #002959;
+	color: #8ac91a;
 }
 
 #loadMessage {
 	width: 200px;
- 	height: 50px;
- 	background-color: #E6E6E6;
- 	margin: 0px auto;
- 	text-align: center;
-	border:3px solid #002959;
-	color:#8ac91a;
+	height: 50px;
+	background-color: #E6E6E6;
+	margin: 0px auto;
+	text-align: center;
+	border: 3px solid #002959;
+	color: #8ac91a;
 }
 
 #preloadMessagetext {
-	position:relative;
-	top:30%;
-	font-family:tahoma,arial,helvetica,sans-serif;
-	font-size:14px;
-	font-size-adjust:none;
-	font-style:normal;
-	font-variant:normal;
-	font-weight:normal;
-	line-height:normal;
-
+	position: relative;
+	top: 30%;
+	font-family: tahoma, arial, helvetica, sans-serif;
+	font-size: 14px;
+	font-size-adjust: none;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	line-height: normal;
 }
 
 .mySched_terminvenue {
-	color:#00316B;
-	font-size:11px;
-	font-weight:bold;
+	color: #00316B;
+	font-size: 11px;
+	font-weight: bold;
 }
 
 .mySched_terminothers {
-	font-size:11px;
+	font-size: 11px;
 }
 
 .mySched_treeheader {
-	background:#FFFFFF !important;
-	border:0px !important;
-	border-left:0px;
+	background: #FFFFFF !important;
+	border: 0px !important;
+	border-left: 0px;
 }
 
-.mySched_noBackground .x-window-tl .x-window-tr .x-window-tc{
+.mySched_noBackground .x-window-tl .x-window-tr .x-window-tc {
 	background-image: url();
 	background-color: transparent;
 }
 
-.mySched_noBackground .x-window-tl .x-window-tr{
+.mySched_noBackground .x-window-tl .x-window-tr {
 	background-image: url();
 	background-color: transparent;
 }
 
-.mySched_noBackground .x-window-tl{
+.mySched_noBackground .x-window-tl {
 	background-image: url();
 	background-color: transparent;
 }
 
-.mySched_noBackground .x-window-bwrap .x-window-ml .x-window-mr{
+.mySched_noBackground .x-window-bwrap .x-window-ml .x-window-mr {
 	background-image: url();
 	background-color: transparent;
 }
 
-.mySched_noBackground .x-window-bwrap .x-window-ml{
+.mySched_noBackground .x-window-bwrap .x-window-ml {
 	background-image: url();
 	background-color: transparent;
 }
 
-.mySched_noBackground .x-window-bwrap{
+.mySched_noBackground .x-window-bwrap {
 	background-image: url();
 	background-color: transparent;
 }
 
-.mySched_noBackground .x-window-bl .x-window-br .x-window-bc{
+.mySched_noBackground .x-window-bl .x-window-br .x-window-bc {
 	background-image: url();
 	background-color: transparent;
 }
 
-.mySched_noBackground .x-window-bl .x-window-br{
+.mySched_noBackground .x-window-bl .x-window-br {
 	background-image: url();
 	background-color: transparent;
 }
 
-.mySched_noBackground .x-window-bl{
+.mySched_noBackground .x-window-bl {
 	background-image: url();
 	background-color: transparent;
 }
@@ -432,16 +447,17 @@ ul.x-tab-strip-top {
 	background-color: transparent !important;
 }
 
-.x-shadow .xstl, .x-shadow .xstc, .x-shadow .xstr, .x-shadow .xsbl, .x-shadow .xsbc, .x-shadow .xsbr {
-	background-image:url();
+.x-shadow .xstl,.x-shadow .xstc,.x-shadow .xstr,.x-shadow .xsbl,.x-shadow .xsbc,.x-shadow .xsbr
+	{
+	background-image: url();
 }
 
-.x-shadow .xsml, .x-shadow .xsmr {
-	background-image:url();
+.x-shadow .xsml,.x-shadow .xsmr {
+	background-image: url();
 }
 
 .x-shadow .xsmc {
-	background-image:url();
+	background-image: url();
 }
 
 .x-ie-shadow {
@@ -450,7 +466,7 @@ ul.x-tab-strip-top {
 }
 
 td.x-grid3-cell-first {
-	vertical-align:middle;
+	vertical-align: middle;
 }
 
 .MySched_pause {
@@ -458,13 +474,13 @@ td.x-grid3-cell-first {
 	text-align: center !important;
 }
 
-.x-fieldset{
+.x-fieldset {
 	border: 0px;
 	padding: 0px;
 	padding-top: 5px;
 }
 
-.ext-ie .x-fieldset{
+.ext-ie .x-fieldset {
 	border: 0px;
 	padding: 0px;
 	padding-top: 5px;
@@ -479,21 +495,21 @@ td:hover .addNotice {
 }
 
 .MySched_event_block {
-	border-color:#FFAD1B !important;
+	border-color: #FFAD1B !important;
 }
 
 small.dozname:hover {
-	text-decoration:underline;
+	text-decoration: underline;
 	cursor: pointer;
 }
 
 small.roomshortname:hover {
-	text-decoration:underline;
+	text-decoration: underline;
 	cursor: pointer;
 }
 
 small.classhorter:hover {
-	text-decoration:underline;
+	text-decoration: underline;
 	cursor: pointer;
 }
 
@@ -502,15 +518,15 @@ small.classhorter:hover {
 }
 
 .mysched_iframeNewEvent {
-	overflow:auto;
-	width:100%;
-	height:100%;
+	overflow: auto;
+	width: 100%;
+	height: 100%;
 }
 
 .mysched_iframeModule {
-	overflow:auto;
-	width:100%;
-	height:100%;
+	overflow: auto;
+	width: 100%;
+	height: 100%;
 }
 
 .estudy_logo {
@@ -527,15 +543,13 @@ small.classhorter:hover {
 	float: left;
 }
 
-.ajaxloader
-{
+.ajaxloader {
 	background: url(../images/ajax-loader.gif) no-repeat left center;
 	width: 64px;
 	height: 64px;
 }
 
-.ajaxloader_DIS
-{
+.ajaxloader_DIS {
 	background: url();
 	width: 16px;
 	height: 16px;
@@ -619,21 +633,21 @@ img.status_icons_delete {
 }
 
 #content_column {
-	padding-top:0px;
+	padding-top: 0px;
 }
 
 .content_column li {
-	margin:0px;
+	margin: 0px;
 	list-style-image: url("");
 }
 
 .x-tree-node a span {
-	font:11px arial,tahoma,helvetica,sans-serif;
-	text-decoration:none;
+	font: 11px arial, tahoma, helvetica, sans-serif;
+	text-decoration: none;
 }
 
 .content_column img {
-	margin:0px;
+	margin: 0px;
 }
 
 .content_column table {
@@ -641,14 +655,14 @@ img.status_icons_delete {
 }
 
 .content_column table td {
-	padding:0px !important;
+	padding: 0px !important;
 }
 
 div.lectureBox_dis {
- 	font-size: 11px !important;
-    z-index: 1000;
+	font-size: 11px !important;
+	z-index: 1000;
 	padding: 2px;
- 	margin: 2px;
+	margin: 2px;
 	background: #EEE;
 	border: 1px solid #CCC;
 	-moz-opacity: 0.9;
@@ -685,10 +699,10 @@ div.MySchedexternURLClass_DIS {
 
 .MySchedEvent_joomla {
 	font-size: 11px !important;
-   	cursor: move;
-    z-index: 1000;
+	cursor: move;
+	z-index: 1000;
 	padding: 2px;
- 	margin: 2px;
+	margin: 2px;
 	background: #7fff00;
 	border: 1px solid #CCC;
 	-moz-opacity: 0.9;
@@ -703,10 +717,10 @@ div.MySchedexternURLClass_DIS {
 
 .MySchedEvent_estudy {
 	font-size: 11px !important;
-   	cursor: move;
-    z-index: 1000;
+	cursor: move;
+	z-index: 1000;
 	padding: 2px;
- 	margin: 2px;
+	margin: 2px;
 	background: #AFAFFF;
 	border: 1px solid #CCC;
 	-moz-opacity: 0.9;
@@ -743,14 +757,14 @@ div.MySchedexternURLClass_DIS {
 #main ul {
 	margin: 0.5px !important;
 	padding: 0.5px !important;
-	list-style-type: none  !important;
+	list-style-type: none !important;
 }
 
-#main ul li, #main ol li {
+#main ul li,#main ol li {
 	padding: 0.5px !important;
 }
 
-tr, td{
+tr,td {
 	border: 0px !important;
 }
 
@@ -768,8 +782,8 @@ tr, td{
 
 .x-tab-strip-top .x-tab-strip-active .x-tab-right {
 	background-position: 0px !important;
-   	border-right: 1px solid #CBD3DD !important;
-   	border-top: 1px solid #CBD3DD !important;
+	border-right: 1px solid #CBD3DD !important;
+	border-top: 1px solid #CBD3DD !important;
 }
 
 .x-tab-strip-top .x-tab-strip-over .x-tab-left {
@@ -781,12 +795,11 @@ tr, td{
 }
 
 .x-tab-right {
-    border-left: 1px solid #AFAFFF !important;
-    border-top: 1px solid #AFAFFF !important;
+	border-left: 1px solid #AFAFFF !important;
+	border-top: 1px solid #AFAFFF !important;
 }
 
-.x-tab-strip-wrap
-{
+.x-tab-strip-wrap {
 	margin-bottom: -2px !important;
 	padding-top: 1.5px;
 }
@@ -808,7 +821,6 @@ div.x-tree-selected a {
 	padding-left: 1px;
 }
 
-
 .x-window-header {
 	position: relative;
 	top: 21px;
@@ -829,12 +841,12 @@ ul.x-tab-strip li {
 	margin-left: 2px !important;
 }
 
-.x-tab-strip-top .x-tab-right, .x-tab-strip-top .x-tab-left, .x-tab-strip-top .x-tab-strip-inner {
+.x-tab-strip-top .x-tab-right,.x-tab-strip-top .x-tab-left,.x-tab-strip-top .x-tab-strip-inner
+	{
 	background-image: url("");
 }
 
-#rightviewport, #leftviewport
-{
+#rightviewport,#leftviewport {
 	padding-left: 12px;
 	padding-right: 12px;
 }

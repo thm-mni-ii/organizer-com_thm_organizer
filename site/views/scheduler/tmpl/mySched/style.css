@@ -30,10 +30,10 @@ div.MySchedexternURLClass_DIS {
 
 .MySchedEvent_joomla {
 	font-size: 11px !important;
-   	cursor: move;
-    z-index: 1000;
+	cursor: move;
+	z-index: 1000;
 	padding: 2px;
- 	margin: 2px;
+	margin: 2px;
 	background: #7fff00;
 	border: 1px solid #CCC;
 	-moz-opacity: 0.9;
@@ -44,11 +44,11 @@ div.MySchedexternURLClass_DIS {
 }
 
 div.lectureBox {
- 	font-size: 11px !important;
-   	cursor: move;
-    z-index: 1000;
+	font-size: 11px !important;
+	cursor: move;
+	z-index: 1000;
 	padding: 2px;
- 	margin: 2px;
+	margin: 2px;
 	background: #EEE;
 	border: 1px solid #CCC;
 	-moz-opacity: 0.9;
@@ -59,10 +59,10 @@ div.lectureBox {
 }
 
 div.lectureBox_dis {
- 	font-size: 11px !important;
-    z-index: 1000;
+	font-size: 11px !important;
+	z-index: 1000;
 	padding: 2px;
- 	margin: 2px;
+	margin: 2px;
 	background: #EEE;
 	border: 1px solid #CCC;
 	-moz-opacity: 0.9;
@@ -74,11 +74,11 @@ div.lectureBox_dis {
 }
 
 div.lectureBox {
- 	font-size: 11px !important;
-   	cursor: move;
-    z-index: 1000;
+	font-size: 11px !important;
+	cursor: move;
+	z-index: 1000;
 	padding: 2px;
- 	margin: 2px;
+	margin: 2px;
 	background: #EEE;
 	border: 1px solid #CCC;
 	-moz-opacity: 0.9;
@@ -93,11 +93,13 @@ div.lectureBox_sel {
 	border: 2px solid #8DB2E3 !important;
 	margin: 1px;
 }
+
 /* Lextures die in MySchedule sind */
 div.lectureBox_cho {
 	background: #b8c47e;
 	border: 1px solid #333;
 }
+
 .timeCell {
 	background-color: #EBF3FD;
 }
@@ -106,21 +108,25 @@ div.lectureBox_cho {
 div.dozInfo div {
 	margin-top: 15px;
 }
+
 div.dozInfo div ul {
-	list-style-type:circle;
+	list-style-type: circle;
 	padding-left: 25px;
 }
 
 .blockFree {
 	background-color: #FFFFFF !important;
 }
+
 .blockBusy {
 	background-color: #667e9a !important;
 }
+
 .blockOccupied {
 	background-color: #002959 !important;
 }
-.blockFree_DIS, .blockBusy_DIS, .blockOccupied_DIS {
+
+.blockFree_DIS,.blockBusy_DIS,.blockOccupied_DIS {
 	background-color: #FFFFFF !important;
 }
 
@@ -151,9 +157,11 @@ div.dozInfo div ul {
 .clas-node {
 	background: url(../images/clasIcon.png) no-repeat !important;
 }
+
 .room-node {
 	background: url(../images/roomIcon.png) no-repeat !important;
 }
+
 .doz-node {
 	background: url(../images/dozIcon.png) no-repeat !important;
 }
@@ -168,7 +176,6 @@ div.dozInfo div ul {
 
 .roomIcon {
 	background: url(../images/roomIcon.png) no-repeat left center;
-
 }
 
 .roomIconSave {
@@ -188,37 +195,35 @@ div.dozInfo div ul {
 }
 
 /* Änderungen Top Icon Style */
-
 .top_icon_image {
 	background-color: green;
 	font-weight: bold;
 }
 
 /* MNI Style */
-
 .mysched_iframeModule {
-	overflow:auto;
-	width:100%;
-	height:100%;
+	overflow: auto;
+	width: 100%;
+	height: 100%;
 }
 
 .content_column table th {
-    padding: 0px !important;
+	padding: 0px !important;
 }
 
 .content_column table td {
-    padding: 0px !important;
+	padding: 0px !important;
 }
 
 .content_column table {
-    border: 0 solid #EEEEEE !important;
+	border: 0 solid #EEEEEE !important;
 }
 
 #content_column {
-    padding-top: 0px !important;
+	padding-top: 0px !important;
 }
 
-.MySchedMainW *{
+.MySchedMainW * {
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-ms-box-sizing: border-box;
@@ -226,52 +231,62 @@ div.dozInfo div ul {
 }
 
 /* Toolbar ButtonIcons */
-.tbSave{
+.tbSave {
 	background: url(../images/disk.png) no-repeat left center;
 }
-.tbSavePdf{
+
+.tbSavePdf {
 	background: url(../images/page_white_acrobat.png) no-repeat left center;
 }
-.tbSaveTxt{
+
+.tbSaveTxt {
 	background: url(../images/excel.png) no-repeat left center;
 }
-.tbLogin{
+
+.tbLogin {
 	background: url(../images/key.png) no-repeat left center;
 }
-.tbLogout{
+
+.tbLogout {
 	background: url(../images/door_in.png) no-repeat left center;
 }
-.tbInfo{
+
+.tbInfo {
 	background: url(../images/information.png) no-repeat left center;
 }
-.tbSubscribe{
+
+.tbSubscribe {
 	background: url(../images/table_edit.png) no-repeat left center;
 }
-.tbSaveICal{
+
+.tbSaveICal {
 	background: url(../images/ICalIcon.png) no-repeat left center;
 }
-.tbPEvent{
+
+.tbPEvent {
 	background: url(/../images/calendar_add.png) no-repeat left center;
 }
-.tbEvent{
+
+.tbEvent {
 	background: url(../images/calendar_add.png) no-repeat left center;
 }
-.tbDownload{
+
+.tbDownload {
 	background: url(../images/down.png) no-repeat left center;
 }
 
 /* Drag and Drop */
 .dd-drag {
-    opacity: 0.4;
-    -moz-opacity: 0.4;
-    filter: alpha(opacity=40);
+	opacity: 0.4;
+	-moz-opacity: 0.4;
+	filter: alpha(opacity = 40);
 }
+
 .dd-over {
-    background-color: #ffff60;
+	background-color: #ffff60;
 }
 
 /* Farben im Tab Änderungen */
-
 div.removed {
 	color: #aaaaaa;
 	text-decoration: line-through;
@@ -282,23 +297,22 @@ div.movedfrom {
 }
 
 small.new {
-	font-weight:bold;
+	font-weight: bold;
 	color: #00FF00;
 }
 
 small.removed {
-	font-weight:bold;
+	font-weight: bold;
 	color: #FF4444;
 }
 
 img.mySched_terminicon {
-	height:12px;
-	width:12px;
-	margin-bottom:-2px;
+	height: 12px;
+	width: 12px;
+	margin-bottom: -2px;
 }
 
 /* Lecture Styles */
-
 .lecturename {
 	cursor: pointer;
 }
@@ -314,17 +328,17 @@ small.olddoz {
 }
 
 small.dozname:hover {
-	text-decoration:underline;
+	text-decoration: underline;
 	cursor: pointer;
 }
 
 small.roomshortname:hover {
-	text-decoration:underline;
+	text-decoration: underline;
 	cursor: pointer;
 }
 
 small.classhorter:hover {
-	text-decoration:underline;
+	text-decoration: underline;
 	cursor: pointer;
 }
 
@@ -373,46 +387,46 @@ img.status_icons_delete {
 .x-grid-row .x-grid-cell {
 	border-right: 1px solid #ECECEC;
 	border-bottom: 1px solid #ECECEC;
-    	border-top: 0px;
+	border-top: 0px;
 }
 
 .x-panel-body-default {
-    border-width: 0px;
+	border-width: 0px;
 }
 
 .x-panel .x-grid-body {
-    border-width: 0px;
+	border-width: 0px;
 }
 
 .x-panel-header-default {
-    background-color: #FFF;
-    background-image: none;
-    border-width: 0px;
+	background-color: #FFF;
+	background-image: none;
+	border-width: 0px;
 }
 
 .x-toolbar-default {
-    background-color: #FFF;
-    background-image: none;
-    border-color: #D0D0D0;
+	background-color: #FFF;
+	background-image: none;
+	border-color: #D0D0D0;
 }
 
 .x-tab-bar {
-    background-color: #FFF;
-    background-image: none;
-    border: 0px;
+	background-color: #FFF;
+	background-image: none;
+	border: 0px;
 }
 
 .x-toolbar {
-    border: 0px;
+	border: 0px;
 }
 
 .x-tab-bar-body {
-    border-color: #FFF;
+	border-color: #FFF;
 }
 
 .x-panel-header-default-top {
-	-moz-box-shadow:#FFF 0 1px 0px 0 inset;
-	-webkit-box-shadow:#FFF 0 1px 0px 0 inset;
-	-o-box-shadow:#FFF 0 1px 0px 0 inset;
-	box-shadow:#FFF 0 1px 0px 0 inset
+	-moz-box-shadow: #FFF 0 1px 0px 0 inset;
+	-webkit-box-shadow: #FFF 0 1px 0px 0 inset;
+	-o-box-shadow: #FFF 0 1px 0px 0 inset;
+	box-shadow: #FFF 0 1px 0px 0 inset
 }

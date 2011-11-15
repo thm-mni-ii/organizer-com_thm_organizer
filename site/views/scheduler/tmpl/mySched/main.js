@@ -399,78 +399,14 @@ MySched.Base = function () {
          	}
          	else
          	{
-         		var key = publicDefaultNode["id"];
-         		var type = publicDefaultNode["type"];
-         		var res = publicDefaultNode["gpuntisID"];
+         		var nodeID = publicDefaultNode["id"];
+         		var nodeKey = publicDefaultNode["nodeKey"];
+         		var gpuntisID = publicDefaultNode["gpuntisID"];
+         		var plantypeID = publicDefaultNode["plantype"];
          		var semesterID = publicDefaultNode["semesterID"];
-         		var plantype = publicDefaultNode["plantype"];
+         		var type = publicDefaultNode["type"];
 
-         		var department = null;
-	            if (res == "delta")
-	              title = "Änderungen (zentral)";
-	            else if (res == "respChanges")
-	              title = "Änderungen (eigene)";
-	            else
-	            {
-	              department = MySched.Mapping.getObjectField(type, res, "department");
-	              if (typeof department == "undefined" || department == "none" || department == null || department == res)
-	                title = MySched.Mapping.getName(type, res);
-	              else
-	                title = MySched.Mapping.getName(type, res) + " - " + MySched.Mapping.getObjectField(type, res, "department");
-	            }
-
-         		if (MySched.loadedLessons[key] != true) {
-		              Ext.Ajax.request({
-		                url: _C('ajaxHandler'),
-		                method: 'POST',
-		                params: {
-		                  res: res,
-		                  class_semester_id: semesterID,
-		                  scheduletask: "Ressource.load",
-		                  plantype: plantype,
-		                  type: type
-		                },
-		                failure: function (response) {
-		                	Ext.Msg.alert('Fehler', "Beim Laden des Stundenplans ist ein Fehler aufgetreten.");
-		                },
-		                success: function (response) {
-		                  try {
-		                    var json = Ext.decode(response.responseText);
-		                    for (var item in json) {
-		                      if (Ext.isObject(json[item])) {
-		                        var record = new mLecture(json[item].key, json[item], type);
-		                        MySched.Base.schedule.addLecture(record);
-		                        MySched.TreeManager.add(record);
-		                      }
-		                    }
-		                    if (typeof json["elements"] != "undefined") {
-		                      record.elements = json["elements"];
-		                      new mSchedule(key, title).init(type, json["elements"]).show(false, false);
-		                    }
-		                    else
-		                    	new mSchedule(key, title).init(type, res).show(false, false);
-		                    MySched.loadedLessons[key] = true;
-		                  }
-		                  catch(e)
-		                  {
-							Ext.Msg.alert('Fehler', "Beim Laden des Stundenplans ist ein Fehler aufgetreten.");
-		                  }
-		                }
-		              });
-		            }
-		            else {
-		            	if(typeof record != "undefined")
-		            	{
-		            		if (typeof record.elements != "undefined")
-		              			new mSchedule(key, title).init(type, record.elements).show(false, false);
-		              		else
-								new mSchedule(key, title).init(type, res).show(false, false);
-		            	}
-		            	else
-		            	{
-		            		new mSchedule(key, title).init(type, res).show(false, false);
-		            	}
-		            }
+				MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
          	}
         }
       }
@@ -519,21 +455,24 @@ MySched.Base = function () {
 	            // Fuegt gesammten SemesterPlan dem eigenen Stundenplan hinzu
 	            var n = data.records[0].raw;
 
-	            var key = n.id;
+	            var nodeID = n.id;
+	            var nodeKey = n.nodeKey;
 	            var gpuntisID = n.gpuntisID;
 	            var semesterID = n.semesterID;
-	            var plantype = n.plantype;
+	            var plantypeID = n.plantype;
 	            var type = n.type;
 
-	            if (MySched.loadedLessons[key] != true) {
+	            if (MySched.loadedLessons[nodeID] != true) {
 	              Ext.Ajax.request({
 	                url: _C('ajaxHandler'),
 	                method: 'POST',
 	                params: {
-	                  res: gpuntisID,
+	                	nodeID: nodeID,
+	                	nodeKey: nodeKey,
+	                  gpuntisID: gpuntisID,
 	                  class_semester_id: semesterID,
 	                  scheduletask: "Ressource.load",
-	                  plantype: plantype,
+	                  plantypeID: plantypeID,
 	                  type: type
 	                },
 	                failure: function (response) {
@@ -544,7 +483,7 @@ MySched.Base = function () {
 	                    var json = Ext.decode(response.responseText);
 	                    for (var item in json) {
 	                      if (Ext.isObject(json[item])) {
-	                        var record = new mLecture(json[item].key, json[item]);
+	                        var record = new mLecture(json[item].key, json[item], semesterID, plantypeID);
 	                        MySched.Base.schedule.addLecture(record);
 	                        MySched.TreeManager.add(record);
 	                      }
@@ -552,14 +491,14 @@ MySched.Base = function () {
 
 	                    if (typeof json["elements"] != "undefined") {
 	                      n.elements = json["elements"];
-	                      var s = new mSchedule(key, '_tmpSchedule').init(type, json["elements"]);
+	                      var s = new mSchedule(nodeID, '_tmpSchedule').init(type, json["elements"]);
 	                    }
-	                    else var s = new mSchedule(key, '_tmpSchedule').init(type, gpuntisID);
+	                    else var s = new mSchedule(nodeID, '_tmpSchedule').init(type, nodeKey);
 
 	                    Ext.each(s.getLectures(), function (e) {
 	                      MySched.Schedule.addLecture(e);
 	                    });
-	                    MySched.loadedLessons[key] = true;
+	                    MySched.loadedLessons[nodeID] = true;
 	                    MySched.selectedSchedule.eventsloaded = null;
       					MySched.selectedSchedule.refreshView();
 	                  }
@@ -572,11 +511,10 @@ MySched.Base = function () {
 
             }
             else {
-
               if (typeof n.elements != "undefined")
-              	var s = new mSchedule(key, '_tmpSchedule').init(type, n.elements);
+              	var s = new mSchedule(nodeID, '_tmpSchedule').init(type, n.elements);
               else
-              	var s = new mSchedule(key, '_tmpSchedule').init(type, gpuntisID);
+              	var s = new mSchedule(nodeID, '_tmpSchedule').init(type, nodeKey);
 
               Ext.each(s.getLectures(), function (e) {
                 MySched.Schedule.addLecture(e);
@@ -882,7 +820,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
     Ext.select('.dozname', false, tab.dom).on({
       'click': function (e) {
         if (e.button == 0) //links Klick
-        this.showschedule(e, 'doz');
+        this.showSchedule(e, 'doz');
       },
       scope: this
     });
@@ -928,7 +866,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
     Ext.select('.roomshortname', false, tab.dom).on({
       'click': function (e) {
         if (e.button == 0) //links Klick
-        this.showschedule(e, 'room');
+        this.showSchedule(e, 'room');
       },
       scope: this
     });
@@ -936,7 +874,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
     // Aboniert Events f�r Dozentennamen
     Ext.select('.classhorter', false, tab.dom).on({
       'click': function (e) {
-        this.showschedule(e, 'clas');
+        this.showSchedule(e, 'clas');
       },
       scope: this
     });
@@ -967,23 +905,28 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
       scope: this
     });
   },
-  showschedule: function (e, type) {
-
-	MySched.loadMask = new Ext.LoadMask(MySched.layout.tabpanel.getId(), {msg:"Loading..."});
-	MySched.loadMask.show();
-
-    var id = "";
+  showSchedule: function (e, type) {
     var name = e.target.firstChild.nodeValue.replace(/^\s+/, '').replace(/\s+$/, '');
     var parentid = e.target.parentNode.id;
     var lessonid = parentid.split("##");
     var l = null;
+
+    var nodeID = null;
+    var nodeKey = null;
+    var gpuntisID = null;
+   	var plantypeID = null;
+   	var semesterID = null;
+   	var parent = null;
+
     l = MySched.Base.getLecture(lessonid[1]);
     if (typeof l == "undefined") l = MySched.Schedule.getLecture(lessonid[1]);
 
     if (type == "doz") {
       for (var i = 0; i < l.doz.keys.length; i++) {
         if (name == MySched.Mapping.getDozName(l.doz.keys[i])) {
-          id = l.doz.keys[i];
+          nodeKey = l.doz.keys[i];
+          gpuntisID = MySched.Mapping.getObjectField(type, l.doz.keys[i], "gpuntisID");
+          parent = MySched.Mapping.getObjectField(type, l.doz.keys[i], "parent");
           break;
         }
       }
@@ -992,57 +935,35 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
       for (var i = 0; i < l.room.keys.length; i++) {
         var room = MySched.Mapping.getRoomName(l.room.keys[i]).split("/");
         if (name == room[room.length - 1].replace(/^\s+/, '').replace(/\s+$/, '')) {
-          id = l.room.keys[i];
+          nodeKey = l.room.keys[i];
+          gpuntisID = MySched.Mapping.getObjectField(type, l.room.keys[i], "gpuntisID");
+          parent = MySched.Mapping.getObjectField(type, l.room.keys[i], "parent");
           break;
         }
       }
     }
     else {
       for (var i = 0; i < l.clas.keys.length; i++) {
-        if (name == l.clas.keys[i].replace("CL_", "")) {
-          id = l.clas.keys[i];
+        if (name == MySched.Mapping.getObjectField(type, l.clas.keys[i], "shortname")) {
+          nodeKey = l.clas.keys[i];
+          gpuntisID = MySched.Mapping.getObjectField(type, l.clas.keys[i], "gpuntisID");
+          parent = MySched.Mapping.getObjectField(type, l.clas.keys[i], "parent");
           break;
         }
       }
     }
-    var title = MySched.Mapping.getName(type, id);
-    if (MySched.loadedLessons[id] != true) {
-      Ext.Ajax.request({
-        url: _C('ajaxHandler'),
-        method: 'POST',
-        params: {
-          res: id,
-          type: type,
-          plantype: 1,
-          class_semester_id: MySched.class_semester_id,
-          scheduletask: "Ressource.load"
-        },
-        failure: function (response) {
-        	Ext.Msg.alert('Fehler', "Beim Laden des Stundenplans ist ein Fehler aufgetreten.");
-        },
-        success: function (response) {
-          try {
-            var json = Ext.decode(response.responseText);
-            for (var item in json) {
-              if (Ext.isObject(json[item])) {
-                var record = new mLecture(json[item].key, json[item]);
-                MySched.Base.schedule.addLecture(record);
-                MySched.TreeManager.add(record);
-              }
-            }
-            new mSchedule(id, title).init(type, id).show();
-            MySched.loadedLessons[id] = true;
-          }
-          catch(e)
-          {
-          	Ext.Msg.alert('Fehler', "Beim Laden des Stundenplans ist ein Fehler aufgetreten.");
-          }
-        }
-      });
-    }
-    else {
-      new mSchedule(id, title).init(type, id).show();
-    }
+
+	parent = parent.replace(" ", "");
+	parent = parent.replace("(", "");
+	parent = parent.replace(")", "");
+
+    nodeID = l.semesterID+"."+l.plantypeID+"."+type+"."+parent+"."+nodeKey;
+	plantypeID = l.plantypeID;
+	semesterID = l.semesterID;
+
+
+	MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
+
   },
   showEventInformation: function (e) {
     var el = e.getTarget('.MySchedEvent_joomla', 5, true);
@@ -3167,101 +3088,107 @@ MySched.Tree = function () {
 		// Bei Klick Stundenplan oeffnen
 	    this.tree.on('itemclick', function (me, rec, item, index, event, options) {
 	          if (rec.isLeaf()) {
-
-				MySched.loadMask = new Ext.LoadMask(MySched.layout.tabpanel.getId(), {msg:"Loading..."});
-				MySched.loadMask.show();
-
 	            var title = "";
 	            if(rec.raw)
 	            	var data = rec.raw;
 	            else
 	            	var data = rec.data;
 
-	            var key = data.id;
-	            var res = data.gpuntisID;
+	            var nodeID = data.id;
+	            var nodeKey = data.nodeKey;
+	            var gpuntisID = data.gpuntisID;
 	            var semesterID = data.semesterID;
-	            var plantype = data.plantype;
+	            var plantypeID = data.plantype;
 	            var type = data.type;
 
-	            if(type === null)
-	            	type = res;
-	            var department = null;
-	            if (res == "delta")
-	              title = "Änderungen (zentral)";
-	            else if (res == "respChanges")
-	              title = "Änderungen (eigene)";
-	            else
-	            {
-	              department = MySched.Mapping.getObjectField(type, res, "department");
-	              if (typeof department == "undefined" || department == "none" || department == null || department == res)
-	                title = MySched.Mapping.getName(type, res);
-	              else
-	                title = MySched.Mapping.getName(type, res) + " - " + MySched.Mapping.getObjectField(type, res, "department");
-	            }
-
-				if(res == "delta")
-				{
-					new mSchedule(key, title).init(type, res).show();
-				}
-				else
-				{
-		            if (MySched.loadedLessons[key] != true) {
-		              Ext.Ajax.request({
-		                url: _C('ajaxHandler'),
-		                method: 'POST',
-		                params: {
-		                  res: res,
-		                  class_semester_id: semesterID,
-		                  scheduletask: "Ressource.load",
-		                  plantype: plantype,
-		                  type: type
-		                },
-		                failure: function (response) {
-		                	Ext.Msg.alert('Fehler', "Beim Laden des Stundenplans ist ein Fehler aufgetreten.");
-		                },
-		                success: function (response) {
-		                  try {
-		                    var json = Ext.decode(response.responseText);
-		                    for (var item in json) {
-		                      if (Ext.isObject(json[item])) {
-		                        var record = new mLecture(json[item].key, json[item], type);
-		                        MySched.Base.schedule.addLecture(record);
-		                        MySched.TreeManager.add(record);
-		                      }
-		                    }
-		                    if (typeof json["elements"] != "undefined") {
-		                      record.elements = json["elements"];
-		                      new mSchedule(key, title).init(type, json["elements"]).show();
-		                    }
-		                    else
-		                    	new mSchedule(key, title).init(type, res).show();
-		                    MySched.loadedLessons[key] = true;
-		                  }
-		                  catch(e)
-		                  {
-							Ext.Msg.alert('Fehler', "Beim Laden des Stundenplans ist ein Fehler aufgetreten.");
-		                  }
-		                }
-		              });
-		            }
-		            else {
-		            	if(typeof record != "undefined")
-		            	{
-		            		if (typeof record.elements != "undefined")
-		              			new mSchedule(key, title).init(type, record.elements).show();
-		              		else
-								new mSchedule(key, title).init(type, res).show();
-		            	}
-		            	else
-		            	{
-		            		new mSchedule(key, title).init(type, res).show();
-		            	}
-		            }
-				}
+				MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
 	          }
 	      });
 
 	    return this.tree;
+    },
+    showScheduleTab: function(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type)
+    {
+		MySched.loadMask = new Ext.LoadMask(MySched.layout.tabpanel.getId(), {msg:"Loading..."});
+		MySched.loadMask.show();
+
+    	if(type === null)
+           	type = gpuntisID;
+           var department = null;
+           if (type == "delta")
+             title = "Änderungen (zentral)";
+           else if (type == "respChanges")
+             title = "Änderungen (eigene)";
+           else
+           {
+             department = MySched.Mapping.getObjectField(type, nodeKey, "parent");
+             if (typeof department == "undefined" || department == "none" || department == null || department == nodeKey)
+               title = MySched.Mapping.getName(type, nodeKey);
+             else
+               title = MySched.Mapping.getName(type, nodeKey) + " - " + MySched.Mapping.getObjectField(type, nodeKey, "parent");
+           }
+
+		if(type == "delta")
+		{
+			new mSchedule(nodeID, title).init(type, nodeKey).show();
+		}
+		else
+		{
+            if (MySched.loadedLessons[nodeID] != true) {
+              Ext.Ajax.request({
+                url: _C('ajaxHandler'),
+                method: 'POST',
+                params: {
+                	nodeID: nodeID,
+                	nodeKey: nodeKey,
+                  	gpuntisID: gpuntisID,
+                  	class_semester_id: semesterID,
+                  	scheduletask: "Ressource.load",
+                  	plantypeID: plantypeID,
+                  	type: type
+                },
+                failure: function (response) {
+                	Ext.Msg.alert('Fehler', "Beim Laden des Stundenplans ist ein Fehler aufgetreten.");
+                },
+                success: function (response) {
+                  try {
+                    var json = Ext.decode(response.responseText);
+                    for (var item in json) {
+                      if (Ext.isObject(json[item])) {
+                        var record = new mLecture(json[item].key, json[item], semesterID, plantypeID);
+                        MySched.Base.schedule.addLecture(record);
+                        MySched.TreeManager.add(record);
+                      }
+                    }
+                    if (typeof json["elements"] != "undefined") {
+                      record.elements = json["elements"];
+                      new mSchedule(nodeID, title).init(type, json["elements"]).show();
+                    }
+                    else
+                    	new mSchedule(nodeID, title).init(type, nodeKey).show();
+                    MySched.loadedLessons[nodeID] = true;
+                  }
+                  catch(e)
+                  {
+					Ext.Msg.alert('Fehler', "Beim Laden des Stundenplans ist ein Fehler aufgetreten.");
+                  }
+                }
+              });
+            }
+            else {
+            	if(typeof record != "undefined")
+            	{
+            		if (typeof record.elements != "undefined")
+              			new mSchedule(nodeID, title).init(type, record.elements).show();
+              		else
+						new mSchedule(nodeID, title).init(type, nodeKey).show();
+            	}
+            	else
+            	{
+            		new mSchedule(nodeID, title).init(type, nodeKey).show();
+            	}
+            }
+		}
     },
     /**
      * Setzt den Titel des Listenfelds

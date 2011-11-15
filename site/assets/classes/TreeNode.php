@@ -22,6 +22,7 @@ class TreeNode {
     public $checked = null;
     public $expanded = false;
     public $publicDefault = null;
+    public $nodeKey = null;
 
     public function  __construct(	$id,
     						$text,
@@ -35,7 +36,8 @@ class TreeNode {
     						$children,
     						$semesterID,
     						$checked,
-    						$publicDefault) {
+    						$publicDefault,
+    						$nodeKey) {
 
         $this->id = $id;
         $this->text = $text;
@@ -50,6 +52,7 @@ class TreeNode {
         $this->semesterID = $semesterID;
         $this->checked = $checked;
         $this->publicDefault = $publicDefault;
+        $this->nodeKey = $nodeKey;
     }
 
     public function setChildren($children)

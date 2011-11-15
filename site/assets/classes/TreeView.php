@@ -57,7 +57,8 @@ class TreeView
                     $plantype,
                     $type,
                     $children,
-                    $semesterID)
+                    $semesterID,
+                    $nodeKey)
   {
 
     $checked = null;
@@ -111,7 +112,8 @@ class TreeView
             $children,
             $semesterID,
             $checked,
-            $publicDefault
+            $publicDefault,
+            $nodeKey
           );
           $this->inTree[] = $gpuntisID;
       }
@@ -130,7 +132,8 @@ class TreeView
             $children,
             $semesterID,
             $checked,
-            $publicDefault
+            $publicDefault,
+            $nodeKey
           );
 
     if($publicDefault === "default")
@@ -148,7 +151,8 @@ class TreeView
 							            $children,
 							            $semesterID,
 							            $checked,
-							            $publicDefault
+							            $publicDefault,
+							            $nodeKey
 							        );
     }
 
@@ -206,6 +210,7 @@ class TreeView
           null,								// plantype
           null,								// type
           null,
+          $value->id,
           $value->id
         );
 	  $children = $this->plantype($value->id, $value->id);
@@ -225,7 +230,6 @@ class TreeView
 
     $semesterJahrNode = $this->treeCorrect($semesterJahrNode);
 
-		echo "<pre>".print_r($this->treeData, true)."</pre>";
     return array("success"=>true,"data"=>array("tree"=>$semesterJahrNode,"treeData"=>$this->treeData, "treePublicDefault"=>$this->publicDefaultNode));
   }
 
@@ -314,7 +318,8 @@ class TreeView
           $v->id,
           null,
           null,
-          $semesterID
+          $semesterID,
+          $v->id
         );
         if($v->id == 1)
       		$children = $this->StundenplanView($key, $v->id, $semesterID);
@@ -346,7 +351,8 @@ class TreeView
           $planid,
           null,
           null,
-          $semesterID
+          $semesterID,
+          $key.".doz"
         );
     $children = $this->getStundenplan($key.".doz", $planid, $semesterID, "doz");
     if($temp != null && !empty($temp))
@@ -368,7 +374,8 @@ class TreeView
           $planid,
           null,
           null,
-          $semesterID
+          $semesterID,
+          $key.".room"
         );
 
     $children = $this->getStundenplan($key.".room", $planid, $semesterID, "room");
@@ -391,7 +398,8 @@ class TreeView
           $planid,
           null,
           null,
-          $semesterID
+          $semesterID,
+          $key.".clas"
         );
 
     $children = $this->getStundenplan($key.".clas", $planid, $semesterID, "clas");
@@ -414,7 +422,8 @@ class TreeView
           $planid,
           null,
           null,
-          $semesterID
+          $semesterID,
+          $key.".subject"
         );
 
     $children = $this->getStundenplan($key.".subject", $planid, $semesterID, "subject");
@@ -437,7 +446,8 @@ class TreeView
           $planid,
           "delta",
           null,
-          $semesterID
+          $semesterID,
+          $key.".delta"
         );
 
     if($temp != null && !empty($temp))
@@ -456,7 +466,8 @@ class TreeView
           $planid,
           "respChanges",
           null,
-          $semesterID
+          $semesterID,
+          $key.".respChanges"
         );
 
     if($temp != null && !empty($temp))
@@ -482,7 +493,8 @@ class TreeView
           $planid,
           null,
           null,
-          $semesterID
+          $semesterID,
+          $key.".doz"
         );
     $children = $this->getStundenplan($key.".doz", $planid, $semesterID, "doz");
 
@@ -505,7 +517,8 @@ class TreeView
           $planid,
           null,
           $this->getStundenplan($key.".clas", $planid, $semesterID, "clas"),
-          $semesterID
+          $semesterID,
+          $key.".clas"
         );
 
     $children = $this->getStundenplan($key.".clas", $planid, $semesterID, "clas");
@@ -597,8 +610,8 @@ class TreeView
                       $planid,
                       $type,
                       NULL,
-                      $semesterID
-	                  );
+                      $semesterID,
+                      trim($childvalue["id"]));
 
         if(!empty($temp))
         	if($nodeKey == "none")
@@ -624,7 +637,8 @@ class TreeView
           $planid,
           null,
           $childNodes,
-          $semesterID
+          $semesterID,
+          trim($nodeKey)
         );
           if($temp != null && !empty($temp))
             $treeNode[] = $temp;

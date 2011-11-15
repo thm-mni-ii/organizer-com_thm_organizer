@@ -7,29 +7,33 @@ class Ressource
 {
 	private $JDA = null;
 	private $CFG = null;
-	private $res = null;
+	private $gpuntisID = null;
+	private $nodeID = null;
+	private $nodeKey = null;
 	private $semID = null;
 	private $type = null;
-	private $plantype = null;
+	private $plantypeID = null;
 
 	function __construct($JDA, $CFG)
 	{
 		$this->JDA = $JDA;
-		$this->res = $JDA->getRequest( "res" );
-		$this->plantype = $JDA->getRequest( "plantype" );
+		$this->nodeID = $JDA->getRequest( "nodeID" );
+		$this->gpuntisID = $JDA->getRequest( "gpuntisID" );
+		$this->nodeKey = $JDA->getRequest( "nodeKey" );
+		$this->plantypeID = $JDA->getRequest( "plantypeID" );
 		$this->type = $JDA->getRequest( "type" );
 		$this->semID = $JDA->getSemID();
 	}
 
 	public function load()
 	{
-		if ( isset( $this->res ) && isset( $this->semID ) ) {
+		if ( isset( $this->gpuntisID ) && isset( $this->semID ) && isset( $this->nodeID ) && isset( $this->nodeKey ) ) {
 			$elements   = null;
 			$lessons    = array( );
 			$retlessons = array( );
 
-			if ( stripos( $this->res, "VS_" ) === 0 ) {
-				$elements                 = $this->getElements( $this->res, $this->semID, $this->type );
+			if ( stripos( $this->gpuntisID, "VS_" ) === 0 ) {
+				$elements                 = $this->getElements( $this->nodeKey, $this->semID, $this->type );
 				$retlessons[ "elements" ] = "";
 
 				foreach ( $elements as $k => $v ) {
@@ -41,7 +45,7 @@ class Ressource
 						$retlessons[ "elements" ] .= ";" . $v->gpuntisID;
 				}
 			} else {
-				$lessons = $this->getResourcePlan( $this->res, $this->semID, $this->type );
+				$lessons = $this->getResourcePlan( $this->nodeKey, $this->semID, $this->type );
 			}
 
 			if(is_array($lessons))
@@ -77,7 +81,7 @@ class Ressource
 					$retlessons[ $key ][ "room" ] = $item->room;
 
 				$retlessons[ $key ][ "category" ] = $item->category;
-				$retlessons[ $key ][ "key" ]      = $this->semID.".".$this->plantype.".".$key;
+				$retlessons[ $key ][ "key" ]      = $this->semID.".".$this->plantypeID.".".$key;
 				$retlessons[ $key ][ "owner" ]    = "gpuntis";
 				$retlessons[ $key ][ "showtime" ] = "none";
 				$retlessons[ $key ][ "etime" ]    = null;
@@ -87,7 +91,7 @@ class Ressource
 				$retlessons[ $key ][ "cell" ]     = "";
 				$retlessons[ $key ][ "css" ]      = "";
 				$retlessons[ $key ][ "longname" ] = $item->longname;
-				$retlessons[ $key ][ "plantypeID" ] = $this->plantype;
+				$retlessons[ $key ][ "plantypeID" ] = $this->plantypeID;
 				$retlessons[ $key ][ "semesterID" ] = $this->semID;
 				$retlessons[ $key ][ "moduleID" ] = $item->moduleID;
 				$retlessons[ $key ][ "comment" ] = $item->comment;
@@ -116,9 +120,9 @@ class Ressource
 				 "#__thm_organizer_subjects.gpuntisID AS subject, " .
 				 "#__thm_organizer_lessons.type AS category, " .
 				 "#__thm_organizer_subjects.name AS name, " .
-				 "#__thm_organizer_classes.gpuntisID AS clas, " .
-				 "#__thm_organizer_teachers.gpuntisID AS doz, " .
-				 "#__thm_organizer_rooms.gpuntisID AS room, " .
+				 "#__thm_organizer_classes.id AS clas, " .
+				 "#__thm_organizer_teachers.id AS doz, " .
+				 "#__thm_organizer_rooms.id AS room, " .
 				 "#__thm_organizer_periods.day AS dow, " .
 				 "#__thm_organizer_periods.period AS block, " .
 				 "#__thm_organizer_subjects.moduleID as moduleID, " .
@@ -147,16 +151,16 @@ class Ressource
 				$query .= "LEFT JOIN #__thm_lsf_modules AS mo ON #__thm_organizer_subjects.moduleID = mo.lsf_modulnummer ";
 		  	}
      	  	$query .= "WHERE #__thm_organizer_lessons.semesterID = '$fachsemester' " .
-     	  	"AND #__thm_organizer_lessons.plantypeID = '$this->plantype' ".
+     	  	"AND #__thm_organizer_lessons.plantypeID = '$this->plantypeID' ".
           	"AND ";
 	    if($type === "clas")
-	    	$query .= "( #__thm_organizer_classes.gpuntisID = '".$ressourcename."')";
+	    	$query .= "( #__thm_organizer_classes.id = '".$ressourcename."')";
 	    else if($type === "room")
-	    	$query .= "( #__thm_organizer_rooms.gpuntisID = '".$ressourcename."')";
+	    	$query .= "( #__thm_organizer_rooms.id = '".$ressourcename."')";
 	    else if($type === "doz")
-	    	$query .= "( #__thm_organizer_teachers.gpuntisID = '".$ressourcename."')";
+	    	$query .= "( #__thm_organizer_teachers.id = '".$ressourcename."')";
 	    else if($type === "subject")
-	    	$query .= "( #__thm_organizer_subjects.gpuntisID = '".$ressourcename."')";
+	    	$query .= "( #__thm_organizer_subjects.id = '".$ressourcename."')";
 
 		$hits  = $this->JDA->query( $query );
 		return $hits;

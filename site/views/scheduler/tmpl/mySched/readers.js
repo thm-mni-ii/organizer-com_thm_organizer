@@ -259,7 +259,7 @@ Ext.extend(SchedJsonReader, Ext.data.JsonReader, {
 
 		Ext.Array.each(o, function (item, index, allItems) {
 			if(typeof item.key !== "undefined")
-				records[records.length] = new mLecture(item.key, item);
+				records[records.length] = new mLecture(item.key, item, item.semesterID, item.plantypeID);
 		});
 
 		if(typeof records.length === "undefined")

@@ -897,7 +897,7 @@ Ext.define('mSchedule', {
 Ext.define('mLecture', {
   extend: 'MySched.Model',
 
-  constructor: function (id, data, type) {
+  constructor: function (id, data, semesterID, plantypeID) {
     var doz, clas, room, cellTemplate, infoTemplate;
     var owner = data.owner;
     var stime = data.stime;
@@ -913,8 +913,10 @@ Ext.define('mLecture', {
     this.loadRoom(data.room);
     this.loadSubject(data.subject);
     this.data = data;
+    this.semesterID = semesterID;
+    this.plantypeID = plantypeID;
     //New CellStyle
-    this.setCellTemplate( type );
+    this.setCellTemplate();
 
     var infoTemplateString = '<div>' + '<small><span class="def">Raum:</span> {room_shortname}<br/>' + '<span class="def">Dozent:</span><big> {doz_name}</big><br/>' + '<span class="def">Semester:</span> <br/>{clas_full}<br/>';
     if (this.data.changes) infoTemplateString += '<span class="def">Changes:</span> {changes_all}';
@@ -1675,7 +1677,7 @@ Ext.define('mClas', {
     return MySched.Mapping.getClasName(this.id);
   },
   getFullName: function () {
-    return MySched.Mapping.getObjectField("clas", this.id, "department") + " - " + MySched.Mapping.getObjectField("clas", this.id, "name");
+    return MySched.Mapping.getObjectField("clas", this.id, "parent") + " - " + MySched.Mapping.getObjectField("clas", this.id, "name");
   },
   getObjects: function () {
     return MySched.Mapping.getObjects("clas", this.id);
@@ -1696,7 +1698,7 @@ Ext.define('mSubject', {
     return MySched.Mapping.getSubjectName(this.id);
   },
   getFullName: function () {
-    return MySched.Mapping.getObjectField("subject", this.id, "department") + " - " + MySched.Mapping.getObjectField("subject", this.id, "name");
+    return MySched.Mapping.getObjectField("subject", this.id, "parent") + " - " + MySched.Mapping.getObjectField("subject", this.id, "name");
   },
   getObjects: function () {
     return MySched.Mapping.getObjects("subject", this.id);

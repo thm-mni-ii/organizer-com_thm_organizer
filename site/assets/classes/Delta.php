@@ -33,8 +33,8 @@
 				$classIDList = implode(", ", $dataValue->classIDs);
 				$teacherIDList = implode(", ", $dataValue->teacherIDs);
 
-				$classMainList = $this->getGPUntisID($classIDList, "class");
-				$teacherMainList = $this->getGPUntisID($teacherIDList, "teacher");
+				$classMainList = $this->getID($classIDList, "class");
+				$teacherMainList = $this->getID($teacherIDList, "teacher");
 
 				$lessonInfo = $this->JDA->query("SELECT subjects.name, " .
 														"subjects.alias AS description, " .
@@ -57,7 +57,7 @@
 					$periods = $dataValue->periods;
 					$roomIDList = implode(", ", $periods->{$periodValue->id}->roomIDs);
 
-					$roomMainList = $this->getGPUntisID($roomIDList, "room");
+					$roomMainList = $this->getID($roomIDList, "room");
 
 					$key = $this->semesterID.".1.".$dataKey." ".$periodValue->gpuntisID;
 
@@ -82,6 +82,9 @@
                   	$lessons[$lessoncounter]["category"] = $dataValue->type;
                   	$lessons[$lessoncounter]["moduleID"] = $lessonInfo->moduleID;
                   	$lessons[$lessoncounter]["comment"] = $dataValue->comment;
+                  	$lessons[$lessoncounter]["plantypeID"] = $this->plantypeID;
+                  	$lessons[$lessoncounter]["semesterID"] = $this->semesterID;
+
 
 					if(isset($dataValue->status))
 						$lessons[$lessoncounter]["lessonChanges"]["status"] = $dataValue->status;
@@ -91,7 +94,7 @@
 							$teacherList = array();
 							foreach($dataValue->changes->teacherIDs as $teacherKey=>$teacherValue)
 							{
-								$teacherGPUntisID = $this->getGPUntisID($teacherKey, "teacher");
+								$teacherGPUntisID = $this->getID($teacherKey, "teacher");
 								$teacherList[$teacherGPUntisID[0]] = $teacherValue;
 							}
 							$lessons[$lessoncounter]["lessonChanges"]["teacherIDs"] = $teacherList;
@@ -100,7 +103,7 @@
 							$classList = array();
 							foreach($dataValue->changes->classIDs as $classKey=>$classValue)
 							{
-								$classGPUntisID = $this->getGPUntisID($classKey, "class");
+								$classGPUntisID = $this->getID($classKey, "class");
 								$classList[$classGPUntisID[0]] = $classValue;
 							}
 							$lessons[$lessoncounter]["lesssonChanges"]["classIDs"] = $classList;
@@ -117,7 +120,7 @@
 							$roomList = array();
 							foreach($period->changes->roomIDs as $roomKey=>$roomValue)
 							{
-								$roomGPUntisID = $this->getGPUntisID($roomKey, "room");
+								$roomGPUntisID = $this->getID($roomKey, "room");
 								$roomList[$roomGPUntisID[0]] = $roomValue;
 							}
 							$lessons[$lessoncounter]["periodChanges"]["roomIDs"] = $roomList;
@@ -130,9 +133,9 @@
 
 		return array("data"=>json_encode($lessons));
  	}
- 	private function getGPUntisID($ids, $type)
+ 	private function getID($ids, $type)
  	{
- 		$query = "SELECT gpuntisID FROM ";
+ 		$query = "SELECT id FROM ";
  		if($type == "teacher")
  			$query .= "#__thm_organizer_teachers";
  		if($type == "class")
@@ -147,7 +150,7 @@
 		$resultReturn = array();
 
 		foreach($result as $k=>$v) {
-			$resultReturn[] = $v->gpuntisID;
+			$resultReturn[] = $v->id;
 		}
 
  		return $resultReturn;

@@ -112,9 +112,9 @@ class UserSchedule
 						 "#__thm_organizer_subjects.moduleID AS moduleID, " .
 						 "#__thm_organizer_lessons.type AS ltype, " .
 						 "#__thm_organizer_subjects.name AS name, " .
-						 "#__thm_organizer_classes.gpuntisID AS cid, " .
-						 "#__thm_organizer_teachers.gpuntisID AS tid, " .
-						 "#__thm_organizer_rooms.gpuntisID AS rid, " .
+						 "#__thm_organizer_classes.id AS cid, " .
+						 "#__thm_organizer_teachers.id AS tid, " .
+						 "#__thm_organizer_rooms.id AS rid, " .
 						 "#__thm_organizer_periods.day AS dow, " .
 						 "#__thm_organizer_periods.period AS block, " .
 						 "(SELECT 'cyclic') AS type, ";
@@ -200,6 +200,8 @@ class UserSchedule
                           $lessons[$key]["subject"] = $v->subject;
                           $lessons[$key]["type"] = $v->type;
                           $lessons[$key]["moduleID"] = $v->moduleID;
+                          $lessons[$key]["semesterID"] = $this->semID;
+                          $lessons[$key]["plantypeID"] = 1;
                       }
 
               $retlesson = array();
