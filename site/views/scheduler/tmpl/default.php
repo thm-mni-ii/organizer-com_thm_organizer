@@ -55,6 +55,7 @@
 			echo 'MySched.class_semester_author = \''.$this->semAuthor.'\';';
 			echo 'MySched.startup = \''.$this->startup.'\';';
 			echo 'MySched.LSFisAvailable = \''.$this->LSFisAvailable.'\';';
+			echo 'MySched.searchModuleID = \''.$this->searchModuleID.'\';';
 	?>
 		Ext.onReady(MySched.Base.init, MySched.Base);
 	</script>

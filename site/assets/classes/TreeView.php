@@ -85,14 +85,28 @@ class TreeView
       }
     }
 
-    if($this->publicDefault != null && $leaf === true)
-      {
-      	if(isset($this->publicDefault[$id]))
-      		$publicDefault = $this->publicDefault[$id];
-      	else
-      		$publicDefault = "notdefault";
-      }
-      	else if($leaf === true)
+	$expanded = false;
+
+	if($this->publicDefault != null)
+	{
+		$publicDefaultArray = $this->publicDefault;
+		$firstValue = each($publicDefaultArray);
+
+      	if(strpos($firstValue["key"], $id) === 0)
+		{
+			$expanded = true;
+		}
+		if($leaf === true)
+		{
+			if(isset($this->publicDefault[$id]))
+	      	{
+	      		$publicDefault = $this->publicDefault[$id];
+	      	}
+	      	else
+	      		$publicDefault = "notdefault";
+		}
+	}
+	else if($leaf === true)
       		$publicDefault = "notdefault";
 
     if($this->hideCheckBox == true)
@@ -113,7 +127,8 @@ class TreeView
             $semesterID,
             $checked,
             $publicDefault,
-            $nodeKey
+            $nodeKey,
+            $expanded
           );
           $this->inTree[] = $gpuntisID;
       }
@@ -133,12 +148,16 @@ class TreeView
             $semesterID,
             $checked,
             $publicDefault,
-            $nodeKey
+            $nodeKey,
+            $expanded
           );
 
     if($publicDefault === "default")
     {
-    	$this->publicDefaultNode = new TreeNode(
+    	if($treeNode != null)
+    		$this->publicDefaultNode = $treeNode;
+    	else
+    		$this->publicDefaultNode = new TreeNode(
 							            $id,							// id - autom. generated
 							            $text,							// text	for the node
 							            $iconCls,			// iconCls
@@ -152,7 +171,8 @@ class TreeView
 							            $semesterID,
 							            $checked,
 							            $publicDefault,
-							            $nodeKey
+							            $nodeKey,
+							            $expanded
 							        );
     }
 
@@ -230,6 +250,8 @@ class TreeView
 
     $semesterJahrNode = $this->treeCorrect($semesterJahrNode);
 
+	//echo "<pre>".print_r($semesterJahrNode, true)."</pre>";
+
     return array("success"=>true,"data"=>array("tree"=>$semesterJahrNode,"treeData"=>$this->treeData, "treePublicDefault"=>$this->publicDefaultNode));
   }
 
@@ -306,9 +328,9 @@ class TreeView
     foreach($plantypes as $k=>$v)
     {
       $plantype = JText::_($v->plantype);
-      $key = $key.".".$v->id;
+      $nodeKey = $key.".".$v->id;
       $temp = $this->createTreeNode(
-          $key,							// id - autom. generated
+          $nodeKey,							// id - autom. generated
           $plantype,					// text	for the node
           "plantype" . '-root',			// iconCls
           false,							// leaf
@@ -322,9 +344,9 @@ class TreeView
           $v->id
         );
         if($v->id == 1)
-      		$children = $this->StundenplanView($key, $v->id, $semesterID);
+      		$children = $this->StundenplanView($nodeKey, $v->id, $semesterID);
       	else if($v->id == 2)
-      		$children = $this->LehrplanView($key, $v->id, $semesterID);
+      		$children = $this->LehrplanView($nodeKey, $v->id, $semesterID);
       if($temp != null && !empty($temp))
       {
       	$temp->setChildren($children);

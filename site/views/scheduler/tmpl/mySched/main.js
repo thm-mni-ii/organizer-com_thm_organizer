@@ -120,7 +120,7 @@ MySched.Base = function () {
         url: _C('ajaxHandler'),
         method: 'POST',
         params: {
-          class_semester_id: MySched.class_semester_id,
+          semesterID: MySched.class_semester_id,
           scheduletask: "Grid.load"
         },
         failure: function (response) {
@@ -318,7 +318,7 @@ MySched.Base = function () {
         method: 'POST',
         params: {
           username: MySched.Authorize.user,
-          class_semester_id: MySched.class_semester_id,
+          semesterID: MySched.class_semester_id,
           scheduletask: "ScheduleDescription.load"
         },
         failure: function (resp, req) {
@@ -470,7 +470,7 @@ MySched.Base = function () {
 	                	nodeID: nodeID,
 	                	nodeKey: nodeKey,
 	                  gpuntisID: gpuntisID,
-	                  class_semester_id: semesterID,
+	                  semesterID: semesterID,
 	                  scheduletask: "Ressource.load",
 	                  plantypeID: plantypeID,
 	                  type: type
@@ -1552,7 +1552,7 @@ MySched.TreeManager = function () {
           method: 'POST',
           params: {
             type: type,
-            sid: MySched.class_semester_id,
+            semesterID: MySched.class_semester_id,
             scheduletask: "TreeView.load"
           },
           failure: function (response) {
@@ -1684,7 +1684,7 @@ MySched.layout = function () {
         });
       }
 
-		var treeData = MySched.Tree.init();
+	  var treeData = MySched.Tree.init();
 
       // Linker Bereich der Info und Ubersichtsliste enthaelt
       this.w_leftMenu = Ext.create('Ext.panel.Panel', {
@@ -1733,9 +1733,6 @@ MySched.layout = function () {
       this.leftviewport = Ext.create('Ext.Panel', {
         id: "leftviewport",
         region: 'west',
-        width: 242,
-        minSize: 242,
-        maxSize: 242,
         items: [
         	this.w_leftMenu
         ]
@@ -1759,7 +1756,7 @@ MySched.layout = function () {
       if (calendar) var imgs = Ext.DomQuery.select('img[class=x-form-trigger x-form-date-trigger]', calendar.container.dom);
       for (var i = 0; i < imgs.length; i++) {
         imgs[i].alt = "calendar";
-      }
+		}
     },
     /**
      * Zeigt das Infofenster von MySched an
@@ -3142,7 +3139,7 @@ MySched.Tree = function () {
                 	nodeID: nodeID,
                 	nodeKey: nodeKey,
                   	gpuntisID: gpuntisID,
-                  	class_semester_id: semesterID,
+                  	semesterID: semesterID,
                   	scheduletask: "Ressource.load",
                   	plantypeID: plantypeID,
                   	type: type

@@ -1,26 +1,26 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-    <head>
-        <title>Ext Core 4 Class Example</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <style>
+<head>
+<title>Ext Core 4 Class Example</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style>
             pre { border: 1px gray solid; padding: 5px; margin-top: 30px; }
         </style>
 
-        <script type="text/javascript" src="../src/Ext.js"></script>
-        <script type="text/javascript" src="../src/version/Version.js"></script>
-        <script type="text/javascript" src="../src/lang/String.js"></script>
-        <script type="text/javascript" src="../src/lang/Array.js"></script>
-        <script type="text/javascript" src="../src/lang/Number.js"></script>
-        <script type="text/javascript" src="../src/lang/Date.js"></script>
-        <script type="text/javascript" src="../src/lang/Object.js"></script>
-        <script type="text/javascript" src="../src/lang/Function.js"></script>
-        <script type="text/javascript" src="../src/class/Base.js"></script>
-        <script type="text/javascript" src="../src/class/Class.js"></script>
-        <script type="text/javascript" src="../src/class/ClassManager.js"></script>
-        <script type="text/javascript" src="../src/class/Loader.js"></script>
-        <script type="text/javascript" src="../src/lang/Error.js"></script>
-        <script>
+<script type="text/javascript" src="../src/Ext.js"></script>
+<script type="text/javascript" src="../src/version/Version.js"></script>
+<script type="text/javascript" src="../src/lang/String.js"></script>
+<script type="text/javascript" src="../src/lang/Array.js"></script>
+<script type="text/javascript" src="../src/lang/Number.js"></script>
+<script type="text/javascript" src="../src/lang/Date.js"></script>
+<script type="text/javascript" src="../src/lang/Object.js"></script>
+<script type="text/javascript" src="../src/lang/Function.js"></script>
+<script type="text/javascript" src="../src/class/Base.js"></script>
+<script type="text/javascript" src="../src/class/Class.js"></script>
+<script type="text/javascript" src="../src/class/ClassManager.js"></script>
+<script type="text/javascript" src="../src/class/Loader.js"></script>
+<script type="text/javascript" src="../src/lang/Error.js"></script>
+<script>
             Ext.Loader.setConfig({
                 enabled: true,
                 paths: {
@@ -28,7 +28,7 @@
                 }
             });
         </script>
-        <script>
+<script>
             var sources = {};
 
             function storeCode() {
@@ -52,9 +52,9 @@
                 eval(sources[id]);
             }
         </script>
-    </head>
-    <body onload="storeCode();">
-        <pre id="sample1">
+</head>
+<body onload="storeCode();">
+<pre id="sample1">
 Ext.require('Sample.Person', function() {
     var aaron = new Sample.Person({
         name: 'Aaron Conran',
@@ -72,11 +72,11 @@ Ext.require('Sample.Person', function() {
     alert(aaron.getGender()); // 'unknown'
 });
         </pre>
-        <p>
-            <button onclick="run('sample1')">Run Code</button>
-        </p>
+<p>
+<button onclick="run('sample1')">Run Code</button>
+</p>
 
-        <pre id="sample2">
+<pre id="sample2">
 Ext.require('Sample.Developer', function() {
     var tommy = new Sample.Developer({
         name: 'Tommy Maintz',
@@ -88,11 +88,11 @@ Ext.require('Sample.Developer', function() {
                               // alerts "I'm eating: Bugs"
 });
         </pre>
-        <p>
-            <button onclick="run('sample2')">Run Code</button>
-        </p>
+<p>
+<button onclick="run('sample2')">Run Code</button>
+</p>
 
-        <pre id="sample3">
+<pre id="sample3">
 Ext.require('Sample.Musician', function() {
     var dave = new Sample.Musician({
         name: 'David Kaneda',
@@ -106,11 +106,11 @@ Ext.require('Sample.Musician', function() {
     alert(anotherDave.getName()); // alerts "David Kaneda"
 });
         </pre>
-        <p>
-            <button onclick="run('sample3')">Run Code</button>
-        </p>
+<p>
+<button onclick="run('sample3')">Run Code</button>
+</p>
 
-        <pre id="sample4">
+<pre id="sample4">
 Ext.require('Sample.CoolGuy', function() {
     var jacky = new Sample.CoolGuy({
         name: 'Jacky Nguyen',
@@ -122,11 +122,11 @@ Ext.require('Sample.CoolGuy', function() {
                                   // alerts "I'm singing: Love Me or Die"
 });
         </pre>
-        <p>
-            <button onclick="run('sample4')">Run Code</button>
-        </p>
+<p>
+<button onclick="run('sample4')">Run Code</button>
+</p>
 
-        <pre id="sample5">
+<pre id="sample5">
 Ext.require(['Sample.Developer', 'Sample.HumanResource'], function() {
     var jacky = new Sample.Developer({
             name: 'Jacky Nguyen',
@@ -144,29 +144,29 @@ Ext.require(['Sample.Developer', 'Sample.HumanResource'], function() {
     alert(hr.getDevelopersCount()); // alerts 1
 });
         </pre>
-        <p>
-            <button onclick="run('sample5')">Run Code</button>
-        </p>
+<p>
+<button onclick="run('sample5')">Run Code</button>
+</p>
 
-        <pre id="sample6">
+<pre id="sample6">
 Ext.require(['Sample.deadlock.A'], function() {
     // should throw Error
 });
         </pre>
-        <p>
-            <button onclick="run('sample6')">Run Code</button>
-        </p>
+<p>
+<button onclick="run('sample6')">Run Code</button>
+</p>
 
-        <pre id="sample7">
+<pre id="sample7">
 Ext.require(['Sample.notdeadlock.A'], function() {
     alert("Loading sequence: " + Ext.Loader.history.join(" -> "));
 });
         </pre>
-        <p>
-            <button onclick="run('sample7')">Run Code</button>
-        </p>
+<p>
+<button onclick="run('sample7')">Run Code</button>
+</p>
 
-        <pre id="sample8">
+<pre id="sample8">
 Ext.require(['Sample.CTO', 'Sample.Developer'], function() {
     var abe = new Sample.CTO();
     alert(abe.isGeek); // alerts true
@@ -184,11 +184,11 @@ Ext.require(['Sample.CTO', 'Sample.Developer'], function() {
     alert(Ext.getClassName(jackie)); // alerts 'Sample.Developer'
 });
         </pre>
-        <p>
-            <button onclick="run('sample8')">Run Code</button>
-        </p>
+<p>
+<button onclick="run('sample8')">Run Code</button>
+</p>
 
-        <pre id="sample9">
+<pre id="sample9">
 Ext.define('My.own.A', {
     statics: {
         myName: 'A'
@@ -237,11 +237,11 @@ alert(aa.rootName); // alerts 'A'
 alert(bb.rootName); // alerts 'A'
 alert(bb.special); // alerts true
         </pre>
-        <p>
-            <button onclick="run('sample9')">Run Code</button>
-        </p>
+<p>
+<button onclick="run('sample9')">Run Code</button>
+</p>
 
-        <pre id="sample10">
+<pre id="sample10">
 Ext.define('My.Cat', {
     statics: {
         totalCreated: 0,
@@ -293,11 +293,11 @@ alert(clone.groupName);                 // alerts 'Cat'
 
 alert(My.Cat.totalCreated);             // alerts 3
         </pre>
-        <p>
-            <button onclick="run('sample10')">Run Code</button>
-        </p>
+<p>
+<button onclick="run('sample10')">Run Code</button>
+</p>
 
-        <pre id="sample11">
+<pre id="sample11">
 Ext.define('Bank', {
     money: '$$$',
     printMoney: function() {
@@ -314,8 +314,8 @@ var jacky = new Thief();
 alert(jacky.money); // alerts '$$$'
 jacky.printMoney(); // alerts '$$$$$$$'
         </pre>
-        <p>
-            <button onclick="run('sample11')">Run Code</button>
-        </p>
-    </body>
+<p>
+<button onclick="run('sample11')">Run Code</button>
+</p>
+</body>
 </html>

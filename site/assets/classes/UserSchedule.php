@@ -30,10 +30,10 @@ class UserSchedule
 		else
 			$this->username = $this->JDA->getUserName();
 		$this->cfg = $CFG->getCFG();
-		if(isset($options["sid"]))
-			$this->semID = $options["sid"];
+		if(isset($options["semesterID"]))
+			$this->semID = $options["semesterID"];
 		else
-			$this->semID = $this->JDA->getRequest( "sid" );
+			$this->semID = $this->JDA->getRequest( "semesterID" );
 	}
 
 	public function save()

@@ -98,8 +98,8 @@ class DataAbstraction
 
     public function getSemID()
 	{
-		$session =& JFactory::getSession();
-		return $session->get('scheduler_semID');
+		$semesterID = JRequest::getString('semesterID');
+		return $semesterID;
 	}
 
 	public function getDoc()

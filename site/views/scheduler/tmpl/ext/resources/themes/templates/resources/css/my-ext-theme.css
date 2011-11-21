@@ -54,6 +54,9 @@ Backtrace:
 /usr/bin/compass:19
 */
 body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Syntax error: File to import not found or unreadable: ext4/default/all.\A               Load paths:\A                 /Users/Robert/github/sencha/sdk/extjs/resources/themes/templates/resources/sass\A                 /Library/Ruby/Gems/1.8/gems/compass-0.11.beta.5/frameworks/blueprint/stylesheets\A                 /Library/Ruby/Gems/1.8/gems/compass-0.11.beta.5/frameworks/compass/stylesheets\A                 \A         on line 8 of /Users/Robert/github/sencha/sdk/extjs/resources/themes/templates/resources/sass/my-ext-theme.scss"; }
+	white-space: pre;
+	font-family: monospace;
+	content:
+		"Syntax error: File to import not found or unreadable: ext4/default/all.\A               Load paths:\A                 /Users/Robert/github/sencha/sdk/extjs/resources/themes/templates/resources/sass\A                 /Library/Ruby/Gems/1.8/gems/compass-0.11.beta.5/frameworks/blueprint/stylesheets\A                 /Library/Ruby/Gems/1.8/gems/compass-0.11.beta.5/frameworks/compass/stylesheets\A                 \A         on line 8 of /Users/Robert/github/sencha/sdk/extjs/resources/themes/templates/resources/sass/my-ext-theme.scss"
+		;
+}

@@ -14,7 +14,7 @@ class ScheduleChanges
 {
 	private $jsid = null;
 	private $sid = null;
-	private $class_semester_id = null;
+	private $semesterID = null;
 	private $id = null;
 	private $cfg = null;
 	private $JDA = null;
@@ -25,7 +25,7 @@ class ScheduleChanges
 	{
 		$this->jsid              = $JDA->getRequest( "jsid" );
 		$this->sid               = $JDA->getRequest( "sid" );
-		$this->class_semester_id = $JDA->getRequest( "class_semester_id" );
+		$this->semesterID 		 = $JDA->getRequest( "semesterID" );
 		$this->id                = $JDA->getRequest( "id" );
 		$this->cfg               = $CFG->getCFG();
 		$this->JDA = $JDA;
@@ -41,10 +41,10 @@ class ScheduleChanges
 				$data     = $res[ 0 ];
 				$username = $data->username;
 
-				$res               = $this->JDA->query( "SELECT username as author, organization, semesterDesc FROM #__thm_organizer_semesters INNER JOIN ON #__users manager = #__users.id WHERE #__thm_organizer_semesters.id = " . $this->class_semester_id );
+				$res               = $this->JDA->query( "SELECT username as author, organization, semesterDesc FROM #__thm_organizer_semesters INNER JOIN ON #__users manager = #__users.id WHERE #__thm_organizer_semesters.id = " . $this->semesterID );
 				$ret               = $res[ 0 ];
 				$author            = $ret->author;
-				$this->class_semester_id = $ret->orgunit . "-" . $ret->semester;
+				$this->semesterID = $ret->orgunit . "-" . $ret->semester;
 				$counter           = 1;
 
 				/**
@@ -90,7 +90,7 @@ class ScheduleChanges
 	 * @param $db object A database object
 	 * @param $this->json string A String representation of the personal lesson array
 	 * @param $username string A String representing the username
-	 * @param $this->class_semester_id string A String representing a combination of 'orgunit'-'semester'
+	 * @param $this->semesterID string A String representing a combination of 'orgunit'-'semester'
 	 * @param $this->id string The Id of the current saving schedule
 	 * @param $author string The responsible of all plans
 	 * @return array This array contains a code and reason element
@@ -99,13 +99,13 @@ class ScheduleChanges
 	private function updateChangeLog( $db_table, $username, $author )
 	{
 		$timestamp = time();
-		$res = $this->JDA->query( "UPDATE " . $db_table . " SET checked_out = '" . date( "Y-m-d H:i:s", $timestamp ) . "' WHERE username = '$this->class_semester_id' AND checked_out IS NULL" );
+		$res = $this->JDA->query( "UPDATE " . $db_table . " SET checked_out = '" . date( "Y-m-d H:i:s", $timestamp ) . "' WHERE username = '$this->semesterID' AND checked_out IS NULL" );
 
 		if ( $this->JDA->getDBO()->getAffectedRows() == 1 ) {
 			//Datenspalte gesperrt und bereit zum mergen
 			$changearr = json_decode( $this->json );
 
-			$res      = $this->JDA->query( "SELECT data FROM " . $db_table . " WHERE username='$this->class_semester_id'" );
+			$res      = $this->JDA->query( "SELECT data FROM " . $db_table . " WHERE username='$this->semesterID'" );
 			$dbarr    = json_decode( $res[ 0 ]->data );
 			$newdbarr = $dbarr;
 
@@ -147,14 +147,14 @@ class ScheduleChanges
 
 			$this->json = $this->array_encode_json( $newdbarr );
 			$this->json = $this->JDA->getDBO()->getEscaped( $this->json );
-			$res  = $this->JDA->query( "UPDATE " . $db_table . " SET data = '$this->json', checked_out = NULL, created = '$timestamp' WHERE username = '$this->class_semester_id' AND checked_out IS NOT NULL" );
+			$res  = $this->JDA->query( "UPDATE " . $db_table . " SET data = '$this->json', checked_out = NULL, created = '$timestamp' WHERE username = '$this->semesterID' AND checked_out IS NOT NULL" );
 			return array(
 				 'code' => 1,
 				'reason' => 'Successful Update'
 			);
 		} else {
 			$this->json = $this->JDA->getDBO()->getEscaped( $this->json );
-			$res  = $this->JDA->query( "INSERT INTO " . $db_table . " (username, data, created, checked_out) VALUES ('$this->class_semester_id', '$this->json', '$timestamp', NULL)" );
+			$res  = $this->JDA->query( "INSERT INTO " . $db_table . " (username, data, created, checked_out) VALUES ('$this->semesterID', '$this->json', '$timestamp', NULL)" );
 			if ( $this->JDA->getDBO()->getAffectedRows() == -1 ) {
 				//Spalte gerade gesperrt
 				return array(

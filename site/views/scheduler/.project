@@ -2,10 +2,7 @@
 <projectDescription>
 	<name>scheduler</name>
 	<comment></comment>
-	<projects>
-	</projects>
-	<buildSpec>
-	</buildSpec>
-	<natures>
-	</natures>
+	<projects></projects>
+	<buildSpec></buildSpec>
+	<natures></natures>
 </projectDescription>

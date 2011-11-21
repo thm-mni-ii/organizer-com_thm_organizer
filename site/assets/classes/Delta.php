@@ -15,7 +15,7 @@
  	public function __construct($JDA, $CFG) {
 		$this->JDA = $JDA;
 		$this->CFG = $CFG;
-		$this->semesterID = $this->JDA->getRequest( "sid" );
+		$this->semesterID = $this->JDA->getRequest( "semesterID" );
 		$this->plantypeID = $this->JDA->getRequest( "plantypeID" );
 		$this->plantypeID = 1;
  	}

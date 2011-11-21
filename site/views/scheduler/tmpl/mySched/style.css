@@ -58,6 +58,10 @@ div.lectureBox {
 	white-space: normal;
 }
 
+div.searchSubject {
+	border: 2px solid #FBBA00 !important;
+}
+
 div.lectureBox_dis {
 	font-size: 11px !important;
 	z-index: 1000;
@@ -343,7 +347,6 @@ small.classhorter:hover {
 }
 
 .MySched_SelectTree {
-	padding: 3px;
 	border: 0px;
 }
 
@@ -381,6 +384,11 @@ img.status_icons_delete {
 	cursor: pointer;
 	padding-left: 1px;
 	padding-right: 1px;
+}
+
+/* Tree */
+.MySchedSearchResult {
+	border: 2px solid #FBBA00 !important;
 }
 
 /* Ext-Style overrides */
