@@ -56,7 +56,7 @@ class TreeNode {
         $this->publicDefault = $publicDefault;
         $this->nodeKey = $nodeKey;
         $this->expanded = $expanded;
-        if($this->publicDefault === "default")
+        if($this->publicDefault === "default" && JRequest::getString('showSchedule') != "" && JRequest::getString('moduleID') != "")
 	      		$this->cls = "MySchedSearchResult";
     }
 

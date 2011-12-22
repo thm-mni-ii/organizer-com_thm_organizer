@@ -138,29 +138,29 @@ class Ressource
 			$query .= " '' AS longname ";
 		}
 		$query .= "FROM #__thm_organizer_lessons " .
-			"INNER JOIN #__thm_organizer_lesson_times ON #__thm_organizer_lessons.id = #__thm_organizer_lesson_times.lessonID " .
-			"INNER JOIN #__thm_organizer_periods ON #__thm_organizer_lesson_times.periodID = #__thm_organizer_periods.id " .
-			"INNER JOIN #__thm_organizer_rooms ON #__thm_organizer_lesson_times.roomID = #__thm_organizer_rooms.id " .
-		 	"INNER JOIN #__thm_organizer_lesson_teachers ON #__thm_organizer_lesson_teachers.lessonID = #__thm_organizer_lessons.id " .
-		  	"INNER JOIN #__thm_organizer_teachers ON #__thm_organizer_lesson_teachers.teacherID = #__thm_organizer_teachers.id " .
-		  	"INNER JOIN #__thm_organizer_lesson_classes ON #__thm_organizer_lesson_classes.lessonID = #__thm_organizer_lessons.id " .
-		  	"INNER JOIN #__thm_organizer_classes ON #__thm_organizer_lesson_classes.classID = #__thm_organizer_classes.id " .
-		  	"INNER JOIN #__thm_organizer_subjects ON #__thm_organizer_lessons.subjectID = #__thm_organizer_subjects.id ";
+			"LEFT JOIN #__thm_organizer_lesson_times ON #__thm_organizer_lessons.id = #__thm_organizer_lesson_times.lessonID " .
+			"LEFT JOIN #__thm_organizer_periods ON #__thm_organizer_lesson_times.periodID = #__thm_organizer_periods.id " .
+			"LEFT JOIN #__thm_organizer_rooms ON #__thm_organizer_lesson_times.roomID = #__thm_organizer_rooms.id " .
+		 	"LEFT JOIN #__thm_organizer_lesson_teachers ON #__thm_organizer_lesson_teachers.lessonID = #__thm_organizer_lessons.id " .
+		  	"LEFT JOIN #__thm_organizer_teachers ON #__thm_organizer_lesson_teachers.teacherID = #__thm_organizer_teachers.id " .
+		  	"LEFT JOIN #__thm_organizer_lesson_classes ON #__thm_organizer_lesson_classes.lessonID = #__thm_organizer_lessons.id " .
+		  	"LEFT JOIN #__thm_organizer_classes ON #__thm_organizer_lesson_classes.classID = #__thm_organizer_classes.id " .
+		  	"LEFT JOIN #__thm_organizer_subjects ON #__thm_organizer_lessons.subjectID = #__thm_organizer_subjects.id ";
 		  	if ($this->JDA->isComponentavailable("com_thm_lsf"))
 		  	{
 				$query .= "LEFT JOIN #__thm_lsf_modules AS mo ON #__thm_organizer_subjects.moduleID = mo.lsf_modulnummer ";
 		  	}
-     	  	$query .= "WHERE #__thm_organizer_lessons.semesterID = '$fachsemester' " .
-     	  	"AND #__thm_organizer_lessons.plantypeID = '$this->plantypeID' ".
+     	  	$query .= "WHERE #__thm_organizer_lessons.semesterID = ".$fachsemester." " .
+     	  	"AND #__thm_organizer_lessons.plantypeID = ".$this->plantypeID." ".
           	"AND ";
 	    if($type === "clas")
-	    	$query .= "( #__thm_organizer_classes.id = '".$ressourcename."')";
+	    	$query .= "( #__thm_organizer_classes.id like '".$ressourcename."')";
 	    else if($type === "room")
-	    	$query .= "( #__thm_organizer_rooms.id = '".$ressourcename."')";
+	    	$query .= "( #__thm_organizer_rooms.id like '".$ressourcename."')";
 	    else if($type === "doz")
-	    	$query .= "( #__thm_organizer_teachers.id = '".$ressourcename."')";
+	    	$query .= "( #__thm_organizer_teachers.id like '".$ressourcename."')";
 	    else if($type === "subject")
-	    	$query .= "( #__thm_organizer_subjects.id = '".$ressourcename."')";
+	    	$query .= "( #__thm_organizer_subjects.id like '".$ressourcename."')";
 
 		$hits  = $this->JDA->query( $query );
 		return $hits;
