@@ -18,6 +18,9 @@ class thm_organizersViewmonitor_manager extends JView
 
     public function display($tpl = null)
     {
+        if(!JFactory::getUser()->authorise('core.admin'))
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+
         JHtml::_('behavior.tooltip');
         JHtml::_('behavior.multiselect');
 
@@ -31,13 +34,7 @@ class thm_organizersViewmonitor_manager extends JView
         $this->pagination = $this->get('Pagination');
         $this->behaviours = $model->behaviours;
         $this->rooms = $model->rooms;
-        $this->access = thm_organizerHelper::isAdmin('monitor_manager');
-        JToolBarHelper::title( JText::_( 'COM_THM_ORGANIZER_MON_TITLE' ), 'generic.png' );
-        if($this->access)
-        {
-            $this->addToolBar();
-            thm_organizerHelper::addSubmenu('monitor_manager');
-        }
+        $this->addToolBar();
 
         parent::display($tpl);
     }
@@ -61,6 +58,8 @@ class thm_organizersViewmonitor_manager extends JView
      */
     private function addToolBar()
     {
+        JToolBarHelper::title( JText::_( 'COM_THM_ORGANIZER_MON_TITLE' ), 'generic.png' );
+        JToolBarHelper::title( JText::_( 'COM_THM_ORGANIZER_MON_TITLE' ), 'generic.png' );
         JToolBarHelper::addNew( 'monitor.add' );
         JToolBarHelper::editList('monitor.edit');
         JToolBarHelper::deleteList( JText::_('COM_THM_ORGANIZER_MON_DELETE_CONFIRM'), 'monitor.delete');

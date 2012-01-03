@@ -22,6 +22,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
 
 /**
  * Giessen Events Component Controller
@@ -31,4 +32,11 @@ jimport('joomla.application.component.controller');
  * @since 0.9
  */
 class thm_organizersController extends JController
-{ public function display() { parent::display(); } }
+{
+    public function display()
+    {
+        thm_organizerHelper::addSubmenu(JRequest::getCmd('view'));
+        parent::display();
+
+    }
+}

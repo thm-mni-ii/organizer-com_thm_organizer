@@ -13,7 +13,7 @@ defined("_JEXEC") or die;
 $orderby = $this->escape($this->state->get('list.ordering'));
 $direction = $this->escape($this->state->get('list.direction'));
 $search = ($this->state->get('filter.search'))?
-        $this->escape($this->state->get('filter.search')) : JText::_('COM_THM_ORGANIZER_SEARH_CRITERIA');
+        $this->escape($this->state->get('filter.search')) : JText::_('COM_THM_ORGANIZER_SCH_SEARH_CRITERIA');
 ?>
 <form action="<?php echo JRoute::_("index.php?option=com_thm_organizer"); ?>"
       enctype="multipart/form-data" method="post" name="adminForm" id="adminForm">
@@ -110,7 +110,7 @@ $search = ($this->state->get('filter.search'))?
                     <td><?php echo $schedule->startdate; ?></td>
                     <td><?php echo $schedule->enddate; ?></td>
                     <td class="thm_organizer_sch_active_td">
-                        <?php if($schedule->semester) echo JHtml::_('jgrid.isdefault', $schedule->active != null, $k, 'schedule.', $this->access);?>
+                        <?php if($schedule->semester) echo JHtml::_('jgrid.isdefault', $schedule->active != null, $k, 'schedule.', true); ?>
                     </td>
                     <td><?php echo $schedule->semester; ?></td>
                     <td><?php echo JText::_($schedule->plantype); ?></td>

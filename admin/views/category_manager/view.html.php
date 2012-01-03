@@ -19,6 +19,9 @@ class thm_organizersViewcategory_manager extends JView
 	
     public function display($tpl = null)
     {
+        if(!JFactory::getUser()->authorise('core.admin'))
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
 
@@ -26,13 +29,7 @@ class thm_organizersViewcategory_manager extends JView
         $model = $this->getModel();
         $this->categories = $model->categories;
         if(count($this->categories))$this->setIcons();
-        JToolBarHelper::title( JText::_('COM_THM_ORGANIZER_CAT_TITLE' ), 'generic.png' );
-        $this->access = thm_organizerHelper::isAdmin('category_manager');
-        if($this->access)
-        {
-            $this->addToolBar();
-            thm_organizerHelper::addSubmenu('category_manager');
-        }
+        $this->addToolBar();
 
         parent::display($tpl);
     }
@@ -44,6 +41,7 @@ class thm_organizersViewcategory_manager extends JView
      */
     private function addToolBar()
     {
+        JToolBarHelper::title( JText::_('COM_THM_ORGANIZER_CAT_TITLE' ), 'generic.png' );
         JToolBarHelper::custom ('category.edit', 'new.png', 'new.png', JText::_('COM_THM_ORGANIZER_NEW'), false);
         JToolBarHelper::custom ('category.edit', 'edit.png', 'edit.png', JText::_('COM_THM_ORGANIZER_EDIT'), false);
         JToolBarHelper::deleteList( JText::_('COM_THM_ORGANIZER_CAT_DELETE_CONFIRM'), 'category.delete');

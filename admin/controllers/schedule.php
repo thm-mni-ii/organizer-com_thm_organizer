@@ -137,7 +137,7 @@ class thm_organizersControllerschedule extends JController
         else
         {
             $msg = JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_TYPE_FAIL");
-            $this->setRedirect("index.php?option=com_thm_organizer&view=semester_edit&semesterID=$id", $msg, 'notice');
+            $this->setRedirect($url, $msg, 'error');
         }
     }
 

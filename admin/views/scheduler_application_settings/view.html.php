@@ -20,10 +20,6 @@ class  thm_organizersViewScheduler_Application_Settings extends JView {
     		JToolBarHelper::save('scheduler_application_settings.save');
             JToolBarHelper::back();
 
-
-            //Create Submenu
-           	thm_organizerHelper::addSubmenu('scheduler_application_settings');
-
 	 		$model = $this->getModel();
 	 		$settings = $model->getSettings();
 	 		$this->assignRef('settings', $settings);

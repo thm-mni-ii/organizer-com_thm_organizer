@@ -140,7 +140,7 @@ class thm_organizersModellesson extends thm_organizersModelresource
         if(isset($day) and isset($period) and empty($periods[$day][$period]))
         {
             $error = $error_start.JText::_("COM_THM_ORGANIZER_LS_TP_LACKING");
-            $error .= JText::_("COM_THM_ORGANIZER_TP_DAY").": $day ";
+            $error .= JText::_("COM_THM_ORGANIZER_DAY").": $day ";
             $error .= JText::_("COM_THM_ORGANIZER_TP").": $period";
             $errors[] = $error;
         }

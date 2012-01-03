@@ -14,7 +14,7 @@ defined('_JEXEC') or die( 'Restricted access' );
 jimport( 'joomla.application.component.view' );
 require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
 
-class thm_organizersViewschedule_manager extends JView
+class thm_organizersViewroom_manager extends JView
 {
     protected $pagination;
     protected $state;
@@ -31,14 +31,16 @@ class thm_organizersViewschedule_manager extends JView
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
 
-        $this->schedules = $this->get('Items');
+        $this->rooms = $this->get('Items');
         $this->pagination = $this->get('Pagination');
         $this->state = $this->get('State');
-        $this->semesterName = $model->semesterName;
-        $this->semesters = $model->semesters;
-        $this->plantypes = $model->plantypes;
+        $this->institutions = $model->institutions;
+        $this->campuses = (count($model->campuses))? $this->campuses = $model->campuses : array();
+        $this->buildings = (count($model->buildings))? $this->buildings = $model->buildings : array();
+        $this->types = $model->types;
+        $this->details = (count($model->details))? $model->details : array();
         $this->addToolBar();
-        if(count($this->semesters))$this->addLinks();
+        if(count($this->rooms))$this->addLinks();
 
         parent::display($tpl);
     }
@@ -50,9 +52,9 @@ class thm_organizersViewschedule_manager extends JView
      */
     private function addLinks()
     {
-        $editURL = 'index.php?option=com_thm_organizer&view=schedule_edit&scheduleID=';
-        foreach($this->schedules as $key => $schedule)
-            $this->schedules[$key]->url = $editURL.$schedule->id;
+        $editURL = 'index.php?option=com_thm_organizer&view=room_edit&roomID=';
+        foreach($this->rooms as $key => $room)
+            $this->rooms[$key]->url = $editURL.$room->id;
     }
 
     /**
@@ -62,12 +64,11 @@ class thm_organizersViewschedule_manager extends JView
      */
     private function addToolBar()
     {
-        $title = JText::_( 'COM_THM_ORGANIZER_SCH_TITLE' );
+        $title = JText::_( 'COM_THM_ORGANIZER_RMM_TITLE' );
         $title .= ($this->state->get('semesterName'))? ": ".$this->state->get('semesterName') : '';
         JToolBarHelper::title($title);
-        JToolBarHelper::addNew('schedule.add');
-        JToolBarHelper::editList('schedule.edit');
-        JToolBarHelper::makeDefault('schedule.setDefault', 'COM_THM_ORGANIZER_SCH_ACTIVATE_TITLE');
-        JToolBarHelper::deleteList(JText::_( 'COM_THM_ORGANIZER_SCH_DELETE_CONFIRM'),'schedule.delete');
+        JToolBarHelper::addNew('room.add');
+        JToolBarHelper::editList('room.edit');
+        JToolBarHelper::deleteList(JText::_( 'COM_THM_ORGANIZER_RMM_DELETE_CONFIRM'),'schedule.delete');
     }
 }

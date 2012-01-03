@@ -18,24 +18,22 @@ class thm_organizersViewsemester_manager extends JView
 {
     public function display($tpl = null)
     {
+        if(!JFactory::getUser()->authorise('core.admin'))
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+
         $document = & JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
 
         $model = $this->getModel();
         $this->semesters = $model->semesters;
-
-        JToolBarHelper::title( JText::_( 'COM_THM_ORGANIZER_SEM_TITLE' ), 'generic.png' );
-        if(thm_organizerHelper::isAdmin('semester_manager'))
-        {
-            $this->addToolBar();
-            thm_organizerHelper::addSubmenu('semester_manager');
-        }
+        $this->addToolBar();
 
         parent::display($tpl);
     }
 
     private function addToolBar()
     {
+        JToolBarHelper::title( JText::_( 'COM_THM_ORGANIZER_SEM_TITLE' ), 'generic.png' );
         JToolBarHelper::addNew('semester.add');
         JToolBarHelper::editList('semester.edit');
         JToolBarHelper::deleteList

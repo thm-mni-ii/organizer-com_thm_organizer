@@ -201,3 +201,24 @@ table.adminlist thead th.thm_organizer_sm_th{ text-align: left; }
 .thm_organizer_sch_date_column{ width: 85px; }
 
 li input[disabled=disabled]{ border: none; color: black;}
+
+
+/*resource manager & resource edit views***************************************/
+
+#submenu li a.active{
+    padding: 3px 6px;
+    border-top: 1px solid #cdcdcd;
+    border-bottom: 1px solid #cdcdcd;
+}
+
+#submenu li a.leftend{
+    border-left: 1px solid #cdcdcd;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+#submenu li a.rightend{
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+

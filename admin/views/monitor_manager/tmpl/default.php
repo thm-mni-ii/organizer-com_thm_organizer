@@ -80,31 +80,11 @@ $direction = $this->escape($this->state->get('list.direction'));
             <?php foreach($this->monitors as $k => $monitor){ ?>
                 <tr class="row<?php echo $k % 2;?>">
                     <td><?php echo JHtml::_('grid.id', $k, $monitor->monitorID); ?></td>
-                    <td>
-                        <?php if($this->access): ?><a href='<?php echo $monitor->link; ?>' ><?php endif; ?>
-                        <?php echo $monitor->room; ?>
-                        <?php if($this->access): ?></a><?php endif; ?>
-                    </td>
-                    <td>
-                        <?php if($this->access): ?><a href='<?php echo $monitor->link; ?>' ><?php endif; ?>
-                        <?php echo $monitor->ip; ?>
-                        <?php if($this->access): ?></a><?php endif; ?>
-                    </td>
-                    <td>
-                        <?php if($this->access): ?><a href='<?php echo $monitor->link; ?>' ><?php endif; ?>
-                        <?php echo $monitor->behaviour; ?>
-                        <?php if($this->access): ?></a><?php endif; ?>
-                    </td>
-                    <td>
-                        <?php if($this->access): ?><a href='<?php echo $monitor->link; ?>' ><?php endif; ?>
-                        <?php echo $monitor->interval; ?>
-                        <?php if($this->access): ?></a><?php endif; ?>
-                    </td>
-                    <td>
-                        <?php if($this->access): ?><a href='<?php echo $monitor->link; ?>' ><?php endif; ?>
-                        <?php echo $monitor->content; ?>
-                        <?php if($this->access): ?></a><?php endif; ?>
-                    </td>
+                    <td><a href='<?php echo $monitor->link; ?>' ><?php echo $monitor->room; ?></a></td>
+                    <td><a href='<?php echo $monitor->link; ?>' > <?php echo $monitor->ip; ?></a></td>
+                    <td><a href='<?php echo $monitor->link; ?>' ><?php echo $monitor->behaviour; ?></a></td>
+                    <td><a href='<?php echo $monitor->link; ?>' ><?php echo $monitor->interval; ?></a></td>
+                    <td><a href='<?php echo $monitor->link; ?>' ><?php echo $monitor->content; ?></a></td>
                 </tr>
             <?php } ?>
             </tbody>

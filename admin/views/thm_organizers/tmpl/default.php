@@ -10,7 +10,6 @@
  * @version     1.7.0
  */
 defined('_JEXEC') or die;?>
-
 <div id="thm_organizer_main" >
     <div id="thm_organizer_main_description">
         <?php echo JText::_( "COM_THM_ORGANIZER_MAIN_DESC" ); ?>
