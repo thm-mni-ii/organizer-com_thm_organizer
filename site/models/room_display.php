@@ -19,6 +19,7 @@ class thm_organizerModelroom_display extends JModel
     public $semesterIDs = null;
     public $blocks = array();
     public $date = null;
+    private $dbDate = "";
     public $lessonsExist = false;
     public $eventsExist = false;
     public $appointments = array();
@@ -95,13 +96,15 @@ class thm_organizerModelroom_display extends JModel
     private function setScheduleInformation()
     {
         $request = JRequest::getVar('jform');
-        if(isset($request['date'])) strtotime($request['date']);
+        if(isset($request['date'])) $this->date = getDate(strtotime($request['date']));
         else $this->date = getdate();
+        $this->dbDate = date('Y-m-d', $this->date[0]);
         $this->semesterIDs = $this->getSemesterIDs();
         $this->blocks = $this->getBlocks();
         $this->setInformation();
         $this->setUpcoming();
         $this->setMenuLinks();
+        $this->getAccessClause();
     }
 
     /**
@@ -114,14 +117,13 @@ class thm_organizerModelroom_display extends JModel
      */
      private function getSemesterIDs()
      {
-         $date = date('Y-m-d', $this->date[0]);
          $dbo = $this->getDbo();
          $query = $dbo->getQuery(true);
          $query->select("semesters.id");
          $query->from("#__thm_organizer_semesters AS semesters");
          $query->innerJoin("#__thm_organizer_schedules AS schedules ON schedules.sid = semesters.id");
-         $query->where("schedules.startdate <= '$date'");
-         $query->where("schedules.enddate >= '$date'");
+         $query->where("schedules.startdate <= '$this->dbDate'");
+         $query->where("schedules.enddate >= '$this->dbDate'");
          $query->where("schedules.active IS NOT NULL");
          $dbo->setQuery((string)$query);
          $semesterIDs = $dbo->loadResultArray();
@@ -179,7 +181,7 @@ class thm_organizerModelroom_display extends JModel
         $lessonTimes .= "AND lt.roomID = '{$this->roomID}' ";
         $lessonTimes .= "AND lt.periodID = '{$block['id']}'";
         $query->innerJoin($lessonTimes);
-        $query->where("l.sid IN {$this->semesterIDs}");
+        $query->where("l.semesterID IN {$this->semesterIDs}");
         $dbo->setQuery((string)$query);
         $lessonInfo = $dbo->loadAssoc();
         if(isset($lessonInfo))
@@ -222,22 +224,22 @@ class thm_organizerModelroom_display extends JModel
      *
      * @param integer $blockIndex the index of the block array to be processed
      */
-    private function setAppointments($blockIndex)
+    private function setAppointments(&$block)
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $this->eventSelect($query);
+        $query->select($this->select());
         $this->eventFrom($query, $block);
         $query->where($this->whereDates());
         $query->where($this->whereTimes($block));
-        $query->where("c.access = '0'");
+        $query->where($this->getAccessClause());
         $query->where("ec.reservesobjects = '1'");
         if(isset($block['teacherIDs']))
         {
             $teacherIDs = "'".implode("', '", $block['teacherIDs'])."'";
-            $query->where("(r.name = '$this->name' OR t.id IN ( $teacherIDs ))");
+            $query->where("(r.name = '$this->roomName' OR t.id IN ( $teacherIDs ))");
         }
-        else $query->where("r.name = '$this->name'");
+        else $query->where("r.name = '$this->roomName'");
         $dbo->setQuery((string)$query);
         $appointments = $dbo->loadAssocList();
         if(isset($appointments) and count($appointments) > 0)
@@ -258,7 +260,7 @@ class thm_organizerModelroom_display extends JModel
             }
             foreach($appointments as $k => $appointment)
             {
-                if(in_array($appointment['id'], $this->eventIDs))
+                if(isset($this->eventIDs) AND in_array($appointment['id'], $this->eventIDs))
                 {
                     unset($appointments[$k]);
                     continue;
@@ -281,12 +283,14 @@ class thm_organizerModelroom_display extends JModel
      */
     private function setNotices($blockIndex)
     {
+        $user = JFactory::getUser();
+        $user->getAuthorisedViewLevels();
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $this->eventSelect($query);
+        $query->select($this->select());
         $this->eventFrom($query, $block);
         $query->where($this->whereDates());
-        $query->where("c.access = '0'");
+        $query->where($this->getAccessClause());
         $query->where("ec.reservesobjects = '0'");
         $query->where("ec.globaldisplay = '0'");
         if(isset($block['teacherIDs']))
@@ -301,7 +305,7 @@ class thm_organizerModelroom_display extends JModel
         {
             foreach($notices as $k => $notice)
             {
-                if(in_array($notice['id'], $this->eventIDs))
+                if(isset($this->eventIDs) AND in_array($notice['id'], $this->eventIDs))
                 {
                     unset($notices[$k]);
                     continue;
@@ -326,10 +330,10 @@ class thm_organizerModelroom_display extends JModel
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $this->eventSelect($query);
+        $query->select($this->select());
         $this->eventFrom($query);
         $query->where($this->whereDates());
-        $query->where("c.access = '0'");
+        $query->where($this->getAccessClause());
         $query->where("ec.globaldisplay = '1'");
         $dbo->setQuery((string)$query);
         $information = $dbo->loadAssocList();
@@ -337,7 +341,7 @@ class thm_organizerModelroom_display extends JModel
         {
             foreach($information as $k => $info)
             {
-                if(in_array($info['id'], $this->eventIDs))
+                if(isset($this->eventIDs) AND in_array($info['id'], $this->eventIDs))
                 {
                     unset($information[$k]);
                     continue;
@@ -362,14 +366,14 @@ class thm_organizerModelroom_display extends JModel
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $this->eventSelect($query);
+        $query->select($this->select());
         $this->eventFrom($query);
         $whereFutureDates = "( ";
-        $whereFutureDates .= "(e.startdate > '{$this->postDate}' AND e.enddate > '{$this->postDate}') ";
-        $whereFutureDates .= "OR (startdate > '{$this->postDate}' AND enddate = '0000-00-00') ";
+        $whereFutureDates .= "(e.startdate > '{$this->dbDate}' AND e.enddate > '{$this->dbDate}') ";
+        $whereFutureDates .= "OR (startdate > '{$this->dbDate}' AND enddate = '0000-00-00') ";
         $whereFutureDates .= ") ";
         $query->where($whereFutureDates);
-        $query->where("c.access = '0'");
+        $query->where($this->getAccessClause());
         $query->where("ec.reservesobjects = '1'");
         $query->where("r.name = '$this->name'");
         $dbo->setQuery((string)$query);
@@ -378,7 +382,7 @@ class thm_organizerModelroom_display extends JModel
         {
             foreach($upcoming as $k => $coming)
             {
-                if(in_array($coming['id'], $this->eventIDs))
+                if(isset($this->eventIDs) AND in_array($coming['id'], $this->eventIDs))
                 {
                     unset($upcoming[$k]);
                     continue;
@@ -393,11 +397,11 @@ class thm_organizerModelroom_display extends JModel
     }
 
     /**
-     * eventSelect
+     * select
      *
      * creates the select clause for events
      */
-    private function eventSelect(&$query)
+    private function select()
     {
         $select = "DISTINCT (e.id) AS id, c.title AS title, ";
         $select .= "DATE_FORMAT(e.startdate, '%d.%m.%Y') AS startdate, ";
@@ -406,7 +410,7 @@ class thm_organizerModelroom_display extends JModel
         $select .= "SUBSTRING(e.starttime, 1, 5) AS starttime, ";
         $select .= "SUBSTRING(e.endtime, 1, 5) AS endtime, ";
         $select .= "e.recurrence_type AS rec_type";
-        $query->select($select);
+        return $select;
     }
 
     /**
@@ -439,8 +443,8 @@ class thm_organizerModelroom_display extends JModel
     private function whereDates()
     {
         $whereDates = "( ";
-        $whereDates .= "(e.startdate <= '{$this->postDate}' AND e.enddate >= '{$this->postDate}') ";
-        $whereDates .= "OR (startdate = '{$this->postDate}' AND enddate = '0000-00-00') ";
+        $whereDates .= "(e.startdate <= '{$this->dbDate}' AND e.enddate >= '{$this->dbDate}') ";
+        $whereDates .= "OR (startdate = '{$this->dbDate}' AND enddate = '0000-00-00') ";
         $whereDates .= ") ";
         return $whereDates;
     }
@@ -602,6 +606,17 @@ class thm_organizerModelroom_display extends JModel
                 $this->setScheduleInformation();
                 break;
         }
+    }
+
+    /**
+     *
+     * @return string
+     */
+    private function getAccessClause()
+    {
+        $user = JFactory::getUser();
+        $authorizedAccessLevels = $user->getAuthorisedViewLevels();
+        return "c.access IN ( '".implode("', '", $authorizedAccessLevels)."' )";
     }
 }
 
