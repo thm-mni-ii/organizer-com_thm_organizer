@@ -32,3 +32,49 @@ function changeCategoryInformation()
     document.getElementById('thm_organizer_ee_content_cat_access_div').innerHTML = categories[id][4];
 }
 
+/**
+ * returns the value of the recurrence type input
+ */
+function getRecType()
+{
+    var rec_type = 0;
+    for(var i=0; i < document.eventForm.rec_type.length; i++)
+    {
+        if(document.eventForm.rec_type[i].checked)
+        {
+            rec_type = document.eventForm.rec_type[i].value;
+        }
+    }
+    return rec_type;
+}
+
+/**
+ * returns a string containing the resource values selected
+ */
+function getResources(resourceID)
+{
+    var resourceObject = document.getElementById(resourceID);
+    var selectedResources = new Array();
+    var index;
+    var count = 0;
+    for (index = 0; index < resourceObject.options.length; index++)
+    {
+        if (resourceObject.options[index].selected) {
+            selectedResources[count] = resourceObject.options[index].value;
+            count++;
+        }
+    }
+    if(count)return selectedResources.toString();
+    else return '';
+}
+
+/**
+ * toggles the value of the checkbox since joomla didnt bother to create standardized
+ * js for this form field type
+ */
+function toggleCheckValue(isitchecked)
+{
+    if(isitchecked == true) document.eventForm.jform_emailNotification.value++;
+    else document.eventForm.jform_emailNotification.value--;
+}
+

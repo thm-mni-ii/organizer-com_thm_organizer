@@ -63,32 +63,40 @@
 			maxlength="5"
                         validate="time"/>
 		<field
-			id="categoryDummy"
-			name="categoryDummy"
+			id="categories"
+			name="categories"
 			type="list"
 			label="COM_THM_ORGANIZER_EE_CATEGORY"
 			description="COM_THM_ORGANIZER_EE_CATEGORY_DESC" />
 		<field
-			id="teacherDummy"
-			name="teacherDummy"
+			id="teachers"
+			name="teachers"
 			type="list"
 			label="COM_THM_ORGANIZER_EE_TEACHER"
 			description="COM_THM_ORGANIZER_EE_TEACHER_DESC" />
 		<field
-			id="roomDummy"
-			name="roomDummy"
+			id="rooms"
+			name="rooms"
 			type="list"
 			label="COM_THM_ORGANIZER_EE_ROOM"
 			description="COM_THM_ORGANIZER_EE_ROOM_DESC" />
 		<field
-			id="groupDummy"
-			name="groupDummy"
+			id="groups"
+			name="groups"
 			type="list"
 			label="COM_THM_ORGANIZER_EE_GROUP"
 			description="COM_THM_ORGANIZER_EE_GROUP_DESC" />
 		<field
-			id="eventID"
-			name="eventID"
+			id="emailNotification"
+                        name="emailNotification"
+			type="checkbox"
+			label="COM_THM_ORGANIZER_EE_EMAIL"
+			description="COM_THM_ORGANIZER_EE_EMAIL_DESC"
+                        onclick="toggleCheckValue(this.checked);"
+			default="0" />
+		<field
+			id="id"
+			name="id"
 			type="hidden"
 			class="inputbox"
 			default="0" />
@@ -97,6 +105,6 @@
 			name="task"
 			type="hidden"
 			class="inputbox"
-			default="event_edit.save" />
+			default="events.save" />
 	</fieldset>
 </form>

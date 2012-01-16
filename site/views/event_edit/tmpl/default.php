@@ -1,8 +1,15 @@
 <?php
-// No direct access
+/**
+ * @package     Joomla.Site
+ * @subpackage  com_thm_organizer
+ * @name        create/edit appointment/event default template
+ * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @copyright   TH Mittelhessen 2011
+ * @license     GNU GPL v.2
+ * @link        www.mni.fh-giessen.de
+ * @version     0.0.1
+ */
 defined('_JEXEC') or die('Restricted access');
-if(count($this->categories))
-{
 $event = $this->event;
 $showListLink = (isset($this->listLink) and $this->listLink != "")? true : false;
 $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : false;
@@ -17,34 +24,6 @@ foreach($this->categories as $category)
     echo 'categories['.$category['id'].'] = new Array( "'.mysql_real_escape_string($category['description']).'", "'.addslashes($category['display']).'",  "'.addslashes($category['contentCat']).'", "'.addslashes($category['contentCatDesc']).'", "'.addslashes($category['access']).'" );';
 }
 ?>
-
-function getRecType()
-{
-    for(var i=0; i < document.eventForm.rec_type.length; i++)
-    {
-        if(document.eventForm.rec_type[i].checked)
-        {
-            return document.eventForm.rec_type[i].value;
-        }
-    }
-}
-
-function getResources(resourceID)
-{
-    var resourceObject = document.getElementById(resourceID);
-    var selectedResources = new Array();
-    var index;
-    var count = 0;
-    for (index = 0; index < resourceObject.options.length; index++)
-    {
-        if (resourceObject.options[index].selected) {
-            selectedResources[count] = resourceObject.options[index].value;
-            count++;
-        }
-    }
-    if(count)return selectedResources.toString();
-    else return '';
-}
 
 /**
  * was not moved to edit_event.js because of use of joomla language support in
@@ -73,7 +52,7 @@ Joomla.submitbutton = function(task)
         {
             var requrl = '<?php echo $this->baseurl; ?>';
             requrl = requrl + '/index.php?option=com_thm_organizer&view=booking&format=raw&eventID=';
-            requrl = requrl + document.getElementById('eventID').value + '&startdate=';
+            requrl = requrl + document.getElementById('jform_id').value + '&startdate=';
             requrl = requrl + document.getElementById('jform_startdate').value + '&enddate=';
             requrl = requrl + document.getElementById('jform_enddate').value + '&starttime=';
             requrl = requrl + document.getElementById('jform_starttime').value + '&endtime=';
@@ -158,20 +137,12 @@ Joomla.submitbutton = function(task)
             </div>
         </div>
         <div id="thm_organizer_ee_time_div">
-            <table>
+            <table class="thm_organizer_ee_table">
                 <tr>
-                    <td>
-                        <?php echo $this->form->getLabel('startdate'); ?>
-                    </td>
-                    <td>
-                        <?php echo $this->form->getInput('startdate'); ?>
-                    </td>
-                    <td>
-                        <?php echo $this->form->getLabel('starttime'); ?>
-                    </td>
-                    <td>
-                        <?php echo $this->form->getInput('starttime'); ?>
-                    </td>
+                    <td><?php echo $this->form->getLabel('startdate'); ?></td>
+                    <td><?php echo $this->form->getInput('startdate'); ?></td>
+                    <td><?php echo $this->form->getLabel('starttime'); ?></td>
+                    <td><?php echo $this->form->getInput('starttime'); ?></td>
                     <td>
                         <label for="rec_type_block">
                             <span class="hasTip" title="Durchgehend::Der Termin beginnt am Startdatum zur Startzeit und endet am Enddatum zur Endzeit.">
@@ -184,22 +155,14 @@ Joomla.submitbutton = function(task)
                     </td>
                 </tr>
                 <tr>
-                    <td>
-                        <?php echo $this->form->getLabel('enddate'); ?>
-                    </td>
-                    <td>
-                        <?php echo $this->form->getInput('enddate'); ?>
-                    </td>
-                    <td>
-                        <?php echo $this->form->getLabel('endtime'); ?>
-                    </td>
-                    <td>
-                        <?php echo $this->form->getInput('endtime'); ?>
-                    </td>
+                    <td><?php echo $this->form->getLabel('enddate'); ?></td>
+                    <td><?php echo $this->form->getInput('enddate'); ?></td>
+                    <td><?php echo $this->form->getLabel('endtime'); ?></td>
+                    <td><?php echo $this->form->getInput('endtime'); ?></td>
                     <td>
                         <label for="rec_type_daily">
                            <span class="hasTip" title="T&auml;glich::Der Termin findet t&auml;glich zwischen Start- und Endzeit statt, an allen Tagen zwischen Start- und Enddatum.">
-                                <?php echo JText::_('Täglich:'); ?>
+                                <?php echo JText::_('Täglich').":"; ?>
                             </span>
                         </label>
                     </td>
@@ -212,7 +175,7 @@ Joomla.submitbutton = function(task)
         <div id="thm_organizer_ee_category_div">
             <div id="thm_organizer_ee_category_select_div">
                 <div class="thm_organizer_ee_label_div" >
-                    <?php echo $this->form->getLabel('categoryDummy'); ?>
+                    <?php echo $this->form->getLabel('categorys'); ?>
                 </div>
                 <div class="thm_organizer_ee_data_div" >
                     <?php echo $this->categoryselect; ?>
@@ -235,16 +198,16 @@ Joomla.submitbutton = function(task)
             </div>
         </div>
         <div id="thm_organizer_ee_resource_selection_div" >
-            <table>
+            <table class="thm_organizer_ee_table">
                 <tr>
                     <td align="center">
-                        <?php echo $this->form->getLabel('teacherDummy'); ?>
+                        <?php echo $this->form->getLabel('teachers'); ?>
                     </td>
                     <td align="center">
-                        <?php echo $this->form->getLabel('roomDummy'); ?>
+                        <?php echo $this->form->getLabel('rooms'); ?>
                     </td>
                     <td align="center">
-                        <?php echo $this->form->getLabel('groupDummy'); ?>
+                        <?php echo $this->form->getLabel('groups'); ?>
                     </td>
                 </tr>
                 <tr>
@@ -252,14 +215,19 @@ Joomla.submitbutton = function(task)
                     <td><?php echo $this->roomselect; ?></td>
                     <td><?php echo $this->groupselect; ?></td>
                 </tr>
+                <tr>
+                    <td colspan="2">
+                        <?php echo $this->form->getLabel('emailNotification'); ?>
+                    </td>
+                    <td>
+                        <?php echo $this->form->getInput('emailNotification'); ?>
+                    </td>
+                </tr>
             </table>
         </div>
-        <input type='hidden' name='eventID' id='eventID' value='<?php echo $this->event['id']; ?>' />
+        <?php echo $this->form->getInput('id'); ?>
         <input type='hidden' name='task' value='events.save' />
         <input type='hidden' name='schedulerCall' value='<?php echo JRequest::getBool('schedulerCall'); ?>' />
         <?php echo JHtml::_('form.token'); ?>
     </form>
 </div>
-<?php }else{ ?>
-<span id="thm_organizer_el_noauth" ><?php echo JText::_('COM_THM_ORGANIZER_EE_NOAUTH'); ?></span>
-<?php }

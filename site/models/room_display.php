@@ -104,7 +104,6 @@ class thm_organizerModelroom_display extends JModel
         $this->setInformation();
         $this->setUpcoming();
         $this->setMenuLinks();
-        $this->getAccessClause();
     }
 
     /**
@@ -229,7 +228,7 @@ class thm_organizerModelroom_display extends JModel
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select($this->select());
-        $this->eventFrom($query, $block);
+        $this->from($query, $block);
         $query->where($this->whereDates());
         $query->where($this->whereTimes($block));
         $query->where($this->getAccessClause());
@@ -288,7 +287,7 @@ class thm_organizerModelroom_display extends JModel
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select($this->select());
-        $this->eventFrom($query, $block);
+        $this->from($query, $block);
         $query->where($this->whereDates());
         $query->where($this->getAccessClause());
         $query->where("ec.reservesobjects = '0'");
@@ -331,7 +330,7 @@ class thm_organizerModelroom_display extends JModel
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select($this->select());
-        $this->eventFrom($query);
+        $this->from($query);
         $query->where($this->whereDates());
         $query->where($this->getAccessClause());
         $query->where("ec.globaldisplay = '1'");
@@ -367,7 +366,7 @@ class thm_organizerModelroom_display extends JModel
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select($this->select());
-        $this->eventFrom($query);
+        $this->from($query);
         $whereFutureDates = "( ";
         $whereFutureDates .= "(e.startdate > '{$this->dbDate}' AND e.enddate > '{$this->dbDate}') ";
         $whereFutureDates .= "OR (startdate > '{$this->dbDate}' AND enddate = '0000-00-00') ";
@@ -400,6 +399,8 @@ class thm_organizerModelroom_display extends JModel
      * select
      *
      * creates the select clause for events
+     *
+     * return string
      */
     private function select()
     {
@@ -414,11 +415,13 @@ class thm_organizerModelroom_display extends JModel
     }
 
     /**
-     * eventFrom
+     * from
      *
      * creates the from clause for events
+     *
+
      */
-    private function eventFrom(&$query, &$block = null)
+    private function from(&$query, &$block = null)
     {
         $query->from("#__thm_organizer_events AS e");
         $query->innerJoin("#__content AS c ON e.id = c.id");

@@ -98,7 +98,7 @@ class thm_organizerControllerevents extends JController
      */
     function save2new()
     {
-        $eventID = JRequest::getInt('eventID', 0);
+        $eventID = JRequest::getInt('id', 0);
         $menuID = JRequest::getVar('Itemid');
 
         if($eventID == 0) $canSave = eventAccess::canCreate();

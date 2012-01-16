@@ -143,7 +143,7 @@ class thm_organizerModelbooking extends JModel
         if(isset($data))
         {
             $this->data = $data;
-            $this->eventID = $data['eventID'];
+            $this->eventID = $data['id'];
             $this->categoryID = $data['category'];
             $this->startdate = $data['startdate'];
             $this->enddate = ($data['enddate'] != "")? $data['enddate'] : $data['startdate'];

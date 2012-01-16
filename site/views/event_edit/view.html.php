@@ -38,26 +38,21 @@ class thm_organizerViewevent_edit extends JView
         $categories = $model->categories;
         $this->categories = $categories;
 
+        if(!count($this->categories))
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+
+
         $listLink = $model->listLink;
         $this->assignRef('listLink', $listLink);
         $eventLink = $model->eventLink;
         $this->assignRef('eventLink', $eventLink);
 
-        if($event['recurrence_type'])
-        {
-            $blockchecked = '';
-            $dailychecked = 'checked';
-        }
-        else
-        {
-            $blockchecked = 'checked';
-            $dailychecked = '';
-        }
+        $blockchecked = $dailychecked = '';
+        ($event['recurrence_type'])? $dailychecked = 'checked' : $blockchecked = 'checked';
         $this->assignRef('blockchecked', $blockchecked);
         $this->assignRef('dailychecked', $dailychecked);
 
-        $isNew = ($event['id'] == 0);
-        $document->setTitle($isNew ? JText::_('COM_THM_ORGANIZER_EE_TITLE_NEW') : JText::_('COM_THM_ORGANIZER_EE_TITLE_EDIT'));
+        $document->setTitle(($event['id'] == 0)? JText::_('COM_THM_ORGANIZER_EE_TITLE_NEW') : JText::_('COM_THM_ORGANIZER_EE_TITLE_EDIT'));
         
         $this->createHTMLElements();
         parent::display($tpl);
@@ -69,7 +64,6 @@ class thm_organizerViewevent_edit extends JView
 
         $otherrooms = array();
         $otherrooms[] = array('id' => '-1', 'name' => 'keine Räume');
-        //$otherrooms[] = array( 'id' => '-2', 'name' => 'alle Räume' );
         $rooms = array_merge($otherrooms, $this->rooms);
         if(isset($this->event['rooms']))
         {
@@ -87,7 +81,6 @@ class thm_organizerViewevent_edit extends JView
 
         $otherteachers = array();
         $otherteachers[] = array('id' => '-1', 'name' => 'keine Dozenten');
-        //$otherteachers[] = array( 'oid' => '-2', 'oname' => 'alle Dozenten' );
         $teachers = array_merge($otherteachers, $this->teachers);
         if(isset($this->event['teachers']))
         {
@@ -106,7 +99,6 @@ class thm_organizerViewevent_edit extends JView
 
         $othergroups = array();
         $othergroups[] = array( 'id' => '-1', 'name' => 'keine Gruppen' );
-        //$othergroups[] = array( 'oid' => '-2', 'oname' => 'alle Gruppen' );
         $groups = array_merge($othergroups, $this->groups);
         if(isset($this->event['groups']))
         {
