@@ -438,3 +438,7 @@ img.status_icons_delete {
 	-o-box-shadow: #FFF 0 1px 0px 0 inset;
 	box-shadow: #FFF 0 1px 0px 0 inset
 }
+
+.x-ie .x-btn button {
+	overflow-x: hidden;
+}
