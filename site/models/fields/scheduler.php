@@ -4,6 +4,7 @@ defined('_JEXEC') or die;
 
 // import the list field type
 jimport('joomla.form.helper');
+jimport('thm_extjs4.thm_extjs4');
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -42,6 +43,7 @@ class JFormFieldScheduler extends JFormField
 
 			$doc =& JFactory::getDocument();
 			$doc->addStyleSheet(JURI::root(true)."/components/com_thm_organizer/views/scheduler/tmpl/ext/resources/css/ext-all.css");
+			$doc->addStyleSheet(JURI::root(true)."/components/com_thm_organizer/models/fields/css/schedule_selection_tree.css");
 
 			require_once(JPATH_ROOT."/components/com_thm_organizer/assets/classes/DataAbstraction.php");
 			require_once(JPATH_ROOT."/components/com_thm_organizer/assets/classes/TreeView.php");
@@ -70,7 +72,7 @@ class JFormFieldScheduler extends JFormField
 <script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/views/scheduler/tmpl/ext/ext-all.js"></script>-->
 
 <!-- Ext 4 framework -->
-<script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/views/scheduler/tmpl/ext/ext-all-dev.js"></script>
+<!--<script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/views/scheduler/tmpl/ext/ext-all-dev.js"></script>-->
 <!--<script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/views/scheduler/tmpl/ext/bootstrap.js"></script>-->
 
 <script type="text/javascript" charset="utf-8">
