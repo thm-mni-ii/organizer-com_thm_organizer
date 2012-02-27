@@ -5,3 +5,7 @@
 .MySched_checkbox_fake {
 	margin: 1px !important;
 }
+
+.MySched_scheduler_selection_icons {
+	vertical-align: top;
+}
