@@ -442,3 +442,7 @@ img.status_icons_delete {
 .x-ie .x-btn button {
 	overflow-x: hidden;
 }
+
+.x-ie .x-tab button {
+	overflow-x: hidden;
+}
