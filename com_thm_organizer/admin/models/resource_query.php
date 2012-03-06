@@ -29,9 +29,9 @@ class thm_organizerModelbooking extends JModel
         $dbo = $this->getDbo();
         $query = $dbo->getQuery(true);
         $query->select($what);
-        if( )
+
         $query->where($where);
-        if(in_array($suffix, $this->resource_tables))$
+        if(in_array($suffix, $this->resource_tables))
         {
 
         }

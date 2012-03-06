@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+			name="id"
+			type="hidden"
+		/>
+		<!-- is unused until further notice, kept in so it doesn't get lost on editing a room -->
+		<field
+			name="managerID"
+			type="hidden"
+		/>
+		<field
+			name="gpuntisID"
+			type="text"
+			label="COM_THM_ORGANIZER_RM_GPUNTISID_LABEL"
+			description="COM_THM_ORGANIZER_RM_GPUNTISID_DESC"
+			class="inputbox"
+		/>
+		<field
+			name="name"
+			type="text"
+			label="COM_THM_ORGANIZER_RM_NAME_LABEL"
+			description="COM_THM_ORGANIZER_RM_NAME_DESC"
+			class="inputbox"
+		/>
+		<field
+			name="alias"
+			type="text"
+			label="COM_THM_ORGANIZER_RM_ALIAS_LABEL"
+			description="COM_THM_ORGANIZER_RM_ALIAS_DESC"
+			class="inputbox"
+		/>
+		<field
+			name="floor"
+			type="text"
+			label="COM_THM_ORGANIZER_RM_FLOOR_LABEL"
+			description="COM_THM_ORGANIZER_RM_FLOOR_DESC"
+			maxlength="2"
+			class="inputbox"
+			default="0"
+		/>
+		<field
+			name="capacity"
+			type="text"
+			label="COM_THM_ORGANIZER_RM_CAPACITY_LABEL"
+			description="COM_THM_ORGANIZER_RM_CAPACITY_DESC"
+			maxlength="4"
+			class="inputbox"
+		/>
+		
+		<field
+			name="campusID"
+			type="sql"
+			label="COM_THM_ORGANIZER_RM_CAMPUS_LABEL"
+			description="COM_THM_ORGANIZER_RM_CAMPUS_DESC"
+			class="inputbox"
+			query="SELECT id AS value, name AS campusID FROM #__thm_organizer_campuses"
+		/>
+		<field
+			name="buildingID"
+			type="sql"
+			label="COM_THM_ORGANIZER_RM_BUILDING_LABEL"
+			description="COM_THM_ORGANIZER_RM_BUILDING_DESC"
+			class="inputbox"
+			query="SELECT id AS value, name AS buildingID FROM #__thm_organizer_buildings"
+		/>
+		<field
+			name="descriptionID"
+			type="sql"
+			label="COM_THM_ORGANIZER_RM_DESCRIPTION_LABEL"
+			description="COM_THM_ORGANIZER_RM_DESCRIPTION_DESC"
+			class="inputbox"
+			query="SELECT id AS value, externalKey AS descriptionID FROM #__thm_organizer_room_descriptions"
+		/>
+	</fieldset>
+</form>

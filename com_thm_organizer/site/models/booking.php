@@ -2,12 +2,12 @@
 /**
  * @package     Joomla.Site
  * @subpackage  com_thm_organizer
- * @name        booking (resource reservation) ajax response model
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ * @name        reservation ajax response model
+ * @author      James Antrim jamesDOTantrimATyahooDOTcom
  * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
  * @link        www.mni.fh-giessen.de
- * @version     2.5
+ * @version     0.0.1
  */
 defined('_JEXEC') or die;
 jimport( 'joomla.application.component.model' );

@@ -5,6 +5,7 @@
  * @name        schedule manager view
  * @description provides a list of schedules
  * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @author      Daniel Kirsten danielDOTkirstenATmniDOTthmDOTde
  * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
@@ -14,7 +15,7 @@ defined('_JEXEC') or die( 'Restricted access' );
 jimport( 'joomla.application.component.view' );
 require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
 
-class thm_organizersViewroom_manager extends JView
+class thm_organizersViewdescription_manager extends JView
 {
     protected $pagination;
     protected $state;
@@ -32,22 +33,17 @@ class thm_organizersViewroom_manager extends JView
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
 
-        $this->rooms = $this->get('Items');
+        $this->descriptions = $this->get('Items');
         $this->pagination = $this->get('Pagination');
         $this->state = $this->get('State');
-        $this->institutions = $model->institutions;
-        $this->campuses = (count($model->campuses))? $this->campuses = $model->campuses : array();
-        $this->buildings = (count($model->buildings))? $this->buildings = $model->buildings : array();
-        $this->types = $model->types;
-        $this->details = (count($model->details))? $model->details : array();
         
         // for sorting
-        $state = $this->get('State');
+        $state = $this->state;
         $this->orderby   = $state->get('filter_order');
         $this->direction = $state->get('filter_order_Dir');
         
         $this->addToolBar();
-        if(count($this->rooms))$this->addLinks();
+        if(count($this->descriptions))$this->addLinks();
 
         parent::display($tpl);
     }
@@ -59,9 +55,9 @@ class thm_organizersViewroom_manager extends JView
      */
     private function addLinks()
     {
-        $editURL = 'index.php?option=com_thm_organizer&view=room_edit&roomID=';
-        foreach($this->rooms as $key => $room)
-            $this->rooms[$key]->url = $editURL.$room->id;
+        $editURL = 'index.php?option=com_thm_organizer&view=description_edit&descriptionID=';
+        foreach($this->descriptions as $key => $description)
+            $this->descriptions[$key]->url = $editURL.$description->id;
     }
 
     /**
@@ -71,11 +67,11 @@ class thm_organizersViewroom_manager extends JView
      */
     private function addToolBar()
     {
-        $title = JText::_( 'COM_THM_ORGANIZER_RMM_TITLE' );
+        $title = JText::_( 'COM_THM_ORGANIZER_DSM_TITLE' );
         JToolBarHelper::title($title);
-        JToolBarHelper::addNew('room.add');
-        JToolBarHelper::editList('room.edit');
-        JToolBarHelper::deleteList(JText::_( 'COM_THM_ORGANIZER_RMM_DELETE_CONFIRM'),'room.delete');
+        JToolBarHelper::addNew('description.add');
+        JToolBarHelper::editList('description.edit');
+        JToolBarHelper::deleteList(JText::_( 'COM_THM_ORGANIZER_DSM_DELETE_CONFIRM'),'description.delete');
 
     }
 }

@@ -2,29 +2,34 @@
 /**
  * @package     Joomla.Site
  * @subpackage  com_thm_organizer
- * @description main component file
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * @copyright   TH Mittelhessen 2012
+ * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
- * @version     2.5
+ * @link        www.mni.fh-giessen.de
+ * @version     0.011
  */
 
-defined('_JEXEC') or die;
+defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport('joomla.application.component.controller');
 require_once( JPATH_COMPONENT.DS.'controller.php' );
 
-$controller = '';
+$controller = "";
 $handler = explode(".", JRequest::getVar('task'));
 if(!empty($handler))
 {
-    if(count($handler) == 2) list($controller, $task) = $handler;
-    else $task = JRequest::getVar('task');
+    if(count($handler) == 2)
+    {
+        $controller = $handler[0];
+        $task = $handler[1];
+    }
+    else
+       $task = JRequest::getVar('task');
 }
-if($controller !== '')
+if(!empty($controller))
 {
     $path = JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php';
-    file_exists($path)? require_once $path : $controller = '';
+    if (file_exists($path)) require_once $path;
+    else $controller = '';
 }
 $classname = 'thm_organizerController'.$controller;
 $controller = new $classname();

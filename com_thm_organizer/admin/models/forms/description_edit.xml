@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+			name="id"
+			type="hidden"
+		/>
+		<field
+			name="category"
+			type="text"
+			label="COM_THM_ORGANIZER_DS_CATEGORY_LABEL"
+			description="COM_THM_ORGANIZER_DS_CATEGORY_DESC"
+			size="20"
+			class="inputbox"
+			default=""
+		/>
+		<field
+			name="description"
+			type="text"
+			label="COM_THM_ORGANIZER_DS_DESCRIPTION_LABEL"
+			description="COM_THM_ORGANIZER_DS_DESCRIPTION_DESC"
+			size="20"
+			class="inputbox"
+			default=""
+		/>
+		<field
+			name="gpuntisID"
+			type="text"
+			label="COM_THM_ORGANIZER_DS_GPUNTISID_LABEL"
+			description="COM_THM_ORGANIZER_DS_GPUNTISID_DESC"
+			size="10"
+			class="inputbox"
+			default=""
+		/>
+	</fieldset>
+</form>
