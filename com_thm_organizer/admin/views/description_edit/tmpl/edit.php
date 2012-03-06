@@ -18,8 +18,19 @@ JHtml::_('behavior.tooltip');
 	<fieldset class="adminform">
 		<legend><?php echo JText::_( 'COM_THM_ORGANIZER_DS_DETAILS' ); ?></legend>
 		<ul class="adminformlist">
+<?php $emptyID = false; ?>
 <?php foreach($this->form->getFieldset() as $field): ?>
-			<li><?php echo $field->label;echo $field->input;?></li>
+			<li><?php
+				echo $field->label;
+				if ($field->fieldname == 'id' && $field->value == '') {
+					$emptyID = true;
+				}
+				if ($field->fieldname == 'gpuntisID' && $emptyID == false) {
+					$input = str_replace('type="text"', 'type="text" readonly="readonly"', $field->input);
+					echo $input;
+				} else {
+					echo $field->input;
+				}?></li>
 <?php endforeach; ?>
 		</ul>
 	</fieldset>

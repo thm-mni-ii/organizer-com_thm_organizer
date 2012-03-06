@@ -31,6 +31,18 @@ class thm_organizersViewdescription_edit extends JView
         $this->form = $this->get('Form');
         $this->item = $this->get('Item');
         
+        $task = JRequest::getVar('task', null, 'post','STRING');
+        
+        // set values if new button is clicked while an item is checked
+        if ($task == 'description.add') {
+        	$this->item->id = 0;
+        	$formElements = $this->form->getFieldset();
+        	// set values in form
+        	foreach ($formElements as $value) {
+        		$this->form->setValue($value->fieldname, null, '');
+        	}
+        }
+        
         $title = JText::_("COM_THM_ORGANIZER_SCH_TITLE").": ";
 
         $this->setLayout('edit');
