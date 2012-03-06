@@ -2,7 +2,8 @@
 /**
  * @package     Joomla.Site
  * @subpackage  com_thm_organizer
- * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @description main component file
+ * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
  * @copyright   TH Mittelhessen 2012
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
