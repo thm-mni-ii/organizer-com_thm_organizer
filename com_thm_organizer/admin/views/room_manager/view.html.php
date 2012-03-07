@@ -36,7 +36,7 @@ class thm_organizersViewroom_manager extends JView
         $this->pagination = $this->get('Pagination');
         $this->state = $this->get('State');
         $this->institutions = $model->institutions;
-        $this->campuses = (count($model->campuses))? $this->campuses = $model->campuses : array();
+        $this->campuses = $model->campuses;
         $this->buildings = (count($model->buildings))? $this->buildings = $model->buildings : array();
         $this->types = $model->types;
         $this->details = (count($model->details))? $model->details : array();

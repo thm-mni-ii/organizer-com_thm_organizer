@@ -28,18 +28,12 @@ $search = ($this->state->get('filter.search'))?
             </button>
         </div>
         <div class="filter-select fltrt">
-            <select name="filter_institution" class="inputbox" onchange="this.form.submit()">
-                <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_RMM_SEARCH_INSTITUTIONS'); ?></option>
-                <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_RMM_ALL_INSTITUTIONS'); ?></option>
-                <?php echo JHtml::_('select.options', $this->institutions, 'id', 'name', $this->state->get('filter.institution'));?>
-            </select>
-            <?php if(count($this->campuses)): ?>
             <select name="filter_campus" class="inputbox" onchange="this.form.submit()">
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_RMM_SEARCH_CAMPUSES'); ?></option>
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_RMM_ALL_CAMPUSES'); ?></option>
                 <?php echo JHtml::_('select.options', $this->campuses, 'id', 'name', $this->state->get('filter.campus'));?>
             </select>
-            <?php endif; if(count($this->buildings)): ?>
+            <?php if(count($this->buildings)): ?>
             <select name="filter_building" class="inputbox" onchange="this.form.submit()">
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_RMM_SEARCH_BUILDINGS'); ?></option>
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_RMM_ALL_BUILDINGS'); ?></option>
@@ -75,7 +69,7 @@ $search = ($this->state->get('filter.search'))?
                 <col id="thm_organizer_rmm_room_name_column" />
                 <col id="thm_organizer_rmm_alias_column" />
                 <col id="thm_organizer_rmm_campus_name_column" />
-                <col id="thm_organizer_rmm_institution_name_column" />
+                <col id="thm_organizer_rmm_building_column" />
                 <col id="thm_organizer_rmm_capacity_column" />
                 <col id="thm_organizer_rmm_floor_column" />
                 <col id="thm_organizer_rmm_description_column" />
@@ -93,10 +87,10 @@ $search = ($this->state->get('filter.search'))?
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_ALIAS', 'r.alias', $this->direction, $this->orderby); ?>
                     </th>
                     <th class="thm_organizer_sch_th" >
-                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_CAMPUS', 'c.name', $this->direction, $this->orderby); ?>
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_CAMPUS', 'r.campus', $this->direction, $this->orderby); ?>
                     </th>
                     <th class="thm_organizer_sch_th" >
-                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_INSTITUTION', 'i.name', $this->direction, $this->orderby); ?>
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_BUILDING', 'r.building', $this->direction, $this->orderby); ?>
                     </th>
                     <th class="thm_organizer_sch_th" >
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_CAPACITY', 'r.capacity', $this->direction, $this->orderby); ?>
@@ -137,12 +131,12 @@ $search = ($this->state->get('filter.search'))?
                     </td>
                     <td>
                         <a href="<?php echo $room->url; ?>">
-                            <?php echo JText::_($room->campus_name); ?>
+                            <?php echo JText::_($room->campus); ?>
                         </a>
                     </td>
                     <td>
                         <a href="<?php echo $room->url; ?>">
-                            <?php echo JText::_($room->institution_name); ?>
+                            <?php echo JText::_($room->building); ?>
                         </a>
                     </td>
                     <td>

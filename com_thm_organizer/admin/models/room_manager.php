@@ -17,7 +17,6 @@ jimport('joomla.application.component.modellist');
  */
 class thm_organizersModelroom_manager extends JModelList
 {
-    public $semesterName = '';
     public $institutions = null;
     public $campuses = null;
     public $buildings = null;
@@ -38,12 +37,9 @@ class thm_organizersModelroom_manager extends JModelList
         }
         parent::__construct($config);
 
-        $this->institutions = $this->getResources('institutions');
+        $this->campuses = $this->getResources('campuses');
         
-        if(is_numeric($this->getState('filter.institution')))
-        	$this->campuses = $this->getResources('campuses');
-        
-        if(is_numeric($this->getState('filter.campus')))
+        if($this->getState('filter.campus') != '*')
         	$this->buildings = $this->getResources('buildings');
         
         $this->types = $this->getResources('types');
@@ -92,13 +88,26 @@ class thm_organizersModelroom_manager extends JModelList
         $dbo = $this->getDbo();
         $query = $dbo->getQuery(true);
 
-        $select = "r.id, r.gpuntisID, r.name AS room_name, r.alias, c.name AS campus_name, ";
-        $select .= "i.name AS institution_name, r.capacity, r.floor, dsc.externalKey AS description";
+        /*
+         * room AS r
+         * r.id
+         * r.gpuntisID
+         * r.name AS room_name
+         * r.alias
+         * r.campus
+         * r.building
+         * r.capacity
+         * r.floor
+         * dsc.externalKey AS description
+         * inner joins **********
+         * description AS dsc ( r.descriptionID = dsc.id)
+         * types AS t (dsc.typeID = t.id)
+         * details AS det (dsc.descID = det.id)
+         */
+        $select = "r.id, r.gpuntisID, r.name AS room_name, r.alias, r.campus, r.building, ";
+        $select .= "r.capacity, r.floor, dsc.externalKey AS description";
         $query->select($select);
         $query->from("#__thm_organizer_rooms AS r");
-        $query->innerJoin("#__thm_organizer_campuses AS c ON r.campusID = c.id");
-        $query->innerJoin("#__thm_organizer_institutions AS i ON c.institutionID = i.id ");
-        $query->innerJoin("#__thm_organizer_buildings AS b ON r.buildingID = b.id");
         $query->innerJoin("#__thm_organizer_room_descriptions AS dsc ON r.descriptionID = dsc.id");
         $query->innerJoin("#__thm_organizer_room_types AS t ON dsc.typeID = t.id");
         $query->innerJoin("#__thm_organizer_room_details AS det ON dsc.descID = det.id");
@@ -110,17 +119,12 @@ class thm_organizersModelroom_manager extends JModelList
             $query->where('r.name LIKE '.$search);
         }
 
-        $institution = $this->getState('filter.institution');
-        if(is_numeric($institution))
+        $campus = $this->getState('filter.campus');
+        if($campus != '*')
         {
-            $query->where("i.id = $institution");
-            $campus = $this->getState('filter.campus');
-            if(is_numeric($campus))
-            {
-                $query->where("c.id = $campus");
-                $building = $this->getState('filter.building');
-                if(is_numeric($building)) $query->where("b.id = $building");
-            }
+            $query->where("r.campus = '$campus'");
+            $building = $this->getState('filter.building');
+            if($building != '*') $query->where("r.building = '$building'");
         }
 
         $type = $this->getState('filter.type');
@@ -158,7 +162,6 @@ class thm_organizersModelroom_manager extends JModelList
     private function getResources($what)
     {
         $roomResourceTables = array(
-            'institutions' => 'i',
             'campuses' => 'c',
             'buildings' => 'b',
             'types' => 't',
@@ -168,7 +171,13 @@ class thm_organizersModelroom_manager extends JModelList
         $dbo = $this->getDbo();
         $query = $this->getListQuery();
         $query->clear('select');
-        $query->select("DISTINCT $prefix.id, $prefix.name");
+        if ($prefix == 'c') {
+        	$query->select("DISTINCT r.campus AS id, r.campus AS name");
+        } else if ($prefix == 'b') {
+        	$query->select("DISTINCT r.building AS id, r.building AS name");
+        } else {
+        	$query->select("DISTINCT $prefix.id, $prefix.name");
+        }
         $query->clear('where');
 
         $search = $this->getState('filter.search');
@@ -178,22 +187,23 @@ class thm_organizersModelroom_manager extends JModelList
             $query->where('r.name LIKE '.$search);
         }
 
-        $institution = $this->getState('filter.institution');
-        if(is_numeric($institution))
+        $campus = $this->getState('filter.campus');
+        if($campus != '*')
         {
-            if($what != 'institutions')$query->where("i.id = $institution");
-            $campus = $this->getState('filter.campus');
-            if(is_numeric($campus))
-            {
-                if($what != 'campuses')$query->where("c.id = $campus");
-                $building = $this->getState('filter.building');
-                if(is_numeric($building) AND $what != 'buildings')
-                    $query->where("b.id = $building");
-            }
+            if($what != 'campuses')$query->where("r.campus = '$campus'");
+            $building = $this->getState('filter.building');
+            if($building != '*' AND $what != 'buildings')
+                $query->where("r.building = '$building'");
         }
         $type = $this->getState('filter.type');
         if(is_numeric($type) AND $what != 'types') $query->where("t.id = $type");
-        $query->order("$prefix.name ASC");
+        if ($prefix == 'c') {
+        	$query->order("r.campus ASC");
+        } else if ($prefix == 'b') {
+        	$query->order("r.building ASC");
+        } else {
+        	$query->order("$prefix.name ASC");
+        }
 
         $dbo->setQuery((string)$query);
         $results = $dbo->loadAssocList();
@@ -206,7 +216,7 @@ class thm_organizersModelroom_manager extends JModelList
                 $resources[$data['id']]['name'] = JText::_($data['name']);
             }
         }
-        else echo (string) $query;
+        else echo $query->dump();
         return $resources;
     }
 }
