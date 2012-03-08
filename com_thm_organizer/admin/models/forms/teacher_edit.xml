@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+			name="id"
+			type="hidden"
+		/>
+		<field
+			name="gpuntisID"
+			type="text"
+			label="COM_THM_ORGANIZER_TM_GPUNTISID_LABEL"
+			description="COM_THM_ORGANIZER_TM_GPUNTISID_DESC"
+			class="inputbox"
+		/>
+		<field
+			name="name"
+			type="text"
+			label="COM_THM_ORGANIZER_TM_NAME_LABEL"
+			description="COM_THM_ORGANIZER_TM_NAME_DESC"
+			class="inputbox"
+		/>
+		<field
+			name="userame"
+			type="text"
+			label="COM_THM_ORGANIZER_TM_USERNAME_LABEL"
+			description="COM_THM_ORGANIZER_TM_USERNAME_DESC"
+			class="inputbox"
+		/>
+		
+		<field
+			name="departmentID"
+			type="sql"
+			label="COM_THM_ORGANIZER_TM_DEPARTMENT_LABEL"
+			description="COM_THM_ORGANIZER_TM_DEPARTMENT_DESC"
+			class="inputbox"
+			query="SELECT DISTINCT id AS value, 
+        						(CASE WHEN subdepartment NOT LIKE '' THEN
+        							CONCAT(department, ' (', subdepartment, ')')
+        						ELSE 
+        							(department)
+        						END) 
+        						AS departmentID
+        				FROM #__thm_organizer_departments"
+        				
+		/>
+
+	</fieldset>
+</form>
