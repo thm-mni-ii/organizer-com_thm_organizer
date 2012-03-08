@@ -17,19 +17,19 @@ JHtml::_('behavior.tooltip');
 	<fieldset class="adminform">
 		<legend><?php echo JText::_( 'COM_THM_ORGANIZER_RM_DETAILS' ); ?></legend>
 		<ul class="adminformlist">
-
+			<?php $emptyID = false; ?>
 			<?php foreach($this->form->getFieldset() as $field): ?>
 				<li><?php	
-					// change gpuntisID field to hidden when editing
-					if ($this->task != 'room.add' && $field->fieldname == 'gpuntisID') {	
-						$input = str_replace('type="text"', 'type="hidden"', $field->input);
-						echo $input;
-					} else {
-						echo $field->label;
-						echo $field->input;
-					}
-					
-				?></li>
+				echo $field->label;
+				if ($field->fieldname == 'id' && $field->value == '') {
+					$emptyID = true;
+				}
+				if ($field->fieldname == 'gpuntisID' && $emptyID == false) {
+					$input = str_replace('type="text"', 'type="text" readonly="readonly"', $field->input);
+					echo $input;
+				} else {
+					echo $field->input;
+				} ?></li>
 			<?php endforeach; ?>
 		</ul>
 	</fieldset>

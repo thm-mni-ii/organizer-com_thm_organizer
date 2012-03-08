@@ -44,7 +44,7 @@ class thm_organizersModelroom_manager extends JModelList
         
         $this->types = $this->getResources('types');
         
-        if(is_numeric($this->getState('filter.type')))
+        if($this->getState('filter.type') != '*')
         	$this->details = $this->getResources('details');
     }
 
@@ -90,6 +90,7 @@ class thm_organizersModelroom_manager extends JModelList
 
         /*
          * room AS r
+         * description AS d
          * r.id
          * r.gpuntisID
          * r.name AS room_name
@@ -98,19 +99,14 @@ class thm_organizersModelroom_manager extends JModelList
          * r.building
          * r.capacity
          * r.floor
-         * dsc.externalKey AS description
-         * inner joins **********
-         * description AS dsc ( r.descriptionID = dsc.id)
-         * types AS t (dsc.typeID = t.id)
-         * details AS det (dsc.descID = det.id)
+         * d.category
+         * d.description
          */
-        $select = "r.id, r.gpuntisID, r.name AS room_name, r.alias, r.campus, r.building, ";
-        $select .= "r.capacity, r.floor, dsc.externalKey AS description";
+        $select = "r.id, r.gpuntisID, r.name AS room_name, r.alias, r.campus, r.building, r.capacity, r.floor, ";
+        $select .= "d.category, d.description";
         $query->select($select);
         $query->from("#__thm_organizer_rooms AS r");
-        $query->innerJoin("#__thm_organizer_room_descriptions AS dsc ON r.descriptionID = dsc.id");
-        $query->innerJoin("#__thm_organizer_room_types AS t ON dsc.typeID = t.id");
-        $query->innerJoin("#__thm_organizer_room_details AS det ON dsc.descID = det.id");
+        $query->innerJoin("#__thm_organizer_descriptions AS d ON r.descriptionID = d.id");
         
         $search = $this->getState('filter.search');
         if($search AND $search != JText::_('COM_THM_ORGANIZER_SEARCH_CRITERIA'))
@@ -128,11 +124,11 @@ class thm_organizersModelroom_manager extends JModelList
         }
 
         $type = $this->getState('filter.type');
-        if(is_numeric($type))
+        if($type != '*')
         {
-            $query->where("t.id = $type");
+            $query->where("d.category = '$type'");
             $detail = $this->getState('filter.detail');
-            if(is_numeric($detail)) $query->where("det.id = $detail");
+            if($detail != '*') $query->where("description = '$detail'");
         }
 
 		// sorting
@@ -175,9 +171,12 @@ class thm_organizersModelroom_manager extends JModelList
         	$query->select("DISTINCT r.campus AS id, r.campus AS name");
         } else if ($prefix == 'b') {
         	$query->select("DISTINCT r.building AS id, r.building AS name");
-        } else {
-        	$query->select("DISTINCT $prefix.id, $prefix.name");
+        } else if ($prefix == 't') {
+        	$query->select("DISTINCT d.category AS id, d.category AS name");
+        } else if ($prefix == 'det') {
+        	$query->select("DISTINCT d.description AS id, d.description AS name");
         }
+        
         $query->clear('where');
 
         $search = $this->getState('filter.search');
@@ -196,13 +195,15 @@ class thm_organizersModelroom_manager extends JModelList
                 $query->where("r.building = '$building'");
         }
         $type = $this->getState('filter.type');
-        if(is_numeric($type) AND $what != 'types') $query->where("t.id = $type");
+        if($type != '*' AND $what != 'types') $query->where("d.category = '$type'");
         if ($prefix == 'c') {
         	$query->order("r.campus ASC");
         } else if ($prefix == 'b') {
         	$query->order("r.building ASC");
-        } else {
-        	$query->order("$prefix.name ASC");
+        } else if ($prefix == 't') {
+        	$query->order("d.category ASC");
+        } else if ($prefix == 'det') {
+        	$query->order("d.description ASC");
         }
 
         $dbo->setQuery((string)$query);

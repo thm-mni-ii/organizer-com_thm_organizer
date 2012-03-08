@@ -35,7 +35,7 @@ class thm_organizersViewroom_edit extends JView
         
         if ($this->task == 'room.add') {
         	// take correct title
-        	$this->item->id == 0;
+        	$this->item->id = 0;
 
         	// set values in form
         	$formElements = $this->form->getFieldset();

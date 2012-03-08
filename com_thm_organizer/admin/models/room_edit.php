@@ -61,8 +61,8 @@ class thm_organizersModelroom_edit extends JModelAdmin
 		$data['alias'] 			= addslashes($data['alias']);
 		$data['floor'] 			= addslashes($data['floor']);
 		$data['capacity'] 		= addslashes($data['capacity']);
-		$data['campusID'] 		= addslashes($data['campusID']);
-		$data['buildingID'] 	= addslashes($data['buildingID']);
+		$data['campus'] 		= addslashes($data['campus']);
+		$data['building'] 	= addslashes($data['building']);
 		$data['descriptionID'] 	= addslashes($data['descriptionID']);
 		
 		return $data;
@@ -125,6 +125,7 @@ class thm_organizersModelroom_edit extends JModelAdmin
 		$roomIDs = JRequest::getVar('cid',  null, '', 'array');
 		$roomID = (empty($roomIDs))? JRequest::getVar('roomID') : $roomIDs[0];
 		$room = ($roomID) ? parent::getItem($roomID) : $this->getTable();
+		$room->testColumn = "test";
 		return $room;
 	}
 }

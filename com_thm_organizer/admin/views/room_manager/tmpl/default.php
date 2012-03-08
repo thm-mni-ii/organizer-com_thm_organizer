@@ -151,7 +151,12 @@ $search = ($this->state->get('filter.search'))?
                     </td>
                     <td>
                         <a href="<?php echo $room->url; ?>">
-                            <?php echo JText::_($room->description); ?>
+                            <?php 
+                            if ($room->description != '')
+                            	echo JText::_($room->category)." / ".JText::_($room->description);
+                            else
+                            	echo JText::_($room->category);
+                            ?>
                         </a>
                     </td>
                 </tr>
