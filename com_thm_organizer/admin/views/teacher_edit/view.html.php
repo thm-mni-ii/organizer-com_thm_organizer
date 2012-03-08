@@ -35,7 +35,7 @@ class thm_organizersViewteacher_edit extends JView
         
         if ($this->task == 'teacher.add') {
         	// take correct title
-        	$this->item->id == 0;
+        	$this->item->id = 0;
 
         	// set values in form
         	$formElements = $this->form->getFieldset();

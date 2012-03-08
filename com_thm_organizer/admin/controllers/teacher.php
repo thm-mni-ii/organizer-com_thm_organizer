@@ -43,6 +43,7 @@ class thm_organizersControllerteacher extends JControllerForm
 		$jform		= JRequest::getVar('jform', null, null, null, 4);
 		$name 		= trim($jform['name']);
 		$gpuntisid 	= trim($jform['gpuntisID']);
+		$id			= trim($jform['id']);
 		
 		// check data for emptiness
 		$errors_exist = false;
@@ -55,6 +56,16 @@ class thm_organizersControllerteacher extends JControllerForm
 		if ($gpuntisid == null || strlen($gpuntisid) == 0) {
 			$errors_exist = true;
 			$error_message .= JText::_('COM_THM_ORGANIZER_TM_EDIT_ERROR_GPUNTISID_EMPTY').'<br />';
+		}
+		else if (!$id)
+		{
+			// check for duplicate gpuntisid
+			$model = $this->getModel('teacher_edit');
+			if ($model->gpuntisidExists($gpuntisid))
+			{
+				$errors_exist = true;
+				$error_message .= JText::_('COM_THM_ORGANIZER_TM_EDIT_ERROR_GPUNTISID_ALREADY_EXISTS').'<br />';
+			}
 		}
 		
 		// redirect if errors occurred
