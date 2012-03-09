@@ -1,22 +1,16 @@
 <?php
 /**
- * @version 1.0 $Id: controller.php 958 2009-02-02 17:23:05Z julienv $
- * @package Joomla
- * @subpackage Giessen_Events
- * @copyright (C) 2005 - 2009 Christoph Lukes
- * @license GNU/GPL, see LICENSE.php
- * Giessen Events is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
-
- * Giessen Events is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
-
- * You should have received a copy of the GNU General Public License
- * along with Giessen Events; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @package     Joomla.Administrator
+ * @subpackage  com_thm_organizer
+ * @name        controller thm_organizer
+ * @description the entry file for the administrative area of thm_organizer
+ *              accepts the controller/task parameters and redirects to specific
+ *              controllers
+ * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ * @copyright   TH Mittelhessen 2012
+ * @license     GNU GPL v.2
+ * @link        www.mni.thm.de
+ * @version     2.5
  */
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
@@ -24,19 +18,11 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport('joomla.application.component.controller');
 require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
 
-/**
- * Giessen Events Component Controller
- *
- * @package Joomla
- * @subpackage Giessen_Events
- * @since 0.9
- */
 class thm_organizersController extends JController
 {
     public function display()
     {
         thm_organizerHelper::addSubmenu(JRequest::getCmd('view'));
         parent::display();
-
     }
 }

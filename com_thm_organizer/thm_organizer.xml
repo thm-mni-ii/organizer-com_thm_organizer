@@ -52,8 +52,8 @@
                   view="semester_manager">COM_THM_ORGANIZER_SEM_TITLE</menu>
             <menu img="components/com_thm_organizer/assets/images/schedule_manager.png"
                   view="semester_manager">COM_THM_ORGANIZER_SCH_TITLE</menu>
-            <menu img="components/com_thm_organizer/assets/images/scheduler_application_settings.png"
-                  view="scheduler_application_settings">COM_THM_ORGANIZER_RIA_TITLE</menu>
+            <menu img="components/com_thm_organizer/assets/images/settings.png"
+                  view="settings">COM_THM_ORGANIZER_COM_TITLE</menu>
             <menu img="components/com_thm_organizer/assets/images/virtual_schedule_manager.png"
                   view="virtual_schedule_manager">COM_THM_ORGANIZER_VSM_TITLE</menu>
         </submenu>

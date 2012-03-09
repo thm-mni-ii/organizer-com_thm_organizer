@@ -43,7 +43,7 @@ class thm_organizerHelper
             'resource_manager' => array('name' => 'COM_THM_ORGANIZER_RES_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=resource_manager'),
             'category_manager' => array('name' => 'COM_THM_ORGANIZER_CAT_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=category_manager'),
             'monitor_manager' => array('name' => 'COM_THM_ORGANIZER_MON_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=monitor_manager'),
-            'schedule_application_settings' => array('name' => 'COM_THM_ORGANIZER_RIA_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=scheduler_application_settings')
+            'settings' => array('name' => 'COM_THM_ORGANIZER_COM_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=settings')
         );
         $resourceSubmenus = array(
             'class_manager' => array('name' => 'COM_THM_ORGANIZER_CLM_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=class_manager'),

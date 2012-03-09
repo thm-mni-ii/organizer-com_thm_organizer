@@ -1,7 +1,7 @@
 <?php
 defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport('joomla.application.component.controller');
-class thm_organizersControllerScheduler_Application_Settings extends JController
+class thm_organizersControllerSettings extends JController
 {
 	function display()
 	{
@@ -15,9 +15,9 @@ class thm_organizersControllerScheduler_Application_Settings extends JController
 
 	function save()
 	{
-		$model = $this->getModel('scheduler_application_settings');
+		$model = $this->getModel('settings');
 		$result = $model->store();
-		$this->setRedirect( 'index.php?option=com_thm_organizer&view=scheduler_application_settings', $result);
+		$this->setRedirect( 'index.php?option=com_thm_organizer&view=settings', $result);
 	}
 }
 ?>

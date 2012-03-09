@@ -1,7 +1,7 @@
 <?php
 defined('_JEXEC') or die('Restriced Access');
 jimport('joomla.application.component.model');
-class thm_organizersModelScheduler_Application_Settings extends JModel
+class thm_organizersModelSettings extends JModel
 {
 	function __construct()
 	{
@@ -13,26 +13,20 @@ class thm_organizersModelScheduler_Application_Settings extends JModel
 	{
 		$mainframe = JFactory::getApplication("administrator");
 		$dbo = & JFactory::getDBO();
-		$query = "SELECT id, title as name
-					FROM #__thm_organizer_categories";
+		$query = "SELECT id, title as name FROM #__thm_organizer_categories";
 		$dbo->setQuery( $query );
-		$usergroups = $dbo->loadObjectList();
-		if(count($usergroups) <= 0)
-			return false;
-		return $usergroups;
+		$categories = $dbo->loadObjectList();
+		return (count($categories) <= 0)? false : $categories;
 	}
 
 	function getSettings()
 	{
 		$mainframe = JFactory::getApplication("administrator");
 		$dbo = & JFactory::getDBO();
-		$query = "SELECT *
-					FROM #__thm_organizer_application_settings WHERE id=1";
+		$query = "SELECT * FROM #__thm_organizer_settings";
 		$dbo->setQuery( $query );
-		$usergroups = $dbo->loadObjectList();
-		if(count($usergroups) <= 0)
-			return false;
-		return $usergroups;
+		$settings = $dbo->loadObjectList();
+		return (count($settings) <= 0)? false : $settings;
 	}
 
 	function store()
@@ -47,11 +41,11 @@ class thm_organizersModelScheduler_Application_Settings extends JModel
 		if(isset($scheduler_downFolder) && isset($scheudler_vacationcat) && isset($scheduler_eStudyPath) && isset($scheduler_eStudywsapiPath) && isset($scheduler_eStudyCreateCoursePath) && isset($scheduler_eStudySoapSchema))
 		{
 			$dbo = & JFactory::getDBO();
-			$querydel = "DELETE FROM #__thm_organizer_application_settings WHERE id IN ( 1 );";
+			$querydel = "DELETE FROM #__thm_organizer_settings WHERE id IN ( 1 );";
 			$dbo->setQuery($querydel);
 			$dbo->query();
 
-			$queryinsert = "INSERT INTO #__thm_organizer_application_settings
+			$queryinsert = "INSERT INTO #__thm_organizer_settings
 					 (id, downFolder, vacationcat, eStudyPath, eStudywsapiPath, eStudyCreateCoursePath, eStudySoapSchema)
 					 VALUES (1, '$scheduler_downFolder', '$scheudler_vacationcat', '$scheduler_eStudyPath', '$scheduler_eStudywsapiPath', '$scheduler_eStudyCreateCoursePath', '$scheduler_eStudySoapSchema')";
 			$dbo->setQuery($queryinsert);
