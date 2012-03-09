@@ -70,8 +70,6 @@ $search = ($this->state->get('filter.search'))?
                 <col id="thm_organizer_rmm_alias_column" />
                 <col id="thm_organizer_rmm_campus_name_column" />
                 <col id="thm_organizer_rmm_building_column" />
-                <col id="thm_organizer_rmm_capacity_column" />
-                <col id="thm_organizer_rmm_floor_column" />
                 <col id="thm_organizer_rmm_description_column" />
             </colgroup>
             <thead>
@@ -93,19 +91,13 @@ $search = ($this->state->get('filter.search'))?
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_BUILDING', 'r.building', $this->direction, $this->orderby); ?>
                     </th>
                     <th class="thm_organizer_sch_th" >
-                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_CAPACITY', 'r.capacity', $this->direction, $this->orderby); ?>
-                    </th>
-                    <th class="thm_organizer_sch_th" >
-                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_FLOOR', 'r.floor', $this->direction, $this->orderby); ?>
-                    </th>
-                     <th class="thm_organizer_sch_th" >
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_DESC', 'dsc.externalKey', $this->direction, $this->orderby); ?>
                     </th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
-                    <td colspan="10">
+                    <td colspan="7">
                         <?php echo $this->pagination->getListFooter(); ?>
                     </td>
                 </tr>
@@ -137,16 +129,6 @@ $search = ($this->state->get('filter.search'))?
                     <td>
                         <a href="<?php echo $room->url; ?>">
                             <?php echo JText::_($room->building); ?>
-                        </a>
-                    </td>
-                    <td>
-                        <a href="<?php echo $room->url; ?>">
-                            <?php echo JText::_($room->capacity); ?>
-                        </a>
-                    </td>
-                    <td>
-                        <a href="<?php echo $room->url; ?>">
-                            <?php echo JText::_($room->floor); ?>
                         </a>
                     </td>
                     <td>

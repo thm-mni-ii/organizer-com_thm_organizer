@@ -59,8 +59,6 @@ class thm_organizersModelroom_edit extends JModelAdmin
 		$data['gpuntisID'] 		= addslashes($data['gpuntisID']);
 		$data['name'] 			= addslashes($data['name']);
 		$data['alias'] 			= addslashes($data['alias']);
-		$data['floor'] 			= addslashes($data['floor']);
-		$data['capacity'] 		= addslashes($data['capacity']);
 		$data['campus'] 		= addslashes($data['campus']);
 		$data['building'] 	= addslashes($data['building']);
 		$data['descriptionID'] 	= addslashes($data['descriptionID']);
