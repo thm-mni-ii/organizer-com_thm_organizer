@@ -37,15 +37,32 @@ class thm_organizersModelroom_manager extends JModelList
         }
         parent::__construct($config);
 
+        // get lists for filters
+        $errorOccurred = false;
+        
         $this->campuses = $this->getResources('campuses');
         
-        if($this->getState('filter.campus') != '*')
+        if (!$this->campuses) $errorOccurred = true;
+        
+        if($this->getState('filter.campus') != '*') 
+        {
         	$this->buildings = $this->getResources('buildings');
+        	if (!$this->buildings) $errorOccurred = true;
+        }
         
         $this->types = $this->getResources('types');
+        if (!$this->types) $errorOccurred = true;
         
-        if($this->getState('filter.type') != '*')
+        if($this->getState('filter.type') != '*') 
+        {
         	$this->details = $this->getResources('details');
+        	if (!$this->details) $errorOccurred = true;
+        }
+        
+        if ($errorOccurred)
+        {
+        	JError::raiseNotice(667, JText::_('COM_THM_ORGANIZER_SEARCH_CRITERIA_NO_RESULTS'));
+        }
     }
 
     /**
@@ -116,19 +133,19 @@ class thm_organizersModelroom_manager extends JModelList
         }
 
         $campus = $this->getState('filter.campus');
-        if($campus != '*')
+        if(!$campus || $campus != '*')
         {
-            $query->where("r.campus = '$campus'");
+            $query->where("r.campus LIKE '$campus'");
             $building = $this->getState('filter.building');
-            if($building != '*') $query->where("r.building = '$building'");
+            if(!$building || $building != '*') $query->where("r.building LIKE '$building'");
         }
 
         $type = $this->getState('filter.type');
-        if($type != '*')
+        if(!type || $type != '*')
         {
-            $query->where("d.category = '$type'");
+            $query->where("d.category LIKE '$type'");
             $detail = $this->getState('filter.detail');
-            if($detail != '*') $query->where("description = '$detail'");
+            if(!$detail || $detail != '*') $query->where("description = '$detail'");
         }
 
 		// sorting
@@ -187,15 +204,16 @@ class thm_organizersModelroom_manager extends JModelList
         }
 
         $campus = $this->getState('filter.campus');
-        if($campus != '*')
+        if(!$campus || $campus != '*')
         {
-            if($what != 'campuses')$query->where("r.campus = '$campus'");
+            if($what != 'campuses')$query->where("r.campus LIKE '$campus'");
             $building = $this->getState('filter.building');
-            if($building != '*' AND $what != 'buildings')
-                $query->where("r.building = '$building'");
+            
+            if(!$building || $building != '*' AND $what != 'buildings')
+                $query->where("r.building LIKE '$building'");
         }
         $type = $this->getState('filter.type');
-        if($type != '*' AND $what != 'types') $query->where("d.category = '$type'");
+        if(!$type || $type != '*' AND $what != 'types') $query->where("d.category LIKE '$type'");
         if ($prefix == 'c') {
         	$query->order("r.campus ASC");
         } else if ($prefix == 'b') {
@@ -217,7 +235,7 @@ class thm_organizersModelroom_manager extends JModelList
                 $resources[$data['id']]['name'] = JText::_($data['name']);
             }
         }
-        else echo $query->dump();
+        else $resources = false;
         return $resources;
     }
 }
