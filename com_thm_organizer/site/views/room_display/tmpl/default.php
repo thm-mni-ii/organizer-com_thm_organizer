@@ -22,9 +22,10 @@ $document->setTitle($title);
 if(isset($model->roomSelectLink))
 {
     $backSpan = "<span id='thm_organizer_back_span' class='thm_organizer_action_span'></span>";
-    $backTip = JText::_('COM_THM_ORGANIZER_RD_RS_LINK_TITLE');
-    $backTip .= "::";
-    $backTip .= JText::_('COM_THM_ORGANIZER_RD_RS_LINK_TEXT');
+    $backTip = JText::_sprintf('COM_THM_ORGANIZER_TOOLTIP', 'COM_THM_ORGANIZER_RD_RS_LINK_TITLE', 'COM_THM_ORGANIZER_RD_RS_LINK_TEXT');
+//    $backTip = JText::_('COM_THM_ORGANIZER_RD_RS_LINK_TITLE');
+//    $backTip .= "::";
+//    $backTip .= JText::_('COM_THM_ORGANIZER_RD_RS_LINK_TEXT');
     $attributes = array();
     $attributes['title'] = $backTip;
     $attributes['class'] = "hasTip thm_organizer_action_link";
