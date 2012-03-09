@@ -17,7 +17,6 @@ jimport('joomla.application.component.modellist');
  */
 class thm_organizersModelroom_manager extends JModelList
 {
-    public $institutions = null;
     public $campuses = null;
     public $buildings = null;
     public $types = null;
@@ -44,7 +43,7 @@ class thm_organizersModelroom_manager extends JModelList
         
         if (!$this->campuses) $errorOccurred = true;
         
-        if($this->getState('filter.campus') != '*') 
+        if($this->getState('filter.campus') && $this->getState('filter.campus') != '*') 
         {
         	$this->buildings = $this->getResources('buildings');
         	if (!$this->buildings) $errorOccurred = true;
@@ -53,7 +52,7 @@ class thm_organizersModelroom_manager extends JModelList
         $this->types = $this->getResources('types');
         if (!$this->types) $errorOccurred = true;
         
-        if($this->getState('filter.type') != '*') 
+        if($this->getState('filter.type') && $this->getState('filter.type') != '*') 
         {
         	$this->details = $this->getResources('details');
         	if (!$this->details) $errorOccurred = true;
@@ -114,10 +113,12 @@ class thm_organizersModelroom_manager extends JModelList
          * r.alias
          * r.campus
          * r.building
+         * r.capacity
+         * r.floor
          * d.category
          * d.description
          */
-        $select = "r.id, r.gpuntisID, r.name AS room_name, r.alias, r.campus, r.building, ";
+        $select = "r.id, r.gpuntisID, r.name AS room_name, r.alias, r.campus, r.building, r.capacity, r.floor, ";
         $select .= "d.category, d.description";
         $query->select($select);
         $query->from("#__thm_organizer_rooms AS r");
@@ -131,19 +132,21 @@ class thm_organizersModelroom_manager extends JModelList
         }
 
         $campus = $this->getState('filter.campus');
-        if(!$campus || $campus != '*')
+
+        if(!is_null($campus) && $campus != '*')
         {
-            $query->where("r.campus LIKE '$campus'");
+        	//var_dump($campus); blah();
+            $query->where("r.campus = '$campus'");
             $building = $this->getState('filter.building');
-            if(!$building || $building != '*') $query->where("r.building LIKE '$building'");
+            if(!is_null($building) && $building != '*') $query->where("r.building = '$building'");
         }
 
         $type = $this->getState('filter.type');
-        if(!type || $type != '*')
+        if(!is_null($type) && $type != '*')
         {
-            $query->where("d.category LIKE '$type'");
+            $query->where("d.category = '$type'");
             $detail = $this->getState('filter.detail');
-            if(!$detail || $detail != '*') $query->where("description = '$detail'");
+            if(!is_null($detail) && $detail != '*') $query->where("description = '$detail'");
         }
 
 		// sorting
@@ -157,7 +160,7 @@ class thm_organizersModelroom_manager extends JModelList
         	$direction = 'ASC';
         
         $query->order("$orderby $direction");
-
+        
         return $query;
     }
 
@@ -202,16 +205,16 @@ class thm_organizersModelroom_manager extends JModelList
         }
 
         $campus = $this->getState('filter.campus');
-        if(!$campus || $campus != '*')
+        if(!is_null($campus) && $campus != '*')
         {
-            if($what != 'campuses')$query->where("r.campus LIKE '$campus'");
+            if($what != 'campuses')$query->where("r.campus = '$campus'");
             $building = $this->getState('filter.building');
             
-            if(!$building || $building != '*' AND $what != 'buildings')
-                $query->where("r.building LIKE '$building'");
+            if(!is_null($building) && $building != '*' AND $what != 'buildings')
+                $query->where("r.building = '$building'");
         }
         $type = $this->getState('filter.type');
-        if(!$type || $type != '*' AND $what != 'types') $query->where("d.category LIKE '$type'");
+        if(!is_null($type) && $type != '*' AND $what != 'types') $query->where("d.category = '$type'");
         if ($prefix == 'c') {
         	$query->order("r.campus ASC");
         } else if ($prefix == 'b') {
