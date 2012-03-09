@@ -32,23 +32,6 @@
 			class="inputbox"
 		/>
 		<field
-			name="floor"
-			type="text"
-			label="COM_THM_ORGANIZER_RM_FLOOR_LABEL"
-			description="COM_THM_ORGANIZER_RM_FLOOR_DESC"
-			maxlength="2"
-			class="inputbox"
-			default="0"
-		/>
-		<field
-			name="capacity"
-			type="text"
-			label="COM_THM_ORGANIZER_RM_CAPACITY_LABEL"
-			description="COM_THM_ORGANIZER_RM_CAPACITY_DESC"
-			maxlength="4"
-			class="inputbox"
-		/>
-		<field
 			name="campus"
 			type="sql"
 			label="COM_THM_ORGANIZER_RM_CAMPUS_LABEL"

@@ -97,12 +97,10 @@ class thm_organizersModelroom_manager extends JModelList
          * r.alias
          * r.campus
          * r.building
-         * r.capacity
-         * r.floor
          * d.category
          * d.description
          */
-        $select = "r.id, r.gpuntisID, r.name AS room_name, r.alias, r.campus, r.building, r.capacity, r.floor, ";
+        $select = "r.id, r.gpuntisID, r.name AS room_name, r.alias, r.campus, r.building, ";
         $select .= "d.category, d.description";
         $query->select($select);
         $query->from("#__thm_organizer_rooms AS r");
