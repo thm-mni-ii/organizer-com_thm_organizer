@@ -32,14 +32,13 @@ class thm_organizersViewroom_manager extends JView
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
 
-        $this->rooms = $this->get('Items');
-        $this->pagination = $this->get('Pagination');
-        $this->state = $this->get('State');
-        $this->institutions = $model->institutions;
-        $this->campuses = $model->campuses;
-        $this->buildings = (count($model->buildings))? $this->buildings = $model->buildings : array();
-        $this->types = $model->types;
-        $this->details = (count($model->details))? $model->details : array();
+        $this->rooms 			= $this->get('Items');
+        $this->pagination 		= $this->get('Pagination');
+        $this->state 			= $this->get('State');
+        $this->campuses 		= $model->campuses;
+        $this->buildings 		= (count($model->buildings))? $this->buildings = $model->buildings : array();
+        $this->categories 		= $model->categories;
+        $this->descriptions 	= (count($model->descriptions)) ? $model->descriptions : array();
         
         // for sorting
         $state = $this->get('State');

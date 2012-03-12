@@ -17,27 +17,17 @@ jimport('joomla.application.component.modellist');
  */
 class thm_organizersModelroom_manager extends JModelList
 {
-    public $campuses = null;
-    public $buildings = null;
-    public $types = null;
+    public $campuses 		= null;
+    public $buildings 		= null;
+    public $categories		= null;
+    public $descriptions 	= null;
 
     public function __construct($config = array())
     {
-        if (empty($config['filter_fields']))
-        {
-            $config['filter_fields'] =
-                array(
-                    'name', 'r.name',
-                    'institution', 'r.institution',
-                    'campus', 'r.campus',
-                    'building', 'r.building',
-                    'type', 'desc.typeID'
-                );
-        }
-        parent::__construct($config);
+    	parent::__construct();
 
         // get lists for filters
-        $errorOccurred = false;
+        $errorOccurred = false;  // variable to prevent to show the same error multiple times
         
         $this->campuses = $this->getResources('campuses');
         
@@ -49,13 +39,13 @@ class thm_organizersModelroom_manager extends JModelList
         	if (!$this->buildings) $errorOccurred = true;
         }
         
-        $this->types = $this->getResources('types');
-        if (!$this->types) $errorOccurred = true;
+        $this->categories = $this->getResources('categories');
+        if (!$this->categories) $errorOccurred = true;
         
-        if($this->getState('filter.type') && $this->getState('filter.type') != '*') 
+        if($this->getState('filter.category') && $this->getState('filter.category') != '*') 
         {
-        	$this->details = $this->getResources('details');
-        	if (!$this->details) $errorOccurred = true;
+        	$this->descriptions = $this->getResources('descriptions');
+        	if (!$this->descriptions) $errorOccurred = true;
         }
         
         if ($errorOccurred)
@@ -74,20 +64,17 @@ class thm_organizersModelroom_manager extends JModelList
         $search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
         $this->setState('filter.search', $search);
 
-        $institution = $this->getUserStateFromRequest($this->context.'.filter.institution', 'filter_institution');
-        $this->setState('filter.institution', $institution);
-
         $campus = $this->getUserStateFromRequest($this->context.'.filter.campus', 'filter_campus');
         $this->setState('filter.campus', $campus);
 
         $building = $this->getUserStateFromRequest($this->context.'.filter.building', 'filter_building');
         $this->setState('filter.building', $building);
 
-        $type = $this->getUserStateFromRequest($this->context.'.filter.type', 'filter_type');
-        $this->setState('filter.type', $type);
+        $category = $this->getUserStateFromRequest($this->context.'.filter.category', 'filter_category');
+        $this->setState('filter.category', $category);
 
-        $detail = $this->getUserStateFromRequest($this->context.'.filter.detail', 'filter_detail');
-        $this->setState('filter.detail', $detail);
+        $description = $this->getUserStateFromRequest($this->context.'.filter.description', 'filter_description');
+        $this->setState('filter.description', $description);
 
         // sorting
         $filter_order = JRequest::getCmd('filter_order');
@@ -113,12 +100,10 @@ class thm_organizersModelroom_manager extends JModelList
          * r.alias
          * r.campus
          * r.building
-         * r.capacity
-         * r.floor
          * d.category
          * d.description
          */
-        $select = "r.id, r.gpuntisID, r.name AS room_name, r.alias, r.campus, r.building, r.capacity, r.floor, ";
+        $select = "r.id, r.gpuntisID, r.name AS room_name, r.alias, r.campus, r.building, ";
         $select .= "d.category, d.description";
         $query->select($select);
         $query->from("#__thm_organizer_rooms AS r");
@@ -141,12 +126,12 @@ class thm_organizersModelroom_manager extends JModelList
             if(!is_null($building) && $building != '*') $query->where("r.building = '$building'");
         }
 
-        $type = $this->getState('filter.type');
-        if(!is_null($type) && $type != '*')
+        $category = $this->getState('filter.category');
+        if(!is_null($category) && $category != '*')
         {
-            $query->where("d.category = '$type'");
-            $detail = $this->getState('filter.detail');
-            if(!is_null($detail) && $detail != '*') $query->where("description = '$detail'");
+            $query->where("d.category = '$category'");
+            $description = $this->getState('filter.description');
+            if(!is_null($description) && $description != '*') $query->where("description = '$description'");
         }
 
 		// sorting
@@ -175,24 +160,23 @@ class thm_organizersModelroom_manager extends JModelList
      */
     private function getResources($what)
     {
-        $roomResourceTables = array(
-            'campuses' => 'c',
-            'buildings' => 'b',
-            'types' => 't',
-            'details' => 'det'
-        );
-        $prefix = $roomResourceTables[$what];
         $dbo = $this->getDbo();
         $query = $this->getListQuery();
         $query->clear('select');
-        if ($prefix == 'c') {
-        	$query->select("DISTINCT r.campus AS id, r.campus AS name");
-        } else if ($prefix == 'b') {
-        	$query->select("DISTINCT r.building AS id, r.building AS name");
-        } else if ($prefix == 't') {
-        	$query->select("DISTINCT d.category AS id, d.category AS name");
-        } else if ($prefix == 'det') {
-        	$query->select("DISTINCT d.description AS id, d.description AS name");
+        
+        switch ($what) {
+        	case 'campuses':
+	        	$query->select("DISTINCT r.campus AS id, r.campus AS name");
+	        	break;
+        	case 'buildings':
+	        	$query->select("DISTINCT r.building AS id, r.building AS name");
+	        	break;
+        	case 'categories':
+	        	$query->select("DISTINCT d.category AS id, d.category AS name");
+	        	break;
+        	case 'descriptions':
+	        	$query->select("DISTINCT d.description AS id, d.description AS name");
+	        	break;
         }
         
         $query->clear('where');
@@ -213,16 +197,23 @@ class thm_organizersModelroom_manager extends JModelList
             if(!is_null($building) && $building != '*' AND $what != 'buildings')
                 $query->where("r.building = '$building'");
         }
-        $type = $this->getState('filter.type');
-        if(!is_null($type) && $type != '*' AND $what != 'types') $query->where("d.category = '$type'");
-        if ($prefix == 'c') {
-        	$query->order("r.campus ASC");
-        } else if ($prefix == 'b') {
-        	$query->order("r.building ASC");
-        } else if ($prefix == 't') {
-        	$query->order("d.category ASC");
-        } else if ($prefix == 'det') {
-        	$query->order("d.description ASC");
+        $category = $this->getState('filter.category');
+        if(!is_null($category) && $category != '*' AND $what != 'categories') $query->where("d.category = '$category'");
+
+        // ordering
+        switch ($what) {
+        	case 'campuses':
+        		$query->order("r.campus ASC");
+        		break;
+        	case 'buildings':
+	        	$query->order("r.building ASC");
+	        	break;
+        	case 'categories':
+	        	$query->order("d.category ASC");
+	        	break;
+        	case 'descriptions':
+	        	$query->order("d.description ASC");
+	        	break;
         }
 
         $dbo->setQuery((string)$query);
