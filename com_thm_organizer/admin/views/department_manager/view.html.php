@@ -57,7 +57,7 @@ class thm_organizersViewdepartment_manager extends JView
      */
     private function addLinks()
     {
-        $editURL = 'index.php?option=com_thm_organizer&view=department_edit&deartmentID=';
+        $editURL = 'index.php?option=com_thm_organizer&view=department_edit&departmentID=';
         foreach($this->items as $key => $item)
             $this->items[$key]->url = $editURL.$item->id;
     }
@@ -73,7 +73,7 @@ class thm_organizersViewdepartment_manager extends JView
         JToolBarHelper::title($title);
         JToolBarHelper::addNew('department.add');
         JToolBarHelper::editList('department.edit');
-        JToolBarHelper::deleteList(JText::_( 'COM_THM_ORGANIZER_RMM_DELETE_CONFIRM'),'department.delete');
+        JToolBarHelper::deleteList(JText::_( 'COM_THM_ORGANIZER_DEPARTMENT_MANAGER_DELETE_CONFIRM'),'department.delete');
 
     }
 }
