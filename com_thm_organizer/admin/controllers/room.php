@@ -41,6 +41,7 @@ class thm_organizersControllerroom extends JControllerForm
 	protected function myValidate() {
 		// get entered data
 		$jform			= JRequest::getVar('jform', null, null, null, 4);
+		$id 			= trim($jform['id']);
 		$room_name 		= trim($jform['name']);
 		$room_alias		= trim($jform['alias']);
 		$room_gpuntisid = trim($jform['gpuntisID']);
@@ -60,6 +61,16 @@ class thm_organizersControllerroom extends JControllerForm
 		if ($room_gpuntisid == null || strlen($room_gpuntisid) == 0) {
 			$errors_exist = true;
 			$error_message .= JText::_('COM_THM_ORGANIZER_RM_EDIT_ERROR_GPUNTISID_EMPTY').'<br />';
+		}
+		else if (!$id)
+		{
+			// check for duplicate gpuntisid
+			$model = $this->getModel('room_edit');
+			if ($model->gpuntisidExists($room_gpuntisid))
+			{
+				$errors_exist = true;
+				$error_message .= JText::_('COM_THM_ORGANIZER_RM_EDIT_ERROR_GPUNTISID_ALREADY_EXISTS').'<br />';
+			}
 		}
 		
 		// redirect if errors occurred
