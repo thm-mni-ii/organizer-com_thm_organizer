@@ -92,7 +92,10 @@ class thm_organizersModelclass_manager extends JModelList
         $select = "c.id, c.gpuntisID, c.name, c.alias, c.alias, t.name AS c_manager, c.semester, c.major";
         $query->select($select);
         $query->from("#__thm_organizer_classes AS c");
-        $query->innerJoin("#__thm_organizer_teachers AS t ON c.manager = t.username");
+        $innerJoin = "(SELECT name, username FROM #__thm_organizer_teachers WHERE username != '' ";
+        $innerJoin .= "UNION SELECT '' AS name, '' AS username ) ";
+        $innerJoin .= "AS t ON c.manager = t.username";
+        $query->innerJoin($innerJoin);
         
         $search = $this->getState('filter.search');
         if($search AND $search != JText::_('COM_THM_ORGANIZER_SEARCH_CRITERIA'))
