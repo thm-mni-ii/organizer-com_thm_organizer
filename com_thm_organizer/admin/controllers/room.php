@@ -44,7 +44,7 @@ class thm_organizersControllerroom extends JControllerForm
 		$id 			= trim($jform['id']);
 		$room_name 		= trim($jform['name']);
 		$room_alias		= trim($jform['alias']);
-		$room_gpuntisid = trim($jform['gpuntisID']);
+		$room_gpuntisid		= trim($jform['gpuntisID']);
 		
 		// check data for emptiness
 		$errors_exist = false;
@@ -95,8 +95,8 @@ class thm_organizersControllerroom extends JControllerForm
 		
 		$this->myValidate();
 		
-        $model = $this->getModel('room_edit');
-        $result = $model->update();
+	        $model = $this->getModel('room_edit');
+       		$result = $model->update();
 		
 		if ($result) {
 			$this->setRedirect('index.php?option=com_thm_organizer&view=room_manager', JText::_('COM_THM_ORGANIZER_RM_SAVE_OK'));
