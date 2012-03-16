@@ -1,18 +1,18 @@
 <?php
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
- 
+
 // import Joomla controllerform library
 jimport('joomla.application.component.controllerform');
- 
+
 /**
  * class Edit Controller
  */
 class thm_organizersControllerclass extends JControllerForm
-{	
+{
 	/**
 	 * add
-	 * 
+	 *
 	 * display the add (= edit) form
 	 * @return void
 	 */
@@ -23,7 +23,7 @@ class thm_organizersControllerclass extends JControllerForm
 	}
 	/**
 	 * edit
-	 * 
+	 *
 	 * display the edit form
 	 * @return void
 	 */
@@ -34,7 +34,7 @@ class thm_organizersControllerclass extends JControllerForm
 	}
 	/**
 	 * myValdiate
-	 * 
+	 *
 	 * looks for empty entries in the form
 	 * @return void
 	 */
@@ -47,14 +47,14 @@ class thm_organizersControllerclass extends JControllerForm
 		$class_semester 	= trim($jform['semester']);
 		$class_major 		= trim($jform['major']);
 		$id					= trim($jform['id']);
-		
+
 		// check data for emptiness
 		$errors_exist = false;
 		$error_message = JText::_('COM_THM_ORGANIZER_CL_EDIT_ERROR').'<br />';
-		
+
 		if ($class_name == null || strlen($class_name) == 0) {
 			$errors_exist = true;
-			$error_message .= JText::_('COM_THM_ORGANIZER_CL_EDIT_ERROR_NAME_EMPTY').'<br />';	
+			$error_message .= JText::_('COM_THM_ORGANIZER_CL_EDIT_ERROR_NAME_EMPTY').'<br />';
 		}
 		if ($class_alias == null || strlen($class_alias) == 0) {
 			$errors_exist = true;
@@ -79,32 +79,32 @@ class thm_organizersControllerclass extends JControllerForm
 			$errors_exist = true;
 			$error_message .= JText::_('COM_THM_ORGANIZER_CL_EDIT_ERROR_MAJOR_EMPTY').'<br />';
 		}
-		
+
 		// redirect if errors occurred
 		if ($errors_exist) {
 			$session =& JFactory::getSession();
 			$session->set('oldPost', $_POST);
-			
+				
 			$this->setRedirect(('index.php?option=com_thm_organizer&view=class_edit'), JText::_($error_message), 'error');
 			$this->redirect();
 		}
 	}
 	/**
 	 * save
-	 * 
+	 *
 	 * saves either an edited or a new class and redirects to list view
-	 * 
+	 *
 	 * @return void
 	 * @see JControllerForm
 	 */
 	public function save($key = null, $urlVar = null) {
 		if(!thm_organizerHelper::isAdmin('class_edit')) thm_organizerHelper::noAccess ();
-		
+
 		$this->myValidate();
-		
-        $model = $this->getModel('class_edit');
-        $result = $model->update();
-		
+
+		$model = $this->getModel('class_edit');
+		$result = $model->update();
+
 		if ($result) {
 			$this->setRedirect('index.php?option=com_thm_organizer&view=class_manager', JText::_('COM_THM_ORGANIZER_CL_SAVE_OK'));
 		} else {
@@ -113,26 +113,27 @@ class thm_organizersControllerclass extends JControllerForm
 	}
 	/**
 	 * delete
-	 * 
+	 *
 	 * deletes class entries specified by (maybe multiple) cids and redirects to list view
 	 * @return void
 	 */
 	public function delete() {
 		if(!thm_organizerHelper::isAdmin('class_edit')) thm_organizerHelper::noAccess ();
-		
+
 		$model = $this->getModel('class_edit');
 		$classIDs = JRequest::getVar('cid', array(), 'post', 'array');
 		$table = JTable::getInstance('classes', 'thm_organizerTable');
 		$error = false;
-		
+
+		// iterate through ids to delete
 		foreach($classIDs as $classID)
 		{
 			$table->load($classID);
 			if (!$model->delete($classID)) {
 				$error = true;
 			}
-		} 
-		
+		}
+
 		if ($error) {
 			$this->setRedirect('index.php?option=com_thm_organizer&view=class_manager', JText::_('COM_THM_ORGANIZER_CL_DELETE_FAIL'));
 		} else {
@@ -141,7 +142,7 @@ class thm_organizersControllerclass extends JControllerForm
 	}
 	/**
 	 * cancel
-	 * 
+	 *
 	 * redirect, when editing is cancelled
 	 * @return void
 	 */
