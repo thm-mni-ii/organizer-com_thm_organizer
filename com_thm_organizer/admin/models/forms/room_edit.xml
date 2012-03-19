@@ -5,11 +5,6 @@
 			name="id"
 			type="hidden"
 		/>
-		<!-- is unused until further notice, kept in so it doesn't get lost on editing a room -->
-		<field
-			name="managerID"
-			type="hidden"
-		/>
 		<field
 			name="gpuntisID"
 			type="text"

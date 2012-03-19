@@ -1,14 +1,14 @@
 ALTER TABLE `#__thm_organizer_rooms`
 DROP `capacity`,
 DROP `manager`,
-ADD `institutionID` int(11) unsigned NOT NULL DEFAULT '1' AFTER `alias`,
-ADD `campusID` int(11) unsigned NOT NULL DEFAULT '1' AFTER `institution`,
-ADD `buildingID` int( 11 ) UNSIGNED NOT NULL DEFAULT '1', AFTER `campus`,
-ADD `floor` int ( 2 ) NOT NULL DEFAULT '0' AFTER `building`,
-ADD INDEX `institutionID` ( `institutionID` ),
-ADD INDEX `campusID` ( `campusID` ),
-ADD INDEX `buildingID` ( `buildingID`),
+ADD `campus` varchar(128) NOT NULL DEFAULT '' AFTER `manager`,
+ADD `building` varchar(64) NOT NULL DEFAULT '', AFTER `campus`,
 DROP INDEX `manager`;
+
+ALTER TABLE `#__thm_organizer_classes`
+DROP `teacherID`,
+ADD `manager` varchar(50) DEFAULT '' AFTER `alias`,
+DROP INDEX `teacherID`;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_room_types` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
