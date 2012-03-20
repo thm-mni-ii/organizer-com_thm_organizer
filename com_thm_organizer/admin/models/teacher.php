@@ -64,28 +64,15 @@ class thm_organizersModelteacher extends thm_organizersModelresource
         }
         else $teachers[$id]['surname'] = $surname;
         $userid = trim((string)$teachernode->payrollnumber);
+        $error_start = JText::_("COM_THM_ORGANIZER_TR")." $surname ($id) ";
         if(empty($userid))
-        {
-            $warning = JText::_("COM_THM_ORGANIZER_TR");
-            $warning .= " $surname ($id) ";
-            $warning .= JText::_("COM_THM_ORGANIZER_TR_PN_MISSING");
-            $warnings[] = $warning;
-        }
+            $warnings[] = $error_start.JText::_("COM_THM_ORGANIZER_TR_PN_MISSING");
         else $teachers[$id]['userid'] = $userid;
         $dptid = trim($teachernode->teacher_department[0]['id']);
         if(empty($dptid))
-        {
-            $error = JText::_("COM_THM_ORGANIZER_TR");
-            $error .= " $surname ($id) ";
-            $error .= JText::_("COM_THM_ORGANIZER_TR_DEPT_MISSING");
-            $errors[] = $error;
-        }
-        else if(empty($departments[$dptid]) or empty($departments[$dptid]['subdepartment']))
-        {
-            $error = JText::_("COM_THM_ORGANIZER_TR")." $surname ($id) ";
-            $error .= JText::_("COM_THM_ORGANIZER_TR_DEPT_LACKING")." $dptid.";
-            $errors[] = $error;
-        }
+            $errors[] = $error_start.JText::_("COM_THM_ORGANIZER_TR_DEPT_MISSING");
+        else if(empty($departments[$dptid]))
+            $errors[] = $error_start.JText::_("COM_THM_ORGANIZER_TR_DEPT_LACKING")." $dptid.";
         else $teachers[$id]['department'] = $departments[$dptid];
     }
 
@@ -139,4 +126,3 @@ class thm_organizersModelteacher extends thm_organizersModelresource
         $teachers[$gpuntisID]['departmentID'] = $departmentID;
     }
 }
-

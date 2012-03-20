@@ -30,7 +30,7 @@ class thm_organizersModellesson extends thm_organizersModelresource
     {
         if(empty($lessonsnode)) $errors[] = JText::_("COM_THM_ORGANIZER_SCH_LS_MISSING");
         else foreach( $lessonsnode->children() as $lessonnode )
-                $this->validateXMLChild($lessonnode, $lessons, $errors, $warnings, $helpers);
+                $this->validateXMLChild($lessonnode, $lessons, $errors, $warnings, $resources);
     }
 
     /**
@@ -51,38 +51,41 @@ class thm_organizersModellesson extends thm_organizersModelresource
         $teachers = $resources['teachers'];
         $classes = $resources['classes'];
         $periods = $resources['periods'];
+        $rooms = $resources['rooms'];
+        
         $id = trim((string)$lessonnode[0]['id']);
+        $id = substr($id, 0, strlen($id)-2);
         if(empty($id))
         {
-            if(!in_array(JText::_("COM_THM_ORGANIZER_SCH_LS_ID_MISSING"), $errors))
-                $errors[] = JText::_("COM_THM_ORGANIZER_SCH_LS_ID_MISSING");
+            if(!in_array(JText::_("COM_THM_ORGANIZER_LS_ID_MISSING"), $errors))
+                $errors[] = JText::_("COM_THM_ORGANIZER_LS_ID_MISSING");
             return;
         }
-        $error_start = JText::_("COM_THM_ORGANIZER_SCH_LS");
+        $error_start = JText::_("COM_THM_ORGANIZER_LS");
         $lesson_name = "";
-        $subjectID = (string)$lesson->lesson_subject[0]['id'];
+        $subjectID = (string)$lessonnode->lesson_subject[0]['id'];
         if(empty($subjectID))
         {
             $error = $error_start." $id ";
-            $error .= JText::_("COM_THM_ORGANIZER_SCH_RM_SU_MISSING");
+            $error .= JText::_("COM_THM_ORGANIZER_LS_SU_MISSING");
             $errors[] = $error;
             return;
         }
         else if(empty($subjects[$subjectID]))
         {
             $error = $error_start." $id ";
-            $error .= JText::_("COM_THM_ORGANIZER_SCH_RM_SU_LACKING")." $subjectID.";
+            $error .= JText::_("COM_THM_ORGANIZER_LS_SU_LACKING")." $subjectID.";
             $errors[] = $error;
             return;
         }
         else $lesson_name = $subjects[$subjectID]['longname'];
         $error_start .= " $lesson_name ($id) ";
-        $teacherID = (string)$lesson->lesson_teacher[0]['id'];
+        $teacherID = (string)$lessonnode->lesson_teacher[0]['id'];
         if(empty($teacherID))
             $errors[] = $error_start.JText::_("COM_THM_ORGANIZER_LS_TR_MISSING");
         else if(empty($teachers[$teacherID]))
             $errors[] = $error_start.JText::_("COM_THM_ORGANIZER_LS_TR_LACKING")." $teacherID.";
-        $classIDs = (string)$lesson->lesson_classes[0]['id'];
+        $classIDs = (string)$lessonnode->lesson_classes[0]['id'];
         if(empty($classIDs))
             $errors[] = $error_start.JText::_("COM_THM_ORGANIZER_LS_CL_MISSING");
         else
@@ -94,13 +97,13 @@ class thm_organizersModellesson extends thm_organizersModelresource
                     $errors[] = $error_start.JText::_("COM_THM_ORGANIZER_LS_CL_LACKING")." $classID.";
             }
         }
-        $lesson_type = $lesson->text1;
-        if(empty($lesson_type))
-            $errors[] = $error_start.JText::_("COM_THM_ORGANIZER_LS_TYPE_MISSING");
-        $periods = trim($lesson->periods);
-        if(empty($periods))
-            $errors[] = $error_start.JText::_("COM_THM_ORGANIZER_LS_TP_MISSING");
-        $times = $lesson->times;
+        $lesson_type = $lessonnode->text1;
+        if(empty($lesson_type) AND !in_array($error_start.JText::_("COM_THM_ORGANIZER_LS_TYPE_MISSING"), $warnings))
+            $warnings[] = $error_start.JText::_("COM_THM_ORGANIZER_LS_TYPE_MISSING");
+        $periodsleaf = trim($lessonnode->periods);
+        if(empty($periodsleaf))
+            $warnings[] = $error_start.JText::_("COM_THM_ORGANIZER_LS_TP_MISSING");
+        $times = $lessonnode->times;
         $timescount = count($times->children());
         if(isset($periods) and $periods != $timescount)
         {
@@ -343,4 +346,3 @@ class thm_organizersModellesson extends thm_organizersModelresource
     }
 
 }
-

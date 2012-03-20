@@ -118,21 +118,24 @@ class thm_organizersControllerschedule extends JController
                 }
                 $this->setRedirect($url, $msg, 'error');
             }
-            $result = $model->upload();
-            if($result)//upload successful
+            else
             {
-                $url .= "&scheduleID=$result";
-                if(isset($problems['warnings']))//minor inconsistancies
+                $result = $model->upload();
+                if($result)//upload successful
                 {
-                    $warningText =  "<h4>".JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_WARNINGS").":</h4>";
-                    $msg = $warningText.$problems['warnings'];
-                    $this->setRedirect($url, $msg, 'notice');
+                    $url .= "&scheduleID=$result";
+                    if(isset($problems['warnings']))//minor inconsistancies
+                    {
+                        $warningText =  "<h4>".JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_WARNINGS").":</h4>";
+                        $msg = $warningText.$problems['warnings'];
+                        $this->setRedirect($url, $msg, 'notice');
+                    }
+                    else
+                        $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_SUCCESS"));
                 }
-                else
-                    $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_SUCCESS"));
+                else//db error
+                    $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_FAIL"), 'error');
             }
-            else//db error
-                $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_FAIL"), 'error');
         }
         else
         {
