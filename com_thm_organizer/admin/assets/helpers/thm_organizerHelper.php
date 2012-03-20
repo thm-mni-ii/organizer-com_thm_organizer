@@ -37,18 +37,17 @@ class thm_organizerHelper
         if(strpos($view, 'edit'))return;
         $submenus = array(
             'main_menu' => array('name' => 'COM_THM_ORGANIZER_MAIN_TITLE', 'link' => 'index.php?option=com_thm_organizer'),
+            'category_manager' => array('name' => 'COM_THM_ORGANIZER_CAT_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=category_manager'),
             'semester_manager' => array('name' => 'COM_THM_ORGANIZER_SEM_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=semester_manager'),
             'schedule_manager' => array('name' => 'COM_THM_ORGANIZER_SCH_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=schedule_manager'),
             'virtual_schedule_manager' => array('name' => 'COM_THM_ORGANIZER_VSM_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=virtual_schedule_manager'),
-            'category_manager' => array('name' => 'COM_THM_ORGANIZER_CAT_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=category_manager'),
-            'monitor_manager' => array('name' => 'COM_THM_ORGANIZER_MON_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=monitor_manager'),
-            'settings' => array('name' => 'COM_THM_ORGANIZER_COM_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=settings'),
+            'description_manager' => array('name' => 'COM_THM_ORGANIZER_DSM_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=description_manager'),
+            'department_manager' => array('name' => 'COM_THM_ORGANIZER_DPM_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=department_manager'),
             'class_manager' => array('name' => 'COM_THM_ORGANIZER_CLM_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=class_manager'),
             'teacher_manager' => array('name' => 'COM_THM_ORGANIZER_TRM_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=teacher_manager'),
             'room_manager' => array('name' => 'COM_THM_ORGANIZER_RMM_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=room_manager'),
-            'description_manager' => array('name' => 'COM_THM_ORGANIZER_DSM_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=description_manager'),
-            'department_manager' => array('name' => 'COM_THM_ORGANIZER_DPM_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=department_manager'),
-            'period_manager' => array('name' => 'COM_THM_ORGANIZER_TPM_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=period_manager')
+            'monitor_manager' => array('name' => 'COM_THM_ORGANIZER_MON_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=monitor_manager'),
+            'settings' => array('name' => 'COM_THM_ORGANIZER_COM_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=settings')    
         );
         foreach($submenus as $subKey => $subValue)
             JSubMenuHelper::addEntry(JText::_($subValue['name']), $subValue['link']);
