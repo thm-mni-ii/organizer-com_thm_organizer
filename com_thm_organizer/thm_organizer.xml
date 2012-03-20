@@ -46,16 +46,26 @@
         <submenu>
             <menu img="components/com_thm_organizer/assets/images/category_manager.png"
                   view="category_manager">COM_THM_ORGANIZER_CAT_TITLE</menu>
-            <menu img="components/com_thm_organizer/assets/images/monitor_manager.png"
-                  view="monitor_manager">COM_THM_ORGANIZER_MON_TITLE</menu>
             <menu img="components/com_thm_organizer/assets/images/semester_manager.png"
                   view="semester_manager">COM_THM_ORGANIZER_SEM_TITLE</menu>
             <menu img="components/com_thm_organizer/assets/images/schedule_manager.png"
-                  view="semester_manager">COM_THM_ORGANIZER_SCH_TITLE</menu>
-            <menu img="components/com_thm_organizer/assets/images/settings.png"
-                  view="settings">COM_THM_ORGANIZER_COM_TITLE</menu>
+                  view="schedule_manager">COM_THM_ORGANIZER_SCH_TITLE</menu>
             <menu img="components/com_thm_organizer/assets/images/virtual_schedule_manager.png"
                   view="virtual_schedule_manager">COM_THM_ORGANIZER_VSM_TITLE</menu>
+            <menu img="components/com_thm_organizer/assets/images/description_manager.png"
+                  view="description_manager">COM_THM_ORGANIZER_DSM_TITLE</menu>
+            <menu img="components/com_thm_organizer/assets/images/department_manager.png"
+                  view="department_manager">COM_THM_ORGANIZER_DPM_TITLE</menu>
+            <menu img="components/com_thm_organizer/assets/images/class_manager.png"
+                  view="class_manager">COM_THM_ORGANIZER_CLM_TITLE</menu>
+            <menu img="components/com_thm_organizer/assets/images/teacher_manager.png"
+                  view="teacher_manager">COM_THM_ORGANIZER_TRM_TITLE</menu>
+            <menu img="components/com_thm_organizer/assets/images/room_manager.png"
+                  view="room_manager">COM_THM_ORGANIZER_RMM_TITLE</menu>
+            <menu img="components/com_thm_organizer/assets/images/monitor_manager.png"
+                  view="monitor_manager">COM_THM_ORGANIZER_MON_TITLE</menu>
+            <menu img="components/com_thm_organizer/assets/images/settings.png"
+                  view="settings">COM_THM_ORGANIZER_COM_TITLE</menu>
         </submenu>
         <files folder="admin">
             <folder>assets</folder>
