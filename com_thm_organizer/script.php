@@ -1,6 +1,8 @@
 <?php
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
+jimport( 'joomla.filesystem.folder' );
+jimport( 'joomla.filesystem.file' );
 
 /**
  * Script file of thm_Organizer component
@@ -111,6 +113,36 @@ class com_thm_organizerInstallerScript
 	{
 		// $parent is the class calling this method
 		echo '<p>' . JText::_('COM_THM_ORGANIZER_UPDATE_TEXT') . '</p>';
+		
+		// process sql updates
+		// find files
+		$app = JFactory::getApplication('administrator');
+		$path = $app->getUserStateFromRequest('com_installer.install.install_directory', 'install_directory', $app->getCfg('tmp_path'));
+		$path .= '/admin/sql/updates/mysql';
+		
+		$files = JFolder::files($path, '.sql');
+		$db = JFactory::getDbo();
+		
+		// read files
+		foreach ($files as $file) {
+			$input = JFile::read($path.'/'.$file);
+			
+			// process files
+			if ($input) {
+				$queries = $db->splitSql($input);
+
+				// execute the single queries
+				foreach ($queries as $query) {
+					$db->setQuery($query);
+					
+					if (!$db->query())
+					{
+						JError::raiseWarning(1, JText::sprintf('COM_THM_ORGANIZER_SQL_ERROR', $db->stderr(true)));
+					}		
+				}
+			}
+		}
+		
 	}
 
 	/**

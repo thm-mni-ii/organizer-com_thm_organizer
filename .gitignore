@@ -1,6 +1,3 @@
-# phing xml file
-build.xml
-
 # os generated files
 .DS_Store*
 ehthumbs.db
