@@ -442,14 +442,3 @@ img.status_icons_delete {
 .x-ie .x-btn button {
 	overflow-x: hidden;
 }
-
-.x-ie .x-tab button {
-	overflow-x: hidden;
-}
-
-.x-window * {
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-ms-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-}

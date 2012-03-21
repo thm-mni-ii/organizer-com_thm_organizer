@@ -15,78 +15,82 @@ jimport('joomla.application.component.controller');
 require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
 class thm_organizersControllermonitor extends JController
 {
-    public function display(){ parent::display(); }
+	public function display(){
+		parent::display();
+	}
 
-    public function __construct(){ parent::__construct(); }
+	public function __construct(){
+		parent::__construct();
+	}
 
-    public function add()
-    {
-        if(!thm_organizerHelper::isAdmin('monitor')) thm_organizerHelper::noAccess ();
-        JRequest::setVar( 'view', 'monitor_edit' );
-        parent::display();
-    }
-	
-    public function edit()
-    {
-        if(!thm_organizerHelper::isAdmin('monitor')) thm_organizerHelper::noAccess ();
-        JRequest::setVar( 'view', 'monitor_edit' );
-        parent::display();
-    }
+	public function add()
+	{
+		if(!thm_organizerHelper::isAdmin('monitor')) thm_organizerHelper::noAccess ();
+		JRequest::setVar( 'view', 'monitor_edit' );
+		parent::display();
+	}
 
-    public function save()
-    {
-        if(!thm_organizerHelper::isAdmin('monitor')) thm_organizerHelper::noAccess ();
-        $model = $this->getModel('monitor');
-        $result = $model->save();
-        if($result)
-        {
-            $msg = JText::_("COM_THM_ORGANIZER_MON_SAVE_SUCCESS");
-            $this->setRedirect( 'index.php?option=com_thm_organizer&view=monitor_manager', $msg);
-        }
-        else
-        {
-            $msg = JText::_("COM_THM_ORGANIZER_MON_SAVE_FAIL");
-            $this->setRedirect( 'index.php?option=com_thm_organizer&view=monitor_manager', $msg, 'error');
-        }
-    }
+	public function edit()
+	{
+		if(!thm_organizerHelper::isAdmin('monitor')) thm_organizerHelper::noAccess ();
+		JRequest::setVar( 'view', 'monitor_edit' );
+		parent::display();
+	}
 
-    public function save2new()
-    {
-        if(!thm_organizerHelper::isAdmin('monitor')) thm_organizerHelper::noAccess ();
-        $model = $this->getModel('monitor');
-        $result = $model->save();
-        if($result)
-        {
-            $msg = JText::_("COM_THM_ORGANIZER_MON_SAVE_SUCCESS");
-            $this->setRedirect( 'index.php?option=com_thm_organizer&view=monitor_edit&monitorID=0', $msg);
-        }
-        else
-        {
-            $msg = JText::_("COM_THM_ORGANIZER_MON_SAVE_FAIL");
-            $this->setRedirect( 'index.php?option=com_thm_organizer&view=monitor_edit&monitorID=0', $msg, 'error');
-        }
-    }
-	
-    public function delete()
-    {
-        if(!thm_organizerHelper::isAdmin('monitor')) thm_organizerHelper::noAccess ();
-        $model = $this->getModel('monitor');
-        $result = $model->delete();
-        if($result)
-        {
-            $msg = JText::_("COM_THM_ORGANIZER_MON_DELETE_SUCCESS");
-            $this->setRedirect( 'index.php?option=com_thm_organizer&view=monitor_manager', $msg);
-        }
-        else
-        {
-            $msg = JText::_("COM_THM_ORGANIZER_MON_DELETE_FAIL");
-            $this->setRedirect( 'index.php?option=com_thm_organizer&view=monitor_manager', $msg, 'error');
-        }
-    }
+	public function save()
+	{
+		if(!thm_organizerHelper::isAdmin('monitor')) thm_organizerHelper::noAccess ();
+		$model = $this->getModel('monitor');
+		$result = $model->save();
+		if($result)
+		{
+			$msg = JText::_("COM_THM_ORGANIZER_MON_SAVE_SUCCESS");
+			$this->setRedirect( 'index.php?option=com_thm_organizer&view=monitor_manager', $msg);
+		}
+		else
+		{
+			$msg = JText::_("COM_THM_ORGANIZER_MON_SAVE_FAIL");
+			$this->setRedirect( 'index.php?option=com_thm_organizer&view=monitor_manager', $msg, 'error');
+		}
+	}
 
-    public function cancel()
-    {
-        JRequest::setVar( 'view', 'monitor_manager' );
-        parent::display();
-    }
+	public function save2new()
+	{
+		if(!thm_organizerHelper::isAdmin('monitor')) thm_organizerHelper::noAccess ();
+		$model = $this->getModel('monitor');
+		$result = $model->save();
+		if($result)
+		{
+			$msg = JText::_("COM_THM_ORGANIZER_MON_SAVE_SUCCESS");
+			$this->setRedirect( 'index.php?option=com_thm_organizer&view=monitor_edit&monitorID=0', $msg);
+		}
+		else
+		{
+			$msg = JText::_("COM_THM_ORGANIZER_MON_SAVE_FAIL");
+			$this->setRedirect( 'index.php?option=com_thm_organizer&view=monitor_edit&monitorID=0', $msg, 'error');
+		}
+	}
+
+	public function delete()
+	{
+		if(!thm_organizerHelper::isAdmin('monitor')) thm_organizerHelper::noAccess ();
+		$model = $this->getModel('monitor');
+		$result = $model->delete();
+		if($result)
+		{
+			$msg = JText::_("COM_THM_ORGANIZER_MON_DELETE_SUCCESS");
+			$this->setRedirect( 'index.php?option=com_thm_organizer&view=monitor_manager', $msg);
+		}
+		else
+		{
+			$msg = JText::_("COM_THM_ORGANIZER_MON_DELETE_FAIL");
+			$this->setRedirect( 'index.php?option=com_thm_organizer&view=monitor_manager', $msg, 'error');
+		}
+	}
+
+	public function cancel()
+	{
+		JRequest::setVar( 'view', 'monitor_manager' );
+		parent::display();
+	}
 }

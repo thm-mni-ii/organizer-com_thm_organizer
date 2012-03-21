@@ -10,11 +10,15 @@
  * @version     1.7.0
  */
 defined("_JEXEC") or die;
-$orderby = $this->escape($this->state->get('list.ordering'));
-$direction = $this->escape($this->state->get('list.direction'));
-$search = ($this->state->get('filter.search'))?
-        $this->escape($this->state->get('filter.search')) : JText::_('COM_THM_ORGANIZER_SEARCH_CRITERIA');
+$search = ($this->state->get('filter.search'))
+			?
+        	$this->escape($this->state->get('filter.search')) 
+			: 
+			JText::_('COM_THM_ORGANIZER_SEARCH_CRITERIA');
 ?>
+
+<?php // filter ?>
+
 <form action="<?php echo JRoute::_("index.php?option=com_thm_organizer"); ?>"
       enctype="multipart/form-data" method="post" name="adminForm" id="adminForm">
     <fieldset id="filter-bar">
@@ -27,48 +31,49 @@ $search = ($this->state->get('filter.search'))?
             </button>
         </div>
         <div class="filter-select fltrt">
-            <select name="filter_institution" class="inputbox" onchange="this.form.submit()">
-                <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_RMM_SEARCH_INSTITUTIONS'); ?></option>
-                <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_RMM_ALL_INSTITUTIONS'); ?></option>
-                <?php echo JHtml::_('select.options', $this->institutions, 'id', 'name', $this->state->get('filter.institution'));?>
-            </select>
-            <?php if(count($this->campuses)): ?>
             <select name="filter_campus" class="inputbox" onchange="this.form.submit()">
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_RMM_SEARCH_CAMPUSES'); ?></option>
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_RMM_ALL_CAMPUSES'); ?></option>
                 <?php echo JHtml::_('select.options', $this->campuses, 'id', 'name', $this->state->get('filter.campus'));?>
             </select>
-            <?php endif; if(count($this->buildings)): ?>
+            <?php if(count($this->buildings)): ?>
             <select name="filter_building" class="inputbox" onchange="this.form.submit()">
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_RMM_SEARCH_BUILDINGS'); ?></option>
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_RMM_ALL_BUILDINGS'); ?></option>
                 <?php echo JHtml::_('select.options', $this->buildings, 'id', 'name', $this->state->get('filter.building'));?>
             </select>
             <?php endif; ?>
-            <select name="filter_type" class="inputbox" onchange="this.form.submit()">
+            <select name="filter_category" class="inputbox" onchange="this.form.submit()">
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_RMM_SEARCH_TYPES'); ?></option>
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_RMM_ALL_TYPES'); ?></option>
-                <?php echo JHtml::_('select.options', $this->types, 'id', 'name', $this->state->get('filter.type'));?>
+                <?php echo JHtml::_('select.options', $this->categories, 'id', 'name', $this->state->get('filter.category'));?>
             </select>
-            <?php if(count($this->details)): ?>
-            <select name="filter_detail" class="inputbox" onchange="this.form.submit()">
+            <?php if(count($this->descriptions)): ?>
+            <select name="filter_description" class="inputbox" onchange="this.form.submit()">
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_RMM_SEARCH_DETAILS'); ?></option>
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_RMM_ALL_DETAILS'); ?></option>
-                <?php echo JHtml::_('select.options', $this->details, 'id', 'name', $this->state->get('filter.detail'));?>
+                <?php echo JHtml::_('select.options', $this->descriptions, 'id', 'name', $this->state->get('filter.description'));?>
             </select>
             <?php endif; ?>
             <!-- to do put details here dependant upon selected type -->
         </div>
     </fieldset>
     <div class="clr"> </div>
+
+    
+<?php // table ?>    
+
 <?php if(!empty($this->rooms)) { $k = 0;?>
     <div>
         <table class="adminlist" cellpadding="0">
             <colgroup>
                 <col id="thm_organizer_check_column" />
-                <col id="thm_organizer_rmm_name_column" />
-                <col id="thm_organizer_rmm_campus_column" />
+                <col id="thm_organizer_rmm_gpuntis_id_column" />
+                <col id="thm_organizer_rmm_room_name_column" />
+                <col id="thm_organizer_rmm_alias_column" />
+                <col id="thm_organizer_rmm_campus_name_column" />
                 <col id="thm_organizer_rmm_building_column" />
+                <col id="thm_organizer_rmm_capacity_column" />
                 <col id="thm_organizer_rmm_floor_column" />
                 <col id="thm_organizer_rmm_description_column" />
             </colgroup>
@@ -76,31 +81,28 @@ $search = ($this->state->get('filter.search'))?
                 <tr>
                     <th class="thm_organizer_sch_th" ></th>
                     <th class="thm_organizer_sch_th" >
-                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_NAME', 'r.name', $direction, $orderby); ?>
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_RM_GPUNTISID', 'r.gpuntisID', $this->direction, $this->orderby); ?>
                     </th>
                     <th class="thm_organizer_sch_th" >
-                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_TYPE', 't.name', $direction, $orderby); ?>
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_NAME', 'r.name', $this->direction, $this->orderby); ?>
                     </th>
                     <th class="thm_organizer_sch_th" >
-                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_DESC', 'det.name', $direction, $orderby); ?>
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_ALIAS', 'r.alias', $this->direction, $this->orderby); ?>
                     </th>
                     <th class="thm_organizer_sch_th" >
-                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_INSTITUTION', 'i.name', $direction, $orderby); ?>
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_CAMPUS', 'r.campus', $this->direction, $this->orderby); ?>
                     </th>
                     <th class="thm_organizer_sch_th" >
-                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_CAMPUS', 'c.name', $direction, $orderby); ?>
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_BUILDING', 'r.building', $this->direction, $this->orderby); ?>
                     </th>
                     <th class="thm_organizer_sch_th" >
-                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_BUILDING', 'b.name', $direction, $orderby); ?>
-                    </th>
-                    <th class="thm_organizer_sch_th" >
-                        <?php echo JText::_('COM_THM_ORGANIZER_FLOOR'); ?>
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_DESC', 'd.category', $this->direction, $this->orderby); ?>
                     </th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
-                    <td colspan="9">
+                    <td colspan="7">
                         <?php echo $this->pagination->getListFooter(); ?>
                     </td>
                 </tr>
@@ -108,40 +110,40 @@ $search = ($this->state->get('filter.search'))?
             <tbody>
             <?php foreach($this->rooms as $k => $room){ ?>
                 <tr class="row<?php echo $k % 2;?>">
-                    <td><?php echo JHtml::_('grid.id', $k, $schedule->id); ?></td>
-                    <td>
+                    <td><?php echo JHtml::_('grid.id', $k, $room->id); ?></td>
+                     <td>
                         <a href="<?php echo $room->url; ?>">
-                            <?php echo $room->name; ?>
+                            <?php echo JText::_($room->gpuntisID); ?>
                         </a>
                     </td>
                     <td>
                         <a href="<?php echo $room->url; ?>">
-                            <?php echo JText::_($room->type); ?>
+                            <?php echo JText::_($room->room_name); ?>
                         </a>
                     </td>
                     <td>
                         <a href="<?php echo $room->url; ?>">
-                            <?php echo JText::_($room->detail); ?>
+                            <?php echo JText::_($room->alias); ?>
                         </a>
                     </td>
                     <td>
                         <a href="<?php echo $room->url; ?>">
-                            <?php echo JText::_($room->institution); ?>
+                            <?php echo JText::_($room->campus); ?>
                         </a>
                     </td>
                     <td>
                         <a href="<?php echo $room->url; ?>">
-                            <?php echo $room->campus; ?>
+                            <?php echo JText::_($room->building); ?>
                         </a>
                     </td>
                     <td>
                         <a href="<?php echo $room->url; ?>">
-                            <?php echo $room->building; ?>
-                        </a>
-                    </td>
-                    <td>
-                        <a href="<?php echo $room->url; ?>">
-                            <?php echo $room->floor; ?>
+                            <?php 
+                            if ($room->description != '')
+                            	echo JText::_($room->category)." / ".JText::_($room->description);
+                            else
+                            	echo JText::_($room->category);
+                            ?>
                         </a>
                     </td>
                 </tr>
@@ -152,8 +154,8 @@ $search = ($this->state->get('filter.search'))?
 <?php } ?>
     <input type="hidden" name="task" value="" />
     <input type="hidden" name="boxchecked" value="0" />
-    <input type="hidden" name="filter_order" value="<?php echo $orderby; ?>" />
-    <input type="hidden" name="filter_order_Dir" value="<?php echo $direction; ?>" />
+    <input type="hidden" name="filter_order" value="<?php echo $this->orderby; ?>" />
+    <input type="hidden" name="filter_order_Dir" value="<?php echo $this->direction; ?>" />
     <input type="hidden" name="view" value="room_manager" />
     <input type="hidden" name="campus" value="<?php echo $this->state->get('filter.campus'); ?>" />
     <input type="hidden" name="building" value="<?php echo $this->state->get('filter.building'); ?>" />

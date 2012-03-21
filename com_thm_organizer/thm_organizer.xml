@@ -2,40 +2,37 @@
 <extension method="upgrade" type="component" version="1.7.0">
     <name>THM_ORGANIZER</name>
     <author>James Antrim</author>
-    <authorEMail>jamesDOTantrimATmniDOTthmDOTde</authorEMail>
+    <authorEMail>jamesDOTantrimATyahooDOTcom</authorEMail>
     <author>Wolf Rost</author>
-    <authorEMail>wolfDOTrostATmniDOTthmDOTde</authorEMail>
-    <author>Daniel Kirsten</author>
-    <authorEMail>danielDOTkirstenATmniDOTthmDOTde</authorEMail>
-    <author>Markus Bader</author>
-    <authorEMail>markusDOTbaderATmniDOTthmDOTde</authorEMail>
-    <authorUrl>www.mni.thm.de</authorUrl>
-    <creationDate>03/01/2012</creationDate>
-    <copyright>TH Mittelhessen 2012</copyright>
+    <authorEMail>wolfDOTrostATmniDOTthDASHmittelhessenDOTde</authorEMail>
+    <authorUrl>www.mni.fh-giessen.de</authorUrl>
+    <creationDate>01/03/2011</creationDate>
+    <copyright>TH Mittelhessen 2011</copyright>
     <licence>GNU GPL v.2</licence>
-    <version>2.5</version>
+    <version>0.0.2</version>
     <description>COM_THM_ORGANIZER_DESCRIPTION</description>
-    <scriptfile>script.php</scriptfile>
+	<scriptfile>script.php</scriptfile>
     <install>
         <sql>
             <file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
         </sql>
     </install>
+
     <update>
     	<schemas>
     		<schemapath type="mysql">sql/updates/mysql</schemapath>
     	</schemas>
     </update>
+
     <files folder="site">
-        <folder>assets</folder>
-        <filename>controller.php</filename>
-        <folder>controllers</folder>
-        <filename>index.html</filename>
-        <folder>language</folder>
-        <filename>LICENSE.php</filename>
-        <folder>models</folder>
-        <filename>thm_organizer.php</filename>
-        <folder>views</folder>
+            <filename>index.html</filename>
+            <filename>thm_organizer.php</filename>
+            <filename>controller.php</filename>
+            <filename>LICENSE.php</filename>
+            <folder>views</folder>
+            <folder>models</folder>
+            <folder>controllers</folder>
+            <folder>assets</folder>
     </files>
     <languages folder="site">
         <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.ini</language>
@@ -68,17 +65,16 @@
                   view="settings">COM_THM_ORGANIZER_COM_TITLE</menu>
         </submenu>
         <files folder="admin">
-            <folder>assets</folder>
-            <filename>controller.php</filename>
-            <folder>controllers</folder>
             <filename>index.html</filename>
-            <folder>language</folder>
-            <filename>LICENSE.php</filename>
-            <folder>models</folder>
-            <folder>sql</folder>
-            <folder>tables</folder>
             <filename>thm_organizer.php</filename>
+            <filename>controller.php</filename>
+            <filename>LICENSE.php</filename>
             <folder>views</folder>
+            <folder>models</folder>
+            <folder>controllers</folder>
+            <folder>assets</folder>
+            <folder>tables</folder>
+            <folder>sql</folder>
         </files>
         <languages folder="admin">
             <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.ini</language>

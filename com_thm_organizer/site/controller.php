@@ -1,13 +1,14 @@
 <?php
 /**
- * @package     Joomla.Site
+ * @package     Joomla.Site | Joomla.Administrator
  * @subpackage  com_thm_organizer
- * @description main component controller
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * @copyright   TH Mittelhessen 2012
+ * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @author      Wolf Rost
+ * @author      Markus Baier
+ * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
- * @version     2.5
+ * @link        www.mni.fh-giessen.de
+ * @version     0.0.1
  */
 
 defined( '_JEXEC' ) or die( 'Restricted access' );

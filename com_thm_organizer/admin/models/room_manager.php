@@ -17,31 +17,54 @@ jimport('joomla.application.component.modellist');
  */
 class thm_organizersModelroom_manager extends JModelList
 {
-    public $semesterName = '';
-    public $institutions = null;
-    public $campuses = null;
-    public $buildings = null;
-    public $types = null;
+    public $campuses 		= null;
+    public $buildings 		= null;
+    public $categories		= null;
+    public $descriptions 	= null;
 
     public function __construct($config = array())
     {
-        if (empty($config['filter_fields']))
-        {
-            $config['filter_fields'] =
-                array(
-                    'name', 'r.name',
-                    'institution', 'r.institution',
-                    'campus', 'r.campus',
-                    'building', 'r.building',
-                    'type', 'desc.typeID'
-                );
+    	parent::__construct();
+    	
+    	// test is table empty
+    	$dbo = $this->getDbo();
+        $query = $dbo->getQuery(true);
+        
+        $query->select("COUNT(*)");
+        $query->from("#__thm_organizer_rooms");
+        
+        $dbo->setQuery((string)$query);
+        $result = $dbo->loadResult();
+        
+        if ($result != '0') {
+
+	        // get lists for filters
+	        $errorOccurred = false;  // variable to prevent to show the same error multiple times
+	        
+	        $this->campuses = $this->getResources('campuses');
+	        
+	        if (!$this->campuses) $errorOccurred = true;
+	        
+	        if($this->getState('filter.campus') && $this->getState('filter.campus') != '*') 
+	        {
+	        	$this->buildings = $this->getResources('buildings');
+	        	if (!$this->buildings) $errorOccurred = true;
+	        }
+	        
+	        $this->categories = $this->getResources('categories');
+	        if (!$this->categories) $errorOccurred = true;
+	        
+	        if($this->getState('filter.category') && $this->getState('filter.category') != '*') 
+	        {
+	        	$this->descriptions = $this->getResources('descriptions');
+	        	if (!$this->descriptions) $errorOccurred = true;
+	        }
+	        
+	        if ($errorOccurred)
+	        {
+	        	JError::raiseNotice(667, JText::_('COM_THM_ORGANIZER_SEARCH_CRITERIA_NO_RESULTS'));
+	        }
         }
-        parent::__construct($config);
-        $this->institutions = $this->getResources('institutions');
-        if(is_numeric($this->getState('filter.institution')))$this->campuses = $this->getResources('campuses');
-        if(is_numeric($this->getState('filter.campus')))$this->buildings = $this->getResources('buildings');
-        $this->types = $this->getResources('types');
-        if(is_numeric($this->getState('filter.type')))$this->details = $this->getResources('details');
     }
 
     /**
@@ -54,21 +77,24 @@ class thm_organizersModelroom_manager extends JModelList
         $search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
         $this->setState('filter.search', $search);
 
-        $institution = $this->getUserStateFromRequest($this->context.'.filter.institution', 'filter_institution');
-        $this->setState('filter.institution', $institution);
-
         $campus = $this->getUserStateFromRequest($this->context.'.filter.campus', 'filter_campus');
         $this->setState('filter.campus', $campus);
 
         $building = $this->getUserStateFromRequest($this->context.'.filter.building', 'filter_building');
         $this->setState('filter.building', $building);
 
-        $type = $this->getUserStateFromRequest($this->context.'.filter.type', 'filter_type');
-        $this->setState('filter.type', $type);
+        $category = $this->getUserStateFromRequest($this->context.'.filter.category', 'filter_category');
+        $this->setState('filter.category', $category);
 
-        $detail = $this->getUserStateFromRequest($this->context.'.filter.detail', 'filter_detail');
-        $this->setState('filter.detail', $detail);
+        $description = $this->getUserStateFromRequest($this->context.'.filter.description', 'filter_description');
+        $this->setState('filter.description', $description);
 
+        // sorting
+        $filter_order = JRequest::getCmd('filter_order');
+        $filter_order_Dir = JRequest::getCmd('filter_order_Dir');
+        
+        $this->setState('filter_order', $filter_order);
+        $this->setState('filter_order_Dir', $filter_order_Dir);
         parent::populateState($ordering, $direction);
     }
 
@@ -78,17 +104,24 @@ class thm_organizersModelroom_manager extends JModelList
         $dbo = $this->getDbo();
         $query = $dbo->getQuery(true);
 
-        $select = "r.id, r.name, i.name as institution, c.name as campus, ";
-        $select .= "b.name as building, t.name as type, det.name as detail ";
+        /*
+         * room AS r
+         * description AS d
+         * r.id
+         * r.gpuntisID
+         * r.name AS room_name
+         * r.alias
+         * r.campus
+         * r.building
+         * d.category
+         * d.description
+         */
+        $select = "r.id, r.gpuntisID, r.name AS room_name, r.alias, r.campus, r.building, ";
+        $select .= "d.category, d.description";
         $query->select($select);
         $query->from("#__thm_organizer_rooms AS r");
-        $query->innerJoin("#__thm_organizer_institutions AS i ON r.institutionID = i.id");
-        $query->innerJoin("#__thm_organizer_campuses AS c ON r.campusID = c.id");
-        $query->innerJoin("#__thm_organizer_buildings AS b ON r.buildingID = b.id");
-        $query->innerJoin("#__thm_organizer_room_descriptions AS dsc ON r.descriptionID = dsc.id");
-        $query->innerJoin("#__thm_organizer_room_types AS t ON dsc.typeID = t.id");
-        $query->innerJoin("#__thm_organizer_room_details AS det ON dsc.descID = det.id");
-
+        $query->innerJoin("#__thm_organizer_descriptions AS d ON r.descriptionID = d.id");
+        
         $search = $this->getState('filter.search');
         if($search AND $search != JText::_('COM_THM_ORGANIZER_SEARCH_CRITERIA'))
         {
@@ -96,32 +129,36 @@ class thm_organizersModelroom_manager extends JModelList
             $query->where('r.name LIKE '.$search);
         }
 
-        $institution = $this->getState('filter.institution');
-        if(is_numeric($institution))
+        $campus = $this->getState('filter.campus');
+
+        if(!is_null($campus) && $campus != '*')
         {
-            $query->where("i.id = $institution");
-            $campus = $this->getState('filter.campus');
-            if(is_numeric($campus))
-            {
-                $query->where("c.id = $campus");
-                $building = $this->getState('filter.building');
-                if(is_numeric($building)) $query->where("b.id = $building");
-            }
+        	//var_dump($campus); blah();
+            $query->where("r.campus = '$campus'");
+            $building = $this->getState('filter.building');
+            if(!is_null($building) && $building != '*') $query->where("r.building = '$building'");
         }
 
-        $type = $this->getState('filter.type');
-        if(is_numeric($type))
+        $category = $this->getState('filter.category');
+        if(!is_null($category) && $category != '*')
         {
-            $query->where("t.id = $type");
-            $detail = $this->getState('filter.detail');
-            if(is_numeric($detail)) $query->where("det.id = $detail");
+            $query->where("d.category = '$category'");
+            $description = $this->getState('filter.description');
+            if(!is_null($description) && $description != '*') $query->where("description = '$description'");
         }
 
+		// sorting
+        $orderby = $dbo->getEscaped($this->getState('filter_order'));
+        $direction = $dbo->getEscaped($this->getState('filter_order_Dir'));
 
-        $orderby = $dbo->getEscaped($this->getState('list.ordering', 'r.name'));
-        $direction = $dbo->getEscaped($this->getState('list.direction', 'ASC'));
+        // set $orderby and $direction if not set by html form
+        if (!isset($orderby) || strlen($orderby) == 0)
+        	$orderby = 'r.name';
+        if (!isset($direction) || strlen($direction) == 0)
+        	$direction = 'ASC';
+        
         $query->order("$orderby $direction");
-
+        
         return $query;
     }
 
@@ -136,18 +173,25 @@ class thm_organizersModelroom_manager extends JModelList
      */
     private function getResources($what)
     {
-        $roomResourceTables = array(
-            'institutions' => 'i',
-            'campuses' => 'c',
-            'buildings' => 'b',
-            'types' => 't',
-            'details' => 'det'
-        );
-        $prefix = $roomResourceTables[$what];
-        $dbo = $this->getDbo();
+    	$dbo = $this->getDbo();
         $query = $this->getListQuery();
         $query->clear('select');
-        $query->select("DISTINCT $prefix.id, $prefix.name");
+        
+        switch ($what) {
+        	case 'campuses':
+	        	$query->select("DISTINCT r.campus AS id, r.campus AS name");
+	        	break;
+        	case 'buildings':
+	        	$query->select("DISTINCT r.building AS id, r.building AS name");
+	        	break;
+        	case 'categories':
+	        	$query->select("DISTINCT d.category AS id, d.category AS name");
+	        	break;
+        	case 'descriptions':
+	        	$query->select("DISTINCT d.description AS id, d.description AS name");
+	        	break;
+        }
+        
         $query->clear('where');
 
         $search = $this->getState('filter.search');
@@ -157,23 +201,34 @@ class thm_organizersModelroom_manager extends JModelList
             $query->where('r.name LIKE '.$search);
         }
 
-        $institution = $this->getState('filter.institution');
-        if(is_numeric($institution))
+        $campus = $this->getState('filter.campus');
+        if(!is_null($campus) && $campus != '*')
         {
-            if($what != 'institutions')$query->where("i.id = $institution");
-            $campus = $this->getState('filter.campus');
-            if(is_numeric($campus))
-            {
-                if($what != 'campuses')$query->where("c.id = $campus");
-                $building = $this->getState('filter.building');
-                if(is_numeric($building) AND $what != 'buildings')
-                    $query->where("b.id = $building");
-            }
+            if($what != 'campuses')$query->where("r.campus = '$campus'");
+            $building = $this->getState('filter.building');
+            
+            if(!is_null($building) && $building != '*' AND $what != 'buildings')
+                $query->where("r.building = '$building'");
         }
-        $type = $this->getState('filter.type');
-        if(is_numeric($type) AND $what != 'types') $query->where("t.id = $type");
-        $query->order("$prefix.name ASC");
+        $category = $this->getState('filter.category');
+        if(!is_null($category) && $category != '*' AND $what != 'categories') $query->where("d.category = '$category'");
 
+        // ordering
+        switch ($what) {
+        	case 'campuses':
+        		$query->order("r.campus ASC");
+        		break;
+        	case 'buildings':
+	        	$query->order("r.building ASC");
+	        	break;
+        	case 'categories':
+	        	$query->order("d.category ASC");
+	        	break;
+        	case 'descriptions':
+	        	$query->order("d.description ASC");
+	        	break;
+        }
+        
         $dbo->setQuery((string)$query);
         $results = $dbo->loadAssocList();
         $resources = array();
@@ -184,8 +239,7 @@ class thm_organizersModelroom_manager extends JModelList
                 $resources[$data['id']]['id'] = $data['id'];
                 $resources[$data['id']]['name'] = JText::_($data['name']);
             }
-        }
-        else echo (string) $query;
+        } else $resources = false;
         return $resources;
     }
 }

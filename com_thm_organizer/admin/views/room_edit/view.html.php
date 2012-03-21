@@ -14,7 +14,7 @@
 defined('_JEXEC') or die( 'Restricted access' );
 jimport( 'joomla.application.component.view' );
 require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
-class thm_organizersViewschedule_edit extends JView
+class thm_organizersViewroom_edit extends JView
 {
     public function display($tpl = null)
     {
@@ -28,39 +28,54 @@ class thm_organizersViewschedule_edit extends JView
 
         $model = $this->getModel();
         $this->form = $this->get('Form');
+        $this->item = $this->get('Item');
+        
+        // get task for template (gpuntisID might be hidden)
+        $this->task = JRequest::getVar('task', null, 'post','STRING');
+        
+        if ($this->task == 'room.add') {
+        	// take correct title
+        	$this->item->id = 0;
 
+        	// set values in form
+        	$formElements = $this->form->getFieldset();
+        	foreach ($formElements as $value) {
+        		$this->form->setValue($value->fieldname, null, '');
+        	}
+        }
+        
         $title = JText::_("COM_THM_ORGANIZER_SCH_TITLE").": ";
-        if($this->form->getValue('id'))
-        {
-            $this->setLayout('edit');
-            $this->legend = JText::_('COM_THM_ORGANIZER_EDIT')." ".$this->form->getValue('plantypeID');
-            $title .= JText::_("COM_THM_ORGANIZER_EDIT")." ";
-            $title .= $this->form->getValue('plantypeID');
-        }
-        else
-        {
-            $this->setLayout('add');
-            $this->legend = JText::_('COM_THM_ORGANIZER_NEW')." ".$this->form->getValue('plantypeID');
-            $title .= JText::_("COM_THM_ORGANIZER_NEW");
-        }
-        JToolBarHelper::title($title);
-        if(thm_organizerHelper::isAdmin('schedule_edit')) $this->addToolBar();
 
+        $this->setLayout('edit');
+
+        JToolBarHelper::title($title);
+        if (thm_organizerHelper::isAdmin('room_edit')) $this->addToolBar();
+       	
+        // set old data on error redirect
+        $session =& JFactory::getSession();
+        $oldPost = $session->get('oldPost');
+
+        // check werether to prefill field values
+        if ($oldPost != null) {  // do prefill
+        	
+        	// set values in form
+        	foreach ($oldPost['jform'] as $key => $value) {
+        		$this->form->setValue($key, null, $value);
+        	}
+        	$session->clear('oldPost');
+        }
+        
         parent::display($tpl);
     }
     
     private function addToolBar()
     {
-        if($this->form->getValue('id'))
-        {
-            JToolBarHelper::apply('schedule.apply', JText::_('COM_THM_ORGANIZER_APPLY'));
-            JToolBarHelper::save('schedule.save', JText::_('COM_THM_ORGANIZER_SAVE'));
-        }
-        else
-        {
-            JToolBarHelper::custom('schedule.upload', 'upload', 'upload', 'COM_THM_ORGANIZER_SCH_UPLOAD', false);
-        }
-        JToolBarHelper::cancel('schedule.cancel', JText::_('COM_THM_ORGANIZER_CLOSE'));
+        JRequest::setVar('hidemainmenu', true);
+		$isNew = ($this->item->id == 0);
+		JToolBarHelper::title($isNew ? JText::_('JTOOLBAR_NEW')
+		                             : JText::_('JTOOLBAR_EDIT'));
+		JToolBarHelper::save('room.save');
+		JToolBarHelper::cancel('room.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
     }
 }?>
 	
