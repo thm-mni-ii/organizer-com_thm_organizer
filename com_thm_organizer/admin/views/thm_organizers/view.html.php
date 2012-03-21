@@ -52,7 +52,7 @@ class thm_organizersViewthm_organizers extends JView
                         'resource_manager' => array(),
                         'category_manager' => array(),
                         'monitor_manager' => array(),
-                        'settings' => array());
+                        'settings' => array(),
                         'scheduler_application_settings' => array());
         
         // the single menu entries
