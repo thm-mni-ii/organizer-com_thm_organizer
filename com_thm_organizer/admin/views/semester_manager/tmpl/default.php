@@ -38,7 +38,7 @@ defined('_JEXEC') or die('Restricted access');?>
             $k % 2 == 0? $class = "row0" : $class = "row1";
             $k++;
             $checked = JHTML::_( 'grid.id', $semester["id"], $semester["id"] ); ?>
-            <tr class="<?php echo "row$k"; ?>">
+            <tr class="<?php echo $class; ?>">
                 <td class="thm_organizer_sm_checkbox">
                     <?php echo $checked; ?>
                 </td>
