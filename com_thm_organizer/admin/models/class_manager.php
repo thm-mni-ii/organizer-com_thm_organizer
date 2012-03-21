@@ -25,22 +25,35 @@ class thm_organizersModelclass_manager extends JModelList
     {
     	parent::__construct();
 
-        // get lists for filters
-        $errorOccurred = false;  // variable to prevent to show the same error multiple times
-        
-        $this->managers = $this->getResources('managers');
-        if (!$this->managers) $errorOccurred = true;
-        
-        $this->semesters = $this->getResources('semesters');
-        if (!$this->semesters) $errorOccurred = true;
-        
-        $this->majors = $this->getResources('majors');
-        if (!$this->majors) $errorOccurred = true;
-        
-        if ($errorOccurred)
-        {
-        	JError::raiseNotice(667, JText::_('COM_THM_ORGANIZER_SEARCH_CRITERIA_NO_RESULTS'));
-        }
+    	
+    	// test is table empty
+    	$dbo = $this->getDbo();
+    	$query = $dbo->getQuery(true);
+    	
+    	$query->select("COUNT(*)");
+    	$query->from("#__thm_organizer_classes");
+    	
+    	$dbo->setQuery((string)$query);
+    	$result = $dbo->loadResult();
+    	
+    	if ($result != '0') {
+	        // get lists for filters
+	        $errorOccurred = false;  // variable to prevent to show the same error multiple times
+	        
+	        $this->managers = $this->getResources('managers');
+	        if (!$this->managers) $errorOccurred = true;
+	        
+	        $this->semesters = $this->getResources('semesters');
+	        if (!$this->semesters) $errorOccurred = true;
+	        
+	        $this->majors = $this->getResources('majors');
+	        if (!$this->majors) $errorOccurred = true;
+	        
+	        if ($errorOccurred)
+	        {
+	        	JError::raiseNotice(667, JText::_('COM_THM_ORGANIZER_SEARCH_CRITERIA_NO_RESULTS'));
+	        }
+    	}
     }
 
     /**

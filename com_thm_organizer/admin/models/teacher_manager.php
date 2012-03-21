@@ -35,21 +35,33 @@ class thm_organizersModelteacher_manager extends JModelList
         }
         parent::__construct($config);
 
-        // load filter data
-        $errorOccurred = false;
+        // test is table empty
+        $dbo = $this->getDbo();
+        $query = $dbo->getQuery(true);
         
-        $this->departments = $this->getResources('departments');
-        if(!$this->departments) $errorOccurred = true;
+        $query->select("COUNT(*)");
+        $query->from("#__thm_organizer_teachers");
         
-        $this->campuses = $this->getResources('campuses');
-        if(!$this->campuses) $errorOccurred = true;
+        $dbo->setQuery((string)$query);
+        $result = $dbo->loadResult();
         
-        $this->institutions = $this->getResources('institutions');
-        if(!$this->institutions) $errorOccurred = true;
-        
-        if ($errorOccurred)
-        {
-        	JError::raiseNotice(667, JText::_('COM_THM_ORGANIZER_SEARCH_CRITERIA_NO_RESULTS'));
+        if ($result != '0') {
+	        // load filter data
+	        $errorOccurred = false;
+	        
+	        $this->departments = $this->getResources('departments');
+	        if(!$this->departments) $errorOccurred = true;
+	        
+	        $this->campuses = $this->getResources('campuses');
+	        if(!$this->campuses) $errorOccurred = true;
+	        
+	        $this->institutions = $this->getResources('institutions');
+	        if(!$this->institutions) $errorOccurred = true;
+	        
+	        if ($errorOccurred)
+	        {
+	        	JError::raiseNotice(667, JText::_('COM_THM_ORGANIZER_SEARCH_CRITERIA_NO_RESULTS'));
+	        }
         }
     }
 

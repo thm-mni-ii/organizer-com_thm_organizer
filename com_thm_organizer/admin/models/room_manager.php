@@ -25,32 +25,45 @@ class thm_organizersModelroom_manager extends JModelList
     public function __construct($config = array())
     {
     	parent::__construct();
+    	
+    	// test is table empty
+    	$dbo = $this->getDbo();
+        $query = $dbo->getQuery(true);
+        
+        $query->select("COUNT(*)");
+        $query->from("#__thm_organizer_rooms");
+        
+        $dbo->setQuery((string)$query);
+        $result = $dbo->loadResult();
+        
+        if ($result != '0') {
 
-        // get lists for filters
-        $errorOccurred = false;  // variable to prevent to show the same error multiple times
-        
-        $this->campuses = $this->getResources('campuses');
-        
-        if (!$this->campuses) $errorOccurred = true;
-        
-        if($this->getState('filter.campus') && $this->getState('filter.campus') != '*') 
-        {
-        	$this->buildings = $this->getResources('buildings');
-        	if (!$this->buildings) $errorOccurred = true;
-        }
-        
-        $this->categories = $this->getResources('categories');
-        if (!$this->categories) $errorOccurred = true;
-        
-        if($this->getState('filter.category') && $this->getState('filter.category') != '*') 
-        {
-        	$this->descriptions = $this->getResources('descriptions');
-        	if (!$this->descriptions) $errorOccurred = true;
-        }
-        
-        if ($errorOccurred)
-        {
-        	JError::raiseNotice(667, JText::_('COM_THM_ORGANIZER_SEARCH_CRITERIA_NO_RESULTS'));
+	        // get lists for filters
+	        $errorOccurred = false;  // variable to prevent to show the same error multiple times
+	        
+	        $this->campuses = $this->getResources('campuses');
+	        
+	        if (!$this->campuses) $errorOccurred = true;
+	        
+	        if($this->getState('filter.campus') && $this->getState('filter.campus') != '*') 
+	        {
+	        	$this->buildings = $this->getResources('buildings');
+	        	if (!$this->buildings) $errorOccurred = true;
+	        }
+	        
+	        $this->categories = $this->getResources('categories');
+	        if (!$this->categories) $errorOccurred = true;
+	        
+	        if($this->getState('filter.category') && $this->getState('filter.category') != '*') 
+	        {
+	        	$this->descriptions = $this->getResources('descriptions');
+	        	if (!$this->descriptions) $errorOccurred = true;
+	        }
+	        
+	        if ($errorOccurred)
+	        {
+	        	JError::raiseNotice(667, JText::_('COM_THM_ORGANIZER_SEARCH_CRITERIA_NO_RESULTS'));
+	        }
         }
     }
 
@@ -160,7 +173,7 @@ class thm_organizersModelroom_manager extends JModelList
      */
     private function getResources($what)
     {
-        $dbo = $this->getDbo();
+    	$dbo = $this->getDbo();
         $query = $this->getListQuery();
         $query->clear('select');
         
@@ -215,7 +228,7 @@ class thm_organizersModelroom_manager extends JModelList
 	        	$query->order("d.description ASC");
 	        	break;
         }
-
+        
         $dbo->setQuery((string)$query);
         $results = $dbo->loadAssocList();
         $resources = array();
@@ -226,8 +239,7 @@ class thm_organizersModelroom_manager extends JModelList
                 $resources[$data['id']]['id'] = $data['id'];
                 $resources[$data['id']]['name'] = JText::_($data['name']);
             }
-        }
-        else $resources = false;
+        } else $resources = false;
         return $resources;
     }
 }

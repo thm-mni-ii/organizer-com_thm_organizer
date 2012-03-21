@@ -24,26 +24,38 @@ class thm_organizersModeldepartment_manager extends JModelList
     public function __construct($config = array())
     {
     	parent::__construct();
-
-        // get lists for filters
-        $errorOccurred = false;  // variable to prevent to show the same error multiple times
-        
-        $this->institutions = $this->getResources('institutions');
-        if (!$this->institutions) $errorOccurred = true;
-        
-        if($this->getState('filter.institution') && $this->getState('filter.institution') != '*') 
-        {
-        	$this->campuses = $this->getResources('campuses');
-        	if (!$this->campuses) $errorOccurred = true;
-        }
-        
-        $this->departments = $this->getResources('departments');
-        if (!$this->departments) $errorOccurred = true;
-        
-        if ($errorOccurred)
-        {
-        	JError::raiseNotice(667, JText::_('COM_THM_ORGANIZER_SEARCH_CRITERIA_NO_RESULTS'));
-        }
+    	
+    	// test is table empty
+    	$dbo = $this->getDbo();
+    	$query = $dbo->getQuery(true);
+    	
+    	$query->select("COUNT(*)");
+    	$query->from("#__thm_organizer_departments");
+    	
+    	$dbo->setQuery((string)$query);
+    	$result = $dbo->loadResult();
+    	
+    	if ($result != '0') {
+	        // get lists for filters
+	        $errorOccurred = false;  // variable to prevent to show the same error multiple times
+	        
+	        $this->institutions = $this->getResources('institutions');
+	        if (!$this->institutions) $errorOccurred = true;
+	        
+	        if($this->getState('filter.institution') && $this->getState('filter.institution') != '*') 
+	        {
+	        	$this->campuses = $this->getResources('campuses');
+	        	if (!$this->campuses) $errorOccurred = true;
+	        }
+	        
+	        $this->departments = $this->getResources('departments');
+	        if (!$this->departments) $errorOccurred = true;
+	        
+	        if ($errorOccurred)
+	        {
+	        	JError::raiseNotice(667, JText::_('COM_THM_ORGANIZER_SEARCH_CRITERIA_NO_RESULTS'));
+	        }
+    	}
     }
 
     /**
