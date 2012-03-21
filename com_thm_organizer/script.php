@@ -133,12 +133,15 @@ class com_thm_organizerInstallerScript
 
 				// execute the single queries
 				foreach ($queries as $query) {
-					$db->setQuery($query);
-					
-					if (!$db->query())
-					{
-						JError::raiseWarning(1, JText::sprintf('COM_THM_ORGANIZER_SQL_ERROR', $db->stderr(true)));
-					}		
+					if (trim($query))
+				       	{
+						$db->setQuery($query);
+						
+						if (!$db->query())
+						{
+							JError::raiseWarning(1, JText::sprintf('COM_THM_ORGANIZER_SQL_ERROR', $db->stderr(true)));
+						}		
+					}
 				}
 			}
 		}
