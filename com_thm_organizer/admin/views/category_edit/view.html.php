@@ -12,12 +12,14 @@
  */
 defined('_JEXEC') or die( 'Restricted access' );
 jimport( 'joomla.application.component.view' );
-require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
 
 class thm_organizersViewcategory_edit extends JView
 {
     function display($tpl = null)
     {
+        if(!JFactory::getUser()->authorise('core.admin'))
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        
         $document = & JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
 
@@ -31,11 +33,9 @@ class thm_organizersViewcategory_edit extends JView
         $this->contentCat = $model->contentCat;
         $this->contentCategories = $model->contentCategories;
         if(count($this->contentCategories))$this->addCategorySelectionBox();
-        $this->access = thm_organizerHelper::isAdmin('category_edit');
         $titleText = ($this->id)?
             JText::_( 'COM_THM_ORGANIZER_CAT_EDIT_TITLE' ) : JText::_( 'COM_THM_ORGANIZER_CAT_EDIT_TITLE_NEW' );
-        JToolBarHelper::title( $titleText, 'generic.png' );
-        if($this->access) $this->addToolBar();
+        JToolBarHelper::title( $titleText, 'mni' );
 
         parent::display($tpl);
     }

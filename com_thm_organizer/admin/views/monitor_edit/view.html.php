@@ -16,6 +16,9 @@ class thm_organizersViewmonitor_edit extends JView
 {
     function display($tpl = null)
     {
+        if(!JFactory::getUser()->authorise('core.admin'))
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        
         JHtml::_('behavior.framework', true);
         JHTML::_('behavior.formvalidation');
         JHTML::_('behavior.tooltip');
@@ -33,7 +36,7 @@ class thm_organizersViewmonitor_edit extends JView
         $titleText .= ($this->form->getValue('monitorID'))?
                 JText::_('COM_THM_ORGANIZER_MON_EDIT_TITLE') : JText::_('COM_THM_ORGANIZER_MON_NEW_TITLE');
         JToolBarHelper::title( $titleText, 'generic.png' );
-        if(thm_organizerHelper::isAdmin('monitor_edit')) $this->addToolBar();
+        $this->addToolBar();
 
         parent::display($tpl);
     }
