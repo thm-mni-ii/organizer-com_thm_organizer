@@ -2,19 +2,20 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_thm_organizer
- * @name        semester editor view
- * @description provides a form for editing semester information
+ * @name        description editor view
+ * @description provides a form for editing description information
  * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @author      Markus Bader markusDOTbaderATmniDOTthmDOTde
  * @author      Daniel Kirsten danielDOTkirstenATmniDOTthmDOTde
- * @copyright   TH Mittelhessen 2011
+ * @copyright   TH Mittelhessen 2012
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
- * @version     1.7.0
+ * @version     2.5.0
  */
-
 defined('_JEXEC') or die( 'Restricted access' );
 jimport( 'joomla.application.component.view' );
 require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
+
 class thm_organizersViewdescription_edit extends JView
 {
     public function display($tpl = null)

@@ -2,13 +2,15 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_thm_organizer
- * @name        schedule manager view
- * @description provides a list of schedules
+ * @name        room manager view
+ * @description provides a list of rooms
  * @author      James Antrim jamesDOTantrimATyahooDOTcom
- * @copyright   TH Mittelhessen 2011
+ * @author      Markus Bader markusDOTbaderATmniDOTthmDOTde
+ * @author      Daniel Kirsten danielDOTkirstenATmniDOTthmDOTde
+ * @copyright   TH Mittelhessen 2012
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
- * @version     1.7.0
+ * @version     2.5.0
  */
 defined('_JEXEC') or die( 'Restricted access' );
 jimport( 'joomla.application.component.view' );
