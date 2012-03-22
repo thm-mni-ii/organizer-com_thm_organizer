@@ -53,7 +53,6 @@ class thm_organizersViewthm_organizers extends JView
                         'category_manager' => array(),
                         'monitor_manager' => array(),
                         'settings' => array());
-                        'scheduler_application_settings' => array());
         
         // the single menu entries
         $views['semester_manager']['title'] = JText::_('COM_THM_ORGANIZER_SEM_TITLE');
