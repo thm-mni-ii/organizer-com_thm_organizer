@@ -20,7 +20,7 @@
 			class="inputbox"
 		/>
 		<field
-			name="userame"
+			name="username"
 			type="text"
 			label="COM_THM_ORGANIZER_TM_USERNAME_LABEL"
 			description="COM_THM_ORGANIZER_TM_USERNAME_DESC"
