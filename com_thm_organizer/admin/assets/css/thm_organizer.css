@@ -222,3 +222,9 @@ li input[disabled=disabled]{ border: none; color: black;}
     border-bottom-right-radius: 6px;
 }
 
+/*resource manager & resource edit views***************************************/
+
+.icon-48-mni {
+  background: url('../images/icon-48-mni.png') 0 0 no-repeat;
+}
+
