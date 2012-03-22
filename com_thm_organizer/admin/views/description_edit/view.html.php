@@ -20,6 +20,9 @@ class thm_organizersViewdescription_edit extends JView
 {
     public function display($tpl = null)
     {
+        if(!JFactory::getUser()->authorise('core.admin'))
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        
         JHtml::_('behavior.framework', true);
         JHTML::_('behavior.formvalidation');
         JHTML::_('behavior.tooltip');
@@ -50,7 +53,7 @@ class thm_organizersViewdescription_edit extends JView
         $this->setLayout('edit');
 
         JToolBarHelper::title($title);
-        if (thm_organizerHelper::isAdmin('description_edit')) $this->addToolBar();
+        $this->addToolBar();
 
         // set old data on error redirect
         $session =& JFactory::getSession();

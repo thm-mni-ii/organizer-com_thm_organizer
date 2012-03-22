@@ -18,6 +18,9 @@ class thm_organizersViewschedule_edit extends JView
 {
     public function display($tpl = null)
     {
+        if(!JFactory::getUser()->authorise('core.admin'))
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        
         JHtml::_('behavior.framework', true);
         JHTML::_('behavior.formvalidation');
         JHTML::_('behavior.tooltip');
@@ -44,7 +47,7 @@ class thm_organizersViewschedule_edit extends JView
             $title .= JText::_("COM_THM_ORGANIZER_NEW");
         }
         JToolBarHelper::title($title);
-        if(thm_organizerHelper::isAdmin('schedule_edit')) $this->addToolBar();
+        $this->addToolBar();
 
         parent::display($tpl);
     }

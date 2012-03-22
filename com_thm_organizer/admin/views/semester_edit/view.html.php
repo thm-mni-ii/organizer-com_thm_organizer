@@ -20,6 +20,9 @@ class thm_organizersViewsemester_edit extends JView
 {
     public function display($tpl = null)
     {
+        if(!JFactory::getUser()->authorise('core.admin'))
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
 
@@ -32,7 +35,7 @@ class thm_organizersViewsemester_edit extends JView
         $title = ($model->semesterID)?
             JText::_('COM_THM_ORGANIZER_SEM_EDIT_TITLE') : JText::_('COM_THM_ORGANIZER_SEM_EDIT_TITLE_NEW');
         JToolBarHelper::title($title);
-        if(thm_organizerHelper::isAdmin('semester_edit')) $this->addToolBar();
+        $this->addToolBar();
 
         parent::display($tpl);
     }

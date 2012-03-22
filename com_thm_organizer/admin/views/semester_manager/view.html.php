@@ -35,7 +35,8 @@ class thm_organizersViewsemester_manager extends JView
 
     private function addToolBar()
     {
-        JToolBarHelper::title( JText::_( 'COM_THM_ORGANIZER_SEM_TITLE' ), 'generic.png' );
+        $title = JText::_('COM_THM_ORGANIZER').': '.JText::_('COM_THM_ORGANIZER_SEM_TITLE');
+        JToolBarHelper::title( $title, 'mni' );
         JToolBarHelper::addNew('semester.add');
         JToolBarHelper::editList('semester.edit');
         JToolBarHelper::deleteList

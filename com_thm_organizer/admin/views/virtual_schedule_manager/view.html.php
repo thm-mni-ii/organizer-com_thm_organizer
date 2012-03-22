@@ -13,8 +13,11 @@ require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
  */
 class  thm_organizersViewvirtual_schedule_manager extends JView {
 
-	function display($tpl = null)
-	{
+    public function display($tpl = null)
+    {
+        if(!JFactory::getUser()->authorise('core.admin'))
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        
 		//Create Toolbar
         JToolBarHelper::title( JText::_( 'THM - Organizer: Virtual Schedule Manager' ), 'generic.png' );
 		JToolBarHelper::addNewX('virtual_schedule_manager.add');

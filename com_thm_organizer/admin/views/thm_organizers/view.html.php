@@ -83,7 +83,6 @@ class thm_organizersViewthm_organizers extends JView
         $title_text = JText::_('COM_THM_ORGANIZER_RIA_TITLE')."::".JText::_('COM_THM_ORGANIZER_RIA_DESC');
         $views['scheduler_application_settings']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
         
-        // former resource manager
         $views['room_manager']['title'] = JText::_('COM_THM_ORGANIZER_RMM_TITLE');
         $title_text = JText::_('COM_THM_ORGANIZER_RMM_TITLE')."::".JText::_('COM_THM_ORGANIZER_RMM_DESC');
         $views['room_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);

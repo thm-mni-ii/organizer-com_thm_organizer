@@ -72,8 +72,8 @@ class thm_organizersViewroom_manager extends JView
      */
     private function addToolBar()
     {
-        $title = JText::_( 'COM_THM_ORGANIZER_RMM_TITLE' );
-        JToolBarHelper::title($title);
+        $title = JText::_('COM_THM_ORGANIZER').': '.JText::_('COM_THM_ORGANIZER_RMM_TITLE');
+        JToolBarHelper::title( $title, 'mni' );
         JToolBarHelper::addNew('room.add');
         JToolBarHelper::editList('room.edit');
         JToolBarHelper::deleteList(JText::_( 'COM_THM_ORGANIZER_RMM_DELETE_CONFIRM'),'room.delete');
