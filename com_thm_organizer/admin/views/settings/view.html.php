@@ -11,10 +11,13 @@ require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
  * @package Joomla
  * @subpackage  Giessen Scheduler
  */
-class  thm_organizersViewSettings extends JView {
-
-	function display($tpl = null)
-	{
+class  thm_organizersViewSettings extends JView
+{
+    public function display($tpl = null)
+    {
+        if(!JFactory::getUser()->authorise('core.admin'))
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        
             JToolBarHelper::title( JText::_( 'Giessen Scheduler - Scheduler Application Settings' ), 'generic.png' );
 
     		JToolBarHelper::save('settings.save');

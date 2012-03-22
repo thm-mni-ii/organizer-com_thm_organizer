@@ -19,6 +19,9 @@ class thm_organizersViewdescription_edit extends JView
 {
     public function display($tpl = null)
     {
+        if(!JFactory::getUser()->authorise('core.admin'))
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        
         JHtml::_('behavior.framework', true);
         JHTML::_('behavior.formvalidation');
         JHTML::_('behavior.tooltip');
@@ -49,7 +52,7 @@ class thm_organizersViewdescription_edit extends JView
         $this->setLayout('edit');
 
         JToolBarHelper::title($title);
-        if (thm_organizerHelper::isAdmin('description_edit')) $this->addToolBar();
+        $this->addToolBar();
 
         // set old data on error redirect
         $session =& JFactory::getSession();
@@ -72,8 +75,10 @@ class thm_organizersViewdescription_edit extends JView
     {
         JRequest::setVar('hidemainmenu', true);
 		$isNew = ($this->item->id == 0);
-		JToolBarHelper::title($isNew ? JText::_('JTOOLBAR_NEW')
-		                             : JText::_('JTOOLBAR_EDIT'));
+		$title = JText::_('COM_THM_ORGANIZER').': ';
+		$title .= ($isNew ? JText::_('JTOOLBAR_NEW') : JText::_('JTOOLBAR_EDIT')).' ';
+		$title .= JText::_('COM_THM_ORGANIZER_DS');
+		JToolBarHelper::title($title, 'mni');
 		JToolBarHelper::save('description.save');
 		JToolBarHelper::cancel('description.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
     }

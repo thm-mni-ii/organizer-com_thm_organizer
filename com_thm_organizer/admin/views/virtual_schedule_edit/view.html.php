@@ -12,8 +12,11 @@ jimport( 'joomla.application.component.view');
  */
 class thm_organizersViewvirtual_schedule_edit extends JView {
 
-	function display($tpl = null)
-	{
+    public function display($tpl = null)
+    {
+        if(!JFactory::getUser()->authorise('core.admin'))
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        
 		JToolBarHelper::save('virtual_schedule_edit.save');
 		JToolBarHelper::cancel('virtual_schedule_edit.cancel');
 

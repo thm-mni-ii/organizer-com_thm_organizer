@@ -69,7 +69,7 @@ class thm_organizersViewdepartment_manager extends JView
      */
     private function addToolBar()
     {
-        $title = JText::_( 'COM_THM_ORGANIZER_DEPARTMENT_MANAGER_TITLE' );
+        $title = JText::_('COM_THM_ORGANIZER').': '.JText::_('COM_THM_ORGANIZER_DPM_TITLE');
         JToolBarHelper::title($title);
         JToolBarHelper::addNew('department.add');
         JToolBarHelper::editList('department.edit');

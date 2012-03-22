@@ -32,7 +32,6 @@ class com_thm_organizerInstallerScript
 	            if(!isset($objectdir)) $objectdir = false;
 	        }
 	    }
-
 	    $downexists = JFolder::exists( JPATH_SITE.'/components/com_thm_organizer/down' );
 	    if(!isset($downexists)) $downexists = false;
 	    if(!$downexists)

@@ -52,8 +52,7 @@ class thm_organizersViewthm_organizers extends JView
                         'resource_manager' => array(),
                         'category_manager' => array(),
                         'monitor_manager' => array(),
-                        'settings' => array(),
-                        'scheduler_application_settings' => array());
+                        'settings' => array());
         
         // the single menu entries
         $views['semester_manager']['title'] = JText::_('COM_THM_ORGANIZER_SEM_TITLE');
@@ -84,7 +83,6 @@ class thm_organizersViewthm_organizers extends JView
         $title_text = JText::_('COM_THM_ORGANIZER_RIA_TITLE')."::".JText::_('COM_THM_ORGANIZER_RIA_DESC');
         $views['scheduler_application_settings']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
         
-        // former resource manager
         $views['room_manager']['title'] = JText::_('COM_THM_ORGANIZER_RMM_TITLE');
         $title_text = JText::_('COM_THM_ORGANIZER_RMM_TITLE')."::".JText::_('COM_THM_ORGANIZER_RMM_DESC');
         $views['room_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);

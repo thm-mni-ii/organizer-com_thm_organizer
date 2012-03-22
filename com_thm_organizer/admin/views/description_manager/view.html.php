@@ -67,7 +67,7 @@ class thm_organizersViewdescription_manager extends JView
      */
     private function addToolBar()
     {
-        $title = JText::_( 'COM_THM_ORGANIZER_DSM_TITLE' );
+        $title = JText::_('COM_THM_ORGANIZER').': '.JText::_('COM_THM_ORGANIZER_DSM_TITLE');
         JToolBarHelper::title($title);
         JToolBarHelper::addNew('description.add');
         JToolBarHelper::editList('description.edit');

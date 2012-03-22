@@ -20,6 +20,8 @@
 
 .thm_organizer_radio_button{ background: #f4f4f4; border: none; }
 
+.icon-48-mni { background: url('../images/icon-48-mni.png') 0 0 no-repeat; }
+
 /*thm_organizers view**********************************************************/
 
 #thm_organizer_main{ padding: 5px; }
