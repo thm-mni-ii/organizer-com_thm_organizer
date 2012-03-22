@@ -58,7 +58,7 @@ class thm_organizersViewmonitor_manager extends JView
      */
     private function addToolBar()
     {
-        $title = JText::_('COM_THM_ORGANIZER').': '.JText::_('COM_THM_ORGANIZER_MON_TITLE');
+        $title = JText::_('COM_THM_ORGANIZER').': '.JText::_('COM_THM_ORGANIZER_VSM_TITLE');
         JToolBarHelper::title( $title, 'mni' );
         JToolBarHelper::addNew( 'monitor.add' );
         JToolBarHelper::editList('monitor.edit');

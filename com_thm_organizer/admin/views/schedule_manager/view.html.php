@@ -62,9 +62,9 @@ class thm_organizersViewschedule_manager extends JView
      */
     private function addToolBar()
     {
-        $title = JText::_( 'COM_THM_ORGANIZER_SCH_TITLE' );
-        $title .= ($this->state->get('semesterName'))? ": ".$this->state->get('semesterName') : '';
-        JToolBarHelper::title($title);
+        $title = JText::_('COM_THM_ORGANIZER').': '.JText::_('COM_THM_ORGANIZER_SCH_TITLE');
+        if($this->state->get('semesterName')) $title .= " ".$this->state->get('semesterName');
+        JToolBarHelper::title( $title, 'mni' );
         JToolBarHelper::addNew('schedule.add');
         JToolBarHelper::editList('schedule.edit');
         JToolBarHelper::makeDefault('schedule.setDefault', 'COM_THM_ORGANIZER_SCH_ACTIVATE_TITLE');

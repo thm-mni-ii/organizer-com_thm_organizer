@@ -51,7 +51,6 @@ class thm_organizersViewdepartment_edit extends JView
 
         $this->setLayout('edit');
 
-        JToolBarHelper::title($title);
         $this->addToolBar();
        	
         // set old data on error redirect
@@ -74,11 +73,14 @@ class thm_organizersViewdepartment_edit extends JView
     private function addToolBar()
     {
         JRequest::setVar('hidemainmenu', true);
-		$isNew = ($this->item->id == 0);
-		JToolBarHelper::title($isNew ? JText::_('JTOOLBAR_NEW')
-		                             : JText::_('JTOOLBAR_EDIT'));
-		JToolBarHelper::save('department.save');
-		JToolBarHelper::cancel('department.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+        
+        $title = JText::_('COM_THM_ORGANIZER').': ';
+        $title .= ($this->item->id == 0)? JText::_('JTOOLBAR_NEW') : JText::_('JTOOLBAR_EDIT');
+        $title .= " ".JText::_('COM_THM_ORGANIZER_DP'); 
+        
+        JToolBarHelper::title($title, "mni");
+        JToolBarHelper::save('department.save');
+        JToolBarHelper::cancel('department.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
     }
 }?>
 	

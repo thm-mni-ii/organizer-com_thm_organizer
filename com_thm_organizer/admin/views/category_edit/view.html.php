@@ -8,7 +8,7 @@
  * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
- * @version     1.7.0
+ * @version     2.5.0
  */
 defined('_JEXEC') or die( 'Restricted access' );
 jimport( 'joomla.application.component.view' );
@@ -20,7 +20,7 @@ class thm_organizersViewcategory_edit extends JView
         if(!JFactory::getUser()->authorise('core.admin'))
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         
-        $document = & JFactory::getDocument();
+        $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
 
         $model = $this->getModel();
@@ -33,10 +33,14 @@ class thm_organizersViewcategory_edit extends JView
         $this->contentCat = $model->contentCat;
         $this->contentCategories = $model->contentCategories;
         if(count($this->contentCategories))$this->addCategorySelectionBox();
-        $titleText = ($this->id)?
-            JText::_( 'COM_THM_ORGANIZER_CAT_EDIT_TITLE' ) : JText::_( 'COM_THM_ORGANIZER_CAT_EDIT_TITLE_NEW' );
-        JToolBarHelper::title( $titleText, 'mni' );
-
+        
+        
+        $title = JText::_('COM_THM_ORGANIZER').': ';
+        $title .= ($this->id)? JText::_('JTOOLBAR_NEW') : JText::_('JTOOLBAR_EDIT');
+        $title .= " ".JText::_('JCATEGORY');        
+        JToolBarHelper::title( $title, 'mni' );
+        $this->addToolBar();
+        
         parent::display($tpl);
     }
 

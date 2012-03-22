@@ -74,8 +74,8 @@ class thm_organizersViewteacher_manager extends JView
      */
     private function addToolBar()
     {
-        $title = JText::_( 'COM_THM_ORGANIZER_TM_TITLE' );
-        JToolBarHelper::title($title);
+        $title = JText::_('COM_THM_ORGANIZER').': '.JText::_('COM_THM_ORGANIZER_TMM_TITLE');
+        JToolBarHelper::title( $title, 'mni' );
         JToolBarHelper::addNew('teacher.add');
         JToolBarHelper::editList('teacher.edit');
         JToolBarHelper::deleteList(JText::_( 'COM_THM_ORGANIZER_RMM_DELETE_CONFIRM'),'teacher.delete');

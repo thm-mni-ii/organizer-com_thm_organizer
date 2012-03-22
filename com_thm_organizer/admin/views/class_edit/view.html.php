@@ -48,15 +48,10 @@ class thm_organizersViewclass_edit extends JView
         	}
         }
         
-        $title = JText::_("COM_THM_ORGANIZER_SCH_TITLE").": ";
-
-        $this->setLayout('edit');
-
-        JToolBarHelper::title($title);
         $this->addToolBar();
        	
         // set old data on error redirect
-        $session =& JFactory::getSession();
+        $session = JFactory::getSession();
         $oldPost = $session->get('oldPost');
 
         // check werether to prefill field values
@@ -75,11 +70,14 @@ class thm_organizersViewclass_edit extends JView
     private function addToolBar()
     {
         JRequest::setVar('hidemainmenu', true);
-		$isNew = ($this->item->id == 0);
-		JToolBarHelper::title($isNew ? JText::_('JTOOLBAR_NEW')
-		                             : JText::_('JTOOLBAR_EDIT'));
-		JToolBarHelper::save('class.save');
-		JToolBarHelper::cancel('class.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+        
+        $title = JText::_('COM_THM_ORGANIZER').': ';
+        $title .= ($this->item->id == 0)? JText::_('JTOOLBAR_NEW') : JText::_('JTOOLBAR_EDIT');
+        $title .= " ".JText::_('COM_THM_ORGANIZER_CL'); 
+        
+        JToolBarHelper::title($title, "mni");
+        JToolBarHelper::save('class.save');
+        JToolBarHelper::cancel('class.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
     }
 }?>
 	
