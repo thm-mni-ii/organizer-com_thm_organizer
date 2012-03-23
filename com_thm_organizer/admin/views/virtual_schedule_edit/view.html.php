@@ -18,6 +18,9 @@ class thm_organizersViewvirtual_schedule_edit extends JView
         if(!JFactory::getUser()->authorise('core.admin'))
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         
+        $document = & JFactory::getDocument();
+        $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
+        
         $cid = JRequest::getVar('cid', null, 'post','ARRAY');
         $task = JRequest::getVar('task', null, 'post','STRING');
         $cid = $cid[0];        

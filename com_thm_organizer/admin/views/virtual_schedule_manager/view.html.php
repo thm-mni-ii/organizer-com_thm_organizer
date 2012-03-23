@@ -27,6 +27,9 @@ class thm_organizersViewvirtual_schedule_manager extends JView
     {
         if(!JFactory::getUser()->authorise('core.admin'))
         return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        
+        $document = & JFactory::getDocument();
+        $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
 
         $title = JText::_('COM_THM_ORGANIZER').': '.JText::_('COM_THM_ORGANIZER_VSM_TITLE');        
         JToolBarHelper::title( $title, 'mni' );
