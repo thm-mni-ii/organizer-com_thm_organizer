@@ -36,7 +36,7 @@ class thm_organizersViewcategory_edit extends JView
         
         
         $title = JText::_('COM_THM_ORGANIZER').': ';
-        $title .= ($this->id)? JText::_('JTOOLBAR_NEW') : JText::_('JTOOLBAR_EDIT');
+        $title .= ($this->id)? JText::_('JTOOLBAR_EDIT') : JText::_('JTOOLBAR_NEW');
         $title .= " ".JText::_('JCATEGORY');        
         JToolBarHelper::title( $title, 'mni' );
         $this->addToolBar();

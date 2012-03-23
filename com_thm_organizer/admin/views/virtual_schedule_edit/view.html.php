@@ -1,5 +1,14 @@
 <?php
-
+/**
+ * @package     Joomla.Administrator
+ * @subpackage  com_thm_organizer
+ * @name        form for the editing of virtual schedules
+ * @author      Wolf Normann Gordian Rost wolf.rostATmniDOTthmDOTde
+ * @copyright   TH Mittelhessen 2011
+ * @license     GNU GPL v.2
+ * @link        www.mni.thm.de
+ * @version     2.5.0
+ */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 class thm_organizersViewvirtual_schedule_edit extends JView
