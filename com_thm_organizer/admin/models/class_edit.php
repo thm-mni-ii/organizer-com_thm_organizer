@@ -11,27 +11,24 @@ jimport('joomla.application.component.modeladmin');
 class thm_organizersModelclass_edit extends JModelAdmin
 {
 	/**
-	 * gpuntisidExists
-	 *
-	 * checks wether an entry with this gpuntisid already exists
-	 * @param $gpuntisid String the gp untis id to check
-	 * @return boolean true, if at least one entry with same gpuntisid exists
+   	 * getAllGpuntisIds
+   	 * 
+   	 * returns a list of all gpuntisids
+   	 * @return array containing all gpuntisids
+	 * @return boolean false if no results were found
 	 */
-	public function gpuntisidExists($gpuntisid) {
-		$dbo = $this->getDbo();
-		$query = $dbo->getQuery(true);
-	
-		// query to get count on gpuntisid
-		$query->select('COUNT(gpuntisID) AS appearance');
-		$query->from('#__thm_organizer_classes');
-		$query->where("gpuntisID = '$gpuntisid'");
-	
-		// request query
-		$dbo->setQuery((string)$query);
-		$result = $dbo->loadResult();
-	
-		// return false on appearance = 0
-		return !($result == 0);
+	public function getAllGpuntisIds() {
+        $dbo = $this->getDbo();
+        $query = $dbo->getQuery(true);
+        
+        // query to get count on gpuntisid
+        $query->select('DISTINCT gpuntisID');
+        $query->from('#__thm_organizer_classes');
+        
+        // request query
+        $dbo->setQuery($query);
+
+        return $dbo->loadResultArray();
 	}
 	
 	/**

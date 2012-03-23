@@ -10,35 +10,45 @@
 			type="text"
 			label="COM_THM_ORGANIZER_DPM_GPUNTISID_LABEL"
 			description="COM_THM_ORGANIZER_DPM_GPUNTISID_DESC"
-			class="inputbox"
+			class="inputbox validate-gpuntisid"
+			validate="gpuntisid"
+			required="true"
 		/>
 		<field
 			name="name"
 			type="text"
 			label="COM_THM_ORGANIZER_DPM_NAME_LABEL"
 			description="COM_THM_ORGANIZER_DPM_NAME_DESC"
-			class="inputbox"
+			class="inputbox validate-name"
+			validate="name"
+			required="true"
 		/>
 		<field
 			name="institution"
 			type="text"
 			label="COM_THM_ORGANIZER_DPM_INSTITUTION_LABEL"
 			description="COM_THM_ORGANIZER_DPM_INSTITUTION_LABEL"
-			class="inputbox"
+			class="inputbox validate-institution"
+			validate="institution"
+			required="true"
 		/>
 		<field
 			name="campus"
 			type="text"
 			label="COM_THM_ORGANIZER_DPM_CAMPUS_LABEL"
 			description="COM_THM_ORGANIZER_DPM_CAMPUS_DESC"
-			class="inputbox"
+			class="inputbox validate-campus"
+			validate="campus"
+			required="true"
 		/>
 		<field
 			name="department"
 			type="text"
 			label="COM_THM_ORGANIZER_DPM_DEPARTMENT_LABEL"
 			description="COM_THM_ORGANIZER_DPM_DEPARTMENT_DESC"
-			class="inputbox"
+			class="inputbox validate-department"
+			validate="department"
+			required="true"
 		/>
 		<field
 			name="subdepartment"

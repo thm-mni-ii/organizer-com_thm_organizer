@@ -29,17 +29,19 @@ class thm_organizersViewdescription_edit extends JView
         
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
-        $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/schedule_edit.js'));
+        $document->addScript(JRoute::_('components/com_thm_organizer/assets/js/submitbutton.js'));
+        $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/description_edit.js'));
 
         $model = $this->getModel();
         $this->form = $this->get('Form');
         $this->item = $this->get('Item');
+        $this->gpuntisids = $model->getAllGpuntisIds();
         
         // get task for template (gpuntisID might be readable only)
-        $task = JRequest::getVar('task', null, 'post','STRING');
+        $this->task = JRequest::getVar('task', null, 'post','STRING');
         
         // set values if new button is clicked while an item is checked
-        if ($task == 'description.add') {
+        if ($this->task == 'description.add') {
         	$this->item->id = 0;
         	$formElements = $this->form->getFieldset();
         	// set values in form
@@ -54,20 +56,6 @@ class thm_organizersViewdescription_edit extends JView
 
         JToolBarHelper::title($title);
         $this->addToolBar();
-
-        // set old data on error redirect
-        $session =& JFactory::getSession();
-        $oldPost = $session->get('oldPost');
-        
-        // check werether to prefill field values
-        if ($oldPost != null) {  // do prefill
-        	 
-        	// set values in form
-        	foreach ($oldPost['jform'] as $key => $value) {
-        		$this->form->setValue($key, null, $value);
-        	}
-        	$session->clear('oldPost');
-        }
         
         parent::display($tpl);
     }

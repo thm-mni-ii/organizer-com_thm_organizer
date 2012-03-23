@@ -11,49 +11,59 @@ jimport('joomla.application.component.modeladmin');
 class thm_organizersModeldescription_edit extends JModelAdmin
 {
 	/**
-	 * gpuntisidExists
-	 *
-	 * checks wether an entry with this gpuntisid already exists
-	 * @param $gpuntisid String the gp untis id to check
-	 * @return boolean true, if at least one entry with same gpuntisid exists
+   	 * getAllGpuntisIds
+   	 * 
+   	 * returns a list of all gpuntisids
+   	 * @return array containing all gpuntisids
+	 * @return boolean false if no results were found
 	 */
-	public function gpuntisidExists($gpuntisid) {
-		$dbo = $this->getDbo();
-		$query = $dbo->getQuery(true);
-	
-		// query to get count on gpuntisid
-		$query->select('COUNT(gpuntisID) AS appearance');
-		$query->from('#__thm_organizer_descriptions');
-		$query->where("gpuntisID = '$gpuntisid'");
-	
-		// request query
-		$dbo->setQuery((string)$query);
-		$result = $dbo->loadResult();
-	
-		// return false on appearance = 0
-		return !($result == 0);
+	public function getAllGpuntisIds() {
+        $dbo = $this->getDbo();
+        $query = $dbo->getQuery(true);
+        
+        // query to get count on gpuntisid
+        $query->select('DISTINCT gpuntisID');
+        $query->from('#__thm_organizer_descriptions');
+        
+        // request query
+        $dbo->setQuery($query);
+
+        return $dbo->loadResultArray();
 	}
 	/**
+
 	 * update
+
 	 *
+
 	 * updates descriptions table row information
+
 	 */
+
 	public function update()
+
 	{
+
 		$data = $this->cleanRequestData();
+
 		$table = JTable::getInstance('descriptions', 'thm_organizerTable');
+
 		if ($table->load($data['id'])) {
+
 			$success = $table->save($data);
 		} else {
 			unset($data['id']);
 			$table->save($data);
 		}
+
 		
 		if ($success) {
 			return ($data['id']) ? $data['id'] : true;
+
 		} else {
 			return false;
 		}
+
 	}
 	/**
 	 * delete
@@ -63,24 +73,38 @@ class thm_organizersModeldescription_edit extends JModelAdmin
 	 */
 	public function delete($id) {
 		$table = JTable::getInstance('descriptions', 'thm_organizerTable');
+
 		return $table->delete($id);
 	}
+
 	/**
+
 	 * cleanRequestData
+
 	 *
+
 	 * filters the data from the request
+
 	 *
+
 	 * @return array cleaned request data
+
 	 */
+
 	protected function cleanRequestData()
+
 	{
+
 		$data = JRequest::getVar('jform', null, null, null, 4);
+
 		$data['id'] 			= addslashes($data['id']);
 		$data['gpuntisID'] 		= addslashes($data['gpuntisID']);
 		$data['category'] 		= addslashes($data['category']);
 		$data['description'] 		= addslashes($data['description']);
 		
+
 		return $data;
+
 	}
 	/**
 	 * Returns a reference to the a Table object, always creating it.
@@ -129,18 +153,30 @@ class thm_organizersModeldescription_edit extends JModelAdmin
 		return $data;
 	}
 	/**
+
 	 * Method to get a single record.
+
 	 *
+
 	 * @param	integer	The id of the primary key.
+
 	 *
+
 	 * @return	mixed	Object on success, false on failure.
+
 	 */
+
 	public function getItem($pk = null)
+
 	{
 		$descriptionIDs = JRequest::getVar('cid',  null, '', 'array');
+
 		$descriptionID = (empty($descriptionIDs))? JRequest::getVar('descriptionID') : $descriptionIDs[0];
+
 		$description = ($descriptionID) ? parent::getItem($descriptionID) : $this->getTable();
 
+
 		return $description;
+
 	}
 }
