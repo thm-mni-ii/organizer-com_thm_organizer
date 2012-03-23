@@ -32,9 +32,10 @@ class thm_organizersViewsemester_edit extends JView
         $this->assignRef( 'semesterDesc', $model->semesterDesc );
         $this->assignRef( 'organization', $model->organization );
 
-        $title = ($model->semesterID)?
-            JText::_('COM_THM_ORGANIZER_SEM_EDIT_TITLE') : JText::_('COM_THM_ORGANIZER_SEM_EDIT_TITLE_NEW');
-        JToolBarHelper::title($title);
+        $title = JText::_('COM_THM_ORGANIZER').': ';
+        $title .= ($model->semesterID)? JText::_('JTOOLBAR_EDIT') : JText::_('JTOOLBAR_NEW');
+        $title .= " ".JText::_('COM_THM_ORGANIZER_SCH_SEMESTER_TITLE');        
+        JToolBarHelper::title( $title, 'mni' );
         $this->addToolBar();
 
         parent::display($tpl);

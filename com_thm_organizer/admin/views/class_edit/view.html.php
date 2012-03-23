@@ -79,7 +79,7 @@ class thm_organizersViewclass_edit extends JView
         
         JToolBarHelper::title($title, "mni");
         JToolBarHelper::save('class.save');
-        JToolBarHelper::cancel('class.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+        JToolBarHelper::cancel('class.cancel', ($this->item->id == 0)? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
     }
 }?>
 	

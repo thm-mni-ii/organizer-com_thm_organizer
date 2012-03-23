@@ -30,7 +30,7 @@ class thm_organizersViewthm_organizers extends JView
         $application = JFactory::getApplication("administrator");
         $this->option = $application->scope;
 
-        JToolBarHelper::title( JText::_( 'COM_THM_ORGANIZER' ).": ".JText::_( "COM_THM_ORGANIZER_MAIN_TITLE" ), 'home.png' );
+        JToolBarHelper::title( JText::_( 'COM_THM_ORGANIZER' ).": ".JText::_( "COM_THM_ORGANIZER_MAIN_TITLE" ), 'mni' );
 
         $this->addViews();
 

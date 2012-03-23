@@ -29,7 +29,6 @@ class thm_organizersViewteacher_edit extends JView
         
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
-        $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/schedule_edit.js'));
 
         $model = $this->getModel();
         $this->form = $this->get('Form');
@@ -49,11 +48,9 @@ class thm_organizersViewteacher_edit extends JView
         	}
         }
         
-        $title = JText::_("COM_THM_ORGANIZER_SCH_TITLE").": ";
 
         $this->setLayout('edit');
 
-        JToolBarHelper::title($title);
         $this->addToolBar();
        	
         // set old data on error redirect
@@ -61,13 +58,10 @@ class thm_organizersViewteacher_edit extends JView
         $oldPost = $session->get('oldPost');
 
         // check werether to prefill field values
-        if ($oldPost != null) {  // do prefill
-        	
-        	// set values in form
-        	foreach ($oldPost['jform'] as $key => $value) {
-        		$this->form->setValue($key, null, $value);
-        	}
-        	$session->clear('oldPost');
+        if ($oldPost != null)
+        {  // do prefill
+            foreach($oldPost['jform'] as $key => $value) $this->form->setValue($key, null, $value);
+            $session->clear('oldPost');
         }
         
         parent::display($tpl);
@@ -76,11 +70,12 @@ class thm_organizersViewteacher_edit extends JView
     private function addToolBar()
     {
         JRequest::setVar('hidemainmenu', true);
-		$isNew = ($this->item->id == 0);
-		JToolBarHelper::title($isNew ? JText::_('JTOOLBAR_NEW')
-		                             : JText::_('JTOOLBAR_EDIT'));
-		JToolBarHelper::save('teacher.save');
-		JToolBarHelper::cancel('teacher.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+        $title = JText::_('COM_THM_ORGANIZER').': ';
+        $title .= ($this->item->id == 0)? JText::_('JTOOLBAR_NEW') : JText::_('JTOOLBAR_EDIT');
+        $title .= " ".JText::_('COM_THM_ORGANIZER_TR');        
+        JToolBarHelper::title( $title, 'mni' );
+        JToolBarHelper::save('teacher.save');
+        JToolBarHelper::cancel('teacher.cancel', $this->item->id == 0 ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
     }
 }?>
 	

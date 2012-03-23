@@ -31,22 +31,23 @@ class thm_organizersViewschedule_edit extends JView
 
         $model = $this->getModel();
         $this->form = $this->get('Form');
-
-        $title = JText::_("COM_THM_ORGANIZER_SCH_TITLE").": ";
+        
+        $title = JText::_('COM_THM_ORGANIZER').': ';
         if($this->form->getValue('id'))
         {
             $this->setLayout('edit');
-            $this->legend = JText::_('COM_THM_ORGANIZER_EDIT')." ".$this->form->getValue('plantypeID');
-            $title .= JText::_("COM_THM_ORGANIZER_EDIT")." ";
-            $title .= $this->form->getValue('plantypeID');
+            $this->legend = JText::_('JTOOLBAR_EDIT')." ".$this->form->getValue('plantypeID');
+            $title .= JText::_('JTOOLBAR_EDIT')." ";
+            $title .= " ".$this->form->getValue('plantypeID');
         }
         else
         {
             $this->setLayout('add');
-            $this->legend = JText::_('COM_THM_ORGANIZER_NEW')." ".$this->form->getValue('plantypeID');
-            $title .= JText::_("COM_THM_ORGANIZER_NEW");
+            $this->legend = JText::_('JTOOLBAR_NEW')." ".$this->form->getValue('plantypeID');
+            $title .= JText::_("JTOOLBAR_NEW");
+            $title .= " ".JText::_('COM_THM_ORGANIZER_PLAN');
         }
-        JToolBarHelper::title($title);
+        JToolBarHelper::title($title, "mni");
         $this->addToolBar();
 
         parent::display($tpl);

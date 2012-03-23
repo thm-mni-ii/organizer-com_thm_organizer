@@ -32,10 +32,10 @@ class thm_organizersViewmonitor_edit extends JView
         $attribs = array();
         $this->behaviour =  JHTML::_("select.genericlist", $model->behaviours, "display", $attribs, "id", "name", $this->form->getValue('display'));
 
-        $titleText = JText::_('COM_THM_ORGANIZER_MON_EDIT_TITLE').": ";
-        $titleText .= ($this->form->getValue('monitorID'))?
-                JText::_('COM_THM_ORGANIZER_MON_EDIT_TITLE') : JText::_('COM_THM_ORGANIZER_MON_NEW_TITLE');
-        JToolBarHelper::title( $titleText, 'generic.png' );
+        $title = JText::_('COM_THM_ORGANIZER').': ';
+        $title .= ($model->semesterID)? JText::_('JTOOLBAR_EDIT') : JText::_('JTOOLBAR_NEW');
+        $title .= " ".JText::_('COM_THM_ORGANIZER_MONITOR');        
+        JToolBarHelper::title( $title, 'mni' );
         $this->addToolBar();
 
         parent::display($tpl);

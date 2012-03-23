@@ -75,13 +75,12 @@ class thm_organizersViewdescription_edit extends JView
     private function addToolBar()
     {
         JRequest::setVar('hidemainmenu', true);
-		$isNew = ($this->item->id == 0);
-		$title = JText::_('COM_THM_ORGANIZER').': ';
-		$title .= ($isNew ? JText::_('JTOOLBAR_NEW') : JText::_('JTOOLBAR_EDIT')).' ';
-		$title .= JText::_('COM_THM_ORGANIZER_DS');
-		JToolBarHelper::title($title, 'mni');
-		JToolBarHelper::save('description.save');
-		JToolBarHelper::cancel('description.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+        $title = JText::_('COM_THM_ORGANIZER').': ';
+        $title .= ($this->item->id == 0)? JText::_('JTOOLBAR_NEW') : JText::_('JTOOLBAR_EDIT').' ';
+        $title .= JText::_('COM_THM_ORGANIZER_DS');
+        JToolBarHelper::title($title, 'mni');
+        JToolBarHelper::save('description.save');
+        JToolBarHelper::cancel('description.cancel', ($this->item->id == 0)? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
     }
 }?>
 	
