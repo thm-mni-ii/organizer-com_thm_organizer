@@ -11,51 +11,61 @@ jimport('joomla.application.component.modeladmin');
 class thm_organizersModeldepartment_edit extends JModelAdmin
 {
 	/**
-	 * gpuntisidExists
-	 * 
-	 * checks wether an entry with this gpuntisid already exists
-	 * @param $gpuntisid String the gp untis id to check
-	 * @return boolean true, if at least one entry with same gpuntisid exists
+   	 * getAllGpuntisIds
+   	 * 
+   	 * returns a list of all gpuntisids
+   	 * @return array containing all gpuntisids
+	 * @return boolean false if no results were found
 	 */
-	public function gpuntisidExists($gpuntisid) {
-		$dbo = $this->getDbo();
+	public function getAllGpuntisIds() {
+        $dbo = $this->getDbo();
         $query = $dbo->getQuery(true);
         
         // query to get count on gpuntisid
-        $query->select('COUNT(gpuntisID) AS appearance');
+        $query->select('DISTINCT gpuntisID');
         $query->from('#__thm_organizer_departments');
-        $query->where("gpuntisID = '$gpuntisid'");
         
         // request query
-        $dbo->setQuery((string)$query);
-        $result = $dbo->loadResult();
-        
-        // return false on appearance = 0
-        return !($result == 0);
+        $dbo->setQuery($query);
+
+        return $dbo->loadResultArray();
 	}
 	/**
+
 	 * update
+
 	 *
+
 	 * updates departments table row information
+
 	 */
+
 	public function update()
+
 	{
+
 		$data = $this->cleanRequestData();
 		
 		// saving
+
 		$table = JTable::getInstance('departments', 'thm_organizerTable');
+
 		if ($table->load($data['id'])) {  // update
+
 			$success = $table->save($data);
 		} else {  // create
 			unset($data['id']);
 			$table->save($data);
 		}
+
 		
 		if ($success) {
 			return ($data['id']) ? $data['id'] : true;
+
 		} else {
 			return false;
 		}
+
 	}
 	/**
 	 * delete
@@ -65,19 +75,32 @@ class thm_organizersModeldepartment_edit extends JModelAdmin
 	 */
 	public function delete($id) {
 		$table = JTable::getInstance('departments', 'thm_organizerTable');
+
 		return $table->delete($id);
 	}
+
 	/**
+
 	 * cleanRequestData
+
 	 *
+
 	 * filters the data from the request
+
 	 *
+
 	 * @return array cleaned request data
+
 	 */
+
 	protected function cleanRequestData()
+
 	{
+
 		$data = JRequest::getVar('jform', null, null, null, 4);
+
 		$data['id'] 			= addslashes($data['id']);
+
 		$data['name'] 			= addslashes($data['name']);
 		$data['gpuntisID'] 		= addslashes($data['gpuntisID']);
 		$data['institution'] 	= addslashes($data['institution']);
@@ -85,7 +108,9 @@ class thm_organizersModeldepartment_edit extends JModelAdmin
 		$data['department'] 	= addslashes($data['department']);
 		$data['subdepartment'] 	= addslashes($data['subdepartment']);
 		
+
 		return $data;
+
 	}
 	/**
 	 * Returns a reference to the a Table object, always creating it.
@@ -134,17 +159,29 @@ class thm_organizersModeldepartment_edit extends JModelAdmin
 		return $data;
 	}
 	/**
+
 	 * Method to get a single record.
+
 	 *
+
 	 * @param	integer	The id of the primary key.
+
 	 *
+
 	 * @return	mixed	Object on success, false on failure.
+
 	 */
+
 	public function getItem($pk = null)
+
 	{
 		$ids = JRequest::getVar('cid',  null, '', 'array');
+
 		$id = (empty($ids))? JRequest::getVar('departmentID') : $ids[0];
+
 		$item = ($id) ? parent::getItem($id) : $this->getTable();
+
 		return $item;
+
 	}
 }
