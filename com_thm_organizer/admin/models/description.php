@@ -4,7 +4,7 @@
  * @subpackage  com_thm_organizer
  * @name        model description
  * @description data abstraction class for descriptions
- * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
  * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
@@ -28,7 +28,7 @@ class thm_organizersModeldescription extends thm_organizersModelresource
      */
     protected function validateXML(&$descriptionsnode, &$descriptions, &$errors, &$warnings, &$helper = null)
     {
-        if(empty($descriptionsnode)) $errors[] = JText::_("COM_THM_ORGANIZER_DS_MISSING");
+        if(empty($descriptionsnode)) $errors[] = JText::_("COM_THM_ORGANIZER_DSM_MISSING");
         else foreach( $descriptionsnode->children() as $descriptionnode )
                 $this->validateXMLChild ($descriptionnode, $descriptions, $errors, $warnings, $helper);
     }
@@ -50,8 +50,8 @@ class thm_organizersModeldescription extends thm_organizersModelresource
         $id = trim((string)$descriptionnode[0]['id']);
         if(empty($id))
         {
-            if(!in_array(JText::_("COM_THM_ORGANIZER_DS_ID_MISSING."), $errors))
-                    $errors[] = JText::_("COM_THM_ORGANIZER_DS_ID_MISSING.");
+            if(!in_array(JText::_("COM_THM_ORGANIZER_DSM_ID_MISSING."), $errors))
+                    $errors[] = JText::_("COM_THM_ORGANIZER_DSM_ID_MISSING.");
             return;
         }
         $longname = trim((string)$descriptionnode->longname);
@@ -59,7 +59,7 @@ class thm_organizersModeldescription extends thm_organizersModelresource
         {
             $error = JText::_("COM_THM_ORGANIZER_DS");
             $error .= " $id ";
-            $error .= JText::_("COM_THM_ORGANIZER_DS_DESC_MISSING");
+            $error .= JText::_("COM_THM_ORGANIZER_DSM_DESC_MISSING");
             $errors[] = $error;
             return;
         }
@@ -70,7 +70,7 @@ class thm_organizersModeldescription extends thm_organizersModelresource
             {
                 $error = JText::_("COM_THM_ORGANIZER_DS");
                 $error .= " $id ";
-                $error .= JText::_("COM_THM_ORGANIZER_DS_DESC_LACKING");
+                $error .= JText::_("COM_THM_ORGANIZER_DSM_DESC_LACKING");
                 $errors[] = $error;
                 return;
             }

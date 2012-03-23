@@ -15,7 +15,7 @@ JHtml::_('behavior.tooltip');
 <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=department_edit&layout=edit&id='.(int) $this->item->id); ?>"
       method="post" name="adminForm" id="department_edit-form">
 	<fieldset class="adminform">
-		<legend><?php echo JText::_( 'COM_THM_ORGANIZER_DEPARTMENT_MANAGER_DETAILS' ); ?></legend>
+		<legend><?php echo JText::_( 'COM_THM_ORGANIZER_DPM_DETAILS' ); ?></legend>
 		<ul class="adminformlist">
 			<?php $emptyID = false; ?>
 			<?php foreach($this->form->getFieldset() as $field): ?>

@@ -4,7 +4,7 @@
  * @subpackage  com_thm_organizer
  * @name        model schedule manager
  * @description datase abstraction file for the schedules table
- * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
  * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de

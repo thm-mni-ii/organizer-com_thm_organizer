@@ -8,30 +8,30 @@
 		<field
 			name="gpuntisID"
 			type="text"
-			label="COM_THM_ORGANIZER_TM_GPUNTISID_LABEL"
-			description="COM_THM_ORGANIZER_TM_GPUNTISID_DESC"
+			label="COM_THM_ORGANIZER_TRM_GPUNTISID_LABEL"
+			description="COM_THM_ORGANIZER_TRM_GPUNTISID_DESC"
 			class="inputbox"
 		/>
 		<field
 			name="name"
 			type="text"
-			label="COM_THM_ORGANIZER_TM_NAME_LABEL"
-			description="COM_THM_ORGANIZER_TM_NAME_DESC"
+			label="COM_THM_ORGANIZER_TRM_NAME_LABEL"
+			description="COM_THM_ORGANIZER_TRM_NAME_DESC"
 			class="inputbox"
 		/>
 		<field
 			name="username"
 			type="text"
-			label="COM_THM_ORGANIZER_TM_USERNAME_LABEL"
-			description="COM_THM_ORGANIZER_TM_USERNAME_DESC"
+			label="COM_THM_ORGANIZER_TRM_USERNAME_LABEL"
+			description="COM_THM_ORGANIZER_TRM_USERNAME_DESC"
 			class="inputbox"
 		/>
 		
 		<field
 			name="departmentID"
 			type="sql"
-			label="COM_THM_ORGANIZER_TM_DEPARTMENT_LABEL"
-			description="COM_THM_ORGANIZER_TM_DEPARTMENT_DESC"
+			label="COM_THM_ORGANIZER_TRM_DEPARTMENT_LABEL"
+			description="COM_THM_ORGANIZER_TRM_DEPARTMENT_DESC"
 			class="inputbox"
 			query="SELECT DISTINCT id AS value, 
         						(CASE WHEN subdepartment NOT LIKE '' THEN

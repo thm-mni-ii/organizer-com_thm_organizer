@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_thm_organizer
  * @name        view thm organizer main menu
- * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
  * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de

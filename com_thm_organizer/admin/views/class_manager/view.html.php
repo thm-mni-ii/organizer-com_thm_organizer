@@ -4,7 +4,7 @@
  * @subpackage  com_thm_organizer
  * @name        class manager view
  * @description provides a list of classes
- * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
  * @author      Markus Bader markusDOTbaderATmniDOTthmDOTde
  * @author      Daniel Kirsten danielDOTkirstenATmniDOTthmDOTde
  * @copyright   TH Mittelhessen 2012
@@ -72,7 +72,7 @@ class thm_organizersViewclass_manager extends JView
     private function addToolBar()
     {
         $title = JText::_('COM_THM_ORGANIZER').': '.JText::_('COM_THM_ORGANIZER_CLM_TITLE');
-        JToolBarHelper::title($title);
+        JToolBarHelper::title($title, "mni");
         JToolBarHelper::addNew('class.add');
         JToolBarHelper::editList('class.edit');
         JToolBarHelper::deleteList(JText::_( 'COM_THM_ORGANIZER_CLM_DELETE_CONFIRM'),'class.delete');

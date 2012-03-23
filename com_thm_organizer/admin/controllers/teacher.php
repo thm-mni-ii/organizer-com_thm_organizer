@@ -47,15 +47,15 @@ class thm_organizersControllerteacher extends JControllerForm
 		
 		// check data for emptiness
 		$errors_exist = false;
-		$error_message = JText::_('COM_THM_ORGANIZER_TM_EDIT_ERROR').'<br />';
+		$error_message = JText::_('COM_THM_ORGANIZER_TRM_EDIT_ERROR').'<br />';
 		
 		if ($name == null || strlen($name) == 0) {
 			$errors_exist = true;
-			$error_message .= JText::_('COM_THM_ORGANIZER_TM_EDIT_ERROR_NAME_EMPTY').'<br />';	
+			$error_message .= JText::_('COM_THM_ORGANIZER_TRM_EDIT_ERROR_NAME_EMPTY').'<br />';	
 		}
 		if ($gpuntisid == null || strlen($gpuntisid) == 0) {
 			$errors_exist = true;
-			$error_message .= JText::_('COM_THM_ORGANIZER_TM_EDIT_ERROR_GPUNTISID_EMPTY').'<br />';
+			$error_message .= JText::_('COM_THM_ORGANIZER_TRM_EDIT_ERROR_GPUNTISID_EMPTY').'<br />';
 		}
 		else if (!$id)
 		{
@@ -64,7 +64,7 @@ class thm_organizersControllerteacher extends JControllerForm
 			if ($model->gpuntisidExists($gpuntisid))
 			{
 				$errors_exist = true;
-				$error_message .= JText::_('COM_THM_ORGANIZER_TM_EDIT_ERROR_GPUNTISID_ALREADY_EXISTS').'<br />';
+				$error_message .= JText::_('COM_THM_ORGANIZER_TRM_EDIT_ERROR_GPUNTISID_ALREADY_EXISTS').'<br />';
 			}
 		}
 		
@@ -94,9 +94,9 @@ class thm_organizersControllerteacher extends JControllerForm
         $result = $model->update();
 		
 		if ($result) {
-			$this->setRedirect('index.php?option=com_thm_organizer&view=teacher_manager', JText::_('COM_THM_ORGANIZER_TM_SAVE_OK'));
+			$this->setRedirect('index.php?option=com_thm_organizer&view=teacher_manager', JText::_('COM_THM_ORGANIZER_TRM_SAVE_OK'));
 		} else {
-			$this->setRedirect('index.php?option=com_thm_organizer&view=teacher_manager', JText::_('COM_THM_ORGANIZER_TM_SAVE_FAIL'), 'error');
+			$this->setRedirect('index.php?option=com_thm_organizer&view=teacher_manager', JText::_('COM_THM_ORGANIZER_TRM_SAVE_FAIL'), 'error');
 		}
 	}
 	/**
@@ -122,9 +122,9 @@ class thm_organizersControllerteacher extends JControllerForm
 		} 
 		
 		if ($error) {
-			$this->setRedirect('index.php?option=com_thm_organizer&view=teacher_manager', JText::_('COM_THM_ORGANIZER_TM_DELETE_FAIL'));
+			$this->setRedirect('index.php?option=com_thm_organizer&view=teacher_manager', JText::_('COM_THM_ORGANIZER_TRM_DELETE_FAIL'));
 		} else {
-			$this->setRedirect('index.php?option=com_thm_organizer&view=teacher_manager', JText::_('COM_THM_ORGANIZER_TM_DELETE_OK'));
+			$this->setRedirect('index.php?option=com_thm_organizer&view=teacher_manager', JText::_('COM_THM_ORGANIZER_TRM_DELETE_OK'));
 		}
 	}
 	/**

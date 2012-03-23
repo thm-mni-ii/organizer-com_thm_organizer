@@ -4,7 +4,7 @@
  * @subpackage  com_thm_organizer
  * @name        description manager view
  * @description provides a list of descriptions
- * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
  * @author      Markus Bader markusDOTbaderATmniDOTthmDOTde
  * @author      Daniel Kirsten danielDOTkirstenATmniDOTthmDOTde
  * @copyright   TH Mittelhessen 2012
@@ -69,7 +69,7 @@ class thm_organizersViewdescription_manager extends JView
     private function addToolBar()
     {
         $title = JText::_('COM_THM_ORGANIZER').': '.JText::_('COM_THM_ORGANIZER_DSM_TITLE');
-        JToolBarHelper::title($title);
+        JToolBarHelper::title($title, "mni");
         JToolBarHelper::addNew('description.add');
         JToolBarHelper::editList('description.edit');
         JToolBarHelper::deleteList(JText::_( 'COM_THM_ORGANIZER_DSM_DELETE_CONFIRM'),'description.delete');

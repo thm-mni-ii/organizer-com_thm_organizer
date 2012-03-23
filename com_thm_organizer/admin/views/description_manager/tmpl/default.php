@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_thm_organizer
  * @name        schedule manager default template
- * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
  * @author      Daniel Kirsten danielDOTkirstenATmniDOTthmDOTde
  * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2

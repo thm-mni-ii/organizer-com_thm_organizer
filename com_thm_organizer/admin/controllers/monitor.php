@@ -4,7 +4,7 @@
  * @subpackage  com_thm_organizer
  * @name        monitor controller
  * @description exectutes tasks from the monitor manager and monitor edit views
- * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
  * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de

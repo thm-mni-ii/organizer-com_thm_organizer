@@ -4,7 +4,7 @@
  * @subpackage  com_thm_organizer
  * @name        teacher manager view
  * @description provides a list of teachers
- * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
  * @author      Markus Bader markusDOTbaderATmniDOTthmDOTde
  * @author      Daniel Kirsten danielDOTkirstenATmniDOTthmDOTde
  * @copyright   TH Mittelhessen 2012
@@ -76,7 +76,7 @@ class thm_organizersViewteacher_manager extends JView
      */
     private function addToolBar()
     {
-        $title = JText::_('COM_THM_ORGANIZER').': '.JText::_('COM_THM_ORGANIZER_TMM_TITLE');
+        $title = JText::_('COM_THM_ORGANIZER').': '.JText::_('COM_THM_ORGANIZER_TRM_TITLE');
         JToolBarHelper::title( $title, 'mni' );
         JToolBarHelper::addNew('teacher.add');
         JToolBarHelper::editList('teacher.edit');

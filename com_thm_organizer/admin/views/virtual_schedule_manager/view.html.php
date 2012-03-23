@@ -18,9 +18,10 @@ class  thm_organizersViewvirtual_schedule_manager extends JView {
         if(!JFactory::getUser()->authorise('core.admin'))
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         
-		//Create Toolbar
+        $title = JText::_('COM_THM_ORGANIZER').': '.JText::_('JCATEGORIES');        
+        JToolBarHelper::title( $title, 'mni' );
         JToolBarHelper::title( JText::_( 'THM - Organizer: Virtual Schedule Manager' ), 'generic.png' );
-		JToolBarHelper::addNewX('virtual_schedule_manager.add');
+        JToolBarHelper::addNewX('virtual_schedule_manager.add');
         JToolBarHelper::editListX('virtual_schedule_manager.edit');
         /**
          * ToDo: Virtuelle Stundenpl�ne sollen kopiert werden k�nnen.

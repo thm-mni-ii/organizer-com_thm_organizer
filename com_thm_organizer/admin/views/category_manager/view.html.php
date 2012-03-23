@@ -4,7 +4,7 @@
  * @subpackage  com_thm_organizer
  * @name        view category manager
  * @description lists saved event categories and basic information about them
- * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
  * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
@@ -41,8 +41,8 @@ class thm_organizersViewcategory_manager extends JView
      */
     private function addToolBar()
     {
-        $titleText = JText::_('COM_THM_ORGANIZER').': '.JText::_('JCATEGORIES');        
-        JToolBarHelper::title( JText::_('COM_THM_ORGANIZER_CAT_TITLE' ), 'mni' );
+        $title = JText::_('COM_THM_ORGANIZER').': '.JText::_('COM_THM_ORGANIZER_VSM_TITLE');        
+        JToolBarHelper::title( $title, 'mni' );
         JToolBarHelper::custom ('category.edit', 'new.png', 'new.png', JText::_('COM_THM_ORGANIZER_NEW'), false);
         JToolBarHelper::custom ('category.edit', 'edit.png', 'edit.png', JText::_('COM_THM_ORGANIZER_EDIT'), false);
         JToolBarHelper::deleteList( JText::_('COM_THM_ORGANIZER_CAT_DELETE_CONFIRM'), 'category.delete');

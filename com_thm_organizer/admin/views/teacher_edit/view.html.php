@@ -4,7 +4,7 @@
  * @subpackage  com_thm_organizer
  * @name        teacher editor view
  * @description provides a form for editing teacher information
- * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
  * @author      Markus Bader markusDOTbaderATmniDOTthmDOTde
  * @author      Daniel Kirsten danielDOTkirstenATmniDOTthmDOTde
  * @copyright   TH Mittelhessen 2012

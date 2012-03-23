@@ -50,11 +50,11 @@ class thm_organizersControllerdepartment extends JControllerForm
 
 		// check data for emptiness
 		$errors_exist = false;
-		$error_message = JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_EDIT_ERROR').'<br />';
+		$error_message = JText::_('COM_THM_ORGANIZER_DPM_EDIT_ERROR').'<br />';
 
 		if ($gpuntisid == null || strlen($gpuntisid) == 0) {
 			$errors_exist = true;
-			$error_message .= JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_EDIT_ERROR_GPUNTISID_EMPTY').'<br />';
+			$error_message .= JText::_('COM_THM_ORGANIZER_DPM_EDIT_ERROR_GPUNTISID_EMPTY').'<br />';
 		}
 		else if (!$id)
 		{
@@ -63,24 +63,24 @@ class thm_organizersControllerdepartment extends JControllerForm
 			if ($model->gpuntisidExists($gpuntisid))
 			{
 				$errors_exist = true;
-				$error_message .= JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_EDIT_ERROR_GPUNTISID_ALREADY_EXISTS').'<br />';
+				$error_message .= JText::_('COM_THM_ORGANIZER_DPM_EDIT_ERROR_GPUNTISID_ALREADY_EXISTS').'<br />';
 			}
 		}
 		if ($name == null || strlen($name) == 0) {
 			$errors_exist = true;
-			$error_message .= JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_EDIT_ERROR_NAME_EMPTY').'<br />';
+			$error_message .= JText::_('COM_THM_ORGANIZER_DPM_EDIT_ERROR_NAME_EMPTY').'<br />';
 		}
 		if ($institution == null || strlen($institution) == 0) {
 			$errors_exist = true;
-			$error_message .= JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_EDIT_ERROR_INSTITUTION_EMPTY').'<br />';
+			$error_message .= JText::_('COM_THM_ORGANIZER_DPM_EDIT_ERROR_INSTITUTION_EMPTY').'<br />';
 		}
 		if ($campus == null || strlen($campus) == 0) {
 			$errors_exist = true;
-			$error_message .= JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_EDIT_ERROR_CAMPUS_EMPTY').'<br />';
+			$error_message .= JText::_('COM_THM_ORGANIZER_DPM_EDIT_ERROR_CAMPUS_EMPTY').'<br />';
 		}
 		if ($department == null || strlen($department) == 0) {
 			$errors_exist = true;
-			$error_message .= JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_EDIT_ERROR_DEPARTMENT_EMPTY').'<br />';
+			$error_message .= JText::_('COM_THM_ORGANIZER_DPM_EDIT_ERROR_DEPARTMENT_EMPTY').'<br />';
 		}
 
 		// redirect if errors occurred
@@ -109,9 +109,9 @@ class thm_organizersControllerdepartment extends JControllerForm
 		$result = $model->update();
 
 		if ($result) {
-			$this->setRedirect('index.php?option=com_thm_organizer&view=department_manager', JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_SAVE_OK'));
+			$this->setRedirect('index.php?option=com_thm_organizer&view=department_manager', JText::_('COM_THM_ORGANIZER_DPM_SAVE_OK'));
 		} else {
-			$this->setRedirect('index.php?option=com_thm_organizer&view=department_manager', JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_SAVE_FAIL'), 'error');
+			$this->setRedirect('index.php?option=com_thm_organizer&view=department_manager', JText::_('COM_THM_ORGANIZER_DPM_SAVE_FAIL'), 'error');
 		}
 	}
 	/**
@@ -138,9 +138,9 @@ class thm_organizersControllerdepartment extends JControllerForm
 		}
 
 		if ($error) {
-			$this->setRedirect('index.php?option=com_thm_organizer&view=department_manager', JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_DELETE_FAIL'));
+			$this->setRedirect('index.php?option=com_thm_organizer&view=department_manager', JText::_('COM_THM_ORGANIZER_DPM_DELETE_FAIL'));
 		} else {
-			$this->setRedirect('index.php?option=com_thm_organizer&view=department_manager', JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_DELETE_OK'));
+			$this->setRedirect('index.php?option=com_thm_organizer&view=department_manager', JText::_('COM_THM_ORGANIZER_DPM_DELETE_OK'));
 		}
 	}
 	/**

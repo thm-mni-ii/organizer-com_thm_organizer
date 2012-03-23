@@ -49,9 +49,9 @@ class thm_organizersControllerdescription extends JControllerForm
 		$result = $model->update();
 
 		if ($result) {
-			$this->setRedirect('index.php?option=com_thm_organizer&view=description_manager', JText::_('COM_THM_ORGANIZER_DS_SAVE_OK'));
+			$this->setRedirect('index.php?option=com_thm_organizer&view=description_manager', JText::_('COM_THM_ORGANIZER_DSM_SAVE_OK'));
 		} else {
-			$this->setRedirect('index.php?option=com_thm_organizer&view=description_manager', JText::_('COM_THM_ORGANIZER_DS_SAVE_FAIL'), 'error');
+			$this->setRedirect('index.php?option=com_thm_organizer&view=description_manager', JText::_('COM_THM_ORGANIZER_DSM_SAVE_FAIL'), 'error');
 		}
 	}
 	/**
@@ -78,9 +78,9 @@ class thm_organizersControllerdescription extends JControllerForm
 		}
 
 		if ($error) {
-			$this->setRedirect('index.php?option=com_thm_organizer&view=description_manager', JText::_('COM_THM_ORGANIZER_DS_DELETE_FAIL'));
+			$this->setRedirect('index.php?option=com_thm_organizer&view=description_manager', JText::_('COM_THM_ORGANIZER_DSM_DELETE_FAIL'));
 		} else {
-			$this->setRedirect('index.php?option=com_thm_organizer&view=description_manager', JText::_('COM_THM_ORGANIZER_DS_DELETE_OK'));
+			$this->setRedirect('index.php?option=com_thm_organizer&view=description_manager', JText::_('COM_THM_ORGANIZER_DSM_DELETE_OK'));
 		}
 	}
 	/**
@@ -107,15 +107,15 @@ class thm_organizersControllerdescription extends JControllerForm
 
 		// check data for emptiness
 		$errors_exist = false;
-		$error_message = JText::_('COM_THM_ORGANIZER_TM_EDIT_ERROR').'<br />';
+		$error_message = JText::_('COM_THM_ORGANIZER_TRM_EDIT_ERROR').'<br />';
 
 		if ($category == null || strlen($category) == 0) {
 			$errors_exist = true;
-			$error_message .= JText::_('COM_THM_ORGANIZER_DM_EDIT_ERROR_CATEGORY_EMPTY').'<br />';
+			$error_message .= JText::_('COM_THM_ORGANIZER_DSM_EDIT_ERROR_CATEGORY_EMPTY').'<br />';
 		}
 		if ($gpuntisid == null || strlen($gpuntisid) == 0) {
 			$errors_exist = true;
-			$error_message .= JText::_('COM_THM_ORGANIZER_DM_EDIT_ERROR_GPUNTISID_EMPTY').'<br />';
+			$error_message .= JText::_('COM_THM_ORGANIZER_DSM_EDIT_ERROR_GPUNTISID_EMPTY').'<br />';
 		}
 		else if (!$id)
 		{
@@ -124,7 +124,7 @@ class thm_organizersControllerdescription extends JControllerForm
 			if ($model->gpuntisidExists($gpuntisid))
 			{
 				$errors_exist = true;
-				$error_message .= JText::_('COM_THM_ORGANIZER_DM_EDIT_ERROR_GPUNTISID_ALREADY_EXISTS').'<br />';
+				$error_message .= JText::_('COM_THM_ORGANIZER_DSM_EDIT_ERROR_GPUNTISID_ALREADY_EXISTS').'<br />';
 			}
 		}
 

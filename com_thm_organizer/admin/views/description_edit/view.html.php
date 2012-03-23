@@ -4,7 +4,7 @@
  * @subpackage  com_thm_organizer
  * @name        description editor view
  * @description provides a form for editing description information
- * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
  * @author      Markus Bader markusDOTbaderATmniDOTthmDOTde
  * @author      Daniel Kirsten danielDOTkirstenATmniDOTthmDOTde
  * @copyright   TH Mittelhessen 2012
@@ -76,8 +76,8 @@ class thm_organizersViewdescription_edit extends JView
     {
         JRequest::setVar('hidemainmenu', true);
         $title = JText::_('COM_THM_ORGANIZER').': ';
-        $title .= ($this->item->id == 0)? JText::_('JTOOLBAR_NEW') : JText::_('JTOOLBAR_EDIT').' ';
-        $title .= JText::_('COM_THM_ORGANIZER_DS');
+        $title .= ($this->item->id == 0)? JText::_('JTOOLBAR_NEW') : JText::_('JTOOLBAR_EDIT');
+        $title .= ' '.JText::_('COM_THM_ORGANIZER_DS');
         JToolBarHelper::title($title, 'mni');
         JToolBarHelper::save('description.save');
         JToolBarHelper::cancel('description.cancel', ($this->item->id == 0)? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');

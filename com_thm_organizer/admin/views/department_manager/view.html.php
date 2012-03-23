@@ -4,7 +4,7 @@
  * @subpackage  com_thm_organizer
  * @name        department manager view
  * @description provides a list of departments
- * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
  * @author      Markus Bader markusDOTbaderATmniDOTthmDOTde
  * @author      Daniel Kirsten danielDOTkirstenATmniDOTthmDOTde
  * @copyright   TH Mittelhessen 2012
@@ -72,10 +72,10 @@ class thm_organizersViewdepartment_manager extends JView
     private function addToolBar()
     {
         $title = JText::_('COM_THM_ORGANIZER').': '.JText::_('COM_THM_ORGANIZER_DPM_TITLE');
-        JToolBarHelper::title($title);
+        JToolBarHelper::title($title, "mni");
         JToolBarHelper::addNew('department.add');
         JToolBarHelper::editList('department.edit');
-        JToolBarHelper::deleteList(JText::_( 'COM_THM_ORGANIZER_DEPARTMENT_MANAGER_DELETE_CONFIRM'),'department.delete');
+        JToolBarHelper::deleteList(JText::_( 'COM_THM_ORGANIZER_DPM_DELETE_CONFIRM'),'department.delete');
 
     }
 }

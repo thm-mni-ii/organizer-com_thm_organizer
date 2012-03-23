@@ -1,15 +1,7 @@
 <?php
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
-
-jimport( 'joomla.application.component.view');
-
-/**
- * View class for the  Giessen Scheduler Monitors screen
- *
- * @package Joomla
- * @subpackage  Giessen Scheduler
- */
+defined('_JEXEC') or die;
+jimport('joomla.application.component.view');
 class thm_organizersViewvirtual_schedule_edit extends JView
 {
     public function display($tpl = null)

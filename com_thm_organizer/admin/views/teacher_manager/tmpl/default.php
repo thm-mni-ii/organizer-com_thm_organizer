@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_thm_organizer
  * @name        schedule manager default template
- * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
  * @copyright   TH Mittelhessen 2011
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
@@ -31,8 +31,8 @@ $search = ($this->state->get('filter.search'))?
         <div class="filter-select fltrt">
         	<?php if (count($this->departments)): ?>
             <select name="filter_department" class="inputbox" onchange="this.form.submit()">
-                <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_TM_SEARCH_DEPARTMENTS'); ?></option>
-                <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_TM_ALL_DEPARTMENTS'); ?></option>
+                <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_TRM_SEARCH_DEPARTMENTS'); ?></option>
+                <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_TRM_ALL_DEPARTMENTS'); ?></option>
                 <?php echo JHtml::_('select.options', $this->departments, 'id', 'name', $this->state->get('filter.department'));?>
             </select>
             <?php endif; if(count($this->campuses)): ?>
