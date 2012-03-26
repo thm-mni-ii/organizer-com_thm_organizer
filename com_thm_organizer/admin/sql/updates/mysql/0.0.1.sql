@@ -4,4 +4,5 @@ ALTER TABLE `#__thm_organizer_rooms` ADD `floor` int(2) NOT NULL DEFAULT 0 AFTER
 
 ALTER TABLE `#__thm_organizer_classes` DROP INDEX `teacherID`;
 ALTER TABLE `#__thm_organizer_classes` DROP `teacherID`;
+ALTER TABLE `#__thm_organizer_classes` ADD `manager` varchar(20) AFTER `alias`;
 
