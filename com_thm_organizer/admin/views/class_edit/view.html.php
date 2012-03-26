@@ -62,8 +62,7 @@ class thm_organizersViewclass_edit extends JView
         JRequest::setVar('hidemainmenu', true);
         
         $title = JText::_('COM_THM_ORGANIZER').': ';
-        $title .= ($this->item->id == 0)? JText::_('JTOOLBAR_NEW') : JText::_('JTOOLBAR_EDIT');
-        $title .= " ".JText::_('COM_THM_ORGANIZER_CL'); 
+        $title .= ($this->item->id == 0)? JText::_('COM_THM_ORGANIZER_CLM_TITLE_NEW') : JText::_('COM_THM_ORGANIZER_CLM_TITLE_EDIT');
         
         JToolBarHelper::title($title, "mni");
         JToolBarHelper::save('class.save');
