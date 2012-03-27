@@ -949,10 +949,10 @@ Ext.define('mLecture', {
     });
   },
   getComment: function (d) {
-    if(!Ext.isEmpty(d.comment))
-      return "("+d.comment+")";
-    else
-      return "";
+	if(!Ext.isEmpty(d.comment) && Ext.isString(d.comment))
+		return "<br/>("+d.comment+")";
+	else
+		return "";
   },
   getEvents: function (d) {
     var ret = "";
@@ -1249,7 +1249,10 @@ Ext.define('mLecture', {
     return this.data.block;
   },
   getCategory: function () {
-    return this.data.category;
+	if(!Ext.isEmpty(this.data.category) && Ext.isString(this.data.category))
+		return "-"+this.data.category;
+	else
+		return "";
   },
   setCellTemplate: function (t) {
 
@@ -1270,19 +1273,19 @@ Ext.define('mLecture', {
     if (t == "room") {
       var dozroomstring = stripHTML((this.getDozNames(this.getDoz()) + this.getClasShorter(this.getClas())));
       if (dozroomstring.length * 5.5 < width) {
-        this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="{css} scheduleBox lectureBox">' + '<b class="lecturename">{desc}-{category} {comment}</b><br/>{doz_name} / {clas_short} ' + time + ' {status_icons}</div>');
+        this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="{css} scheduleBox lectureBox">' + '<b class="lecturename">{desc}{category} {comment}</b><br/>{doz_name} / {clas_short} ' + time + ' {status_icons}</div>');
       }
       else {
-        this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="{css} scheduleBox lectureBox">' + '<b class="lecturename">{desc}-{category} {comment}</b><br/>{doz_name}<br/>{clas_short} ' + time + ' {status_icons}</div>');
+        this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="{css} scheduleBox lectureBox">' + '<b class="lecturename">{desc}{category} {comment}</b><br/>{doz_name}<br/>{clas_short} ' + time + ' {status_icons}</div>');
       }
     }
     else if (t == "doz") {
       var dozroomstring = stripHTML((this.getClasShorter(this.getClas()) + this.getRoomShort(this.getRoom())));
       if (dozroomstring.length * 5.5 < width) {
-        this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="{css} scheduleBox lectureBox">' + '<b class="lecturename">{desc}-{category} {comment}</b><br/>{clas_short} / {room_shortname} ' + time + ' {status_icons}</div>');
+        this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="{css} scheduleBox lectureBox">' + '<b class="lecturename">{desc}{category} {comment}</b><br/>{clas_short} / {room_shortname} ' + time + ' {status_icons}</div>');
       }
       else {
-        this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="{css} scheduleBox lectureBox">' + '<b class="lecturename">{desc}-{category} {comment}</b><br/>{clas_short}<br/>{room_shortname} ' + time + ' {status_icons}</div>');
+        this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="{css} scheduleBox lectureBox">' + '<b class="lecturename">{desc}{category} {comment}</b><br/>{clas_short}<br/>{room_shortname} ' + time + ' {status_icons}</div>');
       }
     }
     else {
@@ -1314,10 +1317,10 @@ Ext.define('mLecture', {
 
 
       if (dozroomstring.length * 5.5 < width) {
-        this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="{css} ' + classcss + '">' + '{top_icon}<b class="' + lecturecss + '">{desc}-{category} {comment}</b><br/>{doz_name} / {room_shortname} ' + time + ' {status_icons}</div>');
+        this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="{css} ' + classcss + '">' + '{top_icon}<b class="' + lecturecss + '">{desc}{category} {comment}</b><br/>{doz_name} / {room_shortname} ' + time + ' {status_icons}</div>');
       }
       else {
-        this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="{css} ' + classcss + '">' + '{top_icon}<b class="' + lecturecss + '">{desc}-{category} {comment}</b><br/>{doz_name}<br/>{room_shortname} ' + time + ' {status_icons}</div>');
+        this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="{css} ' + classcss + '">' + '{top_icon}<b class="' + lecturecss + '">{desc}{category} {comment}</b><br/>{doz_name}<br/>{room_shortname} ' + time + ' {status_icons}</div>');
       }
     }
   },
