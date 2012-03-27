@@ -29,10 +29,14 @@ class thm_organizersViewteacher_edit extends JView
         
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
+		$document->addScript(JRoute::_('components/com_thm_organizer/assets/js/submitbutton.js'));
+        $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/teacher_edit.js'));
 
+	
         $model = $this->getModel();
         $this->form = $this->get('Form');
         $this->item = $this->get('Item');
+        $this->gpuntisids = $model->getAllGpuntisIds();
         
         // get task for template (gpuntisID might be hidden)
         $this->task = JRequest::getVar('task', null, 'post','STRING');
@@ -51,19 +55,7 @@ class thm_organizersViewteacher_edit extends JView
 
         $this->setLayout('edit');
 
-        $this->addToolBar();
-       	
-        // set old data on error redirect
-        $session =& JFactory::getSession();
-        $oldPost = $session->get('oldPost');
-
-        // check werether to prefill field values
-        if ($oldPost != null)
-        {  // do prefill
-            foreach($oldPost['jform'] as $key => $value) $this->form->setValue($key, null, $value);
-            $session->clear('oldPost');
-        }
-        
+        $this->addToolBar();       
         parent::display($tpl);
     }
     
@@ -71,8 +63,8 @@ class thm_organizersViewteacher_edit extends JView
     {
         JRequest::setVar('hidemainmenu', true);
         $title = JText::_('COM_THM_ORGANIZER').': ';
-        $title .= ($this->item->id == 0)? JText::_('JTOOLBAR_NEW') : JText::_('JTOOLBAR_EDIT');
-        $title .= " ".JText::_('COM_THM_ORGANIZER_TR');        
+        $title .= ($this->item->id == 0) ? JText::_('COM_THM_ORGANIZER_TRM_TITLE_NEW') : JText::_('COM_THM_ORGANIZER_TRM_TITLE_EDIT');
+       
         JToolBarHelper::title( $title, 'mni' );
         JToolBarHelper::save('teacher.save');
         JToolBarHelper::cancel('teacher.cancel', $this->item->id == 0 ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');

@@ -115,11 +115,8 @@ class com_thm_organizerInstallerScript
 		
 		// process sql updates
 		// find files
-		$app = JFactory::getApplication('administrator');
-		$path = $app->getUserStateFromRequest('com_installer.install.install_directory', 'install_directory', $app->getCfg('tmp_path'));
-		$path .= '/admin/sql/updates/mysql';
-		
-		$files = JFolder::files($path, '.sql');
+		$path = JPATH_SITE . '/administrator/components/com_thm_organizer/sql/updates/mysql';
+		$files = JFolder::files($path, '.sql');  
 		$db = JFactory::getDbo();
 		
 		// read files

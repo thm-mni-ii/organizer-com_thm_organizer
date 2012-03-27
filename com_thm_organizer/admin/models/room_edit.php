@@ -11,51 +11,61 @@ jimport('joomla.application.component.modeladmin');
 class thm_organizersModelroom_edit extends JModelAdmin
 {
 	/**
-	 * gpuntisidExists
-	 *
-	 * checks wether an entry with this gpuntisid already exists
-	 * @param $gpuntisid String the gp untis id to check
-	 * @return boolean true, if at least one entry with same gpuntisid exists
+   	 * getAllGpuntisIds
+   	 * 
+   	 * returns a list of all gpuntisids
+   	 * @return array containing all gpuntisids
+	 * @return boolean false if no results were found
 	 */
-	public function gpuntisidExists($gpuntisid) {
-		$dbo = $this->getDbo();
-		$query = $dbo->getQuery(true);
-	
-		// query to get count on gpuntisid
-		$query->select('COUNT(gpuntisID) AS appearance');
-		$query->from('#__thm_organizer_rooms');
-		$query->where("gpuntisID = '$gpuntisid'");
-	
-		// request query
-		$dbo->setQuery((string)$query);
-		$result = $dbo->loadResult();
-	
-		// return false on appearance = 0
-		return !($result == 0);
+	public function getAllGpuntisIds() {
+        $dbo = $this->getDbo();
+        $query = $dbo->getQuery(true);
+        
+        // query to get count on gpuntisid
+        $query->select('DISTINCT gpuntisID');
+        $query->from('#__thm_organizer_rooms');
+        
+        // request query
+        $dbo->setQuery($query);
+
+        return $dbo->loadResultArray();
 	}
 	/**
+
 	 * update
+
 	 *
+
 	 * updates rooms table row information
+
 	 */
+
 	public function update()
+
 	{
+
 		$data = $this->cleanRequestData();
 		
 		// saving
+
 		$table = JTable::getInstance('rooms', 'thm_organizerTable');
+
 		if ($table->load($data['id'])) {  // update
+
 			$success = $table->save($data);
 		} else {  // create
 			unset($data['id']);
 			$table->save($data);
 		}
+
 		
 		if ($success) {
 			return ($data['id']) ? $data['id'] : true;
+
 		} else {
 			return false;
 		}
+
 	}
 	/**
 	 * delete
@@ -65,28 +75,45 @@ class thm_organizersModelroom_edit extends JModelAdmin
 	 */
 	public function delete($id) {
 		$table = JTable::getInstance('rooms', 'thm_organizerTable');
+
 		return $table->delete($id);
 	}
+
 	/**
+
 	 * cleanRequestData
+
 	 *
+
 	 * filters the data from the request
+
 	 *
+
 	 * @return array cleaned request data
+
 	 */
+
 	protected function cleanRequestData()
+
 	{
+
 		$data = JRequest::getVar('jform', null, null, null, 4);
+
 		$data['id'] 			= addslashes($data['id']);
+
 		$data['managerID'] 		= addslashes($data['managerID']);
+
 		$data['gpuntisID'] 		= addslashes($data['gpuntisID']);
+
 		$data['name'] 			= addslashes($data['name']);
 		$data['alias'] 			= addslashes($data['alias']);
 		$data['campus'] 		= addslashes($data['campus']);
 		$data['building'] 	= addslashes($data['building']);
 		$data['descriptionID'] 	= addslashes($data['descriptionID']);
 		
+
 		return $data;
+
 	}
 	/**
 	 * Returns a reference to the a Table object, always creating it.
@@ -135,18 +162,30 @@ class thm_organizersModelroom_edit extends JModelAdmin
 		return $data;
 	}
 	/**
+
 	 * Method to get a single record.
+
 	 *
+
 	 * @param	integer	The id of the primary key.
+
 	 *
+
 	 * @return	mixed	Object on success, false on failure.
+
 	 */
+
 	public function getItem($pk = null)
+
 	{
 		$roomIDs = JRequest::getVar('cid',  null, '', 'array');
+
 		$roomID = (empty($roomIDs))? JRequest::getVar('roomID') : $roomIDs[0];
+
 		$room = ($roomID) ? parent::getItem($roomID) : $this->getTable();
 		$room->testColumn = "test";
+
 		return $room;
+
 	}
 }
