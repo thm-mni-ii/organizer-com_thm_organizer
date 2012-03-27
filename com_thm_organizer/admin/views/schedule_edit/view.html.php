@@ -57,14 +57,14 @@ class thm_organizersViewschedule_edit extends JView
     {
         if($this->form->getValue('id'))
         {
-            JToolBarHelper::apply('schedule.apply', JText::_('COM_THM_ORGANIZER_APPLY'));
-            JToolBarHelper::save('schedule.save', JText::_('COM_THM_ORGANIZER_SAVE'));
+            JToolBarHelper::apply('schedule.apply');
+            JToolBarHelper::save('schedule.save');
         }
         else
         {
             JToolBarHelper::custom('schedule.upload', 'upload', 'upload', 'COM_THM_ORGANIZER_SCH_UPLOAD', false);
         }
-        JToolBarHelper::cancel('schedule.cancel', JText::_('COM_THM_ORGANIZER_CLOSE'));
+        JToolBarHelper::cancel('schedule.cancel');
     }
 }?>
 	

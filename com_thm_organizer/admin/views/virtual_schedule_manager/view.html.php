@@ -13,13 +13,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
 require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
-
-/**
- * View class for the  Giessen Scheduler Monitors screen
- *
- * @package Joomla
- * @subpackage  Giessen Scheduler
- */
 class thm_organizersViewvirtual_schedule_manager extends JView
 {
 

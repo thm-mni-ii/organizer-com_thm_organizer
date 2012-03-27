@@ -43,10 +43,10 @@ class thm_organizersViewsemester_edit extends JView
     
     private function addToolBar()
     {
-        JToolBarHelper::apply('semester.apply', JText::_('COM_THM_ORGANIZER_APPLY'));
-        JToolBarHelper::save('semester.save', JText::_('COM_THM_ORGANIZER_SAVE'));
-        JToolBarHelper::save2new('semester.save2new', JText::_('COM_THM_ORGANIZER_SAVE2NEW'));
-        JToolBarHelper::cancel('semester.cancel', JText::_('COM_THM_ORGANIZER_CLOSE'));
+        JToolBarHelper::apply('semester.apply');
+        JToolBarHelper::save('semester.save');
+        JToolBarHelper::save2new('semester.save2new');
+        JToolBarHelper::cancel('semester.cancel');
     }
 }?>
 	

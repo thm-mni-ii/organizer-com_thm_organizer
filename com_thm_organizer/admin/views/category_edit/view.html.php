@@ -51,9 +51,9 @@ class thm_organizersViewcategory_edit extends JView
      */
     private function addToolBar()
     {
-        JToolBarHelper::save('category.save', 'JTOOLBAR_SAVE');
-        JToolBarHelper::custom('category.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
-        JToolBarHelper::cancel( 'category.cancel', 'JTOOLBAR_CLOSE');
+        JToolBarHelper::save('category.save');
+        JToolBarHelper::save2new('category.save2new');
+        JToolBarHelper::cancel('category.cancel');
     }
     
     /**

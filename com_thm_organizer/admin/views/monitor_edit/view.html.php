@@ -44,9 +44,9 @@ class thm_organizersViewmonitor_edit extends JView
 
     private function addToolBar()
     {
-        JToolBarHelper::save('monitor.save', 'JTOOLBAR_SAVE');
-        JToolBarHelper::custom('monitor.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
-        JToolBarHelper::cancel('monitor.cancel', 'JTOOLBAR_CANCEL');
+        JToolBarHelper::save('monitor.save');
+        JToolBarHelper::save2new('monitor.save2new');
+        JToolBarHelper::cancel('monitor.cancel');
     }
 }
 ?>

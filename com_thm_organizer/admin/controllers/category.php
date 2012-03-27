@@ -15,14 +15,16 @@ jimport('joomla.application.component.controller');
 require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
 class thm_organizersControllerCategory extends JController
 {
-	public function display(){
-		parent::display();
-	}
-
-	public function __construct()
+	/**
+	 * add
+	 *
+	 * redirects to the category_edit view
+	 */
+	public function add()
 	{
-		parent::__construct();
-		$this->registerTask( 'add', 'edit' );
+            if(!thm_organizerHelper::isAdmin('category')) thm_organizerHelper::noAccess ();
+            JRequest::setVar( 'view', 'category_edit' );
+            parent::display();
 	}
 
 	/**
@@ -32,9 +34,9 @@ class thm_organizersControllerCategory extends JController
 	 */
 	public function edit()
 	{
-		if(!thm_organizerHelper::isAdmin('category')) thm_organizerHelper::noAccess ();
-		JRequest::setVar( 'view', 'category_edit' );
-		parent::display();
+            if(!thm_organizerHelper::isAdmin('category')) thm_organizerHelper::noAccess ();
+            JRequest::setVar( 'view', 'category_edit' );
+            parent::display();
 	}
 
 	/**
@@ -45,19 +47,19 @@ class thm_organizersControllerCategory extends JController
 	 */
 	public function save()
 	{
-		if(!thm_organizerHelper::isAdmin('category')) thm_organizerHelper::noAccess ();
-		$model = $this->getModel('category');
-		$result = $model->save();
-		if($result)
-		{
-			$msg = JText::_("COM_THM_ORGANIZER_CAT_SAVE_SUCCESS");
-			$this->setRedirect( 'index.php?option=com_thm_organizer&view=category_manager', $msg);
-		}
-		else
-		{
-			$msg = JText::_("COM_THM_ORGANIZER_CAT_SAVE_FAIL");
-			$this->setRedirect( 'index.php?option=com_thm_organizer&view=category_manager', $msg, 'error');
-		}
+            if(!thm_organizerHelper::isAdmin('category')) thm_organizerHelper::noAccess ();
+            $model = $this->getModel('category');
+            $result = $model->save();
+            if($result)
+            {
+                $msg = JText::_("COM_THM_ORGANIZER_CAT_SAVE_SUCCESS");
+                $this->setRedirect( 'index.php?option=com_thm_organizer&view=category_manager', $msg);
+            }
+            else
+            {
+                $msg = JText::_("COM_THM_ORGANIZER_CAT_SAVE_FAIL");
+                $this->setRedirect( 'index.php?option=com_thm_organizer&view=category_manager', $msg, 'error');
+            }
 	}
 
 	/**
@@ -68,40 +70,41 @@ class thm_organizersControllerCategory extends JController
 	 */
 	public function save2new()
 	{
-		if(!thm_organizerHelper::isAdmin('category')) thm_organizerHelper::noAccess ();
-		$model = $this->getModel('category');
-		$result = $model->save();
-		if($result)
-		{
-			$msg = JText::_("COM_THM_ORGANIZER_CAT_SAVE_SUCCESS");
-			$this->setRedirect( 'index.php?option=com_thm_organizer&view=category_edit', $msg);
-		}
-		else
-		{
-			$msg = JText::_("COM_THM_ORGANIZER_CAT_SAVE_FAIL");
-			$this->setRedirect( 'index.php?option=com_thm_organizer&view=category_edit', $msg, 'error');
-		}
+            if(!thm_organizerHelper::isAdmin('category')) thm_organizerHelper::noAccess ();
+            $model = $this->getModel('category');
+            $result = $model->save();
+            if($result)
+            {
+                $msg = JText::_("COM_THM_ORGANIZER_CAT_SAVE_SUCCESS");
+                $this->setRedirect( 'index.php?option=com_thm_organizer&view=category_edit', $msg);
+            }
+            else
+            {
+                $msg = JText::_("COM_THM_ORGANIZER_CAT_SAVE_FAIL");
+                $this->setRedirect( 'index.php?option=com_thm_organizer&view=category_edit', $msg, 'error');
+            }
 	}
 
 
 	public function delete()
 	{
-		if(!thm_organizerHelper::isAdmin('category')) thm_organizerHelper::noAccess ();
-		$model = $this->getModel('category');
-		$result = $model->delete();
-		if($result)
-		{
-			$msg = JText::_("COM_THM_ORGANIZER_CAT_DELETE_SUCCESS");
-			$this->setRedirect( 'index.php?option=com_thm_organizer&view=category_manager', $msg);
-		}
-		else
-		{
-			$msg = JText::_("COM_THM_ORGANIZER_CAT_DELETE_FAIL");
-			$this->setRedirect( 'index.php?option=com_thm_organizer&view=category_manager', $msg, 'error');
-		}
+            if(!thm_organizerHelper::isAdmin('category')) thm_organizerHelper::noAccess ();
+            $model = $this->getModel('category');
+            $result = $model->delete();
+            if($result)
+            {
+                $msg = JText::_("COM_THM_ORGANIZER_CAT_DELETE_SUCCESS");
+                $this->setRedirect( 'index.php?option=com_thm_organizer&view=category_manager', $msg);
+            }
+            else
+            {
+                $msg = JText::_("COM_THM_ORGANIZER_CAT_DELETE_FAIL");
+                $this->setRedirect( 'index.php?option=com_thm_organizer&view=category_manager', $msg, 'error');
+            }
 	}
 
-	public function cancel(){
-		$this->setRedirect( 'index.php?option=com_thm_organizer&view=category_manager' );
+	public function cancel()
+        {
+            $this->setRedirect( 'index.php?option=com_thm_organizer&view=category_manager' );
 	}
 }
