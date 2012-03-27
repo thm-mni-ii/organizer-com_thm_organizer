@@ -437,3 +437,7 @@ img.status_icons_delete {
 	-ms-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 }
+
+button .x-tab-inner {
+	overflow-x: hidden;
+}

@@ -1626,10 +1626,10 @@ MySched.layout = function () {
     buildLayout: function () {
       // Erstellt TabPanel
       this.tabpanel = Ext.create('Ext.tab.Panel', {
-        resizeTabs: true,
+        resizeTabs: false,
         // turn on tab resizing
-        minTabWidth: 155,
-        tabWidth: 155,
+        //minTabWidth: 155,
+        //tabWidth: 155,
         heigth: 500,
         enableTabScroll: true,
         id: 'tabpanel',
