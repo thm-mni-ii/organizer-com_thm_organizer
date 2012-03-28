@@ -1630,7 +1630,7 @@ MySched.layout = function () {
         // turn on tab resizing
         //minTabWidth: 155,
         //tabWidth: 155,
-        heigth: 500,
+        //heigth: 500,
         enableTabScroll: true,
         id: 'tabpanel',
         region: 'center'
@@ -1809,8 +1809,7 @@ MySched.layout = function () {
             Ext.apply(grid, {
               cls: 'MySched_ScheduleTab',
               tabTip: title,
-              closable: false,
-              height: 440,
+              closable: false
             }), {
               // Diese werden Ueberschrieben, falls sie Existieren
               id: id,
@@ -1823,8 +1822,7 @@ MySched.layout = function () {
             Ext.apply(grid, {
               cls: 'MySched_ScheduleTab',
               tabTip: title,
-              closable: closeable,
-              height: 440,
+              closable: closeable
               //iconCls: type + 'Icon',
             }), {
               // Diese werden Ueberschrieben, falls sie Existieren
