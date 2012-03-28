@@ -69,6 +69,8 @@ function getSchedGrid(){
 	var grid = Ext.create('SchedGrid', {
 	    title: 'unknown',
 	    store: Ext.data.StoreManager.lookup('gridStore'),
+	    height: 440,
+	    width: 726,
 	    columns: [
 	        {header: 'Zeit', menuDisabled:true, sortable:false, dataIndex: 'time', renderer: MySched.lectureCellRenderer, width: 35},
 	        {header: 'Montag', menuDisabled:true, sortable:false, dataIndex: 'monday', renderer: MySched.lectureCellRenderer, flex: 1},

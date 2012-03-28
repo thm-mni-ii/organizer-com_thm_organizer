@@ -15,7 +15,7 @@
   {
       function display($tpl = null)
       {
-          $model = & $this->getModel();
+          $model = $this->getModel();
 
 		  $task = JRequest::getCmd( 'scheduletask' );
 

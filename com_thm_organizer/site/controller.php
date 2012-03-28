@@ -16,5 +16,7 @@ jimport('joomla.application.component.controller');
 
 class thm_organizerController extends JController
 {
-    function display() {  parent::display(); }
+    function display($cachable = false, $urlparams = false) {  
+    	parent::display(); 
+    }
 } 
