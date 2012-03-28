@@ -40,57 +40,58 @@ class thm_organizersControllerschedule extends JController
 		parent::display();
 	}
 
-	    /**
-	     * upload
-	     *
-	     * performs access checks and uses the model's upload function to save the
-	     * file to the database and perform consistency checks
-	     */
-	    public function upload()
-	    {
-		if(!thm_organizerHelper::isAdmin('schedule')) thm_organizerHelper::noAccess ();
-		$url = "index.php?option=com_thm_organizer&view=schedule_edit";
-		$fileType = $_FILES['file']['type'];
-		if($fileType == "text/xml")
-		{
-		    $model = $this->getModel('schedulexml');
-		    $problems = $model->validate();
-		    if(isset($problems['errors']))//critical inconsistancies -> no upload
-		    {
-			$errorText = "<h3>".JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_ERRORS").":</h3>";
-			$msg = $errorText.$problems['errors'];
-			if(isset($problems['warnings']))//minor inconsistancies
-			{
-			    $warningText = "<br /><h4>".JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_ERRORS_WARNINGS").":</h4>";
-			    $msg .= $warningText.$problems['warnings'];
-			}
-			$this->setRedirect($url, $msg, 'error');
-		    }
-		    else
-		    {
-			$result = $model->upload();
-			if($result)//upload successful
-			{
-			    $url .= "&scheduleID=$result";
-			    if(isset($problems['warnings']))//minor inconsistancies
-			    {
-				$warningText =  "<h4>".JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_WARNINGS").":</h4>";
-				$msg = $warningText.$problems['warnings'];
-				$this->setRedirect($url, $msg, 'notice');
-			    }
-			    else
-				$this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_SUCCESS"));
-			}
-			else//db error
-			    $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_FAIL"), 'error');
-		    }
-		}
-		else
-		{
-		    $msg = JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_TYPE_FAIL");
-		    $this->setRedirect($url, $msg, 'error');
-		}
-	    }
+        /**
+         * upload
+         *
+         * performs access checks and uses the model's upload function to save the
+         * file to the database and perform consistency checks
+         */
+        public function upload()
+        {
+            if(!thm_organizerHelper::isAdmin('schedule')) thm_organizerHelper::noAccess ();
+            $url = "index.php?option=com_thm_organizer&view=schedule_edit";
+            $fileType = $_FILES['file']['type'];
+            if($fileType == "text/xml")
+            {
+                $model = $this->getModel('schedulexml');
+                $problems = $model->validate();
+                if(isset($problems['errors']))//critical inconsistancies -> no upload
+                {
+                    $errorText = "<h3>".JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_ERRORS").":</h3>";
+                    $msg = $errorText.$problems['errors'];
+                    if(isset($problems['warnings']))//minor inconsistancies
+                    {
+                        $warningText = "<br /><h4>".JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_ERRORS_WARNINGS").":</h4>";
+                        $msg .= $warningText.$problems['warnings'];
+                    }
+                    $this->setRedirect($url, $msg, 'error');
+                }
+                else
+                {
+                    $result = $model->upload();
+                    if($result)//upload successful
+                    {
+                        $url .= "&scheduleID=$result";
+                        if(isset($problems['warnings']))//minor inconsistancies
+                        {
+                            $warningText =  "<h4>".JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_WARNINGS").":</h4>";
+                            $msg = $warningText.$problems['warnings'];
+                            $this->setRedirect($url, $msg, 'notice');
+                        }
+                        else
+                            $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_SUCCESS"));
+                    }
+                    else//db error
+                        $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_FAIL"), 'error');
+                }
+            }
+            else
+            {
+                $msg = JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_TYPE_FAIL");
+                $this->setRedirect($url, $msg, 'error');
+            }
+        }
+            
 	/**
 	 * apply
 	 *
@@ -139,55 +140,6 @@ class thm_organizersControllerschedule extends JController
 		{
 			$msg = JText::_("COM_THM_ORGANIZER_SCH_CHANGE_FAIL");
 			$url ="JRequest::getInt('scheduleID');";
-			$this->setRedirect($url, $msg, 'error');
-		}
-	}
-
-	/**
-	 * upload
-	 *
-	 * performs access checks and uses the model's upload function to save the
-	 * file to the database and perform consistency checks
-	 */
-	public function upload()
-	{
-		if(!thm_organizerHelper::isAdmin('schedule')) thm_organizerHelper::noAccess ();
-		$url = "index.php?option=com_thm_organizer&view=schedule_edit";
-		$fileType = $_FILES['file']['type'];
-		if($fileType == "text/xml")
-		{
-			$model = $this->getModel('schedulexml');
-			$problems = $model->validate();
-			if(isset($problems['errors']))//critical inconsistancies -> no upload
-			{
-				$errorText = "<h3>".JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_ERRORS").":</h3>";
-				$msg = $errorText.$problems['errors'];
-				if(isset($problems['warnings']))//minor inconsistancies
-				{
-					$warningText = "<br /><h4>".JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_ERRORS_WARNINGS").":</h4>";
-					$msg .= $warningText.$problems['warnings'];
-				}
-				$this->setRedirect($url, $msg, 'error');
-			}
-			$result = $model->upload();
-			if($result)//upload successful
-			{
-				$url .= "&scheduleID=$result";
-				if(isset($problems['warnings']))//minor inconsistancies
-				{
-					$warningText =  "<h4>".JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_WARNINGS").":</h4>";
-					$msg = $warningText.$problems['warnings'];
-					$this->setRedirect($url, $msg, 'notice');
-				}
-				else
-					$this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_SUCCESS"));
-			}
-			else//db error
-				$this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_FAIL"), 'error');
-		}
-		else
-		{
-			$msg = JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_TYPE_FAIL");
 			$this->setRedirect($url, $msg, 'error');
 		}
 	}
