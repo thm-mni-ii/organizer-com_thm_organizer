@@ -17,8 +17,8 @@ class thm_organizerViewScheduler extends JView
     function display($tpl = null)
     {
     JHTML::_('behavior.tooltip');
-    $model = & $this->getModel();
-    $user = & JFactory::getUser();
+    $model = $this->getModel();
+    $user = JFactory::getUser();
     $eventmodel = JModel::getInstance('event_list', 'thm_organizerModel', array('ignore_request' => false, 'display_type'=>4));
     $canWriteEvents = $eventmodel->canWrite;
     $this->canWriteEvents = $canWriteEvents;
@@ -67,7 +67,7 @@ class thm_organizerViewScheduler extends JView
     $this->semesterID = $semesterID;
     $this->semAuthor = $model->getSemesterAuthor($semesterID);
 
-    $doc =& JFactory::getDocument();
+    $doc = JFactory::getDocument();
     $doc->addStyleSheet(JURI::root(true)."/components/com_thm_organizer/views/scheduler/tmpl/ext/resources/css/ext-all-gray.css");
     //$doc->addStyleSheet(JURI::root(true)."/components/com_thm_organizer/views/scheduler/tmpl/ext/resources/css/MultiSelect.css");
     $doc->addStyleSheet(JURI::root(true)."/components/com_thm_organizer/views/scheduler/tmpl/mySched/style.css");

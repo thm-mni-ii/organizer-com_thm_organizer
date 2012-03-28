@@ -30,11 +30,11 @@ class thm_organizerModelScheduler extends JModel
 
 	public function getSessionID()
 	{
-       	$user =& JFactory::getUser();
+       	$user = JFactory::getUser();
        	if($user->username == NULL)
        		return "";
 		//establish db object
-		$dbo = & JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 		$dbo->setQuery("SELECT DISTINCT #__session.session_id, #__session.username, #__session.usertype, #__users.email FROM #__session LEFT OUTER JOIN #__users ON #__session.username = #__users.username WHERE #__session.username = '".$user->get('username')."' AND #__session.guest = 0");
 		$rows = $dbo->loadObjectList();
 		return $rows['0']->session_id;
@@ -42,7 +42,7 @@ class thm_organizerModelScheduler extends JModel
 
 	public function getSemesterAuthor($semesterID)
 	{
-		$dbo = & JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 		$dbo->setQuery("SELECT DISTINCT username as author FROM #__thm_organizer_semesters INNER JOIN #__users ON manager = #__users.id WHERE #__thm_organizer_semesters.id = ".$semesterID);
 		$rows = $dbo->loadObjectList();
 		if($rows == null)
@@ -56,7 +56,7 @@ class thm_organizerModelScheduler extends JModel
 	 */
 	public function getLSFStatus($com)
 	{
-		$dbo =& JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 		$query	= $dbo->getQuery(true);
 		$query->select('extension_id AS "id", element AS "option", params, enabled');
 		$query->from('#__extensions');

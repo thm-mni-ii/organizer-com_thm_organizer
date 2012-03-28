@@ -121,7 +121,8 @@
 							foreach($period->changes->roomIDs as $roomKey=>$roomValue)
 							{
 								$roomGPUntisID = $this->getID($roomKey, "room");
-								$roomList[$roomGPUntisID[0]] = $roomValue;
+								if(isset($roomGPUntisID[0]))
+									$roomList[$roomGPUntisID[0]] = $roomValue;
 							}
 							$lessons[$lessoncounter]["periodChanges"]["roomIDs"] = $roomList;
 						}
@@ -146,6 +147,9 @@
  		$query .= " WHERE id IN(".$ids.")";
 
 		$result = $this->JDA->query($query);
+		
+		if($result === false)
+			return array();
 
 		$resultReturn = array();
 

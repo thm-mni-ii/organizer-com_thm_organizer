@@ -246,7 +246,7 @@ class TreeView
 	  }
     }
 
-    $this->expandSingleNode(& $semesterJahrNode);
+    $this->expandSingleNode($semesterJahrNode);
 
     $semesterJahrNode = $this->treeCorrect($semesterJahrNode);
 
@@ -293,7 +293,7 @@ class TreeView
     foreach($arr as $k=>$v)
     {
       if(!isset($v->children))
-        $this->expandSingleNode(& $v);
+        $this->expandSingleNode($v);
       else if(is_array($v->children))
       {
         if(count($arr) > 1)
@@ -301,7 +301,7 @@ class TreeView
 
         $v->expanded = true;
 
-        $this->expandSingleNode(& $v->children);
+        $this->expandSingleNode($v->children);
       }
     }
   }

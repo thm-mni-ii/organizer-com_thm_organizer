@@ -13,8 +13,8 @@ class DataAbstraction
     {
         $this->mainframe = JFactory::getApplication( );
         $this->mainframe->initialise();
-        $this->dbo =& JFactory::getDBO();
-        $this->user =& JFactory::getUser();
+        $this->dbo = JFactory::getDBO();
+        $this->user = JFactory::getUser();
     }
 
     public function getUserName( )

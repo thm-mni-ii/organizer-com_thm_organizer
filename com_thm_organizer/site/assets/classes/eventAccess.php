@@ -41,7 +41,7 @@ class eventAccess
      *
      * @return boolean true if the user can create content, otherwise false
      */
-    public function canCreate()
+    public static function canCreate()
     {
         $canCreate = false;
         $dbo = JFactory::getDbo();
