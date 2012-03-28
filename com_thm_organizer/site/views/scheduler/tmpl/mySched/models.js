@@ -977,6 +977,9 @@ Ext.define('mLecture', {
   },
   getStatus: function (d) {
     var ret = '<div class="status_icons"> ';
+    
+    if(this.data.ecollaborationLink != null)
+    	 ret += '<a target="_blank" href="' + this.data.ecollaborationLink + '"><img data-qtip="Moodlekurs aufrufen" class="status_icons_ecollabLink" src="' + MySched.mainPath + 'images/collab.png" width="12" heigth="12"/></a>';
 
     if (MySched.Authorize.user != null && MySched.Authorize.user != "" && typeof d.parentId != "undefined") {
       var parentIDArr = d.parentId.split(".");

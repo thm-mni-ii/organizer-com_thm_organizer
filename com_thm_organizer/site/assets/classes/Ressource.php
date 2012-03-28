@@ -95,10 +95,44 @@ class Ressource
 				$retlessons[ $key ][ "semesterID" ] = $this->semID;
 				$retlessons[ $key ][ "moduleID" ] = $item->moduleID;
 				$retlessons[ $key ][ "comment" ] = $item->comment;
+				$retlessons[ $key ][ "ecollaborationLink" ] = $this->getEcollaborationLink($this->res, $item->moduleID);
 			}
 
 			return array("success"=>true,"data"=>$retlessons );
 		}
+	}
+
+	private function getEcollaborationLink($res, $moduleID)
+	{
+		if ($this->JDA->isComponentavailable("com_thm_curriculum"))
+		{
+			$organizer_major = "";
+			$query = "SELECT major " .
+					"FROM #__thm_organizer_classes " .
+					"WHERE gpuntisID = '".$res."'";
+			$ret   = $this->JDA->query( $query );
+									
+			if(isset($ret[0]))
+				$organizer_major = $ret[0]->major;
+			else
+				return null;
+			
+			$query = "SELECT ecollaboration_link as ecolLink " .
+					"FROM #__thm_curriculum_assets_tree " .
+					"INNER JOIN #__thm_curriculum_assets ON #__thm_curriculum_assets.id = #__thm_curriculum_assets_tree.asset " .
+					"INNER JOIN #__thm_curriculum_assets_semesters ON #__thm_curriculum_assets_tree.id = #__thm_curriculum_assets_semesters.assets_tree_id " .
+					"INNER JOIN #__thm_curriculum_semesters_majors ON #__thm_curriculum_assets_semesters.semesters_majors_id = #__thm_curriculum_semesters_majors.id " .
+					"INNER JOIN #__thm_curriculum_majors ON #__thm_curriculum_majors.id = #__thm_curriculum_semesters_majors.major_id " .
+					"WHERE #__thm_curriculum_majors.organizer_major = '".$organizer_major."' AND LOWER(#__thm_curriculum_assets.lsf_course_code) = LOWER('".$moduleID."')";
+			
+			$ret   = $this->JDA->query( $query );
+			
+			if(isset($ret[0]))
+				if(!empty($ret[0]->ecolLink))
+					return $ret[0]->ecolLink;
+			return null;
+		}
+		return null;
 	}
 
 	private function getElements( $id, $sid, $type )
