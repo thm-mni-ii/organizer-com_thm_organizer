@@ -770,7 +770,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
   startSelection: function (el) {
     var tab = el || MySched.layout.tabpanel.getActiveTab().getEl();
     if (!tab) return;
-    this.stopSelection(tab);
+    //this.stopSelection(tab);
 
     Ext.select('.status_icons_estudy', false, tab.dom).on({
       'click': function (e) {
@@ -1658,12 +1658,6 @@ MySched.layout = function () {
         /*MySched.SelectionManager.selectButton.hide();*/
         MySched.SelectionManager.unselect();
         this.selectedTab = o;
-
-        var func = function () {
-        	MySched.SelectionManager.stopSelection();
-       		MySched.SelectionManager.startSelection();
-        }
-        Ext.defer(func, 50);
       }, this);
 
       // Wenn der Header der FH angezeigt werden soll
@@ -1843,36 +1837,15 @@ MySched.layout = function () {
 			Ext.ComponentMgr.get('btnSave').disable();
         }
 
-        /*MySched.selectedSchedule.data.eachKey(function (k, v) {
-			if (typeof v.setCellTemplate != "undefined")
-				v.setCellTemplate(MySched.selectedSchedule.type);
-        })*/;
-
         MySched.selectedSchedule.eventsloaded = null;
         tab.mSchedule.refreshView();
 
-        // Evtl. irgendwo haengender AddLectureButton wird ausgeblendet
-        //MySched.SelectionManager.selectButton.hide();
-        //MySched.SelectionManager.unselect();
         this.selectedTab = tab;
-
-        var func = function () {
-        	MySched.SelectionManager.stopSelection();
-       		MySched.SelectionManager.startSelection();
-        }
-        Ext.defer(func, 50);
 
 
         // Wechselt zum neu erstellten Tab
         this.tabpanel.setActiveTab(tab);
         MySched.Base.regScheduleEvents(id);
-        // Startet den Auswahlmanagervar
-        /*var func = function () {
-        	MySched.SelectionManager.stopSelection();
-       		MySched.SelectionManager.startSelection();
-        }
-        Ext.defer(func, 50);*/
-        //MySched.selectedSchedule.refreshView();
       }
     },
     /**
