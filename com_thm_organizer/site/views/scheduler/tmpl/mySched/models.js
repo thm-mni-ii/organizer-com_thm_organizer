@@ -207,8 +207,11 @@ Ext.define('mSchedule', {
   getLecture: function (id) {
     if (id.match('##')) id = id.split('##')[1];
     if (MySched.selectedSchedule.type == "delta") return MySched.delta.data.get(id);
-    var Plesson = MySched.Schedule.data.get(id);
-    if (Plesson != null) if (Plesson.data != null) if (Plesson.data.type == "personal") return MySched.Schedule.data.get(id);
+    var Plesson = this.data.get(id);
+    if (Plesson != null) 
+    	if (Plesson.data != null) 
+    		if (Plesson.data.type == "personal") 
+    			return MySched.Schedule.data.get(id);
     return this.data.get(id);
   },
   isEmpty: function () {

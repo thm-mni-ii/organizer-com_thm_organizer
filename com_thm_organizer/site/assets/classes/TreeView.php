@@ -586,6 +586,7 @@ class TreeView
 		$dataArray[ $parent ][ $id ][ "id" ]           = trim($id);
 		$dataArray[ $parent ][ $id ][ "department" ]   = trim($data->parentName);
 		$dataArray[ $parent ][ $id ][ "shortname" ]    = trim($data->shortname);
+		$dataArray[ $parent ][ $id ][ "departmentID" ]    = trim($data->departmentID);
 		$dataArray[ $parent ][ $id ][ "type" ]        = trim($data->type);
 		$dataArray[ $parent ][ $id ][ "name" ]         = trim($data->name);
 		$dataArray[ $parent ][ $id ][ "lessonamount" ] = trim($data->lessonamount);
@@ -688,6 +689,7 @@ class TreeView
             "classes.semester AS name, " .
             "classes.major AS parentName, " .
             "REPLACE(REPLACE(REPLACE(classes.major, ' ', ''), '(', ''), ')', '') AS parentID, " .
+            "classes.id AS departmentID, " .
             "classes.name AS shortname, " .
             "'lesson' AS type, " .
             "count(lesson_classes.lessonID) AS lessonamount " .
@@ -715,6 +717,7 @@ class TreeView
     		"rooms.gpuntisID AS gpuntisID, " .
            "CONCAT(descriptions.category, ' (', descriptions.description, ')') as parentName, " .
            "descriptions.id AS parentID, " .
+           "descriptions.id AS departmentID, " .
            "rooms.alias AS name, " .
            "rooms.name AS shortname, " .
            "'room' AS type, " .
@@ -744,6 +747,7 @@ class TreeView
     $teacherquery = "SELECT DISTINCT teachers.id AS id, " .
     		"teachers.gpuntisID AS gpuntisID, " .
     		"departments.id AS parentID, " .
+            "departments.id AS departmentID, " .
             "departments.department AS department, " .
             "departments.subdepartment AS subdepartment, " .
             "teachers.name AS name, " .
@@ -789,6 +793,7 @@ class TreeView
             "subjects.name AS shortname, " .
             "SUBSTRING(subjects.moduleID, 1, 2) AS parentName, " .
             "SUBSTRING(subjects.moduleID, 1, 2) AS parentID, " .
+            "subjects.id AS departmentID, " .
             "'subject' AS type, " .
             "count(lessons.subjectID) AS lessonamount " .
             "FROM #__thm_organizer_subjects AS subjects " .

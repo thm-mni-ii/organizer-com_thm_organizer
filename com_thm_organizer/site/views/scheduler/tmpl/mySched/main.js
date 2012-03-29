@@ -926,7 +926,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
         if (name == MySched.Mapping.getDozName(l.doz.keys[i])) {
           nodeKey = l.doz.keys[i];
           gpuntisID = MySched.Mapping.getObjectField(type, l.doz.keys[i], "gpuntisID");
-          parent = MySched.Mapping.getObjectField(type, l.doz.keys[i], "parentName");
+          parent = MySched.Mapping.getObjectField(type, l.doz.keys[i], "departmentID");
           break;
         }
       }
@@ -937,7 +937,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
         if (name == room[room.length - 1].replace(/^\s+/, '').replace(/\s+$/, '')) {
           nodeKey = l.room.keys[i];
           gpuntisID = MySched.Mapping.getObjectField(type, l.room.keys[i], "gpuntisID");
-          parent = MySched.Mapping.getObjectField(type, l.room.keys[i], "parentName");
+          parent = MySched.Mapping.getObjectField(type, l.room.keys[i], "departmentID");
           break;
         }
       }
@@ -947,7 +947,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
         if (name == MySched.Mapping.getObjectField(type, l.clas.keys[i], "shortname")) {
           nodeKey = l.clas.keys[i];
           gpuntisID = MySched.Mapping.getObjectField(type, l.clas.keys[i], "gpuntisID");
-          parent = MySched.Mapping.getObjectField(type, l.clas.keys[i], "parentName");
+          parent = MySched.Mapping.getObjectField(type, l.clas.keys[i], "departmentID");
           break;
         }
       }
