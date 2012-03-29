@@ -95,7 +95,7 @@ class Ressource
 				$retlessons[ $key ][ "semesterID" ] = $this->semID;
 				$retlessons[ $key ][ "moduleID" ] = $item->moduleID;
 				$retlessons[ $key ][ "comment" ] = $item->comment;
-				$retlessons[ $key ][ "ecollaborationLink" ] = $this->getEcollaborationLink($this->res, $item->moduleID);
+				$retlessons[ $key ][ "ecollaborationLink" ] = $this->getEcollaborationLink($this->nodeKey, $item->moduleID);
 			}
 
 			return array("success"=>true,"data"=>$retlessons );
