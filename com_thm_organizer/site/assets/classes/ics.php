@@ -107,10 +107,10 @@ class ICSBauer extends abstrakterBauer
 			$query      = 'SELECT name as oname FROM #__thm_organizer_classes WHERE id IN("' . $resources . '")';
 			$res        = array_merge($res, $this->JDA->query( $query, true ));
 
-			$query     = 'SELECT name as oname FROM #__thm_organizer_teachers WHERE id IN("' . $resources . '")';
+			$query     = 'SELECT name as oname FROM #__thm_organizer_teachers WHERE gpuntisID IN("' . $resources . '")';
 			$res       = array_merge($res, $this->JDA->query( $query, true ));
 
-			$query      = 'SELECT name as oname FROM #__thm_organizer_rooms WHERE id IN("' . $resources . '")';
+			$query      = 'SELECT name as oname FROM #__thm_organizer_rooms WHERE gpuntisID IN("' . $resources . '")';
 			$res        = array_merge($res, $this->JDA->query( $query, true ));
 			if(count($res) > 0)
 				$resString = implode( ", ", $res );
@@ -172,19 +172,30 @@ class ICSBauer extends abstrakterBauer
 
 				$dozs      = explode( " ", trim( $item->doz ) );
 
-				$query     = 'SELECT name as oname FROM #__thm_organizer_teachers WHERE gpuntisID IN("' . implode( '", "', $dozs ) . '")';
+				$query     = 'SELECT name as oname FROM #__thm_organizer_teachers WHERE id IN("' . implode( '", "', $dozs ) . '")';
 				$res       = $this->JDA->query( $query, true );
 				$item->doz = implode( ", ", $res );
 
 				$rooms      = explode( " ", trim( $item->room ) );
 
-				$query      = 'SELECT name as oname FROM #__thm_organizer_rooms WHERE gpuntisID IN("' . implode( '", "', $rooms ) . '")';
+				$query      = 'SELECT name as oname FROM #__thm_organizer_rooms WHERE id IN("' . implode( '", "', $rooms ) . '")';
 				$res        = $this->JDA->query( $query, true );
 				$item->room = implode( ", ", $res );
 			}
 		}
 
 		$row = 2;
+				
+		function sortLessonsByDoz($a, $b)
+		{
+			if ($a->doz == $b->doz) {
+				return 0;
+			}
+			return ($a->doz < $b->doz) ? -1 : 1;
+		}
+		
+		uasort($arr->lessons, sortLessonsByDoz);
+		
 		foreach ( $arr->lessons as $item ) {
 			if ( isset( $item->clas ) && isset( $item->doz ) && isset( $item->room ) ) {
 				if(!isset($item->longname))
