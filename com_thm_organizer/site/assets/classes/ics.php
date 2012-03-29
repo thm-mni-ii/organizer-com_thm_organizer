@@ -107,10 +107,10 @@ class ICSBauer extends abstrakterBauer
 			$query      = 'SELECT name as oname FROM #__thm_organizer_classes WHERE id IN("' . $resources . '")';
 			$res        = array_merge($res, $this->JDA->query( $query, true ));
 
-			$query     = 'SELECT name as oname FROM #__thm_organizer_teachers WHERE gpuntisID IN("' . $resources . '")';
+			$query     = 'SELECT name as oname FROM #__thm_organizer_teachers WHERE id IN("' . $resources . '")';
 			$res       = array_merge($res, $this->JDA->query( $query, true ));
 
-			$query      = 'SELECT name as oname FROM #__thm_organizer_rooms WHERE gpuntisID IN("' . $resources . '")';
+			$query      = 'SELECT name as oname FROM #__thm_organizer_rooms WHERE id IN("' . $resources . '")';
 			$res        = array_merge($res, $this->JDA->query( $query, true ));
 			if(count($res) > 0)
 				$resString = implode( ", ", $res );
