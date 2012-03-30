@@ -68,8 +68,8 @@ class mySchedConfig {
         $this->cfg['db_user'] = 'root';        //Benutzername der Zugriff auf die Datenbank hat
         $this->cfg['db_pass'] = '';        //Passwort f&iuml;&iquest;&frac12;r den Benutzer
         $this->cfg['db_database'] = 'joomla';            //Datenbank die von Joomla benutzt wird
-        $this->cfg['db_table'] = 'jos_thm_organizer_user_schedules';        //Tabelle in der die pers&iuml;&iquest;&frac12;nlichen Stundenpl&iuml;&iquest;&frac12;ne der Benutzer gespeichert werden
-        $this->cfg['db_scheduletable'] = 'jos_thm_organizer_schedules'; //Tabelle in der die hochgeladenen Stundenpl&iuml;&iquest;&frac12;ne (XML Datei) gespeichert werden
+        $this->cfg['db_table'] = '#__thm_organizer_user_schedules';        //Tabelle in der die pers&iuml;&iquest;&frac12;nlichen Stundenpl&iuml;&iquest;&frac12;ne der Benutzer gespeichert werden
+        $this->cfg['db_scheduletable'] = '#__thm_organizer_schedules'; //Tabelle in der die hochgeladenen Stundenpl&iuml;&iquest;&frac12;ne (XML Datei) gespeichert werden
 
         // Daten fuer Joomla Datenbank
         $this->cfg['jdb_host'] = 'localhost';    //Adresse des Servers auf dem die Datenbank l&iuml;&iquest;&frac12;uft
@@ -77,14 +77,14 @@ class mySchedConfig {
         $this->cfg['jdb_user'] = 'root';        //Benutzername der Zugriff auf die Datenban hat
         $this->cfg['jdb_pass'] = '';        //Passwort f&iuml;&iquest;&frac12;r den Benutzer
         $this->cfg['jdb_database'] = 'joomla';    //Datenbank die von Joomla benutzt wird
-        $this->cfg['jdb_table_session'] = 'jos_session';        //Tabelle in der Joomla die einzelnen Sessions abspeichert
-        $this->cfg['jdb_table_user'] = 'jos_users';    //Tabelle in der alle angemeldeten Joomla Benutzer gespeichert sind
-        $this->cfg['jdb_table_events'] = 'jos_thm_organizer_events';    //Tabelle in der die Einzel Termine gespeichert sind
-        $this->cfg['jdb_table_event_cat'] = 'jos_eventlist_categories'; //Tabelel in der die Kategorien gespeichert sind.
-        $this->cfg['jdb_table_event_objects'] = 'jos_thm_organizer_eventobjects';
-        $this->cfg['jdb_table_objects'] = 'jos_thm_organizer_objects';
-        $this->cfg['jdb_table_categories'] = 'jos_thm_organizer_categories';
-        $this->cfg['jdb_table_semester'] = 'jos_thm_organizer_semesters';
+        $this->cfg['jdb_table_session'] = '#__session';        //Tabelle in der Joomla die einzelnen Sessions abspeichert
+        $this->cfg['jdb_table_user'] = '#__users';    //Tabelle in der alle angemeldeten Joomla Benutzer gespeichert sind
+        $this->cfg['jdb_table_events'] = '#__thm_organizer_events';    //Tabelle in der die Einzel Termine gespeichert sind
+        $this->cfg['jdb_table_event_cat'] = '#__eventlist_categories'; //Tabelel in der die Kategorien gespeichert sind.
+        $this->cfg['jdb_table_event_objects'] = '#__thm_organizer_eventobjects';
+        $this->cfg['jdb_table_objects'] = '#__thm_organizer_objects';
+        $this->cfg['jdb_table_categories'] = '#__thm_organizer_categories';
+        $this->cfg['jdb_table_semester'] = '#__thm_organizer_semesters';
 
     }
 

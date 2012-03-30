@@ -44,7 +44,7 @@ class UserSchedule
 				die( 'Permission Denied!' );
 		} else
 			die( 'Permission Denied!' );
-
+		
 		if ( isset( $this->jsid ) ) {
 			if ( $this->username != null && $this->username != "" ) {
 				$timestamp = time();
@@ -52,12 +52,27 @@ class UserSchedule
 				// Alte Eintraege loeschen - Performanter als abfragen und Updaten
 				@$this->JDA->query( "DELETE FROM " . $this->cfg[ 'db_table' ] . " WHERE username='$this->username'" );
 				$result = $this->JDA->query( "INSERT INTO " . $this->cfg[ 'db_table' ] . " (username, data, created) VALUES ('$this->username', '$this->json', '$timestamp')" );
-
-				// ALLES OK
-				return array("data"=>$result );
+				
+				if($result === true)
+				{
+					// ALLES OK
+					return array("success"=>true,"data"=>array(
+						 'code' => 1,
+						 'errors' => array()
+					));
+				}
+				else {
+					// FEHLER
+					return array("success"=>false,"data"=>array(
+							'code' => 2,
+							'errors' => array(
+									'reason' => 'Stundenplan konnte nicht gespeichert werden.'
+							)
+					) );
+				}
 			} else {
 				// FEHLER
-				return array("succcess"=>false,"data"=>array(
+				return array("success"=>false,"data"=>array(
 					 'code' => 'expire',
 					 'errors' => array(
 						 'reason' => 'Ihre Sitzung ist abgelaufen oder ungültig. Bitte melden Sie sich neu an.'
