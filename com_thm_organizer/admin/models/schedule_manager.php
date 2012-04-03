@@ -68,7 +68,7 @@ class thm_organizersModelschedule_manager extends JModelList
         if(is_numeric($plantype)) $query->where("sch.plantypeID = $plantype");
 
         $orderby = $dbo->getEscaped($this->getState('list.ordering', 'sch.creationdate'));
-        $direction = $dbo->getEscaped($this->getState('list.direction', 'ASC'));
+        $direction = $dbo->getEscaped($this->getState('list.direction', 'DESC'));
         $query->order("$orderby $direction");
 
         return $query;
