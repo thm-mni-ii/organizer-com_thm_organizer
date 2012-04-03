@@ -205,11 +205,11 @@ class thm_organizerModelevent_edit extends JModelForm
             {
                 $asset = "com_content".".category.".$v['contentCatID'];
                 if($this->event['id'] == 0)
-                    $access = $user->authorise ('core.create', $asset);
+                    $access = $user->authorise('core.create', $asset);
                 else if($this->event['id'] > 0)
                 {
-                    if($isAuthor) $canEditOwn = $user->authorise ('core.edit.own', $asset);
-                    else $canEditOwn = false;
+                    $canEditOwn = false;
+                    if($isAuthor)$canEditOwn = $user->authorise ('core.edit.own', $asset);
                     $canEdit = $user->authorise ('core.edit', $asset);
                     $access = $canEdit or $canEditOwn;
                 }
@@ -240,6 +240,12 @@ class thm_organizerModelevent_edit extends JModelForm
                     $access = "<p>".JText::_('COM_THM_ORGANIZER_EE_CONTENT_EXPLANATION_START');
                     $access .= $v['access'].JText::_('COM_THM_ORGANIZER_EE_CONTENT_EXPLANATION_END')."</p>";
                     $v['access'] = $access;
+                    
+                    $v['description'] = $dbo->escape($v['description']);
+                    $v['display'] = addslashes($v['display']);
+                    $v['contentCat'] = addslashes($v['contentCat']);
+                    $v['contentCatDesc'] = addslashes($v['contentCatDesc']);
+                    $v['access'] = addslashes($v['access']);
 
                     $categories[$v['id']] = $v;
                 }
