@@ -87,7 +87,7 @@ class thm_organizersModelschedule_manager extends JModelList
         $state = $this->getUserStateFromRequest($this->context.'.filter.state', 'filter_state');
         $this->setState('filter.state', $state);
 
-        $selectedSemester = JRequest::getInt('filter_semester');
+        $selectedSemester = JRequest::getVar('filter_semester');
         $referredSemester = JRequest::getInt('semesterID');
         $stateSemester = $this->getUserStateFromRequest($this->context.'.filter.semester', 'filter_semester');
         if($selectedSemester)$semesterID = $selectedSemester;
