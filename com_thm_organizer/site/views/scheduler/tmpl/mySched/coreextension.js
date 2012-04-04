@@ -164,7 +164,6 @@ Ext.override(Ext.picker.Date, {
 			},
 			'mouseout': function (e) {
 				e.stopEvent();
-				if (Ext.getCmp('mySched_calendar-tip')) Ext.getCmp('mySched_calendar-tip').destroy();
 			},
 			scope: this
 		});
@@ -177,7 +176,7 @@ calendar_tooltip = function (e) {
 	var el = e.getTarget('.calendar_tooltip', 5, true);
 	if (Ext.getCmp('mySched_calendar-tip')) Ext.getCmp('mySched_calendar-tip').destroy();
 	var xy = el.getXY();
-	xy[0] = xy[0] + el.getWidth() + 10;
+	xy[0] = xy[0] + el.getWidth();
 
 	var events = el.dom.events;
 	var htmltext = "";
@@ -190,7 +189,12 @@ calendar_tooltip = function (e) {
 			events[i].data.objects.each(function(o, k) {
 				if(name != "")
 					name += ", ";
-				name += o.name;
+				if(o.type === "teacher")
+					name += "<small class='dozname'>" + o.name + "</small>";
+				else if(o.type === "room")
+					name += "<small class='roomshortname'>" + o.name + "</small>";
+				else
+					name += o.name
 			});
 			
 			if(name != "")
@@ -212,6 +216,29 @@ calendar_tooltip = function (e) {
 			html: htmltext,
 			cls: "mySched_tooltip_calendar"
 		});
+		
+		ttInfo.on('afterrender', function() {
+	    	  Ext.select('.dozname', false, this.el.dom).on({
+	    	      'click': function (e) {
+	    	        if (e.button == 0) //links Klick
+	    	        MySched.SelectionManager.showSchedule(e, 'doz');
+	    	      },
+	    	      scope: this
+	    	    });
+
+	    	    Ext.select('.roomshortname', false, this.el.dom).on({
+	    	      'click': function (e) {
+	    	        if (e.button == 0) //links Klick
+	    	        MySched.SelectionManager.showSchedule(e, 'room');
+	    	      },
+	    	      scope: this
+	    	    });
+	      });
+		
+		ttInfo.on('beforedestroy', function() {
+			Ext.select('.dozname', false, this.el.dom).removeAllListeners();
+    	    Ext.select('.roomshortname', false, this.el.dom).removeAllListeners();
+	    });
 
 		ttInfo.showAt(xy);
 	}

@@ -295,6 +295,7 @@ Ext.define('mSchedule', {
         weekpointer = Ext.Date.clone(clickeddate.value);
 
         weekpointer = getMonday(weekpointer);
+        weekpointer.clearTime(); 
 
         for (var counter = 0; counter < 5; counter++) {
           var startdate = v.data.startdate.split(".");

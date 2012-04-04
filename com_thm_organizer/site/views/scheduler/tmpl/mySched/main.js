@@ -761,6 +761,8 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
       Ext.select('.status_icons_info', false, MySched.layout.tabpanel.getActiveTab().getEl().dom).removeAllListeners();
       Ext.select('.status_icons_estudy', false, MySched.layout.tabpanel.getActiveTab().getEl().dom).removeAllListeners();
     }
+    Ext.select('.dozname', false, document).removeAllListeners();
+    Ext.select('.roomshortname', false, document).removeAllListeners();
   },
   /**
    * Startet die Selektierung
@@ -917,52 +919,91 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
    	var plantypeID = null;
    	var semesterID = null;
    	var parent = null;
-
-    l = MySched.Base.getLecture(lessonid[1]);
-    if (typeof l == "undefined") l = MySched.Schedule.getLecture(lessonid[1]);
-
-    if (type == "doz") {
-      for (var i = 0; i < l.doz.keys.length; i++) {
-        if (name == MySched.Mapping.getDozName(l.doz.keys[i])) {
-          nodeKey = l.doz.keys[i];
-          gpuntisID = MySched.Mapping.getObjectField(type, l.doz.keys[i], "gpuntisID");
-          parent = MySched.Mapping.getObjectField(type, l.doz.keys[i], "departmentID");
-          break;
-        }
-      }
-    }
-    else if (type == "room") {
-      for (var i = 0; i < l.room.keys.length; i++) {
-        var room = MySched.Mapping.getRoomName(l.room.keys[i]).split("/");
-        if (name == room[room.length - 1].replace(/^\s+/, '').replace(/\s+$/, '')) {
-          nodeKey = l.room.keys[i];
-          gpuntisID = MySched.Mapping.getObjectField(type, l.room.keys[i], "gpuntisID");
-          parent = MySched.Mapping.getObjectField(type, l.room.keys[i], "departmentID");
-          break;
-        }
-      }
-    }
-    else {
-      for (var i = 0; i < l.clas.keys.length; i++) {
-        if (name == MySched.Mapping.getObjectField(type, l.clas.keys[i], "shortname")) {
-          nodeKey = l.clas.keys[i];
-          gpuntisID = MySched.Mapping.getObjectField(type, l.clas.keys[i], "gpuntisID");
-          parent = MySched.Mapping.getObjectField(type, l.clas.keys[i], "departmentID");
-          break;
-        }
-      }
-    }
-
-	parent = parent.replace(" ", "");
-	parent = parent.replace("(", "");
-	parent = parent.replace(")", "");
-
-    nodeID = l.semesterID+"."+l.plantypeID+"."+type+"."+parent+"."+nodeKey;
-	plantypeID = l.plantypeID;
-	semesterID = l.semesterID;
-
-
-	MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
+   	
+   	if(lessonid[1]) {
+	    l = MySched.Base.getLecture(lessonid[1]);    
+	    if (typeof l == "undefined") l = MySched.Schedule.getLecture(lessonid[1]);
+	
+	    if (type == "doz") {
+	      for (var i = 0; i < l.doz.keys.length; i++) {
+	        if (name == MySched.Mapping.getDozName(l.doz.keys[i])) {
+	          nodeKey = l.doz.keys[i];
+	          gpuntisID = MySched.Mapping.getObjectField(type, l.doz.keys[i], "gpuntisID");
+	          parent = MySched.Mapping.getObjectField(type, l.doz.keys[i], "departmentID");
+	          break;
+	        }
+	      }
+	    }
+	    else if (type == "room") {
+	      for (var i = 0; i < l.room.keys.length; i++) {
+	        var room = MySched.Mapping.getRoomName(l.room.keys[i]).split("/");
+	        if (name == room[room.length - 1].replace(/^\s+/, '').replace(/\s+$/, '')) {
+	          nodeKey = l.room.keys[i];
+	          gpuntisID = MySched.Mapping.getObjectField(type, l.room.keys[i], "gpuntisID");
+	          parent = MySched.Mapping.getObjectField(type, l.room.keys[i], "departmentID");
+	          break;
+	        }
+	      }
+	    }
+	    else {
+	      for (var i = 0; i < l.clas.keys.length; i++) {
+	        if (name == MySched.Mapping.getObjectField(type, l.clas.keys[i], "shortname")) {
+	          nodeKey = l.clas.keys[i];
+	          gpuntisID = MySched.Mapping.getObjectField(type, l.clas.keys[i], "gpuntisID");
+	          parent = MySched.Mapping.getObjectField(type, l.clas.keys[i], "departmentID");
+	          break;
+	        }
+	      }
+	    }
+	
+		parent = parent.replace(" ", "");
+		parent = parent.replace("(", "");
+		parent = parent.replace(")", "");
+	
+	    nodeID = l.semesterID+"."+l.plantypeID+"."+type+"."+parent+"."+nodeKey;
+		plantypeID = l.plantypeID;
+		semesterID = l.semesterID;
+   	}
+   	else {
+   		if (Ext.getCmp('mySched_calendar-tip')) 
+   			Ext.getCmp('mySched_calendar-tip').destroy();
+   		if (type == "doz") {	
+  	      for (var i = 0; i < MySched.Mapping.doz.keys.length; i++) {
+  	        if (name == MySched.Mapping.getDozName(MySched.Mapping.doz.keys[i])) {
+  	          nodeKey = MySched.Mapping.doz.keys[i];
+  	          gpuntisID = MySched.Mapping.getObjectField(type, MySched.Mapping.doz.keys[i], "gpuntisID");
+  	          parent = MySched.Mapping.getObjectField(type, MySched.Mapping.doz.keys[i], "departmentID");
+  	          break;
+  	        }
+  	      }
+  	    }
+  	    else if (type == "room") {
+  	      for (var i = 0; i < MySched.Mapping.room.keys.length; i++) {
+  	        if (name == MySched.Mapping.getRoomName(MySched.Mapping.room.keys[i])) {
+  	          nodeKey = MySched.Mapping.room.keys[i];
+  	          gpuntisID = MySched.Mapping.getObjectField(type, MySched.Mapping.room.keys[i], "gpuntisID");
+  	          parent = MySched.Mapping.getObjectField(type, MySched.Mapping.room.keys[i], "departmentID");
+  	          break;
+  	        }
+  	      }
+  	    }
+  	    else {
+  	      for (var i = 0; i < MySched.Mapping.clas.keys.length; i++) {
+  	        if (name == MySched.Mapping.getObjectField(type, MySched.Mapping.clas.keys[i], "shortname")) {
+  	          nodeKey = MySched.Mapping.clas.keys[i];
+  	          gpuntisID = MySched.Mapping.getObjectField(type, MySched.Mapping.clas.keys[i], "gpuntisID");
+  	          parent = MySched.Mapping.getObjectField(type, MySched.Mapping.clas.keys[i], "departmentID");
+  	          break;
+  	        }
+  	      }
+  	    }
+   		
+    	plantypeID = 1;
+    	semesterID = MySched.class_semester_id;
+    	nodeID = semesterID+"."+plantypeID+"."+type+"."+parent+"."+nodeKey;
+   	}
+   	
+   	MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
 
   },
   showEventInformation: function (e) {
@@ -2246,13 +2287,9 @@ MySched.layout = function () {
               MySched.selectedSchedule.eventsloaded = null;
               MySched.selectedSchedule.refreshView();
             }
-          },
-          'beforeexpand': function(p, ani, eOpts) {
-          	var bla = "";
           }
         }
       });
-
 
       return [
 	      menuedatepicker, btnSave, btnMenu, '->', btnInfo,
