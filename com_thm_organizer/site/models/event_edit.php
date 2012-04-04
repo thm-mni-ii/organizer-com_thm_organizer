@@ -233,18 +233,19 @@ class thm_organizerModelevent_edit extends JModelForm
                     $contentCat = "<p>".JText::_('COM_THM_ORGANIZER_EE_CATEGORY_EXPLANATION');
                     $contentCat .= "<span class='thm_organizer_ee_highlight'>&quot;".$v['contentCat']."&quot;</span>.</p>";
                     $v['contentCat'] = $contentCat;
-
-                    $contentCatDesc = "<p>".$v['contentCatDesc']."</p>";
-                    $v['contentCatDesc'] = $contentCatDesc;
-
+                    
+                    $v['contentCatDesc'] = str_replace("\r", "", str_replace("\n", "", nl2br($v['contentCatDesc'])));
+                    $v['contentCatDesc'] = addslashes($v['contentCatDesc']);
+                    
                     $access = "<p>".JText::_('COM_THM_ORGANIZER_EE_CONTENT_EXPLANATION_START');
                     $access .= $v['access'].JText::_('COM_THM_ORGANIZER_EE_CONTENT_EXPLANATION_END')."</p>";
                     $v['access'] = $access;
                     
-                    $v['description'] = $dbo->escape($v['description']);
+                    $v['description'] = str_replace("\r", "", str_replace("\n", "", $v['description']));
+                    $v['description'] = addslashes($v['description']);
+                    
                     $v['display'] = addslashes($v['display']);
                     $v['contentCat'] = addslashes($v['contentCat']);
-                    $v['contentCatDesc'] = addslashes($v['contentCatDesc']);
                     $v['access'] = addslashes($v['access']);
 
                     $categories[$v['id']] = $v;
