@@ -50,30 +50,7 @@ class Events
 			$arr[ $temp["id"] ][ "recurrence_type" ] = $temp["rec_type"];
 			$arr[ $temp["id"] ][ "reserve" ] = $eventmodel->reservesobjects($temp["eventCategoryID"]);
 			$arr[ $temp["id"] ][ "global" ] = $eventmodel->globaldisplay($temp["eventCategoryID"]);
-
-			if ( !isset( $arr[ $temp["id"] ][ "objects" ] ) )
-				$arr[ $temp["id"] ][ "objects" ] = array( );
-
-			$dbo = $this->JDA->getDBO();
-
-			foreach($temp["resourceArray"] as $k=>$v)
-			{
-				$query	= $dbo->getQuery(true);
-				$query->select('gpuntisID');
-				if($v["type"] === "teacher")
-					$query->from('#__thm_organizer_teachers');
-				else if($v["type"] === "room")
-					$query->from('#__thm_organizer_rooms');
-				else
-					continue;
-				$query->where('`id` = '.$v["id"]);
-				$dbo->setQuery($query);
-
-				$result = $dbo->loadObject();
-
-				$arr[ $temp["id"] ][ "objects" ][ $result->gpuntisID ] = $result->gpuntisID;
-			}
-
+			$arr[ $temp["id"] ][ "objects" ] = $temp["resourceArray"];
 		}
 
 		$username = $this->JDA->getUserName();
