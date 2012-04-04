@@ -186,19 +186,13 @@ calendar_tooltip = function (e) {
 
 			htmltext += events[i].data.title;
 			var name = "";
-			for(var obj in events[i].data.objects)
-			{
-				if(typeof obj != "function")
-					if(name != "")
-						name += ", ";
-					if(obj.substring(0, 3) == "RM_") {
-						name += MySched.Mapping.getName("room", obj);
-					} else if(obj.substring(0, 3) == "TR_") {
-						name += MySched.Mapping.getName("doz", obj);
-					} else if(obj.substring(0, 3) == "CL_"){
-						name += MySched.Mapping.getName("clas", obj);
-					}
-			}
+			
+			events[i].data.objects.each(function(o, k) {
+				if(name != "")
+					name += ", ";
+				name += o.name;
+			});
+			
 			if(name != "")
 				htmltext += " ("+ name + ")<br/>";
 			else
