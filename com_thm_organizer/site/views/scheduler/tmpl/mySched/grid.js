@@ -58,7 +58,7 @@ function getSchedGrid(){
 		        if(rowIndex === 2)
 		        {
 			        return {
-						rowBody: "Mittagspause", // do something with record
+						rowBody: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LUNCHTIME, // do something with record
 			            rowBodyCls: 'MySched_pause',
 			            rowBodyColspan: colspan
 			        };
@@ -67,17 +67,17 @@ function getSchedGrid(){
 		});
 
 	var grid = Ext.create('SchedGrid', {
-	    title: 'unknown',
+	    title: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TITLE_UNKNOWN,
 	    store: Ext.data.StoreManager.lookup('gridStore'),
 	    height: 440,
 	    width: 726,
 	    columns: [
-	        {header: 'Zeit', menuDisabled:true, sortable:false, dataIndex: 'time', renderer: MySched.lectureCellRenderer, width: 35},
-	        {header: 'Montag', menuDisabled:true, sortable:false, dataIndex: 'monday', renderer: MySched.lectureCellRenderer, flex: 1},
-	        {header: 'Dienstag', menuDisabled:true, sortable:false, dataIndex: 'tuesday', renderer: MySched.lectureCellRenderer, flex: 1},
-	        {header: 'Mittwoch', menuDisabled:true, sortable:false, dataIndex: 'wednesday', renderer: MySched.lectureCellRenderer, flex: 1},
-	        {header: 'Donnerstag', menuDisabled:true, sortable:false, dataIndex: 'thursday', renderer: MySched.lectureCellRenderer, flex: 1},
-	        {header: 'Freitag', menuDisabled:true, sortable:false, dataIndex: 'friday', renderer: MySched.lectureCellRenderer, flex: 1}
+	        {header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TIME, menuDisabled:true, sortable:false, dataIndex: 'time', renderer: MySched.lectureCellRenderer, width: 35},
+	        {header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_MONDAY, menuDisabled:true, sortable:false, dataIndex: 'monday', renderer: MySched.lectureCellRenderer, flex: 1},
+	        {header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_TUESDAY, menuDisabled:true, sortable:false, dataIndex: 'tuesday', renderer: MySched.lectureCellRenderer, flex: 1},
+	        {header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_WEDNESDAY, menuDisabled:true, sortable:false, dataIndex: 'wednesday', renderer: MySched.lectureCellRenderer, flex: 1},
+	        {header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_THURSDAY, menuDisabled:true, sortable:false, dataIndex: 'thursday', renderer: MySched.lectureCellRenderer, flex: 1},
+	        {header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_FRIDAY, menuDisabled:true, sortable:false, dataIndex: 'friday', renderer: MySched.lectureCellRenderer, flex: 1}
 	    ],
 	    viewConfig: {
 			features: [rowBodyFeature],
@@ -99,7 +99,7 @@ function showEventdesc(index) {
 			bodyStyle: "background-color: #FFF; padding: 7px;",
 			frame:false ,
 			buttons: [{
-				text: "Schlie&szlig;en",
+				text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_CLOSE,
 				handler: function () {
 					this.eventWindow.close();
 				},
@@ -320,7 +320,7 @@ MySched.lectureCellRenderer = function (data, meta, record, rowIndex, colIndex, 
 		meta.tdCls += cl('blockFree');
 		meta.tdCls += cl('conMenu');
 	}
-	
+
 	if (Ext.isEmpty(data)) return '';
 	return data.join("\n");
 }

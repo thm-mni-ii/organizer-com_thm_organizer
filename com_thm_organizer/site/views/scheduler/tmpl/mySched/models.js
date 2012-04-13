@@ -71,7 +71,7 @@ Ext.define('MySched.Model', {
       return d;
       break;
     case 'xml':
-      alert("XML ist noch nicht implementiert!");
+      alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_XML_NOT_IMPLEMENTED);
       exit();
       break;
     default:
@@ -255,10 +255,10 @@ Ext.define('mSchedule', {
 
     if (wp < begin && cd.menu == null) {
       Ext.MessageBox.show({
-        title: "Semester hat noch nicht angefangen",
+        title: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER_NOT_STARTED,
         cls: "mysched_semesterbegin",
         buttons: Ext.MessageBox.YESNO,
-        msg: "Wollen Sie zum Semesteranfang springen?",
+        msg: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER_JUMP_TO_START,
         width: 400,
         modal: true,
         closable: false,
@@ -594,7 +594,7 @@ Ext.define('mSchedule', {
 
           var deltaid = semid + ".1.delta";
 
-          var deltaSched = new mSchedule(deltaid, "Änderungen (zentral)").init("delta", deltaid);
+          var deltaSched = new mSchedule(deltaid, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_CENTRAL).init("delta", deltaid);
             deltaSched.show();
             //MySched.selectedSchedule.grid.showSporadics();
             MySched.layout.viewport.doLayout();
@@ -637,10 +637,10 @@ Ext.define('mSchedule', {
             var grid = MySched.Schedule.show(true);
             Ext.apply(grid, {
               closable: false,
-              tabTip: 'Mein Stundenplan',
+              tabTip: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE,
               iconCls: 'myScheduleIcon'
             });
-            MySched.layout.createTab('mySchedule', 'Mein Stundenplan', grid, "mySchedule");
+            MySched.layout.createTab('mySchedule', MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE, grid, "mySchedule");
           }
           // Buttons aktivieren wenn nicht leer
           if (!MySched.Schedule.isEmpty()) {
@@ -817,7 +817,7 @@ Ext.define('mSchedule', {
         var data = this.exportData("json", "personal");
       }
       if (success != false)
-        var savewait = Ext.MessageBox.wait('Ihr Stundenplan wird gespeichert', 'Bitte warten...');
+        var savewait = Ext.MessageBox.wait(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_SAVING, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PLEASE_WAIT);
       else var savewait = null;
       Ext.Ajax.request({
         url: url,
@@ -856,8 +856,8 @@ Ext.define('mSchedule', {
     }
     else {
       Ext.Msg.show({
-        title: 'Error',
-        msg: "Bitte melde dich zuerst an!",
+        title: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ERROR,
+        msg: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LOGIN_PLEASE,
         buttons: Ext.Msg.OK,
         minWidth: 400
       });
@@ -930,13 +930,12 @@ Ext.define('mLecture', {
     //New CellStyle
     this.setCellTemplate();
 
-    var infoTemplateString = '<div>' + '<small><span class="def">Raum:</span> {room_shortname}<br/>' + '<span class="def">Dozent:</span><big> {doz_name}</big><br/>' + '<span class="def">Semester:</span> <br/>{clas_full}<br/>';
-    if (this.data.changes) infoTemplateString += '<span class="def">Changes:</span> {changes_all}';
+    var infoTemplateString = '<div>' + '<small><span class="def">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ROOM + ':</span> {room_shortname}<br/>' + '<span class="def">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHER + ':</span><big> {doz_name}</big><br/>' + '<span class="def">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER + ':</span> <br/>{clas_short}<br/>';
     infoTemplateString += '</small></div>';
 
     this.infoTemplate = new Ext.Template(infoTemplateString);
 
-    this.sporadicTemplate = new Ext.Template('<div id="{parentId}##{key}" class="{css} sporadicBox lectureBox">' + '<b>{desc}</b> <small><i>({desc:defaultValue("Keine Beschreibung")})</i> Raum: {room_short} - Dozent: {doz_name} - {clas_short}</small>' + '</div>');
+    this.sporadicTemplate = new Ext.Template('<div id="{parentId}##{key}" class="{css} sporadicBox lectureBox">' + '<b>{desc}</b> <small><i>({desc:defaultValue("' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NO_DESCRIPTION + '")})</i> ' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ROOM + ': {room_short} - ' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHER + ': {doz_name} - {clas_short}</small>' + '</div>');
   },
   getDetailData: function (d) {
     return Ext.apply(this.getData(d), {
@@ -968,16 +967,16 @@ Ext.define('mLecture', {
   getTopIcon: function (d) {
   	if(isset(this.data.lessonChanges))
     	if (this.data.lessonChanges.status == "new")
-    		return '<div data-qtip="Diese Veranstaltung ist neu hinzugekommen" class="top_icon_image">Neu</div>';
+    		return '<div data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_IS_NEW + '" class="top_icon_image">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NEW + '</div>';
 
     if(isset(this.data.periodChanges))
     	if (this.data.periodChanges.status == "new")
-    		return '<div data-qtip="Diese Veranstaltung ist neu hinzugekommen" class="top_icon_image">Neu</div>';
+    		return '<div data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_IS_NEW + '" class="top_icon_image">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NEW + '</div>';
     	else if(this.data.periodChanges.status == "moved")
-    		return '<div data-qtip="Diese Veranstaltung wurde verschoben" class="top_icon_image">Verschoben</div>';
+    		return '<div data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_MOVED_DESC + '" class="top_icon_image">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_MOVED + '</div>';
 
    	if (this.data.css == "mysched_proposal")
-   		return '<div data-qtip="Diese Veranstaltung wurde ihnen vorgeschlagen weil die ursprüngliche Veranstaltung nicht mehr vorhanden ist" class="top_icon_image">Vorschlag</div><br/>';
+   		return '<div data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_PROPOSAL_DESC + '" class="top_icon_image">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_PROPOSAL + '</div><br/>';
 
     return "";
   },
@@ -985,22 +984,22 @@ Ext.define('mLecture', {
     var ret = '<div class="status_icons"> ';
     
     if(this.data.ecollaborationLink != null)
-    	 ret += '<a target="_blank" href="' + this.data.ecollaborationLink + '"><img data-qtip="Moodlekurs aufrufen" class="status_icons_ecollabLink" src="' + MySched.mainPath + 'images/collab.png" width="12" heigth="12"/></a>';
+    	 ret += '<a target="_blank" href="' + this.data.ecollaborationLink + '"><img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MOODLE_CALL + '" class="status_icons_ecollabLink" src="' + MySched.mainPath + 'images/collab.png" width="12" heigth="12"/></a>';
 
     if (MySched.Authorize.user != null && MySched.Authorize.user != "" && typeof d.parentId != "undefined") {
       var parentIDArr = d.parentId.split(".");
       parentIDArr = parentIDArr[(parentIDArr.length-1)];
       if (parentIDArr != 'delta') {
-        if (d.parentId == 'mySchedule') ret += '<img data-qtip="Veranstaltung aus Ihrem Stundenplan entfernen" class="status_icons_add" src="' + MySched.mainPath + '/images/delete.png" width="12" heigth="12"/>';
-        else if (d.parentId != 'mySchedule' && MySched.Schedule.lectureExists(this)) ret += '<img data-qtip="Veranstaltung aus Ihrem Stundenplan entfernen" class="status_icons_add" src="' + MySched.mainPath + '/images/delete.png" width="12" heigth="12"/>';
-        else ret += '<img data-qtip="Veranstaltung Ihrem Stundenplan hinzuf&uuml;gen" class="status_icons_add" src="' + MySched.mainPath + '/images/add.png" width="12" heigth="12"/>';
+        if (d.parentId == 'mySchedule') ret += '<img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_REMOVE + '" class="status_icons_add" src="' + MySched.mainPath + '/images/delete.png" width="12" heigth="12"/>';
+        else if (d.parentId != 'mySchedule' && MySched.Schedule.lectureExists(this)) ret += '<img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_REMOVE + '" class="status_icons_add" src="' + MySched.mainPath + '/images/delete.png" width="12" heigth="12"/>';
+        else ret += '<img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_ADD + '" class="status_icons_add" src="' + MySched.mainPath + '/images/add.png" width="12" heigth="12"/>';
         //ret += '<img data-qtip="eStudy aufrufen" class="status_icons_estudy" src="' + MySched.mainPath + '/images/estudy_logo.jpg" width="12" heigth="12"/>';
       }
     }
 
     if ((d.owner == MySched.Authorize.user || (MySched.Authorize.user == MySched.class_semester_author && d.type == "personal")) && MySched.Authorize.user != null && MySched.Authorize.user != "") {
-      ret += '<img data-qtip="Veranstaltung ändern" class="status_icons_edit" src="' + MySched.mainPath + 'images/icon-edit.png" width="12" heigth="12"/>';
-      ret += '<img data-qtip="Veranstaltung löschen" class="status_icons_delete" src="' + MySched.mainPath + 'images/icon-delete.png" width="12" heigth="12"/>';
+      ret += '<img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_CHANGE + '" class="status_icons_edit" src="' + MySched.mainPath + 'images/icon-edit.png" width="12" heigth="12"/>';
+      ret += '<img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_DELETE + '" class="status_icons_delete" src="' + MySched.mainPath + 'images/icon-delete.png" width="12" heigth="12"/>';
     }
 
     //ret += '<img data-qtip="Informationen anzeigen" class="status_icons_info" src="' + MySched.mainPath + '/images/information.png" width="12" heigth="12"/>';
@@ -1012,14 +1011,12 @@ Ext.define('mLecture', {
     var t = "";
     var c = "";
 
-
     return "";
-
 
     if (lec) if (lec.changes) {
       if (lec.changes.rooms) {
         var rooms = lec.changes.rooms;
-        r += "<span>R&auml;ume:<br/>";
+        r += "<span>" + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ROOMS + ":<br/>";
         for (var room in rooms) {
           if (room != "") {
             var temp = MySched.Mapping.getObject("room", room);
@@ -1036,7 +1033,7 @@ Ext.define('mLecture', {
       }
       if (lec.changes.teachers) {
         var teachers = lec.changes.teachers;
-        t += "<span>Dozenten:<br/>";
+        t += "<span>" + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHERS + ":<br/>";
         for (var teacher in teachers) {
           if (teacher != "") {
             var temp = MySched.Mapping.getObject("doz", teacher);
@@ -1053,7 +1050,7 @@ Ext.define('mLecture', {
       }
       if (lec.changes.classes) {
         var classes = lec.changes.classes;
-        c += "<span>Semester:<br/>";
+        c += "<span>" + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER + ":<br/>";
         for (var clas in classes) {
           if (clas != "") {
             var temp = MySched.Mapping.getObject("clas", clas);
@@ -1568,9 +1565,9 @@ Ext.define('mEvent', {
         bl++;
       var blocktimes = blocktotime(bl);
       if(blocktimes[0] < d.starttime && blocktimes[1] > d.starttime)
-        collisionIcon = "<img class='MySched_EventCollision' width='24px' height='16px' data-qtip='Kollision mit einer Veranstaltung' src='" + MySched.mainPath + "images/warning.png'></img><br/>";
+        collisionIcon = "<img class='MySched_EventCollision' width='24px' height='16px' data-qtip='" + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_COLLISION + "' src='" + MySched.mainPath + "images/warning.png'></img><br/>";
       if(blocktimes[0] < d.endtime && blocktimes[1] > d.endtime)
-        collisionIcon = "<img class='MySched_EventCollision' width='24px' height='16px' data-qtip='Kollision mit einer Veranstaltung' src='" + MySched.mainPath + "images/warning.png'></img><br/>";
+        collisionIcon = "<img class='MySched_EventCollision' width='24px' height='16px' data-qtip='" + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_COLLISION + "' src='" + MySched.mainPath + "images/warning.png'></img><br/>";
     }
 
     if(type === "doz")
@@ -1589,7 +1586,7 @@ Ext.define('mEvent', {
     return this.eventTemplate.apply(d);
   },
   getEventInfoView: function () {
-    var infoTemplateString = "<div id='MySchedEventInfo_" + this.id + "' class='MySchedEventInfo'>" + "<span class='MySchedEvent_desc'>Beschreibung: " + this.data.edescription + "</span><br/>" + "<span class='MySchedEvent_sdate'>Datum: " + this.data.startdate + " - " + this.data.enddate + "</span><br/>" + "<span class='MySchedEvent_stime'>Zeit: " + this.data.starttime + " - " + this.data.endtime + "</span><br/>";
+    var infoTemplateString = "<div id='MySchedEventInfo_" + this.id + "' class='MySchedEventInfo'>" + "<span class='MySchedEvent_desc'>" + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DESCRIPTION + ": " + this.data.edescription + "</span><br/>" + "<span class='MySchedEvent_sdate'>" + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DATE + ": " + this.data.startdate + " - " + this.data.enddate + "</span><br/>" + "<span class='MySchedEvent_stime'>" + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TIME + ": " + this.data.starttime + " - " + this.data.endtime + "</span><br/>";
     var resString = "";
     var dozS = "";
     var roomS = "";
@@ -1599,16 +1596,16 @@ Ext.define('mEvent', {
 
     if(dozS.length > 0)
     {
-      if (dozS.contains(", ")) dozS = "Dozenten: " + dozS;
-      else dozS = "Dozent: " + dozS;
+      if (dozS.contains(", ")) dozS = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHERS + ": " + dozS;
+      else dozS = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHER + ": " + dozS;
 
       infoTemplateString += "<span class='MySchedEvent_doz'>" + dozS + "</span><br/>";
     }
 
     if(roomS.length > 0)
     {
-      if (roomS.contains(", ")) roomS = "Räume: " + roomS;
-      else roomS = "Raum: " + roomS;
+      if (roomS.contains(", ")) roomS = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ROOMS + ": " + roomS;
+      else roomS = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ROOM + ": " + roomS;
 
       infoTemplateString += "<span class='MySchedEvent_room'>" + roomS + "</span><br/>";
     }
@@ -1719,8 +1716,8 @@ function getModuledesc(mninr) {
           Ext.MessageBox.hide();
         },
         buttons: Ext.MessageBox.OK,
-        title: "Error",
-        msg: "Es ist ein Fehler beim Laden der Beschreibung aufgetreten."
+        title: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ERROR,
+        msg: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DESCRIPTION_ERROR
       });
     },
     success: function (response, req) {
@@ -1749,7 +1746,7 @@ function getModuledesc(mninr) {
             },
             buttons: Ext.MessageBox.OK,
             title: responseData['nrmni'],
-            msg: "Keine Daten gefunden!"
+            msg: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NO_DATA_FOUND + "!"
           });
         }
       }
@@ -1762,7 +1759,7 @@ function getModuledesc(mninr) {
           },
           buttons: Ext.MessageBox.OK,
           title: responseData['nrmni'],
-          msg: "Keine Daten gefunden!"
+          msg: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NO_DATA_FOUND + "!"
         });
       }
 
@@ -1800,5 +1797,5 @@ function zeigeTermine(rooms) {
     }
   }
 
-  if (counter != 0) var tmp = Ext.ComponentMgr.get('sporadicPanel').setTitle('Einzel Termine - ' + room + ' (' + counter + ')');
+  if (counter != 0) var tmp = Ext.ComponentMgr.get('sporadicPanel').setTitle(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SINGLE_EVENT + ' - ' + room + ' (' + counter + ')');
 }

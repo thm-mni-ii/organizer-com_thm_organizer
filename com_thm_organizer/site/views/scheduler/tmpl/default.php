@@ -30,6 +30,11 @@
 	<script type="text/javascript" charset="utf-8" src="components/com_thm_organizer/views/scheduler/tmpl/ext/ext-all.js"></script>
 	<script type="text/javascript" charset="utf-8" src="components/com_thm_organizer/views/scheduler/tmpl/mySched/coreextension.js"></script>
 	<script type="text/javascript" charset="utf-8" src="components/com_thm_organizer/views/scheduler/tmpl/mySched/MultiSelect.js"></script>-->
+	<script type="text/javascript" charset="utf-8">
+		<?php
+			require_once("components/com_thm_organizer/views/scheduler/tmpl/mySched/language.js");
+		?>
+	</script>
 	<script type="text/javascript" charset="utf-8" src="components/com_thm_organizer/views/scheduler/tmpl/mySched/coreextension.js"></script>
 	<script type="text/javascript" charset="utf-8" src="components/com_thm_organizer/views/scheduler/tmpl/mySched/libs.js"></script>
 	<script type="text/javascript" charset="utf-8" src="components/com_thm_organizer/views/scheduler/tmpl/mySched/authorize.js"></script>
@@ -42,7 +47,7 @@
     <script type="text/javascript" charset="utf-8">
 
     <?php
-
+    
     	if($this->canWriteEvents === true)
 		{
 			require_once("components/com_thm_organizer/views/scheduler/tmpl/mySched/advancedFunctions.js");

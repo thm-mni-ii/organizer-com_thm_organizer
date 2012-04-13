@@ -108,11 +108,11 @@ Ext.override(Ext.picker.Date, {
 			{
 				var len = cell.children[0].events.length;
 				if(current.compare(begin) === 0)
-					cell.children[0].events[len] = "Semesteranfang";
+					cell.children[0].events[len] = "<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_SEMESTER_BEGIN'); ?>";
 				else if(current.compare(end) === 0)
-					cell.children[0].events[len] = "Semesterende";
+					cell.children[0].events[len] = "<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_SEMESTER_END'); ?>";
 				else
-					cell.children[0].events[len] = "Semester";
+					cell.children[0].events[len] = "<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_SEMESTER'); ?>";
 
 				cell.className += " MySched_Semester";
 				if (!cell.children[0].className.contains(" calendar_tooltip")) cell.children[0].className += " calendar_tooltip";
@@ -209,7 +209,7 @@ calendar_tooltip = function (e) {
 	if (events.length > 0) {
 		var parentID = el.dom.getParent().id;
 		var ttInfo = Ext.create('Ext.tip.ToolTip', {
-			title: '<div class="mySched_tooltip_calendar_title">Termin(e):</div>',
+			title: '<div class="mySched_tooltip_calendar_title">'+MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EVENTS+'</div>',
 			id: 'mySched_calendar-tip',
 			target: parentID,
 			autoHide: false,

@@ -3,7 +3,7 @@ var oldMainToolbar = MySched.layout.getMainToolbar;
 MySched.layout.getMainToolbar = function () {
 	var btnEvent = Ext.create('Ext.Button',{
 		// Event anlegen
-		text: 'Termin anlegen',
+		text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EVENT_CREATE,
 		id: 'btnEvent',
 		hidden: false,
 		iconCls: 'tbEvent',
@@ -15,7 +15,7 @@ MySched.layout.getMainToolbar = function () {
 };
 
 var addEvent = {
-	text: "Termin anlegen",
+	text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EVENT_CREATE,
 	icon: MySched.mainPath + "images/calendar_add.png",
 	handler: function () {
 		addNewEvent(null, MySched.BlockMenu.day, MySched.BlockMenu.stime, MySched.BlockMenu.etime);
@@ -37,7 +37,7 @@ window.onbeforeunload = function () {
 
 	for (i = 0; i < tabs.length; i++) {
 		if (tabs[i].mSchedule.status === "unsaved") {
-			check = confirm("Sie haben Ihren Plan geändert.\nMöchten Sie die Änderungen speichern (OK) oder die Bearbeitung ohne Änderung abbrechen?");
+			check = confirm(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULER_CHANGED);
 			if (check === true) {
 				for (ti = 0; ti < temptabs.length; ti++) {
 					if (temptabs[ti].mSchedule.status === "unsaved") {
