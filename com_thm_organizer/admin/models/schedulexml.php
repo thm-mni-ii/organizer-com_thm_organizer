@@ -156,7 +156,6 @@ class thm_organizersModelschedulexml extends thm_organizersModelschedule
     public function activate(&$schedule, &$return)
     {
         $dbo = JFactory::getDBO();
-        $file = $schedule->file;
         $newScheduleName = $schedule->filename;
         $semesterID = $schedule->sid;
 
@@ -210,7 +209,6 @@ class thm_organizersModelschedulexml extends thm_organizersModelschedule
      */
     protected function processNewData(&$row)
     {
-        $dbo = $this->getDbo();
         $semesterID = $row->sid;
         $schedule = simplexml_load_string(stripslashes($row->file));
 
@@ -283,7 +281,6 @@ class thm_organizersModelschedulexml extends thm_organizersModelschedule
         $query->where("plantypeID = '1'");
         $query->where("semesterID = '$semesterID'");
         $dbo->setQuery((string)$query);
-        $lessonIDs = "( '".implode("', '", $dbo->loadResultArray(0))."' )";
         $results = $dbo->loadAssocList();
 
         $lessons = array();

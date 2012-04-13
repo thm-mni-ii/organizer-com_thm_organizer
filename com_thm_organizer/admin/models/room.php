@@ -122,7 +122,7 @@ class thm_organizersModelroom extends thm_organizersModelresource
         $loadData = array('gpuntisID' => $gpuntisID);
         $data = array('gpuntisID' => $gpuntisID,
                       'name' => $name,
-                      'longname' => $longname,
+                      'alias' => $longname,
                       'capacity' => $capacity,
                       'descriptionID' => $descriptionID);
         $room->load($loadData);
