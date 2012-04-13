@@ -322,18 +322,6 @@ MySched.lectureCellRenderer = function (data, meta, record, rowIndex, colIndex, 
 			meta.tdCls += cl('conMenu');
 		}
 	}
-	else {
-		if(isset(data[0]))
-		{
-			if (data[0] == "<i style='padding-left:40px;'>Mittagspause</i>" || data[0] == "<i></i>")
-				meta.tdCls += cl('MySched_pause');
-		}
-		else {
-			if (this.id == 'mySchedule') {
-				meta.tdCls += cl('conMenu');
-			}
-		}
-	}
 	if (Ext.isEmpty(data)) return '';
 	return data.join("\n");
 }
