@@ -24,7 +24,7 @@ class ICALBauer extends abstrakterBauer
 
 		unset( $arr[ count( $arr ) - 1 ] );
 
-		if ( $title == "Mein Stundenplan" && $username != "" ) {
+		if ( $title == JText::_("COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE") && $username != "" ) {
 			$title = $username . " - " . $title;
 		}
 
@@ -339,11 +339,11 @@ class ICALBauer extends abstrakterBauer
 	private function nummerzutag( $daynum )
 	{
 		$days = array(
-			 1 => "Montag",
-			2 => "Dienstag",
-			3 => "Mittwoch",
-			4 => "Donnerstag",
-			5 => "Freitag"
+			 1 => JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_MONDAY"),
+			2 => JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_TUESDAY"),
+			3 => JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_WEDNESDAY"),
+			4 => JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_THURSDAY"),
+			5 => JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_FRIDAY")
 		);
 		return $days[ $daynum ];
 	}

@@ -24,10 +24,10 @@ class Grid
 
 			if($ret !== false)
 				return array("success"=>true,"data"=>$ret );
-			return array("success"=>false,"data"=>"Could not load the data grid!" );
+			return array("success"=>false,"data"=>JText::_('COM_THM_ORGANIZER_SCHEDULER_GRID_ERROR_LOADING') );
 		}
 		else
-			return array("success"=>false,"data"=>"Could not load the data grid!" );
+			return array("success"=>false,"data"=>JText::_('COM_THM_ORGANIZER_SCHEDULER_GRID_ERROR_LOADING') );
 	}
 }
 

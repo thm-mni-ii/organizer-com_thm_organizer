@@ -124,3 +124,4 @@ MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DESCRIPTION_ERROR="<?php echo JText:
 MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NO_DATA_FOUND="<?php echo JText::_('Keine Daten gefunden'); ?>";
 MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SINGLE_EVENT="<?php echo JText::_('Einzel Termin'); ?>";
 MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PAGE_LOADING="<?php echo JText::_('Seite wird geladen'); ?>";
+MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AS_OF="<?php echo JText::_('Stand vom'); ?>";

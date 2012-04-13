@@ -30,7 +30,7 @@ class ICSBauer extends abstrakterBauer
 			require_once JPATH_COMPONENT.'/assets/ExcelClasses/PHPExcel.php';
 			$this->objPHPExcel = new PHPExcel();
 
-			if ( $title == "Mein Stundenplan" )
+			if ( $title == JText::_("COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE") )
 				$title = $username . " - " . $title;
 
 			$this->objPHPExcel->getProperties()->setCreator($username)
@@ -39,7 +39,7 @@ class ICSBauer extends abstrakterBauer
 							 ->setSubject($title);
 
 
-			$this->objPHPExcel->getActiveSheet()->setTitle('zyklische Termine');
+			$this->objPHPExcel->getActiveSheet()->setTitle(JText::_("COM_THM_ORGANIZER_SCHEDULER_CYCLIC_EVENTS"));
 
 			$success = $this->setLessonHead();
 			if($success)
@@ -47,7 +47,7 @@ class ICSBauer extends abstrakterBauer
 
 				$this->objPHPExcel->createSheet();
 				$this->objPHPExcel->setActiveSheetIndex(1);
-				$this->objPHPExcel->getActiveSheet()->setTitle('sporadische Termine');
+				$this->objPHPExcel->getActiveSheet()->setTitle(JText::_("COM_THM_ORGANIZER_SCHEDULER_SPORADIC_EVENTS"));
 
 				if($success)
 					$success = $this->setEventHead();
@@ -67,22 +67,22 @@ class ICSBauer extends abstrakterBauer
 		}
 
 		if($success)
-			return array("success"=>true,"data"=>"File created!");
+			return array("success"=>true,"data"=>JText::_("COM_THM_ORGANIZER_SCHEDULER_FILE_CREATED"));
 		else
-			return array("success"=>false,"data"=>"No file was created!");
+			return array("success"=>false,"data"=>JText::_("COM_THM_ORGANIZER_SCHEDULER_NO_FILE_CREATED"));
 	}
 
 	private function setEventHead()
 	{
 		$this->objPHPExcel->getActiveSheet()
-            ->setCellValue('A1', 'Titel')
-            ->setCellValue('B1', 'Beschreibung')
-            ->setCellValue('C1', 'Betroffene Ressourcen')
-            ->setCellValue('D1', 'Kategorie')
-            ->setCellValue('E1', 'Datum(von)')
-            ->setCellValue('F1', 'Datum(bis)')
-            ->setCellValue('G1', 'Zeit(von)')
-            ->setCellValue('H1', 'Zeit(bis)');
+            ->setCellValue('A1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TITLE"))
+            ->setCellValue('B1', JText::_("COM_THM_ORGANIZER_SCHEDULER_DESCRIPTION")
+            ->setCellValue('C1', JText::_("COM_THM_ORGANIZER_SCHEDULER_AFFECTED_RESOURCE"))
+            ->setCellValue('D1', JText::_("COM_THM_ORGANIZER_SCHEDULER_CATEGORY"))
+            ->setCellValue('E1', JText::_("COM_THM_ORGANIZER_SCHEDULER_DATE_OF"))
+            ->setCellValue('F1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TO_DATE"))
+            ->setCellValue('G1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TIME_OF"))
+            ->setCellValue('H1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TO_TIME"));
 
 		$this->objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
 		$this->objPHPExcel->getActiveSheet()->getStyle('B1')->getFont()->setBold(true);
@@ -132,14 +132,14 @@ class ICSBauer extends abstrakterBauer
 	private function setLessonHead( )
 	{
 		$this->objPHPExcel->setActiveSheetIndex(0)
-            ->setCellValue('A1', 'Titel der Veranstaltung')
-            ->setCellValue('B1', 'Abkürzung')
-            ->setCellValue('C1', 'ModulNr')
-            ->setCellValue('D1', 'Typ')
-            ->setCellValue('E1', 'Wochentag')
-            ->setCellValue('F1', 'Block')
-            ->setCellValue('G1', 'Raum')
-            ->setCellValue('H1', 'Dozent');
+            ->setCellValue('A1', JText::_("COM_THM_ORGANIZER_SCHEDULER_LESSON_TITLE"))
+            ->setCellValue('B1', JText::_("COM_THM_ORGANIZER_SCHEDULER_ABBREVIATION"))
+            ->setCellValue('C1', JText::_("COM_THM_ORGANIZER_SCHEDULER_MODULE_NUMBER"))
+            ->setCellValue('D1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TYPE"))
+            ->setCellValue('E1', JText::_("COM_THM_ORGANIZER_SCHEDULER_WEEKDAY"))
+            ->setCellValue('F1', JText::_("COM_THM_ORGANIZER_SCHEDULER_BLOCK"))
+            ->setCellValue('G1', JText::_("COM_THM_ORGANIZER_SCHEDULER_ROOM"))
+            ->setCellValue('H1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TEACHER"));
 
 		$this->objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
 		$this->objPHPExcel->getActiveSheet()->getStyle('B1')->getFont()->setBold(true);
@@ -253,13 +253,13 @@ class ICSBauer extends abstrakterBauer
 	private function daynumtoday( $daynum )
 	{
 		$days = array(
-			 1 => "Montag",
-			2 => "Dienstag",
-			3 => "Mittwoch",
-			4 => "Donnerstag",
-			5 => "Freitag",
-			6 => "Samstag",
-			0 => "Sonntag"
+			 1 => JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_MONDAY"),
+			2 => JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_TUESDAY"),
+			3 => JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_WEDNESDAY"),
+			4 => JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_THURSDAY"),
+			5 => JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_FRIDAY"),
+			6 => JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_SATURDAY"),
+			0 => JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_SUNDAY")
 		);
 		return $days[ $daynum ];
 	}

@@ -101,7 +101,7 @@ class PDFBauer extends abstrakterBauer
 				$title = 'stundenplan';
 			}
 
-			if ( $title == "Mein Stundenplan" && $username != "" ) {
+			if ( $title == JText::_("COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE") && $username != "" ) {
 				$title = $username . " - " . $title;
 			}
 
@@ -217,12 +217,12 @@ class PDFBauer extends abstrakterBauer
 			// Breite und Text des Headers setzten
 			$header_type[ 0 ][ 'WIDTH' ] = 20;
 			$header_type[ 1 ][ 'WIDTH' ] = $header_type[ 2 ][ 'WIDTH' ] = $header_type[ 3 ][ 'WIDTH' ] = $header_type[ 4 ][ 'WIDTH' ] = $header_type[ 5 ][ 'WIDTH' ] = 50;
-			$header_type[ 0 ][ 'TEXT' ]  = "Zeit";
-			$header_type[ 1 ][ 'TEXT' ]  = "Montag";
-			$header_type[ 2 ][ 'TEXT' ]  = "Dienstag";
-			$header_type[ 3 ][ 'TEXT' ]  = "Mittwoch";
-			$header_type[ 4 ][ 'TEXT' ]  = "Donnerstag";
-			$header_type[ 5 ][ 'TEXT' ]  = "Freitag";
+			$header_type[ 0 ][ 'TEXT' ]  = JText::_("COM_THM_ORGANIZER_SCHEDULER_TIME");
+			$header_type[ 1 ][ 'TEXT' ]  = JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_MONDAY");
+			$header_type[ 2 ][ 'TEXT' ]  = JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_TUESDAY");
+			$header_type[ 3 ][ 'TEXT' ]  = JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_WEDNESDAY");
+			$header_type[ 4 ][ 'TEXT' ]  = JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_THURSDAY");
+			$header_type[ 5 ][ 'TEXT' ]  = JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_FRIDAY");
 			$pdf->Set_Header_Type( $header_type );
 			$pdf->Draw_Header();
 
@@ -274,7 +274,7 @@ class PDFBauer extends abstrakterBauer
 						if ( $counter == 4 ) {
 							if(is_int($k))
 							{
-								$data[ $k ][ 'TEXT' ]    = 'Mittagspause';
+								$data[ $k ][ 'TEXT' ]    = JText::_("COM_THM_ORGANIZER_SCHEDULER_LUNCHTIME");
 								$data[ $k ][ 'COLSPAN' ] = 7;
 							}
 						} else {
@@ -311,7 +311,7 @@ class PDFBauer extends abstrakterBauer
 			if ( count( $sporadic ) > 0 ) {
 				$pdf->Ln( 10 );
 				$pdf->SetFont( 'Arial', 'B', 12 );
-				$pdf->Cell( 70, 6, 'unregelm&auml;&szlig;ge Veranstaltungen:', 'B', 2 );
+				$pdf->Cell( 70, 6, JText::_("COM_THM_ORGANIZER_SCHEDULER_SPORADIC_LESSONS").':', 'B', 2 );
 				$pdf->SetFont( 'Arial', '', 10 );
 				$pdf->Ln( 3 );
 				foreach ( $sporadic as $l )
@@ -323,11 +323,11 @@ class PDFBauer extends abstrakterBauer
 
 			if(is_file($pdfLink))
 			{
-				return array("success"=>true, "data"=>"File created!");
+				return array("success"=>true, "data"=>JText::_("COM_THM_ORGANIZER_SCHEDULER_FILE_CREATED"));
 			}
 			else
 			{
-				return array("success"=>false, "data"=>"No file was created!");
+				return array("success"=>false, "data"=>JText::_("COM_THM_ORGANIZER_SCHEDULER_NO_FILE_CREATED"));
 			}
 		}
 	}

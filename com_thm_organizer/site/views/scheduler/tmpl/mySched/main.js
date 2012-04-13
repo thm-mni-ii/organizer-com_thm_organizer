@@ -347,7 +347,7 @@ MySched.Base = function () {
         MySched.session["begin"] = jsonData[1];
         MySched.session["end"] = jsonData[2];
         MySched.session["creationdate"] = jsonData[3];
-        Ext.ComponentMgr.get('leftMenu').setTitle("Stand vom " +  MySched.session["creationdate"]);
+        Ext.ComponentMgr.get('leftMenu').setTitle(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AS_OF + " " +  MySched.session["creationdate"]);
         // Managed die Sichtbarkeit der Add/Del Buttons in der Toolbar
         MySched.SelectionManager.on('select', function (el) {
           if (MySched.Schedule.lectureExists(el.id)) {

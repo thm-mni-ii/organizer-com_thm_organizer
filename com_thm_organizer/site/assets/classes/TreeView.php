@@ -364,7 +364,7 @@ class TreeView
     $viewNode = array();
     $temp = $this->createTreeNode(
           $key.".doz",							// id - autom. generated
-          "Dozent",						// text	for the node
+          JText::_("COM_THM_ORGANIZER_SCHEDULER_TEACHERS"),						// text	for the node
           'view' . '-root',				// iconCls
           false,							// leaf
           false,							// draggable
@@ -387,7 +387,7 @@ class TreeView
 
     $temp = $this->createTreeNode(
           $key.".room",							// id - autom. generated
-          "Raum",							// text	for the node
+          JText::_("COM_THM_ORGANIZER_SCHEDULER_ROOMS"),							// text	for the node
           'view' . '-root',				// iconCls
           false,							// leaf
           false,							// draggable
@@ -411,7 +411,7 @@ class TreeView
 
     $temp = $this->createTreeNode(
           $key.".clas",							// id - autom. generated
-          "Semester",						// text	for the node
+          JText::_("COM_THM_ORGANIZER_SCHEDULER_SEMESTER"),						// text	for the node
           'view' . '-root',				// iconCls
           false,							// leaf
           false,							// draggable
@@ -435,7 +435,7 @@ class TreeView
 
     $temp = $this->createTreeNode(
           $key.".subject",							// id - autom. generated
-          "Fächer",						// text	for the node
+          JText::_("COM_THM_ORGANIZER_SCHEDULER_SUBJECTS"),						// text	for the node
           'view' . '-root',				// iconCls
           false,							// leaf
           false,							// draggable
@@ -459,7 +459,7 @@ class TreeView
 
     $temp = $this->createTreeNode(
           $key.".delta",					// id - autom. generated
-          "Änderungen (zentral)",			// text	for the node
+          JText::_("COM_THM_ORGANIZER_SCHEDULER_DELTA_CENTRAL"),			// text	for the node
           'delta' . '-node',				// iconCls
           true,							// leaf
           false,							// draggable
@@ -479,7 +479,7 @@ class TreeView
 
     $temp = $this->createTreeNode(
           $key.".respChanges",					// id - autom. generated
-          "Änderungen (eigene)",			// text	for the node
+          JText::_("COM_THM_ORGANIZER_SCHEDULER_DELTA_OWN"),			// text	for the node
           'respChanges' . '-node',		// iconCls
           true,							// leaf
           false,							// draggable
@@ -506,7 +506,7 @@ class TreeView
 
     $temp = $this->createTreeNode(
           $key.".doz",					// id - autom. generated
-          "Dozent",						// text	for the node
+          JText::_("COM_THM_ORGANIZER_SCHEDULER_TEACHERS"),						// text	for the node
           'view' . '-root',				// iconCls
           false,							// leaf
           false,							// draggable
@@ -530,7 +530,7 @@ class TreeView
 
     $temp = $this->createTreeNode(
           $key.".clas",					// id - autom. generated
-          "Semester",						// text	for the node
+          JText::_("COM_THM_ORGANIZER_SCHEDULER_SEMESTER"),						// text	for the node
           'view' . '-root',				// iconCls
           false,							// leaf
           false,							// draggable
