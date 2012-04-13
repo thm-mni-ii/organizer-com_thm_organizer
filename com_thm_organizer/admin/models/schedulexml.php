@@ -156,6 +156,7 @@ class thm_organizersModelschedulexml extends thm_organizersModelschedule
     public function activate(&$schedule, &$return)
     {
         $dbo = JFactory::getDBO();
+        $file = $schedule->file;
         $newScheduleName = $schedule->filename;
         $semesterID = $schedule->sid;
 
@@ -209,6 +210,7 @@ class thm_organizersModelschedulexml extends thm_organizersModelschedule
      */
     protected function processNewData(&$row)
     {
+        $dbo = $this->getDbo();
         $semesterID = $row->sid;
         $schedule = simplexml_load_string(stripslashes($row->file));
 
@@ -281,6 +283,7 @@ class thm_organizersModelschedulexml extends thm_organizersModelschedule
         $query->where("plantypeID = '1'");
         $query->where("semesterID = '$semesterID'");
         $dbo->setQuery((string)$query);
+        $lessonIDs = "( '".implode("', '", $dbo->loadResultArray(0))."' )";
         $results = $dbo->loadAssocList();
 
         $lessons = array();
@@ -383,10 +386,10 @@ class thm_organizersModelschedulexml extends thm_organizersModelschedule
                         $delta[$gpuntisKey]['changes']['classIDs'] = array();
                         if(count($newClasses))
                             foreach($newClasses as $newClass)
-                                $delta[$gpuntisKey]['changes']['teacherIDs'][$newClass]= "new";
+                                $delta[$gpuntisKey]['changes']['classIDs'][$newClass]= "new";
                         if(count($oldClasses))
                             foreach($oldClasses as $oldClass)
-                                $delta[$gpuntisKey]['changes']['teacherIDs'][$oldClass]= "removed";
+                                $delta[$gpuntisKey]['changes']['classIDs'][$oldClass]= "removed";
                     }
                 }
                 //if the number of periods has remained the same than any new keys are moves
