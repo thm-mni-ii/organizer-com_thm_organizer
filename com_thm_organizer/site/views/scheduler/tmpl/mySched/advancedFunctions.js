@@ -14,19 +14,16 @@ MySched.layout.getMainToolbar = function () {
 	return newMainToolbar;
 };
 
-var addEvent = Ext.create('Ext.Button',{
-	text: "Termin hinzuf&uuml;gen",
+var addEvent = {
+	text: "Termin anlegen",
 	icon: MySched.mainPath + "images/calendar_add.png",
 	handler: function () {
 		addNewEvent(null, MySched.BlockMenu.day, MySched.BlockMenu.stime, MySched.BlockMenu.etime);
-	}
-});
+	},
+    xtype: "button"
+}
 
 MySched.BlockMenu.Menu[MySched.BlockMenu.Menu.length] = addEvent;
-
-var processResult = function (a, b, c, d, e) {
-	alert(a);
-};
 
 window.onbeforeunload = function () {
 	if(typeof MySched.layout.tabpanel === "undefined")

@@ -308,32 +308,19 @@ MySched.lectureCellRenderer = function (data, meta, record, rowIndex, colIndex, 
 	//if (colIndex == 0 && rowIndex == 3) return '<div class="scheduleBox MySched_pause">' + data + '</div>';
 	if (colIndex == 0) return '<div class="scheduleBox timeBox">' + data + '</div>';
 
-	if (this.id != 'mySchedule' && this.mSchedule.type != 'delta') {
-		var blockStatus = MySched.Schedule.getBlockStatus(colIndex, rowIndex);
-		if (blockStatus == 1) {
-			meta.tdCls += cl('blockBusy');
-			meta.tdCls += cl('conMenu');
-		} else if (blockStatus > 1) {
-			meta.tdCls += cl('blockOccupied');
-			meta.tdCls += cl('conMenu');
-		}
-		else {
-			meta.tdCls += cl('blockFree');
-			meta.tdCls += cl('conMenu');
-		}
+	var blockStatus = MySched.Schedule.getBlockStatus(colIndex, rowIndex);
+	if (blockStatus == 1) {
+		meta.tdCls += cl('blockBusy');
+		meta.tdCls += cl('conMenu');
+	} else if (blockStatus > 1) {
+		meta.tdCls += cl('blockOccupied');
+		meta.tdCls += cl('conMenu');
 	}
 	else {
-		if(isset(data[0]))
-		{
-			if (data[0] == "<i style='padding-left:40px;'>Mittagspause</i>" || data[0] == "<i></i>")
-				meta.tdCls += cl('MySched_pause');
-		}
-		else {
-			if (this.id == 'mySchedule') {
-				meta.tdCls += cl('conMenu');
-			}
-		}
+		meta.tdCls += cl('blockFree');
+		meta.tdCls += cl('conMenu');
 	}
+	
 	if (Ext.isEmpty(data)) return '';
 	return data.join("\n");
 }

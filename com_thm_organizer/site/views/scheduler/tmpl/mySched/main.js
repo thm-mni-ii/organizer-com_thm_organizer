@@ -1371,15 +1371,16 @@ function showLessonMenu(e) {
 
   var rMenu = Ext.getCmp('responsibleMenu');
   var oMenu = Ext.getCmp('ownerMenu');
-  if (rMenu) rMenu.destroy();
-  if (oMenu) oMenu.destroy();
+  if (Ext.isDefined(rMenu)) rMenu.destroy();
+  if (Ext.isDefined(oMenu)) oMenu.destroy();
 
   var editLesson = {
     text: "&Auml;ndern",
     icon: MySched.mainPath + "images/icon-edit.png",
     handler: function () {
       MySched.SelectionManager.editLesson();
-    }
+    },
+    xtype: "button"
   }
 
   var deleteLesson = {
@@ -1387,7 +1388,8 @@ function showLessonMenu(e) {
     icon: MySched.mainPath + "images/icon-delete.png",
     handler: function () {
       MySched.SelectionManager.deleteLesson();
-    }
+    },
+    xtype: "button"
   }
 
   var addLesson = {
@@ -1396,7 +1398,8 @@ function showLessonMenu(e) {
     handler: function () {
       MySched.SelectionManager.selectEl = el;
       MySched.SelectionManager.lecture2ScheduleHandler();
-    }
+    },
+    xtype: "button"
   }
 
   var delLesson = {
@@ -1405,7 +1408,8 @@ function showLessonMenu(e) {
     handler: function () {
       MySched.SelectionManager.selectEl = el;
       MySched.SelectionManager.lecture2ScheduleHandler();
-    }
+    },
+    xtype: "button"
   }
 
   var estudyLesson = {
@@ -1413,7 +1417,8 @@ function showLessonMenu(e) {
     icon: MySched.mainPath + "images/estudy_logo.jpg",
     handler: function () {
       MySched.SelectionManager.showModuleInformation();
-    }
+    },
+    xtype: "button"
   }
 
   var infoLesson = {
@@ -1421,7 +1426,8 @@ function showLessonMenu(e) {
     icon: MySched.mainPath + "images/information.png",
     handler: function () {
       MySched.SelectionManager.showModuleInformation();
-    }
+    },
+    xtype: "button"
   }
 
   var menuItems = [];
@@ -1454,25 +1460,24 @@ function showLessonMenu(e) {
 }
 
 function showBlockMenu(e) {
-  e.stopEvent();
+	e.stopEvent();
 
-   //var rMenu = Ext.getCmp('responsibleMenu');
-   var oMenu = Ext.getCmp('ownerMenu');
-   if (typeof rMenu != "undefined") rMenu.destroy();
-   if (typeof oMenu != "undefined") oMenu.destroy();
+	var rMenu = Ext.getCmp('responsibleMenu');
+	var oMenu = Ext.getCmp('ownerMenu');
+	if (Ext.isDefined(rMenu)) rMenu.destroy();
+	if (Ext.isDefined(oMenu)) oMenu.destroy();
 
-   var el = e.getTarget('.conMenu', 5, true);
-   MySched.BlockMenu.stime = el.getAttribute("stime");
-   MySched.BlockMenu.etime = el.getAttribute("etime");
-   MySched.BlockMenu.day = numbertoday(el.dom.cellIndex);
+	var el = e.getTarget('.conMenu', 5, true);
+	MySched.BlockMenu.stime = el.getAttribute("stime");
+	MySched.BlockMenu.etime = el.getAttribute("etime");
+	MySched.BlockMenu.day = numbertoday(el.dom.cellIndex);
 
-   var menu = Ext.create('Ext.menu.Menu', {
-     id: 'responsibleMenu',
-     items: MySched.BlockMenu.Menu
-   });
+	var menu = Ext.create('Ext.menu.Menu', {
+		id: 'responsibleMenu',
+		items: MySched.BlockMenu.Menu
+	});
 
-   if (MySched.BlockMenu.Menu.length > 0) menu.showAt(e.getXY());
-
+	if (MySched.BlockMenu.Menu.length > 0) menu.showAt(e.getXY());
 }
 
 /**
