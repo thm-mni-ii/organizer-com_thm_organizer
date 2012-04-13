@@ -295,6 +295,7 @@ Ext.define('mSchedule', {
         weekpointer = Ext.Date.clone(clickeddate.value);
 
         weekpointer = getMonday(weekpointer);
+        weekpointer.clearTime(); 
 
         for (var counter = 0; counter < 5; counter++) {
           var startdate = v.data.startdate.split(".");
@@ -362,14 +363,15 @@ Ext.define('mSchedule', {
 
                 var lessonResult = this.data.filterBy(function (o, k) {
                   if (o.data.type == "cyclic" || o.data.type == "personal")
-                    for(var eventObjects in v.data.objects)
+                    for(var eOIndex = 0; eOIndex < v.data.objects.length; eOIndex++)
                     {
-                      if(this.gpUntisID === eventObjects)
-                        return true;
-                      if (o.doz.containsKey(eventObjects) || o.room.containsKey(eventObjects))
-                        if(o.data.block == (bl+1) && numbertoday(o.data.dow) == wd)
-                          if(startdate >= begin && enddate <= end)
-                            return true;
+                    	eventObjects = v.data.objects[eOIndex];
+                    	if(this.gpUntisID === eventObjects.id)
+                    		return true;
+                    	if (o.doz.containsKey(eventObjects.id) || o.room.containsKey(eventObjects.id))
+                    		if(o.data.block == (bl+1) && numbertoday(o.data.dow) == wd)
+                    			if(startdate >= begin && enddate <= end)
+                    				return true;
                     }
                   return false;
                 }, this);
@@ -378,12 +380,13 @@ Ext.define('mSchedule', {
                 {
                   lessonResult = lessonResult.filterBy(function (o, k) {
                   if (o.data.type == "cyclic" || o.data.type == "personal")
-                    for(var eventObjects in v.data.objects)
-                    {
-                      if (o.doz.containsKey(eventObjects) || o.room.containsKey(eventObjects))
-                        if(o.data.block == (bl+1) && numbertoday(o.data.dow) == wd)
-                          if(startdate >= begin && enddate <= end)
-                            return true;
+                	  for(var eOIndex = 0; eOIndex < v.data.objects.length; eOIndex++)
+                      {
+                      	eventObjects = v.data.objects[eOIndex];
+                      	if (o.doz.containsKey(eventObjects.id) || o.room.containsKey(eventObjects.id))
+                      		if(o.data.block == (bl+1) && numbertoday(o.data.dow) == wd)
+                      			if(startdate >= begin && enddate <= end)
+                      				return true;
                     }
                   return false;
                   }, this);
@@ -1519,27 +1522,29 @@ Ext.define('mEvent', {
   getDozName: function () {
     var dozS = "";
 
-    for (var item in this.data.objects) {
-      if (item.substring(0, 3) == "TR_") {
-        if (dozS != "") {
-          dozS += ", "
-        }
-        dozS += MySched.Mapping.getName("doz", item);
-      }
-    }
+    this.data.objects.each(function(o, k) {
+    	if(o.type === "teacher") {
+    		if (dozS != "") {
+        		dozS += ", "
+        	}
+          	dozS += o.name;
+    	}
+    });
+
     return dozS;
   },
   getRoomName: function () {
     var roomS = "";
 
-    for (var item in this.data.objects) {
-      if (item.substring(0, 3) == "RM_") {
-        if (roomS != "") {
-          roomS += ", "
-        }
-        roomS += MySched.Mapping.getName("room", item);
-      }
-    }
+    this.data.objects.each(function(o, k) {
+    	if(o.type === "room") {
+    		if (roomS != "") {
+    			roomS += ", "
+        	}
+    		roomS += o.name;
+    	}
+    });
+    
     return roomS;
   },
   getData: function (addData) {
@@ -1586,34 +1591,11 @@ Ext.define('mEvent', {
   getEventInfoView: function () {
     var infoTemplateString = "<div id='MySchedEventInfo_" + this.id + "' class='MySchedEventInfo'>" + "<span class='MySchedEvent_desc'>Beschreibung: " + this.data.edescription + "</span><br/>" + "<span class='MySchedEvent_sdate'>Datum: " + this.data.startdate + " - " + this.data.enddate + "</span><br/>" + "<span class='MySchedEvent_stime'>Zeit: " + this.data.starttime + " - " + this.data.endtime + "</span><br/>";
     var resString = "";
-    var dozS = "",
-      roomS = "",
-      clasS = "";
+    var dozS = "";
+    var roomS = "";
 
-    for (var item in this.data.objects) {
-      if (item.substring(0, 3) == "TR_") {
-        if (dozS != "") {
-          dozS += ", "
-        }
-        dozS += MySched.Mapping.getName("doz", item);
-      }
-      else if (item.substring(0, 3) == "RM_") {
-        if (roomS != "") {
-          roomS += ", "
-        }
-        roomS += MySched.Mapping.getName("room", item);
-      }
-      else if (item.substring(0, 3) == "CL_") {
-        if (clasS != "") {
-          clasS += ",<br/>"
-        }
-        var clasObj = MySched.Mapping.getObject("clas", item);
-        if (typeof clasObj == "undefined") {
-          clasS += item;
-        }
-        else clasS += clasObj.department + " - " + clasObj.name;
-      }
-    }
+    dozS = this.getDozName();
+    roomS = this.getRoomName();
 
     if(dozS.length > 0)
     {
@@ -1630,13 +1612,7 @@ Ext.define('mEvent', {
 
       infoTemplateString += "<span class='MySchedEvent_room'>" + roomS + "</span><br/>";
     }
-
-    if(clasS.length > 0)
-    {
-      clasS = "Semester:<br/>" + clasS;
-
-      infoTemplateString += "<span class='MySchedEvent_clas'>" + clasS + "</span><br/></div>";
-    }
+    
     return infoTemplateString;
   }
 });
