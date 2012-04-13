@@ -323,6 +323,12 @@ small.olddoz {
 	font-size: 10.5px;
 }
 
+small.oldclass {
+	color: #aaaaaa;
+	text-decoration: line-through;
+	font-size: 10.5px;
+}
+
 small.dozname:hover {
 	text-decoration:underline;
 	cursor: pointer;
