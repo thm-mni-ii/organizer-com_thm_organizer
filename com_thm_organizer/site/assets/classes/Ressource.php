@@ -35,14 +35,15 @@ class Ressource
 			if ( stripos( $this->gpuntisID, "VS_" ) === 0 ) {
 				$elements                 = $this->getElements( $this->nodeKey, $this->semID, $this->type );
 				$retlessons[ "elements" ] = "";
-
+				
 				foreach ( $elements as $k => $v ) {
 					$lessons = array_merge( $lessons, $this->getResourcePlan( $v->gpuntisID, $this->semID, $this->type ) );
-
+					$elementIDs = $this->idToGpuntisID($v->gpuntisID, $this->type);
+					$elementID = $elementIDs[0]->id;
 					if ( $retlessons[ "elements" ] == "" )
-						$retlessons[ "elements" ] .= $v->gpuntisID;
+						$retlessons[ "elements" ] .= $elementID;
 					else
-						$retlessons[ "elements" ] .= ";" . $v->gpuntisID;
+						$retlessons[ "elements" ] .= ";" . $elementID;
 				}
 			} else {
 				$lessons = $this->getResourcePlan( $this->nodeKey, $this->semID, $this->type );
@@ -143,6 +144,20 @@ class Ressource
 		$ret   = $this->JDA->query( $query );
 		return $ret;
 	}
+	
+	private function idToGpuntisID($gpuntisID, $type)
+	{
+		$query = "SELECT id ";
+		if($type == "room")
+			$query .= "FROM #__thm_organizer_rooms ";
+		else if($type == "clas")
+			$query .= "FROM #__thm_organizer_classes ";
+		else if($type == "doz")
+			$query .= "FROM #__thm_organizer_teachers ";
+		$query .= "WHERE gpuntisID = '" . $gpuntisID . "'";
+		$ret   = $this->JDA->query( $query );
+		return $ret;
+	}
 
 	private function getResourcePlan( $ressourcename, $fachsemester, $type )
 	{
@@ -188,13 +203,13 @@ class Ressource
      	  	"AND #__thm_organizer_lessons.plantypeID = ".$this->plantypeID." ".
           	"AND ";
 	    if($type === "clas")
-	    	$query .= "( #__thm_organizer_classes.id like '".$ressourcename."')";
+	    	$query .= "( #__thm_organizer_classes.id like '".$ressourcename."') OR ( #__thm_organizer_classes.gpuntisID like '".$ressourcename."')";
 	    else if($type === "room")
-	    	$query .= "( #__thm_organizer_rooms.id like '".$ressourcename."')";
+	    	$query .= "( #__thm_organizer_rooms.id like '".$ressourcename."') OR ( #__thm_organizer_rooms.gpuntisID like '".$ressourcename."')";
 	    else if($type === "doz")
-	    	$query .= "( #__thm_organizer_teachers.id like '".$ressourcename."')";
+	    	$query .= "( #__thm_organizer_teachers.id like '".$ressourcename."') OR ( #__thm_organizer_teachers.gpuntisID like '".$ressourcename."')";
 	    else if($type === "subject")
-	    	$query .= "( #__thm_organizer_subjects.id like '".$ressourcename."')";
+	    	$query .= "( #__thm_organizer_subjects.id like '".$ressourcename."') OR ( #__thm_organizer_subjects.gpuntisID like '".$ressourcename."')";
 
 		$hits  = $this->JDA->query( $query );
 		return $hits;
