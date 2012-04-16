@@ -13,19 +13,3 @@ ADD`content_meta` TEXT DEFAULT NULL COMMENT'a json string containing optional fi
 CHANGE `roomID` `roomID` INT(11) UNSIGNED NOT NULL COMMENT 'references id of rooms table',
 ADD INDEX (`display`);
 
-TRUNCATE TABLE #__thm_organizer_virtual_schedules;
-TRUNCATE TABLE #__thm_organizer_virtual_schedules_elements;
-
-ALTER TABLE #__thm_organizer_virtual_schedules CHANGE vid id int(11) NOT NULL;
-ALTER TABLE #__thm_organizer_virtual_schedules ADD PRIMARY KEY (id);
-ALTER TABLE #__thm_organizer_virtual_schedules AUTO_INCREMENT=1;
-ALTER TABLE #__thm_organizer_virtual_schedules CHANGE vname name varchar(50);
-ALTER TABLE #__thm_organizer_virtual_schedules CHANGE vtype type varchar(50);
-ALTER TABLE #__thm_organizer_virtual_schedules CHANGE vresponsible responsible varchar(50);
-ALTER TABLE #__thm_organizer_virtual_schedules DROP unittype;
-ALTER TABLE #__thm_organizer_virtual_schedules CHANGE department departmentID int(11);
-ALTER TABLE #__thm_organizer_virtual_schedules CHANGE sid semesterID int(11);
-
-ALTER TABLE #__thm_organizer_virtual_schedules_elements CHANGE vid virtualID int(11);
-ALTER TABLE #__thm_organizer_virtual_schedules_elements CHANGE eid elementID int(11);
-ALTER TABLE #__thm_organizer_virtual_schedules_elements CHANGE sid semesterID int(11);
