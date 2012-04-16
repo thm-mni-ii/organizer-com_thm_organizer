@@ -46,7 +46,7 @@ div.MySchedexternURLClass_DIS {
 div.lectureBox {
  	font-size: 11px !important;
    	cursor: move;
-    	z-index: 1000;
+    z-index: 1000;
 	padding: 2px;
  	margin: 2px;
 	background: #EEE;
@@ -55,6 +55,7 @@ div.lectureBox {
 	text-align: center !important;
 	text-shadow: 0px 1px 1px white;
 	overflow: hidden;
+	white-space: normal;
 }
 
 div.lectureBox_dis {
@@ -70,6 +71,7 @@ div.lectureBox_dis {
 	overflow: hidden;
 	text-decoration: line-through;
 	color: #AAA;
+	white-space: normal;
 }
 
 div.lectureBox {

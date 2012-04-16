@@ -1277,25 +1277,12 @@ Ext.define('mLecture', {
       var width = MySched.selectedSchedule.grid.getWidth();
     }
     if (t == "room") {
-      var dozroomstring = stripHTML((this.getDozNames(this.getDoz()) + this.getClasShorter(this.getClas())));
-      if (dozroomstring.length * 5.5 < width) {
         this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="{css} scheduleBox lectureBox">' + '<b class="lecturename">{desc}{category} {comment}</b><br/>{doz_name} / {clas_short} ' + time + ' {status_icons}</div>');
-      }
-      else {
-        this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="{css} scheduleBox lectureBox">' + '<b class="lecturename">{desc}{category} {comment}</b><br/>{doz_name}<br/>{clas_short} ' + time + ' {status_icons}</div>');
-      }
     }
     else if (t == "doz") {
-      var dozroomstring = stripHTML((this.getClasShorter(this.getClas()) + this.getRoomShort(this.getRoom())));
-      if (dozroomstring.length * 5.5 < width) {
         this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="{css} scheduleBox lectureBox">' + '<b class="lecturename">{desc}{category} {comment}</b><br/>{clas_short} / {room_shortname} ' + time + ' {status_icons}</div>');
-      }
-      else {
-        this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="{css} scheduleBox lectureBox">' + '<b class="lecturename">{desc}{category} {comment}</b><br/>{clas_short}<br/>{room_shortname} ' + time + ' {status_icons}</div>');
-      }
     }
     else {
-      	var dozroomstring = stripHTML((this.getDozNames(this.getDoz()) + this.getRoomShort(this.getRoom())));
       	var classcss = "scheduleBox";
       	var lecturecss = "";
 
@@ -1321,13 +1308,7 @@ Ext.define('mLecture', {
 	        lecturecss = "lecturename";
 	    }
 
-
-      if (dozroomstring.length * 5.5 < width) {
         this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="{css} ' + classcss + '">' + '{top_icon}<b class="' + lecturecss + '">{desc}{category} {comment}</b><br/>{doz_name} / {room_shortname} ' + time + ' {status_icons}</div>');
-      }
-      else {
-        this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" class="{css} ' + classcss + '">' + '{top_icon}<b class="' + lecturecss + '">{desc}{category} {comment}</b><br/>{doz_name}<br/>{room_shortname} ' + time + ' {status_icons}</div>');
-      }
     }
   },
   setInfoTemplate: function (t) {
