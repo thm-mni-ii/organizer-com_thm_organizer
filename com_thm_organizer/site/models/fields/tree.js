@@ -248,17 +248,16 @@ Ext.tree.Panel.prototype.getPublicDefault = function(node, checkedArr){
 };
 
 Ext.tree.Panel.prototype.doGray = function(node){
+	var elImg = null;
+	var elInput = null;
+	
 	if( typeof node == 'undefined' ) {
 		node = this.getRootNode();
 	}
 	var id = node.data.id+"_fake";
-	var nodes = Ext.query("[id="+id+"]", tree.dom);
-	var elImg = null;
-	var elInput = null;
-	if(!Ext.isEmpty(nodes))
-	{
-		elImg = nodes[0];
-		
+	elImg = Ext.DomQuery.selectNode("[id="+id+"]", tree.dom);
+	if(Ext.isDefined(elImg))
+	{		
 		elImg.setOpacity(1);
 		elImg.setStyle('border', 'none');
 	}
@@ -272,14 +271,12 @@ Ext.tree.Panel.prototype.doGray = function(node){
 	
 	if(gray === true)
 	{
-		var id = node.data.id+"_fake";
-		var nodes = Ext.query("[id="+id+"]", tree.dom);
 		var elImg = null;
 		var elInput = null;
-		if(!Ext.isEmpty(nodes))
-		{
-			elImg = nodes[0];
-			
+		var id = node.data.id+"_fake";
+		elImg = Ext.DomQuery.selectNode("[id="+id+"]", tree.dom);
+		if(Ext.isDefined(elImg))
+		{			
 			elImg.setOpacity(0.4);
 			elImg.setStyle('border', '1px solid gray');
 		}
