@@ -22,7 +22,7 @@ Ext.override(Ext.tree.Column, {
 			if(record.data.checked)
 			{
 	           	checkboxText += '<input id="'+record.data.id+'" type="hidden" value="'+record.data.checked+'" role="checkbox" class="{0}" {1} />';
-	           	checkboxText += '<img id="'+record.data.id+'_fake" class="MySched_checkbox_fake" src="'+images[record.data.checked]+'">';
+	           	checkboxText += '<img id="'+record.data.id+'_fake" class="MySched_checkbox_fake" src="'+images[record.data.checked]+'">';	           	
 	        }
 
             var formattedValue = origRenderer.apply(origScope, arguments),
@@ -79,6 +79,7 @@ Ext.override(Ext.tree.Column, {
             if (cls) {
                 metaData.tdCls += ' ' + cls;
             }
+        	
             return buf.join("") + formattedValue;
         };
 
@@ -246,6 +247,50 @@ Ext.tree.Panel.prototype.getPublicDefault = function(node, checkedArr){
 	return checked;
 };
 
+Ext.tree.Panel.prototype.doGray = function(node){
+	if( typeof node == 'undefined' ) {
+		node = this.getRootNode();
+	}
+	var id = node.data.id+"_fake";
+	var nodes = Ext.query("[id="+id+"]", tree.dom);
+	var elImg = null;
+	var elInput = null;
+	if(!Ext.isEmpty(nodes))
+	{
+		elImg = nodes[0];
+		
+		elImg.setOpacity(1);
+		elImg.setStyle('border', 'none');
+	}
+	var gray = false;
+	if(node.hasChildNodes() === true)
+		node.childNodes.each(function(v, k) {
+			var state = tree.doGray(v);
+			if(state === true)
+				gray = state;
+		});
+	
+	if(gray === true)
+	{
+		var id = node.data.id+"_fake";
+		var nodes = Ext.query("[id="+id+"]", tree.dom);
+		var elImg = null;
+		var elInput = null;
+		if(!Ext.isEmpty(nodes))
+		{
+			elImg = nodes[0];
+			
+			elImg.setOpacity(0.4);
+			elImg.setStyle('border', '1px solid gray');
+		}
+	}
+	
+	if(node.data.checked === "checked" || node.data.checked === "selected" || node.data.checked === "intermediate")
+		gray = true;
+	
+	return gray;
+};
+
 var tree = null;
 
 Ext.onReady(function(){
@@ -289,6 +334,7 @@ Ext.onReady(function(){
 			        	{
 			          		e.stopEvent();
 			          		setStatus(e);
+			          		tree.doGray();
 			        	}
 			      	}
 			    });
@@ -313,6 +359,8 @@ Ext.onReady(function(){
 			    });
             },
             afterrender: function() {
+            	tree.doGray();
+            	
             	var publicDefault = tree.getPublicDefault();
 			    for(var item in publicDefault)
 			    {
@@ -335,12 +383,20 @@ Ext.onReady(function(){
 
 				nodePath = "/"+tree.root.id+"/"+nodePath.join("/");
     			tree.expandPath(nodePath);
-            }
+            }            
 		}
 	});
 
 	// render the tree
     tree.render('tree-div');
+    
+    var treeView = tree.getView();
+    treeView.on('itemadd', function() {
+    	tree.doGray();
+    });
+    treeView.on('itemremove', function() {
+    	tree.doGray();
+    });
 
     Ext.select('.MySched_checkbox_fake').on({
 		'mouseover': function (e) {
