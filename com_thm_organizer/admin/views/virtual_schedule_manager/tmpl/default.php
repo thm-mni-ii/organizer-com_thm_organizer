@@ -55,13 +55,13 @@ defined('_JEXEC') or die;?>
 	for ($i=0, $n=count($this->items); $i < $n; $i++){
 		$row = &$this->items[$i];
 		$checked  = JHTML::_('grid.id',   $i, $row->id );
-		$link = JRoute::_('index.php?option=com_thm_organizer&controller=virtual_schedule_manager&task=edit&cid[]='.$row->id);
+		$link = JRoute::_('index.php?option=com_thm_organizer&controller=virtual_schedule_manager&task=virtual_schedule_manager.edit&cid[]='.base64_encode($row->id));
 		?>
 	<tr class="<?php echo "row".$k; ?>">
 		<td><?php echo $row->id; ?></td>
 		<td><?php echo $checked; ?></td>
 
-		<td><?php echo $row->name; ?></td>
+		<td><a href="<?php echo $link;?>"><?php echo $row->name; ?></a></td>
 		<td><?php echo $row->type; ?></td>
 		<td><?php echo $row->responsible;?></td>
 		<td><?php echo $row->department; ?></td>

@@ -21,9 +21,11 @@ class thm_organizersViewvirtual_schedule_edit extends JView
         $document = & JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
         
-        $cid = JRequest::getVar('cid', null, 'post','ARRAY');
-        $task = JRequest::getVar('task', null, 'post','STRING');
-        $cid = $cid[0];        
+        $cids = JRequest::getVar('cid', null, 'ARRAY');
+        $task = JRequest::getVar('task', null, 'STRING');
+        $cid = base64_decode($cids[0], true);
+        if($cid === false)
+        	$cid = $cids[0];
         
         $title = JText::_('COM_THM_ORGANIZER').': ';
         $title .= ($cid)? JText::_('JTOOLBAR_EDIT') : JText::_('JTOOLBAR_NEW');
@@ -88,17 +90,17 @@ class thm_organizersViewvirtual_schedule_edit extends JView
 
         if($cid == null || $task == "add")
         {
-            $vscheduler_name = JRequest::getVar('vscheduler_name', '', 'post','STRING');
-            $vscheduler_types = JRequest::getVar('vscheduler_types', null, 'post','STRING');
-            $vscheduler_semid = JRequest::getVar('vscheduler_semid', null, 'post','STRING');
-            $vscheduler_resps = JRequest::getVar('vscheduler_resps', null, 'post','STRING');
-            $vscheduler_classesDepartments = JRequest::getVar('vscheduler_classesDepartments', null, 'post','STRING');
-            $vscheduler_teacherDepartments = JRequest::getVar('vscheduler_teacherDepartments', null, 'post','STRING');
-            $vscheduler_roomDepartments = JRequest::getVar('vscheduler_roomDepartments', null, 'post','STRING');
+            $vscheduler_name = JRequest::getVar('vscheduler_name', '', 'STRING');
+            $vscheduler_types = JRequest::getVar('vscheduler_types', null, 'STRING');
+            $vscheduler_semid = JRequest::getVar('vscheduler_semid', null, 'STRING');
+            $vscheduler_resps = JRequest::getVar('vscheduler_resps', null, 'STRING');
+            $vscheduler_classesDepartments = JRequest::getVar('vscheduler_classesDepartments', null, 'STRING');
+            $vscheduler_teacherDepartments = JRequest::getVar('vscheduler_teacherDepartments', null, 'STRING');
+            $vscheduler_roomDepartments = JRequest::getVar('vscheduler_roomDepartments', null, 'STRING');
 
-            $vscheduler_classes = JRequest::getVar('vscheduler_classes', null, 'post','ARRAY');
-            $vscheduler_rooms = JRequest::getVar('vscheduler_rooms', null, 'post','ARRAY');
-            $vscheduler_teachers = JRequest::getVar('vscheduler_teachers', null, 'post','ARRAY');
+            $vscheduler_classes = JRequest::getVar('vscheduler_classes', null, 'ARRAY');
+            $vscheduler_rooms = JRequest::getVar('vscheduler_rooms', null, 'ARRAY');
+            $vscheduler_teachers = JRequest::getVar('vscheduler_teachers', null, 'ARRAY');
         }
         else
         {
