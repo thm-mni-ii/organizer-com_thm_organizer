@@ -61,14 +61,14 @@ MySched.Authorize = function () {
 							this.authentificatedToken = null;
 							if (json.errors.reason) {
 								MySched.CookieProvider.clear('authToken');
-								Ext.Msg.alert('Authentifizierungsfehler', "Ihr Token wurde zur&uuml;ckgewisen.<br/>Grund: " + json.errors.reason + "<br/>Bitte Authentifizieren Sie sich neu.", this.showAuthForm(), this);
+								Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AUTHORIZE_FAILED, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AUTHORIZE_FAILED_MSG1 + json.errors.reason + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AUTHORIZE_FAILED_MSG2, this.showAuthForm(), this);
 							}
 
 						}
 					}
 			        catch(e)
 			        {
-						Ext.Msg.alert('Authentifizierungsfehler', "Ihr Token wurde zur&uuml;ckgewisen.", this.showAuthForm(), this);
+						Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AUTHORIZE_FAILED, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AUTHORIZE_FAILED_MSG3, this.showAuthForm(), this);
 			        }
 				},
 				scope: scope || this

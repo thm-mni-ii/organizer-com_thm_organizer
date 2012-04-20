@@ -34,7 +34,7 @@ class Auth
 		// FEHLER
 		return array(
 			 'success' => false,
-			'errors' => array(
+			 'errors' => array(
 				 'reason' => 'Authentifizierung fehlgeschlagen. Username oder Passwort falsch.'
 			)
 		);

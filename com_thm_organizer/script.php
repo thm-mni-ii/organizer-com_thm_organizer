@@ -120,7 +120,6 @@ class com_thm_organizerInstallerScript
 		$db = JFactory::getDbo();
 		
 		// read files
-		sort($files);
 		foreach ($files as $file) {
 			$input = JFile::read($path.'/'.$file);
 			

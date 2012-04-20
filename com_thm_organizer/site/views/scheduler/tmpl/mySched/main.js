@@ -133,7 +133,7 @@ MySched.Base = function () {
 	        }
 	        catch(e)
 	        {
-	        	Ext.Msg.alert('Fehler beim Laden', response.responseText);
+	        	Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LOADING_ERROR, response.responseText);
 	        }
         }
       });
@@ -286,10 +286,10 @@ MySched.Base = function () {
     },
     myschedInit: function (ret) {
       // Initialisiert "Mein Stundenplan"
-      MySched.Schedule = new mSchedule('mySchedule', 'Mein Stundenplan');
+      MySched.Schedule = new mSchedule('mySchedule', MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE);
 
       // Initialisiert "Änderungen der Verantwortlichen"
-      MySched.responsibleChanges = new mSchedule("respChanges", "Änderungen (eigene)");
+      MySched.responsibleChanges = new mSchedule("respChanges", MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_OWN);
 
       // Lädt responsible Changes
       /*MySched.responsibleChanges.load(_C('ajaxHandler'), 'json', MySched.responsibleChanges.loadsavedLectures, function (params) {
@@ -323,7 +323,7 @@ MySched.Base = function () {
         },
         failure: function (resp, req) {
           Ext.MessageBox.hide();
-          Ext.Msg.alert("Stundenplan laden", 'Es ist ein Fehler beim Laden der Beschreibung des Stundenplans aufgetreten.');
+          Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LOADING_SCHEDULE, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LOADING_SCHEDULE_DESC_ERROR);
         },
         success: function (resp) {
           // Zeigt das Erstellungsdatum der Stundenplandaten an
@@ -347,7 +347,7 @@ MySched.Base = function () {
         MySched.session["begin"] = jsonData[1];
         MySched.session["end"] = jsonData[2];
         MySched.session["creationdate"] = jsonData[3];
-        Ext.ComponentMgr.get('leftMenu').setTitle("Stand vom " +  MySched.session["creationdate"]);
+        Ext.ComponentMgr.get('leftMenu').setTitle(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AS_OF + " " +  MySched.session["creationdate"]);
         // Managed die Sichtbarkeit der Add/Del Buttons in der Toolbar
         MySched.SelectionManager.on('select', function (el) {
           if (MySched.Schedule.lectureExists(el.id)) {
@@ -382,7 +382,7 @@ MySched.Base = function () {
         var deltaid = semid + ".1.delta";
 
         // Initialisiert "Änderungen"
-        MySched.delta = new mSchedule(deltaid, "Änderungen (zentral)");
+        MySched.delta = new mSchedule(deltaid, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_CENTRAL);
      	MySched.delta.responsible = "delta";
 
         if (MySched.SessionId) {
@@ -411,7 +411,7 @@ MySched.Base = function () {
         }
       }
       else {
-        Ext.ComponentMgr.get('leftMenu').setTitle("ungültiger Stundenplan");
+        Ext.ComponentMgr.get('leftMenu').setTitle(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_INVALID);
         Ext.ComponentMgr.get('topMenu').disable();
       }
     },
@@ -423,11 +423,11 @@ MySched.Base = function () {
         var grid = MySched.Schedule.show(true);
         Ext.apply(grid, {
           closable: false,
-          tabTip: 'Mein Stundenplan',
+          tabTip: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE,
           iconCls: 'myScheduleIcon'
         });
 
-        MySched.layout.createTab('mySchedule', 'Mein Stundenplan', grid, "mySchedule");
+        MySched.layout.createTab('mySchedule', MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE, grid, "mySchedule");
         // tab 'Mein Stundenplan' wird DropArea
         var tabID = MySched.layout.tabpanel.getComponent('mySchedule').tab.el.dom;
         var dropTarget = new Ext.dd.DropTarget(tabID, this.getDropConfig());
@@ -476,7 +476,7 @@ MySched.Base = function () {
 	                  type: type
 	                },
 	                failure: function (response) {
-	                	Ext.Msg.alert('Fehler', "Beim Laden des Stundenplans ist ein Fehler aufgetreten.");
+	                	Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ERROR, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_ERROR);
 	                },
 	                success: function (response) {
 	                  try {
@@ -504,7 +504,7 @@ MySched.Base = function () {
 	                  }
 	                  catch(e)
 	                  {
-	                  	Ext.Msg.alert('Fehler', "Beim Laden des Stundenplans ist ein Fehler aufgetreten.");
+	                  	Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ERROR, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_ERROR);
 	                  }
 	                }
 	              });
@@ -594,7 +594,7 @@ MySched.InfoPanel = function () {
       } else {
         text = el;
       }
-      if (!text) this.el.update("Fehler: Veranstaltung existiert nicht mehr!");
+      if (!text) this.el.update(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_ERROR);
       else {
         this.el.update(text);
       }
@@ -624,19 +624,19 @@ MySched.InfoPanel = function () {
         },
         method: 'POST',
         failure: function () {
-          Ext.Msg.alert("Hinweis", 'Es ist ein Fehler beim ermitteln der Information aufgetreten.');
+          Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NOTICE, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NOTICE_ERROR);
         },
         scope: this,
         success: function (resp) {
 	        try {
 	          var json = Ext.decode(resp.responseText);
 	          if (!json.success) {
-	            if (!json.error) json.error = 'Unbekannter Fehler!';
-	            this.showDetailInfo(json.error, 'Fehler');
+	            if (!json.error) json.error = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_UNKNOWN_ERROR;
+	            this.showDetailInfo(json.error, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ERROR);
 	            return;
 	          }
 	          // Zeigt ermittelte Info an
-	          this.showDetailInfo(Ext.Template(json.template).apply(json.data), 'Information');
+	          this.showDetailInfo(Ext.Template(json.template).apply(json.data), MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_INFO);
 	        }
 	        catch(e)
 	        {}
@@ -657,7 +657,7 @@ MySched.InfoPanel = function () {
         Ext.Msg.show({
           title: title,
           buttons: {
-            cancel: 'Schlie&szlig;en'
+            cancel: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_CLOSE
           },
           msg: text,
           width: 400,
@@ -1029,7 +1029,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
 
   	if(MySched.LSFisAvailable != true)
 	{
-		Ext.Msg.alert('LSF', "Diese Funktion steht zur Zeit nicht zur Verfügung.");
+		Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LSF, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LSF_FUNCTION_ERROR);
 		return;
 	}
 
@@ -1050,12 +1050,12 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
     var l = MySched.selectedSchedule.getLecture(el.id);
     l = l.data;
     if (typeof l.moduleID == "undefined") {
-      Ext.Msg.alert('Hinweis', 'Für diese Veranstaltung ist keine Modulnummer hinterlegt');
+      Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NOTICE, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_MODULENR_UNKNOWN);
       return;
     }
 
     if (l.moduleID == "" || l.moduleID == null) {
-      Ext.Msg.alert('Hinweis', 'Für diese Veranstaltung ist keine Modulnummer hinterlegt');
+      Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NOTICE, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_MODULENR_UNKNOWN);
       return;
     }
 
@@ -1123,7 +1123,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
       // Wenn Veranstaltung vorhanden, setze HoverButton auf Entfernen
       if (MySched.Schedule.lectureExists(el.id)) {
         this.selectButton.dom.src = this.lectureRemoveButton;
-        this.selectButton.dom.qtip = 'Veranstaltung aus Ihrem Stundenplan entfernen';
+        this.selectButton.dom.qtip = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_REMOVE;
       }
       // Zeige HoverButton an
       this.selectButton.show().alignTo(el, 'tr-tr', [-4, 5]);
@@ -1140,7 +1140,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
       this.selectButton.hide();
       this.selectButton.dom.src = this.lectureAddButton;
       this.selectLectureId = null;
-      this.selectButton.dom.qtip = 'Veranstaltung Ihrem Stundenplan hinzuf&uuml;gen';
+      this.selectButton.dom.qtip = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_ADD;
     }
   },
   /**
@@ -1223,7 +1223,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
     this.selectButton.hide();
     this.selectButton.dom.src = this.lectureAddButton;
     this.selectLectureId = null;
-    this.selectButton.dom.qtip = 'Veranstaltung Ihrem Stundenplan hinzuf&uuml;gen';
+    this.selectButton.dom.qtip = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_ADD;
     this.fireEvent("lectureDel", el);
 
     // Refresh
@@ -1307,9 +1307,9 @@ function gotoExtURL(url, text) {
         title: "",
         buttons: Ext.Msg.YESNOCANCEL,
         buttonText: {
-          cancel: 'Abbrechen'
+          cancel: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_CANCEL
         },
-        msg: text + "<br/>M&ouml;chten sie ihre &Auml;nderungen speichern?",
+        msg: text + "<br/>" + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_CHANGES_SAVE,
         width: 400,
         modal: true,
         cls: "mySched_gotoMessage_index",
@@ -1343,7 +1343,7 @@ function gotoExtURL(url, text) {
       title: "",
       buttons: Ext.Msg.OKCANCEL,
       buttonText: {
-        cancel: 'Abbrechen'
+        cancel: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_CANCEL
       },
       msg: text,
       width: 400,
@@ -1375,7 +1375,7 @@ function showLessonMenu(e) {
   if (Ext.isDefined(oMenu)) oMenu.destroy();
 
   var editLesson = {
-    text: "&Auml;ndern",
+    text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_CHANGE,
     icon: MySched.mainPath + "images/icon-edit.png",
     handler: function () {
       MySched.SelectionManager.editLesson();
@@ -1384,7 +1384,7 @@ function showLessonMenu(e) {
   }
 
   var deleteLesson = {
-    text: "L&ouml;schen",
+    text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELETE,
     icon: MySched.mainPath + "images/icon-delete.png",
     handler: function () {
       MySched.SelectionManager.deleteLesson();
@@ -1393,7 +1393,7 @@ function showLessonMenu(e) {
   }
 
   var addLesson = {
-    text: "Hinzuf&uuml;gen",
+    text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ADD,
     icon: MySched.mainPath + "images/add.png",
     handler: function () {
       MySched.SelectionManager.selectEl = el;
@@ -1403,7 +1403,7 @@ function showLessonMenu(e) {
   }
 
   var delLesson = {
-    text: "Entfernen",
+    text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_REMOVE,
     icon: MySched.mainPath + "images/delete.png",
     handler: function () {
       MySched.SelectionManager.selectEl = el;
@@ -1422,7 +1422,7 @@ function showLessonMenu(e) {
   }
 
   var infoLesson = {
-    text: "Informationen",
+    text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_INFORMATION,
     icon: MySched.mainPath + "images/information.png",
     handler: function () {
       MySched.SelectionManager.showModuleInformation();
@@ -1520,21 +1520,21 @@ MySched.TreeManager = function () {
      * @param {Object} tree Basis Tree dem die Liste hinzugefuegt wird
      */
     createDozTree: function (tree) {
-      return this.createTree(tree, 'doz', this.dozTree, 'Dozentenplan');
+      return this.createTree(tree, 'doz', this.dozTree, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_TEACHER);
     },
     /**
      * Erstellt die Raum Uebersichtsliste
      * @param {Object} tree Basis Tree dem die Liste hinzugefuegt wird
      */
     createRoomTree: function (tree) {
-      return this.createTree(tree, 'room', this.roomTree, 'Raumplan');
+      return this.createTree(tree, 'room', this.roomTree, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_ROOM);
     },
     /**
      * Erstellt die Studiengang Uebersichtsliste
      * @param {Object} tree Basis Tree dem die Liste hinzugefuegt wird
      */
     createClasTree: function (tree) {
-      return this.createTree(tree, 'clas', this.clasTree, 'Semesterplan');
+      return this.createTree(tree, 'clas', this.clasTree, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_SEMESTER);
     },
     /**
      * Erstellt die �nderungen
@@ -1555,7 +1555,7 @@ MySched.TreeManager = function () {
      * @param {Object} tree Basis Tree dem die Liste hinzugefuegt wird
      */
     createCurteaTree: function (tree) {//neu->
-      return this.createTree(tree, 'curtea', this.curteaTree, 'Lehrplan');//UnsetTimes
+      return this.createTree(tree, 'curtea', this.curteaTree, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_CURRICULUM);//UnsetTimes
     },
 
     processTreeData: function(json, type, accMode, name, baseTree)
@@ -1627,7 +1627,7 @@ MySched.TreeManager = function () {
         // Fuegt die Liste der Uebersicht an
         var ret = baseTree.root.appendChild(
         {
-          text: 'Änderungen (zentral)',
+          text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_CENTRAL,
           id: 'delta',
           cls: type + '-root',
           draggable: false,
@@ -1640,7 +1640,7 @@ MySched.TreeManager = function () {
         // Fuegt die Liste der Uebersicht an
         var ret = baseTree.root.appendChild(
         {
-          text: 'Änderungen (eigene)',
+          text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_OWN,
           id: 'respChanges',
           cls: type + '-root',
           draggable: false,
@@ -1729,7 +1729,7 @@ MySched.layout = function () {
       // Linker Bereich der Info und Ubersichtsliste enthaelt
       this.w_leftMenu = Ext.create('Ext.panel.Panel', {
         id: 'leftMenu',
-        title: 'loading schedule...',
+        title: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_LOADING,
         region: 'center',
         split: false,
         width: 242,
@@ -1806,7 +1806,7 @@ MySched.layout = function () {
 
         this.infoWindow = Ext.create('Ext.Window', {
           id: 'infoWindow',
-          title: 'MySched - Studentische Stundenplanverwaltung',
+          title: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_INFO_WINDOW_TITLE,
           width: 675,
           height: 380,
           frame:false,
@@ -1899,7 +1899,7 @@ MySched.layout = function () {
      */
     getMainToolbar: function () {
       var btnSave = Ext.create('Ext.Button', {
-        text: 'Speichern',
+        text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SAVE,
         id: 'btnSave',
         iconCls: 'tbSave',
         disabled: true,
@@ -1907,21 +1907,21 @@ MySched.layout = function () {
         handler: MySched.Authorize.saveIfAuth,
         scope: MySched.Authorize,
         tooltip: {
-          text: 'Speichern des angezeigten Planes'
+          text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_SAVE
         }
       });
       var btnEmpty = Ext.create('Ext.Button',{
-        text: 'Leeren',
+        text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EMPTY,
         id: 'btnEmpty',
         iconCls: 'tbEmpty',
         hidden: true,
         disabled: false,
         tooltip: {
-          text: 'L&ouml;schen der eingetragenen Veranstaltungen'
+          text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_EMPTY
         },
         scope: MySched.selectedSchedule,
         handler: function () {
-          Ext.Msg.confirm('Veranstaltungen l&ouml;schen', 'M&ouml;chten Sie die von Ihnen eingetragenen Veranstaltungen f&uuml;r ' + MySched.selectedSchedule.title + ' l&ouml;schen?', function (r) {
+          Ext.Msg.confirm(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_DELETE, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_DELETE_QUESTION1 + MySched.selectedSchedule.title + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_DELETE_QUESTION2, function (r) {
             if (r == 'yes') {
               var lessons = MySched.selectedSchedule.getLectures();
               var toremove = [];
@@ -1951,16 +1951,16 @@ MySched.layout = function () {
       });
 
       var btnSavePdf = Ext.create('Ext.Button',{
-        text: 'Stundenplan',
+        text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE,
         id: 'btnPdf',
         iconCls: 'tbSavePdf',
         disabled: false,
         tooltip: {
-          text: 'Download des Stundenplans als PDF'
+          text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_PDF_DESC
         },
         handler: function () {
         	clickMenuHandler();
-          var pdfwait = Ext.MessageBox.wait('Ihr Stundenplan wird generiert', 'PDF wird erstellt', {
+          var pdfwait = Ext.MessageBox.wait(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_GENERATED, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_PDF_CREATE, {
             interval: 100,
             duration: 2000
           });
@@ -1978,7 +1978,7 @@ MySched.layout = function () {
             scope: pdfwait,
             failure: function () {
               Ext.MessageBox.hide();
-              Ext.Msg.alert("PDF download", 'Es ist ein Fehler beim Erstellen der PDF aufgetreten.');
+              Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PDF_DOWNLOAD, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PDF_ERROR);
             },
             success: function (response) {
               Ext.MessageBox.hide();
@@ -1997,7 +1997,7 @@ MySched.layout = function () {
                 Ext.defer(func, 2000);
               }
               else {
-                Ext.Msg.alert("PDF download", 'Es ist ein Fehler beim Erstellen der PDF aufgetreten.');
+                Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PDF_DOWNLOAD, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PDF_ERROR);
               }
             }
           })
@@ -2005,16 +2005,16 @@ MySched.layout = function () {
       });
 
       var btnSaveWeekPdf = Ext.create('Ext.Button',{
-        text: 'Wochenplan',
+        text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_WEEK_SCHEDULE,
         id: 'btnWeekPdf',
         iconCls: 'tbSavePdf',
         disabled: false,
         tooltip: {
-          text: 'Download des Wochenplans als PDF'
+          text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_WEEK_SCHEDULE_PDF_DESC
         },
         handler: function () {
         	clickMenuHandler();
-          var pdfwait = Ext.MessageBox.wait('Ihr Wochenplan wird generiert', 'PDF wird erstellt', {
+          var pdfwait = Ext.MessageBox.wait(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_WEEK_SCHEDULE_GENERATE, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_PDF_CREATE, {
             interval: 100,
             duration: 2000
           });
@@ -2032,7 +2032,7 @@ MySched.layout = function () {
             scope: pdfwait,
             failure: function () {
               Ext.MessageBox.hide();
-              Ext.Msg.alert("PDF download", 'Es ist ein Fehler beim Erstellen der PDF aufgetreten.');
+              Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PDF_DOWNLOAD, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PDF_ERROR);
             },
             success: function (response) {
               Ext.MessageBox.hide();
@@ -2051,7 +2051,7 @@ MySched.layout = function () {
                 Ext.defer(func, 2000);
               }
               else {
-                Ext.Msg.alert("PDF download", 'Es ist ein Fehler beim Erstellen der PDF aufgetreten.');
+                Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PDF_DOWNLOAD, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PDF_ERROR);
               }
             }
           })
@@ -2060,16 +2060,16 @@ MySched.layout = function () {
 
       var btnICal = Ext.create('Ext.Button',{
         // ICal DownloadButton
-        text: 'ICal',
+        text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ICAL,
         id: 'btnICal',
         iconCls: 'tbSaveICal',
         disabled: false,
         tooltip: {
-          text: 'Download des angezeigten Planes als ICal'
+          text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ICAL_DESC
         },
         handler: function () {
         	clickMenuHandler();
-          var icalwait = Ext.MessageBox.wait('Ihr Terminplan wird generiert', 'ICal wird erstellt', {
+          var icalwait = Ext.MessageBox.wait(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ICAL_GENERATE, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ICAL_CREATE, {
             interval: 100,
             duration: 2000
           });
@@ -2086,7 +2086,7 @@ MySched.layout = function () {
             scope: icalwait,
             failure: function (response, ret) {
               Ext.MessageBox.hide();
-              Ext.Msg.alert("ICal download", 'Es ist ein Fehler beim Erstellen des ICal aufgetreten.');
+              Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ICAL_DOWNLOAD, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ICAL_DOWNLOAD_ERROR);
             },
             success: function (response, ret) {
               Ext.MessageBox.hide();
@@ -2147,7 +2147,7 @@ MySched.layout = function () {
                 }
               }
               catch(e) {
-                Ext.Msg.alert("ICal download", 'Es ist ein Fehler beim Erstellen des ICal aufgetreten.');
+                Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ICAL_DOWNLOAD, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ICAL_DOWNLOAD_ERROR);
               }
             }
           })
@@ -2156,16 +2156,16 @@ MySched.layout = function () {
 
       var btnSaveTxt = Ext.create('Ext.Button',{
         // TxT DownloadButton
-        text: 'Excel',
+        text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EXCEL,
         id: 'btnTxt',
         iconCls: 'tbSaveTxt',
         disabled: false,
         tooltip: {
-          text: 'Download des angezeigten Planes als Excel'
+          text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_EXCEL_DESC
         },
         handler: function () {
         	clickMenuHandler();
-          var txtwait = Ext.MessageBox.wait('Ihr Stundenplan wird generiert', 'Txt wird erstellt', {
+          var txtwait = Ext.MessageBox.wait(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_GENERATED, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EXCEL_CREATE, {
             interval: 100,
             duration: 2000
           });
@@ -2183,7 +2183,7 @@ MySched.layout = function () {
             scope: txtwait,
             failure: function () {
               Ext.MessageBox.hide();
-              Ext.Msg.alert("Hinweis", 'Es ist ein Fehler beim Erstellen aufgetreten.');
+              Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NOTICE, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_CREATE_ERROR);
             },
             success: function (response) {
               Ext.MessageBox.hide();
@@ -2202,7 +2202,7 @@ MySched.layout = function () {
                 Ext.defer(func, 2000);
               }
               else {
-                Ext.Msg.alert("Hinweis", 'Es ist ein Fehler beim Erstellen aufgetreten.');
+                Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NOTICE, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_CREATE_ERROR);
               }
             }
           })
@@ -2211,7 +2211,7 @@ MySched.layout = function () {
 
       var btnAdd = Ext.create('Ext.Button',{
         // HinzufuegenButton
-        text: 'Hinzuf&uuml;gen',
+        text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ADD,
         id: 'btnAdd',
         iconCls: 'tbAdd',
         disabled: true,
@@ -2219,13 +2219,13 @@ MySched.layout = function () {
         handler: MySched.SelectionManager.lecture2ScheduleHandler,
         scope: MySched.SelectionManager,
         tooltip: {
-          text: 'F&uuml;gt die aktuell ausgew&auml;hlte Veranstaltung Ihrem Stundenplan hinzu.'
+          text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ADD_LESSON
         }
       });
 
       var btnMenu = Ext.create('Ext.Button',{
         //MenuButton
-        text: 'Download',
+        text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD,
         id: 'btnMenu',
         iconCls: 'tbDownload',
         disabled: false,
@@ -2238,7 +2238,7 @@ MySched.layout = function () {
 
       var btnDel = Ext.create('Ext.Button',{
         // EntfernenButton
-        text: 'Entfernen',
+        text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_REMOVE,
         id: 'btnDel',
         iconCls: 'tbTrash',
         hidden: true,
@@ -2246,13 +2246,13 @@ MySched.layout = function () {
         handler: MySched.SelectionManager.lecture2ScheduleHandler,
         scope: MySched.SelectionManager,
         tooltip: {
-          text: 'Entfernt die aktuell ausgew&auml;hlte Veranstaltung aus Ihrem Stundenplan.'
+          text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_REMOVE_LESSON
         }
       });
 
       var btnInfo = Ext.create('Ext.Button',{
         // InfoButton
-        text: 'Info',
+        text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_INFO,
         id: 'btnInfo',
         iconCls: 'tbInfo',
         hidden: true,
@@ -2262,7 +2262,7 @@ MySched.layout = function () {
 
       var tbFreeBusy = Ext.create('Ext.Button',{
         // Frei/Belegt Button
-        text: 'Frei/Belegt',
+        text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_FREE_BUSY,
         id: 'btnFreeBusy',
         iconCls: 'tbFreeBusy',
         hidden: true,
@@ -2270,7 +2270,7 @@ MySched.layout = function () {
         pressed: MySched.freeBusyState,
         toggleHandler: MySched.Base.freeBusyHandler,
         tooltip: {
-          text: 'Zeigt in allen Stundenpl&auml;nen die im eigenen Stundenplan belegten Bl&ouml;cke farblich hinterlegt an.'
+          text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_FREE_BUSY_DESC
         }
       });
 
@@ -2305,7 +2305,7 @@ MySched.layout = function () {
   };
 }();
 
-Ext.form.VTypes['ValidTimeText'] = 'Startzeit muss kleiner als die Endzeit sein.';
+Ext.form.VTypes['ValidTimeText'] = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_VALID_STARTTIME_LESSER;
 Ext.form.VTypes['ValidTime'] = function (arg, field) {
   if (field.id == "starttiid") {
     if (!Ext.getCmp('endtiid').getValue()) return true;
@@ -2334,13 +2334,13 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name, 
     labelAlign: 'top',
     items: [{
       xtype: 'textfield',
-      fieldLabel: 'Titel',
+      fieldLabel: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TITLE,
       width: 525,
       name: 'titel',
       id: 'titelid',
       value: title,
-      emptyText: 'Trage hier einen Titel fuer die Veranstaltung ein',
-      blankText: 'Bitte trage hier einen Titel ein',
+      emptyText: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EMPTY_LESSON_TITLE,
+      blankText: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EMPTY_LESSON_TITLE,
       allowBlank: false
     }]
   };
@@ -2354,7 +2354,7 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name, 
     hidden: true,
     //Verstecken
     items: [{
-      fieldLabel: 'Beschreibung',
+      fieldLabel: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DESCRIPTION,
       labelSeparator: '',
       width: 420,
       height: 170,
@@ -2373,7 +2373,7 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name, 
     layout: 'form',
     labelAlign: 'top',
     items: [{
-      fieldLabel: 'Tag',
+      fieldLabel: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY,
       labelStyle: 'padding:0px;',
       name: 'cbday',
       id: 'cbdayid',
@@ -2389,7 +2389,7 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name, 
       displayField: 'displayText',
       minChars: 0,
       triggerAction: 'all',
-      blankText: 'Bitte w&auml;hle einen Wochentag aus',
+      blankText: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_CHOOSE,
       allowBlank: false,
       width: 170
     }]
@@ -2400,7 +2400,7 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name, 
     layout: 'form',
     labelAlign: 'top',
     items: [{
-      fieldLabel: 'Startzeit',
+      fieldLabel: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_STARTTIME,
       labelStyle: 'padding:0px;',
       name: 'startti',
       id: 'starttiid',
@@ -2422,7 +2422,7 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name, 
     layout: 'form',
     labelAlign: 'top',
     items: [{
-      fieldLabel: 'Endzeit',
+      fieldLabel: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ENDTIME,
       labelStyle: 'padding:0px;',
       name: 'endti',
       id: 'endtiid',
@@ -2501,7 +2501,7 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name, 
     labelAlign: 'top',
     items: [{
       xtype: "multiselect",
-      fieldLabel: "Dozent",
+      fieldLabel: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHER,
       name: 'doz',
       id: 'dozid',
       title: '',
@@ -2527,7 +2527,7 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name, 
       fieldLabel: '',
       name: 'dozfield',
       id: 'dozfieldid',
-      emptyText: 'Dozent eintragen',
+      emptyText: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHER_ENTER,
       labelStyle: 'padding:0px;',
       width: 170
     }]
@@ -2539,7 +2539,7 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name, 
     labelAlign: 'top',
     items: [{
       xtype: "multiselect",
-      fieldLabel: "Semester",
+      fieldLabel: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER,
       name: 'clas',
       id: 'clasid',
       title: '',
@@ -2622,7 +2622,7 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name, 
     }],
     buttonAlign: 'center',
     buttons: [{
-      text: 'Hinzufügen',
+      text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ADD,
       scope: this,
       handler: function () {
         var titel = Ext.getCmp('titelid').isValid(false);
@@ -2833,7 +2833,7 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name, 
       }
     },
     {
-      text: 'Abbrechen',
+      text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_CANCEL,
       handler: function (b, e) {
         if (pwin != null) pwin.close();
       }
@@ -2845,7 +2845,7 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name, 
     id: 'terminWin',
     width: 560,
     iconCls: 'lesson_add',
-    title: 'Veranstaltung hinzufügen',
+    title: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_ADD,
     height: 337,
     modal: true,
     frame:false,
@@ -2856,8 +2856,8 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name, 
 
   if (l) {
     pwin.setIconClass("lesson_edit");
-    pwin.setTitle("Veranstaltung ändern");
-    addterminpanel.buttons[0].text = "Ändern";
+    pwin.setTitle(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_CHANGE);
+    addterminpanel.buttons[0].text = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_CHANGE;
   }
 
   pwin.show();
@@ -2951,25 +2951,25 @@ function daytonumber(day) {
 function weekdayEtoD(week_day) {
   switch (week_day) {
   case "monday":
-    return "Montag";
+    return MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_MONDAY;
     break;
   case "tuesday":
-    return "Dienstag";
+    return MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_TUESDAY;
     break;
   case "wednesday":
-    return "Mittwoch";
+    return MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_WEDNESDAY;
     break;
   case "thursday":
-    return "Donnerstag";
+    return MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_THURSDAY;
     break;
   case "friday":
-    return "Freitag";
+    return MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_FRIDAY;
     break;
   case "saturday":
-    return "Samstag";
+    return MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_SATURDAY;
     break;
   case "sunday":
-    return "Sonntag";
+    return MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_SUNDAY;
     break;
   default:
     return false;
@@ -3126,9 +3126,9 @@ MySched.Tree = function () {
            	type = gpuntisID;
            var department = null;
            if (type == "delta")
-             title = "Änderungen (zentral)";
+             title = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_CENTRAL;
            else if (type == "respChanges")
-             title = "Änderungen (eigene)";
+             title = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_OWN;
            else
            {
              department = MySched.Mapping.getObjectField(type, nodeKey, "parentName");
@@ -3158,7 +3158,7 @@ MySched.Tree = function () {
                   	type: type
                 },
                 failure: function (response) {
-                	Ext.Msg.alert('Fehler', "Beim Laden des Stundenplans ist ein Fehler aufgetreten.");
+                	Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ERROR, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_ERROR);
                 },
                 success: function (response) {
                   try {
@@ -3180,7 +3180,7 @@ MySched.Tree = function () {
                   }
                   catch(e)
                   {
-					Ext.Msg.alert('Fehler', "Beim Laden des Stundenplans ist ein Fehler aufgetreten.");
+					Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ERROR, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_ERROR);
                   }
                 }
               });
@@ -3298,7 +3298,7 @@ MySched.Subscribe = function () {
 
       // Erstellt Fenstern
       this.window = Ext.create('Ext.Window', {
-        title: 'Einschreiben',
+        title: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SUBSCRIBE,
         id: 'subscribeWindow',
         width: 410,
         height: 250,
@@ -3330,7 +3330,7 @@ MySched.Subscribe = function () {
         sm,
         {
           dataIndex: 'name',
-          header: "Veranstaltung",
+          header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON,
           width: 120,
           align: 'left'
         },
@@ -3357,13 +3357,13 @@ MySched.Subscribe = function () {
           }
         },
         bbar: [{
-          text: 'Speichern',
+          text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SAVE,
           id: 'btnSave',
           iconCls: 'tbSave',
           handler: this.save,
           scope: this
         }],
-        title: 'Bei Veranstaltungen Einschreiben'
+        title: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_SUBSCRIBE
       });
 
       return this.grid;

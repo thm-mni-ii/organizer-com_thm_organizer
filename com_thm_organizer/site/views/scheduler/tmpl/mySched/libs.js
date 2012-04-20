@@ -1,9 +1,9 @@
 // Link auf ein lokales Blankes Bild
 //Ext.BLANK_IMAGE_URL = externLinks.blankImageLink;
-Ext.MessageBox.buttonText.yes = 'Ja';
-Ext.MessageBox.buttonText.no = 'Nein';
-Ext.ns('MySched');
+Ext.MessageBox.buttonText.yes = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_YES;
+Ext.MessageBox.buttonText.no = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NO;
 
+Ext.ns('MySched');
 
 /**
  * Speicherung der Aenderungen am Layout im Cookie

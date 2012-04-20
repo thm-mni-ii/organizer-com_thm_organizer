@@ -41,9 +41,9 @@ class UserSchedule
 		// Wenn die Anfragen nicht durch Ajax von MySched kommt
 		if ( isset( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) ) {
 			if ( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] != 'XMLHttpRequest' )
-				die( 'Permission Denied!' );
+				die( JText::_("COM_THM_ORGANIZER_SCHEDULER_PERMISSION_DENIED") );
 		} else
-			die( 'Permission Denied!' );
+			die( JText::_("COM_THM_ORGANIZER_SCHEDULER_PERMISSION_DENIED") );
 		
 		if ( isset( $this->jsid ) ) {
 			if ( $this->username != null && $this->username != "" ) {
@@ -66,7 +66,7 @@ class UserSchedule
 					return array("success"=>false,"data"=>array(
 							'code' => 2,
 							'errors' => array(
-									'reason' => 'Stundenplan konnte nicht gespeichert werden.'
+									'reason' => JText::_("COM_THM_ORGANIZER_SCHEDULER_SAVE_SCHEDULE_ERROR")
 							)
 					) );
 				}
@@ -75,8 +75,8 @@ class UserSchedule
 				return array("success"=>false,"data"=>array(
 					 'code' => 'expire',
 					 'errors' => array(
-						 'reason' => 'Ihre Sitzung ist abgelaufen oder ungültig. Bitte melden Sie sich neu an.'
-					)
+						 'reason' => JText::_("COM_THM_ORGANIZER_SCHEDULER_INVALID_SESSION")
+					 )
 				) );
 			}
 
@@ -85,7 +85,7 @@ class UserSchedule
 			return array("success"=>false,"data"=>array(
 				 'code' => 'expire',
 				'errors' => array(
-					 'reason' => 'Ihre Sitzung ist abgelaufen oder ungültig. Bitte melden Sie sich neu an.'
+					 'reason' => JText::_("COM_THM_ORGANIZER_SCHEDULER_INVALID_SESSION")
 				)
 			) );
 		}
@@ -267,7 +267,7 @@ class UserSchedule
               return array("data"=>$retlesson);
           } else {
               // SESSION FEHLER
-              return array("success"=>false, "data"=>array('code' => 'expire', 'errors' => array('reason' => 'Ihre Sitzung ist abgelaufen oder ungültig. Bitte melden Sie sich neu an.')));
+              return array("success"=>false, "data"=>array('code' => 'expire', 'errors' => array('reason' => JText::_("COM_THM_ORGANIZER_SCHEDULER_INVALID_SESSION"))));
           }
       }
 }
