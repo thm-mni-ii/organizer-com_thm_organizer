@@ -152,6 +152,7 @@ class thm_organizerModelevent_edit extends JModelForm
         $query = $dbo->getQuery(true);
         $query->select('id, name');
         $query->from('#__thm_organizer_rooms');
+        $query->order('name ASC');
         $dbo->setQuery((string)$query);
         $rooms = $dbo->loadAssocList();
         $this->rooms = count($rooms)? $rooms : array();
@@ -163,6 +164,7 @@ class thm_organizerModelevent_edit extends JModelForm
         $query = $dbo->getQuery(true);
         $query->select('id, name');
         $query->from('#__thm_organizer_teachers');
+        $query->order('name ASC');
         $dbo->setQuery((string)$query);
         $teachers = $dbo->loadAssocList();
         $this->teachers = count($teachers)? $teachers : array();
@@ -176,6 +178,7 @@ class thm_organizerModelevent_edit extends JModelForm
         $query->from('#__usergroups');
         $query->where('title != "Public"');
         $query->where('title != "Super Users"');
+        $query->order('name ASC');
         $dbo->setQuery((string)$query);
         $groups = $dbo->loadAssocList();
         $this->groups = count($groups)? $groups : array();
