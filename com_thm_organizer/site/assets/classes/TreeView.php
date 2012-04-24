@@ -564,7 +564,7 @@ class TreeView
     if($type == "doz")
     {
     	$datas = $this->getStundenplanDozData($planid, $semesterID);
-    	$virtualSchedules = $this->getVirtualSchedules($type, $semesterID);
+    	$virtualSchedules = $this->getVirtualSchedules("teacher", $semesterID);
     }
     else if($type == "room")
     {
