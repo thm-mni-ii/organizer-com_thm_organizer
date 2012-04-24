@@ -112,7 +112,7 @@ class PDFBauer extends abstrakterBauer
 				}
 
 			//$pdfLink = $this->cfg[ 'pdf_downloadFolder' ] . $path . $title . '.pdf';
-			$pdfLink = JPATH_COMPONENT . $this->cfg[ 'pdf_downloadFolder' ]. $path . $title . '.pdf';
+			$pdfLink = $this->cfg[ 'pdf_downloadFolder' ]. $path . $title . '.pdf';
 			// Array um Wochentage in spalten zu mappen
 			$assign = array(
 				 'monday' => 1,

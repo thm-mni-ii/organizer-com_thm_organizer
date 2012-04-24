@@ -135,7 +135,7 @@ class ICALBauer extends abstrakterBauer
 		} else
 			$v = $this->setEvent( $v, $arr, $semesterstart, $semesterend, $res );
 
-		$v->saveCalendar( JPATH_COMPONENT . $this->cfg[ 'pdf_downloadFolder' ], $title . '.ics' );
+		$v->saveCalendar( $this->cfg[ 'pdf_downloadFolder' ], $title . '.ics' );
 		$resparr[ 'url' ] = "false";
 		return array("success"=>true,"data"=>$resparr );
 	}

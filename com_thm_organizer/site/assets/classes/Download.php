@@ -35,8 +35,8 @@ class Download
 		        $this->title = $this->username . " - " . $this->title;
 		    }
 
-		    $tmpFile = JPATH_COMPONENT.$this->cfg[ 'pdf_downloadFolder' ] . $path .'stundenplan.' . $this->what;
-		    $file    = JPATH_COMPONENT.$this->cfg[ 'pdf_downloadFolder' ] . $path . $this->title . '.'. $this->what;
+		    $tmpFile = $this->cfg[ 'pdf_downloadFolder' ] . $path .'stundenplan.' . $this->what;
+		    $file    = $this->cfg[ 'pdf_downloadFolder' ] . $path . $this->title . '.'. $this->what;
 
 		    if ( empty( $this->title ) || $this->title == 'undefined' ) {
 		        if ( !file_exists( $tmpFile ) ) {

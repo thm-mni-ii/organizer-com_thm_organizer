@@ -58,7 +58,7 @@ class ICSBauer extends abstrakterBauer
 				{
 					$this->objPHPExcel->setActiveSheetIndex(0);
 					$objWriter = PHPExcel_IOFactory::createWriter($this->objPHPExcel, 'Excel5');
-					$objWriter->save(JPATH_COMPONENT . $this->cfg[ 'pdf_downloadFolder' ] . $title . ".xls");
+					$objWriter->save($this->cfg[ 'pdf_downloadFolder' ] . $title . ".xls");
 				}
 		}
 		catch(Exception $e)
