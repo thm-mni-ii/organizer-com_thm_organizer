@@ -580,7 +580,7 @@ class TreeView
     }
     else
     	$datas = $this->getStundenplanSubjectData($planid, $semesterID);
-    
+        
     if(is_array( $datas ) === true)
     if ( count( $datas ) != 0 ) {
 	  $this->treeData[$type] = array_merge_recursive( $this->treeData[$type], $datas);
@@ -623,9 +623,13 @@ class TreeView
 		for ( $i = 0; $i < count( $virtualSchedules ); $i++ ) {
 			$data = $virtualSchedules[ $i ];
 			$id = trim($data->vid);
-			if(!isset($data->departmentID))
+			if(!isset($data->departmentID) && $data->department != "none")
 				continue;
-			$parent = trim($data->departmentID);
+			
+			if($data->department != "none")
+				$parent = trim($data->departmentID);
+			else
+				$parent = trim($data->department);	
 			if ( !isset( $dataArray[ $parent ] ) ) {
 				$dataArray[ $parent ] = array( );
 			}
