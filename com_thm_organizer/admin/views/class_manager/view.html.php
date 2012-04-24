@@ -76,6 +76,11 @@ class thm_organizersViewclass_manager extends JView
         JToolBarHelper::addNew('class.add');
         JToolBarHelper::editList('class.edit');
         JToolBarHelper::deleteList(JText::_( 'COM_THM_ORGANIZER_CLM_DELETE_CONFIRM'),'class.delete');
+        if (thm_organizerHelper::isAdmin("class_manager"))
+        {
+        	JToolBarHelper::divider();
+        	JToolBarHelper::preferences('com_thm_organizer');
+        }
 
     }
 }

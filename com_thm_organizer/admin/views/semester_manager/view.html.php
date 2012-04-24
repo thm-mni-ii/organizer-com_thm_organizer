@@ -40,6 +40,11 @@ class thm_organizersViewsemester_manager extends JView
         JToolBarHelper::addNew('semester.add');
         JToolBarHelper::editList('semester.edit');
         JToolBarHelper::deleteList(JText::_( 'COM_THM_ORGANIZER_SEM_DELETE_CONFIRM'), 'semester.delete');
+        if (thm_organizerHelper::isAdmin("semester_manager"))
+        {
+        	JToolBarHelper::divider();
+        	JToolBarHelper::preferences('com_thm_organizer');
+        }
     }
 }
 	

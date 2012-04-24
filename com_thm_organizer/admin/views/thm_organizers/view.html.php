@@ -30,13 +30,27 @@ class thm_organizersViewthm_organizers extends JView
         $application = JFactory::getApplication("administrator");
         $this->option = $application->scope;
 
-        JToolBarHelper::title( JText::_( 'COM_THM_ORGANIZER' ).": ".JText::_( "COM_THM_ORGANIZER_MAIN_TITLE" ), 'mni' );
+        $this->addToolBar();
 
         $this->addViews();
 
 	parent::display($tpl);
     }
 
+    /**
+     * addToolBar
+     *
+     * creates a joomla administrative tool bar
+     */
+    private function addToolBar()
+    {
+    	JToolBarHelper::title( JText::_( 'COM_THM_ORGANIZER' ).": ".JText::_( "COM_THM_ORGANIZER_MAIN_TITLE" ), 'mni' );
+    	if (thm_organizerHelper::isAdmin("thm_organizers"))
+    	{
+    		JToolBarHelper::preferences('com_thm_organizer');
+    	}
+    }
+    
     /**
      * addViews
      *
