@@ -178,9 +178,9 @@ class Ressource
 				 "(SELECT 'cyclic') AS type, " .
 				 "#__thm_organizer_lessons.comment AS comment, ";
 
-		if ($this->JDA->isComponentavailable("com_thm_lsf"))
+		if ($this->JDA->isComponentavailable("com_thm_curriculum"))
 		{
-			$query .= " modultitel_de AS longname ";
+			$query .= " IF(#__thm_organizer_subjects.moduleID='','',mo.title_de) AS longname ";
 		}
 		else
 		{
@@ -195,9 +195,9 @@ class Ressource
 		  	"LEFT JOIN #__thm_organizer_lesson_classes ON #__thm_organizer_lesson_classes.lessonID = #__thm_organizer_lessons.id " .
 		  	"LEFT JOIN #__thm_organizer_classes ON #__thm_organizer_lesson_classes.classID = #__thm_organizer_classes.id " .
 		  	"LEFT JOIN #__thm_organizer_subjects ON #__thm_organizer_lessons.subjectID = #__thm_organizer_subjects.id ";
-		  	if ($this->JDA->isComponentavailable("com_thm_lsf"))
+		  	if ($this->JDA->isComponentavailable("com_thm_curriculum"))
 		  	{
-				$query .= "LEFT JOIN #__thm_lsf_modules AS mo ON #__thm_organizer_subjects.moduleID = mo.lsf_modulnummer ";
+				$query .= "LEFT JOIN #__thm_curriculum_assets AS mo ON LOWER(#__thm_organizer_subjects.moduleID) = LOWER(mo.lsf_course_code) ";
 		  	}
      	  	$query .= "WHERE #__thm_organizer_lessons.semesterID = ".$fachsemester." " .
      	  	"AND #__thm_organizer_lessons.plantypeID = ".$this->plantypeID." ".
@@ -210,7 +210,7 @@ class Ressource
 	    	$query .= "( #__thm_organizer_teachers.id like '".$ressourcename."') OR ( #__thm_organizer_teachers.gpuntisID like '".$ressourcename."')";
 	    else if($type === "subject")
 	    	$query .= "( #__thm_organizer_subjects.id like '".$ressourcename."') OR ( #__thm_organizer_subjects.gpuntisID like '".$ressourcename."')";
-
+	    	    
 		$hits  = $this->JDA->query( $query );
 		return $hits;
 	}
