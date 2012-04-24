@@ -3186,17 +3186,11 @@ MySched.Tree = function () {
               });
             }
             else {
-            	if(typeof record != "undefined")
-            	{
-            		if (typeof record.elements != "undefined")
-              			new mSchedule(nodeID, title).init(type, record.elements).show();
-              		else
-						new mSchedule(nodeID, title).init(type, nodeKey).show();
-            	}
-            	else
-            	{
+            	var elements = MySched.Mapping.getObjectField(type, nodeKey, "elements");
+            	if(elements === nodeKey)
             		new mSchedule(nodeID, title).init(type, nodeKey).show();
-            	}
+            	else
+            		new mSchedule(nodeID, title).init(type, elements).show();
             }
 		}
     },

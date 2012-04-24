@@ -38,7 +38,7 @@ class Ressource
 				
 				foreach ( $elements as $k => $v ) {
 					$lessons = array_merge( $lessons, $this->getResourcePlan( $v->gpuntisID, $this->semID, $this->type ) );
-					$elementIDs = $this->idToGpuntisID($v->gpuntisID, $this->type);
+					$elementIDs = $this->GpuntisIDToid($v->gpuntisID, $this->type);
 					$elementID = $elementIDs[0]->id;
 					if ( $retlessons[ "elements" ] == "" )
 						$retlessons[ "elements" ] .= $elementID;
@@ -145,7 +145,7 @@ class Ressource
 		return $ret;
 	}
 	
-	private function idToGpuntisID($gpuntisID, $type)
+	private function GpuntisIDToid($gpuntisID, $type)
 	{
 		$query = "SELECT id ";
 		if($type == "room")

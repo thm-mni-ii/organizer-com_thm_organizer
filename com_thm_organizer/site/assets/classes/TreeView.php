@@ -250,8 +250,6 @@ class TreeView
 
     $semesterJahrNode = $this->treeCorrect($semesterJahrNode);
 
-	//echo "<pre>".print_r($semesterJahrNode, true)."</pre>";
-
     return array("success"=>true,"data"=>array("tree"=>$semesterJahrNode,"treeData"=>$this->treeData, "treePublicDefault"=>$this->publicDefaultNode));
   }
 
@@ -618,6 +616,29 @@ class TreeView
 		}
 	}
 		
+ 	foreach($virtualSchedules as $k=>$v) {
+		$v->elements = $this->GpuntisIDToid(trim($v->elements), $type);
+		$v->elements = array($v->elements[0]->id);
+	}
+	
+	$virtualSchedulesTemp = $virtualSchedules;
+	foreach($virtualSchedules as $k=>$v)
+	{
+		foreach($virtualSchedulesTemp as $kTemp=>$vTemp)
+		{
+			if($k != $kTemp && $v->id === $vTemp->id && $v->parentName === $vTemp->parentName)
+			{				
+				if(!in_array( $vTemp->elements, $v->elements))
+					$v->elements[] = $vTemp->elements[0];
+			}
+		}
+	}
+	
+	foreach($virtualSchedules as $k=>$v)
+	{
+		$v->elements = implode(";", $v->elements);
+	}
+	
 	if(!empty($virtualSchedules))
 	{
 		$this->treeData[$type] = array_merge_recursive( $this->treeData[$type], $virtualSchedules);
@@ -635,7 +656,8 @@ class TreeView
 				$dataArray[ $parent ] = array( );
 			}
 		
-			$dataArray[ $parent ][ $id ]                   = array( );
+			if(!isset($dataArray[ $parent ][ $id ]))
+				$dataArray[ $parent ][ $id ]                   = array( );
 			$dataArray[ $parent ][ $id ][ "id" ]           = trim($id);
 			$dataArray[ $parent ][ $id ][ "department" ]   = trim($data->parentName);
 			$dataArray[ $parent ][ $id ][ "shortname" ]    = trim($data->shortname);
@@ -646,8 +668,11 @@ class TreeView
 			$dataArray[ $parent ][ $id ][ "gpuntisID" ] = null;
 			
 			if(!isset($dataArray[ $parent ][ $id ][ "elements" ]))
+			{
 				$dataArray[ $parent ][ $id ][ "elements" ] = array();
-			$dataArray[ $parent ][ $id ][ "elements" ][] = trim($data->elements);
+			}
+			
+			$dataArray[ $parent ][ $id ][ "elements" ][] = $data->elements;
 			
 			$dataArray[ $parent ][ $id ][ "semesterID" ] = trim($semesterID);
 			$dataArray[ $parent ][ $id ][ "plantypeID" ] = trim($planid);
@@ -899,6 +924,22 @@ class TreeView
     $query = "SELECT * " . " FROM #__thm_organizer_lesson_classes INNER JOIN #__thm_organizer_classes ON classID = #__thm_organizer_classes.id INNER JOIN #__thm_organizer_lessons ON #__thm_organizer_lesson_classes.lessonID = #__thm_organizer_lessons.id " . " WHERE #__thm_organizer_classes.gpuntisID = '" . $resourcename . "' AND semesterID = '" . $fachsemester . "' AND plantypeID = 1";
     $hits  = $this->JDA->query( $query );
     return count( $hits );
+  }
+  
+  private function GpuntisIDToid($gpuntisID, $type)
+  {
+  	
+  	$query = "SELECT id ";
+  	if($type == "room")
+  		$query .= "FROM #__thm_organizer_rooms ";
+  	else if($type == "clas")
+  		$query .= "FROM #__thm_organizer_classes ";
+  	else if($type == "doz")
+  		$query .= "FROM #__thm_organizer_teachers ";
+  	$query .= "WHERE gpuntisID = '" . $gpuntisID . "'";
+  	$ret   = $this->JDA->query( $query );
+  	
+  	return $ret;
   }
 }
 ?>
