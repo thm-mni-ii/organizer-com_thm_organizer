@@ -30,7 +30,7 @@ class thm_organizerViewScheduler extends JView
 
     $showSchedule = JRequest::getString('showSchedule');
     $this->searchModuleID = JRequest::getString('moduleID');
-    $this->LSFisAvailable = $model->getLSFStatus("com_thm_lsf");
+    $this->CurriculumisAvailable = $model->getComStatus("com_thm_curriculum");
 
     if(!empty($showSchedule) && !empty($this->searchModuleID)) //Aufruf ohne Menüparameter
     {
@@ -79,7 +79,7 @@ class thm_organizerViewScheduler extends JView
     $schedulearr["Grid.load"] = $model->executeTask("Grid.load");
 
     $schedulearr["Events.load"] = $model->executeTask("Events.load");
-
+    
     $schedulearr["UserSchedule.load"] = array();
 
     $schedulearr["UserSchedule.load"]["respChanges"] = $model->executeTask("UserSchedule.load", array("username"=>"respChanges"));
