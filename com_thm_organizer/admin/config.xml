@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset
+		name="scheduler"
+		label="THM_ORGANIZER_CONFIG_SCHEDULER_LABEL"
+		description="THM_ORGANIZER_CONFIG_SCHEDULER_DESC"
+	>
+		<field
+			name="vacationCat"
+			type="sql"
+			label="COM_THM_ORGANIZER_CONFIG_SCHEDULER_VACATION_CAT_LABEL"
+			description="COM_THM_ORGANIZER_CONFIG_SCHEDULER_VACATION_CAT_DESC"
+			class="inputbox"
+			query="SELECT id, title FROM #__thm_organizer_categories"
+			key_field="id"
+            value_field="title"
+		/>
+	</fieldset>
+	<fieldset
+		name="permissions"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC"
+	>
+		<field
+			name="rules"
+			type="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			class="inputbox"
+			validate="rules"
+			filter="rules"
+			component="com_thm_organizer"
+			section="component"
+		/>
+	</fieldset>
+</config>
