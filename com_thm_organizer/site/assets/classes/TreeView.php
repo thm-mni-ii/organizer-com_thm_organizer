@@ -605,7 +605,7 @@ class TreeView
 		$dataArray[ $parent ][ $id ][ "plantypeID" ] = trim($planid);
 				
 		foreach($virtualSchedules as $k=>$v) {
-			if($v->department === trim($data->parentName))
+			if($v->parentName === trim($data->parentName))
 			{
 				$v->departmentID = $parent;
 			}
@@ -617,36 +617,37 @@ class TreeView
 			$dataArray[ $parent ][ $id ][ "treeLoaded" ] = false;
 		}
 	}
-	
+		
 	if(!empty($virtualSchedules))
 	{
+		$this->treeData[$type] = array_merge_recursive( $this->treeData[$type], $virtualSchedules);
 		for ( $i = 0; $i < count( $virtualSchedules ); $i++ ) {
 			$data = $virtualSchedules[ $i ];
-			$id = trim($data->vid);
-			if(!isset($data->departmentID) && $data->department != "none")
+			$id = trim($data->id);
+			if(!isset($data->departmentID) && $data->parentName != "none")
 				continue;
 			
-			if($data->department != "none")
+			if($data->parentName != "none")
 				$parent = trim($data->departmentID);
 			else
-				$parent = trim($data->department);	
+				$parent = trim($data->parentName);	
 			if ( !isset( $dataArray[ $parent ] ) ) {
 				$dataArray[ $parent ] = array( );
 			}
 		
 			$dataArray[ $parent ][ $id ]                   = array( );
 			$dataArray[ $parent ][ $id ][ "id" ]           = trim($id);
-			$dataArray[ $parent ][ $id ][ "department" ]   = trim($data->department);
-			$dataArray[ $parent ][ $id ][ "shortname" ]    = trim($data->vname);
+			$dataArray[ $parent ][ $id ][ "department" ]   = trim($data->parentName);
+			$dataArray[ $parent ][ $id ][ "shortname" ]    = trim($data->shortname);
 			$dataArray[ $parent ][ $id ][ "departmentID" ]    = trim($parent);
-			$dataArray[ $parent ][ $id ][ "type" ]        = trim($data->vtype);
-			$dataArray[ $parent ][ $id ][ "name" ]         = trim($data->vname);
+			$dataArray[ $parent ][ $id ][ "type" ]        = trim($data->type);
+			$dataArray[ $parent ][ $id ][ "name" ]         = trim($data->shortname);
 			$dataArray[ $parent ][ $id ][ "lessonamount" ] = 1;
 			$dataArray[ $parent ][ $id ][ "gpuntisID" ] = null;
 			
 			if(!isset($dataArray[ $parent ][ $id ][ "elements" ]))
 				$dataArray[ $parent ][ $id ][ "elements" ] = array();
-			$dataArray[ $parent ][ $id ][ "elements" ][] = trim($data->eid);
+			$dataArray[ $parent ][ $id ][ "elements" ][] = trim($data->elements);
 			
 			$dataArray[ $parent ][ $id ][ "semesterID" ] = trim($semesterID);
 			$dataArray[ $parent ][ $id ][ "plantypeID" ] = trim($planid);
@@ -868,7 +869,7 @@ class TreeView
 
   private function getVirtualSchedules($type, $semesterID)
   {
-    $vsquery = "SELECT DISTINCT vs.vid, vname, vtype, department, vresponsible, eid
+    $vsquery = "SELECT DISTINCT vs.vid AS id, vname AS shortname, vname AS name, vtype AS type, department AS parentName, vresponsible AS responsible, eid AS elements
            FROM #__thm_organizer_virtual_schedules as vs
            INNER JOIN #__thm_organizer_virtual_schedules_elements as vse
            ON vs.vid = vse.vid AND vs.sid = vse.sid
