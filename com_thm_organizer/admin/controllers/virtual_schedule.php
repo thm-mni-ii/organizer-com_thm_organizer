@@ -1,19 +1,68 @@
 <?php
 defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport('joomla.application.component.controller');
-class thm_organizersControllervirtual_schedule_edit extends JController
+class thm_organizersControllervirtual_schedule extends JController
 {
 	function __construct() {
 		parent::__construct();
+		$this->registerTask('add', 'edit');
+		$this->registerTask('deleteList', '');
+	}
+	
+	/**
+	 * display the edit form
+	 * @return void
+	 */
+	function edit(){
+		JRequest::setVar( 'view', 'virtual_schedule_edit' );
+		parent::display();
+	}
+	
+	function remove(){
+		$dbo = & JFactory::getDBO();
+		$cid = JRequest::getVar( 'cid',   array(), 'post', 'array' );
+		$cids = implode( ',', $cid );
+		$cids_temp = $cids;
+		$cids_temp = str_replace(',', ', ', $cids_temp);
+		$cids = str_replace(',', '","', $cids);
+		$cids = '"'.$cids.'"';
+	
+		$query = 'DELETE FROM #__thm_organizer_virtual_schedules'
+		. ' WHERE vid IN ( '. $cids .' );';
+	
+		$dbo->setQuery( $query );
+		$dbo->query();
+	
+		if ($dbo->getErrorNum())
+		{
+			$msg =   JText::_( 'Fehler beim Löschen.' );
+		}
+		else
+		{
+			$query = 'DELETE FROM #__thm_organizer_virtual_schedules_elements'
+			. ' WHERE vid IN ( '. $cids .' );';
+	
+			$dbo->setQuery( $query );
+			$dbo->query();
+		}
+	
+		if(count($cid) > 1)
+			$msg =   JText::_( 'Virtuelle Stundenpläne '.$cids_temp.' gelöscht.' );
+		else
+			$msg =   JText::_( 'Virtuellen Stundenplan '.$cids_temp.' gelöscht.' );
+	
+		$this->setRedirect( 'index.php?option=com_thm_organizer&view=virtual_schedule_manager',$msg );
+	
 	}
 
 	function save()
 	{
 	    $model = $this->getModel('virtual_schedule_edit');
-
-	    $vscheduler_id = JRequest::getVar('cid', null, 'post','STRING');
-	    $vscheduler_name = JRequest::getVar('vscheduler_name', null, 'post','STRING');
-	    $vscheduler_types = JRequest::getVar('vscheduler_types', null, 'post','STRING');
+	    
+	    $data = JRequest::getVar('jform', null, null, null);
+	    $vscheduler_id = $data["id"];
+	    $vscheduler_name =$data["name"];
+	    $vscheduler_types = $data["type"];
 
 	    if($vscheduler_name == null)
 	    {
@@ -31,15 +80,15 @@ class thm_organizersControllervirtual_schedule_edit extends JController
 	      return;
 	    }
 
-	    $vscheduler_semid = JRequest::getVar('vscheduler_semid', null, 'post','STRING');
-	    $vscheduler_resps = JRequest::getVar('vscheduler_resps', null, 'post','STRING');
-	    $vscheduler_classesDepartments = JRequest::getVar('vscheduler_classesDepartments', null, 'post','STRING');
-	    $vscheduler_teacherDepartments = JRequest::getVar('vscheduler_teacherDepartments', null, 'post','STRING');
-	    $vscheduler_roomDepartments = JRequest::getVar('vscheduler_roomDepartments', null, 'post','STRING');
+	    $vscheduler_semid = $data["semester"];
+	    $vscheduler_resps = $data["responsible"];
+	    $vscheduler_classesDepartments = $data["ClassDepartment"];
+	    $vscheduler_teacherDepartments = $data["TeacherDepartment"];
+	    $vscheduler_roomDepartments = $data["RoomDepartment"];
 
-	    $vscheduler_classes = JRequest::getVar('vscheduler_classes', null, 'post','ARRAY');
-	    $vscheduler_rooms = JRequest::getVar('vscheduler_rooms', null, 'post','ARRAY');
-	    $vscheduler_teachers = JRequest::getVar('vscheduler_teachers', null, 'post','ARRAY');
+	    $vscheduler_classes = $data["Classes"];
+	    $vscheduler_rooms = $data["Rooms"];
+	    $vscheduler_teachers = $data["Teachers"];
 
 	    if(!isset($vscheduler_name) ||
 	       !isset($vscheduler_types) ||
