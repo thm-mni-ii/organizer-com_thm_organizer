@@ -68,8 +68,7 @@ class thm_organizersViewthm_organizers extends JView
                         'class_manager' => array(),
                         'teacher_manager' => array(),
                         'room_manager' => array(),
-                        'monitor_manager' => array(),
-                        'scheduler_application_settings' => array());
+                        'monitor_manager' => array());
         
         // the single menu entries
         $views['category_manager']['title'] = JText::_('COM_THM_ORGANIZER_CAT_TITLE');
@@ -111,11 +110,7 @@ class thm_organizersViewthm_organizers extends JView
         $views['monitor_manager']['title'] = JText::_('COM_THM_ORGANIZER_MON_TITLE');
         $title_text = JText::_('COM_THM_ORGANIZER_MON_TITLE')."::".JText::_('COM_THM_ORGANIZER_MON_DESC');
         $views['monitor_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
-        
-        $views['scheduler_application_settings']['title'] = JText::_('COM_THM_ORGANIZER_COM_TITLE');
-        $title_text = JText::_('COM_THM_ORGANIZER_RIA_TITLE')."::".JText::_('COM_THM_ORGANIZER_RIA_DESC');
-        $views['scheduler_application_settings']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
-                                               
+                                                       
         // setting correct html attributes and the images
         foreach($views as $k => $view)
         {

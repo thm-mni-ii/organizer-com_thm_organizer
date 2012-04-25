@@ -13,3 +13,4 @@ ADD`content_meta` TEXT DEFAULT NULL COMMENT'a json string containing optional fi
 CHANGE `roomID` `roomID` INT(11) UNSIGNED NOT NULL COMMENT 'references id of rooms table',
 ADD INDEX (`display`);
 
+DROP TABLE IF EXISTS #__thm_organizer_settings;
