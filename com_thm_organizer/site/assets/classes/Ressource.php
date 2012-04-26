@@ -201,7 +201,7 @@ class Ressource
 		  	}
      	  	$query .= "WHERE #__thm_organizer_lessons.semesterID = ".$fachsemester." " .
      	  	"AND #__thm_organizer_lessons.plantypeID = ".$this->plantypeID." ".
-          	"AND ";
+          	"AND ( ";
 	    if($type === "clas")
 	    	$query .= "( #__thm_organizer_classes.id like '".$ressourcename."') OR ( #__thm_organizer_classes.gpuntisID like '".$ressourcename."')";
 	    else if($type === "room")
@@ -211,6 +211,8 @@ class Ressource
 	    else if($type === "subject")
 	    	$query .= "( #__thm_organizer_subjects.id like '".$ressourcename."') OR ( #__thm_organizer_subjects.gpuntisID like '".$ressourcename."')";
 	    	    
+	    $query .= " )";
+	    
 		$hits  = $this->JDA->query( $query );
 		return $hits;
 	}
