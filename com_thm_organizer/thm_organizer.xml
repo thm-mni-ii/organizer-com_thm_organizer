@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension method="upgrade" type="component" version="1.7.0">
+<extension method="upgrade" type="component" version="2.5.7">
     <name>THM_ORGANIZER</name>
     <author>James Antrim</author>
     <authorEMail>jamesDOTantrimATyahooDOTcom</authorEMail>
