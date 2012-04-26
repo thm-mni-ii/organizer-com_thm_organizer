@@ -79,6 +79,7 @@ class thm_organizersModelschedule_edit extends JModelAdmin
         $data->startdate = thm_organizerHelper::germanizeDate($data->startdate);
         $data->enddate = thm_organizerHelper::germanizeDate($data->enddate);
         $data->plantypeID = $this->getPlanType($data->plantypeID);
+        if(JRequest::getInt('semesterID') AND $data->sid == '') $data->sid = JRequest::getInt('semesterID');
         return $data;
     }
 

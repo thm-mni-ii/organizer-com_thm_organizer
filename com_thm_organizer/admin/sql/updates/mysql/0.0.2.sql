@@ -13,3 +13,20 @@ ADD`content_meta` TEXT DEFAULT NULL COMMENT'a json string containing optional fi
 CHANGE `roomID` `roomID` INT(11) UNSIGNED NOT NULL COMMENT 'references id of rooms table',
 ADD INDEX (`display`);
 
+ALTER TABLE `#__thm_organizer_events`
+CHANGE `recurrence_counter` `recurrence_enddate` DATE NOT NULL DEFAULT '0000-00-00',
+CHANGE `recurrence_number` `recurrence_counter` INT(3) UNSIGNED NOT NULL DEFAULT 0,
+ADD `recurrence_interval` INT(2) UNSIGNED NOT NULL DEFAULT 0 AFTER `recurrence_enddate`,
+ADD `recurrence_weekly_days` INT(3) UNSIGNED NOT NULL DEFAULT 0 AFTER `recurrence_interval`
+;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_exclude_dates` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `eventID` int(10) unsigned NOT NULL,
+  `date` date NOT NULL DEFAULT '0000-00-00',
+  PRIMARY KEY (`id`),
+  KEY `eventID` (`eventID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS #__thm_organizer_settings;
+

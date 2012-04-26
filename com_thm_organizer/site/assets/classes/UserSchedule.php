@@ -41,10 +41,10 @@ class UserSchedule
 		// Wenn die Anfragen nicht durch Ajax von MySched kommt
 		if ( isset( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) ) {
 			if ( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] != 'XMLHttpRequest' )
-				die( 'Permission Denied!' );
+				die( JText::_("COM_THM_ORGANIZER_SCHEDULER_PERMISSION_DENIED") );
 		} else
-			die( 'Permission Denied!' );
-
+			die( JText::_("COM_THM_ORGANIZER_SCHEDULER_PERMISSION_DENIED") );
+		
 		if ( isset( $this->jsid ) ) {
 			if ( $this->username != null && $this->username != "" ) {
 				$timestamp = time();
@@ -52,16 +52,31 @@ class UserSchedule
 				// Alte Eintraege loeschen - Performanter als abfragen und Updaten
 				@$this->JDA->query( "DELETE FROM " . $this->cfg[ 'db_table' ] . " WHERE username='$this->username'" );
 				$result = $this->JDA->query( "INSERT INTO " . $this->cfg[ 'db_table' ] . " (username, data, created) VALUES ('$this->username', '$this->json', '$timestamp')" );
-
-				// ALLES OK
-				return array("data"=>$result );
+				
+				if($result === true)
+				{
+					// ALLES OK
+					return array("success"=>true,"data"=>array(
+						 'code' => 1,
+						 'errors' => array()
+					));
+				}
+				else {
+					// FEHLER
+					return array("success"=>false,"data"=>array(
+							'code' => 2,
+							'errors' => array(
+									'reason' => JText::_("COM_THM_ORGANIZER_SCHEDULER_SAVE_SCHEDULE_ERROR")
+							)
+					) );
+				}
 			} else {
 				// FEHLER
-				return array("succcess"=>false,"data"=>array(
+				return array("success"=>false,"data"=>array(
 					 'code' => 'expire',
 					 'errors' => array(
-						 'reason' => 'Ihre Sitzung ist abgelaufen oder ungültig. Bitte melden Sie sich neu an.'
-					)
+						 'reason' => JText::_("COM_THM_ORGANIZER_SCHEDULER_INVALID_SESSION")
+					 )
 				) );
 			}
 
@@ -70,7 +85,7 @@ class UserSchedule
 			return array("success"=>false,"data"=>array(
 				 'code' => 'expire',
 				'errors' => array(
-					 'reason' => 'Ihre Sitzung ist abgelaufen oder ungültig. Bitte melden Sie sich neu an.'
+					 'reason' => JText::_("COM_THM_ORGANIZER_SCHEDULER_INVALID_SESSION")
 				)
 			) );
 		}
@@ -119,9 +134,9 @@ class UserSchedule
 						 "#__thm_organizer_periods.period AS block, " .
 						 "(SELECT 'cyclic') AS type, ";
 
-				if ($this->JDA->isComponentavailable("com_thm_lsf"))
+		        if ($this->JDA->isComponentavailable("com_thm_curriculum"))
 				{
-					$query .= " modultitel_de AS longname ";
+					$query .= " IF(#__thm_organizer_subjects.moduleID='','',mo.title_de) AS longname ";
 				}
 				else
 				{
@@ -137,10 +152,10 @@ class UserSchedule
 				  	"INNER JOIN #__thm_organizer_lesson_classes ON #__thm_organizer_lesson_classes.lessonID = #__thm_organizer_lessons.id " .
 				  	"INNER JOIN #__thm_organizer_classes ON #__thm_organizer_lesson_classes.classID = #__thm_organizer_classes.id " .
 				  	"INNER JOIN #__thm_organizer_subjects ON #__thm_organizer_lessons.subjectID = #__thm_organizer_subjects.id ";
-					if ($this->JDA->isComponentavailable("com_thm_lsf"))
-		  			{
-						$query .= "LEFT JOIN #__thm_lsf_modules AS mo ON #__thm_organizer_subjects.moduleID = mo.modulnummer ";
-		  			}
+		            if ($this->JDA->isComponentavailable("com_thm_curriculum"))
+				  	{
+						$query .= "LEFT JOIN #__thm_curriculum_assets AS mo ON LOWER(#__thm_organizer_subjects.moduleID) = LOWER(mo.lsf_course_code) ";
+				  	}
 	         	  	$query .= "WHERE #__thm_organizer_lessons.semesterID = '".$this->semID."' AND #__thm_organizer_lessons.gpuntisID IN (";
 
               if (isset($data))
@@ -252,7 +267,7 @@ class UserSchedule
               return array("data"=>$retlesson);
           } else {
               // SESSION FEHLER
-              return array("success"=>false, "data"=>array('code' => 'expire', 'errors' => array('reason' => 'Ihre Sitzung ist abgelaufen oder ungültig. Bitte melden Sie sich neu an.')));
+              return array("success"=>false, "data"=>array('code' => 'expire', 'errors' => array('reason' => JText::_("COM_THM_ORGANIZER_SCHEDULER_INVALID_SESSION"))));
           }
       }
 }

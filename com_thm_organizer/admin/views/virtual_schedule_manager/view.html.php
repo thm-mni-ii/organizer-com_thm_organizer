@@ -24,15 +24,7 @@ class thm_organizersViewvirtual_schedule_manager extends JView
         $document = & JFactory::getDocument();
         $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
 
-        $title = JText::_('COM_THM_ORGANIZER').': '.JText::_('COM_THM_ORGANIZER_VSM_TITLE');        
-        JToolBarHelper::title( $title, 'mni' );
-        JToolBarHelper::addNewX('virtual_schedule_manager.add');
-        JToolBarHelper::editListX('virtual_schedule_manager.edit');
-        /**
-        * ToDo: Virtuelle Stundenpl�ne sollen kopiert werden k�nnen.
-        */
-        //JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', JText::_('Copy') );
-        JToolBarHelper::deleteListX('Really?','virtual_schedule_manager.remove' );
+        $this->addToolbar();
 
         $mainframe = JFactory::getApplication("administrator");
         $option = $mainframe->scope;
@@ -95,5 +87,27 @@ class thm_organizersViewvirtual_schedule_manager extends JView
         $this->assignRef('groupFilters', $groupFilters_req);
 
         parent::display($tpl);
+    }
+    /**
+     * addToolBar
+     *
+     * creates a joomla administrative tool bar
+     */
+    private function addToolBar()
+    {
+    	$title = JText::_('COM_THM_ORGANIZER').': '.JText::_('COM_THM_ORGANIZER_VSM_TITLE');        
+        JToolBarHelper::title( $title, 'mni' );
+        JToolBarHelper::addNewX('virtual_schedule.add');
+        JToolBarHelper::editListX('virtual_schedule.edit');
+        /**
+        * ToDo: Virtuelle Stundenpl�ne sollen kopiert werden k�nnen.
+        */
+        //JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', JText::_('Copy') );
+        JToolBarHelper::deleteListX('Really?','virtual_schedule.remove' );
+        if (thm_organizerHelper::isAdmin("virtual_schedule_manager"))
+        {
+        	JToolBarHelper::divider();
+        	JToolBarHelper::preferences('com_thm_organizer');
+        }
     }
 }

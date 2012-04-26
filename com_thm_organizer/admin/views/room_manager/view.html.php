@@ -77,6 +77,10 @@ class thm_organizersViewroom_manager extends JView
         JToolBarHelper::addNew('room.add');
         JToolBarHelper::editList('room.edit');
         JToolBarHelper::deleteList(JText::_( 'COM_THM_ORGANIZER_RMM_DELETE_CONFIRM'),'room.delete');
-
+        if (thm_organizerHelper::isAdmin("room_manager"))
+        {
+        	JToolBarHelper::divider();
+        	JToolBarHelper::preferences('com_thm_organizer');
+        }
     }
 }

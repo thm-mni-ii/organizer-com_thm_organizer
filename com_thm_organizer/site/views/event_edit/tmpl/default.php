@@ -21,7 +21,7 @@ $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : fa
 $i = 0;
 foreach($this->categories as $category)
 {
-    echo 'categories['.$category['id'].'] = new Array( "'.mysql_real_escape_string($category['description']).'", "'.addslashes($category['display']).'",  "'.addslashes($category['contentCat']).'", "'.addslashes($category['contentCatDesc']).'", "'.addslashes($category['access']).'" );';
+    echo 'categories['.$category['id'].'] = new Array( "'.$category['description'].'", "'.$category['display'].'",  "'.$category['contentCat'].'", "'.$category['contentCatDesc'].'", "'.$category['access'].'" );';
 }
 ?>
 

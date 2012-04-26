@@ -110,19 +110,19 @@ class thm_organizersModeldescription extends thm_organizersModelresource
         $gpuntisID = trim((string)$descriptionnode[0]['id']);
         $details = explode(', ', trim((string)$descriptionnode->longname));
         $category = $details[0];
-        $description = (isset($details[1]))? $details[1] : '';
+        $desc = (isset($details[1]))? $details[1] : '';
 
         $description = JTable::getInstance('descriptions', 'thm_organizerTable');
         $loadData = array('gpuntisID' => $gpuntisID);
         $data = array('gpuntisID' => $gpuntisID,
                       'category' => $category,
-                      'description' => $description);
+                      'description' => $desc);
         $description->load($loadData);
         $description->save($data);
 
         $descriptions[$gpuntisID] = array();
         $descriptions[$gpuntisID]['id'] = $description->id;
         $descriptions[$gpuntisID]['category'] = $details[0];
-        $descriptions[$gpuntisID]['description'] = (isset($details[1]))? $details[1] : '';
+        $descriptions[$gpuntisID]['description'] = $desc;
     }
 }

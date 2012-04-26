@@ -108,11 +108,11 @@ Ext.override(Ext.picker.Date, {
 			{
 				var len = cell.children[0].events.length;
 				if(current.compare(begin) === 0)
-					cell.children[0].events[len] = "Semesteranfang";
+					cell.children[0].events[len] = "<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_SEMESTER_BEGIN'); ?>";
 				else if(current.compare(end) === 0)
-					cell.children[0].events[len] = "Semesterende";
+					cell.children[0].events[len] = "<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_SEMESTER_END'); ?>";
 				else
-					cell.children[0].events[len] = "Semester";
+					cell.children[0].events[len] = "<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_SEMESTER'); ?>";
 
 				cell.className += " MySched_Semester";
 				if (!cell.children[0].className.contains(" calendar_tooltip")) cell.children[0].className += " calendar_tooltip";
@@ -164,7 +164,6 @@ Ext.override(Ext.picker.Date, {
 			},
 			'mouseout': function (e) {
 				e.stopEvent();
-				if (Ext.getCmp('mySched_calendar-tip')) Ext.getCmp('mySched_calendar-tip').destroy();
 			},
 			scope: this
 		});
@@ -177,7 +176,7 @@ calendar_tooltip = function (e) {
 	var el = e.getTarget('.calendar_tooltip', 5, true);
 	if (Ext.getCmp('mySched_calendar-tip')) Ext.getCmp('mySched_calendar-tip').destroy();
 	var xy = el.getXY();
-	xy[0] = xy[0] + el.getWidth() + 10;
+	xy[0] = xy[0] + el.getWidth();
 
 	var events = el.dom.events;
 	var htmltext = "";
@@ -186,19 +185,18 @@ calendar_tooltip = function (e) {
 
 			htmltext += events[i].data.title;
 			var name = "";
-			for(var obj in events[i].data.objects)
-			{
-				if(typeof obj != "function")
-					if(name != "")
-						name += ", ";
-					if(obj.substring(0, 3) == "RM_") {
-						name += MySched.Mapping.getName("room", obj);
-					} else if(obj.substring(0, 3) == "TR_") {
-						name += MySched.Mapping.getName("doz", obj);
-					} else if(obj.substring(0, 3) == "CL_"){
-						name += MySched.Mapping.getName("clas", obj);
-					}
-			}
+			
+			events[i].data.objects.each(function(o, k) {
+				if(name != "")
+					name += ", ";
+				if(o.type === "teacher")
+					name += "<small class='dozname'>" + o.name + "</small>";
+				else if(o.type === "room")
+					name += "<small class='roomshortname'>" + o.name + "</small>";
+				else
+					name += o.name
+			});
+			
 			if(name != "")
 				htmltext += " ("+ name + ")<br/>";
 			else
@@ -211,13 +209,36 @@ calendar_tooltip = function (e) {
 	if (events.length > 0) {
 		var parentID = el.dom.getParent().id;
 		var ttInfo = Ext.create('Ext.tip.ToolTip', {
-			title: '<div class="mySched_tooltip_calendar_title">Termin(e):</div>',
+			title: '<div class="mySched_tooltip_calendar_title">'+MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EVENTS+'</div>',
 			id: 'mySched_calendar-tip',
 			target: parentID,
 			autoHide: false,
 			html: htmltext,
 			cls: "mySched_tooltip_calendar"
 		});
+		
+		ttInfo.on('afterrender', function() {
+	    	  Ext.select('.dozname', false, this.el.dom).on({
+	    	      'click': function (e) {
+	    	        if (e.button == 0) //links Klick
+	    	        MySched.SelectionManager.showSchedule(e, 'doz');
+	    	      },
+	    	      scope: this
+	    	    });
+
+	    	    Ext.select('.roomshortname', false, this.el.dom).on({
+	    	      'click': function (e) {
+	    	        if (e.button == 0) //links Klick
+	    	        MySched.SelectionManager.showSchedule(e, 'room');
+	    	      },
+	    	      scope: this
+	    	    });
+	      });
+		
+		ttInfo.on('beforedestroy', function() {
+			Ext.select('.dozname', false, this.el.dom).removeAllListeners();
+    	    Ext.select('.roomshortname', false, this.el.dom).removeAllListeners();
+	    });
 
 		ttInfo.showAt(xy);
 	}

@@ -18,10 +18,10 @@ MySched.Mapping = function () {
 			this.subject = new MySched.Collection();
 			this.room = new MySched.Collection();
 			this.types = {
-				doz: "Dozent",
-				clas: "Studiengang",
-				room: "Raum",
-				subject: "Fächer"
+				doz: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHER,
+				clas: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER,
+				room: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ROOM,
+				subject: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SUBJECTS
 			};
 
 		},

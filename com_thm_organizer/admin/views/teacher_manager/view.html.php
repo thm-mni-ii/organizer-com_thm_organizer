@@ -81,6 +81,10 @@ class thm_organizersViewteacher_manager extends JView
         JToolBarHelper::addNew('teacher.add');
         JToolBarHelper::editList('teacher.edit');
         JToolBarHelper::deleteList(JText::_( 'COM_THM_ORGANIZER_RMM_DELETE_CONFIRM'),'teacher.delete');
-
+        if (thm_organizerHelper::isAdmin("teacher_manager"))
+        {
+        	JToolBarHelper::divider();
+        	JToolBarHelper::preferences('com_thm_organizer');
+        }
     }
 }

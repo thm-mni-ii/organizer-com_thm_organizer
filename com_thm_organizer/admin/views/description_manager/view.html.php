@@ -73,6 +73,10 @@ class thm_organizersViewdescription_manager extends JView
         JToolBarHelper::addNew('description.add');
         JToolBarHelper::editList('description.edit');
         JToolBarHelper::deleteList(JText::_( 'COM_THM_ORGANIZER_DSM_DELETE_CONFIRM'),'description.delete');
-
+        if (thm_organizerHelper::isAdmin("description_manager"))
+        {
+        	JToolBarHelper::divider();
+        	JToolBarHelper::preferences('com_thm_organizer');
+        }
     }
 }

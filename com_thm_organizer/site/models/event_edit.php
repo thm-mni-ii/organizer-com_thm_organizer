@@ -152,6 +152,7 @@ class thm_organizerModelevent_edit extends JModelForm
         $query = $dbo->getQuery(true);
         $query->select('id, name');
         $query->from('#__thm_organizer_rooms');
+        $query->order('name ASC');
         $dbo->setQuery((string)$query);
         $rooms = $dbo->loadAssocList();
         $this->rooms = count($rooms)? $rooms : array();
@@ -163,6 +164,7 @@ class thm_organizerModelevent_edit extends JModelForm
         $query = $dbo->getQuery(true);
         $query->select('id, name');
         $query->from('#__thm_organizer_teachers');
+        $query->order('name ASC');
         $dbo->setQuery((string)$query);
         $teachers = $dbo->loadAssocList();
         $this->teachers = count($teachers)? $teachers : array();
@@ -176,6 +178,7 @@ class thm_organizerModelevent_edit extends JModelForm
         $query->from('#__usergroups');
         $query->where('title != "Public"');
         $query->where('title != "Super Users"');
+        $query->order('name ASC');
         $dbo->setQuery((string)$query);
         $groups = $dbo->loadAssocList();
         $this->groups = count($groups)? $groups : array();
@@ -205,11 +208,11 @@ class thm_organizerModelevent_edit extends JModelForm
             {
                 $asset = "com_content".".category.".$v['contentCatID'];
                 if($this->event['id'] == 0)
-                    $access = $user->authorise ('core.create', $asset);
+                    $access = $user->authorise('core.create', $asset);
                 else if($this->event['id'] > 0)
                 {
-                    if($isAuthor) $canEditOwn = $user->authorise ('core.edit.own', $asset);
-                    else $canEditOwn = false;
+                    $canEditOwn = false;
+                    if($isAuthor)$canEditOwn = $user->authorise ('core.edit.own', $asset);
                     $canEdit = $user->authorise ('core.edit', $asset);
                     $access = $canEdit or $canEditOwn;
                 }
@@ -233,13 +236,20 @@ class thm_organizerModelevent_edit extends JModelForm
                     $contentCat = "<p>".JText::_('COM_THM_ORGANIZER_EE_CATEGORY_EXPLANATION');
                     $contentCat .= "<span class='thm_organizer_ee_highlight'>&quot;".$v['contentCat']."&quot;</span>.</p>";
                     $v['contentCat'] = $contentCat;
-
-                    $contentCatDesc = "<p>".$v['contentCatDesc']."</p>";
-                    $v['contentCatDesc'] = $contentCatDesc;
-
+                    
+                    $v['contentCatDesc'] = str_replace("\r", "", str_replace("\n", "", nl2br($v['contentCatDesc'])));
+                    $v['contentCatDesc'] = addslashes($v['contentCatDesc']);
+                    
                     $access = "<p>".JText::_('COM_THM_ORGANIZER_EE_CONTENT_EXPLANATION_START');
                     $access .= $v['access'].JText::_('COM_THM_ORGANIZER_EE_CONTENT_EXPLANATION_END')."</p>";
                     $v['access'] = $access;
+                    
+                    $v['description'] = str_replace("\r", "", str_replace("\n", "", $v['description']));
+                    $v['description'] = addslashes($v['description']);
+                    
+                    $v['display'] = addslashes($v['display']);
+                    $v['contentCat'] = addslashes($v['contentCat']);
+                    $v['access'] = addslashes($v['access']);
 
                     $categories[$v['id']] = $v;
                 }

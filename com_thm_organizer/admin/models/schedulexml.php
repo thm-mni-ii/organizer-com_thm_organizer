@@ -386,10 +386,10 @@ class thm_organizersModelschedulexml extends thm_organizersModelschedule
                         $delta[$gpuntisKey]['changes']['classIDs'] = array();
                         if(count($newClasses))
                             foreach($newClasses as $newClass)
-                                $delta[$gpuntisKey]['changes']['teacherIDs'][$newClass]= "new";
+                                $delta[$gpuntisKey]['changes']['classIDs'][$newClass]= "new";
                         if(count($oldClasses))
                             foreach($oldClasses as $oldClass)
-                                $delta[$gpuntisKey]['changes']['teacherIDs'][$oldClass]= "removed";
+                                $delta[$gpuntisKey]['changes']['classIDs'][$oldClass]= "removed";
                     }
                 }
                 //if the number of periods has remained the same than any new keys are moves

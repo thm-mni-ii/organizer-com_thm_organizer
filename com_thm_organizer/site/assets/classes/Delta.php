@@ -106,7 +106,7 @@
 								$classGPUntisID = $this->getID($classKey, "class");
 								$classList[$classGPUntisID[0]] = $classValue;
 							}
-							$lessons[$lessoncounter]["lesssonChanges"]["classIDs"] = $classList;
+							$lessons[$lessoncounter]["lessonChanges"]["classIDs"] = $classList;
 						}
 					}
 

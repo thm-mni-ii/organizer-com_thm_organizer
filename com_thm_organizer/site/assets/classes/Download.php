@@ -30,17 +30,17 @@ class Download
 		    $this->title = urldecode( $this->title );
 
 
-		    if ( $this->title == "Mein Stundenplan" && $this->username != "undefined" )
+		    if ( $this->title == JText::_("COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE") && $this->username != "undefined" )
 			{
 		        $this->title = $this->username . " - " . $this->title;
 		    }
 
-		    $tmpFile = JPATH_COMPONENT.$this->cfg[ 'pdf_downloadFolder' ] . $path .'stundenplan.' . $this->what;
-		    $file    = JPATH_COMPONENT.$this->cfg[ 'pdf_downloadFolder' ] . $path . $this->title . '.'. $this->what;
+		    $tmpFile = $this->cfg[ 'pdf_downloadFolder' ] . $path .'stundenplan.' . $this->what;
+		    $file    = $this->cfg[ 'pdf_downloadFolder' ] . $path . $this->title . '.'. $this->what;
 
 		    if ( empty( $this->title ) || $this->title == 'undefined' ) {
 		        if ( !file_exists( $tmpFile ) ) {
-		            die( 'no File to Download!' );
+		            die( JText::_('COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_NO_FILE') );
 		        } else {
 		            $file  = $tmpFile;
 		            $this->title = 'stundenplan';
@@ -48,7 +48,7 @@ class Download
 		    }
 
 		    if ( !file_exists( $file ) )
-		        die( 'no File to Download!' );
+		        die( JText::_('COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_NO_FILE') );
 
 
 		    if ( $this->save == "true" ) {

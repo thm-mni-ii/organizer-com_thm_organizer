@@ -260,10 +260,8 @@ class thm_organizersControllerschedule extends JController
 			else $dbo->transactionCommit();
 		}
 		$msg = "";
-		if(count($return['errors']))
-			$msg .= "<br />".implode("<br />", $return['errors']);
-		if(count($return['messages']))
-			$msg .= "<br />".implode("<br />", $return['messages']);
+		if(count($return['errors'])) $msg .= "<br />".implode("<br />", $return['errors']);
+		if(count($return['messages'])) $msg .= "<br />".implode("<br />", $return['messages']);
 		if(count($return['errors'])) $this->setRedirect($url, $msg, 'error');
 		else $this->setRedirect($url, $msg);
 	}

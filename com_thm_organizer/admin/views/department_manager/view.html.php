@@ -76,6 +76,10 @@ class thm_organizersViewdepartment_manager extends JView
         JToolBarHelper::addNew('department.add');
         JToolBarHelper::editList('department.edit');
         JToolBarHelper::deleteList(JText::_( 'COM_THM_ORGANIZER_DPM_DELETE_CONFIRM'),'department.delete');
-
+        if (thm_organizerHelper::isAdmin("department_manager"))
+        {
+        	JToolBarHelper::divider();
+        	JToolBarHelper::preferences('com_thm_organizer');
+        }
     }
 }

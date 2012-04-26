@@ -203,7 +203,7 @@ class thm_organizerModelevent_list extends JModelForm
 
     private function setLimits()
     {
-        $limit = (JRequest::getInt('limit'))? JRequest::getInt('limit') : $this->total;
+        $limit = (JRequest::getInt('limit'))? JRequest::getInt('limit') : 0;
         $this->setState('limit', $limit);
 
         $limitstart = (JRequest::getInt('limitstart'))? JRequest::getInt('limitstart') : 0;
