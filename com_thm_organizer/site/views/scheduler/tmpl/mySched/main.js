@@ -3112,6 +3112,10 @@ MySched.Tree = function () {
 	            var type = data.type;
 
 				MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
+	          } else if(rec.isExpanded()) {
+	        	  rec.collapse();
+	          } else {
+	        	  rec.expand();
 	          }
 	      });
 
