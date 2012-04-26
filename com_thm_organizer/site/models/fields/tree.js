@@ -394,6 +394,13 @@ Ext.onReady(function(){
     treeView.on('itemremove', function() {
     	tree.doGray();
     });
+    tree.on('itemclick', function (me, rec, item, index, event, options) {
+        if(rec.isExpanded()) {
+      	  rec.collapse();
+        } else {
+      	  rec.expand();
+        }
+    });
 
     Ext.select('.MySched_checkbox_fake').on({
 		'mouseover': function (e) {
