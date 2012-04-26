@@ -1,16 +1,5 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_application_settings` (
-  `id` int(11) unsigned NOT NULL,
-  `downFolder` varchar(100) NOT NULL,
-  `vacationcat` tinyint(4) NOT NULL,
-  `eStudyPath` varchar(100) NOT NULL,
-  `eStudywsapiPath` varchar(100) NOT NULL,
-  `eStudyCreateCoursePath` varchar(100) NOT NULL,
-  `eStudySoapSchema` varchar(100) NOT NULL,
-  UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_categories` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(50) NOT NULL,

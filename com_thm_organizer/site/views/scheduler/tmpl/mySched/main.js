@@ -1027,9 +1027,9 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
   },
   showModuleInformation: function (e) {
 
-  	if(MySched.LSFisAvailable != true)
+  	if(MySched.CurriculumisAvailable != true)
 	{
-		Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LSF, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LSF_FUNCTION_ERROR);
+		Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_CURRICULUM, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_FUNCTION_ERROR);
 		return;
 	}
 
@@ -1067,7 +1067,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(), {
 	  frame:false,
 	  hideLabel: true,
       closeable: true,
-      html: '<iframe id="iframeModule" class="mysched_iframeModule" src="' + externLinks.lsfLink + '&nrmni=' + l.moduleID.toUpperCase() + '"></iframe>'
+      html: '<iframe id="iframeModule" class="mysched_iframeModule" src="' + externLinks.curriculumLink + '&nrmni=' + l.moduleID.toUpperCase() + '"></iframe>'
     });
 
     modulewin.show();
@@ -3186,17 +3186,11 @@ MySched.Tree = function () {
               });
             }
             else {
-            	if(typeof record != "undefined")
-            	{
-            		if (typeof record.elements != "undefined")
-              			new mSchedule(nodeID, title).init(type, record.elements).show();
-              		else
-						new mSchedule(nodeID, title).init(type, nodeKey).show();
-            	}
-            	else
-            	{
+            	var elements = MySched.Mapping.getObjectField(type, nodeKey, "elements");
+            	if(elements === nodeKey)
             		new mSchedule(nodeID, title).init(type, nodeKey).show();
-            	}
+            	else
+            		new mSchedule(nodeID, title).init(type, elements).show();
             }
 		}
     },

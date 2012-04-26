@@ -39,7 +39,7 @@ class mySchedConfig {
         // die XML Datei mit den Stundenplandaten
         $this->cfg['xml_scheduleFile'] = B.'/mySched/schedule_full.xml';
         // Hier werden die PDF Dateien gespeichert (Muss nicht im Webroot liegen!)
-        $this->cfg['pdf_downloadFolder'] = $settings->downFolder;
+        $this->cfg['pdf_downloadFolder'] = $JDA->getDownloadFolder();
         // Die ID der Ferien/Feiertage Kategorie
         $this->cfg['vacation_id'] = $settings->vacationcat;        //LSF adress
         $this->cfg['lsf_adress'] = "http://www-test.mni.fh-giessen.de:8080/axis2/services/dbinterface?wsdl";

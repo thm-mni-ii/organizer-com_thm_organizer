@@ -50,8 +50,7 @@ class thm_organizerHelper
             'class_manager' => array('name' => 'COM_THM_ORGANIZER_CLM_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=class_manager'),
             'teacher_manager' => array('name' => 'COM_THM_ORGANIZER_TRM_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=teacher_manager'),
             'room_manager' => array('name' => 'COM_THM_ORGANIZER_RMM_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=room_manager'),
-            'monitor_manager' => array('name' => 'COM_THM_ORGANIZER_MON_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=monitor_manager'),
-            'settings' => array('name' => 'COM_THM_ORGANIZER_COM_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=settings')
+            'monitor_manager' => array('name' => 'COM_THM_ORGANIZER_MON_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=monitor_manager')
         );
 
         // put submenu entries togehter

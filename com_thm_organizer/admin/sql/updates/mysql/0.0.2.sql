@@ -27,3 +27,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_exclude_dates` (
   PRIMARY KEY (`id`),
   KEY `eventID` (`eventID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS #__thm_organizer_settings;
+

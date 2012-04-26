@@ -36,6 +36,13 @@ class DataAbstraction
     {
         return $this->user->id;
     }
+    
+    public function getDownloadFolder()
+    {
+    	$confObject = JFactory::getApplication();
+		$tmpPath = $confObject->getCfg('tmp_path').DS;
+		return $tmpPath;
+    }
 
     public function query( $sqlstatement, $arr = false )
     {

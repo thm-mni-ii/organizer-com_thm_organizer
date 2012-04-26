@@ -134,9 +134,9 @@ class UserSchedule
 						 "#__thm_organizer_periods.period AS block, " .
 						 "(SELECT 'cyclic') AS type, ";
 
-				if ($this->JDA->isComponentavailable("com_thm_lsf"))
+		        if ($this->JDA->isComponentavailable("com_thm_curriculum"))
 				{
-					$query .= " modultitel_de AS longname ";
+					$query .= " IF(#__thm_organizer_subjects.moduleID='','',mo.title_de) AS longname ";
 				}
 				else
 				{
@@ -152,10 +152,10 @@ class UserSchedule
 				  	"INNER JOIN #__thm_organizer_lesson_classes ON #__thm_organizer_lesson_classes.lessonID = #__thm_organizer_lessons.id " .
 				  	"INNER JOIN #__thm_organizer_classes ON #__thm_organizer_lesson_classes.classID = #__thm_organizer_classes.id " .
 				  	"INNER JOIN #__thm_organizer_subjects ON #__thm_organizer_lessons.subjectID = #__thm_organizer_subjects.id ";
-					if ($this->JDA->isComponentavailable("com_thm_lsf"))
-		  			{
-						$query .= "LEFT JOIN #__thm_lsf_modules AS mo ON #__thm_organizer_subjects.moduleID = mo.modulnummer ";
-		  			}
+		            if ($this->JDA->isComponentavailable("com_thm_curriculum"))
+				  	{
+						$query .= "LEFT JOIN #__thm_curriculum_assets AS mo ON LOWER(#__thm_organizer_subjects.moduleID) = LOWER(mo.lsf_course_code) ";
+				  	}
 	         	  	$query .= "WHERE #__thm_organizer_lessons.semesterID = '".$this->semID."' AND #__thm_organizer_lessons.gpuntisID IN (";
 
               if (isset($data))

@@ -448,4 +448,5 @@ img.status_icons_delete {
 
 button .x-tab-inner {
 	overflow-x: hidden;
+	overflow-y: hidden;
 }

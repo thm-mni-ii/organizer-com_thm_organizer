@@ -32,12 +32,6 @@ class com_thm_organizerInstallerScript
 	            if(!isset($objectdir)) $objectdir = false;
 	        }
 	    }
-	    $downexists = JFolder::exists( JPATH_SITE.'/components/com_thm_organizer/down' );
-	    if(!isset($downexists)) $downexists = false;
-	    if(!$downexists)
-	    {
-	    	$downmakedir = JFolder::create( JPATH_SITE.'/components/com_thm_organizer/down' );
-	    }
 	    ?>
 	    <div>
     		<div style="width: 100%;">
@@ -58,12 +52,7 @@ class com_thm_organizerInstallerScript
         <?php } else { ?>
             <font color='red'>The directory /images/thm_organizer/resources could not be created.</font><br />
         <?php }
-        if($downmakedir){ ?>
-            <font color='green'>The directory /components/com_thm_organizer/down has been created.</font><br />
-        <?php }else{ ?>
-            <font color='red'>The directory /components/com_thm_organizer/down could not be created.</font><br />
-        <?php } ?>
-		<?php }else { ?>
+			  }else { ?>
 		        <font color='red'>The directory /images/thm_organizer could not be created.</font><br />
 		<?php } ?>
 		        </code>

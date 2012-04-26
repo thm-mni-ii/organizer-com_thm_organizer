@@ -68,6 +68,11 @@ class thm_organizersViewschedule_manager extends JView
         JToolBarHelper::addNew('schedule.add');
         JToolBarHelper::editList('schedule.edit');
         JToolBarHelper::makeDefault('schedule.setDefault', 'COM_THM_ORGANIZER_SCH_ACTIVATE_TITLE');
-        JToolBarHelper::deleteList(JText::_( 'COM_THM_ORGANIZER_SCH_DELETE_CONFIRM'),'schedule.delete');
+        JToolBarHelper::deleteList(JText::_( 'COM_THM_ORGANIZER_SCH_DELETE_CONFIRM'),'schedule.delete');        
+        if (thm_organizerHelper::isAdmin("schedule_manager"))
+        {
+        	JToolBarHelper::divider();
+        	JToolBarHelper::preferences('com_thm_organizer');
+        }
     }
 }

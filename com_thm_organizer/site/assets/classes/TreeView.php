@@ -250,8 +250,6 @@ class TreeView
 
     $semesterJahrNode = $this->treeCorrect($semesterJahrNode);
 
-	//echo "<pre>".print_r($semesterJahrNode, true)."</pre>";
-
     return array("success"=>true,"data"=>array("tree"=>$semesterJahrNode,"treeData"=>$this->treeData, "treePublicDefault"=>$this->publicDefaultNode));
   }
 
@@ -566,7 +564,7 @@ class TreeView
     if($type == "doz")
     {
     	$datas = $this->getStundenplanDozData($planid, $semesterID);
-    	$virtualSchedules = $this->getVirtualSchedules($type, $semesterID);
+    	$virtualSchedules = $this->getVirtualSchedules("teacher", $semesterID);
     }
     else if($type == "room")
     {
@@ -580,7 +578,7 @@ class TreeView
     }
     else
     	$datas = $this->getStundenplanSubjectData($planid, $semesterID);
-    
+        
     if(is_array( $datas ) === true)
     if ( count( $datas ) != 0 ) {
 	  $this->treeData[$type] = array_merge_recursive( $this->treeData[$type], $datas);
@@ -605,7 +603,7 @@ class TreeView
 		$dataArray[ $parent ][ $id ][ "plantypeID" ] = trim($planid);
 				
 		foreach($virtualSchedules as $k=>$v) {
-			if($v->department === trim($data->parentName))
+			if($v->parentName === trim($data->parentName))
 			{
 				$v->departmentID = $parent;
 			}
@@ -617,32 +615,64 @@ class TreeView
 			$dataArray[ $parent ][ $id ][ "treeLoaded" ] = false;
 		}
 	}
+		
+ 	foreach($virtualSchedules as $k=>$v) {
+		$v->elements = $this->GpuntisIDToid(trim($v->elements), $type);
+		$v->elements = array($v->elements[0]->id);
+	}
+	
+	$virtualSchedulesTemp = $virtualSchedules;
+	foreach($virtualSchedules as $k=>$v)
+	{
+		foreach($virtualSchedulesTemp as $kTemp=>$vTemp)
+		{
+			if($k != $kTemp && $v->id === $vTemp->id && $v->parentName === $vTemp->parentName)
+			{				
+				if(!in_array( $vTemp->elements, $v->elements))
+					$v->elements[] = $vTemp->elements[0];
+			}
+		}
+	}
+	
+	foreach($virtualSchedules as $k=>$v)
+	{
+		$v->elements = implode(";", $v->elements);
+	}
 	
 	if(!empty($virtualSchedules))
 	{
+		$this->treeData[$type] = array_merge_recursive( $this->treeData[$type], $virtualSchedules);
 		for ( $i = 0; $i < count( $virtualSchedules ); $i++ ) {
 			$data = $virtualSchedules[ $i ];
-			$id = trim($data->vid);
-			if(!isset($data->departmentID))
+			$id = trim($data->id);
+			if(!isset($data->departmentID) && $data->parentName != "none")
 				continue;
-			$parent = trim($data->departmentID);
+			
+			if($data->parentName != "none")
+				$parent = trim($data->departmentID);
+			else
+				$parent = trim($data->parentName);	
 			if ( !isset( $dataArray[ $parent ] ) ) {
 				$dataArray[ $parent ] = array( );
 			}
 		
-			$dataArray[ $parent ][ $id ]                   = array( );
+			if(!isset($dataArray[ $parent ][ $id ]))
+				$dataArray[ $parent ][ $id ]                   = array( );
 			$dataArray[ $parent ][ $id ][ "id" ]           = trim($id);
-			$dataArray[ $parent ][ $id ][ "department" ]   = trim($data->department);
-			$dataArray[ $parent ][ $id ][ "shortname" ]    = trim($data->vname);
+			$dataArray[ $parent ][ $id ][ "department" ]   = trim($data->parentName);
+			$dataArray[ $parent ][ $id ][ "shortname" ]    = trim($data->shortname);
 			$dataArray[ $parent ][ $id ][ "departmentID" ]    = trim($parent);
-			$dataArray[ $parent ][ $id ][ "type" ]        = trim($data->vtype);
-			$dataArray[ $parent ][ $id ][ "name" ]         = trim($data->vname);
+			$dataArray[ $parent ][ $id ][ "type" ]        = trim($data->type);
+			$dataArray[ $parent ][ $id ][ "name" ]         = trim($data->shortname);
 			$dataArray[ $parent ][ $id ][ "lessonamount" ] = 1;
 			$dataArray[ $parent ][ $id ][ "gpuntisID" ] = null;
 			
 			if(!isset($dataArray[ $parent ][ $id ][ "elements" ]))
+			{
 				$dataArray[ $parent ][ $id ][ "elements" ] = array();
-			$dataArray[ $parent ][ $id ][ "elements" ][] = trim($data->eid);
+			}
+			
+			$dataArray[ $parent ][ $id ][ "elements" ][] = $data->elements;
 			
 			$dataArray[ $parent ][ $id ][ "semesterID" ] = trim($semesterID);
 			$dataArray[ $parent ][ $id ][ "plantypeID" ] = trim($planid);
@@ -864,7 +894,7 @@ class TreeView
 
   private function getVirtualSchedules($type, $semesterID)
   {
-    $vsquery = "SELECT DISTINCT vs.vid, vname, vtype, department, vresponsible, eid
+    $vsquery = "SELECT DISTINCT vs.vid AS id, vname AS shortname, vname AS name, vtype AS type, department AS parentName, vresponsible AS responsible, eid AS elements
            FROM #__thm_organizer_virtual_schedules as vs
            INNER JOIN #__thm_organizer_virtual_schedules_elements as vse
            ON vs.vid = vse.vid AND vs.sid = vse.sid
@@ -894,6 +924,22 @@ class TreeView
     $query = "SELECT * " . " FROM #__thm_organizer_lesson_classes INNER JOIN #__thm_organizer_classes ON classID = #__thm_organizer_classes.id INNER JOIN #__thm_organizer_lessons ON #__thm_organizer_lesson_classes.lessonID = #__thm_organizer_lessons.id " . " WHERE #__thm_organizer_classes.gpuntisID = '" . $resourcename . "' AND semesterID = '" . $fachsemester . "' AND plantypeID = 1";
     $hits  = $this->JDA->query( $query );
     return count( $hits );
+  }
+  
+  private function GpuntisIDToid($gpuntisID, $type)
+  {
+  	
+  	$query = "SELECT id ";
+  	if($type == "room")
+  		$query .= "FROM #__thm_organizer_rooms ";
+  	else if($type == "clas")
+  		$query .= "FROM #__thm_organizer_classes ";
+  	else if($type == "doz")
+  		$query .= "FROM #__thm_organizer_teachers ";
+  	$query .= "WHERE gpuntisID = '" . $gpuntisID . "'";
+  	$ret   = $this->JDA->query( $query );
+  	
+  	return $ret;
   }
 }
 ?>
