@@ -387,11 +387,20 @@ img.status_icons_delete {
 	padding-right: 1px;
 }
 
+/* MySched Search Result */
+.MySchedSearchResult {
+	border: 1px solid #FF8C00 !important;
+}
+
+.searchSubject {
+	border: 1px solid #FF8C00 !important;
+}
+
 /* Ext-Style overrides */
 .x-grid-row .x-grid-cell {
 	border-right: 1px solid #ECECEC;
 	border-bottom: 1px solid #ECECEC;
-    	border-top: 0px;
+    border-top: 0px;
 }
 
 .x-panel-body-default {
