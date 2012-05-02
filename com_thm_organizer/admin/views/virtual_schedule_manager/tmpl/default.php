@@ -45,7 +45,7 @@ defined('_JEXEC') or die;?>
 			</th>
 			<th align="center"><?php echo JHTML::_('grid.sort', JText::_( "COM_THM_ORGANIZER_VSM_LABEL_ELEMENTS" ), 'eid', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
-			<th nowrap="nowrap"><?php echo JHTML::_('grid.sort', JText::_( "COM_THM_ORGANIZER_VSM_LABEL_SEMESTER" ), 'semesterid', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
+			<th nowrap="nowrap"><?php echo JHTML::_('grid.sort', JText::_( "COM_THM_ORGANIZER_VSM_LABEL_SEMESTER" ), 'semesterID', $this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
 		</tr>
 	</thead>
@@ -55,7 +55,7 @@ defined('_JEXEC') or die;?>
 	for ($i=0, $n=count($this->items); $i < $n; $i++){
 		$row = &$this->items[$i];
 		$checked  = JHTML::_('grid.id',   $i, $row->id );
-		$link = JRoute::_('index.php?option=com_thm_organizer&controller=virtual_schedule_manager&task=virtual_schedule_manager.edit&cid[]='.base64_encode($row->id));
+		$link = JRoute::_('index.php?option=com_thm_organizer&controller=virtual_schedule&task=virtual_schedule.edit&cid[]='.base64_encode($row->id));
 		?>
 	<tr class="<?php echo "row".$k; ?>">
 		<td><?php echo $row->id; ?></td>
@@ -66,7 +66,7 @@ defined('_JEXEC') or die;?>
 		<td><?php echo $row->responsible;?></td>
 		<td><?php echo $row->department; ?></td>
 		<td><?php echo $row->eid; ?></td>
-		<td><?php echo $row->semesterid; ?></td>
+		<td><?php echo $row->semesterID; ?></td>
 	</tr>
 	<?php
 	$k = 1 - $k;

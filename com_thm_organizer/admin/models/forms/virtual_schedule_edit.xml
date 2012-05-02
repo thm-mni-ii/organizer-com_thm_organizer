@@ -2,10 +2,17 @@
 <form>
 	<fieldset>
 		<field
+			id="id"
 			name="id"
 			type="hidden"
 		/>
 		<field
+			id="vid"
+			name="vid"
+			type="hidden"
+		/>
+		<field
+			id="name"
 			name="name"
 			type="text"
 			label="COM_THM_ORGANIZER_VSE_NAME_LABEL"
@@ -15,6 +22,7 @@
 			required="true"
 		/>
 		<field 
+			id="type" 
 			name="type" 
 			type="list" 
 			default="" 
@@ -25,6 +33,7 @@
   				<option value="teacher">Teacher</option>
 		</field>
 		<field
+			id="semester"
 			name="semester"
 			type="sql"
 			label="COM_THM_ORGANIZER_VSE_SEMESTER_LABEL"
@@ -37,6 +46,7 @@
             value_field="name"
 		/>
 		<field
+			id="responsible"
 			name="responsible"
 			type="Responsible"
 			label="COM_THM_ORGANIZER_VSE_RESPONSIBLE_LABEL"

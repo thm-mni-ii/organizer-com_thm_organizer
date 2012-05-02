@@ -53,14 +53,59 @@ class thm_organizersModelvirtual_schedule_edit extends JModelAdmin
 
 	public function getItem($pk = null)
 	{
-		$roomIDs = JRequest::getVar('vid',  null, '', 'array');
+		$cid = $this->getID();
+		
+		$virtualSchedule = ($cid) ? parent::getItem($cid) : $this->getTable();
+				
+		if($virtualSchedule->type === "class")
+		{
+			$virtualSchedule->ClassDepartment = $virtualSchedule->department;
+			$virtualSchedule->Classes = $this->getElements($virtualSchedule->id);
+		}
+		else if($virtualSchedule->type === "room")
+		{
+			$virtualSchedule->RoomDepartment = $virtualSchedule->department;
+			$virtualSchedule->Rooms =  $this->getElements($virtualSchedule->id);
+		}
+		else
+		{
+			$virtualSchedule->TeacherDepartment = $virtualSchedule->department;	
+			$virtualSchedule->Teachers = $this->getElements($virtualSchedule->id);
+		}
+				
+		return $virtualSchedule;
+	}
+	
+	private function getElements($id)
+	{
+		$query = 'SELECT eid FROM #__thm_organizer_virtual_schedules_elements WHERE #__thm_organizer_virtual_schedules_elements.vid = '.$id;
+		$db =& JFactory::getDBO();
+		$db->setQuery($query);
+		$rows = $db->loadObjectList();
+		$return = array();
 
-		$roomID = (empty($roomIDs))? JRequest::getVar('roomID') : $roomIDs[0];
-
-		$room = ($roomID) ? parent::getItem($roomID) : $this->getTable();
-		$room->testColumn = "test";
-
-		return $room;
+		foreach($rows AS $k=>$v)
+			$return[] = $v->eid;
+		
+		return $return;
+	}
+	
+	public function getID()
+	{
+		$cids = JRequest::getVar('cid', null, 'post', 'ARRAY');
+		if(isset($cids))
+			if(!empty($cids))
+				$cid = $cids[0];
+		
+		if(!isset($cid))
+		{
+			$cid = JRequest::getVar('cid', null, 'get', 'ARRAY');
+			$cid = base64_decode($cid[0]);
+		}
+		
+		if(isset($cid))
+			return $cid;
+		return 0;				
 	}
 	
 	/**
@@ -264,7 +309,8 @@ class thm_organizersModelvirtual_schedule_edit extends JModelAdmin
     return true;
   }
 
-  function saveVScheduler($vscheduler_id,
+  function save($vscheduler_id,
+  			  $vscheduler_vid,
               $vscheduler_name,
               $vscheduler_types,
               $vscheduler_semid,
@@ -272,78 +318,60 @@ class thm_organizersModelvirtual_schedule_edit extends JModelAdmin
               $vscheduler_Departments,
               $vscheduler_elements)
   {
-    if($vscheduler_id == null)
-    {
-      $vscheduler_id = "VS_".$vscheduler_name;
-    }
-    else
-    {
-      $this->remove($vscheduler_id);
-    }
-
-    $mainframe = JFactory::getApplication("administrator");
-    $dbo = JFactory::getDBO();
-    $query = "";
-    $query = "INSERT INTO #__thm_organizer_virtual_schedules (vid, vname, vtype, vresponsible, department, sid)
-          VALUES ( '".$vscheduler_id."', '".$vscheduler_name."', '".$vscheduler_types."', '".$vscheduler_resps."', '".$vscheduler_Departments."', '".$vscheduler_semid."' ); ";
-    $dbo->setQuery( $query );
-    $dbo->query();
-    if ($dbo->getErrorNum())
-    {
-      return "0";
-    }
-    else
-    {
-      $query = "";
-      foreach($vscheduler_elements as $v)
-      {
-        $query = "INSERT INTO #__thm_organizer_virtual_schedules_elements (vid, eid, sid)
-            VALUES ( '".$vscheduler_id."', '".$v."', '".$vscheduler_semid."' ); ";
-        $dbo->setQuery( $query );
-        $dbo->query();
-        if ($dbo->getErrorNum())
-        {
-          foreach($vscheduler_elements as $i)
-          {
-            $query = "DELETE FROM #__thm_organizer_virtual_schedules_elements
-               WHERE vid = '".$vscheduler_id."'";
-            $dbo->setQuery( $query );
-            $dbo->query();
-          }
-          $query = "DELETE FROM #__thm_organizer_virtual_schedules
-               WHERE vid = '".$vscheduler_id."'; ";
-          $dbo->setQuery( $query );
-          $dbo->query();
-          return "0";
-        }
-      }
-      return "1";
-    }
+  	
+	$table = JTable::getInstance('virtual_schedules', 'thm_organizerTable');
+	$tableElements = JTable::getInstance('virtual_schedules_elements', 'thm_organizerTable');
+			
+	if($vscheduler_id === null || $vscheduler_id === 0 || empty($vscheduler_id))
+		$vscheduler_vid = "VS_".$vscheduler_name;
+	
+	$data = array();
+	$data["vid"] = $vscheduler_vid;
+	$data["name"] = $vscheduler_name;
+	$data["type"] = $vscheduler_types;
+	$data["responsible"] = $vscheduler_resps;
+	$data["department"] = $vscheduler_Departments;
+	$data["semesterID"] = $vscheduler_semid;
+	
+	if($vscheduler_id != 0 || $vscheduler_id != null)
+	{
+		$data["id"] = $vscheduler_id;
+	}
+	
+	$success = $table->save($data);	
+		
+  	if((bool)$success)
+  	{
+  		$this->deleteElements((int)$vscheduler_id);
+  		$dataElements = array();
+  		$dataElements["vid"] = $table->id;
+  		  		  		
+  		foreach($vscheduler_elements as $k=>$v)
+  		{
+			$tableElements = JTable::getInstance('virtual_schedules_elements', 'thm_organizerTable');
+  			$dataElements["eid"] = $v;
+  			$successElements = $tableElements->save($dataElements);
+  			if(!$successElements)
+  				return false;
+  		}
+  	}
+  	else
+  		return false;
+  	return true;
   }
 
-  function remove($id)
+  private function deleteElements($id)
   {
+  	if(!is_int($id))
+  		return false;
     $mainframe = JFactory::getApplication("administrator");
     $dbo = JFactory::getDBO();
-
-    $query = 'DELETE FROM #__thm_organizer_virtual_schedules'
-             . ' WHERE vid IN ( "'. $id .'" );';
+    
+    $query = 'DELETE FROM #__thm_organizer_virtual_schedules_elements'
+             . ' WHERE vid = '.$id.';';
 
     $dbo->setQuery( $query );
-        $dbo->query();
-
-        if ($dbo->getErrorNum())
-    {
-      return 0;
-    }
-    else
-    {
-      $query = 'DELETE FROM #__thm_organizer_virtual_schedules_elements'
-             . ' WHERE vid IN ( "'. $id .'" );';
-
-      $dbo->setQuery( $query );
-          $dbo->query();
-    }
+    $dbo->query();
     return true;
   }
 

@@ -31,12 +31,10 @@ class thm_organizersViewvirtual_schedule_edit extends JView
 
         $model = $this->getModel();
         $this->form = $this->get('Form');
-        
-        $cids = JRequest::getVar('cid', null, 'ARRAY');
+                        
         $task = JRequest::getVar('task', null, 'STRING');
-        $cid = base64_decode($cids[0], true);
-        if($cid === false)
-        	$cid = $cids[0];
+        
+        $cid = $model->getID();
         
         $title = JText::_('COM_THM_ORGANIZER').': ';
         $this->setLayout('default');
