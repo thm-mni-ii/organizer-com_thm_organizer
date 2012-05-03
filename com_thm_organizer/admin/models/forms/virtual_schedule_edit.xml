@@ -69,7 +69,10 @@
           			ORDER BY name"
 			key_field="id"
             value_field="name"
-		/>
+            default="none"
+		>
+		<option value="none">COM_THM_ORGANIZER_VSE_VALUE_NONE</option>
+		</field>
 		<field
 			id="RoomDepartment"
 			name="RoomDepartment"
@@ -82,7 +85,10 @@
           			ORDER BY name"
 			key_field="id"
             value_field="name"
-		/>
+            default="none"
+		>
+		<option value="none">COM_THM_ORGANIZER_VSE_VALUE_NONE</option>
+		</field>
 		<field
 			id="ClassDepartment"
 			name="ClassDepartment"
@@ -95,7 +101,10 @@
           			ORDER BY major"
 			key_field="id"
             value_field="name"
-		/>
+            default="none"
+		>
+		<option value="none">COM_THM_ORGANIZER_VSE_VALUE_NONE</option>
+		</field>
 		<field
 			id="Teachers"
 			name="Teachers"

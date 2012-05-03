@@ -84,6 +84,7 @@ class thm_organizersModelvirtual_schedule_edit extends JModelAdmin
 		$rows = $db->loadObjectList();
 		$return = array();
 
+		if(!empty($rows))
 		foreach($rows AS $k=>$v)
 			$return[] = $v->eid;
 		
