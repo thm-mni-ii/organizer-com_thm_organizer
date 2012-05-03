@@ -665,7 +665,7 @@ class TreeView
 			$dataArray[ $parent ][ $id ][ "type" ]        = trim($data->type);
 			$dataArray[ $parent ][ $id ][ "name" ]         = trim($data->shortname);
 			$dataArray[ $parent ][ $id ][ "lessonamount" ] = 1;
-			$dataArray[ $parent ][ $id ][ "gpuntisID" ] = null;
+			$dataArray[ $parent ][ $id ][ "gpuntisID" ] = trim($data->gpuntisID);;
 			
 			if(!isset($dataArray[ $parent ][ $id ][ "elements" ]))
 			{
@@ -894,11 +894,11 @@ class TreeView
 
   private function getVirtualSchedules($type, $semesterID)
   {
-    $vsquery = "SELECT DISTINCT vs.vid AS id, vname AS shortname, vname AS name, vtype AS type, department AS parentName, vresponsible AS responsible, eid AS elements
+    $vsquery = "SELECT DISTINCT vs.id AS id, vs.vid AS gpuntisID, name AS shortname, name AS name, type AS type, department AS parentName, responsible AS responsible, eid AS elements
            FROM #__thm_organizer_virtual_schedules as vs
            INNER JOIN #__thm_organizer_virtual_schedules_elements as vse
-           ON vs.vid = vse.vid AND vs.sid = vse.sid
-           WHERE vtype = '" . $type . "' AND vs.sid = " . $semesterID ;
+           ON vs.id = vse.vid
+           WHERE type = '" . $type . "' AND vs.semesterID = " . $semesterID ;
     
     $res     = $this->JDA->query( $vsquery );
 
