@@ -175,7 +175,7 @@ class Ressource
 				 "#__thm_organizer_periods.gpuntisID AS tpid, " .
 				 "#__thm_organizer_lessons.gpuntisID AS id, " .
 				 "#__thm_organizer_subjects.alias AS description, " .
-				 "#__thm_organizer_subjects.gpuntisID AS subject, " .
+				 "#__thm_organizer_subjects.id AS subject, " .
 				 "#__thm_organizer_lessons.type AS category, " .
 				 "#__thm_organizer_subjects.name AS name, " .
 				 "#__thm_organizer_classes.id AS clas, " .
