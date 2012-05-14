@@ -60,7 +60,9 @@ class thm_organizersControllervirtual_schedule extends JController
 	    $model = $this->getModel('virtual_schedule_edit');
 	    
 	    $data = JRequest::getVar('jform', null, null, null);
+	    	 	    
 	    $vscheduler_id = $data["id"];
+	    $vscheduler_vid = $data["vid"];
 	    $vscheduler_name =$data["name"];
 	    $vscheduler_types = $data["type"];
 
@@ -71,25 +73,29 @@ class thm_organizersControllervirtual_schedule extends JController
 	      $session->set('oldPost', $_POST);
 	      return;
 	    }
-	    $idCheckRet = $model->idExists("VS_".$vscheduler_name);
-	    if($idCheckRet == true && $vscheduler_id == null)
-	    {
-	      $this->setRedirect( 'index.php?option=com_thm_organizer&view=virtual_schedule_edit', JText::_('Der angebene Name existiert bereits.'), 'error');
-	      $session =& JFactory::getSession();
-	      $session->set('oldPost', $_POST);
-	      return;
-	    }
-
 	    $vscheduler_semid = $data["semester"];
 	    $vscheduler_resps = $data["responsible"];
 	    $vscheduler_classesDepartments = $data["ClassDepartment"];
 	    $vscheduler_teacherDepartments = $data["TeacherDepartment"];
 	    $vscheduler_roomDepartments = $data["RoomDepartment"];
-
-	    $vscheduler_classes = $data["Classes"];
-	    $vscheduler_rooms = $data["Rooms"];
-	    $vscheduler_teachers = $data["Teachers"];
-
+	    
+	    $vscheduler_classes = null;
+	    $vscheduler_rooms = null;
+	    $vscheduler_teachers = null;
+	    
+		if($vscheduler_types == "room")
+		{
+			$vscheduler_rooms = $data["Rooms"];
+		}
+		if($vscheduler_types == "class")
+		{
+			$vscheduler_classes = $data["Classes"];
+		}
+		if($vscheduler_types == "teacher")
+		{
+			$vscheduler_teachers = $data["Teachers"];
+		}
+	   
 	    if(!isset($vscheduler_name) ||
 	       !isset($vscheduler_types) ||
 	       !isset($vscheduler_semid) ||
@@ -128,7 +134,7 @@ class thm_organizersControllervirtual_schedule extends JController
 	    }
 	    else
 	    {
-	    	//Alles Felder haben gÃ¼ltige Werte
+	    	//Alles Felder haben gültige Werte
 	    	$torf = false;
 
 	    	if($vscheduler_types == "room")
@@ -146,8 +152,9 @@ class thm_organizersControllervirtual_schedule extends JController
 				$vscheduler_Departments = $vscheduler_teacherDepartments;
 				$vscheduler_elements = $vscheduler_teachers;
 			}
-
-			$torf = $model->saveVScheduler($vscheduler_id,
+			
+			$torf = $model->save($vscheduler_id,
+										   $vscheduler_vid,
 										   $vscheduler_name,
 										   $vscheduler_types,
 										   $vscheduler_semid,
@@ -155,7 +162,7 @@ class thm_organizersControllervirtual_schedule extends JController
 										   $vscheduler_Departments,
 										   $vscheduler_elements);
 
-			if($torf === "1")
+			if($torf === true)
 			{
 				if($vscheduler_id == null)
 					$this->setRedirect( 'index.php?option=com_thm_organizer&view=virtual_schedule_manager', JText::_('Virtuellen Stundenplan '.$vscheduler_name.' erfolgreich angelegt.'));

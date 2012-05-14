@@ -38,7 +38,7 @@ class thm_organizersModelvirtual_schedule_manager extends JModel
 		$option = $mainframe->scope;
 		$view = JRequest::getString('view');
 
-		$filter_order		= $mainframe->getUserStateFromRequest( "$option.$view.filter_order",		'filter_order',		"#__thm_organizer_virtual_schedules.sid, #__thm_organizer_virtual_schedules.vid", 'string' );
+		$filter_order		= $mainframe->getUserStateFromRequest( "$option.$view.filter_order",		'filter_order',		"#__thm_organizer_virtual_schedules.semesterID, #__thm_organizer_virtual_schedules.vid", 'string' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$view.filter_order_Dir",	'filter_order_Dir',	"", 'string' );
 		$filter_type		= $mainframe->getUserStateFromRequest( "$option.$view.filter_type",		'filter_type', 		0,			'string' );
 		$filter_logged		= $mainframe->getUserStateFromRequest( "$option.$view.filter_logged",		'filter_logged', 	0,			'int' );
@@ -48,24 +48,24 @@ class thm_organizersModelvirtual_schedule_manager extends JModel
 		$rolesFilter 		= $mainframe->getUserStateFromRequest( $option.$view.'.rolesFilters', 'rolesFilters', '', 'int' );
 		$search 			= $this->_db->getEscaped( trim(JString::strtolower( $search ) ) );
 
-		if (!$filter_order) { $filter_order = '#__thm_organizer_virtual_schedules.sid, #__thm_organizer_virtual_schedules.vid'; }
+		if (!$filter_order) { $filter_order = '#__thm_organizer_virtual_schedules.semesterID, #__thm_organizer_virtual_schedules.vid'; }
 		if (!$filter_order_Dir) {$filter_order_Dir = ''; }
 
 		$orderby     = "\n ORDER BY $filter_order $filter_order_Dir";
 
 	      $query='SELECT DISTINCT ' .
-	      		'#__thm_organizer_virtual_schedules.vid as id, #__thm_organizer_virtual_schedules.vname as name,' .
-	      		'vtype as type, #__users.name as responsible,' .
-	      		' department as department,' .
-	      		'CONCAT(#__thm_organizer_semesters.organization, "-",#__thm_organizer_semesters.semesterDesc ) as semesterid, #__thm_organizer_virtual_schedules.sid as sid' .
+	      		'#__thm_organizer_virtual_schedules.id as id, #__thm_organizer_virtual_schedules.name,' .
+	      		'#__thm_organizer_virtual_schedules.type, #__users.name as responsible,' .
+	      		' department,' .
+	      		'CONCAT(#__thm_organizer_semesters.organization, "-",#__thm_organizer_semesters.semesterDesc ) as semesterID' .
 	      		' FROM #__thm_organizer_virtual_schedules' .
 	      		' INNER JOIN #__thm_organizer_virtual_schedules_elements' .
-	      		' ON #__thm_organizer_virtual_schedules.vid = #__thm_organizer_virtual_schedules_elements.vid' .
+	      		' ON #__thm_organizer_virtual_schedules.id = #__thm_organizer_virtual_schedules_elements.vid' .
 	      		' INNER JOIN #__thm_organizer_semesters' .
-	      		' ON #__thm_organizer_virtual_schedules.sid = #__thm_organizer_semesters.id' .
+	      		' ON #__thm_organizer_virtual_schedules.semesterID = #__thm_organizer_semesters.id' .
 	      		' INNER JOIN #__users' .
-	      		' ON #__thm_organizer_virtual_schedules.vresponsible = #__users.username' .
-	      		' WHERE #__thm_organizer_virtual_schedules.sid = #__thm_organizer_virtual_schedules_elements.sid';
+	      		' ON #__thm_organizer_virtual_schedules.responsible = #__users.username' .
+	      		' WHERE #__thm_organizer_virtual_schedules.id = #__thm_organizer_virtual_schedules_elements.vid';
 
 			$searchUm = str_replace("Ö", "&Ouml;", $search);
 			$searchUm = str_replace("ö", "&öuml;", $searchUm);
@@ -81,24 +81,24 @@ class thm_organizersModelvirtual_schedule_manager extends JModel
 			$searchUm2 = str_replace("Ã¼", "&Uuml;", $searchUm2);
 			$searchUm2 = str_replace("Ã¼", "&uuml;", $searchUm2);
 
-			$query.= ' AND (LOWER(#__thm_organizer_virtual_schedules.vname) LIKE \'%'.$search.'%\' ';
-			$query.= ' OR LOWER(#__thm_organizer_virtual_schedules.vresponsible) LIKE \'%'.$search.'%\' ';
+			$query.= ' AND (LOWER(#__thm_organizer_virtual_schedules.name) LIKE \'%'.$search.'%\' ';
+			$query.= ' OR LOWER(#__thm_organizer_virtual_schedules.responsible) LIKE \'%'.$search.'%\' ';
 			$query.= ' OR LOWER(#__thm_organizer_virtual_schedules.department) LIKE \'%'.$search.'%\' ';
-			$query.= ' OR LOWER(#__thm_organizer_virtual_schedules.vname) LIKE \'%'.$searchUm.'%\' ';
-			$query.= ' OR LOWER(#__thm_organizer_virtual_schedules.vresponsible) LIKE \'%'.$searchUm.'%\' ';
+			$query.= ' OR LOWER(#__thm_organizer_virtual_schedules.name) LIKE \'%'.$searchUm.'%\' ';
+			$query.= ' OR LOWER(#__thm_organizer_virtual_schedules.responsible) LIKE \'%'.$searchUm.'%\' ';
 			$query.= ' OR LOWER(#__thm_organizer_virtual_schedules.department) LIKE \'%'.$searchUm.'%\' ';
-			$query.= ' OR LOWER(#__thm_organizer_virtual_schedules.vname) LIKE \'%'.$searchUm2.'%\' ';
-			$query.= ' OR LOWER(#__thm_organizer_virtual_schedules.vresponsible) LIKE \'%'.$searchUm2.'%\' ';
+			$query.= ' OR LOWER(#__thm_organizer_virtual_schedules.name) LIKE \'%'.$searchUm2.'%\' ';
+			$query.= ' OR LOWER(#__thm_organizer_virtual_schedules.responsible) LIKE \'%'.$searchUm2.'%\' ';
 			$query.= ' OR LOWER(#__thm_organizer_virtual_schedules.department) LIKE \'%'.$searchUm2.'%\') ';
 
 		if ($groupFilter>0) {
-			$query.= ' AND #__thm_organizer_virtual_schedules.vtype = ' . $groupFilter . ' ';
+			$query.= ' AND #__thm_organizer_virtual_schedules.type = ' . $groupFilter . ' ';
 			//$this->setState('limit', 0);
 			//$this->setState('limitstart', 0);
 		}
 
 		if ($rolesFilter>0) {
-			$query.= ' AND #__thm_organizer_virtual_schedules.sid = ' . $rolesFilter . ' ';
+			$query.= ' AND #__thm_organizer_virtual_schedules.semesterID = ' . $rolesFilter . ' ';
 			//$this->setState('limit', 0);
 			//$this->setState('limitstart', 0);
 		}

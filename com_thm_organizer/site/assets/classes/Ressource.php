@@ -36,8 +36,14 @@ class Ressource
 				$elements                 = $this->getElements( $this->nodeKey, $this->semID, $this->type );
 				$retlessons[ "elements" ] = "";
 				
+				$elementsGpuntisIDs = "";
+				
 				foreach ( $elements as $k => $v ) {
-					$lessons = array_merge( $lessons, $this->getResourcePlan( $v->gpuntisID, $this->semID, $this->type ) );
+					if($elementsGpuntisIDs == "")
+						$elementsGpuntisIDs = $v->gpuntisID;
+					else 
+						$elementsGpuntisIDs .= "', '".$v->gpuntisID;
+						
 					$elementIDs = $this->GpuntisIDToid($v->gpuntisID, $this->type);
 					$elementID = $elementIDs[0]->id;
 					if ( $retlessons[ "elements" ] == "" )
@@ -45,10 +51,13 @@ class Ressource
 					else
 						$retlessons[ "elements" ] .= ";" . $elementID;
 				}
+				
+				$lessons = $this->getResourcePlan($elementsGpuntisIDs, $this->semID, $this->type);
+					
 			} else {
 				$lessons = $this->getResourcePlan( $this->nodeKey, $this->semID, $this->type );
 			}
-
+			
 			if(is_array($lessons))
 			foreach ( $lessons as $item ) {
 				$key = $item->lid . " " . $item->tpid;
@@ -98,7 +107,7 @@ class Ressource
 				$retlessons[ $key ][ "comment" ] = $item->comment;
 				$retlessons[ $key ][ "ecollaborationLink" ] = $this->getEcollaborationLink($this->nodeKey, $item->moduleID);
 			}
-
+			
 			return array("success"=>true,"data"=>$retlessons );
 		}
 	}
@@ -140,7 +149,7 @@ class Ressource
 	{
 		$query = "SELECT eid as gpuntisID " .
 				 "FROM #__thm_organizer_virtual_schedules_elements ";
-				 $query .= "WHERE vid = '" . $id . "' " . "AND sid = '" . $sid . "'";
+				 $query .= "WHERE vid = '" . $id . "'";
 		$ret   = $this->JDA->query( $query );
 		return $ret;
 	}
@@ -166,7 +175,7 @@ class Ressource
 				 "#__thm_organizer_periods.gpuntisID AS tpid, " .
 				 "#__thm_organizer_lessons.gpuntisID AS id, " .
 				 "#__thm_organizer_subjects.alias AS description, " .
-				 "#__thm_organizer_subjects.gpuntisID AS subject, " .
+				 "#__thm_organizer_subjects.id AS subject, " .
 				 "#__thm_organizer_lessons.type AS category, " .
 				 "#__thm_organizer_subjects.name AS name, " .
 				 "#__thm_organizer_classes.id AS clas, " .
@@ -203,16 +212,16 @@ class Ressource
      	  	"AND #__thm_organizer_lessons.plantypeID = ".$this->plantypeID." ".
           	"AND ( ";
 	    if($type === "clas")
-	    	$query .= "( #__thm_organizer_classes.id like '".$ressourcename."') OR ( #__thm_organizer_classes.gpuntisID like '".$ressourcename."')";
+	    	$query .= "( #__thm_organizer_classes.id IN ('".$ressourcename."')) OR ( #__thm_organizer_classes.gpuntisID IN ('".$ressourcename."'))";
 	    else if($type === "room")
-	    	$query .= "( #__thm_organizer_rooms.id like '".$ressourcename."') OR ( #__thm_organizer_rooms.gpuntisID like '".$ressourcename."')";
+	    	$query .= "( #__thm_organizer_rooms.id IN ('".$ressourcename."')) OR ( #__thm_organizer_rooms.gpuntisID IN ('".$ressourcename."'))";
 	    else if($type === "doz")
-	    	$query .= "( #__thm_organizer_teachers.id like '".$ressourcename."') OR ( #__thm_organizer_teachers.gpuntisID like '".$ressourcename."')";
+	    	$query .= "( #__thm_organizer_teachers.id IN ('".$ressourcename."')) OR ( #__thm_organizer_teachers.gpuntisID IN ('".$ressourcename."'))";
 	    else if($type === "subject")
-	    	$query .= "( #__thm_organizer_subjects.id like '".$ressourcename."') OR ( #__thm_organizer_subjects.gpuntisID like '".$ressourcename."')";
+	    	$query .= "( #__thm_organizer_subjects.id IN ('".$ressourcename."')) OR ( #__thm_organizer_subjects.gpuntisID IN ('".$ressourcename."'))";
 	    	    
 	    $query .= " )";
-	    
+	    	   	    
 		$hits  = $this->JDA->query( $query );
 		return $hits;
 	}

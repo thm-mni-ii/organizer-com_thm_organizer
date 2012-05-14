@@ -60,5 +60,6 @@ defined("_JEXEC") or die;?>
         </fieldset>
     </div>
     <input type="hidden" name="task" value="" />
-    <input type="hidden" name="virtualScheduleID" value="<?php echo $this->form->getValue('id'); ?>" />
+    <?php echo $this->form->getInput('vid'); ?>
+    <?php echo $this->form->getInput('id'); ?>
 </form>

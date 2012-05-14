@@ -30,3 +30,14 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_exclude_dates` (
 
 DROP TABLE IF EXISTS #__thm_organizer_settings;
 
+ALTER TABLE `#__thm_organizer_virtual_schedules` ADD `id` INT( 11 ) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;
+ALTER TABLE `#__thm_organizer_virtual_schedules_elements` DROP `vid`;
+ALTER TABLE `#__thm_organizer_virtual_schedules_elements` DROP `sid`;
+ALTER TABLE `#__thm_organizer_virtual_schedules_elements` ADD `id` INT( 11 ) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST
+ALTER TABLE `#__thm_organizer_virtual_schedules_elements` ADD `vid` INT NOT NULL AFTER `id`;
+
+ALTER TABLE `#__thm_organizer_virtual_schedules` CHANGE `vname` `name` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `#__thm_organizer_virtual_schedules` CHANGE `vtype` `type` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `#__thm_organizer_virtual_schedules` CHANGE `vresponsible` `responsible` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `#__thm_organizer_virtual_schedules` DROP `unittype`;
+ALTER TABLE `#__thm_organizer_virtual_schedules` CHANGE `sid` `semesterID` INT( 11 ) UNSIGNED NOT NULL; 

@@ -31,7 +31,7 @@ class thm_organizersViewvirtual_schedule_manager extends JView
         $view = JRequest::getString('view');
         $db = JFactory::getDBO();
 
-        $filter_order = $mainframe->getUserStateFromRequest( "$option.$view.filter_order", 'filter_order', '#__thm_organizer_virtual_schedules.sid, #__thm_organizer_virtual_schedules.vid', '' );
+        $filter_order = $mainframe->getUserStateFromRequest( "$option.$view.filter_order", 'filter_order', '#__thm_organizer_virtual_schedules.semesterID, #__thm_organizer_virtual_schedules.vid', '' );
         $filter_order_Dir = $mainframe->getUserStateFromRequest( "$option.$view.filter_order_Dir", 'filter_order_Dir',	'', '' );
         $filter_type = $mainframe->getUserStateFromRequest( "$option.$view.filter_type", 'filter_type', 0, 'string' );
         $filter_logged = $mainframe->getUserStateFromRequest( "$option.$view.filter_logged", 'filter_logged', 0, 'int' );
@@ -53,23 +53,25 @@ class thm_organizersViewvirtual_schedule_manager extends JView
 
         foreach($elements as $k => $v)
         {
-            if(!isset($newitem[$v->vid])) $newitem[$v->vid] = $v;
-            else $newitem[$v->vid]->eid = $newitem[$v->vid]->eid.";".$v->eid;
+            if(!isset($newitem[$v->vid])) 
+            		$newitem[$v->vid] = $v;
+            else 
+            		$newitem[$v->vid]->eid = $newitem[$v->vid]->eid.";".$v->eid;
         }
         $elements = array_values($newitem);
-
+                                
         foreach($items as $ik=>$iv)
         {
             foreach($elements as $ek=>$ev)
             {
-                if($iv->id == $ev->vid && $iv->sid == $ev->sid)
+                if($iv->id == $ev->vid)
                 {
                     if(isset($iv->eid)) $iv->eid = "";
                     $iv->eid = $ev->eid;
                 }
             }
         }
-
+        
         $pagination = & $this->get('Pagination');
 
         // search filter
