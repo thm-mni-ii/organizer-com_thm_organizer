@@ -40,4 +40,6 @@ ALTER TABLE `#__thm_organizer_virtual_schedules` CHANGE `vname` `name` VARCHAR( 
 ALTER TABLE `#__thm_organizer_virtual_schedules` CHANGE `vtype` `type` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 ALTER TABLE `#__thm_organizer_virtual_schedules` CHANGE `vresponsible` `responsible` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 ALTER TABLE `#__thm_organizer_virtual_schedules` DROP `unittype`;
-ALTER TABLE `#__thm_organizer_virtual_schedules` CHANGE `sid` `semesterID` INT( 11 ) UNSIGNED NOT NULL; 
+ALTER TABLE `#__thm_organizer_virtual_schedules` CHANGE `sid` `semesterID` INT( 11 ) UNSIGNED NOT NULL;
+
+INSERT INTO `#__thm_organizer_display_behaviours` (`id`, `behaviour`) VALUES ('4', 'COM_THM_ORGANIZER_MON_EVENT');
