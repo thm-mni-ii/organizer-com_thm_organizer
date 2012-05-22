@@ -42,4 +42,4 @@ ALTER TABLE `#__thm_organizer_virtual_schedules` CHANGE `vresponsible` `responsi
 ALTER TABLE `#__thm_organizer_virtual_schedules` DROP `unittype`;
 ALTER TABLE `#__thm_organizer_virtual_schedules` CHANGE `sid` `semesterID` INT( 11 ) UNSIGNED NOT NULL;
 
-INSERT INTO `#__thm_organizer_display_behaviours` (`id`, `behaviour`) VALUES ('4', 'COM_THM_ORGANIZER_MON_EVENT');
+INSERT IGNORE INTO `#__thm_organizer_display_behaviours` (`id`, `behaviour`) VALUES ('4', 'COM_THM_ORGANIZER_MON_EVENT');
