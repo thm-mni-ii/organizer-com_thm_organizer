@@ -539,19 +539,25 @@ class thm_organizerModelroom_display extends JModel
         else if($etSet) $timestring = " (bis {$event['endtime']})";
         else $timestring = " ".JText::_("COM_THM_ORGANIZER_EL_ALLDAY");
         if($edSet and $event['rec_type'] == 0 AND
-        		$event['startdate'] != $event['enddate'])
-        {
+        		$event['startdate'] != $event['enddate']) {
             $displayDates = "{$event['startdate']}";
             if($stSet) $displayDates .= " ({$event['starttime']})";
             $displayDates .= JText::_('COM_THM_ORGANIZER_RD_UNTIL').$event['enddate'];
             if($etSet) $displayDates .= " ({$event['endtime']})";
+        } else if($edSet and $event['rec_type'] == 1 AND
+        		$event['startdate'] != $event['enddate']) {
+        	$displayDates = $event['startdate'].JText::_('COM_THM_ORGANIZER_RD_UNTIL').$event['enddate']." ".$timestring;
+        } else {
+        	$displayDates = $this->day($event['startdate'])." ".$event['startdate']." ".$timestring;
         }
-        else if($edSet and $event['rec_type'] == 1 AND
-        		$event['startdate'] != $event['enddate'])
-            $displayDates = $event['startdate'].JText::_('COM_THM_ORGANIZER_RD_UNTIL').$event['enddate']." ".$timestring;
-        else
-            $displayDates = $event['startdate']." ".$timestring;
         return $displayDates;
+    }
+    
+    private function day($date = "00.00.0000") {
+    	
+    	$day = JText::_(strtoupper(date_format(new DateTime($date), D)));
+    	
+    	return $day;
     }
 
     /**
