@@ -106,7 +106,7 @@ class thm_organizerModelroom_display extends JModel
         else $this->date = getdate();
         $this->dbDate = date('Y-m-d', $this->date[0]);
         $this->semesterIDs = $this->getSemesterIDs();
-        //$this->blocks = $this->getBlocks();
+        $this->blocks = $this->getBlocks();
         $this->setInformation();
         $this->setAppointments();
         $this->setUpcoming();
