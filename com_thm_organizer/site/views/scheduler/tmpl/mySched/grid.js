@@ -309,10 +309,10 @@ MySched.lectureCellRenderer = function (data, meta, record, rowIndex, colIndex, 
 	if (colIndex == 0) return '<div class="scheduleBox timeBox">' + data + '</div>';
 
 	var blockStatus = MySched.Schedule.getBlockStatus(colIndex, rowIndex);
-	if (blockStatus == 1) {
+	if (blockStatus == 1 && this.mSchedule.id != "mySchedule") {
 		meta.tdCls += cl('blockBusy');
 		meta.tdCls += cl('conMenu');
-	} else if (blockStatus > 1) {
+	} else if (blockStatus > 1 && this.mSchedule.id != "mySchedule") {
 		meta.tdCls += cl('blockOccupied');
 		meta.tdCls += cl('conMenu');
 	}

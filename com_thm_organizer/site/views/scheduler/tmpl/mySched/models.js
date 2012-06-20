@@ -652,7 +652,7 @@ Ext.define('mSchedule', {
           // tab 'Mein Stundenplan' wird DropArea
           var tabID = MySched.layout.tabpanel.getComponent('mySchedule').tab.el.dom;
           var dropTarget = new Ext.dd.DropTarget(tabID, MySched.Base.getDropConfig());
-
+          this.blockCache = null;
     this.markUnchanged();
   },
   /**
