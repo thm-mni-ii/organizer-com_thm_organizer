@@ -601,13 +601,14 @@ class TreeView
 		$dataArray[ $parent ][ $id ][ "gpuntisID" ] = trim($data->gpuntisID);
 		$dataArray[ $parent ][ $id ][ "semesterID" ] = trim($semesterID);
 		$dataArray[ $parent ][ $id ][ "plantypeID" ] = trim($planid);
-				
-		foreach($virtualSchedules as $k=>$v) {
-			if($v->parentName === trim($data->parentName))
-			{
-				$v->departmentID = $parent;
+
+		if(!empty($virtualSchedules))
+			foreach($virtualSchedules as $k=>$v) {
+				if($v->parentName === trim($data->parentName))
+				{
+					$v->departmentID = $parent;
+				}
 			}
-		}
 
 		if(in_array($key, $this->inTree))
 			$dataArray[ $parent ][ $id ][ "treeLoaded" ] = true;
@@ -615,30 +616,33 @@ class TreeView
 			$dataArray[ $parent ][ $id ][ "treeLoaded" ] = false;
 		}
 	}
-		
- 	foreach($virtualSchedules as $k=>$v) {
-		$v->elements = $this->GpuntisIDToid(trim($v->elements), $type);
-		$v->elements = array($v->elements[0]->id);
-	}
-	
-	$virtualSchedulesTemp = $virtualSchedules;
-	foreach($virtualSchedules as $k=>$v)
+
+	if(!empty($virtualSchedules))
 	{
-		foreach($virtualSchedulesTemp as $kTemp=>$vTemp)
+	 	foreach($virtualSchedules as $k=>$v) {
+			$v->elements = $this->GpuntisIDToid(trim($v->elements), $type);
+			$v->elements = array($v->elements[0]->id);
+		}
+		
+		$virtualSchedulesTemp = $virtualSchedules;
+		foreach($virtualSchedules as $k=>$v)
 		{
-			if($k != $kTemp && $v->id === $vTemp->id && $v->parentName === $vTemp->parentName)
-			{				
-				if(!in_array( $vTemp->elements, $v->elements))
-					$v->elements[] = $vTemp->elements[0];
+			foreach($virtualSchedulesTemp as $kTemp=>$vTemp)
+			{
+				if($k != $kTemp && $v->id === $vTemp->id && $v->parentName === $vTemp->parentName)
+				{				
+					if(!in_array( $vTemp->elements, $v->elements))
+						$v->elements[] = $vTemp->elements[0];
+				}
 			}
 		}
+		
+		foreach($virtualSchedules as $k=>$v)
+		{
+			$v->elements = implode(";", $v->elements);
+		}
 	}
-	
-	foreach($virtualSchedules as $k=>$v)
-	{
-		$v->elements = implode(";", $v->elements);
-	}
-	
+		
 	if(!empty($virtualSchedules))
 	{
 		$this->treeData[$type] = array_merge_recursive( $this->treeData[$type], $virtualSchedules);

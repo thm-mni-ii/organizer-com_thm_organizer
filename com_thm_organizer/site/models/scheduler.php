@@ -54,7 +54,7 @@ class thm_organizerModelScheduler extends JModel
 	 * Check if the component is available
 	 * @return Boolean
 	 */
-	public function getLSFStatus($com)
+	public function getComStatus($com)
 	{
 		$dbo = JFactory::getDBO();
 		$query	= $dbo->getQuery(true);
