@@ -34,6 +34,7 @@ class thm_organizerModelevent_edit extends JModelForm
     public function loadEvent()
     {
         $eventid = JRequest::getInt('eventID')? JRequest::getInt('eventID'): 0;
+		
         $dbo = JFactory::getDBO();
         $user = JFactory::getUser();
 
@@ -87,9 +88,6 @@ class thm_organizerModelevent_edit extends JModelForm
         $select .= "DATE_FORMAT(e.enddate, '%d.%m.%Y') AS enddate, ";
         $select .= "SUBSTR(e.starttime, 1, 5) AS starttime, ";
         $select .= "SUBSTR(e.endtime, 1, 5) AS endtime, ";
-        $select .= "e.recurrence_type, ";
-        $select .= "e.recurrence_number, ";
-        $select .= "e.recurrence_counter, ";
         $select .= "c.title AS title, ";
         $select .= "c.fulltext AS description, ";
         $select .= "c.created_by";
