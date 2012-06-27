@@ -1,13 +1,13 @@
 var oldMainToolbar = MySched.layout.getMainToolbar;
 
-MySched.layout.getMainToolbar = function () {
-	var btnEvent = Ext.create('Ext.Button',{
+MySched.layout.getMainToolbar = function() {
+	var btnEvent = Ext.create('Ext.Button', {
 		// Event anlegen
-		text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EVENT_CREATE,
-		id: 'btnEvent',
-		hidden: false,
-		iconCls: 'tbEvent',
-		handler: addNewEvent
+		text : MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EVENT_CREATE,
+		id : 'btnEvent',
+		hidden : false,
+		iconCls : 'tbEvent',
+		handler : addNewEvent
 	});
 	var ToolbarObjects = oldMainToolbar();
 	var newMainToolbar = ToolbarObjects.AddTo(3, btnEvent);
@@ -15,25 +15,26 @@ MySched.layout.getMainToolbar = function () {
 };
 
 var addEvent = {
-	text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EVENT_CREATE,
-	icon: MySched.mainPath + "images/calendar_add.png",
-	handler: function () {
-		addNewEvent(null, MySched.BlockMenu.day, MySched.BlockMenu.stime, MySched.BlockMenu.etime);
+	text : MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EVENT_CREATE,
+	icon : MySched.mainPath + "images/calendar_add.png",
+	handler : function() {
+		addNewEvent(null, MySched.BlockMenu.day, MySched.BlockMenu.stime,
+				MySched.BlockMenu.etime);
 	},
-    xtype: "button"
+	xtype : "button"
 }
 
 MySched.BlockMenu.Menu[MySched.BlockMenu.Menu.length] = addEvent;
 
-window.onbeforeunload = function () {
-	if(typeof MySched.layout.tabpanel === "undefined")
+window.onbeforeunload = function() {
+	if (typeof MySched.layout.tabpanel === "undefined")
 		return;
 	var tabs = MySched.layout.tabpanel.items.items;
 	var temptabs = tabs;
 	var check = false;
 	var tosave = false;
-        var i = 0;
-        var ti = 0;
+	var i = 0;
+	var ti = 0;
 
 	for (i = 0; i < tabs.length; i++) {
 		if (tabs[i].mSchedule.status === "unsaved") {
@@ -42,10 +43,12 @@ window.onbeforeunload = function () {
 				for (ti = 0; ti < temptabs.length; ti++) {
 					if (temptabs[ti].mSchedule.status === "unsaved") {
 						if (temptabs[ti].mSchedule.id === "mySchedule") {
-                        	temptabs[ti].mSchedule.save(_C('ajaxHandler'), false, "UserSchedule.save");
-                        } else {
-                        	temptabs[ti].mSchedule.save(_C('ajaxHandler'), false, "saveScheduleChanges");
-                        }
+							temptabs[ti].mSchedule.save(_C('ajaxHandler'),
+									false, "UserSchedule.save");
+						} else {
+							temptabs[ti].mSchedule.save(_C('ajaxHandler'),
+									false, "saveScheduleChanges");
+						}
 						tosave = true;
 					}
 				}
