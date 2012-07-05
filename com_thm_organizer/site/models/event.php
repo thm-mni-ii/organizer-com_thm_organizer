@@ -1,19 +1,29 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_thm_organizer
- * @name        create/edit appointment/event model
- * @author      James Antrim jamesDOTantrimATyahooDOTcom
- * @copyright   TH Mittelhessen <year>
- * @license     GNU GPL v.2
- * @link        www.mni.fh-giessen.de
- * @version     0.0.1
+ *@category    component
+ * 
+ *@package     THM_Organizer
+ * 
+ *@subpackage  com_thm_organizer
+ *@name        create/edit appointment/event model
+ *@author      James Antrim jamesDOTantrimATyahooDOTcom
+ * 
+ *@copyright   2012 TH Mittelhessen
+ * 
+ *@license     GNU GPL v.2
+ *@link        www.mni.fh-giessen.de
+ *@version     0.0.1
  */
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
-jimport( 'joomla.application.component.model' );
-require_once(JPATH_COMPONENT."/assets/classes/eventAccess.php");
- 
+defined('_JEXEC') or die;
+jimport('joomla.application.component.model');
+require_once JPATH_COMPONENT . "/assets/classes/eventAccess.php";
+
+/**
+ * @package  Joomla.Site
+ * 
+ * @since    1.5
+ */
 class thm_organizerModelevent extends JModel
 {
     /**
@@ -46,7 +56,7 @@ class thm_organizerModelevent extends JModel
     {
         parent::__construct();
         $this->loadEvent();
-        if($this->event['id'] != 0)
+        if ($this->event['id'] != 0)
         {
             $this->loadEventResources();
             $this->setMenuLinks();
@@ -59,13 +69,15 @@ class thm_organizerModelevent extends JModel
      *
      * creates an event as an array of properties and sets this as an object
      * variable
+     * 
+     * @return void
      */
     public function loadEvent()
     {
         $eventID = JRequest::getInt('eventID')? JRequest::getInt('eventID'): 0;
         $dbo = JFactory::getDBO();
         $user = JFactory::getUser();
-        
+
         $query = $dbo->getQuery(true);
         $query->select($this->getSelect());
         $query->from("#__thm_organizer_events AS e");
@@ -74,24 +86,44 @@ class thm_organizerModelevent extends JModel
         $query->innerJoin("#__thm_organizer_categories AS ecat ON e.categoryID = ecat.id");
         $query->innerJoin("#__categories AS ccat ON ecat.contentCatID = ccat.id");
         $query->where("e.id = '$eventID'");
-        $dbo->setQuery((string)$query);
+        $dbo->setQuery((string) $query);
         $event = $dbo->loadAssoc();
 
-        if(isset($event))
+        if (isset($event))
         {
             $this->id = $event['id'];
-            if(!empty($event['description']))$event['description'] = trim($event['description']);
-            if($event['globaldisplay'] and $event['reservesobjects'])
-                $event['displaybehavior'] = JText::_ ('COM_THM_ORGANIZER_E_GLOBALRESERVES_EXPLANATION');
-            else if($event['globaldisplay'])
-                $event['displaybehavior'] = JText::_ ('COM_THM_ORGANIZER_E_GLOBAL_EXPLANATION');
-            else if($event['reservesobjects'])
-                $event['displaybehavior'] = JText::_ ('COM_THM_ORGANIZER_E_RESERVES_EXPLANATION');
+            if (!empty($event['description']))
+            {
+                $event['description'] = trim($event['description']);
+            }
+            if ($event['globaldisplay'] and $event['reservesobjects'])
+            {
+                $event['displaybehavior'] = JText::_('COM_THM_ORGANIZER_E_GLOBALRESERVES_EXPLANATION');
+            }
+            elseif ($event['globaldisplay'])
+            {
+                $event['displaybehavior'] = JText::_('COM_THM_ORGANIZER_E_GLOBAL_EXPLANATION');
+            }
+            elseif ($event['reservesobjects'])
+            {
+                $event['displaybehavior'] = JText::_('COM_THM_ORGANIZER_E_RESERVES_EXPLANATION');
+            }
             else
-                $event['displaybehavior'] = JText::_ ('COM_THM_ORGANIZER_E_NOGLOBALRESERVES_EXPLANATION');
-            if($event['starttime'] == "00:00")unset($event['starttime']);
-            if($event['endtime'] == "00:00")unset($event['endtime']);
-            if($event['enddate'] == "00.00.0000")unset($event['enddate']);
+            {
+                $event['displaybehavior'] = JText::_('COM_THM_ORGANIZER_E_NOGLOBALRESERVES_EXPLANATION');
+            }
+            if ($event['starttime'] == "00:00")
+            {
+                unset($event['starttime']);
+            }
+            if ($event['endtime'] == "00:00")
+            {
+                unset($event['endtime']);
+            }
+            if ($event['enddate'] == "00.00.0000")
+            {
+                unset($event['enddate']);
+            }
         }
         else
         {
@@ -121,8 +153,10 @@ class thm_organizerModelevent extends JModel
         $event['teachers'] = array();
         $event['groups'] = array();
         $event['rooms'] = array();
-        if($event['id'] != 0)
+        if ($event['id'] != 0)
+        {
             $event['access'] = eventAccess::canEdit($this->event['id']);
+        }
         $this->event = $event;
     }
 
@@ -164,6 +198,8 @@ class thm_organizerModelevent extends JModel
      * loadEventResources
      *
      * calls functions for loading differing sorts of event resources
+     * 
+     * @return void
      */
     private function loadEventResources()
     {
@@ -176,6 +212,8 @@ class thm_organizerModelevent extends JModel
      * loadEventRooms
      *
      * loads room data into the event
+     * 
+     * @return void
      */
     private function loadEventRooms()
     {
@@ -185,7 +223,7 @@ class thm_organizerModelevent extends JModel
         $query->from("#__thm_organizer_event_rooms AS er");
         $query->innerJoin("#__thm_organizer_rooms AS r ON er.roomID = r.id");
         $query->where("er.eventID = '$this->id'");
-        $dbo->setQuery((string)$query);
+        $dbo->setQuery((string) $query);
         $this->event['rooms'] = $dbo->loadResultArray();
     }
 
@@ -193,6 +231,8 @@ class thm_organizerModelevent extends JModel
      * loadEventTeachers
      *
      * loads teacher data into the event
+     * 
+     * @return void
      */
     private function loadEventTeachers()
     {
@@ -202,7 +242,7 @@ class thm_organizerModelevent extends JModel
         $query->from("#__thm_organizer_event_teachers AS et");
         $query->innerJoin("#__thm_organizer_teachers AS t ON et.teacherID = t.id");
         $query->where("et.eventID = '$this->id'");
-        $dbo->setQuery((string)$query);
+        $dbo->setQuery((string) $query);
         $this->event['teachers'] = $dbo->loadResultArray();
     }
 
@@ -210,6 +250,8 @@ class thm_organizerModelevent extends JModel
      * loadEventGroups
      *
      * loads group data into the event
+     * 
+     * @return void
      */
     private function loadEventGroups()
     {
@@ -219,7 +261,7 @@ class thm_organizerModelevent extends JModel
         $query->from("#__thm_organizer_event_groups AS eg");
         $query->innerJoin("#__usergroups AS ug ON eg.groupID = ug.id");
         $query->where("eg.eventID = '$this->id'");
-        $dbo->setQuery((string)$query);
+        $dbo->setQuery((string) $query);
         $this->event['groups'] = $dbo->loadResultArray();
     }
 
@@ -228,6 +270,8 @@ class thm_organizerModelevent extends JModel
      *
      * retrieves the url of the event list menu item and sets the object
      * variable listLink with it
+     * 
+     * @return void
      */
     private function setMenuLinks()
     {
@@ -238,8 +282,11 @@ class thm_organizerModelevent extends JModel
         $query->from("#__menu AS eg");
         $query->where("id = $menuID");
         $query->where("link LIKE '%event_list%'");
-        $dbo->setQuery((string)$query);
+        $dbo->setQuery((string) $query);
         $link = $dbo->loadResult();
-        if(isset($link) and $link != "") $this->listLink = JRoute::_($link);
+        if (isset($link) and $link != "")
+        {
+            $this->listLink = JRoute::_($link);
+        }
     }
 }
