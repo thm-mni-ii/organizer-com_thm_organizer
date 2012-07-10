@@ -1,33 +1,91 @@
 <?php
+/**
+ *@category    Joomla component
+ *
+ *@package     THM_Organizer
+ *
+ *@subpackage  com_thm_organizer.site
+ *@name		   Auth
+ *@description Auth file from com_thm_organizer
+ *@author	   Wolf Rost, wolf.rost@mni.thm.de
+ *
+ *@copyright   2012 TH Mittelhessen
+ *
+ *@license     GNU GPL v.2
+ *@link		   www.mni.thm.de
+ *@version	   1.0
+ */
 
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
+/**
+ * Class Auth for component com_thm_organizer
+ *
+ * Class provides methods for authenticate the user
+ *
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.site
+ * @link        www.mni.thm.de
+ * @since       1.5
+ */
 class Auth
 {
-	private $JDA = null;
-	private $cfg = null;
+	/**
+	 * Joomla data abstraction
+	 *
+	 * @var    DataAbstraction
+	 * @since  1.0
+	 */
+	private $_JDA = null;
 
-	function __construct($JDA, $cfg)
+	/**
+	 * Config
+	 *
+	 * @var    Object
+	 * @since  1.0
+	 */
+	private $_cfg = null;
+
+	/**
+	 * Constructor with the joomla data abstraction object and configuration object
+	 * 
+	 * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
+	 * @param   MySchedConfig	 $cfg  A object which has configurations including
+	 * 
+	 * @since  1.5
+	 *
+	 */
+	public function __construct($JDA, $cfg)
 	{
 		$this->JDA = $JDA;
 		$this->cfg = $cfg;
 	}
-	//*********************************************
-	// LDAP Benutzername und Passwort ueberpruefen
-	//*********************************************
+
+	/**
+	 * Method to check the username and password
+	 *
+	 * @param   String  $username   The username to check
+	 * @param   String  $passwd     The password to check
+	 * @param   Array   $addRights  Additional rights that this user have
+	 *
+	 * @return An array which has the result including
+	 */
 	public function ldap( $username, $passwd, $addRights = null )
 	{
-		$ldap = new LdapAuth( $this->cfg[ 'ldap_server' ], $this->cfg[ 'ldap_base' ], $this->cfg[ 'ldap_filter' ], $this->cfg[ 'ldap_protocol' ], $this->cfg[ 'ldap_useSSH' ] );
-		if ( $user = $ldap->authenticateUser( $username, $passwd ) ) {
-			$role = self::mapLdapRole( $user[ 'role' ] );
+		$ldap = new LdapAuth(
+					$this->cfg['ldap_server'], $this->cfg['ldap_base'],
+					$this->cfg['ldap_filter'], $this->cfg['ldap_protocol'], $this->cfg['ldap_useSSH']
+				);
+		if ($user = $ldap->authenticateUser($username, $passwd))
+		{
+			$role = self::mapLdapRole($user[ 'role' ]);
 
 			// ALLES OK
 			return array(
 				 'success' => true,
-				'username' => $username,
-				'role' => $role, // user, registered, author, editor, publisher
-				'additional_rights' => $addRights // 'doz' => array( 'knei', 'igle' ), ...
+					'username' => $username,
+					'role' => $role, // User, registered, author, editor, publisher
+					'additional_rights' => $addRights // 'doz' => array( 'knei', 'igle' ), ...
 			);
 		}
 
@@ -35,20 +93,25 @@ class Auth
 		return array(
 			 'success' => false,
 			 'errors' => array(
-				 'reason' => 'Authentifizierung fehlgeschlagen. Username oder Passwort falsch.'
-			)
+			 		'reason' => 'Authentifizierung fehlgeschlagen. Username oder Passwort falsch.'
+			 )
 		);
 	}
 
-	//*********************************************
-	// Mapping von LDAP-User-Role auf die Role von MySched
-	//*********************************************
+	/**
+	 * Method to map the LDAPP user roles to the MySched roles
+	 *
+	 * @param   String  $role  The user role
+	 *
+	 * @return The mapped role
+	 */
 	public function mapLdapRole( $role )
 	{
 		// Mapping der LdapRole auf die Rollen von MySched
-		switch ( $role ) {
+		switch ($role)
+		{
 			case "P":
-			// Professor
+				// Professor
 			case "L":
 				// Lehrbeauftragter
 				$role = 'author';
@@ -58,15 +121,15 @@ class Auth
 				$role = 'registered';
 				break;
 			case "S":
-			// Student
+				// Student
 			case "A":
-			// Azubi
+				// Azubi
 			case "E":
-			// Externer Mitarbeiter
+				// Externer Mitarbeiter
 			case "R":
-			// Praktikant
+				// Praktikant
 			case "U":
-			// Undefiniert
+				// Undefiniert
 			default:
 				$role = 'registered';
 				break;
@@ -74,17 +137,20 @@ class Auth
 		return $role;
 	}
 
-
-	//*****************************************
-	// Ueberpruefung ob Joomla SID korrekt ist
-	//*****************************************
+	/**
+	 * Method to check the joomla sid is correct
+	 *
+	 * @param   String  $token  The joomla sid
+	 *
+	 * @return An array with the result
+	 */
 	public function joomla( $token )
 	{
 		$addRights               = array( );
 		$_SESSION[ 'joomlaSid' ] = $token;
 
 		$userrolearr = $this->JDA->getUserRoles();
-		foreach($userrolearr as $k=>$v)
+		foreach ($userrolearr as $k => $v)
 		{
 			$userrole = $k;
 			break;
@@ -92,17 +158,22 @@ class Auth
 
 		// ALLES OK
 		return array(
-			'success' => true,
-			'username' => $this->JDA->getUserName(),
-			'role' => strtolower( $userrole ), // user, registered, author, editor, publisher
-			'additional_rights' => $addRights // 'doz' => array( 'knei', 'igle' ), ...
+				'success' => true,
+				'username' => $this->JDA->getUserName(),
+				'role' => strtolower($userrole), // User, registered, author, editor, publisher
+				'additional_rights' => $addRights // 'doz' => array( 'knei', 'igle' ), ...
 		);
 	}
 
-	// Prueft ob die uebergebene ID die aktuelle SessionID ist
+	/**
+	 * Method to check the session id
+	 *
+	 * @param   String  $sid  The session id
+	 *
+	 * @return Boolean If $sid is the same as the current session id it returns true otherwise false
+	 */
 	public function checkSession( $sid )
 	{
 		return session_id() == $sid;
 	}
 }
-?>
