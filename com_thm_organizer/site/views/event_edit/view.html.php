@@ -1,142 +1,187 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_thm_organizer
- * @name        create/edit appointment/event view
- * @author      James Antrim jamesDOTantrimATyahooDOTcom
- * @copyright   TH Mittelhessen 2011
- * @license     GNU GPL v.2
- * @link        www.mni.fh-giessen.de
- * @version     0.0.1
+ *@category    component
+ * 
+ *@package     THM_Organizer
+ * 
+ *@subpackage  com_thm_organizer
+ *@name        create/edit appointment/event view
+ *@author      James Antrim jamesDOTantrimATyahooDOTcom
+ * 
+ *@copyright   2012 TH Mittelhessen
+ * 
+ *@license     GNU GPL v.2
+ *@link        www.mni.thm.de
+ *@version     0.0.2
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
-jimport( 'joomla.application.component.view');
-class thm_organizerViewevent_edit extends JView
+defined('_JEXEC') or die;
+jimport('joomla.application.component.view');
+
+/**
+ * loads model data into context and sets variables used for html output
+ * 
+ * @package  Joomla.Site
+ * 
+ * @since    1.5
+ */
+class Thm_OrganizerViewEvent_Edit extends JView
 {
-    function display($tpl = null)
+    /**
+     * loads model data into context and sets variables used for html output
+     * 
+     * @param   string  $tpl  the template to be used
+     * 
+     * @return void 
+     */
+    public function display($tpl = null)
     {
         JHtml::_('behavior.framework', true);
-        JHTML::_('behavior.formvalidation');
-        JHTML::_('behavior.tooltip');
+        JHtml::_('behavior.formvalidation');
+        JHtml::_('behavior.tooltip');
 
         $document = & JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
+        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
         $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/event_edit.js'));
 
         $this->form = $this->get('Form');
         $item->item = $this->get('Item');
 
         $model = $this->getModel();
-        $event = $model->event;
-        $this->event = $event;
-        $rooms = $model->rooms;
-        $this->rooms = $rooms;
-        $teachers = $model->teachers;
-        $this->teachers = $teachers;
-        $groups = $model->groups;
-        $this->groups = $groups;
-        $categories = $model->categories;
-        $this->categories = $categories;
+        $this->event = $model->event;
+        $this->rooms = $model->rooms;
+        $this->teachers = $model->teachers;
+        $this->groups = $model->groups;
+        $this->categories = $model->categories;
 
-        if(!count($this->categories))
+        if (!count($this->categories))
+        {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
 
-
-        $listLink = $model->listLink;
-        $this->assignRef('listLink', $listLink);
-        $eventLink = $model->eventLink;
-        $this->assignRef('eventLink', $eventLink);
+        $this->listLink = $model->listLink;
+        $this->eventLink = $model->eventLink;
 
         $blockchecked = $dailychecked = '';
         ($event['recurrence_type'])? $dailychecked = 'checked' : $blockchecked = 'checked';
-        $this->assignRef('blockchecked', $blockchecked);
-        $this->assignRef('dailychecked', $dailychecked);
+        $this->blockchecked = $blockchecked;
+        $this->dailychecked = $dailychecked;
 
         $document->setTitle(($event['id'] == 0)? JText::_('COM_THM_ORGANIZER_EE_TITLE_NEW') : JText::_('COM_THM_ORGANIZER_EE_TITLE_EDIT'));
-        
+
         $this->createHTMLElements();
         parent::display($tpl);
     }
 
+    /**
+     *creates HTML elements from saved data
+     * 
+     * @return void 
+     */
     private function createHTMLElements()
     {
-        $event = $this->event;
+        $this->createResourceElement('rooms', JText::_('COM_THM_ORGANIZER_NO_ROOMS'));
+        $this->createResourceElement('teachers', JText::_('COM_THM_ORGANIZER_NO_TEACHERS'));
+        $this->createResourceElement('groups', JText::_('COM_THM_ORGANIZER_NO_GROUPS'));
+        $this->processCategories();
+        $this->createActionLink('save');
+        $this->createActionLink('reset');
+        $this->createActionLink('cancel');
+    }
 
-        $otherrooms = array();
-        $otherrooms[] = array('id' => '-1', 'name' => 'keine Räume');
-        $rooms = array_merge($otherrooms, $this->rooms);
-        if(isset($this->event['rooms']))
+    /**
+     * creates the selection boxes for resources
+     * 
+     * @param   string  $name       the name of the resource
+     * 
+     * @param   string  $emptyText  the text for the selection of no resources
+     * 
+     * @return void
+     */
+    private function createResourceElement($name, $emptyText)
+    {
+        $dummyResources = array();
+        $dummyResources[] = array('id' => '-1', 'name' => $emptyText);
+        $resources = array_merge($dummyResources, $this->$name);
+        $attributes = array('id' => $name,
+                            'class' => 'inputbox',
+                            'size' => '4',
+                            'multiple' => 'multiple'
+            );
+        $selectname = $name . 'select';
+        if (isset($this->event[$name]))
         {
-            $roomselect = JHTML::_('select.genericlist', $rooms, 'rooms[]',
-                                   'id="rooms" class="inputbox" size="4" multiple="multiple"',
-                                   'id', 'name', $this->event['rooms']);
+            $selectbox = JHTML::_('select.genericlist',
+                                          $resources,
+                                          $name . '[]',
+                                          $attributes,
+                                          'id',
+                                          'name',
+                                          $this->event[$name]
+                                         );
         }
         else
         {
-            $roomselect = JHTML::_('select.genericlist', $rooms, 'rooms[]',
-                                   'id="rooms" class="inputbox" size="4" multiple="multiple"',
-                                   'id', 'name');
+            $selectbox = JHTML::_('select.genericlist',
+                                          $resources,
+                                          $name . '[]',
+                                          $attributes,
+                                          'id',
+                                          'name'
+                                         );
         }
-        $this->assignRef('roomselect', $roomselect);
+        $this->$selectname = $selectbox;
+    }
 
-        $otherteachers = array();
-        $otherteachers[] = array('id' => '-1', 'name' => 'keine Dozenten');
-        $teachers = array_merge($otherteachers, $this->teachers);
-        if(isset($this->event['teachers']))
+    /**
+     * processes the categories adding a dummy to eliminate having a default
+     * category, and creates the javascript output for each category
+     * 
+     * @return void
+     */
+    private function processCategories()
+    {
+        $attributes = array();
+        $attributes['id'] = 'category';
+        $attributes['class'] = 'inputbox validate-category';
+        $attributes['onChange'] = 'changeCategoryInformation()';
+        $attributes['required'] = 'true';
+        $this->categoryselect = JHTML::_('select.genericlist',
+                                            $this->categories,
+                                            'category',
+                                            $attributes,
+                                            'id',
+                                            'title',
+                                            $this->event['categoryID']
+                                        );
+        foreach ($this->categories as $k => $category)
         {
-            $teacherselect = JHTML::_('select.genericlist', $teachers, 'teachers[]',
-                                      'id="teachers" class="inputbox" size="4" multiple="multiple"',
-                                      'id', 'name', $this->event['teachers']);
+            $javascript = 'categories[' . $category['id'] . '] = new Array( "';
+            $javascript .= $category['description'] . '", "';
+            $javascript .= $category['display'] . '",  "';
+            $javascript .= $category['contentCat'] . '", "';
+            $javascript .= $category['contentCatDesc'] . '", "';
+            $javascript .= $category['access'];
+            $javascript .= '" );';
+            $this->categories[$k]['javascript'] = $javascript;
         }
-        else
-        {
-            $teacherselect = JHTML::_('select.genericlist', $teachers, 'teachers[]',
-                                      'id="teachers" class="inputbox" size="4" multiple="multiple"',
-                                      'id', 'name');
-        }
-        $this->assignRef('teacherselect', $teacherselect);
+    }
 
-
-        $othergroups = array();
-        $othergroups[] = array( 'id' => '-1', 'name' => 'keine Gruppen' );
-        $groups = array_merge($othergroups, $this->groups);
-        if(isset($this->event['groups']))
-        {
-            $groupselect = JHTML::_('select.genericlist', $groups, 'groups[]',
-                                    'id="groups" class="inputbox" size="4" multiple="multiple"',
-                                    'id', 'name', $this->event['groups']);
-        }
-        else
-        {
-            $groupselect = JHTML::_('select.genericlist', $groups, 'groups[]',
-                                    'id="groups" class="inputbox" size="4" multiple="multiple"',
-                                    'id', 'name');
-        }
-        $this->assignRef('groupselect', $groupselect);
-
-        $categoryselect = JHTML::_('select.genericlist', $this->categories, 'category',
-                                       'id="category" class="inputbox" onChange="changeCategoryInformation()"', 'id', 'title',
-                                       $this->event['categoryID']);
-        $this->assignRef('categoryselect', $categoryselect);
-
-        $saveLink = "<a href='#' onclick='Joomla.submitbutton('save')'>";
-        $saveImage = JHTML::_('image', 'components/com_thm_organizer/assets/images/save.png', JText::_( 'Save' ),
+    /**
+     * creates links similar to the joomla backend action buttons
+     * 
+     * @param   string  $action  the name of the action
+     * 
+     * @return  void
+     */
+    private function createActionLink($action)
+    {
+        $linkname = $action . 'link';
+        $image = JHTML::_('image',
+                              "components/com_thm_organizer/assets/images/$action.png",
+                              JText::_(ucfirst($action)),
                               array( 'class' => 'thm_organizer_ee_image_button',
-                                     'onclick' =>"return submitbutton('saveevent');"));
-        $saveLink .= $saveImage."</a>";
-        $this->assignRef('savelink', $saveLink);
-
-        $resetLink = "<a href='#' onclick='Joomla.submitbutton('reset')'>";
-        $resetImage = JHTML::_('image', "components/com_thm_organizer/assets/images/reset.png",
-                              JText::_( 'Reset' ), array( 'class' => 'thm_organizer_ee_image_button'));
-        $resetLink .= $resetImage."</a>";
-        $this->assignRef('resetlink', $resetLink);
-
-        $cancelLink = "<a href='javascript:history.back()'>";
-        $cancelImage = JHTML::_('image', 'components/com_thm_organizer/assets/images/cancel.png', JText::_( 'Cancel' ),
-                                array( 'class' => 'thm_organizer_ee_image_button',
-                                       'onclick' => "return submitbutton('cancelevent');"));
-        $cancelLink .= $cancelImage."</a>";
-        $this->assignRef('cancellink', $cancelLink);
+                                     'onclick' => "return submitbutton('" . $action . "event');")
+                             );
+        $this->$linkname = "<a href='#' onclick='Joomla.submitbutton('$action')'>" . $image . "</a>";
     }
 }

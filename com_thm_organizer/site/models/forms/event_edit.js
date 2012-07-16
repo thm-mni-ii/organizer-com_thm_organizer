@@ -18,6 +18,10 @@ window.addEvent('domready', function() {
     document.formvalidator.setHandler('title', function (value) { return value != ''; });
 });
 
+window.addEvent('domready', function() {
+    document.formvalidator.setHandler('category', function (value) { return value > 0; });
+});
+
 /**
 * Changes a dynamically generated list
 */

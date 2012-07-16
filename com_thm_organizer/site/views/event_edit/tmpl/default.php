@@ -1,27 +1,30 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_thm_organizer
- * @name        create/edit appointment/event default template
- * @author      James Antrim jamesDOTantrimATyahooDOTcom
- * @copyright   TH Mittelhessen 2011
- * @license     GNU GPL v.2
- * @link        www.mni.fh-giessen.de
- * @version     0.0.1
+ *@category    component
+ * 
+ *@package     THM_Organizer
+ * 
+ *@subpackage  com_thm_organizer
+ *@name        edit event default template
+ *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ * 
+ *@copyright   2012 TH Mittelhessen
+ * 
+ *@license     GNU GPL v.2
+ *@link        www.mni.thm.de
+ *@version     0.0.2
  */
-defined('_JEXEC') or die('Restricted access');
-$event = $this->event;
+defined('_JEXEC') or die;
 $showListLink = (isset($this->listLink) and $this->listLink != "")? true : false;
 $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : false;
 ?>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
     var categories = new Array;
 
 <?php
-$i = 0;
-foreach($this->categories as $category)
+foreach ($this->categories as $category)
 {
-    echo 'categories['.$category['id'].'] = new Array( "'.$category['description'].'", "'.$category['display'].'",  "'.$category['contentCat'].'", "'.$category['contentCatDesc'].'", "'.$category['access'].'" );';
+    echo $category['javascript'];
 }
 ?>
 
@@ -62,14 +65,13 @@ Joomla.submitbutton = function(task)
             requrl = requrl + getResources('teachers') + '&rooms=';
             requrl = requrl + getResources('rooms') + '&groups=';
             requrl = requrl + getResources('groups');
-            var message;
-            var a = new Request({
+            new Request({
                 url: requrl,
                 onComplete: function(response){
                     var confirmed = true;
                     if(response){ confirmed = confirm(response); }
                     if(confirmed){ Joomla.submitform(task, document.eventForm); }
-                    else{ return false; };
+                    return false;
                 }
             }).send();
         }
@@ -82,38 +84,57 @@ Joomla.submitbutton = function(task)
 }
 </script>
 <div id="thm_organizer_ee">
-    <form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>"
-          method="post" name="eventForm" id="eventForm" class="eventForm form-validate">
+    <form enctype="multipart/form-data"
+          action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>"
+          method="post"
+          name="eventForm"
+          id="eventForm"
+          class="eventForm form-validate">
         <div id="thm_organizer_ee_head_div">
             <span id="thm_organizer_ee_title">
                 <?php echo ($this->event['id'] == 0)? JText::_('COM_THM_ORGANIZER_EE_NEW') : JText::_('COM_THM_ORGANIZER_EE_EDIT'); ?>
             </span>
             <div id="thm_organizer_ee_button_div">
-                <?php if($showListLink): ?>
+<?php
+                if ($showListLink)
+                {
+                    $listTitle = JText::_('COM_THM_ORGANIZER_LIST_TITLE');
+                    $listTitle .= "::" . JText::_('COM_THM_ORGANIZER_LIST_DESCRIPTION')
+?>
                 <a  class="hasTip thm_organizer_action_link"
-                    title="<?php echo JText::_('COM_THM_ORGANIZER_LIST_TITLE')."::".JText::_('COM_THM_ORGANIZER_LIST_DESCRIPTION');?>"
+                    title="<?php echo $listTitle;?>"
                     href="<?php echo $this->listLink ?>">
                     <span id="thm_organizer_list_span" class="thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_LIST'); ?>
                 </a>
-                <?php endif; if($showEventLink): ?>
+<?php
+                }
+                if ($showEventLink)
+                {
+                    $eventTitle = JText::_('COM_THM_ORGANIZER_EVENT_TITLE');
+                    $eventTitle .= "::" . JText::_('COM_THM_ORGANIZER_EVENT_DESCRIPTION');
+?>
                 <a  class="hasTip thm_organizer_action_link"
-                    title="<?php echo JText::_('COM_THM_ORGANIZER_EVENT_TITLE')."::".JText::_('COM_THM_ORGANIZER_EVENT_DESCRIPTION');?>"
+                    title="<?php echo $eventTitle;?>"
                     href="<?php echo $this->eventLink ?>">
                     <span id="thm_organizer_event_span" class="thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_EVENT'); ?>
                 </a>
-                <?php endif; if($showListLink or $showEventLink): ?>
+                <?php
+                }
+                if ($showListLink or $showEventLink)
+                {?>
                 <span class="thm_organizer_divider_span"></span>
-                <?php endif; ?>
+                <?php
+                } ?>
                 <a  class="hasTip thm_organizer_action_link"
-                    title="<?php echo JText::_('COM_THM_ORGANIZER_SAVE_TITLE')."::".JText::_('COM_THM_ORGANIZER_SAVE_DESCRIPTION');?>"
+                    title="<?php echo JText::_('COM_THM_ORGANIZER_SAVE_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_SAVE_DESCRIPTION');?>"
                     onclick="Joomla.submitbutton('events.save')">
                     <span id="thm_organizer_save_span" class="thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_SAVE'); ?>
                 </a>
                 <a  class="hasTip thm_organizer_action_link"
-                    title="<?php echo JText::_('COM_THM_ORGANIZER_SAVE_NEW_TITLE')."::".JText::_('COM_THM_ORGANIZER_SAVE_NEW_DESCRIPTION');?>"
+                    title="<?php echo JText::_('COM_THM_ORGANIZER_SAVE_NEW_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_SAVE_NEW_DESCRIPTION');?>"
                     onclick="Joomla.submitbutton('events.save2new')">
                     <span id="thm_organizer_save_new_span" class="thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_SAVE_NEW'); ?>
@@ -162,7 +183,7 @@ Joomla.submitbutton = function(task)
                     <td>
                         <label for="rec_type_daily">
                            <span class="hasTip" title="T&auml;glich::Der Termin findet t&auml;glich zwischen Start- und Endzeit statt, an allen Tagen zwischen Start- und Enddatum.">
-                                <?php echo JText::_('Täglich').":"; ?>
+                                <?php echo JText::_('Täglich') . ":"; ?>
                             </span>
                         </label>
                     </td>
@@ -175,7 +196,7 @@ Joomla.submitbutton = function(task)
         <div id="thm_organizer_ee_category_div">
             <div id="thm_organizer_ee_category_select_div">
                 <div class="thm_organizer_ee_label_div" >
-                    <?php echo $this->form->getLabel('categorys'); ?>
+                    <?php echo $this->form->getLabel('categories'); ?>
                 </div>
                 <div class="thm_organizer_ee_data_div" >
                     <?php echo $this->categoryselect; ?>
@@ -200,20 +221,20 @@ Joomla.submitbutton = function(task)
         <div id="thm_organizer_ee_resource_selection_div" >
             <table class="thm_organizer_ee_table">
                 <tr>
-                    <td align="center">
+                    <td>
                         <?php echo $this->form->getLabel('teachers'); ?>
                     </td>
-                    <td align="center">
+                    <td>
                         <?php echo $this->form->getLabel('rooms'); ?>
                     </td>
-                    <td align="center">
+                    <td>
                         <?php echo $this->form->getLabel('groups'); ?>
                     </td>
                 </tr>
                 <tr>
-                    <td><?php echo $this->teacherselect; ?></td>
-                    <td><?php echo $this->roomselect; ?></td>
-                    <td><?php echo $this->groupselect; ?></td>
+                    <td><?php echo $this->teachersselect; ?></td>
+                    <td><?php echo $this->roomsselect; ?></td>
+                    <td><?php echo $this->groupsselect; ?></td>
                 </tr>
                 <tr>
                     <td colspan="2">

@@ -1,6 +1,7 @@
 <?php
 /**
  * @package     Joomla.Site
+ * 
  * @subpackage  com_thm_organizer
  * @name        room display model
  * @author      James Antrim jamesDOTantrimATyahooDOTcom
