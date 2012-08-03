@@ -131,9 +131,13 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
         $select .= "DATE_FORMAT(e.enddate, '%d.%m.%Y') AS enddate, ";
         $select .= "SUBSTR(e.starttime, 1, 5) AS starttime, ";
         $select .= "SUBSTR(e.endtime, 1, 5) AS endtime, ";
+		/*
+		 * commented out due to an error:
+		 * editing an exisiting event would result in creating a new one
         $select .= "e.recurrence_type, ";
         $select .= "e.recurrence_number, ";
         $select .= "e.recurrence_counter, ";
+		 */
         $select .= "c.title AS title, ";
         $select .= "c.fulltext AS description, ";
         $select .= "c.created_by";
