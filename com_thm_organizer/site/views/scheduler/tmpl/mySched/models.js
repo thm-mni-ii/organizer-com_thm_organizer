@@ -1456,6 +1456,10 @@ Ext.define('mEventlist', {
     return ret;
   },
   getEvents: function (type, value) {
+	  
+	  if(type == "doz")
+			type = "teacher";
+	  
     if (Ext.isEmpty(type) && Ext.isEmpty(value)) return this.data.items;
     var datas = this.data.filterBy(function (o, k) {
       for (var item in o.data.objects)
