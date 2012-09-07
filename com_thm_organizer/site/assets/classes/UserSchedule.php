@@ -1,19 +1,15 @@
 <?php
 /**
- *@category    Joomla component
- *
- *@package     THM_Organizer
- *
- *@subpackage  com_thm_organizer.site
- *@name		   UserSchedule
- *@description UserSchedule file from com_thm_organizer
- *@author	   Wolf Rost, wolf.rost@mni.thm.de
- *
- *@copyright   2012 TH Mittelhessen
- *
- *@license     GNU GPL v.2
- *@link		   www.mni.thm.de
- *@version	   1.0
+ * @version	    v0.0.1
+ * @category    Joomla component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.site
+ * @name		UserSchedule
+ * @description UserSchedule file from com_thm_organizer
+ * @author	    Wolf Rost, <wolf.rost@mni.thm.de>
+ * @copyright   2012 TH Mittelhessen
+ * @license     GNU GPL v.2
+ * @link		www.mni.thm.de
  */
 
 defined('_JEXEC') or die;
@@ -23,10 +19,11 @@ defined('_JEXEC') or die;
  *
  * Class provides methods to load and save user schedules
  *
- * @package     THM_Organizer
+ * @category	Joomla.Component.Site
+ * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
- * @since       1.5
+ * @since       v0.0.1
  */
 class UserSchedule
 {
