@@ -15,9 +15,8 @@ class thm_organizerModelbooking extends JModel
 {
     private $resource_tables = null;
     private $joomla_tables = null;
-    private
 
-    public function  __construct($config = array())
+    public function __construct($config = array())
     {
         parent::__construct($config);
         $this->resource_tables = array( 'classes', 'departments', 'descriptions', 'periods', 'rooms', 'subjects', 'teachers');
