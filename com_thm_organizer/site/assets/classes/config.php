@@ -22,7 +22,7 @@ define('B', dirname(__FILE__));
  * Class provides information about the database and estudy
  *
  * @category	Joomla.Component.Site
- * @package     THM_Organizer
+ * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
  * @since       v0.0.1
