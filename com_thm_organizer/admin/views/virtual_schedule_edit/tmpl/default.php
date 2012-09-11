@@ -1,13 +1,15 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_thm_organizer
- * @name        schedule editor default template
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * @copyright   TH Mittelhessen 2011
+ * @version     v0.0.1
+ * @category    Joomla component
+ * @package     THM_organizer
+ * @subpackage  com_thm_organizer.admin.view
+ * @name        virtual schedule edit default template
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @author      Wolf Rost, <Wolf.Rost@mni.thm.de>
+ * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
- * @version     1.7.0
  */
 defined("_JEXEC") or die;?>
 <form action="<?php echo JRoute::_("index.php?option=com_thm_organizer"); ?>"

@@ -1,14 +1,15 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_thm_organizer
+ * @version     v0.0.1
+ * @category    Joomla component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.admin
  * @name        controller schedule
  * @description performs access checks and makes calls for data manipulation
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * @copyright   TH Mittelhessen 2011
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
- * @version     1.7.0
  */
 defined( '_JEXEC' ) or die;
 jimport('joomla.application.component.controller');

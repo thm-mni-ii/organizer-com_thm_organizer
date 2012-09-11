@@ -1,23 +1,56 @@
 <?php
+/**
+ * @version     v0.0.1
+ * @category    Joomla component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.admin.field
+ * @name        JFormFieldResponsible
+ * @description creates a form field with responsible
+ * @author      Wolf Rost, <Wolf.Rost@mni.thm.de>
+ * @copyright   2012 TH Mittelhessen
+ * @license     GNU GPL v.2
+ * @link        www.mni.thm.de
+ */
+
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die('Restricted access');
- 
+defined('_JEXEC') or die;
 jimport('joomla.form.formfield');
  
-class JFormFieldResponsible extends JFormField {
- 
+/**
+ * Class JFormFieldResponsible for component com_thm_organizer
+ *
+ * Class provides methods to creates a form field with responsible
+ *
+ * @category	Joomla.Component.Admin
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.admin.field
+ * @link        www.mni.thm.de
+ * @since       v0.0.1
+ */
+class JFormFieldResponsible extends JFormField
+{
+	/**
+	 * Form field type
+	 *
+	 * @var    String
+	 * @since  v0.0.1
+	 */
 	protected $type = 'Responsible';
- 
-	// getLabel() left out
- 
-	public function getInput() {
-		$return = '<select id="'.$this->id.'" name="'.$this->name.'">';
+  
+	/**
+	 * Method to get the form field
+	 *
+	 * @return  String  The Form field with responsibles
+	 */
+	public function getInput()
+	{
+		$return = '<select id="' . $this->id . '" name="' . $this->name . '">';
 		
 		$responsibles = $this->getResponsibles();
 				
-		foreach($responsibles AS $k=>$v)
+		foreach ($responsibles AS $k => $v)
 		{
-			$return .= '<option value="'.$v->id.'" >'.$v->name.'</option>';
+			$return .= '<option value="' . $v->id . '" >' . $v->name . '</option>';
 		}
 				
 		$return .= '</select>';
@@ -25,7 +58,13 @@ class JFormFieldResponsible extends JFormField {
 		return $return;
 	}
 	
-	private function getResponsibles() {
+	/**
+	 * Method to get the responsibles
+	 *
+	 * @return  Array  An Array with the responsibles
+	 */
+	private function getResponsibles()
+	{
 		$mainframe = JFactory::getApplication("administrator");
 		$dbo = JFactory::getDBO();
 		$usergroups = array();
@@ -33,12 +72,12 @@ class JFormFieldResponsible extends JFormField {
 		$query = $dbo->getQuery(true);
 		$query->select('id');
 		$query->from('#__usergroups');
-		$dbo->setQuery((string)$query);
+		$dbo->setQuery((string) $query);
 		$groups = $dbo->loadObjectList();
 	
-		foreach($groups as $k=>$v)
+		foreach ($groups as $k => $v)
 		{
-			if(JAccess::checkGroup($v->id, 'core.login.admin') || $v->id == 8)
+			if (JAccess::checkGroup($v->id, 'core.login.admin') || $v->id == 8)
 			{
 				$usergroups[] = $v->id;
 			}
@@ -47,21 +86,22 @@ class JFormFieldResponsible extends JFormField {
 		$query = "SELECT DISTINCT username as id, name as name
 		FROM #__users INNER JOIN #__user_usergroup_map ON #__users.id = user_id INNER JOIN #__usergroups ON group_id = #__usergroups.id WHERE";
 		$first = true;
-		if(is_array($usergroups))
+		if (is_array($usergroups))
 		{
-			foreach($usergroups as $k=>$v)
+			foreach ($usergroups as $k => $v)
 			{
-				if($first != true)
+				if ($first != true)
+				{
 					$query .= " OR";
-				$query .= " #__usergroups.id = ".(int)$v;
+				}
+				$query .= " #__usergroups.id = " . (int) $v;
 				$first = false;
 			}
 		}
 		$query .= " ORDER BY name";
-		$dbo->setQuery( $query );
+		$dbo->setQuery($query);
 		$resps = $dbo->loadObjectList();
 	
 		return $resps;
 	}
 }
-?>
