@@ -37,6 +37,9 @@ class THM_OrganizersModelVirtual_Schedule_ManagerAdminTest extends PHPUnit_Frame
 		if (!defined('JPATH_COMPONENT')) {
 			define('JPATH_COMPONENT', dirname(__FILE__));
 		}
+		
+// 		$_SERVER['HTTP_HOST'] = 'localhost';
+// 		$_SERVER['SCRIPT_NAME'] = '/joomlamni/index.php';
 				
 		$this->instance = new THM_OrganizersModelVirtual_Schedule_Manager;
 	}
@@ -66,5 +69,29 @@ class THM_OrganizersModelVirtual_Schedule_ManagerAdminTest extends PHPUnit_Frame
 		$actual = $this->instance->getData();
 		
 		$this->assertEquals($expected, $actual);
+	}
+	
+	public function testgetTotalANDgetAnz()
+	{
+		$expected = $this->instance->getAnz();
+		$actual = $this->instance->getTotal();
+		
+		$this->assertEquals($expected, $actual);
+	}
+	
+	public function testgetPagination()
+	{
+		$expected = 'JPagination';
+		$actual = $this->instance->getPagination();
+				
+		$this->assertInstanceOf($expected, $actual);
+	}
+	
+	public function testgetElements()
+	{
+		$expected = 'array';
+		$actual = $this->instance->getElements();
+						
+		$this->assertInternalType($expected, $actual);
 	}
 }
