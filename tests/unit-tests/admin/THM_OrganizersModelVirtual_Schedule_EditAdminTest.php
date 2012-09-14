@@ -54,9 +54,7 @@ class THM_OrganizersModelVirtual_Schedule_EditAdminTest extends PHPUnit_Framewor
 
 	/**
 	 * tests getForm,
-	 * inserts an value in database
-	 * function should update value
-	 * but picFile is null, function return false
+	 * method should return null
 	 *
 	 * @return void
 	 */

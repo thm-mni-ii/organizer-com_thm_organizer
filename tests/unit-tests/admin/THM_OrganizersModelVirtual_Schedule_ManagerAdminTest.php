@@ -37,10 +37,7 @@ class THM_OrganizersModelVirtual_Schedule_ManagerAdminTest extends PHPUnit_Frame
 		if (!defined('JPATH_COMPONENT')) {
 			define('JPATH_COMPONENT', dirname(__FILE__));
 		}
-		
-// 		$_SERVER['HTTP_HOST'] = 'localhost';
-// 		$_SERVER['SCRIPT_NAME'] = '/joomlamni/index.php';
-				
+						
 		$this->instance = new THM_OrganizersModelVirtual_Schedule_Manager;
 	}
 
@@ -56,10 +53,8 @@ class THM_OrganizersModelVirtual_Schedule_ManagerAdminTest extends PHPUnit_Frame
 	}
 
 	/**
-	 * tests getForm,
-	 * inserts an value in database
-	 * function should update value
-	 * but picFile is null, function return false
+	 * tests getData,
+	 * function should return an empty array
 	 *
 	 * @return void
 	 */
@@ -70,7 +65,13 @@ class THM_OrganizersModelVirtual_Schedule_ManagerAdminTest extends PHPUnit_Frame
 		
 		$this->assertEquals($expected, $actual);
 	}
-	
+
+	/**
+	 * tests getTotalANDgetAnz,
+	 * the function getTotal and getAnz should return the same integer
+	 *
+	 * @return void
+	 */
 	public function testgetTotalANDgetAnz()
 	{
 		$expected = $this->instance->getAnz();
@@ -79,6 +80,12 @@ class THM_OrganizersModelVirtual_Schedule_ManagerAdminTest extends PHPUnit_Frame
 		$this->assertEquals($expected, $actual);
 	}
 	
+	/**
+	 * tests getPagination,
+	 * function should return a JPagination object
+	 *
+	 * @return void
+	 */
 	public function testgetPagination()
 	{
 		$expected = 'JPagination';
@@ -87,6 +94,12 @@ class THM_OrganizersModelVirtual_Schedule_ManagerAdminTest extends PHPUnit_Frame
 		$this->assertInstanceOf($expected, $actual);
 	}
 	
+	/**
+	 * tests getElements,
+	 * function should return an array
+	 *
+	 * @return void
+	 */
 	public function testgetElements()
 	{
 		$expected = 'array';
