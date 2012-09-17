@@ -37,7 +37,7 @@ class THM_OrganizersControllerVirtual_Schedule extends JController
 	 */
 	public function __construct()
 	{
-		parent::__construct();
+		//parent::__construct();
 		$this->registerTask('add', 'edit');
 		$this->registerTask('deleteList', '');
 	}
@@ -71,7 +71,7 @@ class THM_OrganizersControllerVirtual_Schedule extends JController
 		$query = 'DELETE FROM #__thm_organizer_virtual_schedules'
 		. ' WHERE vid IN (' . $cids . ');';
 
-		$dbo->setQuery($quer);
+		$dbo->setQuery($query);
 		$dbo->query();
 
 		if ($dbo->getErrorNum())
