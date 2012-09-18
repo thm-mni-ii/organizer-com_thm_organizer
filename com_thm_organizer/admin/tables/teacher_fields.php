@@ -5,9 +5,8 @@
  *@package     THM_Organizer
  * 
  *@subpackage  com_thm_organizer
- *@name        colors table class
- *@author      Markus Baier markusDOTbaierATmniDOTthmDOTde
- *@author      Wolf Rost wolfDOTrostATmniDOTthmDOTde
+ *@name        teacher_fields table class
+ *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
  * 
  *@copyright   2012 TH Mittelhessen
  * 
@@ -18,21 +17,21 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.table');
 /**
- * Class representing the colors table. 
+ * Class representing the teacher_fields table. 
  * 
  * @package  Admin
  * 
  * @since    2.5.4
  */
-class THM_OrganizerTableColors extends JTable
+class thm_organizerTableteacher_fields extends JTable
 {
     /**
-     * Constructor to call the parent constructor
-     *
+     * Constructor function for the class representing the teacher_fields table
+     * 
      * @param   JDatabase  &$dbo  A database connector object
      */
     public function __construct(&$dbo)
     {
-        parent::__construct('#__thm_organizer_colors', 'id', $dbo);
+        parent::__construct('#__thm_organizer_teacher_fields', 'id', $dbo);
     }
 }
