@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerViewDegree
- * @description THM_OrganizerViewDegree component admin view
+ * @name		THM_OrganizersViewDegree
+ * @description THM_OrganizersViewDegree component admin view
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
- * Class THM_OrganizerViewDegree for component com_thm_organizer
+ * Class THM_OrganizersViewDegree for component com_thm_organizer
  *
  * Class provides methods to display the view degree
  *
@@ -29,7 +29,7 @@ jimport('joomla.application.component.view');
  * @link        www.mni.thm.de
  * @since       v1.5.0
  */
-class THM_OrganizerViewDegree extends JView
+class THM_OrganizersViewDegree extends JView
 {
 	/**
 	 * Method to get display

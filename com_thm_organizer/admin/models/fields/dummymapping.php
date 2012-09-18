@@ -55,8 +55,8 @@ class JFormFieldDummymapping extends JFormField
 		$query = $db->getQuery(true);
 
 		$query->select("*, assets.id as id, CONCAT(title_de) as title_de ");
-		$query->from(' #__thm_curriculum_assets as assets');
-		$query->join('inner', '#__thm_curriculum_asset_types as asset_types ON asset_types.id = assets.asset_type_id');
+		$query->from(' #__thm_organizer_assets as assets');
+		$query->join('inner', '#__thm_organizer_asset_types as asset_types ON asset_types.id = assets.asset_type_id');
 		$query->where('asset_types.id = 3');
 		$query->order('title_de');
 		$db->setQuery($query);
@@ -96,8 +96,8 @@ class JFormFieldDummymapping extends JFormField
 		// Build the query
 		$query = $db->getQuery(true);
 		$query->select("*");
-		$query->from('#__thm_curriculum_assets_tree');
-		$query->where("#__thm_curriculum_assets_tree.id = $id");
+		$query->from('#__thm_organizer_assets_tree');
+		$query->where("#__thm_organizer_assets_tree.id = $id");
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 

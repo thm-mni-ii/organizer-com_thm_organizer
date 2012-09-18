@@ -71,14 +71,14 @@ class THM_OrganizerModelMajor extends JModelAdmin
 		$query = $db->getQuery(true);
 
 		// Select the first semester of the given major
-		$query = "SELECT * FROM #__thm_curriculum_semesters_majors WHERE major_id = $pk AND semester_id = 1";
+		$query = "SELECT * FROM #__thm_organizer_semesters_majors WHERE major_id = $pk AND semester_id = 1";
 		$db->setQuery($query);
 		$row = $db->loadObjectList();
 		$firstSemester = $row[0]->id;
 
 		// Writes the root element to the database
 		$query = $db->getQuery(true);
-		$query->insert('#__thm_curriculum_assets_tree');
+		$query->insert('#__thm_organizer_assets_tree');
 		$query->set("asset = 0");
 		$query->set("parent_id = null");
 		$query->set("depth = null");
@@ -90,7 +90,7 @@ class THM_OrganizerModelMajor extends JModelAdmin
 
 		// Maps the inserted root element to the first semester
 		$query = $db->getQuery(true);
-		$query->insert('#__thm_curriculum_assets_semesters');
+		$query->insert('#__thm_organizer_assets_semesters');
 		$query->set("assets_tree_id = $insertid");
 		$query->set("semesters_majors_id = $firstSemester");
 
@@ -116,7 +116,7 @@ class THM_OrganizerModelMajor extends JModelAdmin
 		{
 			// Determine the current saved semesters
 			$query->select("*");
-			$query->from("#__thm_curriculum_semesters_majors as sem_paths");
+			$query->from("#__thm_organizer_semesters_majors as sem_paths");
 			$query->where("sem_paths.major_id = $pk");
 			$db->setQuery($query);
 			$rows = $db->loadObjectList();
@@ -129,7 +129,7 @@ class THM_OrganizerModelMajor extends JModelAdmin
 				{
 					// Delete the semester
 					$query = $db->getQuery(true);
-					$query->delete("#__thm_curriculum_semesters_majors");
+					$query->delete("#__thm_organizer_semesters_majors");
 					$query->where("major_id = $pk");
 					$query->where("semester_id = $row->semester_id");
 
@@ -146,7 +146,7 @@ class THM_OrganizerModelMajor extends JModelAdmin
 			$sem = intval($semester);
 
 			// Writes the data to the database
-			$query->insert('#__thm_curriculum_semesters_majors');
+			$query->insert('#__thm_organizer_semesters_majors');
 			$query->set("semester_id = $sem");
 			$query->set("major_id = $id");
 

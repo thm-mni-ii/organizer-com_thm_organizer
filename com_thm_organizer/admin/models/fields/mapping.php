@@ -54,8 +54,8 @@ class JFormFieldMapping extends JFormField
 		$query = $db->getQuery(true);
 		$query->select("sem_major.id AS id");
 		$query->select("name");
-		$query->from('#__thm_curriculum_semesters_majors as sem_major');
-		$query->join('inner', '#__thm_curriculum_semesters as semesters ON sem_major.semester_id = semesters.id');
+		$query->from('#__thm_organizer_semesters_majors as sem_major');
+		$query->join('inner', '#__thm_organizer_semesters as semesters ON sem_major.semester_id = semesters.id');
 		$query->where("major_id = $id");
 		$query->order('name ASC');
 		$db->setQuery($query);
@@ -82,7 +82,7 @@ class JFormFieldMapping extends JFormField
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 		$query->select("*");
-		$query->from('#__thm_curriculum_assets_semesters');
+		$query->from('#__thm_organizer_assets_semesters');
 		$query->where("assets_tree_id = $id");
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();

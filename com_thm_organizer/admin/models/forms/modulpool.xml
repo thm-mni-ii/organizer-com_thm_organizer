@@ -4,7 +4,7 @@
 		<field name="id" type="hidden" />
 
 		<field name="vater" type="sql" label="Vater"
-			query="SELECT id AS value, name AS vater  FROM #__thm_curriculum_modulpools"
+			query="SELECT id AS value, name AS vater  FROM #__thm_organizer_modulpools"
 			description="Bitte wählen Sie einen Modulpool aus" />
 
 		<field name="name" type="inputbox" label="Name"
@@ -29,11 +29,11 @@
 			description="Bitte wählen Sie einen Modulpool aus" />
 
 		<field name="farbe" type="sql" label="Farbe"
-			query="SELECT id AS value, name AS farbe FROM #__thm_curriculum_farbpalette"
+			query="SELECT id AS value, name AS farbe FROM #__thm_organizer_farbpalette"
 			description="Bitte wählen Sie einen Modulpool aus" />
 
 		<field name="studiengang" type="sql" label="Studiengang"
-			query="SELECT id AS value, fachrichtung AS studiengang FROM #__thm_curriculum_studiengaenge"
+			query="SELECT id AS value, fachrichtung AS studiengang FROM #__thm_organizer_studiengaenge"
 			description="Bitte wählen Sie einen Modulpool aus" />
 
 	</fieldset>

@@ -95,7 +95,7 @@ class THM_OrganizerControllerDummy_Mapping extends JControllerForm
 
 		foreach ($cid as $id)
 		{
-			$query = 'DELETE FROM #__thm_curriculum_assets_tree'
+			$query = 'DELETE FROM #__thm_organizer_assets_tree'
 			. ' WHERE id = ' . $id . ';';
 			$db->setQuery($query);
 			$db->query();
@@ -106,9 +106,9 @@ class THM_OrganizerControllerDummy_Mapping extends JControllerForm
 
 		// Select the primary key and ordering values from the table.
 		$query->select('*');
-		$query->from(' #__thm_curriculum_assets_tree as assets_tree');
-		$query->join('inner', '#__thm_curriculum_assets_semesters as assets_semesters ON assets_semesters.assets_tree_id = assets_tree.id');
-		$query->join('inner', '#__thm_curriculum_semesters_majors as semesters_majors ON assets_semesters.semesters_majors_id = semesters_majors.id');
+		$query->from(' #__thm_organizer_assets_tree as assets_tree');
+		$query->join('inner', '#__thm_organizer_assets_semesters as assets_semesters ON assets_semesters.assets_tree_id = assets_tree.id');
+		$query->join('inner', '#__thm_organizer_semesters_majors as semesters_majors ON assets_semesters.semesters_majors_id = semesters_majors.id');
 		$query->where("semesters_majors.major_id =" . $stud_id);
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();

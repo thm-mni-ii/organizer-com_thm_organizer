@@ -34,7 +34,7 @@ class THM_OrganizerTableMapping extends JTable
 	 */
 	public function __construct(&$db)
 	{
-		parent::__construct('#__thm_curriculum_assets_tree', 'id', $db);
+		parent::__construct('#__thm_organizer_assets_tree', 'id', $db);
 	}
 
 	/**
@@ -71,9 +71,9 @@ class THM_OrganizerTableMapping extends JTable
 
 		// Select the primary key and ordering values from the table
 		$query->select('assets_tree.' . $this->_tbl_key . ' , ordering');
-		$query->from(' #__thm_curriculum_assets_tree as assets_tree');
-		$query->join('inner', '#__thm_curriculum_assets_semesters as assets_semesters ON assets_semesters.assets_tree_id = assets_tree.id');
-		$query->join('inner', '#__thm_curriculum_semesters_majors as semesters_majors ON assets_semesters.semesters_majors_id = semesters_majors.id');
+		$query->from(' #__thm_organizer_assets_tree as assets_tree');
+		$query->join('inner', '#__thm_organizer_assets_semesters as assets_semesters ON assets_semesters.assets_tree_id = assets_tree.id');
+		$query->join('inner', '#__thm_organizer_semesters_majors as semesters_majors ON assets_semesters.semesters_majors_id = semesters_majors.id');
 		$query->where("semesters_majors.major_id =" . $major_id);
 
 		// If the movement delta is negative move the row up
@@ -202,9 +202,9 @@ class THM_OrganizerTableMapping extends JTable
 
 		// Select the primary key and ordering values from the table.
 		$query->select('assets_tree.' . $this->_tbl_key . ', ordering');
-		$query->from(' #__thm_curriculum_assets_tree as assets_tree');
-		$query->join('inner', '#__thm_curriculum_assets_semesters as assets_semesters ON assets_semesters.assets_tree_id = assets_tree.id');
-		$query->join('inner', '#__thm_curriculum_semesters_majors as semesters_majors ON assets_semesters.semesters_majors_id = semesters_majors.id');
+		$query->from(' #__thm_organizer_assets_tree as assets_tree');
+		$query->join('inner', '#__thm_organizer_assets_semesters as assets_semesters ON assets_semesters.assets_tree_id = assets_tree.id');
+		$query->join('inner', '#__thm_organizer_semesters_majors as semesters_majors ON assets_semesters.semesters_majors_id = semesters_majors.id');
 		$query->where("semesters_majors.major_id =" . $major_id);
 		$query->where('ordering >= 0');
 		$query->where('depth != "NULL"');

@@ -34,6 +34,6 @@ class THM_OrganizerTableMajors extends JTable
 	 */
 	public function __construct(&$db)
 	{
-		parent::__construct('#__thm_curriculum_majors', 'id', $db);
+		parent::__construct('#__thm_organizer_majors', 'id', $db);
 	}
 }

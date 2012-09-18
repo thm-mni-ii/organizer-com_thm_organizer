@@ -51,7 +51,7 @@ class JFormFieldColor extends JFormField
 		$query = $db->getQuery(true);
 
 		$query->select("*");
-		$query->from(' #__thm_curriculum_colors as colors');
+		$query->from(' #__thm_organizer_colors as colors');
 		$db->setQuery($query);
 		$colors = $db->loadObjectList();
 
@@ -90,8 +90,8 @@ class JFormFieldColor extends JFormField
 		// Build the query
 		$query = $db->getQuery(true);
 		$query->select("*");
-		$query->from('#__thm_curriculum_assets_tree');
-		$query->where("#__thm_curriculum_assets_tree.id = $id");
+		$query->from('#__thm_organizer_assets_tree');
+		$query->where("#__thm_organizer_assets_tree.id = $id");
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 

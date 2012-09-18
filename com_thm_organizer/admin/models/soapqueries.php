@@ -79,7 +79,7 @@ class THM_OrganizerModelSoapqueries extends JModelList
 		// Build the sql statement
 		$query = $db->getQuery(true);
 		$query->select('*');
-		$query->from('#__thm_curriculum_soap_queries');
+		$query->from('#__thm_organizer_soap_queries');
 		$query->order($orderCol . " " . $orderDirn);
 		return $query;
 	}

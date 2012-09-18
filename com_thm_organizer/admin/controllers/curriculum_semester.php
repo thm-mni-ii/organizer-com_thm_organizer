@@ -74,7 +74,7 @@ class THM_OrganizerControllerSemester extends JControllerForm
 
 		foreach ($cid as $id)
 		{
-			$query = 'DELETE FROM #__thm_curriculum_semesters'
+			$query = 'DELETE FROM #__thm_organizer_semesters'
 			. ' WHERE id = ' . $id . ';';
 			$db->setQuery($query);
 			$db->query();

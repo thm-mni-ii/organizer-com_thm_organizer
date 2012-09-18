@@ -65,11 +65,11 @@ class JFormFieldParent extends JFormField
 		$query->select("assets_tree.asset as asset_id");
 		$query->select("assets_semesters.semesters_majors_id as sem_id");
 		$query->select("semesters.name as semester_name");
-		$query->from(' #__thm_curriculum_assets_tree as assets_tree');
-		$query->join('inner', '#__thm_curriculum_assets_semesters as assets_semesters ON assets_semesters.assets_tree_id = assets_tree.id');
-		$query->join('inner', '#__thm_curriculum_semesters_majors as semesters_majors ON assets_semesters.semesters_majors_id = semesters_majors.id');
-		$query->join('inner', '#__thm_curriculum_assets as assets ON assets.id = assets_tree.asset');
-		$query->join('inner', '#__thm_curriculum_semesters as semesters ON semesters.id = semesters_majors.semester_id');
+		$query->from(' #__thm_organizer_assets_tree as assets_tree');
+		$query->join('inner', '#__thm_organizer_assets_semesters as assets_semesters ON assets_semesters.assets_tree_id = assets_tree.id');
+		$query->join('inner', '#__thm_organizer_semesters_majors as semesters_majors ON assets_semesters.semesters_majors_id = semesters_majors.id');
+		$query->join('inner', '#__thm_organizer_assets as assets ON assets.id = assets_tree.asset');
+		$query->join('inner', '#__thm_organizer_semesters as semesters ON semesters.id = semesters_majors.semester_id');
 		$query->where(' assets.asset_type_id = 2');
 		$query->where("semesters_majors.major_id = $majorId");
 		$query->order('assets.title_de');
@@ -103,8 +103,8 @@ class JFormFieldParent extends JFormField
 		// Build the query
 		$query = $db->getQuery(true);
 		$query->select("*");
-		$query->from('#__thm_curriculum_assets_tree');
-		$query->where("#__thm_curriculum_assets_tree.id = $id");
+		$query->from('#__thm_organizer_assets_tree');
+		$query->where("#__thm_organizer_assets_tree.id = $id");
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 

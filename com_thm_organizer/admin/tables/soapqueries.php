@@ -34,6 +34,6 @@ class THM_OrganizerTableSoapqueries extends JTable
 	 */
 	public function __construct(&$db)
 	{
-		parent::__construct('#__thm_curriculum_soap_queries', 'id', $db);
+		parent::__construct('#__thm_organizer_soap_queries', 'id', $db);
 	}
 }

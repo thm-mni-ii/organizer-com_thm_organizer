@@ -71,11 +71,11 @@ class THM_OrganizerModelAssets extends JModelList
 		// Create the sql query
 		$query = $db->getQuery(true);
 		$query->select("*");
-		$query->select(" #__thm_curriculum_asset_types.name as coursetype");
-		$query->select(" #__thm_curriculum_assets.name as asset_name");
-		$query->select(" #__thm_curriculum_assets.id as asset_id");
-		$query->from('#__thm_curriculum_assets');
-		$query->join('inner', '#__thm_curriculum_asset_types ON #__thm_curriculum_assets.asset_type_id = #__thm_curriculum_asset_types.id');
+		$query->select(" #__thm_organizer_asset_types.name as coursetype");
+		$query->select(" #__thm_organizer_assets.name as asset_name");
+		$query->select(" #__thm_organizer_assets.id as asset_id");
+		$query->from('#__thm_organizer_assets');
+		$query->join('inner', '#__thm_organizer_asset_types ON #__thm_organizer_assets.asset_type_id = #__thm_organizer_asset_types.id');
 
 		$search = $db->Quote('%' . $db->getEscaped($search, true) . '%');
 		$query->where('(title_de LIKE ' . $search . ' OR title_en LIKE ' . $search . ' OR short_title_de LIKE ' .
@@ -165,7 +165,7 @@ class THM_OrganizerModelAssets extends JModelList
 		$abbreviation = $data['abbreviation'];
 
 		// Create the insert query
-		$query->insert('#__thm_curriculum_assets');
+		$query->insert('#__thm_organizer_assets');
 		$query->set("lsf_course_id = $lsf_course_id");
 		$query->set("lsf_course_code = '$lsf_course_code'");
 		$query->set("his_course_code = '$his_course_code'");
@@ -199,7 +199,7 @@ class THM_OrganizerModelAssets extends JModelList
 
 		// Determine the concerned database rows
 		$query->select("*");
-		$query->from('#__thm_curriculum_assets');
+		$query->from('#__thm_organizer_assets');
 		$query->where("lsf_course_id = '$courseID'");
 		$db->setQuery($query);
 		$rows = $db->loadAssocList();
@@ -218,7 +218,7 @@ class THM_OrganizerModelAssets extends JModelList
 		$query = $db->getQuery(true);
 
 		// Create the insert query
-		$query->update('#__thm_curriculum_assets');
+		$query->update('#__thm_organizer_assets');
 		$query->set("lsf_course_code = '$lsf_course_code'");
 		$query->set("his_course_code = '$his_course_code'");
 		$query->set("max_creditpoints = '$creditpoints'");
@@ -271,7 +271,7 @@ class THM_OrganizerModelAssets extends JModelList
 
 		// Determine the concerned database rows
 		$query->select("*");
-		$query->from('#__thm_curriculum_assets');
+		$query->from('#__thm_organizer_assets');
 		$query->where("lsf_course_id = '$userId'");
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
@@ -309,7 +309,7 @@ class THM_OrganizerModelAssets extends JModelList
 		$lecturer_type = $data['lecturer_type'];
 
 		// Set the sql query
-		$query->insert('#__thm_curriculum_lecturers_assets');
+		$query->insert('#__thm_organizer_lecturers_assets');
 		$query->set("modul_id = $modul_id");
 		$query->set("lecturer_id = $lecturer_id");
 		$query->set("lecturer_type = $lecturer_type");
@@ -341,7 +341,7 @@ class THM_OrganizerModelAssets extends JModelList
 		$lecturer_type = $data['lecturer_type'];
 
 		// Set the sql query
-		$query->insert('#__thm_curriculum_lecturers_assets');
+		$query->insert('#__thm_organizer_lecturers_assets');
 		$query->set("lecturer_id = $lecturer_id");
 		$query->set("lecturer_type = $lecturer_type");
 		$query->where("modul_id = $modul_id");
@@ -364,7 +364,7 @@ class THM_OrganizerModelAssets extends JModelList
 		$query = $db->getQuery(true);
 
 		// Determine the concerned database rows
-		$query = "DELETE FROM #__thm_curriculum_lecturers_assets WHERE modul_id=" . $modulID . " AND lecturer_type=" . $lecturerType;
+		$query = "DELETE FROM #__thm_organizer_lecturers_assets WHERE modul_id=" . $modulID . " AND lecturer_type=" . $lecturerType;
 		$db->setQuery($query);
 		$db->query();
 	}
@@ -393,7 +393,7 @@ class THM_OrganizerModelAssets extends JModelList
 		$academic_title = $data['academic_title'];
 
 		// Set the sql query
-		$query->insert('#__thm_curriculum_lecturers');
+		$query->insert('#__thm_organizer_lecturers');
 		$query->set("userid = '$userid'");
 		$query->set("surname = '$surname'");
 		$query->set("forename = '$forename'");
@@ -431,7 +431,7 @@ class THM_OrganizerModelAssets extends JModelList
 
 		// Determine the concerned database rows
 		$query->select("*");
-		$query->from('#__thm_curriculum_lecturers');
+		$query->from('#__thm_organizer_lecturers');
 		$query->where("forename = '$forename'");
 		$query->where("surname = '$surname'");
 		$db->setQuery($query);
@@ -572,7 +572,7 @@ class THM_OrganizerModelAssets extends JModelList
 	{
 		$db = &JFactory::getDBO();
 
-		$query = "SELECT * FROM #__thm_curriculum_majors WHERE id IN(";
+		$query = "SELECT * FROM #__thm_organizer_majors WHERE id IN(";
 
 		foreach ($majors as $major)
 		{

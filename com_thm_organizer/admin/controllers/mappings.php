@@ -62,11 +62,11 @@ class THM_OrganizerControllerMappings extends JControllerAdmin
 		// Get the semester-ids from the database
 		$query = $db->getQuery(true);
 		$query->select("*");
-		$query->from('#__thm_curriculum_assets_tree');
-		$query->join('inner', '#__thm_curriculum_assets_semesters ' .
-				'ON #__thm_curriculum_assets_tree.id = #__thm_curriculum_assets_semesters.assets_tree_id');
-		$query->join('inner', '#__thm_curriculum_semesters_majors ' .
-				'ON #__thm_curriculum_assets_semesters.semesters_majors_id = #__thm_curriculum_semesters_majors.id');
+		$query->from('#__thm_organizer_assets_tree');
+		$query->join('inner', '#__thm_organizer_assets_semesters ' .
+				'ON #__thm_organizer_assets_tree.id = #__thm_organizer_assets_semesters.assets_tree_id');
+		$query->join('inner', '#__thm_organizer_semesters_majors ' .
+				'ON #__thm_organizer_assets_semesters.semesters_majors_id = #__thm_organizer_semesters_majors.id');
 		$query->where("asset = $id");
 		$query->where("major_id = $majorId");
 
@@ -111,7 +111,7 @@ class THM_OrganizerControllerMappings extends JControllerAdmin
 
 		$query = $db->getQuery(true);
 		$query->select("*");
-		$query->from('#__thm_curriculum_assets');
+		$query->from('#__thm_organizer_assets');
 		$query->where("id = $id");
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();

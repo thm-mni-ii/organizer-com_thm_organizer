@@ -34,6 +34,6 @@ class THM_OrganizerTableColors extends JTable
 	 */
 	public function __construct(&$db)
 	{
-		parent::__construct('#__thm_curriculum_colors', 'id', $db);
+		parent::__construct('#__thm_organizer_colors', 'id', $db);
 	}
 }
