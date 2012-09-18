@@ -5,6 +5,8 @@
     <authorEMail>jamesDOTantrimATyahooDOTcom</authorEMail>
     <author>Wolf Rost</author>
     <authorEMail>wolfDOTrostATmniDOTthDASHmittelhessenDOTde</authorEMail>
+    <author>Markus Baier</author>
+    <authorEmail>markus.baier@mni.thm.de</authorEmail>
     <authorUrl>www.mni.fh-giessen.de</authorUrl>
     <creationDate>01/03/2011</creationDate>
     <copyright>TH Mittelhessen 2011</copyright>
@@ -33,6 +35,8 @@
             <folder>models</folder>
             <folder>controllers</folder>
             <folder>assets</folder>
+			<folder>css</folder>
+			<folder>helper</folder>
     </files>
     <languages folder="site">
         <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.ini</language>
@@ -63,8 +67,24 @@
                   view="monitor_manager">COM_THM_ORGANIZER_MON_TITLE</menu>
             <menu img="components/com_thm_organizer/assets/images/settings.png"
                   view="settings">COM_THM_ORGANIZER_COM_TITLE</menu>
+            <menu view="soapqueries"
+				img="components/com_thm_curriculum/assets/images/configurations.png">COM_THM_CURRICULUM_SUBMENU_SOAP_QUERIES</menu>
+			<menu view="semesters"
+				img="components/com_thm_curriculum/assets/images/curriculums.png">COM_THM_CURRICULUM_SUBMENU_SEMESTERS</menu>
+			<menu view="lecturers"
+				img="components/com_thm_curriculum/assets/images/dozenten.png">COM_THM_CURRICULUM_SUBMENU_LECTURERS</menu>
+			<menu view="assets"
+				img="components/com_thm_curriculum/assets/images/modules.png">COM_THM_CURRICULUM_SUBMENU_ASSETS</menu>
+			<menu view="colors"
+				img="components/com_thm_curriculum/assets/images/curriculums.png">COM_THM_CURRICULUM_SUBMENU_COLORS</menu>
+			<menu view="degrees"
+				img="components/com_thm_curriculum/assets/images/curriculums.png">COM_THM_CURRICULUM_SUBMENU_DEGREES</menu>
+			<menu view="majors"
+				img="components/com_thm_curriculum/assets/images/curriculums.png">COM_THM_CURRICULUM_SUBMENU_MAJORS</menu>
         </submenu>
         <files folder="admin">
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
             <filename>index.html</filename>
             <filename>thm_organizer.php</filename>
             <filename>controller.php</filename>
@@ -73,6 +93,7 @@
             <folder>models</folder>
             <folder>controllers</folder>
             <folder>assets</folder>
+			<folder>helpers</folder>
             <folder>tables</folder>
             <folder>sql</folder>
         </files>
