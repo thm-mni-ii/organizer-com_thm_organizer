@@ -50,7 +50,14 @@ class thm_organizerHelper
             'class_manager' => array('name' => 'COM_THM_ORGANIZER_CLM_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=class_manager'),
             'teacher_manager' => array('name' => 'COM_THM_ORGANIZER_TRM_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=teacher_manager'),
             'room_manager' => array('name' => 'COM_THM_ORGANIZER_RMM_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=room_manager'),
-            'monitor_manager' => array('name' => 'COM_THM_ORGANIZER_MON_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=monitor_manager')
+            'monitor_manager' => array('name' => 'COM_THM_ORGANIZER_MON_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=monitor_manager'),
+        	'semesters' => array('name' => 'com_thm_organizer_SUBMENU_SEMESTERS', 'link' => 'index.php?option=com_thm_organizer&view=semesters'),
+        	'lecturers' => array('name' => 'com_thm_organizer_SUBMENU_LECTURERS', 'link' => 'index.php?option=com_thm_organizer&view=lecturers'),
+        	'assets' => array('name' => 'com_thm_organizer_SUBMENU_ASSETS', 'link' => 'index.php?option=com_thm_organizer&view=assets'),
+        	'colors' => array('name' => 'com_thm_organizer_SUBMENU_COLORS', 'link' => 'index.php?option=com_thm_organizer&view=colors'),
+        	'degrees' => array('name' => 'com_thm_organizer_SUBMENU_DEGREES', 'link' => 'index.php?option=com_thm_organizer&view=degrees'),
+        	'majors' => array('name' => 'com_thm_organizer_SUBMENU_MAJORS', 'link' => 'index.php?option=com_thm_organizer&view=majors'),
+        		 
         );
 
         // put submenu entries togehter
