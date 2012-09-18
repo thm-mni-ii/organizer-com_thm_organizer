@@ -68,7 +68,14 @@ class thm_organizersViewthm_organizers extends JView
                         'class_manager' => array(),
                         'teacher_manager' => array(),
                         'room_manager' => array(),
-                        'monitor_manager' => array());
+                        'monitor_manager' => array(),
+                        'soapqueries' => array(),
+                        'curriculum_semesters' => array(),
+                        'lecturers' => array(),
+                        'assets' => array(),
+                        'colors' => array(),
+                        'degrees' => array(),
+                        'majors' => array());
         
         // the single menu entries
         $views['category_manager']['title'] = JText::_('COM_THM_ORGANIZER_CAT_TITLE');
@@ -110,7 +117,35 @@ class thm_organizersViewthm_organizers extends JView
         $views['monitor_manager']['title'] = JText::_('COM_THM_ORGANIZER_MON_TITLE');
         $title_text = JText::_('COM_THM_ORGANIZER_MON_TITLE')."::".JText::_('COM_THM_ORGANIZER_MON_DESC');
         $views['monitor_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
-                                                       
+        
+        $views['soapqueries']['title'] = JText::_('COM_THM_CURRICULUM_SUBMENU_SOAP_QUERIES');
+        $title_text = JText::_('COM_THM_CURRICULUM_SUBMENU_SOAP_QUERIES')."::".JText::_('COM_THM_CURRICULUM_SUBMENU_SOAP_QUERIES_DESC');
+        $views['soapqueries']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
+        
+        $views['curriculum_semesters']['title'] = JText::_('COM_THM_CURRICULUM_SUBMENU_SEMESTERS');
+        $title_text = JText::_('COM_THM_CURRICULUM_SUBMENU_SEMESTERS')."::".JText::_('COM_THM_CURRICULUM_SUBMENU_SEMESTERS_DESC');
+        $views['curriculum_semesters']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
+        
+        $views['lecturers']['title'] = JText::_('COM_THM_CURRICULUM_SUBMENU_LECTURERS');
+        $title_text = JText::_('COM_THM_CURRICULUM_SUBMENU_LECTURERS')."::".JText::_('COM_THM_CURRICULUM_SUBMENU_LECTURERS_DESC');
+        $views['lecturers']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
+        
+        $views['assets']['title'] = JText::_('COM_THM_CURRICULUM_SUBMENU_ASSETS');
+        $title_text = JText::_('COM_THM_CURRICULUM_SUBMENU_ASSETS')."::".JText::_('COM_THM_CURRICULUM_SUBMENU_ASSETS_DESC');
+        $views['assets']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
+        
+        $views['colors']['title'] = JText::_('COM_THM_CURRICULUM_SUBMENU_COLORS');
+        $title_text = JText::_('COM_THM_CURRICULUM_SUBMENU_COLORS')."::".JText::_('COM_THM_CURRICULUM_SUBMENU_COLORS_DESC');
+        $views['colors']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
+        
+        $views['degrees']['title'] = JText::_('COM_THM_CURRICULUM_SUBMENU_DEGREES');
+        $title_text = JText::_('COM_THM_CURRICULUM_SUBMENU_DEGREES')."::".JText::_('COM_THM_CURRICULUM_SUBMENU_DEGREES_DESC');
+        $views['degrees']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
+        
+        $views['majors']['title'] = JText::_('COM_THM_CURRICULUM_SUBMENU_MAJORS');
+        $title_text = JText::_('COM_THM_CURRICULUM_SUBMENU_MAJORS')."::".JText::_('COM_THM_CURRICULUM_SUBMENU_MAJORS_DESC');
+        $views['majors']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
+
         // setting correct html attributes and the images
         foreach($views as $k => $view)
         {
