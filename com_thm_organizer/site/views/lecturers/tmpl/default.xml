@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<layout title="View Dozenten Default Layout" option="com_thm_organizer_DOZENT_VIEW_DEFAULT_OPTION">
+		<help key="JHELP_MENUS_MENU_ITEM_CONTACT_CATEGORY" />
+		<message>
+			<![CDATA[View Dozenten: Default Layout]]>
+		</message>
+	</layout>
+
+	<fields name="params">
+		<fieldset name="basic">
+			<field type="spacer"
+				default="&lt;b&gt;Konfigurationsparameter (Web-Service)&lt;/b&gt;&lt;hr/&gt;"></field>
+			<field name="lsf_query" type="sql" label="CURRICULUM-Konfiguration"
+				description="Auswahl einer CURRICULUM-Konfiguration"
+				query="SELECT id AS value, name AS lsf_query  FROM #__thm_lsf_configuration ORDER BY name ASC" />
+
+			<field type="spacer" default="&lt;b&gt;Sonstiges&lt;/b&gt;&lt;hr/&gt;"></field>
+			<field name="lsf_update_db" type="updatedb" label="DB upadate"
+				description="Module in Datenbank speichern" />
+			<field name="lsf_query_lang" type="radio" default="0" label="Sprache"
+				description="Sprache">
+				<option value="1">Deutsch (de)</option>
+				<option value="0">Englisch (en)</option>
+			</field>
+			<field type="spacer" default="&lt;b&gt;Darstellung&lt;/b&gt;&lt;hr/&gt;"></field>
+			<field name="lsf_table_suffix" type="text" label="cssSuffix"
+				default="" description="">
+			</field>
+		</fieldset>
+	</fields>
+</metadata>

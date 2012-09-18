@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<layout title="View Groups Default Layout" option="COM_CURRICULUM_GROUPS_VIEW_DEFAULT_OPTION">
+		<help key="JHELP_MENUS_MENU_ITEM_CONTACT_CATEGORY" />
+		<message>
+			<![CDATA[View Index: Default Layout]]>
+		</message>
+	</layout>
+
+	<fields name="params">
+		<fieldset name="basic">
+			<!--<field name="lsf_query" type="sql" label="com_thm_organizer_SOAP_QUERY" 
+				required="true" description="com_thm_organizer_SOAP_QUERY_DESC" query="SELECT 
+				id AS value, name AS lsf_query FROM #__thm_organizer_soap_queries ORDER 
+				BY name ASC" /> -->
+			<field name="lsf_query" type="sql" label="com_thm_organizer_SOAP_QUERY"
+				required="true" description="com_thm_organizer_SOAP_QUERY_DESC"
+				query="SELECT majors.id AS value, CONCAT(degrees.name, ' ', majors.subject, ' (', majors.po, ')') AS lsf_query FROM #__thm_organizer_majors as majors INNER JOIN #__thm_organizer_degrees as degrees ON degrees.id = majors.degree_id " />
+
+			<field name="lsf_default_language" type="radio" default="0"
+				label="com_thm_organizer_DEFAULT_LANGUAGE" required="true"
+				description="com_thm_organizer_DEFAULT_LANGUAGE_DESC">
+				<option value="de">Deutsch</option>
+				<option value="en">Englisch</option>
+			</field>
+
+			<field name="lsf_group" type="radio" default="0"
+				label="com_thm_organizer_GROUP" description="com_thm_organizer_GROUP_DESC">
+				<option value="1">Ein</option>
+				<option value="0">Aus</option>
+			</field>
+			<field name="lsf_group_value" type="text"
+				label="com_thm_organizer_GROUP_VALUE" size="70"
+				description="com_thm_organizer_GROUP_VALUE" />
+
+			<field name="lsf_navi" type="radio" default="0"
+				label="com_thm_organizer_SOAP_NAVIGATION" description="com_thm_organizer_SOAP_NAVIGATION_DESC">
+				<option value="1">Ein</option>
+				<option value="0">Aus</option>
+			</field>
+			<field name="lsf_table_suffix" type="text"
+				label="com_thm_organizer_SOAP_SUFFIX" default=""
+				description="com_thm_organizer_SOAP_SUFFIX_DESC" />
+		</fieldset>
+	</fields>
+</metadata>

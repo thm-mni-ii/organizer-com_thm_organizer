@@ -258,7 +258,7 @@ class UserSchedule
 								"#__thm_organizer_periods.period AS block, " .
 								"(SELECT 'cyclic') AS type, ";
 
-						if ($this->JDA->isComponentavailable("com_thm_curriculum"))
+						if ($this->JDA->isComponentavailable("com_thm_organizer"))
 						{
 							$query .= " if (#__thm_organizer_subjects.moduleID='','',mo.title_de) AS longname ";
 						}
@@ -279,9 +279,9 @@ class UserSchedule
 								"ON #__thm_organizer_lesson_classes.lessonID = #__thm_organizer_lessons.id " .
 								"INNER JOIN #__thm_organizer_classes ON #__thm_organizer_lesson_classes.classID = #__thm_organizer_classes.id " .
 								"INNER JOIN #__thm_organizer_subjects ON #__thm_organizer_lessons.subjectID = #__thm_organizer_subjects.id ";
-						if ($this->JDA->isComponentavailable("com_thm_curriculum"))
+						if ($this->JDA->isComponentavailable("com_thm_organizer"))
 						{
-							$query .= "LEFT JOIN #__thm_curriculum_assets AS mo " .
+							$query .= "LEFT JOIN #__thm_organizer_assets AS mo " .
 									"ON LOWER(#__thm_organizer_subjects.moduleID) = LOWER(mo.lsf_course_code) ";
 						}
 						$query .= "WHERE #__thm_organizer_lessons.semesterID = '" . $this->semID . "' AND #__thm_organizer_lessons.gpuntisID IN (";

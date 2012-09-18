@@ -1,0 +1,102 @@
+/**
+ * @package  	Joomla.Site
+ * @subpackage  com_thm_lsf
+ * @author   	Markus Baier <markus.baier@mni.thm.de>
+ * @copyright	THM Mittelhessen 2011
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @link     	http://www.mni.fh-giessen.de
+ * @version		$Id: lsf.css 3035 2011-01-21 09:32:19Z m.baier $
+ **/
+.languageSwitcher {
+	height: 20px;
+}
+
+.custom2-tip {
+	color: #000;
+	width: 250px;
+	z-index: 13000;
+}
+
+.custom2-title {
+	font-weight: bold;
+	font-size: 11px;
+	margin: 0;
+	color: white;
+	padding: 8px 8px 4px;
+	background: #545454;
+	border-bottom: 1px solid #545454;
+}
+
+.custom2-text {
+	font-size: 11px;
+	padding: 4px 8px 8px;
+	background: #A8B5C5;
+}
+
+.flag {
+	float: right;
+}
+
+.tooltipButton {
+	cursor: pointer;
+}
+
+.lsf_searchform {
+	background-color: #DDDDDD;
+}
+
+.navi {
+	margin-bottom: 35px;
+	margin-left: 18px;
+	margin-top: 18px;
+}
+
+.naviDetails {
+	float: right;
+}
+
+.buttonNavi {
+	background-color: #545454;
+	color: #FFFFFF;
+	font-family: verdana, lucida, helvetica, arial, sans-serif;
+	font-size: 13px;
+	font-weight: normal;
+	height: 18px;
+	margin-right: 2px;
+	width: 80px;
+}
+
+span>a.naviLink {
+	color: white;
+}
+
+#startTable {
+	margin-top: -25px;;
+}
+
+dl.lsflist {
+	margin: 0 5px;
+}
+
+dt.lsflist { /* definition term */
+	margin: 0;
+	padding: 0.3em 0;
+	float: left;
+	font-size: 1em;
+	font-weight: bold;
+	width: 11em;
+	background: transparent;
+	border-bottom: 1px solid #ddd;
+}
+
+dd.lsflist { /* definition description */
+	display: block;
+	margin: 0 0 5px 12em;
+	padding: 0.3em 0;
+	font-size: 1em;
+	background: transparent;
+}
+
+* html .floattext dd /* ie6 fix*/ {
+	height: 1%;
+}

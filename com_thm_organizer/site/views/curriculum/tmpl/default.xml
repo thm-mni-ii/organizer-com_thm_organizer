@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<layout title="View Curriculum Default Layout" option="com_thm_organizer_GROUPS_VIEW_DEFAULT_OPTION">
+		<help key="JHELP_MENUS_MENU_ITEM_CONTACT_CATEGORY" />
+		<message>
+			<![CDATA[View Curriculum: Default Layout]]>
+		</message>
+
+	</layout>
+
+	<fields name="params">
+		<fieldset name="basic">
+			<field type="spacer" name="myspacer"
+				label="&lt;hr/&gt;&lt;b&gt;Basic settings&lt;/b&gt;" />
+
+
+			<field addfieldpath="/components/com_thm_organizer/models/fields"
+				name="major" type="major" label="com_thm_organizer_MAJOR"
+				description="com_thm_organizer_MAJOR_DESC"
+				query="SELECT majors.id AS value, CONCAT(degrees.name, ' ', majors.subject, ' (', majors.po, ')') AS major FROM #__thm_organizer_majors as majors INNER JOIN #__thm_organizer_degrees as degrees ON degrees.id = majors.degree_id " />
+
+			<field addfieldpath="/components/com_thm_organizer/models/fields"
+				name="semesters" type="semester" description="com_thm_organizer_SEMESTER_SELECT_DESC"
+				label="com_thm_organizer_SEMESTER_SELECT" />
+
+			<field name="lsf_default_language" type="radio" default="de"
+				required="true" label="com_thm_organizer_DEFAULT_LANGUAGE"
+				description="com_thm_organizer_DEFAULT_LANGUAGE_DESC">
+				<option value="de">Deutsch</option>
+				<option value="en">Englisch</option>
+			</field>
+
+
+
+			<field type="spacer" name="myspacer2"
+				label="&lt;hr/&gt;&lt;b&gt;Appearance&lt;/b&gt;" />
+
+			<field name="css_suffix" type="text" label="com_thm_organizer_SUFFIX"
+				size="15" description="com_thm_organizer_SUFFIX_DESC" />
+
+			<field name="width" type="text" label="com_thm_organizer_WIDTH"
+				default="700" required="true" description="com_thm_organizer_WIDTH_DESC"
+				size="5" />
+
+			<field name="height" type="text" label="com_thm_organizer_HEIGHT"
+				default="500" required="true" description="com_thm_organizer_HEIGHT_DESC"
+				size="5" />
+
+			<!-- <field name="semester_header_color" id="semester_header_color" addfieldpath="/administrator/components/com_thm_organizer/models/fields/" 
+				type="colorPicker" label="com_thm_organizer_SEMESTER_HEADER_COLOR" default="#666666" 
+				required="true" description="com_thm_organizer_SEMESTER_HEADER_COLOR_DESC" 
+				size="10" /> -->
+
+			<field name="semester_body_color" id="semester_body_color"
+				addfieldpath="/administrator/components/com_thm_organizer/models/fields/"
+				type="colorPicker" label="com_thm_organizer_SEMESTER_PANEL_COLOR"
+				default="#666666" required="true"
+				description="com_thm_organizer_SEMESTER_PANEL_COLOR_DESC" size="10" />
+
+			<field name="course_width" type="text" required="true"
+				label="com_thm_organizer_COURSE_PANEL_WIDTH" description="com_thm_organizer_COURSE_PANEL_WIDTH_DESC"
+				size="5" default="90" />
+
+			<field name="course_body_color" id="course_body_color"
+				addfieldpath="/administrator/components/com_thm_organizer/models/fields/"
+				type="colorPicker" label="com_thm_organizer_COURSE_PANEL_COLOR"
+				default="#c7b9b9" required="true"
+				description="com_thm_organizer_COURSE_PANEL_COLOR_DESC" size="10" />
+
+			<field name="elective_pool_body_color" id="elective_pool_body_color"
+				addfieldpath="/administrator/components/com_thm_organizer/models/fields/"
+				type="colorPicker" label="com_thm_organizer_ELECTIVEPOOL_BODY_COLOR"
+				default="#c7b9b9" required="true"
+				description="com_thm_organizer_ELECTIVEPOOL_BODY_COLOR_DESC" size="10" />
+
+
+			<field type="spacer" name="myspacer3"
+				label="&lt;hr/&gt;&lt;b&gt;Behaviour&lt;/b&gt;" />
+
+
+			<field name="title_cut_length_activate" type="radio" default="0"
+				label="com_thm_organizer_TITLE_CUT_ACTIVATE" description="com_thm_organizer_TITLE_CUT_ACTIVATE_DESC">
+				<option value="1">On</option>
+				<option value="0">Off</option>
+			</field>
+
+			<field name="title_cut_length" type="text" default="10"
+				label="com_thm_organizer_TITLE_CUT_LENGTH" description="com_thm_organizer_TITLE_CUT_LENGTH_DESC"
+				size="5" />
+
+			<field name="scheduler_link" type="text"
+				label="com_thm_organizer_SCHEDULER_LINK" description="com_thm_organizer_SCHEDULER_LINK_DESC"
+				size="50" />
+
+			<field name="note_link" type="text" label="com_thm_organizer_NOTE_LINK"
+				description="com_thm_organizer_NOTE_LINK_DESC" size="50" />
+
+			<field name="asset_line_break" type="text" default="5"
+				required="true" label="com_thm_organizer_CURRICULUM_COURSE_LINE_BREAK"
+				description="com_thm_organizer_CURRICULUM_COURSE_LINE_BREAK_DESC"
+				size="5" />
+
+			<field name="elective_pool_window_line_break" type="text"
+				default="5" required="true"
+				label="com_thm_organizer_CURRICULUM_ELECTIVE_POOL_WINDOW"
+				description="com_thm_organizer_CURRICULUM_ELECTIVE_POOL_WINDOW_DESC"
+				size="5" />
+
+			<field name="compulsory_pool_line_break" type="text" default="5"
+				required="true" label="com_thm_organizer_CURRICULUM_COMPULSORY_POOL"
+				description="com_thm_organizer_CURRICULUM_COMPULSORY_POOL_DESC"
+				size="5" />
+
+		</fieldset>
+	</fields>
+</metadata>

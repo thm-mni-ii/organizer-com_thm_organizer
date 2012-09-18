@@ -16,7 +16,20 @@ jimport('joomla.application.component.controller');
 
 class thm_organizerController extends JController
 {
-    function display($cachable = false, $urlparams = false) {  
-    	parent::display(); 
+    function display($cachable = false, $urlparams = false)
+    {  
+    	$app = JFactory::getApplication();
+		$menus = $app->getMenu();
+		$menu = $menus->getActive();
+
+		if ($menu->params != null)
+		{
+			JRequest::setVar('lang', JRequest::getVar('lang', $menu->params->get('lsf_default_language')));
+		}
+		else
+		{
+			JRequest::setVar('lang', JRequest::getVar('lang'));
+		}
+		parent::display(); 
     }
 } 

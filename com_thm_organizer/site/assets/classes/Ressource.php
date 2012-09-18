@@ -249,7 +249,7 @@ class Ressource
 	 */
 	private function getEcollaborationLink($res, $moduleID)
 	{
-		if ($this->JDA->isComponentavailable("com_thm_curriculum"))
+		if ($this->JDA->isComponentavailable("com_thm_organizer"))
 		{
 			$organizer_major = "";
 			$query = "SELECT major " .
@@ -267,16 +267,16 @@ class Ressource
 			}
 
 			$query = "SELECT ecollaboration_link as ecolLink " .
-					"FROM #__thm_curriculum_assets_tree " .
-					"INNER JOIN #__thm_curriculum_assets ON #__thm_curriculum_assets.id = #__thm_curriculum_assets_tree.asset " .
-					"INNER JOIN #__thm_curriculum_assets_semesters " .
-					"ON #__thm_curriculum_assets_tree.id = #__thm_curriculum_assets_semesters.assets_tree_id " .
-					"INNER JOIN #__thm_curriculum_semesters_majors " .
-					"ON #__thm_curriculum_assets_semesters.semesters_majors_id = #__thm_curriculum_semesters_majors.id " .
-					"INNER JOIN #__thm_curriculum_majors " .
-					"ON #__thm_curriculum_majors.id = #__thm_curriculum_semesters_majors.major_id " .
-					"WHERE #__thm_curriculum_majors.organizer_major = '" . $organizer_major . "'" .
-					"AND LOWER(#__thm_curriculum_assets.lsf_course_code) = LOWER('" . $moduleID . "')";
+					"FROM #__thm_organizer_assets_tree " .
+					"INNER JOIN #__thm_organizer_assets ON #__thm_organizer_assets.id = #__thm_organizer_assets_tree.asset " .
+					"INNER JOIN #__thm_organizer_assets_semesters " .
+					"ON #__thm_organizer_assets_tree.id = #__thm_organizer_assets_semesters.assets_tree_id " .
+					"INNER JOIN #__thm_organizer_semesters_majors " .
+					"ON #__thm_organizer_assets_semesters.semesters_majors_id = #__thm_organizer_semesters_majors.id " .
+					"INNER JOIN #__thm_organizer_majors " .
+					"ON #__thm_organizer_majors.id = #__thm_organizer_semesters_majors.major_id " .
+					"WHERE #__thm_organizer_majors.organizer_major = '" . $organizer_major . "'" .
+					"AND LOWER(#__thm_organizer_assets.lsf_course_code) = LOWER('" . $moduleID . "')";
 
 			$ret   = $this->JDA->query($query);
 
@@ -366,7 +366,7 @@ class Ressource
 				"(SELECT 'cyclic') AS type, " .
 				"#__thm_organizer_lessons.comment AS comment, ";
 
-		if ($this->JDA->isComponentavailable("com_thm_curriculum"))
+		if ($this->JDA->isComponentavailable("com_thm_organizer"))
 		{
 			$query .= " IF(#__thm_organizer_subjects.moduleID='','',mo.title_de) AS longname ";
 		}
@@ -383,9 +383,9 @@ class Ressource
 		 	"LEFT JOIN #__thm_organizer_lesson_classes ON #__thm_organizer_lesson_classes.lessonID = #__thm_organizer_lessons.id " .
 		 	"LEFT JOIN #__thm_organizer_classes ON #__thm_organizer_lesson_classes.classID = #__thm_organizer_classes.id " .
 		 	"LEFT JOIN #__thm_organizer_subjects ON #__thm_organizer_lessons.subjectID = #__thm_organizer_subjects.id ";
-		if ($this->JDA->isComponentavailable("com_thm_curriculum"))
+		if ($this->JDA->isComponentavailable("com_thm_organizer"))
 		{
-			$query .= "LEFT JOIN #__thm_curriculum_assets AS mo ON LOWER(#__thm_organizer_subjects.moduleID) = LOWER(mo.lsf_course_code) ";
+			$query .= "LEFT JOIN #__thm_organizer_assets AS mo ON LOWER(#__thm_organizer_subjects.moduleID) = LOWER(mo.lsf_course_code) ";
 		}
 		else
 		{

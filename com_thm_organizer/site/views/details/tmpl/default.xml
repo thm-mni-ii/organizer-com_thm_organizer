@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<layout title="View Details: Default Layout">
+		<message>
+			<![CDATA[MODULE DETAILS LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>
+			Module Details Layout
+		</name>
+		<description>CDATA[MODULE DETAILS LAYOUT DESC]]</description>
+	</state>
+</metadata>

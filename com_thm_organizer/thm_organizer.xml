@@ -68,19 +68,19 @@
             <menu img="components/com_thm_organizer/assets/images/settings.png"
                   view="settings">COM_THM_ORGANIZER_COM_TITLE</menu>
             <menu view="soapqueries"
-				img="components/com_thm_curriculum/assets/images/configurations.png">COM_THM_CURRICULUM_SUBMENU_SOAP_QUERIES</menu>
+				img="components/com_thm_organizer/assets/images/configurations.png">COM_THM_CURRICULUM_SUBMENU_SOAP_QUERIES</menu>
 			<menu view="semesters"
-				img="components/com_thm_curriculum/assets/images/curriculums.png">COM_THM_CURRICULUM_SUBMENU_SEMESTERS</menu>
+				img="components/com_thm_organizerm/assets/images/curriculums.png">COM_THM_CURRICULUM_SUBMENU_SEMESTERS</menu>
 			<menu view="lecturers"
-				img="components/com_thm_curriculum/assets/images/dozenten.png">COM_THM_CURRICULUM_SUBMENU_LECTURERS</menu>
+				img="components/com_thm_organizer/assets/images/dozenten.png">COM_THM_CURRICULUM_SUBMENU_LECTURERS</menu>
 			<menu view="assets"
-				img="components/com_thm_curriculum/assets/images/modules.png">COM_THM_CURRICULUM_SUBMENU_ASSETS</menu>
+				img="components/com_thm_organizer/assets/images/modules.png">COM_THM_CURRICULUM_SUBMENU_ASSETS</menu>
 			<menu view="colors"
-				img="components/com_thm_curriculum/assets/images/curriculums.png">COM_THM_CURRICULUM_SUBMENU_COLORS</menu>
+				img="components/com_thm_organizer/assets/images/curriculums.png">COM_THM_CURRICULUM_SUBMENU_COLORS</menu>
 			<menu view="degrees"
-				img="components/com_thm_curriculum/assets/images/curriculums.png">COM_THM_CURRICULUM_SUBMENU_DEGREES</menu>
+				img="components/com_thm_organizer/assets/images/curriculums.png">COM_THM_CURRICULUM_SUBMENU_DEGREES</menu>
 			<menu view="majors"
-				img="components/com_thm_curriculum/assets/images/curriculums.png">COM_THM_CURRICULUM_SUBMENU_MAJORS</menu>
+				img="components/com_thm_organizer/assets/images/curriculums.png">COM_THM_CURRICULUM_SUBMENU_MAJORS</menu>
         </submenu>
         <files folder="admin">
 			<filename>access.xml</filename>
