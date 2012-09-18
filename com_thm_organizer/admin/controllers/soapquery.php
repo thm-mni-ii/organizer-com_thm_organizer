@@ -72,7 +72,7 @@ class THM_OrganizerControllerSoapquery extends JControllerForm
 
 		foreach ($cid as $id)
 		{
-			$query = 'DELETE FROM #__thm_curriculum_soap_queries'
+			$query = 'DELETE FROM #__thm_organizer_soap_queries'
 			. ' WHERE id = ' . $id . ';';
 			$db->setQuery($query);
 			$db->query();

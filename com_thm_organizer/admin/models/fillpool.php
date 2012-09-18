@@ -95,7 +95,7 @@ class THM_OrganizerModelFillpool extends JModelAdmin
 	private function getLsfConfiguration($configId)
 	{
 		$this->db = &JFactory::getDBO();
-		$query = "SELECT * FROM #__thm_curriculum_majors WHERE id = $configId;";
+		$query = "SELECT * FROM #__thm_organizer_majors WHERE id = $configId;";
 		$this->db->setQuery($query);
 		$rows = $this->db->loadObjectList();
 		return $rows;
@@ -117,12 +117,12 @@ class THM_OrganizerModelFillpool extends JModelAdmin
 
 		// Get the semester-ids from the database
 		$query = $db->getQuery(true);
-		$query->select("#__thm_curriculum_semesters_majors.id as id");
-		$query->from('#__thm_curriculum_assets_tree');
-		$query->join('inner', '#__thm_curriculum_assets_semesters ' .
-				'ON #__thm_curriculum_assets_tree.id = #__thm_curriculum_assets_semesters.assets_tree_id');
-		$query->join('inner', '#__thm_curriculum_semesters_majors ' .
-				'ON #__thm_curriculum_assets_semesters.semesters_majors_id = #__thm_curriculum_semesters_majors.id');
+		$query->select("#__thm_organizer_semesters_majors.id as id");
+		$query->from('#__thm_organizer_assets_tree');
+		$query->join('inner', '#__thm_organizer_assets_semesters ' .
+				'ON #__thm_organizer_assets_tree.id = #__thm_organizer_assets_semesters.assets_tree_id');
+		$query->join('inner', '#__thm_organizer_semesters_majors ' .
+				'ON #__thm_organizer_assets_semesters.semesters_majors_id = #__thm_organizer_semesters_majors.id');
 		$query->where("asset = $parent");
 		$query->where("major_id = $majorId");
 
@@ -164,7 +164,7 @@ class THM_OrganizerModelFillpool extends JModelAdmin
 					{
 						$id = $modul->modulid;
 						$this->db = &JFactory::getDBO();
-						$query = "SELECT * FROM #__thm_curriculum_assets WHERE lsf_course_id = $id;";
+						$query = "SELECT * FROM #__thm_organizer_assets WHERE lsf_course_id = $id;";
 						$this->db->setQuery($query);
 						$rows = $this->db->loadObjectList();
 

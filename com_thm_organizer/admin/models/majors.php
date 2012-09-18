@@ -77,17 +77,17 @@ class THM_OrganizerModelMajors extends JModelList
 		// Build the query
 		$query = $db->getQuery(true);
 		$query->select("
-				#__thm_curriculum_majors.id as id,
-				#__thm_curriculum_degrees.name AS degree,
-				#__thm_curriculum_majors.subject,
-				#__thm_curriculum_majors.po,
-				#__thm_curriculum_majors.lsf_object as lsf_object,
-				#__thm_curriculum_majors.lsf_degree as lsf_degree,
-				#__thm_curriculum_majors.lsf_study_path as lsf_study_path
+				#__thm_organizer_majors.id as id,
+				#__thm_organizer_degrees.name AS degree,
+				#__thm_organizer_majors.subject,
+				#__thm_organizer_majors.po,
+				#__thm_organizer_majors.lsf_object as lsf_object,
+				#__thm_organizer_majors.lsf_degree as lsf_degree,
+				#__thm_organizer_majors.lsf_study_path as lsf_study_path
 				");
-		$query->from('#__thm_curriculum_majors');
-		$query->leftJoin('#__thm_curriculum_degrees ON
-				#__thm_curriculum_degrees.id = #__thm_curriculum_majors.degree_id
+		$query->from('#__thm_organizer_majors');
+		$query->leftJoin('#__thm_organizer_degrees ON
+				#__thm_organizer_degrees.id = #__thm_organizer_majors.degree_id
 				');
 
 		$query->order($orderCol . " " . $orderDirn);

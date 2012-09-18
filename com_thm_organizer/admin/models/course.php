@@ -127,7 +127,7 @@ class THM_OrganizerModelCourse extends JModelAdmin
 			// Determine the saved lecturers
 			$query = $db->getQuery(true);
 			$query->select("*");
-			$query->from("#__thm_curriculum_lecturers_assets");
+			$query->from("#__thm_organizer_lecturers_assets");
 			$query->where("modul_id = $pk");
 			$db->setQuery($query);
 			$rows = $db->loadObjectList();
@@ -140,7 +140,7 @@ class THM_OrganizerModelCourse extends JModelAdmin
 				{
 					// Delete the mapping
 					$query = $db->getQuery(true);
-					$query->delete("#__thm_curriculum_lecturers_assets");
+					$query->delete("#__thm_organizer_lecturers_assets");
 					$query->where("modul_id = $pk");
 					$query->where("lecturer_id = $row->lecturer_id");
 					$query->where("lecturer_type = 2");
@@ -159,7 +159,7 @@ class THM_OrganizerModelCourse extends JModelAdmin
 			$lec = intval($lecturer);
 
 			// Write the actual lecutrer to the database
-			$query->insert('#__thm_curriculum_lecturers_assets');
+			$query->insert('#__thm_organizer_lecturers_assets');
 			$query->set("modul_id = $assetId");
 			$query->set("lecturer_id = $lec");
 			$query->set("lecturer_type = 2");
@@ -184,14 +184,14 @@ class THM_OrganizerModelCourse extends JModelAdmin
 
 		// Delete the mapping
 		$query = $db->getQuery(true);
-		$query->delete("#__thm_curriculum_lecturers_assets");
+		$query->delete("#__thm_organizer_lecturers_assets");
 		$query->where("modul_id = $assetId");
 		$query->where("lecturer_type = 1");
 		$db->setQuery($query);
 		$db->query($query);
 
 		$query = $db->getQuery(true);
-		$query->insert('#__thm_curriculum_lecturers_assets');
+		$query->insert('#__thm_organizer_lecturers_assets');
 		$query->set("modul_id = $assetId");
 		$query->set("lecturer_id = $lecturerID");
 		$query->set("lecturer_type = 1");

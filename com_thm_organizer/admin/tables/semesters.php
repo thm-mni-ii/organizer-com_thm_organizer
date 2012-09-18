@@ -34,6 +34,6 @@ class THM_OrganizerTableSemesters extends JTable
 	 */
 	public function __construct(&$db)
 	{
-		parent::__construct('#__thm_curriculum_semesters', 'id', $db);
+		parent::__construct('#__thm_organizer_semesters', 'id', $db);
 	}
 }

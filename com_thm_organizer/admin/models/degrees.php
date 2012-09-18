@@ -70,7 +70,7 @@ class THM_OrganizerModelDegrees extends JModelList
 		// Perform the database request
 		$query = $db->getQuery(true);
 		$query->select("*");
-		$query->from('#__thm_curriculum_degrees');
+		$query->from('#__thm_organizer_degrees');
 		$query->order($orderCol . " " . $orderDirn);
 
 		return $query;

@@ -89,7 +89,7 @@ class THM_OrganizerControllerMajor extends JControllerForm
 		foreach ($cid as $id)
 		{
 			// Delete all related assets
-			$query = 'SELECT * FROM #__thm_curriculum_semesters_majors'
+			$query = 'SELECT * FROM #__thm_organizer_semesters_majors'
 			. ' WHERE major_id = ' . $id . ';';
 			$db->setQuery($query);
 			$semesters = $db->loadObjectList();
@@ -99,7 +99,7 @@ class THM_OrganizerControllerMajor extends JControllerForm
 				$semesterID = $semester->id;
 
 				// Delete all related assets
-				$query = 'SELECT * FROM #__thm_curriculum_assets_semesters'
+				$query = 'SELECT * FROM #__thm_organizer_assets_semesters'
 				. ' WHERE semesters_majors_id = ' . $semesterID . ';';
 				$db->setQuery($query);
 				$assets = $db->loadObjectList();
@@ -108,7 +108,7 @@ class THM_OrganizerControllerMajor extends JControllerForm
 				{
 					$asset = $asset->assets_tree_id;
 
-					$query = 'DELETE FROM #__thm_curriculum_assets_tree'
+					$query = 'DELETE FROM #__thm_organizer_assets_tree'
 					. ' WHERE id = ' . $asset . ';';
 					$db->setQuery($query);
 					$db->query();
@@ -116,7 +116,7 @@ class THM_OrganizerControllerMajor extends JControllerForm
 			}
 
 			// Delete the major
-			$query = 'DELETE FROM #__thm_curriculum_majors'
+			$query = 'DELETE FROM #__thm_organizer_majors'
 			. ' WHERE id = ' . $id . ';';
 			$db->setQuery($query);
 			$db->query();

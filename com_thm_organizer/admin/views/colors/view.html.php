@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerViewColors
- * @description THM_OrganizerViewColors component admin view
+ * @name		THM_OrganizersViewColors
+ * @description THM_OrganizersViewColors component admin view
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
- * Class THM_OrganizerViewColors for component com_thm_organizer
+ * Class THM_OrganizersViewColors for component com_thm_organizer
  *
  * Class provides methods to display the view colors
  *
@@ -27,7 +27,7 @@ jimport('joomla.application.component.view');
  * @link        www.mni.thm.de
  * @since       v1.5.0
  */
-class THM_OrganizerViewColors extends JView
+class THM_OrganizersViewColors extends JView
 {
 	/**
 	 * Method to get display

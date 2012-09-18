@@ -34,6 +34,6 @@ class THM_OrganizerTableMappings extends JTable
 	 */
 	public function __construct(&$db)
 	{
-		parent::__construct('#__thm_curriculum_assets_tree', 'id', $db);
+		parent::__construct('#__thm_organizer_assets_tree', 'id', $db);
 	}
 }

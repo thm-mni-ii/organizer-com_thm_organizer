@@ -39,7 +39,7 @@
 
 		<field name="responsible_id" type="hidden" class="inputbox"
 			label="com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_RESPONSIBLE"
-			query="SELECT id AS value, surname AS responsible_id FROM #__thm_curriculum_lecturer"
+			query="SELECT id AS value, surname AS responsible_id FROM #__thm_organizer_lecturer"
 			description="com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_RESPONSIBLE_DESC"
 			default="null" />
 

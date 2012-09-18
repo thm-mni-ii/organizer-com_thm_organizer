@@ -70,7 +70,7 @@ class THM_OrganizerModelColors extends JModelList
 		// Create the query
 		$query = $db->getQuery(true);
 		$query->select("*");
-		$query->from('#__thm_curriculum_colors');
+		$query->from('#__thm_organizer_colors');
 		$query->order($orderCol . " " . $orderDirn);
 
 		return $query;

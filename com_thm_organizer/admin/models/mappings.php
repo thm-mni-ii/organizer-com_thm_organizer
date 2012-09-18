@@ -75,7 +75,7 @@ class THM_OrganizerModelMappings extends JModelList
 
 		$query = $db->getQuery(true);
 		$query->select("*");
-		$query->from('#__thm_curriculum_colors');
+		$query->from('#__thm_organizer_colors');
 		$query->where("id = $colorID");
 		$db->setQuery($query);
 		$color = $db->loadObjectList();
@@ -104,29 +104,29 @@ class THM_OrganizerModelMappings extends JModelList
 
 		// Create the sql statement
 		$query = $db->getQuery(true);
-		$query->select("*, #__thm_curriculum_assets_tree.color_id as color_id_instance,
-				#__thm_curriculum_assets_tree.menu_link as menu_link_instance,
-				#__thm_curriculum_assets.color_id as color_id_object");
-		$query->select("#__thm_curriculum_assets_tree.id as asset_id");
-		$query->select("#__thm_curriculum_semesters.name as semester_name");
+		$query->select("*, #__thm_organizer_assets_tree.color_id as color_id_instance,
+				#__thm_organizer_assets_tree.menu_link as menu_link_instance,
+				#__thm_organizer_assets.color_id as color_id_object");
+		$query->select("#__thm_organizer_assets_tree.id as asset_id");
+		$query->select("#__thm_organizer_semesters.name as semester_name");
 
-		$query->select("#__thm_curriculum_asset_types.name as asset_type");
+		$query->select("#__thm_organizer_asset_types.name as asset_type");
 		$query->select("count(*) as count");
-		$query->from('#__thm_curriculum_semesters_majors');
-		$query->join('inner', '#__thm_curriculum_semesters ON #__thm_curriculum_semesters_majors.semester_id = #__thm_curriculum_semesters.id');
-		$query->join('inner', '#__thm_curriculum_assets_semesters ' .
-				'ON #__thm_curriculum_semesters_majors.id = #__thm_curriculum_assets_semesters.semesters_majors_id');
-		$query->join('inner', '#__thm_curriculum_assets_tree ' .
-				'ON #__thm_curriculum_assets_tree.id = #__thm_curriculum_assets_semesters.assets_tree_id');
-		$query->join('inner', '#__thm_curriculum_assets ON #__thm_curriculum_assets_tree.asset = #__thm_curriculum_assets.id');
-		$query->join('inner', '#__thm_curriculum_colors ON #__thm_curriculum_assets_tree.color_id = #__thm_curriculum_colors.id');
-		$query->join('inner', '#__thm_curriculum_asset_types ON #__thm_curriculum_asset_types.id = #__thm_curriculum_assets.asset_type_id');
-		$query->where("#__thm_curriculum_semesters_majors.major_id= $sid");
+		$query->from('#__thm_organizer_semesters_majors');
+		$query->join('inner', '#__thm_organizer_semesters ON #__thm_organizer_semesters_majors.semester_id = #__thm_organizer_semesters.id');
+		$query->join('inner', '#__thm_organizer_assets_semesters ' .
+				'ON #__thm_organizer_semesters_majors.id = #__thm_organizer_assets_semesters.semesters_majors_id');
+		$query->join('inner', '#__thm_organizer_assets_tree ' .
+				'ON #__thm_organizer_assets_tree.id = #__thm_organizer_assets_semesters.assets_tree_id');
+		$query->join('inner', '#__thm_organizer_assets ON #__thm_organizer_assets_tree.asset = #__thm_organizer_assets.id');
+		$query->join('inner', '#__thm_organizer_colors ON #__thm_organizer_assets_tree.color_id = #__thm_organizer_colors.id');
+		$query->join('inner', '#__thm_organizer_asset_types ON #__thm_organizer_asset_types.id = #__thm_organizer_assets.asset_type_id');
+		$query->where("#__thm_organizer_semesters_majors.major_id= $sid");
 
 		$search = $db->Quote('%' . $db->getEscaped($search, true) . '%');
 		$query->where('(title_de LIKE ' . $search . ' OR title_en LIKE ' . $search .
-				' OR #__thm_curriculum_assets.short_title_de LIKE ' . $search .
-				' OR #__thm_curriculum_assets.short_title_en LIKE ' . $search . ' OR abbreviation LIKE ' . $search . ')');
+				' OR #__thm_organizer_assets.short_title_de LIKE ' . $search .
+				' OR #__thm_organizer_assets.short_title_en LIKE ' . $search . ' OR abbreviation LIKE ' . $search . ')');
 
 		if (is_numeric($published))
 		{
@@ -265,12 +265,12 @@ class THM_OrganizerModelMappings extends JModelList
 				$db = JFactory::getDBO();
 				$query = $db->getQuery(true);
 				$query->select("semesters.id as semester_id");
-				$query->from(' #__thm_curriculum_assets_tree as assets_tree');
-				$query->join('inner', '#__thm_curriculum_assets_semesters as assets_semesters ' .
+				$query->from(' #__thm_organizer_assets_tree as assets_tree');
+				$query->join('inner', '#__thm_organizer_assets_semesters as assets_semesters ' .
 						'ON assets_semesters.assets_tree_id = assets_tree.id');
-				$query->join('inner', '#__thm_curriculum_semesters_majors as semesters_majors ' .
+				$query->join('inner', '#__thm_organizer_semesters_majors as semesters_majors ' .
 						'ON assets_semesters.semesters_majors_id = semesters_majors.id');
-				$query->join('inner', '#__thm_curriculum_semesters as semesters ON semesters.id = semesters_majors.semester_id');
+				$query->join('inner', '#__thm_organizer_semesters as semesters ON semesters.id = semesters_majors.semester_id');
 				$query->where("semesters_majors.major_id = $id");
 				$query->where("asset = $row->asset");
 				$db->setQuery($query);
@@ -361,14 +361,14 @@ class THM_OrganizerModelMappings extends JModelList
 		// Build the query
 		$query = $db->getQuery(true);
 		$query->select('
-				#__thm_curriculum_majors.subject AS fach,
-				#__thm_curriculum_majors.po AS po,
-				#__thm_curriculum_degrees.name AS abschluss
+				#__thm_organizer_majors.subject AS fach,
+				#__thm_organizer_majors.po AS po,
+				#__thm_organizer_degrees.name AS abschluss
 				');
-		$query->from('#__thm_curriculum_majors');
-		$query->join('cross', '#__thm_curriculum_degrees
-				ON #__thm_curriculum_degrees.id = #__thm_curriculum_majors.degree_id');
-		$query->where('#__thm_curriculum_majors.id = ' . $pid);
+		$query->from('#__thm_organizer_majors');
+		$query->join('cross', '#__thm_organizer_degrees
+				ON #__thm_organizer_degrees.id = #__thm_organizer_majors.degree_id');
+		$query->where('#__thm_organizer_majors.id = ' . $pid);
 		$db->setQuery((string) $query);
 
 		return $db->loadAssoc();

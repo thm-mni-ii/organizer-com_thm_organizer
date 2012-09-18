@@ -53,7 +53,7 @@ class JFormFieldResponsible extends JFormField
 		// Build the query
 		$query = $db->getQuery(true);
 		$query->select("*");
-		$query->from('#__thm_curriculum_lecturers');
+		$query->from('#__thm_organizer_lecturers');
 		$query->order('surname');
 		$db->setQuery($query);
 		$responsible = $db->loadObjectList();
@@ -75,7 +75,7 @@ class JFormFieldResponsible extends JFormField
 		// Build the query
 		$query = $db->getQuery(true);
 		$query->select("*");
-		$query->from('#__thm_curriculum_lecturers_assets as lecturer_assets');
+		$query->from('#__thm_organizer_lecturers_assets as lecturer_assets');
 		$query->where("lecturer_assets.modul_id = $id");
 		$query->where("lecturer_assets.lecturer_type = 1");
 		$db->setQuery($query);

@@ -86,7 +86,7 @@ class THM_OrganizerModelLecturers extends JModelList
 		// Configure the sql query
 		$query = $db->getQuery(true);
 		$query->select('*');
-		$query->from('#__thm_curriculum_lecturers');
+		$query->from('#__thm_organizer_lecturers');
 
 		$search = $db->Quote('%' . $db->getEscaped($search, true) . '%');
 		$query->where('(userid LIKE ' . $search . ' OR surname LIKE ' . $search . ' OR forename LIKE ' .

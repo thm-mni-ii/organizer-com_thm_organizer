@@ -78,7 +78,7 @@ class THM_OrganizerModelSemesters extends JModelList
 		// Build the sql statement
 		$query = $db->getQuery(true);
 		$query->select('*');
-		$query->from('#__thm_curriculum_semesters');
+		$query->from('#__thm_organizer_semesters');
 		$query->order($orderCol . " " . $orderDirn);
 
 		return $query;

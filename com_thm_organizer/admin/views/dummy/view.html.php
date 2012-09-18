@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerViewDummy
- * @description THM_OrganizerViewDummy component admin view
+ * @name		THM_OrganizersViewDummy
+ * @description THM_OrganizersViewDummy component admin view
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
- * Class THM_OrganizerViewDummy for component com_thm_organizer
+ * Class THM_OrganizersViewDummy for component com_thm_organizer
  *
  * Class provides methods to display the view dummy
  *
@@ -29,7 +29,7 @@ jimport('joomla.application.component.view');
  * @link        www.mni.thm.de
  * @since       v1.5.0
  */
-class THM_OrganizerViewDummy extends JView
+class THM_OrganizersViewDummy extends JView
 {
 	/**
 	 * Method to get display

@@ -72,7 +72,7 @@ class THM_OrganizerControllerLecturer extends JControllerForm
 
 		foreach ($cid as $id)
 		{
-			$query = 'DELETE FROM #__thm_curriculum_lecturers'
+			$query = 'DELETE FROM #__thm_organizer_lecturers'
 			. ' WHERE id = ' . $id . ';';
 			$db->setQuery($query);
 			$db->query();

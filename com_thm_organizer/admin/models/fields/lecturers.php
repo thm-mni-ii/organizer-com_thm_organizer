@@ -49,7 +49,7 @@ class JFormFieldLecturers extends JFormField
 
 		$query = $db->getQuery(true);
 		$query->select("*");
-		$query->from('#__thm_curriculum_lecturers');
+		$query->from('#__thm_organizer_lecturers');
 		$query->order('surname');
 		$db->setQuery($query);
 		$semesters = $db->loadObjectList();
@@ -76,7 +76,7 @@ class JFormFieldLecturers extends JFormField
 		$query = $db->getQuery(true);
 
 		$query->select("*");
-		$query->from('#__thm_curriculum_lecturers_assets as lecturer_assets');
+		$query->from('#__thm_organizer_lecturers_assets as lecturer_assets');
 		$query->where("lecturer_assets.modul_id = $assetId");
 		$query->where("lecturer_assets.lecturer_type = 2");
 		$db->setQuery($query);

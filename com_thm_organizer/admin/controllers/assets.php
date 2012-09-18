@@ -78,8 +78,8 @@ class THM_OrganizerControllerAssets extends JControllerAdmin
 		// Get the semester-ids from the database
 		$query->select("semesters.id as id");
 		$query->select("semesters.name as name");
-		$query->from('#__thm_curriculum_semesters_majors as semester_majors');
-		$query->join('inner', '#__thm_curriculum_semesters as semesters ON semester_majors.semester_id = semesters.id');
+		$query->from('#__thm_organizer_semesters_majors as semester_majors');
+		$query->join('inner', '#__thm_organizer_semesters as semesters ON semester_majors.semester_id = semesters.id');
 		$query->where("major_id = $majorId");
 
 		$db->setQuery($query);
@@ -108,7 +108,7 @@ class THM_OrganizerControllerAssets extends JControllerAdmin
 
 		// Get the semester-ids from the database
 		$query->select("*");
-		$query->from('#__thm_curriculum_assets as assets');
+		$query->from('#__thm_organizer_assets as assets');
 		$query->where("id = $assetID");
 
 		$db->setQuery($query);
