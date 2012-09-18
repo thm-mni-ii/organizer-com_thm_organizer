@@ -531,7 +531,7 @@ CREATE TABLE IF NOT EXISTS #__thm_organizer_majors (
 -- Tabellenstruktur f�r Tabelle #__thm_organizer_semesters
 --
 
-CREATE TABLE IF NOT EXISTS #__thm_organizer_semesters (
+CREATE TABLE IF NOT EXISTS #__thm_organizer_curriculum_semesters (
   id int(11) NOT NULL AUTO_INCREMENT,
   name varchar(45) DEFAULT NULL,
   color_id int(11),
@@ -542,10 +542,10 @@ CREATE TABLE IF NOT EXISTS #__thm_organizer_semesters (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
--- Daten f�r Tabelle #__thm_organizer_semesters
+-- Daten f�r Tabelle #__thm_organizer_curriculum_semesters
 --
 
-INSERT INTO #__thm_organizer_semesters (id, name) VALUES
+INSERT INTO #__thm_organizer_curriculum_semesters (id, name) VALUES
 (1, '1. Semester'),
 (2, '2. Semester'),
 (3, '3. Semester'),
@@ -601,4 +601,4 @@ ALTER TABLE #__thm_organizer_lecturers_assets
 --
 ALTER TABLE #__thm_organizer_semesters_majors
   ADD FOREIGN KEY (major_id) REFERENCES #__thm_organizer_majors (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD FOREIGN KEY (semester_id) REFERENCES #__thm_organizer_semesters (id) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD FOREIGN KEY (semester_id) REFERENCES #__thm_organizer_curriculum_semesters (id) ON DELETE CASCADE ON UPDATE CASCADE;
