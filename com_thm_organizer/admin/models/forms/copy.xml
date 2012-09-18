@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="details">
+
+		<field name="name" type="parent" class="inputbox" size="40"
+			label="com_thm_organizer_SUBMENU_MODULMAPPINGS_PARENT" description="com_thm_organizer_SUBMENU_MODULMAPPINGS_PARENT_DESC"
+			required="true" />
+
+	</fieldset>
+</form>

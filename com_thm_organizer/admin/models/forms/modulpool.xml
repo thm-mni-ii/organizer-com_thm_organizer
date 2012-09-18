@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="details">
+		<field name="id" type="hidden" />
+
+		<field name="vater" type="sql" label="Vater"
+			query="SELECT id AS value, name AS vater  FROM #__thm_curriculum_modulpools"
+			description="Bitte wählen Sie einen Modulpool aus" />
+
+		<field name="name" type="inputbox" label="Name"
+			description="Bitte wählen Sie einen Modulpool aus" />
+
+		<field name="beschreibung" type="inputbox" label="Beschreibung"
+			description="Bitte wählen Sie einen Modulpool aus" />
+
+		<field name="min_anzahl" type="inputbox" label="Min. Anzahl"
+			description="Bitte wählen Sie einen Modulpool aus" />
+
+		<field name="min_crp" type="inputbox" label="Min. CrP"
+			description="Bitte wählen Sie einen Modulpool aus" />
+
+		<field name="max_anzahl" type="inputbox" label="Max. Anzahl"
+			description="Bitte wählen Sie einen Modulpool aus" />
+
+		<field name="max_crp" type="inputbox" label="Max. CrP"
+			description="Bitte wählen Sie einen Modulpool aus" />
+
+		<field name="semester" type="inputbox" label="Semester"
+			description="Bitte wählen Sie einen Modulpool aus" />
+
+		<field name="farbe" type="sql" label="Farbe"
+			query="SELECT id AS value, name AS farbe FROM #__thm_curriculum_farbpalette"
+			description="Bitte wählen Sie einen Modulpool aus" />
+
+		<field name="studiengang" type="sql" label="Studiengang"
+			query="SELECT id AS value, fachrichtung AS studiengang FROM #__thm_curriculum_studiengaenge"
+			description="Bitte wählen Sie einen Modulpool aus" />
+
+	</fieldset>
+</form>

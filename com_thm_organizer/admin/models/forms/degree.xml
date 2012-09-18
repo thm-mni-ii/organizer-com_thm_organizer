@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="details">
+		<field name="id" type="hidden" required="true" />
+
+		<field name="name" type="text" class="inputbox" size="40"
+			label="com_thm_organizer_SUBMENU_DEGREES_NAME" description="com_thm_organizer_SUBMENU_DEGREES_NAME_DESC"
+			required="true" />
+	</fieldset>
+</form>

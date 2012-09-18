@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="details">
+
+		<field name="id" type="hidden" required="true" />
+
+		<field name="asset" type="assets"
+			label="com_thm_organizer_SUBMENU_MODULMAPPINGS_ASSET" description="com_thm_organizer_SUBMENU_MODULMAPPINGS_ASSET_DESC"
+			required="true" />
+
+		<field name="parent_id" type="parent"
+			label="com_thm_organizer_SUBMENU_MODULMAPPINGS_PARENT" description="com_thm_organizer_SUBMENU_MODULMAPPINGS_PARENT_DESC"
+			required="false" />
+
+		<field name="stud_sem_id" type="mapping"
+			label="com_thm_organizer_SUBMENU_MODULMAPPINGS_SEMESTER"
+			description="com_thm_organizer_SUBMENU_MODULMAPPINGS_SEMESTER_DESC" />
+
+		<field name="proportion_crp" type="hidden" size="10" class="inputbox"
+			label="com_thm_organizer_SUBMENU_MODULMAPPINGS_PROPORTION"
+			description="com_thm_organizer_SUBMENU_MODULMAPPINGS_PROPORTION_DESC" />
+
+		<field name="color_id" type="color" class="inputbox"
+			label="com_thm_organizer_SUBMENU_MODULMAPPINGS_COLOR" description="com_thm_organizer_SUBMENU_MODULMAPPINGS_COLOR_DESC"
+			required="true" />
+
+		<field name="color_id_flag" type="checkbox"
+			label="com_thm_organizer_SUBMENU_MODULMAPPINGS_COLOR_FLAG"
+			description="com_thm_organizer_SUBMENU_MODULMAPPINGS_COLOR_FLAG_DESC"
+			value="1" />
+
+		<field name="ecollaboration_link" type="text" size="80" class="inputbox"
+			label="com_thm_organizer_ECOLLAB" description="com_thm_organizer_ECOLLAB_DESC" />
+
+		<field name="ecollaboration_link_flag" id="ecollaboration_link_flag"
+			type="checkbox" label="com_thm_organizer_ECOLLAB_FLAG" description="com_thm_organizer_ECOLLAB_FLAG_DESC"
+			value="1" />
+
+		<field name="menu_link" type="menuitem" size="10" class="inputbox"
+			label="com_thm_organizer_MENU" description="com_thm_organizer_MENU_DESC" />
+
+		<field name="menu_link_flag" type="checkbox" label="com_thm_organizer_MENU_FLAG"
+			description="com_thm_organizer_MENU_FLAG_DESC" value="1" />
+
+		<field type="spacer" name="myspacer" label="" />
+
+		<field name="note" class="inputbox"
+			label="com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_NOTE" type="editor"
+			description="com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_NOTE_DESC"
+			filter="safehtml" buttons="true" />
+
+		<field name="note_flag" type="checkbox"
+			label="com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_NOTE"
+			description="com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_NOTE_FLAG_DESC"
+			value="1" />
+
+
+		<field name="stud_sem_id_2" type="hidden" /> <!-- container -->
+
+
+	</fieldset>
+</form>

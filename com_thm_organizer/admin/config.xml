@@ -32,4 +32,55 @@
 			section="component"
 		/>
 	</fieldset>
+	<fieldset name="component" label="GLOB_LSF_PARAMETERS"
+		description="GLOB_LSF_PARAMETERS_DESC">
+
+		<field name="webserviceUri" type="text"
+			default="https://studien-sb-service.fh-giessen-friedberg.de/lsfadmin/services/dbinterface?wsdl"
+			size="100" label="COM_THM_LSF_COMPONENT_URI" description="COM_THM_LSF_COMPONENT_URI_DESC">
+		</field>
+		<field name="webserviceUsername" type="text" default="soapclmni"
+			size="30" label="COM_THM_LSF_COMPONENT_USERNAME" description="COM_THM_LSF_COMPONENT_USERNAME_DESC">
+		</field>
+		<field name="webservicePassword" type="text" default="cByAroe5"
+			size="30" label="COM_THM_LSF_COMPONENT_PASSWORD" description="COM_THM_LSF_COMPONENT_PASSWORD_DESC">
+		</field>
+
+	</fieldset>
+	<fieldset name="component2" label="GLOB_FILTER_PARAMETERS"
+		description="GLOB_FILTER_PARAMETERS_DESC">
+		<field name="filter" type="radio" default="0"
+			label="GLOB_FILTER_PARAMETERS_ACTIVATE" description="GLOB_FILTER_PARAMETERS_ACTIVATE_DESC">
+			<option value="1">Ja</option>
+			<option value="0">Nein</option>
+		</field>
+		<field name="filter_type" type="radio" default="0"
+			label="GLOB_FILTER_PARAMETERS_TYPE" description="GLOB_FILTER_PARAMETERS_TYPE_DESC">
+			<option value="0">Modulnummer</option>
+			<option value="1">Fachgruppe</option>
+		</field>
+		<field name="modulecodeFilterList" type="textarea"
+			label="GLOB_FILTER_PARAMETERS_COURSE_CODES" description="GLOB_FILTER_PARAMETERS_COURSE_CODES_DESC"
+			rows="5" cols="30">
+		</field>
+		<field name="modulecodeFilterFachgruppen" type="textarea"
+			label="GLOB_FILTER_PARAMETERS_GROUPS" description="GLOB_FILTER_PARAMETERS_GROUPS_DESC"
+			rows="5" cols="30">
+		</field>
+	</fieldset>
+	<fieldset name="component3" label="GLOB_MISC_PARAMETERS"
+		description="GLOB_MISC_PARAMETERS_DESC">
+
+		<field name="default_ecolloboration_link" type="text"
+			default="http://moodle.thm.de/course/view.php?idnumber=" label="GLOB_MISC_PARAMETERS_ECOLLAB_DEFAULT_LINK"
+			size="60" description="GLOB_MISC_PARAMETERS_ECOLLAB_DEFAULT_LINK_MISC">
+		</field>
+
+	</fieldset>
+	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC">
+		<field name="rules" type="rules" label="JCONFIG_PERMISSIONS_LABEL"
+			class="inputbox" validate="rules" filter="rules" component="com_giessenlsf"
+			section="component" />
+	</fieldset>
 </config>

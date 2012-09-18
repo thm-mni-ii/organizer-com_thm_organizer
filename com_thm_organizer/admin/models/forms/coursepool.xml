@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="details">
+		<field name="id" type="hidden" required="true" />
+
+		<field name="title_de" type="text" class="inputbox" size="40"
+			label="com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_TITLE_DE"
+			description="com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_TITLE_DE_DESC"
+			required="true" />
+
+
+		<field name="title_en" type="text" class="inputbox" size="40"
+			label="com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_TITLE_EN"
+			description="com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_TITLE_EN_DESC"
+			required="true" />
+
+		<field name="min_creditpoints" type="text" class="inputbox"
+			size="40" label="min_crp" description="Die Bezeichnung der Farbe"
+			required="true" />
+
+		<field name="max_creditpoints" type="text" class="inputbox"
+			size="40" label="max_crp" description="Die Bezeichnung der Farbe"
+			required="true" />
+
+
+		<field name="short_title_de" type="text" class="inputbox" size="40"
+			label="com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_SHORT_TITLE_DE"
+			description="com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_SHORT_TITLE_DE_DESC"
+			required="true" />
+
+		<field name="short_title_en" type="CURRICULUM" class="inputbox"
+			size="40" label="com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_SHORT_TITLE_EN"
+			description="com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_SHORT_TITLE_EN_DESC"
+			required="true" />
+
+
+		<field name="abbreviation" type="text" class="inputbox"
+			label="com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_ABBREVIATION"
+			description="com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_ABBREVIATION_DESC"
+			required="true" />
+
+		<field name="pool_type" type="radio" default="0"
+			label="com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_POOL_TYPE"
+			description="com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_POOL_TYPE_DESC">
+			<option value="0">com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_POOL_TYPE_0</option>
+			<option value="1">com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_POOL_TYPE_1</option>
+		</field>
+
+
+		<field name="asset_type_id" type="hidden" class="inputbox"
+			default="2" />
+
+		<field name="beschreibung" type="textarea" class="inputbox"
+			size="6" label="com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_DESCRIPTION"
+			description="com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_DESCRIPTION_DESC" />
+		<field type="spacer" name="myspacer" label="" />
+		<field name="note" label="com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_NOTE"
+			type="editor" width="100"
+			description="com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_NOTE_DESC"
+			filter="safehtml" />
+	</fieldset>
+</form>
