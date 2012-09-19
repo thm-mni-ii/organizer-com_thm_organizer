@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.site
- * @name		THM_CurriculumModelIndex
- * @description THM_CurriculumModelIndex component site model
+ * @name		THM_OrganizerModelIndex
+ * @description THM_OrganizerModelIndex component site model
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -24,7 +24,7 @@ require_once JPATH_COMPONENT_SITE . DS . 'models/groups.php';
 require_once JPATH_COMPONENT_SITE . DS . 'models/curriculum.php';
 
 /**
- * Class THM_CurriculumModelIndex for component com_thm_organizer
+ * Class THM_OrganizerModelIndex for component com_thm_organizer
  *
  * Class provides methods to display a list
  *
@@ -99,8 +99,8 @@ class THM_OrganizerModelIndex extends JModelList
 	{
 		$this->db = &JFactory::getDBO();
 		$this->globParams = JComponentHelper::getParams('com_thm_organizer');
-		$this->groupsModel = $model = new THM_CurriculumModelGroups;
-		$this->groupsCurriculum = $model = new THM_CurriculumModelCurriculum;
+		$this->groupsModel = $model = new THM_OrganizerModelGroups;
+		$this->groupsCurriculum = $model = new THM_OrganizerModelCurriculum;
 		$this->config = $this->groupsModel->getLsfConfiguration();
 
 		parent::__construct();
@@ -222,8 +222,8 @@ class THM_OrganizerModelIndex extends JModelList
 		$start = $this->state->get('list.start');
 
 		$this->major = $this->groupsCurriculum->getMajorRecord($this->config[0]->id);
-		$curriculumModel = new THM_CurriculumModelCurriculum;
-		$groupsModel = new THM_CurriculumModelGroups;
+		$curriculumModel = new THM_OrganizerModelCurriculum;
+		$groupsModel = new THM_OrganizerModelGroups;
 
 		if (empty($this->_data))
 		{

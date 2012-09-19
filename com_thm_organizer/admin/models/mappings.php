@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerModelMappings
- * @description THM_OrganizerModelMappings component admin model
+ * @name		THM_OrganizersModelMappings
+ * @description THM_OrganizersModelMappings component admin model
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modellist');
 
 /**
- * Class THM_OrganizerModelMappings for component com_thm_organizer
+ * Class THM_OrganizersModelMappings for component com_thm_organizer
  *
  * Class provides methods to deal with mappings
  *
@@ -27,7 +27,7 @@ jimport('joomla.application.component.modellist');
  * @link        www.mni.thm.de
  * @since       v1.5.0
  */
-class THM_OrganizerModelMappings extends JModelList
+class THM_OrganizersModelMappings extends JModelList
 {
 	/**
 	 * Database
@@ -378,12 +378,12 @@ class THM_OrganizerModelMappings extends JModelList
 	 * Method to get the table
 	 *
 	 * @param   String  $type    Type  			(default: 'mapping')
-	 * @param   String  $prefix  Prefix  		(default: 'THM_curriculumTable')
+	 * @param   String  $prefix  Prefix  		(default: 'THM_OrganizerTable')
 	 * @param   Array   $config  Configuration  (default: 'Array')
 	 *
 	 * @return  JTable object
 	 */
-	public function getTable($type = 'mapping', $prefix = 'THM_curriculumTable', $config = array())
+	public function getTable($type = 'mapping', $prefix = 'THM_OrganizerTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}

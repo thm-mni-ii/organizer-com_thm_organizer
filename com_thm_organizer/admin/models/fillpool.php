@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerModelFillpool
- * @description THM_OrganizerModelFillpool component admin model
+ * @name		THM_OrganizersModelFillpool
+ * @description THM_OrganizersModelFillpool component admin model
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -23,7 +23,7 @@ require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'h
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'models/mapping.php';
 
 /**
- * Class THM_OrganizerModelFillpool for component com_thm_organizer
+ * Class THM_OrganizersModelFillpool for component com_thm_organizer
  *
  * Class provides methods to deal with fill pool
  *
@@ -33,18 +33,18 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'models/mapping.php';
  * @link        www.mni.thm.de
  * @since       v1.5.0
  */
-class THM_OrganizerModelFillpool extends JModelAdmin
+class THM_OrganizersModelFillpool extends JModelAdmin
 {
 	/**
 	 * Method to get the table
 	 *
 	 * @param   String  $type    Type  			(default: 'colors')
-	 * @param   String  $prefix  Prefix  		(default: 'THM_CurriculumTable')
+	 * @param   String  $prefix  Prefix  		(default: 'THM_OrganizerTable')
 	 * @param   Array   $config  Configuration  (default: 'Array')
 	 *
 	 * @return  JTable object
 	 */
-	public function getTable($type = 'colors', $prefix = 'THM_CurriculumTable', $config = array())
+	public function getTable($type = 'colors', $prefix = 'THM_OrganizerTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
@@ -142,7 +142,7 @@ class THM_OrganizerModelFillpool extends JModelAdmin
 		$globParams = JComponentHelper::getParams('com_thm_organizer');
 		$db = &JFactory::getDBO();
 		$config = self::getLsfConfiguration($data["soap_query"]);
-		$model = new THM_OrganizerModelMapping;
+		$model = new THM_OrganizersModelMapping;
 		$parent = $data['parent_id'];
 
 		$semesters = self::getSemesters($parent);

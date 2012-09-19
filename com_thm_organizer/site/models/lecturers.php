@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.site
- * @name		THM_CurriculumModelLecturers
- * @description THM_CurriculumModelLecturers component site model
+ * @name		THM_OrganizerModelLecturers
+ * @description THM_OrganizerModelLecturers component site model
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -25,7 +25,7 @@ require_once JPATH_COMPONENT_SITE . DS . 'models/index.php';
 require_once JPATH_COMPONENT_SITE . DS . 'models/curriculum.php';
 
 /**
- * Class THM_CurriculumModelLecturers for component com_thm_organizer
+ * Class THM_OrganizerModelLecturers for component com_thm_organizer
  *
  * Class provides methods to deal with lecturers
  *
@@ -84,9 +84,9 @@ class THM_OrganizerModelLecturers extends JModel
 	{
 		$this->db = &JFactory::getDBO();
 		$this->globParams = JComponentHelper::getParams('com_thm_organizer');
-		$this->groupsModel = $model = new THM_CurriculumModelGroups;
-		$this->groupsCurriculum = $model = new THM_CurriculumModelCurriculum;
-		$this->indexModel = $model = new THM_CurriculumModelIndex;
+		$this->groupsModel = $model = new THM_OrganizerModelGroups;
+		$this->groupsCurriculum = $model = new THM_OrganizerModelCurriculum;
+		$this->indexModel = $model = new THM_OrganizerModelIndex;
 		$this->session = & JFactory::getSession();
 		$this->lang = JRequest::getVar('lang');
 

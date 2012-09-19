@@ -152,12 +152,12 @@ class THM_OrganizerControllerMapping extends JControllerForm
 	 * Method to get table
 	 *
 	 * @param   String  $type    Key		   (default: 'mapping')
-	 * @param   String  $prefix  Url variable  (default: 'THM_curriculumTable')
+	 * @param   String  $prefix  Url variable  (default: 'THM_OrganizerTable')
 	 * @param   Array   $config  Url variable  (default: Array)
 	 *
 	 * @return  Object
 	 */
-	public function getTable($type = 'mapping', $prefix = 'THM_curriculumTable', $config = array())
+	public function getTable($type = 'mapping', $prefix = 'THM_OrganizerTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}

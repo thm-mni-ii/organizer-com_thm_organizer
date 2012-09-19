@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerModelMajor
- * @description THM_OrganizerModelMajor component admin model
+ * @name		THM_OrganizersModelMajor
+ * @description THM_OrganizersModelMajor component admin model
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
 
 /**
- * Class THM_OrganizerModelMajor for component com_thm_organizer
+ * Class THM_OrganizersModelMajor for component com_thm_organizer
  *
  * Class provides methods to deal with major
  *
@@ -29,7 +29,7 @@ jimport('joomla.application.component.modeladmin');
  * @link        www.mni.thm.de
  * @since       v1.5.0
  */
-class THM_OrganizerModelMajor extends JModelAdmin
+class THM_OrganizersModelMajor extends JModelAdmin
 {
 	/**
 	 * Method to overwrite save method
@@ -159,12 +159,12 @@ class THM_OrganizerModelMajor extends JModelAdmin
 	 * Method to get the table
 	 *
 	 * @param   String  $type    Type  			(default: 'Majors')
-	 * @param   String  $prefix  Prefix  		(default: 'THM_curriculumTable')
+	 * @param   String  $prefix  Prefix  		(default: 'THM_OrganizerTable')
 	 * @param   Array   $config  Configuration  (default: 'Array')
 	 *
 	 * @return  JTable object
 	 */
-	public function getTable($type = 'Majors', $prefix = 'THM_curriculumTable', $config = array())
+	public function getTable($type = 'Majors', $prefix = 'THM_OrganizerTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}

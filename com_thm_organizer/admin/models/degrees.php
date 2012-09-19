@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerModelDegrees
- * @description THM_OrganizerModelDegrees component admin model
+ * @name		THM_OrganizersModelDegrees
+ * @description THM_OrganizersModelDegrees component admin model
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modellist');
 
 /**
- * Class THM_OrganizerModelDegrees for component com_thm_organizer
+ * Class THM_OrganizersModelDegrees for component com_thm_organizer
  *
  * Class provides methods to deal with degrees
  *
@@ -27,7 +27,7 @@ jimport('joomla.application.component.modellist');
  * @link        www.mni.thm.de
  * @since       v1.5.0
  */
-class THM_OrganizerModelDegrees extends JModelList
+class THM_OrganizersModelDegrees extends JModelList
 {
 	/**
 	 * Constructor to set up the configuration and call the parent constructor

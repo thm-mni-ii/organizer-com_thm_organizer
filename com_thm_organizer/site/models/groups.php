@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.site
- * @name		THM_CurriculumModelGroups
- * @description THM_CurriculumModelGroups component site model
+ * @name		THM_OrganizerModelGroups
+ * @description THM_OrganizerModelGroups component site model
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -22,7 +22,7 @@ require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'm
 require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'models/curriculum.php';
 
 /**
- * Class THM_CurriculumModelGroups for component com_thm_organizer
+ * Class THM_OrganizerModelGroups for component com_thm_organizer
  *
  * Class provides methods to work with module groups
  *
@@ -191,7 +191,7 @@ class THM_OrganizerModelGroups extends JModel
 	{
 		// Gets the component configiration and performs a soap request, in order to get the xml structe for a given major
 		$config = self::getLsfConfiguration($configId);
-		$model = new THM_CurriculumModelCurriculum
+		$model = new THM_OrganizerModelCurriculum
 		$this->major = $model->getMajorRecord($configId);
 
 		$client = new LsfClient(
@@ -397,7 +397,7 @@ class THM_OrganizerModelGroups extends JModel
 	public function buildCourseData($row)
 	{
 		$data = array();
-		$model = new THM_CurriculumModelCurriculum
+		$model = new THM_OrganizerModelCurriculum
 
 		$creditpoints = explode('.', $row->min_creditpoints);
 		$modul['coursecode'] = self::buildCourseDetailLink($row);
@@ -461,7 +461,7 @@ class THM_OrganizerModelGroups extends JModel
 	 */
 	public function buildResponsibleLink($assetId, $viewName = 'groups')
 	{
-		$model = new THM_CurriculumModelCurriculum;
+		$model = new THM_OrganizerModelCurriculum;
 
 		if (!isset($assetId) && $assetId == "")
 		{

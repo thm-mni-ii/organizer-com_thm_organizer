@@ -34,11 +34,11 @@ class THM_OrganizerControllerSemesters extends JControllerAdmin
 	 * Method to get the model
 	 *
 	 * @param   String  $name    Name	 (default: 'Semesters')
-	 * @param   String  $prefix  Prefix  (default: 'THM_CurriculumModel')
+	 * @param   String  $prefix  Prefix  (default: 'THM_OrganizerModel')
 	 *
 	 * @return  Object
 	 */
-	public function getModel($name = 'Semesters', $prefix = 'THM_CurriculumModel')
+	public function getModel($name = 'Semesters', $prefix = 'THM_OrganizerModel')
 	{
 		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
 		return $model;

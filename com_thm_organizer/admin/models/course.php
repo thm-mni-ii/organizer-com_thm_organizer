@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerModelCourse
- * @description THM_OrganizerModelCourse component admin model
+ * @name		THM_OrganizersModelCourse
+ * @description THM_OrganizersModelCourse component admin model
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
 
 /**
- * Class THM_OrganizerModelCourse for component com_thm_organizer
+ * Class THM_OrganizersModelCourse for component com_thm_organizer
  *
  * Class provides methods to deal with course
  *
@@ -29,18 +29,18 @@ jimport('joomla.application.component.modeladmin');
  * @link        www.mni.thm.de
  * @since       v1.5.0
  */
-class THM_OrganizerModelCourse extends JModelAdmin
+class THM_OrganizersModelCourse extends JModelAdmin
 {
 	/**
 	 * Method to get the table
 	 *
 	 * @param   String  $type    Type  (default: 'assets')
-	 * @param   String  $prefix  Type  (default: 'THM_CurriculumTable')
+	 * @param   String  $prefix  Type  (default: 'THM_OrganizerTable')
 	 * @param   Array   $config  Type  (default: 'Array')
 	 *
 	 * @return  JTable object
 	 */
-	public function getTable($type = 'assets', $prefix = 'THM_CurriculumTable', $config = array())
+	public function getTable($type = 'assets', $prefix = 'THM_OrganizerTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}

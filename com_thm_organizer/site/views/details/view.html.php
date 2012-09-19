@@ -39,7 +39,7 @@ class THM_OrganizerViewdetails extends JView
 	public function display($tpl = null)
 	{
 		$document = & JFactory::getDocument();
-		$modelGroups = new THM_CurriculumModelGroups;
+		$modelGroups = new THM_OrganizerModelGroups;
 		$model = & $this->getModel();
 		$this->session = & JFactory::getSession();
 

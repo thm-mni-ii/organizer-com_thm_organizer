@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerModelCopy
- * @description THM_OrganizerModelCopy component admin model
+ * @name		THM_OrganizersModelCopy
+ * @description THM_OrganizersModelCopy component admin model
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
 
 /**
- * Class THM_OrganizerModelCopy for component com_thm_organizer
+ * Class THM_OrganizersModelCopy for component com_thm_organizer
  *
  * Class provides methods to deal with copy
  *
@@ -29,18 +29,18 @@ jimport('joomla.application.component.modeladmin');
  * @link        www.mni.thm.de
  * @since       v1.5.0
  */
-class THM_OrganizerModelCopy extends JModelAdmin
+class THM_OrganizersModelCopy extends JModelAdmin
 {
 	/**
 	 * Method to get the table
 	 *
 	 * @param   String  $type    Type  			(default: 'colors')
-	 * @param   String  $prefix  Prefix  		(default: 'THM_CurriculumTable')
+	 * @param   String  $prefix  Prefix  		(default: 'THM_OrganizerTable')
 	 * @param   Array   $config  Configuration  (default: 'Array')
 	 *
 	 * @return  JTable object
 	 */
-	public function getTable($type = 'colors', $prefix = 'THM_CurriculumTable', $config = array())
+	public function getTable($type = 'colors', $prefix = 'THM_OrganizerTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
