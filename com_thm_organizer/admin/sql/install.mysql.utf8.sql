@@ -81,11 +81,11 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_teachers` (
   `gpuntisID` varchar(10) NOT NULL,
   `surname` varchar(50) NOT NULL DEFAULT '',
   `firstname` varchar(50) NOT NULL DEFAULT '',
-  `username` varchar(50) NOT NULL DEFAULT '',
+  `username` varchar(150) NOT NULL DEFAULT '',
   `fieldID` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`username`)REFERENCES #__users (`username`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  FOREIGN KEY (`fieldID`) REFERENCES #__thm_organizer_teacher_fields(`id`)  ON DELETE NO ACTION ON UPDATE CASCADE
+  KEY `username` (`username`),
+  FOREIGN KEY (`fieldID`) REFERENCES #__thm_organizer_teacher_fields(`id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_categories` (
