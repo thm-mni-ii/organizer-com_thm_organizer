@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_deltas` (
   `toID` int(11) unsigned NOT NULL,
   `delta` mediumblob NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`fromID`) REFERENCES #__thm_organizer_schedules(`id`)ON DELETE NO ACTION ON UPDATE CASCADE,
+  FOREIGN KEY (`fromID`) REFERENCES #__thm_organizer_schedules(`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   FOREIGN KEY (`toID`) REFERENCES #__thm_organizer_schedules(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
   `gpuntisID` varchar(20) NOT NULL,
   `name` varchar(10) NOT NULL DEFAULT '',
   `longname` varchar(50) NOT NULL DEFAULT '',
-  `typeID` int(11) NOT NULL,
+  `typeID` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`typeID`) REFERENCES #__thm_organizer_room_types(`id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_teachers` (
   `surname` varchar(50) NOT NULL DEFAULT '',
   `firstname` varchar(50) NOT NULL DEFAULT '',
   `username` varchar(50) NOT NULL DEFAULT '',
-  `fieldID` varchar(10) NOT NULL DEFAULT '',
+  `fieldID` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`username`)REFERENCES #__users (`username`) ON DELETE NO ACTION ON UPDATE CASCADE,
   FOREIGN KEY (`fieldID`) REFERENCES #__thm_organizer_teacher_fields(`id`)  ON DELETE NO ACTION ON UPDATE CASCADE
