@@ -50,7 +50,7 @@ class thm_organizersModelschedule
         {
             return $status;
         }
-
+        echo "<pre>" . print_r($status, true) . "</pre>"; exit;
         $data = array();
         $data['departmentname'] = $status['schedule']['departmentname'];
         $data['semestername'] = $status['schedule']['semestername'];
@@ -82,7 +82,6 @@ class thm_organizersModelschedule
         $schedule    = array();
         $errors      = array();
         $warnings    = array();
-        $resources   = array();
 
         // General node
         // Creation Date & Time
@@ -178,52 +177,52 @@ class thm_organizersModelschedule
         $periods = array();
         $periodsModel = new thm_organizersModelperiod;
         $periodsModel->validate($xmlSchedule->timeperiods, $periods, $errors);
-        $resources['periods'] = $periods;
-        unset($periodsModel);
+        $schedule['periods'] = $periods;
+        unset($periodsModel, $periods);
 
         $descriptions = array();
         $descriptionsModel = new thm_organizersModeldescription;
         $descriptionsModel->validate($xmlSchedule->descriptions, $descriptions, $errors);
-        $resources['descriptions'] = $descriptions;
-        unset($descriptionsModel);
+        $schedule['descriptions'] = $descriptions;
+        unset($descriptionsModel, $descriptions);
 
         // Departments node holds degree names
         $degrees = array();
         $degreesModel = new thm_organizersModeldepartment;
         $degreesModel->validate($xmlSchedule->departments, $degrees, $errors);
-        $resources['degrees'] = $degrees;
-        unset($degreesModel);
+        $schedule['degrees'] = $degrees;
+        unset($degreesModel, $degrees);
 
         $rooms = array();
         $roomsModel = new thm_organizersModelroom;
-        $roomsModel->validate($xmlSchedule->rooms, $rooms, $errors, $warnings, $descriptions);
-        $resources['rooms'] = $rooms;
-        unset($roomsModel);
+        $roomsModel->validate($xmlSchedule->rooms, $rooms, $errors, $warnings, $schedule['descriptions']);
+        $schedule['rooms'] = $rooms;
+        unset($roomsModel, $rooms);
 
         $subjects = array();
         $subjectsModel = new thm_organizersModelsubject;
-        $subjectsModel->validate($xmlSchedule->subjects, $subjects, $errors, $warnings, $descriptions);
-        $resources['subjects'] = $subjects;
-        unset($subjectsModel);
+        $subjectsModel->validate($xmlSchedule->subjects, $subjects, $errors, $warnings, $schedule['descriptions']);
+        $schedule['subjects'] = $subjects;
+        unset($subjectsModel, $subjects);
 
         $teachers = array();
         $teachersModel = new thm_organizersModelteacher;
-        $teachersModel->validate($xmlSchedule->teachers, $teachers, $errors, $warnings, $descriptions);
-        $resources['teachers'] = $teachers;
-        unset($teachersModel);
+        $teachersModel->validate($xmlSchedule->teachers, $teachers, $errors, $warnings, $schedule['descriptions']);
+        $schedule['teachers'] = $teachers;
+        unset($teachersModel, $teachers);
 
         // Classes node holds information about modules
         $modules = array();
         $modulesModel = new thm_organizersModelmodule;
-        $modulesModel->validate($xmlSchedule->classes, $modules, $errors, $warnings, $resources);
-        $resources['modules'] = $modules;
-        unset($modulesModel);
+        $modulesModel->validate($xmlSchedule->classes, $modules, $errors, $warnings, $schedule);
+        $schedule['modules'] = $modules;
+        unset($modulesModel, $modules);
 
         $calendar = empty($errors)?
-            $this->initializeCalendar($periods, $schedule['startdate'], $schedule['enddate'], $syStartDate, $syEndDate) : array();
+            $this->initializeCalendar($schedule, $syStartDate, $syEndDate) : array();
         $lessons = array();
         $lessonsModel = new thm_organizersModellesson;
-        $lessonsModel->validate($xmlSchedule->lessons, $lessons, $errors, $warnings, $resources, $calendar);
+        $lessonsModel->validate($xmlSchedule->lessons, $lessons, $errors, $warnings, $schedule, $calendar);
         unset($lessonsModel);
 
         $status = array();
@@ -235,6 +234,8 @@ class thm_organizersModelschedule
         {
             $roomDescriptions = array();
             $this->sortRoomDescriptions($rooms, $descriptions, $roomDescriptions);
+            $schedule['roomdescriptions'] = $roomDescriptions;
+            $status['schedule'] = $schedule;
         }
         if (count($warnings))
         {
@@ -246,9 +247,7 @@ class thm_organizersModelschedule
     /**
      * Creates an array with dates as indexes for the days of the given planning period
      * 
-     * @param   array   &$periods     the periods as defined in the schedule
-     * @param   string  $startdate    the date upon which the planning period begins
-     * @param   string  $enddate      the date upon which the planning period ends
+     * @param   array   &$schedule    the schedule data
      * @param   string  $syStartDate  the date upon which the school year begins
      * @param   string  $syEndDate    the date upon which the school year ends
      * 
@@ -256,11 +255,13 @@ class thm_organizersModelschedule
      *                             and periods for a planning period
      *                             [<DATE 'Y-m-d'>][<PERIOD int(1)>] = array()
      */
-    private function initializeCalendar(&$periods, $startdate, $enddate, $syStartDate, $syEndDate)
+    private function initializeCalendar(&$schedule, $syStartDate, $syEndDate)
     {
+       $periods = $schedule['periods'];
+
        $calendar = array();
-       $startDT = strtotime($startdate);
-       $endDT = strtotime($enddate);
+       $startDT = strtotime($schedule['startdate']);
+       $endDT = strtotime($schedule['enddate']);
        
        // 86400 is the number of seconds in a day 24 * 60 * 60
        // Calculate the days between schoolyear start and term start
@@ -432,13 +433,13 @@ class thm_organizersModelschedule
         unset($classesmodel);
 
         $lessons = array();
-        $resources = array( 'periods' => $periods,
+        $schedule = array( 'periods' => $periods,
                             'rooms' => $rooms,
                             'classes' => $classes,
                             'teachers' => $teachers,
                             'subjects' => $subjects);
         $lessonsmodel = new thm_organizersModellesson;
-        $lessonsmodel->processData($schedule->lessons, $lessons, $semesterID, $resources);
+        $lessonsmodel->processData($schedule->lessons, $lessons, $semesterID, $schedule);
         unset($lessonsmodel);
 
         $row->active = date('Y-m-d');
