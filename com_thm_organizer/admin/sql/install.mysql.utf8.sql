@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_categories` (
   `reserves` tinyint(1) NOT NULL DEFAULT '0',
   `contentCatID` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`contentCatID`) REFERENCES #__categories(`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `contentCatID` (`contentCatID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_events` (
@@ -115,7 +115,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_events` (
   `recurrence_days` varchar(7) NOT NULL DEFAULT '0000000',
   `recurrence_date` int(2) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`id`) REFERENCES `#__content`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (`categoryID`) REFERENCES `#__thm_organizer_categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
