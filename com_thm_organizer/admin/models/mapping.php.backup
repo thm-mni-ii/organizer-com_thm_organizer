@@ -6,7 +6,7 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.modeladmin');
 
 
-class THM_OrganizerModelMapping extends JModelAdmin {
+class THM_OrganizersModelMapping extends JModelAdmin {
 	
 
 
@@ -278,7 +278,7 @@ class THM_OrganizerModelMapping extends JModelAdmin {
 	}
 
 
-	public function getTable($type = 'mapping', $prefix = 'THM_curriculumTable', $config = array()) {
+	public function getTable($type = 'mapping', $prefix = 'THM_OrganizerTable', $config = array()) {
 		return JTable::getInstance($type, $prefix, $config);
 	}
 

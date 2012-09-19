@@ -83,7 +83,7 @@ class thm_organizersModelcategory extends JModel
             $eventIDs = $dbo->loadResultArray();
             if(count($eventIDs))
             {
-                $events = new thm_organizerModelevents();
+                $events = new THM_OrganizersModelevents();
                 foreach($eventIDs as $eventID)
                 {
                     $success = $events->delete($eventID);

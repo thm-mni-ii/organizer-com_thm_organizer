@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerModelSemesters
- * @description THM_OrganizerModelSemesters component admin model
+ * @name		THM_OrganizersModelSemesters
+ * @description THM_OrganizersModelSemesters component admin model
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modellist');
 
 /**
- * Class THM_OrganizerModelSemesters for component com_thm_organizer
+ * Class THM_OrganizersModelSemesters for component com_thm_organizer
  *
  * Class provides methods to deal with semesters
  *
@@ -27,7 +27,7 @@ jimport('joomla.application.component.modellist');
  * @link        www.mni.thm.de
  * @since       v1.5.0
  */
-class THM_OrganizerModelSemesters extends JModelList
+class THM_OrganizersModelSemesters extends JModelList
 {
 	/**
 	 * Database

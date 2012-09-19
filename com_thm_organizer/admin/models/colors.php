@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerModelColors
- * @description THM_OrganizerModelColors component admin model
+ * @name		THM_OrganizersModelColors
+ * @description THM_OrganizersModelColors component admin model
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modellist');
 
 /**
- * Class THM_OrganizerModelColors for component com_thm_organizer
+ * Class THM_OrganizersModelColors for component com_thm_organizer
  *
  * Class provides methods to deal with colors
  *
@@ -27,7 +27,7 @@ jimport('joomla.application.component.modellist');
  * @link        www.mni.thm.de
  * @since       v1.5.0
  */
-class THM_OrganizerModelColors extends JModelList
+class THM_OrganizersModelColors extends JModelList
 {
 	/**
 	 * Constructor to set the config array and call the parent constructor

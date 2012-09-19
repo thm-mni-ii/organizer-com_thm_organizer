@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.site
- * @name		THM_CurriculumModelCurriculum
- * @description THM_CurriculumModelCurriculum component site model
+ * @name		THM_OrganizerModelCurriculum
+ * @description THM_OrganizerModelCurriculum component site model
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -23,7 +23,7 @@ require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'h
 require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'models/groups.php';
 
 /**
- * Class THM_CurriculumModelCurriculum for component com_thm_organizer
+ * Class THM_OrganizerModelCurriculum for component com_thm_organizer
  *
  * Class provides methods to work with the database and other cool stuff
  *
@@ -108,7 +108,7 @@ class THM_OrganizerModelCurriculum extends JModelList
 	public function getGroupsPicture($assetId)
 	{
 		// Gets an instance of the Groups-Controller
-		$groupsModel = new THM_CurriculumModelGroups
+		$groupsModel = new THM_OrganizerModelGroups
 		$rows = self::getResponsibleRecord($assetId);
 
 		if (isset($rows[0]))
@@ -150,7 +150,7 @@ class THM_OrganizerModelCurriculum extends JModelList
 	public function getLecturerName($assetId)
 	{
 		// Gets an instance of the Groups-Controller
-		$groupsModel = new THM_CurriculumModelGroups;
+		$groupsModel = new THM_OrganizerModelGroups;
 		$rows = self::getResponsibleRecord($assetId);
 
 		if (isset($rows[0]))
@@ -180,7 +180,7 @@ class THM_OrganizerModelCurriculum extends JModelList
 	public function buildResponsibleLink($assetId, $viewName = 'curriculum')
 	{
 		$db = JFactory::getDBO();
-		$groupsModel = new THM_CurriculumModelGroups;
+		$groupsModel = new THM_OrganizerModelGroups;
 
 		if (!isset($assetId) && $assetId == "")
 		{
@@ -221,7 +221,7 @@ class THM_OrganizerModelCurriculum extends JModelList
 	public function categoryChild($id, $semester)
 	{
 		$db = JFactory::getDBO();
-		$groupsModel = new THM_CurriculumModelGroups;
+		$groupsModel = new THM_OrganizerModelGroups;
 
 		$query = $db->getQuery(true);
 		$query->select("*, #__thm_organizer_assets_tree.ecollaboration_link as ecollaboration_link_instance,
@@ -389,7 +389,7 @@ class THM_OrganizerModelCurriculum extends JModelList
 		$mainframe = JFactory::getApplication();
 		$document = & JFactory::getDocument();
 		$db = JFactory::getDBO();
-		$groupsModel = new THM_CurriculumModelGroups;
+		$groupsModel = new THM_OrganizerModelGroups;
 
 		$id = JRequest::getVar('id');
 		$this->majorID = $id;

@@ -72,12 +72,12 @@ class THM_OrganizerControllerDummy_Mapping extends JControllerForm
 	 * Method to get the table
 	 *
 	 * @param   String  $type    Type		    (default: 'mapping')
-	 * @param   String  $prefix  Prefix  		(default: 'THM_curriculumTable')
+	 * @param   String  $prefix  Prefix  		(default: 'THM_OrganizerTable')
 	 * @param   Array   $config  Configuration  (default: Array)
 	 *
 	 * @return  Object
 	 */
-	public function getTable($type = 'mapping', $prefix = 'THM_curriculumTable', $config = array())
+	public function getTable($type = 'mapping', $prefix = 'THM_OrganizerTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}

@@ -14,6 +14,9 @@
 
 // No direct access to this file
 defined('_JEXEC') or die;
+
+$listOrder	= $this->state->get('list.ordering');
+$listDirn	= $this->state->get('list.direction');
 ?>
 <tr>
 	<td colspan="7"><?php echo $this->pagination->getListFooter(); ?></td>

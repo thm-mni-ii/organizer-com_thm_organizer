@@ -34,11 +34,11 @@ class THM_OrganizerControllerSoapqueries extends JControllerAdmin
 	 * Method to get the model
 	 *
 	 * @param   String  $name    Name	 (default: 'soapqueries')
-	 * @param   String  $prefix  Prefix  (default: 'THM_CurriculumModel')
+	 * @param   String  $prefix  Prefix  (default: 'THM_OrganizerModel')
 	 *
 	 * @return  Object
 	 */
-	public function getModel($name = 'soapqueries', $prefix = 'THM_CurriculumModel')
+	public function getModel($name = 'soapqueries', $prefix = 'THM_OrganizerModel')
 	{
 		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
 		return $model;

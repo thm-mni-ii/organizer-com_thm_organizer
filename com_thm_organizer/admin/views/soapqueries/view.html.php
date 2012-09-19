@@ -42,7 +42,7 @@ class THM_OrganizersViewSoapqueries extends JView
 		JToolBarHelper::addNew('soapquery.add', 'JTOOLBAR_NEW');
 		JToolBarHelper::editList('soapquery.edit', 'JTOOLBAR_EDIT');
 		JToolBarHelper::deleteList('', 'soapquery.delete', 'JTOOLBAR_DELETE');
-
+		
 		$this->items = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
 		$this->state = $this->get('State');

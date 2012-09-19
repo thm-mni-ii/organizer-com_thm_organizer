@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerModelAssets
- * @description THM_OrganizerModelAssets component admin model
+ * @name		THM_OrganizersModelAssets
+ * @description THM_OrganizersModelAssets component admin model
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -18,7 +18,7 @@ jimport('joomla.application.component.modellist');
 
 
 /**
- * Class THM_OrganizerModelAssets for component com_thm_organizer
+ * Class THM_OrganizersModelAssets for component com_thm_organizer
  *
  * Class provides methods to deal with assets
  *
@@ -28,7 +28,7 @@ jimport('joomla.application.component.modellist');
  * @link        www.mni.thm.de
  * @since       v1.5.0
  */
-class THM_OrganizerModelAssets extends JModelList
+class THM_OrganizersModelAssets extends JModelList
 {
 
 	/**
@@ -457,7 +457,7 @@ class THM_OrganizerModelAssets extends JModelList
 	public function setCourse($courseId)
 	{
 		// Get a instance of the details model
-		$modelDetails = new THM_OrganizerModeldetails;
+		$modelDetails = new THM_OrganizersModeldetails;
 
 		// A course object is being requested by the given curriculum-course id
 		$modul = $modelDetails->getModuleByID($courseId);

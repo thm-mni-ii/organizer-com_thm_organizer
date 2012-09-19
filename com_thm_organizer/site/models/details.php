@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.site
- * @name		THM_CurriculumModeldetails
- * @description THM_CurriculumModeldetails component site model
+ * @name		THM_OrganizerModeldetails
+ * @description THM_OrganizerModeldetails component site model
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -24,7 +24,7 @@ require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'h
 require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'models/groups.php';
 
 /**
- * Class THM_CurriculumModeldetails for component com_thm_organizer
+ * Class THM_OrganizerModeldetails for component com_thm_organizer
  *
  * Class provides methods to get details about modules
  *
@@ -113,7 +113,7 @@ class THM_OrganizerModeldetails extends JModel
 		$globParams = &JComponentHelper::getParams('com_thm_organizer');
 
 		// Get the necessary instances
-		$model = new THM_CurriculumModelGroups;
+		$model = new THM_OrganizerModelGroups;
 		$config = $model->getLsfConfiguration();
 
 		// Perform a soap request, in order to get all courses based on the chosen component configuration
