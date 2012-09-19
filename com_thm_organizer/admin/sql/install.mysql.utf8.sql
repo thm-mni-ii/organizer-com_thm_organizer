@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_groups` (
   `eventID` int(11) unsigned NOT NULL,
   `groupID` int(11) unsigned NOT NULL,
   FOREIGN KEY (`eventID`) REFERENCES `#__thm_organizer_events` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (`groupID`) REFERENCES `#__usergroups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `groupID` (`groupID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_monitors` (
