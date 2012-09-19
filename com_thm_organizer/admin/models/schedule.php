@@ -85,6 +85,7 @@ class thm_organizersModelschedule
         $resources   = array();
 
         // General node
+        // Creation Date & Time
         $creationDate = trim((string) $xmlSchedule[0]['date']);
         if (empty($creationDate))
         {
@@ -97,12 +98,54 @@ class thm_organizersModelschedule
         $creationTime = trim((string) $xmlSchedule[0]['date']);
         if (empty($creationTime))
         {
-            $errors[] = JText::_("COM_THM_ORGANIZER_SCH_CREATION_TIME_MISSING");
+            $warnings[] = JText::_("COM_THM_ORGANIZER_SCH_CREATION_TIME_MISSING");
         }
         else
         {
             $schedule['creationtime'] = $creationTime;
         }
+        
+        // Schoolyear dates
+        $syStartDate = trim((string) $xmlSchedule->general->termbegindate);
+        if (empty($syStartDate))
+        {
+            $errors[] = JText::_("COM_THM_ORGANIZER_SCH_START_DATE_MISSING");
+        }
+        else
+        {
+            $syStartDate = substr($syStartDate, 0, 4) . '-' . substr($syStartDate, 4, 2) . '-' . substr($syStartDate, 6, 2);
+        }
+        $syEndDate = trim((string) $xmlSchedule->general->termenddate);
+        if (empty($syEndDate))
+        {
+            $errors[] = JText::_("COM_THM_ORGANIZER_SCH_END_DATE_MISSING");
+        }
+        else
+        {
+            $syEndDate = substr($syEndDate, 0, 4) . '-' . substr($syEndDate, 4, 2) . '-' . substr($syEndDate, 6, 2);
+        }
+
+        // Organizational Data
+        $departmentname = trim((string) $xmlSchedule->general->header1);
+        if (empty($departmentname))
+        {
+            $errors[] = JText::_("COM_THM_ORGANIZER_SCH_ORGANIZATION_MISSING");
+        }
+        else
+        {
+            $schedule['departmentname'] = $departmentname;
+        }
+        $planningperiod = trim((string) $xmlSchedule->general->header2);
+        if (empty($planningperiod))
+        {
+            $errors[] = JText::_("COM_THM_ORGANIZER_SCH_SCHOOLYEARNAME_MISSING");
+        }
+        else
+        {
+            $schedule['planningperiod'] = $planningperiod;
+        }
+
+        // Term Start & Enddates
         $startDate = trim((string) $xmlSchedule->general->termbegindate);
         if (empty($startDate))
         {
@@ -121,15 +164,15 @@ class thm_organizersModelschedule
         {
             $schedule['enddate'] = substr($endDate, 0, 4) . '-' . substr($endDate, 4, 2) . '-' . substr($endDate, 6, 2);
         }
-        $departmentname = trim((string) $xmlSchedule->general->header1);
-        if (empty($departmentname))
+
+        // Checks if term and schoolyear dates are consistent
+        $syStartDate = strtotime($syStartDate);
+        $syEndDate = strtotime($syEndDate);
+        $termStartDT = strtotime($schedule['startdate']);
+        $termEndDT = strtotime($schedule['enddate']);
+        if ($termStartDT < $syStartDate OR $termEndDT > $syEndDate OR $termStartDT >= $termEndDT)
         {
-            $errors[] = JText::_("COM_THM_ORGANIZER_SCH_ORGANIZATION_MISSING");
-        }
-        $planningperiod = trim((string) $xmlSchedule->general->header2);
-        if (empty($planningperiod))
-        {
-            $errors[] = JText::_("COM_THM_ORGANIZER_SCH_SCHOOLYEARNAME_MISSING");
+            $errors[] = JText::sprintf('COM_THM_ORGANIZER_SCH_DATES_INCONSISTANT');
         }
 
         $periods = array();
@@ -177,7 +220,7 @@ class thm_organizersModelschedule
         unset($modulesModel);
 
         $calendar = empty($errors)?
-            $this->initializeCalendar($periods, $schedule['startdate'], $schedule['enddate']) : array();
+            $this->initializeCalendar($periods, $schedule['startdate'], $schedule['enddate'], $syStartDate, $syEndDate) : array();
         $lessons = array();
         $lessonsModel = new thm_organizersModellesson;
         $lessonsModel->validate($xmlSchedule->lessons, $lessons, $errors, $warnings, $resources, $calendar);
@@ -203,19 +246,35 @@ class thm_organizersModelschedule
     /**
      * Creates an array with dates as indexes for the days of the given planning period
      * 
-     * @param   array   &$periods   the periods as defined in the schedule
-     * @param   string  $startdate  the date upon which the planning period begins
-     * @param   string  $enddate    the date upon which the planning period ends
+     * @param   array   &$periods     the periods as defined in the schedule
+     * @param   string  $startdate    the date upon which the planning period begins
+     * @param   string  $enddate      the date upon which the planning period ends
+     * @param   string  $syStartDate  the date upon which the school year begins
+     * @param   string  $syEndDate    the date upon which the school year ends
      * 
      * @return   array  $calendar  array containing indies for all of the days
      *                             and periods for a planning period
      *                             [<DATE 'Y-m-d'>][<PERIOD int(1)>] = array()
      */
-    private function initializeCalendar(&$periods, $startdate, $enddate)
+    private function initializeCalendar(&$periods, $startdate, $enddate, $syStartDate, $syEndDate)
     {
        $calendar = array();
        $startDT = strtotime($startdate);
        $endDT = strtotime($enddate);
+       
+       // 86400 is the number of seconds in a day 24 * 60 * 60
+       // Calculate the days between schoolyear start and term start
+       $frontOffset = floor(($startDT - $syStartDate) / 86400);
+       $calendar['offset'] = $frontOffset;
+       
+       // Calculate the schoolyear length
+       $syLength = floor(($syEndDate - $syEndDate) / 86400);
+       $calendar['sylength'] = $syLength;
+
+       // Calculate the length off the planning period
+       $termLength = floor(($endDT - $startDT) / 86400);
+       $calendar['termlength'] = $termLength;
+       
        for ($currentDT = $startDT; $currentDT <= $endDT; )
        {
            // Create an index for the date
@@ -231,6 +290,9 @@ class thm_organizersModelschedule
                    $calendar[$currentDate][$period['period']] = array();
                }
            }
+           
+           // Raise the iterator
+           $currentDT = strtotime('+1 day', $currentDT);
        }
        return $calendar;
     }
