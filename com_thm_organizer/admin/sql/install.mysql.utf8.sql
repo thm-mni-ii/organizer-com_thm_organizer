@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_events` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL,
   `categoryID` int(11) unsigned NOT NULL,
   `startdate` date NOT NULL DEFAULT '0000-00-00',
   `enddate` date DEFAULT NULL,
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_events` (
   `recurrence_days` varchar(7) NOT NULL DEFAULT '0000000',
   `recurrence_date` int(2) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`id`) REFERENCES `#__content`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (`id`) REFERENCES `#__content`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (`categoryID`) REFERENCES `#__thm_organizer_categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -131,14 +131,14 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_teachers` (
   `eventID` int(11) unsigned NOT NULL,
   `teacherID` int(11) unsigned NOT NULL,
   FOREIGN KEY (`eventID`) REFERENCES `#__thm_organizer_events` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (`teacherID`) REFERENCES `#__thm_organizer_tteachers` (`teacherID`) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (`teacherID`) REFERENCES `#__thm_organizer_teachers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_rooms` (
   `eventID` int(11) unsigned NOT NULL,
   `roomID` int(11) unsigned NOT NULL,
   FOREIGN KEY (`eventID`) REFERENCES `#__thm_organizer_events` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (`roomID`) REFERENCES `#__thm_organizer_rooms` (`roomID`) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (`roomID`) REFERENCES `#__thm_organizer_rooms` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_groups` (
@@ -150,13 +150,13 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_groups` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_monitors` (
   `monitorID` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `roomID` varchar(11) NOT NULL,
+  `roomID` int(11) unsigned NOT NULL,
   `ip` varchar(15) NOT NULL,
   `display` INT(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT 'the display behaviour of the monitor',
   `interval` INT(1) UNSIGNED NOT NULL DEFAULT'1' COMMENT 'the time interval in minutes between context switches',
   `content` VARCHAR(256) DEFAULT NULL COMMENT 'the filename of the resource to the optional resource to be displayed',
   PRIMARY KEY (`monitorID`),
-  FOREIGN KEY (`roomID`) REFERENCES `#__thm_organizer_rooms` (`roomID`) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (`roomID`) REFERENCES `#__thm_organizer_rooms` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- behaviours 1 plan 2 mixed 3 content 4 event
