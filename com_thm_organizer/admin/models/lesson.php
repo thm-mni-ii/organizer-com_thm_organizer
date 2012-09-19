@@ -1,180 +1,267 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_thm_organizer
- * @name        model lesson
- * @description data abstraction class for lessons
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * @copyright   TH Mittelhessen 2011
- * @license     GNU GPL v.2
- * @link        www.mni.thm.de
- * @version     1.7.0
+ *@category    component
+ * 
+ *@package     THM_Organizer
+ * 
+ *@subpackage  com_thm_organizer
+ *@name        lesson specific business logic and database abstraction
+ *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ * 
+ *@copyright   2012 TH Mittelhessen
+ * 
+ *@license     GNU GPL v.2
+ *@link        www.mni.thm.de
+ *@version     0.1.0
  */
 defined('JPATH_PLATFORM') or die;
-require_once JPATH_COMPONENT.'/models/modelresource.php';
-jimport('joomla.application.component.model');
+require_once JPATH_COMPONENT . '/models/modelresource.php';
+/**
+ * Class defining functions to be used for lesson resources
+ * 
+ * @package  Admin
+ * 
+ * @since    2.5.4 
+ */
 class thm_organizersModellesson extends thm_organizersModelresource
 {
     /**
-     * validateXML
-     *
      * checks whether the parent node is empty and iterates over its childeren
      *
-     * @param SimpleXMLNode $lessonsnode the lessons node to be validated
-     * @param array $lessons not used
-     * @param array $errors contains strings explaining critical data inconsistancies
-     * @param array $warnings contains strings explaining minor data inconsistancies
-     * @param array $resources arrays containing resource data
+     * @param   SimpleXMLNode  &$lessonsnode  the lessons node to be validated
+     * @param   array          &$lessons      models the data in $lessonsnode
+     * @param   array          &$errors       contains strings explaining critical data inconsistancies
+     * @param   array          &$warnings     contains strings explaining minor data inconsistancies
+     * @param   array          &$resources    arrays containing resource data
+     * @param   array          &$calendar     array containing lesson instance data
+     * 
+     * @return void
      */
-    protected function validateXML(&$lessonsnode, &$lessons, &$errors, &$warnings, &$resources)
+    protected function validate(&$lessonsnode, &$lessons, &$errors, &$warnings, &$resources, &$calendar)
     {
-        if(empty($lessonsnode)) $errors[] = JText::_("COM_THM_ORGANIZER_SCH_LS_MISSING");
-        else foreach( $lessonsnode->children() as $lessonnode )
-                $this->validateXMLChild($lessonnode, $lessons, $errors, $warnings, $resources);
+        if (empty($lessonsnode))
+        {
+            $errors[] = JText::_("COM_THM_ORGANIZER_SCH_LS_MISSING");
+        }
+        else
+        {
+            foreach ( $lessonsnode->children() as $lessonnode )
+            {
+                $this->validateChild($lessonnode, $lessons, $errors, $warnings, $resources, $calendar);
+            }
+        }
     }
 
     /**
-     * validateXMLChild
-     *
      * checks whether lesson nodes have the expected structure and required
      * information
      *
-     * @param SimpleXMLNode $lessonnode the lesson node to be validated
-     * @param array $lessons not used
-     * @param array $errors contains strings explaining critical data inconsistancies
-     * @param array $warnings contains strings explaining minor data inconsistancies
-     * @param array $resources arrays containing resource data
+     * @param   SimpleXMLNode  &$lessonnode  the lesson node to be validated
+     * @param   array          &$lessons     not used
+     * @param   array          &$errors      contains strings explaining critical data inconsistancies
+     * @param   array          &$warnings    contains strings explaining minor data inconsistancies
+     * @param   array          &$resources   arrays containing resource data
+     * @param   array          &$calendar    array containing lesson instance data
+     * 
+     * @return void
      */
-    protected function validateXMLChild(&$lessonnode, &$lessons, &$errors, &$warnings, &$resources)
+    protected function validateChild(&$lessonnode, &$lessons, &$errors, &$warnings, &$resources, &$calendar)
     {
-        $subjects = $resources['subjects'];
-        $teachers = $resources['teachers'];
-        $classes = $resources['classes'];
-        $periods = $resources['periods'];
-        $rooms = $resources['rooms'];
-        
-        $id = trim((string)$lessonnode[0]['id']);
-        $id = substr($id, 0, strlen($id)-2);
-        if(empty($id))
+        $descriptions = $resources['descriptions'];
+        $subjects     = $resources['subjects'];
+        $teachers     = $resources['teachers'];
+        $modules      = $resources['modules'];
+        $periods      = $resources['periods'];
+        $rooms        = $resources['rooms'];
+
+        $gpuntisID = trim((string) $lessonnode[0]['id']);
+        if (empty($gpuntisID))
         {
-            if(!in_array(JText::_("COM_THM_ORGANIZER_LS_ID_MISSING"), $errors))
+            if (!in_array(JText::_("COM_THM_ORGANIZER_LS_ID_MISSING"), $errors))
+            {
                 $errors[] = JText::_("COM_THM_ORGANIZER_LS_ID_MISSING");
+            }
             return;
         }
-        $error_start = JText::_("COM_THM_ORGANIZER_LS");
-        $lesson_name = "";
-        $subjectID = (string)$lessonnode->lesson_subject[0]['id'];
-        if(empty($subjectID))
+        $lessonID = str_replace('LS_', '', $gpuntisID);
+        $lessonID = substr($lessonID, 0, strlen($lessonID) - 2);
+        if (!isset($lessons[$lessonID]))
         {
-            $error = $error_start." $id ";
-            $error .= JText::_("COM_THM_ORGANIZER_LS_SU_MISSING");
-            $errors[] = $error;
-            return;
+            $lessons[$lessonID] = array();
         }
-        else if(empty($subjects[$subjectID]))
+        $lessons[$lessonID]['gpuntisID'] = $gpuntisID;
+
+        $subjectID = str_replace('SU_', '', trim((string) $lessonnode->lesson_subject[0]['id']));
+        if (empty($subjectID))
         {
-            $error = $error_start." $id ";
-            $error .= JText::_("COM_THM_ORGANIZER_LS_SU_LACKING")." $subjectID.";
-            $errors[] = $error;
+            $errors[] = JText::sprintf("COM_THM_ORGANIZER_LS_SU_MISSING", $lessonID);
             return;
         }
-        else $lesson_name = $subjects[$subjectID]['longname'];
-        $error_start .= " $lesson_name ($id) ";
-        $teacherID = (string)$lessonnode->lesson_teacher[0]['id'];
-        if(empty($teacherID))
-            $errors[] = $error_start.JText::_("COM_THM_ORGANIZER_LS_TR_MISSING");
-        else if(empty($teachers[$teacherID]))
-            $errors[] = $error_start.JText::_("COM_THM_ORGANIZER_LS_TR_LACKING")." $teacherID.";
-        $classIDs = (string)$lessonnode->lesson_classes[0]['id'];
-        if(empty($classIDs))
-            $errors[] = $error_start.JText::_("COM_THM_ORGANIZER_LS_CL_MISSING");
+        elseif (empty($subjects[$subjectID]))
+        {
+            $errors[] = JText::sprintf("COM_THM_ORGANIZER_LS_SU_LACKING", $lessondID, $subjectID);
+            return;
+        }
+        if (!isset($lessons[$lessonID]['subjects']))
+        {
+            $lessons[$lessonID]['subjects'] = array();
+        }
+        if (!key_exists($subjectID, $lessons[$lessonID]['subjects']))
+        {
+            $lessons[$lessonID]['subjects'][$subjectID] = $subjects[$subjectID]['longname'];
+        }
+        $lessonName = implode(' / ', $lessons[$lessonID]['subjects']);
+
+        /*$descriptionID = str_replace('DS_', '', trim((string) $lessonnode->lesson_description[0]['id']));
+        if (empty($descriptionID))
+        {
+            $errors[] = JText::sprintf("COM_THM_ORGANIZER_LS_DESC_MISSING", $lessonName, $lessonID);
+            return;
+        }
+        elseif (empty($descriptions[$descriptionID]))
+        {
+            $errors[] = JText::sprintf('COM_THM_ORGANIZER_LS_DESC_LACKING', $lessonName, $lessondID, $subjectID);
+            return;
+        }
+        if (!isset($lessons[$lessonID]['description']))
+        {
+            $lessons[$lessonID]['description'] = $descriptionID;
+        }
+        $lessonName = " - $descriptionID";
+        $lessons[$lessonID]['name'] = $lessonName;*/
+
+        $teacherID = str_replace('TR_', '', trim((string) $lessonnode->lesson_teacher[0]['id']));
+        if (empty($teacherID))
+        {
+            $errors[] = JText::sprintf('COM_THM_ORGANIZER_LS_TR_MISSING', $lessonName, $lessonID);
+            return;
+        }
+        elseif (empty($teachers[$teacherID]))
+        {
+            $errors[] = JText::sprintf('COM_THM_ORGANIZER_LS_TR_LACKING', $lessonName, $lessonID, $teacherID);
+            return;
+        }
+        if (!isset($lessons[$lessonID]['teachers']))
+        {
+            $lessons[$lessonID]['teachers'] = array();
+        }
+        if (!key_exists($teacherID, $lessons[$lessonID]['teachers']))
+        {
+            $lessons[$lessonID]['teachers'][$teacherID] = $teachers[$teacherID]['surname'];
+        }
+
+        $classIDs = (string) $lessonnode->lesson_classes[0]['id'];
+        if (empty($classIDs))
+        {
+            $errors[] = $error_start . JText::_("COM_THM_ORGANIZER_LS_CL_MISSING");
+        }
         else
         {
             $classIDs = explode(" ", $classIDs);
-            foreach($classIDs as $classID)
+            foreach ($classIDs as $classID)
             {
-                if(!key_exists($classID, $classes))
-                    $errors[] = $error_start.JText::_("COM_THM_ORGANIZER_LS_CL_LACKING")." $classID.";
+                if (!key_exists($classID, $classes))
+                {
+                    $errors[] = $error_start . JText::_("COM_THM_ORGANIZER_LS_CL_LACKING") . " $classID.";
+                }
             }
         }
         $lesson_type = $lessonnode->text1;
-        if(empty($lesson_type) AND !in_array($error_start.JText::_("COM_THM_ORGANIZER_LS_TYPE_MISSING"), $warnings))
-            $warnings[] = $error_start.JText::_("COM_THM_ORGANIZER_LS_TYPE_MISSING");
+        if (empty($lesson_type) AND !in_array($error_start . JText::_("COM_THM_ORGANIZER_LS_TYPE_MISSING"), $warnings))
+        {
+            $warnings[] = $error_start . JText::_("COM_THM_ORGANIZER_LS_TYPE_MISSING");
+        }
         $periodsleaf = trim($lessonnode->periods);
-        if(empty($periodsleaf))
-            $warnings[] = $error_start.JText::_("COM_THM_ORGANIZER_LS_TP_MISSING");
+        if (empty($periodsleaf))
+        {
+            $warnings[] = $error_start . JText::_("COM_THM_ORGANIZER_LS_TP_MISSING");
+        }
         $times = $lessonnode->times;
         $timescount = count($times->children());
-        if(isset($periods) and $periods != $timescount)
+        if (isset($periods) and $periods != $timescount)
         {
-            $warning = $error_start;
+            $warnings[] = $error_start;
         }
-        foreach($times->children() as $instance)
-                $this->validateInstance(&$instance, &$periods, &$rooms, &$errors, $error_start);
+        foreach ($times->children() as $instance)
+        {
+                $this->validateInstance(&$instance, &$periods, &$rooms, &$errors, $calendar);
+        }
     }
 
-
     /**
-     * validateInstance
-     *
      * checks whether lesson instance nodes have the expected structure and
      * required information
      *
-     * @param SimpleXMLNode $instance the lesson instance node to be validated
-     * @param array $periods array containing period data
-     * @param array $rooms array containing room data
-     * @param array $errors contains strings explaining critical data inconsistancies
-     * @param string $error_start string used for error texts
+     * @param   SimpleXMLNode  &$instance  the lesson instance node to be validated
+     * @param   array          &$periods   array containing period data
+     * @param   array          &$rooms     array containing room data
+     * @param   array          &$errors    contains strings explaining critical data inconsistancies
+     * @param   array          &$calendar  array containing lesson instance data
+     *
+     * @return void 
      */
-    private function validateInstance(&$instance, &$periods, &$rooms, &$errors, $error_start)
+    private function validateInstance(&$instance, &$periods, &$rooms, &$errors, &$calendar)
     {
-        $day = (string)$instance->assigned_day;
-        if(empty($day))
+        $day = (string) $instance->assigned_day;
+        if (empty($day))
         {
-            $error = $error_start.JText::_("COM_THM_ORGANIZER_LS_TP_DAY_MISSING");
-            if(!in_array($error, $errors))$errors[] = $error;
+            $error = $error_start . JText::_("COM_THM_ORGANIZER_LS_TP_DAY_MISSING");
+            if (!in_array($error, $errors))
+            {
+                $errors[] = $error;
+            }
         }
-        $period = (string)$instance->assigned_period;
-        if(empty($period))
+        $period = (string) $instance->assigned_period;
+        if (empty($period))
         {
-            $error = $error_start.JText::_("COM_THM_ORGANIZER_LS_TP_PERIOD_MISSING");
-            if(!in_array($error, $errors))$errors[] = $error;
+            $error = $error_start . JText::_("COM_THM_ORGANIZER_LS_TP_PERIOD_MISSING");
+            if (!in_array($error, $errors))
+            {
+                $errors[] = $error;
+            }
         }
-        if(isset($day) and isset($period) and empty($periods[$day][$period]))
+        if (isset($day) and isset($period) and empty($periods[$day][$period]))
         {
-            $error = $error_start.JText::_("COM_THM_ORGANIZER_LS_TP_LACKING");
-            $error .= JText::_("COM_THM_ORGANIZER_DAY").": $day ";
-            $error .= JText::_("COM_THM_ORGANIZER_TP").": $period";
+            $error = $error_start . JText::_("COM_THM_ORGANIZER_LS_TP_LACKING");
+            $error .= JText::_("COM_THM_ORGANIZER_DAY") . ": $day ";
+            $error .= JText::_("COM_THM_ORGANIZER_TP") . ": $period";
             $errors[] = $error;
         }
-        $roomID = (string)$instance->assigned_room[0]['id'];
-        if(empty($roomID))
+        $roomID = (string) $instance->assigned_room[0]['id'];
+        if (empty($roomID))
         {
-            $error = $error_start.JText::_("COM_THM_ORGANIZER_LS_TP_ROOM_MISSING");
-            if(!in_array($error, $errors))$errors[] = $error;
+            $error = $error_start . JText::_("COM_THM_ORGANIZER_LS_TP_ROOM_MISSING");
+            if (!in_array($error, $errors))
+            {
+                $errors[] = $error;
+            }
         }
-        else if(!key_exists($roomID, $rooms))
+        elseif (!key_exists($roomID, $rooms))
         {
-            $error = $error_start.JText::_("COM_THM_ORGANIZER_LS_TP_ROOM_LACKING")." $roomID.";
-            if(!in_array($error, $errors))$errors[] = $error;
+            $error = $error_start . JText::_("COM_THM_ORGANIZER_LS_TP_ROOM_LACKING") . " $roomID.";
+            if (!in_array($error, $errors))
+            {
+                $errors[] = $error;
+            }
         }
     }
 
-
     /**
-     * processData
-     *
      * iterates over lesson nodes, saves/updates lesson data
      *
-     * @param SimpleXMLNode $lessonsnode
-     * @param array $lessons models the data contained in $lessonsnode
-     * @param int $semesterID the id of the relevant planning period
-     * @param array $resources contains resource data
+     * @param   SimpleXMLNode  &$lessonsnode  ???
+     * @param   array          &$lessons      models the data contained in $lessonsnode
+     * @param   int            $semesterID    the id of the relevant planning period
+     * @param   array          &$resources    contains resource data
+     * 
+     * @return void
      */
     public function processData(&$lessonsnode, &$lessons, $semesterID, &$resources)
     {
-        foreach($lessonsnode->children() as $lessonnode)
+        foreach ($lessonsnode->children() as $lessonnode)
+        {
             $this->processNode($lessonnode, $lessons, $semesterID, $resources);
+        }
     }
 
     /**
@@ -182,25 +269,26 @@ class thm_organizersModellesson extends thm_organizersModelresource
      *
      * saves/updates lesson data
      *
-     * @param SimpleXMLNode $lessonnode
-     * @param array $lessons models the data contained in $lessonsnode
-     * @param int $semesterID the id of the relevant planning period
-     * @param array $resources contains resource data
+     * @param   SimpleXMLNode  &$lessonnode  ???
+     * @param   array          &$lessons     models the data contained in $lessonsnode
+     * @param   int            $semesterID   the id of the relevant planning period
+     * @param   array          &$resources   contains resource data
+     * 
+     * @return void
      */
     protected function processNode(&$lessonnode, &$lessons, $semesterID, &$resources)
     {
-        $dbo = JFactory::getDbo();
         $teachers = $resources['teachers'];
         $classes = $resources['classes'];
         $subjects = $resources['subjects'];
 
-        $gpuntisID = trim((string)$lessonnode[0]['id']);
+        $gpuntisID = trim((string) $lessonnode[0]['id']);
         $gpuntisID = substr($gpuntisID, 0, strlen($gpuntisID) - 2);
-        $subjectID = trim((string)$lessonnode->lesson_subject[0]['id']);
+        $subjectID = trim((string) $lessonnode->lesson_subject[0]['id']);
         $subjectID = $subjects[$subjectID]['id'];
-        $periodCount = trim((string)$lessonnode->periods);
-        $lessontype = substr(trim((string)$lessonnode->text1), 0, 32);
-        $comment = substr(trim((string)$lessonnode->text2), 0, 256);
+        $periodCount = trim((string) $lessonnode->periods);
+        $lessontype = substr(trim((string) $lessonnode->text1), 0, 32);
+        $comment = substr(trim((string) $lessonnode->text2), 0, 256);
         $comment = ($comment)? $comment : '';
 
         $lesson = JTable::getInstance('lessons', 'thm_organizerTable');
@@ -217,7 +305,7 @@ class thm_organizersModellesson extends thm_organizersModelresource
         $lesson->load($loadData);
         $lesson->save($data);
 
-        if(!isset($lessons[$gpuntisID]))
+        if (!isset($lessons[$gpuntisID]))
         {
             $lessons[$gpuntisID] = array();
             $lessons[$gpuntisID]['subjectID'] = $subjectID;
@@ -228,34 +316,40 @@ class thm_organizersModellesson extends thm_organizersModelresource
             $lessons[$gpuntisID]['periods'] = array();
         }
 
-        $teacherID = trim((string)$lessonnode->lesson_teacher[0]['id']);
+        $teacherID = trim((string) $lessonnode->lesson_teacher[0]['id']);
         $teacherID = $teachers[$teacherID]['id'];
         $this->saveRelation($lesson->id, 'teacherID', $teacherID, "#__thm_organizer_lesson_teachers");
-        if(!in_array($teacherID, $lessons[$gpuntisID]['teacherIDs']))
+        if (!in_array($teacherID, $lessons[$gpuntisID]['teacherIDs']))
+        {
             $lessons[$gpuntisID]['teacherIDs'][] = $teacherID;
+        }
 
-        $classIDs = trim((string)$lessonnode->lesson_classes[0]['id']);
+        $classIDs = trim((string) $lessonnode->lesson_classes[0]['id']);
         $classIDs = explode(" ", $classIDs);
-        foreach($classIDs as $classID)
+        foreach ($classIDs as $classID)
         {
             $this->saveRelation($lesson->id, 'classID', $classes[$classID]['id'], "#__thm_organizer_lesson_classes");
-            if(!in_array($classID, $lessons[$gpuntisID]['classIDs']))
+            if (!in_array($classID, $lessons[$gpuntisID]['classIDs']))
+            {
                 $lessons[$gpuntisID]['classIDs'][] = $classes[$classID]['id'];
+            }
         }
-        foreach($lessonnode->times->children() as $instance)
+        foreach ($lessonnode->times->children() as $instance)
+        {
             $this->processInstance($lesson, $instance, $lessons, $resources);
+        }
     }
 
     /**
-     * processRelation
-     *
      * a generic function for saving lesson - resource relation if non-existant
      *
-     * @param int $lessonID
-     * @param string $resourceName the column name of the resource in the
-     *                             relation table
-     * @param int $resourceID the id of the resource in its resource table
-     * @param string $tablename the name of the relation table
+     * @param   int     $lessonID      ???
+     * @param   string  $resourceName  the column name of the resource in the
+     *                                 relation table
+     * @param   int     $resourceID    the id of the resource in its resource table
+     * @param   string  $tablename     the name of the relation table
+     * 
+     * @return void
      */
     private function saveRelation($lessonID, $resourceName, $resourceID, $tablename)
     {
@@ -265,9 +359,9 @@ class thm_organizersModellesson extends thm_organizersModelresource
         $query->from("$tablename");
         $query->where("lessonID = '$lessonID'");
         $query->where("$resourceName = '$resourceID'");
-        $dbo->setQuery((string)$query);
+        $dbo->setQuery((string) $query);
         $count_relations = $dbo->loadResult();
-        if(!$count_relations)
+        if (!$count_relations)
         {
             $query = $dbo->getQuery(true);
             $statement = "$tablename ";
@@ -275,39 +369,45 @@ class thm_organizersModellesson extends thm_organizersModelresource
             $statement .= "VALUES ";
             $statement .= "( '$lessonID', '$resourceID' ) ";
             $query->insert($statement);
-            $dbo->setQuery((string)$query);
+            $dbo->setQuery((string) $query);
             $dbo->query();
         }
     }
 
     /**
-     * processInstance
-     *
      * saves a lesson instance and models instance data in $lessons
      *
-     * @param JTableObject $lesson
-     * @param SimpleXMLNode $instance contains data about a module instance
-     * @param array $lessons models the data contained in $lessonsnode
-     * @param array $resources contains resource data
+     * @param   JTableObject   &$lesson     ???
+     * @param   SimpleXMLNode  &$instance   contains data about a module instance
+     * @param   array          &$lessons    models the data contained in $lessonsnode
+     * @param   array          &$resources  contains resource data
+     * 
+     * @return void
      */
     private function processInstance(&$lesson, &$instance, &$lessons, &$resources)
     {
         $periods = $resources['periods'];
         $rooms = $resources['rooms'];
 
-        $day = (int)$instance->assigned_day;
-        $period = (int)$instance->assigned_period;
+        $day = (int) $instance->assigned_day;
+        $period = (int) $instance->assigned_period;
         $periodID = $periods[$day][$period]['id'];
-        $roomID = trim((string)$instance->assigned_room[0]['id']);
+        $roomID = trim((string) $instance->assigned_room[0]['id']);
         $roomID = $rooms[$roomID]['id'];
         $this->saveInstance($lesson->id, $roomID, $periodID);
 
-        if(!isset($lessons[$lesson->gpuntisID]['periods'][$periodID]))
+        if (!isset($lessons[$lesson->gpuntisID]['periods'][$periodID]))
+        {
             $lessons[$lesson->gpuntisID]['periods'][$periodID] = array();
-        if(!isset($lessons[$lesson->gpuntisID]['periods'][$periodID]['roomIDs']))
+        }
+        if (!isset($lessons[$lesson->gpuntisID]['periods'][$periodID]['roomIDs']))
+        {
             $lessons[$lesson->gpuntisID]['periods'][$periodID]['roomIDs'] = array();
-        if(!in_array($roomID, $lessons[$lesson->gpuntisID]['periods'][$periodID]['roomIDs']))
+        }
+        if (!in_array($roomID, $lessons[$lesson->gpuntisID]['periods'][$periodID]['roomIDs']))
+        {
             $lessons[$lesson->gpuntisID]['periods'][$periodID]['roomIDs'][] = $roomID;
+        }
     }
 
     /**
@@ -315,9 +415,11 @@ class thm_organizersModellesson extends thm_organizersModelresource
      *
      * inserts lesson/period/room relation if not already existant
      *
-     * @param int $lessonID
-     * @param int $roomID
-     * @param int $periodID
+     * @param   int  $lessonID  ??
+     * @param   int  $roomID    ??
+     * @param   int  $periodID  ??
+     * 
+     * @return void
      */
     private function saveInstance($lessonID, $roomID, $periodID)
     {
@@ -329,10 +431,10 @@ class thm_organizersModellesson extends thm_organizersModelresource
         $query->where("lessonID = '$lessonID'");
         $query->where("roomID = '$roomID'");
         $query->where("periodID = '$periodID'");
-        $dbo->setQuery((string)$query);
+        $dbo->setQuery((string) $query);
         $count_times = $dbo->loadResult();
 
-        if(!$count_times)
+        if (!$count_times)
         {
             $query = $dbo->getQuery(true);
             $statement = "#__thm_organizer_lesson_times ";
@@ -340,7 +442,7 @@ class thm_organizersModellesson extends thm_organizersModelresource
             $statement .= "VALUES ";
             $statement .= "( '$lessonID', '$roomID', '$periodID' ) ";
             $query->insert($statement);
-            $dbo->setQuery((string)$query);
+            $dbo->setQuery((string) $query);
             $dbo->query();
         }
     }

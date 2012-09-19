@@ -1,145 +1,118 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_thm_organizer
- * @name        model period
- * @description data abstraction class for periods
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * @copyright   TH Mittelhessen 2011
- * @license     GNU GPL v.2
- * @link        www.mni.thm.de
- * @version     1.7.0
+ *@category    component
+ * 
+ *@package     THM_Organizer
+ * 
+ *@subpackage  com_thm_organizer
+ *@name        period specific business logic and database abstraction
+ *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ * 
+ *@copyright   2012 TH Mittelhessen
+ * 
+ *@license     GNU GPL v.2
+ *@link        www.mni.thm.de
+ *@version     0.1.0
  */
 defined('JPATH_PLATFORM') or die;
-require_once JPATH_COMPONENT.'/models/modelresource.php';
-jimport('joomla.application.component.model');
+require_once JPATH_COMPONENT . '/models/resource.php';
+/**
+ * Class defining functions to be used for period resources
+ * 
+ * @package  Admin
+ * 
+ * @since    2.5.4 
+ */
 class thm_organizersModelperiod extends thm_organizersModelresource
 {
     /**
-     * validateXML
+     * validates a set of periods
      *
-     * checks whether the periods node is empty and iterates over its childeren
-     *
-     * @param SimpleXMLNode $periodsnode the periods node to be validated
-     * @param array $periods a model of the data within the periods node
-     * @param array $errors contains strings explaining critical data inconsistancies
-     * @param array $warnings contains strings explaining minor data inconsistancies
-     * @param array $helper not used
+     * @param   SimpleXMLNode  &$periodsnode  a node containing of resource nodes
+     * @param   array          &$periods      models the data contained in the document
+     * @param   array          &$errors       contains strings explaining critical data inconsistancies
+     * 
+     * @return void
      */
-    protected function validateXML(&$periodsnode, &$periods, &$errors, &$warnings, &$helper = null)
+    protected function validate(&$periodsnode, &$periods, &$errors)
     {
-        if(empty($periodsnode)) $errors[] = JText::_("COM_THM_ORGANIZER_TP_MISSING");
-        else foreach( $periodsnode->children() as $periodnode )
-                $this->validateXMLChild ($periodnode, $periods, $errors, $warnings, $helper);
+        if (empty($periodsnode))
+        {
+            $errors[] = JText::_("COM_THM_ORGANIZER_TP_MISSING");
+        }
+        else
+        {
+            foreach ($periodsnode->children() as $periodnode)
+            {
+                $this->validateChild($periodnode, $periods, $errors);
+            }
+        }
     }
 
     /**
-     * validateXMLChild
+     * validates an individual period
      *
-     * checks whether period nodes have the expected structure and required
-     * information
-     *
-     * @param SimpleXMLNode $periodnode the period node to be validated
-     * @param array $periods a model of the data within the periods node
-     * @param array $errors contains strings explaining critical data inconsistancies
-     * @param array $warnings contains strings explaining minor data inconsistancies
-     * @param array $helper not used
+     * @param   SimpleXMLNode  &$periodnode  a resource node
+     * @param   array          &$periods     models the data contained in the periods
+     * @param   array          &$errors      contains strings explaining critical data inconsistancies
+     * 
+     * @return void
      */
-    protected function validateXMLChild(&$periodnode, &$periods, &$errors, &$warnings, &$helper = null)
+    protected function validateChild(&$periodnode, &$periods, &$errors)
     {
-        $id = trim((string)$periodnode[0]['id']);
-        if(empty($id))
+        $gpuntisID = trim((string) $periodnode[0]['id']);
+        $periodID = str_replace('TP_', '', $gpuntisID);
+        if (empty($gpuntisID))
         {
-            if(!in_array(JText::_("COM_THM_ORGANIZER_TP_ID_MISSING"), $errors))
-                    $errors[] = JText::_("COM_THM_ORGANIZER_TP_ID_MISSING");
+            if (!in_array(JText::_("COM_THM_ORGANIZER_TP_ID_MISSING"), $errors))
+            {
+                $errors[] = JText::_("COM_THM_ORGANIZER_TP_ID_MISSING");
+            }
             return;
         }
-        $day = (int)$periodnode->day;
-        if(empty($day))
+        $periods[$periodID] = array();
+        $periods[$periodID]['gpuntisID'] = $gpuntisID;
+
+        $day = (int) $periodnode->day;
+        if (empty($day))
         {
-            $error = JText::_("COM_THM_ORGANIZER_TP");
-            $error .= " $id ";
-            $error .= JText::_("COM_THM_ORGANIZER_TP_DAY_MISSING");
-            $errors[] = $error;
+            $errors[] = JText::sprintf("COM_THM_ORGANIZER_TP_DAY_MISSING", $id);
             continue;
         }
-        $period = (int)$periodnode->period;
-        if(empty($period))
+        else
         {
-            $error = JText::_("COM_THM_ORGANIZER_TP");
-            $error .= " $id ";
-            $error .= JText::_("COM_THM_ORGANIZER_TP_PERIOD_MISSING");
-            $errors[] = $error;
+            $periods[$periodID]['day'] = $day;
+        }
+
+        $period = (int) $periodnode->period;
+        if (empty($period))
+        {
+            $errors[] = JText::sprintf("COM_THM_ORGANIZER_TP_PERIOD_MISSING", $id);
             return;
         }
-        $periods[$day][$period]['id'] = $id;
-        $starttime = trim((string)$periodnode->starttime);
-        if(empty($starttime))
+        else
         {
-            $error = JText::_("COM_THM_ORGANIZER_TP");
-            $error .= " $id ";
-            $error .= JText::_("COM_THM_ORGANIZER_TP_STARTTIME_MISSING");
-            $errors[] = $error;
+            $periods[$periodID]['period'] = $period;
         }
-        else $periods[$day][$period]['starttime'] = $starttime;
-        $endtime = trim((string)$periodnode->endtime);
-        if(empty($endtime))
+
+        $starttime = trim((string) $periodnode->starttime);
+        if (empty($starttime))
         {
-            $error = JText::_("COM_THM_ORGANIZER_TP");
-            $error .= " $id ";
-            $error .= JText::_("COM_THM_ORGANIZER_TP_ENDTIME_MISSING");
-            $errors[] = $error;
+            $errors[] = JText::sprintf("COM_THM_ORGANIZER_TP_STARTTIME_MISSING", $id);
         }
-        else $periods[$day][$period]['endtime'] = $endtime;
-    }
+        else
+        {
+            $periods[$periodID]['starttime'] = $starttime;
+        }
 
-    /**
-     * processData
-     *
-     * iterates over period nodes, saves/updates periods
-     *
-     * @param SimpleXMLNode $periodsnode
-     * @param array $periods array modeling period information in the Node
-     */
-    public function processData(&$periodsnode, &$periods)
-    {
-        foreach($periodsnode->children() as $periodnode)
-            $this->processNode($periodnode, $periods);
-    }
-
-    /**
-     * processNode
-     *
-     * saves/updates resource data
-     *
-     * @param SimpleXMLNode $periodnode
-     * @param array $periods models the data contained in $element
-     */
-    protected function processNode(&$periodnode, &$periods)
-    {
-        $gpuntisID = trim((string)$periodnode[0]['id']);
-        $day = (int)$periodnode->day;
-        $period = (int)$periodnode->period;
-        $starttime = trim((string)$periodnode->starttime);
-        $starttime = substr($starttime, 0, 2).":".substr($starttime, 2, 2).":00";
-        $endtime = trim((string)$periodnode->endtime);
-        $endtime = substr($endtime, 0, 2).":".substr($endtime, 2, 2).":00";
-
-        $periodTable = JTable::getInstance('periods', 'thm_organizerTable');
-        $loadData = array('gpuntisID' => $gpuntisID);
-        $data = array('gpuntisID' => $gpuntisID,
-                      'day' => $day,
-                      'period' => $period,
-                      'starttime' => $starttime,
-                      'endtime' => $endtime);
-        $periodTable->load($loadData);
-        $periodTable->save($data);
-
-        if(!isset($periods[$day])) $periods[$day] = array();
-        $periods[$day][$period] = array();
-        $periods[$day][$period]['id'] = $periodTable->id;
-        $periods[$day][$period]['gpuntisID'] = $gpuntisID;
-        $periods[$day][$period]['starttime'] = $starttime;
-        $periods[$day][$period]['endtime'] = $endtime;
+        $endtime = trim((string) $periodnode->endtime);
+        if (empty($endtime))
+        {
+            $errors[] = JText::sprintf("COM_THM_ORGANIZER_TP_ENDTIME_MISSING", $id);
+        }
+        else
+        {
+            $periods[$periodID]['endtime'] = $endtime;
+        }
     }
 }

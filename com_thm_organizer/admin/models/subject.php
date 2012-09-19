@@ -1,127 +1,118 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_thm_organizer
- * @name        model subject
- * @description data abstraction class for subjects
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * @copyright   TH Mittelhessen 2011
- * @license     GNU GPL v.2
- * @link        www.mni.thm.de
- * @version     1.7.0
+ *@category    component
+ * 
+ *@package     THM_Organizer
+ * 
+ *@subpackage  com_thm_organizer
+ *@name        subject specific business logic and database abstraction
+ *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ * 
+ *@copyright   2012 TH Mittelhessen
+ * 
+ *@license     GNU GPL v.2
+ *@link        www.mni.thm.de
+ *@version     0.1.0
  */
 defined('JPATH_PLATFORM') or die;
-require_once JPATH_COMPONENT.'/models/modelresource.php';
-jimport('joomla.application.component.model');
+require_once JPATH_COMPONENT . '/models/modelresource.php';
+/**
+ * Class defining functions to be used for teacher resources
+ * 
+ * @package  Admin
+ * 
+ * @since    2.5.4 
+ */
 class thm_organizersModelsubject extends thm_organizersModelresource
 {
     /**
-     * validateXML
-     *
      * checks whether the subjects node is empty and iterates over its childeren
      *
-     * @param SimpleXMLNode $subjectsnode the subjects node to be validated
-     * @param array $subjects a model of the data within the subjects node
-     * @param array $errors contains strings explaining critical data inconsistancies
-     * @param array $warnings contains strings explaining minor data inconsistancies
-     * @param array $helper not used
+     * @param   SimpleXMLNode  &$subjectsnode  the subjects node to be validated
+     * @param   array          &$subjects      a model of the data within the subjects node
+     * @param   array          &$errors        contains strings explaining critical data inconsistancies
+     * @param   array          &$warnings      contains strings explaining minor data inconsistancies
+     * @param   array          &$descriptions  array containing description data
+     * 
+     * @return void
      */
-    protected function validateXML(&$subjectsnode, &$subjects, &$errors, &$warnings, &$helper = null)
+    protected function validate(&$subjectsnode, &$subjects, &$errors, &$warnings, &$descriptions)
     {
-        if(empty($subjectsnode)) $errors[] = JText::_("COM_THM_ORGANIZER_SU_MISSING");
-        else foreach( $subjectsnode->children() as $subjectnode )
-                $this->validateXMLChild ($subjectnode, $subjects, $errors, $warnings, $helper);
+        if (empty($subjectsnode))
+        {
+            $errors[] = JText::_("COM_THM_ORGANIZER_SU_MISSING");
+        }
+        else
+        {
+            foreach ($subjectsnode->children() as $subjectnode)
+            {
+                $this->validateChild($subjectnode, $subjects, $errors, $warnings, $descriptions);
+            }
+        }
     }
 
     /**
-     * validateXMLChild
-     *
      * checks whether subject nodes have the expected structure and required
      * information
      *
-     * @param SimpleXMLNode $subjectnode the subject node to be validated
-     * @param array $subjects a model of the data within the subjects node
-     * @param array $errors contains strings explaining critical data inconsistancies
-     * @param array $warnings contains strings explaining minor data inconsistancies
-     * @param array $helper not used
+     * @param   SimpleXMLNode  &$subjectnode   the subject node to be validated
+     * @param   array          &$subjects      a model of the data within the subjects node
+     * @param   array          &$errors        contains strings explaining critical data inconsistancies
+     * @param   array          &$warnings      contains strings explaining minor data inconsistancies
+     * @param   array          &$descriptions  not used
+     * 
+     * @return void
      */
-    protected function validateXMLChild(&$subjectnode, &$subjects, &$errors, &$warnings, &$helper = null)
+    protected function validateChild(&$subjectnode, &$subjects, &$errors, &$warnings, &$descriptions = null)
     {
-        $id = trim((string)$subjectnode[0]['id']);
-        if(empty($id))
+        $gpuntisID = trim((string) $subjectnode[0]['id']);
+        if (empty($gpuntisID))
         {
-            if(!in_array(JText::_("COM_THM_ORGANIZER_SU_ID_MISSING"), $errors))
+            if (!in_array(JText::_("COM_THM_ORGANIZER_SU_ID_MISSING"), $errors))
+            {
                 $errors[] = JText::_("COM_THM_ORGANIZER_SU_ID_MISSING");
+            }
             return;
         }
-        $longname = trim((string)$subjectnode->longname);
-        if(empty($longname))
+        $subjectID = str_replace('SU_', '', $gpuntisID);
+        $subjects[$subjectID] = array();
+        $subjects[$subjectID]['gpuntisID'] = $gpuntisID;
+        $subjects[$subjectID]['name'] = $subjectID;
+
+        $longname = trim((string) $subjectnode->longname);
+        if (empty($longname))
         {
-            $error = JText::_("COM_THM_ORGANIZER_SU");
-            $error .= " $id ";
-            $error .= JText::_("COM_THM_ORGANIZER_SU_LN_MISSING");
-            $errors[] = $error;
+            $errors[] = JText::sprintf('COM_THM_ORGANIZER_SU_LN_MISSING', $subjectID);
             return;
         }
-        else $subjects[$id]['longname'] = $longname;
-        $subjectgroup = trim($subjectnode->subjectgroup);
-        if(!empty($subjectgroup)) $subjects[$id]['subjectgroup'] = $subjectgroup;
         else
         {
-            $warning = JText::_("COM_THM_ORGANIZER_SU");
-            $warning .= " $longname ($id) ";
-            $warning .= JText::_("COM_THM_ORGANIZER_SU_MN_MISSING");
-            $warnings[] = $warning;
+            $subjects[$subjectID]['longname'] = $longname;
+        }
+
+        $subjectNo = trim((string) $subjectnode->text);
+        if (empty($subjectNo))
+        {
+            $warnings[] = JText::sprintf('COM_THM_ORGANIZER_SU_MN_MISSING', $subjectID);
+        }
+        else
+        {
+            $subjects[$subjectID]['subjectNo'] = $subjectgroup;
+        }
+
+        $descriptionID = str_replace('DS_', '', trim($subjectnode->subject_description[0]['id']));
+        if (empty($descriptionID))
+        {
+            $warnings[] = JText::sprintf('COM_THM_ORGANIZER_SU_AREA_MISSING', $subjectID);
+        }
+        elseif (empty($descriptions[$descriptionID]))
+        {
+            $errors[] = JText::sprintf("COM_THM_ORGANIZER_SCH_SU_DESC_MISSING", $subjectID, $descriptionID);
+            return;
+        }
+        else
+        {
+            $subjects[$subjectID]['description'] = $descriptionID;
         }
     }
-
-    /**
-     * processData
-     *
-     * iterates over subject nodes, saves/updates subject data
-     *
-     * @param SimpleXMLNode $subjectsnode
-     * @param array $subjects models the data contained in $subjectsnode
-     * @param int $semesterID not used
-     * @param array $helper not used
-     */
-    public function processData(&$subjectsnode, &$subjects, $semesterID = 0, &$helper = null)
-    {
-        foreach($subjectsnode->children() as $subjectnode)
-            $this->processNode($subjectnode, $subjects);
-    }
-
-    /**
-     * processNode
-     *
-     * saves/updates subjectdata
-     *
-     * @param SimpleXMLNode $subjectnode
-     * @param array $subjects models the data contained in $subjectsnode
-     * @param int $semesterID not used
-     * @param array $helper not used
-     */
-    protected function processNode(&$subjectnode, &$subjects, $semesterID = 0, &$helper = null)
-    {
-        $gpuntisID = trim((string)$subjectnode[0]['id']);
-        $name = str_replace("SU_","",$gpuntisID);
-        $longname = trim((string)$subjectnode->longname);
-        $moduleID = ($subjectnode->subjectgroup)? trim($subjectnode->subjectgroup) : "";
-
-        $subject = JTable::getInstance('subjects', 'thm_organizerTable');
-        $loadData = array('gpuntisID' => $gpuntisID);
-        $data = array('gpuntisID' => $gpuntisID,
-                      'name' => $name,
-                      'alias' => $longname,
-                      'moduleID' => $moduleID);
-        $subject->load($loadData);
-        $subject->save($data);
-        
-        $subjects[$gpuntisID] = array();
-        $subjects[$gpuntisID]['id'] = $subject->id;
-        $subjects[$gpuntisID]['name'] = $name;
-        $subjects[$gpuntisID]['longname'] = $longname;
-        $subjects[$gpuntisID]['moduleID'] = $moduleID;
-    }
 }
-

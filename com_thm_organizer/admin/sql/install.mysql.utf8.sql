@@ -1,7 +1,7 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `departmentname` varchar(50) NOT NULL,
   `semestername` varchar(50) NOT NULL,
   `creationdate` date DEFAULT NULL,

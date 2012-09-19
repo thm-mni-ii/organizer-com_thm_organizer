@@ -1,128 +1,125 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_thm_organizer
- * @name        model teacher
- * @description data abstraction class for teachers
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * @copyright   TH Mittelhessen 2011
- * @license     GNU GPL v.2
- * @link        www.mni.thm.de
- * @version     1.7.0
+ *@category    component
+ * 
+ *@package     THM_Organizer
+ * 
+ *@subpackage  com_thm_organizer
+ *@name        teacher specific business logic and database abstraction
+ *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ * 
+ *@copyright   2012 TH Mittelhessen
+ * 
+ *@license     GNU GPL v.2
+ *@link        www.mni.thm.de
+ *@version     0.1.0
  */
 defined('JPATH_PLATFORM') or die;
-require_once JPATH_COMPONENT.'/models/modelresource.php';
-jimport('joomla.application.component.model');
+require_once JPATH_COMPONENT . '/models/modelresource.php';
+/**
+ * Class defining functions to be used for teacher resources
+ * 
+ * @package  Admin
+ * 
+ * @since    2.5.4 
+ */
 class thm_organizersModelteacher extends thm_organizersModelresource
 {
     /**
-     * validateXML
-     *
      * checks whether the teachers node is empty and iterates over its childeren
      *
-     * @param SimpleXMLNode $teachersnode the teachers node to be validated
-     * @param array $teachers a model of the data within the teachers node
-     * @param array $errors contains strings explaining critical data inconsistancies
-     * @param array $warnings contains strings explaining minor data inconsistancies
-     * @param array $departments contains department resource data
+     * @param   SimpleXMLNode  &$teachersnode  the teachers node to be validated
+     * @param   array          &$teachers      a model of the data within the teachers node
+     * @param   array          &$errors        contains strings explaining critical data inconsistancies
+     * @param   array          &$warnings      contains strings explaining minor data inconsistancies
+     * @param   array          &$descriptions  contains department resource data
+     * 
+     * @return void
      */
-    protected function validateXML(&$teachersnode, &$teachers, &$errors, &$warnings, &$departments)
+    protected function validate(&$teachersnode, &$teachers, &$errors, &$warnings, &$descriptions)
     {
-        if(empty($teachersnode)) $errors[] = JText::_("COM_THM_ORGANIZER_TR_MISSING");
-        else foreach( $teachersnode->children() as $teachernode )
-                $this->validateXMLChild ($teachernode, $teachers, $errors, $warnings, $departments);
+        if (empty($teachersnode))
+        {
+            $errors[] = JText::_("COM_THM_ORGANIZER_TR_MISSING");
+        }
+        else
+        {
+            foreach ($teachersnode->children() as $teachernode)
+            {
+                $this->validateChild($teachernode, $teachers, $errors, $warnings, $descriptions);
+            }
+        }
     }
 
     /**
-     * validateXMLChild
-     *
      * checks whether teacher nodes have the expected structure and required
      * information
      *
-     * @param SimpleXMLNode $teachernode the teacher node to be validated
-     * @param array $teachers a model of the data within the teachers node
-     * @param array $errors contains strings explaining critical data inconsistancies
-     * @param array $warnings contains strings explaining minor data inconsistancies
-     * @param array $departments contains department resource data
+     * @param   SimpleXMLNode  &$teachernode   the teacher node to be validated
+     * @param   array          &$teachers      a model of the data within the teachers node
+     * @param   array          &$errors        contains strings explaining critical data inconsistancies
+     * @param   array          &$warnings      contains strings explaining minor data inconsistancies
+     * @param   array          &$descriptions  contains department resource data
+     * 
+     * @return void
      */
-    protected function validateXMLChild(&$teachernode, &$teachers, &$errors, &$warnings, &$departments)
+    protected function validateChild(&$teachernode, &$teachers, &$errors, &$warnings, &$descriptions)
     {
-        $id = trim((string)$teachernode[0]['id']);
-        if(empty($id))
+        $gpuntisID = trim((string) $teachernode[0]['id']);
+        if (empty($gpuntisID))
         {
-            if(!in_array(JText::_("COM_THM_ORGANIZER_TR_ID_MISSING"), $errors))
+            if (!in_array(JText::_("COM_THM_ORGANIZER_TR_ID_MISSING"), $errors))
+            {
                 $errors[] = JText::_("COM_THM_ORGANIZER_TR_ID_MISSING");
+            }
             return;
         }
-        $surname = trim((string)$teachernode->surname);
-        if(empty($surname))
+        $teacherID = str_replace('TR_', '', $gpuntisID);
+        $teachers[$teacherID] = array();
+        $teachers[$teacherID]['gpuntisID'] = $gpuntisID;
+
+        $surname = trim((string) $teachernode->surname);
+        if (empty($surname))
         {
-            $error = JText::_("COM_THM_ORGANIZER_TR");
-            $error .= " $name ($id) ";
-            $error .= JText::_("COM_THM_ORGANIZER_TR_SN_MISSING");
-            $errors[] = $error;
+            $errors[] = JText::sprintf('COM_THM_ORGANIZER_TR_SN_MISSING', $teacherID);
+            return;
         }
-        else $teachers[$id]['surname'] = $surname;
-        $userid = trim((string)$teachernode->payrollnumber);
-        $error_start = JText::_("COM_THM_ORGANIZER_TR")." $surname ($id) ";
-        if(empty($userid))
-            $warnings[] = $error_start.JText::_("COM_THM_ORGANIZER_TR_PN_MISSING");
-        else $teachers[$id]['userid'] = $userid;
-        $dptid = trim($teachernode->teacher_department[0]['id']);
-        if(empty($dptid))
-            $errors[] = $error_start.JText::_("COM_THM_ORGANIZER_TR_DEPT_MISSING");
-        else if(empty($departments[$dptid]))
-            $errors[] = $error_start.JText::_("COM_THM_ORGANIZER_TR_DEPT_LACKING")." $dptid.";
-        else $teachers[$id]['department'] = $departments[$dptid];
+        $teachers[$teacherID]['surname'] = $surname;
+
+        $firstname = trim((string) $teachernode->surname);
+        if (empty($firstname))
+        {
+            $warnings[] = JText::sprintf('COM_THM_ORGANIZER_TR_FN_MISSING', $teacherID, $surname);
+        }
+        else
+        {
+            $teachers[$teacherID]['firstname'] = $firstname;
+        }
+
+        $userid = trim((string) $teachernode->payrollnumber);
+        if (empty($userid))
+        {
+            $warnings[] = JText::sprintf("COM_THM_ORGANIZER_TR_PN_MISSING", "$surname ($teacherID) ");
+        }
+        else
+        {
+            $teachers[$teacherID]['userid'] = $userid;
+        }
+
+        $descriptionID = str_replace('DS_', '', trim($teachernode->teacher_description[0]['id']));
+        if (empty($descriptionID))
+        {
+            $errors[] = JText::sprintf("COM_THM_ORGANIZER_TR_DESC_MISSING", "$surname ($teacherID) ");
+            return;
+        }
+        elseif (empty($descriptions[$descriptionID]))
+        {
+            $errors[] = JText::sprintf("COM_THM_ORGANIZER_TR_DESC_LACKING", "$surname ($teacherID) ", $descriptionID);
+        }
+        else
+        {
+            $teachers[$teacherID]['description'] = $descriptionID;
+        }
     }
 
-    /**
-     * processData
-     *
-     * iterates over subject nodes, saves/updates subject data
-     *
-     * @param SimpleXMLNode $teachersnode
-     * @param array $teachers models the data contained in $teachersnode
-     * @param int $semesterID the id of the relevant planning period
-     * @param array $departments contains department data
-     */
-    public function processData(&$teachersnode, &$teachers, $semesterID = 0, &$departments = null)
-    {
-        foreach($teachersnode->children() as $teachernode)
-            $this->processNode($teachernode, $teachers, $semesterID, $departments);
-    }
-
-    /**
-     * processNode
-     *
-     * saves/updates subjectdata
-     *
-     * @param SimpleXMLNode $teachernode
-     * @param array $teachers models the data contained in $teachersnode
-     * @param int $semesterID the id of the relevant planning period
-     * @param array $departments contains department data
-     */
-    protected function processNode(&$teachernode, &$teachers, $semesterID = 0, &$departments = null)
-    {
-        $gpuntisID = trim((string)$teachernode[0]['id']);
-        $name = trim((string)$teachernode->surname);
-        $departmentID = trim((string)$teachernode->teacher_department[0]['id']);
-        $departmentID = $departments[$departmentID]['id'];
-        $username = ($teachernode->payrollnumber)? trim($teachernode->payrollnumber) : "";
-
-        $teacher = JTable::getInstance('teachers', 'thm_organizerTable');
-        $loadData = array('gpuntisID' => $gpuntisID);
-        $data = array('gpuntisID' => $gpuntisID,
-                      'name' => $name,
-                      'username' => $username,
-                      'departmentID' => $departmentID);
-        $teacher->load($loadData);
-        $teacher->save($data);
-
-        $teachers[$gpuntisID] = array();
-        $teachers[$gpuntisID]['id'] = $teacher->id;
-        $teachers[$gpuntisID]['name'] = $name;
-        $teachers[$gpuntisID]['username'] = $username;
-        $teachers[$gpuntisID]['departmentID'] = $departmentID;
-    }
 }

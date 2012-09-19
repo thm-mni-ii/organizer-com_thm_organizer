@@ -1,139 +1,109 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_thm_organizer
- * @name        model room
- * @description data abstraction class for rooms
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * @copyright   TH Mittelhessen 2011
- * @license     GNU GPL v.2
- * @link        www.mni.thm.de
- * @version     1.7.0
+ *@category    component
+ * 
+ *@package     THM_Organizer
+ * 
+ *@subpackage  com_thm_organizer
+ *@name        room specific business logic and database abstraction
+ *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ * 
+ *@copyright   2012 TH Mittelhessen
+ * 
+ *@license     GNU GPL v.2
+ *@link        www.mni.thm.de
+ *@version     0.1.0
  */
 defined('JPATH_PLATFORM') or die;
-require_once JPATH_COMPONENT.'/models/modelresource.php';
-jimport('joomla.application.component.model');
+require_once JPATH_COMPONENT . '/models/modelresource.php';
+/**
+ * Class defining functions to be used for room resources
+ * 
+ * @package  Admin
+ * 
+ * @since    2.5.4 
+ */
 class thm_organizersModelroom extends thm_organizersModelresource
 {
     /**
-     * validateXML
-     *
      * checks whether the rooms node is empty and iterates over its childeren
      *
-     * @param SimpleXMLNode $roomsnode the rooms node to be validated
-     * @param array $rooms a model of the data within the rooms node
-     * @param array $errors contains strings explaining critical data inconsistancies
-     * @param array $warnings contains strings explaining minor data inconsistancies
-     * @param array $descriptions contains description resource data
+     * @param   SimpleXMLNode  &$roomsnode     the rooms node to be validated
+     * @param   array          &$rooms         a model of the data within the rooms node
+     * @param   array          &$errors        contains strings explaining critical data inconsistancies
+     * @param   array          &$warnings      contains strings explaining minor data inconsistancies
+     * @param   array          &$descriptions  contains description resource data
+     * 
+     * @return void
      */
-    protected function validateXML(&$roomsnode, &$rooms, &$errors, &$warnings, &$descriptions)
+    protected function validate(&$roomsnode, &$rooms, &$errors, &$warnings, &$descriptions)
     {
-        if(empty($roomsnode)) $errors[] = JText::_("COM_THM_ORGANIZER_SCH_RM_MISSING");
-        else foreach( $roomsnode->children() as $roomnode )
-                $this->validateXMLChild ($roomnode, $rooms, $errors, $warnings, $descriptions);
+        if (empty($roomsnode))
+        {
+            $errors[] = JText::_("COM_THM_ORGANIZER_SCH_RM_MISSING");
+        }
+        else
+        {
+            foreach ($roomsnode->children() as $roomnode)
+            {
+                $this->validateChild($roomnode, $rooms, $errors, $warnings, $descriptions);
+            }
+        }
     }
 
     /**
-     * validateXMLChild
-     *
      * checks whether room nodes have the expected structure and required
      * information
      *
-     * @param SimpleXMLNode $roomnode the room node to be validated
-     * @param array $rooms a model of the data within the rooms node
-     * @param array $errors contains strings explaining critical data inconsistancies
-     * @param array $warnings contains strings explaining minor data inconsistancies
-     * @param array $descriptions contains description resource data
+     * @param   SimpleXMLNode  &$roomnode      the room node to be validated
+     * @param   array          &$rooms         a model of the data within the rooms node
+     * @param   array          &$errors        contains strings explaining critical data inconsistancies
+     * @param   array          &$warnings      contains strings explaining minor data inconsistancies
+     * @param   array          &$descriptions  contains description resource data
+     * 
+     * @return void
      */
-    protected function validateXMLChild(&$roomnode, &$rooms, &$errors, &$warnings, &$descriptions)
+    protected function validateChild(&$roomnode, &$rooms, &$errors, &$warnings, &$descriptions)
     {
-        $id = trim((string)$roomnode[0]['id']);
-        if(empty($id))
+        $gpuntisID = trim((string) $roomnode[0]['id']);
+        if (empty($gpuntisID))
         {
-            if(!in_array(JText::_("COM_THM_ORGANIZER_SCH_RM_ID_MISSING"), $errors))
+            if (!in_array(JText::_("COM_THM_ORGANIZER_SCH_RM_ID_MISSING"), $errors))
+            {
                 $errors[] = JText::_("COM_THM_ORGANIZER_SCH_RM_ID_MISSING");
+            }
             return;
         }
-        $name = str_replace("RM_", "", $id);
-        $longname = trim((string)$roomnode->longname);
-        if(empty($longname))
+        $roomID = str_replace('RM_', '', $gpuntisID);
+        $rooms[$roomID] = array();
+        $rooms[$roomID]['gpuntisID'] = $gpuntisID;
+        $rooms[$roomID]['name'] = $roomID;
+
+        $longname = trim((string) $roomnode->longname);
+        if (empty($longname))
         {
-            $error = JText::_("COM_THM_ORGANIZER_SCH_RM");
-            $error .= " $name ($id) ";
-            $error .= JText::_("COM_THM_ORGANIZER_SCH_RM_LN_MISSING");
-            $errors[] = $error;
+            $warnings[] = JText::sprintf("COM_THM_ORGANIZER_SCH_RM_LN_MISSING", $roomID);
         }
-        else $rooms[$id]['longname'] = $longname;
-        $capacity = trim((int)$roomnode->capacity);
-        if(!empty($capacity)) $rooms[$id]['capacity'] = $capacity;
-        $descid = trim($roomnode->room_description[0]['id']);
-        if(empty($descid))
+        else
         {
-            $error = JText::_("COM_THM_ORGANIZER_SCH_RM");
-            $error .= " $name ($id) ";
-            $error .= JText::_("COM_THM_ORGANIZER_SCH_RM_DESC_MISSING");
-            $errors[] = $error;
+            $rooms[$roomID]['longname'] = $longname;
         }
-        else if(empty($descriptions[$descid]))
+        $capacity = trim((int) $roomnode->capacity);
+        if (!empty($capacity))
         {
-            $error = JText::_("COM_THM_ORGANIZER_SCH_RM")." $name ($id) ";
-            $error .= JText::_("COM_THM_ORGANIZER_SCH_RM_DESC_LACKING")." $descid.";
-            $errors[] = $error;
+            $rooms[$roomID]['capacity'] = $capacity;
         }
-        else $rooms[$id]['description'] = $descriptions[$descid];
-    }
-
-    /**
-     * processData
-     *
-     * iterates over room nodes, saves/updates room data
-     *
-     * @param SimpleXMLNode $roomsnode
-     * @param array $rooms models the data contained in $roomsnode
-     * @param int $semesterID not used
-     * @param array $descriptions contains room description data
-     */
-    public function processData(&$roomsnode, &$rooms, $semesterID, &$descriptions)
-    {
-        foreach($roomsnode->children() as $roomnode)
-            $this->processNode($roomnode, $rooms, $semesterID , $descriptions);
-    }
-
-    /**
-     * processNode
-     *
-     * saves/updates room data
-     *
-     * @param SimpleXMLNode $roomnode
-     * @param array $rooms models the data contained in $roomsnode
-     * @param int $semesterID not used
-     * @param array $descriptions contains room description data
-     */
-    protected function processNode(&$roomnode, &$rooms, $semesterID, &$descriptions)
-    {
-        $gpuntisID = trim((string)$roomnode[0]['id']);
-        $name = str_replace("RM_","",$gpuntisID);
-        $longname = trim((string)$roomnode->longname);
-        $capacity = ((int)$roomnode->capacity)? (int)$roomnode->capacity : 0;
-        $descriptionID = trim((string)$roomnode->room_description[0]['id']);
-        $descriptionID = $descriptions[$descriptionID]['id'];
-
-        $room = JTable::getInstance('rooms', 'thm_organizerTable');
-        $loadData = array('gpuntisID' => $gpuntisID);
-        $data = array('gpuntisID' => $gpuntisID,
-                      'name' => $name,
-                      'alias' => $longname,
-                      'capacity' => $capacity,
-                      'descriptionID' => $descriptionID);
-        $room->load($loadData);
-        $room->save($data);
-
-        $rooms[$gpuntisID] = array();
-        $rooms[$gpuntisID]['id'] = $room->id;
-        $rooms[$gpuntisID]['name'] = $name;
-        $rooms[$gpuntisID]['longname'] = $longname;
-        $rooms[$gpuntisID]['capacity'] = $capacity;
-        $rooms[$gpuntisID]['descriptionID'] = $descriptionID;
+        $descriptionID = str_replace('DS_', '', trim((string) $roomnode->room_description[0]['id']));
+        if (empty($descriptionID))
+        {
+            $errors[] = JText::sprintf("COM_THM_ORGANIZER_SCH_RM_DESC_MISSING", $roomID);
+            return;
+        }
+        elseif (empty($descriptions[$descriptionID]))
+        {
+            $errors[] = JText::sprintf("COM_THM_ORGANIZER_SCH_RM_DESC_MISSING", $roomID, $descriptionID);
+            return;
+        }
+        $rooms[$roomID]['description'] = $descriptionID;
     }
 }
-
