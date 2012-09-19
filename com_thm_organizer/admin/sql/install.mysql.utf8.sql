@@ -2,10 +2,11 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `departmentname` varchar(50) NOT NULL,
   `semestername` varchar(50) NOT NULL,
   `creationdate` date DEFAULT NULL,
   `description` text NOT NULL,
-  `file` mediumblob NOT NULL,
+  `schedule` mediumblob NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '0',
   `startdate` date DEFAULT NULL,
   `enddate` date DEFAULT NULL,
@@ -15,8 +16,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_deltas` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `fromID` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `toID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `fromID` int(11) unsigned NOT NULL,
+  `toID` int(11) unsigned NOT NULL,
   `delta` mediumblob NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`fromID`) REFERENCES #__thm_organizer_schedules(`id`)ON DELETE NO ACTION ON UPDATE CASCADE,
