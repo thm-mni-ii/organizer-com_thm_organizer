@@ -45,6 +45,7 @@ class JFormFieldSemester extends JFormField
 	 */
 	public function getInput()
 	{
+		$js = "";
 		$sortButtons = true;
 		$db = JFactory::getDBO();
 
@@ -70,20 +71,18 @@ class JFormFieldSemester extends JFormField
 
 		$params = json_decode($rows[0]->params);
 
-		$major = $params->major;
-
-		if ($major == null)
+		if(isset($params->major))
+		{
+			$major = $params->major;
+		}
+		else
 		{
 			$arr = array();
 			return JHTML::_('select.genericlist', $arr, 'jform[params][semesters][]',
 					$js . 'class="inputbox" size="10" multiple="multiple"', 'id', 'name', $this->value
 			) . $arrows;
 		}
-		else
-		{
-
-		}
-
+		
 		// Build the query
 		$query = $db->getQuery(true);
 		$query->select("sem_major.semester_id AS id");
