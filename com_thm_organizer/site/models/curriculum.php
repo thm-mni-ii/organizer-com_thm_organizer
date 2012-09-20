@@ -108,7 +108,7 @@ class THM_OrganizerModelCurriculum extends JModelList
 	public function getGroupsPicture($assetId)
 	{
 		// Gets an instance of the Groups-Controller
-		$groupsModel = new THM_OrganizerModelGroups
+		$groupsModel = new THM_OrganizerModelGroups;
 		$rows = self::getResponsibleRecord($assetId);
 
 		if (isset($rows[0]))

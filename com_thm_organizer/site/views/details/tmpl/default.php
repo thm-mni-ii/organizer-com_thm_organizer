@@ -33,7 +33,7 @@
 
 
 	<?php
-	echo $this->modul->getModultitel();
+	echo $this->modultitel;
 	?>
 	<span> <a href="<?php echo JRoute::_($this->langUrl); ?>"><img
 			class="languageSwitcher" alt="<?php echo $this->langLink; ?>"
@@ -47,7 +47,7 @@
 
 
 		<?php
-		if ($this->modul->getNrMni() != "")
+		if ($this->modulNrMni != "")
 		{
 			?>
 		<dt class="lsflist">
@@ -66,7 +66,7 @@
 		<dd class="lsflist">
 
 			<?php
-			echo $this->modul->getNrMni();
+			echo $this->modulNrMni;
 			?>
 		</dd>
 		<?php 
@@ -77,7 +77,7 @@
 		}
 		?>
 		<?php
-		if ($this->modul->getKurzname() != "")
+		if ($this->modulKurzname != "")
 		{
 			?>
 		<dt class="lsflist">
@@ -94,7 +94,7 @@
 		</dt>
 		<dd class="lsflist">
 			<?php
-			echo $this->modul->getKurzname();
+			echo $this->modulKurzname;
 			?>
 		</dd>
 		<?php
@@ -125,7 +125,7 @@
 		}
 		?>
 		<?php
-		if ($this->modul->getKurzbeschreibung() != "")
+		if ($this->modulKurzbeschreibung != "")
 		{
 			?>
 		<dt class="lsflist">
@@ -141,13 +141,13 @@
 			?>
 		</dt>
 		<dd class="lsflist">
-			<?php echo $this->modul->getKurzbeschreibung(); ?>
+			<?php echo $this->modulKurzbeschreibung; ?>
 		</dd>
 		<?php
 		}
 		?>
 		<?php
-		if ($this->modul->getLernziel() != "")
+		if ($this->modulLernziel != "")
 		{
 			?>
 		<dt class="lsflist">
@@ -164,14 +164,14 @@
 		</dt>
 		<dd class="lsflist">
 			<?php
-			echo $this->modul->getLernziel();
+			echo $this->modulLernziel;
 			?>
 		</dd>
 		<?php
 		}
 		?>
 		<?php
-		if ($this->modul->getLerninhalt() != "")
+		if ($this->modulLerninhalt != "")
 		{
 			?>
 		<dt class="lsflist">
@@ -188,14 +188,14 @@
 		</dt>
 		<dd class="lsflist">
 			<?php
-			echo $this->modul->getLerninhalt();
+			echo $this->modulLerninhalt;
 			?>
 		</dd>
 		<?php
 		}
 		?>
 		<?php
-		if ($this->modul->getDauer() != "")
+		if ($this->modulDauer != "")
 		{
 			?>
 		<dt class="lsflist">
@@ -212,14 +212,14 @@
 		</dt>
 		<dd class="lsflist">
 			<?php
-			echo $this->modul->getDauer();
+			echo $this->modulDauer;
 			?>
 		</dd>
 		<?php
 		}
 		?>
 		<?php
-		if ($this->modul->getSprache() != "")
+		if ($this->modulSprache != "")
 		{
 			?>
 		<dt class="lsflist hasTip">
@@ -236,11 +236,11 @@
 		</dt>
 		<dd class="lsflist">
 			<?php
-			if ($this->modul->getSprache() == "D")
+			if ($this->modulSprache == "D")
 			{
 				echo "Deutsch";
 			}
-			elseif ($this->modul->getSprache() == "E")
+			elseif ($this->modulSprache == "E")
 			{
 				echo "Englisch";
 			}
@@ -252,7 +252,7 @@
 		{
 
 		}?>
-		<?php if ($this->modul->getAufwand() != "")
+		<?php if ($this->modulAufwand != "")
 		{
 			?>
 		<dt class="lsflist">
@@ -270,7 +270,7 @@
 		<dd class="lsflist">
 			<ul>
 				<?php
-				echo $this->modul->getAufwand();
+				echo $this->modulAufwand;
 				?>
 			</ul>
 		</dd>
@@ -282,7 +282,7 @@
 		}
 		?>
 		<?php
-		if ($this->modul->getLernform() != "")
+		if ($this->modulLernform != "")
 		{
 			?>
 		<dt class="lsflist">
@@ -300,7 +300,7 @@
 		<dd class="lsflist">
 			<ul>
 				<?php
-				echo $this->modul->getLernform();
+				echo $this->modulLernform;
 				?>
 				<br>
 				<br>
@@ -310,7 +310,7 @@
 		}
 		?>
 		<?php
-		if ($this->modul->getVorleistung() != "")
+		if ($this->modulVorleistung != "")
 		{
 			?>
 		<dt class="lsflist">
@@ -327,14 +327,14 @@
 		</dt>
 		<dd class="lsflist">
 			<?php
-			echo $this->modul->getVorleistung();
+			echo $this->modulVorleistung;
 			?>
 		</dd>
 		<?php
 		}
 		?>
 		<?php
-		if ($this->modul->getLeistungsnachweis() != "")
+		if ($this->modulLeistungsnachweis != "")
 		{
 			?>
 		<dt class="lsflist">
@@ -352,7 +352,7 @@
 		<dd class="lsflist">
 			<ul>
 				<?php
-				echo $this->modul->getLeistungsnachweis();
+				echo $this->modulLeistungsnachweis;
 				?>
 			</ul>
 		</dd>
@@ -360,7 +360,7 @@
 		}
 		?>
 		<?php
-		if ($this->modul->getTurnus() != 0)
+		if ($this->modulTurnus != 0)
 		{
 			?>
 		<dt class="lsflist">
@@ -380,11 +380,11 @@
 				<?php
 				if ($this->lang == 'de')
 				{
-					echo $this->mappingTurnus_de[(String) $this->modul->getTurnus()];
+					echo $this->mappingTurnus_de[(String) $this->modulTurnus];
 				}
 				else
 				{
-					echo $this->mappingTurnus_en[(String) $this->modul->getTurnus()];
+					echo $this->mappingTurnus_en[(String) $this->modulTurnus];
 				}
 				?>
 			</ul>
@@ -393,7 +393,7 @@
 		}
 		?>
 		<?php
-		if ($this->modul->getLiteraturVerzeichnis() != "")
+		if ($this->modulLiteraturVerzeichnis != "")
 		{
 			?>
 		<dt class="lsflist">
@@ -410,14 +410,14 @@
 		</dt>
 		<dd class="lsflist" id="litverz">
 			<?php
-			echo $this->modul->getLiteraturVerzeichnis();
+			echo $this->modulLiteraturVerzeichnis;
 			?>
 		</dd>
 		<?php
 		}
 		?>
 		<?php
-		if ($this->modul->getVorraussetzung() != "")
+		if ($this->modulVorraussetzung != "")
 		{
 			?>
 		<dt class="lsflist">
@@ -434,7 +434,7 @@
 		</dt>
 		<dd class="lsflist" id="voraussetzung">
 			<?php
-			$splitedVorraussetzung = explode(',', $this->modul->getVorraussetzung());
+			$splitedVorraussetzung = explode(',', $this->modulVorraussetzung);
 
 			$tmplText = null;
 
@@ -444,10 +444,10 @@
 			}
 
 
-			if (strpos($this->modul->getVorraussetzung(), 'span'))
+			if (strpos($this->modulVorraussetzung, 'span'))
 			{
-				$pos = strpos($this->modul->getVorraussetzung(), '<');
-				$result = substr($this->modul->getVorraussetzung(), 0, $pos);
+				$pos = strpos($this->modulVorraussetzung, '<');
+				$result = substr($this->modulVorraussetzung, 0, $pos);
 				$splitedVorraussetzung = explode(',', $result);
 
 				foreach ($splitedVorraussetzung as $vorraussetzung)
@@ -459,7 +459,7 @@
 					. "'>" . strtoupper($vorraussetzung) . "</a>&nbsp;";
 					echo $link;
 				}
-				echo substr($this->modul->getVorraussetzung(), $pos, strlen($this->modul->getVorraussetzung()));
+				echo substr($this->modulVorraussetzung, $pos, strlen($this->modulVorraussetzung));
 			}
 			else
 			{

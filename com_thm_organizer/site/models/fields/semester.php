@@ -134,6 +134,11 @@ class JFormFieldSemester extends JFormField
 		{
 			$result = $semesters;
 		}
+		
+		if($result == null)
+		{
+			$result = array();
+		}
 
 		$html = JHTML::_('select.genericlist', $result, 'jform[params][semesters][]', $js .
 				'class="inputbox" size="10" multiple="multiple"', 'id', 'name', $this->value

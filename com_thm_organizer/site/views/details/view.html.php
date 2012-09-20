@@ -7,6 +7,7 @@
  * @name		THM_CurriculumViewdetails
  * @description THM_CurriculumViewdetails component site view
  * @author	    Markus Baier <markus.baier@mni.thm.de>
+ * @author	    Wolf Rost,  <Wolf.Rost@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link		www.mni.thm.de
@@ -42,6 +43,8 @@ class THM_OrganizerViewdetails extends JView
 		$modelGroups = new THM_OrganizerModelGroups;
 		$model = & $this->getModel();
 		$this->session = & JFactory::getSession();
+		$verantw = "";
+		$verantwLabel = "";
 
 		$linkVerantwortlicher = null;
 		$dozentenLinks = array();
@@ -72,6 +75,45 @@ class THM_OrganizerViewdetails extends JView
 		$this->lang = JRequest::getVar('lang');
 		$this->langLink = ($this->lang == 'de') ? 'en' : 'de';
 		$this->langUrl = self::languageSwitcher($this->langLink);
+		
+		if(isset($this->modul))
+		{
+			$this->modultitel = $this->modul->getModultitel();
+			$this->modulNrMni = $this->modul->getNrMni();
+			$this->modulKurzname = $this->modul->getKurzname();
+			$this->modulKurzbeschreibung = $this->modul->getKurzbeschreibung();
+			$this->modulLernziel = $this->modul->getLernziel();
+			$this->modulLerninhalt = $this->modul->getLerninhalt();
+			$this->modulDauer = $this->modul->getDauer();
+			$this->modulSprache = $this->modul->getSprache();
+			$this->modulAufwand = $this->modul->getAufwand();
+			$this->modulLernform = $this->modul->getLernform();
+			$this->modulVorleistung = $this->modul->getVorleistung();
+			$this->modulLeistungsnachweis = $this->modul->getLeistungsnachweis();
+			$this->modulTurnus = $this->modul->getTurnus();
+			$this->modulLiteraturVerzeichnis = $this->modul->getLiteraturVerzeichnis();
+			$this->modulVorraussetzung = $this->modul->getVorraussetzung();
+		}
+		else
+		{
+			$this->modultitel = "";
+			$this->modulNrMni = "";
+			$this->modulKurzname = "";
+			$this->modulKurzbeschreibung = "";
+			$this->modulLernziel = "";
+			$this->modulLerninhalt = "";
+			$this->modulDauer = "";
+			$this->modulSprache = "";
+			$this->modulAufwand = "";
+			$this->modulLernform = "";
+			$this->modulVorleistung = "";
+			$this->modulLeistungsnachweis = "";
+			$this->modulTurnus = 0;
+			$this->modulLiteraturVerzeichnis = "";
+			$this->modulVorraussetzung = "";
+		}
+		
+		
 
 		parent::display($tpl);
 	}
@@ -91,6 +133,8 @@ class THM_OrganizerViewdetails extends JView
 		$itemid = JRequest::getVar('Itemid');
 		$group = JRequest::getVar('view');
 		$u = & JURI::getInstance('index.php');
+		$tmpl = null;
+		$mysched = null;
 
 		if (JRequest::getVar('mysched'))
 		{
