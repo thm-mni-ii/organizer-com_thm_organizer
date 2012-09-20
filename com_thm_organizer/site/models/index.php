@@ -179,7 +179,7 @@ class THM_OrganizerModelIndex extends JModelList
 	{
 		// Perform a soap request, in order to get all related courses
 		$client = new LsfClient($this->globParams->get('webserviceUri'), $this->globParams->get('webserviceUsername'),
-				$this->globParams->get('webservicePassword'
+				$this->globParams->get('webservicePassword')
 				);
 
 		$xml = $client->getModules(
