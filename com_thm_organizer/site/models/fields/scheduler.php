@@ -91,7 +91,7 @@ class JFormFieldScheduler extends JFormField
 		require_once JPATH_ROOT . "/components/com_thm_organizer/assets/classes/TreeView.php";
 		require_once JPATH_ROOT . "/components/com_thm_organizer/assets/classes/config.php";
 
-		$JDA = new DataAbstraction
+		$JDA = new DataAbstraction;
 		$CFG = new mySchedConfig($JDA);
 
 		if ($idString != "")

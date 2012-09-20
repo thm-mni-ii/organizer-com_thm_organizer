@@ -360,22 +360,25 @@ class TreeView
 		$this->treeData["doz"] = array();
 		$this->treeData["subject"] = array();
 
-		foreach ($semesterarray as $key => $value)
+		if(is_array($semesterarray))
 		{
-			$temp = $this->createTreeNode(
-					$value->id,
-					$value->semesterDesc,
-					'semesterjahr' . '-root',
-					false,
-					false,
-					true,
-					$value->id,
-					null,
-					null,
-					null,
-					$value->id,
-					$value->id
-			);
+			foreach ($semesterarray as $key => $value)
+			{
+				$temp = $this->createTreeNode(
+						$value->id,
+						$value->semesterDesc,
+						'semesterjahr' . '-root',
+						false,
+						false,
+						true,
+						$value->id,
+						null,
+						null,
+						null,
+						$value->id,
+						$value->id
+				);
+		}
 	  $children = $this->plantype($value->id, $value->id);
 
 	  if ($temp != null && !empty($temp))
@@ -393,6 +396,11 @@ class TreeView
 
 		$semesterJahrNode = $this->treeCorrect($semesterJahrNode);
 
+		if(!isset($this->publicDefaultNode))
+		{
+			$this->publicDefaultNode = null;
+		}
+		
 		return array("success" => true,"data" => array("tree" => $semesterJahrNode, "treeData" => $this->treeData,
 			   	   "treePublicDefault" => $this->publicDefaultNode)
 			   );
@@ -422,10 +430,6 @@ class TreeView
 					if (is_array($nodeElement->children))
 					{
 						$nodeElement->children = $this->treeCorrect($nodeElement->children);
-						$newNode[] = $nodeElement;
-					}
-					else
-					{
 						$newNode[] = $nodeElement;
 					}
 					else
