@@ -30,10 +30,10 @@ MySched.Config
 			infoUrl : MySched.mainPath + 'php/info.php',
 			showHeader : false,
 			// soll der Headerbereich angezeigt werden?
-			headerHTML : '<img src="http://www.mni.fh-giessen.de/templates/fh/Bilder/Header.png" title="fh-header" alt="fh-header"/>',
+			headerHTML : '<img src="http://www.mni.thm.de/templates/fh/Bilder/Header.png" title="fh-header" alt="fh-header"/>',
 			enableSubscribing : false,
 			// Aktiviert den Button und die Funktion 'Einschreiben'
-			logoutTarget : 'http://www.mni.fh-giessen.de'
+			logoutTarget : 'http://www.mni.thm.de'
 		});
 
 // Authorize wir initalisiert

@@ -8,7 +8,7 @@
  * @author      Daniel Kirsten danielDOTkirstenATmniDOTthmDOTde
  * @copyright   TH Mittelhessen 2012
  * @license     GNU GPL v.2
- * @link        www.mni.fh-giessen.de
+ * @link        www.mni.thm.de
  * @version     0.0.2
  */
 defined( '_JEXEC' ) or die( 'Restricted access' );

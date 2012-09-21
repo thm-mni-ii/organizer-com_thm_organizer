@@ -4,7 +4,7 @@
  * @author   	Markus Baier <markus.baier@mni.thm.de>
  * @copyright	THM Mittelhessen 2011
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @link     	http://www.mni.fh-giessen.de
+ * @link     	http://www.mni.thm.de
  * @version		$Id$
  **/
 
