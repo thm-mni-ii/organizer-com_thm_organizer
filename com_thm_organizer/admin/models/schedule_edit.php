@@ -1,43 +1,64 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_thm_organizer
- * @name        model semester edit
- * @description db abstraction file for editing schedule entries
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * @copyright   TH Mittelhessen 2011
- * @license     GNU GPL v.2
- * @link        www.mni.thm.de
- * @version     1.7.0
+ *@category    component
+ * 
+ *@package     THM_Organizer
+ * 
+ *@subpackage  com_thm_organizer
+ *@name        database abstraction for the schedule edit view
+ *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ * 
+ *@copyright   2012 TH Mittelhessen
+ * 
+ *@license     GNU GPL v.2
+ *@link        www.mni.thm.de
+ *@version     0.1.0
  */
-defined('_JEXEC') or die('Restriced Access');
+defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
-require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
+require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
+/**
+ * Class loading persistent data to be used for schedule edit output
+ * 
+ * @package  Admin
+ * 
+ * @since    2.5.4 
+ */
 class thm_organizersModelschedule_edit extends JModelAdmin
 {
     /**
-     * getForm
-     *
      * retrieves the jform object for this view
+     * 
+     * @param   array    $data      unused
+     * @param   boolean  $loadData  if the form data should be pulled dynamically
      *
      * @return	mixed	A JForm object on success, false on failure
      */
     public function getForm($data = array(), $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_thm_organizer.schedule_edit', 'schedule_edit', array('control' => 'jform', 'load_data' => $loadData));
-        if (empty($form)) return false;
-        else return $form;
+        $form = $this->loadForm('com_thm_organizer.schedule_edit',
+                                'schedule_edit',
+                                array('control' => 'jform', 'load_data' => $loadData)
+                               );
+        if (empty($form))
+        {
+            return false;
+        }
+        else
+        {
+            return $form;
+        }
     }
-    
+
     /**
      * Method to get a single record.
      *
-     * @param	integer	The id of the primary key.
+     * @param	integer	 $key  not used
      *
      * @return	mixed	Object on success, false on failure.
      */
-    public function getItem($pk = null)
+    public function getItem($key = null)
     {
         $scheduleIDs = JRequest::getVar('cid',  null, '', 'array');
         $scheduleID = (empty($scheduleIDs))? JRequest::getVar('scheduleID') : $scheduleIDs[0];
@@ -46,14 +67,12 @@ class thm_organizersModelschedule_edit extends JModelAdmin
     }
 
     /**
-     * getTable
-     *
      * returns a table object the parameters are completely superfluous in the
      * implementing classes since they are always set by default
      *
-     * @param	type	The table type to instantiate
-     * @param	string	A prefix for the table class name. Optional.
-     * @param	array	Configuration array for model. Optional.
+     * @param	string  $type    the table type to instantiate
+     * @param	string	$prefix  a prefix for the table class name. optional.
+     * @param	array	$config  configuration array for model. optional.
      *
      * @return	JTable	A database object
     */
@@ -63,8 +82,6 @@ class thm_organizersModelschedule_edit extends JModelAdmin
     }
 
     /**
-     * loadFormData
-     *
      * retrieves the data that should be injected in the form the loading is
      * done in jmodel admin
      *
@@ -72,34 +89,11 @@ class thm_organizersModelschedule_edit extends JModelAdmin
      */
     protected function loadFormData()
     {
-        if (empty($data)) $data = $this->getItem();
-        $data->filename = str_replace(".xml", "", $data->filename);
-        unset($data->file);
+        $data = $this->getItem();
+        unset($data->schedule);
         $data->creationdate = thm_organizerHelper::germanizeDate($data->creationdate);
         $data->startdate = thm_organizerHelper::germanizeDate($data->startdate);
         $data->enddate = thm_organizerHelper::germanizeDate($data->enddate);
-        $data->plantypeID = $this->getPlanType($data->plantypeID);
-        if(JRequest::getInt('semesterID') AND $data->sid == '') $data->sid = JRequest::getInt('semesterID');
         return $data;
     }
-
-    /**
-     * getPlanType
-     *
-     * retrieves the name of the plan type currently being edited
-     *
-     * @param int $id the plantypeID from the schedules table row
-     * @return string a translated name of the plan type
-     */
-    private function getPlanType($id)
-    {
-        $dbo = $this->getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('plantype');
-        $query->from('#__thm_organizer_plantypes');
-        $query->where("id = '$id'");
-        $dbo->setQuery((string)$query);
-        return JText::_($dbo->loadResult());
-    }
 }
-?>

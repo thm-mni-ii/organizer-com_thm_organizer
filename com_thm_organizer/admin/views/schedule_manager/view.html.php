@@ -1,78 +1,110 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_thm_organizer
- * @name        schedule manager view
- * @description provides a list of schedules
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * @copyright   TH Mittelhessen 2011
- * @license     GNU GPL v.2
- * @link        www.mni.thm.de
- * @version     1.7.0
+ *@category    component
+ * 
+ *@package     THM_Organizer
+ * 
+ *@subpackage  com_thm_organizer
+ *@name        view output file for schedule lists
+ *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ * 
+ *@copyright   2012 TH Mittelhessen
+ * 
+ *@license     GNU GPL v.2
+ *@link        www.mni.thm.de
+ *@version     0.1.0
  */
-defined('_JEXEC') or die( 'Restricted access' );
-jimport( 'joomla.application.component.view' );
-require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
-
+defined('_JEXEC') or die;
+jimport('joomla.application.component.view');
+require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
+/**
+ * Class which loads data into the view output context
+ * 
+ * @package  Admin
+ * 
+ * @since    2.5.4 
+ */
 class thm_organizersViewschedule_manager extends JView
 {
+    /**
+     * jpagination object holding data relevant to the number of results to be
+     * displayed and query limit values
+     * 
+     * @var JPagination
+     */
     protected $pagination;
+
+    /**
+     * jstate object holding data relevant to filter information
+     * 
+     * @var JState
+     */
     protected $state;
 
+    /**
+     * loads data into view output context and initiates functions creating html
+     * elements
+     * 
+     * @param   string  $tpl  the template to be used
+     * 
+     * @return void 
+     */
     function display($tpl = null)
     {
-        if(!JFactory::getUser()->authorise('core.admin'))
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
 
         JHtml::_('behavior.tooltip');
         JHtml::_('behavior.multiselect');
 
         $model = $this->getModel();
         $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
+        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
 
         $this->schedules = $this->get('Items');
         $this->pagination = $this->get('Pagination');
         $this->state = $this->get('State');
-        $this->semesterName = $model->semesterName;
+        $this->departments = $model->departments;
         $this->semesters = $model->semesters;
-        $this->plantypes = $model->plantypes;
         $this->addToolBar();
-        if(count($this->semesters))$this->addLinks();
+        if (count($this->semesters))
+        {
+            $this->addLinks();
+        }
 
         parent::display($tpl);
     }
 
     /**
-     * addLinks
-     *
-     * creates links to the edit view for the particular schedule
+     * creates links to the edit view for each individual schedule
+     * 
+     * @return void
      */
     private function addLinks()
     {
         $editURL = 'index.php?option=com_thm_organizer&view=schedule_edit&scheduleID=';
-        foreach($this->schedules as $key => $schedule)
-            $this->schedules[$key]->url = $editURL.$schedule->id;
+        foreach ($this->schedules as $key => $schedule)
+        {
+            $this->schedules[$key]->url = $editURL . $schedule->id;
+        }
     }
 
     /**
-     * addToolBar
-     *
      * creates a joomla administrative tool bar
+     * 
+     * @return void
      */
     private function addToolBar()
     {
-        $title = JText::_('COM_THM_ORGANIZER').': '.JText::_('COM_THM_ORGANIZER_SCH_TITLE');
-        if($this->state->get('semesterName')) $title .= " ".$this->state->get('semesterName');
-        JToolBarHelper::title( $title, 'mni' );
+        $title = JText::_('COM_THM_ORGANIZER') . ': ' . JText::_('COM_THM_ORGANIZER_SCH_TITLE');
+        JToolBarHelper::title($title, 'mni');
         JToolBarHelper::addNew('schedule.add');
         JToolBarHelper::editList('schedule.edit');
         JToolBarHelper::makeDefault('schedule.setDefault', 'COM_THM_ORGANIZER_SCH_ACTIVATE_TITLE');
-        JToolBarHelper::deleteList(JText::_( 'COM_THM_ORGANIZER_SCH_DELETE_CONFIRM'),'schedule.delete');        
-        if (thm_organizerHelper::isAdmin("schedule_manager"))
-        {
-        	JToolBarHelper::divider();
-        	JToolBarHelper::preferences('com_thm_organizer');
-        }
+        JToolBarHelper::deleteList(JText::_('COM_THM_ORGANIZER_SCH_DELETE_CONFIRM'),'schedule.delete');
+        JToolBarHelper::divider();
+        JToolBarHelper::preferences('com_thm_organizer');
     }
 }

@@ -1,31 +1,29 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_thm_organizer
- * @name        schedule manager default template
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * @copyright   TH Mittelhessen 2011
- * @license     GNU GPL v.2
- * @link        www.mni.thm.de
- * @version     1.7.0
+ *@category    component
+ * 
+ *@package     THM_Organizer
+ * 
+ *@subpackage  com_thm_organizer
+ *@name        default view template file for schedule lists
+ *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ * 
+ *@copyright   2012 TH Mittelhessen
+ * 
+ *@license     GNU GPL v.2
+ *@link        www.mni.thm.de
+ *@version     0.1.0
  */
 defined("_JEXEC") or die;
 $orderby = $this->escape($this->state->get('list.ordering'));
 $direction = $this->escape($this->state->get('list.direction'));
-$search = ($this->state->get('filter.search'))?
-        $this->escape($this->state->get('filter.search')) : JText::_('COM_THM_ORGANIZER_SCH_SEARH_CRITERIA');
 ?>
-<form action="<?php echo JRoute::_("index.php?option=com_thm_organizer"); ?>"
-      enctype="multipart/form-data" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_thm_organizer"
+      enctype="multipart/form-data"
+      method="post"
+      name="adminForm"
+      id="adminForm">
     <fieldset id="filter-bar">
-        <div class="filter-search fltlft">
-            <input type="text" name="filter_search" id="filter_search" value="<?php echo $search; ?>"
-                   title="<?php echo JText::_('COM_THM_ORGANIZER_SEARCH_DESC'); ?>" />
-            <button type="submit"><?php echo JText::_('COM_THM_ORGANIZER_SEARCH'); ?></button>
-            <button type="button" onclick="document.id('filter_search').value='';this.form.submit();">
-                <?php echo JText::_('COM_THM_ORGANIZER_SEARCH_CLEAR'); ?>
-            </button>
-        </div>
         <div class="filter-select fltrt">
             <select name="filter_state" class="inputbox" onchange="this.form.submit()">
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_SEARCH_STATES'); ?></option>
@@ -39,53 +37,41 @@ $search = ($this->state->get('filter.search'))?
                 <?php echo JHtml::_('select.options', $this->semesters, 'id', 'name', $this->state->get('filter.semester'));?>
             </select>
             <select name="filter_type" class="inputbox" onchange="this.form.submit()">
-                <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_SEARCH_TYPES'); ?></option>
-                <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_ALL_TYPES'); ?></option>
-                <?php echo JHtml::_('select.options', $this->plantypes, 'id', 'name', $this->state->get('filter.type'));?>
+                <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_SEARCH_DEPARTMENTS'); ?></option>
+                <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_ALL_DEPARTMENTS'); ?></option>
+                <?php echo JHtml::_('select.options', $this->departments, 'id', 'name', $this->state->get('filter.department'));?>
             </select>
         </div>
     </fieldset>
     <div class="clr"> </div>
-<?php if(!empty($this->schedules)) { $k = 0;?>
+<?php if (!empty($this->schedules)) { $k = 0;?>
     <div>
         <table class="adminlist" cellpadding="0">
             <colgroup>
                 <col id="thm_organizer_check_column" />
-                <col id="thm_organizer_sch_file_column" />
-                <col id="thm_organizer_sch_description_column" />
-                <col class="thm_organizer_sch_date_column" />
-                <col class="thm_organizer_sch_date_column" />
-                <col class="thm_organizer_sch_date_column" />
+                <col class="thm_organizer_sch_semester_column" />
+                <col class="thm_organizer_sch_semester_column" />
+                <col id="thm_organizer_sch_date_column" />
                 <col id="thm_organizer_sch_active_column" />
-                <col id="thm_organizer_sch_semester_column" />
-                <col id="thm_organizer_sch_semester_column" />
+                <col id="thm_organizer_sch_description_column" />
             </colgroup>
             <thead>
                 <tr>
                     <th class="thm_organizer_sch_th" ></th>
                     <th class="thm_organizer_sch_th" >
-                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_NAME', 'sch.filename', $direction, $orderby); ?>
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_DEPT', 'departmentname', $direction, $orderby); ?>
                     </th>
                     <th class="thm_organizer_sch_th" >
-                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_DESC', 'sch.description', $direction, $orderby); ?>
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_SEMESTER', 'semestername', $direction, $orderby); ?>
                     </th>
                     <th class="thm_organizer_sch_th" >
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_SCH_CREATION_DATE', 'creationdate', $direction, $orderby); ?>
                     </th>
                     <th class="thm_organizer_sch_th" >
-                        <?php echo JText::_('COM_THM_ORGANIZER_START_DATE'); ?>
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_SCH_ACTIVE', 'active', $direction, $orderby); ?>
                     </th>
                     <th class="thm_organizer_sch_th" >
-                        <?php echo JText::_('COM_THM_ORGANIZER_END_DATE'); ?>
-                    </th>
-                    <th class="thm_organizer_sch_th" >
-                        <?php echo JText::_('COM_THM_ORGANIZER_SCH_ACTIVE'); ?>
-                    </th>
-                    <th class="thm_organizer_sch_th" >
-                        <?php echo JText::_('COM_THM_ORGANIZER_SCH_SEMESTER_TITLE'); ?>
-                    </th>
-                    <th class="thm_organizer_sch_th" >
-                        <?php echo JText::_('COM_THM_ORGANIZER_SCH_PLANTYPE_TITLE'); ?>
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_DESC', 'sch.description', $direction, $orderby); ?>
                     </th>
                 </tr>
             </thead>
@@ -97,23 +83,30 @@ $search = ($this->state->get('filter.search'))?
                 </tr>
             </tfoot>
             <tbody>
-            <?php foreach($this->schedules as $k => $schedule){ ?>
+<?php
+foreach ($this->schedules as $k => $schedule)
+{ ?>
                 <tr class="row<?php echo $k % 2;?>">
                     <td><?php echo JHtml::_('grid.id', $k, $schedule->id); ?></td>
                     <td>
                         <a href="<?php echo $schedule->url; ?>">
-                            <?php echo $schedule->filename; ?>
+                            <?php echo $schedule->departmentname; ?>
                         </a>
                     </td>
-                    <td><?php echo $schedule->description; ?></td>
-                    <td><?php echo $schedule->creationdate; ?></td>
-                    <td><?php echo $schedule->startdate; ?></td>
-                    <td><?php echo $schedule->enddate; ?></td>
-                    <td class="thm_organizer_sch_active_td">
-                        <?php if($schedule->semester) echo JHtml::_('jgrid.isdefault', $schedule->active != null, $k, 'schedule.', true); ?>
+                    <td>
+                        <a href="<?php echo $schedule->url; ?>">
+                            <?php echo $schedule->semestername; ?>
+                        </a>
                     </td>
-                    <td><?php echo $schedule->semester; ?></td>
-                    <td><?php echo JText::_($schedule->plantype); ?></td>
+                    <td>
+                        <a href="<?php echo $schedule->url; ?>">
+                            <?php echo $schedule->creationdate; ?>
+                        </a>
+                    </td>
+                    <td class="thm_organizer_sch_active_td">
+                        <?php echo JHtml::_('jgrid.isdefault', $schedule->active != 0, $k, 'schedule.', true); ?>
+                    </td>
+                    <td><?php echo $schedule->description; ?></td>
                 </tr>
             <?php } ?>
             </tbody>
@@ -125,6 +118,5 @@ $search = ($this->state->get('filter.search'))?
     <input type="hidden" name="filter_order" value="<?php echo $orderby; ?>" />
     <input type="hidden" name="filter_order_Dir" value="<?php echo $direction; ?>" />
     <input type="hidden" name="view" value="schedule_manager" />
-    <input type="hidden" name="semesterID" value="<?php echo $this->state->get('filter.semester'); ?>" />
     <?php echo JHtml::_('form.token'); ?>
 </form>

@@ -6,24 +6,58 @@
             name="id"
             type="text" />
         <field
-            id="filename"
-            name="filename"
+            id="departmentname"
+            name="departmentname"
             type="text"
-            label="COM_THM_ORGANIZER_NAME"
-            description="COM_THM_ORGANIZER_SCH_FILE_DESC"
-            class="inputbox validate-filename"
-            validate="title"
-            size="28"
-            required="true" />
+            label="COM_THM_ORGANIZER_DEPT"
+            description="COM_THM_ORGANIZER_DEPT_DESC"
+            readonly="true"
+            disabled="true"
+            class="inputbox"
+            size="28" />
+        <field
+            id="semestername"
+            name="semestername"
+            type="text"
+            label="COM_THM_ORGANIZER_SCH_SEMESTER_TITLE"
+            description="COM_THM_ORGANIZER_SCH_SEMESTER_DESC"
+            readonly="true"
+            disabled="true"
+            class="inputbox"
+            size="28" />
+        <field
+            id="startdate"
+            name="startdate"
+            type="calendar"
+            label="COM_THM_ORGANIZER_START_DATE"
+            description="COM_THM_ORGANIZER_SCH_START_DATE_DESC"
+            class="inputbox"
+            readonly="true"
+            disabled="true"
+            default=""
+            size="7" />
+        <field
+            id="enddate"
+            name="enddate"
+            type="text"
+            label="COM_THM_ORGANIZER_END_DATE"
+            description="COM_THM_ORGANIZER_SCH_END_DATE_DESC"
+            class="inputbox"
+            readonly="true"
+            disabled="true"
+            default=""
+            size="7" />
         <field
             id="creationdate"
             name="creationdate"
             type="text"
             label="COM_THM_ORGANIZER_SCH_CREATION_DATE"
             description="COM_THM_ORGANIZER_SCH_CREATION_DATE_DESC"
+            class="inputbox"
             readonly="true"
             disabled="true"
-            default=""/>
+            default=""
+            size="7" />
         <field
             id="description"
             name="description"
@@ -33,40 +67,5 @@
             class="inputbox"
             size="56"
             default=""/>
-        <field
-            id="sid"
-            name="sid"
-            type="sql"
-            label="COM_THM_ORGANIZER_SCH_SEMESTER_TITLE"
-            description="COM_THM_ORGANIZER_SCH_SEMESTER_DESC"
-            query="SELECT id AS sid, CONCAT( organization, ' - ', semesterDesc ) AS semester FROM #__thm_organizer_semesters"
-            key_field="sid"
-            value_field="semester"/>
-        <field
-            id="startdate"
-            name="startdate"
-            type="calendar"
-            label="COM_THM_ORGANIZER_START_DATE"
-            description="COM_THM_ORGANIZER_SCH_START_DATE_DESC"
-            class="inputbox validate-germandate"
-            validate="germandate"
-            format="%d.%m.%Y"
-            size="7"
-            required="true" />
-        <field
-            id="enddate"
-            name="enddate"
-            type="calendar"
-            label="COM_THM_ORGANIZER_END_DATE"
-            description="COM_THM_ORGANIZER_SCH_END_DATE_DESC"
-            class="inputbox validate-germandate"
-            validate="germandate"
-            format="%d.%m.%Y"
-            size="7"
-            required="true" />
-        <field
-            id="plantypeID"
-            name="plantypeID"
-            type="text" />
     </fieldset>
 </form>

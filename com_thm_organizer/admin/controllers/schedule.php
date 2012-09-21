@@ -73,7 +73,7 @@ class thm_organizersControllerschedule extends JController
         $fileType = $_FILES['file']['type'];
         if ($fileType == "text/xml")
         {
-            $model = $this->getModel();
+            $model = $this->getModel('schedule');
             $status = $model->upload();
 
             // The file contains critical inconsistancies and will not be uploaded

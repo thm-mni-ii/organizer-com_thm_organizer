@@ -6,8 +6,8 @@
     <author>Wolf Rost</author>
     <authorEMail>wolfDOTrostATmniDOTthDASHmittelhessenDOTde</authorEMail>
     <author>Markus Baier</author>
-    <authorEmail>markus.baier@mni.thm.de</authorEmail>
-    <authorUrl>www.mni.fh-giessen.de</authorUrl>
+    <authorEmail>markusDOTbaierATmniDOTthmDOTde</authorEmail>
+    <authorUrl>www.mni.thm.de</authorUrl>
     <creationDate>01/03/2011</creationDate>
     <copyright>TH Mittelhessen 2011</copyright>
     <licence>GNU GPL v.2</licence>
@@ -19,7 +19,6 @@
             <file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
         </sql>
     </install>
-
     <update>
     	<schemas>
     		<schemapath type="mysql">sql/updates/mysql</schemapath>
@@ -35,8 +34,8 @@
             <folder>models</folder>
             <folder>controllers</folder>
             <folder>assets</folder>
-			<folder>css</folder>
-			<folder>helper</folder>
+            <folder>css</folder>
+            <folder>helper</folder>
     </files>
     <languages folder="site">
         <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.ini</language>
@@ -47,44 +46,32 @@
         <submenu>
             <menu img="components/com_thm_organizer/assets/images/category_manager.png"
                   view="category_manager">COM_THM_ORGANIZER_CAT_TITLE</menu>
-            <menu img="components/com_thm_organizer/assets/images/semester_manager.png"
-                  view="semester_manager">COM_THM_ORGANIZER_SEM_TITLE</menu>
             <menu img="components/com_thm_organizer/assets/images/schedule_manager.png"
                   view="schedule_manager">COM_THM_ORGANIZER_SCH_TITLE</menu>
             <menu img="components/com_thm_organizer/assets/images/virtual_schedule_manager.png"
                   view="virtual_schedule_manager">COM_THM_ORGANIZER_VSM_TITLE</menu>
-            <menu img="components/com_thm_organizer/assets/images/description_manager.png"
-                  view="description_manager">COM_THM_ORGANIZER_DSM_TITLE</menu>
-            <menu img="components/com_thm_organizer/assets/images/department_manager.png"
-                  view="department_manager">COM_THM_ORGANIZER_DPM_TITLE</menu>
-            <menu img="components/com_thm_organizer/assets/images/class_manager.png"
-                  view="class_manager">COM_THM_ORGANIZER_CLM_TITLE</menu>
-            <menu img="components/com_thm_organizer/assets/images/teacher_manager.png"
-                  view="teacher_manager">COM_THM_ORGANIZER_TRM_TITLE</menu>
-            <menu img="components/com_thm_organizer/assets/images/room_manager.png"
-                  view="room_manager">COM_THM_ORGANIZER_RMM_TITLE</menu>
             <menu img="components/com_thm_organizer/assets/images/monitor_manager.png"
                   view="monitor_manager">COM_THM_ORGANIZER_MON_TITLE</menu>
             <menu img="components/com_thm_organizer/assets/images/settings.png"
                   view="settings">COM_THM_ORGANIZER_COM_TITLE</menu>
-            <menu view="soapqueries"
-				img="components/com_thm_organizer/assets/images/configurations.png">COM_THM_CURRICULUM_SUBMENU_SOAP_QUERIES</menu>
-			<menu view="semesters"
-				img="components/com_thm_organizerm/assets/images/curriculums.png">COM_THM_CURRICULUM_SUBMENU_SEMESTERS</menu>
-			<menu view="lecturers"
-				img="components/com_thm_organizer/assets/images/dozenten.png">COM_THM_CURRICULUM_SUBMENU_LECTURERS</menu>
-			<menu view="assets"
-				img="components/com_thm_organizer/assets/images/modules.png">COM_THM_CURRICULUM_SUBMENU_ASSETS</menu>
-			<menu view="colors"
-				img="components/com_thm_organizer/assets/images/curriculums.png">COM_THM_CURRICULUM_SUBMENU_COLORS</menu>
-			<menu view="degrees"
-				img="components/com_thm_organizer/assets/images/curriculums.png">COM_THM_CURRICULUM_SUBMENU_DEGREES</menu>
-			<menu view="majors"
-				img="components/com_thm_organizer/assets/images/curriculums.png">COM_THM_CURRICULUM_SUBMENU_MAJORS</menu>
+            <menu img="components/com_thm_organizer/assets/images/configurations.png"
+                  view="soapqueries">COM_THM_CURRICULUM_SUBMENU_SOAP_QUERIES</menu>
+            <menu img="components/com_thm_organizerm/assets/images/curriculums.png"
+                  view="semesters">COM_THM_CURRICULUM_SUBMENU_SEMESTERS</menu>
+            <menu img="components/com_thm_organizer/assets/images/dozenten.png"
+                  view="lecturers">COM_THM_CURRICULUM_SUBMENU_LECTURERS</menu>
+            <menu img="components/com_thm_organizer/assets/images/modules.png"
+                  view="assets">COM_THM_CURRICULUM_SUBMENU_ASSETS</menu>
+            <menu img="components/com_thm_organizer/assets/images/curriculums.png"
+                  view="colors">COM_THM_CURRICULUM_SUBMENU_COLORS</menu>
+            <menu img="components/com_thm_organizer/assets/images/curriculums.png"
+                  view="degrees">COM_THM_CURRICULUM_SUBMENU_DEGREES</menu>
+            <menu img="components/com_thm_organizer/assets/images/curriculums.png"
+                  view="majors">COM_THM_CURRICULUM_SUBMENU_MAJORS</menu>
         </submenu>
         <files folder="admin">
-			<filename>access.xml</filename>
-			<filename>config.xml</filename>
+            <filename>access.xml</filename>
+            <filename>config.xml</filename>
             <filename>index.html</filename>
             <filename>thm_organizer.php</filename>
             <filename>controller.php</filename>
@@ -93,7 +80,7 @@
             <folder>models</folder>
             <folder>controllers</folder>
             <folder>assets</folder>
-			<folder>helpers</folder>
+            <folder>helpers</folder>
             <folder>tables</folder>
             <folder>sql</folder>
         </files>
