@@ -153,9 +153,10 @@ class thm_organizersModelschedule_manager extends JModelList
     {
         $dbo = $this->getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("DISTINCT semestername, ");
+        $select = "DISTINCT semestername, ";
         $select .= "CONCAT( DATE_FORMAT(startdate, '%d.%m.%Y'), ' - ', ";
         $select .= "DATE_FORMAT(enddate, '%d.%m.%Y')) AS dates ";
+        $query->select($select);
         $query->from("#__thm_organizer_schedules");
         $dbo->setQuery((string) $query);
         $semesters = $dbo->loadAssocList();
