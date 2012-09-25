@@ -43,7 +43,7 @@ class thm_organizersViewthm_organizers extends JView
 
         JHtml::_('behavior.tooltip');
 
-        $document = & JFactory::getDocument();
+        $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl . '/components/com_thm_organizer/assets/css/thm_organizer.css');
 
         $pane = JPane::getInstance('sliders');
