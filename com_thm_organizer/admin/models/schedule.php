@@ -744,10 +744,10 @@ class thm_organizersModelschedule extends JModel
         if (!empty($subjectID)
          AND !key_exists($subjectID, $this->_newSchedule['lessons'][$lessonID]['subjects']))
         {
-            $this->_newSchedule['lessons'][$lessonID]['subjects'][$subjectID] = $this->_newSchedule['subjects'][$subjectID]['longname'];
+            $this->_newSchedule['lessons'][$lessonID]['subjects'][$subjectID] = '';
         }
         $lessonName = (count($this->_newSchedule['lessons'][$lessonID]['subjects']) > 1)?
-            implode(' / ', $this->_newSchedule['lessons'][$lessonID]['subjects']) : reset($this->_newSchedule['lessons'][$lessonID]['subjects']);
+            implode(' / ', array_keys($this->_newSchedule['lessons'][$lessonID]['subjects'])) : reset($this->_newSchedule['lessons'][$lessonID]['subjects']);
 
         /*$descriptionID = str_replace('DS_', '', trim((string) $lessonnode->lesson_description[0]['id']));
         if (empty($descriptionID))
@@ -784,7 +784,7 @@ class thm_organizersModelschedule extends JModel
         }
         if (!key_exists($teacherID, $this->_newSchedule['lessons'][$lessonID]['teachers']))
         {
-            $this->_newSchedule['lessons'][$lessonID]['teachers'][$teacherID] = $this->_newSchedule['teachers'][$teacherID]['surname'];
+            $this->_newSchedule['lessons'][$lessonID]['teachers'][$teacherID] = '';
         }
 
         $moduleIDs = (string) $lessonnode->lesson_classes[0]['id'];
@@ -803,7 +803,7 @@ class thm_organizersModelschedule extends JModel
                     $this->_scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_LS_CL_LACKING", $lessonName, $lessonID, $moduleID);
                     return;
                 }
-                $this->_newSchedule['lessons'][$lessonID]['modules'][$moduleID] = $this->_newSchedule['modules'][$moduleID]['longname'];
+                $this->_newSchedule['lessons'][$lessonID]['modules'][$moduleID] = '';
             }
         }
 
@@ -943,7 +943,7 @@ class thm_organizersModelschedule extends JModel
                         }
                         if (!empty($roomID) AND !in_array($roomID, $this->_newSchedule['calendar'][$currentDate][$period][$lessonID]))
                         {
-                            $this->_newSchedule['calendar'][$currentDate][$period][$lessonID][] = $roomID;
+                            $this->_newSchedule['calendar'][$currentDate][$period][$lessonID][$roomID] = '';
                         }
                     }
                 }
@@ -1217,7 +1217,6 @@ class thm_organizersModelschedule extends JModel
     {
         $data = JRequest::getVar('jform', null, null, null, 4);
         $data['description'] = JFactory::getDbo()->escape($data['description']);
-        
         $table = JTable::getInstance('schedules', 'thm_organizerTable');
         return $table->save($data);
     }
