@@ -15,30 +15,6 @@
  *@version     0.1.0
  */
 defined("_JEXEC") or die;?>
-<script language="javascript" type="text/javascript">
-Joomla.submitbutton = function(task)
-{
-    if (task == '') { return false; }
-    else
-    {
-        var isValid=true; var action = task.split('.');
-        if (action[1] != 'cancel' && action[1] != 'close')
-        {
-            var forms = $$('form.form-validate');
-            for (var i=0;i<forms.length;i++)
-            {
-                if (!document.formvalidator.isValid(forms[i])) { isValid = false; break; }
-            }
-        }
-        if (isValid) { Joomla.submitform(task, document.eventForm); }
-        else
-        {
-            alert('<?php echo addslashes(JText::_('COM_THM_ORGANIZER_INVALID_FORM')); ?>');
-            return false;
-        }
-    }
-}
-</script>
 <form action="index.php?option=com_thm_organizer"
       enctype="multipart/form-data" method="post" name="adminForm" id="adminForm">
     <div id="thm_organizer_se" class="width-60 fltlft">
@@ -73,5 +49,5 @@ Joomla.submitbutton = function(task)
         </fieldset>
     </div>
     <input type="hidden" name="task" value="" />
-    <input type="hidden" name="scheduleID" value="<?php echo $this->form->getValue('id'); ?>" />
+    <?php echo $this->form->getInput('id'); ?>
 </form>

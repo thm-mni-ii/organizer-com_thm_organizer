@@ -92,7 +92,7 @@ class thm_organizersControllerschedule extends JController
             }
             else
             {
-                $url .= "&scheduleID=$result";
+                $url .= "&scheduleID={$status['scheduleID']}";
 
                 // Minor inconsistancies discovered
                 if (isset($status['warnings']))
@@ -126,9 +126,8 @@ class thm_organizersControllerschedule extends JController
         {
             thm_organizerHelper::noAccess();
         }
-        $model = $this->getModel();
-        $result = $model->update();
-        $scheduleID = JRequest::getInt('scheduleID');
+        $model = $this->getModel('schedule');
+        $result = $model->saveComment();
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
         if ($result)
         {
@@ -138,7 +137,6 @@ class thm_organizersControllerschedule extends JController
         else
         {
             $msg = JText::_("COM_THM_ORGANIZER_SCH_CHANGE_FAIL");
-            $url = "JRequest::getInt('scheduleID');";
             $this->setRedirect($url, $msg, 'error');
         }
     }

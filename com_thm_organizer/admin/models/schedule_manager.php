@@ -71,7 +71,7 @@ class thm_organizersModelschedule_manager extends JModelList
         $dbo = $this->getDbo();
         $query = $dbo->getQuery(true);
 
-        $select = "id, departmentname, semestername, active, ";
+        $select = "id, departmentname, semestername, active, description, ";
         $select .= "DATE_FORMAT(creationdate, '%d.%m.%Y') AS creationdate ";
         $query->select($this->getState("list.select", $select));
         $query->from("#__thm_organizer_schedules");

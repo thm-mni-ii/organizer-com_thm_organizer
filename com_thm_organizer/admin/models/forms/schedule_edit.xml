@@ -4,7 +4,7 @@
         <field
             id="id"
             name="id"
-            type="text" />
+            type="hidden" />
         <field
             id="departmentname"
             name="departmentname"

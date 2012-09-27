@@ -56,7 +56,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_room_types` (
   `gpuntisID` varchar(50) NOT NULL DEFAULT '',
   `type` varchar(50) NOT NULL DEFAULT '',
   `subtype` varchar(100) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `gpuntisID` (`gpuntisID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
@@ -64,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
   `gpuntisID` varchar(20) NOT NULL,
   `name` varchar(10) NOT NULL DEFAULT '',
   `longname` varchar(50) NOT NULL DEFAULT '',
-  `typeID` int(11) unsigned NOT NULL,
+  `typeID` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`typeID`) REFERENCES #__thm_organizer_room_types(`id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -73,7 +74,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_teacher_fields` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `gpuntisID` varchar(50) NOT NULL DEFAULT '',
   `field` varchar(50) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `gpuntisID` (`gpuntisID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_teachers` (
@@ -82,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_teachers` (
   `surname` varchar(50) NOT NULL DEFAULT '',
   `firstname` varchar(50) NOT NULL DEFAULT '',
   `username` varchar(150) NOT NULL DEFAULT '',
-  `fieldID` int(11) unsigned NOT NULL,
+  `fieldID` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `username` (`username`),
   FOREIGN KEY (`fieldID`) REFERENCES #__thm_organizer_teacher_fields(`id`) ON DELETE NO ACTION ON UPDATE CASCADE

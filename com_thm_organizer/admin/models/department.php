@@ -15,7 +15,7 @@
  *@version     0.1.0
  */
 defined('JPATH_PLATFORM') or die;
-require_once JPATH_COMPONENT . '/models/modelresource.php';
+require_once JPATH_COMPONENT . '/models/resource.php';
 /**
  * Class defining functions to be used for degree resources
  * 
