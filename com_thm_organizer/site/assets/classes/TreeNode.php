@@ -90,14 +90,6 @@ class TreeNode
 	public $gpuntisID = null;
 
 	/**
-	 * Plantype
-	 *
-	 * @var Integer
-	 * @since  1.0
-	 */
-	public $plantype = null;
-
-	/**
 	 * Type
 	 *
 	 * @var String
@@ -163,7 +155,6 @@ class TreeNode
 	 * @param   Boolean	 $draggable  		 Is the node dragable
 	 * @param   Boolean	 $singleClickExpand  Should the node expand on single click
 	 * @param   String	 $gpuntisID  		 The gpuntis id for this node
-	 * @param   Integer	 $plantype  		 The nodes plantype
 	 * @param   String	 $type  			 The nodes type (room, teacher, class)
 	 * @param   Object	 $children  		 The nodes children
 	 * @param   Integer	 $semesterID  		 In which semester is this node
@@ -182,7 +173,6 @@ class TreeNode
 	 $draggable,
 	 $singleClickExpand,
 	 $gpuntisID,
-	 $plantype,
 	 $type,
 	 $children,
 	 $semesterID,
@@ -200,7 +190,6 @@ class TreeNode
 		$this->singleClickExpand = $singleClickExpand;
 		$this->children = $children;
 		$this->gpuntisID = $gpuntisID;
-		$this->plantype = $plantype;
 		$this->type = $type;
 		$this->semesterID = $semesterID;
 		$this->checked = $checked;

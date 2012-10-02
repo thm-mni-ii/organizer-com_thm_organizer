@@ -126,4 +126,26 @@ class THM_OrganizerModelScheduler extends JModel
 		}
 		return true;
 	}
+	
+	public function getActiveSchedule()
+	{
+		$dbo = JFactory::getDBO();
+		$query	= $dbo->getQuery(true);
+		$query->select('*');
+		$query->from('#__thm_organizer_schedules');
+		$query->where('active = 1');
+		$dbo->setQuery($query);
+		if ($error = $dbo->getErrorMsg())
+		{
+			return false;
+		}
+		
+		$result = $dbo->loadObject();
+		
+		if ($result === null)
+		{
+			return false;
+		}
+		return $result;
+	}
 }

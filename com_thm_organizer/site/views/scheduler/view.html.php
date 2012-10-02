@@ -15,7 +15,9 @@
 
 defined('_JEXEC') or die;
 
+jimport('THM.thm_extjs4.thm_extjs4');
 jimport('joomla.application.component.view');
+
 
 /**
  * HTML View class for the THM Organizer Component
@@ -40,6 +42,71 @@ class THM_OrganizerViewScheduler extends JView
 	{
 		JHTML::_('behavior.tooltip');
 		$model = $this->getModel();
+				
+		$activeSchedule = $model->getActiveSchedule();
+		if (is_object($activeSchedule) && is_string($activeSchedule->schedule))
+		{
+			$activeScheduleData = json_decode($activeSchedule->schedule);
+			
+			// To save memory unset schedule
+			unset($activeSchedule->schedule);
+			
+			if ($activeScheduleData != null)
+			{
+				$activeSchedulePeriods = $activeScheduleData->periods;
+				unset($activeScheduleData->periods);
+				$activeScheduleDegrees = $activeScheduleData->degrees;
+				unset($activeScheduleData->degrees);
+				$activeScheduleRooms = $activeScheduleData->rooms;
+				unset($activeScheduleData->rooms);
+				$activeScheduleRoomTypes = $activeScheduleData->roomtypes;
+				unset($activeScheduleData->roomtypes);
+				$activeScheduleSubjects = $activeScheduleData->subjects;
+				unset($activeScheduleData->subjects);
+				$activeScheduleTeachers = $activeScheduleData->teachers;
+				unset($activeScheduleData->teachers);
+				$activeScheduleModules = $activeScheduleData->modules;
+				unset($activeScheduleData->modules);
+				$activeScheduleCalendar = $activeScheduleData->calendar;
+				unset($activeScheduleData->calendar);
+				$activeScheduleLessons = $activeScheduleData->lessons;
+				unset($activeScheduleData->lessons);
+				$activeScheduleFields = $activeScheduleData->fields;
+				unset($activeScheduleData->fields);
+				
+				if (is_object($activeSchedulePeriods)
+				 && is_object($activeScheduleDegrees)
+				 && is_object($activeScheduleRooms)
+				 && is_object($activeScheduleRoomTypes)
+				 && is_object($activeScheduleSubjects)
+				 && is_object($activeScheduleTeachers)
+				 && is_object($activeScheduleModules)
+				 && is_object($activeScheduleCalendar)
+				 && is_object($activeScheduleLessons)
+				 && is_object($activeScheduleFields))
+				{
+					
+				}
+				else
+				{
+					return JError::raiseWarning(404, JText::_('Wichtige Daten fehlen'));
+				}
+			}
+			else
+			{
+				// Cant decode json
+				return JError::raiseWarning(404, JText::_('Fehlerhfte Daten'));
+			}
+		}
+		else
+		{
+			return JError::raiseWarning(404, JText::_('Kein aktiver Stundenplan'));
+		}
+		
+// 		var_dump($activeSchedule);
+		
+// 		var_dump($activeScheduleData);
+		
 		$user = JFactory::getUser();
 		$eventmodel = JModel::getInstance('event_list', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
 		$canWriteEvents = $eventmodel->canWrite;
@@ -111,7 +178,7 @@ class THM_OrganizerViewScheduler extends JView
 
 		$schedulearr["UserSchedule.load"]["respChanges"] = $model->executeTask("UserSchedule.load", array("username" => "respChanges"));
 
-		$schedulearr["ScheduleDescription.load"] = $model->executeTask("ScheduleDescription.load");
+		//$schedulearr["ScheduleDescription.load"] = $model->executeTask("ScheduleDescription.load");
 
 		$schedulearr["TreeView.load"] = $model->executeTask("TreeView.load",
 											array("path" => $path, "hide" => true, "publicDefault" => $publicDefaultIDArray)
