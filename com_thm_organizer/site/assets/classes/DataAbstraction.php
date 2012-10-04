@@ -181,6 +181,10 @@ class DataAbstraction
 	 */
 	public function getSettings()
 	{
+		return (object) array(
+				"eStudyPath" => "", "eStudywsapiPath" => "","eStudyCreateCoursePath" => "",
+				"eStudySoapSchema" => "", "downFolder" => "","vacationcat" => ""
+		);
 		$settings = $this->query("SELECT * FROM #__thm_organizer_settings WHERE id=1");
 		if ($settings)
 		{

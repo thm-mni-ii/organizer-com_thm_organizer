@@ -36,9 +36,9 @@
 	<!--<script type="text/javascript" charset="utf-8" 
 	src="components/com_thm_organizer/views/scheduler/tmpl/mySched/preLoadingMessage.js"></script>-->
 
-	<!-- Ext 4 framework -->
+	<!-- Ext 4 framework
 	<script type="text/javascript" charset="utf-8"
-		src="components/com_thm_organizer/views/scheduler/tmpl/ext/ext-all-dev.js"></script>
+		src="components/com_thm_organizer/views/scheduler/tmpl/ext/ext-all-dev.js"></script> -->
 
 	<!-- Ext 4 bootstrap -->
 	<!--<script type="text/javascript" charset="utf-8" src="components/com_thm_organizer/views/scheduler/tmpl/ext/bootstrap.js"></script>-->
