@@ -365,7 +365,14 @@ Ext.onReady(function(){
 			    	break;
 			    }
 
-				publicDefault = publicDefault.split(".");
+			    if(Ext.isString(publicDefault))
+			    {
+					publicDefault = publicDefault.split(".");
+			    }
+			    else
+			    {
+			    	publicDefault = [];
+            	}
 
 				var nodePath = [];
 

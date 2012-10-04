@@ -11,13 +11,13 @@ MySched.Mapping = function() {
 
 	return {
 		init : function() {
-			this.doz = new MySched.Collection();
-			this.clas = new MySched.Collection();
+			this.teacher = new MySched.Collection();
+			this.module = new MySched.Collection();
 			this.subject = new MySched.Collection();
 			this.room = new MySched.Collection();
 			this.types = {
-				doz : MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHER,
-				clas : MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER,
+				teacher : MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHER,
+				module : MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER,
 				room : MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ROOM,
 				subject : MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SUBJECTS
 			};
@@ -116,7 +116,7 @@ MySched.Mapping = function() {
 			return def || '';
 		},
 		getName : function(type, id) {
-			return this.def(this[type].get(id, id), 'name', id);
+			return this.def(this[type].get(id, id), 'surname', id);
 		},
 		getObjectField : function(type, id, field) {
 			return this.def(this[type].get(id, id), field, id);

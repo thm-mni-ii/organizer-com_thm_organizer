@@ -105,37 +105,16 @@ MySched.Base = function() {
 	return {
 		init : function() {
 			if (Ext.isString(MySched.startup) === true)
-				try {
-					MySched.startup = Ext
-							.decode(decodeURIComponent(MySched.startup));
-				} catch (e) {
+			{
+				try
+				{
+					MySched.startup = Ext.decode(decodeURIComponent(MySched.startup));
+				} catch (e)
+				{
+					
 				}
-			if (checkStartup("Grid.load") === true) {
-				MySched.Base.startMySched(MySched.startup["Grid.load"].data);
-			} else
-				Ext.Ajax
-						.request({
-							url : _C('ajaxHandler'),
-							method : 'POST',
-							params : {
-								semesterID : MySched.class_semester_id,
-								scheduletask : "Grid.load"
-							},
-							failure : function(response) {
-							},
-							success : function(response) {
-								try {
-									var json = Ext
-											.decode(response.responseText);
-									MySched.Base.startMySched(json);
-								} catch (e) {
-									Ext.Msg
-											.alert(
-													MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LOADING_ERROR,
-													response.responseText);
-								}
-							}
-						});
+				MySched.Base.startMySched(MySched.startup["Grid.load"]);
+			}
 		},
 		startMySched : function(json) {
 			var length = 0;
@@ -143,7 +122,7 @@ MySched.Base = function() {
 				length = json.length;
 			else
 				length = json.size;
-			for ( var i = 0; i < length; i++) {
+			for ( var i = 1; i <= length; i++) {
 				if (!MySched.daytime[json[i].day]) {
 					MySched.daytime[json[i].day] = new Array();
 					MySched.daytime[json[i].day]["engName"] = numbertoday(json[i].day);
@@ -156,7 +135,7 @@ MySched.Base = function() {
 						.substr(0, 5);
 				MySched.daytime[json[i].day][json[i].period]["stime"] = json[i].starttime
 						.substr(0, 5);
-				MySched.daytime[json[i].day][json[i].period]["tpid"] = json[i].tpid;
+				MySched.daytime[json[i].day][json[i].period]["tpid"] = json[i].gpuntisID;
 				MySched.daytime[json[i].day][json[i].period]["localName"] = "block"
 			}
 			// Initalisieren des Baumes und der Auswahlsteuerung
@@ -313,49 +292,15 @@ MySched.Base = function() {
 			// Erstellt das Layout
 			MySched.layout.buildLayout();
 
-			if (checkStartup("ScheduleDescription.load") === true) {
-				MySched.Base
-						.setScheduleDescription(MySched.startup["ScheduleDescription.load"].data);
-			} else
-				Ext.Ajax
-						.request({
-							url : _C('ajaxHandler'),
-							method : 'POST',
-							params : {
-								username : MySched.Authorize.user,
-								semesterID : MySched.class_semester_id,
-								scheduletask : "ScheduleDescription.load"
-							},
-							failure : function(resp, req) {
-								Ext.MessageBox.hide();
-								Ext.Msg
-										.alert(
-												MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LOADING_SCHEDULE,
-												MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LOADING_SCHEDULE_DESC_ERROR);
-							},
-							success : function(resp) {
-								// Zeigt das Erstellungsdatum der
-								// Stundenplandaten an
-								var jsonData = new Array();
-								if (resp.responseText.length > 0) {
-									try {
-										jsonData = Ext
-												.decode(resp.responseText);
-										MySched.Base
-												.setScheduleDescription(jsonData);
-									} catch (e) {
-									}
-								}
-							}
-						});
+			MySched.Base.setScheduleDescription(MySched.startup["ScheduleDescription.load"].data);
 		},
 		setScheduleDescription : function(jsonData) {
-			if (Ext.isObject(jsonData) || Ext.isArray(jsonData)) {
-				MySched.Tree.setTitle(jsonData[0], true);
+			if (Ext.isObject(jsonData)) {
+				MySched.Tree.setTitle(jsonData.description, true);
 
-				MySched.session["begin"] = jsonData[1];
-				MySched.session["end"] = jsonData[2];
-				MySched.session["creationdate"] = jsonData[3];
+				MySched.session["begin"] = jsonData.startdate;
+				MySched.session["end"] = jsonData.enddate;
+				MySched.session["creationdate"] = jsonData.creationdate;
 				Ext.ComponentMgr.get('leftMenu').setTitle(
 						MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AS_OF + " "
 								+ MySched.session["creationdate"]);
@@ -1896,22 +1841,28 @@ MySched.TreeManager = function() {
 							MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_CURRICULUM);// UnsetTimes
 		},
 
-		processTreeData : function(json, type, accMode, name, baseTree) {
-			var children = json["tree"];
+		processTreeData : function(json, type, accMode, name, baseTree)
+		{
 			var treeData = json["treeData"];
-			var treeRoot = baseTree.getRootNode();
 			/*
 			 * if (accMode != 'none') { treeRoot.appendChild(children); }
 			 */
 
 			for ( var item in treeData)
-				if (Ext.isArray(treeData[item]))
+			{
+				if (Ext.isObject(treeData[item]))
+				{
 					for ( var childitem in treeData[item])
+					{
 						if (Ext.isObject(treeData[item][childitem]))
+						{
 							MySched.Mapping[item].add(
-									treeData[item][childitem].id,
+									treeData[item][childitem].gpuntisID,
 									treeData[item][childitem]);
-
+						}
+					}
+				}
+			}
 		},
 		/**
 		 * Erstellt eine Uebersichtsliste
@@ -3978,7 +3929,7 @@ MySched.Tree = function() {
 					id : 'rootTreeNode',
 					text : 'root',
 					expanded : true,
-					children : children
+					children : children[0]
 				}
 			});
 
@@ -4051,7 +4002,7 @@ MySched.Tree = function() {
 				title = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_OWN;
 			else {
 				department = MySched.Mapping.getObjectField(type, nodeKey,
-						"parentName");
+						"description");
 				if (typeof department == "undefined" || department == "none"
 						|| department == null || department == nodeKey)
 					title = MySched.Mapping.getName(type, nodeKey);
@@ -4059,13 +4010,21 @@ MySched.Tree = function() {
 					title = MySched.Mapping.getName(type, nodeKey)
 							+ " - "
 							+ MySched.Mapping.getObjectField(type, nodeKey,
-									"parentName");
+									"description");
 			}
 
 			if (type == "delta") {
 				new mSchedule(nodeID, title).init(type, nodeKey).show();
 			} else {
 				if (MySched.loadedLessons[nodeID] != true) {
+					
+					var weekpointer = Ext.Date
+					.clone(Ext.ComponentMgr.get('menuedatepicker').value);
+		
+					var mondayWeekPointer = getMonday(weekpointer);
+					var fridayWeekPointer = Ext.Date.clone(mondayWeekPointer);
+					fridayWeekPointer.setDate(fridayWeekPointer.getDate() + 6);
+					
 					Ext.Ajax
 							.request({
 								url : _C('ajaxHandler'),
@@ -4077,7 +4036,9 @@ MySched.Tree = function() {
 									semesterID : semesterID,
 									scheduletask : "Ressource.load",
 									plantypeID : plantypeID,
-									type : type
+									type : type,
+									startdate: Ext.Date.format(mondayWeekPointer, "Y-m-d"),
+									enddate: Ext.Date.format(fridayWeekPointer, "Y-m-d")
 								},
 								failure : function(response) {
 									Ext.Msg

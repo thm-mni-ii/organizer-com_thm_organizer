@@ -103,10 +103,6 @@ class THM_OrganizerViewScheduler extends JView
 			return JError::raiseWarning(404, JText::_('Kein aktiver Stundenplan'));
 		}
 		
-// 		var_dump($activeSchedule);
-		
-// 		var_dump($activeScheduleData);
-		
 		$user = JFactory::getUser();
 		$eventmodel = JModel::getInstance('event_list', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
 		$canWriteEvents = $eventmodel->canWrite;
@@ -169,16 +165,21 @@ class THM_OrganizerViewScheduler extends JView
 		$schedulearr = array();
 
 		$model = JModel::getInstance('Ajaxhandler', 'thm_organizerModel', array('ignore_request' => false));
+				
+		$activeSchedulePeriods->length = count((array) $activeSchedulePeriods);
+		$schedulearr["Grid.load"] = $activeSchedulePeriods;
+		
+// 		var_dump($activeScheduleCalendar);
 
-		$schedulearr["Grid.load"] = $model->executeTask("Grid.load");
-
+		//$schedulearr["Calendar"] = $activeScheduleCalendar;
+		
 		$schedulearr["Events.load"] = $model->executeTask("Events.load");
 
 		$schedulearr["UserSchedule.load"] = array();
 
 		$schedulearr["UserSchedule.load"]["respChanges"] = $model->executeTask("UserSchedule.load", array("username" => "respChanges"));
-
-		//$schedulearr["ScheduleDescription.load"] = $model->executeTask("ScheduleDescription.load");
+				
+		$schedulearr["ScheduleDescription.load"]->data = $activeSchedule; 
 
 		$schedulearr["TreeView.load"] = $model->executeTask("TreeView.load",
 											array("path" => $path, "hide" => true, "publicDefault" => $publicDefaultIDArray)
