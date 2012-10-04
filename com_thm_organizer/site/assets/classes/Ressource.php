@@ -108,7 +108,9 @@ class Ressource
 		$this->nodeKey = $JDA->getRequest("nodeKey");
 		$this->plantypeID = $JDA->getRequest("plantypeID");
 		$this->type = $JDA->getRequest("type");
-		$this->semID = $JDA->getSemID();
+		$this->semesterID = $JDA->getRequest("semesterID");
+		$this->startdate = $JDA->getRequest("startdate");
+		$this->enddate = $JDA->getRequest("enddate");
 	}
 
 	/**
@@ -118,54 +120,113 @@ class Ressource
 	 */
 	public function load()
 	{
-		if (isset($this->gpuntisID) && isset($this->semID) && isset($this->nodeID) && isset($this->nodeKey))
+		if (isset($this->startdate) && isset($this->enddate) && isset($this->gpuntisID) && isset($this->semesterID) && isset($this->nodeID) && isset($this->nodeKey))
 		{
-			$elements   = null;
-			$lessons    = array();
-			$retlessons = array();
-
-			if (stripos($this->gpuntisID, "VS_") === 0)
+			$activeSchedule = $this->getSchedule($this->semesterID);
+			$data = null;
+			
+			if (is_object($activeSchedule) && is_string($activeSchedule->schedule))
 			{
-				$elements = $this->getElements($this->nodeKey, $this->semID, $this->type);
-				$retlessons["elements"] = "";
-
-				$elementsGpuntisIDs = "";
-
-				foreach ($elements as $k => $v)
+				$activeScheduleData = json_decode($activeSchedule->schedule);
+				
+				// To save memory unset schedule
+				unset($activeSchedule->schedule);
+			
+				if ($activeScheduleData == null)
 				{
-					if ($elementsGpuntisIDs == "")
-					{
-						$elementsGpuntisIDs = $v->gpuntisID;
-					}
-					else
-					{
-						$elementsGpuntisIDs .= "', '" . $v->gpuntisID;
-					}
-
-					$elementIDs = $this->GpuntisIDToid($v->gpuntisID, $this->type);
-					$elementID = $elementIDs[0]->id;
-					if ($retlessons["elements"] == "")
-					{
-						$retlessons["elements"] .= $elementID;
-					}
-					else
-					{
-						$retlessons["elements"] .= ";" . $elementID;
-					}
+					// Cant decode json
+					return JError::raiseWarning(404, JText::_('Fehlerhfte Daten'));
 				}
-
-				$lessons = $this->getResourcePlan($elementsGpuntisIDs, $this->semID, $this->type);
-
+				else
+				{
+					$activeScheduleLessons = $activeScheduleData->lessons;
+					unset($activeScheduleData->lessons);
+				}
 			}
 			else
 			{
-				$lessons = $this->getResourcePlan($this->nodeKey, $this->semID, $this->type);
+				return JError::raiseWarning(404, JText::_('Kein aktiver Stundenplan'));
 			}
-
+			
+			if(is_string($this->startdate) && is_string($this->enddate))
+			{
+				$startDate = new DateTime($this->startdate);
+				$endDate = new DateTime($this->enddate);
+				$currentDate = $startDate;
+				$lessonDates = array();
+				
+				if($startDate > $endDate)
+				{
+					return JError::raiseWarning(404, JText::_('Das Enddatum muss größer als das Startdatum sein'));
+				}
+				
+				$calendar = $activeScheduleData->calendar;
+								
+				while($currentDate <= $endDate)
+				{
+					$date = $currentDate->format('Y-m-d');
+					if(isset($calendar->{$date}))
+					{
+						$lessonDates[$date] = $calendar->{$date};
+					}
+					$currentDate->add(new DateInterval('P1D'));
+				}
+			}
+			else
+			{
+				return JError::raiseWarning(404, JText::_('Kein gültiges Datum'));
+			}
+			
+			$lessonData = array();
+			
+			foreach($lessonDates as $lessonDate => $lessonBlock)
+			{
+				foreach($lessonBlock as $blockKey => $blockLessons)
+				{
+					foreach($blockLessons as $lessonKey => $lessonRoom)
+					{
+						$lessonData[$lessonKey] = $activeScheduleLessons->{$lessonKey};
+						foreach($lessonRoom as $roomKey => $roomValue)
+						{
+							if($roomKey != 'delta')
+							{
+								
+							}
+							else
+							{
+								
+							}
+						}
+					}
+				}
+			}
+			
+			$data = array();
+			if(count($lessonDates) == 0)
+			{
+				$data["lessonDate"] = null;
+			}
+			else
+			{
+				$data["lessonDate"] = $lessonDates;
+			}
+			
+			if(count($lessonData) == 0)
+			{
+				$data["lessonData"] = null;
+			}
+			else
+			{
+				$data["lessonData"] = $lessonData;
+			}
+						
+			return array("success" => true,"data" => $data);
+						
 			if (is_array($lessons))
 			{
 				foreach ($lessons as $item)
 				{
+					var_dump($item);
 					$key = $item->lid . " " . $item->tpid;
 					if (!isset($retlessons[$key]))
 					{
@@ -237,6 +298,43 @@ class Ressource
 
 			return array("success" => true,"data" => $retlessons);
 		}
+	}
+	
+	/**
+	 * Method to get schedule by scheduleID
+	 * 
+	 * @param  Integer  $scheduleID  The schedule id  (Default: null)
+	 *
+	 * @return mixed  The active schedule as object or false
+	 */
+	public function getSchedule($scheduleID = null)
+	{
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
+		$query->select('*');
+		$query->from('#__thm_organizer_schedules');
+		if ($scheduleID == null || !is_int($scheduleID))
+		{
+			$query->where('active = 1');
+		}
+		else
+		{
+			$query->where('active = ' . $scheduleID);
+		}
+		$dbo->setQuery($query);
+	
+		if ($error = $dbo->getErrorMsg())
+		{
+			return false;
+		}
+	
+		$result = $dbo->loadObject();
+	
+		if ($result === null)
+		{
+			return false;
+		}
+		return $result;
 	}
 
 	/**

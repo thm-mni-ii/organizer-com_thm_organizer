@@ -44,7 +44,7 @@ MySched.Authorize.init({
 	defaultRole : 'user',
 	// ALL definiert den gemeinsammen Nenner aller Rollen
 	ALL : {
-		clas : '*',
+		module : '*',
 		diff : '*',
 		curtea : '*'
 	},
@@ -57,28 +57,28 @@ MySched.Authorize.init({
 		room : '*'
 	},
 	author : {
-		doz : '*',
+		teacher : '*',
 		room : '*'
 	},
 	editor : {
-		doz : '*',
+		teacher : '*',
 		room : '*'
 	},
 	publisher : {
-		doz : '*',
+		teacher : '*',
 		room : '*'
 	},
 	administrator : {
-		doz : '*',
+		teacher : '*',
 		room : '*',
 		respChanges : '*'
 	},
 	manager : {
-		doz : '*',
+		teacher : '*',
 		room : '*'
 	},
 	'super users' : {
-		doz : '*',
+		teacher : '*',
 		room : '*',
 		respChanges : '*'
 	}
@@ -776,7 +776,7 @@ MySched.SelectionManager = Ext
 									.removeAllListeners();
 							Ext.select('.status_icons_edit', false, dom)
 									.removeAllListeners();
-							Ext.select('.dozname', false, dom)
+							Ext.select('.teachername', false, dom)
 									.removeAllListeners();
 							Ext.select('.lectureBox', false, dom)
 									.removeAllListeners();
@@ -803,7 +803,7 @@ MySched.SelectionManager = Ext
 									.removeAllListeners();
 							Ext.select('.status_icons_edit')
 									.removeAllListeners();
-							Ext.select('.dozname').removeAllListeners();
+							Ext.select('.teachername').removeAllListeners();
 							Ext.select('.lectureBox').removeAllListeners();
 							Ext.select('.conMenu').removeAllListeners();
 							Ext.select('.MySched_event_joomla')
@@ -828,7 +828,7 @@ MySched.SelectionManager = Ext
 									activeTabDom).removeAllListeners();
 							Ext.select('.status_icons_edit', false,
 									activeTabDom).removeAllListeners();
-							Ext.select('.dozname', false, activeTabDom)
+							Ext.select('.teachername', false, activeTabDom)
 									.removeAllListeners();
 							Ext.select('.lectureBox', false, activeTabDom)
 									.removeAllListeners();
@@ -850,7 +850,7 @@ MySched.SelectionManager = Ext
 							Ext.select('.status_icons_estudy', false,
 									activeTabDom).removeAllListeners();
 						}
-						// Ext.select('.dozname', false,
+						// Ext.select('.teachername', false,
 						// document).removeAllListeners();
 						// Ext.select('.roomshortname', false,
 						// document).removeAllListeners();
@@ -915,11 +915,11 @@ MySched.SelectionManager = Ext
 							scope : this
 						});
 
-						// Aboniert Events für Dozentennamen
-						Ext.select('.dozname', false, tab.dom).on({
+						// Aboniert Events für Teacherentennamen
+						Ext.select('.teachername', false, tab.dom).on({
 							'click' : function(e) {
 								if (e.button == 0) // links Klick
-									this.showSchedule(e, 'doz');
+									this.showSchedule(e, 'teacher');
 							},
 							scope : this
 						});
@@ -944,7 +944,7 @@ MySched.SelectionManager = Ext
 									scope : this
 								});
 
-						// Aboniert Events f�r Dozentennamen
+						// Aboniert Events f�r Teacherentennamen
 						Ext
 								.select('.MySchedEvent_name', false, tab.dom)
 								.on(
@@ -976,7 +976,7 @@ MySched.SelectionManager = Ext
 											scope : this
 										});
 
-						// Aboniert Events für Dozentennamen
+						// Aboniert Events für Teacherentennamen
 						Ext.select('.roomshortname', false, tab.dom).on({
 							'click' : function(e) {
 								if (e.button == 0) // links Klick
@@ -985,10 +985,10 @@ MySched.SelectionManager = Ext
 							scope : this
 						});
 
-						// Aboniert Events f�r Dozentennamen
+						// Aboniert Events f�r Teacherentennamen
 						Ext.select('.classhorter', false, tab.dom).on({
 							'click' : function(e) {
-								this.showSchedule(e, 'clas');
+								this.showSchedule(e, 'module');
 							},
 							scope : this
 						});
@@ -1038,18 +1038,18 @@ MySched.SelectionManager = Ext
 							if (typeof l == "undefined")
 								l = MySched.Schedule.getLecture(lessonid[1]);
 
-							if (type == "doz") {
-								for ( var i = 0; i < l.doz.keys.length; i++) {
+							if (type == "teacher") {
+								for ( var i = 0; i < l.teacher.keys.length; i++) {
 									if (name == MySched.Mapping
-											.getDozName(l.doz.keys[i])) {
-										nodeKey = l.doz.keys[i];
+											.getTeacherName(l.teacher.keys[i])) {
+										nodeKey = l.teacher.keys[i];
 										gpuntisID = MySched.Mapping
 												.getObjectField(type,
-														l.doz.keys[i],
+														l.teacher.keys[i],
 														"gpuntisID");
 										parent = MySched.Mapping
 												.getObjectField(type,
-														l.doz.keys[i],
+														l.teacher.keys[i],
 														"departmentID");
 										break;
 									}
@@ -1073,17 +1073,17 @@ MySched.SelectionManager = Ext
 									}
 								}
 							} else {
-								for ( var i = 0; i < l.clas.keys.length; i++) {
+								for ( var i = 0; i < l.module.keys.length; i++) {
 									if (name == MySched.Mapping.getObjectField(
-											type, l.clas.keys[i], "shortname")) {
-										nodeKey = l.clas.keys[i];
+											type, l.module.keys[i], "shortname")) {
+										nodeKey = l.module.keys[i];
 										gpuntisID = MySched.Mapping
 												.getObjectField(type,
-														l.clas.keys[i],
+														l.module.keys[i],
 														"gpuntisID");
 										parent = MySched.Mapping
 												.getObjectField(type,
-														l.clas.keys[i],
+														l.module.keys[i],
 														"departmentID");
 										break;
 									}
@@ -1101,20 +1101,20 @@ MySched.SelectionManager = Ext
 						} else {
 							if (Ext.getCmp('mySched_calendar-tip'))
 								Ext.getCmp('mySched_calendar-tip').destroy();
-							if (type == "doz") {
-								for ( var i = 0; i < MySched.Mapping.doz.keys.length; i++) {
+							if (type == "teacher") {
+								for ( var i = 0; i < MySched.Mapping.teacher.keys.length; i++) {
 									if (name == MySched.Mapping
-											.getDozName(MySched.Mapping.doz.keys[i])) {
-										nodeKey = MySched.Mapping.doz.keys[i];
+											.getTeacherName(MySched.Mapping.teacher.keys[i])) {
+										nodeKey = MySched.Mapping.teacher.keys[i];
 										gpuntisID = MySched.Mapping
 												.getObjectField(
 														type,
-														MySched.Mapping.doz.keys[i],
+														MySched.Mapping.teacher.keys[i],
 														"gpuntisID");
 										parent = MySched.Mapping
 												.getObjectField(
 														type,
-														MySched.Mapping.doz.keys[i],
+														MySched.Mapping.teacher.keys[i],
 														"departmentID");
 										break;
 									}
@@ -1138,20 +1138,20 @@ MySched.SelectionManager = Ext
 									}
 								}
 							} else {
-								for ( var i = 0; i < MySched.Mapping.clas.keys.length; i++) {
+								for ( var i = 0; i < MySched.Mapping.module.keys.length; i++) {
 									if (name == MySched.Mapping.getObjectField(
-											type, MySched.Mapping.clas.keys[i],
+											type, MySched.Mapping.module.keys[i],
 											"shortname")) {
-										nodeKey = MySched.Mapping.clas.keys[i];
+										nodeKey = MySched.Mapping.module.keys[i];
 										gpuntisID = MySched.Mapping
 												.getObjectField(
 														type,
-														MySched.Mapping.clas.keys[i],
+														MySched.Mapping.module.keys[i],
 														"gpuntisID");
 										parent = MySched.Mapping
 												.getObjectField(
 														type,
-														MySched.Mapping.clas.keys[i],
+														MySched.Mapping.module.keys[i],
 														"departmentID");
 										break;
 									}
@@ -1399,8 +1399,8 @@ MySched.SelectionManager = Ext
 						var lesson = MySched.Base.getLecture(id);
 						newPEvent(numbertoday(lesson.data.dow),
 								lesson.data.stime, lesson.data.etime,
-								lesson.data.subject, lesson.data.doz.replace(
-										/\s+/g, ','), lesson.data.clas.replace(
+								lesson.data.subject, lesson.data.teacher.replace(
+										/\s+/g, ','), lesson.data.module.replace(
 										/\s+/g, ','), lesson.data.room.replace(
 										/\s+/g, ','), lesson.data.lock,
 								lesson.data.key);
@@ -1481,7 +1481,7 @@ MySched.SelectionManager = Ext
 							return el.addClass('lectureBox_sel');
 
 						this.fireEvent("select", el); // Aboniert Events f�r
-														// Dozentennamen
+														// Teacherentennamen
 					},
 					/**
 					 * Waehlt Veranstaltung ab
@@ -1737,14 +1737,14 @@ function showBlockMenu(e) {
  * Ist fuer die Verwaltung und Erstellung der Uebersichtslisten zustaendig
  */
 MySched.TreeManager = function() {
-	var dozTree, roomTree, clasTree, curteaTree; // neu
+	var teacherTree, roomTree, clasTree, curteaTree; // neu
 
 	return {
 		/**
 		 * Initialisierung
 		 */
 		init : function() {
-			this.dozTree = new MySched.Collection();
+			this.teacherTree = new MySched.Collection();
 			this.roomTree = new MySched.Collection();
 			this.clasTree = new MySched.Collection();
 			this.curteaTree = new MySched.Collection();// neu
@@ -1765,23 +1765,23 @@ MySched.TreeManager = function() {
 		 */
 		add : function(lecture) {
 			if (Ext.isObject(lecture)) {
-				this.dozTree.addAll(lecture.getDoz().asArray());
+				this.teacherTree.addAll(lecture.getTeacher().asArray());
 				this.roomTree.addAll(lecture.getRoom().asArray());
 				this.clasTree.addAll(lecture.getClas().asArray());
 			}
 		},
 		/**
-		 * Erstellt die Dozenten Uebersichtsliste
+		 * Erstellt die Teacherenten Uebersichtsliste
 		 * 
 		 * @param {Object}
 		 *            tree Basis Tree dem die Liste hinzugefuegt wird
 		 */
-		createDozTree : function(tree) {
+		createTeacherTree : function(tree) {
 			return this
 					.createTree(
 							tree,
-							'doz',
-							this.dozTree,
+							'teacher',
+							this.teacherTree,
 							MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_TEACHER);
 		},
 		/**
@@ -1804,7 +1804,7 @@ MySched.TreeManager = function() {
 			return this
 					.createTree(
 							tree,
-							'clas',
+							'module',
 							this.clasTree,
 							MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_SEMESTER);
 		},
@@ -1870,7 +1870,7 @@ MySched.TreeManager = function() {
 		 * @param {Object}
 		 *            baseTree Baum dem die Liste hinzugefuegt wird
 		 * @param {Object}
-		 *            type Typ der Liste (doz|clas|room)
+		 *            type Typ der Liste (teacher|module|room)
 		 * @param {Object}
 		 *            data Daten Baum mit Elementen zum Hinzufuegen
 		 * @param {Object}
@@ -2139,12 +2139,12 @@ MySched.layout = function() {
 									html : "<small style='float:right; font-style:italic;'>Version "
 											+ MySched.version
 											+ "</small>"
-											+ "<p style='font-weight:bold;'>&Auml;nderungen sind farblich markiert: <br /> <p style='padding-left:10px;'> <span style='background-color: #00ff00;' >Neue Veranstaltung</span></p> <p style='padding-left:10px;'><span style='background-color: #ff4444;' >Gel&ouml;schte Veranstaltung</span></p> <p style='padding-left:10px;'><span style='background-color: #ffff00;' >Ge&auml;nderte Veranstatung (neuer Raum, neuer Dozent)</span> </p><p style='padding-left:10px;'> <span style='background-color: #ffaa00;' >Ge&auml;nderte Veranstaltung (neue Zeit:von)</span>, <span style='background-color: #ffff00;' >Ge&auml;nderte Veranstaltung (neue Zeit:zu)</span></p></p>"
+											+ "<p style='font-weight:bold;'>&Auml;nderungen sind farblich markiert: <br /> <p style='padding-left:10px;'> <span style='background-color: #00ff00;' >Neue Veranstaltung</span></p> <p style='padding-left:10px;'><span style='background-color: #ff4444;' >Gel&ouml;schte Veranstaltung</span></p> <p style='padding-left:10px;'><span style='background-color: #ffff00;' >Ge&auml;nderte Veranstatung (neuer Raum, neuer Teacherent)</span> </p><p style='padding-left:10px;'> <span style='background-color: #ffaa00;' >Ge&auml;nderte Veranstaltung (neue Zeit:von)</span>, <span style='background-color: #ffff00;' >Ge&auml;nderte Veranstaltung (neue Zeit:zu)</span></p></p>"
 											+ "<b>Version: 2.1.6:</b>"
 											+ "<ul>"
 											+ "<li style='padding-left:10px;'>NEU: Hinzuf&uuml;gen der Veranstaltungen &uuml;ber Kontextmenu (Rechtsklick auf Veranstaltung).</li>"
 											+ "<li style='padding-left:10px;'>NEU: Hinzuf&uuml;gen von eigenen Veranstaltungen &uuml;ber Kontextmenu (Rechtsklick in einen Block).</li>"
-											+ "<li style='padding-left:10px;'>NEU: Navigation &uuml;ber den Dozent, Raum, Fachbereich einer Veranstaltung.</li>"
+											+ "<li style='padding-left:10px;'>NEU: Navigation &uuml;ber den Teacherent, Raum, Fachbereich einer Veranstaltung.</li>"
 											+ "<li style='padding-left:10px;'>NEU: Navigation durch einzelne Wochen &uuml;ber einen Kalender (Men&uuml;leiste).</li>"
 											+ "<li style='padding-left:10px;'>GE&Auml;NDERT: Anzeige von Terminen.</li>"
 											+ "<li style='padding-left:10px;'>GE&Auml;NDERT: Informationen zu Terminen &uuml;ber Termintitel (Mauszeiger &uuml;ber Titel).</li>"
@@ -2933,7 +2933,7 @@ Ext.form.VTypes['ValidTime'] = function(arg, field) {
 
 }
 
-function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name,
+function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_name,
 		l, key) {
 	if (l)
 		var lock = l;
@@ -3057,18 +3057,18 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name,
 						/\s+$/, '')));
 	}
 
-	var dozstore = new Array();
-	for ( var i = 0; i < MySched.Mapping.doz.length; i++) {
-		dozstore.push(new Array(MySched.Mapping.doz.items[i].id,
-				MySched.Mapping.doz.items[i].name));
+	var teacherstore = new Array();
+	for ( var i = 0; i < MySched.Mapping.teacher.length; i++) {
+		teacherstore.push(new Array(MySched.Mapping.teacher.items[i].id,
+				MySched.Mapping.teacher.items[i].name));
 	}
 
 	var classstore = new Array();
 
-	for ( var i = 0; i < MySched.Mapping.clas.length; i++) {
-		classstore.push(new Array(MySched.Mapping.clas.items[i].id,
-				MySched.Mapping.clas.items[i].department + " - "
-						+ MySched.Mapping.clas.items[i].name));
+	for ( var i = 0; i < MySched.Mapping.module.length; i++) {
+		classstore.push(new Array(MySched.Mapping.module.items[i].id,
+				MySched.Mapping.module.items[i].department + " - "
+						+ MySched.Mapping.module.items[i].name));
 	}
 
 	var pwin;
@@ -3111,19 +3111,19 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name,
 		} ]
 	};
 
-	var dozitem = {
+	var teacheritem = {
 		columnWidth : .33,
 		layout : 'form',
 		labelAlign : 'top',
 		items : [ {
 			xtype : "multiselect",
 			fieldLabel : MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHER,
-			name : 'doz',
-			id : 'dozid',
+			name : 'teacher',
+			id : 'teacherid',
 			title : '',
 			store : new Ext.data.ArrayStore({
 				fields : [ 'myId', 'displayText' ],
-				data : dozstore
+				data : teacherstore
 			}),
 			width : 170,
 			height : 80,
@@ -3134,15 +3134,15 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name,
 		} ]
 	}
 
-	var dozfield = {
+	var teacherfield = {
 		columnWidth : .33,
 		layout : 'form',
 		labelAlign : 'top',
 		items : [ {
 			xtype : 'textfield',
 			fieldLabel : '',
-			name : 'dozfield',
-			id : 'dozfieldid',
+			name : 'teacherfield',
+			id : 'teacherfieldid',
 			emptyText : MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHER_ENTER,
 			labelStyle : 'padding:0px;',
 			width : 170
@@ -3156,7 +3156,7 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name,
 		items : [ {
 			xtype : "multiselect",
 			fieldLabel : MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER,
-			name : 'clas',
+			name : 'module',
 			id : 'clasid',
 			title : '',
 			store : new Ext.data.ArrayStore({
@@ -3209,7 +3209,7 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name,
 							autoHeight : true,
 							hideBorders : true,
 							layout : 'column',
-							items : [ roomitem, dozitem, clasitem ]
+							items : [ roomitem, teacheritem, clasitem ]
 						}, {
 							xtype : 'fieldset',
 							hideLabel : true,
@@ -3217,7 +3217,7 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name,
 							autoHeight : true,
 							hideBorders : true,
 							layout : 'column',
-							items : [ roomfield, dozfield, clasfield ]
+							items : [ roomfield, teacherfield, clasfield ]
 						}, {
 							xtype : 'fieldset',
 							hideLabel : true,
@@ -3257,21 +3257,21 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name,
 													'endtiid').getValue());
 											var date = Ext.Date.format(
 													new Date(), "d.m.Y");
-											var dozs = Ext.getCmp('dozid')
+											var teachers = Ext.getCmp('teacherid')
 													.getValue();
 											var rooms = Ext.getCmp('roomid')
 													.getValue();
 											var classes = Ext.getCmp('clasid')
 													.getValue();
 
-											if (Ext.getCmp('dozfieldid')
+											if (Ext.getCmp('teacherfieldid')
 													.getValue().replace(/^\s+/,
 															'').replace(/\s+$/,
 															'') != "")
-												dozs = dozs
+												teachers = teachers
 														+ ","
 														+ Ext.getCmp(
-																'dozfieldid')
+																'teacherfieldid')
 																.getValue();
 											if (Ext.getCmp('roomfieldid')
 													.getValue().replace(/^\s+/,
@@ -3292,13 +3292,13 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name,
 																'clasfieldid')
 																.getValue();
 
-											dozs = dozs.split(",");
+											teachers = teachers.split(",");
 											rooms = rooms.split(",");
 											classes = classes.split(",");
 
-											var doz = "";
+											var teacher = "";
 											var room = "";
-											var clas = "";
+											var module = "";
 
 											for ( var a = 0; a < rooms.length; a++) {
 												var found = false;
@@ -3359,33 +3359,33 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name,
 												}
 											}
 
-											for ( var a = 0; a < dozs.length; a++) {
+											for ( var a = 0; a < teachers.length; a++) {
 												var found = false;
-												if (dozs[a] != "") {
-													for ( var i = 0; i < MySched.Mapping.doz.length; i++) {
-														if (MySched.Mapping.doz.items[i].name == dozs[a]
+												if (teachers[a] != "") {
+													for ( var i = 0; i < MySched.Mapping.teacher.length; i++) {
+														if (MySched.Mapping.teacher.items[i].name == teachers[a]
 																.replace(
 																		/^\s+/,
 																		'')
 																.replace(
 																		/\s+$/,
 																		'')) {
-															if (!doz
-																	.contains(MySched.Mapping.doz.items[i].id)) {
-																if (doz == "")
-																	doz = MySched.Mapping.doz.items[i].id;
+															if (!teacher
+																	.contains(MySched.Mapping.teacher.items[i].id)) {
+																if (teacher == "")
+																	teacher = MySched.Mapping.teacher.items[i].id;
 																else
-																	doz = doz
+																	teacher = teacher
 																			+ " "
-																			+ MySched.Mapping.doz.items[i].id;
+																			+ MySched.Mapping.teacher.items[i].id;
 															}
 															found = true;
 															break;
 														}
 													}
 													if (!found) {
-														if (doz == "")
-															doz = dozs[a]
+														if (teacher == "")
+															teacher = teachers[a]
 																	.replace(
 																			/^\s+/,
 																			'')
@@ -3396,9 +3396,9 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name,
 																			/\s+/,
 																			'_');
 														else
-															doz = doz
+															teacher = teacher
 																	+ " "
-																	+ dozs[a]
+																	+ teachers[a]
 																			.replace(
 																					/^\s+/,
 																					'')
@@ -3415,31 +3415,31 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name,
 											for ( var a = 0; a < classes.length; a++) {
 												var found = false;
 												if (classes[a] != "") {
-													for ( var i = 0; i < MySched.Mapping.clas.length; i++) {
-														if ((MySched.Mapping.clas.items[i].department
-																+ " - " + MySched.Mapping.clas.items[i].name) == classes[a]
+													for ( var i = 0; i < MySched.Mapping.module.length; i++) {
+														if ((MySched.Mapping.module.items[i].department
+																+ " - " + MySched.Mapping.module.items[i].name) == classes[a]
 																.replace(
 																		/^\s+/,
 																		'')
 																.replace(
 																		/\s+$/,
 																		'')) {
-															if (!clas
-																	.contains(MySched.Mapping.clas.items[i].id)) {
-																if (clas == "")
-																	clas = MySched.Mapping.clas.items[i].id;
+															if (!module
+																	.contains(MySched.Mapping.module.items[i].id)) {
+																if (module == "")
+																	module = MySched.Mapping.module.items[i].id;
 																else
-																	clas = clas
+																	module = module
 																			+ " "
-																			+ MySched.Mapping.clas.items[i].id;
+																			+ MySched.Mapping.module.items[i].id;
 															}
 															found = true;
 															break;
 														}
 													}
 													if (!found) {
-														if (clas == "")
-															clas = classes[a]
+														if (module == "")
+															module = classes[a]
 																	.replace(
 																			/^\s+/,
 																			'')
@@ -3450,7 +3450,7 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name,
 																			/\s+/,
 																			'_');
 														else
-															clas = clas
+															module = module
 																	+ " "
 																	+ classes[a]
 																			.replace(
@@ -3491,11 +3491,11 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name,
 												if (blocks['size'] == 1) {
 													var values = {
 														block : blocks[i],
-														clas : clas,
+														module : module,
 														dow : Ext.getCmp(
 																'cbdayid')
 																.getValue(),
-														doz : doz,
+														teacher : teacher,
 														id : Ext.getCmp(
 																'titelid')
 																.getValue(),
@@ -3532,11 +3532,11 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name,
 																.getValue();
 													var values = {
 														block : blocks[i],
-														clas : clas,
+														module : module,
 														dow : Ext.getCmp(
 																'cbdayid')
 																.getValue(),
-														doz : doz,
+														teacher : teacher,
 														id : Ext.getCmp(
 																'titelid')
 																.getValue(),
@@ -3571,11 +3571,11 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name,
 																.getValue();
 													var values = {
 														block : blocks[i],
-														clas : clas,
+														module : module,
 														dow : Ext.getCmp(
 																'cbdayid')
 																.getValue(),
-														doz : doz,
+														teacher : teacher,
 														id : Ext.getCmp(
 																'titelid')
 																.getValue(),
@@ -3603,11 +3603,11 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name,
 													var blotimes = blocktotime(blocks[i]);
 													var values = {
 														block : blocks[i],
-														clas : clas,
+														module : module,
 														dow : Ext.getCmp(
 																'cbdayid')
 																.getValue(),
-														doz : doz,
+														teacher : teacher,
 														id : Ext.getCmp(
 																'titelid')
 																.getValue(),
@@ -3708,34 +3708,34 @@ function newPEvent(pday, pstime, petime, title, doz_name, clas_name, room_name,
 
 	Ext.getCmp('clasid').setValue(clas_name);
 	Ext.getCmp('roomid').setValue(room_name);
-	Ext.getCmp('dozid').setValue(doz_name);
+	Ext.getCmp('teacherid').setValue(teacher_name);
 
 	if (clas_name) {
-		setFieldValue("clas", clas_name);
+		setFieldValue("module", clas_name);
 	}
 
 	if (room_name) {
 		setFieldValue("room", room_name);
 	}
 
-	if (doz_name) {
-		setFieldValue("doz", doz_name);
+	if (teacher_name) {
+		setFieldValue("teacher", teacher_name);
 	}
 
-	if (lock == "doz") {
-		if (!doz_name)
-			setFieldValue("doz", MySched.selectedSchedule.id);
-		Ext.getCmp('dozid').disable();
-		Ext.getCmp('dozfieldid').disable();
+	if (lock == "teacher") {
+		if (!teacher_name)
+			setFieldValue("teacher", MySched.selectedSchedule.id);
+		Ext.getCmp('teacherid').disable();
+		Ext.getCmp('teacherfieldid').disable();
 
 	} else if (lock == "room") {
 		if (!room_name)
 			setFieldValue("room", MySched.selectedSchedule.id);
 		Ext.getCmp('roomid').disable();
 		Ext.getCmp('roomfieldid').disable();
-	} else if (lock == "clas") {
+	} else if (lock == "module") {
 		if (!clas_name)
-			setFieldValue("clas", MySched.selectedSchedule.id);
+			setFieldValue("module", MySched.selectedSchedule.id);
 		Ext.getCmp('clasid').disable();
 		Ext.getCmp('clasfieldid').disable();
 	}
@@ -3749,7 +3749,7 @@ function setFieldValue(type, str) {
 		var objtemp = MySched.Mapping.getObject(type, temparr[tai]);
 		var strtemp = "";
 		if (Ext.isObject(objtemp)) {
-			if (type == "clas")
+			if (type == "module")
 				strtemp = objtemp.department + " - " + objtemp.name;
 			else
 				strtemp = objtemp.name;
@@ -3912,7 +3912,7 @@ Ext.ux.collapsedPanelTitlePlugin = function() {
  * Baumobjekt fuer Stundenplanlisten
  */
 MySched.Tree = function() {
-	var tree, doz, room, clas, diff, dragNode, respChanges, curtea;
+	var tree, teacher, room, module, diff, dragNode, respChanges, curtea;
 
 	return {
 		init : function() {
@@ -4048,18 +4048,25 @@ MySched.Tree = function() {
 								},
 								success : function(response) {
 									try {
-										var json = Ext
-												.decode(response.responseText);
-										for ( var item in json) {
-											if (Ext.isObject(json[item])) {
+										var json = Ext.decode(response.responseText);
+										var lessonData = json["lessonData"];
+										var lessonDate = json["lessonDate"];
+										for ( var item in lessonData)
+										{
+											if (Ext.isObject(lessonData[item]))
+											{
 												var record = new mLecture(
-														json[item].key,
-														json[item], semesterID,
+														item,
+														lessonData[item], semesterID,
 														plantypeID);
 												MySched.Base.schedule
 														.addLecture(record);
 												MySched.TreeManager.add(record);
 											}
+										}
+										if(Ext.isObject(lessonDate))
+										{
+											MySched.Calendar.addAll(lessonDate);
 										}
 										if (typeof json["elements"] != "undefined") {
 											record.elements = json["elements"];
@@ -4107,12 +4114,12 @@ MySched.Tree = function() {
 		 * Refresht die Daten der Liste
 		 */
 		refreshTreeData : function() {
-			if (this.doz)
-				this.root.removeChild(this.doz);
+			if (this.teacher)
+				this.root.removeChild(this.teacher);
 			if (this.room)
 				this.root.removeChild(this.room);
-			if (this.clas)
-				this.root.removeChild(this.clas);
+			if (this.module)
+				this.root.removeChild(this.module);
 			if (this.diff)
 				this.root.removeChild(this.diff);
 			if (this.respChanges)
@@ -4122,7 +4129,7 @@ MySched.Tree = function() {
 			this.loadTreeData();
 		},
 		/**
-		 * Fuellt den Baum mit den Daten von Dozenten, Raeumen und
+		 * Fuellt den Baum mit den Daten von Teacherenten, Raeumen und
 		 * Studiengaengen/Semestern, je nach berechtigung
 		 */
 		loadTreeData : function() {

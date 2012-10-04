@@ -47,7 +47,7 @@ class THM_OrganizerViewScheduler extends JView
 		if (is_object($activeSchedule) && is_string($activeSchedule->schedule))
 		{
 			$activeScheduleData = json_decode($activeSchedule->schedule);
-			
+						
 			// To save memory unset schedule
 			unset($activeSchedule->schedule);
 			
@@ -169,9 +169,9 @@ class THM_OrganizerViewScheduler extends JView
 		$activeSchedulePeriods->length = count((array) $activeSchedulePeriods);
 		$schedulearr["Grid.load"] = $activeSchedulePeriods;
 		
-// 		var_dump($activeScheduleCalendar);
+// 		var_dump($activeScheduleLessons);
 
-		//$schedulearr["Calendar"] = $activeScheduleCalendar;
+		$schedulearr["Calendar"] = $activeScheduleCalendar;
 		
 		$schedulearr["Events.load"] = $model->executeTask("Events.load");
 
