@@ -41,11 +41,18 @@ class thm_organizersModelschedule extends JModel
     private $_scheduleWarnings = null;
 
     /**
-     * Array containing information from the uploaded schedule
+     * Object containing information from the actual schedule
      * 
-     * @var array 
+     * @var object 
      */
     private $_schedule = null;
+
+    /**
+     * Object conteining information from a reference schedule
+     * 
+     * @var type 
+     */
+    private $_refSchedule = null;
 
     /**
      * saves a schedule in the database for later use
@@ -70,7 +77,7 @@ class thm_organizersModelschedule extends JModel
         $this->saveTeachers();
         $this->saveRoomTypes();
         $this->saveRooms();
-        $this->createDelta();
+        $this->setReference();
         $statusReport['scheduleID'] = $this->saveSchedule();
         if ($dbo->getErrorMsg())
         {
@@ -203,7 +210,9 @@ class thm_organizersModelschedule extends JModel
             }
         }
 
-        $this->_schedule->descriptions = new stdClass;
+        $this->_schedule->fields = new stdClass;
+        $this->_schedule->roomtypes = new stdClass;
+        $this->_schedule->lessontypes = new stdClass;
         if (empty($xmlSchedule->descriptions))
         {
             $this->_scheduleErrors[] = JText::_("COM_THM_ORGANIZER_DSM_MISSING");
@@ -298,13 +307,6 @@ class thm_organizersModelschedule extends JModel
         }
 
         $status = $this->makeStatusReport();
-        if (empty($this->_scheduleErrors))
-        {
-            $this->sortRoomTypes();
-            $this->sortFields();
-            /* $this->sortLessonTypes(); */
-            unset($this->_schedule->descriptions);
-        }
         return $status;
     }
 
@@ -386,15 +388,13 @@ class thm_organizersModelschedule extends JModel
         $gpuntisID = trim((string) $descriptionnode[0]['id']);
         if (empty($gpuntisID))
         {
-            if (!in_array(JText::_("COM_THM_ORGANIZER_DSM_ID_MISSING."), $this->_scheduleErrors))
+            if (!in_array(JText::_("COM_THM_ORGANIZER_DSM_ID_MISSING"), $this->_scheduleErrors))
             {
-                    $this->_scheduleErrors[] = JText::_("COM_THM_ORGANIZER_DSM_ID_MISSING.");
+                    $this->_scheduleErrors[] = JText::_("COM_THM_ORGANIZER_DSM_ID_MISSING");
             }
             return;
         }
         $descriptionID = str_replace('DS_', '', $gpuntisID);
-        $this->_schedule->descriptions->$descriptionID = new stdClass;
-        $this->_schedule->descriptions->$descriptionID->gpuntisID = $gpuntisID;
 
         $longname = trim((string) $descriptionnode->longname);
         if (empty($longname))
@@ -402,9 +402,34 @@ class thm_organizersModelschedule extends JModel
             $this->_scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_DSM_DESC_MISSING", $descriptionID);
             return;
         }
-        else
+
+        $type = trim((string) $descriptionnode->flags);
+        if (empty($type))
         {
-            $this->_schedule->descriptions->$descriptionID->name = $longname;
+            if (!in_array(JText::_("COM_THM_ORGANIZER_DSM_TYPE_MISSING."), $this->_scheduleErrors))
+            {
+                    $this->_scheduleErrors[] = JText::_("COM_THM_ORGANIZER_DSM_TYPE_MISSING", $longname, $descriptionID);
+            }
+            return;
+        }
+
+        switch ($type)
+        {
+            case 'F':
+                $this->_schedule->fields->$descriptionID = new stdClass;
+                $this->_schedule->fields->$descriptionID->gpuntisID = $gpuntisID;
+                $this->_schedule->fields->$descriptionID->name = $longname;
+                break;
+            case 'R':
+                $this->_schedule->roomtypes->$descriptionID = new stdClass;
+                $this->_schedule->roomtypes->$descriptionID->gpuntisID = $gpuntisID;
+                $this->_schedule->roomtypes->$descriptionID->name = $longname;
+                break;
+            case 'U':
+                $this->_schedule->lessontypes->$descriptionID = new stdClass;
+                $this->_schedule->lessontypes->$descriptionID->gpuntisID = $gpuntisID;
+                $this->_schedule->lessontypes->$descriptionID->name = $longname;
+                break;
         }
     }
 
@@ -474,18 +499,17 @@ class thm_organizersModelschedule extends JModel
         {
             $this->_schedule->rooms->$roomID->longname = $longname;
         }
+
         $capacity = trim((int) $roomnode->capacity);
-        if (!empty($capacity))
-        {
-            $this->_schedule->rooms->$roomID->capacity = $capacity;
-        }
+        $this->_schedule->rooms->$roomID->capacity = (empty($capacity))? '' : $capacity;
+
         $descriptionID = str_replace('DS_', '', trim((string) $roomnode->room_description[0]['id']));
         if (empty($descriptionID))
         {
             $this->_scheduleWarnings[] = JText::sprintf("COM_THM_ORGANIZER_RM_DESC_MISSING", $longname, $roomID);
             $this->_schedule->rooms->$roomID->description = '';
         }
-        elseif (empty($this->_schedule->descriptions->$descriptionID))
+        elseif (empty($this->_schedule->roomtypes->$descriptionID))
         {
             $this->_scheduleWarnings[] = JText::sprintf("COM_THM_ORGANIZER_RM_DESC_MISSING", $longname, $roomID, $descriptionID);
             $this->_schedule->rooms->$roomID->description = '';
@@ -535,6 +559,7 @@ class thm_organizersModelschedule extends JModel
         if (empty($subjectNo))
         {
             $this->_scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_SU_MN_MISSING', $subjectID, $longname);
+            $this->_schedule->subjects->$subjectID->subjectNo = '';
         }
         else
         {
@@ -544,11 +569,13 @@ class thm_organizersModelschedule extends JModel
         $descriptionID = str_replace('DS_', '', trim($subjectnode->subject_description[0]['id']));
         if (empty($descriptionID))
         {
-            $this->_scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_SU_AREA_MISSING', $subjectID, $longname);
+            $this->_scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_SU_FIELD_MISSING', $longname, $subjectID);
+            $this->_schedule->subjects->$subjectID->description = '';
         }
-        elseif (empty($this->_schedule->descriptions->$descriptionID))
+        elseif (empty($this->_schedule->fields->$descriptionID))
         {
-            $this->_scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_SCH_SU_DESC_MISSING", $subjectID, $longname, $descriptionID);
+            $this->_scheduleWarnings[] = JText::sprintf("COM_THM_ORGANIZER_SU_FIELD_LACKING", $longname, $subjectID, $descriptionID);
+            $this->_schedule->subjects->$subjectID->description = '';
             return;
         }
         else
@@ -613,12 +640,12 @@ class thm_organizersModelschedule extends JModel
         $descriptionID = str_replace('DS_', '', trim($teachernode->teacher_description[0]['id']));
         if (empty($descriptionID))
         {
-            $this->_scheduleWarnings[] = JText::sprintf("COM_THM_ORGANIZER_TR_DESC_MISSING", $surname, $teacherID);
+            $this->_scheduleWarnings[] = JText::sprintf("COM_THM_ORGANIZER_TR_FIELD_MISSING", $surname, $teacherID);
             $this->_schedule->teachers->$teacherID->description = '';
         }
-        elseif (empty($this->_schedule->descriptions->$descriptionID))
+        elseif (empty($this->_schedule->fields->$descriptionID))
         {
-            $this->_scheduleWarnings[] = JText::sprintf("COM_THM_ORGANIZER_TR_DESC_LACKING", "$surname ($teacherID) ", $descriptionID);
+            $this->_scheduleWarnings[] = JText::sprintf("COM_THM_ORGANIZER_TR_FIELD_LACKING", "$surname ($teacherID) ", $descriptionID);
             $this->_schedule->teachers->$teacherID->description = '';
         }
         else
@@ -684,10 +711,18 @@ class thm_organizersModelschedule extends JModel
         $descriptionID = str_replace('DS_', '',trim((string) $classnode->class_description[0]['id']));
         if (empty($descriptionID))
         {
-            $this->_scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_CL_DESC_MISSING', $moduleID);
-            $descriptionID = '';
+            $this->_scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_CL_FIELD_MISSING', $moduleID);
+            $this->_schedule->modules->$moduleID->description = '';
         }
-        $this->_schedule->modules->$moduleID->description = $descriptionID;
+        elseif (empty($this->_schedule->fields->$descriptionID))
+        {
+            $this->_scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_CL_FIELD_LACKING', $moduleID);
+            $this->_schedule->modules->$moduleID->description = '';
+        }
+        else
+        {
+            $this->_schedule->modules->$moduleID->description = $descriptionID;
+        }
     }
 
     /**
@@ -741,23 +776,23 @@ class thm_organizersModelschedule extends JModel
         $lessonName = (count($this->_schedule->lessons->$lessonID->subjects) > 1)?
             implode(' / ', array_keys(get_object_vars($this->_schedule->lessons->$lessonID->subjects))) : reset($this->_schedule->lessons->$lessonID->subjects);
 
-        /*$descriptionID = str_replace('DS_', '', trim((string) $lessonnode->lesson_description[0]['id']));
+        $descriptionID = str_replace('DS_', '', trim((string) $lessonnode->lesson_description));
         if (empty($descriptionID))
         {
-            $this->_scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_LS_DESC_MISSING", $lessonName, $lessonID);
+            $this->_scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_LS_TYPE_MISSING", $lessonName, $lessonID);
             return;
         }
-        elseif (empty($this->_schedule->descriptions->$descriptionID))
+        elseif (empty($this->_schedule->lessontypes->$descriptionID))
         {
-            $this->_scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_DESC_LACKING', $lessonName, $lessondID, $subjectID);
+            $this->_scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_TYPE_LACKING', $lessonName, $lessondID, $descriptionID);
             return;
         }
         if (!isset($this->_schedule->lessons->$lessonID->description))
         {
             $this->_schedule->lessons->$lessonID->description = $descriptionID;
         }
-        $lessonName = " - $descriptionID";
-        $this->_schedule->lessons->$lessonID->name = $lessonName;*/
+        $lessonName .= " - $descriptionID";
+        $this->_schedule->lessons->$lessonID->name = $lessonName;
 
         $teacherID = str_replace('TR_', '', trim((string) $lessonnode->lesson_teacher[0]['id']));
         if (empty($teacherID))
@@ -994,76 +1029,6 @@ class thm_organizersModelschedule extends JModel
     }
 
     /**
-     * Sorts room descriptions out of the descriptions
-     * 
-     * @return void
-     */
-    private function sortRoomTypes()
-    {
-        $this->_schedule->roomtypes = new stdClass;
-        foreach ($this->_schedule->rooms as $room)
-        {
-            if (isset($this->_schedule->descriptions->{$room->description})
-             AND !isset($this->_schedule->roomtypes->{$room->description}))
-            {
-                $this->_schedule->roomtypes->{$room->description} = $this->_schedule->descriptions->{$room->description};
-                unset($this->_schedule->descriptions->{$room->description});
-            }
-        }
-    }
-
-    /**
-     * Sorts teacher and subject fields out of the descriptions
-     * 
-     * @return void
-     */
-    private function sortFields()
-    {
-        $this->_schedule->fields = new stdClass;
-        foreach ($this->_schedule->teachers as $teacher)
-        {
-            if (isset($teacher->description)
-             AND isset($this->_schedule->descriptions->{$teacher->description})
-             AND !isset($this->_schedule->fields->{$teacher->description}))
-            {
-                $this->_schedule->fields->{$teacher->description} = $this->_schedule->descriptions->{$teacher->description};
-            }
-        }
-        foreach ($this->_schedule->subjects as $subject)
-        {
-            if (isset($subject->description)
-             AND isset($this->_schedule->descriptions->{$subject->description})
-             AND !isset($this->_schedule->fields->{$subject->description}))
-            {
-                $this->_schedule->fields->{$subject->description} = $this->_schedule->descriptions->{$subject->description};
-            }
-        }
-        foreach ($this->_schedule->fields as $key => $field)
-        {
-            unset($this->_schedule->descriptions->$key);
-        }
-    }
-
-    /**
-     * Sorts lesson types out of the descriptions
-     * 
-     * @return void
-     */
-    private function sortLessonTypes()
-    {
-        foreach ($this->_schedule->lessons as $lesson)
-        {
-            if (isset($lesson->description)
-             AND isset($this->_schedule->descriptions->{$lesson->description})
-             AND !isset($this->_schedule->lessontypes->{$lesson->description}))
-            {
-                $this->_schedule->lessontypes->{$lesson->description} = $this->_schedule->descriptions->{$lesson->description};
-                unset($this->_schedule->descriptions->{$lesson->description});
-            }
-        }
-    }
-
-    /**
      * Creates a status report based upon object error and warning messages
      * 
      * @return array ['errors'] critical inconsistencies
@@ -1183,14 +1148,14 @@ class thm_organizersModelschedule extends JModel
     }
 
     /**
-     * Creates the delta to the previously active schedule
+     * Creates the delta to the chosen reference schedule
      * 
      * @param   int  $referenceID  the id of the schedule to be used as a
      *                             reference while creating the delta
      * 
      * @return boolean true on successful delta creation, otherwise false 
      */
-    private function createDelta($referenceID = null)
+    private function setReference($referenceID = null)
     {
         $reference = JTable::getInstance('schedules', 'thm_organizerTable');
         if (!empty($this->_schedule) and empty($referenceID))
@@ -1202,6 +1167,7 @@ class thm_organizersModelschedule extends JModel
                 'enddate' => $this->_schedule->enddate,
                 'active' => 1
             );
+            $reference->bind($pullData);
             $referenceExists = $reference->load($pullData);
         }
         elseif (!empty($referenceID))
@@ -1219,8 +1185,12 @@ class thm_organizersModelschedule extends JModel
         {
             return true;
         }
+        else
+        {
+            $this->_refSchedule = json_decode($reference->schedule);
+        }
 
-        if (isset($oldScheduleID) and empty($this->_schedule))
+        if (isset($referenceID))
         {
             $actual = JTable::getInstance('schedules', 'thm_organizerTable');
             $actualExists = $reference->load($newScheduleID);
@@ -1228,15 +1198,47 @@ class thm_organizersModelschedule extends JModel
             {
                 return false;
             }
-            $referenceSchedule = json_decode($reference->schedule);
-            $this->sanitizeSchedule($referenceSchedule);
+            $this->_schedule = json_decode($actual->schedule);
         }
 
-        $referenceSchedule = json_decode($reference->schedule);
-        $this->sanitizeSchedule($referenceSchedule);
+        $this->sanitizeSchedule($this->_schedule);
+        $this->sanitizeSchedule($this->_refSchedule);
+        if (isset($referenceID))
+        {
+            $dbo = JFactory::getDbo();
+            $dbo->transactionStart();
+        }
+        $referenceDate = $reference->creationdate;
+        $reference->schedule = $this->_refSchedule;
+        $reference->active = 0;
+        $success = $reference->store();
+        if (isset($referenceID) and !$success)
+        {
+            $dbo->transactionRollback();
+            return false;
+        }
+        unset($reference);
 
-        $this->createLessonDelta($this->_schedule['lessons'], $oldSchedule['lessons']);
-        $this->createCalendarDelta($this->_schedule['calendar'], $oldSchedule['calendar']);
+        $this->setLessonReference($this->_schedule->lessons, $this->_refSchedule->lessons);
+        $this->setCalendarReference($this->_schedule->calendar, $this->_refSchedule->calendar);
+        $this->_schedule->referencedate = $referenceDate;
+
+        if (isset($referenceID))
+        {
+            $actual->schedule = $this->_schedule;
+            $success = $actual->store();
+            if (!$success)
+            {
+                $dbo->transactionRollback();
+                return false;
+            }
+            else
+            {
+                $dbo->transactionCommit();
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -1248,8 +1250,12 @@ class thm_organizersModelschedule extends JModel
      */
     private function sanitizeSchedule(&$schedule)
     {
-        $this->sanitizeLessons($schedule['lessons']);
-        $this->sanitizeCalendar($schedule['calendar']);
+        $this->sanitizeLessons($schedule->lessons);
+        $this->sanitizeCalendar($schedule->calendar);
+        if (isset($schedule->referencedate))
+        {
+            unset($schedule->referencedate);
+        }
     }
 
     /**
@@ -1263,20 +1269,23 @@ class thm_organizersModelschedule extends JModel
     {
         foreach ($lessons as $lessonKey => $lesson)
         {
-            switch ($lesson['delta'])
+            if (isset($lesson->delta))
             {
-                case 'new':
-                    unset($lessons[$lessonKey]['delta']);
-                    continue;
-                case 'removed':
-                    unset($schedule['lessons'][$lessonKey]);
-                    continue;
-                case 'changed':
-                    $this->sanitizeLessonProperty($lessons[$lessonKey]['subjects']);
-                    $this->sanitizeLessonProperty($lessons[$lessonKey]['teachers']);
-                    $this->sanitizeLessonProperty($lessons[$lessonKey]['modules']);
-                    unset($schedule['lessons'][$lessonKey]['delta']);
-                    continue;
+                switch ($lesson->delta)
+                {
+                    case 'new':
+                        unset($lessons->$lessonKey->delta);
+                        continue;
+                    case 'removed':
+                        unset($lessons->$lessonKey);
+                        continue;
+                    case 'changed':
+                        $this->sanitizeLessonProperty($lessons->$lessonKey->subjects);
+                        $this->sanitizeLessonProperty($lessons->$lessonKey->teachers);
+                        $this->sanitizeLessonProperty($lessons->$lessonKey->modules);
+                        unset($lessons->$lessonKey->delta);
+                        continue;
+                }
             }
         }
     }
@@ -1295,12 +1304,12 @@ class thm_organizersModelschedule extends JModel
             switch ($value)
             {
                 case 'new':
-                    $property[$key] = '';
+                    $property->$key = '';
                     continue;
                 case '':
                     continue;
                 case 'removed':
-                    unset($property[$key]);
+                    unset($property->$key);
                     continue;
             }
         }
@@ -1317,35 +1326,42 @@ class thm_organizersModelschedule extends JModel
     {
         foreach ($calendar as $date => $periods)
         {
-            foreach ($periods as $period => $lessons)
+            if (is_object($calendar->$date) and count($periods))
             {
-                foreach ($lessons as $lesson => $rooms)
+                foreach ($periods as $period => $lessons)
                 {
-                    if (isset($rooms['delta']))
+                    if (count($lessons))
                     {
-                        switch ($rooms['delta'])
+                        foreach ($lessons as $lesson => $rooms)
                         {
-                            case 'new':
-                                unset($calendar[$date][$period][$lesson]['delta']);
-                            case 'removed':
-                                unset($calendar[$date][$period][$lesson]);
-                            case 'changed':
-                                foreach ($rooms as $room => $delta)
+                            if (isset($calendar->$date->$period->$lesson->delta))
+                            {
+                                switch ($calendar->$date->$period->$lesson->delta)
                                 {
-                                    if ($room = 'delta')
-                                    {
-                                        continue;
-                                    }
-                                    switch ($delta)
-                                    {
-                                        case 'new':
-                                            $calendar[$date][$period][$lesson][$room] = '';
-                                            continue;
-                                        case 'removed':
-                                            unset($calendar[$date][$period][$lesson][$room]);
-                                            continue;
-                                    }
+                                    case 'new':
+                                        unset($calendar->$date->$period->$lesson->delta);
+                                    case 'removed':
+                                        unset($calendar->$date->$period->$lesson);
+                                    case 'changed':
+                                        foreach ($rooms as $room => $delta)
+                                        {
+                                            if ($room == 'delta')
+                                            {
+                                                continue;
+                                            }
+                                            switch ($delta)
+                                            {
+                                                case 'new':
+                                                    $calendar->$date->$period->$lesson->$room = '';
+                                                    continue;
+                                                case 'removed':
+                                                    unset($calendar->$date->$period->$lesson->$room);
+                                                    continue;
+                                            }
+                                        }
+                                        unset($calendar->$date->$period->$lesson->delta);
                                 }
+                            }
                         }
                     }
                 }
@@ -1356,78 +1372,166 @@ class thm_organizersModelschedule extends JModel
     /**
      * Examines the lessons of the new and old schedules to determine the delta
      * 
-     * @param   array  $newLessons  the lessons of the new schedule
-     * @param   array  $oldLessons  the lessons of the old schedule
+     * @param   array  $lessons     the lessons of the new schedule
+     * @param   array  $refLessons  the lessons of the old schedule
      * 
      * @return void 
      */
-    private function createLessonDelta($newLessons, $oldLessons)
+    private function setLessonReference($lessons, $refLessons)
     {
         // Check for new lesson data
-        foreach ($newLessons as $lessonID => $lesson)
+        foreach ($lessons as $lessonID => $lesson)
         {
             // Lesson only exists in the new schedule
-            if (!isset($oldLessons[$lessonID]))
+            if (!isset($refLessons->$lessonID))
             {
-                $newLessons[$lessonID]['delta'] = 'new';
+                $lessons->$lessonID->delta = 'new';
                 continue;
             }
 
             // Lesson exists in both schedules -> compare properties
-            $subjectChanges = $this->createPropertyDelta($newLessons[$lessonID]['subjects'], $oldLessons[$lessonID]['subjects']);
-            $teacherChanges = $this->createPropertyDelta($newLessons[$lessonID]['teachers'], $oldLessons[$lessonID]['teachers']);
-            $moduleChanges = $this->createPropertyDelta($newLessons[$lessonID]['modules'], $oldLessons[$lessonID]['modules']);
+            $subjectChanges = $this->setPropertyReference($lessons->$lessonID->subjects, $refLessons->$lessonID->subjects);
+            $teacherChanges = $this->setPropertyReference($lessons->$lessonID->teachers, $refLessons->$lessonID->teachers);
+            $moduleChanges = $this->setPropertyReference($lessons->$lessonID->modules, $refLessons->$lessonID->modules);
 
             // Property indexes are not identical
             if ($subjectChanges or $teacherChanges or $moduleChanges)
             {
-                $newLessons[$lessonID]['delta'] = 'changed';
+                $lessons->$lessonID->delta = 'changed';
             }
         }
 
         // Check for old lesson data
-        foreach ($oldLessons as $lessonID => $lesson)
+        foreach ($refLessons as $lessonID => $lesson)
         {
             // Lesson only exists in old schedule
-            if (!isset($newLessons[$lessonID]))
+            if (!isset($lessons->$lessonID))
             {
-                $newLessons[$lessonID] = $oldLessons[$lessonID];
-                $newLessons[$lessonID]['delta'] = 'removed';
+                $lessons->$lessonID = $refLessons->$lessonID;
+                $lessons->$lessonID->delta = 'removed';
                 continue;
             }
         }
     }
+
     /**
      * examines a property of both schedules and creates a delta according to
      * property indexes
      * 
-     * @param   array  &$newLessonProperty  the property of the new lesson to be examined
-     * @param   array  &$oldLessonProperty  the property of the old lesson to be examined
+     * @param   array  &$property     the property of the new lesson to be examined
+     * @param   array  &$refProperty  the property of the old lesson to be examined
      * 
      * @return boolean $changesExist true if a property index is not in both sets
      */
-    private function createPropertyDelta(&$newLessonProperty, &$oldLessonProperty)
+    private function setPropertyReference(&$property, &$refProperty)
     {
         $changesExist = false;
-        foreach ($newLessonProperty as $propertyID => $delta)
+        foreach ($property as $propertyID => $delta)
         {
-            if (!isset($oldLessonProperty[$propertyID]))
+            if (!isset($refProperty->$propertyID))
             {
-                $newLessonProperty[$propertyID] = 'new';
+                $property->$propertyID = 'new';
                 $changesExist = true;
                 continue;
             }
         }
-        foreach ($oldLessonProperty as $propertyID => $delta)
+        foreach ($refProperty as $propertyID => $delta)
         {
-            if (!isset($newLessonProperty[$propertyID]))
+            if (!isset($property->$propertyID))
             {
-                $newLessonProperty[$propertyID] = 'removed';
+                $property->$propertyID = 'removed';
                 $changesExist = true;
                 continue;
             }
         }
         return $changesExist;
+    }
+
+    /**
+     * Examines the calendars of the actual and the reference schedules to
+     * determine changes
+     * 
+     * @param   object  &$calendar     the calendar of the actual schedule
+     * @param   object  &$refCalendar  the calendar of the reference schedule
+     * 
+     * @return void
+     */
+    private function setCalendarReference(&$calendar, &$refCalendar)
+    {
+        foreach ($calendar as $date => $periods)
+        {
+            if (is_object($calendar->$date) and count($periods))
+            {
+                foreach ($periods as $period => $lessons)
+                {
+                    if (count($lessons))
+                    {
+                        foreach ($lessons as $lessonID => $rooms)
+                        {
+                            if (!isset($refCalendar->$date->$period->$lessonID))
+                            {
+                                $calendar->$date->$period->$lessonID->delta = 'new';
+                                continue;
+                            }
+                            else
+                            {
+                                foreach ($rooms as $roomID => $delta)
+                                {
+                                    if ($roomID == 'delta')
+                                    {
+                                        continue;
+                                    }
+                                    if (!isset($refcalendar->$date->$period->$lessonID->$roomID))
+                                    {
+                                        $calendar->$date->$period->$lessonID->$roomID = 'new';
+                                        $calendar->$date->$period->$lessonID->delta = 'changed';
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        foreach ($refCalendar as $date => $periods)
+        {
+            if (is_object($calendar->$date) and count($periods))
+            {
+                foreach ($periods as $period => $lessons)
+                {
+                    if (count($lessons))
+                    {
+                        foreach ($lessons as $lessonID => $rooms)
+                        {
+                            if (!isset($calendar->$date->$period->$lessonID))
+                            {
+                                $calendar->$date->$period->$lessonID = $refCalendar->$date->$period->$lessonID;
+                                $calendar->$date->$period->$lessonID->delta = 'removed';
+                                continue;
+                            }
+                            else
+                            {
+                                foreach ($rooms as $roomID => $delta)
+                                {
+                                    if ($roomID == 'delta')
+                                    {
+                                        continue;
+                                    }
+                                    if (!isset($calendar->$date->$period->$lessonID->$roomID))
+                                    {
+                                        $calendar->$date->$period->$lessonID->$roomID = 'removed';
+                                        $calendar->$date->$period->$lessonID->delta = 'changed';
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -1462,7 +1566,54 @@ class thm_organizersModelschedule extends JModel
     {
         $data = JRequest::getVar('jform', null, null, null, 4);
         $data['description'] = JFactory::getDbo()->escape($data['description']);
+        unset($data->startdate, $data->enddate, $data->creationdate);
         $table = JTable::getInstance('schedules', 'thm_organizerTable');
         return $table->save($data);
+    }
+
+    /**
+     * Deletes the selected schedules
+     * 
+     * @return boolean true on successful deletion of all selected schedules
+     *                 otherwise false
+     */
+    public function delete()
+    {
+        $dbo = JFactory::getDbo();
+        $dbo->transactionStart();
+        $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
+        foreach ($scheduleIDs as $scheduleID)
+        {
+            $success = $this->deleteSingle($scheduleID);
+            if (!$success)
+            {
+                $dbo->transactionRollback();
+                return false;
+            }
+        }
+        if ($dbo->getErrorNum())
+        {
+            $dbo->transactionRollback();
+            return false;
+        }
+        else
+        {
+            $dbo->transactionCommit();
+            return true;
+        }
+    }
+
+    /**
+     * Deletes a single schedule
+     * 
+     * @param   int  $scheduleID  the id of the schedule to be deleted
+     * 
+     * @return boolean true on success otherwise false 
+     */
+    public function deleteSingle($scheduleID)
+    {
+        $schedule = JTable::getInstance('schedules', 'thm_organizerTable');
+        $schedule->load($scheduleID);
+        return $schedule->delete();
     }
 }

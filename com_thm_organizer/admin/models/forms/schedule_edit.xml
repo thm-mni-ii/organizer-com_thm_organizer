@@ -28,14 +28,14 @@
         <field
             id="startdate"
             name="startdate"
-            type="calendar"
+            type="text"
             label="COM_THM_ORGANIZER_START_DATE"
             description="COM_THM_ORGANIZER_SCH_START_DATE_DESC"
             class="inputbox"
             readonly="true"
             disabled="true"
             default=""
-            size="7" />
+            size="12" />
         <field
             id="enddate"
             name="enddate"
@@ -46,7 +46,7 @@
             readonly="true"
             disabled="true"
             default=""
-            size="7" />
+            size="12" />
         <field
             id="creationdate"
             name="creationdate"
@@ -57,7 +57,7 @@
             readonly="true"
             disabled="true"
             default=""
-            size="7" />
+            size="12" />
         <field
             id="description"
             name="description"
