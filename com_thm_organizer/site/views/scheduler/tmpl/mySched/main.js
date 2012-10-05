@@ -501,7 +501,7 @@ MySched.Base = function() {
 													 * });
 													 */
 
-													MySched.loadedLessons[nodeID] = true;
+//													MySched.loadedLessons[nodeID] = true;
 													MySched.selectedSchedule.eventsloaded = null;
 													MySched.selectedSchedule
 															.refreshView();
@@ -1857,7 +1857,7 @@ MySched.TreeManager = function() {
 						if (Ext.isObject(treeData[item][childitem]))
 						{
 							MySched.Mapping[item].add(
-									treeData[item][childitem].gpuntisID,
+									childitem,
 									treeData[item][childitem]);
 						}
 					}
@@ -1996,11 +1996,15 @@ MySched.layout = function() {
 
 								var lectureData = MySched.selectedSchedule.data.items;
 
-								for ( var lectureIndex = 0; lectureIndex < lectureData.length; lectureIndex++) {
-									if (Ext
-											.isDefined(lectureData[lectureIndex].setCellTemplate) == true)
-										lectureData[lectureIndex]
-												.setCellTemplate(MySched.selectedSchedule.type);
+								for ( var lectureIndex = 0; lectureIndex < lectureData.length; lectureIndex++)
+								{
+									if (Ext.isDefined(lectureData[lectureIndex]))
+									{
+										if (Ext.isDefined(lectureData[lectureIndex].setCellTemplate) == true)
+										{
+											lectureData[lectureIndex].setCellTemplate(MySched.selectedSchedule.type);
+										}
+									}
 								}
 
 								/*
@@ -2204,10 +2208,15 @@ MySched.layout = function() {
 
 						var lectureData = grid.mSchedule.data.items;
 
-						for ( var lectureIndex = 0; lectureIndex < lectureData.length; lectureIndex++) {
-							if (Ext
-									.isDefined(lectureData[lectureIndex].setCellTemplate) == true)
-								lectureData[lectureIndex].setCellTemplate(type);
+						for ( var lectureIndex = 0; lectureIndex < lectureData.length; lectureIndex++)
+						{
+							if (Ext.isDefined(lectureData[lectureIndex]))
+							{
+								if (Ext.isDefined(lectureData[lectureIndex].setCellTemplate) == true)
+								{
+									lectureData[lectureIndex].setCellTemplate(MySched.selectedSchedule.type);
+								}
+							}
 						}
 
 						/*
@@ -2897,8 +2906,71 @@ MySched.layout = function() {
 				listeners : {
 					'change' : function() {
 						if (MySched.selectedSchedule != null) {
-							MySched.selectedSchedule.eventsloaded = null;
-							MySched.selectedSchedule.refreshView();
+							var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker').value);
+				
+							var mondayWeekPointer = getMonday(weekpointer);
+							var fridayWeekPointer = Ext.Date.clone(mondayWeekPointer);
+							fridayWeekPointer.setDate(fridayWeekPointer.getDate() + 6);
+							var selectedSchedule = MySched.selectedSchedule;
+							var nodeKey = selectedSchedule.key;
+							var nodeID = selectedSchedule.id;
+							var gpuntisID = selectedSchedule.gpuntisID;
+							var semesterID = selectedSchedule.semesterID;
+							var plantypeID = "";
+							var type = selectedSchedule.type;
+							Ext.Ajax.request({
+										url : _C('ajaxHandler'),
+										method : 'POST',
+										params : {
+											nodeID : nodeID,
+											nodeKey : nodeKey,
+											gpuntisID : gpuntisID,
+											semesterID : semesterID,
+											scheduletask : "Ressource.load",
+											plantypeID : plantypeID,
+											type : type,
+											startdate: Ext.Date.format(mondayWeekPointer, "Y-m-d"),
+											enddate: Ext.Date.format(fridayWeekPointer, "Y-m-d")
+										},
+										failure : function(response) {
+											Ext.Msg.alert(
+															MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ERROR,
+															MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_ERROR);
+										},
+										success : function(response) {
+											try {
+												var json = Ext.decode(response.responseText);
+												var lessonData = json["lessonData"];
+												var lessonDate = json["lessonDate"];
+												for (var item in lessonData)
+												{
+													if (Ext.isObject(lessonData[item]))
+													{
+														var record = new mLecture(
+																item,
+																lessonData[item], semesterID,
+																plantypeID);
+														MySched.Base.schedule
+																.addLecture(record);
+//														MySched.TreeManager.add(record);
+													}
+												}
+												if(Ext.isObject(lessonDate))
+												{
+													MySched.Calendar.addAll(lessonDate);
+												}
+
+												MySched.selectedSchedule.eventsloaded = null;
+												MySched.selectedSchedule.init(type, nodeKey, semesterID);
+												MySched.selectedSchedule.refreshView();
+											} catch (e) {
+												Ext.Msg
+														.alert(
+																MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ERROR,
+																MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_ERROR);
+											}
+										}
+									});
 						}
 					}
 				}
@@ -4061,7 +4133,7 @@ MySched.Tree = function() {
 														plantypeID);
 												MySched.Base.schedule
 														.addLecture(record);
-												MySched.TreeManager.add(record);
+//												MySched.TreeManager.add(record);
 											}
 										}
 										if(Ext.isObject(lessonDate))
@@ -4075,8 +4147,8 @@ MySched.Tree = function() {
 													.show();
 										} else
 											new mSchedule(nodeID, title).init(
-													type, nodeKey).show();
-										MySched.loadedLessons[nodeID] = true;
+													type, nodeKey,semesterID).show();
+//										MySched.loadedLessons[nodeID] = true;
 									} catch (e) {
 										Ext.Msg
 												.alert(

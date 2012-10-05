@@ -105,11 +105,11 @@ div.lectureBox_cho {
 }
 
 /* Anzeige von DozentenInformationen */
-div.dozInfo div {
+div.teacherInfo div {
 	margin-top: 15px;
 }
 
-div.dozInfo div ul {
+div.teacherInfo div ul {
 	list-style-type: circle;
 	padding-left: 25px;
 }
@@ -162,16 +162,16 @@ div.dozInfo div ul {
 	background: url(../images/roomIcon.png) no-repeat !important;
 }
 
-.doz-node {
-	background: url(../images/dozIcon.png) no-repeat !important;
+.teacher-node {
+	background: url(../images/teacherIcon.png) no-repeat !important;
 }
 
-.dozIcon {
-	background: url(../images/dozIcon.png) no-repeat left center;
+.teacherIcon {
+	background: url(../images/teacherIcon.png) no-repeat left center;
 }
 
-.dozIconSave {
-	background: url(../images/dozIcon_save.png) no-repeat left center;
+.teacherIconSave {
+	background: url(../images/teacherIcon_save.png) no-repeat left center;
 }
 
 .roomIcon {
@@ -332,19 +332,19 @@ small.oldroom {
 	font-size: 10.5px;
 }
 
-small.olddoz {
+small.oldteacher {
 	color: #aaaaaa;
 	text-decoration: line-through;
 	font-size: 10.5px;
 }
 
-small.oldclass {
+small.oldmodule {
 	color: #aaaaaa;
 	text-decoration: line-through;
 	font-size: 10.5px;
 }
 
-small.dozname:hover {
+small.teachername:hover {
 	text-decoration: underline;
 	cursor: pointer;
 }
@@ -354,7 +354,7 @@ small.roomshortname:hover {
 	cursor: pointer;
 }
 
-small.classhorter:hover {
+small.modulehorter:hover {
 	text-decoration: underline;
 	cursor: pointer;
 }

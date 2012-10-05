@@ -24,7 +24,7 @@ MySched.Mapping = function() {
 
 		},
 		load : function(node) {
-			this.readModule(Ext.DomQuery.select('moduleses', node));
+			this.readModule(Ext.DomQuery.select('modules', node));
 			this.readTeacher(Ext.DomQuery.select('teachers', node));
 			this.readRoom(Ext.DomQuery.select('rooms', node));
 			this.readSubject(Ext.DomQuery.select('subjects', node));
@@ -127,8 +127,8 @@ MySched.Mapping = function() {
 		getObject : function(type, id) {
 			return this[type].get(id);
 		},
-		getTeacherName : function(id) {
-			return this.def(this.teacher.get(id, id), 'name', id);
+		getTeacherSurname : function(id) {
+			return this.def(this.teacher.get(id, id), 'surname', id);
 		},
 		getModuleName : function(id) {
 			return this.def(this.module.get(id, id), 'name', id);
@@ -137,7 +137,7 @@ MySched.Mapping = function() {
 			return this.def(this.room.get(id, id), 'name', id);
 		},
 		getSubjectName : function(id) {
-			return this.def(this.subject.get(id, id), 'name', id);
+			return this.def(this.subject.get(id, id), 'longname', id);
 		},
 		getLectureName : function(id) {
 			return this.def(this.subject.get(id, id), 'name', id);

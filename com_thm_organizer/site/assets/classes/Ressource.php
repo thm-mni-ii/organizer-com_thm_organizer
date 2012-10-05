@@ -135,7 +135,7 @@ class Ressource
 				if ($activeScheduleData == null)
 				{
 					// Cant decode json
-					return JError::raiseWarning(404, JText::_('Fehlerhfte Daten'));
+					return JError::raiseWarning(404, JText::_('Fehlerhafte Daten'));
 				}
 				else
 				{
@@ -185,16 +185,37 @@ class Ressource
 				{
 					foreach($blockLessons as $lessonKey => $lessonRoom)
 					{
-						$lessonData[$lessonKey] = $activeScheduleLessons->{$lessonKey};
-						foreach($lessonRoom as $roomKey => $roomValue)
+						if($this->type == "teacher")
 						{
-							if($roomKey != 'delta')
+							$resourceType = "teachers";
+						}
+						else if($this->type == "subject")
+						{
+							$resourceType = "subjects";
+						}
+						else if($this->type == "module")
+						{
+							$resourceType = "modules";
+						}
+						
+						if($this->type === "room")
+						{
+							foreach($lessonRoom as $roomKey => $roomValue)
 							{
-								
+								if($roomKey == $this->nodeKey)
+								{
+									$lessonData[$lessonKey] = $activeScheduleLessons->{$lessonKey};
+								}
 							}
-							else
+						}
+						else
+						{
+							foreach($activeScheduleLessons->{$lessonKey}->{$resourceType} as $resourceKey => $resourceValue)
 							{
-								
+								if($resourceKey == $this->nodeKey)
+								{
+									$lessonData[$lessonKey] = $activeScheduleLessons->{$lessonKey};
+								}
 							}
 						}
 					}
