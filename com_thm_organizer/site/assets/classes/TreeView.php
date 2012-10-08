@@ -452,7 +452,7 @@ class TreeView
 			$nodeKey = $key . "." . $scheduleType;
 			$temp = $this->createTreeNode(
 					$nodeKey,
-					JText::_("COM_THM_ORGANIZER_SCHEDULER_".$scheduleType),
+					JText::_("COM_THM_ORGANIZER_SCHEDULER_" . $scheduleType . "PLAN"),
 					'view' . '-root',
 					false,
 					false,
