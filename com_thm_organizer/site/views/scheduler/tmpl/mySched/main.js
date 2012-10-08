@@ -2214,7 +2214,7 @@ MySched.layout = function() {
 							{
 								if (Ext.isDefined(lectureData[lectureIndex].setCellTemplate) == true)
 								{
-									lectureData[lectureIndex].setCellTemplate(MySched.selectedSchedule.type);
+									lectureData[lectureIndex].setCellTemplate(type);
 								}
 							}
 						}
@@ -2256,6 +2256,13 @@ MySched.layout = function() {
 				}
 				if (Ext.getCmp('content-anchor-tip'))
 					Ext.getCmp('content-anchor-tip').destroy();
+				
+				firstSchedule = true
+				if(MySched.selectedSchedule != null)
+				{
+					firstSchedule = false;
+				}
+				
 				MySched.selectedSchedule = tab.mSchedule;
 				// Aufgerufener Tab wird neu geladen
 				if (MySched.selectedSchedule.status == "unsaved") {
@@ -2272,6 +2279,11 @@ MySched.layout = function() {
 				// Wechselt zum neu erstellten Tab
 				this.tabpanel.setActiveTab(tab);
 				MySched.Base.regScheduleEvents(id);
+				if(firstSchedule)
+				{
+					MySched.selectedSchedule.refreshView();
+				}
+				
 			}
 		},
 		/**
@@ -2360,9 +2372,7 @@ MySched.layout = function() {
 								}
 							});
 
-			var btnSavePdf = Ext
-					.create(
-							'Ext.Button',
+			var btnSavePdf = Ext.create('Ext.Button',
 							{
 								text : MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE,
 								id : 'btnPdf',
@@ -2381,21 +2391,21 @@ MySched.layout = function() {
 														interval : 100,
 														duration : 2000
 													});
+									
+									var currentMoFrDate = getCurrentMoFrDate();
 
-									Ext.Ajax
-											.request({
-												url : _C('ajaxHandler'),
-												jsonData : MySched.selectedSchedule
-														.exportData(),
+									Ext.Ajax.request({url : _C('ajaxHandler'),
+												jsonData : MySched.selectedSchedule.exportData(""),
 												method : 'POST',
 												params : {
 													username : MySched.Authorize.user,
 													title : MySched.selectedSchedule.title
-															.replace(
-																	/\s*\/\s*/g,
-																	' '),
+															.replace(/\s*\/\s*/g, ' '),
 													what : "pdf",
-													scheduletask : "Schedule.export"
+													startdate: Ext.Date.format(currentMoFrDate.monday, "Y-m-d"),
+													enddate: Ext.Date.format(currentMoFrDate.friday, "Y-m-d"),
+													scheduletask : "Schedule.export",
+													semesterID: MySched.selectedSchedule.semesterID
 												},
 												scope : pdfwait,
 												failure : function() {
@@ -2908,9 +2918,7 @@ MySched.layout = function() {
 						if (MySched.selectedSchedule != null) {
 							var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker').value);
 				
-							var mondayWeekPointer = getMonday(weekpointer);
-							var fridayWeekPointer = Ext.Date.clone(mondayWeekPointer);
-							fridayWeekPointer.setDate(fridayWeekPointer.getDate() + 6);
+							var currentMoFrDate = getCurrentMoFrDate();
 							var selectedSchedule = MySched.selectedSchedule;
 							var nodeKey = selectedSchedule.key;
 							var nodeID = selectedSchedule.id;
@@ -2929,8 +2937,8 @@ MySched.layout = function() {
 											scheduletask : "Ressource.load",
 											plantypeID : plantypeID,
 											type : type,
-											startdate: Ext.Date.format(mondayWeekPointer, "Y-m-d"),
-											enddate: Ext.Date.format(fridayWeekPointer, "Y-m-d")
+											startdate: Ext.Date.format(currentMoFrDate.monday, "Y-m-d"),
+											enddate: Ext.Date.format(currentMoFrDate.friday, "Y-m-d")
 										},
 										failure : function(response) {
 											Ext.Msg.alert(
@@ -4073,16 +4081,41 @@ MySched.Tree = function() {
 			else if (type == "respChanges")
 				title = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_OWN;
 			else {
-				department = MySched.Mapping.getObjectField(type, nodeKey,
-						"description");
-				if (typeof department == "undefined" || department == "none"
-						|| department == null || department == nodeKey)
-					title = MySched.Mapping.getName(type, nodeKey);
+				departmenttype = "field"
+				departmentfield = "description";
+				nodeFullName = nodeKey;
+				if(type == "teacher")
+				{
+					nodeFullName = MySched.Mapping.getTeacherSurname(nodeKey);
+				}
+				else if(type == "room")
+				{
+					nodeFullName = MySched.Mapping.getRoomName(nodeKey);
+					departmenttype = "roomtype";
+				}
+				else if(type == "module")
+				{
+					nodeFullName = MySched.Mapping.getModuleFullName(nodeKey);
+					departmenttype = "degree";
+					departmentfield = "degree";
+				}
+				else if(type == "subject")
+				{
+					nodeFullName = MySched.Mapping.getSubjectName(nodeKey);
+				}
+					
+				department = MySched.Mapping.getObjectField(type, nodeKey, departmentfield);
+				departmentName = MySched.Mapping.getObjectField(departmenttype, department, "name");
+				if (typeof department == "undefined" || department == "none" || department == null || department == nodeKey)
+				{
+					title = nodeFullName;
+				}
 				else
-					title = MySched.Mapping.getName(type, nodeKey)
+				{
+					title = nodeFullName
 							+ " - "
-							+ MySched.Mapping.getObjectField(type, nodeKey,
-									"description");
+							+ departmentName
+				}
 			}
 
 			if (type == "delta") {
@@ -4090,15 +4123,10 @@ MySched.Tree = function() {
 			} else {
 				if (MySched.loadedLessons[nodeID] != true) {
 					
-					var weekpointer = Ext.Date
-					.clone(Ext.ComponentMgr.get('menuedatepicker').value);
-		
-					var mondayWeekPointer = getMonday(weekpointer);
-					var fridayWeekPointer = Ext.Date.clone(mondayWeekPointer);
-					fridayWeekPointer.setDate(fridayWeekPointer.getDate() + 6);
+					var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker').value);
+					var currentMoFrDate = getCurrentMoFrDate();
 					
-					Ext.Ajax
-							.request({
+					Ext.Ajax.request({
 								url : _C('ajaxHandler'),
 								method : 'POST',
 								params : {
@@ -4109,8 +4137,8 @@ MySched.Tree = function() {
 									scheduletask : "Ressource.load",
 									plantypeID : plantypeID,
 									type : type,
-									startdate: Ext.Date.format(mondayWeekPointer, "Y-m-d"),
-									enddate: Ext.Date.format(fridayWeekPointer, "Y-m-d")
+									startdate: Ext.Date.format(currentMoFrDate.monday, "Y-m-d"),
+									enddate: Ext.Date.format(currentMoFrDate.friday, "Y-m-d")
 								},
 								failure : function(response) {
 									Ext.Msg
@@ -4119,7 +4147,7 @@ MySched.Tree = function() {
 													MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_ERROR);
 								},
 								success : function(response) {
-									try {
+//									try {
 										var json = Ext.decode(response.responseText);
 										var lessonData = json["lessonData"];
 										var lessonDate = json["lessonDate"];
@@ -4149,12 +4177,12 @@ MySched.Tree = function() {
 											new mSchedule(nodeID, title).init(
 													type, nodeKey,semesterID).show();
 //										MySched.loadedLessons[nodeID] = true;
-									} catch (e) {
-										Ext.Msg
-												.alert(
-														MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ERROR,
-														MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_ERROR);
-									}
+//									} catch (e) {
+//										Ext.Msg
+//												.alert(
+//														MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ERROR,
+//														MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_ERROR);
+//									}
 								}
 							});
 				} else {

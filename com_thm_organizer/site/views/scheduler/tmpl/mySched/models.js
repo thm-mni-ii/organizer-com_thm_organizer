@@ -76,8 +76,9 @@ Ext.define('MySched.Model', {
       break;
     default:
     case 'json':
-      return Ext.encode(d);
-      break;
+    	var returnValue = Ext.encode(d); 
+    	return returnValue;
+    	break;
     }
   },
   exportAllData: function () {
@@ -837,15 +838,47 @@ Ext.define('mSchedule', {
     var d = this.data;
     if (d.asArray) d = d.asArray();
     Ext.each(d, function (e) {
-      if (Ext.isEmpty(e)) return;
-      if (typeof e.getCellView == "undefined") return;
-      var cell = e.getCellView(this);
-      if (e.asArray) e = e.asArray();
-      e.cell = cell;
-      this.asArrRet[this.asArrRet.length] = e;
+    	if (Ext.isEmpty(e)) return;
+    	if (typeof e.getCellView == "undefined") return;
+      
+	      var cd = Ext.ComponentMgr.get('menuedatepicker');
+	      var wp = Ext.Date.clone(cd.value);
+	      var wpMO = getMonday(wp);
+		  // Check if the lesson should be displayed in this week
+		  var calendarDates = MySched.Calendar.map;
+		  	for(var dateIndex in calendarDates)
+		  	{
+		  		var dateObject = new Date(dateIndex);
+		  		var wpFR = Ext.Date.clone(wpMO);
+		  		wpFR.setDate(wpFR.getDate() + 6);
+		  		if(dateObject >= wpMO && dateObject <= wpFR)
+		  		{
+			    		var dow = Ext.Date.format(dateObject, "N");
+		
+			    		var date = calendarDates[dateIndex];
+			    		for(var blockIndex in date)
+			    		{
+			    			var block = date[blockIndex];
+			    			if(Ext.isObject(block[e.id]))
+			    			{
+			    				var roomCollection = new MySched.Collection();
+			    				roomCollection.addAll(date[blockIndex][e.id]);
+			    				roomCollection.remove("delta");
+			    				this.asArrRet[this.asArrRet.length] = {};			    				
+			    				this.asArrRet[this.asArrRet.length - 1].cell = e.getCellView(this, roomCollection);
+			    				this.asArrRet[this.asArrRet.length - 1].block = Ext.clone(blockIndex);
+			    				this.asArrRet[this.asArrRet.length - 1].dow = Ext.clone(dow);			    				
+			    			}
+			    		}
+		  		}
+		  	}
     }, this);
     //if (this.asArrRet.length == 1) return this.asArrRet[0];
     return this.asArrRet;
+  },
+  getLessonKeys: function() 
+  {
+	  return this.data.keys;
   },
   asPersArray: function () {
     this.asArrRet = [];

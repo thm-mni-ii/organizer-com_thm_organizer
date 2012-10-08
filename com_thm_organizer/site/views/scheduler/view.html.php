@@ -71,7 +71,7 @@ class THM_OrganizerViewScheduler extends JView
 				unset($activeScheduleData->calendar);
 				$activeScheduleLessons = $activeScheduleData->lessons;
 				unset($activeScheduleData->lessons);
-				$activeScheduleFields = $activeScheduleData->fields;
+				$activeScheduleFields = $activeScheduleData->fields;		
 				unset($activeScheduleData->fields);
 				
 				if (is_object($activeSchedulePeriods)
@@ -167,6 +167,19 @@ class THM_OrganizerViewScheduler extends JView
 		$model = JModel::getInstance('Ajaxhandler', 'thm_organizerModel', array('ignore_request' => false));
 				
 		$activeSchedulePeriods->length = count((array) $activeSchedulePeriods);
+		
+		foreach($activeSchedulePeriods as $period)
+		{
+			if(isset($period->starttime) && is_string($period->starttime))
+			{
+				$period->starttime = wordwrap($period->starttime, 2, ':', 1);
+			}
+			if(isset($period->endtime) && is_string($period->endtime))
+			{
+				$period->endtime = wordwrap($period->endtime, 2, ':', 1);
+			}
+		}
+		
 		$schedulearr["Grid.load"] = $activeSchedulePeriods;
 		
 // 		var_dump($activeScheduleLessons);

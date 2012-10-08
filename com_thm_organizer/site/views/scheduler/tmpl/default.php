@@ -87,7 +87,7 @@
 
     ?>
 
-	<?php 	echo 'MySched.SessionId = \'' . $this->jsid . '\';';
+	<?php 	//echo 'MySched.SessionId = \'' . $this->jsid . '\';';
 			echo 'MySched.class_semester_id = \'' . $this->semesterID . '\';';
 			echo 'MySched.class_semester_author = \'' . $this->semAuthor . '\';';
 			echo 'MySched.startup = \'' . $this->startup . '\';';

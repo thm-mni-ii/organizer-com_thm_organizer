@@ -12,7 +12,7 @@
  * @link		www.mni.thm.de
  */
 
-defined(_'JEXEC') or die;
+defined('_JEXEC') or die;
 
 /**
  * Abstract class AbstrakterBauer for component com_thm_organizer

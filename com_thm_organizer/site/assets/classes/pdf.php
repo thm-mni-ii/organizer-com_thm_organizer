@@ -54,10 +54,13 @@ class PDFBauer extends abstrakterBauer
 	 * @since  1.5
 	 *
 	 */
-	public function __construct($JDA, $cfg)
+	public function __construct($JDA, $cfg, $options)
 	{
 		$this->JDA = $JDA;
 		$this->cfg = $cfg;
+		$this->startdate = $options["startdate"];
+		$this->enddate = $options["enddate"];
+		$this->semesterID = $options["semesterID"];
 	}
 
 	/**
@@ -199,7 +202,7 @@ class PDFBauer extends abstrakterBauer
 			$sched[4][0]["TEXT"] = "14:00\n-\n15:30";
 			$sched[5][0]["TEXT"] = "15:45\n-\n17:15";
 			$sched[6][0]["TEXT"] = "17:30\n-\n19:00";
-
+						
 			if (isset($arr[0]->htmlView))
 			{
 				$lessons = $arr[0]->htmlView;
@@ -237,7 +240,8 @@ class PDFBauer extends abstrakterBauer
 			else
 			{
 				$lessons = $arr;
-				foreach ($lessons as $l)
+				
+				foreach ($lessons as $k => $l)
 				{
 					if (isset($l->cell))
 					{
@@ -249,21 +253,14 @@ class PDFBauer extends abstrakterBauer
 						$l->cell = preg_replace("/class=\"\"\s*/", "", $l->cell);
 						$l->cell = preg_replace("/class=\"roomshortname\s*\"/", "", $l->cell);
 						$l->cell = preg_replace("/class=\"oldroom\s*\"/", "", $l->cell);
-
-						if ($l->type == 'sporadic')
+						
+						if (($l->block) > 3)
 						{
-							$sporadic[] = strip_tags($l->cell);
+							$sched[$l->block][$l->dow][] = $l->cell;
 						}
 						else
 						{
-							if (($l->block) > 3)
-							{
-								$sched[$l->block][$l->dow][] = $l->cell;
-							}
-							else
-							{
-								$sched[$l->block - 1][$l->dow][] = $l->cell;
-							}
+							$sched[$l->block - 1][$l->dow][] = $l->cell;
 						}
 					}
 					else
@@ -272,7 +269,7 @@ class PDFBauer extends abstrakterBauer
 					}
 				}
 			}
-
+			
 			echo print_r($sched, true);
 
 			// PDF Anlegen
@@ -456,5 +453,74 @@ class PDFBauer extends abstrakterBauer
 				return array("success" => false, "data" => JText::_("COM_THM_ORGANIZER_SCHEDULER_NO_FILE_CREATED"));
 			}
 		}
+	}
+	
+	private function getLessonData()
+	{
+		if(is_string($this->startdate) && is_string($this->enddate))
+		{
+			$startDate = new DateTime($this->startdate);
+			$endDate = new DateTime($this->enddate);
+			$currentDate = $startDate;
+			$lessonDates = array();
+		
+			if($startDate > $endDate)
+			{
+				return JError::raiseWarning(404, JText::_('Das Enddatum muss größer als das Startdatum sein'));
+			}
+		
+			$calendar = $activeScheduleData->calendar;
+		
+			while($currentDate <= $endDate)
+			{
+				$date = $currentDate->format('Y-m-d');
+				if(isset($calendar->{$date}))
+				{
+					$lessonDates[$date] = $calendar->{$date};
+				}
+				$currentDate->add(new DateInterval('P1D'));
+			}
+		}
+		else
+		{
+			return JError::raiseWarning(404, JText::_('Kein gültiges Datum'));
+		}
+	}
+	
+	/**
+	 * Method to get schedule by scheduleID
+	 *
+	 * @param  Integer  $scheduleID  The schedule id  (Default: null)
+	 *
+	 * @return mixed  The active schedule as object or false
+	 */
+	private function getSchedule($scheduleID = null)
+	{
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
+		$query->select('*');
+		$query->from('#__thm_organizer_schedules');
+		if ($scheduleID == null || !is_int($scheduleID))
+		{
+			$query->where('active = 1');
+		}
+		else
+		{
+			$query->where('active = ' . $scheduleID);
+		}
+		$dbo->setQuery($query);
+	
+		if ($error = $dbo->getErrorMsg())
+		{
+			return false;
+		}
+	
+		$result = $dbo->loadObject();
+	
+		if ($result === null)
+		{
+			return false;
+		}
+		return $result;
 	}
 }

@@ -117,14 +117,10 @@ Ext
 
 							for ( var ELindex = 0; ELindex < EL.length; ELindex++) {
 
-								var startdate = EL.items[ELindex].data.startdate
-										.split(".");
-								startdate = new Date(startdate[2],
-										startdate[1] - 1, startdate[0]);
-								var enddate = EL.items[ELindex].data.enddate
-										.split(".");
-								enddate = new Date(enddate[2], enddate[1] - 1,
-										enddate[0]);
+								var startdate = EL.items[ELindex].data.startdate.split(".");
+								startdate = new Date(startdate[2], startdate[1] - 1, startdate[0]);
+								var enddate = EL.items[ELindex].data.enddate.split(".");
+								enddate = new Date(enddate[2], enddate[1] - 1, enddate[0]);
 
 								current.clearTime();
 

@@ -381,11 +381,14 @@ class TreeView
 				$this->treeData["room"] = $activeScheduleRooms;
 				$this->treeData["teacher"] = $activeScheduleTeachers;
 				$this->treeData["subject"] = $activeScheduleSubjects;
+				$this->treeData["roomtype"] = $activeScheduleData->roomtypes;;
+				$this->treeData["degree"] = $activeScheduleData->degrees;
+				$this->treeData["field"] = $activeScheduleData->fields;
 			}
 			else
 			{
 				// Cant decode json
-				return JError::raiseWarning(404, JText::_('Fehlerhfte Daten'));
+				return JError::raiseWarning(404, JText::_('Fehlerhafte Daten'));
 			}
 		}
 		else
@@ -632,7 +635,15 @@ class TreeView
 						$semesterID,
 						$childKey
 				);
-				$childNodes[] = $childNode;
+				if(is_object($childNode))
+				{
+					$childNodes[] = $childNode;
+				}
+			}
+			
+			if(empty($childNodes))
+			{
+				$childNodes = null;
 			}
 			
 			$descriptionNode = $this->createTreeNode(
@@ -648,7 +659,11 @@ class TreeView
 					$semesterID,
 					$descriptionKey
 			);
-			$treeNode[] = $descriptionNode;
+			
+			if(is_object($descriptionNode))
+			{
+				$treeNode[] = $descriptionNode;
+			}
 		}
 
 		return $treeNode;

@@ -383,3 +383,17 @@ function getMonday(date) {
 	}
 	return weekpointer;
 }
+
+/**
+ * Function to get the monday and friday date of the current week
+ */
+function getCurrentMoFrDate()
+{
+	var returnData = [];
+	var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker').value);
+	var mondayWeekPointer = getMonday(weekpointer);
+	var fridayWeekPointer = Ext.Date.clone(mondayWeekPointer);
+	fridayWeekPointer.setDate(fridayWeekPointer.getDate() + 6);
+	returnData = {"monday": Ext.Date.clone(mondayWeekPointer), "friday": Ext.Date.clone(fridayWeekPointer)};
+	return returnData;
+}
