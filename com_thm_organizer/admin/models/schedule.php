@@ -773,9 +773,21 @@ class thm_organizersModelschedule extends JModel
         {
             $this->_schedule->lessons->$lessonID->subjects->$subjectID = '';
         }
-        $lessonName = (count($this->_schedule->lessons->$lessonID->subjects) > 1)?
-            implode(' / ', array_keys(get_object_vars($this->_schedule->lessons->$lessonID->subjects))) : reset($this->_schedule->lessons->$lessonID->subjects);
-
+        $lessonName = '';
+        $initialSet = false;
+        foreach ($this->_schedule->lessons->$lessonID->subjects as $subjectID => $delta)
+        {
+            if ($initialSet)
+            {
+                $lessonName .= " / " . $this->_schedule->subjects->$subjectID->name;
+            }
+            else
+            {
+                $lessonName .= $this->_schedule->subjects->$subjectID->name;
+                $initialSet = true;
+            }
+        }
+        
         $descriptionID = str_replace('DS_', '', trim((string) $lessonnode->lesson_description));
         if (empty($descriptionID))
         {
@@ -1477,11 +1489,11 @@ class thm_organizersModelschedule extends JModel
                             {
                                 foreach ($rooms as $roomID => $delta)
                                 {
-                                    if ($roomID == 'delta')
+                                    if ($roomID == 'delta' or empty($roomID))
                                     {
                                         continue;
                                     }
-                                    if (!isset($refcalendar->$date->$period->$lessonID->$roomID))
+                                    if (!isset($refCalendar->$date->$period->$lessonID->$roomID))
                                     {
                                         $calendar->$date->$period->$lessonID->$roomID = 'new';
                                         $calendar->$date->$period->$lessonID->delta = 'changed';
@@ -1507,7 +1519,11 @@ class thm_organizersModelschedule extends JModel
                         {
                             if (!isset($calendar->$date->$period->$lessonID))
                             {
-                                $calendar->$date->$period->$lessonID = $refCalendar->$date->$period->$lessonID;
+                                $calendar->$date->$period->$lessonID = new stdClass;
+                                foreach ($rooms as $roomID => $delta)
+                                {
+                                    $calendar->$date->$period->$lessonID->$roomID = '';
+                                }
                                 $calendar->$date->$period->$lessonID->delta = 'removed';
                                 continue;
                             }
