@@ -1978,51 +1978,104 @@ MySched.layout = function() {
 				region : 'center'
 			});
 
-			this.tabpanel
-					.on(
-							'tabchange',
-							function(panel, o) {
-								var contentAnchorTip = Ext
-										.getCmp('content-anchor-tip');
+			this.tabpanel.on('tabchange',
+					function(panel, o) {
+								showLoadMask();
+								var contentAnchorTip = Ext.getCmp('content-anchor-tip');
 								if (contentAnchorTip)
 									contentAnchorTip.destroy();
 								MySched.selectedSchedule = o.mSchedule;
-								// Aufgerufener Tab wird neu geladen
-								if (MySched.selectedSchedule.status == "unsaved") {
-									Ext.ComponentMgr.get('btnSave').enable();
-								} else {
-									Ext.ComponentMgr.get('btnSave').disable();
-								}
+								
+								var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker').value);
+								
+								var currentMoFrDate = getCurrentMoFrDate();
+								var selectedSchedule = MySched.selectedSchedule;
+								var nodeKey = selectedSchedule.key;
+								var nodeID = selectedSchedule.id;
+								var gpuntisID = selectedSchedule.gpuntisID;
+								var semesterID = selectedSchedule.semesterID;
+								var plantypeID = "";
+								var type = selectedSchedule.type;
+								Ext.Ajax.request({
+											url : _C('ajaxHandler'),
+											method : 'POST',
+											params : {
+												nodeID : nodeID,
+												nodeKey : nodeKey,
+												gpuntisID : gpuntisID,
+												semesterID : semesterID,
+												scheduletask : "Ressource.load",
+												plantypeID : plantypeID,
+												type : type,
+												startdate: Ext.Date.format(currentMoFrDate.monday, "Y-m-d"),
+												enddate: Ext.Date.format(currentMoFrDate.friday, "Y-m-d")
+											},
+											failure : function(response) {
+												Ext.Msg.alert(
+																MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ERROR,
+																MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_ERROR);
+											},
+											success : function(response) {
+												try {
+													var json = Ext.decode(response.responseText);
+													var lessonData = json["lessonData"];
+													var lessonDate = json["lessonDate"];
+													for (var item in lessonData)
+													{
+														if (Ext.isObject(lessonData[item]))
+														{
+															var record = new mLecture(
+																	item,
+																	lessonData[item], semesterID,
+																	plantypeID);
+															MySched.Base.schedule
+																	.addLecture(record);
+//															MySched.TreeManager.add(record);
+														}
+													}
+													if(Ext.isObject(lessonDate))
+													{
+														MySched.Calendar.addAll(lessonDate);
+													}
 
-								var lectureData = MySched.selectedSchedule.data.items;
+													MySched.selectedSchedule.eventsloaded = null;
+													MySched.selectedSchedule.init(type, nodeKey, semesterID);
+													// Aufgerufener Tab wird neu geladen
+													if (MySched.selectedSchedule.status == "unsaved") {
+														Ext.ComponentMgr.get('btnSave').enable();
+													} else {
+														Ext.ComponentMgr.get('btnSave').disable();
+													}
 
-								for ( var lectureIndex = 0; lectureIndex < lectureData.length; lectureIndex++)
-								{
-									if (Ext.isDefined(lectureData[lectureIndex]))
-									{
-										if (Ext.isDefined(lectureData[lectureIndex].setCellTemplate) == true)
-										{
-											lectureData[lectureIndex].setCellTemplate(MySched.selectedSchedule.type);
-										}
-									}
-								}
+													var lectureData = MySched.selectedSchedule.data.items;
 
-								/*
-								 * MySched.selectedSchedule.data.eachKey(function
-								 * (k, v) { if (typeof v.setCellTemplate !=
-								 * "undefined")
-								 * v.setCellTemplate(MySched.selectedSchedule.type);
-								 * });
-								 */
+													for ( var lectureIndex = 0; lectureIndex < lectureData.length; lectureIndex++)
+													{
+														if (Ext.isDefined(lectureData[lectureIndex]))
+														{
+															if (Ext.isDefined(lectureData[lectureIndex].setCellTemplate) == true)
+															{
+																lectureData[lectureIndex].setCellTemplate(MySched.selectedSchedule.type);
+															}
+														}
+													}
 
-								MySched.selectedSchedule.eventsloaded = null;
-								o.mSchedule.refreshView();
+													MySched.selectedSchedule.eventsloaded = null;
+													o.mSchedule.refreshView();
 
-								// Evtl. irgendwo haengender AddLectureButton
-								// wird ausgeblendet
-								/* MySched.SelectionManager.selectButton.hide(); */
-								MySched.SelectionManager.unselect();
-								this.selectedTab = o;
+													// Evtl. irgendwo haengender AddLectureButton
+													// wird ausgeblendet
+													/* MySched.SelectionManager.selectButton.hide(); */
+													MySched.SelectionManager.unselect();
+													this.selectedTab = o;
+												} catch (e) {
+													Ext.Msg
+															.alert(
+																	MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ERROR,
+																	MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_ERROR);
+												}
+											}
+										});
 							}, this);
 
 			// Wenn der Header der FH angezeigt werden soll
@@ -2916,6 +2969,8 @@ MySched.layout = function() {
 				listeners : {
 					'change' : function() {
 						if (MySched.selectedSchedule != null) {
+							showLoadMask();
+							
 							var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker').value);
 				
 							var currentMoFrDate = getCurrentMoFrDate();
@@ -4065,13 +4120,8 @@ MySched.Tree = function() {
 
 			return this.tree;
 		},
-		showScheduleTab : function(nodeID, nodeKey, gpuntisID, semesterID,
-				plantypeID, type) {
-			MySched.loadMask = new Ext.LoadMask(
-					MySched.layout.tabpanel.getId(), {
-						msg : "Loading..."
-					});
-			MySched.loadMask.show();
+		showScheduleTab : function(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type) {
+			showLoadMask();
 
 			if (type === null)
 				type = gpuntisID;

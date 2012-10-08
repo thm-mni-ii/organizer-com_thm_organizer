@@ -698,6 +698,8 @@ Ext.define('mSchedule', {
     var func = function () {
           MySched.SelectionManager.stopSelection();
            MySched.SelectionManager.startSelection();
+           if(MySched.loadMask)
+        	      MySched.loadMask.destroy();
         }
         Ext.defer(func, 50);
   },

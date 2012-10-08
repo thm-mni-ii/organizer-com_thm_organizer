@@ -397,3 +397,25 @@ function getCurrentMoFrDate()
 	returnData = {"monday": Ext.Date.clone(mondayWeekPointer), "friday": Ext.Date.clone(fridayWeekPointer)};
 	return returnData;
 }
+
+/**
+ * Function to show the load mask on a element specified by param id
+ * @param id The elements id
+ */
+function showLoadMask(id)
+{
+	if(!Ext.isDefined(id))
+	{
+		id = MySched.layout.tabpanel.getId();
+	}
+	if(MySched.loadMask)
+	{
+	      MySched.loadMask.destroy();
+	}
+	MySched.loadMask = new Ext.LoadMask(
+			id,
+			{
+				msg : "Loading..."
+			});
+	MySched.loadMask.show();
+}
