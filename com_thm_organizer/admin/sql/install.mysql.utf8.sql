@@ -14,16 +14,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
   KEY `semestername` (`semestername`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_deltas` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `fromID` int(11) unsigned NOT NULL,
-  `toID` int(11) unsigned NOT NULL,
-  `delta` mediumblob NOT NULL,
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`fromID`) REFERENCES #__thm_organizer_schedules(`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  FOREIGN KEY (`toID`) REFERENCES #__thm_organizer_schedules(`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_virtual_schedules` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
