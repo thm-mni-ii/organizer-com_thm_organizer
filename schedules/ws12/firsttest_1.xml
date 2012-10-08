@@ -3398,25 +3398,6 @@
         </time>
       </times>
     </lesson>
-    <lesson id="LS_252500">
-      <periods>1</periods>
-      <lesson_subject id="SU_Gene.Genomik"/>
-      <lesson_teacher id="TR_Hobo"/>
-      <lesson_classes id="CL_BI.3"/>
-      <effectivebegindate>20121015</effectivebegindate>
-      <effectiveenddate>20130201</effectiveenddate>
-      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F11111FFFFFFFFFFFFFFFF000000F111111F111111F110010F000000F000000F000000F000000F000000F000000F000000F0000FFFFF0000F000000F000000F000000F00F000F000F00F00000FFFF0000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F00000</occurence>
-      <lesson_description>V</lesson_description>
-      <times>
-        <time>
-          <assigned_day>3</assigned_day>
-          <assigned_period>3</assigned_period>
-          <assigned_starttime>1130</assigned_starttime>
-          <assigned_endtime>1300</assigned_endtime>
-          <assigned_room id="RM_A12.209"/>
-        </time>
-      </times>
-    </lesson>
     <lesson id="LS_253400">
       <periods>1</periods>
       <lesson_subject id="SU_BInf1"/>
