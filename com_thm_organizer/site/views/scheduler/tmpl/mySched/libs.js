@@ -74,6 +74,7 @@ Ext.extend(MySched.Collection, Ext.util.MixedCollection, {
  * KonfigurationsObject
  */
 MySched.Config = new MySched.Collection();
+MySched.Calendar = new MySched.Collection();
 
 /**
  * Schnellzugriff auf Configobjekt

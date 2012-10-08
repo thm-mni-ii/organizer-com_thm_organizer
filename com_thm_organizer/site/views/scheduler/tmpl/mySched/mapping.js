@@ -4,10 +4,10 @@
  */
 
 /**
- * Ersaetzt Ids zu Namen Bei Dozenten, Studiengaengen, Modulen etc.
+ * Ersaetzt Ids zu Namen Bei Teacherenten, Studiengaengen, Modulen etc.
  */
 MySched.Mapping = function() {
-	var doz, clas, subject, lecture, room, types;
+	var teacher, module, subject, lecture, room, types;
 
 	return {
 		init : function() {
@@ -24,8 +24,8 @@ MySched.Mapping = function() {
 
 		},
 		load : function(node) {
-			this.readClas(Ext.DomQuery.select('classes', node));
-			this.readDoz(Ext.DomQuery.select('teachers', node));
+			this.readModule(Ext.DomQuery.select('modules', node));
+			this.readTeacher(Ext.DomQuery.select('teachers', node));
 			this.readRoom(Ext.DomQuery.select('rooms', node));
 			this.readSubject(Ext.DomQuery.select('subjects', node));
 		},
@@ -48,7 +48,7 @@ MySched.Mapping = function() {
 				this.subject.add(e.data.id, e.data);
 			}, this);
 		},
-		readDoz : function(n) {
+		readTeacher : function(n) {
 			var def = Ext.data.Record.create([ {
 				name : 'id',
 				mapping : '@id'
@@ -64,7 +64,7 @@ MySched.Mapping = function() {
 				id : "id"
 			}, def);
 			Ext.each(xml.readRecords(n).records, function(e) {
-				this.doz.add(e.data.id, e.data);
+				this.teacher.add(e.data.id, e.data);
 			}, this);
 		},
 		readRoom : function(n) {
@@ -89,7 +89,7 @@ MySched.Mapping = function() {
 				this.room.add(e.data.id, e.data);
 			}, this);
 		},
-		readClas : function(n) {
+		readModule : function(n) {
 			var def = Ext.data.Record.create([ {
 				name : 'id',
 				mapping : '@id'
@@ -103,11 +103,11 @@ MySched.Mapping = function() {
 			// no comma here ;)
 			]);
 			var xml = Ext.create('Ext.data.XmlReader', {
-				record : "class",
+				record : "modules",
 				id : "id"
 			}, def);
 			Ext.each(xml.readRecords(n).records, function(e) {
-				this.clas.add(e.data.id, e.data);
+				this.module.add(e.data.id, e.data);
 			}, this);
 		},
 		def : function(arr, val, def) {
@@ -127,17 +127,17 @@ MySched.Mapping = function() {
 		getObject : function(type, id) {
 			return this[type].get(id);
 		},
-		getDozName : function(id) {
-			return this.def(this.doz.get(id, id), 'name', id);
+		getTeacherSurname : function(id) {
+			return this.def(this.teacher.get(id, id), 'surname', id);
 		},
-		getClasName : function(id) {
-			return this.def(this.clas.get(id, id), 'name', id);
+		getModuleName : function(id) {
+			return this.def(this.module.get(id, id), 'name', id);
 		},
 		getRoomName : function(id) {
 			return this.def(this.room.get(id, id), 'name', id);
 		},
 		getSubjectName : function(id) {
-			return this.def(this.subject.get(id, id), 'name', id);
+			return this.def(this.subject.get(id, id), 'longname', id);
 		},
 		getLectureName : function(id) {
 			return this.def(this.subject.get(id, id), 'name', id);

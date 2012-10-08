@@ -377,10 +377,10 @@ class TreeView
 				unset($activeScheduleData->teachers);
 				$activeScheduleModules = $activeScheduleData->modules;
 				unset($activeScheduleData->modules);
-				$this->treeData["modules"] = $activeScheduleModules;
-				$this->treeData["rooms"] = $activeScheduleRooms;
-				$this->treeData["teachers"] = $activeScheduleTeachers;
-				$this->treeData["subjects"] = $activeScheduleSubjects;
+				$this->treeData["module"] = $activeScheduleModules;
+				$this->treeData["room"] = $activeScheduleRooms;
+				$this->treeData["teacher"] = $activeScheduleTeachers;
+				$this->treeData["subject"] = $activeScheduleSubjects;
 			}
 			else
 			{
@@ -490,7 +490,7 @@ class TreeView
 		$data = array();
 		$descriptions = array();
 
-		$data = $this->treeData[$scheduleType."s"];
+		$data = $this->treeData[$scheduleType];
 
 		foreach($data as $item)
 		{
@@ -630,7 +630,7 @@ class TreeView
 						$scheduleType,
 						null,
 						$semesterID,
-						$childValue->gpuntisID
+						$childKey
 				);
 				$childNodes[] = $childNode;
 			}
@@ -646,7 +646,7 @@ class TreeView
 					$scheduleType,
 					$childNodes,
 					$semesterID,
-					$descriptionValue->gpuntisID
+					$descriptionKey
 			);
 			$treeNode[] = $descriptionNode;
 		}
