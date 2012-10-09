@@ -42,6 +42,7 @@ class THM_OrganizerViewScheduler extends JView
 	{
 		JHTML::_('behavior.tooltip');
 		$model = $this->getModel();
+		$menuparams = JFactory::getApplication()->getParams();
 				
 		$activeSchedule = $model->getActiveSchedule();
 		if (is_object($activeSchedule) && is_string($activeSchedule->schedule))
@@ -128,7 +129,6 @@ class THM_OrganizerViewScheduler extends JView
 		else // Im Menü eingebunden
 		{
 			$path = null;
-			$menuparams = JFactory::getApplication()->getParams();
 			$menuparamsID = $menuparams->get("id");
 			$menuparamsPublicDefaultID = $menuparams->get("publicDefaultID");
 			try
@@ -182,13 +182,18 @@ class THM_OrganizerViewScheduler extends JView
 		
 		$schedulearr["Grid.load"] = $activeSchedulePeriods;
 		
-// 		var_dump($activeScheduleLessons);
-
 		$schedulearr["Calendar"] = $activeScheduleCalendar;
 		
 		$schedulearr["Events.load"] = $model->executeTask("Events.load");
 
 		$schedulearr["UserSchedule.load"] = array();
+		
+		$this->loadLessonsOnStartUp = (bool) $menuparams->get("loadLessonsOnStartUp");
+		if($this->loadLessonsOnStartUp == true)
+		{
+			$schedulearr["Lessons"] = $activeScheduleLessons;
+			$schedulearr["Calendar"] = $activeScheduleCalendar;
+		}
 
 		$schedulearr["UserSchedule.load"]["respChanges"] = $model->executeTask("UserSchedule.load", array("username" => "respChanges"));
 				

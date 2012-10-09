@@ -89,10 +89,10 @@ Ext
 								}
 							}
 
-							var begin = MySched.session["begin"].split(".");
-							begin = new Date(begin[2], begin[1] - 1, begin[0]);
-							var end = MySched.session["end"].split(".");
-							end = new Date(end[2], end[1] - 1, end[0]);
+							var begin = MySched.session["begin"].split("-");
+							begin = new Date(begin[0], begin[1] - 1, begin[2]);
+							var end = MySched.session["end"].split("-");
+							end = new Date(end[0], end[1] - 1, end[2]);
 
 							cell.children[0].events = new Array();
 
@@ -154,17 +154,17 @@ Ext
 
 						var calendarTooltip = Ext.select('.calendar_tooltip',
 								false, document);
-						calendarTooltip.removeAllListeners();
-						calendarTooltip.on({
-							'mouseover' : function(e) {
-								e.stopEvent();
-								calendar_tooltip(e);
-							},
-							'mouseout' : function(e) {
-								e.stopEvent();
-							},
-							scope : this
-						});
+//						calendarTooltip.removeAllListeners();
+//						calendarTooltip.on({
+//							'mouseover' : function(e) {
+//								e.stopEvent();
+//								calendar_tooltip(e);
+//							},
+//							'mouseout' : function(e) {
+//								e.stopEvent();
+//							},
+//							scope : this
+//						});
 
 						me.monthBtn.setText(me.monthNames[date.getMonth()]
 								+ ' ' + date.getFullYear());

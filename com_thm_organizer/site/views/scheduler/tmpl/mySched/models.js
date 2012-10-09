@@ -236,8 +236,8 @@ Ext.define('mSchedule', {
 
     wpMO = getMonday(wp);
 
-    var begin = MySched.session["begin"].split(".");
-    begin = new Date(begin[2], begin[1]-1, begin[0]);
+    var begin = MySched.session["begin"].split("-");
+    begin = new Date(begin[0], begin[1]-1, begin[2]);
 
     if (wp < begin && cd.menu == null) {
       Ext.MessageBox.show({
@@ -251,8 +251,8 @@ Ext.define('mSchedule', {
         fn: function (btn) {
           if (btn == "yes") {
             var cd = Ext.ComponentMgr.get('menuedatepicker');
-                  var begindate = MySched.session["begin"].split(".");
-                  var inidate = new Date(begindate[2], begindate[1]-1, begindate[0]);
+                  var begindate = MySched.session["begin"].split("-");
+                  var inidate = new Date(begindate[0], begindate[1]-1, begindate[2]);
 
             if (typeof cd.menu == "undefined")
               cd.initialConfig.value = inidate;
@@ -402,28 +402,32 @@ Ext.define('mSchedule', {
     	var calendarDates = MySched.Calendar.map;
     	for(var dateIndex in calendarDates)
     	{
-    		var dateObject = new Date(dateIndex);
-    		var wpFR = Ext.Date.clone(wpMO);
-    		wpFR.setDate(wpFR.getDate() + 6);
-    		if(dateObject >= wpMO && dateObject <= wpFR)
+    		var splittedDateIndex = dateIndex.split("-");
+    		if(splittedDateIndex.length == 3)
     		{
-	    		var dow = Ext.Date.format(dateObject, "l");
-				dow = dow.toLowerCase();
- 
-	    		var date = calendarDates[dateIndex];
-	    		for(var blockIndex in date)
+	    		var dateObject = new Date(splittedDateIndex[0], splittedDateIndex[1] - 1, splittedDateIndex[2]);
+	    		var wpFR = Ext.Date.clone(wpMO);
+	    		wpFR.setDate(wpFR.getDate() + 6);
+	    		if(dateObject >= wpMO && dateObject <= wpFR)
 	    		{
-	    			var block = date[blockIndex];
-	    			if(Ext.isObject(block[k]))
-	    			{
-	    				var roomCollection = new MySched.Collection();
-	    				roomCollection.addAll(date[blockIndex][k]);
-	    				roomCollection.remove("delta");
-	    				var block = blockIndex - 1;
-	    				if (!ret[block][dow]) ret[block][dow] = [];
-	    				ret[block][dow].push(v.getCellView(this, roomCollection));
-	    	            this.visibleLessons.push(v.data);
-	    			}
+		    		var dow = Ext.Date.format(dateObject, "l");
+					dow = dow.toLowerCase();
+	 
+		    		var date = calendarDates[dateIndex];
+		    		for(var blockIndex in date)
+		    		{
+		    			var block = date[blockIndex];
+		    			if(Ext.isObject(block[k]))
+		    			{
+		    				var roomCollection = new MySched.Collection();
+		    				roomCollection.addAll(date[blockIndex][k]);
+		    				roomCollection.remove("delta");
+		    				var block = blockIndex - 1;
+		    				if (!ret[block][dow]) ret[block][dow] = [];
+		    				ret[block][dow].push(v.getCellView(this, roomCollection));
+		    	            this.visibleLessons.push(v.data);
+		    			}
+		    		}
 	    		}
     		}
     	}

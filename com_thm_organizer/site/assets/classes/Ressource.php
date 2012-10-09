@@ -103,10 +103,8 @@ class Ressource
 	public function __construct($JDA, $CFG)
 	{
 		$this->JDA = $JDA;
-		$this->nodeID = $JDA->getRequest("nodeID");
 		$this->gpuntisID = $JDA->getRequest("gpuntisID");
 		$this->nodeKey = $JDA->getRequest("nodeKey");
-		$this->plantypeID = $JDA->getRequest("plantypeID");
 		$this->type = $JDA->getRequest("type");
 		$this->semesterID = $JDA->getRequest("semesterID");
 		$this->startdate = $JDA->getRequest("startdate");
@@ -120,7 +118,7 @@ class Ressource
 	 */
 	public function load()
 	{
-		if (isset($this->startdate) && isset($this->enddate) && isset($this->gpuntisID) && isset($this->semesterID) && isset($this->nodeID) && isset($this->nodeKey))
+		if (isset($this->startdate) && isset($this->enddate) && isset($this->gpuntisID) && isset($this->semesterID) && isset($this->nodeKey))
 		{
 			$activeSchedule = $this->getSchedule($this->semesterID);
 			$data = null;
@@ -213,6 +211,10 @@ class Ressource
 							foreach($activeScheduleLessons->{$lessonKey}->{$resourceType} as $resourceKey => $resourceValue)
 							{
 								if($resourceKey == $this->nodeKey)
+								{
+									$lessonData[$lessonKey] = $activeScheduleLessons->{$lessonKey};
+								}
+								else if($this->nodeKey == "")
 								{
 									$lessonData[$lessonKey] = $activeScheduleLessons->{$lessonKey};
 								}
