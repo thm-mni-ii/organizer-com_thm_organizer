@@ -74,31 +74,31 @@ class thm_organizersControllerschedule extends JController
         if ($fileType == "text/xml")
         {
             $model = $this->getModel('schedule');
-            $status = $model->upload();
+            $statusReport = $model->upload();
 
             // The file contains critical inconsistancies and will not be uploaded
-            if (isset($status['errors']))
+            if (isset($statusReport['errors']))
             {
                 $errorText = "<h3>" . JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_ERRORS") . ":</h3>";
-                $msg = $errorText . $status['errors'];
+                $msg = $errorText . $statusReport['errors'];
 
                 // Minor inconsistancies discovered
-                if (isset($status['warnings']))
+                if (isset($statusReport['warnings']))
                 {
                     $warningText = "<br /><h4>" . JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_ERRORS_WARNINGS") . ":</h4>";
-                    $msg .= $warningText . $status['warnings'];
+                    $msg .= $warningText . $statusReport['warnings'];
                 }
                 $this->setRedirect($url, $msg, 'error');
             }
             else
             {
-                $url .= "&scheduleID={$status['scheduleID']}";
+                $url .= "&scheduleID={$statusReport['scheduleID']}";
 
                 // Minor inconsistancies discovered
-                if (isset($status['warnings']))
+                if (isset($statusReport['warnings']))
                 {
                     $warningText = "<h4>" . JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_WARNINGS") . ":</h4>";
-                    $msg = $warningText . $status['warnings'];
+                    $msg = $warningText . $statusReport['warnings'];
                     $this->setRedirect($url, $msg, 'notice');
                 }
                 else
@@ -115,7 +115,7 @@ class thm_organizersControllerschedule extends JController
     }
 
     /**
-     * adds or updates schedule information and redirects to the schedule
+     * adds or updates schedule commentary and redirects to the schedule
      * manager view
      * 
      * @return void
@@ -142,7 +142,7 @@ class thm_organizersControllerschedule extends JController
     }
 
     /**
-     * performs access checks, removes schedules from the database, and
+     * Performs access checks, removes schedules from the database, and
      * redirects to the schedule manager view optionally to filtered to a
      * specific semester
      * 
@@ -155,36 +155,18 @@ class thm_organizersControllerschedule extends JController
             thm_organizerHelper::noAccess();
         }
 
-        $semesterID = JRequest::getVar('semesterID');
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
-        $url .= ($semesterID)? "&semesterID=$semesterID" : "";
-
-        $dbo = JFactory::getDbo();
-        $dbo->transactionStart();
-        $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
-        JTable::addIncludePath(JPATH_COMPONENT . DS . 'tables');
-        $schedule = JTable::getInstance('schedules', 'thm_organizerTable');
-        foreach ($scheduleIDs as $scheduleID)
+        $model = $this->getModel('schedule');
+        $success = $model->delete();
+        if ($success)
         {
-            $schedule->load($scheduleID);
-            $model = $this->getModel();
-            if ($schedule->active)
-            {
-                $model->deactivate($schedule->sid);
-            }
-            $model->delete($scheduleID);
-        }
-        if ($dbo->getErrorNum())
-        {
-            $dbo->transactionRollback();
-            $msg = JText::_("COM_THM_ORGANIZER_SCH_DELETE_FAIL");
-            $this->setRedirect($url, $msg, 'error');
+            $msg = JText::_("COM_THM_ORGANIZER_SCH_DELETE_SUCCESS");
+            $this->setRedirect($url, $msg);
         }
         else
         {
-            $dbo->transactionCommit();
-            $msg = JText::_("COM_THM_ORGANIZER_SCH_DELETE_SUCCESS");
-            $this->setRedirect($url, $msg);
+            $msg = JText::_("COM_THM_ORGANIZER_SCH_DELETE_FAIL");
+            $this->setRedirect($url, $msg, 'error');
         }
     }
 
@@ -194,88 +176,38 @@ class thm_organizersControllerschedule extends JController
      * 
      * @return void
      */
-    public function setDefault()
+    public function setReference()
     {
         if (!thm_organizerHelper::isAdmin('schedule'))
         {
             thm_organizerHelper::noAccess();
         }
-        $semesterID = JRequest::getVar('semesterID');
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
-        $url .= ($semesterID)? "&semesterID=$semesterID" : "";
 
-        if (JRequest::getInt("boxchecked") > 1)
+        if (JRequest::getInt("boxchecked") === 1)
         {
-            $model = $this->getModel();
-            $activation_conflicts = $model->checkForActivationConflicts();
-            if ($activation_conflicts)
+            $model = $this->getModel('schedule');
+            $active = $model->checkIfActive();
+            if ($active)
             {
-                $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_ACTIVATE_COUNT_FAIL"), 'error');
-            }
-        }
-        $this->activate();
-    }
-
-    /**
-     * Performs access checks and uses the model's activate/deactivate functions
-     * should another schedule previously be activated for the same semester a
-     * delta is created.
-     * 
-     * @return void
-     */
-    private function activate()
-    {
-        $semesterID = JRequest::getVar('semesterID');
-        $url = "index.php?option=com_thm_organizer&view=schedule_manager";
-        $url .= ($semesterID)? "&semesterID=$semesterID" : "";
-        $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
-
-        $return = array();
-        $return['errors'] = array();
-        $return['messsages'] = array();
-        JTable::addIncludePath(JPATH_COMPONENT . DS . 'tables');
-        $schedule = JTable::getInstance('schedules', 'thm_organizerTable');
-        foreach ($scheduleIDs as $scheduleID)
-        {
-            $dbo = JFactory::getDbo();
-            $dbo->transactionStart();
-            $success = $schedule->load($scheduleID);
-            if ($success)
-            {
-                $model = $this->getModel();
-                ($schedule->active)? $model->deactivate($schedule->sid, $return, true): $model->activate($schedule, $return);
+                $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_ALREADY_ACTIVE"), 'error');
             }
             else
             {
-                $return['errors'][] = JText::_("COM_THM_ORGANIZER_SCH_ACTIVATE_FIND_FAIL");
+                $success = $model->setReference();
+                if ($success)
+                {
+                    $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_REFERENCE_SUCCESS"));
+                }
+                else
+                {
+                    $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_REFERENCE_FAIL"), 'error');
+                }
             }
-            if ($dbo->getErrorNum())
-            {
-                    $dbo->transactionRollback();
-                    $return['errors'][] = JText::_('COM_THM_ORGANIZER_SCH_ACTIVATE_DB_FAIL');
-                    break;
-            }
-            else
-            {
-                $dbo->transactionCommit();
-            }
-        }
-        $msg = "";
-        if (count($return['errors']))
-        {
-            $msg .= "<br />" . implode("<br />", $return['errors']);
-        }
-        if (count($return['messages']))
-        {
-            $msg .= "<br />" . implode("<br />", $return['messages']);
-        }
-        if (count($return['errors']))
-        {
-            $this->setRedirect($url, $msg, 'error');
         }
         else
         {
-            $this->setRedirect($url, $msg);
+            $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_REFERENCE_COUNT"), 'error');
         }
     }
 

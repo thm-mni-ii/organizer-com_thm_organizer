@@ -50,8 +50,8 @@ class thm_organizersModelschedule_manager extends JModelList
         {
             $config['filter_fields'] =
                 array(
-                    'departmentname', 'departmentname',
-                    'semestername', 'semestername',
+                    'department', 'departmentname',
+                    'semester', 'semestername',
                     'creationdate', 'creationdate',
                     'state', 'active'
                 );
@@ -79,23 +79,23 @@ class thm_organizersModelschedule_manager extends JModelList
         $state = $this->getState('filter.state');
         if ($state === '0')
         {
-            $query->where("active IS NULL");
+            $query->where("active = 0");
         }
         if ($state === '1')
         {
-            $query->where("active IS NOT NULL");
+            $query->where("active = 1");
         }
 
         $semester = $this->getState('filter.semester');
-        if (isset($semester))
+        if (!empty($semester) and $semester != '*')
         {
-            $query->where("semestername = $semester");
+            $query->where("semestername = '$semester'");
         }
 
         $department = $this->getState('filter.department');
-        if (isset($department))
+        if (!empty($department) and $department != '*')
         {
-            $query->where("departmentname = $department");
+            $query->where("departmentname = '$department'");
         }
 
         $orderby = $dbo->getEscaped($this->getState('list.ordering', 'creationdate'));
@@ -115,16 +115,17 @@ class thm_organizersModelschedule_manager extends JModelList
      */
     protected function populateState($ordering = null, $direction = null)
     {
+        $dbo = $this->getDbo();
+
         $state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state');
         $this->setState('filter.state', $state);
 
-        $semester = $this->getUserStateFromRequest($this->context . '.filter.semester', 'filter_semester');
+        $semester = $dbo->escape($this->getUserStateFromRequest($this->context . '.filter.semester', 'filter_semester'));
         $this->setState('filter.semester', $semester);
 
-        $department = $this->getUserStateFromRequest($this->context . '.filter.department', 'filter_department');
-        $this->setState('filter.semester', $department);
+        $department = $dbo->escape($this->getUserStateFromRequest($this->context . '.filter.department', 'filter_department'));
+        $this->setState('filter.department', $department);
 
-        // List state information.
         parent::populateState($ordering, $direction);
     }
 
@@ -137,11 +138,11 @@ class thm_organizersModelschedule_manager extends JModelList
     {
         $dbo = $this->getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("DISTINCT (departmentname)");
+        $query->select("DISTINCT departmentname AS name");
         $query->from("#__thm_organizer_schedules");
         $dbo->setQuery((string) $query);
-        $semesters = $dbo->loadAssocList();
-        return (count($semesters))? $semesters : array();
+        $departments = $dbo->loadAssocList();
+        return (count($departments))? $departments : array();
     }
 
     /**
@@ -153,10 +154,7 @@ class thm_organizersModelschedule_manager extends JModelList
     {
         $dbo = $this->getDbo();
         $query = $dbo->getQuery(true);
-        $select = "DISTINCT semestername, ";
-        $select .= "CONCAT( DATE_FORMAT(startdate, '%d.%m.%Y'), ' - ', ";
-        $select .= "DATE_FORMAT(enddate, '%d.%m.%Y')) AS dates ";
-        $query->select($select);
+        $query->select("DISTINCT semestername AS name");
         $query->from("#__thm_organizer_schedules");
         $dbo->setQuery((string) $query);
         $semesters = $dbo->loadAssocList();

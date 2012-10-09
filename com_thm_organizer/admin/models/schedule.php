@@ -787,7 +787,7 @@ class thm_organizersModelschedule extends JModel
                 $initialSet = true;
             }
         }
-        
+
         $descriptionID = str_replace('DS_', '', trim((string) $lessonnode->lesson_description));
         if (empty($descriptionID))
         {
@@ -1162,15 +1162,18 @@ class thm_organizersModelschedule extends JModel
     /**
      * Creates the delta to the chosen reference schedule
      * 
-     * @param   int  $referenceID  the id of the schedule to be used as a
-     *                             reference while creating the delta
-     * 
      * @return boolean true on successful delta creation, otherwise false 
      */
-    private function setReference($referenceID = null)
+    public function setReference()
     {
         $reference = JTable::getInstance('schedules', 'thm_organizerTable');
-        if (!empty($this->_schedule) and empty($referenceID))
+        $referenceIDs = JRequest::getVar('cid', array(), 'post', 'array');
+        if (!empty($referenceIDs))
+        {
+            $referenceID = $referenceIDs[0];
+            $referenceExists = $reference->load($referenceID);
+        }
+        elseif (!empty($this->_schedule))
         {
             $pullData = array(
                 'departmentname' => $this->_schedule->departmentname,
@@ -1181,10 +1184,6 @@ class thm_organizersModelschedule extends JModel
             );
             $reference->bind($pullData);
             $referenceExists = $reference->load($pullData);
-        }
-        elseif (!empty($referenceID))
-        {
-            $referenceExists = $reference->load($referenceID);
         }
 
         // The schedule to be referenced could not be found
@@ -1204,8 +1203,15 @@ class thm_organizersModelschedule extends JModel
 
         if (isset($referenceID))
         {
+            $pullData = array(
+                'departmentname' => $reference->departmentname,
+                'semestername' => $reference->semestername,
+                'startdate' => $reference->startdate,
+                'enddate' => $reference->enddate,
+                'active' => 1
+            );
             $actual = JTable::getInstance('schedules', 'thm_organizerTable');
-            $actualExists = $reference->load($newScheduleID);
+            $actualExists = $actual->load($pullData);
             if (!$actualExists)
             {
                 return false;
@@ -1221,7 +1227,7 @@ class thm_organizersModelschedule extends JModel
             $dbo->transactionStart();
         }
         $referenceDate = $reference->creationdate;
-        $reference->schedule = $this->_refSchedule;
+        $reference->schedule = json_encode($this->_refSchedule);
         $reference->active = 0;
         $success = $reference->store();
         if (isset($referenceID) and !$success)
@@ -1237,7 +1243,7 @@ class thm_organizersModelschedule extends JModel
 
         if (isset($referenceID))
         {
-            $actual->schedule = $this->_schedule;
+            $actual->schedule = json_encode($this->_schedule);
             $success = $actual->store();
             if (!$success)
             {
@@ -1352,12 +1358,14 @@ class thm_organizersModelschedule extends JModel
                                 {
                                     case 'new':
                                         unset($calendar->$date->$period->$lesson->delta);
+                                        break;
                                     case 'removed':
                                         unset($calendar->$date->$period->$lesson);
+                                        break;
                                     case 'changed':
-                                        foreach ($rooms as $room => $delta)
+                                        foreach ($rooms as $roomID => $delta)
                                         {
-                                            if ($room == 'delta')
+                                            if ($roomID == 'delta')
                                             {
                                                 continue;
                                             }
@@ -1366,12 +1374,15 @@ class thm_organizersModelschedule extends JModel
                                                 case 'new':
                                                     $calendar->$date->$period->$lesson->$room = '';
                                                     continue;
+                                                case '':
+                                                    continue;
                                                 case 'removed':
-                                                    unset($calendar->$date->$period->$lesson->$room);
+                                                    unset($calendar->$date->$period->$lesson->$roomID);
                                                     continue;
                                             }
                                         }
                                         unset($calendar->$date->$period->$lesson->delta);
+                                        break;
                                 }
                             }
                         }
@@ -1585,6 +1596,27 @@ class thm_organizersModelschedule extends JModel
         unset($data->startdate, $data->enddate, $data->creationdate);
         $table = JTable::getInstance('schedules', 'thm_organizerTable');
         return $table->save($data);
+    }
+
+    /**
+     * Checks if the first selected schedule is active
+     * 
+     * @return boolean true if the schedule is active otherwise false
+     */
+    public function checkIfActive()
+    {
+        $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
+        if (!empty($scheduleIDs))
+        {
+            $scheduleID = $scheduleIDs[0];
+            $schedule = JTable::getInstance('schedules', 'thm_organizerTable');
+            $schedule->load($scheduleID);
+            return $schedule->active;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /**

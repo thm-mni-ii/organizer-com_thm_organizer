@@ -63,9 +63,9 @@ class thm_organizersViewschedule_manager extends JView
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
 
+        $this->state = $this->get('State');
         $this->schedules = $this->get('Items');
         $this->pagination = $this->get('Pagination');
-        $this->state = $this->get('State');
         $this->departments = $model->departments;
         $this->semesters = $model->semesters;
         $this->addToolBar();
@@ -102,7 +102,7 @@ class thm_organizersViewschedule_manager extends JView
         JToolBarHelper::title($title, 'mni');
         JToolBarHelper::addNew('schedule.add');
         JToolBarHelper::editList('schedule.edit');
-        JToolBarHelper::makeDefault('schedule.setDefault', 'COM_THM_ORGANIZER_SCH_ACTIVATE_TITLE');
+        JToolBarHelper::custom('schedule.setReference', 'move', 'move', 'COM_THM_ORGANIZER_SCH_REFERENCE_TITLE', true);
         JToolBarHelper::deleteList(JText::_('COM_THM_ORGANIZER_SCH_DELETE_CONFIRM'),'schedule.delete');
         JToolBarHelper::divider();
         JToolBarHelper::preferences('com_thm_organizer');

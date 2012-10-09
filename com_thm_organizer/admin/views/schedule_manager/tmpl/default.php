@@ -28,18 +28,22 @@ $direction = $this->escape($this->state->get('list.direction'));
             <select name="filter_state" class="inputbox" onchange="this.form.submit()">
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_SEARCH_STATES'); ?></option>
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_ALL_STATES'); ?></option>
-                <option value="0"><?php echo JText::_('COM_THM_ORGANIZER_SCH_INACTIVE'); ?></option>
-                <option value="1"><?php echo JText::_('COM_THM_ORGANIZER_SCH_ACTIVE'); ?></option>
+                <option value="0" <?php echo ($this->state->get('filter.state') === 0)? $this->state->get('filter.state') : ''; ?> >
+                    <?php echo JText::_('COM_THM_ORGANIZER_SCH_INACTIVE'); ?>
+                </option>
+                <option value="1" <?php echo ($this->state->get('filter.state') === 1)? $this->state->get('filter.state') : ''; ?> >
+                    <?php echo JText::_('COM_THM_ORGANIZER_SCH_ACTIVE'); ?>
+                </option>
             </select>
             <select name="filter_semester" class="inputbox" onchange="this.form.submit()">
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_SEARCH_SEMESTERS'); ?></option>
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_ALL_SEMESTERS'); ?></option>
-                <?php echo JHtml::_('select.options', $this->semesters, 'id', 'name', $this->state->get('filter.semester'));?>
+                <?php echo JHtml::_('select.options', $this->semesters, 'name', 'name', $this->state->get('filter.semester'));?>
             </select>
-            <select name="filter_type" class="inputbox" onchange="this.form.submit()">
+            <select name="filter_department" class="inputbox" onchange="this.form.submit()">
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_SEARCH_DEPARTMENTS'); ?></option>
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_ALL_DEPARTMENTS'); ?></option>
-                <?php echo JHtml::_('select.options', $this->departments, 'id', 'name', $this->state->get('filter.department'));?>
+                <?php echo JHtml::_('select.options', $this->departments, 'name', 'name', $this->state->get('filter.department'));?>
             </select>
         </div>
     </fieldset>
@@ -103,8 +107,8 @@ foreach ($this->schedules as $k => $schedule)
                             <?php echo $schedule->creationdate; ?>
                         </a>
                     </td>
-                    <td class="thm_organizer_sch_active_td">
-                        <?php echo JHtml::_('jgrid.isdefault', $schedule->active != 0, $k, 'schedule.', true); ?>
+                    <td class="thm_organizer_sch_active_td jgrid">
+                        <span class="state <?php echo ($schedule->active)? 'default' : 'notdefault'; ?>" ></span>
                     </td>
                     <td><?php echo $schedule->description; ?></td>
                 </tr>
