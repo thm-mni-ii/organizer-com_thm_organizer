@@ -1,10 +1,8 @@
-
-
 var prediv = document.createElement("div");
 prediv.setAttribute("id", "preloadMessage");
 var prespan = document.createElement("span");
 prespan.setAttribute("id", "preloadMessagetext");
-var pretext = document.createTextNode(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PAGE_LOADING') + "...");
+var pretext = document.createTextNode(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PAGE_LOADING ') + "...");
 prespan.appendChild(pretext);
 prediv.appendChild(prespan);
 document.getElementById("MySchedMainW").appendChild(prediv);
@@ -15,7 +13,7 @@ document.getElementById("MySchedMainW").appendChild(prediv);
 
 function addLoadEvent(func) {
 	var oldonload = window.onload;
-	if (typeof window.onload != 'function') {
+	if (typeof window.onload != 'function ') {
 		window.onload = func;
 	} else {
 		window.onload = function () {

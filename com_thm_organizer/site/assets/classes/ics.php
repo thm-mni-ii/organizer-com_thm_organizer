@@ -88,7 +88,7 @@ class ICSBauer extends abstrakterBauer
 		{
 			/** PHPExcel */
 			require_once JPATH_COMPONENT . '/assets/ExcelClasses/PHPExcel.php';
-			$this->objPHPExcel = new PHPExcel
+			$this->objPHPExcel = new PHPExcel;
 
 			if ($title == JText::_("COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE"))
 			{
@@ -296,7 +296,7 @@ class ICSBauer extends abstrakterBauer
 		 * 						  +1 if the $a lesson string is greater than the $b lesson string
 		 * 						  -1 if the $a lesson string is lesser than the $b lesson string
 		 */
-		private function sortLessonsByDoz($a, $b)
+		function sortLessonsByDoz($a, $b)
 		{
 			if ($a->doz == $b->doz)
 			{

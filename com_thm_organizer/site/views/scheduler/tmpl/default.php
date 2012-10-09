@@ -79,12 +79,10 @@
 	<script type="text/javascript" charset="utf-8">
 
     <?php
-
     	if ($this->canWriteEvents === true)
 		{
 			require_once "components/com_thm_organizer/views/scheduler/tmpl/mySched/advancedFunctions.js";
 		}
-
     ?>
 
 	<?php 	echo 'MySched.SessionId = \'' . $this->jsid . '\';';
@@ -93,6 +91,7 @@
 			echo 'MySched.startup = \'' . $this->startup . '\';';
 			echo 'MySched.CurriculumisAvailable = \'' . $this->CurriculumisAvailable . '\';';
 			echo 'MySched.searchModuleID = \'' . $this->searchModuleID . '\';';
+			echo 'MySched.loadLessonsOnStartUp = new Boolean(' . $this->loadLessonsOnStartUp . ');';
 	?>
 		Ext.onReady(MySched.Base.init, MySched.Base);
 	</script>

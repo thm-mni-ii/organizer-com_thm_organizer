@@ -5,13 +5,19 @@
 	</layout>
 	<fields name="params"
 		addfieldpath="/components/com_thm_organizer/models/fields">
-		<fieldset name="params">
+		<fieldset name="basic">		
 			<field name="tree" type="scheduler"
 				label="COM_THM_ORGANIZER_RIA_TREE_TITLE"
 				description="COM_THM_ORGANIZER_RIA_TREE_DESCRIPTION" />
 			<field name="id" type="hidden" description="Tooltip ;)" />
 			<field name="publicDefaultID" type="hidden"
 				description="Tooltip ;)" />
+		</fieldset>
+		<fieldset name="advanced">
+			<field name="loadLessonsOnStartUp" type="radio" label="COM_THM_ORGANIZER_RIA_OPTIONS_LOAD_ON_STARTUP_TITLE" default="1" description="COM_THM_ORGANIZER_RIA_OPTIONS_LOAD_ON_STARTUP_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
 		</fieldset>
 	</fields>
 </metadata>

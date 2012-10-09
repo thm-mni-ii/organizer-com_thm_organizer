@@ -42,6 +42,7 @@ class THM_OrganizerViewScheduler extends JView
 	{
 		JHTML::_('behavior.tooltip');
 		$model = $this->getModel();
+		$menuparams = JFactory::getApplication()->getParams();
 				
 		$activeSchedule = $model->getActiveSchedule();
 		if (is_object($activeSchedule) && is_string($activeSchedule->schedule))
@@ -71,7 +72,7 @@ class THM_OrganizerViewScheduler extends JView
 				unset($activeScheduleData->calendar);
 				$activeScheduleLessons = $activeScheduleData->lessons;
 				unset($activeScheduleData->lessons);
-				$activeScheduleFields = $activeScheduleData->fields;
+				$activeScheduleFields = $activeScheduleData->fields;		
 				unset($activeScheduleData->fields);
 				
 				if (is_object($activeSchedulePeriods)
@@ -128,7 +129,6 @@ class THM_OrganizerViewScheduler extends JView
 		else // Im Menü eingebunden
 		{
 			$path = null;
-			$menuparams = JFactory::getApplication()->getParams();
 			$menuparamsID = $menuparams->get("id");
 			$menuparamsPublicDefaultID = $menuparams->get("publicDefaultID");
 			try
@@ -167,16 +167,73 @@ class THM_OrganizerViewScheduler extends JView
 		$model = JModel::getInstance('Ajaxhandler', 'thm_organizerModel', array('ignore_request' => false));
 				
 		$activeSchedulePeriods->length = count((array) $activeSchedulePeriods);
+		
+		foreach($activeSchedulePeriods as $period)
+		{
+			if(isset($period->starttime) && is_string($period->starttime))
+			{
+				$period->starttime = wordwrap($period->starttime, 2, ':', 1);
+			}
+			if(isset($period->endtime) && is_string($period->endtime))
+			{
+				$period->endtime = wordwrap($period->endtime, 2, ':', 1);
+			}
+		}
+		
 		$schedulearr["Grid.load"] = $activeSchedulePeriods;
 		
-// 		var_dump($activeScheduleLessons);
-
 		$schedulearr["Calendar"] = $activeScheduleCalendar;
 		
 		$schedulearr["Events.load"] = $model->executeTask("Events.load");
 
 		$schedulearr["UserSchedule.load"] = array();
+		
+		$this->loadLessonsOnStartUp = (bool) $menuparams->get("loadLessonsOnStartUp");		
 
+		if($this->loadLessonsOnStartUp == true)
+		{
+			$lessons = array();
+			
+			foreach($activeScheduleCalendar as $dateKey => $dateValue)
+			{
+				if (is_object($dateValue))
+				{
+					foreach($dateValue as $blockKey => $blockValue)
+					{
+						foreach($blockValue as $lessonKey => $lessonValue)
+						{
+							$currentDate = new DateTime($dateKey);
+							$dow = strtolower($currentDate->format("l"));
+							
+							$lessonID = $lessonKey . $blockKey . $dow;
+																	
+							if(!array_key_exists($lessonID, $lessons))
+							{
+								$lessons[$lessonID] = clone $activeScheduleLessons->{$lessonKey};
+								$lessons[$lessonID]->lessonKey = $lessonKey;
+							}
+			
+							if(!isset($lessons[$lessonID]->calendar))
+							{
+								$lessons[$lessonID]->calendar = array();
+							}
+			
+							$lessons[$lessonID]->calendar[$dateKey][$blockKey]["lessonData"] = clone $lessonValue;
+						}
+					}
+				}
+			}
+						
+			$schedulearr["Lessons"] = $lessons;
+			
+// 			var_dump($schedulearr["Lessons"]);
+			
+// 			$schedulearr["Lessons"] = $activeScheduleLessons;
+// 			$schedulearr["Calendar"] = $activeScheduleCalendar;
+		}
+		
+		
+		
 		$schedulearr["UserSchedule.load"]["respChanges"] = $model->executeTask("UserSchedule.load", array("username" => "respChanges"));
 				
 		$schedulearr["ScheduleDescription.load"]->data = $activeSchedule; 

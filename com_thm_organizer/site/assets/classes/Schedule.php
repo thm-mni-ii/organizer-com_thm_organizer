@@ -11,13 +11,9 @@
  * @license     GNU GPL v.2
  * @link		www.mni.thm.de
  */
-
-defined('_JEXEC') or die;
+defined('_JEXEC') or die("DIE!!!");
 
 require_once dirname(__FILE__) . "/scheduledirector.php";
-require_once dirname(__FILE__) . "/pdf.php";
-require_once dirname(__FILE__) . "/ics.php";
-require_once dirname(__FILE__) . "/ical.php";
 
 /**
  * Class Schedule for component com_thm_organizer
@@ -97,12 +93,15 @@ class Schedule
 	 * @since  1.5
 	 *
 	 */
-	public function __construct($JDA, $CFG)
+	public function __construct($JDA, $CFG, $options = null)
 	{
 		$this->arr      = json_decode(file_get_contents("php://input"));
 		$this->username = $JDA->getRequest("username");
 		$this->title    = $JDA->getRequest("title");
 		$this->what     = $JDA->getRequest("what");
+		$this->startdate = $JDA->getRequest("startdate");
+		$this->enddate = $JDA->getRequest("enddate");
+		$this->semesterID = $JDA->getRequest("semesterID");
 		$this->cfg = $CFG->getCFG();
 		$this->JDA = $JDA;
 	}
@@ -114,17 +113,21 @@ class Schedule
 	 */
 	public function export()
 	{
+		$options = array("startdate" => $this->startdate, "enddate" => $this->enddate, "semesterID" => $this->semesterID);
 		if ($this->what == "pdf")
 		{
-			$this->builder = new PDFBauer($this->JDA, $this->cfg);
+			require_once dirname(__FILE__) . "/pdf.php";
+			$this->builder = new PDFBauer($this->JDA, $this->cfg, $options);
 		}
 		elseif ($this->what == "ics")
 		{
-			$this->builder = new ICSBauer($this->JDA, $this->cfg);
+			require_once dirname(__FILE__) . "/ics.php";
+			$this->builder = new ICSBauer($this->JDA, $this->cfg, $options);
 		}
 		elseif ($this->what == "ical")
 		{
-			$this->builder = new ICALBauer($this->JDA, $this->cfg);
+			require_once dirname(__FILE__) . "/ical.php";
+			$this->builder = new ICALBauer($this->JDA, $this->cfg, $options);
 		}
 
 		$direktor = new StundenplanDirektor($this->builder);
