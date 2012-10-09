@@ -188,13 +188,52 @@ class THM_OrganizerViewScheduler extends JView
 
 		$schedulearr["UserSchedule.load"] = array();
 		
-		$this->loadLessonsOnStartUp = (bool) $menuparams->get("loadLessonsOnStartUp");
+		$this->loadLessonsOnStartUp = (bool) $menuparams->get("loadLessonsOnStartUp");		
+
 		if($this->loadLessonsOnStartUp == true)
 		{
-			$schedulearr["Lessons"] = $activeScheduleLessons;
-			$schedulearr["Calendar"] = $activeScheduleCalendar;
+			$lessons = array();
+			
+			foreach($activeScheduleCalendar as $dateKey => $dateValue)
+			{
+				if (is_object($dateValue))
+				{
+					foreach($dateValue as $blockKey => $blockValue)
+					{
+						foreach($blockValue as $lessonKey => $lessonValue)
+						{
+							$currentDate = new DateTime($dateKey);
+							$dow = strtolower($currentDate->format("l"));
+							
+							$lessonID = $lessonKey . $blockKey . $dow;
+																	
+							if(!array_key_exists($lessonID, $lessons))
+							{
+								$lessons[$lessonID] = clone $activeScheduleLessons->{$lessonKey};
+								$lessons[$lessonID]->lessonKey = $lessonKey;
+							}
+			
+							if(!isset($lessons[$lessonID]->calendar))
+							{
+								$lessons[$lessonID]->calendar = array();
+							}
+			
+							$lessons[$lessonID]->calendar[$dateKey][$blockKey]["lessonData"] = clone $lessonValue;
+						}
+					}
+				}
+			}
+						
+			$schedulearr["Lessons"] = $lessons;
+			
+// 			var_dump($schedulearr["Lessons"]);
+			
+// 			$schedulearr["Lessons"] = $activeScheduleLessons;
+// 			$schedulearr["Calendar"] = $activeScheduleCalendar;
 		}
-
+		
+		
+		
 		$schedulearr["UserSchedule.load"]["respChanges"] = $model->executeTask("UserSchedule.load", array("username" => "respChanges"));
 				
 		$schedulearr["ScheduleDescription.load"]->data = $activeSchedule; 

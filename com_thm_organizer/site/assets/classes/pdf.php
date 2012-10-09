@@ -241,6 +241,8 @@ class PDFBauer extends abstrakterBauer
 			{
 				$lessons = $arr;
 				
+// 				var_dump($lessons);
+				
 				foreach ($lessons as $k => $l)
 				{
 					if (isset($l->cell))
@@ -269,6 +271,8 @@ class PDFBauer extends abstrakterBauer
 					}
 				}
 			}
+			
+			var_dump($sched);
 			
 			echo print_r($sched, true);
 

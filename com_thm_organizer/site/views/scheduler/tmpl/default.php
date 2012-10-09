@@ -79,15 +79,13 @@
 	<script type="text/javascript" charset="utf-8">
 
     <?php
-
     	if ($this->canWriteEvents === true)
 		{
 			require_once "components/com_thm_organizer/views/scheduler/tmpl/mySched/advancedFunctions.js";
 		}
-
     ?>
 
-	<?php 	//echo 'MySched.SessionId = \'' . $this->jsid . '\';';
+	<?php 	echo 'MySched.SessionId = \'' . $this->jsid . '\';';
 			echo 'MySched.class_semester_id = \'' . $this->semesterID . '\';';
 			echo 'MySched.class_semester_author = \'' . $this->semAuthor . '\';';
 			echo 'MySched.startup = \'' . $this->startup . '\';';
