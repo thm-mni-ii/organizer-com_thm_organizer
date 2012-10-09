@@ -1645,21 +1645,18 @@ Ext.define('mLecture',
 
         if (type == "rooms")
         {
-            for (var calendarIndex in MySched.Calendar.map)
+        	
+            for (var calendarIndex in this.data.calendar)
             {
-                var blocks = MySched.Calendar.map[calendarIndex];
+                var blocks = this.data.calendar[calendarIndex];
                 for (var blockIndex in blocks)
                 {
                     var lessons = blocks[blockIndex];
-                    for (var lessonIndex in lessons)
+                    for (var roomIndex in blocks[blockIndex]["lessonData"])
                     {
-                        var rooms = lessons[lessonIndex];
-                        for (var roomIndex in rooms)
+                    	if (roomIndex == val)
                         {
-                            if (roomIndex == val)
-                            {
                                 return o.ret = true;
-                            }
                         }
                     }
                 }
