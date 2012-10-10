@@ -121,9 +121,9 @@ class THM_OrganizerViewScheduler extends JView
 
 		if (!empty($showSchedule) && !empty($this->searchModuleID)) // Aufruf ohne Menüparameter
 		{
-			$showScheduleArray = explode(".", $showSchedule);
+			$showScheduleArray = explode(";", $showSchedule);
 			$semesterID = $showScheduleArray[0];
-			$treePath = $semesterID . "." . $showScheduleArray[1];
+			$treePath = $semesterID . ";" . $showScheduleArray[1];
 			$path[$treePath] = "intermediate";
 			$publicDefaultIDArray = array($showSchedule => "default");
 		}
@@ -149,7 +149,7 @@ class THM_OrganizerViewScheduler extends JView
 				$publicDefaultIDArray = array();
 			}
 			$firstValue = each($path);
-			$semesterID = explode(".", $firstValue["key"]);
+			$semesterID = explode(";", $firstValue["key"]);
 			$semesterID = $semesterID[0];
 		}
 
