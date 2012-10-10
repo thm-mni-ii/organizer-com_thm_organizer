@@ -853,9 +853,9 @@ new Ext.util.Observable(),
                 .removeAllListeners();
             Ext.select('.lecturename', false, dom)
                 .removeAllListeners();
-            Ext.select('.roomshortname', false, dom)
+            Ext.select('.roomname', false, dom)
                 .removeAllListeners();
-            Ext.select('.classhorter', false, dom)
+            Ext.select('.modulename', false, dom)
                 .removeAllListeners();
             Ext.select('.status_icons_add', false, dom)
                 .removeAllListeners();
@@ -882,9 +882,9 @@ new Ext.util.Observable(),
                 .removeAllListeners();
             Ext.select('.lecturename')
                 .removeAllListeners();
-            Ext.select('.roomshortname')
+            Ext.select('.roomname')
                 .removeAllListeners();
-            Ext.select('.classhorter')
+            Ext.select('.modulename')
                 .removeAllListeners();
             Ext.select('.status_icons_add')
                 .removeAllListeners();
@@ -920,9 +920,9 @@ new Ext.util.Observable(),
                 .removeAllListeners();
             Ext.select('.lecturename', false, activeTabDom)
                 .removeAllListeners();
-            Ext.select('.roomshortname', false, activeTabDom)
+            Ext.select('.roomname', false, activeTabDom)
                 .removeAllListeners();
-            Ext.select('.classhorter', false, activeTabDom)
+            Ext.select('.modulename', false, activeTabDom)
                 .removeAllListeners();
             Ext.select('.status_icons_add', false,
             activeTabDom)
@@ -1059,7 +1059,7 @@ new Ext.util.Observable(),
 //        });
 
         // Aboniert Events für Teacherentennamen
-        Ext.select('.roomshortname', false, tab.dom)
+        Ext.select('.roomname', false, tab.dom)
             .on(
         {
             'click': function (e)
@@ -1071,7 +1071,7 @@ new Ext.util.Observable(),
         });
 
         // Aboniert Events f�r Teacherentennamen
-        Ext.select('.classhorter', false, tab.dom)
+        Ext.select('.modulename', false, tab.dom)
             .on(
         {
             'click': function (e)
@@ -1118,11 +1118,8 @@ new Ext.util.Observable(),
     },
     showSchedule: function (e, type)
     {
-        var name = e.target.firstChild.nodeValue.replace(/^\s+/, '')
-            .replace(/\s+$/, '');
-        var parentid = e.target.parentNode.id;
-        var lessonid = parentid.split("##");
-        var l = null;
+    	var target = e.getTarget();
+    	var id = target.getAttribute(type+"ID");
 
         var nodeID = null;
         var nodeKey = null;
@@ -1130,135 +1127,34 @@ new Ext.util.Observable(),
         var plantypeID = null;
         var semesterID = null;
         var parent = null;
+        
+        nodeKey = id;
+        semesterID = MySched.class_semester_id;
 
-        if (lessonid[1])
+        if(type == "teacher")
         {
-            l = MySched.Base.getLecture(lessonid[1]);
-            if (typeof l == "undefined") l = MySched.Schedule.getLecture(lessonid[1]);
-
-            if (type == "teacher")
-            {
-                for (var i = 0; i < l.teacher.keys.length; i++)
-                {
-                    if (name == MySched.Mapping.getTeacherName(l.teacher.keys[i]))
-                    {
-                        nodeKey = l.teacher.keys[i];
-                        gpuntisID = MySched.Mapping.getObjectField(type,
-                        l.teacher.keys[i], "gpuntisID");
-                        parent = MySched.Mapping.getObjectField(type,
-                        l.teacher.keys[i], "departmentID");
-                        break;
-                    }
-                }
-            }
-            else if (type == "room")
-            {
-                for (var i = 0; i < l.room.keys.length; i++)
-                {
-                    var room = MySched.Mapping.getRoomName(
-                    l.room.keys[i])
-                        .split("/");
-                    if (name == room[room.length - 1].replace(/^\s+/, '')
-                        .replace(/\s+$/, ''))
-                    {
-                        nodeKey = l.room.keys[i];
-                        gpuntisID = MySched.Mapping.getObjectField(type,
-                        l.room.keys[i], "gpuntisID");
-                        parent = MySched.Mapping.getObjectField(type,
-                        l.room.keys[i], "departmentID");
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                for (var i = 0; i < l.module.keys.length; i++)
-                {
-                    if (name == MySched.Mapping.getObjectField(
-                    type, l.module.keys[i], "shortname"))
-                    {
-                        nodeKey = l.module.keys[i];
-                        gpuntisID = MySched.Mapping.getObjectField(type,
-                        l.module.keys[i], "gpuntisID");
-                        parent = MySched.Mapping.getObjectField(type,
-                        l.module.keys[i], "departmentID");
-                        break;
-                    }
-                }
-            }
-
-            parent = parent.replace(" ", "");
-            parent = parent.replace("(", "");
-            parent = parent.replace(")", "");
-
-            nodeID = l.semesterID + "." + l.plantypeID + "." + type + "." + parent + "." + nodeKey;
-            plantypeID = l.plantypeID;
-            semesterID = l.semesterID;
+        	parent = MySched.Mapping.getTeacherParent(id);
+        }
+        else if(type == "module")
+        {
+        	parent = MySched.Mapping.getModuleParent(id);
+        }
+        else if(type == "room")
+        {
+        	parent = MySched.Mapping.getRoomParent(id);
         }
         else
         {
-            if (Ext.getCmp('mySched_calendar-tip')) Ext.getCmp('mySched_calendar-tip')
-                .destroy();
-            if (type == "teacher")
-            {
-                for (var i = 0; i < MySched.Mapping.teacher.keys.length; i++)
-                {
-                    if (name == MySched.Mapping.getTeacherName(MySched.Mapping.teacher.keys[i]))
-                    {
-                        nodeKey = MySched.Mapping.teacher.keys[i];
-                        gpuntisID = MySched.Mapping.getObjectField(
-                        type,
-                        MySched.Mapping.teacher.keys[i], "gpuntisID");
-                        parent = MySched.Mapping.getObjectField(
-                        type,
-                        MySched.Mapping.teacher.keys[i], "departmentID");
-                        break;
-                    }
-                }
-            }
-            else if (type == "room")
-            {
-                for (var i = 0; i < MySched.Mapping.room.keys.length; i++)
-                {
-                    if (name == MySched.Mapping.getRoomName(MySched.Mapping.room.keys[i]))
-                    {
-                        nodeKey = MySched.Mapping.room.keys[i];
-                        gpuntisID = MySched.Mapping.getObjectField(
-                        type,
-                        MySched.Mapping.room.keys[i], "gpuntisID");
-                        parent = MySched.Mapping.getObjectField(
-                        type,
-                        MySched.Mapping.room.keys[i], "departmentID");
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                for (var i = 0; i < MySched.Mapping.module.keys.length; i++)
-                {
-                    if (name == MySched.Mapping.getObjectField(
-                    type, MySched.Mapping.module.keys[i], "shortname"))
-                    {
-                        nodeKey = MySched.Mapping.module.keys[i];
-                        gpuntisID = MySched.Mapping.getObjectField(
-                        type,
-                        MySched.Mapping.module.keys[i], "gpuntisID");
-                        parent = MySched.Mapping.getObjectField(
-                        type,
-                        MySched.Mapping.module.keys[i], "departmentID");
-                        break;
-                    }
-                }
-            }
-
-            plantypeID = 1;
-            semesterID = MySched.class_semester_id;
-            nodeID = semesterID + "." + plantypeID + "." + type + "." + parent + "." + nodeKey;
+        	return;
         }
 
-        MySched.Tree.showScheduleTab(nodeID, nodeKey,
-        gpuntisID, semesterID, plantypeID, type);
+        nodeID = semesterID + ";" + type + ";" + parent + ";" + nodeKey;
+
+        MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
+        
+        var record = MySched.Tree.tree.getRootNode().findChild("id",nodeID, true);
+        MySched.Tree.tree.expandPath(record.getPath());
+        MySched.Tree.tree.getSelectionModel().select(record);
 
     },
     showEventInformation: function (e)
@@ -1456,21 +1352,6 @@ new Ext.util.Observable(),
         
         var tabID = id.split('##')[0];
         var lessonID = id.split('##')[1];
-        
-        var lessonDow = el.getAttribute("dow");
-        var lessonBlock = el.getAttribute("block");
-        
-        if(!Ext.isDefined(MySched.Schedule.calendar[lessonDow]))
-        {
-        	MySched.Schedule.calendar[lessonDow] = {}
-        }
-        
-        if(!Ext.isDefined(MySched.Schedule.calendar[lessonDow][lessonBlock]))
-        {
-        	MySched.Schedule.calendar[lessonDow][lessonBlock] = {};
-        }
-        
-        MySched.Schedule.calendar[lessonDow][lessonBlock][lessonID] = {};
         
         if (el.id.substr(0, 4) != "delta" && MySched.Authorize.user != null && MySched.Authorize.role != "user")
         {
@@ -2688,7 +2569,7 @@ MySched.layout = function ()
                 text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_WEEK_SCHEDULE,
                 id: 'btnWeekPdf',
                 iconCls: 'tbSavePdf',
-                disabled: false,
+                disabled: true,
                 tooltip: {
                     text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_WEEK_SCHEDULE_PDF_DESC
                 },
@@ -2763,7 +2644,7 @@ MySched.layout = function ()
                 text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ICAL,
                 id: 'btnICal',
                 iconCls: 'tbSaveICal',
-                disabled: false,
+                disabled: true,
                 tooltip: {
                     text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ICAL_DESC
                 },
@@ -2921,7 +2802,7 @@ MySched.layout = function ()
                 text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EXCEL,
                 id: 'btnTxt',
                 iconCls: 'tbSaveTxt',
-                disabled: false,
+                disabled: true,
                 tooltip: {
                     text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_EXCEL_DESC
                 },
@@ -3080,75 +2961,81 @@ MySched.layout = function ()
                         if (MySched.selectedSchedule != null)
                         {
                             showLoadMask();
-
-                            var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker')
-                                .value);
-
-                            var currentMoFrDate = getCurrentMoFrDate();
-                            var selectedSchedule = MySched.selectedSchedule;
-                            var nodeKey = selectedSchedule.key;
-                            var nodeID = selectedSchedule.id;
-                            var gpuntisID = selectedSchedule.gpuntisID;
-                            var semesterID = selectedSchedule.semesterID;
-                            var plantypeID = "";
-                            var type = selectedSchedule.type;
-
-                            if (MySched.loadLessonsOnStartUp == false)
-                            {
-                                Ext.Ajax.request(
-                                {
-                                    url: _C('ajaxHandler'),
-                                    method: 'POST',
-                                    params: {
-                                        nodeID: nodeID,
-                                        nodeKey: nodeKey,
-                                        gpuntisID: gpuntisID,
-                                        semesterID: semesterID,
-                                        scheduletask: "Ressource.load",
-                                        plantypeID: plantypeID,
-                                        type: type,
-                                        startdate: Ext.Date.format(currentMoFrDate.monday, "Y-m-d"),
-                                        enddate: Ext.Date.format(currentMoFrDate.friday, "Y-m-d")
-                                    },
-                                    failure: function (response)
-                                    {
-                                        Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ERROR,
-                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_ERROR);
-                                    },
-                                    success: function (response)
-                                    {
-                                        var json = Ext.decode(response.responseText);
-                                        var lessonData = json["lessonData"];
-                                        var lessonDate = json["lessonDate"];
-                                        for (var item in lessonData)
-                                        {
-                                            if (Ext.isObject(lessonData[item]))
-                                            {
-                                                var record = new mLecture(
-                                                item,
-                                                lessonData[item], semesterID,
-                                                plantypeID);
-                                                MySched.Base.schedule.addLecture(record);
-                                                //														MySched.TreeManager.add(record);
-                                            }
-                                        }
-                                        if (Ext.isObject(lessonDate))
-                                        {
-                                            MySched.Calendar.addAll(lessonDate);
-                                        }
-
-                                        MySched.selectedSchedule.eventsloaded = null;
-                                        MySched.selectedSchedule.init(type, nodeKey, semesterID);
-                                        MySched.selectedSchedule.refreshView();
-                                    }
-                                });
-                            }
-                            else
-                            {
-                                MySched.selectedSchedule.eventsloaded = null;
-                                MySched.selectedSchedule.init(type, nodeKey, semesterID);
+                        	if(MySched.selectedSchedule.id != "mySchedule")
+        	                {
+	                            var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker').value);
+	
+	                            var currentMoFrDate = getCurrentMoFrDate();
+	                            var selectedSchedule = MySched.selectedSchedule;
+	                            var nodeKey = selectedSchedule.key;
+	                            var nodeID = selectedSchedule.id;
+	                            var gpuntisID = selectedSchedule.gpuntisID;
+	                            var semesterID = selectedSchedule.semesterID;
+	                            var plantypeID = "";
+	                            var type = selectedSchedule.type;
+	
+	                            if (MySched.loadLessonsOnStartUp == false)
+	                            {
+	                                Ext.Ajax.request(
+	                                {
+	                                    url: _C('ajaxHandler'),
+	                                    method: 'POST',
+	                                    params: {
+	                                        nodeID: nodeID,
+	                                        nodeKey: nodeKey,
+	                                        gpuntisID: gpuntisID,
+	                                        semesterID: semesterID,
+	                                        scheduletask: "Ressource.load",
+	                                        plantypeID: plantypeID,
+	                                        type: type,
+	                                        startdate: Ext.Date.format(currentMoFrDate.monday, "Y-m-d"),
+	                                        enddate: Ext.Date.format(currentMoFrDate.friday, "Y-m-d")
+	                                    },
+	                                    failure: function (response)
+	                                    {
+	                                        Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ERROR,
+	                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_ERROR);
+	                                    },
+	                                    success: function (response)
+	                                    {
+	                                        var json = Ext.decode(response.responseText);
+	                                        var lessonData = json["lessonData"];
+	                                        var lessonDate = json["lessonDate"];
+	                                        for (var item in lessonData)
+	                                        {
+	                                            if (Ext.isObject(lessonData[item]))
+	                                            {
+	                                                var record = new mLecture(
+	                                                item,
+	                                                lessonData[item], semesterID,
+	                                                plantypeID);
+	                                                MySched.Base.schedule.addLecture(record);
+	                                                //														MySched.TreeManager.add(record);
+	                                            }
+	                                        }
+	                                        if (Ext.isObject(lessonDate))
+	                                        {
+	                                            MySched.Calendar.addAll(lessonDate);
+	                                        }
+	
+	                                        MySched.selectedSchedule.eventsloaded = null;
+	                                        MySched.selectedSchedule.init(type, nodeKey, semesterID);
+	                                        MySched.selectedSchedule.refreshView();
+	                                    }
+	                                });
+	                            }
+	                            else
+	                            {
+	                                MySched.selectedSchedule.eventsloaded = null;
+	                                MySched.selectedSchedule.init(type, nodeKey, semesterID);
+	                                MySched.selectedSchedule.refreshView();
+	                            }
+        	                }
+                        	else
+                        	{
+                        		MySched.selectedSchedule.eventsloaded = null;
                                 MySched.selectedSchedule.refreshView();
-                            }
+                        	}
                         }
                     }
                 }
@@ -4129,7 +4016,7 @@ MySched.Tree = function ()
                     id: 'rootTreeNode',
                     text: 'root',
                     expanded: true,
-                    children: children[0]
+                    children: children
                 }
             });
 
@@ -4159,8 +4046,7 @@ MySched.Tree = function ()
             });
 
             // Bei Klick Stundenplan oeffnen
-            this.tree.on('itemclick', function (me, rec, item, index, event,
-            options)
+            this.tree.on('itemclick', function (me, rec, item, index, event, options)
             {
                 if (rec.isLeaf())
                 {
@@ -4175,8 +4061,7 @@ MySched.Tree = function ()
                     var plantypeID = data.plantype;
                     var type = data.type;
 
-                    MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID,
-                    semesterID, plantypeID, type);
+                    MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
                 }
                 else if (rec.isExpanded())
                 {

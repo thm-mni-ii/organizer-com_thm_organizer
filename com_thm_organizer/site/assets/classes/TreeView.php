@@ -183,7 +183,7 @@ class TreeView
 		$checked = null;
 		$publicDefault = null;
 		$treeNode = null;
-
+	
 		if ($this->hideCheckBox == true)
 		{
 			$checked = null;
@@ -370,13 +370,9 @@ class TreeView
 			{
 				$this->_activeScheduleData = $activeScheduleData;
 				$activeScheduleRooms = $activeScheduleData->rooms;
-				unset($activeScheduleData->rooms);
 				$activeScheduleSubjects = $activeScheduleData->subjects;
-				unset($activeScheduleData->subjects);
 				$activeScheduleTeachers = $activeScheduleData->teachers;
-				unset($activeScheduleData->teachers);
 				$activeScheduleModules = $activeScheduleData->modules;
-				unset($activeScheduleData->modules);
 				$this->treeData["module"] = $activeScheduleModules;
 				$this->treeData["room"] = $activeScheduleRooms;
 				$this->treeData["teacher"] = $activeScheduleTeachers;
@@ -414,11 +410,19 @@ class TreeView
 		if ($temp != null && !empty($temp))
 		{
 			$temp->setChildren($children);
-			$semesterJahrNode[] = $temp;
+								
+			if(count($temp) == 1)
+			{
+				$semesterJahrNode = $temp;
+			}
+			else
+			{
+				$semesterJahrNode[] = $temp;
+			}
 		}
 		elseif (!empty($children))
 		{
-			$semesterJahrNode[] = $children;
+			$semesterJahrNode = $children;
 		}
 
 		$this->expandSingleNode($semesterJahrNode);
@@ -427,7 +431,7 @@ class TreeView
 		{
 			$this->publicDefaultNode = null;
 		}
-		
+				
 		return array("success" => true,"data" => array("tree" => $semesterJahrNode, "treeData" => $this->treeData,
 				"treePublicDefault" => $this->publicDefaultNode)
 		);
@@ -449,7 +453,7 @@ class TreeView
 
 		foreach($scheduleTypes as $scheduleType)
 		{
-			$nodeKey = $key . "." . $scheduleType;
+			$nodeKey = $key . ";" . $scheduleType;
 			$temp = $this->createTreeNode(
 					$nodeKey,
 					JText::_("COM_THM_ORGANIZER_SCHEDULER_" . $scheduleType . "PLAN"),
@@ -464,7 +468,7 @@ class TreeView
 					$nodeKey
 			);
 			$children = $this->getStundenplan($nodeKey, $scheduleType, $semesterID);
-							
+			
 			if ($temp != null && !empty($temp))
 			{
 				$temp->setChildren($children);
@@ -472,7 +476,14 @@ class TreeView
 			}
 			elseif (!empty($children))
 			{
-				$viewNode[] = $children;
+				if(count($children) == 1)
+				{
+					$viewNode = $children;
+				}
+				else
+				{
+					$viewNode[] = $children;
+				}
 			}
 		}
 
@@ -594,13 +605,13 @@ class TreeView
 
 				return false;
 			});
-
+			
 			$childNodes = array();
-			$descriptionID = $key . "." . $descriptionValue->gpuntisID;
+			$descriptionID = $key . ";" . $descriptionKey;
 				
 			foreach($filteredData as $childKey => $childValue)
 			{
-				$nodeID = $descriptionID . "." .$childValue->gpuntisID;
+				$nodeID = $descriptionID . ";" .$childKey;
 				if($scheduleType === "teacher")
 				{
 					$nodeName = $childValue->surname;
@@ -622,50 +633,70 @@ class TreeView
 					$nodeName = $childValue->gpuntisID;
 				}
 
-				$childNode = $this->createTreeNode(
-						$nodeID,
-						$nodeName,
-						"leaf" . "-node",
-						true,
-						true,
-						false,
-						$childValue->gpuntisID,
-						$scheduleType,
-						null,
-						$semesterID,
-						$childKey
-				);
+				// Überprüfung ob der Plan Veranstaltungen hat				
+// 				if ($this->hideCheckBox == false)
+// 				{
+// 					$hasLessons = true;	
+// 				}
+// 				else
+// 				{
+// 					$hasLessons = $this->treeNodeHasLessons($childKey, $scheduleType);
+// 				}
+				
+				// Erstmal immer true!
+				$hasLessons = true;
+				
+				$childNode = null;
+				if($hasLessons)
+				{
+					$childNode = $this->createTreeNode(
+							$nodeID,
+							$nodeName,
+							"leaf" . "-node",
+							true,
+							true,
+							false,
+							$childValue->gpuntisID,
+							$scheduleType,
+							null,
+							$semesterID,
+							$childKey
+					);
+				}
 				if(is_object($childNode))
 				{
 					$childNodes[] = $childNode;
 				}
 			}
-			
+						
 			if(empty($childNodes))
 			{
 				$childNodes = null;
 			}
-			
-			$descriptionNode = $this->createTreeNode(
-					$descriptionID,
-					$descriptionValue->name,
-					"studiengang-root",
-					false,
-					true,
-					false,
-					$descriptionValue->gpuntisID,
-					$scheduleType,
-					$childNodes,
-					$semesterID,
-					$descriptionKey
-			);
-			
-			if(is_object($descriptionNode))
+			$descriptionNode = null;
+			if($childNodes != null)
+			{
+				$descriptionNode = $this->createTreeNode(
+						$descriptionID,
+						$descriptionValue->name,
+						"studiengang-root",
+						false,
+						true,
+						false,
+						$descriptionValue->gpuntisID,
+						$scheduleType,
+						$childNodes,
+						$semesterID,
+						$descriptionKey
+				);
+			}
+						
+			if(!is_null($descriptionNode) && is_object($descriptionNode))
 			{
 				$treeNode[] = $descriptionNode;
 			}
 		}
-
+		
 		return $treeNode;
 	}
 
@@ -786,5 +817,43 @@ class TreeView
 		$ret   = $this->JDA->query($query);
 
 		return $ret;
+	}
+	
+	private function treeNodeHasLessons($id, $type)
+	{
+		foreach($this->_activeScheduleData->calendar as $calendarKey => $calendarValue)
+		{
+			if(is_object($calendarValue))
+			{
+				foreach($calendarValue as $blockKey => $blockValue)
+				{
+					foreach($blockValue as $lessonKey => $lessonValue)
+					{
+						if($type == "subject" || $type == "module" || $type == "teacher")
+						{
+							$fieldType = $type."s";
+							foreach($this->_activeScheduleData->lessons->{$lessonKey}->{$fieldType} as $typeKey => $typeValue)
+							{
+								if($typeKey == $id)
+								{
+									return true;
+								}
+							}
+						}
+						else if($type == "room")
+						{
+							foreach($lessonValue as $roomKey => $roomValue)
+							{
+								if($roomKey == $id)
+								{
+									return true;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return false;
 	}
 }

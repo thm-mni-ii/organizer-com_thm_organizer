@@ -71,6 +71,7 @@ class THM_OrganizerViewScheduler extends JView
 				$activeScheduleCalendar = $activeScheduleData->calendar;
 				unset($activeScheduleData->calendar);
 				$activeScheduleLessons = $activeScheduleData->lessons;
+								
 				unset($activeScheduleData->lessons);
 				$activeScheduleFields = $activeScheduleData->fields;		
 				unset($activeScheduleData->fields);
@@ -120,9 +121,9 @@ class THM_OrganizerViewScheduler extends JView
 
 		if (!empty($showSchedule) && !empty($this->searchModuleID)) // Aufruf ohne Menüparameter
 		{
-			$showScheduleArray = explode(".", $showSchedule);
+			$showScheduleArray = explode(";", $showSchedule);
 			$semesterID = $showScheduleArray[0];
-			$treePath = $semesterID . "." . $showScheduleArray[1];
+			$treePath = $semesterID . ";" . $showScheduleArray[1];
 			$path[$treePath] = "intermediate";
 			$publicDefaultIDArray = array($showSchedule => "default");
 		}
@@ -148,7 +149,7 @@ class THM_OrganizerViewScheduler extends JView
 				$publicDefaultIDArray = array();
 			}
 			$firstValue = each($path);
-			$semesterID = explode(".", $firstValue["key"]);
+			$semesterID = explode(";", $firstValue["key"]);
 			$semesterID = $semesterID[0];
 		}
 
@@ -211,6 +212,8 @@ class THM_OrganizerViewScheduler extends JView
 							{
 								$lessons[$lessonID] = clone $activeScheduleLessons->{$lessonKey};
 								$lessons[$lessonID]->lessonKey = $lessonKey;
+								$lessons[$lessonID]->block = $blockKey;
+								$lessons[$lessonID]->dow = $dow;
 							}
 			
 							if(!isset($lessons[$lessonID]->calendar))

@@ -63,6 +63,22 @@ MySched.Mapping = function ()
         {
             return this.def(this.module.get(id, id), 'restriction', id);
         },
+        getTeacherParent: function(id)
+        {
+        	return this.def(this.teacher.get(id, id), 'description', id);
+        },
+        getModuleParent: function(id)
+        {
+        	return this.def(this.module.get(id, id), 'degree', id);
+        },
+        getRoomParent: function(id)
+        {
+        	return this.def(this.room.get(id, id), 'description', id);
+        },
+        getSubjectParent: function(id)
+        {
+        	return this.def(this.subject.get(id, id), 'description', id);
+        },
         getRoomName: function (id)
         {
             return this.def(this.room.get(id, id), 'name', id);
