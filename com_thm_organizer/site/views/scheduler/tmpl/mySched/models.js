@@ -121,7 +121,6 @@ Ext.define('mSchedule',
     constructor: function (id, title, config)
     {
         var grid, blockCache, changed, proxy, reader, status;
-        this.calendar = {};
         var type = "";
         this.blockCache = null;
         this.title = title || id;
@@ -427,159 +426,51 @@ Ext.define('mSchedule',
       }
     }, this);*/
 
-        if(MySched.selectedSchedule != null)
-        {
-	        if(MySched.selectedSchedule.id == "mySchedule")
+	    //zyklische Termine hinzufügen
+	    this.data.eachKey(function (k, v)
+	    {
+	        //zyklischer Termin
+	
+	        //      if(MySched.eventlist.checkRessource(v.data.room + " " + v.data.teacher + " " + v.data.module, v.data.dow, v.data.block, true) != "")
+	        //          return;
+	
+	        // Check if the lesson should be displayed in this week
+	    	
+	        var calendarDates = v.data.calendar;
+	        for (var dateIndex in calendarDates)
 	        {
-	        	//zyklische Termine hinzufügen
-	//	        this.data.eachKey(function (k, v)
-	//	        {
-	//	            //zyklischer Termin
-	//	
-	//	            //      if(MySched.eventlist.checkRessource(v.data.room + " " + v.data.teacher + " " + v.data.module, v.data.dow, v.data.block, true) != "")
-	//	            //          return;
-	//	
-	//	            // Check if the lesson should be displayed in this week
-	//	        	
-	//	        	var myScheduleCalendar = MySched.Schedule.calendar;
-	//	        	
-	//	        	var wpFR = Ext.Date.clone(wpMO);
-	//                wpFR.setDate(wpFR.getDate() + 6);
-	//                var wpDate = Ext.Date.clone(wpMO);
-	//                var dateIndex = Ext.Date.format(wpDate, "Y-m-d");
-	//                var splittedDateIndex = dateIndex.split("-");
-	//                var dateObject = new Date(splittedDateIndex[0], splittedDateIndex[1] - 1, splittedDateIndex[2]);
-	//                var dow = Ext.Date.format(dateObject, "l");
-	//                dow = dow.toLowerCase();
-	//	        	
-	//	        	for (var myScheduleCalendarIndex in myScheduleCalendar)
-	//	            {
-	//	        		var myScheduleCalendarBlock = myScheduleCalendar[myScheduleCalendarIndex];
-	//	        		for (var myScheduleCalendarBlockIndex in myScheduleCalendarBlock)
-	//	        		{
-	//	        			var myScheduleCalendarLesson = myScheduleCalendarBlock[myScheduleCalendarBlockIndex];
-	//	        			var block = myScheduleCalendarBlockIndex - 1;
-	//	        			var dow = myScheduleCalendarIndex;
-	//	        			
-	//	        			for (var myScheduleCalendarLessonIndex in myScheduleCalendarLesson)
-	//	        			{
-	//	        				if(Ext.isDefined(MySched.Calendar.map[]))
-	//		        			{
-	//		        				if(Ext.isDefined(MySched.Calendar.map[][myScheduleCalendarBlock]))
-	//		        				{
-	//		        					if(Ext.isDefined(MySched.Calendar.map[][myScheduleCalendarBlock][myScheduleCalendarLessonIndex]))
-	//		        					{
-	//		        						var roomCollection = new MySched.Collection();
-	//		                                roomCollection.addAll(MySched.Calendar.map[][myScheduleCalendarBlock][myScheduleCalendarLessonIndex]);
-	//		                                roomCollection.remove("delta");
-	//		                                
-	//		                                if (!ret[block][dow])
-	//		        	                    {
-	//		        	                    	ret[block][dow] = [];
-	//		        	                    }
-	//		        		        		
-	//		        	                    ret[block][dow].push(v.getCellView(this, roomCollection, blockIndex, dow));
-	//		        	                    this.visibleLessons.push(v.data);
-	//		        					}
-	//		        				}
-	//		        			}
-	//	        			}
-	//	        		}
-	//                    
-	//	            }
-	//	        	
-	//	            var calendarDates = MySched.Calendar.map;
-	//	            for (var dateIndex in calendarDates)
-	//	            {
-	//	                var splittedDateIndex = dateIndex.split("-");
-	//	                if (splittedDateIndex.length == 3)
-	//	                {
-	//	                    var dateObject = new Date(splittedDateIndex[0], splittedDateIndex[1] - 1, splittedDateIndex[2]);
-	//	                    var wpFR = Ext.Date.clone(wpMO);
-	//	                    wpFR.setDate(wpFR.getDate() + 6);
-	//	                    
-	//	                    if (dateObject >= wpMO && dateObject <= wpFR)
-	//	                    {
-	//	                        var dow = Ext.Date.format(dateObject, "l");
-	//	                        dow = dow.toLowerCase();
-	//	
-	//	                        var date = calendarDates[dateIndex];
-	//	                        for (var blockIndex in date)
-	//	                        {
-	//	                            var block = date[blockIndex];
-	//	                            if (Ext.isObject(block[k]))
-	//	                            {
-	//	                                var roomCollection = new MySched.Collection();
-	//	                                roomCollection.addAll(date[blockIndex][k]);
-	//	                                roomCollection.remove("delta");
-	//	                                var block = blockIndex - 1;
-	//	                                                                
-	//	                                if (!ret[block][dow])
-	//	                                {
-	//	                                	ret[block][dow] = [];
-	//	                                }
-	//	                                
-	//	                                ret[block][dow].push(v.getCellView(this, roomCollection, blockIndex, dow));
-	//	                                this.visibleLessons.push(v.data);
-	//	                            }
-	//	                        }
-	//	                    }
-	//	                }
-	//	            }
-	//	        }, this);
+	            var splittedDateIndex = dateIndex.split("-");
+	            if (splittedDateIndex.length == 3)
+	            {
+	                var dateObject = new Date(splittedDateIndex[0], splittedDateIndex[1] - 1, splittedDateIndex[2]);
+	                var wpFR = Ext.Date.clone(wpMO);
+	                wpFR.setDate(wpFR.getDate() + 6);
+	                if (dateObject >= wpMO && dateObject <= wpFR)
+	                {
+	                    var dow = Ext.Date.format(dateObject, "l");
+	                    dow = dow.toLowerCase();
+	
+	                    var date = calendarDates[dateIndex];
+	                    for (var blockIndex in date)
+	                    {
+	                        var block = date[blockIndex];
+	                        if (Ext.isObject(block["lessonData"]))
+	                        {
+	                            var block = blockIndex - 1;
+	                                                            
+	                            if (!ret[block][dow])
+	                            {
+	                            	ret[block][dow] = [];
+	                            }
+	                            
+	                            ret[block][dow].push(v.getCellView(this));
+	                            this.visibleLessons.push(v.data);
+	                        }
+	                    }
+	                }
+	            }
 	        }
-	        else
-	        {
-		        //zyklische Termine hinzufügen
-		        this.data.eachKey(function (k, v)
-		        {
-		            //zyklischer Termin
-		
-		            //      if(MySched.eventlist.checkRessource(v.data.room + " " + v.data.teacher + " " + v.data.module, v.data.dow, v.data.block, true) != "")
-		            //          return;
-		
-		            // Check if the lesson should be displayed in this week
-		        	
-		            var calendarDates = v.data.calendar;
-		            for (var dateIndex in calendarDates)
-		            {
-		                var splittedDateIndex = dateIndex.split("-");
-		                if (splittedDateIndex.length == 3)
-		                {
-		                    var dateObject = new Date(splittedDateIndex[0], splittedDateIndex[1] - 1, splittedDateIndex[2]);
-		                    var wpFR = Ext.Date.clone(wpMO);
-		                    wpFR.setDate(wpFR.getDate() + 6);
-		                    if (dateObject >= wpMO && dateObject <= wpFR)
-		                    {
-		                        var dow = Ext.Date.format(dateObject, "l");
-		                        dow = dow.toLowerCase();
-		
-		                        var date = calendarDates[dateIndex];
-		                        for (var blockIndex in date)
-		                        {
-		                            var block = date[blockIndex];
-		                            if (Ext.isObject(block["lessonData"]))
-		                            {
-		                                var roomCollection = new MySched.Collection();
-		                                roomCollection.addAll(date[blockIndex]["lessonData"]);
-		                                roomCollection.remove("delta");
-		                                var block = blockIndex - 1;
-		                                                                
-		                                if (!ret[block][dow])
-		                                {
-		                                	ret[block][dow] = [];
-		                                }
-		                                
-		                                ret[block][dow].push(v.getCellView(this, roomCollection, blockIndex, dow));
-		                                this.visibleLessons.push(v.data);
-		                            }
-		                        }
-		                    }
-		                }
-		            }
-		        }, this);
-	        }
-        }
+	    }, this);
 
         this.htmlView = Ext.clone(ret);
 
@@ -1199,7 +1090,7 @@ Ext.define('mLecture',
         //New CellStyle
         this.setCellTemplate();
 
-        var infoTemplateString = '<div>' + '<small><span class="def">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ROOM + ':</span> {room_shortname}<br/>' + '<span class="def">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHER + ':</span><big> {teacher_name}</big><br/>' + '<span class="def">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER + ':</span> <br/>{module_short}<br/>';
+        var infoTemplateString = '<div>' + '<small><span class="def">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ROOM + ':</span> {roomName}<br/>' + '<span class="def">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHER + ':</span><big> {teacherName}</big><br/>' + '<span class="def">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER + ':</span> <br/>{moduleName}<br/>';
         infoTemplateString += '</small></div>';
 
         this.infoTemplate = new Ext.Template(infoTemplateString);
@@ -1217,7 +1108,7 @@ Ext.define('mLecture',
             'roomName': this.getRoomName(d),
             'weekday': weekdayEtoD(this.getWeekDay()),
             'block': this.getBlock(),
-            'category': this.getCategory(),
+            'description': this.getDescription(),
             'changesAll': this.getChanges(d),
             'statusIcons': this.getStatus(d),
             'topIcon': this.getTopIcon(d),
@@ -1420,19 +1311,39 @@ Ext.define('mLecture',
         return mLecture.superclass.getData.call(this, addData);
     },
     getRoomName: function (d)
-    {
-        var rooms = d.rooms.keys;
+    {        
+        var rooms = this.getRooms(this);
         var ret = [];
         var removed = [];
 
-        for (var roomIndex = 0; roomIndex < rooms.length; roomIndex++)
+        for (var roomIndex in rooms.map)
         {
-            var roomName = MySched.Mapping.getRoomName(rooms[roomIndex]);
+            var roomName = MySched.Mapping.getRoomName(roomIndex);
             var roomNameHTML = '<small class="roomname">' + roomName + '</small>';
             ret.push(roomNameHTML);
         }
 
         return ret.join(', ') + " " + removed.join(', ');
+    },
+    getRooms: function(lesson)
+    {
+    	var roomCollection = new MySched.Collection();
+    	var currentMoFrDate = getCurrentMoFrDate();
+    	for(var dateIndex in lesson.data.calendar)
+    	{
+    		var splittedDateIndex = dateIndex.split("-");
+            if (splittedDateIndex.length == 3)
+            {
+                var dateObject = new Date(splittedDateIndex[0], splittedDateIndex[1] - 1, splittedDateIndex[2]);
+                if(dateObject >= currentMoFrDate.monday && dateObject <= currentMoFrDate.friday)
+                {
+                	roomCollection.addAll(lesson.data.calendar[dateIndex][lesson.data.block]["lessonData"]);
+                }
+            }
+    	}
+
+        roomCollection.remove("delta");
+        return roomCollection;
     },
     getTeacherNames: function (d)
     {
@@ -1513,15 +1424,18 @@ Ext.define('mLecture',
     },
     getWeekDay: function ()
     {
-        return numbertoday(parseInt(this.data.dow));
+        return this.data.dow;
     },
     getBlock: function ()
     {
         return this.data.block;
     },
-    getCategory: function ()
+    getDescription: function ()
     {
-        if (!Ext.isEmpty(this.data.category) && Ext.isString(this.data.category)) return "-" + this.data.category;
+        if (!Ext.isEmpty(this.data.description) && Ext.isString(this.data.description))
+        {
+        	return "-" + this.data.description;
+        }
         else return "";
     },
     setCellTemplate: function (t)
@@ -1552,11 +1466,11 @@ Ext.define('mLecture',
 
         if (t == "room")
         {
-            this.cellTemplate = new Ext.Template('<div id="{parentId}##{id}" block="{lessonBlock}" dow="{lessonDow}" class="{css} scheduleBox lectureBox">' + '<b class="lecturename">{lessonTitle}{category} {comment}</b><br/>{teacherName} / {moduleName} ' + time + ' {statusIcons}</div>');
+            this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} scheduleBox lectureBox">' + '<b class="lecturename">{lessonTitle}{description} {comment}</b><br/>{teacherName} / {moduleName} ' + time + ' {statusIcons}</div>');
         }
         else if (t == "teacher")
         {
-            this.cellTemplate = new Ext.Template('<div id="{parentId}##{id}" block="{lessonBlock}" dow="{lessonDow}" class="{css} scheduleBox lectureBox">' + '<b class="lecturename">{lessonTitle}{category} {comment}</b><br/>{moduleName} / {roomName} ' + time + ' {statusIcons}</div>');
+            this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} scheduleBox lectureBox">' + '<b class="lecturename">{lessonTitle}{description} {comment}</b><br/>{moduleName} / {roomName} ' + time + ' {statusIcons}</div>');
         }
         else
         {
@@ -1587,22 +1501,19 @@ Ext.define('mLecture',
                 lecturecss = "lecturename";
             }
 
-            this.cellTemplate = new Ext.Template('<div id="{parentId}##{id}" block="{lessonBlock}" dow="{lessonDow}" class="{css} ' + modulescss + '">' + '{topIcon}<b class="' + lecturecss + '">{lessonTitle}{category} {comment}</b><br/>{teacherName} / {roomName} ' + time + ' {statusIcons}</div>');
+            this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} ' + modulescss + '">' + '{topIcon}<b class="' + lecturecss + '">{lessonTitle}{description} {comment}</b><br/>{teacherName} / {roomName} ' + time + ' {statusIcons}</div>');
         }
     },
     setInfoTemplate: function (t)
     {
         this.infoTemplate.set(t, true);
     },
-    getCellView: function (relObj, roomCollection, block, dow)
+    getCellView: function (relObj)
     {
         var d = this.getDetailData(
         {
             parentId: relObj.getId(),
-            key: this.id,
-            rooms: roomCollection,
-            lessonBlock: block,
-            lessonDow: dow
+            key: this.id
         });
         if (relObj.getId() != 'mySchedule' && MySched.Schedule.lectureExists(this)) d.css = ' lectureBox_cho';
         return this.cellTemplate.apply(d);

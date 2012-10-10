@@ -71,6 +71,7 @@ class THM_OrganizerViewScheduler extends JView
 				$activeScheduleCalendar = $activeScheduleData->calendar;
 				unset($activeScheduleData->calendar);
 				$activeScheduleLessons = $activeScheduleData->lessons;
+								
 				unset($activeScheduleData->lessons);
 				$activeScheduleFields = $activeScheduleData->fields;		
 				unset($activeScheduleData->fields);
@@ -211,6 +212,8 @@ class THM_OrganizerViewScheduler extends JView
 							{
 								$lessons[$lessonID] = clone $activeScheduleLessons->{$lessonKey};
 								$lessons[$lessonID]->lessonKey = $lessonKey;
+								$lessons[$lessonID]->block = $blockKey;
+								$lessons[$lessonID]->dow = $dow;
 							}
 			
 							if(!isset($lessons[$lessonID]->calendar))

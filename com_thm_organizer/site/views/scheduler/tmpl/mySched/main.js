@@ -1457,21 +1457,6 @@ new Ext.util.Observable(),
         var tabID = id.split('##')[0];
         var lessonID = id.split('##')[1];
         
-        var lessonDow = el.getAttribute("dow");
-        var lessonBlock = el.getAttribute("block");
-        
-        if(!Ext.isDefined(MySched.Schedule.calendar[lessonDow]))
-        {
-        	MySched.Schedule.calendar[lessonDow] = {}
-        }
-        
-        if(!Ext.isDefined(MySched.Schedule.calendar[lessonDow][lessonBlock]))
-        {
-        	MySched.Schedule.calendar[lessonDow][lessonBlock] = {};
-        }
-        
-        MySched.Schedule.calendar[lessonDow][lessonBlock][lessonID] = {};
-        
         if (el.id.substr(0, 4) != "delta" && MySched.Authorize.user != null && MySched.Authorize.role != "user")
         {
             // Entfernt Veranstaltung
@@ -3080,75 +3065,81 @@ MySched.layout = function ()
                         if (MySched.selectedSchedule != null)
                         {
                             showLoadMask();
-
-                            var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker')
-                                .value);
-
-                            var currentMoFrDate = getCurrentMoFrDate();
-                            var selectedSchedule = MySched.selectedSchedule;
-                            var nodeKey = selectedSchedule.key;
-                            var nodeID = selectedSchedule.id;
-                            var gpuntisID = selectedSchedule.gpuntisID;
-                            var semesterID = selectedSchedule.semesterID;
-                            var plantypeID = "";
-                            var type = selectedSchedule.type;
-
-                            if (MySched.loadLessonsOnStartUp == false)
-                            {
-                                Ext.Ajax.request(
-                                {
-                                    url: _C('ajaxHandler'),
-                                    method: 'POST',
-                                    params: {
-                                        nodeID: nodeID,
-                                        nodeKey: nodeKey,
-                                        gpuntisID: gpuntisID,
-                                        semesterID: semesterID,
-                                        scheduletask: "Ressource.load",
-                                        plantypeID: plantypeID,
-                                        type: type,
-                                        startdate: Ext.Date.format(currentMoFrDate.monday, "Y-m-d"),
-                                        enddate: Ext.Date.format(currentMoFrDate.friday, "Y-m-d")
-                                    },
-                                    failure: function (response)
-                                    {
-                                        Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ERROR,
-                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_ERROR);
-                                    },
-                                    success: function (response)
-                                    {
-                                        var json = Ext.decode(response.responseText);
-                                        var lessonData = json["lessonData"];
-                                        var lessonDate = json["lessonDate"];
-                                        for (var item in lessonData)
-                                        {
-                                            if (Ext.isObject(lessonData[item]))
-                                            {
-                                                var record = new mLecture(
-                                                item,
-                                                lessonData[item], semesterID,
-                                                plantypeID);
-                                                MySched.Base.schedule.addLecture(record);
-                                                //														MySched.TreeManager.add(record);
-                                            }
-                                        }
-                                        if (Ext.isObject(lessonDate))
-                                        {
-                                            MySched.Calendar.addAll(lessonDate);
-                                        }
-
-                                        MySched.selectedSchedule.eventsloaded = null;
-                                        MySched.selectedSchedule.init(type, nodeKey, semesterID);
-                                        MySched.selectedSchedule.refreshView();
-                                    }
-                                });
-                            }
-                            else
-                            {
-                                MySched.selectedSchedule.eventsloaded = null;
-                                MySched.selectedSchedule.init(type, nodeKey, semesterID);
+                        	if(MySched.selectedSchedule.id != "mySchedule")
+        	                {
+	                            var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker').value);
+	
+	                            var currentMoFrDate = getCurrentMoFrDate();
+	                            var selectedSchedule = MySched.selectedSchedule;
+	                            var nodeKey = selectedSchedule.key;
+	                            var nodeID = selectedSchedule.id;
+	                            var gpuntisID = selectedSchedule.gpuntisID;
+	                            var semesterID = selectedSchedule.semesterID;
+	                            var plantypeID = "";
+	                            var type = selectedSchedule.type;
+	
+	                            if (MySched.loadLessonsOnStartUp == false)
+	                            {
+	                                Ext.Ajax.request(
+	                                {
+	                                    url: _C('ajaxHandler'),
+	                                    method: 'POST',
+	                                    params: {
+	                                        nodeID: nodeID,
+	                                        nodeKey: nodeKey,
+	                                        gpuntisID: gpuntisID,
+	                                        semesterID: semesterID,
+	                                        scheduletask: "Ressource.load",
+	                                        plantypeID: plantypeID,
+	                                        type: type,
+	                                        startdate: Ext.Date.format(currentMoFrDate.monday, "Y-m-d"),
+	                                        enddate: Ext.Date.format(currentMoFrDate.friday, "Y-m-d")
+	                                    },
+	                                    failure: function (response)
+	                                    {
+	                                        Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ERROR,
+	                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_ERROR);
+	                                    },
+	                                    success: function (response)
+	                                    {
+	                                        var json = Ext.decode(response.responseText);
+	                                        var lessonData = json["lessonData"];
+	                                        var lessonDate = json["lessonDate"];
+	                                        for (var item in lessonData)
+	                                        {
+	                                            if (Ext.isObject(lessonData[item]))
+	                                            {
+	                                                var record = new mLecture(
+	                                                item,
+	                                                lessonData[item], semesterID,
+	                                                plantypeID);
+	                                                MySched.Base.schedule.addLecture(record);
+	                                                //														MySched.TreeManager.add(record);
+	                                            }
+	                                        }
+	                                        if (Ext.isObject(lessonDate))
+	                                        {
+	                                            MySched.Calendar.addAll(lessonDate);
+	                                        }
+	
+	                                        MySched.selectedSchedule.eventsloaded = null;
+	                                        MySched.selectedSchedule.init(type, nodeKey, semesterID);
+	                                        MySched.selectedSchedule.refreshView();
+	                                    }
+	                                });
+	                            }
+	                            else
+	                            {
+	                                MySched.selectedSchedule.eventsloaded = null;
+	                                MySched.selectedSchedule.init(type, nodeKey, semesterID);
+	                                MySched.selectedSchedule.refreshView();
+	                            }
+        	                }
+                        	else
+                        	{
+                        		MySched.selectedSchedule.eventsloaded = null;
                                 MySched.selectedSchedule.refreshView();
-                            }
+                        	}
                         }
                     }
                 }
