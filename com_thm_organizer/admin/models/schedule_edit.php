@@ -34,7 +34,7 @@ class thm_organizersModelschedule_edit extends JModelAdmin
      *
      * @return	mixed	A JForm object on success, false on failure
      */
-    protected function getForm($data = array(), $loadData = true)
+    public function getForm($data = array(), $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm('com_thm_organizer.schedule_edit',
@@ -58,7 +58,7 @@ class thm_organizersModelschedule_edit extends JModelAdmin
      *
      * @return	mixed	Object on success, false on failure.
      */
-    protected function getItem($key = null)
+    public function getItem($key = null)
     {
         $scheduleIDs = JRequest::getVar('cid',  null, '', 'array');
         $scheduleID = (empty($scheduleIDs))? JRequest::getVar('scheduleID') : $scheduleIDs[0];
@@ -76,7 +76,7 @@ class thm_organizersModelschedule_edit extends JModelAdmin
      *
      * @return	JTable	A database object
     */
-    protected function getTable($type = 'schedules', $prefix = 'thm_organizerTable', $config = array())
+    public function getTable($type = 'schedules', $prefix = 'thm_organizerTable', $config = array())
     {
         return JTable::getInstance($type, $prefix, $config);
     }
