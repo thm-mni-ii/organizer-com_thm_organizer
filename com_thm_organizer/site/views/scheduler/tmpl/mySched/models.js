@@ -1319,7 +1319,7 @@ Ext.define('mLecture',
         for (var roomIndex in rooms.map)
         {
             var roomName = MySched.Mapping.getRoomName(roomIndex);
-            var roomNameHTML = '<small class="roomname">' + roomName + '</small>';
+            var roomNameHTML = '<small roomID="' + roomIndex +  '" class="roomname">' + roomName + '</small>';
             ret.push(roomNameHTML);
         }
 
@@ -1354,7 +1354,7 @@ Ext.define('mLecture',
         for (var teacherIndex = 0; teacherIndex < teachers.length; teacherIndex++)
         {
             var teacherName = MySched.Mapping.getTeacherSurname(teachers[teacherIndex]);
-            var teacherNameHTML = '<small class="teachername">' + teacherName + '</small>';
+            var teacherNameHTML = '<small teacherID="' + teachers[teacherIndex] +  '" class="teachername">' + teacherName + '</small>';
             ret.push(teacherNameHTML);
         }
 
@@ -1396,7 +1396,7 @@ Ext.define('mLecture',
         for (var moduleIndex = 0; moduleIndex < modules.length; moduleIndex++)
         {
             var moduleName = MySched.Mapping.getModuleName(modules[moduleIndex]);
-            var moduleNameHTML = '<small class="modulename">' + moduleName + '</small>';
+            var moduleNameHTML = '<small moduleID="' + modules[moduleIndex] +  '" class="modulename">' + moduleName + '</small>';
             ret.push(moduleNameHTML);
         }
 

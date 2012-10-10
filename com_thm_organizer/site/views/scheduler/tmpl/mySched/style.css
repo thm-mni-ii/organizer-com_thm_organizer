@@ -349,12 +349,12 @@ small.teachername:hover {
 	cursor: pointer;
 }
 
-small.roomshortname:hover {
+small.roomname:hover {
 	text-decoration: underline;
 	cursor: pointer;
 }
 
-small.modulehorter:hover {
+small.modulename:hover {
 	text-decoration: underline;
 	cursor: pointer;
 }
