@@ -408,7 +408,7 @@ class thm_organizersModelschedule extends JModel
         {
             if (!in_array(JText::_("COM_THM_ORGANIZER_DSM_TYPE_MISSING."), $this->_scheduleErrors))
             {
-                    $this->_scheduleErrors[] = JText::_("COM_THM_ORGANIZER_DSM_TYPE_MISSING", $longname, $descriptionID);
+                    $this->_scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_DSM_TYPE_MISSING", $longname, $descriptionID);
             }
             return;
         }
