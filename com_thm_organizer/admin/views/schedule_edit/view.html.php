@@ -52,20 +52,6 @@ class thm_organizersViewschedule_edit extends JView
         $model = $this->getModel();
         $this->form = $this->get('Form');
 
-        $title = JText::_('COM_THM_ORGANIZER') . ': ';
-        if ($this->form->getValue('id'))
-        {
-            $this->setLayout('edit');
-            $this->legend = JText::_('JTOOLBAR_EDIT') . ' ' . JText::_('COM_THM_ORGANIZER_PLAN');
-            $title .= JText::_('JTOOLBAR_EDIT') . ' ' . JText::_('COM_THM_ORGANIZER_PLAN');
-        }
-        else
-        {
-            $this->setLayout('add');
-            $this->legend = JText::_('JTOOLBAR_NEW') . ' ' . JText::_('COM_THM_ORGANIZER_PLAN');
-            $title .= JText::_("JTOOLBAR_NEW") . ' ' . JText::_('COM_THM_ORGANIZER_PLAN');
-        }
-        JToolBarHelper::title($title, "mni");
         $this->addToolBar();
 
         parent::display($tpl);
@@ -78,14 +64,22 @@ class thm_organizersViewschedule_edit extends JView
      */
     private function addToolBar()
     {
+        $title = JText::_('COM_THM_ORGANIZER') . ': ';        
         if ($this->form->getValue('id'))
         {
+            $this->setLayout('edit');
+            $this->legend = JText::_('JTOOLBAR_EDIT') . ' ' . JText::_('COM_THM_ORGANIZER_PLAN');
+            $title .= JText::_('JTOOLBAR_EDIT') . ' ' . JText::_('COM_THM_ORGANIZER_PLAN');
             JToolBarHelper::save('schedule.save');
         }
         else
         {
+            $this->setLayout('add');
+            $this->legend = JText::_('JTOOLBAR_NEW') . ' ' . JText::_('COM_THM_ORGANIZER_PLAN');
+            $title .= JText::_("JTOOLBAR_NEW") . ' ' . JText::_('COM_THM_ORGANIZER_PLAN');
             JToolBarHelper::custom('schedule.upload', 'upload', 'upload', 'COM_THM_ORGANIZER_SCH_UPLOAD', false);
         }
+        JToolBarHelper::title($title, "mni");
         JToolBarHelper::cancel('schedule.cancel');
     }
 }

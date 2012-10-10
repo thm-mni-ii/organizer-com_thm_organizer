@@ -58,7 +58,7 @@ class thm_organizersModelschedule_edit extends JModelAdmin
      *
      * @return	mixed	Object on success, false on failure.
      */
-    public function getItem($key = null)
+    protected function getItem($key = null)
     {
         $scheduleIDs = JRequest::getVar('cid',  null, '', 'array');
         $scheduleID = (empty($scheduleIDs))? JRequest::getVar('scheduleID') : $scheduleIDs[0];
@@ -76,7 +76,7 @@ class thm_organizersModelschedule_edit extends JModelAdmin
      *
      * @return	JTable	A database object
     */
-    public function getTable($type = 'schedules', $prefix = 'thm_organizerTable', $config = array())
+    protected function getTable($type = 'schedules', $prefix = 'thm_organizerTable', $config = array())
     {
         return JTable::getInstance($type, $prefix, $config);
     }
