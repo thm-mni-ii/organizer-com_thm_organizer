@@ -34,7 +34,7 @@ class thm_organizersModelschedule_edit extends JModelAdmin
      *
      * @return	mixed	A JForm object on success, false on failure
      */
-    public function getForm($data = array(), $loadData = true)
+    protected function getForm($data = array(), $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm('com_thm_organizer.schedule_edit',
