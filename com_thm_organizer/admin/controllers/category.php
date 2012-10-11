@@ -145,4 +145,19 @@ class thm_organizersControllerCategory extends JController
         }
         $this->setRedirect('index.php?option=com_thm_organizer&view=category_manager');
     }
+
+    /**
+     * performs access checks and redirects to the category manager view
+     * 
+     * @return void 
+     */
+    public function sort()
+    {
+        if (!thm_organizerHelper::isAdmin('category'))
+        {
+            thm_organizerHelper::noAccess();
+        }
+        JRequest::setVar('view', 'category_manager');
+        parent::display();
+    }
 }

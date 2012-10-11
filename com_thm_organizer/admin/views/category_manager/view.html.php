@@ -1,70 +1,77 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_thm_organizer
- * @name        view category manager
- * @description lists saved event categories and basic information about them
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * @copyright   TH Mittelhessen 2011
- * @license     GNU GPL v.2
- * @link        www.mni.thm.de
- * @version     1.7.0
+ *@category    component
+ * 
+ *@package     THM_Organizer
+ * 
+ *@subpackage  com_thm_organizer
+ *@name        view output file for event category lists
+ *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ * 
+ *@copyright   2012 TH Mittelhessen
+ * 
+ *@license     GNU GPL v.2
+ *@link        www.mni.thm.de
+ *@version     0.1.0
  */
 defined('_JEXEC') or die('Restricted Access');
 jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
-
+require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
+/**
+ * Class which loads data into the view output context
+ * 
+ * @package  Admin
+ * 
+ * @since    2.5.4 
+ */
 class thm_organizersViewcategory_manager extends JView
 {
-	
+    /**
+     * loads persistent information into the view context
+     * 
+     * @param   string  $tpl  the name of the template to be used
+     * 
+     * @return void
+     */
     public function display($tpl = null)
     {
-        if(!JFactory::getUser()->authorise('core.admin'))
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+
+        JHtml::_('behavior.tooltip');
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
-
+        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
 
         $model = $this->getModel();
-        $this->categories = $model->categories;
-        if(count($this->categories))$this->setIcons();
+        $this->state = $this->get('State');
+        $this->categories = $this->get('Items');
+        $this->pagination = $this->get('Pagination');
+        $this->contentCategories = $model->contentCategories;
         $this->addToolBar();
 
         parent::display($tpl);
     }
 
     /**
-     * addToolBar
-     *
-     * generates buttons for user interaction
+     * generates joomla toolbar elements
+     * 
+     * @return void
      */
     private function addToolBar()
     {
-        $title = JText::_('COM_THM_ORGANIZER').': '.JText::_('COM_THM_ORGANIZER_CAT_TITLE');        
-        JToolBarHelper::title( $title, 'mni' );        
-        JToolBarHelper::addNew ('category.add');
+        $title = JText::_('COM_THM_ORGANIZER') . ': ' . JText::_('COM_THM_ORGANIZER_CAT_TITLE');
+        JToolBarHelper::title($title, 'mni');
+        JToolBarHelper::addNew('category.add');
         JToolBarHelper::editList('category.edit');
-        JToolBarHelper::deleteList( JText::_('COM_THM_ORGANIZER_CAT_DELETE_CONFIRM'), 'category.delete');
+
+        // JToolBarHelper::deleteList( JText::_('COM_THM_ORGANIZER_CAT_DELETE_CONFIRM'), 'category.delete');
         if (thm_organizerHelper::isAdmin("category_manager"))
         {
         	JToolBarHelper::divider();
         	JToolBarHelper::preferences('com_thm_organizer');
         }
     }
-
-    /**
-     * setIcons
-     *
-     * sets images used for display of properties
-     */
-    private function setIcons()
-    {
-        $this->yes = JHTML::_('image', 'administrator/templates/bluestork/images/admin/tick.png',
-                        JText::_( 'COM_THM_ORGANIZER_ALLOWED' ), array( 'class' => 'thm_organizer_sm_icon'));
-        $this->no = JHTML::_('image', 'administrator/templates/bluestork/images/admin/publish_x.png',
-                       JText::_( 'COM_THM_ORGANIZER_DENIED' ), array( 'class' => 'thm_organizer_sm_icon'));
-    }
-	
-	
 }

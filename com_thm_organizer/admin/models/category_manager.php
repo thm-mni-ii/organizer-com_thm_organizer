@@ -1,49 +1,154 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_thm_organizer
- * @name        model category manager view
- * @description database abstraction file for the category manager view
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * @copyright   TH Mittelhessen 2011
- * @license     GNU GPL v.2
- * @link        www.mni.thm.de
- * @version     1.7.0
+ *@category    component
+ * 
+ *@package     THM_Organizer
+ * 
+ *@subpackage  com_thm_organizer
+ *@name        category manager model
+ *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ * 
+ *@copyright   2012 TH Mittelhessen
+ * 
+ *@license     GNU GPL v.2
+ *@link        www.mni.thm.de
+ *@version     0.1.0
  */
 defined('_JEXEC') or die;
-jimport( 'joomla.application.component.model' );
-class thm_organizersModelcategory_manager extends JModel
+jimport('joomla.application.component.modellist');
+/**
+ * Class compiling a list of saved event categories 
+ * 
+ * @package  Admin
+ * 
+ * @since    2.5.4
+ */
+class thm_organizersModelcategory_manager extends JModelList
 {
-    public $categories = null;
+    /**
+     * An associative array containing information about saved categories
+     * 
+     * @var array
+     */
+    public $contentCategories = null;
 
-    public function __construct()
+    /**
+     * sets variables and configuration data
+     * 
+     * @param   array  $config  the configuration parameters
+     */
+    public function __construct($config = array())
     {
-        parent::__construct();
-        $this->loadCategories();
+        if (empty($config['filter_fields']))
+        {
+            $config['filter_fields'] = array(
+                                             'title', 'title',
+                                             'global', 'global',
+                                             'reserves', 'reserves',
+                                             'content_cat', 'content_cat'
+                                            );
+        }
+        $this->contentCategories = $this->getContentCategories();
+        parent::__construct($config);
     }
 
     /**
-     * loadCategories
-     *
-     * retrieves information about saved categories and create links to the edit
-     * view
+     * generates the query to be used to fill the output list
+     * 
+     * @return JDatabaseQuery 
      */
-    private function loadCategories()
+    protected function getListQuery()
     {
-        $dbo = JFactory::getDBO();
+        $dbo = $this->getDbo();
         $query = $dbo->getQuery(true);
-        $query->select('toc.id AS id, toc.title AS title, globaldisplay AS global, reservesobjects AS reserves, c.title AS contentCat');
-        $query->from('#__thm_organizer_categories AS toc');
-        $query->innerJoin('#__categories AS c ON toc.contentCatID = c.id');
-        $dbo->setQuery((string)$query);
-        $categories = $dbo->loadAssocList();
-        if(empty($categories))$this->categories = array();
-        else
+
+        $select = 'ec.id AS id, ec.title AS ectitle, ec.global, ec.reserves, cc.title AS cctitle, ';
+        $select .= "CONCAT('index.php?option=com_thm_organizer&view=category_edit&categoryID=', ec.id) AS link";
+        $query->select($this->getState("list.select", $select));
+        $query->from('#__thm_organizer_categories AS ec');
+        $query->innerJoin('#__categories AS cc ON ec.contentCatID = cc.id');
+
+        $search = $this->getState('filter.search');
+        if (!empty($search))
         {
-            foreach($categories as $key => $value)
-                $categories[$key]['link'] = 'index.php?option=com_thm_organizer&view=category_edit&categoryID='.$value['id'];
-            $this->categories = $categories;
+            $query->where("(ec.title LIKE '%" . implode("%' OR ec.title LIKE '%", explode(' ', $search)) . "%')");
         }
-        
+
+        $global = $this->getState('filter.global');
+        if ($global === '0')
+        {
+            $query->where("ec.global = 0");
+        }
+        if ($global === '1')
+        {
+            $query->where("ec.global = 1");
+        }
+
+        $reserves = $this->getState('filter.reserves');
+        if ($reserves === '0')
+        {
+            $query->where("ec.reserves = 0");
+        }
+        if ($reserves === '1')
+        {
+            $query->where("ec.reserves = 1");
+        }
+
+        $contentCatID = $this->getState('filter.content_cat');
+        if (!empty($contentCatID) and $contentCatID != '*')
+        {
+            $query->where("ec.contentCatID = '$contentCatID'");
+        }
+
+        $orderby = $dbo->getEscaped($this->getState('list.ordering', 'ec.title'));
+        $direction = $dbo->getEscaped($this->getState('list.direction', 'DESC'));
+        $query->order("$orderby $direction");
+
+        return $query;
+    }
+
+    /**
+     * takes user filter parameters and adds them to the view state
+     * 
+     * @param   string  $ordering   the filter parameter to be used for ordering
+     * @param   string  $direction  the direction in which results are to be ordered
+     * 
+     * @return void
+     */
+    protected function populateState($ordering = null, $direction = null)
+    {
+        $dbo = JFactory::getDbo();
+
+        $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+        $this->setState('filter.search', $search);
+
+        $global = $dbo->escape($this->getUserStateFromRequest($this->context . '.filter.global', 'filter_global'));
+        $this->setState('filter.global', $global);
+
+        $reserves = $dbo->escape($this->getUserStateFromRequest($this->context . '.filter.reserves', 'filter_reserves'));
+        $this->setState('filter.reserves', $reserves);
+
+        $contentCat = $dbo->escape($this->getUserStateFromRequest($this->context . '.filter.content_cat', 'filter_content_cat'));
+        $this->setState('filter.content_cat', $contentCat);
+
+        parent::populateState($ordering, $direction);
+    }
+
+    /**
+     * retrieves an array of associated content categories from the database
+     *
+     * @return array filled with semester names or empty
+     */
+    private function getContentCategories()
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('DISTINCT id, title');
+        $query->from('#__categories');
+        $query->where("id IN (SELECT DISTINCT contentCatID FROM #__thm_organizer_categories)");
+        $query->order('title ASC');
+        $dbo->setQuery((string) $query);
+        $contentCategories = $dbo->loadAssocList();
+        return (count($contentCategories))? $contentCategories : array();
     }
 }
