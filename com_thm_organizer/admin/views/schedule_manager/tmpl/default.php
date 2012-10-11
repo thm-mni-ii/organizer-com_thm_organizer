@@ -75,7 +75,7 @@ $direction = $this->escape($this->state->get('list.direction'));
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_SCH_ACTIVE', 'active', $direction, $orderby); ?>
                     </th>
                     <th class="thm_organizer_sch_th" >
-                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_DESC', 'sch.description', $direction, $orderby); ?>
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_DESC', 'description', $direction, $orderby); ?>
                     </th>
                 </tr>
             </thead>
