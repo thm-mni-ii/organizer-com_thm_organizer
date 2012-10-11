@@ -1342,7 +1342,7 @@ Ext.define('mLecture',
             }
     	}
 
-        roomCollection.remove("delta");
+        roomCollection.removeAtKey("delta");
         return roomCollection;
     },
     getTeacherNames: function (d)
