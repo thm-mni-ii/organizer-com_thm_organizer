@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='utf-8'?>
+<form>
+    <fieldset>
+        <field
+            id='id'
+            name='id'
+            type='hidden' />
+        <field
+            type='text'
+            id='title'
+            name='title'
+            label='COM_THM_ORGANIZER_CAT_NAME'
+            size='28'
+            maxlength='50'
+            default=''
+            description='COM_THM_ORGANIZER_CAT_NAME_DESC'
+            class='inputbox required' />
+        <field
+            type='sql'
+            id='contentCatID'
+            name='contentCatID'
+            label='COM_THM_ORGANIZER_CAT_CONTENT_CATEGORY'
+            query="SELECT c.id, c.title AS contentCatID FROM #__categories AS c INNER JOIN #__viewlevels AS vl ON c.access = vl.id WHERE c.extension = 'com_content' AND published = '1' ORDER BY c.title ASC"
+            description='COM_THM_ORGANIZER_CAT_CONTENT_CATEGORY_SELECT_DESC'
+            value_field='contentCatID'
+            key_field='id'
+            class='inputbox required' />
+        <field
+            type='editor'
+            id='description'
+            name='description'
+            label='COM_THM_ORGANIZER_DESC'
+            description='COM_THM_ORGANIZER_DESC'
+            rows='5'
+            cols='35'
+            buttons='false' />
+        <field
+            type='radio'
+            id='global'
+            name='global'
+            label='COM_THM_ORGANIZER_CAT_GLOBAL'
+            default='0'
+            description='COM_THM_ORGANIZER_CAT_GLOBAL_DESC'
+            class='inputbox'>
+            <option value='1'>JYES</option>
+            <option value='0'>JNO</option>
+        </field>
+        <field
+            type='radio'
+            id='reserves'
+            name='reserves'
+            label='COM_THM_ORGANIZER_CAT_RESERVES'
+            default='0'
+            description='COM_THM_ORGANIZER_CAT_RESERVES_DESC'
+            class='inputbox'>
+            <option value='1'>JYES</option>
+            <option value='0'>JNO</option>
+        </field>
+    </fieldset>
+</form>

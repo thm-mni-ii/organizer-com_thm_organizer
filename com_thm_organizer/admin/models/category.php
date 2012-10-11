@@ -1,104 +1,103 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_thm_organizer
- * @name        model category
- * @description database abstraction file for category persistence
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * @copyright   TH Mittelhessen 2011
- * @license     GNU GPL v.2
- * @link        www.mni.thm.de
- * @version     1.7.0
+ *@category    component
+ * 
+ *@package     THM_Organizer
+ * 
+ *@subpackage  com_thm_organizer
+ *@name        category model
+ *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ * 
+ *@copyright   2012 TH Mittelhessen
+ * 
+ *@license     GNU GPL v.2
+ *@link        www.mni.thm.de
+ *@version     0.1.0
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-require_once JPATH_SITE.'/components/com_thm_organizer/models/events.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/models/events.php';
+/**
+ * Class storing/deleting category item information 
+ * 
+ * @package  Admin
+ * 
+ * @since    2.5.4
+ */
 class thm_organizersModelcategory extends JModel
 {
     /**
-     * save
-     *
      * saves the event category
      *
      * @return bool true on success, otherwise false
      */
     public function save()
     {
-        $id = JRequest::getVar('id');
-        $title = addslashes(trim(JRequest::getString('title')));
-        $description = addslashes(trim($_REQUEST['description']));
-        $global = JRequest::getBool('global');
-        $reserves = JRequest::getBool('reserves');
-        $contentCatID = JRequest::getInt('contentCat');
-
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        if($id)
+        $dbo = $this->getDbo();
+        $data = JRequest::getVar('jform', null, null, null, 4);
+        $category = JTable::getInstance('categories', 'thm_organizerTable');
+        if (isset($data['id']) and empty($data['id']))
         {
-            $query->update("#__thm_organizer_categories");
-            $conditions = "title = '$title', description = '$description', ";
-            $conditions .= "globaldisplay = '$global', reservesobjects = '$reserves', ";
-            $conditions .= "contentCatID = '$contentCatID' ";
-            $query->set($conditions);
-            $query->where("id = '$id'");
+            unset($data['id']);
         }
-        else
+        elseif (!empty($data['id']))
         {
-            $statement = "#__thm_organizer_categories ";
-            $statement .= "(title, description, globaldisplay, reservesobjects, contentCatID) ";
-            $statement .= "VALUES ";
-            $statement .= "( '$title', '$description', '$global','$reserves', '$contentCatID' );";
-            $query->insert($statement);
-
+            $success = $category->load($data['id']);
+            if (!$success)
+            {
+                return $success;
+            }
         }
-        $dbo->setQuery((string)$query);
-        $dbo->query();
-        return ($dbo->getErrorNum())? false : true;
+        $data['description'] = $dbo->escape($data['description']);
+        $success = $category->save($data);
+        return $success;
     }
 
     /**
-     * delete
-     *
      * deletes event categories and associated events/event-resource associations
      *
      * @return bool true on success, otherwise false
      */
     public function delete()
     {
-        $categoryIDs = array();
-        $categoryIDs[0] = JRequest::getInt('id');
-        if(empty($categoryIDs[0]))
-            $categoryIDs = JRequest::getVar('cid', array(0), 'post', 'array');
-        if(count($categoryIDs))
+        $categoryIDs = JRequest::getVar('cid', array(0), 'post', 'array');
+        if (count($categoryIDs))
         {
-            $categoryIDs = "( '".implode("', '", $categoryIDs)."' )";
-            $dbo = & JFactory::getDBO();
+            $dbo = $this->getDbo();
+            $dbo->transactionStart();
 
-            //remove events & event resources dependant upon this category
+            // Remove events / event resources / content dependant upon this category
             $query = $dbo->getQuery(true);
             $query->select("DISTINCT (id)");
             $query->from("#__thm_organizer_events");
-            $query->where("categoryID IN $categoryIDs");
-            $dbo->setQuery((string)$query);
+            $query->where("categoryID IN ( '" . implode("', '", $categoryIDs) . "' )");
+            $dbo->setQuery((string) $query);
             $eventIDs = $dbo->loadResultArray();
-            if(count($eventIDs))
+            if (count($eventIDs))
             {
-                $events = new THM_OrganizersModelevents();
-                foreach($eventIDs as $eventID)
+                $eventsModel = new THM_OrganizersModelevents;
+                foreach ($eventIDs as $eventID)
                 {
-                    $success = $events->delete($eventID);
-                    if(!$success)return false;
+                    $success = $eventsModel->delete($eventID);
+                    if (!$success)
+                    {
+                        $dbo->transactionRollback();
+                        return false;
+                    }
                 }
             }
 
-            $query = $dbo->getQuery(true);
-            $query->delete();
-            $query->from("#__thm_organizer_categories");
-            $query->where("id IN $categoryIDs");
-            $dbo->setQuery((string)$query);
-            $dbo->query();
-
-            return ($dbo->getErrorNum())? false : true;
+            $category = JTable::getInstance('schedules', 'thm_organizerTable');
+            foreach ($categoryIDs as $categoryID)
+            {
+                $success = $category->delete($categoryID);
+                if (!$success)
+                {
+                    $dbo->transactionRollback();
+                    return false;
+                }
+            }
+            return true;
         }
         return true;
     }

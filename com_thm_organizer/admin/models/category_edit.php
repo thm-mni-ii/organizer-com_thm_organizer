@@ -1,196 +1,92 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_thm_organizer
- * @name        model category editor view
- * @description database abstraction file for the category editor view
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * @copyright   TH Mittelhessen 2011
- * @license     GNU GPL v.2
- * @link        www.mni.thm.de
- * @version     1.7.0
+ *@category    component
+ * 
+ *@package     THM_Organizer
+ * 
+ *@subpackage  com_thm_organizer
+ *@name        category edit model
+ *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ * 
+ *@copyright   2012 TH Mittelhessen
+ * 
+ *@license     GNU GPL v.2
+ *@link        www.mni.thm.de
+ *@version     0.1.0
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.model');
-class thm_organizersModelcategory_edit extends JModel
+jimport('joomla.application.component.modeladmin');
+/**
+ * Class retrieving category item information 
+ * 
+ * @package  Admin
+ * 
+ * @since    2.5.4
+ */
+class thm_organizersModelcategory_edit extends JModelAdmin
 {
-    public $id = 0;
-    public $title = '';
-    public $description = '';
-    public $global = false;
-    public $reserves = false;
-    public $contentCat = 0;
-    public $contentCategories = null;
-    public $userGroups = null;
-
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->loadCategory();
-        $this->loadUserGroups();
-        $this->loadContentCategories();
-        if($this->contentCat == 0)
-            foreach($this->contentCategories as $category)
-            {
-                $this->contentCat = $category['id'];
-                break;
-            }
-    }
-
     /**
-     * loadCategory
+     * retrieves the jform object for this view
+     * 
+     * @param   array    $data      unused
+     * @param   boolean  $loadData  if the form data should be pulled dynamically
      *
-     * loads saved category information into object variables if available
+     * @return	mixed	A JForm object on success, false on failure
      */
-    private function loadCategory()
+    public function getForm($data = array(), $loadData = true)
     {
-        $id = JRequest::getInt('categoryID');
-        if(empty($id))
+        // Get the form.
+        $form = $this->loadForm('com_thm_organizer.category_edit',
+                                'category_edit',
+                                array('control' => 'jform', 'load_data' => $loadData)
+                               );
+        if (empty($form))
         {
-            $ids = JRequest::getVar('cid',  0, '', 'array');
-            $id = (int)$ids[0];
+            return false;
         }
-        if($id)
+        else
         {
-            $dbo = JFactory::getDbo();
-            $query = $dbo->getQuery(true);
-            $query->select("*");
-            $query->from("#__thm_organizer_categories");
-            $query->where("id = '$id'");
-            $dbo->setQuery((string)$query);
-            $result = $dbo->loadAssoc();
-            if(count($result))
-            {
-                $this->id = $result['id'];
-                $this->title = $result['title'];
-                $this->description = $result['description'];
-                $this->global = $result['globaldisplay'];
-                $this->reserves = $result['reservesobjects'];
-                $this->contentCat = $result['contentCatID'];
-            }
+            return $form;
         }
     }
 
     /**
-     * loadContentCategories
+     * Method to get a single record.
      *
-     * retrieves a list of published content categories and their properties
-     * from the database
+     * @param	integer	 $key  not used
+     *
+     * @return	mixed	Object on success, false on failure.
      */
-    private function loadContentCategories()
+    public function getItem($key = null)
     {
-        $dbo = & JFactory::getDBO();
-        $query = $dbo->getQuery(true);
-        $query->select("c.id, c.title, c.description, vl.title AS view_level");
-        $query->from("#__categories AS c");
-        $query->innerJoin("#__viewlevels AS vl ON c.access = vl.id");
-        $query->where("extension = 'com_content'");
-        $query->where("published = '1'");
-        $query->order("c.title ASC");
-        $dbo->setQuery((string)$query);
-        $contentCategories = $dbo->loadAssocList();
-        if(count($contentCategories))
-        {
-            foreach($contentCategories as $k => $v)
-                $contentCategories[$k]['actions'] = $this->makeActionsTable($contentCategories[$k]['id']);
-            $this->contentCategories = $contentCategories;
-        }
-        else $this->contentCategories = array();
+        $categoryIDs = JRequest::getVar('cid',  null, '', 'array');
+        $categoryID = (empty($categoryIDs))? JRequest::getVar('categoryID') : $categoryIDs[0];
+        return ($categoryID)? parent::getItem($categoryID) : $this->getTable();
     }
 
     /**
-     * loadUserGroups
+     * returns a table object the parameters are completely superfluous in the
+     * implementing classes since they are always set by default
      *
-     * creates an array associating user group ids to user group names and loads
-     * it into $this->userGroups
-     */
-    private function loadUserGroups()
+     * @param	string  $type    the table type to instantiate
+     * @param	string	$prefix  a prefix for the table class name. optional.
+     * @param	array	$config  configuration array for model. optional.
+     *
+     * @return	JTable	A database object
+    */
+    public function getTable($type = 'categories', $prefix = 'thm_organizerTable', $config = array())
     {
-        $dbo = & JFactory::getDBO();
-        $query = $dbo->getQuery(true);
-        $query->select("id, title");
-        $query->from("#__usergroups");
-        $dbo->setQuery((string)$query);
-        $results = $dbo->loadAssocList();
-        if(count($results))
-        {
-            $userGroups = array();
-            foreach($results as $k => $v) $userGroups[$v['id']] = $v['title'];
-            $this->userGroups = $userGroups;
-        }
+        return JTable::getInstance($type, $prefix, $config);
     }
 
     /**
-     * makeActionsTable
+     * retrieves the data that should be injected in the form the loading is
+     * done in jmodel admin
      *
-     * creates a table illustration which usergroups have which rights to act on
-     * a particular content category
-     *
-     * @param int $id
-     * @return string
+     * @return	mixed	The data for the form.
      */
-    private function makeActionsTable($id)
+    protected function loadFormData()
     {
-        $actions = array( 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete' );
-        $asset = "com_content".".category.".$id;
-
-        $table = "<table id='com_thm_organizer_ce_permissions'>";
-
-        $columngroup = "<colgroup>";
-        $columngroup .= "<col id='com_thm_organizer_ce_usergroups' />";
-        foreach($actions as $action)
-            $columngroup .= "<col id='com_thm_organizer_ce_action_column' />";
-        $columngroup .= "</colgroup>";
-        $table .= $columngroup;
-
-        $tablehead = "<thead id='thm_organizer_ce_actions_head' class='row1'>";
-        foreach($actions as $action)
-        {
-            $name = str_replace('CORE', '', str_replace('.', ' ', strtoupper($action)));
-            $tablehead .= "<td align='center'>".JText::_($name)."</td>";
-        }
-        $tablehead .= "<td class='thm_organizer_ce_leftcolumn' />";
-        $tablehead .= "</thead>";
-        $table .= $tablehead;
-
-        $rowcount = 0;
-        $tablebody = "<tbody>";
-        foreach($this->userGroups as $k => $v)
-        {
-            $found = false;
-            $rowclass = $rowcount % 2 == 0? 'row0' : 'row1';
-            $tablerow = "<tr class='$rowclass'>";
-            foreach($actions as $action)
-            {
-                $tabledata = "<td align='center'>";
-                $access = JAccess::checkGroup($k, $action, $asset);
-                if($access)
-                {
-                   $tabledata .= JHTML::_('image', 'administrator/templates/bluestork/images/admin/tick.png',
-                                            JText::_( 'COM_THM_ORGANIZER_ALLOWED' ), array( 'class' => 'thm_organizer_se_tick'));
-                   $found = true;
-                }
-                else
-                {
-                   $tabledata .= JHTML::_('image', 'administrator/templates/bluestork/images/admin/publish_x.png',
-                                            JText::_( 'COM_THM_ORGANIZER_DENIED' ), array( 'class' => 'thm_organizer_se_tick'));
-                }
-                $tabledata .= "</td>";
-                $tablerow .= $tabledata;
-            }
-            $tabledata = "<td align='left' class='thm_organizer_ce_leftcolumn'>".$v."</td>";
-            $tablerow .= $tabledata;
-            $tablerow .= "</tr>";
-            if($found)
-            {
-                $tablebody .= $tablerow;
-                $rowcount++;
-            }
-        }
-
-        $table .= $tablebody."</table>";
-        if($rowcount)return $table;
-        else return '';
+        return $this->getItem();
     }
 }
