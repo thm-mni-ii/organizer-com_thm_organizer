@@ -4014,6 +4014,10 @@ MySched.Tree = function ()
             var treeStore = Ext.create('Ext.data.TreeStore',
             {
                 folderSort: true,
+                sorters: [{
+                   property: 'text',
+                   direction: 'ASC'
+                }],
                 root: {
                     id: 'rootTreeNode',
                     text: 'root',
