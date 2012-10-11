@@ -1129,7 +1129,7 @@ new Ext.util.Observable(),
         var parent = null;
         
         nodeKey = id;
-        semesterID = MySched.class_semester_id;
+        semesterID = MySched.class_semester_name;
 
         if(type == "teacher")
         {
@@ -1153,7 +1153,8 @@ new Ext.util.Observable(),
         MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
         
         var record = MySched.Tree.tree.getRootNode().findChild("id",nodeID, true);
-        MySched.Tree.tree.expandPath(record.getPath());
+        var path = record.getPath("id", "#");
+        MySched.Tree.tree.expandPath(path, "id", "#");
         MySched.Tree.tree.getSelectionModel().select(record);
 
     },
@@ -2954,6 +2955,7 @@ MySched.layout = function ()
                 useQuickTips: false,
                 editable: false,
                 value: inidate,
+                startDay: 1,
                 // disabledDays: [0, 6],
                 listeners: {
                     'change': function ()

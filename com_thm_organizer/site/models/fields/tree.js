@@ -14,10 +14,10 @@ Ext.override(Ext.tree.Column, {
 
 			var checkboxText = "";
 
-			if(record.raw.publicDefault)
+			if(record.data.publicDefault)
 			{
-	            checkboxText += '<input id="'+record.data.id+'_default" type="hidden" value="'+record.raw.publicDefault+'" role="checkbox" />';
-				checkboxText += '<img id="'+record.data.id+'_default_fake" class="MySched_checkbox_default_fake" src="'+images[record.raw.publicDefault]+'">';
+	            checkboxText += '<input id="'+record.data.id+'_default" type="hidden" value="'+record.data.publicDefault+'" role="checkbox" />';
+				checkboxText += '<img id="'+record.data.id+'_default_fake" class="MySched_checkbox_default_fake" src="'+images[record.data.publicDefault]+'">';
 			}
 			if(record.data.checked)
 			{
@@ -128,10 +128,11 @@ setPublicDefaultStatus = function(event){
 	elInput.value = newStatus;
 	elImg.dom.src = images[elInput.value];
 
-	record.raw.publicDefault = elInput.value;
+	record.data.publicDefault = elInput.value;
 }
 
-setStatus = function(event){
+setStatus = function(event)
+{
 	var elImg = event.getTarget('.MySched_checkbox_fake', 5, true);
 	var elInput = elImg.dom.getPrevious();
 
@@ -204,7 +205,8 @@ Ext.tree.Panel.prototype.getChecked = function(node, checkedArr){
 		node = this.getRootNode();
 	}
 	if( node.data.checked != "unchecked" && node.data.checked != null) {
-		var nodeID = node.data.id.replace(" ", "").replace("(", "").replace(")", "");
+		//var nodeID = node.data.id.replace(" ", "").replace("(", "").replace(")", "");
+		var nodeID = node.data.id;
 		checked[nodeID] = node.data.checked;
 		if( !node.isLeaf() ) {
 			for( i = 0; i < node.childNodes.length; i++ ) {
@@ -300,6 +302,7 @@ Ext.onReady(function(){
 	    height: 470,
 	    autoscroll: true,
 	    rootVisible: false,
+        pathSeparator: '#',
 	    ddGroup: 'lecture',
         ddConfig: {
         	enableDrag: true
@@ -385,8 +388,8 @@ Ext.onReady(function(){
 						nodePath.push(nodePath[(length - 1)]+"."+publicDefault[i]);
 				}
 
-				nodePath = "/"+tree.root.id+"/"+nodePath.join("/");
-    			tree.expandPath(nodePath);
+				nodePath = "#"+tree.root.id+"#"+nodePath.join("#");
+    			tree.expandPath(nodePath, "id", "#");
             }            
 		}
 	});
@@ -445,40 +448,3 @@ Ext.onReady(function(){
       	}
     });
 });
-
-Joomla.submitbutton = function(task, type)
-{
-	if(task == "item.apply" || task == "item.save" || task == "item.save2new" || task == "item.save2copy")
-	{
-		var paramID = Ext.get('jform_params_id');
-		var treeChecked = tree.getChecked();
-		var paramValue = Ext.encode(treeChecked);
-		paramID.dom.value = paramValue;
-
-		var paramID = Ext.get('jform_params_publicDefaultID');
-		var publicDefault = tree.getPublicDefault();
-		var paramValue = Ext.encode(publicDefault);
-		paramID.dom.value = paramValue;
-	}
-
-	if (task == 'item.setType' || task == 'item.setMenuType') {
-	if(task == 'item.setType') {
-		document.id('item-form').elements['jform[type]'].value = type;
-		document.id('fieldtype').value = 'type';
-	} else {
-		document.id('item-form').elements['jform[menutype]'].value = type;
-	}
-	Joomla.submitform('item.setType', document.id('item-form'));
-	} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
-		Joomla.submitform(task, document.id('item-form'));
-	} else {
-		// special case for modal popups validation response
-		$$('#item-form .modal-value.invalid').each(function(field){
-			var idReversed = field.id.split("").reverse().join("");
-			var separatorLocation = idReversed.indexOf('_');
-			var name = idReversed.substr(separatorLocation).split("").reverse().join("")+'name';
-			document.id(name).addClass('invalid');
-		});
-	}
-
-}

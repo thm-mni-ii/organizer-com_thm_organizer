@@ -88,6 +88,7 @@
 	<?php 	echo 'MySched.SessionId = \'' . $this->jsid . '\';';
 			echo 'MySched.class_semester_id = \'' . $this->semesterID . '\';';
 			echo 'MySched.class_semester_author = \'' . $this->semAuthor . '\';';
+			echo 'MySched.class_semester_name = \'' . $this->semesterName . '\';';
 			echo 'MySched.startup = \'' . $this->startup . '\';';
 			echo 'MySched.CurriculumisAvailable = \'' . $this->CurriculumisAvailable . '\';';
 			echo 'MySched.searchModuleID = \'' . $this->searchModuleID . '\';';

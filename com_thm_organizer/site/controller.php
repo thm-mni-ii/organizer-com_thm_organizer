@@ -22,7 +22,7 @@ class thm_organizerController extends JController
 		$menus = $app->getMenu();
 		$menu = $menus->getActive();
 
-		if ($menu->params != null)
+		if (isset($menu->params) && $menu->params != null)
 		{
 			JRequest::setVar('lang', JRequest::getVar('lang', $menu->params->get('lsf_default_language')));
 		}

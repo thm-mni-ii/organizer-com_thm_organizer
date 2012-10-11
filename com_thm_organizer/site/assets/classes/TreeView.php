@@ -123,13 +123,23 @@ class TreeView
 	{
 		$this->JDA = $JDA;
 		$this->cfg = $CFG->getCFG();
+				
 		if (isset($options["path"]))
 		{
 			$this->checked = (array) $options["path"];
 		}
 		else
 		{
-			$this->checked = null;
+			$treeIDs = JRequest::getString('treeIDs');
+			$treeIDsData = json_decode($treeIDs);
+			if($treeIDsData != null)
+			{
+				$this->checked = (array) $treeIDsData;
+			}
+			else
+			{
+				$this->checked = null;
+			}
 		}
 		if (isset($options["publicDefault"]))
 		{
@@ -147,7 +157,25 @@ class TreeView
 		{
 			$this->hideCheckBox = false;
 		}
-	}
+				
+		$departmentSemesterSelection = JRequest::getString('departmentSemesterSelection');
+		
+		if($departmentSemesterSelection == "")
+		{
+			if (isset($options["departmentSemesterSelection"]))
+			{
+				$this->departmentSemesterSelection = $options["departmentSemesterSelection"];
+			}
+			else
+			{
+				$this->departmentSemesterSelection = "";
+			}
+		}
+		else
+		{
+			$this->departmentSemesterSelection = $departmentSemesterSelection;
+		}
+	} 
 
 	/**
 	 * Method to create a tree node
@@ -191,8 +219,7 @@ class TreeView
 		else
 		{
 			if ($this->checked != null)
-			{
-
+			{					
 				if (isset($this->checked[$id]))
 				{
 					$checked = $this->checked[$id];
@@ -232,7 +259,9 @@ class TreeView
 			}
 		}
 		elseif ($leaf === true)
-		$publicDefault = "notdefault";
+		{
+			$publicDefault = "notdefault";
+		}
 
 		if ($this->hideCheckBox == true)
 		{
@@ -358,7 +387,7 @@ class TreeView
 		$semesterarray = array();
 
 		$activeSchedule = $this->getActiveSchedule();
-
+		
 		if (is_object($activeSchedule) && is_string($activeSchedule->schedule))
 		{
 			$activeScheduleData = json_decode($activeSchedule->schedule);
@@ -389,11 +418,11 @@ class TreeView
 		}
 		else
 		{
-			return JError::raiseWarning(404, JText::_('Kein aktiver Stundenplan'));
+			return array("success" => false,"data" => array("tree" => array(), "treeData" => array(), "treePublicDefault" => ""));
 		}
 
 		$temp = $this->createTreeNode(
-				$activeSchedule->id,
+				$this->departmentSemesterSelection,
 				$activeSchedule->semestername,
 				'semesterjahr' . '-root',
 				false,
@@ -405,7 +434,7 @@ class TreeView
 				$activeSchedule->id,
 				$activeSchedule->id
 		);
-		$children = $this->StundenplanView($activeSchedule->id, $activeSchedule->id);
+		$children = $this->StundenplanView($this->departmentSemesterSelection, $activeSchedule->id);
 		
 		if ($temp != null && !empty($temp))
 		{
@@ -431,7 +460,7 @@ class TreeView
 		{
 			$this->publicDefaultNode = null;
 		}
-				
+						
 		return array("success" => true,"data" => array("tree" => $semesterJahrNode, "treeData" => $this->treeData,
 				"treePublicDefault" => $this->publicDefaultNode)
 		);
@@ -741,20 +770,33 @@ class TreeView
 	 */
 	public function getActiveSchedule()
 	{
+		$departmentSemester = explode(";", $this->departmentSemesterSelection);
+		if(count($departmentSemester) == 2)
+		{
+			$department = $departmentSemester[0];
+			$semester = $departmentSemester[1];
+		}
+		else
+		{
+			return false;
+		}
+		
 		$dbo = JFactory::getDBO();
 		$query = $dbo->getQuery(true);
 		$query->select('*');
 		$query->from('#__thm_organizer_schedules');
+		$query->where('departmentname = '.$dbo->quote($department));
+		$query->where('semestername = '.$dbo->quote($semester));
 		$query->where('active = 1');
 		$dbo->setQuery($query);
-
+		
 		if ($error = $dbo->getErrorMsg())
 		{
 			return false;
 		}
 
 		$result = $dbo->loadObject();
-
+		
 		if ($result === null)
 		{
 			return false;
