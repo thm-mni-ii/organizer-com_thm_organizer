@@ -1,18 +1,24 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_thm_organizer
- * @name        default template thm_organizer monitor editor view
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * @copyright   TH Mittelhessen 2011
- * @license     GNU GPL v.2
- * @link        www.mni.thm.de
- * @version     1.7.0
+ *@category    component
+ * 
+ *@package     THM_Organizer
+ * 
+ *@subpackage  com_thm_organizer
+ *@name        monitor edit default template
+ *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ *@author      Daniel Kirsten danielDOTkirstenATmniDOTthmDOTde
+ * 
+ *@copyright   2012 TH Mittelhessen
+ * 
+ *@license     GNU GPL v.2
+ *@link        www.mni.thm.de
+ *@version     0.1.0
  */
 defined('_JEXEC') or die;
 $boxTitle = ($this->form->getValue('monitorID'))?
         JText::_('COM_THM_ORGANIZER_MON_EDIT_TITLE') : JText::_('COM_THM_ORGANIZER_MON_NEW_TITLE');?>
-<form action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>" method="post" name="adminForm">
+<form action="index.php?option=com_thm_organizer" method="post" name="adminForm">
     <div class="width-60 fltlft">
         <fieldset class="adminform">
             <legend><?php echo $boxTitle; ?></legend>
@@ -27,7 +33,7 @@ $boxTitle = ($this->form->getValue('monitorID'))?
                 </li>
                 <li>
                     <?php echo $this->form->getLabel('display'); ?>
-                    <?php echo $this->behaviour; ?>
+                    <?php echo $this->form->getInput('display'); ?>
                 </li>
                 <li>
                     <?php echo $this->form->getLabel('interval'); ?>
@@ -39,7 +45,7 @@ $boxTitle = ($this->form->getValue('monitorID'))?
                 </li>
             </ul>
         </fieldset>
-        <input type="hidden" name="monitorID" value="<?php echo $this->form->getValue('monitorID'); ?>" />
+        <?php echo $this->form->getInput('id'); ?>
         <input type="hidden" name="task" value="" />
         <?php echo JHtml::_('form.token'); ?>
     </div>

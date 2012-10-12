@@ -1,95 +1,99 @@
 <?php
- 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
- 
-jimport( 'joomla.application.component.modellist' );
+/**
+ *@category    component
+ * 
+ *@package     THM_Organizer
+ * 
+ *@subpackage  com_thm_organizer
+ *@name        monitor manager model
+ *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ *@author      Daniel Kirsten danielDOTkirstenATmniDOTthmDOTde
+ * 
+ *@copyright   2012 TH Mittelhessen
+ * 
+ *@license     GNU GPL v.2
+ *@link        www.mni.thm.de
+ *@version     0.1.0
+ */
+defined('_JEXEC') or die;
+jimport('joomla.application.component.modellist');
+/**
+ * Class compiling a list of saved monitors 
+ * 
+ * @package  Admin
+ * 
+ * @since    2.5.4
+ */
 class thm_organizersModelmonitor_manager extends JModelList
 {
-    public $display_behaviours = null;
+    /**
+     * An array holding the text constants used for the different display types
+     * 
+     * @var array 
+     */
+    public $behaviours = null;
+
+    /**
+     * Array holding the ids and names of the monitor associated rooms for the
+     * selection box
+     * 
+     * @var array 
+     */
     public $rooms = null;
 
+    /**
+     * constructor
+     */
     public function __construct()
     {
-        $this->initializeRooms();
         if (empty($config['filter_fields']))
         {
-            $config['filter_fields'] =
-                array(
-                    'roomID', 'm.roomID',
-                    'room', 'r.name',
-                    'ip', 'm.ip',
-                    'display', 'd.behaviour',
-                    'interval', 'm.interval',
-                    'content', 'm.content'
-                );
+            $config['filter_fields'] = array(
+                                             'roomID', 'm.roomID',
+                                             'room', 'r.name',
+                                             'ip', 'm.ip',
+                                             'display', 'd.behaviour',
+                                             'interval', 'm.interval',
+                                             'content', 'm.content'
+                                            );
         }
         parent::__construct($config);
-        $this->behaviours = $this->getDisplayBehaviours();
+        $this->behaviours = array(
+                                  1 => JText::_('COM_THM_ORGANIZER_MON_SCHEDULE'),
+                                  2 => JText::_('COM_THM_ORGANIZER_MON_MIXED'),
+                                  3 => JText::_('COM_THM_ORGANIZER_MON_CONTENT'),
+                                  4 => JText::_('COM_THM_ORGANIZER_MON_EVENTS')
+                                 );
         $this->rooms = $this->getRooms();
     }
 
     /**
-     * initializeRooms
-     *
-     * the rooms are initially installed with names instead of ids since they
-     * dont exist at the time of installation. this makes sure the room id is
-     * properly set should resources be available.
-     *
-     * @param array $monitor the index for which had no associated room resource
+     * builds the query used to compile the items for the lsit ouput
+     * 
+     * @return void
      */
-    private function initializeRooms()
-    {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select("monitorID, roomID");
-        $query->from("#__thm_organizer_monitors");
-        $query->where("roomID NOT IN ( SELECT id FROM #__thm_organizer_rooms )");
-        $dbo->setQuery((string)$query);
-        $unsetIDs = $dbo->loadAssocList();
-
-        if(count($unsetIDs))
-        {
-            foreach($unsetIDs as $unsetID)
-            {
-                $query = $dbo->getQuery(true);
-                $query->select("id");
-                $query->from("#__thm_organizer_rooms");
-                $query->where("name = '{$unsetID['roomID']}'");
-                $dbo->setQuery((string)$query);
-                $roomID = $dbo->loadResult();
-
-                if(isset($roomID))
-                {
-                    $query = $dbo->getQuery(true);
-                    $query->update("#__thm_organizer_monitors");
-                    $query->where("monitorID = '{$unsetID['monitorID']}'");
-                    $query->set("roomID = '$roomID'");
-                    $dbo->setQuery((string)$query);
-                    $dbo->query();
-                }
-            }
-        }
-
-    }
-
     protected function getListQuery()
     {
         $dbo = $this->getDbo();
         $query = $dbo->getQuery(true);
 
-        $select = "m.monitorID, m.roomID, m.ip, m.interval, m.content, ";
-        $select .= "r.name AS room, d.behaviour ";
+        $select = "m.id, m.roomID, m.ip, m.display, m.interval, m.content, r.longname AS room, ";
+        $select .= "CONCAT ('index.php?option=com_thm_organizer&view=monitor_edit&monitorID=', m.id) AS link ";
         $query->select($this->getState("list.select", $select));
         $query->from("#__thm_organizer_monitors AS m");
         $query->leftjoin("#__thm_organizer_rooms AS r ON r.id = m.roomID");
-        $query->innerJoin("#__thm_organizer_display_behaviours AS d ON m.display = d.id");
 
         $room = $this->getState('filter.room');
-        if(is_numeric($room)) $query->where("m.roomID = $room");
+        if (is_numeric($room))
+        {
+            $query->where("m.roomID = $room");
+        }
 
         $display = $this->getState('filter.display');
-        if(is_numeric($display)) $query->where("m.display = $display");
+        if (is_numeric($display))
+        {
+            $query->where("m.display = $display");
+        }
 
         $orderby = $dbo->getEscaped($this->getState('list.ordering', 'r.name'));
         $direction = $dbo->getEscaped($this->getState('list.direction', 'ASC'));
@@ -99,16 +103,19 @@ class thm_organizersModelmonitor_manager extends JModelList
     }
 
     /**
-     *
-     * @param string $ordering
-     * @param string $direction
+     * Loads view specific filter parameters into the state object
+     * 
+     * @param   string  $ordering   the filter parameter to be used to sort by
+     * @param   string  $direction  the direction in which the sort is to take place
+     * 
+     * @return void
      */
     protected function populateState($ordering = null, $direction = null)
     {
-        $room = $this->getUserStateFromRequest($this->context.'.filter.room', 'filter_room');
+        $room = $this->getUserStateFromRequest($this->context . '.filter.room', 'filter_room');
         $this->setState('filter.room', $room);
 
-        $display = $this->getUserStateFromRequest($this->context.'.filter.display', 'filter_display');
+        $display = $this->getUserStateFromRequest($this->context . '.filter.display', 'filter_display');
         $this->setState('filter.display', $display);
 
         // List state information.
@@ -116,29 +123,6 @@ class thm_organizersModelmonitor_manager extends JModelList
     }
 
     /**
-     * getDisplayBehaviours
-     *
-     * builds an array of display behaviours
-     *
-     * @return array
-     */
-    private function getDisplayBehaviours()
-    {
-        $dbo = $this->getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('id, behaviour');
-        $query->from("#__thm_organizer_display_behaviours");
-        $dbo->setQuery((string)$query);
-        $results = $dbo->loadAssocList();
-        $behaviours = array();
-        if(count($results))
-            foreach($results as $result)$behaviours[$result['id']]= JText::_($result['behaviour']);
-        return $behaviours;
-    }
-
-    /**
-     * getRooms
-     *
      * retrieves a list of rooms and their ids which are currently in use by the
      * monitors
      *
@@ -148,14 +132,20 @@ class thm_organizersModelmonitor_manager extends JModelList
     {
         $dbo = $this->getDbo();
         $query = $dbo->getQuery(true);
-        $query->select('id, name');
+        $query->select('r.id, r.longname');
         $query->from("#__thm_organizer_rooms AS r");
         $query->innerJoin("#__thm_organizer_monitors AS m ON m.roomID = r.id");
-        $dbo->setQuery((string)$query);
+        $query->order('r.longname ASC');
+        $dbo->setQuery((string) $query);
         $results = $dbo->loadAssocList();
         $rooms = array();
-        if(count($results))
-            foreach($results as $result)$rooms[$result['id']]= $result['name'];
+        if (count($results))
+        {
+            foreach ($results as $result)
+            {
+                $rooms[$result['id']] = $result['longname'];
+            }
+        }
         return $rooms;
     }
 }

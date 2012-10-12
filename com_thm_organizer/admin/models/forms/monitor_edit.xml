@@ -2,16 +2,16 @@
 <form>
     <fieldset>
         <field
-            id="monitorID"
-            name="monitorID"
-            type="text" />
+            id="id"
+            name="id"
+            type="hidden" />
         <field
             id="roomID"
             name="roomID"
             type="sql"
             label="COM_THM_ORGANIZER_MON_ROOM"
             description="COM_THM_ORGANIZER_MON_ROOM_DESC"
-            query="SELECT id, name FROM #__thm_organizer_rooms"
+            query="SELECT id, longname AS name FROM #__thm_organizer_rooms ORDER BY longname"
             key_field="id"
             value_field="name"/>
         <field
@@ -26,14 +26,17 @@
             maxlength="15"
             default=""/>
         <field
+            type="list"
             id="display"
             name="display"
-            type="sql"
             label="COM_THM_ORGANIZER_MON_DISPLAY"
             description="COM_THM_ORGANIZER_MON_DISPLAY_DESC"
-            query="SELECT id, behaviour FROM #__thm_organizer_display_behaviours"
-            key_field="id"
-            value_field="behaviour"/>
+            class="inputbox">
+            <option value='1'>COM_THM_ORGANIZER_MON_SCHEDULE</option>
+            <option value='2'>COM_THM_ORGANIZER_MON_MIXED</option>
+            <option value='3'>COM_THM_ORGANIZER_MON_CONTENT</option>
+            <option value='4'>COM_THM_ORGANIZER_MON_EVENTS</option>
+        </field>
         <field
             id="interval"
             name="interval"

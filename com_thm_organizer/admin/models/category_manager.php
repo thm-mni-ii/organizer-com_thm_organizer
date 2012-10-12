@@ -101,7 +101,7 @@ class thm_organizersModelcategory_manager extends JModelList
         }
 
         $orderby = $dbo->getEscaped($this->getState('list.ordering', 'ec.title'));
-        $direction = $dbo->getEscaped($this->getState('list.direction', 'DESC'));
+        $direction = $dbo->getEscaped($this->getState('list.direction', 'ASC'));
         $query->order("$orderby $direction");
 
         return $query;
