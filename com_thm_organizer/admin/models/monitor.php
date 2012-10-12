@@ -1,17 +1,29 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_thm_organizer
- * @name        model monitor
- * @description persistance file for monitors
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * @copyright   TH Mittelhessen 2011
- * @license     GNU GPL v.2
- * @link        www.mni.thm.de
- * @version     1.7.0
+ *@category    component
+ * 
+ *@package     THM_Organizer
+ * 
+ *@subpackage  com_thm_organizer
+ *@name        monitor model
+ *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ *@author      Daniel Kirsten danielDOTkirstenATmniDOTthmDOTde
+ * 
+ *@copyright   2012 TH Mittelhessen
+ * 
+ *@license     GNU GPL v.2
+ *@link        www.mni.thm.de
+ *@version     0.1.0
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
+/**
+ * Class performing monitor modification actions
+ * 
+ * @package  Admin
+ * 
+ * @since    2.5.4
+ */
 class thm_organizersModelmonitor extends JModel
 {
     /**
@@ -24,8 +36,6 @@ class thm_organizersModelmonitor extends JModel
     public function save()
     {
         $data = JRequest::getVar('jform', null, null, null, 4);
-        $data['display'] = JRequest::getInt('display');
-        if(JRequest::getInt('monitorID')) $data['monitorID'] = JRequest::getInt('monitorID');
         $table = JTable::getInstance('monitors', 'thm_organizerTable');
         return $table->save($data);
     }
@@ -35,15 +45,28 @@ class thm_organizersModelmonitor extends JModel
      *
      * attempts to delete the selected monitor entries
      *
-     * @return
+     * @return boolean true on success otherwise false
      */
     public function delete()
     {
-        $dbo = JFactory::getDbo();
-        $monitorIDs = JRequest::getVar( 'cid', array(0), 'post', 'array' );
+        $success = true;
+        $monitorIDs = JRequest::getVar('cid', array(0), 'post', 'array');
         $table = JTable::getInstance('monitors', 'thm_organizerTable');
-        if(count($monitorIDs) > 0)
-            foreach($monitorIDs as $monitorID)$table->delete($monitorID);
-        return ($dbo->getErrorNum())? false : true;
+        if (isset($monitorIDs) and count($monitorIDs) > 0)
+        {
+            $dbo = JFactory::getDbo();
+            $dbo->transactionStart();
+            foreach ($monitorIDs as $monitorID)
+            {
+                $success = $table->delete($monitorID);
+                if (!$success)
+                {
+                    $dbo->transactionRollback();
+                    return $success;
+                }
+            }
+            $dbo->transactionCommit();
+        }
+        return $success;
     }
 }

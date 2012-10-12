@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_groups` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_monitors` (
-  `monitorID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `roomID` int(11) unsigned NOT NULL,
   `ip` varchar(15) NOT NULL,
   `display` INT(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT 'the display behaviour of the monitor',

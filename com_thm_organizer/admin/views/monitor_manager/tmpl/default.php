@@ -1,21 +1,25 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_thm_organizer
- * @name        monitor manager default template
- * @description standard template for the display of registered monitors
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * @copyright   TH Mittelhessen 2011
- * @license     GNU GPL v.2
- * @link        www.mni.thm.de
- * @version     1.7.0
+ *@category    component
+ * 
+ *@package     THM_Organizer
+ * 
+ *@subpackage  com_thm_organizer
+ *@name        monitor manager default template
+ *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ *@author      Daniel Kirsten danielDOTkirstenATmniDOTthmDOTde
+ * 
+ *@copyright   2012 TH Mittelhessen
+ * 
+ *@license     GNU GPL v.2
+ *@link        www.mni.thm.de
+ *@version     0.1.0
  */
 defined('_JEXEC') or die;
 $orderby = $this->escape($this->state->get('list.ordering'));
 $direction = $this->escape($this->state->get('list.direction'));
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>"
-      method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_thm_organizer" method="post" name="adminForm" id="adminForm">
     <fieldset id="filter-bar">
         <div class="filter-select fltrt">
             <select name="filter_display" class="inputbox" onchange="this.form.submit()">
@@ -33,7 +37,11 @@ $direction = $this->escape($this->state->get('list.direction'));
         </div>
     </fieldset>
     <div class="clr"> </div>
-<?php if(!empty($this->monitors)) { $k = 0;?>
+<?php
+if (!empty($this->monitors))
+{
+    $k = 0;
+?>
     <div>
         <table class="adminlist" id="thm_organizer_mon_table">
             <colgroup>
@@ -48,23 +56,23 @@ $direction = $this->escape($this->state->get('list.direction'));
                 <tr>
                     <th />
                     <th class="thm_organizer_th hasTip"
-                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_ROOM')."::".JText::_('COM_THM_ORGANIZER_MON_ROOM_DESC'); ?>">
+                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_ROOM') . "::" . JText::_('COM_THM_ORGANIZER_MON_ROOM_DESC'); ?>">
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_ROOM', 'r.name', $direction, $orderby); ?>
                     </th>
                     <th class="thm_organizer_th hasTip"
-                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_IP')."::".JText::_('COM_THM_ORGANIZER_MON_IP_DESC'); ?>">
+                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_IP') . "::" . JText::_('COM_THM_ORGANIZER_MON_IP_DESC'); ?>">
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_IP', 'm.ip', $direction, $orderby); ?>
                     </th>
                     <th class="thm_organizer_th hasTip"
-                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_DISPLAY')."::".JText::_('COM_THM_ORGANIZER_MON_DISPLAY_DESC'); ?>">
+                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_DISPLAY') . "::" . JText::_('COM_THM_ORGANIZER_MON_DISPLAY_DESC'); ?>">
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_DISPLAY', 'd.behaviour', $direction, $orderby); ?>
                     </th>
                     <th class="thm_organizer_th hasTip"
-                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_INTERVAL')."::".JText::_('COM_THM_ORGANIZER_MON_INTERVAL_DESC'); ?>">
+                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_INTERVAL') . "::" . JText::_('COM_THM_ORGANIZER_MON_INTERVAL_DESC'); ?>">
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_INTERVAL', 'm.interval', $direction, $orderby); ?>
                     </th>
                     <th class="thm_organizer_th hasTip"
-                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_CONTENT')."::".JText::_('COM_THM_ORGANIZER_MON_CONTENT_DESC'); ?>">
+                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_CONTENT') . "::" . JText::_('COM_THM_ORGANIZER_MON_CONTENT_DESC'); ?>">
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_CONTENT', 'm.content', $direction, $orderby); ?>
                     </th>
                 </tr>
@@ -77,20 +85,27 @@ $direction = $this->escape($this->state->get('list.direction'));
                 </tr>
             </tfoot>
             <tbody>
-            <?php foreach($this->monitors as $k => $monitor){ ?>
+<?php
+    foreach ($this->monitors as $k => $monitor)
+    {
+?>
                 <tr class="row<?php echo $k % 2;?>">
-                    <td><?php echo JHtml::_('grid.id', $k, $monitor->monitorID); ?></td>
+                    <td><?php echo JHtml::_('grid.id', $k, $monitor->id); ?></td>
                     <td><a href='<?php echo $monitor->link; ?>' ><?php echo $monitor->room; ?></a></td>
                     <td><a href='<?php echo $monitor->link; ?>' > <?php echo $monitor->ip; ?></a></td>
-                    <td><a href='<?php echo $monitor->link; ?>' ><?php echo $monitor->behaviour; ?></a></td>
+                    <td><a href='<?php echo $monitor->link; ?>' ><?php echo $monitor->display; ?></a></td>
                     <td><a href='<?php echo $monitor->link; ?>' ><?php echo $monitor->interval; ?></a></td>
                     <td><a href='<?php echo $monitor->link; ?>' ><?php echo $monitor->content; ?></a></td>
                 </tr>
-            <?php } ?>
+<?php
+    }
+?>
             </tbody>
         </table>
     </div>
-<?php }?>
+<?php
+}
+?>
     <input type="hidden" name="task" value="" />
     <input type="hidden" name="boxchecked" value="0" />
     <input type="hidden" name="filter_order" value="<?php echo $orderby; ?>" />
