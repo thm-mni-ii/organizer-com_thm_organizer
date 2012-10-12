@@ -1372,7 +1372,7 @@ class thm_organizersModelschedule extends JModel
                                             switch ($delta)
                                             {
                                                 case 'new':
-                                                    $calendar->$date->$period->$lesson->$room = '';
+                                                    $calendar->$date->$period->$lesson->$roomID = '';
                                                     continue;
                                                 case '':
                                                     continue;
