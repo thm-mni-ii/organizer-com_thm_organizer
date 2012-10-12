@@ -126,8 +126,7 @@ MySched.Authorize = function ()
             {
                 if (typeof Ext.ComponentMgr.get('btnEvent') !== "undefined")
                 {
-                    Ext.ComponentMgr.get('btnEvent')
-                        .show();
+//                    Ext.ComponentMgr.get('btnEvent').show();
                 }
             }
 
