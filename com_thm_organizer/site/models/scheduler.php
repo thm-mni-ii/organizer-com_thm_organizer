@@ -127,19 +127,33 @@ class THM_OrganizerModelScheduler extends JModel
 		return true;
 	}
 	
-	public function getActiveSchedule()
+	public function getActiveSchedule($departmentSemesterSelection)
 	{
-		$dbo = JFactory::getDBO();
-		$query	= $dbo->getQuery(true);
-		$query->select('*');
-		$query->from('#__thm_organizer_schedules');
-		$query->where('active = 1');
-		$dbo->setQuery($query);
-		if ($error = $dbo->getErrorMsg())
+		$departmentSemester = explode(";", $departmentSemesterSelection);
+		if(count($departmentSemester) == 2)
+		{
+			$department = $departmentSemester[0];
+			$semester = $departmentSemester[1];
+		}
+		else
 		{
 			return false;
 		}
 		
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
+		$query->select('*');
+		$query->from('#__thm_organizer_schedules');
+		$query->where('departmentname = '.$dbo->quote($department));
+		$query->where('semestername = '.$dbo->quote($semester));
+		$query->where('active = 1');
+		$dbo->setQuery($query);
+		
+		if ($error = $dbo->getErrorMsg())
+		{
+			return false;
+		}
+
 		$result = $dbo->loadObject();
 		
 		if ($result === null)

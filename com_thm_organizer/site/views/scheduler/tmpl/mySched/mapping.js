@@ -81,7 +81,7 @@ MySched.Mapping = function ()
         },
         getRoomName: function (id)
         {
-            return this.def(this.room.get(id, id), 'name', id);
+            return this.def(this.room.get(id, id), 'longname', id);
         },
         getSubjectName: function (id)
         {

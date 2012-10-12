@@ -48,7 +48,6 @@ class JFormFieldScheduler extends JFormField
 	 */
 	protected function getInput()
 	{
-
 		$menuid = JRequest::getInt("id", 0);
 
 		// Get database
@@ -82,10 +81,21 @@ class JFormFieldScheduler extends JFormField
 		{
 			$publicDefaultString = "";
 		}
+		
+		if(isset($jsonObj->departmentSemesterSelection))
+		{
+			$departmentSemesterSelection = $jsonObj->departmentSemesterSelection;
+		}
+		else
+		{
+			$departmentSemesterSelection = "";
+		}			
 
-		$doc =& JFactory::getDocument();
+		$doc = & JFactory::getDocument();
 		$doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/ext/resources/css/ext-all.css");
 		$doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/models/fields/css/schedule_selection_tree.css");
+		$doc->addScript(JURI::root(true) . "/components/com_thm_organizer/models/fields/tree.js");
+		$doc->addScript(JURI::root(true) . "/components/com_thm_organizer/models/fields/departmentSemesterSelection.js");
 
 		require_once JPATH_ROOT . "/components/com_thm_organizer/assets/classes/DataAbstraction.php";
 		require_once JPATH_ROOT . "/components/com_thm_organizer/assets/classes/TreeView.php";
@@ -112,7 +122,7 @@ class JFormFieldScheduler extends JFormField
 			$publicDefaultID = array();
 		}
 
-		$treeView = new TreeView($JDA, $CFG, array("path" => $treeids, "hide" => false, "publicDefault" => $publicDefaultID));
+		$treeView = new TreeView($JDA, $CFG, array("departmentSemesterSelection" => $departmentSemesterSelection, "path" => $treeids, "hide" => false, "publicDefault" => $publicDefaultID));
 
 		$treearr = $treeView->load();
 
@@ -127,8 +137,14 @@ class JFormFieldScheduler extends JFormField
 
 <script type="text/javascript" charset="utf-8">
 	var children = <?php echo json_encode($treearr["data"]["tree"]); ?>;
-
+	
+	var treeIDs = <?php echo json_encode($treeids); ?>;
+	
 	<?php
+	
+		echo 'var externLinks = [];';
+		echo 'externLinks.ajaxHandler = \'' . JRoute::_(JURI::root() . 'index.php?option=com_thm_organizer&view=ajaxhandler&format=raw') . '\';';
+	
 		echo 'var images = [];';
 		echo 'images.unchecked = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/unchecked.gif\';';
 		echo 'images.unchecked_highlighted = \'' . JURI::root(true) .
@@ -144,11 +160,45 @@ class JFormFieldScheduler extends JFormField
 		echo 'images.default = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/default.png\';';
 		echo 'images.base = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/\';';
 	?>
-</script>
 
-<script
-	type="text/javascript" charset="utf-8"
-	src="../components/com_thm_organizer/models/fields/tree.js"></script>
+	Joomla.submitbutton = function(task, type)
+	{
+		if(task == "item.apply" || task == "item.save" || task == "item.save2new" || task == "item.save2copy")
+		{
+			var paramID = Ext.get('jform_params_id');
+			var treeChecked = tree.getChecked();
+			var paramValue = Ext.encode(treeChecked);
+			paramID.dom.value = paramValue;
+
+			var paramID = Ext.get('jform_params_publicDefaultID');
+			var publicDefault = tree.getPublicDefault();
+			var paramValue = Ext.encode(publicDefault);
+			paramID.dom.value = paramValue;
+		}
+
+		if (task == 'item.setType' || task == 'item.setMenuType') {
+		if(task == 'item.setType') {
+			document.id('item-form').elements['jform[type]'].value = type;
+			document.id('fieldtype').value = 'type';
+		} else {
+			document.id('item-form').elements['jform[menutype]'].value = type;
+		}
+		Joomla.submitform('item.setType', document.id('item-form'));
+		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
+			Joomla.submitform(task, document.id('item-form'));
+		} else {
+			// special case for modal popups validation response
+			$$('#item-form .modal-value.invalid').each(function(field){
+				var idReversed = field.id.split("").reverse().join("");
+				var separatorLocation = idReversed.indexOf('_');
+				var name = idReversed.substr(separatorLocation).split("").reverse().join("")+'name';
+				document.id(name).addClass('invalid');
+			});
+		}
+
+	}
+	
+</script>
 
 <style type="text/css">
 .x-tree-node-cb {
@@ -157,8 +207,7 @@ class JFormFieldScheduler extends JFormField
 </style>
 
 
-<div
-	style="width: auto; height: auto;" id="tree-div"></div>
+<div style="width: auto; height: auto;" id="tree-div"></div>
 
 <?php
 	}

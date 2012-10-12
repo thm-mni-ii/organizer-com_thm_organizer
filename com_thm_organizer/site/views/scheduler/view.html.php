@@ -44,14 +44,54 @@ class THM_OrganizerViewScheduler extends JView
 		$model = $this->getModel();
 		$menuparams = JFactory::getApplication()->getParams();
 				
-		$activeSchedule = $model->getActiveSchedule();
+		$user = JFactory::getUser();
+		$eventmodel = JModel::getInstance('event_list', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
+		$canWriteEvents = $eventmodel->canWrite;
+		$this->canWriteEvents = $canWriteEvents;
+		$this->jsid = $model->getSessionID();
+
+		$showSchedule = null;
+		$this->searchModuleID = null;
+		$semesterID = null;
+
+		$showSchedule = JRequest::getString('showSchedule');
+		$this->searchModuleID = JRequest::getString('moduleID');
+		$this->CurriculumisAvailable = $model->getComStatus("com_thm_organizer");
+		
+		$path = null;
+		$menuparamsID = $menuparams->get("id");
+		$menuparamsPublicDefaultID = $menuparams->get("publicDefaultID");
+		$departmentSemesterSelection = $menuparams->get("departmentSemesterSelection");
+		
+		try
+		{
+			$path = (array) json_decode($menuparamsID);
+		}
+		catch (Exception $e)
+		{
+			$path = array();
+		}
+		
+		try
+		{
+			$publicDefaultIDArray = (array) json_decode($menuparamsPublicDefaultID);
+		}
+		catch (Exception $e)
+		{
+			$publicDefaultIDArray = array();
+		}
+				
+		$activeSchedule = $model->getActiveSchedule($departmentSemesterSelection);
+		
+		$semesterID = $activeSchedule->id;
+		
 		if (is_object($activeSchedule) && is_string($activeSchedule->schedule))
 		{
 			$activeScheduleData = json_decode($activeSchedule->schedule);
-						
+		
 			// To save memory unset schedule
 			unset($activeSchedule->schedule);
-			
+				
 			if ($activeScheduleData != null)
 			{
 				$activeSchedulePeriods = $activeScheduleData->periods;
@@ -71,23 +111,23 @@ class THM_OrganizerViewScheduler extends JView
 				$activeScheduleCalendar = $activeScheduleData->calendar;
 				unset($activeScheduleData->calendar);
 				$activeScheduleLessons = $activeScheduleData->lessons;
-								
+		
 				unset($activeScheduleData->lessons);
-				$activeScheduleFields = $activeScheduleData->fields;		
+				$activeScheduleFields = $activeScheduleData->fields;
 				unset($activeScheduleData->fields);
-				
+		
 				if (is_object($activeSchedulePeriods)
-				 && is_object($activeScheduleDegrees)
-				 && is_object($activeScheduleRooms)
-				 && is_object($activeScheduleRoomTypes)
-				 && is_object($activeScheduleSubjects)
-				 && is_object($activeScheduleTeachers)
-				 && is_object($activeScheduleModules)
-				 && is_object($activeScheduleCalendar)
-				 && is_object($activeScheduleLessons)
-				 && is_object($activeScheduleFields))
+						&& is_object($activeScheduleDegrees)
+						&& is_object($activeScheduleRooms)
+						&& is_object($activeScheduleRoomTypes)
+						&& is_object($activeScheduleSubjects)
+						&& is_object($activeScheduleTeachers)
+						&& is_object($activeScheduleModules)
+						&& is_object($activeScheduleCalendar)
+						&& is_object($activeScheduleLessons)
+						&& is_object($activeScheduleFields))
 				{
-					
+						
 				}
 				else
 				{
@@ -104,57 +144,10 @@ class THM_OrganizerViewScheduler extends JView
 		{
 			return JError::raiseWarning(404, JText::_('Kein aktiver Stundenplan'));
 		}
-		
-		$user = JFactory::getUser();
-		$eventmodel = JModel::getInstance('event_list', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
-		$canWriteEvents = $eventmodel->canWrite;
-		$this->canWriteEvents = $canWriteEvents;
-		$this->jsid = $model->getSessionID();
-
-		$showSchedule = null;
-		$this->searchModuleID = null;
-		$semesterID = null;
-
-		$showSchedule = JRequest::getString('showSchedule');
-		$this->searchModuleID = JRequest::getString('moduleID');
-		$this->CurriculumisAvailable = $model->getComStatus("com_thm_organizer");
-
-		if (!empty($showSchedule) && !empty($this->searchModuleID)) // Aufruf ohne Menüparameter
-		{
-			$showScheduleArray = explode(";", $showSchedule);
-			$semesterID = $showScheduleArray[0];
-			$treePath = $semesterID . ";" . $showScheduleArray[1];
-			$path[$treePath] = "intermediate";
-			$publicDefaultIDArray = array($showSchedule => "default");
-		}
-		else // Im Menü eingebunden
-		{
-			$path = null;
-			$menuparamsID = $menuparams->get("id");
-			$menuparamsPublicDefaultID = $menuparams->get("publicDefaultID");
-			try
-			{
-				$path = (array) json_decode($menuparamsID);
-			}
-			catch (Exception $e)
-			{
-				$path = array();
-			}
-			try
-			{
-				$publicDefaultIDArray = (array) json_decode($menuparamsPublicDefaultID);
-			}
-			catch (Exception $e)
-			{
-				$publicDefaultIDArray = array();
-			}
-			$firstValue = each($path);
-			$semesterID = explode(";", $firstValue["key"]);
-			$semesterID = $semesterID[0];
-		}
 
 		$this->semesterID = $semesterID;
-		$this->semAuthor = $model->getSemesterAuthor($semesterID);
+		$this->semAuthor = "";
+		$this->semesterName = $departmentSemesterSelection;
 
 		$doc = JFactory::getDocument();
 		$doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/ext/resources/css/ext-all-gray.css");
@@ -234,15 +227,13 @@ class THM_OrganizerViewScheduler extends JView
 // 			$schedulearr["Lessons"] = $activeScheduleLessons;
 // 			$schedulearr["Calendar"] = $activeScheduleCalendar;
 		}
-		
-		
-		
+				
 		$schedulearr["UserSchedule.load"]["respChanges"] = $model->executeTask("UserSchedule.load", array("username" => "respChanges"));
 				
 		$schedulearr["ScheduleDescription.load"]->data = $activeSchedule; 
 
 		$schedulearr["TreeView.load"] = $model->executeTask("TreeView.load",
-											array("path" => $path, "hide" => true, "publicDefault" => $publicDefaultIDArray)
+											array("departmentSemesterSelection" => $departmentSemesterSelection, "path" => $path, "hide" => true, "publicDefault" => $publicDefaultIDArray)
 										);
 
 		$this->startup = rawurlencode(json_encode($schedulearr));
