@@ -35,10 +35,9 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_virtual_schedules_elements` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_user_schedules` (
   `username` varchar(100) NOT NULL,
-  `semestername` varchar(50) NOT NULL,
+  `created` int(11) UNSIGNED NOT NULL,
   `data` mediumblob NOT NULL,
-  PRIMARY KEY (`username`,`semestername`),
-  FOREIGN KEY (`semestername`) REFERENCES #__thm_organizer_schedules(`semestername`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`username`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_room_types` (
