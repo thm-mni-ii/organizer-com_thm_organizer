@@ -314,7 +314,7 @@ Ext.onReady(function(){
 	    	id: 'rootTreeNode',
 	        text: 'root',
 	        expanded: true,
-            children: children
+            children: null
 	    },
 	    listeners: {
             itemmouseleave: function()
