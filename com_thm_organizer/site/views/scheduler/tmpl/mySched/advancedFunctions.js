@@ -27,7 +27,7 @@ var addEvent = {
     xtype: "button"
 }
 
-MySched.BlockMenu.Menu[MySched.BlockMenu.Menu.length] = addEvent;
+//MySched.BlockMenu.Menu[MySched.BlockMenu.Menu.length] = addEvent;
 
 window.onbeforeunload = function ()
 {
