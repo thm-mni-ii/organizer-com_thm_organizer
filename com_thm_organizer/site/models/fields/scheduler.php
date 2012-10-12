@@ -71,38 +71,13 @@ class JFormFieldScheduler extends JFormField
 		else
 		{
 			$idString = "";
-		}
-
-		if (isset($jsonObj->publicDefaultID))
-		{
-			$publicDefaultString = $jsonObj->publicDefaultID;
-		}
-		else
-		{
-			$publicDefaultString = "";
-		}
-		
-		if(isset($jsonObj->departmentSemesterSelection))
-		{
-			$departmentSemesterSelection = $jsonObj->departmentSemesterSelection;
-		}
-		else
-		{
-			$departmentSemesterSelection = "";
-		}			
+		}		
 
 		$doc = & JFactory::getDocument();
 		$doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/ext/resources/css/ext-all.css");
 		$doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/models/fields/css/schedule_selection_tree.css");
 		$doc->addScript(JURI::root(true) . "/components/com_thm_organizer/models/fields/tree.js");
 		$doc->addScript(JURI::root(true) . "/components/com_thm_organizer/models/fields/departmentSemesterSelection.js");
-
-		require_once JPATH_ROOT . "/components/com_thm_organizer/assets/classes/DataAbstraction.php";
-		require_once JPATH_ROOT . "/components/com_thm_organizer/assets/classes/TreeView.php";
-		require_once JPATH_ROOT . "/components/com_thm_organizer/assets/classes/config.php";
-
-		$JDA = new DataAbstraction;
-		$CFG = new mySchedConfig($JDA);
 
 		if ($idString != "")
 		{
@@ -112,20 +87,6 @@ class JFormFieldScheduler extends JFormField
 		{
 			$treeids = array();
 		}
-
-		if ($publicDefaultString != "")
-		{
-			$publicDefaultID = json_decode($publicDefaultString);
-		}
-		else
-		{
-			$publicDefaultID = array();
-		}
-
-		$treeView = new TreeView($JDA, $CFG, array("departmentSemesterSelection" => $departmentSemesterSelection, "path" => $treeids, "hide" => false, "publicDefault" => $publicDefaultID));
-
-		$treearr = $treeView->load();
-
 		?>
 
 <!--<script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/views/scheduler/tmpl/ext/adapter/ext/ext-base.js"></script>
@@ -135,9 +96,7 @@ class JFormFieldScheduler extends JFormField
 <!--<script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/views/scheduler/tmpl/ext/ext-all-dev.js"></script>-->
 <!--<script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/views/scheduler/tmpl/ext/bootstrap.js"></script>-->
 
-<script type="text/javascript" charset="utf-8">
-	var children = <?php echo json_encode($treearr["data"]["tree"]); ?>;
-	
+<script type="text/javascript" charset="utf-8">	
 	var treeIDs = <?php echo json_encode($treeids); ?>;
 	
 	<?php
