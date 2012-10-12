@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_user_schedules` (
   `username` varchar(100) NOT NULL,
   `created` int(11) UNSIGNED NOT NULL,
   `data` mediumblob NOT NULL,
-  PRIMARY KEY (`username`),
+  PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_room_types` (
