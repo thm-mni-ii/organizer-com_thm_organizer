@@ -1057,15 +1057,19 @@ Ext.define('mSchedule',
                         {
                             var block = date[blockIndex];
                             if (Ext.isObject(block["lessonData"]))
-                            {
-                                var roomCollection = new MySched.Collection();
-                                roomCollection.addAll(date[blockIndex]["lessonData"]);
-                                roomCollection.remove("delta");
+                            {                            
+                                if(date[blockIndex]["lessonData"]["delta"])
+                                {
+                                	if(date[blockIndex]["lessonData"]["delta"] == "removed")
+                                	{
+                                		continue;
+                                	}
+                                }
                                 
                                 var block = blockIndex - 1;
                                 
                                 asArrRet[asArrRet.length] = {};
-                                asArrRet[asArrRet.length - 1].cell = v.getCellView(this, roomCollection,  blockIndex, dow);
+                                asArrRet[asArrRet.length - 1].cell = v.getCellView(this, false);
                                 asArrRet[asArrRet.length - 1].block = Ext.clone(blockIndex);
                                 asArrRet[asArrRet.length - 1].dow = Ext.clone(dowNR);
                             }
@@ -1182,24 +1186,26 @@ Ext.define('mLecture',
     },
     getDeltaStatus: function (d)
     {
-    	var roomCollection = new MySched.Collection();
     	var currentMoFrDate = getCurrentMoFrDate();
     	var returnValue = "";
-    	for(var dateIndex in this.data.calendar)
+    	if(d.showDelta == true)
     	{
-    		var splittedDateIndex = dateIndex.split("-");
-            if (splittedDateIndex.length == 3)
-            {
-                var dateObject = new Date(splittedDateIndex[0], splittedDateIndex[1] - 1, splittedDateIndex[2]);
-                if(dateObject >= currentMoFrDate.monday && dateObject <= currentMoFrDate.friday)
-                {
-                	if(this.data.calendar[dateIndex][this.data.block]["lessonData"]["delta"])
-                	{
-                		returnValue = "delta" + this.data.calendar[dateIndex][this.data.block]["lessonData"]["delta"];
-                		return returnValue;
-                	}
-                }
-            }
+	    	for(var dateIndex in this.data.calendar)
+	    	{
+	    		var splittedDateIndex = dateIndex.split("-");
+	            if (splittedDateIndex.length == 3)
+	            {
+	                var dateObject = new Date(splittedDateIndex[0], splittedDateIndex[1] - 1, splittedDateIndex[2]);
+	                if(dateObject >= currentMoFrDate.monday && dateObject <= currentMoFrDate.friday)
+	                {
+	                	if(this.data.calendar[dateIndex][this.data.block]["lessonData"]["delta"])
+	                	{
+	                		returnValue = "delta" + this.data.calendar[dateIndex][this.data.block]["lessonData"]["delta"];
+	                		return returnValue;
+	                	}
+	                }
+	            }
+	    	}
     	}
     	return returnValue;
     },
@@ -1406,9 +1412,19 @@ Ext.define('mLecture',
         {
             var roomName = MySched.Mapping.getRoomName(roomIndex);
             
-            if(rooms.map[roomIndex] != "")
+            if(d.showDelta == true)
+        	{
+	            if(rooms.map[roomIndex] != "")
+	            {
+	            	changedStatus = "room"+rooms.map[roomIndex];
+	            }
+        	}
+            else
             {
-            	changedStatus = "room"+rooms.map[roomIndex];
+            	if(rooms.map[roomIndex] != "" && rooms.map[roomIndex] != "new")
+            	{
+            		continue;
+            	}
             }
             
             var roomNameHTML = '<small roomID="' + roomIndex +  '" class="roomname ' + changedStatus + '">' + roomName + '</small>';
@@ -1448,9 +1464,19 @@ Ext.define('mLecture',
         {
             var teacherName = MySched.Mapping.getTeacherSurname(teacherIndex);
             
-            if(teachers[teacherIndex] != "")
+            if(d.showDelta == true)
+        	{
+	            if(teachers[teacherIndex] != "")
+	            {
+	            	changedStatus = "teacher" + teachers[teacherIndex];
+	            }
+        	}
+            else
             {
-            	changedStatus = "teacher" + teachers[teacherIndex];
+            	if(teachers[teacherIndex] != "" && teachers[teacherIndex] != "new")
+            	{
+            		continue;
+            	}
             }
             
             var teacherNameHTML = '<small teacherID="' + teacherIndex +  '" class="teachername ' +  changedStatus + '">' + teacherName + '</small>';
@@ -1497,9 +1523,19 @@ Ext.define('mLecture',
         {
             var moduleName = MySched.Mapping.getModuleName(moduleIndex);
             
-            if(modules[moduleIndex] != "")
+            if(d.showDelta == true)
+        	{
+	            if(modules[moduleIndex] != "")
+	            {
+	            	changedStatus = "module" + modules[moduleIndex];
+	            }
+        	}
+            else
             {
-            	changedStatus = "module" + modules[moduleIndex];
+            	if(modules[moduleIndex] != "" && modules[moduleIndex] != "new")
+            	{
+            		continue;
+            	}
             }
             
             var moduleNameHTML = '<small moduleID="' + moduleIndex +  '" class="modulename ' + changedStatus + '">' + moduleName + '</small>';
@@ -1614,12 +1650,24 @@ Ext.define('mLecture',
     {
         this.infoTemplate.set(t, true);
     },
-    getCellView: function (relObj)
+    getCellView: function (relObj, showDelta)
     {
+    	if(Ext.isDefined(showDelta))
+    	{
+    		if(!Ext.isBoolean(showDelta))
+    		{
+    			showDelta = true;
+    		}
+    	}
+    	else
+    	{
+    		showDelta = true;
+    	}
         var d = this.getDetailData(
         {
             parentId: relObj.getId(),
-            key: this.id
+            key: this.id,
+            showDelta: showDelta
         });
         if (relObj.getId() != 'mySchedule' && MySched.Schedule.lectureExists(this)) d.css = ' lectureBox_cho';
         return this.cellTemplate.apply(d);
