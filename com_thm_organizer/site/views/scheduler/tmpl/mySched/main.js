@@ -319,7 +319,7 @@ MySched.Base = function ()
                     plantypeID);
                     MySched.Base.schedule.addLecture(record);
                 }
-            }       	
+            }
         	
             // Initialisiert "Mein Stundenplan"
             MySched.Schedule = new mSchedule('mySchedule',

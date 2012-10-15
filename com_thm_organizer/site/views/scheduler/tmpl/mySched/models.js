@@ -1174,17 +1174,40 @@ Ext.define('mLecture',
             'changesAll': this.getChanges(d),
             'statusIcons': this.getStatus(d),
             'topIcon': this.getTopIcon(d),
-            'comment': this.getComment(d)
+            'comment': this.getComment(d),
+            'deltaStatus': this.getDeltaStatus(d)
             /*,
       'events': this.getEvents(d)*/
         });
+    },
+    getDeltaStatus: function (d)
+    {
+    	var roomCollection = new MySched.Collection();
+    	var currentMoFrDate = getCurrentMoFrDate();
+    	var returnValue = "";
+    	for(var dateIndex in this.data.calendar)
+    	{
+    		var splittedDateIndex = dateIndex.split("-");
+            if (splittedDateIndex.length == 3)
+            {
+                var dateObject = new Date(splittedDateIndex[0], splittedDateIndex[1] - 1, splittedDateIndex[2]);
+                if(dateObject >= currentMoFrDate.monday && dateObject <= currentMoFrDate.friday)
+                {
+                	if(this.data.calendar[dateIndex][this.data.block]["lessonData"]["delta"])
+                	{
+                		returnValue = "delta" + this.data.calendar[dateIndex][this.data.block]["lessonData"]["delta"];
+                		return returnValue;
+                	}
+                }
+            }
+    	}
+    	return returnValue;
     },
     getLessonTitle: function (d)
     {
         var firstSubject = this.data.subjects.keys[0];
         var lessonTitle = MySched.Mapping.getSubjectName(firstSubject);
         return lessonTitle;
-
     },
     getComment: function (d)
     {
@@ -1377,11 +1400,18 @@ Ext.define('mLecture',
         var rooms = this.getRooms(this);
         var ret = [];
         var removed = [];
+        var changedStatus = "";
 
         for (var roomIndex in rooms.map)
         {
             var roomName = MySched.Mapping.getRoomName(roomIndex);
-            var roomNameHTML = '<small roomID="' + roomIndex +  '" class="roomname">' + roomName + '</small>';
+            
+            if(rooms.map[roomIndex] != "")
+            {
+            	changedStatus = "room"+rooms.map[roomIndex];
+            }
+            
+            var roomNameHTML = '<small roomID="' + roomIndex +  '" class="roomname ' + changedStatus + '">' + roomName + '</small>';
             ret.push(roomNameHTML);
         }
 
@@ -1409,14 +1439,21 @@ Ext.define('mLecture',
     },
     getTeacherNames: function (d)
     {
-        var teachers = this.data.teachers.keys;
+        var teachers = this.data.teachers.map;
         var ret = [];
         var removed = [];
+        var changedStatus = "";
 
-        for (var teacherIndex = 0; teacherIndex < teachers.length; teacherIndex++)
+        for (var teacherIndex in teachers)
         {
-            var teacherName = MySched.Mapping.getTeacherSurname(teachers[teacherIndex]);
-            var teacherNameHTML = '<small teacherID="' + teachers[teacherIndex] +  '" class="teachername">' + teacherName + '</small>';
+            var teacherName = MySched.Mapping.getTeacherSurname(teacherIndex);
+            
+            if(teachers[teacherIndex] != "")
+            {
+            	changedStatus = "teacher" + teachers[teacherIndex];
+            }
+            
+            var teacherNameHTML = '<small teacherID="' + teacherIndex +  '" class="teachername ' +  changedStatus + '">' + teacherName + '</small>';
             ret.push(teacherNameHTML);
         }
 
@@ -1451,14 +1488,21 @@ Ext.define('mLecture',
     },
     getModuleName: function (d)
     {
-        var modules = this.data.modules.keys;
+        var modules = this.data.modules.map;
         var ret = [];
         var removed = [];
+        var changedStatus = "";
 
-        for (var moduleIndex = 0; moduleIndex < modules.length; moduleIndex++)
+        for (var moduleIndex in modules)
         {
-            var moduleName = MySched.Mapping.getModuleName(modules[moduleIndex]);
-            var moduleNameHTML = '<small moduleID="' + modules[moduleIndex] +  '" class="modulename">' + moduleName + '</small>';
+            var moduleName = MySched.Mapping.getModuleName(moduleIndex);
+            
+            if(modules[moduleIndex] != "")
+            {
+            	changedStatus = "module" + modules[moduleIndex];
+            }
+            
+            var moduleNameHTML = '<small moduleID="' + moduleIndex +  '" class="modulename ' + changedStatus + '">' + moduleName + '</small>';
             ret.push(moduleNameHTML);
         }
 
@@ -1528,11 +1572,11 @@ Ext.define('mLecture',
 
         if (t == "room")
         {
-            this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} scheduleBox lectureBox">' + '<b class="lecturename">{lessonTitle}{description} {comment}</b><br/>{teacherName} / {moduleName} ' + time + ' {statusIcons}</div>');
+            this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} scheduleBox lectureBox">' + '<b class="lecturename">{lessonTitle}{description} {comment}</b><br/>{teacherName} / {moduleName} ' + time + ' {statusIcons}</div>');
         }
         else if (t == "teacher")
         {
-            this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} scheduleBox lectureBox">' + '<b class="lecturename">{lessonTitle}{description} {comment}</b><br/>{moduleName} / {roomName} ' + time + ' {statusIcons}</div>');
+            this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} scheduleBox lectureBox">' + '<b class="lecturename">{lessonTitle}{description} {comment}</b><br/>{moduleName} / {roomName} ' + time + ' {statusIcons}</div>');
         }
         else
         {
@@ -1563,7 +1607,7 @@ Ext.define('mLecture',
                 lecturecss = "lecturename";
             }
 
-            this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} ' + modulescss + '">' + '{topIcon}<b class="' + lecturecss + '">{lessonTitle}{description} {comment}</b><br/>{teacherName} / {roomName} ' + time + ' {statusIcons}</div>');
+            this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} ' + modulescss + '">' + '{topIcon}<b class="' + lecturecss + '">{lessonTitle}{description} {comment}</b><br/>{teacherName} / {roomName} ' + time + ' {statusIcons}</div>');
         }
     },
     setInfoTemplate: function (t)

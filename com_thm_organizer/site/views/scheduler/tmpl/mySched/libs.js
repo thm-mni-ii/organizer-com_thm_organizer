@@ -415,6 +415,7 @@ function getMonday(date)
             weekpointer.setDate(weekpointer.getDate() - 1);
         }
     }
+    weekpointer.clearTime();
     return weekpointer;
 }
 
