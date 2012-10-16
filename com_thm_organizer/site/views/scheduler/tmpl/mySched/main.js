@@ -1191,6 +1191,8 @@ new Ext.util.Observable(),
             return;
         }
 
+        var bla = typeof e;
+        
         if (typeof e == "undefined")
         {
             var id = "";
@@ -1207,32 +1209,25 @@ new Ext.util.Observable(),
         }
         else
         {
-            var el = e.getTarget('.lectureBox', 5, true);
+        	if(e.getTarget)
+        	{
+        		var el = e.getTarget('.lectureBox', 5, true);
+        	}
+        	else
+        	{
+        		var el = e;
+        	}
         }
 
         var l = MySched.selectedSchedule.getLecture(el.id);
         var subjects = l.data.subjects;
         var subjectNo = null;
         
-        if (!Ext.isString(subjects.keys[0]))
-        {
-            Ext.Msg.alert(
-            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NOTICE,
-            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_MODULENR_UNKNOWN);
-            return;
-        }
-        
-        subjectNo = MySched.Mapping.getSubjectNo(subjects.keys[0]);
-        
-        if (subjectNo == subjects.keys[0])
-        {
-            Ext.Msg.alert(
-            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NOTICE,
-            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_MODULENR_UNKNOWN);
-            return;
-        }
-
-        var modulewin = Ext.create('Ext.Window',
+        this.showSubjectNoMenu(subjects, e);
+    },
+    showSubjectWindow: function(subjectNo)
+    {
+    	var modulewin = Ext.create('Ext.Window',
         {
             id: 'moduleWin',
             width: 564,
@@ -1245,7 +1240,72 @@ new Ext.util.Observable(),
         });
 
         modulewin.show();
+    },
+    showSubjectNoMenu: function(subjects, e)
+    {
+    	subjectNo = MySched.Mapping.getSubjectNo(subjects.keys[0]);
+    	
+	    destroyMenu();
 
+	    var menuItems = [];
+	    
+	    for (var subject in subjects.map)
+	    {
+	    	if(Ext.isString(subject))
+	    	{
+		    	if(subjects.map[subject] != "removed")
+		    	{
+		    		menuItems[menuItems.length] = {
+		    			id: MySched.Mapping.getSubjectNo(subject),
+				        text: MySched.Mapping.getSubjectName(subject),
+				        icon: MySched.mainPath + "images/clasIcon.png",
+				        handler: function (element, event)
+				        {
+				        	MySched.SelectionManager.showSubjectWindow(element.id);
+				        },
+				        xtype: "button"
+				    }
+		    	}
+	    	}
+	    }	
+	   
+	    var menu = Ext.create('Ext.menu.Menu',
+	    {
+	        id: 'subjectNoMenu',
+	        items: menuItems
+	    });
+
+	    if (menuItems.length > 0)
+	    {
+	    	if(menuItems.length == 1)
+	    	{
+	            var subjectNo = MySched.Mapping.getSubjectNo(subjects.keys[0]);
+	            
+	            if (subjectNo == subjects.keys[0])
+	            {
+	                Ext.Msg.alert(
+	                MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NOTICE,
+	                MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_MODULENR_UNKNOWN);
+	                return;
+	            }
+
+	            this.showSubjectWindow(subjectNo);
+	    	}
+	    	else
+	    	{
+	    		menu.showAt(e.getXY());	
+	    	}
+	    }
+	    else
+	    {
+	    	if (!Ext.isString(subjects.keys[0]))
+            {
+                Ext.Msg.alert(
+                MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NOTICE,
+                MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_MODULENR_UNKNOWN);
+                return;
+            }
+	    }
     },
     showInformation: function (e)
     {
@@ -1631,10 +1691,7 @@ function showLessonMenu(e)
     var lesson = MySched.Base.getLecture(el.id);
     if (typeof lesson == "undefined") lesson = MySched.Schedule.getLecture(el.id);
 
-    var rMenu = Ext.getCmp('responsibleMenu');
-    var oMenu = Ext.getCmp('ownerMenu');
-    if (Ext.isDefined(rMenu)) rMenu.destroy();
-    if (Ext.isDefined(oMenu)) oMenu.destroy();
+    destroyMenu();
 
     var editLesson = {
         text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_CHANGE,
@@ -1681,20 +1738,22 @@ function showLessonMenu(e)
     var estudyLesson = {
         text: "eStudy",
         icon: MySched.mainPath + "images/estudy_logo.jpg",
-        handler: function ()
+        handler: function (element, event)
         {
-            MySched.SelectionManager.showModuleInformation();
+            MySched.SelectionManager.showModuleInformation(this);
         },
+        scope: el,
         xtype: "button"
     }
 
     var infoLesson = {
         text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_INFORMATION,
         icon: MySched.mainPath + "images/information.png",
-        handler: function ()
+        handler: function (element, event)
         {
-            MySched.SelectionManager.showModuleInformation();
+            MySched.SelectionManager.showModuleInformation(this);
         },
+        scope: el,
         xtype: "button"
     }
 
@@ -1737,10 +1796,7 @@ function showBlockMenu(e)
 {
     e.stopEvent();
 
-    var rMenu = Ext.getCmp('responsibleMenu');
-    var oMenu = Ext.getCmp('ownerMenu');
-    if (Ext.isDefined(rMenu)) rMenu.destroy();
-    if (Ext.isDefined(oMenu)) oMenu.destroy();
+    destroyMenu();
 
     var el = e.getTarget('.conMenu', 5, true);
     MySched.BlockMenu.stime = el.getAttribute("stime");
@@ -1754,6 +1810,27 @@ function showBlockMenu(e)
     });
 
     if (MySched.BlockMenu.Menu.length > 0) menu.showAt(e.getXY());
+}
+
+function destroyMenu()
+{
+	var rMenu = Ext.getCmp('responsibleMenu');
+    var oMenu = Ext.getCmp('ownerMenu');
+    var sMenu = Ext.getCmp('subjectNoMenu');
+    if (Ext.isDefined(rMenu))
+    {
+    	rMenu.destroy();
+    }
+    
+    if (Ext.isDefined(oMenu))
+    {
+    	oMenu.destroy();
+    }
+    
+    if (Ext.isDefined(sMenu))
+    {
+    	sMenu.destroy();
+    }
 }
 
 /**
