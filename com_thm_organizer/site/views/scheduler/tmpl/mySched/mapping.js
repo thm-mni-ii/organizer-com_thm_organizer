@@ -98,6 +98,10 @@ MySched.Mapping = function ()
         getFullTypeName: function (id)
         {
             return this.types[id.toLowerCase()];
+        },
+        getSubjectNo: function (id)
+        {
+        	return this.def(this.subject.get(id, id), 'subjectNo', id);
         }
     }
 }();

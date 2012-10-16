@@ -1183,7 +1183,6 @@ new Ext.util.Observable(),
     },
     showModuleInformation: function (e)
     {
-
         if (MySched.CurriculumisAvailable != true)
         {
             Ext.Msg.alert(
@@ -1212,16 +1211,20 @@ new Ext.util.Observable(),
         }
 
         var l = MySched.selectedSchedule.getLecture(el.id);
-        l = l.data;
-        if (typeof l.moduleID == "undefined")
+        var subjects = l.data.subjects;
+        var subjectNo = null;
+        
+        if (!Ext.isString(subjects.keys[0]))
         {
             Ext.Msg.alert(
             MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NOTICE,
             MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_MODULENR_UNKNOWN);
             return;
         }
-
-        if (l.moduleID == "" || l.moduleID == null)
+        
+        subjectNo = MySched.Mapping.getSubjectNo(subjects.keys[0]);
+        
+        if (subjectNo == subjects.keys[0])
         {
             Ext.Msg.alert(
             MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NOTICE,
@@ -1238,7 +1241,7 @@ new Ext.util.Observable(),
             frame: false,
             hideLabel: true,
             closeable: true,
-            html: '<iframe id="iframeModule" class="mysched_iframeModule" src="' + externLinks.curriculumLink + '&nrmni=' + l.moduleID.toUpperCase() + '"></iframe>'
+            html: '<iframe id="iframeModule" class="mysched_iframeModule" src="' + externLinks.curriculumLink + '&nrmni=' + subjectNo.toUpperCase() + '"></iframe>'
         });
 
         modulewin.show();

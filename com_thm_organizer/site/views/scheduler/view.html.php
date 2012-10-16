@@ -56,7 +56,7 @@ class THM_OrganizerViewScheduler extends JView
 
 		$showSchedule = JRequest::getString('showSchedule');
 		$this->searchModuleID = JRequest::getString('moduleID');
-		$this->CurriculumisAvailable = $model->getComStatus("com_thm_organizer");
+		$this->CurriculumisAvailable = $model->getComStatus("com_thm_curriculum");
 		
 		$path = null;
 		$menuparamsID = $menuparams->get("id");
