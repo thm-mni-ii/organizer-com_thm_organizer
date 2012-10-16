@@ -304,7 +304,24 @@ Ext.extend(SchedJsonReader, Ext.data.JsonReader,
 
         Ext.Object.each(o, function (key, value, myself)
         {
-        	records[records.length] = new mLecture(key, value, MySched.class_semester_id, "");
+        	var lecture = MySched.Base.getLecture(key);
+        	if(Ext.isDefined(lecture))
+        	{
+        		records[records.length] = lecture
+        	}
+        	else
+        	{
+        		for (var calendarIndex in value.calendar)
+        		{
+        			var block = value.calendar[calendarIndex];
+        			for (var blockIndex in block)
+        			{
+        				var data = block[blockIndex];
+        				data.lessonData["delta"] = "removed";
+        			}
+        		}
+        		records[records.length] = new mLecture(key, value, MySched.class_semester_id, "");
+        	}
         });
 
         if (typeof records.length === "undefined")
