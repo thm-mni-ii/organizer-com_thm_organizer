@@ -302,13 +302,15 @@ Ext.extend(SchedJsonReader, Ext.data.JsonReader,
             };
         }
 
-        Ext.Array.each(o, function (item, index, allItems)
+        Ext.Object.each(o, function (key, value, myself)
         {
-            if (typeof item.key !== "undefined") records[records.length] = new mLecture(item.key, item,
-            item.semesterID, item.plantypeID);
+        	records[records.length] = new mLecture(key, value, MySched.class_semester_id, "");
         });
 
-        if (typeof records.length === "undefined") records.length = 0;
+        if (typeof records.length === "undefined")
+        {
+        	records.length = 0;
+        }
 
         return {
             success: success,

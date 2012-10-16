@@ -56,7 +56,7 @@ class THM_OrganizerViewScheduler extends JView
 
 		$showSchedule = JRequest::getString('showSchedule');
 		$this->searchModuleID = JRequest::getString('moduleID');
-		$this->CurriculumisAvailable = $model->getComStatus("com_thm_organizer");
+		$this->CurriculumisAvailable = $model->getComStatus("com_thm_curriculum");
 		
 		$path = null;
 		$menuparamsID = $menuparams->get("id");
@@ -111,7 +111,6 @@ class THM_OrganizerViewScheduler extends JView
 				$activeScheduleCalendar = $activeScheduleData->calendar;
 				unset($activeScheduleData->calendar);
 				$activeScheduleLessons = $activeScheduleData->lessons;
-		
 				unset($activeScheduleData->lessons);
 				$activeScheduleFields = $activeScheduleData->fields;
 				unset($activeScheduleData->fields);
@@ -208,7 +207,7 @@ class THM_OrganizerViewScheduler extends JView
 								$lessons[$lessonID]->block = $blockKey;
 								$lessons[$lessonID]->dow = $dow;
 							}
-			
+							
 							if(!isset($lessons[$lessonID]->calendar))
 							{
 								$lessons[$lessonID]->calendar = array();
@@ -221,9 +220,7 @@ class THM_OrganizerViewScheduler extends JView
 			}
 						
 			$schedulearr["Lessons"] = $lessons;
-			
-// 			var_dump($schedulearr["Lessons"]);
-			
+						
 // 			$schedulearr["Lessons"] = $activeScheduleLessons;
 // 			$schedulearr["Calendar"] = $activeScheduleCalendar;
 		}

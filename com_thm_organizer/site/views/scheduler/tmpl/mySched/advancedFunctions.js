@@ -7,7 +7,7 @@ MySched.layout.getMainToolbar = function ()
         // Event anlegen
         text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EVENT_CREATE,
         id: 'btnEvent',
-        hidden: false,
+        hidden: true,
         iconCls: 'tbEvent',
         handler: addNewEvent
     });
@@ -27,7 +27,7 @@ var addEvent = {
     xtype: "button"
 }
 
-MySched.BlockMenu.Menu[MySched.BlockMenu.Menu.length] = addEvent;
+//MySched.BlockMenu.Menu[MySched.BlockMenu.Menu.length] = addEvent;
 
 window.onbeforeunload = function ()
 {

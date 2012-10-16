@@ -69,7 +69,7 @@ class Events
 	 */
 	public function __construct($JDA, $CFG)
 	{
-		require_once JPATH_COMPONENT . "/views/scheduler/tmpl/wsapi/class.mySchedImport.php";
+		//require_once JPATH_COMPONENT . "/views/scheduler/tmpl/wsapi/class.mySchedImport.php";
 		$this->JDA = $JDA;
 		$this->CFG = $CFG;
 		$this->cfg = $CFG->getCFG();

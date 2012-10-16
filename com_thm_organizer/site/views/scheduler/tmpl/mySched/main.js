@@ -162,8 +162,7 @@ MySched.Base = function ()
             {
                 'lectureAdd': function ()
                 {
-                    Ext.ComponentMgr.get('btnEmpty')
-                        .enable();
+                    Ext.ComponentMgr.get('btnEmpty').enable();
                 },
                 'lectureDel': function ()
                 {
@@ -181,13 +180,18 @@ MySched.Base = function ()
                     if (contentAnchorTip) contentAnchorTip.destroy();
                     if (!MySched.Schedule.isEmpty())
                     {
-                        Ext.ComponentMgr.get('btnPdf')
-                            .enable();
-                        if (_C('enableSubscribing')) Ext.ComponentMgr.get('btnSub')
-                            .enable();
+                        Ext.ComponentMgr.get('btnPdf').enable();
+                        if (_C('enableSubscribing'))
+                        {
+                        	Ext.ComponentMgr.get('btnSub').enable();
+                        }
+                            
                     }
-                    if (MySched.selectedSchedule.id == "mySchedule") Ext.ComponentMgr.get('btnSave')
-                        .enable();
+                    if (MySched.selectedSchedule.id == "mySchedule")
+                    	{
+                    		Ext.ComponentMgr.get('btnSave').enable();
+                    	}
+                        
                     var tab = MySched.layout.tabpanel.getComponent('mySchedule');
                     tab.mSchedule.status = "unsaved";
                 },
@@ -195,14 +199,12 @@ MySched.Base = function ()
                 {
                     var tab = MySched.layout.tabpanel.getComponent('mySchedule');
                     tab.mSchedule.status = "saved";
-                    Ext.ComponentMgr.get('btnSave')
-                        .disable();
+                    Ext.ComponentMgr.get('btnSave').disable();
                 },
                 'load': function (s)
                 {
                     MySched.Base.createUserSchedule();
-                    Ext.ComponentMgr.get('btnSave')
-                        .disable();
+                    Ext.ComponentMgr.get('btnSave').disable();
                     var tab = MySched.layout.tabpanel.getComponent('mySchedule');
                 },
                 'clear': function (s)
@@ -221,21 +223,22 @@ MySched.Base = function ()
                     var contentAnchorTip = Ext.getCmp('content-anchor-tip');
                     if (contentAnchorTip) contentAnchorTip.destroy();
                     var tab = MySched.layout.tabpanel.getComponent(id);
-                    if (id != "mySchedule") Ext.ComponentMgr.get('btnSave')
-                        .enable();
+                    if (id != "mySchedule")
+                    {
+                    	Ext.ComponentMgr.get('btnSave').enable();
+                    }
+                        
                     tab.mSchedule.status = "unsaved";
                 },
                 'save': function (s)
                 {
                     var tab = MySched.layout.tabpanel.getComponent(id);
                     tab.mSchedule.status = "saved";
-                    Ext.ComponentMgr.get('btnSave')
-                        .disable();
+                    Ext.ComponentMgr.get('btnSave').disable();
                 },
                 'clear': function (s)
                 {
-                    Ext.ComponentMgr.get('btnEmpty')
-                        .disable();
+                    Ext.ComponentMgr.get('btnEmpty').disable();
                 }
             });
         },
@@ -316,7 +319,7 @@ MySched.Base = function ()
                     plantypeID);
                     MySched.Base.schedule.addLecture(record);
                 }
-            }       	
+            }
         	
             // Initialisiert "Mein Stundenplan"
             MySched.Schedule = new mSchedule('mySchedule',
@@ -373,13 +376,11 @@ MySched.Base = function ()
                 });
                 MySched.SelectionManager.on('lectureAdd', function ()
                 {
-                    Ext.ComponentMgr.get('btnAdd')
-                        .disable();
+                    Ext.ComponentMgr.get('btnAdd').disable();
                 });
                 MySched.SelectionManager.on('lectureDel', function ()
                 {
-                    Ext.ComponentMgr.get('btnDel')
-                        .disable();
+                    Ext.ComponentMgr.get('btnDel').disable();
                 });
 
                 MySched.Tree.refreshTreeData();
@@ -407,8 +408,8 @@ MySched.Base = function ()
                     MySched.Authorize.verifyToken(MySched.SessionId,
                     MySched.Authorize.verifySuccess, MySched.Authorize);
                     // Lädt Delta Daten
-                    MySched.delta.load(_C('ajaxHandler'), 'json',
-                    MySched.delta.loadsavedLectures, MySched.delta, "delta");
+//                    MySched.delta.load(_C('ajaxHandler'), 'json',
+//                    MySched.delta.loadsavedLectures, MySched.delta, "delta");
                 }
                 else
                 {
@@ -1182,7 +1183,6 @@ new Ext.util.Observable(),
     },
     showModuleInformation: function (e)
     {
-
         if (MySched.CurriculumisAvailable != true)
         {
             Ext.Msg.alert(
@@ -1211,16 +1211,20 @@ new Ext.util.Observable(),
         }
 
         var l = MySched.selectedSchedule.getLecture(el.id);
-        l = l.data;
-        if (typeof l.moduleID == "undefined")
+        var subjects = l.data.subjects;
+        var subjectNo = null;
+        
+        if (!Ext.isString(subjects.keys[0]))
         {
             Ext.Msg.alert(
             MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NOTICE,
             MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_MODULENR_UNKNOWN);
             return;
         }
-
-        if (l.moduleID == "" || l.moduleID == null)
+        
+        subjectNo = MySched.Mapping.getSubjectNo(subjects.keys[0]);
+        
+        if (subjectNo == subjects.keys[0])
         {
             Ext.Msg.alert(
             MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NOTICE,
@@ -1237,7 +1241,7 @@ new Ext.util.Observable(),
             frame: false,
             hideLabel: true,
             closeable: true,
-            html: '<iframe id="iframeModule" class="mysched_iframeModule" src="' + externLinks.curriculumLink + '&nrmni=' + l.moduleID.toUpperCase() + '"></iframe>'
+            html: '<iframe id="iframeModule" class="mysched_iframeModule" src="' + externLinks.curriculumLink + '&nrmni=' + subjectNo.toUpperCase() + '"></iframe>'
         });
 
         modulewin.show();
@@ -2040,6 +2044,14 @@ MySched.layout = function ()
 	                var plantypeID = "";
 	                var type = selectedSchedule.type;
 	
+	                if (MySched.selectedSchedule.status == "unsaved") {
+	                	Ext.ComponentMgr.get('btnSave').enable();
+	                }
+	                else
+	                {
+	                	Ext.ComponentMgr.get('btnSave').disable();
+	                }
+	                
 	                if(MySched.selectedSchedule.id != "mySchedule")
 	                {
 		                if (MySched.loadLessonsOnStartUp == false)
@@ -2390,13 +2402,11 @@ MySched.layout = function ()
                 // Aufgerufener Tab wird neu geladen
                 if (MySched.selectedSchedule.status == "unsaved")
                 {
-                    Ext.ComponentMgr.get('btnSave')
-                        .enable();
+                    Ext.ComponentMgr.get('btnSave').enable();
                 }
                 else
                 {
-                    Ext.ComponentMgr.get('btnSave')
-                        .disable();
+                    Ext.ComponentMgr.get('btnSave').disable();
                 }
 
                 MySched.selectedSchedule.eventsloaded = null;
@@ -2511,7 +2521,7 @@ MySched.layout = function ()
                     Ext.Ajax.request(
                     {
                         url: _C('ajaxHandler'),
-                        jsonData: MySched.selectedSchedule.exportData(),
+                        jsonData: MySched.selectedSchedule.exportData("jsonpdf"),
                         method: 'POST',
                         params: {
                             username: MySched.Authorize.user,

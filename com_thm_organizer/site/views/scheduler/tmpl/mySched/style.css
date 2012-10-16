@@ -409,6 +409,57 @@ img.status_icons_delete {
 	border: 1px solid #FF8C00 !important;
 }
 
+/* Deltastyle */
+
+.deltanew
+{
+	color: green;
+}
+
+.deltachanged
+{
+
+}
+
+.deltaremoved
+{
+	text-decoration: line-through;
+	color: #aaaaaa;
+}
+
+.roomnew
+{
+	color: green;
+}
+
+.roomremoved
+{
+	text-decoration: line-through;
+	color: #aaaaaa;
+}
+
+.teachernew
+{
+	color: green;
+}
+
+.teacherremoved
+{
+	text-decoration: line-through;
+	color: #aaaaaa;
+}
+
+.modulenew
+{
+	color: green;
+}
+
+.moduleremoved
+{
+	text-decoration: line-through;
+	color: #aaaaaa;
+}
+
 /* Ext-Style overrides */
 .x-grid-row .x-grid-cell {
 	border-right: 1px solid #ECECEC;

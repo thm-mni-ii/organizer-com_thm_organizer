@@ -120,15 +120,13 @@ MySched.Authorize = function ()
             this.role = obj.role;
             MySched.Authorize.changeRole(obj.role, obj.additional_rights);
 
-            Ext.ComponentMgr.get('btnSave')
-                .show();
+            Ext.ComponentMgr.get('btnSave').show();
 
             if (obj.role !== "registered")
             {
                 if (typeof Ext.ComponentMgr.get('btnEvent') !== "undefined")
                 {
-                    Ext.ComponentMgr.get('btnEvent')
-                        .show();
+//                    Ext.ComponentMgr.get('btnEvent').show();
                 }
             }
 

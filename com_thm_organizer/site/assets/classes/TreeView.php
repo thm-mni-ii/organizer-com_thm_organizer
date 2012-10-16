@@ -149,6 +149,7 @@ class TreeView
 		{
 			$this->publicDefault = null;
 		}
+				
 		if (isset($options["hide"]))
 		{
 			$this->hideCheckBox = $options["hide"];
@@ -663,17 +664,17 @@ class TreeView
 				}
 
 				// Überprüfung ob der Plan Veranstaltungen hat				
-// 				if ($this->hideCheckBox == false)
-// 				{
-// 					$hasLessons = true;	
-// 				}
-// 				else
-// 				{
-// 					$hasLessons = $this->treeNodeHasLessons($childKey, $scheduleType);
-// 				}
+				if ($this->hideCheckBox == false)
+				{
+					$hasLessons = true;	
+				}
+				else
+				{
+					$hasLessons = $this->treeNodeHasLessons($childKey, $scheduleType);
+				}
 				
 				// Erstmal immer true!
-				$hasLessons = true;
+// 				$hasLessons = true;
 				
 				$childNode = null;
 				if($hasLessons)

@@ -26,7 +26,7 @@
 	echo 'externLinks.lectureRemoveButton = \'' . JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/images/delete.png\';';
 	echo 'externLinks.mainPath = \'' . JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/\';';
 	echo 'externLinks.curriculumLink = \'' .
-		  JRoute::_('index.php?option=com_thm_organizer&view=details&layout=default&tmpl=component&mysched=true') . '\';';
+		  JRoute::_('index.php?option=com_thm_curriculum&view=details&layout=default&tmpl=component&mysched=true&lang=de') . '\';';
 	echo 'externLinks.ajaxHandler = \'' . JRoute::_('index.php?option=com_thm_organizer&view=ajaxhandler&format=raw') . '\';';
 ?>
 </script>
