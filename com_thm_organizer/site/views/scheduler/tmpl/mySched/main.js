@@ -1698,6 +1698,7 @@ function showLessonMenu(e)
         icon: MySched.mainPath + "images/icon-edit.png",
         handler: function ()
         {
+        	destroyMenu();
             MySched.SelectionManager.editLesson();
         },
         xtype: "button"
@@ -1708,6 +1709,7 @@ function showLessonMenu(e)
         icon: MySched.mainPath + "images/icon-delete.png",
         handler: function ()
         {
+        	destroyMenu();
             MySched.SelectionManager.deleteLesson();
         },
         xtype: "button"
@@ -1718,6 +1720,7 @@ function showLessonMenu(e)
         icon: MySched.mainPath + "images/add.png",
         handler: function ()
         {
+        	destroyMenu();
             MySched.SelectionManager.selectEl = el;
             MySched.SelectionManager.lecture2ScheduleHandler();
         },
@@ -1729,6 +1732,7 @@ function showLessonMenu(e)
         icon: MySched.mainPath + "images/delete.png",
         handler: function ()
         {
+        	destroyMenu();
             MySched.SelectionManager.selectEl = el;
             MySched.SelectionManager.lecture2ScheduleHandler();
         },
@@ -1789,7 +1793,10 @@ function showLessonMenu(e)
         items: menuItems
     });
 
-    if (menuItems.length > 0) menu.showAt(e.getXY());
+    if (menuItems.length > 0)
+    {
+    	menu.showAt(e.getXY());
+    }
 }
 
 function showBlockMenu(e)
