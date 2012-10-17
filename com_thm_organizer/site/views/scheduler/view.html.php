@@ -134,7 +134,7 @@ class THM_OrganizerViewScheduler extends JView
 			else
 			{
 				// Cant decode json
-				return JError::raiseWarning(404, JText::_('Fehlerhfte Daten'));
+				return JError::raiseWarning(404, JText::_('Fehlerhafte Daten'));
 			}
 		}
 		else
