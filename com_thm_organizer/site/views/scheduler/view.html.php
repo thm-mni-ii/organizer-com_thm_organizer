@@ -82,9 +82,7 @@ class THM_OrganizerViewScheduler extends JView
 		}
 				
 		$activeSchedule = $model->getActiveSchedule($departmentSemesterSelection);
-		
-		$semesterID = $activeSchedule->id;
-		
+				
 		if (is_object($activeSchedule) && is_string($activeSchedule->schedule))
 		{
 			$activeScheduleData = json_decode($activeSchedule->schedule);
@@ -143,6 +141,8 @@ class THM_OrganizerViewScheduler extends JView
 		{
 			return JError::raiseWarning(404, JText::_('Kein aktiver Stundenplan'));
 		}
+		
+		$semesterID = $activeSchedule->id;
 
 		$this->semesterID = $semesterID;
 		$this->semAuthor = "";
