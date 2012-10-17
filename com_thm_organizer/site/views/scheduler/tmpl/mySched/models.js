@@ -808,7 +808,7 @@ Ext.define('mSchedule',
             4: "thursday",
             5: "friday",
             6: "saturday",
-            7: "saturday"
+            7: "sunday"
         };
 
         // Numerischer Index erlaubt
@@ -838,13 +838,34 @@ Ext.define('mSchedule',
             };
             this.data.each(function (l)
             {
-                if (l.data.type)
+                var wd = l.getWeekDay();
+                var b = l.getBlock();
+                b = b - 1;
+                
+                var calendarDates = l.data.calendar;
+                for (var dateIndex in calendarDates)
                 {
-                    var wd = l.getWeekDay();
-                    var b = l.getBlock();
-                    b = b - 1;
-                    if (!this.blockCache[wd][b]) this.blockCache[wd][b] = 1;
-                    else this.blockCache[wd][b]++;
+                    var splittedDateIndex = dateIndex.split("-");
+                    if (splittedDateIndex.length == 3)
+                    {
+                        var dateObject = new Date(splittedDateIndex[0], splittedDateIndex[1] - 1, splittedDateIndex[2]);
+                        var currMOFR = getCurrentMoFrDate();
+                        if (dateObject >= currMOFR.monday && dateObject <= currMOFR.friday)
+                        {
+                        	if(calendarDates[dateIndex][l.getBlock()]["lessonData"]["delta"] != "removed")
+                        	{
+                        		if (!this.blockCache[wd][b])
+                                {
+                                	this.blockCache[wd][b] = 1;
+                                }
+                                else
+                                {
+                                	this.blockCache[wd][b]++;
+                                }
+                        		break;
+                        	}
+                        }
+                    }
                 }
             }, this);
         }
