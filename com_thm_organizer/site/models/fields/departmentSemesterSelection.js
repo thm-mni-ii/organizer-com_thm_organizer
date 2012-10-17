@@ -15,9 +15,12 @@ Ext.onReady(function()
 	
 	var initselectBox = Ext.get('jform_params_departmentSemesterSelection');
 	var initselectedItems = initselectBox.dom.getSelected();
-	var initselectedItem = initselectedItems[0];
-	var initselectedItemValue = initselectedItem.value;
-	loadTreeData(initselectedItemValue);
+	if(initselectedItems.length > 0)
+	{
+		var initselectedItem = initselectedItems[0];
+		var initselectedItemValue = initselectedItem.value;
+		loadTreeData(initselectedItemValue);
+	}
 });
 
 function loadTreeData(selectedItemValue)
