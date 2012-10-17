@@ -62,7 +62,16 @@ class THM_OrganizerViewScheduler extends JView
 		$menuparamsID = $menuparams->get("id");
 		$menuparamsPublicDefaultID = $menuparams->get("publicDefaultID");
 		$departmentSemesterSelection = $menuparams->get("departmentSemesterSelection");
-		
+		$deltaDisplayDays = (int) $menuparams->get("deltaDisplayDays", 14);
+		if(is_int($deltaDisplayDays))
+		{
+			$this->deltaDisplayDays = $deltaDisplayDays;
+		}
+		else
+		{
+			$this->deltaDisplayDays = 14;
+		}
+				
 		try
 		{
 			$path = (array) json_decode($menuparamsID);
