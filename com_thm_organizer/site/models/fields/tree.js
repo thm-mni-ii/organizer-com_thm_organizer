@@ -14,11 +14,15 @@ Ext.override(Ext.tree.Column, {
 
 			var checkboxText = "";
 
-			if(record.data.publicDefault)
+			if(record.raw)
 			{
-	            checkboxText += '<input id="'+record.data.id+'_default" type="hidden" value="'+record.data.publicDefault+'" role="checkbox" />';
-				checkboxText += '<img id="'+record.data.id+'_default_fake" class="MySched_checkbox_default_fake" src="'+images[record.data.publicDefault]+'">';
+				if(record.raw.publicDefault)
+				{
+		            checkboxText += '<input id="'+record.data.id+'_default" type="hidden" value="'+record.raw.publicDefault+'" role="checkbox" />';
+					checkboxText += '<img id="'+record.data.id+'_default_fake" class="MySched_checkbox_default_fake" src="'+images[record.raw.publicDefault]+'">';
+				}				
 			}
+			
 			if(record.data.checked)
 			{
 	           	checkboxText += '<input id="'+record.data.id+'" type="hidden" value="'+record.data.checked+'" role="checkbox" class="{0}" {1} />';
@@ -128,7 +132,7 @@ setPublicDefaultStatus = function(event){
 	elInput.value = newStatus;
 	elImg.dom.src = images[elInput.value];
 
-	record.data.publicDefault = elInput.value;
+	record.raw.publicDefault = elInput.value;
 }
 
 setStatus = function(event)
@@ -236,7 +240,7 @@ Ext.tree.Panel.prototype.getPublicDefault = function(node, checkedArr){
 	}
 
 	if( Ext.isObject(node.raw) &&  node.raw.publicDefault == "default") {
-		var nodeID = node.data.id.replace(" ", "").replace("(", "").replace(")", "");
+		var nodeID = node.data.id;
 		checked[nodeID] = node.raw.publicDefault;
 	}
 	else
@@ -370,7 +374,7 @@ Ext.onReady(function(){
 
 			    if(Ext.isString(publicDefault))
 			    {
-					publicDefault = publicDefault.split(".");
+					publicDefault = publicDefault.split(";");
 			    }
 			    else
 			    {
