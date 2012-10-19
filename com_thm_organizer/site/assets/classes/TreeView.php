@@ -141,13 +141,23 @@ class TreeView
 				$this->checked = null;
 			}
 		}
+		
 		if (isset($options["publicDefault"]))
 		{
 			$this->publicDefault = (array) $options["publicDefault"];
 		}
 		else
 		{
-			$this->publicDefault = null;
+			$publicDefaultID = JRequest::getString('publicDefaultID');
+			$publicDefaultID = json_decode($publicDefaultID);
+			if($publicDefaultID != null)
+			{
+				$this->publicDefault = (array) $publicDefaultID;
+			}
+			else
+			{
+				$this->publicDefault = null;
+			}
 		}
 				
 		if (isset($options["hide"]))
