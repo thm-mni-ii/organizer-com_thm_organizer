@@ -129,7 +129,7 @@ if ($suffix = $this->params->get('lsf_navi', 0))
 			<thead>
 				<tr>
 					<th><?php
-					echo JHTML::_('grid.sort', $txtModulnummer, 'lsf_course_id', $listDirn, $listOrder);
+					echo JHTML::_('grid.sort', $txtModulnummer, 'lsf_course_code, his_course_code, lsf_course_id', $listDirn, $listOrder);
 					?>
 					</th>
 					<th></th>
