@@ -482,11 +482,12 @@ function displayDelta()
 		return false;
 	}
 	
-	var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker').value);
+	var currentDate = new Date();
+	Ext.Date.clearTime(currentDate);
 	var creationDate = convertDateStringToDateObject(MySched.session["creationdate"]);
 	
 	creationDate.setDate(creationDate.getDate() + MySched.deltaDisplayDays);
-	if(creationDate < weekpointer)
+	if(creationDate < currentDate)
 	{
 		return false;
 	}
