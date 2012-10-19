@@ -270,9 +270,12 @@ Ext.tree.Panel.prototype.doGray = function(node){
 	var gray = false;
 	if(node.hasChildNodes() === true)
 		node.childNodes.each(function(v, k) {
-			var state = tree.doGray(v);
-			if(state === true)
-				gray = state;
+			if(v.isVisible())
+			{
+				var state = tree.doGray(v);
+				if(state === true)
+					gray = state;
+			}
 		});
 	
 	if(gray === true)
@@ -319,94 +322,16 @@ Ext.onReady(function(){
 	        text: 'root',
 	        expanded: true,
             children: null
-	    },
-	    listeners: {
-            itemmouseleave: function()
-            {
-            	Ext.select('.MySched_checkbox_fake').removeAllListeners();
-				Ext.select('.MySched_checkbox_fake').on({
-					'mouseover': function (e) {
-						e.stopEvent();
-						changeIconHighlight(e);
-			      	},
-			      	'mouseout': function (e) {
-			        	e.stopEvent();
-						changeIconHighlight(e);
-			      	},
-			      	'click': function (e) {
-			        	if (e.button == 0) //links Klick
-			        	{
-			          		e.stopEvent();
-			          		setStatus(e);
-			          		tree.doGray();
-			        	}
-			      	}
-			    });
-
-			    Ext.select('.MySched_checkbox_default_fake').removeAllListeners();
-			    Ext.select('.MySched_checkbox_default_fake').on({
-					'mouseover': function (e) {
-						e.stopEvent();
-						changePublicDefaultHighlight(e);
-			      	},
-			      	'mouseout': function (e) {
-			        	e.stopEvent();
-						changePublicDefaultHighlight(e);
-			      	},
-			      	'click': function (e) {
-			        	if (e.button == 0) //links Klick
-			        	{
-			          		e.stopEvent();
-			          		setPublicDefaultStatus(e);
-			        	}
-			      	}
-			    });
-            },
-            afterrender: function() {
-            	tree.doGray();
-            	
-            	var publicDefault = tree.getPublicDefault();
-			    for(var item in publicDefault)
-			    {
-			    	publicDefault = item;
-			    	break;
-			    }
-
-			    if(Ext.isString(publicDefault))
-			    {
-					publicDefault = publicDefault.split(";");
-			    }
-			    else
-			    {
-			    	publicDefault = [];
-            	}
-
-				var nodePath = [];
-
-				for(var i = 0; i < publicDefault.length; i++)
-				{
-					var length = nodePath.length;
-					if(length == 0)
-						nodePath.push(publicDefault[i]);
-					else
-						nodePath.push(nodePath[(length - 1)]+"."+publicDefault[i]);
-				}
-
-				nodePath = "#"+tree.root.id+"#"+nodePath.join("#");
-    			tree.expandPath(nodePath, "id", "#");
-            }            
-		}
+	    }
 	});
 
 	// render the tree
     tree.render('tree-div');
     
     var treeView = tree.getView();
-    treeView.on('itemadd', function() {
-    	tree.doGray();
-    });
-    treeView.on('itemremove', function() {
-    	tree.doGray();
+    treeView.on('itemadd', function(records, index, node, eOpts)
+    {
+    	checkBoxEvents(node[0].getParent());
     });
     tree.on('itemclick', function (me, rec, item, index, event, options) {
         if(rec.isExpanded()) {
@@ -415,26 +340,43 @@ Ext.onReady(function(){
       	  rec.expand();
         }
     });
+});
 
-    Ext.select('.MySched_checkbox_fake').on({
-		'mouseover': function (e) {
+function checkBoxEvents(node)
+{
+	if(!Ext.isDefined(node))
+	{
+		node = tree.getRootNode();
+	}
+	
+	var selectedFakeCheckboxes = Ext.select('.MySched_checkbox_fake', node);
+	selectedFakeCheckboxes.removeAllListeners();
+	selectedFakeCheckboxes.on(
+	{
+		'mouseover': function (e)
+		{
 			e.stopEvent();
 			changeIconHighlight(e);
-      	},
-      	'mouseout': function (e) {
-        	e.stopEvent();
+		},
+		'mouseout': function (e)
+		{
+			e.stopEvent();
 			changeIconHighlight(e);
-      	},
-      	'click': function (e) {
-        	if (e.button == 0) //links Klick
-        	{
-          		e.stopEvent();
-          		setStatus(e);
-        	}
-      	}
-    });
-
-    Ext.select('.MySched_checkbox_default_fake').on({
+		},
+		'click': function (e)
+		{
+			if (e.button == 0) //links Klick
+			{
+		  		e.stopEvent();
+		  		setStatus(e);
+		  		tree.doGray();
+			}
+		}
+	});
+	
+	var selectedDefaultFakeCheckboxes = Ext.select('.MySched_checkbox_default_fake', node);
+	selectedDefaultFakeCheckboxes.removeAllListeners();
+	selectedDefaultFakeCheckboxes.on({
 		'mouseover': function (e) {
 			e.stopEvent();
 			changePublicDefaultHighlight(e);
@@ -451,4 +393,4 @@ Ext.onReady(function(){
         	}
       	}
     });
-});
+}

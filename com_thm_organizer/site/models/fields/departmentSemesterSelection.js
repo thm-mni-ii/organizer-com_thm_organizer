@@ -59,6 +59,11 @@ function loadTreeData(selectedItemValue)
             rootNode.removeAll(true);
             rootNode.appendChild(newtree);
             tree.update();
+
+            checkBoxEvents();
+        	
+        	tree.doGray();
+            
             if (loadMask)
 		    {
 				loadMask.destroy();
