@@ -663,13 +663,13 @@ Ext.define('mSchedule',
 
             var deltaid = semid + ".1.delta";
 
-            var deltaSched = new mSchedule(deltaid, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_CENTRAL)
-                .init("delta", deltaid);
+            var deltaSched = new mSchedule(deltaid, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_CENTRAL).init("delta", deltaid);
             deltaSched.show();
             //MySched.selectedSchedule.grid.showSporadics();
             MySched.layout.viewport.doLayout();
             MySched.selectedSchedule.responsible = "delta";
-            MySched.selectedSchedule.status = "saved";
+            
+            MySched.Schedule.status = "saved";
         }
 
         return;
@@ -904,7 +904,7 @@ Ext.define('mSchedule',
                     sid: MySched.Base.sid,
                     scheduletask: scheduletask
                 };
-                var data = this.exportData();
+                var data = MySched.Schedule.exportData();
             }
             else
             {
@@ -917,8 +917,15 @@ Ext.define('mSchedule',
                 }
                 var data = this.exportData("json", "personal");
             }
-            if (success != false) var savewait = Ext.MessageBox.wait(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_SAVING, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PLEASE_WAIT);
-            else var savewait = null;
+            if (success != false)
+            {
+            	var savewait = Ext.MessageBox.wait(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_SAVING, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PLEASE_WAIT);
+            }
+            else
+            {
+            	var savewait = null;
+            }
+            
             Ext.Ajax.request(
             {
                 url: url,
@@ -928,7 +935,11 @@ Ext.define('mSchedule',
                 params: defaultParams,
                 success: function (resp, ret)
                 {
-                    if (savewait != null) Ext.MessageBox.hide();
+                    if (savewait != null)
+                    {
+                    	Ext.MessageBox.hide();
+                    }
+                    
                     try
                     {
                         var json = Ext.decode(resp.responseText);
@@ -943,19 +954,27 @@ Ext.define('mSchedule',
                                     buttons: Ext.Msg.OK,
                                     minWidth: 400
                                 });
-                                MySched.selectedSchedule.status = "unsaved";
-                                Ext.ComponentMgr.get('btnSave')
-                                    .enable();
+                                MySched.Schedule.status = "unsaved";
+                                Ext.ComponentMgr.get('btnSave').enable();
                                 var tab = MySched.layout.tabpanel.getComponent(MySched.selectedSchedule.id);
                                 tab.mSchedule.status = "unsaved";
-                                tab = Ext.get(MySched.layout.tabpanel.getTabEl(tab))
-                                    .child('.' + MySched.selectedSchedule.type + 'Icon');
-                                if (tab) tab.replaceClass('' + MySched.selectedSchedule.type + 'Icon', '' + MySched.selectedSchedule.type + 'IconSave');
+                                tab = Ext.get(MySched.layout.tabpanel.getTabEl(tab)).child('.' + MySched.selectedSchedule.type + 'Icon');
+                                if (tab)
+                                {
+                                	tab.replaceClass('' + MySched.selectedSchedule.type + 'Icon', '' + MySched.selectedSchedule.type + 'IconSave');
+                                }
+                            }
+                            else
+                            {
+                            	MySched.Schedule.status = "saved";
+                                Ext.ComponentMgr.get('btnSave').disable();
                             }
                         }
                     }
                     catch (e)
-                    {}
+                    {
+                    	
+                    }
                 }
             });
             this.fireEvent("save", this, url);

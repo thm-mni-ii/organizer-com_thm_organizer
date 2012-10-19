@@ -187,10 +187,8 @@ MySched.Base = function ()
                         }
                             
                     }
-                    if (MySched.selectedSchedule.id == "mySchedule")
-                    	{
-                    		Ext.ComponentMgr.get('btnSave').enable();
-                    	}
+                    
+                    Ext.ComponentMgr.get('btnSave').enable();
                         
                     var tab = MySched.layout.tabpanel.getComponent('mySchedule');
                     tab.mSchedule.status = "unsaved";
@@ -223,10 +221,8 @@ MySched.Base = function ()
                     var contentAnchorTip = Ext.getCmp('content-anchor-tip');
                     if (contentAnchorTip) contentAnchorTip.destroy();
                     var tab = MySched.layout.tabpanel.getComponent(id);
-                    if (id != "mySchedule")
-                    {
-                    	Ext.ComponentMgr.get('btnSave').enable();
-                    }
+
+                   	Ext.ComponentMgr.get('btnSave').enable();
                         
                     tab.mSchedule.status = "unsaved";
                 },
@@ -2128,7 +2124,8 @@ MySched.layout = function ()
 	                var plantypeID = "";
 	                var type = selectedSchedule.type;
 	
-	                if (MySched.selectedSchedule.status == "unsaved") {
+	                if (MySched.Schedule.status == "unsaved")
+	                {
 	                	Ext.ComponentMgr.get('btnSave').enable();
 	                }
 	                else
@@ -2185,15 +2182,13 @@ MySched.layout = function ()
 		                            MySched.selectedSchedule.eventsloaded = null;
 		                            MySched.selectedSchedule.init(type, nodeKey, semesterID);
 		                            // Aufgerufener Tab wird neu geladen
-		                            if (MySched.selectedSchedule.status == "unsaved")
+		                            if (MySched.Schedule.status == "unsaved")
 		                            {
-		                                Ext.ComponentMgr.get('btnSave')
-		                                    .enable();
+		                                Ext.ComponentMgr.get('btnSave').enable();
 		                            }
 		                            else
 		                            {
-		                                Ext.ComponentMgr.get('btnSave')
-		                                    .disable();
+		                                Ext.ComponentMgr.get('btnSave').disable();
 		                            }
 		
 		                            var lectureData = MySched.selectedSchedule.data.items;
@@ -2225,7 +2220,7 @@ MySched.layout = function ()
 		                    MySched.selectedSchedule.eventsloaded = null;
 		                    MySched.selectedSchedule.init(type, nodeKey, semesterID);
 		                    // Aufgerufener Tab wird neu geladen
-		                    if (MySched.selectedSchedule.status == "unsaved")
+		                    if (MySched.Schedule.status == "unsaved")
 		                    {
 		                        Ext.ComponentMgr.get('btnSave').enable();
 		                    }
@@ -2484,7 +2479,7 @@ MySched.layout = function ()
 
                 MySched.selectedSchedule = tab.mSchedule;
                 // Aufgerufener Tab wird neu geladen
-                if (MySched.selectedSchedule.status == "unsaved")
+                if (MySched.Schedule.status == "unsaved")
                 {
                     Ext.ComponentMgr.get('btnSave').enable();
                 }
