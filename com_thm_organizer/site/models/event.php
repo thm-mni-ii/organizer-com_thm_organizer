@@ -12,14 +12,14 @@
  * 
  *@license     GNU GPL v.2
  *@link        www.mni.thm.de
- *@version     0.0.1
+ *@version     0.1.0
  */
-
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 require_once JPATH_COMPONENT . "/assets/classes/eventAccess.php";
-
 /**
+ * Retrieves stored event data
+ * 
  * @package  Joomla.Site
  * 
  * @since    1.5
@@ -29,7 +29,7 @@ class thm_organizerModelevent extends JModel
     /**
      * @var int the id of the event in the database
      */
-    public $id = 0;
+    public $eventID = 0;
 
     /**
      * @var array of event properties
@@ -91,20 +91,20 @@ class thm_organizerModelevent extends JModel
 
         if (isset($event))
         {
-            $this->id = $event['id'];
+            $this->eventID = $event['id'];
             if (!empty($event['description']))
             {
                 $event['description'] = trim($event['description']);
             }
-            if ($event['globaldisplay'] and $event['reservesobjects'])
+            if ($event['global'] and $event['reserves'])
             {
                 $event['displaybehavior'] = JText::_('COM_THM_ORGANIZER_E_GLOBALRESERVES_EXPLANATION');
             }
-            elseif ($event['globaldisplay'])
+            elseif ($event['global'])
             {
                 $event['displaybehavior'] = JText::_('COM_THM_ORGANIZER_E_GLOBAL_EXPLANATION');
             }
-            elseif ($event['reservesobjects'])
+            elseif ($event['reserves'])
             {
                 $event['displaybehavior'] = JText::_('COM_THM_ORGANIZER_E_RESERVES_EXPLANATION');
             }
@@ -127,7 +127,7 @@ class thm_organizerModelevent extends JModel
         }
         else
         {
-            $this->id = 0;
+            $this->eventID = 0;
             $event = array();
             $event['id'] = 0;
             $event['title'] = JText::_('COM_THM_ORGANIZER_E_EMPTY');
@@ -179,8 +179,8 @@ class thm_organizerModelevent extends JModel
         $select .= "ecat.title AS eventCategory, ";
         $select .= "ecat.description AS eventCategoryDesc, ";
         $select .= "ecat.contentCatID AS contentCategoryID, ";
-        $select .= "ecat.globaldisplay, ";
-        $select .= "ecat.reservesobjects, ";
+        $select .= "ecat.global, ";
+        $select .= "ecat.reserves, ";
         $select .= "c.title AS title, ";
         $select .= "c.fulltext AS description, ";
         $select .= "DATE_FORMAT(c.publish_up, '%d.%m.%Y') AS publish_up, ";
@@ -222,7 +222,7 @@ class thm_organizerModelevent extends JModel
         $query->select("name");
         $query->from("#__thm_organizer_event_rooms AS er");
         $query->innerJoin("#__thm_organizer_rooms AS r ON er.roomID = r.id");
-        $query->where("er.eventID = '$this->id'");
+        $query->where("er.eventID = '$this->eventID'");
         $dbo->setQuery((string) $query);
         $this->event['rooms'] = $dbo->loadResultArray();
     }
@@ -238,10 +238,10 @@ class thm_organizerModelevent extends JModel
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("name");
+        $query->select("surname");
         $query->from("#__thm_organizer_event_teachers AS et");
         $query->innerJoin("#__thm_organizer_teachers AS t ON et.teacherID = t.id");
-        $query->where("et.eventID = '$this->id'");
+        $query->where("et.eventID = '$this->eventID'");
         $dbo->setQuery((string) $query);
         $this->event['teachers'] = $dbo->loadResultArray();
     }
@@ -260,7 +260,7 @@ class thm_organizerModelevent extends JModel
         $query->select("title AS name");
         $query->from("#__thm_organizer_event_groups AS eg");
         $query->innerJoin("#__usergroups AS ug ON eg.groupID = ug.id");
-        $query->where("eg.eventID = '$this->id'");
+        $query->where("eg.eventID = '$this->eventID'");
         $dbo->setQuery((string) $query);
         $this->event['groups'] = $dbo->loadResultArray();
     }

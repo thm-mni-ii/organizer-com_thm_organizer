@@ -12,17 +12,16 @@
  * 
  *@license     GNU GPL v.2
  *@link        www.mni.thm.de
- *@version     0.0.2
+ *@version     0.1.0
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modelform');
-
 /**
- * retrieves persistent data for output in the event edit view
+ * Retrieves persistent data for output in the event edit view.
  * 
  * @package  Joomla.Site
  * 
- * @since    1.5 
+ * @since    2.5.4 
  */
 class THM_OrganizerModelEvent_Edit extends JModelForm
 {
@@ -131,13 +130,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
         $select .= "DATE_FORMAT(e.enddate, '%d.%m.%Y') AS enddate, ";
         $select .= "SUBSTR(e.starttime, 1, 5) AS starttime, ";
         $select .= "SUBSTR(e.endtime, 1, 5) AS endtime, ";
-		/*
-		 * commented out due to an error:
-		 * editing an exisiting event would result in creating a new one
         $select .= "e.recurrence_type, ";
-        $select .= "e.recurrence_number, ";
-        $select .= "e.recurrence_counter, ";
-		 */
         $select .= "c.title AS title, ";
         $select .= "c.fulltext AS description, ";
         $select .= "c.created_by";
@@ -228,7 +221,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select('id, name');
+        $query->select('id, longname AS name');
         $query->from('#__thm_organizer_rooms');
         $query->order('name ASC');
         $dbo->setQuery((string) $query);
@@ -245,11 +238,21 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select('id, name');
+        $query->select('id, surname AS name, firstname');
         $query->from('#__thm_organizer_teachers');
-        $query->order('name ASC');
+        $query->order('surname, firstname ASC');
         $dbo->setQuery((string) $query);
         $teachers = $dbo->loadAssocList();
+        if (count($teachers))
+        {
+            foreach ($teachers as $key => $value)
+            {
+                if (!empty($value['firstname']))
+                {
+                    $teachers[$key]['name'] = $teachers[$key]['name'] . ", " . $value['firstname'];
+                }
+            }
+        }
         $this->teachers = count($teachers)? $teachers : array();
     }
 
@@ -291,8 +294,8 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
         $user = JFactory::getUser();
         $query = $dbo->getQuery(true);
 
-        $select = 'toc.id AS id, toc.title AS title, toc.globaldisplay AS global, ';
-        $select .= 'toc.reservesobjects AS reserves, toc.description as description, ';
+        $select = 'toc.id AS id, toc.title AS title, global, ';
+        $select .= 'reserves, toc.description as description, ';
         $select .= 'c.id AS contentCatID, c.title AS contentCat, c.description AS contentCatDesc, ';
         $select .= 'vl.title AS access ';
         $query->select($select);

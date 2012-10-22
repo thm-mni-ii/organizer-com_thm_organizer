@@ -39,12 +39,13 @@ class Thm_OrganizerViewEvent_Edit extends JView
         JHtml::_('behavior.formvalidation');
         JHtml::_('behavior.tooltip');
 
-        $document = & JFactory::getDocument();
+        $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
         $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/event_edit.js'));
+        $document->addScript(JRoute::_('libraries/thm_extjs4/extjs/ext-all.js'));
 
         $this->form = $this->get('Form');
-        $item->item = $this->get('Item');
+        $this->item = $this->get('Item');
 
         $model = $this->getModel();
         $this->event = $model->event;
@@ -62,11 +63,21 @@ class Thm_OrganizerViewEvent_Edit extends JView
         $this->eventLink = $model->eventLink;
 
         $blockchecked = $dailychecked = '';
-        ($event['recurrence_type'])? $dailychecked = 'checked' : $blockchecked = 'checked';
+        switch ($this->event['recurrence_type'])
+        {
+            case 0:
+                $dailychecked = 'checked';
+                break;
+            case 1:
+                $blockchecked = 'checked';
+                break;
+        }
         $this->blockchecked = $blockchecked;
         $this->dailychecked = $dailychecked;
 
-        $document->setTitle(($event['id'] == 0)? JText::_('COM_THM_ORGANIZER_EE_TITLE_NEW') : JText::_('COM_THM_ORGANIZER_EE_TITLE_EDIT'));
+        $title = ($this->event['id'] == 0)?
+                JText::_('COM_THM_ORGANIZER_EE_TITLE_NEW') : JText::_('COM_THM_ORGANIZER_EE_TITLE_EDIT');
+        $document->setTitle($title);
 
         $this->createHTMLElements();
         parent::display($tpl);

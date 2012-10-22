@@ -65,15 +65,19 @@ Joomla.submitbutton = function(task)
             requrl = requrl + getResources('teachers') + '&rooms=';
             requrl = requrl + getResources('rooms') + '&groups=';
             requrl = requrl + getResources('groups');
-            new Request({
+            Ext.Ajax.request({
                 url: requrl,
-                onComplete: function(response){
+                success: function(response) {
                     var confirmed = true;
-                    if(response){ confirmed = confirm(response); }
+                    var text = response.responseText;
+                    if(text){ confirmed = confirm(text); }
                     if(confirmed){ Joomla.submitform(task, document.eventForm); }
                     return false;
+                },
+                failure: function() {
+                    return false;
                 }
-            }).send();
+            });
         }
         else
         {
@@ -247,7 +251,8 @@ Joomla.submitbutton = function(task)
             </table>
         </div>
         <?php echo $this->form->getInput('id'); ?>
-        <input type='hidden' name='task' value='events.save' />
+        <input type='hidden' name='Itemid' value="<?php echo JRequest::getVar('Itemid'); ?>" />
+        <input type='hidden' name='task' value='' />
         <input type='hidden' name='schedulerCall' value='<?php echo JRequest::getBool('schedulerCall'); ?>' />
         <?php echo JHtml::_('form.token'); ?>
     </form>

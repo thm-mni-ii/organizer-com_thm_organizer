@@ -7,8 +7,9 @@
     <licence>GNU GPL v.2</licence>
     <authorEMail>jamesDOTantrimATyahooDOTcom</authorEMail>
     <authorUrl>www.mni.th-mittelhessen.de</authorUrl>
-    <version>0.1.0</version>
-    <layout title="COM_THM_ORGANIZER_EE_LAYOUT_TITLE">
-        <message>COM_THM_ORGANIZER_EE_LAYOUT_DESCRIPTION</message>
+    <version>0.0.1</version>
+    <layout title="COM_THM_ORGANIZER_BOOKING_LAYOUT_TITLE">
+        <message>COM_THM_ORGANIZER_BOOKING_LAYOUT_DESCRIPTION</message>
     </layout>
 </metadata>
+
