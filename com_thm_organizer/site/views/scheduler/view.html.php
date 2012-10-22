@@ -62,7 +62,16 @@ class THM_OrganizerViewScheduler extends JView
 		$menuparamsID = $menuparams->get("id");
 		$menuparamsPublicDefaultID = $menuparams->get("publicDefaultID");
 		$departmentSemesterSelection = $menuparams->get("departmentSemesterSelection");
-		
+		$deltaDisplayDays = (int) $menuparams->get("deltaDisplayDays", 14);
+		if(is_int($deltaDisplayDays))
+		{
+			$this->deltaDisplayDays = $deltaDisplayDays;
+		}
+		else
+		{
+			$this->deltaDisplayDays = 14;
+		}
+				
 		try
 		{
 			$path = (array) json_decode($menuparamsID);
@@ -82,9 +91,7 @@ class THM_OrganizerViewScheduler extends JView
 		}
 				
 		$activeSchedule = $model->getActiveSchedule($departmentSemesterSelection);
-		
-		$semesterID = $activeSchedule->id;
-		
+				
 		if (is_object($activeSchedule) && is_string($activeSchedule->schedule))
 		{
 			$activeScheduleData = json_decode($activeSchedule->schedule);
@@ -136,13 +143,15 @@ class THM_OrganizerViewScheduler extends JView
 			else
 			{
 				// Cant decode json
-				return JError::raiseWarning(404, JText::_('Fehlerhfte Daten'));
+				return JError::raiseWarning(404, JText::_('Fehlerhafte Daten'));
 			}
 		}
 		else
 		{
 			return JError::raiseWarning(404, JText::_('Kein aktiver Stundenplan'));
 		}
+		
+		$semesterID = $activeSchedule->id;
 
 		$this->semesterID = $semesterID;
 		$this->semAuthor = "";

@@ -444,36 +444,42 @@ Ext.define('mSchedule',
 	        var calendarDates = v.data.calendar;
 	        for (var dateIndex in calendarDates)
 	        {
-	            var splittedDateIndex = dateIndex.split("-");
-	            if (splittedDateIndex.length == 3)
-	            {
-	                var dateObject = new Date(splittedDateIndex[0], splittedDateIndex[1] - 1, splittedDateIndex[2]);
-	                var wpFR = Ext.Date.clone(wpMO);
-	                wpFR.setDate(wpFR.getDate() + 6);
-	                if (dateObject >= wpMO && dateObject <= wpFR)
-	                {
-	                    var dow = Ext.Date.format(dateObject, "l");
-	                    dow = dow.toLowerCase();
-	
-	                    var date = calendarDates[dateIndex];
-	                    for (var blockIndex in date)
-	                    {
-	                        var block = date[blockIndex];
-	                        if (Ext.isObject(block["lessonData"]))
-	                        {
-	                            var block = blockIndex - 1;
-	                                                            
-	                            if (!ret[block][dow])
-	                            {
-	                            	ret[block][dow] = [];
-	                            }
-	                            
-	                            ret[block][dow].push(v.getCellView(this));
-	                            this.visibleLessons.push(v.data);
-	                        }
-	                    }
-	                }
-	            }
+        		var dateObject = convertDateStringToDateObject(dateIndex);
+                var currMOFR = getCurrentMoFrDate();
+                if (dateObject >= currMOFR.monday && dateObject <= currMOFR.friday)
+                {
+                    var dow = Ext.Date.format(dateObject, "l");
+                    dow = dow.toLowerCase();
+
+                    var date = calendarDates[dateIndex];
+                    for (var blockIndex in date)
+                    {
+                        var block = date[blockIndex];
+                        if (Ext.isObject(block["lessonData"]))
+                        {
+                        	if(Ext.isString(block["lessonData"]["delta"]))
+                        	{
+                        		if(block["lessonData"]["delta"] == "removed")
+                        		{
+                        			if(displayDelta() === false)
+                        			{
+                        				continue;
+                        			}
+                        		}
+                        	}
+                        	
+                            var block = blockIndex - 1;
+                                                            
+                            if (!ret[block][dow])
+                            {
+                            	ret[block][dow] = [];
+                            }
+                            
+                            ret[block][dow].push(v.getCellView(this));
+                            this.visibleLessons.push(v.data);
+                        }
+                    }
+                }
 	        }
 	    }, this);
 
@@ -657,13 +663,13 @@ Ext.define('mSchedule',
 
             var deltaid = semid + ".1.delta";
 
-            var deltaSched = new mSchedule(deltaid, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_CENTRAL)
-                .init("delta", deltaid);
+            var deltaSched = new mSchedule(deltaid, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_CENTRAL).init("delta", deltaid);
             deltaSched.show();
             //MySched.selectedSchedule.grid.showSporadics();
             MySched.layout.viewport.doLayout();
             MySched.selectedSchedule.responsible = "delta";
-            MySched.selectedSchedule.status = "saved";
+            
+            MySched.Schedule.status = "saved";
         }
 
         return;
@@ -808,7 +814,7 @@ Ext.define('mSchedule',
             4: "thursday",
             5: "friday",
             6: "saturday",
-            7: "saturday"
+            7: "sunday"
         };
 
         // Numerischer Index erlaubt
@@ -838,13 +844,30 @@ Ext.define('mSchedule',
             };
             this.data.each(function (l)
             {
-                if (l.data.type)
+                var wd = l.getWeekDay();
+                var b = l.getBlock();
+                b = b - 1;
+                
+                var calendarDates = l.data.calendar;
+                for (var dateIndex in calendarDates)
                 {
-                    var wd = l.getWeekDay();
-                    var b = l.getBlock();
-                    b = b - 1;
-                    if (!this.blockCache[wd][b]) this.blockCache[wd][b] = 1;
-                    else this.blockCache[wd][b]++;
+            		dateObject = convertDateStringToDateObject(dateIndex);
+                    var currMOFR = getCurrentMoFrDate();
+                    if (dateObject >= currMOFR.monday && dateObject <= currMOFR.friday)
+                    {
+                    	if(calendarDates[dateIndex][l.getBlock()]["lessonData"]["delta"] != "removed")
+                    	{
+                    		if (!this.blockCache[wd][b])
+                            {
+                            	this.blockCache[wd][b] = 1;
+                            }
+                            else
+                            {
+                            	this.blockCache[wd][b]++;
+                            }
+                    		break;
+                    	}
+                    }
                 }
             }, this);
         }
@@ -881,7 +904,7 @@ Ext.define('mSchedule',
                     sid: MySched.Base.sid,
                     scheduletask: scheduletask
                 };
-                var data = this.exportData();
+                var data = MySched.Schedule.exportData();
             }
             else
             {
@@ -894,8 +917,15 @@ Ext.define('mSchedule',
                 }
                 var data = this.exportData("json", "personal");
             }
-            if (success != false) var savewait = Ext.MessageBox.wait(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_SAVING, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PLEASE_WAIT);
-            else var savewait = null;
+            if (success != false)
+            {
+            	var savewait = Ext.MessageBox.wait(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_SAVING, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PLEASE_WAIT);
+            }
+            else
+            {
+            	var savewait = null;
+            }
+            
             Ext.Ajax.request(
             {
                 url: url,
@@ -905,7 +935,11 @@ Ext.define('mSchedule',
                 params: defaultParams,
                 success: function (resp, ret)
                 {
-                    if (savewait != null) Ext.MessageBox.hide();
+                    if (savewait != null)
+                    {
+                    	Ext.MessageBox.hide();
+                    }
+                    
                     try
                     {
                         var json = Ext.decode(resp.responseText);
@@ -920,19 +954,27 @@ Ext.define('mSchedule',
                                     buttons: Ext.Msg.OK,
                                     minWidth: 400
                                 });
-                                MySched.selectedSchedule.status = "unsaved";
-                                Ext.ComponentMgr.get('btnSave')
-                                    .enable();
+                                MySched.Schedule.status = "unsaved";
+                                Ext.ComponentMgr.get('btnSave').enable();
                                 var tab = MySched.layout.tabpanel.getComponent(MySched.selectedSchedule.id);
                                 tab.mSchedule.status = "unsaved";
-                                tab = Ext.get(MySched.layout.tabpanel.getTabEl(tab))
-                                    .child('.' + MySched.selectedSchedule.type + 'Icon');
-                                if (tab) tab.replaceClass('' + MySched.selectedSchedule.type + 'Icon', '' + MySched.selectedSchedule.type + 'IconSave');
+                                tab = Ext.get(MySched.layout.tabpanel.getTabEl(tab)).child('.' + MySched.selectedSchedule.type + 'Icon');
+                                if (tab)
+                                {
+                                	tab.replaceClass('' + MySched.selectedSchedule.type + 'Icon', '' + MySched.selectedSchedule.type + 'IconSave');
+                                }
+                            }
+                            else
+                            {
+                            	MySched.Schedule.status = "saved";
+                                Ext.ComponentMgr.get('btnSave').disable();
                             }
                         }
                     }
                     catch (e)
-                    {}
+                    {
+                    	
+                    }
                 }
             });
             this.fireEvent("save", this, url);
@@ -983,35 +1025,31 @@ Ext.define('mSchedule',
             var calendarDates = v.data.calendar;
             for (var dateIndex in calendarDates)
             {
-                var splittedDateIndex = dateIndex.split("-");
-                if (splittedDateIndex.length == 3)
+                var dateObject = dateObject(dateIndex);
+                var wpFR = Ext.Date.clone(wpMO);
+                wpFR.setDate(wpFR.getDate() + 6);
+                if (dateObject >= wpMO && dateObject <= wpFR)
                 {
-                    var dateObject = new Date(splittedDateIndex[0], splittedDateIndex[1] - 1, splittedDateIndex[2]);
-                    var wpFR = Ext.Date.clone(wpMO);
-                    wpFR.setDate(wpFR.getDate() + 6);
-                    if (dateObject >= wpMO && dateObject <= wpFR)
-                    {
-                        var dow = Ext.Date.format(dateObject, "l");
-                        var dowNR = Ext.Date.format(dateObject, "N");
-                        dow = dow.toLowerCase();
+                    var dow = Ext.Date.format(dateObject, "l");
+                    var dowNR = Ext.Date.format(dateObject, "N");
+                    dow = dow.toLowerCase();
 
-                        var date = calendarDates[dateIndex];
-                        for (var blockIndex in date)
+                    var date = calendarDates[dateIndex];
+                    for (var blockIndex in date)
+                    {
+                        var block = date[blockIndex];
+                        if (Ext.isObject(block["lessonData"]))
                         {
-                            var block = date[blockIndex];
-                            if (Ext.isObject(block["lessonData"]))
-                            {
-                                var roomCollection = new MySched.Collection();
-                                roomCollection.addAll(date[blockIndex]["lessonData"]);
-                                roomCollection.remove("delta");
-                                
-                                var block = blockIndex - 1;
-                                
-                                asArrRet[asArrRet.length] = {};
-                                asArrRet[asArrRet.length - 1].cell = v.getCellView(this, roomCollection,  blockIndex, dow);
-                                asArrRet[asArrRet.length - 1].block = Ext.clone(blockIndex);
-                                asArrRet[asArrRet.length - 1].dow = Ext.clone(dowNR);
-                            }
+                            var roomCollection = new MySched.Collection();
+                            roomCollection.addAll(date[blockIndex]["lessonData"]);
+                            roomCollection.remove("delta");
+                            
+                            var block = blockIndex - 1;
+                            
+                            asArrRet[asArrRet.length] = {};
+                            asArrRet[asArrRet.length - 1].cell = v.getCellView(this, roomCollection,  blockIndex, dow);
+                            asArrRet[asArrRet.length - 1].block = Ext.clone(blockIndex);
+                            asArrRet[asArrRet.length - 1].dow = Ext.clone(dowNR);
                         }
                     }
                 }
@@ -1040,39 +1078,35 @@ Ext.define('mSchedule',
             var calendarDates = v.data.calendar;
             for (var dateIndex in calendarDates)
             {
-                var splittedDateIndex = dateIndex.split("-");
-                if (splittedDateIndex.length == 3)
+                var dateObject = convertDateStringToDateObject(dateIndex);
+                var wpFR = Ext.Date.clone(wpMO);
+                wpFR.setDate(wpFR.getDate() + 6);
+                if (dateObject >= wpMO && dateObject <= wpFR)
                 {
-                    var dateObject = new Date(splittedDateIndex[0], splittedDateIndex[1] - 1, splittedDateIndex[2]);
-                    var wpFR = Ext.Date.clone(wpMO);
-                    wpFR.setDate(wpFR.getDate() + 6);
-                    if (dateObject >= wpMO && dateObject <= wpFR)
-                    {
-                        var dow = Ext.Date.format(dateObject, "l");
-                        var dowNR = Ext.Date.format(dateObject, "N");
-                        dow = dow.toLowerCase();
+                    var dow = Ext.Date.format(dateObject, "l");
+                    var dowNR = Ext.Date.format(dateObject, "N");
+                    dow = dow.toLowerCase();
 
-                        var date = calendarDates[dateIndex];
-                        for (var blockIndex in date)
-                        {
-                            var block = date[blockIndex];
-                            if (Ext.isObject(block["lessonData"]))
-                            {                            
-                                if(date[blockIndex]["lessonData"]["delta"])
-                                {
-                                	if(date[blockIndex]["lessonData"]["delta"] == "removed")
-                                	{
-                                		continue;
-                                	}
-                                }
-                                
-                                var block = blockIndex - 1;
-                                
-                                asArrRet[asArrRet.length] = {};
-                                asArrRet[asArrRet.length - 1].cell = v.getCellView(this, false);
-                                asArrRet[asArrRet.length - 1].block = Ext.clone(blockIndex);
-                                asArrRet[asArrRet.length - 1].dow = Ext.clone(dowNR);
+                    var date = calendarDates[dateIndex];
+                    for (var blockIndex in date)
+                    {
+                        var block = date[blockIndex];
+                        if (Ext.isObject(block["lessonData"]))
+                        {                            
+                            if(date[blockIndex]["lessonData"]["delta"])
+                            {
+                            	if(date[blockIndex]["lessonData"]["delta"] == "removed")
+                            	{
+                            		continue;
+                            	}
                             }
+                            
+                            var block = blockIndex - 1;
+                            
+                            asArrRet[asArrRet.length] = {};
+                            asArrRet[asArrRet.length - 1].cell = v.getCellView(this, false);
+                            asArrRet[asArrRet.length - 1].block = Ext.clone(blockIndex);
+                            asArrRet[asArrRet.length - 1].dow = Ext.clone(dowNR);
                         }
                     }
                 }
@@ -1192,19 +1226,15 @@ Ext.define('mLecture',
     	{
 	    	for(var dateIndex in this.data.calendar)
 	    	{
-	    		var splittedDateIndex = dateIndex.split("-");
-	            if (splittedDateIndex.length == 3)
-	            {
-	                var dateObject = new Date(splittedDateIndex[0], splittedDateIndex[1] - 1, splittedDateIndex[2]);
-	                if(dateObject >= currentMoFrDate.monday && dateObject <= currentMoFrDate.friday)
-	                {
-	                	if(this.data.calendar[dateIndex][this.data.block]["lessonData"]["delta"])
-	                	{
-	                		returnValue = "delta" + this.data.calendar[dateIndex][this.data.block]["lessonData"]["delta"];
-	                		return returnValue;
-	                	}
-	                }
-	            }
+	    		var dateObject = convertDateStringToDateObject(dateIndex);
+                if(dateObject >= currentMoFrDate.monday && dateObject <= currentMoFrDate.friday)
+                {
+                	if(this.data.calendar[dateIndex][this.data.block]["lessonData"]["delta"])
+                	{
+                		returnValue = "delta" + this.data.calendar[dateIndex][this.data.block]["lessonData"]["delta"];
+                		return returnValue;
+                	}
+                }
 	    	}
     	}
     	return returnValue;
@@ -1439,14 +1469,10 @@ Ext.define('mLecture',
     	var currentMoFrDate = getCurrentMoFrDate();
     	for(var dateIndex in lesson.data.calendar)
     	{
-    		var splittedDateIndex = dateIndex.split("-");
-            if (splittedDateIndex.length == 3)
+    		var dateObject = convertDateStringToDateObject(dateIndex);
+            if(dateObject >= currentMoFrDate.monday && dateObject <= currentMoFrDate.friday)
             {
-                var dateObject = new Date(splittedDateIndex[0], splittedDateIndex[1] - 1, splittedDateIndex[2]);
-                if(dateObject >= currentMoFrDate.monday && dateObject <= currentMoFrDate.friday)
-                {
-                	roomCollection.addAll(lesson.data.calendar[dateIndex][lesson.data.block]["lessonData"]);
-                }
+            	roomCollection.addAll(lesson.data.calendar[dateIndex][lesson.data.block]["lessonData"]);
             }
     	}
 
@@ -1661,8 +1687,9 @@ Ext.define('mLecture',
     	}
     	else
     	{
-    		showDelta = true;
+    		showDelta = displayDelta();
     	}
+    	
         var d = this.getDetailData(
         {
             parentId: relObj.getId(),

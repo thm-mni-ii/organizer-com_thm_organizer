@@ -187,10 +187,8 @@ MySched.Base = function ()
                         }
                             
                     }
-                    if (MySched.selectedSchedule.id == "mySchedule")
-                    	{
-                    		Ext.ComponentMgr.get('btnSave').enable();
-                    	}
+                    
+                    Ext.ComponentMgr.get('btnSave').enable();
                         
                     var tab = MySched.layout.tabpanel.getComponent('mySchedule');
                     tab.mSchedule.status = "unsaved";
@@ -223,10 +221,8 @@ MySched.Base = function ()
                     var contentAnchorTip = Ext.getCmp('content-anchor-tip');
                     if (contentAnchorTip) contentAnchorTip.destroy();
                     var tab = MySched.layout.tabpanel.getComponent(id);
-                    if (id != "mySchedule")
-                    {
-                    	Ext.ComponentMgr.get('btnSave').enable();
-                    }
+
+                   	Ext.ComponentMgr.get('btnSave').enable();
                         
                     tab.mSchedule.status = "unsaved";
                 },
@@ -1191,6 +1187,8 @@ new Ext.util.Observable(),
             return;
         }
 
+        var bla = typeof e;
+        
         if (typeof e == "undefined")
         {
             var id = "";
@@ -1207,32 +1205,25 @@ new Ext.util.Observable(),
         }
         else
         {
-            var el = e.getTarget('.lectureBox', 5, true);
+        	if(e.getTarget)
+        	{
+        		var el = e.getTarget('.lectureBox', 5, true);
+        	}
+        	else
+        	{
+        		var el = e;
+        	}
         }
 
         var l = MySched.selectedSchedule.getLecture(el.id);
         var subjects = l.data.subjects;
         var subjectNo = null;
         
-        if (!Ext.isString(subjects.keys[0]))
-        {
-            Ext.Msg.alert(
-            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NOTICE,
-            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_MODULENR_UNKNOWN);
-            return;
-        }
-        
-        subjectNo = MySched.Mapping.getSubjectNo(subjects.keys[0]);
-        
-        if (subjectNo == subjects.keys[0])
-        {
-            Ext.Msg.alert(
-            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NOTICE,
-            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_MODULENR_UNKNOWN);
-            return;
-        }
-
-        var modulewin = Ext.create('Ext.Window',
+        this.showSubjectNoMenu(subjects, e);
+    },
+    showSubjectWindow: function(subjectNo)
+    {
+    	var modulewin = Ext.create('Ext.Window',
         {
             id: 'moduleWin',
             width: 564,
@@ -1245,7 +1236,72 @@ new Ext.util.Observable(),
         });
 
         modulewin.show();
+    },
+    showSubjectNoMenu: function(subjects, e)
+    {
+    	subjectNo = MySched.Mapping.getSubjectNo(subjects.keys[0]);
+    	
+	    destroyMenu();
 
+	    var menuItems = [];
+	    
+	    for (var subject in subjects.map)
+	    {
+	    	if(Ext.isString(subject))
+	    	{
+		    	if(subjects.map[subject] != "removed")
+		    	{
+		    		menuItems[menuItems.length] = {
+		    			id: MySched.Mapping.getSubjectNo(subject),
+				        text: MySched.Mapping.getSubjectName(subject),
+				        icon: MySched.mainPath + "images/clasIcon.png",
+				        handler: function (element, event)
+				        {
+				        	MySched.SelectionManager.showSubjectWindow(element.id);
+				        },
+				        xtype: "button"
+				    }
+		    	}
+	    	}
+	    }	
+	   
+	    var menu = Ext.create('Ext.menu.Menu',
+	    {
+	        id: 'subjectNoMenu',
+	        items: menuItems
+	    });
+
+	    if (menuItems.length > 0)
+	    {
+	    	if(menuItems.length == 1)
+	    	{
+	            var subjectNo = MySched.Mapping.getSubjectNo(subjects.keys[0]);
+	            
+	            if (subjectNo == subjects.keys[0])
+	            {
+	                Ext.Msg.alert(
+	                MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NOTICE,
+	                MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_MODULENR_UNKNOWN);
+	                return;
+	            }
+
+	            this.showSubjectWindow(subjectNo);
+	    	}
+	    	else
+	    	{
+	    		menu.showAt(e.getXY());	
+	    	}
+	    }
+	    else
+	    {
+	    	if (!Ext.isString(subjects.keys[0]))
+            {
+                Ext.Msg.alert(
+                MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NOTICE,
+                MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_MODULENR_UNKNOWN);
+                return;
+            }
+	    }
     },
     showInformation: function (e)
     {
@@ -1631,16 +1687,14 @@ function showLessonMenu(e)
     var lesson = MySched.Base.getLecture(el.id);
     if (typeof lesson == "undefined") lesson = MySched.Schedule.getLecture(el.id);
 
-    var rMenu = Ext.getCmp('responsibleMenu');
-    var oMenu = Ext.getCmp('ownerMenu');
-    if (Ext.isDefined(rMenu)) rMenu.destroy();
-    if (Ext.isDefined(oMenu)) oMenu.destroy();
+    destroyMenu();
 
     var editLesson = {
         text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_CHANGE,
         icon: MySched.mainPath + "images/icon-edit.png",
         handler: function ()
         {
+        	destroyMenu();
             MySched.SelectionManager.editLesson();
         },
         xtype: "button"
@@ -1651,6 +1705,7 @@ function showLessonMenu(e)
         icon: MySched.mainPath + "images/icon-delete.png",
         handler: function ()
         {
+        	destroyMenu();
             MySched.SelectionManager.deleteLesson();
         },
         xtype: "button"
@@ -1661,6 +1716,7 @@ function showLessonMenu(e)
         icon: MySched.mainPath + "images/add.png",
         handler: function ()
         {
+        	destroyMenu();
             MySched.SelectionManager.selectEl = el;
             MySched.SelectionManager.lecture2ScheduleHandler();
         },
@@ -1672,6 +1728,7 @@ function showLessonMenu(e)
         icon: MySched.mainPath + "images/delete.png",
         handler: function ()
         {
+        	destroyMenu();
             MySched.SelectionManager.selectEl = el;
             MySched.SelectionManager.lecture2ScheduleHandler();
         },
@@ -1681,20 +1738,22 @@ function showLessonMenu(e)
     var estudyLesson = {
         text: "eStudy",
         icon: MySched.mainPath + "images/estudy_logo.jpg",
-        handler: function ()
+        handler: function (element, event)
         {
-            MySched.SelectionManager.showModuleInformation();
+            MySched.SelectionManager.showModuleInformation(this);
         },
+        scope: el,
         xtype: "button"
     }
 
     var infoLesson = {
         text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_INFORMATION,
         icon: MySched.mainPath + "images/information.png",
-        handler: function ()
+        handler: function (element, event)
         {
-            MySched.SelectionManager.showModuleInformation();
+            MySched.SelectionManager.showModuleInformation(this);
         },
+        scope: el,
         xtype: "button"
     }
 
@@ -1730,17 +1789,17 @@ function showLessonMenu(e)
         items: menuItems
     });
 
-    if (menuItems.length > 0) menu.showAt(e.getXY());
+    if (menuItems.length > 0)
+    {
+    	menu.showAt(e.getXY());
+    }
 }
 
 function showBlockMenu(e)
 {
     e.stopEvent();
 
-    var rMenu = Ext.getCmp('responsibleMenu');
-    var oMenu = Ext.getCmp('ownerMenu');
-    if (Ext.isDefined(rMenu)) rMenu.destroy();
-    if (Ext.isDefined(oMenu)) oMenu.destroy();
+    destroyMenu();
 
     var el = e.getTarget('.conMenu', 5, true);
     MySched.BlockMenu.stime = el.getAttribute("stime");
@@ -1754,6 +1813,27 @@ function showBlockMenu(e)
     });
 
     if (MySched.BlockMenu.Menu.length > 0) menu.showAt(e.getXY());
+}
+
+function destroyMenu()
+{
+	var rMenu = Ext.getCmp('responsibleMenu');
+    var oMenu = Ext.getCmp('ownerMenu');
+    var sMenu = Ext.getCmp('subjectNoMenu');
+    if (Ext.isDefined(rMenu))
+    {
+    	rMenu.destroy();
+    }
+    
+    if (Ext.isDefined(oMenu))
+    {
+    	oMenu.destroy();
+    }
+    
+    if (Ext.isDefined(sMenu))
+    {
+    	sMenu.destroy();
+    }
 }
 
 /**
@@ -2044,7 +2124,8 @@ MySched.layout = function ()
 	                var plantypeID = "";
 	                var type = selectedSchedule.type;
 	
-	                if (MySched.selectedSchedule.status == "unsaved") {
+	                if (MySched.Schedule.status == "unsaved")
+	                {
 	                	Ext.ComponentMgr.get('btnSave').enable();
 	                }
 	                else
@@ -2101,15 +2182,13 @@ MySched.layout = function ()
 		                            MySched.selectedSchedule.eventsloaded = null;
 		                            MySched.selectedSchedule.init(type, nodeKey, semesterID);
 		                            // Aufgerufener Tab wird neu geladen
-		                            if (MySched.selectedSchedule.status == "unsaved")
+		                            if (MySched.Schedule.status == "unsaved")
 		                            {
-		                                Ext.ComponentMgr.get('btnSave')
-		                                    .enable();
+		                                Ext.ComponentMgr.get('btnSave').enable();
 		                            }
 		                            else
 		                            {
-		                                Ext.ComponentMgr.get('btnSave')
-		                                    .disable();
+		                                Ext.ComponentMgr.get('btnSave').disable();
 		                            }
 		
 		                            var lectureData = MySched.selectedSchedule.data.items;
@@ -2141,7 +2220,7 @@ MySched.layout = function ()
 		                    MySched.selectedSchedule.eventsloaded = null;
 		                    MySched.selectedSchedule.init(type, nodeKey, semesterID);
 		                    // Aufgerufener Tab wird neu geladen
-		                    if (MySched.selectedSchedule.status == "unsaved")
+		                    if (MySched.Schedule.status == "unsaved")
 		                    {
 		                        Ext.ComponentMgr.get('btnSave').enable();
 		                    }
@@ -2400,7 +2479,7 @@ MySched.layout = function ()
 
                 MySched.selectedSchedule = tab.mSchedule;
                 // Aufgerufener Tab wird neu geladen
-                if (MySched.selectedSchedule.status == "unsaved")
+                if (MySched.Schedule.status == "unsaved")
                 {
                     Ext.ComponentMgr.get('btnSave').enable();
                 }

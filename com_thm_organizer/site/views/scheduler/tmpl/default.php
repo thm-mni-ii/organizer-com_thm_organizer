@@ -93,6 +93,7 @@
 			echo 'MySched.CurriculumisAvailable = \'' . $this->CurriculumisAvailable . '\';';
 			echo 'MySched.searchModuleID = \'' . $this->searchModuleID . '\';';
 			echo 'MySched.loadLessonsOnStartUp = new Boolean(' . $this->loadLessonsOnStartUp . ');';
+			echo 'MySched.deltaDisplayDays = ' . $this->deltaDisplayDays . ';';
 	?>
 		Ext.onReady(MySched.Base.init, MySched.Base);
 	</script>

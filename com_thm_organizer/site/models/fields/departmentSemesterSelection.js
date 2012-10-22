@@ -15,9 +15,12 @@ Ext.onReady(function()
 	
 	var initselectBox = Ext.get('jform_params_departmentSemesterSelection');
 	var initselectedItems = initselectBox.dom.getSelected();
-	var initselectedItem = initselectedItems[0];
-	var initselectedItemValue = initselectedItem.value;
-	loadTreeData(initselectedItemValue);
+	if(initselectedItems.length > 0)
+	{
+		var initselectedItem = initselectedItems[0];
+		var initselectedItemValue = initselectedItem.value;
+		loadTreeData(initselectedItemValue);
+	}
 });
 
 function loadTreeData(selectedItemValue)
@@ -41,7 +44,8 @@ function loadTreeData(selectedItemValue)
         {
         	departmentSemesterSelection: selectedItemValue,
         	treeIDs: Ext.encode(treeIDs),
-            scheduletask: "TreeView.load"
+            scheduletask: "TreeView.load",
+            publicDefaultID: publicDefaultID
         },
         failure: function (response)
         {
@@ -55,6 +59,11 @@ function loadTreeData(selectedItemValue)
             rootNode.removeAll(true);
             rootNode.appendChild(newtree);
             tree.update();
+
+            checkBoxEvents();
+        	
+        	tree.doGray();
+            
             if (loadMask)
 		    {
 				loadMask.destroy();

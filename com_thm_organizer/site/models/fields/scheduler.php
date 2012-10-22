@@ -63,6 +63,15 @@ class JFormFieldScheduler extends JFormField
 		{
 			$jsonObj = json_decode($rows[0]->params);
 		}
+		
+		if(isset($jsonObj->publicDefaultID))
+		{
+			$publicDefaultID = $jsonObj->publicDefaultID;
+		}
+		else
+		{
+			$publicDefaultID = "";
+		}
 
 		if (isset($jsonObj->id))
 		{
@@ -87,6 +96,8 @@ class JFormFieldScheduler extends JFormField
 		{
 			$treeids = array();
 		}
+		
+		
 		?>
 
 <!--<script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/views/scheduler/tmpl/ext/adapter/ext/ext-base.js"></script>
@@ -98,6 +109,7 @@ class JFormFieldScheduler extends JFormField
 
 <script type="text/javascript" charset="utf-8">	
 	var treeIDs = <?php echo json_encode($treeids); ?>;
+	var publicDefaultID = <?php echo json_encode($publicDefaultID); ?>;
 	
 	<?php
 	

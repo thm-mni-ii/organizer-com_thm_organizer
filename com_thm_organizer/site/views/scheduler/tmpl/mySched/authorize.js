@@ -136,7 +136,9 @@ MySched.Authorize = function ()
 
             MySched.layout.viewport.doLayout();
             MySched.selectedSchedule.responsible = this.user;
-            MySched.selectedSchedule.status = "saved";
+            
+            
+            MySched.Schedule.status = "saved";
         },
         /**
          * Ein Vorcheck, ob fuer einen bestimmten Typ ueberhaupt Berechtigungen
@@ -267,8 +269,11 @@ MySched.Authorize = function ()
             {
                 task = "saveScheduleChanges";
             }
-            MySched.selectedSchedule.save.call(MySched.selectedSchedule,
-            _C('ajaxHandler'), showWindow, task);
+            
+            // Speichern bezieht sich immer auf "Mein Stundenplan"
+            task = "UserSchedule.save";
+            
+            MySched.selectedSchedule.save.call(MySched.selectedSchedule, _C('ajaxHandler'), showWindow, task);
         },
         isClassSemesterAuthor: function ()
         {

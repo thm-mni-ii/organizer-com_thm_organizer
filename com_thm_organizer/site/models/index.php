@@ -138,7 +138,7 @@ class THM_OrganizerModelIndex extends JModelList
 		if ($order == '')
 		{
 			// @TODO: sortierung nach jeder id
-			parent::populateState("lsf_course_id", "ASC");
+			parent::populateState("lsf_course_code, his_course_code, lsf_course_id", "ASC");
 		}
 		else
 		{
@@ -156,6 +156,9 @@ class THM_OrganizerModelIndex extends JModelList
 		$orderCol = $this->state->get('list.ordering');
 		$orderDirn = $this->state->get('list.direction');
 		$search = $this->state->get('filter');
+
+		$oderColumns = explode(", ", $orderCol);
+		$orderCol = implode(" ".$orderDirn.",", $oderColumns);
 
 		$ret = self::getSqlOr();
 		$orderby = " ORDER BY $orderCol $orderDirn";

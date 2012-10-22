@@ -415,7 +415,7 @@ function getMonday(date)
             weekpointer.setDate(weekpointer.getDate() - 1);
         }
     }
-    weekpointer.clearTime();
+    Ext.Date.clearTime(weekpointer);
     return weekpointer;
 }
 
@@ -425,11 +425,12 @@ function getMonday(date)
 function getCurrentMoFrDate()
 {
     var returnData = [];
-    var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker')
-        .value);
+    var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker').value);
     var mondayWeekPointer = getMonday(weekpointer);
     var fridayWeekPointer = Ext.Date.clone(mondayWeekPointer);
     fridayWeekPointer.setDate(fridayWeekPointer.getDate() + 6);
+    Ext.Date.clearTime(mondayWeekPointer);
+    Ext.Date.clearTime(fridayWeekPointer);
     returnData = {
         "monday": Ext.Date.clone(mondayWeekPointer),
         "friday": Ext.Date.clone(fridayWeekPointer)
@@ -457,4 +458,38 @@ function showLoadMask(id)
         msg: "Loading..."
     });
     MySched.loadMask.show();
+}
+
+function convertDateStringToDateObject(dateString)
+{
+	var splittedDateIndex = dateString.split("-");
+    if (splittedDateIndex.length == 3)
+    {
+        var dateObject = new Date(splittedDateIndex[0], splittedDateIndex[1] - 1, splittedDateIndex[2]);
+        Ext.Date.clearTime(dateObject);
+        return dateObject;
+    }
+    else
+    {
+    	return false;
+    }
+}
+
+function displayDelta()
+{
+	if(!Ext.isNumber(MySched.deltaDisplayDays))
+	{
+		return false;
+	}
+	
+	var currentDate = new Date();
+	Ext.Date.clearTime(currentDate);
+	var creationDate = convertDateStringToDateObject(MySched.session["creationdate"]);
+	
+	creationDate.setDate(creationDate.getDate() + MySched.deltaDisplayDays);
+	if(creationDate < currentDate)
+	{
+		return false;
+	}
+	return true;
 }
