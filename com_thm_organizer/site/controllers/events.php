@@ -6,7 +6,7 @@
  * 
  *@subpackage  com_thm_organizer
  *@name        event controller
- *@author      James Antrim jamesDOTantrimATyahooDOTcom
+ *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
  * 
  *@copyright   2012 TH Mittelhessen
  * 
