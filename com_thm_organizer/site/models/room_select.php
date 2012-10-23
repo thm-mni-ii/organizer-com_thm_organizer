@@ -1,19 +1,34 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_thm_organizer
- * @name        room select model
- * @author      James Antrim jamesDOTantrimATyahooDOTcom
- * @copyright   TH Mittelhessen 2011
- * @license     GNU GPL v.2
- * @link        www.mni.thm.de
- * @version     0.0.1
+ *@category    component
+ * 
+ *@package     THM_Organizer
+ * 
+ *@subpackage  com_thm_organizer
+ *@name        room select model
+ *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ * 
+ *@copyright   2012 TH Mittelhessen
+ * 
+ *@license     GNU GPL v.2
+ *@link        www.mni.thm.de
+ *@version     0.1.0
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 jimport('joomla.application.component.modelform');
+/**
+ * Retrieves data for room selection
+ * 
+ * @package  Joomla.Site
+ * 
+ * @since    2.5.4 
+ */
 class thm_organizerModelroom_select extends JModelForm
 {
-    function __construct()
+    /**
+     * Constructor 
+     */
+    public function __construct()
     {
         $this->checkIP();
         parent::__construct();
@@ -24,20 +39,20 @@ class thm_organizerModelroom_select extends JModelForm
      * Checks if the clients ip matches one of those stored in the db, and
      * redirects directly to room display view if the ip is stored
      *
-     * @access private
+     * @return void
      */
     private function checkIP()
     {
-        $ip = $_SERVER['REMOTE_ADDR'];
+        $ipAddress = $_SERVER['REMOTE_ADDR'];
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);
-        $query->select("r.name AS name");
+        $query->select("r.longname AS name");
         $query->from("#__thm_organizer_monitors AS m");
         $query->innerJoin("#__thm_organizer_rooms AS r ON m.roomID = r.id");
-        $query->where("ip = '$ip'");
-        $dbo->setQuery((string)$query);
+        $query->where("ip = '$ipAddress'");
+        $dbo->setQuery((string) $query);
         $room = $dbo->loadResult();
-        if(isset($room) && $room != '')
+        if (isset($room) AND $room != '')
         {
             $application = JFactory::getApplication();
             $menuID = JRequest::getInt('Itemid');
@@ -50,15 +65,21 @@ class thm_organizerModelroom_select extends JModelForm
     /**
      * Method to get the record form.
      *
-     * @param array   $data Data for the form.
-     * @param boolean $loadData True if the form is to load its own data (default case), false if not.
-     * @return mixed A JForm object on success, false on failure
+     * @param   array    $data      Data for the form.
+     * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+     * 
+     * @return  mixed A JForm object on success, false on failure
      */
     public function getForm($data = array(), $loadData = true)
     {
-        $form = $this->loadForm('com_thm_organizer.room_select', 'room_select',
-                                array('control' => 'jform', 'load_data' => $loadData));
-        if(empty($form)) return false;
+        $form = $this->loadForm('com_thm_organizer.room_select',
+                                'room_select',
+                                array('control' => 'jform', 'load_data' => $loadData)
+                               );
+        if (empty($form))
+        {
+            return false;
+        }
         return $form;
     }
 }

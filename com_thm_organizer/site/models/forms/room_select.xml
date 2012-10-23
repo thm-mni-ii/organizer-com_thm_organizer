@@ -5,7 +5,7 @@
     <creationDate>15.04.2011</creationDate>
     <copyright>TH Mittelhessen 2011</copyright>
     <licence>GNU GPL v.2</licence>
-    <authorEMail>jamesDOTantrimATyahooDOTcom</authorEMail>
+    <authorEMail>jamesDOTantrimATmniDOTthmDOTde</authorEMail>
     <authorUrl>www.mni.th-mittelhessen.de</authorUrl>
     <version>0.0.1</version>
     <fieldset>
@@ -15,9 +15,9 @@
                 label="COM_THM_ORGANIZER_RS_ROOM_TITLE"
                 description="COM_THM_ORGANIZER_RS_ROOM_DESC"
                 class="inputbox"
-                query="SELECT name, alias FROM #__thm_organizer_rooms"
-                key_field="name"
-                value_field="alias" />
+                query="SELECT id, longname FROM #__thm_organizer_rooms"
+                key_field="id"
+                value_field="longname" />
         <field  id="date"
                 name="date"
                 type="calendar"

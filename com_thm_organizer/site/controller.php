@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Site | Joomla.Administrator
  * @subpackage  com_thm_organizer
- * @author      James Antrim jamesDOTantrimATyahooDOTcom
+ * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
  * @author      Wolf Rost
  * @author      Markus Baier
  * @copyright   TH Mittelhessen 2011

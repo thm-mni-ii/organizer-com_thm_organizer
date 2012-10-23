@@ -2,7 +2,7 @@
 <extension method="upgrade" type="component" version="2.5.7">
     <name>THM_ORGANIZER</name>
     <author>James Antrim</author>
-    <authorEMail>jamesDOTantrimATyahooDOTcom</authorEMail>
+    <authorEMail>jamesDOTantrimATmniDOTthmDOTde</authorEMail>
     <author>Wolf Rost</author>
     <authorEMail>wolfDOTrostATmniDOTthDASHmittelhessenDOTde</authorEMail>
     <author>Markus Baier</author>

@@ -8,7 +8,8 @@
     <authorEMail>jamesDOTantrimATmniDOTthmDOTde</authorEMail>
     <authorUrl>www.mni.th-mittelhessen.de</authorUrl>
     <version>0.0.1</version>
-    <layout title="COM_THM_ORGANIZER_RS_LAYOUT_TITLE">
-        <message>COM_THM_ORGANIZER_RS_LAYOUT_DESCRIPTION</message>
+    <layout title="COM_THM_ORGANIZER_BOOKING_LAYOUT_TITLE">
+        <message>COM_THM_ORGANIZER_BOOKING_LAYOUT_DESCRIPTION</message>
     </layout>
 </metadata>
+

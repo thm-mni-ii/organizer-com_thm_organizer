@@ -1,26 +1,36 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_thm_organizer
- * @name        access.php
- * @description checks user rights against events
- * @author      James Antrim jamesDOTantrimATyahooDOTcom
- * @copyright   TH Mittelhessen 2011
- * @license     GNU GPL v.2
- * @link        www.mni.thm.de
- * @version     0.0.1
+ *@category    component
+ * 
+ *@package     THM_Organizer
+ * 
+ *@subpackage  com_thm_organizer
+ *@name        event access
+ *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ * 
+ *@copyright   2012 TH Mittelhessen
+ * 
+ *@license     GNU GPL v.2
+ *@link        www.mni.thm.de
+ *@version     0.1.0
  */
-
+/**
+ * Contains static functions to determine user access to events
+ * 
+ * @package  Joomla.Site
+ * 
+ * @since    1.5
+ */
 class eventAccess
 {
     /**
-     * isAuthor
-     *
-     * checks if the current user is the author of a given event
+     * Checks if the current user is the author of a given event
+     * 
+     * @param   int  $eventID  the id of the event to be checked
      *
      * @return bool true if user is the autor of the event, otherwise false
      */
-    public function isAuthor($eventID)
+    public static function isAuthor($eventID)
     {
         $dbo = JFactory::getDbo();
         $user = JFactory::getUser();
@@ -28,7 +38,7 @@ class eventAccess
         $query->select("created_by AS author");
         $query->from("#__content");
         $query->where("id = '$eventID'");
-        $dbo->setQuery((string)$query);
+        $dbo->setQuery((string) $query);
         $author = $dbo->loadResult();
         $isAuthor = ($user->id == $author)? true : false;
         return $isAuthor;
@@ -50,30 +60,32 @@ class eventAccess
         $query->select("DISTINCT c.id");
         $query->from("#__categories AS c");
         $query->innerJoin("#__thm_organizer_categories AS ec ON ec.contentCatID = c.id");
-        $dbo->setQuery((string)$query);
+        $dbo->setQuery((string) $query);
         $categoryIDs = $dbo->loadResultArray();
 
-        if(isset($categoryIDs) and count($categoryIDs))
+        if (isset($categoryIDs) and count($categoryIDs))
         {
-            foreach($categoryIDs as $categoryID)
+            foreach ($categoryIDs as $categoryID)
             {
                 $assetname = "com_content.category.$categoryID";
                 $canCreate = $user->authorise('core.create', $assetname);
-                if($canCreate) break;
+                if ($canCreate)
+                {
+                    break;
+                }
             }
         }
         return $canCreate;
     }
 
     /**
-     * canEdit
+     * Checks if the current user can edit a given event
      *
-     * checks if the current user can edit a given event
-     *
-     * @param int $eventID the id of the event
-     * @return boolean true if the user can edit the event, otherwise false
+     * @param   int  $eventID  the id of the event
+     * 
+     * @return  boolean true if the user can edit the event, otherwise false
      */
-    public function canEdit($eventID)
+    public static function canEdit($eventID)
     {
         $user = JFactory::getUser();
         $eventID = JRequest::getInt('eventID');
@@ -82,35 +94,40 @@ class eventAccess
         $canEdit = $user->authorise('core.edit', $assetname);
         $canEdit = (isset($canEdit) and $canEdit);
         $canEditOwn = (self::isAuthor($eventID))? self::canEditOwn($eventID) : false;
-        if($canEdit or $canEditOwn) $canEdit = true;
+        if ($canEdit or $canEditOwn)
+        {
+            $canEdit = true;
+        }
         return $canEdit;
     }
 
     /**
-     * canEditOwn
+     * Checks if the user can edit en event which he has authored
      *
-     * checks if the user can edit en event which he has authored
-     *
-     * @param int $eventID the id of the event to be edited
-     * @return boolean true if the user can edit own events, otherwise false
+     * @param   int  $eventID  the id of the event to be edited
+     * 
+     * @return  boolean true if the user can edit own events, otherwise false
      */
-    public function canEditOwn($eventID)
+    public static function canEditOwn($eventID)
     {
         $user = JFactory::getUser();
         $assetname = "com_content.article.$eventID";
         $canEditOwn = $user->authorise('core.edit.own', $assetname);
-        if(!isset($canEditOwn))$canEditOwn = false;
+        if (!isset($canEditOwn))
+        {
+            $canEditOwn = false;
+        }
         return $canEditOwn;
     }
 
     /**
-     * canDelete
+     * Checks if the current user is allowed to delete an event
+     * 
+     * @param   int  $eventID  the id of the event to be checked
      *
-     * checks if the current user is allowed to delete an event
-     *
-     * @return boolean true if the user can delete a given event, otherwise false
+     * @return  boolean true if the user can delete a given event, otherwise false
      */
-    public function canDelete($eventID)
+    public static function canDelete($eventID)
     {
         $user = JFactory::getUser();
         $assetname = "com_content.article.$eventID";
@@ -119,14 +136,13 @@ class eventAccess
         return $canDelete;
     }
 
-
     /**
-     * noAccess
-     *
-     * issues a generic warning when unauthorized function calls are performed
+     * Issues a generic warning when unauthorized function calls are performed
+     * 
+     * @return void
      */
-    public function noAccess()
+    public static function noAccess()
     {
-        JError::raiseError( 777, JText::_('COM_THM_ORGANIZER_ERROR_NOAUTH') );
+        JError::raiseError(777, JText::_('COM_THM_ORGANIZER_ERROR_NOAUTH'));
     }
 }

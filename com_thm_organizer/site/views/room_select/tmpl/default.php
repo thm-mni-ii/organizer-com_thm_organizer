@@ -1,13 +1,18 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_thm_organizer
- * @name        room selection default layout
- * @author      James Antrim jamesDOTantrimATyahooDOTcom
- * @copyright   TH Mittelhessen 2011
- * @license     GNU GPL v.2
- * @link        www.mni.thm.de
- * @version     0.0.1
+ *@category    component
+ * 
+ *@package     THM_Organizer
+ * 
+ *@subpackage  com_thm_organizer
+ *@name        room select default template
+ *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ * 
+ *@copyright   2012 TH Mittelhessen
+ * 
+ *@license     GNU GPL v.2
+ *@link        www.mni.thm.de
+ *@version     0.1.0
  */
 ?>
 <div id="thm_organizer_rs">

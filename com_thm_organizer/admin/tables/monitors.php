@@ -32,6 +32,6 @@ class thm_organizerTablemonitors extends JTable
      */
     public function __construct(&$dbo)
     {
-        parent::__construct('#__thm_organizer_monitors', 'monitorID', $dbo);
+        parent::__construct('#__thm_organizer_monitors', 'id', $dbo);
     }
 }
