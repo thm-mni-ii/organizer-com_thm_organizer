@@ -174,7 +174,7 @@ class thm_organizerModelbooking extends JModel
         if (isset($this->_events))
         {
             $conflicts = array_merge($conflicts, $this->_events);
-        }var_dump($this->_events);
+        }
 
         $this->_activeSchedules = $this->getActiveSchedules();
         if ((!empty($this->_roomKeys) OR !empty($this->_teacherKeys)) AND count($this->_activeSchedules))
@@ -184,7 +184,7 @@ class thm_organizerModelbooking extends JModel
         if (isset($this->_lessons))
         {
             $conflicts = array_merge($conflicts, $this->_lessons);
-        }var_dump($this->_lessons);die;
+        }
         return $conflicts;
     }
 
@@ -607,8 +607,8 @@ class thm_organizerModelbooking extends JModel
      * creates a preformatted text containing the names of resources which are
      * in conflict with those of the event to be created
      *
-     * @param   int     $eventID  the ID of the event which is in conflict with the
-     *                            one to be created
+     * @param   int  $eventID  the ID of the event which is in conflict with the
+     *                         one to be created
      * 
      * @return string preformatted text containing resource names
      */
