@@ -1488,7 +1488,7 @@ Ext.define('mLecture',
 
         for (var teacherIndex in teachers)
         {
-            teacherName = getTeacherSurnameWithCutFirstName(teacherIndex);
+            var teacherName = getTeacherSurnameWithCutFirstName(teacherIndex);
             
             if(d.showDelta == true)
         	{
