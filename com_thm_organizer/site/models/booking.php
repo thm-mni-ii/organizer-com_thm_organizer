@@ -174,17 +174,17 @@ class thm_organizerModelbooking extends JModel
         if (isset($this->_events))
         {
             $conflicts = array_merge($conflicts, $this->_events);
-        }
+        }var_dump($this->_events);
 
         $this->_activeSchedules = $this->getActiveSchedules();
-        if (!empty($this->_roomKeys) AND !empty($this->_teacherKeys) AND count($this->_activeSchedules))
+        if ((!empty($this->_roomKeys) OR !empty($this->_teacherKeys)) AND count($this->_activeSchedules))
         {
             $this->getLessons();
         }
         if (isset($this->_lessons))
         {
             $conflicts = array_merge($conflicts, $this->_lessons);
-        }
+        }var_dump($this->_lessons);die;
         return $conflicts;
     }
 
