@@ -1488,7 +1488,7 @@ Ext.define('mLecture',
 
         for (var teacherIndex in teachers)
         {
-            var teacherName = MySched.Mapping.getTeacherSurname(teacherIndex);
+            teacherName = getTeacherSurnameWithCutFirstName(teacherIndex);
             
             if(d.showDelta == true)
         	{

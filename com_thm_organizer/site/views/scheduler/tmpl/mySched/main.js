@@ -4184,8 +4184,9 @@ MySched.Tree = function ()
                 departmentfield = "description";
                 nodeFullName = nodeKey;
                 if (type == "teacher")
-                {
-                    nodeFullName = MySched.Mapping.getTeacherSurname(nodeKey);
+                {                    
+                    nodeFullName = getTeacherSurnameWithCutFirstName(nodeKey);
+                    
                 }
                 else if (type == "room")
                 {
