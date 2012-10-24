@@ -2468,15 +2468,11 @@ MySched.layout = function ()
                     }
                     this.tabpanel.add(tab);
                 }
-                if (Ext.getCmp('content-anchor-tip')) Ext.getCmp('content-anchor-tip')
-                    .destroy();
-
-                firstSchedule = true
-                if (MySched.selectedSchedule != null)
+                if (Ext.getCmp('content-anchor-tip'))
                 {
-                    firstSchedule = false;
+                	Ext.getCmp('content-anchor-tip').destroy();                	
                 }
-
+                	
                 MySched.selectedSchedule = tab.mSchedule;
                 // Aufgerufener Tab wird neu geladen
                 if (MySched.Schedule.status == "unsaved")
@@ -2496,11 +2492,11 @@ MySched.layout = function ()
                 // Wechselt zum neu erstellten Tab
                 this.tabpanel.setActiveTab(tab);
                 MySched.Base.regScheduleEvents(id);
-                if (firstSchedule)
-                {
-                    MySched.selectedSchedule.refreshView();
-                }
 
+                if(this.tabpanel.items.length == 1)
+            	{
+                   	MySched.selectedSchedule.refreshView();
+            	}
             }
         },
         /**
