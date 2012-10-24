@@ -493,3 +493,22 @@ function displayDelta()
 	}
 	return true;
 }
+
+function getTeacherSurnameWithCutFirstName(teacherKey)
+{	
+	var teacherName = teacherKey;
+	var teacherSurname = MySched.Mapping.getTeacherSurname(teacherKey);
+    var teacherFirstname = MySched.Mapping.getTeacherFirstname(teacherKey);
+    
+    if(Ext.isString(teacherSurname) && teacherSurname != teacherKey && teacherSurname.length > 0)
+    {
+    	teacherName = teacherSurname;
+    }
+    
+    if(Ext.isString(teacherFirstname) && teacherFirstname != teacherKey && teacherFirstname.length > 0)
+    {
+    	teacherName += ", " + teacherFirstname.charAt(0) + ".";
+    }
+    
+    return teacherName;
+}

@@ -652,21 +652,54 @@ class TreeView
 			foreach($filteredData as $childKey => $childValue)
 			{
 				$nodeID = $descriptionID . ";" .$childKey;
-				if($scheduleType === "teacher")
+				if ($scheduleType === "teacher")
 				{
-					$nodeName = $childValue->surname;
+					if (strlen($childValue->surname) > 0)
+					{
+						$nodeName = $childValue->surname;
+					}
+					else
+					{
+						$nodeName = $childKey;
+					}
+					
+					if (strlen($childValue->firstname) > 0)
+					{
+						$nodeName .= ", " . $childValue->firstname{0}. ".";
+					}
 				}
 				elseif ($scheduleType === "room")
 				{
-					$nodeName = $childValue->longname;
+					if(strlen($childValue->longname) > 0)
+					{
+						$nodeName = $childValue->longname;
+					}
+					else
+					{
+						$nodeName = $childKey;
+					}
 				}
 				elseif ($scheduleType === "module")
 				{
-					$nodeName = $childValue->restriction;
+					if(strlen($childValue->restriction) > 0)
+					{
+						$nodeName = $childValue->restriction;
+					}
+					else
+					{
+						$nodeName = $childKey;
+					}
 				}
 				elseif ($scheduleType === "subject")
 				{
-					$nodeName = $childValue->longname;
+					if(strlen($childValue->longname) > 0)
+					{
+						$nodeName = $childValue->longname;
+					}
+					else
+					{
+						$nodeName = $childKey;
+					}
 				}
 				else
 				{

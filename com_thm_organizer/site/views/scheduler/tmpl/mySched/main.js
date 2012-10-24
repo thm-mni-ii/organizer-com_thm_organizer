@@ -4174,18 +4174,27 @@ MySched.Tree = function ()
         {
             showLoadMask();
 
-            if (type === null) type = gpuntisID;
+            if (type === null)
+            {
+            	type = gpuntisID;
+            }
             var department = null;
-            if (type == "delta") title = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_CENTRAL;
-            else if (type == "respChanges") title = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_OWN;
+            if (type == "delta")
+            {
+            	title = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_CENTRAL;
+            }
+            else if (type == "respChanges")
+            {
+            	title = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_OWN;
+            }
             else
             {
-                departmenttype = "field"
-                departmentfield = "description";
-                nodeFullName = nodeKey;
+                var departmenttype = "field"
+                var departmentfield = "description";
+                var nodeFullName = nodeKey;
                 if (type == "teacher")
-                {
-                    nodeFullName = MySched.Mapping.getTeacherSurname(nodeKey);
+                {                    
+                    nodeFullName = getTeacherSurnameWithCutFirstName(nodeKey);
                 }
                 else if (type == "room")
                 {
