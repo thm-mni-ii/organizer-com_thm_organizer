@@ -42,6 +42,10 @@ class THM_OrganizerViewScheduler extends JView
 	{
 		JHTML::_('behavior.tooltip');
 		$model = $this->getModel();
+		
+		// Get the curriculum color for modules
+		$curriculumModuleColors = $model->getCurriculumModuleColors();
+		
 		$menuparams = JFactory::getApplication()->getParams();
 				
 		$user = JFactory::getUser();
@@ -181,6 +185,8 @@ class THM_OrganizerViewScheduler extends JView
 				$period->endtime = wordwrap($period->endtime, 2, ':', 1);
 			}
 		}
+		
+		$schedulearr['CurriculumColors'] = $curriculumModuleColors;
 		
 		$schedulearr["Grid.load"] = $activeSchedulePeriods;
 		

@@ -1213,10 +1213,39 @@ Ext.define('mLecture',
             'statusIcons': this.getStatus(d),
             'topIcon': this.getTopIcon(d),
             'comment': this.getComment(d),
-            'deltaStatus': this.getDeltaStatus(d)
+            'deltaStatus': this.getDeltaStatus(d),
+            'curriculumColor': this.getCurriculumColor(d)
             /*,
       'events': this.getEvents(d)*/
         });
+    },
+    getCurriculumColor: function (d)
+    {
+    	if(MySched.selectedSchedule == null)
+    	{
+    		return "";
+    	}
+    	var curriculumColors = MySched.startup.CurriculumColors;
+    	
+    	if(curriculumColors.length < 1)
+    	{
+    		return "";
+    	}
+    	
+    	var key = MySched.selectedSchedule.key;
+    	var moduleName = MySched.Mapping.getModuleFullName(key);
+    	var moduleDegree = MySched.Mapping.getModuleParent(key);
+    	var degreeName = MySched.Mapping.getDegreeName(moduleDegree);
+    	
+    	for(var index = 0; index < curriculumColors.length; index++)
+    	{
+    		var curriculumColor = curriculumColors[index];
+    		if(curriculumColor.semesterName == moduleName && curriculumColor.organizerMajorName == degreeName)
+    		{
+    			return "background-color: #" + curriculumColor.hexColorCode;
+    		}
+    	}
+    	return "";
     },
     getDeltaStatus: function (d)
     {
@@ -1669,7 +1698,7 @@ Ext.define('mLecture',
                 lecturecss = "lecturename";
             }
 
-            this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} ' + modulescss + '">' + '{topIcon}<b class="' + lecturecss + '">{lessonTitle}{description} {comment}</b><br/>{teacherName} / {roomName} ' + time + ' {statusIcons}</div>');
+            this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" style="{curriculumColor}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} ' + modulescss + '">' + '{topIcon}<b class="' + lecturecss + '">{lessonTitle}{description} {comment}</b><br/>{teacherName} / {roomName} ' + time + ' {statusIcons}</div>');
         }
     },
     setInfoTemplate: function (t)

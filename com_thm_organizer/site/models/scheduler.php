@@ -127,10 +127,17 @@ class THM_OrganizerModelScheduler extends JModel
 		return true;
 	}
 	
+	/**
+	 * Method to get the active schedule
+	 * 
+	 * @param   String  $departmentSemesterSelection  The department semester selection
+	 * 
+	 * @return   mixed  The active schedule or false  
+	 */
 	public function getActiveSchedule($departmentSemesterSelection)
 	{
 		$departmentSemester = explode(";", $departmentSemesterSelection);
-		if(count($departmentSemester) == 2)
+		if (count($departmentSemester) == 2)
 		{
 			$department = $departmentSemester[0];
 			$semester = $departmentSemester[1];
@@ -144,8 +151,8 @@ class THM_OrganizerModelScheduler extends JModel
 		$query = $dbo->getQuery(true);
 		$query->select('*');
 		$query->from('#__thm_organizer_schedules');
-		$query->where('departmentname = '.$dbo->quote($department));
-		$query->where('semestername = '.$dbo->quote($semester));
+		$query->where('departmentname = ' . $dbo->quote($department));
+		$query->where('semestername = ' . $dbo->quote($semester));
 		$query->where('active = 1');
 		$dbo->setQuery($query);
 		
@@ -160,6 +167,44 @@ class THM_OrganizerModelScheduler extends JModel
 		{
 			return false;
 		}
+		return $result;
+	}
+	
+	/**
+	 * Method to get the color for the modules
+	 * 
+	 * @return   Array  An Array with the color for the module
+	 */
+	public function getCurriculumModuleColors()
+	{
+		if ($this->getComStatus("com_thm_curriculum") == false)
+		{
+			return array();
+		}
+		
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
+		
+		$query->select('#__thm_curriculum_colors.color AS hexColorCode, #__thm_curriculum_semesters.name AS semesterName, #__thm_curriculum_majors.organizer_major AS organizerMajorName');
+		$query->from('#__thm_curriculum_semesters');
+		$query->join('inner', '#__thm_curriculum_semesters_majors ON #__thm_curriculum_semesters.id = #__thm_curriculum_semesters_majors.semester_id');
+		$query->join('inner', '#__thm_curriculum_majors ON #__thm_curriculum_majors.id = #__thm_curriculum_semesters_majors.major_id');
+		$query->join('inner', '#__thm_curriculum_colors ON #__thm_curriculum_colors.id = #__thm_curriculum_semesters.color_id');
+		
+		$dbo->setQuery($query);
+		
+		if ($error = $dbo->getErrorMsg())
+		{
+			return array();
+		}
+				
+		$result = $dbo->loadObjectList();
+		
+		if ($result === null)
+		{
+			return array();
+		}
+		
 		return $result;
 	}
 }

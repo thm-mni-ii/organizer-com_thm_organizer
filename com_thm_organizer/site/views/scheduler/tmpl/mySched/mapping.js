@@ -101,11 +101,15 @@ MySched.Mapping = function ()
         },
         getLectureDescription: function (id)
         {
-            return this.def(this.subject.get(id, id), 'desc');
+            return this.def(this.subject.get(id, id), 'desc', id);
         },
         getFullTypeName: function (id)
         {
             return this.types[id.toLowerCase()];
+        },
+        getDegreeName: function (id)
+        {
+        	return this.def(this.degree.get(id, id), 'name', id);
         }
     }
 }();
