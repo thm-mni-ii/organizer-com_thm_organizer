@@ -1,43 +1,50 @@
 <?php
 /**
+ *@category    component
  * 
- * view.html.php
- * view = viewnote
+ *@package     THM_Organizer
  * 
+ *@subpackage  com_thm_organizer
+ *@name        event view
+ *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ * 
+ *@copyright   2012 TH Mittelhessen
+ * 
+ *@license     GNU GPL v.2
+ *@link        www.mni.thm.de
+ *@version     0.1.0
  */
- 
-// no direct access
- 
-defined( '_JEXEC' ) or die( 'Restricted access' );
- 
-jimport( 'joomla.application.component.view');
- 
+defined('_JEXEC') or die;
+jimport('joomla.application.component.view');
 /**
- * HTML View class for the Giessen Scheduler Component
- *
- * @package    Giessen Scheduler
+ * Retrieves event data and loads it into the view context
+ * 
+ * @package  Joomla.Site
+ * 
+ * @since    1.5
  */
- 
 class thm_organizerViewevent extends JView
 {
+    /**
+     * Loads event information into the view context
+     * 
+     * @param   string  $tpl  the name of the template to use
+     * 
+     * @return  void 
+     */
     public function display($tpl = null)
     {
         JHTML::_('behavior.tooltip');
         $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
+        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
 
     	$model = $this->getModel();
-	$event = $model->event;
-        $this->assignRef('event', $event);
-        $itemID = JRequest::getVar('Itemid');
-        $this->assignRef( 'itemID', $itemID );
-        $listLink = $model->listLink;
-        $this->assignRef('listLink', $listLink);
+	$this->event = $model->event;
+        $this->itemID = JRequest::getVar('Itemid');
+        $this->listLink = $model->listLink;
+        $this->canWrite = $model->canWrite;
 
-        $canWrite = $model->canWrite;
-        $this->assignRef('canWrite', $canWrite);
-        
-        $item = new stdClass();
+        $item = new stdClass;
 	$dispatcher = JDispatcher::getInstance();
         $item->text = $this->event['description'];
         JPluginHelper::importPlugin('content');
@@ -45,115 +52,141 @@ class thm_organizerViewevent extends JView
         $this->event['description'] = $item->text;
         unset($item);
 
-        $this->createTextElements($event);
+        $this->createTextElements();
 
         parent::display($tpl);
     }
 
-    private function createTextElements(&$event)
+    /**
+     * Creates the text elements used for event output
+     * 
+     * @return  void 
+     */
+    private function createTextElements()
     {
-        //creation of the sentence display of the dates & times
+        // Creation of the sentence display of the dates & times
         $dateTimeText = JText::_("COM_THM_ORGANIZER_E_DATES_START");
         $timeText = "";
-        if(isset($event['starttime']) && isset($event['endtime']))
+        if (isset($this->event['starttime']) AND isset($this->event['endtime']))
         {
             $timeText = JText::_("COM_THM_ORGANIZER_E_BETWEEN");
-            $timeText .= $event['starttime'].JText::_("COM_THM_ORGANIZER_E_AND").$event['endtime'];
+            $timeText .= $this->event['starttime'] . JText::_("COM_THM_ORGANIZER_E_AND") . $this->event['endtime'];
         }
-        else if(isset($event['starttime']))
-            $timeText = JText::_("COM_THM_ORGANIZER_E_FROM").$event['starttime'];
-        else if(isset($event['endtime']))
-            $timeText = JText::_("COM_THM_ORGANIZER_E_TO").$event['endtime'];
-        else
-            $timeText = JText::_ ("COM_THM_ORGANIZER_E_ALLDAY");
-
-
-        if(isset($event['startdate']) and isset($event['enddate']) and $event['startdate'] != $event['enddate'])
+        elseif (isset($this->event['starttime']))
         {
-            if($event['rec_type'] == 0)
+            $timeText = JText::_("COM_THM_ORGANIZER_E_FROM") . $this->event['starttime'];
+        }
+        elseif (isset($this->event['endtime']))
+        {
+            $timeText = JText::_("COM_THM_ORGANIZER_E_TO") . $this->event['endtime'];
+        }
+        else
+        {
+            $timeText = JText::_("COM_THM_ORGANIZER_E_ALLDAY");
+        }
+
+        if (isset($this->event['startdate']) and isset($this->event['enddate']) and $this->event['startdate'] != $this->event['enddate'])
+        {
+            if ($this->event['rec_type'] == 0)
             {
-                if(isset($event['starttime']) && isset($event['endtime']))
+                if (isset($this->event['starttime']) AND isset($this->event['endtime']))
                 {
-                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_BETWEEN").$event['starttime'];
-                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_ON").$event['startdate'];
-                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_AND").$event['endtime'];
-                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_ON").$event['enddate'];
+                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_BETWEEN") . $this->event['starttime'];
+                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_ON") . $this->event['startdate'];
+                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_AND") . $this->event['endtime'];
+                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_ON") . $this->event['enddate'];
                 }
-                else if(isset($event['starttime']))
+                elseif (isset($this->event['starttime']))
                 {
-                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_FROM").$event['starttime'];
-                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_ON").$event['startdate'];
-                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_TO").$event['enddate'];
+                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_FROM") . $this->event['starttime'];
+                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_ON") . $this->event['startdate'];
+                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_TO") . $this->event['enddate'];
                 }
-                else if(isset($event['endtime']))
+                elseif (isset($this->event['endtime']))
                 {
-                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_FROM").$event['startdate'];
-                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_TO").$event['endtime'];
-                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_ON").$event['enddate'];
+                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_FROM") . $this->event['startdate'];
+                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_TO") . $this->event['endtime'];
+                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_ON") . $this->event['enddate'];
                 }
                 else
                 {
-                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_FROM").$event['startdate'];
-                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_UNTIL").$event['enddate'];
+                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_FROM") . $this->event['startdate'];
+                    $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_UNTIL") . $this->event['enddate'];
                     $dateTimeText .= $timeText;
                 }
             }
             else
             {
-                $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_FROM").$event['startdate'];
-                $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_UNTIL").$event['enddate'];
+                $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_FROM") . $this->event['startdate'];
+                $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_UNTIL") . $this->event['enddate'];
                 $dateTimeText .= $timeText;
             }
         }
         else
         {
-            $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_ON").$event['startdate'].$timeText;
+            $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_ON") . $this->event['startdate'] . $timeText;
         }
-        $dateTimeText .= JText::_("COM_THM_ORGANIZER_E_DATES_END");
-        $this->assignRef('dateTimeText', $dateTimeText);
+        $this->dateTimeText = $dateTimeText . JText::_("COM_THM_ORGANIZER_E_DATES_END");
 
-        $published = JText::_("COM_THM_ORGANIZER_E_PUBLISHED_START").$event['publish_up'];
-        $published .= JText::_("COM_THM_ORGANIZER_E_UNTIL").$event['publish_down'];
+        $published = JText::_("COM_THM_ORGANIZER_E_PUBLISHED_START") . $this->event['publish_up'];
+        $published .= JText::_("COM_THM_ORGANIZER_E_UNTIL") . $this->event['publish_down'];
         $published .= JText::_("COM_THM_ORGANIZER_E_PUBLISHED_END");
         $this->assignRef('published', $published);
 
         $teachers = $rooms = $groups = false;
-        if(count($event['teachers']) > 0)
+        if (count($this->event['teachers']) > 0)
         {
-            if(count($event['teachers']) > 1) $teachersLabel = JText::_("COM_THM_ORGANIZER_E_TEACHERS");
-            else $teachersLabel = JText::_("COM_THM_ORGANIZER_E_TEACHER");
+            if (count($this->event['teachers']) > 1)
+            {
+                $teachersLabel = JText::_("COM_THM_ORGANIZER_E_TEACHERS");
+            }
+            else
+            {
+                $teachersLabel = JText::_("COM_THM_ORGANIZER_E_TEACHER");
+            }
             $this->assignRef('teachersLabel', $teachersLabel);
-            $teachers = implode(', ', $event['teachers']);
+            $teachers = implode(', ', $this->event['teachers']);
             $this->assignRef('teachers', $teachers);
         }
-        else $this->assignRef('teachers', $teachers);
-        if(count($event['rooms']) > 0)
+        else
         {
-            if(count($event['rooms']) > 1) $roomsLabel = JText::_("COM_THM_ORGANIZER_E_ROOMS");
-            else $roomsLabel = JText::_("COM_THM_ORGANIZER_E_ROOM");
+            $this->assignRef('teachers', $teachers);
+        }
+        if (count($this->event['rooms']) > 0)
+        {
+            if (count($this->event['rooms']) > 1)
+            {
+                $roomsLabel = JText::_("COM_THM_ORGANIZER_E_ROOMS");
+            }
+            else
+            {
+                $roomsLabel = JText::_("COM_THM_ORGANIZER_E_ROOM");
+            }
             $this->assignRef('roomsLabel', $roomsLabel);
-            $rooms = implode(', ', $event['rooms']);
+            $rooms = implode(', ', $this->event['rooms']);
             $this->assignRef('rooms', $rooms);
         }
-        else $this->assignRef('rooms', $rooms);
-        if(count($event['groups']) > 0)
+        else
         {
-            if(count($event['groups']) > 1) $groupsLabel = JText::_("COM_THM_ORGANIZER_E_GROUPS");
-            else $groupsLabel = JText::_("COM_THM_ORGANIZER_E_GROUP");
+            $this->assignRef('rooms', $rooms);
+        }
+        if (count($this->event['groups']) > 0)
+        {
+            if (count($this->event['groups']) > 1)
+            {
+                $groupsLabel = JText::_("COM_THM_ORGANIZER_E_GROUPS");
+            }
+            else
+            {
+                $groupsLabel = JText::_("COM_THM_ORGANIZER_E_GROUP");
+            }
             $this->assignRef('groupsLabel', $groupsLabel);
-            $groups = implode(', ', $event['groups']);
+            $groups = implode(', ', $this->event['groups']);
             $this->assignRef('groups', $groups);
         }
-        else $this->assignRef('groups', $groups);
-
-
-        $contentorg = "";
-        if(isset($event['sectname']) && isset($event['ccatname']))
-                $contentorg = $event['sectname']." / ".$event['ccatname'];
-        else if(isset($event['sectname']))
-                $contentorg = $event['sectname'];
-        if(isset($event['publish_up']) && isset($event['publish_down']))
-            $published = "Der Beitrag wird vom ".$event['publish_up']." bis ".$event['publish_down']." angezeigt";
-
+        else
+        {
+            $this->assignRef('groups', $groups);
+        }
     }
 }
