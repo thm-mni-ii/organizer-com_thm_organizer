@@ -691,7 +691,7 @@ class thm_organizersModelschedule extends JModel
         $restriction = trim((string) $classnode->classlevel);
         if (empty($restriction))
         {
-            $this->_scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_CL_RESTRICTION_MISSING', $moduleID);
+            $this->_scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_CL_RESTRICTION_MISSING', $moduleID);
             return;
         }
         $this->_schedule->modules->$moduleID->restriction = $restriction;
