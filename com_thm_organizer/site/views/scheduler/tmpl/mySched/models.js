@@ -111,6 +111,7 @@ Ext.define('MySched.Model',
         d[0]["session"] = new Object();
         d[0]["session"]["sdate"] = MySched.session["begin"];
         d[0]["session"]["edate"] = MySched.session["end"];
+        d[0]["session"]["semesterID"] = MySched.class_semester_id;
 
         return Ext.encode(d);
     }
