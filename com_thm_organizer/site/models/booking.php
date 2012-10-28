@@ -868,28 +868,30 @@ class thm_organizerModelbooking extends JModel
         $periods = array();
         foreach ($schedulePeriods AS $period)
         {
+            $periodStart = substr($period->starttime, 0, 2) . ':' . substr($period->starttime, 2);
+            $periodEnd = substr($period->endtime, 0, 2) . ':' . substr($period->endtime, 2);
             if ($period->day != $dow)
             {
                 continue;
             }
             if (!empty($starttime) AND !empty($endtime))
             {
-                if (($starttime <= $period->starttime AND $endtime >= $period->starttime)
-                 OR ($starttime >= $period->starttime AND $starttime <= $period->endtime))
+                if (($starttime <= $periodStart AND $endtime >= $periodStart)
+                 OR ($starttime >= $periodStart AND $starttime <= $periodEnd))
                 {
                     $periods[$period->period] = $period->period;
                 }
             }
             elseif (!empty($starttime))
             {
-                if ($starttime <= $period->endtime)
+                if ($starttime <= $periodEnd)
                 {
                     $periods[$period->period] = $period->period;
                 }
             }
             elseif (!empty($endtime))
             {
-                if ($endtime >= $period->starttime)
+                if ($endtime >= $periodStart)
                 {
                     $periods[$period->period] = $period->period;
                 }
