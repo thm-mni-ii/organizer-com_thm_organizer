@@ -272,12 +272,13 @@ class ICSBauer extends abstrakterBauer
 		$this->objPHPExcel->setActiveSheetIndex(0)
 		->setCellValue('A1', JText::_("COM_THM_ORGANIZER_SCHEDULER_LESSON_TITLE"))
 		->setCellValue('B1', JText::_("COM_THM_ORGANIZER_SCHEDULER_ABBREVIATION"))
-		->setCellValue('C1', JText::_("COM_THM_ORGANIZER_SCHEDULER_MODULE_NUMBER"))
-		->setCellValue('D1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TYPE"))
-		->setCellValue('E1', JText::_("COM_THM_ORGANIZER_SCHEDULER_WEEKDAY"))
-		->setCellValue('F1', JText::_("COM_THM_ORGANIZER_SCHEDULER_BLOCK"))
-		->setCellValue('G1', JText::_("COM_THM_ORGANIZER_SCHEDULER_ROOM"))
-		->setCellValue('H1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TEACHER"));
+		->setCellValue('C1', JText::_("COM_THM_ORGANIZER_SCHEDULER_COMMENT"))
+		->setCellValue('D1', JText::_("COM_THM_ORGANIZER_SCHEDULER_MODULE_NUMBER"))
+		->setCellValue('E1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TYPE"))
+		->setCellValue('F1', JText::_("COM_THM_ORGANIZER_SCHEDULER_WEEKDAY"))
+		->setCellValue('G1', JText::_("COM_THM_ORGANIZER_SCHEDULER_BLOCK"))
+		->setCellValue('H1', JText::_("COM_THM_ORGANIZER_SCHEDULER_ROOM"))
+		->setCellValue('I1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TEACHER"));
 
 		$this->objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
 		$this->objPHPExcel->getActiveSheet()->getStyle('B1')->getFont()->setBold(true);
@@ -287,6 +288,7 @@ class ICSBauer extends abstrakterBauer
 		$this->objPHPExcel->getActiveSheet()->getStyle('F1')->getFont()->setBold(true);
 		$this->objPHPExcel->getActiveSheet()->getStyle('G1')->getFont()->setBold(true);
 		$this->objPHPExcel->getActiveSheet()->getStyle('H1')->getFont()->setBold(true);
+		$this->objPHPExcel->getActiveSheet()->getStyle('I1')->getFont()->setBold(true);
 
 		return true;
 	}
@@ -404,12 +406,13 @@ class ICSBauer extends abstrakterBauer
 				$this->objPHPExcel->setActiveSheetIndex(0)
 				->setCellValue('A' . $row, $item->longname)
 				->setCellValue('B' . $row, $item->name)
-				->setCellValue('C' . $row, $item->subjectNo)
-				->setCellValue('D' . $row, $item->description)
-				->setCellValue('E' . $row, $this->dayENtoday($item->dow))
-				->setCellValue('F' . $row, $item->block)
-				->setCellValue('G' . $row, $item->rooms)
-				->setCellValue('H' . $row, $item->teachers);
+				->setCellValue('C' . $row, $item->comment)
+				->setCellValue('D' . $row, $item->subjectNo)
+				->setCellValue('E' . $row, $item->description)
+				->setCellValue('F' . $row, $this->dayENtoday($item->dow))
+				->setCellValue('G' . $row, $item->block)
+				->setCellValue('H' . $row, $item->rooms)
+				->setCellValue('I' . $row, $item->teachers);
 				$row++;
 			}
 		}
