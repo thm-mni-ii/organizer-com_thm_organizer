@@ -177,6 +177,7 @@ class THM_OrganizerModelScheduler extends JModel
 	 */
 	public function getCurriculumModuleColors()
 	{
+		return array();
 		if ($this->getComStatus("com_thm_curriculum") == false)
 		{
 			return array();
