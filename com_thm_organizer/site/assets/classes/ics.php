@@ -314,7 +314,7 @@ class ICSBauer extends abstrakterBauer
 				$item->edate = $arr->session->edate;
 				
 				$teacherNames = array();
-				foreach($item->teachers->map as $teacherID => $teacherStatus)
+				foreach($item->teachers as $teacherID => $teacherStatus)
 				{
 					if($teacherStatus != "removed")
 					{
@@ -324,7 +324,7 @@ class ICSBauer extends abstrakterBauer
 				$item->teachers = implode(", ", $teacherNames);
 				
 				$moduleNames = array();
-				foreach($item->modules->map as $moduleID => $moduleStatus)
+				foreach($item->modules as $moduleID => $moduleStatus)
 				{
 					if($moduleStatus != "removed")
 					{
@@ -350,7 +350,7 @@ class ICSBauer extends abstrakterBauer
 				$subjectNo = array();
 				$subjectName = array();
 				$subjectLongname = array();
-				foreach($item->subjects->map as $subjectID => $subjectStatus)
+				foreach($item->subjects as $subjectID => $subjectStatus)
 				{
 					if($subjectStatus != "removed")
 					{

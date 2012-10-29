@@ -102,11 +102,11 @@ Ext.define('MySched.Model',
     },
     exportAllData: function ()
     {
-
         var d = [];
         d[0] = new Object();
         d[0]["htmlView"] = this.htmlView;
-        d[0]["lessons"] = this.visibleLessons;
+        d[0]["lessons"] = this.asArray();
+        d[0]["visibleLessons"] = this.visibleLessons;
         d[0]["events"] = this.visibleEvents;
         d[0]["session"] = new Object();
         d[0]["session"]["sdate"] = MySched.session["begin"];
