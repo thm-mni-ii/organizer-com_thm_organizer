@@ -38,10 +38,18 @@ class thm_organizerViewbooking extends JView
         $conflicts = $model->getConflicts();
         if (count($conflicts))
         {
-            $message = JText::_('COM_THM_ORGANIZER_B_CONFLICTS_FOUND') . ":\r\n";
+            $count = 0;
+            $total = count($conflicts);
+            $message = JText::_('COM_THM_ORGANIZER_B_CONFLICTS_FOUND') . ":\n";
             foreach ($conflicts as $conflict)
             {
-                $message .= "\r\n" . $conflict['text'] . "\r\n";
+                if ($count == 4)
+                {
+                    $message .= "\n" . JText::sprintf('COM_THM_ORGANIZER_B_CONFLICTS_REMAINING', (string) $total - $count);
+                    break;
+                }
+                $count++;
+                $message .= "\n" . $conflict['text'] . "\n";
             }
             echo $message;
         }

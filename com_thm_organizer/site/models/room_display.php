@@ -27,7 +27,7 @@ class thm_organizerModelroom_display extends JModel
 {
     public $roomName;
 
-    public $_roomID;
+    private $_gpuntisID;
 
     public $layout = 'default';
 
@@ -59,32 +59,42 @@ class thm_organizerModelroom_display extends JModel
     public function __construct()
     {
         parent::__construct();
-        $monitor = JTable::getInstance('monitors', thm_organizerTable);
+        $monitor = JTable::getInstance('monitors', 'thm_organizerTable');
         $where = array('ip' => $_SERVER['REMOTE_ADDR']);
         $registered = $monitor->load($where);
         if ($registered)
         {
+            $templateSet = JRequest::getString('tmpl') == 'component';
+            if (!$templateSet)
+            {
+                $this->redirectToComponentTemplate();
+            }
             switch ($monitor->display)
             {
                 case 1:
                     $this->layout = 'registered';
+                    $this->setState('template', 'Thmorganizerinfoscreen');
                     $this->setRoomInformation($monitor->roomID);
                     $this->setScheduleInformation();
                     break;
                 case 2:
+                    $this->setState('template', 'Thmorganizerinfoscreen');
                     $this->determineDisplayBehaviour($monitor);
                     break;
                 case 3:
+                    $this->setState('template', 'Thmorganizerinfoscreen');
                     $this->layout = 'content';
                     $this->content = $monitor->content;
                     break;
                 case 4:
                     $this->layout = 'events';
+                    $this->setState('template', 'Thmorganizerinfoscreen');
                     $this->setRoomInformation($monitor->roomID);
                     $this->setScheduleInformation();
                     break;
                 default:
                     $this->layout = 'registered';
+                    $this->setState('template', 'Thmorganizerinfoscreen');
                     $this->setRoomInformation($monitor->roomID);
                     $this->setScheduleInformation();
                     break;
@@ -99,6 +109,19 @@ class thm_organizerModelroom_display extends JModel
     }
 
     /**
+     * Redirects to the component template
+     * 
+     * @return  void 
+     */
+    private function redirectToComponentTemplate()
+    {
+        $application = JFactory::getApplication();
+        $requestURL = $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+        $redirectURL = $requestURL . '&tmpl=component';
+        $application->redirect($redirectURL);
+    }
+
+    /**
      * Retrieves the name and id of the room
      *
      * @param   int  $roomID  the id of the room referenced in the monitors table
@@ -109,15 +132,15 @@ class thm_organizerModelroom_display extends JModel
     {
         if (!$roomID)
         {
-            $form = JRequest::getVar('jform');
-            $where = array('name' => $form['room']);
+            $form = JRequest::getString('jform');
+            $roomID = $form['room'];
         }
         $room = JTable::getInstance('rooms', 'thm_organizerTable');
-        $exists = $room->load(($roomID)? $roomID : $where);
+        $exists = $room->load($roomID);
         if ($exists)
         {
-            $this->roomName = $room->name;
-            $this->_gpuntisID = $room->_gpuntisID;
+            $this->roomName = $room->longname;
+            $this->_gpuntisID = substr($room->gpuntisID, 3);
         }
         else
         {
@@ -126,18 +149,20 @@ class thm_organizerModelroom_display extends JModel
     }
 
     /**
-     * setScheduleInformation
+     * Sets information about the daily schedule
+     * 
+     * @return  void
      */
     private function setScheduleInformation()
     {
         $request = JRequest::getVar('jform');
-        if (isset($request['date']))
+        if (!empty($request['date']))
         {
             $this->date = getDate(strtotime($request['date']));
         }
         else
         {
-            $this->date = getdate();
+            $this->date = getdate(time());
         }
         $this->_dbDate = date('Y-m-d', $this->date[0]);
         $this->getSchedules();
@@ -196,8 +221,9 @@ class thm_organizerModelroom_display extends JModel
             {
                 $this->blocks[$period->period] = array();
                 $this->blocks[$period->period]['period'] = $period->period;
-                $this->blocks[$period->period]['starttime'] = $period->starttime;
-                $this->blocks[$period->period]['endtime'] = $period->endtime;
+                $this->blocks[$period->period]['starttime'] = substr($period->starttime, 0, 2) . ":" . substr($period->starttime, 2);
+                $this->blocks[$period->period]['endtime'] = substr($period->endtime, 0, 2) . ":" . substr($period->endtime, 2);
+                $this->blocks[$period->period]['displayTime'] = $this->blocks[$period->period]['starttime'] . " - " . $this->blocks[$period->period]['endtime'];
             }
         }
         foreach ($this->blocks as $key => $block)
@@ -211,6 +237,8 @@ class thm_organizerModelroom_display extends JModel
     /**
      * Adds basic lesson information to a block (if available)
      *
+     * @param   int  $blockID  the id of the block being iterated
+     * 
      * @todo add teacher associations to user/group views
      * @todo add module associations to former curriculum views
      * 
@@ -221,13 +249,13 @@ class thm_organizerModelroom_display extends JModel
         $lessonFound = false;
         foreach ($this->_schedules as $scheduleID => $schedule)
         {
-            if($lessonFound)
+            if ($lessonFound)
             {
                 break;
             }
-            foreach ($schedule->calendar->$this->_dbDate->$blockID as $lessonID => $rooms)
+            foreach ($schedule->calendar->{$this->_dbDate}->$blockID as $lessonID => $rooms)
             {
-                if($lessonFound)
+                if ($lessonFound)
                 {
                     break;
                 }
@@ -248,21 +276,32 @@ class thm_organizerModelroom_display extends JModel
                     {
                         $lessonFound = true;
                         $subjects = (array) $schedule->lessons->$lessonID->subjects;
+                        foreach ($subjects as $subjectID => $delta)
+                        {
+                            if ($delta == 'removed')
+                            {
+                                unset($subjects[$subjectID]);
+                            }
+                        }
                         if (count($subjects) > 1)
                         {
                             $lessonName = $schedule->lessons->$lessonID->name;
                         }
                         else
                         {
-                            $longname = $schedule->subjects->$subjects[0]->longname;
-                            $shortname = $schedule->subjects->$subjects[0]->name;
+                            $subjects = array_keys($subjects);
+                            $subjectID = array_shift($subjects);
+                            $longname = $schedule->subjects->$subjectID->longname;
+                            $shortname = $schedule->subjects->$subjectID->name;
                             $lessonName = (strlen($longname) <= 30)? $longname : $shortname;
                             $lessonName .= " - " . $schedule->lessons->$lessonID->description;
                         }
                         $teachers = (array) $schedule->lessons->$lessonID->teachers;
-                        foreach ($teachers as $key => $name)
+                        $teacherIDs = array();
+                        foreach ($teachers as $key => $delta)
                         {
                             $teachers[$key] = $schedule->teachers->$key->surname;
+                            $teacherIDs[] = $schedule->teachers->$key->gpuntisID;
                         }
                         $teacherText = implode(', ', $teachers);
                         if (strlen($teacherText) > 30)
@@ -273,68 +312,71 @@ class thm_organizerModelroom_display extends JModel
                 }
             }
         }
-        if (isset($lessonFound))
+        if ($lessonFound)
         {
             $this->blocks[$blockID]['title'] = $lessonName;
             $this->blocks[$blockID]['extraInformation'] = $teacherText;
-            $this->blocks[$blockID]['type'] = 1;
+            $this->blocks[$blockID]['type'] = 'COM_THM_ORGANIZER_RD_TYPE_LESSON';
+            $this->blocks[$blockID]['teacherIDs'] = $teacherIDs;
             $this->lessonsExist = true;
         }
         else
         {
-            $block['title'] = JText::_('COM_THM_ORGANIZER_NO_LESSON');
-            $block['extraInformation'] = '';
-            $block['type'] = 0;
+            $this->blocks[$blockID]['title'] = JText::_('COM_THM_ORGANIZER_NO_LESSON');
+            $this->blocks[$blockID]['extraInformation'] = '';
+            $this->blocks[$blockID]['type'] = 'empty';
         }
     }
 
     /**
      * Retrieves reserving events for the given time frame
      *
-     * @param   int  &$block  the optional schedule block to be processed
+     * @param   int  $key  the optional block key to be processed
      * 
      * @return  void
      */
-    private function setAppointments(&$block = null)
+    private function setAppointments($key = null)
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select($this->select());
-        $this->from($query, $block);
+        $this->from($query, $key);
         $query->where($this->whereDates());
-        if ($block != null)
+        if (isset($key))
         {
-            $query->where($this->whereTimes($block));
+            $query->where($this->whereTimes($key));
         }
-        $query->where($this->getAccessClause());
-        $query->where("ec.reservesobjects = '1'");
-        if (isset($block['teacherIDs']))
+        $query->where($this->whereAccess());
+        $query->where("ec.reserves = '1'");
+        if (isset($this->blocks[$key]['teacherIDs']))
         {
-            $teacherIDs = "'".implode("', '", $block['teacherIDs'])."'";
-            $query->where("(r.name = '$this->roomName' OR t.id IN ( $teacherIDs ))");
+            $query->where("(r.longname = '$this->roomName' OR t.id IN ( '" . implode("', '", $this->blocks[$key]['teacherIDs']) . "' ))");
         }
         else
         {
-            $query->where("r.name = '$this->roomName'");
+            $query->where("r.longname = '$this->roomName'");
         }
         $query->order($this->orderBy());
         $dbo->setQuery((string) $query);
         $appointments = $dbo->loadAssocList();
         if (isset($appointments) and count($appointments) > 0)
         {
-            if (count($appointments) == 1)
+            if (isset($key))
             {
-                $block['title'] = $appointments[0]['title'];
-                $block['extraInformation'] = $this->makeEventTime($appointments[0]);
-                $block['eventID'] = $appointments[0]['id'];
-                $block['link'] = $this->getEventLink($appointments[0]['id'], $appointments[0]['title']);
-                $block['type'] = 'COM_THM_ORGANIZER_RD_TYPE_APPOINTMENT';
-            }
-            if (count($appointments) > 1)
-            {
-                $block['title'] = "verschiedene Termine";
-                $block['extraInformation'] = "";
-                $block['type'] = 'COM_THM_ORGANIZER_RD_TYPE_APPOINTMENTS';
+                if (count($appointments) == 1)
+                {
+                    $this->blocks[$key]['title'] = $appointments[0]['title'];
+                    $this->blocks[$key]['extraInformation'] = $this->makeEventTime($appointments[0]);
+                    $this->blocks[$key]['eventID'] = $appointments[0]['id'];
+                    $this->blocks[$key]['link'] = $this->getEventLink($appointments[0]['id'], $appointments[0]['title']);
+                    $this->blocks[$key]['type'] = 'COM_THM_ORGANIZER_RD_TYPE_APPOINTMENT';
+                }
+                elseif (count($appointments) > 1)
+                {
+                    $this->blocks[$key]['title'] = "verschiedene Termine";
+                    $this->blocks[$key]['extraInformation'] = "";
+                    $this->blocks[$key]['type'] = 'COM_THM_ORGANIZER_RD_TYPE_APPOINTMENTS';
+                }
             }
             foreach ($appointments as $k => $appointment)
             {
@@ -355,30 +397,29 @@ class thm_organizerModelroom_display extends JModel
     /**
      * Retrieves nonreserving/nonglobal events for the given time frame
      *
-     * @param   int  $blockIndex  the index of the block array to be processed
+     * @param   int  $key  the index of the block array to be processed
      * 
      * @return  void
      */
-    private function setNotices($blockIndex)
+    private function setNotices($key)
     {
         $user = JFactory::getUser();
         $user->getAuthorisedViewLevels();
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select($this->select());
-        $this->from($query, $block);
+        $this->from($query, $key);
         $query->where($this->whereDates());
-        $query->where($this->getAccessClause());
-        $query->where("ec.reservesobjects = '0'");
-        $query->where("ec.globaldisplay = '0'");
-        if ($block != null AND isset($block['teacherIDs']))
+        $query->where($this->whereAccess());
+        $query->where("ec.reserves = '0'");
+        $query->where("ec.global = '0'");
+        if ($this->blocks[$key] != null AND isset($this->blocks[$key]['teacherIDs']))
         {
-            $teacherIDs = "'" . implode("', '", $block['teacherIDs']) . "'";
-            $query->where("( r.name = '$this->name' OR t.id IN ( $teacherIDs ) )");
+            $query->where("( r.longname = '$this->name' OR t.id IN ( '" . implode("', '", $this->blocks[$key]['teacherIDs']) . "' ) )");
         }
         else
         {
-            $query->where("r.name = '$this->name'");
+            $query->where("r.longname = '$this->name'");
         }
         $dbo->setQuery((string) $query);
         $notices = $dbo->loadAssocList();
@@ -412,8 +453,8 @@ class thm_organizerModelroom_display extends JModel
         $query->select($this->select());
         $this->from($query);
         $query->where($this->whereDates());
-        $query->where($this->getAccessClause());
-        $query->where("ec.globaldisplay = '1'");
+        $query->where($this->whereAccess());
+        $query->where("ec.global = '1'");
         $dbo->setQuery((string) $query);
         $information = $dbo->loadAssocList();
         if (isset($information) and count($information) > 0)
@@ -453,9 +494,9 @@ class thm_organizerModelroom_display extends JModel
         $whereFutureDates .= "OR (startdate > '{$this->_dbDate}' AND enddate = '0000-00-00') ";
         $whereFutureDates .= ") ";
         $query->where($whereFutureDates);
-        $query->where($this->getAccessClause());
-        $query->where("ec.reservesobjects = '1'");
-        $query->where("r.name = '$this->roomName'");
+        $query->where($this->whereAccess());
+        $query->where("ec.reserves = '1'");
+        $query->where("r.longname = '$this->roomName'");
         $query->order($this->orderBy());
         $dbo->setQuery((string) $query);
         $upcoming = $dbo->loadAssocList();
@@ -495,32 +536,22 @@ class thm_organizerModelroom_display extends JModel
     }
 
     /**
-     * Creates the order by clause for event queries
-     *
-     * @return  string  the order by clause
-     */
-    private function orderBy()
-    {
-    	return  "DATE(startdate) ASC, starttime ASC";
-    }
-
-    /**
      * Creates the from clause for events
      * 
      * @param   object  &$query  the query to be modified
-     * @param   type    &$block  an optional block for association with teacher
+     * @param   int     $key     an optional block for association with teacher
      *                           resources
      *
      * @return  void
      */
-    private function from(&$query, &$block = null)
+    private function from(&$query, $key = null)
     {
         $query->from("#__thm_organizer_events AS e");
         $query->innerJoin("#__content AS c ON e.id = c.id");
         $query->innerJoin("#__thm_organizer_categories AS ec ON e.categoryID = ec.id");
         $query->leftJoin("#__thm_organizer_event_rooms AS er ON e.id = er.eventID");
         $query->leftJoin("#__thm_organizer_rooms AS r ON er.roomID = r.id");
-        if (isset($block) and isset($block['teacherIDs']))
+        if (isset($key) and isset($this->blocks[$key]['teacherIDs']))
         {
             $query->leftJoin("#__thm_organizer_event_teachers AS et ON e.id = et.eventID");
             $query->leftJoin("#__thm_organizer_teachers AS t ON et.teacherID = t.id");
@@ -536,7 +567,7 @@ class thm_organizerModelroom_display extends JModel
     {
         $whereDates = "( ";
         $whereDates .= "(e.startdate <= '{$this->_dbDate}' AND e.enddate >= '{$this->_dbDate}') ";
-        $whereDates .= "OR (startdate = '{$this->_dbDate}' AND enddate = '0000-00-00') ";
+        $whereDates .= "OR (startdate = '{$this->_dbDate}') ";
         $whereDates .= ") ";
         return $whereDates;
     }
@@ -544,19 +575,41 @@ class thm_organizerModelroom_display extends JModel
     /**
      * Creates an sql clause for event time restrictions based on the actual block
      * 
-     * @param   type  &$block  the block used as a basis for the time restriction
+     * @param   int  $key  the key of the block used as a basis for the time restriction
      *
      * @return  string  sql time restriction
      */
-    private function whereTimes(&$block)
+    private function whereTimes($key)
     {
+        $block = $this->blocks[$key];
         $whereTimes = "( ";
-        $whereTimes .= "(e.starttime <= '{$block['starttime']}' AND e.endtime >= '{$block['endtime']}') ";
-        $whereTimes .= "OR (starttime <= '{$block['starttime']}' AND endtime = '00:00:00') ";
-        $whereTimes .= "OR (starttime = '00:00:00' AND endtime >= '$endtime') ";
-        $whereTimes .= "OR (starttime = '00:00:00' AND endtime = '00:00:00') ";
+        $whereTimes .= "('{$block['starttime']}' <= starttime AND '{$block['endtime']}' >= starttime ) ";
+        $whereTimes .= "OR ('{$block['starttime']}' >= starttime AND '{$block['starttime']}' <= endtime ) ";
+        $whereTimes .= "OR ('{$block['endtime']}' >= starttime AND endtime = '00:00') ";
+        $whereTimes .= "OR ('{$block['starttime']}' <= endtime AND starttime  = '00:00') ";
+        $whereTimes .= "OR (starttime = '00:00' AND endtime = '00:00') ";
         $whereTimes .= ") ";
         return $whereTimes;
+    }
+
+    /**
+     * Creates an sql restriction to check user access
+     * 
+     * @return  string  an sql where clause
+     */
+    private function whereAccess()
+    {
+        return "c.access IN ( '" . implode("', '", JFactory::getUser()->getAuthorisedViewLevels()) . "' )";
+    }
+
+    /**
+     * Creates the order by clause for event queries
+     *
+     * @return  string  the order by clause
+     */
+    private function orderBy()
+    {
+    	return  "DATE(startdate) ASC, starttime ASC";
     }
 
     /**
@@ -637,7 +690,7 @@ class thm_organizerModelroom_display extends JModel
         }
         else
         {
-            $displayDates = JText::_(strtoupper(date_format(new DateTime($date), 'D'))) . " " . $event['startdate'] . " " . $timestring;
+            $displayDates = JText::_(strtoupper(date('D', strtotime($this->_dbDate)))) . " " . $event['startdate'] . " " . $timestring;
         }
         return $displayDates;
     }
@@ -645,16 +698,17 @@ class thm_organizerModelroom_display extends JModel
     /**
      * Generates a link to an event based on id and title
      *
-     * @param   int     $id     the event id
-     * @param   string  $title  the event title
+     * @param   int     $eventID  the event id
+     * @param   string  $title    the event title
      * 
      * @return  string  a span containing a link to the event
      */
-    private function getEventLink($id, $title)
+    private function getEventLink($eventID, $title)
     {
-        $url = "index.php?option=com_thm_organizer&view=event&eventID=$id";
-        $title = "$title::" . JText::_('COM_THM_ORGANIZER_RD_EVENT_LINK_TEXT');
-        return JHtml::_('link', $url, $title);
+        $url = "index.php?option=com_thm_organizer&view=event&eventID=$eventID";
+        $attribs = array();
+        $attribs['title'] = "$title::" . JText::_('COM_THM_ORGANIZER_RD_EVENT_LINK_TEXT');
+        return JHtml::_('link', $url, $title, $attribs);
     }
 
     /**
@@ -681,6 +735,8 @@ class thm_organizerModelroom_display extends JModel
 
     /**
      * Redirects from the view if requested room is invalid or no data is available
+     * 
+     * @param   string  $message  the error message to be displayed after redirect
      * 
      * @return  void
      */
@@ -735,17 +791,4 @@ class thm_organizerModelroom_display extends JModel
                 break;
         }
     }
-
-    /**
-     * Creates an sql restriction to check user access
-     * 
-     * @return  string  an sql where clause
-     */
-    private function getAccessClause()
-    {
-        $user = JFactory::getUser();
-        $authorizedAccessLevels = $user->getAuthorisedViewLevels();
-        return "c.access IN ( '" . implode("', '", $authorizedAccessLevels) . "' )";
-    }
 }
-
