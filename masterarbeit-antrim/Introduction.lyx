@@ -1,0 +1,537 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass scrbook
+\begin_preamble
+% increases link area for cross-references and autoname them
+\AtBeginDocument{\renewcommand{\ref}[1]{\mbox{\autoref{#1}}}}
+\addto\extrasenglish{%
+ \renewcommand*{\equationautorefname}[1]{}
+ \renewcommand{\sectionautorefname}{sec.\negthinspace}
+ \renewcommand{\subsectionautorefname}{sec.\negthinspace}
+ \renewcommand{\subsubsectionautorefname}{sec.\negthinspace}
+ \renewcommand{\figureautorefname}{Fig.\negthinspace}
+ \renewcommand{\tableautorefname}{Tab.\negthinspace}
+}
+
+% in case somebody want to have the label "Equation"
+%\renewcommand{\eqref}[1]{Equation~(\negthinspace\autoref{#1})}
+
+% that links to image floats jumps to the beginning
+% of the float and not to its caption
+\usepackage[figure]{hypcap}
+
+% the pages of the TOC is numbered roman
+% and a pdf-bookmark for the TOC is added
+\let\myTOC\tableofcontents
+\renewcommand\tableofcontents{%
+  \frontmatter
+  \pdfbookmark[1]{\contentsname}{}
+  \myTOC
+  \mainmatter }
+
+% makes caption labels bold
+\setkomafont{captionlabel}{\bfseries}
+\setcapindent{1em}
+
+% enables calculations
+\usepackage{calc}
+
+% fancy page header/footer settings
+\renewcommand{\chaptermark}[1]{\markboth{#1}{#1}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+
+% increases the bottom float placement fraction
+\renewcommand{\bottomfraction}{0.5}
+
+% avoids that floats are placed above its sections
+\let\mySection\section\renewcommand{\section}{\suppressfloats[t]\mySection}
+\end_preamble
+\options intoc,bibliography=totoc,index=totoc,BCOR10mm,captions=tableheading,titlepage,fleqn
+\use_default_options true
+\master thesis.lyx
+\begin_modules
+customHeadersFooters
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman lmodern
+\font_sans lmss
+\font_typewriter lmtt
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement h
+\paperfontsize 12
+\spacing single
+\use_hyperref true
+\pdf_title "Your title"
+\pdf_author "Your name"
+\pdf_bookmarks true
+\pdf_bookmarksnumbered true
+\pdf_bookmarksopen true
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle false
+\pdf_quoted_options "pdfpagelayout=OneColumn, pdfnewwindow=true, pdfstartview=XYZ, plainpages=false"
+\papersize a4paper
+\use_geometry false
+\use_amsmath 2
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\branch NoChildDocument
+\selected 0
+\filename_suffix 0
+\color #ff0000
+\end_branch
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 2
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 2
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Left Header
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+chaptername
+\end_layout
+
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+thechapter
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+rightmark
+\end_layout
+
+\end_inset
+
+
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+Enable page headers and add the chapter to the header line.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Right Header
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+leftmark
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Left Footer
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+thepage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Center Footer
+
+\end_layout
+
+\begin_layout Right Footer
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+thepage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Introduction
+\end_layout
+
+\begin_layout Section
+Motivation
+\end_layout
+
+\begin_layout Standard
+The University of Applied Sciences Central Hessen (THM
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "THM"
+description "University of Applied Sciences Central Hessen"
+
+\end_inset
+
+) is a decentralized and department oriented institution with campuses in
+ the cities of Gießen, Friedberg and Wetzlar.
+ This decentralized view often leads to inefficient or uncertain usage of
+ shared resources
+\end_layout
+
+\begin_layout Standard
+Students and teachers want to go to lessons.
+ Facility Management want maximal room usage.
+ The IT Department wants security.
+\end_layout
+
+\begin_layout Standard
+Scheduling at the THM is done by each department on its own under the auspices
+ of room assignments from Facility Management.
+\end_layout
+
+\begin_layout Standard
+Why is the theme important? Who is it important to?
+\end_layout
+
+\begin_layout Section
+Resource Management
+\end_layout
+
+\begin_layout Standard
+Resource management in more general terms can be defined in similar terms
+ to the four basic functions of persistent data storage: creation, reading,
+ updating, and deletion of resources (CRUD
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "CRUD"
+description "Creation, Reading, Updating, and Deletion"
+
+\end_inset
+
+).
+ Resource managment is a very broad topic and as applies to schools or,
+ more specifically, colleges or univerities has three perspectives that
+ make up the bigger picture: facility management, human resource management
+ and quality management (certification).
+ Each perspective brings with it its own resources and emphasis in usage.
+\end_layout
+
+\begin_layout Standard
+These four activities take on different aspects dependant upon the resource
+ upon which they are applied and are known under differing names.
+ For example, creation in terms of material objects is generally refered
+ to as aquisition, whereas in terms of personel as hiring.
+ Reading in terms of documentation is self explaining, but in terms of other
+ resources it could be seen as the browsing of a telephone book, or performing
+ cost calculations in a spreadsheet program.
+ Updating would be the refurbishment of a room, the further education of
+ an employee, or the modification of documentation among other things.
+ Deletion could be the simple removal of software, or the demolition of
+ a building.
+\end_layout
+
+\begin_layout Standard
+As can be gleaned from the previous examples resource managment in the broadest
+ sense encompasses such topics as human resources management, facility managemen
+t, document management and many other fields at the level of the university
+ level.
+ Resource management within this thesis will focus mainly on the topic of
+ scheduling.
+ This aspect is unique in that it has in and of itself has no resources
+ per se and takes place at a high level of abstraction.
+ It is an association of resources aquired through other resource management
+ processes.
+ Its resources are lessons, events, appointments, meetings, speeches, etc.;
+ they tell us who does what, when, where, for whom, and under certain circumstan
+ces it even gives us a glimpse as to how.
+\end_layout
+
+\begin_layout Section
+Web Services
+\end_layout
+
+\begin_layout Standard
+web services are nice
+\end_layout
+
+\begin_layout Section
+Methodology
+\end_layout
+
+\begin_layout Standard
+This work focuses primarily on the scheduling aspect of resource management.
+ Specifically, it focuses on the resources involved in its scheduling aspect.
+ It examines the important attributes and dependencies of these resources,
+ and it examines the interaction and integration of the systems which manage
+ them individually.
+\end_layout
+
+\begin_layout Standard
+While this thesis does not concern itself directly with the problems of
+ human resources, facility managment, university documentation, or any other
+ aspect of resource management, it does mention them often either directly
+ or tangentelly.
+ This is unavoidable due to the associative nature of scheduling which binds
+ resources of these different aspects to create new resource types.
+\end_layout
+
+\begin_layout Standard
+However the crux of this work is the integration of some of the various
+ resource management systems which are responsible for the resources used
+ in the scheduling process.
+ These systems and the workflows which are responsible for the management
+ of their data will be a central point of this work.
+ To implement this integration RESTful
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "REST"
+description "Representational State Transfer"
+
+\end_inset
+
+ web services have been used as the means of information exchange.
+ To this end this work will address RESTful web services, ignoring the SOAP
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "SOAP"
+description "Simple Object Access Protocol"
+
+\end_inset
+
+ implementation completely.
+\end_layout
+
+\begin_layout Standard
+To aid understanding of the terms presented and their representation in
+ the accompanying figures, where necessary the original German terms often
+ follow their English translations and appear in <<
+\shape italic
+doubled pointed braces
+\shape default
+>>.
+ In a few cases two terms refer to the same concept or attribute within
+ Untis.
+ In these cases, the more often used term is used within this work.
+ However where another term is used for the same concept the term will then
+ appear in (
+\shape italic
+round parenthesis
+\shape default
+) behind the word.
+\end_layout
+
+\begin_layout Section
+Overview of the Thesis
+\end_layout
+
+\begin_layout Standard
+The resources dealt with in school scheduling software and Untis scheduling
+ software in particular have been handled up until this point by multiple
+ systems; even within the same organizational structure for the same resources.
+ Each of the systems and administrative processes for resource management
+ have their own taxonomy and required information to model the resource
+ both within the system and in every day speech.
+ Three tasks emerge for the implementation of a system based upon the resources
+ which provide the material for chapters two, three and four.
+ These have strong dependancies between one another and often reveal themselves
+ to be cyclic in their development.
+ However in order to maintain some semblance of structure they have been
+ encapsulated as much as possible.
+\end_layout
+
+\begin_layout Standard
+Chapter two will define and model resources.
+ It will also codify their attributes and dependencies.
+ These items have an extremely strong coupling with the systems designed
+ to represent them.
+ In order to present the results of the thesis in a more understandable
+ manner, the resour?ces, attributes and dependancies will be presented as
+ they have evinced themselves, based upon the system topology, instead of
+ trying to confront the reader with various stages of incremental resource
+ models.
+ 
+\end_layout
+
+\begin_layout Standard
+Chapter three will examine the currently used resource management systems
+ and the workflows responsible for its supply of data.
+ The results of this examination not only have an effect in the implementation
+ of system in terms of architecture, but also in terms of how resources
+ are modeled, what their required attributes are, and what dependencies
+ exist.
+ Where system limitations in resource handling exist, strategies for compensatin
+g for discrepensies and missing resources will be discussed.
+ Where resource attributes are unique to specific systems, they will be
+ emphasized and their taxonomy and nature will be discussed in the context
+ of their usage.
+ It will also discuss, where applicable, system specific factors such as
+ access control mechanisms, concurrency and workflow distribution.
+\end_layout
+
+\begin_layout Standard
+Chapter four will examine dependencies between the existing resource management
+ systems.
+ These dependencies, in combination with various workflows for resource
+ management, crystalize into the system architecture implemented within
+ the framework of this thesis and give clues as to possible future extensions
+ and interfaces to other resource management systems.
+\end_layout
+
+\begin_layout Standard
+Lastly chapter five will provide a summary of the resource management systems
+ and processes.
+ It will summarize some of the key advantages and deficits of the existing
+ systems and workflows and the steps to harness, improve or circumvent them.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Branch NoChildDocument
+status collapsed
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "thesisExample"
+options "alpha"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset nomencl_print
+LatexCommand printnomenclature
+set_width "custom"
+width "2.5cm"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
