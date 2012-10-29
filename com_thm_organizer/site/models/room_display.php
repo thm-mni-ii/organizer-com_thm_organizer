@@ -132,7 +132,7 @@ class thm_organizerModelroom_display extends JModel
     {
         if (!$roomID)
         {
-            $form = JRequest::getString('jform');
+            $form = JRequest::getVar('jform');
             $roomID = $form['room'];
         }
         $room = JTable::getInstance('rooms', 'thm_organizerTable');
@@ -690,7 +690,7 @@ class thm_organizerModelroom_display extends JModel
         }
         else
         {
-            $displayDates = JText::_(strtoupper(date('D', strtotime($this->_dbDate)))) . " " . $event['startdate'] . " " . $timestring;
+            $displayDates = JText::_(strtoupper(date('D', strtotime($event['startdate'])))) . " " . $event['startdate'] . " " . $timestring;
         }
         return $displayDates;
     }
@@ -743,13 +743,7 @@ class thm_organizerModelroom_display extends JModel
     private function redirect($message = '')
     {
         $application = JFactory::getApplication();
-        $menuID = JRequest::getInt('Itemid');
-        $rd_string = 'index.php';
-        if (isset($menuID))
-        {
-            $rd_string .= "&Itemid=$menuID";
-        }
-        $application->redirect($rd_string, $message, 'error');
+        $application->redirect('index.php', $message, 'error');
     }
 
     /**

@@ -21,6 +21,16 @@ $this->thm_logo_image = JHtml::image($imagepath . 'thm_logo_giessen.png', JText:
 $this->thm_text_image = JHtml::image($imagepath . 'thm_text_dinpro_compact.png', JText::_('COM_THM_ORGANIZER_RD_THM'));
 $widthClass = ($this->eventsExist)? 'thm_organizer_is_short' : 'thm_organizer_is_long';
 ?>
+<script type="text/javascript">
+var timer = null;
+function auto_reload()
+{
+  window.location = document.URL;
+}
+window.onload = function(){
+    timer = setTimeout('auto_reload()', 60000);
+}
+</script>
 <div id="thm_organizer_is_registered">
     <div id="thm_organizer_is_head">
         <div id="thm_organizer_is_head_left">

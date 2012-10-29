@@ -12,12 +12,23 @@
  */
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+header('meta http-equiv="refresh" content="5"');
 $imagepath = 'components/com_thm_organizer/assets/images/';
 $this->thm_logo_image =
         JHtml::image($imagepath.'thm_logo_giessen.png', JText::_('COM_THM_ORGANIZER_RD_LOGO_GIESSEN'));
 $this->thm_text_image =
         JHtml::image($imagepath.'thm_text_dinpro_compact.png', JText::_('COM_THM_ORGANIZER_RD_THM'));
 ?>
+<script type="text/javascript">
+var timer = null;
+function auto_reload()
+{
+  window.location = document.URL;
+}
+window.onload = function(){
+    timer = setTimeout('auto_reload()', 60000);
+}
+</script>
 <div id="thm_organizer_is_registered">
     <div id="thm_organizer_is_head">
         <div id="thm_organizer_is_head_left">
@@ -45,7 +56,7 @@ $this->thm_text_image =
     <?php $appointmentsNo = 0;
     if(count($this->appointments)){
         $time = date('H:i'); ?>
-        <div class="thm_organizer_date_title"><?php echo  JText::_('COM_THM_ORGANIZER_APPOINTMENTS'); ?></div>
+        <div class="thm_organizer_date_title"><?php echo  JText::_('COM_THM_ORGANIZER_RD_APPOINTMENTS'); ?></div>
         <?php foreach($this->appointments as $appointmentsKey => $appointments){
 	        if ($appointmentsNo >= 10) break;
 	        $appointmentsClass = ($appointmentsNo % 2 == 0)? 'thm_organizer_es_even' : 'thm_organizer_es_odd';
@@ -71,7 +82,7 @@ $this->thm_text_image =
     <?php $upcomingNo = 0;
     if(count($this->upcoming) && $appointmentsNo < 8) {
         $time = date('H:i'); ?>
-        <div class="thm_organizer_date_title"><?php echo  JText::_('COM_THM_ORGANIZER_UPCOMING'); ?></div>
+        <div class="thm_organizer_date_title"><?php echo  JText::_('COM_THM_ORGANIZER_RD_UPCOMING'); ?></div>
         <?php foreach($this->upcoming as $upcomingKey => $upcoming){
 	        if ((count($this->appointments)) ? ($appointmentsNo + $upcomingNo >= 9) : ($upcomingNo >= 10)) break;
 	        $upcomingClass = ($upcomingNo % 2 == 0)? 'thm_organizer_es_even' : 'thm_organizer_es_odd';

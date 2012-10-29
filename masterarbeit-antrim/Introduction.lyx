@@ -326,12 +326,50 @@ description "Creation, Reading, Updating, and Deletion"
 
 \end_inset
 
-).
- Resource managment is a very broad topic and as applies to schools or,
- more specifically, colleges or univerities has three perspectives that
- make up the bigger picture: facility management, human resource management
- and quality management (certification).
- Each perspective brings with it its own resources and emphasis in usage.
+)
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Hell"
+
+\end_inset
+
+.
+ Each of these actions has its own meaning as seen through the perspectives
+ of resource managment as applied to schools or, more specifically, colleges
+ or univerities.
+ These perspectives are facility management (FM
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "FM"
+description "Facility Management"
+
+\end_inset
+
+), human resource management (HRM
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "HRM"
+description "Human Resources Management"
+
+\end_inset
+
+), quality management (QM
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "QM"
+description "Quality Management"
+
+\end_inset
+
+), also known as accreditation, and scheduling.
+\end_layout
+
+\begin_layout Standard
+The first two of these perspectives FM and HRM concern themselves with concrete
+ resources: buildings and equipment, and personel respectively.
+ These two perspectives have the efficient usage of the resources managed
+ as a goal.
+ The goal of quality management is to ensure that students recieve 
 \end_layout
 
 \begin_layout Standard
@@ -362,14 +400,6 @@ t, document management and many other fields at the level of the university
  Its resources are lessons, events, appointments, meetings, speeches, etc.;
  they tell us who does what, when, where, for whom, and under certain circumstan
 ces it even gives us a glimpse as to how.
-\end_layout
-
-\begin_layout Section
-Web Services
-\end_layout
-
-\begin_layout Standard
-web services are nice
 \end_layout
 
 \begin_layout Section

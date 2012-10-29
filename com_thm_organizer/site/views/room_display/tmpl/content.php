@@ -16,4 +16,14 @@
  */
 defined('_JEXEC') or die;
 ?>
-<img width="100%" src="images/thm_organizer/<?php echo $this->content ?>" >
+<script type="text/javascript">
+var timer = null;
+function auto_reload()
+{
+  window.location = document.URL;
+}
+window.onload = function(){
+    timer = setTimeout('auto_reload()', 60000);
+}
+</script>
+<img width="100%" src="images/thm_organizer/<?php echo $this->content; ?>" >
