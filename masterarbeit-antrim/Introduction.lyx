@@ -367,16 +367,21 @@ description "Quality Management"
 \begin_layout Standard
 The first two of these perspectives FM and HRM concern themselves with concrete
  resources: buildings and equipment, and personel respectively.
- These two perspectives have the efficient usage of the resources managed
- as a goal.
- The goal of quality management is to ensure that students recieve 
+ QM's resources are more abstract in nature: the curriculum of a course
+ of studies, units of lecture, units of practical exercise...
+ The two concrete perspectives have as a goal the most efficient usage of
+ the managed resources as a goal, whereas QM has as a goal the ensurance
+ of educational quality for students.
+ Scheduling tries to fulfill the goals of all three perspectives.The goals
+ of effeciency and educational quality may not be completely at odds with
+ one another, but often compromises must be met
 \end_layout
 
 \begin_layout Standard
-These four activities take on different aspects dependant upon the resource
- upon which they are applied and are known under differing names.
- For example, creation in terms of material objects is generally refered
- to as aquisition, whereas in terms of personel as hiring.
+These four CRUD activities take on different meanings dependant upon the
+ resource upon which they are applied.
+ Creation in terms of material objects is generally refered to as aquisition,
+ whereas in terms of personel as hiring.
  Reading in terms of documentation is self explaining, but in terms of other
  resources it could be seen as the browsing of a telephone book, or performing
  cost calculations in a spreadsheet program.
@@ -384,6 +389,12 @@ These four activities take on different aspects dependant upon the resource
  an employee, or the modification of documentation among other things.
  Deletion could be the simple removal of software, or the demolition of
  a building.
+\end_layout
+
+\begin_layout Standard
+These two perspectives have the efficient usage of the resources managed
+ as a goal.
+ The goal of quality management is to ensure that students recieve 
 \end_layout
 
 \begin_layout Standard
