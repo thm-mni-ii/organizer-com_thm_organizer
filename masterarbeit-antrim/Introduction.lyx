@@ -282,7 +282,7 @@ Motivation
 \end_layout
 
 \begin_layout Standard
-The University of Applied Sciences Central Hessen (THM
+At the University of Applied Sciences Central Hesse (THM
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
 symbol "THM"
@@ -290,10 +290,19 @@ description "University of Applied Sciences Central Hessen"
 
 \end_inset
 
-) is a decentralized and department oriented institution with campuses in
+) each department is for the most part responsible for the planning and
+ utilization of it's own resources.
+ While this department centred view of resource management does much to
+ promote transparency within the department itself, it becomes obstructionary
+ when planning using resources available and required by more than one departmen
+t.
+ This is once more componded not only by the interdepartmental use of resources,
+ but also the intercampus use of resources.
+ is a decentralized and department oriented institution with campuses in
  the cities of Gießen, Friedberg and Wetzlar.
- This decentralized view often leads to inefficient or uncertain usage of
- shared resources
+ This decentralization does much to aid in the transparency of resources
+ within each department, but is very detremental to interdepartmental or
+ intercampus transparency.
 \end_layout
 
 \begin_layout Standard
@@ -333,11 +342,13 @@ key "Hell"
 
 \end_inset
 
-.
- Each of these actions has its own meaning as seen through the perspectives
- of resource managment as applied to schools or, more specifically, colleges
- or univerities.
- These perspectives are facility management (FM
+, and business logic.
+ These activities take on different meanings dependent upon the resource
+ upon which they are applied and the perspective with which that resource
+ is viewed.
+ As applied to schools or, more specifically, colleges or universities,
+ resource management has four general perspective aggregates: Facility Managemen
+t (FM
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
 symbol "FM"
@@ -345,7 +356,7 @@ description "Facility Management"
 
 \end_inset
 
-), human resource management (HRM
+), Human Resource Management (HRM
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
 symbol "HRM"
@@ -353,7 +364,7 @@ description "Human Resources Management"
 
 \end_inset
 
-), quality management (QM
+), Quality Management (QM
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
 symbol "QM"
@@ -361,52 +372,84 @@ description "Quality Management"
 
 \end_inset
 
-), also known as accreditation, and scheduling.
+), also known as accreditation, and Scheduling.
 \end_layout
 
 \begin_layout Standard
-The first two of these perspectives FM and HRM concern themselves with concrete
- resources: buildings and equipment, and personel respectively.
- QM's resources are more abstract in nature: the curriculum of a course
- of studies, units of lecture, units of practical exercise...
+Creation in terms of material objects and personnel is the initial creation
+ of the objects representing the resources in their respective information
+ systems as part of the material acquisition and hiring processes.
+ Creation in terms of abstract objects is not only, as with their concrete
+ counterparts, the creation of representational objects in the respective
+ information systems, but also the creation of the documentation dealing
+ with these abstract objects.
+\end_layout
+
+\begin_layout Standard
+Reading can be taken literally in terms of documentation, but in terms of
+ other resources it could be seen as the browsing of a telephone book for
+ the school, the retrieval of information in a spreadsheet program, the
+ direct questioning of personnel.
+ As we can see from the example of the telephone book, reading often implies
+ that business logic has already been performed to filter the information
+ about the resources of personnel and sub-institutional organizational units
+ down to their respective names and telephone numbers.
+ This could, however, imply more extensive business logic such as quantifiable
+ room usage statistics, employee pay, or the grade point average of all
+ the students of a particular semester.
+\end_layout
+
+\begin_layout Standard
+As with creation updating can have a two fold relationship of changing the
+ physical objects and simply updating stored objects representing the physical
+ and abstract resources.
+ Some examples would be the refurbishment of a room, the further education
+ of an employee, or the modification of documentation.
+\end_layout
+
+\begin_layout Standard
+Deletion carries this double relationship further, but does not necessarily
+ explicitly implicate the removal of the real resource.
+ For example deletion could mean the simple removal of software, or the
+ demolition of a building.
+ However removal of objects representing resources from one system does
+ not mean the resource itself is gone it could simply mean the resource
+ has become irrelevant to the organizational unit responsible for a particular
+ information system.
+\end_layout
+
+\begin_layout Standard
+The first two of these perspectives FM and HRM concern themselves more with
+ concrete resources such as buildings and equipment, and personnel respectively.
+ As touched upon in the excurse about CRUD QM's resources are more abstract
+ in nature: specifically the curriculum of a course of studies and the abstract
+ resources which come to exist in order to implement it.
  The two concrete perspectives have as a goal the most efficient usage of
- the managed resources as a goal, whereas QM has as a goal the ensurance
+ the managed resources as a goal, whereas QM has as a goal the assurance
  of educational quality for students.
- Scheduling tries to fulfill the goals of all three perspectives.The goals
- of effeciency and educational quality may not be completely at odds with
- one another, but often compromises must be met
-\end_layout
-
-\begin_layout Standard
-These four CRUD activities take on different meanings dependant upon the
- resource upon which they are applied.
- Creation in terms of material objects is generally refered to as aquisition,
- whereas in terms of personel as hiring.
- Reading in terms of documentation is self explaining, but in terms of other
- resources it could be seen as the browsing of a telephone book, or performing
- cost calculations in a spreadsheet program.
- Updating would be the refurbishment of a room, the further education of
- an employee, or the modification of documentation among other things.
- Deletion could be the simple removal of software, or the demolition of
- a building.
+ Scheduling tries to fulfill the goals of these three perspectives.The goals
+ of efficiency and educational quality may not be completely at odds with
+ one another, but often in order to ensure the quality of the education
+ provided concessions have to be made to the efficiency of the involved
+ concrete resources.
 \end_layout
 
 \begin_layout Standard
 These two perspectives have the efficient usage of the resources managed
  as a goal.
- The goal of quality management is to ensure that students recieve 
+ The goal of quality management is to ensure that students receive 
 \end_layout
 
 \begin_layout Standard
-As can be gleaned from the previous examples resource managment in the broadest
- sense encompasses such topics as human resources management, facility managemen
-t, document management and many other fields at the level of the university
- level.
+As can be gleaned from the previous examples resource management in the
+ broadest sense encompasses such topics as human resources management, facility
+ management, document management and many other fields at the level of the
+ university level.
  Resource management within this thesis will focus mainly on the topic of
  scheduling.
  This aspect is unique in that it has in and of itself has no resources
  per se and takes place at a high level of abstraction.
- It is an association of resources aquired through other resource management
+ It is an association of resources acquired through other resource management
  processes.
  Its resources are lessons, events, appointments, meetings, speeches, etc.;
  they tell us who does what, when, where, for whom, and under certain circumstan
@@ -427,9 +470,9 @@ This work focuses primarily on the scheduling aspect of resource management.
 
 \begin_layout Standard
 While this thesis does not concern itself directly with the problems of
- human resources, facility managment, university documentation, or any other
- aspect of resource management, it does mention them often either directly
- or tangentelly.
+ human resources, facility management, university documentation, or any
+ other aspect of resource management, it does mention them often either
+ directly or tangentially.
  This is unavoidable due to the associative nature of scheduling which binds
  resources of these different aspects to create new resource types.
 \end_layout
@@ -492,7 +535,7 @@ The resources dealt with in school scheduling software and Untis scheduling
  both within the system and in every day speech.
  Three tasks emerge for the implementation of a system based upon the resources
  which provide the material for chapters two, three and four.
- These have strong dependancies between one another and often reveal themselves
+ These have strong dependencies between one another and often reveal themselves
  to be cyclic in their development.
  However in order to maintain some semblance of structure they have been
  encapsulated as much as possible.
@@ -504,7 +547,7 @@ Chapter two will define and model resources.
  These items have an extremely strong coupling with the systems designed
  to represent them.
  In order to present the results of the thesis in a more understandable
- manner, the resour?ces, attributes and dependancies will be presented as
+ manner, the resources, attributes and dependencies will be presented as
  they have evinced themselves, based upon the system topology, instead of
  trying to confront the reader with various stages of incremental resource
  models.
@@ -519,7 +562,7 @@ Chapter three will examine the currently used resource management systems
  are modeled, what their required attributes are, and what dependencies
  exist.
  Where system limitations in resource handling exist, strategies for compensatin
-g for discrepensies and missing resources will be discussed.
+g for discrepancies and missing resources will be discussed.
  Where resource attributes are unique to specific systems, they will be
  emphasized and their taxonomy and nature will be discussed in the context
  of their usage.
@@ -531,7 +574,7 @@ g for discrepensies and missing resources will be discussed.
 Chapter four will examine dependencies between the existing resource management
  systems.
  These dependencies, in combination with various workflows for resource
- management, crystalize into the system architecture implemented within
+ management, crystallize into the system architecture implemented within
  the framework of this thesis and give clues as to possible future extensions
  and interfaces to other resource management systems.
 \end_layout

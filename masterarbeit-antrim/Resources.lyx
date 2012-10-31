@@ -278,9 +278,137 @@ Scheduling Resources
 \end_layout
 
 \begin_layout Standard
-The central scheduling instance is based upon the Untis software.
- Untis uses multiple resources that are by and large very fitting for the
- scheduling needs of the THM
+Scheduling is in principle an association of a teacher, a room, the subject
+ which he is to teach, and the time at which the lesson content should be
+ taught.
+ Although this is a bit simplistic it provides us with a good starting point
+ for the more abstract resources which result as consequences of such associatio
+ns.
+ In the first section we will examine the basic resources of teachers, rooms
+ and subjects.
+ We will then examine the organizational resources and attributes.
+ The concept of time will be explored including resulting resources and
+ the consequences of temporal modeling.
+ Finally the lessons themselves will be introduced binding all of these
+ elements together into a consistent whole.
+\end_layout
+
+\begin_layout Standard
+A detailed description will be given of each resource or major attribute.
+ Then extrapolating from this description we will take a look at some of
+ the more important resource attributes.
+ This will give us a somewhat more precise look at the subject of each section
+ and its relation to previously discussed resources and attributes.
+ We will then use this to fit the desired model into the resources and attribute
+s available from the Untis software and see what benifits and drawbacks
+ the overlay of the model on the existing resource type has.
+\end_layout
+
+\begin_layout Section
+Basic Resources
+\end_layout
+
+\begin_layout Subsection
+Teachers
+\end_layout
+
+\begin_layout Standard
+Teachers are persons hired by the responsible bodies to convey a set of
+ subjects to groups of students.
+ In western culture, teachers are typically identifiable as persons by at
+ least one first name and at least one family name.
+ At the THM every person recorded by the school administration has a so
+ called 'hg' number assigned to them.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Teachers-View"
+
+\end_inset
+
+Teachers View
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Rooms
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Rooms-View"
+
+\end_inset
+
+Rooms View
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Subjects
+\end_layout
+
+\begin_layout Standard
+The software implemented to accompany this thesis is based upon the software
+ Untis produced by Gruber & Petters Software
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Grub"
+
+\end_inset
+
+, the Joomla! content management system (CMS
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "CMS"
+description "Content Management System"
+
+\end_inset
+
+) and the THM Organizer component.
+ The Untis program is a powerful scheduling tool where the actual scheduling
+ is performed based upon guidelines codified in the accredited course of
+ studies for an individual degree.
+ The THM uses the Joomla! CMS to enable its web presence
 \end_layout
 
 \begin_layout Standard
@@ -290,10 +418,39 @@ Since the goal is to fit the existing scheduling processes into the processes
  resources.
  The resources and special resources managed by Untis are classes, teachers,
  rooms, subjects, students, departments and descriptions.
- Together with time periods there resources are suffishould be sufficient
- are managed according to their own completely unique interface.
+ Together with time periods there resources are should be sufficient are
+ managed according to their own completely unique interface.
  Lessons are an aggregate resource with an interface similar to, semesters,
  campuses, buildings, ....*/
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Subjects-View-2"
+
+\end_inset
+
+Rooms View
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -464,7 +621,11 @@ Fields of the View
 \end_layout
 
 \begin_layout Section
-Descriptions
+Organizational Resources
+\end_layout
+
+\begin_layout Subsection
+Categories
 \end_layout
 
 \begin_layout Standard
@@ -527,7 +688,7 @@ lecture hall
  */
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Untis Attributes and Usability
 \end_layout
 
@@ -587,7 +748,7 @@ Unlike other resources where one can choose which columns are to be displayed,
  not to do anything at all.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Descriptions in other Systems
 \end_layout
 
@@ -605,7 +766,7 @@ Of the various descriptions currently in use only those pertaining to rooms
  something about lsf stuffs*/
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Implemented Taxonomy
 \end_layout
 
@@ -634,35 +795,11 @@ Denniffelesque
  represents.
 \end_layout
 
-\begin_layout Section
-Departments
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\noindent
-\align center
-\begin_inset Caption
-
-\begin_layout Plain Layout
+\begin_layout Subsection
+Fields and Competence Centers
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:Departments-View"
-
-\end_inset
-
-Departments View
-\end_layout
-
-\end_inset
-
-
-\end_layout
+name "Fields and Competence"
 
 \end_inset
 
@@ -670,60 +807,10 @@ Departments View
 \end_layout
 
 \begin_layout Standard
-Departments are resources representing organizational units which Untis
- allows to be associated with the various resources.
- Departments are used to create lists of associated resources, department
- schedules, and to restrict user rights to department specific resources.
-\end_layout
-
-\begin_layout Subsubsection
-Untis Attributes and Usability
-\end_layout
-
-\begin_layout Standard
-Departments have only the attributes name and long name.
-\end_layout
-
-\begin_layout Subsubsection
-External Systems /*Datasources?*/
-\end_layout
-
-\begin_layout Standard
-The most important systems which provide data about departments are the
- websites of the departments themselves.
- Which was where the names and long names were pulled.
- Most other systems had some form of stale data.
- /*fm thm hmm?*/
-\end_layout
-
-\begin_layout Subsubsection
-Implemented Taxonomy
-\end_layout
-
-\begin_layout Standard
-Untis does not allow for the collection of certain organizational resources
- necessary for the accurate modeling of the nuances of organizational hierarchy.
- For this reason a four-tier system was developed to better represent the
- actual departments requiring representation in the system.
-\end_layout
-
-\begin_layout Standard
-The implemented taxonomy abstracts four hierearchial layers and adds the
- possibility for a unique name.
- 
-\end_layout
-
-\begin_layout Standard
-<Institution>,<Campus>,<Department>,<Subdepartment> (<Name>)
-\end_layout
-
-\begin_layout Standard
-This structure was developed for the use in external systems which rely
- on this hierarchy for their own planning purposes.
-\end_layout
-
-\begin_layout Section
-Fachgruppen?!
+Teachers by means of their education and experiences have certain particular
+ fields of knowledge in which they excel.
+ These fieldsBoth teachers and subjects are associated with fields or special
+ areas of knowledge.
 \end_layout
 
 \begin_layout Standard
@@ -773,8 +860,134 @@ um" , "Master".
  der Studiengnag, der aber auch in "Stundentafel" kodiert ist (also redundant)*/
 \end_layout
 
-\begin_layout Section
-Classes
+\begin_layout Subsection
+Departments
+\end_layout
+
+\begin_layout Standard
+Departments are semi-autonomous organizational units at the THM, and as
+ such are responsible for their own scholastic scheduling.
+ Unlike other resources departments are a self containing entity which 'posess'
+ other resources.
+ As a resource they exist as an administrative tool to ease the complexity
+ of the scheduling process.
+ Because of this they have no defining attributes of their own.
+\end_layout
+
+\begin_layout Standard
+In order for scheduling coordinators to be able to plan using individual
+ time restrictions and preferences for resources it was necessary to utilize
+ the Untis 'School' resource.
+ (See Time Restrictions and Preferences 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "Time Restrictions and Preferences"
+
+\end_inset
+
+.) In addition to the use of school specific time restrictions and preferences,
+ this brought with it two positive side effects: being able to utilize the
+ powerful Untis schedule optimization functionality and a dramatic reduction
+ in the number of visible resources.
+\end_layout
+
+\begin_layout Standard
+The optimization functionality can be an enourmous relief to the workload
+ of planners.
+ Instead of having to plan each lesson by hand the optimization functionality
+ plans lessons automatically according to the number of unplanned lesson
+ units.
+ The reduction in the number of visible resources is also a great boon to
+ the planning coordinators in that they are not confronted with hundreds
+ of rooms, teachers, subjects, and subject pools which they are not responsible
+ for.
+\end_layout
+
+\begin_layout Standard
+This implementation decision also has large drawbacks.
+ The visibility of lessons already planned from outside of the scope of
+ the planning coordinator only occurs by marking resources as 'external'.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Departments-View"
+
+\end_inset
+
+Departments View
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+External Systems /*Datasources?*/
+\end_layout
+
+\begin_layout Standard
+The most important systems which provide data about departments are the
+ websites of the departments themselves.
+ Which was where the names and long names were pulled.
+ Most other systems had some form of stale data.
+ /*fm thm hmm?*/
+\end_layout
+
+\begin_layout Subsubsection
+Implemented Taxonomy
+\end_layout
+
+\begin_layout Standard
+Untis does not allow for the collection of certain organizational resources
+ necessary for the accurate modeling of the nuances of organizational hierarchy.
+ For this reason a four-tier system was developed to better represent the
+ actual departments requiring representation in the system.
+\end_layout
+
+\begin_layout Standard
+The implemented taxonomy abstracts four hierearchial layers and adds the
+ possibility for a unique name.
+ 
+\end_layout
+
+\begin_layout Standard
+<Institution>,<Campus>,<Department>,<Subdepartment> (<Name>)
+\end_layout
+
+\begin_layout Standard
+This structure was developed for the use in external systems which rely
+ on this hierarchy for their own planning purposes.
+\end_layout
+
+\begin_layout Subsection
+Subject pools and Courses of Study
+\begin_inset CommandInset label
+LatexCommand label
+name "Subject Pools and Courses of Sutdy"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -789,11 +1002,11 @@ status open
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:Classes-View"
+name "fig:Subject-Pools-View"
 
 \end_inset
 
-Classes View
+Subject Pools View
 \end_layout
 
 \end_inset
@@ -811,21 +1024,15 @@ Classes View
 \end_layout
 
 \begin_layout Standard
-The term classes stems from Untis' historical usage as a planning instrument
- for elementary and secondary schools.
- In effect classes are resources used for the visualization of groups of
- lessons.
- 
+Subject pools at the THM are a group of subjects gathered together for organizat
+ional purposes based upon a many distinct criteria.
+ In scheduling it is preffered to plan subject pools so that as few lessons
+ as possible take place at the same time.
 \end_layout
 
 \begin_layout Standard
-Lesson groupings at the THM involve at least one but up to three grouping
- criteria: a course of studies, a semester, and/or a subject cluster.
- Semantical combinatorics allow for three possible outcomes of these criteria:
-\end_layout
-
-\begin_layout Standard
-A course of studies (CoS
+The largest subject pools are a mirror of the accredited course of studies
+ (CoS
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
 symbol "CoS"
@@ -833,247 +1040,204 @@ description "Course of Studies"
 
 \end_inset
 
-) alone is the set of all subjects which must be completed in order achieve
- the degree desired.
- This set is self explanatory but also unwieldly.
- This type of class is used when the complete set is either unknown, or
- when a great deal of the set of subjects is conducted externally.
- As an example of an unknown set, MNI frequently has to plan other departments
- lessons into rooms for which it is responsible.
- Rather than research the information to correctly input the lesson set,
- the person responsible would often create placeholders representing the
- unknown subject groups.
- As an example of a largely externally conducte set, KMUB has a course of
- studies Biomechanics, Motor Activity and Movement Analysis which is conducted
+) required for a particular degree.
+ Which is to say every student which wishes to achieve a particular degree
+ needs to complete a certain subset of the courses available within the
+ CoS for his particular degree.
+ These subject pools are seldom directly planned because of their large
+ and unwieldy nature.
+ When planned this subject pool will usually indicate an incomplete set
+ where the missing subjects are either unknown or performed by an external
+ organization.
+ As an example of an incomplete set, Department MNI frequently has to plan
+ other departments lessons into rooms for which it is responsible.
+ Rather than research the information to correctly input the set, the person
+ responsible often created placeholders representing the unknown subjects
+ and teachers to both reserve the resources while planning and to prevent
+ others from planning into room reservations.
+ As an example of a largely externally conducted set, Department KMUB has
+ a Biomechanics, Motor Activity and Movement Analysis CoS which is conducted
  jointly with the Justus-Liebig University in Giessen.
- Because of KMUB's yearly planning cycle, large amounts of subjects can
+ Because of KMUB's annual planning cycle, large amounts of subjects can
  be seasonally omitted.
- The result of the externally held subjects and subject omission is a collection
- of only five subjects, which can easily be managed and displayed.
+ The result of the externally held subjects by Justus-Liebig University
+ and subject omission is a set of only five subjects, which can easily be
+ planned and displayed.
+ Within the subjects required from one degree program to another there may
+ be significant overlapping, however all other subject pools are subsets
+ of the courses available for one particular degree program.
+\end_layout
+
+\begin_layout Standard
+The first noteworthy criteria for one such subset subject pool is the current
+ semester of the student.
+ In the Most degree programs recommend subjects to be completed in a particular
+ order in order that the knowledge necessary for successful learning in
+ one particular subject has been hopefully taught to the student already
+ in a course taken in a previously.
+ This subsetting seeks to ensure a consequent and sequential acquisition
+ of knowledge while the student progresses toward his particular degree.
+ This criteria is the most often used for subset creation.
+ Due to planning restrictions causing some departments to only offer subjects
+ annually, this subsetting can be extremely important to students and their
+ responsible department planning coordinators.
  
 \end_layout
 
 \begin_layout Standard
-The combination of a CoS and a semester is the subset of subjects for the
- course of studies suggested for the semester in question.
- This is the most common class in use for planning at the THM.
- Although extremely useful for planning there exists no word in English
- or German which conveys this meaning.
- This term will therefore be refered to as a semestergang derived from semester
- and 
-\begin_inset Quotes eld
-\end_inset
+The second criteria is thematic or preferential.
+ Students may often times choose between multiple electives or between thematic
+ subject pools, i.e.
+ majors.
+ Often there are several electives from which the student can openly choose
+ a certain number, often these are grouped together for a better overview.
+ In the case of thematic subject pools students are usually required to
+ choose a certain number of subjects to complete out of a much smaller pool
+ to strengthen knowledge in one particular field of study.
+\end_layout
 
-Studiengang
-\begin_inset Quotes erd
-\end_inset
+\begin_layout Standard
+The last criteria for subsetting is quality assurance.
+ Often large numbers of students can be a detriment to learning via hands-on
+ activities, or certain subjects are designed to be taught through work
+ performed in relatively small groups.
+ This can result in a qualitative division of students into smaller more
+ manageable learning units.
+ An example would be Department MNI's first semester bachelor students.
+ In all four bachelor programs offered by Department MNI students are required
+ to complete the course Object Oriented Programming.
+ Because of the hands-on nature of the material to be taught and the large
+ amount of students over different lessons are being offered for this subject.
+ Another example would be the load splitting perofrmed by Department KMUB.
+ Several courses for a particular semester are delivered to the full load
+ of students, however other the students are broken down into several smaller
+ groups to visit other courses where such large numbers of students would
+ be impracticable.
+ In effect they form a subdivision of the students for a particular semester.
+\end_layout
 
- the german word for course of studies.
- An example for such a semestergang would be the subjects recommended for
- economics sudents in their third semester.
+\begin_layout Subsubsection
+Subject Pool Attributes
+\end_layout
+
+\begin_layout Minisec
+Identity
+\end_layout
+
+\begin_layout Standard
+Firstly subject pools must be uniquely identifiable.
+ This identity must take into account all of the subset criteria mentioned
+ in the resource introduction, the hierarchy of sets to which it belongs,
+ and CoS namespaces.
+ As an example of a CoS namespace, the Information Science CoS exists for
+ both a bachelor and master degree, in order to be able to identify the
+ correct CoS by name the degree upon completion must also be a part of that
+ name.
+\end_layout
+
+\begin_layout Minisec
+Subordination Criteria
+\end_layout
+
+\begin_layout Standard
+With the exception of subject pools which directly correlate to CoSs, all
+ subject pools have a superior subject pool of whose subjects they represent
+ a subset.
+ By thematic or preferential subsets the criteria for the subset definition
+ should plays an important role.
+\end_layout
+
+\begin_layout Subsubsection
+Untis Implementation
+\end_layout
+
+\begin_layout Standard
+Out-of-the-box Untis software refers to this resource as a 'class' or 'subclass'
+ stemming from its inital development as a software designed for grade schools.
+ While not far off the mark this name fails to convey the granularity of
+ the second and third criteria for for subsetting.
+ Subject pools are a basic resource in Untis because of the priority of
+ collision free planning.
+\end_layout
+
+\begin_layout Standard
+In the implementation for Department MNI the names have differing structures
+ dependent opon each of these criteria.
+ A bachelor subject pool for a particular semester using the example of
+ Bioinformation Science in the third semester
+\end_layout
+
+\begin_layout Section
+Time
+\end_layout
+
+\begin_layout Standard
+The biggest change the introduction of Untis 2013 brought into the system
+ landscape at the THM was the change from a 'two dimensional' weekly plan
+ to a 'three dimensional' weekly plan in which the lessons offered could
+ be different from one week to the next.
+ In the two dimensional plan weekly variance was highlighted through commentary
+ to individual lessons in the three dimensional plan this variance from
+ week to week was could be correctly modeled using temporal and organizational
+ resources previously unavailable.
+\end_layout
+
+\begin_layout Subsection
+Semesters
+\end_layout
+
+\begin_layout Standard
+Semesters are planning periods which begin twice annually.
  
 \end_layout
 
 \begin_layout Standard
-The combination of a CoS and a subject cluster is a subset of subjects for
- the course of studies which fulfill certain thematic criteria.
- This is the second most common class in use for planning at the THM, where
- many courses of study require a certain number of credit points earned
- from amongst thematic groupings of subjects.
+In the implementation decided upon semesters were implemented as the Untis
+ resource 'Period' not to be confused with the daily periods discussed in
+ the next subsection.
+ Periods in the Untis implementation are disjunct planning periods and as
+ such are very well suited to the traditional use of the term semester.
+ Hereafter Untis 'Periods' will be referred to as semesters to eliminate
+ any confusion with the daily period resource.
 \end_layout
 
 \begin_layout Standard
-All three criteria together result in a subset of subjects for the course
- of studies to be taken in a particular semester which fulfill certain thematic
- criteria.
+Untis semesters are hierarchially constructed which 
+\end_layout
+
+\begin_layout Subsection
+Daily Periods
 \end_layout
 
 \begin_layout Standard
-The group of lessons for which economics students should complete in their
- first semester would be an example of one such class.
- Another example would be the elective courses of a certain thematic area
- such as the social skills courses available to master students of information
- science.
-\end_layout
-
-\begin_layout Subsection
-Untis Attributes
-\end_layout
-
-\begin_layout Subsection
-External Systems
-\end_layout
-
-\begin_layout Subsection
-Implemented Taxology
-\end_layout
-
-\begin_layout Section
-Teachers
+Periods or blocks are units of time in which lessons can be slotted to occur.
+ At the THM periods have three typicall forms dependent upon the context
+ of the week in which they take place.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Teachers-View"
-
-\end_inset
-
-Teachers View
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
-Untis Attributes
-\end_layout
-
-\begin_layout Subsection
-External Systems
-\end_layout
-
-\begin_layout Subsection
-Implemented Taxology
-\end_layout
-
-\begin_layout Section
-Rooms
+Standard lesson periods take place during most of the semester.
+ These are 90 minutes in length with 15 to 20 minute breaks between them
+ and an hour planned for lunch.
+ Depending upon the department and CoS these range from 30 to 36 in number.
+ Six periods can take place Monday through Friday and three possibly taking
+ place on Saturday.
+ The restriction to three on Saturday having to do with the traditional
+ workweek and the closure of most THM buildings due to minimal demand for
+ these periods.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Rooms-View"
-
-\end_inset
-
-Rooms View
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
-Untis Attributes
-\end_layout
-
-\begin_layout Subsection
-External Systems
-\end_layout
-
-\begin_layout Subsection
-Implemented Taxology
-\end_layout
-
-\begin_layout Section
-Subjects
+Exams take place three weeks per semester.
+ Examination periods are two hours in length and have no scheduled breaks.
+ However finals are no longer than 90 minutes in length allowing students
+ and teachers 30 minutes free time in between exams.
+ Such periods are 25 in number with five taking place per day Monday through
+ Friday.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Subjects-View"
-
-\end_inset
-
-Subjects View
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
-Untis Attributes
-\end_layout
-
-\begin_layout Subsection
-External Systems
-\end_layout
-
-\begin_layout Subsection
-Implemented Taxology
-\end_layout
-
-\begin_layout Section
-Special Resources
-\end_layout
-
-\begin_layout Standard
-Special resources are abstract in nature and are used in attribute fields
- of concrete resources.
-\end_layout
-
-\begin_layout Subsection
-Periods
+Finally in the gaps between semesters block lessons 
 \end_layout
 
 \begin_layout Standard
@@ -1105,33 +1269,51 @@ Periods View
 
 \end_layout
 
-\begin_layout Standard
-The one 
-\begin_inset Quotes eld
+\begin_layout Subsection
+Time Restrictions and Preferences
+\begin_inset CommandInset label
+LatexCommand label
+name "Time Restrictions and Preferences"
+
 \end_inset
 
-resource
-\begin_inset Quotes erd
-\end_inset
 
- which is not handled through the resource managment menu are periods.
- 
-\end_layout
-
-\begin_layout Subsubsection
-Untis Attributes
-\end_layout
-
-\begin_layout Subsubsection
-External Systems
-\end_layout
-
-\begin_layout Subsubsection
-Implemented Taxology
 \end_layout
 
 \begin_layout Section
 Lessons
+\end_layout
+
+\begin_layout Standard
+Lesssons are the endproduct of scholastic scheduling.
+ They are the shit!
+\end_layout
+
+\begin_layout Subsection
+Lesson Types
+\end_layout
+
+\begin_layout Standard
+The first lesson type lecture is the the most common and seeks to convey
+ theoretical knowledge...
+\end_layout
+
+\begin_layout Standard
+Exercises concern themselves with learning through repetition
+\end_layout
+
+\begin_layout Standard
+Practical Training is hands-on learning with the completion of a project
+ as a goal.
+\end_layout
+
+\begin_layout Standard
+Seminar as held at the THM is a course in which students are given assignments
+ and hold presentations at regular intervals.
+\end_layout
+
+\begin_layout Standard
+Small group work
 \end_layout
 
 \begin_layout Subsection

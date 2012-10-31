@@ -274,7 +274,51 @@ thepage
 \end_layout
 
 \begin_layout Chapter
-Resource Management Systems
+System Integration and Distributed Planning
+\end_layout
+
+\begin_layout Standard
+Scheduling at the THM is a process which involves a multiple systems which
+ are responsible for the electronic records of the resources managed, and
+ a myriad of scheduling and facility management coordinators.
+ Defining the system landscape was and is an iterative process which changes
+ with time based upon reflection and changes to the system environment.
+ These changes to the environment can be in terms of new resource types,
+ personnel, systems, or software.
+\end_layout
+
+\begin_layout Standard
+The driving questions in this process are: How can the various workflows
+ be made more effiecient? How can more data be aggregated? Have all necessary
+ and desirable attributes and properties of the resources been recorded?
+ How is data is the data to be processed? Who is involved in the process?
+ What actions can those involved perform? Which actions do they need to
+ be able to perform to efficiently function?
+\end_layout
+
+\begin_layout Section
+Users, Groups and Roles
+\end_layout
+
+\begin_layout Standard
+One of the first decisions or discoveries to be made in the creation of
+ a new system landscape is to include all the responsible persons.
+\end_layout
+
+\begin_layout Standard
+In Untis
+\end_layout
+
+\begin_layout Standard
+In Joomla
+\end_layout
+
+\begin_layout Section
+Actions and Security
+\end_layout
+
+\begin_layout Section
+Data Aggregation
 \end_layout
 
 \begin_layout Section
@@ -282,15 +326,7 @@ Untis
 \end_layout
 
 \begin_layout Section
-LSF
-\end_layout
-
-\begin_layout Section
-THM Organizer
-\end_layout
-
-\begin_layout Section
-Records Systems
+THM Organizer Component
 \end_layout
 
 \begin_layout Standard
