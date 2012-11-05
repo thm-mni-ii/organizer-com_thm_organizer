@@ -275,6 +275,13 @@ thepage
 
 \begin_layout Chapter
 System Integration and Distributed Planning
+\begin_inset CommandInset label
+LatexCommand label
+name "System Integration and Distributed Planning"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -321,8 +328,71 @@ Actions and Security
 Data Aggregation
 \end_layout
 
+\begin_layout Standard
+Department info:The most important systems which provide data about departments
+ are the websites of the departments themselves.
+ Which was where the names and long names were pulled.
+ Most other systems had some form of stale data.
+ /*fm thm hmm?*/
+\end_layout
+
 \begin_layout Section
 Untis
+\end_layout
+
+\begin_layout Standard
+In addition to the use of school specific time restrictions and preferences,
+ this brought with it two positive side effects: being able to utilize the
+ powerful Untis schedule optimization functionality and a dramatic reduction
+ in the number of visible resources.
+\end_layout
+
+\begin_layout Standard
+The optimization functionality can be an enourmous relief to the workload
+ of planners.
+ Instead of having to plan each lesson by hand the optimization functionality
+ plans lessons automatically according to the number of unplanned lesson
+ units and the teachers fields of expertise.
+ The reduction in the number of visible resources is also a great boon to
+ the planning coordinators in that they are not confronted with hundreds
+ of rooms, teachers, subjects, and subject pools which they may not be responsib
+le for.
+\end_layout
+
+\begin_layout Standard
+This implementation decision also has large drawbacks.
+ The visibility of lessons already planned from outside of the scope of
+ the planning coordinator only occurs by marking resources as 'external'.
+ However marking something as external does not have the effect that a resource
+ is considered shared, it has solely the functions of reservation and visibility.
+ Some teachers marked as external and all subject groups so marked are in
+ fact shared.
+ This has the effect that planning with
+\end_layout
+
+\begin_layout Standard
+/*Wahrscheinlich haben Sie sowas schon - ich würde etwas zu "Process", "Collabor
+ation", "Versioning" erwarten.
+\end_layout
+
+\begin_layout Standard
+Darin sollte beschrieben sein, wie die Fachbereiche für sich selbst, aber
+ über gemeinsame Ressourcen gekoppelt, zu einer "Version" kommen.
+ Fragen, die ich mir stelle wären u.a.: - Was ist eine Version? Arbeitsversion
+ vs.
+ veröffentlichte Version.
+ Fachbereichinterne Version vs Hochschulweiter Version, - Wie sind die Schnittst
+ellen zwischen den Fachbereichen (und gibt es Besonderheiten bzgl.
+ Friedberg).
+ Was sind die gemeinsamen Ojekte, was sind die FB-internen Objekte - Wie
+ könnte der zeitliche Ablauf (Prozess) der Stundenplanerstellung sein: exklusive
+ Ressourcenzuorndung (Stundenplanerkonferenz: Mitt edes Vorsemesters), FB-intern
+e Stundenplanung bis zu einer "Ersten Version" (2 Wochen vor Vorlesungsbeginn).
+ Auflösung bestimmer exklusiver Ressourcenzuordnungen und TH-weite Optimierungen
+/Anpassungen (bis 2 Wochen nach Vorlesungsbeginn), Stundenplan-Verwaltung
+ während des Semesters, eventuell Planung der Blockveranstaltungen in den
+ Blockzeiten.
+ */
 \end_layout
 
 \begin_layout Section

@@ -862,16 +862,41 @@ um" , "Master".
 
 \begin_layout Subsection
 Departments
+\begin_inset CommandInset label
+LatexCommand label
+name "Departments"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
 Departments are semi-autonomous organizational units at the THM, and as
  such are responsible for their own scholastic scheduling.
- Unlike other resources departments are a self containing entity which 'posess'
- other resources.
- As a resource they exist as an administrative tool to ease the complexity
+ Unlike other resources departments are a self containing entity which posess
+ or share other resources.
+ As a resource, they exist as an administrative tool to ease the complexity
  of the scheduling process.
  Because of this they have no defining attributes of their own.
+\end_layout
+
+\begin_layout Standard
+While as a resource there is little that can be said to them they play a
+ defining role in the workflow of the scheduling process.
+ As such they will recieve much more attention in the next chapter System
+ Integration and Distributed Planning 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "System Integration and Distributed Planning"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Minisec
+Modeling in Untis
 \end_layout
 
 \begin_layout Standard
@@ -881,102 +906,11 @@ In order for scheduling coordinators to be able to plan using individual
  (See Time Restrictions and Preferences 
 \begin_inset CommandInset ref
 LatexCommand vpageref
-reference "Time Restrictions and Preferences"
+reference "Time Restrictions and Planning Priorities"
 
 \end_inset
 
-.) In addition to the use of school specific time restrictions and preferences,
- this brought with it two positive side effects: being able to utilize the
- powerful Untis schedule optimization functionality and a dramatic reduction
- in the number of visible resources.
-\end_layout
-
-\begin_layout Standard
-The optimization functionality can be an enourmous relief to the workload
- of planners.
- Instead of having to plan each lesson by hand the optimization functionality
- plans lessons automatically according to the number of unplanned lesson
- units.
- The reduction in the number of visible resources is also a great boon to
- the planning coordinators in that they are not confronted with hundreds
- of rooms, teachers, subjects, and subject pools which they are not responsible
- for.
-\end_layout
-
-\begin_layout Standard
-This implementation decision also has large drawbacks.
- The visibility of lessons already planned from outside of the scope of
- the planning coordinator only occurs by marking resources as 'external'.
- 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\noindent
-\align center
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Departments-View"
-
-\end_inset
-
-Departments View
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsubsection
-External Systems /*Datasources?*/
-\end_layout
-
-\begin_layout Standard
-The most important systems which provide data about departments are the
- websites of the departments themselves.
- Which was where the names and long names were pulled.
- Most other systems had some form of stale data.
- /*fm thm hmm?*/
-\end_layout
-
-\begin_layout Subsubsection
-Implemented Taxonomy
-\end_layout
-
-\begin_layout Standard
-Untis does not allow for the collection of certain organizational resources
- necessary for the accurate modeling of the nuances of organizational hierarchy.
- For this reason a four-tier system was developed to better represent the
- actual departments requiring representation in the system.
-\end_layout
-
-\begin_layout Standard
-The implemented taxonomy abstracts four hierearchial layers and adds the
- possibility for a unique name.
- 
-\end_layout
-
-\begin_layout Standard
-<Institution>,<Campus>,<Department>,<Subdepartment> (<Name>)
-\end_layout
-
-\begin_layout Standard
-This structure was developed for the use in external systems which rely
- on this hierarchy for their own planning purposes.
+.) 
 \end_layout
 
 \begin_layout Subsection
@@ -984,39 +918,6 @@ Subject pools and Courses of Study
 \begin_inset CommandInset label
 LatexCommand label
 name "Subject Pools and Courses of Sutdy"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Subject-Pools-View"
-
-\end_inset
-
-Subject Pools View
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
 
 \end_inset
 
@@ -1117,15 +1018,12 @@ The last criteria for subsetting is quality assurance.
 \end_layout
 
 \begin_layout Subsubsection
-Subject Pool Attributes
+Attributes
 \end_layout
 
-\begin_layout Minisec
-Identity
-\end_layout
-
-\begin_layout Standard
-Firstly subject pools must be uniquely identifiable.
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Identity Firstly subject pools must be uniquely identifiable.
  This identity must take into account all of the subset criteria mentioned
  in the resource introduction, the hierarchy of sets to which it belongs,
  and CoS namespaces.
@@ -1135,14 +1033,11 @@ Firstly subject pools must be uniquely identifiable.
  name.
 \end_layout
 
-\begin_layout Minisec
-Subordination Criteria
-\end_layout
-
-\begin_layout Standard
-With the exception of subject pools which directly correlate to CoSs, all
- subject pools have a superior subject pool of whose subjects they represent
- a subset.
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Criteria With the exception of subject pools which directly correlate to
+ CoSs, all subject pools have a superior subject pool of whose subjects
+ they represent a subset.
  By thematic or preferential subsets the criteria for the subset definition
  should plays an important role.
 \end_layout
@@ -1167,6 +1062,66 @@ In the implementation for Department MNI the names have differing structures
  Bioinformation Science in the third semester
 \end_layout
 
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Departments-View"
+
+\end_inset
+
+Departments View
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Subject-Pools-View"
+
+\end_inset
+
+Subject Pools View
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Time
 \end_layout
@@ -1183,35 +1138,76 @@ The biggest change the introduction of Untis 2013 brought into the system
 \end_layout
 
 \begin_layout Subsection
-Semesters
+Planning Periods
 \end_layout
 
 \begin_layout Standard
-Semesters are planning periods which begin twice annually.
+At the THM there are two planning periods per year the winter semester and
+ summer semester.
+ Within the semesters cyclic lessons, block lessons and exams are planned.
+ The length of these two planning periods can vary between departments as
+ each has can plan an individual cycle of lectures and exams.
+ The third planning period which deserves mention is the academic year encompass
+ing these two semesters.
+ As some lessons or subject pools are only offered in one semester annually,
+ the academic year has often to be taken into consideration to confirm that
+ the offering of subjects is in line with the guidelines created when the
+ subject's CoS was certified.
+\end_layout
+
+\begin_layout Subsubsection
+Attributes
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Identity Each planning period should be identifiable by name.
+ In the case of semesters, this is done by the name of the semester season
+ and years in which they take place, and solely with the years in which
+ it takes place for the academic year.
  
 \end_layout
 
-\begin_layout Standard
-In the implementation decided upon semesters were implemented as the Untis
- resource 'Period' not to be confused with the daily periods discussed in
- the next subsection.
- Periods in the Untis implementation are disjunct planning periods and as
- such are very well suited to the traditional use of the term semester.
- Hereafter Untis 'Periods' will be referred to as semesters to eliminate
- any confusion with the daily period resource.
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Startdate The date upon which the planning period begins.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Enddate The date upon which the planning period ends.
+ Semesters are defined not only according to the times in which standard
+ lessons occur, but also include the range of dates until the next semester
+ begins.
+ At the THM this has the effect of making the summer semester somewhat longer
+ than the winter semester.
+ The planning period for the acedemic year is typically
+\end_layout
+
+\begin_layout Subsubsection
+Untis Implementation
 \end_layout
 
 \begin_layout Standard
-Untis semesters are hierarchially constructed which 
+Both semesters and the academic year were implemented as the Untis resource
+ 'Period', not to be confused with the in Untis nameless daily periods discussed
+ in the next subsection.
+ Untis periods require both identity and length, are disjunct planning periods,
+ and are hierarchically structured which makes them an almost optimal resource
+ for modeling semesters.
+ The only point point of friction between the optimal model and the Untis
+ model is that the Untis model limits the academic year to the length of
+ a normal year.
 \end_layout
 
 \begin_layout Subsection
-Daily Periods
+Lesson Periods (Blocks)
 \end_layout
 
 \begin_layout Standard
-Periods or blocks are units of time in which lessons can be slotted to occur.
- At the THM periods have three typicall forms dependent upon the context
+Lesson periods or blocks are units of time in which lessons can be slotted
+ to occur.
+ At the THM periods have three typical forms dependent upon the context
  of the week in which they take place.
 \end_layout
 
@@ -1219,12 +1215,10 @@ Periods or blocks are units of time in which lessons can be slotted to occur.
 Standard lesson periods take place during most of the semester.
  These are 90 minutes in length with 15 to 20 minute breaks between them
  and an hour planned for lunch.
- Depending upon the department and CoS these range from 30 to 36 in number.
- Six periods can take place Monday through Friday and three possibly taking
+ Depending upon the department and CoS these range from 30 to 33 in number.
+ Six periods can take place Monday through Friday with three possibly taking
  place on Saturday.
- The restriction to three on Saturday having to do with the traditional
- workweek and the closure of most THM buildings due to minimal demand for
- these periods.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -1237,7 +1231,51 @@ Exams take place three weeks per semester.
 \end_layout
 
 \begin_layout Standard
-Finally in the gaps between semesters block lessons 
+Finally block lessons take place in breaks in standard lesson scheduling
+ and take place for certain range of days from morning into the afternoon.
+ These times are however set by the instructor of the block lesson and cannot
+ yet be defined in the exact manner of the other two daily periods.
+\end_layout
+
+\begin_layout Subsubsection
+Attributes
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Identity Only the standard lessons have named identity.
+ This is derived from the named week day and the sequential number of the
+ period upon that day.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Starttime The time at which the lesson period begins.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Endtime The time at which the lesson period ends.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Date The date upon which the lesson period occurs.
+\end_layout
+
+\begin_layout Subsubsection
+Untis Implementation
+\end_layout
+
+\begin_layout Standard
+Untis has a resource designes specifically for this purpose.
+ However the lesson periods are not handled individually, instead being
+ created en masse as part of a time grid.
+ The schedule coordinator inputs the number of days upon which lessons occur
+ and the number of lessons per day.
+ This handling at the THM leads to three ficticious lesson periods occurring
+ Saturday afternoon.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -1270,14 +1308,191 @@ Periods View
 \end_layout
 
 \begin_layout Subsection
-Time Restrictions and Preferences
+Time Restrictions and Planning Priorities
 \begin_inset CommandInset label
 LatexCommand label
-name "Time Restrictions and Preferences"
+name "Time Restrictions and Planning Priorities"
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Time resctrictions and preferences are not a resource per se, they are more
+ of a department specific perspective of the availability of teachers and
+ rooms.
+ Although in principle restrictions and preferences are neither the same
+ in meaning or importance, they can have a similar effect on the development
+ of a working schedule and are implemented in Untis according to the same
+ program tool.
+\end_layout
+
+\begin_layout Minisec
+Time Restrictions
+\end_layout
+
+\begin_layout Standard
+Time restrictions have the most impact upon scheduling.
+ Time restrictions are the consequence of resource reservations.
+ These restrictions can effect teachers and rooms.
+\end_layout
+
+\begin_layout Standard
+At the THM departments are allotted a certain set of rooms.
+ However certain room types, most specifically large lecture halls, are
+ few enough in number that their availability for each individual department
+ must be discussed and planned in advance.
+\end_layout
+
+\begin_layout Standard
+This discussion occurs between the department scheduling coordinators and
+ FM.
+ Schedule coordinators calculate on hand the expected number of students
+ and the courses held in front of large numbers of students then number
+ of lesson periods they need in rooms.
+ They then discuss the assignment of rooms for specific lesson periods and
+ in the end each department leaves the discussion with a set number of available
+ lesson periods which will hopefully cover his planning needs.
+\end_layout
+
+\begin_layout Standard
+Once the assignment has been made schedule coordinators go about the actual
+ business of scheduling.
+ This is an iterative process where, in order to attempt optimal room usage,
+ schedule coordinators try to fit a lesson in the smallest room available
+ to them which will fit the expected number of students.
+ Should none of the rooms in the first selection be available, they try
+ to schedule the lessons in the next larger room type.
+ In the end should the coordinator be unable to plan the lesson he then
+ requests unused assigned slots from other departments.
+ Once an agreement has been made the schedule coordinator plans the lesson
+ and informs FM about the change to the room availability assignment.
+\end_layout
+
+\begin_layout Standard
+The availability of teachers is a less complex process.
+ Teachers know for the most part when they have obligations during the work
+ week and inform the schedule coordinators.
+ The schedule coordinator then attempts to schedule lessons held by that
+ teacher so as not to impinge upon those obligations.
+ Should this not be possible the coordinator discusses the situation with
+ the teacher, should no direct solution evince itself the teacher with the
+ scheduling conflict may then be exchanged with one available for the time
+ in which the lesson must occur.
+\end_layout
+
+\begin_layout Minisec
+Planning Priorities
+\end_layout
+
+\begin_layout Standard
+Planning priorities like time restrictions can affect teachers, rooms and
+ subject pools.
+ Teacher planning priorities are optional notations as to when the teacher
+ prefers to hold his lessons, or would rather not hold them.
+ Planning priorities as applied to rooms or subject pools allow the schedule
+ coordinator to guide high and low volume scheduling times.
+\end_layout
+
+\begin_layout Subsubsection
+Attributes
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Department The department from whose perspective the availability or planning
+ priority exists.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Resource The resource whose availability or planning priority is to be recorded.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Block The lesson period whose availability or planning priority is to be
+ recorded.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Value The availability or priority for the resource during the lesson block
+ from the perspective of a department.
+\end_layout
+
+\begin_layout Subsubsection
+Untis Implementation
+\end_layout
+
+\begin_layout Standard
+Untis allows for planning priorities for rooms, teachers, subjects and subject
+ periods.
+ However instead of being related to the departments resource available
+ within the Untis software, they are related to the 'school' administrative
+ tool.
+ This has had dramatic reprecussions for the further scheduling process
+ as previously stated in the section on Departments 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "Departments"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Untis allows the lesson periods for resources to be given signed integer
+ values ranging from -3 to 3.
+ These values can be interpreted from the implementation as 'absolutely
+ do not plan here' for the -3 value up until 'plan here if at all possible'
+ for the 3 value.
+ While the assignment of values is handled the same for all values, the
+ -3 value has 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Zeitwünsche A21.0.03.png
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Room and Subject Planning Priorities"
+
+\end_inset
+
+Room A21.0.03 Planning Priorities
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Rooms and subjects have a rudimentary mask for the recording of planning
+ priority values
 \end_layout
 
 \begin_layout Section
@@ -1285,8 +1500,8 @@ Lessons
 \end_layout
 
 \begin_layout Standard
-Lesssons are the endproduct of scholastic scheduling.
- They are the shit!
+Lessons are the end product of scholastic scheduling.
+ They are the shit! i love you
 \end_layout
 
 \begin_layout Subsection
