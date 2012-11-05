@@ -1268,13 +1268,24 @@ Untis Implementation
 \end_layout
 
 \begin_layout Standard
-Untis has a resource designes specifically for this purpose.
+Untis has a resource designed specifically for this purpose.
  However the lesson periods are not handled individually, instead being
- created en masse as part of a time grid.
- The schedule coordinator inputs the number of days upon which lessons occur
- and the number of lessons per day.
- This handling at the THM leads to three ficticious lesson periods occurring
- Saturday afternoon.
+ created en masse as part of a time grid which is valid for the school.
+ With the 'Multiple Time Grid' Untis extension module multiple grids of
+ lesson periods can be created.
+ This multi-grid would have been able to directly address the lesson period
+ needs for exams and block lessons, however there are two differences between
+ the Untis implementation and the expectations of the scheduling coordinators
+ which make the use of the multi-grid problematic.
+ First the use of differing lesson period plans at the THM occurs only along
+ the lines of predetermined calendar weeks, in Untis once multiple grids
+ have been created they run theoretically parallel to one another.
+ Secondly the choice of which lessons can be assigned using which grid occurs
+ by assigning grids to subject pools.
+ At the THM the same subject pools use both lesson period plans dependant
+ upon the type of lessons being offered in the given week.
+ Finally when the use of multi-grid is enabled the Untis lesson output is
+ no longer displayed along the clean lines of the lesson periods, instead
  
 \end_layout
 
@@ -1285,6 +1296,14 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Lesson Period Dialogue.png
+
+\end_inset
+
+
 \begin_inset Caption
 
 \begin_layout Plain Layout
@@ -1305,6 +1324,14 @@ Periods View
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+The schedule coordinator inputs the number of days upon which lessons occur
+ and the number of lessons per day.
+ This handling at the THM leads to three ficticious lesson periods occurring
+ Saturday afternoon.
+ Lesson periods can be marked as occuring morning or 
 \end_layout
 
 \begin_layout Subsection
@@ -1450,7 +1477,64 @@ Untis allows the lesson periods for resources to be given signed integer
  do not plan here' for the -3 value up until 'plan here if at all possible'
  for the 3 value.
  While the assignment of values is handled the same for all values, the
- -3 value has 
+ -3 value has a blocking value when using any planning dialogue, fulfilling
+ the need for the THM time restrictions.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Zeitwünsche Franzen.png
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Teacher and Subject Pool Planning Priorities"
+
+\end_inset
+
+Teacher & Subject Pool Planning Priorities
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The example above displays the planning priorities of one of the teachers
+ at the THM.
+ As we can see in the illustration there are multiple ways to assign planning
+ priorites by lesson period, weekday, mornings, or evenings.
+ Entering a value in a larger block of time overwrites the subordinate units
+ of time.
+ In this example the teacher prefers to hold his lessons mornings and has
+ for these lesson periods the value two.
+ The teacher also has obligations which prevent him from teaching Tuesday
+ and Wednesday afternoons for which the value -3 has been recorded.
+ Additionally the his department does not schedule lessons on Saturdays
+ so he also has a restriction recorded for that day.
+ The Untis developers suggest that whenever possible to use an aggregate
+ such as day, morning, or afternoon to assign planning priorites to lesson
+ units for performance reasons.
+ /*get quote from mr gruber*/
 \end_layout
 
 \begin_layout Standard
@@ -1477,7 +1561,7 @@ name "fig:Room and Subject Planning Priorities"
 
 \end_inset
 
-Room A21.0.03 Planning Priorities
+Room & Subject Planning Priorities
 \end_layout
 
 \end_inset
@@ -1491,8 +1575,15 @@ Room A21.0.03 Planning Priorities
 \end_layout
 
 \begin_layout Standard
-Rooms and subjects have a rudimentary mask for the recording of planning
- priority values
+As seen in the example graphic above rooms and subjects have a more rudimentary
+ mask for the recording of planning priority values than that for teachers
+ and subject pools.
+ As regards rooms, this entry mask fits very well with the workflow of the
+ planners at the THM.
+ Rooms which are not shared in between departments are unrestricted for
+ the responsible department.
+ Rooms which are shared are assigned for specific lesson periods and typically
+ not by any lesson period aggregate.
 \end_layout
 
 \begin_layout Section
