@@ -278,30 +278,617 @@ Scheduling Resources
 \end_layout
 
 \begin_layout Standard
-Scheduling is in principle an association of a teacher, a room, the subject
- which he is to teach, and the time at which the lesson content should be
- taught.
+Scheduling is in principle an association of teachers, rooms, the subjects
+ which are to be taught, and the times at which lesson content should be
+ taught, resulting in a set of lessons.
  Although this is a bit simplistic it provides us with a good starting point
- for the more abstract resources which result as consequences of such associatio
-ns.
- In the first section we will examine the basic resources of teachers, rooms
- and subjects.
- We will then examine the organizational resources and attributes.
- The concept of time will be explored including resulting resources and
- the consequences of temporal modeling.
+ for the more abstract resources which result as consequences of the association
+s of these objects.
+ In this chapter the administrative, basic, organizational and temporal
+ resources, and the associations necessary for scheduling will be examined.
+\end_layout
+
+\begin_layout Standard
+A detailed description will be given of each of these objects.
+ Then extrapolating from this description we will take a look at some of
+ its more important attributes.
+ This will give us a somewhat more precise look at the subject of each section
+ and its relation to other previously discussed objects within the chapter.
+ We will then use this perspective to understand how the previously defined
+ object models were fitted to the resources objects available from the Untis
+ 2013 software.
+ Examining the functionality of the equivalence, and potential benifits
+ and drawbacks of these design decisions.
+\end_layout
+
+\begin_layout Standard
+In the first section we will take a brief look at administrative resources
+ used to organize schedule resources.
+ Then we will examine the basic resources of teachers, rooms and subjects.
+ Organizational resources and attributes will then be explained.
+ The concept of time in regard to lessons and lesson groups will be explored
+ including resulting resources and the consequences of temporal modeling.
  Finally the lessons themselves will be introduced binding all of these
  elements together into a consistent whole.
 \end_layout
 
+\begin_layout Section
+Administrative Tools
+\end_layout
+
 \begin_layout Standard
-A detailed description will be given of each resource or major attribute.
- Then extrapolating from this description we will take a look at some of
- the more important resource attributes.
- This will give us a somewhat more precise look at the subject of each section
- and its relation to previously discussed resources and attributes.
- We will then use this to fit the desired model into the resources and attribute
-s available from the Untis software and see what benifits and drawbacks
- the overlay of the model on the existing resource type has.
+When a user logs into Untis 2013 using the multiuser module with a centralized
+ database.
+ The first Untis objects the user will be confronted with are the 'school',
+ 'school year' and version, because, in order to login to Untis using the
+ Multiuser module, the user must first select one of each of these objects.
+ These are largely administrative resources which exist to restrict the
+ amount of information available to the amount directly necessary to the
+ scheduling process and to uniquely identify the schedules created.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Login Dialogue.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Login Dialogue"
+
+\end_inset
+
+Login Dialogue
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Version Dialogue.png
+	scale 60
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Administrative Resource Creation Dialogue"
+
+\end_inset
+
+Administrative Resource Creation Dialogue
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In Figure 2.1
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "fig:Login Dialogue"
+
+\end_inset
+
+ we see the login dialogue and its resource selection dialogues.
+ These administrative resources will be discussed in the subsections on
+ Departments, School Years and Versions.
+ The creation dialogue is displayed in Figure 2.2 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "fig:Administrative Resource Creation Dialogue"
+
+\end_inset
+
+.
+ The dialogue for all three administrative resources is exactly the same
+ except for the wording.
+\end_layout
+
+\begin_layout Subsection
+Departments
+\begin_inset CommandInset label
+LatexCommand label
+name "Departments"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Untis schools correspond to THM departments.
+ Departments are semi-autonomous organizational units at the THM, and as
+ such are responsible for their own scholastic scheduling.
+ Unlike other resources departments are a self containing entity which posess
+ or share other resources.
+ All resources are dependent upon them for definition and value.
+ In the real world as well as within the Untis program, they exist as an
+ administrative tool to ease the complexity of the scheduling process.
+\end_layout
+
+\begin_layout Standard
+As a tool there is little that can be said about them, for, in effect, they
+ allow for specific user interactions and a define roles in the workflow
+ of the scheduling process.
+ As such they will recieve much more attention in the next chapter System
+ Integration and Distributed Planning 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "System Integration and Distributed Planning"
+
+\end_inset
+
+ where workflows and the system security concept will be elaborated upon.
+\end_layout
+
+\begin_layout Minisec
+Attributes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The full name of the department.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Short Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+An acronym containing the initial letters of the substantiative words from
+ the department's full name.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Number
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Departments are associated with a number between one and twenty-one.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Minisec
+Modeling
+\end_layout
+
+\begin_layout Standard
+While Untis does have a department resource that can have a partially similar
+ workflow to that of a Untis school, the resource time restrictions and
+ planning priorites associated with the individual departments could not
+ be modeled using this resource within Untis.
+ For this reason, it was the recommended that the departments of the THM
+ use Untis schools to implement the actual departments of the THM./*source*/
+ This recommendation was used and the Untis school administrative tool is
+ capable of modeling all the above mentioned attributes.
+\end_layout
+
+\begin_layout Standard
+As stated above, the ability for departments to compete for resource availabilit
+y as discussed 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "Time Restrictions and Planning Priorities"
+
+\end_inset
+
+ was the deciding factor in chosing to use Untis schools as opposed to Untis
+ departments.
+ Untis schools could perform this action, whereas Untis departments could
+ not.
+ The converse action, that of departments managing shared resources, is
+ however supported for Untis departments and not for Untis schools.
+ This can add administrative overhead if the schedule coordinators do not
+ have the necessary priveledges to modify each others data.
+\end_layout
+
+\begin_layout Standard
+The decision to use Untis schools instead of Untis departments did however
+ make planning conflicts more visible as resource usage became visible for
+ the first time without schedule coordinators having to exchange information
+ via telephone or e-mail.
+ This under the caveat that the lesson producing the conflict had already
+ been planned.
+ It also allowed the department managed resources to be restricted to the
+ amount of resources actually relevant to the planning in the respective
+ department.
+ If the departments had been modeled as Untis departments every room in
+ the THM would have had to have been directly accessable for every department
+ because they would have all been a part of the same Untis school.
+\end_layout
+
+\begin_layout Subsection
+School Year
+\begin_inset CommandInset label
+LatexCommand label
+name "School Year"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The school year defines the temporal framework for scheduling.
+ It should define the run of a school year including any subordinate planning
+ periods.
+\end_layout
+
+\begin_layout Minisec
+Attributes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The name of the school year.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Startdate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The date upon which the school year begins.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Enddate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The date upon which the school year ends.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Planning Periods
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The subordinate planning periods of the school year.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Minisec
+Modeling
+\end_layout
+
+\begin_layout Standard
+Unfortunately the Untis 'school year' is defined only by its name, and,
+ in turn, only serves to name a group of schedules.
+ The 'school year' stands in no causal relation to the actual dates of the
+ school year used within the schedule which are input using a completely
+ different user interface.
+ It also stands without causal relation to any subordinate planning period.
+ This resource is completely unusable for its intended purpose is however
+ required to create schedules with, and for this reason they cannot be ignored.
+ However Untis does provide resources for the creation of actual school
+ years and planning periods.
+ These resources are discussed in Planning Periods 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "Planning Periods"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Version
+\begin_inset CommandInset label
+LatexCommand label
+name "Untis Tool Version"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Versions are the status and data conditions of a schedule during its various
+ stages of development.
+\end_layout
+
+\begin_layout Minisec
+Attributes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Department
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The department responsible for the schedule.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Planning Period
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The planning period in which the schedule data should take place.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Creation Date
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The date and time when the version was created.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Schedule Data
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The complete data and status of the schedule at the time of the versioning.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Minisec
+Modeling
+\end_layout
+
+\begin_layout Standard
+Untis versions are completely independent working copies of a schedule that
+ can stand without any actual relation to others of the same school and
+ school year.
+ This deviates sharply from that of the American Heritage dictionary which
+ defines a version as 
+\begin_inset Quotes eld
+\end_inset
+
+A particular form or variation of an earlier or original type...
+\begin_inset Quotes erd
+\end_inset
+
+.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "AHD"
+
+\end_inset
+
+ Although it is not guaranteed, inspected or directly supported Untis assumes
+ that this definition is carried out through exporting, opening and saving
+ of a previous version as a new version.
+\end_layout
+
+\begin_layout Standard
+The lack of direct Untis support of versioning and revision control is one
+ of the challenges of the integration in the practical accompaniment to
+ this thesis, and will be discussed in /*reference*/.
 \end_layout
 
 \begin_layout Section
@@ -310,15 +897,154 @@ Basic Resources
 
 \begin_layout Subsection
 Teachers
+\begin_inset CommandInset label
+LatexCommand label
+name "Teachers"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-Teachers are persons hired by the responsible bodies to convey a set of
- subjects to groups of students.
- In western culture, teachers are typically identifiable as persons by at
- least one first name and at least one family name.
- At the THM every person recorded by the school administration has a so
- called 'hg' number assigned to them.
+Teachers are persons hired by the responsible bodies to convey the knowledge
+ of a set fields of expertise to groups of students.
+ Teachers are identified within resource management systems at the THM by
+ means of a 'hg' number, because of it's enforced uniqueness and brevity
+ in comparison to the teacher's name.
+ This consists either of the letters 'hg' or four letters taken from the
+ first and last names followed by an integer value.
+\end_layout
+
+\begin_layout Minisec
+Attributes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Teachers are commonly identified by first and last names.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Number
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Teachers at the THM have a unique number assigned to them.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Fields
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The teacher's field or fields of expertise.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Departments
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The departments for which the teacher holds lessons.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Availability
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The times at which the teacher is available to hold lessons.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Minisec
+Modeling
+\end_layout
+
+\begin_layout Standard
+Untis offers the resource teacher which are capable of modeling all required
+ attributes and Teachers were relatively easy to model in Untis.
+ Untis teachers additionally have place for attributes such as title, contact
+ information, gender, birth date, values for cost calculation, and much
+ more.
+ The fields attribute can even be modeled in a special field which helps
+ Untis optimize schedules.
 \end_layout
 
 \begin_layout Standard
@@ -355,6 +1081,164 @@ Rooms
 \end_layout
 
 \begin_layout Standard
+Rooms are the physical locations where lessons can take place.
+\end_layout
+
+\begin_layout Minisec
+Attributes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The name of the room.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Building
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The building in which the room exists.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Floor 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The floor in which the room exists.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Type
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The type of room
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Equipment
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Special equipment which can effect what lessons can be held in it.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Capacity
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The number of students it is designed to seat.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Minisec
+Modeling
+\end_layout
+
+\begin_layout Standard
+The type of room more about this in Room Types ref:
+\end_layout
+
+\begin_layout Standard
+The room resource is offered in Untis, and most of the required attributes
+ are existent in some form or another.
+ Both the building and the floor attribute are not available in Untis.
+ The THM has it's own standardized coding of room names which includes both
+ of these items as part of the name, however this makes the name too long
+ to be displayed in most Untis interfaces without adjustment to the size.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -388,40 +1272,259 @@ Subjects
 \end_layout
 
 \begin_layout Standard
-The software implemented to accompany this thesis is based upon the software
- Untis produced by Gruber & Petters Software
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Grub"
-
-\end_inset
-
-, the Joomla! content management system (CMS
-\begin_inset CommandInset nomenclature
-LatexCommand nomenclature
-symbol "CMS"
-description "Content Management System"
-
-\end_inset
-
-) and the THM Organizer component.
- The Untis program is a powerful scheduling tool where the actual scheduling
- is performed based upon guidelines codified in the accredited course of
- studies for an individual degree.
- The THM uses the Joomla! CMS to enable its web presence
+Subjects are /*something about lesson types*/
 \end_layout
 
 \begin_layout Standard
-Since the goal is to fit the existing scheduling processes into the processes
- and structures provided by Untis, defining resources and codifying attributes
- seems like an easy task since Untis predefines several resources & special
- resources.
- The resources and special resources managed by Untis are classes, teachers,
- rooms, subjects, students, departments and descriptions.
- Together with time periods there resources are should be sufficient are
- managed according to their own completely unique interface.
- Lessons are an aggregate resource with an interface similar to, semesters,
- campuses, buildings, ....*/
+A brief interdepartmental identifier.
+ The formatting of the subject number varies greatly between departments
+ at the THM.
+ MNI for example uses two letters which describe the subject field, a number
+ indicating the niveau of complexity, and three further numbers.
+ KMUB by contrast uses a five digit integer value.
+\end_layout
+
+\begin_layout Standard
+The value in credit point of the course.
+ At the THM one credit point corresponds roughly to 30 hours of effort on
+ the part of the student, with 10 hours being time spent physically in the
+ lessons of the subject and 20 hours individual effort.
+\end_layout
+
+\begin_layout Standard
+The work which must be completed by the student to be able to complete the
+ course.
+ This is typically a set number of written homework units, but could be
+ many things such as attendence of a certain amount of lesson units, or
+ a team project.
+\end_layout
+
+\begin_layout Standard
+The way in which students should demonstrate their proficiency with the
+ content themes of the subject.
+ While typically an examination this can be many things such as a paper,
+ a software project, or a speech.
+\end_layout
+
+\begin_layout Minisec
+Attributes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="10" columns="2">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The full name of the subject.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Nomenclature
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A short unique identifier for this subject within the subject catalogue.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Responsible
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The names of the teachers responsible for the development and teaching of
+ this subject.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Goals
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The themes addressed and the level of proficiency students should display
+ in them upon completion.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Effort
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The value in credit points for the course.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Lesson Types
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The methods used to teach this course.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Preliminary Work
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The work which must be completed during the course.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Proof of Performance
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The way in which students should demonstrate subject proficiency at the
+ end of the course.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Frequency
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+How often the subject is offered.
+ (Annually/Semianually)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Literature
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Recommended and required reading material.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -453,179 +1556,25 @@ Rooms View
 
 \end_layout
 
-\begin_layout Subsection
-Resource Attributes
-\end_layout
-
-\begin_layout Standard
-In this section a list of attributes common to all the resources will be
- discussed.
- In the interest of brevity and relevance attributes which do not directly
- affect the scheduling process will not be mentioned.
-\end_layout
-
-\begin_layout Subsubsection
-Name
-\begin_inset CommandInset label
-LatexCommand label
-name "sub:Name"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-The name (short name) is a short name or abbreviation used as an identifier.
- Resource interfaces treat this value as a key with the consequence that
- planners using one resource in another resource's interface will be called
- upon to enter this value either by manually entering it, allowing the automatic
- completion mechanism to input the value or selecting it from a drop down
- list where available.
- For this reason Untis requires this attribute with every resource and enforces
- its uniqueness.
- The attempt to enter a duplicate value will result in an alert message.
-\end_layout
-
-\begin_layout Standard
-Despite the sometime usage of the word short in it's description and the
- contraposition with the supposed long name attribute the corresponding
- field in the resource database tables accept values up to 60 characters.
- The use of abbreviations works well here because it quickly seperates similar
- entries earlier in the autocompletion process.
-\end_layout
-
-\begin_layout Standard
-Great care should be given to ensure that the name is human readable and
- intuitive.
- Should this not be fulfilled two detrimental results can occur: duplicate
- entries and false usage.
- 
-\end_layout
-
-\begin_layout Standard
-Duplicate entries are the result of a resource being created multiple times
- using slightly deviating names.
- This occurs when the planner attempts to use a previously created resource
- but cannot find it.
- This forces the planner to create a new resource in the belief that the
- desired resource is unavailable.
- This can result in a bloat of entries or inconsistant data should all duplicate
- entries remain in use but have diverging attributes.
-\end_layout
-
-\begin_layout Subsubsection
-Long Name
-\begin_inset CommandInset label
-LatexCommand label
-name "sub:Long-Name"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-The long name (surname) is designed to be a longer more lucid name for a
- given resource.
- In practice this can be the colloquial name (short or long), the full name
- or even a data structure.
- Usage varies between resource types and will be better explained in depth
- as needed in the sections addressing the appropriate resources.
-\end_layout
-
-\begin_layout Standard
-Untis uses the long name as an accompaniment to the name attribute in drop
- down boxes under the assumption that the name may need help providing satisfact
-ory information for identification by the planner.
- Certain settings also allow for the display of the long name in place of
- the name for ease of reading, however data entry always requires the name
- attribute even if the long name will be displayed.
-\end_layout
-
-\begin_layout Subsubsection
-Statistic Codes
-\begin_inset CommandInset label
-LatexCommand label
-name "sub:Statistic-Codes"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Statistic codes are an optional comma seperated list of character values
- or codes.
- These values can be used to help filter the displayed set of resources.
- These values are accepted from the multiset of alphanumerical characters,
- meaning any particular code may occur any number of times.
- While this field does accept any alphanumerical character values and does
- not enforce the comma seperation of these characters upon entry any set
- of character values will become comma seperated by the Untis program itself.
-\end_layout
-
-\begin_layout Subsubsection
-Other Common Attributes
-\end_layout
-
-\begin_layout Itemize
-Text an optional text which can hold additional textual information.
-\end_layout
-
-\begin_layout Itemize
-Marked is a checkedbox which can be set to mark the entry as a value for
- Untis functions such as printing or text replacement.
-\end_layout
-
-\begin_layout Itemize
-Fixed is a checkbox which can be set to ensure that the resource will not
- be involved in the schedule optimization process.
-\end_layout
-
-\begin_layout Itemize
-Ignored marks the element as unavailable for planning and it removes the
- display of the resource from planning dialogues.
-\end_layout
-
-\begin_layout Itemize
-Time Requests is automatically set as soon as guidelines have been set as
- to the availability of the resource.
-\end_layout
-
-\begin_layout Subsection
-Resource Associations
-\end_layout
-
-\begin_layout Standard
-Some resources require association with other resources.
- Thes associations are either an enforced single resource name, or a comma
- seperated list of resource names.
-\end_layout
-
-\begin_layout Standard
-Resources which use other resources as attributes can be edited using the
- 
-\begin_inset Quotes eld
-\end_inset
-
-Fields of the View
-\begin_inset Quotes erd
-\end_inset
-
- functionality.
- Here one has the option of displaying the name (short name) <<Kurzname>>
- or long name <<Langname>>.
- However even if the long name is selected to be displayed external resources
- are only associated by means of the name.
-\end_layout
-
 \begin_layout Section
 Organizational Resources
 \end_layout
 
 \begin_layout Subsection
-Categories
+Descriptions
+\begin_inset CommandInset label
+LatexCommand label
+name "Descriptions"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Untis does not have a categorization resource unique to any resource type.
+ Instead they offer a special resource type which they call descriptions
+ which can be used on rooms, teachers, subjects, and subject pools.
 \end_layout
 
 \begin_layout Standard
@@ -654,152 +1603,217 @@ Descriptions View
 \end_layout
 
 \begin_layout Standard
-Descriptions are text entities which can be associated with classes, rooms,
- teachers, subjects, students, and lessons.
- As the term descriptions implies they describe the resources with which
- they are later associated, however a mroe fitting term for this resource
- might be category as they are used to abstract information which would
- otherwise be redundant for several resource entries.
- For example, the description 
-\begin_inset Quotes eld
-\end_inset
-
-lecture hall
-\begin_inset Quotes erd
-\end_inset
-
- is a category or type of room, and will be used to describe multiple resources.
-\end_layout
-
-\begin_layout Standard
-/* Kneisel email: Als Abteilungen sollten nur die Fachbereiche (also die
- lehrenden Organisationseinheiten) eingetragen werden.
- Die genaue fachliche Zuordnung kann (und sollte) in der Beschreibung (von
- der Art "Lehrer") erfolgen.
- Zur Zeit wird dort der rechtliche Status (Lehrbeauftragter/Festangestellter)
- eingetragen.
- Das ist nicht wirklich nötig, allenfalls kann man das in einem Textfeld
- noch tun (das bau' ich ein).
- Auch Lehrbauftragte lassen sich fachlich zuordnen (und solten auch).
- Ich werd' daher für unsere fachlichen Bereiche Beschreibungen anlegen und
- zumindest unsere LBs fachlich zuordnen.
- Die "F"-s setze entsprechend dem Fachbereich oder, wenn ich es weiß, dem
- Fach.
- */
-\end_layout
-
-\begin_layout Subsubsection
-Untis Attributes and Usability
-\end_layout
-
-\begin_layout Standard
-In addition to the name 
+In previous versions of Untis the type of resource could be selected from
+ a drop down box.
+ However if no resource was associated with the description the resource
+ type to be described would be expunged.
+ In the current version of Untis, associating a description with a resource
+ can only occur when a resource of a particular type is associated with
+ the description in question.
+ This is somewhat inefficient as it requires that either the description
+ itself is not created from the descriptions interface, but dynamically
+ from the interface of the resource to be described, or that the description
+ is created in the description interface and then that the schedule coordinator
+ types it in exactly as if he was dynamically creating it.
+ For more on Untis' dynamic resources creation see Dynamic Resource Creation
+ 
 \begin_inset CommandInset ref
-LatexCommand eqref
-reference "sub:Name"
+LatexCommand vpageref
+reference "Dynamic Resource Creation"
 
 \end_inset
 
-, long name 
+.
+\end_layout
+
+\begin_layout Standard
+Untis descriptions have been used to model room types and fields of expertise
+ discussed in the next two subsections.
+\end_layout
+
+\begin_layout Subsection
+Room Types
+\end_layout
+
+\begin_layout Standard
+Room types are general categorizations of rooms according to their intended
+ purpose.
+ The rooms of the THM are roughly grouped into eight different main categories
+ and over 40 subcategories.
+ Each main category is associated with a letter and each subcategory extends
+ this with a single number.
+ For example a lecture hall with a capacity range of 131 to 185 students
+ has the code A8 within the FM systems.
+ A workshop for electronics has the coding W5.
+ For a complete list of all room type codes see Appendix A.1 
 \begin_inset CommandInset ref
-LatexCommand eqref
-reference "sub:Long-Name"
+LatexCommand vpageref
+reference "Room Types"
 
 \end_inset
 
-, and statistic codes 
+.
+\end_layout
+
+\begin_layout Minisec
+Attributes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Code
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A letter and a singel digit which uniquely identify the room type.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Category
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A general categorization of the room's intended purpose.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Subcategory
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A further defining feature of the room type.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Minisec
+Modeling
+\end_layout
+
+\begin_layout Standard
+Modeling room types in Untis occurs in the two methods mentioned in the
+ previous subsection on Descriptions.
+ They are either created through the descriptions interface or dynamically
+ by just typing them into the descriptions field.
+ This has the same two disadvantages mentioned in Descriptions, that the
+ data created dynamically is incomplete and that unassociated descriptions
+ will not be recognized as describing rooms.
+\end_layout
+
+\begin_layout Standard
+In order to identify room types as such both within and without Untis, the
+ Untis Statistics field was used to hold the letter 'r'.
+ Within Untis, this enables schedule coordinators to use the Untis filter
+ tool to sort out any descriptions which do not have an 'r' in the statistics
+ column so as to make sure the list of room descriptions is complete and
+ correct.
+ Outside of Untis it allows for the presorting of export data into it's
+ correct types.
+ More on this in the Validation subsection 
 \begin_inset CommandInset ref
-LatexCommand eqref
-reference "sub:Statistic-Codes"
+LatexCommand vpageref
+reference "Validation"
 
 \end_inset
 
- descriptions also has a resource unique attribute called type.
+.
+\end_layout
+
+\begin_layout Subsection
+Lesson Types
 \end_layout
 
 \begin_layout Standard
-The type is an association of a description to a particular resource type.
- This is selected from a drop down menu in the appropriate column.
- One could for example say of a certain teacher that he does or does not
- have tenure.
- One could say that a room was a lecture hall or a laboratory.
- Such descriptions would make little sense assigned to another type of resource
- than the type mentioned in the examples.
- However other descriptions such as 
-\begin_inset Quotes eld
-\end_inset
-
-practical exercise
-\begin_inset Quotes erd
-\end_inset
-
- could be applied to both subjects and lessons, the consequences of this
- will be addressed in the section pertaining to lessons.
- This association between descriptions and resource types also helps the
- automatic completion mechanism find a better match faster among descriptions
- with similar names.
+The way in which the learning goals of a particular lesson are to be reached
+ is in no small way influenced by the typical methods of instruction.
+ The instructors at the THM typically make use of one of five subject types:
+ lectures, exercises, practical training, seminar, or small group work.
+ These lesson types are by no means exclusive and are often used in tandem
+ to provide the student with more 
 \end_layout
 
 \begin_layout Standard
-Unlike other resources where one can choose which columns are to be displayed,
- the tool fields to be displayed is unavailable for descriptions.
- Also the built in filter tool which in other resource views narrows the
- result set the selection of a particular description in the filter appears
- not to do anything at all.
-\end_layout
-
-\begin_layout Subsubsection
-Descriptions in other Systems
+Lectures are the most common lesson type consisting of a mostly frontal
+ speech by the lesson teacher and most often feedback from students to themes
+ of that speech.
+ Lectures exist to convey knowledge which should be reflected upon by the
+ student.
 \end_layout
 
 \begin_layout Standard
-Of the various descriptions currently in use only those pertaining to rooms
- have an official capacity.
- These derived from a system used by facilities management to categorize
- rooms according to certain criteria.
- Descriptions pertaining to other resources will be addressed while discussing
- the resources they describe.
+Exercises serve primarily to help students to reflect upon conveyed theoretical
+ knowledge through repetition.
 \end_layout
 
 \begin_layout Standard
-/*something about the deniffel stuffs, something about other fm stuffs,
- something about lsf stuffs*/
-\end_layout
-
-\begin_layout Subsubsection
-Implemented Taxonomy
+Placement or practical training serves to strengthen the students grasp
+ of practical knowledge via hands-on learning.
+ Typically placement has the completion of one or more projects as a goal.
 \end_layout
 
 \begin_layout Standard
-Descriptions are only partially official in a sense that only the room categoriz
-ation has reference in an external systems.
- The categorization was brought on my facility management to /*get motives*/.
- The proposed and most credible standard has been the 
-\begin_inset Quotes eld
-\end_inset
+Seminar as held at the THM is a course in which students are given the assignmen
+t to research and strengthen their knowledge about a particular theme or
+ interest.
+ The students then hold presentations at regular intervals to discuss the
+ results of their efforts.
+\end_layout
 
-Denniffelesque
-\begin_inset Quotes erd
-\end_inset
-
- system of one letter and one number.
- The letter represents a categorization according to type.
- The number represents a subcatagorization according to capacity, equipment,
- or purpose.
- However this standard has not been held across the differing systems within
- THM facilities management division.
- There is, for the most part, a direct correlation between the systems however
- individual system entries may vary wildly.
- Thus the problem of integrity with respect to the room categorization is
- both in the categorization itself and within the information the categorization
- represents.
+\begin_layout Standard
+Small group work
 \end_layout
 
 \begin_layout Subsection
 Fields and Competence Centers
 \begin_inset CommandInset label
 LatexCommand label
-name "Fields and Competence"
+name "Fields and Competence Centers"
 
 \end_inset
 
@@ -809,108 +1823,130 @@ name "Fields and Competence"
 \begin_layout Standard
 Teachers by means of their education and experiences have certain particular
  fields of knowledge in which they excel.
- These fieldsBoth teachers and subjects are associated with fields or special
- areas of knowledge.
+ These fields logically mirror the fields whose themes they, the teachers,
+ are should teach to students.
+ These themes and their practical and logical implications form the material
+ from which subjects are created.
+ At the THM, it has been suggested to codify these fields to use them to
+ build subject identifiers.
+ As examples the abbreviation 'WIR-ING' could refer to economic engineering,
+ 'NAT-INF' for information science having to do with natural sciences, or
+ 'BAU' to denote a field having to do with architecture or construction
+ science.
 \end_layout
 
 \begin_layout Standard
-/*Untis versteht als "Fachgruppe" sowas wie "Naturwisseschaften", "Sprache",
- "Sozialwissenschaften", etc.
- Man kann Fächer zu Fachgruppen zuweisen und man kann die Lehrbefähigung
- von Lehrern zu Fachgruppen zuweisen.
- Letzteres würde unserer "Beschreibung" für Lehrer entsprechen.
+Often times these fields also directly correlate to departmental competence
+ centers which help to develop the curriculum for a course of studies.
+ The teachers which work in these disciplines discuss amongst themselves
+ contemporary themes and how best to introduce these themes into those presented
+ within the lessons in order to assure quality and relevance.
+\end_layout
+
+\begin_layout Minisec
+Attributes
 \end_layout
 
 \begin_layout Standard
-Wir haben in "Fachgruppe" die Modulnr kodiert.
- Damit wir und Untis dasselbe meinen, sollten wir dort jedem Fach eine Fachgrupp
-e im Sinne von Untis zuordnen (genau so, wie wir es bei den vereinhetlichten
- Modulbezeichnugen vorhaben, also math, inf, soz, spr, jur, wir, …) und
- die Modulnr woanders kodieren - ich hab' das Feld "Text" dafür schon angelegt.
- In den Lehrer-Stammdaten kann man dann unter dem Registerreiter "Lehrbefähigung
-" alle von diesem Lehrer gelehrten "Fachgruppen" zuordnen lassen.
- Ich hab' das getan: dort stehen jetzt noch die Module - nach der Änderung
- sollten dort die fachlichen "Neigungen" ersichtlich sein.
- Dummerweise sieht man die nur im register, nicht in der Tabelle.
- Daneben gibt es noch noch die Spalte "Stufe".
- Ich denke dort wird die Jahrgangsstufe der Fächer übernommen, in der das
- Fach gelehrt wird.
- Hier haben Sie in den Klassen-Stammdaten die Semester bzw.
- die Pools eingetragen.
- Auch da müssen wir 'mal schauen, ob wir das etwass generischer halten wie
- "Bachelor 1.-3.
- Semester", "Bachelor 4.-6.
- Semester", "Master".
- In der Summe ergibt sich dann für jeden Kollegen ein Bild, in welcher Fachgrupp
-e er eingesetzt werden und in welcher Tiefe er Stoff vermitteln kann - und
- das ist genau der Sinn dieser Daten in Untis.
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="2">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
 \end_layout
 
-\begin_layout Standard
-Also: wir sollten in den Fach-Stammdaten die Modulnr.
- in "Text" (statt "Beschr") kodieren in den Fach-Stammdaten die "fachliche
- Qualifikation" in "Fachgruppe" eintragen - entsprechend der jetzigen Wertemenge
- der Beschreibung der Art "Lehrer" in den Klassen-Stammdaten die "fachliche
- Tiefe" in "Stufe kodieren".
- Ich schlage als Wertebereich vor: "Bachelor Grundstudium", "Bachelor Hauptstudi
-um" , "Master".
- Falls wir die jetzigen Werte der "Stufe" ncoh, z.B.
- für die Baumdarstellung brauchen, können wir die in "Text" kodieren.
- Dort steht z.Z.
- der Studiengnag, der aber auch in "Stundentafel" kodiert ist (also redundant)*/
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The full name of the field or fields, optionally compounded with a hyphen.
 \end_layout
 
-\begin_layout Subsection
-Departments
-\begin_inset CommandInset label
-LatexCommand label
-name "Departments"
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Abbreviation
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The abbreviation of the field or fields of the name.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
 
 \end_inset
 
 
 \end_layout
 
-\begin_layout Standard
-Departments are semi-autonomous organizational units at the THM, and as
- such are responsible for their own scholastic scheduling.
- Unlike other resources departments are a self containing entity which posess
- or share other resources.
- As a resource, they exist as an administrative tool to ease the complexity
- of the scheduling process.
- Because of this they have no defining attributes of their own.
+\begin_layout Minisec
+Modeling
 \end_layout
 
 \begin_layout Standard
-While as a resource there is little that can be said to them they play a
- defining role in the workflow of the scheduling process.
- As such they will recieve much more attention in the next chapter System
- Integration and Distributed Planning 
+Modeling Fields as descriptions in Untis has the exact same weaknesses as
+ with room and subject types.
+ However Untis does have a unique tool to handle fields directly in the
+ case of subjects, and indirectly in the case of teachers.
+\end_layout
+
+\begin_layout Standard
+Subjects can be aggregated to a set number of names.
+ All of the subjects which pertain to a particualar field can then be aggregated
+ to a name which corresponds to their field.
+ Not only that, they could also be aggregated to their level of complexity.
+ The lessons which are normally taught within the first couple three semesters
+ of the six semester bachelor degree program could be aggregated to 'Basic',
+ or the courses of the master degree programs to 'Master'.
+\end_layout
+
+\begin_layout Standard
+The problem with this solution is similar to the problem with associating
+ Untis descriptions to resource types.
+ In order for tachers to be associated to these fields or levels of complexity,
+ they musr first already be scheduled to teach them.
+ Untis then calculates backwards from these existing lessons to the fields
+ and complexity levels which the teacher is able to teach.
+ Worse yet, this information is not available in the teacher interface shown
+ in Teachers 
 \begin_inset CommandInset ref
 LatexCommand vpageref
-reference "System Integration and Distributed Planning"
+reference "Teachers"
 
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Minisec
-Modeling in Untis
+ It is only visible in a particular tab of the expanded teacher overview.
 \end_layout
 
 \begin_layout Standard
-In order for scheduling coordinators to be able to plan using individual
- time restrictions and preferences for resources it was necessary to utilize
- the Untis 'School' resource.
- (See Time Restrictions and Preferences 
-\begin_inset CommandInset ref
-LatexCommand vpageref
-reference "Time Restrictions and Planning Priorities"
-
-\end_inset
-
-.) 
+The distict advantage of this second method is that Untis can recognize
+ on hand of this footnoted information where the school actually needs to
+ hire more teachers to help to cover the amount of lessons for these fields.
+ Its schedule optimization program recognizes the rareness of these teachers'
+ knowledge and plans these teachers into the rarer subject fields first.
 \end_layout
 
 \begin_layout Subsection
@@ -1017,7 +2053,7 @@ The last criteria for subsetting is quality assurance.
  In effect they form a subdivision of the students for a particular semester.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Minisec
 Attributes
 \end_layout
 
@@ -1042,8 +2078,14 @@ Criteria With the exception of subject pools which directly correlate to
  should plays an important role.
 \end_layout
 
-\begin_layout Subsubsection
-Untis Implementation
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Hierarchy Corresponding to the criteria for subject pool subsets the resulting
+ hierarchy from set to subset often plays a role.
+\end_layout
+
+\begin_layout Minisec
+Untis Modeling
 \end_layout
 
 \begin_layout Standard
@@ -1060,37 +2102,6 @@ In the implementation for Department MNI the names have differing structures
  dependent opon each of these criteria.
  A bachelor subject pool for a particular semester using the example of
  Bioinformation Science in the third semester
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\noindent
-\align center
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Departments-View"
-
-\end_inset
-
-Departments View
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -1139,53 +2150,125 @@ The biggest change the introduction of Untis 2013 brought into the system
 
 \begin_layout Subsection
 Planning Periods
+\begin_inset CommandInset label
+LatexCommand label
+name "Planning Periods"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
 At the THM there are two planning periods per year the winter semester and
  summer semester.
- Within the semesters cyclic lessons, block lessons and exams are planned.
+ Semesters are defined not only according to the times in which standard
+ lessons occur, but also include the range of dates until the next semester
+ begins.
+ This has the effect of making the summer semester somewhat longer than
+ the winter semester.
+ Within the semesters, cyclic lessons, block lessons and exams are planned.
  The length of these two planning periods can vary between departments as
  each has can plan an individual cycle of lectures and exams.
- The third planning period which deserves mention is the academic year encompass
-ing these two semesters.
+\end_layout
+
+\begin_layout Standard
+The third planning period which deserves mention is the academic year encompassi
+ng these two semesters.
  As some lessons or subject pools are only offered in one semester annually,
  the academic year has often to be taken into consideration to confirm that
  the offering of subjects is in line with the guidelines created when the
  subject's CoS was certified.
+ The planning period for the acedemic year is usually similar to the length
+ of an actual year, however dependent upon the individual scheduling needs
+ there can be a shortfall or overlappage.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Standard
+Semesters are identified by the season in which the semester ends and the
+ year(s) in which they occur.
+ Academic years are identified by the years in which they occur.
+\end_layout
+
+\begin_layout Minisec
 Attributes
 \end_layout
 
-\begin_layout Labeling
-\labelwidthstring 00.00.0000
-Identity Each planning period should be identifiable by name.
- In the case of semesters, this is done by the name of the semester season
- and years in which they take place, and solely with the years in which
- it takes place for the academic year.
- 
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
 \end_layout
 
-\begin_layout Labeling
-\labelwidthstring 00.00.0000
-Startdate The date upon which the planning period begins.
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The name of the planning period.
 \end_layout
 
-\begin_layout Labeling
-\labelwidthstring 00.00.0000
-Enddate The date upon which the planning period ends.
- Semesters are defined not only according to the times in which standard
- lessons occur, but also include the range of dates until the next semester
- begins.
- At the THM this has the effect of making the summer semester somewhat longer
- than the winter semester.
- The planning period for the acedemic year is typically
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Startdate
 \end_layout
 
-\begin_layout Subsubsection
-Untis Implementation
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The date upon which the planning period begins.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Enddate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The date upon which the planning period ends.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Minisec
+Untis Modeling
 \end_layout
 
 \begin_layout Standard
@@ -1237,7 +2320,7 @@ Finally block lessons take place in breaks in standard lesson scheduling
  yet be defined in the exact manner of the other two daily periods.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Minisec
 Attributes
 \end_layout
 
@@ -1263,34 +2346,20 @@ Endtime The time at which the lesson period ends.
 Date The date upon which the lesson period occurs.
 \end_layout
 
-\begin_layout Subsubsection
-Untis Implementation
+\begin_layout Minisec
+Untis Modeling
 \end_layout
 
 \begin_layout Standard
 Untis has a resource designed specifically for this purpose.
  However the lesson periods are not handled individually, instead being
  created en masse as part of a time grid which is valid for the school.
- With the 'Multiple Time Grid' Untis extension module multiple grids of
- lesson periods can be created.
- This multi-grid would have been able to directly address the lesson period
- needs for exams and block lessons, however there are two differences between
- the Untis implementation and the expectations of the scheduling coordinators
- which make the use of the multi-grid problematic.
- First the use of differing lesson period plans at the THM occurs only along
- the lines of predetermined calendar weeks, in Untis once multiple grids
- have been created they run theoretically parallel to one another.
- Secondly the choice of which lessons can be assigned using which grid occurs
- by assigning grids to subject pools.
- At the THM the same subject pools use both lesson period plans dependant
- upon the type of lessons being offered in the given week.
- Finally when the use of multi-grid is enabled the Untis lesson output is
- no longer displayed along the clean lines of the lesson periods, instead
  
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
+placement h
 wide false
 sideways false
 status open
@@ -1300,6 +2369,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename Lesson Period Dialogue.png
+	scale 60
 
 \end_inset
 
@@ -1329,9 +2399,39 @@ Periods View
 \begin_layout Standard
 The schedule coordinator inputs the number of days upon which lessons occur
  and the number of lessons per day.
- This handling at the THM leads to three ficticious lesson periods occurring
- Saturday afternoon.
- Lesson periods can be marked as occuring morning or 
+ This creates a grid of with a number of blocks corresponding to the days
+ times the number of blocks.
+ This rule-of-thumb handling at the THM leads to three ficticious lesson
+ periods occurring Saturday afternoon.
+ The schedule coordinator further sets upon which day the school week begins
+ and with what integer value the numbering of lesson periods should begin.
+ Lesson period start and end times must then be individually entered for
+ each block.
+ Lesson periods can also be marked as occuring during the morning or afternoon.
+ The entry of morning or afternoon can effect the planning priorities dialogue
+ for teachers and subject pools.
+\end_layout
+
+\begin_layout Standard
+With the 'Multiple Time Grid' Untis extension module, multiple grids of
+ lesson periods can be created.
+ This multi-grid would have been able to directly address the lesson period
+ needs for exams and block lessons, however there are three differences
+ between the Untis implementation and the expectations of the scheduling
+ coordinators which make the use of the multi-grid problematic.
+ First the use of differing lesson period plans at the THM occurs only along
+ the lines of predetermined calendar weeks, in Untis once multiple grids
+ have been created they run theoretically parallel to one another.
+ Secondly the choice of which lessons can be assigned using which grid occurs
+ by assigning grids to subject pools.
+ At the THM the same subject pools use both lesson period plans dependant
+ upon the type of lessons being offered in the given week.
+ Finally when the use of multi-grid is enabled the Untis lesson output is
+ no longer displayed along the crisp lines of defined lesson periods, instead
+ Untis schedule output graphic approximations of the lesson period run against
+ a range of hours.
+ While not a showstopper the non-explicit association of lessons to times
+ is comparatively vague and could lead to confusion among students.
 \end_layout
 
 \begin_layout Subsection
@@ -1422,35 +2522,185 @@ Planning priorities like time restrictions can affect teachers, rooms and
  coordinator to guide high and low volume scheduling times.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Minisec
 Attributes
 \end_layout
 
-\begin_layout Labeling
-\labelwidthstring 00.00.0000
-Department The department from whose perspective the availability or planning
- priority exists.
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="2">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Department
 \end_layout
 
-\begin_layout Labeling
-\labelwidthstring 00.00.0000
-Resource The resource whose availability or planning priority is to be recorded.
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The department from whose perspective the availability or 
 \end_layout
 
-\begin_layout Labeling
-\labelwidthstring 00.00.0000
-Block The lesson period whose availability or planning priority is to be
- recorded.
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
 \end_layout
 
-\begin_layout Labeling
-\labelwidthstring 00.00.0000
-Value The availability or priority for the resource during the lesson block
- from the perspective of a department.
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+planning priority exists.
 \end_layout
 
-\begin_layout Subsubsection
-Untis Implementation
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Resource
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The resource whose availability or planning priority is to be
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+recorded.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Lesson Period
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The lesson period whose availability or planning priority is to
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+be recorded.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Value
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The availability or priority for the resource during the lesson 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+block from the perspective of a department.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Minisec
+Untis Modeling
 \end_layout
 
 \begin_layout Standard
@@ -1483,6 +2733,7 @@ Untis allows the lesson periods for resources to be given signed integer
 
 \begin_layout Standard
 \begin_inset Float figure
+placement h
 wide false
 sideways false
 status open
@@ -1492,6 +2743,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename Zeitwünsche Franzen.png
+	scale 60
 
 \end_inset
 
@@ -1539,6 +2791,7 @@ The example above displays the planning priorities of one of the teachers
 
 \begin_layout Standard
 \begin_inset Float figure
+placement h
 wide false
 sideways false
 status open
@@ -1548,6 +2801,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename Zeitwünsche A21.0.03.png
+	scale 60
 
 \end_inset
 
@@ -1586,6 +2840,230 @@ As seen in the example graphic above rooms and subjects have a more rudimentary
  not by any lesson period aggregate.
 \end_layout
 
+\begin_layout Subsection
+Temporal Behavior
+\end_layout
+
+\begin_layout Standard
+Often times lessons will occur with a certain amount of weekly periodicity,
+ that is to say a certain lesson may occur in intervals with number of weeks
+ as multipliers.
+ For example if a lesson could only be held every second week it would be
+ said to have a weekly periodicity.
+ It is also concievable that a certain few lessons may occur over several
+ weeks starting or ending abruptly within the otherwise ordinary run of
+ a semester.
+ In Untis these behaviors are called 'lesson groups'.
+ They model this sort of temporal lesson behaviour for a single lesson or
+ group of lessons and form a seperate type of lesson categorization.
+\end_layout
+
+\begin_layout Minisec
+Attributes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The unique names of the lesson group.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Startdate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The date upon which the lessons assigned to this temporal behavior should
+ commence.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Enddate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+he date upon which the lessons assigned to this temporal behavior should
+ cease.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Periodicity
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The weekly behaviour of this temporal behavior grouping.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Calendar
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A more specific description of temporal behavior using a set of dates.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Minisec
+Untis Modeling
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Lesson Group Dialogue.png
+	scale 60
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Temporal Behavior Dialogue"
+
+\end_inset
+
+ Temporal Behaviour Dialogue
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Lesson Group Dialogue 2.png
+	scale 45
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Temporal Behavior Dialogue Calendar"
+
+\end_inset
+
+ Temporal Behaviour Dialogue Calendar
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Lessons
 \end_layout
@@ -1595,59 +3073,281 @@ Lessons are the end product of scholastic scheduling.
  They are the shit! i love you
 \end_layout
 
-\begin_layout Subsection
-Lesson Types
+\begin_layout Minisec
+Attributes
 \end_layout
 
 \begin_layout Standard
-The first lesson type lecture is the the most common and seeks to convey
- theoretical knowledge...
-\end_layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="13" columns="2">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
 
-\begin_layout Standard
-Exercises concern themselves with learning through repetition
-\end_layout
-
-\begin_layout Standard
-Practical Training is hands-on learning with the completion of a project
- as a goal.
-\end_layout
-
-\begin_layout Standard
-Seminar as held at the THM is a course in which students are given assignments
- and hold presentations at regular intervals.
-\end_layout
-
-\begin_layout Standard
-Small group work
-\end_layout
-
-\begin_layout Subsection
-Departments
-\end_layout
-
-\begin_layout Standard
-Departments play a role with every resource and with are assignable to access
- management groups.
-\end_layout
-
-\begin_layout Subsection
-Classes
-\end_layout
-
-\begin_layout Standard
-Classes are a misnomer stemming from Untis' historical target group being
- grade school and high school planners who would then be able to use the
-\end_layout
-
-\begin_layout Subsection
+\begin_layout Plain Layout
 Subjects
 \end_layout
 
-\begin_layout Standard
-content management systems, entwickelung webbassierte software, it-vertrieb(VM)
- ba5003, marketing-komm.
- im internet cs2321
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The subjects which will be taught within the lesson.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Teachers
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The teachers which will convey the subject content during 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+the lesson.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Rooms
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The rooms in which the lesson will take place.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Form
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The way in which subject content will be taught.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Quantity
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The number of lesson instances which must take place to convey
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+the subject(s) contents.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Departments
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The departments responsible for offering this lesson to students.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Subject Groups
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The subject groups for which the lesson will be taught.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Lesson Group
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The lesson group to which this lesson belongs defining the
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+lesson's temporal behaviour.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Commentary
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Extra information relevent to the lesson which does not fit into 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+one of the above rubriks.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard

@@ -282,7 +282,12 @@ Motivation
 \end_layout
 
 \begin_layout Standard
-At the University of Applied Sciences Central Hesse (THM
+Within any scholastic system there are certain roles that are playe
+\end_layout
+
+\begin_layout Standard
+Within an environment as complex as the University of Applied Sciences Central
+ Hesse (THM
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
 symbol "THM"
@@ -290,19 +295,18 @@ description "University of Applied Sciences Central Hessen"
 
 \end_inset
 
-) each department is for the most part responsible for the planning and
- utilization of it's own resources.
+) there are many roles perceptions expectations functions
+\end_layout
+
+\begin_layout Standard
+At the THM each department is for the most part responsible for the planning
+ and utilization of it's own resources.
  While this department centred view of resource management does much to
  promote transparency within the department itself, it becomes obstructionary
  when planning using resources available and required by more than one departmen
 t.
  This is once more componded not only by the interdepartmental use of resources,
  but also the intercampus use of resources.
- is a decentralized and department oriented institution with campuses in
- the cities of Gießen, Friedberg and Wetzlar.
- This decentralization does much to aid in the transparency of resources
- within each department, but is very detremental to interdepartmental or
- intercampus transparency.
 \end_layout
 
 \begin_layout Standard
@@ -424,36 +428,19 @@ The first two of these perspectives FM and HRM concern themselves more with
  As touched upon in the excurse about CRUD QM's resources are more abstract
  in nature: specifically the curriculum of a course of studies and the abstract
  resources which come to exist in order to implement it.
- The two concrete perspectives have as a goal the most efficient usage of
- the managed resources as a goal, whereas QM has as a goal the assurance
- of educational quality for students.
- Scheduling tries to fulfill the goals of these three perspectives.The goals
- of efficiency and educational quality may not be completely at odds with
- one another, but often in order to ensure the quality of the education
- provided concessions have to be made to the efficiency of the involved
- concrete resources.
+ The two concrete perspectives, FM and HRM, have as a goal the most efficient
+ usage of the managed resources as a goal, whereas QM has as a goal the
+ assurance of educational quality for students.
 \end_layout
 
 \begin_layout Standard
-These two perspectives have the efficient usage of the resources managed
- as a goal.
- The goal of quality management is to ensure that students receive 
-\end_layout
-
-\begin_layout Standard
-As can be gleaned from the previous examples resource management in the
- broadest sense encompasses such topics as human resources management, facility
- management, document management and many other fields at the level of the
- university level.
- Resource management within this thesis will focus mainly on the topic of
- scheduling.
- This aspect is unique in that it has in and of itself has no resources
- per se and takes place at a high level of abstraction.
- It is an association of resources acquired through other resource management
- processes.
- Its resources are lessons, events, appointments, meetings, speeches, etc.;
- they tell us who does what, when, where, for whom, and under certain circumstan
-ces it even gives us a glimpse as to how.
+Scheduling tries to fulfill the goals of these three perspectives.
+ Scheduling is a process of managing both concrete and abstract resources
+ to ensure the utmost efficiency of room and teacher usage, while strictly
+ adhering to the standards put in place by quuality management, and taking
+ special consideration of student needs.
+ In itself it integrates three broad management processes in order to be
+ able to manage its own resources.
 \end_layout
 
 \begin_layout Section
@@ -462,9 +449,15 @@ Methodology
 
 \begin_layout Standard
 This work focuses primarily on the scheduling aspect of resource management.
- Specifically, it focuses on the resources involved in its scheduling aspect.
- It examines the important attributes and dependencies of these resources,
- and it examines the interaction and integration of the systems which manage
+ While it may make short references to resource management processes from
+ which it recieves its own resources necessary for scheduling, it will not
+ go at any lengths into the subordinate processes of FM, HRM, or QM.
+\end_layout
+
+\begin_layout Standard
+It examines the important attributes and dependencies of the resources from
+ subordinate resource management processes as they concern scheduling.
+ It examines the interaction and integration of the systems which manage
  them individually.
 \end_layout
 
@@ -584,6 +577,43 @@ Lastly chapter five will provide a summary of the resource management systems
  and processes.
  It will summarize some of the key advantages and deficits of the existing
  systems and workflows and the steps to harness, improve or circumvent them.
+\end_layout
+
+\begin_layout Standard
+The software implemented to accompany this thesis is based upon the software
+ Untis produced by Gruber & Petters Software
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Grub"
+
+\end_inset
+
+, the Joomla! content management system (CMS
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "CMS"
+description "Content Management System"
+
+\end_inset
+
+) and the THM Organizer component.
+ The Untis program is a powerful scheduling tool where the actual scheduling
+ is performed based upon guidelines codified in the accredited course of
+ studies for an individual degree.
+ The THM uses the Joomla! CMS to enable its web presence
+\end_layout
+
+\begin_layout Standard
+Since the goal is to fit the existing scheduling processes into the processes
+ and structures provided by Untis, defining resources and codifying attributes
+ seems like an easy task since Untis predefines several resources & special
+ resources.
+ The resources and special resources managed by Untis are classes, teachers,
+ rooms, subjects, students, departments and descriptions.
+ Together with time periods there resources are should be sufficient are
+ managed according to their own completely unique interface.
+ Lessons are an aggregate resource with an interface similar to, semesters,
+ campuses, buildings, ....*/
 \end_layout
 
 \begin_layout Standard

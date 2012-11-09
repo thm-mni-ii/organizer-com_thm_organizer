@@ -278,161 +278,119 @@ Technical Realization
 \end_layout
 
 \begin_layout Section
-The Untis System
-\end_layout
-
-\begin_layout Standard
-The most daunting problems with Untis stem from the environment which must
- be used to operate it.
+Untis 2013
 \end_layout
 
 \begin_layout Subsection
-Windows vs.
- The World
+Taxonomical and Data Input Changes
 \end_layout
 
 \begin_layout Standard
-Untis operates solely in a windows environment.
- This is a design choice based upon the use of Untis without the multiuser
- module.
- This choice is based upon two premices: that typically a single individual
- creates the lesson schedules for a school, and that this person is using
- a computer with a Windows OS on it.
+Multiuser Untis 2013 opened up many new possibilites and many consequences
+ as a result of modeling the departments as schools.
+\end_layout
+
+\begin_layout Minisec
+Departments and Competence Centers
 \end_layout
 
 \begin_layout Standard
-However Untis with activated multiuser module takes away both of those arguement
-s.
- Firstly, as the name multiuser implies, it is supposed to be designed to
- be used by multiple users.
- This can occur in three variations:
-\end_layout
+The actual Untis departements resource had up until this point been used
+ for institutions, campuses, departments, and subdepartments/competence
+ centers.
+ These were hierarchially constructed and could correctly relate any resource
+ to its responsible organization.
+ For example a subject marked as 
+\begin_inset Quotes eld
+\end_inset
 
-\begin_layout Enumerate
-Each user installs Untis directly on their computer and Untis communicates
- with a central external databank.
-\end_layout
+THM, GI, MNI, BI
+\begin_inset Quotes erd
+\end_inset
 
-\begin_layout Enumerate
-Each user logs remotely onto the same server where Untis installed.
- Untis then communicates from this server communicates with an internal
- or external the central databank.
-\end_layout
-
-\begin_layout Enumerate
-A combination of the first two.
+ would have been responsibility of the members of the competence center
+ for biological information science.
 \end_layout
 
 \begin_layout Standard
-When multiple users each use an individual computer the chances increase
- greatly that another operating system will be on that computer most notably
- the rather large increase in the use of Macs over the last five or six
- years.
- When multiple users log remotely onto a server, the chances are higher
- to come across a unix/linux server than windows unless the operators of
- the server ........
+However due to the modeling of departments as Untis schools this relation
+ had to be mapped to multiple different places.
+ The institution could not be directly modeled as there is no administrative
+ tool within Untis superior to its schools.
+ This did not have significant consequences almost all resources within
+ the THM's resource management systems obviously belong to it.
+ External resources could solely no longer be directly recognizable as such,
+ especially since THM internal resources which 
 \end_layout
 
 \begin_layout Subsection
-32 vs.
- 64 bit Systems
+Structural Changes to the XML Export
+\end_layout
+
+\begin_layout Section
+THM Organizer
 \end_layout
 
 \begin_layout Standard
-Untis, like many programs, operates in a 32 bit environment.
- The multiuser version of Untis also relies on 32 bit ODBC connections.
+The existing workflow of the THM Organizer Component in regards to schedules
+ started with the export of a schedule from the Untis system.
+ The inital hope with the acquisition of Untis 2013 for the THM was that
+ direct management of existing resources would be made possible.
+ This would have eliminated data inconsistency not only between Untis and
+ external systems, but also enabled external data propogation and management
+ within the Untis system.
+ As a practical example it would have enabled teacher first names and personel
+ numbers to be directly propogated through the Untis database tables so
+ that all scheduling coordinators were on the same stand.
+\end_layout
+
+\begin_layout Standard
+Sadly the tables used by the Untis system are still in a state of transition
+ and the Untis representatives strongly recommended that this approach be
+ avoided, not only for data creation adn manipulation, but also for read
+ access.
+ Instead recommending that we rely on the data exported through the XML
+ export.
+ Although less than optimal and a great disappointment after the initail
+ high hopes for clean data, it was conceded that this would continue to
+ be the startpoint for the schedule workflows within the THM Organizer component
+ for the forseeable future.
 \end_layout
 
 \begin_layout Subsection
-.Net Framework
+Validation
+\begin_inset CommandInset label
+LatexCommand label
+name "Validation"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Version Management
+\end_layout
+
+\begin_layout Subsection
+Persistence
+\end_layout
+
+\begin_layout Subsection
+Data Retrieval
 \end_layout
 
 \begin_layout Section
-Problems with Untis Usability
+ORM Database Design Suggestion for Untis
 \end_layout
 
 \begin_layout Standard
-jahresstunden does not disappear when deselected in the field selection
- dialogue
+It is difficult to describe the Untis database table structure in a professional
+ manner
 \end_layout
 
 \begin_layout Standard
-When a user has the master data open for any resource other than subjects
- opening the related lesson view automatically opens to the selected resource.
- For example if I have highlighted the class xyz then opening the lessons>classe
-s dialogue automatically opens the lessons which are marked for class xyz.
- When the subject master data view is opened and the subject xyz is highlighted
- opening the lessons>subjects view not only does not open to a list of lessons
- instancing that particular subject, it loads a random batch of lessons
- and sets the filter to 
-\begin_inset Quotes eld
-\end_inset
-
-all
-\begin_inset Quotes erd
-\end_inset
-
-.
- Suggesting that these were all the lessons available at all.
- Except for the misleading 
-\begin_inset Quotes eld
-\end_inset
-
-all
-\begin_inset Quotes erd
-\end_inset
-
- entry the filter is actually quite empty and doesn't allow for the fast
- filtering to any particular subject.
-\end_layout
-
-\begin_layout Standard
-Descriptions can be filtered to a particular resource type, and when creating
- with this filter activated will be associated with this resource type.
- However, there is no way to associate existing descriptions with resource
- types or to change an existing association of description to resource.
- Additionally as in all other matters the masking of system keys allows
- for no double entries.
- Specifically the use of the description 
-\begin_inset Quotes eld
-\end_inset
-
-Practical Training
-\begin_inset Quotes erd
-\end_inset
-
- for a subject must out of necessity be the same description which describes
- a lesson.
- This means that this element must be created without a resource association
- to be of use.
-\end_layout
-
-\begin_layout Section
-Problems with Data Sources
-\end_layout
-
-\begin_layout Standard
-Names used across department barriers need to have a unified approach to
- ensure that no element is unintendedly overwritten, and that the system
- fully lives up to its potential.
- This unfortunately needs to be done on a resource by resource basis.
-\end_layout
-
-\begin_layout Section
-Changes to Organizer
-\end_layout
-
-\begin_layout Standard
-departments format has changed
-\end_layout
-
-\begin_layout Standard
-descriptions are not solely used for rooms and do not always follow the
- two tier format
-\end_layout
-
-\begin_layout Standard
-lesson type is now a description (reference) rather than a string in text(1?)
+http://en.wikipedia.org/wiki/Database_normalization#Notes_and_references
 \end_layout
 
 \begin_layout Standard

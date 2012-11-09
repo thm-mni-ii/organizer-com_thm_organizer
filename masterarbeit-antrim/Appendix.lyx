@@ -274,55 +274,376 @@ thepage
 \end_layout
 
 \begin_layout Chapter
-Title of the first appendix chapter
+Appendix
 \end_layout
 
 \begin_layout Section
-Overview
+Room Types
+\begin_inset CommandInset label
+LatexCommand label
+name "Room Types"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
- bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
- bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
- bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
- bla bla bla bla bla bla bla bla roughness parameter 
-\begin_inset Formula $R_{a}$
-\end_inset
-
-
-\begin_inset CommandInset nomenclature
-LatexCommand nomenclature
-symbol "$R_a$"
-description "arithmetic average roughness"
-
-\end_inset
-
-
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-For nomenclature entries with indices one need to enclose the expression
- with $-signs.
- (This creates a formula.)
+The complete list of all codified room types in use at the THM.
 \end_layout
 
-\end_inset
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+A1 Hörsaal / Seminarraum, 1 - 20 Plätze
+\end_layout
 
- bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
- bla bla bla bla bla bla bla bla bla bla bla bla, see 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "ISO10780"
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+A2 Hörsaal / Seminarraum, 21 - 33 Plätze 
+\end_layout
 
-\end_inset
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+A3 Hörsaal, 34 - 47 Plätze 
+\end_layout
 
-.
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+A4 Hörsaal, 48 - 69 Plätze 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+A5 Hörsaal, 70 - 84 Plätze 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+A6 Hörsaal, 85 - 105 Plätze 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+A7 Hörsaal, 106-130 Plätze 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+A8 Hörsaal, 131-185 Plätze 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+A9 Hörsaal (gr), 186-270 Plätze 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+AZ Hörsaal (gr), 271-400 Plätze 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+B1 Fachsaal, Physik-Hörsaal (kl) 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+B2 Fachsaal, Physik-Hörsaal (gr) 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+B3 Fachsaal, Chemie 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+C1 Fachsaal, Praktikumsraum mit.
+ spez.
+ Einbauten 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+C2 Fachsaal, Praktikumsraum keine spez.
+ Einbauten 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+C3 Fachsaal, Forschungslabor 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+C4 Fachsaal, Mess-Stand 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+C5 Fachsaal, Nebenlabor 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+C6 Fachsaal, Vorbereitungsraum 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+C9 Fachsaal, Betriebsraum 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+D1 Rechnerraum, allgemein 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+D2 Rechnerraum, fachspez.
+ Raum 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+D3 Rechnerraum, fachspez.
+ (Forschung)
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+D4 Rechnerraum, Peripherie- / Geräteraum
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+D5 Rechnerraum, Serverraum Raum
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+D7 Rechnerraum, Schulung
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+F1 Projektraum, allgemein Raum 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+F2 Projektraum, Gruppenarbeitsraum
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+F3 Projektraum, Übungen 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+F5 Projektraum, Studiebüro Raum 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+F6 Projektraum, Sozialraum Raum
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+H1 Sonstige Räume, Archiv 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+H2 Sonstige Räume, Seminar-Nebenraum 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+H3 Sonstige Räume, sonstiges Lager
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+H4 Sonstige Räume, Labor Lager
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+H5 Sonstige Räume, Abstellraum
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+I1 Büro, Büro
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+I2 Büro, Labor-Ingenieur
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+I3 Büro, Werkstatt 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+I4 Büro, Besprechungen Raum 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+I5 Büro, Ergänzungsraum 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+I6 Büro, Videokonferenzen 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+W1 Werkstatt, Feinmechanik 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+W2 Werkstatt, Metall
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+W5 Werkstatt, Elektronik 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+W7 Werkstatt, Nebenraum 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+W9 Werkstatt, Lager 
 \end_layout
 
 \begin_layout Section
-The next section
+Fields
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+BAU Bauwesen
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+INF Informatik
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+ING Ingenieurwesen
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+ING-INF Ingenieurwesen / Informatik 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+JUR Jura
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+LIN Linguistik 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+MAT Mathematik
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+MAT-INF Mathematik / Informatik
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+MAT-NAT Mathematik / Naturwissenschaften
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+MED Medizin 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+MED-INF Medizin / Informatik
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+MED-ING Medizin / Ingenieurwesen 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+MED-NAT Medizin / Naturwissenschaft
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+NAT Naturwissenschaft
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+NAT-INF Naturwissenschaften / Informatik
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+NAT-ING Naturwissenschaften / Ingenieurwesen
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+SOZ Sozialwissenschaften
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+WIR Wirtschaft 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+WIR-INF Wirtschaft / Informatik 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+WIR-ING Wirtschaft / Ingenieurwesen
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+WIR-JUR Wirtschaft / Jura
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+WIR-MAT Wirtschaft / Mathematik
 \end_layout
 
 \begin_layout Standard

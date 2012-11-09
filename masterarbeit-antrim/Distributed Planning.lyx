@@ -274,7 +274,7 @@ thepage
 \end_layout
 
 \begin_layout Chapter
-System Integration and Distributed Planning
+Distributed Planning and System Integration
 \begin_inset CommandInset label
 LatexCommand label
 name "System Integration and Distributed Planning"
@@ -304,7 +304,11 @@ The driving questions in this process are: How can the various workflows
 \end_layout
 
 \begin_layout Section
-Users, Groups and Roles
+Distributed Planning
+\end_layout
+
+\begin_layout Subsection
+Users, Roles and Groups
 \end_layout
 
 \begin_layout Standard
@@ -320,11 +324,23 @@ In Untis
 In Joomla
 \end_layout
 
-\begin_layout Section
-Actions and Security
+\begin_layout Subsection
+Security Policy and User Actions
 \end_layout
 
 \begin_layout Section
+System Integration
+\end_layout
+
+\begin_layout Subsection
+Untis
+\end_layout
+
+\begin_layout Standard
+explain Untis place in the THM landscape
+\end_layout
+
+\begin_layout Minisec
 Data Aggregation
 \end_layout
 
@@ -334,10 +350,6 @@ Department info:The most important systems which provide data about departments
  Which was where the names and long names were pulled.
  Most other systems had some form of stale data.
  /*fm thm hmm?*/
-\end_layout
-
-\begin_layout Section
-Untis
 \end_layout
 
 \begin_layout Standard
@@ -395,8 +407,16 @@ e Stundenplanung bis zu einer "Ersten Version" (2 Wochen vor Vorlesungsbeginn).
  */
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 THM Organizer Component
+\end_layout
+
+\begin_layout Standard
+explain THM Organizer's place in the thm landscape
+\end_layout
+
+\begin_layout Standard
+explain what it does
 \end_layout
 
 \begin_layout Standard

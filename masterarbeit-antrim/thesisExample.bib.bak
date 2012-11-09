@@ -1,12 +1,25 @@
 % This file was created with JabRef 2.7.
 % Encoding: Cp1252
 
+@ELECTRONIC{AHD,
+  author = {{American Heritage Dictionary}},
+  month = {November},
+  year = {2012},
+  title = {Definition  of Version},
+  organization = {Houghton Mifflin Harcourt},
+  note = {\url{http://www.ahdictionary.com/word/search.html?q=version}},
+  url = {http://www.ahdictionary.com/word/search.html?q=version},
+  owner = {James},
+  timestamp = {2012.11.07}
+}
+
 @ELECTRONIC{Hell,
   author = {Martin Heller},
   month = {January},
   year = {2007},
   title = {{REST and CRUD: the Impedance Mismatch}},
   language = {English},
+  note = {\url{http://www.infoworld.com/d/developer-world/rest-and-crud-impedance-mismatch-927}},
   url = {{http://www.infoworld.com/d/developer-world/rest-and-crud-impedance-mismatch-927}},
   keywords = {CRUD},
   owner = {James},
@@ -26,6 +39,7 @@
 
 @ELECTRONIC{Grub,
   title = {Homepage of Gruber \& Petters Software},
+  note = {\url{www.grupet.at}},
   url = {www.grupet.at},
   owner = {James},
   timestamp = {2012.10.30}
