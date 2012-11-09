@@ -370,6 +370,13 @@ name "Validation"
 
 \begin_layout Subsection
 Version Management
+\begin_inset CommandInset label
+LatexCommand label
+name "Version Management"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection

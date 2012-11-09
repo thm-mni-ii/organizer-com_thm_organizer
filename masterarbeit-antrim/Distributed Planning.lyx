@@ -407,6 +407,28 @@ e Stundenplanung bis zu einer "Ersten Version" (2 Wochen vor Vorlesungsbeginn).
  */
 \end_layout
 
+\begin_layout Minisec
+Interdepartmental Planning
+\begin_inset CommandInset label
+LatexCommand label
+name "Interdepartmental Planning"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Minisec
+Data Propogation
+\begin_inset CommandInset label
+LatexCommand label
+name "Data Propogation"
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 THM Organizer Component
 \end_layout

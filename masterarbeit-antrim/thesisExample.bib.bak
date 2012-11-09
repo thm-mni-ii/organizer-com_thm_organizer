@@ -5,10 +5,22 @@
   author = {{American Heritage Dictionary}},
   month = {November},
   year = {2012},
-  title = {Definition  of Version},
+  title = {Definition of Version},
   organization = {Houghton Mifflin Harcourt},
   note = {\url{http://www.ahdictionary.com/word/search.html?q=version}},
   url = {http://www.ahdictionary.com/word/search.html?q=version},
+  owner = {James},
+  timestamp = {2012.11.07}
+}
+
+@ELECTRONIC{AHD,
+  author = {{American Heritage Dictionary}},
+  month = {November},
+  year = {2012},
+  title = {Definition of Subject},
+  organization = {Houghton Mifflin Harcourt},
+  note = {\url{http://www.ahdictionary.com/word/search.html?q=subject}},
+  url = {http://www.ahdictionary.com/word/search.html?q=subject},
   owner = {James},
   timestamp = {2012.11.07}
 }
@@ -38,7 +50,7 @@
 }
 
 @ELECTRONIC{Grub,
-  title = {Homepage of Gruber \& Petters Software},
+  title = {{Homepage of Gruber \& Petters Software}},
   note = {\url{www.grupet.at}},
   url = {www.grupet.at},
   owner = {James},

@@ -294,16 +294,16 @@ A detailed description will be given of each of these objects.
  its more important attributes.
  This will give us a somewhat more precise look at the subject of each section
  and its relation to other previously discussed objects within the chapter.
- We will then use this perspective to understand how the previously defined
- object models were fitted to the resources objects available from the Untis
- 2013 software.
+ We will then use this perspective to understand how the previously described
+ object definitions were modeled using the resource objects available in
+ the Untis 2013 software.
  Examining the functionality of the equivalence, and potential benifits
  and drawbacks of these design decisions.
 \end_layout
 
 \begin_layout Standard
 In the first section we will take a brief look at administrative resources
- used to organize schedule resources.
+ used to organize schedules.
  Then we will examine the basic resources of teachers, rooms and subjects.
  Organizational resources and attributes will then be explained.
  The concept of time in regard to lessons and lesson groups will be explored
@@ -313,18 +313,24 @@ In the first section we will take a brief look at administrative resources
 \end_layout
 
 \begin_layout Section
-Administrative Tools
+Administrative Resources
+\begin_inset CommandInset label
+LatexCommand label
+name "Administrative Resources"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-When a user logs into Untis 2013 using the multiuser module with a centralized
- database.
- The first Untis objects the user will be confronted with are the 'school',
- 'school year' and version, because, in order to login to Untis using the
- Multiuser module, the user must first select one of each of these objects.
- These are largely administrative resources which exist to restrict the
- amount of information available to the amount directly necessary to the
- scheduling process and to uniquely identify the schedules created.
+When a user opens Untis 2013 using the multiuser the first things he will
+ be confronted with are the login dialogue and the resources associated
+ with it.
+ These resources, 'school', 'school year' and version, are largely administrativ
+e resources and exist solely to restrict the amount of information available
+ for schedule coordinators to the amount directly necessary to the scheduling
+ process and to uniquely identify the schedules they have created.
 \end_layout
 
 \begin_layout Standard
@@ -332,7 +338,7 @@ When a user logs into Untis 2013 using the multiuser module with a centralized
 placement h
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
@@ -375,11 +381,7 @@ Login Dialogue
 \begin_inset Float figure
 wide false
 sideways false
-status open
-
-\begin_layout Plain Layout
-
-\end_layout
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
@@ -466,8 +468,8 @@ Untis schools correspond to THM departments.
 As a tool there is little that can be said about them, for, in effect, they
  allow for specific user interactions and a define roles in the workflow
  of the scheduling process.
- As such they will recieve much more attention in the next chapter System
- Integration and Distributed Planning 
+ As such they will recieve much more attention in the next chapter Distributed
+ Planning and System Integration 
 \begin_inset CommandInset ref
 LatexCommand vpageref
 reference "System Integration and Distributed Planning"
@@ -483,7 +485,7 @@ Attributes
 
 \begin_layout Standard
 \begin_inset Tabular
-<lyxtabular version="3" rows="3" columns="2">
+<lyxtabular version="3" rows="5" columns="2">
 <features tabularvalignment="middle">
 <column alignment="left" valignment="top" width="0">
 <column alignment="left" valignment="top" width="0">
@@ -521,8 +523,27 @@ Short Name
 \begin_inset Text
 
 \begin_layout Plain Layout
-An acronym containing the initial letters of the substantiative words from
- the department's full name.
+An acronym containing the initial letters of the substantiative
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+words from the department's full name.
 \end_layout
 
 \end_inset
@@ -542,7 +563,27 @@ Number
 \begin_inset Text
 
 \begin_layout Plain Layout
-Departments are associated with a number between one and twenty-one.
+Departments are associated with a number between one
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+and twenty-one.
 \end_layout
 
 \end_inset
@@ -765,7 +806,7 @@ Attributes
 
 \begin_layout Standard
 \begin_inset Tabular
-<lyxtabular version="3" rows="4" columns="2">
+<lyxtabular version="3" rows="6" columns="2">
 <features tabularvalignment="middle">
 <column alignment="left" valignment="top" width="0">
 <column alignment="left" valignment="top" width="0">
@@ -803,7 +844,27 @@ Planning Period
 \begin_inset Text
 
 \begin_layout Plain Layout
-The planning period in which the schedule data should take place.
+The planning period in which the schedule data should take
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+place.
 \end_layout
 
 \end_inset
@@ -843,7 +904,27 @@ Schedule Data
 \begin_inset Text
 
 \begin_layout Plain Layout
-The complete data and status of the schedule at the time of the versioning.
+The complete data and status of the schedule at the time of
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+the versioning.
 \end_layout
 
 \end_inset
@@ -876,7 +957,7 @@ A particular form or variation of an earlier or original type...
 .
 \begin_inset CommandInset citation
 LatexCommand cite
-key "AHD"
+key "AHDVersion"
 
 \end_inset
 
@@ -888,7 +969,16 @@ key "AHD"
 \begin_layout Standard
 The lack of direct Untis support of versioning and revision control is one
  of the challenges of the integration in the practical accompaniment to
- this thesis, and will be discussed in /*reference*/.
+ this thesis.
+ At the THM the actions of revision control implemented are functions of
+ THM Organizer and will be discussed in Version Management 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "Version Management"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Section
@@ -909,6 +999,9 @@ name "Teachers"
 \begin_layout Standard
 Teachers are persons hired by the responsible bodies to convey the knowledge
  of a set fields of expertise to groups of students.
+ Because of teacher's complexity as human beings, their description here
+ solely encompasses that which is necessary to model them as resources for
+ scheduling at the THM.
  Teachers are identified within resource management systems at the THM by
  means of a 'hg' number, because of it's enforced uniqueness and brevity
  in comparison to the teacher's name.
@@ -1049,11 +1142,21 @@ Untis offers the resource teacher which are capable of modeling all required
 
 \begin_layout Standard
 \begin_inset Float figure
+placement h
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Teachers Dialogue.png
+	scale 60
+
+\end_inset
+
+
 \begin_inset Caption
 
 \begin_layout Plain Layout
@@ -1063,7 +1166,7 @@ name "fig:Teachers-View"
 
 \end_inset
 
-Teachers View
+Teachers Dialogue
 \end_layout
 
 \end_inset
@@ -1074,6 +1177,91 @@ Teachers View
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+The simple teacher dialogue is displayed in figure 2.3 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "fig:Teachers-View"
+
+\end_inset
+
+.
+ This dialogue shows how the required attributes with exception of departments
+ have been modeled onto attributes available to Untis.
+ While fields like first and last name fields are self explanatory, and
+ the personel number field can easily be explained as holding the teacher's
+ 'hg' number.
+ Other fields such as name (short name), external name, and description
+ need a bit more explaination.
+\end_layout
+
+\begin_layout Standard
+The name, or short name, is an Untis internal, human-readable key.
+ This key can be used in multiple Untis dialogues for faster input of resources.
+ In many cases the dialogue will require the use of the name whereas a select
+ few will also allow the use of the long name, in this case last name, for
+ data input.
+\end_layout
+
+\begin_layout Standard
+The external name is a name which is used to denote resources used by multiple
+ departments.
+ This name is uniquely identifiable amongs all departments and it has been
+ strongly recommended that the external name be the same as the short name./*sour
+ce*/ Teachers are a problem in this area as often details such as first
+ names and 'hg' numbers are often unknown and must be collected.The THM 'hg'
+ number is, from the standpoint of its content, the best attribute to use
+ for this value.
+ However, they are very often human unreadable and when inputting data the
+ schedule coordinators would have to cross-reference them with a list, which
+ made this choice very unapplealing.
+ The other choice which would have provided a suitable solution would have
+ been the use of first and last names.
+ This solution has two larger problems.
+ The first is that first names are often unknown to the differing schedule
+ coordinators, much the same as the 'hg' number.
+ The second is the amount of information the coordinator would need to input
+ in order to get a valid result in the event of identical last names, namely
+ at least the complete length of the last name.
+ A further problem with external resources is propogation, this will however
+ be discussed in detail in Data Propogation 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "Data Propogation"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The Untis description field holds the reference to the teacher's field or
+ fields of expertise.
+ There is a Untis field which is actually designed to hold teacher fields,
+ however there are multiple problems with modeling the data in this manner
+ as will later be described in the subsection Fields and Competence Centers
+ 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "Fields and Competence Centers"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Lastly as described in the section Departments 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "Departments"
+
+\end_inset
+
+, the departments had to be modeled using the Untis school resource, leaving
+ this attribute without equivalent within the teacher objects.
 \end_layout
 
 \begin_layout Subsection
@@ -1226,25 +1414,27 @@ Modeling
 \end_layout
 
 \begin_layout Standard
-The type of room more about this in Room Types ref:
-\end_layout
-
-\begin_layout Standard
 The room resource is offered in Untis, and most of the required attributes
  are existent in some form or another.
- Both the building and the floor attribute are not available in Untis.
- The THM has it's own standardized coding of room names which includes both
- of these items as part of the name, however this makes the name too long
- to be displayed in most Untis interfaces without adjustment to the size.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
+placement h
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Rooms Dialogue.png
+	scale 60
+
+\end_inset
+
+
 \begin_inset Caption
 
 \begin_layout Plain Layout
@@ -1254,7 +1444,7 @@ name "fig:Rooms-View"
 
 \end_inset
 
-Rooms View
+Rooms Dialogue
 \end_layout
 
 \end_inset
@@ -1265,6 +1455,78 @@ Rooms View
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+In figure 2.4 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "fig:Rooms-View"
+
+\end_inset
+
+ we again see the Untis fields name(short name) and external name.
+ With rooms as well as every resource other than teachers we also see the
+ field long name.
+ As with teachers the name and external names are unique, human-readable
+ keys, with the name being for department internal use, with the external
+ name for interdepartmental use.
+ The long name is an additional name that had been until recently the same
+ name used for the name field.
+ However at the THM there was some discrepency between the name used in
+ resource management systems and that which they actually have on the physical
+ rooms.
+ For this reason the long names of rooms in two of the THM buildings have
+ been used to record this discrepency and the long name is used for external
+ data output.
+ This discrepancy also had the advantage that the name could also be slightly
+ modified from the THM standard of <building>.<floor>.<room> in this case
+ with one less period which is less typing when inputting room names and
+ makes some of the names short enough to be completely displayed in the
+ Units selection boxes.
+ One of which can be seen in the upper left corner of the figure.
+\end_layout
+
+\begin_layout Standard
+Both the building and the floor attribute are not available in Untis.
+ The THM, as stated in the last previously stated, has it's own standardized
+ coding of room names.
+ This allows for the storage of both of these values in the name.
+ However this has two disadvantages.
+ Firstly some names are too long to be displayed in most Untis selection
+ boxes without manual adjustment to their size.
+ Secondly when filtering for the rooms of a particular building or floor,
+ schedule coordinators are confronted with rudimentary regular expressions
+ while using the Untis filter system.
+\end_layout
+
+\begin_layout Standard
+The room type could be relatively comfortably input into the room's description
+ field.
+ More on room types 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "Room Types"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The room equipment was modeled using the Untis statistics field.
+ This allowed for the comma seperated input of single character abbreviations
+ for room equipment similar to the way in which the same information was
+ previously stored within the Excel sheets of FM.
+ The only real disadvantage of modeling the information in this was is that
+ statistic codes are not manageable resources in Untis.
+ Statistic codes cannot be associated with and actual text fields which
+ would then be readable to tell other information systems that 'B' stands
+ for video projector ('Beamer' in German).
+\end_layout
+
+\begin_layout Standard
+The capacity is a standard room attribute in Untis and was easily modeled.
 \end_layout
 
 \begin_layout Subsection
@@ -1272,11 +1534,27 @@ Subjects
 \end_layout
 
 \begin_layout Standard
-Subjects are /*something about lesson types*/
+The American Heritage Dictionary defines a subject as 'A course or area
+ of study...'.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "AHDSubject"
+
+\end_inset
+
+ Sadly most other defintions are every bit as vague or self refering.
+ In this work a subject will be defined as a thematic subset of a field
+ of knowledge.
+ Subjects are highly codified at the THM to meet the standards of the accreditin
+g institutions.
+ Because of this they have a great many attributes.
+ In the description only the subject number, effort, preliminary work and
+ proof of proficiency will be discussed as their explanations are to cumbersome
+ to fit comfortably in the attributes table.
 \end_layout
 
 \begin_layout Standard
-A brief interdepartmental identifier.
+The subject number is a brief interdepartmental identifier.
  The formatting of the subject number varies greatly between departments
  at the THM.
  MNI for example uses two letters which describe the subject field, a number
@@ -1285,23 +1563,23 @@ A brief interdepartmental identifier.
 \end_layout
 
 \begin_layout Standard
-The value in credit point of the course.
+The effort is the value in credit point of the course.
  At the THM one credit point corresponds roughly to 30 hours of effort on
  the part of the student, with 10 hours being time spent physically in the
- lessons of the subject and 20 hours individual effort.
+ subject's lessons and 20 hours individual effort.
 \end_layout
 
 \begin_layout Standard
-The work which must be completed by the student to be able to complete the
- course.
+The preliminary work is the work which the student must complete to be able
+ to complete the course.
  This is typically a set number of written homework units, but could be
  many things such as attendence of a certain amount of lesson units, or
  a team project.
 \end_layout
 
 \begin_layout Standard
-The way in which students should demonstrate their proficiency with the
- content themes of the subject.
+The proof of proficiency is the way in which students should demonstrate
+ their mastery of the subject's themes.
  While typically an examination this can be many things such as a paper,
  a software project, or a speech.
 \end_layout
@@ -1312,7 +1590,7 @@ Attributes
 
 \begin_layout Standard
 \begin_inset Tabular
-<lyxtabular version="3" rows="10" columns="2">
+<lyxtabular version="3" rows="14" columns="2">
 <features tabularvalignment="middle">
 <column alignment="left" valignment="top" width="0">
 <column alignment="left" valignment="top" width="0">
@@ -1350,7 +1628,27 @@ Nomenclature
 \begin_inset Text
 
 \begin_layout Plain Layout
-A short unique identifier for this subject within the subject catalogue.
+A short unique identifier for this subject within the 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+subject catalogue.
 \end_layout
 
 \end_inset
@@ -1370,8 +1668,27 @@ Responsible
 \begin_inset Text
 
 \begin_layout Plain Layout
-The names of the teachers responsible for the development and teaching of
- this subject.
+The names of the teachers responsible for the
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+development and teaching of this subject.
 \end_layout
 
 \end_inset
@@ -1391,8 +1708,27 @@ Goals
 \begin_inset Text
 
 \begin_layout Plain Layout
-The themes addressed and the level of proficiency students should display
- in them upon completion.
+The themes addressed and the level of proficiency
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+students should display in them upon completion.
 \end_layout
 
 \end_inset
@@ -1472,8 +1808,27 @@ Proof of Performance
 \begin_inset Text
 
 \begin_layout Plain Layout
-The way in which students should demonstrate subject proficiency at the
- end of the course.
+The way in which students should demonstrate subject
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+proficiency at the end of the course.
 \end_layout
 
 \end_inset
@@ -1527,23 +1882,37 @@ Recommended and required reading material.
 
 \end_layout
 
+\begin_layout Minisec
+Modeling
+\end_layout
+
 \begin_layout Standard
 \begin_inset Float figure
+placement h
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Subjects Dialogue.png
+	scale 60
+
+\end_inset
+
+
 \begin_inset Caption
 
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:Subjects-View-2"
+name "fig:Subjects-View"
 
 \end_inset
 
-Rooms View
+Subjects Dialogue
 \end_layout
 
 \end_inset
@@ -1554,6 +1923,58 @@ Rooms View
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+The modeling of subjects in Untis is somewhat rudimentary, restricted almost
+ to the bare minimum of that which is required for the scheduling process.
+ As seen in figure 2.5 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "fig:Subjects-View"
+
+\end_inset
+
+ the modeled attributes had to be restricted to four.
+ The name and long name have a special place within the THM as often times
+ the name as seen here is the colloquial name more often used, with the
+ long name being the official name of the subject.
+\end_layout
+
+\begin_layout Standard
+Unlike teachers and rooms the field external name does not exist for this
+ resource.
+ This reflects Untis design decision to implement interschool resources
+ as competing instead of sharing.
+ In any account often subjects and the teachers responsible for them are
+ shared between departments.
+ Biology for example is tught by the same teachers for both the department
+ MNI and KMUB.
+ Almost every subject department SuK teaches is shared with another department.
+\end_layout
+
+\begin_layout Standard
+The subject number is a unique identifier within a department's curriculum
+ catalogue.
+ Although differing in format in betweenn departments it is currently used
+ to retrieve information from the LSF information system which has been
+ modified to accept all of the attribues listed above and many more.
+ This number would in principle make the optimal inter-departmental identifier
+ for this subject which although the same themes and information are presented
+ may have differing names in different departments.
+\end_layout
+
+\begin_layout Standard
+The description field has been used to hold the field attribute not mentioned
+ above.
+ More on fields in the subsection about them 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "Fields and Competence Centers"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Section
@@ -1572,24 +1993,39 @@ name "Descriptions"
 \end_layout
 
 \begin_layout Standard
-Untis does not have a categorization resource unique to any resource type.
+Untis does not have a description or categorization resource unique to any
+ resource type.
  Instead they offer a special resource type which they call descriptions
  which can be used on rooms, teachers, subjects, and subject pools.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
+placement h
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
 \align center
+\begin_inset Graphics
+	filename Descriptions Dialogue.png
+	scale 60
+
+\end_inset
+
+
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Descriptions View
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Descriptions View"
+
+\end_inset
+
+Descriptions Dialogue
 \end_layout
 
 \end_inset
@@ -1608,12 +2044,12 @@ In previous versions of Untis the type of resource could be selected from
  However if no resource was associated with the description the resource
  type to be described would be expunged.
  In the current version of Untis, associating a description with a resource
- can only occur when a resource of a particular type is associated with
- the description in question.
+ can only occur when while editing a resource of a particular type the descripti
+on is typed in or selected.
  This is somewhat inefficient as it requires that either the description
- itself is not created from the descriptions interface, but dynamically
- from the interface of the resource to be described, or that the description
- is created in the description interface and then that the schedule coordinator
+ itself is not created from the descriptions dialogue, but dynamically from
+ the dialogue of the resource to be described, or that the description is
+ created in the description dialogue and then that the schedule coordinator
  types it in exactly as if he was dynamically creating it.
  For more on Untis' dynamic resources creation see Dynamic Resource Creation
  
@@ -1627,12 +2063,19 @@ reference "Dynamic Resource Creation"
 \end_layout
 
 \begin_layout Standard
-Untis descriptions have been used to model room types and fields of expertise
- discussed in the next two subsections.
+Untis descriptions have been used to model room and lesson types, and fields
+ of expertise discussed in the next three subsections.
 \end_layout
 
 \begin_layout Subsection
 Room Types
+\begin_inset CommandInset label
+LatexCommand label
+name "Room Types"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1648,7 +2091,7 @@ Room types are general categorizations of rooms according to their intended
  For a complete list of all room type codes see Appendix A.1 
 \begin_inset CommandInset ref
 LatexCommand vpageref
-reference "Room Types"
+reference "Room Types List"
 
 \end_inset
 
