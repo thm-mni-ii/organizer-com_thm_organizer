@@ -285,6 +285,11 @@ Lessons Learned
 Untis
 \end_layout
 
+\begin_layout Standard
+strengths-> teacher field and room rareness output could be theoretically
+ given by untis if it wanted to
+\end_layout
+
 \begin_layout Minisec
 Functional Requirements
 \end_layout
