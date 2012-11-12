@@ -1423,7 +1423,7 @@ The room resource is offered in Untis, and most of the required attributes
 placement h
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \noindent
@@ -1506,7 +1506,7 @@ The room type could be relatively comfortably input into the room's description
  More on room types 
 \begin_inset CommandInset ref
 LatexCommand vpageref
-reference "Room Types"
+reference "Room Types and Groups"
 
 \end_inset
 
@@ -2064,10 +2064,10 @@ Untis descriptions have been used to model room and lesson types, and fields
 \end_layout
 
 \begin_layout Subsection
-Room Types
+Room Types and Groups
 \begin_inset CommandInset label
 LatexCommand label
-name "Room Types"
+name "Room Types and Groups"
 
 \end_inset
 
@@ -2092,6 +2092,13 @@ reference "Room Types List"
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Standard
+Room groups are sets of rooms aggregated predominantly according to their
+ room types.
+ For example all rooms which seat over 120 students could be aggregated
+ to a group collective.
 \end_layout
 
 \begin_layout Minisec
@@ -2202,6 +2209,57 @@ reference "Validation"
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Room Groups Dialogue.png
+	scale 60
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:blah"
+
+\end_inset
+
+Room Groups Dialogue
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The modeling of room groups is one of the more convenient features of Untis.
+ This allows several rooms to be aggregated according to one defining feature,
+ or even single rooms to be named according to that defining feature.
+ In figure 2.7, we can see several groups defined using the rooms of the
+ THM.
+ The group PC Lab for example has the five general purpose computer laboratories
+ of building A20.
+ The group robotic laboratory and sun laboratory each only have one room,
+ each however defined by special equipment within the room.
 \end_layout
 
 \begin_layout Subsection
@@ -2512,7 +2570,7 @@ The first and most pertinent is the matter of visibility.
  This information is also output to Untis XML export which we use for the
  further processing of information.
  Teachers, however, only display this information in a particular tab of
- the expanded teacher information as seen in figure 2.7 
+ the expanded teacher information as seen in figure 2.8 
 \begin_inset CommandInset ref
 LatexCommand vpageref
 reference "fig:Teacher Field Dialogue"
@@ -2552,11 +2610,7 @@ Another disadvantage is the lack of direct resource management.
 placement h
 wide false
 sideways false
-status open
-
-\begin_layout Plain Layout
-
-\end_layout
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
@@ -2839,7 +2893,7 @@ Untis Modeling
 placement h
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
@@ -2888,7 +2942,7 @@ This resource is capable of modeling solely the name of the attribute without
  name.
  The name here is a short code indicating the CoS and its subsetting via
  the use of a period.
- In figure 2.8 
+ In figure 2.9 
 \begin_inset CommandInset ref
 LatexCommand vpageref
 reference "fig:Subject-Pools-View"
@@ -2899,9 +2953,10 @@ reference "fig:Subject-Pools-View"
  Science Bachelor degree program in the 4th and 5th semesters.
  The long name presents the same information in a manner which should be
  readable to anyone acquainted with the material being presented.
- The external name seen here for bioinformation science, a joint CoS offered
- by departments MNI and KMUB, reflects its use in multiple departments.
- However this only allows for visability of planned lessons on both sides
+ The external name seen here for biological information science, a joint
+ CoS offered by departments MNI and KMUB, reflects its use in multiple departmen
+ts.
+ However this only allows for visibility of planned lessons on both sides
  of the departmental divide without actually allowing the responsible department
  to plan together.
 \end_layout
@@ -2926,13 +2981,26 @@ The other information actually required has had to be modeled using Untis
 
 \begin_layout Standard
 The hierarchy reflecting courses necessary for minors can actually be modeled
- using the Untis subclass functionality.
+ in two ways, the way allowed though the classes themselves is by using
+ the Untis subclass functionality.
  This requires the parent courses to be marked with a value of one and the
  children to be marked with a value of two.
  This however doesn't completely address thematic subsetting because these
  subsets themselves may themselves have further noteworthy subsets, and
  the hierarchy depth is limited to one parent and multiple children exactly
  one tier deeper.
+ The other way, by means of setting a subject pool collision identifier,
+ is ironically not done by means of subject pools, rather is an attribute
+ of lessons within the Untis program.
+ Because of the Untis modeling method this will be discussed in Lessons
+ 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "Lessons"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -2945,8 +3013,8 @@ The description field contains values equivalent to those of teachers and
 \begin_layout Standard
 The originating school field seems like it would be a good method of description
  for the management of resources in general.
- From the name alone it would seem to convey a sense of responisibility
- for the associated resources.
+ From the name alone it would seem to convey a sense of responsibility for
+ the associated resources.
  This is however not the case.
  The school in the field must be manually entered, and has no actual relation
  to the Untis resource school.
@@ -3095,7 +3163,7 @@ Untis Modeling
 placement h
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
@@ -3158,10 +3226,11 @@ reference "Lessons"
 \end_inset
 
 , have already been created.
- This requirement is counterintuive since lessons require a period of validity.
- Further, subordinate planning peSecondlyriods cannot consume the complete
- length of their parent planning period.
- The failure to leave at least one day belonging soleley to the parent element
+ This requirement is counterintuitive since lessons require a period of
+ validity.
+ Further, subordinate planning periods cannot consume the complete length
+ of their parent planning period.
+ The failure to leave at least one day belonging solely to the parent element
  can lead to system crashes.
 \end_layout
 
@@ -3172,7 +3241,7 @@ Most importantly the propagation and validity of information is very strongly
  be propagated to the subordinate periods after a confirmation dialogue.
  The propagation of changes from subordinate planning periods to parent
  elements is not offered, nor is the propagation to chronologically sequential
- periods at the same or subordinate hierarchial levels.
+ periods at the same or subordinate hierarchical levels.
  The propagation of subordinate elements into the parent element as far
  as lessons are concerned would seem like it should occur automatically
  since the subordinate planning periods take place within the temporal boundarie
@@ -3260,7 +3329,7 @@ Untis has a resource designed specifically for this purpose.
 placement h
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
@@ -3344,7 +3413,7 @@ name "Time Restrictions and Planning Priorities"
 \end_layout
 
 \begin_layout Standard
-Time restrictions and planning prioritiess are not a resource per se, they
+Time restrictions and planning priorities are not a resource per se, they
  are more of a department specific perspective of the availability of teachers
  and rooms.
  Although in principle restrictions and preferences are neither the same
@@ -3634,7 +3703,7 @@ Untis allows the lesson periods for resources to be given signed integer
 placement h
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
@@ -3669,8 +3738,14 @@ Teacher & Subject Pool Planning Priorities
 \end_layout
 
 \begin_layout Standard
-The example above displays the planning priorities of one of the teachers
- at the THM.
+Figure 2.12 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "fig:Teacher and Subject Pool Planning Priorities"
+
+\end_inset
+
+ displays the planning priorities of one of the teachers at the THM.
  As we can see in the illustration there are multiple ways to assign planning
  priorities by lesson period, weekday, mornings, or evenings.
  Entering a value in a larger block of time overwrites the subordinate units
@@ -3692,7 +3767,7 @@ The example above displays the planning priorities of one of the teachers
 placement h
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
@@ -3727,9 +3802,15 @@ Room & Subject Planning Priorities
 \end_layout
 
 \begin_layout Standard
-As seen in the example graphic above rooms and subjects have a more rudimentary
- mask for the recording of planning priority values than that for teachers
- and subject pools.
+As seen in figure 2.13 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "fig:Room and Subject Planning Priorities"
+
+\end_inset
+
+, rooms and subjects have a more rudimentary mask for the recording of planning
+ priority values than that for teachers and subject pools.
  As regards rooms, this entry mask fits very well with the workflow of the
  planners at the THM.
  Rooms which are not shared in between departments are unrestricted for
@@ -3885,11 +3966,7 @@ Untis Modeling
 placement h
 wide false
 sideways false
-status open
-
-\begin_layout Plain Layout
-
-\end_layout
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
@@ -3924,11 +4001,40 @@ name "fig:Temporal Behavior Dialogue"
 \end_layout
 
 \begin_layout Standard
+Untis is capable of modeling all of the the mentioned attributes for temporal
+ behavior in its lesson groups.
+ Like most other Untis resources these have a name which is a short unique
+ identifier and a self explaining long name.
+\end_layout
+
+\begin_layout Standard
+Each lesson group can use individual methods of defining temporal behavior
+ separately or in tandem.
+ The basic restriction of a begin and end date can be defined directly using
+ the appropriate dates.
+\end_layout
+
+\begin_layout Standard
+Should the lessons of the planning period require periodicity, i.e.
+ if they repeat themselves in a weekly rhythm of a few weeks.
+ The lowest common denominator of the number of weeks in the cycle of repetition
+ is calculated to determine the overall periodicity and the lesson groups
+ are marked accordingly.
+ For example should the period have lessons which occur every two weeks
+ and lessons which occur every three weeks the periodicity for the planning
+ period would then be six.
+ The lessons which occur every two weeks would place a check mark in the
+ boxes for weeks a, c and e, or b, d and f.
+ The lessons which occur every three weeks would have to be marked as occurring
+ as either on weeks a and d, b and e, or c and f.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 placement h
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
@@ -3960,6 +4066,27 @@ name "fig:Temporal Behavior Dialogue Calendar"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Further the use of the calendar can also restrict the run of a course to
+ certain days, weeks, months, or any combination of them.
+ In figure 2.15 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "fig:Temporal Behavior Dialogue Calendar"
+
+\end_inset
+
+, we see the calendar where one can set the days directly in which no lesson
+ is to occur (white).
+ The weeks expressing the periodicity of two are shown here in alternating
+ green and gray.
+ Orange marks the winter holiday season.
+ As seen in the figure, Untis automatically sets the first week after the
+ holiday to that week which would have occurred first in its absence.
+ The 21st of January in the figure is also white, displaying that no lessons
+ are to be planned for that day.
 \end_layout
 
 \begin_layout Section
@@ -4273,7 +4400,136 @@ Modeling
 \end_layout
 
 \begin_layout Standard
-The modeling of lessons is a two phase process in Untis.
+Optimally the planning/modeling of lessons in Untis is a two phase process.
+ These phases are the entry of all relevant data and the temporal planning.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Lessons Dialogue.png
+	scale 40
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Lessons-Dialogue"
+
+\end_inset
+
+Lessons Dialogue
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The lessons were able to model all of the discussed resources and associations.
+ Unlike most other Untis resources lessons themselves have neither a name
+ or a short name, instead they have a lesson number provided by Untis at
+ the time of creation.
+\end_layout
+
+\begin_layout Standard
+Teachers can be selected or typed into the appropriate column.
+ The addition of further teachers occurs by means of a so-called coupling
+ row.
+ When a row is highlighted, as lesson 2540 in figure 2.16 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "fig:Lessons-Dialogue"
+
+\end_inset
+
+, a tiny plus symbol appears on the left.
+ This creates an additional row underneath the active one.
+ Here as before the teacher is then selected or typed in the appropriate
+ column.
+\end_layout
+
+\begin_layout Standard
+The name if there were to be one, would be inherited from the subject or
+ subjects to be instanced and the lesson type.
+ A single subject can be selected from a list or typed in the appropriate
+ column.
+ Further subjects can be added behind the first subject as long as they
+ are separated by a comma.
+ .
+ This guarantees standardized output within and without Untis.
+ Both rooms / room groups and subject groups are handled in the exact same
+ way.
+ Should a coupling row be added for a teacher, the scheduling coordinator
+ should copy the values of the initial row for subjects, rooms and subject
+ groups, then paste thm into the appropriate columns of the other rows of
+ the lesson.
+\end_layout
+
+\begin_layout Standard
+The department or CoS value is inherited from the first subject group in
+ the list of subject groups.
+ Unfortunately this makes this value worthless as it then disregards all
+ others and is not editable.
+\end_layout
+
+\begin_layout Standard
+The field column is inherited from the subject, and while it is consequently
+ accurate it is also superfluous information because it is an inherited
+ attribute.
+\end_layout
+
+\begin_layout Standard
+The subject group collison value represents the allowed or desired collision
+ behaviour of a particular lesson in respect to the other lessons of its
+ subject group.
+ The empty value indicates that a collison should not be allowed.
+ Alphabetic values indicate that lessons with the same value should be planned
+ collison free, differing values indicate that a collision has no effect
+ on the planning process.
+ While not seen here this field can also carry numeric values.
+ Numerical values operate on the opposite principle, namely that lessons
+ with the same numerical value can be planned with collisions whereas lessons
+ with differing numerical values should not be planned to collide.
+\end_layout
+
+\begin_layout Standard
+The lesson group indicates which lesson group defines the lesson's temporal
+ behaviour.
+ In figure 2.16 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "fig:Lessons-Dialogue"
+
+\end_inset
+
+, we see lessons 2548 and 2549 which take place on alternating weeks indicated
+ by the values WS.B and WS.A respectively.
+\end_layout
+
+\begin_layout Standard
+Lastly and most important the quantity of blocks per week or year are entered
+ in the appropriate columns in the list.
+ Before the actual planning is completed a number representing the number
+ of unplanned lesson blocks will also be displayed.
 \end_layout
 
 \begin_layout Standard
