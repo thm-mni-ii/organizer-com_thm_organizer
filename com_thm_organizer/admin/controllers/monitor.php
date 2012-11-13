@@ -24,7 +24,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * 
  * @since    2.5.4
  */
-class thm_organizersControllermonitor extends JController
+class THM_OrganizerControllermonitor extends JController
 {
     /**
      * Performs access checks and redirects to the monitor edit view

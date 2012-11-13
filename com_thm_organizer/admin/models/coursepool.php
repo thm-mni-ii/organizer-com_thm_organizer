@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizersModelCoursepool
- * @description THM_OrganizersModelCoursepool component admin model
+ * @name		THM_OrganizerModelCoursepool
+ * @description THM_OrganizerModelCoursepool component admin model
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
 
 /**
- * Class THM_OrganizersModelCoursepool for component com_thm_organizer
+ * Class THM_OrganizerModelCoursepool for component com_thm_organizer
  *
  * Class provides methods to deal with course pool
  *
@@ -29,7 +29,7 @@ jimport('joomla.application.component.modeladmin');
  * @link        www.mni.thm.de
  * @since       v1.5.0
  */
-class THM_OrganizersModelCoursepool extends JModelAdmin
+class THM_OrganizerModelCoursepool extends JModelAdmin
 {
 	/**
 	 * Method to get the table

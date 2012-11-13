@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizersViewMajors
- * @description THM_OrganizersViewMajors component admin view
+ * @name		THM_OrganizerViewMajors
+ * @description THM_OrganizerViewMajors component admin view
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
- * Class THM_OrganizersViewMajors for component com_thm_organizer
+ * Class THM_OrganizerViewMajors for component com_thm_organizer
  *
  * Class provides methods to display the view majors
  *
@@ -27,7 +27,7 @@ jimport('joomla.application.component.view');
  * @link        www.mni.thm.de
  * @since       v1.5.0
  */
-class THM_OrganizersViewMajors extends JView
+class THM_OrganizerViewMajors extends JView
 {
 	/**
 	 * Method to get display
@@ -56,7 +56,7 @@ class THM_OrganizersViewMajors extends JView
 	 */
 	protected function addToolBar()
 	{
-		JToolBarHelper::title(JText::_('com_thm_organizer_SUBMENU_MAJORS_TITLE'), 'generic.png');
+		JToolBarHelper::title(JText::_('COM_THM_ORGANIZER') . ': ' . JText::_('COM_THM_ORGANIZER_SUBMENU_MAJORS_TITLE'), 'generic.png');
 
 		JToolBarHelper::addNew('major.add', 'JTOOLBAR_NEW');
 		JToolBarHelper::editList('major.edit', 'JTOOLBAR_EDIT');

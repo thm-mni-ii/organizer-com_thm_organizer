@@ -4,7 +4,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin.controller
- * @name        THM_OrganizersControllervirtual_schedule
+ * @name        THM_OrganizerControllervirtual_schedule
  * @description perform tasks that affects virtual schedules
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @author      Wolf Rost, <Wolf.Rost@mni.thm.de>
@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 
 /**
- * Class THM_OrganizersControllervirtual_schedule for component com_thm_organizer
+ * Class THM_OrganizerControllervirtual_schedule for component com_thm_organizer
  *
  * Class provides methods to handle tasks that affects virtual schedules
  *
@@ -27,7 +27,7 @@ jimport('joomla.application.component.controller');
  * @link        www.mni.thm.de
  * @since       v0.0.1
  */
-class THM_OrganizersControllerVirtual_Schedule extends JController
+class THM_OrganizerControllerVirtual_Schedule extends JController
 {
 	/**
 	 * Constructor that register tasks and call the parent constructor

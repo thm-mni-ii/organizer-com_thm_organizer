@@ -23,7 +23,7 @@ jimport('joomla.application.component.table');
  * 
  * @since    2.5.4
  */
-class thm_organizerTablemonitors extends JTable
+class THM_OrganizerTablemonitors extends JTable
 {
     /**
      * Constructor function for the class representing the monitors table

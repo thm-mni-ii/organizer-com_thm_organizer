@@ -23,7 +23,7 @@ jimport('joomla.application.component.modellist');
  * 
  * @since    2.5.4 
  */
-class thm_organizersModelschedule_manager extends JModelList
+class THM_OrganizerModelschedule_manager extends JModelList
 {
     /**
      * array of departmentnames

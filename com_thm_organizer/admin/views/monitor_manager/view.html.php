@@ -25,7 +25,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * 
  * @since    2.5.4
  */
-class thm_organizersViewmonitor_manager extends JView
+class THM_OrganizerViewmonitor_manager extends JView
 {
     /**
      * loads data from the model into the view context

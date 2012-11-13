@@ -25,7 +25,7 @@ jimport('joomla.administrator.components.com_thm_organizer.models.schedule.php')
  * 
  * @since    2.5.4
  *  */
-class thm_organizersModelschedule extends JModel
+class THM_OrganizerModelschedule extends JModel
 {
     /**
      * Array to hold error strings relating to critical data inconsistencies

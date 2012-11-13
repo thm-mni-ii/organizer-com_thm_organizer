@@ -24,7 +24,7 @@ jimport('joomla.application.component.model');
  * 
  * @since    2.5.4
  */
-class thm_organizersModelmonitor extends JModel
+class THM_OrganizerModelmonitor extends JModel
 {
     /**
      * save

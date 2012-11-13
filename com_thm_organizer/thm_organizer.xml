@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension method="upgrade" type="component" version="2.5.7">
-    <name>THM_ORGANIZER</name>
+    <name>COM_THM_ORGANIZER</name>
     <author>James Antrim</author>
-    <authorEMail>jamesDOTantrimATmniDOTthmDOTde</authorEMail>
+    <authorEMail>jamesDOTantrimATyahooDOTcom</authorEMail>
     <author>Wolf Rost</author>
     <authorEMail>wolfDOTrostATmniDOTthDASHmittelhessenDOTde</authorEMail>
     <author>Markus Baier</author>
@@ -11,7 +11,7 @@
     <creationDate>01/03/2011</creationDate>
     <copyright>TH Mittelhessen 2011</copyright>
     <licence>GNU GPL v.2</licence>
-    <version>0.1.0</version>
+    <version>0.0.3</version>
     <description>COM_THM_ORGANIZER_DESCRIPTION</description>
 	<scriptfile>script.php</scriptfile>
     <install>
@@ -42,7 +42,7 @@
         <language tag="de-DE">language/de-DE/de-DE.com_thm_organizer.ini</language>
     </languages>
     <administration>
-        <menu img="components/com_thm_organizer/assets/images/thm_organizer.png">THM_ORGANIZER</menu>
+        <menu img="components/com_thm_organizer/assets/images/thm_organizer.png">COM_THM_ORGANIZER</menu>
         <submenu>
             <menu img="components/com_thm_organizer/assets/images/category_manager.png"
                   view="category_manager">COM_THM_ORGANIZER_CAT_TITLE</menu>
@@ -52,22 +52,20 @@
                   view="virtual_schedule_manager">COM_THM_ORGANIZER_VSM_TITLE</menu>
             <menu img="components/com_thm_organizer/assets/images/monitor_manager.png"
                   view="monitor_manager">COM_THM_ORGANIZER_MON_TITLE</menu>
-            <menu img="components/com_thm_organizer/assets/images/settings.png"
-                  view="settings">COM_THM_ORGANIZER_COM_TITLE</menu>
-            <menu img="components/com_thm_organizer/assets/images/configurations.png"
-                  view="soapqueries">COM_THM_CURRICULUM_SUBMENU_SOAP_QUERIES</menu>
-            <menu img="components/com_thm_organizerm/assets/images/curriculums.png"
-                  view="semesters">COM_THM_CURRICULUM_SUBMENU_SEMESTERS</menu>
-            <menu img="components/com_thm_organizer/assets/images/dozenten.png"
-                  view="lecturers">COM_THM_CURRICULUM_SUBMENU_LECTURERS</menu>
-            <menu img="components/com_thm_organizer/assets/images/modules.png"
-                  view="assets">COM_THM_CURRICULUM_SUBMENU_ASSETS</menu>
-            <menu img="components/com_thm_organizer/assets/images/curriculums.png"
-                  view="colors">COM_THM_CURRICULUM_SUBMENU_COLORS</menu>
-            <menu img="components/com_thm_organizer/assets/images/curriculums.png"
-                  view="degrees">COM_THM_CURRICULUM_SUBMENU_DEGREES</menu>
-            <menu img="components/com_thm_organizer/assets/images/curriculums.png"
-                  view="majors">COM_THM_CURRICULUM_SUBMENU_MAJORS</menu>
+            <menu img="components/com_thm_organizer/assets/images/soapqueries_min.png"
+                  view="soapqueries">COM_THM_ORGANIZER_SUBMENU_SOAP_QUERIES</menu>
+            <menu img="components/com_thm_organizer/assets/images/semester_min.png"
+                  view="semesters">COM_THM_ORGANIZER_SUBMENU_SEMESTERS</menu>
+            <menu img="components/com_thm_organizer/assets/images/lecturers_min.png"
+                  view="lecturers">COM_THM_ORGANIZER_SUBMENU_LECTURERS</menu>
+            <menu img="components/com_thm_organizer/assets/images/assets_min.png"
+                  view="assets">COM_THM_ORGANIZER_SUBMENU_ASSETS</menu>
+            <menu img="components/com_thm_organizer/assets/images/colors_min.png"
+                  view="colors">COM_THM_ORGANIZER_SUBMENU_COLORS</menu>
+            <menu img="components/com_thm_organizer/assets/images/degrees_min.png"
+                  view="degrees">COM_THM_ORGANIZER_SUBMENU_DEGREES</menu>
+            <menu img="components/com_thm_organizer/assets/images/majors_min.png"
+                  view="majors">COM_THM_ORGANIZER_SUBMENU_MAJORS</menu>
         </submenu>
         <files folder="admin">
             <filename>access.xml</filename>

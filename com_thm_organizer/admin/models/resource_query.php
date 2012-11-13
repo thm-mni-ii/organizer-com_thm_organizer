@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport( 'joomla.application.component.model' );
-class THM_OrganizersModelbooking extends JModel
+class THM_OrganizerModelbooking extends JModel
 {
     private $resource_tables = null;
     private $joomla_tables = null;

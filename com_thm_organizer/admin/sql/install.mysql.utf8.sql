@@ -234,8 +234,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_assets` (
   `ecollaboration_link` varchar(255) NOT NULL,
   `menu_link` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`asset_type_id`) REFERENCES `#__thm_organizer_asset_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  FOREIGN KEY (`color_id`) REFERENCES `#__thm_organizer_colors` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
+  FOREIGN KEY (`asset_type_id`) REFERENCES `#__thm_organizer_asset_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_majors` (
@@ -348,6 +347,29 @@ CREATE TABLE IF NOT EXISTS #__thm_organizer_lecturers_types (
 INSERT INTO #__thm_organizer_lecturers_types (id, name) VALUES
 (1, 'Modulverantwortlicher'),
 (2, 'Dozent');
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_soap_queries` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `lsf_object` varchar(255) NOT NULL,
+  `lsf_study_path` varchar(255) NOT NULL,
+  `lsf_degree` varchar(255) NOT NULL,
+  `lsf_pversion` varchar(255) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=178 ;
+
+INSERT INTO `#__thm_organizer_soap_queries` (`id`, `name`, `lsf_object`, `lsf_study_path`, `lsf_degree`, `lsf_pversion`, `description`) VALUES
+(172, 'Bachelor Medizin-Informatik (2010)', 'studiengang', 'I', 'MI', '2010', ''),
+(170, 'Bachelor Ingenieur Informatik (2010)', 'studiengang', 'INI', 'BS', '2010', ''),
+(173, 'Bachelor BWL (2009)', 'studiengang', 'W', 'BA', '2009', ''),
+(154, 'Bachelor Informatik (2010)', 'studiengang', 'I', 'BS', '2010', ''),
+(175, 'Master of Arts International Marketing (2010)', 'studiengang', 'INM', 'MA', '2010', ''),
+(167, 'Master Informatik (2010)', 'studiengang', 'I', 'MS', '2010', ''),
+(174, 'Master of Arts Unternehmensführung (PO 2011)', 'studiengang', 'UF', 'MA', '2010', ''),
+(164, 'Master of Science WirtschaftsInformatik (2010)', 'studiengang', 'WIN', 'MS', '2010', ''),
+(169, 'Bachelor Bio-Informatik (2010)', 'studiengang', 'I', 'BI', '2010', ''),
+(176, 'Master of Business Administration (PO 2010)', 'studiengang', 'W', 'MB', '2010', '');
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lecturers_assets` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

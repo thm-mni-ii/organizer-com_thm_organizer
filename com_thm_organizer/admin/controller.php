@@ -24,7 +24,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * 
  * @since    2.5.4
  *  */
-class thm_organizersController extends JController
+class THM_OrganizerController extends JController
 {
     /**
      * Typical view method for MVC based architecture

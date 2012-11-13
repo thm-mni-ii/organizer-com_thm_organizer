@@ -23,7 +23,7 @@ jimport('joomla.application.component.table');
  * 
  * @since    2.5.4
  */
-class thm_organizerTabledeltas extends JTable
+class THM_OrganizerTabledeltas extends JTable
 {
     /**
      * Constructor function for the class representing the deltas table

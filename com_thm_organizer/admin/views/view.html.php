@@ -13,7 +13,7 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
-class thm_organizersViewmonitor_manager extends JView
+class THM_OrganizerViewmonitor_manager extends JView
 {
 
     public function display($tpl = null)

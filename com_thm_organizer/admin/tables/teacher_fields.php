@@ -23,7 +23,7 @@ jimport('joomla.application.component.table');
  * 
  * @since    2.5.4
  */
-class thm_organizerTableteacher_fields extends JTable
+class THM_OrganizerTableteacher_fields extends JTable
 {
     /**
      * Constructor function for the class representing the teacher_fields table

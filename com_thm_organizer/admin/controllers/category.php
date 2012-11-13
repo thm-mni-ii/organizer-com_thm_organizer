@@ -24,7 +24,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * 
  * @since    2.5.4
  */
-class thm_organizersControllerCategory extends JController
+class THM_OrganizerControllerCategory extends JController
 {
     /**
      * redirects to the category_edit view for the creation of new categories

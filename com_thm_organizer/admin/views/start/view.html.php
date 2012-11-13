@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizersViewStart
- * @description THM_OrganizersViewStart component admin view
+ * @name		THM_OrganizerViewStart
+ * @description THM_OrganizerViewStart component admin view
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
- * Class THM_OrganizersViewStart for component com_thm_organizer
+ * Class THM_OrganizerViewStart for component com_thm_organizer
  *
  * Class provides methods to display the view start
  *
@@ -27,7 +27,7 @@ jimport('joomla.application.component.view');
  * @link        www.mni.thm.de
  * @since       v1.5.0
  */
-class THM_OrganizersViewStart extends JView
+class THM_OrganizerViewStart extends JView
 {
 	/**
 	 * Method to get display

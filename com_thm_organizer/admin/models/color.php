@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizersModelColor
- * @description THM_OrganizersModelColor component admin model
+ * @name		THM_OrganizerModelColor
+ * @description THM_OrganizerModelColor component admin model
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
 
 /**
- * Class THM_OrganizersModelColor for component com_thm_organizer
+ * Class THM_OrganizerModelColor for component com_thm_organizer
  *
  * Class provides methods to deal with color
  *
@@ -29,7 +29,7 @@ jimport('joomla.application.component.modeladmin');
  * @link        www.mni.thm.de
  * @since       v1.5.0
  */
-class THM_OrganizersModelColor extends JModelAdmin
+class THM_OrganizerModelColor extends JModelAdmin
 {
 	/**
 	 * Method to get the table

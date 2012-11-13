@@ -4,7 +4,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin.model
- * @name        THM_OrganizersModelVirtual_Schedule_Edit
+ * @name        THM_OrganizerModelVirtual_Schedule_Edit
  * @description Class to create and edit a virtual schedule
  * @author      Wolf Rost, <Wolf.Rost@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restriced Access');
 jimport('joomla.application.component.modeladmin');
 
 /**
- * Class THM_OrganizersModelVirtual_Schedule_Edit for component com_thm_organizer
+ * Class THM_OrganizerModelVirtual_Schedule_Edit for component com_thm_organizer
  *
  * Class provides methods to create and edit a virtual schedule
  *
@@ -26,7 +26,7 @@ jimport('joomla.application.component.modeladmin');
  * @link        www.mni.thm.de
  * @since       v0.0.1
  */
-class THM_OrganizersModelVirtual_Schedule_Edit extends JModelAdmin
+class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 {
 	/**
 	 * Constructor that calls the parent constructor
