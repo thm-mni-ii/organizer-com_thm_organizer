@@ -305,7 +305,7 @@ class thm_organizersModelschedule extends JModel
             {
                 $this->validateLesson($lessonnode);
             }
-        }die;
+        }
 
         $status = $this->makeStatusReport();
         return $status;
