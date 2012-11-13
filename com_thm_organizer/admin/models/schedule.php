@@ -305,7 +305,7 @@ class thm_organizersModelschedule extends JModel
             {
                 $this->validateLesson($lessonnode);
             }
-        }
+        }die;
 
         $status = $this->makeStatusReport();
         return $status;
@@ -930,6 +930,15 @@ class thm_organizersModelschedule extends JModel
                 }
                 foreach ($times->children() as $instance)
                 {
+                    $assigned_date = trim((string) $instance->assigned_date);
+                    if(!empty($assigned_date))
+                    {
+                        $assigned_date = substr($assigned_date, 0, 4) . "-" . substr($assigned_date, 4, 2) . "-" . substr($assigned_date, 6, 2);
+                        if($assigned_date != $currentDate)
+                        {
+                            continue;
+                        }
+                    }
                     $day = trim((string) $instance->assigned_day);
                     if (empty($day))
                     {
@@ -993,7 +1002,7 @@ class thm_organizersModelschedule extends JModel
                 }
             }
             $currentDT = strtotime('+1 day', $currentDT);
-        }
+        } 
     }
 
     /**
