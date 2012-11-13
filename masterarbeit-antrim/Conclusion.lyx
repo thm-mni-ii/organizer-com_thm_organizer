@@ -278,10 +278,19 @@ Conclusion
 \end_layout
 
 \begin_layout Section
-Untis System
+Lessons Learned
 \end_layout
 
 \begin_layout Subsection
+Untis
+\end_layout
+
+\begin_layout Standard
+strengths-> teacher field and room rareness output could be theoretically
+ given by untis if it wanted to
+\end_layout
+
+\begin_layout Minisec
 Functional Requirements
 \end_layout
 
@@ -318,7 +327,7 @@ The description select box in leeson management corresponds to the descriptions
  associated with module pools as opposed to those associated with lessons.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Minisec
 Non-Functional Requirements
 \end_layout
 
@@ -414,11 +423,43 @@ Practical Training
  to be of use.
 \end_layout
 
-\begin_layout Section
-Untis within the THM System
+\begin_layout Standard
+Select boxes do not self adjust to fit the length of the content within
+ them.
+ This leads to the creation of personal abbreviations.
+ :(
 \end_layout
 
-\begin_layout Section
+\begin_layout Minisec
+Dynamic Resource Creation
+\begin_inset CommandInset label
+LatexCommand label
+name "Dynamic Resource Creation"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dynamic resource creation.
+ Often times Untis expects the user to create resources dynamically in interface
+s associating them.
+ This leads to the creation of resources which may or may not have complete
+ data since the creation of the resource does not open a mask asking for
+ the data missing, instead creating the data with a name only.
+\end_layout
+
+\begin_layout Minisec
+Fachengpässe
+\end_layout
+
+\begin_layout Standard
+Why the fuck is this not written large on the wall.
+ This is good shit.
+\end_layout
+
+\begin_layout Subsection
 Problems with Data Sources
 \end_layout
 
@@ -429,7 +470,7 @@ Names used across department barriers need to have a unified approach to
  This unfortunately needs to be done on a resource by resource basis.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Minisec
 Descriptions
 \end_layout
 
@@ -458,7 +499,7 @@ Denniffelesque
  represents.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Minisec
 Departments
 \end_layout
 
@@ -467,7 +508,7 @@ Departments play a role with every resource and with are assignable to access
  management groups.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Minisec
 Classes
 \end_layout
 
@@ -476,7 +517,7 @@ Classes are a misnomer stemming from Untis' historical target group being
  grade school and high school planners who would then be able to use the
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Minisec
 Subjects
 \end_layout
 
@@ -487,20 +528,15 @@ content management systems, entwickelung webbassierte software, it-vertrieb(VM)
 \end_layout
 
 \begin_layout Section
-Changes to Organizer
+Irgendetwas in der Art wie was nicht realiziert werden könnte
 \end_layout
 
-\begin_layout Standard
-departments format has changed
+\begin_layout Section
+Zukunftsmusik
 \end_layout
 
-\begin_layout Standard
-descriptions are not solely used for rooms and do not always follow the
- two tier format
-\end_layout
-
-\begin_layout Standard
-lesson type is now a description (reference) rather than a string in text(1?)
+\begin_layout Section
+bb
 \end_layout
 
 \begin_layout Standard

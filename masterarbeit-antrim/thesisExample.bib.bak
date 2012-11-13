@@ -1,12 +1,37 @@
 % This file was created with JabRef 2.7.
 % Encoding: Cp1252
 
+@ELECTRONIC{AHDSubject,
+  author = {{American Heritage Dictionary}},
+  month = {November},
+  year = {2012},
+  title = {Definition of Subject},
+  organization = {Houghton Mifflin Harcourt},
+  note = {\url{http://www.ahdictionary.com/word/search.html?q=subject}},
+  url = {http://www.ahdictionary.com/word/search.html?q=subject},
+  owner = {James},
+  timestamp = {2012.11.07}
+}
+
+@ELECTRONIC{AHDVersion,
+  author = {{American Heritage Dictionary}},
+  month = {November},
+  year = {2012},
+  title = {Definition of Version},
+  organization = {Houghton Mifflin Harcourt},
+  note = {\url{http://www.ahdictionary.com/word/search.html?q=version}},
+  url = {http://www.ahdictionary.com/word/search.html?q=version},
+  owner = {James},
+  timestamp = {2012.11.07}
+}
+
 @ELECTRONIC{Hell,
   author = {Martin Heller},
   month = {January},
   year = {2007},
   title = {{REST and CRUD: the Impedance Mismatch}},
   language = {English},
+  note = {\url{http://www.infoworld.com/d/developer-world/rest-and-crud-impedance-mismatch-927}},
   url = {{http://www.infoworld.com/d/developer-world/rest-and-crud-impedance-mismatch-927}},
   keywords = {CRUD},
   owner = {James},
@@ -25,9 +50,32 @@
 }
 
 @ELECTRONIC{Grub,
-  title = {Homepage of Gruber \& Petters Software},
+  title = {{Homepage of Gruber \& Petters Software}},
+  note = {\url{www.grupet.at}},
   url = {www.grupet.at},
   owner = {James},
   timestamp = {2012.10.30}
+}
+
+@ELECTRONIC{W3CComp,
+  month = {November},
+  year = {2012},
+  title = {{SQL Data Types}},
+  organization = {w3schools.com},
+  note = {\url{http://www.w3schools.com/sql/sql_datatypes.asp}},
+  url = {{http://www.w3schools.com/sql/sql_datatypes.asp}},
+  owner = {James},
+  timestamp = {2012.11.13}
+}
+
+@ELECTRONIC{WikiComp,
+  month = {November},
+  year = {2012},
+  title = {{Comparison of relational database management systems}},
+  organization = {{wikipedia.org}},
+  note = {\url{http://en.wikipedia.org/wiki/Comparison_of_relational_database_management_systems}},
+  url = {{http://en.wikipedia.org/wiki/Comparison_of_relational_database_management_systems}},
+  owner = {James},
+  timestamp = {2012.11.13}
 }
 
