@@ -201,7 +201,7 @@ November 2012
 \end_layout
 
 \begin_layout Publishers
-\begin_inset Box Boxed
+\begin_inset Box Frameless
 position "t"
 hor_pos "c"
 has_inner_box 1
@@ -215,15 +215,7 @@ height_special "totalheight"
 status open
 
 \begin_layout Plain Layout
-Replace this box e.
-\begin_inset space \thinspace{}
-\end_inset
 
-g.
-\begin_inset space ~
-\end_inset
-
-by the coat of arms of the university.
 \end_layout
 
 \end_inset

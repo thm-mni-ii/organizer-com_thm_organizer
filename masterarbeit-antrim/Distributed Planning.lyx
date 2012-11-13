@@ -287,20 +287,20 @@ name "System Integration and Distributed Planning"
 \begin_layout Standard
 Scheduling at the THM is a process which involves a multiple systems which
  are responsible for the electronic records of the resources managed, and
- a myriad of scheduling and facility management coordinators.
- Defining the system landscape was and is an iterative process which changes
- with time based upon reflection and changes to the system environment.
+ several scheduling and facility management coordinators.
+ Defining the system landscape was and is an iterative process based upon
+ reflection and changes to the system environment.
  These changes to the environment can be in terms of new resource types,
  personnel, systems, or software.
 \end_layout
 
 \begin_layout Standard
-The driving questions in this process are: How can the various workflows
- be made more effiecient? How can more data be aggregated? Have all necessary
- and desirable attributes and properties of the resources been recorded?
- How is data is the data to be processed? Who is involved in the process?
+The driving questions in this process are: Who is involved in the process?
  What actions can those involved perform? Which actions do they need to
- be able to perform to efficiently function?
+ be able to perform to efficiently function? How can the various workflows
+ be made more effiecient? How can data best be aggregated? Have all necessary
+ and desirable attributes and properties of the resources been recorded?
+ How is data is the data to be processed? 
 \end_layout
 
 \begin_layout Section
@@ -312,24 +312,55 @@ Users, Roles and Groups
 \end_layout
 
 \begin_layout Standard
-One of the first decisions or discoveries to be made in the creation of
- a new system landscape is to include all the responsible persons.
+There are several ways and perspectives to use when one first begins to
+ conceptualize a system landscape.
+ Since the systems to be integrated were in some form already existent,
+ with more or less predefined functions which were made available to the
+ user.
+ The variable which seemed to need the most crystalization in this context
+ seemed to be the people involved in the system processes.
 \end_layout
 
 \begin_layout Standard
-In Untis
+During system implementation it was evident that the members of three groups
+ were the key actors within the scheduling process.
+ These are the schedule coordinators, the members of facilitiy management
+ responsible for room usage and the Untis administrator.
+ Each of these groups has a responsibility within the system for the scheduling,
+ and resource data management and propagation.
 \end_layout
 
 \begin_layout Standard
-In Joomla
+The schedule coordinators are the members of their respective departments
+ responsible for the scheduling of lessons.
 \end_layout
 
 \begin_layout Subsection
 Security Policy and User Actions
 \end_layout
 
+\begin_layout Subsection
+Planning
+\end_layout
+
 \begin_layout Section
 System Integration
+\end_layout
+
+\begin_layout Standard
+The systems to be integrated within the scope of this thesis were Untis
+ 2013 and the THM Organizer component for the Joomla! CMS.
+ While there are other systems in use in resource management within the
+ THM system landscape such as LSF and Excel, their use is predominantly
+ tangential to that of scheduling which recieves the brunt of the content
+ of this thesis.
+\end_layout
+
+\begin_layout Standard
+The integration of each of these systems was bound with certain processes
+ which were necessary for resource data management.
+ These processes will be discussed as steps to the integration of the system
+ in question.
 \end_layout
 
 \begin_layout Subsection
@@ -337,7 +368,137 @@ Untis
 \end_layout
 
 \begin_layout Standard
-explain Untis place in the THM landscape
+Over the summer of 2012 the Untis 2013 scheduling software was added to
+ the THM system landscape.
+ It's purpose is to provide clarity in interdepartmental resource management
+ as regards scheduling and resource usage.
+\end_layout
+
+\begin_layout Minisec
+Untis System Landscape
+\end_layout
+
+\begin_layout Standard
+Similar to the landscape into which Untis was being implemented.
+ Untis brought with it the need for a sbordinate landscape of systems.
+ These were systems were both the result of the requirements of Untis 2013
+ with its Multiuser module and the security requirements of the THM.
+\end_layout
+
+\begin_layout Standard
+The first system requirement of Untis is a Windows operating system.
+ In other operating systems this can be simulated with a virtual machine.
+ The decision to solely offer Untis for Windows environment probably had
+ to do with the market share of Windows on home and office computers.
+\end_layout
+
+\begin_layout Standard
+Although not listed directly in any Untis documentation this Windows environment
+ must have the .Net Framework in a version 3.5 or higher installed upon it.
+ Windows has for several years included this framework with its releases
+ however versions at or before Windows Vista or Windows Server 2008 will
+ not meet this requirement and it must be manually installed.
+ The failure to have a .Net framework of this version installed will cause
+ an Untis error message requesting the framework without specifiying the
+ version required.
+\end_layout
+
+\begin_layout Standard
+The next requirement is a data source.
+ The source can be either MS Access, MS SQL, or MySQL.
+ Untis documentation makes no recommendations as to the choice of a data
+ source.
+ However there are several criteria useful in the decision.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "CompareForum,W3CComp,WikiComp"
+
+\end_inset
+
+ There are several which made MS Access infeasable for use at the THM.
+ It is difficult to prioritize them as they are all equally decisive factors
+ for not using Access.
+ The THM will have large quantities of data to store which must be remotely
+ accessed.
+ Access is neither remotely accessible nor can it efficiently handle large
+ quantities of data.
+ Even Untis support of Access usage has side effects for system integrity
+ and performance.
+ Access supports only rudimentary data types.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "W3CComp"
+
+\end_inset
+
+ This results in 'talking down' to the more advanced MS SQL and MySQL, only
+ making use of their most basic and rudimentary features.
+ Often going as far as to 'dumb down' the data itself such as storing dates
+ as eight digit numbers instead of using the SQL date type.
+ The MS SQL and MySQL systems are roughly equal in size and scope with a
+ slight edge in favor of MS SQL.
+ The decision to use MySQL was one of personal comfort for the Untis administrat
+or and server administrators at the THM.
+\end_layout
+
+\begin_layout Standard
+The Multiuser module requires an ODBC connection to this source.
+ The configuration of this source is well documented in the appropriate
+ handbook.
+ In order to avoid data inconsistency or loss Untis insists that both the
+ ODBC connection and the source database be of the same base (32 or 64 bit).
+ Although the configuration is well documented in Untis, the source providers
+ often have vague identification of which base connection they are using.
+ In the event of a base mismatch Untis outputs an equally vague warning
+ that the system architecture is not supported.
+\end_layout
+
+\begin_layout Standard
+The Untis conceptual landscape would depict this data source laying somewhere
+ accessible in the internet with the ODBC connection and the Untis program
+ installed and configured on every computer that was to access this data
+ source.
+ There are three problems with this concept.
+ The first problem is that people that have little to no IT experience would
+ be required to configure the ODBC connection on their personal computer,
+ or that the system administrator would have to do this for each individual
+ having to work with the system.
+ The next problem is that each person involved would be responsible for
+ updating his personal installation of Untis.
+ Finally, the source server would be at the mercy of ODBC connections from
+ an unknown number of personal computers whose system security cannot be
+ guaranteed.
+\end_layout
+
+\begin_layout Standard
+Since the THM had an in-house project dealing with the virtual systems,
+ it was decided upon that all three of these problems would be dealt with
+ simultaneously.
+ A machine image was created with the ODBC connection preconfigured and
+ Untis preinstalled.
+ This image was then used as the template for the creation for a pool of
+ virtual machines.
+ These machines could then be remotely accessed from the personal computers
+ of those involved in the scheduling and resource management processes.
+\end_layout
+
+\begin_layout Minisec
+Configuration
+\end_layout
+
+\begin_layout Standard
+With the Untis system landscape in place the next step was the creation
+ of the administrative resources as discussed 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "Administrative Resources"
+
+\end_inset
+
+.
+ The first resource to be created were the schools corresponding to the
+ various departments and institutions which plan schedules.
+ 
 \end_layout
 
 \begin_layout Minisec
@@ -419,10 +580,10 @@ name "Interdepartmental Planning"
 \end_layout
 
 \begin_layout Minisec
-Data Propogation
+Data Propagation
 \begin_inset CommandInset label
 LatexCommand label
-name "Data Propogation"
+name "Data Propagation"
 
 \end_inset
 
