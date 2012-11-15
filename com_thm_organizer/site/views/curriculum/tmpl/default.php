@@ -3,7 +3,7 @@
  * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Curriculum
- * @subpackage  com_thm_organizer.site
+ * @subpackage  com_thm_curriculum.site
  * @name		view curriculum default
  * @description THM_Curriculum component site view
  * @author	    Markus Baier <markus.baier@mni.thm.de>
@@ -29,14 +29,14 @@ if (!isset($this->counter))
 
 
 <link rel="stylesheet" type="text/css"
-	href="components/com_thm_organizer/views/curriculum/tmpl/extjs/curriculum-minify.css" />
+	href="components/com_thm_curriculum/views/curriculum/tmpl/extjs/curriculum-minify.css" />
 
 <script
-	src="components/com_thm_organizer/views/curriculum/tmpl/extjs/curriculum.js"
+	src="components/com_thm_curriculum/views/curriculum/tmpl/extjs/curriculum.js"
 	type="text/javascript"></script>
 
 <script
-	src="components/com_thm_organizer/views/curriculum/tmpl/extjs/app-minify.js"
+	src="components/com_thm_curriculum/views/curriculum/tmpl/extjs/app-minify.js"
 	type="text/javascript"></script>
 
 
@@ -46,13 +46,13 @@ if (!isset($this->counter))
 
             /* global parameters */
             css_suffix =  <?php echo "'" . $this->params->get('css_suffix') . "'"; ?>;
-            scheduler_icon = "<?php echo JURI::base(); ?>components/com_thm_organizer/css/images/scheduler_1.png";
-            note_icon = "<?php echo JURI::base(); ?>components/com_thm_organizer/css/images/info_1.png";
-            collab_icon = "<?php echo JURI::base(); ?>components/com_thm_organizer/css/images/collab.png";
-            responsible_icon = "<?php echo JURI::base(); ?>components/com_thm_organizer/css/images/user_1.png";
-            comp_pool_icon = "<?php echo JURI::base(); ?>components/com_thm_organizer/css/images/comp_pool_icon.png";
-            place_holder_icon = "<?php echo JURI::base(); ?>components/com_thm_organizer/css/images/icon_place_holder.png";
-            loading_icon = "<?php echo JURI::base(); ?>components/com_thm_organizer/css/images/ajax-loader.gif";
+            scheduler_icon = "<?php echo JURI::base(); ?>components/com_thm_curriculum/css/images/scheduler_1.png";
+            note_icon = "<?php echo JURI::base(); ?>components/com_thm_curriculum/css/images/info_1.png";
+            collab_icon = "<?php echo JURI::base(); ?>components/com_thm_curriculum/css/images/collab.png";
+            responsible_icon = "<?php echo JURI::base(); ?>components/com_thm_curriculum/css/images/user_1.png";
+            comp_pool_icon = "<?php echo JURI::base(); ?>components/com_thm_curriculum/css/images/comp_pool_icon.png";
+            place_holder_icon = "<?php echo JURI::base(); ?>components/com_thm_curriculum/css/images/icon_place_holder.png";
+            loading_icon = "<?php echo JURI::base(); ?>components/com_thm_curriculum/css/images/ajax-loader.gif";
 
 
             window.addEvent('domready',function(){
@@ -85,21 +85,35 @@ if (!isset($this->counter))
 </head>
 <body>
 
+	<?php
+		$page_heading = $this->escape($this->params->get('page_heading'));
+	?>
+
 	<span> <?php 
 	if ($this->params->get('show_page_heading', 1) && $this->params->get('plugin_mode', '0') != 1)
 	{
 		?>
 		<h1 class="componentheading">
-			<?php echo $this->escape($this->params->get('page_heading')); ?>
-		</h1> <?php 
+			<?php echo $page_heading; ?>
+		<?php 
 	}
 
 	if ($this->params->get('plugin_mode', '0') != 1)
 	{
-		?> <a class='flag' href="<?php echo JRoute::_($this->langUrl); ?>"><img
+		$flagClass = "flagWithTitle";
+		if(strlen($page_heading) == 0)
+		{
+			$flagClass = "flagWithoutTitle";
+		}
+		else
+		{
+			$flagClass = "flagWithTitle";
+		}
+		?> <a class='<?php echo $flagClass; ?>' href="<?php echo JRoute::_($this->langUrl); ?>"><img
 			alt="<?php echo $this->langLink; ?>"
-			src="components/com_thm_organizer/css/images/<?php echo $this->langLink; ?>.png" />
-	</a> <?php 
+			src="components/com_thm_curriculum/css/images/<?php echo $this->langLink; ?>.png" />
+		</a> 
+		</h1><?php 
 	}
 	?>
 	</span>
