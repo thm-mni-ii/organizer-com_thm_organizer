@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizersViewLecturers
- * @description THM_OrganizersViewLecturers component admin view
+ * @name		THM_OrganizerViewLecturers
+ * @description THM_OrganizerViewLecturers component admin view
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
- * Class THM_OrganizersViewLecturers for component com_thm_organizer
+ * Class THM_OrganizerViewLecturers for component com_thm_organizer
  *
  * Class provides methods to display the view lecturers
  *
@@ -27,7 +27,7 @@ jimport('joomla.application.component.view');
  * @link        www.mni.thm.de
  * @since       v1.5.0
  */
-class THM_OrganizersViewLecturers extends JView
+class THM_OrganizerViewLecturers extends JView
 {
 	/**
 	 * Method to get display
@@ -38,7 +38,7 @@ class THM_OrganizersViewLecturers extends JView
 	 */
 	public function display($tpl = null)
 	{
-		JToolBarHelper::title('THM CURRICULUM: Dozenten', 'generic.png');
+		JToolBarHelper::title(JText::_("COM_THM_ORGANIZER")  . ": " . JText::_("COM_THM_ORGANIZER_TRM_TITLE"), 'generic.png');
 
 		$this->items = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
@@ -55,7 +55,7 @@ class THM_OrganizersViewLecturers extends JView
 	 */
 	protected function addToolBar()
 	{
-		JToolBarHelper::title(JText::_('com_thm_organizer_SUBMENU_LECTURERS_TITLE'), 'generic.png');
+		JToolBarHelper::title(JText::_('COM_THM_ORGANIZER') . ': ' . JText::_('COM_THM_ORGANIZER_SUBMENU_LECTURERS_TITLE'), 'generic.png');
 
 		JToolBarHelper::addNew('lecturer.add', 'JTOOLBAR_NEW');
 		JToolBarHelper::editList('lecturer.edit', 'JTOOLBAR_EDIT');

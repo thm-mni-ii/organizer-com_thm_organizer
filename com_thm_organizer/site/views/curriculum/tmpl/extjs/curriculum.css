@@ -1,6 +1,15 @@
 .flag {
 	float: right;
-	margin-top: -45px;
+	margin-top: -30px;
+}
+
+.flagWithoutTitle {
+	float: right;
+	margin-top: -30px;
+}
+
+.flagWithTitle {
+	float: right;
 }
 
 .my-icon {

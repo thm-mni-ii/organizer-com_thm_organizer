@@ -24,7 +24,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * 
  * @since    2.5.4
  */
-class thm_organizersControllerschedule extends JController
+class THM_OrganizerControllerschedule extends JController
 {
     /**
      * Redirects to the semester edit view to upload a new schedule

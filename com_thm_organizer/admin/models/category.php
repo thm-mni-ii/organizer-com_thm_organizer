@@ -24,7 +24,7 @@ require_once JPATH_SITE . '/components/com_thm_organizer/models/events.php';
  * 
  * @since    2.5.4
  */
-class thm_organizersModelcategory extends JModel
+class THM_OrganizerModelcategory extends JModel
 {
     /**
      * saves the event category
@@ -75,7 +75,7 @@ class thm_organizersModelcategory extends JModel
             $eventIDs = $dbo->loadResultArray();
             if (count($eventIDs))
             {
-                $eventsModel = new THM_OrganizersModelevents;
+                $eventsModel = new THM_OrganizerModelevents;
                 foreach ($eventIDs as $eventID)
                 {
                     $success = $eventsModel->delete($eventID);

@@ -4,7 +4,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin.model
- * @name        THM_OrganizersModelVirtual_Schedule_Manager
+ * @name        THM_OrganizerModelVirtual_Schedule_Manager
  * @description Class to handle virtual schedules
  * @author      Wolf Rost, <Wolf.Rost@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 
 /**
- * Class THM_OrganizersModelVirtual_Schedule_Manager for component com_thm_organizer
+ * Class THM_OrganizerModelVirtual_Schedule_Manager for component com_thm_organizer
  *
  * Class provides methods display a list of virtual schedules and perform actions on them
  *
@@ -26,7 +26,7 @@ jimport('joomla.application.component.model');
  * @link        www.mni.thm.de
  * @since       v0.0.1
  */
-class THM_OrganizersModelVirtual_Schedule_Manager extends JModel
+class THM_OrganizerModelVirtual_Schedule_Manager extends JModel
 {
 	/**
 	 * Total records
@@ -112,7 +112,7 @@ class THM_OrganizersModelVirtual_Schedule_Manager extends JModel
 				' FROM #__thm_organizer_virtual_schedules' .
 				' INNER JOIN #__thm_organizer_virtual_schedules_elements' .
 				' ON #__thm_organizer_virtual_schedules.id = #__thm_organizer_virtual_schedules_elements.vid' .
-				' INNER JOIN #__thm_organizer_semesters' .
+				' INNER JOIN #__thm_organizer_curriculum_semesters' .
 				' ON #__thm_organizer_virtual_schedules.semesterID = #__thm_organizer_semesters.id' .
 				' INNER JOIN #__users' .
 				' ON #__thm_organizer_virtual_schedules.responsible = #__users.username' .

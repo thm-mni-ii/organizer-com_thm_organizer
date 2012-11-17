@@ -24,7 +24,7 @@ jimport('joomla.application.component.modeladmin');
  * 
  * @since    2.5.4
  */
-class thm_organizersModelmonitor_edit extends JModelAdmin
+class THM_OrganizerModelmonitor_edit extends JModelAdmin
 {
     public $behaviours = null;
 

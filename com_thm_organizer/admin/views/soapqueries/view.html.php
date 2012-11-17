@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizersViewSoapqueries
- * @description THM_OrganizersViewSoapqueries component admin view
+ * @name		THM_OrganizerViewSoapqueries
+ * @description THM_OrganizerViewSoapqueries component admin view
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
- * Class THM_OrganizersViewSoapqueries for component com_thm_organizer
+ * Class THM_OrganizerViewSoapqueries for component com_thm_organizer
  *
  * Class provides methods to display the view soap queries
  *
@@ -27,7 +27,7 @@ jimport('joomla.application.component.view');
  * @link        www.mni.thm.de
  * @since       v1.5.0
  */
-class THM_OrganizersViewSoapqueries extends JView
+class THM_OrganizerViewSoapqueries extends JView
 {
 	/**
 	 * Method to get display
@@ -38,7 +38,7 @@ class THM_OrganizersViewSoapqueries extends JView
 	 */
 	public function display($tpl = null)
 	{
-		JToolBarHelper::title(JText::_('com_thm_organizer_SUBMENU_SOAPQUERIES_TITLE'), 'generic.png');
+		JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_SUBMENU_SOAPQUERIES_TITLE'), 'generic.png');
 		JToolBarHelper::addNew('soapquery.add', 'JTOOLBAR_NEW');
 		JToolBarHelper::editList('soapquery.edit', 'JTOOLBAR_EDIT');
 		JToolBarHelper::deleteList('', 'soapquery.delete', 'JTOOLBAR_DELETE');

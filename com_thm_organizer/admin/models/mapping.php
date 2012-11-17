@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizersModelMapping
- * @description THM_OrganizersModelMapping component admin model
+ * @name		THM_OrganizerModelMapping
+ * @description THM_OrganizerModelMapping component admin model
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
 
 /**
- * Class THM_OrganizersModelMapping for component com_thm_organizer
+ * Class THM_OrganizerModelMapping for component com_thm_organizer
  *
  * Class provides methods to deal with mapping
  *
@@ -29,7 +29,7 @@ jimport('joomla.application.component.modeladmin');
  * @link        www.mni.thm.de
  * @since       v1.5.0
  */
-class THM_OrganizersModelMapping extends JModelAdmin
+class THM_OrganizerModelMapping extends JModelAdmin
 {
 	/**
 	 * Method to get the associated semester

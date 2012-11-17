@@ -24,7 +24,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * 
  * @since    2.5.4 
  */
-class thm_organizersModelschedule_edit extends JModelAdmin
+class THM_OrganizerModelschedule_edit extends JModelAdmin
 {
     /**
      * retrieves the jform object for this view

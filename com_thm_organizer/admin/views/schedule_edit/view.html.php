@@ -24,7 +24,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * 
  * @since    2.5.4 
  */
-class thm_organizersViewschedule_edit extends JView
+class THM_OrganizerViewschedule_edit extends JView
 {
     /**
      * loads persistent data into view context and intitiates functions for the

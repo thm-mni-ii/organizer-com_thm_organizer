@@ -23,7 +23,7 @@ jimport('joomla.application.component.table');
  * 
  * @since    2.5.4
  */
-class thm_organizerTableSchedules extends JTable
+class THM_OrganizerTableSchedules extends JTable
 {
     /**
      * Constructor function for the class representing the schedules table

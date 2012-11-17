@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizersModelMappings
- * @description THM_OrganizersModelMappings component admin model
+ * @name		THM_OrganizerModelMappings
+ * @description THM_OrganizerModelMappings component admin model
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modellist');
 
 /**
- * Class THM_OrganizersModelMappings for component com_thm_organizer
+ * Class THM_OrganizerModelMappings for component com_thm_organizer
  *
  * Class provides methods to deal with mappings
  *
@@ -27,7 +27,7 @@ jimport('joomla.application.component.modellist');
  * @link        www.mni.thm.de
  * @since       v1.5.0
  */
-class THM_OrganizersModelMappings extends JModelList
+class THM_OrganizerModelMappings extends JModelList
 {
 	/**
 	 * Database
@@ -108,12 +108,12 @@ class THM_OrganizersModelMappings extends JModelList
 				#__thm_organizer_assets_tree.menu_link as menu_link_instance,
 				#__thm_organizer_assets.color_id as color_id_object");
 		$query->select("#__thm_organizer_assets_tree.id as asset_id");
-		$query->select("#__thm_organizer_semesters.name as semester_name");
+		$query->select("#__thm_organizer_curriculum_semesters.name as semester_name");
 
 		$query->select("#__thm_organizer_asset_types.name as asset_type");
 		$query->select("count(*) as count");
 		$query->from('#__thm_organizer_semesters_majors');
-		$query->join('inner', '#__thm_organizer_semesters ON #__thm_organizer_semesters_majors.semester_id = #__thm_organizer_semesters.id');
+		$query->join('inner', '#__thm_organizer_curriculum_semesters ON #__thm_organizer_semesters_majors.semester_id = #__thm_organizer_curriculum_semesters.id');
 		$query->join('inner', '#__thm_organizer_assets_semesters ' .
 				'ON #__thm_organizer_semesters_majors.id = #__thm_organizer_assets_semesters.semesters_majors_id');
 		$query->join('inner', '#__thm_organizer_assets_tree ' .
@@ -159,7 +159,7 @@ class THM_OrganizersModelMappings extends JModelList
 		}
 
 		$query->order($db->getEscaped($orderCol . ' ' . $orderDirn));
-
+		
 		return $query;
 	}
 
@@ -223,7 +223,7 @@ class THM_OrganizersModelMappings extends JModelList
 	public function getItems()
 	{
 		$items = parent::getItems();
-
+		
 		// Establish the hierarchy of the menu
 		$children = array();
 
@@ -270,7 +270,7 @@ class THM_OrganizersModelMappings extends JModelList
 						'ON assets_semesters.assets_tree_id = assets_tree.id');
 				$query->join('inner', '#__thm_organizer_semesters_majors as semesters_majors ' .
 						'ON assets_semesters.semesters_majors_id = semesters_majors.id');
-				$query->join('inner', '#__thm_organizer_semesters as semesters ON semesters.id = semesters_majors.semester_id');
+				$query->join('inner', '#__thm_organizer_curriculum_semesters as semesters ON semesters.id = semesters_majors.semester_id');
 				$query->where("semesters_majors.major_id = $id");
 				$query->where("asset = $row->asset");
 				$db->setQuery($query);
@@ -301,7 +301,7 @@ class THM_OrganizersModelMappings extends JModelList
 				}
 			}
 		}
-
+		
 		return $items;
 	}
 

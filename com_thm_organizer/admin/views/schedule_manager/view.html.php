@@ -24,7 +24,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * 
  * @since    2.5.4 
  */
-class thm_organizersViewschedule_manager extends JView
+class THM_OrganizerViewschedule_manager extends JView
 {
     /**
      * jpagination object holding data relevant to the number of results to be

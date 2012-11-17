@@ -4,8 +4,8 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizersViewMappings
- * @description THM_OrganizersViewMappings component admin view
+ * @name		THM_OrganizerViewMappings
+ * @description THM_OrganizerViewMappings component admin view
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
- * Class THM_OrganizersViewMappings for component com_thm_organizer
+ * Class THM_OrganizerViewMappings for component com_thm_organizer
  *
  * Class provides methods to display the view mappings
  *
@@ -27,7 +27,7 @@ jimport('joomla.application.component.view');
  * @link        www.mni.thm.de
  * @since       v1.5.0
  */
-class THM_OrganizersViewMappings extends JView
+class THM_OrganizerViewMappings extends JView
 {
 	/**
 	 * Method to get display
@@ -83,7 +83,7 @@ class THM_OrganizersViewMappings extends JView
 		$curr_name = $title['abschluss'] . ' ' . $title['fach'] . ' (' . $title['po'] . ')';
 		JToolBarHelper::title(JText::_("com_thm_organizer_SUBMENU_CURRICULUM_TITLE") . $curr_name, 'generic.png');
 		JToolBarHelper::addNew('mapping.add', 'JTOOLBAR_NEW');
-		JToolBarHelper::addNew('dummy_mapping.add', 'com_thm_organizer_INSERT_PLACEHOLDER_MAPPING');
+		//JToolBarHelper::addNew('dummy_mapping.add', 'com_thm_organizer_INSERT_PLACEHOLDER_MAPPING');
 		JToolBarHelper::addNew('fillpool.add', 'AutoFill');
 		JToolBarHelper::editList('mapping.edit', 'JTOOLBAR_EDIT');
 		JToolBarHelper::custom(

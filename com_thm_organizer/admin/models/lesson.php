@@ -23,7 +23,7 @@ require_once JPATH_COMPONENT . '/models/resource.php';
  * 
  * @since    2.5.4 
  */
-class thm_organizersModellesson extends thm_organizersModelresource
+class THM_OrganizerModellesson extends THM_OrganizerModelresource
 {
     /**
      * checks whether the parent node is empty and iterates over its childeren
