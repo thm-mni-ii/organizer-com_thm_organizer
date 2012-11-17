@@ -159,6 +159,11 @@ customHeadersFooters
 \filename_suffix 0
 \color #faf0e6
 \end_branch
+\branch Sources
+\selected 1
+\filename_suffix 0
+\color #faf0e6
+\end_branch
 \index Index
 \shortcut idx
 \color #008000
@@ -215,6 +220,12 @@ height_special "totalheight"
 status open
 
 \begin_layout Plain Layout
+\begin_inset Graphics
+	filename THM_Logo_4c.jpg
+	scale 10
+
+\end_inset
+
 
 \end_layout
 
@@ -239,11 +250,15 @@ baselineskip}
 \begin_inset Newline newline
 \end_inset
 
-Central Hesse University of Applied Science 
+Central Hesse University of Applied Science
 \begin_inset Newline newline
 \end_inset
 
-Department for Mathematics, Natural and Information Sciences
+Department for Mathematics,
+\begin_inset Newline newline
+\end_inset
+
+ Natural and Information Sciences
 \begin_inset Newline newline
 \end_inset
 
@@ -255,28 +270,6 @@ webMedia Research Group
 \end_layout
 
 \begin_layout Lowertitleback
-
-\series bold
-Dean
-\series default
-
-\begin_inset VSpace smallskip
-\end_inset
-
-
-\begin_inset Newline newline
-\end_inset
-
-Prof.
- Dr.
- xxx yyy
-\begin_inset VSpace bigskip
-\end_inset
-
-
-\begin_inset Newline newline
-\end_inset
-
 
 \series bold
 Referees
@@ -319,11 +312,60 @@ Date of the graduation
 \begin_inset Newline newline
 \end_inset
 
-October, xx 2012
+November 30, 2012
 \end_layout
 
 \begin_layout Dedication
-Dedication, cite from a famous person, or whatever you like (optional)
+CHREMYLOS: There is too much of everything.
+ Of love,
+\begin_inset Newline newline
+\end_inset
+
+ KARION: Bread,
+\begin_inset Newline newline
+\end_inset
+
+ CHREMYLOS: Songs,
+\begin_inset Newline newline
+\end_inset
+
+ KARION: And sweetmeats.
+\begin_inset Newline newline
+\end_inset
+
+ CHREMYLOS: Of honour,
+\begin_inset Newline newline
+\end_inset
+
+ KARION: Cakes,
+\begin_inset Newline newline
+\end_inset
+
+ CHREMYLOS: Courage,
+\begin_inset Newline newline
+\end_inset
+
+ KARION: And Figs.
+\begin_inset Newline newline
+\end_inset
+
+ CHREMYLOS: Of ambition,
+\begin_inset Newline newline
+\end_inset
+
+ KARION: Barley bread,
+\begin_inset Newline newline
+\end_inset
+
+ CHREMYLOS: High office,
+\begin_inset Newline newline
+\end_inset
+
+ KARION: And lentils.
+\begin_inset Newline newline
+\end_inset
+
+ -Aristophanes
 \end_layout
 
 \begin_layout Standard
@@ -794,6 +836,25 @@ status open
 
 \begin_layout Plain Layout
 Appendix is of course optional
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Branch Sources
+status open
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
+filename "Sources.lyx"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset

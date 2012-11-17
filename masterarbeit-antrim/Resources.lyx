@@ -327,10 +327,18 @@ name "Administrative Resources"
 When a user opens Untis 2013 using the multiuser the first things he will
  be confronted with are the log-in dialogue and the resources associated
  with it.
- These resources, 'school', 'school year' and version, are largely administrativ
-e resources and exist solely to restrict the amount of information available
- for schedule coordinators to the amount directly necessary to the scheduling
- process and to uniquely identify the schedules they have created.
+ These resources, school
+\shape slanted
+ <<Schule>>
+\shape default
+, school year 
+\shape slanted
+<<Schuljahr>>
+\shape default
+ and version, are largely administrative resources and exist solely to restrict
+ the amount of information available for schedule coordinators to the amount
+ directly necessary to the scheduling process and to uniquely identify the
+ schedules they have created.
 \end_layout
 
 \begin_layout Standard
@@ -766,7 +774,7 @@ Modeling
 \begin_layout Standard
 Unfortunately the Untis 'school year' is defined only by its name, and,
  in turn, only serves to name a group of schedules.
- The 'school year' stands in no causal relation to the actual dates of the
+ The school year stands in no causal relation to the actual dates of the
  school year used within the schedule which are input using a completely
  different user interface.
  It also stands without causal relation to any subordinate planning period.
@@ -1145,7 +1153,7 @@ Untis offers the resource teacher which are capable of modeling all required
 placement h
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \noindent
@@ -1180,7 +1188,11 @@ Teachers Dialogue
 \end_layout
 
 \begin_layout Standard
-The simple teacher dialogue is displayed in figure 2.3 
+The simple teacher 
+\shape slanted
+<<Dozent>>
+\shape default
+ dialogue is displayed in figure 2.3 
 \begin_inset CommandInset ref
 LatexCommand vpageref
 reference "fig:Teachers-View"
@@ -1190,10 +1202,19 @@ reference "fig:Teachers-View"
 .
  This dialogue shows how the required attributes with exception of departments
  have been modeled onto attributes available to Untis.
- While fields like first and last name fields are self explanatory, and
- the personnel number field can easily be explained as holding the teacher's
- 'hg' number.
+ While fields like first and last name fields
+\shape slanted
+<<Vorname/Nachname>>
+\shape default
+ are self explanatory, and the personnel number
+\shape slanted
+<<Pers.Nr.>>
+\shape default
+ field can easily be explained as holding the teacher's 'hg' number.
  Other fields such as name (short name), external name, and description
+\shape slanted
+<<Beschr.>>
+\shape default
  need a bit more explanation.
 \end_layout
 
@@ -1229,7 +1250,7 @@ ce*/ Teachers are a problem in this area as often details such as first
  be discussed in detail in Data Propogation 
 \begin_inset CommandInset ref
 LatexCommand vpageref
-reference "Data Propogation"
+reference "Data Propagation"
 
 \end_inset
 
@@ -1414,8 +1435,12 @@ Modeling
 \end_layout
 
 \begin_layout Standard
-The room resource is offered in Untis, and most of the required attributes
- are existent in some form or another.
+The room 
+\shape slanted
+<<Raum>>
+\shape default
+ resource is offered in Untis, and most of the required attributes are existent
+ in some form or another.
 \end_layout
 
 \begin_layout Standard
@@ -1465,9 +1490,13 @@ reference "fig:Rooms-View"
 
 \end_inset
 
- we again see the Untis fields name(short name) and external name.
+ we again see the Untis fields name (short name) and external name.
  With rooms as well as every resource other than teachers we also see the
- field long name.
+ field long name
+\shape slanted
+ <<Langname>>
+\shape default
+.
  As with teachers the name and external names are unique, human-readable
  keys, with the name being for department internal use, with the external
  name for interdepartmental use.
@@ -1502,6 +1531,9 @@ Both the building and the floor attribute are not available in Untis.
 
 \begin_layout Standard
 The room type could be relatively comfortably input into the room's description
+\shape slanted
+<<Beschr.>>
+\shape default
  field.
  More on room types 
 \begin_inset CommandInset ref
@@ -1514,7 +1546,11 @@ reference "Room Types and Groups"
 \end_layout
 
 \begin_layout Standard
-The room equipment was modeled using the Untis statistics field.
+The room equipment was modeled using the Untis statistics 
+\shape slanted
+<<Statistik>>
+\shape default
+ field.
  This allowed for the comma separated input of single character abbreviations
  for room equipment similar to the way in which the same information was
  previously stored within the Excel sheets of FM.
@@ -1526,11 +1562,15 @@ The room equipment was modeled using the Untis statistics field.
 \end_layout
 
 \begin_layout Standard
-The capacity is a standard room attribute in Untis and was easily modeled.
+The capacity
+\shape slanted
+ <<Kapaz.>>
+\shape default
+ is a standard room attribute in Untis and was easily modeled.
 \end_layout
 
 \begin_layout Subsection
-Subjects
+Subjects & Modules
 \end_layout
 
 \begin_layout Standard
@@ -1551,6 +1591,15 @@ g institutions.
  In the description only the subject number, effort, preliminary work and
  proof of proficiency will be discussed as their explanations are to cumbersome
  to fit comfortably in the attributes table.
+\end_layout
+
+\begin_layout Standard
+A module is a very small group of subjects which together form a learning
+ unit whose definition would be exactly the same as that of a subject, with
+ the exception that it can take several subjects to take up the somewhat
+ wider palate of themes associated with the word module.
+ Since the typical module size at the THM is exactly one subject modules
+ hereafter receive no mention due to their negligible importance.
 \end_layout
 
 \begin_layout Standard
@@ -1891,7 +1940,7 @@ Modeling
 placement h
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \noindent
@@ -1926,8 +1975,12 @@ Subjects Dialogue
 \end_layout
 
 \begin_layout Standard
-The modeling of subjects in Untis is somewhat rudimentary, restricted almost
- to the bare minimum of that which is required for the scheduling process.
+The modeling of subjects 
+\shape slanted
+<<Fächer>>
+\shape default
+ in Untis is somewhat rudimentary, restricted almost to the bare minimum
+ of that which is required for the scheduling process.
  As seen in figure 2.5 
 \begin_inset CommandInset ref
 LatexCommand vpageref
@@ -1936,9 +1989,13 @@ reference "fig:Subjects-View"
 \end_inset
 
  the modeled attributes had to be restricted to four.
- The name and long name have a special place within the THM as often times
- the name as seen here is the colloquial name more often used, with the
- long name being the official name of the subject.
+ The name and long name 
+\shape slanted
+<<Langname>>
+\shape default
+ have a special place within the THM as often times the name as seen here
+ is the colloquial name more often used, with the long name being the official
+ name of the subject.
 \end_layout
 
 \begin_layout Standard
@@ -1954,8 +2011,11 @@ Unlike teachers and rooms the field external name does not exist for this
 \end_layout
 
 \begin_layout Standard
-The subject number is a unique identifier within a department's curriculum
- catalog.
+The subject number 
+\shape slanted
+<<Text>>
+\shape default
+ is a unique identifier within a department's curriculum catalog.
  Although differing in format in between departments it is currently used
  to retrieve information from the LSF information system which has been
  modified to accept all of the attributes listed above and many more.
@@ -1965,8 +2025,11 @@ The subject number is a unique identifier within a department's curriculum
 \end_layout
 
 \begin_layout Standard
-The description field has been used to hold the field attribute not mentioned
- above.
+The description 
+\shape slanted
+<<Beschr.>>
+\shape default
+ field has been used to hold the field attribute not mentioned above.
  More on fields in the subsection about them 
 \begin_inset CommandInset ref
 LatexCommand vpageref
@@ -1996,6 +2059,10 @@ name "Descriptions"
 Untis does not have a description or categorization resource unique to any
  resource type.
  Instead they offer a special resource type which they call descriptions
+ 
+\shape slanted
+<<Beschreibungen>>
+\shape default
  which can be used on rooms, teachers, subjects, and subject pools.
 \end_layout
 
@@ -2040,6 +2107,10 @@ Descriptions Dialogue
 
 \begin_layout Standard
 In the current version of Untis, associating a description with a resource
+ 
+\shape slanted
+<<Art>>
+\shape default
  can only occur when while editing a resource of a particular type the descripti
 on is typed in or selected.
  This is somewhat inefficient as it requires that either the description
@@ -2194,7 +2265,11 @@ Modeling room types in Untis occurs in the two methods mentioned in the
 
 \begin_layout Standard
 In order to identify room types as such both within and without Untis, the
- Untis Statistics field was used to hold the letter 'r'.
+ Untis Statistics 
+\shape slanted
+<<Statistik>>
+\shape default
+ field was used to hold the letter 'r'.
  Within Untis, this enables schedule coordinators to use the Untis filter
  tool to sort out any descriptions which do not have an 'r' in the statistics
  column so as to make sure the list of room descriptions is complete and
@@ -2254,8 +2329,14 @@ Room Groups Dialogue
 The modeling of room groups is one of the more convenient features of Untis.
  This allows several rooms to be aggregated according to one defining feature,
  or even single rooms to be named according to that defining feature.
- In figure 2.7, we can see several groups defined using the rooms of the
- THM.
+ In figure 2.7 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "fig:blah"
+
+\end_inset
+
+, we can see several groups defined using the rooms of the THM.
  The group PC Lab for example has the five general purpose computer laboratories
  of building A20.
  The group robotic laboratory and sun laboratory each only have one room,
@@ -2374,8 +2455,11 @@ Modeling
 \begin_layout Standard
 As with room types and fields this has been modeled against the Untis descriptio
 n resource, which can only model two similar attributes.
- Additionally lesson types have 'u' input in the Untis statistic field because
- of the type selection weakness previously discussed.
+ Additionally lesson types have 'u' input in the Untis statistic 
+\shape slanted
+<<Statistik>>
+\shape default
+ field because of the type selection weakness previously discussed.
 \end_layout
 
 \begin_layout Standard
@@ -2569,8 +2653,12 @@ The first and most pertinent is the matter of visibility.
  in the list output.
  This information is also output to Untis XML export which we use for the
  further processing of information.
- Teachers, however, only display this information in a particular tab of
- the expanded teacher information as seen in figure 2.8 
+ Teachers, however, only display this information in the teacher abilities
+ 
+\shape slanted
+<<Lehrbefähig.>>
+\shape default
+ tab of the expanded teacher information as seen in figure 2.8 
 \begin_inset CommandInset ref
 LatexCommand vpageref
 reference "fig:Teacher Field Dialogue"
@@ -2586,6 +2674,15 @@ reference "fig:Teachers-View"
 \end_inset
 
  nor is it output to the Untis XML export.
+ The button teacher abilities from lesson 
+\shape slanted
+<<Lehrbef.
+ aus Unterricht>>
+\shape default
+ calculates the teacher's fields on-hand the lessons with which they are
+ already associated as explained in the previous paragraph.
+ When activated this gives the option of entering the subjects, the fields,
+ or both in the table on the lower left side.
 \end_layout
 
 \begin_layout Standard
@@ -2610,7 +2707,7 @@ Another disadvantage is the lack of direct resource management.
 placement h
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \noindent
@@ -2667,8 +2764,8 @@ ional purposes based upon a many distinct criteria.
 \end_layout
 
 \begin_layout Standard
-The largest subject pools are a mirror of the accredited course of studies
- (CoS
+The largest subject pools are a mirror of the accredited curriculum or course
+ of studies (CoS
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
 symbol "CoS"
@@ -2893,7 +2990,7 @@ Untis Modeling
 placement h
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \noindent
@@ -2928,9 +3025,12 @@ Subject Pools View
 \end_layout
 
 \begin_layout Standard
-Out-of-the-box Untis software refers to this resource as a 'class' or 'subclass'
- stemming from its initial development as a software designed for grade
- schools.
+Out-of-the-box Untis software refers to this resource as a class 
+\shape slanted
+<<Klasse>>
+\shape default
+ or subclass, in the Untis manuals, stemming from its initial development
+ as a software designed for grade schools.
  While not far off the mark this name fails to convey the granularity of
  the second and third criteria for subsetting.
 \end_layout
@@ -2939,7 +3039,11 @@ Out-of-the-box Untis software refers to this resource as a 'class' or 'subclass'
 This resource is capable of modeling solely the name of the attribute without
  problems.
  Like all Untis resources, subject pools can have both a name and a long
- name.
+ name
+\shape slanted
+<<Langname>>
+\shape default
+.
  The name here is a short code indicating the CoS and its subsetting via
  the use of a period.
  In figure 2.9 
@@ -2964,14 +3068,26 @@ ts.
 \begin_layout Standard
 The other information actually required has had to be modeled using Untis
  fields which are either under-implemented or unfitting.
- The CoS has been modeled here onto the department and schedule fields.
+ The CoS has been modeled here onto the department 
+\shape slanted
+<<Abt.>>
+\shape default
+and schedule 
+\shape slanted
+<<St.Tafel>>
+\shape default
+fields.
  The department field was used was used predominantly so that the subject
  pools could be both conveniently filtered according to the CoS and also
  that the CoS of a subject pool could be exported.
  Regarding the schedule field, it cannot be resolved to a text explaining
  what is meant nor is it outputted to the XML.
- The level column seems like an ideal place to store the semester criteria
- which is for the most part incremental and therefore roughly fitting.
+ The level 
+\shape slanted
+<<Stufe>>
+\shape default
+ column seems like an ideal place to store the semester criteria which is
+ for the most part incremental and therefore roughly fitting.
  This field is output to the XML export, however has an enormous disadvantage
  in that the number of character values recorded has a maximal value of
  20.
@@ -3004,15 +3120,22 @@ reference "Lessons"
 \end_layout
 
 \begin_layout Standard
-The description field contains values equivalent to those of teachers and
- subjects.
+The description 
+\shape slanted
+<<Beschr.>>
+\shape default
+ field contains values equivalent to those of teachers and subjects.
  This information is nice to have but without the granularity of actual
  subjects not of any value to the planning process.
 \end_layout
 
 \begin_layout Standard
-The originating school field seems like it would be a good method of description
- for the management of resources in general.
+The originating school 
+\shape slanted
+<<Stammschule>>
+\shape default
+ field seems like it would be a good method of description for the management
+ of resources in general.
  From the name alone it would seem to convey a sense of responsibility for
  the associated resources.
  This is however not the case.
@@ -3163,7 +3286,7 @@ Untis Modeling
 placement h
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \noindent
@@ -3203,7 +3326,7 @@ Planning Period Dialogue
 
 \begin_layout Standard
 Both semesters and the academic year were implemented as the Untis resource
- 'Period', not to be confused with the, in Untis nameless, lesson periods
+ Period, not to be confused with the, in Untis nameless, lesson periods
  discussed in the next subsection.
  Untis periods require both identity and length, are disjunct planning periods,
  and are hierarchically structured which makes them an almost optimal resource
@@ -3242,8 +3365,11 @@ Most importantly the propagation and validity of information is very strongly
  The propagation of changes from subordinate planning periods to parent
  elements is not offered, nor is the propagation to chronologically sequential
  periods at the same or subordinate hierarchical levels.
- The propagation of subordinate elements into the parent element as far
- as lessons are concerned would seem like it should occur automatically
+ The propagation of subordinate elements into the parent element 
+\shape slanted
+<<Mutter-Per.>>
+\shape default
+as far as lessons are concerned would seem like it should occur automatically
  since the subordinate planning periods take place within the temporal boundarie
 s set by the parent element.
  Unfortunately not only are they not propagated int that direction, these
@@ -3329,7 +3455,7 @@ Untis has a resource designed specifically for this purpose.
 placement h
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \noindent
@@ -3364,14 +3490,30 @@ Periods View
 \end_layout
 
 \begin_layout Standard
-The schedule coordinator inputs the number of days upon which lessons occur
- and the number of lessons per day.
+The schedule coordinator inputs the number of days 
+\shape slanted
+<<Anzahl Tage>>
+\shape default
+ upon which lessons occur and the number of lessons per day
+\shape slanted
+<<Maximale Stundenzahl je Tag>>
+\shape default
+.
  This creates a grid of with a number of blocks corresponding to the days
  times the number of blocks.
  This rule-of-thumb handling at the THM leads to three fictitious lesson
  periods occurring Saturday afternoon.
  The schedule coordinator further sets upon which day the school week begins
- and with what integer value the numbering of lesson periods should begin.
+ 
+\shape slanted
+<<Erster Schultag der Woche>>
+\shape default
+ and with what integer value the numbering of lesson periods should begin
+ 
+\shape slanted
+<<Stundennummer der ersten Stunde des Tages>>
+\shape default
+.
  Lesson period start and end times must then be individually entered for
  each block.
  Lesson periods can also be marked as occurring during the morning or afternoon.
@@ -3745,7 +3887,11 @@ reference "fig:Teacher and Subject Pool Planning Priorities"
 
 \end_inset
 
- displays the planning priorities of one of the teachers at the THM.
+ displays the planning priorities 
+\shape slanted
+<<Zeitwünsche>>
+\shape default
+ of one of the teachers at the THM.
  As we can see in the illustration there are multiple ways to assign planning
  priorities by lesson period, weekday, mornings, or evenings.
  Entering a value in a larger block of time overwrites the subordinate units
@@ -3759,7 +3905,7 @@ reference "fig:Teacher and Subject Pool Planning Priorities"
  The Untis developers suggest that whenever possible to use an aggregate
  such as day, morning, or afternoon to assign planning priorities to lesson
  units for performance reasons.
- /*get quote from Mr Gruber*/
+ /*source*/
 \end_layout
 
 \begin_layout Standard
@@ -4476,34 +4622,55 @@ The name if there were to be one, would be inherited from the subject or
  are separated by a comma.
  .
  This guarantees standardized output within and without Untis.
- Both rooms / room groups and subject groups are handled in the exact same
- way.
+ Both rooms / room groups 
+\shape slanted
+<<Fachraum>>
+\shape default
+ and subject groups 
+\shape slanted
+<<Klasse(n)>>
+\shape default
+ are handled in the exact same way.
  Should a coupling row be added for a teacher, the scheduling coordinator
  should copy the values of the initial row for subjects, rooms and subject
- groups, then paste thm into the appropriate columns of the other rows of
- the lesson.
+ groups, then paste them into the appropriate columns of the other rows
+ of the lesson.
 \end_layout
 
 \begin_layout Standard
-The department or CoS value is inherited from the first subject group in
- the list of subject groups.
+The department 
+\shape slanted
+<<Abteilung>>
+\shape default
+ or CoS value is inherited from the first subject group in the list of subject
+ groups.
  Unfortunately this makes this value worthless as it then disregards all
  others and is not editable.
 \end_layout
 
 \begin_layout Standard
-The field column is inherited from the subject, and while it is consequently
- accurate it is also superfluous information because it is an inherited
- attribute.
+The field 
+\shape slanted
+<<Fachgruppe>>
+\shape default
+ column is inherited from the subject, and while it is consequently accurate
+ it is also superfluous information because it is an inherited attribute.
 \end_layout
 
 \begin_layout Standard
-The subject group collison value represents the allowed or desired collision
- behaviour of a particular lesson in respect to the other lessons of its
- subject group.
- The empty value indicates that a collison should not be allowed.
+The subject group
+\shape slanted
+ 
+\shape default
+collision 
+\shape slanted
+<<Klassen Kollisionskennzeichen (KKK)>>
+\shape default
+ value represents the allowed or desired collision behavior of a particular
+ lesson in respect to the other lessons of its subject group.
+ The empty value indicates that a collision should not be allowed.
  Alphabetic values indicate that lessons with the same value should be planned
- collison free, differing values indicate that a collision has no effect
+ collision free, differing values indicate that a collision has no effect
  on the planning process.
  While not seen here this field can also carry numeric values.
  Numerical values operate on the opposite principle, namely that lessons
@@ -4512,8 +4679,11 @@ The subject group collison value represents the allowed or desired collision
 \end_layout
 
 \begin_layout Standard
-The lesson group indicates which lesson group defines the lesson's temporal
- behaviour.
+The lesson group 
+\shape slanted
+<<Akt.U-Gruppe>>
+\shape default
+ indicates which lesson group defines the lesson's temporal behavior.
  In figure 2.16 
 \begin_inset CommandInset ref
 LatexCommand vpageref
@@ -4526,10 +4696,21 @@ reference "fig:Lessons-Dialogue"
 \end_layout
 
 \begin_layout Standard
-Lastly and most important the quantity of blocks per week or year are entered
- in the appropriate columns in the list.
+Lastly and most important the quantity of blocks per week 
+\shape slanted
+<<Wst>>
+\shape default
+ or year 
+\shape slanted
+<<Jst>>
+\shape default
+are entered in the appropriate columns in the list.
  Before the actual planning is completed a number representing the number
- of unplanned lesson blocks will also be displayed.
+ of unplanned lesson blocks will also be displayed
+\shape slanted
+ <<Nvpl>>
+\shape default
+.
 \end_layout
 
 \begin_layout Standard

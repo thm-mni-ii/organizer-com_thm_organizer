@@ -274,155 +274,180 @@ thepage
 \end_layout
 
 \begin_layout Chapter
-Technical Realization
+E-Mail
 \end_layout
 
 \begin_layout Section
-Untis 2013
-\end_layout
-
-\begin_layout Subsection
-Taxonomical and Data Input Changes
+Peter Kneisel
 \end_layout
 
 \begin_layout Standard
-Multiuser Untis 2013 opened up many new possibilites and many consequences
- as a result of modeling the departments as schools.
-\end_layout
-
-\begin_layout Minisec
-Departments and Competence Centers
+Professor Doctor Peter Kneisel is the Vice Dean for department MNI.
+ He along with Oliver Christ were responsible for the organization and provided
+ the impetus for the installation of Untis 2013.
 \end_layout
 
 \begin_layout Standard
-The actual Untis departements resource had up until this point been used
- for institutions, campuses, departments, and subdepartments/competence
- centers.
- These were hierarchially constructed and could correctly relate any resource
- to its responsible organization.
- For example a subject marked as 
-\begin_inset Quotes eld
-\end_inset
-
-THM, GI, MNI, BI
-\begin_inset Quotes erd
-\end_inset
-
- would have been responsibility of the members of the competence center
- for biological information science.
-\end_layout
-
-\begin_layout Standard
-However due to the modeling of departments as Untis schools this relation
- had to be mapped to multiple different places.
- The institution could not be directly modeled as there is no administrative
- tool within Untis superior to its schools.
- This did not have significant consequences almost all resources within
- the THM's resource management systems obviously belong to it.
- External resources could solely no longer be directly recognizable as such,
- especially since THM internal resources which 
-\end_layout
-
-\begin_layout Subsection
-Structural Changes to the XML Export
-\end_layout
-
-\begin_layout Standard
-During the development of the Untis program as used within the scope of
- this thesis 
-\end_layout
-
-\begin_layout Section
-THM Organizer
-\end_layout
-
-\begin_layout Standard
-The existing workflow of the THM Organizer Component in regards to schedules
- started with the export of a schedule from the Untis system.
- The inital hope with the acquisition of Untis 2013 for the THM was that
- direct management of existing resources would be made possible.
- This would have eliminated data inconsistency not only between Untis and
- external systems, but also enabled external data propogation and management
- within the Untis system.
- As a practical example it would have enabled teacher first names and personel
- numbers to be directly propogated through the Untis database tables so
- that all scheduling coordinators were on the same stand.
-\end_layout
-
-\begin_layout Standard
-Sadly the tables used by the Untis system are still in a state of transition
- and the Untis representatives strongly recommended that this approach be
- avoided, not only for data creation adn manipulation, but also for read
- access.
- Instead recommending that we rely on the data exported through the XML
- export.
- Although less than optimal and a great disappointment after the initail
- high hopes for clean data, it was conceded that this would continue to
- be the startpoint for the schedule workflows within the THM Organizer component
- for the forseeable future.
-\end_layout
-
-\begin_layout Subsection
-Validation
-\begin_inset CommandInset label
-LatexCommand label
-name "Validation"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Validation plays an important role in the workflow envisioned for THM Organizer.
- It checks for data completeness and that all fields 
-\end_layout
-
-\begin_layout Subsection
-Version Management and Persistence
-\begin_inset CommandInset label
-LatexCommand label
-name "Version Management and Persistence"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-In previous versions of THM Organizer the contents of the XML files were
- made persistent as individual table entries.
- The schedule data and resources were stored in their own respective tables
+The following is the original German content of an E-Mail written by Prof.
+ Dr.
+ Kneisel on the 13th of November, 2012 and was used extensively in Motivation
  
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "Motivation"
+
+\end_inset
+
+:
 \end_layout
 
 \begin_layout Standard
-json
+Unsere Hochschule hat sich in den letzten 10 Jahren wesentlich weiterentwickelt:
+\end_layout
+
+\begin_layout Itemize
+Die Studierendenzahl ist von von unter 10000 auf über 14000 Studierende
+ gestiegen.
+\end_layout
+
+\begin_layout Itemize
+Neue Standorte in ganz Hessen wurden erschlossen - mit Wetzlar ein Standort
+ mit über 1000 Studierenden.
+\end_layout
+
+\begin_layout Itemize
+Neben der Lehre ist als zweites und drittes Standbein die Forschung und
+ die Weiterbildung hinzugekommen
+\end_layout
+
+\begin_layout Itemize
+Alle Studiengänge haben auf Bachelor/Master umgestellt.
+ • Mit über 50 Studiengängen hat sich die Anzahl der Studiengänge fast verdoppel
+t.
+\end_layout
+
+\begin_layout Itemize
+Mit Studium+ ist ein eigener berufsbegleitendes Lehrkonzept mit mittlerweile
+ über 1000 Studierenden entstanden.
 \end_layout
 
 \begin_layout Standard
-something
+Tatsächlich ist in den letzten zehn Jahren keine Stein auf dem anderen geblieben.
+ Allein - unsere Systemlandschaft ist nicht mitgewachsen:
+\end_layout
+
+\begin_layout Itemize
+Die Studierendenverwaltung wird im HIS-SOS-System umgesetzt.
+\end_layout
+
+\begin_layout Itemize
+Die Notenverwaltung findet in den meisten Fachbereichen (außer MNI) in HIS-POS
+ statt.
+\end_layout
+
+\begin_layout Itemize
+Die Verwaltung von Modulen findet entweder gar nicht oder unvollständig
+ in HIS-LSF statt
+\end_layout
+
+\begin_layout Itemize
+Die ECollaborations-Funktionalität wird in eStudy und - jetzt - in Moodle
+ abgebildet
+\end_layout
+
+\begin_layout Itemize
+Die Stundenplanung erfolgt in den unterschiedlichsten Systemen, eines davon
+ ist Untis.
+\end_layout
+
+\begin_layout Itemize
+Die Intranet-Funktionalität ist auf die vielfältigen Websites der Fachbereiche
+ und der eGroupware der Verwaltung verteilt
+\end_layout
+
+\begin_layout Itemize
+Die Internet-Funktionalität ist mit unterschiedlichen Techniken auf die
+ dezentralen und zentralen Organisationen verteilt
+\end_layout
+
+\begin_layout Itemize
+daneben gibt es noch weitere dezentrale Systeme für die Biblithek, Raumverwaltun
+g, Dokumentenverwaltung, ...
 \end_layout
 
 \begin_layout Standard
-spent
+HIS, als ein großes, zentrales System ist veraltetet und soll 2014 abgelöst
+ werden.
+ Ein zentrales Campus-Mangement-System ist als Ersatz geplant, wird aber
+ die vielfältigen Anforderungen aller benötigten Funktionen nicht vollständig
+ erfüllen können.
+ Wir benötigen also eine Systemlandschaft, in der möglichst viele Funktionalität
+en sinnvoll zusammengefasst werden und dort, wo das nicht möglich ist, sauber
+ Schnittstellen entwickelt werden.
 \end_layout
 
-\begin_layout Subsection
-Data Retrieval
+\begin_layout Standard
+Diese Herausforderung sind wir in den vergangenen Jahren mit dem iCampus-Projekt
+ angegangen und so hat sich zwischenzeitlich aus den vielen unterschiedlichen
+ Systemen, die sich, oft mit jeweils denselben, Funtkionalitäten parallel
+ entwickelt haben, ein zwar hetereogenes aber doch (weitgehend) einheitliche
+ Systemlandschaft entwickelt:
+\end_layout
+
+\begin_layout Itemize
+Die Studierenden- und Notenverwaltung wird nach wie vor in den HIS-Systemen
+ vorgenommen
+\end_layout
+
+\begin_layout Itemize
+HIS-LSF entwickelt sich zur zentrale Datenhaltung für Modulbeschreibungen
+ und verfügt über Schnittstelen zu deren Darstellung
+\end_layout
+
+\begin_layout Itemize
+Moodle hat sich als eCollaborations-Plattform durchgesetzt.
+\end_layout
+
+\begin_layout Itemize
+UniUntis entwickelt sich zur zentrale Datenhaltung für die Stundenplanung
+ an der THM (ohne Studium+) und verfügt über Schnittstellen zu deren Darstellung
+\end_layout
+
+\begin_layout Itemize
+Joomla (2.5) entwickelt sich zur alleinigen Plattform für Internet und -
+ zunehmend - auch Intranetfunktionalität und wird um Schnittstellen zu allen
+ wesentlichen Systemen erweitert 
+\end_layout
+
+\begin_layout Standard
+Eine wesentliche Funktionalität, die in keinem bislang untersuchten Campus-Manag
+ement-System (z.B.
+ "Daten-Lotse") mit hinreichender Funktionalität vorhanden ist, ist die
+ Stundenplanung.
+ Hier hat sich als Untis als, bislang dezentral eingesetztes Werkzeug über
+ viele Jahre bewährt.
+ Untis verwaltet die stundenplanspezifischen Objekte (Curricula, Module,
+ Fächer, Dozenten, Räume, Semester-Gruppen) und hat dabei natürlich auch
+ Schnittstellen zu anderen Systemen, die teilweise dieselben ressourcen
+ betrachten.
+ Auch die für die Stundenplanung typischen Prozesse haben inahltliche und
+ zeitliche Verknüpfungen mit anderen hoschulspezifischen Prozessen.
 \end_layout
 
 \begin_layout Section
-ORM Database Design Suggestion for Untis
+Peter Gruber
 \end_layout
 
 \begin_layout Standard
-It is difficult to describe the Untis database table structure in a professional
- manner
-\end_layout
-
-\begin_layout Standard
-http://en.wikipedia.org/wiki/Database_normalization#Notes_and_references
+Peter Gruber is the managing director of Gruber & Petters company responsible
+ for the Untis software.
+ During the course of Untis Training on 23rd and 24th of August and the
+ 5th of October 2012, he and Mr.
+ Magnus the Sales Director for the state of Hesse answered various questions
+ and gave recommendations which were instrumental for the modeling choices
+ made within the Untis system and the firther development of the THM Organizer
+ software without.
+ He was asked via E-Mail for a written position on these various points.
 \end_layout
 
 \begin_layout Standard
@@ -432,8 +457,8 @@ status collapsed
 \begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
-bibfiles "thesisExample"
-options "alpha"
+bibfiles "biblio/Plasma"
+options "biblio/alpha"
 
 \end_inset
 

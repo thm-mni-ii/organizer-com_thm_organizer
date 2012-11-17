@@ -38,6 +38,16 @@
   timestamp = {2012.10.29}
 }
 
+@ELECTRONIC{Kneisel,
+  author = {Kneisel, Peter},
+  month = {November},
+  year = {2012},
+  title = {{E-Mail from 13 November, 2012}},
+  howpublished = {Appendix B.1},
+  owner = {James},
+  timestamp = {2012.11.15}
+}
+
 @BOOK{Untis1,
   title = {Das Benutzerhandbuch für Untis},
   publisher = {{PEDAV das Softwarehaus für Schulen GmbH \& Co. KG}},
@@ -75,6 +85,16 @@
   organization = {{wikipedia.org}},
   note = {\url{http://en.wikipedia.org/wiki/Comparison_of_relational_database_management_systems}},
   url = {{http://en.wikipedia.org/wiki/Comparison_of_relational_database_management_systems}},
+  owner = {James},
+  timestamp = {2012.11.13}
+}
+
+@ELECTRONIC{CompareForum,
+  month = {March},
+  year = {2008},
+  title = {{Choosing between MS-Access, MSSQL or MySQL databases !}},
+  note = {\url{http://forums.eukhost.com/f31/choosing-between-ms-access-mssql-mysql-databases-4530}},
+  url = {{http://forums.eukhost.com/f31/choosing-between-ms-access-mssql-mysql-databases-4530}},
   owner = {James},
   timestamp = {2012.11.13}
 }

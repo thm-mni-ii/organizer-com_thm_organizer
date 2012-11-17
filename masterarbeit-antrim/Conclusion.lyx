@@ -528,15 +528,38 @@ content management systems, entwickelung webbassierte software, it-vertrieb(VM)
 \end_layout
 
 \begin_layout Section
-Irgendetwas in der Art wie was nicht realiziert werden könnte
+Development Limitations
+\end_layout
+
+\begin_layout Standard
+During the conception of this thesis it was originally intended that Untis'
+ database would serve as a stable source of data.
+ This would have allowed the implementation of a web services platform for
+ the propagation of information both within and without Untis.
+ This direct propagation would have been a source of accurate real time
+ data suable in multiple systems, principally THM Organizer, but there were
+ also plans in the works for access for campus navigation and other consumer
+ applications.
+\end_layout
+
+\begin_layout Standard
+Mr.
+ Gruber the managing director of Gruber & Petters recommended that this
+ approach not be implemented as Gruber & Petters had no intention within
+ a reasonable timeline to guarantee the information structure and quality
+ of the Untis database.
 \end_layout
 
 \begin_layout Section
-Zukunftsmusik
+Directions for Future Development
+\end_layout
+
+\begin_layout Standard
+Despite problems with usability and the
 \end_layout
 
 \begin_layout Section
-bb
+Summary
 \end_layout
 
 \begin_layout Standard
