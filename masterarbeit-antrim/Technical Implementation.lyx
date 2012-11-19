@@ -363,6 +363,26 @@ Sadly the tables used by the Untis system are still in a state of transition
 \end_layout
 
 \begin_layout Subsection
+Postemptive Control Mechanisms
+\end_layout
+
+\begin_layout Standard
+Within views postemptive restriction can take place in two possible ways.
+ User access can be checked upon view access.
+ This is optimal to protect the display of sensitive information.
+ User access could also be checked when builidng the toolbar which offers
+ the user actions which can then be performed on the items displayed.
+ THM Organizer uses the first method, not because of information sensitivity
+ but because the efficiency of execution.
+ Should the user not have administrative rights, the further execution of
+ the view code is then no longer performed.
+\end_layout
+
+\begin_layout Standard
+Within controllers postemptive restriction is checked upon 
+\end_layout
+
+\begin_layout Subsection
 Validation
 \begin_inset CommandInset label
 LatexCommand label

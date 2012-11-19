@@ -478,7 +478,7 @@ Untis allows the creation and configuration of both users and user roles.
 placement h
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -546,7 +546,7 @@ reference "fig:User Rights Dialogue"
 placement h
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
@@ -676,7 +676,7 @@ reference "fig:Managed Resource Restrictions"
 placement h
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -1131,7 +1131,7 @@ Data propogation within Untis is sorely underimplemented.
 placement h
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
@@ -1257,7 +1257,7 @@ name "Concurrency"
 \begin_layout Standard
 Within the Untis environment concurrency plays a rather central role as
  multiple users can perform actions virtually simultaneously.
- Untis deals with two different concurrency issues in two different ways.q
+ Untis deals with two different concurrency issues in two different ways.
 \end_layout
 
 \begin_layout Standard
@@ -1409,6 +1409,10 @@ THM Organizer is a component developed by students and employees of the
 Security Policy
 \end_layout
 
+\begin_layout Subsubsection
+Users and Roles
+\end_layout
+
 \begin_layout Standard
 THM Organizer builds upon the Joomla! platform and functions within a Joomla!
  website.
@@ -1417,9 +1421,33 @@ THM Organizer builds upon the Joomla! platform and functions within a Joomla!
  The creation and management of users is administered within Joomla!.
 \end_layout
 
+\begin_layout Subsubsection
+Managed Resources
+\end_layout
+
 \begin_layout Standard
-Joomla! implements an access control list security policy which lets administrat
-ors dynamically assign which users have which rights upon which resources.
+Within the scope of this thesis the only explicitly managed resources which
+ will be discussed are the schedules imported from Untis.
+ The modeled resources contained within them are implicitly managed at the
+ time of import as will be discussed in the following section pertaining
+ to workflows.
+\end_layout
+
+\begin_layout Subsubsection
+Actions
+\end_layout
+
+\begin_layout Standard
+Joomla! implements an access control list (ACL
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "ACL"
+description "Access Control List"
+
+\end_inset
+
+) security policy which lets administrators dynamically assign which users
+ have which rights upon which resources.
  Resources in Joomla are structured hierarchially so that every persistent
  item has a parent.
  This chain follows from component specific items to component specific
@@ -1436,14 +1464,113 @@ THM Organizer's security policy, as regards scheduling, is in comparison
  perform the Joomla! administration action on the root resource.
  Should this be the case the user may then perform any action available
  in THM Organizer.
-\end_layout
-
-\begin_layout Standard
-This simplicity stems from Organizer's development within MNI before Untis'
+ This simplicity stems from Organizer's development within MNI before Untis'
  deployment as the central scheduling system.
  During this time MNI was the only department interested in displaying schedules
  based upon the XML exports from Untis, and consequently only needed one
  administrative user, the department schedule coordinator.
+\end_layout
+
+\begin_layout Subsubsection
+Control Mechanisms
+\end_layout
+
+\begin_layout Minisec
+Login Dialogue
+\end_layout
+
+\begin_layout Standard
+The most important control mechanism withn Joomla! is the login dialogue.
+ The user enters his name and his assigned password.
+ This data is then authenticated by the Joomla! framework, and the user
+ is thereafter associated with one or more Joomla! groups.
+ Joomla! users are only required to sign in once to perform any action for
+ which they have access, as the Joomla! framework makes extensive use of
+ persistent session management.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Joomla Login Dialogue.png
+	scale 60
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Joomla! Login Dialogue"
+
+\end_inset
+
+Joomla! Login Dialogue
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Minisec
+Preemptive Restriction
+\end_layout
+
+\begin_layout Standard
+Although Joomla! through its ACL does offer preemptive restriction THM Organizer
+ does not yet make use of this feature.
+ In Joomla! this removes menu entries for which the user does not have the
+ appropriate rights.
+ However, because Joomla! is a web based content management system this
+ would only remove the display of URLs which would access such menu items,
+ it would not be able to block the direct entry of these URLs into a web
+ browser.
+\end_layout
+
+\begin_layout Minisec
+Postemptive Restriction
+\end_layout
+
+\begin_layout Standard
+As a logical consequence of the limits of preemptive restriction, all Joomla!
+ software must make use of post emptive restriction.
+ Within components, this restriction must be implemented at the two levels
+ which can be directly accessed via URLs.
+ The first level is within the component's views, these display information
+ and can offer actions to the user.
+ The second level is the components controllers, these recieve form data
+ from user interaction.
+ These are the more dangerous of the two as these most often call functions
+ of the models which could then modify or destroy data.
+\end_layout
+
+\begin_layout Standard
+A more detailed explaination of THM Organizer's postemptive restriction
+ follows in the next chapter discussing the technichal implementation.
 \end_layout
 
 \begin_layout Subsection
@@ -1452,7 +1579,10 @@ Workflows
 
 \begin_layout Standard
 All workflows directly having to deal with scholastic scheduling administered
- from the THM Organizer.
+ from the THM Organizer by any user which can perform administrative actions
+ upon the Joomla! root resource.
+ As pertains to this thesis the only noteworthy managed resource is the
+ schedule imported from Untis.
 \end_layout
 
 \begin_layout Minisec
@@ -1460,7 +1590,94 @@ Add a New Schedule
 \end_layout
 
 \begin_layout Standard
+The schedule management process begins with the import of a new schedule
+ in THM Organizer.
+ This is performed over the new schedule dialogue as seen in figure 3.6 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "fig:New Schedule Dialogue"
 
+\end_inset
+
+.
+ There the administrator chooses the new plan for import by means of a file
+ selection dialogue, and can add a small commentary which can serve to add
+ remarks to a schedule as to anything noteworthy about the particular schedule.
+\end_layout
+
+\begin_layout Standard
+The upload of a new schedule is the startpoint for the following implicit
+ workflows: validation, delta calculation, and version management.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Schedule Dialogue.png
+	scale 60
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:New Schedule Dialogue"
+
+\end_inset
+
+New Schedule Dialogue
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Minisec
+Validation
+\end_layout
+
+\begin_layout Standard
+Validation is performed upon upload of a new schedule.
+ It checks the uploaded file for consistency and completeness of data.
+ 
+\end_layout
+
+\begin_layout Minisec
+Delta Calculation
+\end_layout
+
+\begin_layout Minisec
+Version Management
+\end_layout
+
+\begin_layout Standard
+Version management is performed implicitly with the upload of the exported
+ schedule into THM Organizer.
 \end_layout
 
 \begin_layout Minisec
