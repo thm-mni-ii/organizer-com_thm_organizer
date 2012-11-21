@@ -59,6 +59,19 @@
   url = {http://pedav.de/dokumente/upload/benutzerhandbuch.pdf}
 }
 
+@ELECTRONIC{Hessen,
+  author = {Ministry for Science and Art},
+  month = {August},
+  year = {2012},
+  title = {{Staatsministerin Kühne-Hörmann gibt Startschuss für Kooperation
+	bei Ausbildung und Forschung in Medizininformatik und Medizintechnik}},
+  language = {German},
+  organization = {State of Hesse, Germany},
+  note = {\url{http://www.hessen.de/irj/hessen_Internet?rid=HStK_15/hessen_Internet/sub/4f2/4f2704ef-96d2-5931-79cd-aa2b417c0cf4,,,11111111-2222-3333-4444-100000005004%26_ic_uCon_zentral=4f2704ef-96d2-5931-79cd-aa2b417c0cf4.htm}},
+  owner = {James},
+  timestamp = {2012.11.15}
+}
+
 @ELECTRONIC{Grub,
   title = {{Homepage of Gruber \& Petters Software}},
   note = {\url{www.grupet.at}},

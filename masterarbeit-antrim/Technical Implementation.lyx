@@ -278,58 +278,518 @@ Technical Realization
 \end_layout
 
 \begin_layout Section
-Untis 2013
+Untis
 \end_layout
 
-\begin_layout Subsection
-Taxonomical and Data Input Changes
+\begin_layout Standard
+As a propriatory system, there was little direct technical implementation
+ within the Untis system.
+ However during the course of the work, contact was closely maintained with
+ Mr.
+ Gruber the managing director of Gruber and Petters.
+ Whenever problems occured within Untis or additional attributes needed
+ to be added to the Untis XML export, Mr.
+ Gruber had them implemented almost immediately so that indirectly the work
+ at the THM did have an impact upon Untis.
+ 
+\end_layout
+
+\begin_layout Standard
+The bulk of the technical implementation in Untis had to do with the modeling
+ of real world structures with the resources available in Untis.
+ For this purpose the structures previously used by MNI in the gp-Untis
+ 2008 version were adapted to those available within the Untis 2013 software.
+ The data available from KMUB and BAU was then fitted to these structures.
 \end_layout
 
 \begin_layout Standard
 Multiuser Untis 2013 opened up many new possibilites and many consequences
- as a result of modeling the departments as schools.
-\end_layout
-
-\begin_layout Minisec
-Departments and Competence Centers
-\end_layout
-
-\begin_layout Standard
-The actual Untis departements resource had up until this point been used
- for institutions, campuses, departments, and subdepartments/competence
- centers.
- These were hierarchially constructed and could correctly relate any resource
- to its responsible organization.
- For example a subject marked as 
-\begin_inset Quotes eld
-\end_inset
-
-THM, GI, MNI, BI
-\begin_inset Quotes erd
-\end_inset
-
- would have been responsibility of the members of the competence center
- for biological information science.
+ as a result of, among other things, the modeling the departments as schools
+ and the modeling of temporal behavior.
+ The taxonomical and structural changes are described in this subsection.
 \end_layout
 
 \begin_layout Standard
-However due to the modeling of departments as Untis schools this relation
- had to be mapped to multiple different places.
- The institution could not be directly modeled as there is no administrative
- tool within Untis superior to its schools.
- This did not have significant consequences almost all resources within
- the THM's resource management systems obviously belong to it.
- External resources could solely no longer be directly recognizable as such,
- especially since THM internal resources which 
+As this chapter relates the more technical aspects of the work accompanying
+ the thesis the structure and content of this section is, for the most part
+ based upon the XML export which represents the data contained within Untis
+ schedules to other systems, specifically to THM Organizer.
 \end_layout
 
 \begin_layout Subsection
-Structural Changes to the XML Export
+General Observations
 \end_layout
 
 \begin_layout Standard
-During the development of the Untis program as used within the scope of
- this thesis 
+One of the greatest sources of discomfort with the XML file is the unnecessary
+ falsification in the handling of internal references and dates.
+\end_layout
+
+\begin_layout Minisec
+Internal References
+\end_layout
+
+\begin_layout Standard
+Internal references are for the most part made not only specific within
+ the context of their usage, but within the context of the document itself.
+ Document context as used here, means that the references used recieve a
+ prefix solele used within the export to identify its resource type.
+ For example, although a teacher may be directly addressed as such in the
+ context of its use, it is also artifically extended with the resource prefix
+ 
+\begin_inset Quotes eld
+\end_inset
+
+TR_
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\family typewriter
+\size footnotesize
+<lesson_subject id="SU_OOP"/>
+\end_layout
+
+\begin_layout Standard
+The above example shows a typical reference in this case for the subject
+ of a lesson, in this case, object-oriented programming.
+ These references are based upon the resource's name value as dicussed in
+ chapter 2.
+ These are stored within Untis at face value, only during the export they
+ are affixed with this artifical resource prefix.
+\end_layout
+
+\begin_layout Standard
+The name values they mask are often the colloquial names used to describe
+ resources in everyday speech.
+ This makes them desirable for display output which must be abbreviated.
+ This necessitates the parcing of the reference values in order to retrieve
+ this value from doublly specific reference values.
+ While not particularly problematic this does make the processing of the
+ hundreds of resources and references a rather inefficient process, and
+ creates bloat in code handling both for the parcing and for the referencing
+ as seen below.
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\family typewriter
+\size footnotesize
+$subjectID = str_replace('SU_', '', $gpuntisID);
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\family typewriter
+\size footnotesize
+$subjectID = str_replace('SU_', '', trim((string) $lessonnode->lesson_subject[0]
+['id']));
+\end_layout
+
+\begin_layout Standard
+During the latest changes to the XML structure itself, i.e.
+ from the versions after September 2012, the Untis developers seem to have
+ noticed this logical inconsistency and have started producing output without
+ the double specificity.
+ In the example below the lesson type is addressed directly without the
+ prefix 
+\begin_inset Quotes eld
+\end_inset
+
+DS_
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\family typewriter
+\size footnotesize
+<lesson_description>Ü</lesson_description>
+\end_layout
+
+\begin_layout Minisec
+Dates
+\end_layout
+
+\begin_layout Standard
+Dates are modeled in Untis using an eight digit unsigned integer value.
+ This occurrs corresponds to the ISO 8601 notation YYMMDD, which is a four
+ digit year followed by the numerical month and day with leading zeros.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "DateFormats"
+
+\end_inset
+
+ Unfortunately in order to ensure database compatability, allow comparisons
+ between and perform date algorithms with these values they must first be
+ converted into the standard 'Y-m-d' format.
+ This necessitates a similar parcing of the values as with internal references
+ in order to be able to productively use these values.
+\end_layout
+
+\begin_layout Subsection
+Taxonomical and Stuctural Modeling
+\end_layout
+
+\begin_layout Standard
+The terms and structures discussed here are representative of those of gp-Untis
+ 2008 and those of Untis 2013 from the daily version of November 12, 2012.
+ Both exports have, by and large, the same main nodes general, timeperiods,
+ descriptions, departments, rooms, subjects, teachers, classes (subject
+ groups), students and lessons.
+ Untis 2013 also has the node reductions which, like students in both versions,
+ remains unused.
+ The nodes reductions and students will not be discussed within this section
+ due to their lack of use.
+ In the following, the remaining nodes will be addressed with a short descriptio
+n of their purpose, taxonomical and structural use and any changes that
+ may have been made to them or their subordinate nodes and leaves.
+\end_layout
+
+\begin_layout Subsubsection
+General
+\end_layout
+
+\begin_layout Standard
+The general node in the XML structure models data specific to the schedule
+ document itself.
+ In both versions the school name is not editable and gives out the name
+ of the creating program instead of the creating school resource available
+ in Untis 2013.
+\end_layout
+
+\begin_layout Standard
+The header information modeled in the 2008 version reflected the department
+ information as discussed later in this section.
+ This has been changed to model the school name information not given out
+ by the appropriate leaf.
+\end_layout
+
+\begin_layout Standard
+Both versions output the dates of the school year as input in the school
+ data dialogue.
+ In the 2008 version this information was used for the definition of the
+ valid planning period.
+ In the 2013 version planning periods within an actual school year can be
+ specifically addressed making this information somewhat superfluous.
+\end_layout
+
+\begin_layout Standard
+The output of a more specific planning period in the 2013 version allows
+ the output of the name of the current planning period directly as entered
+ as well as its start and enddates.
+ The input of the planning period name is however not parced within Untis,
+ solely displayed.
+ This makes for a name output with a rather large amount of whitespace,
+ which then needed to be trimmed on external parce.
+\end_layout
+
+\begin_layout Subsubsection
+Time Periods
+\end_layout
+
+\begin_layout Standard
+Time periods correspond to the lesson periods discussed in chapter two.
+ They both remain tragically underused in both the 2008 and 2013 versions.
+ They output the numerical weekday, period, a start and end time.
+\end_layout
+
+\begin_layout Standard
+Within themselves these structures 
+\end_layout
+
+\begin_layout Standard
+Although stamped with a reference id, they are nowhere referenced within
+ the rest of the document.
+ Lessons which logically have to be assigned to lesson periods have the
+ exact same information in each child node of their times node.
+ This creates a huge amount of redundancy and bloat within the export.
+\end_layout
+
+\begin_layout Subsubsection
+Descriptions
+\end_layout
+
+\begin_layout Standard
+Descriptions are currently used to model fields for teachers, subjects and
+ subject pools, and types for rooms and lessons.
+ Although Untis detects program internal references from resources of these
+ types in the descriptions dialogue, it does not mark the descriptions as
+ being referred to by resources of these types upon export.
+ To avoid having to reprocess this resource while processing the resources
+ which reference it the use of the statistics field, which corresponds to
+ the flags leaf within the export, has been used to code the types of resources
+ which reference these.
+ This mitigates the lack of explicit association within the resource itself.
+\end_layout
+
+\begin_layout Standard
+The previous structure was solely used to model room types this allowed
+ one time parcing without use of the statistics field.
+ Lesson types were coded within the lessons themselves, which prohibited
+ their direct managment.
+ Teacher subject and subject pool fields had not been modeled in the 2008
+ version.
+\end_layout
+
+\begin_layout Subsubsection
+Departments
+\end_layout
+
+\begin_layout Standard
+Currently departments are being used to model the differing CoSs offered
+ by each department.
+ In the previous version they had been used to model organizational hierarchies
+ of resources.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\family typewriter
+<longname>FH, Giessen, MNI, Bioinform.</longname>
+\end_layout
+
+\begin_layout Standard
+As we seen in the above example this had a four tier hierarchy of institution,
+ campus, department, and subdepartment.
+ This style of resource modeling had several reasons behind it.
+\end_layout
+
+\begin_layout Standard
+Departments, like descriptions, can be referenced by multiple resource types.
+ In regard to rooms this hierarchy made a organization of responsibility
+ for the room evident.
+ In data built from this information it allowed for the restriction to a
+ particular responsible organization.
+ In regards to teachers and subject pools this allowed the restriction to
+ group affiliation or responsibility for individual CoSs.
+\end_layout
+
+\begin_layout Standard
+Conversely lessons held by external organizations could be modeled in such
+ a way that external teachers and subjects could be marked as such rather
+ specifically.
+ Before modeling departments as schools and the introduction of external
+ resources, this allowed both a visible reservation of shared resources
+ and vague output of department external lessons within rooms which are
+ otherwise the responsibility of that department.
+\end_layout
+
+\begin_layout Subsubsection
+Rooms
+\end_layout
+
+\begin_layout Standard
+There have been several modeling changes to rooms, all of which exporting
+ more room information than in the previous version.
+ The structural changes to room modeling now account for more data required
+ by facility management such as the number of seats and some of the room's
+ equipment.
+ These are now exported in the leaves capacity and flags respectively.
+\end_layout
+
+\begin_layout Standard
+The biggest change however is the export of the resource's external name.
+ This newly exported information is both a change in the modeling of the
+ room itself and to the structure of the XML export.
+ This information opens up many new possibilities in THM Organizer.
+ Unfortunately this was first exported with the Untis daily version released
+ November 12, 2012, it precluded any meaningful changes within the scope
+ of this thesis.
+\end_layout
+
+\begin_layout Subsubsection
+Subjects
+\end_layout
+
+\begin_layout Standard
+Subjects have recieved no structural changes within the XML document, but
+ the modeling has changed the way attribute information is exported.
+ The subject's unique identifier, previously exported modeled in the subject
+ field and exported in th corresponding subject group leaf, has been modeled
+ in the text field and exported in the corresponding node.
+ The subject's field is currently modeled and exported redundantly as a
+ reference in the description leaf and the more accurate subject group leaf.
+\end_layout
+
+\begin_layout Subsubsection
+Teachers
+\end_layout
+
+\begin_layout Standard
+Teachers have undergone fairly extensive changes.
+ In the newer version the first name can be exported in the forename node.
+ This allowed the last name to be set to its actual value instead of a mix
+ of first and last names as had previously been the case in the event of
+ multiple teachers with the same last name.
+\end_layout
+
+\begin_layout Standard
+Teachers no longer reference departments as previously done to assosiate
+ them with fields and competence centers.
+ This is now accomplished by use of a description reference, as before there
+ is unfortunately no more accurate node such as the subject group of subjects
+ to export this information.
+ The use of descriptions however provides a manageble external reference
+ for subjects, teachers and subject groups.
+\end_layout
+
+\begin_layout Standard
+Additionally, as with rooms, the external name is now exported.
+ This however has the same caveat that due to its rather late release this
+ information was not yet able to be used in the implementation.
+\end_layout
+
+\begin_layout Subsubsection
+Classes (Subject Groups)
+\end_layout
+
+\begin_layout Standard
+The classes node is used in both versions to model subject groups.
+ In both versions the long name is an extended human readable name with
+ the name of the degree program and any criteria which further subset the
+ CoS.
+\end_layout
+
+\begin_layout Standard
+The attempt had been made to model the subsetting criteria as a part of
+ the grade attribute and consequently the class level leaf in the export.
+ However ass commented upon earlier in chapter 2 this field has a fixed
+ number of characters which made it unusable in this regard.
+ While this information has not been removed and is still exported, the
+ only reliable subsetting information is structured within the long name
+ itself as seen below.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\family typewriter
+Bioinformatik (BSc), 4.
+ &amp; 5.
+ Semester, Wahlpflicht
+\end_layout
+
+\begin_layout Standard
+In this example we see the structure for the CoS biological information
+ science with for the degree Bachelor of Science for electives in the 4th
+ and 5th semsters.
+ The criteria for subsetting is listed in the order of its hierarchy seperated
+ by a comma.
+\end_layout
+
+\begin_layout Standard
+The competence center which designs the CoS and the general field of knowledge
+ taught in this subject group is exported as a reference in the description.
+ While the overall CoS is exported as a department reference.
+\end_layout
+
+\begin_layout Standard
+The teacher was previously modeled within the 2008 version.
+ This information was included in the understanding that this teacher was
+ responsible for the development and planning of the COS.
+ The teacher is in Untis cannot be associated with the any Untis user which
+ makes it unusable in the security policy.
+ This information was also not used for any functionality within THM Organizer,
+ consequently it is no longer modeled.
+\end_layout
+
+\begin_layout Subsubsection
+Lessons
+\end_layout
+
+\begin_layout Standard
+Lessons have undergone quite extensive changes both structurally and taxonomical
+ly.
+\end_layout
+
+\begin_layout Minisec
+IDs and Coupling Rows
+\end_layout
+
+\begin_layout Standard
+A lesson is first defined by the redundant resource identifier 
+\begin_inset Quotes eld
+\end_inset
+
+LS_
+\begin_inset Quotes erd
+\end_inset
+
+, the actual lesson number and two final digits.
+ These two digits serve to represent the content of the so called coupling
+ rows within the lesson dialogue.
+ These coupling rows are exported with the same prefix and lesson number
+ as the initial row but increment the last two digits.
+ These rows serve to add additional room, teacher, and subject associations
+ to the first row entered should the lesson be held in multiple rooms, by
+ multiple teachers, or convey multiple lessons.
+\end_layout
+
+\begin_layout Standard
+In the older version the exception to this handling was the resource subject
+ group.
+ In both versions this resource was added in the same row by adding additional
+ subject group names seperated from the previous by a comma.
+ It's export in the XML was just as consequent, although a different seperator
+ is used.
+ In the export this resource is output as the id attribute of the leaf lesson
+ classes as shown below.
+ While this is the abuse of what logically should be a single id, it does
+ provide the logical product of the entered information.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\family typewriter
+<lesson_classes id="CL_BI.45.P CL_I.45.W CL_II.45.W CL_MI.45.W"/>
+\end_layout
+
+\begin_layout Standard
+In Untis 2013 this functionality is also applied to subjects and rooms,
+ that is to say these may both be entered in the lessons dialogue in the
+ same manner as classes.
+ The teacher resource unfortunately has not yet recieved this treatment
+ as there were some value calculations dependant upon teachers being listed
+ independantly./*source*/ However the exported schedule treats the new form
+ of information entry the same as a coupling row during the output.
+ This creates, in the best case scenario, a redundancy of almost 100% per
+ coupling row, where all of the lesson's data is presented twice with only
+ the value of one particular leaf attribute changed.
+\end_layout
+
+\begin_layout Minisec
+Temporal Behavior
+\end_layout
+
+\begin_layout Standard
+Temporal behavior is based upon a number of differing attributes within
+ each lesson.
+ The first two leaves which give temporal information are the effective
+ start and end dates.
+ These dates
 \end_layout
 
 \begin_layout Section
