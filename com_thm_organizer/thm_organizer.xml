@@ -44,28 +44,72 @@
     <administration>
         <menu img="components/com_thm_organizer/assets/images/thm_organizer.png">COM_THM_ORGANIZER</menu>
         <submenu>
-            <menu img="components/com_thm_organizer/assets/images/category_manager.png"
-                  view="category_manager">COM_THM_ORGANIZER_CAT_TITLE</menu>
-            <menu img="components/com_thm_organizer/assets/images/schedule_manager.png"
-                  view="schedule_manager">COM_THM_ORGANIZER_SCH_TITLE</menu>
-            <menu img="components/com_thm_organizer/assets/images/virtual_schedule_manager.png"
-                  view="virtual_schedule_manager">COM_THM_ORGANIZER_VSM_TITLE</menu>
-            <menu img="components/com_thm_organizer/assets/images/monitor_manager.png"
-                  view="monitor_manager">COM_THM_ORGANIZER_MON_TITLE</menu>
-            <menu img="components/com_thm_organizer/assets/images/soapqueries_min.png"
-                  view="soapqueries">COM_THM_ORGANIZER_SUBMENU_SOAP_QUERIES</menu>
-            <menu img="components/com_thm_organizer/assets/images/semester_min.png"
-                  view="semesters">COM_THM_ORGANIZER_SUBMENU_SEMESTERS</menu>
-            <menu img="components/com_thm_organizer/assets/images/lecturers_min.png"
-                  view="lecturers">COM_THM_ORGANIZER_SUBMENU_LECTURERS</menu>
-            <menu img="components/com_thm_organizer/assets/images/assets_min.png"
-                  view="assets">COM_THM_ORGANIZER_SUBMENU_ASSETS</menu>
-            <menu img="components/com_thm_organizer/assets/images/colors_min.png"
-                  view="colors">COM_THM_ORGANIZER_SUBMENU_COLORS</menu>
-            <menu img="components/com_thm_organizer/assets/images/degrees_min.png"
-                  view="degrees">COM_THM_ORGANIZER_SUBMENU_DEGREES</menu>
-            <menu img="components/com_thm_organizer/assets/images/majors_min.png"
-                  view="majors">COM_THM_ORGANIZER_SUBMENU_MAJORS</menu>
+            <menu alias="Category Manager"
+            	  link="option=com_thm_organizer&amp;view=category_manager"
+            	  view="category_manager"
+                  img="components/com_thm_organizer/assets/images/category_manager.png"
+                  alt="THM-Organizer/Category Manager"
+                  >COM_THM_ORGANIZER_CAT_TITLE</menu>
+            <menu alias="Schedule Manager"
+            	  link="option=com_thm_organizer&amp;view=schedule_manager"
+            	  view="schedule_manager"
+            	  img="components/com_thm_organizer/assets/images/schedule_manager.png"
+                  alt="THM-Organizer/Schedule Manager"
+                  >COM_THM_ORGANIZER_SCH_TITLE</menu>
+            <menu alias="Virtual Schedule Manager"
+            	  link="option=com_thm_organizer&amp;view=virtual_schedule_manager"
+                  view="virtual_schedule_manager"
+            	  img="components/com_thm_organizer/assets/images/virtual_schedule_manager.png"
+                  alt="THM-Organizer/Virtual Schedule Manager"
+                  >COM_THM_ORGANIZER_VSM_TITLE</menu>
+            <menu alias="Monitor Manager"
+            	  link="option=com_thm_organizer&amp;view=monitor_manager"
+                  view="monitor_manager"
+            	  img="components/com_thm_organizer/assets/images/monitor_manager.png"
+                  alt="THM-Organizer/Monitor Manager"
+                  >COM_THM_ORGANIZER_MON_TITLE</menu>
+            <menu alias="Soap Queries"
+            	  link="option=com_thm_organizer&amp;view=soapqueries"
+                  view="soapqueries"
+            	  img="components/com_thm_organizer/assets/images/soapqueries_min.png"
+                  alt="THM-Organizer/Soap Queries"
+            	  >COM_THM_ORGANIZER_SUBMENU_SOAP_QUERIES</menu>
+            <menu alias="Semesters"
+            	  link="option=com_thm_organizer&amp;view=semesters"
+                  view="semesters"
+            	  img="components/com_thm_organizer/assets/images/semester_min.png"
+                  alt="THM-Organizer/Semesters"
+                  >COM_THM_ORGANIZER_SUBMENU_SEMESTERS</menu>
+            <menu alias="Lecturers"
+            	  link="option=com_thm_organizer&amp;view=lecturers"
+                  view="lecturers"
+            	  img="components/com_thm_organizer/assets/images/lecturers_min.png"
+                  alt="THM-Organizer/Lecturers"
+                  >COM_THM_ORGANIZER_SUBMENU_LECTURERS</menu>
+            <menu alias="Assets"
+            	  link="option=com_thm_organizer&amp;view=assets"
+                  view="assets"
+                  img="components/com_thm_organizer/assets/images/assets_min.png"
+                  alt="THM-Organizer/Assets"
+                  >COM_THM_ORGANIZER_SUBMENU_ASSETS</menu>
+            <menu alias="Colors"
+            	  link="option=com_thm_organizer&amp;view=colors"
+                  view="colors"
+                  img="components/com_thm_organizer/assets/images/colors_min.png"
+                  alt="THM-Organizer/Colors"
+                  >COM_THM_ORGANIZER_SUBMENU_COLORS</menu>
+            <menu alias="Degrees"
+            	  link="option=com_thm_organizer&amp;view=degrees"
+                  view="degrees"
+                  img="components/com_thm_organizer/assets/images/degrees_min.png"
+                  alt="THM-Organizer/Degrees"
+                  >COM_THM_ORGANIZER_SUBMENU_DEGREES</menu>
+            <menu alias="Majors"
+            	  link="option=com_thm_organizer&amp;view=majors"
+                  view="majors"
+                  img="components/com_thm_organizer/assets/images/majors_min.png"
+                  alt="THM-Organizer/Majors"
+                  >COM_THM_ORGANIZER_SUBMENU_MAJORS</menu>
         </submenu>
         <files folder="admin">
             <filename>access.xml</filename>
@@ -82,7 +126,7 @@
             <folder>tables</folder>
             <folder>sql</folder>
         </files>
-        <languages folder="admin">
+        <languages folders="admin">
             <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.ini</language>
             <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.sys.ini</language>
             <language tag="de-DE">language/de-DE/de-DE.com_thm_organizer.ini</language>

@@ -186,11 +186,11 @@ class THM_OrganizerModelScheduler extends JModel
 		$dbo = JFactory::getDBO();
 		$query = $dbo->getQuery(true);
 		
-		$query->select('#__thm_curriculum_colors.color AS hexColorCode, #__thm_curriculum_semesters.name AS semesterName, #__thm_curriculum_majors.organizer_major AS organizerMajorName');
-		$query->from('#__thm_curriculum_semesters');
-		$query->join('inner', '#__thm_curriculum_semesters_majors ON #__thm_curriculum_semesters.id = #__thm_curriculum_semesters_majors.semester_id');
+		$query->select('#__thm_curriculum_colors.color AS hexColorCode, #__thm_semesters.name AS semesterName, #__thm_curriculum_majors.organizer_major AS organizerMajorName');
+		$query->from('#__thm_semesters');
+		$query->join('inner', '#__thm_curriculum_semesters_majors ON #__thm_semesters.id = #__thm_curriculum_semesters_majors.semester_id');
 		$query->join('inner', '#__thm_curriculum_majors ON #__thm_curriculum_majors.id = #__thm_curriculum_semesters_majors.major_id');
-		$query->join('inner', '#__thm_curriculum_colors ON #__thm_curriculum_colors.id = #__thm_curriculum_semesters.color_id');
+		$query->join('inner', '#__thm_curriculum_colors ON #__thm_curriculum_colors.id = #__thm_semesters.color_id');
 		
 		$dbo->setQuery($query);
 		

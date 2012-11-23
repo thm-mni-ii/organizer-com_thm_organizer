@@ -250,7 +250,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_majors` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_curriculum_semesters` (
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_semesters` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   `color_id` int(11),
@@ -261,7 +261,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_curriculum_semesters` (
   FOREIGN KEY (`color_id`) REFERENCES `#__thm_organizer_colors` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-INSERT INTO #__thm_organizer_curriculum_semesters (id, name) VALUES
+INSERT INTO #__thm_organizer_semesters (id, name) VALUES
 (1, '1. Semester'),
 (2, '2. Semester'),
 (3, '3. Semester'),
@@ -276,7 +276,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_semesters_majors` (
   `semester_id` int(11) NOT NULL,
   PRIMARY KEY (`major_id`, `semester_id`),
   FOREIGN KEY (`major_id`) REFERENCES `#__thm_organizer_majors` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (`semester_id`) REFERENCES `#__thm_organizer_curriculum_semesters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`semester_id`) REFERENCES `#__thm_organizer_semesters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   UNIQUE KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 

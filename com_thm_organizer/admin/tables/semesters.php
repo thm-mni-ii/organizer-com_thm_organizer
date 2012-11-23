@@ -33,6 +33,6 @@ class THM_OrganizerTableSemesters extends JTable
      */
     public function __construct(&$dbo)
     {
-        parent::__construct('#__thm_organizer_curriculum_semesters', 'id', $dbo);
+        parent::__construct('#__thm_organizer_semesters', 'id', $dbo);
     }
 }

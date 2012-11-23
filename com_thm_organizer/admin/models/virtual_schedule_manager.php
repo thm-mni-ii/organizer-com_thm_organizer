@@ -112,7 +112,7 @@ class THM_OrganizerModelVirtual_Schedule_Manager extends JModel
 				' FROM #__thm_organizer_virtual_schedules' .
 				' INNER JOIN #__thm_organizer_virtual_schedules_elements' .
 				' ON #__thm_organizer_virtual_schedules.id = #__thm_organizer_virtual_schedules_elements.vid' .
-				' INNER JOIN #__thm_organizer_curriculum_semesters' .
+				' INNER JOIN #__thm_organizer_semesters' .
 				' ON #__thm_organizer_virtual_schedules.semesterID = #__thm_organizer_semesters.id' .
 				' INNER JOIN #__users' .
 				' ON #__thm_organizer_virtual_schedules.responsible = #__users.username' .
