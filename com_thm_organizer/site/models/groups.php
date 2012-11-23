@@ -191,7 +191,7 @@ class THM_OrganizerModelGroups extends JModel
 	{
 		// Gets the component configiration and performs a soap request, in order to get the xml structe for a given major
 		$config = self::getLsfConfiguration($configId);
-		$model = new THM_OrganizerModelCurriculum
+		$model = new THM_OrganizerModelCurriculum;
 		$this->major = $model->getMajorRecord($configId);
 
 		$client = new LsfClient(
@@ -397,7 +397,7 @@ class THM_OrganizerModelGroups extends JModel
 	public function buildCourseData($row)
 	{
 		$data = array();
-		$model = new THM_OrganizerModelCurriculum
+		$model = new THM_OrganizerModelCurriculum;
 
 		$creditpoints = explode('.', $row->min_creditpoints);
 		$modul['coursecode'] = self::buildCourseDetailLink($row);

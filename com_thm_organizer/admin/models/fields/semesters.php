@@ -53,7 +53,7 @@ class JFormFieldSemesters extends JFormField
 		// Build the query
 		$query = $db->getQuery(true);
 		$query->select("*");
-		$query->from('#__thm_organizer_curriculum_semesters');
+		$query->from('#__thm_organizer_semesters');
 		$query->order('name ASC');
 		$db->setQuery($query);
 		$semesters = $db->loadObjectList();
@@ -80,7 +80,7 @@ class JFormFieldSemesters extends JFormField
 
 		// Build the query
 		$query->select("*");
-		$query->from('#__thm_organizer_curriculum_semesters');
+		$query->from('#__thm_organizer_semesters');
 		$query->join('inner', '#__thm_organizer_semesters_majors ' .
 				'ON #__thm_organizer_semesters.id = #__thm_organizer_semesters_majors.semester_id');
 		$query->where("#__thm_organizer_semesters_majors.major_id = $id");

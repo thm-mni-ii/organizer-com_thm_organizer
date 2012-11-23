@@ -80,7 +80,14 @@ class THM_OrganizerModelMappings extends JModelList
 		$db->setQuery($query);
 		$color = $db->loadObjectList();
 
-		return $color[0]->color;
+		if(isset($color[0]) && isset($color[0]->color))
+		{
+			return $color[0]->color;
+		}
+		else
+		{
+			return "ffffff";
+		}
 	}
 
 	/**
@@ -108,12 +115,12 @@ class THM_OrganizerModelMappings extends JModelList
 				#__thm_organizer_assets_tree.menu_link as menu_link_instance,
 				#__thm_organizer_assets.color_id as color_id_object");
 		$query->select("#__thm_organizer_assets_tree.id as asset_id");
-		$query->select("#__thm_organizer_curriculum_semesters.name as semester_name");
+		$query->select("#__thm_organizer_semesters.name as semester_name");
 
 		$query->select("#__thm_organizer_asset_types.name as asset_type");
 		$query->select("count(*) as count");
 		$query->from('#__thm_organizer_semesters_majors');
-		$query->join('inner', '#__thm_organizer_curriculum_semesters ON #__thm_organizer_semesters_majors.semester_id = #__thm_organizer_curriculum_semesters.id');
+		$query->join('inner', '#__thm_organizer_semesters ON #__thm_organizer_semesters_majors.semester_id = #__thm_organizer_semesters.id');
 		$query->join('inner', '#__thm_organizer_assets_semesters ' .
 				'ON #__thm_organizer_semesters_majors.id = #__thm_organizer_assets_semesters.semesters_majors_id');
 		$query->join('inner', '#__thm_organizer_assets_tree ' .
@@ -270,7 +277,7 @@ class THM_OrganizerModelMappings extends JModelList
 						'ON assets_semesters.assets_tree_id = assets_tree.id');
 				$query->join('inner', '#__thm_organizer_semesters_majors as semesters_majors ' .
 						'ON assets_semesters.semesters_majors_id = semesters_majors.id');
-				$query->join('inner', '#__thm_organizer_curriculum_semesters as semesters ON semesters.id = semesters_majors.semester_id');
+				$query->join('inner', '#__thm_organizer_semesters as semesters ON semesters.id = semesters_majors.semester_id');
 				$query->where("semesters_majors.major_id = $id");
 				$query->where("asset = $row->asset");
 				$db->setQuery($query);

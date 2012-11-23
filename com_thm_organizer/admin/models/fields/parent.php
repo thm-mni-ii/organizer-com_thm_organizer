@@ -69,7 +69,7 @@ class JFormFieldParent extends JFormField
 		$query->join('inner', '#__thm_organizer_assets_semesters as assets_semesters ON assets_semesters.assets_tree_id = assets_tree.id');
 		$query->join('inner', '#__thm_organizer_semesters_majors as semesters_majors ON assets_semesters.semesters_majors_id = semesters_majors.id');
 		$query->join('inner', '#__thm_organizer_assets as assets ON assets.id = assets_tree.asset');
-		$query->join('inner', '#__thm_organizer_curriculum_semesters as semesters ON semesters.id = semesters_majors.semester_id');
+		$query->join('inner', '#__thm_organizer_semesters as semesters ON semesters.id = semesters_majors.semester_id');
 		$query->where(' assets.asset_type_id = 2');
 		$query->where("semesters_majors.major_id = $majorId");
 		$query->order('assets.title_de');
