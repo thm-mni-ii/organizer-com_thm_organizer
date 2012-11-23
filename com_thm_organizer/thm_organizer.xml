@@ -37,10 +37,11 @@
             <folder>css</folder>
             <folder>helper</folder>
     </files>
-    <languages folder="site">
-        <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.ini</language>
-        <language tag="de-DE">language/de-DE/de-DE.com_thm_organizer.ini</language>
+    <languages>
+        <language tag="en-GB" client="site">language/en-GB/en-GB.com_thm_organizer.ini</language>
+        <language tag="de-DE" client="site">language/de-DE/de-DE.com_thm_organizer.ini</language>
     </languages>
+    
     <administration>
         <menu img="components/com_thm_organizer/assets/images/thm_organizer.png">COM_THM_ORGANIZER</menu>
         <submenu>
@@ -126,7 +127,7 @@
             <folder>tables</folder>
             <folder>sql</folder>
         </files>
-        <languages folder="admin">
+        <languages>
             <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.ini</language>
             <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.sys.ini</language>
             <language tag="de-DE">language/de-DE/de-DE.com_thm_organizer.ini</language>
