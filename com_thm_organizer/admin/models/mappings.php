@@ -80,7 +80,14 @@ class THM_OrganizerModelMappings extends JModelList
 		$db->setQuery($query);
 		$color = $db->loadObjectList();
 
-		return $color[0]->color;
+		if(isset($color[0]) && isset($color[0]->color))
+		{
+			return $color[0]->color;
+		}
+		else
+		{
+			return "ffffff";
+		}
 	}
 
 	/**
