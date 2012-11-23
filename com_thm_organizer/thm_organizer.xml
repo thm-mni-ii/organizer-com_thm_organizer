@@ -37,7 +37,7 @@
             <folder>css</folder>
             <folder>helper</folder>
     </files>
-    <languages folders="site">
+    <languages folder="site">
         <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.ini</language>
         <language tag="de-DE">language/de-DE/de-DE.com_thm_organizer.ini</language>
     </languages>
@@ -126,7 +126,7 @@
             <folder>tables</folder>
             <folder>sql</folder>
         </files>
-        <languages folders="admin">
+        <languages folder="admin">
             <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.ini</language>
             <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.sys.ini</language>
             <language tag="de-DE">language/de-DE/de-DE.com_thm_organizer.ini</language>
