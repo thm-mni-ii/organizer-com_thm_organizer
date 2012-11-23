@@ -278,7 +278,7 @@ Technical Realization
 \end_layout
 
 \begin_layout Section
-Untis
+Untis XML Output
 \end_layout
 
 \begin_layout Standard
@@ -317,134 +317,6 @@ As this chapter relates the more technical aspects of the work accompanying
 \end_layout
 
 \begin_layout Subsection
-General Observations
-\end_layout
-
-\begin_layout Standard
-One of the greatest sources of discomfort with the XML file is the unnecessary
- falsification in the handling of internal references and dates.
-\end_layout
-
-\begin_layout Minisec
-Internal References
-\end_layout
-
-\begin_layout Standard
-Internal references are for the most part made not only specific within
- the context of their usage, but within the context of the document itself.
- Document context as used here, means that the references used recieve a
- prefix solele used within the export to identify its resource type.
- For example, although a teacher may be directly addressed as such in the
- context of its use, it is also artifically extended with the resource prefix
- 
-\begin_inset Quotes eld
-\end_inset
-
-TR_
-\begin_inset Quotes erd
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-\noindent
-\align center
-
-\family typewriter
-\size footnotesize
-<lesson_subject id="SU_OOP"/>
-\end_layout
-
-\begin_layout Standard
-The above example shows a typical reference in this case for the subject
- of a lesson, in this case, object-oriented programming.
- These references are based upon the resource's name value as dicussed in
- chapter 2.
- These are stored within Untis at face value, only during the export they
- are affixed with this artifical resource prefix.
-\end_layout
-
-\begin_layout Standard
-The name values they mask are often the colloquial names used to describe
- resources in everyday speech.
- This makes them desirable for display output which must be abbreviated.
- This necessitates the parcing of the reference values in order to retrieve
- this value from doublly specific reference values.
- While not particularly problematic this does make the processing of the
- hundreds of resources and references a rather inefficient process, and
- creates bloat in code handling both for the parcing and for the referencing
- as seen below.
- 
-\end_layout
-
-\begin_layout Standard
-\noindent
-\align center
-
-\family typewriter
-\size footnotesize
-$subjectID = str_replace('SU_', '', $gpuntisID);
-\end_layout
-
-\begin_layout Standard
-\noindent
-\align center
-
-\family typewriter
-\size footnotesize
-$subjectID = str_replace('SU_', '', trim((string) $lessonnode->lesson_subject[0]
-['id']));
-\end_layout
-
-\begin_layout Standard
-During the latest changes to the XML structure itself, i.e.
- from the versions after September 2012, the Untis developers seem to have
- noticed this logical inconsistency and have started producing output without
- the double specificity.
- In the example below the lesson type is addressed directly without the
- prefix 
-\begin_inset Quotes eld
-\end_inset
-
-DS_
-\begin_inset Quotes erd
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-\noindent
-\align center
-
-\family typewriter
-\size footnotesize
-<lesson_description>Ü</lesson_description>
-\end_layout
-
-\begin_layout Minisec
-Dates
-\end_layout
-
-\begin_layout Standard
-Dates are modeled in Untis using an eight digit unsigned integer value.
- This occurrs corresponds to the ISO 8601 notation YYMMDD, which is a four
- digit year followed by the numerical month and day with leading zeros.
-\begin_inset CommandInset citation
-LatexCommand cite
-key "DateFormats"
-
-\end_inset
-
- Unfortunately in order to ensure database compatability, allow comparisons
- between and perform date algorithms with these values they must first be
- converted into the standard 'Y-m-d' format.
- This necessitates a similar parcing of the values as with internal references
- in order to be able to productively use these values.
-\end_layout
-
-\begin_layout Subsection
 Taxonomical and Stuctural Modeling
 \end_layout
 
@@ -479,7 +351,7 @@ The general node in the XML structure models data specific to the schedule
 The header information modeled in the 2008 version reflected the department
  information as discussed later in this section.
  This has been changed to model the school name information not given out
- by the appropriate leaf.
+ by the appropriate element.
 \end_layout
 
 \begin_layout Standard
@@ -535,8 +407,8 @@ Descriptions are currently used to model fields for teachers, subjects and
  being referred to by resources of these types upon export.
  To avoid having to reprocess this resource while processing the resources
  which reference it the use of the statistics field, which corresponds to
- the flags leaf within the export, has been used to code the types of resources
- which reference these.
+ the flags element within the export, has been used to code the types of
+ resources which reference these.
  This mitigates the lack of explicit association within the resource itself.
 \end_layout
 
@@ -625,10 +497,11 @@ Subjects
 Subjects have recieved no structural changes within the XML document, but
  the modeling has changed the way attribute information is exported.
  The subject's unique identifier, previously exported modeled in the subject
- field and exported in th corresponding subject group leaf, has been modeled
- in the text field and exported in the corresponding node.
+ field and exported in th corresponding subject group element, has been
+ modeled in the text field and exported in the corresponding node.
  The subject's field is currently modeled and exported redundantly as a
- reference in the description leaf and the more accurate subject group leaf.
+ reference in the description element and the more accurate subject group
+ element.
 \end_layout
 
 \begin_layout Subsubsection
@@ -672,7 +545,7 @@ The classes node is used in both versions to model subject groups.
 
 \begin_layout Standard
 The attempt had been made to model the subsetting criteria as a part of
- the grade attribute and consequently the class level leaf in the export.
+ the grade attribute and consequently the class level element in the export.
  However ass commented upon earlier in chapter 2 this field has a fixed
  number of characters which made it unusable in this regard.
  While this information has not been removed and is still exported, the
@@ -737,8 +610,8 @@ LS_
 \end_inset
 
 , the actual lesson number and two final digits.
- These two digits serve to represent the content of the so called coupling
- rows within the lesson dialogue.
+ These two digits serve to represent the content of the coupling rows within
+ the lesson dialogue.
  These coupling rows are exported with the same prefix and lesson number
  as the initial row but increment the last two digits.
  These rows serve to add additional room, teacher, and subject associations
@@ -753,8 +626,8 @@ In the older version the exception to this handling was the resource subject
  subject group names seperated from the previous by a comma.
  It's export in the XML was just as consequent, although a different seperator
  is used.
- In the export this resource is output as the id attribute of the leaf lesson
- classes as shown below.
+ In the export this resource is output as the id attribute of the element
+ lesson classes as shown below.
  While this is the abuse of what logically should be a single id, it does
  provide the logical product of the entered information.
 \end_layout
@@ -777,10 +650,10 @@ In Untis 2013 this functionality is also applied to subjects and rooms,
  of information entry the same as a coupling row during the output.
  This creates, in the best case scenario, a redundancy of almost 100% per
  coupling row, where all of the lesson's data is presented twice with only
- the value of one particular leaf attribute changed.
+ the value of one particular element attribute changed.
 \end_layout
 
-\begin_layout Minisec
+\begin_layout Subsubsection*
 Temporal Behavior
 \end_layout
 
@@ -789,7 +662,502 @@ Temporal behavior is based upon a number of differing attributes within
  each lesson.
  The first two leaves which give temporal information are the effective
  start and end dates.
- These dates
+ These dates give the boundaries for the lesson dependant upon dates inherited,
+ in order of least to most precedence, from the school year, planning period,
+ lesson group or explicitly set dates within the lesson dialogue.
+\end_layout
+
+\begin_layout Standard
+The next element giving temporal information is the occurrences.
+ This is a sequence of character values which are equal in number to the
+ length in days of the document school year.
+ Each character value has one of three values: 0 for does not occur, 1 for
+ can occur, and F for holiday.
+\end_layout
+
+\begin_layout Standard
+These three elements set up the mould into which the individual lesson instances
+ can be formed.
+\end_layout
+
+\begin_layout Standard
+Individual lesson instances provide additional data for association with
+ individual lesson periods either according to a patterned match or with
+ the explicit output of a specific date.
+ This dichotomy stems from the weekly versus yearly hours provided in the
+ lessons dialogue.
+ 
+\end_layout
+
+\begin_layout Standard
+Whether or not a lesson exists with weekly or yearly hours it has the elements
+ assigned day, assigned period, assigned start time, and assigned end time.
+ These four items are in effect redundant information because these four
+ elements must correspond to the four child elements of a specific time
+ period element.
+ However the corresponding time period is not referenced which makes this
+ redundency necessary in the context of its absence.
+ Lessons which are associated with yearly lesson hours have the additional
+ element assigned date which says explicitly upon what date this lesson
+ instance take place.
+\end_layout
+
+\begin_layout Standard
+In the earlier version, yearly lesson hours as well as itermittant planning
+ were not yet supported.
+ As such, this earlier version had solely the four shared temporal behavior
+ elements within the lesson instance elements.
+\end_layout
+
+\begin_layout Minisec
+Descriptions
+\end_layout
+
+\begin_layout Standard
+Lastly, since the beginning of October 2012, Untis exports the lesson descriptio
+n reference.
+ This previously had been modeled against the text field as a simple character
+ value.
+\end_layout
+
+\begin_layout Subsection
+Recommended XML Structure
+\end_layout
+
+\begin_layout Standard
+The current XML export structure has grown historically as we have seen
+ from the comparison of the 2008 and 2013 exports.
+ However there is much work that could still be done to eliminate a great
+ deal of redundancy and bloat, make structures more easily read and parced,
+ and conform to XML design consensus.
+\end_layout
+
+\begin_layout Subsubsection*
+Internal References
+\end_layout
+
+\begin_layout Standard
+Internal references are for the most part made not only specific within
+ the context of their usage, but within the context of the document itself.
+ Document context as used here, means that the references used recieve a
+ prefix solele used within the export to identify its resource type.
+ For example, although a teacher may be directly addressed as such in the
+ context of its use, it is also artifically extended with the resource prefix
+ 
+\begin_inset Quotes eld
+\end_inset
+
+TR_
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\family typewriter
+\size footnotesize
+<lesson_subject id="SU_OOP"/>
+\end_layout
+
+\begin_layout Standard
+The above example shows a typical reference in this case for the subject
+ of a lesson, in this case, object-oriented programming.
+ These references are based upon the resource's name value as dicussed in
+ chapter 2.
+ These are stored within Untis at face value, only during the export they
+ are affixed with this artifical resource prefix.
+\end_layout
+
+\begin_layout Standard
+The name values they mask are often the colloquial names used to describe
+ resources in everyday speech.
+ This makes them desirable for display output which must be abbreviated.
+ This necessitates the parcing of the reference values in order to retrieve
+ this value from doublly specific reference values.
+ While not particularly problematic this does make the processing of the
+ hundreds of resources and references a rather inefficient process, and
+ creates bloat in code handling both for the parcing and for the referencing
+ as seen below.
+ 
+\end_layout
+
+\begin_layout Standard
+Here the parcing of the subject as a child element of the subjects node:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\family typewriter
+\size footnotesize
+$subjectID = str_replace('SU_', '', $gpuntisID);
+\end_layout
+
+\begin_layout Standard
+Here the parcing of the subject reference within the lessons node:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\family typewriter
+\size footnotesize
+$subjectID = str_replace('SU_', '', trim((string) $lessonnode->lesson_subject[0]
+['id']));
+\end_layout
+
+\begin_layout Standard
+During the latest changes to the XML structure itself, i.e.
+ from the versions after September 2012, the Untis developers seem to have
+ noticed this logical inconsistency and have started producing output without
+ the double specificity.
+ In the example below the lesson type is addressed directly without the
+ prefix 
+\begin_inset Quotes eld
+\end_inset
+
+DS_
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\family typewriter
+\size footnotesize
+<lesson_description>Ü</lesson_description>
+\end_layout
+
+\begin_layout Minisec
+Dates and Times
+\end_layout
+
+\begin_layout Standard
+Dates are modeled in Untis using an eight digit unsigned integer value.
+ This occurrs corresponds to the ISO 8601 notation YYMMDD, which is a four
+ digit year followed by the numerical month and day with leading zeros.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "DateFormats"
+
+\end_inset
+
+ Unfortunately in order to ensure database compatability, allow comparisons
+ between and perform date algorithms with these values they must first be
+ converted into the standard 'Y-m-d' format.
+ This necessitates a similar parcing of the values as with internal references
+ in order to be able to productively use these values.
+\end_layout
+
+\begin_layout Standard
+Times are modeled using a four digit integer value.
+ This could easily be fixed to allow for the colon, bringing it inline with
+ every conventional time output in the world.
+\end_layout
+
+\begin_layout Minisec
+General
+\end_layout
+
+\begin_layout Standard
+The school name should reflect the school choice in the corresponding Untis
+ dialogue with the school year or planning period name reflecting the active
+ planning period at the time of export.
+ This would reduce the dates output in the general section solely to those
+ necessary within the schedule while reducing user interaction to achieve
+ a more targetted and expected goal.
+\end_layout
+
+\begin_layout Minisec
+Lesson Periods
+\end_layout
+
+\begin_layout Standard
+The current structure creates an enourmous redundancy and bloat within the
+ periods.
+ Because Untis periods are created using a grid functionality, they display
+ not only the times entered for each of the individual periods, these are
+ then multiplied by the number of days.
+ The reference id of the period and the value of the period's period element
+ could and should funtionally have the same content and be referenced directly
+ by the lesson instances.
+\end_layout
+
+\begin_layout Standard
+What is missing are multiple grids.
+ The assumption is that Untis would simply pack the lesson periods from
+ multiple grids after the lesson periods from the previous.
+ This would then compount the redundancy without bringing any extra value
+ to the document, alone from the simple fact that the lesson periods are
+ not referenced.
+\end_layout
+
+\begin_layout Standard
+What would help bring clarity to the periods would be first the introduction
+ of the grid resource.
+ The parent element for all time values would then be grids followed by
+ the element grid.
+ This grid would recieve a numerical id and have as child elements individual
+ lesson period elements with an id unique within its grid a start time and
+ end time.
+\end_layout
+
+\begin_layout Minisec
+Descriptions, Fields, Room Types, Lesson Types and Equipment
+\end_layout
+
+\begin_layout Standard
+The descriptions field could be replaced with resource specific managed
+ attributes.
+ Each of these would have an id unique to its type and a name.
+ This name need not be the value of a subordinated name element as is currently
+ the case.
+ This can be the value of the field itself.
+ The current statistic field and the corresponding flags element would no
+ longer need to be used and could be removed from the export and from the
+ corresponding Untis dialogues.
+\end_layout
+
+\begin_layout Standard
+Room equipment currently implemented as the statistics code of the rooms
+ element could become it's own element.
+ This would require the implementation of equipment as a resource, but the
+ association should be easily managed as it would be exactly on paar with
+ the functionality of the above mentioned resources.
+\end_layout
+
+\begin_layout Minisec
+Rooms
+\end_layout
+
+\begin_layout Standard
+Rooms could have not only their id as an attribute, but also their numerical
+ capacity and their reference to the corresponding room type id.
+ The flags element could be replaced by an appropriate room equipment element
+\end_layout
+
+\begin_layout Standard
+The 
+\end_layout
+
+\begin_layout Standard
+
+\lang british
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vref{lst:sql-query}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+A Untis Entity Relationship Proposal
+\end_layout
+
+\begin_layout Standard
+It is difficult to describe the Untis database table structure in a professional
+ manner.
+ Untis had up until the introduction of the MultiUser module been designed
+ to be used as a single user program on a local system.
+ Data was persisted as a local file.
+ The Untis Multiuser uses the database for permanent perstince but operates
+ locally with a file generated from this data.
+ This makes Untis backwards compatible to a large extent and allows for
+ newer program versions to add new functionality while using the same system
+ interfaces they have developed over the years.
+ Unfortunately in order to support this local file based program design,
+ the database tables and values continue to represent lines of this locally
+ processed file.
+\end_layout
+
+\begin_layout Standard
+Most of the problems mentioned in dealing with Untis stem from its continued
+ use of these local file based data model.
+ In order to help Untis modify their system architecture with respect to
+ the resources and processed involved an enhanced entity-relationship diagram
+ (EERD
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "EERD"
+description "Enhanced Entity-Relationship Diagram"
+
+\end_inset
+
+) has been developed to account for resources and attributes directly involved
+ in scheduling, but excluding to a greater extent those attributes used
+ to generate the visual output, or calculate values.
+\end_layout
+
+\begin_layout Standard
+Accompanying the EERD will be commentary as to which problems the design
+ behind the diagram intends to solve and addresses possbile resulting workflow
+ simplifications.
+ The EERDs presented depict resources with a simple box.
+ Boxes with a double border depict entities which exist as relations.
+ The use of resouces in associations are marked by black and white rhombuses
+ with the white end facing toward the resource and the black end the association.
+ Resource-resource and association-association associations are marked by
+ black rhombuses.
+ Half circles indicate generalization and specialization with the open end
+ towards the more general resource and the curved end toward the more specialize
+d.
+\end_layout
+
+\begin_layout Subsection
+The Abstract Lesson
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename erd abstract lesson.png
+	scale 60
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:The Abstract Lesson"
+
+\end_inset
+
+Abstract Lesson
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figure ?.? depicts a possible model for an abstract lesson, i.e.
+ a lesson which has not been concretely associated with a time and place
+ of occurance.
+\end_layout
+
+\begin_layout Standard
+Lessons exist both are paradox in that they exist as a resource that is
+ the association of multiple other resources.
+ Although lessons realize subjects, the fact that they can under circumstances
+ realize more than one subject necessitates a table depicting the relation
+ between itself and the subjects which it realizes.
+ Similarly a lesson can be taught by more than one teacher at a time, and
+ may be used for more than one subject group.
+ It could also be said that a lesson implements a particular lesson type.
+ This necessitates no relational table because a given lesson can only implement
+ one lesson type.
+ The name for the lesson as a resource is typically derived from the subject
+ name and the lesson type.
+\end_layout
+
+\begin_layout Standard
+It may seem that the association of subjects and subject groups has been
+ overlooked.
+ While there is a logic to the direct association of the two resources,
+ the association by means of lessons allows for slight variation in the
+ content.
+ This variation, while it doesn't change the subject content enough to warrant
+ a new subject, might be geared more toward students that required to take
+ courses in one subject group as opposed to another.
+ As an example, we will say there is a math lesson.
+ While students of biology and architecture may theoretically have to learn
+ the same basic techniques the examples and calculations involved could
+ be borrowed more from one discipline than the other.
+\end_layout
+
+\begin_layout Standard
+Further fields of knowledge may have multiple subjects and subject groups
+ which deal, for the most part, with integral partial disciplines.
+ Teachers may be versed and certified in multiple fields.
+ Thus necessitating the associative tables with each of these elements.
+\end_layout
+
+\begin_layout Subsection
+Temporal Behavior
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename erd temporal.png
+	scale 60
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Temporal Behavior
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -820,6 +1188,12 @@ Sadly the tables used by the Untis system are still in a state of transition
  high hopes for clean data, it was conceded that this would continue to
  be the startpoint for the schedule workflows within the THM Organizer component
  for the forseeable future.
+\end_layout
+
+\begin_layout Standard
+The redesign and refactoring of THM Organizer to use the new XML export
+ strutures and data formed the greater part of the accompanying technical
+ implementation.
 \end_layout
 
 \begin_layout Subsection
@@ -890,19 +1264,6 @@ spent
 
 \begin_layout Subsection
 Data Retrieval
-\end_layout
-
-\begin_layout Section
-ORM Database Design Suggestion for Untis
-\end_layout
-
-\begin_layout Standard
-It is difficult to describe the Untis database table structure in a professional
- manner
-\end_layout
-
-\begin_layout Standard
-http://en.wikipedia.org/wiki/Database_normalization#Notes_and_references
 \end_layout
 
 \begin_layout Standard

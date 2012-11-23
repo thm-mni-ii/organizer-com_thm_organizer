@@ -295,18 +295,42 @@ Scheduling at the THM is a process which involves a multiple systems which
 \end_layout
 
 \begin_layout Standard
-The driving questions in this process are: Who is involved in the process?
- What actions can those involved perform? Which actions do they need to
- be able to perform to efficiently function? How can the various workflows
- be made more efficient? How can data best be aggregated? Have all necessary
- and desirable attributes and properties of the resources been recorded?
- How is data is the data to be processed?
+The driving questions in this process are: 
+\end_layout
+
+\begin_layout Itemize
+Who is involved in the process? 
+\end_layout
+
+\begin_layout Itemize
+What actions can those involved perform? 
+\end_layout
+
+\begin_layout Itemize
+Which actions do they need to be able to perform to efficiently function?
+\end_layout
+
+\begin_layout Itemize
+How can the various workflows be made more efficient?
+\end_layout
+
+\begin_layout Itemize
+How can data best be aggregated?
+\end_layout
+
+\begin_layout Itemize
+Have all necessary and desirable attributes and properties of the resources
+ been recorded?
+\end_layout
+
+\begin_layout Itemize
+How is data is the data to be processed?
 \end_layout
 
 \begin_layout Standard
-These answers to these questions vary greatly according to the systems examined.
- The systems to be integrated within the scope of this thesis were Untis
- and the THM Organizer component for the Joomla! CMS.
+The answers to these questions vary greatly according to the systems examined.
+ Within the scope of this thesis were Untis and the THM Organizer component
+ for the Joomla! CMS were to be integrated.
  While there are other systems in use in resource management within the
  THM system landscape such as LSF and Excel, their use is predominantly
  tangential to that of scheduling which receives the brunt of the content
@@ -314,21 +338,20 @@ These answers to these questions vary greatly according to the systems examined.
 \end_layout
 
 \begin_layout Standard
-For this reason the two systems directly responsible for the scheduling
+For this reason, the two systems directly responsible for the scheduling
  will be examined independently according to the same criteria in this section.
  Each system will be briefly introduced.
- Its required system environment will be discussed.
- Its security policy and view of concurrency will be explained.
- Workflows stemming from this security policy will be discussed, and the
- system's place in the broader system landscape including existing and potential
- interfaces to other systems will be discussed.
+ Then its required system environment, security policy and workflows will
+ be discussed.
+ Its view of concurrency, and the system's place in the broader system landscape
+ including existing and potential interfaces to other systems will be explained.
 \end_layout
 
 \begin_layout Standard
 A security policy as defined here is the definitions of users and roles,
  the actions these roles can perform and the resources upon which these
  actions may be performed.
- Security policies are enforced by access control mechanisms
+ Security policies are enforced by access control mechanisms.
 \end_layout
 
 \begin_layout Section
@@ -349,10 +372,11 @@ Environment
 \end_layout
 
 \begin_layout Standard
-Similar to the landscape into which Untis was being implemented.
- Untis brought with it the need for a subordinate landscape of systems.
- These were systems were both the result of the requirements of Untis 2013
- with its Multiuser module and the security requirements of the THM.
+Untis, although a complete program in itself, requires in its multi-user
+ mode a subordinate landscape of systems.
+ This subordinate landscape of systems is both the result of the requirements
+ of Untis 2013 with its Multiuser module and the security requirements of
+ the THM.
 \end_layout
 
 \begin_layout Standard
@@ -365,9 +389,10 @@ The first system requirement of Untis is a Windows operating system.
 \begin_layout Standard
 Although not listed directly in any Untis documentation this Windows environment
  must have the .Net Framework in a version 3.5 or higher installed upon it.
- Windows has for several years included this framework with its releases
- however versions at or before Windows Vista or Windows Server 2008 will
- not meet this requirement and it must be manually installed.
+ For the last several years, Windows has included this framework with its
+ releases.
+ Versions at or before Windows Vista or Windows Server 2008 will not meet
+ this requirement and the .Net framework 3.5+ must be manually installed.
  The failure to have a .Net framework of this version installed will cause
  an Untis error message requesting the framework without specifying the
  version required.
@@ -385,7 +410,8 @@ key "CompareForum,W3CComp,WikiComp"
 
 \end_inset
 
- There are several which made MS Access infeasible for use at the THM.
+ Some of these criteria made MS Access completely infeasible for use at
+ the THM.
  It is difficult to prioritize them as they are all equally decisive factors
  for not using Access.
  The THM will have large quantities of data to store which must be remotely
@@ -414,9 +440,15 @@ or and server administrators at the THM.
 \begin_layout Standard
 The Multiuser module requires an ODBC connection to this source.
  The configuration of this source is well documented in the appropriate
- handbook./*source*/ In order to avoid data inconsistency or loss Untis insists
- that both the ODBC connection and the source database be of the same base
- (32 or 64 bit).
+ handbook.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Untis2"
+
+\end_inset
+
+ In order to avoid data inconsistency or loss Untis insists that both the
+ ODBC connection and the source database be of the same base (32 or 64 bit).
  Although the configuration is well documented in Untis, the source providers
  often have vague identification of which base connection they are using.
  In the event of a base mismatch Untis outputs an equally vague warning
@@ -460,14 +492,14 @@ Security Policy
 Untis is a proprietary system which has a user definable security policy.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Users and Roles
 \end_layout
 
 \begin_layout Standard
 Untis allows the creation and configuration of both users and user roles.
- Upon installation Untis automatically has the user role administrator and
- a user with the name administrator.
+ Upon installation Untis automatically installs the preset user and user
+ role administrator.
  All other roles and users must be created by the administrator or a user
  given the rights to do so by the administrator.
 \end_layout
@@ -608,17 +640,17 @@ reference "fig:User Management Dialogues"
 
 \begin_layout Standard
 In the new user dialogue the user creating the new user can also assign
- the new user a password.
+ a password to the new user.
  This dialogue is the only place where the password can be assigned by a
  user other than the one being created.
- Should the created user later forget the password the user entry for this
- user must be deleted as the password cannot be changed by any other user
- at any point in time.
- This has the effect that all personalized data created by the user is also
- deleted and must be created anew.
+ Should the created user later forget the password, his entry in the user
+ dialouge must be deleted, and a new user must be created, because the password
+ cannot be changed by any other user at any point in time.
+ This has the consequence that all personalized data created by the user
+ is also deleted and must be created anew.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Managed Resources
 \end_layout
 
@@ -639,7 +671,7 @@ reference "fig:User Rights Dialogue"
 \shape slanted
 <<Schuljahre>>
 \shape default
-, version, planning period, department 
+, version, planning period, and department 
 \shape slanted
 <<Abteilungen>>
 \shape default
@@ -724,25 +756,25 @@ According to this implementation of managed resources we see a continual
  a school year for one school.
  This is a very logical and consequent system for selecting a single resource
  or set of resources.
- However this logic is slightly flawed.
- It sets the end as equivalent with the means.
+ However, this logic is slightly flawed, because it sets the end equivalent
+ to the means.
 \end_layout
 
 \begin_layout Standard
-Under the assumption that the administrator wishes to restrict a users access
- a to a certain perspective even for something as simple as reading.
+Fore example, the administrator could wish to restrict a user's access to
+ a certain perspective even for something as simple as reading.
  The administrator could want to restrict access along the lines of the
  hierarchy provided, it is however more likely that the administrator would
  like to restrict access to a resource within the plan itself irregardless
  of its place in the hierarchy.
- If for example a certain teacher should be able to see or modify the resources
- of a particular department he should be able to assign that right directly
+ If for example, a certain teacher should be able to see or modify the resources
+ of a particular department he should be able to assign that right directly,
  irregardless of the other managed resources which stand higher in the artificia
 l hierarchy.
  This would allow that teacher to perform his duties for that department
  in every schedule and planning period without having these explicitly listed.
- Moreover it would allow directed access to the resources in question.
- While from an implementation standpoint such a hierarchy may be comfortable
+ Moreover, it would allow directed access to the resources in question.
+ While from an implementation standpoint such a hierarchy may be comfortable,
  it creates an enormous workload for the users managing user access, and
  prohibits that resources be managed across hierarchical boundaries.
 \end_layout
@@ -755,7 +787,7 @@ What is sorely missed in the implemented granularity is the ability to restrict
  help to the management of interdepartmental resources.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Actions
 \end_layout
 
@@ -768,12 +800,13 @@ reference "fig:User Rights Dialogue"
 
 \end_inset
 
-./*source*/ These actions make up what can be explicitly done and many implicitly
- involve resources and other actions.
+.
+ These actions make up what can be explicitly done and many implicitly involve
+ resources and other actions.
 \end_layout
 
 \begin_layout Standard
-While some actions are either allowed or not allowed many of the functions
+While some actions are either allowed or not allowed, many of the functions
  with lesser consequences can have four values: no rights, read only, edit
  views, and edit.
  No rights disallows the user to access that particular function.
@@ -785,40 +818,40 @@ While some actions are either allowed or not allowed many of the functions
  as well as edit which information is displayed.
 \end_layout
 
-\begin_layout Minisec
-Administrator
-\end_layout
-
-\begin_layout Standard
-The action administrator implicitly carries with it most other actions,
- these can however be explicitly removed by taking the appropriate check
- mark from the box.
+\begin_layout Description
+Administrator The action administrator implicitly carries with it most other
+ actions, these can however be explicitly removed by taking the appropriate
+ check mark from the box.
  The most important implicit action for which administrator is required
  is the creation and management of external resources.
 \end_layout
 
-\begin_layout Minisec
-Create School/School Year/Version
-\end_layout
+\begin_layout Description
+Create
+\begin_inset space ~
+\end_inset
 
-\begin_layout Standard
-Actions such as create school/school year/version 
+School/School
+\begin_inset space ~
+\end_inset
+
+Year/Version Actions such as create school/school year/version 
 \shape slanted
 <<Schule, Schuljahr, Version anlegen>>
 \shape default
  are rather self explanatory.
- They also allow the user role access the management dialogue for these
- resources, and to edit their existing names.
+ They also allow the user role access to the management dialogue for these
+ resources and to edit their existing names.
  Atypical for Untis the delete button is not greyed out in the management
  dialogue although deletion is not allowed by these actions.
 \end_layout
 
-\begin_layout Minisec
-User Management
-\end_layout
+\begin_layout Description
+User
+\begin_inset space ~
+\end_inset
 
-\begin_layout Standard
-User Management 
+Management User Management 
 \shape slanted
 <<Benutzerverwaltung>>
 \shape default
@@ -828,12 +861,16 @@ User Management
  the functions in this subsection.
 \end_layout
 
-\begin_layout Minisec
-Periods/Basic Resources/Special Resources/Lessons/Schedule/Optimization
-\end_layout
+\begin_layout Description
+Periods/Basic
+\begin_inset space ~
+\end_inset
 
-\begin_layout Standard
-The activation of periods 
+Resources/Special
+\begin_inset space ~
+\end_inset
+
+Resources/Lessons/Schedule/Optimization The activation of periods 
 \shape slanted
 <<Perioden>>
 \shape default
@@ -867,9 +904,13 @@ The activation of periods
  to create and optimize schedules.
  The granularity of these six actions allows the users with user management
  rights to customize workflows using each of these individual actions.
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout Standard
+
+\begin_inset Newline newline
+\end_inset
+
 However, all of these options are to a greater or lesser degree required
  for the creation of schedules.
  It could be wagered to say that similar to the administrator action there
@@ -877,16 +918,36 @@ However, all of these options are to a greater or lesser degree required
  options.
 \end_layout
 
-\begin_layout Minisec
-Data Import and Export/Print/Infoschedule
+\begin_layout Description
+Data
+\begin_inset space ~
+\end_inset
+
+Import
+\begin_inset space ~
+\end_inset
+
+and
+\begin_inset space ~
+\end_inset
+
+Export/Print/Infoschedule These three options allow differing data import
+ and export options for data, print and a user interactive web directory.
 \end_layout
 
 \begin_layout Standard
-These three options allow differing data import and export options for data,
- print and a user interactive web directory.
+The Untis MultiUser Handbook has further actions and more specific information
+ on the actions available in Untis.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Untis3"
+
+\end_inset
+
+
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Control Mechanisms
 \end_layout
 
@@ -895,12 +956,13 @@ Implementing the security policy of Untis administrators and users assigned
  to roles with user management privileges are Untis various control mechanisms.
 \end_layout
 
-\begin_layout Minisec
-Login Dialogue
-\end_layout
+\begin_layout Description
+Login
+\begin_inset space ~
+\end_inset
 
-\begin_layout Standard
-The first with which the user is comes into contact with is the login dialogue.
+Dialogue The first with which the user is comes into contact with is the
+ login dialogue.
  This dialogue has multiple functions bound to it the most important of
  which with relation to the security policy is user authentication.
  This is the association of the user attempting to access system function
@@ -909,34 +971,38 @@ The first with which the user is comes into contact with is the login dialogue.
  This dialogue is also the entry point for the creation of new schools,
  school years and versions, the saving of schedules in the database, and
  allows users to change their passwords.
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout Standard
+
+\begin_inset Newline newline
+\end_inset
+
 Unfortunately once logged in all user access rights are relegated to the
  current school, school year, and version.
  Should a user often have to work in differing schedules this will require
- renewed logging in as opposed to being able to being able to select from
- a list of resources to which one has access.
+ renewed logging in as opposed to being able to select from a list of resources
+ to which one has access from already having logged in.
 \end_layout
 
-\begin_layout Minisec
-Preemptive Restriction
-\end_layout
+\begin_layout Description
+Preemptive
+\begin_inset space ~
+\end_inset
 
-\begin_layout Standard
-With the exception of the login dialogue, Untis restricts functional access
- by building the user interface around the access rights of the user.
+Restriction With the exception of the login dialogue, Untis restricts functional
+ access by building the user interface around the access rights of the user.
  In most cases this is accomplished by building inactive or 'grayed-out'
  menu entries.
 \end_layout
 
-\begin_layout Minisec
-Reactive Restriction
-\end_layout
+\begin_layout Description
+Reactive
+\begin_inset space ~
+\end_inset
 
-\begin_layout Standard
-In addition to the login dialogue and preemptive restriction, Untis performs
- access checks at the time of user interaction.
+Restriction In addition to the login dialogue and preemptive restriction,
+ Untis performs access checks at the time of user interaction.
  Should the user not be allowed to perform the requested action, he is alerted
  via a pop up notification.
 \end_layout
@@ -945,7 +1011,7 @@ In addition to the login dialogue and preemptive restriction, Untis performs
 Workflows
 \end_layout
 
-\begin_layout Minisec
+\begin_layout Subsubsection*
 Data Aggregation
 \end_layout
 
@@ -986,14 +1052,14 @@ s and the employees of FM responsible for room usage.
  
 \end_layout
 
-\begin_layout Minisec
+\begin_layout Subsubsection*
 Optimization and Planning
 \end_layout
 
 \begin_layout Standard
 The optimization functionality can be an enormous relief to the workload
  of planners.
- Instead of having to plan each lesson by hand the optimization functionality
+ Instead of having to plan each lesson by hand, the optimization functionality
  plans lessons automatically according to the number of unplanned lesson
  units and the teachers fields of expertise recording during data aggregation.
 \end_layout
@@ -1028,7 +1094,7 @@ This department based optimization and planning should be undertaken by
  to a particular school is fully sufficient to manage this workflow.
 \end_layout
 
-\begin_layout Minisec
+\begin_layout Subsubsection*
 Interdepartmental Planning
 \begin_inset CommandInset label
 LatexCommand label
@@ -1064,7 +1130,7 @@ r department.
 \end_layout
 
 \begin_layout Standard
-This brings us to real weakness in the current modeling and workflow the
+This brings us to real weakness in the current modeling and workflow: the
  visibility and availability in Untis of resources used by multiple departments.
  Aside from the issue of the freshness and visibility of resource usage
  across departments addressed in concurrency 
@@ -1100,14 +1166,14 @@ Interdepartmental planning is undertaken by the schedule coordinators and
  of the contended resource.
  In a worst case scenario schedule optimization can be used should the chain
  of reaction cause far reaching changes.
- Here, as in optimized planning, all managed resources are affected and
- although necessary to create a workflow between departments and other instituti
-ons the restriction to a school in this case is both an advantage for the
+ Here, as in optimized planning, all managed resources are affected.
+ Although necessary to create a workflow between departments and other instituti
+ons, the restriction to a school in this case is both an advantage for the
  optimization and planning and a disadvantage in terms of visibility and
  usage.
 \end_layout
 
-\begin_layout Minisec
+\begin_layout Subsubsection*
 Data Propagation
 \begin_inset CommandInset label
 LatexCommand label
@@ -1177,7 +1243,7 @@ reference "fig:External Resources Dialogue"
 \end_inset
 
 , we see the internal resources dialogue.
- This individual entries of the dialogue are not fitted to the resources
+ The individual entries of the dialogue are not fitted to the resources
  types modeled.
  Instead they record the name, long name, the resource type and a text.
  As pertains to external teacher resources, the long name within this dialogue
@@ -1227,7 +1293,7 @@ Data propagation in itself is the responsibility of the Untis administrator,
  a part of the user rights dialogue.
 \end_layout
 
-\begin_layout Minisec
+\begin_layout Subsubsection*
 Versioning
 \end_layout
 
@@ -1242,15 +1308,22 @@ Untis offers the resource version as a means of defining a schedule.
 
 \begin_layout Standard
 The documentation in the Untis MultiUser manual states that up to 255 versions
- can be created per school and school year./*source*/ The documentation as
- to the effects of versioning is non existent.
- Because Untis was directly used productively it was decided to avoid using
+ can be created per school and school year.
+ However, the documentation makes no statement as to the effects of versioning
+ on resources managed from the perspective of multiple school resources.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Untis4"
+
+\end_inset
+
+ Because Untis was directly used productively, it was decided to avoid using
  this functionality until a test system could be put in place to test the
  effects of Untis versioning on external resources and interversional and
- interdepartmental collisions.
+ interdepartmental collisions at a later date.
 \end_layout
 
-\begin_layout Minisec
+\begin_layout Subsubsection*
 Exporting
 \begin_inset CommandInset label
 LatexCommand label
@@ -1362,9 +1435,15 @@ Within the Untis environment concurrency plays a rather central role as
 The first concurrency issue is that of user interaction with stale data.
  User action is made locally persistent as soon as the user leaves the field
  being worked in.
- However database persistence is processed in a fixed 10 second tact./*source
- MultiUser manual*/ Every ten seconds, all local changes to data are checked
- against the corresponding entries in the database.
+ However database persistence is processed in a fixed 10 second tact.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Untis5"
+
+\end_inset
+
+ Every ten seconds, all local changes to data are checked against the correspond
+ing entries in the database.
  Should no change have been made to the data in the database and that of
  the previous version of the local copy, the data is saved to the database.
  Conversely, instead of allowing the user to perform a dirty write, writing
@@ -1432,23 +1511,24 @@ Unfortunately, this evinces that although the user was not in the situation
 \begin_layout Standard
 A similar, but further reaching, concurrency issue is that of external resource
  reservation.
- The booking of external resources, blocks this resource across all schools
- which use this resource, and shows the blocking agent in the planning dialogues.
- This is unfortunately not always the case.
- There have been instances where planned reservations in one school were
- not shown to other schools for some amount of time.
- As this the implementation is not directly documented as the above issue
- it is hard to construct test cases to force the actualization.
+ The booking of external resources blocks this resource across all schools
+ which use this resource, and shows the blocking agent among other things
+ in the appropriate planning dialogues of other schools using this resource.
+ However, there have been instances where planned reservations in one school
+ were not shown to other schools in a timely manner, even as far as a matter
+ of days.
+ As this the implementation of external resource persistence is not directly
+ documented, it is hard to construct test cases because one does not know
+ what should be expected.
 \end_layout
 
 \begin_layout Standard
-The second concurrency issue addressed by Untis is the restriction of key
- resources.
+Another concurrency issue is the restriction of key resources.
  Key resources are those which have consequences for the structure of the
  Untis resource school such as the management of school data and planning
  periods.
  Should a person with the appropriate access currently be working with one
- of these protected resources login attempts by other users to this school
+ of these protected resources, login attempts by other users to this school
  will be denied.
  Should other users already be logged on while attempting to access these
  areas, the user attempting access will either be denied access to the dialogue
@@ -1515,16 +1595,17 @@ Untis in the THM System Landscape
 \end_layout
 
 \begin_layout Standard
-When Untis was originally being purchased the driving force behind the purchase
- was the database behind it which was the part of a broader concept for
- real time applications which would then use this data for the display of
- schedule information and anything else which Untis through it's internal
- calculations could provide.
- However during the Untis training it was strongly recommended that no applicati
-ons be directly based upon the Untis database as its structure and consistency
- could and would not be guaranteed.
- Instead it was recommended that Untis XML export functionality be used
- to export the required data, as its format would be guaranteed.
+When Untis was originally being purchased, the driving force behind the
+ purchase was its central database.
+ This was to be a part of a broader concept for real time applications.
+ These application would then use the data managed by Untis for the display
+ of schedule information and any other data which Untis could provide.
+ However during the Untis training, it was strongly recommended that no
+ applications be directly based upon the Untis database.
+ Its structure and consistency could and would not be guaranteed.
+ Instead, it was recommended that Untis XML export functionality be used
+ to export the required data for scheduling alone, as its format would be
+ guaranteed.
  This relegated Untis from the strong central position initially envisioned
  to the position of a data source solely for the THM Organizer component.
 \end_layout
@@ -1553,7 +1634,7 @@ THM Organizer is a component developed by students and employees of the
  environment required by it.
  THM Organizer requires Untis XML exports for its stock of data, and the
  THM Organizer content plugin to ensure data consistency of persistent events.
- Beyond this there are several other small Joomla! extensions which are
+ Beyond this, there are several other small Joomla! extensions which are
  dependent upon THM Organizer and supply additional views and functionality.
 \end_layout
 
@@ -1561,19 +1642,19 @@ THM Organizer is a component developed by students and employees of the
 Security Policy
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Users and Roles
 \end_layout
 
 \begin_layout Standard
 THM Organizer builds upon the Joomla! platform and functions within a Joomla!
  website.
- Correspondent to this Organizer relies upon the Joomla! user management
+ Correspondent to this, Organizer relies upon the Joomla! user management
  system.
  The creation and management of users is administered within Joomla!.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Managed Resources
 \end_layout
 
@@ -1585,7 +1666,7 @@ Within the scope of this thesis the only explicitly managed resources which
  to workflows.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Actions
 \end_layout
 
@@ -1623,17 +1704,17 @@ THM Organizer's security policy, as regards scheduling, is in comparison
  administrative user, the department schedule coordinator.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Control Mechanisms
 \end_layout
 
-\begin_layout Minisec
-Login Dialogue
-\end_layout
+\begin_layout Description
+Login
+\begin_inset space ~
+\end_inset
 
-\begin_layout Standard
-The most important control mechanism within Joomla! is the login dialogue,
- as seen in figure 3.8 
+Dialogue The most important control mechanism within Joomla! is the login
+ dialogue, as seen in figure 3.8 
 \begin_inset CommandInset ref
 LatexCommand vpageref
 reference "fig:Joomla! Login Dialogue"
@@ -1692,13 +1773,13 @@ Joomla! Login Dialogue
 
 \end_layout
 
-\begin_layout Minisec
-Preemptive Restriction
-\end_layout
+\begin_layout Description
+Preemptive
+\begin_inset space ~
+\end_inset
 
-\begin_layout Standard
-Although Joomla! through its ACL does offer preemptive restriction THM Organizer
- does not yet make use of this feature.
+Restriction Although Joomla! through its ACL does offer preemptive restriction,
+ THM Organizer does not yet make use of this feature.
  In Joomla! this removes menu entries for which the user does not have the
  appropriate rights.
  However, because Joomla! is a web based content management system this
@@ -1706,13 +1787,13 @@ Although Joomla! through its ACL does offer preemptive restriction THM Organizer
  it would not be able to block their entry of these URLs into a web browser.
 \end_layout
 
-\begin_layout Minisec
-Reactive Restriction
-\end_layout
+\begin_layout Description
+Reactive
+\begin_inset space ~
+\end_inset
 
-\begin_layout Standard
-As a logical consequence of the limits of preemptive restriction, all Joomla!
- software must make use of reactive restriction.
+Restriction As a logical consequence of the limits of preemptive restriction,
+ all Joomla! software must make use of reactive restriction.
  Within components, this restriction must be implemented at the two levels
  which can be directly accessed via URLs.
  The first level is within the component's views, these display information
@@ -1721,9 +1802,13 @@ As a logical consequence of the limits of preemptive restriction, all Joomla!
  from user interaction.
  These are the more dangerous of the two as these most often call functions
  of the models which could then modify or destroy data.
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout Standard
+
+\begin_inset Newline newline
+\end_inset
+
 A more detailed explanation of THM Organizer's reactive restriction follows
  in the next chapter discussing the technical implementation.
 \end_layout
@@ -1740,7 +1825,7 @@ All workflows directly having to deal with scholastic scheduling administered
  schedule imported from Untis.
 \end_layout
 
-\begin_layout Minisec
+\begin_layout Subsubsection*
 Add a New Schedule
 \end_layout
 
@@ -1812,55 +1897,60 @@ New Schedule Dialogue
 
 \end_layout
 
-\begin_layout Minisec
-Validation
-\end_layout
-
-\begin_layout Standard
-Validation is performed upon upload of a new schedule.
+\begin_layout Description
+Validation Validation is performed upon upload of a new schedule.
  It checks the uploaded file for consistency and completeness of data.
  While Untis does have its own schedule diagnostics tool, this tool cannot
  account for the structures required within its own data for correct display
  and usage in THM Organizer.
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout Standard
+
+\begin_inset Newline newline
+\end_inset
+
 Before an uploaded file is saved within THM Organizer it must be checked
  for references that would create inconsistencies.
  These come in two varieties: critical errors such as a missing resource
  long name or missing lesson type, and warnings such as a teacher who has
  incomplete first name or personnel number data.
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout Standard
+
+\begin_inset Newline newline
+\end_inset
+
 Because there can be no guarantee that the export from Untis was first examined
  by the Untis diagnostic tool, and because the structures must be examined
  for inconsistencies within Organizer, Organizer's validation also performs
- validation checks which could also be made within the Untis diagnostic
+ many of the same validation checks performed within the Untis diagnostic
  tool.
- This checks, among other things, whether or not items referenced in association
-s were output as well, whether the number of lesson instances matches the
- number required, and whether all lesson instances have been assigned rooms.
+ This checks, among other things, for the presence of items referenced in
+ associations, whether the number of lesson instances matches the number
+ required, and whether all lesson instances have been assigned rooms.
 \end_layout
 
-\begin_layout Minisec
-Version Management
-\end_layout
+\begin_layout Description
+Version
+\begin_inset space ~
+\end_inset
 
-\begin_layout Standard
-Version management is performed implicitly with the upload of the exported
- schedule into THM Organizer.
+Management Version management is performed implicitly with the upload of
+ the exported schedule into THM Organizer.
  This saves the exported schedules making the various stages of schedule
  development persistent.
 \end_layout
 
-\begin_layout Minisec
-Delta Calculation
-\end_layout
+\begin_layout Description
+Delta
+\begin_inset space ~
+\end_inset
 
-\begin_layout Standard
-Upon upload, Organizer automatically sets the uploaded schedule as active
- within the component for the given organization and planning period.
+Calculation Upon upload, Organizer automatically sets the uploaded schedule
+ as active within the component for the given organization and planning
+ period.
  These two attributes are set within the Untis report settings dialogue
  as discussed in Exporting 
 \begin_inset CommandInset ref
@@ -1872,18 +1962,18 @@ reference "Exporting"
 .
  Organizer checks whether another schedule for the uploaded schedule's organizat
 ion and planning period is already active.
- Should this be the case Organizer compares these two schedules and calculates
+ Should this be the case, Organizer compares these two schedules and calculates
  a delta which is saved as a part of the uploaded schedule.
 \end_layout
 
-\begin_layout Minisec
+\begin_layout Subsubsection*
 Set an explicit Reference
 \end_layout
 
 \begin_layout Standard
-Oftentimes in order to highlight changes which may have occurred in an earlier
- version the schedule coordinator may wish to take an earlier version of
- the schedule as its reference for the delta calculation.
+In order to highlight changes, which may have occurred in an earlier version,
+ the schedule coordinator may wish to take an earlier version of the schedule
+ as its reference for the delta calculation.
  This compares the schedules in much the same way as the delta calculation,
  however lets the schedule coordinator explicitly set which version he wishes
  to take as a reference.
@@ -1978,7 +2068,7 @@ THM Organizer is at the moment solely used by department MNI, but is under
 \begin_layout Standard
 This enables the ramification of such appointments and events as regards
  the schedule to be shown as a part of the schedule.
- Beyond that it creates Joomla! content.
+ Beyond that, it creates Joomla! content.
  Here students, teachers and employees can read detailed information about
  events.
  Joomla! content can also be subscribed to using RSS feeds which not only

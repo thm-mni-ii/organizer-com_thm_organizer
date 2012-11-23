@@ -277,17 +277,6 @@ thepage
 Introduction
 \end_layout
 
-\begin_layout Section
-Motivation
-\begin_inset CommandInset label
-LatexCommand label
-name "Motivation"
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Standard
 Over the last ten years the University of Applied Sciences Central Hesse
  (THM
@@ -300,10 +289,10 @@ description "University of Applied Sciences Central Hessen"
 
 ) has undergone vast and deep changes.
  The number of students has risen from under 10,000 to over 14,000.
- New THM campuses, installations, places methods of learning have come about,
- such as the Wetzlar Campus or the BDH Clinic in Braunfels, where students
- can get practical training in the usage and development in biological informati
-on systems.
+ New THM campuses, installations, places, and methods of learning have come
+ about, such as the Wetzlar Campus or the BDH Clinic in Braunfels, where
+ students can get practical training in the usage and development in biological
+ information systems.
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Hessen"
@@ -319,7 +308,7 @@ key "Hessen"
  twice as large as it previously had been.
  This variety gives students more options as to what they study and a deeper
  more specialized knowledge of that field.
- The traditional German Diplom degree program has been almost completely
+ The traditional German diplom degree program has been almost completely
  replaced with bachelor and master degree programs giving the students a
  more performance-oriented education and a degree which is standardized
  throughout Europe assuring THM Alumni better chances in a globalized job
@@ -329,8 +318,8 @@ key "Hessen"
 \begin_layout Standard
 Throughout all this modernization and adaptation of the education offered
  by the THM.
- The IT software infrastructure has however been sorely neglected over the
- same time period.
+ The IT software infrastructure has been sorely neglected over the same
+ time period.
  Multiple systems are in use with minimal transparency between them.
  Often even within the same organizational unit using the same system, stored
  data can have stark deviation from one data collection to the next.
@@ -357,22 +346,24 @@ description "Facility Management"
 
 \end_inset
 
-), the library and document management all have internal software solutions.Sched
-uling takes place in multiple systems for the differing departments and
- campuses, among the most often used systems are Untis and Excel.
+), library management, and document management each have internal software
+ solutions.Scheduling takes place in multiple systems for the differing departmen
+ts and campuses, among the most often used systems are Untis scheduling
+ software and MS Excel spreadsheet software.
 \end_layout
 
 \begin_layout Standard
-Interaction and collaboration between students has used eStudy and Moodle.
+Interaction and collaboration between students has taken place using the
+ collaboration platforms eStudy and Moodle.
  Interaction and collaboration between employees is decentrally managed,
  distributed differently across the vastly differing subordinate organizational
  units.
  The THM intranet's system for the planning of appointments, eGroupware,
  is offered solely to the THM's employees.
- Students and student employees have no access to this system which severely
+ Students and student employees have no access to this system, which severely
  reduces both its use and usefulness.
- Internet is managed using various highly differing techniques by the respective
- organizations, both centralized and decentralized.
+ Internet is managed using various highly differing techniques by both centraliz
+ed and decentralized organizations within the THM.
 \end_layout
 
 \begin_layout Standard
@@ -393,31 +384,62 @@ HIS is a large central system which, as previously mentioned, manages students,
 \begin_layout Standard
 This challenge has been countered over the last few years with the development
  of the iCampus project.
- This project has had this standardization as a goal and has achieved a
- system landscape that although yet still heterogeneous, with multiple systems
- which, developed and used in parallel, deliver much the same functionality,
- brings with it a sense of stability and standards.
+ This project has had this standardization as a goal.
+ It has achieved a system landscape that although yet still heterogeneous,
+ with multiple systems developed and used in parallel, which deliver much
+ the same functionality.
+ This produces a sense of stability and standards.
  The management of students and grades takes place as before within the
  HIS system.
  HIS-LSF was further developed and expanded to be the central repository
  for module description storage.
  As a further result of the iCampus project dialogues have been developed
  which are capable of formatted display of the module description contents.
- Moodle has completely replaced eStudy as the collaboration platform for
- students.
+ eStudy as a collaboration platform has been mothballed, making Moodle the
+ sole collaboration platform for students.
  Untis is being developed into the central repository of scheduling information
  within the THM, with the exception of the Wetzlar Campus.
- Joomla! 2.5.x is being developed to the sole internet platform for the THM's
- web presence across all central and decentral organizations, and with time
- interfaces are being developed from this platform to all other THM systems
- of any importance.
+ The Joomla! 2.5.x content management system (CMS
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "CMS"
+description "Content Management System"
+
+\end_inset
+
+) is being developed to the sole internet platform for the THM's web presence
+ across all central and decentral organizations, and with time interfaces
+ are being developed from this platform to all other THM systems of any
+ importance.
 \end_layout
 
 \begin_layout Standard
 The THM has tested several campus management systems for a successor to
- HIS, such as Datenlotsen.
- However none of these had sufficient functionality in their scheduling
- software to really cover its needs.
+ HIS, such as Datenlotsen
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+A campus management software.
+ For more information see 
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://www.datenlotsen.de/index.php/en/
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+.
+ However, none of these had sufficient functionality in their scheduling
+ software to cover its needs.
  Here, Untis which had already been used for a number of years decentrally
  by the Friedberg Campus and the departments MNI, KMUB
 \begin_inset CommandInset nomenclature
@@ -450,14 +472,15 @@ Building on the gaining predominance of Joomla! 2.5.x and Untis within the
  THM, the interface between these two systems has gained much on importance
  over the course of the last year.
  This interface, THM Organizer, was developed as software for the Joomla!
- which is capable of importing Untis XML export files.
+ CMS which is capable of importing Untis XML export files.
  This import then serves as the basis for a multitude of university specific
  functions.
 \end_layout
 
 \begin_layout Standard
-This thesis discusses these systems, the objects they manage, how they are
- managed, as well as their interfaces and dependencies in other systems.
+These systems, the objects they manage, how they are managed, as well as
+ their interfaces and dependencies in other systems will be discussed in
+ this thesis.
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Kneisel"
@@ -472,9 +495,10 @@ Resource Management
 \end_layout
 
 \begin_layout Standard
-This thesis is about integrating resource management systems, the systems
- which will be dealt with have for the most part previously been mentioned.
- This brings us to the next point resource management.
+This work is about integrating resource management systems.
+ The systems which will be dealt with have, for the most part, previously
+ been mentioned.
+ This brings us to the next item for discussion: resource management.
 \end_layout
 
 \begin_layout Standard
@@ -495,8 +519,15 @@ key "Hell"
 
 \end_inset
 
-, business logic, and propagation.
- These activities take on different meanings dependent upon the resource
+.
+ These are used to build a layer of persistent data for the application
+ layer where propagation and business logic are performed.
+ Business logic is the extrapolation and synthesis of data based upon logical
+ connections and process models.
+\end_layout
+
+\begin_layout Standard
+These activities take on different meanings dependent upon the resource
  from whose perspective the activity is viewed.
  As applied to schools or, more specifically, colleges or universities,
  resource management has a few general perspective aggregates based upon
@@ -653,7 +684,7 @@ Schedules, Lessons and Events
 \end_layout
 
 \begin_layout Standard
-Creation in terms of material objects, personnel and students is the initial
+Creation, in terms of material objects, personnel and students, is the initial
  creation of the objects representing the resources in their respective
  information systems as part of the material acquisition, hiring and immatricula
 tion processes.
@@ -694,12 +725,12 @@ Deletion carries this double relationship further, but does not necessarily
  For example deletion could mean the simple removal of software, or the
  demolition of a building.
  However removal of objects representing resources from one system does
- not mean the resource itself is gone it could simply mean the resource
+ not mean the resource itself is gone; it could simply mean the resource
  has become irrelevant to the organizational unit responsible for a particular
  information system.
  If a teacher who was previously active in two departments is currently
  only active in one, the department for which the teacher no longer holds
- lessons could be removed from their internal HRM system
+ lessons could be removed from their internal HRM system.
 \end_layout
 
 \begin_layout Standard
@@ -709,32 +740,23 @@ y exemplified in the above table.
  As QM's resources are more abstract in nature: specifically the curriculum
  of a course of studies and the abstract resources which come to exist in
  order to implement it.
- The concrete perspectives have as a goal the most efficient usage of the
- managed resources as a goal, whereas QM has as a goal the assurance of
- educational quality for students.
+ The concrete perspectives target the most efficient usage of the managed
+ resources, whereas QM has as a goal the assurance of educational quality
+ for students.
 \end_layout
 
 \begin_layout Standard
 Scheduling tries to fulfill the goals of all these perspectives.
- Scheduling is a process of managing both concrete and abstract resources
- to ensure the utmost efficiency of room and teacher usage, while strictly
- adhering to the standards put in place by quality management, and taking
- special consideration of student needs.
+ It is a process of managing both concrete and abstract resources to ensure
+ the utmost efficiency of room and teacher usage, while strictly adhering
+ to the standards put in place by quality management, and taking special
+ consideration of student needs.
  In itself it integrates the fruits of other management processes as the
  starting point for its own processes.
 \end_layout
 
 \begin_layout Section
-Methodology
-\end_layout
-
-\begin_layout Standard
-This work focuses primarily on the scheduling aspect of resource management
- with the integration of other resource management processes as a source
- and a potential output goal of its processes.
- While it may make short references to other resource management processes,
- it will not go at to any great lengths into the resource management processes
- upon which schedule management is dependent.
+Methodology 
 \end_layout
 
 \begin_layout Standard
@@ -773,6 +795,19 @@ doubled pointed braces
  
 \end_layout
 
+\begin_layout Section
+Limitations
+\end_layout
+
+\begin_layout Standard
+This work focuses primarily on the scheduling aspect of resource management
+ with the integration of other resource management processes as a source
+ and a potential output goal of its processes.
+ While it may make short references to other resource management processes,
+ it will not go to any great lengths into the resource management processes
+ upon which schedule management is dependent.
+\end_layout
+
 \begin_layout Standard
 The version of the Untis software used within the scope of this thesis is
  Untis 2013.
@@ -807,11 +842,40 @@ The resources dealt with in school scheduling software and Untis scheduling
  Each of the systems and administrative processes for resource management
  have their own taxonomy and required information to model the resource
  both within the system and in every day speech.
- Three tasks emerge for the implementation of a system based upon the resources
+ The handling of these resources, systems and their interaction raises important
+ questions.
+\end_layout
+
+\begin_layout Itemize
+What are the resources to be managed?
+\end_layout
+
+\begin_layout Itemize
+Who manages them?
+\end_layout
+
+\begin_layout Itemize
+What are the typical actions performed with them?
+\end_layout
+
+\begin_layout Itemize
+What data is required by each system?
+\end_layout
+
+\begin_layout Itemize
+What functionality should be offered by which system?
+\end_layout
+
+\begin_layout Itemize
+How should this functionality be implemented?
+\end_layout
+
+\begin_layout Standard
+Three tasks emerge for the implementation of a system based upon the resources
  which provide the material for chapters two, three and four.
  These have strong dependencies between one another and often reveal themselves
  to be cyclic in their development.
- However in order to maintain some semblance of structure they have been
+ However, in order to maintain some semblance of structure, they have been
  encapsulated as much as possible.
 \end_layout
 

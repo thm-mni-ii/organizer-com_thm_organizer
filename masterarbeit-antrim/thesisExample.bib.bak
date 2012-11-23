@@ -25,6 +25,16 @@
   timestamp = {2012.11.07}
 }
 
+@ELECTRONIC{Gruber,
+  author = {Gruber, Christian},
+  month = {November},
+  year = {2012},
+  title = {{E-Mail from 20 November, 2012}},
+  howpublished = {Appendix B.2},
+  owner = {James},
+  timestamp = {2012.11.15}
+}
+
 @ELECTRONIC{Hell,
   author = {Martin Heller},
   month = {January},
@@ -48,6 +58,43 @@
   timestamp = {2012.11.15}
 }
 
+@BOOK{Untis2,
+  title = {Das Handbuch zu Untis Multiuser},
+  publisher = {{PEDAV das Softwarehaus für Schulen GmbH \& Co. KG}},
+  year = {2012},
+  author = {{PEDAV das Softwarehaus für Schulen GmbH \& Co. KG}},
+  pages = {7-15},
+  month = {Mai},
+  doi = {10.1088/0960-1317/17/5/R01},
+  owner = {James},
+  timestamp = {2012.11.23},
+  url = {http://pedav.de/dokumente/upload/multiuser_handbuch.pdf}
+}
+
+@BOOK{Untis3,
+  title = {Das Handbuch zu Untis Multiuser},
+  publisher = {{PEDAV das Softwarehaus für Schulen GmbH \& Co. KG}},
+  year = {2012},
+  author = {{PEDAV das Softwarehaus für Schulen GmbH \& Co. KG}},
+  pages = {22-31},
+  month = {Mai},
+  doi = {10.1088/0960-1317/17/5/R01},
+  owner = {James},
+  timestamp = {2012.11.23},
+  url = {http://pedav.de/dokumente/upload/multiuser_handbuch.pdf}
+}
+
+@BOOK{Untis4,
+  title = {Das Handbuch zu Untis Multiuser},
+  publisher = {{PEDAV das Softwarehaus für Schulen GmbH \& Co. KG}},
+  year = {2012},
+  author = {{PEDAV das Softwarehaus für Schulen GmbH \& Co. KG}},
+  pages = {19},
+  month = {Mai},
+  doi = {10.1088/0960-1317/17/5/R01},
+  url = {http://pedav.de/dokumente/upload/multiuser_handbuch.pdf}
+}
+
 @BOOK{Untis1,
   title = {Das Benutzerhandbuch für Untis},
   publisher = {{PEDAV das Softwarehaus für Schulen GmbH \& Co. KG}},
@@ -56,6 +103,8 @@
   pages = {26 - 28},
   month = {Mai},
   doi = {10.1088/0960-1317/17/5/R01},
+  owner = {James},
+  timestamp = {2012.11.23},
   url = {http://pedav.de/dokumente/upload/benutzerhandbuch.pdf}
 }
 
@@ -78,6 +127,17 @@
   url = {www.grupet.at},
   owner = {James},
   timestamp = {2012.10.30}
+}
+
+@ELECTRONIC{DateFormats,
+  month = {November},
+  year = {2012},
+  title = {Date Formats},
+  organization = {The PHP Group},
+  note = {\url{http://www.php.net/manual/en/datetime.formats.date.php}},
+  url = {{http://www.php.net/manual/en/datetime.formats.date.php}},
+  owner = {James},
+  timestamp = {2012.11.19}
 }
 
 @ELECTRONIC{W3CComp,

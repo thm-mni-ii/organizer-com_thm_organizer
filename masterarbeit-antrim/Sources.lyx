@@ -274,7 +274,7 @@ thepage
 \end_layout
 
 \begin_layout Chapter
-E-Mail
+E-Mail Sources
 \end_layout
 
 \begin_layout Section
@@ -282,100 +282,112 @@ Peter Kneisel
 \end_layout
 
 \begin_layout Standard
-Professor Doctor Peter Kneisel is the Vice Dean for department MNI.
- He along with Oliver Christ were responsible for the organization and provided
- the impetus for the installation of Untis 2013.
-\end_layout
 
-\begin_layout Standard
-The following is the original German content of an E-Mail written by Prof.
- Dr.
- Kneisel on the 13th of November, 2012 and was used extensively in Motivation
- 
-\begin_inset CommandInset ref
-LatexCommand vpageref
-reference "Motivation"
-
-\end_inset
-
-:
-\end_layout
-
-\begin_layout Standard
+\family typewriter
 Unsere Hochschule hat sich in den letzten 10 Jahren wesentlich weiterentwickelt:
 \end_layout
 
 \begin_layout Itemize
+
+\family typewriter
 Die Studierendenzahl ist von von unter 10000 auf über 14000 Studierende
  gestiegen.
 \end_layout
 
 \begin_layout Itemize
+
+\family typewriter
 Neue Standorte in ganz Hessen wurden erschlossen - mit Wetzlar ein Standort
  mit über 1000 Studierenden.
 \end_layout
 
 \begin_layout Itemize
+
+\family typewriter
 Neben der Lehre ist als zweites und drittes Standbein die Forschung und
  die Weiterbildung hinzugekommen
 \end_layout
 
 \begin_layout Itemize
+
+\family typewriter
 Alle Studiengänge haben auf Bachelor/Master umgestellt.
  • Mit über 50 Studiengängen hat sich die Anzahl der Studiengänge fast verdoppel
 t.
 \end_layout
 
 \begin_layout Itemize
+
+\family typewriter
 Mit Studium+ ist ein eigener berufsbegleitendes Lehrkonzept mit mittlerweile
  über 1000 Studierenden entstanden.
 \end_layout
 
 \begin_layout Standard
+
+\family typewriter
 Tatsächlich ist in den letzten zehn Jahren keine Stein auf dem anderen geblieben.
  Allein - unsere Systemlandschaft ist nicht mitgewachsen:
 \end_layout
 
 \begin_layout Itemize
+
+\family typewriter
 Die Studierendenverwaltung wird im HIS-SOS-System umgesetzt.
 \end_layout
 
 \begin_layout Itemize
+
+\family typewriter
 Die Notenverwaltung findet in den meisten Fachbereichen (außer MNI) in HIS-POS
  statt.
 \end_layout
 
 \begin_layout Itemize
+
+\family typewriter
 Die Verwaltung von Modulen findet entweder gar nicht oder unvollständig
  in HIS-LSF statt
 \end_layout
 
 \begin_layout Itemize
+
+\family typewriter
 Die ECollaborations-Funktionalität wird in eStudy und - jetzt - in Moodle
  abgebildet
 \end_layout
 
 \begin_layout Itemize
+
+\family typewriter
 Die Stundenplanung erfolgt in den unterschiedlichsten Systemen, eines davon
  ist Untis.
 \end_layout
 
 \begin_layout Itemize
+
+\family typewriter
 Die Intranet-Funktionalität ist auf die vielfältigen Websites der Fachbereiche
  und der eGroupware der Verwaltung verteilt
 \end_layout
 
 \begin_layout Itemize
+
+\family typewriter
 Die Internet-Funktionalität ist mit unterschiedlichen Techniken auf die
  dezentralen und zentralen Organisationen verteilt
 \end_layout
 
 \begin_layout Itemize
+
+\family typewriter
 daneben gibt es noch weitere dezentrale Systeme für die Biblithek, Raumverwaltun
 g, Dokumentenverwaltung, ...
 \end_layout
 
 \begin_layout Standard
+
+\family typewriter
 HIS, als ein großes, zentrales System ist veraltetet und soll 2014 abgelöst
  werden.
  Ein zentrales Campus-Mangement-System ist als Ersatz geplant, wird aber
@@ -387,6 +399,8 @@ en sinnvoll zusammengefasst werden und dort, wo das nicht möglich ist, sauber
 \end_layout
 
 \begin_layout Standard
+
+\family typewriter
 Diese Herausforderung sind wir in den vergangenen Jahren mit dem iCampus-Projekt
  angegangen und so hat sich zwischenzeitlich aus den vielen unterschiedlichen
  Systemen, die sich, oft mit jeweils denselben, Funtkionalitäten parallel
@@ -395,31 +409,43 @@ Diese Herausforderung sind wir in den vergangenen Jahren mit dem iCampus-Projekt
 \end_layout
 
 \begin_layout Itemize
+
+\family typewriter
 Die Studierenden- und Notenverwaltung wird nach wie vor in den HIS-Systemen
  vorgenommen
 \end_layout
 
 \begin_layout Itemize
+
+\family typewriter
 HIS-LSF entwickelt sich zur zentrale Datenhaltung für Modulbeschreibungen
  und verfügt über Schnittstelen zu deren Darstellung
 \end_layout
 
 \begin_layout Itemize
+
+\family typewriter
 Moodle hat sich als eCollaborations-Plattform durchgesetzt.
 \end_layout
 
 \begin_layout Itemize
+
+\family typewriter
 UniUntis entwickelt sich zur zentrale Datenhaltung für die Stundenplanung
  an der THM (ohne Studium+) und verfügt über Schnittstellen zu deren Darstellung
 \end_layout
 
 \begin_layout Itemize
+
+\family typewriter
 Joomla (2.5) entwickelt sich zur alleinigen Plattform für Internet und -
  zunehmend - auch Intranetfunktionalität und wird um Schnittstellen zu allen
  wesentlichen Systemen erweitert 
 \end_layout
 
 \begin_layout Standard
+
+\family typewriter
 Eine wesentliche Funktionalität, die in keinem bislang untersuchten Campus-Manag
 ement-System (z.B.
  "Daten-Lotse") mit hinreichender Funktionalität vorhanden ist, ist die
@@ -438,16 +464,76 @@ ement-System (z.B.
 Peter Gruber
 \end_layout
 
+\begin_layout Itemize
+Sie haben empfohlen, die Untis Schulen als unsere Fachbereiche einzusetzen.
+ Dies hat sich durchaus bewährt wegen den schul- und periodenbezogenen Zeitwünsc
+hen und Zuständigkeiten.
+ Wie sind Sie darauf gekommen?
+\end_layout
+
 \begin_layout Standard
-Peter Gruber is the managing director of Gruber & Petters company responsible
- for the Untis software.
- During the course of Untis Training on 23rd and 24th of August and the
- 5th of October 2012, he and Mr.
- Magnus the Sales Director for the state of Hesse answered various questions
- and gave recommendations which were instrumental for the modeling choices
- made within the Untis system and the firther development of the THM Organizer
- software without.
- He was asked via E-Mail for a written position on these various points.
+
+\family typewriter
+\begin_inset Quotes eld
+\end_inset
+
+Zum einen war es die Erfahrung (Sie sind nicht die erste FH, die auf Untis
+ umsteigt) - auch bei anderen FHs haben die einzelnen Fakultäten die Bedingung,
+ unterschiedliche Zeitwünsche einzugeben.
+ Zum anderen war es die Datenmenge.
+ Wenn Sie alles in einer Schule hätten, hätten wir u.U.
+ Performance-Probleme.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Sie haben empfohlen, dass wir die gleichen Kurznamen verwenden wie externe
+ Namen.
+ Ist das nur wegen der Eindeutigkeit und automatisierten Pflege, oder gibt
+ es einen technischen Hintergrund?
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+\begin_inset Quotes eld
+\end_inset
+
+In Untis sind die Kurznamen die IDs der Elemente - wenn gleiche Elemente
+ in unterschiedlichen Datenbeständen unterschiedliche IDs haben, muss man
+ bei jedem Datenaustausch darauf Rücksicht nehmen.
+ Das gilt übrigens auch für WebUntis, wenn die Daten dort eingespielt werden,
+ ist es notwendig, die unterschiedlichen Kurznamen per Alias-Namen zusammen
+ zu fassen.
+ Grundsätzlich können wir mit unterschiedlichen Kurznamen aber umgehen.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Bei den Zeitwünschen haben Sie empfohlen, dass wir die gröberen Zeitperioden
+ wie Vormittags, Nachmittags, oder den Tag selbst mit Werten versehen anstatt
+ die einzelne Stunden mit Werten zu versehen.
+ Außer der Bequemlichkeit von mehrfachem Markieren gibt es vielleicht eine
+ technisches Vorteil dieser Vorgehensweise? 
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+\begin_inset Quotes eld
+\end_inset
+
+Der Grund liegt in der Bequemlichkeit.
+\begin_inset Quotes erd
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard

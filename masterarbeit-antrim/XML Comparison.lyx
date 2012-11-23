@@ -274,54 +274,52 @@ thepage
 \end_layout
 
 \begin_layout Chapter
-Untis Database Tables
+Comparison of XML Structures
+\begin_inset CommandInset label
+LatexCommand label
+name "Comparison of XML Structures"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-The Untis database table structure is characterized by its lack of normalization
- and bloat
+
+\lang british
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting[label={}, caption=The actual scructure of the XML files.,language
+=XML]{XMLActual.xml}
 \end_layout
 
-\begin_layout Section
-Lesson
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-Spalte Typ Null Standard Kommentare
+
+\lang british
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting[label={}, caption=The recommended structure of the XML files.,lan
+guage=XML]{XMLRecommendation.xml}
 \end_layout
 
-\begin_layout Standard
-MIME SCHOOL_ID int(11) Nein 0 SCHOOLYEAR_ID int(11) Nein 0 VERSION_ID smallint(6
-) Nein 0 Counter int(11) Ja NULL USER_ID smallint(6) Ja NULL Deleted tinyint(1)
- Ja NULL TERM_ID smallint(6) Nein 0 SortId int(11) Ja NULL Text varchar(100)
- Ja NULL StatisticCodes varchar(10) Ja NULL TimeRequest varchar(400) Ja
- NULL TimeStamp int(11) Ja NULL Flags varchar(100) Ja NULL BlankFlags varchar(80
-) Ja NULL DESCRIPTION_ID int(11) Ja NULL ForeColor int(11) Ja NULL BackColor
- int(11) Ja NULL Factor varchar(9) Ja NULL ForeignData varchar(255) Ja NULL
- ForeignKey varchar(50) Ja NULL MiscData varchar(255) Ja NULL LESSON_ID
- int(11) Nein 0 SortIdFinPer smallint(6) Ja NULL LessonNr int(11) Ja NULL
- Periods int(11) Ja NULL DoubleMin int(11) Ja NULL DoubleMax int(11) Ja
- NULL PeriodsRoom int(11) Ja NULL Priority smallint(6) Ja NULL PlannedYear
- smallint(6) Ja NULL SubjectSeqCla varchar(1) Ja NULL SubjectSeqTea varchar(1)
- Ja NULL ClassCollision varchar(1) Ja NULL OptFlag varchar(1) Ja NULL LesnGroups
- varchar(255) Ja NULL LessonElement1 varchar(1000) Ja NULL LessonElement2
- varchar(1000) Ja NULL LessonElement3 varchar(1000) Ja NULL LessonElement4
- varchar(1000) Ja NULL LessonElement5 varchar(1000) Ja NULL LessonElement6
- varchar(1000) Ja NULL LessonElement7 varchar(1000) Ja NULL LessonElement8
- varchar(1000) Ja NULL LessonElement9 varchar(1000) Ja NULL LessonElement10
- varchar(1000) Ja NULL Lesson_TT text Ja NULL Lesson_TTMinut text Ja NULL
- PlannedWeekMinut smallint(6) Ja NULL PlannedYearMinut int(11) Ja NULL LESSON_GR
-OUP_ID int(11) Ja NULL DateFrom int(11) Ja NULL DateTo int(11) Ja NULL ReasonNot
-Planned smallint(6) Ja NULL TimeNotPlanned smallint(6) Ja NULL Block1 smallint(6
-) Ja NULL Block2 smallint(6) Ja NULL Block3 smallint(6) Ja NULL Block4 smallint(
-6) Ja NULL Block5 smallint(6) Ja NULL NoStudentMin smallint(6) Ja NULL NoStudent
-Max smallint(6) Ja NULL YPPerPeriod1 varchar(255) Ja NULL YPPerPeriod2 varchar(2
-55) Ja NULL IntensiveTerm varchar(255) Ja NULL PartNos varchar(255) Ja NULL
- BlockN varchar(100) Ja NULL IsYearPeriods smallint(6) Ja NULL 
-\end_layout
+\end_inset
 
-\begin_layout Section
-Teacher
+
 \end_layout
 
 \begin_layout Standard

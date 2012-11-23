@@ -47,6 +47,32 @@
 
 % avoids that floats are placed above its sections
 \let\mySection\section\renewcommand{\section}{\suppressfloats[t]\mySection}
+
+\definecolor{purple}{RGB}{149, 0, 85}
+\definecolor{lightblue}{RGB}{42, 0, 255}
+
+%--- Listings ---
+\usepackage{listings}
+  \usepackage{courier}
+ \lstloadlanguages{% Check Dokumentation for further languages ...
+         %[Visual]Basic
+         %Pascal
+         %C
+         %C++
+         XML,
+         %HTML
+         Java
+         %PHP
+ }
+    %\DeclareCaptionFont{blue}{\color{blue}} 
+
+  %\captionsetup[lstlisting]{singlelinecheck=false, labelfont={blue}, textfont={blue}}
+  \usepackage{caption}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35,0.01}
+{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={bf,footnotesize}}
+%----------------
 \end_preamble
 \options intoc,bibliography=totoc,index=totoc,BCOR10mm,captions=tableheading,titlepage,fleqn
 \use_default_options true
@@ -164,6 +190,16 @@ customHeadersFooters
 \filename_suffix 0
 \color #faf0e6
 \end_branch
+\branch Declaration
+\selected 1
+\filename_suffix 0
+\color #faf0e6
+\end_branch
+\branch XML Recommendation
+\selected 1
+\filename_suffix 0
+\color #faf0e6
+\end_branch
 \index Index
 \shortcut idx
 \color #008000
@@ -176,6 +212,7 @@ customHeadersFooters
 \papercolumns 1
 \papersides 2
 \paperpagestyle fancy
+\listings_params "basicstyle={\footnotesize\ttfamily},breaklines=true,extendedchars=true,frame=b,framexbottommargin=4pt,framexleftmargin=17pt,framexrightmargin=5pt,keywordstyle={\color{purple}\textbf},numbers=left,numbersep=5pt,numberstyle={\tiny},showspaces=false,showstringspaces=false,showtabs=false,stringstyle={\color{lightblue}\ttfamily},tabsize=2,xleftmargin=17pt"
 \tracking_changes false
 \output_changes false
 \html_math_output 0
@@ -844,6 +881,25 @@ Appendix is of course optional
 \end_layout
 
 \begin_layout Standard
+\begin_inset Branch XML Recommendation
+status open
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
+filename "XML Comparison.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Branch Sources
 status open
 
@@ -851,25 +907,6 @@ status open
 \begin_inset CommandInset include
 LatexCommand include
 filename "Sources.lyx"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Branch Untis Database Tables
-status open
-
-\begin_layout Standard
-\begin_inset CommandInset include
-LatexCommand include
-filename "Untis Database Tables.lyx"
 
 \end_inset
 
@@ -1036,6 +1073,25 @@ status open
 \begin_layout Plain Layout
 The width of the nomenclature entries can be changed by clicking on the
  nomenclature inset.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Branch Declaration
+status open
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
+filename "Declaration.lyx"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset

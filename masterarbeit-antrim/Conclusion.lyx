@@ -281,6 +281,10 @@ Conclusion
 Lessons Learned
 \end_layout
 
+\begin_layout Standard
+Throughout the modeling within Untis and the implem
+\end_layout
+
 \begin_layout Subsection
 Untis
 \end_layout
@@ -560,6 +564,122 @@ Despite problems with usability and the
 
 \begin_layout Section
 Summary
+\end_layout
+
+\begin_layout Subsubsection*
+Questions Answered
+\end_layout
+
+\begin_layout Standard
+In the overview in chapter one several questions have been raised these
+ have been explicitly and implicitly answered over the course of the thesis.
+ In this final section these questions will be posed again this time with
+ brief answers drawing on the conclusions drawn in the previous chapters.
+\end_layout
+
+\begin_layout Itemize
+What are the resources to be managed?
+\end_layout
+
+\begin_layout Standard
+The resources managed within the scope of this thesis are schedules and
+ the resources modeled within them.
+ Schedules themselves are managed in tandem by departmental schedule coordinator
+s and representatives of Facility Management.
+ These schedules are valid for the run of a particular planning period.
+\end_layout
+
+\begin_layout Standard
+Principle among them is the lesson itself an association of several other
+ resources.
+ Lessons are the realization of subjects.
+ They are taught by teachers to fulfill the requirements of CoSs.
+ Subjects and CoSs are special perspectives of a particular field of knowledge
+ for which the teacher or teachers are trained experts.
+ Lessons occur during specific lesson periods over the course of a planning
+ period according to their associated temporal behavior.
+\end_layout
+
+\begin_layout Itemize
+Who manages them?
+\end_layout
+
+\begin_layout Standard
+The resources are managed by the schedule coordinators of the respective
+ departments and members of facility management.
+ These people correspond to users associated with roles and groups.
+ These in turn are assigned actions which can be performed upon the managed
+ resources.
+\end_layout
+
+\begin_layout Itemize
+What are the typical actions performed with them?
+\end_layout
+
+\begin_layout Standard
+The actions are system dependent and aggregate to form workflows.
+ Untis is principally responsible for data aggregation, the planning of
+ schedules, and interdepartmental visibility of resource usage.
+ It has many predefined actions to achieve these ends such as administration,
+ export, and data management.THM Organizer is responsible for the validation,
+ versioning, persistence, and web based display of schedule information.
+\end_layout
+
+\begin_layout Itemize
+What data is required by each system?
+\end_layout
+
+\begin_layout Standard
+Untis requires comprehensive data over all modeled resources to create a
+ complete and informative schedule.
+ Output and planning even as far as generic placeholders can be scheduled
+ with far less information.
+\end_layout
+
+\begin_layout Standard
+THM Organizer requires the schedule information included within the export
+ from Untis inclusive of all the resources listed above.
+\end_layout
+
+\begin_layout Itemize
+What functionality should be offered by which system?
+\end_layout
+
+\begin_layout Standard
+The palate of functionality offered by Untis can be increased and decreased
+ by the purchase or omission of extension modules.
+ The required functionality is that which is necessary to fulfill the actions
+ described above.
+ Key among the necessary modules is the MultiUser module which allows for
+ asynchronous remote data aggregation and planning by the various departments.
+\end_layout
+
+\begin_layout Standard
+Organizer requires the upload and persistence of the schedules exported
+ by Untis.
+ A key tool for transparency is the versioning process which hold the various
+ standpoints of the schedules imported into Organizer and can analyze and
+ compare them to calculate and display any changes made.
+\end_layout
+
+\begin_layout Itemize
+How should this functionality be implemented?
+\end_layout
+
+\begin_layout Standard
+Untis functionality, as a proprietary system, cannot be directly influenced
+ except through the way in which data is modeled in the various resources.
+ However, the Gruber and Petters software company is very appreciative of
+ suggestions and is excerts a constant effort to ensure quality within their
+ product.
+\end_layout
+
+\begin_layout Standard
+THM Organizer...
+\end_layout
+
+\begin_layout Subsubsection*
+bla
 \end_layout
 
 \begin_layout Standard

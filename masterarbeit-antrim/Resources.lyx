@@ -389,7 +389,7 @@ Log-in Dialogue
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \noindent
@@ -462,8 +462,7 @@ name "Departments"
 \end_layout
 
 \begin_layout Standard
-Untis schools correspond to THM departments.
- Departments are semi-autonomous organizational units at the THM, and as
+Departments are semi-autonomous organizational units at the THM, and as
  such are responsible for their own scholastic scheduling.
  Unlike other resources departments are a self containing entity which posses
  or share other resources.
@@ -614,7 +613,13 @@ While Untis does have a department resource that can have a partially similar
  planning priorities associated with the individual departments could not
  be modeled using this resource within Untis.
  For this reason, it was the recommended that the departments of the THM
- use Untis schools to implement the actual departments of the THM./*source*/
+ use Untis schools to implement the actual departments of the THM.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Gruber"
+
+\end_inset
+
  This recommendation was used and the Untis school administrative tool is
  capable of modeling all the above mentioned attributes.
 \end_layout
@@ -979,10 +984,10 @@ The lack of direct Untis support of versioning and revision control is one
  of the challenges of the integration in the practical accompaniment to
  this thesis.
  At the THM the actions of revision control implemented are functions of
- THM Organizer and will be discussed in Version Management 
+ THM Organizer and will be discussed in Version Management and Persistence
 \begin_inset CommandInset ref
 LatexCommand vpageref
-reference "Version Management"
+reference "Version Management and Persistence"
 
 \end_inset
 
@@ -991,6 +996,13 @@ reference "Version Management"
 
 \begin_layout Section
 Basic Resources
+\end_layout
+
+\begin_layout Standard
+This chapter describes the basic resources: teachers, rooms, and subjects.
+ These items are deemed basic resources because they are unquestionable
+ in the concept of a lesson and are described by the Untis software directly
+ as such.
 \end_layout
 
 \begin_layout Subsection
@@ -1202,7 +1214,7 @@ reference "fig:Teachers-View"
 .
  This dialogue shows how the required attributes with exception of departments
  have been modeled onto attributes available to Untis.
- While fields like first and last name fields
+ While fields such as first and last name 
 \shape slanted
 <<Vorname/Nachname>>
 \shape default
@@ -1210,8 +1222,8 @@ reference "fig:Teachers-View"
 \shape slanted
 <<Pers.Nr.>>
 \shape default
- field can easily be explained as holding the teacher's 'hg' number.
- Other fields such as name (short name), external name, and description
+ field can easily be explained as holding the teacher's 'hg' number, other
+ fields such as name (short name), external name, and description
 \shape slanted
 <<Beschr.>>
 \shape default
@@ -1230,11 +1242,17 @@ The name, or short name, is an Untis internal, human-readable key.
 The external name is a name which is used to denote resources used by multiple
  departments.
  This name is uniquely identifiable among all departments and it has been
- strongly recommended that the external name be the same as the short name./*sour
-ce*/ Teachers are a problem in this area as often details such as first
- names and 'hg' numbers are often unknown and must be collected.The THM 'hg'
- number is, from the standpoint of its content, the best attribute to use
- for this value.
+ strongly recommended that the external name be the same as the short name.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Gruber"
+
+\end_inset
+
+ Teachers are a problem in this area as often details such as first names
+ and 'hg' numbers are often unknown and must be collected.The THM 'hg' number
+ is, from the standpoint of its content, the best attribute to use for this
+ value.
  However, they are very often human unreadable and when inputting data the
  schedule coordinators would have to cross-reference them with a list, which
  made this choice very unappealing.
@@ -1502,7 +1520,7 @@ reference "fig:Rooms-View"
  name for interdepartmental use.
  The long name is an additional name that had been until recently the same
  name used for the name field.
- However at the THM there was some discrepancy between the name used in
+ However, at the THM, there was some discrepancy between the name used in
  resource management systems and that which they actually have on the physical
  rooms.
  For this reason the long names of rooms in two of the THM buildings have
@@ -1524,6 +1542,15 @@ Both the building and the floor attribute are not available in Untis.
  However this has two disadvantages.
  Firstly some names are too long to be displayed in most Untis selection
  boxes without manual adjustment to their size.
+ For example, in figure 2.4 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "fig:Rooms-View"
+
+\end_inset
+
+ we see that the addition of a single period would cause the final digit
+ of the name to no longer fit within the display of the select box.
  Secondly when filtering for the rooms of a particular building or floor,
  schedule coordinators are confronted with rudimentary regular expressions
  while using the Untis filter system.
@@ -1554,11 +1581,15 @@ The room equipment was modeled using the Untis statistics
  This allowed for the comma separated input of single character abbreviations
  for room equipment similar to the way in which the same information was
  previously stored within the Excel sheets of FM.
- The only real disadvantage of modeling the information in this was is that
+ The only real disadvantage of modeling the information in this way is that
  statistic codes are not manageable resources in Untis.
- Statistic codes cannot be associated with and actual text fields which
- would then be readable to tell other information systems that 'B' stands
- for video projector ('Beamer' in German).
+ Statistic codes cannot be associated with text fields which would then
+ be readable to tell other information systems that 'B' stands for video
+ projector 
+\shape slanted
+<<Beamer>>
+\shape default
+.
 \end_layout
 
 \begin_layout Standard
@@ -1574,8 +1605,19 @@ Subjects & Modules
 \end_layout
 
 \begin_layout Standard
-The American Heritage Dictionary defines a subject as 'A course or area
- of study...'.
+The American Heritage Dictionary defines a subject as 
+\shape italic
+
+\begin_inset Quotes eld
+\end_inset
+
+A course or area of study[...]
+\begin_inset Quotes erd
+\end_inset
+
+
+\shape default
+.
 \begin_inset CommandInset citation
 LatexCommand cite
 key "AHDSubject"
@@ -1629,8 +1671,8 @@ The preliminary work is the work which the student must complete to be able
 \begin_layout Standard
 The proof of proficiency is the way in which students should demonstrate
  their mastery of the subject's themes.
- While typically an examination this can be many things such as a paper,
- a software project, or a speech.
+ While typically an examination, the proof of proficiency can be many things
+ such as a paper, a software project, or a speech.
 \end_layout
 
 \begin_layout Minisec
@@ -1993,8 +2035,8 @@ reference "fig:Subjects-View"
 \shape slanted
 <<Langname>>
 \shape default
- have a special place within the THM as often times the name as seen here
- is the colloquial name more often used, with the long name being the official
+ have a special place within the THM as often the name as seen here is the
+ colloquial name more often used, with the long name being the official
  name of the subject.
 \end_layout
 
@@ -2007,7 +2049,15 @@ Unlike teachers and rooms the field external name does not exist for this
  shared between departments.
  Biology for example is taught by the same teachers for both the department
  MNI and KMUB.
- Almost every subject department SuK teaches is shared with another department.
+ Almost every subject department Social and Cultural Sciences (SuK
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "SuK"
+description "Social and Cultural Sciences (Sozial- und Kulturwissenschaften)"
+
+\end_inset
+
+) teaches is shared with another department.
 \end_layout
 
 \begin_layout Standard
@@ -2017,10 +2067,10 @@ The subject number
 \shape default
  is a unique identifier within a department's curriculum catalog.
  Although differing in format in between departments it is currently used
- to retrieve information from the LSF information system which has been
+ to retrieve information from the HIS-LSF information system which has been
  modified to accept all of the attributes listed above and many more.
  This number would in principle make the optimal inter-departmental identifier
- for this subject which although the same themes and information are presented
+ for this subject which, although the same themes and information are presented,
  may have differing names in different departments.
 \end_layout
 
@@ -2042,6 +2092,14 @@ reference "Fields and Competence Centers"
 
 \begin_layout Section
 Organizational Resources
+\end_layout
+
+\begin_layout Standard
+Organizational resources help to describe and define other resources.
+ While not directly necessary to define lessons and, by consequence schedules,
+ they greatly enrich the basic information, make the lessons and schedules
+ easier to understand, and can be used to organize the applicable basic
+ resources in ways useful to business logic.
 \end_layout
 
 \begin_layout Subsection
@@ -2071,7 +2129,7 @@ Untis does not have a description or categorization resource unique to any
 placement h
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \noindent
@@ -2258,9 +2316,9 @@ Modeling room types in Untis occurs in the two methods mentioned in the
  previous subsection on Descriptions.
  They are either created through the descriptions interface or dynamically
  by just typing them into the descriptions field.
- This has the same two disadvantages mentioned in Descriptions, that the
- data created dynamically is incomplete and that unassociated descriptions
- will not be recognized as describing rooms.
+ This has the same two disadvantages mentioned in the subsection Descriptions.
+ These are that the data created dynamically is incomplete and that unassociated
+ descriptions will not be recognized as describing rooms.
 \end_layout
 
 \begin_layout Standard
@@ -2269,7 +2327,7 @@ In order to identify room types as such both within and without Untis, the
 \shape slanted
 <<Statistik>>
 \shape default
- field was used to hold the letter 'r'.
+ field was used to hold the letter 'R'.
  Within Untis, this enables schedule coordinators to use the Untis filter
  tool to sort out any descriptions which do not have an 'r' in the statistics
  column so as to make sure the list of room descriptions is complete and
@@ -2356,36 +2414,59 @@ The way in which the learning goals of a particular lesson are to be reached
  to provide the student with more enriching learning experience.
 \end_layout
 
-\begin_layout Standard
-Lectures are the most common lesson type consisting of a mostly frontal
- speech by the lesson teacher and most often feedback from students to themes
- of that speech.
+\begin_layout Itemize
+
+\emph on
+Lectures
+\emph default
+ are the most common lesson type consisting of a mostly frontal speech by
+ the lesson teacher and most often feedback from students to themes of that
+ speech.
  Lectures exist to convey knowledge which should be reflected upon by the
  student.
 \end_layout
 
-\begin_layout Standard
-Exercises serve primarily to help students to reflect upon conveyed theoretical
- knowledge through repetition.
+\begin_layout Itemize
+
+\emph on
+Exercises
+\emph default
+ serve primarily to help students to reflect upon conveyed theoretical knowledge
+ through repetition.
 \end_layout
 
-\begin_layout Standard
-Placement or practical training serves to strengthen the students grasp
- of practical knowledge via hands-on learning.
+\begin_layout Itemize
+
+\emph on
+Placement
+\emph default
+ or 
+\emph on
+practical training
+\emph default
+ serves to strengthen the students grasp of practical knowledge via hands-on
+ learning.
  Typically placement has the completion of one or more projects as a goal.
 \end_layout
 
-\begin_layout Standard
-Seminar as held at the THM is a course in which students are given the assignmen
-t to research and strengthen their knowledge about a particular theme or
+\begin_layout Itemize
+
+\emph on
+Seminar
+\emph default
+ as held at the THM is a course in which students are given the assignment
+ to research and strengthen their knowledge about a particular theme or
  interest.
  The students then hold presentations at regular intervals to discuss the
  results of their efforts.
 \end_layout
 
-\begin_layout Standard
-In respect to the conditions for completion, small group work is usually
- similar to practical training.
+\begin_layout Itemize
+
+\emph on
+Small group work
+\emph default
+ is usually similar to practical training.
  Lessons using this type of instruction method often attempt to teach the
  methodology of problem solving in a particular area while stressing social
  interaction and teamwork.
@@ -2455,11 +2536,19 @@ Modeling
 \begin_layout Standard
 As with room types and fields this has been modeled against the Untis descriptio
 n resource, which can only model two similar attributes.
- Additionally lesson types have 'u' input in the Untis statistic 
+ Additionally lesson types have 'U' input in the Untis statistic 
 \shape slanted
 <<Statistik>>
 \shape default
- field because of the type selection weakness previously discussed.
+ field because of the type selection weakness previously discussed, similar
+ to the 'F' entered within the statistics field in figure 2.6 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "fig:Descriptions View"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -2547,8 +2636,8 @@ Teachers by means of their education and experiences have certain particular
 \end_layout
 
 \begin_layout Standard
-Often times these fields also directly correlate to departmental competence
- centers which help to develop the curriculum for a course of studies.
+Often these fields also directly correlate to departmental competence centers
+ which help to develop the curriculum for a course of studies.
  The teachers which work in these disciplines discuss amongst themselves
  contemporary themes and how best to introduce these themes into those presented
  within the lessons in order to assure quality and relevance.
@@ -2560,7 +2649,7 @@ Attributes
 
 \begin_layout Standard
 \begin_inset Tabular
-<lyxtabular version="3" rows="2" columns="2">
+<lyxtabular version="3" rows="3" columns="2">
 <features tabularvalignment="middle">
 <column alignment="left" valignment="top" width="0">
 <column alignment="left" valignment="top" width="0">
@@ -2578,7 +2667,27 @@ Name
 \begin_inset Text
 
 \begin_layout Plain Layout
-The full name of the field or fields, optionally compounded with a hyphen.
+The full name of the field or fields, optionally compounded with
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+a hyphen.
 \end_layout
 
 \end_inset
@@ -2621,7 +2730,7 @@ Modeling Fields as descriptions in Untis has the exact same weaknesses as
  with room and subject types.
  However Untis does have a unique tool to handle fields directly in the
  case of subjects, and indirectly in the case of teachers.
- The statistics field of these resources has an 'f' in it, because of the
+ The statistics field of these resources has an 'F' in it, because of the
  type weakness discussed previously.
 \end_layout
 
@@ -2630,8 +2739,8 @@ Subjects can be aggregated to a set number of names.
  All of the subjects which pertain to a particular field can then be aggregated
  to a name which corresponds to their field.
  Not only that, they could also be aggregated to their level of complexity.
- The lessons which are normally taught within the first couple three semesters
- of the six semester bachelor degree program could be aggregated to 'Basic',
+ The lessons, which are normally taught within the first three semesters
+ of the six semester bachelor degree program, could be aggregated to 'Basic',
  or the courses of the master degree programs to 'Master'.
 \end_layout
 
@@ -2707,7 +2816,7 @@ Another disadvantage is the lack of direct resource management.
 placement h
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
@@ -2803,11 +2912,10 @@ description "Course of Studies"
 
 \begin_layout Standard
 The first noteworthy criteria for one such subset subject pool is the current
- semester of the student.
- In the Most degree programs recommend subjects to be completed in a particular
- order in order that the knowledge necessary for successful learning in
- one particular subject has been hopefully taught to the student already
- in a course taken in a previously.
+ semester of a student group.
+ Most degree programs recommend subjects to be completed in a particular
+ order so that knowledge is gained incrementally, with the knowledge in
+ the latter course building on the knowledge presented in the former.
  This subsetting seeks to ensure a consequent and sequential acquisition
  of knowledge while the student progresses toward his particular degree.
  This criteria is the most often used for subset creation.
@@ -2821,9 +2929,11 @@ The first noteworthy criteria for one such subset subject pool is the current
 The second criteria is thematic or preferential.
  Students may often times choose between multiple electives or between thematic
  subject pools, i.e.
- majors.
+ minors.
  Often there are several electives from which the student can openly choose
- a certain number, often these are grouped together for a better overview.
+ a certain number.
+ Often courses belonging to these subsets are grouped together for a better
+ overview.
  In the case of thematic subject pools students are usually required to
  choose a certain number of subjects to complete out of a much smaller pool
  to strengthen knowledge in one particular field of study.
@@ -2872,9 +2982,9 @@ Other subject pools such as the minors in management or marketing from the
 \end_layout
 
 \begin_layout Standard
-Lastly subject pools such as the electives of MNI should be planned so that
- they do not collide with the required lessons, but at the same time a degree
- of parallel planning within its own lessons is acceptable.
+Lastly, subject pools such as the electives of MNI should be planned so
+ that they do not collide with the required lessons, but at the same time
+ a degree of parallel planning within its own lessons is acceptable.
  Students can chose the lesson which best suit their interests and their
  own schedules.
  If a conflict exists between two lessons in the same period it may be possible
@@ -2890,7 +3000,7 @@ Attributes
 
 \begin_layout Standard
 \begin_inset Tabular
-<lyxtabular version="3" rows="4" columns="2">
+<lyxtabular version="3" rows="5" columns="2">
 <features tabularvalignment="middle">
 <column alignment="left" valignment="top" width="0">
 <column alignment="left" valignment="top" width="0">
@@ -2968,7 +3078,27 @@ Collision Behavior
 \begin_inset Text
 
 \begin_layout Plain Layout
-The behavior of this subject pool with respect to lesson collision.
+The behavior of this subject pool with respect to lesson
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+collision.
 \end_layout
 
 \end_inset
@@ -2982,7 +3112,7 @@ The behavior of this subject pool with respect to lesson collision.
 \end_layout
 
 \begin_layout Minisec
-Untis Modeling
+Modeling
 \end_layout
 
 \begin_layout Standard
@@ -3060,7 +3190,7 @@ reference "fig:Subject-Pools-View"
  The external name seen here for biological information science, a joint
  CoS offered by departments MNI and KMUB, reflects its use in multiple departmen
 ts.
- However this only allows for visibility of planned lessons on both sides
+ However, this only allows for visibility of planned lessons on both sides
  of the departmental divide without actually allowing the responsible department
  to plan together.
 \end_layout
@@ -3077,20 +3207,19 @@ and schedule
 <<St.Tafel>>
 \shape default
 fields.
- The department field was used was used predominantly so that the subject
- pools could be both conveniently filtered according to the CoS and also
- that the CoS of a subject pool could be exported.
+ The department field was used predominantly so that the subject pools could
+ be both conveniently filtered according to the CoS and also that the CoS
+ of a subject pool could be exported.
  Regarding the schedule field, it cannot be resolved to a text explaining
- what is meant nor is it outputted to the XML.
+ what is meant, nor is it made a part of the exported XML.
  The level 
 \shape slanted
 <<Stufe>>
 \shape default
  column seems like an ideal place to store the semester criteria which is
  for the most part incremental and therefore roughly fitting.
- This field is output to the XML export, however has an enormous disadvantage
- in that the number of character values recorded has a maximal value of
- 20.
+ This field is included in the XML export, however it has an enormous disadvanta
+ge in that the value has a maximal length of 20 characters.
  Untis does not warn the user of this behavior and allows the input of the
  complete value, later cutting off the excess characters.
 \end_layout
@@ -3148,14 +3277,18 @@ Time
 \end_layout
 
 \begin_layout Standard
-The biggest change the introduction of Untis 2013 brought into the system
- landscape at the THM was the change from a two dimensional weekly plan
- to a three dimensional weekly plan in which the lessons offered could be
- different from one week to the next.
- In the two dimensional plan weekly variance was highlighted through commentary
- to individual lessons in the three dimensional plan this variance from
- week to week was could be correctly modeled using temporal and organizational
- resources previously unavailable.
+The biggest change which the introduction of Untis 2013 brought into the
+ system landscape at the THM was the change from a two diminsional to a
+ three diminsional weekly plan.
+ Two diminsional here refers to the combinatorics of days and lesson periods,
+ while three dimensional refers to the combinatoric resulting from the use
+ of days, lesson periods, and individual weeks.
+ The lessons offered could, using the three dimensional plan in addition
+ to temporal and organizational resources previously unavailable, differ
+ from one week to the next more accurately modeling the actual run of many
+ lessons offered.
+ In the two dimensional plan weekly variance had been modeled through commentary
+ to individual lessons.
 \end_layout
 
 \begin_layout Subsection
@@ -3179,7 +3312,7 @@ At the THM there are two planning periods per year the winter semester and
  the winter semester.
  Within the semesters, cyclic lessons, block lessons and exams are planned.
  The length of these two planning periods can vary between departments as
- each has can plan an individual cycle of lectures and exams.
+ each can plan an individual cycle of lectures and exams.
 \end_layout
 
 \begin_layout Standard
@@ -3190,8 +3323,8 @@ ng these two semesters.
  the offering of subjects is in line with the guidelines created when the
  subject's CoS was certified.
  The planning period for the academic year is usually similar to the length
- of an actual year, however dependent upon the individual scheduling needs
- there can be a shortfall or overlappage.
+ of an actual year, however dependent upon the departmental scheduling needs
+ there can be a shortfall between or an intersection of planning periods.
 \end_layout
 
 \begin_layout Standard
@@ -3278,7 +3411,7 @@ The date upon which the planning period ends.
 \end_layout
 
 \begin_layout Minisec
-Untis Modeling
+Modeling
 \end_layout
 
 \begin_layout Standard
@@ -3331,9 +3464,9 @@ Both semesters and the academic year were implemented as the Untis resource
  Untis periods require both identity and length, are disjunct planning periods,
  and are hierarchically structured which makes them an almost optimal resource
  for modeling semesters.
- The only point point of friction between the optimal model and the Untis
- model is that the Untis model limits the academic year to the length of
- a normal year.
+ The only point of friction between the optimal model and the Untis model
+ is that the Untis model limits the academic year to the length of a normal
+ year.
 \end_layout
 
 \begin_layout Standard
@@ -3372,8 +3505,7 @@ Most importantly the propagation and validity of information is very strongly
 as far as lessons are concerned would seem like it should occur automatically
  since the subordinate planning periods take place within the temporal boundarie
 s set by the parent element.
- Unfortunately not only are they not propagated int that direction, these
- lessons are also not exported in the associated parent schedule.
+ Unfortunately this is not the case.
 \end_layout
 
 \begin_layout Subsection
@@ -3440,7 +3572,7 @@ Date The date upon which the lesson period occurs.
 \end_layout
 
 \begin_layout Minisec
-Untis Modeling
+Modeling
 \end_layout
 
 \begin_layout Standard
@@ -3499,8 +3631,8 @@ The schedule coordinator inputs the number of days
 <<Maximale Stundenzahl je Tag>>
 \shape default
 .
- This creates a grid of with a number of blocks corresponding to the days
- times the number of blocks.
+ This creates a grid consisting of a number of blocks corresponding to the
+ days multiplied by the number of blocks.
  This rule-of-thumb handling at the THM leads to three fictitious lesson
  periods occurring Saturday afternoon.
  The schedule coordinator further sets upon which day the school week begins
@@ -3530,7 +3662,7 @@ With the 'Multiple Time Grid' Untis extension module, multiple grids of
  coordinators which make the use of the multi-grid problematic.
  First the use of differing lesson period plans at the THM occurs only along
  the lines of predetermined calendar weeks, in Untis once multiple grids
- have been created they run theoretically parallel to one another.
+ have been created they automatically run parallel to one another.
  Secondly the choice of which lessons can be assigned using which grid occurs
  by assigning grids to subject pools.
  At the THM the same subject pools use both lesson period plans dependent
@@ -3587,9 +3719,11 @@ This discussion occurs between the department scheduling coordinators and
  Schedule coordinators calculate on hand the expected number of students
  and the courses held in front of large numbers of students then number
  of lesson periods they need in rooms.
- They then discuss the assignment of rooms for specific lesson periods and
- in the end each department leaves the discussion with a set number of available
- lesson periods which will hopefully cover his planning needs.
+ They then discuss the assignment of rooms for specific lesson periods.
+ As a result, each department leaves the discussion with a set number of
+ lesson periods available only to them.
+ These resource-lesson period assignments then theoretically cover the planning
+ needs of the respective department.
 \end_layout
 
 \begin_layout Standard
@@ -3612,10 +3746,11 @@ The availability of teachers is a less complex process.
  week and inform the schedule coordinators.
  The schedule coordinator then attempts to schedule lessons held by that
  teacher so as not to impinge upon those obligations.
- Should this not be possible the coordinator discusses the situation with
- the teacher, should no direct solution evince itself the teacher with the
- scheduling conflict may then be exchanged with one available for the time
- in which the lesson must occur.
+ Should this not be possible, the coordinator discusses the situation with
+ the teacher.
+ If the schedule coordinator and teacher are unable to find a solution,
+ the teacher with the scheduling conflict may then be exchanged with one
+ available for the time in which the lesson must occur.
 \end_layout
 
 \begin_layout Minisec
@@ -3809,15 +3944,15 @@ block from the perspective of a department.
 \end_layout
 
 \begin_layout Minisec
-Untis Modeling
+Modeling
 \end_layout
 
 \begin_layout Standard
-Untis allows for planning priorities for rooms, teachers, subjects and subject
- periods.
- However instead of being related to the departments resource available
- within the Untis software, they are related to the 'school' administrative
- tool.
+Untis allows planning priorities to be associated with rooms, teachers,
+ subjects and subject periods.
+ However, instead of being related to the departments resource available
+ within the Untis software, they are related to the school administrative
+ resource.
  This has had dramatic repercussions for the further scheduling process
  as previously stated in the section on Departments 
 \begin_inset CommandInset ref
@@ -3830,8 +3965,8 @@ reference "Departments"
 \end_layout
 
 \begin_layout Standard
-Untis allows the lesson periods for resources to be given signed integer
- values ranging from -3 to 3.
+The lesson periods for resources can be given an signed integer value ranging
+ from -3 to 3.
  These values can be interpreted from the implementation as 'absolutely
  do not plan here' for the -3 value up until 'plan here if at all possible'
  for the 3 value.
@@ -3900,12 +4035,20 @@ reference "fig:Teacher and Subject Pool Planning Priorities"
  for these lesson periods the value two.
  The teacher also has obligations which prevent him from teaching Tuesday
  and Wednesday afternoons for which the value -3 has been recorded.
- Additionally the his department does not schedule lessons on Saturdays
- so he also has a restriction recorded for that day.
+ Additionally the teacher's department in the example does not schedule
+ lessons on Saturdays.
+ Consequently, the teacher also has a restriction recorded for that day.
  The Untis developers suggest that whenever possible to use an aggregate
  such as day, morning, or afternoon to assign planning priorities to lesson
- units for performance reasons.
- /*source*/
+ units to make the assignment of the same value to multiple lesson periods
+ more comfortable.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Gruber"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -3971,16 +4114,17 @@ Temporal Behavior
 
 \begin_layout Standard
 Often times lessons will occur with a certain amount of weekly periodicity,
- that is to say a certain lesson may occur in intervals with number of weeks
- as multipliers.
- For example if a lesson could only be held every second week it would be
- said to have a weekly periodicity.
+ that is to say a certain lesson may occur in intervals with a number of
+ weeks as multipliers.
+ For example, if a lesson could only be held every second week, it would
+ be said to have a weekly periodicity of two.
  It is also conceivable that a certain few lessons may occur over several
  weeks starting or ending abruptly within the otherwise ordinary run of
  a semester.
  In Untis these behaviors are called 'lesson groups'.
- They model this sort of temporal lesson behavior for a single lesson or
- group of lessons and form a separate type of lesson categorization.
+ Untis allows this sort of temporal lesson behavior to be modeled for a
+ single lesson or group of lessons and form a separate type of lesson categoriza
+tion.
 \end_layout
 
 \begin_layout Minisec
@@ -3989,7 +4133,7 @@ Attributes
 
 \begin_layout Standard
 \begin_inset Tabular
-<lyxtabular version="3" rows="5" columns="2">
+<lyxtabular version="3" rows="7" columns="2">
 <features tabularvalignment="middle">
 <column alignment="left" valignment="top" width="0">
 <column alignment="left" valignment="top" width="0">
@@ -4027,8 +4171,27 @@ Startdate
 \begin_inset Text
 
 \begin_layout Plain Layout
-The date upon which the lessons assigned to this temporal behavior should
- commence.
+The date upon which the lessons assigned to this temporal behavior
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+should commence.
  
 \end_layout
 
@@ -4049,8 +4212,27 @@ Enddate
 \begin_inset Text
 
 \begin_layout Plain Layout
-he date upon which the lessons assigned to this temporal behavior should
- cease.
+The date upon which the lessons assigned to this temporal behavior
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ should cease.
 \end_layout
 
 \end_inset
@@ -4104,7 +4286,7 @@ A more specific description of temporal behavior using a set of dates.
 \end_layout
 
 \begin_layout Minisec
-Untis Modeling
+Modeling
 \end_layout
 
 \begin_layout Standard
@@ -4162,12 +4344,13 @@ Each lesson group can use individual methods of defining temporal behavior
 
 \begin_layout Standard
 Should the lessons of the planning period require periodicity, i.e.
- if they repeat themselves in a weekly rhythm of a few weeks.
+ if they repeat themselves in a weekly rhythm of a few weeks, the periodicity
+ must be calculated.
  The lowest common denominator of the number of weeks in the cycle of repetition
  is calculated to determine the overall periodicity and the lesson groups
  are marked accordingly.
  For example should the period have lessons which occur every two weeks
- and lessons which occur every three weeks the periodicity for the planning
+ and lessons which occur every three weeks, the periodicity for the planning
  period would then be six.
  The lessons which occur every two weeks would place a check mark in the
  boxes for weeks a, c and e, or b, d and f.
@@ -4247,19 +4430,19 @@ name "Lessons"
 \end_layout
 
 \begin_layout Standard
-Lessons are the end product of scholastic scheduling.
- As a resource they exist as the association all the previously mentioned
- resources, attributes and associations.
+The end product of scholastic scheduling are lessons.
+ As a resource they exist as the association of all the previously mentioned
+ resources, attributes, and associations.
  Lessons are planned by a department for a particular school year or semester.
  They are instances of a subject or subjects taught by one or more teachers
- and take place taking place in one or more rooms.
+ and take place in one or more rooms.
  These lessons are by extension of their subjects and teachers themes in
  at least one field of knowledge.
  The rooms the lessons take place in are often restricted by the lesson
  type or method of instruction to a suitable room type.
  Lessons should be visited by students trying to fulfill the requirements
  of one or more CoSs or subject pools.
- Lessons take place in a planning period on particular lesson periods, according
+ They take place in a planning period on particular lesson periods, according
  to a specific temporal behavior and the restrictions and planning priorities
  of the resources involved.
 \end_layout
@@ -4270,7 +4453,7 @@ Attributes
 
 \begin_layout Standard
 \begin_inset Tabular
-<lyxtabular version="3" rows="13" columns="2">
+<lyxtabular version="3" rows="4" columns="2">
 <features tabularvalignment="middle">
 <column alignment="left" valignment="top" width="0">
 <column alignment="left" valignment="top" width="0">
@@ -4354,6 +4537,19 @@ The rooms in which the lesson will take place.
 \end_inset
 </cell>
 </row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="9" columns="2">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
 <row>
 <cell alignment="left" valignment="top" usebox="none">
 \begin_inset Text
@@ -4590,7 +4786,8 @@ Lessons Dialogue
 \end_layout
 
 \begin_layout Standard
-The lessons were able to model all of the discussed resources and associations.
+All of the discussed resources and associations could be modeled using the
+ Untis lesson resource.
  Unlike most other Untis resources lessons themselves have neither a name
  or a short name, instead they have a lesson number provided by Untis at
  the time of creation.
@@ -4614,15 +4811,14 @@ reference "fig:Lessons-Dialogue"
 \end_layout
 
 \begin_layout Standard
-The name if there were to be one, would be inherited from the subject or
- subjects to be instanced and the lesson type.
+The name, if there were to be one, would be inherited from the subject or
+ subjects which the lesson instantiates and the lesson type.
  A single subject can be selected from a list or typed in the appropriate
  column.
  Further subjects can be added behind the first subject as long as they
  are separated by a comma.
- .
  This guarantees standardized output within and without Untis.
- Both rooms / room groups 
+ Rooms, or room groups, 
 \shape slanted
 <<Fachraum>>
 \shape default
@@ -4630,7 +4826,7 @@ The name if there were to be one, would be inherited from the subject or
 \shape slanted
 <<Klasse(n)>>
 \shape default
- are handled in the exact same way.
+ are both handled the same as subjects.
  Should a coupling row be added for a teacher, the scheduling coordinator
  should copy the values of the initial row for subjects, rooms and subject
  groups, then paste them into the appropriate columns of the other rows
@@ -4644,7 +4840,7 @@ The department
 \shape default
  or CoS value is inherited from the first subject group in the list of subject
  groups.
- Unfortunately this makes this value worthless as it then disregards all
+ Unfortunately, this makes this value worthless as it then disregards all
  others and is not editable.
 \end_layout
 
@@ -4696,7 +4892,7 @@ reference "fig:Lessons-Dialogue"
 \end_layout
 
 \begin_layout Standard
-Lastly and most important the quantity of blocks per week 
+Lastly, and most important, the quantity of blocks per week 
 \shape slanted
 <<Wst>>
 \shape default
@@ -4705,7 +4901,7 @@ Lastly and most important the quantity of blocks per week
 <<Jst>>
 \shape default
 are entered in the appropriate columns in the list.
- Before the actual planning is completed a number representing the number
+ Before the actual planning is completed, a number representing the number
  of unplanned lesson blocks will also be displayed
 \shape slanted
  <<Nvpl>>
