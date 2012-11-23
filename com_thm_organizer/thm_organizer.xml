@@ -37,7 +37,7 @@
             <folder>css</folder>
             <folder>helper</folder>
     </files>
-    <languages folder="site">
+    <languages folders="site">
         <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.ini</language>
         <language tag="de-DE">language/de-DE/de-DE.com_thm_organizer.ini</language>
     </languages>
