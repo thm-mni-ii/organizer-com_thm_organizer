@@ -274,6 +274,10 @@ thepage
 \end_layout
 
 \begin_layout Chapter
+Source Code
+\end_layout
+
+\begin_layout Section
 Comparison of XML Structures
 \begin_inset CommandInset label
 LatexCommand label
@@ -294,7 +298,7 @@ status open
 
 
 \backslash
-lstinputlisting[label={}, caption=The actual scructure of the XML files.,language
+lstinputlisting[label={}, caption=The actual structure of the XML files.,language
 =XML]{XMLActual.xml}
 \end_layout
 
@@ -315,6 +319,62 @@ status open
 \backslash
 lstinputlisting[label={}, caption=The recommended structure of the XML files.,lan
 guage=XML]{XMLRecommendation.xml}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+THM Organizer Schedule Structure
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:THM-Organizer-Schedule"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The following is the structure of the THM Organizer schedules.
+ These have been removed of all data to allow a better examination of the
+ underlying structure.
+ The removed data has been replaced by place holders which give hints as
+ to the data's general type or the resource id it represents.
+ Where repetitious elements, which did not help to further understand the
+ structure, have been removed 
+\begin_inset Quotes eld
+\end_inset
+
+,...
+\begin_inset Quotes erd
+\end_inset
+
+ has been added.
+ Optional structural information, specifically information pertaining to
+ delta calculation, has been marked in 
+\family typewriter
+\shape slanted
+[square braces]
+\family default
+\shape default
+.
+\end_layout
+
+\begin_layout Standard
+
+\lang british
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting[label={}, caption=The implemented schedule structure in
+ THM Organizer.]{InternalScheduleStructure.txt}
 \end_layout
 
 \end_inset

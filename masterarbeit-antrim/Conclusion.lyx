@@ -282,7 +282,9 @@ Lessons Learned
 \end_layout
 
 \begin_layout Standard
-Throughout the modeling within Untis and the implem
+Throughout the modeling within Untis and the refactoring of THM Organizer
+ to accommodate the new structures several lessons have been learned regarding
+ system design, user interaction, and system interfacing.
 \end_layout
 
 \begin_layout Subsection
@@ -290,245 +292,106 @@ Untis
 \end_layout
 
 \begin_layout Standard
-strengths-> teacher field and room rareness output could be theoretically
- given by untis if it wanted to
-\end_layout
-
-\begin_layout Minisec
-Functional Requirements
-\end_layout
-
-\begin_layout Standard
-Granularity of Resource Grants: Restrictions can only be made as to resources
- in general not to which types of resources.
- This could be useful by special data which is general in nature.
+The service offered by the Gruber & Petters software house has been top
+ notch.
+ They interest themselves for bugs and feature requests, often bringing
+ smaller requests into the next daily build.
+ Mr.
+ Gruber himself has always handled the e-mails with efficiency, even routing
+ them directly to the Untis developers when he personally is unavailable.
 \end_layout
 
 \begin_layout Standard
-Persistence -> Descriptions: Changes to descriptions only become persistent
- when used in combination with concrete resources...
- The assumption is that design is implemented from the bottom up instead
- of the top down.
- Example.
- W1/Werkstatt, Feinmechanik can only be ordered to a specific resource type
- when it is alread in use for that type.
- Even the sorting of descriptions is not saved persistently so that quick
- indexing can only occur with use of the filter tool.
+Untis support of the data from older versions of the software is key in
+ making the system user friendly, to the extent that it allows users of
+ previous Untis systems to import instead of manually adding all the data
+ needed then needed to model the schedules.
+ Even now this data can be used to directly create two dimensional planning
+ within Untis as the use of hierarchical planning periods, weekly periodicity,
+ and temporal behavior is not forced.
+ Each of these things can be used as the user requires them.
 \end_layout
 
 \begin_layout Standard
-Resource Time Restrictions: At the moment these are general.
- It would be important to us to have them dependant upon the department.
+The import of such data is as stated above indispensable, however, that
+ the program still relies internally on antiquated data structures hinders
+ more than helps the continued development in the direction required by
+ true multiuser functionality.
+ The current implementation relies upon the distributed management of resource
+ data and distributed planning.
+ The distributed management of resource data has inconsistency among entered
+ data between Untis schools and stale data read actions where multiple users
+ work within the same school as a consequence.
 \end_layout
 
 \begin_layout Standard
-Using the default filter on the list of subjects, ie according to the subject
- itself does not narrow the result set at all.
+Untis' greatest strength is it's powerful planning algorithm.
+ It not only produces almost useable plans when correctly configured, it
+ also recognizes intrinsically rareness of teacher fields and rooms and
+ by extension room types.
+ This recognition and the ability to model the resources of the various
+ departments would and could allow the extension of Untis functionality
+ to cover the needs of FM and HRM as concerns resource modeling, eventually
+ allowing Untis itself to grow into the campus management system it has
+ the ability to become.
 \end_layout
 
 \begin_layout Standard
-The description select box in leeson management corresponds to the descriptions
- associated with module pools as opposed to those associated with lessons.
-\end_layout
-
-\begin_layout Minisec
-Non-Functional Requirements
-\end_layout
-
-\begin_layout Standard
-Lehrbefähugung: … er füllt zwar das Fach (die Fachgruppe) aber nicht die
- Stufe, obwohl die in der Klasse eingetragen ist.
- Möglicherweise kommt er mit der potentielen Vielzahl der aktuellen Stufen
- nicht zurecht, denn typischerweise sind viele Klassen (und möglicherweise
- sogar mehrere Fächer) an einem Unterricht beteilifgt
+This development has the requirements of clean data management, and the
+ strengthening of the administrative aspect to this software developed to
+ be used completely decentralized.
+ This would include centralized management of resource data and attributes.
+ The decentralized departments would have to act as data consumers picking
+ which available resources should be used within their view of resources,
+ so that the consistency of data could be centrally assured.
+ This could even be functionally supported in perpetuity by giving the users
+ a dialogue to import existing resource settings from a previous planning
+ period.
 \end_layout
 
 \begin_layout Standard
-Resource Names: Lehrer->Dozent, Klasse->Modulpool, Abteilung->Fachbereich,
- Schuljahr->Semester
+The design principles behind Untis often reflect a top-down or schedule-centered
+ perspective.
+ This enables users to figuratively jump into planning by entering resource
+ information directly from the resource's use in associations.
+ While this may have a less steep learning curve and initially offer much
+ in the way of user comfort, the sometimes lacking support of bottom-up
+ planning can prove slightly frustrating to advanced users.
+ Bottom-up planning enables resource administrators to operate from a resource
+ or data-centered perspective first entering all the required data then
+ working down the chain of dependency to create functionally rich, meaningful,
+ and detailed schedules.
 \end_layout
 
 \begin_layout Standard
-School Year Names: These are currently based off of a year altough our planning
- cycle is roughly 6 months.
- This should be configurable and the 
-\begin_inset Quotes eld
-\end_inset
-
-year
-\begin_inset Quotes erd
-\end_inset
-
- name should be based upon the text value and not the integer key used internall
-y to represent a school year spanning new years day.
-\end_layout
-
-\begin_layout Standard
-Inconsistencies in Associative Handling: Some Resources such as teachers
- allow for multiple departments while others, rooms for example, do not
- allow this although under our current workflow it is absolutely necessary.
- Kneisel's workaround involves dummy rooms with the same longname.
- This sounds dangerous to me and must be further explored.
-\end_layout
-
-\begin_layout Standard
-jahresstunden does not disappear when deselected in the field selection
- dialogue
-\end_layout
-
-\begin_layout Standard
-When a user has the master data open for any resource other than subjects
- opening the related lesson view automatically opens to the selected resource.
- For example if I have highlighted the class xyz then opening the lessons>classe
-s dialogue automatically opens the lessons which are marked for class xyz.
- When the subject master data view is opened and the subject xyz is highlighted
- opening the lessons>subjects view not only does not open to a list of lessons
- instancing that particular subject, it loads a random batch of lessons
- and sets the filter to 
-\begin_inset Quotes eld
-\end_inset
-
-all
-\begin_inset Quotes erd
-\end_inset
-
-.
- Suggesting that these were all the lessons available at all.
- Except for the misleading 
-\begin_inset Quotes eld
-\end_inset
-
-all
-\begin_inset Quotes erd
-\end_inset
-
- entry the filter is actually quite empty and doesn't allow for the fast
- filtering to any particular subject.
-\end_layout
-
-\begin_layout Standard
-Descriptions can be filtered to a particular resource type, and when creating
- with this filter activated will be associated with this resource type.
- However, there is no way to associate existing descriptions with resource
- types or to change an existing association of description to resource.
- Additionally as in all other matters the masking of system keys allows
- for no double entries.
- Specifically the use of the description 
-\begin_inset Quotes eld
-\end_inset
-
-Practical Training
-\begin_inset Quotes erd
-\end_inset
-
- for a subject must out of necessity be the same description which describes
- a lesson.
- This means that this element must be created without a resource association
- to be of use.
-\end_layout
-
-\begin_layout Standard
-Select boxes do not self adjust to fit the length of the content within
- them.
- This leads to the creation of personal abbreviations.
- :(
-\end_layout
-
-\begin_layout Minisec
-Dynamic Resource Creation
-\begin_inset CommandInset label
-LatexCommand label
-name "Dynamic Resource Creation"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Dynamic resource creation.
- Often times Untis expects the user to create resources dynamically in interface
-s associating them.
- This leads to the creation of resources which may or may not have complete
- data since the creation of the resource does not open a mask asking for
- the data missing, instead creating the data with a name only.
-\end_layout
-
-\begin_layout Minisec
-Fachengpässe
-\end_layout
-
-\begin_layout Standard
-Why the fuck is this not written large on the wall.
- This is good shit.
+There need not however be a dichotomy between these two perspectives.
+ Instead Untis developers could open a new dialogue related to the detailed
+ resource view when resources are created dynamically.
+ This would keep the fast top-down perspective centered user interaction
+ in the foreground, but make efforts to ensure that the required data is
+ properly entered instead of just creating a resource based upon a name-key.
 \end_layout
 
 \begin_layout Subsection
-Problems with Data Sources
+THM Organizer
 \end_layout
 
 \begin_layout Standard
-Names used across department barriers need to have a unified approach to
- ensure that no element is unintendedly overwritten, and that the system
- fully lives up to its potential.
- This unfortunately needs to be done on a resource by resource basis.
-\end_layout
-
-\begin_layout Minisec
-Descriptions
-\end_layout
-
-\begin_layout Standard
-Descriptions are only partially official in a sense that only the room categoriz
-ation has reference in an external systems.
- The categorization was brought on my facility management to /*get motives*/.
- The proposed and most credible standard has been the 
-\begin_inset Quotes eld
-\end_inset
-
-Denniffelesque
-\begin_inset Quotes erd
-\end_inset
-
- system of one letter and one number.
- The letter represents a categorization according to type.
- The number represents a subcatagorization according to capacity, equipment,
- or purpose.
- However this standard has not been held across the differing systems within
- THM facilities management division.
- There is, for the most part, a direct correlation between the systems however
- individual system entries may vary wildly.
- Thus the problem of integrity with respect to the room categorization is
- both in the categorization itself and within the information the categorization
- represents.
-\end_layout
-
-\begin_layout Minisec
-Departments
+THM Organizer still has far to go.
+ Its development has only taken place over the course of the last three
+ years and has evolved from a front-end module for the upload of XML documents
+ to a very powerful tool for the handling of scheduling, events, resources,
+ and curricula.
+ It has much work left to be done to standardize its place in coordination
+ with the Untis program and any future campus management system.
+ Should Untis not evolve to accept more data and have a cleaner database
+ oriented handling of more assets THM Organizer may end up developing even
+ more in this direction.
 \end_layout
 
 \begin_layout Standard
-Departments play a role with every resource and with are assignable to access
- management groups.
-\end_layout
-
-\begin_layout Minisec
-Classes
-\end_layout
-
-\begin_layout Standard
-Classes are a misnomer stemming from Untis' historical target group being
- grade school and high school planners who would then be able to use the
-\end_layout
-
-\begin_layout Minisec
-Subjects
-\end_layout
-
-\begin_layout Standard
-content management systems, entwickelung webbassierte software, it-vertrieb(VM)
- ba5003, marketing-komm.
- im internet cs2321
+While its distant future may, for now, remain uncertain its immediate future
+ as discussed in section 5.3 is bright and highly functional.
 \end_layout
 
 \begin_layout Section
@@ -541,7 +404,7 @@ During the conception of this thesis it was originally intended that Untis'
  This would have allowed the implementation of a web services platform for
  the propagation of information both within and without Untis.
  This direct propagation would have been a source of accurate real time
- data suable in multiple systems, principally THM Organizer, but there were
+ data usable in multiple systems, principally THM Organizer, but there were
  also plans in the works for access for campus navigation and other consumer
  applications.
 \end_layout
@@ -549,9 +412,26 @@ During the conception of this thesis it was originally intended that Untis'
 \begin_layout Standard
 Mr.
  Gruber the managing director of Gruber & Petters recommended that this
- approach not be implemented as Gruber & Petters had no intention within
- a reasonable timeline to guarantee the information structure and quality
- of the Untis database.
+ approach not be implemented as Gruber & Petters cannot guarantee the informatio
+n structure and quality of the Untis database at this time.
+ This had the consequence of a much more limited interaction between Untis
+ and other systems within the THM landscape.
+\end_layout
+
+\begin_layout Standard
+The time necessary for acclimatization to and modeling in Untis and the
+ iterative development of Untis structures in response to our criteria had
+ at certain points applied the brakes to development in that a minimal wait
+ time was at times necessary for the necessary structure elements to be
+ exported.
+ This led to a bit of the accordion effect as the development of structures
+ within THM Organizer are completely dependent on those offered by Untis.
+\end_layout
+
+\begin_layout Standard
+For this reason and the general time limitation imposed upon the scope of
+ a master thesis, there is much that remains to be developed within THM
+ Organizer.
 \end_layout
 
 \begin_layout Section
@@ -559,15 +439,51 @@ Directions for Future Development
 \end_layout
 
 \begin_layout Standard
-Despite problems with usability and the
+The limitations to the development in THM Organizer were until now only
+ restricted by the amount of time available for investment into the system.
+ However this restriction soon no longer stands in the way and there is
+ much to be done, such as:
+\end_layout
+
+\begin_layout Itemize
+resolving resources across schedules imported for many different departments
+\end_layout
+
+\begin_layout Itemize
+merge of department schedules for the creation of aggregate schedules both
+ between departments and for the entire school
+\end_layout
+
+\begin_layout Itemize
+resource management protocols when uploading a schedule so as to allow the
+ selection of a specific resource actualization
+\end_layout
+
+\begin_layout Itemize
+delta calculation between aggregate plans
+\end_layout
+
+\begin_layout Itemize
+data synchronization methods through targeted exporting
+\end_layout
+
+\begin_layout Itemize
+possible imports of generated files modeling existing resource information
+ from differing sources
+\end_layout
+
+\begin_layout Itemize
+functions designed to support the calculations and queries requested by
+ FM
+\end_layout
+
+\begin_layout Itemize
+interfaces to and import of data from other university resource management
+ systems, most notably the HIS family
 \end_layout
 
 \begin_layout Section
 Summary
-\end_layout
-
-\begin_layout Subsubsection*
-Questions Answered
 \end_layout
 
 \begin_layout Standard
@@ -670,16 +586,19 @@ How should this functionality be implemented?
 Untis functionality, as a proprietary system, cannot be directly influenced
  except through the way in which data is modeled in the various resources.
  However, the Gruber and Petters software company is very appreciative of
- suggestions and is excerts a constant effort to ensure quality within their
+ suggestions and is exerts a constant effort to ensure quality within their
  product.
 \end_layout
 
 \begin_layout Standard
-THM Organizer...
+THM Organizer's functionality is implemented using a variety of tools offered
+ by various systems.
+ Chief among those are the PHP core libraries, the Joomla! platform, MySQL,
+ the SimpleXML library, and the ext-js JavaScript framework.
 \end_layout
 
-\begin_layout Subsubsection*
-bla
+\begin_layout Standard
+Thank you for reading.
 \end_layout
 
 \begin_layout Standard

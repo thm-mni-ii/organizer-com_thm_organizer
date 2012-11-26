@@ -287,7 +287,7 @@ baselineskip}
 \begin_inset Newline newline
 \end_inset
 
-Central Hesse University of Applied Science
+Central Hesse University of Applied Sciences
 \begin_inset Newline newline
 \end_inset
 
@@ -296,10 +296,6 @@ Department for Mathematics,
 \end_inset
 
  Natural and Information Sciences
-\begin_inset Newline newline
-\end_inset
-
-webMedia Research Group
 \begin_inset VSpace -3cm
 \end_inset
 
@@ -863,16 +859,6 @@ filename "Appendix.lyx"
 \end_inset
 
 
-\end_layout
-
-\end_inset
-
-
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Appendix is of course optional
 \end_layout
 
 \end_inset

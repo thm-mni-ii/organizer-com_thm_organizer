@@ -2176,15 +2176,7 @@ on is typed in or selected.
  the dialogue of the resource to be described, or that the description is
  created in the description dialogue and then that the schedule coordinator
  types it in exactly as if he was dynamically creating it.
- For more on Untis' dynamic resources creation see Dynamic Resource Creation
  
-\begin_inset CommandInset ref
-LatexCommand vpageref
-reference "Dynamic Resource Creation"
-
-\end_inset
-
-.
 \end_layout
 
 \begin_layout Standard
@@ -2552,8 +2544,8 @@ reference "fig:Descriptions View"
 \end_layout
 
 \begin_layout Standard
-It had been suggested/*source*/, that the lesson types as here defined be
- modeled as parts of the subject.
+A possible solution would have been to model the lesson types here defined
+ as parts of the subject.
  This would have meant that for each lesson type a new subject would have
  to be created.
  This would have had the advantage of being able to say at the subject level
@@ -3278,7 +3270,7 @@ Time
 
 \begin_layout Standard
 The biggest change which the introduction of Untis 2013 brought into the
- system landscape at the THM was the change from a two diminsional to a
+ system landscape at the THM was the change from a two dimensional to a
  three diminsional weekly plan.
  Two diminsional here refers to the combinatorics of days and lesson periods,
  while three dimensional refers to the combinatoric resulting from the use

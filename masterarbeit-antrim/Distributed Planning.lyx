@@ -372,7 +372,7 @@ Environment
 \end_layout
 
 \begin_layout Standard
-Untis, although a complete program in itself, requires in its multi-user
+Untis, although a complete program in itself, requires in its multiuser
  mode a subordinate landscape of systems.
  This subordinate landscape of systems is both the result of the requirements
  of Untis 2013 with its Multiuser module and the security requirements of
@@ -644,7 +644,7 @@ In the new user dialogue the user creating the new user can also assign
  This dialogue is the only place where the password can be assigned by a
  user other than the one being created.
  Should the created user later forget the password, his entry in the user
- dialouge must be deleted, and a new user must be created, because the password
+ dialogue must be deleted, and a new user must be created, because the password
  cannot be changed by any other user at any point in time.
  This has the consequence that all personalized data created by the user
  is also deleted and must be created anew.
@@ -1792,8 +1792,15 @@ Reactive
 \begin_inset space ~
 \end_inset
 
-Restriction As a logical consequence of the limits of preemptive restriction,
- all Joomla! software must make use of reactive restriction.
+Restriction
+\begin_inset CommandInset label
+LatexCommand label
+name "JoomlaReactiveRestriction"
+
+\end_inset
+
+ As a logical consequence of the limits of preemptive restriction, all Joomla!
+ software must make use of reactive restriction.
  Within components, this restriction must be implemented at the two levels
  which can be directly accessed via URLs.
  The first level is within the component's views, these display information

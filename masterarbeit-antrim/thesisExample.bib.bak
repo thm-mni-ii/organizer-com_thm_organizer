@@ -92,6 +92,19 @@
   pages = {19},
   month = {Mai},
   doi = {10.1088/0960-1317/17/5/R01},
+  owner = {James},
+  timestamp = {2012.11.23},
+  url = {http://pedav.de/dokumente/upload/multiuser_handbuch.pdf}
+}
+
+@BOOK{Untis5,
+  title = {Das Handbuch zu Untis Multiuser},
+  publisher = {{PEDAV das Softwarehaus für Schulen GmbH \& Co. KG}},
+  year = {2012},
+  author = {{PEDAV das Softwarehaus für Schulen GmbH \& Co. KG}},
+  pages = {6},
+  month = {Mai},
+  doi = {10.1088/0960-1317/17/5/R01},
   url = {http://pedav.de/dokumente/upload/multiuser_handbuch.pdf}
 }
 

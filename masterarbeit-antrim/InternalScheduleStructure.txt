@@ -1,0 +1,110 @@
+{
+    "creationdate":"<DATE>",
+    "creationtime":"<TIME>",
+    "departmentname":"<TEXT>",
+    "semestername":"<TEXT>",
+    "startdate":"<DATE>",
+    "enddate":"<DATE>",
+    "periods":{
+        "<#>":{
+            "gpuntisID":"TP_<#>",
+            "day":<#>,
+            "period":<#>,
+            "starttime":"<TIME>",
+            "endtime":"<TIME>"
+        },...
+    },
+    "fields":{
+        "<field id>":{
+            "gpuntisID":"DS_<field id>",
+            "name":"<TEXT>"
+        },...
+    },
+    "roomtypes":{
+        "<room type id>":{
+            "gpuntisID":"DS_<room type id>",
+            "name":"<TEXT>"
+        },...
+    },
+    "lessontypes":{
+        "<lesson type id>":{
+            "gpuntisID":"DS_<lesson type id>",
+            "name":"<TEXT>"
+        },...
+    },
+    "degrees":{
+        "<degree id>":{
+            "gpuntisID":"DP_<degree id>",
+            "name":"<TEXT>"
+        },...
+    },
+    "rooms":{
+        "<room id>":{
+            "gpuntisID":"RM_<room id>",
+            "name":"<room id>",
+            "longname":"<TEXT>",
+            "capacity":"<#>",
+            "description":"<room type id>",
+            "typeID":"<#>"
+        },...
+    },
+    "subjects":{
+        "<subject id>":{
+            "gpuntisID":"SU_<subject id>",
+            "name":"<subject id>",
+            "longname":"<TEXT>",
+            "subjectNo":"<TEXT>",
+            "description":"<field id>"
+        },...
+    },
+    "teachers":{
+        "<teacher id>":{
+            "gpuntisID":"TR_<teacher id>",
+            "surname":"<TEXT>",
+            "firstname":"<TEXT>",
+            "username":"<TEXT>",
+            "description":"<field id>",
+            "fieldID":"<#>"
+        },...
+    },
+    "modules":{
+        "BI.1":{
+            "gpuntisID":"CL_<subject group id>",
+            "name":"<subject group id>",
+            "longname":"<TEXT>",
+            "restriction":"<TEXT>",
+            "degree":"<degree id>",
+            "description":"<field id>"
+        },...
+    },
+    "calendar":{
+        "sylength":<#>,
+        "termlength":<#>,
+        "<DATE>":{
+            "<#>":{
+                "<lesson id>":{
+                    "<room id":"<delta>",...[,]
+                    ["delta":"<delta>"]
+                },...
+            },...
+        },...
+    },
+    "lessons":{
+        "<lesson id>":{
+            "gpuntisID":"LS_<#>",
+            "subjects":{
+                "<subject id>":"<delta>",...
+            },
+            "description":"<description id>",
+            "name":"<TEXT>",
+            "teachers":{
+                "<teacher id>":"<delta>",...
+            },
+            "modules":{
+                "<subject group id>":"<delta>",...
+            },
+            "comment":"<TEXT>"[,]
+            ["delta":"<delta>"]
+        },...
+    }
+}

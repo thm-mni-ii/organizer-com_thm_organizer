@@ -113,8 +113,14 @@ adds table of contents entry
 \end_layout
 
 \begin_layout Standard
-This thesis concerns itself with the integration of resource management
- systems, the use of managed data for scheduling and pipapo.
+This work concerns resource management systems, their functions and the
+ areas in which they are used.
+ It discusses the resources necessary for scholastic scheduling and their
+ modeling in the newly introduced Untis 2013 MultiUser software.
+ The specific functions and workflows of the Untis and THM Organizer scheduling
+ software are discussed including their security policies, concurrency managemen
+t, their place in the THM system landscape, and the interface they share
+ between these two systems.
 \end_layout
 
 \end_body

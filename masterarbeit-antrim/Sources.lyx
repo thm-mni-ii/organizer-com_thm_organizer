@@ -536,6 +536,58 @@ Der Grund liegt in der Bequemlichkeit.
 
 \end_layout
 
+\begin_layout Itemize
+Ich erinnere mich vage dass gesagt wurde das Dozenten, bezüglich Kopplungszeilen
+, nicht die gleiche Handhabung wie Fächer, Klassen und Räume haben weil
+ da irgendwelche Werteberechnungen durchgeführt werden so dass die Dozenten
+ ihre eigene Zeile benötigen.
+ Können Sie dies bestätigen oder erinnere ich mich falsch?
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+\begin_inset Quotes eld
+\end_inset
+
+Korrekt, jeder Dozent benötigt seine eigene Zeile.
+ Das ist wichtig, weil damit klar definiert ist, welcher Dozent für welche
+ Gruppen zuständig ist.
+ Semestergruppen und Räume können jeweils mit Komma getrennt eingegeben
+ werden.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Sie haben empfohlen dass wir nicht direkt auf die Datenbank zugreifen sondern
+ uns auf die XML-Export Datei verlassen sollen.
+ Können Sie bitte dazu ein paar Sätze schreiben?
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+\begin_inset Quotes eld
+\end_inset
+
+Die Datenbank wird von uns nicht dokumentiert, bei einer neuen Version kann
+ sich daher die Struktur der Datenbank jederzeit ändern.
+ Schnittstellen, die direkt auf die Datenbank zugreifen, funktionieren daher
+ bei einem Releasewechseln u.U.
+ nicht mehr.
+ Das kann bei der XML Schnittstelle nicht passieren, Änderungen passieren
+ dort nur in der Form, dass Felder dazukommen (was wiederum "alte" Schnittstelle
+n nicht stört).
+ Eine Kompatibilität zu neuen Versionen ist daher von Vornhereingewährleistet.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 \begin_inset Branch NoChildDocument
 status collapsed
