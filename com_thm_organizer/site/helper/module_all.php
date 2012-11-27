@@ -635,6 +635,11 @@ class ModuleAll
 
 		for ($i = 0; $i <= count($this->xmlStructure->beschreibungen); $i++)
 		{
+			if(!isset($this->xmlStructure->beschreibungen[$i]))
+			{
+				continue;
+			}
+			
 			if ($this->xmlStructure->beschreibungen[$i]->kategorie == "Voraussetzungen" && $this->xmlStructure->beschreibungen[$i]->sprache == "de")
 			{
 				$this->zwvoraussetzungen_de = $this->xmlStructure->beschreibungen[$i]->txt;

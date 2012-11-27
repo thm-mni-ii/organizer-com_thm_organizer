@@ -442,6 +442,11 @@ class THM_OrganizerModelGroups extends JModel
 			$modul['responsible'] = "<a href='" . $link . "'>" . $model->getLecturerName($row->lsf_course_id) . "</a";
 		}
 
+		if(isset($row->lsf_course_id))
+		{
+			$modul['courseid'] = $row->lsf_course_id;
+		}
+
 		if (isset($row->lsf_course_code))
 		{
 			$modul['schedule'] = array();
