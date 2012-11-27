@@ -381,8 +381,11 @@ Die Internet-Funktionalität ist mit unterschiedlichen Techniken auf die
 \begin_layout Itemize
 
 \family typewriter
-daneben gibt es noch weitere dezentrale Systeme für die Biblithek, Raumverwaltun
-g, Dokumentenverwaltung, ...
+daneben gibt es noch weitere dezentrale Systeme für die
+\begin_inset Newline newline
+\end_inset
+
+Bibliothek, Raumverwaltung, Dokumentenverwaltung, ...
 \end_layout
 
 \begin_layout Standard
@@ -393,9 +396,13 @@ HIS, als ein großes, zentrales System ist veraltetet und soll 2014 abgelöst
  Ein zentrales Campus-Mangement-System ist als Ersatz geplant, wird aber
  die vielfältigen Anforderungen aller benötigten Funktionen nicht vollständig
  erfüllen können.
- Wir benötigen also eine Systemlandschaft, in der möglichst viele Funktionalität
-en sinnvoll zusammengefasst werden und dort, wo das nicht möglich ist, sauber
- Schnittstellen entwickelt werden.
+ Wir benötigen also eine System-
+\begin_inset Newline newline
+\end_inset
+
+landschaft, in der möglichst viele Funktionalitäten sinnvoll zusammengefasst
+ werden und dort, wo das nicht möglich ist, sauber Schnittstellen entwickelt
+ werden.
 \end_layout
 
 \begin_layout Standard
@@ -405,7 +412,11 @@ Diese Herausforderung sind wir in den vergangenen Jahren mit dem iCampus-Projekt
  angegangen und so hat sich zwischenzeitlich aus den vielen unterschiedlichen
  Systemen, die sich, oft mit jeweils denselben, Funtkionalitäten parallel
  entwickelt haben, ein zwar hetereogenes aber doch (weitgehend) einheitliche
- Systemlandschaft entwickelt:
+ System-
+\begin_inset Newline newline
+\end_inset
+
+landschaft entwickelt:
 \end_layout
 
 \begin_layout Itemize
@@ -418,8 +429,15 @@ Die Studierenden- und Notenverwaltung wird nach wie vor in den HIS-Systemen
 \begin_layout Itemize
 
 \family typewriter
-HIS-LSF entwickelt sich zur zentrale Datenhaltung für Modulbeschreibungen
- und verfügt über Schnittstelen zu deren Darstellung
+HIS-LSF entwickelt sich zur zentrale Datenhaltung für Modul-
+\begin_inset Newline newline
+\end_inset
+
+beschreibungen und verfügt über Schnittstelen zu deren Dar-
+\begin_inset Newline newline
+\end_inset
+
+stellung
 \end_layout
 
 \begin_layout Itemize
@@ -453,11 +471,18 @@ ement-System (z.B.
  Hier hat sich als Untis als, bislang dezentral eingesetztes Werkzeug über
  viele Jahre bewährt.
  Untis verwaltet die stundenplanspezifischen Objekte (Curricula, Module,
- Fächer, Dozenten, Räume, Semester-Gruppen) und hat dabei natürlich auch
- Schnittstellen zu anderen Systemen, die teilweise dieselben ressourcen
- betrachten.
+ Fächer, Dozenten, Räume, Semester-
+\begin_inset Newline newline
+\end_inset
+
+Gruppen) und hat dabei natürlich auch Schnittstellen zu anderen Systemen,
+ die teilweise dieselben ressourcen betrachten.
  Auch die für die Stundenplanung typischen Prozesse haben inahltliche und
- zeitliche Verknüpfungen mit anderen hoschulspezifischen Prozessen.
+ zeitliche Verknüpfungen mit anderen hoschulspezifischen
+\begin_inset Newline newline
+\end_inset
+
+Prozessen.
 \end_layout
 
 \begin_layout Section

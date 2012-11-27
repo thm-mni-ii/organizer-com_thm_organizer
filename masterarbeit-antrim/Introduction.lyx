@@ -326,7 +326,30 @@ Throughout all this modernization and adaptation of the education offered
 \end_layout
 
 \begin_layout Standard
-The management of students takes place using HIS-SOS.
+The management of students takes place using HIS-SOS
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Hochschule Informations System a software offering various software solutions
+ to educational institutions.
+ 
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://www.his.de/english/organisation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+.
  Grades in all departments, with the exception of department MNI
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
@@ -417,7 +440,7 @@ description "Content Management System"
 The THM has tested several campus management systems for a successor to
  HIS, such as Datenlotsen
 \begin_inset Foot
-status collapsed
+status open
 
 \begin_layout Plain Layout
 A campus management software.
@@ -888,6 +911,8 @@ Chapter two will define and model resources.
  modeling of the resources in Untis.
  The modeling used will be presented along with its advantages and disadvantages
  with respect to the definition and attributes.
+ The presentation of these resources provides the foundation for understanding
+ what needs to be managed within the system to be implemented.
 \end_layout
 
 \begin_layout Standard
@@ -896,6 +921,9 @@ Chapter three will examine the system dependent theoretical and practical
  These systems Untis and THM Organizer will be examined with respect to
  their required system environments, security policies, concurrency features,
  workflows, and their place in the broader THM landscape.
+ This then shows how the resources presented in chapter two are processed
+ and how the systems deal with their resources both internally and in cooperatio
+n with one another.
 \end_layout
 
 \begin_layout Standard

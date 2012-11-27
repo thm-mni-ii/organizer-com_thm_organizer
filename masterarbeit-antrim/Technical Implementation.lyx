@@ -647,9 +647,25 @@ In Untis 2013 this functionality is also applied to subjects and rooms,
  The teacher resource unfortunately has not yet received this treatment
  as there were some value calculations dependent upon teachers being listed
  independently.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
+Every teacher requires his own row.
+ This is important for the clear definition of which teacher is responsible
+ for which subject groups.
+\family default
+
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Gruber2"
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
@@ -1883,13 +1899,36 @@ Sadly the tables used by the Untis system are still in a state of transition
  access.
  Instead recommending that we rely on the data exported through the XML
  export.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+Our database structure is not documented.
+ During the migration of Untis software to newer versions, the structure
+ of the database may change at any time.
+ Interfaces, which access the database directly, may as a consequence no
+ longer function.
+ This cannot occur using the XML structure.
+ We implement changes to the XML structure as additions to the existing
+ structure, meaning all the expected elements will always be there although
+ new elements may appear over time.
+ This ensures a compatibility to both older and newer interfaces.
+\family default
+
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Gruber2"
 
 \end_inset
 
- Although less than optimal and a great disappointment after the initial
+ 
+\end_layout
+
+\end_inset
+
+Although less than optimal and a great disappointment after the initial
  high hopes for clean data, it was conceded that this would continue to
  be the start point for the schedule workflows within the THM Organizer
  component for the foreseeable future.

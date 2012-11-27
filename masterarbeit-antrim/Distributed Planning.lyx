@@ -879,7 +879,8 @@ Resources/Lessons/Schedule/Optimization The activation of periods
 \shape slanted
 <<Stammdaten>>
 \shape default
- allows the management of teachers, rooms, subjects, and subject pools.
+ grants access to users for the management of teachers, rooms, subjects,
+ and subject pools.
  Special resources 
 \shape slanted
 <<besondere Daten>>
@@ -889,12 +890,12 @@ Resources/Lessons/Schedule/Optimization The activation of periods
 \shape slanted
 <<Unterricht>>
 \shape default
- allows the association of these resources to create and manage lessons,
- while schedule 
+ lets the association of these resources to create and manage lessons, while
+ schedule 
 \shape slanted
 <<Stundenplan>>
 \shape default
- allows users to assign lessons to lesson periods via one of the many different
+ lets users to assign lessons to lesson periods via one of the many different
  Untis planning dialogues.
  Optimization 
 \shape slanted
@@ -1009,6 +1010,11 @@ Restriction In addition to the login dialogue and preemptive restriction,
 
 \begin_layout Subsection
 Workflows
+\end_layout
+
+\begin_layout Standard
+Workflows within Untis focus upon the modeling of resources and the planning
+ of schedules based upon these resources.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -1642,6 +1648,12 @@ THM Organizer is a component developed by students and employees of the
 Security Policy
 \end_layout
 
+\begin_layout Standard
+While THM Organizer's security policy is directly dependent upon the security
+ policy as granted by the Joomla! CMS, there is enough room to allow for
+ a somewhat individual customization of the security policy within the component.
+\end_layout
+
 \begin_layout Subsubsection*
 Users and Roles
 \end_layout
@@ -1706,6 +1718,12 @@ THM Organizer's security policy, as regards scheduling, is in comparison
 
 \begin_layout Subsubsection*
 Control Mechanisms
+\end_layout
+
+\begin_layout Standard
+The control mechanisms implementing the Joomla!'s and THM Organizer's security
+ policies, while somewhat deviant from those of Untis, fall into the same
+ general pattern.
 \end_layout
 
 \begin_layout Description
@@ -1973,6 +1991,80 @@ ion and planning period is already active.
  a delta which is saved as a part of the uploaded schedule.
 \end_layout
 
+\begin_layout Description
+Display The display of schedules in Joomla! is it's highest priority.
+ Students use the displayed schedules for the construction of their personalized
+ schedules.
+ These are created by means of a view implemented as a rich internet application
+, allowing them to drag and drop lessons from various tabs based upon the
+ schedule from the perspective of a particular resource.
+ While this resource perspective is most often that of a subject group,
+ it can also be according to a field of knowledge, a teacher, room, or subject.
+ This view is displayed in figure 3.10 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "fig:Schedule-Rich-Internet"
+
+\end_inset
+
+.
+ Teachers use this view to check for their schedule for the current semester
+ and to suggest changes which would better fit both the schedules of their
+ students and their private schedules.
+ Additionally many rooms at the THM are equipped with monitors mounted in
+ front of their doors.
+ These monitors display the lessons and appointments scheduled within the
+ room for the current day, and highlight any lesson or appointment currently
+ being held.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Scheduler View.png
+	scale 60
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Schedule-Rich-Internet"
+
+\end_inset
+
+Schedule Rich Internet Application
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsubsection*
 Set an explicit Reference
 \end_layout
@@ -1992,7 +2084,15 @@ In order to highlight changes, which may have occurred in an earlier version,
 \end_layout
 
 \begin_layout Standard
-This occurs via the Organizer schedule manager view.
+This occurs via the Organizer schedule manager view as displayed in figure
+ 3.11 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "fig:Schedule Manager View"
+
+\end_inset
+
+.
  The schedule coordinator chooses a schedule from among the others saved
  and sets a check mark in the box to the left.
  He then clicks on the reference button in the upper tool bar.
