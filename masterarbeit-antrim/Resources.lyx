@@ -614,9 +614,25 @@ While Untis does have a department resource that can have a partially similar
  be modeled using this resource within Untis.
  For this reason, it was the recommended that the departments of the THM
  use Untis schools to implement the actual departments of the THM.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+Departments need to plan using differing planning priorities.
+ Another problem is the amount of data, if all of it were modeled within
+ one school this could result, under circumstances to performance problems.
+\family default
+
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Gruber"
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
@@ -699,7 +715,7 @@ Name
 \begin_inset Text
 
 \begin_layout Plain Layout
-The name of the school year.
+An identifier for the school year.
 \end_layout
 
 \end_inset
@@ -719,7 +735,7 @@ Startdate
 \begin_inset Text
 
 \begin_layout Plain Layout
-The date upon which the school year begins.
+Date upon which the school year begins.
 \end_layout
 
 \end_inset
@@ -739,7 +755,7 @@ Enddate
 \begin_inset Text
 
 \begin_layout Plain Layout
-The date upon which the school year ends.
+Date upon which the school year ends.
 \end_layout
 
 \end_inset
@@ -759,7 +775,7 @@ Planning Periods
 \begin_inset Text
 
 \begin_layout Plain Layout
-The subordinate planning periods of the school year.
+Subordinate planning periods of the school year.
 \end_layout
 
 \end_inset
@@ -837,7 +853,7 @@ Department
 \begin_inset Text
 
 \begin_layout Plain Layout
-The department responsible for the schedule.
+Department responsible for the schedule.
 \end_layout
 
 \end_inset
@@ -857,7 +873,7 @@ Planning Period
 \begin_inset Text
 
 \begin_layout Plain Layout
-The planning period in which the schedule data should take
+Planning period in which the schedule data should take
 \end_layout
 
 \end_inset
@@ -897,7 +913,7 @@ Creation Date
 \begin_inset Text
 
 \begin_layout Plain Layout
-The date and time when the version was created.
+Date and time when the version was created.
 \end_layout
 
 \end_inset
@@ -917,7 +933,7 @@ Schedule Data
 \begin_inset Text
 
 \begin_layout Plain Layout
-The complete data and status of the schedule at the time of
+Complete data and status of the schedule at the time of
 \end_layout
 
 \end_inset
@@ -1073,7 +1089,7 @@ Number
 \begin_inset Text
 
 \begin_layout Plain Layout
-Teachers at the THM have a unique number assigned to them.
+A unique number assigned to the teacher.
 \end_layout
 
 \end_inset
@@ -1093,7 +1109,7 @@ Fields
 \begin_inset Text
 
 \begin_layout Plain Layout
-The teacher's field or fields of expertise.
+The field or fields of expertise in which the teacher is qualified .
 \end_layout
 
 \end_inset
@@ -1113,7 +1129,7 @@ Departments
 \begin_inset Text
 
 \begin_layout Plain Layout
-The departments for which the teacher holds lessons.
+Departments for which the teacher holds lessons.
 \end_layout
 
 \end_inset
@@ -1133,7 +1149,7 @@ Availability
 \begin_inset Text
 
 \begin_layout Plain Layout
-The times at which the teacher is available to hold lessons.
+Lesson periods during which the teacher is available to hold lessons.
 \end_layout
 
 \end_inset
@@ -1243,9 +1259,29 @@ The external name is a name which is used to denote resources used by multiple
  departments.
  This name is uniquely identifiable among all departments and it has been
  strongly recommended that the external name be the same as the short name.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+In Untis the names are used as IDs for the resources.
+ If the same resource has differing IDs in separate data instances, this
+ must be kept in mind every time data is exchanged between these instances.
+ This is also the case for WebUntis.
+ If the data is added using this interface, the differing names must be
+ aggregated using aliases.
+ However in principle Untis can resolve these differing names.
+\family default
+
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Gruber"
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
@@ -1335,7 +1371,7 @@ Name
 \begin_inset Text
 
 \begin_layout Plain Layout
-The name of the room.
+An identifier for the room.
 \end_layout
 
 \end_inset
@@ -1355,7 +1391,7 @@ Building
 \begin_inset Text
 
 \begin_layout Plain Layout
-The building in which the room exists.
+Building which contains the room.
 \end_layout
 
 \end_inset
@@ -1375,7 +1411,7 @@ Floor
 \begin_inset Text
 
 \begin_layout Plain Layout
-The floor in which the room exists.
+Floor on which the room is situated.
 \end_layout
 
 \end_inset
@@ -1395,7 +1431,7 @@ Type
 \begin_inset Text
 
 \begin_layout Plain Layout
-The type of room
+The type of room.
 \end_layout
 
 \end_inset
@@ -1559,7 +1595,7 @@ reference "fig:Rooms-View"
 \begin_layout Standard
 The room type could be relatively comfortably input into the room's description
 \shape slanted
-<<Beschr.>>
+ <<Beschr.>>
 \shape default
  field.
  More on room types 
@@ -1618,6 +1654,7 @@ A course or area of study[...]
 
 \shape default
 .
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "AHDSubject"
@@ -1699,7 +1736,7 @@ Name
 \begin_inset Text
 
 \begin_layout Plain Layout
-The full name of the subject.
+Full name of the subject.
 \end_layout
 
 \end_inset
@@ -1799,7 +1836,7 @@ Goals
 \begin_inset Text
 
 \begin_layout Plain Layout
-The themes addressed and the level of proficiency
+Themes addressed and the level of proficiency
 \end_layout
 
 \end_inset
@@ -1839,7 +1876,7 @@ Effort
 \begin_inset Text
 
 \begin_layout Plain Layout
-The value in credit points for the course.
+Value in credit points for the course.
 \end_layout
 
 \end_inset
@@ -1859,7 +1896,7 @@ Lesson Types
 \begin_inset Text
 
 \begin_layout Plain Layout
-The methods used to teach this course.
+Methods used to teach this course.
 \end_layout
 
 \end_inset
@@ -1879,7 +1916,7 @@ Preliminary Work
 \begin_inset Text
 
 \begin_layout Plain Layout
-The work which must be completed during the course.
+Work which must be completed during the course.
 \end_layout
 
 \end_inset
@@ -2266,7 +2303,7 @@ Category
 \begin_inset Text
 
 \begin_layout Plain Layout
-A general categorization of the room's intended purpose.
+General categorization of the room's intended purpose.
 \end_layout
 
 \end_inset
@@ -2659,7 +2696,7 @@ Name
 \begin_inset Text
 
 \begin_layout Plain Layout
-The full name of the field or fields, optionally compounded with
+Full name of the field or fields, optionally compounded with
 \end_layout
 
 \end_inset
@@ -3010,7 +3047,7 @@ Name
 \begin_inset Text
 
 \begin_layout Plain Layout
-The name of the subject pool.
+An identifier for the subject pool.
 \end_layout
 
 \end_inset
@@ -3050,7 +3087,7 @@ Subsetting Criteria
 \begin_inset Text
 
 \begin_layout Plain Layout
-The criteria used for subsetting the parent pool.
+Criteria used for subsetting the parent pool.
 \end_layout
 
 \end_inset
@@ -3070,7 +3107,7 @@ Collision Behavior
 \begin_inset Text
 
 \begin_layout Plain Layout
-The behavior of this subject pool with respect to lesson
+Behavior of this subject pool with respect to lesson
 \end_layout
 
 \end_inset
@@ -3349,7 +3386,7 @@ Name
 \begin_inset Text
 
 \begin_layout Plain Layout
-The name of the planning period.
+An identifier for the planning period.
 \end_layout
 
 \end_inset
@@ -3369,7 +3406,7 @@ Startdate
 \begin_inset Text
 
 \begin_layout Plain Layout
-The date upon which the planning period begins.
+Date upon which the planning period begins.
 \end_layout
 
 \end_inset
@@ -3389,7 +3426,7 @@ Enddate
 \begin_inset Text
 
 \begin_layout Plain Layout
-The date upon which the planning period ends.
+Date upon which the planning period ends.
 \end_layout
 
 \end_inset
@@ -3541,26 +3578,138 @@ Finally block lessons take place in breaks in standard lesson scheduling
 Attributes
 \end_layout
 
-\begin_layout Labeling
-\labelwidthstring 00.00.0000
-Identity Only the standard lessons have named identity.
- This is derived from the named week day and the sequential number of the
- period upon that day.
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Identity
 \end_layout
 
-\begin_layout Labeling
-\labelwidthstring 00.00.0000
-Starttime The time at which the lesson period begins.
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Only the standard lessons have named identity.
+ This is
 \end_layout
 
-\begin_layout Labeling
-\labelwidthstring 00.00.0000
-Endtime The time at which the lesson period ends.
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
 \end_layout
 
-\begin_layout Labeling
-\labelwidthstring 00.00.0000
-Date The date upon which the lesson period occurs.
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+derived from the namce week day and the sequential
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+number of the period upon that day.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Starttime
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Time at which the lesson period begins.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Endtime
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Time at which the lesson period ends.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Date
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Date upon which the lesson period occurs.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Minisec
@@ -3782,7 +3931,7 @@ Department
 \begin_inset Text
 
 \begin_layout Plain Layout
-The department from whose perspective the availability or 
+Department from whose perspective the availability or 
 \end_layout
 
 \end_inset
@@ -3822,7 +3971,7 @@ Resource
 \begin_inset Text
 
 \begin_layout Plain Layout
-The resource whose availability or planning priority is to be
+Resource whose availability or planning priority is to be
 \end_layout
 
 \end_inset
@@ -3862,7 +4011,7 @@ Lesson Period
 \begin_inset Text
 
 \begin_layout Plain Layout
-The lesson period whose availability or planning priority is to
+Lesson period whose availability or planning priority is to
 \end_layout
 
 \end_inset
@@ -3902,7 +4051,7 @@ Value
 \begin_inset Text
 
 \begin_layout Plain Layout
-The availability or priority for the resource during the lesson 
+Availability or priority for the resource during the lesson 
 \end_layout
 
 \end_inset
@@ -4034,9 +4183,19 @@ reference "fig:Teacher and Subject Pool Planning Priorities"
  such as day, morning, or afternoon to assign planning priorities to lesson
  units to make the assignment of the same value to multiple lesson periods
  more comfortable.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+It's about comfort.
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Gruber"
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
@@ -4163,7 +4322,7 @@ Startdate
 \begin_inset Text
 
 \begin_layout Plain Layout
-The date upon which the lessons assigned to this temporal behavior
+Date upon which the lessons assigned to this temporal behavior
 \end_layout
 
 \end_inset
@@ -4204,7 +4363,7 @@ Enddate
 \begin_inset Text
 
 \begin_layout Plain Layout
-The date upon which the lessons assigned to this temporal behavior
+Date upon which the lessons assigned to this temporal behavior
 \end_layout
 
 \end_inset
@@ -4244,7 +4403,7 @@ Periodicity
 \begin_inset Text
 
 \begin_layout Plain Layout
-The weekly behavior of this temporal behavior grouping.
+Weekly behavior of this temporal behavior grouping.
 \end_layout
 
 \end_inset
@@ -4439,7 +4598,7 @@ The end product of scholastic scheduling are lessons.
  of the resources involved.
 \end_layout
 
-\begin_layout Minisec
+\begin_layout Subsection
 Attributes
 \end_layout
 
@@ -4463,7 +4622,7 @@ Subjects
 \begin_inset Text
 
 \begin_layout Plain Layout
-The subjects which will be taught within the lesson.
+Subjects which will be taught within the lesson.
 \end_layout
 
 \end_inset
@@ -4483,7 +4642,7 @@ Teachers
 \begin_inset Text
 
 \begin_layout Plain Layout
-The teachers which will convey the subject content during 
+Teachers which will convey the subject content during 
 \end_layout
 
 \end_inset
@@ -4523,7 +4682,7 @@ Rooms
 \begin_inset Text
 
 \begin_layout Plain Layout
-The rooms in which the lesson will take place.
+Rooms in which the lesson will take place.
 \end_layout
 
 \end_inset
@@ -4576,7 +4735,7 @@ Quantity
 \begin_inset Text
 
 \begin_layout Plain Layout
-The number of lesson instances which must take place to convey
+Number of lesson instances which must take place to convey
 \end_layout
 
 \end_inset
@@ -4616,7 +4775,7 @@ Departments
 \begin_inset Text
 
 \begin_layout Plain Layout
-The departments responsible for offering this lesson to students.
+Departments responsible for offering this lesson to students.
 \end_layout
 
 \end_inset
@@ -4656,7 +4815,7 @@ Lesson Group
 \begin_inset Text
 
 \begin_layout Plain Layout
-The lesson group to which this lesson belongs defining the
+Lesson group to which this lesson belongs defining the
 \end_layout
 
 \end_inset
@@ -4729,13 +4888,18 @@ one of the above rubrics.
 
 \end_layout
 
-\begin_layout Minisec
+\begin_layout Subsection
 Modeling
 \end_layout
 
 \begin_layout Standard
 Optimally the planning/modeling of lessons in Untis is a two phase process.
- These phases are the entry of all relevant data and the temporal planning.
+ These phases are the entry of all relevant data and the temporal planning
+ or the abstract and the concrete planning.
+\end_layout
+
+\begin_layout Minisec
+Abstract Planning
 \end_layout
 
 \begin_layout Standard
@@ -4899,6 +5063,45 @@ are entered in the appropriate columns in the list.
  <<Nvpl>>
 \shape default
 .
+\end_layout
+
+\begin_layout Minisec
+Concrete Planning
+\end_layout
+
+\begin_layout Standard
+The concrete planning in Untis is the core of the program and has multiple
+ powerful functions which implement it.
+ These are extremely complex and cannot be given the attention they deserve
+ within the scope of this thesis.
+ In very vague terms there are two general methods: optimized planning and
+ manual planning.
+\end_layout
+
+\begin_layout Standard
+Optimized planning is the real strength of the program which uses an algorithm
+ developed by Gruber & Petters to assign abstract lessons to concrete lesson
+ periods, rooms, and teachers.
+\end_layout
+
+\begin_layout Standard
+Manual planning can occur using multiple dialogues.
+ The most powerful of these is the 
+\begin_inset Quotes eld
+\end_inset
+
+planning dialogue
+\begin_inset Quotes erd
+\end_inset
+
+ which provides an overview of resource usage in parallel with the resource
+ currently selected to be used in planning.
+ Other dialogues provide an overview of certain more manageable planning
+ periods such as a generalized week or a specific calendar week among others.
+ Here the schedules are presented using the weekly lesson period grid.
+ To the left of this grid unplanned lesson hours are displayed as rectangles
+ which can be dragged and dropped into specific lesson periods within the
+ grid.
 \end_layout
 
 \begin_layout Standard
