@@ -103,10 +103,6 @@ class UserSchedule
 		{
 			$this->username = $options["username"];
 		}
-		elseif ($this->JDA->getRequest("username"))
-		{
-			$this->username = $this->JDA->getRequest("username");
-		}
 		else
 		{
 			$this->username = $this->JDA->getUserName();

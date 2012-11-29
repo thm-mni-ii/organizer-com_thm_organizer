@@ -86,7 +86,7 @@ if (!isset($this->counter))
 <body>
 
 	<?php
-		$page_heading = $this->escape($this->params->get('page_heading'));
+		$page_heading = $this->params->get('page_heading');
 	?>
 
 	<span> <?php 
