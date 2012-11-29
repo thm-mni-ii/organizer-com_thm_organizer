@@ -49,7 +49,8 @@ if (!empty($this->monitors))
                 <col id="thm_organizer_mon_col_room" />
                 <col id="thm_organizer_mon_col_ip" />
                 <col id="thm_organizer_mon_col_display" />
-                <col id="thm_organizer_mon_col_interval" />
+                <col id="thm_organizer_mon_col_schedule_refresh" />
+                <col id="thm_organizer_mon_col_content_refresh" />
                 <col id="thm_organizer_mon_col_content" />
             </colgroup>
             <thead>
@@ -57,23 +58,27 @@ if (!empty($this->monitors))
                     <th />
                     <th class="thm_organizer_th hasTip"
                         title="<?php echo JText::_('COM_THM_ORGANIZER_MON_ROOM') . "::" . JText::_('COM_THM_ORGANIZER_MON_ROOM_DESC'); ?>">
-                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_ROOM', 'r.name', $direction, $orderby); ?>
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_ROOM', 'name', $direction, $orderby); ?>
                     </th>
                     <th class="thm_organizer_th hasTip"
                         title="<?php echo JText::_('COM_THM_ORGANIZER_MON_IP') . "::" . JText::_('COM_THM_ORGANIZER_MON_IP_DESC'); ?>">
-                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_IP', 'm.ip', $direction, $orderby); ?>
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_IP', 'ip', $direction, $orderby); ?>
                     </th>
                     <th class="thm_organizer_th hasTip"
                         title="<?php echo JText::_('COM_THM_ORGANIZER_MON_DISPLAY') . "::" . JText::_('COM_THM_ORGANIZER_MON_DISPLAY_DESC'); ?>">
-                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_DISPLAY', 'd.behaviour', $direction, $orderby); ?>
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_DISPLAY', 'display', $direction, $orderby); ?>
                     </th>
                     <th class="thm_organizer_th hasTip"
-                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_INTERVAL') . "::" . JText::_('COM_THM_ORGANIZER_MON_INTERVAL_DESC'); ?>">
-                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_INTERVAL', 'm.interval', $direction, $orderby); ?>
+                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_SCHEDULE_REFRESH') . "::" . JText::_('COM_THM_ORGANIZER_MON_SCHEDULE_REFRESH_DESC'); ?>">
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_SCHEDULE_REFRESH', 'schedule_refresh', $direction, $orderby); ?>
+                    </th>
+                    <th class="thm_organizer_th hasTip"
+                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_CONTENT_REFRESH') . "::" . JText::_('COM_THM_ORGANIZER_MON_CONTENT_REFRESH_DESC'); ?>">
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_CONTENT_REFRESH', 'content_refresh', $direction, $orderby); ?>
                     </th>
                     <th class="thm_organizer_th hasTip"
                         title="<?php echo JText::_('COM_THM_ORGANIZER_MON_CONTENT') . "::" . JText::_('COM_THM_ORGANIZER_MON_CONTENT_DESC'); ?>">
-                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_CONTENT', 'm.content', $direction, $orderby); ?>
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_CONTENT', 'content', $direction, $orderby); ?>
                     </th>
                 </tr>
             </thead>
@@ -94,7 +99,8 @@ if (!empty($this->monitors))
                     <td><a href='<?php echo $monitor->link; ?>' ><?php echo $monitor->room; ?></a></td>
                     <td><a href='<?php echo $monitor->link; ?>' > <?php echo $monitor->ip; ?></a></td>
                     <td><a href='<?php echo $monitor->link; ?>' ><?php echo $monitor->display; ?></a></td>
-                    <td><a href='<?php echo $monitor->link; ?>' ><?php echo $monitor->interval; ?></a></td>
+                    <td><a href='<?php echo $monitor->link; ?>' ><?php echo $monitor->schedule_refresh; ?></a></td>
+                    <td><a href='<?php echo $monitor->link; ?>' ><?php echo $monitor->content_refresh; ?></a></td>
                     <td><a href='<?php echo $monitor->link; ?>' ><?php echo $monitor->content; ?></a></td>
                 </tr>
 <?php
