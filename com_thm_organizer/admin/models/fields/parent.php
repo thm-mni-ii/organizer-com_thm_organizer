@@ -60,11 +60,12 @@ class JFormFieldParent extends JFormField
 		// Build the sql statement
 		$query = $db->getQuery(true);
 
-		$query->select("*, CONCAT(title_de, ' (', semesters.name, ')') as title_de ");
-		$query->select("count(*) as count");
-		$query->select("assets_tree.asset as asset_id");
-		$query->select("assets_semesters.semesters_majors_id as sem_id");
-		$query->select("semesters.name as semester_name");
+		$query->select("*");
+		$query->select("CONCAT(title_de, ' (', semesters.name, ') ', assets_tree.id) as title_de ");
+// 		$query->select("count(*) as count");
+// 		$query->select("assets_tree.asset as asset_id");
+// 		$query->select("assets_semesters.semesters_majors_id as sem_id");
+// 		$query->select("semesters.name as semester_name");
 		$query->from(' #__thm_organizer_assets_tree as assets_tree');
 		$query->join('inner', '#__thm_organizer_assets_semesters as assets_semesters ON assets_semesters.assets_tree_id = assets_tree.id');
 		$query->join('inner', '#__thm_organizer_semesters_majors as semesters_majors ON assets_semesters.semesters_majors_id = semesters_majors.id');
@@ -73,7 +74,7 @@ class JFormFieldParent extends JFormField
 		$query->where(' assets.asset_type_id = 2');
 		$query->where("semesters_majors.major_id = $majorId");
 		$query->order('assets.title_de');
-
+		
 		$db->setQuery($query);
 		$pools = $db->loadObjectList();
 
