@@ -38,15 +38,25 @@
             <option value='4'>COM_THM_ORGANIZER_MON_EVENTS</option>
         </field>
         <field
-            id="interval"
-            name="interval"
+            id="schedule_refresh"
+            name="schedule_refresh"
             type="integer"
-            label="COM_THM_ORGANIZER_MON_INTERVAL"
-            description="COM_THM_ORGANIZER_MON_INTERVAL_DESC"
-            first="1"
-            last="9"
-            step="1"
-            default="1"/>
+            label="COM_THM_ORGANIZER_MON_SCHEDULE_REFRESH"
+            description="COM_THM_ORGANIZER_MON_SCHEDULE_REFRESH_DESC"
+            first="10"
+            last="990"
+            step="10"
+            default="60"/>
+        <field
+            id="content_refresh"
+            name="content_refresh"
+            type="integer"
+            label="COM_THM_ORGANIZER_MON_CONTENT_REFRESH"
+            description="COM_THM_ORGANIZER_MON_CONTENT_REFRESH_DESC"
+            first="10"
+            last="990"
+            step="10"
+            default="60"/>
         <field
             id="content"
             name="content"

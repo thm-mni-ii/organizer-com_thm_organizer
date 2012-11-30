@@ -79,8 +79,8 @@ class THM_OrganizerModelmonitor_edit extends JModelAdmin
     public function getItem($primaryKey = null)
     {
         $monitorIDs = JRequest::getVar('cid',  null, '', 'array');
-        $monitorID = (empty($monitorIDs))? JRequest::getInt('monitorID') : $monitorIDs[0];
-        return ($monitorID)? parent::getItem($monitorID) : $this->getTable();;
+        $primaryKey = (empty($monitorIDs))? JRequest::getInt('monitorID') : $monitorIDs[0];
+        return ($primaryKey)? parent::getItem($primaryKey) : $this->getTable();;
     }
 
     /**

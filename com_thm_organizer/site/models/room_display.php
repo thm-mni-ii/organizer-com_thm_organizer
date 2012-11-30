@@ -30,6 +30,10 @@ class thm_organizerModelroom_display extends JModel
     private $_gpuntisID;
 
     public $layout = 'default';
+    
+    public $schedule_refresh;
+    
+    public $content_refresh;
 
     private $_schedules;
 
@@ -65,6 +69,8 @@ class thm_organizerModelroom_display extends JModel
         if ($registered)
         {
             $templateSet = JRequest::getString('tmpl') == 'component';
+            $this->schedule_refresh = $monitor->schedule_refresh;
+            $this->content_refresh = $monitor->content_refresh;
             if (!$templateSet)
             {
                 $this->redirectToComponentTemplate();
@@ -73,28 +79,23 @@ class thm_organizerModelroom_display extends JModel
             {
                 case 1:
                     $this->layout = 'registered';
-                    $this->setState('template', 'Thmorganizerinfoscreen');
                     $this->setRoomInformation($monitor->roomID);
                     $this->setScheduleInformation();
                     break;
                 case 2:
-                    $this->setState('template', 'Thmorganizerinfoscreen');
                     $this->determineDisplayBehaviour($monitor);
                     break;
                 case 3:
-                    $this->setState('template', 'Thmorganizerinfoscreen');
                     $this->layout = 'content';
                     $this->content = $monitor->content;
                     break;
                 case 4:
                     $this->layout = 'events';
-                    $this->setState('template', 'Thmorganizerinfoscreen');
                     $this->setRoomInformation($monitor->roomID);
                     $this->setScheduleInformation();
                     break;
                 default:
                     $this->layout = 'registered';
-                    $this->setState('template', 'Thmorganizerinfoscreen');
                     $this->setRoomInformation($monitor->roomID);
                     $this->setScheduleInformation();
                     break;

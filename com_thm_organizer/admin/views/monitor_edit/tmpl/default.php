@@ -36,8 +36,12 @@ $boxTitle = ($this->form->getValue('monitorID'))?
                     <?php echo $this->form->getInput('display'); ?>
                 </li>
                 <li>
-                    <?php echo $this->form->getLabel('interval'); ?>
-                    <?php echo $this->form->getInput('interval'); ?>
+                    <?php echo $this->form->getLabel('schedule_refresh'); ?>
+                    <?php echo $this->form->getInput('schedule_refresh'); ?>
+                </li>
+                <li>
+                    <?php echo $this->form->getLabel('content_refresh'); ?>
+                    <?php echo $this->form->getInput('content_refresh'); ?>
                 </li>
                 <li>
                     <?php echo $this->form->getLabel('content'); ?>

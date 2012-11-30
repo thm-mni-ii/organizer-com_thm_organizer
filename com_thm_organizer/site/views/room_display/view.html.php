@@ -45,6 +45,7 @@ class thm_organizerViewroom_display extends JView
             if ($model->layout == 'registered' OR $model->layout == 'events' OR $model->layout == 'content')
             {
                 $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/template.css");
+                $this->schedule_refresh = $model->schedule_refresh;
             }
 
             $this->roomName = $model->roomName;
@@ -63,6 +64,7 @@ class thm_organizerViewroom_display extends JView
         elseif ($model->layout == 'content')
         {
             $this->content = $model->content;
+            $this->content_refresh = $model->content_refresh;
         }
         parent::display($tpl);
     }

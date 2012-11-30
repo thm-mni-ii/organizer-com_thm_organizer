@@ -28,7 +28,7 @@ function auto_reload()
   window.location = document.URL;
 }
 window.onload = function(){
-    timer = setTimeout('auto_reload()', 60000);
+    timer = setTimeout('auto_reload()', <?php echo $this->schedule_refresh; ?>000);
 }
 </script>
 <div id="thm_organizer_is_registered">

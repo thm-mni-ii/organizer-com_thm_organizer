@@ -23,7 +23,7 @@ function auto_reload()
   window.location = document.URL;
 }
 window.onload = function(){
-    timer = setTimeout('auto_reload()', 60000);
+    timer = setTimeout('auto_reload()', <?php echo $this->content_refresh; ?>000);
 }
 </script>
 <img width="100%" src="images/thm_organizer/<?php echo $this->content; ?>" >

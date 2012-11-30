@@ -143,6 +143,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_monitors` (
   `roomID` int(11) unsigned NOT NULL,
   `ip` varchar(15) NOT NULL,
   `display` INT(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT 'the display behaviour of the monitor',
+  `schedule_refresh` INT( 3 ) UNSIGNED NOT NULL DEFAULT  '60' COMMENT  'the amount of seconds before the schedule refreshes',
+  `content_refresh` INT( 3 ) UNSIGNED NOT NULL DEFAULT  '60' COMMENT  'the amount of time in seconds before the content refreshes',
   `interval` INT(1) UNSIGNED NOT NULL DEFAULT'1' COMMENT 'the time interval in minutes between context switches',
   `content` VARCHAR(256) DEFAULT NULL COMMENT 'the filename of the resource to the optional resource to be displayed',
   PRIMARY KEY (`id`),

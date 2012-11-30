@@ -49,11 +49,12 @@ class THM_OrganizerModelmonitor_manager extends JModelList
         if (empty($config['filter_fields']))
         {
             $config['filter_fields'] = array(
-                                             'roomID', 'm.roomID',
-                                             'room', 'r.name',
-                                             'ip', 'm.ip',
-                                             'display', 'd.behaviour',
-                                             'interval', 'm.interval',
+                                             'roomID', 'roomID',
+                                             'room', 'name',
+                                             'ip', 'ip',
+                                             'display', 'display',
+                                             'schedule_refresh', 'schedule_refresh',
+                                             'content_refresh', 'content_refresh',
                                              'content', 'm.content'
                                             );
         }
@@ -77,7 +78,7 @@ class THM_OrganizerModelmonitor_manager extends JModelList
         $dbo = $this->getDbo();
         $query = $dbo->getQuery(true);
 
-        $select = "m.id, m.roomID, m.ip, m.display, m.interval, m.content, r.longname AS room, ";
+        $select = "m.id, roomID, ip, display, schedule_refresh, content_refresh, content, longname AS room, ";
         $select .= "CONCAT ('index.php?option=com_thm_organizer&view=monitor_edit&monitorID=', m.id) AS link ";
         $query->select($this->getState("list.select", $select));
         $query->from("#__thm_organizer_monitors AS m");
