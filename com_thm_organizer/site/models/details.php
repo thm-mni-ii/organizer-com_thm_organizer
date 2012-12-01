@@ -142,4 +142,59 @@ class THM_OrganizerModeldetails extends JModel
 		}
 		return $navi;
 	}
+	
+
+
+	/**
+	 * Method to parse a ISBN in the correct syntax for the isbnlink plugin
+	 *
+	 * @param   String   $modulLiteraturVerzeichnis  The bibliography
+	 * @param   Boolean  $isIsbnlinkPluginAvailable  True if the isbnlink plugin is available otherwise false
+	 *
+	 * @return  String  The bibliography with the transformed isbn numbers as link
+	 */
+	public function transformISBN($isbns, $isIsbnlinkPluginAvailable)
+	{
+		if($isIsbnlinkPluginAvailable === false)
+		{
+			return $modulLiteraturVerzeichnis;
+		}
+		else
+		{
+			$isbnlinkPlugin = JPluginHelper::getPlugin("content", "thm_isbnlink");
+			$pluginParams = json_decode($isbnlinkPlugin->params);
+				
+			$pluginParams->keyword = "ISBN";
+			$modulLiteraturVerzeichnis .= "ISBN:0123456789blabla ISBN 0 12345-678 9";
+	
+			$pluginKeyword = $pluginParams->keyword;
+				
+			$matches = $this->getISBNMatches($modulLiteraturVerzeichnis, $pluginKeyword);
+	
+			var_dump($matches);
+			echo "<br/><br/><br/><br/>";
+		}
+	}
+	
+	public function getKeywordFromISBNLinkPlugin()
+	{
+	
+	}
+	
+	public function getISBNMatches($modulLiteraturVerzeichnis, $pluginKeyword)
+	{
+		$matches = array();
+	
+		// Result is stored in $matches
+		preg_match_all("/" . $pluginKeyword . "(-10)?(-13)?(:)?(\s)?((\d[-\s]?){12}|(\d[-\s]?){9})\d/", $modulLiteraturVerzeichnis, $matches, PREG_PATTERN_ORDER);
+	
+		if($matches[0])
+		{
+			return $matches[0];
+		}
+		else
+		{
+			return $matches;
+		}
+	}
 }
