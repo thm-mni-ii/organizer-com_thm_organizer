@@ -186,7 +186,7 @@ class THM_OrganizerModeldetails extends JModel
 		$matches = array();
 	
 		// Result is stored in $matches
-		preg_match_all("/" . $pluginKeyword . "(-10)?(-13)?(:)?(\s)?((\d[-\s]?){12}|(\d[-\s]?){9})\d/", $modulLiteraturVerzeichnis, $matches, PREG_PATTERN_ORDER);
+		preg_match_all("/" . $pluginKeyword . "((-13)?(:)?(\s)?(\d[-\s]?){12}|(-10)?(:)?(\s)?(\d[-\s]?){9})\d/", $modulLiteraturVerzeichnis, $matches, PREG_PATTERN_ORDER);
 	
 		if($matches[0])
 		{
