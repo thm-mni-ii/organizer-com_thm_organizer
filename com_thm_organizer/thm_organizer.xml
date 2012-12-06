@@ -69,12 +69,6 @@
             	  img="components/com_thm_organizer/assets/images/monitor_manager.png"
                   alt="THM-Organizer/Monitor Manager"
                   >COM_THM_ORGANIZER_MON_TITLE</menu>
-            <menu alias="Soap Queries"
-            	  link="option=com_thm_organizer&amp;view=soapqueries"
-                  view="soapqueries"
-            	  img="components/com_thm_organizer/assets/images/soapqueries_min.png"
-                  alt="THM-Organizer/Soap Queries"
-            	  >COM_THM_ORGANIZER_SUBMENU_SOAP_QUERIES</menu>
             <menu alias="Semesters"
             	  link="option=com_thm_organizer&amp;view=semesters"
                   view="semesters"

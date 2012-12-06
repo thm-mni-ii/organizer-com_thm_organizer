@@ -85,7 +85,6 @@ class THM_OrganizerViewthm_organizer extends JView
                         'schedule_manager' => array(),
                         'virtual_schedule_manager' => array(),
                         'monitor_manager' => array(),
-                        'soapqueries' => array(),
                         'semesters' => array(),
                         'lecturers' => array(),
                         'assets' => array(),
@@ -109,10 +108,6 @@ class THM_OrganizerViewthm_organizer extends JView
         $views['monitor_manager']['title'] = JText::_('COM_THM_ORGANIZER_MON_TITLE');
         $title_text = JText::_('COM_THM_ORGANIZER_MON_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_MON_DESC');
         $views['monitor_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
-
-        $views['soapqueries']['title'] = JText::_('COM_THM_ORGANIZER_SUBMENU_SOAP_QUERIES');
-        $title_text = JText::_('COM_THM_ORGANIZER_SUBMENU_SOAP_QUERIES') . '::' . JText::_('COM_THM_ORGANIZER_SUBMENU_SOAP_QUERIES_DESC');
-        $views['soapqueries']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
 
         $views['semesters']['title'] = JText::_('COM_THM_ORGANIZER_SUBMENU_SEMESTERS');
         $title_text = JText::_('COM_THM_ORGANIZER_SUBMENU_SEMESTERS') . '::' . JText::_('COM_THM_ORGANIZER_SUBMENU_SEMESTERS_DESC');
