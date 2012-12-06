@@ -301,9 +301,11 @@ class THM_OrganizerModelschedule extends JModel
         }
         else
         {
+            $formdata = JRequest::getVar('jform', null, null, null, 4);
+            $rooms_required = (bool) $formdata['rooms_assignment_required'];
             foreach ($xmlSchedule->lessons->children() as $lessonnode)
             {
-                $this->validateLesson($lessonnode);
+                $this->validateLesson($lessonnode, $rooms_required);
             }
         }
 
@@ -730,11 +732,12 @@ class THM_OrganizerModelschedule extends JModel
      * checks whether lesson nodes have the expected structure and required
      * information
      *
-     * @param   SimpleXMLNode  &$lessonnode  the lesson node to be validated
+     * @param   SimpleXMLNode  &$lessonnode     the lesson node to be validated
+     * @param   boolean        $rooms_required  if rooms should produce blocking errors
      * 
      * @return void
      */
-    protected function validateLesson(&$lessonnode)
+    protected function validateLesson(&$lessonnode, $rooms_required = true)
     {
         $gpuntisID = trim((string) $lessonnode[0]['id']);
         $gpuntisID = substr($gpuntisID, 0, strlen($gpuntisID) - 2);
@@ -882,13 +885,6 @@ class THM_OrganizerModelschedule extends JModel
             return;
         }
 
-        // 86400 is the number of seconds in a day 24 * 60 * 60
-        // Calculate the days between schoolyear start and lesson start
-        $offset = floor(($startDT - strtotime($this->_schedule->startdate)) / 86400);
-        $occurences = trim((string) $lessonnode->occurence);
-
-        // Calculate the days between lesson start and end datest
-        $length = floor(($endDT - $startDT) / 86400);
         $occurences = trim((string) $lessonnode->occurence);
         if (empty($occurences))
         {
@@ -900,6 +896,14 @@ class THM_OrganizerModelschedule extends JModel
             $this->_scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_OCC_LEN_BAD', $lessonName, $lessonID);
             return;
         }
+
+        // 86400 is the number of seconds in a day 24 * 60 * 60
+        // Calculate the days between schoolyear start and lesson start
+        $offset = floor(($startDT - strtotime($this->_schedule->startdate)) / 86400);
+
+        // Calculate the days between lesson start and end dates
+        $length = floor(($endDT - $startDT) / 86400);
+
         $occurences = substr($occurences, $offset, $length);
         $occurences = str_split($occurences);
 
@@ -931,10 +935,10 @@ class THM_OrganizerModelschedule extends JModel
                 foreach ($times->children() as $instance)
                 {
                     $assigned_date = trim((string) $instance->assigned_date);
-                    if(!empty($assigned_date))
+                    if (!empty($assigned_date))
                     {
                         $assigned_date = substr($assigned_date, 0, 4) . "-" . substr($assigned_date, 4, 2) . "-" . substr($assigned_date, 6, 2);
-                        if($assigned_date != $currentDate)
+                        if ($assigned_date != $currentDate)
                         {
                             continue;
                         }
@@ -975,9 +979,16 @@ class THM_OrganizerModelschedule extends JModel
                     if (empty($roomID) AND !isset($this->_schedule->calendar->$currentDate->$period->$lessonID))
                     {
                         $error = JText::sprintf('COM_THM_ORGANIZER_LS_TP_ROOM_MISSING', $lessonName, $lessonID, date('l', $currentDT), $period);
-                        if (!in_array($error, $this->_scheduleErrors))
+                        if (!in_array($error, $this->_scheduleErrors) AND !in_array($error, $this->_scheduleWarnings))
                         {
-                            $this->_scheduleErrors[] = $error;
+                            if ($rooms_required)
+                            {
+                                $this->_scheduleErrors[] = $error;
+                            }
+                            else
+                            {
+                                $this->_scheduleWarnings[] = $error;
+                            }
                         }
                     }
                     elseif (!empty($roomID) AND !key_exists($roomID, $this->_schedule->rooms))
@@ -1002,7 +1013,7 @@ class THM_OrganizerModelschedule extends JModel
                 }
             }
             $currentDT = strtotime('+1 day', $currentDT);
-        } 
+        }
     }
 
     /**

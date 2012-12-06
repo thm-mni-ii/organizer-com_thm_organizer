@@ -52,7 +52,7 @@ class THM_OrganizerControllerschedule extends JController
         if (!thm_organizerHelper::isAdmin('schedule'))
         {
             thm_organizerHelper::noAccess();
-        }
+        }        
         JRequest::setVar('view', 'schedule_edit');
         parent::display();
     }
@@ -69,7 +69,6 @@ class THM_OrganizerControllerschedule extends JController
         {
             thm_organizerHelper::noAccess();
         }
-        $url = "index.php?option=com_thm_organizer&view=schedule_edit";
         $fileType = $_FILES['file']['type'];
         if ($fileType == "text/xml")
         {
@@ -88,11 +87,11 @@ class THM_OrganizerControllerschedule extends JController
                     $warningText = "<br /><h4>" . JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_ERRORS_WARNINGS") . ":</h4>";
                     $msg .= $warningText . $statusReport['warnings'];
                 }
-                $this->setRedirect($url, $msg, 'error');
+                $this->setRedirect("index.php?option=com_thm_organizer&view=schedule_edit", $msg, 'error');
             }
             else
             {
-                $url .= "&scheduleID={$statusReport['scheduleID']}";
+                $url = "index.php?option=com_thm_organizer&view=schedule_edit";
 
                 // Minor inconsistancies discovered
                 if (isset($statusReport['warnings']))

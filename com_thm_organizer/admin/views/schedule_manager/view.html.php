@@ -49,7 +49,7 @@ class THM_OrganizerViewschedule_manager extends JView
      * 
      * @return void 
      */
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
@@ -62,6 +62,7 @@ class THM_OrganizerViewschedule_manager extends JView
         $model = $this->getModel();
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+        $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/schedule_errors.js'));
 
         $this->state = $this->get('State');
         $this->schedules = $this->get('Items');

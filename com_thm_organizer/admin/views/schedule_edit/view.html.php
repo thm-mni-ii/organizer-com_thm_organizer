@@ -47,7 +47,7 @@ class THM_OrganizerViewschedule_edit extends JView
 
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
-        $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/schedule_edit.js'));
+        $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/schedule_errors.js'));
 
         $model = $this->getModel();
         $this->form = $this->get('Form');
@@ -64,7 +64,7 @@ class THM_OrganizerViewschedule_edit extends JView
      */
     private function addToolBar()
     {
-        $title = JText::_('COM_THM_ORGANIZER') . ': ';        
+        $title = JText::_('COM_THM_ORGANIZER') . ': ';
         if ($this->form->getValue('id'))
         {
             $this->setLayout('edit');

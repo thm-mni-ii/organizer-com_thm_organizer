@@ -31,6 +31,10 @@ defined("_JEXEC") or die;?>
                     <input name="file" type="file" />
                 </li>
                 <li>
+                    <?php echo $this->form->getLabel('rooms_assignment_required'); ?>
+                    <?php echo $this->form->getInput('rooms_assignment_required'); ?>
+                </li>
+                <li>
                     <?php echo $this->form->getLabel('description'); ?>
                     <?php echo $this->form->getInput('description'); ?>
                 </li>
