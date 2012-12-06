@@ -107,9 +107,11 @@ class JFormFieldScheduler extends JFormField
 <!--<script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/views/scheduler/tmpl/ext/ext-all-dev.js"></script>-->
 <!--<script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/views/scheduler/tmpl/ext/bootstrap.js"></script>-->
 
-<script type="text/javascript" charset="utf-8">	
+<script type="text/javascript" charset="utf-8">
+	var menuID = <?php echo $menuid ?>;
 	var treeIDs = <?php echo json_encode($treeids); ?>;
 	var publicDefaultID = <?php echo json_encode($publicDefaultID); ?>;
+
 	
 	<?php
 	

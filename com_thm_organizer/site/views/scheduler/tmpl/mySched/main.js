@@ -409,25 +409,7 @@ MySched.Base = function ()
                 }
                 else
                 {
-                    var publicDefaultNode = MySched.startup["TreeView.load"].data.treePublicDefault;
-
-                    if (publicDefaultNode["type"] == "delta")
-                    {
-                        MySched.delta.load(_C('ajaxHandler'), 'json',
-                        MySched.delta.loadsavedLectures, MySched.delta, "delta");
-                    }
-                    else
-                    {
-                        var nodeID = publicDefaultNode["id"];
-                        var nodeKey = publicDefaultNode["nodeKey"];
-                        var gpuntisID = publicDefaultNode["gpuntisID"];
-                        var plantypeID = publicDefaultNode["plantype"];
-                        var semesterID = publicDefaultNode["semesterID"];
-                        var type = publicDefaultNode["type"];
-
-                        MySched.Tree.showScheduleTab(nodeID, nodeKey,
-                        gpuntisID, semesterID, plantypeID, type);
-                    }
+                    
                 }
             }
             else
@@ -2283,7 +2265,7 @@ MySched.layout = function ()
             }
 
             var treeData = MySched.Tree.init();
-
+    		            
             // Linker Bereich der Info und Ubersichtsliste enthaelt
             this.w_leftMenu = Ext.create('Ext.panel.Panel',
             {
@@ -2350,6 +2332,13 @@ MySched.layout = function ()
                 maxSize: 968,
                 items: [this.leftviewport, this.rightviewport]
             });
+            
+    		loadMask = new Ext.LoadMask(
+    	    "selectTree",
+    	    {
+    	        msg: "Loading..."
+    	    });
+    		loadMask.show();
 
             var calendar = Ext.ComponentMgr.get('menuedatepicker');
             if (calendar) var imgs = Ext.DomQuery.select('img[class=x-form-trigger x-form-date-trigger]',
@@ -4089,14 +4078,87 @@ MySched.Tree = function ()
     return {
         init: function ()
         {
+        	var children = [];
 
-            var children = MySched.startup["TreeView.load"].data["tree"];
-            /*
-             * while(isset(children[0])) { if(isset(children[0]["id"])) break;
-             * children = children[0]; }
-             */
+        	if(Ext.isObject(MySched.startup["TreeView.load"]))
+        	{
+	            var children = MySched.startup["TreeView.load"].data["tree"];
+	            /*
+	             * while(isset(children[0])) { if(isset(children[0]["id"])) break;
+	             * children = children[0]; }
+	             */
+        	}
+        	else
+        	{
+        		Ext.Ajax.request(
+                {
+                    url: _C('ajaxHandler'),
+                    method: 'POST',
+                    params: {
+                        scheduletask: "TreeView.load"
+                    },
+                    failure: function (response)
+                    {
+                        var bla = response;
+                    },
+                    success: function (response)
+                    {
+                        var json = Ext.decode(response.responseText);
+                        var newtree = json["tree"];
+                        var treeData = json["treeData"];
+                        /*
+                         * if (accMode != 'none') { treeRoot.appendChild(children); }
+                         */
 
-            var treeStore = Ext.create('Ext.data.TreeStore',
+                        for (var item in treeData)
+                        {
+                            if (Ext.isObject(treeData[item]))
+                            {
+                                for (var childitem in treeData[item])
+                                {
+                                    if (Ext.isObject(treeData[item][childitem]))
+                                    {
+                                        MySched.Mapping[item].add(
+                                        childitem,
+                                        treeData[item][childitem]);
+                                    }
+                                }
+                            }
+                        }
+                        
+                        var rootNode = MySched.Tree.tree.getRootNode();
+                        rootNode.removeAll(true);
+                        rootNode.appendChild(newtree);
+                        MySched.Tree.tree.update();
+                        if (loadMask)
+            		    {
+            				loadMask.destroy();
+            		    }
+                        
+                        var publicDefaultNode = json["treePublicDefault"];
+
+                        if (publicDefaultNode["type"] == "delta")
+                        {
+                            MySched.delta.load(_C('ajaxHandler'), 'json',
+                            MySched.delta.loadsavedLectures, MySched.delta, "delta");
+                        }
+                        else
+                        {
+                            var nodeID = publicDefaultNode["id"];
+                            var nodeKey = publicDefaultNode["nodeKey"];
+                            var gpuntisID = publicDefaultNode["gpuntisID"];
+                            var plantypeID = publicDefaultNode["plantype"];
+                            var semesterID = publicDefaultNode["semesterID"];
+                            var type = publicDefaultNode["type"];
+
+                            MySched.Tree.showScheduleTab(nodeID, nodeKey,
+                            gpuntisID, semesterID, plantypeID, type);
+                        }
+                    }
+                });
+        	}
+        	
+        	var treeStore = Ext.create('Ext.data.TreeStore',
             {
                 folderSort: true,
                 sorters: [{
@@ -4321,9 +4383,9 @@ MySched.Tree = function ()
          */
         loadTreeData: function ()
         {
-            MySched.TreeManager.processTreeData(
+            /*MySched.TreeManager.processTreeData(
             MySched.startup["TreeView.load"].data, null, null, null,
-            this.tree);
+            this.tree);*/
         },
         /**
          * Setzt die Daten im Baum

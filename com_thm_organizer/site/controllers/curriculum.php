@@ -2,10 +2,10 @@
 /**
  * @version	    v2.0.0
  * @category    Joomla component
- * @package     THM_Curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		THM_CurriculumControllerCurriculum
- * @description THM_CurriculumControllerCurriculum component site controller
+ * @name		THM_OrganizerControllerCurriculum
+ * @description THM_OrganizerControllerCurriculum component site controller
  * @author	   	Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -19,12 +19,12 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controlleradmin');
 
 /**
- * Class THM_CurriculumControllerCurriculum for component com_thm_organizer
+ * Class THM_OrganizerControllerCurriculum for component com_thm_organizer
  *
  * Class provides methods for AJAX Requests
  *
  * @category    Joomla.Component.Site
- * @package     thm_curriculum
+ * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
  * @since       v1.5.0

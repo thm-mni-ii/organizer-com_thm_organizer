@@ -43,9 +43,8 @@ function loadTreeData(selectedItemValue)
         params: 
         {
         	departmentSemesterSelection: selectedItemValue,
-        	treeIDs: Ext.encode(treeIDs),
             scheduletask: "TreeView.load",
-            publicDefaultID: publicDefaultID
+            menuID: menuID
         },
         failure: function (response)
         {
