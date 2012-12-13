@@ -241,12 +241,13 @@ class THM_OrganizerViewScheduler extends JView
 		}
 				
 		$schedulearr["UserSchedule.load"]["respChanges"] = $model->executeTask("UserSchedule.load", array("username" => "respChanges"));
-				
-		$schedulearr["ScheduleDescription.load"]->data = $activeSchedule; 
 
-		$schedulearr["TreeView.load"] = $model->executeTask("TreeView.load",
-											array("departmentSemesterSelection" => $departmentSemesterSelection, "path" => $path, "hide" => true, "publicDefault" => $publicDefaultIDArray)
-										);
+		$schedulearr["ScheduleDescription.load"] = new stdClass;
+		$schedulearr["ScheduleDescription.load"]->data = $activeSchedule;
+
+// 		$schedulearr["TreeView.load"] = $model->executeTask("TreeView.load",
+// 											array("departmentSemesterSelection" => $departmentSemesterSelection, "path" => $path, "hide" => true, "publicDefault" => $publicDefaultIDArray)
+// 										);
 
 		$this->startup = rawurlencode(json_encode($schedulearr));
 

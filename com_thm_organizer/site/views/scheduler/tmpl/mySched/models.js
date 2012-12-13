@@ -456,6 +456,7 @@ Ext.define('mSchedule',
                     for (var blockIndex in date)
                     {
                         var block = date[blockIndex];
+                        var displayLesson = false;
                         if (Ext.isObject(block["lessonData"]))
                         {
                         	if(Ext.isString(block["lessonData"]["delta"]))
@@ -468,16 +469,33 @@ Ext.define('mSchedule',
                         			}
                         		}
                         	}
+                        	if(this.type == "room")
+                        	{
+	                        	for (var roomIndex in block["lessonData"])
+	                            {
+	                            	if (roomIndex == this.key && block["lessonData"][roomIndex] != "removed")
+	                                {
+	                            		displayLesson = true;
+	                                }
+	                            }
+                        	}
+                        	else
+                        	{
+                        		displayLesson = true;
+                        	}
                         	
-                            var block = blockIndex - 1;
-                                                            
-                            if (!ret[block][dow])
-                            {
-                            	ret[block][dow] = [];
-                            }
-                            
-                            ret[block][dow].push(v.getCellView(this));
-                            this.visibleLessons.push(v.data);
+                        	if(displayLesson == true)
+                        	{
+	                            var block = blockIndex - 1;
+	                                                            
+	                            if (!ret[block][dow])
+	                            {
+	                            	ret[block][dow] = [];
+	                            }
+	                            
+	                            ret[block][dow].push(v.getCellView(this));
+	                            this.visibleLessons.push(v.data);
+                        	}
                         }
                     }
                 }

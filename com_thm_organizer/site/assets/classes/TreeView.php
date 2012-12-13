@@ -123,6 +123,21 @@ class TreeView
 	{
 		$this->JDA = $JDA;
 		$this->cfg = $CFG->getCFG();
+		
+		$menuid = JRequest::getInt("menuID", 0);
+		
+		$site = new JSite;
+		$menu = $site->getMenu();
+		
+		if($menuid != 0)
+		{
+			$menuparams = $menu->getParams($menuid);
+		}
+		else
+		{
+			$menuparams = $menu->getParams($menu->getActive()->id);
+			$options["hide"] = true;
+		}
 				
 		if (isset($options["path"]))
 		{
@@ -138,7 +153,7 @@ class TreeView
 			}
 			else
 			{
-				$this->checked = null;
+				$this->checked = (array) json_decode($menuparams->get("id"));
 			}
 		}
 		
@@ -156,10 +171,10 @@ class TreeView
 			}
 			else
 			{
-				$this->publicDefault = null;
+				$this->publicDefault = (array) json_decode($menuparams->get("publicDefaultID"));
 			}
 		}
-				
+						
 		if (isset($options["hide"]))
 		{
 			$this->hideCheckBox = $options["hide"];
@@ -170,7 +185,7 @@ class TreeView
 		}
 				
 		$departmentSemesterSelection = JRequest::getString('departmentSemesterSelection');
-		
+				
 		if($departmentSemesterSelection == "")
 		{
 			if (isset($options["departmentSemesterSelection"]))
@@ -179,7 +194,7 @@ class TreeView
 			}
 			else
 			{
-				$this->departmentSemesterSelection = "";
+				$this->departmentSemesterSelection	= $menuparams->get("departmentSemesterSelection");
 			}
 		}
 		else
