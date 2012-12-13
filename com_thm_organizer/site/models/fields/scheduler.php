@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 
 // Import the list field type
 jimport('joomla.form.helper');
-jimport('THM.thm_extjs4.thm_extjs4');
+jimport('thm_extjs4.thm_extjs4');
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -82,7 +82,7 @@ class JFormFieldScheduler extends JFormField
 			$idString = "";
 		}		
 
-		$doc = & JFactory::getDocument();
+		$doc = JFactory::getDocument();
 		$doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/ext/resources/css/ext-all.css");
 		$doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/models/fields/css/schedule_selection_tree.css");
 		$doc->addScript(JURI::root(true) . "/components/com_thm_organizer/models/fields/tree.js");
@@ -115,23 +115,23 @@ class JFormFieldScheduler extends JFormField
 	
 	<?php
 	
-		echo 'var externLinks = [];';
-		echo 'externLinks.ajaxHandler = \'' . JRoute::_(JURI::root() . 'index.php?option=com_thm_organizer&view=ajaxhandler&format=raw') . '\';';
+		echo 'var externLinks = [];' . "\n\t";
+		echo 'externLinks.ajaxHandler = \'' . JRoute::_(JURI::root() . 'index.php?option=com_thm_organizer&view=ajaxhandler&format=raw') . '\';' . "\n\t";
 	
-		echo 'var images = [];';
-		echo 'images.unchecked = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/unchecked.gif\';';
+		echo 'var images = [];' . "\n\t";
+		echo 'images.unchecked = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/unchecked.gif\';' . "\n\t";
 		echo 'images.unchecked_highlighted = \'' . JURI::root(true) .
-		'/components/com_thm_organizer/models/fields/images/unchecked_highlighted.gif\';';
-		echo 'images.checked = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/checked.gif\';';
-		echo 'images.checked_highlighted = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/checked_highlighted.gif\';';
-		echo 'images.intermediate = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/intermediate.gif\';';
+		'/components/com_thm_organizer/models/fields/images/unchecked_highlighted.gif\';' . "\n\t";
+		echo 'images.checked = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/checked.gif\';' . "\n\t";
+		echo 'images.checked_highlighted = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/checked_highlighted.gif\';' . "\n\t";
+		echo 'images.intermediate = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/intermediate.gif\';' . "\n\t";
 		echo 'images.intermediate_highlighted = \'' . JURI::root(true) .
-		'/components/com_thm_organizer/models/fields/images/intermediate_highlighted.gif\';';
-		echo 'images.selected = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/selected.gif\';';
-		echo 'images.selected_highlighted = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/selected_highlighted.gif\';';
-		echo 'images.notdefault = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/notdefault.png\';';
-		echo 'images.default = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/default.png\';';
-		echo 'images.base = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/\';';
+		'/components/com_thm_organizer/models/fields/images/intermediate_highlighted.gif\';' . "\n\t";
+		echo 'images.selected = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/selected.gif\';' . "\n\t";
+		echo 'images.selected_highlighted = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/selected_highlighted.gif\';' . "\n\t";
+		echo 'images.notdefault = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/notdefault.png\';' . "\n\t";
+		echo 'images.default = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/default.png\';' . "\n\t";
+		echo 'images.base = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/\';' . "\n\t";
 	?>
 
 	Joomla.submitbutton = function(task, type)
