@@ -30,9 +30,9 @@ class thm_organizerModelroom_display extends JModel
     private $_gpuntisID;
 
     public $layout = 'default';
-    
+
     public $schedule_refresh;
-    
+
     public $content_refresh;
 
     private $_schedules;
@@ -366,7 +366,14 @@ class thm_organizerModelroom_display extends JModel
             {
                 if (count($appointments) == 1)
                 {
-                    $this->blocks[$key]['title'] = $appointments[0]['title'];
+                    if ($this->layout = 'registered' OR $this->layout = 'events')
+                    {
+                        $this->blocks[$key]['title'] = substr($appointments[0]['title'], 0, 20);
+                    }
+                    else
+                    {
+                        $this->blocks[$key]['title'] = $appointments[0]['title'];
+                    }
                     $this->blocks[$key]['extraInformation'] = $this->makeEventTime($appointments[0]);
                     $this->blocks[$key]['eventID'] = $appointments[0]['id'];
                     $this->blocks[$key]['link'] = $this->getEventLink($appointments[0]['id'], $appointments[0]['title']);
