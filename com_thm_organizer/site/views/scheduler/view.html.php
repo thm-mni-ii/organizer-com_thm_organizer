@@ -15,7 +15,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('thm_extjs4.thm_extjs4');
+jimport('extjs4.extjs4');
 jimport('joomla.application.component.view');
 
 

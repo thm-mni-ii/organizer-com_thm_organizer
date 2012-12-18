@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 
 // Import the list field type
 jimport('joomla.form.helper');
-jimport('thm_extjs4.thm_extjs4');
+jimport('extjs4.extjs4');
 JFormHelper::loadFieldClass('list');
 
 /**
