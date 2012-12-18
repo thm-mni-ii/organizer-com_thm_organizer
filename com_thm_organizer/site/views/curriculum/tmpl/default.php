@@ -15,7 +15,7 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.tooltip');
-jimport('thm_extjs4.thm_extjs4');
+jimport('extjs4.extjs4');
 
 if (!isset($this->counter))
 {
