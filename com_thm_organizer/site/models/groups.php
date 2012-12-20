@@ -155,7 +155,14 @@ class THM_OrganizerModelGroups extends JModel
 			}
 
 			// Get the lecturers name from THM Groups
-			$lecturerName = self::getLecturerNameFromThmGroups($userid);
+			if($userid == 0)
+			{
+				$lectureName = false;
+			}
+			else
+			{
+				$lecturerName = self::getLecturerNameFromThmGroups($userid);
+			}
 
 			$responsilbeLabel = null;
 
