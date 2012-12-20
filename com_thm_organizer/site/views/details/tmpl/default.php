@@ -118,7 +118,7 @@
 		</dt>
 		<dd class="lsflist">
 			<?php
-			echo $this->dozenten;
+				echo $this->dozenten;
 			?>
 		</dd>
 		<?php
