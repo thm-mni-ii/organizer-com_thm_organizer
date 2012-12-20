@@ -151,22 +151,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_monitors` (
   FOREIGN KEY (`roomID`) REFERENCES `#__thm_organizer_rooms` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
--- behaviours 1 plan 2 mixed 3 content 4 event
-
--- INSERT IGNORE INTO `#__thm_organizer_monitors` (`monitorID`, `roomID`, `ip`) VALUES
--- (1, 'A20.0.07', '10.48.0.87'),
--- (2, 'A20.0.08', '10.48.0.47'),
--- (3, 'A20.0.09', '10.48.0.48'),
--- (4, 'A20.1.07', '10.48.0.49'),
--- (5, 'A20.1.08', '10.48.0.50'),
--- (6, 'A20.1.09', '10.48.0.51'),
--- (7, 'A20.1.36', '10.48.0.86'),
--- (8, 'A20.2.07', '10.48.0.55'),
--- (9, 'A20.2.08', '10.48.0.53'),
--- (10, 'A20.2.09', '10.48.0.54'),
--- (11, 'A20.2.10', '10.48.0.88');
-
-
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_asset_types` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
@@ -184,34 +168,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_colors` (
   `color` varchar(6) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-INSERT INTO `#__thm_organizer_colors` (`id`, `name`, `color`) VALUES
-(39, 'THM Hintergrundgruen', 'cce3a7'),
-(40, 'THM Hintergrundgrau', 'b7bec2'),
-(41, 'THM Hintergrundrot', 'e199ad'),
-(42, 'THM Hintergrundgelb', 'fde499'),
-(43, 'THM Hintergrundcyan', '99e1f1'),
-(44, 'THM Hintergrundblau', '99b4d0'),
-(45, 'THM hellgruen', '9bd641'),
-(46, 'THM hellgrau', '6b7e88'),
-(47, 'THM hellrot', 'd32154'),
-(48, 'THM hellgelb', 'ffca30'),
-(49, 'THM hellcyan', '1dd1f9'),
-(50, 'THM hellblau', '2568ae'),
-(51, 'THM gruen', '80ba24'),
-(53, 'THM rot', 'b30033'),
-(54, 'THM gelb', 'fbbb00'),
-(55, 'THM cyanm', '00b5dd'),
-(57, 'THM mittelgruen', '71a126'),
-(58, 'THM mittelgrau', '44535b'),
-(59, 'THM mittelrot', '990831'),
-(60, 'THM mittelgelb', 'd7a30b'),
-(61, 'THM mittelcyan', '099cbd'),
-(62, 'THM mittelblau', '063d76'),
-(63, 'THM dunkelgruen', '638929'),
-(64, 'THM dunkelgrau', '3d494f'),
-(65, 'THM dunkelrot', '810e2f'),
-(66, 'THM dunkelgelb', 'vb58b14');
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_assets` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -263,15 +219,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_semesters` (
   FOREIGN KEY (`color_id`) REFERENCES `#__thm_organizer_colors` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-INSERT INTO #__thm_organizer_semesters (id, name) VALUES
-(1, '1. Semester'),
-(2, '2. Semester'),
-(3, '3. Semester'),
-(4, '4. Semester'),
-(5, '5. Semester'),
-(6, '6. Semester'),
-(7, '4./5. Semester');
-
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_semesters_majors` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `major_id` int(11) NOT NULL,
@@ -321,14 +268,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_degrees` (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__thm_organizer_degrees` (`id`, `name`) VALUES
-(13, 'Bachelor of Engineering'),
-(15, 'Bachelor of Science'),
-(16, 'Master of Science'),
-(17, 'Bachelor of Arts'),
-(18, 'Master of Arts'),
-(20, 'Master of Business Administration and Engineering');
-
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lecturers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` varchar(25) NOT NULL,
@@ -346,10 +285,6 @@ CREATE TABLE IF NOT EXISTS #__thm_organizer_lecturers_types (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-INSERT INTO #__thm_organizer_lecturers_types (id, name) VALUES
-(1, 'Modulverantwortlicher'),
-(2, 'Dozent');
-
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_soap_queries` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -360,18 +295,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_soap_queries` (
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=178 ;
-
-INSERT INTO `#__thm_organizer_soap_queries` (`id`, `name`, `lsf_object`, `lsf_study_path`, `lsf_degree`, `lsf_pversion`, `description`) VALUES
-(172, 'Bachelor Medizin-Informatik (2010)', 'studiengang', 'I', 'MI', '2010', ''),
-(170, 'Bachelor Ingenieur Informatik (2010)', 'studiengang', 'INI', 'BS', '2010', ''),
-(173, 'Bachelor BWL (2009)', 'studiengang', 'W', 'BA', '2009', ''),
-(154, 'Bachelor Informatik (2010)', 'studiengang', 'I', 'BS', '2010', ''),
-(175, 'Master of Arts International Marketing (2010)', 'studiengang', 'INM', 'MA', '2010', ''),
-(167, 'Master Informatik (2010)', 'studiengang', 'I', 'MS', '2010', ''),
-(174, 'Master of Arts Unternehmensführung (PO 2011)', 'studiengang', 'UF', 'MA', '2010', ''),
-(164, 'Master of Science WirtschaftsInformatik (2010)', 'studiengang', 'WIN', 'MS', '2010', ''),
-(169, 'Bachelor Bio-Informatik (2010)', 'studiengang', 'I', 'BI', '2010', ''),
-(176, 'Master of Business Administration (PO 2010)', 'studiengang', 'W', 'MB', '2010', '');
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lecturers_assets` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

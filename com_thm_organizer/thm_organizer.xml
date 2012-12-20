@@ -13,12 +13,17 @@
     <licence>GNU GPL v.2</licence>
     <version>0.0.3</version>
     <description>COM_THM_ORGANIZER_DESCRIPTION</description>
-	<scriptfile>script.php</scriptfile>
+    <scriptfile>script.php</scriptfile>
     <install>
         <sql>
             <file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
         </sql>
     </install>
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+        </sql>
+    </uninstall>
     <update>
     	<schemas>
     		<schemapath type="mysql">sql/updates/mysql</schemapath>
