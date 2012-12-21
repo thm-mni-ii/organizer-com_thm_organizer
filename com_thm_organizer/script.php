@@ -27,7 +27,8 @@ jimport('joomla.filesystem.file');
 class com_thm_organizerInstallerScript
 {
     /**
-     * Method to install the component
+     * Method to install the component. For some unknown reason Joomla will not resolve text constants in this function.
+     * All text constants have been replaced by hard coded English texts. :(
      *
      * @param   object  $parent  the class calling this method
      *
@@ -39,52 +40,35 @@ class com_thm_organizerInstallerScript
         if ($tablesFilled)
         {
             $fillColor = 'green';
-            $fillStatus = JText::_('COM_THM_ORGANIZER_FILL_SUCCESS');
+            $fillStatus = 'Default values have been added to the database tables.';
         }
         else
         {
             $fillColor = 'red';
-            $fillStatus = JText::_('COM_THM_ORGANIZER_FILL_FAIL');
-            $fillText = JText::_();
+            $fillStatus = 'Default values could not be added to the database tables.';
         }
 
         $dirCreated = $this->createImageDirectory();
         if ($dirCreated)
         {
             $dirColor = 'green';
-            $dirStatus = JText::_('COM_THM_ORGANIZER_INSTALL_DIR_SUCCESS');
+            $dirStatus = 'The directory /images/thm_organizer has been created.';
         }
         else
         {
             $dirColor = 'red';
-            $dirStatus = JText::_('COM_THM_ORGANIZER_INSTALL_DIR_FAIL');
-            $dirText = JText::_();
+            $dirStatus = 'The directory /images/thm_organizer could not be created.';
         }
 
         if ($dirCreated AND $tablesFilled)
         {
             $instColor = 'green';
-            $instStatus = JText::_('COM_THM_ORGANIZER_INSTALL_INST_SUCCESS');
-            $instText = JText::_('COM_THM_ORGANIZER_INSTALL_INST_SUCCESS_TEXT');
-        }
-        elseif ($tablesFilled)
-        {
-            $instColor = 'yellow';
-            $instStatus = JText::_('COM_THM_ORGANIZER_INSTALL_INST_FAIL');
-            $instText = JText::_('COM_THM_ORGANIZER_INSTALL_INST_FAIL_DIR_TEXT');
-        }
-        elseif ($dirCreated)
-        {
-            $instColor = 'yellow';
-            $instStatus = JText::_('COM_THM_ORGANIZER_INSTALL_INST_FAIL');
-            $instText = JText::_('COM_THM_ORGANIZER_INSTALL_INST_FAIL_FILL_TEXT');
+            $instStatus = 'THM Organizer was successfully installed.';
         }
         else
         {
             $instColor = 'yellow';
-            $instStatus = JText::_('COM_THM_ORGANIZER_INSTALL_INST_FAIL');
-            $instText = JText::_('COM_THM_ORGANIZER_INSTALL_INST_FAIL_FILL_TEXT') . "<br />";
-            $instText .= JText::_('COM_THM_ORGANIZER_INSTALL_INST_FAIL_DIR_TEXT');
+            $instStatus = 'Problems have occured while installing THM Organizer.';
         }
 ?>
 <div>
@@ -92,17 +76,35 @@ class com_thm_organizerInstallerScript
         Released under the terms and conditions of the <a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GNU General Public License</a>.
     </div>
     <div style="width: 100%;">
-        <code>Database Table Fill Status:<br />
-            <span style='color: <?php echo $fillColor; ?>'><?php echo $fillStatus; ?></span><br />
-        </code>
-        <code>Directory Status:<br />
-            <span style='color: <?php echo $dirColor; ?>'><?php echo $dirStatus; ?></span><br />
-        </code>
-        <code>Installation Status:<br />
-            <span style="color: <?php echo $instColor; ?>; font-weight: bold;"><?php echo $instStatus; ?></span>
-            <br /><br />
-            <?php echo $instText; ?>
-        </code>
+        <h3>Database Table Fill Status:</h3>
+        <h4 style='color: <?php echo $fillColor; ?>'><?php echo $fillStatus; ?></h4>
+        <h3>Directory Status:</h3>
+        <h4 style='color: <?php echo $dirColor; ?>'><?php echo $dirStatus; ?></h4>
+        <h3>Installation Status:</h3>
+        <h4 style="color: <?php echo $instColor; ?>; font-weight: bold;"><?php echo $instStatus; ?></h4>
+<?php
+if ($tablesFilled AND $dirCreated)
+{
+?>
+            <h4>Please ensure that THM Organizer has write access to the directory mentioned above.</h4>
+<?php
+}
+if (!$tablesFilled)
+{
+?>
+            <h4>An error occurred while adding default values to the database tables. Some values may need to be manually entered.</h4>
+<?php
+}
+if (!$dirCreated)
+{
+?>
+            <h4>Please check the /images/thm_organizer Directory.</h4>
+            If it does not exist, please create this directory, and ensure THM - Organizer has write access to it.<br />
+            Failure to do so will prevent THM - Organizer from being able use images.
+
+<?php
+}
+?>
     </div>
 </div>
 <?php
@@ -143,9 +145,10 @@ class com_thm_organizerInstallerScript
      */
     private function fillTables()
     {
+        $return = true;
         $fill = JFile::read($this->SQLPath() . DS . 'fill.mysql.utf8.sql');
         $dbo = JFactory::getDbo();
-        $queries = $dbo->splitSql($input);
+        $queries = $dbo->splitSql($fill);
 
         // Execute the single queries
         foreach ($queries as $query)
@@ -155,10 +158,12 @@ class com_thm_organizerInstallerScript
                 $dbo->setQuery($query);
                 if (!$dbo->query())
                 {
-                    JError::raiseWarning(1, JText::sprintf('COM_THM_ORGANIZER_SQL_ERROR', $dbo->stderr(true)));
+                    $return = false;
+                    JError::raiseWarning(1, JText::sprintf($dbo->getErrorMsg(), $dbo->stderr(true)));
                 }
             }
         }
+        return $return;
     }
 
     /**
@@ -170,7 +175,12 @@ class com_thm_organizerInstallerScript
      */
     public function uninstall($parent)
     {
+        $dirDeleted = JFolder::delete(JPATH_SITE . '/images/thm_organizer');
         echo '<p>' . JText::_('COM_THM_ORGANIZER_UNINSTALL_TEXT') . '</p>';
+        if (!$dirDeleted)
+        {
+            echo JText::_('COM_THM_ORGANIZER_UNINSTALL_DIR_FAIL');
+        }
     }
 
     /**

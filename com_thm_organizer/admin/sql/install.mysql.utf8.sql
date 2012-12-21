@@ -157,11 +157,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_asset_types` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__thm_organizer_asset_types` (`id`, `name`) VALUES
-(1, 'Course'),
-(2, 'Coursepool'),
-(3, 'Dummy');
-
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_colors` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,

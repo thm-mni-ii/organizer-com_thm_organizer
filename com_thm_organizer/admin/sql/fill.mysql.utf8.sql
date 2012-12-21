@@ -4,34 +4,34 @@ INSERT INTO `#__thm_organizer_asset_types` (`id`, `name`) VALUES
 (3, 'Dummy');
 
 INSERT INTO `#__thm_organizer_colors` (`id`, `name`, `color`) VALUES
-(39, 'THM Hintergrundgruen', 'cce3a7'),
-(40, 'THM Hintergrundgrau', 'b7bec2'),
-(41, 'THM Hintergrundrot', 'e199ad'),
-(42, 'THM Hintergrundgelb', 'fde499'),
-(43, 'THM Hintergrundcyan', '99e1f1'),
-(44, 'THM Hintergrundblau', '99b4d0'),
-(45, 'THM hellgruen', '9bd641'),
-(46, 'THM hellgrau', '6b7e88'),
-(47, 'THM hellrot', 'd32154'),
-(48, 'THM hellgelb', 'ffca30'),
-(49, 'THM hellcyan', '1dd1f9'),
-(50, 'THM hellblau', '2568ae'),
-(51, 'THM gruen', '80ba24'),
-(53, 'THM rot', 'b30033'),
-(54, 'THM gelb', 'fbbb00'),
-(55, 'THM cyanm', '00b5dd'),
-(57, 'THM mittelgruen', '71a126'),
-(58, 'THM mittelgrau', '44535b'),
-(59, 'THM mittelrot', '990831'),
-(60, 'THM mittelgelb', 'd7a30b'),
-(61, 'THM mittelcyan', '099cbd'),
-(62, 'THM mittelblau', '063d76'),
-(63, 'THM dunkelgruen', '638929'),
-(64, 'THM dunkelgrau', '3d494f'),
-(65, 'THM dunkelrot', '810e2f'),
-(66, 'THM dunkelgelb', 'vb58b14');
+(1, 'THM Hintergrundgruen', 'cce3a7'),
+(2, 'THM Hintergrundgrau', 'b7bec2'),
+(3, 'THM Hintergrundrot', 'e199ad'),
+(4, 'THM Hintergrundgelb', 'fde499'),
+(5, 'THM Hintergrundcyan', '99e1f1'),
+(6, 'THM Hintergrundblau', '99b4d0'),
+(7, 'THM hellgruen', '9bd641'),
+(8, 'THM hellgrau', '6b7e88'),
+(9, 'THM hellrot', 'd32154'),
+(10, 'THM hellgelb', 'ffca30'),
+(11, 'THM hellcyan', '1dd1f9'),
+(12, 'THM hellblau', '2568ae'),
+(13, 'THM gruen', '80ba24'),
+(14, 'THM rot', 'b30033'),
+(15, 'THM gelb', 'fbbb00'),
+(16, 'THM cyanm', '00b5dd'),
+(17, 'THM mittelgruen', '71a126'),
+(18, 'THM mittelgrau', '44535b'),
+(19, 'THM mittelrot', '990831'),
+(20, 'THM mittelgelb', 'd7a30b'),
+(21, 'THM mittelcyan', '099cbd'),
+(22, 'THM mittelblau', '063d76'),
+(23, 'THM dunkelgruen', '638929'),
+(24, 'THM dunkelgrau', '3d494f'),
+(25, 'THM dunkelrot', '810e2f'),
+(26, 'THM dunkelgelb', 'vb58b14');
 
-INSERT INTO #__thm_organizer_semesters (id, name) VALUES
+INSERT INTO #__thm_organizer_semesters (`id`, `name`) VALUES
 (1, '1. Semester'),
 (2, '2. Semester'),
 (3, '3. Semester'),
@@ -41,25 +41,25 @@ INSERT INTO #__thm_organizer_semesters (id, name) VALUES
 (7, '4./5. Semester');
 
 INSERT INTO `#__thm_organizer_degrees` (`id`, `name`) VALUES
-(13, 'Bachelor of Engineering'),
-(15, 'Bachelor of Science'),
-(16, 'Master of Science'),
-(17, 'Bachelor of Arts'),
-(18, 'Master of Arts'),
-(20, 'Master of Business Administration and Engineering');
+(1, 'Bachelor of Engineering'),
+(2, 'Bachelor of Science'),
+(3, 'Master of Science'),
+(4, 'Bachelor of Arts'),
+(5, 'Master of Arts'),
+(6, 'Master of Business Administration and Engineering');
 
-INSERT INTO #__thm_organizer_lecturers_types (id, name) VALUES
+INSERT INTO #__thm_organizer_lecturers_types (`id`, `name`) VALUES
 (1, 'Modulverantwortlicher'),
 (2, 'Dozent');
 
-INSERT INTO `#__thm_organizer_soap_queries` (`id`, `name`, `lsf_object`, `lsf_study_path`, `lsf_degree`, `lsf_pversion`, `description`) VALUES
-(172, 'Bachelor Medizin-Informatik (2010)', 'studiengang', 'I', 'MI', '2010', ''),
-(170, 'Bachelor Ingenieur Informatik (2010)', 'studiengang', 'INI', 'BS', '2010', ''),
-(173, 'Bachelor BWL (2009)', 'studiengang', 'W', 'BA', '2009', ''),
-(154, 'Bachelor Informatik (2010)', 'studiengang', 'I', 'BS', '2010', ''),
-(175, 'Master of Arts International Marketing (2010)', 'studiengang', 'INM', 'MA', '2010', ''),
-(167, 'Master Informatik (2010)', 'studiengang', 'I', 'MS', '2010', ''),
-(174, 'Master of Arts Unternehmensführung (PO 2011)', 'studiengang', 'UF', 'MA', '2010', ''),
-(164, 'Master of Science WirtschaftsInformatik (2010)', 'studiengang', 'WIN', 'MS', '2010', ''),
-(169, 'Bachelor Bio-Informatik (2010)', 'studiengang', 'I', 'BI', '2010', ''),
-(176, 'Master of Business Administration (PO 2010)', 'studiengang', 'W', 'MB', '2010', '');
+INSERT INTO `#__thm_organizer_soap_queries` (`id`, `name`, `lsf_object`, `lsf_study_path`, `lsf_degree`, `lsf_pversion`) VALUES
+(1, 'Bachelor Medizin-Informatik (2010)', 'studiengang', 'I', 'MI', '2010'),
+(2, 'Bachelor Ingenieur Informatik (2010)', 'studiengang', 'INI', 'BS', '2010'),
+(3, 'Bachelor BWL (2009)', 'studiengang', 'W', 'BA', '2009'),
+(4, 'Bachelor Informatik (2010)', 'studiengang', 'I', 'BS', '2010'),
+(5, 'Master of Arts International Marketing (2010)', 'studiengang', 'INM', 'MA', '2010'),
+(6, 'Master Informatik (2010)', 'studiengang', 'I', 'MS', '2010'),
+(7, 'Master of Arts Unternehmensführung (PO 2011)', 'studiengang', 'UF', 'MA', '2010'),
+(8, 'Master of Science WirtschaftsInformatik (2010)', 'studiengang', 'WIN', 'MS', '2010'),
+(9, 'Bachelor Bio-Informatik (2010)', 'studiengang', 'I', 'BI', '2010'),
+(10, 'Master of Business Administration (PO 2010)', 'studiengang', 'W', 'MB', '2010');

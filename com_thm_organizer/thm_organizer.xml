@@ -8,10 +8,10 @@
     <author>Markus Baier</author>
     <authorEmail>markusDOTbaierATmniDOTthmDOTde</authorEmail>
     <authorUrl>www.mni.thm.de</authorUrl>
-    <creationDate>01/03/2011</creationDate>
+    <creationDate>01/01/2013</creationDate>
     <copyright>TH Mittelhessen 2011</copyright>
     <licence>GNU GPL v.2</licence>
-    <version>0.0.3</version>
+    <version>0.1.1</version>
     <description>COM_THM_ORGANIZER_DESCRIPTION</description>
     <scriptfile>script.php</scriptfile>
     <install>
