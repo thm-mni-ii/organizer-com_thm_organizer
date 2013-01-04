@@ -150,7 +150,6 @@ if (!$dirCreated)
         $dbo = JFactory::getDbo();
         $queries = $dbo->splitSql($fill);
 
-        // Execute the single queries
         foreach ($queries as $query)
         {
             if (trim($query))
@@ -192,31 +191,69 @@ if (!$dirCreated)
      */
     public function update($parent)
     {
-        echo '<p>' . JText::_('COM_THM_ORGANIZER_UPDATE_TEXT') . '</p>';
-
-        $updateFiles = JFolder::files($this->SQLPath() . DS . 'updates' . DS . 'mysql', '.sql');
-        $dbo = JFactory::getDbo();
-
-        // Process files
-        foreach ($updateFiles as $updateFile)
+        $installedVersion = $this->getVersion();
+        if ($installedVersion)
         {
-            $update = JFile::read($path . DS . $updateFile);
-            if ($update)
+            $updatePath = $this->SQLPath() . DS . 'updates' . DS . 'mysql';
+            $updateFiles = JFolder::files($updatePath, '.sql');
+            if ($updateFiles)
             {
-                $queries = $dbo->splitSql($update);
-                foreach ($queries as $query)
+                sort($updateFiles);
+                $dbo = JFactory::getDbo();
+                foreach ($updateFiles as $updateVersion)
                 {
-                    if (trim($query))
+                    $isNewer = $this->isNewer($installedVersion, $updateVersion);
+                    if ($isNewer)
                     {
-                        $dbo->setQuery($query);
-                        if (!$dbo->query())
+                        $updateSQL = JFile::read($updatePath . DS . $updateVersion);
+                        if ($updateSQL)
                         {
-                            JError::raiseWarning(1, JText::sprintf('COM_THM_ORGANIZER_SQL_ERROR', $dbo->stderr(true)));
+                            $queries = $dbo->splitSql($updateSQL);
+                            foreach ($queries as $query)
+                            {
+                                if (trim($query))
+                                {
+                                    $dbo->setQuery($query);
+                                    if (!$dbo->query())
+                                    {
+                                        JError::raiseWarning(1, JText::sprintf($dbo->getErrorMsg(), $dbo->stderr(true)));
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
+            echo '<p>' . JText::_('COM_THM_ORGANIZER_UPDATE_TEXT') . '</p>';
         }
+    }
 
+    /**
+     * Get current version from #__extensions table
+     *
+     * @return  mixed   string  version if successful, otherwise boolean false
+     */
+    private function getVersion()
+    {
+        $dbo = JFactory::getDbo();
+        $extension = JTable::getInstance('Extension');
+        $extension->load(array('name' => 'com_thm_organizer'));
+        $manifest_cache = new JRegistry($extension->manifest_cache);
+        return $manifest_cache->get('version');
+    }
+
+    /**
+     * Compares the version numbers to see if one is greater than the other
+     * 
+     * @param   string  $installedVersion  the component version currently installed
+     * @param   string  $updateVersion     the sql update file being iterated
+     * 
+     * @return  boolean  true if the file has a higher version number, otherwise false
+     */
+    private function isNewer($installedVersion, $updateVersion)
+    {
+        $installedVersion = explode('.', $installedVersion);
+        $updateVersion = explode('.', str_replace('.sql', '', $updateVersion));
+        return ($updateVersion[0] >= $installedVersion[0]) AND ($updateVersion[1] >= $installedVersion[1]) AND ($updateVersion[2] > $installedVersion[2]);
     }
 }
