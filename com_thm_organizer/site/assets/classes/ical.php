@@ -127,7 +127,7 @@ class ICALBauer extends abstrakterBauer
 				 * 						  +1 if the $a startdate is greater than the $b startdate
 				 * 						  -1 if the $a startdate is lesser than the $b startdate
 				 */
-				private function sortfunc($a, $b)
+				function sortfunc($a, $b)
 				{
 					if ($a->startdate == $b->startdate)
 					{
@@ -206,11 +206,10 @@ class ICALBauer extends abstrakterBauer
 						{
 							$v = $this->setEvent($v, $arr, $semesterstart, $res[$i]->startdate);
 						}
-						elseif
+						elseif ($i == count($res))
 						{
-							($i == count($res))
+							$v = $this->setEvent($v, $arr, date("Y-m-d", strtotime("+1 day", strtotime($res[$i - 1]->enddate))), $semesterend);
 						}
-						$v = $this->setEvent($v, $arr, date("Y-m-d", strtotime("+1 day", strtotime($res[$i - 1]->enddate))), $semesterend);
 						else
 						{
 							$v = $this->setEvent($v, $arr, date("Y-m-d", strtotime("+1 day", strtotime($res[$i - 1]->enddate))), $res[$i]->startdate);
