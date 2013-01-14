@@ -19,7 +19,7 @@
  *
  * @return  array  all SEF Elements as list
  */
-public function THM_curriculumBuildRoute(&$query)
+function THM_curriculumBuildRoute(&$query)
 {
 	$segments = array();
 	if (isset($query['view']))
@@ -51,7 +51,7 @@ public function THM_curriculumBuildRoute(&$query)
  *
  * @return  array  Accessable elements from SEF
  */
-public function THM_curriculumParseRoute($segments)
+function THM_curriculumParseRoute($segments)
 {
 	$query = array();
 
