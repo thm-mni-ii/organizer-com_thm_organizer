@@ -1,23 +1,21 @@
 <?php
 /**
- *@category    component
- * 
- *@package     THM_Organizer
- * 
- *@subpackage  com_thm_organizer
- *@name        monitor manager default template
- *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- *@author      Daniel Kirsten danielDOTkirstenATmniDOTthmDOTde
- * 
- *@copyright   2012 TH Mittelhessen
- * 
- *@license     GNU GPL v.2
- *@link        www.mni.thm.de
- *@version     0.1.0
+ * @version     v0.1.0
+ * @category    Joomla component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.admin
+ * @description monitor manager default template
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @author      Daniel Kirsten, <daniel.kirsten@mni.thm.de>
+ * @copyright   2012 TH Mittelhessen
+ * @license     GNU GPL v.2
+ * @link        www.mni.thm.de
  */
+
 defined('_JEXEC') or die;
 $orderby = $this->escape($this->state->get('list.ordering'));
 $direction = $this->escape($this->state->get('list.direction'));
+
 ?>
 <form action="index.php?option=com_thm_organizer" method="post" name="adminForm" id="adminForm">
     <fieldset id="filter-bar">

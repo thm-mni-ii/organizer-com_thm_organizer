@@ -1,21 +1,37 @@
 <?php
 /**
- * @package  	Joomla.Administrator
- * @subpackage  com_thm_lsf
- * @author   	Markus Baier <markus.baier@mni.fh-giessen.de>
- * @copyright	THM Mittelhessen 2011
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @link     	http://www.mni.fh-giessen.de
- * @version		$Id: configuration.php 3035 2011-01-21 09:32:19Z m.baier $
+ * @version     v0.1.0
+ * @category    Joomla component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.admin
+ * @name        THM_OrganizerTableLecturer
+ * @description lecturer table class
+ * @author      Markus Baier markusDOTbaierATmniDOTthmDOTde
+ * @copyright   2012 TH Mittelhessen
+ * @license     GNU GPL v.2
+ * @link        www.mni.thm.de
  **/
 
 defined('_JEXEC') or die('Restricted access');
 
-class THM_OrganizerTableLecturer extends JTable {
-    
-    function __construct(&$db) {
+/**
+ * Class representing the lecturer table.
+ *
+ * @category	Joomla.Component.Admin
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.admin
+ * @link        www.mni.thm.de
+ * @since       v0.1.0
+ */
+class THM_OrganizerTableLecturer extends JTable
+{
+	/**
+	 * Constructor to call the parent constructor
+	 *
+	 * @param   JDatabase  &$dbo  A database connector object
+	 */
+    function __construct(&$db)
+    {
         parent::__construct('#__thm_organizer_lecturers', 'id', $db);
     }
-    
 }
-?>

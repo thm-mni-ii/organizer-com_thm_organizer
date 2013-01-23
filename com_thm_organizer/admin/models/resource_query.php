@@ -1,16 +1,18 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_thm_organizer
+ * @version     v0.0.1
+ * @category	Joomla component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.admin
  * @name        reservation ajax response model
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * @copyright   TH Mittelhessen 2011
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @copyright   2011 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
- * @version     0.0.1
  */
 defined('_JEXEC') or die;
-jimport( 'joomla.application.component.model' );
+jimport('joomla.application.component.model');
+
 class THM_OrganizerModelbooking extends JModel
 {
     private $resource_tables = null;

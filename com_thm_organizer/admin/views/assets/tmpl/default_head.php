@@ -41,7 +41,7 @@ JHTML::_('behavior.modal', 'a.modal-button');
 		<select name="filter_type" class="inputbox"
 			onchange="this.form.submit()">
 			<option value="">
-				<?php echo JText::_('Type'); ?>
+				<?php echo JText::_('COM_THM_ORGANIZER_TYPE'); ?>
 			</option>
 			<?php echo JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.type')); ?>
 		</select>
@@ -55,31 +55,31 @@ JHTML::_('behavior.modal', 'a.modal-button');
 	</th>
 
 	<th width="5%"><?php echo JHTML::_('grid.sort',
-			JText::_('com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_ID'), 'asset_id', $listDirn, $listOrder
+			JText::_('COM_THM_ORGANIZER_SUBMENU_ASSETS_CURRICULUM_ID'), 'asset_id', $listDirn, $listOrder
 	);?>
 	</th>
 	<th width="5%"><?php echo JHTML::_('grid.sort',
-			JText::_('com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_COURSEID'), 'lsf_course_id', $listDirn, $listOrder
+			JText::_('COM_THM_ORGANIZER_SUBMENU_ASSETS_CURRICULUM_COURSEID'), 'lsf_course_id', $listDirn, $listOrder
 	);?>
 	</th>
 	<th width="5%"><?php echo JHTML::_('grid.sort',
-			JText::_('com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_COURSECODE_HIS'), 'his_course_code', $listDirn, $listOrder
+			JText::_('COM_THM_ORGANIZER_SUBMENU_ASSETS_CURRICULUM_COURSECODE_HIS'), 'his_course_code', $listDirn, $listOrder
 	);?>
 	</th>
 	<th width="5%"><?php echo JHTML::_('grid.sort',
-			JText::_('com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_COURSECODE_CURRICULUM'), 'lsf_course_code', $listDirn, $listOrder
+			JText::_('COM_THM_ORGANIZER_SUBMENU_ASSETS_CURRICULUM_COURSECODE_CURRICULUM'), 'lsf_course_code', $listDirn, $listOrder
 	);?>
 	</th>
 	<th width="50%"><?php echo JHTML::_('grid.sort',
-			JText::_('com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_TITLE_DE'), 'title_de', $listDirn, $listOrder
+			JText::_('COM_THM_ORGANIZER_SUBMENU_ASSETS_CURRICULUM_TITLE_DE'), 'title_de', $listDirn, $listOrder
 	);?>
 	</th>
 	<th width="20%"><?php echo JHTML::_('grid.sort',
-			JText::_('com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_SHORT_TITLE_DE'), 'short_title_de', $listDirn, $listOrder
+			JText::_('COM_THM_ORGANIZER_SUBMENU_ASSETS_CURRICULUM_SHORT_TITLE_DE'), 'short_title_de', $listDirn, $listOrder
 	);?>
 	</th>
 	<th width="10%"><?php echo JHTML::_('grid.sort',
-			JText::_('com_thm_organizer_SUBMENU_ASSETS_CURRICULUM_ASSET_TYPE'), 'asset_type_id', $listDirn, $listOrder
+			JText::_('COM_THM_ORGANIZER_SUBMENU_ASSETS_CURRICULUM_ASSET_TYPE'), 'asset_type_id', $listDirn, $listOrder
 	);?>
 	</th>
 </tr>

@@ -1,31 +1,32 @@
 <?php
 /**
- *@category    component
- * 
- *@package     THM_Organizer
- * 
- *@subpackage  com_thm_organizer
- *@name        view output class for the component splash page
- *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- *@author      Wolf Rost wolfDOTrostATmniDOTthmDOTde
- * 
- *@copyright   2012 TH Mittelhessen
- * 
- *@license     GNU GPL v.2
- *@link        www.mni.thm.de
- *@version     0.1.0
+ * @version     v0.1.0
+ * @category    Joomla component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.admin
+ * @name        THM_OrganizersViewthm_organizers
+ * @description view output class for the component splash page
+ * @author      James Antrim, <jamesDOTantrimATmniDOTthmDOTde>
+ * @author      Wolf Rost wolfDOTrostATmniDOTthmDOTde
+ * @copyright   2012 TH Mittelhessen
+ * @license     GNU GPL v.2
+ * @link        www.mni.thm.de
  */
+
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 jimport('joomla.html.pane');
+
 /**
  * Class defining view output
  * 
- * @package  Admin
- * 
- * @since    2.5.4 
+ * @category	Joomla.Component.Admin
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.admin
+ * @link        www.mni.thm.de
+ * @since       v0.1.0
  */
-class thm_organizersViewthm_organizers extends JView
+class THM_OrganizersViewthm_organizers extends JView
 {
     /**
      * loads model data into view context

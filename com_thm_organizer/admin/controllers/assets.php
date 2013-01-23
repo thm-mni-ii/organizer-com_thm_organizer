@@ -2,7 +2,7 @@
 /**
  * @version	    v2.0.0
  * @category    Joomla component
- * @package     THM_Curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerControllerAssets
  * @description THM_OrganizerControllerAssets component admin controller
@@ -27,7 +27,7 @@ require_once JPATH_COMPONENT_SITE . DS . 'models/details.php';
  * Class provides methods perform actions for assets
  *
  * @category	Joomla.Component.Admin
- * @package     thm_curriculum
+ * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  * @since       v1.5.0
