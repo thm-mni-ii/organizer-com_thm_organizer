@@ -6,8 +6,8 @@
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerTableAssets
  * @description assets table class
- * @author      Markus Baier markusDOTbaierATmniDOTthmDOTde
- * @author      Wolf Rost wolfDOTrostATmniDOTthmDOTde
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de

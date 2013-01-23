@@ -6,7 +6,7 @@
  * @subpackage  com_thm_organizer.admin
  * @name        THM_OrganizerViewmonitor_manager
  * @description lists registered monitors along with associated rooms and display content
- * @author      James Antrim, <jamesDOTantrimATmniDOTthmDOTde>
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de

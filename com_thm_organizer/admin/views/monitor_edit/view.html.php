@@ -6,8 +6,8 @@
  * @subpackage  com_thm_organizer.admin
  * @name        THM_OrganizerViewmonitor_edit
  * @description monitor edit view
- * @author      James Antrim, <jamesDOTantrimATmniDOTthmDOTde>
- * @author      Daniel Kirsten danielDOTkirstenATmniDOTthmDOTde
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @author      Daniel Kirsten, <daniel.kirsten@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de

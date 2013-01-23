@@ -94,12 +94,18 @@ if (!empty($this->monitors))
 ?>
                 <tr class="row<?php echo $k % 2;?>">
                     <td><?php echo JHtml::_('grid.id', $k, $monitor->id); ?></td>
-                    <td><a href='<?php echo $monitor->link; ?>' ><?php echo $monitor->room; ?></a></td>
-                    <td><a href='<?php echo $monitor->link; ?>' > <?php echo $monitor->ip; ?></a></td>
-                    <td><a href='<?php echo $monitor->link; ?>' ><?php echo $monitor->display; ?></a></td>
-                    <td><a href='<?php echo $monitor->link; ?>' ><?php echo $monitor->schedule_refresh; ?></a></td>
-                    <td><a href='<?php echo $monitor->link; ?>' ><?php echo $monitor->content_refresh; ?></a></td>
-                    <td><a href='<?php echo $monitor->link; ?>' ><?php echo $monitor->content; ?></a></td>
+                    <td><a href='<?php echo $monitor->link; ?>' >
+                    <?php echo $monitor->room; ?></a></td>
+                    <td><a href='<?php echo $monitor->link; ?>' > 
+                    <?php echo $monitor->ip; ?></a></td>
+                    <td><a href='<?php echo $monitor->link; ?>' >
+                    <?php echo $monitor->display; ?></a></td>
+                    <td><a href='<?php echo $monitor->link; ?>' >
+                    <?php echo $monitor->schedule_refresh; ?></a></td>
+                    <td><a href='<?php echo $monitor->link; ?>' >
+                    <?php echo $monitor->content_refresh; ?></a></td>
+                    <td><a href='<?php echo $monitor->link; ?>' >
+                    <?php echo $monitor->content; ?></a></td>
                 </tr>
 <?php
     }

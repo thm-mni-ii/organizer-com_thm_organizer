@@ -6,7 +6,7 @@
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerTableCategories
  * @description categories table class
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de

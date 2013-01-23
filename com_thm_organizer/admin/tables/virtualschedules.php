@@ -6,7 +6,7 @@
  * @subpackage  com_thm_organizer.admin
  * @name        THM_OrganizerTablevirtual_schedules
  * @description virtuel_schedules table class
- * @author      Wolf Rost wolfDOTrostATmniDOTthmDOTde
+ * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
