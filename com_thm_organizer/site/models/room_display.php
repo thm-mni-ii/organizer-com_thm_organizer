@@ -366,7 +366,7 @@ class thm_organizerModelroom_display extends JModel
             {
                 if (count($appointments) == 1)
                 {
-                    if ($this->layout = 'registered' OR $this->layout = 'events')
+                    if ($this->layout == 'registered' OR $this->layout == 'events')
                     {
                         $this->blocks[$key]['title'] = substr($appointments[0]['title'], 0, 20);
                     }
