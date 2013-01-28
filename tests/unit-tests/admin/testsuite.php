@@ -34,7 +34,7 @@ class AllComThmOrganizerAdminTests
 	 */
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite('Component THM Groups Admin Test');
+		$suite = new PHPUnit_Framework_TestSuite('Component THM Organizer Admin Test');
 
 		// Add Test Files here (example below
 		// $suite->addTestFile(__DIR__ . '/THMOrganizerTestFile.php');
