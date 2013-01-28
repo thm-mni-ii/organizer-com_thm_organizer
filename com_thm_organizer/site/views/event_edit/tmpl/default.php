@@ -1,19 +1,16 @@
 <?php
 /**
- *@category    component
- * 
- *@package     THM_Organizer
- * 
- *@subpackage  com_thm_organizer
- *@name        edit event default template
- *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * 
- *@copyright   2012 TH Mittelhessen
- * 
- *@license     GNU GPL v.2
- *@link        www.mni.thm.de
- *@version     0.0.2
+ * @version     v0.0.2
+ * @category    Joomla component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.site
+ * @name        edit event default template
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @copyright   2012 TH Mittelhessen
+ * @license     GNU GPL v.2
+ * @link        www.mni.thm.de
  */
+
 defined('_JEXEC') or die;
 $showListLink = (isset($this->listLink) and $this->listLink != "")? true : false;
 $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : false;
@@ -171,7 +168,7 @@ Joomla.submitbutton = function(task)
                     <td>
                         <label for="rec_type_block">
                             <span class="hasTip" title="Durchgehend::Der Termin beginnt am Startdatum zur Startzeit und endet am Enddatum zur Endzeit.">
-                                <?php echo JText::_('Durchgehend:'); ?>
+                                <?php echo JText::_('COM_THM_ORGANIZER_CONTINUOUS') . ":"; ?>
                             </span>
                         </label>
                     </td>
@@ -187,7 +184,7 @@ Joomla.submitbutton = function(task)
                     <td>
                         <label for="rec_type_daily">
                            <span class="hasTip" title="T&auml;glich::Der Termin findet t&auml;glich zwischen Start- und Endzeit statt, an allen Tagen zwischen Start- und Enddatum.">
-                                <?php echo JText::_('Täglich') . ":"; ?>
+                                <?php echo JText::_('COM_THM_ORGANIZER_DAILY') . ":"; ?>
                             </span>
                         </label>
                     </td>

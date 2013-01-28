@@ -5,13 +5,15 @@
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name        THM_OrganizerViewEvent
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
+
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
+
 /**
  * Retrieves event data and loads it into the view context
  * 

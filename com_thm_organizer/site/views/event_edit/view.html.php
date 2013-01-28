@@ -1,28 +1,27 @@
 <?php
 /**
- *@category    component
- * 
- *@package     THM_Organizer
- * 
- *@subpackage  com_thm_organizer
- *@name        create/edit appointment/event view
- *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * 
- *@copyright   2012 TH Mittelhessen
- * 
- *@license     GNU GPL v.2
- *@link        www.mni.thm.de
- *@version     0.0.2
+ * @version     v0.0.2
+ * @category    Joomal component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.site
+ * @name        create/edit appointment/event view
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @copyright   2012 TH Mittelhessen
+ * @license     GNU GPL v.2
+ * @link        www.mni.thm.de
  */
+
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
- * loads model data into context and sets variables used for html output
+ * Loads model data into context and sets variables used for html output
  * 
- * @package  Joomla.Site
- * 
- * @since    1.5
+ * @category	Joomla.Component.Site
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.site
+ * @link        www.mni.thm.de
+ * @since       v0.1.0
  */
 class Thm_OrganizerViewEvent_Edit extends JView
 {
@@ -84,7 +83,7 @@ class Thm_OrganizerViewEvent_Edit extends JView
     }
 
     /**
-     *creates HTML elements from saved data
+     * Creates HTML elements from saved data
      * 
      * @return void 
      */

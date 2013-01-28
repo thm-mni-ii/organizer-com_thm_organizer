@@ -1,19 +1,16 @@
 <?php
 /**
- *@category    component
- * 
- *@package     THM_Organizer
- * 
- *@subpackage  com_thm_organizer
- *@name        default template for the event view
- *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * 
- *@copyright   2012 TH Mittelhessen
- * 
- *@license     GNU GPL v.2
- *@link        www.mni.thm.de
- *@version     0.1.0
+ * @version     v0.1.0
+ * @category    Joomla component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.site
+ * @name        default template for the event view
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @copyright   2012 TH Mittelhessen
+ * @license     GNU GPL v.2
+ * @link        www.mni.thm.de
  */
+
 defined('_JEXEC') or die;
 $event = $this->event;
 $showListLink = (isset($this->listLink) and $this->listLink != "")? true : false;
@@ -45,7 +42,8 @@ if ($this->canWrite)
 ?>
             <a  class="hasTip thm_organizer_action_link"
                 title="<?php echo JText::_('COM_THM_ORGANIZER_NEW_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_NEW_DESCRIPTION');?>"
-                href="<?php echo $this->baseurl; ?>/index.php?&option=com_thm_organizer&view=event_edit&Itemid=<?php echo JRequest::getInt('Itemid'); ?>"  >
+                href="<?php echo $this->baseurl; ?>/index.php?&option=com_thm_organizer&view=event_edit&Itemid=
+                <?php echo JRequest::getInt('Itemid'); ?>"  >
                 <span id="thm_organizer_new_span" class="thm_organizer_action_span"></span>
                 <?php echo JText::_('COM_THM_ORGANIZER_NEW'); ?>
             </a>
@@ -56,13 +54,15 @@ if ($event['access'])
 ?>
             <a  class="hasTip thm_organizer_action_link"
                 title="<?php echo JText::_('COM_THM_ORGANIZER_EDIT_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_EDIT_DESCRIPTION');?>"
-                href="<?php echo JRoute::_("index.php?option=com_thm_organizer&task=events.edit&eventID={$this->event['id']}&Itemid=$this->itemID"); ?>">
+                href="<?php echo JRoute::_("index.php?option=com_thm_organizer&task=events.edit&eventID={$this->event['id']}&Itemid=$this->itemID");
+                ?>">
                 <span id="thm_organizer_edit_span" class="thm_organizer_action_span"></span>
                 <?php echo JText::_('COM_THM_ORGANIZER_EDIT'); ?>
             </a>
             <a  class="hasTip thm_organizer_action_link"
                 title="<?php echo JText::_('COM_THM_ORGANIZER_DELETE_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_DELETE_DESCRIPTION');?>"
-                href="<?php echo JRoute::_("index.php?option=com_thm_organizer&task=events.delete&eventID={$this->event['id']}&Itemid=$this->itemID"); ?>">
+                href="<?php echo JRoute::_("index.php?option=com_thm_organizer&task=events.delete&eventID={$this->event['id']}&Itemid=$this->itemID");
+                ?>">
                 <span id="thm_organizer_delete_span" class="thm_organizer_action_span"></span>
                 <?php echo JText::_('COM_THM_ORGANIZER_DELETE'); ?>
             </a>

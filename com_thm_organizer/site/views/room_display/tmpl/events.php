@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_thm_organizer
  * @name        template for display of scheduled lessons on registered monitors
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @author      Daniel Kirsten danielDOTkirstenATmniDOTthmDOTde
  * @copyright   TH Mittelhessen 2012
  * @license     GNU GPL v.2
