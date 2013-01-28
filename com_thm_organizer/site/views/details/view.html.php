@@ -2,7 +2,7 @@
 /**
  * @version	    v2.0.0
  * @category    Joomla component
- * @package     THM_Curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name		THM_CurriculumViewdetails
  * @description THM_CurriculumViewdetails component site view
@@ -23,10 +23,10 @@ require_once JPATH_COMPONENT_SITE . DS . 'models/groups.php';
  * Class provides methods to display the details view
  *
  * @category	Joomla.Component.Site
- * @package     thm_curriculum
+ * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
- * @since       v1.5.0
+ * @since       v0.1.0
  */
 class THM_OrganizerViewdetails extends JView
 {
