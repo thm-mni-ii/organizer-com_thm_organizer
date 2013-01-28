@@ -3,18 +3,18 @@
     padding: 0;
 }
 html{
-    overflow-x:hidden;
-    overflow-y:hidden;
-    display:block;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    display: block;
     height: 100%;
     width: 100%;
 }
 body{
     height: 100%;
     width: 100%;
-    display:block;
-    overflow-x:hidden;
-    overflow-y:hidden;
+    display: block;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 #thm_organizer_is_registered{
@@ -24,7 +24,7 @@ body{
     height: 100%;
     width: 100%;
     padding: 5px;
-    display:block;
+    display: block;
 }
 
 /******************************************************************************/
@@ -40,7 +40,7 @@ body{
     margin-bottom: 0.7%;
     margin-top: -0.5%;
     border-bottom: 3px #80ba24 solid;
-    display:block;
+    display: block;
 }
 
 #thm_organizer_is_head_left{
@@ -127,7 +127,7 @@ body{
 #thm_organizer_is_schedule_area{
     min-height: 84%;
     float: left;
-    clear:both;
+    clear: both;
     margin-left: 5px;
     margin-right: 5px;
 }
