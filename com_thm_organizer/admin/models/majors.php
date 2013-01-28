@@ -2,7 +2,7 @@
 /**
  * @version	    v2.0.0
  * @category    Joomla component
- * @package     THM_Curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerModelMajors
  * @description THM_OrganizerModelMajors component admin model
@@ -22,7 +22,7 @@ jimport('joomla.application.component.modellist');
  * Class provides methods to deal with majors
  *
  * @category	Joomla.Component.Admin
- * @package     thm_curriculum
+ * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  * @since       v1.5.0

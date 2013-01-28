@@ -2,10 +2,10 @@
 /**
  * @version	    v2.0.0
  * @category    Joomla component
- * @package     THM_Curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name		THM_CurriculumHelper
- * @description THM_CurriculumHelper component admin helper
+ * @name		THM_OrganizerHelper
+ * @description THM_OrganizerHelper component admin helper
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -21,10 +21,10 @@ defined('_JEXEC') or die;
  * Class provides methods to build the submenu and check user authorisation
  *
  * @category	Joomla.Component.Admin
- * @package     thm_curriculum
+ * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v1.5.0
+ * @since       v0.1.0
  */
 class THM_OrganizerHelper
 {

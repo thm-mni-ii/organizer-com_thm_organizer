@@ -23,19 +23,19 @@ $listDirn	= $this->state->get('list.direction');
 		onclick="checkAll(<?php echo count($this->items); ?>);" />
 	</th>
 	<th width="52%"><?php echo JHTML::_('grid.sort',
-			JText::_('com_thm_organizer_SUBMENU_SEMESTERS_NAME'), 'name', $listDirn, $listOrder
+			JText::_('COM_THM_ORGANIZER_SUBMENU_SEMESTERS_NAME'), 'name', $listDirn, $listOrder
 			); ?>
 	</th>
 	<th width="20%"><?php echo JHTML::_('grid.sort',
-			JText::_('com_thm_organizer_SUBMENU_SEMESTERS_SHORT_TITLE_DE'), 'short_title_de', $listDirn, $listOrder
+			JText::_('COM_THM_ORGANIZER_SUBMENU_SEMESTERS_SHORT_TITLE_DE'), 'short_title_de', $listDirn, $listOrder
 			); ?>
 	</th>
 	<th width="20%"><?php echo JHTML::_('grid.sort',
-			JText::_('com_thm_organizer_SUBMENU_SEMESTERS_SHORT_TITLE_EN'), 'short_title_en', $listDirn, $listOrder
+			JText::_('COM_THM_ORGANIZER_SUBMENU_SEMESTERS_SHORT_TITLE_EN'), 'short_title_en', $listDirn, $listOrder
 			); ?>
 	</th>
 	<th width="5%"><?php echo JHTML::_('grid.sort',
-			JText::_('com_thm_organizer_SUBMENU_SEMESTERS_ID'), 'id', $listDirn, $listOrder
+			JText::_('COM_THM_ORGANIZER_SUBMENU_SEMESTERS_ID'), 'id', $listDirn, $listOrder
 			); ?>
 	</th>
 </tr>

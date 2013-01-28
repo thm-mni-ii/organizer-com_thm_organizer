@@ -1,32 +1,32 @@
 <?php
 /**
- *@category    component
- * 
- *@package     THM_Organizer
- * 
- *@subpackage  com_thm_organizer
- *@name        category edit model
- *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * 
- *@copyright   2012 TH Mittelhessen
- * 
- *@license     GNU GPL v.2
- *@link        www.mni.thm.de
- *@version     0.1.0
+ * @version     v0.1.0
+ * @category    Joomla component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.admin
+ * @name        category edit model
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @copyright   2012 TH Mittelhessen 
+ * @license     GNU GPL v.2
+ * @link        www.mni.thm.de
  */
+
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
+
 /**
  * Class retrieving category item information 
  * 
- * @package  Admin
- * 
- * @since    2.5.4
+ * @category	Joomla.Component.Admin
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.admin
+ * @link        www.mni.thm.de
+ * @since       v0.1.0
  */
 class THM_OrganizerModelcategory_edit extends JModelAdmin
 {
     /**
-     * retrieves the jform object for this view
+     * Retrieves the jform object for this view
      * 
      * @param   array    $data      unused
      * @param   boolean  $loadData  if the form data should be pulled dynamically

@@ -1,27 +1,25 @@
 <?php
 /**
- *@category    component
- * 
- *@package     THM_Organizer
- * 
- *@subpackage  com_thm_organizer
- *@name        business logic and database abstraction specific to listing schedules
- *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * 
- *@copyright   2012 TH Mittelhessen
- * 
- *@license     GNU GPL v.2
- *@link        www.mni.thm.de
- *@version     0.1.0
+ * @version     v0.1.0
+ * @category    Joomla component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.admin
+ * @name        business logic and database abstraction specific to listing schedules
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @copyright   2012 TH Mittelhessen
+ * @license     GNU GPL v.2
+ * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die('Restriced Access');
 jimport('joomla.application.component.modellist');
 /**
  * Class defining functions to be used for lesson resources
  * 
- * @package  Admin
- * 
- * @since    2.5.4 
+ * @category	Joomla.Component.Admin
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.admin
+ * @link        www.mni.thm.de
+ * @since       v0.1.0
  */
 class THM_OrganizerModelschedule_manager extends JModelList
 {

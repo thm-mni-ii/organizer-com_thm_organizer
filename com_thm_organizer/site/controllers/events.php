@@ -1,30 +1,30 @@
 <?php
 /**
- *@category    joomla component
- * 
- *@package     THM_Organizer
- * 
- *@subpackage  com_thm_organizer
- *@name        event controller
- *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * 
- *@copyright   2012 TH Mittelhessen
- * 
- *@license     GNU GPL v.2
- *@link        www.mni.thm.de
- *@version     0.1.0 
+ * @version     v0.1.0 
+ * @category    joomla component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.site
+ * @name        THM_OrganizerControllerEvents
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @copyright   2012 TH Mittelhessen
+ * @license     GNU GPL v.2
+ * @link        www.mni.thm.de
  */
+
 defined('_JEXEC') OR die('Restricted access');
 jimport('joomla.application.component.controller');
 require_once JPATH_COMPONENT . "/assets/classes/eventAccess.php";
+
 /**
  * Performs access checks and user actions for events and associated resources
  * 
- * @package  Joomla.Site
- * 
- * @since    2.5.4
+ * @category	Joomla.Component.Site
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.site
+ * @link        www.mni.thm.de
+ * @since       v0.0.1
  */
-class thm_organizerControllerevents extends JController
+class THM_OrganizerControllerEvents extends JController
 {
     /**
      * edit

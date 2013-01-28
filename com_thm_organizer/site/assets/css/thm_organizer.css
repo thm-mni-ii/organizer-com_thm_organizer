@@ -248,6 +248,12 @@
 
 #thm_organizer_ee_head_div{
 	padding: 5px;
+    height: 48px;
+    width: 100%;
+    margin-top: -24px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #bbbbbb;
+    padding-bottom: 5px;
 }
 
 #thm_organizer_ee_title{
@@ -261,15 +267,6 @@
 
 #thm_organizer_ee option{
     color: #4a5c66;
-}
-
-#thm_organizer_ee_head_div{
-    height: 48px;
-    width: 100%;
-    margin-top: -24px;
-    margin-bottom: 12px;
-    border-bottom: 1px solid #bbbbbb;
-    padding-bottom: 5px;
 }
 
 
@@ -340,23 +337,17 @@
     margin-bottom: 25px;
 }
 
-#thm_organizer_ee_event_cat_desc_div{}
-
-#thm_organizer_ee_event_cat_disp_div{}
-
-#thm_organizer_ee_content_cat_desc_div{}
-
-#thm_organizer_ee_button_div{
+#thm_organizer_ee_button_div {
     float: right;
     margin-right: 5px;
 }
 
 #thm_organizer_ee #btnreset{
-    padding:0px 3px;
+    padding: 0px 3px;
 }
 
 #thm_organizer_ee table img{
-    margin: 0px 3px -5px 0px
+    margin: 0px 3px -5px 0px;
 }
 
 .thm_organizer_ee_highlight{
@@ -376,7 +367,7 @@
 
 .toggle-editor{ display: none; }
 
-.wf_editor_toggle{ display:none !important; }
+.wf_editor_toggle{ display: none !important; }
 
 .thm_organizer_ee_table{ border: none !important;}
 
@@ -384,7 +375,6 @@
 
 /* com_thm_organizer view: room list*******************************************/
 
-#thm_organizer_rs{}
 #thm_organizer_rs_fieldset{
     margin: 0 0 1em 0;
     padding: 1em;
@@ -399,7 +389,6 @@
     font-weight: bold;
     font-size: 12px;
 }
-#thm_organizer_rs_calendar{}
 
 /* com_thm_organizer view: room display  template: default ********************/
 
@@ -472,7 +461,7 @@
     border: none;
 }
 
-.thm_organizer_rd_lesson_time{ width:14%; }
+.thm_organizer_rd_lesson_time{ width: 14%; }
 .thm_organizer_rd_lesson_name{ text-align: center; }
 .thm_organizer_rd_lesson_type{ width: 26%; }
 

@@ -1,28 +1,29 @@
 <?php
 /**
- *@category    component
- * 
- *@package     THM_Organizer
- * 
- *@subpackage  com_thm_organizer
- *@name        view output file for event category lists
- *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * 
- *@copyright   2012 TH Mittelhessen
- * 
- *@license     GNU GPL v.2
- *@link        www.mni.thm.de
- *@version     0.1.0
+ * @version     v0.1.0
+ * @category    Joomla component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.admin
+ * @name        THM_OrganizerViewcategory_manager
+ * @description view output file for event category lists
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @copyright   2012 TH Mittelhessen
+ * @license     GNU GPL v.2
+ * @link        www.mni.thm.de
  */
+
 defined('_JEXEC') or die('Restricted Access');
 jimport('joomla.application.component.view');
 require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
+
 /**
  * Class which loads data into the view output context
  * 
- * @package  Admin
- * 
- * @since    2.5.4 
+ * @category	Joomla.Component.Admin
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.admin
+ * @link        www.mni.thm.de
+ * @since       v0.1.0
  */
 class THM_OrganizerViewcategory_manager extends JView
 {

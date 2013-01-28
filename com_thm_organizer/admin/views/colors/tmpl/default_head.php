@@ -24,12 +24,12 @@ $saveOrder = $listOrder == 'ordering';
 		onclick="checkAll(<?php echo count($this->items); ?>);" />
 	</th>
 
-	<th width="57%"><?php echo JHTML::_('grid.sort', JText::_('com_thm_organizer_SUBMENU_COLORS_NAME'), 'name', $listDirn, $listOrder); ?>
+	<th width="57%"><?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUBMENU_COLORS_NAME'), 'name', $listDirn, $listOrder); ?>
 	</th>
-	<th width="15%"><?php echo JHTML::_('grid.sort', JText::_('com_thm_organizer_SUBMENU_COLORS_COLOR_CODE'), 'color', $listDirn, $listOrder); ?>
+	<th width="15%"><?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUBMENU_COLORS_COLOR_CODE'), 'color', $listDirn, $listOrder); ?>
 	</th>
-	<th width="20%"><?php echo JText::_('com_thm_organizer_SUBMENU_COLORS_COLOR') ?>
+	<th width="20%"><?php echo JText::_('COM_THM_ORGANIZER_SUBMENU_COLORS_COLOR') ?>
 	</th>
-	<th width="5%"><?php echo JHTML::_('grid.sort', JText::_('com_thm_organizer_SUBMENU_COLORS_ID'), 'id', $listDirn, $listOrder); ?>
+	<th width="5%"><?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUBMENU_COLORS_ID'), 'id', $listDirn, $listOrder); ?>
 	</th>
 </tr>

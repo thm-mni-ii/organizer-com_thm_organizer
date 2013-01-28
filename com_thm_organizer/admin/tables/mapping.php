@@ -1,37 +1,64 @@
 <?php
 /**
- * @package  	Joomla.Administrator
- * @subpackage  com_thm_curriculum
- * @author   	Markus Baier <markus.baier@mni.fh-giessen.de>
- * @copyright	THM Mittelhessen 2011
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @link     	http://www.mni.fh-giessen.de
- * @version		$Id: configuration.php 3035 2011-01-21 09:32:19Z m.baier $
+ * @version     v0.1.0
+ * @category    Joomla component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.admin
+ * @name        THM_OrganizerTableMapping
+ * @description mapping table class
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
+ * @copyright   2012 TH Mittelhessen
+ * @license     GNU GPL v.2
+ * @link        www.mni.thm.de
  **/
 
 defined('_JEXEC') or die('Restricted access');
 
+/**
+ * Class representing the mapping table.
+ *
+ * @category	Joomla.Component.Admin
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.admin
+ * @link        www.mni.thm.de
+ * @since       v0.1.0
+ */
 class THM_OrganizerTableMapping extends JTable
 {
-	function __construct(&$db)
+	/**
+	 * Constructor function for the class representing the mapping table
+	 *
+	 * @param   JDatabase  &$dbo  A database connector object
+	 */
+	public function __construct(&$db)
 	{
 		parent::__construct('#__thm_organizer_assets_tree', 'id', $db);
 	}
 	
+	/**
+	 * Method to move
+	 *
+	 * @param   Integer  $delta  Delta id
+	 * @param   String   $where  Where condition  (default: '')
+	 *
+	 * @return void
+	 */
 	public function move($delta, $where = '')
 	{	
 		/* get the major id */
 		$major_id = $_SESSION['stud_id'];
 		
 		// If there is no ordering field set an error and return false.
-		if (!property_exists($this, 'ordering')) {
+		if (!property_exists($this, 'ordering'))
+		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_CLASS_DOES_NOT_SUPPORT_ORDERING', get_class($this)));
 			$this->setError($e);
 			return false;
 		}
 	
 		// If the change is none, do nothing.
-		if (empty($delta)) {
+		if (empty($delta))
+		{
 			return true;
 		}
 	
@@ -41,28 +68,31 @@ class THM_OrganizerTableMapping extends JTable
 		$query	= $this->_db->getQuery(true);
 	
 		// Select the primary key and ordering values from the table.
-		$query->select('assets_tree.'.$this->_tbl_key.', ordering');
+		$query->select('assets_tree.' . $this->_tbl_key.', ordering');
 		$query->from(' #__thm_organizer_assets_tree as assets_tree');
 		$query->join('inner', '#__thm_organizer_assets_semesters as assets_semesters ON assets_semesters.assets_tree_id = assets_tree.id');
 		$query->join('inner', '#__thm_organizer_semesters_majors as semesters_majors ON assets_semesters.semesters_majors_id = semesters_majors.id');
-		$query->where("semesters_majors.major_id =".$major_id);
+		$query->where("semesters_majors.major_id =" . $major_id);
 
 	
 		// If the movement delta is negative move the row up.
-		if ($delta < 0) {
-			$query->where('ordering < '.(int) $this->ordering);
-			$query->where('parent_id = '.(int) $this->parent_id);
+		if ($delta < 0)
+		{
+			$query->where('ordering < ' . (int) $this->ordering);
+			$query->where('parent_id = ' . (int) $this->parent_id);
 			$query->order('ordering DESC');
 		}
 		// If the movement delta is positive move the row down.
-		elseif ($delta > 0) {
-			$query->where('ordering > '.(int) $this->ordering);
-			$query->where('parent_id = '.(int) $this->parent_id);
+		elseif ($delta > 0)
+		{
+			$query->where('ordering > ' . (int) $this->ordering);
+			$query->where('parent_id = ' . (int) $this->parent_id);
 			$query->order('ordering ASC');
 		}
 	
 		// Add the custom WHERE clause if set.
-		if ($where) {
+		if ($where)
+		{
 			$query->where($where);
 		}
 		
@@ -72,16 +102,18 @@ class THM_OrganizerTableMapping extends JTable
 	
 		
 		// If a row is found, move the item.
-		if (!empty($row)) {
+		if (!empty($row))
+		{
 			// Update the ordering field for this instance to the row's ordering value.
 			$query = $this->_db->getQuery(true);
 			$query->update($this->_tbl);
-			$query->set('ordering = '.(int) $row->ordering);
-			$query->where($this->_tbl_key.' = '.$this->_db->quote($this->$k));
+			$query->set('ordering = ' . (int) $row->ordering);
+			$query->where($this->_tbl_key . ' = ' . $this->_db->quote($this->$k));
 			$this->_db->setQuery($query);
 			
 			// Check for a database error.
-			if (!$this->_db->query()) {
+			if (!$this->_db->query())
+			{
 				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 				$this->setError($e);
 	
@@ -91,12 +123,13 @@ class THM_OrganizerTableMapping extends JTable
 			// Update the ordering field for the row to this instance's ordering value.
 			$query = $this->_db->getQuery(true);
 			$query->update($this->_tbl);
-			$query->set('ordering = '.(int) $this->ordering);
-			$query->where($this->_tbl_key.' = '.$this->_db->quote($row->$k));
+			$query->set('ordering = ' . (int) $this->ordering);
+			$query->where($this->_tbl_key . ' = ' . $this->_db->quote($row->$k));
 			$this->_db->setQuery($query);
 				
 			// Check for a database error.
-			if (!$this->_db->query()) {
+			if (!$this->_db->query())
+			{
 				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 				$this->setError($e);
 	
@@ -106,16 +139,18 @@ class THM_OrganizerTableMapping extends JTable
 			// Update the instance value.
 			$this->ordering = $row->ordering;
 		}
-		else {
+		else
+		{
 			// Update the ordering field for this instance.
 			$query = $this->_db->getQuery(true);
 			$query->update($this->_tbl);
-			$query->set('ordering = '.(int) $this->ordering);
-			$query->where($this->_tbl_key.' = '.$this->_db->quote($this->$k));
+			$query->set('ordering = ' . (int) $this->ordering);
+			$query->where($this->_tbl_key . ' = ' . $this->_db->quote($this->$k));
 			$this->_db->setQuery($query);
 	
 			// Check for a database error.
-			if (!$this->_db->query()) {
+			if (!$this->_db->query())
+			{
 				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 				$this->setError($e);
 	
@@ -128,9 +163,6 @@ class THM_OrganizerTableMapping extends JTable
 	
 	
 	public function reordering() {
-		
-		
-		
 		
 	}
 	

@@ -11,7 +11,7 @@
     <creationDate>01/01/2013</creationDate>
     <copyright>TH Mittelhessen 2011</copyright>
     <licence>GNU GPL v.2</licence>
-    <version>0.1.2</version>
+    <version>0.1.4</version>
     <description>COM_THM_ORGANIZER_DESCRIPTION</description>
     <scriptfile>script.php</scriptfile>
     <install>

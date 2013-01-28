@@ -1,28 +1,28 @@
 <?php
 /**
- *@category    component
- * 
+ *@version     v0.1.0
+ *@category    Joomla component
  *@package     THM_Organizer
- * 
- *@subpackage  com_thm_organizer
+ *@subpackage  com_thm_organizer.admin
  *@name        monitor model
- *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- *@author      Daniel Kirsten danielDOTkirstenATmniDOTthmDOTde
- * 
+ *@author      James Antrim, <james.antrim@mni.thm.de>
+ *@author      Daniel Kirsten, <daniel.kirsten@mni.thm.de>
  *@copyright   2012 TH Mittelhessen
- * 
  *@license     GNU GPL v.2
  *@link        www.mni.thm.de
- *@version     0.1.0
  */
+
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
+
 /**
  * Class performing monitor modification actions
  * 
- * @package  Admin
- * 
- * @since    2.5.4
+ * @category	Joomla.Component.Admin
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.admin
+ * @link        www.mni.thm.de
+ * @since       v0.1.0
  */
 class THM_OrganizerModelmonitor extends JModel
 {

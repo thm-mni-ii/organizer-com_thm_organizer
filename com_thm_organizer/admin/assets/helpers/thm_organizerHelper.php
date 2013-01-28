@@ -1,28 +1,27 @@
 <?php
 /**
- *@category    component
+ * @category    Joomla component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.admin
+ * @name        provides functions useful to multiple component files
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * 
- *@package     THM_Organizer
+ * @copyright   2012 TH Mittelhessen
  * 
- *@subpackage  com_thm_organizer
- *@name        provides functions useful to multiple component files
- *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- *@author      Wolf Rost wolfDOTrostATmniDOTthmDOTde
- * 
- *@copyright   2012 TH Mittelhessen
- * 
- *@license     GNU GPL v.2
- *@link        www.mni.thm.de
- *@version     0.1.0
- */
+ * @license     GNU GPL v.2
+ * @link        www.mni.thm.de
+ **/
+
 /**
  * Class providing functions usefull to multiple component files
  * 
- * @package  Admin
- * 
- * @since    2.5.4 
+ * @version   v0.1.0
+ * @category  Joomla.Component.Admin
+ * @package   thm_organizer
+ * @since     v0.1.0
  */
-class thm_organizerHelper
+class THM_OrganizerHelper
 {
 
     /**
@@ -57,11 +56,16 @@ class thm_organizerHelper
         // All submenu entries
         $submenus = array(
             'main_menu' => array('name' => 'COM_THM_ORGANIZER_MAIN_TITLE', 'link' => 'index.php?option=com_thm_organizer'),
-            'category_manager' => array('name' => 'COM_THM_ORGANIZER_CAT_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=category_manager'),
-            'schedule_manager' => array('name' => 'COM_THM_ORGANIZER_SCH_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=schedule_manager'),
-            'virtual_schedule_manager' 	=> array('name' => 'COM_THM_ORGANIZER_VSM_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=virtual_schedule_manager'),
-            'monitor_manager' => array('name' => 'COM_THM_ORGANIZER_MON_TITLE', 'link' => 'index.php?option=com_thm_organizer&amp;view=monitor_manager'),
-            'semesters' => array('name' => 'com_thm_organizer_SUBMENU_SEMESTERS', 'link' => 'index.php?option=com_thm_organizer&view=semesters'),
+            'category_manager' => array('name' => 'COM_THM_ORGANIZER_CAT_TITLE',
+            		'link' => 'index.php?option=com_thm_organizer&amp;view=category_manager'),
+            'schedule_manager' => array('name' => 'COM_THM_ORGANIZER_SCH_TITLE',
+            		'link' => 'index.php?option=com_thm_organizer&amp;view=schedule_manager'),
+            'virtual_schedule_manager' 	=> array('name' => 'COM_THM_ORGANIZER_VSM_TITLE',
+            		'link' => 'index.php?option=com_thm_organizer&amp;view=virtual_schedule_manager'),
+            'monitor_manager' => array('name' => 'COM_THM_ORGANIZER_MON_TITLE',
+            		'link' => 'index.php?option=com_thm_organizer&amp;view=monitor_manager'),
+            'semesters' => array('name' => 'com_thm_organizer_SUBMENU_SEMESTERS',
+            		'link' => 'index.php?option=com_thm_organizer&view=semesters'),
             'lecturers' => array('name' => 'com_thm_organizer_SUBMENU_LECTURERS', 'link' => 'index.php?option=com_thm_organizer&view=lecturers'),
             'assets' => array('name' => 'com_thm_organizer_SUBMENU_ASSETS', 'link' => 'index.php?option=com_thm_organizer&view=assets'),
             'colors' => array('name' => 'com_thm_organizer_SUBMENU_COLORS', 'link' => 'index.php?option=com_thm_organizer&view=colors'),
@@ -110,4 +114,3 @@ class thm_organizerHelper
         return $date;
     }
 }
-?>

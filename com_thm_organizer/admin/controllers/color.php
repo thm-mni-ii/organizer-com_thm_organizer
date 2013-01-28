@@ -2,7 +2,7 @@
 /**
  * @version	    v2.0.0
  * @category    Joomla component
- * @package     THM_Curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerControllerColor
  * @description THM_OrganizerControllerColor component admin controller
@@ -24,7 +24,7 @@ jimport('joomla.application.component.controllerform');
  * Class provides methods perform actions for color
  *
  * @category	Joomla.Component.Admin
- * @package     thm_curriculum
+ * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  * @since       v1.5.0
@@ -69,15 +69,24 @@ class THM_OrganizerControllerColor extends JControllerForm
 	 */
 	public function delete()
 	{
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 
 		foreach ($cid as $id)
 		{
-			$query = 'DELETE FROM #__thm_organizer_colors'
-			. ' WHERE id = ' . $id . ';';
+			$query = $db->getQuery(true);
+			$query->from("#__thm_organizer_colors");
+			$query->delete();
+			$query->where("id = $id");
 			$db->setQuery($query);
-			$db->query();
+			try
+			{
+				$db->query();
+			}
+			catch (Exception $e)
+			{
+				
+			}
 		}
 
 		$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=colors', false));

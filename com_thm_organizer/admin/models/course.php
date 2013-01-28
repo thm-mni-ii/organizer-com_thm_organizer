@@ -2,7 +2,7 @@
 /**
  * @version	    v2.0.0
  * @category    Joomla component
- * @package     THM_Curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerModelCourse
  * @description THM_OrganizerModelCourse component admin model
@@ -24,7 +24,7 @@ jimport('joomla.application.component.modeladmin');
  * Class provides methods to deal with course
  *
  * @category	Joomla.Component.Admin
- * @package     thm_curriculum
+ * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  * @since       v1.5.0

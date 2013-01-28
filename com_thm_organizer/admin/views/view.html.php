@@ -1,21 +1,39 @@
 <?php
-/**
- * @package     Joomla.Administrator
- * @subpackage  com_thm_organizer
- * @name        view monitor_manager
+/** 
+ * @version     v0.1.0
+ * @category    Joomla component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.admin
+ * @name        THM_OrganizerViewmonitor_manager
  * @description lists registered monitors along with associated rooms and display content
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * @copyright   TH Mittelhessen 2011
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
- * @version     1.7.0
  */
+
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
+
+/**
+ * Class loading a list of persistent monitor entries into the view context 
+ * 
+ * @category	Joomla.Component.Admin
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.admin
+ * @link        www.mni.thm.de
+ * @since       v0.1.0
+ */
 class THM_OrganizerViewmonitor_manager extends JView
 {
-
+	/**
+	 * Loads data from the model into the view context
+	 *
+	 * @param   string  $tpl  the name of the template to be used
+	 *
+	 * @return void
+	 */
     public function display($tpl = null)
     {
         if(!JFactory::getUser()->authorise('core.admin'))
@@ -39,6 +57,11 @@ class THM_OrganizerViewmonitor_manager extends JView
         parent::display($tpl);
     }
 
+    /**
+     * resolves the display constant to text
+     *
+     * @return void
+     */
     private function prepareMonitors()
     {
         if(!count($this->monitors))return;

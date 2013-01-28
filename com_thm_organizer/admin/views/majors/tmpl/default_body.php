@@ -46,7 +46,7 @@ foreach ($this->items as $i => $item)
 	}
 	?>
 	<td><a
-		title="<?php echo JText::_('com_thm_organizer_SHOW_CONTENT'); ?>"
+		title="<?php echo JText::_('COM_THM_ORGANIZER_SHOW_CONTENT'); ?>"
 		href="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=mappings&id=' . $item->id) ?>"><img
 			src="components/com_thm_organizer/assets/images/list.png" /> </a></td>
 	<td><?php echo $item->id; ?></td>

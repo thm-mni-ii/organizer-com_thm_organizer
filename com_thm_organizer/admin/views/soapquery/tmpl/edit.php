@@ -26,7 +26,7 @@ JHtml::_('behavior.tooltip');
 		<fieldset class="adminform">
 			<legend>
 
-				<?php echo JText::_('com_thm_organizer_CONFIGURATION'); ?>
+				<?php echo JText::_('COM_THM_ORGANIZER_CONFIGURATION'); ?>
 			</legend>
 			<ul class="adminformlist">
 
