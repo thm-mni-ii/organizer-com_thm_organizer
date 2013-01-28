@@ -460,7 +460,7 @@ class ModuleAll
 	 * @param   <String>  $type  Type
 	 * @param   <String>  $lang  Language
 	 */
-	public function ModuleAll($xml, $type = null, $lang = null)
+	public function __construct($xml, $type = null, $lang = null)
 	{
 		$this->xmlStructure = $xml;
 

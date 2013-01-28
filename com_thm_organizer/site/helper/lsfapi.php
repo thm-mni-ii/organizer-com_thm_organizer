@@ -66,7 +66,7 @@ class LsfClient
 	 * @param   <String>  $username  The username
 	 * @param   <String>  $password  The users password
 	 */
-	public function LsfClient($endpoint, $username, $password)
+	public function __construct($endpoint, $username, $password)
 	{
 		$this->endpoint = $endpoint;
 		$this->username = $username;

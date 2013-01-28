@@ -443,7 +443,7 @@ class Module
 	 * @param   <String>  $type  Type
 	 * @param   <String>  $lang  Language
 	 */
-	public function Module($xml, $type = null, $lang = null)
+	public function __construct($xml, $type = null, $lang = null)
 	{
 		$this->xmlStructure = $xml;
 		if ($type == null)
