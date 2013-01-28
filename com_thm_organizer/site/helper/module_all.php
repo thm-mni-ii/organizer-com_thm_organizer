@@ -2,7 +2,7 @@
 /**
  * @version	    v2.0.0
  * @category    Joomla component
- * @package     THM_Curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name		ModuleAll
  * @description ModuleAll component site helper
@@ -21,7 +21,7 @@ header('Content-Type: text/html; charset=utf-8');
  * Class provides methods to Mapping: LSF-XML Struktur -> Objekt
  *
  * @category	Joomla.Component.Site
- * @package     thm_curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
  * @since       v1.5.0

@@ -1,27 +1,27 @@
 <?php
 /**
- *@category    component
- * 
- *@package     THM_Organizer
- * 
- *@subpackage  com_thm_organizer
- *@name        booking raw view
- *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * 
- *@copyright   2012 TH Mittelhessen
- * 
- *@license     GNU GPL v.2
- *@link        www.mni.thm.de
- *@version     0.1.0
+ * @version     v0.1.0
+ * @category    Joomla component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.site
+ * @name        booking raw view
+ * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ * @copyright   2012 TH Mittelhessen
+ * @license     GNU GPL v.2
+ * @link        www.mni.thm.de
  */
+
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
+
 /**
  * Outputs a string explaining possible conflicts which would emerge if an event were saved
  * 
- * @package  Joomla.Site
- * 
- * @since    1.5
+ * @category	Joomla.Component.Site
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.site
+ * @link        www.mni.thm.de
+ * @since       v0.1.0
  */
 class thm_organizerViewbooking extends JView
 {
