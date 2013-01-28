@@ -36,4 +36,8 @@ $classname = 'THM_OrganizerController' . $controller;
 $controller = new $classname;
 $controller->execute($task);
 $controller->redirect();
+<<<<<<< HEAD
  
+=======
+ 
+>>>>>>> branch 'development' of scm.thm.de:icampus/com_thm_organizer.git
