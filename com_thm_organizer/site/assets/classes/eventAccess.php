@@ -1,8 +1,8 @@
 <?php
 /**
  * @version     v0.1.0
-  *@category    Joomla component 
- * @package     THM_Organizer
+ * @category    Joomla component 
+ * @package     THM_Organizer blubb
  * @subpackage  com_thm_organizer.site
  * @name        eventAccess
  * @author      James Antrim, <james.antrim@mni.thm.de>
