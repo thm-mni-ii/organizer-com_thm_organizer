@@ -1,27 +1,28 @@
 <?php
 /**
- *@category    component
- * 
- *@package     THM_Organizer
- * 
- *@subpackage  com_thm_organizer
- *@name        teachers table class
- *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * 
- *@copyright   2012 TH Mittelhessen
- * 
- *@license     GNU GPL v.2
- *@link        www.mni.thm.de
- *@version     0.1.0
+ * @version     v0.1.0
+ * @category    Joomla component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.admin
+ * @name		THM_OrganizerTableteachers
+ * @description teachers table class
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @copyright   2012 TH Mittelhessen
+ * @license     GNU GPL v.2
+ * @link        www.mni.thm.de
  */
+
 defined('_JEXEC') or die;
 jimport('joomla.application.component.table');
+
 /**
  * Class representing the teachers table. 
  * 
- * @package  Admin
- * 
- * @since    2.5.4
+ * @category	Joomla.Component.Admin
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.admin
+ * @link        www.mni.thm.de
+ * @since       v0.1.0
  */
 class THM_OrganizerTableteachers extends JTable
 {

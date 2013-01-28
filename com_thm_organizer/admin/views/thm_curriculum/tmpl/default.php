@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 
 	<!-- now Main Page Menu from Giessen_Staff -->
 	<div class="description1">
-		<?php echo JText::_('com_thm_organizer_MAIN_INFO');?>
+		<?php echo JText::_('COM_THM_ORGANIZER_MAIN_INFO');?>
 	</div>
 
 	<div id="gimenu1">
@@ -35,7 +35,7 @@ defined('_JEXEC') or die;
 						alt="Entries Manager" />
 				</div>
 				<div class="description2">
-					<?php echo JText::_('com_thm_organizer_SUBMENU_SEMESTERS');?>
+					<?php echo JText::_('COM_THM_ORGANIZER_SUBMENU_SEMESTERS');?>
 				</div>
 			</div>
 
@@ -52,7 +52,7 @@ defined('_JEXEC') or die;
 						alt="Group Manager" />
 				</div>
 				<div class="description2">
-					<?php echo JText::_('com_thm_organizer_SUBMENU_LECTURERS');?>
+					<?php echo JText::_('COM_THM_ORGANIZER_SUBMENU_LECTURERS');?>
 				</div>
 			</div>
 
@@ -67,7 +67,7 @@ defined('_JEXEC') or die;
 				</div>
 
 				<div class="description2">
-					<?php echo JText::_('com_thm_organizer_SUBMENU_ASSETS');?>
+					<?php echo JText::_('COM_THM_ORGANIZER_SUBMENU_ASSETS');?>
 				</div>
 			</div>
 
@@ -82,7 +82,7 @@ defined('_JEXEC') or die;
 				</div>
 
 				<div class="description2">
-					<?php echo JText::_('com_thm_organizer_SUBMENU_COLORS');?>
+					<?php echo JText::_('COM_THM_ORGANIZER_SUBMENU_COLORS');?>
 				</div>
 
 			</div>
@@ -98,7 +98,7 @@ defined('_JEXEC') or die;
 				</div>
 
 				<div class="description2">
-					<?php echo JText::_('com_thm_organizer_SUBMENU_DEGREES');?>
+					<?php echo JText::_('COM_THM_ORGANIZER_SUBMENU_DEGREES');?>
 				</div>
 
 			</div>
@@ -114,7 +114,7 @@ defined('_JEXEC') or die;
 				</div>
 
 				<div class="description2">
-					<?php echo JText::_('com_thm_organizer_SUBMENU_MAJORS');?>
+					<?php echo JText::_('COM_THM_ORGANIZER_SUBMENU_MAJORS');?>
 				</div>
 
 			</div>

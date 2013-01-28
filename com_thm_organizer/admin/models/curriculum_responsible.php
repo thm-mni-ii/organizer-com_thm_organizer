@@ -2,7 +2,7 @@
 /**
  * @version	    v2.0.0
  * @category    Joomla component
- * @package     THM_Curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @name		JFormFieldResponsible
  * @description JFormFieldResponsible component admin field
@@ -23,7 +23,7 @@ jimport('joomla.form.formfield');
  * Class provides methods to create a form field that contains the responsibles
  *
  * @category	Joomla.Component.Admin
- * @package     thm_curriculum
+ * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  * @since       v1.5.0

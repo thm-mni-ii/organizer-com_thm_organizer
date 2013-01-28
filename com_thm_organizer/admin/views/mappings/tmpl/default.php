@@ -2,10 +2,10 @@
 /**
  * @version	    v2.0.0
  * @category    Joomla component
- * @package     THM_Curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name		view mappings default
- * @description THM_Curriculum component admin view
+ * @description THM_Organizer component admin view
  * @author	    Markus Baier <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -55,7 +55,7 @@ $saveOrder = ($listOrder == 'a.lft');
 				onchange="this.form.submit()">
 				<option value="">
 
-					<?php echo JText::_('com_thm_organizer_OPTION_SELECT_LEVEL'); ?>
+					<?php echo JText::_('COM_THM_ORGANIZER_OPTION_SELECT_LEVEL'); ?>
 				</option>
 				<?php echo JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level')); ?>
 			</select> <select name="filter_published" class="inputbox"
@@ -80,7 +80,7 @@ $saveOrder = ($listOrder == 'a.lft');
 					onclick="checkAll(<?php echo count($this->assets) ?>)" />
 				</th>
 
-				<th><?php echo JHTML::_('grid.sort', JText::_('com_thm_organizer_SUBMENU_MODULMAPPINGS_NAME'), 'title_de', $listDirn, $listOrder); ?>
+				<th><?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUBMENU_MODULMAPPINGS_NAME'), 'title_de', $listDirn, $listOrder); ?>
 				</th>
 				<th width="10%"><?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'a.lft', $listDirn, $listOrder); ?>
 
@@ -94,28 +94,28 @@ $saveOrder = ($listOrder == 'a.lft');
 					}
 					?>
 				</th>
-				<th><?php echo JHTML::_('grid.sort', JText::_('com_thm_organizer_SUBMENU_MODULMAPPINGS_DEPTH'), 'depth', $listDirn, $listOrder); ?>
+				<th><?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUBMENU_MODULMAPPINGS_DEPTH'), 'depth', $listDirn, $listOrder); ?>
 				
 				<th width="5%"><?php echo JHtml::_('grid.sort', 'JSTATUS', 'published', $listDirn, $listOrder); ?>
 				</th>
 				<th width="5%"></th>
 
-				<th><?php echo JHTML::_('grid.sort', JText::_('com_thm_organizer_SUBMENU_MODULMAPPINGS_MIN_CRP'),
+				<th><?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUBMENU_MODULMAPPINGS_MIN_CRP'),
 						'min_creditpoints', $listDirn, $listOrder
 				); ?></th>
-				<th><?php echo JHTML::_('grid.sort', JText::_('com_thm_organizer_SUBMENU_MODULMAPPINGS_MAX_CRP'),
+				<th><?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUBMENU_MODULMAPPINGS_MAX_CRP'),
 						'max_creditpoints', $listDirn, $listOrder
 				); ?></th>
-				<th><?php echo JHTML::_('grid.sort', JText::_('com_thm_organizer_SUBMENU_MODULMAPPINGS_TYPE'),
+				<th><?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUBMENU_MODULMAPPINGS_TYPE'),
 						'asset_type', $listDirn, $listOrder
 				); ?></th>
-				<th><?php echo JHTML::_('grid.sort', JText::_('com_thm_organizer_SUBMENU_MODULMAPPINGS_SEMESTER'),
+				<th><?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUBMENU_MODULMAPPINGS_SEMESTER'),
 						'semester_name', $listDirn, $listOrder
 				); ?></th>
 
-				<th><?php echo JHTML::_('grid.sort', JText::_('com_thm_organizer_SUBMENU_MODULMAPPINGS_COLOR'), 'color', $listDirn, $listOrder); ?>
+				<th><?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUBMENU_MODULMAPPINGS_COLOR'), 'color', $listDirn, $listOrder); ?>
 				</th>
-				<th><?php echo JHTML::_('grid.sort', JText::_('com_thm_organizer_SUBMENU_MODULMAPPINGS_ID'), 'asset_id', $listDirn, $listOrder); ?>
+				<th><?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUBMENU_MODULMAPPINGS_ID'), 'asset_id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
 		</thead>

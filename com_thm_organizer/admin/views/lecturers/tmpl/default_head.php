@@ -41,12 +41,12 @@ $listDirn = $this->state->get('list.direction');
 	<th width="5%"><input type="checkbox" name="toggle" value=""
 		onclick="checkAll(<?php echo count($this->items); ?>);" />
 	</th>
-	<th width="20%"><?php echo JHTML::_('grid.sort', JText::_('com_thm_organizer_SUBMENU_LECTURERS_USERID'), 'userid', $listDirn, $listOrder); ?>
+	<th width="20%"><?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUBMENU_LECTURERS_USERID'), 'userid', $listDirn, $listOrder); ?>
 	</th>
-	<th width="35%"><?php echo JHTML::_('grid.sort', JText::_('com_thm_organizer_SUBMENU_LECTURERS_SURNAME'), 'surname', $listDirn, $listOrder); ?>
+	<th width="35%"><?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUBMENU_LECTURERS_SURNAME'), 'surname', $listDirn, $listOrder); ?>
 	</th>
-	<th width="35%"><?php echo JHTML::_('grid.sort', JText::_('com_thm_organizer_SUBMENU_LECTURERS_FORENAME'), 'forename', $listDirn, $listOrder); ?>
+	<th width="35%"><?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUBMENU_LECTURERS_FORENAME'), 'forename', $listDirn, $listOrder); ?>
 	</th>
-	<th width="5%"><?php echo JHTML::_('grid.sort', JText::_('com_thm_organizer_SUBMENU_LECTURERS_ID'), 'id', $listDirn, $listOrder); ?>
+	<th width="5%"><?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUBMENU_LECTURERS_ID'), 'id', $listDirn, $listOrder); ?>
 	</th>
 </tr>

@@ -2,7 +2,7 @@
 /**
  * @version	    v2.0.0
  * @category    Joomla component
- * @package     THM_Curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerControllerMajor
  * @description THM_OrganizerControllerMajor component admin controller
@@ -26,7 +26,7 @@ JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_thm_o
  * Class provides methods perform actions for major
  *
  * @category	Joomla.Component.Admin
- * @package     thm_curriculum
+ * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  * @since       v1.5.0

@@ -28,7 +28,7 @@
 
 #thm_organizer_main_description{ font-size: 16px; padding-bottom: 8px; }
 
-.thm_organizer_main_linkdiv{ float:left; }
+.thm_organizer_main_linkdiv{ float: left; }
 
 .thm_organizer_main_image{ height: 40px; width: 40px; }
 
@@ -39,8 +39,6 @@
 #thm_organizer_cat{
     max-width: 80%;
 }
-
-#thm_organizer_cat_table{}
 
 #thm_organizer_cat_table thead th,
 #thm_organizer_cat_table tr td{
@@ -66,8 +64,6 @@
 #thm_organizer_cat_content_cat_column{
     min-width: 20%;
 }
-
-#thm_organizer_cat{}
 
 #thm_organizer_cat_ecat{
     width: 35%;
@@ -137,7 +133,7 @@
 
 .thm_organizer_cat_leftcolumn{ border-left: 1px solid #cccccc; }
 
-#com_thm_organizer_cat_action_column{ width:50px; }
+#com_thm_organizer_cat_action_column{ width: 50px; }
 
 
 /*monitor manager & monitor edit views*****************************************/
@@ -173,16 +169,17 @@
 
 #thm_organizer_se{ color: #025a8d; }
 
-#thm_organizer_se table.admintable{ width: 50%; }
+#thm_organizer_se table.admintable{ 
+	width: 50%;
+    margin-top: 10px;
+}
 
 .thm_organizer_se_label{
     text-align: right;
     width: 15%;
     padding-right: 5px;
+    padding-left: 5px;
 }
-#thm_organizer_se table.admintable{ margin-top: 10px; }
-
-.thm_organizer_se_label{ padding-left: 5px; }
 
 #toolbar-apply button{
     background: none;
