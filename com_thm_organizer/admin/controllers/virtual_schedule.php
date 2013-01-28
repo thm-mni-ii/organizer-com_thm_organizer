@@ -223,7 +223,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JController
 				$vscheduler_elements = $vscheduler_teachers;
 			}
 
-			$torf = $model->save(
+			$torf = $model->saveVirtualSchedule(
 					$vscheduler_id,
 					$vscheduler_vid,
 					$vscheduler_name,

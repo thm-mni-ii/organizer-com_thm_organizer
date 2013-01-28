@@ -471,7 +471,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 	 *
 	 * @since	v0.0.1
 	 */
-	public function save
+	public function saveVirtualSchedule
 	(
 	 $vscheduler_id,
 	 $vscheduler_vid,
