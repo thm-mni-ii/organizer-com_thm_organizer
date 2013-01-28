@@ -1,23 +1,35 @@
 <?php
 /**
- * @package     [Joomla.Site | Joomla.Administrator]
- * @subpackage  [extension type]_thm_[extension name]
- * @name        [joomla type]
- * @description [description of the file and/or its purpose]
- * @author      [first name] [last name] [Email]
- * @copyright   TH Mittelhessen 2011
+ * @version     v0.1.0
+ * @category    Joomla component 
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.site
+ * @name        THM_OrganizerTableMonitors
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
- * @version     1.7.0
  */
-// no direct access
+
+// No direct access
 defined('_JEXEC') or die;
-jimport( 'joomla.application.component.table' );
-class thm_organizerTablemonitors extends JTable
+jimport('joomla.application.component.table');
+
+/**
+ * Class representing the monitors table. 
+ * 
+ * @category	Joomla.Component.Site
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.site
+ * @link        www.mni.thm.de
+ * @since       v0.1.0
+ */
+class THM_OrganizerTableMonitors extends JTable
 {
     /**
      * @param JDatabase	A database connector object
      */
-    function __construct(&$dbo){ parent::__construct('#__thm_organizer_monitors', 'monitorID', $dbo); }
-
+    public function __construct(&$dbo){
+    	parent::__construct('#__thm_organizer_monitors', 'monitorID', $dbo);
+    }
 }

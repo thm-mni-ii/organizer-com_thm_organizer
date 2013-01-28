@@ -2,7 +2,7 @@
 /**
  * @version	    v2.0.0
  * @category    Joomla component
- * @package     THM_Curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name		 ModuleList
  * @description ModuleList component site helper
@@ -18,7 +18,7 @@
  * Class provides methods to represent a list of module objects
  *
  * @category	Joomla.Component.Site
- * @package     thm_curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
  * @since       v1.5.0

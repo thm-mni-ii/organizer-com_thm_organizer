@@ -2,7 +2,7 @@
 /**
  * @version	    v2.0.0
  * @category    Joomla component
- * @package     THM_Curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name		LsfClientMNI
  * @description LsfClientMNI component site helper
@@ -20,7 +20,7 @@ require_once 'lib/nusoap.php';
  * Class provides methods for lsf communication
  *
  * @category	Joomla.Component.Site
- * @package     thm_curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
  * @since       v1.5.0
