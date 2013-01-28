@@ -38,6 +38,7 @@ class AllComThmOrganizerSiteTests
 
 		// Add Test Files here (example below
 		// $suite->addTestFile(__DIR__ . '/THMOrganizerTestFile.php');
+		//Hier muessen Tests rein!!!
 
 		return $suite;
 	}
