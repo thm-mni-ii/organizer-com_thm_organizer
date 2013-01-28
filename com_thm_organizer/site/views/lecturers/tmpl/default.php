@@ -6,7 +6,7 @@
  * @subpackage  com_thm_organizer.site
  * @name		view lectures default
  * @description THM_Curriculum component site view
- * @author	    Markus Baier <markus.baier@mni.thm.de>
+ * @author	    Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link		www.mni.thm.de
@@ -94,7 +94,7 @@ if ($suffix = $this->params->get('lsf_navi', 0))
 				?>
 				</th>
 				<th width="20px"></th>
-				<th width="30px"><?php echo JText::_("Creditpoints"); ?></th>
+				<th width="30px"><?php echo JText::_("COM_THM_ORGANIZER_SUBMENU_ASSETS_CURRICULUM_CREDITPOINTS"); ?></th>
 			</tr>
 		</thead>
 		<tbody>

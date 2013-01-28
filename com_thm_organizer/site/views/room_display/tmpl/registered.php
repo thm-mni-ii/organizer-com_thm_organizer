@@ -1,5 +1,6 @@
 <?php
 /**
+ * @version     v0.1.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -10,7 +11,9 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
+
 defined('_JEXEC') or die;
+
 $imagepath = 'components/com_thm_organizer/assets/images/';
 $this->thm_logo_image = JHtml::image($imagepath . 'thm_logo_giessen.png', JText::_('COM_THM_ORGANIZER_RD_LOGO_GIESSEN'));
 $this->thm_text_image = JHtml::image($imagepath . 'thm_text_dinpro_compact.png', JText::_('COM_THM_ORGANIZER_RD_THM'));

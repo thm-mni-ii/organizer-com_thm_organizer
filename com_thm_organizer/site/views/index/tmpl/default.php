@@ -6,7 +6,7 @@
  * @subpackage  com_thm_organizer.site
  * @name		view index default
  * @description THM_Curriculum component site view
- * @author	    Markus Baier <markus.baier@mni.thm.de>
+ * @author	    Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link		www.mni.thm.de
@@ -100,16 +100,16 @@ if ($suffix = $this->params->get('lsf_navi', 0))
 	enctype='multipart/form-data' action="<?php echo $url; ?>"
 	method='post' name="formModulcode">
 
-	<label for="filter"><?php echo JText::_('Filter'); ?> </label> <input
+	<label for="filter"><?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?> </label> <input
 		type="text" name="filter" id="filter" value="<?php echo $filter; ?>"
 		class="inputbox" />
 
 	<button onclick="selectionBox();">
-		<?php echo JText::_('OK'); ?>
+		<?php echo JText::_('COM_THM_ORGANIZER_OK'); ?>
 	</button>
 	<button
 		onclick="document.getElementById('filter').value = '';selectionBox();">
-		<?php echo JText::_('Reset'); ?>
+		<?php echo JText::_('COM_THM_ORGANIZER_RESET'); ?>
 	</button>
 
 	<span style="float: right;" class="display-limit"> <?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>&#160;

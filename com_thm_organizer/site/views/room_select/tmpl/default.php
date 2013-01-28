@@ -1,7 +1,7 @@
 <?php
 /**
  * @version     v0.1.0
- * @category    component
+ * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name        room select default template

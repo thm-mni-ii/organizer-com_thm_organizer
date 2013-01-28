@@ -1,27 +1,28 @@
 <?php
 /**
- *@category    component
- * 
- *@package     THM_Organizer
- * 
- *@subpackage  com_thm_organizer
- *@name        create/edit appointment/event model
- *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * 
- *@copyright   2012 TH Mittelhessen
- * 
- *@license     GNU GPL v.2
- *@link        www.mni.thm.de
- *@version     0.1.0
+ * @version     v0.1.0
+ * @category    Joomla component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.site
+ * @name        THM_OrganizerModelEvent_Edit
+ * @description create/edit appointment/event model
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @copyright   2012 TH Mittelhessen
+ * @license     GNU GPL v.2
+ * @link        www.mni.thm.de
  */
+
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modelform');
+
 /**
  * Retrieves persistent data for output in the event edit view.
  * 
- * @package  Joomla.Site
- * 
- * @since    2.5.4 
+ * @category    Joomla.Component.Site
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.site
+ * @link        www.mni.thm.de
+ * @since       v1.5.0
  */
 class THM_OrganizerModelEvent_Edit extends JModelForm
 {

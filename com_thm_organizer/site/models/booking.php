@@ -1,30 +1,30 @@
 <?php
 /**
- *@category    component
- * 
- *@package     THM_Organizer
- * 
- *@subpackage  com_thm_organizer
- *@name        booking model
- *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * 
- *@copyright   2012 TH Mittelhessen
- * 
- *@license     GNU GPL v.2
- *@link        www.mni.thm.de
- *@version     0.1.0
+ * @version     v0.1.0
+ * @category    Joomla component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.site
+ * @name        booking model
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @copyright   2012 TH Mittelhessen
+ * @license     GNU GPL v.2
+ * @link        www.mni.thm.de
  */
+
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_thm_organizer' . DS . 'models' . DS . 'schedule.php';
+
 /**
  * Retrieves data about conflicting events and lessons against an event to be saved
  * 
- * @package  Joomla.Site
- * 
- * @since    1.5
+ * @category	Joomla.Component.Site
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.site
+ * @link        www.mni.thm.de
+ * @since       v0.0.1
  */
-class thm_organizerModelbooking extends JModel
+class THM_OrganizerModelBooking extends JModel
 {
     /**
      * @var int the id of an existing event
@@ -840,7 +840,7 @@ class thm_organizerModelbooking extends JModel
                                     $this->_lessons[$lessonID]['teachers'][] = $schedule->teachers->$teacherID->surname;
                                 }
                             }
-                            $authors = implode(", ",$this->_lessons[$lessonID]['teachers']);
+                            $authors = implode(", ", $this->_lessons[$lessonID]['teachers']);
                             $day = $this->_lessons[$lessonID]['date'];
                             $block = $this->_lessons[$lessonID]['period'];
                             $resources = implode(", ", $this->_lessons[$lessonID]['resources']);

@@ -1,19 +1,16 @@
 <?php
 /**
- *@category    component
- * 
- *@package     THM_Organizer
- * 
- *@subpackage  com_thm_organizer
- *@name        event list model
- *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * 
- *@copyright   2012 TH Mittelhessen
- * 
- *@license     GNU GPL v.2
- *@link        www.mni.thm.de
- *@version     0.1.0
+ * @version     v0.1.0
+ * @category    Joomla component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.site
+ * @name        THM_OrganizerModelEvent_list
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @copyright   2012 TH Mittelhessen
+ * @license     GNU GPL v.2
+ * @link        www.mni.thm.de
  */
+
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modelform');
 require_once JPATH_COMPONENT . "/assets/classes/eventAccess.php";
@@ -30,11 +27,13 @@ define('ALL_OWN', 7);
 /**
  * Retrieves persistent data for output in the event list view.
  * 
- * @package  Joomla.Site
- * 
- * @since    2.5.4 
+ * @category    Joomla.Component.Site
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.site
+ * @link        www.mni.thm.de
+ * @since       v0.1.0
  */
-class thm_organizerModelevent_list extends JModelForm
+class THM_OrganizerModelEvent_list extends JModelForm
 {
     private $_callParameters = null;
 

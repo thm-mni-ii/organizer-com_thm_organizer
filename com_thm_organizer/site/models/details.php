@@ -2,7 +2,7 @@
 /**
  * @version	    v2.0.0
  * @category    Joomla component
- * @package     THM_Curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name		THM_OrganizerModeldetails
  * @description THM_OrganizerModeldetails component site model
@@ -29,7 +29,7 @@ require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'm
  * Class provides methods to get details about modules
  *
  * @category	Joomla.Component.Site
- * @package     thm_curriculum
+ * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
  * @since       v1.5.0

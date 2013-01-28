@@ -2,7 +2,7 @@
 /**
  * @version	    v2.0.0
  * @category    Joomla component
- * @package     THM_Curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name		JFormFieldSemester
  * @description JFormFieldSemester component site field
@@ -23,7 +23,7 @@ jimport('joomla.form.formfield');
  * Class provides methods to create a multiple select which includes the related semesters of the current tree node
  *
  * @category	Joomla.Component.Site
- * @package     thm_curriculum
+ * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
  * @since       v1.5.0

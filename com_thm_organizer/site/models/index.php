@@ -2,7 +2,7 @@
 /**
  * @version	    v2.0.0
  * @category    Joomla component
- * @package     THM_Curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name		THM_OrganizerModelIndex
  * @description THM_OrganizerModelIndex component site model
