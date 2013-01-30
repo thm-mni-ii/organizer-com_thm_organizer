@@ -1,9 +1,9 @@
 <?php
 /**
  * @version     v0.1.0
- * @category    component
+ * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer
+ * @subpackage  com_thm_organizer.admin
  * @name        lesson specific business logic and database abstraction
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen

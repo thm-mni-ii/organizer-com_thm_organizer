@@ -24,11 +24,11 @@ defined('_JEXEC') or die('Restricted access');
  * @since       v0.1.0
  */
 class THM_OrganizerTableSoapqueries extends JTable
-{    
+{
 	/**
 	 * Constructor function for the class representing the assets_tree table
 	 *
-	 * @param   JDatabase  &$dbo  A database connector object
+	 * @param   JDatabase  &$db  A database connector object
 	 */
     public function __construct(&$db)
     {

@@ -28,7 +28,7 @@ class THM_OrganizerTableMappings extends JTable
 	/**
 	 * Constructor function for the class representing the assets_tree table
 	 *
-	 * @param   JDatabase  &$dbo  A database connector object
+	 * @param   JDatabase  &$db  A database connector object
 	 */
     public function __construct(&$db)
     {

@@ -24,7 +24,7 @@ jimport('joomla.application.component.modeladmin');
  * @link        www.mni.thm.de
  * @since       v0.1.0
  */
-class THM_OrganizerModelmonitor_edit extends JModelAdmin
+class THM_OrganizerModelMonitor_Edit extends JModelAdmin
 {
     public $behaviours = null;
 
@@ -80,7 +80,7 @@ class THM_OrganizerModelmonitor_edit extends JModelAdmin
     {
         $monitorIDs = JRequest::getVar('cid',  null, '', 'array');
         $primaryKey = (empty($monitorIDs))? JRequest::getInt('monitorID') : $monitorIDs[0];
-        return ($primaryKey)? parent::getItem($primaryKey) : $this->getTable();;
+        return ($primaryKey)? parent::getItem($primaryKey) : $this->getTable();
     }
 
     /**

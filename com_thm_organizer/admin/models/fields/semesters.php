@@ -6,7 +6,7 @@
  * @subpackage  com_thm_organizer.admin
  * @name		JFormFieldSemesters
  * @description JFormFieldSemesters component admin field
- * @author	    Markus Baier <markus.baier@mni.thm.de>
+ * @author	    Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link		www.mni.thm.de
@@ -62,8 +62,8 @@ class JFormFieldSemesters extends JFormField
 		);
 
 		return $html . "<span style='float:right;color:red;font-size:16px;border-style:solid;'>"
-		. JText::_("com_thm_organizer_SEMESTER_DELETE_WARNING_HEADER") . "<br>" .
-		JText::_("com_thm_organizer_SEMESTER_DELETE_WARNING_BODY") . "</span>";
+		. JText::_("COM_THM_ORGANIZER_SEMESTER_DELETE_WARNING_HEADER") . "<br>" .
+		JText::_("COM_THM_ORGANIZER_SEMESTER_DELETE_WARNING_BODY") . "</span>";
 	}
 
 	/**

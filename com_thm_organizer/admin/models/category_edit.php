@@ -23,7 +23,7 @@ jimport('joomla.application.component.modeladmin');
  * @link        www.mni.thm.de
  * @since       v0.1.0
  */
-class THM_OrganizerModelcategory_edit extends JModelAdmin
+class THM_OrganizerModelCategory_Edit extends JModelAdmin
 {
     /**
      * Retrieves the jform object for this view

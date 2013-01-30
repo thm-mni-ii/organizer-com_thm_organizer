@@ -28,9 +28,9 @@ class THM_OrganizerTableLecturer extends JTable
 	/**
 	 * Constructor to call the parent constructor
 	 *
-	 * @param   JDatabase  &$dbo  A database connector object
+	 * @param   JDatabase  &$db  A database connector object
 	 */
-    function __construct(&$db)
+    public function __construct(&$db)
     {
         parent::__construct('#__thm_organizer_lecturers', 'id', $db);
     }

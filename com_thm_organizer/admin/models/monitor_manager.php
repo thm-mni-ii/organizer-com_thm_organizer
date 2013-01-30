@@ -24,7 +24,7 @@ jimport('joomla.application.component.modellist');
  * @link        www.mni.thm.de
  * @since       v0.1.0
  */
-class THM_OrganizerModelmonitor_manager extends JModelList
+class THM_OrganizerModelMonitor_Manager extends JModelList
 {
     /**
      * An array holding the text constants used for the different display types

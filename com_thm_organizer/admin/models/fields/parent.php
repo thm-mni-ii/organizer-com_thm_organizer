@@ -6,7 +6,7 @@
  * @subpackage  com_thm_organizer.admin
  * @name		JFormFieldParent
  * @description JFormFieldParent component admin field
- * @author	    Markus Baier <markus.baier@mni.thm.de>
+ * @author	    Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link		www.mni.thm.de
@@ -62,10 +62,10 @@ class JFormFieldParent extends JFormField
 
 		$query->select("*");
 		$query->select("CONCAT(title_de, ' (', semesters.name, ') ', assets_tree.id) as title_de ");
-// 		$query->select("count(*) as count");
-// 		$query->select("assets_tree.asset as asset_id");
-// 		$query->select("assets_semesters.semesters_majors_id as sem_id");
-// 		$query->select("semesters.name as semester_name");
+/* 		$query->select("count(*) as count");
+/ 		$query->select("assets_tree.asset as asset_id");
+/ 		$query->select("assets_semesters.semesters_majors_id as sem_id");
+ 		$query->select("semesters.name as semester_name");*/
 		$query->from(' #__thm_organizer_assets_tree as assets_tree');
 		$query->join('inner', '#__thm_organizer_assets_semesters as assets_semesters ON assets_semesters.assets_tree_id = assets_tree.id');
 		$query->join('inner', '#__thm_organizer_semesters_majors as semesters_majors ON assets_semesters.semesters_majors_id = semesters_majors.id');

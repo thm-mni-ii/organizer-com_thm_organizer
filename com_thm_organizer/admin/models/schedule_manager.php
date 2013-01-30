@@ -21,7 +21,7 @@ jimport('joomla.application.component.modellist');
  * @link        www.mni.thm.de
  * @since       v0.1.0
  */
-class THM_OrganizerModelschedule_manager extends JModelList
+class THM_OrganizerModelSchedule_Manager extends JModelList
 {
     /**
      * array of departmentnames
@@ -46,8 +46,7 @@ class THM_OrganizerModelschedule_manager extends JModelList
     {
         if (empty($config['filter_fields']))
         {
-            $config['filter_fields'] =
-                array(
+            $config['filter_fields'] = array(
                     'department', 'departmentname',
                     'semester', 'semestername',
                     'creationdate', 'creationdate',

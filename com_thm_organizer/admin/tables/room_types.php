@@ -24,7 +24,7 @@ jimport('joomla.application.component.table');
  * @link        www.mni.thm.de
  * @since       v0.1.0
  */
-class THM_OrganizerTableroom_types extends JTable
+class THM_OrganizerTableRoom_Types extends JTable
 {
     /**
      * Constructor function for the class representing the room_types table

@@ -1,14 +1,14 @@
 <?php
 /**
- *@version     v0.1.0
- *@category    Joomla component
- *@package     THM_Organizer
- *@subpackage  com_thm_organizer.admin
- *@name        data abstraction and business logic class for xml schedules
- *@author      James Antrim, <james.antrim@mni.thm.de>
- *@copyright   2012 TH Mittelhessen
- *@license     GNU GPL v.2
- *@link        www.mni.thm.de
+ * @version     v0.1.0
+ * @category    Joomla component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.admin
+ * @name        data abstraction and business logic class for xml schedules
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @copyright   2012 TH Mittelhessen
+ * @license     GNU GPL v.2
+ * @link        www.mni.thm.de
  */
 
 defined('_JEXEC') or die;
@@ -24,7 +24,7 @@ jimport('joomla.application.component.model');
  * @link        www.mni.thm.de
  * @since       v0.1.0
  */
-class THM_OrganizerModelschedule extends JModel
+class THM_OrganizerModelSchedule extends JModel
 {
 	/**
 	 * Array to hold error strings relating to critical data inconsistencies
@@ -709,7 +709,7 @@ class THM_OrganizerModelschedule extends JModel
 		}
 		$this->_schedule->modules->$moduleID->degree = $degreeID;
 
-		$descriptionID = str_replace('DS_', '',trim((string) $classnode->class_description[0]['id']));
+		$descriptionID = str_replace('DS_', '', trim((string) $classnode->class_description[0]['id']));
 		if (empty($descriptionID))
 		{
 			$this->_scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_CL_FIELD_MISSING', $moduleID);
@@ -771,7 +771,7 @@ class THM_OrganizerModelschedule extends JModel
 			$this->_schedule->lessons->$lessonID->subjects = new stdClass;
 		}
 		if (!empty($subjectID)
-			AND !key_exists($subjectID, $this->_schedule->lessons->$lessonID->subjects))
+		 AND !key_exists($subjectID, $this->_schedule->lessons->$lessonID->subjects))
 		{
 			$this->_schedule->lessons->$lessonID->subjects->$subjectID = '';
 		}
@@ -991,7 +991,7 @@ class THM_OrganizerModelschedule extends JModel
 					}
 					elseif (!empty($roomID) AND !key_exists($roomID, $this->_schedule->rooms))
 					{
-						$error = JText::sprintf('COM_THM_ORGANIZER_LS_TP_ROOM_LACKING', $lessonName, $lessonID,date('l', $currentDT), $period, $roomID);
+						$error = JText::sprintf('COM_THM_ORGANIZER_LS_TP_ROOM_LACKING', $lessonName, $lessonID, date('l', $currentDT), $period, $roomID);
 						if (!in_array($error, $this->_scheduleErrors))
 						{
 							$this->_scheduleErrors[] = $error;
@@ -1312,16 +1312,16 @@ class THM_OrganizerModelschedule extends JModel
 				{
 					case 'new':
 						unset($lessons->$lessonKey->delta);
-						continue;
+					continue;
 					case 'removed':
 						unset($lessons->$lessonKey);
-						continue;
+					continue;
 					case 'changed':
 						$this->sanitizeLessonProperty($lessons->$lessonKey->subjects);
 						$this->sanitizeLessonProperty($lessons->$lessonKey->teachers);
 						$this->sanitizeLessonProperty($lessons->$lessonKey->modules);
 						unset($lessons->$lessonKey->delta);
-						continue;
+					continue;
 				}
 			}
 		}
@@ -1342,12 +1342,12 @@ class THM_OrganizerModelschedule extends JModel
 			{
 				case 'new':
 					$property->$key = '';
-					continue;
+				continue;
 				case '':
-					continue;
+				continue;
 				case 'removed':
 					unset($property->$key);
-					continue;
+				continue;
 			}
 		}
 	}
@@ -1392,12 +1392,12 @@ class THM_OrganizerModelschedule extends JModel
 											{
 												case 'new':
 													$calendar->$date->$period->$lesson->$roomID = '';
-													continue;
+												continue;
 												case '':
-													continue;
+												continue;
 												case 'removed':
 													unset($calendar->$date->$period->$lesson->$roomID);
-													continue;
+												continue;
 											}
 										}
 										unset($calendar->$date->$period->$lesson->delta);

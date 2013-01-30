@@ -24,7 +24,7 @@ jimport('joomla.application.component.table');
  * @link        www.mni.thm.de
  * @since       v0.1.0
  */
-class THM_OrganizerTablevirtual_schedules extends JTable
+class THM_OrganizerTableVirtual_Schedules extends JTable
 {
     /**
      * Constructor function for the class representing the semesters table

@@ -23,7 +23,7 @@ jimport('joomla.application.component.modellist');
  * @link        www.mni.thm.de
  * @since       v0.1.0
  */
-class THM_OrganizerModelcategory_manager extends JModelList
+class THM_OrganizerModelCategory_Manager extends JModelList
 {
     /**
      * An associative array containing information about saved categories

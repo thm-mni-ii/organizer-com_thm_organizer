@@ -28,7 +28,7 @@ class THM_OrganizerTableMapping extends JTable
 	/**
 	 * Constructor function for the class representing the mapping table
 	 *
-	 * @param   JDatabase  &$dbo  A database connector object
+	 * @param   JDatabase  &$db  A database connector object
 	 */
 	public function __construct(&$db)
 	{
@@ -68,7 +68,7 @@ class THM_OrganizerTableMapping extends JTable
 		$query	= $this->_db->getQuery(true);
 	
 		// Select the primary key and ordering values from the table.
-		$query->select('assets_tree.' . $this->_tbl_key.', ordering');
+		$query->select('assets_tree.' . $this->_tbl_key . ', ordering');
 		$query->from(' #__thm_organizer_assets_tree as assets_tree');
 		$query->join('inner', '#__thm_organizer_assets_semesters as assets_semesters ON assets_semesters.assets_tree_id = assets_tree.id');
 		$query->join('inner', '#__thm_organizer_semesters_majors as semesters_majors ON assets_semesters.semesters_majors_id = semesters_majors.id');
@@ -161,8 +161,13 @@ class THM_OrganizerTableMapping extends JTable
 		return true;
 	}
 	
-	
-	public function reordering() {
+	/**
+	 * Method doing nothing
+	 * 
+	 * @return  void
+	 */
+	public function reordering()
+	{
 		
 	}
 	
@@ -170,10 +175,10 @@ class THM_OrganizerTableMapping extends JTable
 	* Method to compact the ordering values of rows in a group of rows
 	* defined by an SQL WHERE clause.
 	*
-	* @param   string   $where  WHERE clause to use for limiting the selection of rows to
+	* @param   string  $where  WHERE clause to use for limiting the selection of rows to
 	*                           compact the ordering values.
 	*
-	* @return  mixed    Boolean true on success.
+	* @return  mixed   Boolean true on success.
 	*
 	* @link    http://docs.joomla.org/JTable/reorder
 	* @since   11.1
@@ -181,8 +186,10 @@ class THM_OrganizerTableMapping extends JTable
 	public function reorder($where = '')
 	{
 		$major_id = $_SESSION['stud_id'];
+		
 		// If there is no ordering field set an error and return false.
-		if (!property_exists($this, 'ordering')) {
+		if (!property_exists($this, 'ordering'))
+		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_CLASS_DOES_NOT_SUPPORT_ORDERING', get_class($this)));
 			$this->setError($e);
 			return false;
@@ -193,18 +200,20 @@ class THM_OrganizerTableMapping extends JTable
 	
 		// Get the primary keys and ordering values for the selection.
 		$query = $this->_db->getQuery(true);
+		
 		// Select the primary key and ordering values from the table.
-		$query->select('assets_tree.'.$this->_tbl_key.', ordering');
+		$query->select('assets_tree.' . $this->_tbl_key . ', ordering');
 		$query->from(' #__thm_organizer_assets_tree as assets_tree');
 		$query->join('inner', '#__thm_organizer_assets_semesters as assets_semesters ON assets_semesters.assets_tree_id = assets_tree.id');
 		$query->join('inner', '#__thm_organizer_semesters_majors as semesters_majors ON assets_semesters.semesters_majors_id = semesters_majors.id');
-		$query->where("semesters_majors.major_id =".$major_id);
+		$query->where("semesters_majors.major_id =" . $major_id);
 		$query->where('ordering >= 0');
 		$query->where('depth != "NULL"');
 		$query->order('ordering');
 	
 		// Setup the extra where and ordering clause data.
-		if ($where) {
+		if ($where)
+		{
 			$query->where($where);
 		}
 		
@@ -213,7 +222,8 @@ class THM_OrganizerTableMapping extends JTable
 		$rows = $this->_db->loadObjectList();
 				
 		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
+		if ($this->_db->getErrorNum())
+		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_REORDER_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
 	
@@ -224,20 +234,23 @@ class THM_OrganizerTableMapping extends JTable
 		foreach ($rows as $i => $row)
 		{
 			// Make sure the ordering is a positive integer.
-			if ($row->ordering >= 0) {
+			if ($row->ordering >= 0)
+			{
 				// Only update rows that are necessary.
-				if ($row->ordering != $i+1) {
+				if ($row->ordering != $i + 1)
+				{
 					// Update the row ordering field.
 					$query = $this->_db->getQuery(true);
 					$query->update($this->_tbl);
-					$query->set('ordering = '.($i+1));
-					$query->where($this->_tbl_key.' = '.$this->_db->quote($row->$k));
+					$query->set('ordering = ' . ($i + 1));
+					$query->where($this->_tbl_key . ' = ' . $this->_db->quote($row->$k));
 					$this->_db->setQuery($query);
 						
 		
 	
 					// Check for a database error.
-					if (!$this->_db->query()) {
+					if (!$this->_db->query())
+					{
 						$e = new JException(
 						JText::sprintf(
 									'JLIB_DATABASE_ERROR_REORDER_UPDATE_ROW_FAILED', get_class($this), $i, $this->_db->getErrorMsg()
@@ -251,13 +264,6 @@ class THM_OrganizerTableMapping extends JTable
 			}
 		}
 	
-		
 		return true;
 	}
-	
-
-
-
-
 }
-?>
