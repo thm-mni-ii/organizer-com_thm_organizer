@@ -23,7 +23,7 @@ jimport('joomla.application.component.model');
  * @link        www.mni.thm.de
  * @since       v0.1.0
  */
-class THM_OrganizerModelRoom_display extends JModel
+class THM_OrganizerModelRoom_Display extends JModel
 {
     public $roomName;
 
@@ -224,7 +224,8 @@ class THM_OrganizerModelRoom_display extends JModel
                 $this->blocks[$period->period]['period'] = $period->period;
                 $this->blocks[$period->period]['starttime'] = substr($period->starttime, 0, 2) . ":" . substr($period->starttime, 2);
                 $this->blocks[$period->period]['endtime'] = substr($period->endtime, 0, 2) . ":" . substr($period->endtime, 2);
-                $this->blocks[$period->period]['displayTime'] = $this->blocks[$period->period]['starttime'] . " - " . $this->blocks[$period->period]['endtime'];
+                $this->blocks[$period->period]['displayTime'] = $this->blocks[$period->period]['starttime'] . " - " .
+                 $this->blocks[$period->period]['endtime'];
             }
         }
         foreach ($this->blocks as $key => $block)
@@ -698,7 +699,8 @@ class THM_OrganizerModelRoom_display extends JModel
         }
         else
         {
-            $displayDates = JText::_(strtoupper(date('D', strtotime($event['startdate'])))) . " " . $event['startdate'] . " " . $timestring;
+            $displayDates = JText::_(strtoupper(date('D', strtotime($event['startdate'])))) . " " .
+             $event['startdate'] . " " . $timestring;
         }
         return $displayDates;
     }

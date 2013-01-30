@@ -6,7 +6,7 @@
  * @subpackage  com_thm_organizer.site
  * @name		THM_CurriculumViewdetails
  * @description THM_CurriculumViewdetails component site view
- * @author	    Markus Baier <markus.baier@mni.thm.de>
+ * @author	    Markus Baier, <markus.baier@mni.thm.de>
  * @author	    Wolf Rost,  <Wolf.Rost@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -76,7 +76,7 @@ class THM_OrganizerViewdetails extends JView
 		$this->langLink = ($this->lang == 'de') ? 'en' : 'de';
 		$this->langUrl = self::languageSwitcher($this->langLink);
 		
-		if(isset($this->modul))
+		if (isset($this->modul))
 		{
 			$this->modultitel = $this->modul->getModultitel();
 			$this->modulNrMni = $this->modul->getNrMni();

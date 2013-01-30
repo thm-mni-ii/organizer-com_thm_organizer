@@ -6,7 +6,7 @@
  * @subpackage  com_thm_organizer.site
  * @name		THM_OrganizerModelGroups
  * @description THM_OrganizerModelGroups component site model
- * @author	    Markus Baier <markus.baier@mni.thm.de>
+ * @author	    Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link		www.mni.thm.de
@@ -155,7 +155,7 @@ class THM_OrganizerModelGroups extends JModel
 			}
 
 			// Get the lecturers name from THM Groups
-			if($userid == 0)
+			if ($userid == 0)
 			{
 				$lectureName = false;
 			}
@@ -449,7 +449,7 @@ class THM_OrganizerModelGroups extends JModel
 			$modul['responsible'] = "<a href='" . $link . "'>" . $model->getLecturerName($row->lsf_course_id) . "</a";
 		}
 
-		if(isset($row->lsf_course_id))
+		if (isset($row->lsf_course_id))
 		{
 			$modul['courseid'] = $row->lsf_course_id;
 		}

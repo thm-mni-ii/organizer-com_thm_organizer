@@ -333,25 +333,25 @@ class ScheduleChanges
 					$tempstring = "{";
 					foreach ($arritem as $k => $v)
 					{
-// 						if ($tempstring == "{")
-// 						{
-// 							if (is_string($v))
-// 							{
-// 								$tempstring = $tempstring . "\"" . $k . "\":\"" . str_replace("\"", "\\\"", $v) . "\"";
-// 							}
-// 						}
-// 						else
-// 						{
-// 							$tempstring = $tempstring . "\"" . $k . "\":" . str_replace("\"", "\\\"", $v) . "";
-// 						}
-// 						elseif (is_string($v))
-// 						{
-// 							$tempstring = $tempstring . ",\"" . $k . "\":\"" . str_replace("\"", "\\\"", $v) . "\"";
-// 						}
-// 						else
-// 						{
-// 							$tempstring = $tempstring . ",\"" . $k . "\":" . str_replace("\"", "\\\"", $v) . "";
-// 						}
+/*						if ($tempstring == "{")
+						{
+							if (is_string($v))
+							{
+								$tempstring = $tempstring . "\"" . $k . "\":\"" . str_replace("\"", "\\\"", $v) . "\"";
+							}
+						}
+						else
+						{
+							$tempstring = $tempstring . "\"" . $k . "\":" . str_replace("\"", "\\\"", $v) . "";
+						}
+						elseif (is_string($v))
+						{
+							$tempstring = $tempstring . ",\"" . $k . "\":\"" . str_replace("\"", "\\\"", $v) . "\"";
+						}
+						else
+						{
+							$tempstring = $tempstring . ",\"" . $k . "\":" . str_replace("\"", "\\\"", $v) . "";
+						}*/
 					}
 					$retstring = $retstring . $tempstring . "}";
 				}

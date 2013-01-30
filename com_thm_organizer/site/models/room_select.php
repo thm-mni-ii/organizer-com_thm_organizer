@@ -23,7 +23,7 @@ jimport('joomla.application.component.modelform');
  * @link        www.mni.thm.de
  * @since       v0.1.0
  */
-class THM_OrganizerModelRoom_select extends JModelForm
+class THM_OrganizerModelRoom_Select extends JModelForm
 {
     /**
      * Constructor 

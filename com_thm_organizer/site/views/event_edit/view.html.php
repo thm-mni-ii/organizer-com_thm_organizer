@@ -1,7 +1,7 @@
 <?php
 /**
  * @version     v0.0.2
- * @category    Joomal component
+ * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name        create/edit appointment/event view

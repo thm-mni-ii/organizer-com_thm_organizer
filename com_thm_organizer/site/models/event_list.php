@@ -33,7 +33,7 @@ define('ALL_OWN', 7);
  * @link        www.mni.thm.de
  * @since       v0.1.0
  */
-class THM_OrganizerModelEvent_list extends JModelForm
+class THM_OrganizerModelEvent_List extends JModelForm
 {
     private $_callParameters = null;
 
@@ -58,7 +58,7 @@ class THM_OrganizerModelEvent_list extends JModelForm
     /**
      * Builds the model for the event list view
      * 
-     * @param   array  $_callParameters  an array containing the values normally in post
+     * @param   array  $callParameters  an array containing the values normally in post
      *                                  for external calls on this model
      */
     public function __construct($callParameters = null)

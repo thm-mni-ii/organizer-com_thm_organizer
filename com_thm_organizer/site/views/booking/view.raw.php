@@ -18,12 +18,12 @@ jimport('joomla.application.component.view');
  * Outputs a string explaining possible conflicts which would emerge if an event were saved
  * 
  * @category	Joomla.Component.Site
- * @package     THM_Organizer
+ * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
  * @since       v0.1.0
  */
-class thm_organizerViewbooking extends JView
+class THM_OrganizerViewBooking extends JView
 {
     /**
      * Initiates model checks for conflicts and 'displays' them

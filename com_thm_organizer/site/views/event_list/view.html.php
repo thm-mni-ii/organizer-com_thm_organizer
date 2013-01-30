@@ -17,13 +17,13 @@ jimport('joomla.application.component.view');
 /**
  * Build event list
  *
- * @category   Joomla.Component.Site
- * @package    THM_Organizer
- * @subpackage com_thm_organizer.site
- * @link       www.mni.thm.de
- * @since      v0.1.0
+ * @category	Joomla.Component.Site
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.site
+ * @link        www.mni.thm.de
+ * @since       v0.1.0
  */
-class THM_OrganizerViewEvent_list extends JView
+class THM_OrganizerViewEvent_List extends JView
 {
 	/**
      * Loads model data into context and sets variables used for html output
@@ -51,7 +51,7 @@ class THM_OrganizerViewEvent_list extends JView
         
         $categories = $model->categories;
         $this->assignRef('categories', $categories);
-        $categoryID = ($model->getState('categoryID'))? $model->getState('categoryID') : -1;
+        $categoryID = ($model->getState('categoryID'))? $model->getState('categoryID') : - 1;
         $this->assignRef('categoryID', $categoryID);
         $this->makeCategorySelect($categories, $categoryID);
 
@@ -145,10 +145,10 @@ class THM_OrganizerViewEvent_list extends JView
             $authorLink .= "'author', 'ASC')";
         }
         $authorAttribs = array_merge($authorAttribs, $attribs);
-        $authorHead = $spanOpen . JHTML::_('link', $authorLink, $authorText, $authorAttribs).$spanClose;
+        $authorHead = $spanOpen . JHTML::_('link', $authorLink, $authorText, $authorAttribs) . $spanClose;
         $this->assignRef('authorHead', $authorHead);
 
-        $resourceHead = $spanOpen . JText::_('COM_THM_ORGANIZER_EL_RESOURCE').$spanClose;
+        $resourceHead = $spanOpen . JText::_('COM_THM_ORGANIZER_EL_RESOURCE') . $spanClose;
         $this->assignRef('resourceHead', $resourceHead);
 
         $categoryText = JText::_('COM_THM_ORGANIZER_EL_CATEGORY');
@@ -168,7 +168,7 @@ class THM_OrganizerViewEvent_list extends JView
             $categoryLink .= "'eventCategory', 'ASC')";
         }
         $categoryAttribs = array_merge($categoryAttribs, $attribs);
-        $categoryHead = $spanOpen . JHTML::_('link', $categoryLink, $categoryText, $categoryAttribs).$spanClose;
+        $categoryHead = $spanOpen . JHTML::_('link', $categoryLink, $categoryText, $categoryAttribs) . $spanClose;
         $this->assignRef('categoryHead', $categoryHead);
 
         $dateText = JText::_('COM_THM_ORGANIZER_EL_DATE');
@@ -202,9 +202,11 @@ class THM_OrganizerViewEvent_list extends JView
      */
     private function makeCategorySelect($categories, $selected)
     {
-        $nocategories = array(1=>array('id'=>'-1','title'=>JText::_('Alle Kategorien')));
+        $nocategories = array(1=>array('id' => '-1', 'title' => JText::_('Alle Kategorien')));
         $categories = array_merge($nocategories, $categories);
-        $categorySelect = JHTML::_('select.genericlist', $categories, 'categoryID','id="categoryID" class="inputbox" size="1"', 'id', 'title', $selected);
+        $categorySelect = JHTML::_('select.genericlist', $categories, 'categoryID',
+        		 'id="categoryID" class="inputbox" size="1"', 'id', 'title', $selected
+        		);
         $this->assignRef('categorySelect', $categorySelect);
     }
 }

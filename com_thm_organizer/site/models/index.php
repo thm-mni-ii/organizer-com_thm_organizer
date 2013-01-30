@@ -6,7 +6,7 @@
  * @subpackage  com_thm_organizer.site
  * @name		THM_OrganizerModelIndex
  * @description THM_OrganizerModelIndex component site model
- * @author	    Markus Baier <markus.baier@mni.thm.de>
+ * @author	    Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link		www.mni.thm.de
@@ -158,7 +158,7 @@ class THM_OrganizerModelIndex extends JModelList
 		$search = $this->state->get('filter');
 
 		$oderColumns = explode(", ", $orderCol);
-		$orderCol = implode(" ".$orderDirn.",", $oderColumns);
+		$orderCol = implode(" " . $orderDirn . ",", $oderColumns);
 
 		$ret = self::getSqlOr();
 		$orderby = " ORDER BY $orderCol $orderDirn";
@@ -181,8 +181,9 @@ class THM_OrganizerModelIndex extends JModelList
 	public function getSqlOr()
 	{
 		// Perform a soap request, in order to get all related courses
-		$client = new LsfClient($this->globParams->get('webserviceUri'), $this->globParams->get('webserviceUsername'),
-				$this->globParams->get('webservicePassword')
+		$client = new LsfClient(
+				 $this->globParams->get('webserviceUri'), $this->globParams->get('webserviceUsername'),
+				 $this->globParams->get('webservicePassword')
 				);
 
 		$xml = $client->getModules(

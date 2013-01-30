@@ -118,7 +118,7 @@ class ICSBauer extends abstrakterBauer
 
 			$this->objPHPExcel->getActiveSheet()->setTitle(JText::_("COM_THM_ORGANIZER_SCHEDULER_CYCLIC_EVENTS"));
 									
-			if(isset($arr->session->semesterID))
+			if (isset($arr->session->semesterID))
 			{
 				$this->_activeSchedule = $this->getActiveSchedule((int) $arr->session->semesterID);
 			}
@@ -127,7 +127,7 @@ class ICSBauer extends abstrakterBauer
 				return array("success" => false, "data" => JText::_("COM_THM_ORGANIZER_SCHEDULER_NO_FILE_CREATED"));
 			}
 						
-			if($this->_activeSchedule == false)
+			if ($this->_activeSchedule == false)
 			{
 				return array("success" => false, "data" => JText::_("COM_THM_ORGANIZER_SCHEDULER_NO_FILE_CREATED"));
 			}
@@ -316,9 +316,9 @@ class ICSBauer extends abstrakterBauer
 				$item->edate = $arr->session->edate;
 				
 				$teacherNames = array();
-				foreach($item->teachers as $teacherID => $teacherStatus)
+				foreach ($item->teachers as $teacherID => $teacherStatus)
 				{
-					if($teacherStatus != "removed")
+					if ($teacherStatus != "removed")
 					{
 						$teacherNames[] = $this->getTeacherName($teacherID);
 					}
@@ -326,9 +326,9 @@ class ICSBauer extends abstrakterBauer
 				$item->teachers = implode(", ", $teacherNames);
 				
 				$moduleNames = array();
-				foreach($item->modules as $moduleID => $moduleStatus)
+				foreach ($item->modules as $moduleID => $moduleStatus)
 				{
-					if($moduleStatus != "removed")
+					if ($moduleStatus != "removed")
 					{
 						$moduleNames[] = $this->getModuleName($moduleID);
 					}
@@ -336,11 +336,11 @@ class ICSBauer extends abstrakterBauer
 				$item->modules = implode(", ", $moduleNames);
 				
 				$roomNames = array();
-				foreach($item->calendar as $block)
+				foreach ($item->calendar as $block)
 				{
-					foreach($block->{$item->block}->lessonData as $roomID => $roomStatus)
+					foreach ($block->{$item->block}->lessonData as $roomID => $roomStatus)
 					{
-						if($roomStatus != "removed")
+						if ($roomStatus != "removed")
 						{
 							$roomNames[] = $this->getRoomName($roomID);
 						}
@@ -352,9 +352,9 @@ class ICSBauer extends abstrakterBauer
 				$subjectNo = array();
 				$subjectName = array();
 				$subjectLongname = array();
-				foreach($item->subjects as $subjectID => $subjectStatus)
+				foreach ($item->subjects as $subjectID => $subjectStatus)
 				{
-					if($subjectStatus != "removed")
+					if ($subjectStatus != "removed")
 					{
 						$subjectNo[] = $this->getSubjectNo($subjectID);
 						$subjectName[] = $this->getSubjectName($subjectID);
@@ -419,41 +419,83 @@ class ICSBauer extends abstrakterBauer
 		return true;
 	}
 	
+	/**
+	 * Method to get the subject number by $id
+	 * 
+	 * @param   object  $id  A subject id
+	 * 
+	 * return   object  The requested subject number
+	 */
 	private function getSubjectNo($id)
 	{
 		$subjects = $this->_activeScheduleData->subjects;
 		return $subjects->{$id}->subjectNo;
 	}
 	
+	/**
+	 * Method to get the subject name by $id
+	 *
+	 * @param   object  $id  A subject id
+	 *
+	 * return   object  The requested subject name
+	 */
 	private function getSubjectName($id)
 	{
 		$subjects = $this->_activeScheduleData->subjects;
 		return $subjects->{$id}->name;
 	}
 	
+	/**
+	 * Method to get the subject longname by $id
+	 *
+	 * @param   object  $id  A subject id
+	 *
+	 * return   object  The requested subject longname
+	 */
 	private function getSubjectLongname($id)
 	{
 		$subjects = $this->_activeScheduleData->subjects;
 		return $subjects->{$id}->longname;
 	}
 	
+	/**
+	 * Method to get the module name by $id
+	 *
+	 * @param   object  $id  A subject id
+	 *
+	 * return   object  The requested module name
+	 */
 	private function getModuleName($id)
 	{
 		$modules = $this->_activeScheduleData->modules;
 		return $modules->{$id}->name;
 	}
 	
+	/**
+	 * Method to get the room name by $id
+	 *
+	 * @param   object  $id  A subject id
+	 *
+	 * return   object  The requested room name
+	 */
 	private function getRoomName($id)
 	{
 		$rooms = $this->_activeScheduleData->rooms;
 		return $rooms->{$id}->longname;
 	}
 	
+	/**
+	 * Method to get the teacher name by $id
+	 *
+	 * @param   object  $id  A subject id
+	 *
+	 * return   object  The requested teacher name
+	 */
 	private function getTeacherName($id)
 	{
 		$teachers = $this->_activeScheduleData->teachers;
 		$name = $teachers->{$id}->surname;
-		if(strlen($teachers->{$id}->firstname) > 0)
+		if (strlen($teachers->{$id}->firstname) > 0)
 		{
 			$name .= ", " . $teachers->{$id}->firstname{0} . ".";
 		} 
@@ -463,13 +505,13 @@ class ICSBauer extends abstrakterBauer
 	/**
 	 * Method to get the active schedule
 	 *
-	 * @param   String  $departmentSemesterSelection  The department semester selection
+	 * @param   String  $semesterID  The department semester selection
 	 *
 	 * @return   mixed  The active schedule or false
 	 */
 	private function getActiveSchedule($semesterID)
 	{	
-		if(!is_int($semesterID))
+		if (!is_int($semesterID))
 		{
 			return false;
 		}
@@ -536,20 +578,20 @@ class ICSBauer extends abstrakterBauer
 	/**
 	 * Method to transform a day number to the day name
 	 *
-	 * @param   Integer  $daynum  The day number
+	 * @param   Integer  $dayEN  The day number
 	 *
 	 * @return String The day name
 	 */
 	private function dayENtoday($dayEN)
 	{
 		$days = array(
-			 'monday' => JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_MONDAY"),
-			 'tuesday' => JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_TUESDAY"),
-			 'wednesday' => JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_WEDNESDAY"),
-			 'thursday' => JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_THURSDAY"),
-			 'friday' => JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_FRIDAY"),
-			 'saturday' => JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_SATURDAY"),
-			 'sunday'=> JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_SUNDAY")
+			 'monday' => JText::_("MONDAY"),
+			 'tuesday' => JText::_("TUESDAY"),
+			 'wednesday' => JText::_("WEDNESDAY"),
+			 'thursday' => JText::_("THURSDAY"),
+			 'friday' => JText::_("FRIDAY"),
+			 'saturday' => JText::_("SATURDAY"),
+			 'sunday'=> JText::_("SUNDAY")
 		);
 		return $days[$dayEN];
 	}

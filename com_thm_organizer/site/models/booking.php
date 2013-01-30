@@ -615,7 +615,9 @@ class THM_OrganizerModelBooking extends JModel
     private function getEventResources($eventID)
     {
         $resources = array();
-        $teachers = $this->getResourceNames("#__thm_organizer_event_teachers", "eventID", "teacherID", $eventID, $this->_teacherKeys, $this->_teachers);
+        $teachers = $this->getResourceNames("#__thm_organizer_event_teachers", "eventID", "teacherID", $eventID, $this->_teacherKeys,
+         $this->_teachers
+        );
         $rooms = $this->getResourceNames("#__thm_organizer_event_rooms", "eventID", "roomID", $eventID, $this->_roomKeys, $this->_rooms);
         $groups = $this->getResourceNames("#__thm_organizer_event_groups", "eventID",  "groupID", $eventID, $this->_groupKeys, $this->_groups);
         if (count($teachers))

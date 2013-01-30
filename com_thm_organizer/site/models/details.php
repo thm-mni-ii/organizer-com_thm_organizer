@@ -6,7 +6,7 @@
  * @subpackage  com_thm_organizer.site
  * @name		THM_OrganizerModeldetails
  * @description THM_OrganizerModeldetails component site model
- * @author	    Markus Baier <markus.baier@mni.thm.de>
+ * @author	    Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link		www.mni.thm.de
@@ -148,14 +148,14 @@ class THM_OrganizerModeldetails extends JModel
 	/**
 	 * Method to parse a ISBN in the correct syntax for the isbnlink plugin
 	 *
-	 * @param   String   $modulLiteraturVerzeichnis  The bibliography
+	 * @param   String   $isbns						 The bibliography
 	 * @param   Boolean  $isIsbnlinkPluginAvailable  True if the isbnlink plugin is available otherwise false
 	 *
 	 * @return  String  The bibliography with the transformed isbn numbers as link
 	 */
 	public function transformISBN($isbns, $isIsbnlinkPluginAvailable)
 	{
-		if($isIsbnlinkPluginAvailable === false)
+		if ($isIsbnlinkPluginAvailable === false)
 		{
 			return $modulLiteraturVerzeichnis;
 		}
@@ -176,19 +176,34 @@ class THM_OrganizerModeldetails extends JModel
 		}
 	}
 	
+	/**
+	 * Method to get the keyword from the ISBNLinkPlugin
+	 * 
+	 * @return  String  The keyword
+	 */
 	public function getKeywordFromISBNLinkPlugin()
 	{
 	
 	}
 	
+	/**
+	 * Method to get all ISBN matches
+	 * 
+	 * @param   String  $modulLiteraturVerzeichnis  The text with isbn
+	 * @param   String  $pluginKeyword				The keyword
+	 * 
+	 * @return Ambigous <>|multitype:
+	 */
 	public function getISBNMatches($modulLiteraturVerzeichnis, $pluginKeyword)
 	{
 		$matches = array();
 	
 		// Result is stored in $matches
-		preg_match_all("/" . $pluginKeyword . "((-13)?(:)?(\s)?(\d[-\s]?){12}|(-10)?(:)?(\s)?(\d[-\s]?){9})\d/", $modulLiteraturVerzeichnis, $matches, PREG_PATTERN_ORDER);
+		preg_match_all("/" . $pluginKeyword . "((-13)?(:)?(\s)?(\d[-\s]?){12}|(-10)?(:)?(\s)?(\d[-\s]?){9})\d/",
+		 $modulLiteraturVerzeichnis, $matches, PREG_PATTERN_ORDER
+		);
 	
-		if($matches[0])
+		if ($matches[0])
 		{
 			return $matches[0];
 		}

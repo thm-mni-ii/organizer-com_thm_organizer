@@ -6,7 +6,7 @@
  * @subpackage  com_thm_organizer.site
  * @name		JFormFieldSemester
  * @description JFormFieldSemester component site field
- * @author	    Markus Baier <markus.baier@mni.thm.de>
+ * @author	    Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link		www.mni.thm.de
@@ -71,7 +71,7 @@ class JFormFieldSemester extends JFormField
 
 		$params = json_decode($rows[0]->params);
 
-		if(isset($params->major))
+		if (isset($params->major))
 		{
 			$major = $params->major;
 		}
@@ -135,7 +135,7 @@ class JFormFieldSemester extends JFormField
 			$result = $semesters;
 		}
 		
-		if($result == null)
+		if ($result == null)
 		{
 			$result = array();
 		}

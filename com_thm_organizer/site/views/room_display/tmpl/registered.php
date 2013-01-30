@@ -67,7 +67,8 @@ $widthClass = ($this->eventsExist) ? 'thm_organizer_is_short' : 'thm_organizer_i
 				?>
 		        <div class="thm_organizer_is_block <?php echo $blockClass . ' ' . $activeClass; ?>">
 		            <div class="thm_organizer_is_time_div">
-		<?php echo $block['starttime']; ?><br />-<br /><?php echo $block['endtime']; ?>
+		<?php echo $block['starttime']; ?><br />-<br />
+		<?php echo $block['endtime']; ?>
 		            </div>
 		            <div class="thm_organizer_is_data <?php echo $contentClass; ?>">
 		                <span class="thm_organizer_is_title_span"><?php echo $block['title']; ?></span>

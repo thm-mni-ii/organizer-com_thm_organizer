@@ -675,4 +675,3 @@ class THM_OrganizerModelEvents extends JModel
         return $recipients;
     }
 }
-?>

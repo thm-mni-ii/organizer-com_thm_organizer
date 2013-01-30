@@ -14,6 +14,7 @@
 defined('_JEXEC') or die;
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
+
 /**
  * Class for the execution of processes during changes to the component itself.
  *
@@ -23,7 +24,7 @@ jimport('joomla.filesystem.file');
  * @link        www.mni.thm.de
  * @since       v0.1.0
  */
-class com_thm_organizerInstallerScript
+class COM_THM_OrganizerInstallerScript
 {
     /**
      * Method to install the component. For some unknown reason Joomla will not resolve text constants in this function.
@@ -72,15 +73,19 @@ class com_thm_organizerInstallerScript
 ?>
 <div>
     <div style="width: 100%;">
-        Released under the terms and conditions of the <a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GNU General Public License</a>.
+        Released under the terms and conditions of the
+        <a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GNU General Public License</a>.
     </div>
     <div style="width: 100%;">
         <h3>Database Table Fill Status:</h3>
-        <h4 style='color: <?php echo $fillColor; ?>'><?php echo $fillStatus; ?></h4>
+        <h4 style='color: <?php echo $fillColor; ?>'>
+         <?php echo $fillStatus; ?></h4>
         <h3>Directory Status:</h3>
-        <h4 style='color: <?php echo $dirColor; ?>'><?php echo $dirStatus; ?></h4>
+        <h4 style='color: <?php echo $dirColor; ?>'>
+         <?php echo $dirStatus; ?></h4>
         <h3>Installation Status:</h3>
-        <h4 style="color: <?php echo $instColor; ?>; font-weight: bold;"><?php echo $instStatus; ?></h4>
+        <h4 style="color: <?php echo $instColor; ?>; font-weight: bold;">
+         <?php echo $instStatus; ?></h4>
 <?php
 if ($tablesFilled AND $dirCreated)
 {
@@ -253,6 +258,7 @@ if (!$dirCreated)
     {
         $installedVersion = explode('.', $installedVersion);
         $updateVersion = explode('.', str_replace('.sql', '', $updateVersion));
-        return ($updateVersion[0] >= $installedVersion[0]) AND ($updateVersion[1] >= $installedVersion[1]) AND ($updateVersion[2] > $installedVersion[2]);
+        return ($updateVersion[0] >= $installedVersion[0]) AND
+		 ($updateVersion[1] >= $installedVersion[1]) AND ($updateVersion[2] > $installedVersion[2]);
     }
 }

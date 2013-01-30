@@ -1,22 +1,40 @@
 <?php
 /**
- * @package     Joomla.Site | Joomla.Administrator
- * @subpackage  com_thm_organizer
- * @author      James Antrim jamesDOTantrimATmniDOTthmDOTde
- * @author      Wolf Rost
- * @author      Markus Baier
- * @copyright   TH Mittelhessen 2011
+ * @version     v0.0.1
+ * @category    Joomla component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.site
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @author      Wolf Rost, <wolf.rost@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
+ * @copyright   2011 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
- * @version     0.0.1
  */
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.controller');
 
-class thm_organizerController extends JController
+/**
+ * Site main controller
+ * 
+ * @category	Joomla.Component.Site
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.site
+ * @link        www.mni.thm.de
+ * @since       v0.1.0
+ */
+class THM_OrganizerController extends JController
 {
-    function display($cachable = false, $urlparams = false)
+	/**
+	 * Method to display
+	 * 
+	 * @param   string  $cachable   (Default: false)
+	 * @param   string  $urlparams  (Default: false)
+	 * 
+	 * @return    void
+	 */
+    public function display($cachable = false, $urlparams = false)
     {  
     	$app = JFactory::getApplication();
 		$menus = $app->getMenu();

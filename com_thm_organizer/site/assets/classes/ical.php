@@ -133,7 +133,7 @@ class ICALBauer extends abstrakterBauer
 					{
 						return 0;
 					}
-					return ($a->startdate > $b->startdate) ? +1 : -1;
+					return ($a->startdate > $b->startdate) ? +1 : - 1;
 				}
 
 				usort($res, "sortfunc");

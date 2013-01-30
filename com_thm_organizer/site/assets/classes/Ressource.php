@@ -146,24 +146,24 @@ class Ressource
 				return JError::raiseWarning(404, JText::_('Kein aktiver Stundenplan'));
 			}
 			
-			if(is_string($this->startdate) && is_string($this->enddate))
+			if (is_string($this->startdate) && is_string($this->enddate))
 			{
 				$startDate = new DateTime($this->startdate);
 				$endDate = new DateTime($this->enddate);
 				$currentDate = $startDate;
 				$lessonDates = array();
 				
-				if($startDate > $endDate)
+				if ($startDate > $endDate)
 				{
 					return JError::raiseWarning(404, JText::_('Das Enddatum muss größer als das Startdatum sein'));
 				}
 				
 				$calendar = $activeScheduleData->calendar;
 								
-				while($currentDate <= $endDate)
+				while ($currentDate <= $endDate)
 				{
 					$date = $currentDate->format('Y-m-d');
-					if(isset($calendar->{$date}))
+					if (isset($calendar->{$date}))
 					{
 						$lessonDates[$date] = $calendar->{$date};
 					}
@@ -177,30 +177,30 @@ class Ressource
 			
 			$lessonData = array();
 			
-			foreach($lessonDates as $lessonDate => $lessonBlock)
+			foreach ($lessonDates as $lessonDate => $lessonBlock)
 			{
-				foreach($lessonBlock as $blockKey => $blockLessons)
+				foreach ($lessonBlock as $blockKey => $blockLessons)
 				{
-					foreach($blockLessons as $lessonKey => $lessonRoom)
+					foreach ($blockLessons as $lessonKey => $lessonRoom)
 					{
-						if($this->type == "teacher")
+						if ($this->type == "teacher")
 						{
 							$resourceType = "teachers";
 						}
-						else if($this->type == "subject")
+						elseif ($this->type == "subject")
 						{
 							$resourceType = "subjects";
 						}
-						else if($this->type == "module")
+						elseif ($this->type == "module")
 						{
 							$resourceType = "modules";
 						}
 						
-						if($this->type === "room")
+						if ($this->type === "room")
 						{
-							foreach($lessonRoom as $roomKey => $roomValue)
+							foreach ($lessonRoom as $roomKey => $roomValue)
 							{
-								if($roomKey == $this->nodeKey)
+								if ($roomKey == $this->nodeKey)
 								{
 									$lessonData[$lessonKey] = $activeScheduleLessons->{$lessonKey};
 								}
@@ -208,13 +208,13 @@ class Ressource
 						}
 						else
 						{
-							foreach($activeScheduleLessons->{$lessonKey}->{$resourceType} as $resourceKey => $resourceValue)
+							foreach ($activeScheduleLessons->{$lessonKey}->{$resourceType} as $resourceKey => $resourceValue)
 							{
-								if($resourceKey == $this->nodeKey)
+								if ($resourceKey == $this->nodeKey)
 								{
 									$lessonData[$lessonKey] = $activeScheduleLessons->{$lessonKey};
 								}
-								else if($this->nodeKey == "")
+								elseif ($this->nodeKey == "")
 								{
 									$lessonData[$lessonKey] = $activeScheduleLessons->{$lessonKey};
 								}
@@ -225,7 +225,7 @@ class Ressource
 			}
 			
 			$data = array();
-			if(count($lessonDates) == 0)
+			if (count($lessonDates) == 0)
 			{
 				$data["lessonDate"] = null;
 			}
@@ -234,7 +234,7 @@ class Ressource
 				$data["lessonDate"] = $lessonDates;
 			}
 			
-			if(count($lessonData) == 0)
+			if (count($lessonData) == 0)
 			{
 				$data["lessonData"] = null;
 			}
@@ -326,7 +326,7 @@ class Ressource
 	/**
 	 * Method to get schedule by scheduleID
 	 * 
-	 * @param  Integer  $scheduleID  The schedule id  (Default: null)
+	 * @param   Integer  $scheduleID  The schedule id  (Default: null)
 	 *
 	 * @return mixed  The active schedule as object or false
 	 */

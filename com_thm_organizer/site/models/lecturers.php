@@ -6,7 +6,7 @@
  * @subpackage  com_thm_organizer.site
  * @name		THM_OrganizerModelLecturers
  * @description THM_OrganizerModelLecturers component site model
- * @author	    Markus Baier <markus.baier@mni.thm.de>
+ * @author	    Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link		www.mni.thm.de

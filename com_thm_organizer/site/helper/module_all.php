@@ -6,7 +6,7 @@
  * @subpackage  com_thm_organizer.site
  * @name		ModuleAll
  * @description ModuleAll component site helper
- * @author	    Markus Baier <markus.baier@mni.thm.de>
+ * @author	    Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link		www.mni.thm.de
@@ -21,7 +21,7 @@ header('Content-Type: text/html; charset=utf-8');
  * Class provides methods to Mapping: LSF-XML Struktur -> Objekt
  *
  * @category	Joomla.Component.Site
- * @package     THM_Organizer
+ * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
  * @since       v1.5.0

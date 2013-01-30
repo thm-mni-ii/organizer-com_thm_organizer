@@ -6,7 +6,7 @@
  * @subpackage  com_thm_organizer.site
  * @name		THM_OrganizerModelCurriculum
  * @description THM_OrganizerModelCurriculum component site model
- * @author	    Markus Baier <markus.baier@mni.thm.de>
+ * @author	    Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link		www.mni.thm.de
@@ -376,7 +376,7 @@ class THM_OrganizerModelCurriculum extends JModelList
 		$db->setQuery($query);
 		$color = $db->loadObjectList();
 
-		if(isset($color[0]) && isset($color[0]->color))
+		if (isset($color[0]) && isset($color[0]->color))
 		{
 			return $color[0]->color;
 		}

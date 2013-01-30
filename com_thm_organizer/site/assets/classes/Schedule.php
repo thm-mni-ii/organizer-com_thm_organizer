@@ -87,8 +87,9 @@ class Schedule
 	/**
 	 * Constructor with the joomla data abstraction object and configuration object
 	 *
-	 * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
-	 * @param   MySchedConfig	 $CFG  A object which has configurations including
+	 * @param   DataAbstraction  $JDA      An object to abstract the joomla methods
+	 * @param   MySchedConfig	 $CFG      An object which has configurations including
+	 * @param   object			 $options  An object which has options including	(Default: null)
 	 *
 	 * @since  1.5
 	 *

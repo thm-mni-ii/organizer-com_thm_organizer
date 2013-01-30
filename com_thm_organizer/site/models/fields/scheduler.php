@@ -64,7 +64,7 @@ class JFormFieldScheduler extends JFormField
 			$jsonObj = json_decode($rows[0]->params);
 		}
 		
-		if(isset($jsonObj->publicDefaultID))
+		if (isset($jsonObj->publicDefaultID))
 		{
 			$publicDefaultID = $jsonObj->publicDefaultID;
 		}

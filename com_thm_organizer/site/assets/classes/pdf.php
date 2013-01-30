@@ -48,8 +48,9 @@ class PDFBauer extends abstrakterBauer
 	/**
 	 * Constructor with the joomla data abstraction object and configuration object
 	 *
-	 * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
-	 * @param   Object	 		 $cfg  A object which has configurations including
+	 * @param   DataAbstraction  $JDA  	   An object to abstract the joomla methods
+	 * @param   Object	 		 $cfg  	   An object which has configurations including
+	 * @param   Object	 		 $options  An object which has options including
 	 *
 	 * @since  1.5
 	 *
@@ -459,26 +460,31 @@ class PDFBauer extends abstrakterBauer
 		}
 	}
 	
+	/**
+	 * Method to add the lesson data to the pdf object
+	 * 
+	 * @return void
+	 */
 	private function getLessonData()
 	{
-		if(is_string($this->startdate) && is_string($this->enddate))
+		if (is_string($this->startdate) && is_string($this->enddate))
 		{
 			$startDate = new DateTime($this->startdate);
 			$endDate = new DateTime($this->enddate);
 			$currentDate = $startDate;
 			$lessonDates = array();
 		
-			if($startDate > $endDate)
+			if ($startDate > $endDate)
 			{
 				return JError::raiseWarning(404, JText::_('Das Enddatum muss größer als das Startdatum sein'));
 			}
 		
 			$calendar = $activeScheduleData->calendar;
 		
-			while($currentDate <= $endDate)
+			while ($currentDate <= $endDate)
 			{
 				$date = $currentDate->format('Y-m-d');
-				if(isset($calendar->{$date}))
+				if (isset($calendar->{$date}))
 				{
 					$lessonDates[$date] = $calendar->{$date};
 				}
@@ -494,7 +500,7 @@ class PDFBauer extends abstrakterBauer
 	/**
 	 * Method to get schedule by scheduleID
 	 *
-	 * @param  Integer  $scheduleID  The schedule id  (Default: null)
+	 * @param   Integer  $scheduleID  The schedule id  (Default: null)
 	 *
 	 * @return mixed  The active schedule as object or false
 	 */
