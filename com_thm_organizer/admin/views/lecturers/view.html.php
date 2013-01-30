@@ -6,7 +6,7 @@
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerViewLecturers
  * @description THM_OrganizerViewLecturers component admin view
- * @author	    Markus Baier <markus.baier@mni.thm.de>
+ * @author	    Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link		www.mni.thm.de
@@ -38,7 +38,7 @@ class THM_OrganizerViewLecturers extends JView
 	 */
 	public function display($tpl = null)
 	{
-		JToolBarHelper::title(JText::_("COM_THM_ORGANIZER")  . ": " . JText::_("COM_THM_ORGANIZER_TRM_TITLE"), 'generic.png');
+		JToolBarHelper::title(JText::_("COM_THM_ORGANIZER") . ": " . JText::_("COM_THM_ORGANIZER_TRM_TITLE"), 'generic.png');
 
 		$this->items = $this->get('Items');
 		$this->pagination = $this->get('Pagination');

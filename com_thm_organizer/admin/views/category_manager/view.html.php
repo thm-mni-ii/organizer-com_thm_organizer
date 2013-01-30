@@ -25,7 +25,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * @link        www.mni.thm.de
  * @since       v0.1.0
  */
-class THM_OrganizerViewcategory_manager extends JView
+class THM_OrganizerViewCategory_Manager extends JView
 {
     /**
      * loads persistent information into the view context

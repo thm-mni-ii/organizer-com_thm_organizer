@@ -37,7 +37,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JController
 	 */
 	public function __construct()
 	{
-		//parent::__construct();
+		/* parent::__construct(); */
 		$this->registerTask('add', 'edit');
 		$this->registerTask('deleteList', '');
 	}
@@ -76,7 +76,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JController
 
 		if ($dbo->getErrorNum())
 		{
-			$msg = JText::_('Fehler beim Löschen.');
+			$msg = JText::_('COM_THM_ORGANIZER_ERROR_DELETING') . ".";
 		}
 		else
 		{
@@ -89,11 +89,11 @@ class THM_OrganizerControllerVirtual_Schedule extends JController
 
 		if (count($cid) > 1)
 		{
-			$msg = JText::_('Virtuelle Stundenpläne ' . $cids_temp . ' gelöscht.');
+			$msg = JText::_('COM_THM_ORGANIZER_VSM_TITLE') . $cids_temp . JText::_('COM_THM_ORGANIZER_DELETED') . ".";
 		}
 		else
 		{
-			$msg = JText::_('Virtuellen Stundenplan ' . $cids_temp . ' gelöscht.');
+			$msg = JText::_('COM_THM_ORGANIZER_VIRTUAL_SCHEDULE') . " " . $cids_temp . " " . JText::_('COM_THM_ORGANIZER_DELETED') . ".";
 		}
 
 		$this->setRedirect('index.php?option=com_thm_organizer&view=virtual_schedule_manager', $msg);

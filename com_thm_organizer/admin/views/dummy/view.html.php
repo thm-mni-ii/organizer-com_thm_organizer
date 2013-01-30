@@ -6,7 +6,7 @@
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerViewDummy
  * @description THM_OrganizerViewDummy component admin view
- * @author	    Markus Baier <markus.baier@mni.thm.de>
+ * @author	    Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link		www.mni.thm.de
@@ -64,7 +64,7 @@ class THM_OrganizerViewDummy extends JView
 	{
 		JRequest::setVar('hidemainmenu', true);
 		$isNew = ($this->item->id == 0);
-		JToolBarHelper::title($isNew ? JText::_('com_thm_organizer_NEW_DUMMY') : JText::_('com_thm_organizer_EDIT_DUMMY'));
+		JToolBarHelper::title($isNew ? JText::_('COM_THM_ORGANIZER_NEW_DUMMY') : JText::_('COM_THM_ORGANIZER_EDIT_DUMMY'));
 		JToolBarHelper::save('dummy.save');
 		JToolBarHelper::cancel('dummy.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
 	}

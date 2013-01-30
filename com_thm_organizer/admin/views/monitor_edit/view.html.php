@@ -26,7 +26,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * @link        www.mni.thm.de
  * @since       v0.1.0
  */
-class THM_OrganizerViewmonitor_edit extends JView
+class THM_OrganizerViewMonitor_Edit extends JView
 {
     /**
      * loads monitor information into the view context

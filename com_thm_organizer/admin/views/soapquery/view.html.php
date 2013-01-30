@@ -6,7 +6,7 @@
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerViewSoapquery
  * @description THM_OrganizerViewSoapquery component admin view
- * @author	    Markus Baier <markus.baier@mni.thm.de>
+ * @author	    Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link		www.mni.thm.de
@@ -66,7 +66,7 @@ class THM_OrganizerViewSoapquery extends JView
 	protected function addToolBar()
 	{
 		$isNew = $this->item->id == 0;
-		JToolBarHelper::title($isNew ? JText::_("com_thm_organizer_SOAP_QUERIES_NEW") : JText::_("com_thm_organizer_SOAP_QUERIES_EDIT"));
+		JToolBarHelper::title($isNew ? JText::_("COM_THM_ORGANIZER_SOAP_QUERIES_NEW") : JText::_("COM_THM_ORGANIZER_SOAP_QUERIES_EDIT"));
 		JToolBarHelper::apply('soapquery.apply', 'JTOOLBAR_APPLY');
 		JToolBarHelper::save('soapquery.save', 'JTOOLBAR_SAVE');
 		JToolBarHelper::cancel('soapquery.cancel', 'JTOOLBAR_CANCEL');

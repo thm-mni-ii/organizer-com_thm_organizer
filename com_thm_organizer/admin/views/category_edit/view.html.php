@@ -24,7 +24,7 @@ jimport('joomla.application.component.view');
  * @link        www.mni.thm.de
  * @since       v0.1.0
  */
-class THM_OrganizerViewcategory_edit extends JView
+class THM_OrganizerViewCategory_Edit extends JView
 {
     /**
      * loads model data into view context

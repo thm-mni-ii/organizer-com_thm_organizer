@@ -6,7 +6,7 @@
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerViewDummy_Mapping
  * @description THM_OrganizerViewDummy_Mapping component admin view
- * @author	    Markus Baier <markus.baier@mni.thm.de>
+ * @author	    Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link		www.mni.thm.de
@@ -66,8 +66,8 @@ class THM_OrganizerViewDummy_Mapping extends JView
 		JRequest::setVar('hidemainmenu', true);
 		$isNew = ($this->item->id == 0);
 		JToolBarHelper::title(
-				$isNew ? JText::_('com_thm_organizer_SUBMENU_MODULMAPPINGS_NEW_MAPPING') :
-				JText::_('com_thm_organizer_SUBMENU_MODULMAPPINGS_EDIT_MAPPING')
+				$isNew ? JText::_('COM_THM_ORGANIZER_SUBMENU_MODULMAPPINGS_NEW_MAPPING') :
+				JText::_('COM_THM_ORGANIZER_SUBMENU_MODULMAPPINGS_EDIT_MAPPING')
 		);
 
 		JToolBarHelper::save('mapping.save');

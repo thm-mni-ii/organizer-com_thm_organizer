@@ -6,7 +6,7 @@
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerViewMappings
  * @description THM_OrganizerViewMappings component admin view
- * @author	    Markus Baier <markus.baier@mni.thm.de>
+ * @author	    Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link		www.mni.thm.de
@@ -81,9 +81,10 @@ class THM_OrganizerViewMappings extends JView
 	protected function addToolBar($title)
 	{
 		$curr_name = $title['abschluss'] . ' ' . $title['fach'] . ' (' . $title['po'] . ')';
-		JToolBarHelper::title(JText::_("com_thm_organizer_SUBMENU_CURRICULUM_TITLE") . $curr_name, 'generic.png');
+		JToolBarHelper::title(JText::_("COM_THM_ORGANIZER_SUBMENU_CURRICULUM_TITLE") . $curr_name, 'generic.png');
 		JToolBarHelper::addNew('mapping.add', 'JTOOLBAR_NEW');
-		//JToolBarHelper::addNew('dummy_mapping.add', 'com_thm_organizer_INSERT_PLACEHOLDER_MAPPING');
+		
+		// JToolBarHelper::addNew('dummy_mapping.add', 'com_thm_organizer_INSERT_PLACEHOLDER_MAPPING');
 		JToolBarHelper::addNew('fillpool.add', 'AutoFill');
 		JToolBarHelper::editList('mapping.edit', 'JTOOLBAR_EDIT');
 		JToolBarHelper::custom(

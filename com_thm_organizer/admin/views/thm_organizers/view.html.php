@@ -26,7 +26,7 @@ jimport('joomla.html.pane');
  * @link        www.mni.thm.de
  * @since       v0.1.0
  */
-class THM_OrganizersViewthm_organizers extends JView
+class THM_OrganizersViewTHM_Organizers extends JView
 {
     /**
      * loads model data into view context

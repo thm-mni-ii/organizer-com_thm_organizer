@@ -25,7 +25,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * @link        www.mni.thm.de
  * @since       v0.1.0
  */
-class THM_OrganizerViewschedule_manager extends JView
+class THM_OrganizerViewSchedule_Manager extends JView
 {
     /**
      * jpagination object holding data relevant to the number of results to be
@@ -105,7 +105,7 @@ class THM_OrganizerViewschedule_manager extends JView
         JToolBarHelper::addNew('schedule.add');
         JToolBarHelper::editList('schedule.edit');
         JToolBarHelper::custom('schedule.setReference', 'move', 'move', 'COM_THM_ORGANIZER_SCH_REFERENCE_TITLE', true);
-        JToolBarHelper::deleteList(JText::_('COM_THM_ORGANIZER_SCH_DELETE_CONFIRM'),'schedule.delete');
+        JToolBarHelper::deleteList(JText::_('COM_THM_ORGANIZER_SCH_DELETE_CONFIRM'), 'schedule.delete');
         JToolBarHelper::divider();
         JToolBarHelper::preferences('com_thm_organizer');
     }

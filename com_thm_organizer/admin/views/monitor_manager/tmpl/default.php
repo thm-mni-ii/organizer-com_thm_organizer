@@ -67,11 +67,13 @@ if (!empty($this->monitors))
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_DISPLAY', 'display', $direction, $orderby); ?>
                     </th>
                     <th class="thm_organizer_th hasTip"
-                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_SCHEDULE_REFRESH') . "::" . JText::_('COM_THM_ORGANIZER_MON_SCHEDULE_REFRESH_DESC'); ?>">
+                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_SCHEDULE_REFRESH') . "::" .
+                        JText::_('COM_THM_ORGANIZER_MON_SCHEDULE_REFRESH_DESC'); ?>">
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_SCHEDULE_REFRESH', 'schedule_refresh', $direction, $orderby); ?>
                     </th>
                     <th class="thm_organizer_th hasTip"
-                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_CONTENT_REFRESH') . "::" . JText::_('COM_THM_ORGANIZER_MON_CONTENT_REFRESH_DESC'); ?>">
+                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_CONTENT_REFRESH') . "::" .
+                        JText::_('COM_THM_ORGANIZER_MON_CONTENT_REFRESH_DESC'); ?>">
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_CONTENT_REFRESH', 'content_refresh', $direction, $orderby); ?>
                     </th>
                     <th class="thm_organizer_th hasTip"

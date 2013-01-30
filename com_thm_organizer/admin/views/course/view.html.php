@@ -6,7 +6,7 @@
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerViewCourse
  * @description THM_OrganizerViewCourse component admin view
- * @author	    Markus Baier <markus.baier@mni.thm.de>
+ * @author	    Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link		www.mni.thm.de
@@ -64,7 +64,7 @@ class THM_OrganizerViewCourse extends JView
 	{
 		JRequest::setVar('hidemainmenu', true);
 		$isNew = ($this->item->id == 0);
-		JToolBarHelper::title($isNew ? JText::_('com_thm_organizer_SUBMENU_COURSE_NEW') : JText::_('com_thm_organizer_SUBMENU_COURSE_EDIT'));
+		JToolBarHelper::title($isNew ? JText::_('COM_THM_ORGANIZER_SUBMENU_COURSE_NEW') : JText::_('COM_THM_ORGANIZER_SUBMENU_COURSE_EDIT'));
 		JToolBarHelper::save('course.save');
 		JToolBarHelper::cancel('course.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
 	}

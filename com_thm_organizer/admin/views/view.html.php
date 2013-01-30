@@ -14,7 +14,7 @@
 
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
+require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
 
 /**
  * Class loading a list of persistent monitor entries into the view context 
@@ -25,7 +25,7 @@ require_once JPATH_COMPONENT.'/assets/helpers/thm_organizerHelper.php';
  * @link        www.mni.thm.de
  * @since       v0.1.0
  */
-class THM_OrganizerViewmonitor_manager extends JView
+class THM_OrganizerViewMonitor_Manager extends JView
 {
 	/**
 	 * Loads data from the model into the view context
@@ -36,15 +36,17 @@ class THM_OrganizerViewmonitor_manager extends JView
 	 */
     public function display($tpl = null)
     {
-        if(!JFactory::getUser()->authorise('core.admin'))
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
 
         JHtml::_('behavior.tooltip');
         JHtml::_('behavior.multiselect');
 
         $model = $this->getModel();
         $document = & JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl."/components/com_thm_organizer/assets/css/thm_organizer.css");
+        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
 
         $this->monitors = $this->get('Items');
         $this->prepareMonitors();
@@ -64,13 +66,19 @@ class THM_OrganizerViewmonitor_manager extends JView
      */
     private function prepareMonitors()
     {
-        if(!count($this->monitors))return;
-        $link = "index.php?option=com_thm_organizer&view=monitor_edit&monitorID=";
-        foreach($this->monitors as $k => $monitor)
+        if (!count($this->monitors))
         {
-            if(empty($monitor->room)) $this->monitors[$k]->room = $monitor->roomID;
+        	return;
+        }
+        $link = "index.php?option=com_thm_organizer&view=monitor_edit&monitorID=";
+        foreach ($this->monitors as $k => $monitor)
+        {
+            if (empty($monitor->room))
+            {
+            	$this->monitors[$k]->room = $monitor->roomID;
+            }
             $this->monitors[$k]->behaviour = JText::_($monitor->behaviour);
-            $this->monitors[$k]->link = $link.$monitor->monitorID;
+            $this->monitors[$k]->link = $link . $monitor->monitorID;
         }
     }
 
@@ -78,15 +86,16 @@ class THM_OrganizerViewmonitor_manager extends JView
      * addToolBar
      *
      * creates the toolbar for user actions
+     * 
+     * @return void
      */
     private function addToolBar()
     {
-        $title = JText::_('COM_THM_ORGANIZER').': '.JText::_('COM_THM_ORGANIZER_VSM_TITLE');
-        JToolBarHelper::title( $title, 'mni' );
-        JToolBarHelper::addNew( 'monitor.add' );
+        $title = JText::_('COM_THM_ORGANIZER') . ': ' . JText::_('COM_THM_ORGANIZER_VSM_TITLE');
+        JToolBarHelper::title($title, 'mni');
+        JToolBarHelper::addNew('monitor.add');
         JToolBarHelper::editList('monitor.edit');
-        JToolBarHelper::deleteList( JText::_('COM_THM_ORGANIZER_MON_DELETE_CONFIRM'), 'monitor.delete');
+        JToolBarHelper::deleteList(JText::_('COM_THM_ORGANIZER_MON_DELETE_CONFIRM'), 'monitor.delete');
     }
-
 }
 	
