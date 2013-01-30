@@ -67,7 +67,7 @@ class THM_OrganizerViewScheduler extends JView
 		$menuparamsPublicDefaultID = $menuparams->get("publicDefaultID");
 		$departmentSemesterSelection = $menuparams->get("departmentSemesterSelection");
 		$deltaDisplayDays = (int) $menuparams->get("deltaDisplayDays", 14);
-		if(is_int($deltaDisplayDays))
+		if (is_int($deltaDisplayDays))
 		{
 			$this->deltaDisplayDays = $deltaDisplayDays;
 		}
@@ -127,15 +127,15 @@ class THM_OrganizerViewScheduler extends JView
 				unset($activeScheduleData->fields);
 		
 				if (is_object($activeSchedulePeriods)
-						&& is_object($activeScheduleDegrees)
-						&& is_object($activeScheduleRooms)
-						&& is_object($activeScheduleRoomTypes)
-						&& is_object($activeScheduleSubjects)
-						&& is_object($activeScheduleTeachers)
-						&& is_object($activeScheduleModules)
-						&& is_object($activeScheduleCalendar)
-						&& is_object($activeScheduleLessons)
-						&& is_object($activeScheduleFields))
+				 && is_object($activeScheduleDegrees)
+				 && is_object($activeScheduleRooms)
+				 && is_object($activeScheduleRoomTypes)
+				 && is_object($activeScheduleSubjects)
+				 && is_object($activeScheduleTeachers)
+				 && is_object($activeScheduleModules)
+				 && is_object($activeScheduleCalendar)
+				 && is_object($activeScheduleLessons)
+				 && is_object($activeScheduleFields))
 				{
 						
 				}
@@ -174,13 +174,13 @@ class THM_OrganizerViewScheduler extends JView
 				
 		$activeSchedulePeriods->length = count((array) $activeSchedulePeriods);
 		
-		foreach($activeSchedulePeriods as $period)
+		foreach ($activeSchedulePeriods as $period)
 		{
-			if(isset($period->starttime) && is_string($period->starttime))
+			if (isset($period->starttime) && is_string($period->starttime))
 			{
 				$period->starttime = wordwrap($period->starttime, 2, ':', 1);
 			}
-			if(isset($period->endtime) && is_string($period->endtime))
+			if (isset($period->endtime) && is_string($period->endtime))
 			{
 				$period->endtime = wordwrap($period->endtime, 2, ':', 1);
 			}
@@ -198,24 +198,24 @@ class THM_OrganizerViewScheduler extends JView
 		
 		$this->loadLessonsOnStartUp = (bool) $menuparams->get("loadLessonsOnStartUp");		
 
-		if($this->loadLessonsOnStartUp == true)
+		if ($this->loadLessonsOnStartUp == true)
 		{
 			$lessons = array();
 			
-			foreach($activeScheduleCalendar as $dateKey => $dateValue)
+			foreach ($activeScheduleCalendar as $dateKey => $dateValue)
 			{
 				if (is_object($dateValue))
 				{
-					foreach($dateValue as $blockKey => $blockValue)
+					foreach ($dateValue as $blockKey => $blockValue)
 					{
-						foreach($blockValue as $lessonKey => $lessonValue)
+						foreach ($blockValue as $lessonKey => $lessonValue)
 						{
 							$currentDate = new DateTime($dateKey);
 							$dow = strtolower($currentDate->format("l"));
 							
 							$lessonID = $lessonKey . $blockKey . $dow;
 																	
-							if(!array_key_exists($lessonID, $lessons))
+							if (!array_key_exists($lessonID, $lessons))
 							{
 								$lessons[$lessonID] = clone $activeScheduleLessons->{$lessonKey};
 								$lessons[$lessonID]->lessonKey = $lessonKey;
@@ -223,7 +223,7 @@ class THM_OrganizerViewScheduler extends JView
 								$lessons[$lessonID]->dow = $dow;
 							}
 							
-							if(!isset($lessons[$lessonID]->calendar))
+							if (!isset($lessons[$lessonID]->calendar))
 							{
 								$lessons[$lessonID]->calendar = array();
 							}
@@ -245,9 +245,10 @@ class THM_OrganizerViewScheduler extends JView
 		$schedulearr["ScheduleDescription.load"] = new stdClass;
 		$schedulearr["ScheduleDescription.load"]->data = $activeSchedule;
 
-// 		$schedulearr["TreeView.load"] = $model->executeTask("TreeView.load",
-// 											array("departmentSemesterSelection" => $departmentSemesterSelection, "path" => $path, "hide" => true, "publicDefault" => $publicDefaultIDArray)
-// 										);
+/* 		$schedulearr["TreeView.load"] = $model->executeTask("TreeView.load",
+ 											array("departmentSemesterSelection" => $departmentSemesterSelection,
+ 											"path" => $path, "hide" => true, "publicDefault" => $publicDefaultIDArray)
+ 										);*/
 
 		$this->startup = rawurlencode(json_encode($schedulearr));
 

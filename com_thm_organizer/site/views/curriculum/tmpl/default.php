@@ -101,7 +101,7 @@ if (!isset($this->counter))
 	if ($this->params->get('plugin_mode', '0') != 1)
 	{
 		$flagClass = "flagWithTitle";
-		if(strlen($page_heading) == 0)
+		if (strlen($page_heading) == 0)
 		{
 			$flagClass = "flagWithoutTitle";
 		}
@@ -109,7 +109,8 @@ if (!isset($this->counter))
 		{
 			$flagClass = "flagWithTitle";
 		}
-		?> <a class='<?php echo $flagClass; ?>' href="<?php echo JRoute::_($this->langUrl); ?>"><img
+		?> <a class='<?php echo $flagClass; ?>' href="
+		<?php echo JRoute::_($this->langUrl); ?>"><img
 			alt="<?php echo $this->langLink; ?>"
 			src="components/com_thm_organizer/css/images/<?php echo $this->langLink; ?>.png" />
 		</a> 
