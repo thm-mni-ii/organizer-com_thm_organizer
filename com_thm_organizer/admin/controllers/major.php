@@ -83,7 +83,7 @@ class THM_OrganizerControllerMajor extends JControllerForm
 	 */
 	public function delete()
 	{
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 
 		foreach ($cid as $id)

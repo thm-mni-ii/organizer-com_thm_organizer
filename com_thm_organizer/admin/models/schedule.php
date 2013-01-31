@@ -242,7 +242,7 @@ class THM_OrganizerModelSchedule extends JModel
 		$this->_schedule->rooms = new stdClass;
 		if (empty($xmlSchedule->rooms))
 		{
-			$this->_scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_RM_MISSING");
+			$this->_scheduleErrors[] = JText::_("COM_THM_ORGANIZER_RM_MISSING");
 		}
 		else
 		{
@@ -296,7 +296,7 @@ class THM_OrganizerModelSchedule extends JModel
 		$this->_schedule->lessons = new stdClass;
 		if (empty($xmlSchedule->lessons))
 		{
-			$this->_scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_LS_MISSING");
+			$this->_scheduleErrors[] = JText::_("COM_THM_ORGANIZER_LS_MISSING");
 		}
 		else
 		{
@@ -408,7 +408,7 @@ class THM_OrganizerModelSchedule extends JModel
 		$type = trim((string) $descriptionnode->flags);
 		if (empty($type))
 		{
-			if (!in_array(JText::_("COM_THM_ORGANIZER_DSM_TYPE_MISSING."), $this->_scheduleErrors))
+			if (!in_array(JText::_("COM_THM_ORGANIZER_DSM_TYPE_MISSING"), $this->_scheduleErrors))
 			{
 				$this->_scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_DSM_TYPE_MISSING", $longname, $descriptionID);
 			}

@@ -24,7 +24,7 @@ class icaltestlib
 	
 	function getEventCategories($username)
 	{
-		$dbo =& JFactory::getDBO();
+		$dbo =JFactory::getDBO();
 		$query = "SELECT gid
 				  FROM #__users
 				  WHERE username = '$username'";
@@ -43,7 +43,7 @@ class icaltestlib
 	
 	function getEvents($username, $categoryid = null)
 	{
-		$dbo =& JFactory::getDBO();
+		$dbo =JFactory::getDBO();
 		$query = "SELECT gid
 				  FROM #__users
 				  WHERE username = '$username'";
@@ -115,7 +115,7 @@ class icaltestlib
 	
 	function getResourceTypes($username)
 	{
-		$dbo =& JFactory::getDBO();
+		$dbo =JFactory::getDBO();
 		$query = "SELECT gid
 				  FROM #__users
 				  WHERE username = '$username'";
@@ -132,7 +132,7 @@ class icaltestlib
 	
 	function getFachsemesters()
 	{
-		$dbo =& JFactory::getDBO();
+		$dbo =JFactory::getDBO();
 		$query = "SELECT sid, CONCAT(orgunit, '/', semester) AS fachsemester
 				  FROM #__thm_organizer_semesters";
 		$dbo->setQuery($query);
@@ -142,7 +142,7 @@ class icaltestlib
 	function getResourcePlan($username, $resourcename, $fachsemester)
 	{
 		if($resourcename == null || $fachsemester == null) return array('error' => 'fehlende Angaben');
-		$dbo =& JFactory::getDBO();
+		$dbo =JFactory::getDBO();
 		$query = "SELECT gid
 				  FROM #__users
 				  WHERE username = '$username'";
@@ -279,7 +279,7 @@ class icaltestlib
 	
 	function periodtotime($day, $sid, $period)
 	{
-		$dbo =& JFactory::getDBO();
+		$dbo =JFactory::getDBO();
 		$query = "SELECT *
 				  FROM #__thm_organizer_timeperiods
 				  WHERE day = '$day'

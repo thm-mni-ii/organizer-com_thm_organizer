@@ -82,7 +82,7 @@ class THM_OrganizerModelLecturers extends JModel
 	 */
 	public function __construct()
 	{
-		$this->db = &JFactory::getDBO();
+		$this->db = JFactory::getDBO();
 		$this->globParams = JComponentHelper::getParams('com_thm_organizer');
 		$this->groupsModel = $model = new THM_OrganizerModelGroups;
 		$this->groupsCurriculum = $model = new THM_OrganizerModelCurriculum;

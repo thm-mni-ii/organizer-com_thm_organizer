@@ -96,7 +96,7 @@ class THM_OrganizerModeldetails extends JModel
 	 */
 	public function getDozenten($nrmni)
 	{
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = "SELECT DISTINCT dozentid FROM #__thm_organizer_dozenten_module WHERE modulid = '$nrmni';";
 		$db->setQuery($query);
 		return $db->loadResultArray();

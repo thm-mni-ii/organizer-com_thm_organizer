@@ -89,7 +89,7 @@ class THM_OrganizerModelGroups extends JModel
 	 */
 	public function __construct($lang = null)
 	{
-		$this->db = &JFactory::getDBO();
+		$this->db = JFactory::getDBO();
 		$this->app = &JFactory::getApplication();
 		$this->globParams = JComponentHelper::getParams('com_thm_organizer');
 		$this->session = & JFactory::getSession();
@@ -622,7 +622,7 @@ class THM_OrganizerModelGroups extends JModel
 	 */
 	public function getLsfConfigurations()
 	{
-		$this->db = &JFactory::getDBO();
+		$this->db = JFactory::getDBO();
 
 		// Build the sql statement
 		$query = "SELECT * FROM #__thm_organizer_soap_queries;";
@@ -648,7 +648,7 @@ class THM_OrganizerModelGroups extends JModel
 			$configId = $menu->params->get('lsf_query');
 		}
 
-		$this->db = &JFactory::getDBO();
+		$this->db = JFactory::getDBO();
 		$query = "SELECT * FROM #__thm_organizer_majors WHERE id = $configId;";
 		$this->db->setQuery($query);
 		$rows = $this->db->loadObjectList();

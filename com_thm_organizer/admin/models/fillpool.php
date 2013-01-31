@@ -94,8 +94,13 @@ class THM_OrganizerModelFillpool extends JModelAdmin
 	 */
 	private function getLsfConfiguration($configId)
 	{
-		$this->db = &JFactory::getDBO();
-		$query = "SELECT * FROM #__thm_organizer_majors WHERE id = $configId;";
+		$this->db = JFactory::getDBO();
+				
+		$query = $this->db->getQuery(true);
+		$query->select('*');
+		$query->from("#__thm_organizer_majors");
+		$query->where("id = $configId");
+		
 		$this->db->setQuery($query);
 		$rows = $this->db->loadObjectList();
 		return $rows;
@@ -110,7 +115,7 @@ class THM_OrganizerModelFillpool extends JModelAdmin
 	 */
 	private function getSemesters($parent)
 	{
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		// Get the current selected major-id
 		$majorId = $_SESSION['stud_id'];
@@ -140,7 +145,7 @@ class THM_OrganizerModelFillpool extends JModelAdmin
 	public function save($data)
 	{
 		$globParams = JComponentHelper::getParams('com_thm_organizer');
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$config = self::getLsfConfiguration($data["soap_query"]);
 		$model = new THM_OrganizerModelMapping;
 		$parent = $data['parent_id'];
@@ -163,8 +168,13 @@ class THM_OrganizerModelFillpool extends JModelAdmin
 					foreach ($gruppe->modulliste->modul as $modul)
 					{
 						$id = $modul->modulid;
-						$this->db = &JFactory::getDBO();
-						$query = "SELECT * FROM #__thm_organizer_assets WHERE lsf_course_id = $id;";
+						$this->db = JFactory::getDBO();
+						
+						$query = $this->db->getQuery(true);
+						$query->select('*');
+						$query->from("#__thm_organizer_assets");
+						$query->where("lsf_course_id = $id");
+						
 						$this->db->setQuery($query);
 						$rows = $this->db->loadObjectList();
 

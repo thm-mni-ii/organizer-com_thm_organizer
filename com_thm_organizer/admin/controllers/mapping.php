@@ -169,7 +169,7 @@ class THM_OrganizerControllerMapping extends JControllerForm
 	 */
 	public function delete()
 	{
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		$stud_id = $_SESSION['stud_id'];
 

@@ -41,7 +41,7 @@ class THM_OrganizerModellesson extends THM_OrganizerModelresource
     {
         if (empty($lessonsnode))
         {
-            $errors[] = JText::_("COM_THM_ORGANIZER_SCH_LS_MISSING");
+            $errors[] = JText::_("COM_THM_ORGANIZER_LS_MISSING");
         }
         else
         {
@@ -293,7 +293,9 @@ class THM_OrganizerModellesson extends THM_OrganizerModelresource
                     }
                     elseif (!key_exists($roomID, $rooms))
                     {
-                        $error = JText::sprintf('COM_THM_ORGANIZER_LS_TP_ROOM_LACKING', $lessonName, $lessonID,date('l', $currentDT), $period, $roomID);
+                        $error = JText::sprintf('COM_THM_ORGANIZER_LS_TP_ROOM_LACKING', $lessonName, $lessonID,
+                         date('l', $currentDT), $period, $roomID
+                        );
                         if (!in_array($error, $errors))
                         {
                             $errors[] = $error;

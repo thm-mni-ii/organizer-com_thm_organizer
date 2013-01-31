@@ -187,7 +187,7 @@ class THM_OrganizerModelVirtual_Schedule_Manager extends JModel
 		// Load the content if it doesn't already exist
 		if (empty($this->_total))
 		{
-			$db = & JFactory::getDBO();
+			$db = JFactory::getDBO();
 
 			$query = 'SELECT count(*) as anzahl FROM #__thm_organizer_virtual_schedules';
 			$db->setQuery($query);
@@ -204,7 +204,7 @@ class THM_OrganizerModelVirtual_Schedule_Manager extends JModel
 	public function getAnz()
 	{
 		$query = 'SELECT count(*) as anzahl FROM #__thm_organizer_virtual_schedules';
-		$db =& JFactory::getDBO();
+		$db =JFactory::getDBO();
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 		return $rows[0]->anzahl;
@@ -234,7 +234,7 @@ class THM_OrganizerModelVirtual_Schedule_Manager extends JModel
 	public function getElements()
 	{
 		$query = 'SELECT * FROM #__thm_organizer_virtual_schedules_elements';
-		$db =& JFactory::getDBO();
+		$db =JFactory::getDBO();
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 		return $rows;

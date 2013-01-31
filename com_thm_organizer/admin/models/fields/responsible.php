@@ -83,24 +83,23 @@ class JFormFieldResponsible extends JFormField
 			}
 		}
 	
-		$query = "SELECT DISTINCT username as id, name as name
-		FROM #__users INNER JOIN #__user_usergroup_map ON #__users.id = user_id INNER JOIN #__usergroups ON group_id = #__usergroups.id WHERE";
-		$first = true;
 		if (is_array($usergroups))
 		{
-			foreach ($usergroups as $k => $v)
-			{
-				if ($first != true)
-				{
-					$query .= " OR";
-				}
-				$query .= " #__usergroups.id = " . (int) $v;
-				$first = false;
-			}
+			$query = $dbo->getQuery(true);
+			
+			$query->select("DISTINCT username as id, name as name");
+			$query->from('#__users');
+			$query->join('inner', '#__user_usergroup_map ON #__users.id = user_id INNER JOIN #__usergroups ON group_id = #__usergroups.id');
+			$query->where("#__usergroups.id IN('" . implode("', '", $usergroups) . "')");
+			$query->order('name');
+			$dbo->setQuery($query);
+			$resps = $dbo->loadObjectList();
 		}
-		$query .= " ORDER BY name";
-		$dbo->setQuery($query);
-		$resps = $dbo->loadObjectList();
+		else
+		{
+			$resps = array();
+		}
+
 	
 		return $resps;
 	}
