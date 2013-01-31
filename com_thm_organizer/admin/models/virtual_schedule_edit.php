@@ -1,6 +1,6 @@
 <?php
+
 /**
- * @version     v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin.model
@@ -11,16 +11,13 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
-defined('_JEXEC') or die('Restriced Access');
+defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
-
 /**
  * Class THM_OrganizerModelVirtual_Schedule_Edit for component com_thm_organizer
- *
  * Class provides methods to create and edit a virtual schedule
  *
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin.model
  * @link        www.mni.thm.de
@@ -28,6 +25,7 @@ jimport('joomla.application.component.modeladmin');
  */
 class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 {
+
 	/**
 	 * Constructor that calls the parent constructor
 	 *
@@ -42,17 +40,18 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 	/**
 	 * Method to retrieves the jform object for this view
 	 *
-	 * @param   Array  $data  	  An array with data 		 (Default: Array)
+	 * @param   Array  $data      An array with data (Default: Array)
 	 * @param   Array  $loadData  An array with data to load (Default: Array)
 	 *
-	 * @return	mixed	A JForm object on success, false on failure
+	 * @return	mixed  A JForm object on success, false on failure
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
-		$form = $this->loadForm('com_thm_organizer.virtual_schedule_edit', 'virtual_schedule_edit',
-				array('control' => 'jform', 'load_data' => $loadData)
-		);
+		$form = $this->loadForm('com_thm_organizer.virtual_schedule_edit',
+								'virtual_schedule_edit',
+								array('control' => 'jform', 'load_data' => $loadData)
+							   );
 		if (empty($form))
 		{
 			return false;
@@ -61,7 +60,6 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 		{
 			return $form;
 		}
-		 
 	}
 
 	/**
@@ -77,21 +75,17 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 		{
 			$data = $this->getItem();
 		}
-		else
-		{
-				
-		}
 		return $data;
 	}
 
 	/**
 	 * Method to get a single record.
 	 *
-	 * @param	Integer	 $pk  The id of the primary key.  (Default: null)
+	 * @param   Integer  $primaryKey  The id of the primary key. (Default: null)
 	 *
 	 * @return	mixed  Object on success, false on failure.
 	 */
-	public function getItem($pk = null)
+	public function getItem($primaryKey = null)
 	{
 		$cid = $this->getID();
 
@@ -119,16 +113,19 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 	/**
 	 * Method to get elements
 	 *
-	 * @param	Integer	 $id  The id of the virtual schedule.
+	 * @param   Integer  $vid  The id of the virtual schedule.
 	 *
 	 * @return	Array  An Array with elements
 	 */
-	private function getElements($id)
+	private function getElements($vid)
 	{
-		$query = 'SELECT eid FROM #__thm_organizer_virtual_schedules_elements WHERE #__thm_organizer_virtual_schedules_elements.vid = ' . $id;
-		$db =& JFactory::getDBO();
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
+		$dbo = JFactory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->select('eid');
+		$query->from('#__thm_organizer_virtual_schedules_elements');
+		$query->where("vid = '$vid'");
+		$dbo->setQuery((string) $query);
+		$rows = $dbo->loadObjectList();
 		$return = array();
 
 		if (!empty($rows))
@@ -174,13 +171,11 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
-	 * @param	String  $type	 The table type to instantiate  		(Default: 'virtual_schedules)
-	 * @param	String	$prefix  A prefix for the table class name. (Default: 'thm_organizerTable')
-	 * @param	Array	$config  Configuration array for model. 	(Default: Array)
+	 * @param   String  $type    The table type to instantiate (Default: 'virtual_schedules)
+	 * @param   String  $prefix  A prefix for the table class name. (Default: 'thm_organizerTable')
+	 * @param   Array   $config  Configuration array for model. (Default: Array)
 	 *
 	 * @return	JTable	A database object
-	 *
-	 * @since	v0.0.1
 	 */
 	public function getTable($type = 'virtual_schedules', $prefix = 'thm_organizerTable', $config = array())
 	{
@@ -209,21 +204,17 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 	 * Method to get the responsibles
 	 *
 	 * @return	Array	An Array of responsibles
-	 *
-	 * @since	v0.0.1
 	 */
 	public function getResponsibles()
 	{
-		$mainframe = JFactory::getApplication("administrator");
 		$dbo = JFactory::getDBO();
-		$usergroups = array();
-
-		$query = $dbo->getQuery(true);
-		$query->select('id');
-		$query->from('#__usergroups');
-		$dbo->setQuery((string) $query);
+		$groupQuery = $dbo->getQuery(true);
+		$groupQuery->select('id');
+		$groupQuery->from('#__usergroups');
+		$dbo->setQuery((string) $groupQuery);
 		$groups = $dbo->loadObjectList();
 
+		$usergroups = array();
 		foreach ($groups as $k => $v)
 		{
 			if (JAccess::checkGroup($v->id, 'core.login.admin') || $v->id == 8)
@@ -232,23 +223,14 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 			}
 		}
 
-		$query = "SELECT DISTINCT username as id, name as name
-		FROM #__users INNER JOIN #__user_usergroup_map ON #__users.id = user_id INNER JOIN #__usergroups ON group_id = #__usergroups.id WHERE";
-		$first = true;
-		if (is_array($usergroups))
-		{
-			foreach ($usergroups as $k => $v)
-			{
-				if ($first != true)
-				{
-					$query .= " OR";
-				}
-				$query .= " #__usergroups.id = " . (int) $v;
-				$first = false;
-			}
-		}
-		$query .= " ORDER BY name";
-		$dbo->setQuery($query);
+		$userQuery = $dbo->getQuery(true);
+		$userQuery->select('DISTINCT username as id, name as name');
+		$userQuery->from('#__users AS u');
+		$userQuery->join('#__user_usergroup_map AS ug ON u.id = ug.user_id');
+		$userQuery->join('#__usergroups AS g ON group_id = g.id');
+		$userQuery->where("ug.id IN ('" . implode("','", $usergroups) . "')");
+		$query->order('name');
+		$dbo->setQuery((string) $query);
 		$resps = $dbo->loadObjectList();
 
 		return $resps;
@@ -263,12 +245,12 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 	 */
 	public function getClasses()
 	{
-		$mainframe = JFactory::getApplication("administrator");
 		$dbo = JFactory::getDBO();
-		$query = "SELECT gpuntisID as id, CONCAT(major, ' ', semester) as name
-		FROM #__thm_organizer_classes
-		ORDER BY name";
-		$dbo->setQuery($query);
+		$query = $dbo->getQuery(true);
+		$query->select("gpuntisID as id, CONCAT(major, ' ', semester) as name");
+		$query->from('#__thm_organizer_classes');
+		$query->order('name');
+		$dbo->setQuery((string) $query);
 		$classes = $dbo->loadObjectList();
 		return $classes;
 	}
@@ -282,12 +264,12 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 	 */
 	public function getRooms()
 	{
-		$mainframe = JFactory::getApplication("administrator");
 		$dbo = JFactory::getDBO();
-		$query = "SELECT gpuntisID as id, alias as name
-		FROM #__thm_organizer_rooms
-		ORDER BY name";
-		$dbo->setQuery($query);
+		$query = $dbo->getQuery(true);
+		$query->select('gpuntisID as id, alias as name');
+		$query->from('#__thm_organizer_rooms');
+		$query->order('name');
+		$dbo->setQuery((string) $query);
 		$rooms = $dbo->loadObjectList();
 		return $rooms;
 	}
@@ -301,12 +283,12 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 	 */
 	public function getTeachers()
 	{
-		$mainframe = JFactory::getApplication("administrator");
 		$dbo = JFactory::getDBO();
-		$query = "SELECT gpuntisID as id, name
-		FROM #__thm_organizer_teachers
-		ORDER BY name";
-		$dbo->setQuery($query);
+		$query = $dbo->getQuery(true);
+		$query->select('gpuntisID as id, name');
+		$query->from('#__thm_organizer_teachers');
+		$query->order('name');
+		$dbo->setQuery((string) $query);
 		$teachers = $dbo->loadObjectList();
 		return $teachers;
 	}
@@ -320,12 +302,12 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 	 */
 	public function getSemesters()
 	{
-		$mainframe = JFactory::getApplication("administrator");
 		$dbo = JFactory::getDBO();
-		$query = "SELECT id, Concat(organization, '-', semesterDesc) as name
-		FROM #__thm_organizer_semesters
-		ORDER BY name";
-		$dbo->setQuery($query);
+		$query = $dbo->getQuery(true);
+		$query->select("id, Concat(organization, '-', semesterDesc) as name");
+		$query->from('#__thm_organizer_semesters');
+		$query->order('name');
+		$dbo->setQuery((string) $query);
 		$semesters = $dbo->loadObjectList();
 		return $semesters;
 	}
@@ -339,12 +321,12 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 	 */
 	public function getRoomDepartments()
 	{
-		$mainframe = JFactory::getApplication("administrator");
 		$dbo = JFactory::getDBO();
-		$query = "SELECT DISTINCT id, if (CHAR_LENGTH(description) = 0,category,CONCAT(category, ' (', description, ')')) as name
-		FROM #__thm_organizer_descriptions " .
-		"ORDER BY name";
-		$dbo->setQuery($query);
+		$query = $dbo->getQuery(true);
+		$query->select("DISTINCT id, if (CHAR_LENGTH(description) = 0,category,CONCAT(category, ' (', description, ')')) as name");
+		$query->from('#__thm_organizer_descriptions');
+		$query->order('name');
+		$dbo->setQuery((string) $query);
 		$departments = $dbo->loadObjectList();
 		return $departments;
 	}
@@ -358,15 +340,13 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 	 */
 	public function getTeacherDepartments()
 	{
-		$mainframe = JFactory::getApplication("administrator");
 		$dbo = JFactory::getDBO();
-		$query = "SELECT DISTINCT #__thm_organizer_departments.id, CONCAT(#__thm_organizer_departments.department,
-		'-', #__thm_organizer_departments.subdepartment) as name
-		FROM #__thm_organizer_teachers " .
-		"INNER JOIN #__thm_organizer_departments " .
-		"WHERE #__thm_organizer_teachers.departmentID = #__thm_organizer_departments.id
-		ORDER BY name";
-		$dbo->setQuery($query);
+		$query = $dbo->getQuery(true);
+		$query->select("DISTINCT d.id, CONCAT(d.department, '-', d.subdepartment) as name");
+		$query->from('#__thm_organizer_teachers AS t');
+		$query->join('#__thm_organizer_departments AS d ON t.departmentID = d.id');
+		$query->order('name');
+		$dbo->setQuery((string) $query);
 		$departments = $dbo->loadObjectList();
 		return $departments;
 	}
@@ -377,17 +357,15 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 	 * @param   String  $type  The deparment type
 	 *
 	 * @return	Array	An Array of departments
-	 *
-	 * @since	v0.0.1
 	 */
 	public function getDepartments($type)
 	{
-		$mainframe = JFactory::getApplication("administrator");
 		$dbo = JFactory::getDBO();
-		$query = "SELECT DISTINCT major as id, major as name
-		FROM #__thm_organizer_" . $type . "
-		ORDER BY major";
-		$dbo->setQuery($query);
+		$query = $dbo->getQuery(true);
+		$query->select('DISTINCT major as id, major as name');
+		$query->from("#__thm_organizer_$type");
+		$query->order('major');
+		$dbo->setQuery((string) $query);
 		$departments = $dbo->loadObjectList();
 		return $departments;
 	}
@@ -396,17 +374,15 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 	 * Method to get the room types
 	 *
 	 * @return	Array	An Array of room types
-	 *
-	 * @since	v0.0.1
 	 */
 	public function getRoomTypes()
 	{
-		$mainframe = JFactory::getApplication("administrator");
 		$dbo = JFactory::getDBO();
-		$query = "SELECT DISTINCT rtype as id, rtype as name
-		FROM #__thm_organizer_rooms
-		ORDER BY name";
-		$dbo->setQuery($query);
+		$query = $dbo->getQuery(true);
+		$query->select('DISTINCT rtype as id, rtype as name');
+		$query->from('#__thm_organizer_rooms');
+		$query->order('name');
+		$dbo->setQuery((string) $query);
 		$roomType = $dbo->loadObjectList();
 		return $roomType;
 	}
@@ -415,17 +391,15 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 	 * Method to get the class types
 	 *
 	 * @return	Array	An Array of class types
-	 *
-	 * @since	v0.0.1
 	 */
 	public function getClassTypes()
 	{
-		$mainframe = JFactory::getApplication("administrator");
 		$dbo = JFactory::getDBO();
-		$query = "SELECT DISTINCT semester as id, semester as name
-		FROM #__thm_organizer_classes
-		ORDER BY name";
-		$dbo->setQuery($query);
+		$query = $dbo->getQuery(true);
+		$query->select('DISTINCT semester as id, semester as name');
+		$query->from('#__thm_organizer_classes');
+		$query->order('name');
+		$dbo->setQuery((string) $query);
 		$classTypes = $dbo->loadObjectList();
 		return $classTypes;
 	}
@@ -433,22 +407,20 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 	/**
 	 * Method check if the give id exists
 	 *
-	 * @param   Integer  $id  Virtual schedule id
+	 * @param   Integer  $vid  Virtual schedule id
 	 * 
 	 * @return	Boolean	 True if the schedule exits, false otherwise
-	 * 
-	 * @since	v0.0.1
 	 */
-	public function idExists($id)
+	public function idExists($vid)
 	{
-		$mainframe = JFactory::getApplication("administrator");
 		$dbo = JFactory::getDBO();
-		$query = "SELECT count(vid) as id_anz
-		FROM #__thm_organizer_virtual_schedules
-		WHERE vid = '" . $id . "';";
-		$dbo->setQuery($query);
-		$id_anz = $dbo->loadObjectList();
-		if ($id_anz[0]->id_anz == "0")
+		$query = $dbo->getQuery(true);
+		$query->select('count(vid) as id_anz');
+		$query->from('#__thm_organizer_virtual_schedules');
+		$query->where("id = '$vid'");
+		$dbo->setQuery((string) $query);
+		$vid_anz = $dbo->loadObjectList();
+		if ($vid_anz[0]->id_anz == "0")
 		{
 			return false;
 		}
@@ -458,34 +430,24 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 	/**
 	 * Method to save a virtual schedule
 	 *
-	 * @param   Integer  $vscheduler_id  	      Id
-	 * @param   String   $vscheduler_vid 		  Virtual schedule id
-	 * @param   String   $vscheduler_name  		  Name
-	 * @param   Array    $vscheduler_types 	 	  Types
-	 * @param   Integer  $vscheduler_semid  	  Semester id
-	 * @param   Array    $vscheduler_resps  	  Responsibles
-	 * @param   Array    $vscheduler_Departments  Departments
-	 * @param   Array    $vscheduler_elements  	  Elements
+	 * @param   Integer  $vscheduler_id        Id
+	 * @param   String   $vscheduler_vid       Virtual schedule id
+	 * @param   String   $vscheduler_name      Name
+	 * @param   Array    $vscheduler_types     Types
+	 * @param   Integer  $vscheduler_semid     Semester id
+	 * @param   Array    $vscheduler_resps     Responsibles
+	 * @param   Array    $degrees              Departments
+	 * @param   Array    $vscheduler_elements  Elements
 	 *
 	 * @return	Boolean	 True if the schedule was successful saved, false otherwise
-	 *
-	 * @since	v0.0.1
 	 */
-	public function saveVirtualSchedule
-	(
-	 $vscheduler_id,
-	 $vscheduler_vid,
-	 $vscheduler_name,
-	 $vscheduler_types,
-	 $vscheduler_semid,
-	 $vscheduler_resps,
-	 $vscheduler_Departments,
-	 $vscheduler_elements)
+	public function saveVirtualSchedule($vscheduler_id, $vscheduler_vid,
+		$vscheduler_name, $vscheduler_types, $vscheduler_semid, $vscheduler_resps,
+		$degrees, $vscheduler_elements)
 	{
-		 
 		$table = JTable::getInstance('virtual_schedules', 'thm_organizerTable');
 		$tableElements = JTable::getInstance('virtual_schedules_elements', 'thm_organizerTable');
-			
+
 		if ($vscheduler_id === null || $vscheduler_id === 0 || empty($vscheduler_id))
 		{
 			$vscheduler_vid = "VS_" . $vscheduler_name;
@@ -496,7 +458,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 		$data["name"] = $vscheduler_name;
 		$data["type"] = $vscheduler_types;
 		$data["responsible"] = $vscheduler_resps;
-		$data["department"] = $vscheduler_Departments;
+		$data["department"] = $degrees;
 		$data["semesterID"] = $vscheduler_semid;
 
 		if ($vscheduler_id != 0 || $vscheduler_id != null)
@@ -512,7 +474,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 			$dataElements = array();
 			$dataElements["vid"] = $table->id;
 
-			foreach ($vscheduler_elements as $k => $v)
+			foreach ($vscheduler_elements as $v)
 			{
 				$tableElements = JTable::getInstance('virtual_schedules_elements', 'thm_organizerTable');
 				$dataElements["eid"] = $v;
@@ -533,25 +495,23 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 	/**
 	 * Method to delete elements for a given schedule id
 	 *
-	 * @param   Integer  $id  Id
+	 * @param   Integer  $vid  Id
 	 *
 	 * @return	Boolean	 True if the element was successful removed, false otherwise
-	 *
-	 * @since	v0.0.1
 	 */
-	private function deleteElements($id)
+	private function deleteElements($vid)
 	{
-		if (!is_int($id))
+		if (!is_int($vid))
 		{
 			return false;
 		}
-		$mainframe = JFactory::getApplication("administrator");
 		$dbo = JFactory::getDBO();
 
-		$query = 'DELETE FROM #__thm_organizer_virtual_schedules_elements'
-		. ' WHERE vid = ' . $id . ';';
-
-		$dbo->setQuery($query);
+		$query = $dbo->getQuery(true);
+		$query->delete();
+		$query->from('#__thm_organizer_virtual_schedules_elements');
+		$query->where("vid = '$vid'");
+		$dbo->setQuery((string) $query);
 		$dbo->query();
 		return true;
 	}
@@ -559,21 +519,19 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 	/**
 	 * Method to get the data by a given schedule id
 	 *
-	 * @param   Integer  $id  Id
+	 * @param   Integer  $vid  Id
 	 *
-	 * @return	mixed	 The schedule data or "0" if an error occurred
-	 *
-	 * @since	v0.0.1
+	 * @return	mixed  The schedule data or "0" if an error occurred
 	 */
-	public function getData($id)
+	public function getData($vid)
 	{
-		$mainframe = JFactory::getApplication("administrator");
 		$dbo = JFactory::getDBO();
-		$query = 'SELECT * FROM #__thm_organizer_virtual_schedules ' .
-				'INNER JOIN #__thm_organizer_virtual_schedules_elements ' .
-				'ON #__thm_organizer_virtual_schedules.vid = #__thm_organizer_virtual_schedules_elements.vid ' .
-				'WHERE #__thm_organizer_virtual_schedules.vid = "' . $id . '"';
-		$dbo->setQuery($query);
+		$query = $dbo->getQuery(true);
+		$query->select('*');
+		$query->from('#__thm_organizer_virtual_schedules AS vs');
+		$query->join('#__thm_organizer_virtual_schedules_elements AS vse ON vs.id = vse.vid');
+		$query->where("vs.id = '$vid'");
+		$dbo->setQuery((string) $query);
 		$dbo->query();
 		if ($dbo->getErrorNum())
 		{
