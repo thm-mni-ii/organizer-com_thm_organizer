@@ -95,7 +95,12 @@ class THM_OrganizerModelFillpool extends JModelAdmin
 	private function getLsfConfiguration($configId)
 	{
 		$this->db = &JFactory::getDBO();
-		$query = "SELECT * FROM #__thm_organizer_majors WHERE id = $configId;";
+				
+		$query = $this->db->getQuery(true);
+		$query->select('*');
+		$query->from("#__thm_organizer_majors");
+		$query->where("id = $configId");
+		
 		$this->db->setQuery($query);
 		$rows = $this->db->loadObjectList();
 		return $rows;
@@ -164,7 +169,12 @@ class THM_OrganizerModelFillpool extends JModelAdmin
 					{
 						$id = $modul->modulid;
 						$this->db = &JFactory::getDBO();
-						$query = "SELECT * FROM #__thm_organizer_assets WHERE lsf_course_id = $id;";
+						
+						$query = $this->db->getQuery(true);
+						$query->select('*');
+						$query->from("#__thm_organizer_assets");
+						$query->where("lsf_course_id = $id");
+						
 						$this->db->setQuery($query);
 						$rows = $this->db->loadObjectList();
 

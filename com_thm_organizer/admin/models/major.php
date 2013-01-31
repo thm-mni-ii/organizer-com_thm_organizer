@@ -70,8 +70,12 @@ class THM_OrganizerModelMajor extends JModelAdmin
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		// Select the first semester of the given major
-		$query = "SELECT * FROM #__thm_organizer_semesters_majors WHERE major_id = $pk AND semester_id = 1";
+		// Select the first semester of the given major	
+		$query->select('*');
+		$query->from("#__thm_organizer_semesters_majors");
+		$query->where("major_id = $pk");
+		$query->where("semester_id = 1");
+		
 		$db->setQuery($query);
 		$row = $db->loadObjectList();
 		$firstSemester = $row[0]->id;

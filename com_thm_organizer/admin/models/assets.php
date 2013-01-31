@@ -364,7 +364,10 @@ class THM_OrganizerModelAssets extends JModelList
 		$query = $db->getQuery(true);
 
 		// Determine the concerned database rows
-		$query = "DELETE FROM #__thm_organizer_lecturers_assets WHERE modul_id=" . $modulID . " AND lecturer_type=" . $lecturerType;
+		$query->from("#__thm_organizer_lecturers_assets");
+		$query->delete();
+		$query->where("modul_id=" . $modulID);
+		$query->where("lecturer_type=" . $lecturerType);
 		$db->setQuery($query);
 		$db->query();
 	}
@@ -572,16 +575,12 @@ class THM_OrganizerModelAssets extends JModelList
 	{
 		$db = &JFactory::getDBO();
 
-		$query = "SELECT * FROM #__thm_organizer_majors WHERE id IN(";
-
-		foreach ($majors as $major)
-		{
-			$query .= "$major, ";
-		}
-
-		$query = substr($query, 0, count($query) - 3);
-		$query .= ")";
-
+		$query = $db->getQuery(true);
+				
+		$query->select('*');
+		$query->from("#__thm_organizer_majors");
+		$query->where("id IN('" . implode("', '", $majors) . "')");	
+		
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 

@@ -492,12 +492,15 @@ class THM_OrganizerModelMapping extends JModelAdmin
 			$path = implode(self::get_path($row->asset));
 
 			// Write it to the database
-			$query = "UPDATE #__thm_organizer_assets_tree JOIN #__thm_organizer_assets_semesters ' .
-			'ON #__thm_organizer_assets_semesters.assets_tree_id = #__thm_organizer_assets_tree.id" .
-			" JOIN #__thm_organizer_semesters_majors ' .
-			'ON #__thm_organizer_semesters_majors.id = #__thm_organizer_assets_semesters.semesters_majors_id" .
-			" SET lineage = '$path', depth = $depth WHERE asset = $row->asset AND major_id = $stud_sem_id";
-
+			$query = $db->getQuery(true);
+			$query->update($db->qn('#__thm_organizer_assets_tree'));
+			$query->join("#__thm_organizer_assets_semesters ON #__thm_organizer_assets_semesters.assets_tree_id = #__thm_organizer_assets_tree.id");
+			$query->join("#__thm_organizer_semesters_majors ON #__thm_organizer_semesters_majors.id = #__thm_organizer_assets_semesters.semesters_majors_id");
+			$query->set("lineage = '$path'");
+			$query->set("depth = $depth");
+			$query->where("asset = $row->asset");
+			$query->where("major_id = $stud_sem_id");
+			
 			$db->setQuery($query);
 			$db->query();
 		}
@@ -562,13 +565,15 @@ class THM_OrganizerModelMapping extends JModelAdmin
 	{
 		// Get the post data
 		$cid = JRequest::getVar('cid', array(), '', 'array');
-
-		// Create the update sql statement
-		$query = "UPDATE `#__thm_organizer_assets_tree` SET `published` = '1' WHERE `id` =";
-
+		
 		// Iterate over each tree node, if multiple node were selected
 		foreach ($cid as $id)
 		{
+			// Create the update sql statement
+			$query = $this->_db->getQuery(true);
+			$query->update($this->_db->qn('#__thm_organizer_assets_tree'));
+			$query->set("published` = '1'");
+			$query->where("id = $id");
 			$this->_db->setQuery($query . $id);
 			if (!$this->_db->query())
 			{
@@ -588,12 +593,14 @@ class THM_OrganizerModelMapping extends JModelAdmin
 		// Get the post data
 		$cid = JRequest::getVar('cid', array(), '', 'array');
 
-		// Create the update sql statement
-		$query = "UPDATE `#__thm_organizer_assets_tree` SET `published` = '0' WHERE `id` =";
-
 		// Iterate over each tree node, if multiple node were selected
 		foreach ($cid as $id)
 		{
+			// Create the update sql statement
+			$query = $this->_db->getQuery(true);
+			$query->update($this->_db->qn('#__thm_organizer_assets_tree'));
+			$query->set("published` = '0'");
+			$query->where("id = $id");
 			$this->_db->setQuery($query . $id);
 			if (!$this->_db->query())
 			{
