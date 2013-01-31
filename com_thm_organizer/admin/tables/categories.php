@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.1.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -11,18 +10,15 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
 jimport('joomla.application.component.table');
-
 /**
  * Class representing the categories table. 
  * 
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v0.1.0
  */
 class THM_OrganizerTableCategories extends JTable
 {

@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.1.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -8,22 +7,20 @@
  * @description assets_tree table class
  * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
 jimport('joomla.application.component.table');
-
 /**
  * Class representing the assets_tree table. 
  * 
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v0.1.0
  */
 class THM_OrganizerTableAssets_Tree extends JTable
 {
@@ -48,7 +45,7 @@ class THM_OrganizerTableAssets_Tree extends JTable
     public function move($delta, $where = '')
     {
         // Get the major id
-        $major_id = $_SESSION['stud_id'];
+        $majorID = $_SESSION['stud_id'];
 
         // If there is no ordering field set an error and return false
         if (!property_exists($this, 'ordering'))
@@ -65,16 +62,9 @@ class THM_OrganizerTableAssets_Tree extends JTable
         }
 
         // Initialise variables
-        $key		= $this->_tbl_key;
-        $row	= null;
-        $query	= $this->_db->getQuery(true);
-
-        // Select the primary key and ordering values from the table
-        $query->select('assets_tree.' . $this->_tbl_key . ' , ordering');
-        $query->from(' #__thm_organizer_assets_tree as assets_tree');
-        $query->join('inner', '#__thm_organizer_assets_semesters as assets_semesters ON assets_semesters.assets_tree_id = assets_tree.id');
-        $query->join('inner', '#__thm_organizer_semesters_assets_tree as semesters_assets_tree ON assets_semesters.semesters_assets_tree_id = semesters_assets_tree.id');
-        $query->where("semesters_assets_tree.major_id =" . $major_id);
+        $key = $this->_tbl_key;
+        $query = $this->_db->getQuery(true);
+		$this->prepQuery($query, $majorID);
 
         // If the movement delta is negative move the row up
         if ($delta < 0)
@@ -105,11 +95,11 @@ class THM_OrganizerTableAssets_Tree extends JTable
         if (!empty($row))
         {
             // Update the ordering field for this instance to the row's ordering value
-            $query = $this->_db->getQuery(true);
-            $query->update($this->_tbl);
-            $query->set('ordering = ' . (int) $row->ordering);
-            $query->where($this->_tbl_key . ' = ' . $this->_db->quote($this->$key));
-            $this->_db->setQuery($query);
+            $updateQuery = $this->_db->getQuery(true);
+            $updateQuery->update($this->_tbl);
+            $updateQuery->set('ordering = ' . (int) $row->ordering);
+            $updateQuery->where($this->_tbl_key . ' = ' . $this->_db->quote($this->$key));
+            $this->_db->setQuery($updateQuery);
 
             // Check for a database error
             if (!$this->_db->query())
@@ -168,13 +158,10 @@ class THM_OrganizerTableAssets_Tree extends JTable
      *                          compact the ordering values.
      *
      * @return  mixed   Boolean true on success.
-     *
-     * @link    http://docs.joomla.org/JTable/reorder
-     * @since   11.1
      */
     public function reorder($where = '')
     {
-        $major_id = $_SESSION['stud_id'];
+        $majorID = $_SESSION['stud_id'];
 
         // If there is no ordering field set an error and return false.
         if (!property_exists($this, 'ordering'))
@@ -189,13 +176,7 @@ class THM_OrganizerTableAssets_Tree extends JTable
 
         // Get the primary keys and ordering values for the selection.
         $query = $this->_db->getQuery(true);
-
-        // Select the primary key and ordering values from the table.
-        $query->select('assets_tree.' . $this->_tbl_key . ', ordering');
-        $query->from(' #__thm_organizer_assets_tree as assets_tree');
-        $query->join('inner', '#__thm_organizer_assets_semesters as assets_semesters ON assets_semesters.assets_tree_id = assets_tree.id');
-        $query->join('inner', '#__thm_organizer_semesters_assets_tree as semesters_assets_tree ON assets_semesters.semesters_assets_tree_id = semesters_assets_tree.id');
-        $query->where("semesters_assets_tree.major_id =" . $major_id);
+		$this->prepQuery($query, $majorID);
         $query->where('ordering >= 0');
         $query->where('depth != "NULL"');
         $query->order('ordering');
@@ -206,8 +187,7 @@ class THM_OrganizerTableAssets_Tree extends JTable
             $query->where($where);
         }
 
-        echo $query;
-        $this->_db->setQuery($query);
+        $this->_db->setQuery((string) $query);
         $rows = $this->_db->loadObjectList();
 
         // Check for a database error
@@ -255,4 +235,22 @@ class THM_OrganizerTableAssets_Tree extends JTable
         }
         return true;
     }
+
+	/**
+	 * Set common query clauses
+	 * 
+	 * @param   object  &$query   the jdatabasequery object to be set
+	 * @param   int     $majorID  the id of the student major
+	 * 
+	 * @return  void
+	 */
+	private function prepQuery(&$query, $majorID)
+	{
+        // Select the primary key and ordering values from the table.
+        $query->select('assets_tree.' . $this->_tbl_key . ', ordering');
+        $query->from(' #__thm_organizer_assets_tree as a_t');
+        $query->join('#__thm_organizer_assets_semesters AS a_s ON a_s.assets_tree_id = a_t.id');
+        $query->join('#__thm_organizer_semesters_assets_tree AS s_a_t ON a_s.semesters_assets_tree_id = s_a_t.id');
+        $query->where("s_a_t.major_id =" . $majorID);
+	}
 }

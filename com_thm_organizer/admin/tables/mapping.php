@@ -1,38 +1,35 @@
 <?php
 /**
- * @version     v0.1.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @name        THM_OrganizerTableMapping
  * @description mapping table class
  * @author      Markus Baier, <markus.baier@mni.thm.de>
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  **/
-
-defined('_JEXEC') or die('Restricted access');
-
+defined('_JEXEC') or die;
 /**
  * Class representing the mapping table.
  *
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v0.1.0
  */
 class THM_OrganizerTableMapping extends JTable
 {
 	/**
 	 * Constructor function for the class representing the mapping table
 	 *
-	 * @param   JDatabase  &$db  A database connector object
+	 * @param   JDatabase  &$dbo  A database connector object
 	 */
-	public function __construct(&$db)
+	public function __construct(&$dbo)
 	{
-		parent::__construct('#__thm_organizer_assets_tree', 'id', $db);
+		parent::__construct('#__thm_organizer_assets_tree', 'id', $dbo);
 	}
 	
 	/**
@@ -51,8 +48,8 @@ class THM_OrganizerTableMapping extends JTable
 		// If there is no ordering field set an error and return false.
 		if (!property_exists($this, 'ordering'))
 		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_CLASS_DOES_NOT_SUPPORT_ORDERING', get_class($this)));
-			$this->setError($e);
+			$error = new JException(JText::sprintf('JLIB_DATABASE_ERROR_CLASS_DOES_NOT_SUPPORT_ORDERING', get_class($this)));
+			$this->setError($error);
 			return false;
 		}
 	
@@ -63,8 +60,6 @@ class THM_OrganizerTableMapping extends JTable
 		}
 	
 		// Initialise variables.
-		$k		= $this->_tbl_key;
-		$row	= null;
 		$query	= $this->_db->getQuery(true);
 	
 		// Select the primary key and ordering values from the table.
@@ -108,14 +103,14 @@ class THM_OrganizerTableMapping extends JTable
 			$query = $this->_db->getQuery(true);
 			$query->update($this->_tbl);
 			$query->set('ordering = ' . (int) $row->ordering);
-			$query->where($this->_tbl_key . ' = ' . $this->_db->quote($this->$k));
+			$query->where($this->_tbl_key . ' = ' . $this->_db->quote($this->{$this->_tbl_key}));
 			$this->_db->setQuery($query);
 			
 			// Check for a database error.
 			if (!$this->_db->query())
 			{
-				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
-				$this->setError($e);
+				$error = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
+				$this->setError($error);
 	
 				return false;
 			}
@@ -124,14 +119,14 @@ class THM_OrganizerTableMapping extends JTable
 			$query = $this->_db->getQuery(true);
 			$query->update($this->_tbl);
 			$query->set('ordering = ' . (int) $this->ordering);
-			$query->where($this->_tbl_key . ' = ' . $this->_db->quote($row->$k));
+			$query->where($this->_tbl_key . ' = ' . $this->_db->quote($row->{$this->_tbl_key}));
 			$this->_db->setQuery($query);
 				
 			// Check for a database error.
 			if (!$this->_db->query())
 			{
-				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
-				$this->setError($e);
+				$error = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
+				$this->setError($error);
 	
 				return false;
 			}
@@ -145,30 +140,20 @@ class THM_OrganizerTableMapping extends JTable
 			$query = $this->_db->getQuery(true);
 			$query->update($this->_tbl);
 			$query->set('ordering = ' . (int) $this->ordering);
-			$query->where($this->_tbl_key . ' = ' . $this->_db->quote($this->$k));
+			$query->where($this->_tbl_key . ' = ' . $this->_db->quote($this->{$this->_tbl_key}));
 			$this->_db->setQuery($query);
 	
 			// Check for a database error.
 			if (!$this->_db->query())
 			{
-				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
-				$this->setError($e);
+				$error = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
+				$this->setError($error);
 	
 				return false;
 			}
 		}
 	
 		return true;
-	}
-	
-	/**
-	 * Method doing nothing
-	 * 
-	 * @return  void
-	 */
-	public function reordering()
-	{
-		
 	}
 	
 	/**
@@ -190,13 +175,10 @@ class THM_OrganizerTableMapping extends JTable
 		// If there is no ordering field set an error and return false.
 		if (!property_exists($this, 'ordering'))
 		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_CLASS_DOES_NOT_SUPPORT_ORDERING', get_class($this)));
-			$this->setError($e);
+			$error = new JException(JText::sprintf('JLIB_DATABASE_ERROR_CLASS_DOES_NOT_SUPPORT_ORDERING', get_class($this)));
+			$this->setError($error);
 			return false;
 		}
-	
-		// Initialise variables.
-		$k = $this->_tbl_key;
 	
 		// Get the primary keys and ordering values for the selection.
 		$query = $this->_db->getQuery(true);
@@ -224,8 +206,8 @@ class THM_OrganizerTableMapping extends JTable
 		// Check for a database error.
 		if ($this->_db->getErrorNum())
 		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_REORDER_FAILED', get_class($this), $this->_db->getErrorMsg()));
-			$this->setError($e);
+			$error = new JException(JText::sprintf('JLIB_DATABASE_ERROR_REORDER_FAILED', get_class($this), $this->_db->getErrorMsg()));
+			$this->setError($error);
 	
 			return false;
 		}
@@ -243,7 +225,7 @@ class THM_OrganizerTableMapping extends JTable
 					$query = $this->_db->getQuery(true);
 					$query->update($this->_tbl);
 					$query->set('ordering = ' . ($i + 1));
-					$query->where($this->_tbl_key . ' = ' . $this->_db->quote($row->$k));
+					$query->where($this->_tbl_key . ' = ' . $this->_db->quote($row->{$this->_tbl_key}));
 					$this->_db->setQuery($query);
 						
 		
@@ -251,12 +233,12 @@ class THM_OrganizerTableMapping extends JTable
 					// Check for a database error.
 					if (!$this->_db->query())
 					{
-						$e = new JException(
+						$error = new JException(
 						JText::sprintf(
 									'JLIB_DATABASE_ERROR_REORDER_UPDATE_ROW_FAILED', get_class($this), $i, $this->_db->getErrorMsg()
 						)
 						);
-						$this->setError($e);
+						$this->setError($error);
 	
 						return false;
 					}
