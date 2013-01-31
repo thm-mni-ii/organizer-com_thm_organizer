@@ -59,10 +59,7 @@ class THM_OrganizerViewdetails extends JView
 		{
 			$this->modul = $model->getModuleByNrMni(JRequest::getString('nrmni'));
 		}
-		else
-		{
-
-		}
+		
 		array_push($dozentenLinks, $verantw . $verantwLabel);
 		$lecturer = $modelGroups->buildLecturerLink(JRequest::getString('id'), JRequest::getVar('lang'));
 
@@ -113,8 +110,6 @@ class THM_OrganizerViewdetails extends JView
 			$this->modulVorraussetzung = "";
 		}
 		
-		
-
 		parent::display($tpl);
 	}
 
@@ -174,7 +169,7 @@ class THM_OrganizerViewdetails extends JView
 	{
 		if (isset($id))
 		{
-			$this->db = &JFactory::getDBO();
+			$this->db = JFactory::getDBO();
 
 			// Build the sql statement
 			$query = $this->db->getQuery(true);

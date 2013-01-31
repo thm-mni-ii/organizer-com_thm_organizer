@@ -94,7 +94,7 @@ class THM_OrganizerModelFillpool extends JModelAdmin
 	 */
 	private function getLsfConfiguration($configId)
 	{
-		$this->db = &JFactory::getDBO();
+		$this->db = JFactory::getDBO();
 				
 		$query = $this->db->getQuery(true);
 		$query->select('*');
@@ -115,7 +115,7 @@ class THM_OrganizerModelFillpool extends JModelAdmin
 	 */
 	private function getSemesters($parent)
 	{
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		// Get the current selected major-id
 		$majorId = $_SESSION['stud_id'];
@@ -145,7 +145,7 @@ class THM_OrganizerModelFillpool extends JModelAdmin
 	public function save($data)
 	{
 		$globParams = JComponentHelper::getParams('com_thm_organizer');
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$config = self::getLsfConfiguration($data["soap_query"]);
 		$model = new THM_OrganizerModelMapping;
 		$parent = $data['parent_id'];
@@ -168,7 +168,7 @@ class THM_OrganizerModelFillpool extends JModelAdmin
 					foreach ($gruppe->modulliste->modul as $modul)
 					{
 						$id = $modul->modulid;
-						$this->db = &JFactory::getDBO();
+						$this->db = JFactory::getDBO();
 						
 						$query = $this->db->getQuery(true);
 						$query->select('*');

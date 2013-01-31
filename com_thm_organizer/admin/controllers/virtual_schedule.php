@@ -60,7 +60,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JController
 	 */
 	public function remove()
 	{
-		$dbo = & JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 		$cid = JRequest::getVar('cid',   array(), 'post', 'array');
 		$cids = implode(',', $cid);
 		$cids_temp = $cids;

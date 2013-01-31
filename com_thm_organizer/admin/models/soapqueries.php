@@ -58,7 +58,7 @@ class THM_OrganizerModelSoapqueries extends JModelList
 	 */
 	public function __construct()
 	{
-		$this->db = &JFactory::getDBO();
+		$this->db = JFactory::getDBO();
 		parent::__construct();
 	}
 

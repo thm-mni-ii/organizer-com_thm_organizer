@@ -48,7 +48,7 @@ class THM_OrganizerModelCurriculum extends JModelList
 	 */
 	public function __construct()
 	{
-		$this->db = &JFactory::getDBO();
+		$this->db = JFactory::getDBO();
 
 		parent::__construct();
 	}

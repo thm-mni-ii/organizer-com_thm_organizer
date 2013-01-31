@@ -23,7 +23,7 @@ class dataexport
 	
 	function getEventCategories($username)
 	{
-		$dbo =& JFactory::getDBO();
+		$dbo =JFactory::getDBO();
 		$query = "SELECT gid
 				  FROM #__users
 				  WHERE username = '$username'";
@@ -42,7 +42,7 @@ class dataexport
 	
 	function getEvents($username, $categoryid = null)
 	{
-		$dbo =& JFactory::getDBO();
+		$dbo =JFactory::getDBO();
 		$query = "SELECT gid
 				  FROM #__users
 				  WHERE username = '$username'";
@@ -74,7 +74,7 @@ class dataexport
 	
 	function getResourceTypes($username)
 	{
-		$dbo =& JFactory::getDBO();
+		$dbo =JFactory::getDBO();
 		$query = "SELECT gid
 				  FROM #__users
 				  WHERE username = '$username'";
@@ -91,7 +91,7 @@ class dataexport
 	
 	function getFachsemesters()
 	{
-		$dbo =& JFactory::getDBO();
+		$dbo =JFactory::getDBO();
 		$query = "SELECT sid, CONCAT(orgunit, '/', semester) AS fachsemester
 				  FROM #__thm_organizer_semesters";
 		$dbo->setQuery($query);
@@ -101,7 +101,7 @@ class dataexport
 	function getResourcePlan($username, $resourcename, $fachsemester)
 	{
 		if($resourcename == null || $fachsemester == null) return array('error' => 'fehlende Angaben');
-		$dbo =& JFactory::getDBO();
+		$dbo =JFactory::getDBO();
 		$query = "SELECT gid
 				  FROM #__users
 				  WHERE username = '$username'";
@@ -239,7 +239,7 @@ class dataexport
 	
 	function periodtotime($day, $sid, $period)
 	{
-		$dbo =& JFactory::getDBO();
+		$dbo =JFactory::getDBO();
 		$query = "SELECT *
 				  FROM #__thm_organizer_timeperiods
 				  WHERE day = '$day'

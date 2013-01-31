@@ -150,7 +150,7 @@ class THM_OrganizerModelAssets extends JModelList
 	 */
 	public function insertCourse($data)
 	{
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 
 		// Prepare the local data
@@ -300,7 +300,7 @@ class THM_OrganizerModelAssets extends JModelList
 	 */
 	public function insertCourseLecturer($data)
 	{
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 
 		// Prepare the data
@@ -332,7 +332,7 @@ class THM_OrganizerModelAssets extends JModelList
 	 */
 	public function updateCourseLecturer($data)
 	{
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 
 		// Prepare the data
@@ -386,7 +386,7 @@ class THM_OrganizerModelAssets extends JModelList
 	 */
 	public function insertLecturer($data)
 	{
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 
 		// Prepare the data
@@ -573,7 +573,7 @@ class THM_OrganizerModelAssets extends JModelList
 	 */
 	public function getSoapQueries($majors)
 	{
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = $db->getQuery(true);
 				
@@ -601,7 +601,7 @@ class THM_OrganizerModelAssets extends JModelList
 		$lsf_query_parameters = self::getSoapQueries($majors);
 
 		$globParams = JComponentHelper::getParams('com_thm_organizer');
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 		set_time_limit(300);
 
 		foreach ($lsf_query_parameters as $lsf_query_parameter)
