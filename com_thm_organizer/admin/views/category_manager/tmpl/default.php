@@ -1,6 +1,5 @@
 <?php
-/** 
- * @version     v0.1.0
+/**
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -10,10 +9,10 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
 $orderby = $this->escape($this->state->get('list.ordering'));
-$direction = $this->escape($this->state->get('list.direction'));?>
+$direction = $this->escape($this->state->get('list.direction'));
+?>
 <form action="index.php?option=com_thm_organizer" method="post" name="adminForm">
     <fieldset id="filter-bar">
         <div class="filter-select fltrt">

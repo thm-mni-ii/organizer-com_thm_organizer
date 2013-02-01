@@ -1,27 +1,22 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerViewDegrees
  * @description THM_OrganizerViewDegrees component admin view
- * @author	    Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
-
 jimport('joomla.application.component.view');
-
 /**
  * Class THM_OrganizerViewDegrees for component com_thm_organizer
- *
  * Class provides methods to display the view degrees
  *
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_curriculum
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
@@ -38,6 +33,8 @@ class THM_OrganizerViewDegrees extends JView
 	 */
 	public function display($tpl = null)
 	{
+		JHtml::_('behavior.tooltip');
+
 		$items = $this->get('Items');
 		$pagination = $this->get('Pagination');
 

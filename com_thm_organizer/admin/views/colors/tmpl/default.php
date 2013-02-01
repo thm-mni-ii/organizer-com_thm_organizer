@@ -11,17 +11,11 @@
  * @license     GNU GPL v.2
  * @link		www.mni.thm.de
  */
-
-// No direct access to this file
 defined('_JEXEC') or die;
-
-// Load tooltip behavior
-JHtml::_('behavior.tooltip');
 ?>
-
-<form
-	action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=colors'); ?>"
-	method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=colors'); ?>"
+      method="post"
+      name="adminForm">
 	<table class="adminlist">
 		<thead>
 			<?php echo $this->loadTemplate('head'); ?>
