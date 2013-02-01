@@ -12,7 +12,7 @@
  * @link		www.mni.thm.de
  */
 
-require_once 'lib/nusoap.php';
+require_once 'lib/nusoap/nusoap.php';
 
 /**
  * Class LsfClient for component com_thm_organizer
