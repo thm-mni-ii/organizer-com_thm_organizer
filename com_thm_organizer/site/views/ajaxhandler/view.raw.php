@@ -20,7 +20,7 @@ jimport('joomla.application.component.view');
  * HTML View class for the Giessen Scheduler Component
  *
  * @category  Joomla.Component.Site
- * @package   thm_oganizer
+ * @package   thm_organizer
  * @since     v0.0.1
  */
 
