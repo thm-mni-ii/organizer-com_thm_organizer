@@ -104,14 +104,14 @@ class ScheduleChanges
 	 */
 	public function __construct($JDA, $CFG)
 	{
-		$this->jsid              = $JDA->getRequest("jsid");
-		$this->sid               = $JDA->getRequest("sid");
-		$this->semesterID 		 = $JDA->getRequest("semesterID");
-		$this->id                = $JDA->getRequest("id");
-		$this->cfg               = $CFG->getCFG();
-		$this->JDA = $JDA;
-		$this->json = file_get_contents("php://input");
-		$this->auth = new Auth($this->JDA, $this->cfg);
+		$this->_jsid              = $JDA->getRequest("jsid");
+		$this->_sid               = $JDA->getRequest("sid");
+		$this->_semesterID 		 = $JDA->getRequest("semesterID");
+		$this->_id                = $JDA->getRequest("id");
+		$this->_cfg               = $CFG->getCFG();
+		$this->_JDA = $JDA;
+		$this->_json = file_get_contents("php://input");
+		$this->_auth = new Auth($this->_JDA, $this->_cfg);
 	}
 
 	/**
@@ -121,26 +121,26 @@ class ScheduleChanges
 	 */
 	public function save()
 	{
-		if ($this->jsid && $this->auth->checkSession($this->sid))
+		if ($this->_jsid && $this->_auth->checkSession($this->_sid))
 		{
-			$res = $this->JDA->query("SELECT username FROM " . $this->cfg['jdb_table_session'] . " WHERE session_id ='" . $this->jsid . "'");
+			$res = $this->_JDA->query("SELECT username FROM " . $this->_cfg['jdb_table_session'] . " WHERE session_id ='" . $this->_jsid . "'");
 			if (count($res) == 1)
 			{
 				$data     = $res[0];
 				$username = $data->username;
 
-				$res               = $this->JDA->query("SELECT username as author, organization, semesterDesc FROM #__thm_organizer_semesters " .
-									 	"INNER JOIN ON #__users manager = #__users.id WHERE #__thm_organizer_semesters.id = " . $this->semesterID
+				$res               = $this->_JDA->query("SELECT username as author, organization, semesterDesc FROM #__thm_organizer_semesters " .
+									 	"INNER JOIN ON #__users manager = #__users.id WHERE #__thm_organizer_semesters.id = " . $this->_semesterID
 									 );
 				$ret               = $res[0];
-				$author            = $ret->author;
-				$this->semesterID = $ret->orgunit . "-" . $ret->semester;
+				$author            = $ret->_author;
+				$this->_semesterID = $ret->orgunit . "-" . $ret->semester;
 				$counter           = 1;
 
 				/**
 				 * This loop works similar to CSMA
 				 **/
-				$ret = $this->updateChangeLog($this->cfg['db_table'], $username, $author);
+				$ret = $this->updateChangeLog($this->_cfg['db_table'], $username, $author);
 				while ($ret["code"] != 1)
 				{
 					if ($ret["code"] == 0)
@@ -155,7 +155,7 @@ class ScheduleChanges
 					{
 						sleep(rand($counter, $counter * 2));
 						$counter++;
-						$ret = $this->updateChangeLog($this->cfg['db_table'], $username, $author);
+						$ret = $this->updateChangeLog($this->_cfg['db_table'], $username, $author);
 					}
 				}
 				return array("success" => true,"data" => array(
@@ -195,16 +195,16 @@ class ScheduleChanges
 	private function updateChangeLog($db_table, $username, $author)
 	{
 		$timestamp = time();
-		$res = $this->JDA->query("UPDATE " . $db_table . " SET checked_out = '" . date("Y-m-d H:i:s", $timestamp) .
-					"' WHERE username = '$this->semesterID' AND checked_out IS NULL"
+		$res = $this->_JDA->query("UPDATE " . $db_table . " SET checked_out = '" . date("Y-m-d H:i:s", $timestamp) .
+					"' WHERE username = '$this->_semesterID' AND checked_out IS NULL"
 			   );
 
-		if ($this->JDA->getDBO()->getAffectedRows() == 1)
+		if ($this->_JDA->getDBO()->getAffectedRows() == 1)
 		{
 			// Datenspalte gesperrt und bereit zum mergen
-			$changearr = json_decode($this->json);
+			$changearr = json_decode($this->_json);
 
-			$res      = $this->JDA->query("SELECT data FROM " . $db_table . " WHERE username='$this->semesterID'");
+			$res      = $this->_JDA->query("SELECT data FROM " . $db_table . " WHERE username='$this->_semesterID'");
 			$dbarr    = json_decode($res[0]->data);
 			$newdbarr = $dbarr;
 
@@ -216,7 +216,7 @@ class ScheduleChanges
 			{
 				foreach ($dbarr as $index => $dbitem)
 				{
-					if ((($dbitem->owner == $username || $author == $username) && $dbitem->responsible == $this->id) || $this->id == "respChanges")
+					if ((($dbitem->owner == $username || $author == $username) && $dbitem->responsible == $this->_id) || $this->_id == "respChanges")
 					{
 						$found = false;
 						foreach ($changearr as $changeitem)
@@ -275,10 +275,10 @@ class ScheduleChanges
 				}
 			}
 
-			$this->json = $this->array_encode_json($newdbarr);
-			$this->json = $this->JDA->getDBO()->getEscaped($this->json);
-			$res  = $this->JDA->query("UPDATE " . $db_table . " SET data = '$this->json', checked_out = NULL, created = '$timestamp' " .
-						"WHERE username = '$this->semesterID' AND checked_out IS NOT NULL"
+			$this->_json = $this->array_encode_json($newdbarr);
+			$this->_json = $this->_JDA->getDBO()->getEscaped($this->_json);
+			$res  = $this->_JDA->query("UPDATE " . $db_table . " SET data = '$this->_json', checked_out = NULL, created = '$timestamp' " .
+						"WHERE username = '$this->_semesterID' AND checked_out IS NOT NULL"
 					);
 			return array(
 				 'code' => 1,
@@ -287,11 +287,11 @@ class ScheduleChanges
 		}
 		else
 		{
-			$this->json = $this->JDA->getDBO()->getEscaped($this->json);
-			$res  = $this->JDA->query("INSERT INTO " . $db_table . " (username, data, created, checked_out) " .
-						"VALUES ('$this->semesterID', '$this->json', '$timestamp', NULL)"
+			$this->_json = $this->_JDA->getDBO()->getEscaped($this->_json);
+			$res  = $this->_JDA->query("INSERT INTO " . $db_table . " (username, data, created, checked_out) " .
+						"VALUES ('$this->_semesterID', '$this->_json', '$timestamp', NULL)"
 					);
-			if ($this->JDA->getDBO()->getAffectedRows() == -1)
+			if ($this->_JDA->getDBO()->getAffectedRows() == -1)
 			{
 				// Spalte gerade gesperrt
 				return array(
@@ -331,28 +331,6 @@ class ScheduleChanges
 						$retstring = $retstring . ",";
 					}
 					$tempstring = "{";
-					foreach ($arritem as $k => $v)
-					{
-/*						if ($tempstring == "{")
-						{
-							if (is_string($v))
-							{
-								$tempstring = $tempstring . "\"" . $k . "\":\"" . str_replace("\"", "\\\"", $v) . "\"";
-							}
-						}
-						else
-						{
-							$tempstring = $tempstring . "\"" . $k . "\":" . str_replace("\"", "\\\"", $v) . "";
-						}
-						elseif (is_string($v))
-						{
-							$tempstring = $tempstring . ",\"" . $k . "\":\"" . str_replace("\"", "\\\"", $v) . "\"";
-						}
-						else
-						{
-							$tempstring = $tempstring . ",\"" . $k . "\":" . str_replace("\"", "\\\"", $v) . "";
-						}*/
-					}
 					$retstring = $retstring . $tempstring . "}";
 				}
 				$retstring = $retstring . "]";

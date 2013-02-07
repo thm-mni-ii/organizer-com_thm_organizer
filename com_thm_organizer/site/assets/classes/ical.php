@@ -57,8 +57,8 @@ class ICALBauer extends abstrakterBauer
 	 */
 	public function __construct($JDA, $cfg)
 	{
-		$this->JDA = $JDA;
-		$this->cfg = $cfg;
+		$this->_JDA = $JDA;
+		$this->_cfg = $cfg;
 	}
 
 	/**
@@ -102,8 +102,8 @@ class ICALBauer extends abstrakterBauer
 		$t->setComponent($ts);
 		$v->setComponent($t);
 
-		$query = "SELECT startdate, enddate, starttime, endtime FROM #__thm_organizer_events WHERE categoryid = " . $this->cfg['vacation_id'];
-		$res   = $this->JDA->query($query);
+		$query = "SELECT startdate, enddate, starttime, endtime FROM #__thm_organizer_events WHERE categoryid = " . $this->_cfg['vacation_id'];
+		$res   = $this->_JDA->query($query);
 
 		if (is_array($res))
 		{
@@ -231,7 +231,7 @@ class ICALBauer extends abstrakterBauer
 			$v = $this->setEvent($v, $arr, $semesterstart, $semesterend, $res);
 		}
 
-		$v->saveCalendar($this->cfg['pdf_downloadFolder'], $title . '.ics');
+		$v->saveCalendar($this->_cfg['pdf_downloadFolder'], $title . '.ics');
 		$resparr['url'] = "false";
 		return array("success" => true,"data" => $resparr);
 	}
@@ -375,13 +375,13 @@ class ICALBauer extends abstrakterBauer
 					$e->setProperty("DESCRIPTION", $desc);
 
 					// Doesnt work in Thunderbird and Outlook 2003
-					foreach ($vacations as $vacationKey => $vacationValue)
+					foreach ($vacations as $vacationValue)
 					{
 						$vacationStart = DateTime::createFromFormat("Y-m-d", $vacationValue->startdate);
 						$vacationEnd = DateTime::createFromFormat("Y-m-d", $vacationValue->enddate);
 						$interval = $vacationStart->diff($vacationEnd);
 						$diffDays = (int) $interval->format('%d');
-						$vacationArray = array();
+						
 						while ($diffDays != 0)
 						{
 							$e->setProperty("EXDATE", array(
@@ -538,7 +538,7 @@ class ICALBauer extends abstrakterBauer
 
 		$query = "SELECT name as oname FROM " . $table . " WHERE gpuntisID ='" . $resourcename . "'";
 
-		$hits  = $this->JDA->query($query);
+		$hits  = $this->_JDA->query($query);
 
 		return $hits;
 	}

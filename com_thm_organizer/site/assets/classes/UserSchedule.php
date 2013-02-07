@@ -95,27 +95,27 @@ class UserSchedule
 	 */
 	public function __construct($JDA, $CFG, $options = array())
 	{
-		$this->JDA = $JDA;
-		$this->jsid = $this->JDA->getUserSessionID();
-		$this->json = $this->JDA->getDBO()->getEscaped(file_get_contents("php://input"));
+		$this->_JDA = $JDA;
+		$this->_jsid = $this->_JDA->getUserSessionID();
+		$this->_json = $this->_JDA->getDBO()->getEscaped(file_get_contents("php://input"));
 		
 		if (isset($options["username"]))
 		{
-			$this->username = $options["username"];
+			$this->_username = $options["username"];
 		}
 		else
 		{
-			$this->username = $this->JDA->getUserName();
+			$this->_username = $this->_JDA->getUserName();
 		}
 
-		$this->cfg = $CFG->getCFG();
+		$this->_cfg = $CFG->getCFG();
 		if (isset($options["semesterID"]))
 		{
-			$this->semID = $options["semesterID"];
+			$this->_semID = $options["semesterID"];
 		}
 		else
 		{
-			$this->semID = $this->JDA->getRequest("semesterID");
+			$this->_semID = $this->_JDA->getRequest("semesterID");
 		}
 	}
 
@@ -131,24 +131,36 @@ class UserSchedule
 		{
 			if ($_SERVER['HTTP_X_REQUESTED_WITH'] != 'XMLHttpRequest')
 			{
-				die(JText::_("COM_THM_ORGANIZER_SCHEDULER_PERMISSION_DENIED"));
+				echo JText::_("COM_THM_ORGANIZER_SCHEDULER_PERMISSION_DENIED");
+				return array("success" => false,"data" => array(
+							'code' => 2,
+							'errors' => array(
+									'reason' => JText::_("COM_THM_ORGANIZER_SCHEDULER_PERMISSION_DENIED")
+							)
+					));
 			}
 		}
 		else
 		{
-			die(JText::_("COM_THM_ORGANIZER_SCHEDULER_PERMISSION_DENIED"));
+			echo JText::_("COM_THM_ORGANIZER_SCHEDULER_PERMISSION_DENIED");
+			return array("success" => false,"data" => array(
+							'code' => 2,
+							'errors' => array(
+									'reason' => JText::_("COM_THM_ORGANIZER_SCHEDULER_PERMISSION_DENIED")
+							)
+					));
 		}
 
-		if (isset($this->jsid))
+		if (isset($this->_jsid))
 		{
-			if ($this->username != null && $this->username != "")
+			if ($this->_username != null && $this->_username != "")
 			{
 				$timestamp = time();
 
 				// Alte Eintraege loeschen - Performanter als abfragen und Updaten
-				@$this->JDA->query("DELETE FROM " . $this->cfg['db_table'] . " WHERE username='$this->username'");
-				$result = $this->JDA->query("INSERT INTO " . $this->cfg['db_table'] . " (username, data, created)
-						VALUES ('$this->username', '$this->json', '$timestamp')"
+				@$this->_JDA->query("DELETE FROM " . $this->_cfg['db_table'] . " WHERE username='$this->_username'");
+				$result = $this->_JDA->query("INSERT INTO " . $this->_cfg['db_table'] . " (username, data, created)
+						VALUES ('$this->_username', '$this->_json', '$timestamp')"
 				);
 				
 				if ($result === true)
@@ -201,9 +213,9 @@ class UserSchedule
 	 */
 	public function load()
 	{
-		if (isset($this->username))
+		if (isset($this->_username))
 		{
-			$data = $this->JDA->query("SELECT data FROM " . $this->cfg['db_table'] . " WHERE username='" . $this->username . "'");
+			$data = $this->_JDA->query("SELECT data FROM " . $this->_cfg['db_table'] . " WHERE username='" . $this->_username . "'");
 
 			if (is_array($data))
 			{

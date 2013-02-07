@@ -11,7 +11,7 @@
     <creationDate>01/01/2013</creationDate>
     <copyright>TH Mittelhessen 2011</copyright>
     <licence>GNU GPL v.2</licence>
-    <version>0.1.11</version>
+    <version>0.1.12</version>
     <description>COM_THM_ORGANIZER_DESCRIPTION</description>
     <scriptfile>script.php</scriptfile>
     <install>
@@ -133,5 +133,11 @@
             <language tag="de-DE">language/de-DE/de-DE.com_thm_organizer.sys.ini</language>
         </languages>
     </administration>
+    
+    <dependencies>
+        <dependency before=true>
+            lib_extjs4
+        </dependency>
+    </dependencies>
 </extension>
 

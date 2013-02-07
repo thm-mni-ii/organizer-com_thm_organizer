@@ -50,103 +50,103 @@ class MySchedConfig
 		$settings = $JDA->getSettings();
 
 		// Daten fuer WebService API von eStudy
-		$this->cfg['estudyPath'] = $settings->eStudyPath;
-		$this->cfg['estudyWsapiPath'] = $this->cfg['estudyPath'] . $settings->eStudywsapiPath;
-		$this->cfg['estudyCreateCoursePath'] = $this->cfg['estudyPath'] . $settings->eStudyCreateCoursePath;
-		$this->cfg['soapSchema'] = $settings->eStudySoapSchema;
+		$this->_cfg['estudyPath'] = $settings->eStudyPath;
+		$this->_cfg['estudyWsapiPath'] = $this->_cfg['estudyPath'] . $settings->eStudywsapiPath;
+		$this->_cfg['estudyCreateCoursePath'] = $this->_cfg['estudyPath'] . $settings->eStudyCreateCoursePath;
+		$this->_cfg['soapSchema'] = $settings->eStudySoapSchema;
 
 		// Schaltet die Authentifizierung in einen Testmodus
 		// der alle Kombinationen akzeptiert
-		$this->cfg['AUTH_TEST_MODE'] = false;
+		$this->_cfg['AUTH_TEST_MODE'] = false;
 
 		// HTTPS bei Authentifizierung erzwingen?
-		$this->cfg['REQUIRE_HTTPS'] = false;
+		$this->_cfg['REQUIRE_HTTPS'] = false;
 
 		// Die XML Datei mit den Stundenplandaten
-		$this->cfg['xml_scheduleFile'] = B . '/mySched/schedule_full.xml';
+		$this->_cfg['xml_scheduleFile'] = B . '/mySched/schedule_full.xml';
 
 		// Hier werden die PDF Dateien gespeichert (Muss nicht im Webroot liegen!)
-		$this->cfg['pdf_downloadFolder'] = $JDA->getDownloadFolder();
+		$this->_cfg['pdf_downloadFolder'] = $JDA->getDownloadFolder();
 
 		// Die ID der Ferien/Feiertage Kategorie
-		$this->cfg['vacation_id'] = $settings->vacationcat;
+		$this->_cfg['vacation_id'] = $settings->vacationcat;
 
 		// LSF adress
-		$this->cfg['lsf_adress'] = "http://www-test.mni.fh-giessen.de:8080/axis2/services/dbinterface?wsdl";
+		$this->_cfg['lsf_adress'] = "http://www-test.mni.fh-giessen.de:8080/axis2/services/dbinterface?wsdl";
 
 		/* Wenn $cfg['sync_files'] = 1 dann wird beim ICal Download dem Benutzer
 		 * in Link zu der ICal Datei ausgegeben.
 		* Die ICal Datei wird auf dem Server gespeichert in einem Ordner
 		* Ordnername: (Benutzer hgNummer) + (Benutzer Anmeldedatum)
 		*/
-		$this->cfg['sync_files'] = 0;
+		$this->_cfg['sync_files'] = 0;
 
 		/*
 		 * AUTH/LDAP - CONFIG
 		*/
-		$this->cfg['ldap_server'] = 'ldap.fh-giessen.de';
-		$this->cfg['ldap_base'] = 'DC=fh-giessen-friedberg,DC=de';
-		$this->cfg['ldap_filter'] = '(& (uid=%s)(objectclass=posixaccount)  (| (ou=MNI)(ou=KMUB) ) )';
-		$this->cfg['ldap_protocol'] = 3;
-		$this->cfg['ldap_useSSH'] = true;
+		$this->_cfg['ldap_server'] = 'ldap.fh-giessen.de';
+		$this->_cfg['ldap_base'] = 'DC=fh-giessen-friedberg,DC=de';
+		$this->_cfg['ldap_filter'] = '(& (uid=%s)(objectclass=posixaccount)  (| (ou=MNI)(ou=KMUB) ) )';
+		$this->_cfg['ldap_protocol'] = 3;
+		$this->_cfg['ldap_useSSH'] = true;
 
 		/*
 		 * DATABASE - CONFIG
 		*/
 		// Adresse des Servers auf dem die Datenbankl&iuml;&iquest;&frac12;uft
-		$this->cfg['db_host'] = 'localhost';
+		$this->_cfg['db_host'] = 'localhost';
 
 		// Port unter dem die Datenbank erreichbar ist
-		$this->cfg['db_port'] = '3306';
+		$this->_cfg['db_port'] = '3306';
 
 		// Benutzername der Zugriff auf die Datenbank hat
-		$this->cfg['db_user'] = 'root';
+		$this->_cfg['db_user'] = 'root';
 
 		// Passwort f&iuml;&iquest;&frac12;r den Benutzer
-		$this->cfg['db_pass'] = '';
+		$this->_cfg['db_pass'] = '';
 
 		// Datenbank die von Joomla benutzt wird
-		$this->cfg['db_database'] = 'joomla';
+		$this->_cfg['db_database'] = 'joomla';
 
 		// Tabelle in der die pers&iuml;&iquest;&frac12;nlichen Stundenpl&iuml;&iquest;&frac12;ne der Benutzer gespeichert werden
-		$this->cfg['db_table'] = '#__thm_organizer_user_schedules';
+		$this->_cfg['db_table'] = '#__thm_organizer_user_schedules';
 
 		// Tabelle in der die hochgeladenen Stundenpl&iuml;&iquest;&frac12;ne (XML Datei) gespeichert werden
-		$this->cfg['db_scheduletable'] = '#__thm_organizer_schedules';
+		$this->_cfg['db_scheduletable'] = '#__thm_organizer_schedules';
 
 		/*
 		 * JOOMLA DATABASE - CONFIG
 		*/
 		// Adresse des Servers auf dem die Datenbank l&iuml;&iquest;&frac12;uft
-		$this->cfg['jdb_host'] = 'localhost';
+		$this->_cfg['jdb_host'] = 'localhost';
 
 		// Port unter dem die Datenbank erreichbar ist
-		$this->cfg['jdb_port'] = '3306';
+		$this->_cfg['jdb_port'] = '3306';
 
 		// Benutzername der Zugriff auf die Datenban hat
-		$this->cfg['jdb_user'] = 'root';
+		$this->_cfg['jdb_user'] = 'root';
 
 		// Passwort f&iuml;&iquest;&frac12;r den Benutzer
-		$this->cfg['jdb_pass'] = '';
+		$this->_cfg['jdb_pass'] = '';
 
 		// Datenbank die von Joomla benutzt wird
-		$this->cfg['jdb_database'] = 'joomla';
+		$this->_cfg['jdb_database'] = 'joomla';
 
 		// Tabelle in der Joomla die einzelnen Sessions abspeichert
-		$this->cfg['jdb_table_session'] = '#__session';
+		$this->_cfg['jdb_table_session'] = '#__session';
 
 		// Tabelle in der alle angemeldeten Joomla Benutzer gespeichert sind
-		$this->cfg['jdb_table_user'] = '#__users';
+		$this->_cfg['jdb_table_user'] = '#__users';
 
 		// Tabelle in der die Einzel Termine gespeichert sind
-		$this->cfg['jdb_table_events'] = '#__thm_organizer_events';
+		$this->_cfg['jdb_table_events'] = '#__thm_organizer_events';
 
 		// Tabelel in der die Kategorien gespeichert sind.
-		$this->cfg['jdb_table_event_cat'] = '#__eventlist_categories';
-		$this->cfg['jdb_table_event_objects'] = '#__thm_organizer_eventobjects';
-		$this->cfg['jdb_table_objects'] = '#__thm_organizer_objects';
-		$this->cfg['jdb_table_categories'] = '#__thm_organizer_categories';
-		$this->cfg['jdb_table_semester'] = '#__thm_organizer_semesters';
+		$this->_cfg['jdb_table_event_cat'] = '#__eventlist_categories';
+		$this->_cfg['jdb_table_event_objects'] = '#__thm_organizer_eventobjects';
+		$this->_cfg['jdb_table_objects'] = '#__thm_organizer_objects';
+		$this->_cfg['jdb_table_categories'] = '#__thm_organizer_categories';
+		$this->_cfg['jdb_table_semester'] = '#__thm_organizer_semesters';
 
 	}
 
@@ -159,7 +159,7 @@ class MySchedConfig
 	 */
 	public function getCFGElement($s)
 	{
-		return $this->cfg[$s];
+		return $this->_cfg[$s];
 	}
 
 	/**
@@ -169,7 +169,7 @@ class MySchedConfig
 	 */
 	public function getCFG()
 	{
-		return $this->cfg;
+		return $this->_cfg;
 	}
 
 	/**
@@ -180,7 +180,7 @@ class MySchedConfig
 	public function getEstudyPath()
 	{
 
-		return $this->cfg['estudyPath'];
+		return $this->_cfg['estudyPath'];
 	}
 
 	/**
@@ -190,7 +190,7 @@ class MySchedConfig
 	 */
 	public function getEstudyWsapiPath()
 	{
-		return $this->cfg['estudyWsapiPath'];
+		return $this->_cfg['estudyWsapiPath'];
 	}
 
 	/**
@@ -200,7 +200,7 @@ class MySchedConfig
 	 */
 	public function getEstudyCreateCoursePath()
 	{
-		return $this->cfg['estudyCreateCoursePath'];
+		return $this->_cfg['estudyCreateCoursePath'];
 	}
 
 	/**
@@ -210,6 +210,6 @@ class MySchedConfig
 	 */
 	public function getSoapSchema()
 	{
-		return $this->cfg['soapSchema'];
+		return $this->_cfg['soapSchema'];
 	}
 }

@@ -54,8 +54,8 @@ class Auth
 	 */
 	public function __construct($JDA, $cfg)
 	{
-		$this->JDA = $JDA;
-		$this->cfg = $cfg;
+		$this->_JDA = $JDA;
+		$this->_cfg = $cfg;
 	}
 
 	/**
@@ -70,8 +70,8 @@ class Auth
 	public function ldap( $username, $passwd, $addRights = null )
 	{
 		$ldap = new LdapAuth(
-					$this->cfg['ldap_server'], $this->cfg['ldap_base'],
-					$this->cfg['ldap_filter'], $this->cfg['ldap_protocol'], $this->cfg['ldap_useSSH']
+					$this->_cfg['ldap_server'], $this->_cfg['ldap_base'],
+					$this->_cfg['ldap_filter'], $this->_cfg['ldap_protocol'], $this->_cfg['ldap_useSSH']
 				);
 		if ($user = $ldap->authenticateUser($username, $passwd))
 		{
@@ -146,7 +146,7 @@ class Auth
 		$addRights               = array( );
 		$_SESSION[ 'joomlaSid' ] = $token;
 
-		$userrolearr = $this->JDA->getUserRoles();
+		$userrolearr = $this->_JDA->getUserRoles();
 		foreach ($userrolearr as $k => $v)
 		{
 			$userrole = $k;
@@ -156,7 +156,7 @@ class Auth
 		// ALLES OK
 		return array(
 				'success' => true,
-				'username' => $this->JDA->getUserName(),
+				'username' => $this->_JDA->getUserName(),
 				'role' => strtolower($userrole), // User, registered, author, editor, publisher
 				'additional_rights' => $addRights // 'doz' => array( 'knei', 'igle' ), ...
 		);

@@ -80,11 +80,11 @@ class User
 	 */
 	public function __construct($JDA, $CFG)
 	{
-		$this->JDA = $JDA;
-		$this->username = $this->JDA->getRequest("username");
-		$this->token    = $this->JDA->getRequest("token");
-		$this->passwd   = $this->JDA->getRequest("passwd");
-		$this->cfg = $CFG->getCFG();
+		$this->_JDA = $JDA;
+		$this->_username = $this->_JDA->getRequest("username");
+		$this->_token    = $this->_JDA->getRequest("token");
+		$this->_passwd   = $this->_JDA->getRequest("passwd");
+		$this->_cfg = $CFG->getCFG();
 	}
 
 	/**
@@ -94,9 +94,9 @@ class User
 	 */
 	public function auth()
 	{
-		if (isset($this->cfg['AUTH_TEST_MODE']))
+		if (isset($this->_cfg['AUTH_TEST_MODE']))
 		{
-			if ($this->cfg['AUTH_TEST_MODE'])
+			if ($this->_cfg['AUTH_TEST_MODE'])
 			{
 				// HgNummer des Users - Ist die Id zum speichern des Stundenplans
 				// Jede weitere Verarbeitung wird abgebrochen
@@ -115,7 +115,7 @@ class User
 
 				// ALLES OK
 				return array("success" => true, "data" => array(
-						'username' => $this->username,
+						'username' => $this->_username,
 						'role' => $role, // User, registered, author, editor, publisher
 						'additional_rights' => $addRights // 'doz' => array('knei', 'igle'), ...
 				));
@@ -123,9 +123,9 @@ class User
 		}
 
 		// Nur Anfragen ueber HTTPS werden zugelassen -
-		if (isset($this->cfg['REQUIRE_HTTPS']))
+		if (isset($this->_cfg['REQUIRE_HTTPS']))
 		{
-			if ($this->cfg['REQUIRE_HTTPS'] && !strstr(strtolower($_SERVER['SERVER_PROTOCOL']), 'https'))
+			if ($this->_cfg['REQUIRE_HTTPS'] && !strstr(strtolower($_SERVER['SERVER_PROTOCOL']), 'https'))
 			{
 				return array("success" => true, "data" => array(
 						'error' => "Schwerer Fehler: Keine Verschl&Atilde;&frac14;sselte Verbindung vorhanden!"
@@ -134,23 +134,23 @@ class User
 		}
 
 		// Nur Token Verifikation - Token ist die SessionId von Joomla und wird mit der DB verglichen
-		if ($this->token)
+		if ($this->_token)
 		{
 			/*
 			* Ueberpruefung ob Token korrekt sind
 			*/
-			$auth = new Auth($this->JDA, $this->cfg);
-			return array("data" => $auth->joomla($this->token));
+			$auth = new Auth($this->_JDA, $this->_cfg);
+			return array("data" => $auth->joomla($this->_token));
 
 			// Hier werden die Logindaten des Users gecheckt
 		}
-		elseif ($this->username && $this->passwd)
+		elseif ($this->_username && $this->_passwd)
 		{
 			/*
 			* Ueberpruefung ob Angaben korrekt sind
 			*/
-			$auth = new Auth($this->JDA, $this->cfg);
-			return array("data" => $auth->ldap($this->username, $this->passwd));
+			$auth = new Auth($this->_JDA, $this->_cfg);
+			return array("data" => $auth->ldap($this->_username, $this->_passwd));
 		}
 
 	}

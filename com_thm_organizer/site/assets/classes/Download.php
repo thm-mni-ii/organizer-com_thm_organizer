@@ -86,12 +86,12 @@ class Download
 	 */
 	public function __construct($JDA, $CFG)
 	{
-		$this->username = $JDA->getRequest("username");
-		$this->title    = $JDA->getRequest("title");
-		$this->what     = $JDA->getRequest("what");
-		$this->save     = $JDA->getRequest("save");
-		$this->cfg      = $CFG->getCFG();
-		$this->doc		= $JDA->getDoc();
+		$this->_username = $JDA->getRequest("username");
+		$this->_title    = $JDA->getRequest("title");
+		$this->_what     = $JDA->getRequest("what");
+		$this->_save     = $JDA->getRequest("save");
+		$this->_cfg      = $CFG->getCFG();
+		$this->_doc		= $JDA->getDoc();
 	}
 
 	/**
@@ -101,62 +101,65 @@ class Download
 	 */
 	public function schedule()
 	{
-		if (isset( $this->username ) && isset( $this->title ) && isset( $this->what ) &&isset( $this->save ) )
+		if (isset( $this->_username ) && isset( $this->_title ) && isset( $this->_what ) &&isset( $this->_save ) )
 		{
 			$path  = "/";
-			$this->title = urldecode($this->title);
+			$this->_title = urldecode($this->_title);
 
-			if ($this->title == JText::_("COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE") && $this->username != "undefined")
+			if ($this->_title == JText::_("COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE") && $this->_username != "undefined")
 			{
-				$this->title = $this->username . " - " . $this->title;
+				$this->_title = $this->_username . " - " . $this->_title;
 			}
 
-			$tmpFile = $this->cfg[ 'pdf_downloadFolder' ] . $path . 'stundenplan.' . $this->what;
-			$file    = $this->cfg[ 'pdf_downloadFolder' ] . $path . $this->title . '.' . $this->what;
+			$tmpFile = $this->_cfg[ 'pdf_downloadFolder' ] . $path . 'stundenplan.' . $this->_what;
+			$file    = $this->_cfg[ 'pdf_downloadFolder' ] . $path . $this->_title . '.' . $this->_what;
 
-			if (empty($this->title) || $this->title == 'undefined')
+			if (empty($this->_title) || $this->_title == 'undefined')
 			{
 				if (!file_exists($tmpFile))
 				{
-					die( JText::_('COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_NO_FILE') );
+					echo JText::_('COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_NO_FILE');
 				}
 				else
 				{
 					$file  = $tmpFile;
-					$this->title = 'stundenplan';
+					$this->_title = 'stundenplan';
 				}
 			}
 
 			if (!file_exists($file))
 			{
-				die( JText::_('COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_NO_FILE') );
-			}
-
-			if ($this->save == "true")
-			{
-				@copy($file, $this->cfg['pdf_downloadFolder'] . $path . $this->username . '.' . $this->what);
-			}
-			elseif ($this->what == "pdf")
-			{
-				$this->doc->setMimeEncoding('application/pdf');
-			}
-			elseif ($this->what == "xls")
-			{
-				$this->doc->setMimeEncoding('application/vnd.ms-excel');
+				echo JText::_('COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_NO_FILE');
 			}
 			else
 			{
-				// Ics
-				$this->doc->setMimeEncoding('text/calendar');
+
+				if ($this->_save == "true")
+				{
+					@copy($file, $this->_cfg['pdf_downloadFolder'] . $path . $this->_username . '.' . $this->_what);
+				}
+				elseif ($this->_what == "pdf")
+				{
+					$this->_doc->setMimeEncoding('application/pdf');
+				}
+				elseif ($this->_what == "xls")
+				{
+					$this->_doc->setMimeEncoding('application/vnd.ms-excel');
+				}
+				else
+				{
+					// Ics
+					$this->_doc->setMimeEncoding('text/calendar');
+				}
+				header("Content-Length: " . filesize($file));
+				header("Content-Disposition: attachment; filename=\"" . $this->_title . "." . $this->_what . "\"");
+	
+				// Datei senden
+				@readfile($file);
+	
+				// Datei loeschen
+				@unlink($file);
 			}
-			header("Content-Length: " . filesize($file));
-			header("Content-Disposition: attachment; filename=\"" . $this->title . "." . $this->what . "\"");
-
-			// Datei senden
-			@readfile($file);
-
-			// Datei loeschen
-			@unlink($file);
 		}
 	}
 }

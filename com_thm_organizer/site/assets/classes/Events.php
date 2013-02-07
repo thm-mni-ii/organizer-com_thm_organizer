@@ -70,10 +70,10 @@ class Events
     public function __construct($JDA, $CFG)
     {
         // Require_once JPATH_COMPONENT . "/views/scheduler/tmpl/wsapi/class.mySchedImport.php";
-        $this->JDA = $JDA;
-        $this->CFG = $CFG;
-        $this->cfg = $CFG->getCFG();
-        $this->jsid = $JDA->getUserSessionID();
+        $this->_JDA = $JDA;
+        $this->_CFG = $CFG;
+        $this->_cfg = $CFG->getCFG();
+        $this->_jsid = $JDA->getUserSessionID();
     }
 
     /**
@@ -124,16 +124,16 @@ class Events
             }
         }
 
-        $username = $this->JDA->getUserName();
+        $username = $this->_JDA->getUserName();
 
-        $pregres = preg_match("/[^[:alnum:]]/", $this->jsid);
+        $pregres = preg_match("/[^[:alnum:]]/", $this->_jsid);
 
         // && false weil es erstmal rausgenommen wurde
-        if ($pregres == 0 && strlen($this->jsid) > 0 && $username != "" && false)
+        if ($pregres == 0 && strlen($this->_jsid) > 0 && $username != "" && false)
         {
             try
             {
-                $SI           = new mySchedImport($username, $this->jsid, $this->CFG);
+                $SI           = new mySchedImport($username, $this->_jsid, $this->_CFG);
                 $estudycalres = $SI->getCalendar();
 
                 if ($estudycalres != null)

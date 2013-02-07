@@ -121,8 +121,8 @@ class TreeView
 	 */
 	public function __construct($JDA, $CFG, $options = array())
 	{
-		$this->JDA = $JDA;
-		$this->cfg = $CFG->getCFG();
+		$this->_JDA = $JDA;
+		$this->_cfg = $CFG->getCFG();
 		
 		$menuid = JRequest::getInt("menuID", 0);
 		
@@ -141,7 +141,7 @@ class TreeView
 				
 		if (isset($options["path"]))
 		{
-			$this->checked = (array) $options["path"];
+			$this->_checked = (array) $options["path"];
 		}
 		else
 		{
@@ -149,17 +149,17 @@ class TreeView
 			$treeIDsData = json_decode($treeIDs);
 			if ($treeIDsData != null)
 			{
-				$this->checked = (array) $treeIDsData;
+				$this->_checked = (array) $treeIDsData;
 			}
 			else
 			{
-				$this->checked = (array) json_decode($menuparams->get("id"));
+				$this->_checked = (array) json_decode($menuparams->get("id"));
 			}
 		}
 		
 		if (isset($options["publicDefault"]))
 		{
-			$this->publicDefault = (array) $options["publicDefault"];
+			$this->_publicDefault = (array) $options["publicDefault"];
 		}
 		else
 		{
@@ -167,21 +167,21 @@ class TreeView
 			$publicDefaultID = json_decode($publicDefaultID);
 			if ($publicDefaultID != null)
 			{
-				$this->publicDefault = (array) $publicDefaultID;
+				$this->_publicDefault = (array) $publicDefaultID;
 			}
 			else
 			{
-				$this->publicDefault = (array) json_decode($menuparams->get("publicDefaultID"));
+				$this->_publicDefault = (array) json_decode($menuparams->get("publicDefaultID"));
 			}
 		}
 						
 		if (isset($options["hide"]))
 		{
-			$this->hideCheckBox = $options["hide"];
+			$this->_hideCheckBox = $options["hide"];
 		}
 		else
 		{
-			$this->hideCheckBox = false;
+			$this->_hideCheckBox = false;
 		}
 				
 		$departmentSemesterSelection = JRequest::getString('departmentSemesterSelection');
@@ -237,17 +237,17 @@ class TreeView
 		$publicDefault = null;
 		$treeNode = null;
 	
-		if ($this->hideCheckBox == true)
+		if ($this->_hideCheckBox == true)
 		{
 			$checked = null;
 		}
 		else
 		{
-			if ($this->checked != null)
+			if ($this->_checked != null)
 			{					
-				if (isset($this->checked[$id]))
+				if (isset($this->_checked[$id]))
 				{
-					$checked = $this->checked[$id];
+					$checked = $this->_checked[$id];
 				}
 				else
 				{
@@ -262,9 +262,9 @@ class TreeView
 
 		$expanded = false;
 
-		if ($this->publicDefault != null)
+		if ($this->_publicDefault != null)
 		{
-			$publicDefaultArray = $this->publicDefault;
+			$publicDefaultArray = $this->_publicDefault;
 			$firstValue = each($publicDefaultArray);
 
 			if (strpos($firstValue["key"], $id) === 0)
@@ -273,9 +273,9 @@ class TreeView
 			}
 			if ($leaf === true)
 			{
-				if (isset($this->publicDefault[$id]))
+				if (isset($this->_publicDefault[$id]))
 				{
-					$publicDefault = $this->publicDefault[$id];
+					$publicDefault = $this->_publicDefault[$id];
 				}
 				else
 				{
@@ -288,7 +288,7 @@ class TreeView
 			$publicDefault = "notdefault";
 		}
 
-		if ($this->hideCheckBox == true)
+		if ($this->_hideCheckBox == true)
 		{
 			if ($this->nodeStatus($id))
 			{
@@ -308,7 +308,7 @@ class TreeView
 						$nodeKey,
 						$expanded
 				);
-				$this->inTree[] = $gpuntisID;
+				$this->_inTree[] = $gpuntisID;
 			}
 		}
 		else
@@ -335,11 +335,11 @@ class TreeView
 		{
 			if ($treeNode != null)
 			{
-				$this->publicDefaultNode = $treeNode;
+				$this->_publicDefaultNode = $treeNode;
 			}
 			else
 			{
-				$this->publicDefaultNode = new TreeNode(
+				$this->_publicDefaultNode = new TreeNode(
 						$id,
 						$text,
 						$iconCls,
@@ -374,9 +374,9 @@ class TreeView
 	 */
 	private function nodeStatus($id)
 	{
-		if (isset($this->checked[$id]))
+		if (isset($this->_checked[$id]))
 		{
-			if ($this->checked[$id] === "checked" || $this->checked[$id] === "intermediate")
+			if ($this->_checked[$id] === "checked" || $this->_checked[$id] === "intermediate")
 			{
 				return true;
 			}
@@ -387,7 +387,7 @@ class TreeView
 		}
 		else
 		{
-			foreach ($this->checked as $checkedKey => $checkedValue)
+			foreach ($this->_checked as $checkedKey => $checkedValue)
 			{
 				if (strpos($id, $checkedKey) !== false)
 				{
@@ -409,7 +409,6 @@ class TreeView
 	public function load()
 	{
 		$semesterJahrNode = array();
-		$semesterarray = array();
 
 		$activeSchedule = $this->getActiveSchedule();
 		
@@ -427,13 +426,13 @@ class TreeView
 				$activeScheduleSubjects = $activeScheduleData->subjects;
 				$activeScheduleTeachers = $activeScheduleData->teachers;
 				$activeScheduleModules = $activeScheduleData->modules;
-				$this->treeData["module"] = $activeScheduleModules;
-				$this->treeData["room"] = $activeScheduleRooms;
-				$this->treeData["teacher"] = $activeScheduleTeachers;
-				$this->treeData["subject"] = $activeScheduleSubjects;
-				$this->treeData["roomtype"] = $activeScheduleData->roomtypes;
-				$this->treeData["degree"] = $activeScheduleData->degrees;
-				$this->treeData["field"] = $activeScheduleData->fields;
+				$this->_treeData["module"] = $activeScheduleModules;
+				$this->_treeData["room"] = $activeScheduleRooms;
+				$this->_treeData["teacher"] = $activeScheduleTeachers;
+				$this->_treeData["subject"] = $activeScheduleSubjects;
+				$this->_treeData["roomtype"] = $activeScheduleData->roomtypes;
+				$this->_treeData["degree"] = $activeScheduleData->degrees;
+				$this->_treeData["field"] = $activeScheduleData->fields;
 			}
 			else
 			{
@@ -481,13 +480,13 @@ class TreeView
 
 		$this->expandSingleNode($semesterJahrNode);
 
-		if (!isset($this->publicDefaultNode))
+		if (!isset($this->_publicDefaultNode))
 		{
-			$this->publicDefaultNode = null;
+			$this->_publicDefaultNode = null;
 		}
 						
-		return array("success" => true,"data" => array("tree" => $semesterJahrNode, "treeData" => $this->treeData,
-				"treePublicDefault" => $this->publicDefaultNode)
+		return array("success" => true,"data" => array("tree" => $semesterJahrNode, "treeData" => $this->_treeData,
+				"treePublicDefault" => $this->_publicDefaultNode)
 		);
 	}
 
@@ -558,7 +557,7 @@ class TreeView
 		$data = array();
 		$descriptions = array();
 
-		$data = $this->treeData[$scheduleType];
+		$data = $this->_treeData[$scheduleType];
 
 		foreach ($data as $item)
 		{
@@ -724,7 +723,7 @@ class TreeView
 				}
 
 				// Überprüfung ob der Plan Veranstaltungen hat				
-				if ($this->hideCheckBox == false)
+				if ($this->_hideCheckBox == false)
 				{
 					$hasLessons = true;	
 				}
@@ -804,7 +803,7 @@ class TreeView
 			return;
 		}
 
-		foreach ($arr as $k => $v)
+		foreach ($arr as $v)
 		{
 			if (!isset($v->children))
 			{
@@ -851,7 +850,7 @@ class TreeView
 		$query->where('active = 1');
 		$dbo->setQuery($query);
 		
-		if ($error = $dbo->getErrorMsg())
+		if ($dbo->getErrorMsg())
 		{
 			return false;
 		}
@@ -888,7 +887,7 @@ class TreeView
 		ON vs.id = vse.vid
 		WHERE type = '" . $type . "' AND vs.semesterID = " . $semesterID;
 
-		$res     = $this->JDA->query($vsquery);
+		$res     = $this->_JDA->query($vsquery);
 
 		return $res;
 	}
@@ -917,7 +916,7 @@ class TreeView
 			$query .= "FROM #__thm_organizer_teachers ";
 		}
 		$query .= "WHERE gpuntisID = '" . $gpuntisID . "'";
-		$ret   = $this->JDA->query($query);
+		$ret   = $this->_JDA->query($query);
 
 		return $ret;
 	}
@@ -932,11 +931,11 @@ class TreeView
 	 */
 	private function treeNodeHasLessons($id, $type)
 	{
-		foreach ($this->_activeScheduleData->calendar as $calendarKey => $calendarValue)
+		foreach ($this->_activeScheduleData->calendar as $calendarValue)
 		{
 			if (is_object($calendarValue))
 			{
-				foreach ($calendarValue as $blockKey => $blockValue)
+				foreach ($calendarValue as $blockValue)
 				{
 					foreach ($blockValue as $lessonKey => $lessonValue)
 					{
