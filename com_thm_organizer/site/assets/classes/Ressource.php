@@ -416,9 +416,7 @@ class Ressource
 	/**
 	 * Method to get the elements of a virtual schedule
 	 *
-	 * @param   String   $id 	The virtual schedule id
-	 * @param   Integer  $sid   The semester id
-	 * @param   String   $type 	The virtual schedule type
+	 * @param   String  $id  The virtual schedule id
 	 *
 	 * @return Array An array with the virtual schedule elements
 	 */

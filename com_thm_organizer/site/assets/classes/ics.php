@@ -424,7 +424,7 @@ class ICSBauer extends abstrakterBauer
 	 * 
 	 * @param   object  $id  A subject id
 	 * 
-	 * return   object  The requested subject number
+	 * @return   object  The requested subject number
 	 */
 	private function getSubjectNo($id)
 	{
@@ -437,7 +437,7 @@ class ICSBauer extends abstrakterBauer
 	 *
 	 * @param   object  $id  A subject id
 	 *
-	 * return   object  The requested subject name
+	 * @return   object  The requested subject name
 	 */
 	private function getSubjectName($id)
 	{
@@ -450,7 +450,7 @@ class ICSBauer extends abstrakterBauer
 	 *
 	 * @param   object  $id  A subject id
 	 *
-	 * return   object  The requested subject longname
+	 * @return   object  The requested subject longname
 	 */
 	private function getSubjectLongname($id)
 	{
@@ -463,7 +463,7 @@ class ICSBauer extends abstrakterBauer
 	 *
 	 * @param   object  $id  A subject id
 	 *
-	 * return   object  The requested module name
+	 * @return   object  The requested module name
 	 */
 	private function getModuleName($id)
 	{
@@ -476,7 +476,7 @@ class ICSBauer extends abstrakterBauer
 	 *
 	 * @param   object  $id  A subject id
 	 *
-	 * return   object  The requested room name
+	 * @return   object  The requested room name
 	 */
 	private function getRoomName($id)
 	{
@@ -489,7 +489,7 @@ class ICSBauer extends abstrakterBauer
 	 *
 	 * @param   object  $id  A subject id
 	 *
-	 * return   object  The requested teacher name
+	 * @return   object  The requested teacher name
 	 */
 	private function getTeacherName($id)
 	{
