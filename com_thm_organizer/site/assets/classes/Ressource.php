@@ -102,10 +102,10 @@ class Ressource
 	 */
 	public function __construct($JDA, $CFG)
 	{
-		$this->JDA = $JDA;
-		$this->gpuntisID = $JDA->getRequest("gpuntisID");
-		$this->nodeKey = $JDA->getRequest("nodeKey");
-		$this->type = $JDA->getRequest("type");
+		$this->_JDA = $JDA;
+		$this->_gpuntisID = $JDA->getRequest("gpuntisID");
+		$this->_nodeKey = $JDA->getRequest("nodeKey");
+		$this->_type = $JDA->getRequest("type");
 		$this->semesterID = $JDA->getRequest("semesterID");
 		$this->startdate = $JDA->getRequest("startdate");
 		$this->enddate = $JDA->getRequest("enddate");
@@ -118,7 +118,7 @@ class Ressource
 	 */
 	public function load()
 	{
-		if (isset($this->startdate) && isset($this->enddate) && isset($this->gpuntisID) && isset($this->semesterID) && isset($this->nodeKey))
+		if (isset($this->startdate) && isset($this->enddate) && isset($this->_gpuntisID) && isset($this->semesterID) && isset($this->_nodeKey))
 		{
 			$activeSchedule = $this->getSchedule($this->semesterID);
 			$data = null;
@@ -177,30 +177,30 @@ class Ressource
 			
 			$lessonData = array();
 			
-			foreach ($lessonDates as $lessonDate => $lessonBlock)
+			foreach ($lessonDates as $lessonBlock)
 			{
-				foreach ($lessonBlock as $blockKey => $blockLessons)
+				foreach ($lessonBlock as $blockLessons)
 				{
 					foreach ($blockLessons as $lessonKey => $lessonRoom)
 					{
-						if ($this->type == "teacher")
+						if ($this->_type == "teacher")
 						{
 							$resourceType = "teachers";
 						}
-						elseif ($this->type == "subject")
+						elseif ($this->_type == "subject")
 						{
 							$resourceType = "subjects";
 						}
-						elseif ($this->type == "module")
+						elseif ($this->_type == "module")
 						{
 							$resourceType = "modules";
 						}
 						
-						if ($this->type === "room")
+						if ($this->_type === "room")
 						{
 							foreach ($lessonRoom as $roomKey => $roomValue)
 							{
-								if ($roomKey == $this->nodeKey)
+								if ($roomKey == $this->_nodeKey)
 								{
 									$lessonData[$lessonKey] = $activeScheduleLessons->{$lessonKey};
 								}
@@ -210,11 +210,11 @@ class Ressource
 						{
 							foreach ($activeScheduleLessons->{$lessonKey}->{$resourceType} as $resourceKey => $resourceValue)
 							{
-								if ($resourceKey == $this->nodeKey)
+								if ($resourceKey == $this->_nodeKey)
 								{
 									$lessonData[$lessonKey] = $activeScheduleLessons->{$lessonKey};
 								}
-								elseif ($this->nodeKey == "")
+								elseif ($this->_nodeKey == "")
 								{
 									$lessonData[$lessonKey] = $activeScheduleLessons->{$lessonKey};
 								}
@@ -255,7 +255,7 @@ class Ressource
 					{
 						$retlessons[$key] = array();
 					}
-					$retlessons[$key]["type"]    = $item->type;
+					$retlessons[$key]["type"]    = $item->_type;
 					$retlessons[$key]["id"]      = $item->id;
 					$retlessons[$key]["subject"] = $item->subject;
 					$retlessons[$key]["dow"]     = $item->dow;
@@ -301,7 +301,7 @@ class Ressource
 					}
 
 					$retlessons[$key]["category"] = $item->category;
-					$retlessons[$key]["key"]      = $this->semID . "." . $this->plantypeID . "." . $key;
+					$retlessons[$key]["key"]      = $this->_semID . "." . $this->_plantypeID . "." . $key;
 					$retlessons[$key]["owner"]    = "gpuntis";
 					$retlessons[$key]["showtime"] = "none";
 					$retlessons[$key]["etime"]    = null;
@@ -311,11 +311,11 @@ class Ressource
 					$retlessons[$key]["cell"]     = "";
 					$retlessons[$key]["css"]      = "";
 					$retlessons[$key]["longname"] = $item->longname;
-					$retlessons[$key]["plantypeID"] = $this->plantypeID;
-					$retlessons[$key]["semesterID"] = $this->semID;
+					$retlessons[$key]["plantypeID"] = $this->_plantypeID;
+					$retlessons[$key]["semesterID"] = $this->_semID;
 					$retlessons[$key]["moduleID"] = $item->moduleID;
 					$retlessons[$key]["comment"] = $item->comment;
-					$retlessons[$key]["ecollaborationLink"] = $this->getEcollaborationLink($this->nodeKey, $item->moduleID);
+					$retlessons[$key]["ecollaborationLink"] = $this->getEcollaborationLink($this->_nodeKey, $item->moduleID);
 				}
 			}
 
@@ -346,7 +346,7 @@ class Ressource
 		}
 		$dbo->setQuery($query);
 	
-		if ($error = $dbo->getErrorMsg())
+		if ($dbo->getErrorMsg())
 		{
 			return false;
 		}
@@ -370,13 +370,13 @@ class Ressource
 	 */
 	private function getEcollaborationLink($res, $moduleID)
 	{
-		if ($this->JDA->isComponentavailable("com_thm_organizer"))
+		if ($this->_JDA->isComponentavailable("com_thm_organizer"))
 		{
 			$organizer_major = "";
 			$query = "SELECT major " .
 					"FROM #__thm_organizer_classes " .
 					"WHERE gpuntisID = '" . $res . "'";
-			$ret   = $this->JDA->query($query);
+			$ret   = $this->_JDA->query($query);
 
 			if (isset($ret[0]))
 			{
@@ -399,7 +399,7 @@ class Ressource
 					"WHERE #__thm_organizer_majors.organizer_major = '" . $organizer_major . "'" .
 					"AND LOWER(#__thm_organizer_assets.lsf_course_code) = LOWER('" . $moduleID . "')";
 
-			$ret   = $this->JDA->query($query);
+			$ret   = $this->_JDA->query($query);
 
 			if (isset($ret[0]))
 			{
@@ -416,18 +416,16 @@ class Ressource
 	/**
 	 * Method to get the elements of a virtual schedule
 	 *
-	 * @param   String   $id 	The virtual schedule id
-	 * @param   Integer  $sid   The semester id
-	 * @param   String   $type 	The virtual schedule type
+	 * @param   String  $id  The virtual schedule id
 	 *
 	 * @return Array An array with the virtual schedule elements
 	 */
-	private function getElements($id, $sid, $type)
+	private function getElements($id)
 	{
 		$query = "SELECT eid as gpuntisID " .
 				"FROM #__thm_organizer_virtual_schedules_elements ";
 		$query .= "WHERE vid = '" . $id . "'";
-		$ret   = $this->JDA->query($query);
+		$ret   = $this->_JDA->query($query);
 		return $ret;
 	}
 
@@ -455,7 +453,7 @@ class Ressource
 			$query .= "FROM #__thm_organizer_teachers ";
 		}
 		$query .= "WHERE gpuntisID = '" . $gpuntisID . "'";
-		$ret   = $this->JDA->query($query);
+		$ret   = $this->_JDA->query($query);
 		return $ret;
 	}
 
@@ -487,7 +485,7 @@ class Ressource
 				"(SELECT 'cyclic') AS type, " .
 				"#__thm_organizer_lessons.comment AS comment, ";
 
-		if ($this->JDA->isComponentavailable("com_thm_organizer"))
+		if ($this->_JDA->isComponentavailable("com_thm_organizer"))
 		{
 			$query .= " IF(#__thm_organizer_subjects.moduleID='','',mo.title_de) AS longname ";
 		}
@@ -504,7 +502,7 @@ class Ressource
 		 	"LEFT JOIN #__thm_organizer_lesson_classes ON #__thm_organizer_lesson_classes.lessonID = #__thm_organizer_lessons.id " .
 		 	"LEFT JOIN #__thm_organizer_classes ON #__thm_organizer_lesson_classes.classID = #__thm_organizer_classes.id " .
 		 	"LEFT JOIN #__thm_organizer_subjects ON #__thm_organizer_lessons.subjectID = #__thm_organizer_subjects.id ";
-		if ($this->JDA->isComponentavailable("com_thm_organizer"))
+		if ($this->_JDA->isComponentavailable("com_thm_organizer"))
 		{
 			$query .= "LEFT JOIN #__thm_organizer_assets AS mo ON LOWER(#__thm_organizer_subjects.moduleID) = LOWER(mo.lsf_course_code) ";
 		}
@@ -513,7 +511,7 @@ class Ressource
 
 		}
 		$query .= "WHERE #__thm_organizer_lessons.semesterID = " . $fachsemester . " " .
-				"AND #__thm_organizer_lessons.plantypeID = " . $this->plantypeID . " " .
+				"AND #__thm_organizer_lessons.plantypeID = " . $this->_plantypeID . " " .
 				"AND (";
 		if ($type === "clas")
 		{
@@ -538,7 +536,7 @@ class Ressource
 
 		$query .= ")";
 
-		$hits  = $this->JDA->query($query);
+		$hits  = $this->_JDA->query($query);
 		return $hits;
 	}
 }

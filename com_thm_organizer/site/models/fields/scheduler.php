@@ -2,7 +2,7 @@
 /**
  * @version     v0.0.1
  * @category	Joomla component
- * @package     THM_Oganizer
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name        JFormFieldScheduler
  * @description Custom form field of com_thm_groups

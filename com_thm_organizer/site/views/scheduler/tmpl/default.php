@@ -2,8 +2,8 @@
 /**
  * @version     v0.0.1
  * @category 	Joomla component
- * @package     THM_Oganizer
- * @subpackage  com_thm_oganizer.site
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.site
  * @name        thm_organizerViewScheduler
  * @description thm_organizerViewScheduler file from com_thm_organizer
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>

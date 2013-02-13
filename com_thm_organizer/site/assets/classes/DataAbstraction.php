@@ -59,10 +59,10 @@ class DataAbstraction
 	 */
 	public function __construct()
 	{
-		$this->mainframe = JFactory::getApplication();
-		$this->mainframe->initialise();
-		$this->dbo = JFactory::getDBO();
-		$this->user = JFactory::getUser();
+		$this->_mainframe = JFactory::getApplication();
+		$this->_mainframe->initialise();
+		$this->_dbo = JFactory::getDBO();
+		$this->_user = JFactory::getUser();
 	}
 
 	/**
@@ -72,7 +72,7 @@ class DataAbstraction
 	 */
 	public function getUserName()
 	{
-		return $this->user->username;
+		return $this->_user->_username;
 	}
 
 	/**
@@ -92,7 +92,7 @@ class DataAbstraction
 	 */
 	public function getUserRoles()
 	{
-		return $this->user->groups;
+		return $this->_user->groups;
 	}
 
 	/**
@@ -102,7 +102,7 @@ class DataAbstraction
 	 */
 	public function getUserID()
 	{
-		return $this->user->id;
+		return $this->_user->id;
 	}
 
 	/**
@@ -127,24 +127,24 @@ class DataAbstraction
 	 */
 	public function query( $sqlstatement, $arr = false )
 	{
-		$this->dbo->setQuery($sqlstatement);
+		$this->_dbo->setQuery($sqlstatement);
 		if (strpos(strtolower($sqlstatement), "select") === 0)
 		{
 			if ($arr == false)
 			{
-				$data = $this->dbo->loadObjectList();
+				$data = $this->_dbo->loadObjectList();
 			}
 			else
 			{
-				$data = $this->dbo->loadResultArray();
+				$data = $this->_dbo->loadResultArray();
 			}
 		}
 		else
 		{
-			$this->dbo->query();
+			$this->_dbo->query();
 			$data = true;
 		}
-		if ($this->dbo->getErrorNum())
+		if ($this->_dbo->getErrorNum())
 		{
 			$data = false;
 		}
@@ -159,7 +159,7 @@ class DataAbstraction
 	 */
 	public function getDBO( )
 	{
-		return $this->dbo;
+		return $this->_dbo;
 	}
 
 	/**
@@ -209,18 +209,18 @@ class DataAbstraction
 	 */
 	public function isComponentavailable( $com )
 	{
-		$query	= $this->dbo->getQuery(true);
+		$query	= $this->_dbo->getQuery(true);
 		$query->select('extension_id AS "id", element AS "option", params, enabled');
 		$query->from('#__extensions');
-		$query->where('`type` = ' . $this->dbo->quote('component'));
-		$query->where('`element` = ' . $this->dbo->quote($com));
-		$this->dbo->setQuery($query);
-		if ($error = $this->dbo->getErrorMsg())
+		$query->where('`type` = ' . $this->_dbo->quote('component'));
+		$query->where('`element` = ' . $this->_dbo->quote($com));
+		$this->_dbo->setQuery($query);
+		if ($this->_dbo->getErrorMsg())
 		{
 			return false;
 		}
 
-		$result = $this->dbo->loadObject();
+		$result = $this->_dbo->loadObject();
 
 		if ($result === null)
 		{

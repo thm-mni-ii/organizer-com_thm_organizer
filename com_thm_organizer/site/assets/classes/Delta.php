@@ -68,11 +68,11 @@ class Delta
 	 */
 	public function __construct($JDA, $CFG)
 	{
-		$this->JDA = $JDA;
-		$this->CFG = $CFG;
-		$this->semesterID = $this->JDA->getRequest("semesterID");
-		$this->plantypeID = $this->JDA->getRequest("plantypeID");
-		$this->plantypeID = 1;
+		$this->_JDA = $JDA;
+		$this->_CFG = $CFG;
+		$this->_semesterID = $this->_JDA->getRequest("semesterID");
+		$this->_plantypeID = $this->_JDA->getRequest("plantypeID");
+		$this->_plantypeID = 1;
 	}
 
 	/**
@@ -82,9 +82,9 @@ class Delta
 	 */
 	public function load()
 	{
-		$deltas = $this->JDA->query(
-				  	"SELECT delta FROM #__thm_organizer_deltas WHERE semesterID ='" . $this->semesterID . "'" .
-				    "AND plantypeID ='" . $this->plantypeID . "'"
+		$deltas = $this->_JDA->query(
+				  	"SELECT delta FROM #__thm_organizer_deltas WHERE semesterID ='" . $this->_semesterID . "'" .
+				    "AND plantypeID ='" . $this->_plantypeID . "'"
 				  );
 
 		$lessons = array();
@@ -102,7 +102,7 @@ class Delta
 				$classMainList = $this->getID($classIDList, "class");
 				$teacherMainList = $this->getID($teacherIDList, "teacher");
 
-				$lessonInfo = $this->JDA->query("SELECT subjects.name, " .
+				$lessonInfo = $this->_JDA->query("SELECT subjects.name, " .
 						"subjects.alias AS description, " .
 						"subjects.name AS subject, " .
 						"subjects.moduleID AS moduleID " .
@@ -118,16 +118,16 @@ class Delta
 
 				$periodIDList = implode(", ", array_keys((array) $dataValue->periods));
 
-				$periodList = $this->JDA->query("SELECT id, gpuntisID, day, period FROM #__thm_organizer_periods WHERE id IN(" . $periodIDList . ")");
+				$periodList = $this->_JDA->query("SELECT id, gpuntisID, day, period FROM #__thm_organizer_periods WHERE id IN(" . $periodIDList . ")");
 
-				foreach ($periodList as $periodKey => $periodValue)
+				foreach ($periodList as $periodValue)
 				{
 					$periods = $dataValue->periods;
 					$roomIDList = implode(", ", $periods->{$periodValue->id}->roomIDs);
 
 					$roomMainList = $this->getID($roomIDList, "room");
 
-					$key = $this->semesterID . ".1." . $dataKey . " " . $periodValue->gpuntisID;
+					$key = $this->_semesterID . ".1." . $dataKey . " " . $periodValue->gpuntisID;
 
 					$lessons[$lessoncounter]["room"] = implode(" ", $roomMainList);
 					$lessons[$lessoncounter]["clas"] = implode(" ", $classMainList);
@@ -150,8 +150,8 @@ class Delta
 					$lessons[$lessoncounter]["category"] = $dataValue->type;
 					$lessons[$lessoncounter]["moduleID"] = $lessonInfo->moduleID;
 					$lessons[$lessoncounter]["comment"] = $dataValue->comment;
-					$lessons[$lessoncounter]["plantypeID"] = $this->plantypeID;
-					$lessons[$lessoncounter]["semesterID"] = $this->semesterID;
+					$lessons[$lessoncounter]["plantypeID"] = $this->_plantypeID;
+					$lessons[$lessoncounter]["semesterID"] = $this->_semesterID;
 
 					if (isset($dataValue->status))
 					{
@@ -239,7 +239,7 @@ class Delta
 
 		$query .= " WHERE id IN(" . $ids . ")";
 
-		$result = $this->JDA->query($query);
+		$result = $this->_JDA->query($query);
 
 		if ($result === false)
 		{
@@ -248,7 +248,7 @@ class Delta
 
 		$resultReturn = array();
 
-		foreach ($result as $k => $v)
+		foreach ($result as $v)
 		{
 			$resultReturn[] = $v->id;
 		}

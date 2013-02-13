@@ -81,8 +81,8 @@ class ICSBauer extends abstrakterBauer
 	 */
 	public function __construct($JDA, $cfg)
 	{
-		$this->JDA = $JDA;
-		$this->cfg = $cfg;
+		$this->_JDA = $JDA;
+		$this->_cfg = $cfg;
 	}
 
 	/**
@@ -104,19 +104,19 @@ class ICSBauer extends abstrakterBauer
 		{
 			/** PHPExcel */
 			require_once JPATH_COMPONENT . '/assets/ExcelClasses/PHPExcel.php';
-			$this->objPHPExcel = new PHPExcel;
+			$this->_objPHPExcel = new PHPExcel;
 
 			if ($title == JText::_("COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE"))
 			{
 				$title = $username . " - " . $title;
 			}
 
-			$this->objPHPExcel->getProperties()->setCreator($username)
+			$this->_objPHPExcel->getProperties()->setCreator($username)
 			->setLastModifiedBy($username)
 			->setTitle($title)
 			->setSubject($title);
 
-			$this->objPHPExcel->getActiveSheet()->setTitle(JText::_("COM_THM_ORGANIZER_SCHEDULER_CYCLIC_EVENTS"));
+			$this->_objPHPExcel->getActiveSheet()->setTitle(JText::_("COM_THM_ORGANIZER_SCHEDULER_CYCLIC_EVENTS"));
 									
 			if (isset($arr->session->semesterID))
 			{
@@ -156,9 +156,9 @@ class ICSBauer extends abstrakterBauer
 				$success = $this->setLessonContent($arr);
 			}
 
-			$this->objPHPExcel->createSheet();
-			$this->objPHPExcel->setActiveSheetIndex(1);
-			$this->objPHPExcel->getActiveSheet()->setTitle(JText::_("COM_THM_ORGANIZER_SCHEDULER_SPORADIC_EVENTS"));
+			$this->_objPHPExcel->createSheet();
+			$this->_objPHPExcel->setActiveSheetIndex(1);
+			$this->_objPHPExcel->getActiveSheet()->setTitle(JText::_("COM_THM_ORGANIZER_SCHEDULER_SPORADIC_EVENTS"));
 
 			if ($success)
 			{
@@ -171,9 +171,9 @@ class ICSBauer extends abstrakterBauer
 
 			if ($success)
 			{
-				$this->objPHPExcel->setActiveSheetIndex(0);
-				$objWriter = PHPExcel_IOFactory::createWriter($this->objPHPExcel, 'Excel5');
-				$objWriter->save($this->cfg['pdf_downloadFolder'] . $title . ".xls");
+				$this->_objPHPExcel->setActiveSheetIndex(0);
+				$objWriter = PHPExcel_IOFactory::createWriter($this->_objPHPExcel, 'Excel5');
+				$objWriter->save($this->_cfg['pdf_downloadFolder'] . $title . ".xls");
 			}
 		}
 		catch (Exception $e)
@@ -198,7 +198,7 @@ class ICSBauer extends abstrakterBauer
 	 */
 	private function setEventHead()
 	{
-		$this->objPHPExcel->getActiveSheet()
+		$this->_objPHPExcel->getActiveSheet()
 		->setCellValue('A1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TITLE"))
 		->setCellValue('B1', JText::_("COM_THM_ORGANIZER_SCHEDULER_DESCRIPTION"))
 		->setCellValue('C1', JText::_("COM_THM_ORGANIZER_SCHEDULER_AFFECTED_RESOURCE"))
@@ -208,14 +208,14 @@ class ICSBauer extends abstrakterBauer
 		->setCellValue('G1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TIME_OF"))
 		->setCellValue('H1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TO_TIME"));
 
-		$this->objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
-		$this->objPHPExcel->getActiveSheet()->getStyle('B1')->getFont()->setBold(true);
-		$this->objPHPExcel->getActiveSheet()->getStyle('C1')->getFont()->setBold(true);
-		$this->objPHPExcel->getActiveSheet()->getStyle('D1')->getFont()->setBold(true);
-		$this->objPHPExcel->getActiveSheet()->getStyle('E1')->getFont()->setBold(true);
-		$this->objPHPExcel->getActiveSheet()->getStyle('F1')->getFont()->setBold(true);
-		$this->objPHPExcel->getActiveSheet()->getStyle('G1')->getFont()->setBold(true);
-		$this->objPHPExcel->getActiveSheet()->getStyle('H1')->getFont()->setBold(true);
+		$this->_objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+		$this->_objPHPExcel->getActiveSheet()->getStyle('B1')->getFont()->setBold(true);
+		$this->_objPHPExcel->getActiveSheet()->getStyle('C1')->getFont()->setBold(true);
+		$this->_objPHPExcel->getActiveSheet()->getStyle('D1')->getFont()->setBold(true);
+		$this->_objPHPExcel->getActiveSheet()->getStyle('E1')->getFont()->setBold(true);
+		$this->_objPHPExcel->getActiveSheet()->getStyle('F1')->getFont()->setBold(true);
+		$this->_objPHPExcel->getActiveSheet()->getStyle('G1')->getFont()->setBold(true);
+		$this->_objPHPExcel->getActiveSheet()->getStyle('H1')->getFont()->setBold(true);
 
 		return true;
 	}
@@ -236,19 +236,19 @@ class ICSBauer extends abstrakterBauer
 			$resString = "";
 			$res = array();
 			$query      = 'SELECT name as oname FROM #__thm_organizer_classes WHERE id IN("' . $resources . '")';
-			$res        = array_merge($res, $this->JDA->query($query, true));
+			$res        = array_merge($res, $this->_JDA->query($query, true));
 
 			$query     = 'SELECT name as oname FROM #__thm_organizer_teachers WHERE gpuntisID IN("' . $resources . '")';
-			$res       = array_merge($res, $this->JDA->query($query, true));
+			$res       = array_merge($res, $this->_JDA->query($query, true));
 
 			$query      = 'SELECT name as oname FROM #__thm_organizer_rooms WHERE gpuntisID IN("' . $resources . '")';
-			$res        = array_merge($res, $this->JDA->query($query, true));
+			$res        = array_merge($res, $this->_JDA->query($query, true));
 			if (count($res) > 0)
 			{
 				$resString = implode(", ", $res);
 			}
 
-			$this->objPHPExcel->getActiveSheet()
+			$this->_objPHPExcel->getActiveSheet()
 			->setCellValue('A' . $row, $item->data->title)
 			->setCellValue('B' . $row, $item->data->edescription)
 			->setCellValue('C' . $row, $resString)
@@ -269,7 +269,7 @@ class ICSBauer extends abstrakterBauer
 	 */
 	private function setLessonHead()
 	{
-		$this->objPHPExcel->setActiveSheetIndex(0)
+		$this->_objPHPExcel->setActiveSheetIndex(0)
 		->setCellValue('A1', JText::_("COM_THM_ORGANIZER_SCHEDULER_LESSON_TITLE"))
 		->setCellValue('B1', JText::_("COM_THM_ORGANIZER_SCHEDULER_ABBREVIATION"))
 		->setCellValue('C1', JText::_("COM_THM_ORGANIZER_SCHEDULER_COMMENT"))
@@ -280,15 +280,15 @@ class ICSBauer extends abstrakterBauer
 		->setCellValue('H1', JText::_("COM_THM_ORGANIZER_SCHEDULER_ROOM"))
 		->setCellValue('I1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TEACHER"));
 
-		$this->objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
-		$this->objPHPExcel->getActiveSheet()->getStyle('B1')->getFont()->setBold(true);
-		$this->objPHPExcel->getActiveSheet()->getStyle('C1')->getFont()->setBold(true);
-		$this->objPHPExcel->getActiveSheet()->getStyle('D1')->getFont()->setBold(true);
-		$this->objPHPExcel->getActiveSheet()->getStyle('E1')->getFont()->setBold(true);
-		$this->objPHPExcel->getActiveSheet()->getStyle('F1')->getFont()->setBold(true);
-		$this->objPHPExcel->getActiveSheet()->getStyle('G1')->getFont()->setBold(true);
-		$this->objPHPExcel->getActiveSheet()->getStyle('H1')->getFont()->setBold(true);
-		$this->objPHPExcel->getActiveSheet()->getStyle('I1')->getFont()->setBold(true);
+		$this->_objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+		$this->_objPHPExcel->getActiveSheet()->getStyle('B1')->getFont()->setBold(true);
+		$this->_objPHPExcel->getActiveSheet()->getStyle('C1')->getFont()->setBold(true);
+		$this->_objPHPExcel->getActiveSheet()->getStyle('D1')->getFont()->setBold(true);
+		$this->_objPHPExcel->getActiveSheet()->getStyle('E1')->getFont()->setBold(true);
+		$this->_objPHPExcel->getActiveSheet()->getStyle('F1')->getFont()->setBold(true);
+		$this->_objPHPExcel->getActiveSheet()->getStyle('G1')->getFont()->setBold(true);
+		$this->_objPHPExcel->getActiveSheet()->getStyle('H1')->getFont()->setBold(true);
+		$this->_objPHPExcel->getActiveSheet()->getStyle('I1')->getFont()->setBold(true);
 
 		return true;
 	}
@@ -403,7 +403,7 @@ class ICSBauer extends abstrakterBauer
 					$item->category = "";
 				}
 				
-				$this->objPHPExcel->setActiveSheetIndex(0)
+				$this->_objPHPExcel->setActiveSheetIndex(0)
 				->setCellValue('A' . $row, $item->longname)
 				->setCellValue('B' . $row, $item->name)
 				->setCellValue('C' . $row, $item->comment)
@@ -424,7 +424,7 @@ class ICSBauer extends abstrakterBauer
 	 * 
 	 * @param   object  $id  A subject id
 	 * 
-	 * return   object  The requested subject number
+	 * @return   object  The requested subject number
 	 */
 	private function getSubjectNo($id)
 	{
@@ -437,7 +437,7 @@ class ICSBauer extends abstrakterBauer
 	 *
 	 * @param   object  $id  A subject id
 	 *
-	 * return   object  The requested subject name
+	 * @return   object  The requested subject name
 	 */
 	private function getSubjectName($id)
 	{
@@ -450,7 +450,7 @@ class ICSBauer extends abstrakterBauer
 	 *
 	 * @param   object  $id  A subject id
 	 *
-	 * return   object  The requested subject longname
+	 * @return   object  The requested subject longname
 	 */
 	private function getSubjectLongname($id)
 	{
@@ -463,7 +463,7 @@ class ICSBauer extends abstrakterBauer
 	 *
 	 * @param   object  $id  A subject id
 	 *
-	 * return   object  The requested module name
+	 * @return   object  The requested module name
 	 */
 	private function getModuleName($id)
 	{
@@ -476,7 +476,7 @@ class ICSBauer extends abstrakterBauer
 	 *
 	 * @param   object  $id  A subject id
 	 *
-	 * return   object  The requested room name
+	 * @return   object  The requested room name
 	 */
 	private function getRoomName($id)
 	{
@@ -489,7 +489,7 @@ class ICSBauer extends abstrakterBauer
 	 *
 	 * @param   object  $id  A subject id
 	 *
-	 * return   object  The requested teacher name
+	 * @return   object  The requested teacher name
 	 */
 	private function getTeacherName($id)
 	{
@@ -523,7 +523,7 @@ class ICSBauer extends abstrakterBauer
 		$query->where('id = ' . $semesterID);
 		$dbo->setQuery($query);
 	
-		if ($error = $dbo->getErrorMsg())
+		if ($dbo->getErrorMsg())
 		{
 			return false;
 		}

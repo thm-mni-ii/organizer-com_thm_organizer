@@ -96,15 +96,15 @@ class Schedule
 	 */
 	public function __construct($JDA, $CFG, $options = null)
 	{
-		$this->arr      = json_decode(file_get_contents("php://input"));
-		$this->username = $JDA->getRequest("username");
-		$this->title    = $JDA->getRequest("title");
-		$this->what     = $JDA->getRequest("what");
+		$this->_arr      = json_decode(file_get_contents("php://input"));
+		$this->_username = $JDA->getRequest("username");
+		$this->_title    = $JDA->getRequest("title");
+		$this->_what     = $JDA->getRequest("what");
 		$this->startdate = $JDA->getRequest("startdate");
 		$this->enddate = $JDA->getRequest("enddate");
 		$this->semesterID = $JDA->getRequest("semesterID");
-		$this->cfg = $CFG->getCFG();
-		$this->JDA = $JDA;
+		$this->_cfg = $CFG->getCFG();
+		$this->_JDA = $JDA;
 	}
 
 	/**
@@ -115,23 +115,23 @@ class Schedule
 	public function export()
 	{
 		$options = array("startdate" => $this->startdate, "enddate" => $this->enddate, "semesterID" => $this->semesterID);
-		if ($this->what == "pdf")
+		if ($this->_what == "pdf")
 		{
 			require_once dirname(__FILE__) . "/pdf.php";
-			$this->builder = new PDFBauer($this->JDA, $this->cfg, $options);
+			$this->_builder = new PDFBauer($this->_JDA, $this->_cfg, $options);
 		}
-		elseif ($this->what == "ics")
+		elseif ($this->_what == "ics")
 		{
 			require_once dirname(__FILE__) . "/ics.php";
-			$this->builder = new ICSBauer($this->JDA, $this->cfg, $options);
+			$this->_builder = new ICSBauer($this->_JDA, $this->_cfg, $options);
 		}
-		elseif ($this->what == "ical")
+		elseif ($this->_what == "ical")
 		{
 			require_once dirname(__FILE__) . "/ical.php";
-			$this->builder = new ICALBauer($this->JDA, $this->cfg, $options);
+			$this->_builder = new ICALBauer($this->_JDA, $this->_cfg, $options);
 		}
 
-		$direktor = new StundenplanDirektor($this->builder);
-		return $direktor->erstelleStundenplan($this->arr, $this->username, $this->title);
+		$direktor = new StundenplanDirektor($this->_builder);
+		return $direktor->erstelleStundenplan($this->_arr, $this->_username, $this->_title);
 	}
 }

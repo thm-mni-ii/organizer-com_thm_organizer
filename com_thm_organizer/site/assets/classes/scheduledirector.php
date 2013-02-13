@@ -45,7 +45,7 @@ class StundenplanDirektor
 	 */
 	public function __construct( abstrakterBauer $builder )
 	{
-		$this->builder = $builder;
+		$this->_builder = $builder;
 	}
 
 	/**
@@ -59,6 +59,6 @@ class StundenplanDirektor
 	 */
 	public function erstelleStundenplan( $arr, $username, $title )
 	{
-		return $this->builder->erstelleStundenplan($arr, $username, $title);
+		return $this->_builder->erstelleStundenplan($arr, $username, $title);
 	}
 }

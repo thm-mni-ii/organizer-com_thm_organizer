@@ -57,8 +57,8 @@ class PDFBauer extends abstrakterBauer
 	 */
 	public function __construct($JDA, $cfg, $options)
 	{
-		$this->JDA = $JDA;
-		$this->cfg = $cfg;
+		$this->_JDA = $JDA;
+		$this->_cfg = $cfg;
 		$this->startdate = $options["startdate"];
 		$this->enddate = $options["enddate"];
 		$this->semesterID = $options["semesterID"];
@@ -142,9 +142,9 @@ class PDFBauer extends abstrakterBauer
 
 		if (isset($username) && isset($title))
 		{
-			if ($this->cfg['sync_files'] == 1)
+			if ($this->_cfg['sync_files'] == 1)
 			{
-				$res = $JDA->query("SELECT registerDate FROM " . $this->cfg['jdb_table_user'] . " WHERE username='" . $username . "'");
+				$res = $this->_JDA->query("SELECT registerDate FROM " . $this->_cfg['jdb_table_user'] . " WHERE username='" . $username . "'");
 
 				if (count($res) > 0 && trim($username) != "" && trim($username) != "undefined")
 				{
@@ -170,17 +170,17 @@ class PDFBauer extends abstrakterBauer
 				$title = $username . " - " . $title;
 			}
 
-			if ($username != "" && $this->cfg['sync_files'] == 1)
+			if ($username != "" && $this->_cfg['sync_files'] == 1)
 			{
-				if (!is_dir($this->cfg['pdf_downloadFolder'] . $path))
+				if (!is_dir($this->_cfg['pdf_downloadFolder'] . $path))
 				{
 					// Ordner erstellen
-					@mkdir($this->cfg['pdf_downloadFolder'] . $path, 0700);
+					@mkdir($this->_cfg['pdf_downloadFolder'] . $path, 0700);
 				}
 			}
 
-			// $pdfLink = $this->cfg['pdf_downloadFolder'] . $path . $title . '.pdf';
-			$pdfLink = $this->cfg['pdf_downloadFolder'] . $path . $title . '.pdf';
+			// $pdfLink = $this->_cfg['pdf_downloadFolder'] . $path . $title . '.pdf';
+			$pdfLink = $this->_cfg['pdf_downloadFolder'] . $path . $title . '.pdf';
 
 			// Array um Wochentage in spalten zu mappen
 			$assign = array(
@@ -520,7 +520,7 @@ class PDFBauer extends abstrakterBauer
 		}
 		$dbo->setQuery($query);
 	
-		if ($error = $dbo->getErrorMsg())
+		if ($dbo->getErrorMsg())
 		{
 			return false;
 		}

@@ -2,7 +2,7 @@
 /**
  * @version     v0.0.1
  * @category    Joomla component
- * @package     THM_organizer
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin.view
  * @name        virtual schedule edit default template
  * @author      James Antrim, <james.antrim@mni.thm.de>

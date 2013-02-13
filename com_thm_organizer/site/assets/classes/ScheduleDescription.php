@@ -62,9 +62,9 @@ class ScheduleDescription
 	 */
 	public function __construct($JDA, $CFG)
 	{
-		$this->JDA = $JDA;
-		$this->cfg = $CFG->getCFG();
-		$this->semID = $JDA->getSemID();
+		$this->_JDA = $JDA;
+		$this->_cfg = $CFG->getCFG();
+		$this->_semID = $JDA->getSemID();
 	}
 
 	/**
@@ -75,9 +75,9 @@ class ScheduleDescription
 	public function load()
 	{
 		$query = "SELECT description, startdate, enddate, creationdate " .
-				"FROM #__thm_organizer_schedules WHERE active != 'null' && sid = " . $this->semID;
+				"FROM #__thm_organizer_schedules WHERE active != 'null' && sid = " . $this->_semID;
 
-		$obj = $this->JDA->query($query);
+		$obj = $this->_JDA->query($query);
 		if (count($obj) == 0 || $obj == false)
 		{
 			return array("success" => false, "data" => "");

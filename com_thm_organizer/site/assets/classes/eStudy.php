@@ -79,12 +79,12 @@ class EStudy
 	public function __construct($JDA, $CFG)
 	{
 		require_once JPATH_COMPONENT . "/views/scheduler/tmpl/wsapi/class.mySchedImport.php";
-		$this->JDA = $JDA;
-		$this->jsid  = $JDA->getRequest("jsid");
-		$this->semID = $JDA->getSemID();
-		$this->mnr   = $JDA->getRequest("mnr");
+		$this->_JDA = $JDA;
+		$this->_jsid  = $JDA->getRequest("jsid");
+		$this->_semID = $JDA->getSemID();
+		$this->_mnr   = $JDA->getRequest("mnr");
 		$this->CFG   = $CFG;
-		$this->cfg   = $CFG->getCFG();
+		$this->_cfg   = $CFG->getCFG();
 	}
 
 	/**
@@ -94,10 +94,10 @@ class EStudy
 	 */
 	public function getCourseLink()
 	{
-		if (isset($this->jsid) && isset($this->semID) && isset($this->mnr))
+		if (isset($this->_jsid) && isset($this->_semID) && isset($this->_mnr))
 		{
-			$username = $this->JDA->getUserName();
-			$res      = $this->JDA->query("SELECT semesterDesc FROM #__thm_organizer_semesters WHERE id ='" . $this->semID . "'");
+			$username = $this->_JDA->getUserName();
+			$res      = $this->_JDA->query("SELECT semesterDesc FROM #__thm_organizer_semesters WHERE id ='" . $this->_semID . "'");
 			if (count($res) == 1)
 			{
 				$data     = $res[0];
@@ -107,11 +107,11 @@ class EStudy
 			$json    = file_get_contents("php://input");
 			$resdata = json_decode($json);
 
-			$username = $this->JDA->getUserName();
+			$username = $this->_JDA->getUserName();
 
-			$SI           = new mySchedImport($username, $this->jsid, $this->CFG);
-			$estudylink   = $SI->getCourseLink($resdata, strtolower($this->mnr), $semester);
-			$estudycourse = $SI->existsCourse($resdata, strtolower($this->mnr), $semester);
+			$SI           = new mySchedImport($username, $this->_jsid, $this->CFG);
+			$estudylink   = $SI->getCourseLink($resdata, strtolower($this->_mnr), $semester);
+			$estudycourse = $SI->existsCourse($resdata, strtolower($this->_mnr), $semester);
 			$arr[ "success" ] = true;
 			$arr[ "link" ]    = $estudylink;
 			$arr[ "msg" ]     = $estudycourse;
@@ -121,10 +121,6 @@ class EStudy
 				$arr["success"] = false;
 			}
 			return array("data" => $arr);
-		}
-		else
-		{
-			die;
 		}
 	}
 }
