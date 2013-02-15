@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.1.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -23,7 +22,6 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v0.1.0
  */
 class THM_OrganizerViewSchedule_Edit extends JView
 {
@@ -50,7 +48,6 @@ class THM_OrganizerViewSchedule_Edit extends JView
         $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
         $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/schedule_errors.js'));
 
-        $model = $this->getModel();
         $this->form = $this->get('Form');
 
         $this->addToolBar();
