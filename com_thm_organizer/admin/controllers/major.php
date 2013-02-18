@@ -94,7 +94,7 @@ class THM_OrganizerControllerMajor extends JControllerForm
 			{
 				$semesterQuery->clear('where');
 				$semesterQuery->where("major_id = '$semester->id'");
-				$dbo->setQuery((string) $query);
+				$dbo->setQuery((string) $semesterQuery);
 				$assets = $dbo->loadObjectList();
 
 				$deleteTreeQuery = $dbo->getQuery(true);

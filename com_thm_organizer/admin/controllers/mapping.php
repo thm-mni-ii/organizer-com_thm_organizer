@@ -104,24 +104,6 @@ class THM_OrganizerControllerMapping extends JControllerForm
 	}
 
 	/**
-	 * Method to perform save2new
-	 *
-	 * @return  void
-	 */
-	public function save2new()
-	{
-		$data[$key] = $recordId;
-		$context = "$this->option.edit . $this->context";
-
-		// Clear the record id and data from the session.
-		$this->releaseEditId($context, $recordId);
-		$app->setUserState($context . '.data', null);
-
-		// Redirect back to the edit screen.
-		$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=mapping&layout=edit'));
-	}
-
-	/**
 	 * Method to perform cancel
 	 *
 	 * @return  void
