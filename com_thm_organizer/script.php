@@ -17,12 +17,12 @@ jimport('joomla.filesystem.file');
 /**
  * Class for the execution of processes during changes to the component itself.
  *
- * @category	Joomla.Component.General
+ * @category    Joomla.Component.General
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.general
  * @link        www.mni.thm.de
  */
-class COM_THM_OrganizerInstallerScript
+class THM_OrganizerInstallerScript
 {
     /**
      * Method to install the component. For some unknown reason Joomla will not resolve text constants in this function.
