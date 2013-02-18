@@ -1,33 +1,25 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerModelCourse
  * @description THM_OrganizerModelCourse component admin model
- * @author	    Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
-
-// No direct access to this file
 defined('_JEXEC') or die;
-
-// Import Joomla modelform library
 jimport('joomla.application.component.modeladmin');
 
 /**
  * Class THM_OrganizerModelCourse for component com_thm_organizer
- *
  * Class provides methods to deal with course
  *
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class THM_OrganizerModelCourse extends JModelAdmin
 {
@@ -96,13 +88,13 @@ class THM_OrganizerModelCourse extends JModelAdmin
 		if (parent::save($data))
 		{
 			// Get the inserted course id
-			$id = $this->getState($this->getName() . '.id');
+			$courseID = $this->getState($this->getName() . '.id');
 
 			// Write the responsible to the database
-			self::saveResponsible($id, $data["responsible_id"]);
+			self::saveResponsible($courseID, $data["responsible_id"]);
 
 			// Write the lecturers to the database
-			self::saveLecturer($id, JRequest::getVar('lecturers'));
+			self::saveLecturer($courseID, JRequest::getVar('lecturers'));
 
 			return true;
 		}
@@ -118,19 +110,19 @@ class THM_OrganizerModelCourse extends JModelAdmin
 	 */
 	private function saveLecturer($assetId, $lecturers)
 	{
-		$db = JFactory::getDbo();
-		$pk = JRequest::getVar('id');
+		$dbo = JFactory::getDbo();
+		$moduleID = JRequest::getVar('id');
 
 		// An existent database row will be updated
-		if (isset($pk))
+		if (isset($moduleID))
 		{
 			// Determine the saved lecturers
-			$query = $db->getQuery(true);
+			$query = $dbo->getQuery(true);
 			$query->select("*");
 			$query->from("#__thm_organizer_lecturers_assets");
-			$query->where("modul_id = $pk");
-			$db->setQuery($query);
-			$rows = $db->loadObjectList();
+			$query->where("modul_id = $moduleID");
+			$dbo->setQuery($query);
+			$rows = $dbo->loadObjectList();
 
 			// Iterate over each found lecturer mapping
 			foreach ($rows as $row)
@@ -139,13 +131,13 @@ class THM_OrganizerModelCourse extends JModelAdmin
 				if (!in_array($row->lecturer_id, $lecturers))
 				{
 					// Delete the mapping
-					$query = $db->getQuery(true);
+					$query = $dbo->getQuery(true);
 					$query->delete("#__thm_organizer_lecturers_assets");
-					$query->where("modul_id = $pk");
+					$query->where("modul_id = $moduleID");
 					$query->where("lecturer_id = $row->lecturer_id");
 					$query->where("lecturer_type = 2");
-					$db->setQuery($query);
-					$db->query($query);
+					$dbo->setQuery($query);
+					$dbo->query($query);
 				}
 			}
 		}
@@ -153,7 +145,7 @@ class THM_OrganizerModelCourse extends JModelAdmin
 		// Iterate over each lecuter of the POST request
 		foreach ($lecturers as $lecturer)
 		{
-			$query = $db->getQuery(true);
+			$query = $dbo->getQuery(true);
 
 			// Cast the value to a numeric
 			$lec = intval($lecturer);
@@ -164,8 +156,8 @@ class THM_OrganizerModelCourse extends JModelAdmin
 			$query->set("lecturer_id = $lec");
 			$query->set("lecturer_type = 2");
 
-			$db->setQuery($query);
-			$db->query();
+			$dbo->setQuery($query);
+			$dbo->query();
 		}
 	}
 
@@ -179,25 +171,24 @@ class THM_OrganizerModelCourse extends JModelAdmin
 	 */
 	private function saveResponsible($assetId, $lecturerID)
 	{
-		$db = JFactory::getDbo();
-		$pk = JRequest::getVar('id');
+		$dbo = JFactory::getDbo();
 
 		// Delete the mapping
-		$query = $db->getQuery(true);
-		$query->delete("#__thm_organizer_lecturers_assets");
-		$query->where("modul_id = $assetId");
-		$query->where("lecturer_type = 1");
-		$db->setQuery($query);
-		$db->query($query);
+		$deleteQuery = $dbo->getQuery(true);
+		$deleteQuery->delete("#__thm_organizer_lecturers_assets");
+		$deleteQuery->where("modul_id = $assetId");
+		$deleteQuery->where("lecturer_type = 1");
+		$dbo->setQuery((string) $deleteQuery);
+		$dbo->query();
 
-		$query = $db->getQuery(true);
-		$query->insert('#__thm_organizer_lecturers_assets');
-		$query->set("modul_id = $assetId");
-		$query->set("lecturer_id = $lecturerID");
-		$query->set("lecturer_type = 1");
+		$insertQuery = $dbo->getQuery(true);
+		$insertQuery->insert('#__thm_organizer_lecturers_assets');
+		$insertQuery->set("modul_id = $assetId");
+		$insertQuery->set("lecturer_id = $lecturerID");
+		$insertQuery->set("lecturer_type = 1");
 
-		$db->setQuery($query);
-		$db->query($query);
+		$dbo->setQuery($insertQuery);
+		$dbo->query();
 
 		return true;
 	}

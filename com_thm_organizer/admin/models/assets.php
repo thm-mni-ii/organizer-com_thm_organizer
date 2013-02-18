@@ -1,36 +1,30 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerModelAssets
  * @description THM_OrganizerModelAssets component admin model
- * @author	    Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
-
 jimport('joomla.application.component.modellist');
-
 
 /**
  * Class THM_OrganizerModelAssets for component com_thm_organizer
  *
  * Class provides methods to deal with assets
  *
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class THM_OrganizerModelAssets extends JModelList
 {
-
 	/**
 	 * Constructor to set up the config array and call the parent constructor
 	 *
@@ -54,11 +48,10 @@ class THM_OrganizerModelAssets extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 
 		$orderCol = $this->state->get('list.ordering');
 		$orderDirn = $this->state->get('list.direction');
-		$search = $this->state->get('filter.search');
 		$type = $this->state->get('filter.type');
 
 		// Defailt ordering
@@ -69,7 +62,7 @@ class THM_OrganizerModelAssets extends JModelList
 		}
 
 		// Create the sql query
-		$query = $db->getQuery(true);
+		$query = $dbo->getQuery(true);
 		$query->select("*");
 		$query->select(" #__thm_organizer_asset_types.name as coursetype");
 		$query->select(" #__thm_organizer_assets.name as asset_name");
@@ -77,9 +70,13 @@ class THM_OrganizerModelAssets extends JModelList
 		$query->from('#__thm_organizer_assets');
 		$query->join('inner', '#__thm_organizer_asset_types ON #__thm_organizer_assets.asset_type_id = #__thm_organizer_asset_types.id');
 
-		$search = $db->Quote('%' . $db->getEscaped($search, true) . '%');
-		$query->where('(title_de LIKE ' . $search . ' OR title_en LIKE ' . $search . ' OR short_title_de LIKE ' .
-				$search . ' OR short_title_en LIKE ' . $search . ' OR abbreviation LIKE ' . $search . ')');
+		$search = $dbo->Quote('%' . $dbo->getEscaped($this->state->get('filter.search'), true) . '%');
+		$searchClause = "(title_de LIKE '$search' ";
+		$searchClause .= "OR title_en LIKE ' . $search . ' ";
+		$searchClause .= "OR short_title_de LIKE '$search' ";
+		$searchClause .= "OR short_title_en LIKE '$search' ";
+		$searchClause .= "OR abbreviation LIKE '$search') ";
+		$query->where($searchClause);
 
 		if (isset($type) && $type != "")
 		{
@@ -103,7 +100,8 @@ class THM_OrganizerModelAssets extends JModelList
 	{
 		$app = JFactory::getApplication('administrator');
 
-		if ($layout = JRequest::getVar('layout'))
+		$layout = JRequest::getVar('layout');
+		if (!empty($layout))
 		{
 			$this->context .= '.' . $layout;
 		}
@@ -150,8 +148,8 @@ class THM_OrganizerModelAssets extends JModelList
 	 */
 	public function insertCourse($data)
 	{
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
 
 		// Prepare the local data
 		$lsf_course_id = $data['lsf_course_id'];
@@ -178,10 +176,10 @@ class THM_OrganizerModelAssets extends JModelList
 		$query->set("abbreviation = '$abbreviation'");
 		$query->set("asset_type_id = 1");
 
-		$db->setQuery($query);
-		$db->query();
+		$dbo->setQuery($query);
+		$dbo->query();
 
-		return $db->insertid();
+		return $dbo->insertid();
 	}
 
 	/**
@@ -193,17 +191,6 @@ class THM_OrganizerModelAssets extends JModelList
 	 */
 	public function updateCourse($data)
 	{
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
-		$courseID = $data['lsf_course_id'];
-
-		// Determine the concerned database rows
-		$query->select("*");
-		$query->from('#__thm_organizer_assets');
-		$query->where("lsf_course_id = '$courseID'");
-		$db->setQuery($query);
-		$rows = $db->loadAssocList();
-
 		// Prepare the local data
 		$lsf_course_id = $data['lsf_course_id'];
 		$lsf_course_code = $data['lsf_course_code'];
@@ -215,7 +202,8 @@ class THM_OrganizerModelAssets extends JModelList
 		$short_title_en = $data['short_title_en'];
 		$abbreviation = $data['abbreviation'];
 
-		$query = $db->getQuery(true);
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
 
 		// Create the insert query
 		$query->update('#__thm_organizer_assets');
@@ -251,10 +239,10 @@ class THM_OrganizerModelAssets extends JModelList
 		}
 
 		$query->where("lsf_course_id = $lsf_course_id");
-		$db->setQuery($query);
-		$db->query();
+		$dbo->setQuery($query);
+		$dbo->query();
 
-		return $db->insertid();
+		return $dbo->insertid();
 	}
 
 	/**
@@ -266,15 +254,15 @@ class THM_OrganizerModelAssets extends JModelList
 	 */
 	public function isInsertedCourse($userId)
 	{
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
 
 		// Determine the concerned database rows
 		$query->select("*");
 		$query->from('#__thm_organizer_assets');
 		$query->where("lsf_course_id = '$userId'");
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
+		$dbo->setQuery($query);
+		$rows = $dbo->loadObjectList();
 
 		if (isset($rows))
 		{
@@ -300,8 +288,8 @@ class THM_OrganizerModelAssets extends JModelList
 	 */
 	public function insertCourseLecturer($data)
 	{
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
 
 		// Prepare the data
 		$modul_id = $data['modul_id'];
@@ -314,8 +302,8 @@ class THM_OrganizerModelAssets extends JModelList
 		$query->set("lecturer_id = $lecturer_id");
 		$query->set("lecturer_type = $lecturer_type");
 
-		$db->setQuery($query);
-		$db->query();
+		$dbo->setQuery($query);
+		$dbo->query();
 	}
 
 	/**
@@ -332,8 +320,8 @@ class THM_OrganizerModelAssets extends JModelList
 	 */
 	public function updateCourseLecturer($data)
 	{
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
 
 		// Prepare the data
 		$modul_id = $data['modul_id'];
@@ -346,8 +334,8 @@ class THM_OrganizerModelAssets extends JModelList
 		$query->set("lecturer_type = $lecturer_type");
 		$query->where("modul_id = $modul_id");
 
-		$db->setQuery($query);
-		$db->query();
+		$dbo->setQuery($query);
+		$dbo->query();
 	}
 
 	/**
@@ -360,16 +348,16 @@ class THM_OrganizerModelAssets extends JModelList
 	 */
 	public function clearAllLecturerMappings($modulID, $lecturerType)
 	{
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
 
 		// Determine the concerned database rows
 		$query->from("#__thm_organizer_lecturers_assets");
 		$query->delete();
 		$query->where("modul_id=" . $modulID);
 		$query->where("lecturer_type=" . $lecturerType);
-		$db->setQuery($query);
-		$db->query();
+		$dbo->setQuery($query);
+		$dbo->query();
 	}
 
 	/**
@@ -386,8 +374,8 @@ class THM_OrganizerModelAssets extends JModelList
 	 */
 	public function insertLecturer($data)
 	{
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
 
 		// Prepare the data
 		$userid = $data['userid'];
@@ -402,21 +390,10 @@ class THM_OrganizerModelAssets extends JModelList
 		$query->set("forename = '$forename'");
 		$query->set("academic_title = '$academic_title'");
 
-		$db->setQuery($query);
-		$queryValue = $db->query();
+		$dbo->setQuery($query);
+		$queryValue = $dbo->query();
 
-		// Will contain the inserted id
-		$id = null;
-
-		if ($queryValue)
-		{
-			$id = $db->insertid();
-		}
-		else
-		{
-			$id = "";
-		}
-		return $id;
+		return ($queryValue)? $dbo->insertid() : "";
 	}
 
 	/**
@@ -429,16 +406,16 @@ class THM_OrganizerModelAssets extends JModelList
 	 */
 	public function isInserted($forename, $surname)
 	{
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
 
 		// Determine the concerned database rows
 		$query->select("*");
 		$query->from('#__thm_organizer_lecturers');
 		$query->where("forename = '$forename'");
 		$query->where("surname = '$surname'");
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
+		$dbo->setQuery($query);
+		$rows = $dbo->loadObjectList();
 
 		if (isset($rows))
 		{
@@ -478,12 +455,10 @@ class THM_OrganizerModelAssets extends JModelList
 		$course['short_title_de'] = $modul->getKurznameDe();
 
 		// Check if the course is already stored in the database
-		$id = self::isInsertedCourse($course['lsf_course_id']);
-
-		if ($id)
+		$insertid = self::isInsertedCourse($course['lsf_course_id']);
+		if ($insertid)
 		{
 			// Update the concerned course (overwrite the data)
-			$insertid = $id;
 			self::updateCourse($course);
 		}
 		else
@@ -573,16 +548,16 @@ class THM_OrganizerModelAssets extends JModelList
 	 */
 	public function getSoapQueries($majors)
 	{
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 
-		$query = $db->getQuery(true);
+		$query = $dbo->getQuery(true);
 				
 		$query->select('*');
 		$query->from("#__thm_organizer_majors");
 		$query->where("id IN('" . implode("', '", $majors) . "')");	
 		
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
+		$dbo->setQuery($query);
+		$rows = $dbo->loadObjectList();
 
 		return $rows;
 	}
@@ -601,7 +576,6 @@ class THM_OrganizerModelAssets extends JModelList
 		$lsf_query_parameters = self::getSoapQueries($majors);
 
 		$globParams = JComponentHelper::getParams('com_thm_organizer');
-		$db = JFactory::getDBO();
 		set_time_limit(300);
 
 		foreach ($lsf_query_parameters as $lsf_query_parameter)

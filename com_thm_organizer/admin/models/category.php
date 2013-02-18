@@ -18,11 +18,9 @@ require_once JPATH_SITE . '/components/com_thm_organizer/models/events.php';
 /**
  * Class storing/deleting category item information 
  * 
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
- * @since       v0.1.0
  */
 class THM_OrganizerModelcategory extends JModel
 {

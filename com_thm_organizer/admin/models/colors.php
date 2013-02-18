@@ -1,31 +1,26 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerModelColors
  * @description THM_OrganizerModelColors component admin model
- * @author	    Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
-
 jimport('joomla.application.component.modellist');
 
 /**
  * Class THM_OrganizerModelColors for component com_thm_organizer
- *
  * Class provides methods to deal with colors
  *
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class THM_OrganizerModelColors extends JModelList
 {
@@ -53,7 +48,7 @@ class THM_OrganizerModelColors extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 
 		// Get the filter values from the request
 		$orderCol = $this->state->get('list.ordering');
@@ -68,7 +63,7 @@ class THM_OrganizerModelColors extends JModelList
 		}
 
 		// Create the query
-		$query = $db->getQuery(true);
+		$query = $dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_colors');
 		$query->order($orderCol . " " . $orderDirn);

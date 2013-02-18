@@ -1,32 +1,25 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @name		JFormFieldResponsible
  * @description JFormFieldResponsible component admin field
- * @author	    Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
-
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
 jimport('joomla.form.formfield');
 
 /**
  * Class JFormFieldResponsible for component com_thm_organizer
- *
  * Class provides methods to create a form field that contains the responsibles
  *
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class JFormFieldResponsible extends JFormField
 {
@@ -45,18 +38,18 @@ class JFormFieldResponsible extends JFormField
 	 */
 	public function getInput()
 	{
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 
 		// Get the id of the current asset
 		$pk = JRequest::getVar('id');
 
 		// Build the query
-		$query = $db->getQuery(true);
+		$query = $dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_lecturers');
 		$query->order('surname');
-		$db->setQuery($query);
-		$responsible = $db->loadObjectList();
+		$dbo->setQuery($query);
+		$responsible = $dbo->loadObjectList();
 
 		return JHTML::_('select.genericlist', $responsible, 'jform[responsible_id]', '', 'id', 'surname', self::getSelectedResponsible($pk));
 	}
@@ -70,16 +63,16 @@ class JFormFieldResponsible extends JFormField
 	 */
 	private function getSelectedResponsible($id)
 	{
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 
 		// Build the query
-		$query = $db->getQuery(true);
+		$query = $dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_lecturers_assets as lecturer_assets');
 		$query->where("lecturer_assets.modul_id = $id");
 		$query->where("lecturer_assets.lecturer_type = 1");
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
+		$dbo->setQuery($query);
+		$rows = $dbo->loadObjectList();
 
 		$selectedLecturers = array();
 		if (isset($rows))
