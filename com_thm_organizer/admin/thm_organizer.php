@@ -1,14 +1,13 @@
 <?php
 /**
- * @version	    v0.1.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @description the base file for the component
- * @author	    James Antrim, <james.antrim@mni.thm.de>
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
 
 defined('_JEXEC') or die('Restricted access');
@@ -33,6 +32,6 @@ if (!empty($controller))
     file_exists($path)? require_once $path : $controller = '';
 }
 $classname = 'THM_OrganizerController' . $controller;
-$controller = new $classname;
-$controller->execute($task);
-$controller->redirect();
+$controllerObj = new $classname;
+$controllerObj->execute($task);
+$controllerObj->redirect();
