@@ -1,32 +1,25 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerControllerAssets
  * @description THM_OrganizerControllerAssets component admin controller
- * @author	    Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
-
-// No direct access to this file
 defined('_JEXEC') or die;
-
-// Import Joomla controllerform library
 jimport('joomla.application.component.controlleradmin');
-
 require_once JPATH_COMPONENT_SITE . DS . 'helper/lsfapi.php';
 require_once JPATH_COMPONENT_SITE . DS . 'models/details.php';
 
 /**
  * Class THM_OrganizerControllerAssets for component com_thm_organizer
- *
  * Class provides methods perform actions for assets
  *
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
@@ -68,12 +61,12 @@ class THM_OrganizerControllerAssets extends JControllerAdmin
 	public function getSemester()
 	{
 		$mainframe = JFactory::getApplication();
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 
 		// Get the current selected major-id
 		$majorId = JRequest::getVar('id');
 
-		$query = $db->getQuery(true);
+		$query = $dbo->getQuery(true);
 
 		// Get the semester-ids from the database
 		$query->select("semesters.id as id");
@@ -82,8 +75,8 @@ class THM_OrganizerControllerAssets extends JControllerAdmin
 		$query->join('inner', '#__thm_organizer_semesters as semesters ON semester_majors.semester_id = semesters.id');
 		$query->where("major_id = $majorId");
 
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
+		$dbo->setQuery($query);
+		$rows = $dbo->loadObjectList();
 
 		// Return the string which includes the determined semester ids
 		echo json_encode($rows);
@@ -98,21 +91,21 @@ class THM_OrganizerControllerAssets extends JControllerAdmin
 	public function getModuleCode()
 	{
 		$mainframe = JFactory::getApplication();
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 		$params = JComponentHelper::getParams('com_thm_organizer');
 
 		// Get the current selected major-id
 		$assetID = JRequest::getVar('id');
 
-		$query = $db->getQuery(true);
+		$query = $dbo->getQuery(true);
 
 		// Get the semester-ids from the database
 		$query->select("*");
 		$query->from('#__thm_organizer_assets as assets');
 		$query->where("id = $assetID");
 
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
+		$dbo->setQuery($query);
+		$rows = $dbo->loadObjectList();
 
 		if (!empty($rows[0]->lsf_course_code))
 		{

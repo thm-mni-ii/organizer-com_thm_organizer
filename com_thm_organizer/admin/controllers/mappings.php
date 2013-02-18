@@ -1,33 +1,26 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerControllerMappings
  * @description THM_OrganizerControllerMappings component admin controller
- * @author	    Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
-
-// No direct access to this file
 defined('_JEXEC') or die;
-
-// Import Joomla controllerform library
 jimport('joomla.application.component.controlleradmin');
 
 /**
  * Class THM_OrganizerControllerMappings for component com_thm_organizer
- *
  * Class provides methods perform actions for mappings
  *
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class THM_OrganizerControllerMappings extends JControllerAdmin
 {
@@ -53,46 +46,21 @@ class THM_OrganizerControllerMappings extends JControllerAdmin
 	public function getSemester()
 	{
 		$mainframe = JFactory::getApplication();
-		$id = JRequest::getVar('id');
-		$db = JFactory::getDBO();
-
-		// Get the current selected major-id
+		$assetID = JRequest::getVar('id');
 		$majorId = $_SESSION['stud_id'];
 
-		// Get the semester-ids from the database
-		$query = $db->getQuery(true);
-		$query->select("*");
-		$query->from('#__thm_organizer_assets_tree');
-		$query->join('inner', '#__thm_organizer_assets_semesters ' .
-				'ON #__thm_organizer_assets_tree.id = #__thm_organizer_assets_semesters.assets_tree_id');
-		$query->join('inner', '#__thm_organizer_semesters_majors ' .
-				'ON #__thm_organizer_assets_semesters.semesters_majors_id = #__thm_organizer_semesters_majors.id');
-		$query->where("asset = $id");
-		$query->where("major_id = $majorId");
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
+		$query->select("semesters_majors_id");
+		$query->from('#__thm_organizer_assets_tree AS at');
+		$query->join('#__thm_organizer_assets_semesters AS asem ON at.id = asem.assets_tree_id');
+		$query->join('#__thm_organizer_semesters_majors AS sm ON asem.semesters_majors_id = sm.id');
+		$query->where("asset = '$assetID'");
+		$query->where("major_id = '$majorId'");
+		$dbo->setQuery((string) $query);
+		$rows = $dbo->loadColumn();
 
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
-
-		// Determine the first and last row, in order to attach the correct label strings
-		$foundSemesters = null;
-		$last_item = end($rows);
-		$last_item = each($rows);
-		reset($rows);
-
-		// Iterate over the found semesters
-		foreach ($rows as $key => $value)
-		{
-			$foundSemesters .= $value->semesters_majors_id;
-
-			// Seperate the values with commas
-			if ($value != $last_item['value'] && $key != $last_item['key'])
-			{
-				$foundSemesters .= ', ';
-			}
-		}
-
-		// Return the string which includes the determined semester ids
-		echo $foundSemesters;
+		echo implode(', ', $rows);
 
 		$mainframe->close();
 	}
@@ -106,15 +74,15 @@ class THM_OrganizerControllerMappings extends JControllerAdmin
 	{
 		$mainframe = JFactory::getApplication();
 
-		$id = JRequest::getVar('id');
-		$db = JFactory::getDBO();
+		$assetID = JRequest::getVar('id');
+		$dbo = JFactory::getDBO();
 
-		$query = $db->getQuery(true);
+		$query = $dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_assets');
-		$query->where("id = $id");
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
+		$query->where("id = $assetID");
+		$dbo->setQuery($query);
+		$rows = $dbo->loadObjectList();
 
 		// Return the string which includes the determined semester ids
 		echo json_encode($rows[0]);

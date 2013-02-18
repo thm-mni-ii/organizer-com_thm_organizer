@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin.model
@@ -11,20 +10,17 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 
 /**
  * Class THM_OrganizerModelVirtual_Schedule_Manager for component com_thm_organizer
- *
  * Class provides methods display a list of virtual schedules and perform actions on them
  *
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin.model
  * @link        www.mni.thm.de
- * @since       v0.0.1
  */
 class THM_OrganizerModelVirtual_Schedule_Manager extends JModel
 {
@@ -80,23 +76,43 @@ class THM_OrganizerModelVirtual_Schedule_Manager extends JModel
 		$option = $mainframe->scope;
 		$view = JRequest::getString('view');
 
-		$filter_order		= $mainframe->getUserStateFromRequest(
-				"$option . $view . filter_order", 'filter_order',
-				"#__thm_organizer_virtual_schedules.semesterID, #__thm_organizer_virtual_schedules.vid", 'string'
-		);
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest("$option . $view . filter_order_Dir", 'filter_order_Dir', "", 'string');
-		$filter_type		= $mainframe->getUserStateFromRequest("$option . $view . filter_type",	'filter_type', 0, 'string');
-		$filter_logged		= $mainframe->getUserStateFromRequest("$option . $view . filter_logged", 'filter_logged', 0, 'int');
-		$filter 			= $mainframe->getUserStateFromRequest($option . $view . '.filter', 'filter', '', 'int');
-		$search 			= $mainframe->getUserStateFromRequest($option . $view . '.search', 'search', '', 'string');
-		$groupFilter 		= $mainframe->getUserStateFromRequest($option . $view . '.groupFilters', 'groupFilters', '', 'int');
-		$rolesFilter 		= $mainframe->getUserStateFromRequest($option . $view . '.rolesFilters', 'rolesFilters', '', 'int');
-		$search 			= $this->_db->getEscaped(trim(JString::strtolower($search)));
+		$filter_order = $mainframe->getUserStateFromRequest(
+				"$option.$view.filter_order",
+				'filter_order',
+				'vs.semesterID, vs.vid',
+				'string'
+			);
+		$filter_order_Dir = $mainframe->getUserStateFromRequest(
+				"$option.$view.filter_order_Dir",
+				'filter_order_Dir',
+				'',
+				'string'
+			);
+		$groupFilter = $mainframe->getUserStateFromRequest(
+				"$option.$view.groupFilters",
+				'groupFilters',
+				'',
+				'int'
+			);
+		$rolesFilter = $mainframe->getUserStateFromRequest(
+				"$option.$view.rolesFilters",
+				'rolesFilters',
+				'',
+				'int'
+			);
+		$search = $this->_db->getEscaped(
+			trim(
+				JString::strtolower(
+					$mainframe->getUserStateFromRequest(
+							"$option.$view.search",
+							'search',
+							'',
+							'string'
+						)
+					)
+				)
+			);
 
-		if (!$filter_order)
-		{
-			$filter_order = '#__thm_organizer_virtual_schedules.semesterID, #__thm_organizer_virtual_schedules.vid';
-		}
 		if (!$filter_order_Dir)
 		{
 			$filter_order_Dir = '';
@@ -104,52 +120,55 @@ class THM_OrganizerModelVirtual_Schedule_Manager extends JModel
 
 		$orderby     = "\n ORDER BY $filter_order $filter_order_Dir";
 
-		$query = 'SELECT DISTINCT ' .
-				'#__thm_organizer_virtual_schedules.id as id, #__thm_organizer_virtual_schedules.name,' .
-				'#__thm_organizer_virtual_schedules.type, #__users.name as responsible,' .
-				' department,' .
-				'CONCAT(#__thm_organizer_semesters.organization, "-",#__thm_organizer_semesters.semesterDesc ) as semesterID' .
-				' FROM #__thm_organizer_virtual_schedules' .
-				' INNER JOIN #__thm_organizer_virtual_schedules_elements' .
-				' ON #__thm_organizer_virtual_schedules.id = #__thm_organizer_virtual_schedules_elements.vid' .
-				' INNER JOIN #__thm_organizer_semesters' .
-				' ON #__thm_organizer_virtual_schedules.semesterID = #__thm_organizer_semesters.id' .
-				' INNER JOIN #__users' .
-				' ON #__thm_organizer_virtual_schedules.responsible = #__users.username' .
-				' WHERE #__thm_organizer_virtual_schedules.id = #__thm_organizer_virtual_schedules_elements.vid';
+		$dbo = JFactory::getDbo();
+		$query = $dbo->getQuery(true);
+		$select = 'DISTINCT vs.id as id, vs.name, vs.type, u.name as responsible, ';
+		$select .= 'department, CONCAT(s.organization, "-",s.semesterDesc ) as semesterID';
+		$query->select($select);
+		$query->from('#__thm_organizer_virtual_schedules AS vs');
+		$query->join('#__thm_organizer_virtual_schedules_elements AS vse ON vs.id = vse.vid');
+		$query->join('#__thm_organizer_semesters AS s ON vs.semesterID = s.id');
+		$query->join('#__users AS u ON vs.responsible = u.username');
+		
+		$umlautString = $codeErrString = $search;
 
-		$searchUm = str_replace("Ö", "&Ouml;", $search);
-		$searchUm = str_replace("ö", "&öuml;", $searchUm);
-		$searchUm = str_replace("Ä", "&Auml;", $searchUm);
-		$searchUm = str_replace("ä", "&auml;", $searchUm);
-		$searchUm = str_replace("Ü", "&Uuml;", $searchUm);
-		$searchUm = str_replace("ü", "&uuml;", $searchUm);
+		$umlautSearch = array("Ö" => "&Ouml;",
+							  "ö" => "&öuml;",
+							  "Ä" => "&Auml;",
+							  "ä" => "&auml;",
+							  "Ü" => "&Uuml;",
+							  "ü" => "&uuml;");
+		foreach ($umlautSearch as $char => $code)
+		{
+			str_replace($char, $code, $umlautString);
+		}
 
-		$searchUm2 = str_replace("Ã¶", "&Ouml;", $search);
-		$searchUm2 = str_replace("Ã¶", "&öuml;", $searchUm2);
-		$searchUm2 = str_replace("Ã¤", "&Auml;", $searchUm2);
-		$searchUm2 = str_replace("Ã¤", "&auml;", $searchUm2);
-		$searchUm2 = str_replace("Ã¼", "&Uuml;", $searchUm2);
-		$searchUm2 = str_replace("Ã¼", "&uuml;", $searchUm2);
-
-		$query .= ' AND (LOWER(#__thm_organizer_virtual_schedules.name) LIKE \'%' . $search . '%\' ';
-		$query .= ' OR LOWER(#__thm_organizer_virtual_schedules.responsible) LIKE \'%' . $search . '%\' ';
-		$query .= ' OR LOWER(#__thm_organizer_virtual_schedules.department) LIKE \'%' . $search . '%\' ';
-		$query .= ' OR LOWER(#__thm_organizer_virtual_schedules.name) LIKE \'%' . $searchUm . '%\' ';
-		$query .= ' OR LOWER(#__thm_organizer_virtual_schedules.responsible) LIKE \'%' . $searchUm . '%\' ';
-		$query .= ' OR LOWER(#__thm_organizer_virtual_schedules.department) LIKE \'%' . $searchUm . '%\' ';
-		$query .= ' OR LOWER(#__thm_organizer_virtual_schedules.name) LIKE \'%' . $searchUm2 . '%\' ';
-		$query .= ' OR LOWER(#__thm_organizer_virtual_schedules.responsible) LIKE \'%' . $searchUm2 . '%\' ';
-		$query .= ' OR LOWER(#__thm_organizer_virtual_schedules.department) LIKE \'%' . $searchUm2 . '%\') ';
+		$codeErrSearch = array("Ã¶" => "&öuml;",
+							   "Ã¤" => "&auml;",
+							   "Ã¼" => "&uuml;");
+		foreach ($codeErrSearch as $chars => $code)
+		{
+			str_replace($chars, $code, $codeErrString);
+		}
+		
+		$searchString = '(LOWER(vs.name) LIKE \'%' . $search . '%\' ';
+		$searchString .= ' OR LOWER(vs.responsible) LIKE \'%' . $search . '%\' ';
+		$searchString .= ' OR LOWER(vs.department) LIKE \'%' . $search . '%\' ';
+		$searchString .= ' OR LOWER(vs.name) LIKE \'%' . $umlautString . '%\' ';
+		$searchString .= ' OR LOWER(vs.responsible) LIKE \'%' . $umlautString . '%\' ';
+		$searchString .= ' OR LOWER(vs.department) LIKE \'%' . $umlautString . '%\' ';
+		$searchString .= ' OR LOWER(vs.name) LIKE \'%' . $codeErrString . '%\' ';
+		$searchString .= ' OR LOWER(vs.responsible) LIKE \'%' . $codeErrString . '%\' ';
+		$searchString .= ' OR LOWER(vs.department) LIKE \'%' . $codeErrString . '%\') ';
+		$query->where($searchString);
 
 		if ($groupFilter > 0)
 		{ 
-			$query .= ' AND #__thm_organizer_virtual_schedules.type = ' . $groupFilter . ' ';
+			$query->where("vs.type = '$groupFilter'");
 		}
-
 		if ($rolesFilter > 0)
 		{
-			$query .= ' AND #__thm_organizer_virtual_schedules.semesterID = ' . $rolesFilter . ' ';
+			$query->where("vs.semesterID = '$rolesFilter'");
 		}
 
 		$query .= $orderby;
@@ -184,30 +203,15 @@ class THM_OrganizerModelVirtual_Schedule_Manager extends JModel
 	 */
 	public function getTotal()
 	{
-		// Load the content if it doesn't already exist
 		if (empty($this->_total))
 		{
-			$db = JFactory::getDBO();
-
-			$query = 'SELECT count(*) as anzahl FROM #__thm_organizer_virtual_schedules';
-			$db->setQuery($query);
-			$rows = $db->loadObjectList();
+			$dbo = JFactory::getDBO();
+			$query = $dbo->getQuery(true);
+			$query->select('count(*)');
+			$query->from('#__thm_organizer_virtual_schedules');
+			$dbo->setQuery((string) $query);
+			return $dbo->loadResult();
 		}
-		return $rows[0]->anzahl;
-	}
-
-	/**
-	 * Method to get the total number of records
-	 *
-	 * @return	Integer	 The total number of records
-	 */
-	public function getAnz()
-	{
-		$query = 'SELECT count(*) as anzahl FROM #__thm_organizer_virtual_schedules';
-		$db =JFactory::getDBO();
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
-		return $rows[0]->anzahl;
 	}
 
 	/**
@@ -233,10 +237,11 @@ class THM_OrganizerModelVirtual_Schedule_Manager extends JModel
 	 */
 	public function getElements()
 	{
-		$query = 'SELECT * FROM #__thm_organizer_virtual_schedules_elements';
-		$db =JFactory::getDBO();
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
-		return $rows;
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
+		$query->select('*');
+		$query->from('#__thm_organizer_virtual_schedules_elements');
+		$dbo->setQuery((string) $query);
+		return $dbo->loadObjectList();
 	}
 }

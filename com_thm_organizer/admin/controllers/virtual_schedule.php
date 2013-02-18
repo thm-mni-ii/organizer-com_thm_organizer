@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin.controller
@@ -12,32 +11,24 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 
 /**
  * Class THM_OrganizerControllervirtual_schedule for component com_thm_organizer
- *
  * Class provides methods to handle tasks that affects virtual schedules
  *
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin.controller
- * @link        www.mni.thm.de
- * @since       v0.0.1
  */
 class THM_OrganizerControllerVirtual_Schedule extends JController
 {
 	/**
 	 * Constructor that register tasks and call the parent constructor
-	 *
-	 * @since   v0.0.1
-	 *
 	 */
 	public function __construct()
 	{
-		/* parent::__construct(); */
 		$this->registerTask('add', 'edit');
 		$this->registerTask('deleteList', '');
 	}
@@ -60,40 +51,36 @@ class THM_OrganizerControllerVirtual_Schedule extends JController
 	 */
 	public function remove()
 	{
-		$dbo = JFactory::getDBO();
 		$cid = JRequest::getVar('cid',   array(), 'post', 'array');
-		$cids = implode(',', $cid);
-		$cids_temp = $cids;
-		$cids_temp = str_replace(',', ', ', $cids_temp);
-		$cids = str_replace(',', '","', $cids);
-		$cids = '"' . $cids . '"';
+		$cids = "'" . implode("', '", $cid) . "'";
 
-		$query = 'DELETE FROM #__thm_organizer_virtual_schedules'
-		. ' WHERE vid IN (' . $cids . ');';
-
-		$dbo->setQuery($query);
+		$dbo = JFactory::getDBO();
+		$scheduleQuery = $dbo->getQuery(true);
+		$scheduleQuery->delete('#__thm_organizer_virtual_schedules');
+		$scheduleQuery->where("vid IN ( $cids )");
+		$dbo->setQuery((string) $scheduleQuery);
 		$dbo->query();
 
 		if ($dbo->getErrorNum())
 		{
-			$msg = JText::_('COM_THM_ORGANIZER_ERROR_DELETING') . ".";
+			$msg = JText::_('COM_THM_ORGANIZER_ERROR_DELETING');
 		}
 		else
 		{
-			$query = 'DELETE FROM #__thm_organizer_virtual_schedules_elements'
-			. ' WHERE vid IN ( ' . $cids . ' );';
-
-			$dbo->setQuery($query);
+			$elementQuery = $dbo->getQuery(true);
+			$elementQuery->delete('#__thm_organizer_virtual_schedules_elements');
+			$elementQuery->where("vid IN ( $cids )");
+			$dbo->setQuery((string) $elementQuery);
 			$dbo->query();
 		}
 
 		if (count($cid) > 1)
 		{
-			$msg = JText::_('COM_THM_ORGANIZER_VSM_TITLE') . $cids_temp . JText::_('COM_THM_ORGANIZER_DELETED') . ".";
+			$msg = JText::sprintf('COM_THM_ORGANIZER_VSE_DELETE_SUCCESSES', implode(', ', $cid));
 		}
 		else
 		{
-			$msg = JText::_('COM_THM_ORGANIZER_VIRTUAL_SCHEDULE') . " " . $cids_temp . " " . JText::_('COM_THM_ORGANIZER_DELETED') . ".";
+			$msg = JText::sprintf('COM_THM_ORGANIZER_VSE_DELETE_SUCCESS', implode(', ', $cid));
 		}
 
 		$this->setRedirect('index.php?option=com_thm_organizer&view=virtual_schedule_manager', $msg);
@@ -111,88 +98,84 @@ class THM_OrganizerControllerVirtual_Schedule extends JController
 		 
 		$data = JRequest::getVar('jform', null, null, null);
 
-		$vscheduler_id = $data["id"];
-		$vscheduler_vid = $data["vid"];
-		$vscheduler_name = $data["name"];
-		$vscheduler_types = $data["type"];
+		$vsID = $data["id"];
+		$vid = $data["vid"];
+		$name = $data["name"];
+		$type = $data["type"];
 
-		if ($vscheduler_name == null)
+		if ($name == null)
 		{
-			$this->setRedirect('index.php?option=com_thm_organizer&view=virtual_schedule_edit', JText::_('Der Name darf nicht leer sein.'), 'error');
-			$session =& JFactory::getSession();
+			$url = 'index.php?option=com_thm_organizer&view=virtual_schedule_edit';
+			$this->setRedirect($url, JText::_('COM_THM_ORGANIZER_VSE_NAME_MISSING'), 'error');
+			$session = JFactory::getSession();
 			$session->set('oldPost', $_POST);
 			return;
 		}
-		$vscheduler_semid = $data["semester"];
-		$vscheduler_resps = $data["responsible"];
-		$vscheduler_classesDepartments = $data["ClassDepartment"];
-		$vscheduler_teacherDepartments = $data["TeacherDepartment"];
-		$vscheduler_roomDepartments = $data["RoomDepartment"];
+		$semid = $data["semester"];
+		$resps = $data["responsible"];
+		$classesDepartments = $data["ClassDepartment"];
+		$teacherDepartments = $data["TeacherDepartment"];
+		$roomDepartments = $data["RoomDepartment"];
 		 
-		$vscheduler_classes = null;
-		$vscheduler_rooms = null;
-		$vscheduler_teachers = null;
+		$classes = null;
+		$rooms = null;
+		$teachers = null;
 		 
-		if ($vscheduler_types == "room")
+		if ($type == "room")
 		{
-			$vscheduler_rooms = $data["Rooms"];
+			$rooms = $data["Rooms"];
 		}
-		if ($vscheduler_types == "class")
+		if ($type == "class")
 		{
-			$vscheduler_classes = $data["Classes"];
+			$classes = $data["Classes"];
 		}
-		if ($vscheduler_types == "teacher")
+		if ($type == "teacher")
 		{
-			$vscheduler_teachers = $data["Teachers"];
+			$teachers = $data["Teachers"];
 		}
 
-		if (!isset($vscheduler_name)
-		 || !isset($vscheduler_types)
-		 || !isset($vscheduler_semid)
-		 || !isset($vscheduler_resps)
-		 || !isset($vscheduler_classesDepartments)
-		 || !isset($vscheduler_teacherDepartments)
-		 || !isset($vscheduler_roomDepartments)
-		 || (!isset($vscheduler_classes) && !isset($vscheduler_rooms) && !isset($vscheduler_teachers)))
+		if (!isset($name) OR !isset($type) OR !isset($semid) OR !isset($resps)
+		 OR !isset($classesDepartments) OR !isset($teacherDepartments)
+		 OR !isset($roomDepartments) OR (!isset($classes) && !isset($rooms) && !isset($teachers)))
 		{
 			$msg = "Folgende Felder haben ungültige Werte:<br/>";
-			if (!isset($vscheduler_name))
+			if (!isset($name))
 			{
 				$msg .= "vscheduler_name<br/>";
 			}
-			if (!isset($vscheduler_types))
+			if (!isset($type))
 			{
 				$msg .= "vscheduler_types<br/>";
 			}
-			if (!isset($vscheduler_semid))
+			if (!isset($semid))
 			{
 				$msg .= "vscheduler_semid<br/>";
 			}
-			if (!isset($vscheduler_resps))
+			if (!isset($resps))
 			{
 				$msg .= "vscheduler_resps<br/>";
 			}
-			if (!isset($vscheduler_classesDepartments))
+			if (!isset($classesDepartments))
 			{
 				$msg .= "vscheduler_classesDepartments<br/>";
 			}
-			if (!isset($vscheduler_teacherDepartments))
+			if (!isset($teacherDepartments))
 			{
 				$msg .= "vscheduler_teacherDepartments<br/>";
 			}
-			if (!isset($vscheduler_roomDepartments))
+			if (!isset($roomDepartments))
 			{
 				$msg .= "vscheduler_roomDepartments<br/>";
 			}
-			if (!isset($vscheduler_classes) && $vscheduler_types == "class")
+			if (!isset($classes) && $type == "class")
 			{
 				$msg .= "vscheduler_classes<br/>";
 			}
-			if (!isset($vscheduler_rooms) && $vscheduler_types == "room")
+			if (!isset($rooms) && $type == "room")
 			{
 				$msg .= "vscheduler_rooms<br/>";
 			}
-			if (!isset($vscheduler_teachers) && $vscheduler_types == "teacher")
+			if (!isset($teachers) && $type == "teacher")
 			{
 				$msg .= "vscheduler_teachers<br/>";
 			}
@@ -204,56 +187,52 @@ class THM_OrganizerControllerVirtual_Schedule extends JController
 		}
 		else
 		{
-			// Alles Felder haben gültige Werte
-			$torf = false;
-
-			if ($vscheduler_types == "room")
+			if ($type == "room")
 			{
-				$vscheduler_Departments = $vscheduler_roomDepartments;
-				$vscheduler_elements = $vscheduler_rooms;
+				$Departments = $roomDepartments;
+				$elements = $rooms;
 			}
-			if ($vscheduler_types == "class")
+			if ($type == "class")
 			{
-				$vscheduler_Departments = $vscheduler_classesDepartments;
-				$vscheduler_elements = $vscheduler_classes;
+				$Departments = $classesDepartments;
+				$elements = $classes;
 			}
-			if ($vscheduler_types == "teacher")
+			if ($type == "teacher")
 			{
-				$vscheduler_Departments = $vscheduler_teacherDepartments;
-				$vscheduler_elements = $vscheduler_teachers;
+				$Departments = $teacherDepartments;
+				$elements = $teachers;
 			}
 
 			$torf = $model->saveVirtualSchedule(
-					$vscheduler_id,
-					$vscheduler_vid,
-					$vscheduler_name,
-					$vscheduler_types,
-					$vscheduler_semid,
-					$vscheduler_resps,
-					$vscheduler_Departments,
-					$vscheduler_elements
+					$vsID,
+					$vid,
+					$name,
+					$type,
+					$semid,
+					$resps,
+					$Departments,
+					$elements
 					);
 
 			if ($torf === true)
 			{
-				if ($vscheduler_id == null)
+				$url = 'index.php?option=com_thm_organizer&view=virtual_schedule_manager';
+				if ($vsID == null)
 				{
-					$this->setRedirect('index.php?option=com_thm_organizer&view=virtual_schedule_manager',
-							JText::_('Virtuellen Stundenplan ' . $vscheduler_name . ' erfolgreich angelegt.')
-					);
+					$msg = JText::sprintf('COM_THM_ORGANIZER_VSE_CREATE_SUCCESS', $name);
 				}
 				else
 				{
-					$this->setRedirect('index.php?option=com_thm_organizer&view=virtual_schedule_manager',
-							JText::_('Virtuellen Stundenplan ' . $vscheduler_id . ' erfolgreich bearbeitet.')
-					);
+					$msg = JText::sprintf('COM_THM_ORGANIZER_VSE_EDIT_SUCCESS', $name);
 				}
+				$this->setRedirect($url, $msg);
 				return;
 			}
 			else
 			{
-				$this->setRedirect('index.php?option=com_thm_organizer&view=virtual_schedule_edit', JText::_("Error: " . $torf), 'error');
-				$session =& JFactory::getSession();
+				$url = 'index.php?option=com_thm_organizer&view=virtual_schedule_edit';
+				$this->setRedirect($url, JText::_('COM_THM_ORGANIZER_VSE_EDIT_FAIL'), 'error');
+				$session = JFactory::getSession();
 				$session->set('oldPost', $_POST);
 				return;
 			}

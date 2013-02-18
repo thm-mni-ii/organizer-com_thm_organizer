@@ -5,10 +5,10 @@
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerControllerDummy
  * @description THM_OrganizerControllerDummy component admin controller
- * @author	    Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.controllerform');
@@ -18,11 +18,10 @@ jimport('joomla.application.component.controllerform');
  *
  * Class provides methods perform actions for dummy
  *
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class THM_OrganizerControllerDummy extends JControllerForm
 {

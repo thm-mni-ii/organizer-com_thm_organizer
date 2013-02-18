@@ -1,21 +1,16 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerControllerDummy_Mapping
  * @description THM_OrganizerControllerDummy_Mapping component admin controller
- * @author	    Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
-
-// No direct access to this file
 defined('_JEXEC') or die;
-
-// Import Joomla controllerform library
 jimport('joomla.application.component.controllerform');
 
 /**
@@ -23,11 +18,10 @@ jimport('joomla.application.component.controllerform');
  *
  * Class provides methods perform actions for dummy_mapping
  *
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class THM_OrganizerControllerDummy_Mapping extends JControllerForm
 {
@@ -89,36 +83,36 @@ class THM_OrganizerControllerDummy_Mapping extends JControllerForm
 	 */
 	public function delete()
 	{
-		$db =JFactory::getDBO();
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		$stud_id = $_SESSION['stud_id'];
+		$dbo = JFactory::getDBO();
 
+		$deleteQuery = $dbo->getQuery(true);
+		$deleteQuery->delete('#__thm_organizer_assets_tree');
+		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		foreach ($cid as $id)
 		{
-			$query = 'DELETE FROM #__thm_organizer_assets_tree'
-			. ' WHERE id = ' . $id . ';';
-			$db->setQuery($query);
-			$db->query();
+			$deleteQuery->clear('where');
+			$deleteQuery->where("id = '$id'");
+			$dbo->setQuery((string) $deleteQuery);
+			$dbo->query();
 		}
 
 		// Get the primary keys and ordering values for the selection.
-		$query = $db->getQuery(true);
-
-		// Select the primary key and ordering values from the table.
-		$query->select('*');
-		$query->from(' #__thm_organizer_assets_tree as assets_tree');
-		$query->join('inner', '#__thm_organizer_assets_semesters as assets_semesters ON assets_semesters.assets_tree_id = assets_tree.id');
-		$query->join('inner', '#__thm_organizer_semesters_majors as semesters_majors ON assets_semesters.semesters_majors_id = semesters_majors.id');
-		$query->where("semesters_majors.major_id =" . $stud_id);
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
+		$assetQuery = $dbo->getQuery(true);
+		$assetQuery->select('asset');
+		$assetQuery->from('#__thm_organizer_assets_tree AS at');
+		$assetQuery->join('#__thm_organizer_assets_semesters AS asem ON asem.assets_tree_id = at.id');
+		$assetQuery->join('#__thm_organizer_semesters_majors AS sm ON asem.semesters_majors_id = sm.id');
+		$assetQuery->where("semesters_majors.major_id = '$stud_id'");
+		$dbo->setQuery((string) $assetQuery);
+		$rows = $dbo->loadColumn();
 
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_thm_organizer' . DS . 'tables');
 		$table = self::getTable();
 
 		foreach ($rows as $row)
 		{
-			$table->reorder("parent_id=" . $row->asset);
+			$table->reorder("parent_id = '{$row['asset']}'");
 		}
 
 		$this->setRedirect(JRoute::_("index.php?option=com_thm_organizer&view=dummy_mappings&id=$stud_id", false));

@@ -16,12 +16,10 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
 /**
  * Class performing access checks and model function calls for category actions 
  * 
- * @version		v0.1.0
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v0.1.0
  */
 class THM_OrganizerControllerCategory extends JController
 {

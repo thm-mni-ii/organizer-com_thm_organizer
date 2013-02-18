@@ -5,10 +5,10 @@
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerControllerMajor
  * @description THM_OrganizerControllerMajor component admin controller
- * @author	    Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.controllerform');
@@ -16,14 +16,12 @@ JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_thm_o
 
 /**
  * Class THM_OrganizerControllerMajor for component com_thm_organizer
- *
  * Class provides methods perform actions for major
  *
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class THM_OrganizerControllerMajor extends JControllerForm
 {
@@ -76,43 +74,45 @@ class THM_OrganizerControllerMajor extends JControllerForm
 	 */
 	public function delete()
 	{
-		$db = JFactory::getDBO();
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$dbo = JFactory::getDBO();
+		$majorQuery = $dbo->getQuery(true);
+		$majorQuery->select('*');
+		$majorQuery->from('#__thm_organizer_semesters_majors');
 
+		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		foreach ($cid as $id)
 		{
-			// Delete all related assets
-			$query = 'SELECT * FROM #__thm_organizer_semesters_majors'
-			. ' WHERE major_id = ' . $id . ';';
-			$db->setQuery($query);
-			$semesters = $db->loadObjectList();
+			$majorQuery->clear('where');
+			$majorQuery->where("major_id = '$id'");
+			$dbo->setQuery((string) $majorQuery);
+			$semesters = $dbo->loadObjectList();
 
+			$semesterQuery = $dbo->getQuery(true);
+			$semesterQuery->select('*');
+			$semesterQuery->from('#__thm_organizer_assets_semesters');
 			foreach ($semesters as $semester)
 			{
-				$semesterID = $semester->id;
+				$semesterQuery->clear('where');
+				$semesterQuery->where("major_id = '$semester->id'");
+				$dbo->setQuery((string) $query);
+				$assets = $dbo->loadObjectList();
 
-				// Delete all related assets
-				$query = 'SELECT * FROM #__thm_organizer_assets_semesters'
-				. ' WHERE semesters_majors_id = ' . $semesterID . ';';
-				$db->setQuery($query);
-				$assets = $db->loadObjectList();
-
+				$deleteTreeQuery = $dbo->getQuery(true);
+				$deleteTreeQuery->delete('__thm_organizer_assets_tree');
 				foreach ($assets as $asset)
 				{
-					$asset = $asset->assets_tree_id;
-
-					$query = 'DELETE FROM #__thm_organizer_assets_tree'
-					. ' WHERE id = ' . $asset . ';';
-					$db->setQuery($query);
-					$db->query();
+					$deleteTreeQuery->clear('where');
+					$deleteTreeQuery->where("id = '$asset->assets_tree_id'");
+					$dbo->setQuery((string) $deleteTreeQuery);
+					$dbo->query();
 				}
 			}
 
-			// Delete the major
-			$query = 'DELETE FROM #__thm_organizer_majors'
-			. ' WHERE id = ' . $id . ';';
-			$db->setQuery($query);
-			$db->query();
+			$deleteMajorQuery = $dbo->getQuery(true);
+			$deleteMajorQuery->delete('#__thm_organizer_majors');
+			$deleteMajorQuery->where("id = '$id'");
+			$dbo->setQuery((string) $deleteMajorQuery);
+			$dbo->query();
 		}
 		$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=majors', false));
 	}

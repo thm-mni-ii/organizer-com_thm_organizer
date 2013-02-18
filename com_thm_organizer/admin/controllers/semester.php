@@ -1,15 +1,13 @@
 <?php
 /**
- * @version     v0.1.0
  * @category    Joomla component
- * @package  	THM_Organizer
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @author   	Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @link     	http://www.mni.fh-giessen.de
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @link        www.mni.thm.de
  **/
-
 defined('_JEXEC') or die;
 jimport('joomla.application.component.controllerform');
 
@@ -18,11 +16,9 @@ jimport('joomla.application.component.controllerform');
  *
  * Class provides methods perform actions for semeter
  *
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
- * @since       v0.1.0
  */
 class THM_OrganizerControllerSemester extends JControllerForm
 {
@@ -66,15 +62,17 @@ class THM_OrganizerControllerSemester extends JControllerForm
 	 */
 	public function delete()
 	{
-		$db =JFactory::getDBO();
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
+		$query->delete('#__thm_organizer_semesters');
+
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		
 		foreach ($cid as $id)
 		{
-			$query = 'DELETE FROM #__thm_organizer_semesters'
-			. ' WHERE id = ' . $id . ';';
-			$db->setQuery($query);
-			$db->query();
+			$query->clear('where');
+			$query->where("id = '$id'");
+			$dbo->setQuery((string) $query);
+			$dbo->query();
 		}
 		
 		$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=semesters', false));
