@@ -1,6 +1,5 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -11,11 +10,7 @@
  * @license     GNU GPL v.2
  * @link		www.mni.thm.de
  */
-
-// No direct access to this file
 defined('_JEXEC') or die;
-
-// Import Joomla controllerform library
 jimport('joomla.application.component.controllerform');
 
 /**
@@ -41,18 +36,20 @@ class THM_OrganizerControllerCoursepool extends JControllerForm
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		$retVal = parent::save($key, $urlVar);
+		parent::save($key, $urlVar);
 		$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=assets', false));
 	}
 
 	/**
 	 * Method to perform cancel
 	 *
+	 * @param   string  $key  The name of the primary key of the URL variable.
+	 * 
 	 * @return  void
 	 */
-	public function cancel()
+	public function cancel($key = null)
 	{
-		$retVal = parent::cancel($key, $urlVar);
+		parent::cancel($key);
 		$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=assets', false));
 	}
 }

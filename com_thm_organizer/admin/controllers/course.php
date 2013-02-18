@@ -41,7 +41,7 @@ class THM_OrganizerControllerCourse extends JControllerForm
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		$retVal = parent::save($key, $urlVar);
+		parent::save($key, $urlVar);
 		$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=assets', false));
 	}
 
@@ -55,17 +55,19 @@ class THM_OrganizerControllerCourse extends JControllerForm
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
-		$retVal = parent::edit($key, $urlVar);
+		parent::edit($key, $urlVar);
 	}
 
 	/**
 	 * Method to perform cancel
 	 *
+	 * @param   string  $key  The name of the primary key of the URL variable.
+	 * 
 	 * @return  void
 	 */
-	public function cancel()
+	public function cancel($key = null)
 	{
-		$retVal = parent::cancel($key, $urlVar);
+		parent::cancel($key);
 		$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=assets', false));
 	}
 }

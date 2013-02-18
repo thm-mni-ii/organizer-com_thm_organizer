@@ -1,6 +1,5 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -11,13 +10,8 @@
  * @license     GNU GPL v.2
  * @link		www.mni.thm.de
  */
-
-// No direct access to this file
 defined('_JEXEC') or die;
-
-// Import Joomla controllerform library
 jimport('joomla.application.component.controllerform');
-
 JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_thm_organizer' . DS . 'tables');
 
 /**
@@ -44,7 +38,6 @@ class THM_OrganizerControllerMajor extends JControllerForm
 	public function save($key = null, $urlVar = null)
 	{
 		$retVal = parent::save($key, $urlVar);
-
 		if ($retVal)
 		{
 			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=majors', false));

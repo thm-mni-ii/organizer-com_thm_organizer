@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.1.3
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.general
@@ -22,7 +21,6 @@ jimport('joomla.filesystem.file');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.general
  * @link        www.mni.thm.de
- * @since       v0.1.0
  */
 class COM_THM_OrganizerInstallerScript
 {
@@ -239,7 +237,6 @@ if (!$dirCreated)
      */
     private function getVersion()
     {
-        $dbo = JFactory::getDbo();
         $extension = JTable::getInstance('Extension');
         $extension->load(array('name' => 'com_thm_organizer'));
         $manifest_cache = new JRegistry($extension->manifest_cache);
