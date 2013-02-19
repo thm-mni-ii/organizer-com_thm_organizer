@@ -1,5 +1,5 @@
 <?php
-
+// @codingStandardsIgnoreFile
 // Levenberg-Marquardt in PHP
 
 // http://www.idiom.com/~zilla/Computer/Javanumeric/LM.java

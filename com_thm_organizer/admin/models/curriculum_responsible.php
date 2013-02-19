@@ -40,28 +40,34 @@ class JFormFieldResponsible extends JFormField
 	{
 		$dbo = JFactory::getDBO();
 
-		// Get the id of the current asset
-		$pk = JRequest::getVar('id');
-
 		// Build the query
 		$query = $dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_lecturers');
 		$query->order('surname');
-		$dbo->setQuery($query);
+		$dbo->setQuery((string) $query);
 		$responsible = $dbo->loadObjectList();
 
-		return JHTML::_('select.genericlist', $responsible, 'jform[responsible_id]', '', 'id', 'surname', self::getSelectedResponsible($pk));
+		return JHTML::_(
+						'select.genericlist',
+						$responsible,
+						'jform[responsible_id]',
+						'',
+						'id',
+						'surname',
+						self::getSelectedResponsible(JRequest::getVar('id'))
+					   );
 	}
 
 	/**
 	 * Gets the selected responsible from the given asset id
 	 *
-	 * @param   Integer  $id  Id
+	 * @param   Integer  $moduleID  Id
 	 *
-	 * @return  mixed
+	 * @return  array  array with the lecturers responsible for the selected
+	 *				   modules or empty if none were found
 	 */
-	private function getSelectedResponsible($id)
+	private function getSelectedResponsible($moduleID)
 	{
 		$dbo = JFactory::getDBO();
 
@@ -69,7 +75,7 @@ class JFormFieldResponsible extends JFormField
 		$query = $dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_lecturers_assets as lecturer_assets');
-		$query->where("lecturer_assets.modul_id = $id");
+		$query->where("lecturer_assets.modul_id = $moduleID");
 		$query->where("lecturer_assets.lecturer_type = 1");
 		$dbo->setQuery($query);
 		$rows = $dbo->loadObjectList();
@@ -110,10 +116,10 @@ class JFormFieldResponsible extends JFormField
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description))
 		{
-			$label .= ' title="' . htmlspecialchars(
-					trim(
-							JText::_($text), ':') . '::' .
-					JText::_($this->description), ENT_COMPAT, 'UTF-8') . '"';
+			$title = trim(JText::_($text), ':');
+			$description = JText::_($this->description);
+			$titleText = htmlspecialchars($title . '::' . $description, ENT_COMPAT, 'UTF-8');
+			$label .= ' title="' . $titleText . '"'; 
 		}
 
 		// Add the label text and closing tag.

@@ -1,5 +1,5 @@
 <?php
-
+// @codingStandardsIgnoreFile
 class PHPExcel_CachedObjectStorageFactory {
 	const cache_in_memory				= 'Memory';
 	const cache_in_memory_gzip			= 'MemoryGZip';

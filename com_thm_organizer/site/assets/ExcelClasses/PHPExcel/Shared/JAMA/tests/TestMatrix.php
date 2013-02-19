@@ -1,5 +1,5 @@
 <?php
-
+// @codingStandardsIgnoreFile
 require_once "../Matrix.php";
 
 class TestMatrix {

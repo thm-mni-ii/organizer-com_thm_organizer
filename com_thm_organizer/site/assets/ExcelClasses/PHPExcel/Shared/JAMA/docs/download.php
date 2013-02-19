@@ -1,4 +1,5 @@
 <?php
+// @codingStandardsIgnoreFile
 /**
 * Script to create REGRESS package for download
 *

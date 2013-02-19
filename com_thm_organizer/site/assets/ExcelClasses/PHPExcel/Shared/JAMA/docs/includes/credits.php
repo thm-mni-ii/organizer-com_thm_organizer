@@ -1,4 +1,7 @@
-	<div id="credits">
+<?php
+// @codingStandardsIgnoreFile
+?>
+<div id="credits">
   <p>
   Brought to you by:
   </p>
