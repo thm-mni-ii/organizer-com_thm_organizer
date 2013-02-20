@@ -481,7 +481,7 @@ class THM_OrganizerModelBooking extends JModel
         $newEventStart = strtotime($newEventStart);
         $newEventEnd = ($this->_endtime)? "{$this->_enddate} {$this->_endtime}" : "{$this->_enddate} 23:59";
         $flooredEventEnd = strtotime("{$this->_enddate} 00:00");
-        $ceilingEventEnd = strtotime("{$this->_enddate} 23:59");
+        // $ceilingEventEnd = strtotime("{$this->_enddate} 23:59");
         $newEventEnd = strtotime($newEventEnd);
         $restriction = "( ";
         $restriction .= "(e.start <= '$newEventStart' AND e.end >= '$newEventStart' ) OR ";

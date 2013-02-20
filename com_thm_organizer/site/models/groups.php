@@ -90,17 +90,17 @@ class THM_OrganizerModelGroups extends JModel
 	public function __construct($lang = null)
 	{
 		$this->db = JFactory::getDBO();
-		$this->app = &JFactory::getApplication();
-		$this->globParams = JComponentHelper::getParams('com_thm_organizer');
-		$this->session = & JFactory::getSession();
+		$this->_app = &JFactory::getApplication();
+		$this->_globParams = JComponentHelper::getParams('com_thm_organizer');
+		$this->_session = & JFactory::getSession();
 
 		if ($lang == null)
 		{
-			$this->lang = JRequest::getVar('lang');
+			$this->_lang = JRequest::getVar('lang');
 		}
 		else
 		{
-			$this->lang = $lang;
+			$this->_lang = $lang;
 		}
 		parent::__construct();
 	}
@@ -157,7 +157,7 @@ class THM_OrganizerModelGroups extends JModel
 			// Get the lecturers name from THM Groups
 			if ($userid == 0)
 			{
-				$lectureName = false;
+				$lecturerName = false;
 			}
 			else
 			{
@@ -199,10 +199,10 @@ class THM_OrganizerModelGroups extends JModel
 		// Gets the component configiration and performs a soap request, in order to get the xml structe for a given major
 		$config = self::getLsfConfiguration($configId);
 		$model = new THM_OrganizerModelCurriculum;
-		$this->major = $model->getMajorRecord($configId);
+		$this->_major = $model->getMajorRecord($configId);
 
 		$client = new LsfClient(
-				$this->globParams->get('webserviceUri'), $this->globParams->get('webserviceUsername'), $this->globParams->get('webservicePassword')
+				$this->_globParams->get('webserviceUri'), $this->_globParams->get('webserviceUsername'), $this->_globParams->get('webservicePassword')
 		);
 		$modulesXML = $client->getModules($config[0]->lsf_object, $config[0]->lsf_study_path, "", $config[0]->lsf_degree, $config[0]->po);
 		$groups = array();
@@ -211,7 +211,7 @@ class THM_OrganizerModelGroups extends JModel
 		$additionalGroups = array();
 
 		// Set the correct label of the group, which contains all courses without a relation to a certain group
-		if ($this->lang == 'de')
+		if ($this->_lang == 'de')
 		{
 			$additionalGroups[0][0] = "Sonstige Module";
 		}
@@ -279,7 +279,7 @@ class THM_OrganizerModelGroups extends JModel
 					$k = 0;
 
 					// Set the labels for the groups
-					if ($this->lang == 'de')
+					if ($this->_lang == 'de')
 					{
 						$groups[$i][0] = (String) $gruppe->titelde;
 					}
@@ -343,24 +343,24 @@ class THM_OrganizerModelGroups extends JModel
 	{
 		$flag = null;
 
-		if ($this->globParams->get('filter') == 1)
+		if ($this->_globParams->get('filter') == 1)
 		{
 
 			// Filtering via course id
-			if ($this->globParams->get('filter_type') == 0)
+			if ($this->_globParams->get('filter_type') == 0)
 			{
 
-				$paramfilter = $this->globParams->get('modulecodeFilterList');
+				$paramfilter = $this->_globParams->get('modulecodeFilterList');
 				$explodedFilterValues = explode(',', $paramfilter);
 				if (in_array($modulnummer, $explodedFilterValues))
 				{
 					$flag = 1;
 				}
 			}
-			elseif ($this->globParams->get('filter_type') == 1)
+			elseif ($this->_globParams->get('filter_type') == 1)
 			{
 				// Filtering via  identifier (e.g. CS, SK, ....)
-				$paramfilter = $this->globParams->get('modulecodeFilterFachgruppen');
+				$paramfilter = $this->_globParams->get('modulecodeFilterFachgruppen');
 				$explodedFilterValues = explode(',', $paramfilter);
 
 				// Iterate over the entire filter list
@@ -385,7 +385,7 @@ class THM_OrganizerModelGroups extends JModel
 	 */
 	public function buildCourseDetailLink($row)
 	{
-		$detailLink = "<a href='" . JRoute::_("index.php?option=com_thm_organizer&view=details&lang=" . $this->lang . "&id="
+		$detailLink = "<a href='" . JRoute::_("index.php?option=com_thm_organizer&view=details&lang=" . $this->_lang . "&id="
 				. $row->lsf_course_id
 		) .
 		"'>" . ($row->lsf_course_code ? $row->lsf_course_code : ($row->his_course_code ? $row->his_course_code : $row->lsf_course_id))
@@ -403,7 +403,6 @@ class THM_OrganizerModelGroups extends JModel
 	 */
 	public function buildCourseData($row)
 	{
-		$data = array();
 		$model = new THM_OrganizerModelCurriculum;
 
 		$creditpoints = explode('.', $row->min_creditpoints);
@@ -419,7 +418,7 @@ class THM_OrganizerModelGroups extends JModel
 		}
 
 		// Set the default language to german
-		if ($this->lang == 'de')
+		if ($this->_lang == 'de')
 		{
 			$modul['title'] = $row->title_de;
 		}
@@ -457,7 +456,7 @@ class THM_OrganizerModelGroups extends JModel
 		if (isset($row->lsf_course_code))
 		{
 			$modul['schedule'] = array();
-			$modul['schedule'] = self::getSchedulerTooltip(strtolower($row->lsf_course_code), $this->major[0]['organizer_major']);
+			$modul['schedule'] = self::getSchedulerTooltip(strtolower($row->lsf_course_code), $this->_major[0]['organizer_major']);
 		}
 
 		return $modul;
@@ -473,8 +472,6 @@ class THM_OrganizerModelGroups extends JModel
 	 */
 	public function buildResponsibleLink($assetId, $viewName = 'groups')
 	{
-		$model = new THM_OrganizerModelCurriculum;
-
 		if (!isset($assetId) && $assetId == "")
 		{
 			return;
@@ -556,6 +553,8 @@ class THM_OrganizerModelGroups extends JModel
 			return;
 		}
 
+		$model = new THM_OrganizerModelCurriculum;
+		
 		if ($major == null)
 		{
 			$config = self::getLsfConfiguration();
@@ -643,7 +642,7 @@ class THM_OrganizerModelGroups extends JModel
 	{
 		if ($configId == null)
 		{
-			$menus = $this->app->getMenu();
+			$menus = $this->_app->getMenu();
 			$menu = $menus->getActive();
 			$configId = $menu->params->get('lsf_query');
 		}
@@ -820,7 +819,6 @@ class THM_OrganizerModelGroups extends JModel
 	 */
 	public function setNavigationToSession($groups)
 	{
-		$k = 0;
 		$session = & JFactory::getSession();
 		$navi = array();
 

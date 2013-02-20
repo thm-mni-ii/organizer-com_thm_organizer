@@ -48,7 +48,6 @@ class THM_OrganizerViewGroups extends JView
 		$document->addStyleSheet($this->baseurl . '/components/com_thm_organizer/css/curriculum.css');
 
 		// Get the parameters of the current view
-		$params = &$state->params;
 		$menus = $app->getMenu();
 		$menu = $menus->getActive();
 		$this->params = $menu->params;
@@ -77,7 +76,6 @@ class THM_OrganizerViewGroups extends JView
 	 */
 	public function languageSwitcher($langLink)
 	{
-		$uri = JUri::base();
 		$itemid = JRequest::getVar('Itemid');
 		$group = JRequest::getVar('view');
 		$u = & JURI::getInstance('index.php');

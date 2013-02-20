@@ -77,7 +77,6 @@ class THM_OrganizerModelEvent extends JModel
     {
         $eventID = JRequest::getInt('eventID')? JRequest::getInt('eventID'): 0;
         $dbo = JFactory::getDBO();
-        $user = JFactory::getUser();
 
         $query = $dbo->getQuery(true);
         $query->select($this->getSelect());

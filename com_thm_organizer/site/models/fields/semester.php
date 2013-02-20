@@ -46,7 +46,6 @@ class JFormFieldSemester extends JFormField
 	public function getInput()
 	{
 		$js = "";
-		$sortButtons = true;
 		$db = JFactory::getDBO();
 
 		$scriptDir = str_replace(JPATH_SITE . DS, '', "components/com_thm_organizer/models/fields/");
@@ -94,7 +93,6 @@ class JFormFieldSemester extends JFormField
 		$db->setQuery($query);
 		$semesters = $db->loadObjectList();
 		$semesters2 = $db->loadResultArray();
-		$semesters3 = $db->loadRowList();
 
 		if ($this->value)
 		{

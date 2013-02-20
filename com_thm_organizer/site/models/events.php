@@ -163,7 +163,7 @@ class THM_OrganizerModelEvents extends JModel
         else
         {
             $offset = 0 - $offset;
-            $offset = " +{$offest}";
+            $offset = " +{$offset}";
         }
         $offset .= " seconds";
         return date("Y-m-d H:i:s", strtotime($offset));
@@ -360,7 +360,7 @@ class THM_OrganizerModelEvents extends JModel
         $asset->setLocation($parentID, 'last-child');
         if (!$asset->store())
         {
-            $this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
+            $this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $dbo->stderr(true)));
             return false;
         }
 
@@ -636,7 +636,7 @@ class THM_OrganizerModelEvents extends JModel
         }
         $mailer->setSubject(stripslashes($data['title']));
         $mailer->setBody(strip_tags($data['introtext']));
-        $sent = $mailer->Send();
+        $mailer->Send();
     }
 
     /**

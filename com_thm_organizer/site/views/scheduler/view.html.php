@@ -48,7 +48,6 @@ class THM_OrganizerViewScheduler extends JView
 		
 		$menuparams = JFactory::getApplication()->getParams();
 				
-		$user = JFactory::getUser();
 		$eventmodel = JModel::getInstance('event_list', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
 		$canWriteEvents = $eventmodel->canWrite;
 		$this->canWriteEvents = $canWriteEvents;

@@ -394,7 +394,6 @@ class THM_OrganizerModelCurriculum extends JModelList
 	public function getJSONCurriculum()
 	{
 		$mainframe = JFactory::getApplication();
-		$document = & JFactory::getDocument();
 		$db = JFactory::getDBO();
 		$groupsModel = new THM_OrganizerModelGroups;
 

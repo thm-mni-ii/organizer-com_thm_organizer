@@ -46,7 +46,6 @@ class JFormFieldMajor extends JFormField
 	public function getInput()
 	{
 		$scriptDir = str_replace(JPATH_SITE . DS, '', "components/com_thm_organizer/models/fields/");
-		$sortButtons = true;
 		$db = JFactory::getDBO();
 
 		// Add script-code to the document head

@@ -74,9 +74,6 @@ class THM_OrganizerViewLecturers extends JView
 	 */
 	private function languageSwitcher($langLink)
 	{
-		$session = & JFactory::getSession();
-
-		$uri = JUri::base();
 		$itemid = JRequest::getVar('Itemid');
 		$group = JRequest::getVar('view');
 		$u = & JURI::getInstance('index.php');
