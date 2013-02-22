@@ -72,7 +72,7 @@ class DataAbstraction
 	 */
 	public function getUserName()
 	{
-		return $this->_user->_username;
+		return $this->_user->username;
 	}
 
 	/**
