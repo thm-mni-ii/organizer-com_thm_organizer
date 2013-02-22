@@ -21,7 +21,7 @@ jimport('joomla.form.formfield');
  *
  * Class provides methods to creates a form field with responsible
  *
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin.field
  * @link        www.mni.thm.de
