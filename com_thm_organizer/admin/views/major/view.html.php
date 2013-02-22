@@ -4,7 +4,7 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerViewMajor
+ * @name        THM_OrganizerViewMajor
  * @description THM_OrganizerViewMajor component admin view
  * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
