@@ -18,7 +18,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
 /**
  * Class loading persistent data to be used for schedule edit output
  * 
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
@@ -54,9 +54,9 @@ class THM_OrganizerModelSchedule_Edit extends JModelAdmin
     /**
      * Method to get a single record.
      *
-     * @param	integer	 $key  not used
+     * @param   integer	 $key  not used
      *
-     * @return	mixed	Object on success, false on failure.
+     * @return  mixed	 Object on success, false on failure.
      */
     public function getItem($key = null)
     {
@@ -70,9 +70,9 @@ class THM_OrganizerModelSchedule_Edit extends JModelAdmin
      * returns a table object the parameters are completely superfluous in the
      * implementing classes since they are always set by default
      *
-     * @param	string  $type    the table type to instantiate
-     * @param	string	$prefix  a prefix for the table class name. optional.
-     * @param	array	$config  configuration array for model. optional.
+     * @param   string  $type    the table type to instantiate
+     * @param   string	$prefix  a prefix for the table class name. optional.
+     * @param   array   $config  configuration array for model. optional.
      *
      * @return	JTable	A database object
     */

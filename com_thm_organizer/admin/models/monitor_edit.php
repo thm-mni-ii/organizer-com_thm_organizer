@@ -18,7 +18,7 @@ jimport('joomla.application.component.modeladmin');
 /**
  * Class retrieving a monitor entry to be edited 
  * 
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
