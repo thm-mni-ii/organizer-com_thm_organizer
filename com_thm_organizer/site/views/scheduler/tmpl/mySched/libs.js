@@ -460,12 +460,27 @@ function showLoadMask(id)
     MySched.loadMask.show();
 }
 
-function convertDateStringToDateObject(dateString)
+function convertEnglishDateStringToDateObject(dateString)
 {
 	var splittedDateIndex = dateString.split("-");
     if (splittedDateIndex.length == 3)
     {
         var dateObject = new Date(splittedDateIndex[0], splittedDateIndex[1] - 1, splittedDateIndex[2]);
+        Ext.Date.clearTime(dateObject);
+        return dateObject;
+    }
+    else
+    {
+    	return false;
+    }
+}
+
+function convertGermanDateStringToDateObject(dateString)
+{
+	var splittedDateIndex = dateString.split(".");
+    if (splittedDateIndex.length == 3)
+    {
+        var dateObject = new Date(splittedDateIndex[2], splittedDateIndex[1] - 1, splittedDateIndex[0]);
         Ext.Date.clearTime(dateObject);
         return dateObject;
     }
@@ -484,7 +499,7 @@ function displayDelta()
 	
 	var currentDate = new Date();
 	Ext.Date.clearTime(currentDate);
-	var creationDate = convertDateStringToDateObject(MySched.session["creationdate"]);
+	var creationDate = convertEnglishDateStringToDateObject(MySched.session["creationdate"]);
 	
 	creationDate.setDate(creationDate.getDate() + MySched.deltaDisplayDays);
 	if(creationDate < currentDate)
@@ -511,4 +526,46 @@ function getTeacherSurnameWithCutFirstName(teacherKey)
     }
     
     return teacherName;
+}
+
+function getBlocksBetweenTimes(startTime, endTime, eventStartDate, eventEndDate)
+{
+	if(eventStartDate < eventEndDate)
+	{
+		endTime = "19:00";
+	}
+	
+	var blockTimes =  [{"start": "08:00", "end": "09:30"},
+	                   {"start": "09:50", "end": "11:20"},
+	                   {"start": "11:30", "end": "13:00"},
+	                   {"start": "14:00", "end": "15:30"},
+	                   {"start": "15:45", "end": "17:15"},
+	                   {"start": "17:30", "end": "19:00"}];
+	
+	var returnBlocks = [];
+	
+	for (var blockIndex = 0; blockIndex < blockTimes.length; blockIndex++)
+	{
+		var blockTime = blockTimes[blockIndex];
+		
+		// Event startet vor dem Block und geht über den Block hinaus
+		if(startTime <= blockTime["start"] && endTime >= blockTime["end"])
+		{
+			returnBlocks.push(blockIndex);
+		} // Event ist innerhalb des Blocks
+		else if(startTime >= blockTime["start"] && endTime <= blockTime["end"])
+		{
+			returnBlocks.push(blockIndex);
+		} // Event beginnt vor dem Block endet aber in diesem
+		else if(startTime <= blockTime["start"] && endTime <= blockTime["end"] && endTime >= blockTime["start"])
+		{
+			returnBlocks.push(blockIndex);
+		} // Event startet in diesem Block und geht über diesen Block hinaus
+		else if(startTime >= blockTime["start"] && startTime <= blockTime["end"] &&  endTime >= blockTime["end"])
+		{
+			returnBlocks.push(blockIndex);
+		}
+	}
+	
+	return returnBlocks;
 }

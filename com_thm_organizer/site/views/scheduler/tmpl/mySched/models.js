@@ -17,6 +17,7 @@ Ext.define('MySched.Model',
 
         this.id = id;
         this.data = {};
+        this.eventList = new MySched.Collection();
         this.responsible = null;
         this.object1 = null;
         this.object2 = null;
@@ -166,7 +167,7 @@ Ext.define('mSchedule',
                     this.data = datatemp;
                 }
 
-                this.data.addAll(MySched.eventlist.getEvents(type, value));
+                this.eventList.addAll(MySched.eventlist.getEvents(type, value));
             }
         }
 
@@ -310,142 +311,102 @@ Ext.define('mSchedule',
                 }
             });
         }
+        
+        var eventlist = MySched.eventlist;
+        var events = eventlist;
 
         //sporadische Termine hinzufügen
-        /*this.data.eachKey(function (k, v) {
-      if (v.data.type != "cyclic" && v.data.type != "personal") {
-        //sporadischer Termin
-        var wd = null;
-        var bl = null;
-        var clickeddate = Ext.ComponentMgr.get('menuedatepicker');
-        var weekpointer = null;
-        weekpointer = Ext.Date.clone(clickeddate.value);
-
-        weekpointer = getMonday(weekpointer);
-        weekpointer.clearTime(); 
-
-        for (var counter = 0; counter < 5; counter++) {
-          var startdate = v.data.startdate.split(".");
-          startdate = new Date(startdate[2], startdate[1]-1, startdate[0]);
-          var enddate = v.data.enddate.split(".");
-          enddate = new Date(enddate[2], enddate[1]-1, enddate[0]);
-
-          if (startdate <= weekpointer && enddate >= weekpointer) {
-            wd = numbertoday(weekpointer.getDay());
-            for (var i = 0; i < 6; i++) {
-              var blotimes = blocktotime(i+1);
-              if(v.data.recurrence_type == 1) //täglich
-              {
-                if (v.data.starttime <= blotimes[0] && v.data.endtime >= blotimes[1]) {
-                  bl = i;
-                }
-                else if ((v.data.starttime >= blotimes[0] && v.data.starttime < blotimes[1]) && (blotimes[1] >= blotimes[0] && blotimes[1] <= blotimes[0])) {
-                  bl = i;
-                }
-                else if (v.data.starttime >= blotimes[0] && v.data.starttime < blotimes[1]) {
-                  bl = i;
-                }
-                else if (v.data.endtime >= blotimes[0] && v.data.endtime <= blotimes[1]) {
-                  bl = i;
-                }
-              }
-              else
-                if(v.data.recurrence_type == 0) //durchgängig
+        this.eventList.eachKey(function (k, v)
+        {
+        	var eventData = v.data;
+        	var eventStartDate = eventData.startdate;
+        	var eventEndDate = eventData.enddate;
+        	var eventStartTime = eventData.starttime;
+        	var eventEndTime = eventData.endtime;
+        	var currMOFR = getCurrentMoFrDate();
+        	var eventStartDateInCurrentWeek = null;
+        	var eventEndDateInCurrentWeek = null;
+        	
+        	eventStartDate = convertGermanDateStringToDateObject(eventStartDate);
+        	eventEndDate = convertGermanDateStringToDateObject(eventEndDate);
+        	
+        	// Event war vor der aktuellen Woche
+        	if(eventStartDate < currMOFR.monday && eventEndDate < currMOFR.monday)
+        	{
+        		return true;
+        	}
+        	
+        	// Event ist nach der aktuellen Woche
+        	if(eventStartDate > currMOFR.friday && eventEndDate > currMOFR.friday)
+        	{
+        		return true;
+        	}
+        	
+        	// Event geht über die ganze Woche
+        	if(eventStartDate <= currMOFR.monday && eventEndDate >= currMOFR.friday)
+        	{
+        		eventStartDateInCurrentWeek = currMOFR.monday;
+        		eventEndDateInCurrentWeek = currMOFR.friday;
+        	} // Event ist nur genau in dieser Woche
+        	else if(currMOFR.monday <= eventStartDate && currMOFR.friday >= eventEndDate)
+        	{
+        		eventStartDateInCurrentWeek = eventStartDate;
+        		eventEndDateInCurrentWeek = eventEndDate;
+        	} // Event beginnt vor der Woche und endet aber in dieser Woche
+        	else if(eventStartDate <= currMOFR.monday && eventEndDate <= currMOFR.friday)
+        	{
+        		eventStartDateInCurrentWeek = currMOFR.monday;
+        		eventEndDateInCurrentWeek = eventEndDate;
+        	} // Event beginnt in dieser Woche und endet aber nicht in dieser Woche
+        	else if(eventStartDate >= currMOFR.monday && eventEndDate >= currMOFR.friday)
+        	{
+        		eventStartDateInCurrentWeek = eventStartDate;
+        		eventEndDateInCurrentWeek = currMOFR.friday;
+        	}
+        	
+        	// Beginn und/oder Ende Datum nicht gesetzt
+        	if(eventStartDateInCurrentWeek == null || eventEndDateInCurrentWeek == null)
+        	{
+        		return true;
+        	}
+        	
+        	// Beginn ist nach dem Ende Datum
+        	if(eventStartDateInCurrentWeek > eventEndDateInCurrentWeek)
+        	{
+        		return true;
+        	}
+        	
+        	while(eventStartDateInCurrentWeek <= eventEndDateInCurrentWeek)
+        	{
+        		// Wochentag holen
+        		var dow = Ext.Date.format(eventStartDateInCurrentWeek, "l");
+                dow = dow.toLowerCase();
+                 
+                // Block holen
+                var eventBlocks = getBlocksBetweenTimes(eventStartTime, eventEndTime, eventStartDateInCurrentWeek, eventEndDateInCurrentWeek);
+                
+                for(var blockIndex = 0; blockIndex < eventBlocks.length; blockIndex++)
                 {
-                  if( startdate == weekpointer )
-                  {
-                    if ( v.data.starttime <= blotimes[0] )
-                      bl = i;
-                    else
-                    if (v.data.starttime >= blotimes[0] && v.data.starttime < blotimes[1])
-                      bl = i;
-                  }
-                  else if( enddate == weekpointer)
-                  {
-                    if ( v.data.endtime >= blotimes[1] )
-                      bl = i;
-                    else
-                    if (v.data.endtime >= blotimes[0] && v.data.endtime <= blotimes[1])
-                      bl = i;
-                  }
-                  else
-                    if (v.data.starttime >= blotimes[0] && v.data.starttime < blotimes[1])
-                      bl = i;
-                    else if (v.data.starttime <= blotimes[0] && v.data.endtime > blotimes[1])
-                      bl = i;
-                      else if (v.data.endtime > blotimes[0] && v.data.endtime <= blotimes[1])
-                        bl = i;
-                }
-
-              if (bl != null) {
-                if (!ret[bl][wd])
-                  ret[bl][wd] = [];
-
-                var begin = MySched.session["begin"].split(".");
-                begin = new Date(begin[2], begin[1]-1, begin[0]);
-                var end = MySched.session["end"].split(".");
-                end = new Date(end[2], end[1]-1, end[0]);
-
-                var lessonResult = [];
-
-                var lessonResult = this.data.filterBy(function (o, k) {
-                  if (o.data.type == "cyclic" || o.data.type == "personal")
-                    for(var eOIndex = 0; eOIndex < v.data.objects.length; eOIndex++)
+                	var eventBlock = eventBlocks[blockIndex];
+                    if (!ret[eventBlock][dow])
                     {
-                    	eventObjects = v.data.objects[eOIndex];
-                    	if(this.gpUntisID === eventObjects.id)
-                    		return true;
-                    	if (o.teacher.containsKey(eventObjects.id) || o.room.containsKey(eventObjects.id))
-                    		if(o.data.block == (bl+1) && numbertoday(o.data.dow) == wd)
-                    			if(startdate >= begin && enddate <= end)
-                    				return true;
+                    	ret[eventBlock][dow] = [];
                     }
-                  return false;
-                }, this);
-
-                if(lessonResult.length > 0)
-                {
-                  lessonResult = lessonResult.filterBy(function (o, k) {
-                  if (o.data.type == "cyclic" || o.data.type == "personal")
-                	  for(var eOIndex = 0; eOIndex < v.data.objects.length; eOIndex++)
-                      {
-                      	eventObjects = v.data.objects[eOIndex];
-                      	if (o.teacher.containsKey(eventObjects.id) || o.room.containsKey(eventObjects.id))
-                      		if(o.data.block == (bl+1) && numbertoday(o.data.dow) == wd)
-                      			if(startdate >= begin && enddate <= end)
-                      				return true;
-                    }
-                  return false;
-                  }, this);
-                  var collision = false;
-                  if(lessonResult.length > 0)
-                    collision = true;
-                  ret[bl][wd].push(v.getEventView(this.type, bl, collision));
-                  this.visibleEvents.push(v.data);
+                     
+                    ret[eventBlock][dow].push(v.getEventView(this.type));
                 }
-              }
-              bl = null;
-            }
-          }
-          weekpointer.setDate(weekpointer.getDate() + 1);
-        }
-      }
-    }, this);*/
+                 
+                eventStartDateInCurrentWeek.setDate(eventStartDateInCurrentWeek.getDate() + 1);
+        	}
+        }, this);
 
 	    //zyklische Termine hinzufügen
 	    this.data.eachKey(function (k, v)
 	    {
-	        //zyklischer Termin
-	
-	        //      if(MySched.eventlist.checkRessource(v.data.room + " " + v.data.teacher + " " + v.data.module, v.data.dow, v.data.block, true) != "")
-	        //          return;
-	
-	        // Check if the lesson should be displayed in this week
-	    	
 	        var calendarDates = v.data.calendar;
 	        for (var dateIndex in calendarDates)
 	        {
-        		var dateObject = convertDateStringToDateObject(dateIndex);
+        		var dateObject = convertEnglishDateStringToDateObject(dateIndex);
                 var currMOFR = getCurrentMoFrDate();
                 if (dateObject >= currMOFR.monday && dateObject <= currMOFR.friday)
                 {
@@ -487,13 +448,13 @@ Ext.define('mSchedule',
                         	if(displayLesson == true)
                         	{
 	                            var block = blockIndex - 1;
-	                                                            
+	                            
 	                            if (!ret[block][dow])
 	                            {
 	                            	ret[block][dow] = [];
 	                            }
 	                            
-	                            ret[block][dow].push(v.getCellView(this));
+	                            ret[block][dow].push(v.getCellView(this, block, dow));
 	                            this.visibleLessons.push(v.data);
                         	}
                         }
@@ -813,7 +774,7 @@ Ext.define('mSchedule',
         if (!this.grid) return this.show();
         if (this.type != "delta")
         {
-            this.data.addAll(MySched.eventlist.getEvents(this.type, this.id));
+            this.eventList.addAll(MySched.eventlist.getEvents(this.type, this.key));
         }
         this.grid.loadData(this.getGridData());
         var func = function ()
@@ -870,7 +831,7 @@ Ext.define('mSchedule',
                 var calendarDates = l.data.calendar;
                 for (var dateIndex in calendarDates)
                 {
-            		dateObject = convertDateStringToDateObject(dateIndex);
+            		dateObject = convertEnglishDateStringToDateObject(dateIndex);
                     var currMOFR = getCurrentMoFrDate();
                     if (dateObject >= currMOFR.monday && dateObject <= currMOFR.friday)
                     {
@@ -1097,7 +1058,7 @@ Ext.define('mSchedule',
             var calendarDates = v.data.calendar;
             for (var dateIndex in calendarDates)
             {
-                var dateObject = convertDateStringToDateObject(dateIndex);
+                var dateObject = convertEnglishDateStringToDateObject(dateIndex);
                 var wpFR = Ext.Date.clone(wpMO);
                 wpFR.setDate(wpFR.getDate() + 6);
                 if (dateObject >= wpMO && dateObject <= wpFR)
@@ -1233,9 +1194,8 @@ Ext.define('mLecture',
             'topIcon': this.getTopIcon(d),
             'comment': this.getComment(d),
             'deltaStatus': this.getDeltaStatus(d),
-            'curriculumColor': this.getCurriculumColor(d)
-            /*,
-      'events': this.getEvents(d)*/
+            'curriculumColor': this.getCurriculumColor(d),
+            'lessonEvents': this.getEvents(d)
         });
     },
     getCurriculumColor: function (d)
@@ -1274,7 +1234,7 @@ Ext.define('mLecture',
     	{
 	    	for(var dateIndex in this.data.calendar)
 	    	{
-	    		var dateObject = convertDateStringToDateObject(dateIndex);
+	    		var dateObject = convertEnglishDateStringToDateObject(dateIndex);
                 if(dateObject >= currentMoFrDate.monday && dateObject <= currentMoFrDate.friday)
                 {
                 	if(this.data.calendar[dateIndex][this.data.block]["lessonData"]["delta"])
@@ -1301,7 +1261,7 @@ Ext.define('mLecture',
     getEvents: function (d)
     {
         var ret = "";
-        ret = MySched.eventlist.checkRessource(this.data.room + " " + this.data.teacher + " " + this.data.module, this.data.dow, this.data.block);
+        ret = MySched.eventlist.getEventsForLecture(this, d.block, d.dow);
         return ret;
     },
     getTopIcon: function (d)
@@ -1517,7 +1477,7 @@ Ext.define('mLecture',
     	var currentMoFrDate = getCurrentMoFrDate();
     	for(var dateIndex in lesson.data.calendar)
     	{
-    		var dateObject = convertDateStringToDateObject(dateIndex);
+    		var dateObject = convertEnglishDateStringToDateObject(dateIndex);
             if(dateObject >= currentMoFrDate.monday && dateObject <= currentMoFrDate.friday)
             {
             	roomCollection.addAll(lesson.data.calendar[dateIndex][lesson.data.block]["lessonData"]);
@@ -1656,7 +1616,6 @@ Ext.define('mLecture',
     },
     setCellTemplate: function (t)
     {
-
         var time = "";
         var blocktimes = blocktotime(this.data.block);
         if (this.data.showtime == "full")
@@ -1679,14 +1638,14 @@ Ext.define('mLecture',
                 t = MySched.selectedSchedule.type;
             }
         }
-
+        
         if (t == "room")
         {
-            this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} scheduleBox lectureBox">' + '<b class="lecturename">{lessonTitle}{description} {comment}</b><br/>{teacherName} / {moduleName} ' + time + ' {statusIcons}</div>');
+            this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} scheduleBox lectureBox">' + '<b class="lecturename">{lessonTitle}{description} {comment}</b><br/>{teacherName} / {moduleName} {lessonEvents}' + time + ' {statusIcons}</div>');
         }
         else if (t == "teacher")
         {
-            this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} scheduleBox lectureBox">' + '<b class="lecturename">{lessonTitle}{description} {comment}</b><br/>{moduleName} / {roomName} ' + time + ' {statusIcons}</div>');
+            this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} scheduleBox lectureBox">' + '<b class="lecturename">{lessonTitle}{description} {comment}</b><br/>{moduleName} / {roomName} {lessonEvents}' + time + ' {statusIcons}</div>');
         }
         else
         {
@@ -1717,35 +1676,34 @@ Ext.define('mLecture',
                 lecturecss = "lecturename";
             }
 
-            this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" style="{curriculumColor}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} ' + modulescss + '">' + '{topIcon}<b class="' + lecturecss + '">{lessonTitle}{description} {comment}</b><br/>{teacherName} / {roomName} ' + time + ' {statusIcons}</div>');
+            this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" style="{curriculumColor}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} ' + modulescss + '">' + '{topIcon}<b class="' + lecturecss + '">{lessonTitle}{description} {comment}</b><br/>{teacherName} / {roomName} {lessonEvents}' + time + ' {statusIcons}</div>');
         }
     },
     setInfoTemplate: function (t)
     {
         this.infoTemplate.set(t, true);
     },
-    getCellView: function (relObj, showDelta)
+    getCellView: function (relObj, block, dow)
     {
-    	if(Ext.isDefined(showDelta))
-    	{
-    		if(!Ext.isBoolean(showDelta))
-    		{
-    			showDelta = true;
-    		}
-    	}
-    	else
-    	{
-    		showDelta = displayDelta();
-    	}
+    	showDelta = displayDelta();
     	
         var d = this.getDetailData(
         {
             parentId: relObj.getId(),
             key: this.id,
-            showDelta: showDelta
+            showDelta: showDelta,
+            block: block,
+            dow: dow
         });
         if (relObj.getId() != 'mySchedule' && MySched.Schedule.lectureExists(this)) d.css = ' lectureBox_cho';
-        return this.cellTemplate.apply(d);
+        var cellView =  this.cellTemplate.apply(d);
+        
+        if(cellView.contains("MySchedEvent_reserve"))
+        {
+        	cellView = cellView.replace("lectureBox", "lectureBox lectureBox_reserve");
+        }
+        
+        return cellView;
     },
     getSporadicView: function (relObj)
     {
@@ -1832,7 +1790,7 @@ Ext.define('mEventlist',
         // Fuegt ein Event hinzu
         if (e.data.starttime == "00:00") e.data.starttime = "08:00";
         if (e.data.endtime == "00:00") e.data.endtime = "19:00";
-        this.data.add(e.data.eid, e);
+        this.data.add(e.data.id, e);
     },
     getEvent: function (id)
     {
@@ -1845,108 +1803,134 @@ Ext.define('mEventlist',
 
         return datas.items[0];
     },
-    checkRessource: function (res, dow, block, reserve)
-    {
-        var ret = "";
-        var resarr = res.split(" ");
-        var found = false;
-        dow = dow - 1;
-        if (!reserve) reserve = false;
-
-        if (Ext.isNumber(this.data.items.length) == true) for (var y = 0; y < this.data.items.length; y++)
-        {
-            found = false;
-            if (Ext.isEmpty(this.data.items[y].data.objects) == false) for (var item in this.data.items[y].data.objects)
-            {
-                if (Ext.isNumber(resarr.length) == true) for (var i = 0; i < resarr.length; i++)
-                {
-                    if (resarr[i].toLowerCase() == item.toLowerCase())
-                    {
-                        //sporadischer Termin
-                        var wd = null;
-                        var bl = null;
-                        var clickeddate = Ext.ComponentMgr.get('menuedatepicker');
-                        var weekpointer = null;
-
-                        weekpointer = Ext.Date.clone(clickeddate.value);
-
-                        if (weekpointer != "")
-                        {
-                            while (weekpointer.getDay() != 1) //Montag ermitteln
-                            {
-                                weekpointer.setDate(weekpointer.getDate() - 1);
-                            }
-                        }
-
-                        var lessondate = weekpointer;
-                        lessondate.setDate(weekpointer.getDate() + dow);
-
-                        var startdate = this.data.items[y].data.startdate.split(".");
-                        startdate = new Date(startdate[2], startdate[1] - 1, startdate[0]);
-                        var enddate = this.data.items[y].data.enddate.split(".");
-                        enddate = new Date(enddate[2], enddate[1] - 1, enddate[0]);
-
-                        if (startdate <= lessondate && enddate >= lessondate && this.data.items[y].data.reserve === reserve)
-                        {
-                            var blotimes = blocktotime(parseInt(block));
-
-                            var sbtime = blotimes[0];
-                            var ebtime = blotimes[1];
-
-                            if (this.data.items[y].data.starttime <= sbtime && this.data.items[y].data.endtime >= ebtime)
-                            {
-                                ret += this.data.items[y].getEventView();
-                                found = true;
-                                break;
-                            }
-                            else if ((this.data.items[y].data.starttime >= sbtime && this.data.items[y].data.starttime < ebtime) && (this.data.items[y].data.endtime >= sbtime && this.data.items[y].data.endtime <= ebtime))
-                            {
-                                if (reserve != true)
-                                {
-                                    ret += this.data.items[y].getEventView();
-                                    found = true;
-                                    break;
-                                }
-                            }
-                            else if (this.data.items[y].data.starttime >= sbtime && this.data.items[y].data.starttime < ebtime)
-                            {
-                                ret += this.data.items[y].getEventView();
-                                found = true;
-                                break;
-                            }
-                            else if (this.data.items[y].data.endtime > sbtime && this.data.items[y].data.endtime <= ebtime)
-                            {
-                                if (reserve != true)
-                                {
-                                    ret += this.data.items[y].getEventView();
-                                    found = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-                if (found == true) break;
-            }
-        }
-        return ret;
-    },
     getEvents: function (type, value)
     {
-
-        if (type == "teacher") type = "teacher";
-
-        if (Ext.isEmpty(type) && Ext.isEmpty(value)) return this.data.items;
-        var datas = this.data.filterBy(function (o, k)
+        if (Ext.isEmpty(type) && Ext.isEmpty(value))
         {
-            for (var item in o.data.objects)
-            {
-                if (Ext.isObject(o.data.objects[item])) if (o.data.objects[item].id == value && o.data.objects[item].type == type) return true;
-            }
+        	return this.data.items;
+        }
+        
+        var data = this.data.filterBy(function (o, k)
+        {
+        	var eventObjects = o.data.objects;
+        	
+        	// Events mit 0 Objekten können keinem Plan zugeordnet werden und werden erstmal nicht beachtet.
+        	if(Ext.isArray(eventObjects))
+        	{
+	        	if(eventObjects.length > 0)
+	        	{
+	        		if(type == "teacher")
+	        		{
+                    	dbID = MySched.Mapping.getTeacherDbID(value);
+	        		}
+	        		else if(type == "room")
+	        		{
+	        			dbID = MySched.Mapping.getRoomDbID(value);
+	        		}
+	        		else
+	        		{
+	        			return false;
+	        		}
+	        		
+		            for (var eventIndex = 0; eventIndex < eventObjects.length; eventIndex++)
+		            {
+		                if (Ext.isObject(eventObjects[eventIndex]))
+		                {             	
+		                	if (eventObjects[eventIndex]["id"] == dbID && eventObjects[eventIndex].type == type)
+		                	{
+		                		return true;
+		                	}
+		                }
+		            }
+	        	}
+        	}
             return false;
         }, this);
 
-        return datas.items;
+        return data.map;
+    },
+    getEventsForLecture: function(lecture, block, dow)
+    {
+    	var ret = "";
+
+    	var data = this.data.filterBy(function (o, k)
+    	{
+    		var eventData = o.data;
+        	var eventStartDate = eventData.startdate;
+        	var eventEndDate = eventData.enddate;
+        	var eventStartTime = eventData.starttime;
+        	var eventEndTime = eventData.endtime;
+        	var currMOFR = getCurrentMoFrDate();
+        	var eventStartDateInCurrentWeek = null;
+        	var eventEndDateInCurrentWeek = null;
+        	
+        	eventStartDate = convertGermanDateStringToDateObject(eventStartDate);
+        	eventEndDate = convertGermanDateStringToDateObject(eventEndDate);
+        	
+        	var lectureData = lecture.data;
+        	var lectureCalendar = lectureData.calendar;
+        	
+        	for(var lectureCalendarIndex in lectureCalendar)
+        	{
+        		if(Ext.isObject(lectureCalendar[lectureCalendarIndex]))
+        		{
+        			var lectureDate = convertEnglishDateStringToDateObject(lectureCalendarIndex);
+        			if(eventStartDate <= lectureDate && eventEndDate >= lectureDate && lectureDate >= currMOFR.monday && lectureDate <= currMOFR.friday && Ext.Date.format(lectureDate, "l").toLowerCase() == dow)
+        			{
+        				var eventBlocks = getBlocksBetweenTimes(eventStartTime, eventEndTime, eventStartDate, eventEndDate);
+        				for(var eventBlocksIndex = 0; eventBlocksIndex < eventBlocks.length; eventBlocksIndex++)
+        				{
+        					var eventBlock = eventBlocks[eventBlocksIndex];
+        					if(eventBlock == block)
+        					{
+                				var eventObjects = eventData.objects;
+                				for(var eventObjectsIndex = 0; eventObjectsIndex < eventObjects.length; eventObjectsIndex++)
+                				{
+                					var eventObject = eventObjects[eventObjectsIndex];
+                					if(eventObject.type == "teacher")
+                					{
+                						var teacherName = MySched.Mapping.getTeacherKeyByID(eventObject.id);
+                						if(Ext.isString(lectureData.teachers.map[teacherName]))
+                						{
+                							if(lectureData.teachers.map[teacherName] != "removed")
+                							{
+                								return true;
+                							}
+                						}
+                					}
+                					else if(eventObject.type == "room")
+                					{
+                						var roomData = lectureCalendar[lectureCalendarIndex][block+1].lessonData;
+                						var roomName = MySched.Mapping.getRoomKeyByID(eventObject.id);
+                						for(var roomDataIndex in roomData)
+                						{
+                							if(Ext.isString(roomData[roomDataIndex]))
+                							{
+                								if(roomData[roomDataIndex] != "removed")
+                								{
+                									if(roomName == roomDataIndex)
+                									{
+                										return true
+                									}
+                								}
+                							}
+                						}
+                					}
+                				}
+                				break;
+        					}
+        				}
+        			}
+        		}
+        	}
+        	return false;
+    	});
+
+    	for(var dataIndex = 0; dataIndex < data.items.length; dataIndex++)
+    	{
+    		ret += data.items[dataIndex].getEventView();
+    	}
+    	return ret;
     }
 });
 
@@ -1970,7 +1954,10 @@ Ext.define('mEvent',
         this.data.endtime = this.data.endtime.substring(0, 5);
 
         var MySchedEventClass = 'MySchedEvent_' + this.data.source;
-
+        if(this.data.reserve == true)
+        {
+        	MySchedEventClass += " MySchedEvent_reserve";
+        }
         this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + '{top_icon}<b id="MySchedEvent_{id}" class="MySchedEvent_name">{event_name}</b><br/>{teacher} / {room}</div>');
     },
     getEventDetailData: function ()
@@ -1989,39 +1976,41 @@ Ext.define('mEvent',
     },
     getTeacherName: function ()
     {
-        var teacherS = "";
+        var teacherNames = "";
 
         this.data.objects.each(function (o, k)
         {
             if (o.type === "teacher")
             {
-                if (teacherS != "")
+            	var teacherName = getTeacherSurnameWithCutFirstName(MySched.Mapping.getTeacherKeyByID(o.id))
+                if (teacherNames != "")
                 {
-                    teacherS += ", "
+                	teacherNames += ", "
                 }
-                teacherS += o.name;
+            	teacherNames += teacherName;
             }
         });
 
-        return teacherS;
+        return teacherNames;
     },
     getRoomName: function ()
     {
-        var roomS = "";
+        var roomNames = "";
 
         this.data.objects.each(function (o, k)
         {
             if (o.type === "room")
             {
-                if (roomS != "")
+            	var roomName = MySched.Mapping.getRoomKeyByID(o.id)
+                if (roomNames != "")
                 {
-                    roomS += ", "
+                	roomNames += ", "
                 }
-                roomS += o.name;
+                roomNames += roomName;
             }
         });
 
-        return roomS;
+        return roomNames;
     },
     getData: function (addData)
     {
@@ -2037,7 +2026,10 @@ Ext.define('mEvent',
         }
 
         var MySchedEventClass = 'MySchedEvent_' + this.data.source;
-
+        if(this.data.reserve == true)
+        {
+        	MySchedEventClass += " MySchedEvent_reserve";
+        }
         var collisionIcon = "";
 
         if (d.reserve === true && collision === true)
@@ -2065,7 +2057,7 @@ Ext.define('mEvent',
     },
     getEventInfoView: function ()
     {
-        var infoTemplateString = "<div id='MySchedEventInfo_" + this.id + "' class='MySchedEventInfo'>" + "<span class='MySchedEvent_desc'>" + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DESCRIPTION + ": " + this.data.edescription + "</span><br/>" + "<span class='MySchedEvent_sdate'>" + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DATE + ": " + this.data.startdate + " - " + this.data.enddate + "</span><br/>" + "<span class='MySchedEvent_stime'>" + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TIME + ": " + this.data.starttime + " - " + this.data.endtime + "</span><br/>";
+        var infoTemplateString = "<div id='MySchedEventInfo_" + this.id + "' class='MySchedEventInfo'>" + "<span class='MySchedEvent_desc'>" + this.data.description + "</span><br/>";
         var resString = "";
         var teacherS = "";
         var roomS = "";

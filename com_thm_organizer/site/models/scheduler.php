@@ -208,4 +208,80 @@ class THM_OrganizerModelScheduler extends JModel
 		
 		return $result;
 	}
+	
+	public function getRooms()
+	{
+	    $dbo = JFactory::getDBO();
+	    $query = $dbo->getQuery(true);
+	    
+	    $query->select('*');
+	    $query->from('#__thm_organizer_rooms');
+	    
+	    $dbo->setQuery($query);
+	    
+	    if ($error = $dbo->getErrorMsg())
+	    {
+	        return array();
+	    }
+	    
+	    $result = $dbo->loadObjectList();
+	    return $result;
+	}
+	
+	public function getRoomTypes()
+	{
+	    $dbo = JFactory::getDBO();
+	    $query = $dbo->getQuery(true);
+	     
+	    $query->select('*');
+	    $query->from('#__thm_organizer_room_types');
+	     
+	    $dbo->setQuery($query);
+	     
+	    if ($error = $dbo->getErrorMsg())
+	    {
+	        return array();
+	    }
+	     
+	    $result = $dbo->loadObjectList();
+	    return $result;
+	}
+	
+	public function getTeachers()
+	{
+	    $dbo = JFactory::getDBO();
+	    $query = $dbo->getQuery(true);
+	     
+	    $query->select('*');
+	    $query->from('#__thm_organizer_teachers');
+	     
+	    $dbo->setQuery($query);
+	     
+	    if ($error = $dbo->getErrorMsg())
+	    {
+	        return array();
+	    }
+	     
+	    $result = $dbo->loadObjectList();
+	    return $result;
+	}
+	
+	public function getTeacherTypes()
+	{
+	    $dbo = JFactory::getDBO();
+	    $query = $dbo->getQuery(true);
+	     
+	    $query->select('*');
+	    $query->from('#__thm_organizer_teacher_fields');
+	     
+	    $dbo->setQuery($query);
+	     
+	    if ($error = $dbo->getErrorMsg())
+	    {
+	        return array();
+	    }
+	     
+	    $result = $dbo->loadObjectList();
+	    return $result;
+	}
 }

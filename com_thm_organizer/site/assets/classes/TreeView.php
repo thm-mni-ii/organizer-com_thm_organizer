@@ -439,6 +439,30 @@ class TreeView
 				// Cant decode json
 				return JError::raiseWarning(404, JText::_('Fehlerhafte Daten'));
 			}
+			
+			// Get ids for teachers and rooms
+			$schedulerModel = JModel::getInstance('scheduler', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
+			$rooms = $schedulerModel->getRooms();
+			$teachers = $schedulerModel->getTeachers();
+			
+			foreach ($this->_treeData["room"] as $roomValue)
+			{
+                foreach ($rooms as $databaseRooms)
+			    if($roomValue->gpuntisID === $databaseRooms->gpuntisID) 
+                {
+                    $roomValue->dbID = $databaseRooms->id;
+                }
+			}
+			
+			foreach ($this->_treeData["teacher"] as $teacherValue)
+			{
+			    foreach ($teachers as $databaseTeachers)
+			        if($teacherValue->gpuntisID === $databaseTeachers->gpuntisID)
+			        {
+			            $teacherValue->dbID = $databaseTeachers->id;
+			        }
+			}
+			
 		}
 		else
 		{
