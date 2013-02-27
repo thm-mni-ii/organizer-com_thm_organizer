@@ -448,19 +448,23 @@ class TreeView
 			foreach ($this->_treeData["room"] as $roomValue)
 			{
                 foreach ($rooms as $databaseRooms)
-			    if($roomValue->gpuntisID === $databaseRooms->gpuntisID) 
                 {
-                    $roomValue->dbID = $databaseRooms->id;
+    			    if ($roomValue->gpuntisID === $databaseRooms->gpuntisID) 
+                    {
+                        $roomValue->dbID = $databaseRooms->id;
+                    }
                 }
 			}
 			
 			foreach ($this->_treeData["teacher"] as $teacherValue)
 			{
 			    foreach ($teachers as $databaseTeachers)
-			        if($teacherValue->gpuntisID === $databaseTeachers->gpuntisID)
+			    {
+			        if ($teacherValue->gpuntisID === $databaseTeachers->gpuntisID)
 			        {
 			            $teacherValue->dbID = $databaseTeachers->id;
 			        }
+			    }
 			}
 			
 		}
@@ -869,8 +873,8 @@ class TreeView
 		$query = $dbo->getQuery(true);
 		$query->select('*');
 		$query->from('#__thm_organizer_schedules');
-		$query->where('departmentname = '. $dbo->quote($department));
-		$query->where('semestername = '. $dbo->quote($semester));
+		$query->where('departmentname = ' . $dbo->quote($department));
+		$query->where('semestername = ' . $dbo->quote($semester));
 		$query->where('active = 1');
 		$dbo->setQuery($query);
 		

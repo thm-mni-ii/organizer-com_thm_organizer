@@ -209,6 +209,11 @@ class THM_OrganizerModelScheduler extends JModel
 		return $result;
 	}
 	
+	/**
+	 * Method to get all rooms from database
+	 *
+	 * @return   Array  An Array with the rooms
+	 */
 	public function getRooms()
 	{
 	    $dbo = JFactory::getDBO();
@@ -228,6 +233,11 @@ class THM_OrganizerModelScheduler extends JModel
 	    return $result;
 	}
 	
+	/**
+	 * Method to get all room types from database
+	 *
+	 * @return   Array  An Array with the room types
+	 */
 	public function getRoomTypes()
 	{
 	    $dbo = JFactory::getDBO();
@@ -247,6 +257,11 @@ class THM_OrganizerModelScheduler extends JModel
 	    return $result;
 	}
 	
+	/**
+	 * Method to get all teachers from database
+	 *
+	 * @return   Array  An Array with the teachers
+	 */
 	public function getTeachers()
 	{
 	    $dbo = JFactory::getDBO();
@@ -266,6 +281,11 @@ class THM_OrganizerModelScheduler extends JModel
 	    return $result;
 	}
 	
+	/**
+	 * Method to get all teacher types from database
+	 *
+	 * @return   Array  An Array with the teacher types
+	 */
 	public function getTeacherTypes()
 	{
 	    $dbo = JFactory::getDBO();
