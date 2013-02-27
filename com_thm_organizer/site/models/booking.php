@@ -695,7 +695,7 @@ class THM_OrganizerModelBooking extends JModel
         $results = $dbo->loadAssocList();
         if (count($results))
         {
-            $scheduleModel = new thm_organizersModelschedule;
+            $scheduleModel = new thm_organizerModelschedule;
             foreach ($results as $key => $value)
             {
                 $schedule = json_decode($value['schedule']);
