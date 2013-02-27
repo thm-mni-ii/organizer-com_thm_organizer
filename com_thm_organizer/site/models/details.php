@@ -1,15 +1,15 @@
 <?php
 /**
- * @version	    v2.0.0
+ * @version     v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		THM_OrganizerModeldetails
+ * @name        THM_OrganizerModeldetails
  * @description THM_OrganizerModeldetails component site model
- * @author	    Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
 
 defined('_JEXEC') or die;
@@ -28,7 +28,7 @@ require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'm
  *
  * Class provides methods to get details about modules
  *
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de

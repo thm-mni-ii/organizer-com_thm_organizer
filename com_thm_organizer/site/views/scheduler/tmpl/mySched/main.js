@@ -4134,8 +4134,8 @@ MySched.Tree = function ()
 
                         if (publicDefaultNode["type"] == "delta")
                         {
-                            MySched.delta.load(_C('ajaxHandler'), 'json',
-                            MySched.delta.loadsavedLectures, MySched.delta, "delta");
+//                            MySched.delta.load(_C('ajaxHandler'), 'json',
+//                            MySched.delta.loadsavedLectures, MySched.delta, "delta");
                         }
                         else
                         {

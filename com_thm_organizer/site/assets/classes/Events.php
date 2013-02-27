@@ -1,15 +1,15 @@
 <?php
 /**
- * @version	    v0.0.1
+ * @version     v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		Events
+ * @name        Events
  * @description Events file from com_thm_organizer
- * @author	    Wolf Rost, <wolf.rost@mni.thm.de>
+ * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
 
@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  *
  * Class provides methods for sporadic events
  *
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
@@ -62,7 +62,7 @@ class Events
      * Constructor with the joomla data abstraction object and configuration object
      *
      * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
-     * @param   MySchedConfig	 $CFG  A object which has configurations including
+     * @param   MySchedConfig    $CFG  A object which has configurations including
      *
      * @since  1.5
      *

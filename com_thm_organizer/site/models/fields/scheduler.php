@@ -1,7 +1,7 @@
 <?php
 /**
  * @version     v0.0.1
- * @category	Joomla component
+ * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name        JFormFieldScheduler
@@ -25,7 +25,7 @@ JFormHelper::loadFieldClass('list');
  *
  * Class provides methods to display a custom form field
  *
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de

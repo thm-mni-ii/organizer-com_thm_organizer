@@ -470,7 +470,7 @@ Ext.define('mSchedule',
     load: function (url, type, cb, scope, username, tmi)
     {
         var scheduleTask = 'UserSchedule.load';
-        if (username == "delta") scheduleTask = 'Delta.load';
+//        if (username == "delta") scheduleTask = 'Delta.load';
 
         var defaultParams = {
             username: username,

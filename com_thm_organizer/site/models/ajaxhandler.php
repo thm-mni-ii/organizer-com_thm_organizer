@@ -1,7 +1,7 @@
 <?php
 /**
  * @version     v0.0.1
- * @category	Joomla component
+ * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name        reservation ajax response model
@@ -24,7 +24,7 @@ include_once JPATH_COMPONENT . "/assets/classes/config.php";
  *
  * Class provides methods to deal with AJAX requests
  *
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de

@@ -1,7 +1,7 @@
 <?php
 /**
  * @version     v0.0.1
- * @category	Joomla component
+ * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name        scheduler model
@@ -21,7 +21,7 @@ jimport('joomla.application.component.model');
  *
  * Class provides methods to get the neccessary data to display a schedule
  *
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
