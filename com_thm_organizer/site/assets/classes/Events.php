@@ -87,7 +87,7 @@ class Events
 
         $events = $eventmodel->events;
 
-        $arr = array( );
+        $eventList = array( );
 
         if (is_array($events))
         {
@@ -95,80 +95,35 @@ class Events
             {
                 $temp = $events[$i];
 
-                if (!isset($arr[$temp["id"]]))
+                if (!isset($eventList[$temp["id"]]))
                 {
-                    $arr[ $temp["id"] ] = array( );
+                    $eventList[ $temp["id"] ] = array( );
                 }
-                $arr[ $temp["id"] ][ "eid" ]       = $temp["id"];
-                $arr[ $temp["id"] ][ "title" ]     = $temp["title"];
-                $arr[ $temp["id"] ][ "startdate" ] = $temp["startdate"];
+                $eventList[ $temp["id"] ][ "id" ]       = $temp["id"];
+                $eventList[ $temp["id"] ][ "title" ]     = $temp["title"];
+                $eventList[ $temp["id"] ][ "startdate" ] = $temp["startdate"];
                 if ($temp["enddate"] == "0000-00-00" || $temp["enddate"] == null || $temp["enddate"] == "")
                 {
-                    $arr[ $temp["id"] ][ "enddate" ] = $temp["startdate"];
+                    $eventList[ $temp["id"] ][ "enddate" ] = $temp["startdate"];
                 }
                 else
                 {
-                    $arr[ $temp["id"] ][ "enddate" ] = $temp["enddate"];
+                    $eventList[ $temp["id"] ][ "enddate" ] = $temp["enddate"];
                 }
 
-                $arr[ $temp["id"] ][ "starttime" ]    = $temp["starttime"];
-                $arr[ $temp["id"] ][ "endtime" ]      = $temp["endtime"];
-                $arr[ $temp["id"] ][ "edescription" ] = $temp["description"];
-                $arr[ $temp["id"] ][ "facultative" ]  = "";
-                $arr[ $temp["id"] ][ "category" ]  = $temp["eventCategory"];
-                $arr[ $temp["id"] ][ "source" ]       = "joomla";
-                $arr[ $temp["id"] ][ "recurrence_type" ] = $temp["rec_type"];
-                $arr[ $temp["id"] ][ "reserve" ] = $eventmodel->checkReserves($temp["eventCategoryID"]);
-                $arr[ $temp["id"] ][ "global" ] = $eventmodel->checkGlobal($temp["eventCategoryID"]);
-                $arr[ $temp["id"] ][ "objects" ] = $temp["resourceArray"];
+                $eventList[ $temp["id"] ][ "starttime" ]    = $temp["starttime"];
+                $eventList[ $temp["id"] ][ "endtime" ]      = $temp["endtime"];
+                $eventList[ $temp["id"] ][ "description" ] = $temp["description"];
+                $eventList[ $temp["id"] ][ "facultative" ]  = "";
+                $eventList[ $temp["id"] ][ "category" ]  = $temp["eventCategory"];
+                $eventList[ $temp["id"] ][ "source" ]       = "joomla";
+                $eventList[ $temp["id"] ][ "recurrence_type" ] = $temp["rec_type"];
+                $eventList[ $temp["id"] ][ "reserve" ] = $eventmodel->checkReserves($temp["eventCategoryID"]);
+                $eventList[ $temp["id"] ][ "global" ] = $eventmodel->checkGlobal($temp["eventCategoryID"]);
+                $eventList[ $temp["id"] ][ "objects" ] = $temp["resourceArray"];
             }
         }
 
-        $username = $this->_JDA->getUserName();
-
-        $pregres = preg_match("/[^[:alnum:]]/", $this->_jsid);
-
-        // && false weil es erstmal rausgenommen wurde
-        if ($pregres == 0 && strlen($this->_jsid) > 0 && $username != "" && false)
-        {
-            try
-            {
-                $SI           = new mySchedImport($username, $this->_jsid, $this->_CFG);
-                $estudycalres = $SI->getCalendar();
-
-                if ($estudycalres != null)
-                {
-                    $temp = array();
-                    if (is_array($estudycalres))
-                    {
-                        foreach ($estudycalres as $v)
-                        {
-                            $temp[ "eid" ]          = "";
-                            $temp[ "title" ]        = $v->summary;
-                            $temp[ "startdate" ]    = date("Y-m-d", strtotime($v->start));
-                            $temp[ "enddate" ]      = date("Y-m-d", strtotime($v->end));
-                            $temp[ "starttime" ]    = date("H:i:s", strtotime($v->start));
-                            $temp[ "endtime" ]      = date("H:i:s", strtotime($v->end));
-                            $temp[ "edescription" ] = $v->description;
-                            $temp[ "source" ]       = "estudy";
-                            $temp[ "recurrence_type" ] = 0;
-                            $temp[ "facultative" ]  = $v->isFacultative;
-                            $temp[ "objects" ]      = array();
-                            array_push($arr, $temp);
-                            $temp = array();
-                        }
-                    }
-                }
-                return array("success" => true,"data" => $arr);
-            }
-            catch (Exception $e)
-            {
-                return array("success" => true,"data" => $arr);
-            }
-        }
-        else
-        {
-            return array("success" => true, "data" => $arr);
-        }
+        return array("success" => true,"data" => $eventList);   
     }
 }
