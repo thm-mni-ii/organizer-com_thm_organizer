@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @category    Joomla component
  * @package     THM_Organizer

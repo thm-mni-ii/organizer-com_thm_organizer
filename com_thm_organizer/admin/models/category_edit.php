@@ -28,7 +28,7 @@ class THM_OrganizerModelCategory_Edit extends JModelAdmin
      * @param   array    $data      unused
      * @param   boolean  $loadData  if the form data should be pulled dynamically
      *
-     * @return	mixed	A JForm object on success, false on failure
+     * @return  mixed    A JForm object on success, false on failure
      */
     public function getForm($data = array(), $loadData = true)
     {
@@ -52,7 +52,7 @@ class THM_OrganizerModelCategory_Edit extends JModelAdmin
      *
      * @param   integer  $key  not used
      *
-     * @return	mixed	Object on success, false on failure.
+     * @return  mixed    Object on success, false on failure.
      */
     public function getItem($key = null)
     {
@@ -69,7 +69,7 @@ class THM_OrganizerModelCategory_Edit extends JModelAdmin
      * @param   string  $prefix  a prefix for the table class name. optional.
      * @param   array   $config  configuration array for model. optional.
      *
-     * @return	JTable	A database object
+     * @return  JTable    A database object
     */
     public function getTable($type = 'categories', $prefix = 'thm_organizerTable', $config = array())
     {
@@ -80,7 +80,7 @@ class THM_OrganizerModelCategory_Edit extends JModelAdmin
      * retrieves the data that should be injected in the form the loading is
      * done in jmodel admin
      *
-     * @return	mixed	The data for the form.
+     * @return    mixed    The data for the form.
      */
     protected function loadFormData()
     {

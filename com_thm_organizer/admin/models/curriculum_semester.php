@@ -1,6 +1,6 @@
 <?php
 /**
- * @version	    v2.0.0
+ * @version     v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -29,7 +29,7 @@ jimport('joomla.application.component.modeladmin');
  */
 class THM_OrganizerModelSemester extends JModelAdmin
 {
-	/**
+    /**
 	 * Method to get the table
 	 *
 	 * @param   String  $type    Type  			(default: 'Semesters')

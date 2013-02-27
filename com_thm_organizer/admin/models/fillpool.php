@@ -1,6 +1,6 @@
 <?php
 /**
- * @version	    v2.0.0
+ * @version     v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -35,15 +35,15 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'models/mapping.php';
  */
 class THM_OrganizerModelFillpool extends JModelAdmin
 {
-	/**
-	 * Method to get the table
-	 *
-	 * @param   String  $type    Type  			(default: 'colors')
-	 * @param   String  $prefix  Prefix  		(default: 'THM_OrganizerTable')
-	 * @param   Array   $config  Configuration  (default: 'Array')
-	 *
-	 * @return  JTable object
-	 */
+    /**
+     * Method to get the table
+     *
+     * @param   String  $type    Type           (default: 'colors')
+     * @param   String  $prefix  Prefix         (default: 'THM_OrganizerTable')
+     * @param   Array   $config  Configuration  (default: 'Array')
+     *
+     * @return  JTable object
+     */
 	public function getTable($type = 'colors', $prefix = 'THM_OrganizerTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
