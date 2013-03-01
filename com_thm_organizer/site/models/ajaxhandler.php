@@ -64,7 +64,7 @@ class THM_OrganizerModelAjaxhandler extends JModel
 	public function __construct()
 	{
 		parent::__construct();
-		$this->JDA = new DataAbstraction;
+		$this->JDA = new THM_OrganizerDataAbstraction;
 		$this->CFG = new mySchedConfig($this->JDA);
 	}
 

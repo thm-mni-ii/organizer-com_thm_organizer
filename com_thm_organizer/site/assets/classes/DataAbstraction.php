@@ -1,31 +1,26 @@
 <?php
 /**
- * @version	    v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name    	DataAbstraction
  * @description DataAbstraction file from com_thm_organizer
- * @author	    Wolf Rost, <wolf.rost@mni.thm.de>
+ * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
 
 /**
  * Class DataAbstraction for component com_thm_organizer
- *
  * Class provides methods to abstract the joomla methods
  *
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
- * @since       v0.0.1
  */
-class DataAbstraction
+class THM_OrganizerDataAbstraction
 {
 	/**
 	 * Database
@@ -120,15 +115,15 @@ class DataAbstraction
 	/**
 	 * Method to get the joomla temp folder path
 	 *
-	 * @param   String   $sqlstatement  The SQL statement
-	 * @param   Boolean  $arr 		    A flag which indicates whether that the result should be a array or object
+	 * @param   String   $query  The SQL statement
+	 * @param   Boolean  $arr    A flag which indicates whether that the result should be a array or object
 	 *
 	 * @return String The temp folder path
 	 */
-	public function query( $sqlstatement, $arr = false )
+	public function query($query, $arr = false)
 	{
-		$this->_dbo->setQuery($sqlstatement);
-		if (strpos(strtolower($sqlstatement), "select") === 0)
+		$this->_dbo->setQuery($query);
+		if (strpos(strtolower($query), "select") === 0)
 		{
 			if ($arr == false)
 			{
@@ -157,7 +152,7 @@ class DataAbstraction
 	 *
 	 * @return Object The database object
 	 */
-	public function getDBO( )
+	public function getDBO()
 	{
 		return $this->_dbo;
 	}
@@ -169,7 +164,7 @@ class DataAbstraction
 	 *
 	 * @return The item which is selected via $var
 	 */
-	public function getRequest( $var )
+	public function getRequest($var)
 	{
 		return JREQUEST::getVar($var);
 	}
@@ -185,7 +180,11 @@ class DataAbstraction
 				"eStudyPath" => "", "eStudywsapiPath" => "","eStudyCreateCoursePath" => "",
 				"eStudySoapSchema" => "", "downFolder" => "","vacationcat" => ""
 		);
-		$settings = $this->query("SELECT * FROM #__thm_organizer_settings WHERE id=1");
+		$query = $this->_dbo->getQuery(true);
+		$query->select('*');
+		$query->from('#__thm_organizer_settings');
+		$query->where("id = '1'");
+		$settings = $this->query((string) $query);
 		if ($settings)
 		{
 			$settings = $settings[ 0 ];
