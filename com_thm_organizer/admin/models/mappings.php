@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -11,9 +10,7 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
-
 jimport('joomla.application.component.modellist');
 
 /**
@@ -25,7 +22,6 @@ jimport('joomla.application.component.modellist');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class THM_OrganizerModelMappings extends JModelList
 {
@@ -33,15 +29,13 @@ class THM_OrganizerModelMappings extends JModelList
 	 * Database
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
-	protected $db = null;
+	protected $dbo = null;
 
 	/**
 	 * Data
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_data;
 
@@ -49,7 +43,6 @@ class THM_OrganizerModelMappings extends JModelList
 	 * Pagination
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_pagination = null;
 
@@ -71,14 +64,14 @@ class THM_OrganizerModelMappings extends JModelList
 	 */
 	public function getColorHex($colorID)
 	{
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 
-		$query = $db->getQuery(true);
+		$query = $dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_colors');
 		$query->where("id = $colorID");
-		$db->setQuery($query);
-		$color = $db->loadObjectList();
+		$dbo->setQuery($query);
+		$color = $dbo->loadObjectList();
 
 		if (isset($color[0]) && isset($color[0]->color))
 		{
@@ -97,12 +90,11 @@ class THM_OrganizerModelMappings extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 
 		// Get options of the list view
 		$orderCol = $this->state->get('list.ordering');
 		$orderDirn = $this->state->get('list.direction');
-		$search = $this->state->get('filter.search');
 		$published = $this->state->get('filter.published');
 		$level = $this->state->get('filter.level');
 
@@ -110,30 +102,29 @@ class THM_OrganizerModelMappings extends JModelList
 		$sid = JRequest::getVar('id');
 
 		// Create the sql statement
-		$query = $db->getQuery(true);
-		$query->select("*, #__thm_organizer_assets_tree.color_id as color_id_instance,
-				#__thm_organizer_assets_tree.menu_link as menu_link_instance,
-				#__thm_organizer_assets.color_id as color_id_object");
-		$query->select("#__thm_organizer_assets_tree.id as asset_id");
-		$query->select("#__thm_organizer_semesters.name as semester_name");
+		$query = $dbo->getQuery(true);
+		$select = "*, count(*) as count, atr.color_id as color_id_instance, ";
+		$select .= "atr.menu_link as menu_link_instance, a.color_id as color_id_object, ";
+		$select .= "atr.id as asset_id, s.name as semester_name, aty.name as asset_type ";
+		$query->select($select);
 
-		$query->select("#__thm_organizer_asset_types.name as asset_type");
-		$query->select("count(*) as count");
-		$query->from('#__thm_organizer_semesters_majors');
-		$query->join('inner', '#__thm_organizer_semesters ON #__thm_organizer_semesters_majors.semester_id = #__thm_organizer_semesters.id');
-		$query->join('inner', '#__thm_organizer_assets_semesters ' .
-				'ON #__thm_organizer_semesters_majors.id = #__thm_organizer_assets_semesters.semesters_majors_id');
-		$query->join('inner', '#__thm_organizer_assets_tree ' .
-				'ON #__thm_organizer_assets_tree.id = #__thm_organizer_assets_semesters.assets_tree_id');
-		$query->join('inner', '#__thm_organizer_assets ON #__thm_organizer_assets_tree.asset = #__thm_organizer_assets.id');
-		$query->join('inner', '#__thm_organizer_colors ON #__thm_organizer_assets_tree.color_id = #__thm_organizer_colors.id');
-		$query->join('inner', '#__thm_organizer_asset_types ON #__thm_organizer_asset_types.id = #__thm_organizer_assets.asset_type_id');
-		$query->where("#__thm_organizer_semesters_majors.major_id= $sid");
+		$query->from('#__thm_organizer_semesters_majors AS sm');
+		$query->join('#__thm_organizer_semesters AS s ON sm.semester_id = s.id');
+		$query->join('#__thm_organizer_assets_semesters AS asem ON sm.id = asem.semesters_majors_id');
+		$query->join('#__thm_organizer_assets_tree AS atr ON at.id = asem.assets_tree_id');
+		$query->join('#__thm_organizer_assets AS a ON atr.asset = a.id');
+		$query->join('#__thm_organizer_colors AS c ON atr.color_id = c.id');
+		$query->join('#__thm_organizer_asset_types AS aty ON aty.id = a.asset_type_id');
 
-		$search = $db->Quote('%' . $db->getEscaped($search, true) . '%');
-		$query->where('(title_de LIKE ' . $search . ' OR title_en LIKE ' . $search .
-				' OR #__thm_organizer_assets.short_title_de LIKE ' . $search .
-				' OR #__thm_organizer_assets.short_title_en LIKE ' . $search . ' OR abbreviation LIKE ' . $search . ')');
+		$query->where("sm.major_id= $sid");
+
+		$search = $dbo->Quote('%' . $dbo->getEscaped($this->state->get('filter.search'), true) . '%');
+		$searchClause = "(title_de LIKE '$search' ";
+		$searchClause .= "OR title_en LIKE '$search' ";
+		$searchClause .= "OR a.short_title_de LIKE '$search' ";
+		$searchClause .= "OR a.short_title_en LIKE '$search' ";
+		$searchClause .= "OR abbreviation LIKE '$search') ";
+		$query->where($searchClause);
 
 		if (is_numeric($published))
 		{
@@ -165,7 +156,7 @@ class THM_OrganizerModelMappings extends JModelList
 			$orderCol = "  parent_id ASC, ordering";
 		}
 
-		$query->order($db->getEscaped($orderCol . ' ' . $orderDirn));
+		$query->order($dbo->getEscaped($orderCol . ' ' . $orderDirn));
 		
 		return $query;
 	}
@@ -173,23 +164,23 @@ class THM_OrganizerModelMappings extends JModelList
 	/**
 	 * Method to traverse the tree
 	 *
-	 * @param   Integer  $id    	 Id
-	 * @param   String   $indent  	 Indent
-	 * @param   Array    $list  	 List
+	 * @param   Integer  $treeID         Id
+	 * @param   String   $indent     Indent
+	 * @param   Array    $list       List
 	 * @param   Array    &$children  Children
-	 * @param   Integer  $maxlevel   Max level  (default: 9999)
-	 * @param   Integer  $level  	 Level		(default: 0)
-	 * @param   Integer  $type  	 Type  		(default: 1)
+	 * @param   Integer  $maxlevel   Max level (default: 9999)
+	 * @param   Integer  $level      Level (default: 0)
+	 * @param   Integer  $type       Type (default: 1)
 	 *
 	 * @return  Object
 	 */
-	public function treerecurse($id, $indent, $list, &$children, $maxlevel = 9999, $level = 0, $type = 1)
+	public function treerecurse($treeID, $indent, $list, &$children, $maxlevel = 9999, $level = 0, $type = 1)
 	{
-		if (@$children[$id] && $level <= $maxlevel)
+		if (@$children[$treeID] && $level <= $maxlevel)
 		{
-			foreach ($children[$id] as $v)
+			foreach ($children[$treeID] as $v)
 			{
-				$id = $v->asset;
+				$treeID = $v->asset;
 
 				if ($type)
 				{
@@ -214,9 +205,9 @@ class THM_OrganizerModelMappings extends JModelList
 				$temp = array();
 				$temp = $v;
 				$temp->treename = "$indent$txt";
-				$temp->children = count(@$children[$id]);
+				$temp->children = count(@$children[$treeID]);
 				array_push($list, $temp);
-				$list = self::TreeRecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1, $type);
+				$list = self::TreeRecurse($treeID, $indent . $spacer, $list, $children, $maxlevel, $level + 1, $type);
 			}
 		}
 
@@ -237,8 +228,8 @@ class THM_OrganizerModelMappings extends JModelList
 		// First pass - collect children
 		foreach ($items as $v)
 		{
-			$v->semester_id = '<a href="index.php?option=com_thm_organizer&view=semester&layout=edit&id=' .
-					$v->semester_id . '">' . $v->semester_name . '</a>';
+			$url = "index.php?option=com_thm_organizer&view=semester&layout=edit&id=$v->semester_id";
+			$v->semester_id = '<a href="' . $url . '">' . $v->semester_name . '</a>';
 
 			$pt = $v->parent_id;
 			$list = @$children[$pt] ? $children[$pt] : array();
@@ -266,22 +257,20 @@ class THM_OrganizerModelMappings extends JModelList
 			if ($row->count > 1)
 			{
 				// Get the current major id
-				$id = $_SESSION['stud_id'];
+				$majorID = $_SESSION['stud_id'];
 
 				// Determine the related semesters
-				$db = JFactory::getDBO();
-				$query = $db->getQuery(true);
+				$dbo = JFactory::getDBO();
+				$query = $dbo->getQuery(true);
 				$query->select("semesters.id as semester_id");
-				$query->from(' #__thm_organizer_assets_tree as assets_tree');
-				$query->join('inner', '#__thm_organizer_assets_semesters as assets_semesters ' .
-						'ON assets_semesters.assets_tree_id = assets_tree.id');
-				$query->join('inner', '#__thm_organizer_semesters_majors as semesters_majors ' .
-						'ON assets_semesters.semesters_majors_id = semesters_majors.id');
-				$query->join('inner', '#__thm_organizer_semesters as semesters ON semesters.id = semesters_majors.semester_id');
-				$query->where("semesters_majors.major_id = $id");
+				$query->from(' #__thm_organizer_assets_tree as at');
+				$query->join('#__thm_organizer_assets_semesters AS asem ON asem.assets_tree_id = at.id');
+				$query->join('#__thm_organizer_semesters_majors AS sm ON asem.semesters_majors_id = sm.id');
+				$query->join('#__thm_organizer_semesters AS s ON s.id = sm.semester_id');
+				$query->where("sm.major_id = $majorID");
 				$query->where("asset = $row->asset");
-				$db->setQuery($query);
-				$assets = $db->loadObjectList();
+				$dbo->setQuery($query);
+				$assets = $dbo->loadObjectList();
 
 				// Find the first and last element of the array
 				$last_item = end($assets);
@@ -294,8 +283,8 @@ class THM_OrganizerModelMappings extends JModelList
 				// Iterate over each found semester
 				foreach ($assets as $key => $value)
 				{
-					$value->semester_id = '<a href="index.php?option=com_thm_organizer&view=semester&layout=edit&id=' . $value->semester_id . '">' .
-							$value->semester_id . '</a>';
+					$url = "index.php?option=com_thm_organizer&view=semester&layout=edit&id=$value->semester_id";
+					$value->semester_id = '<a href="' . $url . '">' . $value->semester_id . '</a>';
 
 					// Attach the current semester
 					$row->semester_id .= $value->semester_id;
@@ -363,10 +352,10 @@ class THM_OrganizerModelMappings extends JModelList
 	{
 		// Get the major id
 		$pid = JRequest::getVar('id');
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 
 		// Build the query
-		$query = $db->getQuery(true);
+		$query = $dbo->getQuery(true);
 		$query->select('
 				#__thm_organizer_majors.subject AS fach,
 				#__thm_organizer_majors.po AS po,
@@ -376,9 +365,9 @@ class THM_OrganizerModelMappings extends JModelList
 		$query->join('cross', '#__thm_organizer_degrees
 				ON #__thm_organizer_degrees.id = #__thm_organizer_majors.degree_id');
 		$query->where('#__thm_organizer_majors.id = ' . $pid);
-		$db->setQuery((string) $query);
+		$dbo->setQuery((string) $query);
 
-		return $db->loadAssoc();
+		return $dbo->loadAssoc();
 	}
 
 	/**
@@ -484,7 +473,8 @@ class THM_OrganizerModelMappings extends JModelList
 
 		if (empty($pks))
 		{
-			return JError::raiseWarning(500, JText::_($this->text_prefix . '_ERROR_NO_ITEMS_SELECTED'));
+			$textConstant = $this->text_prefix . '_ERROR_NO_ITEMS_SELECTED';
+			return JError::raiseWarning(500, JText::_($textConstant));
 		}
 
 		// Update ordering values

@@ -1,6 +1,5 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -11,9 +10,7 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
-
 jimport('joomla.application.component.modeladmin');
 
 /**
@@ -25,7 +22,6 @@ jimport('joomla.application.component.modeladmin');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class THM_OrganizerModelSoapquery extends JModelAdmin
 {
@@ -47,7 +43,7 @@ class THM_OrganizerModelSoapquery extends JModelAdmin
 	 * Method to get the row form.
 	 *
 	 * @param   Array    $data      Data for the form
-	 * @param   Boolean	 $loadData	True if the form is to load its own data (default case), false if not
+	 * @param   Boolean  $loadData  True if the form is to load its own data (default case), false if not
 	 *
 	 * @return	mixed	A JForm object on success, false on failure
 	 */

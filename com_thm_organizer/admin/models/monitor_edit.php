@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.1.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -11,7 +10,6 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
 
@@ -22,7 +20,6 @@ jimport('joomla.application.component.modeladmin');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v0.1.0
  */
 class THM_OrganizerModelMonitor_Edit extends JModelAdmin
 {
@@ -72,7 +69,7 @@ class THM_OrganizerModelMonitor_Edit extends JModelAdmin
     /**
      * Method to get a single record.
      *
-     * @param  integer  $primaryKey  The id of the primary key.
+     * @param   integer  $primaryKey  The id of the primary key.
      *
      * @return mixed    Object on success, false on failure.
      */
@@ -87,9 +84,9 @@ class THM_OrganizerModelMonitor_Edit extends JModelAdmin
      * returns a table object the parameters are completely superfluous in the
      * implementing classes since they are always set by default
      *
-     * @param  string  $type    The table type to instantiate
-     * @param  string  $prefix  A prefix for the table class name. Optional.
-     * @param  array   $config  Configuration array for model. Optional.
+     * @param   string  $type    The table type to instantiate
+     * @param   string  $prefix  A prefix for the table class name. Optional.
+     * @param   array   $config  Configuration array for model. Optional.
      *
      * @return    JTabl        A database object
     */
