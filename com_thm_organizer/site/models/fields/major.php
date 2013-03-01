@@ -1,15 +1,15 @@
 <?php
 /**
- * @version	    v2.0.0
+ * @version     v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name	    JFormFieldMajor
+ * @name        JFormFieldMajor
  * @description JFormFieldMajor component site field
- * @author	    Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
 
 // Check to ensure this file is included in Joomla!
@@ -22,7 +22,7 @@ jimport('joomla.form.formfield');
  *
  * Class provides methods to create a multiple select includes the related semesters of the current tree node
  *
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
@@ -46,7 +46,6 @@ class JFormFieldMajor extends JFormField
 	public function getInput()
 	{
 		$scriptDir = str_replace(JPATH_SITE . DS, '', "components/com_thm_organizer/models/fields/");
-		$sortButtons = true;
 		$db = JFactory::getDBO();
 
 		// Add script-code to the document head

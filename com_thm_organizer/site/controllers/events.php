@@ -18,7 +18,7 @@ require_once JPATH_COMPONENT . "/assets/classes/eventAccess.php";
 /**
  * Performs access checks and user actions for events and associated resources
  * 
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de

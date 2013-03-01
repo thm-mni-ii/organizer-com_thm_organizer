@@ -28,7 +28,7 @@ div.MySchedexternURLClass_DIS {
 	text-align: center !important;
 }
 
-.MySchedEvent_joomla {
+div.MySchedEvent_joomla {
 	font-size: 11px !important;
 	cursor: move;
 	z-index: 1000;
@@ -41,6 +41,8 @@ div.MySchedexternURLClass_DIS {
 	text-shadow: 0px 1px 1px white;
 	overflow: hidden;
 	white-space: normal;
+    color: black !important;
+    text-decoration: none !important;
 }
 
 div.lectureBox {
@@ -56,6 +58,9 @@ div.lectureBox {
 	text-shadow: 0px 1px 1px white;
 	overflow: hidden;
 	white-space: normal;
+}
+div.lectureBox_reserve {
+	color: red;
 }
 
 div.lectureBox_dis {

@@ -30,8 +30,6 @@ class THM_OrganizerViewRoom_Select extends JView
 	 */
 	public function display($tpl = null)
 	{
-		$model = $this->getModel();
-
 		JHTML::_('behavior.formvalidation');
 		JHTML::_('behavior.tooltip');
 

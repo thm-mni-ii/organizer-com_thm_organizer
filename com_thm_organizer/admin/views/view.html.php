@@ -19,7 +19,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
 /**
  * Class loading a list of persistent monitor entries into the view context 
  * 
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de

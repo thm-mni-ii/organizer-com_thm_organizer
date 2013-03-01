@@ -18,7 +18,7 @@ require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_thm_organizer' 
 /**
  * Retrieves data about conflicting events and lessons against an event to be saved
  * 
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
@@ -481,7 +481,7 @@ class THM_OrganizerModelBooking extends JModel
         $newEventStart = strtotime($newEventStart);
         $newEventEnd = ($this->_endtime)? "{$this->_enddate} {$this->_endtime}" : "{$this->_enddate} 23:59";
         $flooredEventEnd = strtotime("{$this->_enddate} 00:00");
-        $ceilingEventEnd = strtotime("{$this->_enddate} 23:59");
+        // $ceilingEventEnd = strtotime("{$this->_enddate} 23:59");
         $newEventEnd = strtotime($newEventEnd);
         $restriction = "( ";
         $restriction .= "(e.start <= '$newEventStart' AND e.end >= '$newEventStart' ) OR ";
@@ -695,7 +695,7 @@ class THM_OrganizerModelBooking extends JModel
         $results = $dbo->loadAssocList();
         if (count($results))
         {
-            $scheduleModel = new thm_organizersModelschedule;
+            $scheduleModel = new thm_organizerModelschedule;
             foreach ($results as $key => $value)
             {
                 $schedule = json_decode($value['schedule']);

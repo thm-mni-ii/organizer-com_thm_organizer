@@ -1,15 +1,15 @@
 <?php
 /**
- * @version	    v0.0.1
+ * @version     v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		TreeView
+ * @name        TreeView
  * @description TreeView file from com_thm_organizer
- * @author	    Wolf Rost, <wolf.rost@mni.thm.de>
+ * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
 
 defined('_JEXEC') or die;
@@ -21,7 +21,7 @@ require_once JPATH_ROOT . "/components/com_thm_organizer/assets/classes/TreeNode
  *
  * Class provides methods to create the tree view for mysched
  *
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
@@ -439,6 +439,34 @@ class TreeView
 				// Cant decode json
 				return JError::raiseWarning(404, JText::_('Fehlerhafte Daten'));
 			}
+			
+			// Get ids for teachers and rooms
+			$schedulerModel = JModel::getInstance('scheduler', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
+			$rooms = $schedulerModel->getRooms();
+			$teachers = $schedulerModel->getTeachers();
+			
+			foreach ($this->_treeData["room"] as $roomValue)
+			{
+                foreach ($rooms as $databaseRooms)
+                {
+    			    if ($roomValue->gpuntisID === $databaseRooms->gpuntisID) 
+                    {
+                        $roomValue->dbID = $databaseRooms->id;
+                    }
+                }
+			}
+			
+			foreach ($this->_treeData["teacher"] as $teacherValue)
+			{
+			    foreach ($teachers as $databaseTeachers)
+			    {
+			        if ($teacherValue->gpuntisID === $databaseTeachers->gpuntisID)
+			        {
+			            $teacherValue->dbID = $databaseTeachers->id;
+			        }
+			    }
+			}
+			
 		}
 		else
 		{
@@ -845,8 +873,8 @@ class TreeView
 		$query = $dbo->getQuery(true);
 		$query->select('*');
 		$query->from('#__thm_organizer_schedules');
-		$query->where('departmentname = '. $dbo->quote($department));
-		$query->where('semestername = '. $dbo->quote($semester));
+		$query->where('departmentname = ' . $dbo->quote($department));
+		$query->where('semestername = ' . $dbo->quote($semester));
 		$query->where('active = 1');
 		$dbo->setQuery($query);
 		

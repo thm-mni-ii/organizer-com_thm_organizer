@@ -1,15 +1,15 @@
 <?php
 /**
- * @version	    v0.0.1
+ * @version     v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		Schedule
+ * @name        Schedule
  * @description Schedule file from com_thm_organizer
- * @author	    Wolf Rost, <wolf.rost@mni.thm.de>
+ * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die("DIE!!!");
 
@@ -20,7 +20,7 @@ require_once dirname(__FILE__) . "/scheduledirector.php";
  *
  * Class provides methods to create a schedule in different formats
  *
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de

@@ -4,12 +4,12 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerModelSoapquery
+ * @name        THM_OrganizerModelSoapquery
  * @description THM_OrganizerModelSoapquery component admin model
- * @author	    Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
 
 defined('_JEXEC') or die;
@@ -21,7 +21,7 @@ jimport('joomla.application.component.modeladmin');
  *
  * Class provides methods to deal with soap query
  *
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
@@ -46,8 +46,8 @@ class THM_OrganizerModelSoapquery extends JModelAdmin
 	/**
 	 * Method to get the row form.
 	 *
-	 * @param	Array	 $data		Data for the form
-	 * @param	Boolean	 $loadData	True if the form is to load its own data (default case), false if not
+	 * @param   Array    $data      Data for the form
+	 * @param   Boolean	 $loadData	True if the form is to load its own data (default case), false if not
 	 *
 	 * @return	mixed	A JForm object on success, false on failure
 	 */

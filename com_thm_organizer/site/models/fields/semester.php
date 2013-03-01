@@ -1,15 +1,15 @@
 <?php
 /**
- * @version	    v2.0.0
+ * @version     v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		JFormFieldSemester
+ * @name        JFormFieldSemester
  * @description JFormFieldSemester component site field
- * @author	    Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
 
 // Check to ensure this file is included in Joomla!
@@ -22,7 +22,7 @@ jimport('joomla.form.formfield');
  *
  * Class provides methods to create a multiple select which includes the related semesters of the current tree node
  *
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
@@ -46,7 +46,6 @@ class JFormFieldSemester extends JFormField
 	public function getInput()
 	{
 		$js = "";
-		$sortButtons = true;
 		$db = JFactory::getDBO();
 
 		$scriptDir = str_replace(JPATH_SITE . DS, '', "components/com_thm_organizer/models/fields/");
@@ -94,7 +93,6 @@ class JFormFieldSemester extends JFormField
 		$db->setQuery($query);
 		$semesters = $db->loadObjectList();
 		$semesters2 = $db->loadResultArray();
-		$semesters3 = $db->loadRowList();
 
 		if ($this->value)
 		{

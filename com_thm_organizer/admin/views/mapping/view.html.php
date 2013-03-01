@@ -4,12 +4,12 @@
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerViewMapping
+ * @name        THM_OrganizerViewMapping
  * @description THM_OrganizerViewMapping component admin view
- * @author	    Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
 
 // No direct access to this file
@@ -23,7 +23,7 @@ jimport('joomla.application.component.view');
  *
  * Class provides methods to display the view mapping
  *
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_curriculum
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de

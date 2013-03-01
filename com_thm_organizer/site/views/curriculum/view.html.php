@@ -41,7 +41,6 @@ class THM_OrganizerViewCurriculum extends JView
 		$app = JFactory::getApplication();
 
 		// Get the parameters of the current view
-		$params = &$state->params;
 		$menus = $app->getMenu();
 		$menu = $menus->getActive();
 		$this->params = $menu->params;
@@ -64,7 +63,6 @@ class THM_OrganizerViewCurriculum extends JView
 	 */
 	public function languageSwitcher($langLink)
 	{
-		$uri = JUri::base();
 		$itemid = JRequest::getVar('Itemid');
 		$group = JRequest::getVar('view');
 		$u = & JURI::getInstance('index.php');

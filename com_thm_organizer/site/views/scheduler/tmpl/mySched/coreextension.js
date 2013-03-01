@@ -174,17 +174,17 @@ Ext.picker.Date,
 
         var calendarTooltip = Ext.select('.calendar_tooltip',
         false, document);
-        //						calendarTooltip.removeAllListeners();
-        //						calendarTooltip.on({
-        //							'mouseover' : function(e) {
-        //								e.stopEvent();
-        //								calendar_tooltip(e);
-        //							},
-        //							'mouseout' : function(e) {
-        //								e.stopEvent();
-        //							},
-        //							scope : this
-        //						});
+		calendarTooltip.removeAllListeners();
+		calendarTooltip.on({
+			'mouseover' : function(e) {
+				e.stopEvent();
+				calendar_tooltip(e);
+			},
+			'mouseout' : function(e) {
+				e.stopEvent();
+			},
+			scope : this
+		});
 
         me.monthBtn.setText(me.monthNames[date.getMonth()] + ' ' + date.getFullYear());
     }
@@ -214,9 +214,8 @@ calendar_tooltip = function (e)
             {
                 var o = eventObjects[eventIndex];
                 if (name != "") name += ", ";
-                if (o.type === "teacher") name += "<small class='dozname'>" + o.name + "</small>";
-                else if (o.type === "room") name += "<small class='roomshortname'>" + o.name + "</small>";
-                else name += o.name
+                if (o.type === "teacher") name += "<small class='dozname'>" + getTeacherSurnameWithCutFirstName(MySched.Mapping.getTeacherKeyByID(o.id)) + "</small>";
+                else if (o.type === "room") name += "<small class='roomshortname'>" + MySched.Mapping.getRoomName(MySched.Mapping.getRoomKeyByID(o.id)) + "</small>";
             }
 
             /*

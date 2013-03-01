@@ -63,6 +63,25 @@ MySched.Mapping = function ()
         {
         	return this.def(this.teacher.get(id, id), 'firstname', id);
         },
+        getTeacherDbID: function (id)
+        {
+        	return this.def(this.teacher.get(id, id), 'dbID', id);
+        },
+        getTeacherKeyByID: function (dbID)
+        {
+        	for(var teacher in this.teacher.map)
+        	{
+        		var teacherObject = this.teacher.map[teacher];
+        		if(Ext.isObject(teacherObject))
+        		{
+        			if(teacherObject.dbID == dbID)
+        			{
+        				return teacher;
+        			}
+        		}
+        	}
+        	return dbID;
+        },
         getModuleName: function (id)
         {
             return this.def(this.module.get(id, id), 'name', id);
@@ -82,6 +101,25 @@ MySched.Mapping = function ()
         getRoomName: function (id)
         {
             return this.def(this.room.get(id, id), 'longname', id);
+        },
+        getRoomDbID: function (id)
+        {
+        	return this.def(this.teacher.get(id, id), 'dbID', id);
+        },
+        getRoomKeyByID: function (dbID)
+        {
+        	for(var room in this.room.map)
+        	{
+        		var roomObject = this.room.map[room];
+        		if(Ext.isObject(roomObject))
+        		{
+        			if(roomObject.dbID == dbID)
+        			{
+        				return room;
+        			}
+        		}
+        	}
+        	return dbID;
         },
         getSubjectParent: function(id)
         {

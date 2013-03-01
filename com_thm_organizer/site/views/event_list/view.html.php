@@ -91,13 +91,11 @@ class THM_OrganizerViewEvent_List extends JView
      */
     private function buildHTMLElements()
     {
-        $model = $this->getModel();
-
         $newImage = JHTML::_('image.site', 'add.png', 'components/com_thm_organizer/assets/images/', null, null, JText::_('Termin Erzeugen'));
         $this->assignRef('newImage', $newImage);
         $editImage = JHTML::_('image.site', 'edit.png', 'components/com_thm_organizer/assets/images/', null, null, JText::_('Termin EBearbeiten'));
         $this->assignRef('editImage', $editImage);
-        $deleteimage = JHTML::_('image.site', 'delete.png', 'components/com_thm_organizer/assets/images/', null, null, JText::_('Termin Löschen'));
+        $deleteImage = JHTML::_('image.site', 'delete.png', 'components/com_thm_organizer/assets/images/', null, null, JText::_('Termin Löschen'));
         $this->assignRef('deleteImage', $deleteImage);
 
         $attribs = array();

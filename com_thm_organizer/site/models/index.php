@@ -1,15 +1,15 @@
 <?php
 /**
- * @version	    v2.0.0
+ * @version     v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		THM_OrganizerModelIndex
+ * @name        THM_OrganizerModelIndex
  * @description THM_OrganizerModelIndex component site model
- * @author	    Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
 
 defined('_JEXEC') or die;
@@ -28,7 +28,7 @@ require_once JPATH_COMPONENT_SITE . DS . 'models/curriculum.php';
  *
  * Class provides methods to display a list
  *
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_urriculum
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
@@ -43,22 +43,6 @@ class THM_OrganizerModelIndex extends JModelList
 	 * @since  1.0
 	 */
 	private $_data;
-
-	/**
-	 * Pagination
-	 *
-	 * @var    Object
-	 * @since  1.0
-	 */
-	private $_pagination = null;
-
-	/**
-	 * Search
-	 *
-	 * @var    Object
-	 * @since  1.0
-	 */
-	private $_search;
 
 	/**
 	 * Database
@@ -98,10 +82,10 @@ class THM_OrganizerModelIndex extends JModelList
 	public function __construct()
 	{
 		$this->db = JFactory::getDBO();
-		$this->globParams = JComponentHelper::getParams('com_thm_organizer');
+		$this->_globParams = JComponentHelper::getParams('com_thm_organizer');
 		$this->groupsModel = $model = new THM_OrganizerModelGroups;
 		$this->groupsCurriculum = $model = new THM_OrganizerModelCurriculum;
-		$this->config = $this->groupsModel->getLsfConfiguration();
+		$this->_config = $this->groupsModel->getLsfConfiguration();
 
 		parent::__construct();
 	}
@@ -127,7 +111,7 @@ class THM_OrganizerModelIndex extends JModelList
 		$dir = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', '');
 		$filter = $app->getUserStateFromRequest($this->context . '.filter', 'filter', '');
 		$limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
-		$limitstart = $app->getUserStateFromRequest($this->context . '.limitstart', 'limitstart', '');
+		// $limitstart = $app->getUserStateFromRequest($this->context . '.limitstart', 'limitstart', '');
 
 		$this->setState('list.ordering', $order);
 		$this->setState('list.direction', $dir);
@@ -182,12 +166,12 @@ class THM_OrganizerModelIndex extends JModelList
 	{
 		// Perform a soap request, in order to get all related courses
 		$client = new LsfClient(
-				 $this->globParams->get('webserviceUri'), $this->globParams->get('webserviceUsername'),
-				 $this->globParams->get('webservicePassword')
+				 $this->_globParams->get('webserviceUri'), $this->_globParams->get('webserviceUsername'),
+				 $this->_globParams->get('webservicePassword')
 				);
 
 		$xml = $client->getModules(
-				$this->config[0]->lsf_object, $this->config[0]->lsf_study_path, "", $this->config[0]->lsf_degree, $this->config[0]->po
+				$this->_config[0]->lsf_object, $this->_config[0]->lsf_study_path, "", $this->_config[0]->lsf_degree, $this->_config[0]->po
 		);
 
 		// Build the where clause
@@ -225,7 +209,7 @@ class THM_OrganizerModelIndex extends JModelList
 		$limit = $this->state->get('list.limit');
 		$start = $this->state->get('list.start');
 
-		$this->major = $this->groupsCurriculum->getMajorRecord($this->config[0]->id);
+		$this->major = $this->groupsCurriculum->getMajorRecord($this->_config[0]->id);
 		$curriculumModel = new THM_OrganizerModelCurriculum;
 		$groupsModel = new THM_OrganizerModelGroups;
 
@@ -235,7 +219,7 @@ class THM_OrganizerModelIndex extends JModelList
 			$this->_data = $this->_getList($query, $start, $limit);
 		}
 
-		$url = (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		// $url = (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
 		// Iterate over each found course
 		foreach ($this->_data as $key => $row)

@@ -45,10 +45,10 @@ class THM_OrganizerViewEvent extends JView
         $this->canWrite = $model->canWrite;
 
         $item = new stdClass;
-	$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
         $item->text = $this->event['description'];
         JPluginHelper::importPlugin('content');
-        $results = $dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$this->params));
+        $dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$this->params));
         $this->event['description'] = $item->text;
         unset($item);
 

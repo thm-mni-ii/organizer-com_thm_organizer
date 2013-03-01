@@ -18,7 +18,7 @@ jimport('joomla.application.component.modeladmin');
 /**
  * Class retrieving a monitor entry to be edited 
  * 
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
@@ -50,7 +50,7 @@ class THM_OrganizerModelMonitor_Edit extends JModelAdmin
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return	mixed	A JForm object on success, false on failure
+     * @return    mixed    A JForm object on success, false on failure
      */
     public function getForm($data = array(), $loadData = true)
     {
@@ -72,9 +72,9 @@ class THM_OrganizerModelMonitor_Edit extends JModelAdmin
     /**
      * Method to get a single record.
      *
-     * @param	integer  $primaryKey  The id of the primary key.
+     * @param  integer  $primaryKey  The id of the primary key.
      *
-     * @return	mixed	Object on success, false on failure.
+     * @return mixed    Object on success, false on failure.
      */
     public function getItem($primaryKey = null)
     {
@@ -87,11 +87,11 @@ class THM_OrganizerModelMonitor_Edit extends JModelAdmin
      * returns a table object the parameters are completely superfluous in the
      * implementing classes since they are always set by default
      *
-     * @param	string  $type    The table type to instantiate
-     * @param	string  $prefix  A prefix for the table class name. Optional.
-     * @param	array   $config  Configuration array for model. Optional.
+     * @param  string  $type    The table type to instantiate
+     * @param  string  $prefix  A prefix for the table class name. Optional.
+     * @param  array   $config  Configuration array for model. Optional.
      *
-     * @return	JTable	A database object
+     * @return    JTabl        A database object
     */
     public function getTable($type = 'monitors', $prefix = 'thm_organizerTable', $config = array())
     {
@@ -102,7 +102,7 @@ class THM_OrganizerModelMonitor_Edit extends JModelAdmin
      * retrieves the data that should be injected in the form the loading is
      * done in jmodel admin
      *
-     * @return	mixed	The data for the form.
+     * @return    mixed    The data for the form.
      */
     protected function loadFormData()
     {

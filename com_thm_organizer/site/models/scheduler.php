@@ -1,7 +1,7 @@
 <?php
 /**
  * @version     v0.0.1
- * @category	Joomla component
+ * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name        scheduler model
@@ -21,7 +21,7 @@ jimport('joomla.application.component.model');
  *
  * Class provides methods to get the neccessary data to display a schedule
  *
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
@@ -207,5 +207,101 @@ class THM_OrganizerModelScheduler extends JModel
 		}
 		
 		return $result;
+	}
+	
+	/**
+	 * Method to get all rooms from database
+	 *
+	 * @return   Array  An Array with the rooms
+	 */
+	public function getRooms()
+	{
+	    $dbo = JFactory::getDBO();
+	    $query = $dbo->getQuery(true);
+	    
+	    $query->select('*');
+	    $query->from('#__thm_organizer_rooms');
+	    
+	    $dbo->setQuery($query);
+	    
+	    if ($error = $dbo->getErrorMsg())
+	    {
+	        return array();
+	    }
+	    
+	    $result = $dbo->loadObjectList();
+	    return $result;
+	}
+	
+	/**
+	 * Method to get all room types from database
+	 *
+	 * @return   Array  An Array with the room types
+	 */
+	public function getRoomTypes()
+	{
+	    $dbo = JFactory::getDBO();
+	    $query = $dbo->getQuery(true);
+	     
+	    $query->select('*');
+	    $query->from('#__thm_organizer_room_types');
+	     
+	    $dbo->setQuery($query);
+	     
+	    if ($error = $dbo->getErrorMsg())
+	    {
+	        return array();
+	    }
+	     
+	    $result = $dbo->loadObjectList();
+	    return $result;
+	}
+	
+	/**
+	 * Method to get all teachers from database
+	 *
+	 * @return   Array  An Array with the teachers
+	 */
+	public function getTeachers()
+	{
+	    $dbo = JFactory::getDBO();
+	    $query = $dbo->getQuery(true);
+	     
+	    $query->select('*');
+	    $query->from('#__thm_organizer_teachers');
+	     
+	    $dbo->setQuery($query);
+	     
+	    if ($error = $dbo->getErrorMsg())
+	    {
+	        return array();
+	    }
+	     
+	    $result = $dbo->loadObjectList();
+	    return $result;
+	}
+	
+	/**
+	 * Method to get all teacher types from database
+	 *
+	 * @return   Array  An Array with the teacher types
+	 */
+	public function getTeacherTypes()
+	{
+	    $dbo = JFactory::getDBO();
+	    $query = $dbo->getQuery(true);
+	     
+	    $query->select('*');
+	    $query->from('#__thm_organizer_teacher_fields');
+	     
+	    $dbo->setQuery($query);
+	     
+	    if ($error = $dbo->getErrorMsg())
+	    {
+	        return array();
+	    }
+	     
+	    $result = $dbo->loadObjectList();
+	    return $result;
 	}
 }

@@ -3,12 +3,12 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerModelSemester
+ * @name        THM_OrganizerModelSemester
  * @description THM_OrganizerModelSemester component admin model
- * @author	    Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
@@ -17,13 +17,13 @@ jimport('joomla.application.component.modeladmin');
  * Class THM_OrganizerModelSemester for component com_thm_organizer
  * Class provides methods to deal with semester
  *
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
 class THM_OrganizerModelSemester extends JModelAdmin
 {
-	/**
+    /**
 	 * Method to get the table
 	 *
 	 * @param   String  $type    Type  			(default: 'Semesters')
@@ -40,10 +40,10 @@ class THM_OrganizerModelSemester extends JModelAdmin
 	/**
 	 * Method to get the row form.
 	 *
-	 * @param	Array	 $data		Data for the form.														(default: Boolean)
-	 * @param	Boolean	 $loadData  True if the form is to load its own data (default case), false if not.  (default: Array)
+	 * @param   Array    $data      Data for the form.														(default: Boolean)
+	 * @param   Boolean  $loadData  True if the form is to load its own data (default case), false if not.  (default: Array)
 	 *
-	 * @return	mixed	A JForm object on success, false on failure
+	 * @return  mixed	A JForm object on success, false on failure
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{

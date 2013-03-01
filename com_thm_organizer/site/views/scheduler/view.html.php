@@ -42,13 +42,13 @@ class THM_OrganizerViewScheduler extends JView
 	{
 		JHTML::_('behavior.tooltip');
 		$model = $this->getModel();
-		
+		$data = array();
+				
 		// Get the curriculum color for modules
 		$curriculumModuleColors = $model->getCurriculumModuleColors();
 		
 		$menuparams = JFactory::getApplication()->getParams();
 				
-		$user = JFactory::getUser();
 		$eventmodel = JModel::getInstance('event_list', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
 		$canWriteEvents = $eventmodel->canWrite;
 		$this->canWriteEvents = $canWriteEvents;
@@ -245,7 +245,7 @@ class THM_OrganizerViewScheduler extends JView
 		$schedulearr["ScheduleDescription.load"] = new stdClass;
 		$schedulearr["ScheduleDescription.load"]->data = $activeSchedule;
 
-/* 		$schedulearr["TreeView.load"] = $model->executeTask("TreeView.load",
+		/*$schedulearr["TreeView.load"] = $model->executeTask("TreeView.load",
  											array("departmentSemesterSelection" => $departmentSemesterSelection,
  											"path" => $path, "hide" => true, "publicDefault" => $publicDefaultIDArray)
  										);*/

@@ -12,7 +12,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-switch($item->asset_type_id)
+switch ($item->asset_type_id)
 {
 	case 1:
 		$task = 'course.edit';

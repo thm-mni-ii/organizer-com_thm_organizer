@@ -45,8 +45,6 @@ class THM_OrganizerViewdetails extends JView
 		$this->session = & JFactory::getSession();
 		$verantw = "";
 		$verantwLabel = "";
-
-		$linkVerantwortlicher = null;
 		$dozentenLinks = array();
 
 		$document->addStyleSheet($this->baseurl . '/components/com_thm_organizer/css/curriculum.css');
@@ -122,9 +120,6 @@ class THM_OrganizerViewdetails extends JView
 	 */
 	private function languageSwitcher($langLink)
 	{
-		$session = & JFactory::getSession();
-
-		$uri = JUri::base();
 		$itemid = JRequest::getVar('Itemid');
 		$group = JRequest::getVar('view');
 		$u = & JURI::getInstance('index.php');

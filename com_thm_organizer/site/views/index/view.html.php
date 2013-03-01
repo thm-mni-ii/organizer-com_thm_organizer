@@ -38,7 +38,6 @@ class THM_OrganizerViewIndex extends JView
 	public function display($tpl = null)
 	{
 		$document = & JFactory::getDocument();
-		$model = & $this->getModel();
 		$app = JFactory::getApplication();
 		$menus = $app->getMenu();
 		$menu = $menus->getActive();
@@ -76,7 +75,6 @@ class THM_OrganizerViewIndex extends JView
 	 */
 	private function languageSwitcher($langLink)
 	{
-		$uri = JUri::base();
 		$itemid = JRequest::getVar('Itemid');
 		$group = JRequest::getVar('view');
 		$u = & JURI::getInstance('index.php');

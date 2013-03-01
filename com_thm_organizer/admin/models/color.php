@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerModelColor
+ * @name        THM_OrganizerModelColor
  * @description THM_OrganizerModelColor component admin model
  * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
@@ -25,7 +25,7 @@ jimport('joomla.application.component.modeladmin');
  */
 class THM_OrganizerModelColor extends JModelAdmin
 {
-	/**
+    /**
 	 * Method to get the table
 	 *
 	 * @param   String  $type    Type  			(default: 'colors')

@@ -1,7 +1,7 @@
 <?php
 /**
  * @version     v0.0.1
- * @category	Joomla component
+ * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name        reservation ajax response model
@@ -24,22 +24,14 @@ include_once JPATH_COMPONENT . "/assets/classes/config.php";
  *
  * Class provides methods to deal with AJAX requests
  *
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
  * @since       v0.0.1
  */
 class THM_OrganizerModelAjaxhandler extends JModel
-{
-	/**
-	 * Semester id
-	 *
-	 * @var    int
-	 * @since  v0.0.1
-	 */
-	private $_semID = null;
-	
+{	
 	/**
 	 * Joomla data abstraction
 	 *
@@ -98,11 +90,11 @@ class THM_OrganizerModelAjaxhandler extends JModel
 			
 			if (count($options) == 0)
 			{
-				$class = new $classname($this->JDA, $this->CFG);
+				$class = new $classname($this->_JDA, $this->_CFG);
 			}
 			else
 			{
-				$class = new $classname($this->JDA, $this->CFG, $options);
+				$class = new $classname($this->_JDA, $this->_CFG, $options);
 			}
 			return $class->$taskarr[1]();
 		}

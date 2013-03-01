@@ -1010,32 +1010,27 @@ new Ext.util.Observable(),
         });
 
         // Aboniert Events für Teacherentennamen
-//        Ext.select('.MySchedEvent_name', false, tab.dom)
-//        .on(
-//        {
-//            'mouseover': function (e)
-//            {
-//                if (e.button == 0) // links
-//                // Klick
-//                {
-//                    e.stopEvent();
-//                    this.showEventInformation(e);
-//                }
-//            },
-//            'mouseout': function ()
-//            {
-//                var contentAnchorTip = Ext.getCmp('content-anchor-tip');
-//                if (contentAnchorTip) contentAnchorTip.destroy();
-//            },
-//            'click': function (e)
-//            {
-//                if (e.button == 0) // links
-//                // Klick
-//                e.stopEvent();
-//                if (MySched.Authorize.user != null && MySched.Authorize.role != 'user' && MySched.Authorize.role != 'registered') addNewEvent(e.target.id);
-//            },
-//            scope: this
-//        });
+        Ext.select('.MySchedEvent_name', false, tab.dom).on(
+        {
+            'mouseover': function (e)
+            {
+                e.stopEvent();
+                this.showEventInformation(e);    
+            },
+            'mouseout': function ()
+            {
+                var contentAnchorTip = Ext.getCmp('content-anchor-tip');
+                if (contentAnchorTip) contentAnchorTip.destroy();
+            },
+            'click': function (e)
+            {
+                if (e.button == 0) // links
+                // Klick
+                e.stopEvent();
+                if (MySched.Authorize.user != null && MySched.Authorize.role != 'user' && MySched.Authorize.role != 'registered') addNewEvent(e.target.id);
+            },
+            scope: this
+        });
 
         // Aboniert Events für Teacherentennamen
         Ext.select('.roomname', false, tab.dom)
@@ -4139,8 +4134,8 @@ MySched.Tree = function ()
 
                         if (publicDefaultNode["type"] == "delta")
                         {
-                            MySched.delta.load(_C('ajaxHandler'), 'json',
-                            MySched.delta.loadsavedLectures, MySched.delta, "delta");
+//                            MySched.delta.load(_C('ajaxHandler'), 'json',
+//                            MySched.delta.loadsavedLectures, MySched.delta, "delta");
                         }
                         else
                         {

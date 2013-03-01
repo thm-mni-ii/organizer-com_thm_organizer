@@ -18,7 +18,7 @@ jimport('joomla.application.component.modellist');
 /**
  * Class compiling a list of saved monitors 
  * 
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
