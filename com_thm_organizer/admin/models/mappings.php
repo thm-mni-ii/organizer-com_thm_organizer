@@ -164,7 +164,7 @@ class THM_OrganizerModelMappings extends JModelList
 	/**
 	 * Method to traverse the tree
 	 *
-	 * @param   Integer  $treeID         Id
+	 * @param   Integer  $treeID     Id
 	 * @param   String   $indent     Indent
 	 * @param   Array    $list       List
 	 * @param   Array    &$children  Children

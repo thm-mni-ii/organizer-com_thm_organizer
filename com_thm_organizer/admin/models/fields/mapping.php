@@ -1,6 +1,5 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -11,10 +10,7 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die('Restricted access');
-
+defined('_JEXEC') or die;
 jimport('joomla.form.formfield');
 
 /**
@@ -26,7 +22,6 @@ jimport('joomla.form.formfield');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class JFormFieldMapping extends JFormField
 {
@@ -34,7 +29,6 @@ class JFormFieldMapping extends JFormField
 	 * Type
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	protected $type = 'Mapping';
 
@@ -45,47 +39,47 @@ class JFormFieldMapping extends JFormField
 	 */
 	public function getInput()
 	{
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 
 		// Get the major id
-		$id = $_SESSION['stud_id'];
+		$majorID = $_SESSION['stud_id'];
 
 		// Build the query
-		$query = $db->getQuery(true);
+		$query = $dbo->getQuery(true);
 		$query->select("sem_major.id AS id");
 		$query->select("name");
 		$query->from('#__thm_organizer_semesters_majors as sem_major');
 		$query->join('inner', '#__thm_organizer_semesters as semesters ON sem_major.semester_id = semesters.id');
-		$query->where("major_id = $id");
+		$query->where("major_id = $majorID");
 		$query->order('name ASC');
-		$db->setQuery($query);
-		$semesters = $db->loadObjectList();
+		$dbo->setQuery($query);
+		$semesters = $dbo->loadObjectList();
 
 		// Get the id of the item
-		$pk = JRequest::getVar('id');
+		$itemID = JRequest::getVar('id');
 
 		return JHTML::_('select.genericlist', $semesters, 'semesters[]', 'class="inputbox" size="10" multiple="multiple"', 'id',
-				'name', self::getSelectedSemesters($pk)
+				'name', self::getSelectedSemesters($itemID)
 		);
 	}
 
 	/**
 	 * Returns the related semesters of the given tree node
 	 *
-	 * @param   Integer  $id  Id
+	 * @param   Integer  $assetID  Id
 	 *
 	 * @return  String
 	 */
-	private function getSelectedSemesters($id)
+	private function getSelectedSemesters($assetID)
 	{
 		// Determine all semester mappings of this tree node
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_assets_semesters');
-		$query->where("assets_tree_id = $id");
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
+		$query->where("assets_tree_id = $assetID");
+		$dbo->setQuery($query);
+		$rows = $dbo->loadObjectList();
 
 		$selectedSemesters = array();
 
@@ -124,10 +118,8 @@ class JFormFieldMapping extends JFormField
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description))
 		{
-			$label .= ' title="' . htmlspecialchars(
-					trim(
-							JText::_($text), ':') . '::' .
-					JText::_($this->description), ENT_COMPAT, 'UTF-8') . '"';
+			$title = trim(JText::_($text), ':') . '::' . JText::_($this->description);
+			$label .= ' title="' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '"';
 		}
 
 		// Add the label text and closing tag.

@@ -1,6 +1,5 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -11,10 +10,7 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
 jimport('joomla.form.formfield');
 
 /**
@@ -26,7 +22,6 @@ jimport('joomla.form.formfield');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class JFormFieldSemesterorder extends JFormField
 {
@@ -34,7 +29,6 @@ class JFormFieldSemesterorder extends JFormField
 	 * Type
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	protected $type = 'Semesterorder';
 
@@ -45,29 +39,29 @@ class JFormFieldSemesterorder extends JFormField
 	 */
 	public function getInput()
 	{
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 		$scriptDir = str_replace(JPATH_SITE . DS, '', "administrator/components/com_thm_organizer/models/fields/");
 		JHTML::script('semesterorder.js', $scriptDir, false);
 
 		// Get the id of the chosen major
-		$pk = JRequest::getVar('id');
+		$majorID = JRequest::getVar('id');
 
 		// Build the query
-		$query = $db->getQuery(true);
+		$query = $dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_semesters');
 		$query->order('name ASC');
 
-		$db->setQuery($query);
-		$semesters = $db->loadObjectList();
+		$dbo->setQuery($query);
+		$semesters = $dbo->loadObjectList();
 
 		$html = JHTML::_('select.genericlist', $semesters, 'semesters[]', 'class="inputbox" size="10" multiple="multiple"',
-				'id', 'name', self::getSelectedSemesters($pk)
+				'id', 'name', self::getSelectedSemesters($majorID)
 		);
-		$html .= '<a onclick="roleup()" id="sortup"><img src="../administrator/components/com_thm_groups/img/uparrow.png" ' .
-				'title="Rolle eine Position h&ouml;her" /></a>';
-		$html .= '<a onclick="roledown()" id="sortdown"><img src="../administrator/components/com_thm_groups/img/downarrow.png" ' .
-				'title="Rolle eine Position niedriger" /></a>';
+		$html .= '<a onclick="roleup()" id="sortup"><img src="../administrator/components/com_thm_groups/img/uparrow.png" ';
+		$html .= 'title="Rolle eine Position h&ouml;her" /></a>';
+		$html .= '<a onclick="roledown()" id="sortdown"><img src="../administrator/components/com_thm_groups/img/downarrow.png" ';
+		$html .= 'title="Rolle eine Position niedriger" /></a>';
 
 		return $html;
 	}
@@ -75,24 +69,23 @@ class JFormFieldSemesterorder extends JFormField
 	/**
 	 * Determines which semesters belong to a given major
 	 *
-	 * @param   Integer  $id  Id
+	 * @param   Integer  $majorID  Id
 	 *
 	 * @return  String
 	 */
-	private function getSelectedSemesters($id)
+	private function getSelectedSemesters($majorID)
 	{
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
 
 		// Build the query
 		$query->select("*");
-		$query->from('#__thm_organizer_semesters');
-		$query->join('inner', '#__thm_organizer_semesters_majors ' .
-				'ON #__thm_organizer_semesters.id = #__thm_organizer_semesters_majors.semester_id');
-		$query->where("#__thm_organizer_semesters_majors.major_id = $id");
+		$query->from('#__thm_organizer_semesters AS s');
+		$query->join('#__thm_organizer_semesters_majors AS sm ON s.id = sm.semester_id');
+		$query->where("#__thm_organizer_semesters_majors.major_id = '$majorID'");
 		$query->order('name ASC');
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
+		$dbo->setQuery($query);
+		$rows = $dbo->loadObjectList();
 
 		$selectedSemesters = array();
 
@@ -131,10 +124,8 @@ class JFormFieldSemesterorder extends JFormField
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description))
 		{
-			$label .= ' title="' . htmlspecialchars(
-					trim(
-							JText::_($text), ':') . '::' .
-					JText::_($this->description), ENT_COMPAT, 'UTF-8') . '"';
+			$title = trim(JText::_($text), ':') . '::' . JText::_($this->description);
+			$label .= ' title="' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '"';
 		}
 
 		// Add the label text and closing tag.

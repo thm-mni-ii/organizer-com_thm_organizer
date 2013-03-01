@@ -1,6 +1,5 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -11,10 +10,7 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
 jimport('joomla.form.formfield');
 
 /**
@@ -26,7 +22,6 @@ jimport('joomla.form.formfield');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class JFormFieldColor extends JFormField
 {
@@ -34,7 +29,6 @@ class JFormFieldColor extends JFormField
 	 * Type
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	protected $type = 'Color';
 
@@ -45,15 +39,15 @@ class JFormFieldColor extends JFormField
 	 */
 	public function getInput()
 	{
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 
 		// Select all assets from the database
-		$query = $db->getQuery(true);
+		$query = $dbo->getQuery(true);
 
 		$query->select("*");
 		$query->from(' #__thm_organizer_colors as colors');
-		$db->setQuery($query);
-		$colors = $db->loadObjectList();
+		$dbo->setQuery($query);
+		$colors = $dbo->loadObjectList();
 
 		$html = "<select id = 'color_id' name='jform[color_id]'>";
 
@@ -67,8 +61,8 @@ class JFormFieldColor extends JFormField
 		{
 			if ($this->value == $color->id)
 			{
-				$html .= "<option selected='selected' style='background-color:#" . $color->color . "' value='" .
-						$color->id . "'>" . $color->name . "</option>";
+				$html .= "<option selected='selected' style='background-color:#" . $color->color; 
+				$html .= "' value='" . $color->id . "'>" . $color->name . "</option>";
 			}
 			$html .= "<option style='background-color:#" . $color->color . "' value='" . $color->id . "'>" . $color->name . "</option>";
 		}
@@ -79,21 +73,21 @@ class JFormFieldColor extends JFormField
 	/**
 	 * Returns the selected asset of the given tree node
 	 *
-	 * @param   Integer  $id  Id
+	 * @param   Integer  $assetID  Id
 	 *
 	 * @return  String
 	 */
-	private function getSelectedAssets($id)
+	private function getSelectedAssets($assetID)
 	{
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 
 		// Build the query
-		$query = $db->getQuery(true);
+		$query = $dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_assets_tree');
-		$query->where("#__thm_organizer_assets_tree.id = $id");
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
+		$query->where("#__thm_organizer_assets_tree.id = $assetID");
+		$dbo->setQuery($query);
+		$rows = $dbo->loadObjectList();
 
 		// Return the id of the asset
 		if (isset($rows[0]->asset))
@@ -109,7 +103,6 @@ class JFormFieldColor extends JFormField
 	 */
 	public function getLabel()
 	{
-		$label = '';
 		$replace = '';
 
 		// Get the label text from the XML element, defaulting to the element name.
@@ -120,15 +113,13 @@ class JFormFieldColor extends JFormField
 		$class = $this->required == true ? $class . ' required' : $class;
 
 		// Add the opening label tag and main attributes attributes.
-		$label .= '<label id="' . $this->id . '-lbl" for="' . $this->id . '" class="' . $class . '"';
+		$label = '<label id="' . $this->id . '-lbl" for="' . $this->id . '" class="' . $class . '"';
 
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description))
 		{
-			$label .= ' title="' . htmlspecialchars(
-					trim(
-							JText::_($text), ':') . '::' .
-					JText::_($this->description), ENT_COMPAT, 'UTF-8') . '"';
+			$title = trim(JText::_($text), ':') . '::' . JText::_($this->description);
+			$label .= ' title="' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '"';
 		}
 
 		// Add the label text and closing tag.

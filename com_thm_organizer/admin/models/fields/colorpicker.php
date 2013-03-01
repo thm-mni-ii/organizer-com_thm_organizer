@@ -1,6 +1,5 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -11,10 +10,7 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
-
 jimport('joomla.html.html');
 jimport('joomla.form.formfield');
 
@@ -27,7 +23,6 @@ jimport('joomla.form.formfield');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class JFormFieldColorPicker extends JFormField
 {
@@ -35,7 +30,6 @@ class JFormFieldColorPicker extends JFormField
 	 * Type
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	protected $type = 'ColorPicker';
 
@@ -55,24 +49,24 @@ class JFormFieldColorPicker extends JFormField
 		$img = JUri::root() . '/administrator/components/com_thm_organizer/models/fields/images/';
 		?>
 <script>
-            var i=0;
-            function change_<?php echo $this->fieldname ?>(){
-                var r = new MooRainbow('<?php echo $this->name; ?>', {
-                    id: '<?php echo $this->fieldname ?>' + i,
-                    startColor: $('<?php echo $this->name; ?>').style.backgroundColor,
-                    'onChange': function(color) {
-                        $('<?php echo $this->name; ?>').value = color.hex;
-                        $('<?php echo $this->name; ?>').setStyle("backgroundColor", color.hex);
-                    },
-                    imgPath: '<?php echo $img; ?>'
-                });
-                i++;
-            }
-
-        </script>
+var i=0;
+function change_<?php echo $this->fieldname ?>(){
+	var r = new MooRainbow('<?php echo $this->name; ?>', {
+		id: '<?php echo $this->fieldname ?>' + i,
+		startColor: $('<?php echo $this->name; ?>').style.backgroundColor,
+		'onChange': function(color) {
+			$('<?php echo $this->name; ?>').value = color.hex;
+			$('<?php echo $this->name; ?>').setStyle("backgroundColor", color.hex);
+		},
+		imgPath: '<?php echo $img; ?>'
+	});
+	i++;
+}
+</script>
 <?php
-$html = "<input id='" . $this->name . "' name='" . $this->name . "' type='text' size='13' value='" .
-		$this->value . "' style='background-color:" . $this->value . ";' onfocus='change_" . $this->fieldname . "()'/>";
+		$html = "<input id='" . $this->name . "' name='" . $this->name . "' type='text' ";
+		$html .= " size='13' value='" . $this->value . "' style='background-color:";
+		$html .= $this->value . ";' onfocus='change_" . $this->fieldname . "()'/>";
 
 return $html;
 	}

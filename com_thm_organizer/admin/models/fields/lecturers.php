@@ -1,6 +1,5 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -11,10 +10,7 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
 jimport('joomla.form.formfield');
 
 /**
@@ -26,7 +22,6 @@ jimport('joomla.form.formfield');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class JFormFieldLecturers extends JFormField
 {
@@ -34,7 +29,6 @@ class JFormFieldLecturers extends JFormField
 	 * Type
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	protected $type = 'Lecturers';
 
@@ -45,42 +39,42 @@ class JFormFieldLecturers extends JFormField
 	 */
 	public function getInput()
 	{
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 
-		$query = $db->getQuery(true);
+		$query = $dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_lecturers');
 		$query->order('surname');
-		$db->setQuery($query);
-		$semesters = $db->loadObjectList();
+		$dbo->setQuery($query);
+		$semesters = $dbo->loadObjectList();
 
 		// Get the id of the current item
-		$pk = JRequest::getVar('id');
+		$itemID = JRequest::getVar('id');
 
 		return JHTML::_('select.genericlist', $semesters, 'lecturers[]', 'class="inputbox" size="10" multiple="multiple"', 'id',
-				'surname', self::getSelectedLecturers($pk)
+				'surname', self::getSelectedLecturers($itemID)
 		);
 	}
 
 	/**
 	 * Returns the selected lecturers of the given asset
 	 *
-	 * @param   Integer  $id  Id
+	 * @param   Integer  $assetID  Id
 	 *
 	 * @return  String
 	 */
-	private function getSelectedLecturers($id)
+	private function getSelectedLecturers($assetID)
 	{
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 		$assetId = JRequest::getVar('id');
-		$query = $db->getQuery(true);
+		$query = $dbo->getQuery(true);
 
 		$query->select("*");
 		$query->from('#__thm_organizer_lecturers_assets as lecturer_assets');
 		$query->where("lecturer_assets.modul_id = $assetId");
 		$query->where("lecturer_assets.lecturer_type = 2");
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
+		$dbo->setQuery($query);
+		$rows = $dbo->loadObjectList();
 
 		$selectedLecturers = array();
 
@@ -120,10 +114,8 @@ class JFormFieldLecturers extends JFormField
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description))
 		{
-			$label .= ' title="' . htmlspecialchars(
-					trim(
-							JText::_($text), ':') . '::' .
-					JText::_($this->description), ENT_COMPAT, 'UTF-8') . '"';
+			$title = trim(JText::_($text), ':') . '::' . JText::_($this->description);
+			$label .= ' title="' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '"';
 		}
 
 		// Add the label text and closing tag.

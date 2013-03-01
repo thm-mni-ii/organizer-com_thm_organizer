@@ -1,6 +1,5 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -11,10 +10,7 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
 jimport('joomla.form.formfield');
 
 /**
@@ -26,7 +22,6 @@ jimport('joomla.form.formfield');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class JFormFieldParent extends JFormField
 {
@@ -34,7 +29,6 @@ class JFormFieldParent extends JFormField
 	 * Type
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	protected $type = 'Parent';
 
@@ -47,7 +41,7 @@ class JFormFieldParent extends JFormField
 	{
 		$scriptDir = str_replace(JPATH_SITE . DS, '', "administrator/components/com_thm_organizer/models/fields/");
 		$sortButtons = true;
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 
 		// Add script-code to the document head
 		JHTML::script('parent.js', $scriptDir, false);
@@ -55,28 +49,24 @@ class JFormFieldParent extends JFormField
 		// Get Major-ID from the current session
 		$majorId = $_SESSION['stud_id'];
 
-		$id = JRequest::getVar('id');
+		$rowID = JRequest::getVar('id');
 
 		// Build the sql statement
-		$query = $db->getQuery(true);
+		$query = $dbo->getQuery(true);
 
 		$query->select("*");
-		$query->select("CONCAT(title_de, ' (', semesters.name, ') ', assets_tree.id) as title_de ");
-/* 		$query->select("count(*) as count");
-/ 		$query->select("assets_tree.asset as asset_id");
-/ 		$query->select("assets_semesters.semesters_majors_id as sem_id");
- 		$query->select("semesters.name as semester_name");*/
-		$query->from(' #__thm_organizer_assets_tree as assets_tree');
-		$query->join('inner', '#__thm_organizer_assets_semesters as assets_semesters ON assets_semesters.assets_tree_id = assets_tree.id');
-		$query->join('inner', '#__thm_organizer_semesters_majors as semesters_majors ON assets_semesters.semesters_majors_id = semesters_majors.id');
-		$query->join('inner', '#__thm_organizer_assets as assets ON assets.id = assets_tree.asset');
-		$query->join('inner', '#__thm_organizer_semesters as semesters ON semesters.id = semesters_majors.semester_id');
+		$query->select("CONCAT(title_de, ' (', semesters.name, ') ', assets_tree.id) AS title_de ");
+		$query->from(' #__thm_organizer_assets_tree AS at');
+		$query->join('#__thm_organizer_assets_semesters AS assets_semesters ON assets_semesters.assets_tree_id = at.id');
+		$query->join('#__thm_organizer_semesters_majors AS semesters_majors ON assets_semesters.semesters_majors_id = semesters_majors.id');
+		$query->join('#__thm_organizer_assets AS assets ON assets.id = at.asset');
+		$query->join('#__thm_organizer_semesters AS semesters ON semesters.id = semesters_majors.semester_id');
 		$query->where(' assets.asset_type_id = 2');
 		$query->where("semesters_majors.major_id = $majorId");
 		$query->order('assets.title_de');
 		
 		$db->setQuery($query);
-		$pools = $db->loadObjectList();
+		$pools = $dbo->loadObjectList();
 
 		// Add an additional line to the selection box
 		$blankItem->id = 0;
@@ -85,29 +75,29 @@ class JFormFieldParent extends JFormField
 		$blankItem->title_de = '-- None --';
 		$items = array_merge(array($blankItem), $pools);
 
-		$js = "onchange='disableDropdown(this)' ";
+		$javaScript = "onchange='disableDropdown(this)' ";
 
-		return JHTML::_("select.genericlist", $items, "jform[parent_id]", "$js", "asset", "title_de", self::getSelectedParent($id));
+		return JHTML::_("select.genericlist", $items, "jform[parent_id]", "$javaScript", "asset", "title_de", self::getSelectedParent($rowID));
 	}
 
 	/**
 	 * Determines the related parent node of an asset
 	 *
-	 * @param   Integer  $id  Id
+	 * @param   Integer  $parentID  Id
 	 *
 	 * @return  String
 	 */
-	private function getSelectedParent($id)
+	private function getSelectedParent($parentID)
 	{
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 
 		// Build the query
-		$query = $db->getQuery(true);
+		$query = $dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_assets_tree');
-		$query->where("#__thm_organizer_assets_tree.id = $id");
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
+		$query->where("id = '$parentID'");
+		$dbo->setQuery($query);
+		$rows = $dbo->loadObjectList();
 
 		if (isset($rows[0]->parent_id))
 		{
@@ -139,10 +129,8 @@ class JFormFieldParent extends JFormField
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description))
 		{
-			$label .= ' title="' . htmlspecialchars(
-					trim(
-							JText::_($text), ':') . '::' .
-					JText::_($this->description), ENT_COMPAT, 'UTF-8') . '"';
+			$title = trim(JText::_($text), ':') . '::' . JText::_($this->description);
+			$label .= ' title="' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '"';
 		}
 
 		// Add the label text and closing tag.
