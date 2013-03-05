@@ -1,6 +1,5 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.site
@@ -11,11 +10,8 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
-// No direct access
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.tooltip');
 $id = JRequest::getVar('id', array(), 'get', 'array');
 
 $multipleEdit = JRequest::getVar('multiple_edit');

@@ -33,7 +33,7 @@ class THM_OrganizerViewLecturers extends JView
 	public function display($tpl = null)
 	{
 		JHtml::_('behavior.tooltip');
-		JToolBarHelper::title(JText::_("COM_THM_ORGANIZER") . ": " . JText::_("COM_THM_ORGANIZER_TRM_TITLE"), 'generic.png');
+		JToolBarHelper::title(JText::_("COM_THM_ORGANIZER") . ": " . JText::_("COM_THM_ORGANIZER_SUBMENU_LECTURERS_TITLE"), 'generic.png');
 
 		$this->items = $this->get('Items');
 		$this->pagination = $this->get('Pagination');

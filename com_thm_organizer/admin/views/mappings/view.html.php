@@ -1,6 +1,5 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
@@ -11,7 +10,6 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
@@ -25,7 +23,6 @@ jimport('joomla.application.component.view');
  * @package     thm_curriculum
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class THM_OrganizerViewMappings extends JView
 {
@@ -38,6 +35,7 @@ class THM_OrganizerViewMappings extends JView
 	 */
 	public function display($tpl = null)
 	{
+		JHtml::_('behavior.tooltip');
 		JHTML::_('stylesheet', 'thm_curriculum.css', 'components/com_thm_organizer/assets/css/');
 
 		$this->model = $this->getModel();
@@ -83,14 +81,12 @@ class THM_OrganizerViewMappings extends JView
 		$curr_name = $title['abschluss'] . ' ' . $title['fach'] . ' (' . $title['po'] . ')';
 		JToolBarHelper::title(JText::_("COM_THM_ORGANIZER_SUBMENU_CURRICULUM_TITLE") . $curr_name, 'generic.png');
 		JToolBarHelper::addNew('mapping.add', 'JTOOLBAR_NEW');
-		
-		// JToolBarHelper::addNew('dummy_mapping.add', 'com_thm_organizer_INSERT_PLACEHOLDER_MAPPING');
+
 		JToolBarHelper::addNew('fillpool.add', 'AutoFill');
 		JToolBarHelper::editList('mapping.edit', 'JTOOLBAR_EDIT');
-		JToolBarHelper::custom(
-				'copy.save', 'copy.png', JPATH_BASE . DS . 'administrator' . DS .
-				'com_thm_organizer' . DS . 'assets' . DS . 'images' . DS . 'copy.png', 'Copy', false, false
-				);
+		$copyImage = JPATH_BASE . DS . 'administrator' . DS . 'com_thm_organizer';
+		$copyImage .= DS . 'assets' . DS . 'images' . DS . 'copy.png';
+		JToolBarHelper::custom('copy.save', 'copy.png', $copyImage, 'Copy', false, false);
 		JToolBarHelper::deleteList('', 'mapping.delete', 'JTOOLBAR_DELETE');
 		JToolBarHelper::publish('mapping.publish', 'JTOOLBAR_PUBLISH', true);
 		JToolBarHelper::unpublish('mapping.unpublish', 'JTOOLBAR_UNPUBLISH', true);

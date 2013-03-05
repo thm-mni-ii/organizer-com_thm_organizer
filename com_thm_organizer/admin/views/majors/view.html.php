@@ -1,6 +1,5 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
@@ -11,9 +10,7 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
-
 jimport('joomla.application.component.view');
 
 /**
@@ -24,8 +21,6 @@ jimport('joomla.application.component.view');
  * @category    Joomla.Component.Admin
  * @package     thm_curriculum
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class THM_OrganizerViewMajors extends JView
 {
@@ -38,6 +33,8 @@ class THM_OrganizerViewMajors extends JView
 	 */
 	public function display($tpl = null)
 	{
+		JHtml::_('behavior.tooltip');
+
 		$items = $this->get('Items');
 		$pagination = $this->get('Pagination');
 

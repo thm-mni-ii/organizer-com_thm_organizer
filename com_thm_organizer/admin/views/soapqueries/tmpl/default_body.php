@@ -1,21 +1,16 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.site
  * @name		view soapqueries default body
  * @description THM_Curriculum component admin view
- * @author	    Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
-
-// No direct access to this file
 defined('_JEXEC') or die;
-?>
-<?php
 foreach ($this->items as $i => $item)
 {
 	?>
@@ -33,6 +28,5 @@ foreach ($this->items as $i => $item)
 	<td align="center"><?php echo $item->lsf_pversion; ?></td>
 	<td align="center"><?php echo $item->id; ?></td>
 </tr>
-
 <?php
 }
