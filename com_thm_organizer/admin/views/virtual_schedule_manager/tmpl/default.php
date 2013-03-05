@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin.view
@@ -11,7 +10,10 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-defined('_JEXEC') or die;?>
+defined('_JEXEC') or die;
+$resetScript = "this.form.getElementById('search').value='';this.form.getElementById('groupFilters').value='0';";
+$resetScript .= "this.form.getElementById('rolesFilters').value='0';this.form.submit();";
+?>
 <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>" method="post" name="adminForm">
 <table class="adminform">
 	<tr>
@@ -19,11 +21,14 @@ defined('_JEXEC') or die;?>
 			<?php
 			echo "<span title='" . JText::_("COM_THM_ORGANIZER_VSM_LABEL_DESCRIPTION") . "'>" . JText::_("COM_THM_ORGANIZER_VSM_LABEL_SEARCH") . "</span>";
 			?>
-			<input type="text" name="search" id="search" value="<?php echo $this->lists['search']; ?>" class="text_area" onChange="document.adminForm.submit();" />
+			<input type="text" name="search" id="search" value="<?php echo $this->lists['search']; ?>"
+				   class="text_area" onChange="document.adminForm.submit();" />
 		</td>
 		<td>
 			<button onclick="this.form.submit();"><?php echo JText::_("COM_THM_ORGANIZER_VSM_BUTTON_GO"); ?></button>
-			<button onclick="this.form.getElementById('search').value='';this.form.getElementById('groupFilters').value='0';this.form.getElementById('rolesFilters').value='0';this.form.submit();"><?php echo JText::_("COM_THM_ORGANIZER_VSM_BUTTON_RESET"); ?></button>
+			<button onclick="<?php echo $resetScript; ?>">
+				<?php echo JText::_("COM_THM_ORGANIZER_VSM_BUTTON_RESET"); ?>
+			</button>
 		</td>
 	</tr>
 </table>
@@ -35,17 +40,57 @@ defined('_JEXEC') or die;?>
 			<th width="1"><input type="checkbox" name="toggle" value=""
 				onclick="checkAll(<?php echo count($this->items); ?>);" /></th>
 
-			<th nowrap="nowrap"><?php echo JHTML::_('grid.sort', JText::_("COM_THM_ORGANIZER_VSM_LABEL_NAME"), 'name', $this->lists['order_Dir'], @$this->lists['order']); ?>
+			<th nowrap="nowrap">
+				<?php echo JHTML::_(
+									'grid.sort',
+									JText::_("COM_THM_ORGANIZER_VSM_LABEL_NAME"),
+									'name',
+									$this->lists['order_Dir'],
+									@$this->lists['order']
+								   ); ?>
 			</th>
-			<th align="center"><?php echo JHTML::_('grid.sort', JText::_("COM_THM_ORGANIZER_VSM_LABEL_TYPE"), 'type', $this->lists['order_Dir'], @$this->lists['order']); ?>
+			<th align="center">
+				<?php echo JHTML::_(
+									'grid.sort',
+									JText::_("COM_THM_ORGANIZER_VSM_LABEL_TYPE"),
+									'type', $this->lists['order_Dir'],
+									@$this->lists['order']
+								   ); ?>
 			</th>
-			<th align="center"><?php echo JHTML::_('grid.sort', JText::_("COM_THM_ORGANIZER_VSM_LABEL_RESPONSIBLE"), 'responsible', $this->lists['order_Dir'], @$this->lists['order']); ?>
+			<th align="center">
+				<?php echo JHTML::_(
+									'grid.sort', 
+									JText::_("COM_THM_ORGANIZER_VSM_LABEL_RESPONSIBLE"),
+									'responsible',
+									$this->lists['order_Dir'],
+									@$this->lists['order']
+								   ); ?>
 			</th>
-			<th align="center"><?php echo JHTML::_('grid.sort', JText::_("COM_THM_ORGANIZER_VSM_LABEL_DEPARTMENT"), 'department', $this->lists['order_Dir'], @$this->lists['order']); ?>
+			<th align="center">
+				<?php echo JHTML::_(
+									'grid.sort',
+									JText::_("COM_THM_ORGANIZER_VSM_LABEL_DEPARTMENT"),
+									'department',
+									$this->lists['order_Dir'],
+									@$this->lists['order']
+								   ); ?>
 			</th>
-			<th align="center"><?php echo JHTML::_('grid.sort', JText::_("COM_THM_ORGANIZER_VSM_LABEL_ELEMENTS"), 'eid', $this->lists['order_Dir'], @$this->lists['order']); ?>
+			<th align="center">
+				<?php echo JHTML::_(
+									'grid.sort',
+									JText::_("COM_THM_ORGANIZER_VSM_LABEL_ELEMENTS"),
+									'eid', $this->lists['order_Dir'],
+									@$this->lists['order']
+								   ); ?>
 			</th>
-			<th nowrap="nowrap"><?php echo JHTML::_('grid.sort', JText::_("COM_THM_ORGANIZER_VSM_LABEL_SEMESTER"), 'semesterID', $this->lists['order_Dir'], @$this->lists['order']); ?>
+			<th nowrap="nowrap">
+				<?php echo JHTML::_(
+									'grid.sort',
+									JText::_("COM_THM_ORGANIZER_VSM_LABEL_SEMESTER"),
+									'semesterID',
+									$this->lists['order_Dir'],
+									@$this->lists['order']
+								   ); ?>
 			</th>
 		</tr>
 	</thead>

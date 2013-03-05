@@ -1,7 +1,6 @@
 <?php
 /**
- * @version     v0.0.1
- * @category	Joomla component
+ * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin.view
  * @name        THM_OrganizerViewVirtual_Schedule_Edit
@@ -19,14 +18,12 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
 
 /**
  * Class THM_OrganizerViewVirtual_Schedule_Edit for component com_thm_organizer
- *
  * Class provides methods to display a virtual schedule edit form
  *
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin.view
  * @link        www.mni.thm.de
- * @since       v0.0.1
  */
 class THM_OrganizerViewVirtual_Schedule_Edit extends JView
 {

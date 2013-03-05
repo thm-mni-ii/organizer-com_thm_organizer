@@ -1,31 +1,26 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Curriculum
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerViewSoapquery
  * @description THM_OrganizerViewSoapquery component admin view
- * @author	    Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
-
 jimport('joomla.application.component.view');
 
 /**
  * Class THM_OrganizerViewSoapquery for component com_thm_organizer
- *
  * Class provides methods to display the view soap query
  *
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_curriculum
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class THM_OrganizerViewSoapquery extends JView
 {
@@ -38,6 +33,8 @@ class THM_OrganizerViewSoapquery extends JView
 	 */
 	public function display($tpl = null)
 	{
+		JHtml::_('behavior.tooltip');
+
 		// Get the Data
 		$form = $this->get('Form');
 		$item = $this->get('Item');

@@ -1,7 +1,6 @@
 <?php
 /**
- * @version     v0.0.1
- * @category	Joomla component
+ * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin.view
  * @name        THM_OrganizerViewVirtual_Schedule_Manager
@@ -11,21 +10,18 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
 
 /**
  * Class THM_OrganizerViewVirtual_Schedule_Manager for component com_thm_organizer
- *
  * Class provides methods to display a list of virtual schedules
  *
- * @category	Joomla.Component.Admin
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin.view
  * @link        www.mni.thm.de
- * @since       v0.0.1
  */
 class THM_OrganizerViewVirtual_Schedule_Manager extends JView
 {
@@ -51,7 +47,7 @@ class THM_OrganizerViewVirtual_Schedule_Manager extends JView
 		$mainframe = JFactory::getApplication("administrator");
 		$option = $mainframe->scope;
 		$view = JRequest::getString('view');
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 
 		$filter_order = $mainframe->getUserStateFromRequest(
 				"$option.$view.filter_order", 'filter_order',
@@ -62,7 +58,7 @@ class THM_OrganizerViewVirtual_Schedule_Manager extends JView
 		$filter_logged = $mainframe->getUserStateFromRequest("$option.$view.filter_logged", 'filter_logged', 0, 'int');
 		$filter = $mainframe->getUserStateFromRequest($option . $view . '.filter', 'filter', '', 'int');
 		$search = $mainframe->getUserStateFromRequest($option . $view . '.search', 'search', '', 'string');
-		$search = $db->getEscaped(trim(JString::strtolower($search)));
+		$search = $dbo->getEscaped(trim(JString::strtolower($search)));
 
 		// Table ordering
 		$lists['order_Dir']	= $filter_order_Dir;
