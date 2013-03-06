@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -11,7 +10,6 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.path');
@@ -29,8 +27,6 @@ require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'm
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class THM_OrganizerModelGroups extends JModel
 {
@@ -38,15 +34,13 @@ class THM_OrganizerModelGroups extends JModel
 	 * Database
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
-	protected $db = null;
+	protected $dbo = null;
 
 	/**
 	 * Application
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_app = null;
 
@@ -54,7 +48,6 @@ class THM_OrganizerModelGroups extends JModel
 	 * Global parameters
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_globParams = null;
 
@@ -62,7 +55,6 @@ class THM_OrganizerModelGroups extends JModel
 	 * Session
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_session = null;
 
@@ -70,7 +62,6 @@ class THM_OrganizerModelGroups extends JModel
 	 * Language
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	private $_lang = null;
 
@@ -78,7 +69,6 @@ class THM_OrganizerModelGroups extends JModel
 	 * Major
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_major = null;
 
@@ -143,7 +133,7 @@ class THM_OrganizerModelGroups extends JModel
 		$query->group("lecturer_id");
 		$query->order("lecturer_type");
 
-		$this->db->setQuery($query);
+		$this->db->setQuery((string) $query);
 		$rows = $this->db->loadObjectList();
 
 		foreach ($rows as $row)
@@ -228,9 +218,10 @@ class THM_OrganizerModelGroups extends JModel
 			// Iterate over each found course group
 			foreach ($modulesXML->gruppe as $gruppe)
 			{
+
+				// Get the current component configuration for this view
 				$app = JFactory::getApplication();
-				$menus = $app->getMenu();
-				$menu = $menus->getActive();
+				$menu = $app->getMenu()->getActive();
 
 				if ($groupName != null)
 				{
@@ -238,10 +229,6 @@ class THM_OrganizerModelGroups extends JModel
 					$menu->params->set('lsf_group_value', $groupName);
 				}
 
-				// Get the current component configuration for this view
-				$app = JFactory::getApplication();
-				$menus = $app->getMenu();
-				$menu = $menus->getActive();
 				$group_filter_enabler = $menu->params->get('lsf_group');
 				$group_filter_value = $menu->params->get('lsf_group_value');
 
@@ -466,11 +453,10 @@ class THM_OrganizerModelGroups extends JModel
 	 * Method to build the responsible link
 	 *
 	 * @param   Integer  $assetId   Course id
-	 * @param   String   $viewName  The view name  (default: 'groups')
 	 *
 	 * @return  String
 	 */
-	public function buildResponsibleLink($assetId, $viewName = 'groups')
+	public function buildResponsibleLink($assetId)
 	{
 		if (!isset($assetId) && $assetId == "")
 		{
@@ -478,7 +464,7 @@ class THM_OrganizerModelGroups extends JModel
 		}
 
 		// Build the sql statement
-		$query = $this->db->getQuery(true);
+		$query = $this->dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_lecturers as lecturers');
 		$query->join('inner', '#__thm_organizer_lecturers_assets as lecturers_assets ON lecturers.id = lecturers_assets.lecturer_id ');
@@ -486,8 +472,8 @@ class THM_OrganizerModelGroups extends JModel
 		$query->where("assets.lsf_course_id = $assetId ");
 		$query->where("lecturers_assets.lecturer_type = 1 ");
 
-		$this->db->setQuery($query);
-		$rows = $this->db->loadObjectList();
+		$this->dbo->setQuery((string) $query);
+		$rows = $this->dbo->loadObjectList();
 
 		// Get the user id fron the THM Groups Extension
 		if (isset($rows[0]->userid) && $rows[0]->userid != "")
@@ -528,12 +514,12 @@ class THM_OrganizerModelGroups extends JModel
 	public function getCourseById($id)
 	{
 		// Build the sql statement
-		$query = $this->db->getQuery(true);
+		$query = $this->dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_assets');
 		$query->where("lsf_course_id = $id");
-		$this->db->setQuery($query);
-		$rows = $this->db->loadObjectList();
+		$this->dbo->setQuery((string) $query);
+		$rows = $this->dbo->loadObjectList();
 
 		return $rows[0];
 	}
@@ -582,8 +568,8 @@ class THM_OrganizerModelGroups extends JModel
 	{
 		// Build the sql query
 		$query = "SELECT * FROM #__thm_groups_text WHERE value ='" . $hgNr . "' AND structid = 3;";
-		$this->db->setQuery($query);
-		$rows = $this->db->loadObjectList();
+		$this->dbo->setQuery((string) $query);
+		$rows = $this->dbo->loadObjectList();
 
 		if (isset($rows[0]))
 		{
@@ -600,13 +586,18 @@ class THM_OrganizerModelGroups extends JModel
 	 */
 	public function getLecturerNameFromThmGroups($userid)
 	{
-		$query = "SELECT DISTINCT text1.value as vorname, text2.value as nachname, " .
-				"text3.value as titel FROM #__thm_groups_text as text1 INNER JOIN #__thm_groups_text as text2 "
-				. "ON text1.userid = text2.userid INNER JOIN #__thm_groups_text as text3 ON text2.userid = text3.userid"
-				. " WHERE text1.structid=1 AND text2.structid=2 AND text3.structid=5 AND text1.userid='" . $userid . "';";
-
-		$this->db->setQuery($query);
-		$rows = $this->db->loadObjectList();
+		$this->dbo = JFactory::getDBO();
+		$query = $this->dbo->getQuery(true);
+		$query->select('DISTINCT text1.value AS vorname, text2.value AS nachname, text3.value AS titel');
+		$query->from('#__thm_groups_text AS text1');
+		$query->join('#__thm_groups_text AS text2 ON text1.userid = text2.userid');
+		$query->join('#__thm_groups_text as text3 ON text2.userid = text3.userid');
+		$query->where('text1.structid = 1');
+		$query->where('text2.structid = 2');
+		$query->where('text3.structid = 5');
+		$query->where("text1.userid = '$userid'");
+		$this->dbo->setQuery((string) $query);
+		$rows = $this->dbo->loadObjectList();
 
 		if (isset($rows[0]))
 		{
@@ -621,12 +612,12 @@ class THM_OrganizerModelGroups extends JModel
 	 */
 	public function getLsfConfigurations()
 	{
-		$this->db = JFactory::getDBO();
-
-		// Build the sql statement
-		$query = "SELECT * FROM #__thm_organizer_soap_queries;";
-		$this->db->setQuery($query);
-		$rows = $this->db->loadObjectList();
+		$this->dbo = JFactory::getDBO();
+		$query = $this->dbo->getQuery(true);
+		$query->select('*');
+		$query->from('#__thm_organizer_soap_queries');
+		$this->dbo->setQuery((string) $query);
+		$rows = $this->dbo->loadObjectList();
 
 		return $rows;
 	}
@@ -647,45 +638,28 @@ class THM_OrganizerModelGroups extends JModel
 			$configId = $menu->params->get('lsf_query');
 		}
 
-		$this->db = JFactory::getDBO();
-		$query = "SELECT * FROM #__thm_organizer_majors WHERE id = $configId;";
-		$this->db->setQuery($query);
-		$rows = $this->db->loadObjectList();
+		$this->dbo = JFactory::getDBO();
+		$query = $this->dbo->getQuery(true);
+		$query->select('*');
+		$query->from('#__thm_organizer_majors');
+		$query->where("id = '$configId'");
+		$this->dbo->setQuery((string) $query);
+		$rows = $this->dbo->loadObjectList();
 
 		return $rows;
 	}
 
 	/**
-	 * Method to sort by module number (usort callback)
-	 *
-	 * @param   Object  $a  An object
-	 * @param   Object  $b  Another object
-	 *
-	 * @return  Boolean  True if module number $a is less than module number $b
-	 */
-	public function cmpModulnummer($a, $b)
-	{
-		if (!is_numeric($a['course_code']))
-		{
-			return strcmp($a['course_code'], $b['course_code']);
-		}
-		else
-		{
-			return $a['course_code'] > $b['course_code'];
-		}
-	}
-
-	/**
 	 * Method to sort by module title (usort callback)
 	 *
-	 * @param   Object  $a  An object
-	 * @param   Object  $b  Another object
+	 * @param   Object  $thingOne  An object
+	 * @param   Object  $thingTwo  Another object
 	 *
-	 * @return  Boolean  True if module number $a is less than module number $b
+	 * @return  Boolean  True if module number $thingOne is less than module number $thingTwo
 	 */
-	public function cmpModultitel($a, $b)
+	public function cmpModultitel($thingOne, $thingTwo)
 	{
-		return $a['title_sort'] > $b['title_sort'];
+		return $thingOne['title_sort'] > $thingTwo['title_sort'];
 	}
 
 	/**
@@ -695,9 +669,13 @@ class THM_OrganizerModelGroups extends JModel
 	 */
 	public function getCurrentSemester()
 	{
-		$query = "SELECT sid FROM #__thm_organizer_schedules ORDER BY active DESC LIMIT 1";
-		$this->db->setQuery($query);
-		$sid = $this->db->loadResult();
+		$this->dbo = JFactory::getDbo();
+		$query = $this->dbo->getQuery(true);
+		$query->select('sid');
+		$query->from('#__thm_organizer_schedules');
+		$query->order('active DESC');
+		$this->dbo->setQuery((string) $query, 0, 1);
+		$sid = $this->dbo->loadResult();
 
 		return $sid;
 	}
@@ -712,7 +690,7 @@ class THM_OrganizerModelGroups extends JModel
 	 * Method to return a tooltip which includes the current scheduler information of the given lsf course code
 	 *
 	 * @param   Integer  $modulnummer  Module number
-	 * @param   String   $major  	   Major          (default: null)
+	 * @param   String   $major        Major (default: null)
 	 *
 	 * @return  String  HTML data
 	 */
@@ -720,32 +698,25 @@ class THM_OrganizerModelGroups extends JModel
 	{
 		$sid = self::getCurrentSemester();
 
-		$query = "SELECT *,teacher.name as tname, lessons.type as event_type, rooms.name as room_name "
-		. "FROM #__thm_organizer_subjects as subjects,"
-		. "#__thm_organizer_lessons as lessons,"
-		. "#__thm_organizer_lesson_teachers as teachers,"
-		. "#__thm_organizer_lesson_times as time,"
-		. "#__thm_organizer_teachers as teacher,"
-		. "#__thm_organizer_periods as periods,"
-		. "#__thm_organizer_rooms as rooms,"
-		. "#__thm_organizer_classes as classes,"
-		. "#__thm_organizer_lesson_classes as lesson_classes"
-		. " WHERE subjects.moduleID = '$modulnummer'"
-		. " AND subjects.id = lessons.subjectID"
-		. " AND lessons.id = teachers.lessonID"
-		. " AND teachers.teacherID = teacher.id"
-		. " AND time.lessonID = lessons.id"
-		. " AND time.periodID = periods.id"
-		. " AND rooms.id = time.roomID"
-		. " AND lessons.semesterID = $sid"
-		. " AND lesson_classes.classID = classes.id"
-		. " AND lesson_classes.lessonID = lessons.id"
-		. " AND classes.major = '" . $major . "'"
-		. " ORDER BY day , starttime asc";
+		$this->dbo = JFactory::getDbo();
+		$query = $this->dbo->getQuery(true);
+		$query->select('*,teacher.name AS tname, l.type AS event_type, rooms.name AS room_name');
+		$query->from('#__thm_organizer_subjects AS s');
+		$query->join('#__thm_organizer_lessons AS l ON l.subjectID = s.id');
+		$query->join('#__thm_organizer_lesson_teachers AS lt ON l.id = lt.lessonID');
+		$query->join('#__thm_organizer_lesson_times AS time ON l.id = time.lessonID');
+		$query->join('#__thm_organizer_teachers AS t ON lt.teacherID = t.id');
+		$query->join('#__thm_organizer_periods AS p ON time.periodID = p.id');
+		$query->join('#__thm_organizer_rooms AS r ON time.roomID = r.id');
+		$query->join('#__thm_organizer_lesson_classes AS lc ON l.id = lc.lessonID');
+		$query->from('#__thm_organizer_classes AS c ON lc.classID = c.id');
+		$query->where("s.moduleID = '$modulnummer'");
+		$query->where("l.semesterID = '$sid'");
+		$query->where("c.major = '$major'");
+		$query->order('day, starttime ASC');
+		$this->dbo->setQuery((string) $query);
+		$schedules = $this->dbo->loadObjectList();
 
-		$this->db->setQuery($query);
-
-		$schedules = $this->db->loadObjectList();
 		$html = null;
 
 		if (isset($schedules))

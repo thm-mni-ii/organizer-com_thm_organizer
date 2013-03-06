@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -11,12 +10,10 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.path');
 jimport('joomla.application.component.modellist');
-
 require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'helper/module.php';
 require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'helper/lsfapi.php';
 require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'helper/ModuleList.php';
@@ -30,8 +27,6 @@ require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'm
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
- * @since       v0.1.0
  */
 class THM_OrganizerModelCurriculum extends JModelList
 {
@@ -39,9 +34,8 @@ class THM_OrganizerModelCurriculum extends JModelList
 	 * Database
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
-	protected $db = null;
+	protected $dbo = null;
 
 	/**
 	 * Constructor to set up the class variables and call the parent constructor
@@ -63,16 +57,16 @@ class THM_OrganizerModelCurriculum extends JModelList
 	public function getMajorRecord($majorId)
 	{
 		// Build the sql statement
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
 		$query->select("*");
 		$query->select("#__thm_organizer_degrees.name as degree");
 		$query->from('#__thm_organizer_majors');
 		$query->join('cross', '#__thm_organizer_degrees ON #__thm_organizer_degrees.id = #__thm_organizer_majors.degree_id');
 		$query->where('#__thm_organizer_majors.id = ' . $majorId);
-		$db->setQuery($query);
+		$dbo->setQuery((string) $query);
 
-		return $db->loadAssocList();
+		return $dbo->loadAssocList();
 	}
 
 	/**
@@ -85,17 +79,17 @@ class THM_OrganizerModelCurriculum extends JModelList
 	public function getResponsibleRecord($assetId)
 	{
 		// Build the sql statement
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_lecturers as lecturers');
 		$query->join('inner', '#__thm_organizer_lecturers_assets as lecturers_assets ON lecturers.id = lecturers_assets.lecturer_id ');
 		$query->join('inner', '#__thm_organizer_assets as assets ON assets.id = lecturers_assets.modul_id');
 		$query->where("assets.lsf_course_id = $assetId ");
 		$query->where("lecturers_assets.lecturer_type = 1 ");
-		$db->setQuery($query);
+		$dbo->setQuery((string) $query);
 
-		return $db->loadObjectList();
+		return $dbo->loadObjectList();
 	}
 
 	/**
@@ -116,14 +110,14 @@ class THM_OrganizerModelCurriculum extends JModelList
 			$userid = $groupsModel->getUserIdFromGroups($rows[0]->userid);
 
 			// Build the sql statement
-			$db = JFactory::getDBO();
-			$query = $db->getQuery(true);
+			$dbo = JFactory::getDBO();
+			$query = $dbo->getQuery(true);
 
 			$query->select("*");
 			$query->from('#__thm_groups_picture');
 			$query->where("userid = $userid ORDER BY structid DESC");
-			$db->setQuery($query);
-			$rows = $db->loadObjectList();
+			$dbo->setQuery((string) $query);
+			$rows = $dbo->loadObjectList();
 
 			if (isset($rows[0]))
 			{
@@ -172,31 +166,30 @@ class THM_OrganizerModelCurriculum extends JModelList
 	/**
 	 * Method to build the link to a user profile of THM Groups
 	 *
-	 * @param   Integer  $assetId   ID of a module
-	 * @param   String   $viewName  The name of the current view (default 'curriculum')
+	 * @param   Integer  $assetId  ID of a module
 	 *
 	 * @return  String
 	 */
-	public function buildResponsibleLink($assetId, $viewName = 'curriculum')
+	public function buildResponsibleLink($assetId)
 	{
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 		$groupsModel = new THM_OrganizerModelGroups;
 
-		if (!isset($assetId) && $assetId == "")
+		if (!isset($assetId) AND $assetId == "")
 		{
 			return;
 		}
 
 		// Build the sql statement
-		$query = $db->getQuery(true);
+		$query = $dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_lecturers as lecturers');
-		$query->join('inner', '#__thm_organizer_lecturers_assets as lecturers_assets ON lecturers.id = lecturers_assets.lecturer_id ');
-		$query->join('inner', '#__thm_organizer_assets as assets ON assets.id = lecturers_assets.modul_id');
+		$query->join('#__thm_organizer_lecturers_assets as lecturers_assets ON lecturers.id = lecturers_assets.lecturer_id ');
+		$query->join('#__thm_organizer_assets as assets ON assets.id = lecturers_assets.modul_id');
 		$query->where("assets.lsf_course_id = $assetId ");
 		$query->where("lecturers_assets.lecturer_type = 1 ");
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
+		$dbo->setQuery((string) $query);
+		$rows = $dbo->loadObjectList();
 
 		// Get the user id fron the THM Groups Extension
 		if (isset($rows[0]))
@@ -213,55 +206,14 @@ class THM_OrganizerModelCurriculum extends JModelList
 	/**
 	 * Method to traverse the tree of a given asset and semester
 	 *
-	 * @param   Integer  $id  		ID of a module
+	 * @param   Integer  $moduleID  ID of a module
 	 * @param   Integer  $semester  ID of a semester
 	 *
 	 * @return Array
 	 */
-	public function categoryChild($id, $semester)
+	public function categoryChild($moduleID, $semester)
 	{
-		$db = JFactory::getDBO();
-		$groupsModel = new THM_OrganizerModelGroups;
-
-		$query = $db->getQuery(true);
-		$query->select("*, #__thm_organizer_assets_tree.ecollaboration_link as ecollaboration_link_instance,
-				#__thm_organizer_assets_tree.color_id as color_id_instance,
-				#__thm_organizer_assets_tree.menu_link as menu_link_instance,
-				#__thm_organizer_assets_tree.note as note_instance,
-				#__thm_organizer_assets.ecollaboration_link as ecollaboration_link_object,
-				#__thm_organizer_assets.color_id as color_id_object,
-				#__thm_organizer_assets.menu_link as menu_link_object,
-				#__thm_organizer_assets.note as note_object");
-
-		// Determine the correct labels, depening on the desired language
-		if (JRequest::getVar('lang') == 'de')
-		{
-			$query->select("title_de as title");
-			$query->select("short_title_de as short_title");
-		}
-		else
-		{
-			$query->select("title_en as title");
-			$query->select("short_title_en as short_title");
-		}
-
-		// Build the SQL query
-		$query->select("#__thm_organizer_colors.color as color_hex");
-		$query->select("#__thm_organizer_assets_semesters.id as semesters_majors_id");
-		$query->from('#__thm_organizer_assets_tree');
-		$query->join('inner', '#__thm_organizer_assets ON #__thm_organizer_assets_tree.asset = #__thm_organizer_assets.id');
-		$query->join('inner', '#__thm_organizer_assets_semesters ' .
-				'ON #__thm_organizer_assets_tree.id = #__thm_organizer_assets_semesters.assets_tree_id'
-		);
-		$query->join('inner', '#__thm_organizer_colors ON #__thm_organizer_assets_tree.color_id = #__thm_organizer_colors.id');
-		$query->where("parent_id = $id");
-		$query->where("published = 1");
-		$query->where("#__thm_organizer_assets_semesters.semesters_majors_id= $semester");
-
-		$query->order("ordering ASC");
-
-		$db->setQuery($query);
-		$subtree = $db->loadAssocList();
+		$subtree = $this->getAssets($semester, $moduleID);
 
 		$children = array();
 		if (count($subtree) > 0)
@@ -319,6 +271,7 @@ class THM_OrganizerModelCurriculum extends JModelList
 
 				if ($row['lsf_course_code'])
 				{
+					$groupsModel = new THM_OrganizerModelGroups;
 					$row['schedule'] = $groupsModel->getScheduleEvents($row['lsf_course_code'], $this->organizer_major);
 				}
 
@@ -367,16 +320,16 @@ class THM_OrganizerModelCurriculum extends JModelList
 	 */
 	public function getColorHex($colorID)
 	{
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 
-		$query = $db->getQuery(true);
+		$query = $dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_colors');
 		$query->where("id = $colorID");
-		$db->setQuery($query);
-		$color = $db->loadObjectList();
+		$dbo->setQuery((string) $query);
+		$color = $dbo->loadObjectList();
 
-		if (isset($color[0]) && isset($color[0]->color))
+		if (isset($color[0]) AND isset($color[0]->color))
 		{
 			return $color[0]->color;
 		}
@@ -394,17 +347,17 @@ class THM_OrganizerModelCurriculum extends JModelList
 	public function getJSONCurriculum()
 	{
 		$mainframe = JFactory::getApplication();
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 		$groupsModel = new THM_OrganizerModelGroups;
 
-		$id = JRequest::getVar('id');
-		$this->majorID = $id;
+		$majorID = JRequest::getVar('id');
+		$this->majorID = $majorID;
 
 		// Splits the semester values
 		$selectedSemesters = explode(',', JRequest::getVar('semesters'));
 
 		// Get the major in order to build the complete label of a given major/curriculum
-		$major = $this->getMajorRecord($id);
+		$major = $this->getMajorRecord($majorID);
 
 		// Set the curriculum label
 		$major[0]['full_name'] = $major[0]['degree'] . " " . $major[0]['subject'] . " (" . $major[0]['po'] . ")";
@@ -412,19 +365,19 @@ class THM_OrganizerModelCurriculum extends JModelList
 		$this->organizer_major = $major[0]['organizer_major'];
 
 		// Get all related semesters of the current major/curriculum
-		$query = $db->getQuery(true);
+		$query = $dbo->getQuery(true);
 		$query->select("*");
-		$query->select("#__thm_organizer_semesters_majors.id as id");
-		$query->select("#__thm_organizer_semesters_majors.major_id as major_id");
-		$query->from('#__thm_organizer_semesters_majors');
-		$query->join('inner', '#__thm_organizer_semesters ON #__thm_organizer_semesters.id = #__thm_organizer_semesters_majors.semester_id');
-		$query->where("major_id = $id");
+		$query->select("sm.id as id");
+		$query->select("sm.major_id as major_id");
+		$query->from('#__thm_organizer_semesters_majors AS sm');
+		$query->join('#__thm_organizer_semesters AS s ON s.id = sm.semester_id');
+		$query->where("major_id = $majorID");
 
-		$db->setQuery($query);
-		$semesters = $db->loadAssocList();
+		$dbo->setQuery((string) $query);
+		$semesters = $dbo->loadAssocList();
 
 		// Iterate the found semesters
-		foreach ($semesters as $key => $semester)
+		foreach ($semesters as $semester)
 		{
 			$semester['note'] = self::convertSEF($semester['note']);
 			$sem_color = $semester["color_id"];
@@ -443,46 +396,8 @@ class THM_OrganizerModelCurriculum extends JModelList
 			}
 
 			$semester['childs'] = array();
-			$query = $db->getQuery(true);
 
-			$query->select("*, #__thm_organizer_assets_tree.ecollaboration_link as ecollaboration_link_instance,
-					#__thm_organizer_assets_tree.color_id as color_id_instance,
-					#__thm_organizer_assets_tree.menu_link as menu_link_instance,
-					#__thm_organizer_assets_tree.note as note_instance,
-					#__thm_organizer_assets.ecollaboration_link as ecollaboration_link_object,
-					#__thm_organizer_assets.color_id as color_id_object,
-					#__thm_organizer_assets.menu_link as menu_link_object,
-					#__thm_organizer_assets.note as note_object");
-
-			// Determine the correct labels, depening on the desired language
-			if (JRequest::getVar('lang') == 'de')
-			{
-				$query->select("title_de as title");
-				$query->select("short_title_de as short_title");
-			}
-			else
-			{
-				$query->select("title_en as title");
-				$query->select("short_title_en as short_title");
-			}
-
-			$query->select("#__thm_organizer_colors.color as color_hex_instance");
-			$query->select("#__thm_organizer_assets_semesters.id as semesters_majors_id");
-			$query->from('#__thm_organizer_assets_tree');
-			$query->join('inner', '#__thm_organizer_assets ON #__thm_organizer_assets_tree.asset = #__thm_organizer_assets.id');
-			$query->join('inner', '#__thm_organizer_assets_semesters ' .
-					'ON #__thm_organizer_assets_tree.id = #__thm_organizer_assets_semesters.assets_tree_id'
-			);
-			$query->join('inner', '#__thm_organizer_colors ON #__thm_organizer_assets_tree.color_id = #__thm_organizer_colors.id');
-			$query->where("#__thm_organizer_assets_semesters.semesters_majors_id= $sem_id");
-			$query->where("published = 1");
-
-			// @TODO: quick-fix, linage calc anpassen
-			$query->where("parent_id = 0");
-			$query->order("ordering ASC");
-			$db->setQuery($query);
-			$assets = $db->loadAssocList();
-
+			$assets = $this->getAssets($sem_id);
 			foreach ($assets as $asset)
 			{
 				if ($asset['color_id_flag'] == 1)
@@ -554,5 +469,48 @@ class THM_OrganizerModelCurriculum extends JModelList
 		echo json_encode($major);
 
 		$mainframe->close();
+	}
+
+	/**
+	 * Retrieves an asset tree from the database
+	 * 
+	 * @param   integer  $semesterID  the id of the semester major or something :)
+	 * @param   integer  $parentID    the id of the hierarchial superior element (default: 0)
+	 * 
+	 * @return  array  an array of asset trees fulfilling the search requirements
+	 */
+	private function getAssets($semesterID, $parentID = 0)
+	{
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
+
+		$select = "*, at.ecollaboration_link as ecollaboration_link_instance, ";
+		$select .= "at.color_id as color_id_instance, at.menu_link as menu_link_instance, ";
+		$select .= "at.note as note_instance, a.ecollaboration_link as ecollaboration_link_object, ";
+		$select .= "a.color_id as color_id_object, a.menu_link as menu_link_object, ";
+		$select .= "a.note as note_object, c.color as color_hex_instance, ";
+		$select .= "asem.id as semesters_majors_id, ";
+
+		// Determine the correct labels, depening on the desired language
+		if (JRequest::getVar('lang') == 'de')
+		{
+			$select .= "title_de as title, short_title_de as short_title";
+		}
+		else
+		{
+			$select .= "title_en as title, short_title_en as short_title";
+		}
+
+		$query->select($select);
+		$query->from('#__thm_organizer_assets_tree AS at');
+		$query->join('#__thm_organizer_assets AS a ON at.asset = a.id');
+		$query->join('#__thm_organizer_assets_semesters AS asem ON at.id = asem.assets_tree_id');
+		$query->join('#__thm_organizer_colors AS c ON at.color_id = c.id');
+		$query->where("asem.semesters_majors_id = '$semesterID'");
+		$query->where("published = 1");
+		$query->where("parent_id = '$parentID'");
+		$query->order("ordering ASC");
+		$dbo->setQuery((string) $query);
+		return $dbo->loadAssocList();
 	}
 }

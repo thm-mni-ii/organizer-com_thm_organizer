@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.1.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -10,7 +9,6 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_thm_organizer' . DS . 'models' . DS . 'schedule.php';
@@ -21,8 +19,6 @@ require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_thm_organizer' 
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
- * @since       v0.0.1
  */
 class THM_OrganizerModelBooking extends JModel
 {
@@ -475,14 +471,11 @@ class THM_OrganizerModelBooking extends JModel
      */
     private function getEventBlockRestriction()
     {
-        $newEventStart = ($this->_starttime)? "{$this->_startdate} {$this->_starttime}" : "{$this->_startdate} 00:00";
         $flooredEventStart = strtotime("{$this->_startdate} 00:00");
         $ceilingEventStart = strtotime("{$this->_startdate} 23:59");
-        $newEventStart = strtotime($newEventStart);
-        $newEventEnd = ($this->_endtime)? "{$this->_enddate} {$this->_endtime}" : "{$this->_enddate} 23:59";
         $flooredEventEnd = strtotime("{$this->_enddate} 00:00");
-        // $ceilingEventEnd = strtotime("{$this->_enddate} 23:59");
-        $newEventEnd = strtotime($newEventEnd);
+        $newEventStart = strtotime(($this->_starttime)? "{$this->_startdate} {$this->_starttime}" : "{$this->_startdate} 00:00");
+        $newEventEnd = strtotime(($this->_endtime)? "{$this->_enddate} {$this->_endtime}" : "{$this->_enddate} 23:59");
         $restriction = "( ";
         $restriction .= "(e.start <= '$newEventStart' AND e.end >= '$newEventStart' ) OR ";
         $restriction .= "(e.start > '$newEventStart' AND e.start <= '$newEventEnd' ) OR ";

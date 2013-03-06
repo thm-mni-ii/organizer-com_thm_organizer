@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -11,11 +10,9 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.path');
-
 require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'helper/lsfapi.php';
 require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'helper/lsfapi_all.php';
 require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'helper/lsfapi_mni.php';
@@ -31,27 +28,24 @@ require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'm
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class THM_OrganizerModeldetails extends JModel
 {
 	/**
 	 * Method to return a module instance of a given lsf module id
 	 *
-	 * @param   String  $id  Module Id from lsf
+	 * @param   String  $moduleID  Module Id from lsf
 	 *
 	 * @return <Module> Instance of a Module
 	 */
-	public function getModuleByID($id)
+	public function getModuleByID($moduleID)
 	{
 		// Get the global component configuration
-		$globParams = &JComponentHelper::getParams('com_thm_organizer');
-		$session = & JFactory::getSession();
+		$globParams = JComponentHelper::getParams('com_thm_organizer');
 
 		// Perform a soap requst on lsf and save the response
 		$client = new LsfClientAll($globParams->get('webserviceUri'), $globParams->get('webserviceUsername'), $globParams->get('webservicePassword'));
-		$modulesXML = $client->getModuleByModulid($id);
+		$modulesXML = $client->getModuleByModulid($moduleID);
 
 		// Mapping of the response to a module instance
 		$modulobj = new ModuleAll($modulesXML, "", JRequest::getVar('lang'));
@@ -62,15 +56,15 @@ class THM_OrganizerModeldetails extends JModel
 	/**
 	 * Method to return a mdule instance of a given lsf course code (e.g. CS1001)
 	 *
-	 * @param   Integer  $id  The module id
+	 * @param   Integer  $moduleID  The module id
 	 *
 	 * @return <Module> Instance of a Module
 	 */
-	public function getModuleByNrMni($id)
+	public function getModuleByNrMni($moduleID)
 	{
 		// Get the global component configuration
-		$globParams = &JComponentHelper::getParams('com_thm_organizer');
-		$session = & JFactory::getSession();
+		$globParams = JComponentHelper::getParams('com_thm_organizer');
+		$session = JFactory::getSession();
 
 		// Set the default language
 		if ($session->get('language') == null)
@@ -80,7 +74,7 @@ class THM_OrganizerModeldetails extends JModel
 
 		// Perform a soap requst on lsf and save the response
 		$client = new LsfClient($globParams->get('webserviceUri'), $globParams->get('webserviceUsername'), $globParams->get('webservicePassword'));
-		$modulesXML = $client->getModuleByNrMni($id);
+		$modulesXML = $client->getModuleByNrMni($moduleID);
 
 		// Mapping of the response to a module instance
 		$modulobj = new Module($modulesXML, "", JRequest::getVar('lang'));
@@ -96,10 +90,13 @@ class THM_OrganizerModeldetails extends JModel
 	 */
 	public function getDozenten($nrmni)
 	{
-		$db = JFactory::getDBO();
-		$query = "SELECT DISTINCT dozentid FROM #__thm_organizer_dozenten_module WHERE modulid = '$nrmni';";
-		$db->setQuery($query);
-		return $db->loadResultArray();
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
+		$query->select('DISTINCT dozentid');
+		$query->from('#__thm_organizer_dozenten_module');
+		$query->where("modulid = '$nrmni'");
+		$dbo->setQuery((string) $query);
+		return $dbo->loadResultArray();
 	}
 
 	/**
@@ -110,7 +107,7 @@ class THM_OrganizerModeldetails extends JModel
 	public function getNavigation()
 	{
 		// Get the global component configuration
-		$globParams = &JComponentHelper::getParams('com_thm_organizer');
+		$globParams = JComponentHelper::getParams('com_thm_organizer');
 
 		// Get the necessary instances
 		$model = new THM_OrganizerModelGroups;
@@ -148,16 +145,16 @@ class THM_OrganizerModeldetails extends JModel
 	/**
 	 * Method to parse a ISBN in the correct syntax for the isbnlink plugin
 	 *
-	 * @param   String   $isbns						 The bibliography
-	 * @param   Boolean  $isIsbnlinkPluginAvailable  True if the isbnlink plugin is available otherwise false
+	 * @param   String   $ISBNText          The bibliography
+	 * @param   Boolean  $ISBNPlgAvailable  True if the isbnlink plugin is available otherwise false
 	 *
 	 * @return  String  The bibliography with the transformed isbn numbers as link
 	 */
-	public function transformISBN($isbns, $isIsbnlinkPluginAvailable)
+	public function transformISBN($ISBNText, $ISBNPlgAvailable)
 	{
-		if ($isIsbnlinkPluginAvailable === false)
+		if ($ISBNPlgAvailable === false)
 		{
-			return $modulLiteraturVerzeichnis;
+			return $ISBNText;
 		}
 		else
 		{
@@ -165,11 +162,11 @@ class THM_OrganizerModeldetails extends JModel
 			$pluginParams = json_decode($isbnlinkPlugin->params);
 				
 			$pluginParams->keyword = "ISBN";
-			$modulLiteraturVerzeichnis .= "ISBN:0123456789blabla ISBN 0 12345-678 9";
+			$ISBNText .= "ISBN:0123456789blabla ISBN 0 12345-678 9";
 	
 			$pluginKeyword = $pluginParams->keyword;
 				
-			$matches = $this->getISBNMatches($modulLiteraturVerzeichnis, $pluginKeyword);
+			$matches = $this->getISBNMatches($ISBNText, $pluginKeyword);
 	
 			var_dump($matches);
 			echo "<br/><br/><br/><br/>";
@@ -189,18 +186,18 @@ class THM_OrganizerModeldetails extends JModel
 	/**
 	 * Method to get all ISBN matches
 	 * 
-	 * @param   String  $modulLiteraturVerzeichnis  The text with isbn
-	 * @param   String  $pluginKeyword				The keyword
+	 * @param   String  $ISBNText       The text with isbn
+	 * @param   String  $pluginKeyword  The keyword
 	 * 
 	 * @return Ambigous <>|multitype:
 	 */
-	public function getISBNMatches($modulLiteraturVerzeichnis, $pluginKeyword)
+	public function getISBNMatches($ISBNText, $pluginKeyword)
 	{
 		$matches = array();
 	
 		// Result is stored in $matches
 		preg_match_all("/" . $pluginKeyword . "((-13)?(:)?(\s)?(\d[-\s]?){12}|(-10)?(:)?(\s)?(\d[-\s]?){9})\d/",
-		 $modulLiteraturVerzeichnis, $matches, PREG_PATTERN_ORDER
+		 $ISBNText, $matches, PREG_PATTERN_ORDER
 		);
 	
 		if ($matches[0])

@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -10,10 +9,7 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
-// No direct access
 defined('_JEXEC') or die;
-
 jimport('joomla.application.component.model');
 
 include_once JPATH_COMPONENT . "/assets/classes/DataAbstraction.php";
@@ -27,16 +23,13 @@ include_once JPATH_COMPONENT . "/assets/classes/config.php";
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
- * @since       v0.0.1
  */
 class THM_OrganizerModelAjaxhandler extends JModel
-{	
+{
 	/**
 	 * Joomla data abstraction
 	 *
 	 * @var    DataAbstraction
-	 * @since  v0.0.1
 	 */
 	private $_JDA = null;
 	
@@ -44,14 +37,11 @@ class THM_OrganizerModelAjaxhandler extends JModel
 	 * Configuration
 	 *
 	 * @var    object
-	 * @since  1.0
 	 */
 	private $_CFG = null;
 	
 	/**
 	 * Constructor
-	 *
-	 * @since 1.5
 	 */
 	public function __construct()
 	{
@@ -63,7 +53,7 @@ class THM_OrganizerModelAjaxhandler extends JModel
 	/**
 	 * Method to execute tasks
 	 *
-	 * @param   String  $task 	  The task to execute
+	 * @param   String  $task     The task to execute
 	 * @param   Array   $options  An array with options to forward to the class that handle the task (Default: Array)
 	 *
 	 * @return  Array
