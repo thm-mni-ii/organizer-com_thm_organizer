@@ -154,7 +154,7 @@ class THM_OrganizerModelFillpool extends JModelAdmin
 
 		// Doing a soap request on curriculum, based on the current component configuration
 		$client = new LSFClient($globParams->get('webserviceUri'), $globParams->get('webserviceUsername'), $globParams->get('webservicePassword'));
-		$modulesXML = $client->getModules($config[0]->lsf_object, $config[0]->lsf_study_path, "", $config[0]->lsf_degree, $config[0]->po);
+		$modulesXML = $client->getModules($config[0]->lsf_object, $config[0]->lsf_study_path, $config[0]->lsf_degree, $config[0]->po);
 
 		// Check whether there is a soap response (xml format)
 		if (isset($modulesXML))

@@ -204,7 +204,7 @@ class THM_OrganizerModelGroups extends JModel
 		$client = new LsfClient(
 				$this->_globParams->get('webserviceUri'), $this->_globParams->get('webserviceUsername'), $this->_globParams->get('webservicePassword')
 		);
-		$modulesXML = $client->getModules($config[0]->lsf_object, $config[0]->lsf_study_path, "", $config[0]->lsf_degree, $config[0]->po);
+		$modulesXML = $client->getModules($config[0]->lsf_object, $config[0]->lsf_study_path, $config[0]->lsf_degree, $config[0]->po);
 		$groups = array();
 
 		// Will contain all courses without related course groups

@@ -234,7 +234,6 @@ class THM_OrganizerModelLecturers extends JModel
 		$client = new LsfClient(
 				$this->globParams->get('webserviceUri'), $this->globParams->get('webserviceUsername'), $this->globParams->get('webservicePassword')
 		);
-		$modulesXML = $client->getModules($config[0]->lsf_object, $config[0]->lsf_study_path, "", $config[0]->lsf_degree, $config[0]->po);
 
 		$this->major = $this->groupsCurriculum->getMajorRecord($config[0]->id);
 

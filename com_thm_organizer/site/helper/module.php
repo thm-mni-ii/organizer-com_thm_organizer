@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -23,7 +22,6 @@ require_once 'lsfapi.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class Module
 {
@@ -31,7 +29,6 @@ class Module
 	 * XML structure
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	public $xmlStructure = null;
 
@@ -48,7 +45,6 @@ class Module
 	* Module id
 	*
 	* @var    String
-	* @since  1.0
 	*/
 	public $modulid = null;
 
@@ -56,7 +52,6 @@ class Module
 	 * His number
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $nrHis = null;
 
@@ -64,7 +59,6 @@ class Module
 	 * Mni number
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $nrMni = null;
 
@@ -72,7 +66,6 @@ class Module
 	 * Abbreviation
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $kuerzel = null;
 
@@ -80,7 +73,6 @@ class Module
 	 * Short name
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $kurzname = null;
 
@@ -112,7 +104,6 @@ class Module
 	 * Version
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $pversion = null;
 
@@ -120,7 +111,6 @@ class Module
 	 * $ktxtppflicht
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $ktxtppflicht = null;
 
@@ -128,7 +118,6 @@ class Module
 	 * $ktxtpform
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $ktxtpform = null;
 
@@ -136,7 +125,6 @@ class Module
 	 * Language
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $sprache = null;
 
@@ -144,15 +132,13 @@ class Module
 	 * Creditpoints
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
-	public $lp = null;
+	public $creditPoints = null;
 
 	/**
 	 * Semester week hours
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $sws = null;
 
@@ -168,7 +154,6 @@ class Module
 	 * Effort (german)
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $aufwand_de = null;
 
@@ -176,7 +161,6 @@ class Module
 	 * Effort (english)
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $aufwand_en = null;
 
@@ -192,7 +176,6 @@ class Module
 	 * Rotation
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $turnus = null;
 
@@ -208,7 +191,6 @@ class Module
 	 * $versemester
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $versemester = null;
 
@@ -216,7 +198,6 @@ class Module
 	 * $verstandbearb
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $verstandbearb = null;
 
@@ -224,7 +205,6 @@ class Module
 	 * Title (english)
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $titelen = null;
 
@@ -240,7 +220,6 @@ class Module
 	 * Parent modul
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $parentmodul = null;
 
@@ -248,7 +227,6 @@ class Module
 	 * $stgktxt
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $stgktxt = null;
 
@@ -256,7 +234,6 @@ class Module
 	 * Graduation
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $abschl = null;
 
@@ -274,7 +251,7 @@ class Module
 	 * @var    String
 	 * @since  1.0
 	 */
-	public $verantworlicher_vorname = null;
+	public $respFirstName = null;
 
 	/**
 	 * Responsible lastname
@@ -282,7 +259,7 @@ class Module
 	 * @var    String
 	 * @since  1.0
 	 */
-	public $verantworlicher_nachname = null;
+	public $respLastName = null;
 
 	/**
 	 * Responsible ldap
@@ -322,7 +299,7 @@ class Module
 	 * @var    String
 	 * @since  1.0
 	 */
-	public $kurzbeschreibung_de_semester = null;
+	public $shortDescSemDE = null;
 
 	/**
 	 * Short Description (english)
@@ -338,7 +315,7 @@ class Module
 	 * @var    String
 	 * @since  1.0
 	 */
-	public $kurzbeschreibung_en_semester = null;
+	public $shortDescSemEN = null;
 
 	/**
 	 * Teaching type (german)
@@ -515,7 +492,7 @@ class Module
 		}
 		if (isset($this->xmlStructure->lp))
 		{
-			$this->lp = (String) $this->xmlStructure->lp;
+			$this->creditPoints = (String) $this->xmlStructure->creditPoints;
 		}
 		if (isset($this->xmlStructure->ktxtppflicht))
 		{
@@ -524,8 +501,8 @@ class Module
 
 		if (isset($this->xmlStructure->verantwortliche))
 		{
-			$this->verantworlicher = $this->xmlStructure->verantwortliche->personinfo->vorname . " " .
-					$this->xmlStructure->verantwortliche->personinfo->nachname;
+			$this->verantworlicher = $this->xmlStructure->verantwortliche->personinfo->vorname . " ";
+			$this->verantworlicher .= $this->xmlStructure->verantwortliche->personinfo->nachname;
 			$this->verantworlicher_ldap = $this->xmlStructure->verantwortliche->hgnr;
 		}
 
@@ -533,17 +510,14 @@ class Module
 		$this->dozent = array();
 		if (isset($this->xmlStructure->dozent))
 		{
-			$i = 0;
 			foreach ($this->xmlStructure->dozent as $dozent)
 			{
-				$dozentInfo = array();
 				$dozentString = isset($dozent->hgnr) ? (String) $dozent->hgnr : (String) $dozent->redmokid;
 				$arrPersonInfo = array();
 				$arrPersonInfo['id'] = $dozentString;
 				$arrPersonInfo['name'] = (String) $dozent->personinfo->{'personal.nachname'};
 				$arrPersonInfo['vorname'] = (String) $dozent->personinfo->{'personal.vorname'};
 				array_push($this->dozent, $arrPersonInfo);
-				$i++;
 			}
 		}
 
@@ -616,7 +590,7 @@ class Module
 		}
 		if (isset($this->xmlStructure->lp))
 		{
-			$this->lp = $this->xmlStructure->lp;
+			$this->creditPoints = $this->xmlStructure->creditPoints;
 		}
 		if (isset($this->xmlStructure->sws))
 		{
@@ -687,8 +661,8 @@ class Module
 		{
 			if (isset($this->xmlStructure->verantwortliche->personinfo))
 			{
-				$this->verantworlicher_vorname = $this->xmlStructure->verantwortliche->personinfo->vorname;
-				$this->verantworlicher_nachname = $this->xmlStructure->verantwortliche->personinfo->nachname;
+				$this->respFirstName = $this->xmlStructure->verantwortliche->personinfo->vorname;
+				$this->respLastName = $this->xmlStructure->verantwortliche->personinfo->nachname;
 				$this->verantworlicher_ldap = $this->xmlStructure->verantwortliche->hgnr;
 			}
 		}
@@ -697,18 +671,14 @@ class Module
 		$this->dozent = array();
 		if (isset($this->xmlStructure->dozent))
 		{
-			$i = 0;
 			foreach ($this->xmlStructure->dozent as $dozent)
 			{
-				$dozentInfo = array();
 				$dozentString = isset($dozent->hgnr) ? (String) $dozent->hgnr : (String) $dozent->redmokid;
 				$arrPersonInfo = array();
 				$arrPersonInfo['id'] = $dozentString;
 				$arrPersonInfo['name'] = (String) $dozent->personinfo->{'personal.nachname'};
 				$arrPersonInfo['vorname'] = (String) $dozent->personinfo->{'personal.vorname'};
 				array_push($this->dozent, $arrPersonInfo);
-
-				$i++;
 			}
 		}
 
@@ -916,7 +886,7 @@ class Module
 	 */
 	public function getCreditpoints()
 	{
-		return $this->lp;
+		return $this->creditPoints;
 	}
 
 	/**
@@ -970,7 +940,7 @@ class Module
 	 */
 	public function getAbschluss()
 	{
-		return $this->$abschl;
+		return $this->abschl;
 	}
 
 	/**
@@ -980,7 +950,7 @@ class Module
 	 */
 	public function getModulVerantwortlicherVorname()
 	{
-		return $this->verantworlicher_vorname;
+		return $this->respFirstName;
 	}
 
 	/**
@@ -990,7 +960,7 @@ class Module
 	 */
 	public function getModulVerantwortlicherNachname()
 	{
-		return $this->verantworlicher_nachname;
+		return $this->respLastName;
 	}
 
 	/**

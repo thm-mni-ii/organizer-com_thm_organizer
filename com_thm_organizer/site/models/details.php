@@ -119,7 +119,7 @@ class THM_OrganizerModeldetails extends JModel
 		// Perform a soap request, in order to get all courses based on the chosen component configuration
 		$client = new LsfClient($globParams->get('webserviceUri'), $globParams->get('webserviceUsername'), $globParams->get('webservicePassword'));
 		$modulesXML = $client->getModules(
-				$config[0]->lsf_object, $config[0]->lsf_studiengang, "", $config[0]->lsf_abschluss, $config[0]->po
+				$config[0]->lsf_object, $config[0]->lsf_studiengang, $config[0]->lsf_abschluss, $config[0]->po
 		);
 
 		$navi = array();

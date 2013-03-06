@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -23,7 +22,6 @@ require_once 'lsfapi.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class ModuleMNI
 {
@@ -31,7 +29,6 @@ class ModuleMNI
 	 * XML structure
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	public $xmlStructure = null;
 
@@ -39,7 +36,6 @@ class ModuleMNI
 	 * Language
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $language = null;
 
@@ -48,7 +44,6 @@ class ModuleMNI
 	* Module id
 	*
 	* @var    String
-	* @since  1.0
 	*/
 	public $modulid = null;
 
@@ -56,7 +51,6 @@ class ModuleMNI
 	 * His number
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $nrHis = null;
 
@@ -64,7 +58,6 @@ class ModuleMNI
 	 * Mni number
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $nrMni = null;
 
@@ -72,7 +65,6 @@ class ModuleMNI
 	 * Abbreviation
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $kuerzel = null;
 
@@ -80,7 +72,6 @@ class ModuleMNI
 	 * Short name
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $kurzname = null;
 
@@ -88,7 +79,6 @@ class ModuleMNI
 	 * Short name (german)
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $kurzname_de = null;
 
@@ -96,7 +86,6 @@ class ModuleMNI
 	 * Short name (english)
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $kurzname_en = null;
 
@@ -104,7 +93,6 @@ class ModuleMNI
 	 * Module title (german)
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $modultitelDe = null;
 
@@ -112,7 +100,6 @@ class ModuleMNI
 	 * Module title (english)
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $modultitelEn = null;
 
@@ -120,7 +107,6 @@ class ModuleMNI
 	 * Major
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $studiengang = null;
 
@@ -128,7 +114,6 @@ class ModuleMNI
 	 * Version
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $pversion = null;
 
@@ -136,7 +121,6 @@ class ModuleMNI
 	 * $ktxtppflicht
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $ktxtppflicht = null;
 
@@ -144,7 +128,6 @@ class ModuleMNI
 	 * $ktxtpform
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $ktxtpform = null;
 
@@ -152,7 +135,6 @@ class ModuleMNI
 	 * Language
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $sprache = null;
 
@@ -160,15 +142,13 @@ class ModuleMNI
 	 * Creditpoints
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
-	public $lp = null;
+	public $creditPoints = null;
 
 	/**
 	 * Semester week hours
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $sws = null;
 
@@ -176,7 +156,6 @@ class ModuleMNI
 	 * Pflichtsemester
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $pfsem = null;
 
@@ -184,7 +163,6 @@ class ModuleMNI
 	 * Effort (german)
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $aufwand_de = null;
 
@@ -192,7 +170,6 @@ class ModuleMNI
 	 * Effort (english)
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $aufwand_en = null;
 
@@ -200,7 +177,6 @@ class ModuleMNI
 	 * Group size
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $gruppengr = null;
 
@@ -208,7 +184,6 @@ class ModuleMNI
 	 * Rotation
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $turnus = null;
 
@@ -216,7 +191,6 @@ class ModuleMNI
 	 * Duration
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $dauer = null;
 
@@ -224,7 +198,6 @@ class ModuleMNI
 	 * $versemester
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $versemester = null;
 
@@ -232,7 +205,6 @@ class ModuleMNI
 	 * $verstandbearb
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $verstandbearb = null;
 
@@ -240,7 +212,6 @@ class ModuleMNI
 	 * Title (english)
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $titelen = null;
 
@@ -248,7 +219,6 @@ class ModuleMNI
 	 * $fgid
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $fgid = null;
 
@@ -256,7 +226,6 @@ class ModuleMNI
 	 * Parent modul
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $parentmodul = null;
 
@@ -264,7 +233,6 @@ class ModuleMNI
 	 * $stgktxt
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $stgktxt = null;
 
@@ -272,7 +240,6 @@ class ModuleMNI
 	 * Graduation
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $abschl = null;
 
@@ -280,7 +247,6 @@ class ModuleMNI
 	 * Responsible
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $verantworlicher = null;
 
@@ -288,7 +254,6 @@ class ModuleMNI
 	 * Responsible ldap
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $verantworlicher_ldap = null;
 
@@ -296,7 +261,6 @@ class ModuleMNI
 	 * Teacher
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $dozent = null;
 
@@ -304,7 +268,6 @@ class ModuleMNI
 	 * Teacher ldap
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $dozent_ldap = null;
 
@@ -312,7 +275,6 @@ class ModuleMNI
 	 * Short description (german)
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $kurzbeschreibung_de = null;
 
@@ -320,15 +282,13 @@ class ModuleMNI
 	 * Short description semester (german)
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
-	public $kurzbeschreibung_de_semester = null;
+	public $shortDescSemDE = null;
 
 	/**
 	 * Short description (english)
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $kurzbeschreibung_en = null;
 
@@ -336,15 +296,13 @@ class ModuleMNI
 	 * Short description semester (english)
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
-	public $kurzbeschreibung_en_semester = null;
+	public $shortDescSemEN = null;
 
 	/**
 	 * Teaching type (german)
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $lernform_de = null;
 
@@ -352,7 +310,6 @@ class ModuleMNI
 	 * Teaching type (english)
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $lernform_en = null;
 
@@ -360,7 +317,6 @@ class ModuleMNI
 	 * Conditions
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $zwvoraussetzungen = null;
 
@@ -368,7 +324,6 @@ class ModuleMNI
 	 * Learning objectives (german)
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $lernziel_de = null;
 
@@ -376,7 +331,6 @@ class ModuleMNI
 	 * Learning objectives (english)
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $lernziel_en = null;
 
@@ -384,7 +338,6 @@ class ModuleMNI
 	 * Learning content (german)
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $lerninhalt_de = null;
 
@@ -392,7 +345,6 @@ class ModuleMNI
 	 * Learning content (english)
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $lerninhalt_en = null;
 
@@ -400,7 +352,6 @@ class ModuleMNI
 	 * Preliminary work (german)
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $vorleistung_de = null;
 
@@ -408,7 +359,6 @@ class ModuleMNI
 	 * Preliminary work (english)
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $vorleistung_en = null;
 
@@ -416,7 +366,6 @@ class ModuleMNI
 	 * Grading (german)
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $leistungsnachweis_de = null;
 
@@ -424,7 +373,6 @@ class ModuleMNI
 	 * Grading (english)
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $leistungsnachweis_en = null;
 
@@ -432,7 +380,6 @@ class ModuleMNI
 	 * Bibliography
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	public $litverz = null;
 
@@ -515,7 +462,7 @@ class ModuleMNI
 		}
 		if (isset($this->xmlStructure->lp))
 		{
-			$this->lp = (String) $this->xmlStructure->lp;
+			$this->creditPoints = (String) $this->xmlStructure->creditPoints;
 		}
 		if (isset($this->xmlStructure->ktxtppflicht))
 		{
@@ -523,8 +470,8 @@ class ModuleMNI
 		}
 		if (isset($this->xmlStructure->verantwortliche))
 		{
-			$this->verantworlicher = $this->xmlStructure->verantwortliche->personinfo->vorname . " " .
-					$this->xmlStructure->verantwortliche->personinfo->nachname;
+			$this->verantworlicher = $this->xmlStructure->verantwortliche->personinfo->vorname . " ";
+			$this->verantworlicher .= $this->xmlStructure->verantwortliche->personinfo->nachname;
 			$this->verantworlicher_ldap = $this->xmlStructure->verantwortliche->hgnr;
 		}
 
@@ -532,17 +479,14 @@ class ModuleMNI
 		$this->dozent = array();
 		if (isset($this->xmlStructure->dozent))
 		{
-			$i = 0;
 			foreach ($this->xmlStructure->dozent as $dozent)
 			{
-				$dozentInfo = array();
 				$dozentString = isset($dozent->hgnr) ? (String) $dozent->hgnr : (String) $dozent->redmokid;
 				$arrPersonInfo = array();
 				$arrPersonInfo['id'] = $dozentString;
 				$arrPersonInfo['name'] = (String) $dozent->personinfo->{'personal.nachname'};
 				$arrPersonInfo['vorname'] = (String) $dozent->personinfo->{'personal.vorname'};
 				array_push($this->dozent, $arrPersonInfo);
-				$i++;
 			}
 		}
 
@@ -615,7 +559,7 @@ class ModuleMNI
 		}
 		if (isset($this->xmlStructure->lp))
 		{
-			$this->lp = $this->xmlStructure->lp;
+			$this->creditPoints = $this->xmlStructure->creditPoints;
 		}
 		if (isset($this->xmlStructure->sws))
 		{
@@ -684,8 +628,8 @@ class ModuleMNI
 		{
 			if (isset($this->xmlStructure->verantwortliche->personinfo))
 			{
-				$this->verantworlicher = $this->xmlStructure->verantwortliche->personinfo->vorname . " " .
-						$this->xmlStructure->verantwortliche->personinfo->nachname;
+				$this->verantworlicher = $this->xmlStructure->verantwortliche->personinfo->vorname . " ";
+				$this->verantworlicher .= $this->xmlStructure->verantwortliche->personinfo->nachname;
 				$this->verantworlicher_ldap = $this->xmlStructure->verantwortliche->hgnr;
 			}
 		}
@@ -694,19 +638,14 @@ class ModuleMNI
 		$this->dozent = array();
 		if (isset($this->xmlStructure->dozent))
 		{
-			$i = 0;
 			foreach ($this->xmlStructure->dozent as $dozent)
 			{
-
-				$dozentInfo = array();
 				$dozentString = isset($dozent->hgnr) ? (String) $dozent->hgnr : (String) $dozent->redmokid;
 				$arrPersonInfo = array();
 				$arrPersonInfo['id'] = $dozentString;
 				$arrPersonInfo['name'] = (String) $dozent->personinfo->{'personal.nachname'};
 				$arrPersonInfo['vorname'] = (String) $dozent->personinfo->{'personal.vorname'};
 				array_push($this->dozent, $arrPersonInfo);
-
-				$i++;
 			}
 		}
 
@@ -914,7 +853,7 @@ class ModuleMNI
 	 */
 	public function getCreditpoints()
 	{
-		return $this->lp;
+		return $this->creditPoints;
 	}
 
 	/**

@@ -585,7 +585,7 @@ class THM_OrganizerModelAssets extends JModelList
 					$globParams->get('webserviceUri'), $globParams->get('webserviceUsername'), $globParams->get('webservicePassword')
 			);
 			$modulesXML = $client->getModules(
-					$lsf_query_parameter->lsf_object, $lsf_query_parameter->lsf_study_path, "", $lsf_query_parameter->lsf_degree,
+					$lsf_query_parameter->lsf_object, $lsf_query_parameter->lsf_study_path, $lsf_query_parameter->lsf_degree,
 					$lsf_query_parameter->po
 			);
 

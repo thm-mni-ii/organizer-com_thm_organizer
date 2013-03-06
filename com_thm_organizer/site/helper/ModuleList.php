@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -21,7 +20,6 @@
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class ModuleList
 {
@@ -29,7 +27,6 @@ class ModuleList
 	 * List
 	 *
 	 * @var    Array
-	 * @since  1.0
 	 */
 	public $list;
 

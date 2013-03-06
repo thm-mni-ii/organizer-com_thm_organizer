@@ -80,14 +80,7 @@ class LsfClientMNI
 		$timeout = 120;
 		$responseTimeout = 120;
 
-		$this->client = new nusoap_client($this->endpoint, true, $proxyhost, $proxyport, $proxyusername, $proxypassword, $timeout, $responseTimeout);
-		$err = $this->client->getError();
-		if ($err)
-		{
-			echo '<h2>Constructor error</h2><pre>' . $err . '</pre>';
-			echo '<h2>Debug</h2><pre>' . htmlspecialchars($client->getDebug(), ENT_QUOTES) . '</pre>';
-			exit();
-		}
+		$this->_client = new nusoap_client($this->endpoint, true, $proxyhost, $proxyport, $proxyusername, $proxypassword, $timeout, $responseTimeout);
 	}
 
 	/**
@@ -100,7 +93,7 @@ class LsfClientMNI
 	private function getDataXML($query)
 	{
 		$para = array('xmlParams' => $query);
-		$sres = $this->client->call('getDataXML', $para);
+		$sres = $this->_client->call('getDataXML', $para);
 		if (!$sres)
 		{
 			echo "<span style='color:red;'>Web-Service Fehler: Ung&uuml;ltiger Funtkionsaufruf</span>";
@@ -117,8 +110,8 @@ class LsfClientMNI
 			}
 			else
 			{
-				echo "<span align='center' style='color:red;border:1px dotted black;'>" .
-						"<big>Web-Service Fehler: Bitte SOAP-Query Parameter &uuml;berpr&uuml;fen</big></span>";
+				echo "<span align='center' style='color:red;border:1px dotted black;'>";
+				echo "<big>Web-Service Fehler: Bitte SOAP-Query Parameter &uuml;berpr&uuml;fen</big></span>";
 				return "";
 			}
 		}
@@ -129,31 +122,30 @@ class LsfClientMNI
 	 *
 	 * @param   String  $object       An object
 	 * @param   String  $studiengang  Major
-	 * @param   String  $semester     Semester
 	 * @param   String  $abschluss    Graduation
 	 * @param   String  $pversion     Version
 	 *
 	 * @return SimpleXMLElement
 	 */
-	public function getModules($object, $studiengang, $semester, $abschluss = null, $pversion = null)
+	public function getModules($object, $studiengang, $abschluss = null, $pversion = null)
 	{
 		$pxml = "<?xml version='1.0' encoding='UTF-8'?>";
-		$pxml = $pxml . "<SOAPDataService>";
-		$pxml = $pxml . " <general>";
-		$pxml = $pxml . " 	<object>" . $object . "</object>";
-		$pxml = $pxml . " </general>";
-		$pxml = $pxml . " <user-auth>";
-		$pxml = $pxml . " 	<username>" . $this->username . "</username>";
-		$pxml = $pxml . " 	<password>" . $this->password . "</password>";
-		$pxml = $pxml . " </user-auth>";
-		$pxml = $pxml . " <filter>";
-		$pxml = $pxml . " 	<pord.abschl>" . $abschluss . "</pord.abschl>";
-		$pxml = $pxml . " 	<pord.pversion>" . $pversion . "</pord.pversion>";
+		$pxml .= '<SOAPDataService>';
+		$pxml .= '<general>';
+		$pxml .= "<object>$object</object>";
+		$pxml .= '</general>';
+		$pxml .= '<user-auth>';
+		$pxml .= "<username>$this->username</username>";
+		$pxml .= "<password>$this->password</password>";
+		$pxml .= '</user-auth>';
+		$pxml .= '<filter>';
+		$pxml .= "<pord.abschl>$abschluss</pord.abschl>";
+		$pxml .= "<pord.pversion>$pversion</pord.pversion>";
 
 		// BI I MI
-		$pxml = $pxml . " 	<pord.stg>" . $studiengang . "</pord.stg>";
-		$pxml = $pxml . " </filter>";
-		$pxml = $pxml . "</SOAPDataService>";
+		$pxml .= "<pord.stg>$studiengang</pord.stg>";
+		$pxml .= '</filter>';
+		$pxml .= '</SOAPDataService>';
 
 		return self::getDataXML($pxml);
 	}
@@ -161,50 +153,50 @@ class LsfClientMNI
 	/**
 	 * Method to get the module by mni number
 	 *
-	 * @param   String  $id  The module mni number
+	 * @param   String  $moduleID  The module mni number
 	 *
 	 * @return Ambigous <void, string, unknown> Returns the xml strucutre of a given lsf lsf course code (CS1001, ...)
 	 */
-	public function getModuleByNrMni($id)
+	public function getModuleByNrMni($moduleID)
 	{
 		$pxml = "<?xml version='1.0' encoding='UTF-8'?>";
-		$pxml = $pxml . "<SOAPDataService>";
-		$pxml = $pxml . " <general>";
-		$pxml = $pxml . " 	<object>ModuleMNI</object>";
-		$pxml = $pxml . " </general>";
-		$pxml = $pxml . " <user-auth>";
-		$pxml = $pxml . " 	<username>" . $this->username . "</username>";
-		$pxml = $pxml . " 	<password>" . $this->password . "</password>";
-		$pxml = $pxml . " </user-auth>";
-		$pxml = $pxml . " <filter>";
-		$pxml = $pxml . "  <pord.pfnrex>" . $id . "</pord.pfnrex>";
-		$pxml = $pxml . " </filter>";
-		$pxml = $pxml . "</SOAPDataService>";
+		$pxml .= '<SOAPDataService>';
+		$pxml .= '<general>';
+		$pxml .= '<object>ModuleMNI</object>';
+		$pxml .= '</general>';
+		$pxml .= '<user-auth>';
+		$pxml .= "<username>$this->username</username>";
+		$pxml .= "<password>$this->password</password>";
+		$pxml .= '</user-auth>';
+		$pxml .= '<filter>';
+		$pxml .= "<pord.pfnrex>$moduleID</pord.pfnrex>";
+		$pxml .= '</filter>';
+		$pxml .= '</SOAPDataService>';
 		return self::getDataXML($pxml);
 	}
 
 	/**
 	 * Method to get the module by module id
 	 *
-	 * @param   Integer  $id  The module id
+	 * @param   Integer  $moduleID  The module id
 	 *
 	 * @return Ambigous <void, string, unknown> Returns the xml strucutre of a given lsf module id
 	 */
-	public function getModuleByModulid($id)
+	public function getModuleByModulid($moduleID)
 	{
 		$pxml = "<?xml version='1.0' encoding='UTF-8'?>";
-		$pxml = $pxml . "<SOAPDataService>";
-		$pxml = $pxml . " <general>";
-		$pxml = $pxml . " 	<object>ModuleMNI</object>";
-		$pxml = $pxml . " </general>";
-		$pxml = $pxml . " <user-auth>";
-		$pxml = $pxml . " 	<username>" . $this->username . "</username>";
-		$pxml = $pxml . " 	<password>" . $this->password . "</password>";
-		$pxml = $pxml . " </user-auth>";
-		$pxml = $pxml . " <filter>";
-		$pxml = $pxml . "  <pord.pordnr>" . $id . "</pord.pordnr>";
-		$pxml = $pxml . " </filter>";
-		$pxml = $pxml . "</SOAPDataService>";
+		$pxml .= '<SOAPDataService>';
+		$pxml .= '<general>';
+		$pxml .= '<object>ModuleMNI</object>';
+		$pxml .= '</general>';
+		$pxml .= '<user-auth>';
+		$pxml .= "<username>$this->username</username>";
+		$pxml .= "<password>$this->password</password>";
+		$pxml .= '</user-auth>';
+		$pxml .= '<filter>';
+		$pxml .= "<pord.pordnr>$moduleID</pord.pordnr>";
+		$pxml .= '</filter>';
+		$pxml .= '</SOAPDataService>';
 		return self::getDataXML($pxml);
 	}
 

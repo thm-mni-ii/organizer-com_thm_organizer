@@ -171,7 +171,7 @@ class THM_OrganizerModelIndex extends JModelList
 				);
 
 		$xml = $client->getModules(
-				$this->_config[0]->lsf_object, $this->_config[0]->lsf_study_path, "", $this->_config[0]->lsf_degree, $this->_config[0]->po
+				$this->_config[0]->lsf_object, $this->_config[0]->lsf_study_path, $this->_config[0]->lsf_degree, $this->_config[0]->po
 		);
 
 		// Build the where clause
