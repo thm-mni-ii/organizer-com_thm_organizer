@@ -1,7 +1,6 @@
 <?php
 /**
- * @version     v0.0.1
- * @category 	Joomla component
+ * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @author      James Antrim, <james.antrim@mni.thm.de>
@@ -14,7 +13,6 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.controller');
 require_once JPATH_COMPONENT . DS . 'controller.php';
 
-$controller = "";
 $handler = explode(".", JRequest::getVar('task'));
 if (!empty($handler))
 {
@@ -35,12 +33,12 @@ if (!empty($controller))
     {
     	require_once $path;
     }
-    else
-    {
-    	$controller = '';
-    }
+}
+else
+{
+	$controller = '';
 }
 $classname = 'thm_organizerController' . $controller;
-$controller = new $classname;
-$controller->execute($task);
-$controller->redirect();
+$controllerObj = new $classname;
+$controllerObj->execute($task);
+$controllerObj->redirect();

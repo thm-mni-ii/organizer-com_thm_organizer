@@ -1,30 +1,25 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name		THM_CurriculumViewIndex
  * @description THM_CurriculumViewIndex component site view
- * @author	    Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
-
 jimport('joomla.application.component.view');
 jimport('joomla.error.profiler');
 
 /**
  * Class THM_CurriculumViewIndex for component com_thm_organizer
- *
  * Class provides methods to display the index view
  *
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class THM_OrganizerViewIndex extends JView
 {
@@ -37,7 +32,7 @@ class THM_OrganizerViewIndex extends JView
 	 */
 	public function display($tpl = null)
 	{
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$app = JFactory::getApplication();
 		$menus = $app->getMenu();
 		$menu = $menus->getActive();
@@ -46,7 +41,7 @@ class THM_OrganizerViewIndex extends JView
 		$document->addStyleSheet($this->baseurl . '/components/com_thm_organizer/css/curriculum.css');
 
 		// Set the default language to german
-		$this->session = & JFactory::getSession();
+		$this->session = JFactory::getSession();
 
 		if ($this->session->get('language') == null)
 		{
@@ -77,16 +72,16 @@ class THM_OrganizerViewIndex extends JView
 	{
 		$itemid = JRequest::getVar('Itemid');
 		$group = JRequest::getVar('view');
-		$u = & JURI::getInstance('index.php');
+		$URI = JURI::getInstance('index.php');
 		$params = array('option' => 'com_thm_organizer',
 				'view' => $group,
 				'Itemid' => $itemid,
 				'lang' => $langLink
 		);
-		$params = array_merge($u->getQuery(true), $params);
-		$query = $u->buildQuery($params);
-		$u->setQuery($query);
+		$params = array_merge($URI->getQuery(true), $params);
+		$query = $URI->buildQuery($params);
+		$URI->setQuery($query);
 
-		return $u->toString();
+		return $URI->toString();
 	}
 }

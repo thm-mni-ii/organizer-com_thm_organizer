@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -11,18 +10,15 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.controller');
 
 /**
  * Site main controller
  * 
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
- * @since       v0.1.0
  */
 class THM_OrganizerController extends JController
 {
@@ -48,6 +44,6 @@ class THM_OrganizerController extends JController
 		{
 			JRequest::setVar('lang', JRequest::getVar('lang'));
 		}
-		parent::display(); 
+		parent::display($cachable, $urlparams); 
     }
 } 

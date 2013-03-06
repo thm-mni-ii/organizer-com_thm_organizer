@@ -1,17 +1,15 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name		view index default
  * @description THM_Curriculum component site view
- * @author	    Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
-
 JHtml::_('behavior.tooltip');
 
 $listOrder = $this->state->get('list.ordering');
@@ -21,15 +19,15 @@ $limit = $this->state->get('limit');
 
 if ($this->lang == 'de')
 {
-	$txtModulnummer = JText::_("Modulnummer");
-	$txtModultitel = JText::_("Modultitel");
-	$txtVerantwortliche = JText::_("Verantwortliche");
+	$txtModulnummer = JText::_("COM_THM_ORGANIZER_SUBMENU_ASSETS_CURRICULUM_COURSECODE_HIS");
+	$txtModultitel = JText::_("COM_THM_ORGANIZER_SUBMENU_ASSETS_CURRICULUM_TITLE_DE");
+	$txtVerantwortliche = JText::_("COM_THM_ORGANIZER_SUBMENU_ASSETS_CURRICULUM_RESPONSIBLE");
 }
 else
 {
-	$txtModulnummer = JText::_("Course Code");
-	$txtModultitel = JText::_("Course");
-	$txtVerantwortliche = JText::_("Responsible");
+	$txtModulnummer = JText::_("COM_THM_ORGANIZER_SUBMENU_ASSETS_CURRICULUM_COURSECODE_HIS");
+	$txtModultitel = JText::_("COM_THM_ORGANIZER_SUBMENU_ASSETS_CURRICULUM_TITLE_EN");
+	$txtVerantwortliche = JText::_("COM_THM_ORGANIZER_SUBMENU_ASSETS_CURRICULUM_RESPONSIBLE");
 }
 ?>
 
@@ -54,7 +52,7 @@ else
 </a>
 </span>
 <h1 class="componentheading">
-	<?php echo JText::_('Modulhandbuch'); ?>
+	<?php echo JText::_('COM_THM_ORGANIZER_MODULE_CATALOGUE'); ?>
 </h1>
 
 <?php

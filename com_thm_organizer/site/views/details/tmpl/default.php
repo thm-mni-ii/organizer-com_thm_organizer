@@ -1,6 +1,5 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
