@@ -1,19 +1,16 @@
 <?php
 /**
- * @version	    v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name		ICALBauer
  * @description ICALBauer file from com_thm_organizer
- * @author	    Wolf Rost, <wolf.rost@mni.thm.de>
+ * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
-
 require_once dirname(__FILE__) . "/abstrakterBauer.php";
 require_once dirname(__FILE__) . "/iCalcreator-2.10.5/iCalcreator.class.php";
 
@@ -22,11 +19,10 @@ require_once dirname(__FILE__) . "/iCalcreator-2.10.5/iCalcreator.class.php";
  *
  * Class provides methods to create a schedule in ical format
  *
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
- * @since       v0.0.1
  */
 class ICALBauer extends abstrakterBauer
 {
@@ -34,7 +30,6 @@ class ICALBauer extends abstrakterBauer
 	 * Joomla data abstraction
 	 *
 	 * @var    DataAbstraction
-	 * @since  1.0
 	 */
 	private $_JDA = null;
 
@@ -42,7 +37,6 @@ class ICALBauer extends abstrakterBauer
 	 * Config
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_cfg = null;
 
@@ -50,10 +44,7 @@ class ICALBauer extends abstrakterBauer
 	 * Constructor with the joomla data abstraction object and configuration object
 	 *
 	 * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
-	 * @param   Object	 		 $cfg  A object which has configurations including
-	 *
-	 * @since  1.5
-	 *
+	 * @param   Object           $cfg  A object which has configurations including
 	 */
 	public function __construct($JDA, $cfg)
 	{
@@ -64,9 +55,9 @@ class ICALBauer extends abstrakterBauer
 	/**
 	 * Method to create a ical schedule
 	 *
-	 * @param   Object  $arr 	   The event object
+	 * @param   Object  $arr       The event object
 	 * @param   String  $username  The current logged in username
-	 * @param   String  $title 	   The schedule title
+	 * @param   String  $title     The schedule title
 	 *
 	 * @return Array An array with information about the status of the creation
 	 */
@@ -82,27 +73,29 @@ class ICALBauer extends abstrakterBauer
 			$title = $username . " - " . $title;
 		}
 
-		$v = new vcalendar;
-		$v->setConfig('unique_id', "MySched");
-		$v->setConfig("lang", "de");
-		$v->setProperty("x-wr-calname", $title);
-		$v->setProperty("X-WR-CALDESC", "Calendar Description");
-		$v->setProperty("X-WR-TIMEZONE", "Europe/Berlin");
-		$v->setProperty("PRODID", "-//212.201.14.161//NONSGML iCalcreator 2.6//");
-		$v->setProperty("VERSION", "2.0");
-		$v->setProperty("METHOD", "PUBLISH");
+		$vCalendar = new vcalendar;
+		$vCalendar->setConfig('unique_id', "MySched");
+		$vCalendar->setConfig("lang", "de");
+		$vCalendar->setProperty("x-wr-calname", $title);
+		$vCalendar->setProperty("X-WR-CALDESC", "Calendar Description");
+		$vCalendar->setProperty("X-WR-TIMEZONE", "Europe/Berlin");
+		$vCalendar->setProperty("PRODID", "-//212.201.14.161//NONSGML iCalcreator 2.6//");
+		$vCalendar->setProperty("VERSION", "2.0");
+		$vCalendar->setProperty("METHOD", "PUBLISH");
 
-		$t = new vtimezone;
-		$t->setProperty("TZID", "Europe/Berlin");
+		$vTimeZone1 = new vtimezone;
+		$vTimeZone1->setProperty("TZID", "Europe/Berlin");
 
-		$ts = new vtimezone('standard');
-		$ts->setProperty("DTSTART", 1601, 1, 1, 0, 0, 0);
-		$ts->setProperty("TZNAME", "Standard Time");
+		$vTimeZone2 = new vtimezone('standard');
+		$vTimeZone2->setProperty("DTSTART", 1601, 1, 1, 0, 0, 0);
+		$vTimeZone2->setProperty("TZNAME", "Standard Time");
 
-		$t->setComponent($ts);
-		$v->setComponent($t);
+		$vTimeZone1->setComponent($vTimeZone2);
+		$vCalendar->setComponent($vTimeZone1);
 
-		$query = "SELECT startdate, enddate, starttime, endtime FROM #__thm_organizer_events WHERE categoryid = " . $this->_cfg['vacation_id'];
+		$query = 'SELECT startdate, enddate, starttime, endtime ';
+		$query .= 'FROM #__thm_organizer_events ';
+		$query .= "WHERE categoryid = '{$this->_cfg['vacation_id']}' ";
 		$res   = $this->_JDA->query($query);
 
 		if (is_array($res))
@@ -117,26 +110,16 @@ class ICALBauer extends abstrakterBauer
 					}
 				}
 
-				/**
-				 * Function to custom sort the event array by startdate
-				 *
-				 * @param   object  $a  An object in the array
-				 * @param   object  $b  Another object in the array
-				 *
-				 * @return Integer Return 0 if the event startdates are the same
-				 * 						  +1 if the $a startdate is greater than the $b startdate
-				 * 						  -1 if the $a startdate is lesser than the $b startdate
-				 */
-				function sortfunc($a, $b)
+				$compare_dates = function($thingOne, $thingTwo)
 				{
-					if ($a->startdate == $b->startdate)
+					if ($thingOne->startdate == $thingTwo->startdate)
 					{
 						return 0;
 					}
-					return ($a->startdate > $b->startdate) ? +1 : - 1;
-				}
+					return ($thingOne->startdate > $thingTwo->startdate) ? +1 : - 1;
+				};
 
-				usort($res, "sortfunc");
+				usort($res, $compare_dates);
 
 				$todelete = array();
 
@@ -162,22 +145,22 @@ class ICALBauer extends abstrakterBauer
 
 				$res = array_values($res);
 
-				$ok  = false;
+				$stop  = false;
 				$num = null;
-				while ($ok === false)
+				while ($stop === false)
 				{
-					$ok = true;
+					$stop = true;
 					for ($i = 0; $i < count($res) - 1; $i++)
 					{
 						if ($res[$i]->enddate >= $res[$i + 1]->startdate)
 						{
 							$res[$i]->enddate = $res[$i + 1]->enddate;
-							$ok                 = false;
-							$num                = $i + 1;
+							$stop = false;
+							$num = $i + 1;
 							break;
 						}
 					}
-					if ($ok === false)
+					if ($stop === false)
 					{
 						unset($res[$num]);
 						$res = array_values($res);
@@ -204,34 +187,34 @@ class ICALBauer extends abstrakterBauer
 					{
 						if ($i == 0)
 						{
-							$v = $this->setEvent($v, $arr, $semesterstart, $res[$i]->startdate);
+							$vCalendar = $this->setEvent($vCalendar, $arr, $semesterstart, $res[$i]->startdate);
 						}
 						elseif ($i == count($res))
 						{
-							$v = $this->setEvent($v, $arr, date("Y-m-d", strtotime("+1 day", strtotime($res[$i - 1]->enddate))), $semesterend);
+							$vCalendar = $this->setEvent($vCalendar, $arr, date("Y-m-d", strtotime("+1 day", strtotime($res[$i - 1]->enddate))), $semesterend);
 						}
 						else
 						{
-							$v = $this->setEvent($v, $arr, date("Y-m-d", strtotime("+1 day", strtotime($res[$i - 1]->enddate))), $res[$i]->startdate);
+							$vCalendar = $this->setEvent($vCalendar, $arr, date("Y-m-d", strtotime("+1 day", strtotime($res[$i - 1]->enddate))), $res[$i]->startdate);
 						}
 					}
 				}
 				else
 				{
-					$v = $this->setEvent($v, $arr, $semesterstart, $semesterend, $res);
+					$vCalendar = $this->setEvent($vCalendar, $arr, $semesterstart, $semesterend, $res);
 				}
 			}
 			else
 			{
-				$v = $this->setEvent($v, $arr, $semesterstart, $semesterend, $res);
+				$vCalendar = $this->setEvent($vCalendar, $arr, $semesterstart, $semesterend, $res);
 			}
 		}
 		else
 		{
-			$v = $this->setEvent($v, $arr, $semesterstart, $semesterend, $res);
+			$vCalendar = $this->setEvent($vCalendar, $arr, $semesterstart, $semesterend, $res);
 		}
 
-		$v->saveCalendar($this->_cfg['pdf_downloadFolder'], $title . '.ics');
+		$vCalendar->saveCalendar($this->_cfg['pdf_downloadFolder'], $title . '.ics');
 		$resparr['url'] = "false";
 		return array("success" => true,"data" => $resparr);
 	}
@@ -239,15 +222,15 @@ class ICALBauer extends abstrakterBauer
 	/**
 	 * Method to set an event
 	 *
-	 * @param   Object  $v   			An event
-	 * @param   Array   $arr     		The event array
+	 * @param   Object  $event          An event
+	 * @param   Array   $arr            The event array
 	 * @param   String  $semesterstart  The semester start date
-	 * @param   String  $semesterend  	The semester end date
-	 * @param   Array   $vacations  	The vacation array
+	 * @param   String  $semesterend    The semester end date
+	 * @param   Array   $vacations      The vacation array
 	 *
 	 * @return An array which has the result including
 	 */
-	private function setEvent($v, $arr, $semesterstart, $semesterend, $vacations)
+	private function setEvent($event, $arr, $semesterstart, $semesterend, $vacations)
 	{
 		$semesterend = date("Y-m-d", strtotime($semesterend));
 		$endarr = explode("-", $semesterend);
@@ -276,7 +259,7 @@ class ICALBauer extends abstrakterBauer
 
 					if ($tempdate > $semesterend)
 					{
-						return $v;
+						return $event;
 					}
 
 					$beginarr = explode("-", $tempdate);
@@ -352,8 +335,9 @@ class ICALBauer extends abstrakterBauer
 						}
 					}
 
-					$desc = $event->name . " bei " . $doztemp . " im " . $roomtemp . "\n" . $this->nummerzutag($event->dow) . " " .
-							$event->block . ".Block\nModulnummer: " . $event->moduleID . "\n";
+					$desc = "$event->name bei $doztemp im $roomtemp \n";
+					$desc .= "{$this->nummerzutag($event->dow)} $event->block Block\n";
+					$desc .= "Modulnummer: $event->moduleID \n";
 
 					$e->setProperty("ORGANIZER", $doztemp);
 					$e->setProperty("DTSTART", $startdate);
@@ -416,7 +400,7 @@ class ICALBauer extends abstrakterBauer
 						);
 					}
 
-					$v->setComponent($e);
+					$event->setComponent($e);
 				}
 				else
 				{
@@ -428,7 +412,7 @@ class ICALBauer extends abstrakterBauer
 		{
 
 		}
-		return $v;
+		return $event;
 	}
 
 	/**
@@ -512,32 +496,28 @@ class ICALBauer extends abstrakterBauer
 	 * Method to get a name of a resource
 	 *
 	 * @param   String  $resourcename  A resource name
-	 * @param   String  $type     	   A type (doz, room, class)
+	 * @param   String  $type          A type (doz, room, class)
 	 *
 	 * @return Array An array with the resource names
 	 */
 	private function getResource($resourcename, $type)
 	{
-		$table = "";
-		if ($type === "doz")
+		switch ($type)
 		{
-			$table = "#__thm_organizer_teachers";
-		}
-		elseif ($type === "room")
-		{
-			$table = "#__thm_organizer_rooms";
-		}
-		elseif ($type === "class")
-		{
-			$table = "#__thm_organizer_classes";
-		}
-		else
-		{
-			return false;
+			case 'doz':
+				$table = '#__thm_organizer_teachers';
+				break;
+			case 'room':
+				$table = '#__thm_organizer_rooms';
+				break;
+			case 'class':
+				$table = '#__thm_organizer_classes';
+				break;				
 		}
 
-		$query = "SELECT name as oname FROM " . $table . " WHERE gpuntisID ='" . $resourcename . "'";
-
+		$query = "SELECT name as oname ";
+		$query .= "FROM $table";
+		$query .= "WHERE gpuntisID ='$resourcename'";
 		$hits  = $this->_JDA->query($query);
 
 		return $hits;

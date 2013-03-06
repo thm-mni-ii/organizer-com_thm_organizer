@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -16,14 +15,12 @@ defined('_JEXEC') or die;
 
 /**
  * Class ScheduleDescription for component com_thm_organizer
- *
  * Class provides methods to load the schedule description
  *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
- * @since       v0.0.1
  */
 class ScheduleDescription
 {
@@ -31,7 +28,6 @@ class ScheduleDescription
 	 * Joomla data abstraction
 	 *
 	 * @var    DataAbstraction
-	 * @since  1.0
 	 */
 	private $_JDA = null;
 
@@ -39,7 +35,6 @@ class ScheduleDescription
 	 * Semester id
 	 *
 	 * @var    Integer
-	 * @since  1.0
 	 */
 	private $_semID = null;
 
@@ -47,7 +42,6 @@ class ScheduleDescription
 	 * Config
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_cfg = null;
 
@@ -55,10 +49,7 @@ class ScheduleDescription
 	 * Constructor with the joomla data abstraction object and configuration object
 	 *
 	 * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
-	 * @param   MySchedConfig	 $CFG  A object which has configurations including
-	 *
-	 * @since  1.5
-	 *
+	 * @param   MySchedConfig    $CFG  A object which has configurations including
 	 */
 	public function __construct($JDA, $CFG)
 	{
@@ -74,8 +65,9 @@ class ScheduleDescription
 	 */
 	public function load()
 	{
-		$query = "SELECT description, startdate, enddate, creationdate " .
-				"FROM #__thm_organizer_schedules WHERE active != 'null' && sid = " . $this->_semID;
+		$query = "SELECT description, startdate, enddate, creationdate ";
+		$query .= "FROM #__thm_organizer_schedules ";
+		$query .= "WHERE active != 'null' && sid = " . $this->_semID;
 
 		$obj = $this->_JDA->query($query);
 		if (count($obj) == 0 || $obj == false)

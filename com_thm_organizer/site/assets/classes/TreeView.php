@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -11,21 +10,17 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
-
 require_once JPATH_ROOT . "/components/com_thm_organizer/assets/classes/TreeNode.php";
 
 /**
  * Class TreeView for component com_thm_organizer
- *
  * Class provides methods to create the tree view for mysched
  *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
- * @since       v0.0.1
  */
 class TreeView
 {
@@ -33,7 +28,6 @@ class TreeView
 	 * Joomla data abstraction
 	 *
 	 * @var    DataAbstraction
-	 * @since  1.0
 	 */
 	private $_JDA = null;
 
@@ -41,7 +35,6 @@ class TreeView
 	 * Config
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_cfg = null;
 
@@ -49,7 +42,6 @@ class TreeView
 	 * Type
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	private $_type = null;
 
@@ -57,7 +49,6 @@ class TreeView
 	 * Checked
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	private $_checked = null;
 
@@ -65,7 +56,6 @@ class TreeView
 	 * Public default node
 	 *
 	 * @var    Array
-	 * @since  1.0
 	 */
 	private $_publicDefault = null;
 
@@ -73,7 +63,6 @@ class TreeView
 	 * Hide the checkboxes
 	 *
 	 * @var    Boolean
-	 * @since  1.0
 	 */
 	private $_hideCheckBox = null;
 
@@ -81,7 +70,6 @@ class TreeView
 	 * Which schedules are in the tree
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_inTree = array();
 
@@ -89,7 +77,6 @@ class TreeView
 	 * The tree data
 	 *
 	 * @var    Array
-	 * @since  1.0
 	 */
 	private $_treeData = array();
 
@@ -97,7 +84,6 @@ class TreeView
 	 * The pubic default node
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_publicDefaultNode = null;
 
@@ -105,7 +91,6 @@ class TreeView
 	 * Active schedule data
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_activeScheduleData = null;
 
@@ -113,11 +98,8 @@ class TreeView
 	 * Constructor with the joomla data abstraction object and configuration object
 	 *
 	 * @param   DataAbstraction  $JDA      A object to abstract the joomla methods
-	 * @param   MySchedConfig	 $CFG      A object which has configurations including
-	 * @param   Array	 		 $options  An Array with some options
-	 *
-	 * @since  1.5
-	 *
+	 * @param   MySchedConfig    $CFG      A object which has configurations including
+	 * @param   Array            $options  An Array with some options
 	 */
 	public function __construct($JDA, $CFG, $options = array())
 	{
@@ -163,8 +145,7 @@ class TreeView
 		}
 		else
 		{
-			$publicDefaultID = JRequest::getString('publicDefaultID');
-			$publicDefaultID = json_decode($publicDefaultID);
+			$publicDefaultID = json_decode(JRequest::getString('publicDefaultID'));
 			if ($publicDefaultID != null)
 			{
 				$this->_publicDefault = (array) $publicDefaultID;
@@ -184,9 +165,7 @@ class TreeView
 			$this->_hideCheckBox = false;
 		}
 				
-		$departmentSemesterSelection = JRequest::getString('departmentSemesterSelection');
-				
-		if ($departmentSemesterSelection == "")
+		if (JRequest::getString('departmentSemesterSelection') == "")
 		{
 			if (isset($options["departmentSemesterSelection"]))
 			{
@@ -199,28 +178,28 @@ class TreeView
 		}
 		else
 		{
-			$this->departmentSemesterSelection = $departmentSemesterSelection;
+			$this->departmentSemesterSelection = JRequest::getString('departmentSemesterSelection');
 		}
 	} 
 
 	/**
 	 * Method to create a tree node
 	 *
-	 * @param   Integer  $id  				 The node id
-	 * @param   String	 $text  			 The node text
-	 * @param   String	 $iconCls  			 The nodes icon class
-	 * @param   Boolean	 $leaf  			 Is the node leaf
-	 * @param   Boolean	 $draggable  		 Is the node dragable
-	 * @param   Boolean	 $singleClickExpand  Should the node expand on single click
-	 * @param   String	 $gpuntisID  		 The gpuntis id for this node
-	 * @param   String	 $type  			 The nodes type (room, teacher, class)
-	 * @param   Object	 $children  		 The nodes children
-	 * @param   Integer	 $semesterID  		 In which semester is this node
-	 * @param   String	 $nodeKey  			 The node key
+	 * @param   Integer  $nodeID             The node id
+	 * @param   String   $text               The node text
+	 * @param   String   $iconCls            The nodes icon class
+	 * @param   Boolean  $leaf               Is the node leaf
+	 * @param   Boolean  $draggable          Is the node dragable
+	 * @param   Boolean  $singleClickExpand  Should the node expand on single click
+	 * @param   String   $gpuntisID          The gpuntis id for this node
+	 * @param   String   $type               The nodes type (room, teacher, class)
+	 * @param   Object   $children           The nodes children
+	 * @param   Integer  $semesterID         In which semester is this node
+	 * @param   String   $nodeKey            The node key
 	 *
 	 * @return Tree nodes
 	 */
-	private function createTreeNode($id,
+	private function createTreeNode($nodeID,
 	 $text,
 	 $iconCls,
 	 $leaf,
@@ -245,9 +224,9 @@ class TreeView
 		{
 			if ($this->_checked != null)
 			{					
-				if (isset($this->_checked[$id]))
+				if (isset($this->_checked[$nodeID]))
 				{
-					$checked = $this->_checked[$id];
+					$checked = $this->_checked[$nodeID];
 				}
 				else
 				{
@@ -267,15 +246,15 @@ class TreeView
 			$publicDefaultArray = $this->_publicDefault;
 			$firstValue = each($publicDefaultArray);
 
-			if (strpos($firstValue["key"], $id) === 0)
+			if (strpos($firstValue["key"], $nodeID) === 0)
 			{
 				$expanded = true;
 			}
 			if ($leaf === true)
 			{
-				if (isset($this->_publicDefault[$id]))
+				if (isset($this->_publicDefault[$nodeID]))
 				{
-					$publicDefault = $this->_publicDefault[$id];
+					$publicDefault = $this->_publicDefault[$nodeID];
 				}
 				else
 				{
@@ -290,10 +269,10 @@ class TreeView
 
 		if ($this->_hideCheckBox == true)
 		{
-			if ($this->nodeStatus($id))
+			if ($this->nodeStatus($nodeID))
 			{
 				$treeNode = new TreeNode(
-						$id,
+						$nodeID,
 						$text,
 						$iconCls,
 						$leaf,
@@ -314,7 +293,7 @@ class TreeView
 		else
 		{
 			$treeNode = new TreeNode(
-					$id,
+					$nodeID,
 					$text,
 					$iconCls,
 					$leaf,
@@ -340,7 +319,7 @@ class TreeView
 			else
 			{
 				$this->_publicDefaultNode = new TreeNode(
-						$id,
+						$nodeID,
 						$text,
 						$iconCls,
 						$leaf,
@@ -368,15 +347,15 @@ class TreeView
 	/**
 	 * Method to check if the node is checked
 	 *
-	 * @param   Integer  $id  The node id
+	 * @param   Integer  $nodeID  The node id
 	 *
 	 * @return Boolean true if the node is checked unless false
 	 */
-	private function nodeStatus($id)
+	private function nodeStatus($nodeID)
 	{
-		if (isset($this->_checked[$id]))
+		if (isset($this->_checked[$nodeID]))
 		{
-			if ($this->_checked[$id] === "checked" || $this->_checked[$id] === "intermediate")
+			if ($this->_checked[$nodeID] === "checked" || $this->_checked[$nodeID] === "intermediate")
 			{
 				return true;
 			}
@@ -389,7 +368,7 @@ class TreeView
 		{
 			foreach ($this->_checked as $checkedKey => $checkedValue)
 			{
-				if (strpos($id, $checkedKey) !== false)
+				if (strpos($nodeID, $checkedKey) !== false)
 				{
 					if ($checkedValue === "selected" || $checkedValue === "intermediate")
 					{
@@ -422,14 +401,10 @@ class TreeView
 			if ($activeScheduleData != null)
 			{
 				$this->_activeScheduleData = $activeScheduleData;
-				$activeScheduleRooms = $activeScheduleData->rooms;
-				$activeScheduleSubjects = $activeScheduleData->subjects;
-				$activeScheduleTeachers = $activeScheduleData->teachers;
-				$activeScheduleModules = $activeScheduleData->modules;
-				$this->_treeData["module"] = $activeScheduleModules;
-				$this->_treeData["room"] = $activeScheduleRooms;
-				$this->_treeData["teacher"] = $activeScheduleTeachers;
-				$this->_treeData["subject"] = $activeScheduleSubjects;
+				$this->_treeData["module"] = $activeScheduleData->modules;
+				$this->_treeData["room"] = $activeScheduleData->rooms;
+				$this->_treeData["teacher"] = $activeScheduleData->teachers;
+				$this->_treeData["subject"] = $activeScheduleData->subjects;
 				$this->_treeData["roomtype"] = $activeScheduleData->roomtypes;
 				$this->_treeData["degree"] = $activeScheduleData->degrees;
 				$this->_treeData["field"] = $activeScheduleData->fields;
@@ -447,13 +422,13 @@ class TreeView
 			
 			foreach ($this->_treeData["room"] as $roomValue)
 			{
-                foreach ($rooms as $databaseRooms)
-                {
-    			    if ($roomValue->gpuntisID === $databaseRooms->gpuntisID) 
-                    {
-                        $roomValue->dbID = $databaseRooms->id;
-                    }
-                }
+				foreach ($rooms as $databaseRooms)
+				{
+					if ($roomValue->gpuntisID === $databaseRooms->gpuntisID) 
+					{
+						$roomValue->dbID = $databaseRooms->id;
+					}
+				}
 			}
 			
 			foreach ($this->_treeData["teacher"] as $teacherValue)
@@ -521,7 +496,7 @@ class TreeView
 	/**
 	 * Method to create the schedule nodes (teacher, room, class)
 	 *
-	 * @param   Integer  $key  		  The node key
+	 * @param   Integer  $key         The node key
 	 * @param   Integer  $semesterID  The semester id
 	 *
 	 * @return The schedule node
@@ -534,9 +509,10 @@ class TreeView
 		foreach ($scheduleTypes as $scheduleType)
 		{
 			$nodeKey = $key . ";" . $scheduleType;
+			$textConstant = 'COM_THM_ORGANIZER_SCHEDULER_' . $scheduleType . 'PLAN';
 			$temp = $this->createTreeNode(
 					$nodeKey,
-					JText::_("COM_THM_ORGANIZER_SCHEDULER_" . $scheduleType . "PLAN"),
+					JText::_($textConstant),
 					'view' . '-root',
 					false,
 					false,
@@ -573,7 +549,7 @@ class TreeView
 	/**
 	 * Method to get the schedule lessons
 	 *
-	 * @param   Integer  $key  		    The node key
+	 * @param   Integer  $key           The node key
 	 * @param   String   $scheduleType  The schedule type
 	 * @param   Integer  $semesterID    The semester id
 	 *
@@ -582,9 +558,7 @@ class TreeView
 	private function getStundenplan($key, $scheduleType, $semesterID)
 	{
 		$treeNode = array();
-		$data = array();
 		$descriptions = array();
-
 		$data = $this->_treeData[$scheduleType];
 
 		foreach ($data as $item)
@@ -895,7 +869,7 @@ class TreeView
 	/**
 	 * Method to get the virtual schedule data
 	 *
-	 * @param   String   $type  	  The virtual schedule type
+	 * @param   String   $type        The virtual schedule type
 	 * @param   Integer  $semesterID  The semester id
 	 *
 	 * @return The virtual schedule data
@@ -924,24 +898,25 @@ class TreeView
 	 * Method to transform a gpuntis id to an id
 	 *
 	 * @param   String  $gpuntisID  The gpuntis id to transform
-	 * @param   String  $type  		The type
+	 * @param   String  $type       The type
 	 *
 	 * @return The id for the given gpuntis id
 	 */
 	private function GpuntisIDToid($gpuntisID, $type)
 	{
 		$query = "SELECT id ";
-		if ($type == "room")
+		$query .= "FROM #__thm_organizer_";
+		switch ($type)
 		{
-			$query .= "FROM #__thm_organizer_rooms ";
-		}
-		elseif ($type == "clas")
-		{
-			$query .= "FROM #__thm_organizer_classes ";
-		}
-		elseif ($type == "doz")
-		{
-			$query .= "FROM #__thm_organizer_teachers ";
+			case 'room':
+				$query .= 'rooms ';
+				break;
+			case 'clas':
+				$query .= 'classes ';
+				break;
+			case 'doz':
+				$query .= 'teachers ';
+				break;
 		}
 		$query .= "WHERE gpuntisID = '" . $gpuntisID . "'";
 		$ret   = $this->_JDA->query($query);
@@ -952,12 +927,12 @@ class TreeView
 	/**
 	 * Method to check if an tree node has lessons
 	 * 
-	 * @param   Object  $id	   The tree node id
-	 * @param   String  $type  The tree node type
+	 * @param   Object  $nodeID  The tree node id
+	 * @param   String  $type    The tree node type
 	 * 
 	 * @return  boolean
 	 */
-	private function treeNodeHasLessons($id, $type)
+	private function treeNodeHasLessons($nodeID, $type)
 	{
 		foreach ($this->_activeScheduleData->calendar as $calendarValue)
 		{
@@ -970,9 +945,9 @@ class TreeView
 						if ($type == "subject" || $type == "module" || $type == "teacher")
 						{
 							$fieldType = $type . "s";
-							foreach ($this->_activeScheduleData->lessons->{$lessonKey}->{$fieldType} as $typeKey => $typeValue)
+							foreach (array_keys($this->_activeScheduleData->lessons->{$lessonKey}->{$fieldType}) as $typeKey)
 							{
-								if ($typeKey == $id)
+								if ($typeKey == $nodeID)
 								{
 									return true;
 								}
@@ -980,9 +955,9 @@ class TreeView
 						}
 						elseif ($type == "room")
 						{
-							foreach ($lessonValue as $roomKey => $roomValue)
+							foreach (array_keys($lessonValue) as $roomKey)
 							{
-								if ($roomKey == $id)
+								if ($roomKey == $nodeID)
 								{
 									return true;
 								}

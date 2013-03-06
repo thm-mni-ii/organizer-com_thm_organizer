@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.1.0
  * @category    Joomla component 
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -14,11 +13,10 @@
 /**
  * Contains static functions to determine user access to events
  * 
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
- * @since       v0.0.1
  */
 class eventAccess
 {

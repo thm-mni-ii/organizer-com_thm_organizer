@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -22,7 +21,6 @@ defined('_JEXEC') or die;
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
- * @since       v0.0.1
  */
 class Events
 {
@@ -30,7 +28,6 @@ class Events
      * Joomla data abstraction
      *
      * @var    DataAbstraction
-     * @since  1.0
      */
     private $_JDA = null;
 
@@ -38,7 +35,6 @@ class Events
      * Config object
      *
      * @var    MySchedConfig
-     * @since  1.0
      */
     private $_CFG = null;
 
@@ -46,7 +42,6 @@ class Events
      * Configuration
      *
      * @var    Array
-     * @since  1.0
      */
     private $_cfg = null;
 
@@ -54,7 +49,6 @@ class Events
      * Joomla session id
      *
      * @var    String
-     * @since  1.0
      */
     private $_jsid = null;
 
@@ -63,9 +57,6 @@ class Events
      *
      * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
      * @param   MySchedConfig    $CFG  A object which has configurations including
-     *
-     * @since  1.5
-     *
      */
     public function __construct($JDA, $CFG)
     {

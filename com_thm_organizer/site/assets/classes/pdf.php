@@ -1,31 +1,27 @@
 <?php
 /**
- * @version	    v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name		PDFBauer
  * @description PDFBauer file from com_thm_organizer
- * @author	    Wolf Rost, <wolf.rost@mni.thm.de>
+ * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-
 require_once dirname(__FILE__) . "/abstrakterBauer.php";
 require_once dirname(__FILE__) . "/mySched_pdf.php";
 
 /**
  * Class PDFBauer for component com_thm_organizer
- *
  * Class provides methods to create a schedule in pdf format
  *
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
- * @since       v0.0.1
  */
 class PDFBauer extends abstrakterBauer
 {
@@ -33,7 +29,6 @@ class PDFBauer extends abstrakterBauer
 	 * Joomla data abstraction
 	 *
 	 * @var    DataAbstraction
-	 * @since  1.0
 	 */
 	private $_JDA = null;
 
@@ -41,19 +36,15 @@ class PDFBauer extends abstrakterBauer
 	 * Config
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_cfg = null;
 
 	/**
 	 * Constructor with the joomla data abstraction object and configuration object
 	 *
-	 * @param   DataAbstraction  $JDA  	   An object to abstract the joomla methods
-	 * @param   Object	 		 $cfg  	   An object which has configurations including
-	 * @param   Object	 		 $options  An object which has options including
-	 *
-	 * @since  1.5
-	 *
+	 * @param   DataAbstraction  $JDA      An object to abstract the joomla methods
+	 * @param   Object           $cfg      An object which has configurations including
+	 * @param   Object           $options  An object which has options including
 	 */
 	public function __construct($JDA, $cfg, $options)
 	{
@@ -67,16 +58,16 @@ class PDFBauer extends abstrakterBauer
 	/**
 	 * Method to create a ical schedule
 	 *
-	 * @param   Object  $arr 	   The event object
+	 * @param   Object  $arr       The event object
 	 * @param   String  $username  The current logged in username
-	 * @param   String  $title 	   The schedule title
+	 * @param   String  $title     The schedule title
 	 *
 	 * @return Array An array with information about the status of the creation
 	 */
 	public function erstelleStundenplan($arr, $username, $title)
 	{
 		// Defaultangaben fuer Header, Zellen und Tabelle definieren
-		$table_default_header_type = array(
+		$headerSettings = array(
 			 'WIDTH' => 6,
 				'T_COLOR' => array(
 						80,
@@ -104,7 +95,7 @@ class PDFBauer extends abstrakterBauer
 				'BRD_TYPE_NEW_PAGE' => '',
 				'TEXT' => ''
 		);
-		$table_default_data_type   = array(
+		$dataSettings   = array(
 			 'T_COLOR' => array(
 			 		0,
 			 		0,
@@ -130,7 +121,7 @@ class PDFBauer extends abstrakterBauer
 				'BRD_TYPE' => '1',
 				'BRD_TYPE_NEW_PAGE' => ''
 		);
-		$table_default_table_type  = array(
+		$tableSettings  = array(
 			 'TB_ALIGN' => 'C',
 				'BRD_COLOR' => array(
 						150,
@@ -144,7 +135,10 @@ class PDFBauer extends abstrakterBauer
 		{
 			if ($this->_cfg['sync_files'] == 1)
 			{
-				$res = $this->_JDA->query("SELECT registerDate FROM " . $this->_cfg['jdb_table_user'] . " WHERE username='" . $username . "'");
+				$query = "SELECT registerDate ";
+				$query .= "FROM {$this->_cfg['jdb_table_user']} ";
+				$query .= "WHERE username='$username' ";
+				$res = $this->_JDA->query($query);
 
 				if (count($res) > 0 && trim($username) != "" && trim($username) != "undefined")
 				{
@@ -293,13 +287,13 @@ class PDFBauer extends abstrakterBauer
 			$pdf->Table_Init($columns, true, true);
 
 			// Formatierung fuer die Tabelle setzen
-			$pdf->Set_Table_Type($table_default_table_type);
+			$pdf->Set_Table_Type($tableSettings);
 
 			// Default-Formatierung fuer den Header setzen
-			$header_subtype = $table_default_header_type;
+			$header_subtype = $headerSettings;
 			for ($i = 0; $i < $columns; $i++)
 			{
-				$header_type[$i] = $table_default_header_type;
+				$header_type[$i] = $headerSettings;
 			}
 
 			// Breite und Text des Headers setzten
@@ -315,7 +309,7 @@ class PDFBauer extends abstrakterBauer
 			$pdf->Draw_Header();
 
 			// Default-Formatierung fuer die Daten Zellen setzen
-			$data_subtype = $table_default_data_type;
+			$data_subtype = $dataSettings;
 
 			// Reset the array
 			$data_type    = Array();

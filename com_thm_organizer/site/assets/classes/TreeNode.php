@@ -1,6 +1,5 @@
 <?php
 /**
- * @version        v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -21,7 +20,6 @@
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
- * @since       v0.0.1
  */
 class TreeNode
 {
@@ -29,7 +27,6 @@ class TreeNode
      * Id
      *
      * @var String
-     * @since  1.0
      */
     public $id = "";
 
@@ -37,7 +34,6 @@ class TreeNode
      * Text
      *
      * @var String
-     * @since  1.0
      */
     public $text = "";
 
@@ -45,7 +41,6 @@ class TreeNode
      * Icon Class
      *
      * @var String
-     * @since  1.0
      */
     public $iconCls = "";
 
@@ -53,7 +48,6 @@ class TreeNode
      * Is leaf
      *
      * @var Boolean
-     * @since  1.0
      */
     public $leaf = true;
 
@@ -61,7 +55,6 @@ class TreeNode
      * Is dragable
      *
      * @var Boolean
-     * @since  1.0
      */
     public $draggable = false;
 
@@ -69,7 +62,6 @@ class TreeNode
      * Single click expand the node
      *
      * @var Boolean
-     * @since  1.0
      */
     public $singleClickExpand = false;
 
@@ -77,7 +69,6 @@ class TreeNode
      * Children
      *
      * @var Object
-     * @since  1.0
      */
     public $children = null;
 
@@ -85,7 +76,6 @@ class TreeNode
      * GPunits id
      *
      * @var String
-     * @since  1.0
      */
     public $gpuntisID = null;
 
@@ -93,7 +83,6 @@ class TreeNode
      * Type
      *
      * @var String
-     * @since  1.0
      */
     public $type = null;
 
@@ -101,7 +90,6 @@ class TreeNode
      * Semester id
      *
      * @var Integer
-     * @since  1.0
      */
     public $semesterID = null;
 
@@ -109,7 +97,6 @@ class TreeNode
      * Is checked
      *
      * @var String
-     * @since  1.0
      */
     public $checked = null;
 
@@ -117,7 +104,6 @@ class TreeNode
      * Is expanded
      *
      * @var Boolean
-     * @since  1.0
      */
     public $expanded = false;
 
@@ -125,7 +111,6 @@ class TreeNode
      * Is public default
      *
      * @var String
-     * @since  1.0
      */
     public $publicDefault = null;
 
@@ -133,7 +118,6 @@ class TreeNode
      * Node key
      *
      * @var String
-     * @since  1.0
      */
     public $nodeKey = null;
 
@@ -141,7 +125,6 @@ class TreeNode
      * Class
      *
      * @var String
-     * @since  1.0
      */
     public $cls = "";
 
@@ -151,20 +134,17 @@ class TreeNode
      * @param   Integer  $id                 The node id
      * @param   String   $text               The node text
      * @param   String   $iconCls            The nodes icon class
-     * @param   Boolean     $leaf               Is the node leaf
-     * @param   Boolean     $draggable          Is the node dragable
-     * @param   Boolean     $singleClickExpand  Should the node expand on single click
+     * @param   Boolean  $leaf               Is the node leaf
+     * @param   Boolean  $draggable          Is the node dragable
+     * @param   Boolean  $singleClickExpand  Should the node expand on single click
      * @param   String   $gpuntisID          The gpuntis id for this node
      * @param   String   $type               The nodes type (room, teacher, class)
      * @param   Object   $children           The nodes children
-     * @param   Integer  $semesterID           In which semester is this node
-     * @param   String   $checked               Is the node checked
-     * @param   String   $publicDefault       Is this node the public default node
-     * @param   String   $nodeKey               The node key
+     * @param   Integer  $semesterID         In which semester is this node
+     * @param   String   $checked            Is the node checked
+     * @param   String   $publicDefault      Is this node the public default node
+     * @param   String   $nodeKey            The node key
      * @param   Boolean  $expanded           A object which has configurations including
-     *
-     * @since  1.5
-     *
      */
     public function  __construct($id,
      $text,

@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -11,8 +10,7 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-defined('_JEXEC') or die("DIE!!!");
-
+defined('_JEXEC') or die;
 require_once dirname(__FILE__) . "/scheduledirector.php";
 
 /**
@@ -24,7 +22,6 @@ require_once dirname(__FILE__) . "/scheduledirector.php";
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
- * @since       v0.0.1
  */
 class Schedule
 {
@@ -32,7 +29,6 @@ class Schedule
 	 * Builder
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_builder = null;
 
@@ -40,7 +36,6 @@ class Schedule
 	 * Lesson array
 	 *
 	 * @var    Array
-	 * @since  1.0
 	 */
 	private $_arr = null;
 
@@ -48,7 +43,6 @@ class Schedule
 	 * Username
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	private $_username = null;
 
@@ -56,7 +50,6 @@ class Schedule
 	 * Schedule title
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	private $_title = null;
 
@@ -64,7 +57,6 @@ class Schedule
 	 * Output type
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	private $_what = null;
 
@@ -72,7 +64,6 @@ class Schedule
 	 * Joomla data abstraction
 	 *
 	 * @var    DataAbstraction
-	 * @since  1.0
 	 */
 	private $_JDA = null;
 
@@ -80,7 +71,6 @@ class Schedule
 	 * Config
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_cfg = null;
 
@@ -88,11 +78,8 @@ class Schedule
 	 * Constructor with the joomla data abstraction object and configuration object
 	 *
 	 * @param   DataAbstraction  $JDA      An object to abstract the joomla methods
-	 * @param   MySchedConfig	 $CFG      An object which has configurations including
-	 * @param   object			 $options  An object which has options including	(Default: null)
-	 *
-	 * @since  1.5
-	 *
+	 * @param   MySchedConfig    $CFG      An object which has configurations including
+	 * @param   object           $options  An object which has options including	(Default: null)
 	 */
 	public function __construct($JDA, $CFG, $options = null)
 	{

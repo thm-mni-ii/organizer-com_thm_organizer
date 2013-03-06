@@ -1,17 +1,15 @@
 <?php
 /**
- * @version	    v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name		eStudy
  * @description eStudy file from com_thm_organizer
- * @author	    Wolf Rost, <wolf.rost@mni.thm.de>
+ * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
 
 /**
@@ -19,11 +17,10 @@ defined('_JEXEC') or die;
  *
  * Class provides methods to communicate with estudy
  *
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
- * @since       v0.0.1
  */
 class EStudy
 {
@@ -31,7 +28,6 @@ class EStudy
 	 * Joomla session id
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	private $_jsid = null;
 
@@ -39,7 +35,6 @@ class EStudy
 	 * Semester id
 	 *
 	 * @var    Integer
-	 * @since  1.0
 	 */
 	private $_semID = null;
 
@@ -47,7 +42,6 @@ class EStudy
 	 * Module number
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	private $_mnr = null;
 
@@ -55,7 +49,6 @@ class EStudy
 	 * Config
 	 *
 	 * @var    MySchedConfig
-	 * @since  1.0
 	 */
 	private $_cfg = null;
 
@@ -63,7 +56,6 @@ class EStudy
 	 * Joomla data abstraction
 	 *
 	 * @var    DataAbstraction
-	 * @since  1.0
 	 */
 	private $_JDA = null;
 
@@ -71,10 +63,7 @@ class EStudy
 	 * Constructor with the joomla data abstraction object and configuration object
 	 *
 	 * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
-	 * @param   MySchedConfig	 $CFG  A object which has configurations including
-	 *
-	 * @since  1.5
-	 *
+	 * @param   MySchedConfig    $CFG  A object which has configurations including
 	 */
 	public function __construct($JDA, $CFG)
 	{
@@ -96,8 +85,10 @@ class EStudy
 	{
 		if (isset($this->_jsid) && isset($this->_semID) && isset($this->_mnr))
 		{
-			$username = $this->_JDA->getUserName();
-			$res      = $this->_JDA->query("SELECT semesterDesc FROM #__thm_organizer_semesters WHERE id ='" . $this->_semID . "'");
+			$query = "SELECT semesterDesc ";
+			$query .= "FROM #__thm_organizer_semesters ";
+			$query .= "WHERE id ='$this->_semID'";
+			$res  = $this->_JDA->query($query);
 			if (count($res) == 1)
 			{
 				$data     = $res[0];
@@ -109,9 +100,9 @@ class EStudy
 
 			$username = $this->_JDA->getUserName();
 
-			$SI           = new mySchedImport($username, $this->_jsid, $this->CFG);
-			$estudylink   = $SI->getCourseLink($resdata, strtolower($this->_mnr), $semester);
-			$estudycourse = $SI->existsCourse($resdata, strtolower($this->_mnr), $semester);
+			$scheduleImport           = new mySchedImport($username, $this->_jsid, $this->CFG);
+			$estudylink   = $scheduleImport->getCourseLink($resdata, strtolower($this->_mnr), $semester);
+			$estudycourse = $scheduleImport->existsCourse($resdata, strtolower($this->_mnr), $semester);
 			$arr[ "success" ] = true;
 			$arr[ "link" ]    = $estudylink;
 			$arr[ "msg" ]     = $estudycourse;

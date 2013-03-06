@@ -26,7 +26,6 @@ class THM_OrganizerDataAbstraction
 	 * Database
 	 *
 	 * @var    object
-	 * @since  1.0
 	 */
 	private $_dbo;
 
@@ -34,7 +33,6 @@ class THM_OrganizerDataAbstraction
 	 * User
 	 *
 	 * @var    object
-	 * @since  1.0
 	 */
 	private $_user;
 
@@ -42,15 +40,11 @@ class THM_OrganizerDataAbstraction
 	 * Joomla mainframe
 	 *
 	 * @var    object
-	 * @since  1.0
 	 */
 	private $_mainframe;
 
 	/**
 	 * Constructor with initial tasks
-	 *
-	 * @since  1.5
-	 *
 	 */
 	public function __construct()
 	{

@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -11,7 +10,6 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
 
 /**
@@ -23,7 +21,6 @@ defined('_JEXEC') or die;
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
- * @since       v0.0.1
  */
 class UserSchedule
 {
@@ -31,7 +28,6 @@ class UserSchedule
 	 * joomla session id
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	private $_jsid = null;
 
@@ -39,7 +35,6 @@ class UserSchedule
 	 * JSON data
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_json = null;
 
@@ -47,7 +42,6 @@ class UserSchedule
 	 * Username
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	private $_username = null;
 
@@ -55,7 +49,6 @@ class UserSchedule
 	 * Config
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_cfg = null;
 
@@ -63,7 +56,6 @@ class UserSchedule
 	 * Joomla data abstraction
 	 *
 	 * @var    DataAbstraction
-	 * @since  1.0
 	 */
 	private $_JDA = null;
 
@@ -71,7 +63,6 @@ class UserSchedule
 	 * Semester id
 	 *
 	 * @var    Integer
-	 * @since  1.0
 	 */
 	private $_semID = null;
 
@@ -79,19 +70,15 @@ class UserSchedule
 	 * Temporary username
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	private $_tempusername = null;
 
 	/**
 	 * Constructor with the joomla data abstraction object and configuration object
 	 *
-	 * @param   DataAbstraction  $JDA  	   A object to abstract the joomla methods
-	 * @param   Object	 		 $CFG  	   A object which has configurations including
-	 * @param   Array			 $options  Options
-	 *
-	 * @since  1.5
-	 *
+	 * @param   DataAbstraction  $JDA      A object to abstract the joomla methods
+	 * @param   Object           $CFG      A object which has configurations including
+	 * @param   Array            $options  Options
 	 */
 	public function __construct($JDA, $CFG, $options = array())
 	{
@@ -158,10 +145,13 @@ class UserSchedule
 				$timestamp = time();
 
 				// Alte Eintraege loeschen - Performanter als abfragen und Updaten
-				@$this->_JDA->query("DELETE FROM " . $this->_cfg['db_table'] . " WHERE username='$this->_username'");
-				$result = $this->_JDA->query("INSERT INTO " . $this->_cfg['db_table'] . " (username, data, created)
-						VALUES ('$this->_username', '$this->_json', '$timestamp')"
-				);
+				$deleteQuery = "DELETE FROM {$this->_cfg['db_table']} ";
+				$deleteQuery .= "WHERE username = '$this->_username' ";
+				@$this->_JDA->query($deleteQuery);
+
+				$insertQuery = "INSERT INTO {$this->_cfg['db_table']} ";
+				$insertQuery .= "(username, data, created) VALUES ('$this->_username', '$this->_json', '$timestamp')";
+				$result = $this->_JDA->query($insertQuery);
 				
 				if ($result === true)
 				{
@@ -215,7 +205,10 @@ class UserSchedule
 	{
 		if (isset($this->_username))
 		{
-			$data = $this->_JDA->query("SELECT data FROM " . $this->_cfg['db_table'] . " WHERE username='" . $this->_username . "'");
+			$query = "SELECT data ";
+			$query .= "{$this->_cfg['db_table']} ";
+			$query .= "username = '$this->_username'";
+			$data = $this->_JDA->query($query);
 
 			if (is_array($data))
 			{

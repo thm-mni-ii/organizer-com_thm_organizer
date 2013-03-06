@@ -326,16 +326,7 @@ class icaltestlib
 		
 	
 		if(date("Y-m-d",$timestamp) > $begin)
-			$begin = date("Y-m-d",$timestamp);
-	
-		function sortfunc($a, $b)
-		{
-			 if ($a->dates == $b->dates) {
-	            return 0;
-	        }
-	        return ($a->dates > $b->dates) ? +1 : -1;
-		}
-	
+			$begin = date("Y-m-d",$timestamp);	
 	
 		if($begin >= $merged[0]->dates && $begin < $merged[0]->enddates)
 		{

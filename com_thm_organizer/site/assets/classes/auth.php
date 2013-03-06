@@ -1,17 +1,15 @@
 <?php
 /**
- * @version	    v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name		Auth
  * @description Auth file from com_thm_organizer
- * @author	    Wolf Rost, <wolf.rost@mni.thm.de>
+ * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
 
 /**
@@ -19,11 +17,10 @@ defined('_JEXEC') or die;
  *
  * Class provides methods for authenticate the user
  *
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
- * @since       v0.0.1
  */
 class Auth
 {
@@ -31,7 +28,6 @@ class Auth
 	 * Joomla data abstraction
 	 *
 	 * @var    DataAbstraction
-	 * @since  1.0
 	 */
 	private $_JDA = null;
 
@@ -39,7 +35,6 @@ class Auth
 	 * Config
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_cfg = null;
 
@@ -47,10 +42,7 @@ class Auth
 	 * Constructor with the joomla data abstraction object and configuration object
 	 * 
 	 * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
-	 * @param   MySchedConfig	 $cfg  A object which has configurations including
-	 * 
-	 * @since  1.5
-	 *
+	 * @param   MySchedConfig    $cfg  A object which has configurations including
 	 */
 	public function __construct($JDA, $cfg)
 	{

@@ -1,6 +1,5 @@
 <?php
 /**
- * @version	    v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -11,22 +10,18 @@
  * @license     GNU GPL v.2
  * @link		www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
-
 require_once dirname(__FILE__) . "/abstrakterBauer.php";
 error_reporting(0);
 
 /**
  * Class ICSBauer for component com_thm_organizer
- *
  * Class provides methods to create a schedule in excel format
  *
  * @category	Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
- * @since       v0.0.1
  */
 class ICSBauer extends abstrakterBauer
 {
@@ -34,7 +29,6 @@ class ICSBauer extends abstrakterBauer
 	 * Joomla data abstraction
 	 *
 	 * @var    DataAbstraction
-	 * @since  1.0
 	 */
 	private $_JDA = null;
 
@@ -42,7 +36,6 @@ class ICSBauer extends abstrakterBauer
 	 * Config
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_cfg = null;
 
@@ -50,7 +43,6 @@ class ICSBauer extends abstrakterBauer
 	 * Excel
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_objPHPExcel = null;
 	
@@ -58,7 +50,6 @@ class ICSBauer extends abstrakterBauer
 	 * Active Schedule
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_activeSchedule = null;
 	
@@ -66,7 +57,6 @@ class ICSBauer extends abstrakterBauer
 	 * Active Schedule data
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_activeScheduleData = null;
 
@@ -75,9 +65,6 @@ class ICSBauer extends abstrakterBauer
 	 *
 	 * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
 	 * @param   Object	 		 $cfg  A object which has configurations including
-	 *
-	 * @since  1.5
-	 *
 	 */
 	public function __construct($JDA, $cfg)
 	{

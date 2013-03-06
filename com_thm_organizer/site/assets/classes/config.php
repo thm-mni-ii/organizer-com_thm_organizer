@@ -1,15 +1,14 @@
 <?php
 /**
- * @version	    v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name		MySchedConfig
  * @description MySchedConfig file from com_thm_organizer
- * @author	    Wolf Rost, <wolf.rost@mni.thm.de>
+ * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
 
@@ -21,11 +20,10 @@ define('B', dirname(__FILE__));
  *
  * Class provides information about the database and estudy
  *
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
- * @since       v0.0.1
  */
 class MySchedConfig
 {
@@ -33,7 +31,6 @@ class MySchedConfig
 	 * The mysched configuration array
 	 *
 	 * @var    Array
-	 * @since  1.0
 	 */
 	private $_cfg = Array();
 
@@ -41,9 +38,6 @@ class MySchedConfig
 	 * Constructor with the joomla data abstraction object
 	 *
 	 * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
-	 *
-	 * @since  1.5
-	 *
 	 */
 	public function __construct($JDA)
 	{
@@ -153,13 +147,13 @@ class MySchedConfig
 	/**
 	 * Method to get a property
 	 *
-	 * @param   String  $s  The property to get
+	 * @param   String  $propertyName  The property to get
 	 *
-	 * @return The property
+	 * @return  The property value
 	 */
-	public function getCFGElement($s)
+	public function getCFGElement($propertyName)
 	{
-		return $this->_cfg[$s];
+		return $this->_cfg[$propertyName];
 	}
 
 	/**

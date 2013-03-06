@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -73,10 +72,7 @@ class User
 	 * Constructor with the joomla data abstraction object and configuration object
 	 *
 	 * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
-	 * @param   MySchedConfig	 $CFG  A object which has configurations including
-	 *
-	 * @since  1.5
-	 *
+	 * @param   MySchedConfig    $CFG  A object which has configurations including
 	 */
 	public function __construct($JDA, $CFG)
 	{
