@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -10,18 +9,15 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.view');
 
 /**
  * Build event list
  *
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
- * @since       v0.1.0
  */
 class THM_OrganizerViewEvent_List extends JView
 {
@@ -91,19 +87,25 @@ class THM_OrganizerViewEvent_List extends JView
      */
     private function buildHTMLElements()
     {
-        $newImage = JHTML::_('image.site', 'add.png', 'components/com_thm_organizer/assets/images/', null, null, JText::_('Termin Erzeugen'));
+        $newImage = JHTML::_('image.site', 'add.png', 'components/com_thm_organizer/assets/images/',
+							 null, null, JText::_('COM_THM_ORGANIZER_NEW_TITLE')
+							);
         $this->assignRef('newImage', $newImage);
-        $editImage = JHTML::_('image.site', 'edit.png', 'components/com_thm_organizer/assets/images/', null, null, JText::_('Termin EBearbeiten'));
+        $editImage = JHTML::_('image.site', 'edit.png', 'components/com_thm_organizer/assets/images/',
+							  null, null, JText::_('COM_THM_ORGANIZER_EDIT_TITLE')
+							 );
         $this->assignRef('editImage', $editImage);
-        $deleteImage = JHTML::_('image.site', 'delete.png', 'components/com_thm_organizer/assets/images/', null, null, JText::_('Termin Löschen'));
+        $deleteImage = JHTML::_('image.site', 'delete.png', 'components/com_thm_organizer/assets/images/',
+								null, null, JText::_('COM_THM_ORGANIZER_DELETE_TITLE')
+							   );
         $this->assignRef('deleteImage', $deleteImage);
 
         $attribs = array();
         $attribs['class'] = "thm_organizer_el_sortLink hasTip";
         $spanOpen = "<span class='thm_organizer_el_th'>";
         $spanClose = "</span>";
-        $ascImage = JHTML::_('image.site', 'sort_asc.png', 'media/system/images/', null, null, JText::_('Aufsteigend Sortieren'));
-        $descImage = JHTML::_('image.site', 'sort_desc.png', 'media/system/images/', null, null, JText::_('Absteigend Sortieren'));
+        $ascImage = JHTML::_('image.site', 'sort_asc.png', 'media/system/images/', null, null, JText::_('COM_THM_ORGANIZER_EL_ASC_DESCRIPTION'));
+        $descImage = JHTML::_('image.site', 'sort_desc.png', 'media/system/images/', null, null, JText::_('COM_THM_ORGANIZER_EL_DESC_DESCRIPTION'));
 
         $titleText = JText::_('COM_THM_ORGANIZER_EL_TITLE');
         $titleAttribs = array();
@@ -200,7 +202,7 @@ class THM_OrganizerViewEvent_List extends JView
      */
     private function makeCategorySelect($categories, $selected)
     {
-        $nocategories = array(1=>array('id' => '-1', 'title' => JText::_('Alle Kategorien')));
+        $nocategories = array(1 => array('id' => '-1', 'title' => JText::_('COM_THM_ORGANIZER_EL_ALL_CATEGORIES')));
         $categories = array_merge($nocategories, $categories);
         $categorySelect = JHTML::_('select.genericlist', $categories, 'categoryID',
         		 'id="categoryID" class="inputbox" size="1"', 'id', 'title', $selected

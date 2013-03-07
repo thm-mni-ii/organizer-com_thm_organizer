@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.1.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -11,13 +10,13 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
 
 $imagepath = 'components/com_thm_organizer/assets/images/';
 $this->thm_logo_image = JHtml::image($imagepath . 'thm_logo_giessen.png', JText::_('COM_THM_ORGANIZER_RD_LOGO_GIESSEN'));
 $this->thm_text_image = JHtml::image($imagepath . 'thm_text_dinpro_compact.png', JText::_('COM_THM_ORGANIZER_RD_THM'));
 $widthClass = ($this->eventsExist) ? 'thm_organizer_is_short' : 'thm_organizer_is_long';
+$dayName = strtoupper(date('l'));
 ?>
 <script type="text/javascript">
 	var timer = null;
@@ -46,7 +45,7 @@ $widthClass = ($this->eventsExist) ? 'thm_organizer_is_short' : 'thm_organizer_i
             </div>
         </div>
         <div id="thm_organizer_is_head_right">
-			<?php echo JText::_(strtoupper(date('l'))); ?><br />
+			<?php echo JText::_($dayName); ?><br />
 			<?php echo date('d.m.Y'); ?><br />
 			<?php echo date('H:i'); ?>
         </div>

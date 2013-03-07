@@ -1,20 +1,16 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name		view lectures default
  * @description THM_Curriculum component site view
- * @author	    Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
-
-JHTML::_('behavior.tooltip');
 ?>
-
 <script type="text/javascript">
     window.addEvent('domready', function(){ 
         var JTooltips = new Tips($$('.hasTip2'), {
@@ -85,11 +81,11 @@ if ($suffix = $this->params->get('lsf_navi', 0))
 				<th width="200px"><?php
 				if ($this->lang == 'de')
 				{
-					echo JText::_("Modultitel");
+					echo 'Modultitel';
 				}
 				else
 				{
-					echo JText::_("Course");
+					echo 'Course';
 				}
 				?>
 				</th>

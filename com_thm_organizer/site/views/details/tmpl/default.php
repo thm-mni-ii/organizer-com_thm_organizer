@@ -5,10 +5,10 @@
  * @subpackage  com_thm_organizer.site
  * @name		view details default
  * @description THM_Curriculum component site view
- * @author	    Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
 ?>
 
@@ -53,11 +53,11 @@
 			<?php
 			if ($this->lang == 'de')
 			{
-				echo JText::_('Modulnummer');
+				echo 'Modulnummer';
 			}
 			else
 			{
-				echo JText::_('Course Code');
+				echo 'Course Code';
 			}
 			?>
 
@@ -83,11 +83,11 @@
 			<?php
 			if ($this->lang == 'de')
 			{
-				echo JText::_('Kurzname');
+				echo 'Kurzname';
 			}
 			else
 			{
-				echo JText::_('Short title');
+				echo 'Short title';
 			}
 			?>
 		</dt>
@@ -107,11 +107,11 @@
 			<?php
 			if ($this->lang == 'de')
 			{
-				echo JText::_('Dozenten');
+				echo 'Dozenten';
 			}
 			else
 			{
-				echo JText::_('Lecturer');
+				echo 'Lecturer';
 			}
 			?>
 		</dt>
@@ -131,11 +131,11 @@
 			<?php
 			if ($this->lang == 'de')
 			{
-				echo JText::_('Kurzbeschreibung');
+				echo 'Kurzbeschreibung';
 			}
 			else
 			{
-				echo JText::_('Short description');
+				echo 'Short description';
 			}
 			?>
 		</dt>
@@ -153,11 +153,11 @@
 			<?php
 			if ($this->lang == 'de')
 			{
-				echo JText::_('Lernziele');
+				echo 'Lernziele';
 			}
 			else
 			{
-				echo JText::_('Objectives');
+				echo 'Objectives';
 			}
 			?>
 		</dt>
@@ -177,11 +177,11 @@
 			<?php
 			if ($this->lang == 'de')
 			{
-				echo JText::_('Lerninhalt');
+				echo 'Lerninhalt';
 			}
 			else
 			{
-				echo JText::_('Contents	');
+				echo 'Contents	';
 			}
 			?>
 		</dt>
@@ -201,11 +201,11 @@
 			<?php
 			if ($this->lang == 'de')
 			{
-				echo JText::_('Moduldauer');
+				echo 'Moduldauer';
 			}
 			else
 			{
-				echo JText::_('Duration');
+				echo 'Duration';
 			}
 			?>
 		</dt>
@@ -225,11 +225,11 @@
 			<?php
 			if ($this->lang == 'de')
 			{
-				echo JText::_('Sprache');
+				echo 'Sprache';
 			}
 			else
 			{
-				echo JText::_('Language');
+				echo 'Language';
 			}
 			?>
 		</dt>
@@ -258,11 +258,11 @@
 			<?php
 			if ($this->lang == "de")
 			{
-				echo JText::_('Arbeisaufwand');
+				echo 'Arbeisaufwand';
 			}
 			else
 			{
-				echo JText::_('Credit points');
+				echo 'Credit points';
 			}
 			?>
 		</dt>
@@ -288,11 +288,11 @@
 			<?php
 			if ($this->lang == 'de')
 			{
-				echo JText::_('Lernformen');
+				echo 'Lernformen';
 			}
 			else
 			{
-				echo JText::_('Extent and Manner');
+				echo 'Extent and Manner';
 			}
 			?>
 		</dt>
@@ -316,11 +316,11 @@
 			<?php
 			if ($this->lang == 'de')
 			{
-				echo JText::_('Vorleistung');
+				echo 'Vorleistung';
 			}
 			else
 			{
-				echo JText::_('Requirements');
+				echo 'Requirements';
 			}
 			?>
 		</dt>
@@ -340,11 +340,11 @@
 			<?php
 			if ($this->lang == 'de')
 			{
-				echo JText::_('Leistungsnachweis');
+				echo 'Leistungsnachweis';
 			}
 			else
 			{
-				echo JText::_('Examination type');
+				echo 'Examination type';
 			}
 			?>
 		</dt>
@@ -366,11 +366,11 @@
 			<?php
 			if ($this->lang == 'de')
 			{
-				echo JText::_('Turnus');
+				echo 'Turnus';
 			}
 			else
 			{
-				echo JText::_('Offer frequency');
+				echo 'Frequency';
 			}
 			?>
 		</dt>
@@ -399,11 +399,11 @@
 			<?php
 			if ($this->lang == "de")
 			{
-				echo JText::_('Literatur');
+				echo 'Literatur';
 			}
 			else
 			{
-				echo JText::_('References');
+				echo 'References';
 			}
 			?>
 		</dt>
@@ -423,11 +423,11 @@
 			<?php
 			if ($this->lang == 'de')
 			{
-				echo JText::_('Voraussetzungen');
+				echo 'Voraussetzungen';
 			}
 			else
 			{
-				echo JText::_('Prerequisites');
+				echo 'Prerequisites';
 			}
 			?>
 		</dt>
@@ -451,11 +451,9 @@
 
 				foreach ($splitedVorraussetzung as $vorraussetzung)
 				{
-					$link = "<a href='" . JRoute::_("index.php?option=com_thm_organizer&view=details&layout=default&id=" .
-							strtoupper($vorraussetzung)
-							. $tmplText
-					)
-					. "'>" . strtoupper($vorraussetzung) . "</a>&nbsp;";
+					$url = "index.php?option=com_thm_organizer&view=details&layout=default&id=";
+					$href = JRoute::_($url . strtoupper($vorraussetzung) . $tmplText);
+					$link = "<a href='$href'>" . strtoupper($vorraussetzung) . "</a>&nbsp;";
 					echo $link;
 				}
 				echo substr($this->modulVorraussetzung, $pos, strlen($this->modulVorraussetzung));

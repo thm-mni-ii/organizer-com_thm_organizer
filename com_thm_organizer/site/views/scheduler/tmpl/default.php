@@ -1,7 +1,6 @@
 <?php 
 /**
- * @version     v0.0.1
- * @category 	Joomla component
+ * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name        thm_organizerViewScheduler
@@ -11,52 +10,28 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
+$editEventURL = 'index.php?option=com_thm_organizer&view=event_edit&schedulerCall=true&eventID=';
+$blankImageLink = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/ext_bak/resources/images/default/s.gif';
+$addButtonLink = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/images/add.png';
+$removeButtonLink = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/images/delete.png';
+$mainPath = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/';
+$curriculumLink = JRoute::_('index.php?option=com_thm_curriculum&view=details&layout=default&tmpl=component&mysched=true&lang=de');
+$ajaxHandler = JRoute::_('index.php?option=com_thm_organizer&view=ajaxhandler&format=raw');
 ?>
-
-<meta
-	http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript" charset="utf-8">
-<?php
-	echo 'var externLinks = [];';
-	echo 'externLinks.eventLink = \'' . JRoute::_('index.php?option=com_thm_organizer&view=event_edit&schedulerCall=true&eventID=') . '\';';
-	echo 'externLinks.blankImageLink = \'' . JURI::root(true) .
-		 '/components/com_thm_organizer/views/scheduler/tmpl/ext_bak/resources/images/default/s.gif\';';
-	echo 'externLinks.lectureAddButton = \'' . JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/images/add.png\';';
-	echo 'externLinks.lectureRemoveButton = \'' . JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/images/delete.png\';';
-	echo 'externLinks.mainPath = \'' . JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/\';';
-	echo 'externLinks.curriculumLink = \'' .
-		  JRoute::_('index.php?option=com_thm_curriculum&view=details&layout=default&tmpl=component&mysched=true&lang=de') . '\';';
-	echo 'externLinks.ajaxHandler = \'' . JRoute::_('index.php?option=com_thm_organizer&view=ajaxhandler&format=raw') . '\';';
-?>
+var externLinks = [];
+externLinks.eventLink = '<?php echo $editEventURL; ?>';
+externLinks.blankImageLink = '<?php echo $blankImageLink; ?>';
+externLinks.lectureAddButton = '<?php echo $addButtonLink; ?>';
+externLinks.lectureRemoveButton = '<?php echo $removeButtonLink; ?>';
+externLinks.mainPath = '<?php echo $mainPath; ?>';
+externLinks.curriculumLink = '<?php echo $curriculumLink; ?>';
+externLinks.ajaxHandler = '<?php echo $ajaxHandler; ?>';
 </script>
-
-<div
-	id="MySchedMainW" class="MySchedMainW">
-	<!--<script type="text/javascript" charset="utf-8" 
-	src="components/com_thm_organizer/views/scheduler/tmpl/mySched/preLoadingMessage.js"></script>-->
-
-	<!-- Ext 4 framework
-	<script type="text/javascript" charset="utf-8"
-		src="components/com_thm_organizer/views/scheduler/tmpl/ext/ext-all-dev.js"></script> -->
-
-	<!-- Ext 4 bootstrap -->
-	<!--<script type="text/javascript" charset="utf-8" src="components/com_thm_organizer/views/scheduler/tmpl/ext/bootstrap.js"></script>-->
-
-	<!-- Ext 3 Compatibility (remove after migration is complete) -->
-	<!--<script type="text/javascript" charset="utf-8" 
-	src="components/com_thm_organizer/views/scheduler/tmpl/ext/compatibility/ext3-core-compat.js"></script>
-	<script type="text/javascript" charset="utf-8" 
-	src="components/com_thm_organizer/views/scheduler/tmpl/ext/compatibility/ext3-compat.js"></script>-->
-
-	<!--<script type="text/javascript" charset="utf-8" src="components/com_thm_organizer/views/scheduler/tmpl/ext/adapter/ext/ext-base.js"></script>
-	<script type="text/javascript" charset="utf-8" src="components/com_thm_organizer/views/scheduler/tmpl/ext/ext-all.js"></script>
-	<script type="text/javascript" charset="utf-8" src="components/com_thm_organizer/views/scheduler/tmpl/mySched/coreextension.js"></script>
-	<script type="text/javascript" charset="utf-8" src="components/com_thm_organizer/views/scheduler/tmpl/mySched/MultiSelect.js"></script>-->
+<div id="MySchedMainW" class="MySchedMainW">
 	<script type="text/javascript" charset="utf-8">
-		<?php
-			require_once "components/com_thm_organizer/views/scheduler/tmpl/mySched/language.js";
-		?>
+		<?php require_once "components/com_thm_organizer/views/scheduler/tmpl/mySched/language.js"; ?>
 	</script>
 	<script type="text/javascript" charset="utf-8"
 		src="components/com_thm_organizer/views/scheduler/tmpl/mySched/coreextension.js"></script>
@@ -77,24 +52,21 @@
 	<script type="text/javascript" charset="utf-8"
 		src="components/com_thm_organizer/views/scheduler/tmpl/mySched/plugins.js"></script>
 	<script type="text/javascript" charset="utf-8">
-
-    <?php
-    	if ($this->canWriteEvents === true)
-		{
+<?php
+if ($this->canWriteEvents === true)
+{
 			require_once "components/com_thm_organizer/views/scheduler/tmpl/mySched/advancedFunctions.js";
-		}
-    ?>
-
-	<?php 	echo 'MySched.SessionId = \'' . $this->jsid . '\';';
-			echo 'MySched.class_semester_id = \'' . $this->semesterID . '\';';
-			echo 'MySched.class_semester_author = \'' . $this->semAuthor . '\';';
-			echo 'MySched.class_semester_name = \'' . $this->semesterName . '\';';
-			echo 'MySched.startup = \'' . $this->startup . '\';';
-			echo 'MySched.CurriculumisAvailable = \'' . $this->CurriculumisAvailable . '\';';
-			echo 'MySched.searchModuleID = \'' . $this->searchModuleID . '\';';
-			echo 'MySched.loadLessonsOnStartUp = new Boolean(' . $this->loadLessonsOnStartUp . ');';
-			echo 'MySched.deltaDisplayDays = ' . $this->deltaDisplayDays . ';';
-	?>
+}
+?>
+		MySched.SessionId = '<?php echo $this->jsid; ?>';
+		MySched.class_semester_id = '<?php echo $this->semesterID; ?>';
+		MySched.class_semester_author = '<?php echo $this->semAuthor; ?>';
+		MySched.class_semester_name = '<?php echo $this->semesterName; ?>';
+		MySched.startup = '<?php echo $this->startup; ?>';
+		MySched.CurriculumisAvailable = '<?php echo $this->CurriculumisAvailable; ?>';
+		MySched.searchModuleID = '<?php echo $this->searchModuleID; ?>';
+		MySched.loadLessonsOnStartUp = new Boolean('<?php echo $this->loadLessonsOnStartUp; ?>');
+		MySched.deltaDisplayDays = '<?php echo $this->deltaDisplayDays; ?>';
 		Ext.onReady(MySched.Base.init, MySched.Base);
 	</script>
 </div>
