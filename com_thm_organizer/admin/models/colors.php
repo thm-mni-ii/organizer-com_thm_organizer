@@ -53,7 +53,6 @@ class THM_OrganizerModelColors extends JModelList
 		// Get the filter values from the request
 		$orderCol = $this->state->get('list.ordering');
 		$orderDirn = $this->state->get('list.direction');
-		$search = $this->state->get('filter');
 
 		// Defailt ordering
 		if ($orderCol == "")
@@ -74,16 +73,14 @@ class THM_OrganizerModelColors extends JModelList
 	/**
 	 * Method to get the populate state
 	 *
-	 * @param   String  $ordering   Ordering   (default: null)
-	 * @param   String  $direction  Direction  (default: null)
-	 *
 	 * @return  void
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState()
 	{
 		$app = JFactory::getApplication('administrator');
 
-		if ($layout = JRequest::getVar('layout'))
+		$layout = JRequest::getVar('layout');
+		if (!empty($layout))
 		{
 			$this->context .= '.' . $layout;
 		}

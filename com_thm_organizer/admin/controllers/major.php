@@ -64,7 +64,7 @@ class THM_OrganizerControllerMajor extends JControllerForm
 	public function importRedirect()
 	{
 		$ids = implode(",", JRequest::getVar("cid"));
-		$this->setRedirect('index.php?option=com_thm_organizer&view=start&cid=' . $ids, $msg);
+		$this->setRedirect('index.php?option=com_thm_organizer&view=start&cid=' . $ids);
 	}
 
 	/**

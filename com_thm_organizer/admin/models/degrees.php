@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -11,9 +10,7 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
-
 jimport('joomla.application.component.modellist');
 
 /**
@@ -24,8 +21,6 @@ jimport('joomla.application.component.modellist');
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
- * @since       v1.5.0
 */
 class THM_OrganizerModelDegrees extends JModelList
 {
@@ -53,12 +48,11 @@ class THM_OrganizerModelDegrees extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 
 		// Get the filter data
 		$orderCol = $this->state->get('list.ordering');
 		$orderDirn = $this->state->get('list.direction');
-		$search = $this->state->get('filter');
 
 		// Defailt ordering
 		if ($orderCol == "")
@@ -68,7 +62,7 @@ class THM_OrganizerModelDegrees extends JModelList
 		}
 
 		// Perform the database request
-		$query = $db->getQuery(true);
+		$query = $dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_degrees');
 		$query->order($orderCol . " " . $orderDirn);
@@ -79,16 +73,14 @@ class THM_OrganizerModelDegrees extends JModelList
 	/**
 	 * Method to set the populate state
 	 *
-	 * @param   String  $ordering   Type  	(default: null)
-	 * @param   String  $direction  Prefix	(default: null)
-	 *
 	 * @return  void
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState()
 	{
 		$app = JFactory::getApplication('administrator');
 
-		if ($layout = JRequest::getVar('layout'))
+		$layout = JRequest::getVar('layout');
+		if (!empty($layout))
 		{
 			$this->context .= '.' . $layout;
 		}

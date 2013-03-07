@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -11,9 +10,7 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
-
 jimport('joomla.application.component.modellist');
 
 /**
@@ -24,24 +21,13 @@ jimport('joomla.application.component.modellist');
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class THM_OrganizerModelMajors extends JModelList
 {
 	/**
-	 * Database
-	 *
-	 * @var    Object
-	 * @since  1.0
-	 */
-	protected $db = null;
-
-	/**
 	 * Data
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_data;
 
@@ -49,7 +35,6 @@ class THM_OrganizerModelMajors extends JModelList
 	 * Pagination
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_pagination = null;
 
@@ -58,7 +43,6 @@ class THM_OrganizerModelMajors extends JModelList
 	 */
 	public function __construct()
 	{
-		$this->db = JFactory::getDBO();
 		parent::__construct();
 	}
 
@@ -69,27 +53,18 @@ class THM_OrganizerModelMajors extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 		$orderCol = $this->state->get('list.ordering');
 		$orderDirn = $this->state->get('list.direction');
 		$search = $this->state->get('filter');
 
 		// Build the query
-		$query = $db->getQuery(true);
-		$query->select("
-				#__thm_organizer_majors.id as id,
-				#__thm_organizer_degrees.name AS degree,
-				#__thm_organizer_majors.subject,
-				#__thm_organizer_majors.po,
-				#__thm_organizer_majors.lsf_object as lsf_object,
-				#__thm_organizer_majors.lsf_degree as lsf_degree,
-				#__thm_organizer_majors.lsf_study_path as lsf_study_path
-				");
-		$query->from('#__thm_organizer_majors');
-		$query->leftJoin('#__thm_organizer_degrees ON
-				#__thm_organizer_degrees.id = #__thm_organizer_majors.degree_id
-				');
-
+		$query = $dbo->getQuery(true);
+		$select = "m.id as id, d.name AS degree, m.subject, m.po, m.lsf_object as lsf_object, ";
+		$select .= "m.lsf_degree as lsf_degree, m.lsf_study_path as lsf_study_path";
+		$query->select($select);
+		$query->from('#__thm_organizer_majors AS m');
+		$query->leftJoin('#__thm_organizer_degrees AS d ON d.id = m.degree_id');
 		$query->order($orderCol . " " . $orderDirn);
 
 		return $query;
@@ -98,16 +73,14 @@ class THM_OrganizerModelMajors extends JModelList
 	/**
 	 * Method to populate state
 	 *
-	 * @param   String  $ordering   Ordering   (default: null)
-	 * @param   String  $direction  Direction  (default: null)
-	 *
 	 * @return  void
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState()
 	{
 		$app = JFactory::getApplication('administrator');
 
-		if ($layout = JRequest::getVar('layout'))
+		$layout = JRequest::getVar('layout');
+		if (!empty($layout))
 		{
 			$this->context .= '.' . $layout;
 		}
@@ -131,15 +104,5 @@ class THM_OrganizerModelMajors extends JModelList
 		{
 			parent::populateState($order, $dir);
 		}
-	}
-
-	/**
-	 * Method to delete something
-	 *
-	 * @return  void
-	 */
-	public function delete()
-	{
-
 	}
 }

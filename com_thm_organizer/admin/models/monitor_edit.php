@@ -19,7 +19,6 @@ jimport('joomla.application.component.modeladmin');
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
  */
 class THM_OrganizerModelMonitor_Edit extends JModelAdmin
 {

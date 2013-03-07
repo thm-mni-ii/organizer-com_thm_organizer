@@ -54,7 +54,7 @@ class THM_OrganizerModelCategory_Edit extends JModelAdmin
      *
      * @return  mixed    Object on success, false on failure.
      */
-    public function getItem($key = null)
+    public function getItem()
     {
         $categoryIDs = JRequest::getVar('cid',  null, '', 'array');
         $categoryID = (empty($categoryIDs))? JRequest::getVar('categoryID') : $categoryIDs[0];

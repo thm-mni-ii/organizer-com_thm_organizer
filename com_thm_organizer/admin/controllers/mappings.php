@@ -110,10 +110,6 @@ class THM_OrganizerControllerMappings extends JControllerAdmin
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 		$majorId = $_SESSION['stud_id'];
 
-		// Get the arrays from the Request
-		$order = JRequest::getVar('order', null, 'post', 'array');
-		$originalOrder = explode(',', JRequest::getString('original_order_values'));
-
 		parent::saveorder();
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&id=' . $majorId . '&view=' . $this->view_list, false));
 	}
@@ -130,7 +126,6 @@ class THM_OrganizerControllerMappings extends JControllerAdmin
 		$majorId = $_SESSION['stud_id'];
 
 		// Initialise variables
-		$user = JFactory::getUser();
 		$ids = JRequest::getVar('cid', null, 'post', 'array');
 		$inc = ($this->getTask() == 'orderup') ? -1 : + 1;
 

@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -11,11 +10,7 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
-// No direct access to this file
 defined('_JEXEC') or die;
-
-// Import Joomla modelform library
 jimport('joomla.application.component.modeladmin');
 
 /**
@@ -26,8 +21,6 @@ jimport('joomla.application.component.modeladmin');
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class THM_OrganizerModelMajor extends JModelAdmin
 {
@@ -44,15 +37,15 @@ class THM_OrganizerModelMajor extends JModelAdmin
 		if (parent::save($data))
 		{
 			// Get the previous inserted major id
-			$id = $this->getState($this->getName() . '.id');
+			$majorID = $this->getState($this->getName() . '.id');
 
 			// Write the related semesters to the database
-			self::saveSemester($id, JRequest::getVar('semesters'));
+			self::saveSemester($majorID, JRequest::getVar('semesters'));
 
 			if (!JRequest::getVar('id'))
 			{
 				// Insert a the root element of the tree
-				self::createRootNode($id);
+				self::createRootNode($majorID);
 			}
 			return true;
 		}
@@ -60,70 +53,70 @@ class THM_OrganizerModelMajor extends JModelAdmin
 
 	/**
 	 * Method to write the root element of the given major
-	 *
-	 * @param   Integer  $pk  Primarykey
+	 *	
+	 * @param   Integer  $majorID  Primarykey
 	 *
 	 * @return  void
 	 */
-	private function createRootNode($pk)
+	private function createRootNode($majorID)
 	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		$dbo = JFactory::getDbo();
 
-		// Select the first semester of the given major	
-		$query->select('*');
-		$query->from("#__thm_organizer_semesters_majors");
-		$query->where("major_id = $pk");
-		$query->where("semester_id = 1");
+		// Select the first semester of the given major
+		$selectQuery = $dbo->getQuery(true);
+		$selectQuery->select('*');
+		$selectQuery->from("#__thm_organizer_semesters_majors");
+		$selectQuery->where("major_id = $majorID");
+		$selectQuery->where("semester_id = 1");
 		
-		$db->setQuery($query);
-		$row = $db->loadObjectList();
+		$dbo->setQuery((string) $selectQuery);
+		$row = $dbo->loadObjectList();
 		$firstSemester = $row[0]->id;
 
 		// Writes the root element to the database
-		$query = $db->getQuery(true);
-		$query->insert('#__thm_organizer_assets_tree');
-		$query->set("asset = 0");
-		$query->set("parent_id = null");
-		$query->set("depth = null");
-		$query->set("lineage = 'none'");
+		$insertATQuery = $dbo->getQuery(true);
+		$insertATQuery->insert('#__thm_organizer_assets_tree');
+		$insertATQuery->set("asset = 0");
+		$insertATQuery->set("parent_id = null");
+		$insertATQuery->set("depth = null");
+		$insertATQuery->set("lineage = 'none'");
 
-		$db->setQuery($query);
-		$db->query();
-		$insertid = $db->insertid();
+		$dbo->setQuery((string) $insertATQuery);
+		$dbo->query();
+		$insertid = $dbo->insertid();
 
 		// Maps the inserted root element to the first semester
-		$query = $db->getQuery(true);
-		$query->insert('#__thm_organizer_assets_semesters');
-		$query->set("assets_tree_id = $insertid");
-		$query->set("semesters_majors_id = $firstSemester");
+		$insertASemQuery = $dbo->getQuery(true);
+		$insertASemQuery->insert('#__thm_organizer_assets_semesters');
+		$insertASemQuery->set("assets_tree_id = $insertid");
+		$insertASemQuery->set("semesters_majors_id = $firstSemester");
 
-		$db->setQuery($query);
-		$db->query();
+		$dbo->setQuery((string) $insertASemQuery);
+		$dbo->query();
 	}
 
 	/**
 	 * Method to write the given semesters to the database
 	 *
-	 * @param   Integer  $id         Id
+	 * @param   Integer  $majorID    Id
 	 * @param   Array    $semesters  Semesters
 	 *
 	 * @return  void
 	 */
-	private function saveSemester($id, $semesters)
+	private function saveSemester($majorID, $semesters)
 	{
-		$db = JFactory::getDbo();
-		$pk = JRequest::getVar('id');
-		$query = $db->getQuery(true);
+		$dbo = JFactory::getDbo();
+		$requestID = JRequest::getVar('id');
+		$query = $dbo->getQuery(true);
 
-		if (isset($pk))
+		if (isset($requestID))
 		{
 			// Determine the current saved semesters
 			$query->select("*");
 			$query->from("#__thm_organizer_semesters_majors as sem_paths");
-			$query->where("sem_paths.major_id = $pk");
-			$db->setQuery($query);
-			$rows = $db->loadObjectList();
+			$query->where("sem_paths.major_id = $requestID");
+			$dbo->setQuery((string) $query);
+			$rows = $dbo->loadObjectList();
 
 			// Iterate over each found semester
 			foreach ($rows as $row)
@@ -132,13 +125,13 @@ class THM_OrganizerModelMajor extends JModelAdmin
 				if (!in_array($row->semester_id, $semesters))
 				{
 					// Delete the semester
-					$query = $db->getQuery(true);
+					$query = $dbo->getQuery(true);
 					$query->delete("#__thm_organizer_semesters_majors");
-					$query->where("major_id = $pk");
+					$query->where("major_id = $requestID");
 					$query->where("semester_id = $row->semester_id");
 
-					$db->setQuery($query);
-					$db->query($query);
+					$dbo->setQuery((string) $query);
+					$dbo->query($query);
 				}
 			}
 		}
@@ -146,16 +139,16 @@ class THM_OrganizerModelMajor extends JModelAdmin
 		// Iterate over each semester
 		foreach ($semesters as $semester)
 		{
-			$query = $db->getQuery(true);
+			$query = $dbo->getQuery(true);
 			$sem = intval($semester);
 
 			// Writes the data to the database
 			$query->insert('#__thm_organizer_semesters_majors');
 			$query->set("semester_id = $sem");
-			$query->set("major_id = $id");
+			$query->set("major_id = $majorID");
 
-			$db->setQuery($query);
-			$db->query();
+			$dbo->setQuery((string) $query);
+			$dbo->query();
 		}
 	}
 

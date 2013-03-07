@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -11,9 +10,7 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
-
 jimport('joomla.application.component.modellist');
 
 /**
@@ -24,24 +21,13 @@ jimport('joomla.application.component.modellist');
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class THM_OrganizerModelLecturers extends JModelList
 {
 	/**
-	 * Database
-	 *
-	 * @var    Object
-	 * @since  1.0
-	 */
-	protected $db = null;
-
-	/**
 	 * Data
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_data;
 
@@ -49,7 +35,6 @@ class THM_OrganizerModelLecturers extends JModelList
 	 * Pagination
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_pagination = null;
 
@@ -58,7 +43,6 @@ class THM_OrganizerModelLecturers extends JModelList
 	 */
 	public function __construct()
 	{
-		$this->db = JFactory::getDBO();
 		parent::__construct();
 	}
 
@@ -69,29 +53,25 @@ class THM_OrganizerModelLecturers extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
+		$query->select('*');
+		$query->from('#__thm_organizer_lecturers');
 
-		// Get the filter options
+		$search = $dbo->Quote('%' . $dbo->getEscaped($this->state->get('filter.search'), true) . '%');
+		$whereClause = "(userid LIKE '$search' ";
+		$whereClause .= "OR surname LIKE '$search'";
+		$whereClause .= "OR forename LIKE '$search'";
+		$whereClause .= "OR academic_title LIKE '$search')";
+		$query->where($whereClause);
+
 		$orderCol = $this->state->get('list.ordering');
 		$orderDirn = $this->state->get('list.direction');
-		$search = $this->state->get('filter.search');
-
-		// Defailt ordering
 		if ($orderCol == "")
 		{
 			$orderCol = "id";
 			$orderDirn = "asc";
 		}
-
-		// Configure the sql query
-		$query = $db->getQuery(true);
-		$query->select('*');
-		$query->from('#__thm_organizer_lecturers');
-
-		$search = $db->Quote('%' . $db->getEscaped($search, true) . '%');
-		$query->where('(userid LIKE ' . $search . ' OR surname LIKE ' . $search . ' OR forename LIKE ' .
-				$search . ' OR academic_title LIKE ' . $search . ')');
-
 		$query->order($orderCol . " " . $orderDirn);
 
 		return $query;
@@ -100,16 +80,14 @@ class THM_OrganizerModelLecturers extends JModelList
 	/**
 	 * Method to set the populate state
 	 *
-	 * @param   String  $ordering   Ordering   (default: null)
-	 * @param   String  $direction  Direction  (default: null)
-	 *
 	 * @return  void
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState()
 	{
 		$app = JFactory::getApplication('administrator');
 
-		if ($layout = JRequest::getVar('layout'))
+		$layout = JRequest::getVar('layout');
+		if (!empty($layout))
 		{
 			$this->context .= '.' . $layout;
 		}

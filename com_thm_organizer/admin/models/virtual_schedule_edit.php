@@ -19,17 +19,12 @@ jimport('joomla.application.component.modeladmin');
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin.model
- * @link        www.mni.thm.de
- * @since       v0.0.1
  */
 class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 {
 
 	/**
 	 * Constructor that calls the parent constructor
-	 *
-	 * @since   v0.0.1
-	 *
 	 */
 	public function __construct()
 	{
@@ -70,21 +65,16 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 	 */
 	protected function loadFormData()
 	{
-		if (empty($data))
-		{
-			$data = $this->getItem();
-		}
+		$data = $this->getItem();
 		return $data;
 	}
 
 	/**
 	 * Method to get a single record.
 	 *
-	 * @param   Integer  $primaryKey  The id of the primary key. (Default: null)
-	 *
 	 * @return	mixed  Object on success, false on failure.
 	 */
-	public function getItem($primaryKey = null)
+	public function getItem()
 	{
 		$cid = $this->getID();
 
@@ -156,8 +146,8 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 
 		if (!isset($cid))
 		{
-			$cid = JRequest::getVar('cid', null, 'get', 'ARRAY');
-			$cid = base64_decode($cid[0]);
+			$cids = JRequest::getVar('cid', null, 'get', 'ARRAY');
+			$cid = base64_decode($cids[0]);
 		}
 
 		if (isset($cid))
@@ -190,6 +180,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 	 */
 	public function getTypes()
 	{
+		$types = array();
 		$types[]["id"] = "class";
 		$types[count($types) - 1]["name"] = "Semester";
 		$types[]["id"] = "room";
@@ -228,8 +219,8 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 		$userQuery->join('#__user_usergroup_map AS ug ON u.id = ug.user_id');
 		$userQuery->join('#__usergroups AS g ON group_id = g.id');
 		$userQuery->where("ug.id IN ('" . implode("','", $usergroups) . "')");
-		$query->order('name');
-		$dbo->setQuery((string) $query);
+		$userQuery->order('name');
+		$dbo->setQuery((string) $userQuery);
 		$resps = $dbo->loadObjectList();
 
 		return $resps;

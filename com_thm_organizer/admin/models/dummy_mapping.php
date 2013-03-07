@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -11,23 +10,16 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
-// No direct access to this file
 defined('_JEXEC') or die;
-
-// Import Joomla modelform library
 jimport('joomla.application.component.modeladmin');
 
 /**
  * Class THM_OrganizerModelDummy_Mapping for component com_thm_organizer
- *
  * Class provides methods for dummy mapping
  *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class THM_OrganizerModelDummy_Mapping extends JModelAdmin
 {
@@ -41,21 +33,19 @@ class THM_OrganizerModelDummy_Mapping extends JModelAdmin
 	 */
 	public function adjustParentAssets($assetId, $semesters)
 	{
-		$db = JFactory::getDBO();
-		$id = $_SESSION['stud_id'];
+		$dbo = JFactory::getDBO();
+		$majorID = $_SESSION['stud_id'];
 
-		$query = $db->getQuery(true);
+		$query = $dbo->getQuery(true);
 		$query->select("*");
 		$query->select("#__thm_organizer_assets_tree.id as asset_tree_id");
-		$query->from('#__thm_organizer_assets_tree');
-		$query->join('inner', '#__thm_organizer_assets_semesters ' .
-				'ON #__thm_organizer_assets_tree.id = #__thm_organizer_assets_semesters.assets_tree_id');
-		$query->join('inner', '#__thm_organizer_semesters_majors ' .
-				'ON #__thm_organizer_semesters_majors.id = #__thm_organizer_assets_semesters.semesters_majors_id');
+		$query->from('#__thm_organizer_assets_tree AS at');
+		$query->join('#__thm_organizer_assets_semesters AS asem ON at.id = asem.assets_tree_id');
+		$query->join('#__thm_organizer_semesters_majors AS sm ON sm.id = asem.semesters_majors_id');
 		$query->where("#__thm_organizer_assets_tree.parent_id = $assetId");
-		$query->where("#__thm_organizer_semesters_majors.major_id= $id");
-		$db->setQuery($query);
-		$children = $db->loadAssocList();
+		$query->where("#__thm_organizer_semesters_majors.major_id= $majorID");
+		$dbo->setQuery($query);
+		$children = $dbo->loadAssocList();
 
 		if (count($children) > 0)
 		{
@@ -67,25 +57,23 @@ class THM_OrganizerModelDummy_Mapping extends JModelAdmin
 				if (!in_array($row->semesters_majors_id, $semesters))
 				{
 					// Build the query
-					$query = $db->getQuery(true);
+					$query = $dbo->getQuery(true);
 					$query->delete("#__thm_organizer_assets_semesters");
 					$query->where("assets_tree_id = $asset_id");
 					$query->where("semesters_majors_id = $semesters_majors_id");
-					$db->setQuery($query);
-					$db->query($query);
+					$dbo->setQuery($query);
+					$dbo->query($query);
 				}
 
+				// Maps the actual asset to a additional semester
 				foreach ($semesters as $semester)
 				{
-					$semester_id = $semester['semesters_majors_id'];
-
-					// Maps the actual asset to a additional semester
-					$query = $db->getQuery(true);
+					$query = $dbo->getQuery(true);
 					$query->insert('#__thm_organizer_assets_semesters');
 					$query->set("assets_tree_id = $asset_id");
 					$query->set("semesters_majors_id = $semester");
-					$db->setQuery($query);
-					$db->query();
+					$dbo->setQuery($query);
+					$dbo->query();
 
 				}
 
@@ -104,18 +92,16 @@ class THM_OrganizerModelDummy_Mapping extends JModelAdmin
 	 */
 	public function getMaxOrdering($parent, $major)
 	{
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
 		$query->select("MAX(ordering) as max_ordering");
-		$query->from('#__thm_organizer_assets_tree');
-		$query->join('inner', '#__thm_organizer_assets_semesters ' .
-				'ON #__thm_organizer_assets_tree.id = #__thm_organizer_assets_semesters.assets_tree_id');
-		$query->join('inner', '#__thm_organizer_semesters_majors ' .
-				'ON #__thm_organizer_semesters_majors.id = #__thm_organizer_assets_semesters.semesters_majors_id');
+		$query->from('#__thm_organizer_assets_tree AS at');
+		$query->join('#__thm_organizer_assets_semesters AS asem ON at.id = asem.assets_tree_id');
+		$query->join('#__thm_organizer_semesters_majors AS sm ON sm.id = asem.semesters_majors_id');
 		$query->where("#__thm_organizer_assets_tree.parent_id = $parent");
 		$query->where("#__thm_organizer_semesters_majors.major_id= $major");
-		$db->setQuery($query);
-		$rows = $db->loadAssocList();
+		$dbo->setQuery($query);
+		$rows = $dbo->loadAssocList();
 
 		return $rows[0]['max_ordering'];
 	}
@@ -129,7 +115,7 @@ class THM_OrganizerModelDummy_Mapping extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		$db = JFactory::getDbo();
+		$dbo = JFactory::getDbo();
 		$stud_id = $_SESSION['stud_id'];
 
 		if ($data['parent_id'] == 0)
@@ -149,20 +135,20 @@ class THM_OrganizerModelDummy_Mapping extends JModelAdmin
 			$ecollap = $data['ecollaboration_link'];
 			$menu = $data['menu_link'];
 
-			$id = JRequest::getVar('id');
+			$assetTreeID = JRequest::getVar('id');
 
 			// Wir erstellen einen neuen Query
-			$sql = $db->getQuery(true);
+			$sql = $dbo->getQuery(true);
 			$sql->update("#__thm_organizer_assets_tree");
 			$sql->set('color_id=' . $color);
 			$sql->set("asset= $asset");
 			$sql->set("parent_id= $parent_id");
 			$sql->set("ecollaboration_link= '$ecollap'");
 			$sql->set("menu_link= '$menu'");
-			$sql->where("id= $id");
+			$sql->where("id= $assetTreeID");
 
-			$db->setQuery((string) $sql);
-			$db->query();
+			$dbo->setQuery((string) $sql);
+			$dbo->query();
 
 		}
 		else
@@ -174,7 +160,7 @@ class THM_OrganizerModelDummy_Mapping extends JModelAdmin
 			$menu = $data['menu_link'];
 
 			// Wir erstellen einen neuen Query
-			$sql = $db->getQuery(true);
+			$sql = $dbo->getQuery(true);
 			$sql->insert("#__thm_organizer_assets_tree");
 			$sql->set('color_id=' . $color);
 			$sql->set("asset= $asset");
@@ -183,12 +169,12 @@ class THM_OrganizerModelDummy_Mapping extends JModelAdmin
 			$sql->set("ecollaboration_link= '$ecollap'");
 			$sql->set("menu_link= '$menu'");
 
-			$db->setQuery((string) $sql);
-			$db->query();
+			$dbo->setQuery((string) $sql);
+			$dbo->query();
 		}
 
 		// Get the last inserted id from the previous stored row
-		$insertid = $db->insertid();
+		$insertid = $dbo->insertid();
 
 		// Get the post data
 		$semesters = JRequest::getVar('semesters');
@@ -200,12 +186,12 @@ class THM_OrganizerModelDummy_Mapping extends JModelAdmin
 			$insertid = JRequest::getVar('id');
 
 			// Determine all mapped semesters of this asset
-			$query = $db->getQuery(true);
+			$query = $dbo->getQuery(true);
 			$query->select("*");
 			$query->from("#__thm_organizer_assets_semesters");
 			$query->where("assets_tree_id = $insertid");
-			$db->setQuery($query);
-			$rows = $db->loadObjectList();
+			$dbo->setQuery($query);
+			$rows = $dbo->loadObjectList();
 
 			// Iterate over each found mapping
 			foreach ($rows as $row)
@@ -214,31 +200,31 @@ class THM_OrganizerModelDummy_Mapping extends JModelAdmin
 				if (!in_array($row->stud_sem_id, $semesters))
 				{
 					// Build the query
-					$query = $db->getQuery(true);
+					$query = $dbo->getQuery(true);
 					$query->delete("#__thm_organizer_assets_semesters");
 					$query->where("assets_tree_id = $insertid");
 					$query->where("semesters_majors_id = $row->semesters_majors_id");
-					$db->setQuery($query);
-					$db->query($query);
+					$dbo->setQuery($query);
+					$dbo->query($query);
 				}
 			}
 		}
 		else
 		{
-			$db = JFactory::getDbo();
-			$insertid = $db->insertid();
+			$dbo = JFactory::getDbo();
+			$insertid = $dbo->insertid();
 		}
 
 		// Iterate over each semester of the post request
 		foreach ($semesters as $semester)
 		{
 			// Maps the actual asset to a additional semester
-			$query = $db->getQuery(true);
+			$query = $dbo->getQuery(true);
 			$query->insert('#__thm_organizer_assets_semesters');
 			$query->set("assets_tree_id = $insertid");
 			$query->set("semesters_majors_id = $semester");
-			$db->setQuery($query);
-			$db->query();
+			$dbo->setQuery($query);
+			$dbo->query();
 		}
 
 		// Refresh all lineages and depth level of the assets tree of the selected major
@@ -256,23 +242,21 @@ class THM_OrganizerModelDummy_Mapping extends JModelAdmin
 	 */
 	public function get_path($node)
 	{
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
 
 		// Get the selected major id
 		$stud_sem_id = $_SESSION['stud_id'];
 
 		// Determine all node by a given asset id
 		$query->select("*");
-		$query->from("#__thm_organizer_assets_tree");
-		$query->join('inner', '#__thm_organizer_assets_semesters ' .
-				'ON #__thm_organizer_assets_semesters.assets_tree_id = #__thm_organizer_assets_tree.id');
-		$query->join('inner', '#__thm_organizer_semesters_majors ' .
-				'ON #__thm_organizer_semesters_majors.id = #__thm_organizer_assets_semesters.semesters_majors_id');
+		$query->from("#__thm_organizer_assets_tree AT at");
+		$query->join('#__thm_organizer_assets_semesters AS asem ON asem.assets_tree_id = at.id');
+		$query->join('#__thm_organizer_semesters_majors AS sm ON sm.id = asem.semesters_majors_id');
 		$query->where("asset = $node");
 		$query->where("major_id = $stud_sem_id");
-		$db->setQuery($query);
-		$row = $db->loadAssocList();
+		$dbo->setQuery($query);
+		$row = $dbo->loadAssocList();
 
 		// This array will contain the actual path
 		$path = array();
@@ -303,21 +287,19 @@ class THM_OrganizerModelDummy_Mapping extends JModelAdmin
 		$stud_sem_id = $_SESSION['stud_id'];
 
 		// Select the tree of the current major
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
 
 		$query->select("*");
-		$query->from("#__thm_organizer_assets_tree");
-		$query->join('inner', '#__thm_organizer_assets_semesters ' .
-				'ON #__thm_organizer_assets_semesters.assets_tree_id = #__thm_organizer_assets_tree.id');
-		$query->join('inner', '#__thm_organizer_semesters_majors ' .
-				'ON #__thm_organizer_semesters_majors.id = #__thm_organizer_assets_semesters.semesters_majors_id');
+		$query->from("#__thm_organizer_assets_tree AS at");
+		$query->join('#__thm_organizer_assets_semesters AS asem ON asem.assets_tree_id = at.id');
+		$query->join('#__thm_organizer_semesters_majors AS sm ON sm.id = asem.semesters_majors_id');
 		$query->where("asset <> 0");
 		$query->where("major_id = $stud_sem_id");
 		$query->group(" asset");
 
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
+		$dbo->setQuery($query);
+		$rows = $dbo->loadObjectList();
 
 		// Iterate over each node of the tree
 		foreach ($rows as $row)
@@ -326,8 +308,8 @@ class THM_OrganizerModelDummy_Mapping extends JModelAdmin
 			$depth = count(self::get_path($row->asset)) - 1;
 			$path = implode(self::get_path($row->asset));
 
-			$query = $db->getQuery(true);
-			$query->update($db->qn('#__thm_organizer_assets_tree'));
+			$query = $dbo->getQuery(true);
+			$query->update($dbo->qn('#__thm_organizer_assets_tree'));
 			$query->join("#__thm_organizer_assets_semesters ON #__thm_organizer_assets_semesters.assets_tree_id = #__thm_organizer_assets_tree.id");
 			$query->join("#__thm_organizer_semesters_majors ON #__thm_organizer_semesters_majors.id = #__thm_organizer_assets_semesters.semesters_majors_id");
 			$query->set("lineage = '$path'");
@@ -337,8 +319,8 @@ class THM_OrganizerModelDummy_Mapping extends JModelAdmin
 			
 			echo (String) $query;
 			
-			$db->setQuery($query);
-			$db->query();
+			$dbo->setQuery($query);
+			$dbo->query();
 		}
 	}
 
@@ -403,13 +385,13 @@ class THM_OrganizerModelDummy_Mapping extends JModelAdmin
 		$cid = JRequest::getVar('cid', array(), '', 'array');
 		
 		// Iterate over each tree node, if multiple node were selected
-		foreach ($cid as $id)
+		foreach ($cid as $assetTreeID)
 		{
 			// Create the update sql statement
 			$query = $this->_db->getQuery(true);
 			$query->update($this->_db->qn('#__thm_organizer_assets_tree'));
 			$query->set("published = '1'");
-			$query->where("id = $id");
+			$query->where("id = $assetTreeID");
 			
 			$this->_db->setQuery($query);
 			if (!$this->_db->query())
@@ -431,13 +413,13 @@ class THM_OrganizerModelDummy_Mapping extends JModelAdmin
 		$cid = JRequest::getVar('cid', array(), '', 'array');
 
 		// Iterate over each tree node, if multiple node were selected
-		foreach ($cid as $id)
+		foreach ($cid as $assetTreeID)
 		{
 			// Create the update sql statement
 			$query = $this->_db->getQuery(true);
 			$query->update($this->_db->qn('#__thm_organizer_assets_tree'));
 			$query->set("published = '0'");
-			$query->where("id = $id");
+			$query->where("id = $assetTreeID");
 			
 			$this->_db->setQuery($query);
 			if (!$this->_db->query())

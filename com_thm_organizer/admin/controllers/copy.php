@@ -33,7 +33,7 @@ class THM_OrganizerControllerCopy extends JControllerForm
 	 *
 	 * @return  void
 	 */
-	public function save($key = null, $urlVar = null)
+	public function save()
 	{
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=copy&layout=edit&cid=' . $cid[0], false));

@@ -91,12 +91,9 @@ class THM_OrganizerModelAssets extends JModelList
 	/**
 	 * Method to get the table
 	 *
-	 * @param   String  $ordering   Ordering   (default: null)
-	 * @param   String  $direction  Direction  (default: null)
-	 *
 	 * @return  void
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState()
 	{
 		$app = JFactory::getApplication('administrator');
 

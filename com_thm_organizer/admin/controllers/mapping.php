@@ -87,7 +87,6 @@ class THM_OrganizerControllerMapping extends JControllerForm
 	public function edit()
 	{
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		$cids = implode(',', $cid);
 		echo "controller edit";
 
 		if (count($cid) > 1)

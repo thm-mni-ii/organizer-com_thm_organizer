@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.1.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -10,7 +9,6 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('JPATH_PLATFORM') or die;
 require_once JPATH_COMPONENT . '/models/resource.php';
 
@@ -20,8 +18,6 @@ require_once JPATH_COMPONENT . '/models/resource.php';
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
- * @since       v0.1.0
  */
 class THM_OrganizerModellesson extends THM_OrganizerModelresource
 {
@@ -67,7 +63,6 @@ class THM_OrganizerModellesson extends THM_OrganizerModelresource
      */
     protected function validateChild(&$lessonnode, &$lessons, &$errors, &$warnings, &$resources, &$calendar)
     {
-        $descriptions = $resources['descriptions'];
         $subjects     = $resources['subjects'];
         $teachers     = $resources['teachers'];
         $modules      = $resources['modules'];
@@ -83,8 +78,7 @@ class THM_OrganizerModellesson extends THM_OrganizerModelresource
             }
             return;
         }
-        $lessonID = str_replace('LS_', '', $gpuntisID);
-        $lessonID = substr($lessonID, 0, strlen($lessonID) - 2);
+        $lessonID = substr(str_replace('LS_', '', $gpuntisID), 0, strlen($lessonID) - 5);
         if (!isset($lessons[$lessonID]))
         {
             $lessons[$lessonID] = array();
@@ -99,7 +93,7 @@ class THM_OrganizerModellesson extends THM_OrganizerModelresource
         }
         elseif (empty($subjects[$subjectID]))
         {
-            $errors[] = JText::sprintf("COM_THM_ORGANIZER_LS_SU_LACKING", $lessondID, $subjectID);
+            $errors[] = JText::sprintf("COM_THM_ORGANIZER_LS_SU_LACKING", $lessonID, $subjectID);
             return;
         }
         if (!isset($lessons[$lessonID]['subjects']))
@@ -141,7 +135,6 @@ class THM_OrganizerModellesson extends THM_OrganizerModelresource
             $errors[] = JText::sprintf('COM_THM_ORGANIZER_LS_TR_LACKING', $lessonName, $lessonID, $teacherID);
             return;
         }
-        $teacherName = $teachers[$teacherID]['surname'];
         if (!isset($lessons[$lessonID]['teachers']))
         {
             $lessons[$lessonID]['teachers'] = array();
@@ -171,13 +164,15 @@ class THM_OrganizerModellesson extends THM_OrganizerModelresource
             }
         }
 
-        $lessonStartDate = trim((string) $lessonnode->effectivebegindate);
-        if (empty($lessonStartDate))
+        if (empty(trim((string) $lessonnode->effectivebegindate)))
         {
             $errors[] = JText::sprintf('COM_THM_ORGANIZER_LS_SD_MISSING', $lessonName, $lessonID);
             return;
         }
-        $lessonStartDate = strtotime(substr($lessonStartDate, 0, 4) . '-' . substr($lessonStartDate, 4, 2) . '-' . substr($lessonStartDate, 6, 2)); 
+		$correctFormatSDate = substr(trim((string) $lessonnode->effectivebegindate), 0, 4) . '-';
+		$correctFormatSDate .= substr(trim((string) $lessonnode->effectivebegindate), 4, 2) . '-';
+		$correctFormatSDate .= substr(trim((string) $lessonnode->effectivebegindate), 6, 2);
+        $lessonStartDate = strtotime($correctFormatSDate); 
         $startDateExists = array_key_exists($lessonStartDate, $calendar);
         if (!$startDateExists)
         {
@@ -185,13 +180,15 @@ class THM_OrganizerModellesson extends THM_OrganizerModelresource
             return;
         }
 
-        $lessonEndDate = trim((string) $lessonnode->effectiveenddate);
-        if (empty($lessonEndDate))
+        if (empty(trim((string) $lessonnode->effectiveenddate)))
         {
             $errors[] = JText::sprintf('COM_THM_ORGANIZER_LS_ED_MISSING', $lessonName, $lessonID);
             return;
         }
-        $lessonEndDate = strtotime(substr($lessonEndDate, 0, 4) . '-' . substr($lessonEndDate, 4, 2) . '-' . substr($lessonEndDate, 6, 2)); 
+		$correctFormatEDate = substr(trim((string) $lessonnode->effectiveenddate), 0, 4) . '-';
+		$correctFormatEDate .= substr(trim((string) $lessonnode->effectiveenddate), 4, 2) . '-';
+		$correctFormatEDate .= substr(trim((string) $lessonnode->effectiveenddate), 6, 2);
+        $lessonEndDate = strtotime($correctFormatEDate); 
         $endDateExists = array_key_exists($lessonStartDate, $calendar);
         if (!$endDateExists)
         {
@@ -208,19 +205,17 @@ class THM_OrganizerModellesson extends THM_OrganizerModelresource
             return;
         }
 
-        $occurences = trim((string) $lessonnode->occurence);
-        if (empty($occurences))
+        if (empty(trim((string) $lessonnode->occurence)))
         {
             $errors[] = JText::sprintf('COM_THM_ORGANIZER_LS_OCC_MISSING', $lessonName, $lessonID);
             return;
         }
-        elseif (strlen($occurences) !== $calendar['sylength'])
+        elseif (strlen(trim((string) $lessonnode->occurence)) !== $calendar['sylength'])
         {
             $errors[] = JText::sprintf('COM_THM_ORGANIZER_LS_OCC_LEN_BAD', $lessonName, $lessonID);
             return;
         }
-        $occurences = substr($occurences, $calendar['frontoffset'], $calendar['termlength']);
-        $occurences = str_split($occurences);
+        $occurences = str_split(substr(trim((string) $lessonnode->occurence), $calendar['frontoffset'], $calendar['termlength']));
         
         $comment = trim((string) $lessonnode->text);
         $lessons[$lessonID]['comment'] = empty($comment)? '' : $comment;

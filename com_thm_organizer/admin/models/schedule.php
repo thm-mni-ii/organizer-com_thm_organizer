@@ -19,7 +19,6 @@ jimport('joomla.application.component.model');
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
  */
 class THM_OrganizerModelSchedule extends JModel
 {
@@ -124,23 +123,21 @@ class THM_OrganizerModelSchedule extends JModel
 		}
 
 		// Schoolyear dates
-		$syStartDate = trim((string) $xmlSchedule->general->schoolyearbegindate);
-		if (empty($syStartDate))
+		if (empty(trim((string) $xmlSchedule->general->schoolyearbegindate)))
 		{
 			$this->_scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_START_DATE_MISSING");
 		}
 		else
 		{
-			$syStartDate = date('Y-m-d', strtotime($syStartDate));
+			$syStartDate = date('Y-m-d', strtotime(trim((string) $xmlSchedule->general->schoolyearbegindate)));
 		}
-		$syEndDate = trim((string) $xmlSchedule->general->schoolyearenddate);
-		if (empty($syEndDate))
+		if (empty(trim((string) $xmlSchedule->general->schoolyearenddate)))
 		{
 			$this->_scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_END_DATE_MISSING");
 		}
 		else
 		{
-			$syEndDate = date('Y-m-d', strtotime($syEndDate));
+			$syEndDate = date('Y-m-d', strtotime(trim((string) $xmlSchedule->general->schoolyearenddate)));
 		}
 
 		// Organizational Data
@@ -734,8 +731,7 @@ class THM_OrganizerModelSchedule extends JModel
 	 */
 	protected function validateLesson(&$lessonnode, $rooms_required = true)
 	{
-		$gpuntisID = trim((string) $lessonnode[0]['id']);
-		$gpuntisID = substr($gpuntisID, 0, strlen($gpuntisID) - 2);
+		$gpuntisID = substr(trim((string) $lessonnode[0]['id']), 0, strlen(trim((string) $lessonnode[0]['id'])) - 2);
 		if (empty($gpuntisID))
 		{
 			if (!in_array(JText::_("COM_THM_ORGANIZER_LS_ID_MISSING"), $this->_scheduleErrors))
@@ -849,13 +845,12 @@ class THM_OrganizerModelSchedule extends JModel
 			}
 		}
 
-		$lessonStartDate = trim((string) $lessonnode->effectivebegindate);
-		if (empty($lessonStartDate))
+		if (empty(trim((string) $lessonnode->effectivebegindate)))
 		{
 			$this->_scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_SD_MISSING', $lessonName, $lessonID);
 			return;
 		}
-		$lessonStartDate = date('Y-m-d', strtotime($lessonStartDate));
+		$lessonStartDate = date('Y-m-d', strtotime(trim((string) $lessonnode->effectivebegindate)));
 		$startDateExists = array_key_exists($lessonStartDate, get_object_vars($this->_schedule->calendar));
 		if (!$startDateExists)
 		{
@@ -863,13 +858,12 @@ class THM_OrganizerModelSchedule extends JModel
 			return;
 		}
 
-		$lessonEndDate = trim((string) $lessonnode->effectiveenddate);
-		if (empty($lessonEndDate))
+		if (empty(trim((string) $lessonnode->effectiveenddate)))
 		{
 			$this->_scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_ED_MISSING', $lessonName, $lessonID);
 			return;
 		}
-		$lessonEndDate = date('Y-m-d', strtotime($lessonEndDate));
+		$lessonEndDate = date('Y-m-d', strtotime(trim((string) $lessonnode->effectiveenddate)));
 
 		// Checks if startdate is before enddate
 		$startDT = strtotime($lessonStartDate);
@@ -880,13 +874,12 @@ class THM_OrganizerModelSchedule extends JModel
 			return;
 		}
 
-		$occurences = trim((string) $lessonnode->occurence);
-		if (empty($occurences))
+		if (empty(trim((string) $lessonnode->occurence)))
 		{
 			$this->_scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_OCC_MISSING', $lessonName, $lessonID);
 			return;
 		}
-		elseif (strlen($occurences) != $this->_schedule->calendar->sylength)
+		elseif (strlen(trim((string) $lessonnode->occurence)) != $this->_schedule->calendar->sylength)
 		{
 			$this->_scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_OCC_LEN_BAD', $lessonName, $lessonID);
 			return;
@@ -900,7 +893,7 @@ class THM_OrganizerModelSchedule extends JModel
 		$length = floor(($endDT - $startDT) / 86400);
 
 		// Change occurences from a string to an array of the appropriate length for iteration
-		$occurences = str_split(substr($occurences, $offset, $length));
+		$occurences = str_split(substr(trim((string) $lessonnode->occurence), $offset, $length));
 
 		$comment = trim((string) $lessonnode->text);
 		$this->_schedule->lessons->$lessonID->comment = empty($comment)? '' : $comment;

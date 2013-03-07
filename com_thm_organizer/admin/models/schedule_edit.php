@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.1.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -10,7 +9,6 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
 require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
@@ -21,8 +19,6 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
- * @since       v0.1.0
  */
 class THM_OrganizerModelSchedule_Edit extends JModelAdmin
 {
@@ -54,11 +50,9 @@ class THM_OrganizerModelSchedule_Edit extends JModelAdmin
     /**
      * Method to get a single record.
      *
-     * @param   integer  $key  not used
-     *
      * @return  mixed    Object on success, false on failure.
      */
-    public function getItem($key = null)
+    public function getItem()
     {
         $scheduleIDs = JRequest::getVar('cid',  null, '', 'array');
         $scheduleID = (empty($scheduleIDs))? JRequest::getVar('scheduleID') : $scheduleIDs[0];

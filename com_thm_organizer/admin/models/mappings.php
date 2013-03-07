@@ -202,7 +202,6 @@ class THM_OrganizerModelMappings extends JModelList
 					$txt = $pre . $v->title_de;
 				}
 
-				$temp = array();
 				$temp = $v;
 				$temp->treename = "$indent$txt";
 				$temp->children = count(@$children[$treeID]);
@@ -273,8 +272,7 @@ class THM_OrganizerModelMappings extends JModelList
 				$assets = $dbo->loadObjectList();
 
 				// Find the first and last element of the array
-				$last_item = end($assets);
-				$last_item = each($assets);
+				$last_item = each(end($assets));
 				reset($assets);
 
 				// Add a additional field to the resulting array
@@ -304,16 +302,14 @@ class THM_OrganizerModelMappings extends JModelList
 	/**
 	 * Method to populate state
 	 *
-	 * @param   String  $ordering   Ordering   (default: null)
-	 * @param   String  $direction  Direction  (default: null)
-	 *
 	 * @return  void
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState()
 	{
 		$app = JFactory::getApplication('administrator');
 
-		if ($layout = JRequest::getVar('layout'))
+		$layout = JRequest::getVar('layout');
+		if (!empty($layout))
 		{
 			$this->context .= '.' . $layout;
 		}
@@ -412,7 +408,6 @@ class THM_OrganizerModelMappings extends JModelList
 	public function reorder($pks, $delta = 0)
 	{
 		// Initialise variables.
-		$user = JFactory::getUser();
 		$table = $this->getTable();
 		$pks = (array) $pks;
 		$result = true;
@@ -424,7 +419,6 @@ class THM_OrganizerModelMappings extends JModelList
 
 			if ($table->load($pk))
 			{
-				$where = array();
 				$where = $this->getReorderConditions($table);
 
 				if (!$table->move($delta, $where))
@@ -469,7 +463,6 @@ class THM_OrganizerModelMappings extends JModelList
 		// Initialise variables.
 		$table = $this->getTable();
 		$conditions = array();
-		$user = JFactory::getUser();
 
 		if (empty($pks))
 		{
