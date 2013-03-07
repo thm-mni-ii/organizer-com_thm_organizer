@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -11,13 +10,11 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
-// No direct access to this file
 defined('_JEXEC') or die;
-
-// Import the list field type
 jimport('joomla.form.helper');
 jimport('extjs4.extjs4');
+
+// Import the list field type
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -29,7 +26,6 @@ JFormHelper::loadFieldClass('list');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
- * @since       v0.0.1
  */
 class JFormFieldScheduler extends JFormField
 {
@@ -37,7 +33,6 @@ class JFormFieldScheduler extends JFormField
 	 * The form field type
 	 *
 	 * @var    String
-	 * @since  v0.0.1
 	 */
 	protected $type = 'Scheduler';
 
@@ -51,13 +46,13 @@ class JFormFieldScheduler extends JFormField
 		$menuid = JRequest::getInt("id", 0);
 
 		// Get database
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
+		$dbo = JFactory::getDbo();
+		$query = $dbo->getQuery(true);
 		$query->select('params');
-		$query->from($db->nameQuote('#__menu'));
+		$query->from($dbo->nameQuote('#__menu'));
 		$query->where('id = ' . $menuid);
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
+		$dbo->setQuery($query);
+		$rows = $dbo->loadObjectList();
 
 		if (count($rows) > 0)
 		{
@@ -100,39 +95,23 @@ class JFormFieldScheduler extends JFormField
 		
 		?>
 
-<!--<script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/views/scheduler/tmpl/ext/adapter/ext/ext-base.js"></script>
-<script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/views/scheduler/tmpl/ext/ext-all.js"></script>-->
-
-<!-- Ext 4 framework -->
-<!--<script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/views/scheduler/tmpl/ext/ext-all-dev.js"></script>-->
-<!--<script type="text/javascript" charset="utf-8" src="../components/com_thm_organizer/views/scheduler/tmpl/ext/bootstrap.js"></script>-->
-
 <script type="text/javascript" charset="utf-8">
 	var menuID = <?php echo $menuid ?>;
 	var treeIDs = <?php echo json_encode($treeids); ?>;
 	var publicDefaultID = <?php echo json_encode($publicDefaultID); ?>;
-
-	
-	<?php
-	
-		echo 'var externLinks = [];' . "\n\t";
-		echo 'externLinks.ajaxHandler = \'' . JRoute::_(JURI::root() . 'index.php?option=com_thm_organizer&view=ajaxhandler&format=raw') . '\';' . "\n\t";
-	
-		echo 'var images = [];' . "\n\t";
-		echo 'images.unchecked = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/unchecked.gif\';' . "\n\t";
-		echo 'images.unchecked_highlighted = \'' . JURI::root(true) .
-		'/components/com_thm_organizer/models/fields/images/unchecked_highlighted.gif\';' . "\n\t";
-		echo 'images.checked = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/checked.gif\';' . "\n\t";
-		echo 'images.checked_highlighted = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/checked_highlighted.gif\';' . "\n\t";
-		echo 'images.intermediate = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/intermediate.gif\';' . "\n\t";
-		echo 'images.intermediate_highlighted = \'' . JURI::root(true) .
-		'/components/com_thm_organizer/models/fields/images/intermediate_highlighted.gif\';' . "\n\t";
-		echo 'images.selected = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/selected.gif\';' . "\n\t";
-		echo 'images.selected_highlighted = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/selected_highlighted.gif\';' . "\n\t";
-		echo 'images.notdefault = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/notdefault.png\';' . "\n\t";
-		echo 'images.default = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/default.png\';' . "\n\t";
-		echo 'images.base = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/\';' . "\n\t";
-	?>
+	var externLinks = [];
+	externLinks.ajaxHandler = '<?php echo JRoute::_(JURI::root() . 'index.php?option=com_thm_organizer&view=ajaxhandler&format=raw'); ?>';
+	var images = [];
+	images.unchecked = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/unchecked.gif';
+	images.unchecked_highlighted = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/unchecked_highlighted.gif';
+	images.checked = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/checked.gif';
+	images.checked_highlighted = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/checked_highlighted.gif';
+	images.intermediate = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/intermediate.gif';
+	images.intermediate_highlighted = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/intermediate_highlighted.gif';
+	images.selected = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/selected.gif';
+	images.selected_highlighted = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/selected_highlighted.gif';
+	images.notdefault =  '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/notdefault.png';
+	<?php echo 'images.default = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/default.png\''; ?>
 
 	Joomla.submitbutton = function(task, type)
 	{

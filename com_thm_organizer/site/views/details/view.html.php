@@ -1,32 +1,27 @@
 <?php
 /**
- * @version	    v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name		THM_CurriculumViewdetails
  * @description THM_CurriculumViewdetails component site view
- * @author	    Markus Baier, <markus.baier@mni.thm.de>
- * @author	    Wolf Rost,  <Wolf.Rost@mni.thm.de>
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
+ * @author      Wolf Rost,  <Wolf.Rost@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
-
 jimport('joomla.application.component.view');
 require_once JPATH_COMPONENT . DS . 'helper/lsfapi.php';
 require_once JPATH_COMPONENT_SITE . DS . 'models/groups.php';
 
 /**
  * Class THM_CurriculumViewdetails for component com_thm_organizer
- *
  * Class provides methods to display the details view
  *
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
- * @since       v0.1.0
  */
 class THM_OrganizerViewdetails extends JView
 {
@@ -39,10 +34,10 @@ class THM_OrganizerViewdetails extends JView
 	 */
 	public function display($tpl = null)
 	{
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$modelGroups = new THM_OrganizerModelGroups;
-		$model = & $this->getModel();
-		$this->session = & JFactory::getSession();
+		$model = $this->getModel();
+		$this->session = JFactory::getSession();
 		$verantw = "";
 		$verantwLabel = "";
 		$dozentenLinks = array();
@@ -122,47 +117,47 @@ class THM_OrganizerViewdetails extends JView
 	{
 		$itemid = JRequest::getVar('Itemid');
 		$group = JRequest::getVar('view');
-		$u = & JURI::getInstance('index.php');
+		$URI = JURI::getInstance('index.php');
 		$tmpl = null;
 		$mysched = null;
 
 		if (JRequest::getVar('mysched'))
 		{
-			$id = JRequest::getVar('nrmni');
+			$moduleID = JRequest::getVar('nrmni');
 			$tmpl = "component";
 			$mysched = "true";
 		}
 		else
 		{
-			$id = JRequest::getVar('id');
+			$moduleID = JRequest::getVar('id');
 		}
 
 		$params = array('option' => 'com_thm_organizer',
 				'view' => $group,
 				'Itemid' => $itemid,
-				'id' => $id,
+				'id' => $moduleID,
 				'lang' => $langLink,
 				'tmpl' => $tmpl,
 				'mysched' => $mysched
 		);
 
-		$params = array_merge($u->getQuery(true), $params);
-		$query = $u->buildQuery($params);
-		$u->setQuery($query);
+		$params = array_merge($URI->getQuery(true), $params);
+		$query = $URI->buildQuery($params);
+		$URI->setQuery($query);
 
-		return $u->toString();
+		return $URI->toString();
 	}
 
 	/**
 	 * Method to return the first and lastname of a given userid
 	 *
-	 * @param   String  $id  Id  (default: null)
+	 * @param   String  $userID  Id  (default: null)
 	 *
 	 * @return  mixed
 	 */
-	private function getLecturer($id = null)
+	private function getLecturer($userID = null)
 	{
-		if (isset($id))
+		if (isset($userID))
 		{
 			$this->db = JFactory::getDBO();
 
@@ -170,7 +165,7 @@ class THM_OrganizerViewdetails extends JView
 			$query = $this->db->getQuery(true);
 			$query->select("*");
 			$query->from('#__thm_organizer_lecturers as lecturers');
-			$query->where("userid = '$id' ");
+			$query->where("userid = '$userID' ");
 			$this->db->setQuery($query);
 			$rows = $this->db->loadObjectList();
 
