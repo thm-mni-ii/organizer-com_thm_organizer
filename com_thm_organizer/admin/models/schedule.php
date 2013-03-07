@@ -837,12 +837,12 @@ class THM_OrganizerModelSchedule extends JModel
 			}
 		}
 
-		if (empty(trim((string) $lessonnode->effectivebegindate)))
+		$lessonStartDate = date('Y-m-d', strtotime(trim((string) $lessonnode->effectivebegindate)));
+		if (empty($lessonStartDate))
 		{
 			$this->_scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_SD_MISSING', $lessonName, $lessonID);
 			return;
 		}
-		$lessonStartDate = date('Y-m-d', strtotime(trim((string) $lessonnode->effectivebegindate)));
 		$startDateExists = array_key_exists($lessonStartDate, get_object_vars($this->_schedule->calendar));
 		if (!$startDateExists)
 		{
@@ -850,12 +850,12 @@ class THM_OrganizerModelSchedule extends JModel
 			return;
 		}
 
-		if (empty(trim((string) $lessonnode->effectiveenddate)))
+		$lessonEndDate = date('Y-m-d', strtotime(trim((string) $lessonnode->effectiveenddate)));
+		if (empty($lessonEndDate))
 		{
 			$this->_scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_ED_MISSING', $lessonName, $lessonID);
 			return;
 		}
-		$lessonEndDate = date('Y-m-d', strtotime(trim((string) $lessonnode->effectiveenddate)));
 
 		// Checks if startdate is before enddate
 		$startDT = strtotime($lessonStartDate);
@@ -866,12 +866,13 @@ class THM_OrganizerModelSchedule extends JModel
 			return;
 		}
 
-		if (empty(trim((string) $lessonnode->occurence)))
+		$rawOccurences = trim((string) $lessonnode->occurence);
+		if (empty($rawOccurences))
 		{
 			$this->_scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_OCC_MISSING', $lessonName, $lessonID);
 			return;
 		}
-		elseif (strlen(trim((string) $lessonnode->occurence)) != $this->_schedule->calendar->sylength)
+		elseif (strlen($rawOccurences) != $this->_schedule->calendar->sylength)
 		{
 			$this->_scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_OCC_LEN_BAD', $lessonName, $lessonID);
 			return;
@@ -885,7 +886,7 @@ class THM_OrganizerModelSchedule extends JModel
 		$length = floor(($endDT - $startDT) / 86400);
 
 		// Change occurences from a string to an array of the appropriate length for iteration
-		$occurences = str_split(substr(trim((string) $lessonnode->occurence), $offset, $length));
+		$occurences = str_split(substr($rawOccurences, $offset, $length));
 
 		$comment = trim((string) $lessonnode->text);
 		$this->_schedule->lessons->$lessonID->comment = empty($comment)? '' : $comment;
