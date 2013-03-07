@@ -106,24 +106,6 @@ class THM_OrganizerModellesson extends THM_OrganizerModelresource
         }
         $lessonName = implode(' / ', $lessons[$lessonID]['subjects']);
 
-        /*$descriptionID = str_replace('DS_', '', trim((string) $lessonnode->lesson_description[0]['id']));
-        if (empty($descriptionID))
-        {
-            $errors[] = JText::sprintf("COM_THM_ORGANIZER_LS_DESC_MISSING", $lessonName, $lessonID);
-            return;
-        }
-        elseif (empty($descriptions[$descriptionID]))
-        {
-            $errors[] = JText::sprintf('COM_THM_ORGANIZER_LS_DESC_LACKING', $lessonName, $lessondID, $subjectID);
-            return;
-        }
-        if (!isset($lessons[$lessonID]['description']))
-        {
-            $lessons[$lessonID]['description'] = $descriptionID;
-        }
-        $lessonName = " - $descriptionID";
-        $lessons[$lessonID]['name'] = $lessonName;*/
-
         $teacherID = str_replace('TR_', '', trim((string) $lessonnode->lesson_teacher[0]['id']));
         if (empty($teacherID))
         {
@@ -164,15 +146,13 @@ class THM_OrganizerModellesson extends THM_OrganizerModelresource
             }
         }
 
-        if (empty(trim((string) $lessonnode->effectivebegindate)))
+		$beginDate = trim((string) $lessonnode->effectivebegindate);
+        if (empty($beginDate))
         {
             $errors[] = JText::sprintf('COM_THM_ORGANIZER_LS_SD_MISSING', $lessonName, $lessonID);
             return;
         }
-		$correctFormatSDate = substr(trim((string) $lessonnode->effectivebegindate), 0, 4) . '-';
-		$correctFormatSDate .= substr(trim((string) $lessonnode->effectivebegindate), 4, 2) . '-';
-		$correctFormatSDate .= substr(trim((string) $lessonnode->effectivebegindate), 6, 2);
-        $lessonStartDate = strtotime($correctFormatSDate); 
+        $lessonStartDate = strtotime(substr($beginDate, 0, 4) . '-' . substr($beginDate, 4, 2) . '-' . substr($beginDate, 6, 2)); 
         $startDateExists = array_key_exists($lessonStartDate, $calendar);
         if (!$startDateExists)
         {
@@ -180,15 +160,13 @@ class THM_OrganizerModellesson extends THM_OrganizerModelresource
             return;
         }
 
-        if (empty(trim((string) $lessonnode->effectiveenddate)))
+		$endDate = trim((string) $lessonnode->effectiveenddate);
+        if (empty($endDate))
         {
             $errors[] = JText::sprintf('COM_THM_ORGANIZER_LS_ED_MISSING', $lessonName, $lessonID);
             return;
         }
-		$correctFormatEDate = substr(trim((string) $lessonnode->effectiveenddate), 0, 4) . '-';
-		$correctFormatEDate .= substr(trim((string) $lessonnode->effectiveenddate), 4, 2) . '-';
-		$correctFormatEDate .= substr(trim((string) $lessonnode->effectiveenddate), 6, 2);
-        $lessonEndDate = strtotime($correctFormatEDate); 
+        $lessonEndDate = strtotime(substr($endDate, 0, 4) . '-' . substr($endDate, 4, 2) . '-' . substr($endDate, 6, 2)); 
         $endDateExists = array_key_exists($lessonStartDate, $calendar);
         if (!$endDateExists)
         {
@@ -205,17 +183,18 @@ class THM_OrganizerModellesson extends THM_OrganizerModelresource
             return;
         }
 
-        if (empty(trim((string) $lessonnode->occurence)))
+		$occurenceString = trim((string) $lessonnode->occurence);
+        if (empty($occurenceString))
         {
             $errors[] = JText::sprintf('COM_THM_ORGANIZER_LS_OCC_MISSING', $lessonName, $lessonID);
             return;
         }
-        elseif (strlen(trim((string) $lessonnode->occurence)) !== $calendar['sylength'])
+        elseif (strlen($occurenceString) !== $calendar['sylength'])
         {
             $errors[] = JText::sprintf('COM_THM_ORGANIZER_LS_OCC_LEN_BAD', $lessonName, $lessonID);
             return;
         }
-        $occurences = str_split(substr(trim((string) $lessonnode->occurence), $calendar['frontoffset'], $calendar['termlength']));
+        $occurences = str_split(substr($occurenceString, $calendar['frontoffset'], $calendar['termlength']));
         
         $comment = trim((string) $lessonnode->text);
         $lessons[$lessonID]['comment'] = empty($comment)? '' : $comment;
