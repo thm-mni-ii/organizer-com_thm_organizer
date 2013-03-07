@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.0.2
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -10,7 +9,6 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
 $showListLink = (isset($this->listLink) and $this->listLink != "")? true : false;
 $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : false;
@@ -167,7 +165,7 @@ Joomla.submitbutton = function(task)
                     <td><?php echo $this->form->getInput('starttime'); ?></td>
                     <td>
                         <label for="rec_type_block">
-                            <span class="hasTip" title="Durchgehend::Der Termin beginnt am Startdatum zur Startzeit und endet am Enddatum zur Endzeit.">
+                            <span class="hasTip" title="<?php echo JText::_('COM_THM_ORGANIZER_EE_BLOCK_TITLE_ATTR'); ?>">
                                 <?php echo JText::_('COM_THM_ORGANIZER_CONTINUOUS') . ":"; ?>
                             </span>
                         </label>
@@ -183,7 +181,7 @@ Joomla.submitbutton = function(task)
                     <td><?php echo $this->form->getInput('endtime'); ?></td>
                     <td>
                         <label for="rec_type_daily">
-                           <span class="hasTip" title="T&auml;glich::Der Termin findet t&auml;glich zwischen Start- und Endzeit statt, an allen Tagen zwischen Start- und Enddatum.">
+                           <span class="hasTip" title="<?php echo JText::_('COM_THM_ORGANIZER_EE_DAILY_TITLE_ATTR'); ?>">
                                 <?php echo JText::_('COM_THM_ORGANIZER_DAILY') . ":"; ?>
                             </span>
                         </label>

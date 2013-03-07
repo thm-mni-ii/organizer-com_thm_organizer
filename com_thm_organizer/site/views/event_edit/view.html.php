@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.0.2
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -10,18 +9,15 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
  * Loads model data into context and sets variables used for html output
  * 
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
- * @since       v0.1.0
  */
 class Thm_OrganizerViewEvent_Edit extends JView
 {

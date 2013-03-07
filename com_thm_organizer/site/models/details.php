@@ -44,7 +44,11 @@ class THM_OrganizerModeldetails extends JModel
 		$globParams = JComponentHelper::getParams('com_thm_organizer');
 
 		// Perform a soap requst on lsf and save the response
-		$client = new THM_OrganizerLSFClientAll($globParams->get('webserviceUri'), $globParams->get('webserviceUsername'), $globParams->get('webservicePassword'));
+		$client = new THM_OrganizerLSFClientAll(
+												$globParams->get('webserviceUri'),
+												$globParams->get('webserviceUsername'),
+												$globParams->get('webservicePassword')
+											   );
 		$modulesXML = $client->getModuleByModulid($moduleID);
 
 		// Mapping of the response to a module instance
@@ -73,7 +77,11 @@ class THM_OrganizerModeldetails extends JModel
 		}
 
 		// Perform a soap requst on lsf and save the response
-		$client = new THM_OrganizerLSFClient($globParams->get('webserviceUri'), $globParams->get('webserviceUsername'), $globParams->get('webservicePassword'));
+		$client = new THM_OrganizerLSFClient(
+											 $globParams->get('webserviceUri'),
+											 $globParams->get('webserviceUsername'),
+											 $globParams->get('webservicePassword')
+											);
 		$modulesXML = $client->getModuleByNrMni($moduleID);
 
 		// Mapping of the response to a module instance
@@ -114,7 +122,11 @@ class THM_OrganizerModeldetails extends JModel
 		$config = $model->getLsfConfiguration();
 
 		// Perform a soap request, in order to get all courses based on the chosen component configuration
-		$client = new THM_OrganizerLSFClient($globParams->get('webserviceUri'), $globParams->get('webserviceUsername'), $globParams->get('webservicePassword'));
+		$client = new THM_OrganizerLSFClient(
+											 $globParams->get('webserviceUri'),
+											 $globParams->get('webserviceUsername'),
+											 $globParams->get('webservicePassword')
+											);
 		$modulesXML = $client->getModules(
 				$config[0]->lsf_object, $config[0]->lsf_studiengang, $config[0]->lsf_abschluss, $config[0]->po
 		);
