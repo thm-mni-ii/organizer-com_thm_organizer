@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -11,7 +10,6 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.path');
@@ -31,8 +29,6 @@ require_once JPATH_COMPONENT_SITE . DS . 'models/curriculum.php';
  * @category    Joomla.Component.Site
  * @package     thm_urriculum
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class THM_OrganizerModelIndex extends JModelList
 {
@@ -50,7 +46,7 @@ class THM_OrganizerModelIndex extends JModelList
 	 * @var    Object
 	 * @since  1.0
 	 */
-	protected $db = null;
+	protected $dbo = null;
 
 	/**
 	 * Global parameters
@@ -81,7 +77,7 @@ class THM_OrganizerModelIndex extends JModelList
 	 */
 	public function __construct()
 	{
-		$this->db = JFactory::getDBO();
+		$this->dbo = JFactory::getDBO();
 		$this->_globParams = JComponentHelper::getParams('com_thm_organizer');
 		$this->groupsModel = $model = new THM_OrganizerModelGroups;
 		$this->groupsCurriculum = $model = new THM_OrganizerModelCurriculum;
@@ -111,7 +107,6 @@ class THM_OrganizerModelIndex extends JModelList
 		$dir = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', '');
 		$filter = $app->getUserStateFromRequest($this->context . '.filter', 'filter', '');
 		$limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
-		// $limitstart = $app->getUserStateFromRequest($this->context . '.limitstart', 'limitstart', '');
 
 		$this->setState('list.ordering', $order);
 		$this->setState('list.direction', $dir);
@@ -137,24 +132,22 @@ class THM_OrganizerModelIndex extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$orderCol = $this->state->get('list.ordering');
-		$orderDirn = $this->state->get('list.direction');
+		$query = $this->dbo->getQuery(true);
+		$query->select('*');
+		$query->from('#__thm_organizer_assets');
+		$query->where('lsf_course_id IN (' . self::getCourseIDList() . ')');
+
 		$search = $this->state->get('filter');
-
-		$oderColumns = explode(", ", $orderCol);
-		$orderCol = implode(" " . $orderDirn . ",", $oderColumns);
-
-		$ret = self::getSqlOr();
-		$orderby = " ORDER BY $orderCol $orderDirn";
-		$query = "SELECT * FROM #__thm_organizer_assets" . $ret . " " . $orderby;
-
 		if (isset($search) && $search != "")
 		{
-			$query = "SELECT * FROM #__thm_organizer_assets" . $ret . " AND title_de LIKE '%" . $search . "%' " . $orderby;
+			$query->where("title_de LIKE '%$search%'");
 			$this->setState('filter', $search);
 		}
+		$orderCol = implode(" " . $orderDirn . ",", explode(", ", $this->state->get('list.ordering')));
+		$orderDirn = $this->state->get('list.direction');
+		$query->order("$orderCol $orderDirn");
 
-		return $query;
+		return (string) $query;
 	}
 
 	/**
@@ -162,20 +155,24 @@ class THM_OrganizerModelIndex extends JModelList
 	 *
 	 * @return  String  WHERE clause
 	 */
-	public function getSqlOr()
+	public function getCourseIDList()
 	{
 		// Perform a soap request, in order to get all related courses
-		$client = new LsfClient(
-				 $this->_globParams->get('webserviceUri'), $this->_globParams->get('webserviceUsername'),
-				 $this->_globParams->get('webservicePassword')
-				);
+		$client = new THM_OrganizerLSFClient(
+											 $this->_globParams->get('webserviceUri'),
+											 $this->_globParams->get('webserviceUsername'),
+											 $this->_globParams->get('webservicePassword')
+											);
 
 		$xml = $client->getModules(
-				$this->_config[0]->lsf_object, $this->_config[0]->lsf_study_path, $this->_config[0]->lsf_degree, $this->_config[0]->po
-		);
+								   $this->_config[0]->lsf_object,
+								   $this->_config[0]->lsf_study_path,
+								   $this->_config[0]->lsf_degree,
+								   $this->_config[0]->po
+								  );
 
 		// Build the where clause
-		$or = " WHERE lsf_course_id IN (";
+		$courseIDList = "";
 		if (isset($xml))
 		{
 			// Iterate over each couse group
@@ -183,20 +180,22 @@ class THM_OrganizerModelIndex extends JModelList
 			{
 				if ($gruppe->modulliste->modul[0] == null)
 				{
-					$or .= "'$gruppe->pordid', ";
+					$courseIDList .= "'$gruppe->pordid', ";
 				}
 				else
 				{
 					foreach ($gruppe->modulliste->modul as $modul)
 					{
-						$or .= "'$modul->modulid', ";
+						$courseIDList .= "'$modul->modulid', ";
 					}
 				}
 			}
-			$or .= ")";
-			$ret = substr($or, 0, strrpos($or, ',')) . ")";
+			if (strlen($courseIDList) > 0)
+			{
+				return substr($courseIDList, 0, strlen($courseIDList) - 2);
+			}
 		}
-		return $ret;
+		return $courseIDList;
 	}
 
 	/**
@@ -218,8 +217,6 @@ class THM_OrganizerModelIndex extends JModelList
 			$query = $this->getListQuery();
 			$this->_data = $this->_getList($query, $start, $limit);
 		}
-
-		// $url = (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
 		// Iterate over each found course
 		foreach ($this->_data as $key => $row)

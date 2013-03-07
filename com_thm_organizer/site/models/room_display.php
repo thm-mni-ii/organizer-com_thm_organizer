@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.1.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -10,7 +9,6 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 
@@ -20,8 +18,6 @@ jimport('joomla.application.component.model');
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
- * @since       v0.1.0
  */
 class THM_OrganizerModelRoom_Display extends JModel
 {
@@ -224,8 +220,8 @@ class THM_OrganizerModelRoom_Display extends JModel
                 $this->blocks[$period->period]['period'] = $period->period;
                 $this->blocks[$period->period]['starttime'] = substr($period->starttime, 0, 2) . ":" . substr($period->starttime, 2);
                 $this->blocks[$period->period]['endtime'] = substr($period->endtime, 0, 2) . ":" . substr($period->endtime, 2);
-                $this->blocks[$period->period]['displayTime'] = $this->blocks[$period->period]['starttime'] . " - " .
-                 $this->blocks[$period->period]['endtime'];
+                $this->blocks[$period->period]['displayTime'] = $this->blocks[$period->period]['starttime'] . " - ";
+                $this->blocks[$period->period]['displayTime'] .= $this->blocks[$period->period]['endtime'];
             }
         }
         foreach ($this->blocks as $key => $block)
@@ -699,8 +695,9 @@ class THM_OrganizerModelRoom_Display extends JModel
         }
         else
         {
-            $displayDates = JText::_(strtoupper(date('D', strtotime($event['startdate'])))) . " " .
-             $event['startdate'] . " " . $timestring;
+			$dayName = strtoupper(date('D', strtotime($event['startdate'])));
+            $displayDates = JText::_($dayName) . " ";
+            $displayDates .= $event['startdate'] . " " . $timestring;
         }
         return $displayDates;
     }

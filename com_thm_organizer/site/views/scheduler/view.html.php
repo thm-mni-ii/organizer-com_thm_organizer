@@ -50,7 +50,7 @@ class THM_OrganizerViewScheduler extends JView
 		$this->searchModuleID = null;
 
 		$this->searchModuleID = JRequest::getString('moduleID');
-		$this->CurriculumisAvailable = $schedulerModel->getComStatus("com_thm_curriculum");
+		$this->CurriculumisAvailable = $schedulerModel->isComAvailable("com_thm_curriculum");
 		
 		$deltaDisplayDays = (int) $menuparams->get("deltaDisplayDays", 14);
 		if (is_int($deltaDisplayDays))

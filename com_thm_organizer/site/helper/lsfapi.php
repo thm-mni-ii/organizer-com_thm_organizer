@@ -3,8 +3,8 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        LsfClient
- * @description LsfClient component site helper
+ * @name        THM_OrganizerLSFClient
+ * @description THM_OrganizerLSFClient component site helper
  * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -13,7 +13,7 @@
 require_once 'lib/nusoap/nusoap.php';
 
 /**
- * Class LsfClient for component com_thm_organizer
+ * Class THM_OrganizerLSFClient for component com_thm_organizer
  * Class provides methods for lsf communication
  *
  * @category    Joomla.Component.Site
@@ -21,7 +21,7 @@ require_once 'lib/nusoap/nusoap.php';
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
  */
-class LsfClient
+class THM_OrganizerLSFClient
 {
 	/**
 	 * Web-Service URI

@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -11,12 +10,9 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
-
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.path');
-
 require_once JPATH_COMPONENT_SITE . DS . 'helper/module.php';
 require_once JPATH_COMPONENT_SITE . DS . 'helper/lsfapi.php';
 require_once JPATH_COMPONENT_SITE . DS . 'helper/ModuleList.php';
@@ -32,8 +28,6 @@ require_once JPATH_COMPONENT_SITE . DS . 'models/curriculum.php';
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class THM_OrganizerModelLecturers extends JModel
 {
@@ -51,7 +45,7 @@ class THM_OrganizerModelLecturers extends JModel
 	 * @var    Object
 	 * @since  1.0
 	 */
-	protected $db = null;
+	protected $dbo = null;
 
 	/**
 	 * Global Parameters
@@ -82,12 +76,12 @@ class THM_OrganizerModelLecturers extends JModel
 	 */
 	public function __construct()
 	{
-		$this->db = JFactory::getDBO();
+		$this->dbo = JFactory::getDBO();
 		$this->globParams = JComponentHelper::getParams('com_thm_organizer');
 		$this->groupsModel = $model = new THM_OrganizerModelGroups;
 		$this->groupsCurriculum = $model = new THM_OrganizerModelCurriculum;
 		$this->indexModel = $model = new THM_OrganizerModelIndex;
-		$this->session = & JFactory::getSession();
+		$this->session = JFactory::getSession();
 		$this->lang = JRequest::getVar('lang');
 
 		parent::__construct();
@@ -102,13 +96,17 @@ class THM_OrganizerModelLecturers extends JModel
 	 */
 	public function getLecturerNameFromThmGroups($userid)
 	{
-		$query = "SELECT DISTINCT text1.value as vorname, text2.value as nachname, text3.value as titel " .
-				"FROM #__thm_groups_text as text1 INNER JOIN #__thm_groups_text as text2 "
-				. "ON text1.userid = text2.userid INNER JOIN #__thm_groups_text as text3 ON text2.userid = text3.userid"
-				. " WHERE text1.structid=1 AND text2.structid=2 AND text3.structid=5 AND text1.userid='" . $userid . "';";
-
-		$this->db->setQuery($query);
-		$rows = $this->db->loadObjectList();
+		$query = $this->dbo->getQuery(true);
+		$query->select('DISTINCT text1.value as vorname, text2.value as nachname, text3.value as titel');
+		$query->from('FROM #__thm_groups_text as text1 ');
+		$query->join('#__thm_groups_text as text2 ON text1.userid = text2.userid');
+		$query->join('#__thm_groups_text as text3 ON text2.userid = text3.userid');
+		$query->where('text1.structid=1');
+		$query->where('text2.structid=2');
+		$query->where('text3.structid=5');
+		$query->where("text1.userid='$userid'");
+		$this->dbo->setQuery((string) $query);
+		$rows = $this->dbo->loadObjectList();
 
 		if (isset($rows[0]))
 		{
@@ -138,13 +136,13 @@ class THM_OrganizerModelLecturers extends JModel
 	public function buildLecturerLink($lecturerId, $viewName = 'groups')
 	{
 		// Build the sql statement
-		$query = $this->db->getQuery(true);
+		$query = $this->dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_lecturers as lecturers');
 		$query->where("lecturers.id = $lecturerId ");
-		$this->db->setQuery($query);
+		$this->dbo->setQuery($query);
 
-		$rows = $this->db->loadObjectList();
+		$rows = $this->dbo->loadObjectList();
 
 		// Get the user id fron the THM Groups Extension
 		$userid = $this->groupsModel->getUserIdFromGroups($rows[0]->userid);
@@ -187,17 +185,23 @@ class THM_OrganizerModelLecturers extends JModel
 	 *
 	 * @return  String
 	 */
-	public function getSqlOr()
+	public function getCourseIDList()
 	{
 		// Perform a soap request, in order to get all related courses
-		$client = new LsfClient(
-				$this->globParams->get('webserviceUri'), $this->globParams->get('webserviceUsername'), $this->globParams->get('webservicePassword')
-		);
+		$client = new THM_OrganizerLSFClient(
+											 $this->globParams->get('webserviceUri'),
+											 $this->globParams->get('webserviceUsername'),
+											 $this->globParams->get('webservicePassword')
+											);
 		$config = $this->groupsModel->getLsfConfiguration();
-		$xml = $client->getModules($config[0]->lsf_object, $config[0]->lsf_study_path, "", $config[0]->lsf_degree, $config[0]->po);
+		$xml = $client->getModules(
+								   $config[0]->lsf_object,
+								   $config[0]->lsf_study_path,
+								   $config[0]->lsf_degree,
+								   $config[0]->po
+								  );
 
-		// Build the where clause
-		$or = " WHERE lsf_course_id IN (";
+		$courseIDList = '';
 		if (isset($xml))
 		{
 			// Iterate over each couse group
@@ -205,21 +209,23 @@ class THM_OrganizerModelLecturers extends JModel
 			{
 				if ($gruppe->modulliste->modul[0] == null)
 				{
-					$or .= "'$gruppe->pordid', ";
+					$courseIDList .= "'$gruppe->pordid', ";
 				}
 				else
 				{
 					foreach ($gruppe->modulliste->modul as $modul)
 					{
-						$or .= "'$modul->modulid', ";
+						$courseIDList .= "'$modul->modulid', ";
 					}
 				}
 			}
-			$or .= ")";
-			$ret = substr($or, 0, strrpos($or, ','));
+			if (!empty($courseIDList) )
+			{
+				return substr($courseIDList, 0, strlen($courseIDList) - 2);
+			}
 		}
 
-		return $ret;
+		return $courseIDList;
 	}
 
 	/**
@@ -229,29 +235,26 @@ class THM_OrganizerModelLecturers extends JModel
 	 */
 	public function getData()
 	{
-		// Do a soap request, in order to get all courses of this lsf major
 		$config = $this->groupsModel->getLsfConfiguration();
-		$client = new LsfClient(
-				$this->globParams->get('webserviceUri'), $this->globParams->get('webserviceUsername'), $this->globParams->get('webservicePassword')
-		);
-
 		$this->major = $this->groupsCurriculum->getMajorRecord($config[0]->id);
 
-		// Get the course filter list
 		$filter = self::filter();
-
-		// Builds a where clause which selects all courses of this major
-		$ret = self::getSqlOr();
+		$courseIDList = self::getCourseIDList();
 
 		// Build the sql statement in order to get all lecturers of the current major
-		$query = "SELECT DISTINCT  * FROM #__thm_organizer_lecturers_assets as lecturers_assets, " .
-				"#__thm_organizer_assets as assets" . $ret . $filter . " AND lecturer_type = 2 " .
-				"AND assets.id = lecturers_assets.modul_id GROUP BY lecturer_id";
-		$this->db->setQuery($query);
-		$lecturers = $this->db->loadObjectList();
+		$query = $this->dbo->getQuery(true);
+		$query->select('DISTINCT  *');
+		$query->from('#__thm_organizer_lecturers_assets AS lecturers_assets');
+		$query->join('#__thm_organizer_assets AS assets ON assets.id = lecturers_assets.modul_id');
+		$query->where("lsf_course_id IN ($courseIDList)");
+		$query->where("$filter");
+		$query->where('lecturer_type = 2');
+		$query->group('lecturer_id');
+		$this->dbo->setQuery((string) $query);
+		$lecturers = $this->dbo->loadObjectList();
 
 		$dozenten = array(array());
-		$i = 0;
+		$index = 0;
 
 		// Iterate over each lecturer
 		foreach ($lecturers as $lecturer)
@@ -262,25 +265,29 @@ class THM_OrganizerModelLecturers extends JModel
 			// Build the lecturer name
 			if ($lecturer->lecturer_id != "")
 			{
-				$dozenten[$i]['lecturer'] = $lecturerInfo['link'];
-				$dozenten[$i]['lecturer_sort'] = $lecturerInfo['name'];
-				$dozenten[$i]['title'] = $lecturerInfo['title'];
+				$dozenten[$index]['lecturer'] = $lecturerInfo['link'];
+				$dozenten[$index]['lecturer_sort'] = $lecturerInfo['name'];
+				$dozenten[$index]['title'] = $lecturerInfo['title'];
 			}
 			else
 			{
-				$dozenten[$i]['lecturer'] = "nicht zugeordnet";
-				$dozenten[$i]['lecturer_sort'] = "nicht zugeordnet";
+				$dozenten[$index]['lecturer'] = "nicht zugeordnet";
+				$dozenten[$index]['lecturer_sort'] = "nicht zugeordnet";
 			}
 
-			$dozenten[$i][$j] = array();
+			$dozenten[$index][$j] = array();
 
 			// Determine related courses of this lecturer
-			$query = "SELECT DISTINCT modul_id FROM #__thm_organizer_lecturers_assets as lecturers_assets, " .
-					"#__thm_organizer_assets as assets" . $ret . $filter
-					. "  AND assets.id = lecturers_assets.modul_id AND lecturer_type = 2 AND lecturer_id=" . $lecturer->lecturer_id . "; ";
-
-			$this->db->setQuery($query);
-			$courses = $this->db->loadObjectList();
+			$query = $this->dbo->getQuery(true);
+			$query->select('DISTINCT modul_id');
+			$query->from('#__thm_organizer_lecturers_assets AS lecturers_assets');
+			$query->join('#__thm_organizer_assets AS assets ON assets.id = lecturers_assets.modul_id');
+			$query->where("lecturer_id = '$lecturer->lecturer_id'");
+			$query->where('lecturer_type = 2');
+			$query->where("lsf_course_id IN ($courseIDList)");
+			$query->where("$filter");
+			$this->dbo->setQuery((string) $query);
+			$courses = $this->dbo->loadObjectList();
 
 			/* iterate over each related course */
 			foreach ($courses as $key => $course)
@@ -289,9 +296,12 @@ class THM_OrganizerModelLecturers extends JModel
 
 				if ($lecturer->lecturer_id == "")
 				{
-					$query = "SELECT  COUNT(*) as count FROM #__thm_organizer_lecturers_assets WHERE modul_id='" . $course->modul_id . "'; ";
-					$this->db->setQuery($query);
-					$count = $this->db->loadObjectList();
+					$query = $this->dbo->getQuery(true);
+					$query->select('COUNT(*) as count');
+					$query->from('#__thm_organizer_lecturers_assets');
+					$query->where("modul_id='$course->modul_id'");
+					$this->dbo->setQuery((string) $query);
+					$count = $this->dbo->loadObjectList();
 
 					if ($count[0]->count > 1)
 					{
@@ -299,29 +309,28 @@ class THM_OrganizerModelLecturers extends JModel
 					}
 				}
 
-				$dozenten[$i][$j]['course_code'] = $this->groupsModel->buildCourseDetailLink($moduldb);
-				$dozenten[$i][$j]['origmodulnummer'] = $moduldb->lsf_course_id;
+				$dozenten[$index][$j]['course_code'] = $this->groupsModel->buildCourseDetailLink($moduldb);
+				$dozenten[$index][$j]['origmodulnummer'] = $moduldb->lsf_course_id;
 
 				// Set the correct language
 				if ($this->lang == 'de')
 				{
-					$dozenten[$i][$j]['title'] = $moduldb->title_de;
+					$dozenten[$index][$j]['title'] = $moduldb->title_de;
 				}
 				else
 				{
-					$dozenten[$i][$j]['title'] = $moduldb->title_en;
+					$dozenten[$index][$j]['title'] = $moduldb->title_en;
 				}
 
-				$dozenten[$i][$j]['title'] = "<a href='" .
-						JRoute::_("index.php?option=com_thm_organizer&view=details&Itemid=" . JRequest::getVar('Itemid') .
-								"&lang=" . $this->lang . "&id="
-								. $moduldb->lsf_course_id
-						) . "'>" . $dozenten[$i][$j]['title'] . "</a>" . " ("
-						. ($moduldb->lsf_course_code ? $moduldb->lsf_course_code : ($moduldb->his_course_code ?
-								$moduldb->his_course_code : $moduldb->lsf_course_id)) . ")";
+				$courseCode = $moduldb->lsf_course_code ? $moduldb->lsf_course_code : ($moduldb->his_course_code ?
+								$moduldb->his_course_code : $moduldb->lsf_course_id);
+				$moduleURL = "index.php?option=com_thm_organizer&view=details&Itemid=" . JRequest::getVar('Itemid');
+				$moduleURL .= "&lang=" . $this->lang . "&id=" . $moduldb->lsf_course_idL;
+				$moduleLink = JRoute::_($moduleURL);
+				$dozenten[$index][$j]['title'] = "<a href='$moduleLink'>" . $dozenten[$index][$j]['title'] . "</a> ($courseCode)";
 
-				$dozenten[$i][$j]['creditpoints'] = $moduldb->min_creditpoints . " CrP";
-				$dozenten[$i][$j]['schedule'] = $this->groupsModel->getSchedulerTooltip(
+				$dozenten[$index][$j]['creditpoints'] = $moduldb->min_creditpoints . " CrP";
+				$dozenten[$index][$j]['schedule'] = $this->groupsModel->getSchedulerTooltip(
 						strtolower(
 								$moduldb->lsf_course_code
 						), $this->major[0]['organizer_major']
@@ -329,7 +338,7 @@ class THM_OrganizerModelLecturers extends JModel
 
 				$j++;
 			}
-			$i++;
+			$index++;
 		}
 
 		usort($dozenten, array($this, "cmpDozenten"));
@@ -347,23 +356,25 @@ class THM_OrganizerModelLecturers extends JModel
 	 */
 	public function getModule($modulnummer)
 	{
-		$query = "SELECT * FROM #__thm_organizer_assets WHERE id=" . $modulnummer . "; ";
-		$this->db->setQuery($query);
-
-		return $this->db->loadObject();
+		$query = $this->dbo->getQuery(true);
+		$query->select('*');
+		$query->from('#__thm_organizer_assets');
+		$query->where("id = '$modulnummer'");
+		$this->dbo->setQuery((string) $query);
+		return $this->dbo->loadObject();
 	}
 
 	/**
 	 * Method to sort by the responsible (usort callback)
 	 *
-	 * @param   Object  $a  An object
-	 * @param   Object  $b  Another object
+	 * @param   Object  $thingOne  An object
+	 * @param   Object  $thingTwo  Another object
 	 *
 	 * @return  Integer Returns < 0 if str1 is less than str2; > 0 if str1 is greater than str2, and 0 if they are equal.
 	 */
-	public function cmpDozenten($a, $b)
+	public function cmpDozenten($thingOne, $thingTwo)
 	{
-		return strcmp($a['lecturer_sort'], $b['lecturer_sort']);
+		return strcmp($thingOne['lecturer_sort'], $thingTwo['lecturer_sort']);
 	}
 
 	/**
@@ -377,15 +388,15 @@ class THM_OrganizerModelLecturers extends JModel
 	{
 		$session = & JFactory::getSession();
 		$navi = array();
-		for ($i = 0; $i < count($dozenten); $i++)
+		for ($index = 0; $index < count($dozenten); $index++)
 		{
-			for ($j = 0; $j < count($dozenten[$i]); $j++)
+			for ($j = 0; $j < count($dozenten[$index]); $j++)
 			{
 				$arr = array();
-				if (isset($dozenten[$i][$j]))
+				if (isset($dozenten[$index][$j]))
 				{
-					$arr['id'] = $dozenten[$i][$j]['origmodulnummer'];
-					$arr['link'] = JRoute::_("index.php?option=com_thm_organizer&view=details&id=" . $dozenten[$i][$j]['origmodulnummer']);
+					$arr['id'] = $dozenten[$index][$j]['origmodulnummer'];
+					$arr['link'] = JRoute::_("index.php?option=com_thm_organizer&view=details&id=" . $dozenten[$index][$j]['origmodulnummer']);
 					array_push($navi, $arr);
 				}
 			}
@@ -405,33 +416,28 @@ class THM_OrganizerModelLecturers extends JModel
 	 */
 	public function filter()
 	{
+		$filter = "(";
 		if ($this->globParams->get('filter') == 1)
 		{
-			$paramfilter = $this->globParams->get('modulecodeFilterList');
-			$explodedFilterValues = explode(',', $paramfilter);
+			$filterModuleList = $this->globParams->get('modulecodeFilterList');
+			$filterValues = explode(',', $filterModuleList);
 
-			$sql = " AND (";
+			$last_item = each(end($filterValues));
+			reset($filterValues);
 
-			$last_item = end($explodedFilterValues);
-			$last_item = each($explodedFilterValues);
-			reset($explodedFilterValues);
-
-			foreach ($explodedFilterValues as $key => $value)
+			foreach ($filterValues as $key => $value)
 			{
 				$val = (int) $value;
-				$sql .= "(his_course_code <> $val AND lsf_course_code <> '$value' ) ";
+				$filter .= "(his_course_code <> $val AND lsf_course_code <> '$value' ) ";
 
-				if ($value == $last_item['value'] && $key == $last_item['key'])
+				if (!($value == $last_item['value']) OR !($key == $last_item['key']))
 				{
-
-				}
-				else
-				{
-					$sql .= " AND";
+					$filter .= "AND ";
 				}
 			}
 		}
+		$filter .= ')';
 
-		return $sql . ")";
+		return $filter;
 	}
 }

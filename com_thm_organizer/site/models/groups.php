@@ -79,8 +79,8 @@ class THM_OrganizerModelGroups extends JModel
 	 */
 	public function __construct($lang = null)
 	{
-		$this->db = JFactory::getDBO();
-		$this->_app = &JFactory::getApplication();
+		$this->dbo = JFactory::getDBO();
+		$this->_app = JFactory::getApplication();
 		$this->_globParams = JComponentHelper::getParams('com_thm_organizer');
 		$this->_session = & JFactory::getSession();
 
@@ -123,7 +123,7 @@ class THM_OrganizerModelGroups extends JModel
 		$ret = array();
 
 		// Build the sql statement
-		$query = $this->db->getQuery(true);
+		$query = $this->dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_lecturers as lecturers');
 		$query->join('inner', '#__thm_organizer_lecturers_assets as lecturers_assets ON lecturers.id = lecturers_assets.lecturer_id ');
@@ -191,7 +191,7 @@ class THM_OrganizerModelGroups extends JModel
 		$model = new THM_OrganizerModelCurriculum;
 		$this->_major = $model->getMajorRecord($configId);
 
-		$client = new LsfClient(
+		$client = new THM_OrganizerLSFClient(
 				$this->_globParams->get('webserviceUri'), $this->_globParams->get('webserviceUsername'), $this->_globParams->get('webservicePassword')
 		);
 		$modulesXML = $client->getModules($config[0]->lsf_object, $config[0]->lsf_study_path, $config[0]->lsf_degree, $config[0]->po);
@@ -210,8 +210,8 @@ class THM_OrganizerModelGroups extends JModel
 			$additionalGroups[0][0] = "Other";
 		}
 
-		$n = 0;
-		$i = 0;
+		$number = 0;
+		$index = 0;
 
 		if (isset($modulesXML))
 		{
@@ -254,11 +254,11 @@ class THM_OrganizerModelGroups extends JModel
 					}
 
 					// Build the array strucutre for the current course and attach it to the existent data
-					$additionalGroups[0][1][$n] = self::buildCourseData($course);
+					$additionalGroups[0][1][$number] = self::buildCourseData($course);
 
 					// Sort the data by the lsf course code
 					usort($additionalGroups[0][1], array($this, "cmpModultitel"));
-					$n++;
+					$number++;
 				}
 				else
 				{
@@ -268,11 +268,11 @@ class THM_OrganizerModelGroups extends JModel
 					// Set the labels for the groups
 					if ($this->_lang == 'de')
 					{
-						$groups[$i][0] = (String) $gruppe->titelde;
+						$groups[$index][0] = (String) $gruppe->titelde;
 					}
 					else
 					{
-						$groups[$i][0] = (String) $gruppe->titelen;
+						$groups[$index][0] = (String) $gruppe->titelen;
 					}
 
 					// Iterate over each found course
@@ -294,13 +294,13 @@ class THM_OrganizerModelGroups extends JModel
 						}
 
 						// Build the array strucutre for the current course and attach it to the local structre
-						$groups[$i][1][$k] = self::buildCourseData($course);
+						$groups[$index][1][$k] = self::buildCourseData($course);
 
 						// Sort the data by the lsf course code
-						usort($groups[$i][1], array($this, "cmpModultitel"));
+						usort($groups[$index][1], array($this, "cmpModultitel"));
 						$k++;
 					}
-					$i++;
+					$index++;
 				}
 			}
 		}
@@ -372,12 +372,9 @@ class THM_OrganizerModelGroups extends JModel
 	 */
 	public function buildCourseDetailLink($row)
 	{
-		$detailLink = "<a href='" . JRoute::_("index.php?option=com_thm_organizer&view=details&lang=" . $this->_lang . "&id="
-				. $row->lsf_course_id
-		) .
-		"'>" . ($row->lsf_course_code ? $row->lsf_course_code : ($row->his_course_code ? $row->his_course_code : $row->lsf_course_id))
-		. "</a>";
-
+		$courseID = $row->lsf_course_code ? $row->lsf_course_code : ($row->his_course_code ? $row->his_course_code : $row->lsf_course_id);
+		$courseLink = JRoute::_("index.php?option=com_thm_organizer&view=details&lang=" . $this->_lang . "&id=" . $row->lsf_course_id);
+		$detailLink = "<a href='$courseLink'>$courseID</a>";
 		return $detailLink;
 	}
 
@@ -416,11 +413,9 @@ class THM_OrganizerModelGroups extends JModel
 
 		$modul['title_sort'] = $modul['title'];
 
-		$modul['title'] = "<a href='" . JRoute::_("index.php?option=com_thm_organizer&view=details&lang=" . JRequest::getVar('lang') . "&id="
-				. $row->lsf_course_id
-		) .
-		"'>" . $modul['title'] . "</a>" . " ("
-		. ($row->lsf_course_code ? $row->lsf_course_code : ($row->his_course_code ? $row->his_course_code : $row->lsf_course_id)) . ")";
+		$courseID = $row->lsf_course_code ? $row->lsf_course_code : ($row->his_course_code ? $row->his_course_code : $row->lsf_course_id);
+		$detailsLink = JRoute::_("index.php?option=com_thm_organizer&view=details&lang=" . JRequest::getVar('lang') . "&id=" . $row->lsf_course_id);
+		$modul['title'] = "<a href='$detailsLink'>{$modul['title']}</a>" . " ($courseID)";
 
 		$modul['creditpoints'] = $creditpoints[0] . " CrP";
 
@@ -452,7 +447,7 @@ class THM_OrganizerModelGroups extends JModel
 	/**
 	 * Method to build the responsible link
 	 *
-	 * @param   Integer  $assetId   Course id
+	 * @param   Integer  $assetId  Course id
 	 *
 	 * @return  String
 	 */
@@ -489,11 +484,12 @@ class THM_OrganizerModelGroups extends JModel
 		// If there is data from THM Groups
 		if ($lecturerName)
 		{
-			$responsilbeLabel = "<a href='" . JRoute::_("index.php?option=" . JRequest::getVar('option') . "&view=" . JRequest::getVar('view')
-					. "&catid=" . JRequest::getVar("catid") . "&id=" . JRequest::getVar("id") . "&Itemid="
-					. JRequest::getVar('Itemid') . "&gsuid=" . $userid
-			) .
-			"'>" . $lecturerName . "</a>";
+			$rawLink = 'index.php?option=' . JRequest::getVar('option');
+			$rawLink .= '&view=' . JRequest::getVar('view') . 'catid=' . JRequest::getVar("catid");
+			$rawLink .= '&id=' . JRequest::getVar("id") . '&Itemid=' . JRequest::getVar('Itemid');
+			$rawLink .= '&gsuid=' . $userid;
+			$responsibleLink = JRoute::_($rawLink);
+			$responsilbeLabel = "<a href='$responsibleLink'>" . $lecturerName . "</a>";
 		}
 		else
 		{
@@ -507,17 +503,17 @@ class THM_OrganizerModelGroups extends JModel
 	/**
 	 * Method to return a database row of the given lsf course id
 	 *
-	 * @param   Integer  $id  Id
+	 * @param   Integer  $courseID  Id
 	 *
 	 * @return  Object  A database row for the given lsf course id
 	 */
-	public function getCourseById($id)
+	public function getCourseById($courseID)
 	{
 		// Build the sql statement
 		$query = $this->dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_assets');
-		$query->where("lsf_course_id = $id");
+		$query->where("lsf_course_id = '$courseID'");
 		$this->dbo->setQuery((string) $query);
 		$rows = $this->dbo->loadObjectList();
 
@@ -567,7 +563,11 @@ class THM_OrganizerModelGroups extends JModel
 	public function getUserIdFromGroups($hgNr)
 	{
 		// Build the sql query
-		$query = "SELECT * FROM #__thm_groups_text WHERE value ='" . $hgNr . "' AND structid = 3;";
+		$query = $this->dbo->getQuery(true);
+		$query->select('*');
+		$query->from('#__thm_groups_text');
+		$query->where("value = '$hgNr'");
+		$query->where("structid = '3'");
 		$this->dbo->setQuery((string) $query);
 		$rows = $this->dbo->loadObjectList();
 
@@ -794,16 +794,16 @@ class THM_OrganizerModelGroups extends JModel
 		$navi = array();
 
 		// Iterate over each group
-		for ($i = 0; $i < count($groups); $i++)
+		for ($index = 0; $index < count($groups); $index++)
 		{
-			if (isset($groups[$i][1]))
+			if (isset($groups[$index][1]))
 			{
 				// Iterate over each course
-				for ($h = 0; $h < count($groups[$i][1]); $h++)
+				for ($h = 0; $h < count($groups[$index][1]); $h++)
 				{
 					$arr = array();
-					$arr['id'] = $groups[$i][1][$h]['courseid'];
-					$arr['link'] = JRoute::_("index.php?option=com_thm_organizer&view=details&id=" . $groups[$i][1][$h]['courseid']);
+					$arr['id'] = $groups[$index][1][$h]['courseid'];
+					$arr['link'] = JRoute::_("index.php?option=com_thm_organizer&view=details&id=" . $groups[$index][1][$h]['courseid']);
 					array_push($navi, $arr);
 				}
 			}
