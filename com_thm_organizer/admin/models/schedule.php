@@ -123,21 +123,15 @@ class THM_OrganizerModelSchedule extends JModel
 		}
 
 		// Schoolyear dates
-		if (empty(trim((string) $xmlSchedule->general->schoolyearbegindate)))
+		$syStartDate = strtotime(date('Y-m-d', strtotime(trim((string) $xmlSchedule->general->schoolyearbegindate))));
+		if (empty($syStartDate))
 		{
 			$this->_scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_START_DATE_MISSING");
 		}
-		else
-		{
-			$syStartDate = date('Y-m-d', strtotime(trim((string) $xmlSchedule->general->schoolyearbegindate)));
-		}
-		if (empty(trim((string) $xmlSchedule->general->schoolyearenddate)))
+		$syEndDate = strtotime(date('Y-m-d', strtotime(trim((string) $xmlSchedule->general->schoolyearenddate))));
+		if (empty($syEndDate))
 		{
 			$this->_scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_END_DATE_MISSING");
-		}
-		else
-		{
-			$syEndDate = date('Y-m-d', strtotime(trim((string) $xmlSchedule->general->schoolyearenddate)));
 		}
 
 		// Organizational Data
@@ -181,8 +175,6 @@ class THM_OrganizerModelSchedule extends JModel
 		}
 
 		// Checks if term and schoolyear dates are consistent
-		$syStartDate = strtotime($syStartDate);
-		$syEndDate = strtotime($syEndDate);
 		$termStartDT = strtotime($this->_schedule->startdate);
 		$termEndDT = strtotime($this->_schedule->enddate);
 		if ($termStartDT < $syStartDate OR $termEndDT > $syEndDate OR $termStartDT >= $termEndDT)
