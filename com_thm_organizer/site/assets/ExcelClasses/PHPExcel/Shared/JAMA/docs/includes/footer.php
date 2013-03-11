@@ -1,5 +1,0 @@
-<?php
-// @codingStandardsIgnoreFile
-?>
-	</body>
-</html>

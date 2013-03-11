@@ -14,6 +14,8 @@ defined('_JEXEC') or die;
 require_once dirname(__FILE__) . "/abstrakterBauer.php";
 error_reporting(0);
 
+jimport('PHPExcel.PHPExcel');
+
 /**
  * Class ICSBauer for component com_thm_organizer
  * Class provides methods to create a schedule in excel format
@@ -88,8 +90,6 @@ class ICSBauer extends abstrakterBauer
 				
 		try
 		{
-			/** PHPExcel */
-			require_once JPATH_COMPONENT . '/assets/ExcelClasses/PHPExcel.php';
 			$this->_objPHPExcel = new PHPExcel;
 
 			if ($title == JText::_("COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE"))
