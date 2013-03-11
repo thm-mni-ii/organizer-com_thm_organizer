@@ -539,10 +539,11 @@ class THM_OrganizerModelEvent_List extends JModelForm
     private function getOrderBy(&$query)
     {
         $orderby = $this->getState('orderby');
+		$orderbydir = $this->getState('orderbydir');
         $sortCriteria = array('title', 'author', 'eventCategory', 'date');
         if (isset($orderby) AND in_array($orderby, $sortCriteria))
         {
-            $orderbydir = isset($this->getState('orderbydir'))? $this->getState('orderbydir') : 'ASC';
+            $orderbydir = isset($orderbydir)? $orderbydir : 'ASC';
             if ($orderby == 'date')
             {
                 $orderbyClause = "startdateStandardFormat $orderbydir, starttime $orderbydir";
