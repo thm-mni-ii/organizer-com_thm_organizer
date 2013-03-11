@@ -11,8 +11,8 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-define('FPDF_FONTPATH', B . '/fpdf/font/');
-require_once B . "/fpdf/table/class.fpdf_table.php";
+
+jimport('fpdf.fpdf');
 
 /**
  * Class MySchedPdf for component com_thm_organizer
