@@ -12,7 +12,8 @@
  */
 defined('_JEXEC') or die;
 require_once dirname(__FILE__) . "/abstrakterBauer.php";
-require_once dirname(__FILE__) . "/iCalcreator-2.10.5/iCalcreator.class.php";
+
+jimport('iCalcreator.iCalcreator');
 
 /**
  * Class ICALBauer for component com_thm_organizer
