@@ -280,11 +280,6 @@ img.mySched_terminicon {
 	border-top-color: #FFFFFF;
 }
 
-.x-panel-body {
-	background-color: #FFFFFF;
-	border-color: #FFFFFF;
-}
-
 .x-btn-click .x-btn-text,.x-btn-menu-active .x-btn-text,.x-btn-pressed .x-btn-text
 	{
 	color: #00316B;
@@ -328,6 +323,8 @@ ul.x-tab-strip-top {
 }
 
 .x-panel-body {
+    background-color: #FFFFFF;
+    border-color: #FFFFFF;
 	border-width: 0 0 0;
 }
 
