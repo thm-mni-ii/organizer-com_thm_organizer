@@ -50,8 +50,6 @@ class THM_OrganizerModelCategory_Edit extends JModelAdmin
     /**
      * Method to get a single record.
      *
-     * @param   integer  $key  not used
-     *
      * @return  mixed    Object on success, false on failure.
      */
     public function getItem()

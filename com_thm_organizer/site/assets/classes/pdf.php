@@ -470,7 +470,7 @@ class PDFBauer extends abstrakterBauer
 		
 			if ($startDate > $endDate)
 			{
-				return JError::raiseWarning(404, JText::_('Das Enddatum muss größer als das Startdatum sein'));
+				return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_ENDDATE_INVALID'));
 			}
 		
 			$calendar = $activeScheduleData->calendar;
@@ -487,7 +487,7 @@ class PDFBauer extends abstrakterBauer
 		}
 		else
 		{
-			return JError::raiseWarning(404, JText::_('Kein gültiges Datum'));
+			return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_NO_DATE'));
 		}
 	}
 	

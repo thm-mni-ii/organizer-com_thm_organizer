@@ -18,11 +18,6 @@ tbody tr td.x-grid3-td-monday,tbody tr td.x-grid3-td-tuesday,tbody tr td.x-grid3
 	padding: 0 !important;
 }
 
-.x-grid3-cell-inner {
-	padding: 0 !important;
-	margin: 0 !important;
-}
-
 /* MySched Styles */
 div.scheduleBox {
 	margin: 2px !important;
@@ -333,10 +328,6 @@ ul.x-tab-strip-top {
 }
 
 .x-panel-body {
-	border-width: 0 1px 1px;
-}
-
-.x-panel-body {
 	border-width: 0 0 0;
 }
 
@@ -478,6 +469,7 @@ td.x-grid3-cell-first {
 	border: 0px;
 	padding: 0px;
 	padding-top: 5px;
+	margin-bottom: 0px;
 }
 
 .ext-ie .x-fieldset {
@@ -511,10 +503,6 @@ small.roomshortname:hover {
 small.classhorter:hover {
 	text-decoration: underline;
 	cursor: pointer;
-}
-
-.x-fieldset {
-	margin-bottom: 0px;
 }
 
 .mysched_iframeNewEvent {
@@ -636,11 +624,6 @@ img.status_icons_delete {
 	padding-top: 0px;
 }
 
-.content_column li {
-	margin: 0px;
-	list-style-image: url("");
-}
-
 .x-tree-node a span {
 	font: 11px arial, tahoma, helvetica, sans-serif;
 	text-decoration: none;
@@ -648,10 +631,6 @@ img.status_icons_delete {
 
 .content_column img {
 	margin: 0px;
-}
-
-.content_column table {
-	margin: 0px !important;
 }
 
 .content_column table td {
@@ -730,6 +709,8 @@ div.MySchedexternURLClass_DIS {
 }
 
 .x-grid3-cell-inner {
+	padding: 0 !important;
+	margin: 0 !important;
 	white-space: normal;
 }
 
@@ -746,6 +727,7 @@ div.MySchedexternURLClass_DIS {
 }
 
 .content_column table {
+	margin: 0px !important;
 	border: 0px solid !important;
 	border-collapse: separate !important;
 }
@@ -809,8 +791,8 @@ div.x-tree-selected a {
 }
 
 .content_column li {
-	list-style-image: url() !important;
-	margin: 0px !important;
+	margin: 0px;
+	list-style-image: url("");
 }
 
 .x-window-body {

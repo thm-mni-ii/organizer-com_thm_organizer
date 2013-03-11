@@ -412,7 +412,7 @@ class TreeView
 			else
 			{
 				// Cant decode json
-				return JError::raiseWarning(404, JText::_('Fehlerhafte Daten'));
+				return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_DATA_FLAWED'));
 			}
 			
 			// Get ids for teachers and rooms
@@ -876,19 +876,13 @@ class TreeView
 	 */
 	private function getVirtualSchedules($type, $semesterID)
 	{
-		$vsquery = "SELECT DISTINCT vs.id AS id,
-		vs.vid AS gpuntisID,
-		name AS shortname,
-		name AS name,
-		type AS type,
-		department AS parentName,
-		responsible AS responsible,
-		eid AS elements
-		FROM #__thm_organizer_virtual_schedules as vs
-		INNER JOIN #__thm_organizer_virtual_schedules_elements as vse
-		ON vs.id = vse.vid
-		WHERE type = '" . $type . "' AND vs.semesterID = " . $semesterID;
-
+		$select = "DISTINCT vs.id AS id, vs.vid AS gpuntisID, name AS shortname, ";
+		$select .= "name AS name, type AS type, department AS parentName, ";
+		$select .= "responsible AS responsible, eid AS elements ";
+		$vsquery = "SELECT $select ";
+		$vsquery .= "FROM #__thm_organizer_virtual_schedules AS vs ";
+		$vsquery .= "INNER JOIN #__thm_organizer_virtual_schedules_elements AS vse ON vs.id = vse.vid ";
+		$vsquery .= "WHERE type = '$type' AND vs.semesterID = '$semesterID' ";
 		$res     = $this->_JDA->query($vsquery);
 
 		return $res;

@@ -28,9 +28,6 @@ class THM_OrganizerControllerCopy extends JControllerForm
 	/**
 	 * Method to perform save
 	 *
-	 * @param   Object  $key     Key		   (default: null)
-	 * @param   Object  $urlVar  Url variable  (default: null)
-	 *
 	 * @return  void
 	 */
 	public function save()

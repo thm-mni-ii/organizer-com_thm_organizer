@@ -5,10 +5,10 @@
  * @subpackage  com_thm_organizer.site
  * @name		ICSBauer
  * @description ICSBauer file from com_thm_organizer
- * @author	    Wolf Rost, <wolf.rost@mni.thm.de>
+ * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link		www.mni.thm.de
+ * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
 require_once dirname(__FILE__) . "/abstrakterBauer.php";
@@ -18,10 +18,9 @@ error_reporting(0);
  * Class ICSBauer for component com_thm_organizer
  * Class provides methods to create a schedule in excel format
  *
- * @category	Joomla.Component.Site
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
  */
 class ICSBauer extends abstrakterBauer
 {
@@ -64,7 +63,7 @@ class ICSBauer extends abstrakterBauer
 	 * Constructor with the joomla data abstraction object and configuration object
 	 *
 	 * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
-	 * @param   Object	 		 $cfg  A object which has configurations including
+	 * @param   Object           $cfg  A object which has configurations including
 	 */
 	public function __construct($JDA, $cfg)
 	{
@@ -75,9 +74,9 @@ class ICSBauer extends abstrakterBauer
 	/**
 	 * Method to create a excel schedule
 	 *
-	 * @param   Object  $arr 	   The event object
+	 * @param   Object  $arr       The event object
 	 * @param   String  $username  The current logged in username
-	 * @param   String  $title 	   The schedule title
+	 * @param   String  $title     The schedule title
 	 *
 	 * @return Array An array with information about the status of the creation
 	 */
@@ -129,12 +128,12 @@ class ICSBauer extends abstrakterBauer
 				if ($this->_activeScheduleData == null)
 				{
 					// Cant decode json
-					return JError::raiseWarning(404, JText::_('Fehlerhafte Daten'));
+					return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_DATA_FLAWED'));
 				}
 			}
 			else
 			{
-				return JError::raiseWarning(404, JText::_('Kein aktiver Stundenplan'));
+				return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_NO_ACTIVE_SCHEDULE'));
 			}
 			
 			$success = $this->setLessonHead();
@@ -219,20 +218,31 @@ class ICSBauer extends abstrakterBauer
 		$row = 2;
 		foreach ($arr->events as $item)
 		{
-			$resources = implode('", "', (array) $item->data->objects);
+			$resourceIDs = "'" . implode("', '", (array) $item->data->objects) . "'";
 			$resString = "";
-			$res = array();
-			$query      = 'SELECT name as oname FROM #__thm_organizer_classes WHERE id IN("' . $resources . '")';
-			$res        = array_merge($res, $this->_JDA->query($query, true));
 
-			$query     = 'SELECT name as oname FROM #__thm_organizer_teachers WHERE gpuntisID IN("' . $resources . '")';
-			$res       = array_merge($res, $this->_JDA->query($query, true));
+			$select = 'name as oname';
+			$from = '#__thm_organizer_';
 
-			$query      = 'SELECT name as oname FROM #__thm_organizer_rooms WHERE gpuntisID IN("' . $resources . '")';
-			$res        = array_merge($res, $this->_JDA->query($query, true));
-			if (count($res) > 0)
+			$classesQuery = "SELECT $select ";
+			$classesQuery .= 'FROM #__thm_organizer_classes ';
+			$classesQuery .= "WHERE id IN ( $resourceIDs ) ";
+			$classes = $this->_JDA->query($classesQuery, true);
+
+			$teachersQuery = "SELECT $select ";
+			$teachersQuery .= 'FROM #__thm_organizer_teachers ';
+			$teachersQuery .= "WHERE gpuntisID IN( $resourceIDs )";
+			$teachers = $this->_JDA->query($teachersQuery, true);
+
+			$roomsQuery = "SELECT $select ";
+			$roomsQuery .= 'FROM #__thm_organizer_rooms ';
+			$roomsQuery .= "WHERE gpuntisID IN( $resourceIDs )";
+			$rooms = $this->_JDA->query($roomsQuery, true);
+
+			$resources = array_merge($classes, array_merge($teachers, $rooms));
+			if (count($resources) > 0)
 			{
-				$resString = implode(", ", $res);
+				$resString = implode(", ", $resources);
 			}
 
 			$this->_objPHPExcel->getActiveSheet()
@@ -359,23 +369,23 @@ class ICSBauer extends abstrakterBauer
 		/**
 		 * Function to custom sort the lesson array by their teachers
 		 *
-		 * @param   object  $a  An object in the array
-		 * @param   object  $b  Another object in the array
+		 * @param   object  $thingOne  An object in the array
+		 * @param   object  $thingTwo  Another object in the array
 		 *
 		 * @return Integer Return 0 if the lesson teachers are the same
-		 * 						  +1 if the $a lesson string is greater than the $b lesson string
-		 * 						  -1 if the $a lesson string is lesser than the $b lesson string
+		 * 						  +1 if the $thingOne lesson string is greater than the $thingTwo lesson string
+		 * 						  -1 if the $thingOne lesson string is lesser than the $thingTwo lesson string
 		 */
-		function sortLessonsByDoz($a, $b)
+		$lessonsByTeacher = function ($thingOne, $thingTwo)
 		{
-			if ($a->teachers == $b->teachers)
+			if ($thingOne->teachers == $thingTwo->teachers)
 			{
 				return 0;
 			}
-			return ($a->teachers < $b->teachers) ? -1 : 1;
-		}
+			return ($thingOne->teachers < $thingTwo->teachers) ? -1 : 1;
+		};
 
-		uasort($arr->lessons, $this->sortLessonsByDoz);
+		uasort($arr->lessons, $lessonsByTeacher);
 		
 		foreach ($arr->lessons as $item)
 		{
@@ -389,14 +399,15 @@ class ICSBauer extends abstrakterBauer
 				{
 					$item->category = "";
 				}
-				
+
+				$dayName = strtoupper($item->dow);
 				$this->_objPHPExcel->setActiveSheetIndex(0)
 				->setCellValue('A' . $row, $item->longname)
 				->setCellValue('B' . $row, $item->name)
 				->setCellValue('C' . $row, $item->comment)
 				->setCellValue('D' . $row, $item->subjectNo)
 				->setCellValue('E' . $row, $item->description)
-				->setCellValue('F' . $row, $this->dayENtoday($item->dow))
+				->setCellValue('F' . $row, JText::_($dayName))
 				->setCellValue('G' . $row, $item->block)
 				->setCellValue('H' . $row, $item->rooms)
 				->setCellValue('I' . $row, $item->teachers);
@@ -407,84 +418,84 @@ class ICSBauer extends abstrakterBauer
 	}
 	
 	/**
-	 * Method to get the subject number by $id
+	 * Method to get the subject number by $subjectID
 	 * 
-	 * @param   object  $id  A subject id
+	 * @param   object  $subjectID  A subject id
 	 * 
 	 * @return   object  The requested subject number
 	 */
-	private function getSubjectNo($id)
+	private function getSubjectNo($subjectID)
 	{
 		$subjects = $this->_activeScheduleData->subjects;
-		return $subjects->{$id}->subjectNo;
+		return $subjects->{$subjectID}->subjectNo;
 	}
 	
 	/**
-	 * Method to get the subject name by $id
+	 * Method to get the subject name by $subjectID
 	 *
-	 * @param   object  $id  A subject id
+	 * @param   object  $subjectID  A subject id
 	 *
 	 * @return   object  The requested subject name
 	 */
-	private function getSubjectName($id)
+	private function getSubjectName($subjectID)
 	{
 		$subjects = $this->_activeScheduleData->subjects;
-		return $subjects->{$id}->name;
+		return $subjects->{$subjectID}->name;
 	}
 	
 	/**
-	 * Method to get the subject longname by $id
+	 * Method to get the subject longname by $subjectID
 	 *
-	 * @param   object  $id  A subject id
+	 * @param   object  $subjectID  A subject id
 	 *
 	 * @return   object  The requested subject longname
 	 */
-	private function getSubjectLongname($id)
+	private function getSubjectLongname($subjectID)
 	{
 		$subjects = $this->_activeScheduleData->subjects;
-		return $subjects->{$id}->longname;
+		return $subjects->{$subjectID}->longname;
 	}
 	
 	/**
-	 * Method to get the module name by $id
+	 * Method to get the module name by $moduleID
 	 *
-	 * @param   object  $id  A subject id
+	 * @param   object  $moduleID  A subject id
 	 *
 	 * @return   object  The requested module name
 	 */
-	private function getModuleName($id)
+	private function getModuleName($moduleID)
 	{
 		$modules = $this->_activeScheduleData->modules;
-		return $modules->{$id}->name;
+		return $modules->{$moduleID}->name;
 	}
 	
 	/**
-	 * Method to get the room name by $id
+	 * Method to get the room name by $roomID
 	 *
-	 * @param   object  $id  A subject id
+	 * @param   object  $roomID  A subject id
 	 *
 	 * @return   object  The requested room name
 	 */
-	private function getRoomName($id)
+	private function getRoomName($roomID)
 	{
 		$rooms = $this->_activeScheduleData->rooms;
-		return $rooms->{$id}->longname;
+		return $rooms->{$roomID}->longname;
 	}
 	
 	/**
-	 * Method to get the teacher name by $id
+	 * Method to get the teacher name by $teacherID
 	 *
-	 * @param   object  $id  A subject id
+	 * @param   object  $teacherID  A subject id
 	 *
 	 * @return   object  The requested teacher name
 	 */
-	private function getTeacherName($id)
+	private function getTeacherName($teacherID)
 	{
 		$teachers = $this->_activeScheduleData->teachers;
-		$name = $teachers->{$id}->surname;
-		if (strlen($teachers->{$id}->firstname) > 0)
+		$name = $teachers->{$teacherID}->surname;
+		if (strlen($teachers->{$teacherID}->firstname) > 0)
 		{
-			$name .= ", " . $teachers->{$id}->firstname{0} . ".";
+			$name .= ", " . $teachers->{$teacherID}->firstname{0} . ".";
 		} 
 		return $name;
 	}
@@ -560,26 +571,5 @@ class ICSBauer extends abstrakterBauer
 			)
 		);
 		return $times[$block];
-	}
-
-	/**
-	 * Method to transform a day number to the day name
-	 *
-	 * @param   Integer  $dayEN  The day number
-	 *
-	 * @return String The day name
-	 */
-	private function dayENtoday($dayEN)
-	{
-		$days = array(
-			 'monday' => JText::_("MONDAY"),
-			 'tuesday' => JText::_("TUESDAY"),
-			 'wednesday' => JText::_("WEDNESDAY"),
-			 'thursday' => JText::_("THURSDAY"),
-			 'friday' => JText::_("FRIDAY"),
-			 'saturday' => JText::_("SATURDAY"),
-			 'sunday'=> JText::_("SUNDAY")
-		);
-		return $days[$dayEN];
 	}
 }
