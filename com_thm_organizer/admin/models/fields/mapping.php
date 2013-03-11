@@ -40,27 +40,26 @@ class JFormFieldMapping extends JFormField
 	public function getInput()
 	{
 		$dbo = JFactory::getDBO();
-
-		// Get the major id
-		$majorID = $_SESSION['stud_id'];
-
-		// Build the query
 		$query = $dbo->getQuery(true);
-		$query->select("sem_major.id AS id");
-		$query->select("name");
+
+		$query->select("sem_major.id AS id, name");
 		$query->from('#__thm_organizer_semesters_majors as sem_major');
 		$query->join('inner', '#__thm_organizer_semesters as semesters ON sem_major.semester_id = semesters.id');
-		$query->where("major_id = $majorID");
+		$query->where("major_id = '{$_SESSION['stud_id']}'");
 		$query->order('name ASC');
 		$dbo->setQuery($query);
 		$semesters = $dbo->loadObjectList();
 
-		// Get the id of the item
-		$itemID = JRequest::getVar('id');
 
-		return JHTML::_('select.genericlist', $semesters, 'semesters[]', 'class="inputbox" size="10" multiple="multiple"', 'id',
-				'name', self::getSelectedSemesters($itemID)
-		);
+		return JHTML::_(
+						'select.genericlist',
+						$semesters,
+						'semesters[]',
+						'class="inputbox" size="10" multiple="multiple"',
+						'id',
+						'name',
+						self::getSelectedSemesters(JRequest::getVar('id'))
+					   );
 	}
 
 	/**
@@ -72,26 +71,16 @@ class JFormFieldMapping extends JFormField
 	 */
 	private function getSelectedSemesters($assetID)
 	{
-		// Determine all semester mappings of this tree node
 		$dbo = JFactory::getDBO();
 		$query = $dbo->getQuery(true);
-		$query->select("*");
+
+		$query->select("semesters_majors_id");
 		$query->from('#__thm_organizer_assets_semesters');
-		$query->where("assets_tree_id = $assetID");
-		$dbo->setQuery($query);
-		$rows = $dbo->loadObjectList();
+		$query->where("assets_tree_id = '$assetID'");
+		$dbo->setQuery((string) $query);
+		$selectedSemesters = $dbo->loadResultArray();
 
-		$selectedSemesters = array();
-
-		if (isset($rows))
-		{
-			foreach ($rows as $row)
-			{
-				array_push($selectedSemesters, $row->semesters_majors_id);
-			}
-		}
-
-		return $selectedSemesters;
+		return empty($selectedSemesters)? array (): $selectedSemesters;
 	}
 
 	/**

@@ -39,21 +39,15 @@ class JFormFieldParent extends JFormField
 	 */
 	public function getInput()
 	{
-		$scriptDir = str_replace(JPATH_SITE . DS, '', "administrator/components/com_thm_organizer/models/fields/");
-		$sortButtons = true;
 		$dbo = JFactory::getDBO();
 
-		// Add script-code to the document head
+		$scriptDir = str_replace(JPATH_SITE . DS, '', "administrator/components/com_thm_organizer/models/fields/");
 		JHTML::script('parent.js', $scriptDir, false);
 
-		// Get Major-ID from the current session
 		$majorId = $_SESSION['stud_id'];
-
 		$rowID = JRequest::getVar('id');
 
-		// Build the sql statement
 		$query = $dbo->getQuery(true);
-
 		$query->select("*");
 		$query->select("CONCAT(title_de, ' (', semesters.name, ') ', assets_tree.id) AS title_de ");
 		$query->from(' #__thm_organizer_assets_tree AS at');
@@ -65,12 +59,11 @@ class JFormFieldParent extends JFormField
 		$query->where("semesters_majors.major_id = $majorId");
 		$query->order('assets.title_de');
 		
-		$db->setQuery($query);
+		$dbo->setQuery($query);
 		$pools = $dbo->loadObjectList();
 
-		// Add an additional line to the selection box
+		$blankItem = new stdClass;
 		$blankItem->id = 0;
-
 		$blankItem->asset = 0;
 		$blankItem->title_de = '-- None --';
 		$items = array_merge(array($blankItem), $pools);
@@ -90,19 +83,13 @@ class JFormFieldParent extends JFormField
 	private function getSelectedParent($parentID)
 	{
 		$dbo = JFactory::getDBO();
-
-		// Build the query
 		$query = $dbo->getQuery(true);
-		$query->select("*");
+
+		$query->select("parent_id");
 		$query->from('#__thm_organizer_assets_tree');
 		$query->where("id = '$parentID'");
 		$dbo->setQuery($query);
-		$rows = $dbo->loadObjectList();
-
-		if (isset($rows[0]->parent_id))
-		{
-			return $rows[0]->parent_id;
-		}
+		return $dbo->loadResult();
 	}
 
 	/**
@@ -120,8 +107,9 @@ class JFormFieldParent extends JFormField
 		$text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
 
 		// Build the class for the label.
-		$class = !empty($this->description) ? 'hasTip' : '';
-		$class = $this->required == true ? $class . ' required' : $class;
+		$class = '';
+		$class .= !empty($this->description) ? 'hasTip' : '';
+		$class .= $this->required == true ? ' required' : '';
 
 		// Add the opening label tag and main attributes attributes.
 		$label .= '<label id="' . $this->id . '-lbl" for="' . $this->id . '" class="' . $class . '"';

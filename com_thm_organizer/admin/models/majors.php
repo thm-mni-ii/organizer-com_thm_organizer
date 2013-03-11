@@ -25,13 +25,6 @@ jimport('joomla.application.component.modellist');
 class THM_OrganizerModelMajors extends JModelList
 {
 	/**
-	 * Data
-	 *
-	 * @var    Object
-	 */
-	private $_data;
-
-	/**
 	 * Pagination
 	 *
 	 * @var    Object

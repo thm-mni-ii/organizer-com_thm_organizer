@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.0.1
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin.field
@@ -11,21 +10,16 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 jimport('joomla.form.formfield');
  
 /**
  * Class JFormFieldResponsible for component com_thm_organizer
- *
  * Class provides methods to creates a form field with responsible
  *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin.field
- * @link        www.mni.thm.de
- * @since       v0.0.1
  */
 class JFormFieldResponsible extends JFormField
 {
@@ -33,7 +27,6 @@ class JFormFieldResponsible extends JFormField
 	 * Form field type
 	 *
 	 * @var    String
-	 * @since  v0.0.1
 	 */
 	protected $type = 'Responsible';
   
@@ -48,9 +41,9 @@ class JFormFieldResponsible extends JFormField
 		
 		$responsibles = $this->getResponsibles();
 				
-		foreach ($responsibles AS $k => $v)
+		foreach ($responsibles AS $resp)
 		{
-			$return .= '<option value="' . $v->id . '" >' . $v->name . '</option>';
+			$return .= '<option value="' . $resp['id'] . '" >' . $resp['name'] . '</option>';
 		}
 				
 		$return .= '</select>';
@@ -65,42 +58,39 @@ class JFormFieldResponsible extends JFormField
 	 */
 	private function getResponsibles()
 	{
-		$mainframe = JFactory::getApplication("administrator");
 		$dbo = JFactory::getDBO();
-		$usergroups = array();
 	
 		$query = $dbo->getQuery(true);
 		$query->select('id');
 		$query->from('#__usergroups');
 		$dbo->setQuery((string) $query);
-		$groups = $dbo->loadObjectList();
+		$groupIDs = $dbo->loadResultArray();
 	
-		foreach ($groups as $k => $v)
+		$usergroups = array();
+		foreach ($groupIDs as $groupID)
 		{
-			if (JAccess::checkGroup($v->id, 'core.login.admin') || $v->id == 8)
+			if (JAccess::checkGroup($groupID, 'core.login.admin') || $groupID == 8)
 			{
-				$usergroups[] = $v->id;
+				$usergroups[] = $groupID;
 			}
 		}
 	
-		if (is_array($usergroups))
+		if (count($usergroups))
 		{
 			$query = $dbo->getQuery(true);
-			
 			$query->select("DISTINCT username as id, name as name");
 			$query->from('#__users');
 			$query->join('inner', '#__user_usergroup_map ON #__users.id = user_id INNER JOIN #__usergroups ON group_id = #__usergroups.id');
 			$query->where("#__usergroups.id IN('" . implode("', '", $usergroups) . "')");
 			$query->order('name');
-			$dbo->setQuery($query);
-			$resps = $dbo->loadObjectList();
+			$dbo->setQuery((string) $query);
+			$resps = $dbo->loadAssocList();
 		}
 		else
 		{
 			$resps = array();
 		}
 
-	
 		return $resps;
 	}
 }

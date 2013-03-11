@@ -15,13 +15,11 @@ jimport('joomla.form.formfield');
 
 /**
  * Class JFormFieldLecturers for component com_thm_organizer
- *
  * Class provides methods to create a form field that contains the lecturers
  *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
  */
 class JFormFieldLecturers extends JFormField
 {
@@ -48,46 +46,35 @@ class JFormFieldLecturers extends JFormField
 		$dbo->setQuery($query);
 		$semesters = $dbo->loadObjectList();
 
-		// Get the id of the current item
-		$itemID = JRequest::getVar('id');
-
-		return JHTML::_('select.genericlist', $semesters, 'lecturers[]', 'class="inputbox" size="10" multiple="multiple"', 'id',
-				'surname', self::getSelectedLecturers($itemID)
+		return JHTML::_(
+						'select.genericlist',
+						$semesters,
+						'lecturers[]',
+						'class="inputbox" size="10" multiple="multiple"',
+						'id',
+						'surname',
+						self::getSelectedLecturers(JRequest::getVar('id'))
 		);
 	}
 
 	/**
 	 * Returns the selected lecturers of the given asset
 	 *
-	 * @param   Integer  $assetID  Id
-	 *
 	 * @return  String
 	 */
-	private function getSelectedLecturers($assetID)
+	private function getSelectedLecturers()
 	{
 		$dbo = JFactory::getDBO();
-		$assetId = JRequest::getVar('id');
 		$query = $dbo->getQuery(true);
 
-		$query->select("*");
+		$query->select("lecturer_id");
 		$query->from('#__thm_organizer_lecturers_assets as lecturer_assets');
-		$query->where("lecturer_assets.modul_id = $assetId");
-		$query->where("lecturer_assets.lecturer_type = 2");
-		$dbo->setQuery($query);
-		$rows = $dbo->loadObjectList();
+		$query->where("lecturer_assets.modul_id = '" . JRequest::getVar('id') . "'");
+		$query->where('lecturer_assets.lecturer_type = 2');
+		$dbo->setQuery((string) $query);
+		$lecturerIDs = $dbo->loadResultArray();
 
-		$selectedLecturers = array();
-
-		if (isset($rows))
-		{
-			// Iterate over each found lecturer
-			foreach ($rows as $row)
-			{
-				array_push($selectedLecturers, $row->lecturer_id);
-			}
-		}
-
-		return $selectedLecturers;
+		return empty($lecturerIDs)? array () : $lecturerIDs;
 	}
 
 	/**
@@ -105,8 +92,9 @@ class JFormFieldLecturers extends JFormField
 		$text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
 
 		// Build the class for the label.
-		$class = !empty($this->description) ? 'hasTip' : '';
-		$class = $this->required == true ? $class . ' required' : $class;
+		$class = '';
+		$class .= !empty($this->description) ? 'hasTip' : '';
+		$class .= $this->required == true ? ' required' : '';
 
 		// Add the opening label tag and main attributes attributes.
 		$label .= '<label id="' . $this->id . '-lbl" for="' . $this->id . '" class="' . $class . '"';

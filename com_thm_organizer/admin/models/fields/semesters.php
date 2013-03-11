@@ -21,7 +21,6 @@ jimport('joomla.form.formfield');
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
  */
 class JFormFieldSemesters extends JFormField
 {
@@ -40,24 +39,27 @@ class JFormFieldSemesters extends JFormField
 	public function getInput()
 	{
 		$dbo = JFactory::getDBO();
-
-		// Get the id of the chosen major
-		$majorID = JRequest::getVar('id');
-
-		// Build the query
 		$query = $dbo->getQuery(true);
+
 		$query->select("*");
 		$query->from('#__thm_organizer_semesters');
 		$query->order('name ASC');
 		$dbo->setQuery($query);
 		$semesters = $dbo->loadObjectList();
-		$html = JHTML::_('select.genericlist', $semesters, 'semesters[]', 'style="float:left;" class="inputbox" size="10" multiple="multiple"',
-				'id', 'name', self::getSelectedSemesters($majorID)
-		);
 
-		$html .= "<span style='float:right;color:red;font-size:16px;border-style:solid;'>";
+		$html = JHTML::_(
+						 'select.genericlist',
+						 $semesters,
+						 'semesters[]',
+						 'style="float:left;" class="inputbox" size="10" multiple="multiple"',
+						 'id',
+						 'name',
+						 self::getSelectedSemesters(JRequest::getVar('id'))
+		);
+		$html .= "<span style='float:right; color:red; font-size:16px; border-style:solid;'>";
 		$html .= JText::_("COM_THM_ORGANIZER_SEMESTER_DELETE_WARNING_HEADER") . "<br>";
 		$html .= JText::_("COM_THM_ORGANIZER_SEMESTER_DELETE_WARNING_BODY") . "</span>";
+
 		return $html;
 	}
 
@@ -74,21 +76,20 @@ class JFormFieldSemesters extends JFormField
 		$query = $dbo->getQuery(true);
 
 		// Build the query
-		$query->select("*");
+		$query->select('*');
 		$query->from('#__thm_organizer_semesters AS s');
 		$query->join('#__thm_organizer_semesters_majors AS sm ON s.id = sm.semester_id');
-		$query->where("#__thm_organizer_semesters_majors.major_id = '$majorID'");
+		$query->where("sm.major_id = '$majorID'");
 		$query->order('name ASC');
-		$dbo->setQuery($query);
-		$rows = $dbo->loadObjectList();
+		$dbo->setQuery((string) $query);
+		$rows = $dbo->loadAssocList();
 
 		$selectedSemesters = array();
-
-		if (isset($rows))
+		if (!empty($rows))
 		{
 			foreach ($rows as $row)
 			{
-				array_push($selectedSemesters, $row->semester_id);
+				array_push($selectedSemesters, $row['semester_id']);
 			}
 		}
 		return $selectedSemesters;

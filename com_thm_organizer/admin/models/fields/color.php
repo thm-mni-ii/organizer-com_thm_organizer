@@ -71,32 +71,6 @@ class JFormFieldColor extends JFormField
 	}
 
 	/**
-	 * Returns the selected asset of the given tree node
-	 *
-	 * @param   Integer  $assetID  Id
-	 *
-	 * @return  String
-	 */
-	private function getSelectedAssets($assetID)
-	{
-		$dbo = JFactory::getDBO();
-
-		// Build the query
-		$query = $dbo->getQuery(true);
-		$query->select("*");
-		$query->from('#__thm_organizer_assets_tree');
-		$query->where("#__thm_organizer_assets_tree.id = $assetID");
-		$dbo->setQuery($query);
-		$rows = $dbo->loadObjectList();
-
-		// Return the id of the asset
-		if (isset($rows[0]->asset))
-		{
-			return $rows[0]->asset;
-		}
-	}
-
-	/**
 	 * Method to get the field label
 	 *
 	 * @return  String The field label
@@ -109,8 +83,9 @@ class JFormFieldColor extends JFormField
 		$text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
 
 		// Build the class for the label.
-		$class = !empty($this->description) ? 'hasTip' : '';
-		$class = $this->required == true ? $class . ' required' : $class;
+		$class = '';
+		$class .= !empty($this->description) ? 'hasTip' : '';
+		$class .= $this->required == true ? ' required' : '';
 
 		// Add the opening label tag and main attributes attributes.
 		$label = '<label id="' . $this->id . '-lbl" for="' . $this->id . '" class="' . $class . '"';

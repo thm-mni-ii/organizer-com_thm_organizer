@@ -21,7 +21,6 @@ jimport('joomla.form.formfield');
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
  */
 class JFormFieldSemesterorder extends JFormField
 {
@@ -39,25 +38,27 @@ class JFormFieldSemesterorder extends JFormField
 	 */
 	public function getInput()
 	{
-		$dbo = JFactory::getDBO();
 		$scriptDir = str_replace(JPATH_SITE . DS, '', "administrator/components/com_thm_organizer/models/fields/");
 		JHTML::script('semesterorder.js', $scriptDir, false);
 
-		// Get the id of the chosen major
-		$majorID = JRequest::getVar('id');
-
-		// Build the query
+		$dbo = JFactory::getDBO();
 		$query = $dbo->getQuery(true);
+
 		$query->select("*");
 		$query->from('#__thm_organizer_semesters');
 		$query->order('name ASC');
-
-		$dbo->setQuery($query);
+		$dbo->setQuery((string) $query);
 		$semesters = $dbo->loadObjectList();
 
-		$html = JHTML::_('select.genericlist', $semesters, 'semesters[]', 'class="inputbox" size="10" multiple="multiple"',
-				'id', 'name', self::getSelectedSemesters($majorID)
-		);
+		$html = JHTML::_(
+						 'select.genericlist',
+						 $semesters,
+						 'semesters[]',
+						 'class="inputbox" size="10" multiple="multiple"',
+						 'id',
+						 'name',
+						 self::getSelectedSemesters(JRequest::getVar('id'))
+						);
 		$html .= '<a onclick="roleup()" id="sortup"><img src="../administrator/components/com_thm_groups/img/uparrow.png" ';
 		$html .= 'title="Rolle eine Position h&ouml;her" /></a>';
 		$html .= '<a onclick="roledown()" id="sortdown"><img src="../administrator/components/com_thm_groups/img/downarrow.png" ';
@@ -78,26 +79,15 @@ class JFormFieldSemesterorder extends JFormField
 		$dbo = JFactory::getDBO();
 		$query = $dbo->getQuery(true);
 
-		// Build the query
-		$query->select("*");
+		$query->select("semester_id");
 		$query->from('#__thm_organizer_semesters AS s');
 		$query->join('#__thm_organizer_semesters_majors AS sm ON s.id = sm.semester_id');
 		$query->where("#__thm_organizer_semesters_majors.major_id = '$majorID'");
 		$query->order('name ASC');
-		$dbo->setQuery($query);
-		$rows = $dbo->loadObjectList();
+		$dbo->setQuery((string) $query);
+		$selectedSemesters = $dbo->loadResultArray();
 
-		$selectedSemesters = array();
-
-		if (isset($rows))
-		{
-			foreach ($rows as $row)
-			{
-				array_push($selectedSemesters, $row->semester_id);
-			}
-		}
-
-		return $selectedSemesters;
+		return empty($selectedSemesters)? array() : $selectedSemesters;
 	}
 
 	/**
@@ -115,8 +105,9 @@ class JFormFieldSemesterorder extends JFormField
 		$text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
 
 		// Build the class for the label.
-		$class = !empty($this->description) ? 'hasTip' : '';
-		$class = $this->required == true ? $class . ' required' : $class;
+		$class = '';
+		$class .= !empty($this->description) ? 'hasTip' : '';
+		$class .= $this->required == true ? ' required' : '';
 
 		// Add the opening label tag and main attributes attributes.
 		$label .= '<label id="' . $this->id . '-lbl" for="' . $this->id . '" class="' . $class . '"';

@@ -41,10 +41,6 @@ class JFormFieldDummymapping extends JFormField
 	{
 		$dbo = JFactory::getDBO();
 
-		$scriptDir = str_replace(JPATH_SITE . DS, '', "administrator/components/com_thm_organizer/models/fields/");
-		$sortButtons = true;
-		$dbo = JFactory::getDBO();
-
 		// Select all assets from the database
 		$query = $dbo->getQuery(true);
 
@@ -68,8 +64,8 @@ class JFormFieldDummymapping extends JFormField
 		$rowID = JRequest::getVar('id');
 
 		// Adds an additional item to the select box
+		$blankItem = new stdClass;
 		$blankItem->id = 0;
-
 		$blankItem->title_de = '-- None --';
 		$items = array_merge(array($blankItem), $assets);
 
@@ -116,8 +112,9 @@ class JFormFieldDummymapping extends JFormField
 		$text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
 
 		// Build the class for the label.
-		$class = !empty($this->description) ? 'hasTip' : '';
-		$class = $this->required == true ? $class . ' required' : $class;
+		$class = '';
+		$class .= !empty($this->description)? 'hasTip' : '';
+		$class .= $this->required == true ? ' required' : '';
 
 		// Add the opening label tag and main attributes attributes.
 		$label .= '<label id="' . $this->id . '-lbl" for="' . $this->id . '" class="' . $class . '"';

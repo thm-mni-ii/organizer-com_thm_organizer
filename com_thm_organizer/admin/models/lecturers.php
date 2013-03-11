@@ -25,20 +25,6 @@ jimport('joomla.application.component.modellist');
 class THM_OrganizerModelLecturers extends JModelList
 {
 	/**
-	 * Data
-	 *
-	 * @var    Object
-	 */
-	private $_data;
-
-	/**
-	 * Pagination
-	 *
-	 * @var    Object
-	 */
-	private $_pagination = null;
-
-	/**
 	 * Constructor to initialise the database and call the parent constructor
 	 */
 	public function __construct()

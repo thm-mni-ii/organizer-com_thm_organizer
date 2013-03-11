@@ -114,18 +114,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 		$query->from('#__thm_organizer_virtual_schedules_elements');
 		$query->where("vid = '$vid'");
 		$dbo->setQuery((string) $query);
-		$rows = $dbo->loadObjectList();
-		$return = array();
-
-		if (!empty($rows))
-		{
-			foreach ($rows AS $k => $v)
-			{
-				$return[] = $v->eid;
-			}
-		}
-
-		return $return;
+		return $dbo->loadResultArray();
 	}
 
 	/**
@@ -175,8 +164,6 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 	 * Method to get the types
 	 *
 	 * @return	Array	An Array of types
-	 *
-	 * @since	v0.0.1
 	 */
 	public function getTypes()
 	{
@@ -202,14 +189,14 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 		$groupQuery->select('id');
 		$groupQuery->from('#__usergroups');
 		$dbo->setQuery((string) $groupQuery);
-		$groups = $dbo->loadObjectList();
+		$groups = $dbo->loadAssocList();
 
 		$usergroups = array();
-		foreach ($groups as $k => $v)
+		foreach ($groups as $group)
 		{
-			if (JAccess::checkGroup($v->id, 'core.login.admin') || $v->id == 8)
+			if (JAccess::checkGroup($group['id'], 'core.login.admin') || $group['id'] == 8)
 			{
-				$usergroups[] = $v->id;
+				$usergroups[] = $group['id'];
 			}
 		}
 

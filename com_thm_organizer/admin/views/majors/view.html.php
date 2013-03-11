@@ -35,11 +35,8 @@ class THM_OrganizerViewMajors extends JView
 	{
 		JHtml::_('behavior.tooltip');
 
-		$items = $this->get('Items');
-		$pagination = $this->get('Pagination');
-
-		$this->items = $items;
-		$this->pagination = $pagination;
+		$this->items = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
 		$this->state = $this->get('State');
 		$this->addToolBar();
 

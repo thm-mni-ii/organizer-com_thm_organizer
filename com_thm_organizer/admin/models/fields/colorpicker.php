@@ -22,7 +22,6 @@ jimport('joomla.form.formfield');
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
  */
 class JFormFieldColorPicker extends JFormField
 {
@@ -41,7 +40,7 @@ class JFormFieldColorPicker extends JFormField
 	public function getInput()
 	{
 		$scriptDir = str_replace(JPATH_SITE . DS, '', "administrator/components/com_thm_organizer/models/fields/");
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->addStyleSheet(JUri::root() . '/administrator/components/com_thm_organizer/models/fields/mooRainbow.css');
 
 		// Add script-code to the document head

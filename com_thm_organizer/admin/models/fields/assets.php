@@ -29,7 +29,6 @@ class JFormFieldAssets extends JFormField
 	 * Type
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	protected $type = 'Assets';
 
@@ -43,8 +42,6 @@ class JFormFieldAssets extends JFormField
 		$dbo = JFactory::getDBO();
 
 		$scriptDir = str_replace(JPATH_SITE . DS, '', "administrator/components/com_thm_organizer/models/fields/");
-		$sortButtons = true;
-		$dbo = JFactory::getDBO();
 
 		// Add script-code to the document head
 		JHTML::script('assets.js', $scriptDir, false);
@@ -72,6 +69,7 @@ class JFormFieldAssets extends JFormField
 		$rowID = JRequest::getVar('id');
 
 		// Adds an additional item to the select box
+		$blankItem = new stdClass;
 		$blankItem->id = 0;
 		$blankItem->title_de = '-- None --';
 		$items = array_merge(array($blankItem), $assets);
@@ -121,8 +119,9 @@ class JFormFieldAssets extends JFormField
 		$text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
 
 		// Build the class for the label.
-		$class = !empty($this->description) ? 'hasTip' : '';
-		$class = $this->required == true ? $class . ' required' : $class;
+		$class = '';
+		$class .= !empty($this->description) ? 'hasTip' : '';
+		$class .= $this->required == true ? ' required' : '';
 
 		// Add the opening label tag and main attributes attributes.
 		$label .= '<label id="' . $this->id . '-lbl" for="' . $this->id . '" class="' . $class . '"';
