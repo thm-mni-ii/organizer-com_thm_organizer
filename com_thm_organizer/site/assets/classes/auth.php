@@ -20,7 +20,6 @@ defined('_JEXEC') or die;
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
  */
 class Auth
 {
@@ -65,7 +64,8 @@ class Auth
 					$this->_cfg['ldap_server'], $this->_cfg['ldap_base'],
 					$this->_cfg['ldap_filter'], $this->_cfg['ldap_protocol'], $this->_cfg['ldap_useSSH']
 				);
-		if ($user = $ldap->authenticateUser($username, $passwd))
+		$user = $ldap->authenticateUser($username, $passwd);
+		if (!empty($user))
 		{
 			$role = self::mapLdapRole($user[ 'role' ]);
 
@@ -135,21 +135,16 @@ class Auth
 	 */
 	public function joomla( $token )
 	{
-		$addRights               = array( );
-		$_SESSION[ 'joomlaSid' ] = $token;
+		$addRights = array( );
+		$_SESSION['joomlaSid'] = $token;
 
-		$userrolearr = $this->_JDA->getUserRoles();
-		foreach ($userrolearr as $k => $v)
-		{
-			$userrole = $k;
-			break;
-		}
+		$userRoles = $this->_JDA->getUserRoles();
+		$userRole = current(reset($userRoles));
 
-		// ALLES OK
 		return array(
 				'success' => true,
 				'username' => $this->_JDA->getUserName(),
-				'role' => strtolower($userrole), // User, registered, author, editor, publisher
+				'role' => strtolower($userRole), // User, registered, author, editor, publisher
 				'additional_rights' => $addRights // 'doz' => array( 'knei', 'igle' ), ...
 		);
 	}

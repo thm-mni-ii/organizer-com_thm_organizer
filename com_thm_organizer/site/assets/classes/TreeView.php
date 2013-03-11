@@ -20,7 +20,6 @@ require_once JPATH_ROOT . "/components/com_thm_organizer/assets/classes/TreeNode
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
  */
 class TreeView
 {
@@ -37,13 +36,6 @@ class TreeView
 	 * @var    Object
 	 */
 	private $_cfg = null;
-
-	/**
-	 * Type
-	 *
-	 * @var    String
-	 */
-	private $_type = null;
 
 	/**
 	 * Checked

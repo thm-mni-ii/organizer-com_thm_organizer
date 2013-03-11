@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.path');
 jimport('joomla.application.component.modellist');
-
 require_once JPATH_COMPONENT_SITE . DS . 'helper/module.php';
 require_once JPATH_COMPONENT_SITE . DS . 'helper/lsfapi.php';
 require_once JPATH_COMPONENT_SITE . DS . 'helper/ModuleList.php';
@@ -36,7 +35,6 @@ class THM_OrganizerModelIndex extends JModelList
 	 * Data
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_data;
 
@@ -44,7 +42,6 @@ class THM_OrganizerModelIndex extends JModelList
 	 * Database
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	protected $dbo = null;
 
@@ -52,7 +49,6 @@ class THM_OrganizerModelIndex extends JModelList
 	 * Global parameters
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_globParams = null;
 
@@ -60,7 +56,6 @@ class THM_OrganizerModelIndex extends JModelList
 	 * Major
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	public $major = null;
 
@@ -68,7 +63,6 @@ class THM_OrganizerModelIndex extends JModelList
 	 * Configuration
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_config = null;
 
@@ -98,30 +92,31 @@ class THM_OrganizerModelIndex extends JModelList
 	{
 		$app = JFactory::getApplication();
 
-		if ($layout = JRequest::getVar('layout'))
+		$layout = JRequest::getVar('layout');
+		if (!empty($layout))
 		{
 			$this->context .= '.' . $layout;
 		}
 
-		$order = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', '');
-		$dir = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', '');
+		$ordering = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', '');
+		$direction = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', '');
 		$filter = $app->getUserStateFromRequest($this->context . '.filter', 'filter', '');
 		$limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
 
-		$this->setState('list.ordering', $order);
-		$this->setState('list.direction', $dir);
+		$this->setState('list.ordering', $ordering);
+		$this->setState('list.direction', $direction);
 		$this->setState('filter', $filter);
 		$this->setState('list.limit', $limit);
 
 		// Set the default ordering
-		if ($order == '')
+		if ($ordering == '')
 		{
 			// @TODO: sortierung nach jeder id
 			parent::populateState("lsf_course_code, his_course_code, lsf_course_id", "ASC");
 		}
 		else
 		{
-			parent::populateState($order, $dir);
+			parent::populateState($ordering, $direction);
 		}
 	}
 
@@ -143,8 +138,8 @@ class THM_OrganizerModelIndex extends JModelList
 			$query->where("title_de LIKE '%$search%'");
 			$this->setState('filter', $search);
 		}
-		$orderCol = implode(" " . $orderDirn . ",", explode(", ", $this->state->get('list.ordering')));
 		$orderDirn = $this->state->get('list.direction');
+		$orderCol = implode(" " . $orderDirn . ",", explode(", ", $this->state->get('list.ordering')));
 		$query->order("$orderCol $orderDirn");
 
 		return (string) $query;

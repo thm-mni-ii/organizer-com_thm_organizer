@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.1.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -10,11 +9,9 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modelform');
 require_once JPATH_COMPONENT . "/assets/classes/eventAccess.php";
-
 define('CURRENT', 0);
 define('CURRENT_CATEGORY', 1);
 define('CURRENT_ROOM', 2);
@@ -30,8 +27,6 @@ define('ALL_OWN', 7);
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
- * @since       v0.1.0
  */
 class THM_OrganizerModelEvent_List extends JModelForm
 {
@@ -456,7 +451,6 @@ class THM_OrganizerModelEvent_List extends JModelForm
         // Check for empty
         foreach ($events as $k => $v)
         {
-            $edSet = $stSet = $etSet = false;
             $displayDates = $timestring = "";
             $edSet = ($v['enddate'] != "00.00.0000" and $v['enddate'] != $v['startdate']);
             $stSet = $v['starttime'] != "00:00";
@@ -548,8 +542,7 @@ class THM_OrganizerModelEvent_List extends JModelForm
         $sortCriteria = array('title', 'author', 'eventCategory', 'date');
         if (isset($orderby) AND in_array($orderby, $sortCriteria))
         {
-            $orderbydir = $this->getState('orderbydir');
-            $orderbydir = isset($orderbydir)? $orderbydir : 'ASC';
+            $orderbydir = isset($this->getState('orderbydir'))? $orderbydir : 'ASC';
             if ($orderby == 'date')
             {
                 $orderbyClause = "startdateStandardFormat $orderbydir, starttime $orderbydir";
@@ -599,40 +592,41 @@ class THM_OrganizerModelEvent_List extends JModelForm
         foreach ($this->events as $k => $v)
         {
             $id = $v['id'];
-            $resourcesResults = array();
-            $resourceNames = array();
 
-            $query = $dbo->getQuery(true);
-            $query->select('id, title AS name, "group" AS type ');
-            $query->from('#__thm_organizer_event_groups AS eg');
-            $query->innerJoin('#__usergroups AS ug ON eg.groupID = ug.id');
-            $query->where("eventID = '$id'");
-            $dbo->setQuery((string) $query);
-            $resourcesResults = array_merge($resourcesResults, $dbo->loadAssocList());
-            $resourceNames = array_merge($resourceNames, $dbo->loadResultArray(1));
+            $groupQuery = $dbo->getQuery(true);
+            $groupQuery->select('id, title AS name, "group" AS type ');
+            $groupQuery->from('#__thm_organizer_event_groups AS eg');
+            $groupQuery->innerJoin('#__usergroups AS ug ON eg.groupID = ug.id');
+            $groupQuery->where("eventID = '$id'");
+            $dbo->setQuery((string) $groupQuery);
+            $groups = $dbo->loadAssocList();
+            $groupNames = $dbo->loadResultArray(1);
 
-            $query = $dbo->getQuery(true);
-            $query->select('id, surname, "teacher" AS type');
-            $query->from('#__thm_organizer_event_teachers AS et');
-            $query->innerJoin('#__thm_organizer_teachers AS t ON et.teacherID = t.id');
-            $query->where("eventID = '$id'");
-            $dbo->setQuery((string) $query);
-            $resourcesResults = array_merge($resourcesResults, $dbo->loadAssocList());
-            $resourceNames = array_merge($resourceNames, $dbo->loadResultArray(1));
+            $teacherQuery = $dbo->getQuery(true);
+            $teacherQuery->select('id, surname, "teacher" AS type');
+            $teacherQuery->from('#__thm_organizer_event_teachers AS et');
+            $teacherQuery->innerJoin('#__thm_organizer_teachers AS t ON et.teacherID = t.id');
+            $teacherQuery->where("eventID = '$id'");
+            $dbo->setQuery((string) $teacherQuery);
+            $teachers = $dbo->loadAssocList();
+            $teacherNames = $dbo->loadResultArray(1);
 
-            $query = $dbo->getQuery(true);
-            $query->select('id, longname, "room" AS type');
-            $query->from('#__thm_organizer_event_rooms AS er');
-            $query->innerJoin('#__thm_organizer_rooms AS r ON er.roomID = r.id');
-            $query->where("eventID = '$id'");
-            $dbo->setQuery((string) $query);
-            $resourcesResults = array_merge($resourcesResults, $dbo->loadAssocList());
-            $resourceNames = array_merge($resourceNames, $dbo->loadResultArray(1));
+            $roomQuery = $dbo->getQuery(true);
+            $roomQuery->select('id, longname, "room" AS type');
+            $roomQuery->from('#__thm_organizer_event_rooms AS er');
+            $roomQuery->innerJoin('#__thm_organizer_rooms AS r ON er.roomID = r.id');
+            $roomQuery->where("eventID = '$id'");
+            $dbo->setQuery((string) $roomQuery);
+            $rooms = $dbo->loadAssocList();
+            $roomNames = $dbo->loadResultArray(1);
 
-            $resourceNames = (count($resourceNames))? implode(", ", $resourceNames) : "";
+            $resources = array_merge($groups, array_merge($teachers, $rooms));
+            $resourceNames = array_merge($groupNames, array_merge($teacherNames, $roomNames));
 
-            $this->events[$k]['resourceArray'] = $resourcesResults;
-            $this->events[$k]['resources'] = $resourceNames;
+            $resourceNameList = (count($resourceNames))? implode(", ", $resourceNames) : "";
+
+            $this->events[$k]['resourceArray'] = $resources;
+            $this->events[$k]['resources'] = $resourceNameList;
 
         }
     }

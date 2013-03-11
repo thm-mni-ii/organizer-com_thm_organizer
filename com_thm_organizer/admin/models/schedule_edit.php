@@ -32,7 +32,6 @@ class THM_OrganizerModelSchedule_Edit extends JModelAdmin
      */
     public function getForm($data = array(), $loadData = true)
     {
-        // Get the form.
         $form = $this->loadForm('com_thm_organizer.schedule_edit',
                                 'schedule_edit',
                                 array('control' => 'jform', 'load_data' => $loadData)
@@ -48,16 +47,33 @@ class THM_OrganizerModelSchedule_Edit extends JModelAdmin
     }
 
     /**
-     * Method to get a single record.
+     * retrieves the data that should be injected in the form the loading is
+     * done in jmodel admin
      *
-     * @return  mixed    Object on success, false on failure.
+     * @return  mixed  The data for the form.
      */
-    public function getItem()
+    protected function loadFormData()
     {
         $scheduleIDs = JRequest::getVar('cid',  null, '', 'array');
         $scheduleID = (empty($scheduleIDs))? JRequest::getVar('scheduleID') : $scheduleIDs[0];
-        $schedule = ($scheduleID)? parent::getItem($scheduleID) : $this->getTable();
-        return $schedule;
+        $data = $this->getItem($scheduleID);
+        unset($data->schedule);
+        $data->creationdate = thm_organizerHelper::germanizeDate($data->creationdate);
+        $data->startdate = thm_organizerHelper::germanizeDate($data->startdate);
+        $data->enddate = thm_organizerHelper::germanizeDate($data->enddate);
+        return $data;
+    }
+
+    /**
+     * Method to get a single record.
+	 * 
+	 * @param   integer  $scheduleID  The id of the selected schedule
+     *
+     * @return  mixed  Object on success, false on failure.
+     */
+    public function getItem($scheduleID)
+    {
+        return ($scheduleID)? parent::getItem($scheduleID) : $this->getTable();
     }
 
     /**
@@ -73,21 +89,5 @@ class THM_OrganizerModelSchedule_Edit extends JModelAdmin
     public function getTable($type = 'schedules', $prefix = 'thm_organizerTable', $config = array())
     {
         return JTable::getInstance($type, $prefix, $config);
-    }
-
-    /**
-     * retrieves the data that should be injected in the form the loading is
-     * done in jmodel admin
-     *
-     * @return  mixed  The data for the form.
-     */
-    protected function loadFormData()
-    {
-        $data = $this->getItem();
-        unset($data->schedule);
-        $data->creationdate = thm_organizerHelper::germanizeDate($data->creationdate);
-        $data->startdate = thm_organizerHelper::germanizeDate($data->startdate);
-        $data->enddate = thm_organizerHelper::germanizeDate($data->enddate);
-        return $data;
     }
 }

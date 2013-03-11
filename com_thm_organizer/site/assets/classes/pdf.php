@@ -236,8 +236,6 @@ class PDFBauer extends abstrakterBauer
 			{
 				$lessons = $arr;
 				
-// 				var_dump($lessons);
-				
 				foreach ($lessons as $k => $l)
 				{
 					if (isset($l->cell))
@@ -266,10 +264,6 @@ class PDFBauer extends abstrakterBauer
 					}
 				}
 			}
-			
-			var_dump($sched);
-			
-			echo print_r($sched, true);
 
 			// PDF Anlegen
 			$pdf = new MySchedPdf;
@@ -290,7 +284,6 @@ class PDFBauer extends abstrakterBauer
 			$pdf->Set_Table_Type($tableSettings);
 
 			// Default-Formatierung fuer den Header setzen
-			$header_subtype = $headerSettings;
 			for ($i = 0; $i < $columns; $i++)
 			{
 				$header_type[$i] = $headerSettings;
@@ -452,79 +445,5 @@ class PDFBauer extends abstrakterBauer
 				return array("success" => false, "data" => JText::_("COM_THM_ORGANIZER_SCHEDULER_NO_FILE_CREATED"));
 			}
 		}
-	}
-	
-	/**
-	 * Method to add the lesson data to the pdf object
-	 * 
-	 * @return void
-	 */
-	private function getLessonData()
-	{
-		if (is_string($this->startdate) && is_string($this->enddate))
-		{
-			$startDate = new DateTime($this->startdate);
-			$endDate = new DateTime($this->enddate);
-			$currentDate = $startDate;
-			$lessonDates = array();
-		
-			if ($startDate > $endDate)
-			{
-				return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_ENDDATE_INVALID'));
-			}
-		
-			$calendar = $activeScheduleData->calendar;
-		
-			while ($currentDate <= $endDate)
-			{
-				$date = $currentDate->format('Y-m-d');
-				if (isset($calendar->{$date}))
-				{
-					$lessonDates[$date] = $calendar->{$date};
-				}
-				$currentDate->add(new DateInterval('P1D'));
-			}
-		}
-		else
-		{
-			return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_NO_DATE'));
-		}
-	}
-	
-	/**
-	 * Method to get schedule by scheduleID
-	 *
-	 * @param   Integer  $scheduleID  The schedule id  (Default: null)
-	 *
-	 * @return mixed  The active schedule as object or false
-	 */
-	private function getSchedule($scheduleID = null)
-	{
-		$dbo = JFactory::getDBO();
-		$query = $dbo->getQuery(true);
-		$query->select('*');
-		$query->from('#__thm_organizer_schedules');
-		if ($scheduleID == null || !is_int($scheduleID))
-		{
-			$query->where('active = 1');
-		}
-		else
-		{
-			$query->where('active = ' . $scheduleID);
-		}
-		$dbo->setQuery($query);
-	
-		if ($dbo->getErrorMsg())
-		{
-			return false;
-		}
-	
-		$result = $dbo->loadObject();
-	
-		if ($result === null)
-		{
-			return false;
-		}
-		return $result;
 	}
 }

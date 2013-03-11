@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.1.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -23,8 +22,6 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
- * @since       v0.1.0
  */
 class THM_OrganizerViewMonitor_Edit extends JView
 {
@@ -50,7 +47,6 @@ class THM_OrganizerViewMonitor_Edit extends JView
         $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
         $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/monitor_edit.js'));
 
-        $model = $this->getModel();
         $this->form = $this->get('Form');
 
         $this->addToolBar();

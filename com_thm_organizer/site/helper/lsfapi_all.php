@@ -62,9 +62,9 @@ class THM_OrganizerLSFClientAll
 	 */
 	public function __construct($endpoint, $username, $password)
 	{
-		$this->endpoint = $endpoint;
-		$this->username = $username;
-		$this->password = $password;
+		$this->_endpoint = $endpoint;
+		$this->_username = $username;
+		$this->_password = $password;
 
 		$proxyhost = '';
 		$proxyport = '';
@@ -74,7 +74,7 @@ class THM_OrganizerLSFClientAll
 		$timeout = 120;
 		$responseTimeout = 120;
 
-		$this->_client = new nusoap_client($this->endpoint, true, $proxyhost, $proxyport, $proxyusername, $proxypassword, $timeout, $responseTimeout);
+		$this->_client = new nusoap_client($this->_endpoint, true, $proxyhost, $proxyport, $proxyusername, $proxypassword, $timeout, $responseTimeout);
 	}
 
 	/**
@@ -130,8 +130,8 @@ class THM_OrganizerLSFClientAll
 		$pxml = $pxml . "<object>$object</object>";
 		$pxml = $pxml . "</general>";
 		$pxml = $pxml . "<user-auth>";
-		$pxml = $pxml . "<username>$this->username</username>";
-		$pxml = $pxml . "<password>$this->password</password>";
+		$pxml = $pxml . "<username>$this->_username</username>";
+		$pxml = $pxml . "<password>$this->_password</password>";
 		$pxml = $pxml . "</user-auth>";
 		$pxml = $pxml . "<filter>";
 		$pxml = $pxml . "<pord.abschl>$abschluss</pord.abschl>";
@@ -160,8 +160,8 @@ class THM_OrganizerLSFClientAll
 		$pxml = $pxml . "<object>ModuleAll</object>";
 		$pxml = $pxml . "</general>";
 		$pxml = $pxml . "<user-auth>";
-		$pxml = $pxml . "<username>$this->username</username>";
-		$pxml = $pxml . "<password>$this->password</password>";
+		$pxml = $pxml . "<username>$this->_username</username>";
+		$pxml = $pxml . "<password>$this->_password</password>";
 		$pxml = $pxml . "</user-auth>";
 		$pxml = $pxml . "<filter>";
 		$pxml = $pxml . "<pord.pfnrex>$moduleID</pord.pfnrex>";
@@ -185,8 +185,8 @@ class THM_OrganizerLSFClientAll
 		$pxml = $pxml . "<object>ModuleAll</object>";
 		$pxml = $pxml . "</general>";
 		$pxml = $pxml . "<user-auth>";
-		$pxml = $pxml . "<username>$this->username</username>";
-		$pxml = $pxml . "<password>$this->password</password>";
+		$pxml = $pxml . "<username>$this->_username</username>";
+		$pxml = $pxml . "<password>$this->_password</password>";
 		$pxml = $pxml . "</user-auth>";
 		$pxml = $pxml . "<filter>";
 		$pxml = $pxml . "<pord.pordnr>$moduleID</pord.pordnr>";

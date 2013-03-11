@@ -66,17 +66,28 @@ class THM_OrganizerModelMonitor_Edit extends JModelAdmin
     }
 
     /**
+     * retrieves the data that should be injected in the form the loading is
+     * done in jmodel admin
+     *
+     * @return    mixed    The data for the form.
+     */
+    protected function loadFormData()
+    {
+        $monitorIDs = JRequest::getVar('cid',  null, '', 'array');
+        $monitorID = (empty($monitorIDs))? JRequest::getInt('monitorID') : $monitorIDs[0];
+        return $this->getItem($monitorID);
+    }
+
+    /**
      * Method to get a single record.
      *
-     * @param   integer  $primaryKey  The id of the primary key.
+     * @param   integer  $monitorID  The id of the primary key.
      *
      * @return mixed    Object on success, false on failure.
      */
-    public function getItem($primaryKey = null)
+    public function getItem($monitorID = null)
     {
-        $monitorIDs = JRequest::getVar('cid',  null, '', 'array');
-        $primaryKey = (empty($monitorIDs))? JRequest::getInt('monitorID') : $monitorIDs[0];
-        return ($primaryKey)? parent::getItem($primaryKey) : $this->getTable();
+        return ($monitorID)? parent::getItem($monitorID) : $this->getTable();
     }
 
     /**
@@ -93,16 +104,4 @@ class THM_OrganizerModelMonitor_Edit extends JModelAdmin
     {
         return JTable::getInstance($type, $prefix, $config);
     }
-
-    /**
-     * retrieves the data that should be injected in the form the loading is
-     * done in jmodel admin
-     *
-     * @return    mixed    The data for the form.
-     */
-    protected function loadFormData()
-    {
-        return $this->getItem();
-    }
-
 }

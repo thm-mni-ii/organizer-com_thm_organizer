@@ -60,9 +60,9 @@ class THM_OrganizerLSFClient
 	 */
 	public function __construct($endpoint, $username, $password)
 	{
-		$this->endpoint = $endpoint;
-		$this->username = $username;
-		$this->password = $password;
+		$this->_endpoint = $endpoint;
+		$this->_username = $username;
+		$this->_password = $password;
 
 		$proxyhost = '';
 		$proxyport = '';
@@ -72,7 +72,7 @@ class THM_OrganizerLSFClient
 		$timeout = 120;
 		$responseTimeout = 120;
 
-		$this->_client = new nusoap_client($this->endpoint, true, $proxyhost, $proxyport, $proxyusername, $proxypassword, $timeout, $responseTimeout);
+		$this->_client = new nusoap_client($this->_endpoint, true, $proxyhost, $proxyport, $proxyusername, $proxypassword, $timeout, $responseTimeout);
 	}
 
 	/**
@@ -129,8 +129,8 @@ class THM_OrganizerLSFClient
 		$pxml .= "<object>$object</object>";
 		$pxml .= '</general>';
 		$pxml .= '<user-auth>';
-		$pxml .= "<username>$this->username</username>";
-		$pxml .= "<password>$this->password</password>";
+		$pxml .= "<username>$this->_username</username>";
+		$pxml .= "<password>$this->_password</password>";
 		$pxml .= '</user-auth>';
 		$pxml .= '<filter>';
 		$pxml .= "<pord.abschl>$abschluss</pord.abschl>";
@@ -159,8 +159,8 @@ class THM_OrganizerLSFClient
 		$pxml .= '<object>ModuleMNI</object>';
 		$pxml .= '</general>';
 		$pxml .= ' <user-auth>';
-		$pxml .= "<username>$this->username</username>";
-		$pxml .= "<password>$this->password</password>";
+		$pxml .= "<username>$this->_username</username>";
+		$pxml .= "<password>$this->_password</password>";
 		$pxml .= '</user-auth>';
 		$pxml .= '<filter>';
 		$pxml .= "<pord.pfnrex>$moduleID</pord.pfnrex>";
@@ -184,8 +184,8 @@ class THM_OrganizerLSFClient
 		$pxml .= '<object>ModuleMNI</object>';
 		$pxml .= '</general>';
 		$pxml .= '<user-auth>';
-		$pxml .= "<username>$this->username</username>";
-		$pxml .= "<password>$this->password</password>";
+		$pxml .= "<username>$this->_username</username>";
+		$pxml .= "<password>$this->_password</password>";
 		$pxml .= '</user-auth>';
 		$pxml .= '<filter>';
 		$pxml .= "<pord.pordnr>$moduleID</pord.pordnr>";

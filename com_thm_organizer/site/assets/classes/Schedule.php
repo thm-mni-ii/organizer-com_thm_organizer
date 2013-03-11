@@ -21,7 +21,6 @@ require_once dirname(__FILE__) . "/scheduledirector.php";
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
  */
 class Schedule
 {
@@ -77,11 +76,10 @@ class Schedule
 	/**
 	 * Constructor with the joomla data abstraction object and configuration object
 	 *
-	 * @param   DataAbstraction  $JDA      An object to abstract the joomla methods
-	 * @param   MySchedConfig    $CFG      An object which has configurations including
-	 * @param   object           $options  An object which has options including	(Default: null)
+	 * @param   DataAbstraction  $JDA  An object to abstract the joomla methods
+	 * @param   MySchedConfig    $CFG  An object which has configurations including
 	 */
-	public function __construct($JDA, $CFG, $options = null)
+	public function __construct($JDA, $CFG)
 	{
 		$this->_arr      = json_decode(file_get_contents("php://input"));
 		$this->_username = $JDA->getRequest("username");

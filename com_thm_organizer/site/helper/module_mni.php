@@ -907,7 +907,7 @@ class ModuleMNI
 	 */
 	public function getAbschluss()
 	{
-		return $this->$abschl;
+		return $this->abschl;
 	}
 
 	/**

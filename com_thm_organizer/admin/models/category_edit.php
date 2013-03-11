@@ -49,13 +49,13 @@ class THM_OrganizerModelCategory_Edit extends JModelAdmin
 
     /**
      * Method to get a single record.
+	 * 
+	 * @param   integer  $categoryID  The id of the primary key in the category table.
      *
      * @return  mixed    Object on success, false on failure.
      */
-    public function getItem()
+    public function getItem($categoryID = null)
     {
-        $categoryIDs = JRequest::getVar('cid',  null, '', 'array');
-        $categoryID = (empty($categoryIDs))? JRequest::getVar('categoryID') : $categoryIDs[0];
         return ($categoryID)? parent::getItem($categoryID) : $this->getTable();
     }
 
@@ -82,6 +82,8 @@ class THM_OrganizerModelCategory_Edit extends JModelAdmin
      */
     protected function loadFormData()
     {
-        return $this->getItem();
+        $categoryIDs = JRequest::getVar('cid',  null, '', 'array');
+        $categoryID = (empty($categoryIDs))? JRequest::getVar('categoryID') : $categoryIDs[0];
+        return $this->getItem($categoryID);
     }
 }

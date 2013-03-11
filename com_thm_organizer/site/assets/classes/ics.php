@@ -82,7 +82,7 @@ class ICSBauer extends abstrakterBauer
 	 */
 	public function erstelleStundenplan($arr, $username, $title)
 	{
-		$success = false;
+		$success = true;
 
 		$arr = $arr[0];
 				
@@ -136,31 +136,19 @@ class ICSBauer extends abstrakterBauer
 				return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_NO_ACTIVE_SCHEDULE'));
 			}
 			
-			$success = $this->setLessonHead();
-			if ($success)
-			{
-				$success = $this->setLessonContent($arr);
-			}
+			$this->setLessonHead();
+			$this->setLessonContent($arr);
 
 			$this->_objPHPExcel->createSheet();
 			$this->_objPHPExcel->setActiveSheetIndex(1);
 			$this->_objPHPExcel->getActiveSheet()->setTitle(JText::_("COM_THM_ORGANIZER_SCHEDULER_SPORADIC_EVENTS"));
 
-			if ($success)
-			{
-				$success = $this->setEventHead();
-			}
-			if ($success)
-			{
-				$success = $this->setEventContent($arr);
-			}
+			$this->setEventHead();
+			$this->setEventContent($arr);
 
-			if ($success)
-			{
-				$this->_objPHPExcel->setActiveSheetIndex(0);
-				$objWriter = PHPExcel_IOFactory::createWriter($this->_objPHPExcel, 'Excel5');
-				$objWriter->save($this->_cfg['pdf_downloadFolder'] . $title . ".xls");
-			}
+			$this->_objPHPExcel->setActiveSheetIndex(0);
+			$objWriter = PHPExcel_IOFactory::createWriter($this->_objPHPExcel, 'Excel5');
+			$objWriter->save($this->_cfg['pdf_downloadFolder'] . $title . ".xls");
 		}
 		catch (Exception $e)
 		{
@@ -179,8 +167,8 @@ class ICSBauer extends abstrakterBauer
 
 	/**
 	 * Method to set the excel header
-	 *
-	 * @return Boolean Return true on success
+	 * 
+	 * @return  void
 	 */
 	private function setEventHead()
 	{
@@ -202,8 +190,6 @@ class ICSBauer extends abstrakterBauer
 		$this->_objPHPExcel->getActiveSheet()->getStyle('F1')->getFont()->setBold(true);
 		$this->_objPHPExcel->getActiveSheet()->getStyle('G1')->getFont()->setBold(true);
 		$this->_objPHPExcel->getActiveSheet()->getStyle('H1')->getFont()->setBold(true);
-
-		return true;
 	}
 
 	/**
@@ -211,7 +197,7 @@ class ICSBauer extends abstrakterBauer
 	 *
 	 * @param   Object  $arr  The event object
 	 *
-	 * @return Boolean Return true on success
+	 * @return  void
 	 */
 	private function setEventContent($arr)
 	{
@@ -222,7 +208,6 @@ class ICSBauer extends abstrakterBauer
 			$resString = "";
 
 			$select = 'name as oname';
-			$from = '#__thm_organizer_';
 
 			$classesQuery = "SELECT $select ";
 			$classesQuery .= 'FROM #__thm_organizer_classes ';
@@ -256,13 +241,12 @@ class ICSBauer extends abstrakterBauer
 			->setCellValue('H' . $row, $item->data->endtime);
 			$row++;
 		}
-		return true;
 	}
 
 	/**
 	 * Method to set the lesson header
-	 *
-	 * @return Boolean Return true on success
+	 * 
+	 * @return void
 	 */
 	private function setLessonHead()
 	{
@@ -286,8 +270,6 @@ class ICSBauer extends abstrakterBauer
 		$this->_objPHPExcel->getActiveSheet()->getStyle('G1')->getFont()->setBold(true);
 		$this->_objPHPExcel->getActiveSheet()->getStyle('H1')->getFont()->setBold(true);
 		$this->_objPHPExcel->getActiveSheet()->getStyle('I1')->getFont()->setBold(true);
-
-		return true;
 	}
 
 	/**
@@ -295,7 +277,7 @@ class ICSBauer extends abstrakterBauer
 	 *
 	 * @param   Object  $arr  The event object
 	 *
-	 * @return Boolean Return true on success
+	 * @return  void
 	 */
 	private function setLessonContent($arr)
 	{
@@ -414,7 +396,6 @@ class ICSBauer extends abstrakterBauer
 				$row++;
 			}
 		}
-		return true;
 	}
 	
 	/**
@@ -426,8 +407,7 @@ class ICSBauer extends abstrakterBauer
 	 */
 	private function getSubjectNo($subjectID)
 	{
-		$subjects = $this->_activeScheduleData->subjects;
-		return $subjects->{$subjectID}->subjectNo;
+		return $this->_activeScheduleData->subjects->{$subjectID}->subjectNo;
 	}
 	
 	/**
@@ -439,8 +419,7 @@ class ICSBauer extends abstrakterBauer
 	 */
 	private function getSubjectName($subjectID)
 	{
-		$subjects = $this->_activeScheduleData->subjects;
-		return $subjects->{$subjectID}->name;
+		return $this->_activeScheduleData->subjects->{$subjectID}->name;
 	}
 	
 	/**
@@ -452,8 +431,7 @@ class ICSBauer extends abstrakterBauer
 	 */
 	private function getSubjectLongname($subjectID)
 	{
-		$subjects = $this->_activeScheduleData->subjects;
-		return $subjects->{$subjectID}->longname;
+		return $this->_activeScheduleData->subjects->{$subjectID}->longname;
 	}
 	
 	/**
@@ -465,8 +443,7 @@ class ICSBauer extends abstrakterBauer
 	 */
 	private function getModuleName($moduleID)
 	{
-		$modules = $this->_activeScheduleData->modules;
-		return $modules->{$moduleID}->name;
+		return $this->_activeScheduleData->modules->{$moduleID}->name;
 	}
 	
 	/**
@@ -478,8 +455,7 @@ class ICSBauer extends abstrakterBauer
 	 */
 	private function getRoomName($roomID)
 	{
-		$rooms = $this->_activeScheduleData->rooms;
-		return $rooms->{$roomID}->longname;
+		return $this->_activeScheduleData->rooms->{$roomID}->longname;
 	}
 	
 	/**

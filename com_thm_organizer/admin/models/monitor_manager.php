@@ -44,7 +44,7 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
     /**
      * constructor
      */
-    public function __construct()
+    public function __construct($config = array())
     {
         if (empty($config['filter_fields']))
         {

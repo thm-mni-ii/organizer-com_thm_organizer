@@ -43,7 +43,6 @@ class THM_OrganizerViewCategory_Edit extends JView
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
 
-        $model = $this->getModel();
         $this->form = $this->get('Form');
         $this->addToolBar();
 

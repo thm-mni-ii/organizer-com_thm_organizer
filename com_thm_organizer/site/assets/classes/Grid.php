@@ -46,9 +46,8 @@ class Grid
 	 * Constructor with the joomla data abstraction object and configuration object
 	 *
 	 * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
-	 * @param   MySchedConfig    $CFG  A object which has configurations including
 	 */
-	public function __construct($JDA, $CFG)
+	public function __construct($JDA)
 	{
 		$this->_JDA = $JDA;
 		$this->_semID = $JDA->getSemID();
@@ -63,20 +62,23 @@ class Grid
 	{
 		if (isset( $this->_semID))
 		{
-			$query = "SELECT gpuntisID AS tpid, day, period, starttime, endtime
-			FROM #__thm_organizer_periods
-			ORDER BY CAST(SUBSTRING(tpid, 4) AS SIGNED INTEGER)";
+			$query = "SELECT gpuntisID AS tpid, day, period, starttime, endtime ";
+			$query .= "FROM #__thm_organizer_periods ";
+			$query .= "ORDER BY CAST(SUBSTRING(tpid, 4) AS SIGNED INTEGER) ";
 			$ret   = $this->_JDA->query($query);
 
-			if ($ret !== false)
-			{
-				return array("success" => true, "data" => $ret);
-			}
-			return array("success" => false, "data" => JText::_('COM_THM_ORGANIZER_SCHEDULER_GRID_ERROR_LOADING'));
+			return array(
+						 "success" => false,
+						 "data" => ($ret !== false)?
+							 $ret : JText::_('COM_THM_ORGANIZER_SCHEDULER_GRID_ERROR_LOADING')
+						);
 		}
 		else
 		{
-			return array("success" => false, "data" => JText::_('COM_THM_ORGANIZER_SCHEDULER_GRID_ERROR_LOADING'));
+			return array(
+						 "success" => false,
+						 "data" => JText::_('COM_THM_ORGANIZER_SCHEDULER_GRID_ERROR_LOADING')
+						);
 		}
 	}
 }
