@@ -53,8 +53,8 @@ class THM_OrganizerControllerMappings extends JControllerAdmin
 		$query = $dbo->getQuery(true);
 		$query->select("semesters_majors_id");
 		$query->from('#__thm_organizer_assets_tree AS at');
-		$query->join('#__thm_organizer_assets_semesters AS asem ON at.id = asem.assets_tree_id');
-		$query->join('#__thm_organizer_semesters_majors AS sm ON asem.semesters_majors_id = sm.id');
+		$query->innerJoin('#__thm_organizer_assets_semesters AS asem ON at.id = asem.assets_tree_id');
+		$query->innerJoin('#__thm_organizer_semesters_majors AS sm ON asem.semesters_majors_id = sm.id');
 		$query->where("asset = '$assetID'");
 		$query->where("major_id = '$majorId'");
 		$dbo->setQuery((string) $query);

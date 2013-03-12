@@ -99,8 +99,8 @@ class THM_OrganizerModelLecturers extends JModel
 		$query = $this->dbo->getQuery(true);
 		$query->select('DISTINCT text1.value as vorname, text2.value as nachname, text3.value as titel');
 		$query->from('FROM #__thm_groups_text as text1 ');
-		$query->join('#__thm_groups_text as text2 ON text1.userid = text2.userid');
-		$query->join('#__thm_groups_text as text3 ON text2.userid = text3.userid');
+		$query->innerJoin('#__thm_groups_text as text2 ON text1.userid = text2.userid');
+		$query->innerJoin('#__thm_groups_text as text3 ON text2.userid = text3.userid');
 		$query->where('text1.structid=1');
 		$query->where('text2.structid=2');
 		$query->where('text3.structid=5');
@@ -245,7 +245,7 @@ class THM_OrganizerModelLecturers extends JModel
 		$query = $this->dbo->getQuery(true);
 		$query->select('DISTINCT  *');
 		$query->from('#__thm_organizer_lecturers_assets AS lecturers_assets');
-		$query->join('#__thm_organizer_assets AS assets ON assets.id = lecturers_assets.modul_id');
+		$query->innerJoin('#__thm_organizer_assets AS assets ON assets.id = lecturers_assets.modul_id');
 		$query->where("lsf_course_id IN ($courseIDList)");
 		$query->where("$filter");
 		$query->where('lecturer_type = 2');
@@ -281,7 +281,7 @@ class THM_OrganizerModelLecturers extends JModel
 			$query = $this->dbo->getQuery(true);
 			$query->select('DISTINCT modul_id');
 			$query->from('#__thm_organizer_lecturers_assets AS lecturers_assets');
-			$query->join('#__thm_organizer_assets AS assets ON assets.id = lecturers_assets.modul_id');
+			$query->innerJoin('#__thm_organizer_assets AS assets ON assets.id = lecturers_assets.modul_id');
 			$query->where("lecturer_id = '$lecturer->lecturer_id'");
 			$query->where('lecturer_type = 2');
 			$query->where("lsf_course_id IN ($courseIDList)");

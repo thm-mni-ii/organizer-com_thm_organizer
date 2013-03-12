@@ -158,8 +158,8 @@ class THM_OrganizerControllerMapping extends JControllerForm
 		$reorderQuery = $dbo->getQuery(true);
 		$reorderQuery->select('*');
 		$reorderQuery->from('#__thm_organizer_assets_tree AS at');
-		$reorderQuery->join('#__thm_organizer_assets_semesters AS asem ON asem.assets_tree_id = at.id');
-		$reorderQuery->join('#__thm_organizer_semesters_majors AS sm ON asem.semesters_majors_id = sm.id');
+		$reorderQuery->innerJoin('#__thm_organizer_assets_semesters AS asem ON asem.assets_tree_id = at.id');
+		$reorderQuery->innerJoin('#__thm_organizer_semesters_majors AS sm ON asem.semesters_majors_id = sm.id');
 		$reorderQuery->where("semesters_majors.major_id =" . $stud_id);
 		$dbo->setQuery((string) $reorderQuery);
 		$rows = $dbo->loadObjectList();

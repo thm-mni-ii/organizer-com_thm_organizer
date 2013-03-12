@@ -126,9 +126,9 @@ class THM_OrganizerModelVirtual_Schedule_Manager extends JModel
 		$select .= 'department, CONCAT(s.organization, "-",s.semesterDesc ) as semesterID';
 		$query->select($select);
 		$query->from('#__thm_organizer_virtual_schedules AS vs');
-		$query->join('#__thm_organizer_virtual_schedules_elements AS vse ON vs.id = vse.vid');
-		$query->join('#__thm_organizer_semesters AS s ON vs.semesterID = s.id');
-		$query->join('#__users AS u ON vs.responsible = u.username');
+		$query->innerJoin('#__thm_organizer_virtual_schedules_elements AS vse ON vs.id = vse.vid');
+		$query->innerJoin('#__thm_organizer_semesters AS s ON vs.semesterID = s.id');
+		$query->innerJoin('#__users AS u ON vs.responsible = u.username');
 		
 		$umlautString = $codeErrString = $search;
 

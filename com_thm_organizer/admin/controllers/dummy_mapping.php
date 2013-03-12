@@ -101,8 +101,8 @@ class THM_OrganizerControllerDummy_Mapping extends JControllerForm
 		$assetQuery = $dbo->getQuery(true);
 		$assetQuery->select('asset');
 		$assetQuery->from('#__thm_organizer_assets_tree AS at');
-		$assetQuery->join('#__thm_organizer_assets_semesters AS asem ON asem.assets_tree_id = at.id');
-		$assetQuery->join('#__thm_organizer_semesters_majors AS sm ON asem.semesters_majors_id = sm.id');
+		$assetQuery->innerJoin('#__thm_organizer_assets_semesters AS asem ON asem.assets_tree_id = at.id');
+		$assetQuery->innerJoin('#__thm_organizer_semesters_majors AS sm ON asem.semesters_majors_id = sm.id');
 		$assetQuery->where("semesters_majors.major_id = '$stud_id'");
 		$dbo->setQuery((string) $assetQuery);
 		$rows = $dbo->loadColumn();

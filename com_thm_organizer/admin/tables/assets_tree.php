@@ -249,8 +249,8 @@ class THM_OrganizerTableAssets_Tree extends JTable
         // Select the primary key and ordering values from the table.
         $query->select('assets_tree.' . $this->_tbl_key . ', ordering');
         $query->from(' #__thm_organizer_assets_tree as a_t');
-        $query->join('#__thm_organizer_assets_semesters AS a_s ON a_s.assets_tree_id = a_t.id');
-        $query->join('#__thm_organizer_semesters_assets_tree AS s_a_t ON a_s.semesters_assets_tree_id = s_a_t.id');
+        $query->innerJoin('#__thm_organizer_assets_semesters AS a_s ON a_s.assets_tree_id = a_t.id');
+        $query->innerJoin('#__thm_organizer_semesters_assets_tree AS s_a_t ON a_s.semesters_assets_tree_id = s_a_t.id');
         $query->where("s_a_t.major_id =" . $majorID);
 	}
 }

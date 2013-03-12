@@ -203,8 +203,8 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 		$userQuery = $dbo->getQuery(true);
 		$userQuery->select('DISTINCT username as id, name as name');
 		$userQuery->from('#__users AS u');
-		$userQuery->join('#__user_usergroup_map AS ug ON u.id = ug.user_id');
-		$userQuery->join('#__usergroups AS g ON group_id = g.id');
+		$userQuery->innerJoin('#__user_usergroup_map AS ug ON u.id = ug.user_id');
+		$userQuery->innerJoin('#__usergroups AS g ON group_id = g.id');
 		$userQuery->where("ug.id IN ('" . implode("','", $usergroups) . "')");
 		$userQuery->order('name');
 		$dbo->setQuery((string) $userQuery);
@@ -321,7 +321,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 		$query = $dbo->getQuery(true);
 		$query->select("DISTINCT d.id, CONCAT(d.department, '-', d.subdepartment) as name");
 		$query->from('#__thm_organizer_teachers AS t');
-		$query->join('#__thm_organizer_departments AS d ON t.departmentID = d.id');
+		$query->innerJoin('#__thm_organizer_departments AS d ON t.departmentID = d.id');
 		$query->order('name');
 		$dbo->setQuery((string) $query);
 		$departments = $dbo->loadObjectList();
@@ -506,7 +506,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 		$query = $dbo->getQuery(true);
 		$query->select('*');
 		$query->from('#__thm_organizer_virtual_schedules AS vs');
-		$query->join('#__thm_organizer_virtual_schedules_elements AS vse ON vs.id = vse.vid');
+		$query->innerJoin('#__thm_organizer_virtual_schedules_elements AS vse ON vs.id = vse.vid');
 		$query->where("vs.id = '$vid'");
 		$dbo->setQuery((string) $query);
 		$dbo->query();

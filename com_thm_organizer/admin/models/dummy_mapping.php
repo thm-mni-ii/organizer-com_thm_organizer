@@ -40,8 +40,8 @@ class THM_OrganizerModelDummy_Mapping extends JModelAdmin
 		$query->select("*");
 		$query->select("#__thm_organizer_assets_tree.id as asset_tree_id");
 		$query->from('#__thm_organizer_assets_tree AS at');
-		$query->join('#__thm_organizer_assets_semesters AS asem ON at.id = asem.assets_tree_id');
-		$query->join('#__thm_organizer_semesters_majors AS sm ON sm.id = asem.semesters_majors_id');
+		$query->innerJoin('#__thm_organizer_assets_semesters AS asem ON at.id = asem.assets_tree_id');
+		$query->innerJoin('#__thm_organizer_semesters_majors AS sm ON sm.id = asem.semesters_majors_id');
 		$query->where("#__thm_organizer_assets_tree.parent_id = $assetId");
 		$query->where("#__thm_organizer_semesters_majors.major_id= $majorID");
 		$dbo->setQuery($query);
@@ -96,8 +96,8 @@ class THM_OrganizerModelDummy_Mapping extends JModelAdmin
 		$query = $dbo->getQuery(true);
 		$query->select("MAX(ordering) as max_ordering");
 		$query->from('#__thm_organizer_assets_tree AS at');
-		$query->join('#__thm_organizer_assets_semesters AS asem ON at.id = asem.assets_tree_id');
-		$query->join('#__thm_organizer_semesters_majors AS sm ON sm.id = asem.semesters_majors_id');
+		$query->innerJoin('#__thm_organizer_assets_semesters AS asem ON at.id = asem.assets_tree_id');
+		$query->innerJoin('#__thm_organizer_semesters_majors AS sm ON sm.id = asem.semesters_majors_id');
 		$query->where("#__thm_organizer_assets_tree.parent_id = $parent");
 		$query->where("#__thm_organizer_semesters_majors.major_id= $major");
 		$dbo->setQuery($query);
@@ -251,8 +251,8 @@ class THM_OrganizerModelDummy_Mapping extends JModelAdmin
 		// Determine all node by a given asset id
 		$query->select("*");
 		$query->from("#__thm_organizer_assets_tree AT at");
-		$query->join('#__thm_organizer_assets_semesters AS asem ON asem.assets_tree_id = at.id');
-		$query->join('#__thm_organizer_semesters_majors AS sm ON sm.id = asem.semesters_majors_id');
+		$query->innerJoin('#__thm_organizer_assets_semesters AS asem ON asem.assets_tree_id = at.id');
+		$query->innerJoin('#__thm_organizer_semesters_majors AS sm ON sm.id = asem.semesters_majors_id');
 		$query->where("asset = $node");
 		$query->where("major_id = $stud_sem_id");
 		$dbo->setQuery($query);
@@ -292,8 +292,8 @@ class THM_OrganizerModelDummy_Mapping extends JModelAdmin
 
 		$query->select("*");
 		$query->from("#__thm_organizer_assets_tree AS at");
-		$query->join('#__thm_organizer_assets_semesters AS asem ON asem.assets_tree_id = at.id');
-		$query->join('#__thm_organizer_semesters_majors AS sm ON sm.id = asem.semesters_majors_id');
+		$query->innerJoin('#__thm_organizer_assets_semesters AS asem ON asem.assets_tree_id = at.id');
+		$query->innerJoin('#__thm_organizer_semesters_majors AS sm ON sm.id = asem.semesters_majors_id');
 		$query->where("asset <> 0");
 		$query->where("major_id = $stud_sem_id");
 		$query->group(" asset");

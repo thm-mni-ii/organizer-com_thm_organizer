@@ -109,12 +109,12 @@ class THM_OrganizerModelMappings extends JModelList
 		$query->select($select);
 
 		$query->from('#__thm_organizer_semesters_majors AS sm');
-		$query->join('#__thm_organizer_semesters AS s ON sm.semester_id = s.id');
-		$query->join('#__thm_organizer_assets_semesters AS asem ON sm.id = asem.semesters_majors_id');
-		$query->join('#__thm_organizer_assets_tree AS atr ON at.id = asem.assets_tree_id');
-		$query->join('#__thm_organizer_assets AS a ON atr.asset = a.id');
-		$query->join('#__thm_organizer_colors AS c ON atr.color_id = c.id');
-		$query->join('#__thm_organizer_asset_types AS aty ON aty.id = a.asset_type_id');
+		$query->innerJoin('#__thm_organizer_semesters AS s ON sm.semester_id = s.id');
+		$query->innerJoin('#__thm_organizer_assets_semesters AS asem ON sm.id = asem.semesters_majors_id');
+		$query->innerJoin('#__thm_organizer_assets_tree AS atr ON at.id = asem.assets_tree_id');
+		$query->innerJoin('#__thm_organizer_assets AS a ON atr.asset = a.id');
+		$query->innerJoin('#__thm_organizer_colors AS c ON atr.color_id = c.id');
+		$query->innerJoin('#__thm_organizer_asset_types AS aty ON aty.id = a.asset_type_id');
 
 		$query->where("sm.major_id= $sid");
 
@@ -263,9 +263,9 @@ class THM_OrganizerModelMappings extends JModelList
 				$query = $dbo->getQuery(true);
 				$query->select("semesters.id as semester_id");
 				$query->from(' #__thm_organizer_assets_tree as at');
-				$query->join('#__thm_organizer_assets_semesters AS asem ON asem.assets_tree_id = at.id');
-				$query->join('#__thm_organizer_semesters_majors AS sm ON asem.semesters_majors_id = sm.id');
-				$query->join('#__thm_organizer_semesters AS s ON s.id = sm.semester_id');
+				$query->innerJoin('#__thm_organizer_assets_semesters AS asem ON asem.assets_tree_id = at.id');
+				$query->innerJoin('#__thm_organizer_semesters_majors AS sm ON asem.semesters_majors_id = sm.id');
+				$query->innerJoin('#__thm_organizer_semesters AS s ON s.id = sm.semester_id');
 				$query->where("sm.major_id = $majorID");
 				$query->where("asset = $row->asset");
 				$dbo->setQuery($query);

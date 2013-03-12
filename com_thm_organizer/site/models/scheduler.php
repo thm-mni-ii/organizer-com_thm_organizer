@@ -175,9 +175,9 @@ class THM_OrganizerModelScheduler extends JModel
 		
 		$query->select('c.color AS hexColorCode, s.name AS semesterName, cm.organizer_major AS organizerMajorName');
 		$query->from('#__thm_semesters AS s');
-		$query->join('#__thm_curriculum_semesters_majors AS sm ON s.id = sm.semester_id');
-		$query->join('#__thm_curriculum_majors AS cm ON cm.id = sm.major_id');
-		$query->join('#__thm_curriculum_colors AS c ON c.id = s.color_id');
+		$query->innerJoin('#__thm_curriculum_semesters_majors AS sm ON s.id = sm.semester_id');
+		$query->innerJoin('#__thm_curriculum_majors AS cm ON cm.id = sm.major_id');
+		$query->innerJoin('#__thm_curriculum_colors AS c ON c.id = s.color_id');
 		$dbo->setQuery((string) $query);
 		$result = $dbo->loadObjectList();
 

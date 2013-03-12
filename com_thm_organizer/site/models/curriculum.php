@@ -184,8 +184,8 @@ class THM_OrganizerModelCurriculum extends JModelList
 		$query = $dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_lecturers as lecturers');
-		$query->join('#__thm_organizer_lecturers_assets as lecturers_assets ON lecturers.id = lecturers_assets.lecturer_id ');
-		$query->join('#__thm_organizer_assets as assets ON assets.id = lecturers_assets.modul_id');
+		$query->innerJoin('#__thm_organizer_lecturers_assets as lecturers_assets ON lecturers.id = lecturers_assets.lecturer_id ');
+		$query->innerJoin('#__thm_organizer_assets as assets ON assets.id = lecturers_assets.modul_id');
 		$query->where("assets.lsf_course_id = $assetId ");
 		$query->where("lecturers_assets.lecturer_type = 1 ");
 		$dbo->setQuery((string) $query);
@@ -370,7 +370,7 @@ class THM_OrganizerModelCurriculum extends JModelList
 		$query->select("sm.id as id");
 		$query->select("sm.major_id as major_id");
 		$query->from('#__thm_organizer_semesters_majors AS sm');
-		$query->join('#__thm_organizer_semesters AS s ON s.id = sm.semester_id');
+		$query->innerJoin('#__thm_organizer_semesters AS s ON s.id = sm.semester_id');
 		$query->where("major_id = $majorID");
 
 		$dbo->setQuery((string) $query);
@@ -503,9 +503,9 @@ class THM_OrganizerModelCurriculum extends JModelList
 
 		$query->select($select);
 		$query->from('#__thm_organizer_assets_tree AS at');
-		$query->join('#__thm_organizer_assets AS a ON at.asset = a.id');
-		$query->join('#__thm_organizer_assets_semesters AS asem ON at.id = asem.assets_tree_id');
-		$query->join('#__thm_organizer_colors AS c ON at.color_id = c.id');
+		$query->innerJoin('#__thm_organizer_assets AS a ON at.asset = a.id');
+		$query->innerJoin('#__thm_organizer_assets_semesters AS asem ON at.id = asem.assets_tree_id');
+		$query->innerJoin('#__thm_organizer_colors AS c ON at.color_id = c.id');
 		$query->where("asem.semesters_majors_id = '$semesterID'");
 		$query->where("published = 1");
 		$query->where("parent_id = '$parentID'");
