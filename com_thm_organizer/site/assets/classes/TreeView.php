@@ -931,7 +931,7 @@ class TreeView
 						if ($type == "subject" || $type == "module" || $type == "teacher")
 						{
 							$fieldType = $type . "s";
-							foreach (array_keys($this->_activeScheduleData->lessons->{$lessonKey}->{$fieldType}) as $typeKey)
+							foreach (array_keys((array) $this->_activeScheduleData->lessons->{$lessonKey}->{$fieldType}) as $typeKey)
 							{
 								if ($typeKey == $nodeID)
 								{
@@ -941,7 +941,7 @@ class TreeView
 						}
 						elseif ($type == "room")
 						{
-							foreach (array_keys($lessonValue) as $roomKey)
+							foreach (array_keys((array) $lessonValue) as $roomKey)
 							{
 								if ($roomKey == $nodeID)
 								{
