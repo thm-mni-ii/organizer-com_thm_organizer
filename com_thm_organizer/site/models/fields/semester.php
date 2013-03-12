@@ -87,7 +87,7 @@ class JFormFieldSemester extends JFormField
 		$query->select("sem_major.semester_id AS id");
 		$query->select("name");
 		$query->from('#__thm_organizer_semesters_majors as sem_major');
-		$query->join('inner', '#__thm_organizer_semesters as semesters ON sem_major.semester_id = semesters.id');
+		$query->innerJoin('#__thm_organizer_semesters as semesters ON sem_major.semester_id = semesters.id');
 		$query->where("major_id = $major");
 		$query->order('name ASC');
 		$db->setQuery($query);

@@ -46,7 +46,7 @@ class JFormFieldDummymapping extends JFormField
 
 		$query->select("*, assets.id as id, CONCAT(title_de) as title_de ");
 		$query->from(' #__thm_organizer_assets as assets');
-		$query->join('inner', '#__thm_organizer_asset_types as asset_types ON asset_types.id = assets.asset_type_id');
+		$query->innerJoin('#__thm_organizer_asset_types as asset_types ON asset_types.id = assets.asset_type_id');
 		$query->where('asset_types.id = 3');
 		$query->order('title_de');
 		$dbo->setQuery($query);

@@ -58,7 +58,7 @@ class JFormFieldMajor extends JFormField
 		$query->select("majors.id as id");
 		$query->select("CONCAT(degrees.name, ' ', majors.subject, ' (', majors.po, ')') as name");
 		$query->from('#__thm_organizer_majors as majors');
-		$query->join('inner', ' #__thm_organizer_degrees as degrees ON degrees.id = majors.degree_id');
+		$query->innerJoin(' #__thm_organizer_degrees as degrees ON degrees.id = majors.degree_id');
 		$query->order('name ASC');
 		$db->setQuery($query);
 		$semesters = $db->loadObjectList();

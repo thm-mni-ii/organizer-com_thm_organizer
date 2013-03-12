@@ -44,7 +44,7 @@ class JFormFieldMapping extends JFormField
 
 		$query->select("sem_major.id AS id, name");
 		$query->from('#__thm_organizer_semesters_majors as sem_major');
-		$query->join('inner', '#__thm_organizer_semesters as semesters ON sem_major.semester_id = semesters.id');
+		$query->innerJoin('#__thm_organizer_semesters as semesters ON sem_major.semester_id = semesters.id');
 		$query->where("major_id = '{$_SESSION['stud_id']}'");
 		$query->order('name ASC');
 		$dbo->setQuery($query);

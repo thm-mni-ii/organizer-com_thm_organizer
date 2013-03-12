@@ -126,8 +126,8 @@ class THM_OrganizerModelGroups extends JModel
 		$query = $this->dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_lecturers as lecturers');
-		$query->join('inner', '#__thm_organizer_lecturers_assets as lecturers_assets ON lecturers.id = lecturers_assets.lecturer_id ');
-		$query->join('inner', '#__thm_organizer_assets as assets ON assets.id = lecturers_assets.modul_id');
+		$query->innerJoin('#__thm_organizer_lecturers_assets as lecturers_assets ON lecturers.id = lecturers_assets.lecturer_id ');
+		$query->innerJoin('#__thm_organizer_assets as assets ON assets.id = lecturers_assets.modul_id');
 		$query->where("assets.lsf_course_id = $assetId ");
 
 		$query->group("lecturer_id");
@@ -462,8 +462,8 @@ class THM_OrganizerModelGroups extends JModel
 		$query = $this->dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_lecturers as lecturers');
-		$query->join('inner', '#__thm_organizer_lecturers_assets as lecturers_assets ON lecturers.id = lecturers_assets.lecturer_id ');
-		$query->join('inner', '#__thm_organizer_assets as assets ON assets.id = lecturers_assets.modul_id');
+		$query->innerJoin('#__thm_organizer_lecturers_assets as lecturers_assets ON lecturers.id = lecturers_assets.lecturer_id ');
+		$query->innerJoin('#__thm_organizer_assets as assets ON assets.id = lecturers_assets.modul_id');
 		$query->where("assets.lsf_course_id = $assetId ");
 		$query->where("lecturers_assets.lecturer_type = 1 ");
 

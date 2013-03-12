@@ -68,7 +68,7 @@ class THM_OrganizerModelAssets extends JModelList
 		$query->select(" #__thm_organizer_assets.name as asset_name");
 		$query->select(" #__thm_organizer_assets.id as asset_id");
 		$query->from('#__thm_organizer_assets');
-		$query->join('inner', '#__thm_organizer_asset_types ON #__thm_organizer_assets.asset_type_id = #__thm_organizer_asset_types.id');
+		$query->innerJoin('#__thm_organizer_asset_types ON #__thm_organizer_assets.asset_type_id = #__thm_organizer_asset_types.id');
 
 		$search = $dbo->Quote('%' . $dbo->getEscaped($this->state->get('filter.search'), true) . '%');
 		$searchClause = "(title_de LIKE '$search' ";

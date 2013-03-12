@@ -310,8 +310,8 @@ class THM_OrganizerModelDummy_Mapping extends JModelAdmin
 
 			$query = $dbo->getQuery(true);
 			$query->update($dbo->qn('#__thm_organizer_assets_tree'));
-			$query->join("#__thm_organizer_assets_semesters ON #__thm_organizer_assets_semesters.assets_tree_id = #__thm_organizer_assets_tree.id");
-			$query->join("#__thm_organizer_semesters_majors ON #__thm_organizer_semesters_majors.id = #__thm_organizer_assets_semesters.semesters_majors_id");
+			$query->innerJoin("#__thm_organizer_assets_semesters ON #__thm_organizer_assets_semesters.assets_tree_id = #__thm_organizer_assets_tree.id");
+			$query->innerJoin("#__thm_organizer_semesters_majors ON #__thm_organizer_semesters_majors.id = #__thm_organizer_assets_semesters.semesters_majors_id");
 			$query->set("lineage = '$path'");
 			$query->set("depth = $depth");
 			$query->where("asset = $row->asset");

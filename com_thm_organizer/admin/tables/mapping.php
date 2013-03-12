@@ -65,8 +65,8 @@ class THM_OrganizerTableMapping extends JTable
 		// Select the primary key and ordering values from the table.
 		$query->select('assets_tree.' . $this->_tbl_key . ', ordering');
 		$query->from(' #__thm_organizer_assets_tree as assets_tree');
-		$query->join('inner', '#__thm_organizer_assets_semesters as assets_semesters ON assets_semesters.assets_tree_id = assets_tree.id');
-		$query->join('inner', '#__thm_organizer_semesters_majors as semesters_majors ON assets_semesters.semesters_majors_id = semesters_majors.id');
+		$query->innerJoin('#__thm_organizer_assets_semesters as assets_semesters ON assets_semesters.assets_tree_id = assets_tree.id');
+		$query->innerJoin('#__thm_organizer_semesters_majors as semesters_majors ON assets_semesters.semesters_majors_id = semesters_majors.id');
 		$query->where("semesters_majors.major_id =" . $major_id);
 
 	
@@ -186,8 +186,8 @@ class THM_OrganizerTableMapping extends JTable
 		// Select the primary key and ordering values from the table.
 		$query->select('assets_tree.' . $this->_tbl_key . ', ordering');
 		$query->from(' #__thm_organizer_assets_tree as assets_tree');
-		$query->join('inner', '#__thm_organizer_assets_semesters as assets_semesters ON assets_semesters.assets_tree_id = assets_tree.id');
-		$query->join('inner', '#__thm_organizer_semesters_majors as semesters_majors ON assets_semesters.semesters_majors_id = semesters_majors.id');
+		$query->innerJoin('#__thm_organizer_assets_semesters as assets_semesters ON assets_semesters.assets_tree_id = assets_tree.id');
+		$query->innerJoin('#__thm_organizer_semesters_majors as semesters_majors ON assets_semesters.semesters_majors_id = semesters_majors.id');
 		$query->where("semesters_majors.major_id =" . $major_id);
 		$query->where('ordering >= 0');
 		$query->where('depth != "NULL"');

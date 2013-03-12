@@ -80,7 +80,7 @@ class JFormFieldResponsible extends JFormField
 			$query = $dbo->getQuery(true);
 			$query->select("DISTINCT username as id, name as name");
 			$query->from('#__users');
-			$query->join('inner', '#__user_usergroup_map ON #__users.id = user_id INNER JOIN #__usergroups ON group_id = #__usergroups.id');
+			$query->innerJoin('#__user_usergroup_map ON #__users.id = user_id INNER JOIN #__usergroups ON group_id = #__usergroups.id');
 			$query->where("#__usergroups.id IN('" . implode("', '", $usergroups) . "')");
 			$query->order('name');
 			$dbo->setQuery((string) $query);
