@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.1.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -64,13 +63,14 @@ class THM_OrganizerModelcategory extends JModel
             $dbo = $this->getDbo();
             $dbo->transactionStart();
 
-            // Remove events / event resources / content dependant upon this category
+            // Remove events / event resources / content dependent upon this category
             $query = $dbo->getQuery(true);
             $query->select("DISTINCT (id)");
             $query->from("#__thm_organizer_events");
             $query->where("categoryID IN ( '" . implode("', '", $categoryIDs) . "' )");
             $dbo->setQuery((string) $query);
             $eventIDs = $dbo->loadResultArray();
+
             if (count($eventIDs))
             {
                 $eventsModel = new THM_OrganizerModelevents;
@@ -85,7 +85,7 @@ class THM_OrganizerModelcategory extends JModel
                 }
             }
 
-            $category = JTable::getInstance('schedules', 'thm_organizerTable');
+            $category = JTable::getInstance('categories', 'thm_organizerTable');
             foreach ($categoryIDs as $categoryID)
             {
                 $success = $category->delete($categoryID);
@@ -95,6 +95,7 @@ class THM_OrganizerModelcategory extends JModel
                     return false;
                 }
             }
+			$dbo->transactionCommit();
             return true;
         }
         return true;
