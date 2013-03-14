@@ -297,7 +297,7 @@ function cropText(sText, nCropLimit)
  *            selectedScheduleid The id of the current selected schedule
  * @return (Integer) Returns one of the following numbers 1: selectedScheduleid
  *         is the same as one of the event objects 2: A class of an element in
- *         arr is the same as one of the event objects 3: A lecturer of an
+ *         arr is the same as one of the event objects 3: A teacher of an
  *         element in arr is the same as one of the event objects 4: A room of
  *         an element in arr is the same as one of the event objects 0: No
  *         condition above is true
@@ -351,7 +351,7 @@ function showevent(event, arr, selectedScheduleid)
  * @param {String}
  *            obj String representation of an event object
  * @param {Array}
- *            arr Array of lecturers, rooms or classes of a lesson
+ *            arr Array of teachers, rooms or classes of a lesson
  * @return {Boolean} true if an element in arr matches to obj false if no
  *         elmenet in arr matches to obj
  */

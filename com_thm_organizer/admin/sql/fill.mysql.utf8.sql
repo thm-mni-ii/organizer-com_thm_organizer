@@ -31,7 +31,7 @@ INSERT INTO `#__thm_organizer_colors` (`id`, `name`, `color`) VALUES
 (25, 'THM dunkelrot', '810e2f'),
 (26, 'THM dunkelgelb', 'vb58b14');
 
-INSERT INTO #__thm_organizer_semesters (`id`, `name`) VALUES
+INSERT INTO `#__thm_organizer_semesters` (`id`, `name`) VALUES
 (1, '1. Semester'),
 (2, '2. Semester'),
 (3, '3. Semester'),
@@ -40,15 +40,17 @@ INSERT INTO #__thm_organizer_semesters (`id`, `name`) VALUES
 (6, '6. Semester'),
 (7, '4./5. Semester');
 
-INSERT INTO `#__thm_organizer_degrees` (`id`, `name`) VALUES
-(1, 'Bachelor of Engineering'),
-(2, 'Bachelor of Science'),
-(3, 'Master of Science'),
-(4, 'Bachelor of Arts'),
-(5, 'Master of Arts'),
-(6, 'Master of Business Administration and Engineering');
+INSERT INTO `#__thm_organizer_degrees` (`id`, `name`, `abbreviation`) VALUES
+(1, 'Diplom', 'Dipl.'),
+(2, 'Bachelor of Engineering', 'B.Eng.'),
+(3, 'Bachelor of Science', 'B.Sc.'),
+(4, 'Bachelor of Arts', 'B.A.'),
+(5, 'Master of Engineering', 'M.Eng.'),
+(6, 'Master of Science', 'M.Sc.'),
+(7, 'Master of Arts', 'M.A.'),
+(8, 'Master of Business Administration and Engineering', 'MBA');
 
-INSERT INTO #__thm_organizer_lecturers_types (`id`, `name`) VALUES
+INSERT INTO `#__thm_organizer_lecturers_types` (`id`, `name`) VALUES
 (1, 'Modulverantwortlicher'),
 (2, 'Dozent');
 

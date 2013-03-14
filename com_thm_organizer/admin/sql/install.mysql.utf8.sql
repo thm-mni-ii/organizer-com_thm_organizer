@@ -110,8 +110,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_events` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_exclude_dates` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `eventID` int(10) unsigned NOT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `eventID` int(11) unsigned NOT NULL,
   `date` date NOT NULL DEFAULT '0000-00-00',
   PRIMARY KEY (`id`),
   FOREIGN KEY (`eventID`) REFERENCES `#__thm_organizer_events` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -151,8 +151,26 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_monitors` (
   FOREIGN KEY (`roomID`) REFERENCES `#__thm_organizer_rooms` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_asset_types` (
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_soap_queries` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `lsf_object` varchar(255) NOT NULL,
+  `lsf_study_path` varchar(255) NOT NULL,
+  `lsf_degree` varchar(255) NOT NULL,
+  `lsf_pversion` varchar(255) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE`#__thm_organizer_degrees` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `abbreviation` varchar(255) NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_asset_types` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
@@ -164,8 +182,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_colors` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_assets` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `jos_thm_organizer_assets` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `beschreibung` varchar(255) DEFAULT NULL,
   `min_creditpoints` tinyint(4) DEFAULT NULL,
@@ -178,20 +196,21 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_assets` (
   `short_title_de` varchar(45) DEFAULT NULL,
   `short_title_en` varchar(45) NOT NULL,
   `abbreviation` varchar(45) DEFAULT NULL,
-  `asset_type_id` int(11) DEFAULT NULL,
+  `asset_type_id` int(11) unsigned DEFAULT NULL,
   `prerequisite` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `note` text NOT NULL,
   `pool_type` tinyint(4) NOT NULL,
-  `color_id` int(11) NOT NULL,
+  `color_id` int(11) unsigned DEFAULT NULL,
   `ecollaboration_link` varchar(255) NOT NULL,
   `menu_link` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`asset_type_id`) REFERENCES `#__thm_organizer_asset_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  FOREIGN KEY (`asset_type_id`) REFERENCES `jos_thm_organizer_asset_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  FOREIGN KEY (`color_id`) REFERENCES `jos_thm_organizer_colors` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_majors` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `degree_id` int(11) NOT NULL,
   `subject` varchar(255) NOT NULL,
   `po` year(4) NOT NULL,
@@ -200,13 +219,14 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_majors` (
   `lsf_study_path` varchar(255),
   `lsf_degree` varchar(255),
   `organizer_major` varchar(255),
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`degree_id`) REFERENCES `#__thm_organizer_degrees` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_semesters` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
-  `color_id` int(11),
+  `color_id` int(11) unsigned DEFAULT NULL,
   `short_title_de` varchar(45),
   `short_title_en` varchar(45), 
   `note` text,
@@ -215,9 +235,9 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_semesters` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_semesters_majors` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `major_id` int(11) NOT NULL,
-  `semester_id` int(11) NOT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `major_id` int(11) unsigned NOT NULL,
+  `semester_id` int(11) unsigned NOT NULL,
   PRIMARY KEY (`major_id`, `semester_id`),
   FOREIGN KEY (`major_id`) REFERENCES `#__thm_organizer_majors` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (`semester_id`) REFERENCES `#__thm_organizer_semesters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -225,10 +245,10 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_semesters_majors` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_assets_tree` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `color_id` int(11) NOT NULL,
-  `asset` int(11) NOT NULL,
-  `parent_id` int(11) DEFAULT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `color_id` int(11) unsigned DEFAULT NULL,
+  `asset` int(11) unsigned NOT NULL,
+  `parent_id` int(11) unsigned DEFAULT NULL,
   `proportion_crp` varchar(45) CHARACTER SET utf8 DEFAULT NULL,
   `depth` int(11) DEFAULT NULL,
   `lineage` varchar(255) NOT NULL DEFAULT 'none',
@@ -248,57 +268,40 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_assets_tree` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_assets_semesters` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `assets_tree_id` int(11) NOT NULL,
-  `semesters_majors_id` int(11) NOT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `assets_tree_id` int(11) unsigned NOT NULL,
+  `semesters_majors_id` int(11) unsigned NOT NULL,
   PRIMARY KEY (`assets_tree_id`, `semesters_majors_id`),
   FOREIGN KEY (`assets_tree_id`) REFERENCES `#__thm_organizer_assets_tree` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (`semesters_majors_id`) REFERENCES `#__thm_organizer_semesters_majors` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   UNIQUE KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_degrees` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  PRIMARY KEY (id)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lecturers` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userid` varchar(25) NOT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `userid` varchar(150) NOT NULL,
   `surname` varchar(255) NOT NULL,
   `forename` varchar(255) NOT NULL,
   `academic_title` varchar(45) DEFAULT NULL,
   `note` text NOT NULL,
-  PRIMARY KEY (`userid`),
-  UNIQUE KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (`userid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS #__thm_organizer_lecturers_types (
-  id int(11) NOT NULL AUTO_INCREMENT,
-  name varchar(50) NOT NULL,
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_lecturers_types` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_soap_queries` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `lsf_object` varchar(255) NOT NULL,
-  `lsf_study_path` varchar(255) NOT NULL,
-  `lsf_degree` varchar(255) NOT NULL,
-  `lsf_pversion` varchar(255) NOT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=178 ;
-
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lecturers_assets` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `modul_id` int(11) NOT NULL,
-  `lecturer_id` int(25) NOT NULL,
-  `lecturer_type` int(11) NOT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `modul_id` int(11) unsigned NOT NULL,
+  `lecturer_id` int(11) unsigned NOT NULL,
+  `lecturer_type` int(11) unsigned NOT NULL,
   PRIMARY KEY (`modul_id`, `lecturer_id`, `lecturer_type`),
   FOREIGN KEY (`modul_id`) REFERENCES `#__thm_organizer_assets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (`lecturer_type`) REFERENCES `#__thm_organizer_lecturers_types` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (`lecturer_id`) REFERENCES `#__thm_organizer_lecturers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`lecturer_type`) REFERENCES `#__thm_organizer_lecturers_types` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   UNIQUE KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
