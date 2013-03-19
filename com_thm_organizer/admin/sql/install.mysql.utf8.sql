@@ -176,7 +176,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_asset_types` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_colors` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `color` varchar(6) NOT NULL,
   PRIMARY KEY (`id`)
