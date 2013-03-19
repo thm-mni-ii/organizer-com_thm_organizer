@@ -182,7 +182,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_colors` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `jos_thm_organizer_assets` (
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_assets` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `beschreibung` varchar(255) DEFAULT NULL,
@@ -205,8 +205,8 @@ CREATE TABLE IF NOT EXISTS `jos_thm_organizer_assets` (
   `ecollaboration_link` varchar(255) NOT NULL,
   `menu_link` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`asset_type_id`) REFERENCES `jos_thm_organizer_asset_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  FOREIGN KEY (`color_id`) REFERENCES `jos_thm_organizer_colors` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
+  FOREIGN KEY (`asset_type_id`) REFERENCES `#__thm_organizer_asset_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  FOREIGN KEY (`color_id`) REFERENCES `#__thm_organizer_colors` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_majors` (
