@@ -961,9 +961,10 @@ class THM_OrganizerModelSchedule extends JModel
 							$this->_scheduleErrors[] = $error;
 						}
 					}
+					
 
-					$roomID = str_replace('RM_', '', trim((string) $instance->assigned_room[0]['id']));
-					if (empty($roomID) AND !isset($this->_schedule->calendar->$currentDate->$period->$lessonID))
+					$roomsExist = trim((string) $instance->assigned_room[0]['id']);
+					if (empty($roomsExist) AND !isset($this->_schedule->calendar->$currentDate->$period->$lessonID))
 					{
 						$error = JText::sprintf('COM_THM_ORGANIZER_LS_TP_ROOM_MISSING', $lessonName, $lessonID, date('l', $currentDT), $period);
 						if (!in_array($error, $this->_scheduleErrors) AND !in_array($error, $this->_scheduleWarnings))
@@ -978,23 +979,34 @@ class THM_OrganizerModelSchedule extends JModel
 							}
 						}
 					}
-					elseif (!empty($roomID) AND !key_exists($roomID, $this->_schedule->rooms))
+					elseif (empty($roomsExist))
 					{
-						$error = JText::sprintf('COM_THM_ORGANIZER_LS_TP_ROOM_LACKING', $lessonName, $lessonID, date('l', $currentDT), $period, $roomID);
-						if (!in_array($error, $this->_scheduleErrors))
-						{
-							$this->_scheduleErrors[] = $error;
-						}
+						continue;
 					}
 					else
 					{
-						if (!isset($this->_schedule->calendar->$currentDate->$period->$lessonID))
+						$roomIDs = explode(' ', str_replace('RM_', '', $roomsExist));
+						foreach ($roomIDs as $roomID)
 						{
-							$this->_schedule->calendar->$currentDate->$period->$lessonID = new stdClass;
-						}
-						if (!empty($roomID) AND !in_array($roomID, get_object_vars($this->_schedule->calendar->$currentDate->$period->$lessonID)))
-						{
-							$this->_schedule->calendar->$currentDate->$period->$lessonID->$roomID = '';
+							if (!key_exists($roomID, $this->_schedule->rooms))
+							{
+								$error = JText::sprintf('COM_THM_ORGANIZER_LS_TP_ROOM_LACKING', $lessonName, $lessonID, date('l', $currentDT), $period, $roomID);
+								if (!in_array($error, $this->_scheduleErrors))
+								{
+									$this->_scheduleErrors[] = $error;
+								}
+							}
+							else
+							{
+								if (!isset($this->_schedule->calendar->$currentDate->$period->$lessonID))
+								{
+									$this->_schedule->calendar->$currentDate->$period->$lessonID = new stdClass;
+								}
+								if (!empty($roomID) AND !in_array($roomID, get_object_vars($this->_schedule->calendar->$currentDate->$period->$lessonID)))
+								{
+									$this->_schedule->calendar->$currentDate->$period->$lessonID->$roomID = '';
+								}
+							}
 						}
 					}
 				}

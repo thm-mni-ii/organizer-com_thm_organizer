@@ -739,7 +739,7 @@
     </room>
     <room id="RM_A10.5.01">
       <longname>A.5.01</longname>
-      <room_description id="DS_C2"/>
+      <room_description id="DS_C2"/>8
       <external_name>A10.5.01</external_name>
     </room>
     <room id="RM_A10.5.05">
