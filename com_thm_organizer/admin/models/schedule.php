@@ -123,15 +123,23 @@ class THM_OrganizerModelSchedule extends JModel
 		}
 
 		// Schoolyear dates
-		$syStartDate = strtotime(date('Y-m-d', strtotime(trim((string) $xmlSchedule->general->schoolyearbegindate))));
+		$syStartDate = strtotime(trim((string) $xmlSchedule->general->schoolyearbegindate));
 		if (empty($syStartDate))
 		{
 			$this->_scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_START_DATE_MISSING");
 		}
-		$syEndDate = strtotime(date('Y-m-d', strtotime(trim((string) $xmlSchedule->general->schoolyearenddate))));
+		else
+		{
+			$this->_schedule->startdate = date('Y-m-d', $syStartDate);
+		}
+		$syEndDate = strtotime(trim((string) $xmlSchedule->general->schoolyearenddate));
 		if (empty($syEndDate))
 		{
 			$this->_scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_END_DATE_MISSING");
+		}
+		else
+		{
+			$this->_schedule->enddate = date('Y-m-d', $syEndDate);
 		}
 
 		// Organizational Data
@@ -144,7 +152,7 @@ class THM_OrganizerModelSchedule extends JModel
 		{
 			$this->_schedule->departmentname = $departmentname;
 		}
-		$semestername = trim((string) $xmlSchedule->general->header2);
+		$semestername = trim((string) $xmlSchedule->general->footer);
 		if (empty($semestername))
 		{
 			$this->_scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_SCHOOLYEARNAME_MISSING");
@@ -160,27 +168,25 @@ class THM_OrganizerModelSchedule extends JModel
 		{
 			$this->_scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_START_DATE_MISSING");
 		}
-		else
-		{
-			$this->_schedule->startdate = date('Y-m-d', strtotime($startDate));
-		}
 		$endDate = trim((string) $xmlSchedule->general->termenddate);
 		if (empty($endDate))
 		{
 			$this->_scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_END_DATE_MISSING");
 		}
-		else
-		{
-			$this->_schedule->enddate = date('Y-m-d', strtotime($endDate));
-		}
 
 		// Checks if term and schoolyear dates are consistent
-		$termStartDT = strtotime($this->_schedule->startdate);
-		$termEndDT = strtotime($this->_schedule->enddate);
+		$termStartDT = strtotime($startDate);
+		$termEndDT = strtotime($endDate);
 		if ($termStartDT < $syStartDate OR $termEndDT > $syEndDate OR $termStartDT >= $termEndDT)
 		{
 			$this->_scheduleErrors[] = "$termStartDT < $syStartDate OR $termEndDT > $syEndDate OR $termStartDT >= $termEndDT";
-			$this->_scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_SCH_DATES_INCONSISTANT');
+			$this->_scheduleErrors[] = JText::sprintf(
+													  'COM_THM_ORGANIZER_SCH_DATES_INCONSISTANT',
+													  date('d.m.Y', $syStartDate),
+													  date('d.m.Y', $syEndDate),
+													  date('d.m.Y', $termStartDT),
+													  date('d.m.Y', $termEndDT)
+													 );
 		}
 
 		$this->_schedule->periods = new stdClass;
@@ -703,7 +709,7 @@ class THM_OrganizerModelSchedule extends JModel
 		}
 		elseif (empty($this->_schedule->fields->$descriptionID))
 		{
-			$this->_scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_CL_FIELD_LACKING', $moduleID);
+			$this->_scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_CL_FIELD_LACKING', $moduleID, $descriptionID);
 			$this->_schedule->modules->$moduleID->description = '';
 		}
 		else
@@ -846,7 +852,7 @@ class THM_OrganizerModelSchedule extends JModel
 		$startDateExists = array_key_exists($lessonStartDate, get_object_vars($this->_schedule->calendar));
 		if (!$startDateExists)
 		{
-			$this->_scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_SD_OOB', $lessonName, $lessonID);
+			$this->_scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_SD_OOB', $lessonName, $lessonID, $lessonStartDate);
 			return;
 		}
 
@@ -1000,27 +1006,20 @@ class THM_OrganizerModelSchedule extends JModel
 	/**
 	 * Creates an array with dates as indexes for the days of the given planning period
 	 * 
-	 * @param   string  $syStartDate  the date upon which the school year begins
-	 * @param   string  $syEndDate    the date upon which the school year ends
+	 * @param   int  $syStartDate  the datetime upon which the school year begins
+	 * @param   int  $syEndDate    the datetime upon which the school year ends
 	 * 
 	 * @return void
 	 */
 	private function initializeCalendar($syStartDate, $syEndDate)
 	{
 		$calendar = new stdClass;
-		$startDT = strtotime($this->_schedule->startdate);
-		$endDT = strtotime($this->_schedule->enddate);
 
 		// Calculate the schoolyear length
 		$syLength = floor(($syEndDate - $syStartDate) / 86400) + 1;
 		$calendar->sylength = $syLength;
 
-		// 86400 is the number of seconds in a day 24 * 60 * 60
-		// Calculate the length off the planning period
-		$termLength = floor(($endDT - $startDT) / 86400);
-		$calendar->termlength = $termLength;
-
-		for ($currentDT = $startDT; $currentDT <= $endDT; )
+		for ($currentDT = $syStartDate; $currentDT <= $syEndDate; )
 		{
 			// Create an index for the date
 			$currentDate = date('Y-m-d', $currentDT);
