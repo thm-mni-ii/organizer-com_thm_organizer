@@ -48,7 +48,7 @@ INSERT INTO `#__thm_organizer_degrees` (`id`, `name`, `abbreviation`) VALUES
 (5, 'Master of Engineering', 'M.Eng.'),
 (6, 'Master of Science', 'M.Sc.'),
 (7, 'Master of Arts', 'M.A.'),
-(8, 'Master of Business Administration and Engineering', 'MBA');
+(8, 'Master of Business Administration and Engineering', 'M.B.A.');
 
 INSERT INTO `#__thm_organizer_lecturers_types` (`id`, `name`) VALUES
 (1, 'Modulverantwortlicher'),

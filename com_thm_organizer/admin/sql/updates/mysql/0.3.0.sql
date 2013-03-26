@@ -9,7 +9,9 @@ DROP TABLE IF EXISTS `#__thm_organizer_curriculum_semesters`;
 DROP TABLE IF EXISTS `#__thm_organizer_semesters`;
 DROP TABLE IF EXISTS `#__thm_organizer_assets_tree`;
 DROP TABLE IF EXISTS `#__thm_organizer_lecturers_assets`;
+DROP TABLE IF EXISTS `#__thm_organizer_teacher_assets`;
 DROP TABLE IF EXISTS `#__thm_organizer_assets`;
+DROP TABLE IF EXISTS `#__thm_organizer_lecturers`;
 
 --------------------------------------------------------------------------------
 -- Teachers (Lecturers)                                                       --
@@ -156,8 +158,8 @@ WHERE `color_id`= '0';
 
 -- Add FK constraints
 ALTER TABLE `#__thm_organizer_assets`
-ADD FOREIGN KEY (`asset_type_id`) REFERENCES `#__thm_organizer_asset_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD FOREIGN KEY (`color_id`) REFERENCES `#__thm_organizer_colors` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ADD FOREIGN KEY (`asset_type_id`) REFERENCES `#__thm_organizer_asset_types` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+ADD FOREIGN KEY (`color_id`) REFERENCES `#__thm_organizer_colors` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --------------------------------------------------------------------------------
 -- Majors                                                                     --
@@ -167,7 +169,7 @@ ADD FOREIGN KEY (`color_id`) REFERENCES `#__thm_organizer_colors` (`id`) ON DELE
 -- avoid problems with fk type checks.
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_majors` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `degree_id` int(11) unsigned NOT NULL,
+  `degree_id` int(11) unsigned DEFAULT NULL,
   `subject` varchar(255) NOT NULL,
   `po` year(4) NOT NULL,
   `note` text,
@@ -185,7 +187,7 @@ FROM `#__thm_curriculum_majors`;
 
 -- Add FK constraints
 ALTER TABLE `#__thm_organizer_majors`
-ADD FOREIGN KEY (`degree_id`) REFERENCES `#__thm_organizer_degrees` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ADD FOREIGN KEY (`degree_id`) REFERENCES `#__thm_organizer_degrees` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --------------------------------------------------------------------------------
 -- Semesters                                                                  --
@@ -220,8 +222,37 @@ WHERE `color_id`= '0';
 
 -- Add FK constraints.
 ALTER TABLE `#__thm_organizer_semesters`
-ADD FOREIGN KEY (`color_id`) REFERENCES `#__thm_organizer_colors` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+ADD FOREIGN KEY (`color_id`) REFERENCES `#__thm_organizer_colors` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
+--------------------------------------------------------------------------------
+-- Semesters Majors                                                           --
+--------------------------------------------------------------------------------
+
+-- Recreate the majors table with modifications, the id gets altered later to
+-- avoid problems with fk type checks.
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_semesters_majors` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `major_id` int(11) NOT NULL,
+  `semester_id` int(11) NOT NULL,
+  PRIMARY KEY (`major_id`, `semester_id`),
+  UNIQUE KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+-- Copy data from curriculum to temp table
+INSERT INTO `#__thm_organizer_semesters_majors`
+SELECT *
+FROM `#__thm_curriculum_semesters_majors`;
+
+-- Standardize the index columns
+ALTER TABLE `#__thm_organizer_semesters_majors`
+CHANGE `id` `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
+CHANGE `major_id` `major_id` INT ( 11 ) UNSIGNED NOT NULL,
+CHANGE `semester_id` `semester_id` INT ( 11 ) UNSIGNED NOT NULL;
+
+-- Add FK constraints.
+ALTER TABLE `#__thm_organizer_semesters_majors`
+ADD FOREIGN KEY (`major_id`) REFERENCES `#__thm_organizer_majors` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD FOREIGN KEY (`semester_id`) REFERENCES `#__thm_organizer_semesters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --------------------------------------------------------------------------------
 -- Teacher Assets (Lecturers Assets)                                          --
@@ -246,9 +277,9 @@ FROM `#__thm_curriculum_lecturers_assets`;
 -- Standardize the index columns
 ALTER TABLE `#__thm_organizer_teacher_assets`
 CHANGE `id` `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-CHANGE `moduleID` `moduleID` INT ( 11 ) UNSIGNED DEFAULT NULL,
-CHANGE `teacherID` `teacherID` INT ( 11 ) UNSIGNED DEFAULT NULL,
-CHANGE `teacherResp` `teacherResp` INT ( 11 ) UNSIGNED DEFAULT NULL;
+CHANGE `moduleID` `moduleID` INT ( 11 ) UNSIGNED NOT NULL,
+CHANGE `teacherID` `teacherID` INT ( 11 ) UNSIGNED NOT NULL,
+CHANGE `teacherResp` `teacherResp` INT ( 11 ) UNSIGNED NOT NULL;
 
 -- Add FK constraints.
 ALTER TABLE `#__thm_organizer_teacher_assets`
@@ -260,13 +291,13 @@ ADD FOREIGN KEY (`teacherResp`) REFERENCES `#__thm_organizer_teacher_responsibil
 -- Assets Tree                                                                --
 --------------------------------------------------------------------------------
 
--- Recreate the majors table with modifications, the id gets altered later to
--- avoid problems with fk type checks.
+-- Recreate the majors table with modifications. Data is not migrated due to the
+-- extreme level of corrupt data (approx. 66%).
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_assets_tree` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `color_id` int(11) DEFAULT NULL,
-  `asset` int(11) NOT NULL,
-  `parent_id` int(11) DEFAULT NULL,
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `color_id` int(11) UNSIGNED DEFAULT NULL,
+  `asset` int(11) UNSIGNED NOT NULL,
+  `parent_id` int(11) UNSIGNED NOT NULL,
   `proportion_crp` varchar(45) CHARACTER SET utf8 DEFAULT NULL,
   `depth` int(11) DEFAULT NULL,
   `lineage` varchar(255) NOT NULL DEFAULT 'none',
@@ -279,40 +310,24 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_assets_tree` (
   `menu_link_flag` tinyint(4) NOT NULL DEFAULT 1,
   `ecollaboration_link_flag` int(1) NOT NULL DEFAULT 1,
   `note_flag` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`color_id`) REFERENCES `#__thm_organizer_colors` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  FOREIGN KEY (`asset`) REFERENCES `#__thm_organizer_assets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`parent_id`) REFERENCES `#__thm_organizer_assets_tree` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
--- Copy data from curriculum to temp table
-INSERT INTO `#__thm_organizer_assets_tree`
-SELECT *
-FROM `#__thm_curriculum_assets_tree`;
+--------------------------------------------------------------------------------
+-- Assets Semesters                                                           --
+--------------------------------------------------------------------------------
 
--- Standardize the index columns
-ALTER TABLE `#__thm_organizer_assets_tree`
-CHANGE `id` `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-CHANGE `color_id` `color_id` INT ( 11 ) UNSIGNED DEFAULT NULL,
-CHANGE `asset` `asset` INT ( 11 ) UNSIGNED NOT NULL,
-CHANGE `parent_id` `parent_id` INT ( 11 ) UNSIGNED DEFAULT NULL;
-
--- Remove erroneous entries
-DELETE FROM `#__thm_organizer_assets_tree`
-WHERE `asset`= '0';
-
--- Replace the color_id 0 with 39 to prevent problems with FK checks
-UPDATE `#__thm_organizer_assets_tree`
-SET `color_id` = '39'
-WHERE `color_id`= '0';
-
--- Replace the parent_id 0 with null to prevent problems with FK checks
-UPDATE `#__thm_organizer_assets_tree`
-SET `parent_id` = NULL
-WHERE `parent_id`= '0';
-
--- Add FK constraints.
-ALTER TABLE `#__thm_organizer_assets_tree`
-ADD FOREIGN KEY (`color_id`) REFERENCES `#__thm_organizer_colors` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-ADD FOREIGN KEY (`asset`) REFERENCES `#__thm_organizer_assets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD FOREIGN KEY (`parent_id`) REFERENCES `#__thm_organizer_assets_tree` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---ALTER TABLE `jos_thm_organizer_assets_tree`
---ADD FOREIGN KEY (`parent_id`) REFERENCES `jos_thm_organizer_assets_tree` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+-- Recreate the majors table with modifications. Data is not migrated due to the
+-- extreme level of corrupt data in parent table assets tree.
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_assets_semesters` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `assets_tree_id` int(11) unsigned NOT NULL,
+  `semesters_majors_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`assets_tree_id`, `semesters_majors_id`),
+  FOREIGN KEY (`assets_tree_id`) REFERENCES `#__thm_organizer_assets_tree` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`semesters_majors_id`) REFERENCES `#__thm_organizer_semesters_majors` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  UNIQUE KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
