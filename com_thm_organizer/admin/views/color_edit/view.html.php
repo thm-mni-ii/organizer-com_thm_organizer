@@ -22,7 +22,7 @@ jimport('joomla.application.component.view');
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  */
-class THM_OrganizerViewColor extends JView
+class THM_OrganizerViewColor_Edit extends JView
 {
 	/**
 	 * Method to get display

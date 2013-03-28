@@ -21,7 +21,7 @@ jimport('joomla.application.component.view');
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  */
-class THM_OrganizerViewColors extends JView
+class THM_OrganizerViewColor_Manager extends JView
 {
 	/**
 	 * Method to get display
@@ -33,6 +33,7 @@ class THM_OrganizerViewColors extends JView
 	public function display($tpl = null)
 	{
 		JHtml::_('behavior.tooltip');
+
 		$items = $this->get('Items');
 		$pagination = $this->get('Pagination');
 
@@ -51,8 +52,7 @@ class THM_OrganizerViewColors extends JView
 	 */
 	protected function addToolBar()
 	{
-		JToolBarHelper::title(JText::_('COM_THM_ORGANIZER') . ': ' . JText::_('COM_THM_ORGANIZER_SUBMENU_COLORS_TITLE'), 'generic.png');
-
+		JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_CLM_TOOLBAR_TITLE'), 'generic.png');
 		JToolBarHelper::addNew('color.add', 'JTOOLBAR_NEW');
 		JToolBarHelper::editList('color.edit', 'JTOOLBAR_EDIT');
 		JToolBarHelper::deleteList('', 'color.delete', 'JTOOLBAR_DELETE');

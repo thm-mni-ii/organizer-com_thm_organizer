@@ -1,32 +1,26 @@
 <?php
 /**
- * @version     v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name        JFormFieldSemester
  * @description JFormFieldSemester component site field
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
 jimport('joomla.form.formfield');
 
 /**
  * Class JFormFieldSemester for component com_thm_organizer
- *
  * Class provides methods to create a multiple select which includes the related semesters of the current tree node
  *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class JFormFieldSemester extends JFormField
 {
@@ -34,7 +28,6 @@ class JFormFieldSemester extends JFormField
 	 * Type
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	protected $type = 'Semester';
 
@@ -45,30 +38,27 @@ class JFormFieldSemester extends JFormField
 	 */
 	public function getInput()
 	{
-		$js = "";
-		$db = JFactory::getDBO();
-
 		$scriptDir = str_replace(JPATH_SITE . DS, '', "components/com_thm_organizer/models/fields/");
 		JHTML::script('semester.js', $scriptDir, false);
 
-		$arrows = '<a onclick="roleup()" id="sortup"><img src="../administrator/components/com_thm_groups/img/uparrow.png" " .
-		"title="Rolle eine Position h&ouml;her" /></a>';
-		$arrows .= '<a onclick="roledown()" id="sortdown"><img src="../administrator/components/com_thm_groups/img/downarrow.png" " .
-		"title="Rolle eine Position niedriger" /></a>';
+		$arrows = '<a onclick="roleup()" id="sortup"><img src="../administrator/components/com_thm_groups/img/uparrow.png" ';
+		$arrows .= 'title="Rolle eine Position h&ouml;her" /></a>';
+		$arrows .= '<a onclick="roledown()" id="sortdown"><img src="../administrator/components/com_thm_groups/img/downarrow.png" ';
+		$arrows .= '"title="Rolle eine Position niedriger" /></a>';
 
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 
 		/* get the major id */
-		$id = JRequest::getVar('id');
+		$menuID = JRequest::getVar('id');
 
-		$query = $db->getQuery(true);
-		$query->select("*");
-		$query->from('#__menu');
-		$query->where("id = $id");
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
+		$menuQuery = $dbo->getQuery(true);
+		$menuQuery->select("*");
+		$menuQuery->from('#__menu');
+		$menuQuery->where("id = '$menuID'");
+		$dbo->setQuery($menuQuery);
+		$row = $dbo->loadObject();
 
-		$params = json_decode($rows[0]->params);
+		$params = isset($row)? json_decode($row->params) : new stdClass;
 
 		if (isset($params->major))
 		{
@@ -77,31 +67,34 @@ class JFormFieldSemester extends JFormField
 		else
 		{
 			$arr = array();
-			return JHTML::_('select.genericlist', $arr, 'jform[params][semesters][]',
-					$js . 'class="inputbox" size="10" multiple="multiple"', 'id', 'name', $this->value
-			) . $arrows;
+			return JHTML::_('select.genericlist',
+							$arr,
+							'jform[params][semesters][]',
+							'class="inputbox" size="10" multiple="multiple"',
+							'id',
+							'name',
+							$this->value
+							) . $arrows;
 		}
 		
 		// Build the query
-		$query = $db->getQuery(true);
-		$query->select("sem_major.semester_id AS id");
-		$query->select("name");
-		$query->from('#__thm_organizer_semesters_majors as sem_major');
-		$query->innerJoin('#__thm_organizer_semesters as semesters ON sem_major.semester_id = semesters.id');
-		$query->where("major_id = $major");
-		$query->order('name ASC');
-		$db->setQuery($query);
-		$semesters = $db->loadObjectList();
-		$semesters2 = $db->loadResultArray();
+		$semesterQuery = $dbo->getQuery(true);
+		$semesterQuery->select("sm.semester_id AS id");
+		$semesterQuery->select("name");
+		$semesterQuery->from('#__thm_organizer_semesters_majors as sm');
+		$semesterQuery->innerJoin('#__thm_organizer_semesters as semesters ON sm.semester_id = semesters.id');
+		$semesterQuery->where("major_id = $major");
+		$semesterQuery->order('name ASC');
+		$dbo->setQuery($semesterQuery);
+		$semesters = $dbo->loadObjectList();
+		$semesters2 = $dbo->loadResultArray();
 
 		if ($this->value)
 		{
 			$result = array();
-
-			foreach ($semesters as $key => $semester)
+			foreach ($semesters as $semester)
 			{
 				$orderpos = array_search($semester->id, $this->value);
-
 				if ($orderpos !== false)
 				{
 					$result[$orderpos] = $semester;
@@ -115,11 +108,11 @@ class JFormFieldSemester extends JFormField
 				$add = array();
 				$add['id'] = $value;
 
-				foreach ($semesters as $tempSem)
+				foreach ($semesters as $semester)
 				{
-					if ($tempSem->id == $value)
+					if ($semester->id == $value)
 					{
-						$add['name'] = $tempSem->name;
+						$add['name'] = $semester->name;
 					}
 				}
 
@@ -138,31 +131,33 @@ class JFormFieldSemester extends JFormField
 			$result = array();
 		}
 
-		$html = JHTML::_('select.genericlist', $result, 'jform[params][semesters][]', $js .
-				'class="inputbox" size="10" multiple="multiple"', 'id', 'name', $this->value
-		);
-		$html .= $arrows;
-
-		return $html;
+		return JHTML::_('select.genericlist',
+						$result,
+						'jform[params][semesters][]',
+						'class="inputbox" size="10" multiple="multiple"',
+						'id',
+						'name',
+						$this->value
+					   ) . $arrows;
 	}
 
 	/**
 	 * Returns the related semesters of the given tree node
 	 *
-	 * @param   Integer  $id  Id
+	 * @param   Integer  $nodeID  Id
 	 *
 	 * @return Array The selected Semesters
 	 */
-	private function getSelectedSemesters($id)
+	private function getSelectedSemesters($nodeID)
 	{
 		// Determine all semester mappings of this tree node
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_assets_semesters');
-		$query->where("assets_tree_id = $id");
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
+		$query->where("assets_tree_id = $nodeID");
+		$dbo->setQuery($query);
+		$rows = $dbo->loadObjectList();
 
 		$selectedSemesters = array();
 

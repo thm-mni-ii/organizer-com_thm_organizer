@@ -6,20 +6,16 @@
  * @name        provides functions useful to multiple component files
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
- * 
  * @copyright   2012 TH Mittelhessen
- * 
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
- **/
+ */
 
 /**
  * Class providing functions usefull to multiple component files
  * 
- * @version   v0.1.0
  * @category  Joomla.Component.Admin
  * @package   thm_organizer
- * @since     v0.1.0
  */
 class THM_OrganizerHelper
 {
@@ -55,22 +51,30 @@ class THM_OrganizerHelper
 
         // All submenu entries
         $submenus = array(
-            'main_menu' => array('name' => 'COM_THM_ORGANIZER_MAIN_TITLE', 'link' => 'index.php?option=com_thm_organizer'),
+            'main_menu' => array('name' => 'COM_THM_ORGANIZER_MAIN_TITLE',
+								 'link' => 'index.php?option=com_thm_organizer'),
             'category_manager' => array('name' => 'COM_THM_ORGANIZER_CAT_TITLE',
-            		'link' => 'index.php?option=com_thm_organizer&amp;view=category_manager'),
+										'link' => 'index.php?option=com_thm_organizer&amp;view=category_manager'),
             'schedule_manager' => array('name' => 'COM_THM_ORGANIZER_SCH_TITLE',
-            		'link' => 'index.php?option=com_thm_organizer&amp;view=schedule_manager'),
-            'virtual_schedule_manager' 	=> array('name' => 'COM_THM_ORGANIZER_VSM_TITLE',
-            		'link' => 'index.php?option=com_thm_organizer&amp;view=virtual_schedule_manager'),
-            'monitor_manager' => array('name' => 'COM_THM_ORGANIZER_MON_TITLE',
-            		'link' => 'index.php?option=com_thm_organizer&amp;view=monitor_manager'),
+										'link' => 'index.php?option=com_thm_organizer&amp;view=schedule_manager'),
+            'virtual_schedule_manager' => array('name' => 'COM_THM_ORGANIZER_VSM_TITLE',
+												'link' => 'index.php?option=com_thm_organizer&amp;view=virtual_schedule_manager'),
+            'degrees' => array('name' => 'COM_THM_ORGANIZER_DEG_TITLE',
+							   'link' => 'index.php?option=com_thm_organizer&view=degrees'),
+            'majors' => array('name' => 'COM_THM_ORGANIZER_MJM_TITLE',
+							  'link' => 'index.php?option=com_thm_organizer&view=majors'),
             'semesters' => array('name' => 'com_thm_organizer_SUBMENU_SEMESTERS',
-            		'link' => 'index.php?option=com_thm_organizer&view=semesters'),
-            'lecturers' => array('name' => 'com_thm_organizer_SUBMENU_LECTURERS', 'link' => 'index.php?option=com_thm_organizer&view=lecturers'),
-            'assets' => array('name' => 'com_thm_organizer_SUBMENU_ASSETS', 'link' => 'index.php?option=com_thm_organizer&view=assets'),
-            'colors' => array('name' => 'com_thm_organizer_SUBMENU_COLORS', 'link' => 'index.php?option=com_thm_organizer&view=colors'),
-            'degrees' => array('name' => 'com_thm_organizer_SUBMENU_DEGREES', 'link' => 'index.php?option=com_thm_organizer&view=degrees'),
-            'majors' => array('name' => 'com_thm_organizer_SUBMENU_MAJORS', 'link' => 'index.php?option=com_thm_organizer&view=majors')
+								 'link' => 'index.php?option=com_thm_organizer&view=semesters'),
+            'assets' => array('name' => 'com_thm_organizer_SUBMENU_ASSETS',
+							  'link' => 'index.php?option=com_thm_organizer&view=assets'),
+            'teacher_manager' => array('name' => 'COM_THM_ORGANIZER_TRM_TITLE',
+									   'link' => 'index.php?option=com_thm_organizer&view=teacher_manager'),
+            'room_manager' => array('name' => 'COM_THM_ORGANIZER_RMM_TITLE',
+									   'link' => 'index.php?option=com_thm_organizer&view=room_manager'),
+            'monitor_manager' => array('name' => 'COM_THM_ORGANIZER_MON_TITLE',
+									   'link' => 'index.php?option=com_thm_organizer&amp;view=monitor_manager'),
+            'colors' => array('name' => 'COM_THM_ORGANIZER_CLM_TITLE',
+							  'link' => 'index.php?option=com_thm_organizer&view=color_manager')
         );
 
         // Put submenu entries togehter

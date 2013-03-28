@@ -22,7 +22,7 @@ jimport('joomla.application.component.modellist');
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  */
-class THM_OrganizerModelColors extends JModelList
+class THM_OrganizerModelColor_Manager extends JModelList
 {
 	/**
 	 * Constructor to set the config array and call the parent constructor
@@ -51,60 +51,63 @@ class THM_OrganizerModelColors extends JModelList
 		$dbo = JFactory::getDBO();
 
 		// Get the filter values from the request
-		$orderCol = $this->state->get('list.ordering');
-		$orderDirn = $this->state->get('list.direction');
+		$orderBy = $this->state->get('list.ordering');
+		$orderDir = $this->state->get('list.direction');
 
 		// Defailt ordering
-		if ($orderCol == "")
+		if ($orderBy == "")
 		{
-			$orderCol = "id";
-			$orderDirn = "asc";
+			$orderBy = "id";
+			$orderDir = "ASC";
 		}
 
 		// Create the query
 		$query = $dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_colors');
-		$query->order($orderCol . " " . $orderDirn);
+		$query->order("$orderBy $orderDir");
 
 		return $query;
 	}
 
 	/**
 	 * Method to get the populate state
-	 *
+	 * 
+	 * @param   string  $orderBy   the property by which the results should be ordered
+	 * @param   string  $orderDir  the direction in which results should be ordered
+	 * 
 	 * @return  void
 	 */
-	protected function populateState()
+	protected function populateState($orderBy = null, $orderDir = null)
 	{
-		$app = JFactory::getApplication('administrator');
-
 		$layout = JRequest::getVar('layout');
 		if (!empty($layout))
 		{
-			$this->context .= '.' . $layout;
+			$this->context .= ".$layout";
 		}
 
-		$order = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', '');
-		$dir = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', '');
-		$filter = $app->getUserStateFromRequest($this->context . '.filter', 'filter', '');
-		$limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
+		$app = JFactory::getApplication('administrator');
 
-		$this->setState('list.ordering', $order);
-		$this->setState('list.direction', $dir);
+		$orderBy = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', '');
+		$this->setState('list.ordering', $orderBy);
+
+		$orderDir = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', '');
+		$this->setState('list.direction', $orderDir);
+
+		$filter = $app->getUserStateFromRequest($this->context . '.filter', 'filter', '');
 		$this->setState('filter', $filter);
+
+		$limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
 		$this->setState('limit', $limit);
 
 		// Set the default ordering behaviour
-		if ($order == '' && isset($order))
+		if ($orderBy == '' && isset($orderBy))
 		{
 			parent::populateState("id", "ASC");
 		}
 		else
 		{
-			parent::populateState($order, $dir);
+			parent::populateState($orderBy, $orderDir);
 		}
-
-		parent::populateState($order, $dir);
 	}
 }

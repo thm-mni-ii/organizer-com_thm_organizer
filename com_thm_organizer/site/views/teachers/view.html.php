@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		THM_CurriculumViewLecturers
+ * @name		THM_OrganizerViewTeachers
  * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -13,16 +13,13 @@ jimport('joomla.application.component.view');
 jimport('joomla.error.profiler');
 
 /**
- * Class THM_CurriculumViewLecturers for component com_thm_organizer
- *
- * Class provides methods to display the lecturers view
+ * Class THM_OrganizerViewTeachers diplays modules grouped by responsible teachers.
  *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
  */
-class THM_OrganizerViewLecturers extends JView
+class THM_OrganizerViewTeachers extends JView
 {
 	/**
 	 * Method to get display

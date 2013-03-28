@@ -331,3 +331,13 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_assets_semesters` (
   FOREIGN KEY (`semesters_majors_id`) REFERENCES `#__thm_organizer_semesters_majors` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   UNIQUE KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+--------------------------------------------------------------------------------
+-- SOAP Queries                                                               --
+--------------------------------------------------------------------------------
+
+TRUNCATE TABLE `#__thm_organizer_soap_queries`;
+
+INSERT INTO `#__thm_organizer_soap_queries`
+SELECT *
+FROM `#__thm_curriculum_soap_queries`;

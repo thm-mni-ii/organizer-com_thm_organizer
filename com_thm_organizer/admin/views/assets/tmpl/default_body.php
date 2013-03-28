@@ -12,20 +12,20 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-switch ($item->asset_type_id)
-{
-	case 1:
-		$task = 'course.edit';
-		break;
-	case 2:
-		$task = 'coursepool.edit';
-		break;
-	default:
-		$task = 'dummy.edit';
-		break;
-}
 foreach ($this->items as $i => $item)
 {
+	switch ($item->asset_type_id)
+	{
+		case 1:
+			$task = 'course.edit';
+			break;
+		case 2:
+			$task = 'coursepool.edit';
+			break;
+		default:
+			$task = 'dummy.edit';
+			break;
+	}
 ?>
 <tr class="row<?php echo $i % 2; ?>">
 	<td align="center"><?php echo JHtml::_('grid.id', $i, $item->asset_id) ?></td>

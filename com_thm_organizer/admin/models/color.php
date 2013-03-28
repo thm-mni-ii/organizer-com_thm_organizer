@@ -11,7 +11,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modeladmin');
+jimport('joomla.application.component.model');
 
 /**
  * Class THM_OrganizerModelColor for component com_thm_organizer
@@ -23,56 +23,28 @@ jimport('joomla.application.component.modeladmin');
  * @link        www.mni.thm.de
  * @since       v1.5.0
  */
-class THM_OrganizerModelColor extends JModelAdmin
+class THM_OrganizerModelColor extends JModel
 {
-    /**
-	 * Method to get the table
-	 *
-	 * @param   String  $type    Type  			(default: 'colors')
-	 * @param   String  $prefix  Prefix  		(default: 'THM_OrganizerTable')
-	 * @param   Array   $config  Configuration  (default: 'Array')
-	 *
-	 * @return  JTable object
-	 */
-	public function getTable($type = 'colors', $prefix = 'THM_OrganizerTable', $config = array())
-	{
-		return JTable::getInstance($type, $prefix, $config);
-	}
-
 	/**
-	 * Method to get the form
-	 *
-	 * @param   Array    $data      Data  	   (default: Array)
-	 * @param   Boolean  $loadData  Load data  (default: true)
-	 *
-	 * @return  A Form object
+	 * Removes color entries from the database
+	 * 
+	 * @return  boolean true on success, otherwise false
 	 */
-	public function getForm($data = array(), $loadData = true)
+	public function delete()
 	{
-		// Get the form.
-		$form = $this->loadForm('com_thm_organizer.color', 'color', array('control' => 'jform', 'load_data' => $loadData));
-
-		if (empty($form))
+		$cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
+		$query = $this->_db->getQuery(true);
+		$query->delete('#__thm_organizer_colors');
+		$query->where("id IN ( $cids )");
+		$this->_db->setQuery($query);
+		try
+		{
+			$this->_db->query();
+			return true;
+		}
+		catch (Exception $exception)
 		{
 			return false;
 		}
-
-		return $form;
-	}
-
-	/**
-	 * Method to load the form data
-	 *
-	 * @return  Object
-	 */
-	protected function loadFormData()
-	{
-		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_thm_organizer.edit.color.data', array());
-		if (empty($data))
-		{
-			$data = $this->getItem();
-		}
-		return $data;
 	}
 }

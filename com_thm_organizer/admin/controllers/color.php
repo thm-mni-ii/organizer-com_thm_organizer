@@ -35,10 +35,21 @@ class THM_OrganizerControllerColor extends JControllerForm
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		$retVal = parent::save($key, $urlVar);
-		if ($retVal)
+        if (!thm_organizerHelper::isAdmin('color'))
+        {
+            thm_organizerHelper::noAccess();
+        }
+
+		$success = parent::save($key, $urlVar);
+		if ($success)
 		{
+			$msg = JText::_('COM_THM_ORGANIZER_CLM_SAVE_SUCCESS');
 			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=colors', false));
+		}
+		else
+		{
+			$msg = JText::_('COM_THM_ORGANIZER_CLM_SAVE_FAIL');
+			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=colors', $msg, 'error'));
 		}
 	}
 
@@ -49,8 +60,13 @@ class THM_OrganizerControllerColor extends JControllerForm
 	 */
 	public function cancel()
 	{
-		$retVal = parent::cancel();
-		if ($retVal)
+        if (!thm_organizerHelper::isAdmin('color'))
+        {
+            thm_organizerHelper::noAccess();
+        }
+
+		$success = parent::cancel();
+		if ($success)
 		{
 			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=colors', false));
 		}
@@ -63,25 +79,22 @@ class THM_OrganizerControllerColor extends JControllerForm
 	 */
 	public function delete()
 	{
-		$dbo = JFactory::getDBO();
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+        if (!thm_organizerHelper::isAdmin('color'))
+        {
+            thm_organizerHelper::noAccess();
+        }
 
-		foreach ($cid as $id)
+		$success = $this->getModel('color')->delete();
+		if ($success)
 		{
-			$query = $dbo->getQuery(true);
-			$query->delete('#__thm_organizer_colors');
-			$query->where("id = '$id'");
-			$dbo->setQuery($query);
-			try
-			{
-				$dbo->query();
-			}
-			catch (Exception $e)
-			{
-				
-			}
+			$msg = JText::_('COM_THM_ORGANIZER_CLM_DELETE_SUCCESS');
+			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=colors', $msg));
+		}
+		else
+		{
+			$msg = JText::_('COM_THM_ORGANIZER_CLM_DELETE_FAIL');
+			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=colors', $msg, 'error'));
 		}
 
-		$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=colors', false));
 	}
 }

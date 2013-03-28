@@ -64,15 +64,15 @@ class THM_OrganizerModelAssets extends JModelList
 		// Create the sql query
 		$query = $dbo->getQuery(true);
 		$query->select("*");
-		$query->select(" #__thm_organizer_asset_types.name as coursetype");
-		$query->select(" #__thm_organizer_assets.name as asset_name");
-		$query->select(" #__thm_organizer_assets.id as asset_id");
-		$query->from('#__thm_organizer_assets');
-		$query->innerJoin('#__thm_organizer_asset_types ON #__thm_organizer_assets.asset_type_id = #__thm_organizer_asset_types.id');
+		$query->select(" at.name as coursetype");
+		$query->select(" a.name as asset_name");
+		$query->select(" a.id as asset_id");
+		$query->from('#__thm_organizer_assets AS a');
+		$query->innerJoin('#__thm_organizer_asset_types AS at ON a.asset_type_id = at.id');
 
-		$search = $dbo->Quote('%' . $dbo->getEscaped($this->state->get('filter.search'), true) . '%');
+		$search = '%' . $dbo->getEscaped($this->state->get('filter.search'), true) . '%';
 		$searchClause = "(title_de LIKE '$search' ";
-		$searchClause .= "OR title_en LIKE ' . $search . ' ";
+		$searchClause .= "OR title_en LIKE '$search' ";
 		$searchClause .= "OR short_title_de LIKE '$search' ";
 		$searchClause .= "OR short_title_en LIKE '$search' ";
 		$searchClause .= "OR abbreviation LIKE '$search') ";
@@ -90,10 +90,13 @@ class THM_OrganizerModelAssets extends JModelList
 
 	/**
 	 * Method to get the table
+	 * 
+	 * @param   string  $order  the property to order the list by
+	 * @param   string  $dir    the direction in which the list is to be ordered
 	 *
 	 * @return  void
 	 */
-	protected function populateState()
+	protected function populateState($order = null, $dir = null)
 	{
 		$app = JFactory::getApplication('administrator');
 
@@ -131,13 +134,7 @@ class THM_OrganizerModelAssets extends JModelList
 	}
 
 	/**
-	 *
 	 * Writes a given course to the database. Return the inserted ID.
-	 * @param Array $data
-	 *
-	 * */
-	/**
-	 * Method to write a given course to the database
 	 *
 	 * @param   Array  $data  Course data
 	 *
@@ -272,12 +269,7 @@ class THM_OrganizerModelAssets extends JModelList
 	}
 
 	/**
-	 *
 	 * Inserts a given mapping of a lecturer to a specific course
-	 * @param Array $data
-	 */
-	/**
-	 * Method to get the table
 	 *
 	 * @param   Array  $data  Course lecturer data
 	 *
@@ -304,12 +296,7 @@ class THM_OrganizerModelAssets extends JModelList
 	}
 
 	/**
-	 *
 	 * Inserts a given mapping of a lecturer to a specific course
-	 * @param Array $data
-	 */
-	/**
-	 * Method to insert a given mapping of a lecturer to a specific course
 	 *
 	 * @param   Array  $data  Lecturer data
 	 *
@@ -358,12 +345,7 @@ class THM_OrganizerModelAssets extends JModelList
 	}
 
 	/**
-	 *
 	 * Writes a given person as a course lecturer. Returns the inserted id
-	 * @param Array $data
-	 */
-	/**
-	 * Method to write a given person as a course lecturer. Returns the inserted id
 	 *
 	 * @param   Array  $data  Lecturer data
 	 *
