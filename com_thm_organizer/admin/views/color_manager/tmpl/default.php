@@ -13,7 +13,7 @@
  */
 defined('_JEXEC') or die;
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=colors'); ?>"
+<form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=color_manager'); ?>"
       method="post"
       name="adminForm">
 	<table class="adminlist">

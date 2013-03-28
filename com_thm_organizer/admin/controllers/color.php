@@ -26,6 +26,33 @@ jimport('joomla.application.component.controllerform');
 class THM_OrganizerControllerColor extends JControllerForm
 {
 	/**
+	 * constructor (registers additional tasks to methods)
+	 * @return void
+	 */
+	function __construct()
+	{
+		parent::__construct();
+		$this->registerTask( 'add', 'edit' );
+	}
+
+	/**
+	 * Method to perform save
+	 *
+	 * @param   Object  $key     Key		   (default: null)
+	 * @param   Object  $urlVar  Url variable  (default: null)
+	 *
+	 * @return  void
+	 */
+	public function edit($key = null, $urlVar = null)
+	{
+        if (!thm_organizerHelper::isAdmin('color'))
+        {
+            thm_organizerHelper::noAccess();
+        }
+		$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=color_edit', false));
+	}
+
+	/**
 	 * Method to perform save
 	 *
 	 * @param   Object  $key     Key		   (default: null)
@@ -40,16 +67,16 @@ class THM_OrganizerControllerColor extends JControllerForm
             thm_organizerHelper::noAccess();
         }
 
-		$success = parent::save($key, $urlVar);
+		$success = $this->getModel('color')->save();
 		if ($success)
 		{
 			$msg = JText::_('COM_THM_ORGANIZER_CLM_SAVE_SUCCESS');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=colors', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=color_manager', false));
 		}
 		else
 		{
 			$msg = JText::_('COM_THM_ORGANIZER_CLM_SAVE_FAIL');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=colors', $msg, 'error'));
+			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=color_manager', $msg, 'error'));
 		}
 	}
 
@@ -68,7 +95,7 @@ class THM_OrganizerControllerColor extends JControllerForm
 		$success = parent::cancel();
 		if ($success)
 		{
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=colors', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=color_manager', false));
 		}
 	}
 
@@ -88,12 +115,12 @@ class THM_OrganizerControllerColor extends JControllerForm
 		if ($success)
 		{
 			$msg = JText::_('COM_THM_ORGANIZER_CLM_DELETE_SUCCESS');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=colors', $msg));
+			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=color_manager', $msg));
 		}
 		else
 		{
 			$msg = JText::_('COM_THM_ORGANIZER_CLM_DELETE_FAIL');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=colors', $msg, 'error'));
+			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=color_manager', $msg, 'error'));
 		}
 
 	}

@@ -15,15 +15,21 @@ foreach ($this->items as $i => $item)
 {
 ?>
 <tr class="row<?php echo $i % 2; ?>">
-	<td align="center"><?php echo JHtml::_('grid.id', $i, $item->id) ?></td>
+	<td align="center">
+		<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+	</td>
+	<td>
+		<a href="index.php?option=com_thm_organizer&task=color.edit&id=<?php echo $item->id; ?>">
+			<?php echo $item->id; ?>
+		</a>
+	</td>
 	<td>
 		<a href="index.php?option=com_thm_organizer&task=color.edit&id=<?php echo $item->id; ?>">
 			<?php echo $item->name; ?>
 		</a>
 	</td>
+	<td align="center" style="background-color: <?php echo "#$item->color"; ?>">&nbsp;</td>
 	<td><?php echo $item->color; ?></td>
-	<td align="center" style="background-color: <?php echo $item->color; ?>">&nbsp;</td>
-	<td><?php echo $item->id; ?></td>
 </tr>
 <?php
 }

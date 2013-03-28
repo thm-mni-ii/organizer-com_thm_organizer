@@ -32,7 +32,12 @@ class THM_OrganizerViewColor_Manager extends JView
 	 */
 	public function display($tpl = null)
 	{
-		JHtml::_('behavior.tooltip');
+        if (!thm_organizerHelper::isAdmin('color'))
+        {
+            thm_organizerHelper::noAccess();
+        }
+
+        JHtml::_('behavior.tooltip');
 
 		$items = $this->get('Items');
 		$pagination = $this->get('Pagination');

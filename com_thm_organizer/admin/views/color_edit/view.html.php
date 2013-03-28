@@ -33,30 +33,29 @@ class THM_OrganizerViewColor_Edit extends JView
 	 */
 	public function display($tpl = null)
 	{
-		JHtml::_('behavior.tooltip');
+        if (!thm_organizerHelper::isAdmin('color'))
+        {
+            thm_organizerHelper::noAccess();
+        }
 
-		// Get the Data
+		JHtml::_('behavior.tooltip');
+		$document = JFactory::getDocument();
+		$document->addScript('/administrator/components/com_thm_organizer/views/color/tmpl/colorpicker/jscolor.js');
+
 		$form = $this->get('Form');
 		$item = $this->get('Item');
 
-		// Check for errors
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode('<br />', $errors));
 			return false;
 		}
 
-		// Assign the Data
 		$this->form = $form;
 		$this->item = $item;
 
-		// Set the toolbar
 		$this->addToolBar();
 
-		$document = JFactory::getDocument();
-		$document->addScript('/administrator/components/com_thm_organizer/views/color/tmpl/colorpicker/jscolor.js');
-
-		// Display the template
 		parent::display($tpl);
 	}
 
@@ -69,7 +68,8 @@ class THM_OrganizerViewColor_Edit extends JView
 	{
 		JRequest::setVar('hidemainmenu', true);
 		$isNew = ($this->item->id == 0);
-		JToolBarHelper::title($isNew ? 'Farbe erstellen' : 'Farbe bearbeiten');
+		JToolBarHelper::title($isNew ?
+			JText::_('COM_THM_ORGANIZER_CLM_NEW_TITLE') : JText::_('COM_THM_ORGANIZER_CLM_EDIT_TITLE'));
 		JToolBarHelper::save('color.save');
 		JToolBarHelper::cancel('color.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
 	}

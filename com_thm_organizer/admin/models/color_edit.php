@@ -50,7 +50,7 @@ class THM_OrganizerModelColor_Edit extends JModelAdmin
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
-		$form = $this->loadForm('com_thm_organizer.color', 'color', array('control' => 'jform', 'load_data' => $loadData));
+		$form = $this->loadForm('com_thm_organizer.color_edit', 'color_edit', array('control' => 'jform', 'load_data' => $loadData));
 
 		if (empty($form))
 		{

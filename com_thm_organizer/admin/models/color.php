@@ -20,11 +20,22 @@ jimport('joomla.application.component.model');
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class THM_OrganizerModelColor extends JModel
-{
+{    
+	/**
+     * save
+     *
+     * attempts to save the monitor form data
+     *
+     * @return bool true on success, otherwise false
+     */
+	public function save()
+	{
+        $data = JRequest::getVar('jform', null, null, null, 4);
+        $table = JTable::getInstance('colors', 'thm_organizerTable');
+        return $table->save($data);
+	}
 	/**
 	 * Removes color entries from the database
 	 * 
