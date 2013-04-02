@@ -35,11 +35,16 @@ class THM_OrganizerViewScheduler extends JView
 	{
 		JHTML::_('behavior.tooltip');
 
-		$libraryInstalled = jimport('extjs4.extjs4');
-		if(!$libraryInstalled)
+		// Check wether the ExtJS 4 library is installed
+		$libraryExtJS4IsInstalled = jimport('extjs4.extjs4');
+		if(!$libraryExtJS4IsInstalled)
 		{
 		    return JError::raiseWarning(404, JText::_("COM_THM_ORGANIZER_EXTJS4_LIBRARY_NOT_INSTALLED"));
 		}
+		
+		// Check wether the FPDF library is installed
+		$libraryFPDFIsInstalled = jimport('fpdf.fpdf');
+		$this->libraryFPDFIsInstalled = $libraryFPDFIsInstalled;
 		
 		$doc = JFactory::getDocument();
 		$doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/ext/resources/css/ext-all-gray.css");

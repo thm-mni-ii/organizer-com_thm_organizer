@@ -178,7 +178,7 @@ MySched.Base = function ()
                 {
                     var contentAnchorTip = Ext.getCmp('content-anchor-tip');
                     if (contentAnchorTip) contentAnchorTip.destroy();
-                    if (!MySched.Schedule.isEmpty())
+                    if (!MySched.Schedule.isEmpty() && MySched.libraryFPDFIsInstalled)
                     {
                         Ext.ComponentMgr.get('btnPdf').enable();
                         if (_C('enableSubscribing'))
@@ -188,7 +188,10 @@ MySched.Base = function ()
                             
                     }
                     
-                    Ext.ComponentMgr.get('btnSave').enable();
+                    if(MySched.libraryFPDFIsInstalled)
+                    {
+                    	Ext.ComponentMgr.get('btnSave').enable();
+                	}
                         
                     var tab = MySched.layout.tabpanel.getComponent('mySchedule');
                     tab.mSchedule.status = "unsaved";
@@ -2493,7 +2496,7 @@ MySched.layout = function ()
                 text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SAVE,
                 id: 'btnSave',
                 iconCls: 'tbSave',
-                disabled: true,
+                disabled: false,
                 hidden: true,
                 handler: MySched.Authorize.saveIfAuth,
                 scope: MySched.Authorize,
@@ -2554,13 +2557,19 @@ MySched.layout = function ()
                     });
                 }
             });
-
+            
+            disablePDF = true;
+            if(MySched.libraryFPDFIsInstalled == true)
+            {
+            	disablePDF = false
+            }
+            
             var btnSavePdf = Ext.create('Ext.Button',
             {
                 text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE,
                 id: 'btnPdf',
                 iconCls: 'tbSavePdf',
-                disabled: false,
+                disabled: disablePDF,
                 tooltip: {
                     text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_PDF_DESC
                 },

@@ -67,6 +67,14 @@ if ($this->canWriteEvents === true)
 		MySched.searchModuleID = '<?php echo $this->searchModuleID; ?>';
 		MySched.loadLessonsOnStartUp = new Boolean('<?php echo $this->loadLessonsOnStartUp; ?>');
 		MySched.deltaDisplayDays = '<?php echo $this->deltaDisplayDays; ?>';
+	    <?php if($this->libraryFPDFIsInstalled)
+	    {
+	        ?>MySched.libraryFPDFIsInstalled = true;<?php
+	    }
+	    else
+	    {
+	        ?>MySched.libraryFPDFIsInstalled = false;<?php
+	    } ?>
 		Ext.application({
 		    name: 'Scheduler',    
 		    launch: MySched.Base.init
