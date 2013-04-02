@@ -67,7 +67,10 @@ if ($this->canWriteEvents === true)
 		MySched.searchModuleID = '<?php echo $this->searchModuleID; ?>';
 		MySched.loadLessonsOnStartUp = new Boolean('<?php echo $this->loadLessonsOnStartUp; ?>');
 		MySched.deltaDisplayDays = '<?php echo $this->deltaDisplayDays; ?>';
-		Ext.onReady(MySched.Base.init, MySched.Base);
+		Ext.application({
+		    name: 'Scheduler',    
+		    launch: MySched.Base.init
+		});
 	</script>
 </div>
 <iframe id="MySchedexternURL" name="MySchedexternURL" src="#"
