@@ -122,6 +122,18 @@ class THM_OrganizerModelScheduler extends JModel
 	}
 	
 	/**
+	 * Method to check if the library is available
+	 *
+	 * @param   String  $lib  Library name
+	 *
+	 * @return  Boolean true if the library is available, false otherwise
+	 */
+	public function isLibAvailable($lib)
+	{
+	    
+	}
+	
+	/**
 	 * Method to get the active schedule
 	 * 
 	 * @param   String  $deptAndSem  The department semester selection
@@ -130,6 +142,11 @@ class THM_OrganizerModelScheduler extends JModel
 	 */
 	public function getActiveSchedule($deptAndSem)
 	{
+	    if(!is_String($deptAndSem))
+	    {
+	        return false;
+	    }
+	    
 		list($department, $semester) = explode(";", $deptAndSem);
 		if (empty($semester))
 		{

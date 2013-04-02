@@ -11,7 +11,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('extjs4.extjs4');
 jimport('joomla.application.component.view');
 
 /**
@@ -35,6 +34,13 @@ class THM_OrganizerViewScheduler extends JView
 	public function display($tpl = null)
 	{
 		JHTML::_('behavior.tooltip');
+
+		$libraryInstalled = jimport('extjs4.extjs4');
+		if(!$libraryInstalled)
+		{
+		    return JError::raiseWarning(404, JText::_("COM_THM_ORGANIZER_EXTJS4_LIBRARY_NOT_INSTALLED"));
+		}
+		
 		$doc = JFactory::getDocument();
 		$doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/ext/resources/css/ext-all-gray.css");
 		$doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/mySched/style.css");
