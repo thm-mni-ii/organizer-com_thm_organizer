@@ -379,7 +379,7 @@ MySched.Base = function ()
                     Ext.ComponentMgr.get('btnDel').disable();
                 });
 
-                MySched.Tree.refreshTreeData();
+                /*MySched.Tree.refreshTreeData();
 
                 var tree = MySched.Tree.tree;
 
@@ -397,7 +397,7 @@ MySched.Base = function ()
                 MySched.delta = new mSchedule(
                 deltaid,
                 MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_CENTRAL);
-                MySched.delta.responsible = "delta";
+                MySched.delta.responsible = "delta";*/
 
                 if (MySched.SessionId)
                 {

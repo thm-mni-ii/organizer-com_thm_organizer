@@ -139,7 +139,8 @@ class Auth
 		$_SESSION['joomlaSid'] = $token;
 
 		$userRoles = $this->_JDA->getUserRoles();
-		$userRole = current(reset($userRoles));
+		//$userRole = current(reset($userRoles));
+		$userRole = reset($userRoles);
 
 		return array(
 				'success' => true,
