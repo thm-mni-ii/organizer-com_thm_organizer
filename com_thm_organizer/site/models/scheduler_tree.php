@@ -956,4 +956,3 @@ class THM_OrganizerModelScheduler_Tree extends JModel
 		return false;
 	}
 }
-}
