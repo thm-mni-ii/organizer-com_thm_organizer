@@ -75,6 +75,15 @@ if ($this->canWriteEvents === true)
 	    {
 	        ?>MySched.libraryFPDFIsInstalled = false;<?php
 	    } ?>
+
+	    <?php if($this->libraryiCalcreatorIsInstalled)
+	    {
+	        ?>MySched.libraryiCalcreatorIsInstalled = true;<?php
+	    }
+	    else
+	    {
+	        ?>MySched.libraryiCalcreatorIsInstalled = false;<?php
+	    } ?>
 		Ext.application({
 		    name: 'Scheduler',    
 		    launch: MySched.Base.init

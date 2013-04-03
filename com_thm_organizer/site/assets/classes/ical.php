@@ -62,12 +62,13 @@ class ICALBauer extends abstrakterBauer
 	 *
 	 * @return Array An array with information about the status of the creation
 	 */
-	public function erstelleStundenplan($arr, $username, $title)
+	public function erstelleStundenplan($lessons, $username, $title)
 	{
-		$semesterstart = $arr[count($arr) - 1]->sdate;
-		$semesterend   = $arr[count($arr) - 1]->edate;
+	    
+// 		$semesterstart = $arr[count($arr) - 1]->sdate;
+// 		$semesterend   = $arr[count($arr) - 1]->edate;
 
-		unset($arr[count($arr) - 1]);
+// 		unset($arr[count($arr) - 1]);
 
 		if ($title == JText::_("COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE") && $username != "")
 		{
@@ -94,7 +95,12 @@ class ICALBauer extends abstrakterBauer
 		$vTimeZone1->setComponent($vTimeZone2);
 		$vCalendar->setComponent($vTimeZone1);
 
-		$query = 'SELECT startdate, enddate, starttime, endtime ';
+		foreach($lessons as $lessonKey => $lessonValue)
+		{
+		    $vCalendar = $this->setEvent($vCalendar, $lessonKey, $lessonValue);
+		}
+		
+		/*$query = 'SELECT startdate, enddate, starttime, endtime ';
 		$query .= 'FROM #__thm_organizer_events ';
 		$query .= "WHERE categoryid = '{$this->_cfg['vacation_id']}' ";
 		$res   = $this->_JDA->query($query);
@@ -213,7 +219,7 @@ class ICALBauer extends abstrakterBauer
 		else
 		{
 			$vCalendar = $this->setEvent($vCalendar, $arr, $semesterstart, $semesterend, $res);
-		}
+		}*/
 
 		$vCalendar->saveCalendar($this->_cfg['pdf_downloadFolder'], $title . '.ics');
 		$resparr['url'] = "false";
@@ -231,7 +237,70 @@ class ICALBauer extends abstrakterBauer
 	 *
 	 * @return An array which has the result including
 	 */
-	private function setEvent($event, $arr, $semesterstart, $semesterend, $vacations)
+	private function setEvent($vCalendar, $lessonKey, $lessonValue)
+	{
+
+	    $lessonName = $lessonValue->name;
+	    
+	    $lessonTeachers = implode(", ", array_merge(array_keys((array) $lessonValue->teachers, ""), array_keys((array) $lessonValue->teachers, "new")));
+	    
+	    $lessonModules = implode(", ", array_merge(array_keys((array) $lessonValue->modules, ""), array_keys((array) $lessonValue->modules, "new")));
+	    
+	    $lessonComment = $lessonValue->comment;
+	    foreach($lessonValue->calendar as $calendarKey => $calendarValue)
+	    {
+	        foreach($calendarValue as $blockKey => $blockValue)
+	        {
+                foreach($blockValue->lessonData as $roomKey => $roomValue)
+                {
+                    if($roomValue != "removed")
+                    {
+                        $lessonDate = $calendarKey;
+                        $lessonBlock = $blockKey;
+                        $lessonRoom = $roomKey;
+                        
+                        $lessonSummary = $lessonName . " bei " . $lessonTeachers . " im " . $lessonRoom;
+                        
+                        $lessonDate = explode("-", $lessonDate);
+                        $lessonTime = $this->blocktotime($lessonBlock);
+                        $lessonBeginTime = explode(":", $lessonTime[0]);
+                        $lessonEndTime = explode(":", $lessonTime[1]);
+                        
+                	    $lessonStartDate  = array(
+                	            "year" => $lessonDate[0],
+                	            "month" => $lessonDate[1],
+                	            "day" => $lessonDate[2],
+                	            "hour" => $lessonBeginTime[0],
+                	            "min" => $lessonBeginTime[1],
+                	            "sec" => 0
+                	    );
+                	    $lessonEndDate    = array(
+                	            "year" => $lessonDate[0],
+                	            "month" => $lessonDate[1],
+                	            "day" => $lessonDate[2],
+                	            "hour" => $lessonEndTime[0],
+                	            "min" => $lessonEndTime[1],
+                	            "sec" => 0
+                	    );
+
+                        $e = new vevent;
+                        $e->setProperty("ORGANIZER", $lessonTeachers);
+                        $e->setProperty("DTSTART", $lessonStartDate);
+                        $e->setProperty("DTEND", $lessonEndDate);
+                        $e->setProperty("LOCATION", $lessonRoom);
+                        $e->setProperty("TRANSP", "OPAQUE");
+                        $e->setProperty("SEQUENCE", "0");
+                        $e->setProperty("SUMMARY", $lessonSummary);
+                        $e->setProperty("PRIORITY", "5");
+                        $e->setProperty("DESCRIPTION", $lessonComment);
+                        $vCalendar->setComponent($e);
+                    }
+                }
+	        }
+	    }	    
+	    return $vCalendar;
+	}
+	/*private function setEvent($event, $arr, $semesterstart, $semesterend, $vacations)
 	{
 		$semesterend = date("Y-m-d", strtotime($semesterend));
 		$endarr = explode("-", $semesterend);
@@ -414,7 +483,7 @@ class ICALBauer extends abstrakterBauer
 
 		}
 		return $event;
-	}
+	}*/
 
 	/**
 	 * Method to check the username and password

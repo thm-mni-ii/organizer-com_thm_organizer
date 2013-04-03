@@ -2558,7 +2558,7 @@ MySched.layout = function ()
                 }
             });
             
-            disablePDF = true;
+            var disablePDF = true;
             if(MySched.libraryFPDFIsInstalled == true)
             {
             	disablePDF = false
@@ -2717,13 +2717,19 @@ MySched.layout = function ()
                 }
             });
 
+            var disableICal = true;
+            if(MySched.libraryiCalcreatorIsInstalled == true)
+            {
+            	disableICal = false
+            }
+            
             var btnICal = Ext.create('Ext.Button',
             {
                 // ICal DownloadButton
                 text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ICAL,
                 id: 'btnICal',
                 iconCls: 'tbSaveICal',
-                disabled: true,
+                disabled: disableICal,
                 tooltip: {
                     text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ICAL_DESC
                 },
