@@ -4141,22 +4141,25 @@ MySched.Tree = function ()
                         
                         var publicDefaultNode = json["treePublicDefault"];
 
-                        if (publicDefaultNode["type"] == "delta")
+                        if(publicDefaultNode != null)
                         {
-//                            MySched.delta.load(_C('ajaxHandler'), 'json',
-//                            MySched.delta.loadsavedLectures, MySched.delta, "delta");
-                        }
-                        else
-                        {
-                            var nodeID = publicDefaultNode["id"];
-                            var nodeKey = publicDefaultNode["nodeKey"];
-                            var gpuntisID = publicDefaultNode["gpuntisID"];
-                            var plantypeID = publicDefaultNode["plantype"];
-                            var semesterID = publicDefaultNode["semesterID"];
-                            var type = publicDefaultNode["type"];
-
-                            MySched.Tree.showScheduleTab(nodeID, nodeKey,
-                            gpuntisID, semesterID, plantypeID, type);
+	                        if (publicDefaultNode["type"] == "delta")
+	                        {
+	//                            MySched.delta.load(_C('ajaxHandler'), 'json',
+	//                            MySched.delta.loadsavedLectures, MySched.delta, "delta");
+	                        }
+	                        else
+	                        {
+	                            var nodeID = publicDefaultNode["id"];
+	                            var nodeKey = publicDefaultNode["nodeKey"];
+	                            var gpuntisID = publicDefaultNode["gpuntisID"];
+	                            var plantypeID = publicDefaultNode["plantype"];
+	                            var semesterID = publicDefaultNode["semesterID"];
+	                            var type = publicDefaultNode["type"];
+	
+	                            MySched.Tree.showScheduleTab(nodeID, nodeKey,
+	                            gpuntisID, semesterID, plantypeID, type);
+	                        }
                         }
                     }
                 });
