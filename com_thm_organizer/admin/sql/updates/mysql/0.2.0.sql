@@ -34,6 +34,8 @@ INSERT INTO `#__thm_organizer_soap_queries` (`id`, `name`, `lsf_object`, `lsf_st
 (9, 'Bachelor Bio-Informatik (2010)', 'studiengang', 'I', 'BI', '2010'),
 (10, 'Master of Business Administration (PO 2010)', 'studiengang', 'W', 'MB', '2010');
 
+DROP TABLE IF EXISTS '#__thm_organizer_majors';
+
 -- Easier to destroy and rebuild than alter and add. Abbreviation later will
 -- provide the link to data from the degrees/majors modeled in Untis departments.
 DROP TABLE IF EXISTS `#__thm_organizer_degrees`;
@@ -43,6 +45,20 @@ CREATE TABLE`#__thm_organizer_degrees` (
   `name` varchar(255) NOT NULL,
   `abbreviation` varchar(255) NOT NULL,
   PRIMARY KEY (id)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_majors` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `degree_id` int(11) NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `po` year(4) NOT NULL,
+  `note` text,
+  `lsf_object` varchar(255),
+  `lsf_study_path` varchar(255),
+  `lsf_degree` varchar(255),
+  `organizer_major` varchar(255),
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`degree_id`) REFERENCES `#__thm_organizer_degrees` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 INSERT INTO `#__thm_organizer_degrees` (`id`, `name`, `abbreviation`) VALUES
