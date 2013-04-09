@@ -42,6 +42,28 @@ class ICALBauer extends abstrakterBauer
 	private $_cfg = null;
 
 	/**
+	 * List with all subjects
+	 *
+	 * @var    Object
+	 */
+	private $_subjects = null;
+
+	/**
+	 * List with all teachers
+	 *
+	 * @var    Object
+	 */
+	private $_teachers = null;
+
+	/**
+	 * List with all modules
+	 *
+	 * @var    Object
+	 */
+	private $_modules = null;
+	
+
+	/**
 	 * Constructor with the joomla data abstraction object and configuration object
 	 *
 	 * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
@@ -56,7 +78,7 @@ class ICALBauer extends abstrakterBauer
 	/**
 	 * Method to create a ical schedule
 	 *
-	 * @param   Object  $arr       The event object
+	 * @param   Object  $lessons   The event object
 	 * @param   String  $username  The current logged in username
 	 * @param   String  $title     The schedule title
 	 *
@@ -64,12 +86,21 @@ class ICALBauer extends abstrakterBauer
 	 */
 	public function erstelleStundenplan($lessons, $username, $title)
 	{
+	    $departmentAndSemester = JRequest::getVar('departmentAndSemester');
 	    
-// 		$semesterstart = $arr[count($arr) - 1]->sdate;
-// 		$semesterend   = $arr[count($arr) - 1]->edate;
-
-// 		unset($arr[count($arr) - 1]);
-
+	    $activeSchedule = $this->getActiveSchedule($departmentAndSemester);
+	    
+	    $scheduleData = json_decode($activeSchedule->schedule);
+	    
+		// To save memory unset schedule
+		unset($activeSchedule->schedule);
+		$this->_subjects = $scheduleData->subjects;
+		unset($scheduleData->subjects);
+		$this->_teachers = $scheduleData->teachers;
+		unset($scheduleData->teachers);
+		$this->_modules = $scheduleData->modules;
+		unset($scheduleData->modules);
+		
 		if ($title == JText::_("COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE") && $username != "")
 		{
 			$title = $username . " - " . $title;
@@ -95,131 +126,10 @@ class ICALBauer extends abstrakterBauer
 		$vTimeZone1->setComponent($vTimeZone2);
 		$vCalendar->setComponent($vTimeZone1);
 
-		foreach($lessons as $lessonKey => $lessonValue)
+		foreach ($lessons as $lessonKey => $lessonValue)
 		{
 		    $vCalendar = $this->setEvent($vCalendar, $lessonKey, $lessonValue);
 		}
-		
-		/*$query = 'SELECT startdate, enddate, starttime, endtime ';
-		$query .= 'FROM #__thm_organizer_events ';
-		$query .= "WHERE categoryid = '{$this->_cfg['vacation_id']}' ";
-		$res   = $this->_JDA->query($query);
-
-		if (is_array($res))
-		{
-			if (count($res) > 1)
-			{
-				foreach ($res as $holi)
-				{
-					if ($holi->enddate == "0000-00-00" || $holi->enddate == null)
-					{
-						$holi->enddate = $holi->startdate;
-					}
-				}
-
-				$compare_dates = function($thingOne, $thingTwo)
-				{
-					if ($thingOne->startdate == $thingTwo->startdate)
-					{
-						return 0;
-					}
-					return ($thingOne->startdate > $thingTwo->startdate) ? +1 : - 1;
-				};
-
-				usort($res, $compare_dates);
-
-				$todelete = array();
-
-				for ($i = 0; $i < count($res); $i++)
-				{
-					if ($res[$i]->startdate == $res[$i]->enddate)
-					{
-						for ($y = 0; $y < $i; $y++)
-						{
-							if ($res[$y]->startdate <= $res[$i]->startdate && $res[$y]->enddate >= $res[$i]->startdate)
-							{
-								$todelete[] = $i;
-								break;
-							}
-						}
-					}
-				}
-
-				foreach ($todelete as $td)
-				{
-					unset($res[$td]);
-				}
-
-				$res = array_values($res);
-
-				$stop  = false;
-				$num = null;
-				while ($stop === false)
-				{
-					$stop = true;
-					for ($i = 0; $i < count($res) - 1; $i++)
-					{
-						if ($res[$i]->enddate >= $res[$i + 1]->startdate)
-						{
-							$res[$i]->enddate = $res[$i + 1]->enddate;
-							$stop = false;
-							$num = $i + 1;
-							break;
-						}
-					}
-					if ($stop === false)
-					{
-						unset($res[$num]);
-						$res = array_values($res);
-					}
-				}
-
-				if ($res[0]->startdate <= $semesterstart)
-				{
-					$semesterstart = $res[0]->enddate;
-					unset($res[0]);
-					$res = array_values($res);
-				}
-
-				if ($res[count($res) - 1]->enddate >= $semesterend)
-				{
-					$semesterend = $res[count($res) - 1]->startdate;
-					unset($res[count($res) - 1]);
-					$res = array_values($res);
-				}
-
-				if (count($res) > 0)
-				{
-					for ($i = 0; $i <= count($res); $i++)
-					{
-						if ($i == 0)
-						{
-							$vCalendar = $this->setEvent($vCalendar, $arr, $semesterstart, $res[$i]->startdate);
-						}
-						elseif ($i == count($res))
-						{
-							$vCalendar = $this->setEvent($vCalendar, $arr, date("Y-m-d", strtotime("+1 day", strtotime($res[$i - 1]->enddate))), $semesterend);
-						}
-						else
-						{
-							$vCalendar = $this->setEvent($vCalendar, $arr, date("Y-m-d", strtotime("+1 day", strtotime($res[$i - 1]->enddate))), $res[$i]->startdate);
-						}
-					}
-				}
-				else
-				{
-					$vCalendar = $this->setEvent($vCalendar, $arr, $semesterstart, $semesterend, $res);
-				}
-			}
-			else
-			{
-				$vCalendar = $this->setEvent($vCalendar, $arr, $semesterstart, $semesterend, $res);
-			}
-		}
-		else
-		{
-			$vCalendar = $this->setEvent($vCalendar, $arr, $semesterstart, $semesterend, $res);
-		}*/
 
 		$vCalendar->saveCalendar($this->_cfg['pdf_downloadFolder'], $title . '.ics');
 		$resparr['url'] = "false";
@@ -229,31 +139,27 @@ class ICALBauer extends abstrakterBauer
 	/**
 	 * Method to set an event
 	 *
-	 * @param   Object  $event          An event
-	 * @param   Array   $arr            The event array
-	 * @param   String  $semesterstart  The semester start date
-	 * @param   String  $semesterend    The semester end date
-	 * @param   Array   $vacations      The vacation array
+	 * @param   Object  $vCalendar    The event array
+	 * @param   String  $lessonKey    The semester start date
+	 * @param   Object  $lessonValue  The semester end date
 	 *
 	 * @return An array which has the result including
 	 */
 	private function setEvent($vCalendar, $lessonKey, $lessonValue)
-	{
-
-	    $lessonName = $lessonValue->name;
-	    
-	    $lessonTeachers = implode(", ", array_merge(array_keys((array) $lessonValue->teachers, ""), array_keys((array) $lessonValue->teachers, "new")));
-	    
-	    $lessonModules = implode(", ", array_merge(array_keys((array) $lessonValue->modules, ""), array_keys((array) $lessonValue->modules, "new")));
-	    
+	{	    
+	    $lessonSubject = key($lessonValue->subjects);
+	    $lessonName = $this->_subjects->{$lessonSubject}->longname;
+	   	    
+	    $lessonTeachers = implode(", ", $this->getTeacherNames(array_merge(array_keys((array) $lessonValue->teachers, ""), array_keys((array) $lessonValue->teachers, "new"))));
+	  	    
 	    $lessonComment = $lessonValue->comment;
-	    foreach($lessonValue->calendar as $calendarKey => $calendarValue)
+	    foreach ($lessonValue->calendar as $calendarKey => $calendarValue)
 	    {
-	        foreach($calendarValue as $blockKey => $blockValue)
+	        foreach ($calendarValue as $blockKey => $blockValue)
 	        {
-                foreach($blockValue->lessonData as $roomKey => $roomValue)
+                foreach ($blockValue->lessonData as $roomKey => $roomValue)
                 {
-                    if($roomValue != "removed")
+                    if ($roomValue != "removed")
                     {
                         $lessonDate = $calendarKey;
                         $lessonBlock = $blockKey;
@@ -300,191 +206,7 @@ class ICALBauer extends abstrakterBauer
 	    }	    
 	    return $vCalendar;
 	}
-	/*private function setEvent($event, $arr, $semesterstart, $semesterend, $vacations)
-	{
-		$semesterend = date("Y-m-d", strtotime($semesterend));
-		$endarr = explode("-", $semesterend);
-
-		if (is_array($arr))
-		{
-			foreach ($arr as $event)
-			{
-				if (isset($event->dow) && isset($event->block))
-				{
-					$semesterstart = date("Y-m-d", strtotime($semesterstart));
-					$tempdate = $semesterstart;
-
-					while (date("N", strtotime($tempdate)) != 1)
-					{
-						$tempdate = date("Y-m-d", strtotime("-1 day", strtotime($tempdate)));
-					}
-
-					$tempdate = date("Y-m-d", strtotime("+" . (((int) $event->dow) - 1) . " day", strtotime($tempdate)));
-
-					while ($tempdate < $semesterstart)
-					{
-						$tempdate = date("Y-m-d", strtotime("next monday", strtotime($tempdate)));
-						$tempdate = date("Y-m-d", strtotime("+" . (((int) $event->dow) - 1) . " day", strtotime($tempdate)));
-					}
-
-					if ($tempdate > $semesterend)
-					{
-						return $event;
-					}
-
-					$beginarr = explode("-", $tempdate);
-
-					$times     = $this->blocktotime($event->block);
-					$begintime = explode(":", $times[0]);
-					$endtime   = explode(":", $times[1]);
-
-					$startdate  = array(
-							"year" => $beginarr[0],
-							"month" => $beginarr[1],
-							"day" => $beginarr[2],
-							"hour" => $begintime[0],
-							"min" => $begintime[1],
-							"sec" => 0
-					);
-					$enddate    = array(
-							"year" => $beginarr[0],
-							"month" => $beginarr[1],
-							"day" => $beginarr[2],
-							"hour" => $endtime[0],
-							"min" => $endtime[1],
-							"sec" => 0
-					);
-					$endarrdate = array(
-							"year" => $endarr[0],
-							"month" => $endarr[1],
-							"day" => $endarr[2],
-							"hour" => 0,
-							"min" => 0,
-							"sec" => 0
-					);
-
-					$e = new vevent;
-
-					$dozarr  = explode(" ", $event->doz);
-					$doztemp = "";
-
-					foreach ($dozarr as $dozitem)
-					{
-						$res = $this->getResource($dozitem, "doz");
-
-						if (count($res) == 0)
-						{
-							$res[0]->oname = $dozitem;
-						}
-						if ($doztemp == "")
-						{
-							$doztemp .= "" . $res[0]->oname;
-						}
-						else
-						{
-							$doztemp .= ", " . $res[0]->oname;
-						}
-					}
-
-					$roomarr  = explode(" ", $event->room);
-					$roomtemp = "";
-					foreach ($roomarr as $roomitem)
-					{
-						$res = $this->getResource($roomitem, "room");
-						if (count($res) == 0)
-						{
-							$res[0]->oname = $roomitem;
-						}
-						if ($roomtemp == "")
-						{
-							$roomtemp .= "" . $res[0]->oname;
-						}
-						else
-						{
-							$roomtemp .= ", " . $res[0]->oname;
-						}
-					}
-
-					$desc = "$event->name bei $doztemp im $roomtemp \n";
-					$desc .= "{$this->nummerzutag($event->dow)} $event->block Block\n";
-					$desc .= "Modulnummer: $event->moduleID \n";
-
-					$e->setProperty("ORGANIZER", $doztemp);
-					$e->setProperty("DTSTART", $startdate);
-					$e->setProperty("DTEND", $enddate);
-					$e->setProperty("RRULE", array(
-							"FREQ" => "WEEKLY",
-							"UNTIL" => $endarrdate,
-							"BYDAY" => array(
-									"DAY" => $this->daynumtoday($event->dow)
-							),
-							"WKST" => "MO"
-					)
-					);
-					$e->setProperty("LOCATION", $roomtemp);
-					$e->setProperty("TRANSP", "OPAQUE");
-					$e->setProperty("SEQUENCE", "0");
-					$e->setProperty("SUMMARY", $event->name . " bei " . $doztemp . " im " . $roomtemp);
-					$e->setProperty("PRIORITY", "5");
-					$e->setProperty("DESCRIPTION", $desc);
-
-					// Doesnt work in Thunderbird and Outlook 2003
-					foreach ($vacations as $vacationValue)
-					{
-						$vacationStart = DateTime::createFromFormat("Y-m-d", $vacationValue->startdate);
-						$vacationEnd = DateTime::createFromFormat("Y-m-d", $vacationValue->enddate);
-						$interval = $vacationStart->diff($vacationEnd);
-						$diffDays = (int) $interval->format('%d');
-						
-						while ($diffDays != 0)
-						{
-							$e->setProperty("EXDATE", array(
-									array(
-											"year" => $vacationStart->format('Y'),
-											"month" => $vacationStart->format('m'),
-											"day" => $vacationStart->format('d'),
-											"hour" => $begintime[0],
-											"min" => $begintime[1],
-											"sec" => 0
-									)
-							), array(
-									'TZID' => 'Europe/Berlin'
-							)
-							);
-							$vacationStart->add(new DateInterval('P1D'));
-							$interval = $vacationStart->diff($vacationEnd);
-							$diffDays = (int) $interval->format('%d');
-						}
-						$e->setProperty("EXDATE", array(
-								array(
-										"year" => $vacationEnd->format('Y'),
-										"month" => $vacationEnd->format('m'),
-										"day" => $vacationEnd->format('d'),
-										"hour" => $begintime[0],
-										"min" => $begintime[1],
-										"sec" => 0
-								)
-						), array(
-								'TZID' => 'Europe/Berlin'
-						)
-						);
-					}
-
-					$event->setComponent($e);
-				}
-				else
-				{
-
-				}
-			}
-		}
-		else
-		{
-
-		}
-		return $event;
-	}*/
-
+	
 	/**
 	 * Method to check the username and password
 	 *
@@ -561,35 +283,45 @@ class ICALBauer extends abstrakterBauer
 		);
 		return $days[$daynum];
 	}
-
+	
 	/**
-	 * Method to get a name of a resource
+	 * Method to get the active schedule
 	 *
-	 * @param   String  $resourcename  A resource name
-	 * @param   String  $type          A type (doz, room, class)
+	 * @param   String  $departmentAndSemester  The department semester selection (Default: null)
 	 *
-	 * @return Array An array with the resource names
+	 * @return   mixed  The active schedule or false
 	 */
-	private function getResource($resourcename, $type)
+	private function getActiveSchedule($departmentAndSemester = null)
 	{
-		switch ($type)
-		{
-			case 'doz':
-				$table = '#__thm_organizer_teachers';
-				break;
-			case 'room':
-				$table = '#__thm_organizer_rooms';
-				break;
-			case 'class':
-				$table = '#__thm_organizer_classes';
-				break;				
-		}
-
-		$query = "SELECT name as oname ";
-		$query .= "FROM $table";
-		$query .= "WHERE gpuntisID ='$resourcename'";
-		$hits  = $this->_JDA->query($query);
-
-		return $hits;
+	    $schedulerModel = JModel::getInstance('scheduler', 'thm_organizerModel', array('ignore_request' => false));
+	    $activeSchedule = $schedulerModel->getActiveSchedule($departmentAndSemester);
+	    
+	    return $activeSchedule;
+	}
+	
+	/**
+	 * Method to transform teacher ids to teacher names
+	 * 
+	 * @param   array  $teachers  An array with teacher ids
+	 * 
+	 * @return  array  An array with teacher names
+	 */
+	private function getTeacherNames($teachers)
+	{	    
+	    for ($index = 0; $index < count($teachers); $index++)
+	    {
+	        $teacher = $teachers[$index];
+	        if (!empty($this->_teachers->{$teacher}->surname))
+	        {
+	            $teachers[$index] = $this->_teachers->{$teacher}->surname;
+	        }
+	        
+	        if (!empty($this->_teachers->{$teacher}->firstname))
+	        {
+	            $teachers[$index] .= ", " . $this->_teachers->{$teacher}->firstname{0} . ".";
+	        }
+	    }
+	    
+	    return $teachers;
 	}
 }

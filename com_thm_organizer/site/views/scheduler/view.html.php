@@ -85,7 +85,9 @@ class THM_OrganizerViewScheduler extends JView
 			$publicDefaultIDArray = array();
 		}
 				
-		$schedule = $schedulerModel->getActiveSchedule($menuparams->get("departmentSemesterSelection"));
+	    $this->departmentAndSemester = $menuparams->get("departmentSemesterSelection");	
+		    
+		$schedule = $schedulerModel->getActiveSchedule($this->departmentAndSemester);
 				
 		if (is_object($schedule) AND is_string($schedule->schedule))
 		{

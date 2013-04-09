@@ -67,6 +67,7 @@ if ($this->canWriteEvents === true)
 		MySched.searchModuleID = '<?php echo $this->searchModuleID; ?>';
 		MySched.loadLessonsOnStartUp = new Boolean('<?php echo $this->loadLessonsOnStartUp; ?>');
 		MySched.deltaDisplayDays = '<?php echo $this->deltaDisplayDays; ?>';
+		MySched.departmentAndSemester = '<?php echo $this->departmentAndSemester; ?>';
 	    <?php if($this->libraryFPDFIsInstalled)
 	    {
 	        ?>MySched.libraryFPDFIsInstalled = true;<?php
