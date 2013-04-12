@@ -1,17 +1,17 @@
 <?php
 /**
  * @category    Joomla component
- * @package     THM_Curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerViewColors
- * @description THM_OrganizerViewColors component admin view
- * @author      Markus Baier, <markus.baier@mni.thm.de>
+ * @name		THM_OrganizerViewColor_Manager
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
+
 /**
  * Class THM_OrganizerViewColors for component com_thm_organizer
  * Class provides methods to display the view colors
@@ -19,7 +19,6 @@ jimport('joomla.application.component.view');
  * @category    Joomla.Component.Admin
  * @package     thm_curriculum
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
  */
 class THM_OrganizerViewColor_Manager extends JView
 {
@@ -32,18 +31,16 @@ class THM_OrganizerViewColor_Manager extends JView
 	 */
 	public function display($tpl = null)
 	{
-        if (!thm_organizerHelper::isAdmin('color'))
+        if (!JFactory::getUser()->authorise('core.admin'))
         {
-            thm_organizerHelper::noAccess();
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
 
         JHtml::_('behavior.tooltip');
+        JHtml::_('behavior.multiselect');
 
-		$items = $this->get('Items');
-		$pagination = $this->get('Pagination');
-
-		$this->items = $items;
-		$this->pagination = $pagination;
+		$this->items = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
 		$this->state = $this->get('State');
 		$this->addToolBar();
 
@@ -61,5 +58,7 @@ class THM_OrganizerViewColor_Manager extends JView
 		JToolBarHelper::addNew('color.add', 'JTOOLBAR_NEW');
 		JToolBarHelper::editList('color.edit', 'JTOOLBAR_EDIT');
 		JToolBarHelper::deleteList('', 'color.delete', 'JTOOLBAR_DELETE');
+		JToolBarHelper::divider();
+		JToolBarHelper::preferences('com_thm_organizer');
 	}
 }

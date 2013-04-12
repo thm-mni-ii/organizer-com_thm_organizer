@@ -1,7 +1,7 @@
 <?php
 /**
  * @category    Joomla component
- * @package     THM_Curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerViewStart
  * @description THM_OrganizerViewStart component admin view

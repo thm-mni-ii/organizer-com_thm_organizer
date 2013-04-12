@@ -3,9 +3,8 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerModelColor
- * @description THM_OrganizerModelColor component admin model
- * @author      Markus Baier, <markus.baier@mni.thm.de>
+ * @name        THM_OrganizerModelColor_Edit
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
@@ -14,31 +13,14 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
 
 /**
- * Class THM_OrganizerModelColor for component com_thm_organizer
- * Class provides methods to deal with color
+ * Class loads form data to edit an entry.
  *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class THM_OrganizerModelColor_Edit extends JModelAdmin
 {
-    /**
-	 * Method to get the table
-	 *
-	 * @param   String  $type    Type  			(default: 'colors')
-	 * @param   String  $prefix  Prefix  		(default: 'THM_OrganizerTable')
-	 * @param   Array   $config  Configuration  (default: 'Array')
-	 *
-	 * @return  JTable object
-	 */
-	public function getTable($type = 'colors', $prefix = 'THM_OrganizerTable', $config = array())
-	{
-		return JTable::getInstance($type, $prefix, $config);
-	}
-
 	/**
 	 * Method to get the form
 	 *
@@ -49,7 +31,6 @@ class THM_OrganizerModelColor_Edit extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Get the form.
 		$form = $this->loadForm('com_thm_organizer.color_edit', 'color_edit', array('control' => 'jform', 'load_data' => $loadData));
 
 		if (empty($form))
@@ -67,12 +48,22 @@ class THM_OrganizerModelColor_Edit extends JModelAdmin
 	 */
 	protected function loadFormData()
 	{
-		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_thm_organizer.edit.color.data', array());
-		if (empty($data))
-		{
-			$data = $this->getItem();
-		}
-		return $data;
+        $colorIDs = JRequest::getVar('cid',  null, '', 'array');
+        $colorID = (empty($colorIDs))? JRequest::getInt('id') : $colorIDs[0];
+		return  $this->getItem($colorID);
+	}
+
+    /**
+	 * Method to get the table
+	 *
+	 * @param   String  $type    Type  			(default: 'colors')
+	 * @param   String  $prefix  Prefix  		(default: 'THM_OrganizerTable')
+	 * @param   Array   $config  Configuration  (default: 'Array')
+	 *
+	 * @return  JTable object
+	 */
+	public function getTable($type = 'colors', $prefix = 'THM_OrganizerTable', $config = array())
+	{
+		return JTable::getInstance($type, $prefix, $config);
 	}
 }

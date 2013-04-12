@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="details">
+		<field name="id"
+			   type="hidden"
+			   required="true" />
+		<field name="name"
+			   type="text"
+			   class="inputbox"
+			   size="40"
+			   label="COM_THM_ORGANIZER_NAME"
+			   description="COM_THM_ORGANIZER_DEG_NAME_DESC"
+			   required="true" />
+		<field name="abbreviation"
+			   type="text"
+			   class="inputbox"
+			   size="10"
+			   label="COM_THM_ORGANIZER_ABBREVIATION"
+			   description="COM_THM_ORGANIZER_DEG_ABBREVIATION_DESC"
+			   required="true" />
+		<field name="lsfDegree"
+			   type="text"
+			   class="inputbox"
+			   size="10"
+			   label="COM_THM_ORGANIZER_DEG_LSF_DEGREE_TITLE"
+			   description="COM_THM_ORGANIZER_DEG_LSF_DEGREE_DESC"
+			   required="true" />
+	</fieldset>
+</form>

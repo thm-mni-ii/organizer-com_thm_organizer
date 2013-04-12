@@ -1,11 +1,10 @@
 <?php
 /**
  * @category    Joomla component
- * @package     THM_Curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerViewColor
- * @description THM_OrganizerViewColor component admin view
- * @author      Markus Baier, <markus.baier@mni.thm.de>
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
@@ -20,7 +19,6 @@ jimport('joomla.application.component.view');
  * @category    Joomla.Component.Admin
  * @package     thm_curriculum
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
  */
 class THM_OrganizerViewColor_Edit extends JView
 {
@@ -33,9 +31,9 @@ class THM_OrganizerViewColor_Edit extends JView
 	 */
 	public function display($tpl = null)
 	{
-        if (!thm_organizerHelper::isAdmin('color'))
+        if (!JFactory::getUser()->authorise('core.admin'))
         {
-            thm_organizerHelper::noAccess();
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
 
 		JHtml::_('behavior.tooltip');
@@ -68,8 +66,7 @@ class THM_OrganizerViewColor_Edit extends JView
 	{
 		JRequest::setVar('hidemainmenu', true);
 		$isNew = ($this->item->id == 0);
-		JToolBarHelper::title($isNew ?
-			JText::_('COM_THM_ORGANIZER_CLM_NEW_TITLE') : JText::_('COM_THM_ORGANIZER_CLM_EDIT_TITLE'));
+		JToolBarHelper::title($isNew ? JText::_('COM_THM_ORGANIZER_CLM_NEW_TITLE') : JText::_('COM_THM_ORGANIZER_CLM_EDIT_TITLE'));
 		JToolBarHelper::save('color.save');
 		JToolBarHelper::cancel('color.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
 	}

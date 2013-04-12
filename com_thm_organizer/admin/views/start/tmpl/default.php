@@ -1,7 +1,7 @@
 <?php 
 /**
  * @category    Joomla component
- * @package     THM_Curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name		view start default
  * @description THM_Curriculum component admin view

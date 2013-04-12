@@ -3,9 +3,8 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerModelColors
- * @description THM_OrganizerModelColors component admin model
- * @author      Markus Baier, <markus.baier@mni.thm.de>
+ * @name        THM_OrganizerModelColor_Manager
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
@@ -20,7 +19,6 @@ jimport('joomla.application.component.modellist');
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
  */
 class THM_OrganizerModelColor_Manager extends JModelList
 {

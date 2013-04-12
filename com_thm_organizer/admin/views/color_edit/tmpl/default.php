@@ -1,12 +1,10 @@
 <?php
 /**
  * @category    Joomla component
- * @package     THM_Curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name		view color edit
- * @description THM_Curriculum component admin view
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
@@ -16,7 +14,7 @@ defined('_JEXEC') or die;
 <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=color_edit&id=' . (int) $this->item->id); ?>"
       method="post"
 	  name="adminForm"
-	  id="farbe-form">
+	  id="color-form">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_THM_ORGANIZER_CLM_PROPERTIES'); ?></legend>
 		<ul class="adminformlist">
@@ -33,6 +31,6 @@ defined('_JEXEC') or die;
 	<div>
 		<?php echo $this->form->getInput('id'); ?>
 		<?php echo JHtml::_('form.token'); ?>
-		<input type="hidden" name="task" value="farbe.edit" />
+		<input type="hidden" name="task" value="color.save" />
 	</div>
 </form>

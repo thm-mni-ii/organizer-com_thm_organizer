@@ -4,8 +4,7 @@
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @name        THM_OrganizerModelColor
- * @description THM_OrganizerModelColor component admin model
- * @author      Markus Baier, <markus.baier@mni.thm.de>
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de

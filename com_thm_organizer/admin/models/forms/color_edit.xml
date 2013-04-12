@@ -5,14 +5,14 @@
 			   type="hidden"
 			   required="true" />
 		<field name="name"
-			   type="CURRICULUM"
+			   type="text"
 			   class="inputbox"
 			   size="40"
 			   label="COM_THM_ORGANIZER_NAME"
 			   description="COM_THM_ORGANIZER_CLM_NAME_DESC"
 			   required="true" />
 		<field name="color"
-			   type="CURRICULUM"
+			   type="text"
 			   class="inputbox color"
 			   size="10"
 			   label="COM_THM_ORGANIZER_CLM_CODE"

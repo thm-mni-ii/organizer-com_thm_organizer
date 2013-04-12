@@ -14,8 +14,8 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
 
 /**
- * Class retrieving a monitor entry to be edited 
- * 
+ * Class loads form data to edit an entry.
+ *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
@@ -51,26 +51,21 @@ class THM_OrganizerModelMonitor_Edit extends JModelAdmin
     public function getForm($data = array(), $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_thm_organizer.monitor_edit',
-                                'monitor_edit',
-                                array('control' => 'jform', 'load_data' => $loadData)
-                               );
+        $form = $this->loadForm('com_thm_organizer.monitor_edit', 'monitor_edit', array('control' => 'jform', 'load_data' => $loadData));
+
         if (empty($form))
         {
             return false;
         }
-        else
-        {
-            return $form;
-        }
+
+		return $form;
     }
 
-    /**
-     * retrieves the data that should be injected in the form the loading is
-     * done in jmodel admin
-     *
-     * @return    mixed    The data for the form.
-     */
+	/**
+	 * Method to load the form data
+	 *
+	 * @return  Object
+	 */
     protected function loadFormData()
     {
         $monitorIDs = JRequest::getVar('cid',  null, '', 'array');
@@ -79,27 +74,14 @@ class THM_OrganizerModelMonitor_Edit extends JModelAdmin
     }
 
     /**
-     * Method to get a single record.
-     *
-     * @param   integer  $monitorID  The id of the primary key.
-     *
-     * @return mixed    Object on success, false on failure.
-     */
-    public function getItem($monitorID = null)
-    {
-        return ($monitorID)? parent::getItem($monitorID) : $this->getTable();
-    }
-
-    /**
-     * returns a table object the parameters are completely superfluous in the
-     * implementing classes since they are always set by default
-     *
-     * @param   string  $type    The table type to instantiate
-     * @param   string  $prefix  A prefix for the table class name. Optional.
-     * @param   array   $config  Configuration array for model. Optional.
-     *
-     * @return    JTabl        A database object
-    */
+	 * Method to get the table
+	 *
+	 * @param   String  $type    Type  			(default: 'monitors')
+	 * @param   String  $prefix  Prefix  		(default: 'THM_OrganizerTable')
+	 * @param   Array   $config  Configuration  (default: 'Array')
+	 *
+	 * @return  JTable object
+	 */
     public function getTable($type = 'monitors', $prefix = 'thm_organizerTable', $config = array())
     {
         return JTable::getInstance($type, $prefix, $config);

@@ -1,7 +1,9 @@
 INSERT INTO `#__thm_organizer_asset_types` (`id`, `name`) VALUES
 (1, 'Course'),
 (2, 'Coursepool'),
-(3, 'Dummy');
+(3, 'Dummy'),
+(4, 'Degree Program'),
+(4, 'Term');
 
 INSERT INTO `#__thm_organizer_colors` (`id`, `name`, `color`) VALUES
 (1, 'THM Hintergrundgruen', 'cce3a7'),

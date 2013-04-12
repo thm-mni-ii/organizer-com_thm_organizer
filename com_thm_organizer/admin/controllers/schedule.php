@@ -10,29 +10,27 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.controller');
-require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
+jimport('joomla.application.component.controllerform');
 
 /**
- * Class performing access checks and model function calls for schedule actions 
- * 
+ * Class performs access checks, redirects and model function calls for data persistence
+ *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
  */
-class THM_OrganizerControllerschedule extends JController
+class THM_OrganizerControllerschedule extends JControllerForm
 {
     /**
-     * Redirects to the semester edit view to upload a new schedule
+     * Performs access checks and redirects to the schedule edit view
      * 
      * @return void
      */
     public function add()
     {
-        if (!thm_organizerHelper::isAdmin('schedule'))
+        if (!JFactory::getUser()->authorise('core.admin'))
         {
-            thm_organizerHelper::noAccess();
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
         JRequest::setVar('view', 'schedule_edit');
         JRequest::setVar('scheduleID', '0');
@@ -40,16 +38,19 @@ class THM_OrganizerControllerschedule extends JController
     }
 
     /**
-     * Redirects to the semester edit view to edit an existing schedule
+     * Performs access checks and redirects to the schedule edit view
+	 *
+	 * @param   Object  $key     Key		   (default: null)
+	 * @param   Object  $urlVar  Url variable  (default: null)
      * 
      * @return void
      */
-    public function edit()
+    public function edit($key = null, $urlVar = null)
     {
-        if (!thm_organizerHelper::isAdmin('schedule'))
+        if (!JFactory::getUser()->authorise('core.admin'))
         {
-            thm_organizerHelper::noAccess();
-        }        
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }       
         JRequest::setVar('view', 'schedule_edit');
         parent::display();
     }
@@ -62,10 +63,11 @@ class THM_OrganizerControllerschedule extends JController
      */
     public function upload()
     {
-        if (!thm_organizerHelper::isAdmin('schedule'))
+        if (!JFactory::getUser()->authorise('core.admin'))
         {
-            thm_organizerHelper::noAccess();
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
+		$url = "index.php?option=com_thm_organizer&view=schedule_manager";
         $fileType = $_FILES['file']['type'];
         if ($fileType == "text/xml")
         {
@@ -84,12 +86,10 @@ class THM_OrganizerControllerschedule extends JController
                     $warningText = "<br /><h4>" . JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_ERRORS_WARNINGS") . ":</h4>";
                     $msg .= $warningText . $statusReport['warnings'];
                 }
-                $this->setRedirect("index.php?option=com_thm_organizer&view=schedule_edit", $msg, 'error');
+                $this->setRedirect($url, $msg, 'error');
             }
             else
             {
-                $url = "index.php?option=com_thm_organizer&view=schedule_edit";
-
                 // Minor inconsistancies discovered
                 if (isset($statusReport['warnings']))
                 {
@@ -111,16 +111,19 @@ class THM_OrganizerControllerschedule extends JController
     }
 
     /**
-     * adds or updates schedule commentary and redirects to the schedule
-     * manager view
+	 * Performs access checks, makes call to the models's save function, and
+	 * redirects to the schedule manager view
+	 *
+	 * @param   Object  $key     Key		   (default: null)
+	 * @param   Object  $urlVar  Url variable  (default: null)
      * 
      * @return void
      */
-    public function save()
+    public function save($key = null, $urlVar = null)
     {
-        if (!thm_organizerHelper::isAdmin('schedule'))
+        if (!JFactory::getUser()->authorise('core.admin'))
         {
-            thm_organizerHelper::noAccess();
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
         $model = $this->getModel('schedule');
         $result = $model->saveComment();
@@ -146,23 +149,20 @@ class THM_OrganizerControllerschedule extends JController
      */
     public function delete()
     {
-        if (!thm_organizerHelper::isAdmin('schedule'))
+        if (!JFactory::getUser()->authorise('core.admin'))
         {
-            thm_organizerHelper::noAccess();
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-
-        $url = "index.php?option=com_thm_organizer&view=schedule_manager";
-        $model = $this->getModel('schedule');
-        $success = $model->delete();
+        $success = $this->getModel('schedule')->delete();
         if ($success)
         {
             $msg = JText::_("COM_THM_ORGANIZER_SCH_DELETE_SUCCESS");
-            $this->setRedirect($url, $msg);
+            $this->setRedirect("index.php?option=com_thm_organizer&view=schedule_manager", $msg);
         }
         else
         {
             $msg = JText::_("COM_THM_ORGANIZER_SCH_DELETE_FAIL");
-            $this->setRedirect($url, $msg, 'error');
+            $this->setRedirect("index.php?option=com_thm_organizer&view=schedule_manager", $msg, 'error');
         }
     }
 
@@ -174,9 +174,9 @@ class THM_OrganizerControllerschedule extends JController
      */
     public function setReference()
     {
-        if (!thm_organizerHelper::isAdmin('schedule'))
+        if (!JFactory::getUser()->authorise('core.admin'))
         {
-            thm_organizerHelper::noAccess();
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
 
@@ -207,18 +207,19 @@ class THM_OrganizerControllerschedule extends JController
         }
     }
 
-    /**
-     * Performs access checks and redirects to the schedule manager view
-     * 
-     * @return void
-     */
-    public function cancel()
+	/**
+	 * Method to cancel an edit.
+	 *
+	 * @param   string  $key  The name of the primary key of the URL variable.
+	 *
+	 * @return  void
+	 */
+    public function cancel($key = null)
     {
-        if (!thm_organizerHelper::isAdmin('schedule'))
+        if (!JFactory::getUser()->authorise('core.admin'))
         {
-            thm_organizerHelper::noAccess();
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        $url = "index.php?option=com_thm_organizer&view=schedule_manager";
-        $this->setRedirect($url);
+        $this->setRedirect("index.php?option=com_thm_organizer&view=schedule_manager");
     }
 }

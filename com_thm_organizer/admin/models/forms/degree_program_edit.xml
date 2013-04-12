@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="details">
+		<field name="id"
+			   type="hidden" />
+		<field name="subject"
+			   type="text"
+			   size="25"
+			   maxlength="255"
+			   class="inputbox"
+			   label="COM_THM_ORGANIZER_NAME"
+			   description="COM_THM_ORGANIZER_DGP_NAME_DESC" 
+			   required="true" />
+		<field name="degreeID"
+			   type="sql"
+			   label="COM_THM_ORGANIZER_DGP_DEGREE_TITLE"
+			   description="COM_THM_ORGANIZER_DGP_DEGREE_DESC"
+			   query="SELECT id AS value, name AS degreeID FROM #__thm_organizer_degrees"
+			   required="true" />
+		<field name="version"
+			   type="text"
+			   size="10"
+			   class="inputbox"
+			   label="COM_THM_ORGANIZER_DGP_VERSION_TITLE"
+			   description="COM_THM_ORGANIZER_DGP_VERSION_DESC"
+			   required="true" />
+		<field name="fieldID"
+			   type="sql"
+			   label="COM_THM_ORGANIZER_DGP_FIELD_TITLE"
+			   description="COM_THM_ORGANIZER_DGP_FIELD_DESC"
+			   query="SELECT id AS value, field AS fieldID FROM #__thm_organizer_fields"
+			   required="true" />
+		<field name="lsfFieldID"
+			   type="text"
+			   class="inputbox"
+			   size="40"
+			   label="COM_THM_ORGANIZER_DGP_LSF_FIELDID_TITLE"
+			   description="COM_THM_ORGANIZER_DGP_LSF_FIELDID_DESC" />
+	</fieldset>
+</form>

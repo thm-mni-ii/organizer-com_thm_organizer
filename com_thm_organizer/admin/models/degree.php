@@ -22,55 +22,40 @@ jimport('joomla.application.component.modeladmin');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelDegree extends JModelAdmin
+class THM_OrganizerModelDegree extends JModel
 {
-    /**
-	 * Method to get the table
-	 *
-	 * @param   String  $type    Type  			(default: 'degrees')
-	 * @param   String  $prefix  Prefix  		(default: 'THM_OrganizerTable')
-	 * @param   Array   $config  Configuration  (default: 'Array')
-	 *
-	 * @return  JTable object
+	/**
+	 * Saves degree information to the database
+	 * 
+	 * @return  boolean true on success, otherwise false
 	 */
-	public function getTable($type = 'degrees', $prefix = 'THM_OrganizerTable', $config = array())
+	public function save()
 	{
-		return JTable::getInstance($type, $prefix, $config);
+        $data = JRequest::getVar('jform', null, null, null, 4);
+        $table = JTable::getInstance('degrees', 'thm_organizerTable');
+        return $table->save($data);
 	}
 
 	/**
-	 * Method to get the form
-	 *
-	 * @param   Array    $data      Data  	   (default: Array)
-	 * @param   Boolean  $loadData  Load data  (default: true)
-	 *
-	 * @return  A Form object
+	 * Deletes the chosen degrees from the database
+	 * 
+	 * @return boolean true on success, otherwise false
 	 */
-	public function getForm($data = array(), $loadData = true)
+	public function delete()
 	{
-		// Get the form.
-		$form = $this->loadForm('com_thm_organizer.degree', 'degree', array('control' => 'jform', 'load_data' => $loadData));
-
-		if (empty($form))
+		$query = $this->_db->getQuery(true);
+		$query->delete('#__thm_organizer_degrees');
+		$cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
+		$query->where("id IN ( $cids )");
+		$this->_db->setQuery((string) $query);
+		try
+		{
+			$this->_db->query();
+			return true;
+		}
+		catch ( Exception $exception)
 		{
 			return false;
 		}
-		return $form;
-	}
-
-	/**
-	 * Method to load the form data
-	 *
-	 * @return  Object
-	 */
-	protected function loadFormData()
-	{
-		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_thm_organizer.edit.degree.data', array());
-		if (empty($data))
-		{
-			$data = $this->getItem();
-		}
-		return $data;
 	}
 }

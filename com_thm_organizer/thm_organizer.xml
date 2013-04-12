@@ -66,12 +66,12 @@
             	  img="components/com_thm_organizer/assets/images/virtual_schedule_manager.png"
                   alt="THM-Organizer/Virtual Schedule Manager"
                   >COM_THM_ORGANIZER_VSM_TITLE</menu>
-            <menu alias="Monitor Manager"
-            	  link="option=com_thm_organizer&amp;view=monitor_manager"
-                  view="monitor_manager"
-            	  img="components/com_thm_organizer/assets/images/monitor_manager.png"
-                  alt="THM-Organizer/Monitor Manager"
-                  >COM_THM_ORGANIZER_MON_TITLE</menu>
+            <menu alias="Degrees"
+            	  link="option=com_thm_organizer&amp;view=degrees"
+                  view="degrees"
+                  img="components/com_thm_organizer/assets/images/degrees_min.png"
+                  alt="THM-Organizer/Degrees"
+                  >COM_THM_ORGANIZER_SUBMENU_DEGREES</menu>
             <menu alias="Semesters"
             	  link="option=com_thm_organizer&amp;view=semesters"
                   view="semesters"
@@ -90,24 +90,18 @@
                   img="components/com_thm_organizer/assets/images/assets_min.png"
                   alt="THM-Organizer/Assets"
                   >COM_THM_ORGANIZER_SUBMENU_ASSETS</menu>
+            <menu alias="Monitor Manager"
+            	  link="option=com_thm_organizer&amp;view=monitor_manager"
+                  view="monitor_manager"
+            	  img="components/com_thm_organizer/assets/images/monitor_manager.png"
+                  alt="THM-Organizer/Monitor Manager"
+                  >COM_THM_ORGANIZER_MON_TITLE</menu>
             <menu alias="Colors"
-            	  link="option=com_thm_organizer&amp;view=colors"
+            	  link="option=com_thm_organizer&amp;view=color_manager"
                   view="colors"
                   img="components/com_thm_organizer/assets/images/colors_min.png"
                   alt="THM-Organizer/Colors"
                   >COM_THM_ORGANIZER_SUBMENU_COLORS</menu>
-            <menu alias="Degrees"
-            	  link="option=com_thm_organizer&amp;view=degrees"
-                  view="degrees"
-                  img="components/com_thm_organizer/assets/images/degrees_min.png"
-                  alt="THM-Organizer/Degrees"
-                  >COM_THM_ORGANIZER_SUBMENU_DEGREES</menu>
-            <menu alias="Majors"
-            	  link="option=com_thm_organizer&amp;view=majors"
-                  view="majors"
-                  img="components/com_thm_organizer/assets/images/majors_min.png"
-                  alt="THM-Organizer/Majors"
-                  >COM_THM_ORGANIZER_SUBMENU_MAJORS</menu>
         </submenu>
         <files folder="admin">
             <filename>access.xml</filename>

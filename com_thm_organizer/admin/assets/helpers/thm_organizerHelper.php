@@ -19,21 +19,6 @@
  */
 class THM_OrganizerHelper
 {
-
-    /**
-     * Gets a list of the actions that can be performed.
-     *
-     * @param   string  $submenu  The extension.
-     *
-     * @return	JObject
-     */
-    public static function isAdmin($submenu)
-    {
-            $user = JFactory::getUser();
-            $assetName = "com_thm_organizer.$submenu";
-            return $user->authorise('core.admin', $assetName);
-    }
-
     /**
      * Configure the Linkbar.
      * 
@@ -59,22 +44,24 @@ class THM_OrganizerHelper
 										'link' => 'index.php?option=com_thm_organizer&amp;view=schedule_manager'),
             'virtual_schedule_manager' => array('name' => 'COM_THM_ORGANIZER_VSM_TITLE',
 												'link' => 'index.php?option=com_thm_organizer&amp;view=virtual_schedule_manager'),
-            'degrees' => array('name' => 'COM_THM_ORGANIZER_DEG_TITLE',
-							   'link' => 'index.php?option=com_thm_organizer&view=degrees'),
-            'majors' => array('name' => 'COM_THM_ORGANIZER_MJM_TITLE',
-							  'link' => 'index.php?option=com_thm_organizer&view=majors'),
-            'semesters' => array('name' => 'com_thm_organizer_SUBMENU_SEMESTERS',
-								 'link' => 'index.php?option=com_thm_organizer&view=semesters'),
-            'assets' => array('name' => 'com_thm_organizer_SUBMENU_ASSETS',
-							  'link' => 'index.php?option=com_thm_organizer&view=assets'),
+            'degree_manager' => array('name' => 'COM_THM_ORGANIZER_DEG_TITLE',
+									  'link' => 'index.php?option=com_thm_organizer&view=degree_manager'),
+            'color_manager' => array('name' => 'COM_THM_ORGANIZER_CLM_TITLE',
+									 'link' => 'index.php?option=com_thm_organizer&view=color_manager'),
+            'field_manager' => array('name' => 'COM_THM_ORGANIZER_FLM_TITLE',
+									 'link' => 'index.php?option=com_thm_organizer&view=field_manager'),
+            'degree_program_manager' => array('name' => 'COM_THM_ORGANIZER_DGP_TITLE',
+											  'link' => 'index.php?option=com_thm_organizer&view=degree_program_manager'),
+            /*'term_manager' => array('name' => 'COM_THM_ORGANIZER_SEM_TITLE',
+									'link' => 'index.php?option=com_thm_organizer&view=term_manager'),
+            'module_manager' => array('name' => 'COM_THM_ORGANIZER_MPM_TITLE',
+									  'link' => 'index.php?option=com_thm_organizer&view=module_manager'),*/
             'teacher_manager' => array('name' => 'COM_THM_ORGANIZER_TRM_TITLE',
 									   'link' => 'index.php?option=com_thm_organizer&view=teacher_manager'),
-            'room_manager' => array('name' => 'COM_THM_ORGANIZER_RMM_TITLE',
-									   'link' => 'index.php?option=com_thm_organizer&view=room_manager'),
+            /*'room_manager' => array('name' => 'COM_THM_ORGANIZER_RMM_TITLE',
+									'link' => 'index.php?option=com_thm_organizer&view=room_manager'),*/
             'monitor_manager' => array('name' => 'COM_THM_ORGANIZER_MON_TITLE',
-									   'link' => 'index.php?option=com_thm_organizer&amp;view=monitor_manager'),
-            'colors' => array('name' => 'COM_THM_ORGANIZER_CLM_TITLE',
-							  'link' => 'index.php?option=com_thm_organizer&view=color_manager')
+									   'link' => 'index.php?option=com_thm_organizer&amp;view=monitor_manager')
         );
 
         // Put submenu entries togehter
@@ -90,31 +77,5 @@ class THM_OrganizerHelper
                 JSubMenuHelper::addEntry(JText::_($subValue['name']), $subValue['link'], false);
             }
         }
-    }
-
-    /**
-     * reformats db formatted dates to the german date format
-     *
-     * @param   string  $date  the date from the db
-     * 
-     * @return string a german formatted date
-     */
-    public static function germanizeDate($date)
-    {
-        $date = date("d.m.Y", strtotime($date));
-        return $date;
-    }
-
-    /**
-     * reformats german formatted dates to the db date format
-     *
-     * @param   string  $date  the german formatted date
-     * 
-     * @return string a db formatted date
-     */
-    public static function dbizeDate($date)
-    {
-        $date = date("Y-m-d", strtotime($date));
-        return $date;
     }
 }

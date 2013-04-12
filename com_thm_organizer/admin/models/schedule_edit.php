@@ -28,64 +28,49 @@ class THM_OrganizerModelSchedule_Edit extends JModelAdmin
      * @param   array    $data      unused
      * @param   boolean  $loadData  if the form data should be pulled dynamically
      *
-     * @return    mixed    A JForm object on success, false on failure
+     * @return  mixed    A JForm object on success, false on failure
      */
     public function getForm($data = array(), $loadData = true)
     {
-        $form = $this->loadForm('com_thm_organizer.schedule_edit',
-                                'schedule_edit',
-                                array('control' => 'jform', 'load_data' => $loadData)
-                               );
+        $form = $this->loadForm('com_thm_organizer.schedule_edit', 'schedule_edit', array('control' => 'jform', 'load_data' => $loadData));
+
         if (empty($form))
         {
             return false;
         }
-        else
-        {
-            return $form;
-        }
+
+		return $form;
     }
 
-    /**
-     * retrieves the data that should be injected in the form the loading is
-     * done in jmodel admin
-     *
-     * @return  mixed  The data for the form.
-     */
+	/**
+	 * Method to load the form data
+	 *
+	 * @return  Object
+	 */
     protected function loadFormData()
     {
         $scheduleIDs = JRequest::getVar('cid',  null, '', 'array');
         $scheduleID = (empty($scheduleIDs))? JRequest::getVar('scheduleID') : $scheduleIDs[0];
         $data = $this->getItem($scheduleID);
-        unset($data->schedule);
-        $data->creationdate = thm_organizerHelper::germanizeDate($data->creationdate);
-        $data->startdate = thm_organizerHelper::germanizeDate($data->startdate);
-        $data->enddate = thm_organizerHelper::germanizeDate($data->enddate);
+        if (!empty($data))
+		{
+			unset($data->schedule);
+			$data->creationdate = date("d.m.Y", strtotime($data->creationdate));
+			$data->startdate = date("d.m.Y", strtotime($data->startdate));
+			$data->enddate = date("d.m.Y", strtotime($data->enddate));
+		}
         return $data;
     }
 
     /**
-     * Method to get a single record.
-	 * 
-	 * @param   integer  $scheduleID  The id of the selected schedule
-     *
-     * @return  mixed  Object on success, false on failure.
-     */
-    public function getItem($scheduleID)
-    {
-        return ($scheduleID)? parent::getItem($scheduleID) : $this->getTable();
-    }
-
-    /**
-     * returns a table object the parameters are completely superfluous in the
-     * implementing classes since they are always set by default
-     *
-     * @param   string  $type    the table type to instantiate
-     * @param   string  $prefix  a prefix for the table class name. optional.
-     * @param   array   $config  configuration array for model. optional.
-     *
-     * @return    JTable    A database object
-    */
+	 * Method to get the table
+	 *
+	 * @param   String  $type    Type  			(default: 'schedules')
+	 * @param   String  $prefix  Prefix  		(default: 'THM_OrganizerTable')
+	 * @param   Array   $config  Configuration  (default: 'Array')
+	 *
+	 * @return  JTable object
+	 */
     public function getTable($type = 'schedules', $prefix = 'thm_organizerTable', $config = array())
     {
         return JTable::getInstance($type, $prefix, $config);

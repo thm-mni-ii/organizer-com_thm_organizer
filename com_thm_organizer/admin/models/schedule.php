@@ -469,7 +469,8 @@ class THM_OrganizerModelSchedule extends JModel
 	 */
 	protected function validateRoom(&$roomnode)
 	{
-		$gpuntisID = trim((string) $roomnode[0]['id']);
+		$gpuntisID = isset($roomnode->external_name)?
+			trim((string) $roomnode->external_name) : trim((string) $roomnode[0]['id']);
 		if (empty($gpuntisID))
 		{
 			if (!in_array(JText::_("COM_THM_ORGANIZER_RM_ID_MISSING"), $this->_scheduleErrors))
@@ -482,6 +483,7 @@ class THM_OrganizerModelSchedule extends JModel
 		$this->_schedule->rooms->$roomID = new stdClass;
 		$this->_schedule->rooms->$roomID->gpuntisID = $gpuntisID;
 		$this->_schedule->rooms->$roomID->name = $roomID;
+		$this->_schedule->rooms->$roomID->localUntisID = str_replace('RM_', '', trim((string) $roomnode[0]['id']));
 
 		$longname = trim((string) $roomnode->longname);
 		if (empty($longname))
@@ -588,7 +590,8 @@ class THM_OrganizerModelSchedule extends JModel
 	 */
 	protected function validateTeacher(&$teachernode)
 	{
-		$gpuntisID = trim((string) $teachernode[0]['id']);
+		$gpuntisID = isset($teachernode->external_name)?
+			trim((string) $teachernode->external_name) : trim((string) $teachernode[0]['id']);
 		if (empty($gpuntisID))
 		{
 			if (!in_array(JText::_("COM_THM_ORGANIZER_TR_ID_MISSING"), $this->_scheduleErrors))
@@ -599,7 +602,8 @@ class THM_OrganizerModelSchedule extends JModel
 		}
 		$teacherID = str_replace('TR_', '', $gpuntisID);
 		$this->_schedule->teachers->$teacherID = new stdClass;
-		$this->_schedule->teachers->$teacherID->gpuntisID = $gpuntisID;
+		$this->_schedule->teachers->$teacherID->gpuntisID = $teacherID;
+		$this->_schedule->teachers->$teacherID->localUntisID = str_replace('TR_', '', trim((string) $teachernode[0]['id']));
 
 		$surname = trim((string) $teachernode->surname);
 		if (empty($surname))
@@ -609,15 +613,15 @@ class THM_OrganizerModelSchedule extends JModel
 		}
 		$this->_schedule->teachers->$teacherID->surname = $surname;
 
-		$firstname = trim((string) $teachernode->forename);
-		if (empty($firstname))
+		$forename = trim((string) $teachernode->forename);
+		if (empty($forename))
 		{
 			$this->_scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_TR_FN_MISSING', $teacherID, $surname);
-			$this->_schedule->teachers->$teacherID->firstname = '';
+			$this->_schedule->teachers->$teacherID->forename = '';
 		}
 		else
 		{
-			$this->_schedule->teachers->$teacherID->firstname = $firstname;
+			$this->_schedule->teachers->$teacherID->forename = $forename;
 		}
 
 		$userid = trim((string) $teachernode->payrollnumber);
@@ -658,7 +662,8 @@ class THM_OrganizerModelSchedule extends JModel
 	 */
 	protected function validateModule(&$classnode)
 	{
-		$gpuntisID = trim((string) $classnode[0]['id']);
+		$gpuntisID = isset($classnode->external_name)?
+			trim((string) $classnode->external_name) : trim((string) $classnode[0]['id']);
 		if (empty($gpuntisID))
 		{
 			if (!in_array(JText::_("COM_THM_ORGANIZER_CL_ID_MISSING"), $this->_scheduleErrors))
@@ -671,6 +676,7 @@ class THM_OrganizerModelSchedule extends JModel
 		$this->_schedule->modules->$moduleID = new stdClass;
 		$this->_schedule->modules->$moduleID->gpuntisID = $gpuntisID;
 		$this->_schedule->modules->$moduleID->name = $moduleID;
+		$this->_schedule->modules->$moduleID->localUntisID = str_replace('CL_', '', trim((string) $classnode[0]['id']));
 
 		$longname = trim((string) $classnode->longname);
 		if (empty($longname))
@@ -800,15 +806,28 @@ class THM_OrganizerModelSchedule extends JModel
 		$this->_schedule->lessons->$lessonID->name = $lessonName;
 
 		$teacherID = str_replace('TR_', '', trim((string) $lessonnode->lesson_teacher[0]['id']));
+		$teacherFound = false;
 		if (empty($teacherID))
 		{
 			$this->_scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_TR_MISSING', $lessonName, $lessonID);
 			return;
 		}
-		elseif (empty($this->_schedule->teachers->$teacherID))
+		else
 		{
-			$this->_scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_TR_LACKING', $lessonName, $lessonID, $teacherID);
-			return;
+			foreach ($this->_schedule->teachers as $teacherKey => $teacher)
+			{
+				if ($teacher->localUntisID == $teacherID)
+				{
+					$teacherFound = true;
+					$teacherID = $teacherKey;
+					break;
+				}
+			}
+			if (!$teacherFound)
+			{
+				$this->_scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_TR_LACKING', $lessonName, $lessonID, $teacherID);
+				return;
+			}
 		}
 		if (!isset($this->_schedule->lessons->$lessonID->teachers))
 		{
@@ -834,9 +853,19 @@ class THM_OrganizerModelSchedule extends JModel
 			foreach ($moduleIDs as $moduleID)
 			{
 				$moduleID = str_replace('CL_', '', $moduleID);
-				if (!key_exists($moduleID, get_object_vars($this->_schedule->modules)))
+				$moduleFound = false;
+				foreach ($this->_schedule->modules as $moduleKey => $module)
 				{
-					$this->_scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_LS_CL_LACKING", $lessonName, $lessonID, $moduleID);
+					if ($module->localUntisID == $moduleID)
+					{
+						$moduleFound = true;
+						$moduleID = $moduleKey;
+						break;
+					}
+				}
+				if (!$moduleFound)
+				{
+					$this->_scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_CL_LACKING', $lessonName, $lessonID, $moduleID);
 					return;
 				}
 				$this->_schedule->lessons->$lessonID->modules->$moduleID = '';
@@ -988,7 +1017,17 @@ class THM_OrganizerModelSchedule extends JModel
 						$roomIDs = explode(' ', str_replace('RM_', '', $roomsExist));
 						foreach ($roomIDs as $roomID)
 						{
-							if (!key_exists($roomID, $this->_schedule->rooms))
+							$roomFound = false;
+							foreach ($this->_schedule->rooms as $roomKey => $room)
+							{
+								if ($room->localUntisID == $roomID)
+								{
+									$roomFound = true;
+									$roomID = $roomKey;
+									break;
+								}
+							}
+							if (!$roomFound)
 							{
 								$error = JText::sprintf('COM_THM_ORGANIZER_LS_TP_ROOM_LACKING', $lessonName, $lessonID, date('l', $currentDT), $period, $roomID);
 								if (!in_array($error, $this->_scheduleErrors))
@@ -1084,7 +1123,7 @@ class THM_OrganizerModelSchedule extends JModel
 		{
 			$data = array();
 			$data['gpuntisID'] = $field->gpuntisID;
-			$row = JTable::getInstance('teacher_fields', 'thm_organizerTable');
+			$row = JTable::getInstance('Fields', 'thm_organizerTable');
 			$row->load($data);
 			$data['field'] = $field->name;
 			$row->save($data);
@@ -1107,7 +1146,7 @@ class THM_OrganizerModelSchedule extends JModel
 			if (!empty($teacher->description))
 			{
 				$pullData['gpuntisID'] = $this->_schedule->fields->{$teacher->description}->gpuntisID;
-				$fieldRow = JTable::getInstance('teacher_fields', 'thm_organizerTable');
+				$fieldRow = JTable::getInstance('Fields', 'thm_organizerTable');
 				$fieldExists = $fieldRow->load($pullData);
 				if ($fieldExists)
 				{

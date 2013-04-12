@@ -221,3 +221,10 @@ li input[disabled=disabled]{ border: none; color: black;}
     border-bottom-right-radius: 6px;
 }
 
+/* merge button ***************************************************************/
+.icon-32-merge
+{
+	background: url("../images/icon-32-merge.png");
+}
+
+
