@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="details">
+		<field name="id"
+			   type="hidden"
+			   required="true" />
+		<field name="name"
+			   type="text"
+			   class="inputbox"
+			   size="40"
+			   label="COM_THM_ORGANIZER_NAME"
+			   description="COM_THM_ORGANIZER_RMM_NAME_DESC"
+			   required="true" />
+		<field name="longname"
+			   type="text"
+			   class="inputbox"
+			   size="40"
+			   label="COM_THM_ORGANIZER_RMM_LONGNAME_TITLE"
+			   description="COM_THM_ORGANIZER_RMM_LONGNAME_DESC" />
+		<field name="gpuntisID"
+			   type="text"
+			   class="inputbox"
+			   size="40"
+			   label="COM_THM_ORGANIZER_GPUNTISID"
+			   description="COM_THM_ORGANIZER_RMM_GPUNTISID_DESC" />
+		<field name="typeID"
+			   type="sql"
+			   label="COM_THM_ORGANIZER_RMM_TYPE_TITLE"
+			   description="COM_THM_ORGANIZER_RMM_TYPE_DESC"
+			   query="SELECT id AS value, CONCAT(type, ', ', subtype) AS typeID FROM #__thm_organizer_room_types" />
+	</fieldset>
+</form>
