@@ -58,8 +58,8 @@ class THM_OrganizerHelper
 									  'link' => 'index.php?option=com_thm_organizer&view=module_manager'),*/
             'teacher_manager' => array('name' => 'COM_THM_ORGANIZER_TRM_TITLE',
 									   'link' => 'index.php?option=com_thm_organizer&view=teacher_manager'),
-            /*'room_manager' => array('name' => 'COM_THM_ORGANIZER_RMM_TITLE',
-									'link' => 'index.php?option=com_thm_organizer&view=room_manager'),*/
+            'room_manager' => array('name' => 'COM_THM_ORGANIZER_RMM_TITLE',
+									'link' => 'index.php?option=com_thm_organizer&view=room_manager'),
             'monitor_manager' => array('name' => 'COM_THM_ORGANIZER_MON_TITLE',
 									   'link' => 'index.php?option=com_thm_organizer&amp;view=monitor_manager')
         );

@@ -207,6 +207,42 @@ class THM_OrganizerControllerschedule extends JControllerForm
         }
     }
 
+	public function activate()
+	{
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+
+        $url = "index.php?option=com_thm_organizer&view=schedule_manager";
+
+        if (JRequest::getInt("boxchecked") === 1)
+        {
+            $model = $this->getModel('schedule');
+            $active = $model->checkIfActive();
+            if ($active)
+            {
+                $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_ALREADY_ACTIVE"), 'error');
+            }
+            else
+            {
+                $success = $model->activate();
+                if ($success)
+                {
+                    $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_ACTIVATE_SUCCESS"));
+                }
+                else
+                {
+                    $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_ACTIVATE_FAIL"), 'error');
+                }
+            }
+        }
+        else
+        {
+            $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_ACTIVATE_COUNT"), 'error');
+        }
+	}
+
 	/**
 	 * Method to cancel an edit.
 	 *

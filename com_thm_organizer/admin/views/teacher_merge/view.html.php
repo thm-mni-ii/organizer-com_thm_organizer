@@ -48,7 +48,9 @@ class THM_OrganizerViewTeacher_Merge extends JView
 	/**
 	 * Creates input tags for the merge form.
 	 * 
-	 * @param   array  $teacherEntries  the data from the database
+	 * @param   array  &$teacherEntries  the data from the database
+	 * 
+	 * @return void
 	 */
 	private function generateFormFields(&$teacherEntries)
 	{

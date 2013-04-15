@@ -86,7 +86,7 @@ class THM_OrganizerViewTHM_Organizer extends JView
                         /*'term_manager' => array(),
                         'module_manager' => array(),*/
                         'teacher_manager' => array(),
-                        /*'room_manager' => array(),*/
+                        'room_manager' => array(),
                         'monitor_manager' => array());
 
         // Individual view menu entries
@@ -130,9 +130,9 @@ class THM_OrganizerViewTHM_Organizer extends JView
         $title_text = JText::_('COM_THM_ORGANIZER_TRM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_TRM_DESC');
         $views['teacher_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
 		
-        /*$views['room_manager']['title'] = JText::_('COM_THM_ORGANIZER_RMM_TITLE');
+        $views['room_manager']['title'] = JText::_('COM_THM_ORGANIZER_RMM_TITLE');
         $title_text = JText::_('COM_THM_ORGANIZER_RMM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_RMM_DESC');
-        $views['room_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);*/
+        $views['room_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
 
         $views['monitor_manager']['title'] = JText::_('COM_THM_ORGANIZER_MON_TITLE');
         $title_text = JText::_('COM_THM_ORGANIZER_MON_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_MON_DESC');

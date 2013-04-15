@@ -144,6 +144,8 @@ class THM_OrganizerControllerTeacher extends JControllerForm
 	/**
 	 * Performs access checks, makes call to the models's delete function, and
 	 * redirects to the teacher manager view
+	 * 
+	 * @todo check saved schedules for reference and block delete
 	 *
 	 * @return  void
 	 */

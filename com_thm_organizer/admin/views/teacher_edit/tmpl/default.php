@@ -13,10 +13,10 @@
 defined('_JEXEC') or die;
 ?>
 <form
-	action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=lecturer&layout=edit&id=' . (int) $this->item->id); ?>"
+	action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=teacher_edit&id=' . (int) $this->item->id); ?>"
 	method="post" name="adminForm" id="abschluss-form">
 	<fieldset class="adminform">
-		<legend>Details</legend>
+		<legend><?php echo JText::_('COM_THM_ORGANIZER_TRM_PROPERTIES'); ?></legend>
 		<ul class="adminformlist">
 <?php
 foreach ($this->form->getFieldset() as $field)
@@ -31,7 +31,7 @@ foreach ($this->form->getFieldset() as $field)
 		</ul>
 	</fieldset>
 	<div>
-		<input type="hidden" name="task" value="lecturer.edit" />
+		<input type="hidden" name="task" value="teacher.edit" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

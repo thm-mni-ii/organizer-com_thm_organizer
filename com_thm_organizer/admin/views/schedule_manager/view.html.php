@@ -101,6 +101,7 @@ class THM_OrganizerViewSchedule_Manager extends JView
         JToolBarHelper::title($title, 'mni');
         JToolBarHelper::addNew('schedule.add');
         JToolBarHelper::editList('schedule.edit');
+        JToolBarHelper::custom('schedule.activate', 'default', 'default', 'COM_THM_ORGANIZER_SCH_ACTIVATE_TITLE', true);
         JToolBarHelper::custom('schedule.setReference', 'move', 'move', 'COM_THM_ORGANIZER_SCH_REFERENCE_TITLE', true);
         JToolBarHelper::deleteList(JText::_('COM_THM_ORGANIZER_SCH_DELETE_CONFIRM'), 'schedule.delete');
         JToolBarHelper::divider();

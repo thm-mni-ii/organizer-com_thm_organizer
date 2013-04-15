@@ -1311,6 +1311,55 @@ class THM_OrganizerModelSchedule extends JModel
 		return true;
 	}
 
+	public function activate()
+	{
+		$scheduleRow = JTable::getInstance('schedules', 'thm_organizerTable');
+		$scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
+		if (!empty($scheduleIDs))
+		{
+			$scheduleExists = $scheduleRow->load($scheduleIDs[0]);
+		}
+		if (!$scheduleExists)
+		{
+			return false;
+		}
+
+		$schedule = json_decode($scheduleRow->schedule);
+		$this->sanitizeSchedule($schedule);
+		$scheduleRow->schedule = json_encode($schedule);
+		$scheduleRow->active = 1;
+
+		$dbo = JFactory::getDbo();
+		$dbo->transactionStart();
+		
+		$zeroQuery = $dbo->getQuery(true);
+		$zeroQuery->update('#__thm_organizer_schedules');
+		$zeroQuery->set("active = '0'");
+		$zeroQuery->where("departmentname = '$scheduleRow->departmentname'");
+		$zeroQuery->where("semestername = '$scheduleRow->semestername'");
+		$dbo->setQuery((string) $zeroQuery);
+		try
+		{
+			$dbo->Query();
+		}
+		catch (Exception $exception)
+		{
+			$dbo->transactionRollback();
+			return false;
+		}
+		$success = $scheduleRow->store();
+		if ($success)
+		{
+			$dbo->transactionCommit();
+			return true;
+		}
+		else
+		{
+			$dbo->transactionRollback();
+			return false;
+		}
+	}
+
 	/**
 	 * removes delta information from a schedule
 	 * 
