@@ -11,6 +11,11 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
+define('MERGE', 1);
+define('TOO_FEW', 2);
+define('CHECK_DEPARTMENTS', 3);
+define('CHECK_DATES', 4);
+define('NOT_ACTIVE', 5);
 
 /**
  * Class enapsulating data abstraction and business logic for xml schedules
@@ -112,14 +117,14 @@ class THM_OrganizerModelSchedule extends JModel
 		{
 			$this->_schedule->creationdate = date('Y-m-d', strtotime($creationDate));
 		}
-		$creationTime = trim((string) $xmlSchedule[0]['date']);
+		$creationTime = trim((string) $xmlSchedule[0]['time']);
 		if (empty($creationTime))
 		{
 			$this->_scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_SCH_CREATION_TIME_MISSING");
 		}
 		else
 		{
-			$this->_schedule->creationtime = $creationTime;
+			$this->_schedule->creationtime = substr($creationTime, 0, 4);
 		}
 
 		// Schoolyear dates
@@ -1311,6 +1316,11 @@ class THM_OrganizerModelSchedule extends JModel
 		return true;
 	}
 
+	/**
+	 * Activates the selected schedule
+	 * 
+	 * @return  true on success, otherwise false
+	 */
 	public function activate()
 	{
 		$scheduleRow = JTable::getInstance('schedules', 'thm_organizerTable');
@@ -1660,6 +1670,116 @@ class THM_OrganizerModelSchedule extends JModel
 				}
 			}
 		}
+	}
+
+	/**
+	 * Checks whether the selected schedules pass the merge constraints:
+	 * 1 Constraints Passed
+	 * 2 Only one schedule selected
+	 * 3 Not all schedules differ in department
+	 * 4 Not all schedule dates are the same
+	 * 5 Not all schedules are active
+	 * 
+	 * @return  integer
+	 */
+	public function checkMergeConstraints()
+	{
+		$scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
+		if (empty($scheduleIDs) OR count($scheduleIDs) < 2)
+		{
+			return TOO_FEW;
+		}
+		$whereIDs = "'" . implode("', '", $scheduleIDs) . "'";
+
+		$dbo = JFactory::getDbo();
+
+		$query = $dbo->getQuery(true);
+		$query->select('departmentname, active, startdate, enddate');
+		$query->from('#__thm_organizer_schedules');
+		$query->where("id IN ( $whereIDs )");
+		$dbo->setQuery((string) $query);
+		$schedules = $dbo->loadAssocList();
+
+		$departments = array();
+		$startdate = $schedules[0]['startdate'];
+		$enddate = $schedules[0]['enddate'];
+		
+		foreach ($schedules as $schedule)
+		{
+			if ($schedule['active'] == 0)
+			{
+				return NOT_ACTIVE;
+			}
+			if ($schedule['startdate'] != $startdate OR $schedule['enddate'] != $enddate)
+			{
+				return CHECK_DATES;
+			}
+			if (in_array($schedule['departmentname'], $departments))
+			{
+				return CHECK_DEPARTMENTS;
+			}
+			else
+			{
+				$departments[] = $schedule['departmentname'];
+			}
+		}
+		return MERGE;
+	}
+
+	/**
+	 * Merges the chosen schedules into a new schedule
+	 * @return string
+	 */
+	public function merge()
+	{
+		$checkedIDs = JRequest::getVar('schedules', array(), 'post', 'array');
+		if (empty($scheduleIDs) OR count($scheduleIDs) < 2)
+		{
+			return TOO_FEW;
+		}
+		$scheduleIDs = "'" . implode("', '", $checkedIDs) . "'";
+
+		$departmentname = JRequest::getString('departmentname');
+		$semestername = JRequest::getString('semestername');
+		$creationdate = date('Y-m-d');
+		$creationtime = date('is');
+		
+		$dbo = JFactory::getDbo();
+		$scheduleQuery = $dbo->getQuery(true);
+		$scheduleQuery->select('schedule');
+		$scheduleQuery->from('#__thm_organizer_schedules');
+		$scheduleQuery->where("id IN ( $scheduleIDs )");
+		$dbo->setQuery((string) $scheduleQuery);
+		$schedules = $dbo->loadResultArray();
+
+		foreach ($schedules as $key => $value)
+		{
+			$schedules[$key] = json_decode($value);
+		}
+
+		$baseSchedule = $schedules[0];
+		foreach ($schedules as $key => $schedule)
+		{
+			if ($key === 0)
+			{
+				continue;
+			}
+			$this->mergeRecursive($baseSchedule, $schedule);
+		}
+		$baseSchedule->creationdate = $creationdate;
+		$baseSchedule->creationtime = $creationtime;
+		$baseSchedule->departmentname = $departmentname;
+		$baseSchedule->semestername = $semestername;
+		
+	}
+
+	private function mergeRecursive(&$thingOne, &$thingTwo)
+	{
+		if (is_object($thingOne) AND is_object($thingTwo))
+		{
+			
+		}
+		else
 	}
 
 	/**

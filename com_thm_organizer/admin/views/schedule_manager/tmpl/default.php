@@ -56,7 +56,9 @@ $direction = $this->escape($this->state->get('list.direction'));
                 <col id="thm_organizer_check_column" />
                 <col class="thm_organizer_sch_semester_column" />
                 <col class="thm_organizer_sch_semester_column" />
-                <col id="thm_organizer_sch_date_column" />
+                <col class="thm_organizer_sch_date_column" />
+                <col class="thm_organizer_sch_date_column" />
+                <col class="thm_organizer_sch_date_column" />
                 <col id="thm_organizer_sch_active_column" />
                 <col id="thm_organizer_sch_description_column" />
             </colgroup>
@@ -73,6 +75,12 @@ $direction = $this->escape($this->state->get('list.direction'));
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_SCH_CREATION_DATE', 'creationdate', $direction, $orderby); ?>
                     </th>
                     <th class="thm_organizer_sch_th" >
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_SCH_START_DATE', 'creationdate', $direction, $orderby); ?>
+                    </th>
+                    <th class="thm_organizer_sch_th" >
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_SCH_END_DATE', 'creationdate', $direction, $orderby); ?>
+                    </th>
+                    <th class="thm_organizer_sch_th" >
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_SCH_ACTIVE', 'active', $direction, $orderby); ?>
                     </th>
                     <th class="thm_organizer_sch_th" >
@@ -82,7 +90,7 @@ $direction = $this->escape($this->state->get('list.direction'));
             </thead>
             <tfoot>
                 <tr>
-                    <td colspan="9">
+                    <td colspan="8">
                         <?php echo $this->pagination->getListFooter(); ?>
                     </td>
                 </tr>
@@ -106,6 +114,16 @@ foreach ($this->schedules as $k => $schedule)
                     <td>
                         <a href="<?php echo $schedule->url; ?>">
                             <?php echo $schedule->creationdate; ?>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="<?php echo $schedule->url; ?>">
+                            <?php echo $schedule->startdate; ?>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="<?php echo $schedule->url; ?>">
+                            <?php echo $schedule->enddate; ?>
                         </a>
                     </td>
                     <td class="thm_organizer_sch_active_td jgrid">
