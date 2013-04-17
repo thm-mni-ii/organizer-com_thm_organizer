@@ -193,7 +193,7 @@ if (!$dirCreated)
      */
     public function update($parent)
     {
-        $installedVersion = $this->getVersion();
+        /*$installedVersion = $this->getVersion();
         if ($installedVersion)
         {
             $updatePath = $this->SQLPath() . DS . 'updates' . DS . 'mysql';
@@ -227,7 +227,7 @@ if (!$dirCreated)
                 }
             }
             echo '<p>' . JText::_('COM_THM_ORGANIZER_UPDATE_TEXT') . '</p>';
-        }
+        }*/
     }
 
     /**

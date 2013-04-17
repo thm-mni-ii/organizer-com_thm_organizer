@@ -67,7 +67,28 @@ if ($this->canWriteEvents === true)
 		MySched.searchModuleID = '<?php echo $this->searchModuleID; ?>';
 		MySched.loadLessonsOnStartUp = new Boolean('<?php echo $this->loadLessonsOnStartUp; ?>');
 		MySched.deltaDisplayDays = '<?php echo $this->deltaDisplayDays; ?>';
-		Ext.onReady(MySched.Base.init, MySched.Base);
+		MySched.departmentAndSemester = '<?php echo $this->departmentAndSemester; ?>';
+	    <?php if($this->libraryFPDFIsInstalled)
+	    {
+	        ?>MySched.libraryFPDFIsInstalled = true;<?php
+	    }
+	    else
+	    {
+	        ?>MySched.libraryFPDFIsInstalled = false;<?php
+	    } ?>
+
+	    <?php if($this->libraryiCalcreatorIsInstalled)
+	    {
+	        ?>MySched.libraryiCalcreatorIsInstalled = true;<?php
+	    }
+	    else
+	    {
+	        ?>MySched.libraryiCalcreatorIsInstalled = false;<?php
+	    } ?>
+		Ext.application({
+		    name: 'Scheduler',    
+		    launch: MySched.Base.init
+		});
 	</script>
 </div>
 <iframe id="MySchedexternURL" name="MySchedexternURL" src="#"

@@ -11,7 +11,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('extjs4.extjs4');
 jimport('joomla.application.component.view');
 
 /**
@@ -35,6 +34,21 @@ class THM_OrganizerViewScheduler extends JView
 	public function display($tpl = null)
 	{
 		JHTML::_('behavior.tooltip');
+
+		$libraryInstalled = jimport('extjs4.extjs4');
+		if(!$libraryInstalled)
+		{
+		    return JError::raiseWarning(404, JText::_("COM_THM_ORGANIZER_EXTJS4_LIBRARY_NOT_INSTALLED"));
+		}
+		
+		// Check wether the FPDF library is installed
+		$libraryFPDFIsInstalled = jimport('fpdf.fpdf');
+		$this->libraryFPDFIsInstalled = $libraryFPDFIsInstalled;
+		
+		// Check wether the iCalcreator library is installed
+		$libraryiCalcreatorIsInstalled = jimport('iCalcreator.iCalcreator');
+		$this->libraryiCalcreatorIsInstalled = $libraryiCalcreatorIsInstalled;
+		
 		$doc = JFactory::getDocument();
 		$doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/ext/resources/css/ext-all-gray.css");
 		$doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/mySched/style.css");
@@ -71,7 +85,9 @@ class THM_OrganizerViewScheduler extends JView
 			$publicDefaultIDArray = array();
 		}
 				
-		$schedule = $schedulerModel->getActiveSchedule($menuparams->get("departmentSemesterSelection"));
+	    $this->departmentAndSemester = $menuparams->get("departmentSemesterSelection");	
+		    
+		$schedule = $schedulerModel->getActiveSchedule($this->departmentAndSemester);
 				
 		if (is_object($schedule) AND is_string($schedule->schedule))
 		{

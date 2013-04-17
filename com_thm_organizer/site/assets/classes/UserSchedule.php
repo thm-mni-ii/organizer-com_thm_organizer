@@ -209,12 +209,19 @@ class UserSchedule
 			$query .= "username = '$this->_username'";
 			$data = $this->_JDA->query($query);
 
-			if (is_array($data))
+			$dbo = JFactory::getDBO();
+			$query = $dbo->getQuery(true);
+			$query->select('data');
+			$query->from('#__thm_organizer_user_schedules');
+			$query->where("username = '$this->_username'");
+			$dbo->setQuery((string) $query);
+			$rows = $dbo->loadObject();
+			
+			if (is_object($rows))
 			{
-				if (count($data) == 1)
+				if (isset($rows->data))
 				{
-					$data = $data[0];
-					$data = $data->data;
+					$data = $rows->data;
 				}
 				else
 				{

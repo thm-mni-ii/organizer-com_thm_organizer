@@ -178,7 +178,7 @@ MySched.Base = function ()
                 {
                     var contentAnchorTip = Ext.getCmp('content-anchor-tip');
                     if (contentAnchorTip) contentAnchorTip.destroy();
-                    if (!MySched.Schedule.isEmpty())
+                    if (!MySched.Schedule.isEmpty() && MySched.libraryFPDFIsInstalled)
                     {
                         Ext.ComponentMgr.get('btnPdf').enable();
                         if (_C('enableSubscribing'))
@@ -188,7 +188,10 @@ MySched.Base = function ()
                             
                     }
                     
-                    Ext.ComponentMgr.get('btnSave').enable();
+                    if(MySched.libraryFPDFIsInstalled)
+                    {
+                    	Ext.ComponentMgr.get('btnSave').enable();
+                	}
                         
                     var tab = MySched.layout.tabpanel.getComponent('mySchedule');
                     tab.mSchedule.status = "unsaved";
@@ -379,7 +382,7 @@ MySched.Base = function ()
                     Ext.ComponentMgr.get('btnDel').disable();
                 });
 
-                MySched.Tree.refreshTreeData();
+                /*MySched.Tree.refreshTreeData();
 
                 var tree = MySched.Tree.tree;
 
@@ -397,7 +400,7 @@ MySched.Base = function ()
                 MySched.delta = new mSchedule(
                 deltaid,
                 MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_CENTRAL);
-                MySched.delta.responsible = "delta";
+                MySched.delta.responsible = "delta";*/
 
                 if (MySched.SessionId)
                 {
@@ -2493,7 +2496,7 @@ MySched.layout = function ()
                 text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SAVE,
                 id: 'btnSave',
                 iconCls: 'tbSave',
-                disabled: true,
+                disabled: false,
                 hidden: true,
                 handler: MySched.Authorize.saveIfAuth,
                 scope: MySched.Authorize,
@@ -2554,13 +2557,19 @@ MySched.layout = function ()
                     });
                 }
             });
-
+            
+            var disablePDF = true;
+            if(MySched.libraryFPDFIsInstalled == true)
+            {
+            	disablePDF = false
+            }
+            
             var btnSavePdf = Ext.create('Ext.Button',
             {
                 text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE,
                 id: 'btnPdf',
                 iconCls: 'tbSavePdf',
-                disabled: false,
+                disabled: disablePDF,
                 tooltip: {
                     text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_PDF_DESC
                 },
@@ -2708,13 +2717,19 @@ MySched.layout = function ()
                 }
             });
 
+            var disableICal = true;
+            if(MySched.libraryiCalcreatorIsInstalled == true)
+            {
+            	disableICal = false
+            }
+            
             var btnICal = Ext.create('Ext.Button',
             {
                 // ICal DownloadButton
                 text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ICAL,
                 id: 'btnICal',
                 iconCls: 'tbSaveICal',
-                disabled: true,
+                disabled: disableICal,
                 tooltip: {
                     text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ICAL_DESC
                 },
@@ -2737,7 +2752,8 @@ MySched.layout = function ()
                             username: MySched.Authorize.user,
                             title: MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' '),
                             what: "ical",
-                            scheduletask: "Schedule.export"
+                            scheduletask: "Schedule.export",
+                            departmentAndSemester: MySched.departmentAndSemester
                         },
                         scope: icalwait,
                         failure: function (response,
@@ -4132,22 +4148,25 @@ MySched.Tree = function ()
                         
                         var publicDefaultNode = json["treePublicDefault"];
 
-                        if (publicDefaultNode["type"] == "delta")
+                        if(publicDefaultNode != null)
                         {
-//                            MySched.delta.load(_C('ajaxHandler'), 'json',
-//                            MySched.delta.loadsavedLectures, MySched.delta, "delta");
-                        }
-                        else
-                        {
-                            var nodeID = publicDefaultNode["id"];
-                            var nodeKey = publicDefaultNode["nodeKey"];
-                            var gpuntisID = publicDefaultNode["gpuntisID"];
-                            var plantypeID = publicDefaultNode["plantype"];
-                            var semesterID = publicDefaultNode["semesterID"];
-                            var type = publicDefaultNode["type"];
-
-                            MySched.Tree.showScheduleTab(nodeID, nodeKey,
-                            gpuntisID, semesterID, plantypeID, type);
+	                        if (publicDefaultNode["type"] == "delta")
+	                        {
+	//                            MySched.delta.load(_C('ajaxHandler'), 'json',
+	//                            MySched.delta.loadsavedLectures, MySched.delta, "delta");
+	                        }
+	                        else
+	                        {
+	                            var nodeID = publicDefaultNode["id"];
+	                            var nodeKey = publicDefaultNode["nodeKey"];
+	                            var gpuntisID = publicDefaultNode["gpuntisID"];
+	                            var plantypeID = publicDefaultNode["plantype"];
+	                            var semesterID = publicDefaultNode["semesterID"];
+	                            var type = publicDefaultNode["type"];
+	
+	                            MySched.Tree.showScheduleTab(nodeID, nodeKey,
+	                            gpuntisID, semesterID, plantypeID, type);
+	                        }
                         }
                     }
                 });

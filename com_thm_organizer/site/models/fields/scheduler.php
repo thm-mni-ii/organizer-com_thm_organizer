@@ -12,7 +12,6 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.form.helper');
-jimport('extjs4.extjs4');
 
 // Import the list field type
 JFormHelper::loadFieldClass('list');
@@ -43,6 +42,12 @@ class JFormFieldScheduler extends JFormField
 	 */
 	protected function getInput()
 	{
+	    $libraryInstalled = jimport('extjs4.extjs4');
+	    if(!$libraryInstalled)
+	    {
+	        echo "<div style='color:red;'>" . JText::_('COM_THM_ORGANIZER_EXTJS4_LIBRARY_NOT_INSTALLED') . "</div>";
+	    }
+	    
 		$menuid = JRequest::getInt("id", 0);
 
 		// Get database
@@ -78,7 +83,7 @@ class JFormFieldScheduler extends JFormField
 		}		
 
 		$doc = JFactory::getDocument();
-		$doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/ext/resources/css/ext-all.css");
+		$doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/ext/resources/css/ext-all-gray.css");
 		$doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/models/fields/css/schedule_selection_tree.css");
 		$doc->addScript(JURI::root(true) . "/components/com_thm_organizer/models/fields/tree.js");
 		$doc->addScript(JURI::root(true) . "/components/com_thm_organizer/models/fields/departmentSemesterSelection.js");
@@ -102,14 +107,15 @@ class JFormFieldScheduler extends JFormField
 	var externLinks = [];
 	externLinks.ajaxHandler = '<?php echo JRoute::_(JURI::root() . 'index.php?option=com_thm_organizer&view=ajaxhandler&format=raw'); ?>';
 	var images = [];
-	images.unchecked = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/unchecked.gif';
-	images.unchecked_highlighted = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/unchecked_highlighted.gif';
-	images.checked = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/checked.gif';
-	images.checked_highlighted = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/checked_highlighted.gif';
-	images.intermediate = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/intermediate.gif';
-	images.intermediate_highlighted = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/intermediate_highlighted.gif';
-	images.selected = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/selected.gif';
-	images.selected_highlighted = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/selected_highlighted.gif';
+	images.base = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/';
+	images.unchecked = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/unchecked.png';
+	images.unchecked_highlighted = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/unchecked_highlighted.png';
+	images.checked = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/checked.png';
+	images.checked_highlighted = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/checked_highlighted.png';
+	images.intermediate = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/intermediate.png';
+	images.intermediate_highlighted = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/intermediate_highlighted.png';
+	images.selected = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/selected.png';
+	images.selected_highlighted = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/selected_highlighted.png';
 	images.notdefault =  '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/notdefault.png';
 	<?php echo 'images.default = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/default.png\''; ?>
 

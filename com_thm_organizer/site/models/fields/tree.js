@@ -97,10 +97,10 @@ changeIconHighlight = function(event){
 
 	if(event.type == "mouseover")
 	{
-		elImg.dom.src = images.base+elInput.value+"_highlighted.gif";
+		elImg.dom.src = images.base+elInput.value+"_highlighted.png";
 	}
 	else
-		elImg.dom.src = images.base+elInput.value+".gif";
+		elImg.dom.src = images.base+elInput.value+".png";
 }
 
 changePublicDefaultHighlight = function(event){
@@ -147,12 +147,12 @@ setStatus = function(event)
 		if(elInput.value == "unchecked")
 		{
 			elInput.value = "checked";
-			elImg.dom.src = images.base+elInput.value+"_highlighted.gif";
+			elImg.dom.src = images.base+elInput.value+"_highlighted.png";
 		}
 		else if(elInput.value == "checked")
 		{
 			elInput.value = "unchecked";
-			elImg.dom.src = images.base+elInput.value+"_highlighted.gif";
+			elImg.dom.src = images.base+elInput.value+"_highlighted.png";
 		}
 	}
 	else
@@ -160,22 +160,22 @@ setStatus = function(event)
 		if(elInput.value == "unchecked")
 		{
 			elInput.value = "checked";
-			elImg.dom.src = images.base+elInput.value+"_highlighted.gif";
+			elImg.dom.src = images.base+elInput.value+"_highlighted.png";
 		}
 		else if(elInput.value == "checked")
 		{
 			elInput.value = "selected";
-			elImg.dom.src = images.base+elInput.value+"_highlighted.gif";
+			elImg.dom.src = images.base+elInput.value+"_highlighted.png";
 		}
 		else if(elInput.value == "selected")
 		{
 			elInput.value = "intermediate";
-			elImg.dom.src = images.base+elInput.value+"_highlighted.gif";
+			elImg.dom.src = images.base+elInput.value+"_highlighted.png";
 		}
 		else //intermediate
 		{
 			elInput.value = "unchecked";
-			elImg.dom.src = images.base+elInput.value+"_highlighted.gif";
+			elImg.dom.src = images.base+elInput.value+"_highlighted.png";
 		}
 	}
 	record.data.checked = elInput.value;
