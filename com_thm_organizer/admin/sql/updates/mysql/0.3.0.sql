@@ -1,7 +1,4 @@
---------------------------------------------------------------------------------
--- Drop Dependent Tables                                                       --
---------------------------------------------------------------------------------
-
+-- Drop Dependent Tables
 DROP TABLE IF EXISTS `#__thm_organizer_assets_semesters`;
 DROP TABLE IF EXISTS `#__thm_organizer_semesters_majors`;
 DROP TABLE IF EXISTS `#__thm_organizer_majors`;
@@ -14,18 +11,12 @@ DROP TABLE IF EXISTS `#__thm_organizer_assets`;
 DROP TABLE IF EXISTS `#__thm_organizer_lecturers`;
 DROP TABLE IF EXISTS `#__thm_organizer_asset_types`;
 
---------------------------------------------------------------------------------
--- Colors                                                                     --
---------------------------------------------------------------------------------
-
+-- Colors
 -- Standardize the index column
 ALTER TABLE  `#__thm_organizer_colors`
 CHANGE `id` `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---------------------------------------------------------------------------------
--- Degrees                                                                    --
---------------------------------------------------------------------------------
-
+-- Degrees
 -- Empty the yet unused table.
 TRUNCATE TABLE `#__thm_organizer_degrees`;
 
@@ -40,7 +31,6 @@ CHANGE `id` `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 -- Add abbreviations for the connection to Untis data
 ALTER TABLE `#__thm_organizer_degrees`
-ADD `abbreviation` varchar ( 45 ) DEFAULT NULL,
 ADD `lsfDegree` varchar ( 10 ) DEFAULT NULL;
 
 -- Fill abbreviation data.
@@ -76,10 +66,7 @@ UPDATE `#__thm_organizer_degrees`
 SET `abbreviation` = 'Dipl.', `lsfDegree` = 'BW'
 WHERE `name` = 'Diplom';
 
---------------------------------------------------------------------------------
--- Fields                                                                     --
---------------------------------------------------------------------------------
-
+-- Fields
 -- Rename table to make contents clearer as regards subject and context.
 RENAME TABLE `#__thm_organizer_teacher_fields` TO `#__thm_organizer_fields`;
 
@@ -131,10 +118,7 @@ UPDATE `#__thm_organizer_fields`
 SET `colorID` = (SELECT `id`FROM `#__thm_organizer_colors` WHERE `color` = '00B5DD')
 WHERE `colorID` IS NULL;
 
---------------------------------------------------------------------------------
--- Degree Programs                                                            --
---------------------------------------------------------------------------------
-
+-- Degree Programs
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_degree_programs` (
   `id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
   `subject` varchar(255) NOT NULL,
@@ -147,10 +131,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_degree_programs` (
   FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
---------------------------------------------------------------------------------
--- Module Pools                                                               --
---------------------------------------------------------------------------------
-
+-- Module Pools
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_pools` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `parentID` INT(11) UNSIGNED NOT NULL,
@@ -168,10 +149,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_pools` (
   FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
---------------------------------------------------------------------------------
--- Subjects                                                                   --
---------------------------------------------------------------------------------
-
+-- Subjects
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
   `id` INT (11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -193,10 +171,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
   FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
---------------------------------------------------------------------------------
--- Subjects Module Pools                                                      --
---------------------------------------------------------------------------------
-
+-- Subjects Module Pools
 -- Recreate the majors table with modifications, the id gets altered later to
 -- avoid problems with fk type checks.
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects_pools` (
@@ -206,13 +181,10 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects_pools` (
   PRIMARY KEY (`subjectID`, `poolID`),
   UNIQUE KEY (`id`),
   FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_subjects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (`poolID`) REFERENCES `#__thm_organizer_pools` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  FOREIGN KEY (`poolID`) REFERENCES `#__thm_organizer_pools` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
---------------------------------------------------------------------------------
--- Teachers (Lecturers)                                                       --
---------------------------------------------------------------------------------
-
+-- Teachers (Lecturers)
 -- Alter teachers table to accept lecturers data. MNI has no overlapping IDs.
 -- W needs to be emptied first. KMUB de-/reinstalled.
 ALTER TABLE `#__thm_organizer_teachers`
@@ -226,10 +198,7 @@ INSERT INTO `#__thm_organizer_teachers` (`id`, `surname`, `forename`, `username`
 SELECT `id`, `surname`, `forename`, `userid`, `academic_title`
 FROM `#__thm_curriculum_lecturers`;
 
---------------------------------------------------------------------------------
--- Teacher Responsibilites                                                    --
---------------------------------------------------------------------------------
-
+-- Teacher Responsibilites
 -- Rename table to make contents clearer as regards subject and context.
 RENAME TABLE `#__thm_organizer_lecturers_types` TO `#__thm_organizer_teacher_responsibilities`;
 
@@ -245,10 +214,7 @@ INSERT INTO `#__thm_organizer_teacher_responsibilities`
 SELECT *
 FROM `#__thm_curriculum_lecturers_types`;
 
---------------------------------------------------------------------------------
--- Subject Teachers                                                           --
---------------------------------------------------------------------------------
-
+-- Subject Teachers
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_subject_teachers` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `subjectID` INT(11) UNSIGNED NOT NULL,
@@ -261,10 +227,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subject_teachers` (
   FOREIGN KEY (`teacherResp`) REFERENCES `#__thm_organizer_teacher_responsibilities` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
---------------------------------------------------------------------------------
--- SOAP Queries                                                               --
---------------------------------------------------------------------------------
 
+-- SOAP Queries
 TRUNCATE TABLE `#__thm_organizer_soap_queries`;
 
 INSERT INTO `#__thm_organizer_soap_queries`
