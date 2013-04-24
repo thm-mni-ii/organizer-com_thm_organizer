@@ -22,7 +22,8 @@ jimport('joomla.application.component.controllerform');
 class THM_OrganizerControllerRoom extends JControllerForm
 {
     /**
-     * Performs access checks and redirects to the room edit view
+     * Performs access checks, sets the id variable to 0, and redirects to the
+     * room edit view
      * 
      * @return void 
      */
@@ -54,9 +55,29 @@ class THM_OrganizerControllerRoom extends JControllerForm
         JRequest::setVar('view', 'room_edit');
         parent::display();
 	}
+
+    /**
+     * Performs access checks and calls the room model's autoMergeAll function
+     * before redirecting to the room manager view. No output of success or
+     * failure due to the merge of multiple entries.
+     *
+     * @return  void
+     */
+    public function mergeAll()
+    {
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+        $model = $this->getModel('room');
+        $model->autoMergeAll();
+        $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false));
+    }
 	
 	/**
-	 * Performs access checks and redirects to the room edit view
+	 * Performs access checks, calls the room model's autoMerge function. Should
+     * the room entries be mergeable based upon plausibility constraints this is
+     * done automatically, otherwise a redirect is made to the room merge view.
 	 *
 	 * @return  void
 	 */
@@ -117,7 +138,7 @@ class THM_OrganizerControllerRoom extends JControllerForm
 	}
 
 	/**
-	 * Performs access checks, makes call to the models's dmerge function, and
+	 * Performs access checks, makes call to the models's merge function, and
 	 * redirects to the room manager view
 	 *
 	 * @return  void

@@ -23,46 +23,99 @@ jimport('joomla.application.component.model');
  */
 class THM_OrganizerModelRoom extends JModel
 {
+    /**
+     * Attempts to save a room entry, updating schedule data as necessary.
+     * 
+     * @return true on success, otherwise false
+     */
 	public function save()
 	{
 		$dbo = JFactory::getDbo();
         $data = JRequest::getVar('jform', null, null, null, 4);
 		$dbo->transactionStart();
-        $table = JTable::getInstance('rooms', 'thm_organizerTable');
-		$success = $table->save($data);
-		if ($success)
+        $scheduleSuccess = $this->updateScheduleData($data, "'" . $data['id'] . "'");
+		if ($scheduleSuccess)
 		{
-			$dbo->transactionCommit();
-			return true;
+            $table = JTable::getInstance('rooms', 'thm_organizerTable');
+            $roomSuccess = $table->save($data);
+            if($roomSuccess)
+            {
+                $dbo->transactionCommit();
+                return true;
+            }
 		}
-		else
-		{
-			$dbo->transactionRollback();
-			return false;
-		}
+        $dbo->transactionRollback();
+        return false;
 	}
 
-	public function autoMerge()
-	{
-		$dbo = JFactory::getDbo();
-		$query = $dbo->getQuery(true);
+    /**
+     * Attempts an iterative merge of all teacher entries. Due to the attempted
+     * merge of multiple entries with individual success codes no return value
+     * is given.
+     * 
+     * @return void
+     */
+    public function autoMergeAll()
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
 		$query->select('r.id, r.gpuntisID, r.name, r.longname, r.typeID');
 		$query->from('#__thm_organizer_rooms AS r');
-
-		$cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
-		$query->where("r.id IN ( $cids )");
-
 		$query->order('r.id ASC');
 
-		$dbo->setQuery((string) $query);
-		$roomEntries = $dbo->loadAssocList();
+        $dbo->setQuery((string) $query);
+        $roomEntries = $dbo->loadAssocList();
+        foreach ($roomEntries as $key1 => $entry1)
+        {
+            foreach ($roomEntries as $key2 => $entry2)
+            {
+                if ($key1 == $key2)
+                {
+                    continue;
+                }
+                else
+                {
+                    $entries = array($entry1, $entry2);
+                    $success = $this->autoMerge($entries);
+                    if ($success)
+                    {
+                        unset($roomEntries[$key2]);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Performs an automated merge of room entries, in as far as this is
+     * possible according to plausibility constraints.
+     * 
+     * @param   array  $roomEntries  entries to be compared
+     * 
+     * @return  boolean  true on success, otherwise false
+     */
+	public function autoMerge($roomEntries = null)
+	{
+        if (empty($roomEntries))
+        {
+            $dbo = JFactory::getDbo();
+            $query = $dbo->getQuery(true);
+            $query->select('r.id, r.gpuntisID, r.name, r.longname, r.typeID');
+            $query->from('#__thm_organizer_rooms AS r');
+
+            $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
+            $query->where("r.id IN ( $cids )");
+
+            $query->order('r.id ASC');
+
+            $dbo->setQuery((string) $query);
+            $roomEntries = $dbo->loadAssocList();
+        }
 
 		$data = array();
 		$otherIDs = array();
 		foreach ($roomEntries as $key => $entry)
 		{
-			
-			$entry['gpuntisID'] = str_replace('RM_', '', $entry['gpuntisID']);
 			foreach ($entry as $property => $value)
 			{
 				// Property value is not set for DB Entry
@@ -70,6 +123,17 @@ class THM_OrganizerModelRoom extends JModel
 				{
 					continue;
 				}
+                
+                if ($property == 'gpuntisID' OR $property == 'name')
+                {
+                    if (preg_match('/\.[0-9]{3}$/', $value))
+                    {
+                        $building = substr($value, 0, strlen($value) - 4);
+                        $floor = substr($value, strlen($building) + 1, 1);
+                        $room = substr($value, strlen($building) + 2, 2);
+                        $value = "$building.$floor.$room";
+                    }
+                }
 				
 				// Initial set of data property
 				if (!isset($data[$property]))
@@ -192,9 +256,26 @@ class THM_OrganizerModelRoom extends JModel
 		return true;
 	}
 
-	public function updateScheduleData($data, $IDs)
+    /**
+     * Updates room data and lesson associations in active schedules
+     * 
+     * @param   array   $data  room data corrresponding to a table row
+     * @param   string  $IDs   a list of ids suitable for retrieval of room
+     *                         gpuntisIDs to be replaced in saved schedules
+     * @return boolean
+     */
+	public function updateScheduleData(&$data, $IDs)
 	{
 		$dbo = JFactory::getDbo();
+
+        if (empty($data['gpuntisID']))
+        {
+            return true;
+        }
+        else
+        {
+            $data['gpuntisID'] = str_replace('RM_', '', $data['gpuntisID']);
+        }
 
 		$scheduleQuery = $dbo->getQuery(true);
 		$scheduleQuery->select('id, schedule');
@@ -221,15 +302,8 @@ class THM_OrganizerModelRoom extends JModel
 		$oldNameQuery->from('#__thm_organizer_rooms');
 		$oldNameQuery->where("id IN ( $IDs )");
 		$oldNameQuery->where("gpuntisID IS NOT NULL");
-		$oldNameQuery->where("gpuntisID NOT IN ( '', '{$data['gpuntisID']}')");
 		$dbo->setQuery((string) $oldNameQuery);
 		$oldNames = $dbo->loadResultArray();
-
-		// Remove deprecated redundant resource type identification if existant
-		foreach ($oldNames AS $key => $value)
-		{
-			$oldNames[$key] = str_replace('RM_', '', $value);
-		}
 
 		$scheduleTable = JTable::getInstance('schedules', 'thm_organizerTable');
 		foreach ($schedules as $schedule)
@@ -244,18 +318,21 @@ class THM_OrganizerModelRoom extends JModel
 				}
 				foreach ($scheduleObject->calendar as $date => $blocks)
 				{
-					foreach ($blocks as $block => $lessons)
-					{
-						foreach ($lessons as $lesson => $rooms)
-						{
-							if (isset($scheduleObject->calendar->$date->$block->$lesson->$oldName))
-							{
-								$delta = $scheduleObject->calendar->$date->$block->$lesson->$oldName;
-								unset($scheduleObject->calendar->$date->$block->$lesson->$oldName);
-								$scheduleObject->calendar->$date->$block->$lesson->{$data['gpuntisID']} = $delta;
-							}
-						}
-					}
+                    if (is_object($blocks))
+                    {
+                        foreach ($blocks as $block => $lessons)
+                        {
+                            foreach ($lessons as $lesson => $rooms)
+                            {
+                                if (isset($scheduleObject->calendar->$date->$block->$lesson->$oldName))
+                                {
+                                    $delta = $scheduleObject->calendar->$date->$block->$lesson->$oldName;
+                                    unset($scheduleObject->calendar->$date->$block->$lesson->$oldName);
+                                    $scheduleObject->calendar->$date->$block->$lesson->{$data['gpuntisID']} = $delta;
+                                }
+                            }
+                        }
+                    }
 				}
 			}
 

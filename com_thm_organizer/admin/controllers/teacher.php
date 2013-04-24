@@ -22,7 +22,8 @@ jimport('joomla.application.component.controllerform');
 class THM_OrganizerControllerTeacher extends JControllerForm
 {
     /**
-     * Performs access checks and redirects to the teacher edit view
+     * Performs access checks, sets the id variable to 0, and redirects to the
+     * teacher edit view
      * 
      * @return void 
      */
@@ -37,150 +38,171 @@ class THM_OrganizerControllerTeacher extends JControllerForm
         parent::display();
     }
 
-	/**
-	 * Performs access checks and redirects to the teacher edit view
-	 *
-	 * @param   Object  $key     Key		   (default: null)
-	 * @param   Object  $urlVar  Url variable  (default: null)
-	 *
-	 * @return  void
-	 */
-	public function edit($key = null, $urlVar = null)
-	{
+    /**
+     * Performs access checks and redirects to the teacher edit view
+     *
+     * @param   Object  $key     Key		   (default: null)
+     * @param   Object  $urlVar  Url variable  (default: null)
+     *
+     * @return  void
+     */
+    public function edit($key = null, $urlVar = null)
+    {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
         JRequest::setVar('view', 'teacher_edit');
         parent::display();
-	}
-	
-	/**
-	 * Performs access checks and redirects to the teacher edit view
-	 *
-	 * @return  void
-	 */
-	public function mergeView()
-	{
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
-		if (count(JRequest::getVar('cid', array(), 'post', 'array')) == 1)
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_TRM_MERGE_TOOFEW');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg, 'warning');
-		}
-		else
-		{
-			$model = $this->getModel('teacher');
-			$success = $model->autoMerge();
-			if ($success)
-			{
-				$msg = JText::_('COM_THM_ORGANIZER_TRM_MERGE_SUCCESS');
-				$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg);
-			}
-			else
-			{
-				JRequest::setVar('view', 'teacher_merge');
-				parent::display();
-			}
-		}
-	}
+    }
 
-	/**
-	 * Performs access checks, makes call to the models's save function, and
-	 * redirects to the teacher manager view
-	 *
-	 * @param   Object  $key     Key		   (default: null)
-	 * @param   Object  $urlVar  Url variable  (default: null)
-	 *
-	 * @return  void
-	 */
-	public function save($key = null, $urlVar = null)
-	{
+    /**
+     * Performs access checks and calls the teacher model's autoMergeAll
+     * function before redirecting to the teacher manager view. No output of
+     * success or failure due to the merge of multiple entries.
+     *
+     * @return  void
+     */
+    public function mergeAll()
+    {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-		$success = $this->getModel('teacher')->save();
-		if ($success)
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_TRM_SAVE_SUCCESS');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg);
-		}
-		else
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_TRM_SAVE_FAIL');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg, 'error');
-		}
-	}
+        $model = $this->getModel('teacher');
+        $model->autoMergeAll();
+        $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false));
+    }
 
-	/**
-	 * Performs access checks, makes call to the models's dmerge function, and
-	 * redirects to the teacher manager view
-	 *
-	 * @return  void
-	 */
-	public function merge()
-	{
+    /**
+	 * Performs access checks, calls the teacher model's autoMerge function.
+     * Should the room entries be mergeable based upon plausibility constraints
+     * this is done automatically, otherwise a redirect is made to the teacher
+     * merge view.
+     *
+     * @return  void
+     */
+    public function mergeView()
+    {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-		$success = $this->getModel('teacher')->merge();
-		if ($success)
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_TRM_MERGE_SUCCESS');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg);
-		}
-		else
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_TRM_MERGE_FAIL');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg, 'error');
-		}
-	}
+        if (count(JRequest::getVar('cid', array(), 'post', 'array')) == 1)
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_TRM_MERGE_TOOFEW');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg, 'warning');
+        }
+        else
+        {
+            $model = $this->getModel('teacher');
+            $success = $model->autoMerge();
+            if ($success)
+            {
+                $msg = JText::_('COM_THM_ORGANIZER_TRM_MERGE_SUCCESS');
+                $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg);
+            }
+            else
+            {
+                JRequest::setVar('view', 'teacher_merge');
+                parent::display();
+            }
+        }
+    }
 
-	/**
-	 * Performs access checks, makes call to the models's delete function, and
-	 * redirects to the teacher manager view
-	 * 
-	 * @todo check saved schedules for reference and block delete
-	 *
-	 * @return  void
-	 */
-	public function delete()
-	{
+    /**
+     * Performs access checks, makes call to the models's save function, and
+     * redirects to the teacher manager view
+     *
+     * @param   Object  $key     Key		   (default: null)
+     * @param   Object  $urlVar  Url variable  (default: null)
+     *
+     * @return  void
+     */
+    public function save($key = null, $urlVar = null)
+    {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-		$success = $this->getModel('teacher')->delete();
-		if ($success)
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_TRM_DELETE_SUCCESS');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg);
-		}
-		else
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_TRM_DELETE_FAIL');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg, 'error');
-		}
-	}
+        $success = $this->getModel('teacher')->save();
+        if ($success)
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_TRM_SAVE_SUCCESS');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg);
+        }
+        else
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_TRM_SAVE_FAIL');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg, 'error');
+        }
+    }
 
-	/**
-	 * Method to cancel an edit.
-	 *
-	 * @param   string  $key  The name of the primary key of the URL variable.
-	 *
-	 * @return  void
-	 */
-	public function cancel($key = null)
-	{
+    /**
+     * Performs access checks, makes call to the models's dmerge function, and
+     * redirects to the teacher manager view
+     *
+     * @return  void
+     */
+    public function merge()
+    {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-		$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false));
-	}
+        $success = $this->getModel('teacher')->merge();
+        if ($success)
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_TRM_MERGE_SUCCESS');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg);
+        }
+        else
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_TRM_MERGE_FAIL');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg, 'error');
+        }
+    }
+
+    /**
+     * Performs access checks, makes call to the models's delete function, and
+     * redirects to the teacher manager view
+     * 
+     * @todo check saved schedules for reference and block delete
+     *
+     * @return  void
+     */
+    public function delete()
+    {
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+        $success = $this->getModel('teacher')->delete();
+        if ($success)
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_TRM_DELETE_SUCCESS');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg);
+        }
+        else
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_TRM_DELETE_FAIL');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg, 'error');
+        }
+    }
+
+    /**
+     * Method to cancel an edit.
+     *
+     * @param   string  $key  The name of the primary key of the URL variable.
+     *
+     * @return  void
+     */
+    public function cancel($key = null)
+    {
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+        $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false));
+    }
 }

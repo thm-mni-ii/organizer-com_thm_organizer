@@ -310,6 +310,10 @@ class THM_OrganizerControllerSchedule extends JControllerForm
 		$success = $model->merge();
 		switch ($success)
 		{
+			case ERROR:
+				$msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_FAIL');
+				$this->setRedirect(JRoute::_($url, false), $msg, 'error');
+				break;
 			case MERGE:
 				$msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_SUCCESS');
 				$this->setRedirect(JRoute::_($url, false), $msg);

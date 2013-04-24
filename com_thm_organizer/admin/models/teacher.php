@@ -23,72 +23,149 @@ jimport('joomla.application.component.model');
  */
 class THM_OrganizerModelTeacher extends JModel
 {
+    /**
+     * Attempts to save a teacher entry, updating schedule data as necessary.
+     * 
+     * @return true on success, otherwise false
+     */
 	public function save()
 	{
 		$dbo = JFactory::getDbo();
         $data = JRequest::getVar('jform', null, null, null, 4);
 		$dbo->transactionStart();
-        $table = JTable::getInstance('teachers', 'thm_organizerTable');
-		$success = $table->save($data);
-		if ($success)
+        $scheduleSuccess = $this->updateScheduleData($data, "'" . $data['id'] . "'");
+		if ($scheduleSuccess)
 		{
-			$dbo->transactionCommit();
-			return true;
+            $table = JTable::getInstance('teachers', 'thm_organizerTable');
+            $teacherSuccess = $table->save($data);
+            if($teacherSuccess)
+            {
+                $dbo->transactionCommit();
+                return true;
+            }
 		}
-		else
-		{
-			$dbo->transactionRollback();
-			return false;
-		}
+        $dbo->transactionRollback();
+        return false;
 	}
 
-	public function autoMerge()
+    /**
+     * Attempts an iterative merge of all teacher entries.  Due to the attempted
+     * merge of multiple entries with individual success codes no return value
+     * is given.
+     * 
+     * @return void
+     */
+    public function autoMergeAll()
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('t.id, t.gpuntisID, surname, forename, username, fieldID, field, title');
+        $query->from('#__thm_organizer_teachers AS t');
+        $query->leftJoin('#__thm_organizer_fields AS f ON t.fieldID = f.id');
+        $query->order('t.id ASC');
+
+        $dbo->setQuery((string) $query);
+        $teacherEntries = $dbo->loadAssocList();
+        foreach ($teacherEntries as $key1 => $entry1)
+        {
+            foreach ($teacherEntries as $key2 => $entry2)
+            {
+                if ($key1 == $key2)
+                {
+                    continue;
+                }
+                else
+                {
+                    $entries = array($entry1, $entry2);
+                    $success = $this->autoMerge($entries);
+                    if ($success)
+                    {
+                        unset($teacherEntries[$key2]);
+                    }
+                }
+            }
+        }
+        die;
+    }
+
+    /**
+     * Performs an automated merge of teacher entries, in as far as this is
+     * possible according to plausibility constraints.
+     * 
+     * @param   array  $teacherEntries  entries to be compared
+     * 
+     * @return  boolean  true on success, otherwise false
+     */
+	public function autoMerge($teacherEntries = null)
 	{
-		$dbo = JFactory::getDbo();
-		$query = $dbo->getQuery(true);
-		$query->select('t.id, t.gpuntisID, surname, forename, username, fieldID, field, title');
-		$query->from('#__thm_organizer_teachers AS t');
-		$query->leftJoin('#__thm_organizer_fields AS f ON t.fieldID = f.id');
+        if (empty($teacherEntries))
+        {
+            $dbo = JFactory::getDbo();
+            $query = $dbo->getQuery(true);
+            $query->select('t.id, t.gpuntisID, surname, forename, username, fieldID, field, title');
+            $query->from('#__thm_organizer_teachers AS t');
+            $query->leftJoin('#__thm_organizer_fields AS f ON t.fieldID = f.id');
 
-		$cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
-		$query->where("t.id IN ( $cids )");
+            $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
+            $query->where("t.id IN ( $cids )");
 
-		$query->order('t.id ASC');
+            $query->order('t.id ASC');
 
-		$dbo->setQuery((string) $query);
-		$teacherEntries = $dbo->loadAssocList();
+            $dbo->setQuery((string) $query);
+            $teacherEntries = $dbo->loadAssocList();
+        }
 
 		$data = array();
 		$otherIDs = array();
 		foreach ($teacherEntries as $key => $entry)
 		{
-			
-			$entry['gpuntisID'] = str_replace('TR_', '', $entry['gpuntisID']);
 			foreach ($entry as $property => $value)
 			{
-				// Property value is not set for DB Entry
-				if (empty($value))
-				{
-					continue;
-				}
-				
-				// Initial set of data property
-				if (!isset($data[$property]))
-				{
-					$data[$property] = $value;
-				}
-				
-				// Propery already set and a value differentiation exists => manual merge
-				elseif ($data[$property] != $value)
-				{
-					if ($property == 'id')
-					{
-						$otherIDs[] = $value;
-						continue;
-					}
-					return false;
-				}
+                $value = trim($value);
+                // Property value is not set for DB Entry
+                if (!empty($value))
+                {
+                    if ($property == 'gpuntisID')
+                    {
+                        $value = str_replace('TR_', '', $value);
+                    }
+
+                    // Initial set of data property
+                    if (empty($data[$property]))
+                    {
+                        $data[$property] = $value;
+                    }
+
+                    // Value differentiation
+                    elseif ($data[$property] != $value)
+                    {
+                        if ($property == 'gpuntisID' AND isset($entry['forename']))
+                        {
+                            if ($data[$property] == $value . substr($entry['forename'], 0, 1))
+                            {
+                                continue;
+                            }
+                            elseif ($data[$property] . substr($entry['forename'], 0, 1) == $value)
+                            {
+                                $data[$property] = $value;
+                            }
+                        }
+                        elseif ($property == 'id')
+                        {
+                            $otherIDs[] = $value;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+
 			}
+            if ($teacherEntries[0]['surname'] == 'Walesch' AND $teacherEntries[1]['surname'] == 'Walesch')
+            {
+                echo var_dump($teacherEntries);var_dump($key);
+            }
 		}
 		$data['otherIDs'] = "'" . implode("', '", $otherIDs) . "'";
 		return $this->merge($data);
@@ -97,9 +174,12 @@ class THM_OrganizerModelTeacher extends JModel
 	/**
 	 * Merges resource entries and cleans association tables.
 	 * 
+	 * @param   array  $data  array used by the automerge function to
+	 *                        automatically set teacher values
+	 * 
 	 * @return  boolean  true on success, otherwise false
 	 */
-	public function merge($data = null)
+	public function merge(&$data = null)
 	{
 		// Clean POST variables
 		if (empty($data))
@@ -199,9 +279,26 @@ class THM_OrganizerModelTeacher extends JModel
 		return true;
 	}
 
-	public function updateScheduleData($data, $IDs)
+    /**
+     * Updates teacher data and lesson associations in active schedules
+     * 
+     * @param   array   $data  teacher data corrresponding to a table row
+     * @param   string  $IDs   a list of ids suitable for retrieval of teacher
+     *                         gpuntisIDs to be replaced in saved schedules
+     * @return boolean
+     */
+	public function updateScheduleData(&$data, $IDs)
 	{
 		$dbo = JFactory::getDbo();
+
+        if (empty($data['gpuntisID']))
+        {
+            return true;
+        }
+        else
+        {
+            $data['gpuntisID'] = str_replace('TR_', '', $data['gpuntisID']);
+        }
 
 		$scheduleQuery = $dbo->getQuery(true);
 		$scheduleQuery->select('id, schedule');
@@ -223,65 +320,65 @@ class THM_OrganizerModelTeacher extends JModel
 			$field = str_replace('DS_', '', $dbo->loadResult());
 		}
 
-		$oldNameQuery = $dbo->getQuery(true);
-		$oldNameQuery->select('gpuntisID');
-		$oldNameQuery->from('#__thm_organizer_teachers');
-		$oldNameQuery->where("id IN ( $IDs )");
-		$oldNameQuery->where("gpuntisID IS NOT NULL");
-		$oldNameQuery->where("gpuntisID NOT IN ( '', '{$data['gpuntisID']}')");
-		$dbo->setQuery((string) $oldNameQuery);
-		$oldNames = $dbo->loadResultArray();
-
-		// Remove deprecated redundant resource type identification if existant
-		foreach ($oldNames AS $key => $value)
-		{
-			$oldNames[$key] = str_replace('TR_', '', $value);
-		}
+        $oldNameQuery = $dbo->getQuery(true);
+        $oldNameQuery->select('gpuntisID');
+        $oldNameQuery->from('#__thm_organizer_teachers');
+        $oldNameQuery->where("id IN ( $IDs )");
+        $oldNameQuery->where("gpuntisID IS NOT NULL");
+        $dbo->setQuery((string) $oldNameQuery);
+        $oldNames = $dbo->loadResultArray();
 
 		$scheduleTable = JTable::getInstance('schedules', 'thm_organizerTable');
 		foreach ($schedules as $schedule)
 		{
 			$scheduleObject = json_decode($schedule['schedule']);
 
-			foreach ($oldNames AS $oldName)
-			{
-				if (isset($scheduleObject->teachers->{$oldName}))
-				{
-					unset($scheduleObject->teachers->{$oldName});
-				}
-				foreach ($scheduleObject->lessons as $lessonID => $lesson)
-				{
-					if (isset($lesson->teachers->$oldName))
-					{
-						$delta = $lesson->teachers->$oldName;
-						unset($scheduleObject->lessons->{$lessonID}->teachers->$oldName);
-						$scheduleObject->lessons->{$lessonID}->teachers->{$data['gpuntisID']} = $delta;
-					}
-				}
-			}
+            foreach ($oldNames AS $oldName)
+            {
+                if (isset($scheduleObject->teachers->{$oldName}))
+                {
+                    unset($scheduleObject->teachers->{$oldName});
+                    foreach ($scheduleObject->lessons as $lessonID => $lesson)
+                    {
+                        if (isset($lesson->teachers->$oldName))
+                        {
+                            $delta = $lesson->teachers->$oldName;
+                            unset($scheduleObject->lessons->{$lessonID}->teachers->$oldName);
+                            $scheduleObject->lessons->{$lessonID}->teachers->{$data['gpuntisID']} = $delta;
+                        }
+                    }
+                }
+            }
 
-			if (!isset($scheduleObject->teachers->{$data['gpuntisID']}))
+            if (!isset($scheduleObject->teachers->{$data['gpuntisID']}))
 			{
 				$scheduleObject->teachers->{$data['gpuntisID']} = new stdClass;
 			}
 
-			$scheduleObject->teachers->{$data['gpuntisID']}->gpuntisID = $data['gpuntisID'];
-			$scheduleObject->teachers->{$data['gpuntisID']}->surname = $data['surname'];
-			$scheduleObject->teachers->{$data['gpuntisID']}->forename = $data['forename'];
-			$scheduleObject->teachers->{$data['gpuntisID']}->username = $data['username'];
-			
-			if (!empty($data['fieldID']))
-			{
-				$scheduleObject->teachers->{$data['gpuntisID']}->fieldID = $data['fieldID'];
-				if (!empty($field))
-				{
-					$scheduleObject->teachers->{$data['gpuntisID']}->description = $field;
-				}
-			}
-			if (isset($scheduleObject->teachers->{$data['gpuntisID']}->firstname))
-			{
-				unset($scheduleObject->teachers->{$data['gpuntisID']}->firstname);
-			}
+            $scheduleObject->teachers->{$data['gpuntisID']}->gpuntisID = $data['gpuntisID'];
+            $scheduleObject->teachers->{$data['gpuntisID']}->surname = $data['surname'];
+            if (isset($data['forename']))
+            {
+                $scheduleObject->teachers->{$data['gpuntisID']}->forename = $data['forename'];
+            }
+            if (isset($data['username']))
+            {
+                $scheduleObject->teachers->{$data['gpuntisID']}->username = $data['username'];
+            }
+
+            if (!empty($data['fieldID']))
+            {
+                $scheduleObject->teachers->{$data['gpuntisID']}->fieldID = $data['fieldID'];
+                if (!empty($field))
+                {
+                    $scheduleObject->teachers->{$data['gpuntisID']}->description = $field;
+                }
+            }
+            if (isset($scheduleObject->teachers->{$data['gpuntisID']}->firstname))
+            {
+                unset($scheduleObject->teachers->{$data['gpuntisID']}->firstname);
+            }
+
 			$schedule['schedule'] = json_encode($scheduleObject);
 			$success = $scheduleTable->save($schedule);
 			if (!$success)
@@ -293,9 +390,7 @@ class THM_OrganizerModelTeacher extends JModel
 	}
 
 	/**
-	 * Deletes teacher resource entries
-	 * 
-	 * @todo add update of saved schedules
+	 * Deletes teacher resource entries.
 	 * 
 	 * @return boolean
 	 */

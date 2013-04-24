@@ -51,6 +51,7 @@ class THM_OrganizerViewRoom_Manager extends JView
 		JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_RMM_TOOLBAR_TITLE'), 'generic.png');
 		JToolBarHelper::addNew('room.add', 'JTOOLBAR_NEW');
 		JToolBarHelper::editList('room.edit', 'JTOOLBAR_EDIT');
+        JToolBarHelper::custom('room.mergeAll', 'merge', 'merge', 'COM_THM_ORGANIZER_MERGE_ALL', false);
         JToolBarHelper::custom('room.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_MERGE', true);
 		JToolBarHelper::deleteList('', 'room.delete', 'JTOOLBAR_DELETE');
 		JToolBarHelper::divider();
