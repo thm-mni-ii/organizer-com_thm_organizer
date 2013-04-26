@@ -13,9 +13,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controllerform');
 
 /**
- * Class THM_OrganizerControllerCourse for component com_thm_organizer
- *
- * Class provides methods perform actions for course
+ * Class performs access checks, redirects and model function calls for data persistence
  *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
@@ -23,43 +21,107 @@ jimport('joomla.application.component.controllerform');
  */
 class THM_OrganizerControllerSubject extends JControllerForm
 {
-	/**
-	 * Method to perform save
-	 *
-	 * @param   Object  $key     Key		   (default: null)
-	 * @param   Object  $urlVar  Url variable  (default: null)
-	 *
-	 * @return  void
-	 */
-	public function save($key = null, $urlVar = null)
-	{
-		parent::save($key, $urlVar);
-		$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=assets', false));
-	}
+    /**
+     * Performs access checks, sets the id variable to 0, and redirects to the
+     * subject edit view
+     * 
+     * @return void 
+     */
+    public function add()
+    {
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+        JRequest::setVar('view', 'subject_edit');
+        JRequest::setVar('id', '0');
+        parent::display();
+    }
 
-	/**
-	 * Method to perform edit
-	 *
-	 * @param   Object  $key     Key		   (default: null)
-	 * @param   Object  $urlVar  Url variable  (default: null)
-	 *
-	 * @return  void
-	 */
-	public function edit($key = null, $urlVar = null)
-	{
-		parent::edit($key, $urlVar);
-	}
+    /**
+     * Performs access checks and redirects to the subject edit view
+     *
+     * @param   Object  $key     Key		   (default: null)
+     * @param   Object  $urlVar  Url variable  (default: null)
+     *
+     * @return  void
+     */
+    public function edit($key = null, $urlVar = null)
+    {
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+        JRequest::setVar('view', 'subject_edit');
+        parent::display();
+    }
 
-	/**
-	 * Method to perform cancel
-	 *
-	 * @param   string  $key  The name of the primary key of the URL variable.
-	 * 
-	 * @return  void
-	 */
-	public function cancel($key = null)
-	{
-		parent::cancel($key);
-		$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=assets', false));
-	}
+    /**
+     * Performs access checks, makes call to the models's save function, and
+     * redirects to the subject manager view
+     *
+     * @param   Object  $key     Key		   (default: null)
+     * @param   Object  $urlVar  Url variable  (default: null)
+     *
+     * @return  void
+     */
+    public function save($key = null, $urlVar = null)
+    {
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+        $success = $this->getModel('subject')->save();
+        if ($success)
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_SUM_SAVE_SUCCESS');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false), $msg);
+        }
+        else
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_SUM_SAVE_FAIL');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false), $msg, 'error');
+        }
+    }
+
+    /**
+     * Performs access checks, makes call to the models's delete function, and
+     * redirects to the subject manager view
+     *
+     * @return  void
+     */
+    public function delete()
+    {
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+        $success = $this->getModel('subject')->delete();
+        if ($success)
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_SUM_DELETE_SUCCESS');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false), $msg);
+        }
+        else
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_SUM_DELETE_FAIL');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false), $msg, 'error');
+        }
+    }
+
+    /**
+     * Method to cancel an edit.
+     *
+     * @param   string  $key  The name of the primary key of the URL variable.
+     *
+     * @return  void
+     */
+    public function cancel($key = null)
+    {
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+        $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false));
+    }
 }

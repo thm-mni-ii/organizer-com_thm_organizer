@@ -3,9 +3,8 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerModelAssets
- * @description THM_OrganizerModelAssets component admin model
- * @author      Markus Baier, <markus.baier@mni.thm.de>
+ * @name        THM_OrganizerModelSubject_Manager
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
@@ -14,16 +13,13 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modellist');
 
 /**
- * Class THM_OrganizerModelAssets for component com_thm_organizer
- *
- * Class provides methods to deal with assets
+ * Provides method for generating a list of subjects
  *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
  */
-class THM_OrganizerModelAssets extends JModelList
+class THM_OrganizerModelSubject_Manager extends JModelList
 {
 	/**
 	 * Constructor to set up the config array and call the parent constructor
@@ -49,41 +45,38 @@ class THM_OrganizerModelAssets extends JModelList
 	protected function getListQuery()
 	{
 		$dbo = JFactory::getDBO();
+        list($language, $localization) = explode('-', JFactory::getLanguage()->getTag());
 
 		$orderCol = $this->state->get('list.ordering');
-		$orderDirn = $this->state->get('list.direction');
-		$type = $this->state->get('filter.type');
-
-		// Defailt ordering
-		if ($orderCol == "")
-		{
-			$orderCol = "asset_id";
-			$orderDirn = "asc";
-		}
+		$orderDir = $this->state->get('list.direction');
 
 		// Create the sql query
 		$query = $dbo->getQuery(true);
-		$query->select("*");
-		$query->select(" at.name as coursetype");
-		$query->select(" a.name as asset_name");
-		$query->select(" a.id as asset_id");
-		$query->from('#__thm_organizer_assets AS a');
-		$query->innerJoin('#__thm_organizer_asset_types AS at ON a.asset_type_id = at.id');
+        $select = 'id, lsfID, hisID, externalID, ';
+        $select .= $language == 'de'? 'name_de AS name' : 'name_en AS name';
+        $query->select($select);
+        $query->from('#__thm_organizer_subjects');
 
-		$search = '%' . $dbo->getEscaped($this->state->get('filter.search'), true) . '%';
-		$searchClause = "(title_de LIKE '$search' ";
-		$searchClause .= "OR title_en LIKE '$search' ";
-		$searchClause .= "OR short_title_de LIKE '$search' ";
-		$searchClause .= "OR short_title_en LIKE '$search' ";
-		$searchClause .= "OR abbreviation LIKE '$search') ";
-		$query->where($searchClause);
-
-		if (isset($type) && $type != "")
-		{
-			$query->where(' asset_type_id = ' . $type);
-		}
-
-		$query->order($orderCol . " " . $orderDirn);
+        $searchState = $this->state->get('filter.search');
+        if (!empty($searchState))
+        {
+            $search = '%' . $dbo->getEscaped($searchState, true) . '%';
+            switch ($language)
+            {
+                case 'de':
+                    $searchClause = "(name_de LIKE '$search' ";
+                    $searchClause .= "OR short_name_de LIKE '$search' ";
+                    $searchClause .= "OR abbreviation_de LIKE '$search') ";
+                    break;
+                case 'en':
+                    $searchClause = "(name_en LIKE '$search' ";
+                    $searchClause .= "OR short_name_en LIKE '$search' ";
+                    $searchClause .= "OR abbreviation_en LIKE '$search') ";
+                    break;
+            }
+            $query->where($searchClause);
+        }
+		$query->order("$orderCol $orderDir");
 
 		return $query;
 	}
@@ -98,37 +91,22 @@ class THM_OrganizerModelAssets extends JModelList
 	 */
 	protected function populateState($order = null, $dir = null)
 	{
-		$app = JFactory::getApplication('administrator');
+		$app = JFactory::getApplication();
 
-		$layout = JRequest::getVar('layout');
-		if (!empty($layout))
-		{
-			$this->context .= '.' . $layout;
-		}
-
-		$order = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', '');
-		$dir = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', '');
-		$filter = $app->getUserStateFromRequest($this->context . '.filter', 'filter', '');
-		$limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
-		$search = $app->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
-		$type = $app->getUserStateFromRequest($this->context . '.filter_type', 'filter_type', '');
-
+		$order = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'name');
 		$this->setState('list.ordering', $order);
-		$this->setState('filter.search', $search);
-		$this->setState('filter.type', $type);
+
+		$dir = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
 		$this->setState('list.direction', $dir);
+
+		$filter = $app->getUserStateFromRequest($this->context . '.filter', 'filter', '');
 		$this->setState('filter', $filter);
+
+		$limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
 		$this->setState('limit', $limit);
 
-		// Set the default ordering behaviour
-		if ($order == '' && isset($order))
-		{
-			parent::populateState("id", "ASC");
-		}
-		else
-		{
-			parent::populateState($order, $dir);
-		}
+		$search = $app->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
+		$this->setState('filter.search', $search);
 
 		parent::populateState($order, $dir);
 	}

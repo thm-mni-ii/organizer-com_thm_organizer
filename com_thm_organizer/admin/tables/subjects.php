@@ -3,10 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerTableAssets
- * @description assets table class
- * @author      Markus Baier, <markus.baier@mni.thm.de>
- * @author      Wolf Rost, <wolf.rost@mni.thm.de>
+ * @name		THM_OrganizerTableSubjects
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -20,10 +17,8 @@ jimport('joomla.application.component.table');
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin.tables
- * @link        www.mni.thm.de
- * @since       v0.1.0
  */
-class THM_OrganizerTableAssets extends JTable
+class THM_OrganizerTableSubjects extends JTable
 {
     /**
      * Constructor to call the parent constructor
@@ -32,6 +27,6 @@ class THM_OrganizerTableAssets extends JTable
      */
     public function __construct(&$dbo)
     {
-        parent::__construct('#__thm_organizer_assets', 'id', $dbo);
+        parent::__construct('#__thm_organizer_subjects', 'id', $dbo);
     }
 }

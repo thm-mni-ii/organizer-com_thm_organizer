@@ -135,46 +135,73 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_degree_programs` (
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_pools` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `parentID` INT(11) UNSIGNED NOT NULL,
-  `name` varchar(45) DEFAULT NULL,
+  `programID` INT(11) UNSIGNED NOT NULL,
+  `lsfID` INT(11) UNSIGNED DEFAULT NULL,
+  `hisID` INT(11) UNSIGNED DEFAULT NULL,
+  `externalID` varchar(45) DEFAULT NULL,
+  `abbreviation_de` varchar(45) DEFAULT NULL,
+  `abbreviation_en` varchar(45) DEFAULT NULL,
+  `short_name_de` varchar(45) DEFAULT NULL,
+  `short_name_en` varchar(45) DEFAULT NULL,
+  `name_de` varchar(255) DEFAULT NULL,
+  `name_en` varchar(255) DEFAULT NULL,
   `lft` INT(11) UNSIGNED DEFAULT NULL,
   `rgt` INT(11) UNSIGNED DEFAULT NULL,
   `level` INT(11) UNSIGNED DEFAULT NULL,
   `ordering` INT(11) UNSIGNED DEFAULT NULL,
-  `short_title_de` varchar(45) DEFAULT NULL,
-  `short_title_en` varchar(45) DEFAULT NULL,
   `direction` TINYINT(1) UNSIGNED DEFAULT 1,
   `fieldID` INT(11) unsigned DEFAULT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (`parentID`) REFERENCES `#__thm_organizer_pools` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`programID`) REFERENCES `#__thm_organizer_degree_programs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- Subjects
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
   `id` INT (11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `beschreibung` varchar(255) DEFAULT NULL,
-  `min_creditpoints` TINYINT(4) DEFAULT NULL,
-  `max_creditpoints` TINYINT(4) DEFAULT NULL,
-  `lsf_course_id` INT(11) DEFAULT NULL,
-  `lsf_course_code` varchar(45) DEFAULT NULL,
-  `his_course_code` INT(11) DEFAULT NULL,
-  `title_de` varchar(255) DEFAULT NULL,
-  `title_en` varchar(255) DEFAULT NULL,
-  `short_title_de` varchar(45) DEFAULT NULL,
-  `short_title_en` varchar(45) DEFAULT NULL,
-  `abbreviation` varchar(45) DEFAULT NULL,
-  `prerequisite` varchar(255) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
+  `lsfID` INT(11) UNSIGNED DEFAULT NULL,
+  `hisID` INT(11) UNSIGNED DEFAULT NULL,
+  `externalID` varchar(45) DEFAULT NULL,
+  `abbreviation_de` varchar(45) DEFAULT NULL,
+  `abbreviation_en` varchar(45) DEFAULT NULL,
+  `short_name_de` varchar(45) DEFAULT NULL,
+  `short_name_en` varchar(45) DEFAULT NULL,
+  `name_de` varchar(255) DEFAULT NULL,
+  `name_en` varchar(255) DEFAULT NULL,
+  `description_de` varchar(255) DEFAULT NULL,
+  `description_en` varchar(255) DEFAULT NULL,
+  `objective_de` varchar(255) DEFAULT NULL,
+  `objective_en` varchar(255) DEFAULT NULL,
+  `content_de` varchar(255) DEFAULT NULL,
+  `content_en` varchar(255) DEFAULT NULL,
+  `preliminary_work_de` varchar(255) DEFAULT NULL,
+  `preliminary_work_en` varchar(255) DEFAULT NULL,
+  `creditpoints` INT(4) UNSIGNED DEFAULT NULL,
+  `expenditure` INT(4) UNSIGNED DEFAULT NULL,
+  `present` INT(4) UNSIGNED DEFAULT NULL,
+  `independent` INT(4) UNSIGNED DEFAULT NULL,
+  `proof` varchar(2) DEFAULT NULL,
+  `frequency` INT(1) UNSIGNED DEFAULT NULL,
+  `method` varchar(2) DEFAULT NULL,
   `fieldID` INT(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+-- Copy data from curriculum to organizer
+INSERT INTO `#__thm_organizer_subjects` (`lsfID`, `hisID`, `externalID`, `abbreviation_de`, `short_name_de`, `short_name_en`, `name_de`, `name_en`, `description_de`, `creditpoints`)
+SELECT `lsf_course_id`, `his_course_code`, `lsf_course_code`,  `abbreviation`, `short_title_de`, `short_title_en`,  `title_de`, `title_en`, `beschreibung`, `max_creditpoints`
+FROM `#__thm_curriculum_assets`
+WHERE `asset_type_id` = 1;
+
+-- Update incomplete entries for display purposes
+UPDATE `#__thm_organizer_subjects`
+SET `name_en` = `name_de`
+WHERE `name_en` = '';
+
 -- Subjects Module Pools
--- Recreate the majors table with modifications, the id gets altered later to
--- avoid problems with fk type checks.
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects_pools` (
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_pool_subjects` (
   `id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
   `subjectID` INT(11) unsigned NOT NULL,
   `poolID` INT(11) unsigned NOT NULL,
@@ -202,17 +229,17 @@ FROM `#__thm_curriculum_lecturers`;
 -- Rename table to make contents clearer as regards subject and context.
 RENAME TABLE `#__thm_organizer_lecturers_types` TO `#__thm_organizer_teacher_responsibilities`;
 
+-- Remove old text values
+TRUNCATE TABLE  `#__thm_organizer_teacher_responsibilities`
+
 -- Standardize the index column
 ALTER TABLE  `#__thm_organizer_teacher_responsibilities`
 CHANGE `id` `id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT;
 
--- Empty the yet unused table.
-TRUNCATE TABLE `#__thm_organizer_teacher_responsibilities`;
-
--- Copy data from curriculum to organizer
-INSERT INTO `#__thm_organizer_teacher_responsibilities`
-SELECT *
-FROM `#__thm_curriculum_lecturers_types`;
+-- Replace with translateable text constants
+INSERT INTO `#__thm_organizer_teacher_responsibilities` (`id`, `name`) VALUES
+(1, 'COM_THM_ORGANIZER_SUM_RESPONSIBLE'),
+(2, 'COM_THM_ORGANIZER_SUM_TEACHER');
 
 -- Subject Teachers
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_subject_teachers` (
@@ -221,7 +248,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subject_teachers` (
   `teacherID` INT(11) UNSIGNED NOT NULL,
   `teacherResp` INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`subjectID`, `teacherID`, `teacherResp`),
-  UNIQUE KEY (`id`),
+  UNIQUE  KEY (`id`),
   FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_subjects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (`teacherID`) REFERENCES `#__thm_organizer_teachers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (`teacherResp`) REFERENCES `#__thm_organizer_teacher_responsibilities` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -234,3 +261,4 @@ TRUNCATE TABLE `#__thm_organizer_soap_queries`;
 INSERT INTO `#__thm_organizer_soap_queries`
 SELECT *
 FROM `#__thm_curriculum_soap_queries`;
+

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+    <statistics>
+        <rows>1</rows>
+        <countDS>1</countDS>
+    </statistics>
+    <modul>
+        <modulid>10617</modulid>
+        <nrhis>195001</nrhis>
+        <nrmni>PI5001</nrmni>
+        <kuerzel>VS</kuerzel>
+        <kurzname>Verteilte Systeme</kurzname>
+        <titelde>Verteilte Systeme</titelde>
+        <studiengang>ZMI</studiengang>
+        <abschluss />
+        <pversion>-1</pversion>
+        <ktxtppflicht>PF</ktxtppflicht>
+        <ktxtpform>S</ktxtpform>
+        <ktxtpart>P</ktxtpart>
+        <sprache>D</sprache>
+        <lp>6.0</lp>
+        <sws>4.0</sws>
+        <pfsem>1</pfsem>
+        <aufwand>180 Stunden</aufwand>
+        <praesenzzeit />
+        <selbstzeit />
+        <verart />
+        <gruppengr>0</gruppengr>
+        <turnus>5</turnus>
+        <dauer>1 Semester</dauer>
+        <standbearb />
+        <versemester>20101</versemester>
+        <verstandbearb>400</verstandbearb>
+        <titelen>Distributed Systems</titelen>
+        <kurznameen />
+        <kuerzelen />
+        <fachgruppe>Wahlpflichtpool Praktische Informatik</fachgruppe>
+        <zuordnung>
+            <fgid>10631</fgid>
+            <parentmodul>PI5</parentmodul>
+            <stgktxt>I</stgktxt>
+            <abschl>MS</abschl>
+            <pversion>2010</pversion>
+            <ppflichtzuord />
+        </zuordnung>
+        <zuordnung>
+            <fgid>10632</fgid>
+            <parentmodul>TI5</parentmodul>
+            <stgktxt>I</stgktxt>
+            <abschl>MS</abschl>
+            <pversion>2010</pversion>
+            <ppflichtzuord />
+        </zuordnung>
+        <verantwortliche>
+            <personinfo>
+                <vorname>Thomas</vorname>
+                <nachname>Letschert</nachname>
+            </personinfo>
+            <hgnr>hg51</hgnr>
+            <redmokid>hg51</redmokid>
+        </verantwortliche>
+        <dozent>
+            <personinfo>
+                <personal.vorname>Michael</personal.vorname>
+                <personal.nachname>Jäger</personal.nachname>
+            </personinfo>
+            <hgnr>hg52</hgnr>
+            <redmokid>hg52</redmokid>
+        </dozent>
+        <dozent>
+            <personinfo>
+                <personal.vorname>Thomas</personal.vorname>
+                <personal.nachname>Letschert</personal.nachname>
+            </personinfo>
+            <hgnr>hg51</hgnr>
+            <redmokid>hg51</redmokid>
+        </dozent>
+        <kurzbeschr>
+            <txt>Dieses Modul liefert einen umfassenden Überblick der Algorithmen für verteilte nachrichtenbasierte Systeme. Das Thema wird dabei sowohl theoretisch fundiert, als auch an Hand instruktiver Beispiele behandelt.</txt>
+            <sprache>de</sprache>
+            <semester>20101</semester>
+        </kurzbeschr>
+        <kurzbeschr>
+            <txt>This module provides a comprehensive survey of algorithms for distributed message passing systems by treating the topic both with rigor and instructive examples.</txt>
+            <sprache>en</sprache>
+            <semester>20101</semester>
+        </kurzbeschr>
+        <kurzbeschr-original>
+            <txt>Dieses Modul liefert einen umfassenden Überblick der Algorithmen für verteilte nachrichtenbasierte Systeme. Das Thema wird dabei sowohl theoretisch fundiert, als auch an Hand instruktiver Beispiele behandelt.</txt>
+            <sprache>de</sprache>
+            <semester>20101</semester>
+        </kurzbeschr-original>
+        <kurzbeschr-original>
+            <txt>This module provides a comprehensive survey of algorithms for distributed message passing systems by treating the topic both with rigor and instructive examples.</txt>
+            <sprache>en</sprache>
+            <semester>20101</semester>
+        </kurzbeschr-original>
+        <arbeitsaufwand>
+            <txt>6 CrP; 180 Stunden, davon etwa 60 Stunden Präsenzzeit</txt>
+            <sprache>de</sprache>
+            <semester>20101</semester>
+        </arbeitsaufwand>
+        <arbeitsaufwand>
+            <txt>6 CrP; 180 hours thereof about 60 hours time of attendance</txt>
+            <sprache>en</sprache>
+            <semester>20101</semester>
+        </arbeitsaufwand>
+        <lernform>
+            <txt>Vorlesung 2 SWS Praktikum 2 SWS</txt>
+            <sprache>de</sprache>
+            <semester>20101</semester>
+        </lernform>
+        <lernform>
+            <txt>Lecture  2  sppw  Practical Course  2  sppw   </txt>
+            <sprache>en</sprache>
+            <semester>20101</semester>
+        </lernform>
+        <zwvoraussetzungen>
+            <txt>Keine</txt>
+            <sprache>de</sprache>
+            <semester>20101</semester>
+        </zwvoraussetzungen>
+        <zwvoraussetzungen>
+            <txt>None</txt>
+            <sprache>en</sprache>
+            <semester>20101</semester>
+        </zwvoraussetzungen>
+        <lernziel>
+            <txt>Die Studierenden verstehen die spezifischen Problemstellungen, Lösungen und Entwicklungstechniken verteilter Systeme und kennen wichtige Protokolle und verteilte Algorithmen. Sie können Protokoll- und Algorithmenspezifikationen implementieren und Problemstellungen im Bereich der Verteiltheit analysieren, Lösungen erarbeiten und bewerten.</txt>
+            <sprache>de</sprache>
+            <semester>20101</semester>
+        </lernziel>
+        <lernziel>
+            <txt>On completion of the module students will understand the specific problems, solutions and techniques of distributed systems. They will know essential protocols and distributed algorithms and will be able to implement protocols and algorithms according to specifications and to assess, analyse and solve tasks in the area of distributed systems.</txt>
+            <sprache>en</sprache>
+            <semester>20101</semester>
+        </lernziel>
+        <lerninhalt>
+            <txt>In der Veranstaltung werden die grundlegenden Prinzipien Verteilter Systeme behandelt: &lt;ul&gt; &lt;li&gt;Modelle, Algorithmen und Systemaspekte&lt;/li&gt; &lt;li&gt;Synchrone/Asynchrone Systeme&lt;/li&gt; &lt;li&gt;Spezifikation verteilter Algorithmen: Notationen, Eigenschaften&lt;/li&gt; &lt;li&gt;Protokolle: Aufgabenstellung, Spezifikation, Implementierung&lt;/li&gt; &lt;li&gt;Verteilte Algorithmen: z.B. Wellenalgorithmus, logische Uhr, verteilter Mutex etc.&lt;/li&gt; &lt;li&gt;Software-Architekturen, Implementierungsmuster&lt;/li&gt; &lt;/ul&gt;</txt>
+            <sprache>de</sprache>
+            <semester>20101</semester>
+        </lerninhalt>
+        <lerninhalt>
+            <txt>The course covers the basic principles of distributed systems: &lt;ul&gt; &lt;li&gt;Models, algorithms, and system aspects&lt;/li&gt; &lt;li&gt;Synchronous/asynchronous systems&lt;/li&gt; &lt;li&gt;Specification of distributed alogorithms: notations, properties&lt;/li&gt; &lt;li&gt;Protocols: task, specification, implementation&lt;/li&gt; &lt;li&gt;Distributed algorithms: e.g. wave algorithm, logical clock, distributed mutex and so on&lt;/li&gt; &lt;li&gt;Software architectures, implementation patterns&lt;/li&gt; &lt;/ul&gt;</txt>
+            <sprache>en</sprache>
+            <semester>20101</semester>
+        </lerninhalt>
+        <vorleistung>
+            <txt>1 anerkannte Hausübung</txt>
+            <sprache>de</sprache>
+            <semester>20101</semester>
+        </vorleistung>
+        <vorleistung>
+            <txt>1 certified written exercise</txt>
+            <sprache>en</sprache>
+            <semester>20101</semester>
+        </vorleistung>
+        <leistungsnachweis>
+            <txt>Klausur</txt>
+            <sprache>de</sprache>
+            <semester>20101</semester>
+        </leistungsnachweis>
+        <leistungsnachweis>
+            <txt>Written exam</txt>
+            <sprache>en</sprache>
+            <semester>20101</semester>
+        </leistungsnachweis>
+        <litverz>
+            <txt>&lt;ul&gt;&lt;li&gt;G. Tel &lt;i&gt;Introduction to Distributed Algorithms&lt;/i&gt; Cambridge University Press &lt;/li&gt;&lt;li&gt;V. K. Garg &lt;i&gt;Concurrent and Distributed Computing in Java&lt;/i&gt; John Wiley &lt;/li&gt;&lt;li&gt;A.D. Kshemkayani, M. Singhal &lt;i&gt;Distributed Computing: Principles, Algorithms, and Systems&lt;/i&gt; Cambridge University Press &lt;/li&gt;&lt;/ul&gt;</txt>
+            <sprache>de</sprache>
+            <semester>20101</semester>
+        </litverz>
+        <history>
+            <txt>timestamp 2010-05-31 06:07:40 timestamp</txt>
+            <sprache>de</sprache>
+            <semester>20101</semester>
+        </history>
+    </modul>
+</module>
+

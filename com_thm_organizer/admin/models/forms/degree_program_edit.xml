@@ -26,7 +26,7 @@
 			   required="true" />
 		<field name="fieldID"
 			   type="sql"
-			   label="COM_THM_ORGANIZER_DGP_FIELD_TITLE"
+			   label="COM_THM_ORGANIZER_FIELD"
 			   description="COM_THM_ORGANIZER_DGP_FIELD_DESC"
 			   query="SELECT id AS value, field AS fieldID FROM #__thm_organizer_fields"
 			   required="true" />
