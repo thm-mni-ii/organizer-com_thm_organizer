@@ -34,7 +34,7 @@ INSERT INTO `#__thm_organizer_soap_queries` (`id`, `name`, `lsf_object`, `lsf_st
 (9, 'Bachelor Bio-Informatik (2010)', 'studiengang', 'I', 'BI', '2010'),
 (10, 'Master of Business Administration (PO 2010)', 'studiengang', 'W', 'MB', '2010');
 
-DROP TABLE IF EXISTS '#__thm_organizer_majors';
+DROP TABLE IF EXISTS `#__thm_organizer_majors`;
 
 -- Easier to destroy and rebuild than alter and add. Abbreviation later will
 -- provide the link to data from the degrees/majors modeled in Untis departments.
