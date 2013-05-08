@@ -11,7 +11,7 @@
     <creationDate>01/01/2013</creationDate>
     <copyright>TH Mittelhessen 2013</copyright>
     <licence>GNU GPL v.2</licence>
-    <version>0.3.0</version>
+    <version>0.3.1</version>
     <description>COM_THM_ORGANIZER_DESCRIPTION</description>
     <scriptfile>script.php</scriptfile>
     <install>
@@ -114,7 +114,6 @@
             <folder>models</folder>
             <folder>controllers</folder>
             <folder>assets</folder>
-            <folder>helpers</folder>
             <folder>tables</folder>
             <folder>sql</folder>
         </files>
