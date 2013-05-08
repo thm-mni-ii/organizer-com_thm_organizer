@@ -37,14 +37,16 @@ class THM_OrganizerModelDegree_Program extends JModel
 		$dpSuccess = $table->save($data);
 		if ($dpSuccess)
 		{
-			$dbo->transactionCommit();
-			return true;
+            $model = JModel::getInstance('mapping', 'THM_OrganizerModel');
+            $mappingSuccess = $model->saveProgram($table->id);
+            if ($mappingSuccess)
+            {
+                $dbo->transactionCommit();
+                return true;
+            }
 		}
-		else
-		{
-			$dbo->transactionRollback();
-			return false;
-		}
+        $dbo->transactionRollback();
+        return false;
 	}
 	
 	/**

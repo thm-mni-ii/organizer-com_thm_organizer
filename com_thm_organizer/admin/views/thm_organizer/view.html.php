@@ -83,7 +83,7 @@ class THM_OrganizerViewTHM_Organizer extends JView
                         'color_manager' => array(),
                         'field_manager' => array(),
                         'degree_program_manager' => array(),
-                        /*'module_manager' => array(),*/
+                        'pool_manager' => array(),
                         'subject_manager' => array(),
                         'teacher_manager' => array(),
                         'room_manager' => array(),
@@ -118,12 +118,12 @@ class THM_OrganizerViewTHM_Organizer extends JView
         $title_text = JText::_('COM_THM_ORGANIZER_DGP_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_DGP_DESC');
         $views['degree_program_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
 
-        /*$views['module_manager']['title'] = JText::_('COM_THM_ORGANIZER_MPM_TITLE');
-        $title_text = JText::_('COM_THM_ORGANIZER_MPM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_MPM_DESC');
-        $views['module_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);*/
+        $views['pool_manager']['title'] = JText::_('COM_THM_ORGANIZER_POM_TITLE');
+        $title_text = JText::_('COM_THM_ORGANIZER_POM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_POM_DESC');
+        $views['pool_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
 
         $views['subject_manager']['title'] = JText::_('COM_THM_ORGANIZER_SUM_TITLE');
-        $title_text = JText::_('COM_THM_ORGANIZER_TRM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_SUM_DESC');
+        $title_text = JText::_('COM_THM_ORGANIZER_SUM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_SUM_DESC');
         $views['subject_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
 
         $views['teacher_manager']['title'] = JText::_('COM_THM_ORGANIZER_TRM_TITLE');

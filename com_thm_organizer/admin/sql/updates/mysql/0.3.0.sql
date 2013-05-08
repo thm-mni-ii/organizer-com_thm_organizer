@@ -131,11 +131,15 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_degree_programs` (
   FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+-- Copy data from curriculum to organizer
+INSERT INTO `#__thm_organizer_degree_programs` (`id`, `subject`, `version`, `lsfFieldID`, `degreeID`)
+SELECT `id`, `subject`, `po`, `lsf_study_path`, `degree_id`
+FROM `#__thm_curriculum_majors`;
+
+
 -- Module Pools
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_pools` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `parentID` INT(11) UNSIGNED NOT NULL,
-  `programID` INT(11) UNSIGNED NOT NULL,
   `lsfID` INT(11) UNSIGNED DEFAULT NULL,
   `hisID` INT(11) UNSIGNED DEFAULT NULL,
   `externalID` varchar(45) DEFAULT NULL,
@@ -145,17 +149,18 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_pools` (
   `short_name_en` varchar(45) DEFAULT NULL,
   `name_de` varchar(255) DEFAULT NULL,
   `name_en` varchar(255) DEFAULT NULL,
-  `lft` INT(11) UNSIGNED DEFAULT NULL,
-  `rgt` INT(11) UNSIGNED DEFAULT NULL,
-  `level` INT(11) UNSIGNED DEFAULT NULL,
-  `ordering` INT(11) UNSIGNED DEFAULT NULL,
-  `direction` TINYINT(1) UNSIGNED DEFAULT 1,
+  `minCrP` INT(2) UNSIGNED DEFAULT NULL,
+  `maxCrP` INT(2) UNSIGNED DEFAULT NULL,
   `fieldID` INT(11) unsigned DEFAULT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (`parentID`) REFERENCES `#__thm_organizer_pools` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (`programID`) REFERENCES `#__thm_organizer_degree_programs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+-- Copy data from curriculum to organizer
+INSERT INTO `#__thm_organizer_pools` (`id`, `lsfID`, `hisID`, `externalID`, `abbreviation_de`, `short_name_de`, `short_name_en`, `name_de`, `name_en`, `minCrP`, `maxCrP`)
+SELECT `id`, `lsf_course_id`, `his_course_code`, `lsf_course_code`,  `abbreviation`, `short_title_de`, `short_title_en`,  `title_de`, `title_en`, `min_creditpoints`, `max_creditpoints` 
+FROM `#__thm_curriculum_assets`
+WHERE `asset_type_id` = 2;
 
 -- Subjects
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
@@ -200,15 +205,22 @@ UPDATE `#__thm_organizer_subjects`
 SET `name_en` = `name_de`
 WHERE `name_en` = '';
 
--- Subjects Module Pools
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_pool_subjects` (
+-- Curriculum Mappings
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_mappings` (
   `id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
-  `subjectID` INT(11) unsigned NOT NULL,
-  `poolID` INT(11) unsigned NOT NULL,
-  PRIMARY KEY (`subjectID`, `poolID`),
-  UNIQUE KEY (`id`),
-  FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_subjects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (`poolID`) REFERENCES `#__thm_organizer_pools` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `programID` INT(11) unsigned DEFAULT NULL,
+  `parentID` INT(11) unsigned DEFAULT NULL,
+  `poolID` INT(11) unsigned DEFAULT NULL,
+  `subjectID` INT(11) unsigned DEFAULT NULL,
+  `lft` INT(11) UNSIGNED DEFAULT NULL,
+  `rgt` INT(11) UNSIGNED DEFAULT NULL,
+  `level` INT(11) UNSIGNED DEFAULT NULL,
+  `ordering` INT(11) UNSIGNED DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`programID`) REFERENCES `#__thm_organizer_degree_programs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`parentID`) REFERENCES `#__thm_organizer_mappings` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`poolID`) REFERENCES `#__thm_organizer_pools` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_subjects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- Teachers (Lecturers)
