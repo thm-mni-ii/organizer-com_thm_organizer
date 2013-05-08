@@ -4,7 +4,6 @@ DROP TABLE IF EXISTS `#__thm_organizer_lecturers_assets`;
 DROP TABLE IF EXISTS `#__thm_organizer_assets_semesters`;
 DROP TABLE IF EXISTS `#__thm_organizer_assets_tree`;
 DROP TABLE IF EXISTS `#__thm_organizer_semesters_majors`;
-DROP TABLE IF EXISTS `#__thm_organizer_assets`;
 DROP TABLE IF EXISTS `#__thm_organizer_semesters`;
 DROP TABLE IF EXISTS `#__thm_organizer_curriculum_semesters`;
 
@@ -115,6 +114,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_semesters` (
   PRIMARY KEY (id),
   FOREIGN KEY (`color_id`) REFERENCES `#__thm_organizer_colors` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `#__thm_organizer_assets`;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_assets` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
