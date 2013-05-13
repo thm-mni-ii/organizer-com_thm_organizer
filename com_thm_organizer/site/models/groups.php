@@ -565,15 +565,14 @@ class THM_OrganizerModelGroups extends JModel
 		// Build the sql query
 		$query = $this->dbo->getQuery(true);
 		$query->select('*');
-		$query->from('#__thm_groups_text');
-		$query->where("value = '$hgNr'");
-		$query->where("structid = '3'");
+		$query->from('#__users');
+		$query->where("username = '$hgNr'");
 		$this->dbo->setQuery((string) $query);
 		$rows = $this->dbo->loadObjectList();
 
 		if (isset($rows[0]))
 		{
-			return $rows[0]->userid;
+			return $rows[0]->id;
 		}
 	}
 

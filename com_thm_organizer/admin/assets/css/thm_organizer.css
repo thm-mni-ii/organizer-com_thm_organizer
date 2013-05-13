@@ -193,11 +193,15 @@
 
 table.adminlist thead th.thm_organizer_sm_th{ text-align: left; }
 
-#thm_organizer_sch_active_column{ width: 15px; }
+.thm_organizer_sch_semester_column{ width: 10%; }
+
+#thm_organizer_sch_active_column{ width: 5%; }
 
 .thm_organizer_sch_active_td{ text-align: center; }
 
-.thm_organizer_sch_date_column{ width: 85px; }
+.thm_organizer_sch_date_column{ width: 7%; }
+
+.thm_organizer_sch_description_column{ width: 20%; }
 
 li input[disabled=disabled]{ border: none; color: black;}
 
@@ -220,4 +224,11 @@ li input[disabled=disabled]{ border: none; color: black;}
     border-top-right-radius: 6px;
     border-bottom-right-radius: 6px;
 }
+
+/* merge button ***************************************************************/
+.icon-32-merge
+{
+	background: url("../images/icon-32-merge.png");
+}
+
 

@@ -1,32 +1,26 @@
 <?php
 /**
- * @version     v2.0.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name        JFormFieldMajor
  * @description JFormFieldMajor component site field
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
 jimport('joomla.form.formfield');
 
 /**
  * Class JFormFieldMajor for component com_thm_organizer
- *
  * Class provides methods to create a multiple select includes the related semesters of the current tree node
  *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class JFormFieldMajor extends JFormField
 {
@@ -34,7 +28,6 @@ class JFormFieldMajor extends JFormField
 	 * Type
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	protected $type = 'Semester';
 
@@ -46,50 +39,50 @@ class JFormFieldMajor extends JFormField
 	public function getInput()
 	{
 		$scriptDir = str_replace(JPATH_SITE . DS, '', "components/com_thm_organizer/models/fields/");
-		$db = JFactory::getDBO();
 
 		// Add script-code to the document head
 		JHTML::script('major.js', $scriptDir, false);
 
-		$db = JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 
 		// Build the query
-		$query = $db->getQuery(true);
-		$query->select("majors.id as id");
-		$query->select("CONCAT(degrees.name, ' ', majors.subject, ' (', majors.po, ')') as name");
-		$query->from('#__thm_organizer_majors as majors');
-		$query->innerJoin(' #__thm_organizer_degrees as degrees ON degrees.id = majors.degree_id');
+		$query = $dbo->getQuery(true);
+		$query->select("majors.id AS id");
+		$query->select("CONCAT(degrees.name, ' ', majors.subject, ' (', majors.po, ')') AS name");
+		$query->from('#__thm_organizer_majors AS majors');
+		$query->innerJoin(' #__thm_organizer_degrees AS degrees ON degrees.id = majors.degree_id');
 		$query->order('name ASC');
-		$db->setQuery($query);
-		$semesters = $db->loadObjectList();
+		$dbo->setQuery($query);
+		$semesters = $dbo->loadObjectList();
 
 		// Adds an additional item to the select box
+		$blankItem = new stdClass;
 		$blankItem->id = 0;
 		$blankItem->name = '-- None --';
 		$items = array_merge(array($blankItem), $semesters);
 
-		$js = "onchange='loadSemesters(value);' ";
+		$javaScript = "onchange='loadSemesters(value);' ";
 
-		return JHTML::_('select.genericlist', $items, 'jform[params][major]', $js, 'id', 'name', $this->value);
+		return JHTML::_('select.genericlist', $items, 'jform[params][major]', $javaScript, 'id', 'name', $this->value);
 	}
 
 	/**
 	 * Returns the related semesters of the given tree node
 	 *
-	 * @param   Integer  $id  Id
+	 * @param   Integer  $nodeID  Id
 	 *
 	 * @return Array The selected Semesters
 	 */
-	private function getSelectedSemesters($id)
+	private function getSelectedSemesters($nodeID)
 	{
 		// Determine all semester mappings of this tree node
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$dbo = JFactory::getDBO();
+		$query = $dbo->getQuery(true);
 		$query->select("*");
 		$query->from('#__thm_organizer_assets_semesters');
-		$query->where("assets_tree_id = $id");
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
+		$query->where("assets_tree_id = $nodeID");
+		$dbo->setQuery($query);
+		$rows = $dbo->loadObjectList();
 
 		$selectedSemesters = array();
 
@@ -119,8 +112,9 @@ class JFormFieldMajor extends JFormField
 		$text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
 
 		// Build the class for the label.
-		$class = !empty($this->description) ? 'hasTip' : '';
-		$class = $this->required == true ? $class . ' required' : $class;
+		$class = '';
+		$class .= !empty($this->description)? 'hasTip' : '';
+		$class .= $this->required == true ? ' required' : '';
 
 		// Add the opening label tag and main attributes attributes.
 		$label .= '<label id="' . $this->id . '-lbl" for="' . $this->id . '" class="' . $class . '"';

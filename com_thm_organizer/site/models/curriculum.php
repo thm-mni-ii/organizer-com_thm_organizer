@@ -151,7 +151,7 @@ class THM_OrganizerModelCurriculum extends JModelList
 		{
 			$userid = $groupsModel->getUserIdFromGroups($rows[0]->userid);
 
-			if (!$userid)
+			if (!$userid || empty($rows[0]->userid))
 			{
 				return $rows[0]->academic_title . " " . $rows[0]->forename . " " . $rows[0]->surname;
 			}
@@ -195,7 +195,7 @@ class THM_OrganizerModelCurriculum extends JModelList
 		if (isset($rows[0]))
 		{
 			$userid = $groupsModel->getUserIdFromGroups($rows[0]->userid);
-			if ($userid)
+			if ($userid && !empty($rows[0]->userid))
 			{
 				$linkTarget = 'index.php?option=com_thm_groups&view=profile&layout=default';
 				return JRoute::_($linkTarget . '&gsuid=' . $userid . '&name=' . trim($rows[0]->surname) . "&Itemid=" . JRequest::getVar('Itemid'));

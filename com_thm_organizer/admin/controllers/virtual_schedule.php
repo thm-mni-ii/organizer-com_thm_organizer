@@ -12,88 +12,67 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.controller');
+jimport('joomla.application.component.controllerform');
 
 /**
- * Class THM_OrganizerControllervirtual_schedule for component com_thm_organizer
- * Class provides methods to handle tasks that affects virtual schedules
+ * Class performs access checks, redirects and model function calls for data persistence
  *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin.controller
+ * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerControllerVirtual_Schedule extends JController
+class THM_OrganizerControllerVirtual_Schedule extends JControllerForm
 {
-	/**
-	 * Constructor that register tasks and call the parent constructor
-	 */
-	public function __construct()
-	{
-		$this->registerTask('add', 'edit');
-		$this->registerTask('deleteList', '');
-	}
+    /**
+     * Performs access checks and redirects to the virtual schedule edit view
+     * 
+     * @return void 
+     */
+    public function add()
+    {
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+        JRequest::setVar('view', 'virtual_schedule_edit');
+        JRequest::setVar('id', '0');
+        parent::display();
+    }
 
 	/**
-	 * Method to display the dit form
+	 * Performs access checks and redirects to the virtual schedule edit view
+	 *
+	 * @param   Object  $key     Key		   (default: null)
+	 * @param   Object  $urlVar  Url variable  (default: null)
 	 *
 	 * @return void
 	 */
-	public function edit()
+	public function edit($key = null, $urlVar = null)
 	{
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
 		JRequest::setVar('view', 'virtual_schedule_edit');
 		parent::display();
 	}
-
 	/**
-	 * Method to remove a virtual schedule
+	 * Performs access checks, makes call to the models's save function, and
+	 * redirects to the virtual schedule manager view
 	 *
+	 * @param   Object  $key     Key		   (default: null)
+	 * @param   Object  $urlVar  Url variable  (default: null)
+	 *
+	 * @todo clean this up
+	 * 
 	 * @return void
 	 */
-	public function remove()
+	public function save($key = null, $urlVar = null)
 	{
-		$cid = JRequest::getVar('cid',   array(), 'post', 'array');
-		$cids = "'" . implode("', '", $cid) . "'";
-
-		$dbo = JFactory::getDBO();
-		$scheduleQuery = $dbo->getQuery(true);
-		$scheduleQuery->delete('#__thm_organizer_virtual_schedules');
-		$scheduleQuery->where("vid IN ( $cids )");
-		$dbo->setQuery((string) $scheduleQuery);
-		$dbo->query();
-
-		if ($dbo->getErrorNum())
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_ERROR_DELETING');
-		}
-		else
-		{
-			$elementQuery = $dbo->getQuery(true);
-			$elementQuery->delete('#__thm_organizer_virtual_schedules_elements');
-			$elementQuery->where("vid IN ( $cids )");
-			$dbo->setQuery((string) $elementQuery);
-			$dbo->query();
-		}
-
-		if (count($cid) > 1)
-		{
-			$msg = JText::sprintf('COM_THM_ORGANIZER_VSE_DELETE_SUCCESSES', implode(', ', $cid));
-		}
-		else
-		{
-			$msg = JText::sprintf('COM_THM_ORGANIZER_VSE_DELETE_SUCCESS', implode(', ', $cid));
-		}
-
-		$this->setRedirect('index.php?option=com_thm_organizer&view=virtual_schedule_manager', $msg);
-
-	}
-
-	/**
-	 * Method to save a virtual schedule
-	 *
-	 * @return void
-	 */
-	public function save()
-	{
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
 		$model = $this->getModel('virtual_schedule_edit');
 		 
 		$data = JRequest::getVar('jform', null, null, null);
@@ -240,12 +219,68 @@ class THM_OrganizerControllerVirtual_Schedule extends JController
 	}
 
 	/**
-	 * Method to cancel the current action
+	 * Performs access checks, makes call to the models's delete function, and
+	 * redirects to the virtual schedule manager view
+	 * 
+	 * @todo clean this up
 	 *
 	 * @return void
 	 */
-	public function cancel()
+	public function delete()
 	{
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+		$cid = JRequest::getVar('cid',   array(), 'post', 'array');
+		$cids = "'" . implode("', '", $cid) . "'";
+
+		$dbo = JFactory::getDBO();
+		$scheduleQuery = $dbo->getQuery(true);
+		$scheduleQuery->delete('#__thm_organizer_virtual_schedules');
+		$scheduleQuery->where("vid IN ( $cids )");
+		$dbo->setQuery((string) $scheduleQuery);
+		$dbo->query();
+
+		if ($dbo->getErrorNum())
+		{
+			$msg = JText::_('COM_THM_ORGANIZER_ERROR_DELETING');
+		}
+		else
+		{
+			$elementQuery = $dbo->getQuery(true);
+			$elementQuery->delete('#__thm_organizer_virtual_schedules_elements');
+			$elementQuery->where("vid IN ( $cids )");
+			$dbo->setQuery((string) $elementQuery);
+			$dbo->query();
+		}
+
+		if (count($cid) > 1)
+		{
+			$msg = JText::sprintf('COM_THM_ORGANIZER_VSE_DELETE_SUCCESSES', implode(', ', $cid));
+		}
+		else
+		{
+			$msg = JText::sprintf('COM_THM_ORGANIZER_VSE_DELETE_SUCCESS', implode(', ', $cid));
+		}
+
+		$this->setRedirect('index.php?option=com_thm_organizer&view=virtual_schedule_manager', $msg);
+
+	}
+
+	/**
+	 * Method to cancel an edit.
+	 *
+	 * @param   string  $key  The name of the primary key of the URL variable.
+	 *
+	 * @return  void
+	 */
+	public function cancel($key = null)
+	{
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
 		$this->setRedirect('index.php?option=com_thm_organizer&view=virtual_schedule_manager');
 	}
 }

@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.1.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -11,11 +10,9 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
 $orderby = $this->escape($this->state->get('list.ordering'));
 $direction = $this->escape($this->state->get('list.direction'));
-
 ?>
 <form action="index.php?option=com_thm_organizer" method="post" name="adminForm" id="adminForm">
     <fieldset id="filter-bar">
@@ -35,11 +32,6 @@ $direction = $this->escape($this->state->get('list.direction'));
         </div>
     </fieldset>
     <div class="clr"> </div>
-<?php
-if (!empty($this->monitors))
-{
-    $k = 0;
-?>
     <div>
         <table class="adminlist" id="thm_organizer_mon_table">
             <colgroup>
@@ -53,7 +45,10 @@ if (!empty($this->monitors))
             </colgroup>
             <thead>
                 <tr>
-                    <th />
+					<th width="3%">
+						<input type="checkbox" name="toggle" value=""
+							   onclick="checkAll(<?php echo count($this->monitors); ?>);" />
+					</th>
                     <th class="thm_organizer_th hasTip"
                         title="<?php echo JText::_('COM_THM_ORGANIZER_MON_ROOM') . "::" . JText::_('COM_THM_ORGANIZER_MON_ROOM_DESC'); ?>">
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_ROOM', 'name', $direction, $orderby); ?>
@@ -91,8 +86,8 @@ if (!empty($this->monitors))
             </tfoot>
             <tbody>
 <?php
-    foreach ($this->monitors as $k => $monitor)
-    {
+foreach ($this->monitors as $k => $monitor)
+{
 ?>
                 <tr class="row<?php echo $k % 2;?>">
                     <td><?php echo JHtml::_('grid.id', $k, $monitor->id); ?></td>
@@ -110,14 +105,11 @@ if (!empty($this->monitors))
                     <?php echo $monitor->content; ?></a></td>
                 </tr>
 <?php
-    }
+}
 ?>
             </tbody>
         </table>
     </div>
-<?php
-}
-?>
     <input type="hidden" name="task" value="" />
     <input type="hidden" name="boxchecked" value="0" />
     <input type="hidden" name="filter_order" value="<?php echo $orderby; ?>" />

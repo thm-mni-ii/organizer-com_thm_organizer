@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerViewcategory_edit
+ * @name        THM_OrganizerViewSchedule_Manager
  * @description view output file for schedule lists
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
@@ -101,6 +101,8 @@ class THM_OrganizerViewSchedule_Manager extends JView
         JToolBarHelper::title($title, 'mni');
         JToolBarHelper::addNew('schedule.add');
         JToolBarHelper::editList('schedule.edit');
+        JToolBarHelper::custom('schedule.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_MERGE', true);
+        JToolBarHelper::custom('schedule.activate', 'default', 'default', 'COM_THM_ORGANIZER_SCH_ACTIVATE_TITLE', true);
         JToolBarHelper::custom('schedule.setReference', 'move', 'move', 'COM_THM_ORGANIZER_SCH_REFERENCE_TITLE', true);
         JToolBarHelper::deleteList(JText::_('COM_THM_ORGANIZER_SCH_DELETE_CONFIRM'), 'schedule.delete');
         JToolBarHelper::divider();

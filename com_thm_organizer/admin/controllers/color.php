@@ -4,8 +4,7 @@
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @name		THM_OrganizerControllerColor
- * @description THM_OrganizerControllerColor component admin controller
- * @author      Markus Baier, <markus.baier@mni.thm.de>
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
@@ -14,19 +13,51 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controllerform');
 
 /**
- * Class THM_OrganizerControllerColor for component com_thm_organizer
- *
- * Class provides methods perform actions for color
+ * Class performs access checks, redirects and model function calls for data persistence
  *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
  */
 class THM_OrganizerControllerColor extends JControllerForm
 {
+    /**
+     * Performs access checks and redirects to the color edit view
+     * 
+     * @return void 
+     */
+    public function add()
+    {
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+        JRequest::setVar('view', 'color_edit');
+        JRequest::setVar('id', '0');
+        parent::display();
+    }
+
 	/**
-	 * Method to perform save
+	 * Performs access checks and redirects to the color edit view
+	 *
+	 * @param   Object  $key     Key		   (default: null)
+	 * @param   Object  $urlVar  Url variable  (default: null)
+	 *
+	 * @return  void
+	 */
+	public function edit($key = null, $urlVar = null)
+	{
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+        JRequest::setVar('view', 'color_edit');
+        parent::display();
+	}
+
+	/**
+	 * Performs access checks, makes call to the models's save function, and
+	 * redirects to the color manager view
 	 *
 	 * @param   Object  $key     Key		   (default: null)
 	 * @param   Object  $urlVar  Url variable  (default: null)
@@ -35,53 +66,61 @@ class THM_OrganizerControllerColor extends JControllerForm
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		$retVal = parent::save($key, $urlVar);
-		if ($retVal)
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+		$success = $this->getModel('color')->save();
+		if ($success)
 		{
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=colors', false));
+			$msg = JText::_('COM_THM_ORGANIZER_CLM_SAVE_SUCCESS');
+			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=color_manager', false), $msg);
+		}
+		else
+		{
+			$msg = JText::_('COM_THM_ORGANIZER_CLM_SAVE_FAIL');
+			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=color_manager', false), $msg, 'error');
 		}
 	}
 
 	/**
-	 * Method to perform cancel
-	 *
-	 * @return  void
-	 */
-	public function cancel()
-	{
-		$retVal = parent::cancel();
-		if ($retVal)
-		{
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=colors', false));
-		}
-	}
-
-	/**
-	 * Method to perform delete
+	 * Performs access checks, makes call to the models's delete function, and
+	 * redirects to the color manager view
 	 *
 	 * @return  void
 	 */
 	public function delete()
 	{
-		$dbo = JFactory::getDBO();
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-
-		foreach ($cid as $id)
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+		$success = $this->getModel('color')->delete();
+		if ($success)
 		{
-			$query = $dbo->getQuery(true);
-			$query->delete('#__thm_organizer_colors');
-			$query->where("id = '$id'");
-			$dbo->setQuery($query);
-			try
-			{
-				$dbo->query();
-			}
-			catch (Exception $e)
-			{
-				
-			}
+			$msg = JText::_('COM_THM_ORGANIZER_CLM_DELETE_SUCCESS');
+			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=color_manager', false), $msg);
 		}
+		else
+		{
+			$msg = JText::_('COM_THM_ORGANIZER_CLM_DELETE_FAIL');
+			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=color_manager', false), $msg, 'error');
+		}
+	}
 
-		$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=colors', false));
+	/**
+	 * Method to cancel an edit.
+	 *
+	 * @param   string  $key  The name of the primary key of the URL variable.
+	 *
+	 * @return  void
+	 */
+	public function cancel($key = null)
+	{
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+		$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=color_manager', false));
 	}
 }

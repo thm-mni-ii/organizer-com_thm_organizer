@@ -10,18 +10,16 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.controller');
-require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
+jimport('joomla.application.component.controllerform');
 
 /**
- * Class performing access checks and model function calls for monitor actions 
- * 
+ * Class performs access checks, redirects and model function calls for data persistence
+ *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
  */
-class THM_OrganizerControllermonitor extends JController
+class THM_OrganizerControllermonitor extends JControllerForm
 {
     /**
      * Performs access checks and redirects to the monitor edit view
@@ -30,9 +28,9 @@ class THM_OrganizerControllermonitor extends JController
      */
     public function add()
     {
-        if (!thm_organizerHelper::isAdmin('schedule'))
+        if (!JFactory::getUser()->authorise('core.admin'))
         {
-            thm_organizerHelper::noAccess();
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
         JRequest::setVar('view', 'monitor_edit');
         JRequest::setVar('monitorID', '0');
@@ -46,9 +44,9 @@ class THM_OrganizerControllermonitor extends JController
      */
     public function edit()
     {
-        if (!thm_organizerHelper::isAdmin('schedule'))
+        if (!JFactory::getUser()->authorise('core.admin'))
         {
-            thm_organizerHelper::noAccess();
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
         JRequest::setVar('view', 'monitor_edit');
         parent::display();
@@ -62,9 +60,9 @@ class THM_OrganizerControllermonitor extends JController
      */
     public function save()
     {
-        if (!thm_organizerHelper::isAdmin('schedule'))
+        if (!JFactory::getUser()->authorise('core.admin'))
         {
-            thm_organizerHelper::noAccess();
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
         $model = $this->getModel('monitor');
         $result = $model->save();
@@ -88,12 +86,11 @@ class THM_OrganizerControllermonitor extends JController
      */
     public function save2new()
     {
-        if (!thm_organizerHelper::isAdmin('schedule'))
+        if (!JFactory::getUser()->authorise('core.admin'))
         {
-            thm_organizerHelper::noAccess();
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        $model = $this->getModel('monitor');
-        $result = $model->save();
+        $result = $this->getModel('monitor')->save();
         if ($result)
         {
             $msg = JText::_("COM_THM_ORGANIZER_MON_SAVE_SUCCESS");
@@ -106,19 +103,19 @@ class THM_OrganizerControllermonitor extends JController
         }
     }
 
-    /**
-     * Performs access checks and deletes a monitor entry from the database
-     * 
-     * @return void 
-     */
+	/**
+	 * Performs access checks, makes call to the models's delete function, and
+	 * redirects to the monitor manager view
+	 *
+	 * @return  void
+	 */
     public function delete()
     {
-        if (!thm_organizerHelper::isAdmin('schedule'))
+        if (!JFactory::getUser()->authorise('core.admin'))
         {
-            thm_organizerHelper::noAccess();
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        $model = $this->getModel('monitor');
-        $result = $model->delete();
+        $result = $this->getModel('monitor')->delete();
         if ($result)
         {
             $msg = JText::_("COM_THM_ORGANIZER_MON_DELETE_SUCCESS");
@@ -131,18 +128,19 @@ class THM_OrganizerControllermonitor extends JController
         }
     }
 
-    /**
-     * Performs access checks and redirects to the monitor manager
-     * 
-     * @return void 
-     */
-    public function cancel()
+	/**
+	 * Method to cancel an edit.
+	 *
+	 * @param   string  $key  The name of the primary key of the URL variable.
+	 *
+	 * @return  void
+	 */
+    public function cancel($key = null)
     {
-        if (!thm_organizerHelper::isAdmin('schedule'))
+        if (!JFactory::getUser()->authorise('core.admin'))
         {
-            thm_organizerHelper::noAccess();
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'monitor_manager');
-        parent::display();
+		$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=monitor_manager', false));
     }
 }

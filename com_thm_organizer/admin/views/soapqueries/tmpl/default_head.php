@@ -1,7 +1,7 @@
 <?php
 /**
  * @category    Joomla component
- * @package     THM_Curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name		view soapqueries default head
  * @description THM_Curriculum component admin view
@@ -22,7 +22,7 @@ $saveOrder	= $listOrder == 'ordering';
 		onclick="checkAll(<?php echo count($this->items); ?>);" />
 	</th>
 
-	<th><?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUBMENU_SOAPQUERIES_NAME'), 'name', $listDirn, $listOrder);  ?>
+	<th><?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'name', $listDirn, $listOrder);  ?>
 	</th>
 	<th><?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUBMENU_SOAPQUERIES_OBJECT'), 'lsf_object', $listDirn, $listOrder);  ?>
 	</th>
