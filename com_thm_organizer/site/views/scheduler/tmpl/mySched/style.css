@@ -9,7 +9,7 @@
 
 div.MySchedexternURLClass_DIS {
 	width: 100%;
-	height: 500px;
+	height: 500;
 }
 
 .MySchedexternURLClass_DIS {
@@ -28,7 +28,7 @@ div.MySchedexternURLClass_DIS {
 	text-align: center !important;
 }
 
-div.MySchedEvent_joomla {
+.MySchedEvent_joomla {
 	font-size: 11px !important;
 	cursor: move;
 	z-index: 1000;
@@ -38,14 +38,14 @@ div.MySchedEvent_joomla {
 	border: 1px solid #CCC;
 	-moz-opacity: 0.9;
 	text-align: center !important;
-	text-shadow: 0px 1px 1px white;
+	text-shadow: 0 1px 1px white;
 	overflow: hidden;
 	white-space: normal;
     color: black !important;
     text-decoration: none !important;
 }
 
-div.lectureBox {
+.lectureBox {
 	font-size: 11px !important;
 	cursor: move;
 	z-index: 1000;
@@ -55,16 +55,16 @@ div.lectureBox {
 	border: 1px solid #CCC;
 	-moz-opacity: 0.9;
 	text-align: center !important;
-	text-shadow: 0px 1px 1px white;
+	text-shadow: 0 1px 1px white;
 	overflow: hidden;
 	white-space: normal;
 }
 
-div.lectureBox_reserve {
+.lectureBox_reserve {
 	color: red;
 }
 
-div.lectureBox_dis {
+.lectureBox_dis {
 	font-size: 11px !important;
 	z-index: 1000;
 	padding: 2px;
@@ -73,7 +73,7 @@ div.lectureBox_dis {
 	border: 1px solid #CCC;
 	-moz-opacity: 0.9;
 	text-align: center !important;
-	text-shadow: 0px 1px 1px white;
+	text-shadow: 0 1px 1px white;
 	overflow: hidden;
 	text-decoration: line-through;
 	color: #AAA;
@@ -81,13 +81,13 @@ div.lectureBox_dis {
 }
 
 /* Ausgewaehlte Lectures zur Infoanzeige */
-div.lectureBox_sel {
+.lectureBox_sel {
 	background: #DFE8F6 !important;
 	border: 2px solid #8DB2E3 !important;
 	margin: 1px;
 }
 /* Lextures die in MySchedule sind */
-div.lectureBox_cho {
+.lectureBox_cho {
 	background: #b8c47e;
 	border: 1px solid #333;
 }
@@ -122,68 +122,36 @@ div.teacherInfo div ul {
 	background-color: #FFFFFF !important;
 }
 
-.myScheduleIcon {
+.myScheduleIcon, .respChangesIcon, .DiffIcon {
 	background: url(../images/table.png) no-repeat left center;
 }
 
-.myScheduleIconSave {
+.myScheduleIconSave, .respChangesIconSave, .DiffIconSave {
 	background: url(../images/table_save.png) no-repeat left center;
 }
 
-.respChangesIcon {
-	background: url(../images/table.png) no-repeat left center;
-}
-
-.respChangesIconSave {
-	background: url(../images/table_save.png) no-repeat left center;
-}
-
-.DiffIcon {
-	background: url(../images/table.png) no-repeat left center;
-}
-
-.DiffIconSave {
-	background: url(../images/table_save.png) no-repeat left center;
-}
-
-.clas-node {
+.clas-node, .clasIcon {
 	background: url(../images/clasIcon.png) no-repeat !important;
 }
 
-.room-node {
+.room-node, .roomIcon {
 	background: url(../images/roomIcon.png) no-repeat !important;
 }
 
-.teacher-node {
+.teacher-node, .teacherIcon {
 	background: url(../images/teacherIcon.png) no-repeat !important;
-}
-
-.teacherIcon {
-	background: url(../images/teacherIcon.png) no-repeat left center;
 }
 
 .teacherIconSave {
 	background: url(../images/teacherIcon_save.png) no-repeat left center;
 }
 
-.roomIcon {
-	background: url(../images/roomIcon.png) no-repeat left center;
-}
-
 .roomIconSave {
 	background: url(../images/roomIcon_save.png) no-repeat left center;
 }
 
-.clasIcon {
-	background: url(../images/clasIcon.png) no-repeat left center;
-}
-
 .clasIconSave {
 	background: url(../images/clasIcon_save.png) no-repeat left center;
-}
-
-#lectureSelectButton {
-	cursor: pointer;
 }
 
 /* Änderungen Top Icon Style */
@@ -200,26 +168,26 @@ div.teacherInfo div ul {
 }
 
 .content_column table th {
-	padding: 0px !important;
+	padding: 0 !important;
 }
 
 .content_column table td {
-	padding: 0px !important;
+	padding: 0 !important;
 }
 
 .content_column table {
 	border: 0 solid #EEEEEE !important;
 }
 
-#content_column {
-	padding-top: 0px !important;
+.content_column {
+	padding-top: 0 !important;
 }
 
 .MySchedMainW * {
-	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-ms-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 /* Toolbar ButtonIcons */
@@ -284,11 +252,11 @@ div.removed {
 	text-decoration: line-through;
 }
 
-div.movedfrom {
+.movedfrom {
 	color: #aaaaaa;
 }
 
-small.new {
+.new {
 	font-weight: bold;
 	color: #00FF00;
 }
@@ -298,7 +266,7 @@ small.removed {
 	color: #FF4444;
 }
 
-img.mySched_terminicon {
+.mySched_terminicon {
 	height: 12px;
 	width: 12px;
 	margin-bottom: -2px;
@@ -318,75 +286,75 @@ img.mySched_terminicon {
 	white-space: normal;
 }
 
-small.oldroom {
+.oldroom {
 	color: #aaaaaa;
 	text-decoration: line-through;
 	font-size: 10.5px;
 }
 
-small.oldteacher {
+.oldteacher {
 	color: #aaaaaa;
 	text-decoration: line-through;
 	font-size: 10.5px;
 }
 
-small.oldmodule {
+.oldmodule {
 	color: #aaaaaa;
 	text-decoration: line-through;
 	font-size: 10.5px;
 }
 
-small.teachername:hover {
+.teachername:hover {
 	text-decoration: underline;
 	cursor: pointer;
 }
 
-small.roomname:hover {
+.roomname:hover {
 	text-decoration: underline;
 	cursor: pointer;
 }
 
-small.modulename:hover {
+.modulename:hover {
 	text-decoration: underline;
 	cursor: pointer;
 }
 
 .MySched_SelectTree {
 	padding: 3px;
-	border: 0px;
+	border: 0;
 }
 
 /* Status Icons */
-div.status_icons {
+.status_icons {
 	text-align: right !important;
 	padding-top: 1px;
 }
 
-img.status_icons_add {
+.status_icons_add {
 	cursor: pointer;
 	padding-left: 1px;
 	padding-right: 1px;
 }
 
-img.status_icons_estudy {
+.status_icons_estudy {
 	cursor: pointer;
 	padding-left: 1px;
 	padding-right: 1px;
 }
 
-img.status_icons_info {
+.status_icons_info {
 	cursor: pointer;
 	padding-left: 1px;
 	padding-right: 1px;
 }
 
-img.status_icons_edit {
+.status_icons_edit {
 	cursor: pointer;
 	padding-left: 1px;
 	padding-right: 1px;
 }
 
-img.status_icons_delete {
+.status_icons_delete {
 	cursor: pointer;
 	padding-left: 1px;
 	padding-right: 1px;
@@ -451,21 +419,21 @@ img.status_icons_delete {
 .x-grid-row .x-grid-cell {
 	border-right: 1px solid #ECECEC;
 	border-bottom: 1px solid #ECECEC;
-	border-top: 0px;
+	border-top: 0;
 }
 
 .x-panel-body-default {
-	border-width: 0px;
+	border-width: 0;
 }
 
 .x-panel .x-grid-body {
-	border-width: 0px;
+	border-width: 0;
 }
 
 .x-panel-header-default {
 	background-color: #FFF;
 	background-image: none;
-	border-width: 0px;
+	border-width: 0;
 }
 
 .x-toolbar-default {
@@ -477,11 +445,11 @@ img.status_icons_delete {
 .x-tab-bar {
 	background-color: #FFF;
 	background-image: none;
-	border: 0px;
+	border: 0;
 }
 
 .x-toolbar {
-	border: 0px;
+	border: 0;
 }
 
 .x-tab-bar-body {
@@ -489,21 +457,14 @@ img.status_icons_delete {
 }
 
 .x-panel-header-default-top {
-	-moz-box-shadow: #FFF 0 1px 0px 0 inset;
-	-webkit-box-shadow: #FFF 0 1px 0px 0 inset;
-	-o-box-shadow: #FFF 0 1px 0px 0 inset;
-	box-shadow: #FFF 0 1px 0px 0 inset;
+	-moz-box-shadow: #FFF 0 1px 0 0 inset;
+	-webkit-box-shadow: #FFF 0 1px 0 0 inset;
+	-o-box-shadow: #FFF 0 1px 0 0 inset;
+	box-shadow: #FFF 0 1px 0 0 inset;
 }
 
 .x-ie .x-btn button {
 	overflow-x: hidden;
-}
-
-.x-window * {
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-ms-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
 }
 
 button .x-tab-inner {
