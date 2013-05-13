@@ -21,10 +21,20 @@ jimport('joomla.application.component.model');
  */
 class THM_OrganizerModelMapping extends JModel
 {
-    private function getTable()
+    /**
+     * Creates and returns instance of JTable for the DB Table Mappings
+     * 
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
+     * 
+     * @return  JTable
+     */
+    public function getTable($name = '', $prefix = 'Table', $options = array())
     {
         return JTable::getInstance('mappings', 'THM_OrganizerTable');
     }
+
     /**
      * Checks whether the degree program root mapping has already been created.
      * If it has not already been done the creation function is called.
@@ -43,40 +53,38 @@ class THM_OrganizerModelMapping extends JModel
         $alreadyExists = (bool) $dbo->loadResult();
         if (!$alreadyExists)
         {
-            return $this->createProgram($programID);
+            $dbo = JFactory::getDbo();
+
+            $leftQuery = $dbo->getQuery(true);
+            $leftQuery->select("MAX(rgt)")->from('#__thm_organizer_mappings');
+            $dbo->setQuery((string) $leftQuery);
+            $maxRgt = $dbo->loadResult();
+
+            $data = array();
+            $data['programID'] = $programID;
+            $data['poolID'] = null;
+            $data['subjectID'] = null;
+            $data['lft'] = $maxRgt + 1;
+            $data['rgt'] = $maxRgt + 2;
+            $data['level'] = 0;
+            $data['ordering'] = 0;
+
+            return $this->getTable()->save($data);
         }
         return true;
     }
 
     /**
-     * Creates a degree program root node in the mappings table
+     * Saves pool and dependent mappings
      * 
-     * @param   int  $programID  the id of the degree program
+     * @param   array  $data  the pool form data from the post request
      * 
-     * @return  boolean true on success, otherwise false
+     * @return  boolean  true on success, otherwise false
      */
-    private function createProgram($programID)
-    {
-        $data = array();
-        $data['programID'] = $programID;
-        $data['ordering'] = 0;
-        $data['level'] = 0;
-        
-        $dbo = JFactory::getDbo();
-        
-        $leftQuery = $dbo->getQuery(true);
-        $leftQuery->select("MAX(rgt)")->from('#__thm_organizer_mappings');
-        $dbo->setQuery((string) $leftQuery);
-        $maxRgt = $dbo->loadResult();
-        $data['lft'] = $maxRgt + 1;
-        $data['rgt'] = $maxRgt + 2;
-        
-        return $this->getTable()->save($data);
-    }
-
     public function savePool(&$data)
     {
         $poolData = array();
+        $poolData['programID'] = NULL;
         $poolData['poolID'] = $data['id'];
         $poolData['subjectID'] = NULL;
         $poolData['children'] = array();
@@ -107,14 +115,15 @@ class THM_OrganizerModelMapping extends JModel
         {
             $orderings[$parentID] = $this->getOrdering($parentID, $poolData['poolID']);
         }
-
+        
         $cleanSlate = $this->deleteByResourceID($poolData['poolID'], 'pool');
         if($cleanSlate)
         {
             foreach ($parentIDs as $parentID)
             {
+                $poolData['parentID'] = $parentID;
                 $poolData['ordering'] = $orderings[$parentID];
-                $poolAdded = $this->addPool($parentID, $poolData);
+                $poolAdded = $this->addPool($poolData);
                 if (!$poolAdded)
                 {
                     return false;
@@ -192,28 +201,181 @@ class THM_OrganizerModelMapping extends JModel
     /**
      * Adds a pool mapping to a parent mapping
      * 
-     * @param   int  $parentID  
-     * @param   int  $poolData
+     * @param   int    $parentID  
+     * @param   array  $poolData
      * 
-     * 
+     * @return  bool  true on success, otherwise false
      */
-    private function addPool($parentID, $poolData)
+    private function addPool($pool)
+    {
+        $parent = $this->getParent($pool['parentID']);
+
+        if($pool['ordering'] == 'last')
+        {
+            $pool['lft'] = $parent['rgt'];
+            $pool['rgt'] = (string) ($parent['rgt'] + 1);
+        }
+        else
+        {
+            $pool['lft'] = $this->determineLft($parentID, $pool['ordering']);
+            $pool['rgt'] = (string) ($pool['lft'] + 1);
+        }var_dump($pool); die;
+        
+        $spaceMade = $this->shiftRight($pool['lft']);
+        if (!$spaceMade)
+        {
+            return false;
+        }
+        
+        $mapping = $this->getTable();
+        $mappingAdded = $mapping->save($pool);
+        if ($mappingAdded)
+        {
+            if(!empty($pool['children']))
+            {
+                foreach ($pool['children'] as $child)
+                {
+                    $child['parentID'] = $mapping->id;
+                    if (isset($child['poolID']))
+                    {
+                        $childAdded = $this->addPool($child);
+                        if (!$childAdded)
+                        {
+                            return false;
+                        }
+                    }
+                    elseif (isset($child['subjectID']))
+                    {
+                        $childAdded = $this->addSubject($child);
+                        if (!$childAdded)
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Addsa a subject mapping to the parent mapping
+     * 
+     * @param   int  $parentID  
+     * @param type $subject
+     * @return boolean
+     */
+    private function addSubject($subject)
+    {
+        $subject['lft'] = $this->determineLft($subject['parentID'], $subject['ordering']);
+        $subject['rgt'] = $subject['lft'] + 1;
+        $spaceMade = $this->shiftRight($subject['lft']);
+        if (!$spaceMade)
+        {
+            return false;
+        }
+        return $this->getTable()->save($subject);
+    }
+
+    /**
+     * Retrieves parent data
+     * 
+     * @param   int  $parentID  the id of the parent item
+     * 
+     * @return  array  the parent mapping
+     */
+    private function getParent($parentID)
     {
         $dbo = JFactory::getDbo();
         $parentQuery = $dbo->getQuery(true);
         $parentQuery->select('*')->from('#__thm_organizer_mappings')->where("id = '$parentID'");
         $dbo->setQuery((string) $parentQuery);
-        $parent = $dbo->loadAssoc();
+        return $dbo->loadAssoc();
+    }
 
-        if($poolData['ordering'] == 'last')
+    /**
+     * Shifts left and right values to allow for the values to be inserted
+     * 
+     * @return  bool  true on success, otherwise false
+     */
+    private function shiftRight($value)
+    {
+        $dbo = JFactory::getDbo();
+        $lftQuery = $dbo->getQuery(true);
+        $lftQuery->update('#__thm_organizer_mappings')->set('lft = lft + 2')->where("lft >= '$value'");
+        $dbo->setQuery((string) $lftQuery);
+        try
         {
-            $poolData['lft'] = $parent['']
+            $dbo->query();
+        }
+        catch (Exception $exc)
+        {
+            return false;
         }
         
-        foreach ($poolData['children'] as $child)
+        $rgtQuery = $dbo->getQuery(true);
+        $rgtQuery->update('#__thm_organizer_mappings')->set('rgt = rgt + 2')->where("rgt >= '$value'");
+        $dbo->setQuery((string) $rgtQuery);
+        try
         {
-            
+            $dbo->query();
         }
+        catch (Exception $exc)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Attempt to determine the left value for the mapping to be created
+     * 
+     * @param   int    $parentID  the id of the parent mapping
+     * @param   mixed  $ordering  the targeted ordering on completion
+     * 
+     * @return  mixed  int the left value for the mapping to be created, or
+     *                 or boolean false on db error.
+     */
+    private function determineLft($parentID, $ordering)
+    {
+        $dbo = JFactory::getDbo();
+        
+        // Try to find the right value of the next lowest sibling
+        $rgtQuery1 = $dbo->getQuery(true);
+        $rgtQuery1->select('rgt')->from('#__thm_organizer_mappings');
+        $rgtQuery1->where("parentID = '$parentID'")->where("ordering < '$ordering'");
+        $dbo->setQuery((string) $rgtQuery1);
+        try
+        {
+            $rgt = $dbo->loadResult();
+        }
+        catch (Exception $exc)
+        {
+            return false;
+        }
+        
+        // No lower sibling exists
+        if (empty($rgt))
+        {
+            $rgtQuery2 = $dbo->getQuery(true);
+            $rgtQuery2->select('lft')->from('#__thm_organizer_mappings');
+            $rgtQuery2->where("parentID = '$parentID'");
+            $dbo->setQuery((string) $rgtQuery1);
+            try
+            {
+                $lft = $dbo->loadResult();
+            }
+            catch (Exception $exc)
+            {
+                return false;
+            }
+            
+            return $lft + 1;
+        }
+
+        return $rgt + 1;
     }
 
     /**
@@ -231,7 +393,6 @@ class THM_OrganizerModelMapping extends JModel
             return false;
         }
         $dbo = JFactory::getDbo();
-        $dbo->transactionStart();
 
         $mappingIDsQuery = $dbo->getQuery(true);
         $mappingIDsQuery->select('id')->from('#__thm_organizer_mappings');
@@ -258,12 +419,10 @@ class THM_OrganizerModelMapping extends JModel
                 $success = $this->deleteEntry($mappingID, $manageTransaction);
                 if(!$success)
                 {
-                    $dbo->transactionRollback();
                     return false;
                 }
             }
         }
-        $dbo->transactionCommit();
         return true;
     }
 
@@ -365,112 +524,10 @@ class THM_OrganizerModelMapping extends JModel
         return true;
     }
 
- 	/**
-	 * Saves
-	 *
-	 * @return  mixed  integer on successful pool creation, otherwise boolean
-     *                 true/false on success/failure
-	 */
-	public function save()
-	{
-        $data = JRequest::getVar('jform', null, null, null, 4);        
-        $poolID = $data['id'];
-        $dbo = JFactory::getDbo();
-        
-
-        // directly subordinate to degree program ordering must still be worked out
-        if (in_array('-1', $data['parentID']))
-        {
-            $rootKeys = array_keys($data['parentID'], '-1');
-            if (!empty($rootKeys))
-            {
-                foreach ($rootKeys as $rootKey)
-                {
-                    unset($data['parentID'][$rootKey]);
-                }
-                $databaseName = JFactory::getConfig()->get('db');
-                $autoIncQuery = $dbo->getQuery(true);
-                $autoIncQuery->select('AUTO_INCREMENT')->from('information_schema.TABLES');
-                $autoIncQuery->where("TABLE_NAME = '#__thm_organizer_mappings'");
-                $autoIncQuery->where("TABLE_SCHEMA = '$databaseName'");
-                $dbo->setQuery((string) $autoIncQuery);
-                $data['parentID'][] = $dbo->loadResult();
-            }
-        }
-	}
 
     
 
-	/**
-	* Method to ensure the hierarchial ordering of left, right, ordering, and
-     *level values.
-	*
-	* @param   string  $where  WHERE clause to use for limiting the selection of rows to
-	*                           compact the ordering values.
-	*
-	* @return  mixed   Boolean true on success.
-	*/
-	public function clean($selectionID = null, $selectionType = null)
-	{
-        $dbo = JFactory::getDbo();
-        $dbo->transactionStart();
 
-        // Get the pool entries to be processed
-        $poolsQuery = $dbo->getQuery(true);
-        $poolsQuery->select('*')->from('#__thm_organizer_pools');
-        if (!empty($selectionID) AND !empty($selectionType))
-        {
-            switch ($selectionType)
-            {
-                case 'program':
-                    $poolsQuery->where("programID = '$selectionID'");
-                    break;
-                case 'pool':
-                    $children = "'" . implode("', '", $this->findChildren($selectionID, 'all')) . "'";   
-                    $poolsQuery->where("id IN ( $children )");      
-                    break;
-            }
-        }
-        $dbo->setQuery((string) $query);
-        
-	
-		return true;
-	}
-
-    public function findChildren($poolID, $which)
-    {
-        $children = array();
-        $children[] = $poolID;
-
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('id')->from('#__thm_organizer_pools');
-        switch ($which)
-        {
-            case 'all':
-                do
-                {
-                    $foundChildren = "'" . implode("', '", $children) . "'";
-                    $query->clear('where');
-                    $query->where("parentID IN ( $foundChildren )")->where("id NOT IN ( $foundChildren )");
-                    $dbo->setQuery((string) $query);
-                    $results = $dbo->loadResultArray();
-                    if (!empty($results))
-                    {
-                        $children = array_merge($children, $results);
-                    }
-                }
-                while(!empty($results));
-                break;
-            case 'direct':
-                $query->where("parentID = '$poolID'")->where("id != '$poolID'");
-                $dbo->setQuery((string) $query);
-                $results = $dbo->loadResultArray();
-                $children = !empty($results)? $results : array();
-                break;
-        }
-        return $children;
-    }
 
     
     

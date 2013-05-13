@@ -16,17 +16,36 @@ jimport('jquery.jquery');
 var jq = jQuery.noConflict();
 jq(document).ready(function(){
     jq('#jformprogramID').change(function(){
-        var selected = jq('#jformprogramID').val();
-        if (jq.inArray('-1', selected) != '-1'){
+        var selectedPrograms = jq('#jformprogramID').val();
+        var oldSelectedParents = jq('#jformparentID').val();
+        if (jq.inArray('-1', selectedPrograms) != '-1'){
             jq("#jformprogramID").find('option').removeAttr("selected");
             return false;
         }
         var poolUrl = "<?php echo $this->baseurl; ?>/index.php?option=com_thm_organizer";
         poolUrl += "&view=ajax_handler&format=raw&task=pool.byDegree";
         poolUrl += "&ownID=<?php echo $this->form->getValue('id'); ?>";
-        poolUrl += "&programID=" + selected.join(',');
+        poolUrl += "&programID=" + selectedPrograms.join(',');
         jq.get(poolUrl, function(options){
             jq('#jformparentID').html(options);
+            var newSelectedParents = jq('#jformparentID').val();
+            var selectedParents = new Array();
+            if (newSelectedParents !== null && newSelectedParents.length)
+            {
+                if (oldSelectedParents !== null && oldSelectedParents.length)
+                {
+                    selectedParents = jq.merge(newSelectedParenst, oldSelectedParents);
+                }
+                else
+                {
+                    selectedParents = newSelectedParents;
+                }
+            }
+            else if (oldSelectedParents !== null && oldSelectedParents.length)
+            {
+                selectedParents = oldSelectedParents;
+            }
+            jq('#jformparentID').val(selectedParents);
         });
     });
 });

@@ -37,6 +37,7 @@ class THM_OrganizerViewPool_Edit extends JView
 		// Get the Data
 		$form = $this->get('Form');
 		$item = $this->get('Item');
+        $this->layout = empty($item->id)? 'add' : 'edit';
 
 		// Assign the Data
 		$this->form = $form;

@@ -115,7 +115,7 @@ class THM_OrganizerModelPool extends JModel
         $dbo->transactionStart();
 
         $success = $table->save($data);
-        
+
         // Successfully inserted a new pool
         if ($success AND empty($data['id']))
         {
@@ -134,6 +134,7 @@ class THM_OrganizerModelPool extends JModel
         else
         {
             $model = JModel::getInstance('mapping', 'THM_OrganizerModel');
+
             // no mappings desired
             if (empty($data['parentID']))
             {
