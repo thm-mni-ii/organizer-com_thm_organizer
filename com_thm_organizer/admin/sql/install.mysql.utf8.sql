@@ -1,5 +1,16 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_soap_queries` (
+  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR ( 255 ) NOT NULL,
+  `lsf_object` VARCHAR ( 255 ) NOT NULL,
+  `lsf_study_path` VARCHAR ( 255 ) NOT NULL,
+  `lsf_degree` VARCHAR ( 255 ) NOT NULL,
+  `lsf_pversion` VARCHAR ( 255 ) NOT NULL,
+  `description` VARCHAR ( 255 ) DEFAULT NULL,
+  PRIMARY KEY ( `id` )
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
   `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
   `departmentname` VARCHAR ( 50 ) NOT NULL,
@@ -40,6 +51,140 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_user_schedules` (
   PRIMARY KEY ( `username` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_colors` (
+  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR ( 255 ) NOT NULL,
+  `color` VARCHAR ( 6 ) NOT NULL,
+  PRIMARY KEY ( `id` )
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_fields` (
+  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `gpuntisID` VARCHAR ( 50 ) NOT NULL DEFAULT '',
+  `field` VARCHAR ( 50 ) NOT NULL DEFAULT '',
+  `colorID` INT(11) unsigned DEFAULT NULL,
+  PRIMARY KEY ( `id` ),
+  UNIQUE KEY `gpuntisID` ( `gpuntisID` ),
+  FOREIGN KEY (`colorID`) REFERENCES `#__thm_organizer_colors` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_degrees` (
+  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR ( 255 ) NOT NULL,
+  `abbreviation` VARCHAR ( 45 ) NOT NULL DEFAULT '',
+  `lsfDegree` varchar ( 10 ) DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_degree_programs` (
+  `id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
+  `subject` varchar(255) NOT NULL,
+  `version` year (4) DEFAULT NULL,
+  `lsfFieldID` varchar(255) DEFAULT NULL,
+  `degreeID` INT(11) unsigned DEFAULT NULL,
+  `fieldID` INT(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`degreeID`) REFERENCES `#__thm_organizer_degrees` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_pools` (
+  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `lsfID` INT(11) UNSIGNED DEFAULT NULL,
+  `hisID` INT(11) UNSIGNED DEFAULT NULL,
+  `externalID` varchar(45) DEFAULT NULL,
+  `abbreviation_de` varchar(45) DEFAULT NULL,
+  `abbreviation_en` varchar(45) DEFAULT NULL,
+  `short_name_de` varchar(45) DEFAULT NULL,
+  `short_name_en` varchar(45) DEFAULT NULL,
+  `name_de` varchar(255) DEFAULT NULL,
+  `name_en` varchar(255) DEFAULT NULL,
+  `minCrP` INT(2) UNSIGNED DEFAULT NULL,
+  `maxCrP` INT(2) UNSIGNED DEFAULT NULL,
+  `fieldID` INT(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
+  `id` INT (11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `lsfID` INT(11) UNSIGNED DEFAULT NULL,
+  `hisID` INT(11) UNSIGNED DEFAULT NULL,
+  `externalID` varchar(45) DEFAULT NULL,
+  `abbreviation_de` varchar(45) DEFAULT NULL,
+  `abbreviation_en` varchar(45) DEFAULT NULL,
+  `short_name_de` varchar(45) DEFAULT NULL,
+  `short_name_en` varchar(45) DEFAULT NULL,
+  `name_de` varchar(255) DEFAULT NULL,
+  `name_en` varchar(255) DEFAULT NULL,
+  `description_de` varchar(255) DEFAULT NULL,
+  `description_en` varchar(255) DEFAULT NULL,
+  `objective_de` varchar(255) DEFAULT NULL,
+  `objective_en` varchar(255) DEFAULT NULL,
+  `content_de` varchar(255) DEFAULT NULL,
+  `content_en` varchar(255) DEFAULT NULL,
+  `preliminary_work_de` varchar(255) DEFAULT NULL,
+  `preliminary_work_en` varchar(255) DEFAULT NULL,
+  `creditpoints` INT(4) UNSIGNED DEFAULT NULL,
+  `expenditure` INT(4) UNSIGNED DEFAULT NULL,
+  `present` INT(4) UNSIGNED DEFAULT NULL,
+  `independent` INT(4) UNSIGNED DEFAULT NULL,
+  `proof` varchar(2) DEFAULT NULL,
+  `frequency` INT(1) UNSIGNED DEFAULT NULL,
+  `method` varchar(2) DEFAULT NULL,
+  `fieldID` INT(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_mappings` (
+  `id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
+  `programID` INT(11) unsigned DEFAULT NULL,
+  `parentID` INT(11) unsigned DEFAULT NULL,
+  `poolID` INT(11) unsigned DEFAULT NULL,
+  `subjectID` INT(11) unsigned DEFAULT NULL,
+  `lft` INT(11) UNSIGNED DEFAULT NULL,
+  `rgt` INT(11) UNSIGNED DEFAULT NULL,
+  `level` INT(11) UNSIGNED DEFAULT NULL,
+  `ordering` INT(11) UNSIGNED DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`programID`) REFERENCES `#__thm_organizer_degree_programs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`parentID`) REFERENCES `#__thm_organizer_mappings` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`poolID`) REFERENCES `#__thm_organizer_pools` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_subjects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_teachers` (
+  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `gpuntisID` VARCHAR ( 10 ) DEFAULT NULL,
+  `surname` VARCHAR ( 255 ) DEFAULT NULL,
+  `forename` VARCHAR ( 255 ) DEFAULT NULL,
+  `username` VARCHAR ( 150 ) NOT NULL DEFAULT '',
+  `fieldID` INT ( 11 ) UNSIGNED DEFAULT NULL,
+  `title` varchar ( 45 ) DEFAULT NULL,
+  PRIMARY KEY ( `id` ),
+  KEY `username` ( `username` ),
+  FOREIGN KEY ( `fieldID` ) REFERENCES #__thm_organizer_fields( `id` ) ON DELETE NO ACTION ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_teacher_responsibilities` (
+  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR ( 50 ) NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_subject_teachers` (
+  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `subjectID` INT(11) UNSIGNED NOT NULL,
+  `teacherID` INT(11) UNSIGNED NOT NULL,
+  `teacherResp` INT(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (`subjectID`, `teacherID`, `teacherResp`),
+  UNIQUE  KEY (`id`),
+  FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_subjects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`teacherID`) REFERENCES `#__thm_organizer_teachers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`teacherResp`) REFERENCES `#__thm_organizer_teacher_responsibilities` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_room_types` (
   `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
   `gpuntisID` VARCHAR ( 50 ) NOT NULL DEFAULT '',
@@ -59,26 +204,18 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
   FOREIGN KEY ( `typeID` ) REFERENCES #__thm_organizer_room_types( `id` ) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_teacher_fields` (
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_monitors` (
   `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `gpuntisID` VARCHAR ( 50 ) NOT NULL DEFAULT '',
-  `field` VARCHAR ( 50 ) NOT NULL DEFAULT '',
+  `roomID` INT ( 11 ) UNSIGNED NOT NULL,
+  `ip` VARCHAR ( 15 ) NOT NULL,
+  `display` INT ( 1 ) UNSIGNED NOT NULL DEFAULT '1' COMMENT 'the display behaviour of the monitor',
+  `schedule_refresh` INT ( 3 ) UNSIGNED NOT NULL DEFAULT  '60' COMMENT  'the amount of seconds before the schedule refreshes',
+  `content_refresh` INT ( 3 ) UNSIGNED NOT NULL DEFAULT  '60' COMMENT  'the amount of time in seconds before the content refreshes',
+  `interval` INT ( 1 ) UNSIGNED NOT NULL DEFAULT'1' COMMENT 'the time interval in minutes between context switches',
+  `content` VARCHAR ( 256 ) DEFAULT NULL COMMENT 'the filename of the resource to the optional resource to be displayed',
   PRIMARY KEY ( `id` ),
-  UNIQUE KEY `gpuntisID` ( `gpuntisID` )
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_teachers` (
-  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `gpuntisID` VARCHAR ( 10 ) NOT NULL DEFAULT '',
-  `surname` VARCHAR ( 255 ) NOT NULL DEFAULT '',
-  `forename` VARCHAR ( 255 ) NOT NULL DEFAULT '',
-  `username` VARCHAR ( 150 ) NOT NULL DEFAULT '',
-  `fieldID` INT ( 11 ) UNSIGNED DEFAULT NULL,
-  `title` varchar ( 45 ) DEFAULT NULL,
-  PRIMARY KEY ( `id` ),
-  KEY `username` ( `username` ),
-  FOREIGN KEY ( `fieldID` ) REFERENCES #__thm_organizer_teacher_fields( `id` ) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  FOREIGN KEY ( `roomID` ) REFERENCES `#__thm_organizer_rooms` ( `id` ) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_categories` (
   `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -138,160 +275,3 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_groups` (
   FOREIGN KEY ( `eventID` ) REFERENCES `#__thm_organizer_events` ( `id` ) ON DELETE CASCADE ON UPDATE CASCADE,
   KEY `groupID` ( `groupID` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_monitors` (
-  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `roomID` INT ( 11 ) UNSIGNED NOT NULL,
-  `ip` VARCHAR ( 15 ) NOT NULL,
-  `display` INT ( 1 ) UNSIGNED NOT NULL DEFAULT '1' COMMENT 'the display behaviour of the monitor',
-  `schedule_refresh` INT ( 3 ) UNSIGNED NOT NULL DEFAULT  '60' COMMENT  'the amount of seconds before the schedule refreshes',
-  `content_refresh` INT ( 3 ) UNSIGNED NOT NULL DEFAULT  '60' COMMENT  'the amount of time in seconds before the content refreshes',
-  `INTerval` INT ( 1 ) UNSIGNED NOT NULL DEFAULT'1' COMMENT 'the time INTerval in minutes between context switches',
-  `content` VARCHAR ( 256 ) DEFAULT NULL COMMENT 'the filename of the resource to the optional resource to be displayed',
-  PRIMARY KEY ( `id` ),
-  FOREIGN KEY ( `roomID` ) REFERENCES `#__thm_organizer_rooms` ( `id` ) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_soap_queries` (
-  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR ( 255 ) NOT NULL,
-  `lsf_object` VARCHAR ( 255 ) NOT NULL,
-  `lsf_study_path` VARCHAR ( 255 ) NOT NULL,
-  `lsf_degree` VARCHAR ( 255 ) NOT NULL,
-  `lsf_pversion` VARCHAR ( 255 ) NOT NULL,
-  `description` VARCHAR ( 255 ) DEFAULT NULL,
-  PRIMARY KEY ( `id` )
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_teacher_responsibilities` (
-  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR ( 50 ) NOT NULL,
-  PRIMARY KEY (id)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_degrees` (
-  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR ( 255 ) NOT NULL,
-  `abbreviation` VARCHAR ( 45 ) NOT NULL DEFAULT '',
-  PRIMARY KEY (id)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_colors` (
-  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR ( 255 ) NOT NULL,
-  `color` VARCHAR ( 6 ) NOT NULL,
-  PRIMARY KEY ( `id` )
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_asset_types` (
-  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR ( 45 ) DEFAULT NULL,
-  PRIMARY KEY ( `id` )
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_assets` (
-  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR ( 255 ) DEFAULT NULL,
-  `beschreibung` VARCHAR ( 255 ) DEFAULT NULL,
-  `min_creditpoints` TINYINT ( 4 ) DEFAULT NULL,
-  `max_creditpoints` TINYINT ( 4 ) DEFAULT NULL,
-  `lsf_course_id` INT ( 11 ) NOT NULL,
-  `lsf_course_code` VARCHAR ( 45 ) DEFAULT NULL,
-  `his_course_code` INT ( 11 ) DEFAULT NULL,
-  `title_de` VARCHAR ( 255 ) DEFAULT NULL,
-  `title_en` VARCHAR ( 45 ) DEFAULT NULL,
-  `short_title_de` VARCHAR ( 45 ) DEFAULT NULL,
-  `short_title_en` VARCHAR ( 45 ) NOT NULL,
-  `abbreviation` VARCHAR ( 45 ) DEFAULT NULL,
-  `asset_type_id` INT ( 11 ) UNSIGNED DEFAULT NULL,
-  `prerequisite` VARCHAR ( 255 ) DEFAULT NULL,
-  `description` VARCHAR ( 255 ) DEFAULT NULL,
-  `note` TEXT NOT NULL,
-  `pool_type` TINYINT ( 4 ) NOT NULL,
-  `color_id` INT ( 11 ) UNSIGNED DEFAULT NULL,
-  `ecollaboration_link` VARCHAR ( 255 ) NOT NULL,
-  `menu_link` INT ( 11 ) NOT NULL,
-  PRIMARY KEY ( `id` ),
-  FOREIGN KEY ( `asset_type_id` ) REFERENCES `#__thm_organizer_asset_types` ( `id` ) ON DELETE SET NULL ON UPDATE CASCADE,
-  FOREIGN KEY ( `color_id` ) REFERENCES `#__thm_organizer_colors` ( `id` ) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_majors` (
-  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `degree_id` INT ( 11 ) DEFAULT NULL,
-  `subject` VARCHAR ( 255 ) NOT NULL,
-  `po` year( 4 ) NOT NULL,
-  `note` TEXT,
-  `lsf_object` VARCHAR ( 255 ),
-  `lsf_study_path` VARCHAR ( 255 ),
-  `lsf_degree` VARCHAR ( 255 ),
-  `organizer_major` VARCHAR ( 255 ),
-  PRIMARY KEY ( `id` ),
-  FOREIGN KEY ( `degree_id` ) REFERENCES `#__thm_organizer_degrees` ( `id` ) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_semesters` (
-  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR ( 45 ) DEFAULT NULL,
-  `color_id` INT ( 11 ) UNSIGNED DEFAULT NULL;
-  `short_title_de` VARCHAR ( 45 ),
-  `short_title_en` VARCHAR ( 45 ), 
-  `note` TEXT,
-  PRIMARY KEY (id),
-  FOREIGN KEY ( `color_id` ) REFERENCES `#__thm_organizer_colors` ( `id` ) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_semesters_majors` (
-  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `major_id` INT ( 11 ) UNSIGNED NOT NULL,
-  `semester_id` INT ( 11 ) UNSIGNED NOT NULL,
-  PRIMARY KEY ( `major_id`, `semester_id` ),
-  FOREIGN KEY ( `major_id` ) REFERENCES `#__thm_organizer_majors` ( `id` ) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY ( `semester_id` ) REFERENCES `#__thm_organizer_semesters` ( `id` ) ON DELETE CASCADE ON UPDATE CASCADE,
-  UNIQUE KEY ( `id` )
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_teacher_assets` (
-  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `moduleID` INT ( 11 ) UNSIGNED NOT NULL,
-  `teacherID` INT ( 11 ) UNSIGNED NOT NULL,
-  `teacherResp` INT ( 11 ) UNSIGNED NOT NULL;
-  PRIMARY KEY ( `moduleID`, `teacherID`, `teacherResp` ),
-  FOREIGN KEY ( `moduleID` ) REFERENCES `#__thm_organizer_assets` ( `id` ) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY ( `teacherID` ) REFERENCES `#__thm_organizer_teachers` ( `id` ) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY ( `teacherResp` ) REFERENCES `#__thm_organizer_teacher_responsibilities` ( `id` ) ON DELETE CASCADE ON UPDATE CASCADE,
-  UNIQUE KEY ( `id` )
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_assets_tree` (
-  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `color_id` INT ( 11 ) UNSIGNED DEFAULT NULL,
-  `asset` INT ( 11 ) UNSIGNED NOT NULL,
-  `parent_id` INT ( 11 ) UNSIGNED NOT NULL,
-  `proportion_crp` VARCHAR ( 45 ) CHARACTER SET utf8 DEFAULT NULL,
-  `depth` INT ( 11 ) DEFAULT NULL,
-  `lineage` VARCHAR ( 255 ) NOT NULL DEFAULT 'none',
-  `published` TINYINT ( 4 ) NOT NULL DEFAULT 1,
-  `note` TEXT NOT NULL,
-  `ordering` INT ( 11 ) NOT NULL,
-  `ecollaboration_link` VARCHAR ( 255 ) NOT NULL,
-  `menu_link` INT ( 11 ) NOT NULL,
-  `color_id_flag` TINYINT ( 4 ) NOT NULL DEFAULT 1,
-  `menu_link_flag` TINYINT ( 4 ) NOT NULL DEFAULT 1,
-  `ecollaboration_link_flag` INT (1) NOT NULL DEFAULT 1,
-  `note_flag` TINYINT ( 4 ) NOT NULL,
-  PRIMARY KEY ( `id` ),
-  FOREIGN KEY ( `color_id` ) REFERENCES `#__thm_organizer_colors` ( `id` ) ON DELETE SET NULL ON UPDATE CASCADE,
-  FOREIGN KEY ( `asset` ) REFERENCES `#__thm_organizer_assets` ( `id` ) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY ( `parent_id` ) REFERENCES `#__thm_organizer_assets_tree` ( `id` ) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_assets_semesters` (
-  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `assets_tree_id` INT ( 11 ) UNSIGNED NOT NULL,
-  `semesters_majors_id` INT ( 11 ) UNSIGNED NOT NULL,
-  PRIMARY KEY ( `assets_tree_id`, `semesters_majors_id` ),
-  FOREIGN KEY ( `assets_tree_id` ) REFERENCES `#__thm_organizer_assets_tree` ( `id` ) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY ( `semesters_majors_id` ) REFERENCES `#__thm_organizer_semesters_majors` ( `id` ) ON DELETE CASCADE ON UPDATE CASCADE,
-  UNIQUE KEY ( `id` )
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
