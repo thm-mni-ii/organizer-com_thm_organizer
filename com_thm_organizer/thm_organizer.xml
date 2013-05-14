@@ -67,41 +67,59 @@
                   alt="THM-Organizer/Virtual Schedule Manager"
                   >COM_THM_ORGANIZER_VSM_TITLE</menu>
             <menu alias="Degrees"
-            	  link="option=com_thm_organizer&amp;view=degrees"
-                  view="degrees"
+            	  link="option=com_thm_organizer&amp;view=degree_manager"
+                  view="degree_manager"
                   img="components/com_thm_organizer/assets/images/degrees_min.png"
                   alt="THM-Organizer/Degrees"
-                  >COM_THM_ORGANIZER_SUBMENU_DEGREES</menu>
-            <menu alias="Semesters"
-            	  link="option=com_thm_organizer&amp;view=semesters"
-                  view="semesters"
-            	  img="components/com_thm_organizer/assets/images/semester_min.png"
-                  alt="THM-Organizer/Semesters"
-                  >COM_THM_ORGANIZER_SUBMENU_SEMESTERS</menu>
-            <menu alias="Lecturers"
-            	  link="option=com_thm_organizer&amp;view=lecturers"
-                  view="lecturers"
-            	  img="components/com_thm_organizer/assets/images/lecturers_min.png"
+                  >COM_THM_ORGANIZER_DEG_TITLE</menu>
+            <menu alias="Colors"
+            	  link="option=com_thm_organizer&amp;view=color_manager"
+                  view="color_manager"
+                  img="components/com_thm_organizer/assets/images/colors_min.png"
+                  alt="THM-Organizer/Colors"
+                  >COM_THM_ORGANIZER_CLM_TITLE</menu>
+            <menu alias="Fields"
+            	  link="option=com_thm_organizer&amp;view=field_manager"
+                  view="field_manager"
+                  img="components/com_thm_organizer/assets/images/colors_min.png"
+                  alt="THM-Organizer/Fields"
+                  >COM_THM_ORGANIZER_FLM_TITLE</menu>
+            <menu alias="Degree Programs"
+            	  link="option=com_thm_organizer&amp;view=degree_program_manager"
+                  view="degree_program_manager"
+                  img="components/com_thm_organizer/assets/images/degree_program_manager.png"
+                  alt="THM-Organizer/Degree Programs"
+                  >COM_THM_ORGANIZER_DGP_TITLE</menu>
+            <menu alias="Subject Pools"
+            	  link="option=com_thm_organizer&amp;view=pool_manager"
+                  view="pool_manager"
+                  img="components/com_thm_organizer/assets/images/pool_manager.png"
+                  alt="THM-Organizer/Subject Pools"
+                  >COM_THM_ORGANIZER_POM_TITLE</menu>
+            <menu alias="Subjects"
+            	  link="option=com_thm_organizer&amp;view=subject_manager"
+                  view="subject_manager"
+                  img="components/com_thm_organizer/assets/images/subject_manager.png"
+                  alt="THM-Organizer/Subjects"
+                  >COM_THM_ORGANIZER_SUM_TITLE</menu>
+            <menu alias="Teachers"
+            	  link="option=com_thm_organizer&amp;view=teacher_manager"
+                  view="teacher_manager"
+                  img="components/com_thm_organizer/assets/images/teacher_manager.png"
                   alt="THM-Organizer/Teachers"
                   >COM_THM_ORGANIZER_TRM_TITLE</menu>
-            <menu alias="Assets"
-            	  link="option=com_thm_organizer&amp;view=assets"
-                  view="assets"
-                  img="components/com_thm_organizer/assets/images/assets_min.png"
-                  alt="THM-Organizer/Assets"
-                  >COM_THM_ORGANIZER_SUBMENU_ASSETS</menu>
+            <menu alias="Rooms"
+            	  link="option=com_thm_organizer&amp;view=room_manager"
+                  view="room_manager"
+                  img="components/com_thm_organizer/assets/images/room_manager.png"
+                  alt="THM-Organizer/Rooms"
+                  >COM_THM_ORGANIZER_RMM_TITLE</menu>
             <menu alias="Monitor Manager"
             	  link="option=com_thm_organizer&amp;view=monitor_manager"
                   view="monitor_manager"
             	  img="components/com_thm_organizer/assets/images/monitor_manager.png"
                   alt="THM-Organizer/Monitor Manager"
                   >COM_THM_ORGANIZER_MON_TITLE</menu>
-            <menu alias="Colors"
-            	  link="option=com_thm_organizer&amp;view=color_manager"
-                  view="colors"
-                  img="components/com_thm_organizer/assets/images/colors_min.png"
-                  alt="THM-Organizer/Colors"
-                  >COM_THM_ORGANIZER_SUBMENU_COLORS</menu>
         </submenu>
         <files folder="admin">
             <filename>access.xml</filename>
