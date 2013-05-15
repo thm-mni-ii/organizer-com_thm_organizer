@@ -15,6 +15,26 @@ $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : fa
 ?>
 <script type="text/javascript">
     var categories = new Array;
+    
+    var jq = jQuery.noConflict();
+ jq(document).ready( function() {   
+    jq('.openPopup').live("click", function() {
+        jq('.Popup').fadeIn("slow");
+        jq('#overlay').fadeIn("slow");
+        return false;
+    });
+    jq('.closePopup').live("click", function() {
+        jq(".Popup").fadeOut("slow");
+        jq("#overlay").fadeOut("slow");
+        return false;
+    });
+
+
+    function Ausgabe() {
+   var Ergebnis = document.eventForm.jform[title].value;
+   alert("Ergebniss: " + Ergebnis);
+    }
+   });
 
 <?php
 foreach ($this->categories as $category)
@@ -138,6 +158,25 @@ Joomla.submitbutton = function(task)
                     <span id="thm_organizer_save_new_span" class="thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_SAVE_NEW'); ?>
                 </a>
+				<div class="hasTip thm_organizer_action_link">
+                    <a  class="openPopup"
+                        title="<?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_PREVIEW_DESCRIPTION');?>">
+                        <span id="thm_organizer_preview_span" class="thm_organizer_action_span"></span>
+                        <?php echo JText::_('COM_THM_ORGANIZER_PREVIEW'); ?>
+                    </a>
+                    <div class="Popup">
+                        <h1>Event / Termin Vorschau</h1>
+                        <div id="thm_organizer_ee_preview_content">
+                            <p>Event</p>
+                            <p href="javascript:Ausgabe()">Irgendwelchen Text</p>
+                        </div>
+                        <div id="thm_organizer_ee_preview_event">
+                            <p>Content</p>
+                        </div>
+                        <a href="" class="closePopup">close</a>
+                    </div>
+                    <div id="overlay" class="closePopup"></div>
+                </div>
             </div>
         </div>
         <div id="thm_organizer_ee_name_div">
