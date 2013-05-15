@@ -58,7 +58,7 @@ class THM_OrganizerModelSchedule_Edit extends JModelAdmin
 			$data->creationdate = date("d.m.Y", strtotime($data->creationdate));
 			$data->startdate = date("d.m.Y", strtotime($data->startdate));
 			$data->enddate = date("d.m.Y", strtotime($data->enddate));
-		}
+        }
         return $data;
     }
 

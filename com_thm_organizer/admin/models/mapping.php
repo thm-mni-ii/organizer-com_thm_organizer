@@ -77,16 +77,16 @@ class THM_OrganizerModelMapping extends JModel
     /**
      * Saves pool and dependent mappings
      * 
-     * @param   array  $data  the pool form data from the post request
+     * @param   array  &$data  the pool form data from the post request
      * 
      * @return  boolean  true on success, otherwise false
      */
     public function savePool(&$data)
     {
         $poolData = array();
-        $poolData['programID'] = NULL;
+        $poolData['programID'] = null;
         $poolData['poolID'] = $data['id'];
-        $poolData['subjectID'] = NULL;
+        $poolData['subjectID'] = null;
         $poolData['children'] = array();
         if (!empty($data['children']))
         {
@@ -94,7 +94,7 @@ class THM_OrganizerModelMapping extends JModel
             {
                 if (strpos($childID, 's'))
                 {
-                    $poolData['children'][$ordering]['poolID'] = NULL;
+                    $poolData['children'][$ordering]['poolID'] = null;
                     $poolData['children'][$ordering]['subjectID'] = str_replace('s', '', $childID);
                     $poolData['children'][$ordering]['ordering'] = $ordering;
                 }
@@ -102,7 +102,7 @@ class THM_OrganizerModelMapping extends JModel
                 {
                     $poolID = str_replace('p', '', $childID);
                     $poolData['children'][$ordering]['poolID'] = $poolID;
-                    $poolData['children'][$ordering]['subjectID'] = NULL;
+                    $poolData['children'][$ordering]['subjectID'] = null;
                     $poolData['children'][$ordering]['ordering'] = $ordering;
                     $poolData['children'][$ordering]['children'] = $this->getChildren($poolID);
                 }
@@ -117,7 +117,7 @@ class THM_OrganizerModelMapping extends JModel
         }
         
         $cleanSlate = $this->deleteByResourceID($poolData['poolID'], 'pool');
-        if($cleanSlate)
+        if ($cleanSlate)
         {
             foreach ($parentIDs as $parentID)
             {
@@ -201,16 +201,16 @@ class THM_OrganizerModelMapping extends JModel
     /**
      * Adds a pool mapping to a parent mapping
      * 
-     * @param   int    $parentID  
-     * @param   array  $poolData
+     * @param   array  &$pool  an array containing data about a pool and its
+     *                         children
      * 
      * @return  bool  true on success, otherwise false
      */
-    private function addPool($pool)
+    private function addPool(&$pool)
     {
         $parent = $this->getParent($pool['parentID']);
 
-        if($pool['ordering'] == 'last')
+        if ($pool['ordering'] == 'last')
         {
             $pool['lft'] = $parent['rgt'];
             $pool['rgt'] = (string) ($parent['rgt'] + 1);
@@ -231,7 +231,7 @@ class THM_OrganizerModelMapping extends JModel
         $mappingAdded = $mapping->save($pool);
         if ($mappingAdded)
         {
-            if(!empty($pool['children']))
+            if (!empty($pool['children']))
             {
                 foreach ($pool['children'] as $child)
                 {
@@ -262,11 +262,11 @@ class THM_OrganizerModelMapping extends JModel
     /**
      * Addsa a subject mapping to the parent mapping
      * 
-     * @param   int  $parentID  
-     * @param type $subject
+     * @param   array  &$subject  an array containing data about a subject
+     * 
      * @return boolean
      */
-    private function addSubject($subject)
+    private function addSubject(&$subject)
     {
         $subject['lft'] = $this->determineLft($subject['parentID'], $subject['ordering']);
         $subject['rgt'] = $subject['lft'] + 1;
@@ -296,6 +296,9 @@ class THM_OrganizerModelMapping extends JModel
 
     /**
      * Shifts left and right values to allow for the values to be inserted
+     * 
+     * @param   int  $value  the integer value above which left and right values
+     *                       need to be shifted
      * 
      * @return  bool  true on success, otherwise false
      */
@@ -384,7 +387,7 @@ class THM_OrganizerModelMapping extends JModel
      * @param   int     $resourceID  the id of the mapping
      * @param   string  $type        the mapping's type
      * 
-     * return  boolean true on success, otherwise false
+     * @return  boolean true on success, otherwise false
      */
     public function deleteByResourceID($resourceID, $type)
     {
@@ -417,7 +420,7 @@ class THM_OrganizerModelMapping extends JModel
             {
                 $manageTransaction = false;
                 $success = $this->deleteEntry($mappingID, $manageTransaction);
-                if(!$success)
+                if (!$success)
                 {
                     return false;
                 }
@@ -429,10 +432,11 @@ class THM_OrganizerModelMapping extends JModel
     /**
      * Method to delete a single entry
      * 
-     * @param type $entryID
-     * @param type $manageTransaction
+     * @param   int   $entryID            the id value of the entry to be deleted
+     * @param   bool  $manageTransaction  whether or not transaction security
+     *                                    needs to be handled within the function
      * 
-     * @return  boolean  true on success, otherwise false
+     * @return  bool  true on success, otherwise false
      */
     private function deleteEntry($entryID, $manageTransaction)
     {

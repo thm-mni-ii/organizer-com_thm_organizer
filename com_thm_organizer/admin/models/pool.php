@@ -130,12 +130,12 @@ class THM_OrganizerModelPool extends JModel
             return false; 
         }
         
-        // process mapping information
+        // Process mapping information
         else
         {
             $model = JModel::getInstance('mapping', 'THM_OrganizerModel');
 
-            // no mappings desired
+            // No mappings desired
             if (empty($data['parentID']))
             {
                 $mappingsDeleted = $model->deleteByResourceID($table->id, 'pool');

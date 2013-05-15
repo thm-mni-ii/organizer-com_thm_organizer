@@ -43,7 +43,7 @@ class JFormFieldScheduler extends JFormField
 	protected function getInput()
 	{
 	    $libraryInstalled = jimport('extjs4.extjs4');
-	    if(!$libraryInstalled)
+	    if (!$libraryInstalled)
 	    {
 	        echo "<div style='color:red;'>" . JText::_('COM_THM_ORGANIZER_EXTJS4_LIBRARY_NOT_INSTALLED') . "</div>";
 	    }

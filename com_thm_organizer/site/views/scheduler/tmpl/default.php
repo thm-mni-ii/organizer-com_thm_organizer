@@ -68,23 +68,32 @@ if ($this->canWriteEvents === true)
 		MySched.loadLessonsOnStartUp = new Boolean('<?php echo $this->loadLessonsOnStartUp; ?>');
 		MySched.deltaDisplayDays = '<?php echo $this->deltaDisplayDays; ?>';
 		MySched.departmentAndSemester = '<?php echo $this->departmentAndSemester; ?>';
-	    <?php if($this->libraryFPDFIsInstalled)
-	    {
-	        ?>MySched.libraryFPDFIsInstalled = true;<?php
-	    }
-	    else
-	    {
-	        ?>MySched.libraryFPDFIsInstalled = false;<?php
-	    } ?>
-
-	    <?php if($this->libraryiCalcreatorIsInstalled)
-	    {
-	        ?>MySched.libraryiCalcreatorIsInstalled = true;<?php
-	    }
-	    else
-	    {
-	        ?>MySched.libraryiCalcreatorIsInstalled = false;<?php
-	    } ?>
+<?php
+if($this->libraryFPDFIsInstalled)
+{
+?>
+        MySched.libraryFPDFIsInstalled = true;
+<?php
+}
+else
+{
+?>
+        MySched.libraryFPDFIsInstalled = false;
+<?php
+}
+if($this->libraryiCalcreatorIsInstalled)
+{
+?>
+        MySched.libraryiCalcreatorIsInstalled = true;
+<?php
+}
+else
+{
+?>
+        MySched.libraryiCalcreatorIsInstalled = false;
+<?php
+}
+?>
 		Ext.application({
 		    name: 'Scheduler',    
 		    launch: MySched.Base.init

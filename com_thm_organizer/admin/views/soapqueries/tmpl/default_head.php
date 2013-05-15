@@ -28,7 +28,7 @@ $saveOrder	= $listOrder == 'ordering';
 	</th>
 	<th><?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUBMENU_SOAPQUERIES_MAJOR'), 'lsf_study_path', $listDirn, $listOrder);  ?>
 	</th>
-	<th><?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUBMENU_SOAPQUERIES_DEGREE'), 'lsf_degree', $listDirn, $listOrder);  ?>
+	<th><?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_DGP_DEGREE_TITLE'), 'lsf_degree', $listDirn, $listOrder);  ?>
 	</th>
 	<th><?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUBMENU_SOAPQUERIES_PO'), 'lsf_pversion', $listDirn, $listOrder);  ?>
 	</th>

@@ -65,8 +65,7 @@ class THM_OrganizerViewDegree_Edit extends JView
 	{
 		JRequest::setVar('hidemainmenu', true);
 		$isNew = ($this->item->id == 0);
-		JToolBarHelper::title($isNew ?
-			JText::_('COM_THM_ORGANIZER_DEG_NEW_TITLE') : JText::_('COM_THM_ORGANIZER_DEG_EDIT_TITLE'));
+		JToolBarHelper::title($isNew? JText::_('COM_THM_ORGANIZER_DEG_NEW_TITLE') : JText::_('COM_THM_ORGANIZER_DEG_EDIT_TITLE'));
 		JToolBarHelper::save('degree.save');
 		JToolBarHelper::cancel('degree.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
 	}

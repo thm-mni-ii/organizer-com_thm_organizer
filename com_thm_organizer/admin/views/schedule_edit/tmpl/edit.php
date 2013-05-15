@@ -17,7 +17,7 @@ defined("_JEXEC") or die;?>
       enctype="multipart/form-data" method="post" name="adminForm" id="adminForm">
     <div id="thm_organizer_se" class="width-60 fltlft">
         <fieldset class="adminform">
-            <legend><?php echo JText::_('COM_THM_ORGANIZER_EDIT') . ' ' . $this->form->getValue('plantypeID'); ?></legend>
+            <legend><?php echo JText::_('COM_THM_ORGANIZER_SCH_PROPERTIES'); ?></legend>
             <ul class="adminformlist">
                 <li>
                     <?php echo $this->form->getLabel('departmentname'); ?>

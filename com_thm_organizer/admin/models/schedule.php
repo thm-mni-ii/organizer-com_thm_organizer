@@ -1735,7 +1735,8 @@ class THM_OrganizerModelSchedule extends JModel
 
 	/**
 	 * Merges the chosen schedules into a new schedule
-	 * @return string
+     * 
+	 * @return  int  a value which stands for different statuses
 	 */
 	public function merge()
 	{
@@ -1794,8 +1795,8 @@ class THM_OrganizerModelSchedule extends JModel
     /**
      * Attempts to recursively merge two schedule objects
      * 
-     * @param  object  &$thingOne  the first object
-     * @param  object  &$thingTwo  the second object
+     * @param   object  &$thingOne  the first object
+     * @param   object  &$thingTwo  the second object
      * 
      * @return  void
      */
@@ -1813,7 +1814,7 @@ class THM_OrganizerModelSchedule extends JModel
                 {
                     $thingOne->$property = $thingTwo->$property;
                 }
-                if (is_object($thingOne->$property) AND is_object($thingTwo->$property) AND $thingTwo->$property != NULL)
+                if (is_object($thingOne->$property) AND is_object($thingTwo->$property) AND $thingTwo->$property != null)
                 {
                     $this->mergeRecursive($thingOne->$property, $thingTwo->$property);
                 }
