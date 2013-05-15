@@ -1,18 +1,28 @@
 <?php
+/**
+ * @category    Joomla component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.admin
+ * @name		THM_OrganizerViewPool_Edit
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @copyright   2012 TH Mittelhessen
+ * @license     GNU GPL v.2
+ * @link        www.mni.thm.de
+ */
 defined('_JEXEC') or die;
-
-
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
-$saveOrder	= $listOrder=='ordering';
 ?>
-
 <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=subject_manager');?>"
       method="post" name="adminForm" id="adminForm">
     <fieldset id="filter-bar">
 		<div class="filter-search fltlft">
 			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_CATEGORIES_ITEMS_SEARCH_FILTER'); ?>" />
+<?php
+echo "<input type='text' name='filter_search' id='filter_search' value='";
+echo $this->escape($this->state->get('filter.search'));
+echo "' title='" . JText::_('COM_CATEGORIES_ITEMS_SEARCH_FILTER') . "' />";
+?>
 			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
