@@ -574,115 +574,115 @@ class ModuleAll
 			$this->sws = $this->xmlStructure->sws;
 		}
 
-		for ($i = 0; $i <= count($this->xmlStructure->beschreibungen); $i++)
+		foreach ($this->xmlStructure->beschreibungen AS $key => $value)
 		{
-			if (!isset($this->xmlStructure->beschreibungen[$i]))
+			if (!isset($this->xmlStructure->beschreibungen[$key]))
 			{
 				continue;
 			}
 			
-			if ($this->xmlStructure->beschreibungen[$i]->kategorie == "Voraussetzungen" && $this->xmlStructure->beschreibungen[$i]->sprache == "de")
+			if ($this->xmlStructure->beschreibungen[$key]->kategorie == "Voraussetzungen" && $this->xmlStructure->beschreibungen[$key]->sprache == "de")
 			{
-				$this->zwvoraussetzungen_de = $this->xmlStructure->beschreibungen[$i]->txt;
+				$this->zwvoraussetzungen_de = $this->xmlStructure->beschreibungen[$key]->txt;
 			}
 
-			if ($this->xmlStructure->beschreibungen[$i]->kategorie == "Voraussetzungen" && $this->xmlStructure->beschreibungen[$i]->sprache == "en")
+			if ($this->xmlStructure->beschreibungen[$key]->kategorie == "Voraussetzungen" && $this->xmlStructure->beschreibungen[$key]->sprache == "en")
 			{
-				$this->zwvoraussetzungen_en = $this->xmlStructure->beschreibungen[$i]->txt;
+				$this->zwvoraussetzungen_en = $this->xmlStructure->beschreibungen[$key]->txt;
 			}
 
-			if ($this->xmlStructure->beschreibungen[$i]->kategorie == "Kurzbeschreibung" && $this->xmlStructure->beschreibungen[$i]->sprache == "de")
+			if ($this->xmlStructure->beschreibungen[$key]->kategorie == "Kurzbeschreibung" && $this->xmlStructure->beschreibungen[$key]->sprache == "de")
 			{
-				$this->kurzbeschreibung_de = $this->xmlStructure->beschreibungen[$i]->txt;
+				$this->kurzbeschreibung_de = $this->xmlStructure->beschreibungen[$key]->txt;
 			}
 
-			if ($this->xmlStructure->beschreibungen[$i]->kategorie == "Kurzbeschreibung" && $this->xmlStructure->beschreibungen[$i]->sprache == "en")
+			if ($this->xmlStructure->beschreibungen[$key]->kategorie == "Kurzbeschreibung" && $this->xmlStructure->beschreibungen[$key]->sprache == "en")
 			{
-				$this->kurzbeschreibung_en = $this->xmlStructure->beschreibungen[$i]->txt;
+				$this->kurzbeschreibung_en = $this->xmlStructure->beschreibungen[$key]->txt;
 			}
 
-			if ($this->xmlStructure->beschreibungen[$i]->kategorie == "Qualifikations und Lernziele"
-			 && $this->xmlStructure->beschreibungen[$i]->sprache == "de")
+			if ($this->xmlStructure->beschreibungen[$key]->kategorie == "Qualifikations und Lernziele"
+			 && $this->xmlStructure->beschreibungen[$key]->sprache == "de")
 			{
-				$this->lernziel_de = $this->xmlStructure->beschreibungen[$i]->txt;
+				$this->lernziel_de = $this->xmlStructure->beschreibungen[$key]->txt;
 			}
 
-			if ($this->xmlStructure->beschreibungen[$i]->kategorie == "Qualifikations und Lernziele"
-			 && $this->xmlStructure->beschreibungen[$i]->sprache == "en")
+			if ($this->xmlStructure->beschreibungen[$key]->kategorie == "Qualifikations und Lernziele"
+			 && $this->xmlStructure->beschreibungen[$key]->sprache == "en")
 			{
-				$this->lernziel_en = $this->xmlStructure->beschreibungen[$i]->txt;
+				$this->lernziel_en = $this->xmlStructure->beschreibungen[$key]->txt;
 			}
 
-			if ($this->xmlStructure->beschreibungen[$i]->kategorie == "Inhalt"
-			 && $this->xmlStructure->beschreibungen[$i]->sprache == "de")
+			if ($this->xmlStructure->beschreibungen[$key]->kategorie == "Inhalt"
+			 && $this->xmlStructure->beschreibungen[$key]->sprache == "de")
 			{
-				$this->lerninhalt_de = $this->xmlStructure->beschreibungen[$i]->txt;
+				$this->lerninhalt_de = $this->xmlStructure->beschreibungen[$key]->txt;
 			}
 
-			if ($this->xmlStructure->beschreibungen[$i]->kategorie == "Inhalt"
-			 && $this->xmlStructure->beschreibungen[$i]->sprache == "en")
+			if ($this->xmlStructure->beschreibungen[$key]->kategorie == "Inhalt"
+			 && $this->xmlStructure->beschreibungen[$key]->sprache == "en")
 			{
-				$this->lerninhalt_en = $this->xmlStructure->beschreibungen[$i]->txt;
+				$this->lerninhalt_en = $this->xmlStructure->beschreibungen[$key]->txt;
 			}
 
-			if ($this->xmlStructure->beschreibungen[$i]->kategorie == "Creditpoints/Arbeitsaufwand"
-			 && $this->xmlStructure->beschreibungen[$i]->sprache == "de")
+			if ($this->xmlStructure->beschreibungen[$key]->kategorie == "Creditpoints/Arbeitsaufwand"
+			 && $this->xmlStructure->beschreibungen[$key]->sprache == "de")
 			{
-				$this->aufwand_de = $this->xmlStructure->beschreibungen[$i]->txt;
+				$this->aufwand_de = $this->xmlStructure->beschreibungen[$key]->txt;
 			}
 
-			if ($this->xmlStructure->beschreibungen[$i]->kategorie == "Creditpoints/Arbeitsaufwand"
-			 && $this->xmlStructure->beschreibungen[$i]->sprache == "en")
+			if ($this->xmlStructure->beschreibungen[$key]->kategorie == "Creditpoints/Arbeitsaufwand"
+			 && $this->xmlStructure->beschreibungen[$key]->sprache == "en")
 			{
-				$this->aufwand_en = $this->xmlStructure->beschreibungen[$i]->txt;
+				$this->aufwand_en = $this->xmlStructure->beschreibungen[$key]->txt;
 			}
 
-			if ($this->xmlStructure->beschreibungen[$i]->kategorie == "Lehrformen"
-			 && $this->xmlStructure->beschreibungen[$i]->sprache == "de")
+			if ($this->xmlStructure->beschreibungen[$key]->kategorie == "Lehrformen"
+			 && $this->xmlStructure->beschreibungen[$key]->sprache == "de")
 			{
-				$this->lernform_de = $this->xmlStructure->beschreibungen[$i]->txt;
+				$this->lernform_de = $this->xmlStructure->beschreibungen[$key]->txt;
 			}
 
-			if ($this->xmlStructure->beschreibungen[$i]->kategorie == "Lehrformen"
-			 && $this->xmlStructure->beschreibungen[$i]->sprache == "en")
+			if ($this->xmlStructure->beschreibungen[$key]->kategorie == "Lehrformen"
+			 && $this->xmlStructure->beschreibungen[$key]->sprache == "en")
 			{
-				$this->lernform_en = $this->xmlStructure->beschreibungen[$i]->txt;
+				$this->lernform_en = $this->xmlStructure->beschreibungen[$key]->txt;
 			}
 
-			if (strcmp($this->xmlStructure->beschreibungen[$i]->kategorie, "Prüfungsvorleistungen") == 0
-			 && $this->xmlStructure->beschreibungen[$i]->sprache == "de")
+			if (strcmp($this->xmlStructure->beschreibungen[$key]->kategorie, "Prüfungsvorleistungen") == 0
+			 && $this->xmlStructure->beschreibungen[$key]->sprache == "de")
 			{
-				$this->vorleistung_de = $this->xmlStructure->beschreibungen[$i]->txt;
+				$this->vorleistung_de = $this->xmlStructure->beschreibungen[$key]->txt;
 			}
 
-			if ($this->xmlStructure->beschreibungen[$i]->kategorie == "Prüfungsvorleistungen"
-			 && $this->xmlStructure->beschreibungen[$i]->sprache == "en")
+			if ($this->xmlStructure->beschreibungen[$key]->kategorie == "Prüfungsvorleistungen"
+			 && $this->xmlStructure->beschreibungen[$key]->sprache == "en")
 			{
-				$this->vorleistung_en = $this->xmlStructure->beschreibungen[$i]->txt;
+				$this->vorleistung_en = $this->xmlStructure->beschreibungen[$key]->txt;
 			}
 
-			if ($this->xmlStructure->beschreibungen[$i]->kategorie == "Voraussetzungen für die Vergabe von Creditpoints"
-			 && $this->xmlStructure->beschreibungen[$i]->sprache == "de")
+			if ($this->xmlStructure->beschreibungen[$key]->kategorie == "Voraussetzungen für die Vergabe von Creditpoints"
+			 && $this->xmlStructure->beschreibungen[$key]->sprache == "de")
 			{
-				$this->leistungsnachweis_de = $this->xmlStructure->beschreibungen[$i]->txt;
+				$this->leistungsnachweis_de = $this->xmlStructure->beschreibungen[$key]->txt;
 			}
 
-			if ($this->xmlStructure->beschreibungen[$i]->kategorie == "Voraussetzungen für die Vergabe von Creditpoints"
-			 && $this->xmlStructure->beschreibungen[$i]->sprache == "en")
+			if ($this->xmlStructure->beschreibungen[$key]->kategorie == "Voraussetzungen für die Vergabe von Creditpoints"
+			 && $this->xmlStructure->beschreibungen[$key]->sprache == "en")
 			{
-				$this->leistungsnachweis_en = $this->xmlStructure->beschreibungen[$i]->txt;
+				$this->leistungsnachweis_en = $this->xmlStructure->beschreibungen[$key]->txt;
 			}
 
-			if ($this->xmlStructure->beschreibungen[$i]->kategorie == "Literatur"
-			 && $this->xmlStructure->beschreibungen[$i]->sprache == "de")
+			if ($this->xmlStructure->beschreibungen[$key]->kategorie == "Literatur"
+			 && $this->xmlStructure->beschreibungen[$key]->sprache == "de")
 			{
-				$this->litverz_de = $this->xmlStructure->beschreibungen[$i]->txt;
+				$this->litverz_de = $this->xmlStructure->beschreibungen[$key]->txt;
 			}
 
-			if ($this->xmlStructure->beschreibungen[$i]->kategorie == "Literatur"
-			 && $this->xmlStructure->beschreibungen[$i]->sprache == "en")
+			if ($this->xmlStructure->beschreibungen[$key]->kategorie == "Literatur"
+			 && $this->xmlStructure->beschreibungen[$key]->sprache == "en")
 			{
-				$this->litverz_en = $this->xmlStructure->beschreibungen[$i]->txt;
+				$this->litverz_en = $this->xmlStructure->beschreibungen[$key]->txt;
 			}
 		}
 

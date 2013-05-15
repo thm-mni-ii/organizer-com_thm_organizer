@@ -33,57 +33,39 @@ class THM_OrganizerModelCategory_Edit extends JModelAdmin
     public function getForm($data = array(), $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_thm_organizer.category_edit',
-                                'category_edit',
-                                array('control' => 'jform', 'load_data' => $loadData)
-                               );
+        $form = $this->loadForm('com_thm_organizer.category_edit', 'category_edit', array('control' => 'jform', 'load_data' => $loadData));
+		
         if (empty($form))
         {
             return false;
         }
-        else
-        {
-            return $form;
-        }
+
+		return $form;
     }
 
-    /**
-     * Method to get a single record.
-	 * 
-	 * @param   integer  $categoryID  The id of the primary key in the category table.
-     *
-     * @return  mixed    Object on success, false on failure.
-     */
-    public function getItem($categoryID = null)
-    {
-        return ($categoryID)? parent::getItem($categoryID) : $this->getTable();
-    }
-
-    /**
-     * returns a table object the parameters are completely superfluous in the
-     * implementing classes since they are always set by default
-     *
-     * @param   string  $type    the table type to instantiate
-     * @param   string  $prefix  a prefix for the table class name. optional.
-     * @param   array   $config  configuration array for model. optional.
-     *
-     * @return  JTable    A database object
-    */
-    public function getTable($type = 'categories', $prefix = 'thm_organizerTable', $config = array())
-    {
-        return JTable::getInstance($type, $prefix, $config);
-    }
-
-    /**
-     * retrieves the data that should be injected in the form the loading is
-     * done in jmodel admin
-     *
-     * @return    mixed    The data for the form.
-     */
+	/**
+	 * Method to load the form data
+	 *
+	 * @return  Object
+	 */
     protected function loadFormData()
     {
         $categoryIDs = JRequest::getVar('cid',  null, '', 'array');
         $categoryID = (empty($categoryIDs))? JRequest::getVar('categoryID') : $categoryIDs[0];
         return $this->getItem($categoryID);
+    }
+
+    /**
+	 * Method to get the table
+	 *
+	 * @param   String  $type    Type  			(default: 'categories')
+	 * @param   String  $prefix  Prefix  		(default: 'THM_OrganizerTable')
+	 * @param   Array   $config  Configuration  (default: 'Array')
+	 *
+	 * @return  JTable object
+	 */
+    public function getTable($type = 'categories', $prefix = 'thm_organizerTable', $config = array())
+    {
+        return JTable::getInstance($type, $prefix, $config);
     }
 }

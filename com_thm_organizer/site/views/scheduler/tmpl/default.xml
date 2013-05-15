@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="Layout: Scheduler">
-		<message>Stundenplan</message>
+    <name>THM_ORGANIZER</name>
+    <author>Wolf Rost</author>
+    <creationDate>15.04.2011</creationDate>
+    <copyright>TH Mittelhessen 2013</copyright>
+    <licence>GNU GPL v.2</licence>
+    <authorEMail>wolfDOTrostATmniDOTthmDOTde</authorEMail>
+    <authorUrl>www.mni.thm.de</authorUrl>
+	<layout title="COM_THM_ORGANIZER_RIA_LAYOUT_TITLE">
+		<message>COM_THM_ORGANIZER_RIA_LAYOUT_DESCRIPTION</message>
 	</layout>
-	<fields name="params"
-		addfieldpath="/components/com_thm_organizer/models/fields">
+	<fields name="params" addfieldpath="/components/com_thm_organizer/models/fields">
 		<fieldset name="basic">		
 			<field 	name="departmentSemesterSelection"
 					type="sql"
-					label="COM_THM_ORGANIZER_RIA_DEPARTMENT_SEMESTER_SELECTION_TITLE"
-					description="COM_THM_ORGANIZER_RIA_DEPARTMENT_SEMESTER_SELECTION_DESC"
+					label="COM_THM_ORGANIZER_RIA_PLAN_SELECTION_TITLE"
+					description="COM_THM_ORGANIZER_RIA_PLAN_SELECTION_DESCRIPTION"
 					key_field="id"
 	                value_field="name"
 	                default=""

@@ -1,8 +1,3 @@
-INSERT INTO `#__thm_organizer_asset_types` (`id`, `name`) VALUES
-(1, 'Course'),
-(2, 'Coursepool'),
-(3, 'Dummy');
-
 INSERT INTO `#__thm_organizer_colors` (`id`, `name`, `color`) VALUES
 (1, 'THM Hintergrundgruen', 'cce3a7'),
 (2, 'THM Hintergrundgrau', 'b7bec2'),
@@ -31,15 +26,6 @@ INSERT INTO `#__thm_organizer_colors` (`id`, `name`, `color`) VALUES
 (25, 'THM dunkelrot', '810e2f'),
 (26, 'THM dunkelgelb', 'vb58b14');
 
-INSERT INTO `#__thm_organizer_semesters` (`id`, `name`) VALUES
-(1, '1. Semester'),
-(2, '2. Semester'),
-(3, '3. Semester'),
-(4, '4. Semester'),
-(5, '5. Semester'),
-(6, '6. Semester'),
-(7, '4./5. Semester');
-
 INSERT INTO `#__thm_organizer_degrees` (`id`, `name`, `abbreviation`) VALUES
 (1, 'Diplom', 'Dipl.'),
 (2, 'Bachelor of Engineering', 'B.Eng.'),
@@ -48,11 +34,11 @@ INSERT INTO `#__thm_organizer_degrees` (`id`, `name`, `abbreviation`) VALUES
 (5, 'Master of Engineering', 'M.Eng.'),
 (6, 'Master of Science', 'M.Sc.'),
 (7, 'Master of Arts', 'M.A.'),
-(8, 'Master of Business Administration and Engineering', 'MBA');
+(8, 'Master of Business Administration and Engineering', 'M.B.A.');
 
 INSERT INTO `#__thm_organizer_lecturers_types` (`id`, `name`) VALUES
-(1, 'Modulverantwortlicher'),
-(2, 'Dozent');
+(1, 'COM_THM_ORGANIZER_SUM_RESPONSIBLE'),
+(2, 'COM_THM_ORGANIZER_SUM_TEACHER');
 
 INSERT INTO `#__thm_organizer_soap_queries` (`id`, `name`, `lsf_object`, `lsf_study_path`, `lsf_degree`, `lsf_pversion`) VALUES
 (1, 'Bachelor Medizin-Informatik (2010)', 'studiengang', 'I', 'MI', '2010'),

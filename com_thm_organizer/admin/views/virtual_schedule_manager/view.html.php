@@ -139,10 +139,7 @@ class THM_OrganizerViewVirtual_Schedule_Manager extends JView
 		 */
 		// JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', JText::_('Copy') );
 		JToolBarHelper::deleteListX('Really?', 'virtual_schedule.remove');
-		if (thm_organizerHelper::isAdmin("virtual_schedule_manager"))
-		{
-			JToolBarHelper::divider();
-			JToolBarHelper::preferences('com_thm_organizer');
-		}
+		JToolBarHelper::divider();
+		JToolBarHelper::preferences('com_thm_organizer');
 	}
 }

@@ -19,18 +19,11 @@ jimport('joomla.application.component.modeladmin');
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin.model
+ * 
+ * @todo clean this thing up
  */
 class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 {
-
-	/**
-	 * Constructor that calls the parent constructor
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
 	/**
 	 * Method to retrieves the jform object for this view
 	 *

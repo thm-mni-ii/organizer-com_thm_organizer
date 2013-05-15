@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+    <modul>
+        <modulid>10617</modulid><!-- lsf_course_id -->
+        <nrhis>195001</nrhis><!-- his_course_code -->
+        <nrmni>PI5001</nrmni><!-- lsf_course_code -->
+        <!-- semester value is the same as the versemester value, language properties consolidated -->
+        <sprache id="de">
+            <kuerzel>VS</kuerzel><!-- abbreviation -->
+            <kurzname>Verteilte Systeme</kurzname><!-- short_title_de -->
+            <titelde>Verteilte Systeme</titelde><!-- short_title_de -->
+            <kurzbeschr>Dieses Modul liefert einen umfassenden Überblick der Algorithmen für verteilte nachrichtenbasierte Systeme. Das Thema wird dabei sowohl theoretisch fundiert, als auch an Hand instruktiver Beispiele behandelt.</kurzbeschr>
+            <lernform>Vorlesung 2 SWS Praktikum 2 SWS</lernform>
+            <zwvoraussetzungen>Keine</zwvoraussetzungen>
+            <lernziel>Die Studierenden verstehen die spezifischen Problemstellungen, Lösungen und Entwicklungstechniken verteilter Systeme und kennen wichtige Protokolle und verteilte Algorithmen. Sie können Protokoll- und Algorithmenspezifikationen implementieren und Problemstellungen im Bereich der Verteiltheit analysieren, Lösungen erarbeiten und bewerten.</lernziel>
+            <lerninhalt>In der Veranstaltung werden die grundlegenden Prinzipien Verteilter Systeme behandelt: &lt;ul&gt; &lt;li&gt;Modelle, Algorithmen und Systemaspekte&lt;/li&gt; &lt;li&gt;Synchrone/Asynchrone Systeme&lt;/li&gt; &lt;li&gt;Spezifikation verteilter Algorithmen: Notationen, Eigenschaften&lt;/li&gt; &lt;li&gt;Protokolle: Aufgabenstellung, Spezifikation, Implementierung&lt;/li&gt; &lt;li&gt;Verteilte Algorithmen: z.B. Wellenalgorithmus, logische Uhr, verteilter Mutex etc.&lt;/li&gt; &lt;li&gt;Software-Architekturen, Implementierungsmuster&lt;/li&gt; &lt;/ul&gt;</lerninhalt>
+            <vorleistung>1 anerkannte Hausübung</vorleistung>
+            <litverz>
+                <lit>
+                    <title>Introduction to Distributed Algorithms</title>
+                    <author>G. Tel</author>
+                    <verlag>Cambridge University Press</verlag>
+                </lit>
+                <lit>
+                    <title>Concurrent and Distributed Computing in Java</title>
+                    <author>V. K. Garg</author>
+                    <verlag>John Wiley</verlag>
+                </lit>
+                <lit>
+                    <title>Distributed Computing: Principles, Algorithms, and Systems</title>
+                    <author>A.D. Kshemkayani, M. Singhal</author>
+                    <verlag>Cambridge University Press</verlag>
+                </lit>
+            </litverz>
+            <history>timestamp 2010-05-31 06:07:40 timestamp</history><!-- not interesting -->
+        </sprache>
+        <sprache id="en">
+            <kuerzelen /><!-- not used? -->
+            <kurznameen /><!-- short_title_en -->
+            <titelen>Distributed Systems</titelen><!-- short_title_en -->
+            <kurzbeschr>This module provides a comprehensive survey of algorithms for distributed message passing systems by treating the topic both with rigor and instructive examples.</kurzbeschr>
+            <lernform>Lecture  2  sppw  Practical Course  2  sppw</lernform>
+            <zwvoraussetzungen>None</zwvoraussetzungen>
+            <lernziel>On completion of the module students will understand the specific problems, solutions and techniques of distributed systems. They will know essential protocols and distributed algorithms and will be able to implement protocols and algorithms according to specifications and to assess, analyse and solve tasks in the area of distributed systems.</lernziel>
+            <lerninhalt>The course covers the basic principles of distributed systems: &lt;ul&gt; &lt;li&gt;Models, algorithms, and system aspects&lt;/li&gt; &lt;li&gt;Synchronous/asynchronous systems&lt;/li&gt; &lt;li&gt;Specification of distributed alogorithms: notations, properties&lt;/li&gt; &lt;li&gt;Protocols: task, specification, implementation&lt;/li&gt; &lt;li&gt;Distributed algorithms: e.g. wave algorithm, logical clock, distributed mutex and so on&lt;/li&gt; &lt;li&gt;Software architectures, implementation patterns&lt;/li&gt; &lt;/ul&gt;</lerninhalt>
+            <vorleistung>1 certified written exercise</vorleistung>
+        </sprache>
+        <studiengang>ZMI</studiengang><!-- his code for modulepool -->
+        <abschluss /><!-- leave empty -->
+        <pversion>-1</pversion><!-- keine angabe-->
+        <ktxtppflicht>PF</ktxtppflicht><!-- pf, wp, wa wahlfach what is the behaviour accross multiple pools?-->
+        <ktxtpform>S</ktxtpform><!-- s schriftlich, m, e schr/münd, l leistunsschein, o schr oder münd, u und-->
+        <ktxtpart>P</ktxtpart><!-- art: viele... -->
+        <sprache>D</sprache>
+        <lp>6</lp><!-- why was there a decimal here in the original? -->
+        <sws>4</sws><!-- why was there a decimal here in the original? -->
+        <pfsem>1</pfsem>
+        <aufwand>180</aufwand>
+        <praesenzzeit>60</praesenzzeit>
+        <selbstzeit>120</selbstzeit>
+        <verart />
+        <gruppengr>0</gruppengr><!-- 0 -->
+        <turnus>5</turnus><!-- need values for this item -->
+        <dauer>1 Semester</dauer>
+        <standbearb /><!-- empty -->
+        <versemester>20101</versemester><!-- ss2010 -->
+        <verstandbearb>400</verstandbearb><!-- only 400 otherwise unpublished -->
+        <module><!-- subject_pools (pool_edit view)-->
+            <zuordnung>
+                <fgid>10631</fgid>
+                <parentmodul>PI5</parentmodul>
+                <stgktxt>I</stgktxt>
+                <abschl>MS</abschl>
+                <pversion>2010</pversion>
+                <ppflichtzuord />
+            </zuordnung>
+            <zuordnung>
+                <fgid>10632</fgid>
+                <parentmodul>TI5</parentmodul>
+                <stgktxt>I</stgktxt>
+                <abschl>MS</abschl>
+                <pversion>2010</pversion>
+                <ppflichtzuord />
+            </zuordnung>
+        </module>
+        <dozenten><!-- teacher_subjects (subject_edit view)-->
+            <personinfo>
+                <vorname>Thomas</vorname>
+                <nachname>Letschert</nachname>
+                <hgnr>hg51</hgnr>
+                <redmokid>hg51</redmokid>
+                <verantwortliche/>
+            </personinfo>
+            <personinfo>
+                <personal.vorname>Michael</personal.vorname>
+                <personal.nachname>Jäger</personal.nachname>
+                <hgnr>hg52</hgnr>
+                <redmokid>hg52</redmokid>
+            </personinfo>
+        </dozenten>
+    </modul>
+    <statistics><!-- interesting for result generation in effect list or entry -->
+        <rows>1</rows>
+        <countDS>1</countDS>
+    </statistics>
+</module>
+

@@ -1,7 +1,7 @@
 <?php
 /**
  * @category    Joomla component
- * @package     THM_Curriculum
+ * @package     THM_Organizer
  * @subpackage  com_thm_curriculum.site
  * @name		THM_Curriculum component site router
  * @description THM_Curriculum component site router

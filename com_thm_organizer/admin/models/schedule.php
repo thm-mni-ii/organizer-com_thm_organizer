@@ -11,6 +11,12 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
+define('ERROR', 0);
+define('MERGE', 1);
+define('TOO_FEW', 2);
+define('CHECK_DEPARTMENTS', 3);
+define('CHECK_DATES', 4);
+define('NOT_ACTIVE', 5);
 
 /**
  * Class enapsulating data abstraction and business logic for xml schedules
@@ -112,14 +118,14 @@ class THM_OrganizerModelSchedule extends JModel
 		{
 			$this->_schedule->creationdate = date('Y-m-d', strtotime($creationDate));
 		}
-		$creationTime = trim((string) $xmlSchedule[0]['date']);
+		$creationTime = trim((string) $xmlSchedule[0]['time']);
 		if (empty($creationTime))
 		{
 			$this->_scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_SCH_CREATION_TIME_MISSING");
 		}
 		else
 		{
-			$this->_schedule->creationtime = $creationTime;
+			$this->_schedule->creationtime = substr($creationTime, 0, 4);
 		}
 
 		// Schoolyear dates
@@ -469,7 +475,8 @@ class THM_OrganizerModelSchedule extends JModel
 	 */
 	protected function validateRoom(&$roomnode)
 	{
-		$gpuntisID = trim((string) $roomnode[0]['id']);
+		$gpuntisID = isset($roomnode->external_name)?
+			trim((string) $roomnode->external_name) : trim((string) $roomnode[0]['id']);
 		if (empty($gpuntisID))
 		{
 			if (!in_array(JText::_("COM_THM_ORGANIZER_RM_ID_MISSING"), $this->_scheduleErrors))
@@ -482,6 +489,7 @@ class THM_OrganizerModelSchedule extends JModel
 		$this->_schedule->rooms->$roomID = new stdClass;
 		$this->_schedule->rooms->$roomID->gpuntisID = $gpuntisID;
 		$this->_schedule->rooms->$roomID->name = $roomID;
+		$this->_schedule->rooms->$roomID->localUntisID = str_replace('RM_', '', trim((string) $roomnode[0]['id']));
 
 		$longname = trim((string) $roomnode->longname);
 		if (empty($longname))
@@ -533,10 +541,12 @@ class THM_OrganizerModelSchedule extends JModel
 			}
 			return;
 		}
+        $department = $this->_schedule->departmentname;
 		$subjectID = str_replace('SU_', '', $gpuntisID);
-		$this->_schedule->subjects->$subjectID = new stdClass;
-		$this->_schedule->subjects->$subjectID->gpuntisID = $gpuntisID;
-		$this->_schedule->subjects->$subjectID->name = $subjectID;
+        $subjectIndex = $department . "_" . $subjectID;
+		$this->_schedule->subjects->$subjectIndex = new stdClass;
+		$this->_schedule->subjects->$subjectIndex->gpuntisID = $gpuntisID;
+		$this->_schedule->subjects->$subjectIndex->name = $subjectID;
 
 		$longname = trim((string) $subjectnode->longname);
 		if (empty($longname))
@@ -546,35 +556,35 @@ class THM_OrganizerModelSchedule extends JModel
 		}
 		else
 		{
-			$this->_schedule->subjects->$subjectID->longname = $longname;
+			$this->_schedule->subjects->$subjectIndex->longname = $longname;
 		}
 
 		$subjectNo = trim((string) $subjectnode->text);
 		if (empty($subjectNo))
 		{
 			$this->_scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_SU_MN_MISSING', $subjectID, $longname);
-			$this->_schedule->subjects->$subjectID->subjectNo = '';
+			$this->_schedule->subjects->$subjectIndex->subjectNo = '';
 		}
 		else
 		{
-			$this->_schedule->subjects->$subjectID->subjectNo = $subjectNo;
+			$this->_schedule->subjects->$subjectIndex->subjectNo = $subjectNo;
 		}
 
 		$descriptionID = str_replace('DS_', '', trim($subjectnode->subject_description[0]['id']));
 		if (empty($descriptionID))
 		{
 			$this->_scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_SU_FIELD_MISSING', $longname, $subjectID);
-			$this->_schedule->subjects->$subjectID->description = '';
+			$this->_schedule->subjects->$subjectIndex->description = '';
 		}
 		elseif (empty($this->_schedule->fields->$descriptionID))
 		{
 			$this->_scheduleWarnings[] = JText::sprintf("COM_THM_ORGANIZER_SU_FIELD_LACKING", $longname, $subjectID, $descriptionID);
-			$this->_schedule->subjects->$subjectID->description = '';
+			$this->_schedule->subjects->$subjectIndex->description = '';
 			return;
 		}
 		else
 		{
-			$this->_schedule->subjects->$subjectID->description = $descriptionID;
+			$this->_schedule->subjects->$subjectIndex->description = $descriptionID;
 		}
 	}
 
@@ -588,7 +598,8 @@ class THM_OrganizerModelSchedule extends JModel
 	 */
 	protected function validateTeacher(&$teachernode)
 	{
-		$gpuntisID = trim((string) $teachernode[0]['id']);
+		$gpuntisID = isset($teachernode->external_name)?
+			trim((string) $teachernode->external_name) : trim((string) $teachernode[0]['id']);
 		if (empty($gpuntisID))
 		{
 			if (!in_array(JText::_("COM_THM_ORGANIZER_TR_ID_MISSING"), $this->_scheduleErrors))
@@ -599,7 +610,8 @@ class THM_OrganizerModelSchedule extends JModel
 		}
 		$teacherID = str_replace('TR_', '', $gpuntisID);
 		$this->_schedule->teachers->$teacherID = new stdClass;
-		$this->_schedule->teachers->$teacherID->gpuntisID = $gpuntisID;
+		$this->_schedule->teachers->$teacherID->gpuntisID = $teacherID;
+		$this->_schedule->teachers->$teacherID->localUntisID = str_replace('TR_', '', trim((string) $teachernode[0]['id']));
 
 		$surname = trim((string) $teachernode->surname);
 		if (empty($surname))
@@ -609,15 +621,15 @@ class THM_OrganizerModelSchedule extends JModel
 		}
 		$this->_schedule->teachers->$teacherID->surname = $surname;
 
-		$firstname = trim((string) $teachernode->forename);
-		if (empty($firstname))
+		$forename = trim((string) $teachernode->forename);
+		if (empty($forename))
 		{
 			$this->_scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_TR_FN_MISSING', $teacherID, $surname);
-			$this->_schedule->teachers->$teacherID->firstname = '';
+			$this->_schedule->teachers->$teacherID->forename = '';
 		}
 		else
 		{
-			$this->_schedule->teachers->$teacherID->firstname = $firstname;
+			$this->_schedule->teachers->$teacherID->forename = $forename;
 		}
 
 		$userid = trim((string) $teachernode->payrollnumber);
@@ -658,7 +670,8 @@ class THM_OrganizerModelSchedule extends JModel
 	 */
 	protected function validateModule(&$classnode)
 	{
-		$gpuntisID = trim((string) $classnode[0]['id']);
+		$gpuntisID = isset($classnode->external_name)?
+			trim((string) $classnode->external_name) : trim((string) $classnode[0]['id']);
 		if (empty($gpuntisID))
 		{
 			if (!in_array(JText::_("COM_THM_ORGANIZER_CL_ID_MISSING"), $this->_scheduleErrors))
@@ -671,6 +684,7 @@ class THM_OrganizerModelSchedule extends JModel
 		$this->_schedule->modules->$moduleID = new stdClass;
 		$this->_schedule->modules->$moduleID->gpuntisID = $gpuntisID;
 		$this->_schedule->modules->$moduleID->name = $moduleID;
+		$this->_schedule->modules->$moduleID->localUntisID = str_replace('CL_', '', trim((string) $classnode[0]['id']));
 
 		$longname = trim((string) $classnode->longname);
 		if (empty($longname))
@@ -738,45 +752,49 @@ class THM_OrganizerModelSchedule extends JModel
 			}
 			return;
 		}
+        $department = $this->_schedule->departmentname;
+        $semester = $this->_schedule->semestername;
 		$lessonID = str_replace('LS_', '', $gpuntisID);
-		if (!isset($this->_schedule->lessons->$lessonID))
+        $lessonIndex = $department . $semester . "_" . $lessonID;
+		if (!isset($this->_schedule->lessons->$lessonIndex))
 		{
-			$this->_schedule->lessons->$lessonID = new stdClass;
+			$this->_schedule->lessons->$lessonIndex = new stdClass;
 		}
-		$this->_schedule->lessons->$lessonID->gpuntisID = $gpuntisID;
+		$this->_schedule->lessons->$lessonIndex->gpuntisID = $gpuntisID;
 
 		$subjectID = str_replace('SU_', '', trim((string) $lessonnode->lesson_subject[0]['id']));
-		if (empty($subjectID) AND !isset($this->_schedule->lessons->$lessonID->subjects))
+        $subjectIndex = $department . "_" . $subjectID;
+		if (empty($subjectID) AND !isset($this->_schedule->lessons->$lessonIndex->subjects))
 		{
 			$this->_scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_LS_SU_MISSING", $lessonID);
 			return;
 		}
-		elseif (!isset($this->_schedule->lessons->$lessonID->subjects)
-				AND empty($this->_schedule->subjects->$subjectID))
+		elseif (!isset($this->_schedule->lessons->$lessonIndex->subjects)
+				AND empty($this->_schedule->subjects->$subjectIndex))
 		{
 			$this->_scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_LS_SU_LACKING", $lessonID, $subjectID);
 			return;
 		}
-		if (!isset($this->_schedule->lessons->$lessonID->subjects))
+		if (!isset($this->_schedule->lessons->$lessonIndex->subjects))
 		{
-			$this->_schedule->lessons->$lessonID->subjects = new stdClass;
+			$this->_schedule->lessons->$lessonIndex->subjects = new stdClass;
 		}
 		if (!empty($subjectID)
-		 AND !key_exists($subjectID, $this->_schedule->lessons->$lessonID->subjects))
+		 AND !key_exists($subjectIndex, $this->_schedule->lessons->$lessonIndex->subjects))
 		{
-			$this->_schedule->lessons->$lessonID->subjects->$subjectID = '';
+			$this->_schedule->lessons->$lessonIndex->subjects->$subjectIndex = '';
 		}
 		$lessonName = '';
 		$initialSet = false;
-		foreach ($this->_schedule->lessons->$lessonID->subjects as $subjectID => $delta)
+		foreach ($this->_schedule->lessons->$lessonIndex->subjects as $subjectIndex => $delta)
 		{
 			if ($initialSet)
 			{
-				$lessonName .= " / " . $this->_schedule->subjects->$subjectID->name;
+				$lessonName .= " / " . $this->_schedule->subjects->$subjectIndex->name;
 			}
 			else
 			{
-				$lessonName .= $this->_schedule->subjects->$subjectID->name;
+				$lessonName .= $this->_schedule->subjects->$subjectIndex->name;
 				$initialSet = true;
 			}
 		}
@@ -792,54 +810,77 @@ class THM_OrganizerModelSchedule extends JModel
 			$this->_scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_TYPE_LACKING', $lessonName, $lessonID, $descriptionID);
 			return;
 		}
-		if (!isset($this->_schedule->lessons->$lessonID->description))
+		if (!isset($this->_schedule->lessons->$lessonIndex->description))
 		{
-			$this->_schedule->lessons->$lessonID->description = $descriptionID;
+			$this->_schedule->lessons->$lessonIndex->description = $descriptionID;
 		}
 		$lessonName .= " - $descriptionID";
-		$this->_schedule->lessons->$lessonID->name = $lessonName;
+		$this->_schedule->lessons->$lessonIndex->name = $lessonName;
 
 		$teacherID = str_replace('TR_', '', trim((string) $lessonnode->lesson_teacher[0]['id']));
+		$teacherFound = false;
 		if (empty($teacherID))
 		{
 			$this->_scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_TR_MISSING', $lessonName, $lessonID);
 			return;
 		}
-		elseif (empty($this->_schedule->teachers->$teacherID))
+		else
 		{
-			$this->_scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_TR_LACKING', $lessonName, $lessonID, $teacherID);
-			return;
+			foreach ($this->_schedule->teachers as $teacherKey => $teacher)
+			{
+				if ($teacher->localUntisID == $teacherID)
+				{
+					$teacherFound = true;
+					$teacherID = $teacherKey;
+					break;
+				}
+			}
+			if (!$teacherFound)
+			{
+				$this->_scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_TR_LACKING', $lessonName, $lessonID, $teacherID);
+				return;
+			}
 		}
-		if (!isset($this->_schedule->lessons->$lessonID->teachers))
+		if (!isset($this->_schedule->lessons->$lessonIndex->teachers))
 		{
-			$this->_schedule->lessons->$lessonID->teachers = new stdClass;
+			$this->_schedule->lessons->$lessonIndex->teachers = new stdClass;
 		}
-		if (!key_exists($teacherID, $this->_schedule->lessons->$lessonID->teachers))
+		if (!key_exists($teacherID, $this->_schedule->lessons->$lessonIndex->teachers))
 		{
-			$this->_schedule->lessons->$lessonID->teachers->$teacherID = '';
+			$this->_schedule->lessons->$lessonIndex->teachers->$teacherID = '';
 		}
 
 		$moduleIDs = (string) $lessonnode->lesson_classes[0]['id'];
-		if (empty($moduleIDs) AND !isset($this->_schedule->lessons->$lessonID->modules))
+		if (empty($moduleIDs) AND !isset($this->_schedule->lessons->$lessonIndex->modules))
 		{
 			$this->_scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_LS_CL_MISSING", $lessonName, $lessonID);
 		}
 		elseif (!empty($moduleIDs))
 		{
-			if (!isset($this->_schedule->lessons->$lessonID->modules))
+			if (!isset($this->_schedule->lessons->$lessonIndex->modules))
 			{
-				$this->_schedule->lessons->$lessonID->modules = new stdClass;
+				$this->_schedule->lessons->$lessonIndex->modules = new stdClass;
 			}
 			$moduleIDs = explode(" ", $moduleIDs);
 			foreach ($moduleIDs as $moduleID)
 			{
 				$moduleID = str_replace('CL_', '', $moduleID);
-				if (!key_exists($moduleID, get_object_vars($this->_schedule->modules)))
+				$moduleFound = false;
+				foreach ($this->_schedule->modules as $moduleKey => $module)
 				{
-					$this->_scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_LS_CL_LACKING", $lessonName, $lessonID, $moduleID);
+					if ($module->localUntisID == $moduleID)
+					{
+						$moduleFound = true;
+						$moduleID = $moduleKey;
+						break;
+					}
+				}
+				if (!$moduleFound)
+				{
+					$this->_scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_CL_LACKING', $lessonName, $lessonID, $moduleID);
 					return;
 				}
-				$this->_schedule->lessons->$lessonID->modules->$moduleID = '';
+				$this->_schedule->lessons->$lessonIndex->modules->$moduleID = '';
 			}
 		}
 
@@ -895,7 +936,7 @@ class THM_OrganizerModelSchedule extends JModel
 		$occurences = str_split(substr($rawOccurences, $offset, $length));
 
 		$comment = trim((string) $lessonnode->text);
-		$this->_schedule->lessons->$lessonID->comment = empty($comment)? '' : $comment;
+		$this->_schedule->lessons->$lessonIndex->comment = empty($comment)? '' : $comment;
 
 		$periodsleaf = trim($lessonnode->periods);
 		if (empty($periodsleaf))
@@ -964,7 +1005,7 @@ class THM_OrganizerModelSchedule extends JModel
 					
 
 					$roomsExist = trim((string) $instance->assigned_room[0]['id']);
-					if (empty($roomsExist) AND !isset($this->_schedule->calendar->$currentDate->$period->$lessonID))
+					if (empty($roomsExist) AND !isset($this->_schedule->calendar->$currentDate->$period->$lessonIndex))
 					{
 						$error = JText::sprintf('COM_THM_ORGANIZER_LS_TP_ROOM_MISSING', $lessonName, $lessonID, date('l', $currentDT), $period);
 						if (!in_array($error, $this->_scheduleErrors) AND !in_array($error, $this->_scheduleWarnings))
@@ -988,7 +1029,17 @@ class THM_OrganizerModelSchedule extends JModel
 						$roomIDs = explode(' ', str_replace('RM_', '', $roomsExist));
 						foreach ($roomIDs as $roomID)
 						{
-							if (!key_exists($roomID, $this->_schedule->rooms))
+							$roomFound = false;
+							foreach ($this->_schedule->rooms as $roomKey => $room)
+							{
+								if ($room->localUntisID == $roomID)
+								{
+									$roomFound = true;
+									$roomID = $roomKey;
+									break;
+								}
+							}
+							if (!$roomFound)
 							{
 								$error = JText::sprintf('COM_THM_ORGANIZER_LS_TP_ROOM_LACKING', $lessonName, $lessonID, date('l', $currentDT), $period, $roomID);
 								if (!in_array($error, $this->_scheduleErrors))
@@ -998,13 +1049,13 @@ class THM_OrganizerModelSchedule extends JModel
 							}
 							else
 							{
-								if (!isset($this->_schedule->calendar->$currentDate->$period->$lessonID))
+								if (!isset($this->_schedule->calendar->$currentDate->$period->$lessonIndex))
 								{
-									$this->_schedule->calendar->$currentDate->$period->$lessonID = new stdClass;
+									$this->_schedule->calendar->$currentDate->$period->$lessonIndex = new stdClass;
 								}
-								if (!empty($roomID) AND !in_array($roomID, get_object_vars($this->_schedule->calendar->$currentDate->$period->$lessonID)))
+								if (!empty($roomID) AND !in_array($roomID, get_object_vars($this->_schedule->calendar->$currentDate->$period->$lessonIndex)))
 								{
-									$this->_schedule->calendar->$currentDate->$period->$lessonID->$roomID = '';
+									$this->_schedule->calendar->$currentDate->$period->$lessonIndex->$roomID = '';
 								}
 							}
 						}
@@ -1084,7 +1135,7 @@ class THM_OrganizerModelSchedule extends JModel
 		{
 			$data = array();
 			$data['gpuntisID'] = $field->gpuntisID;
-			$row = JTable::getInstance('teacher_fields', 'thm_organizerTable');
+			$row = JTable::getInstance('Fields', 'thm_organizerTable');
 			$row->load($data);
 			$data['field'] = $field->name;
 			$row->save($data);
@@ -1107,7 +1158,7 @@ class THM_OrganizerModelSchedule extends JModel
 			if (!empty($teacher->description))
 			{
 				$pullData['gpuntisID'] = $this->_schedule->fields->{$teacher->description}->gpuntisID;
-				$fieldRow = JTable::getInstance('teacher_fields', 'thm_organizerTable');
+				$fieldRow = JTable::getInstance('Fields', 'thm_organizerTable');
 				$fieldExists = $fieldRow->load($pullData);
 				if ($fieldExists)
 				{
@@ -1270,6 +1321,60 @@ class THM_OrganizerModelSchedule extends JModel
 		}
 
 		return true;
+	}
+
+	/**
+	 * Activates the selected schedule
+	 * 
+	 * @return  true on success, otherwise false
+	 */
+	public function activate()
+	{
+		$scheduleRow = JTable::getInstance('schedules', 'thm_organizerTable');
+		$scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
+		if (!empty($scheduleIDs))
+		{
+			$scheduleExists = $scheduleRow->load($scheduleIDs[0]);
+		}
+		if (!$scheduleExists)
+		{
+			return false;
+		}
+
+		$schedule = json_decode($scheduleRow->schedule);
+		$this->sanitizeSchedule($schedule);
+		$scheduleRow->schedule = json_encode($schedule);
+		$scheduleRow->active = 1;
+
+		$dbo = JFactory::getDbo();
+		$dbo->transactionStart();
+		
+		$zeroQuery = $dbo->getQuery(true);
+		$zeroQuery->update('#__thm_organizer_schedules');
+		$zeroQuery->set("active = '0'");
+		$zeroQuery->where("departmentname = '$scheduleRow->departmentname'");
+		$zeroQuery->where("semestername = '$scheduleRow->semestername'");
+		$dbo->setQuery((string) $zeroQuery);
+		try
+		{
+			$dbo->Query();
+		}
+		catch (Exception $exception)
+		{
+			$dbo->transactionRollback();
+			return false;
+		}
+		$success = $scheduleRow->store();
+		if ($success)
+		{
+			$dbo->transactionCommit();
+			return true;
+		}
+		else
+		{
+			$dbo->transactionRollback();
+			return false;
+		}
 	}
 
 	/**
@@ -1572,6 +1677,148 @@ class THM_OrganizerModelSchedule extends JModel
 				}
 			}
 		}
+	}
+
+	/**
+	 * Checks whether the selected schedules pass the merge constraints:
+	 * 1 Constraints Passed
+	 * 2 Only one schedule selected
+	 * 3 Not all schedules differ in department
+	 * 4 Not all schedule dates are the same
+	 * 5 Not all schedules are active
+	 * 
+	 * @return  integer
+	 */
+	public function checkMergeConstraints()
+	{
+		$scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
+		if (empty($scheduleIDs) OR count($scheduleIDs) < 2)
+		{
+			return TOO_FEW;
+		}
+		$whereIDs = "'" . implode("', '", $scheduleIDs) . "'";
+
+		$dbo = JFactory::getDbo();
+
+		$query = $dbo->getQuery(true);
+		$query->select('departmentname, active, startdate, enddate');
+		$query->from('#__thm_organizer_schedules');
+		$query->where("id IN ( $whereIDs )");
+		$dbo->setQuery((string) $query);
+		$schedules = $dbo->loadAssocList();
+
+		$departments = array();
+		$startdate = $schedules[0]['startdate'];
+		$enddate = $schedules[0]['enddate'];
+		
+		foreach ($schedules as $schedule)
+		{
+			if ($schedule['active'] == 0)
+			{
+				return NOT_ACTIVE;
+			}
+			if ($schedule['startdate'] != $startdate OR $schedule['enddate'] != $enddate)
+			{
+				return CHECK_DATES;
+			}
+			if (in_array($schedule['departmentname'], $departments))
+			{
+				return CHECK_DEPARTMENTS;
+			}
+			else
+			{
+				$departments[] = $schedule['departmentname'];
+			}
+		}
+		return MERGE;
+	}
+
+	/**
+	 * Merges the chosen schedules into a new schedule
+	 * @return string
+	 */
+	public function merge()
+	{
+		$checkedIDs = JRequest::getVar('schedules', array(), 'post', 'array');
+		if (empty($checkedIDs) OR count($checkedIDs) < 2)
+		{
+			return TOO_FEW;
+		}
+		$scheduleIDs = "'" . implode("', '", $checkedIDs) . "'";
+
+        $mergedSchedule = array();
+		$mergedSchedule['creationdate'] = date('Y-m-d');
+		$mergedSchedule['creationtime'] = date('is');
+		$mergedSchedule['departmentname'] = JRequest::getString('departmentname');
+		$mergedSchedule['semestername'] = JRequest::getString('semestername');
+		
+		$dbo = JFactory::getDbo();
+		$scheduleQuery = $dbo->getQuery(true);
+		$scheduleQuery->select('schedule');
+		$scheduleQuery->from('#__thm_organizer_schedules');
+		$scheduleQuery->where("id IN ( $scheduleIDs )");
+		$dbo->setQuery((string) $scheduleQuery);
+		$schedules = $dbo->loadResultArray();
+
+		foreach ($schedules as $key => $value)
+		{
+			$schedules[$key] = json_decode($value);
+		}
+
+		$baseSchedule = $schedules[0];
+		for ($index = 1; $index < count($schedules); $index++)
+		{
+			$this->mergeRecursive($baseSchedule, $schedules[$index]);
+		}
+		$baseSchedule->creationdate = $mergedSchedule['creationdate'];
+		$baseSchedule->creationtime = $mergedSchedule['creationtime'];
+		$baseSchedule->departmentname = $mergedSchedule['departmentname'];
+		$baseSchedule->semestername = $mergedSchedule['semestername'];
+        $mergedSchedule['startdate'] = $baseSchedule->startdate;
+        $mergedSchedule['enddate'] = $baseSchedule->enddate;
+        $mergedSchedule['active'] = 1;
+        $mergedSchedule['schedule'] = json_encode($baseSchedule);
+
+        $table = JTable::getInstance('schedules', 'thm_organizerTable');
+        $success = $table->save($mergedSchedule);
+        if ($success)
+        {
+            return MERGE;
+        }
+        else
+        {
+            return ERROR;
+        }
+    }
+
+    /**
+     * Attempts to recursively merge two schedule objects
+     * 
+     * @param  object  &$thingOne  the first object
+     * @param  object  &$thingTwo  the second object
+     * 
+     * @return  void
+     */
+	private function mergeRecursive(&$thingOne, &$thingTwo)
+	{
+        foreach ($thingTwo as $property => $value)
+        {
+            if (!isset($thingOne->$property))
+            {
+                $thingOne->$property = $value;
+            }
+            elseif ($thingOne->$property !== $thingTwo->$property)
+            {
+                if (is_string($thingOne->$property) AND is_string($thingTwo->$property))
+                {
+                    $thingOne->$property = $thingTwo->$property;
+                }
+                if (is_object($thingOne->$property) AND is_object($thingTwo->$property) AND $thingTwo->$property != NULL)
+                {
+                    $this->mergeRecursive($thingOne->$property, $thingTwo->$property);
+                }
+            }
+        }
 	}
 
 	/**

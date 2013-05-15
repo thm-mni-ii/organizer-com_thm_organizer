@@ -144,10 +144,11 @@ function getSchedGrid()
         viewConfig: {
             features: [rowBodyFeature],
             overItemCls: '', // "disable" row over style
-            disableSelection: true
+            disableSelection: true,
+    	    style: { overflow: 'auto', overflowX: 'hidden' }
         },
         cls: 'MySched_ScheduleGrid',
-        scroll: 'vertical'
+        scroll: false
 
     });
     return grid;

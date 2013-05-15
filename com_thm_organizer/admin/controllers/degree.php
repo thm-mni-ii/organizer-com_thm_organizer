@@ -14,16 +14,30 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controllerform');
 
 /**
- * Class THM_OrganizerControllerDegree for component com_thm_organizer
- * Class provides methods perform actions for degree
+ * Class performs access checks, redirects and model function calls for data persistence
  *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
  */
 class THM_OrganizerControllerDegree extends JControllerForm
 {
+    /**
+     * Performs access checks and redirects to the degree edit view
+     * 
+     * @return void 
+     */
+    public function add()
+    {
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+        JRequest::setVar('view', 'degree_edit');
+        JRequest::setVar('id', '0');
+        parent::display();
+    }
+
 	/**
 	 * Method to perform save
 	 *
@@ -32,49 +46,83 @@ class THM_OrganizerControllerDegree extends JControllerForm
 	 *
 	 * @return  void
 	 */
-	public function save($key = null, $urlVar = null)
+	public function edit($key = null, $urlVar = null)
 	{
-		$retVal = parent::save($key, $urlVar);
-		if ($retVal)
-		{
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=degrees', false));
-		}
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+        JRequest::setVar('view', 'degree_edit');
+        parent::display();
 	}
 
 	/**
-	 * Method to perform cancel
+	 * Performs access checks, makes call to the models's save function, and
+	 * redirects to the degree manager view
+	 *
+	 * @param   Object  $key     Key		   (default: null)
+	 * @param   Object  $urlVar  Url variable  (default: null)
 	 *
 	 * @return  void
 	 */
-	public function cancel()
+	public function save($key = null, $urlVar = null)
 	{
-		$retVal = parent::cancel();
-		if ($retVal)
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+		$success = $this->getModel('degree')->save();
+		if ($success)
 		{
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=degrees', false));
+			$msg = JText::_('COM_THM_ORGANIZER_DEG_SAVE_SUCCESS');
+			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=degree_manager', false), $msg);
+		}
+		else
+		{
+			$msg = JText::_('COM_THM_ORGANIZER_DEG_SAVE_FAIL');
+			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=degree_manager', false), $msg, 'error');
 		}
 	}
 
 	/**
-	 * Method to perform delete
+	 * Performs access checks, makes call to the models's delete function, and
+	 * redirects to the degree manager view
 	 *
 	 * @return  void
 	 */
 	public function delete()
 	{
-		$dbo = JFactory::getDBO();
-		$query = $dbo->getQuery(true);
-		$query->delete('#__thm_organizer_degrees');
-
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		foreach ($cid as $id)
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+		$success = $this->getModel('degree')->delete();
+		if ($success)
 		{
-			$query->clear('where');
-			$query->where("id = '$id'");
-			$dbo->setQuery((string) $query);
-			$dbo->query();
+			$msg = JText::_('COM_THM_ORGANIZER_DEG_DELETE_SUCCESS');
+			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=degree_manager', false), $msg);
 		}
-
-		$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=degrees', false));
+		else
+		{
+			$msg = JText::_('COM_THM_ORGANIZER_DEG_DELETE_FAIL');
+			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=degree_manager', false), $msg, 'error');
+		}
 	}
+
+	/**
+	 * Method to cancel an edit.
+	 *
+	 * @param   string  $key  The name of the primary key of the URL variable.
+	 *
+	 * @return  void
+	 */
+	public function cancel($key = null)
+	{
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+		$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=degree_manager', false));
+	}
+
 }

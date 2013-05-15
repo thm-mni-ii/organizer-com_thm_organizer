@@ -158,7 +158,7 @@ class THM_OrganizerModelLecturers extends JModel
 		$lecturer['title'] = $lecturerName['title'];
 
 		/* if there is data from THM Groups */
-		if ($lecturerName)
+		if ($lecturerName && !empty($userid))
 		{
 			$linkTarget = 'index.php?option=com_thm_groups&view=profile&layout=default';
 			$responsilbeLabel = JRoute::_(

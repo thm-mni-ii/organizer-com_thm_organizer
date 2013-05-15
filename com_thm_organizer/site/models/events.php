@@ -1,29 +1,29 @@
 <?php
 /**
- * @version     v0.1.0 
- * @category    Joomla component
- * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerModelEvents
- * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
- * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ *@category    joomla component
+ * 
+ *@package     THM_Organizer
+ * 
+ *@subpackage  com_thm_organizer
+ *@name        events model
+ *@author      James Antrim jamesDOTantrimATmniDOTthmDOTde
+ * 
+ *@copyright   2012 TH Mittelhessen
+ * 
+ *@license     GNU GPL v.2
+ *@link        www.mni.thm.de
+ *@version     0.1.0 
  */
-
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-
 /**
  * Performs data modification and business logic for events
  * 
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
- * @since       v0.1.0
+ * @package  Joomla.Site
+ * 
+ * @since    2.5.4
  */
-class THM_OrganizerModelEvents extends JModel
+class thm_organizerModelevents extends JModel
 {
     /**
      * save
@@ -163,7 +163,7 @@ class THM_OrganizerModelEvents extends JModel
         else
         {
             $offset = 0 - $offset;
-            $offset = " +{$offset}";
+            $offset = " +{$offest}";
         }
         $offset .= " seconds";
         return date("Y-m-d H:i:s", strtotime($offset));
@@ -178,37 +178,43 @@ class THM_OrganizerModelEvents extends JModel
      */
     private function createIntroText(&$data)
     {
-        $introText = "<p>" . JText::_('COM_THM_ORGANIZER_E_INTROTEXT_START');
-        $introText .= '"' . $data['contentCatName'] . '"';
-        $introText .= JText::_('COM_THM_ORGANIZER_E_INTROTEXT_HAPPENS');
+        $introText = "<p>";
+        $introText .= "<p>" . JText::_('COM_THM_ORGANIZER_E_INTROTEXT_PERIOD');
         $introText .= $this->getDateText($data);
-
+        $introText .= "</p>";
+	    
+        $groupNames = $this->getNames('groups', 'title', '#__usergroups');
+        if (count($groupNames))
+        {
+        	$introText .= "<p>" . JText::_('COM_THM_ORGANIZER_E_AFFECTED') . implode(", ", $groupNames) . "</p>";
+        }
+		
+        $teacherNames = $this->getNames('teachers', 'surname', '#__thm_organizer_teachers');
+        if (count($teacherNames))
+        {
+        	if (count($teacherNames) == 1)
+        	{
+        		$introText .= "<p>" . JText::_('COM_THM_ORGANIZER_E_TEACHER') . $teacherNames[0] . "</p>";
+        	}
+        	else
+        	{
+        		$introText .= "<p>" . JText::_('COM_THM_ORGANIZER_E_TEACHERS') . implode(', ', $teacherNames) . "</p>";
+        	}
+        }
+       
         $roomNames = $this->getNames('rooms', 'name', '#__thm_organizer_rooms');
         if (count($roomNames))
         {
             if (count($roomNames) == 1)
             {
-                $introText .= JText::_('COM_THM_ORGANIZER_E_IN') . $roomNames[0];
+                $introText .= "<p>" . JText::_('COM_THM_ORGANIZER_E_ROOM') . $roomNames[0] . "</p>";
             }
             else
             {
-                $introText .= JText::_('COM_THM_ORGANIZER_E_IN_PLURAL');
-                $introText .= implode(', ', $roomNames);
+                $introText .= "<p>" . JText::_('COM_THM_ORGANIZER_E_ROOMS') . implode(', ', $roomNames) . "</p>";
             }
         }
-        $introText .= JText::_('COM_THM_ORGANIZER_E_INTROTEXT_END');
-
-        $teacherNames = $this->getNames('teachers', 'name', '#__thm_organizer_teachers');
-        if (count($teacherNames))
-        {
-            $introText .= " ( " . implode(", ", $teacherNames) . " )";
-        }
-
-        $groupNames = $this->getNames('groups', 'title', '#__usergroups');
-        if (count($groupNames))
-        {
-            $introText .= " " . JText::_('COM_THM_ORGANIZER_E_AFFECTED') . implode(", ", $groupNames);
-        }
+        $introText .= "<p>" . JText::_('COM_THM_ORGANIZER_E_INTROTEXT_FURTHER_INFORMATIONS') . "</p>";
 
         $introText .= "</p>";
         $data['introtext'] = $introText;
@@ -360,7 +366,7 @@ class THM_OrganizerModelEvents extends JModel
         $asset->setLocation($parentID, 'last-child');
         if (!$asset->store())
         {
-            $this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $dbo->stderr(true)));
+            $this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
             return false;
         }
 
@@ -636,7 +642,7 @@ class THM_OrganizerModelEvents extends JModel
         }
         $mailer->setSubject(stripslashes($data['title']));
         $mailer->setBody(strip_tags($data['introtext']));
-        $mailer->Send();
+        $sent = $mailer->Send();
     }
 
     /**
@@ -675,3 +681,4 @@ class THM_OrganizerModelEvents extends JModel
         return $recipients;
     }
 }
+?>

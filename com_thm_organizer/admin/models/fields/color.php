@@ -49,22 +49,20 @@ class JFormFieldColor extends JFormField
 		$dbo->setQuery($query);
 		$colors = $dbo->loadObjectList();
 
-		$html = "<select id = 'color_id' name='jform[color_id]'>";
+		$html = "<select id = 'colorID' name='jform[colorID]'>";
 
-		if (JRequest::getVar("multiple_edit"))
-		{
-			$this->value = 0;
-		}
+		$html .= "<option selected='selected' style='' value=''>";
+		$html .= JText::_('COM_THM_ORGANIZER_NONE');
+		$html .= "</option>";
 
-		$html .= "<option selected='selected' style='' value=''>-- None --</option>";
 		foreach ($colors as $color)
 		{
+			$html .= "<option style='background-color:#$color->color' value='$color->id' "; 
 			if ($this->value == $color->id)
 			{
-				$html .= "<option selected='selected' style='background-color:#" . $color->color; 
-				$html .= "' value='" . $color->id . "'>" . $color->name . "</option>";
+				$html .= "selected='selected'";
 			}
-			$html .= "<option style='background-color:#" . $color->color . "' value='" . $color->id . "'>" . $color->name . "</option>";
+			$html .= " >$color->name</option>";
 		}
 		$html .= "</select>";
 		return $html;

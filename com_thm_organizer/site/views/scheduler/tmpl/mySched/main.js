@@ -2752,7 +2752,8 @@ MySched.layout = function ()
                             username: MySched.Authorize.user,
                             title: MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' '),
                             what: "ical",
-                            scheduletask: "Schedule.export"
+                            scheduletask: "Schedule.export",
+                            departmentAndSemester: MySched.departmentAndSemester
                         },
                         scope: icalwait,
                         failure: function (response,
