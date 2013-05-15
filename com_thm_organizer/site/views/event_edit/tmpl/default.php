@@ -15,7 +15,7 @@ $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : fa
 ?>
 <script type="text/javascript">
     var categories = new Array;
-    
+
     var jq = jQuery.noConflict();
  jq(document).ready( function() {   
     jq('.openPopup').live("click", function() {
@@ -169,10 +169,10 @@ Joomla.submitbutton = function(task)
                         <div id="thm_organizer_ee_preview_content">
                             <p>Event</p>
                             <p href="javascript:Ausgabe()">Irgendwelchen Text</p>
-                        </div>
+            </div>
                         <div id="thm_organizer_ee_preview_event">
                             <p>Content</p>
-                        </div>
+        </div>
                         <a href="" class="closePopup">close</a>
                     </div>
                     <div id="overlay" class="closePopup"></div>
