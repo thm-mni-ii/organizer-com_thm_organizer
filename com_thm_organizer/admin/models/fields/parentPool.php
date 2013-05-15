@@ -50,7 +50,7 @@ class JFormFieldParentPool extends JFormField
         $dbo->setQuery((string) $existingMappingsQuery);
         $existingMappings = $dbo->loadAssocList();
 
-        $selectedParents= array();
+        $selectedParents = array();
         if (!empty($existingMappings))
         {
             $roots = array();

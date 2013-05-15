@@ -55,5 +55,3 @@ class THM_OrganizerViewSubject_Manager extends JView
         JToolBarHelper::deleteList('COM_THM_ORGANIZER_SUM_DELETE_CONFIRM', 'subject.delete');
     }
 }
-
-?>

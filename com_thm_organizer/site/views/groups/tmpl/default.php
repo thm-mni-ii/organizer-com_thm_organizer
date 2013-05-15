@@ -137,7 +137,7 @@ else
 				}
 				?>
 				</th>
-				<th width="10%"><?php echo JText::_("COM_THM_ORGANIZER_SUBMENU_ASSETS_CURRICULUM_CREDITPOINTS"); ?></th>
+				<th width="10%"><?php echo JText::_("COM_THM_ORGANIZER_SUM_CREDITPOINTS_TITLE"); ?></th>
 			</tr>
 		</thead>
 

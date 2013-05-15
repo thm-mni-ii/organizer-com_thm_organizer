@@ -36,7 +36,7 @@ class THM_OrganizerViewScheduler extends JView
 		JHTML::_('behavior.tooltip');
 
 		$libraryInstalled = jimport('extjs4.extjs4');
-		if(!$libraryInstalled)
+		if (!$libraryInstalled)
 		{
 		    return JError::raiseWarning(404, JText::_("COM_THM_ORGANIZER_EXTJS4_LIBRARY_NOT_INSTALLED"));
 		}

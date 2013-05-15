@@ -38,7 +38,7 @@ class THM_OrganizerModelTeacher extends JModel
 		{
             $table = JTable::getInstance('teachers', 'thm_organizerTable');
             $teacherSuccess = $table->save($data);
-            if($teacherSuccess)
+            if ($teacherSuccess)
             {
                 $dbo->transactionCommit();
                 return true;
@@ -122,6 +122,7 @@ class THM_OrganizerModelTeacher extends JModel
 			foreach ($entry as $property => $value)
 			{
                 $value = trim($value);
+
                 // Property value is not set for DB Entry
                 if (!empty($value))
                 {
@@ -160,12 +161,7 @@ class THM_OrganizerModelTeacher extends JModel
                         }
                     }
                 }
-
 			}
-            if ($teacherEntries[0]['surname'] == 'Walesch' AND $teacherEntries[1]['surname'] == 'Walesch')
-            {
-                echo var_dump($teacherEntries);var_dump($key);
-            }
 		}
 		$data['otherIDs'] = "'" . implode("', '", $otherIDs) . "'";
 		return $this->merge($data);
@@ -174,8 +170,8 @@ class THM_OrganizerModelTeacher extends JModel
 	/**
 	 * Merges resource entries and cleans association tables.
 	 * 
-	 * @param   array  $data  array used by the automerge function to
-	 *                        automatically set teacher values
+	 * @param   array  &$data  array used by the automerge function to
+	 *                         automatically set teacher values
 	 * 
 	 * @return  boolean  true on success, otherwise false
 	 */
@@ -282,9 +278,10 @@ class THM_OrganizerModelTeacher extends JModel
     /**
      * Updates teacher data and lesson associations in active schedules
      * 
-     * @param   array   $data  teacher data corrresponding to a table row
-     * @param   string  $IDs   a list of ids suitable for retrieval of teacher
-     *                         gpuntisIDs to be replaced in saved schedules
+     * @param   array   &$data  teacher data corrresponding to a table row
+     * @param   string  $IDs    a list of ids suitable for retrieval of teacher
+     *                          gpuntisIDs to be replaced in saved schedules
+     * 
      * @return boolean
      */
 	public function updateScheduleData(&$data, $IDs)
@@ -351,9 +348,9 @@ class THM_OrganizerModelTeacher extends JModel
             }
 
             if (!isset($scheduleObject->teachers->{$data['gpuntisID']}))
-			{
-				$scheduleObject->teachers->{$data['gpuntisID']} = new stdClass;
-			}
+            {
+                $scheduleObject->teachers->{$data['gpuntisID']} = new stdClass;
+            }
 
             $scheduleObject->teachers->{$data['gpuntisID']}->gpuntisID = $data['gpuntisID'];
             $scheduleObject->teachers->{$data['gpuntisID']}->surname = $data['surname'];

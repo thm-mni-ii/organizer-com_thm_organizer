@@ -24,8 +24,6 @@ class THM_OrganizerModelDegree_Program extends JModel
 	/**
 	 * Method to overwrite save method
 	 *
-	 * @param   Array  $data  Data
-	 *
 	 * @return  Boolean
 	 */
 	public function save()

@@ -21,7 +21,7 @@ jimport('joomla.application.component.model');
  * @subpackage  com_thm_organizer.admin
  */
 class THM_OrganizerModelField extends JModel
-{    
+{
 	/**
      * save
      *

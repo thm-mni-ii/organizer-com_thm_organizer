@@ -38,7 +38,7 @@ class THM_OrganizerModelRoom extends JModel
 		{
             $table = JTable::getInstance('rooms', 'thm_organizerTable');
             $roomSuccess = $table->save($data);
-            if($roomSuccess)
+            if ($roomSuccess)
             {
                 $dbo->transactionCommit();
                 return true;
@@ -259,10 +259,11 @@ class THM_OrganizerModelRoom extends JModel
     /**
      * Updates room data and lesson associations in active schedules
      * 
-     * @param   array   $data  room data corrresponding to a table row
-     * @param   string  $IDs   a list of ids suitable for retrieval of room
-     *                         gpuntisIDs to be replaced in saved schedules
-     * @return boolean
+     * @param   array   &$data  room data corrresponding to a table row
+     * @param   string  $IDs    a list of ids suitable for retrieval of room
+     *                          gpuntisIDs to be replaced in saved schedules
+     * 
+     * @return bool  true on success, otherwise false
      */
 	public function updateScheduleData(&$data, $IDs)
 	{

@@ -90,7 +90,7 @@ if ($suffix = $this->params->get('lsf_navi', 0))
 				?>
 				</th>
 				<th width="20px"></th>
-				<th width="30px"><?php echo JText::_("COM_THM_ORGANIZER_SUBMENU_ASSETS_CURRICULUM_CREDITPOINTS"); ?></th>
+				<th width="30px"><?php echo JText::_("COM_THM_ORGANIZER_SUM_CREDITPOINTS_TITLE"); ?></th>
 			</tr>
 		</thead>
 		<tbody>

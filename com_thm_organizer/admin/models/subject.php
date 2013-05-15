@@ -39,7 +39,7 @@ class THM_OrganizerModelSubject extends JModel
 		{
             $data['id'] = $table->id;
             $teacherSuccess = $this->updateSubjectTeachers($data);
-            if($teacherSuccess)
+            if ($teacherSuccess)
             {
                 $dbo->transactionCommit();
                 return true;
