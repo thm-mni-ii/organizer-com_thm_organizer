@@ -59,29 +59,37 @@ class THM_OrganizerModelRoom extends JModel
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-		$query->select('r.id, r.gpuntisID, r.name, r.longname, r.typeID');
-		$query->from('#__thm_organizer_rooms AS r');
-		$query->order('r.id ASC');
-
+		$query->select('*')->from('#__thm_organizer_rooms')->order('longname, id ASC');
         $dbo->setQuery((string) $query);
         $roomEntries = $dbo->loadAssocList();
-        foreach ($roomEntries as $key1 => $entry1)
+
+        if (empty($roomEntries))
         {
-            foreach ($roomEntries as $key2 => $entry2)
+            return;
+        }
+
+        $deletedIDs = array();
+        for($index = 0; $index < count($roomEntries); $index++)
+        {
+            $currentEntry = $roomEntries[$index];
+            if (in_array($currentEntry['id'], $deletedIDs))
             {
-                if ($key1 == $key2)
+                continue; 
+            }
+
+            $nextIndex = $index + 1;
+            $nextEntry = $roomEntries[$nextIndex];
+            while ($nextEntry != false
+                AND $currentEntry['longname'] == $nextEntry['longname'])
+            {
+                $entries = array($currentEntry, $nextEntry);
+                $merged = $this->autoMerge($entries);
+                if ($merged)
                 {
-                    continue;
+                    $deletedIDs[] = $nextEntry['id'];
                 }
-                else
-                {
-                    $entries = array($entry1, $entry2);
-                    $success = $this->autoMerge($entries);
-                    if ($success)
-                    {
-                        unset($roomEntries[$key2]);
-                    }
-                }
+                $nextIndex++;
+                $nextEntry = $roomEntries[$nextIndex];
             }
         }
     }

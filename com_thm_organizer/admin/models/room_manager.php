@@ -55,7 +55,7 @@ class THM_OrganizerModelRoom_Manager extends JModelList
 		// Defailt ordering
 		if ($orderBy == "")
 		{
-			$orderBy = "r.name";
+			$orderBy = "r.longname";
 			$orderDir = "ASC";
 		}
 
@@ -89,7 +89,7 @@ class THM_OrganizerModelRoom_Manager extends JModelList
 	{
 		$app = JFactory::getApplication('administrator');
 
-		$orderBy = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'name');
+		$orderBy = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'longname');
 		$this->setState('list.ordering', $orderBy);
 
 		$orderDir = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
