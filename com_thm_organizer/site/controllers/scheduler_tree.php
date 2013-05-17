@@ -25,6 +25,8 @@ class THM_OrganizerControllerScheduler_Tree extends JController
 {
     /**
      * Redirects to the ajax information which represents the view
+     * 
+     * @return  void
      */
 	public function load()
 	{

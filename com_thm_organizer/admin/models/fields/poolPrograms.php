@@ -39,8 +39,6 @@ class JFormFieldPoolPrograms extends JFormField
 	 */
 	public function getInput()
 	{
-        $language = explode('-', JFactory::getLanguage()->getTag());
-
 		$dbo = JFactory::getDBO();
 		$poolID = JRequest::getInt('id');
         

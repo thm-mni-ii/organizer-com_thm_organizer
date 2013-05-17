@@ -10,7 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.controllerform');
+jimport('joomla.application.component.controller');
 
 /**
  * Class THM_OrganizerControllerPool for component com_thm_organizer
@@ -23,7 +23,7 @@ jimport('joomla.application.component.controllerform');
  * @link        www.mni.thm.de
  * @since       v1.5.0
  */
-class THM_OrganizerControllerPool extends JControllerForm
+class THM_OrganizerControllerPool extends JController
 {
     /**
      * Performs access checks, sets the id variable to 0, and redirects to the
@@ -46,12 +46,9 @@ class THM_OrganizerControllerPool extends JControllerForm
     /**
      * Performs access checks and redirects to the pool edit view
      *
-     * @param   Object  $key     Key		   (default: null)
-     * @param   Object  $urlVar  Url variable  (default: null)
-     *
      * @return  void
      */
-    public function edit($key = null, $urlVar = null)
+    public function edit()
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
@@ -65,12 +62,9 @@ class THM_OrganizerControllerPool extends JControllerForm
 	/**
 	 * Method to create a new pool
 	 *
-	 * @param   Object  $key     Key		   (default: null)
-	 * @param   Object  $urlVar  Url variable  (default: null)
-	 *
 	 * @return  void
 	 */
-	public function apply($key = null, $urlVar = null)
+	public function apply()
 	{
         if (!JFactory::getUser()->authorise('core.admin'))
         {
@@ -92,12 +86,9 @@ class THM_OrganizerControllerPool extends JControllerForm
 	/**
 	 * Method to perform save
 	 *
-	 * @param   Object  $key     Key		   (default: null)
-	 * @param   Object  $urlVar  Url variable  (default: null)
-	 *
 	 * @return  void
 	 */
-	public function save($key = null, $urlVar = null)
+	public function save()
 	{
         if (!JFactory::getUser()->authorise('core.admin'))
         {
@@ -143,12 +134,10 @@ class THM_OrganizerControllerPool extends JControllerForm
 
 	/**
 	 * Method to perform cancel
-	 *
-	 * @param   string  $key  The name of the primary key of the URL variable.
 	 * 
 	 * @return  void
 	 */
-	public function cancel($key = null)
+	public function cancel()
 	{
         if (!JFactory::getUser()->authorise('core.admin'))
         {

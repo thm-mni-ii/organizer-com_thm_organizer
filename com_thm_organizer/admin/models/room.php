@@ -69,7 +69,7 @@ class THM_OrganizerModelRoom extends JModel
         }
 
         $deletedIDs = array();
-        for($index = 0; $index < count($roomEntries); $index++)
+        for ($index = 0; $index < count($roomEntries); $index++)
         {
             $currentEntry = $roomEntries[$index];
             if (in_array($currentEntry['id'], $deletedIDs))
@@ -122,7 +122,7 @@ class THM_OrganizerModelRoom extends JModel
 
 		$data = array();
 		$otherIDs = array();
-		foreach ($roomEntries as $key => $entry)
+		foreach ($roomEntries as $entry)
 		{
 			foreach ($entry as $property => $value)
 			{
@@ -197,7 +197,7 @@ class THM_OrganizerModelRoom extends JModel
 		}
 
 		$monitorsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'monitors');
-		if (!$eventsSuccess)
+		if (!$monitorsSuccess)
 		{
 			$dbo->transactionRollback();
 			return false;
@@ -338,13 +338,14 @@ class THM_OrganizerModelRoom extends JModel
                     {
                         foreach ($blocks as $block => $lessons)
                         {
-                            foreach ($lessons as $lesson => $rooms)
+                            $lessonIDs = array_keys((array) $lessons);
+                            foreach ($lessonIDs as $lessonID)
                             {
-                                if (isset($scheduleObject->calendar->$date->$block->$lesson->$oldName))
+                                if (isset($scheduleObject->calendar->$date->$block->$lessonID->$oldName))
                                 {
-                                    $delta = $scheduleObject->calendar->$date->$block->$lesson->$oldName;
-                                    unset($scheduleObject->calendar->$date->$block->$lesson->$oldName);
-                                    $scheduleObject->calendar->$date->$block->$lesson->{$data['gpuntisID']} = $delta;
+                                    $delta = $scheduleObject->calendar->$date->$block->$lessonID->$oldName;
+                                    unset($scheduleObject->calendar->$date->$block->$lessonID->$oldName);
+                                    $scheduleObject->calendar->$date->$block->$lessonID->{$data['gpuntisID']} = $delta;
                                 }
                             }
                         }

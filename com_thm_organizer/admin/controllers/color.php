@@ -109,7 +109,7 @@ class THM_OrganizerControllerColor extends JController
 	 *
 	 * @return  void
 	 */
-	public function cancel($key = null)
+	public function cancel()
 	{
         if (!JFactory::getUser()->authorise('core.admin'))
         {

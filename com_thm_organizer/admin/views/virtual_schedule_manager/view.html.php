@@ -42,8 +42,6 @@ class THM_OrganizerViewVirtual_Schedule_Manager extends JView
 		$document = & JFactory::getDocument();
 		$document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
 
-		$this->addToolbar();
-
 		$mainframe = JFactory::getApplication("administrator");
 		$option = $mainframe->scope;
 		$view = JRequest::getString('view');
@@ -54,25 +52,18 @@ class THM_OrganizerViewVirtual_Schedule_Manager extends JView
 				'#__thm_organizer_virtual_schedules.semesterID, #__thm_organizer_virtual_schedules.vid', ''
 		);
 		$filter_order_Dir = $mainframe->getUserStateFromRequest("$option.$view.filter_order_Dir", 'filter_order_Dir',	'', '');
-		$filter_type = $mainframe->getUserStateFromRequest("$option.$view.filter_type", 'filter_type', 0, 'string');
-		$filter_logged = $mainframe->getUserStateFromRequest("$option.$view.filter_logged", 'filter_logged', 0, 'int');
-		$filter = $mainframe->getUserStateFromRequest($option . $view . '.filter', 'filter', '', 'int');
-		$search = $mainframe->getUserStateFromRequest($option . $view . '.search', 'search', '', 'string');
-		$search = $dbo->getEscaped(trim(JString::strtolower($search)));
 
 		// Table ordering
 		$lists['order_Dir']	= $filter_order_Dir;
 		$lists['order']		= $filter_order;
 
-		$model =& $this->getModel();
+		$model = $this->getModel();
 
 		// Get data from the model
-		$items = & $this->get('Data');
+		$items = $this->get('Data');
 		$newitem = array();
 
-		$elements = $model->getElements();
-
-		foreach ($elements as $k => $v)
+		foreach ($model->getElements() as $k => $v)
 		{
 			if (!isset($newitem[$v->vid]))
 			{
@@ -100,16 +91,15 @@ class THM_OrganizerViewVirtual_Schedule_Manager extends JView
 			}
 		}
 
-		$pagination = & $this->get('Pagination');
+		$pagination = $this->get('Pagination');
 
 		// Search filter
 		$lists['search'] = $search;
 
 		// Assign data to template
 		$this->assignRef('lists', $lists);
-
 		$this->assignRef('items', $items);
-		$this->assignRef('pagination', $pagination);
+		$this->pagination = $this->get('Pagination');
 		$this->assignRef('lists', $lists);
 		if (isset($roleFilters_req))
 		{
@@ -120,6 +110,7 @@ class THM_OrganizerViewVirtual_Schedule_Manager extends JView
 			$this->assignRef('groupFilters', $groupFilters_req);
 		}
 
+        $this->addToolBar();
 		parent::display($tpl);
 	}
 

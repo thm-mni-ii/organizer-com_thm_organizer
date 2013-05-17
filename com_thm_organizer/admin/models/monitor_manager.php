@@ -41,6 +41,8 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
 
     /**
      * constructor
+     * 
+     * @param   array  $config  configurations parameter
      */
     public function __construct($config = array())
     {

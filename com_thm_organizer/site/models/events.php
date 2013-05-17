@@ -19,7 +19,7 @@ jimport('joomla.application.component.model');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class thm_organizerModelEvents extends JModel
+class THM_OrganizerModelEvents extends JModel
 {
     /**
      * save
@@ -677,4 +677,3 @@ class thm_organizerModelEvents extends JModel
         return $recipients;
     }
 }
-?>

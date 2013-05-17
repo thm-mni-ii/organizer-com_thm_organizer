@@ -69,7 +69,7 @@ if ($this->canWriteEvents === true)
 		MySched.deltaDisplayDays = '<?php echo $this->deltaDisplayDays; ?>';
 		MySched.departmentAndSemester = '<?php echo $this->departmentAndSemester; ?>';
 <?php
-if($this->libraryFPDFIsInstalled)
+if ($this->libraryFPDFIsInstalled)
 {
 ?>
         MySched.libraryFPDFIsInstalled = true;
@@ -81,7 +81,7 @@ else
         MySched.libraryFPDFIsInstalled = false;
 <?php
 }
-if($this->libraryiCalcreatorIsInstalled)
+if ($this->libraryiCalcreatorIsInstalled)
 {
 ?>
         MySched.libraryiCalcreatorIsInstalled = true;

@@ -69,7 +69,7 @@ class THM_OrganizerModelTeacher extends JModel
         }
 
         $deletedIDs = array();
-        for($index = 0; $index < count($teacherEntries); $index++)
+        for ($index = 0; $index < count($teacherEntries); $index++)
         {
             $currentEntry = $teacherEntries[$index];
             if (in_array($currentEntry['id'], $deletedIDs))
@@ -121,7 +121,7 @@ class THM_OrganizerModelTeacher extends JModel
 
 		$data = array();
 		$otherIDs = array();
-		foreach ($teacherEntries as $key => $entry)
+		foreach ($teacherEntries as $entry)
 		{
 			foreach ($entry as $property => $value)
 			{

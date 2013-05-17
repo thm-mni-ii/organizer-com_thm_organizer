@@ -19,15 +19,15 @@ $limit = $this->state->get('limit');
 
 if ($this->lang == 'de')
 {
-	$txtModulnummer = JText::_("COM_THM_ORGANIZER_SUBMENU_ASSETS_CURRICULUM_COURSECODE_HIS");
-	$txtModultitel = JText::_("COM_THM_ORGANIZER_SUBMENU_ASSETS_CURRICULUM_TITLE_DE");
-	$txtVerantwortliche = JText::_("COM_THM_ORGANIZER_SUBMENU_ASSETS_CURRICULUM_RESPONSIBLE");
+	$txtModulnummer = JText::_("COM_THM_ORGANIZER_SUM_HISID_TITLE");
+	$txtModultitel = JText::_("COM_THM_ORGANIZER_SUM_LSFID_TITLE");
+	$txtVerantwortliche = JText::_("COM_THM_ORGANIZER_SUM_RESPONSIBLE_TITLE");
 }
 else
 {
-	$txtModulnummer = JText::_("COM_THM_ORGANIZER_SUBMENU_ASSETS_CURRICULUM_COURSECODE_HIS");
-	$txtModultitel = JText::_("COM_THM_ORGANIZER_SUBMENU_ASSETS_CURRICULUM_TITLE_EN");
-	$txtVerantwortliche = JText::_("COM_THM_ORGANIZER_SUBMENU_ASSETS_CURRICULUM_RESPONSIBLE");
+	$txtModulnummer = JText::_("COM_THM_ORGANIZER_SUM_HISID_TITLE");
+	$txtModultitel = JText::_("COM_THM_ORGANIZER_SUM_LSFID_TITLE");
+	$txtVerantwortliche = JText::_("COM_THM_ORGANIZER_SUM_RESPONSIBLE_TITLE");
 }
 ?>
 

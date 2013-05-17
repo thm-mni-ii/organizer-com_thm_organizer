@@ -10,7 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.controllerform');
+jimport('joomla.application.component.controller');
 
 /**
  * Class performs access checks, redirects and model function calls for data persistence
@@ -19,7 +19,7 @@ jimport('joomla.application.component.controllerform');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerControllermonitor extends JControllerForm
+class THM_OrganizerControllermonitor extends JController
 {
     /**
      * Performs access checks and redirects to the monitor edit view
@@ -131,11 +131,9 @@ class THM_OrganizerControllermonitor extends JControllerForm
 	/**
 	 * Method to cancel an edit.
 	 *
-	 * @param   string  $key  The name of the primary key of the URL variable.
-	 *
 	 * @return  void
 	 */
-    public function cancel($key = null)
+    public function cancel()
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {

@@ -56,7 +56,7 @@ class THM_OrganizerViewDegree_Program_Edit extends JView
 			JText::_("COM_THM_ORGANIZER_DGP_NEW") : JText::_("COM_THM_ORGANIZER_DGP_EDIT");
 		JToolBarHelper::title($title);
 		JToolBarHelper::save('degree_program.save');
-		JToolBarHelper::save2new('degree_program.next');
+		JToolBarHelper::save2new('degree_program.save2new');
 		JToolBarHelper::cancel('degree_program.cancel', $this->item->id == 0 ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
 	}
 }

@@ -786,7 +786,8 @@ class THM_OrganizerModelSchedule extends JModel
 		}
 		$lessonName = '';
 		$initialSet = false;
-		foreach ($this->_schedule->lessons->$lessonIndex->subjects as $subjectIndex => $delta)
+        $subjectIndexes = array_keys((array) $this->_schedule->lessons->$lessonIndex->subjects);
+		foreach ($subjectIndexes as $subjectIndex)
 		{
 			if ($initialSet)
 			{

@@ -168,7 +168,7 @@ if (!$dirCreated)
     }
 
     /**
-     * method to uninstall the component
+     * Method to uninstall the component
      *
      * @param   object  $parent  the class calling this method
      *
@@ -182,65 +182,6 @@ if (!$dirCreated)
         {
             echo JText::_('COM_THM_ORGANIZER_UNINSTALL_DIR_FAIL');
         }
-    }
-
-    /**
-     * method to update the component
-     *
-     * @param   object  $parent  the class calling this method
-     *
-     * @return void
-     */
-    public function update($parent)
-    {
-        /*$installedVersion = $this->getVersion();
-        if ($installedVersion)
-        {
-            $updatePath = $this->SQLPath() . DS . 'updates' . DS . 'mysql';
-            $updateFiles = JFolder::files($updatePath, '.sql');
-            if ($updateFiles)
-            {
-                sort($updateFiles);
-                $dbo = JFactory::getDbo();
-                foreach ($updateFiles as $updateVersion)
-                {
-                    $isNewer = $this->isNewer($installedVersion, $updateVersion);
-                    if ($isNewer)
-                    {
-                        $updateSQL = JFile::read($updatePath . DS . $updateVersion);
-                        if ($updateSQL)
-                        {
-                            $queries = $dbo->splitSql($updateSQL);
-                            foreach ($queries as $query)
-                            {
-                                if (trim($query))
-                                {
-                                    $dbo->setQuery($query);
-                                    if (!$dbo->query())
-                                    {
-                                        JError::raiseWarning(1, JText::sprintf($dbo->getErrorMsg(), $dbo->stderr(true)));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            echo '<p>' . JText::_('COM_THM_ORGANIZER_UPDATE_TEXT') . '</p>';
-        }*/
-    }
-
-    /**
-     * Get current version from #__extensions table
-     *
-     * @return  mixed   string  version if successful, otherwise boolean false
-     */
-    private function getVersion()
-    {
-        $extension = JTable::getInstance('Extension');
-        $extension->load(array('name' => 'com_thm_organizer'));
-        $manifest_cache = new JRegistry($extension->manifest_cache);
-        return $manifest_cache->get('version');
     }
 
     /**

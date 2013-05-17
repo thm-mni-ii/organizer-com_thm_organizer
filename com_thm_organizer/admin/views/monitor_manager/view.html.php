@@ -62,9 +62,9 @@ class THM_OrganizerViewMonitor_Manager extends JView
         {
             return;
         }
-        foreach ($this->monitors as $k => $monitor)
+        foreach (array_keys($this->monitors) as $key)
         {
-            $this->monitors[$k]->display = $this->behaviours[$this->monitors[$k]->display];
+            $this->monitors[$key]->display = $this->behaviours[$this->monitors[$key]->display];
         }
     }
 
