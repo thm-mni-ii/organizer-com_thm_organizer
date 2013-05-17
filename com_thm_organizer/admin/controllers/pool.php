@@ -117,6 +117,31 @@ class THM_OrganizerControllerPool extends JControllerForm
 	}
 
 	/**
+	 * Performs access checks, makes call to the models's delete function, and
+	 * redirects to the room manager view
+	 *
+	 * @return  void
+	 */
+	public function delete()
+	{
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+		$success = $this->getModel('pool')->delete();
+		if ($success)
+		{
+			$msg = JText::_('COM_THM_ORGANIZER_POM_DELETE_SUCCESS');
+			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_manager', false), $msg);
+		}
+		else
+		{
+			$msg = JText::_('COM_THM_ORGANIZER_POM_DELETE_FAIL');
+			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_manager', false), $msg, 'error');
+		}
+	}
+
+	/**
 	 * Method to perform cancel
 	 *
 	 * @param   string  $key  The name of the primary key of the URL variable.

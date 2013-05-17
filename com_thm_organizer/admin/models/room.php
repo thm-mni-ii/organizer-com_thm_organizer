@@ -189,7 +189,14 @@ class THM_OrganizerModelRoom extends JModel
 		$dbo = JFactory::getDbo();
 		$dbo->transactionStart();
 
-		$eventsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'event');
+		$eventsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'event_rooms');
+		if (!$eventsSuccess)
+		{
+			$dbo->transactionRollback();
+			return false;
+		}
+
+		$monitorsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'monitors');
 		if (!$eventsSuccess)
 		{
 			$dbo->transactionRollback();
@@ -248,7 +255,7 @@ class THM_OrganizerModelRoom extends JModel
 		$dbo = JFactory::getDbo();
 
 		$query = $dbo->getQuery(true);
-		$query->update("#__thm_organizer_{$tableName}_rooms");
+		$query->update("#__thm_organizer_{$tableName}");
 		$query->set("roomID = '$newID'");
 		$query->where("roomID IN ( $oldIDs )");
 		$dbo->setQuery((string) $query);
