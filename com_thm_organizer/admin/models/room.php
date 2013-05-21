@@ -59,29 +59,37 @@ class THM_OrganizerModelRoom extends JModel
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-		$query->select('r.id, r.gpuntisID, r.name, r.longname, r.typeID');
-		$query->from('#__thm_organizer_rooms AS r');
-		$query->order('r.id ASC');
-
+		$query->select('*')->from('#__thm_organizer_rooms')->order('longname, id ASC');
         $dbo->setQuery((string) $query);
         $roomEntries = $dbo->loadAssocList();
-        foreach ($roomEntries as $key1 => $entry1)
+
+        if (empty($roomEntries))
         {
-            foreach ($roomEntries as $key2 => $entry2)
+            return;
+        }
+
+        $deletedIDs = array();
+        for ($index = 0; $index < count($roomEntries); $index++)
+        {
+            $currentEntry = $roomEntries[$index];
+            if (in_array($currentEntry['id'], $deletedIDs))
             {
-                if ($key1 == $key2)
+                continue; 
+            }
+
+            $nextIndex = $index + 1;
+            $nextEntry = $roomEntries[$nextIndex];
+            while ($nextEntry != false
+                AND $currentEntry['longname'] == $nextEntry['longname'])
+            {
+                $entries = array($currentEntry, $nextEntry);
+                $merged = $this->autoMerge($entries);
+                if ($merged)
                 {
-                    continue;
+                    $deletedIDs[] = $nextEntry['id'];
                 }
-                else
-                {
-                    $entries = array($entry1, $entry2);
-                    $success = $this->autoMerge($entries);
-                    if ($success)
-                    {
-                        unset($roomEntries[$key2]);
-                    }
-                }
+                $nextIndex++;
+                $nextEntry = $roomEntries[$nextIndex];
             }
         }
     }
@@ -114,7 +122,7 @@ class THM_OrganizerModelRoom extends JModel
 
 		$data = array();
 		$otherIDs = array();
-		foreach ($roomEntries as $key => $entry)
+		foreach ($roomEntries as $entry)
 		{
 			foreach ($entry as $property => $value)
 			{
@@ -181,8 +189,15 @@ class THM_OrganizerModelRoom extends JModel
 		$dbo = JFactory::getDbo();
 		$dbo->transactionStart();
 
-		$eventsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'event');
+		$eventsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'event_rooms');
 		if (!$eventsSuccess)
+		{
+			$dbo->transactionRollback();
+			return false;
+		}
+
+		$monitorsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'monitors');
+		if (!$monitorsSuccess)
 		{
 			$dbo->transactionRollback();
 			return false;
@@ -240,7 +255,7 @@ class THM_OrganizerModelRoom extends JModel
 		$dbo = JFactory::getDbo();
 
 		$query = $dbo->getQuery(true);
-		$query->update("#__thm_organizer_{$tableName}_rooms");
+		$query->update("#__thm_organizer_{$tableName}");
 		$query->set("roomID = '$newID'");
 		$query->where("roomID IN ( $oldIDs )");
 		$dbo->setQuery((string) $query);
@@ -323,13 +338,14 @@ class THM_OrganizerModelRoom extends JModel
                     {
                         foreach ($blocks as $block => $lessons)
                         {
-                            foreach ($lessons as $lesson => $rooms)
+                            $lessonIDs = array_keys((array) $lessons);
+                            foreach ($lessonIDs as $lessonID)
                             {
-                                if (isset($scheduleObject->calendar->$date->$block->$lesson->$oldName))
+                                if (isset($scheduleObject->calendar->$date->$block->$lessonID->$oldName))
                                 {
-                                    $delta = $scheduleObject->calendar->$date->$block->$lesson->$oldName;
-                                    unset($scheduleObject->calendar->$date->$block->$lesson->$oldName);
-                                    $scheduleObject->calendar->$date->$block->$lesson->{$data['gpuntisID']} = $delta;
+                                    $delta = $scheduleObject->calendar->$date->$block->$lessonID->$oldName;
+                                    unset($scheduleObject->calendar->$date->$block->$lessonID->$oldName);
+                                    $scheduleObject->calendar->$date->$block->$lessonID->{$data['gpuntisID']} = $delta;
                                 }
                             }
                         }

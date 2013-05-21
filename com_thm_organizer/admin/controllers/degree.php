@@ -11,7 +11,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.controllerform');
+jimport('joomla.application.component.controller');
 
 /**
  * Class performs access checks, redirects and model function calls for data persistence
@@ -20,7 +20,7 @@ jimport('joomla.application.component.controllerform');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerControllerDegree extends JControllerForm
+class THM_OrganizerControllerDegree extends JController
 {
     /**
      * Performs access checks and redirects to the degree edit view
@@ -41,12 +41,9 @@ class THM_OrganizerControllerDegree extends JControllerForm
 	/**
 	 * Method to perform save
 	 *
-	 * @param   Object  $key     Key		   (default: null)
-	 * @param   Object  $urlVar  Url variable  (default: null)
-	 *
 	 * @return  void
 	 */
-	public function edit($key = null, $urlVar = null)
+	public function edit()
 	{
         if (!JFactory::getUser()->authorise('core.admin'))
         {
@@ -60,12 +57,9 @@ class THM_OrganizerControllerDegree extends JControllerForm
 	 * Performs access checks, makes call to the models's save function, and
 	 * redirects to the degree manager view
 	 *
-	 * @param   Object  $key     Key		   (default: null)
-	 * @param   Object  $urlVar  Url variable  (default: null)
-	 *
 	 * @return  void
 	 */
-	public function save($key = null, $urlVar = null)
+	public function save()
 	{
         if (!JFactory::getUser()->authorise('core.admin'))
         {
@@ -112,11 +106,9 @@ class THM_OrganizerControllerDegree extends JControllerForm
 	/**
 	 * Method to cancel an edit.
 	 *
-	 * @param   string  $key  The name of the primary key of the URL variable.
-	 *
 	 * @return  void
 	 */
-	public function cancel($key = null)
+	public function cancel()
 	{
         if (!JFactory::getUser()->authorise('core.admin'))
         {

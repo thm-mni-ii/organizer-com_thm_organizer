@@ -45,7 +45,7 @@ class THM_OrganizerModelSubject_Manager extends JModelList
 	protected function getListQuery()
 	{
 		$dbo = JFactory::getDBO();
-        list($language, $localization) = explode('-', JFactory::getLanguage()->getTag());
+        $language = explode('-', JFactory::getLanguage()->getTag());
 
 		$orderCol = $this->state->get('list.ordering');
 		$orderDir = $this->state->get('list.direction');
@@ -53,7 +53,7 @@ class THM_OrganizerModelSubject_Manager extends JModelList
 		// Create the sql query
 		$query = $dbo->getQuery(true);
         $select = 'id, lsfID, hisID, externalID, ';
-        $select .= $language == 'de'? 'name_de AS name' : 'name_en AS name';
+        $select .= $language[0] == 'de'? 'name_de AS name' : 'name_en AS name';
         $query->select($select);
         $query->from('#__thm_organizer_subjects');
 
@@ -61,7 +61,7 @@ class THM_OrganizerModelSubject_Manager extends JModelList
         if (!empty($searchState))
         {
             $search = '%' . $dbo->getEscaped($searchState, true) . '%';
-            switch ($language)
+            switch ($language[0])
             {
                 case 'de':
                     $searchClause = "(name_de LIKE '$search' ";

@@ -37,7 +37,6 @@ class THM_OrganizerViewField_Edit extends JView
         }
 
 		JHtml::_('behavior.tooltip');
-		$document = JFactory::getDocument();
 
 		$this->form = $this->get('Form');
 		$this->item = $this->get('Item');

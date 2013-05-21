@@ -1,4 +1,5 @@
 <?php
+ // @codingStandardsIgnoreFile
 /*
  $Id: nusoapmime.php 3035 2011-01-21 09:32:19Z m.baier $
 

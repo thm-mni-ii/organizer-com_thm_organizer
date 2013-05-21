@@ -59,33 +59,39 @@ class THM_OrganizerModelTeacher extends JModel
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select('t.id, t.gpuntisID, surname, forename, username, fieldID, field, title');
-        $query->from('#__thm_organizer_teachers AS t');
-        $query->leftJoin('#__thm_organizer_fields AS f ON t.fieldID = f.id');
-        $query->order('t.id ASC');
-
+        $query->select('*')->from('#__thm_organizer_teachers')->order('surname, id');
         $dbo->setQuery((string) $query);
         $teacherEntries = $dbo->loadAssocList();
-        foreach ($teacherEntries as $key1 => $entry1)
+        
+        if (empty($teacherEntries))
         {
-            foreach ($teacherEntries as $key2 => $entry2)
+            return;
+        }
+
+        $deletedIDs = array();
+        for ($index = 0; $index < count($teacherEntries); $index++)
+        {
+            $currentEntry = $teacherEntries[$index];
+            if (in_array($currentEntry['id'], $deletedIDs))
             {
-                if ($key1 == $key2)
+                continue; 
+            }
+
+            $nextIndex = $index + 1;
+            $nextEntry = $teacherEntries[$nextIndex];
+            while ($nextEntry != false
+                AND $currentEntry['surname'] == $nextEntry['surname'])
+            {
+                $entries = array($currentEntry, $nextEntry);
+                $merged = $this->autoMerge($entries);
+                if ($merged)
                 {
-                    continue;
+                    $deletedIDs[] = $nextEntry['id'];
                 }
-                else
-                {
-                    $entries = array($entry1, $entry2);
-                    $success = $this->autoMerge($entries);
-                    if ($success)
-                    {
-                        unset($teacherEntries[$key2]);
-                    }
-                }
+                $nextIndex++;
+                $nextEntry = $teacherEntries[$nextIndex];
             }
         }
-        die;
     }
 
     /**
@@ -101,15 +107,13 @@ class THM_OrganizerModelTeacher extends JModel
         if (empty($teacherEntries))
         {
             $dbo = JFactory::getDbo();
-            $query = $dbo->getQuery(true);
-            $query->select('t.id, t.gpuntisID, surname, forename, username, fieldID, field, title');
-            $query->from('#__thm_organizer_teachers AS t');
-            $query->leftJoin('#__thm_organizer_fields AS f ON t.fieldID = f.id');
-
             $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
-            $query->where("t.id IN ( $cids )");
 
-            $query->order('t.id ASC');
+            $query = $dbo->getQuery(true);
+            $query->select('*');
+            $query->from('#__thm_organizer_teachers');
+            $query->where("id IN ( $cids )");
+            $query->order('id ASC');
 
             $dbo->setQuery((string) $query);
             $teacherEntries = $dbo->loadAssocList();
@@ -117,7 +121,7 @@ class THM_OrganizerModelTeacher extends JModel
 
 		$data = array();
 		$otherIDs = array();
-		foreach ($teacherEntries as $key => $entry)
+		foreach ($teacherEntries as $entry)
 		{
 			foreach ($entry as $property => $value)
 			{
@@ -164,7 +168,7 @@ class THM_OrganizerModelTeacher extends JModel
 			}
 		}
 		$data['otherIDs'] = "'" . implode("', '", $otherIDs) . "'";
-		return $this->merge($data);
+        return $this->merge($data);
 	}
 
 	/**

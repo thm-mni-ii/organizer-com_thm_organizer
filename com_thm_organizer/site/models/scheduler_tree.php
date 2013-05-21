@@ -857,58 +857,6 @@ class THM_OrganizerModelScheduler_Tree extends JModel
 		}
 		return $result;
 	}
-
-	/**
-	 * Method to get the virtual schedule data
-	 *
-	 * @param   String   $type        The virtual schedule type
-	 * @param   Integer  $semesterID  The semester id
-	 *
-	 * @return The virtual schedule data
-	 */
-	private function getVirtualSchedules($type, $semesterID)
-	{
-		$select = "DISTINCT vs.id AS id, vs.vid AS gpuntisID, name AS shortname, ";
-		$select .= "name AS name, type AS type, department AS parentName, ";
-		$select .= "responsible AS responsible, eid AS elements ";
-		$vsquery = "SELECT $select ";
-		$vsquery .= "FROM #__thm_organizer_virtual_schedules AS vs ";
-		$vsquery .= "INNER JOIN #__thm_organizer_virtual_schedules_elements AS vse ON vs.id = vse.vid ";
-		$vsquery .= "WHERE type = '$type' AND vs.semesterID = '$semesterID' ";
-		$res     = $this->_JDA->query($vsquery);
-
-		return $res;
-	}
-
-	/**
-	 * Method to transform a gpuntis id to an id
-	 *
-	 * @param   String  $gpuntisID  The gpuntis id to transform
-	 * @param   String  $type       The type
-	 *
-	 * @return The id for the given gpuntis id
-	 */
-	private function GpuntisIDToid($gpuntisID, $type)
-	{
-		$query = "SELECT id ";
-		$query .= "FROM #__thm_organizer_";
-		switch ($type)
-		{
-			case 'room':
-				$query .= 'rooms ';
-				break;
-			case 'clas':
-				$query .= 'classes ';
-				break;
-			case 'doz':
-				$query .= 'teachers ';
-				break;
-		}
-		$query .= "WHERE gpuntisID = '" . $gpuntisID . "'";
-		$ret   = $this->_JDA->query($query);
-
-		return $ret;
-	}
 	
 	/**
 	 * Method to check if an tree node has lessons

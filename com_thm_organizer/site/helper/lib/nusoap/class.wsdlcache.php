@@ -1,4 +1,5 @@
 <?php
+ // @codingStandardsIgnoreFile
 /*
  The NuSOAP project home is:
 http://sourceforge.net/projects/nusoap/

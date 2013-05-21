@@ -142,7 +142,7 @@ class THM_OrganizerModelScheduler extends JModel
 	 */
 	public function getActiveSchedule($deptAndSem)
 	{
-	    if(!is_String($deptAndSem))
+	    if (!is_String($deptAndSem))
 	    {
 	        return false;
 	    }

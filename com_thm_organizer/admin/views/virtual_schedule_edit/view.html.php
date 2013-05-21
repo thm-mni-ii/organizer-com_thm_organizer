@@ -51,8 +51,6 @@ class THM_OrganizerViewVirtual_Schedule_Edit extends JView
 
         $model = $this->getModel();
         $this->form = $this->get('Form');
-                        
-        $task = JRequest::getVar('task', null, 'STRING');
         
         $cid = $model->getID();
         

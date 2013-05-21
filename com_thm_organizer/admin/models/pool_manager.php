@@ -41,10 +41,10 @@ class THM_OrganizerModelPool_Manager extends JModelList
 	protected function populateState($ordering = null, $direction = null)
 	{
         $app = JFactory::getApplication();
-		$orderBy = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'name');
-		$this->setState('list.ordering', $orderBy);
-		$orderDir = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
-		$this->setState('list.direction', $orderDir);
+		$ordering = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'name');
+		$this->setState('list.ordering', $ordering);
+		$direction = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
+		$this->setState('list.direction', $direction);
 		$filter = $app->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
 		$this->setState('filter.search', $filter);
 		$limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
