@@ -11,6 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
+jimport('jquery.jquery');
 
 /**
  * Loads model data into context and sets variables used for html output
