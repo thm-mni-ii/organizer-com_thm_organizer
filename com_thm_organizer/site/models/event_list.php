@@ -639,12 +639,12 @@ class THM_OrganizerModelEvent_List extends JModelForm
      */
     private function setUserPermissions()
     {
-        $this->canWrite = eventAccess::canCreate();
+        $this->canWrite = THMEventAccess::canCreate();
         if (count($this->events))
         {
             foreach ($this->events as $k => $v)
             {
-                $shouldAllowEdit = eventAccess::canEdit($v['id']);
+                $shouldAllowEdit = THMEventAccess::canEdit($v['id']);
                 $this->events[$k]['userCanEdit'] = $shouldAllowEdit;
                 if ($shouldAllowEdit)
                 {

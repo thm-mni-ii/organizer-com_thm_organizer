@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class Auth
+class THMAuth
 {
 	/**
 	 * Joomla data abstraction
@@ -139,7 +139,6 @@ class Auth
 		$_SESSION['joomlaSid'] = $token;
 
 		$userRoles = $this->_JDA->getUserRoles();
-		//$userRole = current(reset($userRoles));
 		$userRole = reset($userRoles);
 
 		return array(

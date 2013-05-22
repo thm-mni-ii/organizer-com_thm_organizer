@@ -11,7 +11,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-require_once dirname(__FILE__) . "/abstrakterBauer.php";
+require_once dirname(__FILE__) . "/AbstractBuilder.php";
 require_once dirname(__FILE__) . "/mySched_pdf.php";
 
 /**
@@ -23,7 +23,7 @@ require_once dirname(__FILE__) . "/mySched_pdf.php";
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
  */
-class PDFBauer extends abstrakterBauer
+class THMPDFBuilder extends THMAbstractBuilder
 {
 	/**
 	 * Joomla data abstraction
@@ -64,7 +64,7 @@ class PDFBauer extends abstrakterBauer
 	 *
 	 * @return Array An array with information about the status of the creation
 	 */
-	public function erstelleStundenplan($arr, $username, $title)
+	public function createSchedule($arr, $username, $title)
 	{
 		// Defaultangaben fuer Header, Zellen und Tabelle definieren
 		$headerSettings = array(

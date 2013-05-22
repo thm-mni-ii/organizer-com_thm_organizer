@@ -22,7 +22,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
  */
-class EStudy
+class THMeStudy
 {
 	/**
 	 * Joomla session id

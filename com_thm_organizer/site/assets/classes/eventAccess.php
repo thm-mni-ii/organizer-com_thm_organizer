@@ -18,7 +18,7 @@
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
  */
-class eventAccess
+class THMEventAccess
 {
     /**
      * Checks if the current user is the author of a given event

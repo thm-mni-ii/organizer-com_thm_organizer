@@ -11,7 +11,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-require_once dirname(__FILE__) . "/abstrakterBauer.php";
+require_once dirname(__FILE__) . "/AbstractBuilder.php";
 error_reporting(0);
 
 jimport('PHPExcel.PHPExcel');
@@ -24,7 +24,7 @@ jimport('PHPExcel.PHPExcel');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class ICSBauer extends abstrakterBauer
+class THMICSBuilder extends THMAbstractBuilder
 {
 	/**
 	 * Joomla data abstraction
@@ -82,7 +82,7 @@ class ICSBauer extends abstrakterBauer
 	 *
 	 * @return Array An array with information about the status of the creation
 	 */
-	public function erstelleStundenplan($arr, $username, $title)
+	public function createSchedule($arr, $username, $title)
 	{
 		$success = true;
 

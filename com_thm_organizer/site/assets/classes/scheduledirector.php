@@ -22,7 +22,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
  */
-class StundenplanDirektor
+class THMScheduleDirector
 {
 	/**
 	 * Builder
@@ -34,9 +34,9 @@ class StundenplanDirektor
 	/**
 	 * Constructor to set the builder
 	 *
-	 * @param   abstrakterBauer  $builder  The builder to use
+	 * @param   THMAbstractBuilder  $builder  The builder to use
 	 */
-	public function __construct( abstrakterBauer $builder )
+	public function __construct( THMAbstractBuilder $builder )
 	{
 		$this->_builder = $builder;
 	}
@@ -50,8 +50,8 @@ class StundenplanDirektor
 	 *
 	 * @return Array An array with information about the status of the creation
 	 */
-	public function erstelleStundenplan( $arr, $username, $title )
+	public function createSchedule( $arr, $username, $title )
 	{
-		return $this->_builder->erstelleStundenplan($arr, $username, $title);
+		return $this->_builder->createSchedule($arr, $username, $title);
 	}
 }

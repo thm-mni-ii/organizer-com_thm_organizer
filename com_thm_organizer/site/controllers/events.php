@@ -54,11 +54,11 @@ class THM_OrganizerControllerEvents extends JController
         }
         if (isset($eventID) and $eventID > 0)
         {
-            $access = eventAccess::canEdit($eventID) or eventAccess::canEditOwn($eventID);
+            $access = THMEventAccess::canEdit($eventID) or THMEventAccess::canEditOwn($eventID);
         }
         else
         {
-            $access = eventAccess::canCreate();
+            $access = THMEventAccess::canCreate();
         }
         if ($access)
         {
@@ -69,7 +69,7 @@ class THM_OrganizerControllerEvents extends JController
         }
         else
         {
-            eventAccess::noAccess();
+            THMEventAccess::noAccess();
         }
     }
 
@@ -88,11 +88,11 @@ class THM_OrganizerControllerEvents extends JController
 
         if ($eventID == 0)
         {
-            $canSave = eventAccess::canCreate();
+            $canSave = THMEventAccess::canCreate();
         }
         else
         {
-            $canSave = eventAccess::canEdit($eventID);
+            $canSave = THMEventAccess::canEdit($eventID);
         }
 
         if ($canSave)
@@ -130,7 +130,7 @@ class THM_OrganizerControllerEvents extends JController
         }
         else
         {
-            eventAccess::noAccess();
+            THMEventAccess::noAccess();
         }
     }
 
@@ -150,13 +150,13 @@ class THM_OrganizerControllerEvents extends JController
 
         if ($eventID == 0)
         {
-            $canSave = eventAccess::canCreate();
+            $canSave = THMEventAccess::canCreate();
         }
         else
         {
-            $isAuthor = eventAccess::isAuthor($eventID);
-            $canEditOwn = ($isAuthor)? eventAccess::canEditOwn($eventID) : false;
-            $canSave = eventAccess::canEdit($eventID) or $canEditOwn;
+            $isAuthor = THMEventAccess::isAuthor($eventID);
+            $canEditOwn = ($isAuthor)? THMEventAccess::canEditOwn($eventID) : false;
+            $canSave = THMEventAccess::canEdit($eventID) or $canEditOwn;
         }
 
         if ($canSave)
@@ -194,7 +194,7 @@ class THM_OrganizerControllerEvents extends JController
         }
         else
         {
-            eventAccess::noAccess();
+            THMEventAccess::noAccess();
         }
     }
 
@@ -215,20 +215,20 @@ class THM_OrganizerControllerEvents extends JController
         $model = $this->getModel('events');
         if (isset($eventID) && $eventID != 0)
         {
-            (eventAccess::canDelete($eventID))?
-                $success = $model->delete($eventID) : eventAccess::noAccess();
+            (THMEventAccess::canDelete($eventID))?
+                $success = $model->delete($eventID) : THMEventAccess::noAccess();
         }
         elseif (isset($eventIDs) and count($eventIDs))
         {
             foreach ($eventIDs as $id)
             {
-                if (eventAccess::canDelete($id))
+                if (THMEventAccess::canDelete($id))
                 {
                     $success = $model->delete($id);
                 }
                 else
                 {
-                    eventAccess::noAccess();
+                    THMEventAccess::noAccess();
                 }
             }
         }

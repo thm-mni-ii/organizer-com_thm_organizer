@@ -22,7 +22,7 @@ require_once dirname(__FILE__) . "/scheduledirector.php";
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class Schedule
+class THMSchedule
 {
 	/**
 	 * Builder
@@ -103,20 +103,20 @@ class Schedule
 		if ($this->_what == "pdf")
 		{
 			require_once dirname(__FILE__) . "/pdf.php";
-			$this->_builder = new PDFBauer($this->_JDA, $this->_cfg, $options);
+			$this->_builder = new THMPDFBuilder($this->_JDA, $this->_cfg, $options);
 		}
 		elseif ($this->_what == "ics")
 		{
 			require_once dirname(__FILE__) . "/ics.php";
-			$this->_builder = new ICSBauer($this->_JDA, $this->_cfg, $options);
+			$this->_builder = new THMICSBuilder($this->_JDA, $this->_cfg, $options);
 		}
 		elseif ($this->_what == "ical")
 		{
 			require_once dirname(__FILE__) . "/ical.php";
-			$this->_builder = new ICALBauer($this->_JDA, $this->_cfg, $options);
+			$this->_builder = new THMICALBuilder($this->_JDA, $this->_cfg, $options);
 		}
 
-		$direktor = new StundenplanDirektor($this->_builder);
-		return $direktor->erstelleStundenplan($this->_arr, $this->_username, $this->_title);
+		$direktor = new THMScheduleDirector($this->_builder);
+		return $direktor->createSchedule($this->_arr, $this->_username, $this->_title);
 	}
 }

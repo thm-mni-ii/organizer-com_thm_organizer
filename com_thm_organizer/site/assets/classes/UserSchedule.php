@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class UserSchedule
+class THMUserSchedule
 {
 	/**
 	 * joomla session id

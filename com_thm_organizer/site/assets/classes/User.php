@@ -10,29 +10,22 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
 defined('_JEXEC') or die;
-
 require_once dirname(__FILE__) . '/auth.php';
 
 /**
- * Class User for component com_thm_organizer
- *
  * Class provides methods to authenticate a user
  *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
- * @since       v0.0.1
  */
-class User
+class THMUser
 {
 	/**
 	 * Username
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	private $_username = null;
 
@@ -40,7 +33,6 @@ class User
 	 * Token
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	private $_token = null;
 
@@ -48,7 +40,6 @@ class User
 	 * Password
 	 *
 	 * @var    String
-	 * @since  1.0
 	 */
 	private $_passwd = null;
 
@@ -56,7 +47,6 @@ class User
 	 * Config
 	 *
 	 * @var    Object
-	 * @since  1.0
 	 */
 	private $_cfg = null;
 
@@ -64,7 +54,6 @@ class User
 	 * Joomla data abstraction
 	 *
 	 * @var    DataAbstraction
-	 * @since  1.0
 	 */
 	private $_JDA = null;
 
@@ -135,7 +124,7 @@ class User
 			/*
 			* Ueberpruefung ob Token korrekt sind
 			*/
-			$auth = new Auth($this->_JDA, $this->_cfg);
+			$auth = new THMAuth($this->_JDA, $this->_cfg);
 			return array("data" => $auth->joomla($this->_token));
 
 			// Hier werden die Logindaten des Users gecheckt
@@ -145,7 +134,7 @@ class User
 			/*
 			* Ueberpruefung ob Angaben korrekt sind
 			*/
-			$auth = new Auth($this->_JDA, $this->_cfg);
+			$auth = new THMAuth($this->_JDA, $this->_cfg);
 			return array("data" => $auth->ldap($this->_username, $this->_passwd));
 		}
 

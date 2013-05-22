@@ -385,8 +385,6 @@ class THM_OrganizerModelRoom extends JModel
 	 * Deletes room resource entries. Related entries in the event rooms table
 	 * are deleted automatically due to fk reference.
 	 * 
-	 * @todo check saved schedules for reference and block delete
-	 * 
 	 * @return boolean
 	 */
 	public function delete()

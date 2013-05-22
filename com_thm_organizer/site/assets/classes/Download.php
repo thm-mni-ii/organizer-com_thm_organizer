@@ -22,7 +22,7 @@ defined('_JEXEC') or die;
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class Download
+class THM_OrganizerDownload
 {
 	/**
 	 * Config

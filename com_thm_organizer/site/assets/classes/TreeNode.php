@@ -21,7 +21,7 @@
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
  */
-class TreeNode
+class THMTreeNode
 {
     /**
      * Id

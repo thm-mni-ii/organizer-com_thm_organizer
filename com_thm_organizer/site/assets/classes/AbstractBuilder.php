@@ -3,8 +3,8 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		abstrakterBauer
- * @description abstrakterBauer file from com_thm_organizer
+ * @name		AbstractBuilder
+ * @description AbstractBuilder file from com_thm_organizer
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -13,7 +13,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Abstract class AbstrakterBauer for component com_thm_organizer
+ * Abstract class AbstractBuilder for component com_thm_organizer
  *
  * Class provides abstract methods for the builder pattern
  *
@@ -22,7 +22,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
  */
-abstract class AbstrakterBauer
+abstract class THMAbstractBuilder
 {
 	/**
 	 * Saves the file to $dest with $filename in picturtype $type
@@ -33,5 +33,5 @@ abstract class AbstrakterBauer
 	 *
 	 * @return void
 	 */
-	abstract protected function erstelleStundenplan( $arr, $username, $title );
+	abstract protected function createSchedule( $arr, $username, $title );
 }

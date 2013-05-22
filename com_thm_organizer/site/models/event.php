@@ -58,7 +58,7 @@ class THM_OrganizerModelEvent extends JModel
             $this->loadEventResources();
             $this->setMenuLinks();
         }
-        $this->canWrite = eventAccess::canCreate();
+        $this->canWrite = THMEventAccess::canCreate();
     }
 
     /**
@@ -151,7 +151,7 @@ class THM_OrganizerModelEvent extends JModel
         $event['rooms'] = array();
         if ($event['id'] != 0)
         {
-            $event['access'] = eventAccess::canEdit($this->event['id']);
+            $event['access'] = THMEventAccess::canEdit($this->event['id']);
         }
         $this->event = $event;
     }

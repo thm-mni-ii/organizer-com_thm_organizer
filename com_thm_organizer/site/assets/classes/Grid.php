@@ -24,7 +24,7 @@ defined('_JEXEC') or die;
  * @link        www.mni.thm.de
  * @since       v0.0.1
  */
-class Grid
+class THMGrid
 {
 	/**
 	 * Joomla data abstraction

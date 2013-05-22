@@ -263,7 +263,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
 		{
 			if ($this->nodeStatus($nodeID))
 			{
-				$treeNode = new TreeNode(
+				$treeNode = new THMTreeNode(
 						$nodeID,
 						$text,
 						$iconCls,
@@ -284,7 +284,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
 		}
 		else
 		{
-			$treeNode = new TreeNode(
+			$treeNode = new THMTreeNode(
 					$nodeID,
 					$text,
 					$iconCls,
@@ -310,7 +310,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
 			}
 			else
 			{
-				$this->_publicDefaultNode = new TreeNode(
+				$this->_publicDefaultNode = new THMTreeNode(
 						$nodeID,
 						$text,
 						$iconCls,

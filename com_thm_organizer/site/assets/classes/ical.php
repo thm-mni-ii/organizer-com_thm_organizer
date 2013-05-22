@@ -11,7 +11,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-require_once dirname(__FILE__) . "/abstrakterBauer.php";
+require_once dirname(__FILE__) . "/AbstractBuilder.php";
 
 jimport('iCalcreator.iCalcreator');
 
@@ -25,7 +25,7 @@ jimport('iCalcreator.iCalcreator');
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
  */
-class ICALBauer extends abstrakterBauer
+class THMICALBuilder extends THMAbstractBuilder
 {
 	/**
 	 * Joomla data abstraction
@@ -84,7 +84,7 @@ class ICALBauer extends abstrakterBauer
 	 *
 	 * @return Array An array with information about the status of the creation
 	 */
-	public function erstelleStundenplan($lessons, $username, $title)
+	public function createSchedule($lessons, $username, $title)
 	{
 	    $departmentAndSemester = JRequest::getVar('departmentAndSemester');
 	    
