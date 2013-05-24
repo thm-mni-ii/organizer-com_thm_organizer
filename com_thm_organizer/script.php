@@ -68,48 +68,112 @@ class com_THM_OrganizerInstallerScript
             $instColor = 'yellow';
             $instStatus = 'Problems have occured while installing THM Organizer.';
         }
-?>
-<div>
-    <img src="../media/com_thm_organizer/images/THM-Organizer-Logo-alternative.png" alt="THM Organizer Logo"/>
-    <div style="width: 100%;">
-        Released under the terms and conditions of the
-        <a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GNU General Public License</a>.
+    ?>
+    <style>
+    
+    .com_thm_organizer_success {
+        box-shadow: -5px -5px 25px green inset;
+        transition-property: box-shadow;
+        transition-duration: 3s;
+    }
+    
+    .com_thm_organizer_failure {
+        box-shadow: -5px -5px 25px red inset;
+        transition-property: box-shadow;
+        transition-duration: 3s;
+    }
+    
+    </style>
+    <script>
+    
+    <?php
+    if ($dirCreated AND $tablesFilled)
+    {
+    ?>
+            var status = "com_thm_organizer_success";
+    <?php
+    }
+    else
+    {
+    ?>
+            var status = "com_thm_organizer_failure";
+    
+    <?php
+    }
+    ?>
+    
+    window.addEvent('domready', function() {
+    	$('com_thm_organizer_fieldset').addClass(status);
+    });
+    
+    </script>
+        <fieldset id="com_thm_organizer_fieldset" style="border-radius:10px;">
+        <legend>
+            <img style="float:none;" src="../media/com_thm_organizer/images/THM-Organizer-Logo-alternative.png" alt="THM Organizer Logo"/>        
+        </legend>
+        <div style="padding-left:17px;">
+            <div style="color:#146295; font-size: 1.182em; font-weight:bold; padding-bottom: 17px" >THM Organizer is a component designed to handle the scheduling and planning needs of the University of Applied Sciences Central Hessen in Giessen, Germany.</div>
+            <div style="width: 100%;">
+                Released under the terms and conditions of the
+                <a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GNU General Public License</a>.
+            </div>
+            <table style="border-radius: 5px; border-style: dashed; margin-top: 17px;">
+    
+        	<!-- Table header -->
+        	
+        		<thead>
+        		</thead>
+        	
+        	<!-- Table footer -->
+        	
+        		<tfoot>
+        		</tfoot>
+        	
+        	<!-- Table body -->
+    	
+    		<tbody>
+    			<tr>
+    				<td>Database Table Fill Status</td>
+    				<td><span style='color: <?php echo $fillColor; ?>'> <?php echo $fillStatus; ?></span></td>
+    			</tr>
+    			<tr>
+    				<td>Directory Status</td>
+    				<td><span style='color: <?php echo $dirColor; ?>'> <?php echo $dirStatus; ?></span></td>
+    			</tr>
+    			<tr>
+    				<td>Installation Status</td>
+    				<td><span style='color: <?php echo $instColor; ?>'> <?php echo $instStatus; ?></span></td>
+    			</tr>
+    		</tbody>
+    
+    </table>
+    <?php
+    if ($tablesFilled AND $dirCreated)
+    {
+    ?>
+                <h4>Please ensure that THM Organizer has write access to the directory mentioned above.</h4>
+    <?php
+    }
+    if (!$tablesFilled)
+    {
+    ?>
+                <h4>An error occurred while adding default values to the database tables. Some values may need to be manually entered.</h4>
+    <?php
+    }
+    if (!$dirCreated)
+    {
+    ?>
+                <h4>Please check the /images/thm_organizer Directory.</h4>
+                If it does not exist, please create this directory, and ensure THM - Organizer has write access to it.<br />
+                Failure to do so will prevent THM - Organizer from being able use images.
+    
+    <?php
+    }
+    ?>
+        </div>
     </div>
-    <div style="width: 100%;">
-        <h3>Database Table Fill Status:</h3>
-        <h4 style='color: <?php echo $fillColor; ?>'>
-         <?php echo $fillStatus; ?></h4>
-        <h3>Directory Status:</h3>
-        <h4 style='color: <?php echo $dirColor; ?>'>
-         <?php echo $dirStatus; ?></h4>
-        <h3>Installation Status:</h3>
-        <h4 style="color: <?php echo $instColor; ?>; font-weight: bold;">
-         <?php echo $instStatus; ?></h4>
-<?php
-if ($tablesFilled AND $dirCreated)
-{
-?>
-            <h4>Please ensure that THM Organizer has write access to the directory mentioned above.</h4>
-<?php
-}
-if (!$tablesFilled)
-{
-?>
-            <h4>An error occurred while adding default values to the database tables. Some values may need to be manually entered.</h4>
-<?php
-}
-if (!$dirCreated)
-{
-?>
-            <h4>Please check the /images/thm_organizer Directory.</h4>
-            If it does not exist, please create this directory, and ensure THM - Organizer has write access to it.<br />
-            Failure to do so will prevent THM - Organizer from being able use images.
+</fieldset>
 
-<?php
-}
-?>
-    </div>
-</div>
 <?php
     }
 
@@ -185,6 +249,68 @@ if (!$dirCreated)
         }
     }
     
+    public function update($parent)
+    {
+        ?>
+        <style>
+            .com_thm_organizer_success {
+                box-shadow: -5px -5px 25px green inset;
+                transition-property: box-shadow;
+                transition-duration: 3s;
+            }
+        </style>
+        
+        <script>        
+        window.addEvent('domready', function() {
+        	$('com_thm_organizer_fieldset').addClass("com_thm_organizer_success");
+        });
+        
+        </script>
+        
+        <fieldset id="com_thm_organizer_fieldset" style="border-radius:10px;">
+        <legend>
+            <img style="float:none;" src="../media/com_thm_organizer/images/THM-Organizer-Logo-alternative.png" alt="THM Organizer Logo"/>        
+        </legend>
+        
+        <div style="padding-left: 17px; padding-bottom: 20px">
+            <div style="width: 100%;">
+                <?php echo JTEXT::_('COM_THM_ORGANIZER_UPDATE_LICENSE')?>
+                <a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GNU General Public License</a>.
+            </div>
+            <table style="border-radius: 5px; border-style: dashed; margin-top: 17px;">
+    
+            	<!-- Table header -->
+            	
+            		<thead>
+            		</thead>
+            	
+            	<!-- Table footer -->
+            	
+            		<tfoot>
+            		</tfoot>
+            	
+            	<!-- Table body -->
+        	
+        		<tbody>
+        			<tr>
+        				<td><?php echo JTEXT::_('COM_THM_ORGANIZER_UPDATE_DATABASE_STATUS')?></td>
+        				<td><span style='color: green'><?php echo JTEXT::_('COM_THM_ORGANIZER_UPDATE_DATABASE_STATUS_TEXT')?></span></td>
+        			</tr>
+        			<tr>
+        				<td><?php echo JTEXT::_('COM_THM_ORGANIZER_UPDATE_FILES_DIRECTORIES_STATUS')?></td>
+        				<td><span style='color: green'><?php echo JTEXT::_('COM_THM_ORGANIZER_UPDATE_FILES_DIRECTORIES_STATUS_TEXT')?></span></td>
+        			</tr>
+        			<tr>
+        				<td><?php echo JTEXT::_('COM_THM_ORGANIZER_UPDATE_UPDATE_STATUS')?></td>
+        				<td><span style='color: green'> <?php echo JText::sprintf('COM_THM_ORGANIZER_UPDATE_UPDATE_TEXT', $parent->get('manifest')->version); ?></span></td>
+        			</tr>
+        		</tbody>
+            </table>
+        </div>
+    </fieldset>
+    <?php 
+    }
+        
     /**
      * Compares the version numbers to see if one is greater than the other
      * 

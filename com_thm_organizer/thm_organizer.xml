@@ -12,7 +12,6 @@
     <copyright>TH Mittelhessen 2013</copyright>
     <licence>GNU GPL v.2</licence>
     <version>0.3.2</version>
-    <description>THM Organizer is a component designed to handle the scheduling and planning needs of the University of Applied Sciences Central Hessen in Giessen, Germany.</description>
     <scriptfile>script.php</scriptfile>
     <install>
         <sql>
