@@ -12,7 +12,6 @@
     <copyright>TH Mittelhessen 2013</copyright>
     <licence>GNU GPL v.2</licence>
     <version>0.3.1</version>
-    <description>COM_THM_ORGANIZER_DESCRIPTION</description>
     <scriptfile>script.php</scriptfile>
     <install>
         <sql>

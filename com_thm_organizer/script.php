@@ -22,7 +22,7 @@ jimport('joomla.filesystem.file');
  * @subpackage  com_thm_organizer.general
  * @link        www.mni.thm.de
  */
-class THM_OrganizerInstallerScript
+class com_THM_OrganizerInstallerScript
 {
     /**
      * Method to install the component. For some unknown reason Joomla will not resolve text constants in this function.
@@ -34,6 +34,7 @@ class THM_OrganizerInstallerScript
      */
     public function install($parent)
     {
+        echo JText::_('COM_THM_ORGANIZER_DESCRIPTION');
         $tablesFilled = $this->fillTables();
         if ($tablesFilled)
         {
@@ -184,6 +185,18 @@ if (!$dirCreated)
         }
     }
 
+    /**
+     * Called on update
+     *
+     * @param   JAdapterInstance  $adapter  The object responsible for running this script
+     *
+     * @return  boolean  True on success
+     */
+    public function update($parent)
+    {
+        echo JText::_('COM_THM_ORGANIZER_UPDATE_TEXT');
+    }
+    
     /**
      * Compares the version numbers to see if one is greater than the other
      * 
