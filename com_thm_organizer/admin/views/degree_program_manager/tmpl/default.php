@@ -50,6 +50,16 @@ foreach ($this->items as $i => $item)
 {
 	$check = !empty($item->lsfFieldID) && !empty($item->lsfDegree)?
 		'<img src="templates/thmstylebackend/images/admin/tick.png" />' : '';
+    if (!empty($item->mapping))
+    {
+        $mappingLink = "<a title='" . JText::_('COM_THM_ORGANIZER_SHOW_CONTENT') . "' ";
+        $mappingLink .= "href='" . JRoute::_('index.php?option=com_thm_organizer&view=pool_manager&programID=' . $item->id) . "' >";
+        $mappingLink .= "<img src='components/com_thm_organizer/assets/images/list.png' /></a>";
+    }
+    else
+    {
+        $mappingLink = '';
+    }
 ?>
 			<tr class="row<?php echo $i % 2; ?>">
 
@@ -65,10 +75,7 @@ foreach ($this->items as $i => $item)
 					<?php echo $check; ?>
 				</td>
 				<td align="center">
-					<a title="<?php echo JText::_('COM_THM_ORGANIZER_SHOW_CONTENT'); ?>"
-					   href="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=mappings&id=' . $item->id) ?>">
-						<img src="components/com_thm_organizer/assets/images/list.png" />
-					</a>
+					<?php echo $mappingLink; ?>
 				</td>
 			</tr>
 <?php

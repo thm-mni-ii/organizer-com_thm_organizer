@@ -38,7 +38,6 @@ class THM_OrganizerControllerPool extends JController
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
         JRequest::setVar('view', 'pool_edit');
-        JRequest::setVar('layout', 'add');
         JRequest::setVar('id', '0');
         parent::display();
     }
@@ -55,7 +54,6 @@ class THM_OrganizerControllerPool extends JController
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
         JRequest::setVar('view', 'pool_edit');
-        JRequest::setVar('layout', 'edit');
         parent::display();
     }
 

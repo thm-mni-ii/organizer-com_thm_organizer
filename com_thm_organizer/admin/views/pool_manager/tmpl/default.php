@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        view pool_manager default
+ * @name        view pool_manager default layout
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -32,6 +32,9 @@ $listDirn = $this->state->get('list.direction');
 				<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>
 			</button>
 		</div>
+        <div class="filter-select fltrt">
+            <?php echo $this->programSelect; ?>
+        </div>
 	</fieldset>
 	<table class="adminlist">
 		<thead>
@@ -71,37 +74,37 @@ foreach ($this->pools as $pool)
                     <?php echo JHtml::_('grid.id', $i, $pool->id); ?>
 				</td>
 				<td>
-                    <a href="index.php?option=com_thm_organizer&view=pool_edit&layout=edit&id=<?php echo $pool->id; ?>">
+                    <a href="index.php?option=com_thm_organizer&view=pool_edit&id=<?php echo $pool->id; ?>">
 						<?php echo $pool->name; ?>
                     </a>
 				</td>
 				<td>
-                    <a href="index.php?option=com_thm_organizer&view=pool_edit&layout=edit&id=<?php echo $pool->id; ?>">
+                    <a href="index.php?option=com_thm_organizer&view=pool_edit&id=<?php echo $pool->id; ?>">
 						<?php echo $pool->lsfID; ?>
                     </a>
 				</td>
 				<td>
-                    <a href="index.php?option=com_thm_organizer&view=pool_edit&layout=edit&id=<?php echo $pool->id; ?>">
+                    <a href="index.php?option=com_thm_organizer&view=pool_edit&id=<?php echo $pool->id; ?>">
 						<?php echo $pool->hisID; ?>
                     </a>
 				</td>
 				<td>
-                    <a href="index.php?option=com_thm_organizer&view=pool_edit&layout=edit&id=<?php echo $pool->id; ?>">
+                    <a href="index.php?option=com_thm_organizer&view=pool_edit&id=<?php echo $pool->id; ?>">
 						<?php echo $pool->externalID; ?>
                     </a>
 				</td>
 				<td>
-                    <a href="index.php?option=com_thm_organizer&view=pool_edit&layout=edit&id=<?php echo $pool->id; ?>">
+                    <a href="index.php?option=com_thm_organizer&view=pool_edit&id=<?php echo $pool->id; ?>">
 						<?php echo $pool->maxCrP; ?>
                     </a>
 				</td>
 				<td>
-                    <a href="index.php?option=com_thm_organizer&view=pool_edit&layout=edit&id=<?php echo $pool->id; ?>">
+                    <a href="index.php?option=com_thm_organizer&view=pool_edit&id=<?php echo $pool->id; ?>">
 						<?php echo $pool->minCrP; ?>
                     </a>
 				</td>
 				<td>
-                    <a href="index.php?option=com_thm_organizer&view=pool_edit&layout=edit&id=<?php echo $pool->id; ?>">
+                    <a href="index.php?option=com_thm_organizer&view=pool_edit&id=<?php echo $pool->id; ?>">
 						<?php echo $pool->field; ?>
                     </a>
 				</td>

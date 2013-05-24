@@ -29,14 +29,21 @@ class THM_OrganizerModelPool extends JModel
      */
     public function byDegree()
     {
-        $dbo = JFactory::getDbo();
+        $requestedPrograms = JRequest::getString('programID');
+        if (empty($requestedPrograms))
+        {
+            return '';
+        }
         $ownID = JRequest::getInt('ownID');
-        $programIDs = "'" . str_replace(",", "', '", JRequest::getString('programID')) . "'";
-        
+        $programIDs = "'" . str_replace(",", "', '", $requestedPrograms) . "'";
+
+        $dbo = JFactory::getDbo();
+
         $parentIDQuery = $dbo->getQuery(true);
-        $parentIDQuery->select('parentID')->from('#__thm_organizer_mappings')->where("poolID = '$ownID'");
+        $parentIDQuery->select('id, parentID')->from('#__thm_organizer_mappings')->where("poolID = '$ownID'");
         $dbo->setQuery((string) $parentIDQuery);
-        $parentIDs = $dbo->loadResultArray();
+        $ownIDs = $dbo->loadResultArray();
+        $parentIDs = $dbo->loadResultArray(1);
         
         $bordersQuery = $dbo->getQuery(true);
         $bordersQuery->select('DISTINCT lft, rgt');
@@ -65,30 +72,37 @@ class THM_OrganizerModelPool extends JModel
         $poolsTable = JTable::getInstance('pools', 'THM_OrganizerTable');
         foreach ($programMappings as $key => $mapping)
         {
+            if (in_array($mapping['id'], $ownIDs))
+            {
+                unset($programMappings[$key]);
+                continue;
+            }
             if (!empty($mapping['poolID']))
             {
                 $poolsTable->load($mapping['poolID']);
-                $programMappings[$key]['name'] = $language[0] == 'de'? $poolsTable->name_de : $poolsTable->name_en;
+                $name = $language[0] == 'de'? $poolsTable->name_de : $poolsTable->name_en;
+                
+                $level = 0;
+                if ($mapping['level'] != 0)
+                {
+                    $indent = '';
+                    while ($level < $mapping['level'])
+                    {
+                        $indent .= "   ";
+                        $level++;
+                    }
+                    $programMappings[$key]['name'] = $indent . "|_" . $name;
+                }
             }
             else
             {
                 $programNameQuery = $dbo->getQuery(true);
-                $programNameQuery->select(" CONCAT( dp.subject, ', (', d.abbreviation, ' ', dp.version, ')', ' Root') AS name");
+                $programNameQuery->select(" CONCAT( dp.subject, ', (', d.abbreviation, ' ', dp.version, ')') AS name");
                 $programNameQuery->from('#__thm_organizer_degree_programs AS dp');
                 $programNameQuery->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
                 $programNameQuery->where("dp.id = '{$mapping['programID']}'");
                 $dbo->setQuery((string) $programNameQuery);
                 $programMappings[$key]['name'] = $dbo->loadResult();
-            }
-            $level = 0;
-            if ($mapping['level'] != 0)
-            {
-                $indent = '';
-                while ($level < $mapping['level'])
-                {
-                    $indent .= ".    ";
-                }
-                $programMappings[$key]['name'] = $indent . "|_" . $mapping['name'];
             }
         }
 
@@ -142,7 +156,7 @@ class THM_OrganizerModelPool extends JModel
                 if ($mappingsDeleted)
                 {
                     $dbo->transactionCommit();
-                    return true;
+                    return $table->id;
                 }
                 else
                 {
@@ -156,7 +170,7 @@ class THM_OrganizerModelPool extends JModel
                 if ($poolSaved)
                 {
                     $dbo->transactionCommit();
-                    return true;
+                    return $table->id;
                 }
                 else
                 {
