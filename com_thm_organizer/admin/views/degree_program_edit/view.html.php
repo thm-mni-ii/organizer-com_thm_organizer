@@ -36,10 +36,12 @@ class THM_OrganizerViewDegree_Program_Edit extends JView
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
 
+        $document = JFactory::getDocument();
+        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+
 		$this->form = $this->get('Form');
 		$this->item = $this->get('Item');
         $this->children = $this->getModel()->children;
-        $this->makeChildrensTable();
 
 		$this->addToolBar();
 
@@ -69,14 +71,4 @@ class THM_OrganizerViewDegree_Program_Edit extends JView
             JToolBarHelper::cancel('degree_program.cancel', 'JTOOLBAR_CLOSE');
         }
 	}
-
-    private function makeChildrensTable()
-    {
-        $maxOrdering = max(array_keys($this->children));
-        
-        for ($index = 1; $index <= $maxOrdering; $index++)
-        {
-            
-        }
-    }
 }

@@ -76,10 +76,19 @@ class THM_OrganizerModelDegree_Program_Edit extends JModelAdmin
             $this->children = array();
             foreach ($results as $child)
             {
-                $formID = isset($child['poolID'])? $child['poolID'] . 'p' : $child['subjectID'] . 's';
                 $this->children[$child['ordering']] = array();
+                if (!empty($child['poolID']))
+                {
+                    $formID = $child['poolID'] . 'p';
+                }
+                else
+                {
+                    $formID = $child['subjectID'] . 's';
+                }
                 $this->children[$child['ordering']]['id'] = $formID;
                 $this->children[$child['ordering']]['name'] = $this->getChildName($formID);
+                $this->children[$child['ordering']]['poolID'] = $child['poolID'];
+                $this->children[$child['ordering']]['subjectID'] = $child['subjectID'];
             }
         }
     }
