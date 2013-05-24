@@ -38,6 +38,8 @@ class THM_OrganizerViewDegree_Program_Edit extends JView
 
 		$this->form = $this->get('Form');
 		$this->item = $this->get('Item');
+        $this->children = $this->getModel()->children;
+        $this->makeChildrensTable();
 
 		$this->addToolBar();
 
@@ -67,4 +69,14 @@ class THM_OrganizerViewDegree_Program_Edit extends JView
             JToolBarHelper::cancel('degree_program.cancel', 'JTOOLBAR_CLOSE');
         }
 	}
+
+    private function makeChildrensTable()
+    {
+        $maxOrdering = max(array_keys($this->children));
+        
+        for ($index = 1; $index <= $maxOrdering; $index++)
+        {
+            
+        }
+    }
 }

@@ -149,7 +149,7 @@ class THM_OrganizerModelMapping extends JModel
      * 
      * @return  array  empty if no child data exists
      */
-    private function getChildren($resourceID, $type = 'pool', $deep = true)
+    public function getChildren($resourceID, $type = 'pool', $deep = true)
     {
         $dbo = JFactory::getDbo();
         $children = array();
@@ -250,6 +250,12 @@ class THM_OrganizerModelMapping extends JModel
 
         $spaceMade = $this->shiftRight($pool['lft']);
         if (!$spaceMade)
+        {
+            return false;
+        }
+
+        $siblingsReordered = $this->shiftOrder($pool['parentID'], $pool['ordering']);
+        if (!$siblingsReordered)
         {
             return false;
         }
@@ -365,6 +371,33 @@ class THM_OrganizerModelMapping extends JModel
     }
 
     /**
+     * Shifts the ordering for existing siblings who have an ordering at or
+     * above the ordering to be inserted
+     * 
+     * @param   int  $parentID     the id of the parent
+     * @param   int  $insertOrder  the ordering of the item to be inserted
+     * 
+     * @return  boolean  true on success, otherwise false
+     */
+    private function shiftOrder($parentID, $insertOrder)
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->update('#__thm_organizer_mappings')->set('ordering = ordering + 1');
+        $query->where("ordering >= '$insertOrder'")->where("parentID = '$parentID'");
+        $dbo->setQuery((string) $query);
+        try
+        {
+            $dbo->query();
+        }
+        catch (Exception $exc)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Attempt to determine the left value for the mapping to be created
      * 
      * @param   int    $parentID  the parent of the item to be inserted
@@ -467,12 +500,14 @@ class THM_OrganizerModelMapping extends JModel
     private function deleteEntry($entryID)
     {
         $dbo = JFactory::getDbo();
-        
+
+        // Retrieves information about the current mapping including its total width
         $mappingQuery = $dbo->getQuery(true);
         $mappingQuery->select('*, (rgt - lft + 1) AS width')->from('#__thm_organizer_mappings')->where("id = '$entryID'");
         $dbo->setQuery((string) $mappingQuery);
         $mapping = $dbo->loadAssoc();
 
+        // Deletes the mapping
         $deleteQuery = $dbo->getQuery(true);
         $deleteQuery->delete('#__thm_organizer_mappings')->where("id = '{$mapping['id']}'");
         $dbo->setQuery((string) $deleteQuery);
@@ -485,6 +520,7 @@ class THM_OrganizerModelMapping extends JModel
             return false;
         }
 
+        // Reduces the ordering of siblings with a greater ordering
         $siblingsQuery = $dbo->getQuery(true);
         $siblingsQuery->update('#__thm_organizer_mappings');
         $siblingsQuery->set('ordering = ordering - 1');
@@ -500,10 +536,14 @@ class THM_OrganizerModelMapping extends JModel
             return false;
         }
 
+        /**
+         *  Reduces lft values at or above the mapping's rgt value according to
+         *  the mapping's width
+         */
         $updateLeftQuery = $dbo->getQuery(true);
         $updateLeftQuery->update('#__thm_organizer_mappings');
         $updateLeftQuery->set("lft = lft - {$mapping['width']}");
-        $updateLeftQuery->where("lft > '{$mapping['rgt']}'");
+        $updateLeftQuery->where("lft > '{$mapping['lft']}'");
         $dbo->setQuery((string) $updateLeftQuery);
         try
         {
@@ -514,10 +554,14 @@ class THM_OrganizerModelMapping extends JModel
             return false;
         }
 
+        /**
+         *  Reduces rgt values at or above the mapping's rgt value according to
+         *  the mapping's width
+         */
         $updateRightQuery = $dbo->getQuery(true);
         $updateRightQuery->update('#__thm_organizer_mappings');
         $updateRightQuery->set("rgt = rgt - {$mapping['width']}");
-        $updateRightQuery->where("rgt > '{$mapping['rgt']}'");
+        $updateRightQuery->where("rgt > '{$mapping['lft']}'");
         $dbo->setQuery((string) $updateRightQuery);
         try
         {
@@ -529,17 +573,6 @@ class THM_OrganizerModelMapping extends JModel
         }
         return true;
     }
-
-
-    
-
-
-
-    
-    
-    
-    
-    
     
     /**
      * Attempts to delete the selected subject entries

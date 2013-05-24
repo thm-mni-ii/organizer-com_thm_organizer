@@ -142,5 +142,8 @@
             <language tag="de-DE">language/de-DE/de-DE.com_thm_organizer.sys.ini</language>
         </languages>
     </administration>
+    <packages>
+       <package name="pkg_thm_organizer" git="git://scm.thm.de/icampus/pkg_thm_organizer.git"/>
+    </packages>
 </extension>
 
