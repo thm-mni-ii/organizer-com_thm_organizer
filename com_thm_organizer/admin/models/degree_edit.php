@@ -52,7 +52,7 @@ class THM_OrganizerModelDegree_Edit extends JModelAdmin
         $degreeID = (empty($degreeIDs))? JRequest::getInt('id') : $degreeIDs[0];
 		return $this->getItem($degreeID);
 	}
-	
+
     /**
 	 * Method to get the table
 	 *
