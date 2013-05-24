@@ -52,11 +52,19 @@ class THM_OrganizerViewDegree_Program_Edit extends JView
 	protected function addToolBar()
 	{
 		JRequest::setVar('hidemainmenu', true);
-		$title = $this->item->id == 0 ?
-			JText::_("COM_THM_ORGANIZER_DGP_NEW") : JText::_("COM_THM_ORGANIZER_DGP_EDIT");
+        $isNew = $this->item->id == 0;
+		$title = $isNew ? JText::_("COM_THM_ORGANIZER_DGP_NEW") : JText::_("COM_THM_ORGANIZER_DGP_EDIT");
 		JToolBarHelper::title($title);
 		JToolBarHelper::save('degree_program.save');
 		JToolBarHelper::save2new('degree_program.save2new');
-		JToolBarHelper::cancel('degree_program.cancel', $this->item->id == 0 ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+        if ($isNew)
+        {
+            JToolBarHelper::cancel('degree_program.cancel', 'JTOOLBAR_CANCEL');
+        }
+        else
+        {
+            JToolBarHelper::save2copy('degree_program.save2copy');
+            JToolBarHelper::cancel('degree_program.cancel', 'JTOOLBAR_CLOSE');
+        }
 	}
 }

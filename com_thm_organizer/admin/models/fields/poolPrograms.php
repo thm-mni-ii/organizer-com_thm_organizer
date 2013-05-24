@@ -30,7 +30,7 @@ class JFormFieldPoolPrograms extends JFormField
 	 *
 	 * @var    String
 	 */
-	protected $type = 'parentPool';
+	protected $type = 'poolProgram';
 
 	/**
 	 * Returns a selectionbox where stored coursepool can be chosen as a parent node
@@ -42,15 +42,30 @@ class JFormFieldPoolPrograms extends JFormField
 		$dbo = JFactory::getDBO();
 		$poolID = JRequest::getInt('id');
         
-        $selectedProgramsQuery = $dbo->getQuery(true);
-        $selectedProgramsQuery->select("dp.id");
-        $selectedProgramsQuery->from('#__thm_organizer_mappings AS m');
-        $selectedProgramsQuery->innerJoin('#__thm_organizer_degree_programs AS dp ON m.programID = dp.id');
-        $selectedProgramsQuery->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
-        $selectedProgramsQuery->where("poolID = '$poolID'");
-        $dbo->setQuery((string) $selectedProgramsQuery);
-        $selectedPrograms = $dbo->loadResultArray();
-        
+        $rangesQuery = $dbo->getQuery(true);
+        $rangesQuery->select('lft, rgt')->from('#__thm_organizer_mappings')->where("poolID = '$poolID'");
+        $dbo->setQuery((string) $rangesQuery);
+        $ranges = $dbo->loadAssocList();
+
+        if (!empty($ranges))
+        {
+            $rangeConditions = array();
+            foreach ($ranges as $range)
+            {
+                $rangeConditions[] = "( lft < '{$range['lft']}' AND rgt > '{$range['rgt']}' )";
+            }
+            $rangesClause = implode(' OR ', $rangeConditions);
+
+            $selectedProgramsQuery = $dbo->getQuery(true);
+            $selectedProgramsQuery->select("DISTINCT dp.id");
+            $selectedProgramsQuery->from('#__thm_organizer_mappings AS m');
+            $selectedProgramsQuery->innerJoin('#__thm_organizer_degree_programs AS dp ON m.programID = dp.id');
+            $selectedProgramsQuery->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
+            $selectedProgramsQuery->where($rangesClause);
+            $dbo->setQuery((string) $selectedProgramsQuery);
+            $associatedPrograms = $dbo->loadResultArray();
+        }
+
         $allProgramsQuery = $dbo->getQuery(true);
         $allProgramsQuery->select("dp.id AS value, CONCAT(dp.subject, ' (', d.abbreviation, ' ', dp.version, ')') AS program");
         $allProgramsQuery->from('#__thm_organizer_degree_programs AS dp');
@@ -65,6 +80,7 @@ class JFormFieldPoolPrograms extends JFormField
 		$programs = array_merge($programDefaultOptions, empty($allPrograms)? array() : $allPrograms);
         
         $attributes = array('multiple' => 'multiple');
+        $selectedPrograms = empty($associatedPrograms)? array() : $associatedPrograms;
 		return JHTML::_("select.genericlist", $programs, "jform[programID][]", $attributes, "value", "program", $selectedPrograms);
 	}
 

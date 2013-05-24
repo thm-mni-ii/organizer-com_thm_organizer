@@ -100,15 +100,15 @@ class THM_OrganizerModelMapping extends JModel
                 }
                 if (strpos($childID, 'p'))
                 {
-                    $poolID = str_replace('p', '', $childID);
+                    $childPoolID = str_replace('p', '', $childID);
                     $poolData['children'][$ordering]['poolID'] = $poolID;
                     $poolData['children'][$ordering]['subjectID'] = null;
                     $poolData['children'][$ordering]['ordering'] = $ordering;
-                    $poolData['children'][$ordering]['children'] = $this->getChildren($poolID);
+                    $poolData['children'][$ordering]['children'] = $this->getChildren($childPoolID);
                 }
             }
         }
-        
+
         $parentIDs = $data['parentID'];
         $orderings = array();
         foreach ($parentIDs as $parentID)
@@ -129,6 +129,7 @@ class THM_OrganizerModelMapping extends JModel
                     return false;
                 }
             }
+            return true;
         }
         else
         {
@@ -139,17 +140,27 @@ class THM_OrganizerModelMapping extends JModel
     /**
      * Retrieves child mappings for a given pool
      * 
-     * @param   int  $poolID  the pool resource id
+     * @param   int     $resourceID  the resource id
+     * @param   string  $type        the resource id (defaults: pool)
+     * @param   bool    $deep        if the function should be used to find
+     *                               children iteratively or not (default: false)
+     * 
+     * @todo ensure that there are no self refering children
      * 
      * @return  array  empty if no child data exists
      */
-    private function getChildren($poolID)
+    private function getChildren($resourceID, $type = 'pool', $deep = true)
     {
         $dbo = JFactory::getDbo();
         $children = array();
-        
+ 
+        /**
+         * Subordinate structures are the same for every parent mapping,
+         * therefore only the first mapping needs to be found
+         */
         $existingQuery = $dbo->getQuery(true);
-        $existingQuery->select('id')->from('#__thm_organizer_mappings')->where("poolID = '$poolID'");
+        $existingQuery->select('id')->from('#__thm_organizer_mappings');
+        $existingQuery->where("{$type}ID = '$resourceID'");
         $dbo->setQuery((string) $existingQuery, 0, 1);
         $firstID = $dbo->loadResult();
         if (!empty($firstID))
@@ -165,11 +176,14 @@ class THM_OrganizerModelMapping extends JModel
             if (!empty($results))
             {
                 $children = $results;
-                foreach ($children as $key => $child)
+                if ($deep)
                 {
-                    if (!empty($child['poolID']))
+                    foreach ($children as $key => $child)
                     {
-                        $children[$key]['children'] = $this->getChildren($child['poolID']);
+                        if (!empty($child['poolID']))
+                        {
+                            $children[$key]['children'] = $this->getChildren($child['poolID']);
+                        }
                     }
                 }
             }
@@ -190,12 +204,27 @@ class THM_OrganizerModelMapping extends JModel
     private function getOrdering($parentID, $poolID)
     {
         $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('ordering')->from('#__thm_organizer_mappings');
-        $query->where("parentID = '$parentID'")->where("poolID = '$poolID'");
-        $dbo->setQuery((string) $query);
+        
+        // Check for an existing ordering as child of the parent element
+        $existingOrderQuery = $dbo->getQuery(true);
+        $existingOrderQuery->select('ordering')->from('#__thm_organizer_mappings');
+        $existingOrderQuery->where("parentID = '$parentID'")->where("poolID = '$poolID'");
+        $dbo->setQuery((string) $existingOrderQuery);
         $existingOrder = $dbo->loadResult();
-        return empty($existingOrder)? 'last' : $existingOrder;
+        if ( !empty($existingOrder))
+        {
+            return $existingOrder;
+        }
+
+        /**
+         *  No order exists for parent element order is then either one more
+         *  the existing max value, or 1 if no children exist
+         */
+        $maxOrderQuery = $dbo->getQuery(true);
+        $maxOrderQuery->select('MAX(ordering)')->from('#__thm_organizer_mappings')->where("parentID = '$parentID'");
+        $dbo->setQuery((string) $maxOrderQuery);
+        $maxOrder = $dbo->loadResult();
+        return empty($maxOrder)? 1 : $maxOrder + 1;
     }
 
     /**
@@ -210,23 +239,21 @@ class THM_OrganizerModelMapping extends JModel
     {
         $parent = $this->getParent($pool['parentID']);
 
-        if ($pool['ordering'] == 'last')
+        $pool['level'] = $parent['level'] + 1;
+
+        $pool['lft'] = $this->determineLft($pool['parentID'], $pool['ordering']);
+        if (empty($pool['lft']))
         {
-            $pool['lft'] = $parent['rgt'];
-            $pool['rgt'] = (string) ($parent['rgt'] + 1);
+            return false;
         }
-        else
-        {
-            $pool['lft'] = $this->determineLft($parentID, $pool['ordering']);
-            $pool['rgt'] = (string) ($pool['lft'] + 1);
-        }var_dump($pool); die;
-        
+        $pool['rgt'] = (string) ($pool['lft'] + 1);
+
         $spaceMade = $this->shiftRight($pool['lft']);
         if (!$spaceMade)
         {
             return false;
         }
-        
+
         $mapping = $this->getTable();
         $mappingAdded = $mapping->save($pool);
         if ($mappingAdded)
@@ -246,6 +273,7 @@ class THM_OrganizerModelMapping extends JModel
                     }
                     elseif (isset($child['subjectID']))
                     {
+                        $child['level'] = $pool['level'] + 1;
                         $childAdded = $this->addSubject($child);
                         if (!$childAdded)
                         {
@@ -269,6 +297,10 @@ class THM_OrganizerModelMapping extends JModel
     private function addSubject(&$subject)
     {
         $subject['lft'] = $this->determineLft($subject['parentID'], $subject['ordering']);
+        if (empty($subject['lft']))
+        {
+            return false;
+        }
         $subject['rgt'] = $subject['lft'] + 1;
         $spaceMade = $this->shiftRight($subject['lft']);
         if (!$spaceMade)
@@ -335,7 +367,7 @@ class THM_OrganizerModelMapping extends JModel
     /**
      * Attempt to determine the left value for the mapping to be created
      * 
-     * @param   int    $parentID  the id of the parent mapping
+     * @param   int    $parentID  the parent of the item to be inserted
      * @param   mixed  $ordering  the targeted ordering on completion
      * 
      * @return  mixed  int the left value for the mapping to be created, or
@@ -346,39 +378,36 @@ class THM_OrganizerModelMapping extends JModel
         $dbo = JFactory::getDbo();
         
         // Try to find the right value of the next lowest sibling
-        $rgtQuery1 = $dbo->getQuery(true);
-        $rgtQuery1->select('rgt')->from('#__thm_organizer_mappings');
-        $rgtQuery1->where("parentID = '$parentID'")->where("ordering < '$ordering'");
-        $dbo->setQuery((string) $rgtQuery1);
+        $rgtQuery = $dbo->getQuery(true);
+        $rgtQuery->select('MAX(rgt)')->from('#__thm_organizer_mappings');
+        $rgtQuery->where("parentID = '$parentID'")->where("ordering < '$ordering'");
+        $dbo->setQuery((string) $rgtQuery);
         try
         {
             $rgt = $dbo->loadResult();
+            if (!empty($rgt))
+            {
+                return $rgt + 1;
+            }
         }
         catch (Exception $exc)
         {
             return false;
         }
         
-        // No lower sibling exists
-        if (empty($rgt))
+        $lftQuery = $dbo->getQuery(true);
+        $lftQuery->select('lft')->from('#__thm_organizer_mappings');
+        $lftQuery->where("id = '$parentID'");
+        $dbo->setQuery((string) $lftQuery);
+        try
         {
-            $rgtQuery2 = $dbo->getQuery(true);
-            $rgtQuery2->select('lft')->from('#__thm_organizer_mappings');
-            $rgtQuery2->where("parentID = '$parentID'");
-            $dbo->setQuery((string) $rgtQuery1);
-            try
-            {
-                $lft = $dbo->loadResult();
-            }
-            catch (Exception $exc)
-            {
-                return false;
-            }
-            
+            $lft = $dbo->loadResult();
             return $lft + 1;
         }
-
-        return $rgt + 1;
+        catch (Exception $exc)
+        {
+            return false;
+        }
     }
 
     /**
@@ -413,13 +442,12 @@ class THM_OrganizerModelMapping extends JModel
         }
         $dbo->setQuery((string) $mappingIDsQuery);
         $mappingIDs = $dbo->loadResultArray();
-        
+
         if (!empty($mappingIDs))
         {
             foreach ($mappingIDs AS $mappingID)
             {
-                $manageTransaction = false;
-                $success = $this->deleteEntry($mappingID, $manageTransaction);
+                $success = $this->deleteEntry($mappingID);
                 if (!$success)
                 {
                     return false;
@@ -433,24 +461,18 @@ class THM_OrganizerModelMapping extends JModel
      * Method to delete a single entry
      * 
      * @param   int   $entryID            the id value of the entry to be deleted
-     * @param   bool  $manageTransaction  whether or not transaction security
-     *                                    needs to be handled within the function
      * 
      * @return  bool  true on success, otherwise false
      */
-    private function deleteEntry($entryID, $manageTransaction)
+    private function deleteEntry($entryID)
     {
         $dbo = JFactory::getDbo();
-        if ($manageTransaction)
-        {
-            $dbo->transactionStart();
-        }
         
         $mappingQuery = $dbo->getQuery(true);
-        $mappingQuery->select('*, (rgt - lft) AS width')->from('#__thm_organizer_mappings')->where("id = '$entryID'");
+        $mappingQuery->select('*, (rgt - lft + 1) AS width')->from('#__thm_organizer_mappings')->where("id = '$entryID'");
         $dbo->setQuery((string) $mappingQuery);
         $mapping = $dbo->loadAssoc();
-        
+
         $deleteQuery = $dbo->getQuery(true);
         $deleteQuery->delete('#__thm_organizer_mappings')->where("id = '{$mapping['id']}'");
         $dbo->setQuery((string) $deleteQuery);
@@ -460,17 +482,13 @@ class THM_OrganizerModelMapping extends JModel
         }
         catch (Exception $exception)
         {
-            if ($manageTransaction)
-            {
-                $dbo->transactionRollback();
-            }
             return false;
         }
 
         $siblingsQuery = $dbo->getQuery(true);
         $siblingsQuery->update('#__thm_organizer_mappings');
         $siblingsQuery->set('ordering = ordering - 1');
-        $siblingsQuery->where("parentID = '{$mapping['parentId']}'");
+        $siblingsQuery->where("parentID = '{$mapping['parentID']}'");
         $siblingsQuery->where("ordering > '{$mapping['ordering']}'");
         $dbo->setQuery((string) $siblingsQuery);
         try
@@ -479,17 +497,13 @@ class THM_OrganizerModelMapping extends JModel
         }
         catch (Exception $exception)
         {
-            if ($manageTransaction)
-            {
-                $dbo->transactionRollback();
-            }
             return false;
         }
 
         $updateLeftQuery = $dbo->getQuery(true);
         $updateLeftQuery->update('#__thm_organizer_mappings');
         $updateLeftQuery->set("lft = lft - {$mapping['width']}");
-        $updateLeftQuery->where("lft > '{$mapping['right']}'");
+        $updateLeftQuery->where("lft > '{$mapping['rgt']}'");
         $dbo->setQuery((string) $updateLeftQuery);
         try
         {
@@ -497,17 +511,13 @@ class THM_OrganizerModelMapping extends JModel
         }
         catch (Exception $exception)
         {
-            if ($manageTransaction)
-            {
-                $dbo->transactionRollback();
-            }
             return false;
         }
 
         $updateRightQuery = $dbo->getQuery(true);
         $updateRightQuery->update('#__thm_organizer_mappings');
         $updateRightQuery->set("rgt = rgt - {$mapping['width']}");
-        $updateRightQuery->where("rgt > '{$mapping['right']}'");
+        $updateRightQuery->where("rgt > '{$mapping['rgt']}'");
         $dbo->setQuery((string) $updateRightQuery);
         try
         {
@@ -515,15 +525,7 @@ class THM_OrganizerModelMapping extends JModel
         }
         catch (Exception $exception)
         {
-            if ($manageTransaction)
-            {
-                $dbo->transactionRollback();
-            }
             return false;
-        }
-        if ($manageTransaction)
-        {
-            $dbo->transactionCommit();
         }
         return true;
     }

@@ -48,9 +48,10 @@ class THM_OrganizerModelDegree_Program_Manager extends JModelList
 	{
 		$query = $this->_db->getQuery(true);
 		$select = "CONCAT( dp.subject, ', (', d.abbreviation, ' ', dp.version, ')') AS degreeProgram, ";
-		$select .= "dp.id as id, lsfFieldID, lsfDegree ";
+		$select .= "dp.id as id, lsfFieldID, lsfDegree, m.id AS mapping ";
 		$query->select($select);
 		$query->from('#__thm_organizer_degree_programs AS dp');
+        $query->leftJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
 		$query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
 		$query->order("{$this->state->get('list.ordering')} {$this->state->get('list.direction')}");
 

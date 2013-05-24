@@ -22,7 +22,7 @@ jimport('joomla.application.component.model');
 class THM_OrganizerModelDegree_Program extends JModel
 {
 	/**
-	 * Method to overwrite save method
+	 * Method to save degree programs
 	 *
 	 * @return  Boolean
 	 */
@@ -30,6 +30,36 @@ class THM_OrganizerModelDegree_Program extends JModel
 	{
 		$dbo = JFactory::getDbo();
         $data = JRequest::getVar('jform', null, null, null, 4);
+		$dbo->transactionStart();
+        $table = JTable::getInstance('degree_programs', 'thm_organizerTable');
+		$dpSuccess = $table->save($data);
+		if ($dpSuccess)
+		{
+            $model = JModel::getInstance('mapping', 'THM_OrganizerModel');
+            $mappingSuccess = $model->saveProgram($table->id);
+            if ($mappingSuccess)
+            {
+                $dbo->transactionCommit();
+                return true;
+            }
+		}
+        $dbo->transactionRollback();
+        return false;
+	}
+
+	/**
+	 * Method to save existing degree programs as copies
+	 *
+	 * @return  Boolean
+	 */
+	public function save2copy()
+	{
+		$dbo = JFactory::getDbo();
+        $data = JRequest::getVar('jform', null, null, null, 4);
+        if (isset($data['id']))
+        {
+            unset($data['id']);
+        }
 		$dbo->transactionStart();
         $table = JTable::getInstance('degree_programs', 'thm_organizerTable');
 		$dpSuccess = $table->save($data);

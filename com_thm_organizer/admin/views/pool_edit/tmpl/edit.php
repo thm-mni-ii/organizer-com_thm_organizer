@@ -11,12 +11,21 @@
  */
 defined('_JEXEC') or die;
 jimport('jquery.jquery');
+$poolID = empty($this->item->id)? 0 : $this->item->id;
 ?>
 <script type="text/javascript">
 var jq = jQuery.noConflict();
 jq(document).ready(function(){
     jq('#jformprogramID').change(function(){
         var selectedPrograms = jq('#jformprogramID').val();
+        if (selectedPrograms === null)
+        {
+            selectedPrograms = '';
+        }
+        else
+        {
+            selectedPrograms = selectedPrograms.join(',');
+        }
         var oldSelectedParents = jq('#jformparentID').val();
         if (jq.inArray('-1', selectedPrograms) != '-1'){
             jq("#jformprogramID").find('option').removeAttr("selected");
@@ -25,7 +34,7 @@ jq(document).ready(function(){
         var poolUrl = "<?php echo $this->baseurl; ?>/index.php?option=com_thm_organizer";
         poolUrl += "&view=ajax_handler&format=raw&task=pool.byDegree";
         poolUrl += "&ownID=<?php echo $this->form->getValue('id'); ?>";
-        poolUrl += "&programID=" + selectedPrograms.join(',');
+        poolUrl += "&programID=" + selectedPrograms;
         jq.get(poolUrl, function(options){
             jq('#jformparentID').html(options);
             var newSelectedParents = jq('#jformparentID').val();
@@ -34,7 +43,7 @@ jq(document).ready(function(){
             {
                 if (oldSelectedParents !== null && oldSelectedParents.length)
                 {
-                    selectedParents = jq.merge(newSelectedParenst, oldSelectedParents);
+                    selectedParents = jq.merge(newSelectedParents, oldSelectedParents);
                 }
                 else
                 {
@@ -50,7 +59,7 @@ jq(document).ready(function(){
     });
 });
 </script>
-<form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=pool_edit&id=' . (int) $this->item->id); ?>"
+<form action="<?php echo JRoute::_("index.php?option=com_thm_organizer&view=pool_edit&id=$poolID"); ?>"
       method="post" name="adminForm" id="modul-form">
 	<fieldset class="adminform">
         <legend><?php echo JText::_('COM_THM_ORGANIZER_POM_PROPERTIES_DE'); ?></legend>

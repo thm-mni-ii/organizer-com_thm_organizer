@@ -22,8 +22,6 @@ $direction = $this->escape($this->state->get('list.direction'));
                     <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_MON_ALL_BEHAVIOURS'); ?></option>
                     <?php echo JHtml::_('select.options', $this->behaviours, 'id', 'behaviour', $this->state->get('filter.display'));?>
             </select>
-        </div>
-        <div class="filter-select fltrt">
             <select name="filter_room" class="inputbox" onchange="this.form.submit()">
                     <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_MON_SEARCH_ROOMS'); ?></option>
                     <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_MON_ALL_ROOMS'); ?></option>

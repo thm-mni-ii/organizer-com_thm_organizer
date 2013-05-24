@@ -45,96 +45,91 @@ class JFormFieldParentPool extends JFormField
 		$poolID = JRequest::getInt('id');
         
         $existingMappingsQuery = $dbo->getQuery(true);
-        $existingMappingsQuery->select('*')->from('#__thm_organizer_mappings')->where("poolID = '$poolID'");
+        $existingMappingsQuery->select('id, parentID, lft, rgt')->from('#__thm_organizer_mappings')->where("poolID = '$poolID'");
         $existingMappingsQuery->order('lft ASC');
         $dbo->setQuery((string) $existingMappingsQuery);
         $existingMappings = $dbo->loadAssocList();
+        $ownMappings = $dbo->loadResultArray();
+        $selectedParents = $dbo->loadResultArray(1);
 
-        $selectedParents = array();
         if (!empty($existingMappings))
         {
-            $roots = array();
-            $rootsQuery = $dbo->getQuery(true);
-            $rootsQuery->select('id, lft, rgt')->from('#__thm_organizer_mappings');
+            $programs = array();
+            $programsQuery = $dbo->getQuery(true);
+            $programsQuery->select('id, programID, lft, rgt')->from('#__thm_organizer_mappings');
             foreach ($existingMappings AS $mapping)
             {
-                $rootsQuery->clear('where');
-                $rootsQuery->where("lft < '{$mapping['lft']}'");
-                $rootsQuery->where("rgt > '{$mapping['rgt']}'");
-                $rootsQuery->where("parentID IS NULL'");
-                $dbo->setQuery((string) $rootsQuery);
-                $rootID = $dbo->loadAssoc();
-                if (!in_array($rootID, $roots))
+                $programsQuery->clear('where');
+                $programsQuery->where("lft < '{$mapping['lft']}'");
+                $programsQuery->where("rgt > '{$mapping['rgt']}'");
+                $programsQuery->where("parentID IS NULL");
+                $dbo->setQuery((string) $programsQuery);
+                $program = $dbo->loadAssoc();
+                if (!in_array($program, $programs))
                 {
-                    $roots[] = $rootID;
-                }
-                if (!in_array($mapping['parentID'], $selectedParents))
-                {
-                    $selectedParents[] = $mapping['parentID'];
+                    $programs[] = $program;
                 }
             }
 
-            if (!empty($roots))
+            $language = explode('-', JFactory::getLanguage()->getTag());
+
+            $programMappings = array();
+            $programMappingsQuery = $dbo->getQuery(true);
+            $programMappingsQuery->select('*');
+            $programMappingsQuery->from('#__thm_organizer_mappings');
+            foreach ($programs as $program)
             {
-                $language = explode('-', JFactory::getLanguage()->getTag());
+                $programMappingsQuery->clear('where');
+                $programMappingsQuery->where("lft >= '{$program['lft']}'");
+                $programMappingsQuery->where("rgt <= '{$program['rgt']}'");
+                $programMappingsQuery->order('lft ASC');
+                $dbo->setQuery((string) $programMappingsQuery);
+                $results = $dbo->loadAssocList();
+                $programMappings = array_merge($programMappings, empty($results)? array() : $results);
+            }
 
-                $programMappings = array();
-                $programMappingsQuery = $dbo->getQuery(true);
-                $programMappingsQuery->select('*');
-                $programMappingsQuery->from('#__thm_organizer_mappings');
-                foreach ($roots as $root)
+            $poolsTable = JTable::getInstance('pools', 'THM_OrganizerTable');
+            foreach ($programMappings as $key => $mapping)
+            {
+                if (in_array($mapping['id'], $ownMappings))
                 {
-                    $programMappingsQuery->clear('where');
-                    $programMappingsQuery->where("lft >= '{$root['lft']}'");
-                    $programMappingsQuery->where("rgt <= '{$root['rgt']}'");
-                    $programMappingsQuery->order('lft ASC');
-                    $dbo->setQuery((string) $programMappingsQuery);
-                    $results = $dbo->loadAssocList();
-                    $programMappings = array_merge($programMappings, empty($results)? array() : $results);
+                    unset($programMappings[$key]);
+                    continue;
                 }
 
-                if (!empty($programMappings))
+                if (!empty($mapping['poolID']))
                 {
-                    $poolsTable = JTable::getInstance('pools', 'THM_OrganizerTable');
-                    foreach ($programMappings as $key => $mapping)
+                    $poolsTable->load($mapping['poolID']);
+                    $name = $language[0] == 'de'? $poolsTable->name_de : $poolsTable->name_en;
+
+                    $level = 0;
+                    $indent = '';
+                    while ($level < $mapping['level'])
                     {
-                        if (!empty($mapping['poolID']))
-                        {
-                            $poolsTable->load($mapping['poolID']);
-                            $programMappings[$key]['name'] = $language[0] == 'de'? $poolsTable->name_de : $poolsTable->name_en;
-                        }
-                        else
-                        {
-                            $programNameQuery = $dbo->getQuery(true);
-                            $programNameQuery->select(" CONCAT( dp.subject, ', (', d.abbreviation, ' ', dp.version, ')', ' Root') AS name");
-                            $programNameQuery->from('#__thm_organizer_degree_programs AS dp');
-                            $programNameQuery->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
-                            $programNameQuery->where("d.id = '{$mapping['programID']}'");
-                            $dbo->setQuery((string) $programNameQuery);
-                            $programMappings[$key]['name'] = $dbo->loadResult();
-                        }
-
-                        $level = 0;
-                        if ($mapping['level'] != 0)
-                        {
-                            $indent = '';
-                            while ($level < $mapping['level'])
-                            {
-                                $indent .= ".    ";
-                            }
-                            $programMappings[$key]['name'] = $indent . "|_" . $mapping['name'];
-                        }
+                        $indent .= "   ";
+                        $level++;
                     }
-
-                    $selectPools = array();
-                    $selectPools[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_POM_SEARCH_PARENT'));
-                    $selectPools[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_POM_NO_PARENT'));
-                    $pools = array_merge($selectPools, empty($programMappings)? array() : $programMappings);
-                    
-                    $attributes = array('multiple' => 'multiple');
-                    return JHTML::_("select.genericlist", $pools, "jform[parentID][]", $attributes, "id", "name", $selectedParents);
+                    $programMappings[$key]['name'] = $indent . "|_" . $name;
+                }
+                else
+                {
+                    $programNameQuery = $dbo->getQuery(true);
+                    $programNameQuery->select(" CONCAT( dp.subject, ', (', d.abbreviation, ' ', dp.version, ')') AS name");
+                    $programNameQuery->from('#__thm_organizer_degree_programs AS dp');
+                    $programNameQuery->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
+                    $programNameQuery->where("dp.id = '{$mapping['programID']}'");
+                    $dbo->setQuery((string) $programNameQuery);
+                    $programMappings[$key]['name'] = $dbo->loadResult();
                 }
             }
+
+            $selectPools = array();
+            $selectPools[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_POM_SEARCH_PARENT'));
+            $selectPools[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_POM_NO_PARENT'));
+            $pools = array_merge($selectPools, $programMappings);
+
+            $attributes = array('multiple' => 'multiple');
+            return JHTML::_("select.genericlist", $pools, "jform[parentID][]", $attributes, "id", "name", $selectedParents);
         }
         
         $attributes = array('multiple' => 'multiple');

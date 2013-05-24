@@ -34,6 +34,9 @@ class THM_OrganizerViewPool_Manager extends JView
 		$model = $this->getModel();
 		$this->pools = $model->getItems();
 		$this->state = $this->get('State');
+        $this->programName = $model->programName;
+
+        $this->programSelect = $this->getProgramSelect($model->programs);
 
 		$this->addToolBar();
 
@@ -47,10 +50,29 @@ class THM_OrganizerViewPool_Manager extends JView
 	 */
 	protected function addToolBar()
 	{
-		JToolBarHelper::title(JText::_("COM_THM_ORGANIZER_POM_TOOLBAR_TITLE"), 'generic.png');
+        $baseTitle = JText::_("COM_THM_ORGANIZER_POM_TOOLBAR_TITLE");
+        $title = empty($this->programName)? $baseTitle : $baseTitle . " - " . $this->programName;
+		JToolBarHelper::title($title, 'generic.png');
 		JToolBarHelper::addNew('pool.add', 'JTOOLBAR_NEW');
 		JToolBarHelper::editList('pool.edit', 'JTOOLBAR_EDIT');
-		JToolBarHelper::deleteList('', 'pool.delete', 'JTOOLBAR_DELETE');
-		JToolBarHelper::cancel('pools.cancel', 'JTOOLBAR_CLOSE');
+		JToolBarHelper::deleteList('COM_THM_ORGANIZER_POM_DELETE_CONFIRM', 'pool.delete', 'JTOOLBAR_DELETE');
+		JToolBarHelper::divider();
+		JToolBarHelper::preferences('com_thm_organizer');
 	}
+
+    /**
+     * Retrieves a select box with the mapped programs
+     * 
+     * @param   array  $programs  the mapped programs
+     * 
+     * @return  string  html select box
+     */
+    private function getProgramSelect($programs)
+    {
+        $selectPrograms = array();
+        $selectPrograms[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_POM_SEARCH_PROGRAM'));
+        $selectPrograms[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_POM_ALL_PROGRAMS'));
+        $programs = array_merge($selectPrograms, $programs);
+        return JHTML::_('select.genericlist', $programs, 'filter_program', 'onchange="this.form.submit();"', 'id', 'name', $this->state->get('filter.program'));
+    }
 }
