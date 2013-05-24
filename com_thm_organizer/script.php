@@ -70,6 +70,7 @@ class com_THM_OrganizerInstallerScript
         }
 ?>
 <div>
+    <img src="../media/com_thm_organizer/images/THM-Organizer-Logo-alternative.png" alt="THM Organizer Logo"/>
     <div style="width: 100%;">
         Released under the terms and conditions of the
         <a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GNU General Public License</a>.
