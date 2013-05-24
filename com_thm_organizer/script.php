@@ -34,7 +34,6 @@ class com_THM_OrganizerInstallerScript
      */
     public function install($parent)
     {
-        echo JText::_('COM_THM_ORGANIZER_DESCRIPTION');
         $tablesFilled = $this->fillTables();
         if ($tablesFilled)
         {
@@ -183,18 +182,6 @@ if (!$dirCreated)
         {
             echo JText::_('COM_THM_ORGANIZER_UNINSTALL_DIR_FAIL');
         }
-    }
-
-    /**
-     * Called on update
-     *
-     * @param   JAdapterInstance  $adapter  The object responsible for running this script
-     *
-     * @return  boolean  True on success
-     */
-    public function update($parent)
-    {
-        echo JText::_('COM_THM_ORGANIZER_UPDATE_TEXT');
     }
     
     /**

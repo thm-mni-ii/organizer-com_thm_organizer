@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension method="upgrade" type="component" version="2.5.7">
+<extension method="upgrade" type="component" version="2.5.11">
     <name>COM_THM_ORGANIZER</name>
     <author>James Antrim</author>
     <authorEMail>jamesDOTantrimATmniDOTthmDOTde</authorEMail>
@@ -11,7 +11,8 @@
     <creationDate>01/01/2013</creationDate>
     <copyright>TH Mittelhessen 2013</copyright>
     <licence>GNU GPL v.2</licence>
-    <version>0.3.1</version>
+    <version>0.3.2</version>
+    <description>THM Organizer is a component designed to handle the scheduling and planning needs of the University of Applied Sciences Central Hessen in Giessen, Germany.</description>
     <scriptfile>script.php</scriptfile>
     <install>
         <sql>
@@ -44,6 +45,7 @@
         <language tag="en-GB" client="site">language/en-GB/en-GB.com_thm_organizer.ini</language>
         <language tag="de-DE" client="site">language/de-DE/de-DE.com_thm_organizer.ini</language>
     </languages>
+    
     <administration>
         <menu img="components/com_thm_organizer/assets/images/thm_organizer.png">COM_THM_ORGANIZER</menu>
         <submenu>
