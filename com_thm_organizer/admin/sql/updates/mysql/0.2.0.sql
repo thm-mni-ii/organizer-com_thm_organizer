@@ -14,7 +14,7 @@ DROP TABLE IF EXISTS `#__thm_organizer_degrees`;
 
 # Easier to destroy and rebuild than alter and add. Abbreviation later will
 # provide the link to data from the degrees/majors modeled in Untis departments.
-CREATE TABLE`#__thm_organizer_degrees` (
+CREATE TABLE `#__thm_organizer_degrees` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `abbreviation` varchar(255) NOT NULL,
