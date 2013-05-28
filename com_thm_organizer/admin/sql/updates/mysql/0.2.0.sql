@@ -1,14 +1,14 @@
 # Former curriculum tables with FK constraints have to be removed to alter the
 # signed int key to the more secure unsigned int key standard.
-DROP TABLE IF EXISTS `#__thm_organizer_lecturers_assets`;
-DROP TABLE IF EXISTS `#__thm_organizer_lecturers`;
 DROP TABLE IF EXISTS `#__thm_organizer_assets_semesters`;
-DROP TABLE IF EXISTS `#__thm_organizer_assets_tree`;
-DROP TABLE IF EXISTS `#__thm_organizer_assets`;
 DROP TABLE IF EXISTS `#__thm_organizer_semesters_majors`;
-DROP TABLE IF EXISTS `#__thm_organizer_semesters`;
-DROP TABLE IF EXISTS `#__thm_organizer_curriculum_semesters`;
 DROP TABLE IF EXISTS `#__thm_organizer_majors`;
+DROP TABLE IF EXISTS `#__thm_organizer_semesters`;
+DROP TABLE IF EXISTS `#__thm_organizer_assets_tree`;
+DROP TABLE IF EXISTS `#__thm_organizer_lecturers_assets`;
+DROP TABLE IF EXISTS `#__thm_organizer_assets`;
+DROP TABLE IF EXISTS `#__thm_organizer_lecturers`;
+DROP TABLE IF EXISTS `#__thm_organizer_curriculum_semesters`;
 DROP TABLE IF EXISTS `#__thm_organizer_soap_queries`;
 DROP TABLE IF EXISTS `#__thm_organizer_degrees`;
 
