@@ -50,7 +50,7 @@ class THM_OrganizerViewScheduler extends JView
 		$this->libraryiCalcreatorIsInstalled = $libraryiCalcreatorIsInstalled;
 		
 		$doc = JFactory::getDocument();
-		$doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/ext/resources/css/ext-all-gray.css");
+		$doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/extjs/resources/css/ext-all-gray.css");
 		$doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/mySched/style.css");
 
 		$schedulerModel = $this->getModel();
