@@ -77,6 +77,7 @@ class THM_OrganizerModelAjaxhandler extends JModel
 		{
 			$classname = $taskarr[0];
 			require_once JPATH_COMPONENT . "/assets/classes/" . $classname . ".php";
+			$classname = "THM" . $classname;
 			
 			if (count($options) == 0)
 			{
