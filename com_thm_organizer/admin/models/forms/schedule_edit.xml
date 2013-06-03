@@ -13,7 +13,7 @@
             description="COM_THM_ORGANIZER_DEPT_DESC"
             readonly="true"
             disabled="true"
-            class="inputbox"
+            class="inputbox validate-name"
             size="28" />
         <field
             id="semestername"
@@ -23,7 +23,7 @@
             description="COM_THM_ORGANIZER_SCH_SEMESTER_DESC"
             readonly="true"
             disabled="true"
-            class="inputbox"
+            class="inputbox validate-resourceName"
             size="28" />
         <field
             id="startdate"
