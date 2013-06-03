@@ -15,16 +15,59 @@ $listOrder = $this->state->get('list.ordering');
 $listDirn = $this->state->get('list.direction');
 ?>
 <form
-	action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=majors'); ?>"
+	action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>"
 	method="post" name="adminForm">
+	<fieldset id="filter-bar">
+		<div class="filter-search fltlft">
+			<label class="filter-search-lbl" for="filter_search">
+				<?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>
+			</label>
+			<input type="text" name="filter_search" id="filter_search"
+				value="<?php echo $this->escape($this->state->get('filter.search')); ?>"
+				title="<?php echo JText::_('COM_CATEGORIES_ITEMS_SEARCH_FILTER'); ?>" />
+			<button type="submit">
+				<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>
+			</button>
+			<button type="button"
+				onclick="document.id('filter_search').value='';this.form.submit();">
+				<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>
+			</button>
+		</div>
+        <div class="filter-select fltrt">
+            <select name="filter_degree" class="inputbox" onchange="this.form.submit()">
+                    <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_DGP_SEARCH_DEGREES'); ?></option>
+                    <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_DGP_ALL_DEGREES'); ?></option>
+                    <?php echo JHtml::_('select.options', $this->degrees, 'id', 'name', $this->state->get('filter.degree'));?>
+            </select>
+            <select name="filter_version" class="inputbox" onchange="this.form.submit()">
+                    <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_DGP_SEARCH_VERSIONS'); ?></option>
+                    <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_DGP_ALL_VERSIONS'); ?></option>
+                    <?php echo JHtml::_('select.options', $this->versions, 'id', 'value', $this->state->get('filter.version'));?>
+            </select>
+            <select name="filter_field" class="inputbox" onchange="this.form.submit()">
+                    <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_DGP_SEARCH_FIELDS'); ?></option>
+                    <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_DGP_ALL_FIELDS'); ?></option>
+                    <?php echo JHtml::_('select.options', $this->fields, 'id', 'field', $this->state->get('filter.field'));?>
+            </select>
+        </div>
+	</fieldset>
 	<table class="adminlist">
 		<thead>
 			<tr>
 				<th width="3%"><input type="checkbox" name="toggle" value=""
 					onclick="checkAll(<?php echo count($this->items); ?>);" />
 				</th>
-				<th width="72%">
-					<?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_DGP_DEGREE_PROGRAM'), 'degreeProgram', $listDirn, $listOrder); ?>
+				<th width="32%">
+					<?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_DGP_DEGREE_PROGRAM'), 'subject', $listDirn, $listOrder); ?>
+				</th>
+				<th width="10%">
+					<?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_DEGREE'), 'd.name', $listDirn, $listOrder); ?>
+				</th>
+				<th width="10%">
+					<?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_VERSION'), 'version', $listDirn, $listOrder); ?>
+				</th>
+				<th width="20%">
+					<?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_FIELD'), 'field', $listDirn, $listOrder); ?>
 				</th>
 				<th width="10%">
 					<?php echo JText::_('COM_THM_ORGANIZER_DGP_LSF_MODELED'); ?>
@@ -40,6 +83,7 @@ $listDirn = $this->state->get('list.direction');
 			</tr>
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="boxchecked" value="0" />
+			<input type="hidden" name="view" value="degree_program_manager" />
 			<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 			<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 			<?php echo JHtml::_('form.token'); ?>
@@ -68,8 +112,21 @@ foreach ($this->items as $i => $item)
 				</td>
 				<td>
 					<a href="index.php?option=com_thm_organizer&view=degree_program_edit&id=<?php echo $item->id; ?>">
-						<?php echo $item->degreeProgram; ?>
+						<?php echo $item->subject; ?>
 					</a>
+				</td>
+				<td>
+					<a href="index.php?option=com_thm_organizer&view=degree_program_edit&id=<?php echo $item->id; ?>">
+						<?php echo $item->abbreviation; ?>
+					</a>
+				</td>
+				<td>
+					<a href="index.php?option=com_thm_organizer&view=degree_program_edit&id=<?php echo $item->id; ?>">
+						<?php echo $item->version; ?>
+					</a>
+				</td>
+				<td style="background-color: #<?php echo $item->color; ?>">
+                    <?php echo $item->field; ?>
 				</td>
 				<td align="center">
 					<?php echo $check; ?>

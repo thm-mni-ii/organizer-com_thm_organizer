@@ -98,9 +98,6 @@ class THM_OrganizerModelTeacher_Manager extends JModelList
 
 		$limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
 		$this->setState('limit', $limit);
-		
-		$filter = $app->getUserStateFromRequest($this->context . '.filter', 'filter', '');
-		$this->setState('filter', $filter);
 
 		parent::populateState($orderBy, $orderDir);
 	}

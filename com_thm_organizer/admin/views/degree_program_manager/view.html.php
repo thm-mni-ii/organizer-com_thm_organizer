@@ -34,9 +34,13 @@ class THM_OrganizerViewDegree_Program_Manager extends JView
 	{
 		JHtml::_('behavior.tooltip');
 
+        $model = $this->getModel();
 		$this->items = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
 		$this->state = $this->get('State');
+        $this->degrees = $model->degrees;
+        $this->versions = $model->versions;
+        $this->fields = $model->fields;
 		$this->addToolBar();
 
 		parent::display($tpl);
