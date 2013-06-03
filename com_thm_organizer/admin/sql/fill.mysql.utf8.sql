@@ -26,15 +26,15 @@ INSERT INTO `#__thm_organizer_colors` (`id`, `name`, `color`) VALUES
 (25, 'THM dunkelrot', '810e2f'),
 (26, 'THM dunkelgelb', 'vb58b14');
 
-INSERT INTO `#__thm_organizer_degrees` (`id`, `name`, `abbreviation`) VALUES
-(1, 'Diplom', 'Dipl.'),
-(2, 'Bachelor of Engineering', 'B.Eng.'),
-(3, 'Bachelor of Science', 'B.Sc.'),
-(4, 'Bachelor of Arts', 'B.A.'),
-(5, 'Master of Engineering', 'M.Eng.'),
-(6, 'Master of Science', 'M.Sc.'),
-(7, 'Master of Arts', 'M.A.'),
+INSERT INTO `#__thm_organizer_degrees` (`id`, `name`, `abbreviation`, `lsfDegree`) VALUES
+(2, 'Bachelor of Engineering', 'B.Eng.', 'BE'),
+(3, 'Bachelor of Science', 'B.Sc.', 'BS'),
+(4, 'Bachelor of Arts', 'B.A.', 'BA'),
+(5, 'Master of Engineering', 'M.Eng.', 'ME'),
+(6, 'Master of Science', 'M.Sc.', 'MS'),
+(7, 'Master of Arts', 'M.A.', 'MA'),
 (8, 'Master of Business Administration and Engineering', 'M.B.A.');
+
 
 INSERT INTO `#__thm_organizer_teacher_responsibilities` (`id`, `name`) VALUES
 (1, 'COM_THM_ORGANIZER_SUM_RESPONSIBLE'),
