@@ -21,6 +21,11 @@ jimport('joomla.application.component.model');
  */
 class THM_OrganizerModelPool_Ajax extends JModel
 {
+    /**
+     * Retrieves the parent ids of the resource in question
+     * 
+     * @return  array  an array of integer values
+     */
     public function getParentIDs()
     {
         $ownID = JRequest::getInt('ownID');

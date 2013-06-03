@@ -208,7 +208,7 @@ class THM_OrganizerModelMapping extends JModel
     /**
      * Method to delete a single entry
      * 
-     * @param   int   $entryID            the id value of the entry to be deleted
+     * @param   int  $entryID  the id value of the entry to be deleted
      * 
      * @return  bool  true on success, otherwise false
      */
@@ -397,7 +397,7 @@ class THM_OrganizerModelMapping extends JModel
     private function getChildrenFromForm()
     {
         $children = array();
-        $childKeys = preg_grep('/^child[1-9]+$/',array_keys($_POST));
+        $childKeys = preg_grep('/^child[1-9]+$/', array_keys($_POST));
         foreach ($childKeys as $childKey)
         {
             $ordering = substr($childKey, 5);

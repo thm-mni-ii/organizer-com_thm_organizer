@@ -69,7 +69,7 @@ class THM_OrganizerModelDegree_Program_Edit extends JModelAdmin
      */
     private function getChildren($programID)
     {
-        $mappingModel = new THM_OrganizerModelMapping();
+        $mappingModel = new THM_OrganizerModelMapping;
         $results = $mappingModel->getChildren($programID, 'program', false);
         if (!empty($results))
         {
@@ -129,9 +129,4 @@ class THM_OrganizerModelDegree_Program_Edit extends JModelAdmin
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
-
-    private function getPools()
-    {
-        $dbo = JFactory::getDbo();
-    }
 }
