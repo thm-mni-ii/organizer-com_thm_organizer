@@ -22,7 +22,7 @@ jimport('joomla.filesystem.file');
  * @subpackage  com_thm_organizer.general
  * @link        www.mni.thm.de
  */
-class com_THM_OrganizerInstallerScript
+class Com_THM_OrganizerInstallerScript
 {
     /**
      * Method to install the component. For some unknown reason Joomla will not resolve text constants in this function.
@@ -112,7 +112,9 @@ class com_THM_OrganizerInstallerScript
             <img style="float:none;" src="../media/com_thm_organizer/images/THM-Organizer-Logo-alternative.png" alt="THM Organizer Logo"/>        
         </legend>
         <div style="padding-left:17px;">
-            <div style="color:#146295; font-size: 1.182em; font-weight:bold; padding-bottom: 17px" >THM Organizer is a component designed to handle the scheduling and planning needs of the University of Applied Sciences Central Hessen in Giessen, Germany.</div>
+            <div style="color:#146295; font-size: 1.182em; font-weight:bold; padding-bottom: 17px" >
+            THM Organizer is a component designed to handle the scheduling and planning needs of the 
+            University of Applied Sciences Central Hessen in Giessen, Germany.</div>
             <div style="width: 100%;">
                 Released under the terms and conditions of the
                 <a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GNU General Public License</a>.
@@ -134,15 +136,27 @@ class com_THM_OrganizerInstallerScript
     		<tbody>
     			<tr>
     				<td>Database Table Fill Status</td>
-    				<td><span style='color: <?php echo $fillColor; ?>'> <?php echo $fillStatus; ?></span></td>
+    				<td><span style='color: 
+    				<?php echo $fillColor; ?>
+    				'> 
+    				<?php echo $fillStatus; ?>
+    				</span></td>
     			</tr>
     			<tr>
     				<td>Directory Status</td>
-    				<td><span style='color: <?php echo $dirColor; ?>'> <?php echo $dirStatus; ?></span></td>
+    				<td><span style='color: 
+    				<?php echo $dirColor; ?>
+    				'> 
+    				<?php echo $dirStatus; ?>
+    				</span></td>
     			</tr>
     			<tr>
     				<td>Installation Status</td>
-    				<td><span style='color: <?php echo $instColor; ?>'> <?php echo $instStatus; ?></span></td>
+    				<td><span style='color: 
+    				<?php echo $instColor; ?>
+    				'> 
+    				<?php echo $instStatus; ?>
+    				</span></td>
     			</tr>
     		</tbody>
     
@@ -249,6 +263,13 @@ class com_THM_OrganizerInstallerScript
         }
     }
     
+    /**
+	 * com_thm_organizer update function
+	 *
+	 * @param   Object  $parent  JInstallerComponent
+	 *
+	 * @return void
+	 */
     public function update($parent)
     {
         ?>
@@ -302,7 +323,9 @@ class com_THM_OrganizerInstallerScript
         			</tr>
         			<tr>
         				<td><?php echo JTEXT::_('COM_THM_ORGANIZER_UPDATE_UPDATE_STATUS')?></td>
-        				<td><span style='color: green'> <?php echo JText::sprintf('COM_THM_ORGANIZER_UPDATE_UPDATE_TEXT', $parent->get('manifest')->version); ?></span></td>
+        				<td><span style='color: green'> 
+        				<?php echo JText::sprintf('COM_THM_ORGANIZER_UPDATE_UPDATE_TEXT', $parent->get('manifest')->version); ?>
+        				</span></td>
         			</tr>
         		</tbody>
             </table>
