@@ -12,6 +12,7 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
+jimport('jquery.jquery');
 
 /**
  * Class loads form information for editing
@@ -38,10 +39,16 @@ class THM_OrganizerViewDegree_Program_Edit extends JView
 
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+        $document->addScript($this->baseurl . "/components/com_thm_organizer/assets/js/mapping.js");
 
 		$this->form = $this->get('Form');
 		$this->item = $this->get('Item');
-        $this->children = $this->getModel()->children;
+        $isNew = $this->item->id == 0;
+        $this->_layout = $isNew? 'add' : 'edit';
+        if (!$isNew)
+        {
+            $this->children = $this->getModel()->children;
+        }
 
 		$this->addToolBar();
 
@@ -59,6 +66,8 @@ class THM_OrganizerViewDegree_Program_Edit extends JView
         $isNew = $this->item->id == 0;
 		$title = $isNew ? JText::_("COM_THM_ORGANIZER_DGP_NEW") : JText::_("COM_THM_ORGANIZER_DGP_EDIT");
 		JToolBarHelper::title($title);
+        $applyText = $isNew? JText::_('COM_THM_ORGANIZER_APPLY_NEW') : JText::_('COM_THM_ORGANIZER_APPLY_EDIT');
+		JToolBarHelper::apply('degree_program.apply', $applyText );
 		JToolBarHelper::save('degree_program.save');
 		JToolBarHelper::save2new('degree_program.save2new');
         if ($isNew)

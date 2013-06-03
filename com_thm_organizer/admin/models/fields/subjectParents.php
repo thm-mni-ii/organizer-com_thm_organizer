@@ -3,8 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        JFormFieldParent
- * @description JFormFieldParent component admin field
+ * @name        JFormFieldSubjectParents
  * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
@@ -22,9 +21,8 @@ jimport('joomla.form.formfield');
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
  */
-class JFormFieldParentPool extends JFormField
+class JFormFieldSubjectParents extends JFormField
 {
 	/**
 	 * Type
@@ -43,24 +41,23 @@ class JFormFieldParentPool extends JFormField
         $language = explode('-', JFactory::getLanguage()->getTag());
 
 		$dbo = JFactory::getDBO();
-		$poolID = JRequest::getInt('id');
+		$subjectID = JRequest::getInt('id');
         
         $existingMappingsQuery = $dbo->getQuery(true);
-        $existingMappingsQuery->select('id, parentID, lft, rgt')->from('#__thm_organizer_mappings')->where("poolID = '$poolID'");
+        $existingMappingsQuery->select('parentID, lft, rgt')->from('#__thm_organizer_mappings')->where("subjectID = '$subjectID'");
         $existingMappingsQuery->order('lft ASC');
         $dbo->setQuery((string) $existingMappingsQuery);
         $existingMappings = $dbo->loadAssocList();
-        $ownMappings = $dbo->loadResultArray();
-        $selectedParents = $dbo->loadResultArray(1);
+        $selectedParents = $dbo->loadResultArray();
 
         if (!empty($existingMappings))
         {
             $programs = array();
-            $children = array();
+            $programsQuery = $dbo->getQuery(true);
+            $programsQuery->select('id, programID, lft, rgt')->from('#__thm_organizer_mappings');
             foreach ($existingMappings AS $mapping)
             {
-                $programsQuery = $dbo->getQuery(true);
-                $programsQuery->select('id, programID, lft, rgt')->from('#__thm_organizer_mappings');
+                $programsQuery->clear('where');
                 $programsQuery->where("lft < '{$mapping['lft']}'");
                 $programsQuery->where("rgt > '{$mapping['rgt']}'");
                 $programsQuery->where("parentID IS NULL");
@@ -70,24 +67,6 @@ class JFormFieldParentPool extends JFormField
                 {
                     $programs[] = $program;
                 }
-
-                $childrenQuery = $dbo->getQuery(true);
-                $childrenQuery->select('id')->from('#__thm_organizer_mappings');
-                $childrenQuery->where("lft > '{$mapping['lft']}'");
-                $childrenQuery->where("rgt < '{$mapping['rgt']}'");
-                $childrenQuery->where("parentID IS NULL");
-                $dbo->setQuery((string) $childrenQuery);
-                $childIDs = $dbo->loadResultArray();                
-                if (!empty($childIDs))
-                {
-                    $children = array_merge($children, $childIDs);
-                }
-            }
-            
-            // Allowing children could create infinite regression
-            if (count($children))
-            {
-                $unwantedMappings = "'" . implode("', '", array_unique($children)) . "'";
             }
 
             $language = explode('-', JFactory::getLanguage()->getTag());
@@ -101,10 +80,6 @@ class JFormFieldParentPool extends JFormField
                 $programMappingsQuery->clear('where');
                 $programMappingsQuery->where("lft >= '{$program['lft']}'");
                 $programMappingsQuery->where("rgt <= '{$program['rgt']}'");
-                if (count($children))
-                {
-                    $programMappingsQuery->where("id NOT IN ( $unwantedMappings )");
-                }
                 $programMappingsQuery->order('lft ASC');
                 $dbo->setQuery((string) $programMappingsQuery);
                 $results = $dbo->loadAssocList();
@@ -114,12 +89,6 @@ class JFormFieldParentPool extends JFormField
             $poolsTable = JTable::getInstance('pools', 'THM_OrganizerTable');
             foreach ($programMappings as $key => $mapping)
             {
-                if (in_array($mapping['id'], $ownMappings))
-                {
-                    unset($programMappings[$key]);
-                    continue;
-                }
-
                 if (!empty($mapping['poolID']))
                 {
                     $poolsTable->load($mapping['poolID']);
@@ -149,10 +118,10 @@ class JFormFieldParentPool extends JFormField
             $selectPools = array();
             $selectPools[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_POM_SEARCH_PARENT'));
             $selectPools[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_POM_NO_PARENT'));
-            $pools = array_merge($selectPools, $programMappings);
+            $subjects = array_merge($selectPools, $programMappings);
 
             $attributes = array('multiple' => 'multiple');
-            return JHTML::_("select.genericlist", $pools, "jform[parentID][]", $attributes, "id", "name", $selectedParents);
+            return JHTML::_("select.genericlist", $subjects, "jform[parentID][]", $attributes, "id", "name", $selectedParents);
         }
         
         $attributes = array('multiple' => 'multiple');

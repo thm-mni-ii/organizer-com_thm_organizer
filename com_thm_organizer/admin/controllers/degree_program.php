@@ -52,6 +52,31 @@ class THM_OrganizerControllerDegree_Program extends JController
         parent::display();
 	}
 
+    /**
+	 * Performs access checks, makes call to the models's save function, and
+	 * redirects to the degree program edit view
+	 *
+	 * @return  void
+	 */
+	public function apply()
+	{
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+		$success = $this->getModel('degree_program')->save();
+		if ($success)
+		{
+			$msg = JText::_('COM_THM_ORGANIZER_DGP_SAVE_SUCCESS');
+			$this->setRedirect(JRoute::_("index.php?option=com_thm_organizer&view=degree_program_edit&id=$success", false), $msg);
+		}
+		else
+		{
+			$msg = JText::_('COM_THM_ORGANIZER_DGP_SAVE_FAIL');
+			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=degree_program_manager', false), $msg, 'error');
+		}
+	}
+
 	/**
 	 * Performs access checks, makes call to the models's save function, and
 	 * redirects to the degree program manager view

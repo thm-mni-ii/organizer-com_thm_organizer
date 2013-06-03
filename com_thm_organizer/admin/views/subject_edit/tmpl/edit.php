@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		view subject edit
+ * @name		subject edit view edit template
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -11,6 +11,52 @@
  */
 defined('_JEXEC') or die;
 ?>
+<script type="text/javascript">
+var jq = jQuery.noConflict();
+jq(document).ready(function(){
+    jq('#jformprogramID').change(function(){
+        var selectedPrograms = jq('#jformprogramID').val();
+        if (selectedPrograms === null)
+        {
+            selectedPrograms = '';
+        }
+        else
+        {
+            selectedPrograms = selectedPrograms.join(',');
+        }
+        var oldSelectedParents = jq('#jformparentID').val();
+        if (jq.inArray('-1', selectedPrograms) != '-1'){
+            jq("#jformprogramID").find('option').removeAttr("selected");
+            return false;
+        }
+        var poolUrl = "<?php echo $this->baseurl; ?>/index.php?option=com_thm_organizer";
+        poolUrl += "&view=pool_ajax&format=raw&task=poolDegreeOptions";
+        poolUrl += "&ownID=<?php echo $this->form->getValue('id'); ?>";
+        poolUrl += "&programID=" + selectedPrograms;
+        jq.get(poolUrl, function(options){
+            jq('#jformparentID').html(options);
+            var newSelectedParents = jq('#jformparentID').val();
+            var selectedParents = new Array();
+            if (newSelectedParents !== null && newSelectedParents.length)
+            {
+                if (oldSelectedParents !== null && oldSelectedParents.length)
+                {
+                    selectedParents = jq.merge(newSelectedParents, oldSelectedParents);
+                }
+                else
+                {
+                    selectedParents = newSelectedParents;
+                }
+            }
+            else if (oldSelectedParents !== null && oldSelectedParents.length)
+            {
+                selectedParents = oldSelectedParents;
+            }
+            jq('#jformparentID').val(selectedParents);
+        });
+    });
+});
+</script>
 <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=subject_edit&id=' . (int) $this->item->id); ?>"
       method="post" name="adminForm" id="modul-form">
 	<fieldset class="adminform">
@@ -67,8 +113,8 @@ defined('_JEXEC') or die;
                     <?php echo $this->form->getInput('responsible'); ?>
                 </li>
                 <li>
-                    <?php echo $this->form->getLabel('teacher'); ?>
-                    <?php echo $this->form->getInput('teacher'); ?>
+                    <?php echo $this->form->getLabel('teacherID'); ?>
+                    <?php echo $this->form->getInput('teacherID'); ?>
                 </li>
             </ul>
         </fieldset>
@@ -142,6 +188,19 @@ defined('_JEXEC') or die;
                 </li>
             </ul>
         </fieldset>
+	</fieldset>
+	<fieldset class="adminform">
+        <legend><?php echo JText::_('COM_THM_ORGANIZER_POM_PROPERTIES_MAPPING'); ?></legend>
+		<ul class="adminformlist">
+            <li>
+                <?php echo $this->form->getLabel('programID'); ?>
+                <?php echo $this->form->getInput('programID'); ?>
+            </li>
+            <li>
+                <?php echo $this->form->getLabel('parentID'); ?>
+                <?php echo $this->form->getInput('parentID'); ?>
+            </li>
+        </ul>
 	</fieldset>
 	<div>
 		<input type="hidden" name="task" value="" />

@@ -40,7 +40,7 @@ class THM_OrganizerModelDegree_Program extends JModel
             if ($mappingSuccess)
             {
                 $dbo->transactionCommit();
-                return true;
+                return $table->id;
             }
 		}
         $dbo->transactionRollback();
@@ -80,6 +80,9 @@ class THM_OrganizerModelDegree_Program extends JModel
 	/**
 	 * Method to delete one or more records. Due to foreign key references the
 	 * associated module pools and pool to subject associations areautomatically deleted.
+     * 
+     * @todo  Remove mappings before the delete is processed to ensure table 
+     *        consistency
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 */

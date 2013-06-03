@@ -33,12 +33,19 @@ class THM_OrganizerViewPool_Edit extends JView
 	public function display($tpl = null)
 	{
 		JHtml::_('behavior.tooltip');
+        $document = JFactory::getDocument();
+        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+        $document->addScript($this->baseurl . "/components/com_thm_organizer/assets/js/mapping.js");
 
 		// Get the Data
 		$form = $this->get('Form');
 		$item = $this->get('Item');
         $poolID = empty($item->id)? JRequest::getInt('id') : $item->id;
         $this->_layout = empty($poolID)? 'add' : 'edit';
+        if (!empty($poolID))
+        {
+            $this->children = $this->getModel()->children;
+        }
 
 		// Assign the Data
 		$this->form = $form;
@@ -61,7 +68,7 @@ class THM_OrganizerViewPool_Edit extends JView
 		$isNew = ($this->item->id == 0);
 		JRequest::setVar('hidemainmenu', true);
 		JToolBarHelper::title($isNew ? JText::_('COM_THM_ORGANIZER_POM_NEW_TITLE') : JText::_('COM_THM_ORGANIZER_POM_EDIT_TITLE'));
-		JToolBarHelper::apply('pool.apply', $isNew ? 'COM_THM_ORGANIZER_POM_APPLY_NEW' : 'COM_THM_ORGANIZER_POM_APPLY_EDIT');
+		JToolBarHelper::apply('pool.apply', $isNew ? 'COM_THM_ORGANIZER_APPLY_NEW' : 'COM_THM_ORGANIZER_APPLY_EDIT');
 		if (!$isNew)
         {
             JToolBarHelper::save('pool.save');

@@ -129,4 +129,9 @@ class THM_OrganizerModelDegree_Program_Edit extends JModelAdmin
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
+
+    private function getPools()
+    {
+        $dbo = JFactory::getDbo();
+    }
 }

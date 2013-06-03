@@ -52,8 +52,31 @@ class THM_OrganizerModelSubject_Edit extends JModelAdmin
 	{
         $subjectIDs = JRequest::getVar('cid',  null, '', 'array');
         $subjectID = (empty($subjectIDs))? JRequest::getVar('subjectID') : $subjectIDs[0];
-		return $this->getItem($subjectID);
+		$item = $this->getItem($subjectID);
+        if (!empty($item->id))
+        {
+            $item->responsible = $this->getResponsible($item->id);
+        }
+        return $item;
 	}
+
+    /**
+     * Retrieves the teacher responsible for the subject's development
+     * 
+     * @param   int  $subjectID  the id of the subject
+     * 
+     * @return  int  the id of the teacher responsible for the subject
+     */
+    private function getResponsible($subjectID)
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('teacherID')->from('#__thm_organizer_subject_teachers');
+        $query->where("subjectID = '$subjectID'")->where("teacherResp = '1'");
+        $dbo->setQuery((string) $query);
+        $respID = $dbo->loadResult();
+        return empty($respID)? 0 : $respID;
+    }
 
 	/**
 	 * Method to get the table

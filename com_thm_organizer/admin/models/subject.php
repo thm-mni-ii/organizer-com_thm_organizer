@@ -30,23 +30,93 @@ class THM_OrganizerModelSubject extends JModel
      */
 	public function save()
 	{
-		$dbo = JFactory::getDbo();
         $data = JRequest::getVar('jform', null, null, null, 4);
+
+		$dbo = JFactory::getDbo();
 		$dbo->transactionStart();
+
         $table = JTable::getInstance('subjects', 'thm_organizerTable');
-        $subjectSuccess = $table->save($data);
-		if ($subjectSuccess)
+        $success = $table->save($data);
+        
+        // Successfully inserted a new subject
+        if ($success AND empty($data['id']))
+        {
+            $dbo->transactionCommit();
+            return $table->id;
+        }
+
+        // New subject unsuccessfully inserted
+        elseif (empty($data['id']))
+        {
+            $dbo->transactionRollback();
+            return false; 
+        }
+
+        // Process mapping & responsibilities information
+		else
 		{
-            $data['id'] = $table->id;
-            $teacherSuccess = $this->updateSubjectTeachers($data);
-            if ($teacherSuccess)
+            $deleteQuery = $dbo->getQuery(true);
+            $deleteQuery->delete('#__thm_organizer_subject_teachers')->where("subjectID = '{$data['id']}'");
+            $dbo->setQuery((string) $deleteQuery);
+            try
             {
-                $dbo->transactionCommit();
-                return true;
+                $responsibilitiesDeleted = $dbo->query();
+            }
+            catch (Exception $exc)
+            {
+                $dbo->transactionRollback();
+                return false;
+            }
+
+            $insertQuery = $dbo->getQuery(true);
+            $insertQuery->insert('#__thm_organizer_subject_teachers');
+            $insertQuery->columns(array('subjectID', 'teacherID', 'teacherResp'));
+            $insertQuery->values("'{$data['id' ]}', '{$data['responsible' ]}', '1'");
+            foreach ($data['teacher'] AS $teacher)
+            {
+                $insertQuery->values("'{$data['id' ]}', '$teacher', '2'");
+            }
+            $dbo->setQuery((string) $insertQuery);
+            try
+            {
+                $dbo->query();
+            }
+            catch (Exception $exc)
+            {
+                $dbo->transactionRollback();
+                return false;
+            }
+
+
+            $model = JModel::getInstance('mapping', 'THM_OrganizerModel');
+            $mappingsDeleted = $model->deleteByResourceID($table->id, 'subject');
+
+            // No mappings desired
+            if (empty($data['parentID']) AND $mappingsDeleted)
+            {
+                    $dbo->transactionCommit();
+                    return $table->id;
+            }
+            elseif (empty($data['parentID']))
+            {
+                $dbo->transactionRollback();
+                return false;
+            }
+            else
+            {
+                $mappingSaved = $model->saveSubject($data);
+                if ($mappingSaved)
+                {
+                    $dbo->transactionCommit();
+                    return $table->id;
+                }
+                else
+                {
+                    $dbo->transactionRollback();
+                    return false;
+                }
             }
 		}
-        $dbo->transactionRollback();
-        return false;
 	}
 
     /**

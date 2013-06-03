@@ -530,3 +530,9 @@
 	background: url("../images/icon-32-merge.png");
 }
 
+.thm_organizer_children
+{
+    float: left;
+    width: 45%;
+}
+

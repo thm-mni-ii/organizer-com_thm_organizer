@@ -11,6 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
+require_once 'mapping.php';
 
 /**
  * Creates form data for a subject pool from information in the database.
@@ -21,6 +22,8 @@ jimport('joomla.application.component.modeladmin');
  */
 class THM_OrganizerModelPool_Edit extends JModelAdmin
 {
+    public $children = null;
+
 	/**
 	 * Method to get the form
 	 *
@@ -50,6 +53,7 @@ class THM_OrganizerModelPool_Edit extends JModelAdmin
 	{
         $poolIDs = JRequest::getVar('cid',  null, '', 'array');
         $poolID = (empty($poolIDs))? JRequest::getVar('id') : $poolIDs[0];
+        $this->getChildren($poolID);
 		return $this->getItem($poolID);
 	}
 
@@ -67,4 +71,60 @@ class THM_OrganizerModelPool_Edit extends JModelAdmin
 		return JTable::getInstance($type, $prefix, $config);
 	}
 
+    /**
+     * Retrieves the programs existent children and loads them into the object
+     * variable
+     * 
+     * @param   int  $programID  the id of the program
+     * 
+     * @return  void
+     */
+    private function getChildren($programID)
+    {
+        $mappingModel = new THM_OrganizerModelMapping();
+        $results = $mappingModel->getChildren($programID, 'program', false);
+        if (!empty($results))
+        {
+            $this->children = array();
+            foreach ($results as $child)
+            {
+                $this->children[$child['ordering']] = array();
+                if (!empty($child['poolID']))
+                {
+                    $formID = $child['poolID'] . 'p';
+                }
+                else
+                {
+                    $formID = $child['subjectID'] . 's';
+                }
+                $this->children[$child['ordering']]['id'] = $formID;
+                $this->children[$child['ordering']]['name'] = $this->getChildName($formID);
+                $this->children[$child['ordering']]['poolID'] = $child['poolID'];
+                $this->children[$child['ordering']]['subjectID'] = $child['subjectID'];
+            }
+        }
+    }
+
+    /**
+     * Retrieves the name of the child element from the appropriate table
+     * 
+     * @param   string  $formID  the id to be used in the program edit form
+     * 
+     * @return  string  the name of the child element
+     */
+    private function getChildName($formID)
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $language = explode('-', JFactory::getLanguage()->getTag());
+        $type = strpos($formID, 'p')? 'pool' : 'subject';
+        $tableID = substr($formID, 0, strlen($formID) - 1);
+        
+        $query->select("name_{$language[0]}");
+        $query->from("#__thm_organizer_{$type}s");
+        $query->where("id = '$tableID'");
+
+        $dbo->setQuery((string) $query);
+        return $dbo->loadResult();
+    }
 }
