@@ -39,10 +39,10 @@ class THM_OrganizerModelCategory_Manager extends JModelList
         if (empty($config['filter_fields']))
         {
             $config['filter_fields'] = array(
-                                             'title', 'title',
+                                             'title', 'ectitle',
                                              'global', 'global',
                                              'reserves', 'reserves',
-                                             'content_cat', 'content_cat'
+                                             'cctitle', 'content_cat'
                                             );
         }
         $this->contentCategories = $this->getContentCategories();
@@ -97,8 +97,8 @@ class THM_OrganizerModelCategory_Manager extends JModelList
             $query->where("ec.contentCatID = '$contentCatID'");
         }
 
-        $orderby = $dbo->getEscaped($this->getState('list.ordering', 'ec.title'));
-        $direction = $dbo->getEscaped($this->getState('list.direction', 'ASC'));
+        $orderby = $dbo->getEscaped($this->getState('list.ordering', 'ectitle'));
+        $direction = $dbo->getEscaped($this->getState('list.direction'));
         $query->order("$orderby $direction");
 
         return $query;
@@ -127,6 +127,12 @@ class THM_OrganizerModelCategory_Manager extends JModelList
 
         $contentCat = $dbo->escape($this->getUserStateFromRequest($this->context . '.filter.content_cat', 'filter_content_cat'));
         $this->setState('filter.content_cat', $contentCat);
+
+		$orderBy = $this->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'ectitle');
+		$this->setState('list.ordering', $orderBy);
+
+		$direction = $this->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
+		$this->setState('list.direction', $direction);
 
         parent::populateState($ordering, $direction);
     }

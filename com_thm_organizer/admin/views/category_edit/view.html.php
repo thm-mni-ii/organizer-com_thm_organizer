@@ -56,12 +56,22 @@ class THM_OrganizerViewCategory_Edit extends JView
      */
     private function addToolBar()
     {
-        $title = JText::_('COM_THM_ORGANIZER') . ': ';
-        $title .= ($this->form->getValue('id'))? JText::_('JTOOLBAR_EDIT') : JText::_('JTOOLBAR_NEW');
-        $title .= ' ' . JText::_('JCATEGORY');
+        if ($this->form->getValue('id') == 0)
+        {
+            $title = JText::_('COM_THM_ORGANIZER_CAT_NEW_TITLE');
+            $applyText = JText::_('COM_THM_ORGANIZER_APPLY_NEW');
+            $cancelText = JText::_('JTOOLBAR_CANCEL');
+        }
+        else
+        {
+            $title = JText::_('COM_THM_ORGANIZER_CAT_EDIT_TITLE');
+            $applyText = JText::_('COM_THM_ORGANIZER_APPLY_EDIT');
+            $cancelText = JText::_('JTOOLBAR_CLOSE');
+        }
         JToolBarHelper::title($title, 'mni');
+        JToolBarHelper::apply('category.apply', $applyText);
         JToolBarHelper::save('category.save');
         JToolBarHelper::save2new('category.save2new');
-        JToolBarHelper::cancel('category.cancel');
+        JToolBarHelper::cancel('category.cancel', $cancelText);
     }
 }

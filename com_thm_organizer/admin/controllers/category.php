@@ -12,7 +12,7 @@
 
 defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
-require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
+
 /**
  * Class performing access checks and model function calls for category actions 
  * 
@@ -30,9 +30,9 @@ class THM_OrganizerControllerCategory extends JController
      */
     public function add()
     {
-        if (!thm_organizerHelper::isAdmin('category'))
+        if (!JFactory::getUser()->authorise('core.admin'))
         {
-            thm_organizerHelper::noAccess();
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
         JRequest::setVar('view', 'category_edit');
         JRequest::setVar('categoryID', '0');
@@ -46,9 +46,9 @@ class THM_OrganizerControllerCategory extends JController
      */
     public function edit()
     {
-        if (!thm_organizerHelper::isAdmin('category'))
+        if (!JFactory::getUser()->authorise('core.admin'))
         {
-            thm_organizerHelper::noAccess();
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
         JRequest::setVar('view', 'category_edit');
         parent::display();
@@ -59,11 +59,36 @@ class THM_OrganizerControllerCategory extends JController
      * 
      * @return void
      */
+    public function apply()
+    {
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+        $model = $this->getModel('category');
+        $success = $model->save();
+        if ($success)
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_CAT_SAVE_SUCCESS');
+            $this->setRedirect("index.php?option=com_thm_organizer&view=category_edit&id=$success", $msg);
+        }
+        else
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_CAT_SAVE_FAIL');
+            $this->setRedirect('index.php?option=com_thm_organizer&view=category_manager&id=0', $msg, 'error');
+        }
+    }
+
+    /**
+     * saves changes made to the category and redirects to the category_manager view
+     * 
+     * @return void
+     */
     public function save()
     {
-        if (!thm_organizerHelper::isAdmin('category'))
+        if (!JFactory::getUser()->authorise('core.admin'))
         {
-            thm_organizerHelper::noAccess();
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
         $model = $this->getModel('category');
         $success = $model->save();
@@ -86,9 +111,9 @@ class THM_OrganizerControllerCategory extends JController
      */
     public function save2new()
     {
-        if (!thm_organizerHelper::isAdmin('category'))
+        if (!JFactory::getUser()->authorise('core.admin'))
         {
-            thm_organizerHelper::noAccess();
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
         $model = $this->getModel('category');
         $result = $model->save();
@@ -111,9 +136,9 @@ class THM_OrganizerControllerCategory extends JController
      */
     public function delete()
     {
-        if (!thm_organizerHelper::isAdmin('category'))
+        if (!JFactory::getUser()->authorise('core.admin'))
         {
-            thm_organizerHelper::noAccess();
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
         $model = $this->getModel('category');
         $result = $model->delete();
@@ -136,25 +161,10 @@ class THM_OrganizerControllerCategory extends JController
      */
     public function cancel()
     {
-        if (!thm_organizerHelper::isAdmin('category'))
+        if (!JFactory::getUser()->authorise('core.admin'))
         {
-            thm_organizerHelper::noAccess();
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
         $this->setRedirect('index.php?option=com_thm_organizer&view=category_manager');
-    }
-
-    /**
-     * performs access checks and redirects to the category manager view
-     * 
-     * @return void 
-     */
-    public function sort()
-    {
-        if (!thm_organizerHelper::isAdmin('category'))
-        {
-            thm_organizerHelper::noAccess();
-        }
-        JRequest::setVar('view', 'category_manager');
-        parent::display();
     }
 }

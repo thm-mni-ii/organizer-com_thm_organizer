@@ -1,0 +1,3246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<document version="1.4" date="20130529" time="170230">
+  <general>
+    <schoolname>Untis 2013</schoolname>
+    <schoolyearbegindate>20121008</schoolyearbegindate>
+    <schoolyearenddate>20131005</schoolyearenddate>
+    <header1>Überblick</header1>
+    <header2>WS 2012/13</header2>
+    <termbegindate>20130401</termbegindate>
+    <termenddate>20130713</termenddate>
+  </general>
+  <timeperiods>
+    <timeperiod id="TP_1">
+      <day>1</day>
+      <period>1</period>
+      <starttime>0800</starttime>
+      <endtime>0930</endtime>
+    </timeperiod>
+    <timeperiod id="TP_2">
+      <day>1</day>
+      <period>2</period>
+      <starttime>0950</starttime>
+      <endtime>1120</endtime>
+    </timeperiod>
+    <timeperiod id="TP_3">
+      <day>1</day>
+      <period>3</period>
+      <starttime>1130</starttime>
+      <endtime>1300</endtime>
+    </timeperiod>
+    <timeperiod id="TP_4">
+      <day>1</day>
+      <period>4</period>
+      <starttime>1400</starttime>
+      <endtime>1530</endtime>
+    </timeperiod>
+    <timeperiod id="TP_5">
+      <day>1</day>
+      <period>5</period>
+      <starttime>1545</starttime>
+      <endtime>1715</endtime>
+    </timeperiod>
+    <timeperiod id="TP_6">
+      <day>1</day>
+      <period>6</period>
+      <starttime>1730</starttime>
+      <endtime>1900</endtime>
+    </timeperiod>
+    <timeperiod id="TP_7">
+      <day>2</day>
+      <period>1</period>
+      <starttime>0800</starttime>
+      <endtime>0930</endtime>
+    </timeperiod>
+    <timeperiod id="TP_8">
+      <day>2</day>
+      <period>2</period>
+      <starttime>0950</starttime>
+      <endtime>1120</endtime>
+    </timeperiod>
+    <timeperiod id="TP_9">
+      <day>2</day>
+      <period>3</period>
+      <starttime>1130</starttime>
+      <endtime>1300</endtime>
+    </timeperiod>
+    <timeperiod id="TP_10">
+      <day>2</day>
+      <period>4</period>
+      <starttime>1400</starttime>
+      <endtime>1530</endtime>
+    </timeperiod>
+    <timeperiod id="TP_11">
+      <day>2</day>
+      <period>5</period>
+      <starttime>1545</starttime>
+      <endtime>1715</endtime>
+    </timeperiod>
+    <timeperiod id="TP_12">
+      <day>2</day>
+      <period>6</period>
+      <starttime>1730</starttime>
+      <endtime>1900</endtime>
+    </timeperiod>
+    <timeperiod id="TP_13">
+      <day>3</day>
+      <period>1</period>
+      <starttime>0800</starttime>
+      <endtime>0930</endtime>
+    </timeperiod>
+    <timeperiod id="TP_14">
+      <day>3</day>
+      <period>2</period>
+      <starttime>0950</starttime>
+      <endtime>1120</endtime>
+    </timeperiod>
+    <timeperiod id="TP_15">
+      <day>3</day>
+      <period>3</period>
+      <starttime>1130</starttime>
+      <endtime>1300</endtime>
+    </timeperiod>
+    <timeperiod id="TP_16">
+      <day>3</day>
+      <period>4</period>
+      <starttime>1400</starttime>
+      <endtime>1530</endtime>
+    </timeperiod>
+    <timeperiod id="TP_17">
+      <day>3</day>
+      <period>5</period>
+      <starttime>1545</starttime>
+      <endtime>1715</endtime>
+    </timeperiod>
+    <timeperiod id="TP_18">
+      <day>3</day>
+      <period>6</period>
+      <starttime>1730</starttime>
+      <endtime>1900</endtime>
+    </timeperiod>
+    <timeperiod id="TP_19">
+      <day>4</day>
+      <period>1</period>
+      <starttime>0800</starttime>
+      <endtime>0930</endtime>
+    </timeperiod>
+    <timeperiod id="TP_20">
+      <day>4</day>
+      <period>2</period>
+      <starttime>0950</starttime>
+      <endtime>1120</endtime>
+    </timeperiod>
+    <timeperiod id="TP_21">
+      <day>4</day>
+      <period>3</period>
+      <starttime>1130</starttime>
+      <endtime>1300</endtime>
+    </timeperiod>
+    <timeperiod id="TP_22">
+      <day>4</day>
+      <period>4</period>
+      <starttime>1400</starttime>
+      <endtime>1530</endtime>
+    </timeperiod>
+    <timeperiod id="TP_23">
+      <day>4</day>
+      <period>5</period>
+      <starttime>1545</starttime>
+      <endtime>1715</endtime>
+    </timeperiod>
+    <timeperiod id="TP_24">
+      <day>4</day>
+      <period>6</period>
+      <starttime>1730</starttime>
+      <endtime>1900</endtime>
+    </timeperiod>
+    <timeperiod id="TP_25">
+      <day>5</day>
+      <period>1</period>
+      <starttime>0800</starttime>
+      <endtime>0930</endtime>
+    </timeperiod>
+    <timeperiod id="TP_26">
+      <day>5</day>
+      <period>2</period>
+      <starttime>0950</starttime>
+      <endtime>1120</endtime>
+    </timeperiod>
+    <timeperiod id="TP_27">
+      <day>5</day>
+      <period>3</period>
+      <starttime>1130</starttime>
+      <endtime>1300</endtime>
+    </timeperiod>
+    <timeperiod id="TP_28">
+      <day>5</day>
+      <period>4</period>
+      <starttime>1400</starttime>
+      <endtime>1530</endtime>
+    </timeperiod>
+    <timeperiod id="TP_29">
+      <day>5</day>
+      <period>5</period>
+      <starttime>1545</starttime>
+      <endtime>1715</endtime>
+    </timeperiod>
+    <timeperiod id="TP_30">
+      <day>5</day>
+      <period>6</period>
+      <starttime>1730</starttime>
+      <endtime>1900</endtime>
+    </timeperiod>
+    <timeperiod id="TP_31">
+      <day>6</day>
+      <period>1</period>
+      <starttime>0800</starttime>
+      <endtime>0930</endtime>
+    </timeperiod>
+    <timeperiod id="TP_32">
+      <day>6</day>
+      <period>2</period>
+      <starttime>0950</starttime>
+      <endtime>1120</endtime>
+    </timeperiod>
+    <timeperiod id="TP_33">
+      <day>6</day>
+      <period>3</period>
+      <starttime>1130</starttime>
+      <endtime>1300</endtime>
+    </timeperiod>
+    <timeperiod id="TP_34">
+      <day>6</day>
+      <period>4</period>
+      <starttime>1400</starttime>
+      <endtime>1530</endtime>
+    </timeperiod>
+    <timeperiod id="TP_35">
+      <day>6</day>
+      <period>5</period>
+      <starttime>1545</starttime>
+      <endtime>1715</endtime>
+    </timeperiod>
+    <timeperiod id="TP_36">
+      <day>6</day>
+      <period>6</period>
+      <starttime>1730</starttime>
+      <endtime>1900</endtime>
+    </timeperiod>
+  </timeperiods>
+  <descriptions>
+    <description id="DS_F6">
+      <longname>Projektraum, Sozialraum</longname>
+    </description>
+    <description id="DS_H1">
+      <longname>Sonstige Räume, Archiv</longname>
+    </description>
+    <description id="DS_H2">
+      <longname>Sonstige Räume, Seminar-Nebenraum</longname>
+    </description>
+    <description id="DS_H3">
+      <longname>Sonstige Räume, sonstiges Lager</longname>
+    </description>
+    <description id="DS_H4">
+      <longname>Sonstige Räume, Labor Lager</longname>
+    </description>
+    <description id="DS_H5">
+      <longname>Sonstige Räume, Abstellraum</longname>
+    </description>
+    <description id="DS_I1">
+      <longname>Büro, Büro</longname>
+    </description>
+    <description id="DS_I2">
+      <longname>Büro, Labor-Ingenieur</longname>
+    </description>
+    <description id="DS_I3">
+      <longname>Büro, Werkstatt</longname>
+    </description>
+    <description id="DS_I5">
+      <longname>Büro, Ergänzungsraum</longname>
+    </description>
+    <description id="DS_I6">
+      <longname>Büro, Videokonferenzen</longname>
+    </description>
+    <description id="DS_P">
+      <longname>Praktikum</longname>
+    </description>
+    <description id="DS_S">
+      <longname>Seminar</longname>
+    </description>
+    <description id="DS_SU">
+      <longname>Seminar. Unterricht</longname>
+    </description>
+    <description id="DS_Ü">
+      <longname>Übung</longname>
+    </description>
+    <description id="DS_V">
+      <longname>Vorlesung</longname>
+    </description>
+    <description id="DS_W1">
+      <longname>Werkstatt, Feinmechanik</longname>
+    </description>
+    <description id="DS_W2">
+      <longname>Werkstatt, Metall</longname>
+    </description>
+    <description id="DS_W5">
+      <longname>Werkstatt, Elektronik</longname>
+    </description>
+    <description id="DS_W7">
+      <longname>Werkstatt, Nebenraum</longname>
+    </description>
+    <description id="DS_WIR-ING">
+      <longname>Wirtschaft / Ingenieurwesen</longname>
+    </description>
+    <description id="DS_MED-ING">
+      <longname>Medizin / Ingenieurwesen</longname>
+    </description>
+    <description id="DS_MED-NAT">
+      <longname>Medizin / Naturwissenschaft</longname>
+    </description>
+    <description id="DS_INF">
+      <longname>Informatik</longname>
+    </description>
+    <description id="DS_ING">
+      <longname>Ingenieurwesen</longname>
+    </description>
+    <description id="DS_ING-INF">
+      <longname>Ingenieurwesen / Informatik</longname>
+    </description>
+    <description id="DS_MED-INF">
+      <longname>Medizin / Informatik</longname>
+    </description>
+    <description id="DS_NAT-INF">
+      <longname>Naturwissenschaften / Informatik</longname>
+    </description>
+    <description id="DS_NAT-ING">
+      <longname>Naturwissenschaften / Ingenieurwesen</longname>
+    </description>
+    <description id="DS_SOZ">
+      <longname>Sozialwissenschaften</longname>
+    </description>
+    <description id="DS_WIR">
+      <longname>Wirtschaft</longname>
+    </description>
+    <description id="DS_JUR">
+      <longname>Jura</longname>
+    </description>
+    <description id="DS_LIN">
+      <longname>Linguistik</longname>
+    </description>
+    <description id="DS_MAT">
+      <longname>Mathematik</longname>
+    </description>
+    <description id="DS_MED">
+      <longname>Medizin</longname>
+    </description>
+    <description id="DS_NAT">
+      <longname>Naturwissenschaft</longname>
+    </description>
+    <description id="DS_WIR-INF">
+      <longname>Wirtschaft / Informatik</longname>
+    </description>
+    <description id="DS_WIR-JUR">
+      <longname>Wirtschaft / Jura</longname>
+    </description>
+    <description id="DS_BAU">
+      <longname>Bauwesen</longname>
+    </description>
+    <description id="DS_DIV">
+      <longname>Diverse</longname>
+    </description>
+    <description id="DS_MAT-NAT">
+      <longname>Mathematik / Naturwissenschaften</longname>
+    </description>
+    <description id="DS_MAT-INF">
+      <longname>Mathematik / Informatik</longname>
+    </description>
+    <description id="DS_WIR-MAT">
+      <longname>Wirtschaft / Mathematik</longname>
+    </description>
+    <description id="DS_A1">
+      <longname>Hörsaal / Seminarraum, 1 - 20 Plätze</longname>
+    </description>
+    <description id="DS_A2">
+      <longname>Hörsaal / Seminarraum, 21 - 33 Plätze</longname>
+    </description>
+    <description id="DS_A3">
+      <longname>Hörsaal, 34 - 47 Plätze</longname>
+    </description>
+    <description id="DS_A4">
+      <longname>Hörsaal, 48 - 69 Plätze</longname>
+    </description>
+    <description id="DS_A5">
+      <longname>Hörsaal, 70 - 84 Plätze</longname>
+    </description>
+    <description id="DS_A6">
+      <longname>Hörsaal, 85 - 105 Plätze</longname>
+    </description>
+    <description id="DS_A7">
+      <longname>Hörsaal, 106-130 Plätze</longname>
+    </description>
+    <description id="DS_A8">
+      <longname>Hörsaal, 131-185 Plätze</longname>
+    </description>
+    <description id="DS_A9">
+      <longname>Hörsaal (gr), 186-270 Plätze</longname>
+    </description>
+    <description id="DS_AZ">
+      <longname>Hörsaal (gr), 271-400 Plätze</longname>
+    </description>
+    <description id="DS_B1">
+      <longname>Fachsaal, Physik-Hörsaal (kl)</longname>
+    </description>
+    <description id="DS_B2">
+      <longname>Fachsaal, Physik-Hörsaal (gr)</longname>
+    </description>
+    <description id="DS_B3">
+      <longname>Fachsaal, Chemie</longname>
+    </description>
+    <description id="DS_C1">
+      <longname>Fachsaal, Praktikumsraum mit. spez. Einbauten</longname>
+    </description>
+    <description id="DS_C2">
+      <longname>Fachsaal, Praktikumsraum keine spez. Einbauten</longname>
+    </description>
+    <description id="DS_C3">
+      <longname>Fachsaal, Forschungslabor</longname>
+    </description>
+    <description id="DS_C4">
+      <longname>Fachsaal, Mess-Stand</longname>
+    </description>
+    <description id="DS_C5">
+      <longname>Fachsaal, Nebenlabor</longname>
+    </description>
+    <description id="DS_C6">
+      <longname>Fachsaal, Vorbereitungsraum</longname>
+    </description>
+    <description id="DS_C9">
+      <longname>Fachsaal, Betriebsraum</longname>
+    </description>
+    <description id="DS_D1">
+      <longname>Rechnerraum, allgemein</longname>
+    </description>
+    <description id="DS_D2">
+      <longname>Rechnerraum, fachspez.</longname>
+    </description>
+    <description id="DS_D3">
+      <longname>Rechnerraum, fachspez. (Forschung)</longname>
+    </description>
+    <description id="DS_D4">
+      <longname>Rechnerraum, Peripherie- / Geräteraum</longname>
+    </description>
+    <description id="DS_D5">
+      <longname>Rechnerraum, Serverraum</longname>
+    </description>
+    <description id="DS_D7">
+      <longname>Rechnerraum, Schulung</longname>
+    </description>
+    <description id="DS_F1">
+      <longname>Projektraum, allgemein</longname>
+    </description>
+    <description id="DS_F2">
+      <longname>Projektraum, Gruppenarbeitsraum</longname>
+    </description>
+    <description id="DS_F3">
+      <longname>Projektraum, Übungen</longname>
+    </description>
+    <description id="DS_F5">
+      <longname>Projektraum, Studiebüro</longname>
+    </description>
+    <description id="DS_I4">
+      <longname>Büro, Besprechungen</longname>
+    </description>
+    <description id="DS_W9">
+      <longname>Werkstatt, Lager</longname>
+    </description>
+    <description id="DS_X">
+      <longname>Raum, nicht bekannt</longname>
+    </description>
+    <description id="DS_K">
+      <longname>Klausur</longname>
+    </description>
+  </descriptions>
+  <departments>
+    <department id="DP_BAU">
+      <longname>Bauwesen</longname>
+    </department>
+    <department id="DP_BLIZ">
+      <longname>Blindenzentrum</longname>
+    </department>
+    <department id="DP_EI">
+      <longname>Elektro- und Informationstechnik</longname>
+    </department>
+    <department id="DP_IEM">
+      <longname>Informationstechnik-Elektronik-Mechatronik</longname>
+    </department>
+    <department id="DP_KMUB">
+      <longname>Krankenhaus- und Medizintechnik, Umwelt- und Biotechnologie</longname>
+    </department>
+    <department id="DP_LB">
+      <longname>Lehrbeauftragte</longname>
+    </department>
+    <department id="DP_M">
+      <longname>Maschinebau, Mechatronik, Materialtechnologie</longname>
+    </department>
+    <department id="DP_ME">
+      <longname>Maschinenbau und Energietechnik</longname>
+    </department>
+    <department id="DP_MND">
+      <longname>Mathematik, Naturwissenschaften und Datenverarbeitung</longname>
+    </department>
+    <department id="DP_MNI">
+      <longname>Mathematik, Naturwissenschaften und Informatik</longname>
+    </department>
+    <department id="DP_NN">
+      <longname>Platzhalter</longname>
+    </department>
+    <department id="DP_STK">
+      <longname>Studienkolleg Mittelhessen</longname>
+    </department>
+    <department id="DP_SuK">
+      <longname>Sozial- und Kulturwissenschaften</longname>
+    </department>
+    <department id="DP_THM">
+      <longname>Technische Hochschule Mittelhessen</longname>
+    </department>
+    <department id="DP_W">
+      <longname>Wirtschaft, THM School of Business</longname>
+    </department>
+    <department id="DP_WI">
+      <longname>Wirtschaftsingenieurwesen</longname>
+    </department>
+    <department id="DP_ZDH">
+      <longname>Wissenschaftliches Zentrum Duales Hochschulstudium</longname>
+    </department>
+  </departments>
+  <rooms>
+    <room id="RM_A10.2.01">
+      <longname>A.2.01</longname>
+      <capacity>64</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.2.01</external_name>
+    </room>
+    <room id="RM_A10.2.02">
+      <longname>A.2.02</longname>
+      <capacity>76</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A5"/>
+      <external_name>A10.2.02</external_name>
+    </room>
+    <room id="RM_A10.2.03">
+      <longname>A.2.03</longname>
+      <capacity>52</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.2.03</external_name>
+    </room>
+    <room id="RM_A10.2.05">
+      <longname>A.2.05</longname>
+      <capacity>56</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.2.05</external_name>
+    </room>
+    <room id="RM_A10.3.01">
+      <longname>A.3.01</longname>
+      <capacity>64</capacity>
+      <flags>O</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.3.01</external_name>
+    </room>
+    <room id="RM_A10.3.02">
+      <longname>A.3.02</longname>
+      <capacity>72</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A5"/>
+      <external_name>A10.3.02</external_name>
+    </room>
+    <room id="RM_A10.3.03">
+      <longname>A.3.03</longname>
+      <capacity>44</capacity>
+      <flags>O</flags>
+      <room_description id="DS_A3"/>
+      <external_name>A10.3.03</external_name>
+    </room>
+    <room id="RM_A10.3.05">
+      <longname>A.3.05</longname>
+      <capacity>52</capacity>
+      <flags>O</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.3.05</external_name>
+    </room>
+    <room id="RM_A10.3.23">
+      <longname>A.3.23</longname>
+      <capacity>24</capacity>
+      <room_description id="DS_A2"/>
+      <external_name>A10.3.23</external_name>
+    </room>
+    <room id="RM_A10.3.24">
+      <longname>A.3.24</longname>
+      <capacity>24</capacity>
+      <flags>O</flags>
+      <room_description id="DS_A2"/>
+      <external_name>A10.3.24</external_name>
+    </room>
+    <room id="RM_A10.3.25">
+      <longname>A.3.25</longname>
+      <capacity>24</capacity>
+      <flags>X</flags>
+      <room_description id="DS_A2"/>
+      <external_name>A10.3.25</external_name>
+    </room>
+    <room id="RM_A10.3.25A">
+      <longname>A.3.25A</longname>
+      <capacity>20</capacity>
+      <room_description id="DS_A1"/>
+      <external_name>A10.3.25A</external_name>
+    </room>
+    <room id="RM_A10.4.04">
+      <longname>A.4.04</longname>
+      <capacity>56</capacity>
+      <flags>O</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.4.04</external_name>
+    </room>
+    <room id="RM_A10.4.06">
+      <longname>A.4.06</longname>
+      <capacity>64</capacity>
+      <flags>O</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.4.06</external_name>
+    </room>
+    <room id="RM_A10.4.20">
+      <longname>A.4.20</longname>
+      <text>Chemie</text>
+      <room_description id="DS_B3"/>
+      <external_name>A10.4.20</external_name>
+    </room>
+    <room id="RM_A10.4.24">
+      <longname>A.4.24</longname>
+      <capacity>34</capacity>
+      <flags>O</flags>
+      <room_description id="DS_A3"/>
+      <external_name>A10.4.24</external_name>
+    </room>
+    <room id="RM_A10.4.25">
+      <longname>A.4.25</longname>
+      <capacity>80</capacity>
+      <text>BioPhysik</text>
+      <flags>O</flags>
+      <room_description id="DS_A5"/>
+      <external_name>A10.4.25</external_name>
+    </room>
+    <room id="RM_A10.5.03">
+      <longname>A.5.03</longname>
+      <capacity>52</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.5.03</external_name>
+    </room>
+    <room id="RM_A10.5.04">
+      <longname>A.5.04</longname>
+      <capacity>52</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.5.04</external_name>
+    </room>
+    <room id="RM_A10.5.06">
+      <longname>A.5.06</longname>
+      <capacity>48</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.5.06</external_name>
+    </room>
+    <room id="RM_A10.5.20">
+      <longname>A.5.20</longname>
+      <capacity>54</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.5.20</external_name>
+    </room>
+    <room id="RM_A10.5.26">
+      <longname>A.5.26</longname>
+      <capacity>36</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A3"/>
+      <external_name>A10.5.26</external_name>
+    </room>
+    <room id="RM_A10.6.04">
+      <longname>A.6.04</longname>
+      <capacity>64</capacity>
+      <flags>O</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.6.04</external_name>
+    </room>
+    <room id="RM_A10.6.20">
+      <longname>A.6.20</longname>
+      <capacity>90</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A6"/>
+      <external_name>A10.6.20</external_name>
+    </room>
+    <room id="RM_A10.7.01">
+      <longname>A.7.01</longname>
+      <capacity>28</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_B1"/>
+      <external_name>A10.7.01</external_name>
+    </room>
+    <room id="RM_A10.8.08">
+      <longname>A.8.08</longname>
+      <capacity>49</capacity>
+      <flags>O</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.8.08</external_name>
+    </room>
+    <room id="RM_A10.8.15">
+      <longname>A.8.15</longname>
+      <capacity>168</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_B2"/>
+      <external_name>A10.8.15</external_name>
+    </room>
+    <room id="RM_A10.8.20">
+      <longname>A.8.20</longname>
+      <capacity>63</capacity>
+      <flags>O</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.8.20</external_name>
+    </room>
+    <room id="RM_A12.1.16">
+      <longname>A12.1.16</longname>
+      <capacity>30</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A2"/>
+      <external_name>A12.1.16</external_name>
+    </room>
+    <room id="RM_A12.2.15">
+      <longname>A12.2.15</longname>
+      <capacity>30</capacity>
+      <room_description id="DS_F5"/>
+      <external_name>A12.2.15</external_name>
+    </room>
+    <room id="RM_A12.3.04">
+      <longname>A12.3.04</longname>
+      <capacity>94</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A6"/>
+      <external_name>A12.3.04</external_name>
+    </room>
+    <room id="RM_A12.3.05">
+      <longname>A12.3.05</longname>
+      <capacity>110</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A7"/>
+      <external_name>A12.3.05</external_name>
+    </room>
+    <room id="RM_A20.0.07">
+      <longname>A20.0.07</longname>
+      <capacity>126</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A7"/>
+      <external_name>A20.0.07</external_name>
+    </room>
+    <room id="RM_A20.1.07">
+      <longname>A20.1.07</longname>
+      <capacity>126</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A7"/>
+      <external_name>A20.1.07</external_name>
+    </room>
+    <room id="RM_A20.1.36">
+      <longname>A20.1.36</longname>
+      <capacity>246</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A9"/>
+      <external_name>A20.1.36</external_name>
+    </room>
+    <room id="RM_A21.0.01">
+      <longname>A21.0.01</longname>
+      <capacity>160</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A8"/>
+      <external_name>A21.0.01</external_name>
+    </room>
+    <room id="RM_A21.0.03">
+      <longname>A21.0.03</longname>
+      <capacity>160</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A8"/>
+      <external_name>A21.0.03</external_name>
+    </room>
+    <room id="RM_C10.1.30">
+      <longname>C.1.30</longname>
+      <capacity>252</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A9"/>
+      <external_name>C10.1.30</external_name>
+    </room>
+    <room id="RM_C10.2.10">
+      <longname>C.2.10</longname>
+      <capacity>40</capacity>
+      <flags>O</flags>
+      <room_description id="DS_A3"/>
+      <external_name>C10.2.10</external_name>
+    </room>
+    <room id="RM_C10.2.33">
+      <longname>C.2.33</longname>
+      <capacity>56</capacity>
+      <flags>O</flags>
+      <room_description id="DS_A4"/>
+      <external_name>C10.2.33</external_name>
+    </room>
+    <room id="RM_C10.3.10">
+      <longname>C.3.10</longname>
+      <capacity>40</capacity>
+      <flags>O</flags>
+      <room_description id="DS_A3"/>
+      <external_name>C10.3.10</external_name>
+    </room>
+    <room id="RM_C10.4.01">
+      <longname>C.4.01</longname>
+      <capacity>50</capacity>
+      <room_description id="DS_A4"/>
+      <external_name>C10.4.01</external_name>
+    </room>
+    <room id="RM_C10.8.01">
+      <longname>C.8.01</longname>
+      <capacity>38</capacity>
+      <flags>O</flags>
+      <room_description id="DS_A3"/>
+      <external_name>C10.8.01</external_name>
+    </room>
+    <room id="RM_C10.8.03">
+      <longname>C.8.03</longname>
+      <capacity>38</capacity>
+      <flags>O</flags>
+      <room_description id="DS_A3"/>
+      <external_name>C10.8.03</external_name>
+    </room>
+    <room id="RM_C13.0.12">
+      <longname>C13.0.12</longname>
+      <capacity>24</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A2"/>
+      <external_name>C13.0.12</external_name>
+    </room>
+    <room id="RM_C13.0.14">
+      <longname>C13.0.14</longname>
+      <capacity>14</capacity>
+      <room_description id="DS_F2"/>
+      <external_name>C13.0.14</external_name>
+    </room>
+    <room id="RM_C13.0.21">
+      <longname>C13.0.21</longname>
+      <capacity>30</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A2"/>
+      <external_name>C13.0.21</external_name>
+    </room>
+    <room id="RM_C13.0.22">
+      <longname>C13.0.22</longname>
+      <capacity>36</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A3"/>
+      <external_name>C13.0.22</external_name>
+    </room>
+    <room id="RM_C13.0.23">
+      <longname>C13.0.23</longname>
+      <capacity>40</capacity>
+      <flags>B</flags>
+      <room_description id="DS_A3"/>
+      <external_name>C13.0.23</external_name>
+    </room>
+    <room id="RM_C13.1.10">
+      <longname>C13.1.10</longname>
+      <capacity>30</capacity>
+      <flags>B</flags>
+      <room_description id="DS_A2"/>
+      <external_name>C13.1.10</external_name>
+    </room>
+    <room id="RM_C13.1.12">
+      <longname>C13.1.12</longname>
+      <capacity>30</capacity>
+      <flags>B</flags>
+      <room_description id="DS_A2"/>
+      <external_name>C13.1.12</external_name>
+    </room>
+    <room id="RM_C13.1.29">
+      <longname>C13.1.29</longname>
+      <capacity>28</capacity>
+      <flags>B</flags>
+      <room_description id="DS_A2"/>
+      <external_name>C13.1.29</external_name>
+    </room>
+    <room id="RM_C14.0.03">
+      <longname>C14.0.03</longname>
+      <capacity>56</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A4"/>
+      <external_name>C14.0.03</external_name>
+    </room>
+    <room id="RM_C14.1.13">
+      <longname>C14.1.13</longname>
+      <capacity>48</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A4"/>
+      <external_name>C14.1.13</external_name>
+    </room>
+    <room id="RM_C14.1.17">
+      <longname>C14.1.17</longname>
+      <capacity>100</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A6"/>
+      <external_name>C14.1.17</external_name>
+    </room>
+    <room id="RM_C14.2.08">
+      <longname>C14.2.08</longname>
+      <capacity>30</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A2"/>
+      <external_name>C14.2.08</external_name>
+    </room>
+    <room id="RM_C14.2.11">
+      <longname>C14.2.11</longname>
+      <capacity>28</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A2"/>
+      <external_name>C14.2.11</external_name>
+    </room>
+    <room id="RM_C15.0.02">
+      <longname>C15.0.02</longname>
+      <capacity>30</capacity>
+      <room_description id="DS_A2"/>
+      <external_name>C15.0.02</external_name>
+    </room>
+    <room id="RM_C15.0.03">
+      <longname>C15.0.03</longname>
+      <capacity>30</capacity>
+      <room_description id="DS_A2"/>
+      <external_name>C15.0.03</external_name>
+    </room>
+    <room id="RM_C15.0.05">
+      <longname>C15.0.05</longname>
+      <capacity>30</capacity>
+      <room_description id="DS_A2"/>
+      <external_name>C15.0.05</external_name>
+    </room>
+    <room id="RM_E10.0.02">
+      <longname>E10.0.02</longname>
+      <capacity>24</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A2"/>
+      <external_name>E10.0.02</external_name>
+    </room>
+    <room id="RM_E10.1.04">
+      <longname>E10.1.04</longname>
+      <capacity>40</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A3"/>
+      <external_name>E10.1.04</external_name>
+    </room>
+    <room id="RM_E10.2.02">
+      <longname>E10.2.02</longname>
+      <capacity>18</capacity>
+      <room_description id="DS_F5"/>
+      <external_name>E10.2.02</external_name>
+    </room>
+    <room id="RM_E10.2.03">
+      <longname>E10.2.03</longname>
+      <capacity>48</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A4"/>
+      <external_name>E10.2.03</external_name>
+    </room>
+    <room id="RM_E10.2.04">
+      <longname>E10.2.04</longname>
+      <capacity>100</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A6"/>
+      <external_name>E10.2.04</external_name>
+    </room>
+    <room id="RM_E15.0.04">
+      <longname>E15.0.04</longname>
+      <capacity>40</capacity>
+      <room_description id="DS_A3"/>
+      <external_name>E15.0.04</external_name>
+    </room>
+    <room id="RM_E15.0.05">
+      <longname>E15.0.05</longname>
+      <capacity>34</capacity>
+      <room_description id="DS_A3"/>
+      <external_name>E15.0.05</external_name>
+    </room>
+    <room id="RM_C15.0.01">
+      <longname>C15.0.01</longname>
+      <capacity>30</capacity>
+      <room_description id="DS_A2"/>
+      <external_name>C15.0.01</external_name>
+    </room>
+    <room id="RM_A20.2.09">
+      <longname>A20.2.09</longname>
+      <capacity>28</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_D1"/>
+      <external_name>A20.2.09</external_name>
+    </room>
+  </rooms>
+  <subjects>
+    <subject id="SU_Raumsuche">
+      <longname>Raumsuche</longname>
+    </subject>
+    <subject id="SU_ZDH-Fach">
+      <longname>Fach des ZDH</longname>
+    </subject>
+    <subject id="SU_Tagung">
+      <longname>Fachtagung</longname>
+    </subject>
+    <subject id="SU_NN">
+      <longname>Unbekanntes Fach</longname>
+    </subject>
+    <subject id="SU_TM2">
+      <longname>TM 2</longname>
+    </subject>
+    <subject id="SU_AE1/2">
+      <longname>AE 1 und 2</longname>
+    </subject>
+    <subject id="SU_Drachenboot">
+      <longname>Drachenboot</longname>
+    </subject>
+  </subjects>
+  <teachers>
+    <teacher id="TR_FiebM">
+      <forename>Martin</forename>
+      <surname>Fiebich</surname>
+      <title>Prof. Dr.</title>
+      <teacher_description id="DS_NAT"/>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>FiebM</external_name>
+    </teacher>
+    <teacher id="TR_FörsJ">
+      <forename>Jens</forename>
+      <surname>Förster</surname>
+      <payrollnumber>hg7788</payrollnumber>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>FörsJ</external_name>
+    </teacher>
+    <teacher id="TR_FranB">
+      <forename>Berthold</forename>
+      <surname>Franzen</surname>
+      <payrollnumber>hg7132</payrollnumber>
+      <teacher_description id="DS_ING-INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>FranB</external_name>
+    </teacher>
+    <teacher id="TR_FranG">
+      <forename>Gerhard</forename>
+      <surname>Franke</surname>
+      <payrollnumber>hg64</payrollnumber>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>FranG</external_name>
+    </teacher>
+    <teacher id="TR_FreiJ">
+      <forename>Jan</forename>
+      <surname>Freidank</surname>
+      <teacher_description id="DS_WIR"/>
+      <teacher_department id="DP_W"/>
+      <external_name>FreiJ</external_name>
+    </teacher>
+    <teacher id="TR_FreyJ">
+      <forename>Jochen</forename>
+      <surname>Frey</surname>
+      <teacher_department id="DP_EI"/>
+      <external_name>FreyJ</external_name>
+    </teacher>
+    <teacher id="TR_Frie">
+      <surname>Friedl</surname>
+      <text>L</text>
+      <teacher_description id="DS_WIR-INF"/>
+      <teacher_department id="DP_MNI"/>
+    </teacher>
+    <teacher id="TR_FritM">
+      <forename>Manfred</forename>
+      <surname>Fritz</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>FritM</external_name>
+    </teacher>
+    <teacher id="TR_FröhC">
+      <forename>Christine</forename>
+      <surname>Fröhlich</surname>
+      <teacher_department id="DP_MNI"/>
+      <external_name>FröhC</external_name>
+    </teacher>
+    <teacher id="TR_GaliB">
+      <forename>Bernd</forename>
+      <surname>Galinski</surname>
+      <teacher_description id="DS_WIR-INF"/>
+      <teacher_department id="DP_W"/>
+      <external_name>GaliB</external_name>
+    </teacher>
+    <teacher id="TR_GeblH">
+      <forename>Helmut</forename>
+      <surname>Gebler</surname>
+      <teacher_department id="DP_EI"/>
+      <external_name>GeblH</external_name>
+    </teacher>
+    <teacher id="TR_GeisH">
+      <forename>Hellwig</forename>
+      <surname>Geisse</surname>
+      <payrollnumber>hg53</payrollnumber>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>GeisH</external_name>
+    </teacher>
+    <teacher id="TR_GiesR">
+      <forename>Rene</forename>
+      <surname>Giessen</surname>
+      <teacher_department id="DP_SuK"/>
+      <external_name>GiesR</external_name>
+    </teacher>
+    <teacher id="TR_GlißK">
+      <forename>Kristin</forename>
+      <surname>Glißmann</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>GlißK</external_name>
+    </teacher>
+    <teacher id="TR_GokoS">
+      <forename>Stephanie</forename>
+      <surname>Gokorsch</surname>
+      <teacher_description id="DS_NAT"/>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>GokoS</external_name>
+    </teacher>
+    <teacher id="TR_GollJ">
+      <forename>Jörg</forename>
+      <surname>Gollnick</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>GollJ</external_name>
+    </teacher>
+    <teacher id="TR_GörgB">
+      <forename>Benjamin</forename>
+      <surname>Görge</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>GörgB</external_name>
+    </teacher>
+    <teacher id="TR_GroßV">
+      <forename>Volker</forename>
+      <surname>Groß</surname>
+      <payrollnumber>vgrs18</payrollnumber>
+      <teacher_description id="DS_MED-INF"/>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>GroßV</external_name>
+    </teacher>
+    <teacher id="TR_GundM">
+      <forename>Matthias</forename>
+      <surname>Gundlach</surname>
+      <teacher_description id="DS_MAT"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>GundM</external_name>
+    </teacher>
+    <teacher id="TR_GüntG">
+      <forename>Gerd</forename>
+      <surname>Günther</surname>
+      <teacher_department id="DP_BAU"/>
+      <external_name>GüntG</external_name>
+    </teacher>
+    <teacher id="TR_HageU">
+      <forename>Udo</forename>
+      <surname>Hagenbach</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>HageU</external_name>
+    </teacher>
+    <teacher id="TR_HanrS">
+      <forename>Stephanie</forename>
+      <surname>Hanrath</surname>
+      <teacher_description id="DS_WIR"/>
+      <teacher_department id="DP_W"/>
+      <external_name>HanrS</external_name>
+    </teacher>
+    <teacher id="TR_HardD">
+      <forename>Detlef</forename>
+      <surname>Hardt</surname>
+      <teacher_description id="DS_SOZ"/>
+      <teacher_department id="DP_SuK"/>
+      <external_name>HardD</external_name>
+    </teacher>
+    <teacher id="TR_Hart">
+      <surname>Hartung</surname>
+      <teacher_department id="DP_BAU"/>
+      <external_name>Hart</external_name>
+    </teacher>
+    <teacher id="TR_HaucJ">
+      <forename>Jürgen</forename>
+      <surname>Hauck</surname>
+      <teacher_department id="DP_BAU"/>
+      <external_name>HaucJ</external_name>
+    </teacher>
+    <teacher id="TR_HausD">
+      <forename>Dieter</forename>
+      <surname>Hausotter</surname>
+      <teacher_description id="DS_SOZ"/>
+      <teacher_department id="DP_SuK"/>
+      <external_name>HausD</external_name>
+    </teacher>
+    <teacher id="TR_HeckH">
+      <forename>Horst</forename>
+      <surname>Heck</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>HeckH</external_name>
+    </teacher>
+    <teacher id="TR_HeidE">
+      <forename>Edda</forename>
+      <surname>Heider-Knabe</surname>
+      <teacher_description id="DS_WIR"/>
+      <teacher_department id="DP_W"/>
+      <external_name>HeidE</external_name>
+    </teacher>
+    <teacher id="TR_Heil">
+      <surname>Heilmann</surname>
+      <teacher_description id="DS_WIR-INF"/>
+      <teacher_department id="DP_W"/>
+      <external_name>Heil</external_name>
+    </teacher>
+    <teacher id="TR_HeimB">
+      <forename>Bernd</forename>
+      <surname>Heimrich</surname>
+      <title>Prof. Dr.</title>
+      <teacher_description id="DS_ING"/>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>HeimB</external_name>
+    </teacher>
+    <teacher id="TR_HembJ">
+      <forename>Jürgen</forename>
+      <surname>Hemberger</surname>
+      <teacher_description id="DS_NAT-ING"/>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>HembJ</external_name>
+    </teacher>
+    <teacher id="TR_HenrW">
+      <forename>Wolfgang</forename>
+      <surname>Henrich</surname>
+      <payrollnumber>hg6678</payrollnumber>
+      <teacher_description id="DS_MAT-INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>HenrW</external_name>
+    </teacher>
+    <teacher id="TR_Herc">
+      <surname>Herchenhein</surname>
+      <text>L</text>
+      <teacher_description id="DS_WIR"/>
+      <teacher_department id="DP_MNI"/>
+    </teacher>
+    <teacher id="TR_Herl">
+      <surname>Herling</surname>
+      <text>L</text>
+      <teacher_description id="DS_WIR"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>Herl</external_name>
+    </teacher>
+    <teacher id="TR_HerrM">
+      <forename>Michael</forename>
+      <surname>Herrenbauer</surname>
+      <teacher_description id="DS_NAT"/>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>HerrM</external_name>
+    </teacher>
+    <teacher id="TR_HerzK">
+      <forename>Klaus</forename>
+      <surname>Herzog</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>HerzK</external_name>
+    </teacher>
+    <teacher id="TR_HeusS">
+      <forename>Steffen</forename>
+      <surname>Heusch</surname>
+      <teacher_department id="DP_BAU"/>
+      <external_name>HeusS</external_name>
+    </teacher>
+    <teacher id="TR_HillA">
+      <forename>Andreas</forename>
+      <surname>Hiller</surname>
+      <payrollnumber>hg6363</payrollnumber>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>HillA</external_name>
+    </teacher>
+    <teacher id="TR_HöbeM">
+      <forename>Martina</forename>
+      <surname>Höber</surname>
+      <teacher_description id="DS_SOZ"/>
+      <teacher_department id="DP_W"/>
+      <external_name>HöbeM</external_name>
+    </teacher>
+    <teacher id="TR_HoboU">
+      <forename>Uwe</forename>
+      <surname>Hobohm</surname>
+      <payrollnumber>hg12640</payrollnumber>
+      <teacher_description id="DS_NAT-INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>HoboU</external_name>
+    </teacher>
+    <teacher id="TR_HofrL">
+      <forename>Linus</forename>
+      <surname>Hofrichter</surname>
+      <teacher_description id="DS_WIR"/>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>HofrL</external_name>
+    </teacher>
+    <teacher id="TR_Hohe">
+      <surname>Hohenbild</surname>
+      <teacher_department id="DP_W"/>
+    </teacher>
+    <teacher id="TR_HohmP">
+      <forename>Peter</forename>
+      <surname>Hohmann</surname>
+      <payrollnumber>hg11882</payrollnumber>
+      <teacher_description id="DS_WIR-INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>HohmP</external_name>
+    </teacher>
+    <teacher id="TR_HollK">
+      <forename>Klaus</forename>
+      <surname>Holländer</surname>
+      <teacher_department id="DP_MNI"/>
+      <external_name>HollK</external_name>
+    </teacher>
+    <teacher id="TR_Hona">
+      <surname>Honal</surname>
+      <teacher_description id="DS_WIR"/>
+      <teacher_department id="DP_W"/>
+      <external_name>Hona</external_name>
+    </teacher>
+    <teacher id="TR_HöneI">
+      <forename>Ingrid</forename>
+      <surname>Höne</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>HöneI</external_name>
+    </teacher>
+    <teacher id="TR_HoßfJ">
+      <forename>Jens</forename>
+      <surname>Hoßfeld</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>HoßfJ</external_name>
+    </teacher>
+    <teacher id="TR_HuscK">
+      <forename>Karsten</forename>
+      <surname>Huschka</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>HuscK</external_name>
+    </teacher>
+    <teacher id="TR_JägeM">
+      <forename>Michael</forename>
+      <surname>Jäger</surname>
+      <payrollnumber>hg52</payrollnumber>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>JägeM</external_name>
+    </teacher>
+    <teacher id="TR_JahnP">
+      <forename>Peter</forename>
+      <surname>Jahnen</surname>
+      <teacher_department id="DP_BAU"/>
+      <external_name>JahnP</external_name>
+    </teacher>
+    <teacher id="TR_JehlB">
+      <forename>Bernhard</forename>
+      <surname>Jehle</surname>
+      <teacher_department id="DP_SuK"/>
+      <external_name>JehlB</external_name>
+    </teacher>
+    <teacher id="TR_JitsW">
+      <forename>Wolfgang</forename>
+      <surname>Jitschin</surname>
+      <payrollnumber>hg8831</payrollnumber>
+      <teacher_description id="DS_NAT"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>JitsW</external_name>
+    </teacher>
+    <teacher id="TR_Jull">
+      <surname>Jullmann</surname>
+      <text>L</text>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>Jull</external_name>
+    </teacher>
+    <teacher id="TR_JungH">
+      <forename>Hubert</forename>
+      <surname>Jung</surname>
+      <teacher_description id="DS_WIR-JUR"/>
+      <teacher_department id="DP_W"/>
+      <external_name>JungH</external_name>
+    </teacher>
+    <teacher id="TR_JustB">
+      <forename>Bettina</forename>
+      <surname>Just</surname>
+      <payrollnumber>bjst71</payrollnumber>
+      <teacher_description id="DS_MAT"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>JustB</external_name>
+    </teacher>
+    <teacher id="TR_Kämp">
+      <surname>Kämpfer</surname>
+      <text>L</text>
+      <teacher_description id="DS_SOZ"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>Kämp</external_name>
+    </teacher>
+    <teacher id="TR_Karb">
+      <surname>Karbach</surname>
+      <teacher_description id="DS_ING"/>
+      <teacher_department id="DP_M"/>
+      <external_name>Karb</external_name>
+    </teacher>
+    <teacher id="TR_KarbA">
+      <forename>Alfred</forename>
+      <surname>Karbach</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>KarbA</external_name>
+    </teacher>
+    <teacher id="TR_KarpR">
+      <forename>Rüdi</forename>
+      <surname>Karpf</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>KarpR</external_name>
+    </teacher>
+    <teacher id="TR_KarrM">
+      <forename>Martin</forename>
+      <surname>Karry</surname>
+      <payrollnumber>mkrr38</payrollnumber>
+      <text>L</text>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>KarrM</external_name>
+    </teacher>
+    <teacher id="TR_KastB">
+      <forename>Björn</forename>
+      <surname>Kasteleiner</surname>
+      <payrollnumber>bkln64</payrollnumber>
+      <text>L</text>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>KastB</external_name>
+    </teacher>
+    <teacher id="TR_KaufA">
+      <forename>Achim</forename>
+      <surname>Kaufmann</surname>
+      <payrollnumber>hg6711</payrollnumber>
+      <teacher_description id="DS_WIR-INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>KaufA</external_name>
+    </teacher>
+    <teacher id="TR_KausE">
+      <forename>Ernst</forename>
+      <surname>Kausen</surname>
+      <payrollnumber>hg8429</payrollnumber>
+      <teacher_description id="DS_MAT"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>KausE</external_name>
+    </teacher>
+    <teacher id="TR_KehrH">
+      <forename>Helmut</forename>
+      <surname>Kehr</surname>
+      <teacher_description id="DS_WIR"/>
+      <teacher_department id="DP_W"/>
+      <external_name>KehrH</external_name>
+    </teacher>
+    <teacher id="TR_KeilT">
+      <forename>Tilo</forename>
+      <surname>Keil</surname>
+      <teacher_description id="DS_JUR"/>
+      <teacher_department id="DP_W"/>
+      <external_name>KeilT</external_name>
+    </teacher>
+    <teacher id="TR_KellS">
+      <forename>Sven</forename>
+      <surname>Keller</surname>
+      <teacher_description id="DS_WIR"/>
+      <teacher_department id="DP_W"/>
+      <external_name>KellS</external_name>
+    </teacher>
+    <teacher id="TR_KempT">
+      <forename>Tobias</forename>
+      <surname>Kempf</surname>
+      <teacher_department id="DP_EI"/>
+      <external_name>KempT</external_name>
+    </teacher>
+    <teacher id="TR_KernR">
+      <forename>Rüdiger</forename>
+      <surname>Kern</surname>
+      <teacher_department id="DP_BAU"/>
+      <external_name>KernR</external_name>
+    </teacher>
+    <teacher id="TR_KessG">
+      <forename>Gabriele</forename>
+      <surname>Kessler</surname>
+      <payrollnumber>hg9630</payrollnumber>
+      <teacher_description id="DS_NAT"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>KessG</external_name>
+    </teacher>
+    <teacher id="TR_Klei">
+      <surname>Kleinhans</surname>
+      <teacher_department id="DP_BAU"/>
+      <external_name>Klei</external_name>
+    </teacher>
+    <teacher id="TR_KleiR">
+      <forename>Rudolf</forename>
+      <surname>Kleinöder</surname>
+      <title>Prof. Dr.</title>
+      <teacher_description id="DS_ING"/>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>KleiR</external_name>
+    </teacher>
+    <teacher id="TR_KlemV">
+      <forename>Volker</forename>
+      <surname>Klement</surname>
+      <payrollnumber>hg6331</payrollnumber>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>KlemV</external_name>
+    </teacher>
+    <teacher id="TR_Klin">
+      <surname>Klingelhöfer</surname>
+      <teacher_department id="DP_BAU"/>
+    </teacher>
+    <teacher id="TR_Klos">
+      <surname>Klos</surname>
+      <teacher_department id="DP_LB"/>
+      <external_name>Klos</external_name>
+    </teacher>
+    <teacher id="TR_KlösA">
+      <forename>Alexander</forename>
+      <surname>Klös</surname>
+      <teacher_department id="DP_EI"/>
+      <external_name>KlösA</external_name>
+    </teacher>
+    <teacher id="TR_KlytM">
+      <forename>Marius</forename>
+      <surname>Klytta</surname>
+      <teacher_department id="DP_EI"/>
+      <external_name>KlytM</external_name>
+    </teacher>
+    <teacher id="TR_KneiP">
+      <forename>Peter</forename>
+      <surname>Kneisel</surname>
+      <payrollnumber>hg10013</payrollnumber>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>KneiP</external_name>
+    </teacher>
+    <teacher id="TR_KochJ">
+      <forename>Jürgen</forename>
+      <surname>Koch</surname>
+      <payrollnumber>hg7118</payrollnumber>
+      <teacher_description id="DS_NAT"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>KochJ</external_name>
+    </teacher>
+    <teacher id="TR_KöhlJ">
+      <forename>Jürgen</forename>
+      <surname>Köhlinger</surname>
+      <teacher_description id="DS_WIR-INF"/>
+      <teacher_department id="DP_W"/>
+      <external_name>KöhlJ</external_name>
+    </teacher>
+    <teacher id="TR_KollS">
+      <forename>Stefan</forename>
+      <surname>Kolling</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>KollS</external_name>
+    </teacher>
+    <teacher id="TR_KörbO">
+      <forename>Oliver</forename>
+      <surname>Körber</surname>
+      <teacher_department id="DP_BAU"/>
+      <external_name>KörbO</external_name>
+    </teacher>
+    <teacher id="TR_KováZ">
+      <forename>Zoltán</forename>
+      <surname>Kovács</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>KováZ</external_name>
+    </teacher>
+    <teacher id="TR_Kräm">
+      <surname>Krämer</surname>
+      <teacher_department id="DP_LB"/>
+      <external_name>Kräm</external_name>
+    </teacher>
+    <teacher id="TR_KreuM">
+      <forename>Michael</forename>
+      <surname>Kreutzer</surname>
+      <payrollnumber>hg11312</payrollnumber>
+      <teacher_description id="DS_ING-INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>KreuM</external_name>
+    </teacher>
+    <teacher id="TR_KrieT">
+      <forename>Thomas</forename>
+      <surname>Kriesmer</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>KrieT</external_name>
+    </teacher>
+    <teacher id="TR_Krom">
+      <surname>Kromer</surname>
+      <teacher_department id="DP_LB"/>
+      <external_name>Krom</external_name>
+    </teacher>
+    <teacher id="TR_KrugE">
+      <forename>Erhard</forename>
+      <surname>Krug</surname>
+      <teacher_department id="DP_SuK"/>
+      <external_name>KrugE</external_name>
+    </teacher>
+    <teacher id="TR_KrümN">
+      <forename>Nadja</forename>
+      <surname>Krümmel</surname>
+      <payrollnumber>hg12928</payrollnumber>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>KrümN</external_name>
+    </teacher>
+    <teacher id="TR_KrupB">
+      <forename>Boris</forename>
+      <surname>Kruppa</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>KrupB</external_name>
+    </teacher>
+    <teacher id="TR_KüglK">
+      <forename>Klaus-Jürgen</forename>
+      <surname>Kügler</surname>
+      <payrollnumber>hg9364</payrollnumber>
+      <teacher_description id="DS_NAT"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>KüglK</external_name>
+    </teacher>
+    <teacher id="TR_KümmJ">
+      <forename>Julian</forename>
+      <surname>Kümmel</surname>
+      <teacher_department id="DP_BAU"/>
+      <external_name>KümmJ</external_name>
+    </teacher>
+    <teacher id="TR_Kunt">
+      <surname>Kuntze</surname>
+      <teacher_department id="DP_LB"/>
+    </teacher>
+    <teacher id="TR_KupkT">
+      <forename>Thomas</forename>
+      <surname>Kupka</surname>
+      <teacher_department id="DP_SuK"/>
+      <external_name>KupkT</external_name>
+    </teacher>
+    <teacher id="TR_LadeF">
+      <forename>Frank</forename>
+      <surname>Lademann</surname>
+      <teacher_department id="DP_BAU"/>
+      <external_name>LadeF</external_name>
+    </teacher>
+    <teacher id="TR_LahmA">
+      <forename>Armin</forename>
+      <surname>Lahmer</surname>
+      <teacher_description id="DS_MED"/>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>LahmA</external_name>
+    </teacher>
+    <teacher id="TR_LandE">
+      <forename>Elke</forename>
+      <surname>Landrock-Bill</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>LandE</external_name>
+    </teacher>
+    <teacher id="TR_LauwW">
+      <forename>Werner</forename>
+      <surname>Lauwerth</surname>
+      <payrollnumber>hg6340</payrollnumber>
+      <teacher_description id="DS_MAT-INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>LauwW</external_name>
+    </teacher>
+    <teacher id="TR_LB-MATHE">
+      <surname>LB Mathem.</surname>
+      <text>L</text>
+      <teacher_description id="DS_MAT"/>
+      <teacher_department id="DP_MNI"/>
+    </teacher>
+    <teacher id="TR_Leic">
+      <surname>Leicht</surname>
+      <teacher_description id="DS_ING"/>
+      <teacher_department id="DP_EI"/>
+      <external_name>Leic</external_name>
+    </teacher>
+    <teacher id="TR_LemmN">
+      <forename>Norbert</forename>
+      <surname>Lemmer</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>LemmN</external_name>
+    </teacher>
+    <teacher id="TR_Lenz">
+      <surname>Lenz</surname>
+      <teacher_description id="DS_WIR-INF"/>
+      <teacher_department id="DP_W"/>
+    </teacher>
+    <teacher id="TR_LetsTK">
+      <forename>Thomas Karl</forename>
+      <surname>Letschert</surname>
+      <payrollnumber>hg51</payrollnumber>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>LetsTK</external_name>
+    </teacher>
+    <teacher id="TR_Lidw">
+      <surname>Lidwin</surname>
+      <teacher_department id="DP_LB"/>
+    </teacher>
+    <teacher id="TR_LöffP">
+      <forename>Peter</forename>
+      <surname>Löffler</surname>
+      <payrollnumber>hg6342</payrollnumber>
+      <teacher_description id="DS_MAT"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>LöffP</external_name>
+    </teacher>
+    <teacher id="TR_Löhr">
+      <surname>Löhr</surname>
+      <text>L</text>
+      <teacher_description id="DS_MED-INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>Löhr</external_name>
+    </teacher>
+    <teacher id="TR_LoreD">
+      <forename>Dieter</forename>
+      <surname>Lorenz</surname>
+      <teacher_description id="DS_WIR"/>
+      <teacher_department id="DP_SuK"/>
+      <external_name>LoreD</external_name>
+    </teacher>
+    <teacher id="TR_Luig">
+      <forename>Rainer</forename>
+      <surname>Luig</surname>
+      <teacher_description id="DS_WIR"/>
+      <teacher_department id="DP_W"/>
+    </teacher>
+    <teacher id="TR_LuthT">
+      <forename>Thomas</forename>
+      <surname>Luthardt-Behle</surname>
+      <teacher_department id="DP_BAU"/>
+    </teacher>
+    <teacher id="TR_MaasJ">
+      <forename>Jochen</forename>
+      <surname>Maas</surname>
+      <teacher_description id="DS_NAT-ING"/>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>MaasJ</external_name>
+    </teacher>
+    <teacher id="TR_MachA">
+      <forename>Andreas</forename>
+      <surname>Machmüller</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>MachA</external_name>
+    </teacher>
+    <teacher id="TR_MädeU">
+      <forename>Ulf</forename>
+      <surname>Mäder</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>MädeU</external_name>
+    </teacher>
+    <teacher id="TR_MandU">
+      <forename>Udo</forename>
+      <surname>Mandler</surname>
+      <teacher_description id="DS_WIR"/>
+      <teacher_department id="DP_W"/>
+      <external_name>MandU</external_name>
+    </teacher>
+    <teacher id="TR_MantG">
+      <forename>Gerd</forename>
+      <surname>Manthei</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>MantG</external_name>
+    </teacher>
+    <teacher id="TR_MartW">
+      <forename>Wolfgang</forename>
+      <surname>Martin</surname>
+      <teacher_description id="DS_JUR"/>
+      <teacher_department id="DP_SuK"/>
+      <external_name>MartW</external_name>
+    </teacher>
+    <teacher id="TR_MaurT">
+      <forename>Thomas</forename>
+      <surname>Maurer</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>MaurT</external_name>
+    </teacher>
+    <teacher id="TR_MerkHD">
+      <forename>Horst-Dieter</forename>
+      <surname>Merker</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>MerkHD</external_name>
+    </teacher>
+    <teacher id="TR_MetzD">
+      <forename>Dirk</forename>
+      <surname>Metzger</surname>
+      <teacher_department id="DP_BAU"/>
+      <external_name>MetzD</external_name>
+    </teacher>
+    <teacher id="TR_MetzHR">
+      <forename>Hans-Rudolf</forename>
+      <surname>Metz</surname>
+      <payrollnumber>hg8070</payrollnumber>
+      <teacher_description id="DS_MAT"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>MetzHR</external_name>
+    </teacher>
+    <teacher id="TR_MeurT">
+      <forename>Thomas</forename>
+      <surname>Meurer</surname>
+      <teacher_department id="DP_BAU"/>
+      <external_name>MeurT</external_name>
+    </teacher>
+    <teacher id="TR_MeyeE">
+      <forename>Erdmuthe</forename>
+      <surname>Meyer zu Bexten-L.</surname>
+      <payrollnumber>hg7452</payrollnumber>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>MeyeE</external_name>
+    </teacher>
+    <teacher id="TR_MeyeH">
+      <forename>Helmut</forename>
+      <surname>Meyer-Abich</surname>
+      <teacher_department id="DP_BAU"/>
+    </teacher>
+    <teacher id="TR_MinnJ">
+      <forename>Jens</forename>
+      <surname>Minnert</surname>
+      <teacher_department id="DP_BAU"/>
+      <external_name>MinnJ</external_name>
+    </teacher>
+    <teacher id="TR_MöllT">
+      <forename>Torben</forename>
+      <surname>Möller</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>MöllT</external_name>
+    </teacher>
+    <teacher id="TR_MoosW">
+      <forename>Wolfgang</forename>
+      <surname>Moosecker</surname>
+      <teacher_department id="DP_BAU"/>
+      <external_name>MoosW</external_name>
+    </teacher>
+    <teacher id="TR_MüllB">
+      <forename>Bernd</forename>
+      <surname>Müller</surname>
+      <payrollnumber>hg10980</payrollnumber>
+      <teacher_description id="DS_ING-INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>MüllB</external_name>
+    </teacher>
+    <teacher id="TR_MüllF">
+      <forename>Fabian</forename>
+      <surname>Müller</surname>
+      <payrollnumber>fmlr35</payrollnumber>
+      <text>L</text>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>MüllF</external_name>
+    </teacher>
+    <teacher id="TR_MüllJM">
+      <forename>Jan Marco</forename>
+      <surname>Müller</surname>
+      <text>L</text>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>MüllJM</external_name>
+    </teacher>
+    <teacher id="TR_MüllO">
+      <forename>Oliver</forename>
+      <surname>Müller</surname>
+      <teacher_department id="DP_SuK"/>
+      <external_name>MüllO</external_name>
+    </teacher>
+    <teacher id="TR_MüllS">
+      <forename>Susanne</forename>
+      <surname>Müller</surname>
+      <teacher_description id="DS_WIR-INF"/>
+      <teacher_department id="DP_W"/>
+      <external_name>MüllS</external_name>
+    </teacher>
+    <teacher id="TR_MündN">
+      <forename>Norbert</forename>
+      <surname>Mündel</surname>
+      <teacher_description id="DS_ING"/>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>MündN</external_name>
+    </teacher>
+    <teacher id="TR_MünkM">
+      <forename>Michael</forename>
+      <surname>Münke</surname>
+      <teacher_department id="DP_EI"/>
+      <external_name>MünkM</external_name>
+    </teacher>
+    <teacher id="TR_Murs">
+      <forename>Ljudmila</forename>
+      <surname>Mursina</surname>
+      <payrollnumber>hg9995</payrollnumber>
+      <teacher_description id="DS_MED-INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>Murs</external_name>
+    </teacher>
+    <teacher id="TR_NetzS">
+      <forename>Sigrid</forename>
+      <surname>Netz</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>NetzS</external_name>
+    </teacher>
+    <teacher id="TR_Niem">
+      <surname>Niemann</surname>
+      <teacher_description id="DS_WIR"/>
+      <teacher_department id="DP_W"/>
+    </teacher>
+    <teacher id="TR_NissU">
+      <forename>Ulrich</forename>
+      <surname>Nissen</surname>
+      <teacher_description id="DS_WIR"/>
+      <teacher_department id="DP_W"/>
+      <external_name>NissU</external_name>
+    </teacher>
+    <teacher id="TR_NN">
+      <surname>Unbekannt</surname>
+      <teacher_department id="DP_NN"/>
+    </teacher>
+    <teacher id="TR_NN_I107">
+      <surname>NN im I107</surname>
+      <teacher_department id="DP_NN"/>
+    </teacher>
+    <teacher id="TR_NN_I136">
+      <surname>NN im I136</surname>
+      <teacher_department id="DP_NN"/>
+    </teacher>
+    <teacher id="TR_OberK">
+      <forename>Kristof</forename>
+      <surname>Obermann</surname>
+      <teacher_department id="DP_EI"/>
+      <external_name>OberK</external_name>
+    </teacher>
+    <teacher id="TR_OchsKP">
+      <forename>Klaus Peter</forename>
+      <surname>Ochs-Held</surname>
+      <teacher_department id="DP_SuK"/>
+      <external_name>OchsKP</external_name>
+    </teacher>
+    <teacher id="TR_OhlE">
+      <forename>Ewald</forename>
+      <surname>Ohl</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>OhlE</external_name>
+    </teacher>
+    <teacher id="TR_OlthM">
+      <forename>Mark</forename>
+      <surname>Olthoff</surname>
+      <payrollnumber>hg6811</payrollnumber>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>OlthM</external_name>
+    </teacher>
+    <teacher id="TR_OrloPF">
+      <forename>Peter F.</forename>
+      <surname>Orlowski</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>OrloPF</external_name>
+    </teacher>
+    <teacher id="TR_OrtwM">
+      <forename>Michael</forename>
+      <surname>Ortwein</surname>
+      <teacher_description id="DS_SOZ"/>
+      <teacher_department id="DP_SuK"/>
+      <external_name>OrtwM</external_name>
+    </teacher>
+    <teacher id="TR_Pall">
+      <surname>Pallauf</surname>
+      <teacher_description id="DS_SOZ"/>
+      <teacher_department id="DP_SuK"/>
+      <external_name>Pall</external_name>
+    </teacher>
+    <teacher id="TR_PelzW">
+      <forename>Waldemar</forename>
+      <surname>Pelz</surname>
+      <teacher_description id="DS_SOZ"/>
+      <teacher_department id="DP_W"/>
+      <external_name>PelzW</external_name>
+    </teacher>
+    <teacher id="TR_PeseJ">
+      <forename>Jan</forename>
+      <surname>Pesek</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>PeseJ</external_name>
+    </teacher>
+    <teacher id="TR_PeteC">
+      <forename>Christian</forename>
+      <surname>Peter</surname>
+      <payrollnumber>cptr07</payrollnumber>
+      <text>L</text>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>PeteC</external_name>
+    </teacher>
+    <teacher id="TR_PhilS">
+      <forename>Sebastian</forename>
+      <surname>Philippi</surname>
+      <payrollnumber>sphi62</payrollnumber>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>PhilS</external_name>
+    </teacher>
+    <teacher id="TR_PitzM">
+      <forename>Martin</forename>
+      <surname>Pitzer</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>PitzM</external_name>
+    </teacher>
+    <teacher id="TR_PlatH">
+      <forename>Harald</forename>
+      <surname>Platen</surname>
+      <teacher_description id="DS_NAT"/>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>PlatH</external_name>
+    </teacher>
+    <teacher id="TR_PolivkaL">
+      <surname>Polivka-L.</surname>
+      <teacher_description id="DS_WIR"/>
+      <teacher_department id="DP_W"/>
+    </teacher>
+    <teacher id="TR_PrieD">
+      <forename>Dennis</forename>
+      <surname>Priefer</surname>
+      <payrollnumber>dprf53</payrollnumber>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>PrieD</external_name>
+    </teacher>
+    <teacher id="TR_ProbU">
+      <forename>Uwe</forename>
+      <surname>Probst</surname>
+      <teacher_department id="DP_EI"/>
+      <external_name>ProbU</external_name>
+    </teacher>
+    <teacher id="TR_Prze">
+      <surname>Przewloka</surname>
+      <text>L</text>
+      <teacher_description id="DS_WIR"/>
+      <teacher_department id="DP_MNI"/>
+    </teacher>
+    <teacher id="TR_QuibK">
+      <forename>Klaus</forename>
+      <surname>Quibeldey</surname>
+      <payrollnumber>hg13345</payrollnumber>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>QuibK</external_name>
+    </teacher>
+    <teacher id="TR_RaesK">
+      <forename>Karlheinz</forename>
+      <surname>Raes</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>RaesK</external_name>
+    </teacher>
+    <teacher id="TR_ReicK">
+      <forename>Katharina</forename>
+      <surname>Reichel-Wald</surname>
+      <teacher_description id="DS_SOZ"/>
+      <teacher_department id="DP_SuK"/>
+      <external_name>ReicK</external_name>
+    </teacher>
+    <teacher id="TR_ReimH">
+      <forename>Hayo</forename>
+      <surname>Reimers</surname>
+      <teacher_description id="DS_WIR"/>
+      <teacher_department id="DP_W"/>
+      <external_name>ReimH</external_name>
+    </teacher>
+    <teacher id="TR_ReimK">
+      <forename>Kerstin</forename>
+      <surname>Reimers</surname>
+      <teacher_description id="DS_ING"/>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>ReimK</external_name>
+    </teacher>
+    <teacher id="TR_ReimM">
+      <forename>Marie</forename>
+      <surname>Reimers</surname>
+      <teacher_description id="DS_LIN"/>
+      <teacher_department id="DP_SuK"/>
+      <external_name>ReimM</external_name>
+    </teacher>
+    <teacher id="TR_RenzB">
+      <forename>Burkhardt</forename>
+      <surname>Renz</surname>
+      <payrollnumber>hg11260</payrollnumber>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>RenzB</external_name>
+    </teacher>
+    <teacher id="TR_RichF">
+      <forename>Fritz</forename>
+      <surname>Richarts</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>RichF</external_name>
+    </teacher>
+    <teacher id="TR_RichH">
+      <forename>Hellgard</forename>
+      <surname>Richter</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>RichH</external_name>
+    </teacher>
+    <teacher id="TR_RickU">
+      <forename>Ubbo</forename>
+      <surname>Ricklefs</surname>
+      <teacher_department id="DP_EI"/>
+      <external_name>RickU</external_name>
+    </teacher>
+    <teacher id="TR_RiedM">
+      <forename>Malte</forename>
+      <surname>Ried</surname>
+      <payrollnumber>hg13419</payrollnumber>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>RiedM</external_name>
+    </teacher>
+    <teacher id="TR_RinnK">
+      <forename>Klaus</forename>
+      <surname>Rinn</surname>
+      <payrollnumber>hg11854</payrollnumber>
+      <teacher_description id="DS_ING-INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>RinnK</external_name>
+    </teacher>
+    <teacher id="TR_RitzH">
+      <forename>Harald</forename>
+      <surname>Ritz</surname>
+      <payrollnumber>hg13622</payrollnumber>
+      <teacher_description id="DS_WIR-INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>RitzH</external_name>
+    </teacher>
+    <teacher id="TR_RobiP">
+      <forename>Pia</forename>
+      <surname>Robinson</surname>
+      <teacher_description id="DS_JUR"/>
+      <teacher_department id="DP_W"/>
+      <external_name>RobiP</external_name>
+    </teacher>
+    <teacher id="TR_RöhmA">
+      <forename>Anita</forename>
+      <surname>Röhm</surname>
+      <teacher_description id="DS_WIR"/>
+      <teacher_department id="DP_SuK"/>
+      <external_name>RöhmA</external_name>
+    </teacher>
+    <teacher id="TR_RöhrM">
+      <forename>Markus</forename>
+      <surname>Röhricht</surname>
+      <title>Prof. Dr.</title>
+      <teacher_description id="DS_NAT-ING"/>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>RöhrM</external_name>
+    </teacher>
+    <teacher id="TR_RoosA">
+      <forename>Anke</forename>
+      <surname>Roos</surname>
+      <payrollnumber>hg10978</payrollnumber>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>RoosA</external_name>
+    </teacher>
+    <teacher id="TR_RothKJ">
+      <forename>Karl-Joseph</forename>
+      <surname>Roth</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>RothKJ</external_name>
+    </teacher>
+    <teacher id="TR_RS">
+      <surname>Raumsuche</surname>
+    </teacher>
+    <teacher id="TR_Rump">
+      <surname>Rumpf</surname>
+      <teacher_department id="DP_LB"/>
+    </teacher>
+    <teacher id="TR_RunkF">
+      <forename>Frank</forename>
+      <surname>Runkel</surname>
+      <teacher_description id="DS_NAT-ING"/>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>RunkF</external_name>
+    </teacher>
+    <teacher id="TR_RuppJ">
+      <forename>Jens</forename>
+      <surname>Ruppel</surname>
+      <teacher_department id="DP_SuK"/>
+      <external_name>RuppJ</external_name>
+    </teacher>
+    <teacher id="TR_RuppS">
+      <forename>Steffen</forename>
+      <surname>Rupp</surname>
+      <payrollnumber>srpp36</payrollnumber>
+      <text>L</text>
+      <teacher_description id="DS_MED-INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>RuppS</external_name>
+    </teacher>
+    <teacher id="TR_Rüwe">
+      <surname>Rüweler</surname>
+      <teacher_department id="DP_LB"/>
+      <external_name>Rüwe</external_name>
+    </teacher>
+    <teacher id="TR_SadoH">
+      <forename>Heinrich</forename>
+      <surname>Sadowski</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>SadoH</external_name>
+    </teacher>
+    <teacher id="TR_Schä">
+      <surname>Schäfer</surname>
+      <teacher_department id="DP_LB"/>
+      <external_name>Schä</external_name>
+    </teacher>
+    <teacher id="TR_SchaT">
+      <forename>Thomas</forename>
+      <surname>Schanze</surname>
+      <title>Prof. Dr.</title>
+      <teacher_description id="DS_NAT-INF"/>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>SchaT</external_name>
+    </teacher>
+    <teacher id="TR_ScheM">
+      <forename>Manfred</forename>
+      <surname>Scheer</surname>
+      <payrollnumber>hg7050</payrollnumber>
+      <teacher_description id="DS_WIR-INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>ScheM</external_name>
+    </teacher>
+    <teacher id="TR_ScheW">
+      <forename>Wolfgang</forename>
+      <surname>Scheer</surname>
+      <teacher_department id="DP_SuK"/>
+      <external_name>ScheW</external_name>
+    </teacher>
+    <teacher id="TR_Schl">
+      <surname>Schlapp</surname>
+      <teacher_description id="DS_WIR"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>Schl</external_name>
+    </teacher>
+    <teacher id="TR_SchlaED">
+      <forename>Ernst Dieter</forename>
+      <surname>Schlapp</surname>
+      <teacher_department id="DP_SuK"/>
+      <external_name>SchlaED</external_name>
+    </teacher>
+    <teacher id="TR_SchmH">
+      <forename>Holger</forename>
+      <surname>Schmitt</surname>
+      <teacher_department id="DP_W"/>
+      <external_name>SchmH</external_name>
+    </teacher>
+    <teacher id="TR_SchmM">
+      <forename>Martin</forename>
+      <surname>Schmidt</surname>
+      <teacher_description id="DS_WIR-MAT"/>
+      <teacher_department id="DP_W"/>
+      <external_name>SchmM</external_name>
+    </teacher>
+    <teacher id="TR_SchmP">
+      <forename>Peter</forename>
+      <surname>Schmitz</surname>
+      <teacher_department id="DP_EI"/>
+      <external_name>SchmP</external_name>
+    </teacher>
+    <teacher id="TR_SchmT">
+      <forename>Thomas</forename>
+      <surname>Schmidts</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>SchmT</external_name>
+    </teacher>
+    <teacher id="TR_SchmV">
+      <forename>Volker</forename>
+      <surname>Schmidt</surname>
+      <payrollnumber>hg6472</payrollnumber>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>SchmV</external_name>
+    </teacher>
+    <teacher id="TR_SchmW">
+      <forename>Wolfgang</forename>
+      <surname>Schmitt</surname>
+      <payrollnumber>hg6421</payrollnumber>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>SchmW</external_name>
+    </teacher>
+    <teacher id="TR_SchnA">
+      <forename>Albert</forename>
+      <surname>Schneider</surname>
+      <payrollnumber>hg12496</payrollnumber>
+      <teacher_description id="DS_MAT"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>SchnA</external_name>
+    </teacher>
+    <teacher id="TR_Schnepp">
+      <surname>Schnepp</surname>
+      <teacher_department id="DP_LB"/>
+    </teacher>
+    <teacher id="TR_SchnH">
+      <forename>Henning</forename>
+      <surname>Schneider</surname>
+      <payrollnumber>hsnr46</payrollnumber>
+      <teacher_description id="DS_MED-INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>SchnH</external_name>
+    </teacher>
+    <teacher id="TR_SchnP">
+      <forename>Patrick</forename>
+      <surname>Schneider</surname>
+      <teacher_description id="DS_WIR-MAT"/>
+      <teacher_department id="DP_W"/>
+      <external_name>SchnP</external_name>
+    </teacher>
+    <teacher id="TR_SchoHa">
+      <forename>Hartmut</forename>
+      <surname>Schomber</surname>
+      <teacher_department id="DP_BAU"/>
+      <external_name>SchoHa</external_name>
+    </teacher>
+    <teacher id="TR_SchoHe">
+      <forename>Helmut</forename>
+      <surname>Schoeffling</surname>
+      <teacher_description id="DS_WIR"/>
+      <teacher_department id="DP_W"/>
+      <external_name>SchoHe</external_name>
+    </teacher>
+    <teacher id="TR_Schu">
+      <surname>Schulze</surname>
+      <teacher_description id="DS_SOZ"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>Schu</external_name>
+    </teacher>
+    <teacher id="TR_SchuA">
+      <forename>Axel</forename>
+      <surname>Schumann</surname>
+      <payrollnumber>hg8416</payrollnumber>
+      <teacher_description id="DS_ING-INF"/>
+      <teacher_department id="DP_MNI"/>
+    </teacher>
+    <teacher id="TR_SchuE">
+      <forename>Ellen</forename>
+      <surname>Schusser-Backhaus</surname>
+      <teacher_department id="DP_SuK"/>
+    </teacher>
+    <teacher id="TR_Schulz">
+      <surname>Schulz</surname>
+      <teacher_department id="DP_BAU"/>
+    </teacher>
+    <teacher id="TR_SchwA">
+      <forename>Alexander</forename>
+      <surname>Schwab</surname>
+      <teacher_description id="DS_WIR"/>
+      <teacher_department id="DP_W"/>
+      <external_name>SchwA</external_name>
+    </teacher>
+    <teacher id="TR_SeilJ">
+      <forename>Josef</forename>
+      <surname>Seiler</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>SeilJ</external_name>
+    </teacher>
+    <teacher id="TR_SeipHM">
+      <forename>Hans-Martin</forename>
+      <surname>Seipp</surname>
+      <teacher_description id="DS_ING"/>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>SeipHM</external_name>
+    </teacher>
+    <teacher id="TR_SendM">
+      <forename>Michaela</forename>
+      <surname>Sendzik</surname>
+      <teacher_description id="DS_NAT"/>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>SendM</external_name>
+    </teacher>
+    <teacher id="TR_SiebU">
+      <forename>Urs</forename>
+      <surname>Sieber</surname>
+      <teacher_description id="DS_WIR"/>
+      <teacher_department id="DP_W"/>
+      <external_name>SiebU</external_name>
+    </teacher>
+    <teacher id="TR_SimoP">
+      <forename>Pascal</forename>
+      <surname>Simon</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>SimoP</external_name>
+    </teacher>
+    <teacher id="TR_SlemA">
+      <forename>Andreas</forename>
+      <surname>Slemeyer</surname>
+      <teacher_department id="DP_EI"/>
+      <external_name>SlemA</external_name>
+    </teacher>
+    <teacher id="TR_Sohr">
+      <surname>Sohrabi</surname>
+      <teacher_department id="DP_LB"/>
+    </teacher>
+    <teacher id="TR_St+">
+      <surname>St+Dozent</surname>
+    </teacher>
+    <teacher id="TR_StadEA">
+      <forename>Ernst A.</forename>
+      <surname>Stadlbauer</surname>
+      <payrollnumber>hg7483</payrollnumber>
+      <teacher_department id="DP_LB"/>
+      <external_name>StadEA</external_name>
+    </teacher>
+    <teacher id="TR_StamM">
+      <forename>Markus</forename>
+      <surname>Stamm</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>StamM</external_name>
+    </teacher>
+    <teacher id="TR_StauJ">
+      <forename>Juliane</forename>
+      <surname>Staubach</surname>
+      <teacher_department id="DP_W"/>
+      <external_name>StauJ</external_name>
+    </teacher>
+    <teacher id="TR_StefT">
+      <forename>Thomas</forename>
+      <surname>Steffens</surname>
+      <teacher_description id="DS_NAT-ING"/>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>StefT</external_name>
+    </teacher>
+    <teacher id="TR_StieK">
+      <forename>Klemens</forename>
+      <surname>Stiebler</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>StieK</external_name>
+    </teacher>
+    <teacher id="TR_StorG">
+      <forename>Georgette</forename>
+      <surname>Storbeck</surname>
+      <teacher_description id="DS_LIN"/>
+      <teacher_department id="DP_SuK"/>
+      <external_name>StorG</external_name>
+    </teacher>
+    <teacher id="TR_StörK">
+      <forename>Klaus</forename>
+      <surname>Störzel</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>StörK</external_name>
+    </teacher>
+    <teacher id="TR_StreO">
+      <forename>Olaf</forename>
+      <surname>Strelow</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>StreO</external_name>
+    </teacher>
+    <teacher id="TR_SubkJ">
+      <forename>Jörg</forename>
+      <surname>Subke</surname>
+      <title>Prof. Dr.</title>
+      <teacher_description id="DS_NAT-ING"/>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>SubkJ</external_name>
+    </teacher>
+    <teacher id="TR_SuesS">
+      <forename>Sebastian</forename>
+      <surname>Suess</surname>
+      <payrollnumber>hg19187</payrollnumber>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+    </teacher>
+    <teacher id="TR_SureT">
+      <forename>Thomas</forename>
+      <surname>Sure</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>SureT</external_name>
+    </teacher>
+    <teacher id="TR_SusR">
+      <forename>Rainer</forename>
+      <surname>Sus</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>SusR</external_name>
+    </teacher>
+    <teacher id="TR_Taub">
+      <surname>Tauber</surname>
+      <text>L</text>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>Taub</external_name>
+    </teacher>
+    <teacher id="TR_TeßmM">
+      <forename>Manuela</forename>
+      <surname>Teßmer</surname>
+      <teacher_department id="DP_BAU"/>
+      <external_name>TeßmM</external_name>
+    </teacher>
+    <teacher id="TR_TheiU">
+      <forename>Ulf</forename>
+      <surname>Theilen</surname>
+      <teacher_department id="DP_BAU"/>
+      <external_name>TheiU</external_name>
+    </teacher>
+    <teacher id="TR_ThieK">
+      <forename>Karlheinz</forename>
+      <surname>Thies</surname>
+      <teacher_department id="DP_SuK"/>
+    </teacher>
+    <teacher id="TR_ThieU">
+      <forename>Ulrich</forename>
+      <surname>Thiele</surname>
+      <payrollnumber>uthl81</payrollnumber>
+      <text>L</text>
+      <teacher_description id="DS_SOZ"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>ThieU</external_name>
+    </teacher>
+    <teacher id="TR_ThürR">
+      <forename>Rainer</forename>
+      <surname>Thüringer</surname>
+      <teacher_department id="DP_EI"/>
+      <external_name>ThürR</external_name>
+    </teacher>
+    <teacher id="TR_TramW">
+      <forename>Werner</forename>
+      <surname>Trampisch</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>TramW</external_name>
+    </teacher>
+    <teacher id="TR_Trau">
+      <surname>Trautner</surname>
+      <teacher_department id="DP_BAU"/>
+    </teacher>
+    <teacher id="TR_TrauW">
+      <forename>Wolfgang</forename>
+      <surname>Trautner</surname>
+      <teacher_department id="DP_SuK"/>
+      <external_name>TrauW</external_name>
+    </teacher>
+    <teacher id="TR_TrieHG">
+      <forename>Hans-Georg</forename>
+      <surname>Trierweiler</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>TrieHG</external_name>
+    </teacher>
+    <teacher id="TR_UHST-Koll">
+      <teacher_department id="DP_NN"/>
+    </teacher>
+    <teacher id="TR_UlbrN">
+      <forename>Norman</forename>
+      <surname>Ulbrich</surname>
+      <payrollnumber>hg10597</payrollnumber>
+      <text>L</text>
+      <teacher_description id="DS_INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>UlbrN</external_name>
+    </teacher>
+    <teacher id="TR_Ullr">
+      <surname>Ullrich</surname>
+      <teacher_department id="DP_BAU"/>
+    </teacher>
+    <teacher id="TR_UllrT">
+      <forename>Tobias</forename>
+      <surname>Ullrich</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>UllrT</external_name>
+    </teacher>
+    <teacher id="TR_UnolF">
+      <forename>Florian</forename>
+      <surname>Unold</surname>
+      <teacher_department id="DP_BAU"/>
+      <external_name>UnolF</external_name>
+    </teacher>
+    <teacher id="TR_ValeA">
+      <forename>Anke</forename>
+      <surname>Valentin</surname>
+      <teacher_description id="DS_WIR"/>
+      <teacher_department id="DP_W"/>
+      <external_name>ValeA</external_name>
+    </teacher>
+    <teacher id="TR_vHagJ">
+      <forename>Jörg</forename>
+      <surname>von Hagen</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>vHagJ</external_name>
+    </teacher>
+    <teacher id="TR_vMarG">
+      <forename>Gisa</forename>
+      <surname>von Marcard</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>vMarG</external_name>
+    </teacher>
+    <teacher id="TR_VogeRB">
+      <forename>Rainer B.</forename>
+      <surname>Voges</surname>
+      <payrollnumber>hg11264</payrollnumber>
+      <teacher_description id="DS_SOZ"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>VogeRB</external_name>
+    </teacher>
+    <teacher id="TR_VoigJ">
+      <forename>Johannes</forename>
+      <surname>Voigt</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>VoigJ</external_name>
+    </teacher>
+    <teacher id="TR_WackH">
+      <forename>Harald</forename>
+      <surname>Wack</surname>
+      <teacher_department id="DP_SuK"/>
+      <external_name>WackH</external_name>
+    </teacher>
+    <teacher id="TR_WageG">
+      <forename>Gerd</forename>
+      <surname>Wagenknecht</surname>
+      <teacher_department id="DP_BAU"/>
+      <external_name>WageG</external_name>
+    </teacher>
+    <teacher id="TR_WagnJ">
+      <forename>Julia</forename>
+      <surname>Wagner</surname>
+      <teacher_department id="DP_SuK"/>
+      <external_name>WagnJ</external_name>
+    </teacher>
+    <teacher id="TR_Wald">
+      <surname>Waldinger</surname>
+      <teacher_department id="DP_BAU"/>
+      <external_name>Wald</external_name>
+    </teacher>
+    <teacher id="TR_Wale">
+      <surname>Walesch</surname>
+      <teacher_department id="DP_MNI"/>
+    </teacher>
+    <teacher id="TR_Wall">
+      <surname>Wallisch</surname>
+      <teacher_department id="DP_BAU"/>
+    </teacher>
+    <teacher id="TR_WaltHW">
+      <forename>Hans W.</forename>
+      <surname>Walter</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>WaltHW</external_name>
+    </teacher>
+    <teacher id="TR_WassU">
+      <forename>Ulrike</forename>
+      <surname>Wassermann</surname>
+      <teacher_department id="DP_BAU"/>
+      <external_name>WassU</external_name>
+    </teacher>
+    <teacher id="TR_WebeB">
+      <forename>Bernd</forename>
+      <surname>Weber</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>WebeB</external_name>
+    </teacher>
+    <teacher id="TR_WebeS">
+      <forename>Susanne</forename>
+      <surname>Weber</surname>
+      <teacher_description id="DS_JUR"/>
+      <teacher_department id="DP_W"/>
+      <external_name>WebeS</external_name>
+    </teacher>
+    <teacher id="TR_WegJ">
+      <forename>Johannes</forename>
+      <surname>Weg</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>WegJ</external_name>
+    </teacher>
+    <teacher id="TR_WeigH">
+      <forename>Harald</forename>
+      <surname>Weigand</surname>
+      <title>Prof. Dr.</title>
+      <teacher_description id="DS_NAT-ING"/>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>WeigH</external_name>
+    </teacher>
+    <teacher id="TR_Weis">
+      <surname>Weisel</surname>
+      <teacher_description id="DS_WIR"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>Weis</external_name>
+    </teacher>
+    <teacher id="TR_WeißA">
+      <forename>Andreas</forename>
+      <surname>Weißflog</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>WeißA</external_name>
+    </teacher>
+    <teacher id="TR_WellM">
+      <forename>Manuela</forename>
+      <surname>Weller</surname>
+      <teacher_description id="DS_WIR-JUR"/>
+      <teacher_department id="DP_W"/>
+      <external_name>WellM</external_name>
+    </teacher>
+    <teacher id="TR_WeltH">
+      <forename>Hartmut</forename>
+      <surname>Welters</surname>
+      <teacher_department id="DP_BAU"/>
+      <external_name>WeltH</external_name>
+    </teacher>
+    <teacher id="TR_WembT">
+      <forename>Theo</forename>
+      <surname>Wember</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>WembT</external_name>
+    </teacher>
+    <teacher id="TR_Wiec">
+      <surname>Wiecha</surname>
+      <teacher_department id="DP_LB"/>
+      <external_name>Wiec</external_name>
+    </teacher>
+    <teacher id="TR_WiedE">
+      <forename>Eckhardt</forename>
+      <surname>Wiederuh</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>WiedE</external_name>
+    </teacher>
+    <teacher id="TR_Wilh">
+      <surname>Wilhelmi</surname>
+      <teacher_department id="DP_BAU"/>
+    </teacher>
+    <teacher id="TR_WillJ">
+      <forename>Jörg</forename>
+      <surname>Willhelm</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>WillJ</external_name>
+    </teacher>
+    <teacher id="TR_WindU">
+      <forename>Ute</forename>
+      <surname>Windisch</surname>
+      <teacher_description id="DS_NAT"/>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>WindU</external_name>
+    </teacher>
+    <teacher id="TR_WirtA">
+      <forename>Anna</forename>
+      <surname>Wirtz</surname>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>WirtA</external_name>
+    </teacher>
+    <teacher id="TR_WolfB">
+      <forename>Birgit</forename>
+      <surname>Wolf</surname>
+      <teacher_description id="DS_WIR"/>
+      <teacher_department id="DP_W"/>
+      <external_name>WolfB</external_name>
+    </teacher>
+    <teacher id="TR_WüstK">
+      <forename>Klaus</forename>
+      <surname>Wüst</surname>
+      <payrollnumber>hg6458</payrollnumber>
+      <teacher_description id="DS_ING-INF"/>
+      <teacher_department id="DP_MNI"/>
+      <external_name>WüstK</external_name>
+    </teacher>
+    <teacher id="TR_ZachH">
+      <forename>Helmut</forename>
+      <surname>Zacher</surname>
+      <teacher_department id="DP_ME"/>
+      <external_name>ZachH</external_name>
+    </teacher>
+    <teacher id="TR_ZackC">
+      <forename>Carsten</forename>
+      <surname>Zack</surname>
+      <teacher_description id="DS_WIR-JUR"/>
+      <teacher_department id="DP_W"/>
+      <external_name>ZackC</external_name>
+    </teacher>
+    <teacher id="TR_ZielC">
+      <forename>Christian</forename>
+      <surname>Zielke</surname>
+      <teacher_department id="DP_SuK"/>
+      <external_name>ZielC</external_name>
+    </teacher>
+    <teacher id="TR_ZiesN">
+      <forename>Nikolaus</forename>
+      <surname>Zieske</surname>
+      <teacher_department id="DP_BAU"/>
+      <external_name>ZiesN</external_name>
+    </teacher>
+    <teacher id="TR_Zimm">
+      <surname>Zimmermann</surname>
+      <teacher_department id="DP_MNI"/>
+      <external_name>Zimm</external_name>
+    </teacher>
+    <teacher id="TR_ZinkK">
+      <forename>Klemens</forename>
+      <surname>Zink</surname>
+      <teacher_description id="DS_NAT"/>
+      <teacher_department id="DP_KMUB"/>
+      <external_name>ZinkK</external_name>
+    </teacher>
+    <teacher id="TR_GonsC">
+      <forename>Cornell</forename>
+      <surname>Gonschior</surname>
+    </teacher>
+  </teachers>
+  <classes>
+    <class id="CL_THM">
+      <longname>THM</longname>
+      <class_department id="DP_NN"/>
+    </class>
+    <class id="CL_ZDH">
+      <longname>ZDH</longname>
+    </class>
+    <class id="CL_FB-KMUB">
+      <longname>KMUB</longname>
+    </class>
+    <class id="CL_VWA">
+      <longname>Verw.Wirtsch.Akad.</longname>
+    </class>
+    <class id="CL_EXT">
+      <longname>Extern</longname>
+    </class>
+    <class id="CL_SuK">
+      <longname>Fachbereich Sozial und Kulturwissenschaften</longname>
+    </class>
+  </classes>
+  <students/>
+  <lessons>
+    <lesson id="LS_252300">
+      <periods>30</periods>
+      <lesson_subject id="SU_Tagung"/>
+      <lesson_teacher id="TR_StefT"/>
+      <lesson_classes id="CL_FB-KMUB"/>
+      <teacher_value>57692</teacher_value>
+      <effectivebegindate>20121008</effectivebegindate>
+      <effectiveenddate>20131005</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F11111FFFFFFFFFFFFFFFF111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F1111FFFF11111F111111F111111F111111F11F111F111F11F111111FF11111F111F11F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111F11</occurence>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_date>20130902</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_date>20130902</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_date>20130902</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_date>20130902</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_date>20130902</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20130902</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_date>20130903</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_date>20130903</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_date>20130903</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_date>20130903</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_date>20130903</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20130903</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_date>20130904</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_date>20130904</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_date>20130904</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_date>20130904</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_date>20130904</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20130904</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_date>20130905</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_date>20130905</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_date>20130905</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_date>20130905</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_date>20130905</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20130905</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_date>20130906</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_date>20130906</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_date>20130906</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_date>20130906</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_date>20130906</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20130906</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_252500">
+      <periods>6</periods>
+      <lesson_subject id="SU_NN"/>
+      <lesson_teacher id="TR_FörsJ"/>
+      <lesson_classes id="CL_EXT"/>
+      <teacher_value>11538</teacher_value>
+      <effectivebegindate>20121008</effectivebegindate>
+      <effectiveenddate>20131005</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F11111FFFFFFFFFFFFFFFF111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F1111FFFF11111F111111F111111F111111F11F111F111F11F111111FF11111F111F11F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111F11</occurence>
+      <times>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_date>20130413</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_date>20130413</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_date>20130413</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_date>20130413</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_date>20130413</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20130413</assigned_date>
+          <assigned_room id="RM_A20.1.36"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_252800">
+      <periods>6</periods>
+      <lesson_subject id="SU_NN"/>
+      <lesson_teacher id="TR_NN"/>
+      <lesson_classes id="CL_VWA"/>
+      <teacher_value>173076</teacher_value>
+      <effectivebegindate>20130401</effectivebegindate>
+      <effectiveenddate>20130713</effectiveenddate>
+      <occurence>000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F00000FFFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF11111F111111F111111F111111F11F111F111F11F111111FF11111F111F11F111111F111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000F00</occurence>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_room id="RM_A12.3.04 RM_A12.3.05"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_room id="RM_A12.3.04 RM_A12.3.05"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_room id="RM_A12.3.04"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A12.3.04"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A12.3.04"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A12.3.04"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_252900">
+      <periods>1</periods>
+      <lesson_subject id="SU_TM2"/>
+      <lesson_teacher id="TR_PitzM"/>
+      <lesson_classes id="CL_ZDH"/>
+      <teacher_value>28846</teacher_value>
+      <effectivebegindate>20130401</effectivebegindate>
+      <effectiveenddate>20130713</effectiveenddate>
+      <occurence>000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F00000FFFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF11111F111111F111111F111111F11F111F111F11F111111FF11111F111F11F111111F111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000F00</occurence>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.3.05"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_253000">
+      <periods>2</periods>
+      <lesson_subject id="SU_AE1/2"/>
+      <lesson_teacher id="TR_NN"/>
+      <teacher_value>3846</teacher_value>
+      <effectivebegindate>20121008</effectivebegindate>
+      <effectiveenddate>20131005</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F11111FFFFFFFFFFFFFFFF111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F1111FFFF11111F111111F111111F111111F11F111F111F11F111111FF11111F111F11F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111F11</occurence>
+      <lesson_description>K</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_date>20130605</assigned_date>
+          <assigned_room id="RM_A10.5.20"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_date>20130605</assigned_date>
+          <assigned_room id="RM_A10.5.20"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_253100">
+      <periods>1</periods>
+      <lesson_subject id="SU_Drachenboot"/>
+      <lesson_teacher id="TR_GonsC"/>
+      <lesson_classes id="CL_THM"/>
+      <teacher_value>1923</teacher_value>
+      <effectivebegindate>20121008</effectivebegindate>
+      <effectiveenddate>20131005</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F11111FFFFFFFFFFFFFFFF111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F1111FFFF11111F111111F111111F111111F11F111F111F11F111111FF11111F111F11F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111F11</occurence>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20130527</assigned_date>
+          <assigned_room id="RM_A20.2.09"/>
+        </time>
+      </times>
+    </lesson>
+  </lessons>
+  <reductions/>
+</document>

@@ -11,6 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
+jimport('jquery.jquery');
 /**
  * Loads data from a single subject into context
  *
@@ -31,13 +32,10 @@ class THM_OrganizerViewSubject_Edit extends JView
 	{
 		JHtml::_('behavior.tooltip');
 
-		// Get the Data
-		$form = $this->get('Form');
-		$item = $this->get('Item');
-
 		// Assign the Data
-		$this->form = $form;
-		$this->item = $item;
+		$this->form = $this->get('Form');
+		$this->item = $this->get('Item');
+        $this->_layout = $this->item->id == 0? 'add' : 'edit';
 
 		// Set the toolbar
 		$this->addToolBar();
@@ -53,8 +51,11 @@ class THM_OrganizerViewSubject_Edit extends JView
 	 */
 	protected function addToolBar()
 	{
-		JToolBarHelper::title($this->item->id == 0? JText::_('COM_THM_ORGANIZER_SUM_NEW') : JText::_('COM_THM_ORGANIZER_SUM_EDIT'));
+        $isNew = $this->item->id == 0;
+		JToolBarHelper::title($isNew? JText::_('COM_THM_ORGANIZER_SUM_NEW') : JText::_('COM_THM_ORGANIZER_SUM_EDIT'));
+		JToolBarHelper::apply('subject.apply', $isNew? JText::_('COM_THM_ORGANIZER_APPLY_NEW') : JText::_('COM_THM_ORGANIZER_APPLY_EDIT'));
 		JToolBarHelper::save('subject.save');
+		JToolBarHelper::save2new('subject.save');
 		JToolBarHelper::cancel('subject.cancel', $this->item->id == 0 ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
 	}
 }

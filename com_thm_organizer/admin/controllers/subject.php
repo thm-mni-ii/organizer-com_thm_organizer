@@ -59,6 +59,31 @@ class THM_OrganizerControllerSubject extends JController
      *
      * @return  void
      */
+    public function apply()
+    {
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+        $success = $this->getModel('subject')->save();
+        if ($success)
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_SUM_SAVE_SUCCESS');
+            $this->setRedirect(JRoute::_("index.php?option=com_thm_organizer&view=subject_edit&id=$success", false), $msg);
+        }
+        else
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_SUM_SAVE_FAIL');
+            $this->setRedirect(JRoute::_("index.php?option=com_thm_organizer&view=subject_edit&id=0", false), $msg, 'error');
+        }
+    }
+
+    /**
+     * Performs access checks, makes call to the models's save function, and
+     * redirects to the subject manager view
+     *
+     * @return  void
+     */
     public function save()
     {
         if (!JFactory::getUser()->authorise('core.admin'))
@@ -75,6 +100,31 @@ class THM_OrganizerControllerSubject extends JController
         {
             $msg = JText::_('COM_THM_ORGANIZER_SUM_SAVE_FAIL');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false), $msg, 'error');
+        }
+    }
+
+    /**
+     * Performs access checks, makes call to the models's save function, and
+     * redirects to the subject manager view
+     *
+     * @return  void
+     */
+    public function save2new()
+    {
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+        $success = $this->getModel('subject')->save();
+        if ($success)
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_SUM_SAVE_SUCCESS');
+            $this->setRedirect(JRoute::_("index.php?option=com_thm_organizer&view=subject_edit&id=0", false), $msg);
+        }
+        else
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_SUM_SAVE_FAIL');
+            $this->setRedirect(JRoute::_("index.php?option=com_thm_organizer&view=subject_edit&id=0", false), $msg, 'error');
         }
     }
 

@@ -154,6 +154,10 @@ class THM_OrganizerModelSchedule extends JModel
 		{
 			$this->_scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_ORGANIZATION_MISSING");
 		}
+        elseif (preg_match('/[\#\;]/', $departmentname))
+        {
+			$this->_scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_ORGANIZATION_INVALID");
+        }
 		else
 		{
 			$this->_schedule->departmentname = $departmentname;
@@ -163,6 +167,10 @@ class THM_OrganizerModelSchedule extends JModel
 		{
 			$this->_scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_SCHOOLYEARNAME_MISSING");
 		}
+        elseif (preg_match('/[\#\;]/', $departmentname))
+        {
+			$this->_scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_SCHOOLYEARNAME_INVALID");
+        }
 		else
 		{
 			$this->_schedule->semestername = $semestername;
@@ -185,7 +193,6 @@ class THM_OrganizerModelSchedule extends JModel
 		$termEndDT = strtotime($endDate);
 		if ($termStartDT < $syStartDate OR $termEndDT > $syEndDate OR $termStartDT >= $termEndDT)
 		{
-			$this->_scheduleErrors[] = "$termStartDT < $syStartDate OR $termEndDT > $syEndDate OR $termStartDT >= $termEndDT";
 			$this->_scheduleErrors[] = JText::sprintf(
 													  'COM_THM_ORGANIZER_SCH_DATES_INCONSISTANT',
 													  date('d.m.Y', $syStartDate),

@@ -231,4 +231,40 @@ li input[disabled=disabled]{ border: none; color: black;}
 	background: url("../images/icon-32-merge.png");
 }
 
-
+/* children's area ************************************************************/
+.thm_organizer_children
+{
+    float: left;
+    width: 45%;
+}
+.thm_organizer_pools
+{
+    float: right;
+    width: 45%;
+    font-size: 1.3em;
+    font-weight: bold;
+    padding: 20px 20px 5px 10px;
+}
+.thm_organizer_subjects
+{
+    clear: right;
+    float: right;
+    width: 45%;
+    font-size: 1.3em;
+    font-weight: bold;
+    padding: 20px 20px 5px 10px;
+}
+a.thm_organizer_delete_child
+{
+    width: 16px;
+    height: 16px;
+    display: block;
+    overflow: hidden;
+    background: url(../images/trash.png) no-repeat;
+    float: right;
+    margin-right: 4px;
+}
+a.jgrid span.state
+{
+    margin-bottom: -9px;
+}

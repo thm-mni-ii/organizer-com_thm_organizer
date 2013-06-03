@@ -22,98 +22,6 @@ jimport('joomla.application.component.model');
  */
 class THM_OrganizerModelPool extends JModel
 {
-    /**
-     * Creates a list of pool options dependent upon the chosen degree program
-     * 
-     * @return  string  string containing a list of pools
-     */
-    public function byDegree()
-    {
-        $requestedPrograms = JRequest::getString('programID');
-        if (empty($requestedPrograms))
-        {
-            return '';
-        }
-        $ownID = JRequest::getInt('ownID');
-        $programIDs = "'" . str_replace(",", "', '", $requestedPrograms) . "'";
-
-        $dbo = JFactory::getDbo();
-
-        $parentIDQuery = $dbo->getQuery(true);
-        $parentIDQuery->select('id, parentID')->from('#__thm_organizer_mappings')->where("poolID = '$ownID'");
-        $dbo->setQuery((string) $parentIDQuery);
-        $ownIDs = $dbo->loadResultArray();
-        $parentIDs = $dbo->loadResultArray(1);
-        
-        $bordersQuery = $dbo->getQuery(true);
-        $bordersQuery->select('DISTINCT lft, rgt');
-        $bordersQuery->from('#__thm_organizer_mappings');
-        $bordersQuery->where("programID IN ( $programIDs )");
-        $bordersQuery->order('lft ASC');
-        $dbo->setQuery((string) $bordersQuery);
-        $borders = $dbo->loadAssocList();
-        
-        $programMappings = array();
-        $programMappingsQuery = $dbo->getQuery(true);
-        $programMappingsQuery->select('*');
-        $programMappingsQuery->from('#__thm_organizer_mappings');
-        foreach ($borders as $border)
-        {
-            $programMappingsQuery->clear('where');
-            $programMappingsQuery->where("lft >= '{$border['lft']}'");
-            $programMappingsQuery->where("rgt <= '{$border['rgt']}'");
-            $programMappingsQuery->order('lft ASC');
-            $dbo->setQuery((string) $programMappingsQuery);
-            $results = $dbo->loadAssocList();
-            $programMappings = array_merge($programMappings, empty($results)? array() : $results);
-        }
-
-        $language = explode('-', JFactory::getLanguage()->getTag());
-        $poolsTable = JTable::getInstance('pools', 'THM_OrganizerTable');
-        foreach ($programMappings as $key => $mapping)
-        {
-            if (in_array($mapping['id'], $ownIDs))
-            {
-                unset($programMappings[$key]);
-                continue;
-            }
-            if (!empty($mapping['poolID']))
-            {
-                $poolsTable->load($mapping['poolID']);
-                $name = $language[0] == 'de'? $poolsTable->name_de : $poolsTable->name_en;
-                
-                $level = 0;
-                if ($mapping['level'] != 0)
-                {
-                    $indent = '';
-                    while ($level < $mapping['level'])
-                    {
-                        $indent .= "   ";
-                        $level++;
-                    }
-                    $programMappings[$key]['name'] = $indent . "|_" . $name;
-                }
-            }
-            else
-            {
-                $programNameQuery = $dbo->getQuery(true);
-                $programNameQuery->select(" CONCAT( dp.subject, ', (', d.abbreviation, ' ', dp.version, ')') AS name");
-                $programNameQuery->from('#__thm_organizer_degree_programs AS dp');
-                $programNameQuery->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
-                $programNameQuery->where("dp.id = '{$mapping['programID']}'");
-                $dbo->setQuery((string) $programNameQuery);
-                $programMappings[$key]['name'] = $dbo->loadResult();
-            }
-        }
-
-        $selectPools = array();
-        $selectPools[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_POM_SEARCH_PARENT'));
-        $selectPools[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_POM_NO_PARENT'));
-        
-        $optionPools = array_merge($selectPools, empty($programMappings)? array() : $programMappings);
-        return JHTML::_('select.options', $optionPools, 'id', 'name', $parentIDs);
-    }
-
  	/**
 	 * Saves
 	 *
@@ -166,8 +74,8 @@ class THM_OrganizerModelPool extends JModel
             }
             else
             {
-                $poolSaved = $model->savePool($data);
-                if ($poolSaved)
+                $mappingSaved = $model->savePool($data);
+                if ($mappingSaved)
                 {
                     $dbo->transactionCommit();
                     return $table->id;

@@ -48,10 +48,18 @@ $direction = $this->escape($this->state->get('list.direction'));
                 <th align="left">
                     <input type="checkbox" name="checkall-toggle" value="" onclick="checkAll(this)" />
                 </th>
-                <th><?php echo JText::_('COM_THM_ORGANIZER_NAME'); ?></th>
-                <th><?php echo JText::_('COM_THM_ORGANIZER_CAT_GLOBAL'); ?></th>
-                <th><?php echo JText::_('COM_THM_ORGANIZER_CAT_RESERVES'); ?></th>
-                <th><?php echo JText::_('COM_THM_ORGANIZER_CAT_CONTENT_CATEGORY'); ?></th>
+                <th>
+					<?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'ectitle', $direction, $orderby); ?>
+                </th>
+                <th>
+					<?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_CAT_GLOBAL'), 'global', $direction, $orderby); ?>
+                </th>
+                <th>
+					<?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_CAT_RESERVES'), 'reserves', $direction, $orderby); ?>
+                </th>
+                <th>
+					<?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_CAT_CONTENT_CATEGORY'), 'cctitle', $direction, $orderby); ?>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -94,7 +102,10 @@ if (!empty($this->categories))
 ?>
         </tbody>
     </table>
-    <input type="hidden" name="task" value="category.sort" />
+    <input type="hidden" name="filter_order" value="<?php echo $orderby; ?>" />
+    <input type="hidden" name="filter_order_Dir" value="<?php echo $direction; ?>" />
+    <input type="hidden" name="task" value="" />
+    <input type="hidden" name="view" value="category_manager" />
     <input type="hidden" name="boxchecked" value="0" />
     <?php echo JHtml::_('form.token'); ?>
 </form>

@@ -30,24 +30,28 @@ class THM_OrganizerModelcategory extends JModel
      */
     public function save()
     {
-        $dbo = $this->getDbo();
         $data = JRequest::getVar('jform', null, null, null, 4);
+
+        $dbo = $this->getDbo();
+        $dbo->transactionStart();
+
         $category = JTable::getInstance('categories', 'thm_organizerTable');
-        if (isset($data['id']) and empty($data['id']))
+        if (isset($data['id']) AND empty($data['id']))
         {
             unset($data['id']);
         }
-        elseif (!empty($data['id']))
-        {
-            $success = $category->load($data['id']);
-            if (!$success)
-            {
-                return $success;
-            }
-        }
         $data['description'] = $dbo->escape($data['description']);
         $success = $category->save($data);
-        return $success;
+        if (!$success)
+        {
+            $dbo->transactionRollback();
+            return false;
+        }
+        else
+        {
+            $dbo->transactionCommit();
+            return $category->id;
+        }
     }
 
     /**

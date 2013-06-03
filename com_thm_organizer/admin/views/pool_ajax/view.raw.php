@@ -21,7 +21,7 @@ jimport('jquery.jquery');
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  */
-class THM_OrganizerViewAjax_Handler extends JView
+class THM_OrganizerViewPool_Ajax extends JView
 {
     /**
      * loads model data into view context
@@ -36,9 +36,26 @@ class THM_OrganizerViewAjax_Handler extends JView
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
+        $function = JRequest::getString('task');
+        $model = $this->$function();
+    }
 
-        list($modelName, $function) = explode('.', JRequest::getString('task'));
-        $model = JModel::getInstance($modelName, 'THM_OrganizerModel');
-        echo $model->$function();
+    /**
+     * Retrieves a list of pools by degree and creates select options
+     */
+    private function poolDegreeOptions()
+    {
+        $requestedPrograms = JRequest::getString('programID');
+        if (empty($requestedPrograms))
+        {
+            echo '';
+        }
+        else
+        {
+            $model = $this->getModel();
+            $parentIDs = $model->getParentIDs();
+            $programPools = $model->getProgramPools();
+            echo JHTML::_('select.options', $programPools, 'id', 'name', $parentIDs);
+        }
     }
 }
