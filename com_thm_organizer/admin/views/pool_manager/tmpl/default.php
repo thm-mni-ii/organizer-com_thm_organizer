@@ -14,7 +14,7 @@ $listOrder = $this->state->get('list.ordering');
 $listDirn = $this->state->get('list.direction');
 ?>
 <form
-	action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=pool_manager&id=' . JRequest::getVar('id')) ?>"
+	action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>"
 	method="post" name="adminForm">
 	<fieldset id="filter-bar">
 		<div class="filter-search fltlft">
@@ -43,6 +43,9 @@ $listDirn = $this->state->get('list.direction');
 				<th>
                     <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'name', $listDirn, $listOrder); ?>
 				</th>
+				<th>
+                    <?php echo JText::_('COM_THM_ORGANIZER_PROGRAM'); ?>
+				</th>
 				<th width="5%">
                     <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_POM_LSFID_TITLE'), 'lsfID', $listDirn, $listOrder); ?>
 				</th>
@@ -63,6 +66,17 @@ $listDirn = $this->state->get('list.direction');
 				</th>
 			</tr>
 		</thead>
+		<tfoot>
+			<tr>
+				<td colspan="8"><?php echo $this->pagination->getListFooter(); ?></td>
+			</tr>
+			<input type="hidden" name="task" value="" />
+			<input type="hidden" name="boxchecked" value="0" />
+			<input type="hidden" name="view" value="pool_manager" />
+			<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
+			<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
+			<?php echo JHtml::_('form.token'); ?>
+		</tfoot>
 		<tbody>
 <?php
 $i = 0;
@@ -76,6 +90,11 @@ foreach ($this->pools as $pool)
 				<td>
                     <a href="index.php?option=com_thm_organizer&view=pool_edit&id=<?php echo $pool->id; ?>">
 						<?php echo $pool->name; ?>
+                    </a>
+				</td>
+				<td>
+                    <a href="index.php?option=com_thm_organizer&view=pool_edit&id=<?php echo $pool->id; ?>">
+						<?php echo $pool->program; ?>
                     </a>
 				</td>
 				<td>
@@ -103,7 +122,7 @@ foreach ($this->pools as $pool)
 						<?php echo $pool->minCrP; ?>
                     </a>
 				</td>
-				<td>
+				<td style="background-color: #<?php echo $pool->color; ?>">
                     <a href="index.php?option=com_thm_organizer&view=pool_edit&id=<?php echo $pool->id; ?>">
 						<?php echo $pool->field; ?>
                     </a>

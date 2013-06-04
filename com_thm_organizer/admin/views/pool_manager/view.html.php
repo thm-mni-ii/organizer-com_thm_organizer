@@ -34,6 +34,7 @@ class THM_OrganizerViewPool_Manager extends JView
 		$model = $this->getModel();
 		$this->pools = $model->getItems();
 		$this->state = $this->get('State');
+		$this->pagination = $this->get('Pagination');
         $this->programName = $model->programName;
 
         $this->programSelect = $this->getProgramSelect($model->programs);

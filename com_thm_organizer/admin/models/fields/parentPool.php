@@ -138,7 +138,7 @@ class JFormFieldParentPool extends JFormField
                 {
                     $programNameQuery = $dbo->getQuery(true);
                     $programNameQuery->select(" CONCAT( dp.subject, ', (', d.abbreviation, ' ', dp.version, ')') AS name");
-                    $programNameQuery->from('#__thm_organizer_degree_programs AS dp');
+                    $programNameQuery->from('#__thm_organizer_programs AS dp');
                     $programNameQuery->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
                     $programNameQuery->where("dp.id = '{$mapping['programID']}'");
                     $dbo->setQuery((string) $programNameQuery);

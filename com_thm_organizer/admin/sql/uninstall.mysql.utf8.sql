@@ -1,5 +1,8 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
+/* Tables which no loger exist are still mentioned herre to ensure a clean
+   database. */
+
 DROP TABLE IF EXISTS `#__thm_organizer_soap_queries`;
 DROP TABLE IF EXISTS `#__thm_organizer_user_schedules`;
 DROP TABLE IF EXISTS `#__thm_organizer_lecturers_assets`;
@@ -23,6 +26,7 @@ DROP TABLE IF EXISTS `#__thm_organizer_semesters`;
 DROP TABLE IF EXISTS `#__thm_organizer_subjects`;
 DROP TABLE IF EXISTS `#__thm_organizer_pools`;
 DROP TABLE IF EXISTS `#__thm_organizer_degree_programs`;
+DROP TABLE IF EXISTS `#__thm_organizer_programs`;
 DROP TABLE IF EXISTS `#__thm_organizer_degrees`;
 DROP TABLE IF EXISTS `#__thm_organizer_virtual_schedules_elements`;
 DROP TABLE IF EXISTS `#__thm_organizer_virtual_schedules`;

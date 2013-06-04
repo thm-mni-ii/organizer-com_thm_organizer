@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_degrees` (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_degree_programs` (
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_programs` (
   `id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
   `subject` varchar(255) NOT NULL,
   `version` year (4) DEFAULT NULL,
@@ -148,7 +148,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_mappings` (
   `level` INT(11) UNSIGNED DEFAULT NULL,
   `ordering` INT(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`programID`) REFERENCES `#__thm_organizer_degree_programs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`programID`) REFERENCES `#__thm_organizer_programs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (`parentID`) REFERENCES `#__thm_organizer_mappings` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (`poolID`) REFERENCES `#__thm_organizer_pools` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_subjects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE

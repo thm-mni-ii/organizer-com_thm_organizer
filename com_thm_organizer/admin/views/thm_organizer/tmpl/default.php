@@ -24,10 +24,13 @@ defined('_JEXEC') or die;?>
         <div class="thm_organizer_main_submenu" >
             <div class="thm_organizer_main_linkdiv" >
                 <div class="icon">
-                    <?php echo $view['link_start']; ?>
-                        <?php echo $view['image']; ?>
-                        <?php echo $view['text']; ?>
-                    <?php echo $view['link_end']; ?>
+                    <a href='<?php echo $view['url']; ?>'
+                       class='hasTip' title='<?php echo $view['tooltip']; ?>' >
+<?php
+    echo JHTML::_('image', $view['image'],$view['title'], array( 'class' => 'thm_organizer_main_image'));
+?>
+                        <span><?php echo $view['title']; ?></span>
+                    </a>
                 </div>
             </div>
         </div>

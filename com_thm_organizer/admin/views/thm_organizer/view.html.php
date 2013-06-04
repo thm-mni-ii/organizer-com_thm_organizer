@@ -2,7 +2,7 @@
 /**
  * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
+ * @subpackage  com_thm_organizer.administrator
  * @name        THM_OrganizerViewthm_organizer
  * @description view output class for the component splash page
  * @author      James Antrim, <james.antrim@mni.thm.de>
@@ -20,7 +20,7 @@ jimport('joomla.html.pane');
  * 
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * @subpackage  com_thm_organizer.administrator
  * @link        www.mni.thm.de
  */
 class THM_OrganizerViewTHM_Organizer extends JView
@@ -34,7 +34,7 @@ class THM_OrganizerViewTHM_Organizer extends JView
      */
     public function display($tpl = null)
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
+        if (!JFactory::getUser()->authorise('core.administrator'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
@@ -47,7 +47,7 @@ class THM_OrganizerViewTHM_Organizer extends JView
         $pane = JPane::getInstance('sliders');
         $this->pane = $pane;
 
-        $application = JFactory::getApplication("administrator");
+        $application = JFactory::getApplication("administratoristrator");
         $this->option = $application->scope;
 
         $this->addToolBar();
@@ -58,7 +58,7 @@ class THM_OrganizerViewTHM_Organizer extends JView
     }
 
     /**
-     * creates a joomla administrative tool bar
+     * creates a joomla administratoristrative tool bar
      * 
      * @return void
      */
@@ -75,81 +75,86 @@ class THM_OrganizerViewTHM_Organizer extends JView
      */
     private function addViews()
     {
-        $linkStart = "<a href='index.php?option={$this->option}&view=VIEWTEXT' class='hasTip' title='TITLETEXT' >";
-        $views = array( 'category_manager' => array(),
-                        'schedule_manager' => array(),
-                        'virtual_schedule_manager' => array(),
-                        'degree_manager' => array(),
-                        'color_manager' => array(),
-                        'field_manager' => array(),
-                        'degree_program_manager' => array(),
-                        'pool_manager' => array(),
-                        'subject_manager' => array(),
-                        'teacher_manager' => array(),
-                        'room_manager' => array(),
-                        'monitor_manager' => array());
+        $views = array();
 
-        // Individual view menu entries
+        $views['category_manager'] = array();
         $views['category_manager']['title'] = JText::_('COM_THM_ORGANIZER_CAT_TITLE');
-        $title_text = JText::_('COM_THM_ORGANIZER_CAT_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_CAT_DESC');
-        $views['category_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
+        $views['category_manager']['tooltip'] = JText::_('COM_THM_ORGANIZER_CAT_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_CAT_DESC');
+        $views['category_manager']['url'] = "index.php?option=com_thm_organizer&view=category_manager";
+        $views['category_manager']['image'] = "administrator/components/com_thm_organizer/assets/images/icon-48-categories.png";
 
+        $views['schedule_manager'] = array();
         $views['schedule_manager']['title'] = JText::_('COM_THM_ORGANIZER_SCH_TITLE');
-        $title_text = JText::_('COM_THM_ORGANIZER_SCH_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_SCH_DESC');
-        $views['schedule_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
+        $views['schedule_manager']['tooltip'] = JText::_('COM_THM_ORGANIZER_SCH_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_SCH_DESC');
+        $views['schedule_manager']['url'] = "index.php?option=com_thm_organizer&view=schedule_manager";
+        $views['schedule_manager']['image'] = "administrator/components/com_thm_organizer/assets/images/icon-48-schedules.png";
 
+        $views['virtual_schedule_manager'] = array();
         $views['virtual_schedule_manager']['title'] = JText::_('COM_THM_ORGANIZER_VSM_TITLE');
-        $title_text = JText::_('COM_THM_ORGANIZER_VSM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_VSM_DESC');
-        $views['virtual_schedule_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
+        $views['virtual_schedule_manager']['tooltip'] = JText::_('COM_THM_ORGANIZER_VSM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_VSM_DESC');
+        $views['virtual_schedule_manager']['url'] = "index.php?option=com_thm_organizer&view=virtual_schedule_manager";
+        $views['virtual_schedule_manager']['image'] = "administrator/components/com_thm_organizer/assets/images/icon-48-virtual_schedules.png";
 
+        $views['virtual_schedule_manager'] = array();
+        $views['virtual_schedule_manager']['title'] = JText::_('COM_THM_ORGANIZER_VSM_TITLE');
+        $views['virtual_schedule_manager']['tooltip'] = JText::_('COM_THM_ORGANIZER_VSM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_VSM_DESC');
+        $views['virtual_schedule_manager']['url'] = "index.php?option=com_thm_organizer&view=virtual_schedule_manager";
+        $views['virtual_schedule_manager']['image'] = "administrator/components/com_thm_organizer/assets/images/icon-48-virtual_schedules.png";
+
+        $views['degree_manager'] = array();
         $views['degree_manager']['title'] = JText::_('COM_THM_ORGANIZER_DEG_TITLE');
-        $title_text = JText::_('COM_THM_ORGANIZER_DEG_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_DEG_DESC');
-        $views['degree_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
-		
+        $views['degree_manager']['tooltip'] = JText::_('COM_THM_ORGANIZER_DEG_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_DEG_DESC');
+        $views['degree_manager']['url'] = "index.php?option=com_thm_organizer&view=degree_manager";
+        $views['degree_manager']['image'] = "administrator/components/com_thm_organizer/assets/images/icon-48-degrees.png";
+
+        $views['color_manager'] = array();
         $views['color_manager']['title'] = JText::_('COM_THM_ORGANIZER_CLM_TITLE');
-        $title_text = JText::_('COM_THM_ORGANIZER_CLM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_CLM_DESC');
-        $views['color_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
+        $views['color_manager']['tooltip'] = JText::_('COM_THM_ORGANIZER_CLM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_CLM_DESC');
+        $views['color_manager']['url'] = "index.php?option=com_thm_organizer&view=color_manager";
+        $views['color_manager']['image'] = "administrator/components/com_thm_organizer/assets/images/icon-48-colors.png";
 
+        $views['field_manager'] = array();
         $views['field_manager']['title'] = JText::_('COM_THM_ORGANIZER_FLM_TITLE');
-        $title_text = JText::_('COM_THM_ORGANIZER_FLM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_FLM_DESC');
-        $views['field_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
-		
-        $views['degree_program_manager']['title'] = JText::_('COM_THM_ORGANIZER_DGP_TITLE');
-        $title_text = JText::_('COM_THM_ORGANIZER_DGP_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_DGP_DESC');
-        $views['degree_program_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
+        $views['field_manager']['tooltip'] = JText::_('COM_THM_ORGANIZER_FLM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_FLM_DESC');
+        $views['field_manager']['url'] = "index.php?option=com_thm_organizer&view=field_manager";
+        $views['field_manager']['image'] = "administrator/components/com_thm_organizer/assets/images/icon-48-fields.png";
 
+        $views['program_manager'] = array();
+        $views['program_manager']['title'] = JText::_('COM_THM_ORGANIZER_PRM_TITLE');
+        $views['program_manager']['tooltip'] = JText::_('COM_THM_ORGANIZER_PRM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_PRM_DESC');
+        $views['program_manager']['url'] = "index.php?option=com_thm_organizer&view=program_manager";
+        $views['program_manager']['image'] = "administrator/components/com_thm_organizer/assets/images/icon-48-programs.png";
+
+        $views['pool_manager'] = array();
         $views['pool_manager']['title'] = JText::_('COM_THM_ORGANIZER_POM_TITLE');
-        $title_text = JText::_('COM_THM_ORGANIZER_POM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_POM_DESC');
-        $views['pool_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
+        $views['pool_manager']['tooltip'] = JText::_('COM_THM_ORGANIZER_POM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_POM_DESC');
+        $views['pool_manager']['url'] = "index.php?option=com_thm_organizer&view=pool_manager";
+        $views['pool_manager']['image'] = "administrator/components/com_thm_organizer/assets/images/icon-48-pools.png";
 
+        $views['subject_manager'] = array();
         $views['subject_manager']['title'] = JText::_('COM_THM_ORGANIZER_SUM_TITLE');
-        $title_text = JText::_('COM_THM_ORGANIZER_SUM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_SUM_DESC');
-        $views['subject_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
+        $views['subject_manager']['tooltip'] = JText::_('COM_THM_ORGANIZER_SUM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_SUM_DESC');
+        $views['subject_manager']['url'] = "index.php?option=com_thm_organizer&view=subject_manager";
+        $views['subject_manager']['image'] = "administrator/components/com_thm_organizer/assets/images/icon-48-subjects.png";
 
+        $views['teacher_manager'] = array();
         $views['teacher_manager']['title'] = JText::_('COM_THM_ORGANIZER_TRM_TITLE');
-        $title_text = JText::_('COM_THM_ORGANIZER_TRM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_TRM_DESC');
-        $views['teacher_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
-		
+        $views['teacher_manager']['tooltip'] = JText::_('COM_THM_ORGANIZER_TRM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_TRM_DESC');
+        $views['teacher_manager']['url'] = "index.php?option=com_thm_organizer&view=teacher_manager";
+        $views['teacher_manager']['image'] = "administrator/components/com_thm_organizer/assets/images/icon-48-teachers.png";
+
+        $views['room_manager'] = array();
         $views['room_manager']['title'] = JText::_('COM_THM_ORGANIZER_RMM_TITLE');
-        $title_text = JText::_('COM_THM_ORGANIZER_RMM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_RMM_DESC');
-        $views['room_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
+        $views['room_manager']['tooltip'] = JText::_('COM_THM_ORGANIZER_RMM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_RMM_DESC');
+        $views['room_manager']['url'] = "index.php?option=com_thm_organizer&view=room_manager";
+        $views['room_manager']['image'] = "administrator/components/com_thm_organizer/assets/images/icon-48-rooms.png";
 
+        $views['monitor_manager'] = array();
         $views['monitor_manager']['title'] = JText::_('COM_THM_ORGANIZER_MON_TITLE');
-        $title_text = JText::_('COM_THM_ORGANIZER_MON_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_MON_DESC');
-        $views['monitor_manager']['link_start'] = str_replace("TITLETEXT", $title_text, $linkStart);
+        $views['monitor_manager']['tooltip'] = JText::_('COM_THM_ORGANIZER_MON_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_MON_DESC');
+        $views['monitor_manager']['url'] = "index.php?option=com_thm_organizer&view=monitor_manager";
+        $views['monitor_manager']['image'] = "administrator/components/com_thm_organizer/assets/images/icon-48-monitors.png";
 
-        // Setting correct html attributes and the images
-        foreach ($views as $k => $view)
-        {
-            $views[$k]['link_start'] = str_replace("VIEWTEXT", $k, $views[$k]['link_start']);
-            $views[$k]['image'] = JHTML::_('image',
-                                           "components/com_thm_organizer/assets/images/" . $k . ".png",
-                                           $view['title'],
-                                           array( 'class' => 'thm_organizer_main_image')
-                                          );
-            $views[$k]['text'] = '<span>' . $view['title'] . '</span>';
-            $views[$k]['link_end'] = '</a>';
-        }
         $this->views = $views;
     }
 }

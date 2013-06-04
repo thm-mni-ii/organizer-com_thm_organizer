@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerTableDegree_Programs
+ * @name        THM_OrganizerTablePrograms
  * @description majors table class
  * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
@@ -20,7 +20,7 @@ jimport('joomla.application.component.table');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerTableDegree_Programs extends JTable
+class THM_OrganizerTablePrograms extends JTable
 {
     /**
      * Constructor function for the class representing the majors table
@@ -29,6 +29,6 @@ class THM_OrganizerTableDegree_Programs extends JTable
      */
     public function __construct(&$dbo)
     {
-        parent::__construct('#__thm_organizer_degree_programs', 'id', $dbo);
+        parent::__construct('#__thm_organizer_programs', 'id', $dbo);
     }
 }

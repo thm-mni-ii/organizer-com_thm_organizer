@@ -59,7 +59,7 @@ class JFormFieldPoolPrograms extends JFormField
             $selectedProgramsQuery = $dbo->getQuery(true);
             $selectedProgramsQuery->select("DISTINCT dp.id");
             $selectedProgramsQuery->from('#__thm_organizer_mappings AS m');
-            $selectedProgramsQuery->innerJoin('#__thm_organizer_degree_programs AS dp ON m.programID = dp.id');
+            $selectedProgramsQuery->innerJoin('#__thm_organizer_programs AS dp ON m.programID = dp.id');
             $selectedProgramsQuery->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
             $selectedProgramsQuery->where($rangesClause);
             $dbo->setQuery((string) $selectedProgramsQuery);
@@ -68,7 +68,7 @@ class JFormFieldPoolPrograms extends JFormField
 
         $allProgramsQuery = $dbo->getQuery(true);
         $allProgramsQuery->select("dp.id AS value, CONCAT(dp.subject, ' (', d.abbreviation, ' ', dp.version, ')') AS program");
-        $allProgramsQuery->from('#__thm_organizer_degree_programs AS dp');
+        $allProgramsQuery->from('#__thm_organizer_programs AS dp');
         $allProgramsQuery->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
         $allProgramsQuery->innerJoin('#__thm_organizer_mappings AS m ON dp.id = m.programID');
         $allProgramsQuery->order('program ASC');
