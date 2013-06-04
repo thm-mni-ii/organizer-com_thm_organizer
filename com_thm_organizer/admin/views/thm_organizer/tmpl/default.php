@@ -12,30 +12,39 @@
  * @link        www.mni.thm.de
  */
 
-defined('_JEXEC') or die;?>
+defined('_JEXEC') or die;
+$logoURL = 'administrator/components/com_thm_organizer/assets/images/THM-Organizer-Logo.png';
+?>
 <div id="thm_organizer_main" >
-    <div id="thm_organizer_main_description">
-        <?php echo JText::_("COM_THM_ORGANIZER_MAIN_DESC"); ?>
-    </div>
-    <div id="cpanel">
+    <fieldset class="com_thm_organizer_fieldset">
+        <legend>
+<?php
+    echo JHTML::_('image', $logoURL, JText::_('COM_THM_ORGANIZER'), array( 'class' => 'thm_organizer_main_image'));
+?>     
+        </legend>
+        <div id="thm_organizer_main_description">
+            <?php echo JText::_("COM_THM_ORGANIZER_MAIN_DESC"); ?>
+        </div>
+        <div id="cpanel">
 <?php foreach ($this->views as $view)
 {
 ?>
-        <div class="thm_organizer_main_submenu" >
-            <div class="thm_organizer_main_linkdiv" >
-                <div class="icon">
-                    <a href='<?php echo $view['url']; ?>'
-                       class='hasTip' title='<?php echo $view['tooltip']; ?>' >
+            <div class="thm_organizer_main_submenu" >
+                <div class="thm_organizer_main_linkdiv" >
+                    <div class="icon">
+                        <a href='<?php echo $view['url']; ?>'
+                           class='hasTip' title='<?php echo $view['tooltip']; ?>' >
 <?php
     echo JHTML::_('image', $view['image'],$view['title'], array( 'class' => 'thm_organizer_main_image'));
 ?>
-                        <span><?php echo $view['title']; ?></span>
-                    </a>
+                            <span><?php echo $view['title']; ?></span>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
 <?php
 }
 ?>
-    </div>
+        </div>
+    </fieldset>
 </div>

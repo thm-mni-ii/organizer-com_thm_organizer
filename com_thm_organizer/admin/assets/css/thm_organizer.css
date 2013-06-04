@@ -30,7 +30,6 @@
 
 .thm_organizer_main_linkdiv{ float: left; }
 
-.thm_organizer_main_image{ height: 40px; width: 40px; }
 
 
 /*category manager & category edit views***************************************/
@@ -267,4 +266,11 @@ a.thm_organizer_delete_child
 a.jgrid span.state
 {
     margin-bottom: -9px;
+}
+.thm_organizer_fieldset
+{
+    box-shadow: -5px -5px 25px #80ba24 inset;
+    transition-property: box-shadow;
+    transition-duration: 3s;
+    border-radius:10px;
 }
