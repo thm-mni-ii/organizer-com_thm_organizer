@@ -32,19 +32,17 @@ class THM_OrganizerViewCurriculum extends JView
 	 */
 	public function display($tpl = null)
 	{
-		$document = JFactory::getDocument();
+
 		$app = JFactory::getApplication();
 
 		// Get the parameters of the current view
-		$menus = $app->getMenu();
-		$menu = $menus->getActive();
-		$this->params = $menu->params;
+		$this->params = JFactory::getApplication()->getMenu()->getActive()->params;
 
 		$this->lang = JRequest::getVar('lang');
 		$this->langLink = ($this->lang == 'de') ? 'en' : 'de';
 		$this->langUrl = self::languageSwitcher($this->langLink);
-		$this->pagetitle = $menu->params->get('page_title');
-		$this->doc = $document;
+		$this->pagetitle = $this->params->get('page_title');
+		$this->doc = JFactory::getDocument();
 
 		parent::display($tpl);
 	}

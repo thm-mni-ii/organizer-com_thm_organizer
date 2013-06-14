@@ -26,6 +26,9 @@ echo "' title='" . JText::_('COM_CATEGORIES_ITEMS_SEARCH_FILTER') . "' />";
 			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
+        <div class="filter-select fltrt">
+            <?php echo $this->programSelect; ?>
+        </div>
 	</fieldset>
 	<table class="adminlist">
 		<thead>
@@ -63,7 +66,7 @@ foreach ($this->items as $i => $item)
 {
 ?>
             <tr class="row<?php echo $i % 2; ?>">
-                <td align="center">
+                <td>
                     <?php echo JHtml::_('grid.id', $i, $item->id)?>
                 </td>
                 <td align="center">

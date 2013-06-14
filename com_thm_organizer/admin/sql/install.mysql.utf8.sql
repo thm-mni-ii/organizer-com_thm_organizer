@@ -103,6 +103,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_pools` (
   `maxCrP` INT(2) UNSIGNED DEFAULT NULL,
   `fieldID` INT(11) unsigned DEFAULT NULL,
   PRIMARY KEY (id),
+  KEY `lsfID` ( `lsfID` ),
+  KEY `externalID` ( `externalID` ),
   FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 

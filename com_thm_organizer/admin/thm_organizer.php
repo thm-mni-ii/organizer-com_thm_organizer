@@ -10,7 +10,7 @@
  * @link        www.mni.thm.de
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 require_once JPATH_COMPONENT . DS . 'controller.php';
 
 $controller = "";

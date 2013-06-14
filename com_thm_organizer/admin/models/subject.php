@@ -11,10 +11,10 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
+require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'helper' . DS . 'lsfapi.php';
 
 /**
- * Class THM_OrganizerModelSubject for component com_thm_organizer
- * Class provides methods to deal with asset
+ * Provides persistence handling for subjects
  *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
@@ -22,6 +22,210 @@ jimport('joomla.application.component.model');
  */
 class THM_OrganizerModelSubject extends JModel
 {
+    /**
+     * Attempts to delete the selected subject entries and related mappings
+     *
+     * @return  boolean true on success, otherwise false
+     */
+    public function delete()
+    {
+        $resourceIDs = JRequest::getVar('cid', array(0), 'post', 'array');
+        if (!empty($resourceIDs))
+        {
+            $dbo = JFactory::getDbo();
+            $dbo->transactionStart();
+            $table = JTable::getInstance('subjects', 'thm_organizerTable');
+            $model = JModel::getInstance('mapping', 'THM_OrganizerModel');
+            foreach ($resourceIDs as $resourceID)
+            {
+                $mappingsDeleted = $model->deleteByResourceID($resourceID, 'subject');
+                if (!$mappingsDeleted)
+                {
+                    $dbo->transactionRollback();
+                    return FALSE;
+                }
+
+                $resourceDeleted = $table->delete($resourceID);
+                if (!$resourceDeleted)
+                {
+                    $dbo->transactionRollback();
+                    return FALSE;
+                }
+            }
+            $dbo->transactionCommit();
+        }
+        return TRUE;
+    }
+
+    /**
+	 * Method to import data associated with subjects from LSF
+	 *
+	 * @return  bool  true on success, otherwise false
+	 */
+    public function importLSFDataBatch()
+    {
+		$resourceIDs = JRequest::getVar('cid', array(), 'post', 'array');
+        foreach ($resourceIDs as $resourceID)
+        {
+            $resourceImported = $this->importLSFDataSingle($resourceID);
+            if (!$resourceImported)
+            {
+                return false;
+            }
+        }
+		return true;
+    }
+
+    /**
+     * Method to import data associated with a subject from LSF
+     * 
+     * @param   int  $subjectID  the id opf the subject entry
+     * 
+     * @return  boolean  true on success, otherwise false
+     */
+    public function importLSFDataSingle($subjectID)
+    {
+        $table = JTable::getInstance('subjects', 'thm_organizerTable');
+        $loaded = $table->load($subjectID);
+        if (!$loaded or empty($table->lsfID))
+        {
+            return false;
+        }
+
+        $client = new THM_OrganizerLSFClient();
+        $lsfData = $client->getModuleByModulid($table->lsfID);
+
+        $data = array();
+        foreach ($lsfData->modul->children() as $child)
+        {
+            $name = $child->getName();
+            switch ($name)
+            {
+                case 'nrmni':
+                    $data['externalID'] = (string) $child;
+                    break;
+                case 'kuerzel':
+                    $data['abbreviation_de'] = (string) $child;
+                    break;
+                case 'kuerzelen':
+                    $data['abbreviation_en'] = (string) $child;
+                    break;
+                case 'kurzname':
+                    $data['short_name_de'] = (string) $child;
+                    break;
+                case 'kurznameen':
+                    $data['short_name_en'] = (string) $child;
+                    break;
+                case 'titelde':
+                    $data['name_de'] = (string) $child;
+                    break;
+                case 'titelen':
+                    $data['name_en'] = (string) $child;
+                    break;
+                case 'kurzbeschr':
+                    if ($child->sprache == 'de')
+                    {
+                        $data['description_de'] = $child->txt;
+                    }
+                    if ($child->sprache == 'en')
+                    {
+                        $data['description_en'] = $child->txt;
+                    }
+                    break;
+                case 'lernziel':
+                    if ($child->sprache == 'de')
+                    {
+                        $data['objective_de'] = $child->txt;
+                    }
+                    if ($child->sprache == 'en')
+                    {
+                        $data['objective_en'] = $child->txt;
+                    }
+                    break;
+                case 'lerninhalt':
+                    if ($child->sprache == 'de')
+                    {
+                        $data['content_de'] = $child->txt;
+                    }
+                    if ($child->sprache == 'en')
+                    {
+                        $data['content_en'] = $child->txt;
+                    }
+                    break;
+                case 'vorleistung':
+                    if ($child->sprache == 'de')
+                    {
+                        $data['preliminary_work_de'] = $child->txt;
+                    }
+                    if ($child->sprache == 'en')
+                    {
+                        $data['preliminary_work_en'] = $child->txt;
+                    }
+                    break;
+                case 'turnus':
+                    $data['frequency'] = (string) $child;
+                    break;
+                case 'lp':
+                    $data['creditpoints'] = (string) $child;
+                    break;
+                case 'ktextform':
+                    $data['method'] = (string) $child;
+                    break;
+                case 'ktextpart':
+                    $data['proof'] = (string) $child;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if (empty($data['abbreviation_en']) AND isset($data['abbreviation_de']))
+        {
+            $data['abbreviation_en'] = $data['abbreviation_de'];
+        }
+        if (empty($data['short_name_en']) AND isset($data['short_name_de']))
+        {
+            $data['short_name_en'] = $data['short_name_de'];
+        }
+        if (empty($data['name_en']) AND isset($data['name_de']))
+        {
+            $data['name_en'] = $data['name_de'];
+        }
+        return $table->save($data);
+    }
+
+    /**
+     * Creates a subject entry if none exists and imports data to fill it
+     * 
+     * @param   object  &$stub  a simplexml object containing rudimentary subject data
+     * 
+     * @return  mixed  int value of subject id on success, otherwise false
+     */
+    public function processLSFStub(&$stub)
+    {
+        if ((empty($stub->modulid) AND empty($stub->pordid)) OR (empty($stub->modulnrhis) AND empty($stub->nrhis)))
+        {
+            return FALSE;
+        }
+        $lsfID = (string) (empty($stub->modulid)?  $stub->pordid : $stub->modulid);
+        $hisID = (string) (empty($stub->modulnrhis)?  $stub->nrhis: $stub->modulnrhis);
+
+        $table = JTable::getInstance('subjects', 'thm_organizerTable');
+        $table->load(array('lsfID' => $lsfID));
+
+        if (empty($table->id))
+        {
+            $data = array('lsfID' => $lsfID, 'hisID' => $hisID);
+            $stubSaved = $table->save($data);
+            if (!$stubSaved)
+            {echo "subject not saved";
+                return FALSE;
+            }
+        }
+ 
+        return $this->importLSFDataSingle($table->id);
+    }
+
     /**
      * Attempts to save a subject entry, updating subject-teacher data as
      * necessary.
@@ -60,7 +264,7 @@ class THM_OrganizerModelSubject extends JModel
             $dbo->setQuery((string) $deleteQuery);
             try
             {
-                $responsibilitiesDeleted = $dbo->query();
+                $dbo->query();
             }
             catch (Exception $exc)
             {
@@ -72,7 +276,7 @@ class THM_OrganizerModelSubject extends JModel
             $insertQuery->insert('#__thm_organizer_subject_teachers');
             $insertQuery->columns(array('subjectID', 'teacherID', 'teacherResp'));
             $insertQuery->values("'{$data['id' ]}', '{$data['responsible' ]}', '1'");
-            foreach ($data['teacher'] AS $teacher)
+            foreach ($data['teacherID'] AS $teacher)
             {
                 $insertQuery->values("'{$data['id' ]}', '$teacher', '2'");
             }
@@ -163,33 +367,5 @@ class THM_OrganizerModelSubject extends JModel
             return false;
         }
         return true;
-    }
-
-    /**
-     * Attempts to delete the selected subject entries
-     *
-     * @return  boolean true on success, otherwise false
-     */
-    public function delete()
-    {
-        $success = true;
-        $subjectIDs = JRequest::getVar('cid', array(0), 'post', 'array');
-        $table = JTable::getInstance('subjects', 'thm_organizerTable');
-        if (!empty($subjectIDs))
-        {
-            $dbo = JFactory::getDbo();
-            $dbo->transactionStart();
-            foreach ($subjectIDs as $subjectID)
-            {
-                $success = $table->delete($subjectID);
-                if (!$success)
-                {
-                    $dbo->transactionRollback();
-                    return $success;
-                }
-            }
-            $dbo->transactionCommit();
-        }
-        return $success;
     }
 }

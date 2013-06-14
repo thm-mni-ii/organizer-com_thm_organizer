@@ -13,11 +13,10 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
- * Class THM_OrganizerViewColors for component com_thm_organizer
- * Class provides methods to display the view colors
+ * Class loads persistent information about all colors into display context
  *
  * @category    Joomla.Component.Admin
- * @package     thm_curriculum
+ * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
 class THM_OrganizerViewColor_Manager extends JView

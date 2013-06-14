@@ -36,6 +36,7 @@ class THM_OrganizerViewSubject_Manager extends JView
         $this->items = $this->get('Items');
         $this->pagination = $this->get('Pagination');
         $this->state = $this->get('State');
+        $this->programSelect = $this->getProgramSelect($this->getModel()->programs);
 
         $this->addToolBar();
         parent::display($tpl);
@@ -53,5 +54,21 @@ class THM_OrganizerViewSubject_Manager extends JView
         JToolBarHelper::addNew('subject.add');
         JToolBarHelper::editList('subject.edit');
         JToolBarHelper::deleteList('COM_THM_ORGANIZER_SUM_DELETE_CONFIRM', 'subject.delete');
+    }
+
+    /**
+     * Retrieves a select box with the mapped programs
+     * 
+     * @param   array  $programs  the mapped programs
+     * 
+     * @return  string  html select box
+     */
+    private function getProgramSelect($programs)
+    {
+        $selectPrograms = array();
+        $selectPrograms[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_POM_SEARCH_PROGRAM'));
+        $selectPrograms[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_POM_ALL_PROGRAMS'));
+        $programs = array_merge($selectPrograms, $programs);
+        return JHTML::_('select.genericlist', $programs, 'filter_program', 'onchange="this.form.submit();"', 'id', 'name', $this->state->get('filter.program'));
     }
 }

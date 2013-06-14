@@ -1,86 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset
-		name="scheduler"
-		label="COM_THM_ORGANIZER_CONFIG_SCHEDULER_LABEL"
-		description="COM_THM_ORGANIZER_CONFIG_SCHEDULER_DESC"
-	>
-		<field
-			name="vacationCat"
-			type="sql"
-			label="COM_THM_ORGANIZER_CONFIG_SCHEDULER_VACATION_CAT_LABEL"
-			description="COM_THM_ORGANIZER_CONFIG_SCHEDULER_VACATION_CAT_DESC"
-			class="inputbox"
-			query="SELECT id, title FROM #__thm_organizer_categories"
-			key_field="id"
-            value_field="title"
-		/>
-	</fieldset>
-	<fieldset
-		name="permissions"
-		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC"
-	>
-		<field
-			name="rules"
-			type="rules"
-			label="JCONFIG_PERMISSIONS_LABEL"
-			class="inputbox"
-			validate="rules"
-			filter="rules"
-			component="com_thm_organizer"
-			section="component"
-		/>
-	</fieldset>
-	<fieldset name="component" label="GLOB_LSF_PARAMETERS"
-		description="GLOB_LSF_PARAMETERS_DESC">
-
-		<field name="webserviceUri" type="text"
-			default="https://studien-sb-service.fh-giessen-friedberg.de/lsfadmin/services/dbinterface?wsdl"
-			size="100" label="COM_THM_LSF_COMPONENT_URI" description="COM_THM_LSF_COMPONENT_URI_DESC">
-		</field>
-		<field name="webserviceUsername" type="text" default="soapclmni"
-			size="30" label="COM_THM_LSF_COMPONENT_USERNAME" description="COM_THM_LSF_COMPONENT_USERNAME_DESC">
-		</field>
-		<field name="webservicePassword" type="text" default="cByAroe5"
-			size="30" label="COM_THM_LSF_COMPONENT_PASSWORD" description="COM_THM_LSF_COMPONENT_PASSWORD_DESC">
-		</field>
-
-	</fieldset>
-	<fieldset name="component2" label="GLOB_FILTER_PARAMETERS"
-		description="GLOB_FILTER_PARAMETERS_DESC">
-		<field name="filter" type="radio" default="0"
-			label="GLOB_FILTER_PARAMETERS_ACTIVATE" description="GLOB_FILTER_PARAMETERS_ACTIVATE_DESC">
-			<option value="1">Ja</option>
-			<option value="0">Nein</option>
-		</field>
-		<field name="filter_type" type="radio" default="0"
-			label="GLOB_FILTER_PARAMETERS_TYPE" description="GLOB_FILTER_PARAMETERS_TYPE_DESC">
-			<option value="0">Modulnummer</option>
-			<option value="1">Fachgruppe</option>
-		</field>
-		<field name="modulecodeFilterList" type="textarea"
-			label="GLOB_FILTER_PARAMETERS_COURSE_CODES" description="GLOB_FILTER_PARAMETERS_COURSE_CODES_DESC"
-			rows="5" cols="30">
-		</field>
-		<field name="modulecodeFilterFachgruppen" type="textarea"
-			label="GLOB_FILTER_PARAMETERS_GROUPS" description="GLOB_FILTER_PARAMETERS_GROUPS_DESC"
-			rows="5" cols="30">
+	<fieldset name="component"
+              label="COM_THM_ORGANIZER_SETTINGS_TITLE"
+              description="COM_THM_ORGANIZER_SETTINGS_DESC">
+		<field name="eCollabLink"
+               type="text"
+               size="60"
+               default="http://moodle.thm.de/course/view.php?idnumber="
+               label="COM_THM_ORGANIZER_SETTINGS_ECOLLAB_TITLE"
+               description="COM_THM_ORGANIZER_SETTINGS_ECOLLAB_DESC">
 		</field>
 	</fieldset>
-	<fieldset name="component3" label="GLOB_MISC_PARAMETERS"
-		description="GLOB_MISC_PARAMETERS_DESC">
-
-		<field name="default_ecolloboration_link" type="text"
-			default="http://moodle.thm.de/course/view.php?idnumber=" label="GLOB_MISC_PARAMETERS_ECOLLAB_DEFAULT_LINK"
-			size="60" description="GLOB_MISC_PARAMETERS_ECOLLAB_DEFAULT_LINK_MISC">
+	<fieldset name="LSF-SERVICE"
+              label="COM_THM_ORGANIZER_LSF_SERVICE_TITLE"
+              description="COM_THM_ORGANIZER_LSF_SERVICE_DESC">
+		<field name="wsURI"
+               type="text"
+               default="https://studien-sb-service.fh-giessen-friedberg.de/lsfadmin/services/dbinterface?wsdl"
+               size="100"
+               label="COM_THM_ORGANIZER_LSF_URI_TITLE"
+               description="COM_THM_ORGANIZER_LSF_URI_DESC">
 		</field>
-
+		<field name="wsUsername"
+               type="text"
+               default="soapclmni"
+               size="30"
+               label="COM_THM_ORGANIZER_LSF_USERNAME_TITLE"
+               description="COM_THM_ORGANIZER_LSF_USERNAME_DESC">
+		</field>
+		<field name="wsPassword"
+               type="text"
+               default="cByAroe5"
+               size="30"
+               label="COM_THM_ORGANIZER_LSF_PASSWORD_TITLE"
+               description="COM_THM_ORGANIZER_LSF_PASSWORD_DESC">
+		</field>
+	</fieldset>   
+	<fieldset name="LSF-FILTER"
+              label="COM_THM_ORGANIZER_LSF_FILTER_TITLE"
+              description="COM_THM_ORGANIZER_LSF_FILTER_DESC">
+		<field name="filter"
+               type="radio"
+               default="0"
+               label="COM_THM_ORGANIZER_LSF_FILTER_ACTIVATE_TITLE"
+               description="COM_THM_ORGANIZER_LSF_FILTER_ACTIVATE_DESC">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="filterType"
+               type="radio"
+               default="0"
+               label="COM_THM_ORGANIZER_LSF_FILTER_TYPE_TITLE"
+               description="COM_THM_ORGANIZER_LSF_FILTER_TYPE_DESC">
+			<option value="0">COM_THM_ORGANIZER_LSF_FILTER_MODULENR</option>
+			<option value="1">COM_THM_ORGANIZER_LSF_FILTER_ABBREVIATION</option>
+		</field>
+		<field name="filterModuleList"
+               type="textarea"
+               label="COM_THM_ORGANIZER_LSF_FILTER_MODULENR_TITLE"
+               description="COM_THM_ORGANIZER_LSF_FILTER_MODULENR_DESC"
+               rows="5"
+               cols="30">
+		</field>
+		<field name="filterAbbrList"
+               type="textarea"
+               label="COM_THM_ORGANIZER_LSF_FILTER_ABBREVIATION_TITLE"
+               description="COM_THM_ORGANIZER_LSF_FILTER_ABBREVIATION_DESC"
+               rows="5"
+               cols="30">
+		</field>
 	</fieldset>
-	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC">
-		<field name="rules" type="rules" label="JCONFIG_PERMISSIONS_LABEL"
-			class="inputbox" validate="rules" filter="rules" component="com_giessenlsf"
-			section="component" />
+	<fieldset name="permissions"
+              label="JCONFIG_PERMISSIONS_LABEL"
+              description="JCONFIG_PERMISSIONS_DESC">
+		<field name="rules"
+               type="rules"
+               label="JCONFIG_PERMISSIONS_LABEL"
+               validate="rules"
+               filter="rules"
+               component="com_thm_organizer"
+               section="component" />
 	</fieldset>
 </config>

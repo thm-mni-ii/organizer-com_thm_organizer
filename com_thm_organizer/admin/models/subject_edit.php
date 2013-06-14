@@ -33,7 +33,7 @@ class THM_OrganizerModelSubject_Edit extends JModelAdmin
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
-		$form = $this->loadForm('com_thm_organizer.course', 'subject_edit', array('control' => 'jform', 'load_data' => $loadData));
+		$form = $this->loadForm('com_thm_organizer.subject_edit', 'subject_edit', array('control' => 'jform', 'load_data' => $loadData));
 
 		if (empty($form))
 		{

@@ -70,6 +70,10 @@ defined('_JEXEC') or die;
                 <?php echo $this->form->getLabel('maxCrP'); ?>
                 <?php echo $this->form->getInput('maxCrP'); ?>
             </li>
+            <li>
+                <?php echo $this->form->getLabel('fieldID'); ?>
+                <?php echo $this->form->getInput('fieldID'); ?>
+            </li>
         </ul>
 	</fieldset>
 	<div>

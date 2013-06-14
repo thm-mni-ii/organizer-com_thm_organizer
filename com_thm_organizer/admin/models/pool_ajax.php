@@ -85,6 +85,11 @@ class THM_OrganizerModelPool_Ajax extends JModel
                 unset($programMappings[$key]);
                 continue;
             }
+            if (!empty($mapping['subjectID']))
+            {
+                unset($programMappings[$key]);
+                continue;
+            }
             if (!empty($mapping['poolID']))
             {
                 $poolsTable->load($mapping['poolID']);

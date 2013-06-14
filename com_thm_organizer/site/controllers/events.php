@@ -11,7 +11,7 @@
  * @link        www.mni.thm.de
  */
 
-defined('_JEXEC') OR die('Restricted access');
+defined('_JEXEC') OR die;
 jimport('joomla.application.component.controller');
 require_once JPATH_COMPONENT . "/assets/classes/eventAccess.php";
 

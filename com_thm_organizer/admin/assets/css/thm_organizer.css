@@ -233,6 +233,7 @@ li input[disabled=disabled]{ border: none; color: black;}
 /* children's area ************************************************************/
 .thm_organizer_children
 {
+    padding-top: 5px;
     float: left;
     width: 45%;
 }
@@ -242,7 +243,7 @@ li input[disabled=disabled]{ border: none; color: black;}
     width: 45%;
     font-size: 1.3em;
     font-weight: bold;
-    padding: 20px 20px 5px 10px;
+    padding: 5px 20px 5px 10px;
 }
 .thm_organizer_subjects
 {
@@ -251,7 +252,7 @@ li input[disabled=disabled]{ border: none; color: black;}
     width: 45%;
     font-size: 1.3em;
     font-weight: bold;
-    padding: 20px 20px 5px 10px;
+    padding: 10px 20px 5px 10px;
 }
 a.thm_organizer_delete_child
 {
@@ -273,4 +274,9 @@ a.jgrid span.state
     transition-property: box-shadow;
     transition-duration: 3s;
     border-radius:10px;
+}
+.thm_organizer_no_children
+{
+    padding: 5px;
+    font-size: 1.3em;
 }

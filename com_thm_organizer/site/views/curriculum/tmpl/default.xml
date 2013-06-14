@@ -15,16 +15,11 @@
 			<field type="spacer"
 				   label="COM_THM_ORGANIZER_CUR_BASIC_SETTINGS" />
 			<field addfieldpath="/components/com_thm_organizer/models/fields"
-				   name="major"
-				   type="major"
+				   name="program"
+				   type="sql"
 				   label="COM_THM_ORGANIZER_DEGREE_PROGRAM_TITLE"
-				   description="COM_THM_ORGANIZER_CUR_DEGREE_PROGRAM_DESCRIPTION"
-				   query="SELECT majors.id AS value, CONCAT(degrees.name, ' ', majors.subject, ' (', majors.po, ')') AS major FROM #__thm_organizer_majors as majors INNER JOIN #__thm_organizer_degrees as degrees ON degrees.id = majors.degree_id " />
-			<field addfieldpath="/components/com_thm_organizer/models/fields"
-				   name="semesters"
-				   type="semester"
-				   label="COM_THM_ORGANIZER_CUR_TERM_TITLE"
-				   description="COM_THM_ORGANIZER_CUR_TERM_DESCRIPTION" />
+				   description="COM_THM_ORGANIZER_DEGREE_PROGRAM_DESCRIPTION"
+				   query="SELECT p.id AS value, CONCAT(subject, ' (', d.name, ', ', version, ')') AS program FROM #__thm_organizer_programs AS p INNER JOIN #__thm_organizer_degrees AS d ON d.id = p.degreeID INNER JOIN #__thm_organizer_mappings AS m ON m.programID = p.id ORDER BY program" />
 			<field name="lsf_default_language"
 				   type="radio"
 				   default="de"

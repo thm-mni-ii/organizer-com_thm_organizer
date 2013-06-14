@@ -10,7 +10,7 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 
 /**

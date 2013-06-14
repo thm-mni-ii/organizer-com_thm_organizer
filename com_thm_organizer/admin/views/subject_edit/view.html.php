@@ -13,10 +13,10 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 jimport('jquery.jquery');
 /**
- * Loads data from a single subject into context
+ * Class loadd persistent subject information into dispaly context
  *
  * @category    Joomla.Component.Admin
- * @package     thm_curriculum
+ * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
 class THM_OrganizerViewSubject_Edit extends JView

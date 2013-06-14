@@ -10,7 +10,7 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-defined('_JEXEC') or die('Restriced Access');
+defined('_JEXEC') or die;
 jimport('joomla.application.component.modellist');
 /**
  * Class defining functions to be used for lesson resources

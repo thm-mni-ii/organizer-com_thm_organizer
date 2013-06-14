@@ -39,7 +39,9 @@ $listDirn = $this->state->get('list.direction');
 	<table class="adminlist">
 		<thead>
 			<tr>
-				<th width="2%"/>
+				<th width="3%"><input type="checkbox" name="toggle" value=""
+					onclick="checkAll(<?php echo count($this->pools); ?>);" />
+				</th>
 				<th>
                     <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'name', $listDirn, $listOrder); ?>
 				</th>
@@ -68,14 +70,8 @@ $listDirn = $this->state->get('list.direction');
 		</thead>
 		<tfoot>
 			<tr>
-				<td colspan="8"><?php echo $this->pagination->getListFooter(); ?></td>
+				<td colspan="9"><?php echo $this->pagination->getListFooter(); ?></td>
 			</tr>
-			<input type="hidden" name="task" value="" />
-			<input type="hidden" name="boxchecked" value="0" />
-			<input type="hidden" name="view" value="pool_manager" />
-			<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
-			<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
-			<?php echo JHtml::_('form.token'); ?>
 		</tfoot>
 		<tbody>
 <?php
@@ -135,8 +131,11 @@ foreach ($this->pools as $pool)
 		</tbody>
 	</table>
 	<div>
-		<input type="hidden" name="task" value="" />
+        <input type="hidden" name="task" value="" />
         <input type="hidden" name="boxchecked" value="0" />
-		<?php echo JHtml::_('form.token'); ?>
+        <input type="hidden" name="view" value="pool_manager" />
+        <input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
+        <input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
+        <?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

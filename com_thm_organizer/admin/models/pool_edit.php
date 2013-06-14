@@ -75,14 +75,14 @@ class THM_OrganizerModelPool_Edit extends JModelAdmin
      * Retrieves the programs existent children and loads them into the object
      * variable
      * 
-     * @param   int  $programID  the id of the program
+     * @param   int  $poolID  the id of the program
      * 
      * @return  void
      */
-    private function getChildren($programID)
+    private function getChildren($poolID)
     {
         $mappingModel = new THM_OrganizerModelMapping;
-        $results = $mappingModel->getChildren($programID, 'program', false);
+        $results = $mappingModel->getChildren($poolID, 'pool', false);
         if (!empty($results))
         {
             $this->children = array();

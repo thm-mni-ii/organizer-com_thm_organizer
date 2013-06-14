@@ -89,6 +89,11 @@ class JFormFieldSubjectParents extends JFormField
             $poolsTable = JTable::getInstance('pools', 'THM_OrganizerTable');
             foreach ($programMappings as $key => $mapping)
             {
+                if (!empty($mapping['subjectID']))
+                {
+                    unset($programMappings[$key]);
+                    continue;
+                }
                 if (!empty($mapping['poolID']))
                 {
                     $poolsTable->load($mapping['poolID']);

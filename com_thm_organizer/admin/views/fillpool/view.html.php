@@ -20,7 +20,6 @@ jimport('joomla.application.component.view');
  * @category    Joomla.Component.Admin
  * @package     thm_curriculum
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
  */
 class THM_OrganizerViewFillpool extends JView
 {

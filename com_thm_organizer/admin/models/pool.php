@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerModelSubject
+ * @name        THM_OrganizerModelPool
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -11,10 +11,10 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
+require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'helper' . DS . 'lsfapi.php';
 
 /**
- * Class THM_OrganizerModelSubject for component com_thm_organizer
- * Class provides methods to deal with asset
+ * Provides persistence handling for subject pools
  *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
@@ -22,6 +22,103 @@ jimport('joomla.application.component.model');
  */
 class THM_OrganizerModelPool extends JModel
 {
+    /**
+     * Attempts to delete the selected subject pool entries and related mappings
+     *
+     * @return  boolean true on success, otherwise false
+     */
+    public function delete()
+    {
+        $resourceIDs = JRequest::getVar('cid', array(0), 'post', 'array');
+        if (!empty($resourceIDs))
+        {
+            $dbo = JFactory::getDbo();
+            $dbo->transactionStart();
+            $table = JTable::getInstance('pools', 'thm_organizerTable');
+            $model = JModel::getInstance('mapping', 'THM_OrganizerModel');
+            foreach ($resourceIDs as $resourceID)
+            {
+                $mappingsDeleted = $model->deleteByResourceID($resourceID, 'pool');
+                if (!$mappingsDeleted)
+                {
+                    $dbo->transactionRollback();
+                    return FALSE;
+                }
+
+                $resourceDeleted = $table->delete($resourceID);
+                if (!$resourceDeleted)
+                {
+                    $dbo->transactionRollback();
+                    return FALSE;
+                }
+            }
+            $dbo->transactionCommit();
+        }
+        return TRUE;
+    }
+
+    /**
+     * Creates a pool entry if none exists and calls
+     * 
+     * @param   object  &$stub  a simplexml object containing rudimentary subject data
+     * 
+     * @return  mixed  int value of subject id on success, otherwise false
+     */
+    public function processLSFStub(&$stub)
+    {
+        if (empty($stub->pordid) OR empty($stub->nrhis))
+        {
+            return FALSE;
+        }
+
+        $table = JTable::getInstance('pools', 'thm_organizerTable');
+        $table->load(array('lsfID' => $stub->pordid));
+
+        $data = array();
+        $data['lsfID'] = (string) $stub->pordid;
+        $data['hisID'] = (string) $stub->nrhis;
+        $data['externalID'] = (string) $stub->alphaid;
+        $data['abbreviation_de'] = (string) $stub->kuerzel;
+        $data['abbreviation_en'] = (string) $stub->kuerzelen;
+        $data['short_name_de'] = (string) $stub->kurzname;
+        $data['short_name_en'] = (string) $stub->kurznameen;
+        $data['name_de'] = (string) $stub->titelde;
+        $data['name_en'] = (string) $stub->titelen;
+
+        if (empty($data['abbreviation_en']))
+        {
+            $data['abbreviation_en'] = $data['abbreviation_de'];
+        }
+        if (empty($data['short_name_en']))
+        {
+            $data['short_name_en'] = $data['short_name_de'];
+        }
+        if (empty($data['name_en']))
+        {
+            $data['name_en'] = $data['name_de'];
+        }
+
+        $stubSaved = $table->save($data);
+        if (!$stubSaved)
+        {
+            return FALSE;
+        }
+
+        if (isset($stub->modulliste->modul))
+        {
+            $subjectModel = JModel::getInstance('subject', 'THM_OrganizerModel');
+            foreach ($stub->modulliste->modul as $subjectStub)
+            {
+                $subjectProcessed = $subjectModel->processLSFStub($subjectStub);
+                if (!$subjectProcessed)
+                {
+                    return FALSE;
+                }
+            }
+        }
+        return TRUE;
+    }
+
  	/**
 	 * Saves
 	 *
@@ -89,31 +186,4 @@ class THM_OrganizerModelPool extends JModel
         }
 	}
 
-    /**
-     * Attempts to delete the selected subject entries
-     *
-     * @return  boolean true on success, otherwise false
-     */
-    public function delete()
-    {
-        $success = true;
-        $poolIDs = JRequest::getVar('cid', array(0), 'post', 'array');
-        $table = JTable::getInstance('pools', 'thm_organizerTable');
-        if (!empty($poolIDs))
-        {
-            $dbo = JFactory::getDbo();
-            $dbo->transactionStart();
-            foreach ($poolIDs as $poolID)
-            {
-                $success = $table->delete($poolID);
-                if (!$success)
-                {
-                    $dbo->transactionRollback();
-                    return $success;
-                }
-            }
-            $dbo->transactionCommit();
-        }
-        return $success;
-    }
 }

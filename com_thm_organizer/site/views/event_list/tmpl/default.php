@@ -9,7 +9,7 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 $eventTitle = JText::_('COM_THM_ORGANIZER_EL_EVENT_TITLE') . "::";
 $eventTitle .= JText::_('COM_THM_ORGANIZER_EL_EVENT_DESCRIPTION');
 $limitTitle = JText::_('COM_THM_ORGANIZER_EL_COUNT_TITLE') . "::";

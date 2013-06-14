@@ -154,30 +154,6 @@ class THM_OrganizerControllerProgram extends JController
 	}
 
 	/**
-	 * Fills curriculum information from a web service call on the LSF System
-	 *
-	 * @return  void
-	 */
-	public function fill()
-	{
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
-		$success = $this->getModel('curriculum')->fill();
-		if ($success)
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_PRM_FILL_SUCCESS');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=program_manager', false), $msg);
-		}
-		else
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_PRM_FILL_FAIL');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=program_manager', false), $msg, 'error');
-		}
-	}
-
-	/**
 	 * Method to perform delete
 	 *
 	 * @return  void
@@ -214,4 +190,28 @@ class THM_OrganizerControllerProgram extends JController
         }
 		$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=program_manager', false));
 	}
+
+    /**
+	 * Perfoerms access checks and makes function calls for importing LSF Data
+	 *
+	 * @return  void
+	 */
+    public function importLSFData()
+    {
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+		$success = $this->getModel('program')->importLSFDataBatch();
+		if ($success)
+		{
+			$msg = JText::_('COM_THM_ORGANIZER_PRM_FILL_SUCCESS');
+			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=program_manager', false), $msg);
+		}
+		else
+		{
+			$msg = JText::_('COM_THM_ORGANIZER_PRM_FILL_FAIL');
+			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=program_manager', false), $msg, 'error');
+		}
+    }
 }

@@ -126,6 +126,10 @@ jq(document).ready(function(){
                 <?php echo $this->form->getLabel('maxCrP'); ?>
                 <?php echo $this->form->getInput('maxCrP'); ?>
             </li>
+            <li>
+                <?php echo $this->form->getLabel('fieldID'); ?>
+                <?php echo $this->form->getInput('fieldID'); ?>
+            </li>
         </ul>
 	</fieldset>
 	<fieldset class="adminform">
@@ -167,7 +171,14 @@ if (!empty($this->children))
         {
             $name = $this->children[$index]['name'];
             $id = $this->children[$index]['id'];
-            $rawEditURL = 'index.php?option=com_thm_organizer&view=pool_edit&id=' . $this->children[$index]['poolID'];
+            if (!empty($this->children[$index]['poolID']))
+            {
+                $rawEditURL = 'index.php?option=com_thm_organizer&view=pool_edit&id=' . $this->children[$index]['poolID'];
+            }
+            else
+            {
+                $rawEditURL = 'index.php?option=com_thm_organizer&view=subject_edit&id=' . $this->children[$index]['subjectID'];
+            }
             $editURL = JRoute::_($rawEditURL, false);
         }
         else

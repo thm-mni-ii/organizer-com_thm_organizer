@@ -21,6 +21,101 @@ jimport('joomla.application.component.model');
  */
 class THM_OrganizerModelMapping extends JModel
 {
+    public function addLSFMappings($programID, &$lsfData)
+    {
+        $mappingsTable = JTable::getInstance('mappings','THM_OrganizerTable');
+        $poolsTable = JTable::getInstance('pools','THM_OrganizerTable');
+        $subjectsTable = JTable::getInstance('subjects','THM_OrganizerTable');
+
+        $programMappingLoaded = $mappingsTable->load(array('programID' => $programID));
+        if (!$programMappingLoaded)
+        {
+            return FALSE;
+        }
+        $programMappingID = $mappingsTable->id;
+
+        $child = array();
+        $child['parentID'] = $programMappingID;
+        foreach ($lsfData->gruppe AS $resource)
+        {
+            if ($resource->pordtyp == 'K')
+            {
+                $poolLoaded = $poolsTable->load(array('lsfID' => $resource->pordid));
+                if (!$poolLoaded)
+                {
+                    return FALSE;
+                }
+
+                $poolID = $poolsTable->id;
+                $rowExists = $mappingsTable->load(array('parentID' => $programMappingID, 'poolID' => $poolID));
+                if (!$rowExists)
+                {
+                    $child['poolID'] = $poolID;
+                    $child['subjectID'] = NULL;
+                    $child['ordering'] = $this->getOrdering($programMappingID, $poolID);
+                    $poolAdded = $this->addPool($child);
+                    if (!$poolAdded)
+                    {
+                        return FALSE;
+                    }
+                    $mappingsTable->load(array('parentID' => $programMappingID, 'poolID' => $poolID));
+                }
+                if (isset($resource->modulliste->modul))
+                {
+                    $poolMappingID = $mappingsTable->id;
+
+                    $subjectData = array();
+                    $subjectData['parentID'] = $poolMappingID;
+                    $subjectData['poolID'] = null;
+                    foreach ($resource->modulliste->modul as $subject)
+                    {
+                        $lsfID = (string) (empty($subject->modulid)?  $subject->pordid : $subject->modulid);
+                        $subjectLoaded = $subjectsTable->load(array('lsfID' => $lsfID));
+                        if (!$subjectLoaded)
+                        {
+                            return FALSE;
+                        }
+                        $rowExists = $mappingsTable->load(array('parentID' => $poolMappingID, 'subjectID' => $subjectsTable->id));
+                        if ($rowExists)
+                        {
+                            continue;
+                        }
+                        
+                        $subjectData['subjectID'] = $subjectsTable->id;
+                        $subjectData['ordering'] = $this->getOrdering($poolMappingID, $subjectsTable->id, 'subject');
+                        $subjectAdded = $this->addSubject($subjectData);
+                        if (!$subjectAdded)
+                        {
+                            return FALSE;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                $subjectLoaded = $subjectsTable->load(array('lsfID' => $resource->pordid));
+                if (!$subjectLoaded)
+                {
+                    return FALSE;
+                }
+                $rowExists = $mappingsTable->load(array('parentID' => $programMappingID, 'subjectID' => $subjectsTable->id));
+                if ($rowExists)
+                {
+                    continue;
+                }
+                $child['poolID'] = null;
+                $child['subjectID'] = $subjectsTable->id;
+                $child['ordering'] = $this->getOrdering($programMappingID, $subjectsTable->id, 'subject');
+                $subjectAdded = $this->addSubject($child);
+                if (!$subjectAdded)
+                {
+                    return FALSE;
+                }
+            }
+        }
+        return TRUE;
+    }
+
     /**
      * Adds a pool mapping to a parent mapping
      * 
@@ -54,7 +149,7 @@ class THM_OrganizerModelMapping extends JModel
             return false;
         }
 
-        $mapping = $this->getTable();
+        $mapping = JTable::getInstance('mappings','THM_OrganizerTable');
         $mappingAdded = $mapping->save($pool);
         if ($mappingAdded)
         {
@@ -119,7 +214,7 @@ class THM_OrganizerModelMapping extends JModel
             return false;
         }
 
-        $mapping = $this->getTable();
+        $mapping = JTable::getInstance('mappings','THM_OrganizerTable');
         $mappingAdded = $mapping->save($subject);
         if ($mappingAdded)
         {
@@ -426,20 +521,29 @@ class THM_OrganizerModelMapping extends JModel
      * Retrieves the existing ordering of a pool to its parent item, or the
      * value 'last'
      * 
-     * @param   int  $parentID  the id of the parent mapping
-     * @param   int  $poolID    the id of the pool
+     * @param   int     $parentID    the id of the parent mapping
+     * @param   int     $resourceID  the id of the resource
+     * @param   string  $type        the type of resource being ordered
      * 
 	 * @return  mixed  the int value of an existing ordering or string 'last' if
      *                 none exists
      */
-    private function getOrdering($parentID, $poolID)
+    private function getOrdering($parentID, $resourceID, $type = 'pool')
     {
         $dbo = JFactory::getDbo();
         
         // Check for an existing ordering as child of the parent element
         $existingOrderQuery = $dbo->getQuery(true);
         $existingOrderQuery->select('ordering')->from('#__thm_organizer_mappings');
-        $existingOrderQuery->where("parentID = '$parentID'")->where("poolID = '$poolID'");
+        $existingOrderQuery->where("parentID = '$parentID'");
+        if ($type == 'subject')
+        {
+            $existingOrderQuery->where("subjectID = '$resourceID'");
+        }
+        else
+        {
+            $existingOrderQuery->where("poolID = '$resourceID'");
+        }
         $dbo->setQuery((string) $existingOrderQuery);
         $existingOrder = $dbo->loadResult();
         if ( !empty($existingOrder))
@@ -483,9 +587,9 @@ class THM_OrganizerModelMapping extends JModel
      * 
      * @return  JTable
      */
-    public function getTable($name = '', $prefix = 'Table', $options = array())
+    public function getTable($name = 'mappings', $prefix = 'THM_OrganizerTable', $options = array())
     {
-        return JTable::getInstance('mappings', 'THM_OrganizerTable');
+        return JTable::getInstance($name, $prefix);
     }
 
     /**
@@ -614,7 +718,6 @@ class THM_OrganizerModelMapping extends JModel
         $subjectData['programID'] = null;
         $subjectData['poolID'] = null;
         $subjectData['subjectID'] = $data['id'];
-        $subjectData['children'] = $this->getChildrenFromForm();
 
         $parentIDs = $data['parentID'];
         $orderings = array();

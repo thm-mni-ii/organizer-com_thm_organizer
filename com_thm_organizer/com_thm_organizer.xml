@@ -11,7 +11,7 @@
     <creationDate>01/01/2013</creationDate>
     <copyright>TH Mittelhessen 2013</copyright>
     <licence>GNU GPL v.2</licence>
-    <version>0.3.7</version>
+    <version>0.3.8</version>
     <scriptfile>script.php</scriptfile>
     <install>
         <sql>
@@ -91,7 +91,7 @@
                   alt="THM-Organizer/Fields"
                   >COM_THM_ORGANIZER_FLM_TITLE</menu>
             <menu alias="Degree Programs"
-            	  link="option=com_thm_organizer&amp;view=degree_program_manager"
+            	  link="option=com_thm_organizer&amp;view=program_manager"
                   view="degree_program_manager"
                   img="components/com_thm_organizer/assets/images/programs.png"
                   alt="THM-Organizer/Degree Programs"

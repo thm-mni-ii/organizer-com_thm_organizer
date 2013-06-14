@@ -11,11 +11,10 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
 jimport('jquery.jquery');
 
 /**
- * Class loads form information for editing
+ * Class loads program form information for editing
  *
  * @category    Joomla.Component.Admin
  * @package     thm_curriculum

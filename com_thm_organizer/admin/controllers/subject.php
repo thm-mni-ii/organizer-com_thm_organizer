@@ -166,4 +166,28 @@ class THM_OrganizerControllerSubject extends JController
         }
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false));
     }
+    
+    /**
+	 * Perfoerms access checks and makes function calls for importing LSF Data
+	 *
+	 * @return  void
+	 */
+    public function importLSFData()
+    {
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+		$success = $this->getModel('subject')->importLSFDataBatch();
+		if ($success)
+		{
+			$msg = JText::_('COM_THM_ORGANIZER_PRM_FILL_SUCCESS');
+			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=program_manager', false), $msg);
+		}
+		else
+		{
+			$msg = JText::_('COM_THM_ORGANIZER_PRM_FILL_FAIL');
+			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=program_manager', false), $msg, 'error');
+		}
+    }
 }

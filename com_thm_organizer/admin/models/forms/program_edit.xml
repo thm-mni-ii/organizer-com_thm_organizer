@@ -15,7 +15,7 @@
 			   type="sql"
 			   label="COM_THM_ORGANIZER_PRM_DEGREE_TITLE"
 			   description="COM_THM_ORGANIZER_PRM_DEGREE_DESC"
-			   query="SELECT id AS value, name AS degreeID FROM #__thm_organizer_degrees"
+			   query="SELECT id AS value, name AS degreeID FROM #__thm_organizer_degrees ORDER BY name"
 			   required="true" />
 		<field name="version"
 			   type="text"

@@ -32,7 +32,7 @@ class THM_OrganizerViewPool_Manager extends JView
 		JHtml::_('behavior.tooltip');
 
 		$model = $this->getModel();
-		$this->pools = $model->getItems();
+		$this->pools = $this->get('Items');
 		$this->state = $this->get('State');
 		$this->pagination = $this->get('Pagination');
         $this->programName = $model->programName;

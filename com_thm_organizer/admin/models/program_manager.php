@@ -113,7 +113,7 @@ class THM_OrganizerModelProgram_Manager extends JModelList
 	 */
 	protected function populateState($orderBy = null, $direction = null)
 	{        
-		$orderBy = $this->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'subject');
+		$orderBy = $this->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'subject, abbreviation, version');
 		$this->setState('list.ordering', $orderBy);
 
 		$direction = $this->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');

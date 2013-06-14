@@ -11,7 +11,10 @@
  */
 defined('_JEXEC') or die;
 JHtml::_('behavior.tooltip');
-$maxOrdering = max(array_keys($this->children));
+if (!empty($this->children))
+{
+    $maxOrdering = max(array_keys($this->children));
+}
 $rawPoolURL = 'index.php?option=com_thm_organizer&view=pool_manager';
 $poolURL = JRoute::_($rawPoolURL, false);
 $rawSubjectURL = 'index.php?option=com_thm_organizer&view=subject_manager';
@@ -35,11 +38,11 @@ foreach ($this->form->getFieldset() as $field)
 	</fieldset>
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_THM_ORGANIZER_CHILDREN'); ?></legend>
+        <div class="thm_organizer_children">
 <?php
 if (!empty($this->children))
 {
 ?>
-        <div class="thm_organizer_children">
             <table id="childList" class="adminlist">
                 <thead>
                     <tr>
@@ -59,7 +62,14 @@ if (!empty($this->children))
         {
             $name = $this->children[$index]['name'];
             $id = $this->children[$index]['id'];
-            $rawEditURL = 'index.php?option=com_thm_organizer&view=pool_edit&id=' . $this->children[$index]['poolID'];
+            if (!empty($this->children[$index]['poolID']))
+            {
+                $rawEditURL = 'index.php?option=com_thm_organizer&view=pool_edit&id=' . $this->children[$index]['poolID'];
+            }
+            else
+            {
+                $rawEditURL = 'index.php?option=com_thm_organizer&view=subject_edit&id=' . $this->children[$index]['subjectID'];
+            }
             $editURL = JRoute::_($rawEditURL, false);
         }
         else
@@ -114,10 +124,11 @@ if (!empty($this->children))
 ?>
                 </tbody>
             </table>
-        </div>
 <?php
 }
+else echo "<span class='thm_organizer_no_children'>" . JText::_('COM_THM_ORGANIZER_NO_CHILDREN') . "</span>";
 ?>
+        </div>
         <div class="thm_organizer_pools">
             <a href="<?php echo $poolURL; ?>">
                 <?php echo JText::_('COM_THM_ORGANIZER_ADD_POOLS'); ?>

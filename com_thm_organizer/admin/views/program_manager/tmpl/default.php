@@ -79,7 +79,7 @@ $listDirn = $this->state->get('list.direction');
 		</thead>
 		<tfoot>
 			<tr>
-				<td colspan="5"><?php echo $this->pagination->getListFooter(); ?></td>
+				<td colspan="7"><?php echo $this->pagination->getListFooter(); ?></td>
 			</tr>
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="boxchecked" value="0" />
@@ -98,7 +98,7 @@ foreach ($this->items as $i => $item)
     {
         $mappingLink = "<a title='" . JText::_('COM_THM_ORGANIZER_SHOW_CONTENT') . "' ";
         $mappingLink .= "href='" . JRoute::_('index.php?option=com_thm_organizer&view=pool_manager&programID=' . $item->id) . "' >";
-        $mappingLink .= "<img src='components/com_thm_organizer/assets/images/icon-16-pools.png' /></a>";
+        $mappingLink .= "<img src='components/com_thm_organizer/assets/images/pools.png' /></a>";
     }
     else
     {

@@ -4,13 +4,11 @@
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name        THM_OrganizerLSFClient
- * @description THM_OrganizerLSFClient component site helper
  * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-require_once 'lib/nusoap/nusoap.php';
 
 /**
  * Class THM_OrganizerLSFClient for component com_thm_organizer
@@ -53,16 +51,14 @@ class THM_OrganizerLSFClient
 
 	/**
 	 * Constructor to set up the client
-	 *
-	 * @param   <String>  $endpoint  Web-Service URI
-	 * @param   <String>  $username  The username
-	 * @param   <String>  $password  The users password
 	 */
-	public function __construct($endpoint, $username, $password)
+	public function __construct()
 	{
-		$this->_endpoint = $endpoint;
-		$this->_username = $username;
-		$this->_password = $password;
+        require_once 'lib/nusoap/nusoap.php';
+
+		$this->_endpoint = JComponentHelper::getParams('com_thm_organizer')->get('wsURI');
+		$this->_username = JComponentHelper::getParams('com_thm_organizer')->get('wsUsername');
+		$this->_password = JComponentHelper::getParams('com_thm_organizer')->get('wsPassword');
 
 		$proxyhost = '';
 		$proxyport = '';
@@ -123,25 +119,25 @@ class THM_OrganizerLSFClient
 	 */
 	public function getModules($object, $studiengang, $abschluss = null, $pversion = null)
 	{
-		$pxml = "<?xml version='1.0' encoding='UTF-8'?>";
-		$pxml .= '<SOAPDataService>';
-		$pxml .= '<general>';
-		$pxml .= "<object>$object</object>";
-		$pxml .= '</general>';
-		$pxml .= '<user-auth>';
-		$pxml .= "<username>$this->_username</username>";
-		$pxml .= "<password>$this->_password</password>";
-		$pxml .= '</user-auth>';
-		$pxml .= '<filter>';
-		$pxml .= "<pord.abschl>$abschluss</pord.abschl>";
-		$pxml .= "<pord.pversion>$pversion</pord.pversion>";
+		$queryXML = "<?xml version='1.0' encoding='UTF-8'?>";
+		$queryXML .= '<SOAPDataService>';
+		$queryXML .= '<general>';
+		$queryXML .= "<object>$object</object>";
+		$queryXML .= '</general>';
+		$queryXML .= '<user-auth>';
+		$queryXML .= "<username>$this->_username</username>";
+		$queryXML .= "<password>$this->_password</password>";
+		$queryXML .= '</user-auth>';
+		$queryXML .= '<filter>';
+		$queryXML .= "<pord.abschl>$abschluss</pord.abschl>";
+		$queryXML .= "<pord.pversion>$pversion</pord.pversion>";
 
 		// BI I MI
-		$pxml .= "<pord.stg>$studiengang</pord.stg>";
-		$pxml .= '</filter>';
-		$pxml .= '</SOAPDataService>';
+		$queryXML .= "<pord.stg>$studiengang</pord.stg>";
+		$queryXML .= '</filter>';
+		$queryXML .= '</SOAPDataService>';
 
-		return self::getDataXML($pxml);
+		return self::getDataXML($queryXML);
 	}
 
 	/**
@@ -153,20 +149,20 @@ class THM_OrganizerLSFClient
 	 */
 	public function getModuleByNrMni($moduleID)
 	{
-		$pxml = "<?xml version='1.0' encoding='UTF-8'?>";
-		$pxml .= '<SOAPDataService>';
-		$pxml .= '<general>';
-		$pxml .= '<object>ModuleMNI</object>';
-		$pxml .= '</general>';
-		$pxml .= ' <user-auth>';
-		$pxml .= "<username>$this->_username</username>";
-		$pxml .= "<password>$this->_password</password>";
-		$pxml .= '</user-auth>';
-		$pxml .= '<filter>';
-		$pxml .= "<pord.pfnrex>$moduleID</pord.pfnrex>";
-		$pxml .= '</filter>';
-		$pxml .= '</SOAPDataService>';
-		return self::getDataXML($pxml);
+		$queryXML = "<?xml version='1.0' encoding='UTF-8'?>";
+		$queryXML .= '<SOAPDataService>';
+		$queryXML .= '<general>';
+		$queryXML .= '<object>ModuleMNI</object>';
+		$queryXML .= '</general>';
+		$queryXML .= ' <user-auth>';
+		$queryXML .= "<username>$this->_username</username>";
+		$queryXML .= "<password>$this->_password</password>";
+		$queryXML .= '</user-auth>';
+		$queryXML .= '<filter>';
+		$queryXML .= "<pord.pfnrex>$moduleID</pord.pfnrex>";
+		$queryXML .= '</filter>';
+		$queryXML .= '</SOAPDataService>';
+		return self::getDataXML($queryXML);
 	}
 
 	/**
@@ -178,19 +174,19 @@ class THM_OrganizerLSFClient
 	 */
 	public function getModuleByModulid($moduleID)
 	{
-		$pxml = "<?xml version='1.0' encoding='UTF-8'?>";
-		$pxml .= '<SOAPDataService>';
-		$pxml .= '<general>';
-		$pxml .= '<object>ModuleMNI</object>';
-		$pxml .= '</general>';
-		$pxml .= '<user-auth>';
-		$pxml .= "<username>$this->_username</username>";
-		$pxml .= "<password>$this->_password</password>";
-		$pxml .= '</user-auth>';
-		$pxml .= '<filter>';
-		$pxml .= "<pord.pordnr>$moduleID</pord.pordnr>";
-		$pxml .= '</filter>';
-		$pxml .= '</SOAPDataService>';
-		return self::getDataXML($pxml);
+		$queryXML = "<?xml version='1.0' encoding='UTF-8'?>";
+		$queryXML .= '<SOAPDataService>';
+		$queryXML .= '<general>';
+		$queryXML .= '<object>ModuleMNI</object>';
+		$queryXML .= '</general>';
+		$queryXML .= '<user-auth>';
+		$queryXML .= "<username>$this->_username</username>";
+		$queryXML .= "<password>$this->_password</password>";
+		$queryXML .= '</user-auth>';
+		$queryXML .= '<filter>';
+		$queryXML .= "<pord.pordnr>$moduleID</pord.pordnr>";
+		$queryXML .= '</filter>';
+		$queryXML .= '</SOAPDataService>';
+		return self::getDataXML($queryXML);
 	}
 }

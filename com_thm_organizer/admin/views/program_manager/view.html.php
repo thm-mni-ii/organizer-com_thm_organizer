@@ -56,9 +56,9 @@ class THM_OrganizerViewProgram_Manager extends JView
 		JToolBarHelper::addNew('program.add', 'JTOOLBAR_NEW');
 		JToolBarHelper::editList('program.edit', 'JTOOLBAR_EDIT');
 		JToolBarHelper::custom(
-							   'program.importRedirect',
+							   'program.importLSFData',
 							   'export',
-							   JPATH_COMPONENT . DS . 'img' . DS . 'moderate.png',
+							   '',
 							   'COM_THM_ORGANIZER_PRM_IMPORT',
 							   true,
 							   true
