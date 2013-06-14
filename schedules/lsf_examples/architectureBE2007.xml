@@ -1,0 +1,3156 @@
+
+<pre>SimpleXMLElement Object
+(
+    [statistics] => SimpleXMLElement Object
+        (
+            [rows] => 102
+            [countDS] => 102
+        )
+
+    [gruppe] => Array
+        (
+            [0] => SimpleXMLElement Object
+                (
+                    [pordid] => 10889
+                    [nrhis] => 90001
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => BA-PrÃ¼f AB
+                    [kurzname] => Bachelor-PrÃ¼fung (AB)
+                    [titelde] => Bachelor-PrÃ¼fung (AB)
+                    [pordtyp] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [1] => SimpleXMLElement Object
+                (
+                    [pordid] => 11225
+                    [nrhis] => 90002
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => BA-PrÃ¼f AP
+                    [kurzname] => Bachelor-PrÃ¼fung (AP)
+                    [titelde] => Bachelor-PrÃ¼fung (AP)
+                    [pordtyp] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20102
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [2] => SimpleXMLElement Object
+                (
+                    [pordid] => 7708
+                    [nrhis] => 1100101
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Th-Entw1FZ
+                    [kurzname] => Freies Zeichnen
+                    [titelde] => Freies Zeichnen
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [3] => SimpleXMLElement Object
+                (
+                    [pordid] => 7709
+                    [nrhis] => 1100102
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Th-Entw1EE
+                    [kurzname] => EinfÃ¼hrung ins Entwerfen
+                    [titelde] => EinfÃ¼hrung ins Entwerfen
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [4] => SimpleXMLElement Object
+                (
+                    [pordid] => 7710
+                    [nrhis] => 1100103
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Th-Entw1Bg
+                    [kurzname] => Baugeschichte
+                    [titelde] => Baugeschichte
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [5] => SimpleXMLElement Object
+                (
+                    [pordid] => 7716
+                    [nrhis] => 1100104
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Tragw.leh1
+                    [kurzname] => Tragwerkslehre I
+                    [titelde] => Tragwerkslehre I
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Structural Engineering I
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [6] => SimpleXMLElement Object
+                (
+                    [pordid] => 7730
+                    [nrhis] => 1100105
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Bauko1+Pj
+                    [kurzname] => Bauko1+Proj.(Kl.=2.Sem.)
+                    [titelde] => Baukonstruktion I mit Projekt
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Building construction I
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [7] => SimpleXMLElement Object
+                (
+                    [pordid] => 7731
+                    [nrhis] => 1100106
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => P-Baustku
+                    [kurzname] => P-Baustoffkunde
+                    [titelde] => Baustoffkunde - Praktikum
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [8] => SimpleXMLElement Object
+                (
+                    [pordid] => 7732
+                    [nrhis] => 1100107
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Baustoffk1
+                    [kurzname] => Baustoffkunde1 (Kl.=2.S.)
+                    [titelde] => Baustoffkunde I
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [9] => SimpleXMLElement Object
+                (
+                    [pordid] => 7733
+                    [nrhis] => 1100108
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Math-A-1
+                    [kurzname] => Ingenieurmath. A (1)
+                    [titelde] => Ingenieurmathematik A
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Mathematics A
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [10] => SimpleXMLElement Object
+                (
+                    [pordid] => 7734
+                    [nrhis] => 1100109
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => B-Inform-1
+                    [kurzname] => Bauinformatik I
+                    [titelde] => Bauinformatik I
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Computer Sciences in Building Design
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [11] => SimpleXMLElement Object
+                (
+                    [pordid] => 11720
+                    [nrhis] => 1100110
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Baus.ku1
+                    [kurzname] => Baustoffkunde I
+                    [titelde] => Baustoffkunde I
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20102
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [12] => SimpleXMLElement Object
+                (
+                    [pordid] => 7711
+                    [nrhis] => 1100601
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => G-Th-Entw1
+                    [kurzname] => G-Theorie d. Entwerfens I
+                    [titelde] => Theorie des Entwerfens I
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Theory of Designing I
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [13] => SimpleXMLElement Object
+                (
+                    [pordid] => 7749
+                    [nrhis] => 2100101
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Bauko1+Pr
+                    [kurzname] => Baukonstruktion I + Proj.
+                    [titelde] => Baukonstruktion I
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Building Construction I
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [14] => SimpleXMLElement Object
+                (
+                    [pordid] => 7738
+                    [nrhis] => 2100102
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Baus.ku1+2
+                    [kurzname] => Baustoffkunde I + II
+                    [titelde] => Baustoffkunde I + II
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Building Materials Sciences
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [15] => SimpleXMLElement Object
+                (
+                    [pordid] => 7750
+                    [nrhis] => 2100103
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Th-EntwA2D
+                    [kurzname] => Darstellungs-u.PrÃ¤s.tech.
+                    [titelde] => Darstellungs- und PrÃ¤sentationstechnik
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [16] => SimpleXMLElement Object
+                (
+                    [pordid] => 7751
+                    [nrhis] => 2100104
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Th-EntwA2G
+                    [kurzname] => Graf.Darst./Darst.Geomet.
+                    [titelde] => Grafische Darstellung / Darstellende Geometrie
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [17] => SimpleXMLElement Object
+                (
+                    [pordid] => 7752
+                    [nrhis] => 2100105
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Entw1-E1
+                    [kurzname] => Entwerfen 1  (E1)
+                    [titelde] => Entwerfen 1  (Teilleistung: Entwerfen I)
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [18] => SimpleXMLElement Object
+                (
+                    [pordid] => 7753
+                    [nrhis] => 2100106
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Entw1-PG
+                    [kurzname] => Plast.rÃ¤uml.Gest.  (E1)
+                    [titelde] => Plastisch - rÃ¤umliches Gestalten
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [19] => SimpleXMLElement Object
+                (
+                    [pordid] => 7754
+                    [nrhis] => 2100107
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Tragw.leh2
+                    [kurzname] => Tragwerkslehre II
+                    [titelde] => Tragwerkslehre II
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Structural Engineering II
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [20] => SimpleXMLElement Object
+                (
+                    [pordid] => 7755
+                    [nrhis] => 2100108
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Bauphysik
+                    [kurzname] => Bauphysik
+                    [titelde] => Bauphysik
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Building Physics
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [21] => SimpleXMLElement Object
+                (
+                    [pordid] => 7756
+                    [nrhis] => 2100109
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Vermku-A-1
+                    [kurzname] => Vermessungsku. A (1)
+                    [titelde] => Vermessungskunde A
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Surveying A
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [22] => SimpleXMLElement Object
+                (
+                    [pordid] => 11715
+                    [nrhis] => 2100110
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Trag.le2T1
+                    [kurzname] => Tragwerkslehre II Teil1
+                    [titelde] => Tragwerkslehre II Teil1 Tests
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20102
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [23] => SimpleXMLElement Object
+                (
+                    [pordid] => 11716
+                    [nrhis] => 2100111
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Trag.le2T2
+                    [kurzname] => Tragwerkslehre II Teil2
+                    [titelde] => Tragwerkslehre II Teil2 Klausur
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20102
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [24] => SimpleXMLElement Object
+                (
+                    [pordid] => 11721
+                    [nrhis] => 2100112
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Baus.ku2
+                    [kurzname] => Baustoffkunde II
+                    [titelde] => Baustoffkunde II
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20102
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [25] => SimpleXMLElement Object
+                (
+                    [pordid] => 12625
+                    [nrhis] => 2100113
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Bauko1Kl
+                    [kurzname] => Baukonstruktion I Kl
+                    [titelde] => Baukonstruktion I Klausur
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20111
+                    [verstandbearb] => 100
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [26] => SimpleXMLElement Object
+                (
+                    [pordid] => 12626
+                    [nrhis] => 2100114
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Bauko1Proj
+                    [kurzname] => Baukonstruktion I Proj
+                    [titelde] => Baukonstruktion I Projekt
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20111
+                    [verstandbearb] => 100
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [27] => SimpleXMLElement Object
+                (
+                    [pordid] => 7759
+                    [nrhis] => 2100601
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => G-Th-Entw2
+                    [kurzname] => G-Theorie d.Entwerfens II
+                    [titelde] => Theorie des Entwerfens A II
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Theory of Design A II
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [28] => SimpleXMLElement Object
+                (
+                    [pordid] => 7760
+                    [nrhis] => 2100602
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => G-Entw. 1
+                    [kurzname] => G-Entwerfen 1
+                    [titelde] => Entwerfen I
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Designing I
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [29] => SimpleXMLElement Object
+                (
+                    [pordid] => 7768
+                    [nrhis] => 2100603
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => G-Baust.ku
+                    [kurzname] => G-Baustoffkunde
+                    [titelde] => Baustoffkunde
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Building Materials Sciences
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [30] => SimpleXMLElement Object
+                (
+                    [pordid] => 11717
+                    [nrhis] => 2100604
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => G-Trag.Le2
+                    [kurzname] => G-Tragwerkslehre II
+                    [titelde] => Tragwerkslehre II
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20102
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Structural Engineering II
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [31] => SimpleXMLElement Object
+                (
+                    [pordid] => 12627
+                    [nrhis] => 2100605
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => G-Bauko1
+                    [kurzname] => G-Baukon I + Proj.
+                    [titelde] => Baukonstruktion I mit Projekt
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20111
+                    [verstandbearb] => 100
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [32] => SimpleXMLElement Object
+                (
+                    [pordid] => 8885
+                    [nrhis] => 3100101
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Entwer2-E2
+                    [kurzname] => Entwerfen 2
+                    [titelde] => Entwerfen II
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [33] => SimpleXMLElement Object
+                (
+                    [pordid] => 8886
+                    [nrhis] => 3100102
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Entwer2-S1
+                    [kurzname] => Stegreifentwerfen I
+                    [titelde] => Stegreifentwerfen I
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [34] => SimpleXMLElement Object
+                (
+                    [pordid] => 8887
+                    [nrhis] => 3100103
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => GrInfrastV
+                    [kurzname] => Grundl-Infrast.pl(Verkwe)
+                    [titelde] => Grundlagen des Verkehrswesens
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [35] => SimpleXMLElement Object
+                (
+                    [pordid] => 8888
+                    [nrhis] => 3100104
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => GrInfrastW
+                    [kurzname] => Grundl-Infrast.pl(WaSiwa)
+                    [titelde] => Grundlagen der Wasserwirtschaft und Siedlungswasserwirtschaft
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [36] => SimpleXMLElement Object
+                (
+                    [pordid] => 8889
+                    [nrhis] => 3100105
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Manag+ReMa
+                    [kurzname] => Management
+                    [titelde] => Management
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [37] => SimpleXMLElement Object
+                (
+                    [pordid] => 8890
+                    [nrhis] => 3100106
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Manag+ReRe
+                    [kurzname] => Recht
+                    [titelde] => Recht
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [38] => SimpleXMLElement Object
+                (
+                    [pordid] => 8891
+                    [nrhis] => 3100107
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Twk+GrÃ¼ndT
+                    [kurzname] => Tragwerk u GrÃ¼ndung Twkpl
+                    [titelde] => MaterialÃ¼bergreifende Tragwerksplanung
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [39] => SimpleXMLElement Object
+                (
+                    [pordid] => 8892
+                    [nrhis] => 3100108
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Twk+GrÃ¼ndB
+                    [kurzname] => Tragwerk u GrÃ¼ndungBgrund
+                    [titelde] => Baugrund und GrÃ¼ndung
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [40] => SimpleXMLElement Object
+                (
+                    [pordid] => 8914
+                    [nrhis] => 3100601
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => G-Entwerf2
+                    [kurzname] => G-Entwerfen II
+                    [titelde] => Entwerfen II
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Designing II
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [41] => SimpleXMLElement Object
+                (
+                    [pordid] => 8915
+                    [nrhis] => 3100602
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => G-GInfrast
+                    [kurzname] => G-Grundl.d.Infrastruktplg
+                    [titelde] => Grundlagen der Infrastrukturplanung
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Theory of Infrastructural Engineering
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [42] => SimpleXMLElement Object
+                (
+                    [pordid] => 8916
+                    [nrhis] => 3100603
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => G-Manag+Re
+                    [kurzname] => G-Management+Recht
+                    [titelde] => Management und Recht
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Management and Law
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [43] => SimpleXMLElement Object
+                (
+                    [pordid] => 8917
+                    [nrhis] => 3100604
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => G-TwkGrÃ¼nd
+                    [kurzname] => G-Tragwerk und GrÃ¼ndung
+                    [titelde] => Tragwerk und GrÃ¼ndung
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Structure and Foundation
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [44] => SimpleXMLElement Object
+                (
+                    [pordid] => 8943
+                    [nrhis] => 4000000
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Gr.Prakt.
+                    [kurzname] => Grundpraktikum
+                    [titelde] => Grundpraktikum
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [45] => SimpleXMLElement Object
+                (
+                    [pordid] => 8919
+                    [nrhis] => 4100101
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Entwer3-Ãœb
+                    [kurzname] => Entwerfen3Ãœbung
+                    [titelde] => Entwerfen III (Ãœbung)
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [46] => SimpleXMLElement Object
+                (
+                    [pordid] => 8920
+                    [nrhis] => 4100102
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Entwer3-Pr
+                    [kurzname] => Entwerfen3PrÃ¼fung
+                    [titelde] => Entwerfen III (PrÃ¼fung)
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [47] => SimpleXMLElement Object
+                (
+                    [pordid] => 8921
+                    [nrhis] => 4100103
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => StÃ¤dtebEnt
+                    [kurzname] => StÃ¤dtebau I (StÃ¤dt.Entw.)
+                    [titelde] => StÃ¤dtebau I - StÃ¤dtebauliches Entwerfen
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [48] => SimpleXMLElement Object
+                (
+                    [pordid] => 8922
+                    [nrhis] => 4100104
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => StÃ¤dtebGes
+                    [kurzname] => StÃ¤dtebau I (Stadt.ges.)
+                    [titelde] => StÃ¤dtebau I - Stadtbaugeschichte
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [49] => SimpleXMLElement Object
+                (
+                    [pordid] => 8925
+                    [nrhis] => 4100105
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => StÃ¤dt-5Sem
+                    [kurzname] => StÃ¤dtebau (G-im 5.Sem.)
+                    [titelde] => StÃ¤dtebau (G-im 5.Sem.)
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [50] => SimpleXMLElement Object
+                (
+                    [pordid] => 8926
+                    [nrhis] => 4100106
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Bauko 2
+                    [kurzname] => Baukonstruktion II
+                    [titelde] => Baukonstruktion II
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Building Construction II
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [51] => SimpleXMLElement Object
+                (
+                    [pordid] => 8927
+                    [nrhis] => 4100107
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Tech.Ausb1
+                    [kurzname] => Techn. Ausbau I
+                    [titelde] => Technischer Ausbau I
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Services I
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [52] => SimpleXMLElement Object
+                (
+                    [pordid] => 8928
+                    [nrhis] => 4100108
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Baumanagem
+                    [kurzname] => Baumanagement
+                    [titelde] => Baumanagement
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Construction Management
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [53] => SimpleXMLElement Object
+                (
+                    [pordid] => 8929
+                    [nrhis] => 4100109
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Bauaufnah.
+                    [kurzname] => Bauaufnahme
+                    [titelde] => Bauaufnahme
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Building Survey
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [54] => SimpleXMLElement Object
+                (
+                    [pordid] => 8930
+                    [nrhis] => 4100110
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Geb.kunde
+                    [kurzname] => GebÃ¤udekunde
+                    [titelde] => GebÃ¤udekunde
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Building Typology
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [55] => SimpleXMLElement Object
+                (
+                    [pordid] => 8918
+                    [nrhis] => 4100601
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => G-Entwerf3
+                    [kurzname] => G-Entwerfen III
+                    [titelde] => Entwerfen III
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Designing III
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [56] => SimpleXMLElement Object
+                (
+                    [pordid] => 12633
+                    [nrhis] => 4200104
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => StÃ¤dtebEnt
+                    [kurzname] => StÃ¤dtebau I (StÃ¤dt.Entw.)
+                    [titelde] => StÃ¤dtebau I - StÃ¤dtebauliches Entwerfen
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20111
+                    [verstandbearb] => 100
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [57] => SimpleXMLElement Object
+                (
+                    [pordid] => 8923
+                    [nrhis] => 5100101
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => StÃ¤dtebau
+                    [kurzname] => StÃ¤dtebau II
+                    [titelde] => StÃ¤dtebau II
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Urban Design
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [58] => SimpleXMLElement Object
+                (
+                    [pordid] => 8931
+                    [nrhis] => 5100102
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Entwerfen4
+                    [kurzname] => Entwerfen IV
+                    [titelde] => Entwerfen IV
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Designing IV
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [59] => SimpleXMLElement Object
+                (
+                    [pordid] => 8932
+                    [nrhis] => 5100103
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => AusbaugewÃœ
+                    [kurzname] => Ausbaugewerke (HausÃ¼bung)
+                    [titelde] => Ausbaugewerke (HausÃ¼bung)
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [60] => SimpleXMLElement Object
+                (
+                    [pordid] => 8933
+                    [nrhis] => 5100104
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => AusbaugewP
+                    [kurzname] => Ausbaugewerke (PrÃ¤s.)
+                    [titelde] => Ausbaugewerke (PrÃ¤sentation)
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [61] => SimpleXMLElement Object
+                (
+                    [pordid] => 8935
+                    [nrhis] => 5100105
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => StegrEntw2
+                    [kurzname] => Stegreifentwerfen II
+                    [titelde] => Stegreifentwerfen II
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Impromptu Design Project II
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [62] => SimpleXMLElement Object
+                (
+                    [pordid] => 8936
+                    [nrhis] => 5100107
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Tech.Ausb2
+                    [kurzname] => Technischer Ausbau II
+                    [titelde] => Technischer Ausbau II
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Services II
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [63] => SimpleXMLElement Object
+                (
+                    [pordid] => 8937
+                    [nrhis] => 5100108
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => A-V-A (Ãœb)
+                    [kurzname] => A-V-A (Ãœbung)
+                    [titelde] => Ausschreibung, Vergabe, Abrechnung (Ãœbung)
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [64] => SimpleXMLElement Object
+                (
+                    [pordid] => 8938
+                    [nrhis] => 5100109
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => A-V-A (Kl)
+                    [kurzname] => A-V-A (Klausur)
+                    [titelde] => Ausschreibung, Vergabe, Abrechnung (Klausur)
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [65] => SimpleXMLElement Object
+                (
+                    [pordid] => 8940
+                    [nrhis] => 5100110
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => BGeDenkpf
+                    [kurzname] => Baugesch. u. Denkmalpfl.
+                    [titelde] => Baugeschichte und Denkmalpflege
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Building History and Historic Preservation
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [66] => SimpleXMLElement Object
+                (
+                    [pordid] => 9604
+                    [nrhis] => 5100111
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Projsteu1Ãœ
+                    [kurzname] => Projektsteuerung I (Ãœb)
+                    [titelde] => Projektsteuerung I (Ãœbung)
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [67] => SimpleXMLElement Object
+                (
+                    [pordid] => 9605
+                    [nrhis] => 5100112
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Projsteu1K
+                    [kurzname] => Projektsteuerung I (Kl)
+                    [titelde] => Projektsteuerung I (Klausur)
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [68] => SimpleXMLElement Object
+                (
+                    [pordid] => 8924
+                    [nrhis] => 5100601
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => G-StÃ¤dteb
+                    [kurzname] => G-StÃ¤dtebau I+II
+                    [titelde] => StÃ¤dtebau (I+II)
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Urban Design
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [69] => SimpleXMLElement Object
+                (
+                    [pordid] => 8934
+                    [nrhis] => 5100602
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => G-Ausb.gew
+                    [kurzname] => G-Ausbaugewerke
+                    [titelde] => Ausbaugewerke
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Non-structural Construction
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [70] => SimpleXMLElement Object
+                (
+                    [pordid] => 8939
+                    [nrhis] => 5100603
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => G - A-V-A
+                    [kurzname] => G - A-V-A
+                    [titelde] => Ausschreibung, Vergabe, Abrechnung
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Tendering, Awarding, Accounting
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [71] => SimpleXMLElement Object
+                (
+                    [pordid] => 9606
+                    [nrhis] => 5100604
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => G-Pr.steu1
+                    [kurzname] => G-Projektsteuerung I
+                    [titelde] => Projektsteuerung I
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Project Controlling I
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [72] => SimpleXMLElement Object
+                (
+                    [pordid] => 10890
+                    [nrhis] => 5500601
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => WPF-Konto
+                    [kurzname] => WPF-Konto
+                    [titelde] => WPF-Konto
+                    [pordtyp] => K
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [73] => SimpleXMLElement Object
+                (
+                    [pordid] => 9716
+                    [nrhis] => 5500720
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => WP-beliSuK
+                    [kurzname] => WP1-belieb.Mod. SuK
+                    [titelde] => WP1-belieb.Mod. SuK
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [74] => SimpleXMLElement Object
+                (
+                    [pordid] => 9710
+                    [nrhis] => 5500722
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => WP2-Engl-1
+                    [kurzname] => WP2-Englisch 1 SuK
+                    [titelde] => Englisch I
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Englisch I (FB SuK)
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [75] => SimpleXMLElement Object
+                (
+                    [pordid] => 9711
+                    [nrhis] => 5500723
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => WP2-Engl-2
+                    [kurzname] => WP2-Englisch 2 SuK
+                    [titelde] => Englisch II
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [76] => SimpleXMLElement Object
+                (
+                    [pordid] => 9714
+                    [nrhis] => 5500724
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => WP2-weiSUK
+                    [kurzname] => WP2-Weit.bel.Mod. SuK
+                    [titelde] => WP2-Weit.bel.Mod. SuK
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [77] => SimpleXMLElement Object
+                (
+                    [pordid] => 9715
+                    [nrhis] => 5500725
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Dummy 1
+                    [kurzname] => Dummy 1
+                    [titelde] => Dummy 1
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [78] => SimpleXMLElement Object
+                (
+                    [pordid] => 10694
+                    [nrhis] => 5500726
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Dummy 2
+                    [kurzname] => Dummy 2
+                    [titelde] => Dummy 2
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [79] => SimpleXMLElement Object
+                (
+                    [pordid] => 10695
+                    [nrhis] => 5500727
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Dummy 3
+                    [kurzname] => Dummy 3
+                    [titelde] => Dummy 3
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [80] => SimpleXMLElement Object
+                (
+                    [pordid] => 12855
+                    [nrhis] => 5500728
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Dummy 4
+                    [kurzname] => Dummy 4
+                    [titelde] => Dummy 4
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20112
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [81] => SimpleXMLElement Object
+                (
+                    [pordid] => 12856
+                    [nrhis] => 5500729
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Dummy 5
+                    [kurzname] => Dummy 5
+                    [titelde] => Dummy 5
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20112
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [82] => SimpleXMLElement Object
+                (
+                    [pordid] => 12857
+                    [nrhis] => 5500730
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Dummy 6
+                    [kurzname] => Dummy 6
+                    [titelde] => Dummy 6
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20112
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [83] => SimpleXMLElement Object
+                (
+                    [pordid] => 12858
+                    [nrhis] => 5500731
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Dummy 7
+                    [kurzname] => Dummy 7
+                    [titelde] => Dummy 7
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20112
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [84] => SimpleXMLElement Object
+                (
+                    [pordid] => 14945
+                    [nrhis] => 5500740
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Zeitman
+                    [kurzname] => Zeitmanagement
+                    [titelde] => Zeitmanagement
+                    [pordtyp] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20122
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [85] => SimpleXMLElement Object
+                (
+                    [pordid] => 14946
+                    [nrhis] => 5500741
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Personal
+                    [kurzname] => PersonalfÃ¼hrung
+                    [titelde] => PersonalfÃ¼hrung
+                    [pordtyp] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20122
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [86] => SimpleXMLElement Object
+                (
+                    [pordid] => 14947
+                    [nrhis] => 5500742
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => M_ADA
+                    [kurzname] => ADA
+                    [titelde] => Berufs- und arbeitspÃ¤dagogische Kentnisse gemÃ¤ÃŸ Ausbilderverordnung (AEVO)
+                    [pordtyp] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20122
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Trainer Aptitude
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [87] => SimpleXMLElement Object
+                (
+                    [pordid] => 14948
+                    [nrhis] => 5500743
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Rhetorik
+                    [kurzname] => Rhetorik
+                    [titelde] => Rhetorik
+                    [pordtyp] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20122
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [88] => SimpleXMLElement Object
+                (
+                    [pordid] => 9712
+                    [nrhis] => 5600732
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => WP2-Brand
+                    [kurzname] => WP2-Vorb.baul.Brandschutz
+                    [titelde] => Vorbeugender baulicher Brandschutz
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Structural Fire Prevention
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [89] => SimpleXMLElement Object
+                (
+                    [pordid] => 9713
+                    [nrhis] => 5600733
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => WP2-Infor2
+                    [kurzname] => WP2-Bauinformatik 2
+                    [titelde] => Bauinformatik II
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Computer Science for Civil Engineers II
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [90] => SimpleXMLElement Object
+                (
+                    [pordid] => 9586
+                    [nrhis] => 6100101
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => StegrEntw3
+                    [kurzname] => Stegreifentwerfen III
+                    [titelde] => Stegreifentwerfen III
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Impromptu Design Project III
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [91] => SimpleXMLElement Object
+                (
+                    [pordid] => 9607
+                    [nrhis] => 6100102
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Entwerfen5
+                    [kurzname] => Entwerfen 5 (BB)
+                    [titelde] => Entwerfen V (Bauen im Bestand)
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Designing V (design project in connection with existing buildings, e.g. reuse, revitalisation, extension, annex, addition)
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [92] => SimpleXMLElement Object
+                (
+                    [pordid] => 9608
+                    [nrhis] => 6100103
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Ent+Innen1
+                    [kurzname] => Entw.u.Innenraumge.1
+                    [titelde] => Entwerfen und Innenraumgestaltung (Teil 1)
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [93] => SimpleXMLElement Object
+                (
+                    [pordid] => 9609
+                    [nrhis] => 6100104
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Ent+Innen2
+                    [kurzname] => Entw.u.Innenraumge.2EntPj
+                    [titelde] => Entwerfen und Innenraumgestaltung (Teil 2)
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [94] => SimpleXMLElement Object
+                (
+                    [pordid] => 9611
+                    [nrhis] => 6100105
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Entw+P.st1
+                    [kurzname] => Entwerfen+Proj.steu(PrÃ¤s)
+                    [titelde] => Entwerfen und Projektsteuerung (PrÃ¤sentation)
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [95] => SimpleXMLElement Object
+                (
+                    [pordid] => 9612
+                    [nrhis] => 6100106
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => Entw+P.st2
+                    [kurzname] => Entwerfen+Proj.steu(Proj)
+                    [titelde] => Entwerfen und Projektsteuerung (Projektbearbeitung)
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [96] => SimpleXMLElement Object
+                (
+                    [pordid] => 9587
+                    [nrhis] => 6100601
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => G-StegrEnt
+                    [kurzname] => G-Stegreifentwerfen 2+3
+                    [titelde] => Stegreifentwerfen
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [97] => SimpleXMLElement Object
+                (
+                    [pordid] => 9610
+                    [nrhis] => 6100602
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => G-Entw+Inn
+                    [kurzname] => G-Entwerfen+Innenraumgest
+                    [titelde] => Entwerfen und Innenraumgestaltung
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Design and Interior Decoration
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [98] => SimpleXMLElement Object
+                (
+                    [pordid] => 9613
+                    [nrhis] => 6100603
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => G-Entw+Pst
+                    [kurzname] => G-Entwerfen+Proj.steuerg.
+                    [titelde] => Entwerfen und Projektsteuerung
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [titelen] => Designing and Project Controlling
+                    [kurznameen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzelen] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [99] => SimpleXMLElement Object
+                (
+                    [pordid] => 10854
+                    [nrhis] => 7100000
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => BachArb
+                    [kurzname] => Bachelorarbeit
+                    [titelde] => Bachelorarbeit
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [100] => SimpleXMLElement Object
+                (
+                    [pordid] => 10855
+                    [nrhis] => 7100001
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => BachKol
+                    [kurzname] => Bachelorkolloq.
+                    [titelde] => Bachelorkolloquium
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+            [101] => SimpleXMLElement Object
+                (
+                    [pordid] => 10857
+                    [nrhis] => 7100601
+                    [alphaid] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [kuerzel] => BacArb+Kol
+                    [kurzname] => BachArb+Koll.
+                    [titelde] => Bachelorarbeit + Kolloquium
+                    [pordtyp] => M
+                    [studiengang] => A
+                    [abschluss] => BE
+                    [pversion] => 2007
+                    [versemester] => 20101
+                    [verstandbearb] => 400
+                    [sprache] => SimpleXMLElement Object
+                        (
+                        )
+
+                    [modulliste] => SimpleXMLElement Object
+                        (
+                        )
+
+                )
+
+        )
+
+)
+</pre>
