@@ -32,17 +32,20 @@ class THM_OrganizerViewCurriculum extends JView
 	 */
 	public function display($tpl = null)
 	{
+        JHtml::_('behavior.tooltip');
+        jimport('extjs4.extjs4');
 
-		$app = JFactory::getApplication();
+        $document = JFactory::getDocument();
+        $document->addStyleSheet($this->baseurl . '/components/com_thm_organizer/views/curriculum/tmpl/extjs/curriculum-minify.css');
+        $document->addScript($this->baseurl . '/components/com_thm_organizer/views/curriculum/tmpl/extjs/curriculum.js');
+        $document->addScript($this->baseurl . '/components/com_thm_organizer/views/curriculum/tmpl/extjs/app.js');
 
 		// Get the parameters of the current view
 		$this->params = JFactory::getApplication()->getMenu()->getActive()->params;
-
 		$this->lang = JRequest::getVar('lang');
 		$this->langLink = ($this->lang == 'de') ? 'en' : 'de';
 		$this->langUrl = self::languageSwitcher($this->langLink);
 		$this->pagetitle = $this->params->get('page_title');
-		$this->doc = JFactory::getDocument();
 
 		parent::display($tpl);
 	}

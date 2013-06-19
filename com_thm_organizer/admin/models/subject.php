@@ -42,19 +42,19 @@ class THM_OrganizerModelSubject extends JModel
                 if (!$mappingsDeleted)
                 {
                     $dbo->transactionRollback();
-                    return FALSE;
+                    return false;
                 }
 
                 $resourceDeleted = $table->delete($resourceID);
                 if (!$resourceDeleted)
                 {
                     $dbo->transactionRollback();
-                    return FALSE;
+                    return false;
                 }
             }
             $dbo->transactionCommit();
         }
-        return TRUE;
+        return true;
     }
 
     /**
@@ -205,7 +205,7 @@ class THM_OrganizerModelSubject extends JModel
     {
         if ((empty($stub->modulid) AND empty($stub->pordid)) OR (empty($stub->modulnrhis) AND empty($stub->nrhis)))
         {
-            return FALSE;
+            return false;
         }
         $lsfID = (string) (empty($stub->modulid)?  $stub->pordid : $stub->modulid);
         $hisID = (string) (empty($stub->modulnrhis)?  $stub->nrhis: $stub->modulnrhis);
@@ -219,7 +219,7 @@ class THM_OrganizerModelSubject extends JModel
             $stubSaved = $table->save($data);
             if (!$stubSaved)
             {echo "subject not saved";
-                return FALSE;
+                return false;
             }
         }
  

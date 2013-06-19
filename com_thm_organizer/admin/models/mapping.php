@@ -21,16 +21,25 @@ jimport('joomla.application.component.model');
  */
 class THM_OrganizerModelMapping extends JModel
 {
+    /**
+     * Adds mappings as they exist in LSF for an imported degree program
+     * 
+     * @param   int              $programID  the id of the program in the local
+     *                                       database
+     * @param   simpleXMLObject  $lsfData    the data recieved from the LSF system
+     * 
+     * @return  boolean  true if the data was mapped, otherwise false
+     */
     public function addLSFMappings($programID, &$lsfData)
     {
-        $mappingsTable = JTable::getInstance('mappings','THM_OrganizerTable');
-        $poolsTable = JTable::getInstance('pools','THM_OrganizerTable');
-        $subjectsTable = JTable::getInstance('subjects','THM_OrganizerTable');
+        $mappingsTable = JTable::getInstance('mappings', 'THM_OrganizerTable');
+        $poolsTable = JTable::getInstance('pools', 'THM_OrganizerTable');
+        $subjectsTable = JTable::getInstance('subjects', 'THM_OrganizerTable');
 
         $programMappingLoaded = $mappingsTable->load(array('programID' => $programID));
         if (!$programMappingLoaded)
         {
-            return FALSE;
+            return false;
         }
         $programMappingID = $mappingsTable->id;
 
@@ -43,7 +52,7 @@ class THM_OrganizerModelMapping extends JModel
                 $poolLoaded = $poolsTable->load(array('lsfID' => $resource->pordid));
                 if (!$poolLoaded)
                 {
-                    return FALSE;
+                    return false;
                 }
 
                 $poolID = $poolsTable->id;
@@ -51,12 +60,12 @@ class THM_OrganizerModelMapping extends JModel
                 if (!$rowExists)
                 {
                     $child['poolID'] = $poolID;
-                    $child['subjectID'] = NULL;
+                    $child['subjectID'] = null;
                     $child['ordering'] = $this->getOrdering($programMappingID, $poolID);
                     $poolAdded = $this->addPool($child);
                     if (!$poolAdded)
                     {
-                        return FALSE;
+                        return false;
                     }
                     $mappingsTable->load(array('parentID' => $programMappingID, 'poolID' => $poolID));
                 }
@@ -73,7 +82,7 @@ class THM_OrganizerModelMapping extends JModel
                         $subjectLoaded = $subjectsTable->load(array('lsfID' => $lsfID));
                         if (!$subjectLoaded)
                         {
-                            return FALSE;
+                            return false;
                         }
                         $rowExists = $mappingsTable->load(array('parentID' => $poolMappingID, 'subjectID' => $subjectsTable->id));
                         if ($rowExists)
@@ -86,7 +95,7 @@ class THM_OrganizerModelMapping extends JModel
                         $subjectAdded = $this->addSubject($subjectData);
                         if (!$subjectAdded)
                         {
-                            return FALSE;
+                            return false;
                         }
                     }
                 }
@@ -96,7 +105,7 @@ class THM_OrganizerModelMapping extends JModel
                 $subjectLoaded = $subjectsTable->load(array('lsfID' => $resource->pordid));
                 if (!$subjectLoaded)
                 {
-                    return FALSE;
+                    return false;
                 }
                 $rowExists = $mappingsTable->load(array('parentID' => $programMappingID, 'subjectID' => $subjectsTable->id));
                 if ($rowExists)
@@ -109,11 +118,11 @@ class THM_OrganizerModelMapping extends JModel
                 $subjectAdded = $this->addSubject($child);
                 if (!$subjectAdded)
                 {
-                    return FALSE;
+                    return false;
                 }
             }
         }
-        return TRUE;
+        return true;
     }
 
     /**
@@ -149,7 +158,7 @@ class THM_OrganizerModelMapping extends JModel
             return false;
         }
 
-        $mapping = JTable::getInstance('mappings','THM_OrganizerTable');
+        $mapping = JTable::getInstance('mappings', 'THM_OrganizerTable');
         $mappingAdded = $mapping->save($pool);
         if ($mappingAdded)
         {
@@ -214,7 +223,7 @@ class THM_OrganizerModelMapping extends JModel
             return false;
         }
 
-        $mapping = JTable::getInstance('mappings','THM_OrganizerTable');
+        $mapping = JTable::getInstance('mappings', 'THM_OrganizerTable');
         $mappingAdded = $mapping->save($subject);
         if ($mappingAdded)
         {

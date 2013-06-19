@@ -1,4 +1,4 @@
-function App (item_id, major, semester, lang, width, height, 
+function App (item_id, programID, semester, lang, width, height, 
 			semester_body_color, course_width, course_body_color, elective_pool_body_color, 
 			title_cut_length_activate, title_cut_length, scheduler_link, asset_line_break, elective_pool_window_line_break,
 			compulsory_pool_line_break, counter, default_info_link) {
@@ -12,7 +12,6 @@ function App (item_id, major, semester, lang, width, height,
 	
 	var width = width;
 	var height = height;
-	var major_id = major;
 	var itemid = item_id;
 	var counter = counter;
 	var lang = lang;
@@ -20,14 +19,14 @@ function App (item_id, major, semester, lang, width, height,
 	
 	App.prototype.ajaxHandler = function(response, opts) {
 
-		curriculumObj = new Curriculum(item_id, major, semester, lang, width, height, 
+		curriculumObj = new Curriculum(item_id, program, semester, lang, width, height, 
 									semester_body_color, course_width, course_body_color, elective_pool_body_color, 
 									title_cut_length_activate, title_cut_length, scheduler_link, asset_line_break, elective_pool_window_line_break,
 									compulsory_pool_line_break, counter, default_info_link);
 		curriculum = curriculumObj.addCurriculum(width, height);
 		
-		var major = Ext.decode(response.responseText);
-		semesters = major[0].childs[0];
+		var program = Ext.decode(response.responseText);
+		semesters = program[0].childs[0];
 		
 		/* iterate over each semester of this curriculum */
 		for ( var i = 0, len = semesters.length; i < len; ++i) {
@@ -126,7 +125,7 @@ function App (item_id, major, semester, lang, width, height,
 		Ext.Ajax
 				.request({
 					url : 'index.php?option=com_thm_organizer&task=curriculum.getJSONCurriculum&tmpl=component&id='
-							+ major_id
+							+ programID
 							+ '&Itemid='
 							+ itemid
 							+ '&lang='

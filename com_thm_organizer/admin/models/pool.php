@@ -42,19 +42,19 @@ class THM_OrganizerModelPool extends JModel
                 if (!$mappingsDeleted)
                 {
                     $dbo->transactionRollback();
-                    return FALSE;
+                    return false;
                 }
 
                 $resourceDeleted = $table->delete($resourceID);
                 if (!$resourceDeleted)
                 {
                     $dbo->transactionRollback();
-                    return FALSE;
+                    return false;
                 }
             }
             $dbo->transactionCommit();
         }
-        return TRUE;
+        return true;
     }
 
     /**
@@ -68,7 +68,7 @@ class THM_OrganizerModelPool extends JModel
     {
         if (empty($stub->pordid) OR empty($stub->nrhis))
         {
-            return FALSE;
+            return false;
         }
 
         $table = JTable::getInstance('pools', 'thm_organizerTable');
@@ -101,7 +101,7 @@ class THM_OrganizerModelPool extends JModel
         $stubSaved = $table->save($data);
         if (!$stubSaved)
         {
-            return FALSE;
+            return false;
         }
 
         if (isset($stub->modulliste->modul))
@@ -112,11 +112,11 @@ class THM_OrganizerModelPool extends JModel
                 $subjectProcessed = $subjectModel->processLSFStub($subjectStub);
                 if (!$subjectProcessed)
                 {
-                    return FALSE;
+                    return false;
                 }
             }
         }
-        return TRUE;
+        return true;
     }
 
  	/**
