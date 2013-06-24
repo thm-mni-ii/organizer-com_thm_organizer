@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        JFormFieldSubjectTeachers
+ * @name        JFormFieldSubjectResponsible
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -19,14 +19,14 @@ jimport('joomla.form.formfield');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class JFormFieldSubjectTeachers extends JFormField
+class JFormFieldSubjectResponsible extends JFormField
 {
 	/**
 	 * Type
 	 *
 	 * @var    String
 	 */
-	protected $type = 'subjectTeachers';
+	protected $type = 'subjectResponsible';
 
 	/**
 	 * Returns a selectionbox where stored coursepool can be chosen as a parent node
@@ -39,7 +39,7 @@ class JFormFieldSubjectTeachers extends JFormField
 		$subjectID = JRequest::getInt('id');
         
         $selectedQuery = $dbo->getQuery(true);
-        $selectedQuery->select('teacherID')->from('#__thm_organizer_subject_teachers')->where("subjectID = '$subjectID' AND teacherResp = '2'");
+        $selectedQuery->select('teacherID')->from('#__thm_organizer_subject_teachers')->where("subjectID = '$subjectID' AND teacherResp = '1'");
         $dbo->setQuery((string) $selectedQuery);
         $selected = $dbo->loadResultArray();
 

@@ -16,8 +16,11 @@ if (!isset($this->counter))
 	$this->counter = 0;
 }
 $flagClass = strlen($this->params->get('page_heading')) == 0? "flagWithoutTitle" : "flagWithTitle";
+
+// Javascript Application construction parameters
 $paramsString = JRequest::getVar('Itemid') . ", ";
 $paramsString .= $this->params->get('program') . ", ";
+$paramsString .= $this->params->get('horizontalGroups')? ", " : "'', " ;
 $paramsString .= "'$this->lang', ";
 $paramsString .= $this->params->get('width') . ", ";
 $paramsString .= $this->params->get('height') . ", ";

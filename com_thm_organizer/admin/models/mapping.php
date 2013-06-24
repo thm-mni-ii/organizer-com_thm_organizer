@@ -26,7 +26,7 @@ class THM_OrganizerModelMapping extends JModel
      * 
      * @param   int              $programID  the id of the program in the local
      *                                       database
-     * @param   simpleXMLObject  $lsfData    the data recieved from the LSF system
+     * @param   simpleXMLObject  &$lsfData   the data recieved from the LSF system
      * 
      * @return  boolean  true if the data was mapped, otherwise false
      */
@@ -447,7 +447,7 @@ class THM_OrganizerModelMapping extends JModel
      * @param   bool    $deep        if the function should be used to find
      *                               children iteratively or not (default: false)
      * 
-     * @todo ensure that there are no self refering children
+     * @todo ensure that there are no self referring children
      * 
      * @return  array  empty if no child data exists
      */

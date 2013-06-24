@@ -21,13 +21,13 @@ if ($this->lang == 'de')
 {
 	$txtModulnummer = JText::_("COM_THM_ORGANIZER_SUM_HISID_TITLE");
 	$txtModultitel = JText::_("COM_THM_ORGANIZER_SUM_LSFID_TITLE");
-	$txtVerantwortliche = JText::_("COM_THM_ORGANIZER_SUM_RESPONSIBLE_TITLE");
+	$txtVerantwortliche = JText::_("COM_THM_ORGANIZER_RESPONSIBLE");
 }
 else
 {
 	$txtModulnummer = JText::_("COM_THM_ORGANIZER_SUM_HISID_TITLE");
 	$txtModultitel = JText::_("COM_THM_ORGANIZER_SUM_LSFID_TITLE");
-	$txtVerantwortliche = JText::_("COM_THM_ORGANIZER_SUM_RESPONSIBLE_TITLE");
+	$txtVerantwortliche = JText::_("COM_THM_ORGANIZER_RESPONSIBLE");
 }
 ?>
 

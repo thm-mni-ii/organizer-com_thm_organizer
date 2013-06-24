@@ -1,141 +1,88 @@
-function App (item_id, programID, semester, lang, width, height, 
-			semester_body_color, course_width, course_body_color, elective_pool_body_color, 
-			title_cut_length_activate, title_cut_length, scheduler_link, asset_line_break, elective_pool_window_line_break,
-			compulsory_pool_line_break, counter, default_info_link) {
-	
-	var self = this;
+function App (menuID, programID, horizontalGroups, languageTag, totalWidth, totalHeight,
+              horizontalPanelColor, itemWidth, defaultItemColor, electivePanelColor,
+              cutTitle, titleLength, schedulerLink, itemLineBreak, electiveLineBreak,
+              cumpulsoryLineBreak, counter, defaultInfoLink)
+{
+    var self = this;
+    this.horizontalGroups = null;
+    this.curriculumObj = null;
+    this.curriculum = null;
 
-	
-	var semesters = null;
-	var curriculumObj = null
-	var curriculum = null;
-	
-	var width = width;
-	var height = height;
-	var itemid = item_id;
-	var counter = counter;
-	var lang = lang;
-	var selectedSemesters = semester;
-	
-	App.prototype.ajaxHandler = function(response, opts) {
-
-		curriculumObj = new Curriculum(item_id, program, semester, lang, width, height, 
-									semester_body_color, course_width, course_body_color, elective_pool_body_color, 
-									title_cut_length_activate, title_cut_length, scheduler_link, asset_line_break, elective_pool_window_line_break,
-									compulsory_pool_line_break, counter, default_info_link);
-		curriculum = curriculumObj.addCurriculum(width, height);
+    App.prototype.ajaxHandler = function(response)
+    {
+        curriculumObj = new Curriculum(menuID, programID, horizontalGroups, languageTag, totalWidth, totalHeight,
+                                       horizontalPanelColor, itemWidth, defaultItemColor, electivePanelColor,
+                                       cutTitle, titleLength, schedulerLink, itemLineBreak, electiveLineBreak,
+                                       cumpulsoryLineBreak, counter, defaultInfoLink);
+        curriculum = curriculumObj.getCurriculumPanel();
 		
-		var program = Ext.decode(response.responseText);
-		semesters = program[0].childs[0];
+        var program = Ext.decode(response.responseText);
+        horizontalGroups = program.children;
 		
-		/* iterate over each semester of this curriculum */
-		for ( var i = 0, len = semesters.length; i < len; ++i) {
+        /* iterate over first order children of the program's curriculum */
+        for ( var firstOrder in horizontalGroups)
+        {
+            var horizontalGroup = curriculumObj.getHorizontalGroupPanel(horizontalGroups[firstOrder]);
+            var items = horizontalGroups[firstOrder].children;
+            var container = curriculumObj.getContainer(horizontalPanelColor);
+            var compPoolFlag = false;
+            var textContainer = curriculumObj.getTextContainer(horizontalGroups[firstOrder]);
+            horizontalGroup.add(textContainer)
 			
-			var semester = curriculumObj.addSemester(semesters[i]);
+            /* iterate over 2nd order children */
+            for ( var secondOrder in items )
+            {
+                var item = curriculumObj.getAsset(items[secondOrder], horizontalGroups[firstOrder], 2, 2);
 
-			/* get the releated assets of this semester */
-			var assets = semesters[i].childs;
-			
-			if(typeof assets === "undefined") {
-				continue;
-			}
-			
-			var container = curriculumObj.addContainer(semester_body_color);
-			var compPoolFlag = false;
-			var textContainer = curriculumObj.addSemesterText(semesters[i]);
-			semester.add(textContainer)
-			
-			
-			/* iterate over each asset */
-			for ( var j = 0, len2 = assets.length; j < len2; ++j) {
-				
-				var asset = null;
+                if (container.items.length >= itemLineBreak)
+                {
+                    container = curriculumObj.getContainer(horizontalPanelColor);
+                }
+                container.add(item);
 
-				if (j == 0) {
-					asset = curriculumObj.getAsset(assets[j], semesters[i], 2, 2);
-				} else {
-					
-					if(compPoolFlag == true) {
-						asset = curriculumObj.getAsset( assets[j], semesters[i], 1, 2);
-						compPoolFlag = false;
-					} else {
-						asset = curriculumObj.getAsset( assets[j], semesters[i], 2, 2);
-					}
-				}
-
-				if (container.items.length < asset_line_break) {
-					container.add(asset);
-				} else {
-
-					asset = curriculumObj.getAsset(assets[j], semesters[i], 2, 2);
-
-					container = curriculumObj.addContainer(semester_body_color);
-					container.add(asset);
-				}
-
-				semester.add(container);
-				
-				if(assets[j].asset_type_id == 2 && assets[j].pool_type == 0) {
-					compPoolFlag = true;
-				}
-			}
-			
-			curriculum.add(semester);
-
-		}
+                horizontalGroup.add(container);
+            }
+            curriculum.add(horizontalGroup);
+        }
 		
-		
-		curriculum.doLayout();
-		
-		var sele = "loading_"+ counter;
-		
-		Ext.Element.get(sele).destroy();
-		
-		
-		var sele = "curriculum_"+ counter;
-		curriculum.render(Ext.Element.get(sele));
+        curriculum.doLayout();
 
-	}
+        var sele = "loading_"+ counter;
+
+        Ext.Element.get(sele).destroy();
+        var sele = "curriculum_"+ counter;
+        curriculum.render(Ext.Element.get(sele));
+
+    }
 	
-	App.prototype.performAjaxCall = function() {
-		
-		var sele = "loading_"+ counter;
-		
-		
-		var image = new Ext.create(
-				'Ext.Component',
-				{
-					xtype : 'box',
-					autoEl : {
-						tag : 'a',
-						href : "",
-						children : [ {
-							tag : 'img',
-							id : 'responsible-image',
-							cls : 'tooltip',
-							src : loading_icon,
-						} ]
-					},
-					renderTo : sele
-			});
-		
-		
-		
-		
-		Ext.Ajax
-				.request({
-					url : 'index.php?option=com_thm_organizer&task=curriculum.getJSONCurriculum&tmpl=component&id='
-							+ programID
-							+ '&Itemid='
-							+ itemid
-							+ '&lang='
-							+ lang 
-							+ '&semesters=' 
-							+ selectedSemesters,
-					method : "GET",
-					success : self.ajaxHandler
-				});
-	
-	}
+    App.prototype.performAjaxCall = function()
+    {
+        var sele = "loading_"+ counter;
+        var image = new Ext.create(
+            'Ext.Component',
+            {
+                xtype : 'box',
+                autoEl : {
+                    tag : 'a',
+                    href : "",
+                    children : [ {
+                        tag : 'img',
+                        id : 'responsible-image',
+                        cls : 'tooltip',
+                        src : loading_icon,
+                    } ]
+                },
+                renderTo : sele
+            }
+        );
+        var requestURL = 'index.php?option=com_thm_organizer&view=curriculum_ajax&task=getCurriculum&format=raw&id=';
+        requestURL += programID + '&Itemid=' + menuID + '&lang=' + languageTag;
+        Ext.Ajax.request({
+            url : requestURL,
+            method : "GET",
+            success : self.ajaxHandler
+        });
+
+    }
 }
 

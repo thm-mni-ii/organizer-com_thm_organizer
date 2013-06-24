@@ -181,13 +181,13 @@ class THM_OrganizerControllerSubject extends JController
 		$success = $this->getModel('subject')->importLSFDataBatch();
 		if ($success)
 		{
-			$msg = JText::_('COM_THM_ORGANIZER_PRM_FILL_SUCCESS');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=program_manager', false), $msg);
+			$msg = JText::_('COM_THM_ORGANIZER_SUM_FILL_SUCCESS');
+			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false), $msg);
 		}
 		else
 		{
-			$msg = JText::_('COM_THM_ORGANIZER_PRM_FILL_FAIL');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=program_manager', false), $msg, 'error');
+			$msg = JText::_('COM_THM_ORGANIZER_SUM_FILL_FAIL');
+			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false), $msg, 'error');
 		}
     }
 }

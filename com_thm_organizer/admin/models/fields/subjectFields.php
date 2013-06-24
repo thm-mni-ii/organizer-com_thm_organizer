@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        JFormFieldSubjectTeachers
+ * @name        JFormFieldSubjectFields
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -13,20 +13,20 @@ defined('_JEXEC') or die;
 jimport('joomla.form.formfield');
 
 /**
- * Class loads a list of teachers for selection
+ * Class loads a list of fields for selection
  *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class JFormFieldSubjectTeachers extends JFormField
+class JFormFieldSubjectFields extends JFormField
 {
 	/**
 	 * Type
 	 *
 	 * @var    String
 	 */
-	protected $type = 'subjectTeachers';
+	protected $type = 'subjectFields';
 
 	/**
 	 * Returns a selectionbox where stored coursepool can be chosen as a parent node
@@ -39,24 +39,27 @@ class JFormFieldSubjectTeachers extends JFormField
 		$subjectID = JRequest::getInt('id');
         
         $selectedQuery = $dbo->getQuery(true);
-        $selectedQuery->select('teacherID')->from('#__thm_organizer_subject_teachers')->where("subjectID = '$subjectID' AND teacherResp = '2'");
+        $selectedQuery->select('fieldID')->from('#__thm_organizer_subjects')->where("id = '$subjectID'");
         $dbo->setQuery((string) $selectedQuery);
-        $selected = $dbo->loadResultArray();
+        $result = $dbo->loadResult();
+        $selectedValue = empty($result)? '' : $result;
 
-        $teachersQuery = $dbo->getQuery(true);
-        $teachersQuery->select("id AS value, surname, forename, username");
-        $teachersQuery->from('#__thm_organizer_teachers');
-        $teachersQuery->order('surname, forename');
-        $dbo->setQuery((string) $teachersQuery);
-        $teachers = $dbo->loadAssocList(); 
-        foreach ($teachers as $key => $teacher)
+        $fieldsQuery = $dbo->getQuery(true);
+        $fieldsQuery->select("f.id AS value, color, field");
+        $fieldsQuery->from('#__thm_organizer_fields AS f');
+        $fieldsQuery->leftJoin('#__thm_organizer_colors AS c on f.colorID = c.id');
+        $fieldsQuery->order('value');
+        $dbo->setQuery((string) $fieldsQuery);
+        $fields = $dbo->loadAssocList();
+
+        $options = array();
+        foreach ($fields as $field)
         {
-            $teachers[$key]['name'] = empty($teacher['forename'])? $teacher['surname'] : "{$teacher['surname']}, {$teacher['forename']}";
+            $style = empty($field['color'])? '' : ' style="background-color:#' . $field['color'] . '"';
+            $selected = $field['value'] == $selectedValue? ' selected="selected"' : '';
+            $options[] = '<option value="' . $field['value'] . '"' . $style . $selected . '>' . $field['field'] . '</option>';
         }
-
-        $attributes = array('multiple' => 'multiple');
-        $selectedTeachers = empty($selected)? array() : $selected;
-		return JHTML::_("select.genericlist", $teachers, "jform[teacherID][]", $attributes, "value", "name", $selectedTeachers);
+		return '<select name="jform[fieldID]" id="jform_fieldID"">' . implode('', $options) . "</select>";
 	}
 
 	/**

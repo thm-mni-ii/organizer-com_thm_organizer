@@ -12,7 +12,8 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'helper' . DS . 'lsfapi.php';
-
+define('RESPONSIBLE', 1);
+define('TEACHER', 2);
 /**
  * Provides persistence handling for subjects
  *
@@ -92,7 +93,7 @@ class THM_OrganizerModelSubject extends JModel
             return false;
         }
 
-        $client = new THM_OrganizerLSFClient();
+        $client = new THM_OrganizerLSFClient;
         $lsfData = $client->getModuleByModulid($table->lsfID);
 
         $data = array();
@@ -191,7 +192,100 @@ class THM_OrganizerModelSubject extends JModel
         {
             $data['name_en'] = $data['name_de'];
         }
-        return $table->save($data);
+
+        $subjectSaved = $table->save($data);
+        if (!$subjectSaved)
+        {
+            return false;
+        }
+
+        $responsible = $lsfData->xpath('//modul/verantwortliche');
+        if (!empty($responsible))
+        {
+            foreach ($responsible as $teacher)
+            {
+                $responsibleAdded = $this->addLSFTeacher($table->id, $teacher, RESPONSIBLE);
+                if (!$responsibleAdded)
+                {
+                    return false;
+                }
+            }
+        }
+
+        $teachers = $lsfData->xpath('//modul/dozent');
+        if (!empty($teachers))
+        {
+            foreach ($teachers as $teacher)
+            {
+                $teacherAdded = $this->addLSFTeacher($table->id, $teacher, TEACHER);
+                if (!$teacherAdded)
+                {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Iterates the subject responsible entries from the LSF data.
+     * 
+     * @param   int    $subjectID       the id of the subject
+     * @param   array  &$teacher        an array containing the responsible node
+     *                                  objects
+     * @param   int    $responsibility  the teacher's responsibility for the
+     *                                  subject
+     * 
+     * @return  bool  true on success, otherwise false
+     */
+    private function addLSFTeacher($subjectID, &$teacher, $responsibility)
+    {
+        $teacherData = array();
+        $surnameAttribue = $responsibility == RESPONSIBLE? 'nachname' : 'personal.nachname';
+        $forenameAttribue = $responsibility == RESPONSIBLE? 'vorname' : 'personal.vorname';
+        $teacherData['surname'] = $teacher->personinfo->$surnameAttribue;
+
+        /**
+         * Prevents null entries from being added to the database without preventing
+         * import completion.
+         */
+        if (empty($teacherData['surname']))
+        {
+            return true;
+        }
+
+        $teacherData['forename'] = $teacher->personinfo->$forenameAttribue;
+        $table = JTable::getInstance('teachers', 'thm_organizerTable');
+        if (!empty($teacher->hgnr))
+        {
+            $table->load(array('username' => $teacher->hgnr));
+            $teacherData['username'] = $teacher->hgnr;
+        }
+        $teacherSaved = $table->save($teacherData);
+        if (!$teacherSaved)
+        {
+            return false;
+        }
+
+        $dbo = JFactory::getDbo();
+        $checkQuery = $dbo->getQuery(true);
+        $checkQuery->select("COUNT(*)")->from('#__thm_organizer_subject_teachers');
+        $checkQuery->where("subjectID = '$subjectID' AND teacherID = '$table->id' AND teacherResp = '$responsibility'");
+        $dbo->setQuery((string) $checkQuery);
+        $exists = $dbo->loadResult();
+        if (!empty($exists))
+        {
+            return true;
+        }
+        else
+        {
+            $insertQuery = $dbo->getQuery(true);
+            $insertQuery->insert('#__thm_organizer_subject_teachers')->columns('subjectID, teacherID, teacherResp');
+            $insertQuery->values("'$subjectID', '$table->id', '$responsibility'");
+            $dbo->setQuery((string) $insertQuery);
+            return (bool) $dbo->query();
+        }
     }
 
     /**
@@ -345,13 +439,18 @@ class THM_OrganizerModelSubject extends JModel
         {
             return false;
         }
-                
+
+        $subjectTeachers = array();
         $teacherValues = $data['teacher'];
         foreach ($teacherValues as $key => $teacherID)
         {
-            $teacherValues[$key] = "'{$data['id']}', '$teacherID', '2'";
+            $subjectTeachers[] = "'{$data['id']}', '$teacherID', '2'";
         }
-        $teacherValues[] = "'{$data['id']}', '{$data['responsible']}', '1'";
+        $responsibleValues = $data['responsible'];
+        foreach ($responsibleValues as $key => $responsibleID)
+        {
+            $teacherValues[] = "'{$data['id']}', '$responsibleID', '1'";
+        }
 
         $teachersQuery = $dbo->getQuery(true);
         $teachersQuery->insert('#__thm_organizer_subject_teachers');

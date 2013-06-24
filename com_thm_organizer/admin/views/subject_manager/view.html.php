@@ -53,6 +53,14 @@ class THM_OrganizerViewSubject_Manager extends JView
         JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_SUM_TOOLBAR_TITLE'), 'generic.png');
         JToolBarHelper::addNew('subject.add');
         JToolBarHelper::editList('subject.edit');
+		JToolBarHelper::custom(
+							   'subject.importLSFData',
+							   'export',
+							   '',
+							   'COM_THM_ORGANIZER_PRM_IMPORT',
+							   true,
+							   true
+							  );
         JToolBarHelper::deleteList('COM_THM_ORGANIZER_SUM_DELETE_CONFIRM', 'subject.delete');
     }
 

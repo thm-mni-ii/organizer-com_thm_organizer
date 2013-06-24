@@ -12,12 +12,6 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-jimport('joomla.filesystem.path');
-require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'helper/module.php';
-require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'helper/lsfapi.php';
-require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'helper/ModuleList.php';
-require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'models/details.php';
-require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'models/curriculum.php';
 
 /**
  * Class THM_OrganizerModelGroups for component com_thm_organizer
@@ -82,7 +76,7 @@ class THM_OrganizerModelGroups extends JModel
 		$this->dbo = JFactory::getDBO();
 		$this->_app = JFactory::getApplication();
 		$this->_globParams = JComponentHelper::getParams('com_thm_organizer');
-		$this->_session = & JFactory::getSession();
+		$this->_session = JFactory::getSession();
 
 		if ($lang == null)
 		{
@@ -151,7 +145,7 @@ class THM_OrganizerModelGroups extends JModel
 			}
 			else
 			{
-				$lecturerName = self::getLecturerNameFromThmGroups($userid);
+				$lecturerName = self::getTeacherName($userid);
 			}
 
 			$responsilbeLabel = null;
@@ -188,7 +182,6 @@ class THM_OrganizerModelGroups extends JModel
 	{
 		// Gets the component configiration and performs a soap request, in order to get the xml structe for a given major
 		$config = self::getLsfConfiguration($configId);
-		$model = new THM_OrganizerModelCurriculum;
 		$this->_major = $model->getMajorRecord($configId);
 
 		$client = new THM_OrganizerLSFClient(
@@ -477,7 +470,7 @@ class THM_OrganizerModelGroups extends JModel
 		}
 
 		// Get the lecturers name from THM Groups
-		$lecturerName = self::getLecturerNameFromThmGroups($userid);
+		$lecturerName = self::getTeacherName($userid);
 
 		$responsilbeLabel = null;
 
@@ -553,56 +546,6 @@ class THM_OrganizerModelGroups extends JModel
 		}
 	}
 
-	/**
-	 * Method to return the UserId from the THM Groups Extension
-	 *
-	 * @param   String  $hgNr  LDAP-ID
-	 *
-	 * @return	String	GET-Parameter
-	 */
-	public function getUserIdFromGroups($hgNr)
-	{
-		// Build the sql query
-		$query = $this->dbo->getQuery(true);
-		$query->select('*');
-		$query->from('#__users');
-		$query->where("username = '$hgNr'");
-		$this->dbo->setQuery((string) $query);
-		$rows = $this->dbo->loadObjectList();
-
-		if (isset($rows[0]))
-		{
-			return $rows[0]->id;
-		}
-	}
-
-	/**
-	 * Method to return the responsible label which contains the first and last name from the THM Groups Extension
-	 *
-	 * @param   String  $userid  User id
-	 *
-	 * @return  String
-	 */
-	public function getLecturerNameFromThmGroups($userid)
-	{
-		$this->dbo = JFactory::getDBO();
-		$query = $this->dbo->getQuery(true);
-		$query->select('DISTINCT text1.value AS vorname, text2.value AS nachname, text3.value AS titel');
-		$query->from('#__thm_groups_text AS text1');
-		$query->innerJoin('#__thm_groups_text AS text2 ON text1.userid = text2.userid');
-		$query->innerJoin('#__thm_groups_text as text3 ON text2.userid = text3.userid');
-		$query->where('text1.structid = 1');
-		$query->where('text2.structid = 2');
-		$query->where('text3.structid = 5');
-		$query->where("text1.userid = '$userid'");
-		$this->dbo->setQuery((string) $query);
-		$rows = $this->dbo->loadObjectList();
-
-		if (isset($rows[0]))
-		{
-			return $rows[0]->titel . " " . $rows[0]->vorname . " " . $rows[0]->nachname;
-		}
-	}
 
 	/**
 	 * Method to return all stored soap queries of the backend
