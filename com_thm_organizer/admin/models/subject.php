@@ -224,7 +224,6 @@ class THM_OrganizerModelSubject extends JModel
                 }
             }
         }
-        
         return true;
     }
     
@@ -244,7 +243,7 @@ class THM_OrganizerModelSubject extends JModel
         $teacherData = array();
         $surnameAttribue = $responsibility == RESPONSIBLE? 'nachname' : 'personal.nachname';
         $forenameAttribue = $responsibility == RESPONSIBLE? 'vorname' : 'personal.vorname';
-        $teacherData['surname'] = $teacher->personinfo->$surnameAttribue;
+        $teacherData['surname'] = (string) $teacher->personinfo->$surnameAttribue;
 
         /**
          * Prevents null entries from being added to the database without preventing
@@ -255,12 +254,16 @@ class THM_OrganizerModelSubject extends JModel
             return true;
         }
 
-        $teacherData['forename'] = $teacher->personinfo->$forenameAttribue;
+        $teacherData['forename'] = (string) $teacher->personinfo->$forenameAttribue;
         $table = JTable::getInstance('teachers', 'thm_organizerTable');
         if (!empty($teacher->hgnr))
         {
-            $table->load(array('username' => $teacher->hgnr));
-            $teacherData['username'] = $teacher->hgnr;
+            $table->load(array('username' => (string) $teacher->hgnr));
+            $teacherData['username'] = (string) $teacher->hgnr;
+        }
+        else
+        {
+            $table->load($teacherData);
         }
         $teacherSaved = $table->save($teacherData);
         if (!$teacherSaved)
@@ -312,7 +315,7 @@ class THM_OrganizerModelSubject extends JModel
             $data = array('lsfID' => $lsfID, 'hisID' => $hisID);
             $stubSaved = $table->save($data);
             if (!$stubSaved)
-            {echo "subject not saved";
+            {
                 return false;
             }
         }

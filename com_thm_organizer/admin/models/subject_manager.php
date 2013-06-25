@@ -112,6 +112,8 @@ class THM_OrganizerModelSubject_Manager extends JModelList
 	}
 
     /**
+     * Retrieves the left and right values for determining which subjects will
+     * be displayed.
      * 
      * @return  array  the mapping borders for the where clause, empty if not
      *                 applicable
@@ -133,7 +135,7 @@ class THM_OrganizerModelSubject_Manager extends JModelList
         if (isset($poolBorders))
         {
             if ($poolBorders['lft'] > $programBorders['lft']
-                AND $poolBorders['rgt'] < $programBorders['rgt'])
+             AND $poolBorders['rgt'] < $programBorders['rgt'])
             {
                 return $poolBorders;
             }
@@ -207,6 +209,8 @@ class THM_OrganizerModelSubject_Manager extends JModelList
 
     /**
      * Retrieves a list of mapped pools
+     * 
+     * @param   int  $programID  the id of the selected program
      * 
      * @return  void
      */

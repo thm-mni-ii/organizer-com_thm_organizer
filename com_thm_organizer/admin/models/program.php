@@ -84,15 +84,19 @@ class THM_OrganizerModelProgram extends JModel
      */
     public function importLSFDataBatch()
     {
+        $dbo = JFactory::getDbo();
+        $dbo->transactionStart();
         $resourceIDs = JRequest::getVar('cid', array(), 'post', 'array');
         foreach ($resourceIDs as $resourceID)
         {
             $resourceImported = $this->importLSFDataSingle($resourceID);
             if (!$resourceImported)
             {
+                $dbo->transactionRollback();
                 return false;
             }
         }
+        $dbo->transactionCommit();
         return true;
     }
 
