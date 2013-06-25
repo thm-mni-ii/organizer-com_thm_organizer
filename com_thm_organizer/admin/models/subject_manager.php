@@ -98,19 +98,8 @@ class THM_OrganizerModelSubject_Manager extends JModelList
                     $searchClause .= "OR externalID LIKE '$search') ";
             $query->where($searchClause);
         }
-        $poolID = $this->state->get('filter.pool');
-        if (!empty($poolID) AND $poolID != -1)
-        {
-            $borders = $this->getBorders($poolID, 'poolID');
-        }
-        else
-        {
-            $programID = $this->state->get('filter.program');
-            if (!empty($programID))
-            {
-                $borders = $this->getBorders($programID, 'programID');
-            }
-        }
+        $borders = $this->getListBorders();
+
         if (!empty($borders))
         {
             $query->where("lft > '{$borders['lft']}'");
@@ -121,6 +110,47 @@ class THM_OrganizerModelSubject_Manager extends JModelList
 
 		return $query;
 	}
+
+    /**
+     * 
+     * @return  array  the mapping borders for the where clause, empty if not
+     *                 applicable
+     */
+    private function getListBorders()
+    {
+        $poolID = $this->state->get('filter.pool');
+        if (!empty($poolID) AND $poolID != -1)
+        {
+            $poolBorders = $this->getBorders($poolID, 'poolID');
+        }
+
+        $programID = $this->state->get('filter.program');
+        if (!empty($programID))
+        {
+            $programBorders = $this->getBorders($programID, 'programID');
+        }
+
+        if (isset($poolBorders))
+        {
+            if ($poolBorders['lft'] > $programBorders['lft']
+                AND $poolBorders['rgt'] < $programBorders['rgt'])
+            {
+                return $poolBorders;
+            }
+            else
+            {
+                return $programBorders;
+            }
+        }
+        elseif (isset($programBorders))
+        {
+            return $programBorders;
+        }
+        else
+        {
+            return array();
+        }
+    }
 
     /**
      * Retrieves the mapped left and right values for the requested program
