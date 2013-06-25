@@ -71,8 +71,8 @@ class THM_OrganizerViewPool_Manager extends JView
     private function getProgramSelect($programs)
     {
         $selectPrograms = array();
-        $selectPrograms[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_POM_SEARCH_PROGRAM'));
-        $selectPrograms[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_POM_ALL_PROGRAMS'));
+        $selectPrograms[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_SEARCH_PROGRAM'));
+        $selectPrograms[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_ALL_PROGRAMS'));
         $programs = array_merge($selectPrograms, $programs);
         return JHTML::_('select.genericlist', $programs, 'filter_program', 'onchange="this.form.submit();"', 'id', 'name', $this->state->get('filter.program'));
     }

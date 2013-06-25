@@ -72,7 +72,7 @@ class JFormFieldSubjectPrograms extends JFormField
         $allPrograms = $dbo->loadAssocList();
         
         $programDefaultOptions = array();
-        $programDefaultOptions[] = array('value' => '-1', 'program' => JText::_('COM_THM_ORGANIZER_POM_SEARCH_PROGRAM'));
+        $programDefaultOptions[] = array('value' => '-1', 'program' => JText::_('COM_THM_ORGANIZER_SEARCH_PROGRAM'));
         $programDefaultOptions[] = array('value' => '-1', 'program' => JText::_('COM_THM_ORGANIZER_POM_NO_PROGRAM'));
 		$programs = array_merge($programDefaultOptions, empty($allPrograms)? array() : $allPrograms);
         

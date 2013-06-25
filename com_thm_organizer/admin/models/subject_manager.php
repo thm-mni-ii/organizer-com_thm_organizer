@@ -30,6 +30,8 @@ class THM_OrganizerModelSubject_Manager extends JModelList
     
     public $programs = null;
 
+    public $pools = null;
+
 	/**
 	 * Constructor to set up the config array and call the parent constructor
 	 *
@@ -44,7 +46,18 @@ class THM_OrganizerModelSubject_Manager extends JModelList
 			);
 		}
 		parent::__construct($config);
+        
+		if (!$this->__state_set)
+		{
+			$this->populateState();
+			$this->__state_set = true;
+		}
         $this->setPrograms();
+        $programID = $this->state->get('filter.program');
+        if (!empty($programID))
+        {
+            $this->setPools($programID);
+        }
 	}
 
 	/**
@@ -63,10 +76,12 @@ class THM_OrganizerModelSubject_Manager extends JModelList
 		// Create the sql query
 		$query = $dbo->getQuery(true);
         $select = 's.id, lsfID, hisID, externalID, ';
-        $select .= $language[0] == 'de'? 'name_de AS name' : 'name_en AS name';
+        $select .= "name_{$language[0]} AS name, field, color";
         $query->select($select);
         $query->from('#__thm_organizer_subjects AS s');
         $query->leftJoin('#__thm_organizer_mappings AS m ON s.id = m.subjectID');
+        $query->leftJoin('#__thm_organizer_fields AS f ON s.fieldID = f.id');
+        $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
 
         $searchState = $this->state->get('filter.search');
         if (!empty($searchState))
@@ -83,10 +98,18 @@ class THM_OrganizerModelSubject_Manager extends JModelList
                     $searchClause .= "OR externalID LIKE '$search') ";
             $query->where($searchClause);
         }
-        $programID = $this->state->get('filter.program');
-        if (!empty($programID))
+        $poolID = $this->state->get('filter.pool');
+        if (!empty($poolID) AND $poolID != -1)
         {
-            $borders = $this->getProgramBorders($programID);
+            $borders = $this->getBorders($poolID, 'poolID');
+        }
+        else
+        {
+            $programID = $this->state->get('filter.program');
+            if (!empty($programID))
+            {
+                $borders = $this->getBorders($programID, 'programID');
+            }
         }
         if (!empty($borders))
         {
@@ -102,15 +125,16 @@ class THM_OrganizerModelSubject_Manager extends JModelList
     /**
      * Retrieves the mapped left and right values for the requested program
      * 
-     * @param   int  $programID  the id of the requested program
+     * @param   int     $resourceID      the id of the requested resource
+     * @param   string  $resourceColumn  the column with the desired resource values
      * 
      * @return  array contains the sought left and right values
      */
-    private function getProgramBorders($programID)
+    private function getBorders($resourceID, $resourceColumn)
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select('lft, rgt')->from('#__thm_organizer_mappings')->where("programID = '$programID'");
+        $query->select('lft, rgt')->from('#__thm_organizer_mappings')->where("$resourceColumn = '$resourceID'");
         $dbo->setQuery((string) $query);
         return $dbo->loadAssoc();
     }
@@ -144,9 +168,53 @@ class THM_OrganizerModelSubject_Manager extends JModelList
 
 		$program = $app->getUserStateFromRequest($this->context . '.filter_program', 'filter_program', '');
 		$this->setState('filter.program', $program);
+        
+		$pool = $app->getUserStateFromRequest($this->context . '.filter_pool', 'filter_pool', '');
+		$this->setState('filter.pool', $pool);
 
 		parent::populateState($order, $dir);
 	}
+
+    /**
+     * Retrieves a list of mapped pools
+     * 
+     * @return  void
+     */
+    private function setPools($programID)
+    {
+        $borders = $this->getBorders($programID, 'programID');
+        $language = explode('-', JFactory::getLanguage()->getTag());
+
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("p.id, level, name_{$language[0]} AS name");
+        $query->from('#__thm_organizer_pools AS p');
+        $query->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
+        $query->where("lft > '{$borders['lft']}'");
+        $query->where("rgt < '{$borders['rgt']}'");
+        $query->order('lft');
+        $dbo->setQuery((string) $query);
+        $pools = $dbo->loadAssocList();
+        
+        if (empty($pools))
+        {
+            $this->pools = array();
+            return;
+        }
+
+        foreach ($pools as $key => $value)
+        {
+            $indent = '';
+            $level = 1;
+            while ($level < $value['level'])
+            {
+                $indent .= "&nbsp;&nbsp;&nbsp;";
+                $level++;
+            }
+            $pools[$key]['name'] = $indent . "|_" . $pools[$key]['name'];
+        }
+        $this->pools = $pools;
+    }
 
     /**
      * Retrieves a list of mapped programs

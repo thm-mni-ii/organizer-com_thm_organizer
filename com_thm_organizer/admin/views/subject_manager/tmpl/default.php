@@ -18,16 +18,21 @@ $listDirn	= $this->state->get('list.direction');
     <fieldset id="filter-bar">
 		<div class="filter-search fltlft">
 			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
-<?php
-echo "<input type='text' name='filter_search' id='filter_search' value='";
-echo $this->escape($this->state->get('filter.search'));
-echo "' title='" . JText::_('COM_CATEGORIES_ITEMS_SEARCH_FILTER') . "' />";
-?>
+            <input type='text' name='filter_search' id='filter_search'
+                   value='<?php echo $this->escape($this->state->get('filter.search')); ?>'
+                   title='<?php echo JText::_('COM_CATEGORIES_ITEMS_SEARCH_FILTER'); ?>' />
 			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
         <div class="filter-select fltrt">
-            <?php echo $this->programSelect; ?>
+<?php
+echo $this->programSelect;
+if (isset($this->poolSelect))
+{
+    echo $this->poolSelect;
+}
+?>
+            
         </div>
 	</fieldset>
 	<table class="adminlist">
@@ -39,13 +44,16 @@ echo "' title='" . JText::_('COM_CATEGORIES_ITEMS_SEARCH_FILTER') . "' />";
                 <th width="55%">
                     <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'name', $listDirn, $listOrder);  ?>
                 </th>
-                <th width="12%">
+                <th width="13%">
+                    <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_FIELD'), 'field', $listDirn, $listOrder);  ?>
+                </th>
+                <th width="8%">
                     <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUM_LSFID_TITLE'), 'lsfID', $listDirn, $listOrder);  ?>
                 </th>
-                <th width="12%">
+                <th width="8%">
                     <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUM_HISID_TITLE'), 'hisID', $listDirn, $listOrder);  ?>
                 </th>
-                <th width="12%">
+                <th width="8%">
                     <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUM_EXTERNALID_TITLE'), 'externalID', $listDirn, $listOrder);  ?>
                 </th>
             </tr>
@@ -69,9 +77,14 @@ foreach ($this->items as $i => $item)
                 <td>
                     <?php echo JHtml::_('grid.id', $i, $item->id)?>
                 </td>
-                <td align="center">
+                <td>
 					<a href="index.php?option=com_thm_organizer&view=subject_edit&id=<?php echo $item->id; ?>">
                         <?php echo $item->name;?>
+                    </a>
+                </td>
+                <td style="background-color: #<?php echo $item->color; ?>;">
+					<a href="index.php?option=com_thm_organizer&view=subject_edit&id=<?php echo $item->id; ?>">
+                        <?php echo $item->field; ?>
                     </a>
                 </td>
                 <td align="center">
