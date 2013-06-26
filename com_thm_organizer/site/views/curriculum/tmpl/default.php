@@ -54,7 +54,7 @@ window.addEvent('domready', function(){
         });
 </script>
 <span>
-<?php 
+<?php
 if ($this->params->get('show_page_heading', 1) AND $this->params->get('plugin_mode', '0') != 1)
 {
     echo "<h1 class='componentheading'>";

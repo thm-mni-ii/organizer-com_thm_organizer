@@ -242,8 +242,9 @@ class THM_OrganizerModelSubject extends JModel
     {
         $teacherData = array();
         $surnameAttribue = $responsibility == RESPONSIBLE? 'nachname' : 'personal.nachname';
+        $teacherData['surname'] = (string) $teacher->xpath("//personinfo/$surnameAttribue")[0];
         $forenameAttribue = $responsibility == RESPONSIBLE? 'vorname' : 'personal.vorname';
-        $teacherData['surname'] = (string) $teacher->personinfo->$surnameAttribue;
+        $teacherData['forename'] = (string) $teacher->xpath("//personinfo/$forenameAttribue")[0];
 
         /**
          * Prevents null entries from being added to the database without preventing

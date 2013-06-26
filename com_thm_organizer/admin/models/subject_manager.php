@@ -75,7 +75,7 @@ class THM_OrganizerModelSubject_Manager extends JModelList
 
 		// Create the sql query
 		$query = $dbo->getQuery(true);
-        $select = 's.id, lsfID, hisID, externalID, ';
+        $select = 'DISTINCT s.id, lsfID, hisID, externalID, ';
         $select .= "name_{$language[0]} AS name, field, color";
         $query->select($select);
         $query->from('#__thm_organizer_subjects AS s');
@@ -98,8 +98,8 @@ class THM_OrganizerModelSubject_Manager extends JModelList
                     $searchClause .= "OR externalID LIKE '$search') ";
             $query->where($searchClause);
         }
-        $borders = $this->getListBorders();
 
+        $borders = $this->getListBorders();
         if (!empty($borders))
         {
             $query->where("lft > '{$borders['lft']}'");

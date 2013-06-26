@@ -114,7 +114,7 @@ class JFormFieldParentPool extends JFormField
             $poolsTable = JTable::getInstance('pools', 'THM_OrganizerTable');
             foreach ($programMappings as $key => $mapping)
             {
-                if (in_array($mapping['id'], $ownMappings))
+                if (in_array($mapping['id'], $ownMappings) OR !empty($mapping['subjectID']))
                 {
                     unset($programMappings[$key]);
                     continue;
