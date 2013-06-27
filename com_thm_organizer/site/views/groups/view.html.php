@@ -3,8 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		THM_CurriculumViewGroups
- * @description THM_CurriculumViewGroups component site view
+ * @name		subjectTHM_CurriculumViewGroups
  * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2

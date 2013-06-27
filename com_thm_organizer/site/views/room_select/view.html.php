@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.1.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -17,7 +16,6 @@ jimport('joomla.application.component.view');
  * 
  * @category  Joomla.Component.Site
  * @package   thm_organizer
- * @since     v0.1.0 
  */
 class THM_OrganizerViewRoom_Select extends JView
 {

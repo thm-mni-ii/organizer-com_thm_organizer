@@ -3,10 +3,9 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        thm_organizerViewScheduler
- * @description thm_organizerViewScheduler file from com_thm_organizer
+ * @name        default layout for thm organizer's scheduler view
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @copyright   2013 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -15,7 +14,7 @@ $blankImageLink = JURI::root(true) . '/components/com_thm_organizer/views/schedu
 $addButtonLink = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/images/add.png';
 $removeButtonLink = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/images/delete.png';
 $mainPath = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/';
-$curriculumLink = JRoute::_('index.php?option=com_thm_curriculum&view=details&layout=default&tmpl=component&mysched=true&lang=de');
+$curriculumLink = JRoute::_('index.php?option=com_thm_organizer&view=subject_details&tmpl=component&lang=de');
 $ajaxHandler = JRoute::_('index.php?option=com_thm_organizer&view=ajaxhandler&format=raw');
 ?>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -63,7 +62,6 @@ if ($this->canWriteEvents === true)
 		MySched.class_semester_author = '<?php echo $this->semAuthor; ?>';
 		MySched.class_semester_name = '<?php echo $this->semesterName; ?>';
 		MySched.startup = '<?php echo $this->startup; ?>';
-		MySched.CurriculumisAvailable = '<?php echo $this->CurriculumisAvailable; ?>';
 		MySched.searchModuleID = '<?php echo $this->searchModuleID; ?>';
 		MySched.loadLessonsOnStartUp = new Boolean('<?php echo $this->loadLessonsOnStartUp; ?>');
 		MySched.deltaDisplayDays = '<?php echo $this->deltaDisplayDays; ?>';

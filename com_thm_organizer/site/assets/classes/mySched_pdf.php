@@ -49,6 +49,6 @@ class MySchedPdf extends FPDF_TABLE
 		$this->SetFont('Arial', 'B', 8);
 		$this->Cell(90, 10, 'Erstellt: ' . $date . '   -   Seite ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
 		$this->SetFont('Courier', '', 8);
-		$this->Cell(90, 10, 'http://www.fh-giessen.de', 0, 0, 'R');
+		$this->Cell(90, 10, 'http://www.thm.de', 0, 0, 'R');
 	}
 }

@@ -223,7 +223,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
                 return;
             }
             $subjectData->teacherPicture = THM_OrganizerHelperTeacher::getPicture($teacherData['userID']);
-            $subjectData->teacherName .= "$teacherName<br>$subjectData->teacherPicture";
+            $subjectData->teacherName .= $teacherName;
             $subjectData->teacherLink = THM_OrganizerHelperTeacher::getLink($teacherData);
         }
         else

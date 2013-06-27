@@ -12,7 +12,6 @@
  * @link        www.mni.thm.de
  */
 jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT . DS . 'helper/lsfapi.php';
 require_once JPATH_COMPONENT_SITE . DS . 'models/groups.php';
 
 /**
@@ -23,7 +22,7 @@ require_once JPATH_COMPONENT_SITE . DS . 'models/groups.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerViewdetails extends JView
+class THM_OrganizerViewSubject_Details extends JView
 {
 	/**
 	 * Method to get display
@@ -35,73 +34,22 @@ class THM_OrganizerViewdetails extends JView
 	public function display($tpl = null)
 	{
 		$document = JFactory::getDocument();
-		$modelGroups = new THM_OrganizerModelGroups;
+		$document->addStyleSheet($this->baseurl . '/components/com_thm_organizer/css/curriculum.css');
+
 		$model = $this->getModel();
+        $this->subject = $model->subject;
 		$this->session = JFactory::getSession();
 		$verantw = "";
 		$verantwLabel = "";
 		$dozentenLinks = array();
 
-		$document->addStyleSheet($this->baseurl . '/components/com_thm_organizer/css/curriculum.css');
-
-		if (JRequest::getString('id'))
-		{
-			$this->modul = $model->getModuleByID(JRequest::getString('id'));
-		}
-		elseif (JRequest::getString('nrmni'))
-		{
-			$this->modul = $model->getModuleByNrMni(JRequest::getString('nrmni'));
-		}
-		
-		array_push($dozentenLinks, $verantw . $verantwLabel);
-		$lecturer = $modelGroups->buildLecturerLink(JRequest::getString('id'), JRequest::getVar('lang'));
 
 		// Comma seperated lecturer data */
-		$this->dozenten = implode(', ', $lecturer);
-		$this->mappingTurnus_de = array(1 => 'nur Wintersemester', 2 => 'nur Sommersemester', 3 => 'jedes Semester',
-				4 => 'bei Bedarf', 5 => 'j&auml;hrlich');
-		$this->mappingTurnus_en = array(1 => 'Winter', 2 => 'Summer', 3 => 'Every Semester', 4 => 'If necessary', 5 => 'Annual');
 		$this->moduleNavigation = json_decode($this->session->get('navi_json'));
 		$this->lang = JRequest::getVar('lang');
-		$this->langLink = ($this->lang == 'de') ? 'en' : 'de';
-		$this->langUrl = self::languageSwitcher($this->langLink);
+		$this->otherLanguageTag = ($this->lang == 'de') ? 'en' : 'de';
+		$this->langUrl = self::languageSwitcher($this->otherLanguageTag);
 		
-		if (isset($this->modul))
-		{
-			$this->modultitel = $this->modul->getModultitel();
-			$this->modulNrMni = $this->modul->getNrMni();
-			$this->modulKurzname = $this->modul->getKurzname();
-			$this->modulKurzbeschreibung = $this->modul->getKurzbeschreibung();
-			$this->modulLernziel = $this->modul->getLernziel();
-			$this->modulLerninhalt = $this->modul->getLerninhalt();
-			$this->modulDauer = $this->modul->getDauer();
-			$this->modulSprache = $this->modul->getSprache();
-			$this->modulAufwand = $this->modul->getAufwand();
-			$this->modulLernform = $this->modul->getLernform();
-			$this->modulVorleistung = $this->modul->getVorleistung();
-			$this->modulLeistungsnachweis = $this->modul->getLeistungsnachweis();
-			$this->modulTurnus = $this->modul->getTurnus();
-			$this->modulLiteraturVerzeichnis = $this->modul->getLiteraturVerzeichnis();
-			$this->modulVorraussetzung = $this->modul->getVorraussetzung();
-		}
-		else
-		{
-			$this->modultitel = "";
-			$this->modulNrMni = "";
-			$this->modulKurzname = "";
-			$this->modulKurzbeschreibung = "";
-			$this->modulLernziel = "";
-			$this->modulLerninhalt = "";
-			$this->modulDauer = "";
-			$this->modulSprache = "";
-			$this->modulAufwand = "";
-			$this->modulLernform = "";
-			$this->modulVorleistung = "";
-			$this->modulLeistungsnachweis = "";
-			$this->modulTurnus = 0;
-			$this->modulLiteraturVerzeichnis = "";
-			$this->modulVorraussetzung = "";
-		}
 		
 		parent::display($tpl);
 	}

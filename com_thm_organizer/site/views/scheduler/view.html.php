@@ -4,9 +4,8 @@
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name		thm_organizerViewScheduler
- * @description thm_organizerViewScheduler file from com_thm_organizer
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @copyright   2013 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -61,10 +60,7 @@ class THM_OrganizerViewScheduler extends JView
 		$this->canWriteEvents = $eventModel->canWrite;
 		$this->jsid = $schedulerModel->getSessionID();
 
-		$this->searchModuleID = null;
-
 		$this->searchModuleID = JRequest::getString('moduleID');
-		$this->CurriculumisAvailable = $schedulerModel->isComAvailable("com_thm_curriculum");
 		
 		$deltaDisplayDays = (int) $menuparams->get("deltaDisplayDays", 14);
 		if (is_int($deltaDisplayDays))
