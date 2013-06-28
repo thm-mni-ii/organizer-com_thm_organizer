@@ -38,7 +38,6 @@ class Thm_OrganizerViewEvent_Edit extends JView
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
         $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/event_edit.js'));
-        $document->addScript(JRoute::_('libraries/extjs4/extjs/ext-all.js'));
 
         $this->form = $this->get('Form');
         $this->item = $this->get('Item');

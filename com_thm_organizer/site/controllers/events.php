@@ -14,6 +14,7 @@
 defined('_JEXEC') OR die;
 jimport('joomla.application.component.controller');
 require_once JPATH_COMPONENT . "/assets/classes/eventAccess.php";
+require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'helper' . DS . 'event_helper.php';
 
 /**
  * Performs access checks and user actions for events and associated resources
@@ -252,11 +253,13 @@ class THM_OrganizerControllerEvents extends JController
      * redirects to the event_list view which reformats its sql restriction
      * 
      * @return void
-     */
+     
     public function search()
     {
+        JComponentHelper::ge
         $menuID = JRequest::getVar('Itemid');
         $link = JRoute::_("index.php?option=com_thm_organizer&view=event_list&Itemid=$menuID", false);
         $this->setRedirect($link);
     }
+    */           
 }

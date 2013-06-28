@@ -15,27 +15,40 @@ $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : fa
 ?>
 <script type="text/javascript">
     var categories = new Array;
-
     var jq = jQuery.noConflict();
- jq(document).ready( function() {   
-    jq('.openPopup').live("click", function() {
-        jq('.Popup').fadeIn("slow");
-        jq('#overlay').fadeIn("slow");
-        return false;
+    
+    jq(document).ready( function() {   
+       jq('.openPopup').live("click", function() {
+           jq('.Popup').fadeIn("slow");
+           jq('#overlay').fadeIn("slow");
+           return false;
+       });
+       
+       jq('.closePopup').live("click", function() {
+           jq(".Popup").fadeOut("slow");
+           jq("#overlay").fadeOut("slow", remove_preview_content());
+           return false;
+       });
+       
     });
-    jq('.closePopup').live("click", function() {
-        jq(".Popup").fadeOut("slow");
-        jq("#overlay").fadeOut("slow");
-        return false;
-    });
-
-
-    function Ausgabe() {
-   var Ergebnis = document.eventForm.jform[title].value;
-   alert("Ergebniss: " + Ergebnis);
+    
+    function preview_content(response) {
+        var json = jq.parseJSON(response);
+        jq('#thm_organizer_ee_preview_event').append("<div id='thm_organizer_e_preview_div' >\
+                                                        <div id='thm_organizer_e_title'>"           + json.title      + "</div>\
+                                                        <div id='thm_organizer_e_publish_up'>"      + json.created_at + "</div>\
+                                                        <div id='thm_organizer_e_author'>"          + json.username   + "</div>\
+                                                        "                                           + json.introtext  + "\
+                                                        <div id='thm_organizer_e_description'>"     + json.fulltext   + "</div>\
+                                                      </div>");
     }
-   });
-
+    
+    function remove_preview_content() {
+        var d = document.getElementById('thm_organizer_ee_preview_event');
+        var olddiv = document.getElementById('thm_organizer_e_preview_div');
+        d.removeChild(olddiv);
+    }
+   
 <?php
 foreach ($this->categories as $category)
 {
@@ -47,14 +60,15 @@ foreach ($this->categories as $category)
  * was not moved to edit_event.js because of use of joomla language support in
  * alert output
  */
-Joomla.submitbutton = function(task)
-{
-    if (task == '') { return false; }
+Joomla.submitbutton =  function(task){
+    if (task === '') { return false; }
     else
-    {
+    {   
+        var url = "/index.php?option=com_thm_organizer&view=booking&task=preview&format=raw&eventID=";        
         var isValid=true;
+        var isPreview=false;
         var action = task.split('.');
-        if (action[1] != 'cancel' && action[1] != 'close')
+        if (action[1] !== 'cancel' && action[1] !== 'close')
         {
             var forms = $$('form.form-validate');
             for (var i=0;i<forms.length;i++)
@@ -66,30 +80,42 @@ Joomla.submitbutton = function(task)
                 }
             }
         }
+        if (task === 'events.preview'){
+            isPreview=true;
+            url = "/index.php?option=com_thm_organizer&view=event_ajax&task=preview&format=raw&eventID=";            
+        } 
         if (isValid)
         {
-            var requrl = '<?php echo $this->baseurl; ?>';
-            requrl = requrl + '/index.php?option=com_thm_organizer&view=booking&format=raw&eventID=';
-            requrl = requrl + document.getElementById('jform_id').value + '&startdate=';
-            requrl = requrl + document.getElementById('jform_startdate').value + '&enddate=';
-            requrl = requrl + document.getElementById('jform_enddate').value + '&starttime=';
-            requrl = requrl + document.getElementById('jform_starttime').value + '&endtime=';
-            requrl = requrl + document.getElementById('jform_endtime').value + '&category=';
-            requrl = requrl + document.getElementById('category').value + '&rec_type=';
-            requrl = requrl + getRecType() + '&teachers=';
-            requrl = requrl + getResources('teachers') + '&rooms=';
-            requrl = requrl + getResources('rooms') + '&groups=';
-            requrl = requrl + getResources('groups');
-            Ext.Ajax.request({
-                url: requrl,
-                success: function(response) {
+            
+            var requrl = "<?php echo $this->baseurl; ?>";
+            requrl = requrl + url;
+            requrl = requrl + jq('#jform_id').val() + "&jform[description]=";
+            requrl = requrl + document.getElementById("jform_description_ifr").contentWindow.document.getElementById("tinymce").innerHTML + "&jform[title]=";
+            requrl = requrl + jq('#jform_title').val() + "&jform[id]=";
+            requrl = requrl + jq('#jform_id').val() + "&jform[startdate]=";
+            requrl = requrl + jq('#jform_startdate').val() + "&jform[enddate]=";
+            requrl = requrl + jq('#jform_enddate').val() + "&jform[starttime]=";
+            requrl = requrl + jq('#jform_starttime').val() + "&jform[endtime]=";
+            requrl = requrl + jq('#jform_endtime').val() + "&category=";
+            requrl = requrl + jq('#category').val() + "&rec_type=";
+            requrl = requrl + getRecType() + "&teachers[]=";
+            requrl = requrl + getResources('#teachers') + "&rooms[]=";
+            requrl = requrl + getResources('#rooms') + "&groups[]=";
+            requrl = requrl + getResources('#groups');
+            jq.ajax( {
+				type    : "GET",
+				url     : requrl,
+                success : function(response) {
                     var confirmed = true;
                     var text = response.responseText;
                     if(text){ confirmed = confirm(text); }
-                    if(confirmed){ Joomla.submitform(task, document.eventForm); }
+                    if(confirmed){
+                        if(isPreview){preview_content(response); }
+                        else{ Joomla.submitform(task, document.eventForm); }
+                    }
                     return false;
                 },
-                failure: function() {
+                failure : function() {
                     return false;
                 }
             });
@@ -160,19 +186,14 @@ Joomla.submitbutton = function(task)
                 </a>
 				<div class="hasTip thm_organizer_action_link">
                     <a  class="openPopup"
-                        title="<?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_PREVIEW_DESCRIPTION');?>">
+                        title="<?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_PREVIEW_DESCRIPTION');?>"
+                        onclick="Joomla.submitbutton('events.preview')">
                         <span id="thm_organizer_preview_span" class="thm_organizer_action_span"></span>
                         <?php echo JText::_('COM_THM_ORGANIZER_PREVIEW'); ?>
                     </a>
                     <div class="Popup">
-                        <h1>Event / Termin Vorschau</h1>
-                        <div id="thm_organizer_ee_preview_content">
-                            <p>Event</p>
-                            <p href="javascript:Ausgabe()">Irgendwelchen Text</p>
-            </div>
-                        <div id="thm_organizer_ee_preview_event">
-                            <p>Content</p>
-        </div>
+                        <h1>Event / Content Vorschau</h1>
+                        <div id="thm_organizer_ee_preview_event"></div>                      
                         <a href="" class="closePopup">close</a>
                     </div>
                     <div id="overlay" class="closePopup"></div>
