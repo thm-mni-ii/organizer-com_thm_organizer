@@ -80,6 +80,8 @@ class THM_OrganizerModelSubject extends JModel
     /**
      * Method to import data associated with a subject from LSF
      * 
+     * @todo   Check data output with other departments to see if the local id has a different label
+     * 
      * @param   int  $subjectID  the id opf the subject entry
      * 
      * @return  boolean  true on success, otherwise false
@@ -105,81 +107,164 @@ class THM_OrganizerModelSubject extends JModel
                 case 'nrmni':
                     $data['externalID'] = (string) $child;
                     break;
+                case 'modulecode':
+                    $data['externalID'] = (string) $child;
+                    break;
                 case 'kuerzel':
                     $data['abbreviation_de'] = (string) $child;
-                    break;
-                case 'kuerzelen':
-                    $data['abbreviation_en'] = (string) $child;
                     break;
                 case 'kurzname':
                     $data['short_name_de'] = (string) $child;
                     break;
-                case 'kurznameen':
-                    $data['short_name_en'] = (string) $child;
-                    break;
                 case 'titelde':
                     $data['name_de'] = (string) $child;
                     break;
-                case 'titelen':
-                    $data['name_en'] = (string) $child;
+                case 'ktxtpform':
+                    $data['pform'] = (string) $child;
                     break;
-                case 'kurzbeschr':
-                    if ($child->sprache == 'de')
-                    {
-                        $data['description_de'] = $child->txt;
-                    }
-                    if ($child->sprache == 'en')
-                    {
-                        $data['description_en'] = $child->txt;
-                    }
+                case 'ktextpart':
+                    $data['proof'] = (string) $child;
                     break;
-                case 'lernziel':
-                    if ($child->sprache == 'de')
-                    {
-                        $data['objective_de'] = $child->txt;
-                    }
-                    if ($child->sprache == 'en')
-                    {
-                        $data['objective_en'] = $child->txt;
-                    }
+                case 'sprache':
+                    $data['language'] = (string) $child;
+                case 'lp':
+                    $data['creditpoints'] = (string) $child;
                     break;
-                case 'lerninhalt':
-                    if ($child->sprache == 'de')
-                    {
-                        $data['content_de'] = $child->txt;
-                    }
-                    if ($child->sprache == 'en')
-                    {
-                        $data['content_en'] = $child->txt;
-                    }
+                case 'aufwand':
+                    $data['expenditure'] = (string) $child;
                     break;
-                case 'vorleistung':
-                    if ($child->sprache == 'de')
-                    {
-                        $data['preliminary_work_de'] = $child->txt;
-                    }
-                    if ($child->sprache == 'en')
-                    {
-                        $data['preliminary_work_en'] = $child->txt;
-                    }
+                case 'praesenzzeit':
+                    $data['present'] = (string) $child;
+                    break;
+                case 'selbstzeit':
+                    $data['independent'] = (string) $child;
+                    break;
+                case 'verart':
+                    $data['method'] = (string) $child;
                     break;
                 case 'turnus':
                     $data['frequency'] = (string) $child;
                     break;
-                case 'lp':
-                    $data['creditpoints'] = (string) $child;
+                case 'titelen':
+                    $data['name_en'] = (string) $child;
                     break;
-                case 'ktextform':
-                    $data['method'] = (string) $child;
+                case 'kurznameen':
+                    $data['short_name_en'] = (string) $child;
                     break;
-                case 'ktextpart':
-                    $data['proof'] = (string) $child;
+                case 'kuerzelen':
+                    $data['abbreviation_en'] = (string) $child;
+                    break;
+                case 'kurzbeschr':
+                    $descriptions = $lsfData->xpath('//modul/kurzbeschr');
+                    foreach ($descriptions as $description)
+                    {
+                        if ($description->sprache == 'de')
+                        {
+                            $data['description_de'] = (string) $description->txt;
+                        }
+                        if ($description->sprache == 'en')
+                        {
+                            $data['description_en'] = (string) $description->txt;
+                        }
+                    }
+                    break;
+                case 'arbeitsaufwand':
+                    $matches = array();
+                    preg_match_all('/[0-9]+/', (string) $child[0]->txt, $matches, PREG_PATTERN_ORDER);
+                    if (!empty($matches) AND !empty($matches[0]) AND count($matches[0]) == 3)
+                    {
+                        $data['creditpoints'] = empty($data['creditpoints'])? $matches[0][0] : $data['creditpoints'];
+                        $data['expenditure'] = empty($data['expenditure'])? $matches[0][1] : $data['expenditure'];
+                        $data['present'] = empty($data['present'])? $matches[0][2] : $data['present'];
+                        $data['independent'] = empty($data['independent'])? $data['expenditure'] - $data['present'] : $data['independent'];
+                    }
+                    break;
+                case 'lernform':
+                    if (!empty($data['method']))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        $data['method'] = $this->resolveMethod((string) $child[0]->txt);
+                    }
+                case 'zwvoraussetzungen':
+                    $data['prerequisites'] = explode(',', (string) $child[0]->txt);
+                    break;
+                case 'lernziel':
+                    $objectives = $lsfData->xpath('//modul/lernziel');
+                    foreach ($objectives as $objective)
+                    {
+                        if ($objective->sprache == 'de')
+                        {
+                            $data['objective_de'] = (string) $objective->txt;
+                        }
+                        if ($objective->sprache == 'en')
+                        {
+                            $data['objective_en'] = (string) $objective->txt;
+                        }
+                    }
+                    break;
+                case 'lerninhalt':
+                    $contents = $lsfData->xpath('//modul/lerninhalt');
+                    foreach ($contents as $content)
+                    {
+                        if ($content->sprache == 'de')
+                        {
+                            $data['content_de'] = (string) $content->txt;
+                        }
+                        if ($content->sprache == 'en')
+                        {
+                            $data['content_en'] = (string) $content->txt;
+                        }
+                    }
+                    break;
+                case 'vorleistung':
+                    $preliminaries = $lsfData->xpath('//modul/vorleistung');
+                    foreach ($preliminaries as $preliminary)
+                    {
+                        if ($preliminary->sprache == 'de')
+                        {
+                            $data['preliminary_work_de'] = (string) $preliminary->txt;
+                        }
+                        if ($preliminary->sprache == 'en')
+                        {
+                            $data['preliminary_work_en'] = (string) $preliminary->txt;
+                        }
+                    }
+                    break;
+                case 'litverz':
+                    $data['references'] = (string) $child->txt;
+                case 'beschreibungen':
+                    $details = $lsfData->xpath('//modul/beschreibungen');
+                    var_dump($lsfData);die;
+                    foreach ($details as $detail)
+                    {
+                        $category = (string) $detail->kategorie;
+                        switch ($category)
+                        {
+                            case 'Lehrformen':
+                                $data['method'] = $this->resolveMethod((string) $detail->txt);
+                                break;
+                            case 'Qualifikations und Lernziele':
+                                if ($detail->sprache == 'de')
+                                {
+                                    $data['objective_de'] = (string) $detail->txt;
+                                }
+                                elseif ($detail->sprache == 'en')
+                                {
+                                    $data['objective_en'] = (string) $detail->txt;
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                     break;
                 default:
                     break;
             }
         }
-
         if (empty($data['abbreviation_en']) AND isset($data['abbreviation_de']))
         {
             $data['abbreviation_en'] = $data['abbreviation_de'];
@@ -225,6 +310,50 @@ class THM_OrganizerModelSubject extends JModel
             }
         }
         return true;
+    }
+
+    /**
+     * Resolves the text to one of 6 predefined types of lessons
+     * 
+     * @param type $text
+     */
+    private function resolveMethod($text)
+    {
+        $lecture = strpos($text, 'Vorlesung');
+        $seminar = strpos($text, 'Seminar');
+        $project = strpos($text, 'Praktikum');
+        $practice = strpos($text, 'Übung');
+        if ($lecture !== false)
+        {
+            if ($practice !== false)
+            {
+                return 'VU';
+            }
+            elseif ($seminar !== false)
+            {
+                return 'SV';
+            }
+            elseif ($project !== false)
+            {
+                return 'VG';
+            }
+            else
+            {
+                return 'V';
+            }
+        }
+        elseif($project !== false)
+        {
+            return 'P';
+        }
+        elseif ($seminar !== false)
+        {
+            return 'S';
+        }
+        else
+        {
+            return '';
+        }
     }
     
     /**

@@ -127,11 +127,14 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
   `content_en` varchar(255) DEFAULT NULL,
   `preliminary_work_de` varchar(255) DEFAULT NULL,
   `preliminary_work_en` varchar(255) DEFAULT NULL,
+  `language` varchar (2) DEFAULT NULL
+  `references` varchar( 255 ) DEFAULT NULL,
   `creditpoints` INT(4) UNSIGNED DEFAULT NULL,
   `expenditure` INT(4) UNSIGNED DEFAULT NULL,
   `present` INT(4) UNSIGNED DEFAULT NULL,
   `independent` INT(4) UNSIGNED DEFAULT NULL,
   `proof` varchar(2) DEFAULT NULL,
+  `pform` varchar(2) DEFAULT NULL
   `frequency` INT(1) UNSIGNED DEFAULT NULL,
   `method` varchar(2) DEFAULT NULL,
   `fieldID` INT(11) unsigned DEFAULT NULL,
