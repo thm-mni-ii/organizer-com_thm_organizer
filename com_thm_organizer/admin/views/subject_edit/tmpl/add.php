@@ -51,6 +51,10 @@ defined('_JEXEC') or die;
                     <?php echo $this->form->getInput('proof'); ?>
                 </li>
                 <li>
+                    <?php echo $this->form->getLabel('pform'); ?>
+                    <?php echo $this->form->getInput('pform'); ?>
+                </li>
+                <li>
                     <?php echo $this->form->getLabel('frequency'); ?>
                     <?php echo $this->form->getInput('frequency'); ?>
                 </li>

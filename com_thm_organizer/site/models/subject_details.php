@@ -69,12 +69,10 @@ class THM_OrganizerModelSubject_Details extends JModel
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $select = 'id, lsfID, hisID, externalID, ';
-        $select .= "name_$languageTag AS name, short_name_$languageTag AS short_name, ";
-        $select .= "abbreviation_$languageTag AS abbreviation, description_$languageTag AS description, ";
-        $select .= "objective_$languageTag AS objective, content_$languageTag AS content, ";
-        $select .= "preliminary_work_$languageTag AS preliminary_work, ";
-        $select .= "creditpoints, expenditure, present, independent, proof, frequency, method";
+        $select = "id, externalID, name_$languageTag AS name, description_$languageTag AS description, ";
+        $select .= "objective_$languageTag AS objective, content_$languageTag AS content, language, ";
+        $select .= "preliminary_work_$languageTag AS preliminary_work, literature, ";
+        $select .= "creditpoints, expenditure, present, independent, proof, frequency, method, pform";
 
         $query->select($select);
         $query->from('#__thm_organizer_subjects');

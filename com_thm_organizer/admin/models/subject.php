@@ -80,8 +80,6 @@ class THM_OrganizerModelSubject extends JModel
     /**
      * Method to import data associated with a subject from LSF
      * 
-     * @todo   Check data output with other departments to see if the local id has a different label
-     * 
      * @param   int  $subjectID  the id opf the subject entry
      * 
      * @return  boolean  true on success, otherwise false
@@ -105,9 +103,6 @@ class THM_OrganizerModelSubject extends JModel
             switch ($name)
             {
                 case 'nrmni':
-                    $data['externalID'] = (string) $child;
-                    break;
-                case 'modulecode':
                     $data['externalID'] = (string) $child;
                     break;
                 case 'kuerzel':
@@ -234,32 +229,7 @@ class THM_OrganizerModelSubject extends JModel
                     }
                     break;
                 case 'litverz':
-                    $data['references'] = (string) $child->txt;
-                case 'beschreibungen':
-                    $details = $lsfData->xpath('//modul/beschreibungen');
-                    var_dump($lsfData);die;
-                    foreach ($details as $detail)
-                    {
-                        $category = (string) $detail->kategorie;
-                        switch ($category)
-                        {
-                            case 'Lehrformen':
-                                $data['method'] = $this->resolveMethod((string) $detail->txt);
-                                break;
-                            case 'Qualifikations und Lernziele':
-                                if ($detail->sprache == 'de')
-                                {
-                                    $data['objective_de'] = (string) $detail->txt;
-                                }
-                                elseif ($detail->sprache == 'en')
-                                {
-                                    $data['objective_en'] = (string) $detail->txt;
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                    }
+                    $data['literature'] = (string) $child->txt;
                     break;
                 default:
                     break;
@@ -315,7 +285,9 @@ class THM_OrganizerModelSubject extends JModel
     /**
      * Resolves the text to one of 6 predefined types of lessons
      * 
-     * @param type $text
+     * @param   string  $text  the contents of the method text element
+     * 
+     * @return  string  a code representing course instruction methods
      */
     private function resolveMethod($text)
     {

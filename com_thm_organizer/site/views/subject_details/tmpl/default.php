@@ -22,9 +22,9 @@ $references = ($this->lang == 'de')? 'Literatur' : 'References';
 $expenditure = ($this->lang == 'de')? 'Aufwand' : 'Expenditure';
 $method = ($this->lang == 'de')? 'Lernmethode' : 'Method of Instruction';
 $proof = ($this->lang == 'de')? 'Leistungsnachweis' : 'Proof of Performance';
-$hours = ($this->lang == 'de')? ' Stunden' : ' Hours';
 $frequency = ($this->lang == 'de')? 'Turnus' : 'Frequency';
 $language = ($this->lang == 'de')? 'Sprache' : 'Language';
+$preliminary_work = ($this->lang == 'de')? 'Vorleistung' : 'Requirement';
 //$description = ($this->lang == 'de')? 'Beschreibung' : 'Description';
 //$description = ($this->lang == 'de')? 'Beschreibung' : 'Description';
 $flagPath = 'media' . DIRECTORY_SEPARATOR . 'com_thm_organizer' . DIRECTORY_SEPARATOR . 'images';
@@ -82,15 +82,15 @@ if (!empty($subject['description']))
     echo '<dt class="lsflist">' . $description . '</dt>';
     echo '<dd class="lsflist">' . $subject['description'] . '</dd>';
 }
-if (!empty($subject['objectives']))
+if (!empty($subject['objective']))
 {
     echo '<dt class="lsflist">' . $objectives . '</dt>';
-    echo '<dd class="lsflist">' . $subject['objectives'] . '</dd>';
+    echo '<dd class="lsflist">' . $subject['objective'] . '</dd>';
 }
-if (!empty($subject['contents']))
+if (!empty($subject['content']))
 {
     echo '<dt class="lsflist">' . $contents . '</dt>';
-    echo '<dd class="lsflist">' . $subject['contents'] . '</dd>';
+    echo '<dd class="lsflist">' . $subject['content'] . '</dd>';
 }
 if (!empty($subject['language']))
 {
@@ -100,7 +100,7 @@ if (!empty($subject['language']))
 if (!empty($subject['expenditure']))
 {
     echo '<dt class="lsflist">' . $expenditure . '</dt>';
-	echo '<dd class="lsflist">' . $subject['expenditure'] . $hours . '</dd>';
+	echo '<dd class="lsflist">' . $subject['expenditureOutput'] .'</dd>';
 }
 if (!empty($subject['method']))
 {
@@ -112,20 +112,21 @@ if (!empty($subject['preliminary_work']))
     echo '<dt class="lsflist">' . $preliminary_work . '</dt>';
 	echo '<dd class="lsflist">' . $subject['preliminary_work'] . '</dd>';
 }
-if ($subject['proof'] != "")
+if (!empty($subject['proof']))
 {
+    $method = empty($subject['pform'])? '' : ' ( ' . $subject['pform'] . ' )';
     echo '<dt class="lsflist">' . $proof . '</dt>';
-    echo '<dd class="lsflist">' . $subject['proof'] . '</dd>';
+    echo '<dd class="lsflist">' . $subject['proof'] . $method . '</dd>';
 }
 if (!empty($subject['frequency']))
 {
     echo '<dt class="lsflist">' . $frequency . '</dt>';
 	echo '<dd class="lsflist">' . $subject['frequency'] . '</dd>';
 }
-if (!empty($subject['modulLiteraturVerzeichnis']))
+if (!empty($subject['literature']))
 {
     echo '<dt class="lsflist">' . $references . '</dt>';
-    echo '<dd class="lsflist" id="litverz">' . $subject['modulLiteraturVerzeichnis'] . '</dd>';
+    echo '<dd class="lsflist" id="litverz">' . $subject['literature'] . '</dd>';
 }
 if (!empty($subject['prerequisites']))
 {
