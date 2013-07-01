@@ -3,8 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		THM_CurriculumViewGroups
- * @description THM_CurriculumViewGroups component site view
+ * @name		subject groups view
  * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -14,8 +13,8 @@ jimport('joomla.application.component.view');
 jimport('joomla.error.profiler');
 
 /**
- * Class THM_CurriculumViewGroups for component com_thm_organizer
- * Class provides methods to display the groups view
+ * Class loads a list of subjects grouped according to differing parameters into
+ * the view context
  *
  * @category    Joomla.Component.Site
  * @package     thm_organizer

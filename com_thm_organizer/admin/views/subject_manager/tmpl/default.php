@@ -60,7 +60,7 @@ if (isset($this->poolSelect))
         </thead>
 		<tfoot>
             <tr>
-                <td colspan="5"><?php echo $this->pagination->getListFooter(); ?></td>
+                <td colspan="6"><?php echo $this->pagination->getListFooter(); ?></td>
             </tr>
             <input type="hidden" name="task" value="" />
             <input type="hidden" name="boxchecked" value="0" />

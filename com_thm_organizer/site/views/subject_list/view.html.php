@@ -3,10 +3,10 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		THM_CurriculumViewIndex
- * @description THM_CurriculumViewIndex component site view
+ * @name		index view for thm organizer's subject resources
  * @author      Markus Baier, <markus.baier@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @copyright   2013 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -14,14 +14,13 @@ jimport('joomla.application.component.view');
 jimport('joomla.error.profiler');
 
 /**
- * Class THM_CurriculumViewIndex for component com_thm_organizer
- * Class provides methods to display the index view
+ * Class loads a list of subjects sorted according to different criteria 
  *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerViewIndex extends JView
+class THM_OrganizerViewSubject_List extends JView
 {
 	/**
 	 * Method to get display

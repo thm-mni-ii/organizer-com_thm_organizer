@@ -1,16 +1,5 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_soap_queries` (
-  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR ( 255 ) NOT NULL,
-  `lsf_object` VARCHAR ( 255 ) NOT NULL,
-  `lsf_study_path` VARCHAR ( 255 ) NOT NULL,
-  `lsf_degree` VARCHAR ( 255 ) NOT NULL,
-  `lsf_pversion` VARCHAR ( 255 ) NOT NULL,
-  `description` VARCHAR ( 255 ) DEFAULT NULL,
-  PRIMARY KEY ( `id` )
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
   `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
   `departmentname` VARCHAR ( 50 ) NOT NULL,
@@ -108,6 +97,34 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_pools` (
   FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_frequencies` (
+  `id` INT (1) UNSIGNED NOT NULL,
+  `frequency_de` varchar (45) DEFAULT NULL,
+  `frequency_en` varchar (45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_proof` (
+  `id` varchar (2) NOT NULL,
+  `proof_de` varchar (45) DEFAULT NULL,
+  `proof_en` varchar (45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_pforms` (
+  `id` varchar (2) NOT NULL,
+  `pform_de` varchar (45) DEFAULT NULL,
+  `pform_en` varchar (45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_methods` (
+  `id` varchar (2) NOT NULL,
+  `method_de` varchar (45) DEFAULT NULL,
+  `method_en` varchar (45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
   `id` INT (11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `lsfID` INT(11) UNSIGNED DEFAULT NULL,
@@ -119,24 +136,38 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
   `short_name_en` varchar(45) DEFAULT NULL,
   `name_de` varchar(255) DEFAULT NULL,
   `name_en` varchar(255) DEFAULT NULL,
-  `description_de` varchar(255) DEFAULT NULL,
-  `description_en` varchar(255) DEFAULT NULL,
-  `objective_de` varchar(255) DEFAULT NULL,
-  `objective_en` varchar(255) DEFAULT NULL,
-  `content_de` varchar(255) DEFAULT NULL,
-  `content_en` varchar(255) DEFAULT NULL,
+  `description_de` text DEFAULT NULL,
+  `description_en` text DEFAULT NULL,
+  `objective_de` text DEFAULT NULL,
+  `objective_en` text DEFAULT NULL,
+  `content_de` text DEFAULT NULL,
+  `content_en` text DEFAULT NULL,
   `preliminary_work_de` varchar(255) DEFAULT NULL,
   `preliminary_work_en` varchar(255) DEFAULT NULL,
+  `instructionLanguage` varchar (2) DEFAULT NULL,
+  `literature` text DEFAULT NULL,
   `creditpoints` INT(4) UNSIGNED DEFAULT NULL,
   `expenditure` INT(4) UNSIGNED DEFAULT NULL,
   `present` INT(4) UNSIGNED DEFAULT NULL,
   `independent` INT(4) UNSIGNED DEFAULT NULL,
-  `proof` varchar(2) DEFAULT NULL,
-  `frequency` INT(1) UNSIGNED DEFAULT NULL,
-  `method` varchar(2) DEFAULT NULL,
+  `proofID` varchar(2) DEFAULT NULL,
+  `pformID` varchar(2) DEFAULT NULL,
+  `frequencyID` INT(1) UNSIGNED DEFAULT NULL,
+  `methodID` varchar(2) DEFAULT NULL,
   `fieldID` INT(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
+  FOREIGN KEY (`proofID`) REFERENCES `#__thm_organizer_proof` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  FOREIGN KEY (`pformID`) REFERENCES `#__thm_organizer_pforms` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  FOREIGN KEY (`frequencyID`) REFERENCES `#__thm_organizer_frequencies` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  FOREIGN KEY (`methodID`) REFERENCES `#__thm_organizer_methods` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_prerequisites` (
+  `subjectID` INT ( 11 ) UNSIGNED NOT NULL,
+  `prerequisite` INT ( 11 ) UNSIGNED NOT NULL,
+  FOREIGN KEY ( `subjectID` ) REFERENCES #__thm_organizer_subjects( `id` ) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY ( `prerequisite` ) REFERENCES #__thm_organizer_subjects( `id` ) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_mappings` (

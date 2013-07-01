@@ -51,9 +51,9 @@ class THM_OrganizerHelperTeacher
      *
      * @param   int  $subjectID  the subject's id
      *
-     * @return  Object
+     * @return  array  an array of teacher data
      */
-    public static function getData($subjectID)
+    public static function getData($subjectID, $responsibility = 1, $multiple = false)
     {
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);
@@ -62,9 +62,16 @@ class THM_OrganizerHelperTeacher
         $query->innerJoin('#__thm_organizer_subject_teachers AS st ON t.id = st.teacherID ');
         $query->leftJoin('#__users AS u ON t.username = u.username');
         $query->where("st.subjectID = '$subjectID' ");
-        $query->where("st.teacherResp = '1'");
+        $query->where("st.teacherResp = '$responsibility'");
         $dbo->setQuery((string) $query);
-        return $dbo->loadAssoc();
+        if ($multiple)
+        {
+            return $dbo->loadAssocList();
+        }
+        else
+        {
+            return $dbo->loadAssoc();
+        }
     }
 
     /**

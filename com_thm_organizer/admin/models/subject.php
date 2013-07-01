@@ -103,100 +103,179 @@ class THM_OrganizerModelSubject extends JModel
             switch ($name)
             {
                 case 'nrmni':
-                    $data['externalID'] = (string) $child;
+                    $this->setSubjectAttribute($data, 'externalID', (string) $child);
                     break;
                 case 'kuerzel':
-                    $data['abbreviation_de'] = (string) $child;
-                    break;
-                case 'kuerzelen':
-                    $data['abbreviation_en'] = (string) $child;
+                    $this->setSubjectAttribute($data, 'abbreviation_de', (string) $child);
                     break;
                 case 'kurzname':
-                    $data['short_name_de'] = (string) $child;
-                    break;
-                case 'kurznameen':
-                    $data['short_name_en'] = (string) $child;
+                    $this->setSubjectAttribute($data, 'short_name_de', (string) $child);
                     break;
                 case 'titelde':
-                    $data['name_de'] = (string) $child;
+                    $this->setSubjectAttribute($data, 'name_de', (string) $child);
+                    break;
+                case 'ktxtpform':
+                    $this->setSubjectAttribute($data, 'pformID', (string) $child);
+                    break;
+                case 'ktextpart':
+                    $this->setSubjectAttribute($data, 'proofID', (string) $child);
+                    break;
+                case 'sprache':
+                    $this->setSubjectAttribute($data, 'instructionLanguage', (string) $child);
+                    break;
+                case 'lp':
+                    $this->setSubjectAttribute($data, 'creditpoints', (string) $child);
+                    break;
+                case 'aufwand':
+                    $this->setSubjectAttribute($data, 'expenditure', (string) $child);
+                    break;
+                case 'praesenzzeit':
+                    $this->setSubjectAttribute($data, 'present', (string) $child);
+                    break;
+                case 'selbstzeit':
+                    $this->setSubjectAttribute($data, 'independent', (string) $child);
+                    break;
+                case 'verart':
+                    $this->setSubjectAttribute($data, 'methodID', (string) $child);
+                    break;
+                case 'turnus':
+                    $this->setSubjectAttribute($data, 'frequencyID', (string) $child);
                     break;
                 case 'titelen':
-                    $data['name_en'] = (string) $child;
+                    $this->setSubjectAttribute($data, 'name_en', (string) $child);
+                    break;
+                case 'kurznameen':
+                    $this->setSubjectAttribute($data, 'short_name_en', (string) $child);
+                    break;
+                case 'kuerzelen':
+                    $this->setSubjectAttribute($data, 'abbreviation_en', (string) $child);
                     break;
                 case 'kurzbeschr':
-                    if ($child->sprache == 'de')
+                    $descriptions = $lsfData->xpath('//modul/kurzbeschr');
+                    foreach ($descriptions as $description)
                     {
-                        $data['description_de'] = $child->txt;
-                    }
-                    if ($child->sprache == 'en')
-                    {
-                        $data['description_en'] = $child->txt;
+                        if ($description->sprache == 'de')
+                        {
+                            $this->setSubjectAttribute($data, 'description_de', (string) $description->txt);
+                        }
+                        if ($description->sprache == 'en')
+                        {
+                            $this->setSubjectAttribute($data, 'description_de', (string) $description->txt);
+                        }
                     }
                     break;
-                case 'lernziel':
-                    if ($child->sprache == 'de')
+                case 'arbeitsaufwand':
+                    $matches = array();
+                    preg_match_all('/[0-9]+/', (string) $child[0]->txt, $matches, PREG_PATTERN_ORDER);
+                    if (!empty($matches) AND !empty($matches[0]) AND count($matches[0]) == 3)
                     {
-                        $data['objective_de'] = $child->txt;
+                        if (empty($data['creditpoints']))
+                        {
+                            $this->setSubjectAttribute($data, 'creditpoints', $matches[0][0]);
+                        }
+                        if (empty($data['expenditure']))
+                        {
+                            $this->setSubjectAttribute($data, 'expenditure', $matches[0][1]);
+                        }
+                        if (empty($data['present']))
+                        {
+                            $this->setSubjectAttribute($data, 'present', $matches[0][2]);
+                        }
+                        if (empty($data['independent']))
+                        {
+                            $this->setSubjectAttribute($data, 'present', $data['expenditure'] - $data['present']);
+                        }
                     }
-                    if ($child->sprache == 'en')
+                    break;
+                case 'lernform':
+                    if (!empty($data['methodID']))
                     {
-                        $data['objective_en'] = $child->txt;
+                        break;
+                    }
+                    else
+                    {
+                        $method = $this->resolveMethod((string) $child[0]->txt);
+                        $this->setSubjectAttribute($data, 'methodID', $method);
+                    }
+                case 'zwvoraussetzungen':
+                    $prerequisites = explode(',', (string) $child[0]->txt);
+                    $this->setSubjectAttribute($data, 'prerequisites', $prerequisites);
+                    break;
+                case 'lernziel':
+                    $objectives = $lsfData->xpath('//modul/lernziel');
+                    foreach ($objectives as $objective)
+                    {
+                        if ($objective->sprache == 'de')
+                        {
+                            $this->setSubjectAttribute($data, 'objective_de', (string) $objective->txt);
+                        }
+                        if ($objective->sprache == 'en')
+                        {
+                            $this->setSubjectAttribute($data, 'objective_en', (string) $objective->txt);
+                        }
                     }
                     break;
                 case 'lerninhalt':
-                    if ($child->sprache == 'de')
+                    $contents = $lsfData->xpath('//modul/lerninhalt');
+                    foreach ($contents as $content)
                     {
-                        $data['content_de'] = $child->txt;
-                    }
-                    if ($child->sprache == 'en')
-                    {
-                        $data['content_en'] = $child->txt;
+                        if ($content->sprache == 'de')
+                        {
+                            $this->setSubjectAttribute($data, 'content_de', (string) $content->txt);
+                        }
+                        if ($content->sprache == 'en')
+                        {
+                            $this->setSubjectAttribute($data, 'content_en', (string) $content->txt);
+                        }
                     }
                     break;
                 case 'vorleistung':
-                    if ($child->sprache == 'de')
+                    $preliminaries = $lsfData->xpath('//modul/vorleistung');
+                    foreach ($preliminaries as $preliminary)
                     {
-                        $data['preliminary_work_de'] = $child->txt;
+                        if ($preliminary->sprache == 'de')
+                        {
+                            $this->setSubjectAttribute($data, 'preliminary_work_de', (string) $preliminary->txt);
+                        }
+                        if ($preliminary->sprache == 'en')
+                        {
+                            $this->setSubjectAttribute($data, 'preliminary_work_en', (string) $preliminary->txt);
+                        }
                     }
-                    if ($child->sprache == 'en')
-                    {
-                        $data['preliminary_work_en'] = $child->txt;
-                    }
                     break;
-                case 'turnus':
-                    $data['frequency'] = (string) $child;
-                    break;
-                case 'lp':
-                    $data['creditpoints'] = (string) $child;
-                    break;
-                case 'ktextform':
-                    $data['method'] = (string) $child;
-                    break;
-                case 'ktextpart':
-                    $data['proof'] = (string) $child;
+                case 'litverz':
+                    $this->setSubjectAttribute($data, 'literature', (string) $child->txt);
                     break;
                 default:
                     break;
             }
         }
-
         if (empty($data['abbreviation_en']) AND isset($data['abbreviation_de']))
         {
-            $data['abbreviation_en'] = $data['abbreviation_de'];
+            $this->setSubjectAttribute($data, 'abbreviation_en', $data['abbreviation_de']);
         }
         if (empty($data['short_name_en']) AND isset($data['short_name_de']))
         {
-            $data['short_name_en'] = $data['short_name_de'];
+            $this->setSubjectAttribute($data, 'short_name_en', $data['short_name_de']);
         }
         if (empty($data['name_en']) AND isset($data['name_de']))
         {
-            $data['name_en'] = $data['name_de'];
+            $this->setSubjectAttribute($data, 'name_en', $data['name_de']);
         }
 
         $subjectSaved = $table->save($data);
         if (!$subjectSaved)
         {
             return false;
+        }
+
+        if (!empty($data['prerequisites']))
+        {
+            $prerequisitesSaved = $this->savePrerequisitesFromLSF($table->id, $data['prerequisites']);
+            if (!$prerequisitesSaved)
+            {
+                return false;
+            }
         }
 
         $responsible = $lsfData->xpath('//modul/verantwortliche');
@@ -226,7 +305,117 @@ class THM_OrganizerModelSubject extends JModel
         }
         return true;
     }
-    
+
+    /**
+     * Sets a given value at a given index in the subject array if not empty.
+     * This prevents overwrites of local changes to data not existent within LSF.
+     * 
+     * @param   array   &$subject  the subject being filled
+     * @param   string  $index     the index at which to set the value
+     * @param   mixed   $value     the value to be set at the index
+     * 
+     * @return  void
+     */
+    private function setSubjectAttribute(&$subject, $index, $value)
+    {
+        if (!empty($value))
+        {
+            $subject[$index] = $value;
+        }
+    }
+
+    /**
+     * Resolves the text to one of 6 predefined types of lessons
+     * 
+     * @param   string  $text  the contents of the method text element
+     * 
+     * @return  string  a code representing course instruction methods
+     */
+    private function resolveMethod($text)
+    {
+        $lecture = strpos($text, 'Vorlesung');
+        $seminar = strpos($text, 'Seminar');
+        $project = strpos($text, 'Praktikum');
+        $practice = strpos($text, 'Übung');
+        if ($lecture !== false)
+        {
+            if ($practice !== false)
+            {
+                return 'VU';
+            }
+            elseif ($seminar !== false)
+            {
+                return 'SV';
+            }
+            elseif ($project !== false)
+            {
+                return 'VG';
+            }
+            else
+            {
+                return 'V';
+            }
+        }
+        elseif($project !== false)
+        {
+            return 'P';
+        }
+        elseif ($seminar !== false)
+        {
+            return 'S';
+        }
+        else
+        {
+            return '';
+        }
+    }
+
+    /**
+     * Saves prerequisites imported from LSF
+     * 
+     * @param   int    $subjectID      the id of the subject
+     * @param   array  $prerequisites  an array of external ids
+     * 
+     * @return  bool  true if no database errors occured, otherwise false
+     */
+    private function savePrerequisitesFromLSF($subjectID, $prerequisites)
+    {
+        foreach ($prerequisites as $externalID)
+        {
+            $dbo = JFactory::getDbo();
+            $resolutionQuery = $dbo->getQuery(true);
+            $resolutionQuery->select('id')->from('#__thm_organizer_subjects')->where("externalID = '$externalID'");
+            $dbo->setQuery((string) $resolutionQuery);
+            $internalID = $dbo->loadResult();
+
+            if (empty($internalID))
+            {
+                continue;
+            }
+            
+            $existenceQuery = $dbo->getQuery(true);
+            $existenceQuery->select('COUNT(*)')->from('#__thm_organizer_prerequisites');
+            $existenceQuery->where("subjectID = '$externalID'")->where("prerequisite = '$internalID'");
+            $dbo->setQuery((string) $existenceQuery);
+            $exists = $dbo->loadResult();
+
+            if (!empty($exists))
+            {
+                continue;
+            }
+
+            $insertQuery = $dbo->getQuery(true);
+            $insertQuery->insert('#__thm_organizer_prerequisites')->columns('subjectID, prerequisite')->values("'$subjectID', '$internalID'");
+            $dbo->setQuery((string) $insertQuery);
+            $success = $dbo->query();
+            if ($success == false)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * Iterates the subject responsible entries from the LSF data.
      * 
@@ -242,8 +431,9 @@ class THM_OrganizerModelSubject extends JModel
     {
         $teacherData = array();
         $surnameAttribue = $responsibility == RESPONSIBLE? 'nachname' : 'personal.nachname';
+        $teacherData['surname'] = (string) $teacher->xpath("//personinfo/$surnameAttribue")[0];
         $forenameAttribue = $responsibility == RESPONSIBLE? 'vorname' : 'personal.vorname';
-        $teacherData['surname'] = (string) $teacher->personinfo->$surnameAttribue;
+        $teacherData['forename'] = (string) $teacher->xpath("//personinfo/$forenameAttribue")[0];
 
         /**
          * Prevents null entries from being added to the database without preventing

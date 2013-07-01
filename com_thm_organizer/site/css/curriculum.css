@@ -1,12 +1,3 @@
-/**
- * @package  	Joomla.Site
- * @subpackage  com_thm_lsf
- * @author   	Markus Baier <markus.baier@mni.thm.de>
- * @copyright	THM Mittelhessen 2011
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @link     	http://www.mni.thm.de
- * @version		$Id: lsf.css 3035 2011-01-21 09:32:19Z m.baier $
- **/
 .languageSwitcher {
 	height: 20px;
 }
@@ -82,6 +73,7 @@ dt.lsflist { /* definition term */
 	margin: 0;
 	padding: 0.3em 0;
 	float: left;
+        clear: both;
 	font-size: 1em;
 	font-weight: bold;
 	width: 11em;

@@ -63,60 +63,66 @@ jq(document).ready(function(){
         <legend><?php echo JText::_('COM_THM_ORGANIZER_SUM_PROPERTIES'); ?></legend>
         <fieldset>
             <legend><?php echo JText::_('COM_THM_ORGANIZER_SUM_PROPERTIES_GENERAL'); ?></legend>
-            <ul class="adminformlist">
-                <li>
-                    <?php echo $this->form->getLabel('lsfID'); ?>
-                    <?php echo $this->form->getInput('lsfID'); ?>
-                </li>
-                <li>
-                    <?php echo $this->form->getLabel('hisID'); ?>
-                    <?php echo $this->form->getInput('hisID'); ?>
-                </li>
-                <li>
-                    <?php echo $this->form->getLabel('externalID'); ?>
-                    <?php echo $this->form->getInput('externalID'); ?>
-                </li>
-                <li>
-                    <?php echo $this->form->getLabel('creditpoints'); ?>
-                    <?php echo $this->form->getInput('creditpoints'); ?>
-                </li>
-                <li>
-                    <?php echo $this->form->getLabel('expenditure'); ?>
-                    <?php echo $this->form->getInput('expenditure'); ?>
-                </li>
-                <li>
-                    <?php echo $this->form->getLabel('present'); ?>
-                    <?php echo $this->form->getInput('present'); ?>
-                </li>
-                <li>
-                    <?php echo $this->form->getLabel('independent'); ?>
-                    <?php echo $this->form->getInput('independent'); ?>
-                </li>
-                <li>
-                    <?php echo $this->form->getLabel('proof'); ?>
-                    <?php echo $this->form->getInput('proof'); ?>
-                </li>
-                <li>
-                    <?php echo $this->form->getLabel('frequency'); ?>
-                    <?php echo $this->form->getInput('frequency'); ?>
-                </li>
-                <li>
-                    <?php echo $this->form->getLabel('method'); ?>
-                    <?php echo $this->form->getInput('method'); ?>
-                </li>
-                <li>
-                    <?php echo $this->form->getLabel('fieldID'); ?>
-                    <?php echo $this->form->getInput('fieldID'); ?>
-                </li>
-                <li>
-                    <?php echo $this->form->getLabel('responsible'); ?>
-                    <?php echo $this->form->getInput('responsible'); ?>
-                </li>
-                <li>
-                    <?php echo $this->form->getLabel('teacherID'); ?>
-                    <?php echo $this->form->getInput('teacherID'); ?>
-                </li>
-            </ul>
+            <div id="propertiesDiv">
+                <ul class="adminformlist">
+                    <li>
+                        <?php echo $this->form->getLabel('lsfID'); ?>
+                        <?php echo $this->form->getInput('lsfID'); ?>
+                    </li>
+                    <li>
+                        <?php echo $this->form->getLabel('hisID'); ?>
+                        <?php echo $this->form->getInput('hisID'); ?>
+                    </li>
+                    <li>
+                        <?php echo $this->form->getLabel('externalID'); ?>
+                        <?php echo $this->form->getInput('externalID'); ?>
+                    </li>
+                    <li>
+                        <?php echo $this->form->getLabel('creditpoints'); ?>
+                        <?php echo $this->form->getInput('creditpoints'); ?>
+                    </li>
+                    <li>
+                        <?php echo $this->form->getLabel('expenditure'); ?>
+                        <?php echo $this->form->getInput('expenditure'); ?>
+                    </li>
+                    <li>
+                        <?php echo $this->form->getLabel('present'); ?>
+                        <?php echo $this->form->getInput('present'); ?>
+                    </li>
+                    <li>
+                        <?php echo $this->form->getLabel('independent'); ?>
+                        <?php echo $this->form->getInput('independent'); ?>
+                    </li>
+                    <li>
+                        <?php echo $this->form->getLabel('proof'); ?>
+                        <?php echo $this->form->getInput('proof'); ?>
+                    </li>
+                    <li>
+                        <?php echo $this->form->getLabel('pform'); ?>
+                        <?php echo $this->form->getInput('pform'); ?>
+                    </li>
+                    <li>
+                        <?php echo $this->form->getLabel('frequency'); ?>
+                        <?php echo $this->form->getInput('frequency'); ?>
+                    </li>
+                    <li>
+                        <?php echo $this->form->getLabel('method'); ?>
+                        <?php echo $this->form->getInput('method'); ?>
+                    </li>
+                    <li>
+                        <?php echo $this->form->getLabel('fieldID'); ?>
+                        <?php echo $this->form->getInput('fieldID'); ?>
+                    </li>
+                    <li>
+                        <?php echo $this->form->getLabel('responsible'); ?>
+                        <?php echo $this->form->getInput('responsible'); ?>
+                    </li>
+                    <li>
+                        <?php echo $this->form->getLabel('teacherID'); ?>
+                        <?php echo $this->form->getInput('teacherID'); ?>
+                    </li>
+                </ul>
+            </div>
         </fieldset>
         <fieldset>
             <legend>

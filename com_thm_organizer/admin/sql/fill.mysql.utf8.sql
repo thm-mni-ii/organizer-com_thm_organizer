@@ -33,21 +33,45 @@ INSERT INTO `#__thm_organizer_degrees` (`id`, `name`, `abbreviation`, `lsfDegree
 (5, 'Master of Engineering', 'M.Eng.', 'ME'),
 (6, 'Master of Science', 'M.Sc.', 'MS'),
 (7, 'Master of Arts', 'M.A.', 'MA'),
-(8, 'Master of Business Administration and Engineering', 'M.B.A.');
+(8, 'Master of Business Administration and Engineering', 'M.B.A.', 'MB');
 
 
 INSERT INTO `#__thm_organizer_teacher_responsibilities` (`id`, `name`) VALUES
 (1, 'COM_THM_ORGANIZER_SUM_RESPONSIBLE'),
 (2, 'COM_THM_ORGANIZER_SUM_TEACHER');
 
-INSERT INTO `#__thm_organizer_soap_queries` (`id`, `name`, `lsf_object`, `lsf_study_path`, `lsf_degree`, `lsf_pversion`) VALUES
-(1, 'Bachelor Medizin-Informatik (2010)', 'studiengang', 'I', 'MI', '2010'),
-(2, 'Bachelor Ingenieur Informatik (2010)', 'studiengang', 'INI', 'BS', '2010'),
-(3, 'Bachelor BWL (2009)', 'studiengang', 'W', 'BA', '2009'),
-(4, 'Bachelor Informatik (2010)', 'studiengang', 'I', 'BS', '2010'),
-(5, 'Master of Arts International Marketing (2010)', 'studiengang', 'INM', 'MA', '2010'),
-(6, 'Master Informatik (2010)', 'studiengang', 'I', 'MS', '2010'),
-(7, 'Master of Arts Unternehmensführung (PO 2011)', 'studiengang', 'UF', 'MA', '2010'),
-(8, 'Master of Science WirtschaftsInformatik (2010)', 'studiengang', 'WIN', 'MS', '2010'),
-(9, 'Bachelor Bio-Informatik (2010)', 'studiengang', 'I', 'BI', '2010'),
-(10, 'Master of Business Administration (PO 2010)', 'studiengang', 'W', 'MB', '2010');
+INSERT INTO `#__thm_organizer_frequencies` (`id`, `frequency_de`, `frequency_en`) VALUES
+(0, 'Nach Termin', 'By Appointment'),
+(1, 'Nur im Sommersemester', 'Only Spring/Summer Term'),
+(2, 'Nur im Wintersemester', 'Only Fall/Winter Term'),
+(3, 'Jedes Semester', 'Semesterly'),
+(4, 'Nach Bedarf', 'As Needed'),
+(5, 'Einmal im Jahr', 'Yearly');
+
+INSERT INTO `#__thm_organizer_proof` (`id`, `proof_de`, `proof_en`) VALUES
+('BL', 'Belegung', 'Participation'),
+('ST', 'Studienleistung', 'Scholastic Performance'),
+('VL', 'Vorleistung', 'Work Performed'),
+('LN', 'Leistungsnachweis', 'Coursework'),
+('FP', 'Fachprüfung', 'Test'),
+('TL', 'Teilleistung', 'Partial Completion'),
+('P1', 'Praktikum', 'Project'),
+('P', 'Klausur', 'Final'),
+('DA', 'Diplom', 'Diploma Examination'),
+('HD', 'Abschlussarbeit', 'Thesis Paper');
+
+INSERT INTO `#__thm_organizer_pforms` (`id`, `pform_de`, `pform_en`) VALUES
+('S', 'Schriftlich', 'Written'),
+('E', 'Schriftlich, eventuell mündlich', 'Written, possibly Oral'),
+('U', 'Schriftlich und mündlich', 'Written and Oral'),
+('O', 'Schriftlich oder mündlich', 'Written or Oral'),
+('M', 'Mündlich', 'Oral'),
+('L', 'Leistungsschein', 'Certificate');
+
+INSERT INTO `#__thm_organizer_methods` (`id`, `method_de`, `method_en`) VALUES
+('V', 'Vorlesung', 'Lecture'),
+('S', 'Seminar', 'Seminar'),
+('P', 'Praktikum', 'Project'),
+('VU', 'Vorlesung / Übung', 'Lecture / Practice'),
+('VG', 'Vorlesung / Praktikum', 'Lecture / Group Work'),
+('SV', 'Vorlesung / Seminar', 'Lecture / Seminar');

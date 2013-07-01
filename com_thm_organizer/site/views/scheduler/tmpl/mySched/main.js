@@ -1159,14 +1159,6 @@ new Ext.util.Observable(),
     },
     showModuleInformation: function (e)
     {
-        if (MySched.CurriculumisAvailable != true)
-        {
-            Ext.Msg.alert(
-            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_CURRICULUM,
-            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_FUNCTION_ERROR);
-            return;
-        }
-
         var bla = typeof e;
         
         if (typeof e == "undefined")

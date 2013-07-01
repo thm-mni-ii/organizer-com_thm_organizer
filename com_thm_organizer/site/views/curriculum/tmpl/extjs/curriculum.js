@@ -31,6 +31,10 @@ function Curriculum(menuID, programID, horizontalGroups, languageTag, totalWidth
     Curriculum.prototype.contrastColor = function(hex_color)
     {
         /* convert to rgb */
+        if (hex_color === undefined)
+        {
+            hex_color = 666666;
+        }
         var rgb = this.hex2rgb(hex_color);
 
         var value = Math.sqrt( rgb.red * rgb.red * .241 +  rgb.green * rgb.green * .691 +  rgb.blue * rgb.blue * .068);
@@ -387,9 +391,23 @@ function Curriculum(menuID, programID, horizontalGroups, languageTag, totalWidth
      */
     Curriculum.prototype.getSpacerItem = function(color, leftMargin, topMargin)
     {
-        if (color.indexOf("#") == -1)
+        if (color == undefined)
+        {
+            color = "#666666";
+        }
+        else if (color.indexOf("#") == -1)
         {
             color = "#" + color;
+        }
+        
+        if (leftMargin == undefined)
+        {
+            leftMargin = "2";
+        }
+
+        if (topMargin == undefined)
+        {
+            topMargin = "2";
         }
 
         /* creates the panel */
@@ -429,9 +447,13 @@ function Curriculum(menuID, programID, horizontalGroups, languageTag, totalWidth
         var headerColor = this.contrastColor(subject.color);
         var linkColor = this.contrastColor(defaultItemColor);
         var abbreviation = (this.languageTag == 'de')? subject.abbreviation_de : subject.abbreviation_en;
+        if (abbreviation == undefined)
+        {
+            abbreviation = '';
+        }
         
         // SEF-Route
-        var moduleDescriptionLink = "index.php?option=com_thm_curriculum&view=details&lang=" + languageTag +"&id=" + subject.lsfID +"&Itemid=" + menuID;
+        var moduleDescriptionLink = "index.php?option=com_thm_organizer&view=subject_details&lang=" + languageTag +"&id=" + subject.id +"&Itemid=" + menuID;
         var moduleTitle = ((cutTitle == 1) ? (subjectTitle.substring(0, titleLength) + "...") : subjectTitle);
         var titleSpans = "<span style='color:" + headerColor + ";"+"'class='course_title'>" + abbreviation.substr(0,10) + "</span>";
         titleSpans += "<span style='color:" + headerColor + ";"+"'class='course_creditpoints'>" + subject.creditpoints + " CrP" + "</span>";
@@ -1025,7 +1047,7 @@ function Curriculum(menuID, programID, horizontalGroups, languageTag, totalWidth
         }
         else
         {
-            return self.getSpacerItem(color, leftMargin, topMargin)
+            return self.getSpacerItem('#666666', leftMargin, topMargin)
         }
     };
 }

@@ -24,6 +24,10 @@ function App (menuID, programID, horizontalGroups, languageTag, totalWidth, tota
         {
             var horizontalGroup = curriculumObj.getHorizontalGroupPanel(horizontalGroups[firstOrder]);
             var items = horizontalGroups[firstOrder].children;
+            if (items.length == 0)
+            {
+                continue;
+            }
             var container = curriculumObj.getContainer(horizontalPanelColor);
             var compPoolFlag = false;
             var textContainer = curriculumObj.getTextContainer(horizontalGroups[firstOrder]);
