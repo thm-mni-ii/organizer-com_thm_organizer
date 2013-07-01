@@ -16,7 +16,6 @@ $showListLink = (isset($this->listLink) and $this->listLink != "")? true : false
 ?>
 <div id="thm_organizer_e">
     <div id="thm_organizer_e_header">
-        <span id="thm_organizer_e_title"><?php echo $event['title']; ?></span>
         <div id="thm_organizer_e_headerlinks">
 <?php
 if ($showListLink)
@@ -70,29 +69,39 @@ if ($event['access'])
 ?>
         </div>
     </div>
-    <div class="thm_organizer_e_block_div" >
-        <div id='thm_organizer_e_author'>
+    <div class="thm_organizer_e_block_div" >        
+        <div id="thm_organizer_e_title">
+            <p><?php echo $event['title']; ?></p>
+        </div>
+        <div id="thm_organizer_e_publish_up">
+            <p><?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_CREATED') . $event['publish_up']; ?></p>
+        </div>
+        <div id="thm_organizer_e_author">
             <p><?php echo JText::_('COM_THM_ORGANIZER_E_WRITTEN_BY') . $event['author']; ?></p>
-        </div>
-<?php
-if (!empty($event['description']))
-{
-?>
-        <div id='thm_organizer_e_description'>
-            <?php echo $event['description']; ?>
-        </div>
-<?php
-}
-?>
+        </div>        
         <div id="thm_organizer_e_time">
             <p><?php echo $this->dateTimeText; ?></p>
         </div>
+
+        
 <?php
 if ($this->teachers or $this->rooms or $this->groups)
 {
 ?>
-        <div id="thm_organizer_e_resources" >
-            <h3><?php echo JText::_('COM_THM_ORGANIZER_E_RESOURCE_HEAD'); ?></h3>
+        
+<?php
+    }
+    if ($this->groups)
+    {
+?>
+            <p>
+                <?php echo $this->groupsLabel; ?>
+                <?php echo $this->groups; ?>
+            </p>
+<?php
+    }
+?>
+            
 <?php
     if ($this->teachers)
     {
@@ -110,18 +119,20 @@ if ($this->teachers or $this->rooms or $this->groups)
                 <?php echo $this->roomsLabel; ?>
                 <?php echo $this->rooms; ?>
             </p>
+
+        
 <?php
-    }
-    if ($this->groups)
-    {
+}
 ?>
-            <p>
-                <?php echo $this->groupsLabel; ?>
-                <?php echo $this->groups; ?>
-            </p>
+        
+            <p><?php echo JText::_('COM_THM_ORGANIZER_E_INTROTEXT_FURTHER_INFORMATIONS'); ?></p>
+        
 <?php
-    }
+if (!empty($event['description']))
+{
 ?>
+        <div id="thm_organizer_e_description">
+            <?php echo $event['description']; ?>
         </div>
 <?php
 }

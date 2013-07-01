@@ -57,18 +57,21 @@ function getRecType()
  */
 function getResources(resourceID)
 {
-    var resourceObject = document.getElementById(resourceID);
-    var selectedResources = new Array();
-    var index;
-    var count = 0;
-    for (index = 0; index < resourceObject.options.length; index++)
-    {
-        if (resourceObject.options[index].selected) {
-            selectedResources[count] = resourceObject.options[index].value;
-            count++;
+    var selectedResources = jq(resourceID).val();
+    alert(selectedResources.toString());
+    if(typeof selectedResources !== 'undefined'){
+        if(jq.isArray(selectedResources)){
+            selectedResources = selectedResources.join(",");
+            return selectedResources;
         }
-    }
-    if(count)return selectedResources.toString();
+        if(jq.isNumeric(selectedResources)){
+            selectedResources = selectedResources.toString();
+            return selectedResources;
+        }
+        else{
+            return selectedResources;
+        }
+    }        
     else return '';
 }
 
@@ -78,7 +81,11 @@ function getResources(resourceID)
  */
 function toggleCheckValue(isitchecked)
 {
-    if(isitchecked == true) document.eventForm.jform_emailNotification.value++;
-    else document.eventForm.jform_emailNotification.value--;
+    if(isitchecked == true){
+        document.eventForm.jform_emailNotification.value++;
+    }
+    else {
+        document.eventForm.jform_emailNotification.value--;
+    }
 }
 
