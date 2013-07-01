@@ -255,21 +255,19 @@ class THM_OrganizerEvent_Helper
     private static function getNames($requestName, $columnName, $tableName)
     {
         $names = array();
-        $requestedResources = JRequest::getVar($requestName);
-        $$requestName = (isset($_REQUEST[$requestName])) ? explode(", ", $requestedResources)  : array();
-        var_dump($requestedResources);
-        $dummyIndex = array_search('-1', $$requestName);
+        $requestName = (isset($_REQUEST[$requestName])) ? JRequest::getVar($requestName)  : array();
+        $dummyIndex = array_search('-1', $requestName);
         if ($dummyIndex)
         {
-            unset($$requestName[$dummyIndex]);
+            unset($requestName[$dummyIndex]);
         }
-        if (count($$requestName))
+        if (count($requestName))
         {
             $dbo = JFactory::getDbo();
             $query = $dbo->getQuery(true);
             $query->select("$columnName");
             $query->from("$tableName");
-            $requestedIDs = "( '" . implode("', '", $$requestName) . "' )";
+            $requestedIDs = "( " . implode(", ", $requestName) . " )";
             $query->where("id IN $requestedIDs");
             $dbo->setQuery((string) $query);
             $names = $dbo->loadResultArray();

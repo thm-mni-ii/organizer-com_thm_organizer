@@ -171,11 +171,11 @@ class THM_OrganizerViewEvent extends JView
         {
             if (count($this->event['groups']) > 1)
             {
-                $groupsLabel = JText::_("COM_THM_ORGANIZER_E_GROUPS");
+                $groupsLabel = JText::_("COM_THM_ORGANIZER_E_AFFECTED");
             }
             else
             {
-                $groupsLabel = JText::_("COM_THM_ORGANIZER_E_GROUP");
+                $groupsLabel = JText::_("COM_THM_ORGANIZER_E_AFFECTED");
             }
             $this->assignRef('groupsLabel', $groupsLabel);
             $groups = implode(', ', $this->event['groups']);

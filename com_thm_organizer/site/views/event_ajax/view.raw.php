@@ -24,28 +24,50 @@ class Thm_OrganizerViewEvent_Ajax extends JView
      * @return void
      */
     public function display($tpl = null)
-    {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
+    {   
         $function = JRequest::getString('task');
-        $this->$function();
+        if($function == "preview"){
+            if (!JFactory::getUser()->authorise('core.admin'))
+            {
+                return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            }
+            $this->$function();
+        }
+        else{
+            $model = $this->getModel();
+            $conflicts = $model->getConflicts();
+            if (count($conflicts))
+            {
+                $count = 0;
+                $total = count($conflicts);
+                $message = JText::_('COM_THM_ORGANIZER_B_CONFLICTS_FOUND') . ":\n";
+                foreach ($conflicts as $conflict)
+                {
+                    if ($count == 4)
+                    {
+                        $message .= "\n" . JText::sprintf('COM_THM_ORGANIZER_B_CONFLICTS_REMAINING', (string) $total - $count);
+                        break;
+                    }
+                    $count++;
+                    $message .= "\n" . $conflict['text'] . "\n";
+                }
+                echo $message;
+            }
+        }
     }
     
     public function preview()
     {
         $model = JModel::getInstance('events', 'thm_organizerModel');
         $data = $model->cleanRequestData();
-        THM_OrganizerEvent_Helper::buildtext($data);
-        var_dump($data['introtext']);/*   
+        THM_OrganizerEvent_Helper::buildtext($data);  
         $user = JFactory::getUser($data['userID']);
         $username = $user->name;        
-        $written_by = "<p>" . JText::_('COM_THM_ORGANIZER_WRITTEN_BY') . $username . "</p>";
+        $written_by = "<p>" . JText::_('COM_THM_ORGANIZER_E_WRITTEN_BY') . $username . "</p>";
         $data['username'] = $written_by;
         $published_at = "<p>" . JText::_('COM_THM_ORGANIZER_PREVIEW_CREATED') .  JFactory::getDate()->toFormat('%A %d. %B %G %H:%M') . "</p>";
         $data['created_at'] = $published_at;
         $jsonstring = json_encode($data);
-        echo $jsonstring;*/
+        echo $jsonstring;
     }
 }

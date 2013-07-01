@@ -18,7 +18,7 @@ $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : fa
     var jq = jQuery.noConflict();
     
     jq(document).ready( function() {   
-       jq('.openPopup').live("click", function() {
+       jq('.thm_organizer_action_link_preview').live("click", function() {
            jq('.Popup').fadeIn("slow");
            jq('#overlay').fadeIn("slow");
            return false;
@@ -64,7 +64,7 @@ Joomla.submitbutton =  function(task){
     if (task === '') { return false; }
     else
     {   
-        var url = "/index.php?option=com_thm_organizer&view=booking&task=preview&format=raw&eventID=";        
+        var url = "/index.php?option=com_thm_organizer&view=event_ajax&task=" + task + "&format=raw&eventID=";        
         var isValid=true;
         var isPreview=false;
         var action = task.split('.');
@@ -176,7 +176,7 @@ Joomla.submitbutton =  function(task){
                     title="<?php echo JText::_('COM_THM_ORGANIZER_SAVE_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_SAVE_DESCRIPTION');?>"
                     onclick="Joomla.submitbutton('events.save')">
                     <span id="thm_organizer_save_span" class="thm_organizer_action_span"></span>
-                    <?php echo JText::_('COM_THM_ORGANIZER_SAVE'); ?>
+                    <?php echo JText::_('COM_THM_ORGANIZER_SAVE_TITLE'); ?>
                 </a>
                 <a  class="hasTip thm_organizer_action_link"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_SAVE_NEW_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_SAVE_NEW_DESCRIPTION');?>"
@@ -184,20 +184,18 @@ Joomla.submitbutton =  function(task){
                     <span id="thm_organizer_save_new_span" class="thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_SAVE_NEW'); ?>
                 </a>
-				<div class="hasTip thm_organizer_action_link">
-                    <a  class="openPopup"
-                        title="<?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_PREVIEW_DESCRIPTION');?>"
-                        onclick="Joomla.submitbutton('events.preview')">
-                        <span id="thm_organizer_preview_span" class="thm_organizer_action_span"></span>
-                        <?php echo JText::_('COM_THM_ORGANIZER_PREVIEW'); ?>
-                    </a>
-                    <div class="Popup">
-                        <h1>Event / Content Vorschau</h1>
-                        <div id="thm_organizer_ee_preview_event"></div>                      
-                        <a href="" class="closePopup">close</a>
-                    </div>
-                    <div id="overlay" class="closePopup"></div>
+                <a  class="hasTip thm_organizer_action_link_preview"
+                    title="<?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_PREVIEW_DESCRIPTION');?>"
+                    onclick="Joomla.submitbutton('events.preview')">
+                    <span id="thm_organizer_preview_span" class="thm_organizer_action_span"></span>
+                    <?php echo JText::_('COM_THM_ORGANIZER_PREVIEW'); ?>
+                </a>
+                <div class="Popup">
+                    <h1><?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_HEADER');?></h1>
+                    <div id="thm_organizer_ee_preview_event"></div>                      
+                    <a href="" class="closePopup"><?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_CLOSE');?></a>
                 </div>
+                <div id="overlay" class="closePopup"></div>
             </div>
         </div>
         <div id="thm_organizer_ee_name_div">

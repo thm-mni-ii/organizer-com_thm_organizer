@@ -58,7 +58,6 @@ function getRecType()
 function getResources(resourceID)
 {
     var selectedResources = jq(resourceID).val();
-    alert(selectedResources.toString());
     if(typeof selectedResources !== 'undefined'){
         if(jq.isArray(selectedResources)){
             selectedResources = selectedResources.join(",");
