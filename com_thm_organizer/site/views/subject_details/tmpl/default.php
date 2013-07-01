@@ -18,6 +18,7 @@ $description = ($this->lang == 'de')? 'Beschreibung' : 'Description';
 $objectives = ($this->lang == 'de')? 'Lernziele' : 'Objectives';
 $contents = ($this->lang == 'de')? 'Inhalte' : 'Contents';
 $prerequisites = ($this->lang == 'de')? 'Voraussetzungen' : 'Prerequisites';
+$prerequisiteOf = ($this->lang == 'de')? 'Voraussetzung von' : 'Prerequisite for';
 $references = ($this->lang == 'de')? 'Literatur' : 'References';
 $expenditure = ($this->lang == 'de')? 'Aufwand' : 'Expenditure';
 $method = ($this->lang == 'de')? 'Lernmethode' : 'Instruction Method';
@@ -73,7 +74,16 @@ if (!empty($subject['teachers']))
     echo '<dd class="lsflist"><ul>';
     foreach ($subject['teachers'] as $teacher)
     {
-        echo '<li>' . $teacher . '</li>';
+        echo '<li>';
+        if (!empty($teacher['link']))
+        {
+            echo '<a href="' . $teacher['link'] . '">' . $teacher['name'] . '</a>';
+        }
+        else
+        {
+            echo $teacher['name'];
+        }
+        echo '</li>';
     }
     echo '</ul></dd>';
 }
@@ -134,7 +144,17 @@ if (!empty($subject['prerequisites']))
     echo '<dd class="lsflist" id="voraussetzung"><ul>';
     foreach ($subject['prerequisites'] as $prerequisite)
     {
-        echo '<li>' . $prerequisite . '</li>';
+        echo '<li><a href="' . $prerequisite['link'] . '">' . $prerequisite['name'] . '</a></li>';
+    }
+    echo '</ul></dd>';
+}
+if (!empty($subject['prerequisiteOf']))
+{
+    echo '<dt class="lsflist">' . $prerequisiteOf . '</dt>';
+    echo '<dd class="lsflist" id="voraussetzung"><ul>';
+    foreach ($subject['prerequisiteOf'] as $of)
+    {
+        echo '<li><a href="' . $of['link'] . '">' . $of['name'] . '</a></li>';
     }
     echo '</ul></dd>';
 }

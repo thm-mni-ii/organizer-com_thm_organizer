@@ -26,7 +26,7 @@ require_once JPATH_COMPONENT . DS . 'helper' . DS . 'teacher.php';
  */
 class THM_OrganizerModelSubject_Details extends JModel
 {
-    public $lsfID = null;
+    public $subjectID = null;
 
     public $languageTag = null;
 
@@ -40,11 +40,14 @@ class THM_OrganizerModelSubject_Details extends JModel
     public function __construct($config = array())
     {
         parent::__construct($config);
-        $lsfID = JRequest::getInt('id');
-        if (!empty($lsfID))
+
+        $this->menuID = JRequest::getInt('Itemid');
+        $this->subjectID = JRequest::getInt('id');
+        $this->languageTag = JRequest::getString('lang', 'de');
+
+        if (!empty($this->subjectID))
         {
-            $languageTag = JRequest::getString('lang', 'de');
-            $this->subject = $this->getSubject($lsfID, $languageTag);
+            $this->subject = $this->getSubject();
             if (empty($this->subject))
             {
                 return;
@@ -54,39 +57,42 @@ class THM_OrganizerModelSubject_Details extends JModel
                 $this->subject['expenditureOutput'] = "{$this->subject['creditpoints']} CrP";
                 if (!empty($this->subject['expenditure']) AND !empty($this->subject['present']))
                 {
-                    if ($languageTag == 'de')
+                    if ($this->languageTag == 'de')
                     {
-                        $this->subject['expenditureOutput'] .= "; {$this->subject['expenditure']} hours, ";
-                        $this->subject['expenditureOutput'] .= "of which {$this->subject['present']} is spent in class.";
+                        $this->subject['expenditureOutput'] .= "; {$this->subject['expenditure']} Stunden, ";
+                        $this->subject['expenditureOutput'] .= "davon etwa {$this->subject['present']} Stunden Präsenzzeit.";
                     }
                     else
                     {
                         $this->subject['expenditureOutput'] .= "; {$this->subject['expenditure']} hours, ";
-                        $this->subject['expenditureOutput'] .= "of which {$this->subject['present']} is spent in class.";
+                        $this->subject['expenditureOutput'] .= "of which {$this->subject['present']} hours are present in class.";
                     }
                 }
             }
+            $this->setPrerequisites();
+            $this->setPrerequisiteOf();
+            $this->setTeachers();
         }
     }
 
     /**
      * Loads subject information from the database
      * 
-     * @param   int     $lsfID        the lsf id of the subject requested
+     * @param   int     $subjectID    the lsf id of the subject requested
      * @param   string  $languageTag  the language to be used in the output
      * 
      * @return  array  an array of information about the subject
      */
-    private function getSubject($lsfID, $languageTag)
+    private function getSubject()
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $select = "s.id, externalID, name_$languageTag AS name, description_$languageTag AS description, ";
-        $select .= "objective_$languageTag AS objective, content_$languageTag AS content, instructionLanguage, ";
-        $select .= "preliminary_work_$languageTag AS preliminary_work, literature, creditpoints, expenditure, ";
-        $select .= "present, independent, proof_$languageTag AS proof, frequency_$languageTag AS frequency, ";
-        $select .= "method_$languageTag AS method, pform_$languageTag AS pform";
+        $select = "s.id, externalID, name_$this->languageTag AS name, description_$this->languageTag AS description, ";
+        $select .= "objective_$this->languageTag AS objective, content_$this->languageTag AS content, instructionLanguage, ";
+        $select .= "preliminary_work_$this->languageTag AS preliminary_work, literature, creditpoints, expenditure, ";
+        $select .= "present, independent, proof_$this->languageTag AS proof, frequency_$this->languageTag AS frequency, ";
+        $select .= "method_$this->languageTag AS method, pform_$this->languageTag AS pform";
 
         $query->select($select);
         $query->from('#__thm_organizer_subjects AS s');
@@ -94,8 +100,98 @@ class THM_OrganizerModelSubject_Details extends JModel
         $query->leftJoin('#__thm_organizer_methods AS m ON s.methodID = m.id');
         $query->leftJoin('#__thm_organizer_proof AS p ON s.proofID = p.id');
         $query->leftJoin('#__thm_organizer_pforms AS form ON s.pformID = form.id');
-        $query->where("lsfID = '$lsfID'");
+        $query->where("s.id = '$this->subjectID'");
         $dbo->setQuery((string) $query);
         return $dbo->loadAssoc();
+    }
+
+    /**
+     * Loads an array of names and links into the subject model for subjects for
+     * which this subject is a prerequisite.
+     * 
+     * @return void
+     */
+    private function setTeachers()
+    {
+        $teacherData = THM_OrganizerHelperTeacher::getData($this->subjectID, null, true);
+        if (empty($teacherData))
+        {
+            return;
+        }
+        $teachers = array();
+        foreach ($teacherData as $teacher)
+        {
+            $title = empty($teacher['title'])? '' : "{$teacher['title']} ";
+            $forename = empty($teacher['forename'])? '' : "{$teacher['forename']} ";
+            $surname = $teacher['surname'];
+            $defaultName =  $title . $forename . $surname;
+            
+            if (!empty($teacher['userID']))
+            {
+                $teacherName = THM_OrganizerHelperTeacher::getName($teacher['userID']);
+                $teacher['link'] = THM_OrganizerHelperTeacher::getLink($teacher);
+            }
+            $teacher['name'] =  empty($teacherName)? $defaultName : $teacherName;
+            if ($teacher['teacherResp'] == '1')
+            {
+                $teacher['name'] .= $this->languageTag == 'de'? ' (Modulverantwörtliche)' : ' (Responsible)';
+                $teachers[$teacher['id']] = $teacher;
+            }
+            elseif (empty($teachers[$teacher['id']]))
+            {
+                $teachers[$teacher['id']] = $teacher;
+            }
+        }
+        $this->subject['teachers'] = $teachers;
+    }
+
+    /**
+     * Loads an array of prerequisite names and links into the subject model if
+     * existent.
+     * 
+     * @return void
+     */
+    private function setPrerequisites()
+    {
+        $link = "index.php?option=com_thm_organizer&view=subject_details&lang={$this->languageTag}&Itemid={$this->menuID}&id=";
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("name_$this->languageTag AS name, CONCAT( '$link' , prerequisite ) AS link");
+        $query->from('#__thm_organizer_prerequisites AS p');
+        $query->innerJoin('#__thm_organizer_subjects AS s ON p.prerequisite = s.id');
+        $query->where("p.subjectID = '$this->subjectID'");
+        $query->order('name');
+        $dbo->setQuery((string) $query);
+        $prerequisites = $dbo->loadAssocList();
+
+        if (!empty($prerequisites))
+        {
+            $this->subject['prerequisites'] = $prerequisites;
+        }
+    }
+
+    /**
+     * Loads an array of names and links into the subject model for subjects for
+     * which this subject is a prerequisite.
+     * 
+     * @return void
+     */
+    private function setPrerequisiteOf()
+    {
+        $link = "index.php?option=com_thm_organizer&view=subject_details&lang={$this->languageTag}&Itemid={$this->menuID}&id=";
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("name_$this->languageTag AS name, CONCAT( '$link' , subjectID ) AS link");
+        $query->from('#__thm_organizer_prerequisites AS p');
+        $query->innerJoin('#__thm_organizer_subjects AS s ON p.subjectID = s.id');
+        $query->where("p.prerequisite = '$this->subjectID'");
+        $query->order('name');
+        $dbo->setQuery((string) $query);
+        $prerequisiteOf = $dbo->loadAssocList();
+
+        if (!empty($prerequisiteOf))
+        {
+            $this->subject['prerequisiteOf'] = $prerequisiteOf;
+        }
     }
 }

@@ -3,9 +3,9 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		THM_CurriculumViewCurriculum
- * @description THM_CurriculumViewCurriculum component site view
+ * @name		curriculum view
  * @author      Markus Baier, <markus.baier@mni.thm.de>
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
@@ -14,8 +14,7 @@ jimport('joomla.application.component.view');
 jimport('joomla.error.profiler');
 
 /**
- * Class THM_CurriculumViewCurriculum for component com_thm_organizer
- * Class provides methods to display the curriculum view
+ * Class loasd curriculum information into the view context
  *
  * @category    Joomla.Component.Site
  * @package     thm_organizer

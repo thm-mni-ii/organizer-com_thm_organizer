@@ -2,10 +2,10 @@
 /**
  * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_curriculum.site
- * @name		THM_Curriculum component site router
- * @description THM_Curriculum component site router
+ * @subpackage  com_thm_organizer.site
+ * @name		routing tool
  * @author      Markus Baier, <markus.baier@mni.thm.de>
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
@@ -18,7 +18,7 @@
  *
  * @return  array  all SEF Elements as list
  */
-function THM_curriculumBuildRoute(&$query)
+function THM_OrganizerBuildRoute(&$query)
 {
 	$segments = array();
 	if (isset($query['view']))
@@ -50,7 +50,7 @@ function THM_curriculumBuildRoute(&$query)
  *
  * @return  array  Accessable elements from SEF
  */
-function THM_curriculumParseRoute($segments)
+function THM_OrganizerParseRoute($segments)
 {
 	$query = array();
 

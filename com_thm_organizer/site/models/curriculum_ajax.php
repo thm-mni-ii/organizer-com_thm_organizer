@@ -204,7 +204,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
      */
     private function setTeacherProperties(&$subjectData)
     {
-        $teacherData = THM_OrganizerHelperTeacher::getData($subjectData->id);
+        $teacherData = THM_OrganizerHelperTeacher::getData($subjectData->id, 1);
         if (empty($teacherData))
         {
             return;
