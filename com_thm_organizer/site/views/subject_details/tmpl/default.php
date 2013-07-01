@@ -3,9 +3,9 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		view details default
- * @description THM_Curriculum component site view
+ * @name		subject details view default layout
  * @author      Markus Baier, <markus.baier@mni.thm.de>
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
@@ -20,8 +20,8 @@ $contents = ($this->lang == 'de')? 'Inhalte' : 'Contents';
 $prerequisites = ($this->lang == 'de')? 'Voraussetzungen' : 'Prerequisites';
 $references = ($this->lang == 'de')? 'Literatur' : 'References';
 $expenditure = ($this->lang == 'de')? 'Aufwand' : 'Expenditure';
-$method = ($this->lang == 'de')? 'Lernmethode' : 'Method of Instruction';
-$proof = ($this->lang == 'de')? 'Leistungsnachweis' : 'Proof of Performance';
+$method = ($this->lang == 'de')? 'Lernmethode' : 'Instruction Method';
+$proof = ($this->lang == 'de')? 'Leistungsnachweis' : 'Testing Method';
 $frequency = ($this->lang == 'de')? 'Turnus' : 'Frequency';
 $language = ($this->lang == 'de')? 'Sprache' : 'Language';
 $preliminary_work = ($this->lang == 'de')? 'Vorleistung' : 'Requirement';
@@ -97,10 +97,10 @@ if (!empty($subject['language']))
     echo '<dt class="lsflist hasTip">' . $language . '</dt>';
     echo '<dd class="lsflist">' . ($subject['language'] == 'D')? 'Deutsch' : 'English' . '</dd>';
 }
-if (!empty($subject['expenditure']))
+if (!empty($subject['expenditureOutput']))
 {
     echo '<dt class="lsflist">' . $expenditure . '</dt>';
-	echo '<dd class="lsflist">' . $subject['expenditureOutput'] .'</dd>';
+	echo '<dd class="lsflist">' . $subject['expenditureOutput'] . '</dd>';
 }
 if (!empty($subject['method']))
 {

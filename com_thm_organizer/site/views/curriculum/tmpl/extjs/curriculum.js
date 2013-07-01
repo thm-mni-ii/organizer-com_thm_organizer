@@ -453,7 +453,7 @@ function Curriculum(menuID, programID, horizontalGroups, languageTag, totalWidth
         }
         
         // SEF-Route
-        var moduleDescriptionLink = "index.php?option=com_thm_organizer&view=subject_details&lang=" + languageTag +"&id=" + subject.lsfID +"&Itemid=" + menuID;
+        var moduleDescriptionLink = "index.php?option=com_thm_organizer&view=subject_details&lang=" + languageTag +"&id=" + subject.id +"&Itemid=" + menuID;
         var moduleTitle = ((cutTitle == 1) ? (subjectTitle.substring(0, titleLength) + "...") : subjectTitle);
         var titleSpans = "<span style='color:" + headerColor + ";"+"'class='course_title'>" + abbreviation.substr(0,10) + "</span>";
         titleSpans += "<span style='color:" + headerColor + ";"+"'class='course_creditpoints'>" + subject.creditpoints + " CrP" + "</span>";

@@ -49,9 +49,22 @@ class THM_OrganizerModelSubject_Details extends JModel
             {
                 return;
             }
-            if (!empty($this->subject['frequency']))
+            if (!empty($this->subject['creditpoints']))
             {
-                $this->resolveFrequency();
+                $this->subject['expenditureOutput'] = "{$this->subject['creditpoints']} CrP";
+                if (!empty($this->subject['expenditure']) AND !empty($this->subject['present']))
+                {
+                    if ($languageTag == 'de')
+                    {
+                        $this->subject['expenditureOutput'] .= "; {$this->subject['expenditure']} hours, ";
+                        $this->subject['expenditureOutput'] .= "of which {$this->subject['present']} is spent in class.";
+                    }
+                    else
+                    {
+                        $this->subject['expenditureOutput'] .= "; {$this->subject['expenditure']} hours, ";
+                        $this->subject['expenditureOutput'] .= "of which {$this->subject['present']} is spent in class.";
+                    }
+                }
             }
         }
     }
@@ -69,121 +82,20 @@ class THM_OrganizerModelSubject_Details extends JModel
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $select = "id, externalID, name_$languageTag AS name, description_$languageTag AS description, ";
-        $select .= "objective_$languageTag AS objective, content_$languageTag AS content, language, ";
-        $select .= "preliminary_work_$languageTag AS preliminary_work, literature, ";
-        $select .= "creditpoints, expenditure, present, independent, proof, frequency, method, pform";
+        $select = "s.id, externalID, name_$languageTag AS name, description_$languageTag AS description, ";
+        $select .= "objective_$languageTag AS objective, content_$languageTag AS content, instructionLanguage, ";
+        $select .= "preliminary_work_$languageTag AS preliminary_work, literature, creditpoints, expenditure, ";
+        $select .= "present, independent, proof_$languageTag AS proof, frequency_$languageTag AS frequency, ";
+        $select .= "method_$languageTag AS method, pform_$languageTag AS pform";
 
         $query->select($select);
-        $query->from('#__thm_organizer_subjects');
+        $query->from('#__thm_organizer_subjects AS s');
+        $query->leftJoin('#__thm_organizer_frequencies AS f ON s.frequencyID = f.id');
+        $query->leftJoin('#__thm_organizer_methods AS m ON s.methodID = m.id');
+        $query->leftJoin('#__thm_organizer_proof AS p ON s.proofID = p.id');
+        $query->leftJoin('#__thm_organizer_pforms AS form ON s.pformID = form.id');
         $query->where("lsfID = '$lsfID'");
         $dbo->setQuery((string) $query);
         return $dbo->loadAssoc();
     }
-
-    /**
-     * Replaces the numeric frequency code with the corresponding text.
-     * 
-     * @return  void
-     */
-    private function resolveFrequency()
-    {
-        switch ($this->subject['frequency'])
-        {
-            case 0:
-                $this->subject['frequency'] = JText::_('COM_THM_ORGANIZER_SUM_FREQUENCY_APPT');
-                return;
-            case 1:
-                $this->subject['frequency'] = JText::_('COM_THM_ORGANIZER_SUM_FREQUENCY_SUMMER');
-                return;
-            case 2:
-                $this->subject['frequency'] = JText::_('COM_THM_ORGANIZER_SUM_FREQUENCY_WINTER');
-                return;
-            case 3:
-                $this->subject['frequency'] = JText::_('COM_THM_ORGANIZER_SUM_FREQUENCY_SEMESTER');
-                return;
-            case 4:
-                $this->subject['frequency'] = JText::_('COM_THM_ORGANIZER_SUM_FREQUENCY_ASNEEDED');
-                return;
-            case 5:
-                $this->subject['frequency'] = JText::_('COM_THM_ORGANIZER_SUM_FREQUENCY_YEAR');
-                return;
-        }
-    }
-
-	/**
-	 * Method to get the teacher
-	 *
-	 * @param   String  $nrmni  The module id
-	 *
-	 * @return <Array>
-	 */
-	public function getDozenten($nrmni)
-	{
-		$dbo = JFactory::getDBO();
-		$query = $dbo->getQuery(true);
-		$query->select('DISTINCT dozentid');
-		$query->from('#__thm_organizer_dozenten_module');
-		$query->where("modulid = '$nrmni'");
-		$dbo->setQuery((string) $query);
-		return $dbo->loadResultArray();
-	}
-
-	/**
-	 * Method to parse a ISBN in the correct syntax for the isbnlink plugin
-	 *
-	 * @param   String   $ISBNText          The bibliography
-	 * @param   Boolean  $ISBNPlgAvailable  True if the isbnlink plugin is available otherwise false
-	 *
-	 * @return  String  The bibliography with the transformed isbn numbers as link
-	 */
-	public function transformISBN($ISBNText, $ISBNPlgAvailable)
-	{
-		if ($ISBNPlgAvailable === false)
-		{
-			return $ISBNText;
-		}
-		else
-		{
-			$isbnlinkPlugin = JPluginHelper::getPlugin("content", "thm_isbnlink");
-			$pluginParams = json_decode($isbnlinkPlugin->params);
-				
-			$pluginParams->keyword = "ISBN";
-			$ISBNText .= "ISBN:0123456789blabla ISBN 0 12345-678 9";
-	
-			$pluginKeyword = $pluginParams->keyword;
-				
-			$matches = $this->getISBNMatches($ISBNText, $pluginKeyword);
-	
-			var_dump($matches);
-			echo "<br/><br/><br/><br/>";
-		}
-	}
-		
-	/**
-	 * Method to get all ISBN matches
-	 * 
-	 * @param   String  $ISBNText       The text with isbn
-	 * @param   String  $pluginKeyword  The keyword
-	 * 
-	 * @return Ambigous <>|multitype:
-	 */
-	public function getISBNMatches($ISBNText, $pluginKeyword)
-	{
-		$matches = array();
-	
-		// Result is stored in $matches
-		preg_match_all("/" . $pluginKeyword . "((-13)?(:)?(\s)?(\d[-\s]?){12}|(-10)?(:)?(\s)?(\d[-\s]?){9})\d/",
-		 $ISBNText, $matches, PREG_PATTERN_ORDER
-		);
-	
-		if ($matches[0])
-		{
-			return $matches[0];
-		}
-		else
-		{
-			return $matches;
-		}
-	}
 }
