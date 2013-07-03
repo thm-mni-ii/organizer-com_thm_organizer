@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<document version="1.4" date="20130703" time="102514">
+<document version="1.4" date="20130703" time="103731">
   <general>
     <schoolname>Untis 2013</schoolname>
     <schoolyearbegindate>20121008</schoolyearbegindate>
@@ -4614,7 +4614,6 @@
       <teacher_description id="DS_MAT-INF"/>
       <external_name>LauwW</external_name>
     </teacher>
-    <teacher id="TR_LB"/>
     <teacher id="TR_Leicht">
       <surname>Leicht</surname>
       <teacher_description id="DS_ING"/>
@@ -5223,6 +5222,9 @@
     </teacher>
     <teacher id="TR_Eber">
       <surname>Eberlein</surname>
+    </teacher>
+    <teacher id="TR_LB">
+      <surname>Lehrbeauftragter</surname>
     </teacher>
   </teachers>
   <classes>
@@ -6217,7 +6219,9 @@
     <lesson id="LS_169500">
       <periods>1</periods>
       <lesson_subject id="SU_Biophy"/>
+      <lesson_teacher id="TR_Send"/>
       <lesson_classes id="CL_BMT.4"/>
+      <teacher_value>28846</teacher_value>
       <effectivebegindate>20130402</effectivebegindate>
       <effectiveenddate>20130713</effectiveenddate>
       <occurence>000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F00000FFFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF11111F111111F111111F111111F11F111F111F00F111111FF11111F111F00F111111F111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000F00</occurence>
@@ -6459,7 +6463,9 @@
     <lesson id="LS_190400">
       <periods>1</periods>
       <lesson_subject id="SU_BPP"/>
+      <lesson_teacher id="TR_LB"/>
       <lesson_classes id="CL_KTM.4"/>
+      <teacher_value>28846</teacher_value>
       <effectivebegindate>20130402</effectivebegindate>
       <effectiveenddate>20130713</effectiveenddate>
       <occurence>000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F00000FFFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF11111F111111F111111F111111F11F111F111F00F111111FF11111F111F00F111111F111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000F00</occurence>
@@ -9139,6 +9145,7 @@
       <effectiveenddate>20130713</effectiveenddate>
       <occurence>000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F00000FFFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF11111F111111F111111F111111F11F111F111F00F111111FF11111F111F00F111111F111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000F00</occurence>
       <text>Termine n. Ankündigung</text>
+      <lesson_description>V</lesson_description>
       <times>
         <time>
           <assigned_day>5</assigned_day>
@@ -10446,6 +10453,7 @@
       <effectivebegindate>20121008</effectivebegindate>
       <effectiveenddate>20131005</effectiveenddate>
       <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F11111FFFFFFFFFFFFFFFF111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F1111FFFF11111F111111F111111F111111F11F111F111F11F111111FF11111F111F11F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111F11</occurence>
+      <lesson_description>V</lesson_description>
       <times>
         <time>
           <assigned_day>5</assigned_day>
@@ -11061,22 +11069,6 @@
       <lesson_teacher id="TR_Seip"/>
       <lesson_classes id="CL_KTM.4"/>
       <teacher_value>28846</teacher_value>
-      <effectivebegindate>20130402</effectivebegindate>
-      <effectiveenddate>20130713</effectiveenddate>
-      <occurence>000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F00000FFFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF11111F111111F111111F111111F11F111F111F00F111111FF11111F111F00F111111F111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000F00</occurence>
-      <text>Termine nach Vereinbarung</text>
-      <lesson_description>P</lesson_description>
-      <times>
-        <time>
-          <assigned_day>1</assigned_day>
-          <assigned_period>6</assigned_period>
-          <assigned_starttime>1730</assigned_starttime>
-          <assigned_endtime>1900</assigned_endtime>
-        </time>
-      </times>
-    </lesson>
-    <lesson id="LS_284501">
-      <periods>1</periods>
       <effectivebegindate>20130402</effectivebegindate>
       <effectiveenddate>20130713</effectiveenddate>
       <occurence>000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F00000FFFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF11111F111111F111111F111111F11F111F111F00F111111FF11111F111F00F111111F111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000F00</occurence>
