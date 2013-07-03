@@ -158,7 +158,7 @@ if ($suffix = $this->params->get('lsf_navi', 0))
 					else
 					{
 						?>
-					<td width="5%"</td>
+					<td width="5%"/>
 					<?php
 					}
 					?>
