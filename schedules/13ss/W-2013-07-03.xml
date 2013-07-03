@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<document version="1.4" date="20130703" time="105238">
+<document version="1.4" date="20130703" time="105909">
   <general>
     <schoolname>Untis 2013</schoolname>
     <schoolnumber>07 W</schoolnumber>
@@ -1282,7 +1282,11 @@
       <subjectgroup>JUR</subjectgroup>
       <subject_description id="DS_JUR"/>
     </subject>
-    <subject id="SU_DIV"/>
+    <subject id="SU_DIV">
+      <longname>Diverse</longname>
+      <subjectgroup>DIV</subjectgroup>
+      <subject_description id="DS_DIV"/>
+    </subject>
   </subjects>
   <teachers>
     <teacher id="TR_Althoff">
@@ -5017,6 +5021,7 @@
       <effectivebegindate>20121008</effectivebegindate>
       <effectiveenddate>20131005</effectiveenddate>
       <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F11111FFFFFFFFFFFFFFFF111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F1111FFFF11111F111111F111111F111111F11F111F111F11F111111FF11111F111F11F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111F11</occurence>
+      <lesson_description>V</lesson_description>
       <times>
         <time>
           <assigned_day>4</assigned_day>
