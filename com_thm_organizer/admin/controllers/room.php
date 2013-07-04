@@ -68,7 +68,9 @@ class THM_OrganizerControllerRoom extends JController
         }
         $model = $this->getModel('room');
         $model->autoMergeAll();
-        $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false));
+        
+        $msg = JText::_('COM_THM_ORGANIZER_RMM_AUTO_MERGE');
+        $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg);
     }
 	
 	/**
