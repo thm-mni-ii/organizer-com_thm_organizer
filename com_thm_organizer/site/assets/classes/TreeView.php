@@ -662,10 +662,10 @@ class THMTreeView
                 else
                 {
                     $hasLessons = $this->treeNodeHasLessons($childKey, $scheduleType);
-                }
 
-                // Erstmal immer true!
-// 				$hasLessons = true;
+                    // Erstmal immer true!
+//     				$hasLessons = true;
+                }
 
                 $childNode = null;
                 if ($hasLessons)
@@ -843,33 +843,45 @@ class THMTreeView
      */
     private function treeNodeHasLessons($nodeID, $type)
     {
+        if ($type == "subject" || $type == "module" || $type == "teacher")
+        {
+            $fieldType = $type . "s";
+        }
+        else
+        {
+            $fieldType = $type;
+        }
+        
+        $lessons = array_filter((array) $this->_activeScheduleData->lessons, function($obj) use ($fieldType, $nodeID){
+            return isset($obj->{$fieldType}->{$nodeID});
+            return false;
+        });
+
+        $lessonKeys = array_keys($lessons);
+        
         foreach ($this->_activeScheduleData->calendar as $calendarValue)
         {
             if (is_object($calendarValue))
             {
                 foreach ($calendarValue as $blockValue)
                 {
-                    foreach ($blockValue as $lessonKey => $lessonValue)
+                    if ($type == "subject" || $type == "module" || $type == "teacher")
                     {
-                        if ($type == "subject" || $type == "module" || $type == "teacher")
+                        foreach($lessonKeys as $lessonKeyValue)
                         {
-                            $fieldType = $type . "s";
-                            foreach (array_keys((array) $this->_activeScheduleData->lessons->{$lessonKey}->{$fieldType}) as $typeKey)
+                            if(isset($blockValue->{$lessonKeyValue}) == true)
                             {
-                                if ($typeKey == $nodeID)
-                                {
-                                    return true;
-                                }
+                                return true;
                             }
                         }
-                        elseif ($type == "room")
+                    }
+                    else
+                    {
+                        foreach ($blockValue as $lessonKey => $lessonValue)
                         {
-                            foreach (array_keys((array) $lessonValue) as $roomKey)
+                            if(isset($lessonValue->{$nodeID}) == true)
                             {
-                                if ($roomKey == $nodeID)
-                                {
-                                    return true;
-                                }
+                                return true;
                             }
                         }
                     }
