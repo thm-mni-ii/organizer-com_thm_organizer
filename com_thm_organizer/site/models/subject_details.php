@@ -43,7 +43,7 @@ class THM_OrganizerModelSubject_Details extends JModel
 
         $this->menuID = JRequest::getInt('Itemid');
         $this->subjectID = JRequest::getInt('id');
-        $this->languageTag = JRequest::getString('lang', 'de');
+        $this->languageTag = JRequest::getString('languageTag', 'de');
 
         if (!empty($this->subjectID))
         {
@@ -121,14 +121,11 @@ class THM_OrganizerModelSubject_Details extends JModel
         $teachers = array();
         foreach ($teacherData as $teacher)
         {
-            $title = empty($teacher['title'])? '' : "{$teacher['title']} ";
-            $forename = empty($teacher['forename'])? '' : "{$teacher['forename']} ";
-            $surname = $teacher['surname'];
-            $defaultName =  $title . $forename . $surname;
+            $defaultName = THM_OrganizerHelperTeacher::getDefaultName($teacher);
             
             if (!empty($teacher['userID']))
             {
-                $teacherName = THM_OrganizerHelperTeacher::getName($teacher['userID']);
+                $teacherName = THM_OrganizerHelperTeacher::getNameFromTHMGroups($teacher['userID']);
                 $teacher['link'] = THM_OrganizerHelperTeacher::getLink($teacher);
             }
             $teacher['name'] =  empty($teacherName)? $defaultName : $teacherName;
@@ -153,7 +150,7 @@ class THM_OrganizerModelSubject_Details extends JModel
      */
     private function setPrerequisites()
     {
-        $link = "index.php?option=com_thm_organizer&view=subject_details&lang={$this->languageTag}&Itemid={$this->menuID}&id=";
+        $link = "index.php?option=com_thm_organizer&view=subject_details&languageTag={$this->languageTag}&Itemid={$this->menuID}&id=";
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("name_$this->languageTag AS name, CONCAT( '$link' , prerequisite ) AS link");
@@ -178,7 +175,7 @@ class THM_OrganizerModelSubject_Details extends JModel
      */
     private function setPrerequisiteOf()
     {
-        $link = "index.php?option=com_thm_organizer&view=subject_details&lang={$this->languageTag}&Itemid={$this->menuID}&id=";
+        $link = "index.php?option=com_thm_organizer&view=subject_details&languageTag={$this->languageTag}&Itemid={$this->menuID}&id=";
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("name_$this->languageTag AS name, CONCAT( '$link' , subjectID ) AS link");

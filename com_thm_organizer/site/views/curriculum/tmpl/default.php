@@ -22,7 +22,7 @@ $flagClass = strlen($this->params->get('page_heading')) == 0? "flagWithoutTitle"
 $paramsString = JRequest::getVar('Itemid') . ", ";
 $paramsString .= $this->params->get('program') . ", ";
 $paramsString .= $this->params->get('horizontalGroups')? ", " : "'', " ;
-$paramsString .= "'$this->lang', ";
+$paramsString .= "'$this->languageTag', ";
 $paramsString .= $this->params->get('width') . ", ";
 $paramsString .= $this->params->get('height') . ", ";
 $paramsString .= "'" . $this->params->get('semester_body_color') . "', ";

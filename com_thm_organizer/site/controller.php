@@ -32,18 +32,6 @@ class THM_OrganizerController extends JController
 	 */
     public function display($cachable = false, $urlparams = false)
     {  
-    	$app = JFactory::getApplication();
-		$menus = $app->getMenu();
-		$menu = $menus->getActive();
-
-		if (isset($menu->params) && $menu->params != null)
-		{
-			JRequest::setVar('lang', JRequest::getVar('lang', $menu->params->get('lsf_default_language')));
-		}
-		else
-		{
-			JRequest::setVar('lang', JRequest::getVar('lang'));
-		}
 		parent::display($cachable, $urlparams); 
     }
 } 

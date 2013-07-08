@@ -41,8 +41,8 @@ class THM_OrganizerViewCurriculum extends JView
 
             // Get the parameters of the current view
             $this->params = JFactory::getApplication()->getMenu()->getActive()->params;
-            $this->lang = JRequest::getVar('lang');
-            $this->langLink = ($this->lang == 'de') ? 'en' : 'de';
+            $this->languageTag = JRequest::getVar('languageTag', 'de');
+            $this->langLink = ($this->languageTag == 'de') ? 'en' : 'de';
             $this->langUrl = self::languageSwitcher($this->langLink);
             $this->pagetitle = $this->params->get('page_title');
 
@@ -64,7 +64,7 @@ class THM_OrganizerViewCurriculum extends JView
 		$params = array('option' => 'com_thm_organizer',
 				'view' => $group,
 				'Itemid' => $itemid,
-				'lang' => $langLink
+				'languageTag' => $langLink
 		);
 		$params = array_merge($URI->getQuery(true), $params);
 		$query = $URI->buildQuery($params);

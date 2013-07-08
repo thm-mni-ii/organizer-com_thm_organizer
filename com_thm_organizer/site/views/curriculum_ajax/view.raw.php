@@ -42,7 +42,7 @@ class THM_OrganizerViewCurriculum_Ajax extends JView
     private function getCurriculum()
     {
         $program = JRequest::getString('id');
-        $languageTag = JRequest::getString('lang');
+        $languageTag = JRequest::getString('languageTag');
         if (empty($program))
         {
             echo '';

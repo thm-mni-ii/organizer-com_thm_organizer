@@ -78,13 +78,27 @@ class THM_OrganizerHelperTeacher
     }
 
     /**
+     * Generates a default teacher text based upon organizer's internal data
+     * 
+     * @param  type $teacherData
+     * @return type
+     */
+    public static function getDefaultName($teacherData)
+    {
+        $title = empty($teacherData['title'])? '' : "{$teacherData['title']} ";
+        $forename = empty($teacherData['forename'])? '' : "{$teacherData['forename']} ";
+        $surname = $teacherData['surname'];
+        return $title . $forename . $surname;
+    }
+
+    /**
      * Method to determine the name of a given module
      *
      * @param   int  $userID  the user id of the teacher
      *
      * @return  string title, first, and last names of the teacher as existent
      */
-    public static function getName($userID)
+    public static function getNameFromTHMGroups($userID)
     {
 		$dbo = JFactory::getDBO();
 		$query = $dbo->getQuery(true);

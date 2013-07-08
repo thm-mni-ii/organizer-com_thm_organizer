@@ -26,8 +26,6 @@ $proof = ($this->lang == 'de')? 'Leistungsnachweis' : 'Testing Method';
 $frequency = ($this->lang == 'de')? 'Turnus' : 'Frequency';
 $language = ($this->lang == 'de')? 'Sprache' : 'Language';
 $preliminary_work = ($this->lang == 'de')? 'Vorleistung' : 'Requirement';
-//$description = ($this->lang == 'de')? 'Beschreibung' : 'Description';
-//$description = ($this->lang == 'de')? 'Beschreibung' : 'Description';
 $flagPath = 'media' . DIRECTORY_SEPARATOR . 'com_thm_organizer' . DIRECTORY_SEPARATOR . 'images';
 $flagPath .= DIRECTORY_SEPARATOR . 'curriculum' . DIRECTORY_SEPARATOR . $this->otherLanguageTag . '.png';
 ?>
@@ -55,23 +53,27 @@ $flagPath .= DIRECTORY_SEPARATOR . 'curriculum' . DIRECTORY_SEPARATOR . $this->o
         </a>
 	</span>
 </h1>
-<div class="lsflist">
-    <dl class="lsflist">
+<div class="subject-list">
 <?php
 if (!empty($subject['externalID']))
 {
-    echo '<dt class="lsflist">' . $moduleNumber . '</dt>';
-    echo '<dd class="lsflist">' . $subject['externalID'] . '</dd>';
+    echo '<div class="subject-item">';
+    echo '<div class="subject-label">' . $moduleNumber . '</div>';
+    echo '<div class="subject-content">' . $subject['externalID'] . '</div>';
+    echo '</div>';
 }
 if (!empty($subject['short_name']))
 {
-    echo '<dt class="lsflist">' . $shortName . '</dt>';
-    echo '<dd class="lsflist">' . $subject['short_name'] . '</dd>';
+    echo '<div class="subject-item">';
+    echo '<div class="subject-label">' . $shortName . '</div>';
+    echo '<div class="subject-content">' . $subject['short_name'] . '</div>';
+    echo '</div>';
 }
 if (!empty($subject['teachers']))
 {
-    echo '<dt class="lsflist">' . $teachers . '</dt>';
-    echo '<dd class="lsflist"><ul>';
+    echo '<div class="subject-item">';
+    echo '<div class="subject-label">' . $teachers . '</div>';
+    echo '<div class="subject-content"><ul>';
     foreach ($subject['teachers'] as $teacher)
     {
         echo '<li>';
@@ -85,78 +87,103 @@ if (!empty($subject['teachers']))
         }
         echo '</li>';
     }
-    echo '</ul></dd>';
+    echo '</ul></div>';
+    echo '</div>';
 }
 if (!empty($subject['description']))
 {
-    echo '<dt class="lsflist">' . $description . '</dt>';
-    echo '<dd class="lsflist">' . $subject['description'] . '</dd>';
+    echo '<div class="subject-item">';
+    echo '<div class="subject-label">' . $description . '</div>';
+    echo '<div class="subject-content">' . $subject['description'] . '</div>';
+    echo '</div>';
 }
 if (!empty($subject['objective']))
 {
-    echo '<dt class="lsflist">' . $objectives . '</dt>';
-    echo '<dd class="lsflist">' . $subject['objective'] . '</dd>';
+    echo '<div class="subject-item">';
+    echo '<div class="subject-label">' . $objectives . '</div>';
+    echo '<div class="subject-content">' . $subject['objective'] . '</div>';
+    echo '</div>';
 }
 if (!empty($subject['content']))
 {
-    echo '<dt class="lsflist">' . $contents . '</dt>';
-    echo '<dd class="lsflist">' . $subject['content'] . '</dd>';
+    echo '<div class="subject-item">';
+    echo '<div class="subject-label">' . $contents . '</div>';
+    echo '<div class="subject-content">' . $subject['content'] . '</div>';
+    echo '</div>';
 }
 if (!empty($subject['language']))
 {
-    echo '<dt class="lsflist hasTip">' . $language . '</dt>';
-    echo '<dd class="lsflist">' . ($subject['language'] == 'D')? 'Deutsch' : 'English' . '</dd>';
+    echo '<div class="subject-item">';
+    echo '<div class="subject-label">' . $language . '</div>';
+    echo '<div class="subject-content">' . ($subject['language'] == 'D')? 'Deutsch' : 'English' . '</div>';
+    echo '</div>';
 }
 if (!empty($subject['expenditureOutput']))
 {
-    echo '<dt class="lsflist">' . $expenditure . '</dt>';
-	echo '<dd class="lsflist">' . $subject['expenditureOutput'] . '</dd>';
+    echo '<div class="subject-item">';
+    echo '<div class="subject-label">' . $expenditure . '</div>';
+	echo '<div class="subject-content">' . $subject['expenditureOutput'] . '</div>';
+    echo '</div>';
 }
 if (!empty($subject['method']))
 {
-    echo '<dt class="lsflist">' . $method . '</dt>';
-	echo '<dd class="lsflist">' . $subject['method'] . '</dd>';
+    echo '<div class="subject-item">';
+    echo '<div class="subject-label">' . $method . '</div>';
+	echo '<div class="subject-content">' . $subject['method'] . '</div>';
+    echo '</div>';
 }
 if (!empty($subject['preliminary_work']))
 {
-    echo '<dt class="lsflist">' . $preliminary_work . '</dt>';
-	echo '<dd class="lsflist">' . $subject['preliminary_work'] . '</dd>';
+    echo '<div class="subject-item">';
+    echo '<div class="subject-label">' . $preliminary_work . '</div>';
+	echo '<div class="subject-content">' . $subject['preliminary_work'] . '</div>';
+    echo '</div>';
 }
 if (!empty($subject['proof']))
 {
+    echo '<div class="subject-item">';
     $method = empty($subject['pform'])? '' : ' ( ' . $subject['pform'] . ' )';
-    echo '<dt class="lsflist">' . $proof . '</dt>';
-    echo '<dd class="lsflist">' . $subject['proof'] . $method . '</dd>';
+    echo '<div class="subject-label">' . $proof . '</div>';
+    echo '<div class="subject-content">' . $subject['proof'] . $method . '</div>';
+    echo '</div>';
 }
 if (!empty($subject['frequency']))
 {
-    echo '<dt class="lsflist">' . $frequency . '</dt>';
-	echo '<dd class="lsflist">' . $subject['frequency'] . '</dd>';
+    echo '<div class="subject-item">';
+    echo '<div class="subject-label">' . $frequency . '</div>';
+	echo '<div class="subject-content">' . $subject['frequency'] . '</div>';
+    echo '</div>';
 }
 if (!empty($subject['literature']))
 {
-    echo '<dt class="lsflist">' . $references . '</dt>';
-    echo '<dd class="lsflist" id="litverz">' . $subject['literature'] . '</dd>';
+    echo '<div class="subject-item">';
+    echo '<div class="subject-label">' . $references . '</div>';
+    echo '<div class="subject-content" id="litverz">' . $subject['literature'] . '</div>';
+    echo '</div>';
 }
 if (!empty($subject['prerequisites']))
 {
-    echo '<dt class="lsflist">' . $prerequisites . '</dt>';
-    echo '<dd class="lsflist" id="voraussetzung"><ul>';
+    echo '<div class="subject-item">';
+    echo '<div class="subject-label">' . $prerequisites . '</div>';
+    echo '<div class="subject-content" id="voraussetzung"><ul>';
     foreach ($subject['prerequisites'] as $prerequisite)
     {
         echo '<li><a href="' . $prerequisite['link'] . '">' . $prerequisite['name'] . '</a></li>';
     }
-    echo '</ul></dd>';
+    echo '</ul></div>';
+    echo '</div>';
 }
 if (!empty($subject['prerequisiteOf']))
 {
-    echo '<dt class="lsflist">' . $prerequisiteOf . '</dt>';
-    echo '<dd class="lsflist" id="voraussetzung"><ul>';
+    echo '<div class="subject-item">';
+    echo '<div class="subject-label">' . $prerequisiteOf . '</div>';
+    echo '<div class="subject-content" id="voraussetzung"><ul>';
     foreach ($subject['prerequisiteOf'] as $of)
     {
         echo '<li><a href="' . $of['link'] . '">' . $of['name'] . '</a></li>';
     }
-    echo '</ul></dd>';
+    echo '</ul></div>';
+    echo '</div>';
 }
 ?>
 	</dl>

@@ -216,7 +216,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
         $defaultName =  $title . $forename . $surname;
         if (!empty($teacherData['userID']))
         {
-            $teacherName = THM_OrganizerHelperTeacher::getName($teacherData['userID']);
+            $teacherName = THM_OrganizerHelperTeacher::getNameFromTHMGroups($teacherData['userID']);
             if (empty($teacherName))
             {
                 $subjectData->teacherName =  $defaultName;

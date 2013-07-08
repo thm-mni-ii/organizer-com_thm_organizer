@@ -20,14 +20,7 @@ jimport('joomla.application.component.modellist');
  * @subpackage  com_thm_organizer.admin
  */
 class THM_OrganizerModelSubject_Manager extends JModelList
-{
-	/**
-	 * Pagination. 
-	 *
-	 * @var    Object
-	 */
-	private $_pagination = null;
-    
+{    
     public $programs = null;
 
     public $pools = null;

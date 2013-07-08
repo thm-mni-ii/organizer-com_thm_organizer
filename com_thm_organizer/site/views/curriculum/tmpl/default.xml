@@ -38,7 +38,7 @@
                 <option value="en">COM_THM_ORGANIZER_ENGLISH</option>
             </field>
             <field type="spacer"
-                   label="COM_THM_ORGANIZER_CUR_APPEARANCE_SPACER" />
+                   label="COM_THM_ORGANIZER_APPEARANCE_SPACER" />
             <field name="css_suffix"
                    type="text"
                    label="COM_THM_ORGANIZER_SUFFIX_TITLE"
