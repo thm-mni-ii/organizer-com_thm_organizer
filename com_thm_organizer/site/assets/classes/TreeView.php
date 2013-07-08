@@ -843,29 +843,27 @@ class THMTreeView
      */
     private function treeNodeHasLessons($nodeID, $type)
     {
+        /* 
+         * We use two strategies to determine if the given tree node has lessons
+         * If the given $type is subject, module or teacher we search for all lesson that has
+         * the $nodeID as a subject/module/teacher.
+         * And then we search the lessonID in the calendar.
+         */
         if ($type == "subject" || $type == "module" || $type == "teacher")
         {
             $fieldType = $type . "s";
-        }
-        else
-        {
-            $fieldType = $type;
-        }
-        
-        $lessons = array_filter((array) $this->_activeScheduleData->lessons, function($obj) use ($fieldType, $nodeID){
-            return isset($obj->{$fieldType}->{$nodeID});
-            return false;
-        });
-
-        $lessonKeys = array_keys($lessons);
-        
-        foreach ($this->_activeScheduleData->calendar as $calendarValue)
-        {
-            if (is_object($calendarValue))
+            
+            $lessons = array_filter((array) $this->_activeScheduleData->lessons, function($obj) use ($fieldType, $nodeID){
+                return isset($obj->{$fieldType}->{$nodeID});
+            });
+            
+            $lessonKeys = array_keys($lessons);
+            
+            foreach ($this->_activeScheduleData->calendar as $calendarValue)
             {
-                foreach ($calendarValue as $blockValue)
+                if (is_object($calendarValue))
                 {
-                    if ($type == "subject" || $type == "module" || $type == "teacher")
+                    foreach ($calendarValue as $blockValue)
                     {
                         foreach($lessonKeys as $lessonKeyValue)
                         {
@@ -875,9 +873,22 @@ class THMTreeView
                             }
                         }
                     }
-                    else
+                }
+            }
+        }
+        else
+        {
+            /*
+            * If the given $type is room we search directly in the calendar list
+            * because the rooms are assigned to the lesson in the calendar.
+            */
+            foreach ($this->_activeScheduleData->calendar as $calendarValue)
+            {
+                if (is_object($calendarValue))
+                {
+                    foreach ($calendarValue as $blockValue)
                     {
-                        foreach ($blockValue as $lessonKey => $lessonValue)
+                        foreach ($blockValue as $lessonValue)
                         {
                             if(isset($lessonValue->{$nodeID}) == true)
                             {
@@ -888,7 +899,7 @@ class THMTreeView
                 }
             }
         }
+        
         return false;
-
     }
 }
