@@ -16,7 +16,7 @@ MySched.daytime = new Array();
 MySched.loadedLessons = new Array();
 MySched.mainPath = externLinks.mainPath;
 // set ajax timeout to 10 seconds
-Ext.Ajax.timeout = 30000;
+Ext.Ajax.timeout = 60000;
 // Setzte die initalwerte fuer das Konfigurationsobjekt
 MySched.Config.addAll(
 {

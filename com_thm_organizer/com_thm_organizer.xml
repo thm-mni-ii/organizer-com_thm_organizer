@@ -11,7 +11,7 @@
     <creationDate>01/01/2013</creationDate>
     <copyright>TH Mittelhessen 2013</copyright>
     <licence>GNU GPL v.2</licence>
-    <version>0.3.11</version>
+    <version>0.3.15</version>
     <scriptfile>script.php</scriptfile>
     <install>
         <sql>
