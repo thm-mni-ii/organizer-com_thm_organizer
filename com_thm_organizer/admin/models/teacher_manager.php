@@ -48,28 +48,23 @@ class THM_OrganizerModelTeacher_Manager extends JModelList
 	{
 		$dbo = JFactory::getDBO();
 
-		// Get the filter values from the request
-		$orderBy = $this->state->get('list.ordering');
-		$orderDir = $this->state->get('list.direction');
-
-		// Defailt ordering
-		if ($orderBy == "")
-		{
-			$orderBy = "surname";
-			$orderDir = "ASC";
-		}
-
 		// Create the query
 		$query = $dbo->getQuery(true);
 		$query->select("*, t.id AS id, t.gpuntisID AS gpuntisID");
 		$query->from('#__thm_organizer_teachers AS t');
 		$query->leftJoin('#__thm_organizer_fields AS f ON t.fieldID = f.id');
 
-		$search = '%' . $dbo->getEscaped($this->state->get('filter.search'), true) . '%';
-		$whereClause = "(surname LIKE '$search'";
-		$whereClause .= "OR forename LIKE '$search')";
-		$query->where($whereClause);
+        $searchFilter = $this->state->get('filter.search');
+        if (!empty($searchFilter))
+        {
+            $search = '%' . $dbo->getEscaped($this->state->get('filter.search'), true) . '%';
+            $whereClause = "(surname LIKE '$search'";
+            $whereClause .= "OR forename LIKE '$search')";
+            $query->where($whereClause);
+        }
 
+		$orderBy = $this->state->get('list.ordering', 'surname');
+		$orderDir = $this->state->get('list.direction', 'ASC');
 		$query->order("$orderBy $orderDir");
 
 		return $query;

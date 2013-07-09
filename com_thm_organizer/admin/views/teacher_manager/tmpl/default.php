@@ -50,7 +50,7 @@ $listDirn = $this->state->get('list.direction');
 				<?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_TRM_TITLE_TITLE'), 'forename', $listDirn, $listOrder); ?>
 			</th>
 			<th width="10%">
-				<?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_TRM_USERNAME_TITLE'), 'userid', $listDirn, $listOrder); ?>
+				<?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_TRM_USERNAME_TITLE'), 'username', $listDirn, $listOrder); ?>
 			</th>
 			<th width="5%">
 				<?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_GPUNTISID'), 'id', $listDirn, $listOrder); ?>
