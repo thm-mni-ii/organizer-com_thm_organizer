@@ -39,11 +39,12 @@
             <filename>thm_organizer.php</filename>
             <filename>controller.php</filename>
             <filename>LICENSE.php</filename>
-            <folder>views</folder>
-            <folder>models</folder>
-            <folder>controllers</folder>
             <folder>assets</folder>
+            <folder>controllers</folder>
             <folder>helper</folder>
+            <folder>models</folder>
+            <folder>tables</folder>
+            <folder>views</folder>
     </files>
     <languages>
         <language tag="en-GB" client="site">language/en-GB/en-GB.com_thm_organizer.ini</language>
