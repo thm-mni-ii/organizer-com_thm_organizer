@@ -13,7 +13,7 @@
  */
 
 defined('_JEXEC') or die;
-$logoURL = 'administrator/components/com_thm_organizer/assets/images/THM-Organizer-Logo.png';
+$logoURL = 'administrator/components/com_thm_organizer/assets/images/THM-Organizer-Logo.jpg';
 ?>
 <?php
     echo JHTML::_('image', $logoURL, JText::_('COM_THM_ORGANIZER'), array( 'class' => 'thm_organizer_main_image'));
