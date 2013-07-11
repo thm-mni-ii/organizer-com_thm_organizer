@@ -43,7 +43,7 @@ class THM_OrganizerModelSubject_Details extends JModel
 
         $this->menuID = JRequest::getInt('Itemid');
         $this->subjectID = JRequest::getInt('id');
-        $externalID = JRequest::getInt('nrmni');
+        $externalID = JRequest::getString('nrmni');
         if (empty($this->subjectID) AND !empty($externalID))
         {
             $this->subjectID = $this->resolveExternalID($externalID);
