@@ -32,7 +32,7 @@ class THM_OrganizerEvent_Helper
      * @return  void
      */
     public static function buildtext(&$data)
-    {
+    {   
         self::setContentCategoryData($data);
         self::handleDatesandTimes($data);
         self::createIntroText($data);
@@ -239,6 +239,7 @@ class THM_OrganizerEvent_Helper
                 $dateText .= JText::_("COM_THM_ORGANIZER_E_ALLDAY");
             }
         }
+        $dateText .= JText::_("COM_THM_ORGANIZER_E_DATES_END");
         return $dateText;
     }
 

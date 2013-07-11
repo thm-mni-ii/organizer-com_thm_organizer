@@ -104,6 +104,27 @@
     height: 22px;
 }
 
+.loader {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     80%;
+    width:      100%;
+    background: url("../../../../media/com_thm_organizer/images/thm-ajax-loader.gif") 
+                50% 50% 
+                no-repeat;
+}
+
+body.loading {
+    overflow: hidden;   
+}
+
+body.loading .loader {
+    display: block;
+}
+
 #overlay{
     display: none; 
     background: -moz-radial-gradient(center, ellipse cover,  rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.5) 100%); 
