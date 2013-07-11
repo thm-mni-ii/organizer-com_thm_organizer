@@ -43,6 +43,11 @@ class THM_OrganizerModelSubject_Details extends JModel
 
         $this->menuID = JRequest::getInt('Itemid');
         $this->subjectID = JRequest::getInt('id');
+        $externalID = JRequest::getInt('nrmni');
+        if (empty($this->subjectID) AND !empty($externalID))
+        {
+            $this->subjectID = $this->getResolveExternalID($externalID);
+        }
         $this->languageTag = JRequest::getString('languageTag', 'de');
 
         if (!empty($this->subjectID))
@@ -76,10 +81,23 @@ class THM_OrganizerModelSubject_Details extends JModel
     }
 
     /**
-     * Loads subject information from the database
+     * Resolves the external id to the internal table id
      * 
-     * @param   int     $subjectID    the lsf id of the subject requested
-     * @param   string  $languageTag  the language to be used in the output
+     * @param   string  $externalID  the external id
+     * 
+     * @return  int  the id of the subject
+     */
+    private function resolveExternalID($externalID)
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('id')->from('#__thm_organizer_subjects')->where("externalID = '$externalID'");
+        $dbo->setQuery((string) $query);
+        return $dbo->loadResult();
+    }
+
+    /**
+     * Loads subject information from the database
      * 
      * @return  array  an array of information about the subject
      */
