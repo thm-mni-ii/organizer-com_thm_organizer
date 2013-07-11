@@ -1084,7 +1084,7 @@ Ext.define('mSchedule',
                             var block = blockIndex - 1;
                             
                             asArrRet[asArrRet.length] = {};
-                            asArrRet[asArrRet.length - 1].cell = v.getCellView(this, false);
+                            asArrRet[asArrRet.length - 1].cell = v.getCellView(this, blockIndex, dowNR);
                             asArrRet[asArrRet.length - 1].block = Ext.clone(blockIndex);
                             asArrRet[asArrRet.length - 1].dow = Ext.clone(dowNR);
                         }
