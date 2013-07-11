@@ -4133,7 +4133,7 @@ MySched.Tree = function ()
                         var rootNode = MySched.Tree.tree.getRootNode();
                         rootNode.removeAll(true);
                         rootNode.appendChild(newtree);
-                        MySched.Tree.tree.update();
+
                         if (loadMask)
             		    {
             				loadMask.destroy();
