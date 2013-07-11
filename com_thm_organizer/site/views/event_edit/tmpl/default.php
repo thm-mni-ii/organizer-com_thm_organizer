@@ -17,6 +17,15 @@ $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : fa
     var categories = new Array;
     var jq = jQuery.noConflict();
     
+    jq("body").on({
+        ajaxStart: function() { 
+            jq(this).addClass("loading"); 
+        },
+        ajaxStop: function() { 
+            jq(this).removeClass("loading"); 
+        }    
+    });
+    
     jq(document).ready( function() {   
        jq('.thm_organizer_action_link_preview').live("click", function() {
            jq('.Popup').fadeIn("slow");
@@ -35,11 +44,11 @@ $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : fa
     function preview_content(response) {
         var json = jq.parseJSON(response);
         jq('#thm_organizer_ee_preview_event').append("<div id='thm_organizer_e_preview_div' >\
-                                                        <div id='thm_organizer_e_title'>"           + json.title      + "</div>\
-                                                        <div id='thm_organizer_e_publish_up'>"      + json.created_at + "</div>\
-                                                        <div id='thm_organizer_e_author'>"          + json.username   + "</div>\
-                                                        "                                           + json.introtext  + "\
-                                                        <div id='thm_organizer_e_description'>"     + json.fulltext   + "</div>\
+                                                        <div id='thm_organizer_e_title'>"           + json.title        + "</div>\
+                                                        <div id='thm_organizer_e_publish_up'>"      + json.created_at   + "</div>\
+                                                        <div id='thm_organizer_e_author'>"          + json.username     + "</div>\
+                                                        "                                           + json.introtext    + "\
+                                                        <div id='thm_organizer_e_description'>"     + json.description  + "</div>\
                                                       </div>");
     }
     
@@ -47,6 +56,24 @@ $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : fa
         var d = document.getElementById('thm_organizer_ee_preview_event');
         var olddiv = document.getElementById('thm_organizer_e_preview_div');
         d.removeChild(olddiv);
+    }
+       
+    function build_url() {        
+        var url = "<?php echo $this->baseurl; ?>";
+        url = url + "/index.php?option=com_thm_organizer&view=event_ajax&format=raw&eventID=";;
+        url = url + jq('#jform_id').val() + "&title=";
+        url = url + jq('#jform_title').val() + "&id=";
+        url = url + jq('#jform_id').val() + "&startdate=";
+        url = url + jq('#jform_startdate').val() + "&enddate=";
+        url = url + jq('#jform_enddate').val() + "&starttime=";
+        url = url + jq('#jform_starttime').val() + "&endtime=";
+        url = url + jq('#jform_endtime').val() + "&category=";
+        url = url + jq('#category').val() + "&rec_type=";
+        url = url + getRecType() + "&teachers[]=";
+        url = url + getResources('#teachers') + "&rooms[]=";
+        url = url + getResources('#rooms') + "&groups[]=";
+        url = url + getResources('#groups');
+        return url;
     }
    
 <?php
@@ -64,10 +91,10 @@ Joomla.submitbutton =  function(task){
     if (task === '') { return false; }
     else
     {   
-        var url = "/index.php?option=com_thm_organizer&view=event_ajax&task=" + task + "&format=raw&eventID=";        
-        var isValid=true;
-        var isPreview=false;
+        var requrl = build_url();       
+        var isValid = true;
         var action = task.split('.');
+        
         if (action[1] !== 'cancel' && action[1] !== 'close')
         {
             var forms = $$('form.form-validate');
@@ -80,45 +107,43 @@ Joomla.submitbutton =  function(task){
                 }
             }
         }
-        if (task === 'events.preview'){
-            isPreview=true;
-            url = "/index.php?option=com_thm_organizer&view=event_ajax&task=preview&format=raw&eventID=";            
-        } 
+        
         if (isValid)
         {
-            
-            var requrl = "<?php echo $this->baseurl; ?>";
-            requrl = requrl + url;
-            requrl = requrl + jq('#jform_id').val() + "&jform[description]=";
-            requrl = requrl + document.getElementById("jform_description_ifr").contentWindow.document.getElementById("tinymce").innerHTML + "&jform[title]=";
-            requrl = requrl + jq('#jform_title').val() + "&jform[id]=";
-            requrl = requrl + jq('#jform_id').val() + "&jform[startdate]=";
-            requrl = requrl + jq('#jform_startdate').val() + "&jform[enddate]=";
-            requrl = requrl + jq('#jform_enddate').val() + "&jform[starttime]=";
-            requrl = requrl + jq('#jform_starttime').val() + "&jform[endtime]=";
-            requrl = requrl + jq('#jform_endtime').val() + "&category=";
-            requrl = requrl + jq('#category').val() + "&rec_type=";
-            requrl = requrl + getRecType() + "&teachers[]=";
-            requrl = requrl + getResources('#teachers') + "&rooms[]=";
-            requrl = requrl + getResources('#rooms') + "&groups[]=";
-            requrl = requrl + getResources('#groups');
-            jq.ajax( {
-				type    : "GET",
-				url     : requrl,
-                success : function(response) {
-                    var confirmed = true;
-                    var text = response.responseText;
-                    if(text){ confirmed = confirm(text); }
-                    if(confirmed){
-                        if(isPreview){preview_content(response); }
-                        else{ Joomla.submitform(task, document.eventForm); }
+            if (task === 'events.preview')
+            {
+                var description = document.getElementById("jform_description_ifr").contentWindow.document.getElementById("tinymce").innerHTML;
+                requrl = requrl + "&description=" + description;
+                requrl = requrl + "&task=" + "preview";
+                jq.ajax( {
+                    type    : "GET",
+                    url     : requrl,
+                    success : function(response) {
+                                preview_content(response);
+                                return false;
+                            },
+                    failure : function() {
+                              return false;
                     }
-                    return false;
-                },
-                failure : function() {
-                    return false;
-                }
-            });
+                });
+            }
+            else 
+            {
+                requrl = requrl + "&task=" + "booking";
+                jq.ajax( {
+                    type    : "GET",
+                    url     : requrl,
+                    success : function(response) {
+                        var confirmed = true;
+                        if(response){ confirmed = confirm(response); }
+                        if(confirmed){Joomla.submitform(task, document.eventForm); }
+                        return false;
+                    },
+                    failure : function() {
+                        return false;
+                    }
+                });
+            }
         }
         else
         {
@@ -189,10 +214,12 @@ Joomla.submitbutton =  function(task){
                     onclick="Joomla.submitbutton('events.preview')">
                     <span id="thm_organizer_preview_span" class="thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_PREVIEW'); ?>
-                </a>
+                    
+                </a>                
                 <div class="Popup">
+                    <div class="loader"></div>
                     <h1><?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_HEADER');?></h1>
-                    <div id="thm_organizer_ee_preview_event"></div>                      
+                    <div id="thm_organizer_ee_preview_event"><?php sleep(4); ?></div>                      
                     <a href="" class="closePopup"><?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_CLOSE');?></a>
                 </div>
                 <div id="overlay" class="closePopup"></div>
@@ -310,3 +337,4 @@ Joomla.submitbutton =  function(task){
         <?php echo JHtml::_('form.token'); ?>
     </form>
 </div>
+<div class="loader"></div>

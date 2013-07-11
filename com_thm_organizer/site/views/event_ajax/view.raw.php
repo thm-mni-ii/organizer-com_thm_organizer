@@ -4,6 +4,7 @@
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name        create/edit appointment/event view
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @author      Dominik Bassing, <dominik.bassing@mni.thm.de>
  * @copyright   2013 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -12,8 +13,16 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 jimport('jquery.jquery');
+require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'helper' . DS . 'event_helper.php';
 
-
+/**
+ * Decides if its an save or preview task, outputs a string explaining possible conflicts,
+ * which would merge if an event were saved or returns JSONString for preview PopUp
+ * 
+ * @category    Joomla.Component.Site
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.site
+ */
 class Thm_OrganizerViewEvent_Ajax extends JView
 {
     /**
@@ -26,48 +35,51 @@ class Thm_OrganizerViewEvent_Ajax extends JView
     public function display($tpl = null)
     {   
         $function = JRequest::getString('task');
-        if($function == "preview"){
-            if (!JFactory::getUser()->authorise('core.admin'))
+        $this->$function();
+    }
+    
+    private function booking()
+    {
+        $model = $this->getModel();
+        $conflicts = $model->getConflicts();
+        if (count($conflicts))
+        {
+            $count = 0;
+            $total = count($conflicts);
+            $message = JText::_('COM_THM_ORGANIZER_B_CONFLICTS_FOUND') . ":\n";
+            foreach ($conflicts as $conflict)
             {
-                return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-            }
-            $this->$function();
-        }
-        else{
-            $model = $this->getModel();
-            $conflicts = $model->getConflicts();
-            if (count($conflicts))
-            {
-                $count = 0;
-                $total = count($conflicts);
-                $message = JText::_('COM_THM_ORGANIZER_B_CONFLICTS_FOUND') . ":\n";
-                foreach ($conflicts as $conflict)
+                if ($count == 4)
                 {
-                    if ($count == 4)
-                    {
-                        $message .= "\n" . JText::sprintf('COM_THM_ORGANIZER_B_CONFLICTS_REMAINING', (string) $total - $count);
-                        break;
-                    }
-                    $count++;
-                    $message .= "\n" . $conflict['text'] . "\n";
+                    $message .= "\n" . JText::sprintf('COM_THM_ORGANIZER_B_CONFLICTS_REMAINING', (string) $total - $count);
+                    break;
                 }
-                echo $message;
+                $count++;
+                $message .= "\n" . $conflict['text'] . "\n";
             }
+            echo $message;
         }
     }
     
-    public function preview()
-    {
-        $model = JModel::getInstance('events', 'thm_organizerModel');
-        $data = $model->cleanRequestData();
-        THM_OrganizerEvent_Helper::buildtext($data);  
-        $user = JFactory::getUser($data['userID']);
+    private function preview()
+    {   
+        $data = array();
+        $data['title'] = JRequest::getVar('title', null, null, null, 4);
+        $data['id'] = JRequest::getVar('id', null, null, null, 4);
+        $data['startdate'] = JRequest::getVar('startdate', null, null, null, 4);
+        $data['enddate'] = JRequest::getVar('enddate', null, null, null, 4);
+        $data['starttime'] = JRequest::getVar('starttime', null, null, null, 4);
+        $data['endtime'] = JRequest::getVar('endtime', null, null, null, 4);
+        $data['categoryID'] = JRequest::getInt('category');
+        $data['description'] = JRequest::getVar('description', null, null, null, 4);
+        THM_OrganizerEvent_Helper::buildtext($data);
+        $user = JFactory::getUser();
         $username = $user->name;        
         $written_by = "<p>" . JText::_('COM_THM_ORGANIZER_E_WRITTEN_BY') . $username . "</p>";
         $data['username'] = $written_by;
-        $published_at = "<p>" . JText::_('COM_THM_ORGANIZER_PREVIEW_CREATED') .  JFactory::getDate()->toFormat('%A %d. %B %G %H:%M') . "</p>";
+        $published_at = "<p>" . JText::_('COM_THM_ORGANIZER_PREVIEW_CREATED') .  JFactory::getDate()->toFormat('%A %d. %B %Y %H:%M:%S') . "</p>";
         $data['created_at'] = $published_at;
         $jsonstring = json_encode($data);
-        echo $jsonstring;
+        echo $jsonstring;        
     }
 }

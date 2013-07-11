@@ -236,18 +236,18 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select('id, surname AS name, firstname');
+        $query->select('id, surname AS name, forename');
         $query->from('#__thm_organizer_teachers');
-        $query->order('surname, firstname ASC');
+        $query->order('surname, forename ASC');
         $dbo->setQuery((string) $query);
         $teachers = $dbo->loadAssocList();
         if (count($teachers))
         {
             foreach ($teachers as $key => $value)
             {
-                if (!empty($value['firstname']))
+                if (!empty($value['forename']))
                 {
-                    $teachers[$key]['name'] = $teachers[$key]['name'] . ", " . $value['firstname'];
+                    $teachers[$key]['name'] = $teachers[$key]['name'] . ", " . $value['forename'];
                 }
             }
         }

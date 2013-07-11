@@ -62,7 +62,7 @@ if ($this->canWrite)
                     title="<?php echo JText::_('COM_THM_ORGANIZER_NEW_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_NEW_DESCRIPTION');?>"
                     onClick="action_button('events.edit');" >
                     <span id="thm_organizer_new_span" class="thm_organizer_action_span"></span>
-                    <?php echo JText::_('JTOOLBAR_NEW'); ?>
+                    <?php echo JText::_('COM_THM_ORGANIZER_NEW'); ?>
                 </button>
 <?php
 }

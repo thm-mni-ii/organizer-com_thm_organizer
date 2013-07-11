@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        booking model
+ * @name        event_ajax model
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -20,7 +20,7 @@ require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_thm_organizer' 
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelBooking extends JModel
+class THM_OrganizerModelEvent_Ajax extends JModel
 {
     /**
      * @var int the id of an existing event
@@ -139,18 +139,17 @@ class THM_OrganizerModelBooking extends JModel
     public function getConflicts()
     {
         $conflicts = array();
-
         $categoryID = JRequest::getInt('category');
         $this->_reservingCatIDs = $this->getReservingCatIDs();
-        if (strpos($this->_reservingCatIDs, "'$categoryID', ") === false)
-        {
+        if (strpos($this->_reservingCatIDs, "'$categoryID'") === false)
+        {   
             return $conflicts;
         }
         $this->_rooms = $this->getResourceData('rooms', 'longname', 'thm_organizer_rooms');
         $this->_teachers = $this->getResourceData('teachers', 'surname', 'thm_organizer_teachers');
         $this->_groups = $this->getResourceData('groups', 'title', 'usergroups');
         if (!count($this->_rooms) AND !count($this->_teachers) AND !count($this->_groups))
-        {
+        {   
             return $conflicts;
         }
         $this->_roomKeys = (count($this->_rooms))? "( '" . implode("', '", array_keys($this->_rooms)) . "' )" : "";
@@ -158,20 +157,17 @@ class THM_OrganizerModelBooking extends JModel
         $this->_teacherKeys = (count($this->_teachers))? "( '" . implode("', '", array_keys($this->_teachers)) . "' )" : "";
         $this->_teacherUntisKeys = $this->getUntisKeys('teachers', $this->_teacherKeys);
         $this->_groupKeys = (count($this->_groups))? "( '" . implode("', '", array_keys($this->_groups)) . "' )" : "";
-
         $this->_eventID = JRequest::getInt('eventID');
         $this->_startdate = date('Y-m-d', strtotime(JRequest::getString('startdate')));
         $this->_enddate = (JRequest::getString('enddate') != '')? date('Y-m-d', strtotime(JRequest::getString('enddate'))) : $this->_startdate;
         $this->_starttime = JRequest::getString('starttime');
         $this->_endtime = JRequest::getString('endtime');
         $this->_rec_type = JRequest::getInt('rec_type');
-
         $this->getEvents();
         if (isset($this->_events))
         {
             $conflicts = array_merge($conflicts, $this->_events);
         }
-
         $this->_activeSchedules = $this->getActiveSchedules();
         if ((!empty($this->_roomKeys) OR !empty($this->_teacherKeys)) AND count($this->_activeSchedules))
         {
@@ -223,18 +219,18 @@ class THM_OrganizerModelBooking extends JModel
     private function getResourceData($resourceName, $columnName, $tableName)
     {
         $resourceData = array();
-        $$resourceName = (isset($_REQUEST[$resourceName]))? explode(",", $_REQUEST[$resourceName]) : array();
-        if (array_search('-1', $$resourceName))
+        $$resourceName = (isset($_REQUEST[$resourceName]))? implode(",", $_REQUEST[$resourceName]) : array();
+        if (strpos($$resourceName, '-1,'))
         {
-            unset($$resourceName[array_search('-1', $$resourceName)]);
+            $$resourceName = str_replace("-1,", "", $$resourceName);
         }
         if (count($$resourceName))
-        {
+        {   
             $dbo = JFactory::getDbo();
             $query = $dbo->getQuery(true);
             $query->select("id, $columnName AS name");
             $query->from("#__$tableName");
-            $requestedIDs = "( '" . implode("', '", $$resourceName) . "' )";
+            $requestedIDs = "(" . $$resourceName . ")";
             $query->where("id IN $requestedIDs");
             $query->order("id");
             $dbo->setQuery((string) $query);
@@ -247,6 +243,7 @@ class THM_OrganizerModelBooking extends JModel
                 }
             }
         }
+        //var_dump($resourceData);
         return $resourceData;
     }
 
