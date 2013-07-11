@@ -46,7 +46,7 @@ class THM_OrganizerModelSubject_Details extends JModel
         $externalID = JRequest::getInt('nrmni');
         if (empty($this->subjectID) AND !empty($externalID))
         {
-            $this->subjectID = $this->getResolveExternalID($externalID);
+            $this->subjectID = $this->resolveExternalID($externalID);
         }
         $this->languageTag = JRequest::getString('languageTag', 'de');
 
@@ -146,7 +146,7 @@ class THM_OrganizerModelSubject_Details extends JModel
                 $teacherName = THM_OrganizerHelperTeacher::getNameFromTHMGroups($teacher['userID']);
                 $teacher['link'] = THM_OrganizerHelperTeacher::getLink($teacher);
             }
-            $teacher['name'] =  empty($teacherName)? $defaultName : $teacherName;
+            $teacher['name'] = empty($teacherName)? $defaultName : $teacherName;
             if ($teacher['teacherResp'] == '1')
             {
                 $teacher['name'] .= $this->languageTag == 'de'? ' (Modulverantwörtliche)' : ' (Responsible)';
