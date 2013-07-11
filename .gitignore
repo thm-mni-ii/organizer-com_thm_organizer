@@ -1,5 +1,12 @@
+# IDE generated files  #
+########################
+.buildpath
 .project
 .settings
-/nbproject/private/
-/nbproject/project.properties
-/nbproject/project.xml
+nbproject/
+
+# OS generated files   #
+########################
+Thumbs.db
+.*~
+.directory

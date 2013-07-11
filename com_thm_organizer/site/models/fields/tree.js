@@ -332,6 +332,7 @@ Ext.onReady(function(){
     treeView.on('itemadd', function(records, index, node, eOpts)
     {
     	checkBoxEvents(node[0].getParent());
+    	tree.doGray();
     });
     tree.on('itemclick', function (me, rec, item, index, event, options) {
         if(rec.isExpanded()) {

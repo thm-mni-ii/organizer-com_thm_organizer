@@ -2,16 +2,16 @@
 <extension method="upgrade" type="component" version="2.5.0">
     <name>COM_THM_ORGANIZER</name>
     <author>James Antrim</author>
-    <authorEMail>jamesDOTantrimATmniDOTthmDOTde</authorEMail>
+    <authorEMail>james.antrim@mni.thm.de</authorEMail>
     <author>Wolf Rost</author>
-    <authorEMail>wolfDOTrostATmniDOTthmDOTde</authorEMail>
+    <authorEMail>wolf.rost@mni.thm.de</authorEMail>
     <author>Markus Baier</author>
-    <authorEmail>markusDOTbaierATmniDOTthmDOTde</authorEmail>
+    <authorEmail>markus.baier@mni.thm.de</authorEmail>
     <authorUrl>www.mni.thm.de</authorUrl>
     <creationDate>01/01/2013</creationDate>
     <copyright>TH Mittelhessen 2013</copyright>
     <licence>GNU GPL v.2</licence>
-    <version>0.3.10</version>
+    <version>0.3.16</version>
     <scriptfile>script.php</scriptfile>
     <install>
         <sql>
@@ -39,12 +39,12 @@
             <filename>thm_organizer.php</filename>
             <filename>controller.php</filename>
             <filename>LICENSE.php</filename>
-            <folder>views</folder>
-            <folder>models</folder>
-            <folder>controllers</folder>
             <folder>assets</folder>
-            <folder>css</folder>
+            <folder>controllers</folder>
             <folder>helper</folder>
+            <folder>models</folder>
+            <folder>tables</folder>
+            <folder>views</folder>
     </files>
     <languages>
         <language tag="en-GB" client="site">language/en-GB/en-GB.com_thm_organizer.ini</language>

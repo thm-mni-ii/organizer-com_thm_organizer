@@ -103,98 +103,75 @@ class THMTreeView
         $site = new JSite;
         $menu = $site->getMenu();
 
-        if ($menu->getActive() != null)
+        if ($menuid != 0)
         {
-            if ($menuid != 0)
+            $menuparams = $menu->getParams($menuid);
+        }
+        else
+        {
+            $menuparams = $menu->getParams($menu->getActive()->id);
+            $options["hide"] = true;
+        }
+        
+        if (isset($options["path"]))
+        {
+            $this->_checked = (array) $options["path"];
+        }
+        else
+        {
+            $treeIDs = JRequest::getString('treeIDs');
+            $treeIDsData = json_decode($treeIDs);
+            if ($treeIDsData != null)
             {
-                $menuparams = $menu->getParams($menuid);
+                $this->_checked = (array) $treeIDsData;
             }
             else
             {
-                $menuparams = $menu->getParams($menu->getActive()->id);
-                $options["hide"] = true;
+                $this->_checked = (array) json_decode($menuparams->get("id"));
             }
+        }
 
-            if (isset($options["path"]))
+        if (isset($options["publicDefault"]))
+        {
+            $this->_publicDefault = (array) $options["publicDefault"];
+        }
+        else
+        {
+            $publicDefaultID = json_decode(JRequest::getString('publicDefaultID'));
+            if ($publicDefaultID != null)
             {
-                $this->_checked = (array) $options["path"];
+                $this->_publicDefault = (array) $publicDefaultID;
             }
             else
             {
-                $treeIDs = JRequest::getString('treeIDs');
-                $treeIDsData = json_decode($treeIDs);
-                if ($treeIDsData != null)
-                {
-                    $this->_checked = (array) $treeIDsData;
-                }
-                else
-                {
-                    $this->_checked = (array) json_decode($menuparams->get("id"));
-                }
+                $this->_publicDefault = (array) json_decode($menuparams->get("publicDefaultID"));
             }
+        }
 
-            if (isset($options["publicDefault"]))
-            {
-                $this->_publicDefault = (array) $options["publicDefault"];
-            }
-            else
-            {
-                $publicDefaultID = json_decode(JRequest::getString('publicDefaultID'));
-                if ($publicDefaultID != null)
-                {
-                    $this->_publicDefault = (array) $publicDefaultID;
-                }
-                else
-                {
-                    $this->_publicDefault = (array) json_decode($menuparams->get("publicDefaultID"));
-                }
-            }
+        if (isset($options["hide"]))
+        {
+            $this->_hideCheckBox = $options["hide"];
+        }
+        else
+        {
+            $this->_hideCheckBox = false;
+        }
 
-            if (isset($options["hide"]))
+        if (JRequest::getString('departmentSemesterSelection') == "")
+        {
+            if (isset($options["departmentSemesterSelection"]))
             {
-                $this->_hideCheckBox = $options["hide"];
+                $this->departmentSemesterSelection = $options["departmentSemesterSelection"];
             }
             else
             {
-                $this->_hideCheckBox = false;
-            }
-
-            if (JRequest::getString('departmentSemesterSelection') == "")
-            {
-                if (isset($options["departmentSemesterSelection"]))
-                {
-                    $this->departmentSemesterSelection = $options["departmentSemesterSelection"];
-                }
-                else
-                {
-                    $this->departmentSemesterSelection = $menuparams->get("departmentSemesterSelection");
-                }
-            }
-            else
-            {
-                $this->departmentSemesterSelection = JRequest::getString('departmentSemesterSelection');
+                $this->departmentSemesterSelection = $menuparams->get("departmentSemesterSelection");
             }
         }
         else
         {
-            if (JRequest::getString('departmentSemesterSelection') == "")
-            {
-                if (isset($options["departmentSemesterSelection"]))
-                {
-                    $this->departmentSemesterSelection = $options["departmentSemesterSelection"];
-                }
-                else
-                {
-                    $this->departmentSemesterSelection = $menuparams->get("departmentSemesterSelection");
-                }
-            }
-            else
-            {
-                $this->departmentSemesterSelection = JRequest::getString('departmentSemesterSelection');
-            }
-            $this->_hideCheckBox = false;
+            $this->departmentSemesterSelection = JRequest::getString('departmentSemesterSelection');
         }
-
     }
 
     /**
@@ -382,7 +359,7 @@ class THMTreeView
                 // Cant decode json
                 return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_DATA_FLAWED'));
             }
-
+            
             // Get ids for teachers and rooms
             $schedulerModel = JModel::getInstance('scheduler', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
             $rooms = $schedulerModel->getRooms();
@@ -629,10 +606,14 @@ class THMTreeView
                     {
                         $nodeName = $childKey;
                     }
-
-                    if (strlen($childValue->firstname) > 0)
+                    
+                    if (isset($childValue->firstname) && strlen($childValue->firstname) > 0)
                     {
                         $nodeName .= ", " . $childValue->firstname{0} . ".";
+                    }
+                    else if(isset($childValue->forename) && strlen($childValue->forename) > 0)
+                    {
+                        $nodeName .= ", " . $childValue->forename{0} . ".";
                     }
                 }
                 elseif ($scheduleType === "room")
@@ -681,10 +662,10 @@ class THMTreeView
                 else
                 {
                     $hasLessons = $this->treeNodeHasLessons($childKey, $scheduleType);
-                }
 
-                // Erstmal immer true!
-// 				$hasLessons = true;
+                    // Erstmal immer true!
+//     				$hasLessons = true;
+                }
 
                 $childNode = null;
                 if ($hasLessons)
@@ -862,40 +843,63 @@ class THMTreeView
      */
     private function treeNodeHasLessons($nodeID, $type)
     {
-        foreach ($this->_activeScheduleData->calendar as $calendarValue)
+        /* 
+         * We use two strategies to determine if the given tree node has lessons
+         * If the given $type is subject, module or teacher we search for all lesson that has
+         * the $nodeID as a subject/module/teacher.
+         * And then we search the lessonID in the calendar.
+         */
+        if ($type == "subject" || $type == "module" || $type == "teacher")
         {
-            if (is_object($calendarValue))
+            $fieldType = $type . "s";
+            
+            $lessons = array_filter((array) $this->_activeScheduleData->lessons, function($obj) use ($fieldType, $nodeID){
+                return isset($obj->{$fieldType}->{$nodeID});
+            });
+            
+            $lessonKeys = array_keys($lessons);
+            
+            foreach ($this->_activeScheduleData->calendar as $calendarValue)
             {
-                foreach ($calendarValue as $blockValue)
+                if (is_object($calendarValue))
                 {
-                    foreach ($blockValue as $lessonKey => $lessonValue)
+                    foreach ($calendarValue as $blockValue)
                     {
-                        if ($type == "subject" || $type == "module" || $type == "teacher")
+                        foreach($lessonKeys as $lessonKeyValue)
                         {
-                            $fieldType = $type . "s";
-                            foreach (array_keys((array) $this->_activeScheduleData->lessons->{$lessonKey}->{$fieldType}) as $typeKey)
+                            if(isset($blockValue->{$lessonKeyValue}) == true)
                             {
-                                if ($typeKey == $nodeID)
-                                {
-                                    return true;
-                                }
-                            }
-                        }
-                        elseif ($type == "room")
-                        {
-                            foreach (array_keys((array) $lessonValue) as $roomKey)
-                            {
-                                if ($roomKey == $nodeID)
-                                {
-                                    return true;
-                                }
+                                return true;
                             }
                         }
                     }
                 }
             }
         }
+        else
+        {
+            /*
+            * If the given $type is room we search directly in the calendar list
+            * because the rooms are assigned to the lesson in the calendar.
+            */
+            foreach ($this->_activeScheduleData->calendar as $calendarValue)
+            {
+                if (is_object($calendarValue))
+                {
+                    foreach ($calendarValue as $blockValue)
+                    {
+                        foreach ($blockValue as $lessonValue)
+                        {
+                            if(isset($lessonValue->{$nodeID}) == true)
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
         return false;
-
     }
 }

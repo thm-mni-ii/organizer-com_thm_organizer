@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		index view for thm organizer's subject resources
+ * @name		list view for subject resources
  * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2013 TH Mittelhessen
@@ -11,10 +11,11 @@
  * @link        www.mni.thm.de
  */
 jimport('joomla.application.component.view');
-jimport('joomla.error.profiler');
+require_once JPATH_COMPONENT . DS . 'helper' . DS . 'language.php';
 
 /**
- * Class loads a list of subjects sorted according to different criteria 
+ * Class loads a list of subjects sorted according to different criteria into 
+ * the view context
  *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
@@ -31,56 +32,24 @@ class THM_OrganizerViewSubject_List extends JView
 	 */
 	public function display($tpl = null)
 	{
-		$document = JFactory::getDocument();
-		$app = JFactory::getApplication();
-		$menus = $app->getMenu();
-		$menu = $menus->getActive();
+        JFactory::getDocument()->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
 
-		JHTML::script('joomla.javascript.js', 'includes/js/');
-		$document->addStyleSheet($this->baseurl . '/components/com_thm_organizer/css/curriculum.css');
-
-		// Set the default language to german
-		$this->session = JFactory::getSession();
-
-		if ($this->session->get('language') == null)
-		{
-			$this->session->set('language', 'de');
-		}
-
-		// Assign the data to the template
 		$this->state = $this->get('State');
-		$this->items = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->params = $menu->params;
-		$this->lang = JRequest::getVar('lang');
+        $this->items = $this->get('items');
+        $this->pagination = $this->get('Pagination');
+        $this->_layout = ($this->state->get('groupBy'))? 'grouped_list' : 'ungrouped_list';
 
-		$this->langLink = ($this->lang == 'de') ? 'en' : 'de';
-		$this->langUrl = self::languageSwitcher($this->langLink);
+        $model = $this->getModel();
+        $this->groups = $model->groups;
+        $this->programName = $model->programName;
+
+		$this->otherLanguageTag = ($this->state->get('languageTag') == 'de') ? 'en' : 'de';
+        $this->langURI = THM_OrganizerHelperLanguage::languageSwitch(
+                'subject_list', $this->otherLanguageTag, $this->state->get('menuID'), $this->state->get('groupBy')
+            );
 
 		parent::display($tpl);
 	}
 
-	/**
-	 * Method to switch the language
-	 *
-	 * @param   String  $langLink  language link
-	 *
-	 * @return  String
-	 */
-	private function languageSwitcher($langLink)
-	{
-		$itemid = JRequest::getVar('Itemid');
-		$group = JRequest::getVar('view');
-		$URI = JURI::getInstance('index.php');
-		$params = array('option' => 'com_thm_organizer',
-				'view' => $group,
-				'Itemid' => $itemid,
-				'lang' => $langLink
-		);
-		$params = array_merge($URI->getQuery(true), $params);
-		$query = $URI->buildQuery($params);
-		$URI->setQuery($query);
 
-		return $URI->toString();
-	}
 }

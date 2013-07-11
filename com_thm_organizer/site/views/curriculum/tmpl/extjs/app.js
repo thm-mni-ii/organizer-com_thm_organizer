@@ -80,7 +80,7 @@ function App (menuID, programID, horizontalGroups, languageTag, totalWidth, tota
             }
         );
         var requestURL = 'index.php?option=com_thm_organizer&view=curriculum_ajax&task=getCurriculum&format=raw&id=';
-        requestURL += programID + '&Itemid=' + menuID + '&lang=' + languageTag;
+        requestURL += programID + '&Itemid=' + menuID + '&languageTag=' + languageTag;
         Ext.Ajax.request({
             url : requestURL,
             method : "GET",

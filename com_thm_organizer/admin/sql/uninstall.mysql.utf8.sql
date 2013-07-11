@@ -19,6 +19,7 @@ DROP TABLE IF EXISTS `#__thm_organizer_lecturers_types`;
 DROP TABLE IF EXISTS `#__thm_organizer_lecturers`;
 DROP TABLE IF EXISTS `#__thm_organizer_events`;
 DROP TABLE IF EXISTS `#__thm_organizer_rooms`;
+DROP TABLE IF EXISTS `#__thm_organizer_prerequisites`;
 DROP TABLE IF EXISTS `#__thm_organizer_teacher_responsibilities`;
 DROP TABLE IF EXISTS `#__thm_organizer_teachers`;
 DROP TABLE IF EXISTS `#__thm_organizer_assets_tree`;
@@ -40,4 +41,8 @@ DROP TABLE IF EXISTS `#__thm_organizer_majors`;
 DROP TABLE IF EXISTS `#__thm_organizer_fields`;
 DROP TABLE IF EXISTS `#__thm_organizer_schedules`;
 DROP TABLE IF EXISTS `#__thm_organizer_colors`;
+DROP TABLE IF EXISTS `#__thm_organizer_frequencies`;
+DROP TABLE IF EXISTS `#__thm_organizer_proof`;
+DROP TABLE IF EXISTS `#__thm_organizer_pforms`;
+DROP TABLE IF EXISTS `#__thm_organizer_methods`;
 

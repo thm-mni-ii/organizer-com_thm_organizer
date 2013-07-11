@@ -3,9 +3,9 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		THM_CurriculumViewCurriculum
- * @description THM_CurriculumViewCurriculum component site view
+ * @name		curriculum view
  * @author      Markus Baier, <markus.baier@mni.thm.de>
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
@@ -14,8 +14,7 @@ jimport('joomla.application.component.view');
 jimport('joomla.error.profiler');
 
 /**
- * Class THM_CurriculumViewCurriculum for component com_thm_organizer
- * Class provides methods to display the curriculum view
+ * Class loasd curriculum information into the view context
  *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
@@ -42,8 +41,8 @@ class THM_OrganizerViewCurriculum extends JView
 
             // Get the parameters of the current view
             $this->params = JFactory::getApplication()->getMenu()->getActive()->params;
-            $this->lang = JRequest::getVar('lang');
-            $this->langLink = ($this->lang == 'de') ? 'en' : 'de';
+            $this->languageTag = JRequest::getVar('languageTag', 'de');
+            $this->langLink = ($this->languageTag == 'de') ? 'en' : 'de';
             $this->langUrl = self::languageSwitcher($this->langLink);
             $this->pagetitle = $this->params->get('page_title');
 
@@ -65,7 +64,7 @@ class THM_OrganizerViewCurriculum extends JView
 		$params = array('option' => 'com_thm_organizer',
 				'view' => $group,
 				'Itemid' => $itemid,
-				'lang' => $langLink
+				'languageTag' => $langLink
 		);
 		$params = array_merge($URI->getQuery(true), $params);
 		$query = $URI->buildQuery($params);

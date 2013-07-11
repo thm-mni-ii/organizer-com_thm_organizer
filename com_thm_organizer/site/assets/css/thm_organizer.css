@@ -599,6 +599,101 @@ body.loading .loader {
     clear: both;
 }
 
+/* subject views **************************************************************/
+
+.navi-bar{
+    margin-bottom: 3px;
+}
+span.navi-tab{
+    padding: 3px 9px;
+}
+
+span.navi-tab.active{
+    border-left: 1px solid #a4b0bb;
+    border-top: 1px solid #a4b0bb;
+    border-right: 1px solid #a4b0bb;
+    background-color: #b7bec2;
+}
+
+span.navi-tab.inactive{
+    border-left: none;
+    background-color: #6b7e88;
+}
+
+span.navi-tab.active a{
+    color: #3d494f;
+    font-weight: bold;
+}
+
+span.navi-tab.inactive a{
+    color: white;
+}
+
+#filter-bar{
+    background-color: #b7bec2;
+    border-top: none;
+    border-left: 1px solid #a4b0bb;
+    border-bottom: none;
+    border-right: 1px solid #a4b0bb;
+    padding: 3px 9px;
+    color: #3d494f;
+    font-weight: bold;
+}
+
+div#filter-bar button{
+    padding: 3px 9px;
+}
+
+.filter-search{ float: left; }
+
+.filter-select{ float: right; }
+
+div.subject-div table.subject-list{
+    width: 100%;
+    border: none;
+}
+
+table.subject-list tr th, table.subject-list tr th a{
+    background-color: #3d494f;
+    color: white;
+}
+
+.group-bar{
+    border: none;
+    padding: 3px 9px;
+    font-weight: bold;
+}
+
+.respColumn{
+    width: 25%;
+}
+
+.crpColumn{
+    width: 12%;
+}
+
+.row1{
+    background-color: #f7f7f7;
+}
+
+.subject-item{
+    clear: both;
+    padding: 15px 10px;
+}
+
+.subject-label{
+    color: #3d494f;
+    border-bottom: 2px solid #a4b0bb;
+    width: 15%;
+    float: left;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.subject-content{
+    float: left;
+    width: 79%;
+}
 /******************************************************************************/
 /* backend styles *************************************************************/
 /******************************************************************************/

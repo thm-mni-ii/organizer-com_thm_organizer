@@ -66,14 +66,17 @@ class THM_OrganizerModelSubject extends JModel
     public function importLSFDataBatch()
     {
 		$resourceIDs = JRequest::getVar('cid', array(), 'post', 'array');
+        JFactory::getDbo()->transactionStart();
         foreach ($resourceIDs as $resourceID)
         {
             $resourceImported = $this->importLSFDataSingle($resourceID);
             if (!$resourceImported)
             {
+                JFactory::getDbo()->transactionRollback();
                 return false;
             }
         }
+        JFactory::getDbo()->transactionCommit();
 		return true;
     }
 
@@ -431,9 +434,11 @@ class THM_OrganizerModelSubject extends JModel
     {
         $teacherData = array();
         $surnameAttribue = $responsibility == RESPONSIBLE? 'nachname' : 'personal.nachname';
-        $teacherData['surname'] = (string) $teacher->xpath("//personinfo/$surnameAttribue")[0];
+        $surnamePath = $teacher->personinfo->$surnameAttribue;
+        $teacherData['surname'] = (string) $surnamePath[0];
         $forenameAttribue = $responsibility == RESPONSIBLE? 'vorname' : 'personal.vorname';
-        $teacherData['forename'] = (string) $teacher->xpath("//personinfo/$forenameAttribue")[0];
+        $forenamePath = $teacher->personinfo->$forenameAttribue;
+        $teacherData['forename'] = (string) $forenamePath[0];
 
         /**
          * Prevents null entries from being added to the database without preventing
@@ -455,6 +460,7 @@ class THM_OrganizerModelSubject extends JModel
         {
             $table->load($teacherData);
         }
+
         $teacherSaved = $table->save($teacherData);
         if (!$teacherSaved)
         {
@@ -462,6 +468,7 @@ class THM_OrganizerModelSubject extends JModel
         }
 
         $dbo = JFactory::getDbo();
+
         $checkQuery = $dbo->getQuery(true);
         $checkQuery->select("COUNT(*)")->from('#__thm_organizer_subject_teachers');
         $checkQuery->where("subjectID = '$subjectID' AND teacherID = '$table->id' AND teacherResp = '$responsibility'");

@@ -12,7 +12,6 @@
  * @link        www.mni.thm.de
  */
 jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT_SITE . DS . 'models/groups.php';
 
 /**
  * Class loads information about a subject into the view context
@@ -33,7 +32,7 @@ class THM_OrganizerViewSubject_Details extends JView
 	public function display($tpl = null)
 	{
 		$document = JFactory::getDocument();
-		$document->addStyleSheet($this->baseurl . '/components/com_thm_organizer/css/curriculum.css');
+		$document->addStyleSheet($this->baseurl . '/components/com_thm_organizer/assets/css/thm_organizer.css');
 
 		$model = $this->getModel();
         $this->subject = $model->subject;
@@ -45,7 +44,7 @@ class THM_OrganizerViewSubject_Details extends JView
 
 		// Comma seperated lecturer data */
 		$this->moduleNavigation = json_decode($this->session->get('navi_json'));
-		$this->lang = JRequest::getVar('lang');
+		$this->lang = JRequest::getVar('languageTag');
 		$this->otherLanguageTag = ($this->lang == 'de') ? 'en' : 'de';
 		$this->langUrl = self::languageSwitcher($this->otherLanguageTag);
 		
@@ -83,7 +82,7 @@ class THM_OrganizerViewSubject_Details extends JView
 				'view' => $group,
 				'Itemid' => $itemid,
 				'id' => $moduleID,
-				'lang' => $langLink,
+				'languageTag' => $langLink,
 				'tmpl' => $tmpl,
 				'mysched' => $mysched
 		);
