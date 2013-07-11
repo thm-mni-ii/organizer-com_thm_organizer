@@ -1198,7 +1198,7 @@ new Ext.util.Observable(),
     	var modulewin = Ext.create('Ext.Window',
         {
             id: 'moduleWin',
-            width: 564,
+            width: 600,
             height: 450,
             modal: true,
             frame: false,
