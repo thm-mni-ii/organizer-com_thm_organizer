@@ -2074,6 +2074,7 @@ MySched.layout = function ()
                 // heigth: 500,
                 enableTabScroll: true,
                 id: 'tabpanel',
+                plugins: [Ext.create('Ext.ux.TabCloseOnMiddleClick')],
                 region: 'center'
             });
 
