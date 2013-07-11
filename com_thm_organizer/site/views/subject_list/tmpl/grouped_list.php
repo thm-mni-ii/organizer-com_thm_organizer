@@ -23,9 +23,6 @@ $teacherTabText = ($languageTag == 'de')? "...nach Dozent" : "...by teacher";
 $teacherLink = JRoute::_($baseLink . "2");
 $fieldTabText = ($languageTag == 'de')? "...nach Fachgruppe" : "...by field of study";
 $fieldLink = JRoute::_($baseLink . "3");
-$subjectTitle = $this->state->get('languageTag') == 'de'? "Modultitel" : "Subject Name";
-$responsibleTitle = $this->state->get('languageTag') == 'de'? "Verantwortliche" : "Responsible Teacher";
-$CrPTitle = $this->state->get('languageTag') == 'de'? "Credit Punkte" : "Credit Points";
 $flagPath = 'media' . DIRECTORY_SEPARATOR . 'com_thm_organizer' . DIRECTORY_SEPARATOR . 'images';
 $flagPath .= DIRECTORY_SEPARATOR . 'curriculum' . DIRECTORY_SEPARATOR . $this->otherLanguageTag . '.png';
 switch ($this->state->get('groupBy'))
@@ -99,10 +96,6 @@ switch ($this->state->get('groupBy'))
 				<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>
 			</button>
 		</div>
-        <div class="filter-select">
-            <?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>
-            <?php echo $this->pagination->getLimitBox(); ?>
-        </div>
 	</fieldset>
 <?php
 foreach ($this->groups as $key => $group)
@@ -122,15 +115,7 @@ else
 ?>
     </fieldset>
 	<div class='subject-div'>
-		<table class="subject-list">
-			<thead>
-				<tr>
-					<th><?php echo $subjectTitle; ?></th>
-                    <?php echo $responsibleHeader; ?>
-					<th class="crpColumn"><?php echo $CrPTitle; ?></th>
-				</tr>
-			</thead>
-            <tbody>
+        <ul class="subject-list">
 <?php
     $count = 0;
     foreach ($this->items as $subject)
@@ -140,32 +125,31 @@ else
             continue;
         }
 ?>
-				<tr class="row<?php echo $count % 2;?>">
-					<td>
-                        <a href="<?php echo $subject->subjectLink; ?>">
-                            <?php echo $subject->name; ?>
-                        </a>
-                    </td>
+            <li class="row<?php echo $count % 2;?> subject-item">
+                <div class="subject-name">
+                    <a href="<?php echo $subject->subjectLink; ?>">
+                        <?php echo $subject->name; ?>
+                    </a>
+                </div>
 <?php
         if ($this->state->get('groupBy') != TEACHER)
         {
 ?>
-					<td>
-                        <a href="<?php echo $subject->groupsLink; ?>">
-                            <?php echo $subject->teacherName; ?>
-                        </a>
-                    </td>
+                <div class="subject-responsible">
+                    <a href="<?php echo $subject->groupsLink; ?>">
+                        <?php echo $subject->teacherName; ?>
+                    </a>
+                </div>
 <?php
         }
 ?>
-					<td><?php echo $subject->creditpoints; ?></td>
-				</tr>
+                <div class="subject-crp"><?php echo $subject->creditpoints; ?> CrP</div>
+            </li>
 <?php
         $count++;
     }
 ?>
-			</tbody>
-		</table>
+		</ul>
     </div>
 <?php
 }

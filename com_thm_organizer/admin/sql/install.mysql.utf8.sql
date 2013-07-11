@@ -164,10 +164,13 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_prerequisites` (
+  `id` INT (11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `subjectID` INT ( 11 ) UNSIGNED NOT NULL,
   `prerequisite` INT ( 11 ) UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`),
   FOREIGN KEY ( `subjectID` ) REFERENCES #__thm_organizer_subjects( `id` ) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY ( `prerequisite` ) REFERENCES #__thm_organizer_subjects( `id` ) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY ( `prerequisite` ) REFERENCES #__thm_organizer_subjects( `id` ) ON DELETE CASCADE ON UPDATE CASCADE,
+  UNIQUE KEY `entry` (`subjectID`,`prerequisite`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_mappings` (

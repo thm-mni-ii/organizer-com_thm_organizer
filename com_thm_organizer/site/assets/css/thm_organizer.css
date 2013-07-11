@@ -653,23 +653,32 @@ div.subject-div table.subject-list{
     border: none;
 }
 
-table.subject-list tr th, table.subject-list tr th a{
+ul.subject-list tr th a{
     background-color: #3d494f;
     color: white;
 }
 
 .group-bar{
     border: none;
-    padding: 3px 9px;
+    padding: 9px 3px;
     font-weight: bold;
 }
-
-.respColumn{
-    width: 25%;
+.subject-item{
 }
 
-.crpColumn{
+.subject-name{
+    width: 50%;
+    display: inline-block;
+}
+
+.subject-responsible{
+    width: 25%;
+    display: inline-block;
+}
+
+.subject-crp{
     width: 12%;
+    display: inline-block;
 }
 
 .row1{

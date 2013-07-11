@@ -383,26 +383,27 @@ class THM_OrganizerModelSubject extends JModel
      */
     private function savePrerequisitesFromLSF($subjectID, $prerequisites)
     {
+        $dbo = JFactory::getDbo();
+        $deleteQuery = $dbo->getQuery(true);
+        $deleteQuery->delete('#__thm_organizer_prerequisites');
+        $deleteQuery->where("subjectID = '$subjectID'");
+        $dbo->setQuery((string) $deleteQuery);
+        try
+        {
+            $dbo->query();
+        }
+        catch (Exception $exc)
+        {
+            return false;
+        }
+
         foreach ($prerequisites as $externalID)
         {
-            $dbo = JFactory::getDbo();
             $resolutionQuery = $dbo->getQuery(true);
             $resolutionQuery->select('id')->from('#__thm_organizer_subjects')->where("externalID = '$externalID'");
             $dbo->setQuery((string) $resolutionQuery);
             $internalID = $dbo->loadResult();
-
             if (empty($internalID))
-            {
-                continue;
-            }
-            
-            $existenceQuery = $dbo->getQuery(true);
-            $existenceQuery->select('COUNT(*)')->from('#__thm_organizer_prerequisites');
-            $existenceQuery->where("subjectID = '$externalID'")->where("prerequisite = '$internalID'");
-            $dbo->setQuery((string) $existenceQuery);
-            $exists = $dbo->loadResult();
-
-            if (!empty($exists))
             {
                 continue;
             }

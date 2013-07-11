@@ -23,9 +23,6 @@ $teacherTabText = ($languageTag == 'de')? "...nach Dozent" : "...by teacher";
 $teacherLink = JRoute::_($baseLink . "2");
 $fieldTabText = ($languageTag == 'de')? "...nach Fachgruppe" : "...by field of study";
 $fieldLink = JRoute::_($baseLink . "3");
-$subjectTitle = $this->state->get('languageTag') == 'de'? "Modultitel" : "Subject Name";
-$responsibleTitle = $this->state->get('languageTag') == 'de'? "Verantwortliche" : "Responsible Teacher";
-$CrPTitle = $this->state->get('languageTag') == 'de'? "Credit Punkte" : "Credit Points";
 $flagPath = 'media' . DIRECTORY_SEPARATOR . 'com_thm_organizer' . DIRECTORY_SEPARATOR . 'images';
 $flagPath .= DIRECTORY_SEPARATOR . 'curriculum' . DIRECTORY_SEPARATOR . $this->otherLanguageTag . '.png';
 $defaultActive = 'active';
@@ -83,42 +80,27 @@ $poolActive = $teacherActive = $fieldActive = 'inactive';
 				<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>
 			</button>
 		</div>
-        <div class="filter-select">
-            <?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>
-            <?php echo $this->pagination->getLimitBox(); ?>
-        </div>
 	</fieldset>
 	<div class='subject-div'>
-		<table class="subject-list">
-			<thead>
-				<tr>
-					<th><?php echo $subjectTitle; ?></th>
-					<th class="respColumn"><?php echo $responsibleTitle; ?></th>
-					<th class="crpColumn"><?php echo $CrPTitle; ?></th>
-				</tr>
-			</thead>
-            <tfoot class="pagination" align="center" colspan="3">
-                <?php echo $this->pagination->getPagesLinks(); ?>
-            </tfoot>
-            <tbody>
+		<ul class="subject-list">
 <?php
 $count = 0;
 foreach ($this->items as $subject)
 {
 ?>
-				<tr class="row<?php echo $count % 2;?>">
-					<td>
-                        <a href="<?php echo $subject->subjectLink; ?>">
-                            <?php echo $subject->name; ?>
-                        </a>
-                    </td>
-					<td>
-                        <a href="<?php echo $subject->groupsLink; ?>">
-                            <?php echo $subject->teacherName; ?>
-                        </a>
-                    </td>
-					<td><?php echo $subject->creditpoints; ?></td>
-				</tr>
+            <li class="row<?php echo $count % 2;?> subject-item">
+                <div class="subject-name">
+                    <a href="<?php echo $subject->subjectLink; ?>">
+                        <?php echo $subject->name; ?>
+                    </a>
+                </div>
+                <div class="subject-responsible">
+                    <a href="<?php echo $subject->groupsLink; ?>">
+                        <?php echo $subject->teacherName; ?>
+                    </a>
+                </div>
+                <div class="subject-crp"><?php echo $subject->creditpoints; ?> CrP</div>
+            </tr>
 <?php
 $count++;
 }
