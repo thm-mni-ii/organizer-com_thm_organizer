@@ -290,7 +290,7 @@ class Com_THM_OrganizerInstallerScript
         
         <fieldset id="com_thm_organizer_fieldset" style="border-radius:10px;">
         <legend>
-            <img style="float:none;" src="../media/com_thm_organizer/images/THM-Organizer-Logo-alternative.png" alt="THM Organizer Logo"/>        
+            <img style="float:none;" src="../media/com_thm_organizer/images/THM-Organizer-Logo.jpg" alt="THM Organizer Logo"/>        
         </legend>
         
         <div style="padding-left: 17px; padding-bottom: 20px">
