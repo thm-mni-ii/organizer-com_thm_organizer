@@ -30,17 +30,14 @@ switch ($this->state->get('groupBy'))
     case POOL:
         $poolActive = 'active';
         $defaultActive = $teacherActive = $fieldActive = 'inactive';
-        $responsibleHeader = "<th class='respColumn'>$responsibleTitle</th>";
         break;
     case TEACHER:
         $teacherActive = 'active';
         $defaultActive = $poolActive = $fieldActive = 'inactive';
-        $responsibleHeader = '';
         break;
     case FIELD:
         $fieldActive = 'active';
         $defaultActive = $poolActive = $teacherActive = 'inactive';
-        $responsibleHeader = "<th class='respColumn'>$responsibleTitle</th>";
         break;
 }
 ?>
@@ -110,7 +107,7 @@ if (isset($group['link']))
 }
 else
 {
-    echo "<span style='color: {$group['textColor']};'>$key</span>";
+    echo "<span style='color: #{$group['textColor']};'>$key</span>";
 }
 ?>
     </fieldset>

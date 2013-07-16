@@ -157,7 +157,7 @@ class THM_OrganizerModelSubject_List extends JModelList
         $subjectQuery->leftJoin('#__thm_organizer_colors AS dpc ON dpf.colorID = dpc.id');
         $subjectQuery->where("m1.lft BETWEEN {$boundaries['lft']} AND {$boundaries['rgt']}");
         $subjectQuery->where("m1.rgt BETWEEN {$boundaries['lft']} AND {$boundaries['rgt']}");
-        $subjectQuery->where("st.teacherResp != '2'");
+        $subjectQuery->where("st.teacherResp = '1'");
         if (!empty($search))
         {
             $subjectQuery->where($this->getSearch());
@@ -395,14 +395,19 @@ class THM_OrganizerModelSubject_List extends JModelList
         $median = ($red + $green + $blue) / 3;
         if ($median <= 127)
         {
-            return '3d494f';
+            return 'FFFFFF';
         }
         else
         {
-            return 'FFFFFF';
+            return '3d494f';
         }
     }
 
+    /**
+     * Builds the search clause based upon user input
+     * 
+     * @return  string
+     */
     private function getSearch()
     {
         $dbo = JFactory::getDbo();
