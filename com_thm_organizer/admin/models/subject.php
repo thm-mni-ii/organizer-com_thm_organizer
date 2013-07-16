@@ -154,7 +154,7 @@ class THM_OrganizerModelSubject extends JModel
                     $this->setSubjectAttribute($data, 'abbreviation_en', (string) $child);
                     break;
                 case 'kurzbeschr':
-                    $descriptions = $lsfData->xpath('//modul/kurzbeschr');
+                    $descriptions = $lsfData->xpath('//modul/kurzbeschr');//var_dump($descriptions); die;
                     foreach ($descriptions as $description)
                     {
                         if ($description->sprache == 'de')
@@ -163,7 +163,7 @@ class THM_OrganizerModelSubject extends JModel
                         }
                         if ($description->sprache == 'en')
                         {
-                            $this->setSubjectAttribute($data, 'description_de', (string) $description->txt);
+                            $this->setSubjectAttribute($data, 'description_en', (string) $description->txt);
                         }
                     }
                     break;
