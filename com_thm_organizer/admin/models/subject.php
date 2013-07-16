@@ -570,7 +570,10 @@ class THM_OrganizerModelSubject extends JModel
             $insertQuery = $dbo->getQuery(true);
             $insertQuery->insert('#__thm_organizer_subject_teachers');
             $insertQuery->columns(array('subjectID', 'teacherID', 'teacherResp'));
-            $insertQuery->values("'{$data['id' ]}', '{$data['responsible' ]}', '1'");
+            foreach ($data['responsibleID'] AS $responsible)
+            {
+                $insertQuery->values("'{$data['id' ]}', '$responsible', '1'");
+            }
             foreach ($data['teacherID'] AS $teacher)
             {
                 $insertQuery->values("'{$data['id' ]}', '$teacher', '2'");

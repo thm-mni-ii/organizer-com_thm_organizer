@@ -56,7 +56,7 @@ class JFormFieldSubjectResponsible extends JFormField
 
         $attributes = array('multiple' => 'multiple');
         $selectedTeachers = empty($selected)? array() : $selected;
-		return JHTML::_("select.genericlist", $teachers, "jform[teacherID][]", $attributes, "value", "name", $selectedTeachers);
+		return JHTML::_("select.genericlist", $teachers, "jform[responsibleID][]", $attributes, "value", "name", $selectedTeachers);
 	}
 
 	/**
