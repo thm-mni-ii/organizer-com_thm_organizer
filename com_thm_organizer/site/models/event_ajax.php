@@ -243,7 +243,6 @@ class THM_OrganizerModelEvent_Ajax extends JModel
                 }
             }
         }
-        //var_dump($resourceData);
         return $resourceData;
     }
 

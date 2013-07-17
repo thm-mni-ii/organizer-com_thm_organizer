@@ -31,7 +31,7 @@ $logoURL = 'administrator/components/com_thm_organizer/assets/images/THM-Organiz
                 <a href='<?php echo $view['url']; ?>'
                    class='hasTip' title='<?php echo $view['tooltip']; ?>' >
 <?php
-    echo JHTML::_('image', $view['image'],$view['title'], array( 'class' => 'thm_organizer_main_image'));
+    echo JHTML::_('image', $view['image'], $view['title'], array( 'class' => 'thm_organizer_main_image'));
 ?>
                     <span><?php echo $view['title']; ?></span>
                 </a>

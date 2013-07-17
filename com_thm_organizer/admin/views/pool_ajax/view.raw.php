@@ -42,6 +42,8 @@ class THM_OrganizerViewPool_Ajax extends JView
 
     /**
      * Retrieves a list of pools by degree and creates select options
+     * 
+     * @return  void
      */
     private function poolDegreeOptions()
     {

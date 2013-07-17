@@ -49,7 +49,10 @@ class THM_OrganizerHelperTeacher
     /**
      * Retrieves the teacher responsible for the subject's development
      *
-     * @param   int  $subjectID  the subject's id
+     * @param   int   $subjectID       the subject's id
+     * @param   int   $responsibility  represents the teacher's level of
+     *                                 responsibility for the subject
+     * @param   bool  $multiple        whether or not multiple results are desired
      *
      * @return  array  an array of teacher data
      */
@@ -80,11 +83,14 @@ class THM_OrganizerHelperTeacher
     /**
      * Generates a default teacher text based upon organizer's internal data
      * 
-     * @param  type $teacherData
-     * @return type
+     * @param   mixed  $teacherData  array or object with teacher data
+     *                               (objects are converted internally to arrays)
+     * 
+     * @return  string  the default name of the teacher
      */
     public static function getDefaultName($teacherData)
     {
+        $teacherData = is_object($teacherData)? (array) $teacherData : $teacherData;
         $title = empty($teacherData['title'])? '' : "{$teacherData['title']} ";
         $forename = empty($teacherData['forename'])? '' : "{$teacherData['forename']} ";
         $surname = $teacherData['surname'];
@@ -127,15 +133,32 @@ class THM_OrganizerHelperTeacher
     /**
      * Method to build the link to a user profile of THM Groups
      *
-     * @param   array  &$teacherData  an array containing information about a
-     *                                teacher
+     * @param   int     $userID   the teacher's user ID
+     * @param   string  $surname  the teacher's surname
      *
      * @return  string  the url of the teacher's thm groups details
      */
-    public static function getLink(&$teacherData)
+    public static function getLink($userID, $surname = null)
     {
-        $link = 'index.php?option=com_thm_groups&view=profile&layout=default';
-        $link .= "&gsuid={$teacherData['userID']}&name={$teacherData['surname']}&Itemid=" . JRequest::getVar('Itemid');
+        $link = "index.php?option=com_thm_groups&view=profile&layout=default&gsuid=$userID";
+        $link .= "&name=$surname&Itemid=" . JRequest::getVar('Itemid');
         return JRoute::_($link);
+    }
+
+    /**
+     * Method to resolve the Untis ID to a user ID
+     * 
+     * @param   string  $gpuntisID  the teacher's gpuntis ID
+     * 
+	 * @return  mixed  the teacher's user ID or null if the query failed
+     */
+    public static function getUserIDfromUntisID($gpuntisID)
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('u.id')->from('#__users AS u')->innerJoin('#__thm_organizer_teachers AS t ON t.username = u.username');
+        $query->where("t.gpuntisID = '$gpuntisID'");
+        $dbo->setQuery((string) $query);
+        return $dbo->loadResult();
     }
 }

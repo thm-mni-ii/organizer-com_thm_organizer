@@ -144,7 +144,7 @@ class THM_OrganizerModelSubject_Details extends JModel
             if (!empty($teacher['userID']))
             {
                 $teacherName = THM_OrganizerHelperTeacher::getNameFromTHMGroups($teacher['userID']);
-                $teacher['link'] = THM_OrganizerHelperTeacher::getLink($teacher);
+                $teacher['link'] = THM_OrganizerHelperTeacher::getLink($teacher['userID'], $teacher['surname']);
             }
             $teacher['name'] = empty($teacherName)? $defaultName : $teacherName;
             if ($teacher['teacherResp'] == '1')

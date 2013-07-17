@@ -66,7 +66,7 @@ class THM_OrganizerViewProgram_Edit extends JView
 		$title = $isNew ? JText::_("COM_THM_ORGANIZER_PRM_NEW") : JText::_("COM_THM_ORGANIZER_PRM_EDIT");
 		JToolBarHelper::title($title);
         $applyText = $isNew? JText::_('COM_THM_ORGANIZER_APPLY_NEW') : JText::_('COM_THM_ORGANIZER_APPLY_EDIT');
-		JToolBarHelper::apply('program.apply', $applyText );
+		JToolBarHelper::apply('program.apply', $applyText);
 		JToolBarHelper::save('program.save');
 		JToolBarHelper::save2new('program.save2new');
         if ($isNew)

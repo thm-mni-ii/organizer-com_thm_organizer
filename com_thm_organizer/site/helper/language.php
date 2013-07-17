@@ -26,6 +26,7 @@ class THM_OrganizerHelperLanguage
 	 * @param   string  $view      the view to be called
      * @param   string  $language  the language in which content is to be delivered
      * @param   int     $menuID    the id of the menu entry
+     * @param   int     $groupBy   a code for the criteria for grouping
 	 *
 	 * @return  string  the language switch URI
 	 */

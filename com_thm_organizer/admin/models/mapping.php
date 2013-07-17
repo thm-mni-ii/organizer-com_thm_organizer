@@ -447,8 +447,6 @@ class THM_OrganizerModelMapping extends JModel
      * @param   bool    $deep        if the function should be used to find
      *                               children iteratively or not (default: false)
      * 
-     * @todo ensure that there are no self referring children
-     * 
      * @return  array  empty if no child data exists
      */
     public function getChildren($resourceID, $type = 'pool', $deep = true)

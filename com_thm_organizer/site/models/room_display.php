@@ -11,6 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
+require_once JPATH_COMPONENT . DS . 'helper' . DS . 'teacher.php';
 
 /**
  * Retrieves lesson and event data for a single room and day
@@ -137,7 +138,8 @@ class THM_OrganizerModelRoom_Display extends JModel
         if ($exists)
         {
             $this->roomName = $room->longname;
-            $this->_gpuntisID = substr($room->gpuntisID, 3);
+            $this->_gpuntisID = strpos($room->gpuntisID, 'RM_') === 0?
+                substr($room->gpuntisID, 3) : $room->gpuntisID;
         }
         else
         {
@@ -224,7 +226,7 @@ class THM_OrganizerModelRoom_Display extends JModel
                 $this->blocks[$period->period]['displayTime'] .= $this->blocks[$period->period]['endtime'];
             }
         }
-        foreach ($this->blocks as $key => $block)
+        foreach (array_keys($this->blocks) as $key)
         {
             $this->setLessonData($key);
             $this->setAppointments($key);
@@ -237,15 +239,13 @@ class THM_OrganizerModelRoom_Display extends JModel
      *
      * @param   int  $blockID  the id of the block being iterated
      * 
-     * @todo add teacher associations to user/group views
-     * @todo add module associations to former curriculum views
-     * 
      * @return void
      */
     private function setLessonData($blockID)
     {
+        $menuID = JRequest::getInt('Itemid');
         $lessonFound = false;
-        foreach ($this->_schedules as $scheduleID => $schedule)
+        foreach ($this->_schedules as $schedule)
         {
             if ($lessonFound)
             {
@@ -293,29 +293,48 @@ class THM_OrganizerModelRoom_Display extends JModel
                             $shortname = $schedule->subjects->$subjectID->name;
                             $lessonName = (strlen($longname) <= 30)? $longname : $shortname;
                             $lessonName .= " - " . $schedule->lessons->$lessonID->description;
+                            if (!empty($schedule->subjects->$subjectID->subjectNo))
+                            {
+                                $subjectLink = "'index.php?option=com_thm_organizer&view=subject_details";
+                                $subjectLink .= "&languageTag=de&Itemid=$menuID&nrmni='";
+                                $subjectLink .= $schedule->subjects->$subjectID->subjectNo;
+                                $lessonTitle = JHtml::_('link', $subjectLink, $lessonName);
+                            }
+                            else
+                            {
+                                $lessonTitle = $lessonName;
+                            }
                         }
-                        $teachers = (array) $schedule->lessons->$lessonID->teachers;
-                        $teacherIDs = array();
-                        foreach ($teachers as $key => $delta)
+                        $teachersIDs = (array) $schedule->lessons->$lessonID->teachers;
+                        $teachers = array();
+                        foreach ($teachersIDs as $key => $delta)
                         {
-                            $teachers[$key] = $schedule->teachers->$key->surname;
-                            $teacherIDs[] = $schedule->teachers->$key->gpuntisID;
+                            if ($delta == 'removed')
+                            {
+                                unset($teachers[$key]);
+                                continue;
+                            }
+                            $teacherName = $schedule->teachers->$key->surname;
+                            $userID = THM_OrganizerHelperTeacher::getUserIDfromUntisID($key);
+                            if (!empty($userID))
+                            {
+                                $groupsLink = THM_OrganizerHelperTeacher::getLink($userID, $teacherName);
+                                $teacherLink = JHtml::_('link', $groupsLink, $teacherName);
+                            }
+                            
+                            $teachers[$schedule->teachers->$key->surname] = empty($teacherLink)? $teacherName : $teacherLink;
                         }
                         $teacherText = implode(', ', $teachers);
-                        if (strlen($teacherText) > 30)
-                        {
-                            $teacherText = implode(', ', array_keys($teachers));
-                        }
                     }
                 }
             }
         }
         if ($lessonFound)
         {
-            $this->blocks[$blockID]['title'] = $lessonName;
+            $this->blocks[$blockID]['title'] = $lessonTitle;
             $this->blocks[$blockID]['extraInformation'] = $teacherText;
             $this->blocks[$blockID]['type'] = 'COM_THM_ORGANIZER_RD_TYPE_LESSON';
-            $this->blocks[$blockID]['teacherIDs'] = $teacherIDs;
+            $this->blocks[$blockID]['teacherText'] = $teacherText;
             $this->lessonsExist = true;
         }
         else
@@ -655,7 +674,6 @@ class THM_OrganizerModelRoom_Display extends JModel
      */
     private function makeEventDates($event)
     {
-        $edSet = $stSet = $etSet = false;
         $displayDates = $timestring = "";
         $edSet = $event['enddate'] != "00.00.0000";
         $stSet = $event['starttime'] != "00:00";

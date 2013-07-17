@@ -3,9 +3,8 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        view majors default
- * @description THM_Curriculum component admin view
- * @author      Markus Baier, <markus.baier@mni.thm.de>
+ * @name        program manager view default layout
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
@@ -96,7 +95,7 @@ foreach ($this->items as $i => $item)
 		'<img src="templates/thmstylebackend/images/admin/tick.png" />' : '';
     if (!empty($item->mapping))
     {
-        $mappingLink = "<a title='" . JText::_('COM_THM_ORGANIZER_SHOW_CONTENT') . "' ";
+        $mappingLink = "<a title='" . JText::_('COM_THM_ORGANIZER_PRM_CHILDREN') . "' ";
         $mappingLink .= "href='" . JRoute::_('index.php?option=com_thm_organizer&view=pool_manager&programID=' . $item->id) . "' >";
         $mappingLink .= "<img src='components/com_thm_organizer/assets/images/pools.png' /></a>";
     }

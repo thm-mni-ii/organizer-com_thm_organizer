@@ -129,12 +129,12 @@ class THM_OrganizerModelSubject_List extends JModelList
         }
 
         $subjectLink = "'index.php?option=com_thm_organizer&view=subject_details&languageTag=$languageTag&Itemid=$menuID&id='";
-        $groupsLink = "'index.php?option=com_thm_groups&view=profile&Itemid=$menuID&gsuid='";
+        $groupsLink = "'index.php?option=com_thm_groups&view=profile&Itemid=$menuID&layout=default&gsuid='";
 
         $select = "DISTINCT s.id, s.name_$languageTag AS name, creditpoints, ";
         $select .= "CONCAT(dp.subject, ' (', d.abbreviation, ' ', dp.version, ')') AS program, p.name_$languageTag AS pool, ";
         $select .= "surname, forename, sf.field, ";
-        $select .= "CONCAT($subjectLink, s.id) AS subjectLink, CONCAT($groupsLink, u.id) AS groupsLink, ";
+        $select .= "CONCAT($subjectLink, s.id) AS subjectLink, CONCAT($groupsLink, u.id, '&name=', t.surname) AS groupsLink, ";
         $select .= "sc.color AS fieldColor, tc.color AS teacherColor, pc.color AS poolColor, dpc.color AS programColor ";
         $subjectQuery = $dbo->getQuery(true);
         $subjectQuery->select($select);

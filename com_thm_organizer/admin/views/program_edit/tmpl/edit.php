@@ -126,7 +126,10 @@ if (!empty($this->children))
             </table>
 <?php
 }
-else echo "<span class='thm_organizer_no_children'>" . JText::_('COM_THM_ORGANIZER_NO_CHILDREN') . "</span>";
+else
+{
+    echo "<span class='thm_organizer_no_children'>" . JText::_('COM_THM_ORGANIZER_NO_CHILDREN') . "</span>";
+}
 ?>
         </div>
         <div class="thm_organizer_pools">

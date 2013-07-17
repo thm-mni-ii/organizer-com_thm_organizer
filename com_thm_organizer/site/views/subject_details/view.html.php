@@ -37,10 +37,6 @@ class THM_OrganizerViewSubject_Details extends JView
 		$model = $this->getModel();
         $this->subject = $model->subject;
 		$this->session = JFactory::getSession();
-		$verantw = "";
-		$verantwLabel = "";
-		$dozentenLinks = array();
-
 
 		// Comma seperated lecturer data */
 		$this->moduleNavigation = json_decode($this->session->get('navi_json'));
@@ -92,33 +88,5 @@ class THM_OrganizerViewSubject_Details extends JView
 		$URI->setQuery($query);
 
 		return $URI->toString();
-	}
-
-	/**
-	 * Method to return the first and lastname of a given userid
-	 *
-	 * @param   String  $userID  Id  (default: null)
-	 *
-	 * @return  mixed
-	 */
-	private function getLecturer($userID = null)
-	{
-		if (isset($userID))
-		{
-			$this->db = JFactory::getDBO();
-
-			// Build the sql statement
-			$query = $this->db->getQuery(true);
-			$query->select("*");
-			$query->from('#__thm_organizer_lecturers as lecturers');
-			$query->where("userid = '$userID' ");
-			$this->db->setQuery($query);
-			$rows = $this->db->loadObjectList();
-
-			if (isset($rows))
-			{
-				return $rows[0]->academic_title . " " . $rows[0]->forename . " " . $rows[0]->surname;
-			}
-		}
 	}
 }

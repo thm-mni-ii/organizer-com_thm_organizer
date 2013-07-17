@@ -37,7 +37,12 @@ class Thm_OrganizerViewEvent_Ajax extends JView
         $function = JRequest::getString('task');
         $this->$function();
     }
-    
+
+    /**
+     * Generates a list of conflicts with event resources
+     * 
+     * @return  void
+     */
     private function booking()
     {
         $model = $this->getModel();
@@ -60,7 +65,12 @@ class Thm_OrganizerViewEvent_Ajax extends JView
             echo $message;
         }
     }
-    
+
+    /**
+     * Generates a preview of an event
+     * 
+     * @return  void
+     */
     private function preview()
     {   
         $data = array();
@@ -77,7 +87,7 @@ class Thm_OrganizerViewEvent_Ajax extends JView
         $username = $user->name;        
         $written_by = "<p>" . JText::_('COM_THM_ORGANIZER_E_WRITTEN_BY') . $username . "</p>";
         $data['username'] = $written_by;
-        $published_at = "<p>" . JText::_('COM_THM_ORGANIZER_PREVIEW_CREATED') .  JFactory::getDate()->toFormat('%A %d. %B %Y %H:%M:%S') . "</p>";
+        $published_at = "<p>" . JText::_('COM_THM_ORGANIZER_PREVIEW_CREATED') . JFactory::getDate()->toFormat('%A %d. %B %Y %H:%M:%S') . "</p>";
         $data['created_at'] = $published_at;
         $jsonstring = json_encode($data);
         echo $jsonstring;        
