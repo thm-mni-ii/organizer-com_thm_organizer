@@ -233,6 +233,24 @@ class THM_OrganizerModelMapping extends JModel
     }
 
     /**
+     * Checks whether a mapping exists for the selected resource
+     * 
+     * @param   int     $resourceID     the id of the resource
+     * @param   string  $resourceType  the type of the resource#
+     * 
+     * @return  bool true if the resource has an existing mapping, otherwise false
+     */
+    public function checkForMapping($resourceID, $resourceType)
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('COUNT(*)')->from('#__thm_organizer_mappings')->where("{$resourceType}ID = '$resourceID'");
+        $dbo->setQuery((string) $query);
+        $count = $dbo->loadResult();
+        return empty($count)? false : true;
+    }
+
+    /**
      * Deletes mappings of a specific pool.
      * 
      * @param   int     $resourceID  the id of the mapping
