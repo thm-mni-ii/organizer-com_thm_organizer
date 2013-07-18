@@ -39,19 +39,15 @@ class THM_OrganizerViewVirtual_Schedule_Manager extends JView
 			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
 
-		$mainframe = JFactory::getApplication("administrator");
-		$option = $mainframe->scope;
-		$view = JRequest::getString('view');
-		$dbo = JFactory::getDBO();
-
-		$filter_order = $mainframe->getUserStateFromRequest(
-				"$option.$view.filter_order", 'filter_order',
-				'#__thm_organizer_virtual_schedules.semesterID, #__thm_organizer_virtual_schedules.vid', ''
+		$app = JFactory::getApplication("administrator");
+		$filter_order = $app->getUserStateFromRequest(
+				".filter_order", 'filter_order',
+				'vs.semesterID, vs.vid', ''
 		);
-		$filter_order_Dir = $mainframe->getUserStateFromRequest("$option.$view.filter_order_Dir", 'filter_order_Dir',	'', '');
+		$filter_order_Dir = $app->getUserStateFromRequest(".filter_order_Dir", 'filter_order_Dir',	'', '');
 
 		// Table ordering
 		$lists['order_Dir']	= $filter_order_Dir;
@@ -59,56 +55,36 @@ class THM_OrganizerViewVirtual_Schedule_Manager extends JView
 
 		$model = $this->getModel();
 
-		// Get data from the model
-		$items = $this->get('Data');
-		$newitem = array();
-
-		foreach ($model->getElements() as $k => $v)
+		$elements = array();
+		foreach ($model->getElements() as $element)
 		{
-			if (!isset($newitem[$v->vid]))
+			if (!isset($elements[$element->vid]))
 			{
-				$newitem[$v->vid] = $v;
+				$elements[$element->vid] = $element;
 			}
 			else
 			{
-				$newitem[$v->vid]->eid = $newitem[$v->vid]->eid . ";" . $v->eid;
+				$elements[$element->vid]->eid .= ";" . $element->eid;
 			}
 		}
-		$elements = array_values($newitem);
 
-		foreach ($items as $ik => $iv)
+		$items = $this->get('Data');
+		foreach ($items as $item)
 		{
-			foreach ($elements as $ek => $ev)
+			foreach ($elements as $element)
 			{
-				if ($iv->id == $ev->vid)
+				if ($item->id == $element->vid)
 				{
-					if (isset($iv->eid))
-					{
-						$iv->eid = "";
-					}
-					$iv->eid = $ev->eid;
+					$item->eid = $element->eid;
 				}
 			}
 		}
-
-		$pagination = $this->get('Pagination');
-
-		// Search filter
-		$lists['search'] = $search;
 
 		// Assign data to template
 		$this->assignRef('lists', $lists);
 		$this->assignRef('items', $items);
 		$this->pagination = $this->get('Pagination');
 		$this->assignRef('lists', $lists);
-		if (isset($roleFilters_req))
-		{
-			$this->assignRef('rolesFilters', $roleFilters_req);
-		}
-		if (isset($groupFilters_req))
-		{
-			$this->assignRef('groupFilters', $groupFilters_req);
-		}
 
         $this->addToolBar();
 		parent::display($tpl);
@@ -125,10 +101,6 @@ class THM_OrganizerViewVirtual_Schedule_Manager extends JView
 		JToolBarHelper::title($title, 'mni');
 		JToolBarHelper::addNewX('virtual_schedule.add');
 		JToolBarHelper::editListX('virtual_schedule.edit');
-		/**
-		 * ToDo: Virtuelle Stundenpl�ne sollen kopiert werden k�nnen.
-		 */
-		// JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', JText::_('Copy') );
 		JToolBarHelper::deleteListX('Really?', 'virtual_schedule.remove');
 		JToolBarHelper::divider();
 		JToolBarHelper::preferences('com_thm_organizer');

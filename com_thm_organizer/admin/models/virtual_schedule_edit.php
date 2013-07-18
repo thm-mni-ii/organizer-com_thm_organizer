@@ -69,7 +69,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 	 *
 	 * @return	mixed  Object on success, false on failure.
 	 */
-	public function getItem($pk = null)
+	public function getItem($cid = null)
 	{
 		$cid = $this->getID();
 

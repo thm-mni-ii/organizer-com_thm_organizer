@@ -126,9 +126,9 @@ class THMICALBuilder extends THMAbstractBuilder
 		$vTimeZone1->setComponent($vTimeZone2);
 		$vCalendar->setComponent($vTimeZone1);
 
-		foreach ($lessons as $lessonKey => $lessonValue)
+		foreach ($lessons as $lesson)
 		{
-		    $vCalendar = $this->setEvent($vCalendar, $lessonKey, $lessonValue);
+		    $vCalendar = $this->setEvent($vCalendar, $lesson);
 		}
 
 		$vCalendar->saveCalendar($this->_cfg['pdf_downloadFolder'], $title . '.ics');
@@ -140,20 +140,19 @@ class THMICALBuilder extends THMAbstractBuilder
 	 * Method to set an event
 	 *
 	 * @param   Object  $vCalendar    The event array
-	 * @param   String  $lessonKey    The semester start date
-	 * @param   Object  $lessonValue  The semester end date
+	 * @param   Object  $lesson  The semester end date
 	 *
 	 * @return An array which has the result including
 	 */
-	private function setEvent($vCalendar, $lessonKey, $lessonValue)
+	private function setEvent($vCalendar, $lesson)
 	{	    
-	    $lessonSubject = key($lessonValue->subjects);
+	    $lessonSubject = key($lesson->subjects);
 	    $lessonName = $this->_subjects->{$lessonSubject}->longname;
 	   	    
-	    $lessonTeachers = implode(", ", $this->getTeacherNames(array_merge(array_keys((array) $lessonValue->teachers, ""), array_keys((array) $lessonValue->teachers, "new"))));
+	    $lessonTeachers = implode(", ", $this->getTeacherNames(array_merge(array_keys((array) $lesson->teachers, ""), array_keys((array) $lesson->teachers, "new"))));
 	  	    
-	    $lessonComment = $lessonValue->comment;
-	    foreach ($lessonValue->calendar as $calendarKey => $calendarValue)
+	    $lessonComment = $lesson->comment;
+	    foreach ($lesson->calendar as $calendarKey => $calendarValue)
 	    {
 	        foreach ($calendarValue as $blockKey => $blockValue)
 	        {
@@ -161,13 +160,12 @@ class THMICALBuilder extends THMAbstractBuilder
                 {
                     if ($roomValue != "removed")
                     {
-                        $lessonDate = $calendarKey;
                         $lessonBlock = $blockKey;
                         $lessonRoom = $roomKey;
                         
                         $lessonSummary = $lessonName . " bei " . $lessonTeachers . " im " . $lessonRoom;
                         
-                        $lessonDate = explode("-", $lessonDate);
+                        $lessonDate = explode("-", $calendarKey);
                         $lessonTime = $this->blocktotime($lessonBlock);
                         $lessonBeginTime = explode(":", $lessonTime[0]);
                         $lessonEndTime = explode(":", $lessonTime[1]);

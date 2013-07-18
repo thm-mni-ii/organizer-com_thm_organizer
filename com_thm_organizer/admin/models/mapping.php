@@ -596,7 +596,7 @@ class THM_OrganizerModelMapping extends JModel
      */
     public function getTable($name = 'mappings', $prefix = 'THM_OrganizerTable', $options = array())
     {
-        return JTable::getInstance($name, $prefix);
+        return JTable::getInstance($name, $prefix, $options);
     }
 
     /**

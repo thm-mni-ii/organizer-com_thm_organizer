@@ -234,7 +234,7 @@ class THM_OrganizerModelSubject_List extends JModelList
     private function getPoolGroups($subjectIDs, $programs, $pools, $poolColors, $programColors)
     {        
         $poolGroups = array();
-        foreach ($subjectIDs as $key => $value)
+        foreach (array_keys($subjectIDs) as $key)
         {
             if (!empty($pools[$key]))
             {
