@@ -11,9 +11,9 @@ MySched.version = '3.1.0';
 MySched.delta = null;
 // verweiss auf den Plan mit dem ChangeLog
 MySched.responsibleChanges = null;
-MySched.session = new Array();
-MySched.daytime = new Array();
-MySched.loadedLessons = new Array();
+MySched.session = [];
+MySched.daytime = [];
+MySched.loadedLessons = [];
 MySched.mainPath = externLinks.mainPath;
 // set ajax timeout to 10 seconds
 Ext.Ajax.timeout = 60000;
@@ -127,16 +127,16 @@ MySched.Base = function ()
             {
                 if (!MySched.daytime[json[i].day])
                 {
-                    MySched.daytime[json[i].day] = new Array();
+                    MySched.daytime[json[i].day] = [];
                     MySched.daytime[json[i].day]["engName"] = numbertoday(json[i].day);
                     MySched.daytime[json[i].day]["gerName"] = weekdayEtoD(numbertoday(json[i].day));
-                    MySched.daytime[json[i].day]["localName"] = "day"
+                    MySched.daytime[json[i].day]["localName"] = "day";
                 }
-                if (!MySched.daytime[json[i].day][json[i].period]) MySched.daytime[json[i].day][json[i].period] = new Array();
+                if (!MySched.daytime[json[i].day][json[i].period]) MySched.daytime[json[i].day][json[i].period] = [];
                 MySched.daytime[json[i].day][json[i].period]["etime"] = json[i].endtime.substr(0, 5);
                 MySched.daytime[json[i].day][json[i].period]["stime"] = json[i].starttime.substr(0, 5);
                 MySched.daytime[json[i].day][json[i].period]["tpid"] = json[i].gpuntisID;
-                MySched.daytime[json[i].day][json[i].period]["localName"] = "block"
+                MySched.daytime[json[i].day][json[i].period]["localName"] = "block";
             }
                         
             // Initalisieren des Baumes und der Auswahlsteuerung
@@ -244,8 +244,7 @@ MySched.Base = function ()
         /**
          * Laed die XML Datei und startet den Parsevorgang
          * 
-         * @param {String}
-         *            url XML-Datei
+         * @param {String} url XML-Datei
          */
         loadLectures: function (url)
         {
@@ -257,8 +256,7 @@ MySched.Base = function ()
         /**
          * Aufgaben nachdem die XMLDaten erfolgreich geladen wurden
          * 
-         * @param {Object}
-         *            ret ReturnObjekt vom Ladevorgang (Im Endeffet this)
+         * @param {Object} ret ReturnObjekt vom Ladevorgang (Im Endeffet this)
          */
         afterLoad: function (ret)
         {
@@ -284,7 +282,7 @@ MySched.Base = function ()
                 {
                     try
                     {
-                        var jsonData = new Array();
+                        var jsonData = [];
 
                         if (response.responseText.length > 0)
                         {
@@ -576,8 +574,7 @@ MySched.Base = function ()
         /**
          * Gibt die Veranstaltung mit der id zurueck
          * 
-         * @param {Object}
-         *            id VeranstlatungsID
+         * @param {Object} id VeranstlatungsID
          */
         getLecture: function (id)
         {
@@ -586,10 +583,9 @@ MySched.Base = function ()
         /**
          * Gibt nur bestimmte Lectures zurueck
          * 
-         * @param {Object}
-         *            type Ueber welches Feld soll Selektiert werden
-         * @param {Object}
-         *            value Welchen Wert muss dieses Feld haben
+         * @param {Object} type Ueber welches Feld soll Selektiert werden
+         * @param {Object} value Welchen Wert muss dieses Feld haben
+         * 
          * @return {MySched.Collection}
          */
         getLectures: function (type, value)
@@ -600,10 +596,8 @@ MySched.Base = function ()
          * Handelt den FreeBusy Zustand - wird beim schalten des Buttons
          * aufgerufen
          * 
-         * @param {Object}
-         *            e Event welches ausgeloest wurde
-         * @param {Object}
-         *            state Zustand des Buttons
+         * @param {Object} e Event welches ausgeloest wurde
+         * @param {Object} state Zustand des Buttons
          */
         freeBusyHandler: function (e, state)
         {
@@ -628,7 +622,7 @@ MySched.Base = function ()
             // Legt neuen State fest
             MySched.freeBusyState = state;
         }
-    }
+    };
 }();
 
 /**
@@ -645,8 +639,7 @@ MySched.InfoPanel = function ()
         /**
          * Zeigt eine Info in dem Info Panel unterhalb des Baumes an
          * 
-         * @param {Object}
-         *            el HTML Element welches selektiert wurde
+         * @param {Object} el HTML Element welches selektiert wurde
          */
         showInfo: function (el)
         {
@@ -685,8 +678,7 @@ MySched.InfoPanel = function ()
          * Wird aufgerufen wenn ein blaues Informationsicon fuer Detailinfos
          * geklickt wird
          * 
-         * @param {Object}
-         *            e Event welches ausgeloest wurde
+         * @param {Object} e Event welches ausgeloest wurde
          */
         detailInfoClick: function (e)
         {
@@ -736,10 +728,8 @@ MySched.InfoPanel = function ()
         /**
          * Zeigt Detailierte Info an
          * 
-         * @param {Object}
-         *            text
-         * @param {Object}
-         *            title
+         * @param {Object} text
+         * @param {Object} title
          */
         showDetailInfo: function (text, title)
         {
@@ -773,7 +763,7 @@ MySched.InfoPanel = function ()
             Ext.get('infoPanel')
                 .update('');
         }
-    }
+    };
 }();
 
 /**
@@ -819,107 +809,55 @@ new Ext.util.Observable(),
             // uebergebenen Objekt
             var dom = o.dom || Ext.get(o)
                 .dom;
-            Ext.select('.status_icons_delete', false, dom)
-                .removeAllListeners();
-            Ext.select('.status_icons_info', false, dom)
-                .removeAllListeners();
-            Ext.select('.status_icons_edit', false, dom)
-                .removeAllListeners();
-            Ext.select('.teachername', false, dom)
-                .removeAllListeners();
-            Ext.select('.lectureBox', false, dom)
-                .removeAllListeners();
-            Ext.select('.conMenu', false, dom)
-                .removeAllListeners();
-            Ext.select('.MySchedEvent_joomla', false, dom)
-                .removeAllListeners();
-            Ext.select('.lecturename', false, dom)
-                .removeAllListeners();
-            Ext.select('.roomname', false, dom)
-                .removeAllListeners();
-            Ext.select('.modulename', false, dom)
-                .removeAllListeners();
-            Ext.select('.status_icons_add', false, dom)
-                .removeAllListeners();
-            Ext.select('.status_icons_info', false, dom)
-                .removeAllListeners();
-            Ext.select('.status_icons_estudy', false, dom)
-                .removeAllListeners();
+            Ext.select('.status_icons_delete', false, dom).removeAllListeners();
+            Ext.select('.status_icons_info', false, dom).removeAllListeners();
+            Ext.select('.status_icons_edit', false, dom).removeAllListeners();
+            Ext.select('.teachername', false, dom).removeAllListeners();
+            Ext.select('.lectureBox', false, dom).removeAllListeners();
+            Ext.select('.conMenu', false, dom).removeAllListeners();
+            Ext.select('.MySchedEvent_joomla', false, dom).removeAllListeners();
+            Ext.select('.lecturename', false, dom).removeAllListeners();
+            Ext.select('.roomname', false, dom).removeAllListeners();
+            Ext.select('.modulename', false, dom).removeAllListeners();
+            Ext.select('.status_icons_add', false, dom).removeAllListeners();
+            Ext.select('.status_icons_info', false, dom).removeAllListeners();
+            Ext.select('.status_icons_estudy', false, dom).removeAllListeners();
         }
         else if (o === true)
         { // Alle
-            Ext.select('.status_icons_delete')
-                .removeAllListeners();
-            Ext.select('.status_icons_info')
-                .removeAllListeners();
-            Ext.select('.status_icons_edit')
-                .removeAllListeners();
-            Ext.select('.teachername')
-                .removeAllListeners();
-            Ext.select('.lectureBox')
-                .removeAllListeners();
-            Ext.select('.conMenu')
-                .removeAllListeners();
-            Ext.select('.MySched_event_joomla')
-                .removeAllListeners();
-            Ext.select('.lecturename')
-                .removeAllListeners();
-            Ext.select('.roomname')
-                .removeAllListeners();
-            Ext.select('.modulename')
-                .removeAllListeners();
-            Ext.select('.status_icons_add')
-                .removeAllListeners();
-            Ext.select('.status_icons_info')
-                .removeAllListeners();
-            Ext.select('.status_icons_estudy')
-                .removeAllListeners();
+            Ext.select('.status_icons_delete').removeAllListeners();
+            Ext.select('.status_icons_info').removeAllListeners();
+            Ext.select('.status_icons_edit').removeAllListeners();
+            Ext.select('.teachername').removeAllListeners();
+            Ext.select('.lectureBox').removeAllListeners();
+            Ext.select('.conMenu').removeAllListeners();
+            Ext.select('.MySched_event_joomla').removeAllListeners();
+            Ext.select('.lecturename').removeAllListeners();
+            Ext.select('.roomname').removeAllListeners();
+            Ext.select('.modulename').removeAllListeners();
+            Ext.select('.status_icons_add').removeAllListeners();
+            Ext.select('.status_icons_info').removeAllListeners();
+            Ext.select('.status_icons_estudy').removeAllListeners();
         }
         else if (MySched.layout.tabpanel.items.getCount() > 0)
         { // Nur
             // Aktiven
             // Tab
-            var activeTabDom = MySched.layout.tabpanel.getActiveTab()
-                .getEl()
-                .dom;
-            Ext.select('.status_icons_delete', false,
-            activeTabDom)
-                .removeAllListeners();
-            Ext.select('.status_icons_info', false,
-            activeTabDom)
-                .removeAllListeners();
-            Ext.select('.status_icons_edit', false,
-            activeTabDom)
-                .removeAllListeners();
-            Ext.select('.teachername', false, activeTabDom)
-                .removeAllListeners();
-            Ext.select('.lectureBox', false, activeTabDom)
-                .removeAllListeners();
-            Ext.select('.conMenu', false, activeTabDom)
-                .removeAllListeners();
-            Ext.select('.MySchedEvent_joomla', false,
-            activeTabDom)
-                .removeAllListeners();
-            Ext.select('.lecturename', false, activeTabDom)
-                .removeAllListeners();
-            Ext.select('.roomname', false, activeTabDom)
-                .removeAllListeners();
-            Ext.select('.modulename', false, activeTabDom)
-                .removeAllListeners();
-            Ext.select('.status_icons_add', false,
-            activeTabDom)
-                .removeAllListeners();
-            Ext.select('.status_icons_info', false,
-            activeTabDom)
-                .removeAllListeners();
-            Ext.select('.status_icons_estudy', false,
-            activeTabDom)
-                .removeAllListeners();
+            var activeTabDom = MySched.layout.tabpanel.getActiveTab().getEl().dom;
+            Ext.select('.status_icons_delete', false, activeTabDom).removeAllListeners();
+            Ext.select('.status_icons_info', false, activeTabDom).removeAllListeners();
+            Ext.select('.status_icons_edit', false, activeTabDom).removeAllListeners();
+            Ext.select('.teachername', false, activeTabDom).removeAllListeners();
+            Ext.select('.lectureBox', false, activeTabDom).removeAllListeners();
+            Ext.select('.conMenu', false, activeTabDom).removeAllListeners();
+            Ext.select('.MySchedEvent_joomla', false, activeTabDom).removeAllListeners();
+            Ext.select('.lecturename', false, activeTabDom).removeAllListeners();
+            Ext.select('.roomname', false, activeTabDom).removeAllListeners();
+            Ext.select('.modulename', false, activeTabDom).removeAllListeners();
+            Ext.select('.status_icons_add', false, activeTabDom).removeAllListeners();
+            Ext.select('.status_icons_info', false, activeTabDom).removeAllListeners();
+            Ext.select('.status_icons_estudy', false, activeTabDom).removeAllListeners();
         }
-        // Ext.select('.teachername', false,
-        // document).removeAllListeners();
-        // Ext.select('.roomshortname', false,
-        // document).removeAllListeners();
     },
     /**
      * Startet die Selektierung
@@ -934,28 +872,14 @@ new Ext.util.Observable(),
         var tab = el || MySched.layout.tabpanel.getActiveTab()
             .getEl();
         if (!tab) return;
-        // this.stopSelection(tab);
-        
-//        Ext.select('.status_icons_delete', false, tab.dom)
-//            .on(
-//        {
-//            'click': function (e)
-//            {
-//                if (e.button == 0) // links Klick
-//                {
-//                    e.stopEvent();
-//                    MySched.SelectionManager.deleteLesson();
-//                }
-//            },
-//            scope: this
-//        });
 
         Ext.select('.status_icons_info', false, tab.dom)
             .on(
         {
             'click': function (e)
             {
-                if (e.button == 0) // links Klick
+                // links Klick
+                if (e.button == 0)
                 {
                     e.stopEvent();
                     this.showModuleInformation(e);
@@ -964,35 +888,23 @@ new Ext.util.Observable(),
             scope: this
         });
 
-//        Ext.select('.status_icons_edit', false, tab.dom)
-//            .on(
-//        {
-//            'click': function (e)
-//            {
-//                if (e.button == 0) // links Klick
-//                {
-//                    e.stopEvent();
-//                    MySched.SelectionManager.editLesson();
-//                }
-//            },
-//            scope: this
-//        });
-
         // Aboniert Events für Teacherentennamen
         Ext.select('.teachername', false, tab.dom)
         .on(
         {
             'click': function (e)
             {
-                if (e.button == 0) // links Klick
-                this.showSchedule(e, 'teacher');
+                // links Klick
+                if (e.button == 0)
+                {
+                    this.showSchedule(e, 'teacher');
+                }
             },
             scope: this
         });
 
         // Aboniert Events für Lecturenamen
-        Ext.select('.lecturename', false, tab.dom)
-        .on(
+        Ext.select('.lecturename', false, tab.dom).on(
         {
             'mouseover': function (e)
             {
@@ -1036,20 +948,21 @@ new Ext.util.Observable(),
         });
 
         // Aboniert Events für Teacherentennamen
-        Ext.select('.roomname', false, tab.dom)
-            .on(
+        Ext.select('.roomname', false, tab.dom).on(
         {
             'click': function (e)
             {
-                if (e.button == 0) // links Klick
-                this.showSchedule(e, 'room');
+                // links Klick
+                if (e.button == 0)
+                {
+                    this.showSchedule(e, 'room');
+                }
             },
             scope: this
         });
 
         // Aboniert Events f�r Teacherentennamen
-        Ext.select('.modulename', false, tab.dom)
-            .on(
+        Ext.select('.modulename', false, tab.dom).on(
         {
             'click': function (e)
             {
@@ -1078,7 +991,7 @@ new Ext.util.Observable(),
             'click': function (e)
             {
                 e.stopEvent();
-                this.lecture2ScheduleHandler()
+                this.lecture2ScheduleHandler();
             },
             scope: this
         });
@@ -1232,7 +1145,7 @@ new Ext.util.Observable(),
 				        	MySched.SelectionManager.showSubjectWindow(element.id);
 				        },
 				        xtype: "button"
-				    }
+				    };
 		    	}
 	    	}
 	    }	
@@ -1304,7 +1217,7 @@ new Ext.util.Observable(),
 
         var l = MySched.selectedSchedule.getLecture(el.id);
         var title = l.data.desc;
-        if (l.longname != "") title = l.longname
+        if (l.longname != "") title = l.longname;
 
         var ttInfo = Ext.create('Ext.tip.ToolTip',
         {
@@ -1322,8 +1235,7 @@ new Ext.util.Observable(),
     /**
      * Wenn das MouseOver Event ausgeloest wurde
      * 
-     * @param {Object}
-     *            e Event
+     * @param {Object} e Event
      */
     onMouseOver: function (e)
     {
@@ -1347,8 +1259,7 @@ new Ext.util.Observable(),
     /**
      * Wenn das MouseOut Event ausgeloest wurde
      * 
-     * @param {Object}
-     *            e Event
+     * @param {Object} e Event
      */
     onMouseOut: function (e)
     {
@@ -1491,16 +1402,15 @@ new Ext.util.Observable(),
     /**
      * MouseDown Event ausgeloest
      * 
-     * @param {Object}
-     *            e Event
+     * @param {Object} e Event
      */
     onMouseDown: function (e)
     {
-        var el = e.getTarget('.lectureBox', 5, true)
+        var el = e.getTarget('.lectureBox', 5, true);
         if (el == null) return; // Element ist schon selektiert
         // Selektiere Element
         if (!Ext.isEmpty(this.selectEl)) this.unselect(this.selectEl);
-        this.select(el)
+        this.select(el);
         this.selectEl = el;
 
     },
@@ -1511,8 +1421,7 @@ new Ext.util.Observable(),
     /**
      * Waehlt Veranstaltung aus
      * 
-     * @param {Object}
-     *            el Veranstaltungselement
+     * @param {Object} el Veranstaltungselement
      */
     select: function (el)
     {
@@ -1524,8 +1433,7 @@ new Ext.util.Observable(),
     /**
      * Waehlt Veranstaltung ab
      * 
-     * @param {Object}
-     *            el Veranstaltungselement
+     * @param {Object} el Veranstaltungselement
      */
     unselect: function (el)
     {
@@ -1670,7 +1578,7 @@ function showLessonMenu(e)
             MySched.SelectionManager.editLesson();
         },
         xtype: "button"
-    }
+    };
 
     var deleteLesson = {
         text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELETE,
@@ -1681,7 +1589,7 @@ function showLessonMenu(e)
             MySched.SelectionManager.deleteLesson();
         },
         xtype: "button"
-    }
+    };
 
     var addLesson = {
         text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ADD,
@@ -1693,7 +1601,7 @@ function showLessonMenu(e)
             MySched.SelectionManager.lecture2ScheduleHandler();
         },
         xtype: "button"
-    }
+    };
 
     var delLesson = {
         text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_REMOVE,
@@ -1705,7 +1613,7 @@ function showLessonMenu(e)
             MySched.SelectionManager.lecture2ScheduleHandler();
         },
         xtype: "button"
-    }
+    };
 
     var estudyLesson = {
         text: "eStudy",
@@ -1716,7 +1624,7 @@ function showLessonMenu(e)
         },
         scope: el,
         xtype: "button"
-    }
+    };
 
     var infoLesson = {
         text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_INFORMATION,
@@ -1727,7 +1635,7 @@ function showLessonMenu(e)
         },
         scope: el,
         xtype: "button"
-    }
+    };
 
     var menuItems = [];
 
@@ -1840,8 +1748,7 @@ MySched.TreeManager = function ()
         /**
          * Fuegt den Listen eine Veranstaltung hinzu
          * 
-         * @param {Object}
-         *            lecture Veranstaltung
+         * @param {Object} lecture Veranstaltung
          */
         add: function (lecture)
         {
@@ -1858,8 +1765,7 @@ MySched.TreeManager = function ()
         /**
          * Erstellt die Teacherenten Uebersichtsliste
          * 
-         * @param {Object}
-         *            tree Basis Tree dem die Liste hinzugefuegt wird
+         * @param {Object} tree Basis Tree dem die Liste hinzugefuegt wird
          */
         createTeacherTree: function (tree)
         {
@@ -1871,8 +1777,7 @@ MySched.TreeManager = function ()
         /**
          * Erstellt die Raum Uebersichtsliste
          * 
-         * @param {Object}
-         *            tree Basis Tree dem die Liste hinzugefuegt wird
+         * @param {Object} tree Basis Tree dem die Liste hinzugefuegt wird
          */
         createRoomTree: function (tree)
         {
@@ -1882,8 +1787,7 @@ MySched.TreeManager = function ()
         /**
          * Erstellt die Studiengang Uebersichtsliste
          * 
-         * @param {Object}
-         *            tree Basis Tree dem die Liste hinzugefuegt wird
+         * @param {Object} tree Basis Tree dem die Liste hinzugefuegt wird
          */
         createClasTree: function (tree)
         {
@@ -1895,8 +1799,7 @@ MySched.TreeManager = function ()
         /**
          * Erstellt die �nderungen
          * 
-         * @param {Object}
-         *            tree Basis Tree dem die Liste hinzugefuegt wird
+         * @param {Object} tree Basis Tree dem die Liste hinzugefuegt wird
          */
         createDiffTree: function (tree)
         {
@@ -1905,8 +1808,7 @@ MySched.TreeManager = function ()
         /**
          * Erstellt die �nderungen von Verantwortlichen
          * 
-         * @param {Object}
-         *            tree Basis Tree dem die Liste hinzugefuegt wird
+         * @param {Object} tree Basis Tree dem die Liste hinzugefuegt wird
          */
         createrespChangesTree: function (tree)
         {
@@ -1915,8 +1817,7 @@ MySched.TreeManager = function ()
         /**
          * Sucht alle Lessons
          * 
-         * @param {Object}
-         *            tree Basis Tree dem die Liste hinzugefuegt wird
+         * @param {Object} tree Basis Tree dem die Liste hinzugefuegt wird
          */
         createCurteaTree: function (tree)
         { // neu->
@@ -1952,14 +1853,10 @@ MySched.TreeManager = function ()
         /**
          * Erstellt eine Uebersichtsliste
          * 
-         * @param {Object}
-         *            baseTree Baum dem die Liste hinzugefuegt wird
-         * @param {Object}
-         *            type Typ der Liste (teacher|module|room)
-         * @param {Object}
-         *            data Daten Baum mit Elementen zum Hinzufuegen
-         * @param {Object}
-         *            name Name der Listengruppe
+         * @param {Object} baseTree Baum dem die Liste hinzugefuegt wird
+         * @param {Object} type Typ der Liste (teacher|module|room)
+         * @param {Object} data Daten Baum mit Elementen zum Hinzufuegen
+         * @param {Object} name Name der Listengruppe
          */
         createTree: function (baseTree, type, data, name)
         {
@@ -2041,7 +1938,7 @@ MySched.TreeManager = function ()
                 return ret;
             }
         }
-    }
+    };
 }();
 
 /**
@@ -2372,12 +2269,9 @@ MySched.layout = function ()
         /**
          * Erstellt einen neuen Stundenplan Tab
          * 
-         * @param {Object}
-         *            id ID des Tabs
-         * @param {Object}
-         *            title Title des Tabs
-         * @param {Object}
-         *            grid Grid das angezeigt werden soll
+         * @param {Object} id ID des Tabs
+         * @param {Object} title Title des Tabs
+         * @param {Object} grid Grid das angezeigt werden soll
          */
         createTab: function (id, title, grid, type, closeable)
         {
@@ -2554,7 +2448,7 @@ MySched.layout = function ()
             var disablePDF = true;
             if(MySched.libraryFPDFIsInstalled == true)
             {
-            	disablePDF = false
+            	disablePDF = false;
             }
             
             var btnSavePdf = Ext.create('Ext.Button',
@@ -2622,7 +2516,7 @@ MySched.layout = function ()
                                 {
                                     Ext.get('downloadIframe')
                                         .remove();
-                                }
+                                };
                                 Ext.defer(func, 2000);
                             }
                             else
@@ -2632,7 +2526,7 @@ MySched.layout = function ()
                                 MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PDF_ERROR);
                             }
                         }
-                    })
+                    });
                 }
             });
 
@@ -2696,7 +2590,7 @@ MySched.layout = function ()
                                 {
                                     Ext.get('downloadIframe')
                                         .remove();
-                                }
+                                };
                                 Ext.defer(func, 2000);
                             }
                             else
@@ -2706,14 +2600,14 @@ MySched.layout = function ()
                                 MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PDF_ERROR);
                             }
                         }
-                    })
+                    });
                 }
             });
 
             var disableICal = true;
             if(MySched.libraryiCalcreatorIsInstalled == true)
             {
-            	disableICal = false
+            	disableICal = false;
             }
             
             var btnICal = Ext.create('Ext.Button',
@@ -2763,7 +2657,7 @@ MySched.layout = function ()
                             Ext.MessageBox.hide();
                             try
                             {
-                                var responseData = new Array();
+                                var responseData = [];
                                 responseData = Ext.decode(response.responseText);
                                 if (responseData['url'] != "false")
                                 {
@@ -2802,7 +2696,7 @@ MySched.layout = function ()
                                                 {
                                                     Ext.get('downloadIframe')
                                                         .remove();
-                                                }
+                                                };
                                                 Ext.defer(
                                                 func,
                                                 2000);
@@ -2832,7 +2726,7 @@ MySched.layout = function ()
                                                 {
                                                     Ext.get('downloadIframe')
                                                         .remove();
-                                                }
+                                                };
                                                 Ext.defer(
                                                 func,
                                                 2000);
@@ -2859,7 +2753,7 @@ MySched.layout = function ()
                                     {
                                         Ext.get('downloadIframe')
                                             .remove();
-                                    }
+                                    };
                                     Ext.defer(func,
                                     2000);
                                 }
@@ -2871,7 +2765,7 @@ MySched.layout = function ()
                                 MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ICAL_DOWNLOAD_ERROR);
                             }
                         }
-                    })
+                    });
                 }
             });
 
@@ -2936,7 +2830,7 @@ MySched.layout = function ()
                                 {
                                     Ext.get('downloadIframe')
                                         .remove();
-                                }
+                                };
                                 Ext.defer(func, 2000);
                             }
                             else
@@ -2946,7 +2840,7 @@ MySched.layout = function ()
                                 MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_CREATE_ERROR);
                             }
                         }
-                    })
+                    });
                 }
             });
 
@@ -3158,7 +3052,7 @@ Ext.form.VTypes['ValidTime'] = function (arg, field)
         return false;
     }
 
-}
+};
 
 function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_name,
 l, key)
@@ -3202,7 +3096,7 @@ l, key)
         }]
     };
 
-    var datedata = new Array();
+    var datedata = [];
     for (var ddi = 1; ddi < MySched.daytime.length; ddi++)
     {
         datedata[datedata.length] = [ddi, MySched.daytime[ddi].gerName];
@@ -3235,7 +3129,7 @@ l, key)
             allowBlank: false,
             width: 170
         }]
-    }
+    };
 
     var stime = {
         columnWidth: .33,
@@ -3258,7 +3152,7 @@ l, key)
             allowBlank: false,
             width: 170
         }]
-    }
+    };
 
     var etime = {
         columnWidth: .33,
@@ -3281,9 +3175,9 @@ l, key)
             allowBlank: false,
             width: 170
         }]
-    }
+    };
 
-    var roomstore = new Array();
+    var roomstore = [];
     for (var i = 0; i < MySched.Mapping.room.length; i++)
     {
         roomstore.push(new Array(MySched.Mapping.room.items[i].id,
@@ -3291,14 +3185,14 @@ l, key)
             .replace(/\s+$/, '')));
     }
 
-    var teacherstore = new Array();
+    var teacherstore = [];
     for (var i = 0; i < MySched.Mapping.teacher.length; i++)
     {
         teacherstore.push(new Array(MySched.Mapping.teacher.items[i].id,
         MySched.Mapping.teacher.items[i].name));
     }
 
-    var classstore = new Array();
+    var classstore = [];
 
     for (var i = 0; i < MySched.Mapping.module.length; i++)
     {
@@ -3372,7 +3266,7 @@ l, key)
             displayField: "displayText",
             ddReorder: true
         }]
-    }
+    };
 
     var teacherfield = {
         columnWidth: .33,
@@ -3413,7 +3307,7 @@ l, key)
             displayField: "displayText",
             ddReorder: true
         }]
-    }
+    };
 
     var clasfield = {
         columnWidth: .33,
@@ -3943,8 +3837,7 @@ function daytonumber(day)
 /**
  * Wandelt englische Tagesname in deutsche um.
  * 
- * @param {String}
- *            week_day englischer Tagesname
+ * @param {String} week_day englischer Tagesname
  */
 
 function weekdayEtoD(week_day)
@@ -4070,7 +3963,7 @@ Ext.ux.collapsedPanelTitlePlugin = function ()
             }
         }
     };
-}
+};
 
 /**
  * Baumobjekt fuer Stundenplanlisten
@@ -4254,7 +4147,7 @@ MySched.Tree = function ()
             }
             else
             {
-                var departmenttype = "field"
+                var departmenttype = "field";
                 var departmentfield = "description";
                 var nodeFullName = nodeKey;
                 if (type == "teacher")
@@ -4285,7 +4178,7 @@ MySched.Tree = function ()
                 }
                 else
                 {
-                    title = nodeFullName + " - " + departmentName
+                    title = nodeFullName + " - " + departmentName;
                 }
             }
 
@@ -4361,10 +4254,8 @@ MySched.Tree = function ()
         /**
          * Setzt den Titel des Listenfelds
          * 
-         * @param {Object}
-         *            title
-         * @param {Object}
-         *            append
+         * @param {Object} title
+         * @param {Object} append
          */
         setTitle: function (title, append)
         {
@@ -4385,21 +4276,11 @@ MySched.Tree = function ()
             this.loadTreeData();
         },
         /**
-         * Fuellt den Baum mit den Daten von Teacherenten, Raeumen und
-         * Studiengaengen/Semestern, je nach berechtigung
-         */
-        loadTreeData: function ()
-        {
-            /*MySched.TreeManager.processTreeData(
-            MySched.startup["TreeView.load"].data, null, null, null,
-            this.tree);*/
-        },
-        /**
          * Setzt die Daten im Baum
          */
         setTreeData: function (data)
         {
-            var type = data.id
+            var type = data.id;
             this[type] = data;
             var imgs = Ext.DomQuery.select('img[class=x-tree-ec-icon x-tree-elbow-end-plus]',
             MySched.Tree.tree.body.dom);
@@ -4451,12 +4332,11 @@ MySched.Subscribe = function ()
         /**
          * Speichert die uebergebenen Daten
          * 
-         * @param {Object}
-         *            data
+         * @param {Object} data
          */
         setData: function (data)
         {
-            this.data = new Array();
+            this.data = [];
             Ext.each(data, function (v)
             {
                 if (v.subscribe_possible) this.push(v);
@@ -4466,8 +4346,7 @@ MySched.Subscribe = function ()
          * Zeigt das Fenster zur Auswahl der Veranstaltungen in die
          * Eingeschriebene werden soll an
          * 
-         * @param {Object}
-         *            data Aktueller "Mein Stundenplan"
+         * @param {Object} data Aktueller "Mein Stundenplan"
          */
         show: function (data)
         {
@@ -4553,13 +4432,6 @@ MySched.Subscribe = function ()
             });
 
             return this.grid;
-        },
-        save: function ()
-        {
-            // Sendet die ausgewaehlten Veranstaltungen an den Server
-            // Muss noch implementiert werden
-            // Selctions des Grids ermitteln, Elemente des Stores an
-            // subscibe.php senden
         }
     };
 }();
