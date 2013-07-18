@@ -1,4 +1,3 @@
-"use strict";
 /**
  * Spezielles Grid Vordefiniert fuer Wochenstruktur mit Veranstaltungen
  * 
@@ -15,15 +14,18 @@ Ext.define('SchedGrid',
 
     loadData: function (data)
     {
-        if (MySched.daytime.length > 0) for (var i = 1; i < MySched.daytime[1].length; i++)
+        if (MySched.daytime.length > 0)
         {
-            var index = i - 1;
-            data[index].time = MySched.daytime[1][i].stime + '<br/>-<br/>' + MySched.daytime[1][i].etime;
+            for (var i = 1; i < MySched.daytime[1].length; i++)
+            {
+                var index = i - 1;
+                data[index].time = MySched.daytime[1][i].stime + '<br/>-<br/>' + MySched.daytime[1][i].etime;
+            }
         }
 
         // Wenn das grid auch angezeigt ist, zeige die Sporatischen
         // Veranstaltungen dazu an
-        if (MySched.selectedSchedule.grid == this)
+        if (MySched.selectedSchedule.grid === this)
         {
             MySched.layout.viewport.doLayout();
         }
@@ -40,11 +42,11 @@ Ext.define('SchedGrid',
     setSporadicLectures: function (data)
     {
         this.sporadics = [];
-        if (!data || data.length == 0) return;
-        Ext.each(data, function (e)
+        if (!data || data.length === 0)
         {
-            this.sporadics.push(e);
-        }, this);
+            return;
+        }
+        Ext.each(data, function (e) { this.sporadics.push(e); }, this);
     }
 });
 
@@ -93,60 +95,63 @@ function getSchedGrid()
         store: Ext.data.StoreManager.lookup('gridStore'),
         height: 440,
         width: 726,
-        columns: [
+        columns:
+        [
+            {
+                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TIME,
+                menuDisabled: true,
+                sortable: false,
+                dataIndex: 'time',
+                renderer: MySched.lectureCellRenderer,
+                width: 35
+            },
+            {
+                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_MONDAY,
+                menuDisabled: true,
+                sortable: false,
+                dataIndex: 'monday',
+                renderer: MySched.lectureCellRenderer,
+                flex: 1
+            },
+            {
+                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_TUESDAY,
+                menuDisabled: true,
+                sortable: false,
+                dataIndex: 'tuesday',
+                renderer: MySched.lectureCellRenderer,
+                flex: 1
+            },
+            {
+                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_WEDNESDAY,
+                menuDisabled: true,
+                sortable: false,
+                dataIndex: 'wednesday',
+                renderer: MySched.lectureCellRenderer,
+                flex: 1
+            },
+            {
+                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_THURSDAY,
+                menuDisabled: true,
+                sortable: false,
+                dataIndex: 'thursday',
+                renderer: MySched.lectureCellRenderer,
+                flex: 1
+            },
+            {
+                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_FRIDAY,
+                menuDisabled: true,
+                sortable: false,
+                dataIndex: 'friday',
+                renderer: MySched.lectureCellRenderer,
+                flex: 1
+            }
+        ],
+        viewConfig:
         {
-            header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TIME,
-            menuDisabled: true,
-            sortable: false,
-            dataIndex: 'time',
-            renderer: MySched.lectureCellRenderer,
-            width: 35
-        },
-        {
-            header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_MONDAY,
-            menuDisabled: true,
-            sortable: false,
-            dataIndex: 'monday',
-            renderer: MySched.lectureCellRenderer,
-            flex: 1
-        },
-        {
-            header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_TUESDAY,
-            menuDisabled: true,
-            sortable: false,
-            dataIndex: 'tuesday',
-            renderer: MySched.lectureCellRenderer,
-            flex: 1
-        },
-        {
-            header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_WEDNESDAY,
-            menuDisabled: true,
-            sortable: false,
-            dataIndex: 'wednesday',
-            renderer: MySched.lectureCellRenderer,
-            flex: 1
-        },
-        {
-            header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_THURSDAY,
-            menuDisabled: true,
-            sortable: false,
-            dataIndex: 'thursday',
-            renderer: MySched.lectureCellRenderer,
-            flex: 1
-        },
-        {
-            header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_FRIDAY,
-            menuDisabled: true,
-            sortable: false,
-            dataIndex: 'friday',
-            renderer: MySched.lectureCellRenderer,
-            flex: 1
-        }],
-        viewConfig: {
             features: [rowBodyFeature],
             overItemCls: '', // "disable" row over style
             disableSelection: true,
-    	    style: { overflow: 'auto', overflowX: 'hidden' }
+            style: { overflow: 'auto', overflowX: 'hidden' }
         },
         cls: 'MySched_ScheduleGrid',
         scroll: false
@@ -162,7 +167,7 @@ function showEventdesc(index)
         this.eventWindow = Ext.create('Ext.Window',
         {
             id: "datdescription",
-            title: MySched.eventlist[index]['title'] + " - Beschreibung",
+            title: MySched.eventlist[index].title + " - Beschreibung",
             bodyStyle: "background-color: #FFF; padding: 7px;",
             frame: false,
             buttons: [
@@ -174,7 +179,7 @@ function showEventdesc(index)
                 },
                 scope: this
             }],
-            html: MySched.eventlist[index]['datdescription']
+            html: MySched.eventlist[index].datdescription
         });
         this.eventWindow.show();
     }
@@ -190,14 +195,14 @@ Ext.apply(Ext.form.VTypes,
         {
             return;
         }
-        if (field.startDateField && (!this.dateRangeMax || (date.getTime() != this.dateRangeMax.getTime())))
+        if (field.startDateField && (!this.dateRangeMax || (date.getTime() !== this.dateRangeMax.getTime())))
         {
             var start = Ext.getCmp(field.startDateField);
             start.setMaxValue(date);
             start.validate();
             this.dateRangeMax = date;
         }
-        else if (field.endDateField && (!this.dateRangeMin || (date.getTime() != this.dateRangeMin.getTime())))
+        else if (field.endDateField && (!this.dateRangeMin || (date.getTime() !== this.dateRangeMin.getTime())))
         {
             var end = Ext.getCmp(field.endDateField);
             end.setMinValue(date);
@@ -216,7 +221,7 @@ Ext.apply(Ext.form.VTypes,
         if (field.initialPassField)
         {
             var pwd = Ext.getCmp(field.initialPassField);
-            return (val == pwd.getValue());
+            return (val === pwd.getValue());
         }
         return true;
     },
@@ -227,7 +232,7 @@ Ext.apply(Ext.form.VTypes,
 function addNewEvent(eventid, sdate, stime, etime)
 {
 
-    if (Ext.isObject(eventid) || eventid == null || typeof eventid == "undefined")
+    if (Ext.isObject(eventid) || eventid === null || typeof eventid === "undefined")
     {
         eventid = "0";
     }
@@ -240,12 +245,12 @@ function addNewEvent(eventid, sdate, stime, etime)
     var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker')
         .value);
 
+    var adds = "";
+    var date = null;
+    
     if (Ext.isString(sdate))
     {
         var daynumber = daytonumber(sdate);
-
-        var adds = "";
-        var date = null;
 
         weekpointer = getMonday(weekpointer);
 
@@ -256,7 +261,10 @@ function addNewEvent(eventid, sdate, stime, etime)
                 date = Ext.Date.format(weekpointer, "d.m.Y");
                 break;
             }
-            else weekpointer.setDate(weekpointer.getDate() + 1);
+            else
+            {
+                weekpointer.setDate(weekpointer.getDate() + 1);
+            }
         }
     }
     else
@@ -266,8 +274,14 @@ function addNewEvent(eventid, sdate, stime, etime)
         date = Ext.Date.format(weekpointer, "d.m.Y");
     }
 
-    if (typeof etime == "undefined") etime = "";
-    if (typeof stime == "undefined") stime = "";
+    if (typeof etime == "undefined")
+    {
+        etime = "";
+    }
+    if (typeof stime == "undefined")
+    {
+        stime = "";
+    }
 
     adds = "&startdate=" + date + "&starttime=" + stime + "&endtime=" + etime;
 
@@ -282,7 +296,8 @@ function addNewEvent(eventid, sdate, stime, etime)
         height: 450,
         modal: true,
         frame: false,
-        html: '<iframe width=100% height=100% onLoad="newEventonLoad(this)" id="iframeNewEvent" class="mysched_iframeNewEvent" src="' + externLinks.eventLink + eventid + '&tmpl=component' + adds + '"></iframe>'
+        html: '<iframe width=100% height=100% onLoad="newEventonLoad(this)" id="iframeNewEvent" class="mysched_iframeNewEvent" src="'
+              + externLinks.eventLink + eventid + '&tmpl=component' + adds + '"></iframe>'
     });
 
     win.on("beforeclose", function (panel, eOpts)
@@ -325,8 +340,7 @@ function addNewEvent(eventid, sdate, stime, etime)
  * This function add a hidden input field to the form in the passed iframe
  * 
  * @author Wolf
- * @param {object}
- *            The iframe which called this function
+ * @param {object} iframe The iframe which called this function
  */
 
 function newEventonLoad(iframe)
@@ -338,7 +352,7 @@ function newEventonLoad(iframe)
     var cancel = Ext.DomQuery.select('button[id=btncancel]', eventForm);
     cancel = cancel[0];
 
-    if (eventForm != null && cancel != null)
+    if (eventForm !== null && cancel !== null)
     {
         var formparent = eventForm.parentElement;
         if (!Ext.isObject(formparent))
@@ -365,26 +379,20 @@ function newEventonLoad(iframe)
 /**
  * Spezieller Renderer fuer die Veranstaltungen
  * 
- * @param {Object}
- *            data
- * @param {Object}
- *            meta
- * @param {Object}
- *            record
- * @param {Object}
- *            rowIndex
- * @param {Object}
- *            colIndex
- * @param {Object}
- *            store
- * @param {Object}
- *            grid
+ * @param {Object} data
+ * @param {Object} meta
+ * @param {Object} record
+ * @param {Object} rowIndex
+ * @param {Object} colIndex
+ * @param {Object} store
+ * @param {Object} grid
  */
 MySched.lectureCellRenderer = function (data, meta, record, rowIndex, colIndex,
 store)
 {
     function cl(cl)
     {
+        "use strict";
         if (MySched.freeBusyState) return cl + ' ';
         return cl + '_DIS ';
     }
@@ -404,28 +412,32 @@ store)
         weekpointer = getMonday(weekpointer);
         weekpointer.setDate(weekpointer.getDate() + (colIndex - 1));
 
-        var headerCt = this.mSchedule.grid.getView()
-            .getHeaderCt();
+        var headerCt = this.mSchedule.grid.getView().getHeaderCt();
 
         var header = headerCt.getHeaderAtIndex(colIndex);
 
-        if (Ext.Date.format(Ext.ComponentMgr.get('menuedatepicker')
-            .value, "d.m.Y") == Ext.Date.format(weekpointer, "d.m.Y")) header.setText("<b>" + weekdayEtoD(numbertoday(colIndex)) + " (" + Ext.Date.format(weekpointer, "d.m.") + ")</b>");
-        else header.setText(weekdayEtoD(numbertoday(colIndex)) + " (" + Ext.Date.format(weekpointer, "d.m.") + ")");
+        if (Ext.Date.format(Ext.ComponentMgr.get('menuedatepicker').value, "d.m.Y") === Ext.Date.format(weekpointer, "d.m.Y"))
+        {
+            header.setText("<b>" + weekdayEtoD(numbertoday(colIndex)) + " (" + Ext.Date.format(weekpointer, "d.m.") + ")</b>");
+        }
+        else
+        {
+            header.setText(weekdayEtoD(numbertoday(colIndex)) + " (" + Ext.Date.format(weekpointer, "d.m.") + ")");
+        }
     }
 
-    // Spalte 0 -> Zeiten
-    // if (colIndex == 0 && rowIndex == 3) return '<div class="scheduleBox
-    // MySched_pause">' + data + '</div>';
-    if (colIndex == 0) return '<div class="scheduleBox timeBox">' + data + '</div>';
+    if (colIndex == 0)
+    {
+        return '<div class="scheduleBox timeBox">' + data + '</div>';
+    }
 
     var blockStatus = MySched.Schedule.getBlockStatus(colIndex, rowIndex);
-    if (blockStatus == 1 && this.mSchedule.id != "mySchedule")
+    if (blockStatus === 1 && this.mSchedule.id !== "mySchedule")
     {
         meta.tdCls += cl('blockBusy');
         meta.tdCls += cl('conMenu');
     }
-    else if (blockStatus > 1 && this.mSchedule.id != "mySchedule")
+    else if (blockStatus > 1 && this.mSchedule.id !== "mySchedule")
     {
         meta.tdCls += cl('blockOccupied');
         meta.tdCls += cl('conMenu');
@@ -436,6 +448,9 @@ store)
         meta.tdCls += cl('conMenu');
     }
 
-    if (Ext.isEmpty(data)) return '';
+    if (Ext.isEmpty(data))
+    {
+        return '';
+    }
     return data.join("\n");
-}
+};

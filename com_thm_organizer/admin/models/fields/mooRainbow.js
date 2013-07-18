@@ -379,7 +379,7 @@ var MooRainbow = new Class({
 
     eventKeys: function(e, el, id)
     {
-        "use strict;"
+        "use strict";
         var wheel, type;
         id = (!id) ? el.id : this.arrHSB[0];
 
@@ -422,10 +422,17 @@ var MooRainbow = new Class({
             var value = (el.value.toInt() || 0) + wheel;
             value = (value > 255) ? 255 : (value < 0) ? 0 : value;
 
-            switch(el.className) {
-                case prefix + 'rInput': pass = [value, rgb[1], rgb[2]];	break;
-                case prefix + 'gInput': pass = [rgb[0], value, rgb[2]];	break;
-                case prefix + 'bInput':	pass = [rgb[0], rgb[1], value];	break;
+            switch(el.className)
+            {
+                case prefix + 'rInput':
+                    pass = [value, rgb[1], rgb[2]];
+                    break;
+                case prefix + 'gInput':
+                    pass = [rgb[0], value, rgb[2]];
+                    break;
+                case prefix + 'bInput':
+                    pass = [rgb[0], rgb[1], value];
+                    break;
                 default : pass = rgb;
             }
             this.manualSet(pass);
@@ -436,13 +443,26 @@ var MooRainbow = new Class({
             var rgb = this.sets.rgb, hsb = this.sets.hsb, prefix = this.options.prefix, pass;
             var value = (el.value.toInt() || 0) + wheel;
 
-            if (el.className.test(/(HueInput)/)) value = (value > 359) ? 0 : (value < 0) ? 0 : value;
-            else value = (value > 100) ? 100 : (value < 0) ? 0 : value;
+            if (el.className.test(/(HueInput)/))
+            {
+                value = (value > 359) ? 0 : (value < 0) ? 0 : value;
+            }
+            else
+            {
+                value = (value > 100) ? 100 : (value < 0) ? 0 : value;
+            }
 
-            switch(el.className) {
-                case prefix + 'HueInput': pass = [value, hsb[1], hsb[2]]; break;
-                case prefix + 'SatuInput': pass = [hsb[0], value, hsb[2]]; break;
-                case prefix + 'BrighInput':	pass = [hsb[0], hsb[1], value]; break;
+            switch(el.className)
+            {
+                case prefix + 'HueInput':
+                    pass = [value, hsb[1], hsb[2]];
+                    break;
+                case prefix + 'SatuInput':
+                    pass = [hsb[0], value, hsb[2]];
+                    break;
+                case prefix + 'BrighInput':
+                    pass = [hsb[0], hsb[1], value];
+                    break;
                 default : pass = hsb;
             }
 
@@ -452,62 +472,120 @@ var MooRainbow = new Class({
         e.stop();
     },
 
-    eventKeydown: function(e, el) {
+    eventKeydown: function(e, el)
+    {
+        "use strict";
         var n = e.code, k = e.key;
 
-        if 	((!el.className.test(/hexInput/) && !(n >= 48 && n <= 57)) &&
+        if ((!el.className.test(/hexInput/) && !(n >= 48 && n <= 57)) &&
             (k!='backspace' && k!='tab' && k !='delete' && k!='left' && k!='right'))
-        e.stop();
+        {
+            e.stop();
+        }
     },
 
-    eventKeyup: function(e, el) {
+    eventKeyup: function(e, el)
+    {
+        "use strict";
         var n = e.code, k = e.key, pass, prefix, chr = el.value.charAt(0);
 
-        if (!$chk(el.value)) return;
-        if (el.className.test(/hexInput/)) {
-            if (chr != "#" && el.value.length != 6) return;
-            if (chr == '#' && el.value.length != 7) return;
-        } else {
-            if (!(n >= 48 && n <= 57) && (!['backspace', 'tab', 'delete', 'left', 'right'].contains(k)) && el.value.length > 3) return;
+        if (!$chk(el.value))
+        {
+            return;
+        }
+        if (el.className.test(/hexInput/))
+        {
+            if (chr != "#" && el.value.length != 6)
+            {
+                return;
+            }
+            if (chr == '#' && el.value.length != 7)
+            {
+                return;
+            }
+        }
+        else
+        {
+            if (!(n >= 48 && n <= 57) && (!['backspace', 'tab', 'delete', 'left', 'right'].contains(k)) && el.value.length > 3)
+            {
+                return;
+            }
         }
 
         prefix = this.options.prefix;
 
-        if (el.className.test(/(rInput|gInput|bInput)/)) {
-            if (el.value  < 0 || el.value > 255) return;
-            switch(el.className){
-                case prefix + 'rInput': pass = [el.value, this.sets.rgb[1], this.sets.rgb[2]]; break;
-                case prefix + 'gInput': pass = [this.sets.rgb[0], el.value, this.sets.rgb[2]]; break;
-                case prefix + 'bInput': pass = [this.sets.rgb[0], this.sets.rgb[1], el.value]; break;
+        if (el.className.test(/(rInput|gInput|bInput)/))
+        {
+            if (el.value  < 0 || el.value > 255)
+            {
+                return;
+            }
+            switch(el.className)
+            {
+                case prefix + 'rInput':
+                    pass = [el.value, this.sets.rgb[1], this.sets.rgb[2]];
+                    break;
+                case prefix + 'gInput':
+                    pass = [this.sets.rgb[0], el.value, this.sets.rgb[2]];
+                    break;
+                case prefix + 'bInput':
+                    pass = [this.sets.rgb[0], this.sets.rgb[1], el.value];
+                    break;
                 default : pass = this.sets.rgb;
             }
             this.manualSet(pass);
             this.fireEvent('onChange', [this.sets, this]);
         }
-        else if (!el.className.test(/hexInput/)) {
-            if (el.className.test(/HueInput/) && el.value  < 0 || el.value > 360) return;
-            else if (el.className.test(/HueInput/) && el.value == 360) el.value = 0;
-            else if (el.className.test(/(SatuInput|BrighInput)/) && el.value  < 0 || el.value > 100) return;
-            switch(el.className){
-                case prefix + 'HueInput': pass = [el.value, this.sets.hsb[1], this.sets.hsb[2]]; break;
-                case prefix + 'SatuInput': pass = [this.sets.hsb[0], el.value, this.sets.hsb[2]]; break;
-                case prefix + 'BrighInput': pass = [this.sets.hsb[0], this.sets.hsb[1], el.value]; break;
-                default : pass = this.sets.hsb;
+        else if (!el.className.test(/hexInput/))
+        {
+            if (el.className.test(/HueInput/) && el.value  < 0 || el.value > 360)
+            {
+                return;
+            }
+            else if (el.className.test(/HueInput/) && el.value == 360)
+            {
+                el.value = 0;
+            }
+            else if (el.className.test(/(SatuInput|BrighInput)/) && el.value  < 0 || el.value > 100)
+            {
+                return;
+            }
+            switch(el.className)
+            {
+                case prefix + 'HueInput':
+                    pass = [el.value, this.sets.hsb[1], this.sets.hsb[2]];
+                    break;
+                case prefix + 'SatuInput':
+                    pass = [this.sets.hsb[0], el.value, this.sets.hsb[2]];
+                    break;
+                case prefix + 'BrighInput':
+                    pass = [this.sets.hsb[0], this.sets.hsb[1], el.value];
+                    break;
+                default :
+                    pass = this.sets.hsb;
             }
             this.manualSet(pass, 'hsb');
             this.fireEvent('onChange', [this.sets, this]);
-        } else {
+        }
+        else
+        {
             pass = el.value.hexToRgb(true);
-            if (isNaN(pass[0])||isNaN(pass[1])||isNaN(pass[2])) return;
+            if (isNaN(pass[0])||isNaN(pass[1])||isNaN(pass[2]))
+            {
+                return;
+            }
 
-            if ($chk(pass)) {
+            if ($chk(pass))
+            {
                 this.manualSet(pass);
                 this.fireEvent('onChange', [this.sets, this]);
             }
         }
     },
 
-    doLayout: function() {
+    doLayout: function()
+    {
+        "use strict";
         var id = this.options.id, prefix = this.options.prefix;
         var idPrefix = id + ' .' + prefix;
 
@@ -645,9 +723,14 @@ var MooRainbow = new Class({
         this.okButton = document.getElement('#' + idPrefix + 'okButton');
         this.transp = box.getElement('.' + prefix + 'transp');
 
-        if (!window.khtml) this.hide();
+        if (!window.khtml)
+        {
+            this.hide();
+        }
     },
-    rePosition: function() {
+    rePosition: function()
+    {
+        "use strict";
         var coords = this.element.getCoordinates();
         this.layout.setStyles({
             'left': coords.left,
@@ -655,34 +738,37 @@ var MooRainbow = new Class({
         });
     },
 
-    snippet: function(mode, type) {
-        var size; type = (type) ? type : 'none';
+    snippet: function(mode, type)
+    {
+        "use strict";
+        var size, height, width;
+        type = (type) ? type : 'none';
 
-        switch(mode) {
+        switch(mode)
+        {
             case 'arrPos':
-                var t = this.layout.arrows.getStyle('top').toInt();
-                size = t;
+                size = this.layout.arrows.getStyle('top').toInt();
                 break;
             case 'arrSize': 
-                var h = this.layout.arrows.height;
-                h = (type == 'int') ? (h/2).toInt() : h;
-                size = h;
+                height = this.layout.arrows.height;
+                height = (type == 'int') ? (height/2).toInt() : height;
+                size = height;
                 break;
             case 'curPos':
-                var l = this.layout.cursor.getStyle('left').toInt();
-                var t = this.layout.cursor.getStyle('top').toInt();
-                size = {'l': l, 't': t};
+                size = {
+                    l : this.layout.cursor.getStyle('left').toInt(),
+                    t : this.layout.cursor.getStyle('top').toInt()
+                };
                 break;
             case 'slider':
-                var t = this.layout.slider.getStyle('marginTop').toInt();
-                size = t;
+                size = this.layout.slider.getStyle('marginTop').toInt();
                 break;
             default :
-                var h = this.layout.cursor.height;
-                var w = this.layout.cursor.width;
-                h = (type == 'int') ? (h/2).toInt() : h;
-                w = (type == 'int') ? (w/2).toInt() : w;
-                size = {w: w, h: h};
+                height = this.layout.cursor.height;
+                width = this.layout.cursor.width;
+                height = (type === 'int') ? (height/2).toInt() : height;
+                width = (type === 'int') ? (width/2).toInt() : width;
+                size = {w: w, h: height};
         };
         return size;
     }
