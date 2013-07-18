@@ -1,9 +1,9 @@
-"use strict";
 Ext.override(
 Ext.picker.Date,
 {
     fullUpdate: function (date, active)
     {
+        "use strict";
         var me = this,
             cells = me.cells.elements,
             textNodes = me.textNodes,
@@ -175,27 +175,30 @@ Ext.picker.Date,
 
         var calendarTooltip = Ext.select('.calendar_tooltip',
         false, document);
-		calendarTooltip.removeAllListeners();
-		calendarTooltip.on({
-			'mouseover' : function(e) {
-				e.stopEvent();
-				calendar_tooltip(e);
-			},
-			'mouseout' : function(e) {
-				e.stopEvent();
-			},
-			scope : this
-		});
-
+        calendarTooltip.removeAllListeners();
+        calendarTooltip.on({
+            'mouseover' : function(e) {
+                e.stopEvent();
+                calendar_tooltip(e);
+            },
+            'mouseout' : function(e) {
+                e.stopEvent();
+            },
+            scope : this
+        });
         me.monthBtn.setText(me.monthNames[date.getMonth()] + ' ' + date.getFullYear());
     }
 });
 
 calendar_tooltip = function (e)
 {
+    "use strict";
     var el = e.getTarget('.calendar_tooltip', 5, true);
     var calendarTip = Ext.getCmp('mySched_calendar-tip');
-    if (calendarTip) calendarTip.destroy();
+    if (calendarTip)
+    {
+        calendarTip.destroy();
+    }
     var xy = el.getXY();
     xy[0] = xy[0] + el.getWidth();
 
@@ -214,21 +217,28 @@ calendar_tooltip = function (e)
             for (var eventIndex = 0; eventIndex < eventObjects.length; eventIndex++)
             {
                 var o = eventObjects[eventIndex];
-                if (name != "") name += ", ";
-                if (o.type === "teacher") name += "<small class='dozname'>" + getTeacherSurnameWithCutFirstName(MySched.Mapping.getTeacherKeyByID(o.id)) + "</small>";
-                else if (o.type === "room") name += "<small class='roomshortname'>" + MySched.Mapping.getRoomName(MySched.Mapping.getRoomKeyByID(o.id)) + "</small>";
+                if (name != "")
+                {
+                    name += ", ";
+                }
+                if (o.type === "teacher")
+                {
+                    name += "<small class='dozname'>" + getTeacherSurnameWithCutFirstName(MySched.Mapping.getTeacherKeyByID(o.id)) + "</small>";
+                }
+                else if (o.type === "room")
+                {
+                    name += "<small class='roomshortname'>" + MySched.Mapping.getRoomName(MySched.Mapping.getRoomKeyByID(o.id)) + "</small>";
+                }
             }
 
-            /*
-             * events[i].data.objects.each(function(o, k) { if(name != "") name += ", ";
-             * if(o.type === "teacher") name += "<small class='dozname'>" +
-             * o.name + "</small>"; else if(o.type === "room") name += "<small
-             * class='roomshortname'>" + o.name + "</small>"; else name +=
-             * o.name });
-             */
-
-            if (name != "") htmltext += " (" + name + ")<br/>";
-            else htmltext += "<br/>";
+            if (name != "")
+            {
+                htmltext += " (" + name + ")<br/>";
+            }
+            else
+            {
+                htmltext += "<br/>";
+            }
         }
         else
         {
@@ -256,19 +266,20 @@ calendar_tooltip = function (e)
             {
                 'click': function (e)
                 {
-                    if (e.button == 0) // links Klick
+                    if (e.button === 0) // links Klick
                     MySched.SelectionManager.showSchedule(e, 'doz');
                 },
                 scope: this
             });
 
-            Ext.select('.roomshortname', false, this.el.dom)
-                .on(
+            Ext.select('.roomshortname', false, this.el.dom).on(
             {
                 'click': function (e)
                 {
-                    if (e.button == 0) // links Klick
-                    MySched.SelectionManager.showSchedule(e, 'room');
+                    if (e.button === 0)
+                    {
+                        MySched.SelectionManager.showSchedule(e, 'room');
+                    }
                 },
                 scope: this
             });
@@ -276,12 +287,10 @@ calendar_tooltip = function (e)
 
         ttInfo.on('beforedestroy', function ()
         {
-            Ext.select('.dozname', false, this.el.dom)
-                .removeAllListeners();
-            Ext.select('.roomshortname', false, this.el.dom)
-                .removeAllListeners();
+            Ext.select('.dozname', false, this.el.dom).removeAllListeners();
+            Ext.select('.roomshortname', false, this.el.dom).removeAllListeners();
         });
 
         ttInfo.showAt(xy);
     }
-}
+};
