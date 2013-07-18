@@ -1,3 +1,4 @@
+"use strict";
 Ext.override(
 Ext.picker.Date,
 {
@@ -112,7 +113,7 @@ Ext.picker.Date,
             var end = MySched.session["end"].split("-");
             end = new Date(end[0], end[1] - 1, end[2]);
 
-            cell.children[0].events = new Array();
+            cell.children[0].events = [];
 
             current.clearTime();
 

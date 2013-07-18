@@ -1,3 +1,4 @@
+"use strict";
 /**
  * mySched - Mainclass by Thorsten Buss and Wolf Rost
  */
@@ -630,6 +631,7 @@ MySched.Base = function ()
  */
 MySched.InfoPanel = function ()
 {
+    "use strict";
     var el = null;
     return {
         init: function ()
@@ -644,7 +646,7 @@ MySched.InfoPanel = function ()
         showInfo: function (el)
         {
             var text = false;
-            if (Ext.type(el) == 'object')
+            if (Ext.type(el) === 'object')
             {
 
                 var l = MySched.Base.getLecture(el.id);
@@ -657,7 +659,10 @@ MySched.InfoPanel = function ()
             {
                 text = el;
             }
-            if (!text) this.el.update(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_ERROR);
+            if (!text)
+            {
+                this.el.update(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_ERROR);
+            }
             else
             {
                 this.el.update(text);
@@ -708,17 +713,15 @@ MySched.InfoPanel = function ()
                         var json = Ext.decode(resp.responseText);
                         if (!json.success)
                         {
-                            if (!json.error) json.error = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_UNKNOWN_ERROR;
-                            this.showDetailInfo(
-                            json.error,
-                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ERROR);
+                            if (!json.error)
+                            {
+                                json.error = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_UNKNOWN_ERROR;
+                            }
+                            this.showDetailInfo(json.error, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ERROR);
                             return;
                         }
                         // Zeigt ermittelte Info an
-                        this.showDetailInfo(
-                        Ext.Template(json.template)
-                            .apply(json.data),
-                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_INFO);
+                        this.showDetailInfo( Ext.Template(json.template).apply(json.data), MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_INFO);
                     }
                     catch (e)
                     {}
@@ -736,11 +739,11 @@ MySched.InfoPanel = function ()
             var mode = _C('infoMode');
             // Je nach Mode wird es im normalen InfoFenster oder als Popup
             // angezeigt.
-            if (mode == 'layout')
+            if (mode === 'layout')
             {
                 this.showInfo(text);
             }
-            else if (mode == 'popup')
+            else if (mode === 'popup')
             {
                 Ext.Msg.show(
                 {
@@ -783,6 +786,7 @@ new Ext.util.Observable(),
      */
     init: function ()
     {
+        "use stict";
         // Definierten welche Events geworfen werden
         this.addEvents(
         {
@@ -804,11 +808,11 @@ new Ext.util.Observable(),
      */
     stopSelection: function (o)
     {
-        if (Ext.type(o) == 'object')
-        { // Nur unterhalb
-            // uebergebenen Objekt
-            var dom = o.dom || Ext.get(o)
-                .dom;
+        "use stict";
+        if (Ext.type(o) === 'object')
+        {
+            // Nur unterhalb uebergebenen Objekt
+            var dom = o.dom || Ext.get(o).dom;
             Ext.select('.status_icons_delete', false, dom).removeAllListeners();
             Ext.select('.status_icons_info', false, dom).removeAllListeners();
             Ext.select('.status_icons_edit', false, dom).removeAllListeners();
@@ -824,7 +828,8 @@ new Ext.util.Observable(),
             Ext.select('.status_icons_estudy', false, dom).removeAllListeners();
         }
         else if (o === true)
-        { // Alle
+        {
+            // Alle
             Ext.select('.status_icons_delete').removeAllListeners();
             Ext.select('.status_icons_info').removeAllListeners();
             Ext.select('.status_icons_edit').removeAllListeners();
@@ -840,9 +845,8 @@ new Ext.util.Observable(),
             Ext.select('.status_icons_estudy').removeAllListeners();
         }
         else if (MySched.layout.tabpanel.items.getCount() > 0)
-        { // Nur
-            // Aktiven
-            // Tab
+        {
+            // Nur aktiven tab
             var activeTabDom = MySched.layout.tabpanel.getActiveTab().getEl().dom;
             Ext.select('.status_icons_delete', false, activeTabDom).removeAllListeners();
             Ext.select('.status_icons_info', false, activeTabDom).removeAllListeners();
@@ -869,17 +873,19 @@ new Ext.util.Observable(),
      */
     startSelection: function (el)
     {
-        var tab = el || MySched.layout.tabpanel.getActiveTab()
-            .getEl();
-        if (!tab) return;
+        "use strict";
+        var tab = el || MySched.layout.tabpanel.getActiveTab().getEl();
+        if (!tab)
+        {
+            return;
+        }
 
         Ext.select('.status_icons_info', false, tab.dom)
             .on(
         {
             'click': function (e)
             {
-                // links Klick
-                if (e.button == 0)
+                if (e.button === 0)
                 {
                     e.stopEvent();
                     this.showModuleInformation(e);
@@ -894,8 +900,7 @@ new Ext.util.Observable(),
         {
             'click': function (e)
             {
-                // links Klick
-                if (e.button == 0)
+                if (e.button === 0)
                 {
                     this.showSchedule(e, 'teacher');
                 }
@@ -935,14 +940,21 @@ new Ext.util.Observable(),
             'mouseout': function ()
             {
                 var contentAnchorTip = Ext.getCmp('content-anchor-tip');
-                if (contentAnchorTip) contentAnchorTip.destroy();
+                if (contentAnchorTip)
+                {
+                    contentAnchorTip.destroy();
+                }
             },
             'click': function (e)
             {
-                if (e.button == 0) // links
-                // Klick
-                e.stopEvent();
-                if (MySched.Authorize.user != null && MySched.Authorize.role != 'user' && MySched.Authorize.role != 'registered') addNewEvent(e.target.id);
+                if (e.button === 0)
+                {
+                    e.stopEvent();
+                }
+                if (MySched.Authorize.user !== null && MySched.Authorize.role !== 'user' && MySched.Authorize.role !== 'registered')
+                {
+                    addNewEvent(e.target.id);
+                }
             },
             scope: this
         });

@@ -1,3 +1,4 @@
+"use strict";
 var oldMainToolbar = MySched.layout.getMainToolbar;
 
 MySched.layout.getMainToolbar = function ()

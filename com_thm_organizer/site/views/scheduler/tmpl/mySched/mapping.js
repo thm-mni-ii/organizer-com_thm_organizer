@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Mapping von Kuerzeln auf Namen
  * @author thorsten

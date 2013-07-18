@@ -1,3 +1,4 @@
+"use strict";
 Ext.define('Ext.ux.FitToParent',
 {
     /**

@@ -1,4 +1,5 @@
-MySchedLanguage = new Array();
+"use strict";
+MySchedLanguage = [];
 
 MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EVENT_CREATE = "<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_EVENT_CREATE'); ?>";
 MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULER_CHANGED = "<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULER_CHANGED'); ?>";

@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Objekt zum Authentifizieren des Benutzers und der Verwaltung dessen Rechten
  * 

@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Reader-Objekte spezialisiert fuer MySched
  * @author thorsten
@@ -203,14 +204,14 @@ Ext.data.XmlReader,
                 etime = etime.substr(0, 2) + ":" + etime.substr(2);
                 if (!MySched.daytime[day])
                 {
-                    MySched.daytime[day] = new Array();
+                    MySched.daytime[day] = [];
                     MySched.daytime[day]["localName"] = "day";
                     MySched.daytime[day]["gerName"] = weekdayEtoD(numbertoday(day));
                     MySched.daytime[day]["engName"] = numbertoday(day);
                 }
                 if (!MySched.daytime[day][block])
                 {
-                    MySched.daytime[day][block] = new Array();
+                    MySched.daytime[day][block] = [];
                     MySched.daytime[day][block]["localName"] = "block";
                     MySched.daytime[day][block]["stime"] = stime;
                     MySched.daytime[day][block]["etime"] = etime;

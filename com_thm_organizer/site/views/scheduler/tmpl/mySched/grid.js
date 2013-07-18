@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Spezielles Grid Vordefiniert fuer Wochenstruktur mit Veranstaltungen
  * 
@@ -298,7 +299,7 @@ function addNewEvent(eventid, sdate, stime, etime)
             {
                 try
                 {
-                    var jsonData = new Array();
+                    var jsonData = [];
 
                     if (response.responseText.length > 0)
                     {

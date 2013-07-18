@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Models von MySched
  * @author thorsten
@@ -135,8 +136,8 @@ Ext.define('mSchedule',
         this.status = "saved";
         this.id = id;
         this.title = title;
-        this.visibleLessons = new Array();
-        this.visibleEvents = new Array();
+        this.visibleLessons = [];
+        this.visibleEvents = [];
         mSchedule.superclass.constructor.call(this, id, new MySched.Collection());
         if (config && config.type && config.value) this.init(config.type, config.value);
         this.addEvents(
@@ -268,8 +269,8 @@ Ext.define('mSchedule',
         var wpMO = null;
         var cd = Ext.ComponentMgr.get('menuedatepicker');
         var wp = null;
-        this.visibleLessons = new Array();
-        this.visibleEvents = new Array();
+        this.visibleLessons = [];
+        this.visibleEvents = [];
 
         wp = Ext.Date.clone(cd.value);
 
@@ -2218,7 +2219,7 @@ function getModuledesc(mninr)
         },
         success: function (response, req)
         {
-            var responseData = new Array();
+            var responseData = [];
             try
             {
                 responseData = Ext.decode(response.responseText);

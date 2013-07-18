@@ -1,4 +1,5 @@
-// Link auf ein lokales Blankes Bild
+"use strict";
+// // Link auf ein lokales Blankes Bild
 //Ext.BLANK_IMAGE_URL = externLinks.blankImageLink;
 Ext.MessageBox.buttonText.yes = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_YES;
 Ext.MessageBox.buttonText.no = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NO;
