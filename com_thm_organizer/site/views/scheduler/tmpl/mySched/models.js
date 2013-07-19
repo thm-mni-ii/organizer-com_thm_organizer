@@ -13,7 +13,9 @@ Ext.define('MySched.Model',
 
     constructor: function (id, d)
     {
-        var id, data, parent, responsible, object1, object2;
+        "use strict";
+
+        var data, responsible, object1, object2;
 
         this.id = id;
         this.data = {};
@@ -22,7 +24,7 @@ Ext.define('MySched.Model',
         this.object1 = null;
         this.object2 = null;
         // WICHTIG!! Tiefe Kopie erzeugen, da sonst nur Referenzen kopiert werden.
-        if (Ext.type(d) == 'object' || Ext.type(d) == 'array')
+        if (Ext.type(d) === 'object' || Ext.type(d) === 'array')
         {
             Ext.apply(this.data, d);
         }

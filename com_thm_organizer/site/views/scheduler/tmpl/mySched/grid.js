@@ -398,17 +398,16 @@ function newEventonLoad(iframe)
  * @param {Object} store
  * @param {Object} grid
  */
-MySched.lectureCellRenderer = function (data, meta, record, rowIndex, colIndex,
-store)
+MySched.lectureCellRenderer = function (data, meta, record, rowIndex, colIndex, store)
 {
-    function cl(cl)
+    "use strict";
+    function cl(css)
     {
-        "use strict";
         if (MySched.freeBusyState)
         {
-            return cl + ' ';
+            return css + ' ';
         }
-        return cl + '_DIS ';
+        return css + '_DIS ';
     }
 
     if (colIndex > 0)
