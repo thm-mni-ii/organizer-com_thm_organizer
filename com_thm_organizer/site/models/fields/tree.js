@@ -110,9 +110,9 @@ Ext.override(Ext.tree.Column,
     }
 });
 
-changeIconHighlight = function(event)
+function changeIconHighlight (event)
 {
-    "usee strict";
+    "use strict";
 
     var elImg = event.getTarget('.MySched_checkbox_fake', 5, true);
     var elInput = elImg.dom.getPrevious();
@@ -127,7 +127,7 @@ changeIconHighlight = function(event)
     }
 };
 
-setPublicDefaultStatus = function(event)
+function setPublicDefaultStatus(event)
 {
     "use strict";
 
@@ -147,7 +147,7 @@ setPublicDefaultStatus = function(event)
         var nodes = Ext.query('.MySched_checkbox_default_fake');
         Ext.each(nodes, function (item, index, allItems)
         {
-           item.src = images["notdefault"];
+           item.src = images.notdefault;
            item.getPrevious().value = "notdefault";
            var nodeTemp = treeRoot.findChild('id',item.id.replace("_default_fake", ""),true);
            nodeTemp.raw.publicDefault = "notdefault";
@@ -161,7 +161,7 @@ setPublicDefaultStatus = function(event)
     record.raw.publicDefault = elInput.value;
 };
 
-setStatus = function(event)
+function setStatus(event)
 {
     "use strict";
 
@@ -239,7 +239,7 @@ Ext.tree.Panel.prototype.getChecked = function(node, checkedArr)
     "use strict";
 
     var checked;
-    if(checkedArr == null)
+    if(checkedArr === null)
     {
         checked = {};
     }
@@ -248,7 +248,7 @@ Ext.tree.Panel.prototype.getChecked = function(node, checkedArr)
         checked = checkedArr;
     }
     var i;
-    if( typeof node == 'undefined' )
+    if( typeof node === 'undefined' )
     {
         node = this.getRootNode();
     }
@@ -262,9 +262,9 @@ Ext.tree.Panel.prototype.getChecked = function(node, checkedArr)
             for( i = 0; i < node.childNodes.length; i++ )
             {
                 checkedChildren = this.getChecked(node.childNodes[i]);
-                if (checkedChildren.length)
+                for (attrname in checkedChildren)
                 {
-                    for (attrname in checkedChildren)
+                    if (checkedChildren.hasOwnProperty(attrname))
                     {
                         checked[attrname] = checkedChildren[attrname];
                     }
@@ -279,9 +279,9 @@ Ext.tree.Panel.prototype.getChecked = function(node, checkedArr)
             for( i = 0; i < node.childNodes.length; i++ )
             {
                 checkedChildren = this.getChecked(node.childNodes[i]);
-                if (checkedChildren.length)
+                for (attrname in checkedChildren)
                 {
-                    for (attrname in checkedChildren)
+                    if (checkedChildren.hasOwnProperty(attrname))
                     {
                         checked[attrname] = checkedChildren[attrname];
                     }
@@ -306,7 +306,7 @@ Ext.tree.Panel.prototype.getPublicDefault = function(node, checkedArr)
         checked = checkedArr;
     }
     var i;
-    if( typeof node == 'undefined' )
+    if( typeof node === 'undefined' )
     {
         node = this.getRootNode();
     }
@@ -323,9 +323,9 @@ Ext.tree.Panel.prototype.getPublicDefault = function(node, checkedArr)
             for( i = 0; i < node.childNodes.length; i++ )
             {
                 var checkedChildren = this.getPublicDefault(node.childNodes[i]);
-                if (checkedChildren.length)
+                for (var attrname in checkedChildren)
                 {
-                    for (var attrname in checkedChildren)
+                    if (checkedChildren.hasOwnProperty(attrname))
                     {
                         checked[attrname] = checkedChildren[attrname];
                     }
@@ -340,9 +340,9 @@ Ext.tree.Panel.prototype.doGray = function(node)
 {
     "use strict";
     var elImg = null;
-    var elInput = null;
 
-    if( typeof node == 'undefined' ) {
+    if( typeof node === 'undefined' )
+    {
         node = this.getRootNode();
     }
     var id = node.data.id+"_fake";
@@ -354,6 +354,7 @@ Ext.tree.Panel.prototype.doGray = function(node)
     }
     var gray = false;
     if(node.hasChildNodes() === true)
+    {
         node.childNodes.each(function(v, k) {
             if(v.isVisible())
             {
@@ -362,12 +363,10 @@ Ext.tree.Panel.prototype.doGray = function(node)
                     gray = state;
             }
         });
+    }
 
     if(gray === true)
     {
-        var elImg = null;
-        var elInput = null;
-        var id = node.data.id+"_fake";
         elImg = Ext.DomQuery.selectNode("[id="+id+"]", tree.dom);
         if(Ext.isDefined(elImg))
         {			
@@ -399,12 +398,8 @@ Ext.onReady(function()
         rootVisible: false,
         pathSeparator: '#',
         ddGroup: 'lecture',
-        ddConfig: {
-        	enableDrag: true
-        },
-        layout: {
-            type: 'fit'
-        },
+        ddConfig: { enableDrag: true },
+        layout: { type: 'fit' },
         root: {
             id: 'rootTreeNode',
             text: 'root',
@@ -437,6 +432,8 @@ Ext.onReady(function()
 
 function checkBoxEvents(node)
 {
+    "use strict";
+
     if(!Ext.isDefined(node))
     {
         node = tree.getRootNode();
@@ -458,8 +455,7 @@ function checkBoxEvents(node)
         },
         'click': function (e)
         {
-            //links Klick
-            if (e.button == 0)
+            if (e.button === 0)
             {
                 e.stopEvent();
                 setStatus(e);
@@ -483,8 +479,7 @@ function checkBoxEvents(node)
         },
         'click': function (e)
         {
-            //links Klick
-            if (e.button == 0)
+            if (e.button === 0)
             {
                 e.stopEvent();
                 setPublicDefaultStatus(e);

@@ -1,9 +1,7 @@
-"use strict";
 // // Link auf ein lokales Blankes Bild
 //Ext.BLANK_IMAGE_URL = externLinks.blankImageLink;
 Ext.MessageBox.buttonText.yes = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_YES;
 Ext.MessageBox.buttonText.no = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NO;
-
 Ext.ns('MySched');
 
 /**
@@ -22,36 +20,51 @@ Ext.ns('MySched');
  */
 MySched.Collection = function ()
 {
-    MySched.Collection.superclass.constructor.call(this)
-}
+    "use strict";
+
+    MySched.Collection.superclass.constructor.call(this);
+};
 Ext.extend(MySched.Collection, Ext.util.MixedCollection,
 {
     getKey: function (el)
     {
-        if (typeof key == 'object' && typeof key.getId == 'function') return el.getId();
+        "use strict";
+    
+        if (typeof key == 'object' && typeof key.getId == 'function')
+        {
+            return el.getId();
+        }
         return el.id;
     },
     isEmpty: function ()
     {
+        "use strict";
+    
         return this.getCount() == 0;
     },
     get: function (key, def)
     {
+        "use strict";
+
         var ret = MySched.Collection.superclass.get.call(this, key);
-        if (Ext.isEmpty(ret)) return def;
+        if (Ext.isEmpty(ret))
+        {
+            return def;
+        }
         return ret;
     },
     getField: function (field)
     {
+        "use strict";
+
         var ret = [];
-        this.each(function (e)
-        {
-            this.push(e[field])
-        }, ret)
+        this.each(function (e) { this.push(e[field]); }, ret);
         return ret;
     },
     asArray: function ()
     {
+        "use strict";
+
         return this.items;
     },
     /**
@@ -66,10 +79,12 @@ Ext.extend(MySched.Collection, Ext.util.MixedCollection,
      */
     filterBy: function (fn, scope)
     {
+        "use strict";
+
         var r = new MySched.Collection();
         r.getKey = this.getKey;
         var k = this.keys,
-            it = this.items;
+        it = this.items;
         for (var i = 0, len = it.length; i < len; i++)
         {
             if (fn.call(scope || this, it[i], k[i]))
@@ -95,6 +110,8 @@ MySched.Calendar = new MySched.Collection();
  */
 var _C = function (a)
 {
+    "use strict";
+
     return MySched.Config.get(a);
 };
 
@@ -106,6 +123,8 @@ var _C = function (a)
  */
 String.prototype.equal = function (str)
 {
+    "use strict";
+
     return this.toLowerCase() == str.toLowerCase();
 }
 
@@ -119,12 +138,18 @@ String.prototype.equal = function (str)
  */
 Array.prototype.AddTo = function (index, value)
 {
+    "use strict";
+
     var newArray = [];
     for (var i = 0; i < index; i++)
-    newArray[i] = this[i];
+    {
+        newArray[i] = this[i];
+    }
     newArray[index] = value;
     for (var i = index; i < this.length; i++)
-    newArray[i + 1] = this[i];
+    {
+        newArray[i + 1] = this[i];
+    }
     return newArray;
 };
 
@@ -136,6 +161,8 @@ Array.prototype.AddTo = function (index, value)
  */
 Array.prototype.contains = function (obj)
 {
+    "use strict";
+
     var i = this.length;
     while (i--)
     {
@@ -157,12 +184,17 @@ Ext.override(Ext.dd.DragZone,
     getDragData: function (e)
     {
         // TreeNode
-        if (Ext.dd.Registry.getHandleFromEvent(e)) return Ext.dd.Registry.getHandleFromEvent(e);
+        if (Ext.dd.Registry.getHandleFromEvent(e))
+        {
+            return Ext.dd.Registry.getHandleFromEvent(e);
+        }
 
         // Lecture
-        var target = Ext.get(e.getTarget())
-            .findParent('.lectureBox', 3, true);
-        if (target == null) return null;
+        var target = Ext.get(e.getTarget()).findParent('.lectureBox', 3, true);
+        if (target == null)
+        {
+            return null;
+        }
         target.ddel = target.dom;
         return target;
     }
@@ -172,18 +204,12 @@ Ext.override(Ext.dd.DragZone,
 /**
  * Erweiterung des GridViews
  * 
- * @param {Object}
- *            cs
- * @param {Object}
- *            rs
- * @param {Object}
- *            ds
- * @param {Object}
- *            startRow
- * @param {Object}
- *            colCount
- * @param {Object}
- *            stripe
+ * @param {Object} cs
+ * @param {Object} rs
+ * @param {Object} ds
+ * @param {Object} startRow
+ * @param {Object} colCount
+ * @param {Object} stripe
  */
 Ext.override(
 Ext.grid.View,
@@ -191,20 +217,18 @@ Ext.grid.View,
     // private
     // Nur grid als Uebergabeparameter fuer den renderer
     // hinzugefuegt
-    doAutoRender: function (cs, rs, ds, startRow, colCount,
-    stripe)
+    doAutoRender: function (cs, rs, ds, startRow, colCount, stripe)
     {
+        "use strict";
+
         var ts = this.templates,
             ct = ts.cell,
             rt = ts.row,
-            last = colCount - 1;
-        var tstyle = 'width:' + this.getTotalWidth() + ';';
+            last = colCount - 1,
+            tstyle = 'width:' + this.getTotalWidth() + ';';
 
         // buffers
-        var buf = [],
-            cb, c, p = {}, rp = {
-                tstyle: tstyle
-            }, r;
+        var buf = [], cb, c, p = {}, rp = { tstyle: tstyle }, r;
         for (var j = 0, len = rs.length; j < len; j++)
         {
             r = rs[j];
@@ -216,23 +240,35 @@ Ext.grid.View,
                 c = cs[i];
                 p.id = c.id;
                 p.css = i == 0 ? 'x-grid3-cell-first ' : (i == last ? 'x-grid3-cell-last ' : '');
-                if (j < 3) var block = j + 1;
-                else var block = j;
-                if (block < rs.length) var blotimes = blocktotime(block);
-                p.attr = p.cellAttr = "stime=" + blotimes[0] + " etime=" + blotimes[1] + " dow=" + i;
+                var block;
+                if (j < 3)
+                {
+                    block = j + 1;
+                }
+                else
+                {
+                    block = j;
+                }
+                var blotimes;
+                if (block < rs.length)
+                {
+                    blotimes = blocktotime(block);
+                    p.attr = p.cellAttr = "stime=" + blotimes[0] + " etime=" + blotimes[1] + " dow=" + i;
+                }
                 // ****** Aenderung start - this.grid
                 // hinzugefuegt
-                p.value = c.renderer(r.data[c.name], p, r,
-                rowIndex, i, ds, this.grid);
+                p.value = c.renderer(r.data[c.name], p, r, rowIndex, i, ds, this.grid);
                 // ****** Aenderung stop
-                var pos = p.value.toString()
-                    .indexOf('class=MySched_event');
+                var pos = p.value.toString().indexOf('class=MySched_event');
                 if (pos != -1)
                 {
                     p.css = p.css + "MySched_event_block ";
                 }
                 p.style = c.style;
-                if (typeof p.value == undefined || p.value === "") p.value = "&#160;";
+                if (typeof p.value == undefined || p.value === "")
+                {
+                    p.value = "&#160;";
+                }
                 if (r.dirty && typeof r.modified[c.name] !== 'undefined')
                 {
                     p.css += ' x-grid3-dirty-cell';
@@ -269,9 +305,9 @@ Ext.grid.View,
 
 function cropText(sText, nCropLimit)
 {
+    "use strict";
 
-    if (Ext.ComponentMgr.get("leftMenu")
-        .collapsed)
+    if (Ext.ComponentMgr.get("leftMenu").collapsed)
     {
         nCropLimit = nCropLimit + 6;
     }
@@ -306,12 +342,20 @@ function cropText(sText, nCropLimit)
 
 function showevent(event, arr, selectedScheduleid)
 {
-    if (event.source == "estudy") return 5;
+    "use strict";
+
+    if (event.source == "estudy")
+    {
+        return 5;
+    }
     var lessons = MySched.Base.schedule;
 
     for (var obj in event.objects)
     {
-        if (event.objects[obj] == selectedScheduleid) return 1;
+        if (event.objects[obj] == selectedScheduleid)
+        {
+            return 1;
+        }
     }
     for (var i = 0; i < arr.length; i++)
     {
@@ -321,11 +365,10 @@ function showevent(event, arr, selectedScheduleid)
         for (var index = 0; index < divcollection.length; index++)
         {
             var id = divcollection[index].getAttribute("id");
-            if (id != null)
+            if (id !== null)
             {
                 id = id.split("##");
                 var lesson = lessons.data.map[id[1]];
-                var wusa = MySched.Schedule;
                 if (!Ext.isObject(lesson))
                 {
                     lesson = MySched.Schedule.data.map[id[1]];
@@ -334,9 +377,18 @@ function showevent(event, arr, selectedScheduleid)
                 {
                     for (var obj in event.objects)
                     {
-                        if (lessoncontains(event.objects[obj], lesson.clas.map)) return 2;
-                        if (lessoncontains(event.objects[obj], lesson.doz.map)) return 3;
-                        if (lessoncontains(event.objects[obj], lesson.room.map)) return 4;
+                        if (lessoncontains(event.objects[obj], lesson.clas.map))
+                        {
+                            return 2;
+                        }
+                        if (lessoncontains(event.objects[obj], lesson.doz.map))
+                        {
+                            return 3;
+                        }
+                        if (lessoncontains(event.objects[obj], lesson.room.map))
+                        {
+                            return 4;
+                        }
                     }
                 }
             }
@@ -359,16 +411,21 @@ function showevent(event, arr, selectedScheduleid)
 
 function lessoncontains(obj, arr)
 {
-    if (obj != null)
+    "use strict";
+
+    if (obj !== null)
     {
         for (var lessonindex in arr)
         {
-            var arrsplit = arr[lessonindex].data.split("(");
-            if (arrsplit[0] != "")
+            if (arr.hasOwnProperty(lessonindex))
             {
-                if (obj.search(new RegExp(arrsplit[0])) != -1)
+                var arrsplit = arr[lessonindex].data.split("(");
+                if (arrsplit[0] !== "")
                 {
-                    return true;
+                    if (obj.search(new RegExp(arrsplit[0])) != -1)
+                    {
+                        return true;
+                    }
                 }
             }
         }
@@ -389,7 +446,12 @@ function lessoncontains(obj, arr)
 
 function numbertoday(number)
 {
-    if (number < 0 || number > 6) return false;
+    "use strict";
+
+    if (number < 0 || number > 6)
+    {
+        return false;
+    }
     var weekdays = {
         1: "monday",
         2: "tuesday",
@@ -407,11 +469,13 @@ function numbertoday(number)
  */
 function getMonday(date)
 {
+    "use strict";
+
     var weekpointer = null;
     if (Ext.isDate(date))
     {
         weekpointer = Ext.Date.clone(date);
-        while (weekpointer.getDay() != 1) // Montag ermitteln
+        while (weekpointer.getDay() !== 1) // Montag ermitteln
         {
             weekpointer.setDate(weekpointer.getDate() - 1);
         }
@@ -425,6 +489,8 @@ function getMonday(date)
  */
 function getCurrentMoFrDate()
 {
+    "use strict";
+
     var returnData = [];
     var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker').value);
     var mondayWeekPointer = getMonday(weekpointer);
@@ -453,18 +519,16 @@ function showLoadMask(id)
     {
         MySched.loadMask.destroy();
     }
-    MySched.loadMask = new Ext.LoadMask(
-    id,
-    {
-        msg: "Loading..."
-    });
+    MySched.loadMask = new Ext.LoadMask(id, { msg: "Loading..." });
     MySched.loadMask.show();
 }
 
 function convertEnglishDateStringToDateObject(dateString)
 {
-	var splittedDateIndex = dateString.split("-");
-    if (splittedDateIndex.length == 3)
+    "use strict";
+
+    var splittedDateIndex = dateString.split("-");
+    if (splittedDateIndex.length === 3)
     {
         var dateObject = new Date(splittedDateIndex[0], splittedDateIndex[1] - 1, splittedDateIndex[2]);
         Ext.Date.clearTime(dateObject);
@@ -472,14 +536,16 @@ function convertEnglishDateStringToDateObject(dateString)
     }
     else
     {
-    	return false;
+        return false;
     }
 }
 
 function convertGermanDateStringToDateObject(dateString)
 {
-	var splittedDateIndex = dateString.split(".");
-    if (splittedDateIndex.length == 3)
+    "use strict";
+
+    var splittedDateIndex = dateString.split(".");
+    if (splittedDateIndex.length === 3)
     {
         var dateObject = new Date(splittedDateIndex[2], splittedDateIndex[1] - 1, splittedDateIndex[0]);
         Ext.Date.clearTime(dateObject);
@@ -487,97 +553,103 @@ function convertGermanDateStringToDateObject(dateString)
     }
     else
     {
-    	return false;
+        return false;
     }
 }
 
 function displayDelta()
 {
-	if(!Ext.isNumber(MySched.deltaDisplayDays))
-	{
-		return false;
-	}
-	
-	var currentDate = new Date();
-	Ext.Date.clearTime(currentDate);
-	var creationDate = convertEnglishDateStringToDateObject(MySched.session["creationdate"]);
-	
-	creationDate.setDate(creationDate.getDate() + MySched.deltaDisplayDays);
-	if(creationDate < currentDate)
-	{
-		return false;
-	}
-	return true;
+    "use strict";
+
+    if(!Ext.isNumber(MySched.deltaDisplayDays))
+    {
+        return false;
+    }
+
+    var currentDate = new Date();
+    Ext.Date.clearTime(currentDate);
+    var creationDate = convertEnglishDateStringToDateObject(MySched.session["creationdate"]);
+
+    creationDate.setDate(creationDate.getDate() + MySched.deltaDisplayDays);
+    if(creationDate < currentDate)
+    {
+        return false;
+    }
+    return true;
 }
 
 function getTeacherSurnameWithCutFirstName(teacherKey)
-{	
-	var teacherName = teacherKey;
-	var teacherSurname = MySched.Mapping.getTeacherSurname(teacherKey);
+{
+    "use strict";
+
+    var teacherName = teacherKey;
+    var teacherSurname = MySched.Mapping.getTeacherSurname(teacherKey);
     var teacherFirstname = MySched.Mapping.getTeacherFirstname(teacherKey);
     
     if(Ext.isString(teacherSurname) && teacherSurname != teacherKey && teacherSurname.length > 0)
     {
-    	teacherName = teacherSurname;
+        teacherName = teacherSurname;
     }
     
     if(Ext.isString(teacherFirstname) && teacherFirstname != teacherKey && teacherFirstname.length > 0)
     {
-    	teacherName += ", " + teacherFirstname.charAt(0) + ".";
+        teacherName += ", " + teacherFirstname.charAt(0) + ".";
     }
-    
+
     return teacherName;
 }
 
 function getBlocksBetweenTimes(startTime, endTime, eventStartDate, eventEndDate)
 {
-	if(eventStartDate < eventEndDate)
-	{
-		endTime = "19:00";
-	}
-	
-	var blockTimes =  [{"start": "08:00", "end": "09:30"},
-	                   {"start": "09:50", "end": "11:20"},
-	                   {"start": "11:30", "end": "13:00"},
-	                   {"start": "14:00", "end": "15:30"},
-	                   {"start": "15:45", "end": "17:15"},
-	                   {"start": "17:30", "end": "19:00"}];
-	
-	var returnBlocks = [];
-	
-	for (var blockIndex = 0; blockIndex < blockTimes.length; blockIndex++)
-	{
-		var blockTime = blockTimes[blockIndex];
-		
-		// Event startet vor dem Block und geht über den Block hinaus
-		if(startTime <= blockTime["start"] && endTime >= blockTime["end"])
-		{
-			returnBlocks.push(blockIndex);
-		} // Event ist innerhalb des Blocks
-		else if(startTime >= blockTime["start"] && endTime <= blockTime["end"])
-		{
-			returnBlocks.push(blockIndex);
-		} // Event beginnt vor dem Block endet aber in diesem
-		else if(startTime <= blockTime["start"] && endTime <= blockTime["end"] && endTime >= blockTime["start"])
-		{
-			returnBlocks.push(blockIndex);
-		} // Event startet in diesem Block und geht über diesen Block hinaus
-		else if(startTime >= blockTime["start"] && startTime <= blockTime["end"] &&  endTime >= blockTime["end"])
-		{
-			returnBlocks.push(blockIndex);
-		}
-	}
-	
-	return returnBlocks;
+    "use strict";
+
+    if(eventStartDate < eventEndDate)
+    {
+        endTime = "19:00";
+    }
+
+    var blockTimes =  [{"start": "08:00", "end": "09:30"},
+                       {"start": "09:50", "end": "11:20"},
+                       {"start": "11:30", "end": "13:00"},
+                       {"start": "14:00", "end": "15:30"},
+                       {"start": "15:45", "end": "17:15"},
+                       {"start": "17:30", "end": "19:00"}];
+
+    var returnBlocks = [];
+
+    for (var blockIndex = 0; blockIndex < blockTimes.length; blockIndex++)
+    {
+        var blockTime = blockTimes[blockIndex];
+
+        // Event startet vor dem Block und geht über den Block hinaus
+        if(startTime <= blockTime["start"] && endTime >= blockTime["end"])
+        {
+            returnBlocks.push(blockIndex);
+        } // Event ist innerhalb des Blocks
+        else if(startTime >= blockTime["start"] && endTime <= blockTime["end"])
+        {
+            returnBlocks.push(blockIndex);
+        } // Event beginnt vor dem Block endet aber in diesem
+        else if(startTime <= blockTime["start"] && endTime <= blockTime["end"] && endTime >= blockTime["start"])
+        {
+            returnBlocks.push(blockIndex);
+        } // Event startet in diesem Block und geht über diesen Block hinaus
+        else if(startTime >= blockTime["start"] && startTime <= blockTime["end"] &&  endTime >= blockTime["end"])
+        {
+            returnBlocks.push(blockIndex);
+        }
+    }
+
+    return returnBlocks;
 }
 
-Ext.define('Ext.ux.TabCloseOnMiddleClick', {    
+Ext.define('Ext.ux.TabCloseOnMiddleClick', {
     alias: 'plugin.TabCloseOnMiddleClick',
 
     mixins: {
         observable: 'Ext.util.Observable'
     },
-    
+
     init : function(tabpanel){        
         this.tabPanel = tabpanel;
         this.tabBar = tabpanel.down("tabbar");
@@ -588,7 +660,7 @@ Ext.define('Ext.ux.TabCloseOnMiddleClick', {
             single: true
         });
     },
-    
+
     onAfterLayout: function(){
         this.mon(this.tabBar.el, {
             scope: this,
