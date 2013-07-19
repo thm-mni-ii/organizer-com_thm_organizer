@@ -1,7 +1,8 @@
 Ext.override(Ext.tree.Column,
 {
-	initComponent: function()
+    initComponent: function()
     {
+        "use strict";
         var origRenderer = this.renderer || this.defaultRenderer;
         var origScope  = this.scope || window;
 
@@ -15,19 +16,19 @@ Ext.override(Ext.tree.Column,
             var expanderCls = treePrefix + 'expander';
             var imgText = '<img src="{1}" class="{0}" />';
 
-			var checkboxText = "";
+            var checkboxText = "";
 
-			if(record.raw && record.raw.publicDefault)
+            if(record.raw && record.raw.publicDefault)
             {
                 checkboxText += '<input id="'+record.data.id+'_default" type="hidden" value="'+record.raw.publicDefault+'" role="checkbox" />';
                 checkboxText += '<img id="'+record.data.id+'_default_fake" class="MySched_checkbox_default_fake" src="'+images[record.raw.publicDefault]+'">';
             }
-			
-			if(record.data.checked)
-			{
-	           	checkboxText += '<input id="' + record.data.id + '" type="hidden" value="' + record.data.checked + '" role="checkbox" class="{0}" {1} />';
-	           	checkboxText += '<img id="' + record.data.id + '_fake" class="MySched_checkbox_fake" src="' + images[record.data.checked] + '">';	           	
-	        }
+
+            if(record.data.checked)
+            {
+                checkboxText += '<input id="' + record.data.id + '" type="hidden" value="' + record.data.checked + '" role="checkbox" class="{0}" {1} />';
+                checkboxText += '<img id="' + record.data.id + '_fake" class="MySched_checkbox_fake" src="' + images[record.data.checked] + '">';	           	
+            }
 
             var formattedValue = origRenderer.apply(origScope, arguments);
             var href = record.get('href');
@@ -102,7 +103,6 @@ Ext.override(Ext.tree.Column,
             {
                 metaData.tdCls += ' ' + cls;
             }
-        	
             return buf.join("") + formattedValue;
         };
 
@@ -110,358 +110,385 @@ Ext.override(Ext.tree.Column,
     }
 });
 
-changeIconHighlight = function(event){
-	var elImg = event.getTarget('.MySched_checkbox_fake', 5, true);
-	var elInput = elImg.dom.getPrevious();
+changeIconHighlight = function(event)
+{
+    "usee strict";
 
-	if(event.type == "mouseover")
-	{
-		elImg.dom.src = images.base+elInput.value+"_highlighted.png";
-	}
-	else
-		elImg.dom.src = images.base+elInput.value+".png";
+    var elImg = event.getTarget('.MySched_checkbox_fake', 5, true);
+    var elInput = elImg.dom.getPrevious();
+
+    if(event.type === "mouseover")
+    {
+        elImg.dom.src = images.base+elInput.value+"_highlighted.png";
+    }
+    else
+    {
+        elImg.dom.src = images.base+elInput.value+".png";
+    }
 };
 
 setPublicDefaultStatus = function(event)
 {
-	var elImg = event.getTarget('.MySched_checkbox_default_fake', 5, true);
-	var elInput = elImg.dom.getPrevious();
-	var newStatus = null;
-	var treeRoot = tree.getRootNode();
+    "use strict";
 
-	var record = treeRoot.findChild('id',elInput.id.replace("_default", ""),true);
+    var elImg = event.getTarget('.MySched_checkbox_default_fake', 5, true);
+    var elInput = elImg.dom.getPrevious();
+    var newStatus = null;
+    var treeRoot = tree.getRootNode();
 
-	if(elInput.value == "default")
+    var record = treeRoot.findChild('id',elInput.id.replace("_default", ""),true);
+
+    if(elInput.value === "default")
     {
-		newStatus = "notdefault";
+        newStatus = "notdefault";
     }
-	else
-	{
-		var nodes = Ext.query('.MySched_checkbox_default_fake');
-		Ext.each(nodes, function (item, index, allItems)
+    else
+    {
+        var nodes = Ext.query('.MySched_checkbox_default_fake');
+        Ext.each(nodes, function (item, index, allItems)
         {
-		   item.src = images["notdefault"];
-		   item.getPrevious().value = "notdefault";
-		   var nodeTemp = treeRoot.findChild('id',item.id.replace("_default_fake", ""),true);
-		   nodeTemp.raw.publicDefault = "notdefault";
-		});
-		newStatus = "default";
-	}
+           item.src = images["notdefault"];
+           item.getPrevious().value = "notdefault";
+           var nodeTemp = treeRoot.findChild('id',item.id.replace("_default_fake", ""),true);
+           nodeTemp.raw.publicDefault = "notdefault";
+        });
+        newStatus = "default";
+    }
 
-	elInput.value = newStatus;
-	elImg.dom.src = images[elInput.value];
+    elInput.value = newStatus;
+    elImg.dom.src = images[elInput.value];
 
-	record.raw.publicDefault = elInput.value;
+    record.raw.publicDefault = elInput.value;
 };
 
 setStatus = function(event)
 {
-	var elImg = event.getTarget('.MySched_checkbox_fake', 5, true);
-	var elInput = elImg.dom.getPrevious();
+    "use strict";
 
-	var record = tree.getRootNode().findChild('id',elInput.id,true);
+    var elImg = event.getTarget('.MySched_checkbox_fake', 5, true);
+    var elInput = elImg.dom.getPrevious();
 
-	if(record.isLeaf() == true)
-	{
-		if(elInput.value == "unchecked")
-		{
-			elInput.value = "checked";
-			elImg.dom.src = images.base+elInput.value+"_highlighted.png";
-		}
-		else if(elInput.value == "checked")
-		{
-			elInput.value = "unchecked";
-			elImg.dom.src = images.base+elInput.value+"_highlighted.png";
-		}
-	}
-	else
-	{
-		if(elInput.value == "unchecked")
-		{
-			elInput.value = "checked";
-			elImg.dom.src = images.base+elInput.value+"_highlighted.png";
-		}
-		else if(elInput.value == "checked")
-		{
-			elInput.value = "selected";
-			elImg.dom.src = images.base+elInput.value+"_highlighted.png";
-		}
-		else if(elInput.value == "selected")
-		{
-			elInput.value = "intermediate";
-			elImg.dom.src = images.base+elInput.value+"_highlighted.png";
-		}
+    var record = tree.getRootNode().findChild('id',elInput.id,true);
+
+    if(record.isLeaf() === true)
+    {
+        if(elInput.value === "unchecked")
+        {
+            elInput.value = "checked";
+            elImg.dom.src = images.base+elInput.value+"_highlighted.png";
+        }
+        else if(elInput.value === "checked")
+        {
+            elInput.value = "unchecked";
+            elImg.dom.src = images.base+elInput.value+"_highlighted.png";
+        }
+    }
+    else
+    {
+        if(elInput.value === "unchecked")
+        {
+            elInput.value = "checked";
+            elImg.dom.src = images.base+elInput.value+"_highlighted.png";
+        }
+        else if(elInput.value === "checked")
+        {
+            elInput.value = "selected";
+            elImg.dom.src = images.base+elInput.value+"_highlighted.png";
+        }
+        else if(elInput.value === "selected")
+        {
+            elInput.value = "intermediate";
+            elImg.dom.src = images.base+elInput.value+"_highlighted.png";
+        }
         //intermediate
-		else 
-		{
-			elInput.value = "unchecked";
-			elImg.dom.src = images.base+elInput.value+"_highlighted.png";
-		}
-	}
-	record.data.checked = elInput.value;
+        else 
+        {
+            elInput.value = "unchecked";
+            elImg.dom.src = images.base+elInput.value+"_highlighted.png";
+        }
+    }
+    record.data.checked = elInput.value;
 };
 
 Ext.data.Tree.prototype.check = function(state, descend, bulk)
 {
-	this.data.checked = state;
-	if(this.ui.checkbox)
+    "use strict";
+    this.data.checked = state;
+    if(this.ui.checkbox)
     {
-		this.ui.checkbox.checked = state;
+        this.ui.checkbox.checked = state;
     }
 
-	if( descend && !this.isLeaf() )
+    if( descend && !this.isLeaf() )
     {
-		var cs = this.childNodes;
-      	for(var i = 0; i < cs.length; i++)
+        var cs = this.childNodes;
+        for(var i = 0; i < cs.length; i++)
         {
-      		cs[i].check(state, true, true);
-      	}
-	}
+            cs[i].check(state, true, true);
+        }
+    }
 
-	if(!bulk)
+    if(!bulk)
     {
-		this.fireEvent('check', this, state);
-	}
+        this.fireEvent('check', this, state);
+    }
 };
 
 Ext.tree.Panel.prototype.getChecked = function(node, checkedArr)
 {
-	if(checkedArr == null)
+    "use strict";
+
+    var checked;
+    if(checkedArr == null)
     {
-		var checked = {};
+        checked = {};
     }
-	else
+    else
     {
-		checked = checkedArr;
+        checked = checkedArr;
     }
-	var i;
-	if( typeof node == 'undefined' )
+    var i;
+    if( typeof node == 'undefined' )
     {
-		node = this.getRootNode();
-	}
-	if( node.data.checked != "unchecked" && node.data.checked != null)
+        node = this.getRootNode();
+    }
+    var attrname, checkedChildren;
+    if( node.data.checked !== "unchecked" && node.data.checked !== null)
     {
-		var nodeID = node.data.id;
-		checked[nodeID] = node.data.checked;
-		if(!node.isLeaf())
+        var nodeID = node.data.id;
+        checked[nodeID] = node.data.checked;
+        if(!node.isLeaf())
         {
-			for( i = 0; i < node.childNodes.length; i++ )
+            for( i = 0; i < node.childNodes.length; i++ )
             {
-				var checkedChildren = this.getChecked(node.childNodes[i]);
-				for (var attrname in checkedChildren)
+                checkedChildren = this.getChecked(node.childNodes[i]);
+                if (checkedChildren.length)
                 {
-                    checked[attrname] = checkedChildren[attrname];
+                    for (attrname in checkedChildren)
+                    {
+                        checked[attrname] = checkedChildren[attrname];
+                    }
                 }
-			}
-		}
-	}
-	else
-    {
-		if( !node.isLeaf() )
-        {
-			for( i = 0; i < node.childNodes.length; i++ )
-            {
-				var checkedChildren = this.getChecked(node.childNodes[i]);
-				for (var attrname in checkedChildren)
-                {
-                    checked[attrname] = checkedChildren[attrname];
-                }
-			}
-		}
+            }
+        }
     }
-	return checked;
+    else
+    {
+        if( !node.isLeaf() )
+        {
+            for( i = 0; i < node.childNodes.length; i++ )
+            {
+                checkedChildren = this.getChecked(node.childNodes[i]);
+                if (checkedChildren.length)
+                {
+                    for (attrname in checkedChildren)
+                    {
+                        checked[attrname] = checkedChildren[attrname];
+                    }
+                }
+            }
+        }
+    }
+    return checked;
 };
 
 Ext.tree.Panel.prototype.getPublicDefault = function(node, checkedArr)
 {
-	if(checkedArr == null)
+    "use strict";
+
+    var checked;
+    if(checkedArr === null)
     {
-        var checked = {};
+        checked = {};
     }
-	else
+    else
     {
         checked = checkedArr;
     }
-	var i;
-	if( typeof node == 'undefined' )
+    var i;
+    if( typeof node == 'undefined' )
     {
-		node = this.getRootNode();
-	}
-
-	if( Ext.isObject(node.raw) &&  node.raw.publicDefault == "default")
-    {
-		var nodeID = node.data.id;
-		checked[nodeID] = node.raw.publicDefault;
-	}
-	else
-    {
-		if(!node.isLeaf())
-        {
-			for( i = 0; i < node.childNodes.length; i++ )
-            {
-				var checkedChildren = this.getPublicDefault(node.childNodes[i]);
-				for (var attrname in checkedChildren)
-                {
-                    checked[attrname] = checkedChildren[attrname];
-                }
-			}
-		}
+        node = this.getRootNode();
     }
-	return checked;
+
+    if( Ext.isObject(node.raw) &&  node.raw.publicDefault === "default")
+    {
+        var nodeID = node.data.id;
+        checked[nodeID] = node.raw.publicDefault;
+    }
+    else
+    {
+        if(!node.isLeaf())
+        {
+            for( i = 0; i < node.childNodes.length; i++ )
+            {
+                var checkedChildren = this.getPublicDefault(node.childNodes[i]);
+                if (checkedChildren.length)
+                {
+                    for (var attrname in checkedChildren)
+                    {
+                        checked[attrname] = checkedChildren[attrname];
+                    }
+                }
+            }
+        }
+    }
+    return checked;
 };
 
 Ext.tree.Panel.prototype.doGray = function(node)
 {
-	var elImg = null;
-	var elInput = null;
-	
-	if( typeof node == 'undefined' ) {
-		node = this.getRootNode();
-	}
-	var id = node.data.id+"_fake";
-	elImg = Ext.DomQuery.selectNode("[id="+id+"]", tree.dom);
-	if(Ext.isDefined(elImg))
-	{		
-		elImg.setOpacity(1);
-		elImg.setStyle('border', 'none');
-	}
-	var gray = false;
-	if(node.hasChildNodes() === true)
-		node.childNodes.each(function(v, k) {
-			if(v.isVisible())
-			{
-				var state = tree.doGray(v);
-				if(state === true)
-					gray = state;
-			}
-		});
-	
-	if(gray === true)
-	{
-		var elImg = null;
-		var elInput = null;
-		var id = node.data.id+"_fake";
-		elImg = Ext.DomQuery.selectNode("[id="+id+"]", tree.dom);
-		if(Ext.isDefined(elImg))
-		{			
-			elImg.setOpacity(0.4);
-			elImg.setStyle('border', '1px solid gray');
-		}
-	}
-	
-	if(node.data.checked === "checked" || node.data.checked === "selected" || node.data.checked === "intermediate")
-	{
+    "use strict";
+    var elImg = null;
+    var elInput = null;
+
+    if( typeof node == 'undefined' ) {
+        node = this.getRootNode();
+    }
+    var id = node.data.id+"_fake";
+    elImg = Ext.DomQuery.selectNode("[id="+id+"]", tree.dom);
+    if(Ext.isDefined(elImg))
+    {
+        elImg.setOpacity(1);
+        elImg.setStyle('border', 'none');
+    }
+    var gray = false;
+    if(node.hasChildNodes() === true)
+        node.childNodes.each(function(v, k) {
+            if(v.isVisible())
+            {
+                var state = tree.doGray(v);
+                if(state === true)
+                    gray = state;
+            }
+        });
+
+    if(gray === true)
+    {
+        var elImg = null;
+        var elInput = null;
+        var id = node.data.id+"_fake";
+        elImg = Ext.DomQuery.selectNode("[id="+id+"]", tree.dom);
+        if(Ext.isDefined(elImg))
+        {			
+            elImg.setOpacity(0.4);
+            elImg.setStyle('border', '1px solid gray');
+        }
+    }
+
+    if(node.data.checked === "checked" || node.data.checked === "selected" || node.data.checked === "intermediate")
+    {
         gray = true;
     }
-	
-	return gray;
+
+    return gray;
 };
 
 var tree = null;
 
 Ext.onReady(function()
 {
-	Ext.QuickTips.init();
+    Ext.QuickTips.init();
 
-	tree = Ext.create('Ext.tree.Panel', {
-	    title: ' ',
-	    id: 'selectTree',
+    tree = Ext.create('Ext.tree.Panel', {
+        title: ' ',
+        id: 'selectTree',
         preventHeader: true,
-	    height: 470,
-	    autoscroll: true,
-	    rootVisible: false,
+        height: 470,
+        autoscroll: true,
+        rootVisible: false,
         pathSeparator: '#',
-	    ddGroup: 'lecture',
+        ddGroup: 'lecture',
         ddConfig: {
         	enableDrag: true
         },
-		layout: {
-		    type: 'fit'
-		},
-	    root: {
-	    	id: 'rootTreeNode',
-	        text: 'root',
-	        expanded: true,
+        layout: {
+            type: 'fit'
+        },
+        root: {
+            id: 'rootTreeNode',
+            text: 'root',
+            expanded: true,
             children: null
-	    }
-	});
+        }
+    });
 
-	// render the tree
+    // render the tree
     tree.render('tree-div');
     
     var treeView = tree.getView();
     treeView.on('itemadd', function(records, index, node, eOpts)
     {
-    	checkBoxEvents(node[0].getParent());
-    	tree.doGray();
+        checkBoxEvents(node[0].getParent());
+        tree.doGray();
     });
     tree.on('itemclick', function (me, rec, item, index, event, options)
     {
         if(rec.isExpanded())
         {
-      	  rec.collapse();
+          rec.collapse();
         }
         else
         {
-      	  rec.expand();
+          rec.expand();
         }
     });
 });
 
 function checkBoxEvents(node)
 {
-	if(!Ext.isDefined(node))
-	{
-		node = tree.getRootNode();
-	}
-	
-	var selectedFakeCheckboxes = Ext.select('.MySched_checkbox_fake', node);
-	selectedFakeCheckboxes.removeAllListeners();
-	selectedFakeCheckboxes.on(
-	{
-		'mouseover': function (e)
-		{
-			e.stopEvent();
-			changeIconHighlight(e);
-		},
-		'mouseout': function (e)
-		{
-			e.stopEvent();
-			changeIconHighlight(e);
-		},
-		'click': function (e)
-		{
-            //links Klick
-			if (e.button == 0)
-			{
-		  		e.stopEvent();
-		  		setStatus(e);
-		  		tree.doGray();
-			}
-		}
-	});
-	
-	var selectedDefaultFakeCheckboxes = Ext.select('.MySched_checkbox_default_fake', node);
-	selectedDefaultFakeCheckboxes.removeAllListeners();
-	selectedDefaultFakeCheckboxes.on({
-		'mouseover': function (e)
+    if(!Ext.isDefined(node))
+    {
+        node = tree.getRootNode();
+    }
+
+    var selectedFakeCheckboxes = Ext.select('.MySched_checkbox_fake', node);
+    selectedFakeCheckboxes.removeAllListeners();
+    selectedFakeCheckboxes.on(
+    {
+        'mouseover': function (e)
         {
-			e.stopEvent();
-			changePublicDefaultHighlight(e);
-      	},
-      	'mouseout': function (e)
+            e.stopEvent();
+            changeIconHighlight(e);
+        },
+        'mouseout': function (e)
         {
-        	e.stopEvent();
-			changePublicDefaultHighlight(e);
-      	},
-      	'click': function (e)
+            e.stopEvent();
+            changeIconHighlight(e);
+        },
+        'click': function (e)
         {
             //links Klick
-        	if (e.button == 0)
-        	{
-          		e.stopEvent();
-          		setPublicDefaultStatus(e);
-        	}
-      	}
+            if (e.button == 0)
+            {
+                e.stopEvent();
+                setStatus(e);
+                tree.doGray();
+            }
+        }
+    });
+
+    var selectedDefaultFakeCheckboxes = Ext.select('.MySched_checkbox_default_fake', node);
+    selectedDefaultFakeCheckboxes.removeAllListeners();
+    selectedDefaultFakeCheckboxes.on({
+        'mouseover': function (e)
+        {
+            e.stopEvent();
+            changePublicDefaultHighlight(e);
+        },
+        'mouseout': function (e)
+        {
+            e.stopEvent();
+            changePublicDefaultHighlight(e);
+        },
+        'click': function (e)
+        {
+            //links Klick
+            if (e.button == 0)
+            {
+                e.stopEvent();
+                setPublicDefaultStatus(e);
+            }
+        }
     });
 }

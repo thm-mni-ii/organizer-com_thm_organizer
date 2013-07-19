@@ -14,6 +14,8 @@ Ext.define('SchedGrid',
 
     loadData: function (data)
     {
+        "use strict";
+
         if (MySched.daytime.length > 0)
         {
             for (var i = 1; i < MySched.daytime[1].length; i++)
@@ -36,11 +38,12 @@ Ext.define('SchedGrid',
      * Leert die aktuell vorhanden Sportaischen Veranstaltungen und setzt die
      * uebergebenen
      * 
-     * @param {Object}
-     *            data
+     * @param {Object} data
      */
     setSporadicLectures: function (data)
     {
+        "use strict";
+
         this.sporadics = [];
         if (!data || data.length === 0)
         {
@@ -52,6 +55,8 @@ Ext.define('SchedGrid',
 
 function getSchedGrid()
 {
+    "use strict";
+
     Ext.create('Ext.data.Store',
     {
         storeId: 'gridStore',
@@ -162,6 +167,8 @@ function getSchedGrid()
 
 function showEventdesc(index)
 {
+    "use strict";
+
     if (Ext.ComponentMgr.get("datdescription") == null || typeof Ext.ComponentMgr.get("datdescription") == "undefined")
     {
         this.eventWindow = Ext.create('Ext.Window',
@@ -189,6 +196,8 @@ Ext.apply(Ext.form.VTypes,
 {
     daterange: function (val, field)
     {
+        "use strict";
+
         var date = field.parseDate(val);
 
         if (!date)
@@ -218,6 +227,8 @@ Ext.apply(Ext.form.VTypes,
 
     password: function (val, field)
     {
+        "use strict";
+
         if (field.initialPassField)
         {
             var pwd = Ext.getCmp(field.initialPassField);
@@ -231,6 +242,7 @@ Ext.apply(Ext.form.VTypes,
 
 function addNewEvent(eventid, sdate, stime, etime)
 {
+    "use strict";
 
     if (Ext.isObject(eventid) || eventid === null || typeof eventid === "undefined")
     {
@@ -256,7 +268,7 @@ function addNewEvent(eventid, sdate, stime, etime)
 
         for (var i = 0; i < 7; i++)
         {
-            if (weekpointer.getDay() == daynumber)
+            if (weekpointer.getDay() === daynumber)
             {
                 date = Ext.Date.format(weekpointer, "d.m.Y");
                 break;
@@ -274,11 +286,11 @@ function addNewEvent(eventid, sdate, stime, etime)
         date = Ext.Date.format(weekpointer, "d.m.Y");
     }
 
-    if (typeof etime == "undefined")
+    if (typeof etime === "undefined")
     {
         etime = "";
     }
-    if (typeof stime == "undefined")
+    if (typeof stime === "undefined")
     {
         stime = "";
     }
@@ -287,17 +299,14 @@ function addNewEvent(eventid, sdate, stime, etime)
 
     var win = Ext.create('Ext.window.Window',
     {
-        layout: {
-            type: 'fit'
-        },
+        layout: { type: 'fit' },
         id: 'terminWin',
         width: 800,
         title: "",
         height: 450,
         modal: true,
         frame: false,
-        html: '<iframe width=100% height=100% onLoad="newEventonLoad(this)" id="iframeNewEvent" class="mysched_iframeNewEvent" src="'
-              + externLinks.eventLink + eventid + '&tmpl=component' + adds + '"></iframe>'
+        html: '<iframe width=100% height=100% onLoad="newEventonLoad(this)" id="iframeNewEvent" class="mysched_iframeNewEvent" src="' + externLinks.eventLink + eventid + '&tmpl=component' + adds + '"></iframe>'
     });
 
     win.on("beforeclose", function (panel, eOpts)
@@ -345,6 +354,8 @@ function addNewEvent(eventid, sdate, stime, etime)
 
 function newEventonLoad(iframe)
 {
+    "use strict";
+
     var eventForm = Ext.DomQuery.select('form[id=eventForm]',
     iframe.contentDocument.documentElement);
     eventForm = eventForm[0];
@@ -393,7 +404,10 @@ store)
     function cl(cl)
     {
         "use strict";
-        if (MySched.freeBusyState) return cl + ' ';
+        if (MySched.freeBusyState)
+        {
+            return cl + ' ';
+        }
         return cl + '_DIS ';
     }
 
@@ -426,7 +440,7 @@ store)
         }
     }
 
-    if (colIndex == 0)
+    if (colIndex === 0)
     {
         return '<div class="scheduleBox timeBox">' + data + '</div>';
     }

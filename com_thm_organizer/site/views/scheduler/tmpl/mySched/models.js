@@ -1,4 +1,3 @@
-"use strict";
 /**
  * Models von MySched
  * @author thorsten
@@ -38,8 +37,11 @@ Ext.define('MySched.Model',
     },
     getData: function (addData)
     {
-        if (Ext.type(addData) != 'object') return this.data;
-        return Ext.applyIf(addData, this.data)
+        if (Ext.type(addData) != 'object')
+        {
+            return this.data;
+        }
+        return Ext.applyIf(addData, this.data);
     },
     setParent: function (p)
     {
@@ -68,21 +70,21 @@ Ext.define('MySched.Model',
     },
     exportData: function (type, pers)
     {
-    	var d = [];
+        var d = [];
         if (pers == "personal")
         {
-        	d = this.asPersArray();
+            d = this.asPersArray();
         }
         else
         {
-        	if(type == "jsonpdf")
-        	{
-        		d = this.asArrayForPDF();	
-        	}
-        	else
-        	{
-        		d = this.asArray();	
-        	}
+            if(type == "jsonpdf")
+            {
+                d = this.asArrayForPDF();	
+            }
+            else
+            {
+                d = this.asArray();	
+            }
         }
 
         switch (type)
@@ -319,95 +321,95 @@ Ext.define('mSchedule',
         //sporadische Termine hinzufügen
         this.eventList.eachKey(function (k, v)
         {
-        	var eventData = v.data;
-        	var eventStartDate = eventData.startdate;
-        	var eventEndDate = eventData.enddate;
-        	var eventStartTime = eventData.starttime;
-        	var eventEndTime = eventData.endtime;
-        	var currMOFR = getCurrentMoFrDate();
-        	var eventStartDateInCurrentWeek = null;
-        	var eventEndDateInCurrentWeek = null;
-        	
-        	eventStartDate = convertGermanDateStringToDateObject(eventStartDate);
-        	eventEndDate = convertGermanDateStringToDateObject(eventEndDate);
-        	
-        	// Event war vor der aktuellen Woche
-        	if(eventStartDate < currMOFR.monday && eventEndDate < currMOFR.monday)
-        	{
-        		return true;
-        	}
-        	
-        	// Event ist nach der aktuellen Woche
-        	if(eventStartDate > currMOFR.friday && eventEndDate > currMOFR.friday)
-        	{
-        		return true;
-        	}
-        	
-        	// Event geht über die ganze Woche
-        	if(eventStartDate <= currMOFR.monday && eventEndDate >= currMOFR.friday)
-        	{
-        		eventStartDateInCurrentWeek = currMOFR.monday;
-        		eventEndDateInCurrentWeek = currMOFR.friday;
-        	} // Event ist nur genau in dieser Woche
-        	else if(currMOFR.monday <= eventStartDate && currMOFR.friday >= eventEndDate)
-        	{
-        		eventStartDateInCurrentWeek = eventStartDate;
-        		eventEndDateInCurrentWeek = eventEndDate;
-        	} // Event beginnt vor der Woche und endet aber in dieser Woche
-        	else if(eventStartDate <= currMOFR.monday && eventEndDate <= currMOFR.friday)
-        	{
-        		eventStartDateInCurrentWeek = currMOFR.monday;
-        		eventEndDateInCurrentWeek = eventEndDate;
-        	} // Event beginnt in dieser Woche und endet aber nicht in dieser Woche
-        	else if(eventStartDate >= currMOFR.monday && eventEndDate >= currMOFR.friday)
-        	{
-        		eventStartDateInCurrentWeek = eventStartDate;
-        		eventEndDateInCurrentWeek = currMOFR.friday;
-        	}
-        	
-        	// Beginn und/oder Ende Datum nicht gesetzt
-        	if(eventStartDateInCurrentWeek == null || eventEndDateInCurrentWeek == null)
-        	{
-        		return true;
-        	}
-        	
-        	// Beginn ist nach dem Ende Datum
-        	if(eventStartDateInCurrentWeek > eventEndDateInCurrentWeek)
-        	{
-        		return true;
-        	}
-        	
-        	while(eventStartDateInCurrentWeek <= eventEndDateInCurrentWeek)
-        	{
-        		// Wochentag holen
-        		var dow = Ext.Date.format(eventStartDateInCurrentWeek, "l");
+            var eventData = v.data;
+            var eventStartDate = eventData.startdate;
+            var eventEndDate = eventData.enddate;
+            var eventStartTime = eventData.starttime;
+            var eventEndTime = eventData.endtime;
+            var currMOFR = getCurrentMoFrDate();
+            var eventStartDateInCurrentWeek = null;
+            var eventEndDateInCurrentWeek = null;
+
+            eventStartDate = convertGermanDateStringToDateObject(eventStartDate);
+            eventEndDate = convertGermanDateStringToDateObject(eventEndDate);
+
+            // Event war vor der aktuellen Woche
+            if(eventStartDate < currMOFR.monday && eventEndDate < currMOFR.monday)
+            {
+                return true;
+            }
+
+            // Event ist nach der aktuellen Woche
+            if(eventStartDate > currMOFR.friday && eventEndDate > currMOFR.friday)
+            {
+                return true;
+            }
+
+            // Event geht über die ganze Woche
+            if(eventStartDate <= currMOFR.monday && eventEndDate >= currMOFR.friday)
+            {
+                eventStartDateInCurrentWeek = currMOFR.monday;
+                eventEndDateInCurrentWeek = currMOFR.friday;
+            } // Event ist nur genau in dieser Woche
+            else if(currMOFR.monday <= eventStartDate && currMOFR.friday >= eventEndDate)
+            {
+                eventStartDateInCurrentWeek = eventStartDate;
+                eventEndDateInCurrentWeek = eventEndDate;
+            } // Event beginnt vor der Woche und endet aber in dieser Woche
+            else if(eventStartDate <= currMOFR.monday && eventEndDate <= currMOFR.friday)
+            {
+                eventStartDateInCurrentWeek = currMOFR.monday;
+                eventEndDateInCurrentWeek = eventEndDate;
+            } // Event beginnt in dieser Woche und endet aber nicht in dieser Woche
+            else if(eventStartDate >= currMOFR.monday && eventEndDate >= currMOFR.friday)
+            {
+                eventStartDateInCurrentWeek = eventStartDate;
+                eventEndDateInCurrentWeek = currMOFR.friday;
+            }
+
+            // Beginn und/oder Ende Datum nicht gesetzt
+            if(eventStartDateInCurrentWeek == null || eventEndDateInCurrentWeek == null)
+            {
+                return true;
+            }
+
+            // Beginn ist nach dem Ende Datum
+            if(eventStartDateInCurrentWeek > eventEndDateInCurrentWeek)
+            {
+                return true;
+            }
+
+            while(eventStartDateInCurrentWeek <= eventEndDateInCurrentWeek)
+            {
+                // Wochentag holen
+                var dow = Ext.Date.format(eventStartDateInCurrentWeek, "l");
                 dow = dow.toLowerCase();
-                 
+
                 // Block holen
                 var eventBlocks = getBlocksBetweenTimes(eventStartTime, eventEndTime, eventStartDateInCurrentWeek, eventEndDateInCurrentWeek);
-                
+
                 for(var blockIndex = 0; blockIndex < eventBlocks.length; blockIndex++)
                 {
-                	var eventBlock = eventBlocks[blockIndex];
+                    var eventBlock = eventBlocks[blockIndex];
                     if (!ret[eventBlock][dow])
                     {
-                    	ret[eventBlock][dow] = [];
+                        ret[eventBlock][dow] = [];
                     }
-                     
+
                     ret[eventBlock][dow].push(v.getEventView(this.type));
                 }
-                 
+
                 eventStartDateInCurrentWeek.setDate(eventStartDateInCurrentWeek.getDate() + 1);
-        	}
+            }
         }, this);
 
-	    //zyklische Termine hinzufügen
-	    this.data.eachKey(function (k, v)
-	    {
-	        var calendarDates = v.data.calendar;
-	        for (var dateIndex in calendarDates)
-	        {
-        		var dateObject = convertEnglishDateStringToDateObject(dateIndex);
+        //zyklische Termine hinzufügen
+        this.data.eachKey(function (k, v)
+        {
+            var calendarDates = v.data.calendar;
+            for (var dateIndex in calendarDates)
+            {
+                var dateObject = convertEnglishDateStringToDateObject(dateIndex);
                 var currMOFR = getCurrentMoFrDate();
                 if (dateObject >= currMOFR.monday && dateObject <= currMOFR.friday)
                 {
@@ -421,48 +423,48 @@ Ext.define('mSchedule',
                         var displayLesson = false;
                         if (Ext.isObject(block["lessonData"]))
                         {
-                        	if(Ext.isString(block["lessonData"]["delta"]))
-                        	{
-                        		if(block["lessonData"]["delta"] == "removed")
-                        		{
-                        			if(displayDelta() === false)
-                        			{
-                        				continue;
-                        			}
-                        		}
-                        	}
-                        	if(this.type == "room")
-                        	{
-	                        	for (var roomIndex in block["lessonData"])
-	                            {
-	                            	if (roomIndex == this.key && block["lessonData"][roomIndex] != "removed")
-	                                {
-	                            		displayLesson = true;
-	                                }
-	                            }
-                        	}
-                        	else
-                        	{
-                        		displayLesson = true;
-                        	}
-                        	
-                        	if(displayLesson == true)
-                        	{
-	                            var block = blockIndex - 1;
-	                            
-	                            if (!ret[block][dow])
-	                            {
-	                            	ret[block][dow] = [];
-	                            }
-	                            
-	                            ret[block][dow].push(v.getCellView(this, block, dow));
-	                            this.visibleLessons.push(v.data);
-                        	}
+                            if(Ext.isString(block["lessonData"]["delta"]))
+                            {
+                                if(block["lessonData"]["delta"] == "removed")
+                                {
+                                    if(displayDelta() === false)
+                                    {
+                                        continue;
+                                    }
+                                }
+                            }
+                            if(this.type == "room")
+                            {
+                                for (var roomIndex in block["lessonData"])
+                                {
+                                    if (roomIndex == this.key && block["lessonData"][roomIndex] != "removed")
+                                    {
+                                        displayLesson = true;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                displayLesson = true;
+                            }
+
+                            if(displayLesson == true)
+                            {
+                                var block = blockIndex - 1;
+
+                                if (!ret[block][dow])
+                                {
+                                    ret[block][dow] = [];
+                                }
+
+                                ret[block][dow].push(v.getCellView(this, block, dow));
+                                this.visibleLessons.push(v.data);
+                            }
                         }
                     }
                 }
-	        }
-	    }, this);
+            }
+        }, this);
 
         this.htmlView = Ext.clone(ret);
 
@@ -519,7 +521,7 @@ Ext.define('mSchedule',
                 return -1; // b steht vor a
             }
             return 0; // nix passiert
-        }
+        };
 
         newdatas.sort("ASC", funcsort);
         var keystoremove = Array();
@@ -588,7 +590,7 @@ Ext.define('mSchedule',
         {
             MySched.SelectionManager.stopSelection();
             MySched.SelectionManager.startSelection();
-        }
+        };
         Ext.defer(func, 50);
     },
     /**
@@ -638,7 +640,7 @@ Ext.define('mSchedule',
 
             var semid = treeRoot.firstChild.data.id;
 
-            semid = semid.split(".")
+            semid = semid.split(".");
 
             semid = semid[0];
 
@@ -658,7 +660,6 @@ Ext.define('mSchedule',
     /**
      * Callback zum parsen der XML Datei in mLecture
      * @param {Object} o
-     * @param {Object} arg
      */
     parseLectures: function (o)
     {
@@ -678,7 +679,7 @@ Ext.define('mSchedule',
             {
                 MySched.SelectionManager.stopSelection();
                 MySched.SelectionManager.startSelection();
-            }
+            };
             Ext.defer(func, 50);
             this.eventsloaded = null;
             this.refreshView();
@@ -783,7 +784,7 @@ Ext.define('mSchedule',
             MySched.SelectionManager.stopSelection();
             MySched.SelectionManager.startSelection();
             if (MySched.loadMask) MySched.loadMask.destroy();
-        }
+        };
         Ext.defer(func, 50);
     },
     getBlockStatus: function (wd, block)
@@ -832,22 +833,22 @@ Ext.define('mSchedule',
                 var calendarDates = l.data.calendar;
                 for (var dateIndex in calendarDates)
                 {
-            		dateObject = convertEnglishDateStringToDateObject(dateIndex);
+                    dateObject = convertEnglishDateStringToDateObject(dateIndex);
                     var currMOFR = getCurrentMoFrDate();
                     if (dateObject >= currMOFR.monday && dateObject <= currMOFR.friday)
                     {
-                    	if(calendarDates[dateIndex][l.getBlock()]["lessonData"]["delta"] != "removed")
-                    	{
-                    		if (!this.blockCache[wd][b])
+                        if(calendarDates[dateIndex][l.getBlock()]["lessonData"]["delta"] != "removed")
+                        {
+                            if (!this.blockCache[wd][b])
                             {
-                            	this.blockCache[wd][b] = 1;
+                                this.blockCache[wd][b] = 1;
                             }
                             else
                             {
-                            	this.blockCache[wd][b]++;
+                                this.blockCache[wd][b]++;
                             }
-                    		break;
-                    	}
+                            break;
+                        }
                     }
                 }
             }, this);
@@ -876,7 +877,10 @@ Ext.define('mSchedule',
     {
         if (MySched.Authorize.user != null)
         {
-            if (this.fireEvent("beforeSave", this, url) === false) return
+            if (this.fireEvent("beforeSave", this, url) === false)
+            {
+                return;
+            }
 
             if (scheduletask == "UserSchedule.save")
             {
@@ -895,16 +899,16 @@ Ext.define('mSchedule',
                     semesterID: MySched.modules_semester_id,
                     id: this.id,
                     scheduletask: scheduletask
-                }
+                };
                 var data = this.exportData("json", "personal");
             }
             if (success != false)
             {
-            	var savewait = Ext.MessageBox.wait(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_SAVING, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PLEASE_WAIT);
+                var savewait = Ext.MessageBox.wait(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_SAVING, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PLEASE_WAIT);
             }
             else
             {
-            	var savewait = null;
+                var savewait = null;
             }
             
             Ext.Ajax.request(
@@ -979,11 +983,11 @@ Ext.define('mSchedule',
         
         for(var index = 0; index < d.length; index++)
         {
-        	var lesson = d.items[index];
-        	asArrRet[lesson.id] = Ext.clone(lesson.data); 
-        	asArrRet[lesson.id].modules = asArrRet[lesson.id].modules.map;
-        	asArrRet[lesson.id].teachers = asArrRet[lesson.id].teachers.map;
-        	asArrRet[lesson.id].subjects = asArrRet[lesson.id].subjects.map;
+            var lesson = d.items[index];
+            asArrRet[lesson.id] = Ext.clone(lesson.data); 
+            asArrRet[lesson.id].modules = asArrRet[lesson.id].modules.map;
+            asArrRet[lesson.id].teachers = asArrRet[lesson.id].teachers.map;
+            asArrRet[lesson.id].subjects = asArrRet[lesson.id].subjects.map;
         }
                 
         return asArrRet;
@@ -1002,7 +1006,7 @@ Ext.define('mSchedule',
         wpMO = getMonday(wp);
         
         Ext.each(d, function (v)
-        {        	
+        {
             var calendarDates = v.data.calendar;
             for (var dateIndex in calendarDates)
             {
@@ -1055,7 +1059,7 @@ Ext.define('mSchedule',
         wpMO = getMonday(wp);
         
         Ext.each(d, function (v)
-        {        	
+        {
             var calendarDates = v.data.calendar;
             for (var dateIndex in calendarDates)
             {
@@ -1076,10 +1080,10 @@ Ext.define('mSchedule',
                         {                            
                             if(date[blockIndex]["lessonData"]["delta"])
                             {
-                            	if(date[blockIndex]["lessonData"]["delta"] == "removed")
-                            	{
-                            		continue;
-                            	}
+                                if(date[blockIndex]["lessonData"]["delta"] == "removed")
+                                {
+                                    continue;
+                                }
                             }
                             
                             var block = blockIndex - 1;
@@ -1138,17 +1142,7 @@ Ext.define('mLecture',
         var etime = data.etime;
         var showtime = data.showtime;
 
-        //    this.teacher = new MySched.Collection();
-        //    this.module = new MySched.Collection();
-        //    this.room = new MySched.Collection();
-        //    this.subject = new MySched.Collection();
         mLecture.superclass.constructor.call(this, id, Ext.clone(data));
-        //    this.teacher.addAll(data.teachers);
-        //    this.loadTeacher(data.teacher);
-        //    this.loadClas(data.module);
-        //    this.loadRoom(data.room);
-        //    this.loadSubject(data.subject);
-//        this.data = Ext.clone(data);
 
         this.data.teachers = new MySched.Collection();
         this.data.teachers.addAll(data.teachers);
@@ -1201,52 +1195,52 @@ Ext.define('mLecture',
     },
     getCurriculumColor: function (d)
     {
-    	if(MySched.selectedSchedule == null)
-    	{
-    		return "";
-    	}
-    	var curriculumColors = MySched.startup.CurriculumColors;
-    	
-    	if(curriculumColors.length < 1)
-    	{
-    		return "";
-    	}
-    	
-    	var key = MySched.selectedSchedule.key;
-    	var moduleName = MySched.Mapping.getModuleFullName(key);
-    	var moduleDegree = MySched.Mapping.getModuleParent(key);
-    	var degreeName = MySched.Mapping.getDegreeName(moduleDegree);
-    	
-    	for(var index = 0; index < curriculumColors.length; index++)
-    	{
-    		var curriculumColor = curriculumColors[index];
-    		if(curriculumColor.semesterName == moduleName && curriculumColor.organizerMajorName == degreeName)
-    		{
-    			return "background-color: #" + curriculumColor.hexColorCode;
-    		}
-    	}
-    	return "";
+        if(MySched.selectedSchedule == null)
+        {
+            return "";
+        }
+        var curriculumColors = MySched.startup.CurriculumColors;
+
+        if(curriculumColors.length < 1)
+        {
+            return "";
+        }
+
+        var key = MySched.selectedSchedule.key;
+        var moduleName = MySched.Mapping.getModuleFullName(key);
+        var moduleDegree = MySched.Mapping.getModuleParent(key);
+        var degreeName = MySched.Mapping.getDegreeName(moduleDegree);
+
+        for(var index = 0; index < curriculumColors.length; index++)
+        {
+            var curriculumColor = curriculumColors[index];
+            if(curriculumColor.semesterName == moduleName && curriculumColor.organizerMajorName == degreeName)
+            {
+                return "background-color: #" + curriculumColor.hexColorCode;
+            }
+        }
+        return "";
     },
     getDeltaStatus: function (d)
     {
-    	var currentMoFrDate = getCurrentMoFrDate();
-    	var returnValue = "";
-    	if(d.showDelta == true)
-    	{
-	    	for(var dateIndex in this.data.calendar)
-	    	{
-	    		var dateObject = convertEnglishDateStringToDateObject(dateIndex);
+        var currentMoFrDate = getCurrentMoFrDate();
+        var returnValue = "";
+        if(d.showDelta == true)
+        {
+            for(var dateIndex in this.data.calendar)
+            {
+                var dateObject = convertEnglishDateStringToDateObject(dateIndex);
                 if(dateObject >= currentMoFrDate.monday && dateObject <= currentMoFrDate.friday)
                 {
-                	if(this.data.calendar[dateIndex][this.data.block]["lessonData"]["delta"])
-                	{
-                		returnValue = "delta" + this.data.calendar[dateIndex][this.data.block]["lessonData"]["delta"];
-                		return returnValue;
-                	}
+                    if(this.data.calendar[dateIndex][this.data.block]["lessonData"]["delta"])
+                    {
+                        returnValue = "delta" + this.data.calendar[dateIndex][this.data.block]["lessonData"]["delta"];
+                        return returnValue;
+                    }
                 }
-	    	}
-    	}
-    	return returnValue;
+            }
+        }
+        return returnValue;
     },
     getLessonTitle: function (d)
     {
@@ -1290,15 +1284,15 @@ Ext.define('mLecture',
             {
                 if (d.parentId == 'mySchedule')
                 {
-                	ret += '<img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_REMOVE + '" class="status_icons_add" src="' + MySched.mainPath + '/images/delete.png" width="12" heigth="12"/>';
+                    ret += '<img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_REMOVE + '" class="status_icons_add" src="' + MySched.mainPath + '/images/delete.png" width="12" heigth="12"/>';
                 }
                 else if (d.parentId != 'mySchedule' && MySched.Schedule.lectureExists(this))
                 {
-                	ret += '<img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_REMOVE + '" class="status_icons_add" src="' + MySched.mainPath + '/images/delete.png" width="12" heigth="12"/>';
+                    ret += '<img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_REMOVE + '" class="status_icons_add" src="' + MySched.mainPath + '/images/delete.png" width="12" heigth="12"/>';
                 }
                 else 
                 {
-                	ret += '<img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_ADD + '" class="status_icons_add" src="' + MySched.mainPath + '/images/add.png" width="12" heigth="12"/>';
+                    ret += '<img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_ADD + '" class="status_icons_add" src="' + MySched.mainPath + '/images/add.png" width="12" heigth="12"/>';
                 }
             }
         }
@@ -1398,7 +1392,7 @@ Ext.define('mLecture',
             {
                 var nteacher = new mTeacherent(e);
                 this.teacher.add(nteacher);
-            }, this)
+            }, this);
         }
     },
     loadRoom: function (arr)
@@ -1406,10 +1400,7 @@ Ext.define('mLecture',
         if (arr)
         {
             var myroom = arr.split(" ");
-            Ext.each(myroom, function (e)
-            {
-                this.room.add(new mRoom(e));
-            }, this)
+            Ext.each(myroom, function (e) { this.room.add(new mRoom(e)); }, this);
         }
     },
     loadSubject: function (arr)
@@ -1417,10 +1408,7 @@ Ext.define('mLecture',
         if (arr)
         {
             var mySubject = arr.split(" ");
-            Ext.each(mySubject, function (e)
-            {
-                this.subject.add(new mSubject(e));
-            }, this)
+            Ext.each(mySubject, function (e) { this.subject.add(new mSubject(e)); }, this);
         }
     },
     loadClas: function (arr)
@@ -1428,10 +1416,7 @@ Ext.define('mLecture',
         if (arr)
         {
             var mymodule = arr.split(" ");
-            Ext.each(mymodule, function (e)
-            {
-                this.module.add(new mClas(e));
-            }, this)
+            Ext.each(mymodule, function (e) { this.module.add(new mClas(e)); }, this);
         }
     },
     getData: function (addData)
@@ -1452,20 +1437,20 @@ Ext.define('mLecture',
             var roomName = MySched.Mapping.getRoomName(roomIndex);
             
             if(d.showDelta == true)
-        	{
-	            if(rooms.map[roomIndex] != "")
-	            {
-	            	changedStatus = "room"+rooms.map[roomIndex];
-	            }
-        	}
+            {
+                if(rooms.map[roomIndex] != "")
+                {
+                    changedStatus = "room"+rooms.map[roomIndex];
+                }
+            }
             else
             {
-            	if(rooms.map[roomIndex] != "" && rooms.map[roomIndex] != "new")
-            	{
-            		continue;
-            	}
+                if(rooms.map[roomIndex] != "" && rooms.map[roomIndex] != "new")
+                {
+                    continue;
+                }
             }
-            
+
             var roomNameHTML = '<small roomID="' + roomIndex +  '" class="roomname ' + changedStatus + '">' + roomName + '</small>';
             ret.push(roomNameHTML);
         }
@@ -1474,16 +1459,16 @@ Ext.define('mLecture',
     },
     getRooms: function(lesson)
     {
-    	var roomCollection = new MySched.Collection();
-    	var currentMoFrDate = getCurrentMoFrDate();
-    	for(var dateIndex in lesson.data.calendar)
-    	{
-    		var dateObject = convertEnglishDateStringToDateObject(dateIndex);
+        var roomCollection = new MySched.Collection();
+        var currentMoFrDate = getCurrentMoFrDate();
+        for(var dateIndex in lesson.data.calendar)
+        {
+            var dateObject = convertEnglishDateStringToDateObject(dateIndex);
             if(dateObject >= currentMoFrDate.monday && dateObject <= currentMoFrDate.friday)
             {
-            	roomCollection.addAll(lesson.data.calendar[dateIndex][lesson.data.block]["lessonData"]);
+                roomCollection.addAll(lesson.data.calendar[dateIndex][lesson.data.block]["lessonData"]);
             }
-    	}
+        }
 
         roomCollection.removeAtKey("delta");
         return roomCollection;
@@ -1498,14 +1483,14 @@ Ext.define('mLecture',
         for (var teacherIndex in teachers)
         {
             var teacherName = getTeacherSurnameWithCutFirstName(teacherIndex);
-            
+
             if(d.showDelta == true)
-        	{
-	            if(teachers[teacherIndex] != "")
-	            {
-	            	changedStatus = "teacher" + teachers[teacherIndex];
-	            }
-        	}
+            {
+                if(teachers[teacherIndex] != "")
+                {
+                    changedStatus = "teacher" + teachers[teacherIndex];
+                }
+            }
             else
             {
             	if(teachers[teacherIndex] != "" && teachers[teacherIndex] != "new")
@@ -1559,20 +1544,20 @@ Ext.define('mLecture',
             var moduleName = MySched.Mapping.getModuleName(moduleIndex);
             
             if(d.showDelta == true)
-        	{
-	            if(modules[moduleIndex] != "")
-	            {
-	            	changedStatus = "module" + modules[moduleIndex];
-	            }
-        	}
+            {
+                if(modules[moduleIndex] != "")
+                {
+                    changedStatus = "module" + modules[moduleIndex];
+                }
+            }
             else
             {
-            	if(modules[moduleIndex] != "" && modules[moduleIndex] != "new")
-            	{
-            		continue;
-            	}
+                if(modules[moduleIndex] != "" && modules[moduleIndex] != "new")
+                {
+                    continue;
+                }
             }
-            
+
             var moduleNameHTML = '<small moduleID="' + moduleIndex +  '" class="modulename ' + changedStatus + '">' + moduleName + '</small>';
             ret.push(moduleNameHTML);
         }
@@ -1808,43 +1793,43 @@ Ext.define('mEventlist',
     {
         if (Ext.isEmpty(type) && Ext.isEmpty(value))
         {
-        	return this.data.items;
+            return this.data.items;
         }
         
         var data = this.data.filterBy(function (o, k)
         {
-        	var eventObjects = o.data.objects;
-        	
-        	// Events mit 0 Objekten können keinem Plan zugeordnet werden und werden erstmal nicht beachtet.
-        	if(Ext.isArray(eventObjects))
-        	{
-	        	if(eventObjects.length > 0)
-	        	{
-	        		if(type == "teacher")
-	        		{
-                    	dbID = MySched.Mapping.getTeacherDbID(value);
-	        		}
-	        		else if(type == "room")
-	        		{
-	        			dbID = MySched.Mapping.getRoomDbID(value);
-	        		}
-	        		else
-	        		{
-	        			return false;
-	        		}
-	        		
-		            for (var eventIndex = 0; eventIndex < eventObjects.length; eventIndex++)
-		            {
-		                if (Ext.isObject(eventObjects[eventIndex]))
-		                {             	
-		                	if (eventObjects[eventIndex]["id"] == dbID && eventObjects[eventIndex].type == type)
-		                	{
-		                		return true;
-		                	}
-		                }
-		            }
-	        	}
-        	}
+            var eventObjects = o.data.objects;
+
+            // Events mit 0 Objekten können keinem Plan zugeordnet werden und werden erstmal nicht beachtet.
+            if(Ext.isArray(eventObjects))
+            {
+                if(eventObjects.length > 0)
+                {
+                    if(type == "teacher")
+                    {
+                        dbID = MySched.Mapping.getTeacherDbID(value);
+                    }
+                    else if(type == "room")
+                    {
+                        dbID = MySched.Mapping.getRoomDbID(value);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                    for (var eventIndex = 0; eventIndex < eventObjects.length; eventIndex++)
+                    {
+                        if (Ext.isObject(eventObjects[eventIndex]))
+                        {             	
+                            if (eventObjects[eventIndex]["id"] == dbID && eventObjects[eventIndex].type == type)
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
             return false;
         }, this);
 
@@ -1852,86 +1837,86 @@ Ext.define('mEventlist',
     },
     getEventsForLecture: function(lecture, block, dow)
     {
-    	var ret = "";
+        var ret = "";
 
-    	var data = this.data.filterBy(function (o, k)
-    	{
-    		var eventData = o.data;
-        	var eventStartDate = eventData.startdate;
-        	var eventEndDate = eventData.enddate;
-        	var eventStartTime = eventData.starttime;
-        	var eventEndTime = eventData.endtime;
-        	var currMOFR = getCurrentMoFrDate();
-        	var eventStartDateInCurrentWeek = null;
-        	var eventEndDateInCurrentWeek = null;
-        	
-        	eventStartDate = convertGermanDateStringToDateObject(eventStartDate);
-        	eventEndDate = convertGermanDateStringToDateObject(eventEndDate);
-        	
-        	var lectureData = lecture.data;
-        	var lectureCalendar = lectureData.calendar;
-        	
-        	for(var lectureCalendarIndex in lectureCalendar)
-        	{
-        		if(Ext.isObject(lectureCalendar[lectureCalendarIndex]))
-        		{
-        			var lectureDate = convertEnglishDateStringToDateObject(lectureCalendarIndex);
-        			if(eventStartDate <= lectureDate && eventEndDate >= lectureDate && lectureDate >= currMOFR.monday && lectureDate <= currMOFR.friday && Ext.Date.format(lectureDate, "l").toLowerCase() == dow)
-        			{
-        				var eventBlocks = getBlocksBetweenTimes(eventStartTime, eventEndTime, eventStartDate, eventEndDate);
-        				for(var eventBlocksIndex = 0; eventBlocksIndex < eventBlocks.length; eventBlocksIndex++)
-        				{
-        					var eventBlock = eventBlocks[eventBlocksIndex];
-        					if(eventBlock == block)
-        					{
-                				var eventObjects = eventData.objects;
-                				for(var eventObjectsIndex = 0; eventObjectsIndex < eventObjects.length; eventObjectsIndex++)
-                				{
-                					var eventObject = eventObjects[eventObjectsIndex];
-                					if(eventObject.type == "teacher")
-                					{
-                						var teacherName = MySched.Mapping.getTeacherKeyByID(eventObject.id);
-                						if(Ext.isString(lectureData.teachers.map[teacherName]))
-                						{
-                							if(lectureData.teachers.map[teacherName] != "removed")
-                							{
-                								return true;
-                							}
-                						}
-                					}
-                					else if(eventObject.type == "room")
-                					{
-                						var roomData = lectureCalendar[lectureCalendarIndex][block+1].lessonData;
-                						var roomName = MySched.Mapping.getRoomKeyByID(eventObject.id);
-                						for(var roomDataIndex in roomData)
-                						{
-                							if(Ext.isString(roomData[roomDataIndex]))
-                							{
-                								if(roomData[roomDataIndex] != "removed")
-                								{
-                									if(roomName == roomDataIndex)
-                									{
-                										return true
-                									}
-                								}
-                							}
-                						}
-                					}
-                				}
-                				break;
-        					}
-        				}
-        			}
-        		}
-        	}
-        	return false;
-    	});
+        var data = this.data.filterBy(function (o, k)
+        {
+            var eventData = o.data;
+            var eventStartDate = eventData.startdate;
+            var eventEndDate = eventData.enddate;
+            var eventStartTime = eventData.starttime;
+            var eventEndTime = eventData.endtime;
+            var currMOFR = getCurrentMoFrDate();
+            var eventStartDateInCurrentWeek = null;
+            var eventEndDateInCurrentWeek = null;
 
-    	for(var dataIndex = 0; dataIndex < data.items.length; dataIndex++)
-    	{
-    		ret += data.items[dataIndex].getEventView();
-    	}
-    	return ret;
+            eventStartDate = convertGermanDateStringToDateObject(eventStartDate);
+            eventEndDate = convertGermanDateStringToDateObject(eventEndDate);
+
+            var lectureData = lecture.data;
+            var lectureCalendar = lectureData.calendar;
+
+            for(var lectureCalendarIndex in lectureCalendar)
+            {
+                if(Ext.isObject(lectureCalendar[lectureCalendarIndex]))
+                {
+                    var lectureDate = convertEnglishDateStringToDateObject(lectureCalendarIndex);
+                    if(eventStartDate <= lectureDate && eventEndDate >= lectureDate && lectureDate >= currMOFR.monday && lectureDate <= currMOFR.friday && Ext.Date.format(lectureDate, "l").toLowerCase() == dow)
+                    {
+                        var eventBlocks = getBlocksBetweenTimes(eventStartTime, eventEndTime, eventStartDate, eventEndDate);
+                        for(var eventBlocksIndex = 0; eventBlocksIndex < eventBlocks.length; eventBlocksIndex++)
+                        {
+                            var eventBlock = eventBlocks[eventBlocksIndex];
+                            if(eventBlock == block)
+                            {
+                                var eventObjects = eventData.objects;
+                                for(var eventObjectsIndex = 0; eventObjectsIndex < eventObjects.length; eventObjectsIndex++)
+                                {
+                                    var eventObject = eventObjects[eventObjectsIndex];
+                                    if(eventObject.type == "teacher")
+                                    {
+                                        var teacherName = MySched.Mapping.getTeacherKeyByID(eventObject.id);
+                                        if(Ext.isString(lectureData.teachers.map[teacherName]))
+                                        {
+                                            if(lectureData.teachers.map[teacherName] != "removed")
+                                            {
+                                                return true;
+                                            }
+                                        }
+                                    }
+                                    else if(eventObject.type == "room")
+                                    {
+                                        var roomData = lectureCalendar[lectureCalendarIndex][block+1].lessonData;
+                                        var roomName = MySched.Mapping.getRoomKeyByID(eventObject.id);
+                                        for(var roomDataIndex in roomData)
+                                        {
+                                            if(Ext.isString(roomData[roomDataIndex]))
+                                            {
+                                                if(roomData[roomDataIndex] != "removed")
+                                                {
+                                                    if(roomName == roomDataIndex)
+                                                    {
+                                                        return true;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
+        });
+
+        for(var dataIndex = 0; dataIndex < data.items.length; dataIndex++)
+        {
+            ret += data.items[dataIndex].getEventView();
+        }
+        return ret;
     }
 });
 
@@ -1957,7 +1942,7 @@ Ext.define('mEvent',
         var MySchedEventClass = 'MySchedEvent_' + this.data.source;
         if(this.data.reserve == true)
         {
-        	MySchedEventClass += " MySchedEvent_reserve";
+            MySchedEventClass += " MySchedEvent_reserve";
         }
         this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + '{top_icon}<b id="MySchedEvent_{id}" class="MySchedEvent_name">{event_name}</b><br/>{teacher} / {room}</div>');
     },
@@ -1983,12 +1968,12 @@ Ext.define('mEvent',
         {
             if (o.type === "teacher")
             {
-            	var teacherName = getTeacherSurnameWithCutFirstName(MySched.Mapping.getTeacherKeyByID(o.id))
+                var teacherName = getTeacherSurnameWithCutFirstName(MySched.Mapping.getTeacherKeyByID(o.id));
                 if (teacherNames != "")
                 {
-                	teacherNames += ", "
+                    teacherNames += ", ";
                 }
-            	teacherNames += teacherName;
+                teacherNames += teacherName;
             }
         });
 
@@ -2002,10 +1987,10 @@ Ext.define('mEvent',
         {
             if (o.type === "room")
             {
-            	var roomName = MySched.Mapping.getRoomKeyByID(o.id)
+                var roomName = MySched.Mapping.getRoomKeyByID(o.id);
                 if (roomNames != "")
                 {
-                	roomNames += ", "
+                    roomNames += ", ";
                 }
                 roomNames += roomName;
             }
@@ -2185,6 +2170,7 @@ Ext.define('mSubject',
 
 function getModuledesc(mninr)
 {
+    "use strict";
 
     if (Ext.getCmp('content-anchor-tip')) Ext.getCmp('content-anchor-tip')
         .destroy();
@@ -2275,17 +2261,18 @@ function getModuledesc(mninr)
 
 function zeigeTermine(rooms)
 {
-    if (Ext.ComponentMgr.get('sporadicPanel')
-        .collapsed) Ext.ComponentMgr.get('sporadicPanel')
-        .expand();
+    "use strict";
+
+    if (Ext.ComponentMgr.get('sporadicPanel').collapsed)
+    {
+        Ext.ComponentMgr.get('sporadicPanel').expand();
+    }
 
     var counterall = 0;
-    var allrooms = Ext.ComponentMgr.get('sporadicPanel')
-        .body.select("p[id]");
+    var allrooms = Ext.ComponentMgr.get('sporadicPanel').body.select("p[id]");
     for (var index in allrooms.elements)
-    if (!Ext.isFunction(allrooms.elements[index]))
     {
-        if (allrooms.elements[index].style != null)
+        if (!Ext.isFunction(allrooms.elements[index]) && allrooms.elements[index].style != null)
         {
             allrooms.elements[index].style.display = "none";
             counterall++;
@@ -2306,22 +2293,24 @@ function zeigeTermine(rooms)
             .replace(/^\s+/g, '')
             .replace(/\s+$/g, '');
         var pos = room.search(/\s/);
-        if (pos != -1) room = room.substring(0, pos);
-        var selectedroomevents = Ext.ComponentMgr.get('sporadicPanel')
-            .body.select("p[id^=" + room + "_]");
+        if (pos != -1)
+        {
+            room = room.substring(0, pos);
+        }
+        var selectedroomevents = Ext.ComponentMgr.get('sporadicPanel').body.select("p[id^=" + room + "_]");
         for (var index in selectedroomevents.elements)
         {
-            if (!Ext.isFunction(selectedroomevents.elements[index]))
+            if (!Ext.isFunction(selectedroomevents.elements[index]) && selectedroomevents.elements[index].style != null)
             {
-                if (selectedroomevents.elements[index].style != null)
-                {
-                    selectedroomevents.elements[index].style.display = "block";
-                    counter++;
-                }
+                selectedroomevents.elements[index].style.display = "block";
+                counter++;
             }
         }
     }
 
-    if (counter != 0) var tmp = Ext.ComponentMgr.get('sporadicPanel')
+    if (counter != 0)
+    {
+        var tmp = Ext.ComponentMgr.get('sporadicPanel')
         .setTitle(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SINGLE_EVENT + ' - ' + room + ' (' + counter + ')');
+    }
 }

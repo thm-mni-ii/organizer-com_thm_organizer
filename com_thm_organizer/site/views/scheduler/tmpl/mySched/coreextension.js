@@ -43,7 +43,8 @@ Ext.picker.Date,
         if (me.showToday)
         {
             tempDate = eDate.clearTime(new Date());
-            disableToday = (tempDate < min || tempDate > max || (ddMatch && format && ddMatch.test(eDate.dateFormat(tempDate, format))) || (ddays && ddays.indexOf(tempDate.getDay()) != -1));
+            disableToday = (tempDate < min || tempDate > max || (ddMatch && format && ddMatch.test(eDate.dateFormat(tempDate, format)))
+                || (ddays && ddays.indexOf(tempDate.getDay()) !== -1));
 
             if (!me.disabled)
             {
@@ -60,20 +61,19 @@ Ext.picker.Date,
             cell.title = ' ';
             // store dateValue number as an expando
             cell.firstChild.dateValue = value;
-            if (value == today)
+            if (value === today)
             {
                 cell.className += ' ' + me.todayCls;
                 cell.title = me.todayText;
             }
-            if (value == sel)
+            if (value === sel)
             {
                 cell.className += ' ' + me.selectedCls;
                 me.el.dom.setAttribute('aria-activedescendant',
                 cell.id);
                 if (visible && me.floating)
                 {
-                    Ext.fly(cell.firstChild)
-                        .focus(50);
+                    Ext.fly(cell.firstChild).focus(50);
                 }
             }
             // disabling
@@ -91,7 +91,7 @@ Ext.picker.Date,
             }
             if (ddays)
             {
-                if (ddays.indexOf(current.getDay()) != -1)
+                if (ddays.indexOf(current.getDay()) !== -1)
                 {
                     cell.title = ddaysText;
                     cell.className = disabledCls;
@@ -108,24 +108,37 @@ Ext.picker.Date,
                 }
             }
 
-            var begin = MySched.session["begin"].split("-");
+            var begin = MySched.session.begin.split("-");
             begin = new Date(begin[0], begin[1] - 1, begin[2]);
-            var end = MySched.session["end"].split("-");
+            var end = MySched.session.end.split("-");
             end = new Date(end[0], end[1] - 1, end[2]);
 
             cell.children[0].events = [];
 
             current.clearTime();
 
+            var len;
             if (current >= begin && current <= end)
             {
-                var len = cell.children[0].events.length;
-                if (current.compare(begin) === 0) cell.children[0].events[len] = "<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_SEMESTER_BEGIN'); ?>";
-                else if (current.compare(end) === 0) cell.children[0].events[len] = "<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_SEMESTER_END'); ?>";
-                else cell.children[0].events[len] = "<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_SEMESTER'); ?>";
+                len = cell.children[0].events.length;
+                if (current.compare(begin) === 0)
+                {
+                    cell.children[0].events[len] = "<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_SEMESTER_BEGIN'); ?>";
+                }
+                else if (current.compare(end) === 0)
+                {
+                    cell.children[0].events[len] = "<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_SEMESTER_END'); ?>";
+                }
+                else
+                {
+                    cell.children[0].events[len] = "<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_SEMESTER'); ?>";
+                }
 
                 cell.className += " MySched_Semester";
-                if (!cell.children[0].className.contains(" calendar_tooltip")) cell.children[0].className += " calendar_tooltip";
+                if (!cell.children[0].className.contains(" calendar_tooltip"))
+                {
+                    cell.children[0].className += " calendar_tooltip";
+                }
             }
 
             var EL = MySched.eventlist.data;
@@ -143,9 +156,12 @@ Ext.picker.Date,
                 if (startdate <= current && enddate >= current)
                 {
                     cell.className += " MySched_CalendarEvent";
-                    var len = cell.children[0].events.length;
+                    len = cell.children[0].events.length;
                     cell.children[0].events[len] = EL.items[ELindex];
-                    if (!cell.children[0].className.contains(" calendar_tooltip")) cell.children[0].className += " calendar_tooltip";
+                    if (!cell.children[0].className.contains(" calendar_tooltip"))
+                    {
+                        cell.children[0].className += " calendar_tooltip";
+                    }
                 }
             }
         };
@@ -190,7 +206,7 @@ Ext.picker.Date,
     }
 });
 
-calendar_tooltip = function (e)
+function calendar_tooltip (e)
 {
     "use strict";
     var el = e.getTarget('.calendar_tooltip', 5, true);
@@ -205,7 +221,7 @@ calendar_tooltip = function (e)
     var events = el.dom.events;
     var htmltext = "";
     for (var i = 0; i < events.length; i++)
-    {;
+    {
         if (Ext.isObject(events[i]))
         {
 
@@ -217,7 +233,7 @@ calendar_tooltip = function (e)
             for (var eventIndex = 0; eventIndex < eventObjects.length; eventIndex++)
             {
                 var o = eventObjects[eventIndex];
-                if (name != "")
+                if (name !== "")
                 {
                     name += ", ";
                 }
@@ -231,7 +247,7 @@ calendar_tooltip = function (e)
                 }
             }
 
-            if (name != "")
+            if (name !== "")
             {
                 htmltext += " (" + name + ")<br/>";
             }
@@ -266,8 +282,10 @@ calendar_tooltip = function (e)
             {
                 'click': function (e)
                 {
-                    if (e.button === 0) // links Klick
-                    MySched.SelectionManager.showSchedule(e, 'doz');
+                    if (e.button === 0)
+                    {
+                        MySched.SelectionManager.showSchedule(e, 'doz');
+                    }
                 },
                 scope: this
             });
