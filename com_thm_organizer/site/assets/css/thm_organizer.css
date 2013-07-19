@@ -468,7 +468,7 @@ body.loading .loader {
 .thm_organizer_ee_image_button{
     white-space: nowrap;
     cursor: pointer;
-    margin: 0px auto;
+    margin: auto;
     width: 24px;
     height: 24px;
     border: none;

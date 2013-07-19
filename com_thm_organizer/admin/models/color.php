@@ -32,6 +32,7 @@ class THM_OrganizerModelColor extends JModel
 	public function save()
 	{
         $data = JRequest::getVar('jform', null, null, null, 4);
+        $data['color'] = substr($data['color'], 1);
         $table = JTable::getInstance('colors', 'thm_organizerTable');
         return $table->save($data);
 	}

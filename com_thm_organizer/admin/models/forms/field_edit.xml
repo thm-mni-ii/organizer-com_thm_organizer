@@ -21,7 +21,7 @@
 			   class="inputbox"
 			   required="true" />
 		<field name="colorID"
-			   type="color"
+			   type="colors"
 			   class="inputbox color"
 			   size="10"
 			   label="COM_THM_ORGANIZER_COLOR"
