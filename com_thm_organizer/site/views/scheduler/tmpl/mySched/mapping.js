@@ -1,3 +1,4 @@
+/*global Ext: false, MySched: false, MySchedLanguage: false */
 /**
  * Mapping von Kuerzeln auf Namen
  * @author thorsten

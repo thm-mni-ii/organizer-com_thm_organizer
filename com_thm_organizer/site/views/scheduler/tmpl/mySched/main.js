@@ -1,3 +1,4 @@
+/*global Ext: false, MySched: false, MySchedLanguage: false */
 /**
  * mySched - Mainclass by Thorsten Buss and Wolf Rost
  */

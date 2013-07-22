@@ -1,4 +1,3 @@
-"use strict";
 var prediv = document.createElement("div");
 prediv.setAttribute("id", "preloadMessage");
 var prespan = document.createElement("span");
@@ -12,20 +11,28 @@ document.getElementById("MySchedMainW").appendChild(prediv);
 // Created by: Simon Willison | http://simon.incutio.com/
 
 
-function addLoadEvent(func) {
-	var oldonload = window.onload;
-	if (typeof window.onload != 'function ') {
-		window.onload = func;
-	} else {
-		window.onload = function () {
-			if (oldonload) {
-				oldonload();
-			}
-			func();
-		}
-	}
+function addLoadEvent(func)
+{
+    "use strict";
+    var oldonload = window.onload;
+    if (typeof window.onload !== 'function ')
+    {
+        window.onload = func;
+    }
+    else
+    {
+        window.onload = function ()
+        {
+            if (oldonload) {
+                oldonload();
+            }
+            func();
+        };
+    }
 }
 
-addLoadEvent(function () {
-	document.getElementById("preloadMessage").style.display = "none";
+addLoadEvent(function ()
+{
+    "use strict";
+    document.getElementById("preloadMessage").style.display = "none";
 });

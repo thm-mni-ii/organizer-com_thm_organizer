@@ -1,10 +1,10 @@
+/*global Ext: false, MySched: false, MySchedLanguage: false */
+
 /**
  * Spezielles Grid Vordefiniert fuer Wochenstruktur mit Veranstaltungen
  * 
- * @param {Object}
- *            schedObj
- * @param {Object}
- *            config
+ * @param {Object} schedObj
+ * @param {Object} config
  */
 var hideHeaders = false;
 

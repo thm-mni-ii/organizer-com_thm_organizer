@@ -1,3 +1,4 @@
+/*global Ext: false, MySched: false, MySchedLanguage: false */
 Ext.override(
 Ext.picker.Date,
 {

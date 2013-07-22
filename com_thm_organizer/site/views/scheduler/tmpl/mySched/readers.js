@@ -1,12 +1,13 @@
+/*global Ext: false, MySched: false, MySchedLanguage: false */
 /**
  * JsonReader for the loading and saving of schedules
  * 
  * @author Wolf Rost
  */
-SchedJsonReader = function ()
+var SchedJsonReader = function ()
 {
     SchedJsonReader.superclass.constructor.call(this, this.config);
-}
+};
 Ext.extend(SchedJsonReader, Ext.data.JsonReader,
 {
     /**

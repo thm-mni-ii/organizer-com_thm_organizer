@@ -1,3 +1,4 @@
+/*global Ext: false, MySched: false, MySchedLanguage: false */
 "use strict";
 /**
  * Objekt zum Authentifizieren des Benutzers und der Verwaltung dessen Rechten

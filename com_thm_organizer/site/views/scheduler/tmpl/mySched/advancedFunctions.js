@@ -1,3 +1,4 @@
+/*global Ext: false, MySched: false, MySchedLanguage: false */
 "use strict";
 var oldMainToolbar = MySched.layout.getMainToolbar;
 

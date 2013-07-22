@@ -1,3 +1,4 @@
+/*global Ext: false, MySched: false, MySchedLanguage: false */
 /**
  * Models von MySched
  * @author thorsten

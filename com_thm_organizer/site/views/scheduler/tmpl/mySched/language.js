@@ -1,3 +1,4 @@
+/*global Ext: false, MySched: false, MySchedLanguage: true */
 var MySchedLanguage = [];
 
 MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EVENT_CREATE = "<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_EVENT_CREATE'); ?>";
