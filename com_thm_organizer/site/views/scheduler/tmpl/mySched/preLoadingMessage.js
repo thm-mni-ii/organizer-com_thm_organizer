@@ -1,3 +1,4 @@
+/*global MySchedLanguage: false */
 var prediv = document.createElement("div");
 prediv.setAttribute("id", "preloadMessage");
 var prespan = document.createElement("span");

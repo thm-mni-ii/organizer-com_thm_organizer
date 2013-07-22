@@ -1,4 +1,4 @@
-/*global Ext: false, MySched: false, MySchedLanguage: false */
+/*global Ext: false, MySched: false, MySchedLanguage: false, getTeacherSurnameWithCutFirstName: false */
 Ext.override(
 Ext.picker.Date,
 {
@@ -44,8 +44,7 @@ Ext.picker.Date,
         if (me.showToday)
         {
             tempDate = eDate.clearTime(new Date());
-            disableToday = (tempDate < min || tempDate > max || (ddMatch && format && ddMatch.test(eDate.dateFormat(tempDate, format)))
-                || (ddays && ddays.indexOf(tempDate.getDay()) !== -1));
+            disableToday = (tempDate < min || tempDate > max || (ddMatch && format && ddMatch.test(eDate.dateFormat(tempDate, format))) || (ddays && ddays.indexOf(tempDate.getDay()) !== -1));
 
             if (!me.disabled)
             {
@@ -312,4 +311,4 @@ function calendar_tooltip (e)
 
         ttInfo.showAt(xy);
     }
-};
+}

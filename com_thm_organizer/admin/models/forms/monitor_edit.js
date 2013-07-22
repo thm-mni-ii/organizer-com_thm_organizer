@@ -1,6 +1,6 @@
-"use strict";
 window.addEvent('domready', function()
 {
+    "use strict";
     document.formvalidator.setHandler('ip',
         function (value)
         {

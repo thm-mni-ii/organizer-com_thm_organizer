@@ -1,6 +1,4 @@
-/*global Ext: false, MySched: false, MySchedLanguage: true */
 var MySchedLanguage = [];
-
 MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EVENT_CREATE = "<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_EVENT_CREATE'); ?>";
 MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULER_CHANGED = "<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULER_CHANGED'); ?>";
 MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AUTHORIZE_FAILED = "<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_AUTHORIZE_FAILED'); ?>";

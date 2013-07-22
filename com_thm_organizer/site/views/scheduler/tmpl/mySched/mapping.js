@@ -76,12 +76,15 @@ MySched.Mapping = function ()
         {
             for(var teacher in this.teacher.map)
             {
-                var teacherObject = this.teacher.map[teacher];
-                if(Ext.isObject(teacherObject))
+                if(this.teacher.map.hasOwnProperty(teacher))
                 {
-                    if(teacherObject.dbID == dbID)
+                    var teacherObject = this.teacher.map[teacher];
+                    if(Ext.isObject(teacherObject))
                     {
-                        return teacher;
+                        if(teacherObject.dbID == dbID)
+                        {
+                            return teacher;
+                        }
                     }
                 }
             }
@@ -115,12 +118,15 @@ MySched.Mapping = function ()
         {
             for(var room in this.room.map)
             {
-                var roomObject = this.room.map[room];
-                if(Ext.isObject(roomObject))
+                if (this.room.map.hasOwnProperty(room))
                 {
-                    if(roomObject.dbID == dbID)
+                    var roomObject = this.room.map[room];
+                    if(Ext.isObject(roomObject))
                     {
-                        return room;
+                        if(roomObject.dbID === dbID)
+                        {
+                            return room;
+                        }
                     }
                 }
             }
