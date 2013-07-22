@@ -1,4 +1,4 @@
-/*global Ext: false, MySched: false, MySchedLanguage: false */
+/*global Ext: false, MySched: false, MySchedLanguage: false, blocktotime: false */
 
 /**
  * Spezielles Grid Vordefiniert fuer Wochenstruktur mit Veranstaltungen

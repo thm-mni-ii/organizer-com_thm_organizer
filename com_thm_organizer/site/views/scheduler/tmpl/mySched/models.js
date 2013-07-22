@@ -1,4 +1,4 @@
-/*global Ext: false, MySched: false, MySchedLanguage: false */
+/*global Ext: false, MySched: false, MySchedLanguage: false, blocktotime: false */
 /**
  * Models von MySched
  * @author thorsten
@@ -15,7 +15,6 @@ Ext.define('MySched.Model',
     constructor: function (id, d)
     {
         "use strict";
-
         var data, responsible, object1, object2;
 
         this.id = id;
@@ -36,11 +35,13 @@ Ext.define('MySched.Model',
     },
     getId: function ()
     {
+        "use strict";
         return this.id;
     },
     getData: function (addData)
     {
-        if (Ext.type(addData) != 'object')
+        "use strict";
+        if (Ext.type(addData) !== 'object')
         {
             return this.data;
         }
@@ -48,24 +49,36 @@ Ext.define('MySched.Model',
     },
     setParent: function (p)
     {
+        "use strict";
         this.parent = p;
     },
     getParent: function ()
     {
+        "use strict";
         return this.parent;
     },
     asArray: function ()
     {
+        "use strict";
         var ret = [];
         var d = this.data;
-        if (d.asArray) d = d.asArray();
+        if (d.asArray)
+        {
+            d = d.asArray();
+        }
         Ext.each(d, function (e)
         {
-            if (Ext.isEmpty(e)) return;
-            if (e.asArray) e = e.asArray();
+            if (Ext.isEmpty(e))
+            {
+                return;
+            }
+            if (e.asArray)
+            {
+                e = e.asArray();
+            }
             this[this.length] = e;
         }, ret);
-        if (ret.length == 1)
+        if (ret.length === 1)
         {
             return ret[0];
         }
@@ -73,20 +86,21 @@ Ext.define('MySched.Model',
     },
     exportData: function (type, pers)
     {
+        "use strict";
         var d = [];
-        if (pers == "personal")
+        if (pers === "personal")
         {
             d = this.asPersArray();
         }
         else
         {
-            if(type == "jsonpdf")
+            if(type === "jsonpdf")
             {
-                d = this.asArrayForPDF();	
+                d = this.asArrayForPDF();
             }
             else
             {
-                d = this.asArray();	
+                d = this.asArray();
             }
         }
 
@@ -95,7 +109,6 @@ Ext.define('MySched.Model',
         case 'arr':
         case 'array':
             return d;
-            break;
         case 'xml':
             alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_XML_NOT_IMPLEMENTED);
             exit();
@@ -104,21 +117,20 @@ Ext.define('MySched.Model',
         case 'json':
             var returnValue = Ext.encode(d);
             return returnValue;
-            break;
         }
     },
     exportAllData: function ()
     {
         var d = [];
         d[0] = new Object();
-        d[0]["htmlView"] = this.htmlView;
-        d[0]["lessons"] = this.asArray();
-        d[0]["visibleLessons"] = this.visibleLessons;
-        d[0]["events"] = this.visibleEvents;
-        d[0]["session"] = new Object();
-        d[0]["session"]["sdate"] = MySched.session["begin"];
-        d[0]["session"]["edate"] = MySched.session["end"];
-        d[0]["session"]["semesterID"] = MySched.class_semester_id;
+        d[0].htmlView = this.htmlView;
+        d[0].lessons = this.asArray();
+        d[0].visibleLessons = this.visibleLessons;
+        d[0].events = this.visibleEvents;
+        d[0].session = new Object();
+        d[0].session.sdate = MySched.session.begin;
+        d[0].session.edate = MySched.session.end;
+        d[0].session.semesterID = MySched.class_semester_id;
 
         return Ext.encode(d);
     }
@@ -134,6 +146,7 @@ Ext.define('mSchedule',
 
     constructor: function (id, title, config)
     {
+        "use strict";
         var grid, blockCache, changed, proxy, reader, status;
         var type = "";
         this.blockCache = null;
@@ -144,7 +157,10 @@ Ext.define('mSchedule',
         this.visibleLessons = [];
         this.visibleEvents = [];
         mSchedule.superclass.constructor.call(this, id, new MySched.Collection());
-        if (config && config.type && config.value) this.init(config.type, config.value);
+        if (config && config.type && config.value)
+        {
+            this.init(config.type, config.value);
+        }
         this.addEvents(
         {
             beforeLectureAdd: true,
@@ -160,8 +176,15 @@ Ext.define('mSchedule',
     },
     init: function (type, value, semesterID)
     {
-        if (type == "delta") this.data = MySched.delta.data;
-        else if (type == "respChanges") this.data = MySched.responsibleChanges.data;
+        "use strict";
+        if (type == "delta")
+        {
+            this.data = MySched.delta.data;
+        }
+        else if (type == "respChanges")
+        {
+            this.data = MySched.responsibleChanges.data;
+        }
         else
         {
             var valuearr = value.split(";");
@@ -187,6 +210,7 @@ Ext.define('mSchedule',
     },
     addLecture: function (l)
     {
+        "use strict";
         if (this.fireEvent("beforeLectureAdd", l) === false) return;
         // Fuegt die lecture hinzu
         this.data.add(l.id, l);
@@ -199,6 +223,7 @@ Ext.define('mSchedule',
     },
     clear: function ()
     {
+        "use strict";
         if (this.fireEvent("beforeClear", this) === false) return this.data.clear();
         this.blockCache = null;
         this.markChanged();
@@ -206,17 +231,18 @@ Ext.define('mSchedule',
     },
     removeLecture: function (l)
     {
+        "use strict";
         if (this.fireEvent("beforeLectureRemove", l) === false)
         {
-        	return;
+            return;
         }
         
-        if (this.blockCache && Ext.type(l) == 'object')
+        if (this.blockCache && Ext.type(l) === 'object')
         {
-        	this.blockCache[l.getWeekDay()][l.getBlock() - 1]--;
+            this.blockCache[l.getWeekDay()][l.getBlock() - 1]--;
         }
         
-        if (Ext.type(l) == 'object')
+        if (Ext.type(l) === 'object')
         {
             this.data.removeAtKey(l.getId());
         }
@@ -234,8 +260,14 @@ Ext.define('mSchedule',
      */
     getLecture: function (id)
     {
-        if (id.match('##')) id = id.split('##')[1];
-        if (MySched.selectedSchedule.type == "delta") return MySched.delta.data.get(id);
+        if (id.match('##'))
+        {
+            id = id.split('##')[1];
+        }
+        if (MySched.selectedSchedule.type == "delta")
+        {
+            return MySched.delta.data.get(id);
+        }
         var Plesson = this.data.get(id);
         if (Plesson != null) if (Plesson.data != null) if (Plesson.data.type == "personal") return MySched.Schedule.data.get(id);
         return this.data.get(id);

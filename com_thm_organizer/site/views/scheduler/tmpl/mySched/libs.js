@@ -1,4 +1,4 @@
-/*global Ext: false, MySched: true, MySchedLanguage: false */
+/*global Ext: false, MySched: true, MySchedLanguage: false, blocktotime: false */
 // // // Link auf ein lokales Blankes Bild
 //Ext.BLANK_IMAGE_URL = externLinks.blankImageLink;
 Ext.MessageBox.buttonText.yes = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_YES;
@@ -31,7 +31,7 @@ Ext.extend(MySched.Collection, Ext.util.MixedCollection,
     {
         "use strict";
     
-        if (typeof key == 'object' && typeof key.getId == 'function')
+        if (typeof key === 'object' && typeof key.getId === 'function')
         {
             return el.getId();
         }
@@ -41,7 +41,7 @@ Ext.extend(MySched.Collection, Ext.util.MixedCollection,
     {
         "use strict";
     
-        return this.getCount() == 0;
+        return this.getCount() === 0;
     },
     get: function (key, def)
     {
@@ -132,22 +132,20 @@ String.prototype.equal = function (str)
 /**
  * Erganezt das Array Object um die AddTo methode
  * 
- * @param {Integer}
- *            index Index an dem value eingef�gt wird
- * @param {Object}
- *            value Das Objekt welches eingef�gt werden soll
+ * @param {Integer} index Index an dem value eingefügt wird
+ * @param {Object} value Das Objekt welches eingefügt werden soll
  */
 Array.prototype.AddTo = function (index, value)
 {
     "use strict";
 
-    var newArray = [];
-    for (var i = 0; i < index; i++)
+    var newArray = [], i;
+    for (i = 0; i < index; i++)
     {
         newArray[i] = this[i];
     }
     newArray[index] = value;
-    for (var i = index; i < this.length; i++)
+    for (i = index; i < this.length; i++)
     {
         newArray[i + 1] = this[i];
     }
@@ -157,13 +155,11 @@ Array.prototype.AddTo = function (index, value)
 /**
  * Erganezt das Array Object um die contains methode
  * 
- * @param {Object}
- *            obj �berpr�ft ob obj vorhanden ist
+ * @param {Object} obj ÜberprÜft ob obj vorhanden ist
  */
 Array.prototype.contains = function (obj)
 {
     "use strict";
-
     var i = this.length;
     while (i--)
     {
@@ -173,7 +169,7 @@ Array.prototype.contains = function (obj)
         }
     }
     return false;
-}
+};
 /**
  * Erweitert Dragzone um LextureObjekte
  * 
@@ -184,6 +180,8 @@ Ext.override(Ext.dd.DragZone,
 {
     getDragData: function (e)
     {
+        "use strict";
+
         // TreeNode
         if (Ext.dd.Registry.getHandleFromEvent(e))
         {
@@ -192,7 +190,7 @@ Ext.override(Ext.dd.DragZone,
 
         // Lecture
         var target = Ext.get(e.getTarget()).findParent('.lectureBox', 3, true);
-        if (target == null)
+        if (target === null)
         {
             return null;
         }
@@ -240,7 +238,7 @@ Ext.grid.View,
             {
                 c = cs[i];
                 p.id = c.id;
-                p.css = i == 0 ? 'x-grid3-cell-first ' : (i == last ? 'x-grid3-cell-last ' : '');
+                p.css = i === 0 ? 'x-grid3-cell-first ' : (i === last ? 'x-grid3-cell-last ' : '');
                 var block;
                 if (j < 3)
                 {
@@ -261,12 +259,12 @@ Ext.grid.View,
                 p.value = c.renderer(r.data[c.name], p, r, rowIndex, i, ds, this.grid);
                 // ****** Aenderung stop
                 var pos = p.value.toString().indexOf('class=MySched_event');
-                if (pos != -1)
+                if (pos !== -1)
                 {
                     p.css = p.css + "MySched_event_block ";
                 }
                 p.style = c.style;
-                if (typeof p.value == undefined || p.value === "")
+                if (typeof p.value === 'undefined' || p.value === "")
                 {
                     p.value = "&#160;";
                 }
@@ -276,7 +274,7 @@ Ext.grid.View,
                 }
                 cb[cb.length] = ct.apply(p);
 
-                if (j == 3 && i == 0)
+                if (j === 3 && i === 0)
                 {
                     cb[cb.length - 1] = cb[cb.length - 1].replace("<td class=", "<td colspan=\"7\" class=");
                     break;
@@ -345,15 +343,16 @@ function showevent(event, arr, selectedScheduleid)
 {
     "use strict";
 
-    if (event.source == "estudy")
+    if (event.source === "estudy")
     {
         return 5;
     }
     var lessons = MySched.Base.schedule;
 
-    for (var obj in event.objects)
+    var obj;
+    for (obj in event.objects)
     {
-        if (event.objects[obj] == selectedScheduleid)
+        if (event.objects[obj] === selectedScheduleid)
         {
             return 1;
         }
@@ -376,19 +375,22 @@ function showevent(event, arr, selectedScheduleid)
                 }
                 if (Ext.isObject(lesson))
                 {
-                    for (var obj in event.objects)
+                    for (obj in event.objects)
                     {
-                        if (lessoncontains(event.objects[obj], lesson.clas.map))
+                        if (event.hasOwnProperty(obj))
                         {
-                            return 2;
-                        }
-                        if (lessoncontains(event.objects[obj], lesson.doz.map))
-                        {
-                            return 3;
-                        }
-                        if (lessoncontains(event.objects[obj], lesson.room.map))
-                        {
-                            return 4;
+                            if (lessoncontains(event.objects[obj], lesson.clas.map))
+                            {
+                                return 2;
+                            }
+                            if (lessoncontains(event.objects[obj], lesson.doz.map))
+                            {
+                                return 3;
+                            }
+                            if (lessoncontains(event.objects[obj], lesson.room.map))
+                            {
+                                return 4;
+                            }
                         }
                     }
                 }
@@ -423,7 +425,7 @@ function lessoncontains(obj, arr)
                 var arrsplit = arr[lessonindex].data.split("(");
                 if (arrsplit[0] !== "")
                 {
-                    if (obj.search(new RegExp(arrsplit[0])) != -1)
+                    if (obj.search(new RegExp(arrsplit[0])) !== -1)
                     {
                         return true;
                     }
@@ -512,6 +514,7 @@ function getCurrentMoFrDate()
  */
 function showLoadMask(id)
 {
+    "use strict";
     if (!Ext.isDefined(id))
     {
         id = MySched.layout.tabpanel.getId();
@@ -527,7 +530,6 @@ function showLoadMask(id)
 function convertEnglishDateStringToDateObject(dateString)
 {
     "use strict";
-
     var splittedDateIndex = dateString.split("-");
     if (splittedDateIndex.length === 3)
     {
@@ -544,7 +546,6 @@ function convertEnglishDateStringToDateObject(dateString)
 function convertGermanDateStringToDateObject(dateString)
 {
     "use strict";
-
     var splittedDateIndex = dateString.split(".");
     if (splittedDateIndex.length === 3)
     {
@@ -561,7 +562,6 @@ function convertGermanDateStringToDateObject(dateString)
 function displayDelta()
 {
     "use strict";
-
     if(!Ext.isNumber(MySched.deltaDisplayDays))
     {
         return false;
@@ -569,7 +569,7 @@ function displayDelta()
 
     var currentDate = new Date();
     Ext.Date.clearTime(currentDate);
-    var creationDate = convertEnglishDateStringToDateObject(MySched.session["creationdate"]);
+    var creationDate = convertEnglishDateStringToDateObject(MySched.session.creationdate);
 
     creationDate.setDate(creationDate.getDate() + MySched.deltaDisplayDays);
     if(creationDate < currentDate)
@@ -587,12 +587,12 @@ function getTeacherSurnameWithCutFirstName(teacherKey)
     var teacherSurname = MySched.Mapping.getTeacherSurname(teacherKey);
     var teacherFirstname = MySched.Mapping.getTeacherFirstname(teacherKey);
     
-    if(Ext.isString(teacherSurname) && teacherSurname != teacherKey && teacherSurname.length > 0)
+    if(Ext.isString(teacherSurname) && teacherSurname !== teacherKey && teacherSurname.length > 0)
     {
         teacherName = teacherSurname;
     }
     
-    if(Ext.isString(teacherFirstname) && teacherFirstname != teacherKey && teacherFirstname.length > 0)
+    if(Ext.isString(teacherFirstname) && teacherFirstname !== teacherKey && teacherFirstname.length > 0)
     {
         teacherName += ", " + teacherFirstname.charAt(0) + ".";
     }
@@ -623,19 +623,19 @@ function getBlocksBetweenTimes(startTime, endTime, eventStartDate, eventEndDate)
         var blockTime = blockTimes[blockIndex];
 
         // Event startet vor dem Block und geht über den Block hinaus
-        if(startTime <= blockTime["start"] && endTime >= blockTime["end"])
+        if(startTime <= blockTime.start && endTime >= blockTime.end)
         {
             returnBlocks.push(blockIndex);
         } // Event ist innerhalb des Blocks
-        else if(startTime >= blockTime["start"] && endTime <= blockTime["end"])
+        else if(startTime >= blockTime.start && endTime <= blockTime.end)
         {
             returnBlocks.push(blockIndex);
         } // Event beginnt vor dem Block endet aber in diesem
-        else if(startTime <= blockTime["start"] && endTime <= blockTime["end"] && endTime >= blockTime["start"])
+        else if(startTime <= blockTime.start && endTime <= blockTime.end && endTime >= blockTime.start)
         {
             returnBlocks.push(blockIndex);
         } // Event startet in diesem Block und geht über diesen Block hinaus
-        else if(startTime >= blockTime["start"] && startTime <= blockTime["end"] &&  endTime >= blockTime["end"])
+        else if(startTime >= blockTime.start && startTime <= blockTime.end &&  endTime >= blockTime.end)
         {
             returnBlocks.push(blockIndex);
         }
@@ -662,7 +662,9 @@ Ext.define('Ext.ux.TabCloseOnMiddleClick', {
         });
     },
 
-    onAfterLayout: function(){
+    onAfterLayout: function()
+    {
+        "use strict";
         this.mon(this.tabBar.el, {
             scope: this,
             mousedown: this.onMouseDown,
@@ -675,14 +677,19 @@ Ext.define('Ext.ux.TabCloseOnMiddleClick', {
         });
     },
 
-    onMouseDown: function(e){
+    onMouseDown: function(e)
+    {
+        "use strict";
         e.preventDefault();
     },
 
-    onMouseUp: function(e, target){
+    onMouseUp: function(e, target)
+    {
+        "use strict";
         e.preventDefault();
         
-        if( target && e.button==1  ){
+        if( target && e.button === 1  )
+        {
             var item = this.tabBar.getComponent(target.id);
             item.onCloseClick();
         }

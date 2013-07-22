@@ -190,7 +190,10 @@ MySched.Base = function ()
                 'changed': function ()
                 {
                     var contentAnchorTip = Ext.getCmp('content-anchor-tip');
-                    if (contentAnchorTip) contentAnchorTip.destroy();
+                    if (contentAnchorTip)
+                    {
+                        contentAnchorTip.destroy();
+                    }
                     if (!MySched.Schedule.isEmpty() && MySched.libraryFPDFIsInstalled)
                     {
                         Ext.ComponentMgr.get('btnPdf').enable();
@@ -337,12 +340,10 @@ MySched.Base = function ()
             }
 
             // Initialisiert "Mein Stundenplan"
-            MySched.Schedule = new mSchedule('mySchedule',
-            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE);
+            MySched.Schedule = new mSchedule('mySchedule', MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE);
 
             // Initialisiert "Änderungen der Verantwortlichen"
-            MySched.responsibleChanges = new mSchedule("respChanges",
-            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_OWN);
+            MySched.responsibleChanges = new mSchedule("respChanges", MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_OWN);
 
             // Registriert Events bei Aenderung des eigenen Stundenplans
             MySched.Base.registerScheduleEvents();
@@ -362,32 +363,27 @@ MySched.Base = function ()
             {
                 MySched.Tree.setTitle(jsonData.description, true);
 
-                MySched.session["begin"] = jsonData.startdate;
-                MySched.session["end"] = jsonData.enddate;
-                MySched.session["creationdate"] = jsonData.creationdate;
-                Ext.ComponentMgr.get('leftMenu')
-                    .setTitle(
-                MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AS_OF + " " + MySched.session["creationdate"]);
+                MySched.session.begin = jsonData.startdate;
+                MySched.session.end = jsonData.enddate;
+                MySched.session.creationdate = jsonData.creationdate;
+                Ext.ComponentMgr.get('leftMenu').setTitle(
+                MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AS_OF + " " + MySched.session.creationdate);
                 // Managed die Sichtbarkeit der Add/Del Buttons in der Toolbar
                 MySched.SelectionManager.on('select', function (el)
                 {
                     if (MySched.Schedule.lectureExists(el.id))
                     {
-                        Ext.ComponentMgr.get('btnDel')
-                            .enable();
+                        Ext.ComponentMgr.get('btnDel').enable();
                     }
                     else
                     {
-                        Ext.ComponentMgr.get('btnAdd')
-                            .enable();
+                        Ext.ComponentMgr.get('btnAdd').enable();
                     }
                 });
                 MySched.SelectionManager.on('unselect', function ()
                 {
-                    Ext.ComponentMgr.get('btnDel')
-                        .disable();
-                    Ext.ComponentMgr.get('btnAdd')
-                        .disable();
+                    Ext.ComponentMgr.get('btnDel').disable();
+                    Ext.ComponentMgr.get('btnAdd').disable();
                 });
                 MySched.SelectionManager.on('lectureAdd', function ()
                 {
@@ -1040,7 +1036,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
         }
         else if(type === "room")
         {
-        	parent = MySched.Mapping.getRoomParent(id);
+            parent = MySched.Mapping.getRoomParent(id);
         }
         else
         {
@@ -1090,9 +1086,9 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
     {
         "use strict";
 
+        var id, el;
         if (typeof e === "undefined")
         {
-            var id, el;
             if (this.selectLectureId)
             {
                 id = this.selectLectureId;
@@ -1108,11 +1104,11 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
         {
             if(e.getTarget)
             {
-                var el = e.getTarget('.lectureBox', 5, true);
+                el = e.getTarget('.lectureBox', 5, true);
             }
             else
             {
-                var el = e;
+                el = e;
             }
         }
 
@@ -1154,7 +1150,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
         {
             if(Ext.isString(subject))
             {
-                if(subjects.map[subject] != "removed")
+                if(subjects.map[subject] !== "removed")
                 {
                     menuItems[menuItems.length] = {
                         id: MySched.Mapping.getSubjectNo(subject),
@@ -1206,29 +1202,30 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                 MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_MODULENR_UNKNOWN);
                 return;
             }
-	    }
+        }
     },
     showInformation: function (e)
     {
         "use strict";
 
-        if (typeof e == "undefined")
+        var id, el;
+        if (typeof e === "undefined")
         {
-            var id = "";
+            id = "";
             if (this.selectLectureId)
             {
                 id = this.selectLectureId;
-                var el = Ext.get(id);
+                el = Ext.get(id);
             }
             else
             {
-                var el = this.selectEl;
+                el = this.selectEl;
                 id = el.id;
             }
         }
         else
         {
-            var el = e.getTarget('.lectureBox', 5, true);
+            el = e.getTarget('.lectureBox', 5, true);
         }
 
         if (Ext.getCmp('content-anchor-tip')) Ext.getCmp('content-anchor-tip')
@@ -1239,7 +1236,10 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
 
         var l = MySched.selectedSchedule.getLecture(el.id);
         var title = l.data.desc;
-        if (l.longname != "") title = l.longname;
+        if (l.longname !== "")
+        {
+            title = l.longname;
+        }
 
         var ttInfo = Ext.create('Ext.tip.ToolTip',
         {
@@ -1265,7 +1265,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
 
         // Ermittelt Aktive Veranstaltung
         var el = e.getTarget('.lectureBox', 5, true);
-        if (el.id.substr(0, 4) != "delta" && MySched.Authorize.user != null && MySched.Authorize.role != "user")
+        if (el.id.substr(0, 4) !== "delta" && MySched.Authorize.user !== null && MySched.Authorize.role !== "user")
         {
             this.selectLectureId = el.id;
             // Wenn Veranstaltung vorhanden, setze HoverButton
@@ -1292,7 +1292,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
         var el = Ext.get(e.getRelatedTarget());
         // Blendet HoverButton aus, und resetet ihn auf
         // hinzufuegen
-        if (!el || el.id != 'lectureSelectButton')
+        if (!el || el.id !== 'lectureSelectButton')
         {
             this.selectButton.hide();
             this.selectButton.dom.src = this.lectureAddButton;
@@ -1310,27 +1310,28 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
         "use strict";
 
         // Aktion ueber HoverButton ausgeloest
+        var id, el;
         if (this.selectLectureId)
         {
-            var id = this.selectLectureId;
-            var el = Ext.get(id);
+            id = this.selectLectureId;
+            el = Ext.get(id);
             // oder ueber DD oder ButtonLeiste
         }
         else
         {
-            var el = this.selectEl;
-            var id = el.id;
+            el = this.selectEl;
+            id = el.id;
         }
         
         var tabID = id.split('##')[0];
         var lessonID = id.split('##')[1];
         
-        if (el.id.substr(0, 4) != "delta" && MySched.Authorize.user != null && MySched.Authorize.role != "user")
+        if (el.id.substr(0, 4) !== "delta" && MySched.Authorize.user !== null && MySched.Authorize.role !== "user")
         {
             // Entfernt Veranstaltung
-            if (el.hasCls('lectureBox_cho') || tabID == 'mySchedule')
+            if (el.hasCls('lectureBox_cho') || tabID === 'mySchedule')
             {
-                if (typeof MySched.Base.getLecture(lessonID) != "undefined")
+                if (typeof MySched.Base.getLecture(lessonID) !== "undefined")
                 {
                     MySched.Schedule.removeLecture(MySched.Base.getLecture(lessonID));
                 }
@@ -1353,7 +1354,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
             }
             else
             {
-            	var lectureToAdd = MySched.Base.getLecture(lessonID);
+                var lectureToAdd = MySched.Base.getLecture(lessonID);
                 MySched.Schedule.addLecture(lectureToAdd);
                 this.fireEvent("lectureAdd", el);
             }
@@ -1391,6 +1392,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
     },
     /**
      * Delete a Lesson
+     * @param {String} id the id
      */
     deleteLesson: function (id)
     {
@@ -2325,6 +2327,8 @@ MySched.layout = function ()
          * @param {Object} id ID des Tabs
          * @param {Object} title Title des Tabs
          * @param {Object} grid Grid das angezeigt werden soll
+         * @param {String} type the type
+         * @param {Boolean} closeable whether or not the element can be closed
          */
         createTab: function (id, title, grid, type, closeable)
         {
@@ -4332,6 +4336,7 @@ MySched.Tree = function ()
         },
         /**
          * Setzt die Daten im Baum
+         * @param {Object} data the data used to build the tree
          */
         setTreeData: function (data)
         {
