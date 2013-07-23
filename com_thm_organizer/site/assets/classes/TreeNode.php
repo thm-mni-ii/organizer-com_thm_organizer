@@ -146,32 +146,18 @@ class THMTreeNode
      * @param   String   $nodeKey            The node key
      * @param   Boolean  $expanded           A object which has configurations including
      */
-    public function  __construct($id,
-     $text,
-     $iconCls,
-     $leaf,
-     $draggable,
-     $singleClickExpand,
-     $gpuntisID,
-     $type,
-     $children,
-     $semesterID,
-     $checked,
-     $publicDefault,
-     $nodeKey,
-     $expanded)
+    public function  __construct($data, $checked, $publicDefault, $nodeKey, $expanded)
     {
-
-        $this->id = $id;
-        $this->text = $text;
-        $this->iconCls = $iconCls;
-        $this->leaf = $leaf;
-        $this->draggable = $draggable;
-        $this->singleClickExpand = $singleClickExpand;
-        $this->children = $children;
-        $this->gpuntisID = $gpuntisID;
-        $this->type = $type;
-        $this->semesterID = $semesterID;
+        $this->id = $data["id"];
+        $this->text = $data["text"];
+        $this->iconCls = $data["iconCls"];
+        $this->leaf = $data["leaf"];
+        $this->draggable = $data["draggable"];
+        $this->singleClickExpand = $data["singleClickExpand"];
+        $this->children = $data["children"];
+        $this->gpuntisID = $data["gpuntisID"];
+        $this->type = $data["type"];
+        $this->semesterID = $data["semesterID"];
         $this->checked = $checked;
         $this->publicDefault = $publicDefault;
         $this->nodeKey = $nodeKey;

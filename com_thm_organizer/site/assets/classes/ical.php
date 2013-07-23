@@ -139,8 +139,8 @@ class THMICALBuilder extends THMAbstractBuilder
 	/**
 	 * Method to set an event
 	 *
-	 * @param   Object  $vCalendar    The event array
-	 * @param   Object  $lesson  The semester end date
+	 * @param   Object  $vCalendar  The event array
+	 * @param   Object  $lesson     The semester end date
 	 *
 	 * @return An array which has the result including
 	 */

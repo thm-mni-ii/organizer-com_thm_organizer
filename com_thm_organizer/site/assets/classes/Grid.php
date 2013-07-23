@@ -62,10 +62,23 @@ class THMGrid
 	{
 		if (isset( $this->_semID))
 		{
-			$query = "SELECT gpuntisID AS tpid, day, period, starttime, endtime ";
-			$query .= "FROM #__thm_organizer_periods ";
-			$query .= "ORDER BY CAST(SUBSTRING(tpid, 4) AS SIGNED INTEGER) ";
-			$ret   = $this->_JDA->query($query);
+		    // Get a db connection.
+		    $db = JFactory::getDbo();
+		    
+		    // Create a new query object.
+		    $query = $db->getQuery(true);
+		    
+		    // Select all records from the user profile table where key begins with "custom.".
+		    // Order it by the ordering field.
+		    $query->select("gpuntisID AS tpid, day, period, starttime, endtime");
+		    $query->from('#__thm_organizer_periods');
+		    $query->order('CAST(SUBSTRING(tpid, 4) AS SIGNED INTEGER)');
+		    
+		    // Reset the query using our newly populated query object.
+		    $db->setQuery($query);
+		    
+		    // Load the results as a list of stdClass objects.
+		    $ret = $db->loadObjectList();
 
 			return array(
 						 "success" => false,

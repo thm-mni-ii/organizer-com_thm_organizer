@@ -197,12 +197,9 @@ class THMUserSchedule
 	{
 		if (isset($this->_username))
 		{
-			$query = "SELECT data ";
-			$query .= "{$this->_cfg['db_table']} ";
-			$query .= "username = '$this->_username'";
-			$data = $this->_JDA->query($query);
-
 			$dbo = JFactory::getDBO();
+            $data = array();
+            
 			$query = $dbo->getQuery(true);
 			$query->select('data');
 			$query->from('#__thm_organizer_user_schedules');
@@ -216,14 +213,6 @@ class THMUserSchedule
 				{
 					$data = $rows->data;
 				}
-				else
-				{
-					$data = array();
-				}
-			}
-			else
-			{
-				$data = array();
 			}
 
 			if (count($data) === 0)
