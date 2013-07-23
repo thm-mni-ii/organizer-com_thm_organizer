@@ -65,7 +65,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 	/**
 	 * Method to get a single record.
      * 
-	 * @param   integer  $pk  The id of the primary key.
+	 * @param   integer  $cid  The id of the primary key.
 	 *
 	 * @return	mixed  Object on success, false on failure.
 	 */
