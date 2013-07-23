@@ -26,72 +26,72 @@ defined('_JEXEC') or die;
  */
 class THMGrid
 {
-	/**
-	 * Joomla data abstraction
-	 *
-	 * @var    DataAbstraction
-	 * @since  1.0
-	 */
-	private $_JDA = null;
+    /**
+     * Joomla data abstraction
+     *
+     * @var    DataAbstraction
+     * @since  1.0
+     */
+    private $_JDA = null;
 
-	/**
-	 * Semester id
-	 *
-	 * @var    Integer
-	 * @since  1.0
-	 */
-	private $_semID = null;
+    /**
+     * Semester id
+     *
+     * @var    Integer
+     * @since  1.0
+     */
+    private $_semID = null;
 
-	/**
-	 * Constructor with the joomla data abstraction object and configuration object
-	 *
-	 * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
-	 */
-	public function __construct($JDA)
-	{
-		$this->_JDA = $JDA;
-		$this->_semID = $JDA->getSemID();
-	}
+    /**
+     * Constructor with the joomla data abstraction object and configuration object
+     *
+     * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
+     */
+    public function __construct($JDA)
+    {
+        $this->_JDA = $JDA;
+        $this->_semID = $JDA->getSemID();
+    }
 
-	/**
-	 * Method to load the grid data
-	 *
-	 * @return Array An array which includes the grid data
-	 */
-	public function load()
-	{
-		if (isset( $this->_semID))
-		{
-		    // Get a db connection.
-		    $db = JFactory::getDbo();
-		    
-		    // Create a new query object.
-		    $query = $db->getQuery(true);
-		    
-		    // Select all records from the user profile table where key begins with "custom.".
-		    // Order it by the ordering field.
-		    $query->select("gpuntisID AS tpid, day, period, starttime, endtime");
-		    $query->from('#__thm_organizer_periods');
-		    $query->order('CAST(SUBSTRING(tpid, 4) AS SIGNED INTEGER)');
-		    
-		    // Reset the query using our newly populated query object.
-		    $db->setQuery($query);
-		    
-		    // Load the results as a list of stdClass objects.
-		    $ret = $db->loadObjectList();
+    /**
+     * Method to load the grid data
+     *
+     * @return Array An array which includes the grid data
+     */
+    public function load()
+    {
+        if (isset( $this->_semID))
+        {
+            // Get a db connection.
+            $db = JFactory::getDbo();
+            
+            // Create a new query object.
+            $query = $db->getQuery(true);
+            
+            // Select all records from the user profile table where key begins with "custom.".
+            // Order it by the ordering field.
+            $query->select("gpuntisID AS tpid, day, period, starttime, endtime");
+            $query->from('#__thm_organizer_periods');
+            $query->order('CAST(SUBSTRING(tpid, 4) AS SIGNED INTEGER)');
+            
+            // Reset the query using our newly populated query object.
+            $db->setQuery($query);
+            
+            // Load the results as a list of stdClass objects.
+            $ret = $db->loadObjectList();
 
-			return array(
-						 "success" => false,
-						 "data" => ($ret !== false)?
-							 $ret : JText::_('COM_THM_ORGANIZER_SCHEDULER_GRID_ERROR_LOADING')
-						);
-		}
-		else
-		{
-			return array(
-						 "success" => false,
-						 "data" => JText::_('COM_THM_ORGANIZER_SCHEDULER_GRID_ERROR_LOADING')
-						);
-		}
-	}
+            return array(
+                         "success" => false,
+                         "data" => ($ret !== false)?
+                             $ret : JText::_('COM_THM_ORGANIZER_SCHEDULER_GRID_ERROR_LOADING')
+                        );
+        }
+        else
+        {
+            return array(
+                         "success" => false,
+                         "data" => JText::_('COM_THM_ORGANIZER_SCHEDULER_GRID_ERROR_LOADING')
+                        );
+        }
+    }
 }

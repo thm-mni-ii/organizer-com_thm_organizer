@@ -117,7 +117,7 @@ class THM_OrganizerModelProgram extends JModel
         }
 
         $mappingModel = JModel::getInstance('mapping', 'THM_OrganizerModel');
-        $mappingExists = $mappingModel->checkForMapping($programID,'program');
+        $mappingExists = $mappingModel->checkForMapping($programID, 'program');
         if (empty($mappingExists))
         {
             $mappingCreated = $mappingModel->saveProgram($programID);
