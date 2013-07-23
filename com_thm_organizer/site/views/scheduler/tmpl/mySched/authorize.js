@@ -1,3 +1,4 @@
+/*global Ext: false, MySched: false, MySchedLanguage: false, _C: false */
 /**
  * Objekt zum Authentifizieren des Benutzers und der Verwaltung dessen Rechten
  * 
@@ -5,6 +6,7 @@
  */
 MySched.Authorize = function ()
 {
+    "use strict";
     var user, authWindow, authentificatedToken, accArr, role, additionalRights;
 
     return {
@@ -121,14 +123,6 @@ MySched.Authorize = function ()
             MySched.Authorize.changeRole(obj.role, obj.additional_rights);
 
             Ext.ComponentMgr.get('btnSave').show();
-
-            if (obj.role !== "registered")
-            {
-                if (typeof Ext.ComponentMgr.get('btnEvent') !== "undefined")
-                {
-//                    Ext.ComponentMgr.get('btnEvent').show();
-                }
-            }
 
             // Erstellt den Stundenplan des Benutzers
             MySched.Base.createUserSchedule();

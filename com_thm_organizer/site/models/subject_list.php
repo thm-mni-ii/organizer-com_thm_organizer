@@ -129,12 +129,12 @@ class THM_OrganizerModelSubject_List extends JModelList
         }
 
         $subjectLink = "'index.php?option=com_thm_organizer&view=subject_details&languageTag=$languageTag&Itemid=$menuID&id='";
-        $groupsLink = "'index.php?option=com_thm_groups&view=profile&Itemid=$menuID&gsuid='";
+        $groupsLink = "'index.php?option=com_thm_groups&view=profile&Itemid=$menuID&layout=default&gsuid='";
 
         $select = "DISTINCT s.id, s.name_$languageTag AS name, creditpoints, ";
         $select .= "CONCAT(dp.subject, ' (', d.abbreviation, ' ', dp.version, ')') AS program, p.name_$languageTag AS pool, ";
         $select .= "surname, forename, sf.field, ";
-        $select .= "CONCAT($subjectLink, s.id) AS subjectLink, CONCAT($groupsLink, u.id) AS groupsLink, ";
+        $select .= "CONCAT($subjectLink, s.id) AS subjectLink, CONCAT($groupsLink, u.id, '&name=', t.surname) AS groupsLink, ";
         $select .= "sc.color AS fieldColor, tc.color AS teacherColor, pc.color AS poolColor, dpc.color AS programColor ";
         $subjectQuery = $dbo->getQuery(true);
         $subjectQuery->select($select);
@@ -157,7 +157,7 @@ class THM_OrganizerModelSubject_List extends JModelList
         $subjectQuery->leftJoin('#__thm_organizer_colors AS dpc ON dpf.colorID = dpc.id');
         $subjectQuery->where("m1.lft BETWEEN {$boundaries['lft']} AND {$boundaries['rgt']}");
         $subjectQuery->where("m1.rgt BETWEEN {$boundaries['lft']} AND {$boundaries['rgt']}");
-        $subjectQuery->where("st.teacherResp != '2'");
+        $subjectQuery->where("st.teacherResp = '1'");
         if (!empty($search))
         {
             $subjectQuery->where($this->getSearch());
@@ -234,7 +234,7 @@ class THM_OrganizerModelSubject_List extends JModelList
     private function getPoolGroups($subjectIDs, $programs, $pools, $poolColors, $programColors)
     {        
         $poolGroups = array();
-        foreach ($subjectIDs as $key => $value)
+        foreach (array_keys($subjectIDs) as $key)
         {
             if (!empty($pools[$key]))
             {
@@ -395,14 +395,19 @@ class THM_OrganizerModelSubject_List extends JModelList
         $median = ($red + $green + $blue) / 3;
         if ($median <= 127)
         {
-            return '3d494f';
+            return 'FFFFFF';
         }
         else
         {
-            return 'FFFFFF';
+            return '3d494f';
         }
     }
 
+    /**
+     * Builds the search clause based upon user input
+     * 
+     * @return  string
+     */
     private function getSearch()
     {
         $dbo = JFactory::getDbo();

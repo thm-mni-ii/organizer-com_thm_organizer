@@ -21,13 +21,6 @@ jimport('joomla.application.component.modellist');
  */
 class THM_OrganizerModelPool_Manager extends JModelList
 {
-	/**
-	 * Pagination. 
-	 *
-	 * @var    Object
-	 */
-	private $_pagination = null;
-
     public $programName = '';
     
     public $programs = null;

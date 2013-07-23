@@ -13,7 +13,7 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 jimport('jquery.jquery');
-require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'helper' . DS . 'event_helper.php';
+require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'helper' . DS . 'event.php';
 
 /**
  * Decides if its an save or preview task, outputs a string explaining possible conflicts,
@@ -37,7 +37,12 @@ class Thm_OrganizerViewEvent_Ajax extends JView
         $function = JRequest::getString('task');
         $this->$function();
     }
-    
+
+    /**
+     * Generates a list of conflicts with event resources
+     * 
+     * @return  void
+     */
     private function booking()
     {
         $model = $this->getModel();
@@ -60,7 +65,12 @@ class Thm_OrganizerViewEvent_Ajax extends JView
             echo $message;
         }
     }
-    
+
+    /**
+     * Generates a preview of an event
+     * 
+     * @return  void
+     */
     private function preview()
     {   
         $data = array();
@@ -72,12 +82,12 @@ class Thm_OrganizerViewEvent_Ajax extends JView
         $data['endtime'] = JRequest::getVar('endtime', null, null, null, 4);
         $data['categoryID'] = JRequest::getInt('category');
         $data['description'] = JRequest::getVar('description', null, null, null, 4);
-        THM_OrganizerEvent_Helper::buildtext($data);
+        THM_OrganizerHelperEvent::buildtext($data);
         $user = JFactory::getUser();
         $username = $user->name;        
         $written_by = "<p>" . JText::_('COM_THM_ORGANIZER_E_WRITTEN_BY') . $username . "</p>";
         $data['username'] = $written_by;
-        $published_at = "<p>" . JText::_('COM_THM_ORGANIZER_PREVIEW_CREATED') .  JFactory::getDate()->toFormat('%A %d. %B %Y %H:%M:%S') . "</p>";
+        $published_at = "<p>" . JText::_('COM_THM_ORGANIZER_PREVIEW_CREATED') . JFactory::getDate()->toFormat('%A %d. %B %Y %H:%M:%S') . "</p>";
         $data['created_at'] = $published_at;
         $jsonstring = json_encode($data);
         echo $jsonstring;        

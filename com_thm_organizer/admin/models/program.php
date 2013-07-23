@@ -115,6 +115,17 @@ class THM_OrganizerModelProgram extends JModel
         {
             return false;
         }
+
+        $mappingModel = JModel::getInstance('mapping', 'THM_OrganizerModel');
+        $mappingExists = $mappingModel->checkForMapping($programID,'program');
+        if (empty($mappingExists))
+        {
+            $mappingCreated = $mappingModel->saveProgram($programID);
+            if (empty($mappingCreated))
+            {
+                return false;
+            }
+        }
         
         $lsfProgram = $client->getModules($lsfData['lsfType'], $lsfData['program'], $lsfData['degree'], $lsfData['version']);
         if (empty($lsfProgram))
@@ -147,7 +158,6 @@ class THM_OrganizerModelProgram extends JModel
                 }
             }
             
-            $mappingModel = JModel::getInstance('mapping', 'THM_OrganizerModel');
             $mappingsAdded = $mappingModel->addLSFMappings($programID, $lsfProgram);
             if (!$mappingsAdded)
             {

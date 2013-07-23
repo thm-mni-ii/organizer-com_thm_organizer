@@ -66,13 +66,6 @@ class THMUserSchedule
 	private $_semID = null;
 
 	/**
-	 * Temporary username
-	 *
-	 * @var    String
-	 */
-	private $_tempusername = null;
-
-	/**
 	 * Constructor with the joomla data abstraction object and configuration object
 	 *
 	 * @param   DataAbstraction  $JDA      A object to abstract the joomla methods

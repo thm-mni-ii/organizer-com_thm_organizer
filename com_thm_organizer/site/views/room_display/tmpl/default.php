@@ -72,6 +72,9 @@ if ($this->lessonsExist)
                     <td class="thm_organizer_rd_lesson_name">
                         <?php echo ($block['type'] == 'COM_THM_ORGANIZER_RD_TYPE_APPOINTMENT')? $block['link'] : $block['title']; ?>
                     </td>
+                    <td class="thm_organizer_rd_lesson_teachers">
+                        <?php echo $block['teacherText']; ?>
+                    </td>
                     <td class="thm_organizer_rd_lesson_type">
                         <?php echo JText::_($block['type']); ?>
                     </td>

@@ -115,8 +115,8 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
      * 
 	 * @return  mixed  The return value or null if the query failed.
      */
-   private function getSubjectData($subjectID, $langTag)
-   {
+    private function getSubjectData($subjectID, $langTag)
+    {
 		$dbo = JFactory::getDBO();
 		$query = $dbo->getQuery(true);
         $select = "s.id, lsfID, hisID, externalID, abbreviation_$langTag, ";
@@ -179,16 +179,16 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
             }
             if (isset($mapping['poolID']))
             {
-                $nodes[(int)$mapping['level']] = (int) $mapping['ordering'];
+                $nodes[(int) $mapping['level']] = (int) $mapping['ordering'];
                 $poolData = $this->getPoolData($mapping['poolID'], $langTag);
                 $poolData->mappingID = $mapping['id'];
-                $parent[(int)$mapping['ordering']] = $poolData;
+                $parent[(int) $mapping['ordering']] = $poolData;
             }
             elseif (isset($mapping['subjectID']))
             {
                 $subjectData = $this->getSubjectData($mapping['subjectID'], $langTag);
                 $subjectData->mappingID = $mapping['id'];
-                $parent[(int)$mapping['ordering']] = $subjectData;
+                $parent[(int) $mapping['ordering']] = $subjectData;
             }
             
         }
@@ -209,26 +209,23 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
         {
             return;
         }
-        
-        $title = empty($teacherData['title'])? '' : "{$teacherData['title']} ";
-        $forename = empty($teacherData['forename'])? '' : "{$teacherData['forename']} ";
-        $surname = $teacherData['surname'];
-        $defaultName =  $title . $forename . $surname;
+
+        $defaultName = THM_OrganizerHelperTeacher::getDefaultName($teacherData);
         if (!empty($teacherData['userID']))
         {
             $teacherName = THM_OrganizerHelperTeacher::getNameFromTHMGroups($teacherData['userID']);
             if (empty($teacherName))
             {
-                $subjectData->teacherName =  $defaultName;
+                $subjectData->teacherName = $defaultName;
                 return;
             }
             $subjectData->teacherPicture = THM_OrganizerHelperTeacher::getPicture($teacherData['userID']);
             $subjectData->teacherName .= $teacherName;
-            $subjectData->teacherLink = THM_OrganizerHelperTeacher::getLink($teacherData);
+            $subjectData->teacherLink = THM_OrganizerHelperTeacher::getLink($teacherData['userID'], $teacherData['surname']);
         }
         else
         {
-            $subjectData->teacherName =  $defaultName;
+            $subjectData->teacherName = $defaultName;
             return;
         }
     }    

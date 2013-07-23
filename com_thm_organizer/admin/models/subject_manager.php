@@ -20,7 +20,7 @@ jimport('joomla.application.component.modellist');
  * @subpackage  com_thm_organizer.admin
  */
 class THM_OrganizerModelSubject_Manager extends JModelList
-{    
+{
     public $programs = null;
 
     public $pools = null;

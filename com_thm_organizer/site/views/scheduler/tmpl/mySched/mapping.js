@@ -1,3 +1,4 @@
+/*global Ext: false, MySched: false, MySchedLanguage: false */
 /**
  * Mapping von Kuerzeln auf Namen
  * @author thorsten
@@ -7,6 +8,7 @@
  */
 MySched.Mapping = function ()
 {
+    "use strict";
     var teacher, module, subject, lecture, room, types, roomtype, degree, field;
 
     return {
@@ -32,7 +34,10 @@ MySched.Mapping = function ()
         },
         def: function (arr, val, def)
         {
-            if (arr && arr[val]) return arr[val];
+            if (arr && arr[val])
+            {
+                return arr[val];
+            }
             return def || '';
         },
         getName: function (type, id)
@@ -57,30 +62,33 @@ MySched.Mapping = function ()
         },
         getTeacherParent: function(id)
         {
-        	return this.def(this.teacher.get(id, id), 'description', id);
+            return this.def(this.teacher.get(id, id), 'description', id);
         },
         getTeacherFirstname: function (id)
         {
-        	return this.def(this.teacher.get(id, id), 'firstname', id);
+            return this.def(this.teacher.get(id, id), 'firstname', id);
         },
         getTeacherDbID: function (id)
         {
-        	return this.def(this.teacher.get(id, id), 'dbID', id);
+            return this.def(this.teacher.get(id, id), 'dbID', id);
         },
         getTeacherKeyByID: function (dbID)
         {
-        	for(var teacher in this.teacher.map)
-        	{
-        		var teacherObject = this.teacher.map[teacher];
-        		if(Ext.isObject(teacherObject))
-        		{
-        			if(teacherObject.dbID == dbID)
-        			{
-        				return teacher;
-        			}
-        		}
-        	}
-        	return dbID;
+            for(var teacher in this.teacher.map)
+            {
+                if(this.teacher.map.hasOwnProperty(teacher))
+                {
+                    var teacherObject = this.teacher.map[teacher];
+                    if(Ext.isObject(teacherObject))
+                    {
+                        if(teacherObject.dbID == dbID)
+                        {
+                            return teacher;
+                        }
+                    }
+                }
+            }
+            return dbID;
         },
         getModuleName: function (id)
         {
@@ -92,11 +100,11 @@ MySched.Mapping = function ()
         },
         getModuleParent: function(id)
         {
-        	return this.def(this.module.get(id, id), 'degree', id);
+            return this.def(this.module.get(id, id), 'degree', id);
         },
         getRoomParent: function(id)
         {
-        	return this.def(this.room.get(id, id), 'description', id);
+            return this.def(this.room.get(id, id), 'description', id);
         },
         getRoomName: function (id)
         {
@@ -104,26 +112,29 @@ MySched.Mapping = function ()
         },
         getRoomDbID: function (id)
         {
-        	return this.def(this.teacher.get(id, id), 'dbID', id);
+            return this.def(this.teacher.get(id, id), 'dbID', id);
         },
         getRoomKeyByID: function (dbID)
         {
-        	for(var room in this.room.map)
-        	{
-        		var roomObject = this.room.map[room];
-        		if(Ext.isObject(roomObject))
-        		{
-        			if(roomObject.dbID == dbID)
-        			{
-        				return room;
-        			}
-        		}
-        	}
-        	return dbID;
+            for(var room in this.room.map)
+            {
+                if (this.room.map.hasOwnProperty(room))
+                {
+                    var roomObject = this.room.map[room];
+                    if(Ext.isObject(roomObject))
+                    {
+                        if(roomObject.dbID === dbID)
+                        {
+                            return room;
+                        }
+                    }
+                }
+            }
+            return dbID;
         },
         getSubjectParent: function(id)
         {
-        	return this.def(this.subject.get(id, id), 'description', id);
+            return this.def(this.subject.get(id, id), 'description', id);
         },
         getSubjectName: function (id)
         {
@@ -131,7 +142,7 @@ MySched.Mapping = function ()
         },
         getSubjectNo: function (id)
         {
-        	return this.def(this.subject.get(id, id), 'subjectNo', id);
+            return this.def(this.subject.get(id, id), 'subjectNo', id);
         },
         getLectureName: function (id)
         {
@@ -147,7 +158,7 @@ MySched.Mapping = function ()
         },
         getDegreeName: function (id)
         {
-        	return this.def(this.degree.get(id, id), 'name', id);
+            return this.def(this.degree.get(id, id), 'name', id);
         }
-    }
+    };
 }();

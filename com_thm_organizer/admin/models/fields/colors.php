@@ -23,14 +23,14 @@ jimport('joomla.form.formfield');
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  */
-class JFormFieldColor extends JFormField
+class JFormFieldColors extends JFormField
 {
 	/**
 	 * Type
 	 *
 	 * @var    String
 	 */
-	protected $type = 'Color';
+	protected $type = 'Colors';
 
 	/**
 	 * Returns a select box which contains the colors

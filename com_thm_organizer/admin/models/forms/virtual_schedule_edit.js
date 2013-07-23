@@ -1,3 +1,4 @@
+"use strict";
 window.addEvent('domready', function() {
 	var typeElement = document.id("jform_type");
 	var selectedElement = typeElement.getSelected();

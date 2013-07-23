@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'helper' . DS . 'event_helper.php';
+require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'helper' . DS . 'event.php';
 
 /**
  * Handles event perssistence
@@ -34,7 +34,7 @@ class THM_OrganizerModelEvents extends JModel
         $dbo = JFactory::getDbo();
         $dbo->transactionStart();
         $data = $this->cleanRequestData();
-        THM_OrganizerEvent_Helper::buildtext($data);
+        THM_OrganizerHelperEvent::buildtext($data);
         $eventSaved = ($data['id'] > 0)? $this->saveExistingEvent($data) : $this->saveNewEvent($data);
         $teachersSaved = $this->saveResources("#__thm_organizer_event_teachers", "teachers", "teacherID", $data['id']);
         $roomsSaved = $this->saveResources("#__thm_organizer_event_rooms", "rooms", "roomID", $data['id']);
@@ -123,7 +123,7 @@ class THM_OrganizerModelEvents extends JModel
         $asset->setLocation($parentID, 'last-child');
         if (!$asset->store())
         {
-            $this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
+            $this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $dbo->stderr(true)));
             return false;
         }
 
@@ -399,7 +399,7 @@ class THM_OrganizerModelEvents extends JModel
         }
         $mailer->setSubject(stripslashes($data['title']));
         $mailer->setBody(strip_tags($data['introtext']));
-        $sent = $mailer->Send();
+        $mailer->Send();
     }
 
     /**

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @category    Joomla component
  * @package     THM_Organizer
@@ -13,7 +12,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Class THM_OrganizerEvent_Helper for component com_thm_organizer
+ * Class THM_OrganizerHelperEvent for component com_thm_organizer
  *
  * Class provides methods to create Eventtext for save/preview
  *
@@ -22,7 +21,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
  */
-class THM_OrganizerEvent_Helper
+class THM_OrganizerHelperEvent
 {
     /**
      * Calls Methods to build the event for save and preview
@@ -118,15 +117,15 @@ class THM_OrganizerEvent_Helper
         $offset = $hereTime->getOffset();
         if ($offset > 0)
         {
-            $offset = " -{$offset} ";
+            $offsetString = " -$offset";
         }
         else
         {
-            $offset = 0 - $offset;
-            $offset = " +{$offest}";
+            $negativeOffset = abs($offset);
+            $offsetString = " +$negativeOffset";
         }
-        $offset .= " seconds";
-        return date("Y-m-d H:i:s", strtotime($offset));
+        $offsetString .= " seconds";
+        return date("Y-m-d H:i:s", strtotime($offsetString));
     }
 
     /**

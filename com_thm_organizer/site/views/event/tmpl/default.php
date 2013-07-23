@@ -90,30 +90,27 @@ if ($this->teachers or $this->rooms or $this->groups)
 ?>
         
 <?php
-    }
-    if ($this->groups)
-    {
+}
+if ($this->groups)
+{
 ?>
             <p>
                 <?php echo $this->groupsLabel; ?>
                 <?php echo $this->groups; ?>
             </p>
 <?php
-    }
-?>
-            
-<?php
-    if ($this->teachers)
-    {
+}
+if ($this->teachers)
+{
 ?>
             <p>
                 <?php echo $this->teachersLabel; ?>
                 <?php echo $this->teachers; ?>
             </p>
 <?php
-    }
-    if ($this->rooms)
-    {
+}
+if ($this->rooms)
+{
 ?>
             <p>
                 <?php echo $this->roomsLabel; ?>

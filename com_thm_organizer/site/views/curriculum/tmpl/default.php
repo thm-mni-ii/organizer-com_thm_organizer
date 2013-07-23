@@ -21,7 +21,7 @@ $flagClass = strlen($this->params->get('page_heading')) == 0? "flagWithoutTitle"
 // Javascript Application construction parameters
 $paramsString = JRequest::getVar('Itemid') . ", ";
 $paramsString .= $this->params->get('program') . ", ";
-$paramsString .= $this->params->get('horizontalGroups')? ", " : "'', " ;
+$paramsString .= $this->params->get('horizontalGroups')? ", " : "'', ";
 $paramsString .= "'$this->languageTag', ";
 $paramsString .= $this->params->get('width') . ", ";
 $paramsString .= $this->params->get('height') . ", ";

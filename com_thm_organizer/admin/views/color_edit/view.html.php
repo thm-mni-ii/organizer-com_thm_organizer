@@ -20,52 +20,50 @@ jimport('joomla.application.component.view');
  */
 class THM_OrganizerViewColor_Edit extends JView
 {
-	/**
-	 * Method to get display
-	 *
-	 * @param   Object  $tpl  template  (default: null)
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
+    /**
+     * Method to get display
+     *
+     * @param   Object  $tpl  template  (default: null)
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
 
-		JHtml::_('behavior.tooltip');
-		$document = JFactory::getDocument();
-		$document->addScript('/administrator/components/com_thm_organizer/views/color/tmpl/colorpicker/jscolor.js');
+        JHtml::_('behavior.tooltip');
 
-		$form = $this->get('Form');
-		$item = $this->get('Item');
+        $form = $this->get('Form');
+        $item = $this->get('Item');
 
-		if (count($errors = $this->get('Errors')))
-		{
-			JError::raiseError(500, implode('<br />', $errors));
-			return false;
-		}
+        if (count($errors = $this->get('Errors')))
+        {
+            JError::raiseError(500, implode('<br />', $errors));
+            return false;
+        }
 
-		$this->form = $form;
-		$this->item = $item;
+        $this->form = $form;
+        $this->item = $item;
 
-		$this->addToolBar();
+        $this->addToolBar();
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * Method to generate buttons for user interaction
-	 *
-	 * @return  void
-	 */
-	protected function addToolBar()
-	{
-		JRequest::setVar('hidemainmenu', true);
-		$isNew = ($this->item->id == 0);
-		JToolBarHelper::title($isNew ? JText::_('COM_THM_ORGANIZER_CLM_NEW_TITLE') : JText::_('COM_THM_ORGANIZER_CLM_EDIT_TITLE'));
-		JToolBarHelper::save('color.save');
-		JToolBarHelper::cancel('color.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
-	}
+    /**
+     * Method to generate buttons for user interaction
+     *
+     * @return  void
+     */
+    protected function addToolBar()
+    {
+        JRequest::setVar('hidemainmenu', true);
+        $isNew = ($this->item->id == 0);
+        JToolBarHelper::title($isNew ? JText::_('COM_THM_ORGANIZER_CLM_NEW_TITLE') : JText::_('COM_THM_ORGANIZER_CLM_EDIT_TITLE'));
+        JToolBarHelper::save('color.save');
+        JToolBarHelper::cancel('color.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+    }
 }

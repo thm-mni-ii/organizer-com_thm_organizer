@@ -1048,7 +1048,11 @@ class THM_OrganizerModelSchedule extends JModel
                             }
                             if (!$roomFound)
                             {
-                                $error = JText::sprintf('COM_THM_ORGANIZER_LS_TP_ROOM_LACKING', $lessonName, $lessonID, date('l', $currentDT), $period, $roomID);
+                                $error = JText::sprintf(
+                                                        'COM_THM_ORGANIZER_LS_TP_ROOM_LACKING',
+                                                        $lessonName, $lessonID, date('l', $currentDT),
+                                                        $period, $roomID
+                                                       );
                                 if (!in_array($error, $this->_scheduleErrors))
                                 {
                                     $this->_scheduleErrors[] = $error;
@@ -1060,7 +1064,8 @@ class THM_OrganizerModelSchedule extends JModel
                                 {
                                     $this->_schedule->calendar->$currentDate->$period->$lessonIndex = new stdClass;
                                 }
-                                if (!empty($roomID) AND !in_array($roomID, get_object_vars($this->_schedule->calendar->$currentDate->$period->$lessonIndex)))
+                                $lessonIndexes = get_object_vars($this->_schedule->calendar->$currentDate->$period->$lessonIndex);
+                                if (!empty($roomID) AND !in_array($roomID, $lessonIndexes))
                                 {
                                     $this->_schedule->calendar->$currentDate->$period->$lessonIndex->$roomID = '';
                                 }
