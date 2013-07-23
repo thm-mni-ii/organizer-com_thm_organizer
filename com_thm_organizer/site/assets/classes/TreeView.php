@@ -665,7 +665,7 @@ class THMTreeView
                     $nodeName = $childValue->gpuntisID;
                 }
 
-                // Überprüfung ob der Plan Veranstaltungen hat				
+                // Überprüfung ob der Plan Veranstaltungen hat                
                 if ($this->_hideCheckBox == false)
                 {
                     $hasLessons = true;
@@ -675,7 +675,7 @@ class THMTreeView
                     $hasLessons = $this->treeNodeHasLessons($childKey, $scheduleType);
 
                     // Erstmal immer true!
-//     				$hasLessons = true;
+//                     $hasLessons = true;
                 }
 
                 $childNode = null;

@@ -24,85 +24,85 @@ defined('_JEXEC') or die;
  */
 class THMScheduleDescription
 {
-	/**
-	 * Joomla data abstraction
-	 *
-	 * @var    DataAbstraction
-	 */
-	private $_JDA = null;
+    /**
+     * Joomla data abstraction
+     *
+     * @var    DataAbstraction
+     */
+    private $_JDA = null;
 
-	/**
-	 * Semester id
-	 *
-	 * @var    Integer
-	 */
-	private $_semID = null;
+    /**
+     * Semester id
+     *
+     * @var    Integer
+     */
+    private $_semID = null;
 
-	/**
-	 * Config
-	 *
-	 * @var    Object
-	 */
-	private $_cfg = null;
+    /**
+     * Config
+     *
+     * @var    Object
+     */
+    private $_cfg = null;
 
-	/**
-	 * Constructor with the joomla data abstraction object and configuration object
-	 *
-	 * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
-	 * @param   MySchedConfig    $CFG  A object which has configurations including
-	 */
-	public function __construct($JDA, $CFG)
-	{
-		$this->_JDA = $JDA;
-		$this->_cfg = $CFG->getCFG();
-		$this->_semID = $JDA->getSemID();
-	}
+    /**
+     * Constructor with the joomla data abstraction object and configuration object
+     *
+     * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
+     * @param   MySchedConfig    $CFG  A object which has configurations including
+     */
+    public function __construct($JDA, $CFG)
+    {
+        $this->_JDA = $JDA;
+        $this->_cfg = $CFG->getCFG();
+        $this->_semID = $JDA->getSemID();
+    }
 
-	/**
-	 * Method to load the schedule description
-	 *
-	 * @return Array An array with information about the schedule
-	 */
-	public function load()
-	{
-	    // Get a db connection.
-	    $db = JFactory::getDbo();
-	    
-	    // Create a new query object.
-	    $query = $db->getQuery(true);
-	    
-	    // Select all records from the user profile table where key begins with "custom.".
-	    // Order it by the ordering field.
-	    $query->select('description, startdate, enddate, creationdate');
-	    $query->from('#__thm_organizer_schedules');
-	    $query->where("'active != 'null' && sid = " . $this->_semID);
-	    
-	    // Reset the query using our newly populated query object.
-	    $db->setQuery($query);
-	    
-	    $obj = $db->loadObject();
+    /**
+     * Method to load the schedule description
+     *
+     * @return Array An array with information about the schedule
+     */
+    public function load()
+    {
+        // Get a db connection.
+        $db = JFactory::getDbo();
+        
+        // Create a new query object.
+        $query = $db->getQuery(true);
+        
+        // Select all records from the user profile table where key begins with "custom.".
+        // Order it by the ordering field.
+        $query->select('description, startdate, enddate, creationdate');
+        $query->from('#__thm_organizer_schedules');
+        $query->where("'active != 'null' && sid = " . $this->_semID);
+        
+        // Reset the query using our newly populated query object.
+        $db->setQuery($query);
+        
+        $obj = $db->loadObject();
 
-		if (count($obj) == 0 || $obj == false)
-		{
-			return array("success" => false, "data" => "");
-		}
-		else
-		{
-			$startdate = explode("-", $obj->startdate);
-			$startdate = $startdate[2] . "." . $startdate[1] . "." . $startdate[0];
+        if (count($obj) == 0 || $obj == false)
+        {
+            return array("success" => false, "data" => "");
+        }
+        else
+        {
+            $startdate = explode("-", $obj->startdate);
+            $startdate = $startdate[2] . "." . $startdate[1] . "." . $startdate[0];
 
-			$enddate = explode("-", $obj->enddate);
-			$enddate = $enddate[2] . "." . $enddate[1] . "." . $enddate[0];
+            $enddate = explode("-", $obj->enddate);
+            $enddate = $enddate[2] . "." . $enddate[1] . "." . $enddate[0];
 
-			$creationdate = explode("-", $obj->creationdate);
-			$creationdate = $creationdate[2] . "." . $creationdate[1] . "." . $creationdate[0];
+            $creationdate = explode("-", $obj->creationdate);
+            $creationdate = $creationdate[2] . "." . $creationdate[1] . "." . $creationdate[0];
 
-			return array("success" => true, "data" => array(
-					$obj->description,
-					$startdate,
-					$enddate,
-					$creationdate
-			));
-		}
-	}
+            return array("success" => true, "data" => array(
+                    $obj->description,
+                    $startdate,
+                    $enddate,
+                    $creationdate
+            ));
+        }
+    }
 }

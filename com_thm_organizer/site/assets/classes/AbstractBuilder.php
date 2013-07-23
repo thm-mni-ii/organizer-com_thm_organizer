@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		AbstractBuilder
+ * @name        AbstractBuilder
  * @description AbstractBuilder file from com_thm_organizer
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
@@ -24,14 +24,14 @@ defined('_JEXEC') or die;
  */
 abstract class THMAbstractBuilder
 {
-	/**
-	 * Saves the file to $dest with $filename in picturtype $type
-	 *
-	 * @param   Array   $arr       Array with the schedule data
-	 * @param   String  $username  The username of the logged in user
-	 * @param   String  $title     The title of the schedule
-	 *
-	 * @return void
-	 */
-	abstract protected function createSchedule( $arr, $username, $title );
+    /**
+     * Saves the file to $dest with $filename in picturtype $type
+     *
+     * @param   Array   $arr       Array with the schedule data
+     * @param   String  $username  The username of the logged in user
+     * @param   String  $title     The title of the schedule
+     *
+     * @return void
+     */
+    abstract protected function createSchedule( $arr, $username, $title );
 }
