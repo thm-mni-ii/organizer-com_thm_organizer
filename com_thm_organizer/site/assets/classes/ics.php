@@ -209,20 +209,44 @@ class THMICSBuilder extends THMAbstractBuilder
 
 			$select = 'name as oname';
 
-			$classesQuery = "SELECT $select ";
-			$classesQuery .= 'FROM #__thm_organizer_classes ';
-			$classesQuery .= "WHERE id IN ( $resourceIDs ) ";
-			$classes = $this->_JDA->query($classesQuery, true);
-
-			$teachersQuery = "SELECT $select ";
-			$teachersQuery .= 'FROM #__thm_organizer_teachers ';
-			$teachersQuery .= "WHERE gpuntisID IN( $resourceIDs )";
-			$teachers = $this->_JDA->query($teachersQuery, true);
-
-			$roomsQuery = "SELECT $select ";
-			$roomsQuery .= 'FROM #__thm_organizer_rooms ';
-			$roomsQuery .= "WHERE gpuntisID IN( $resourceIDs )";
-			$rooms = $this->_JDA->query($roomsQuery, true);
+			// Get a db connection.
+			$db = JFactory::getDbo();
+			
+			// Create a new query object.
+			$query = $db->getQuery(true);
+			// Select all records from the user profile table where key begins with "custom.".
+			// Order it by the ordering field.
+			$query->select($select);
+			$query->from('#__thm_organizer_classes');
+			$query->where('id IN ( $resourceIDs )');
+			// Reset the query using our newly populated query object.
+			$db->setQuery($query);
+			// Load the results as a list of stdClass objects.
+			$classes = $db->loadObjectList();
+			
+			// Create a new query object.
+			$query = $db->getQuery(true);
+			// Select all records from the user profile table where key begins with "custom.".
+			// Order it by the ordering field.
+			$query->select($select);
+			$query->from('#__thm_organizer_teachers');
+			$query->where("gpuntisID IN( $resourceIDs )");
+			// Reset the query using our newly populated query object.
+			$db->setQuery($query);
+			// Load the results as a list of stdClass objects.
+			$teachers = $db->loadObjectList();
+			
+			// Create a new query object.
+			$query = $db->getQuery(true);
+			// Select all records from the user profile table where key begins with "custom.".
+			// Order it by the ordering field.
+			$query->select($select);
+			$query->from('#__thm_organizer_rooms');
+			$query->where("gpuntisID IN( $resourceIDs )");
+			// Reset the query using our newly populated query object.
+			$db->setQuery($query);
+			// Load the results as a list of stdClass objects.
+			$rooms = $db->loadObjectList();
 
 			$resources = array_merge($classes, array_merge($teachers, $rooms));
 			if (count($resources) > 0)
