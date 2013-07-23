@@ -1,25 +1,37 @@
 window.addEvent('domready', function() {
+    "use strict";
     document.formvalidator.setHandler('germandate',
-        function (value) {
-                regex=/^[0-3][0-9].[0-1][0-9].[0-9]{4}$/;
-                return regex.test(value);
-    });
+        function (value) { return (/^[0-3][0-9].[0-1][0-9].[0-9]{4}$/).test(value); });
 });
 function checkAll()
 {
+    "use strict";
     var checkbox = document.getElementsByName('eventIDs[]');
-    if(checkbox[0].checked == true)
-        for (i = 0; i < checkbox.length; i++) checkbox[i].checked = true;
-    else unCheckAll();
+    if(checkbox[0].checked === true)
+    {
+        for (var i = 0; i < checkbox.length; i++)
+        {
+            checkbox[i].checked = true;
+        }
+    }
+    else
+    {
+        unCheckAll();
+    }
 }
 function unCheckAll()
 {
+    "use strict";
     var checkbox = document.getElementsByName('eventIDs[]');
-    for (i = 0; i < checkbox.length; i++) checkbox[i].checked = false ;
+    for (i = 0; i < checkbox.length; i++)
+    {
+        checkbox[i].checked = false ;
+    }
 }
 function submitForm(task)
 {
-    if(task == 'events.new')
+    "use strict";
+    if(task === 'events.new')
     {
         unCheckAll();
         task = 'events.edit';
@@ -29,35 +41,40 @@ function submitForm(task)
 }
 function reSort( col, dir )
 {
+    "use strict";
     document.getElementById('orderby').value=col;
     document.getElementById('orderbydir').value=dir;
     document.getElementById('thm_organizer_el_form').submit();
 }
 function resetForm()
 {
+    "use strict";
     var searchTextInput = document.getElementById('jform_thm_organizer_el_search_text');
     searchTextInput.value='';
     var category = document.getElementById('categoryID');
-    if(category != null)
+    var index;
+    if(category !== null)
     {
-        var index = 0;
         for(index = 0; index < category.length; index++)
         {
-            if(category[index].value == -1)
+            if(category[index].value === '-1')
+            {
                 category.selectedIndex = index;
+            }
         }
     }
     var limit = document.getElementById('limit');
     if(limit != null)
     {
-        var index = 0;
         for(index = 0; index < limit.length; index++)
         {
-            if(limit[index].value == '10') limit.selectedIndex = index;
+            if(limit[index].value === '10')
+            {
+                limit.selectedIndex = index;
+            }
         }
     }
     document.getElementById('jform_fromdate').value='';
     document.getElementById('jform_todate').value='';
     document.getElementById('thm_organizer_el_form').submit();
 }
-

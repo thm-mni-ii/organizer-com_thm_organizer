@@ -148,8 +148,7 @@ Ext.define('mSchedule',
     constructor: function (id, title, config)
     {
         "use strict";
-        var grid, blockCache, changed, proxy, reader, status;
-        var type = "";
+        var blockCache, status;
         this.blockCache = null;
         this.title = title || id;
         this.status = "saved";
@@ -574,7 +573,6 @@ Ext.define('mSchedule',
     {
         "use strict";
         var ret = {};
-        var newdatas = {};
         this.data.each(function (v)
         {
             v.data.css = "";
@@ -594,7 +592,7 @@ Ext.define('mSchedule',
         };
 
         newdatas.sort("ASC", funcsort);
-        var keystoremove = Array();
+        var keystoremove = [];
         ret.data = against.data;
         against.data.sort("ASC", funcsort);
         ret.showMsg = false;
@@ -606,7 +604,7 @@ Ext.define('mSchedule',
                 against.data.get(this.data.items[i].id).teacher.keys.toString() !== this.data.items[i].teacher.keys.toString() ||
                 against.data.get(this.data.items[i].id).room.keys.toString() !== this.data.items[i].room.keys.toString()))
             {
-                // Es hat sich etwas ge�ndert
+                // Es hat sich etwas geändert
                 newdatas.removeAtKey(this.data.items[i].id);
                 newdatas.add(this.data.items[i].id, against.data.get(this.data.items[i].id));
                 newdatas.get(this.data.items[i].id).data.css = "movedto";
@@ -705,7 +703,6 @@ Ext.define('mSchedule',
 
             var deltaSched = new mSchedule(deltaid, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_CENTRAL).init("delta", deltaid);
             deltaSched.show();
-            //MySched.selectedSchedule.grid.showSporadics();
             MySched.layout.viewport.doLayout();
             MySched.selectedSchedule.responsible = "delta";
             
@@ -794,7 +791,7 @@ Ext.define('mSchedule',
                 continue;
             }
             MySched.selectedSchedule.data.add(e.data.key, e);
-        };
+        }
         if (arg.callback)
         {
             arg.callback.createDelegate(arg.scope)(arg.params);
@@ -972,33 +969,35 @@ Ext.define('mSchedule',
                 return;
             }
 
+            var defaultParams, data;
             if (scheduletask === "UserSchedule.save")
             {
-                var defaultParams = {
+                defaultParams = {
                     jsid: MySched.SessionId,
                     sid: MySched.Base.sid,
                     scheduletask: scheduletask
                 };
-                var data = MySched.Schedule.exportData();
+                data = MySched.Schedule.exportData();
             }
             else
             {
-                var defaultParams = {
+                defaultParams = {
                     jsid: MySched.SessionId,
                     sid: MySched.Base.sid,
                     semesterID: MySched.modules_semester_id,
                     id: this.id,
                     scheduletask: scheduletask
                 };
-                var data = this.exportData("json", "personal");
+                data = this.exportData("json", "personal");
             }
+            var savewait;
             if (success !== false)
             {
-                var savewait = Ext.MessageBox.wait(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_SAVING, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PLEASE_WAIT);
+                savewait = Ext.MessageBox.wait(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_SAVING, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PLEASE_WAIT);
             }
             else
             {
-                var savewait = null;
+                savewait = null;
             }
             
             Ext.Ajax.request(
@@ -1012,7 +1011,7 @@ Ext.define('mSchedule',
                 {
                     if (savewait !== null)
                     {
-                    	Ext.MessageBox.hide();
+                        Ext.MessageBox.hide();
                     }
                     
                     try
@@ -1036,12 +1035,12 @@ Ext.define('mSchedule',
                                 tab = Ext.get(MySched.layout.tabpanel.getTabEl(tab)).child('.' + MySched.selectedSchedule.type + 'Icon');
                                 if (tab)
                                 {
-                                	tab.replaceClass('' + MySched.selectedSchedule.type + 'Icon', '' + MySched.selectedSchedule.type + 'IconSave');
+                                    tab.replaceClass('' + MySched.selectedSchedule.type + 'Icon', '' + MySched.selectedSchedule.type + 'IconSave');
                                 }
                             }
                             else
                             {
-                            	MySched.Schedule.status = "saved";
+                                MySched.Schedule.status = "saved";
                                 Ext.ComponentMgr.get('btnSave').disable();
                             }
                         }
@@ -1081,66 +1080,6 @@ Ext.define('mSchedule',
             asArrRet[lesson.id].subjects = asArrRet[lesson.id].subjects.map;
         }
                 
-        return asArrRet;
-        
-        d.length = this.data.length;
-        return d;
-        
-        if (d.asArray)
-        {
-            d = d.asArray();
-        }
-        
-        var wpMO = null;
-        var cd = Ext.ComponentMgr.get('menuedatepicker');
-        var wp = null;
-        
-        wp = Ext.Date.clone(cd.value);
-
-        wpMO = getMonday(wp);
-        
-        Ext.each(d, function (v)
-        {
-            var calendarDates = v.data.calendar;
-            for (var dateIndex in calendarDates)
-            {
-                if (calendarDates.hasOwnProperty(dateIndex))
-                {
-                    var dateObject = dateObject(dateIndex);
-                    var wpFR = Ext.Date.clone(wpMO);
-                    wpFR.setDate(wpFR.getDate() + 6);
-                    if (dateObject >= wpMO && dateObject <= wpFR)
-                    {
-                        var dow = Ext.Date.format(dateObject, "l");
-                        var dowNR = Ext.Date.format(dateObject, "N");
-                        dow = dow.toLowerCase();
-
-                        var date = calendarDates[dateIndex];
-                        for (var blockIndex in date)
-                        {
-                            if (date.hasOwnProperty(blockIndex))
-                            {
-                                var block = date[blockIndex];
-                                if (Ext.isObject(block.lessonData))
-                                {
-                                var roomCollection = new MySched.Collection();
-                                roomCollection.addAll(date[blockIndex].lessonData);
-                                roomCollection.remove("delta");
-
-                                var block = blockIndex - 1;
-
-                                asArrRet[asArrRet.length] = {};
-                                asArrRet[asArrRet.length - 1].cell = v.getCellView(this, roomCollection,  blockIndex, dow);
-                                asArrRet[asArrRet.length - 1].block = Ext.clone(blockIndex);
-                                asArrRet[asArrRet.length - 1].dow = Ext.clone(dowNR);
-                            }
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
         return asArrRet;
     },
     asArrayForPDF: function ()
@@ -1190,7 +1129,7 @@ Ext.define('mSchedule',
                                         continue;
                                     }
 
-                                    var block = blockIndex - 1;
+                                    block = blockIndex - 1;
 
                                     asArrRet[asArrRet.length] = {};
                                     asArrRet[asArrRet.length - 1].cell = v.getCellView(this, blockIndex, dowNR);
@@ -1349,11 +1288,14 @@ Ext.define('mLecture',
         {
             for(var dateIndex in this.data.calendar)
             {
-                var dateObject = convertEnglishDateStringToDateObject(dateIndex);
-                if(dateObject >= currentMoFrDate.monday && dateObject <= currentMoFrDate.friday && this.data.calendar[dateIndex][this.data.block].lessonData.delta)
+                if (this.data.calendar.hasOwnProperty(dateIndex))
                 {
-                    returnValue = "delta" + this.data.calendar[dateIndex][this.data.block].lessonData.delta;
-                    return returnValue;
+                    var dateObject = convertEnglishDateStringToDateObject(dateIndex);
+                    if(dateObject >= currentMoFrDate.monday && dateObject <= currentMoFrDate.friday && this.data.calendar[dateIndex][this.data.block].lessonData.delta)
+                    {
+                        returnValue = "delta" + this.data.calendar[dateIndex][this.data.block].lessonData.delta;
+                        return returnValue;
+                    }
                 }
             }
         }
@@ -1454,9 +1396,9 @@ Ext.define('mLecture',
     getChanges: function (lec)
     {
         "use strict";
-        var r = "", t = "", c = "";
+        var r = "", t = "", c = "", l, temp;
 
-        if (lec) if (lec.changes)
+        if (lec && lec.changes)
         {
             if (lec.changes.rooms)
             {
@@ -1466,15 +1408,21 @@ Ext.define('mLecture',
                 {
                     if (rooms.hasOwnProperty(room) && room !== "")
                     {
-                        var temp = MySched.Mapping.getObject("room", room);
-                        if (!temp) r += '<small class="' + rooms[room] + '"> ' + room + ' </small>, ';
-                        else r += '<small class="' + rooms[room] + '"> ' + temp.name + ' </small>, ';
+                        temp = MySched.Mapping.getObject("room", room);
+                        if (!temp)
+                        {
+                            r += '<small class="' + rooms[room] + '"> ' + room + ' </small>, ';
+                        }
+                        else
+                        {
+                            r += '<small class="' + rooms[room] + '"> ' + temp.name + ' </small>, ';
+                        }
                         r += "<br/>";
                     }
                 }
                 if (r !== "")
                 {
-                    var l = r.length - 2;
+                    l = r.length - 2;
                     r = r.substr(0, l);
                 }
                 r += "</span><br/>";
@@ -1487,7 +1435,7 @@ Ext.define('mLecture',
                 {
                     if (teachers.hasOwnProperty(teacher) && teacher !== "")
                     {
-                        var temp = MySched.Mapping.getObject("teacher", teacher);
+                        temp = MySched.Mapping.getObject("teacher", teacher);
                         if (!temp)
                         {
                             t += '<small class="' + teachers[teacher] + '"> ' + teacher + ' </small>, ';
@@ -1501,7 +1449,7 @@ Ext.define('mLecture',
                 }
                 if (t !== "")
                 {
-                    var l = t.length - 2;
+                    l = t.length - 2;
                     t = t.substr(0, l);
                 }
                 t += "</span><br/>";
@@ -1514,7 +1462,7 @@ Ext.define('mLecture',
                 {
                     if (moduleses.hasOwnProperty(module)  && module !== "")
                     {
-                        var temp = MySched.Mapping.getObject("module", module);
+                        temp = MySched.Mapping.getObject("module", module);
                         if (!temp)
                         {
                             c += '<small class="' + moduleses[module] + '"> ' + module + ' </small>, ';
@@ -1528,7 +1476,7 @@ Ext.define('mLecture',
                 }
                 if (c !== "")
                 {
-                    var l = c.length - 2;
+                    l = c.length - 2;
                     c = c.substr(0, l);
                 }
                 c += "</span><br/>";
@@ -1677,8 +1625,14 @@ Ext.define('mLecture',
         {
             // Abkuerzung anstatt Ausgeschrieben
             var temproom = "";
-            if (shortVersion) temproom = e.getId();
-            else temproom = e.getName();
+            if (shortVersion)
+            {
+                temproom = e.getId();
+            }
+            else
+            {
+                temproom = e.getName();
+            }
             this.push(temproom);
         }, ret);
         // Bei der kurzen Varianten ohne BLANK
@@ -1777,7 +1731,7 @@ Ext.define('mLecture',
         "use strict";
         if (!Ext.isEmpty(this.data.description) && Ext.isString(this.data.description))
         {
-        	return "-" + this.data.description;
+            return "-" + this.data.description;
         }
         else
         {
@@ -1861,8 +1815,8 @@ Ext.define('mLecture',
     getCellView: function (relObj, block, dow)
     {
         "use strict";
-    	showDelta = displayDelta();
-    	
+        showDelta = displayDelta();
+
         var d = this.getDetailData(
         {
             parentId: relObj.getId(),
@@ -1879,7 +1833,7 @@ Ext.define('mLecture',
         
         if(cellView.contains("MySchedEvent_reserve"))
         {
-        	cellView = cellView.replace("lectureBox", "lectureBox lectureBox_reserve");
+            cellView = cellView.replace("lectureBox", "lectureBox lectureBox_reserve");
         }
         
         return cellView;
@@ -1890,7 +1844,7 @@ Ext.define('mLecture',
         var d = this.getDetailData({ parentId: relObj.getId() });
         if (relObj.getId() !== 'mySchedule' && MySched.Schedule.lectureExists(this))
         {
-            d.css === ' lectureBox_cho';
+            d.css = ' lectureBox_cho';
         }
         return this.sporadicTemplate.apply(d);
     },
@@ -1923,31 +1877,32 @@ Ext.define('mLecture',
 
         if (type === "rooms")
         {
-        	
             for (var calendarIndex in this.data.calendar)
             {
-                var blocks = this.data.calendar[calendarIndex];
-                for (var blockIndex in blocks)
+                if (this.data.calendar.hasOwnProperty(calendarIndex))
                 {
-                    if (blocks.hasOwnProperty(blockIndex))
+                    var blocks = this.data.calendar[calendarIndex];
+                    for (var blockIndex in blocks)
                     {
-                        for (var roomIndex in blocks[blockIndex].lessonData)
+                        if (blocks.hasOwnProperty(blockIndex))
                         {
-                            if (blocks[blockIndex].lessonData.hasOwnProperty(roomIndex) && roomIndex === val)
+                            for (var roomIndex in blocks[blockIndex].lessonData)
                             {
-                                    return o.ret = true;
+                                if (blocks[blockIndex].lessonData.hasOwnProperty(roomIndex) && roomIndex === val)
+                                {
+                                        o.ret = true;
+                                        return o.ret;
+                                }
                             }
                         }
                     }
                 }
             }
         }
-        else
+        else if (this.data[type].containsKey(val))
         {
-            if (this.data[type].containsKey(val))
-            {
-                return o.ret = true;
-            }
+            o.ret = true;
+            return o.ret;
         }
 
         return o.ret;
@@ -2160,6 +2115,7 @@ Ext.define('mEvent',
     },
     getName: function ()
     {
+        "use strict";
         return this.data.title;
     },
     getTeacherName: function ()
@@ -2219,7 +2175,7 @@ Ext.define('mEvent',
         var MySchedEventClass = 'MySchedEvent_' + this.data.source;
         if(this.data.reserve === true)
         {
-        	MySchedEventClass += " MySchedEvent_reserve";
+            MySchedEventClass += " MySchedEvent_reserve";
         }
         var collisionIcon = "";
 
@@ -2460,8 +2416,8 @@ function getModuledesc(mninr)
                             Ext.MessageBox.hide();
                         },
                         buttons: Ext.MessageBox.OK,
-                        title: responseData['nrmni'] + " - " + responseData['title'],
-                        msg: responseData['html']
+                        title: responseData.nrmni + " - " + responseData.title,
+                        msg: responseData.html
                     });
                 }
 
@@ -2476,7 +2432,7 @@ function getModuledesc(mninr)
                             Ext.MessageBox.hide();
                         },
                         buttons: Ext.MessageBox.OK,
-                        title: responseData['nrmni'],
+                        title: responseData.nrmni,
                         msg: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NO_DATA_FOUND + "!"
                     });
                 }
@@ -2492,7 +2448,7 @@ function getModuledesc(mninr)
                         Ext.MessageBox.hide();
                     },
                     buttons: Ext.MessageBox.OK,
-                    title: responseData['nrmni'],
+                    title: responseData.nrmni,
                     msg: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NO_DATA_FOUND + "!"
                 });
             }
@@ -2511,7 +2467,8 @@ function zeigeTermine(rooms)
 
     var counterall = 0;
     var allrooms = Ext.ComponentMgr.get('sporadicPanel').body.select("p[id]");
-    for (var index in allrooms.elements)
+    var index;
+    for (index in allrooms.elements)
     {
         if (!Ext.isFunction(allrooms.elements[index]) && allrooms.elements[index].style !== null)
         {
@@ -2531,9 +2488,11 @@ function zeigeTermine(rooms)
             room = room.substring(0, pos);
         }
         var selectedroomevents = Ext.ComponentMgr.get('sporadicPanel').body.select("p[id^=" + room + "_]");
-        for (var index in selectedroomevents.elements)
+        for (index in selectedroomevents.elements)
         {
-            if (!Ext.isFunction(selectedroomevents.elements[index]) && selectedroomevents.elements[index].style !== null)
+            if (selectedroomevents.elements.hasOwnProperty(index) &&
+                !Ext.isFunction(selectedroomevents.elements[index]) &&
+                selectedroomevents.elements[index].style !== null)
             {
                 selectedroomevents.elements[index].style.display = "block";
                 counter++;

@@ -1,24 +1,23 @@
+/*global jq: false, categories: false*/
 window.addEvent('domready', function() {
+    "use strict";
     document.formvalidator.setHandler('germandate',
-        function (value) {
-                regex=/^[0-3][0-9].[0-1][0-9].[0-9]{4}$/;
-                return regex.test(value);
-    });
+        function (value) { return (/^[0-3][0-9].[0-1][0-9].[0-9]{4}$/).test(value); });
 });
 
 window.addEvent('domready', function() {
+    "use strict";
     document.formvalidator.setHandler('time',
-        function (value) {
-                regex=/^[0-2]?[0-9]{1}:[0-5]{1}[0-9]{1}$/;
-                return regex.test(value);
-    });
+        function (value) { return (/^[0-2]?[0-9]{1}:[0-5]{1}[0-9]{1}$/).test(value); });
 });
 
 window.addEvent('domready', function() {
+    "use strict";
     document.formvalidator.setHandler('title', function (value) { return value != ''; });
 });
 
 window.addEvent('domready', function() {
+    "use strict";
     document.formvalidator.setHandler('category', function (value) { return value > 0; });
 });
 
@@ -27,6 +26,7 @@ window.addEvent('domready', function() {
 */
 function changeCategoryInformation()
 {
+    "use strict";
     var index = document.getElementById('category').selectedIndex;
     var id = document.getElementById('category').options[index].value;
     document.getElementById('thm_organizer_ee_event_cat_desc_div').innerHTML = categories[id][0];
@@ -41,6 +41,7 @@ function changeCategoryInformation()
  */
 function getRecType()
 {
+    "use strict";
     var rec_type = 0;
     for(var i=0; i < document.eventForm.rec_type.length; i++)
     {
@@ -57,21 +58,28 @@ function getRecType()
  */
 function getResources(resourceID)
 {
+    "use strict";
     var selectedResources = jq(resourceID).val();
     if(typeof selectedResources !== 'undefined'){
-        if(jq.isArray(selectedResources)){
+        if(jq.isArray(selectedResources))
+        {
             selectedResources = selectedResources.join(",");
             return selectedResources;
         }
-        if(jq.isNumeric(selectedResources)){
+        if(jq.isNumeric(selectedResources))
+        {
             selectedResources = selectedResources.toString();
             return selectedResources;
         }
-        else{
+        else
+        {
             return selectedResources;
         }
     }        
-    else return '';
+    else
+    {
+        return '';
+    }
 }
 
 /**
@@ -80,11 +88,13 @@ function getResources(resourceID)
  */
 function toggleCheckValue(isitchecked)
 {
-    if(isitchecked == true){
+    "use strict";
+    if(isitchecked === true)
+    {
         document.eventForm.jform_emailNotification.value++;
     }
-    else {
+    else
+    {
         document.eventForm.jform_emailNotification.value--;
     }
 }
-
