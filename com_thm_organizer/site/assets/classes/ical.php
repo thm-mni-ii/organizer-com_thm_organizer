@@ -149,7 +149,14 @@ class THMICALBuilder extends THMAbstractBuilder
 	    $lessonSubject = key($lesson->subjects);
 	    $lessonName = $this->_subjects->{$lessonSubject}->longname;
 	   	    
-	    $lessonTeachers = implode(", ", $this->getTeacherNames(array_merge(array_keys((array) $lesson->teachers, ""), array_keys((array) $lesson->teachers, "new"))));
+	    $lessonTeachers = implode(", ", 
+	                $this->getTeacherNames(
+	                        array_merge(
+	                                array_keys((array) $lesson->teachers, ""), 
+	                                array_keys((array) $lesson->teachers, "new")
+	                                )
+	                        )
+	            );
 	  	    
 	    $lessonComment = $lesson->comment;
 	    foreach ($lesson->calendar as $calendarKey => $calendarValue)

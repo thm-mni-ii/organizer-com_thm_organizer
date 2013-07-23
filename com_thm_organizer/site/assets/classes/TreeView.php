@@ -177,17 +177,8 @@ class THMTreeView
     /**
      * Method to create a tree node
      *
-     * @param   Integer  $nodeID             The node id
-     * @param   String   $text               The node text
-     * @param   String   $iconCls            The nodes icon class
-     * @param   Boolean  $leaf               Is the node leaf
-     * @param   Boolean  $draggable          Is the node dragable
-     * @param   Boolean  $singleClickExpand  Should the node expand on single click
-     * @param   String   $gpuntisID          The gpuntis id for this node
-     * @param   String   $type               The nodes type (room, teacher, class)
-     * @param   Object   $children           The nodes children
-     * @param   Integer  $semesterID         In which semester is this node
-     * @param   String   $nodeKey            The node key
+     * @param   Object  $nodeData  Contains the node id, node text, nodes icon class, leaf, dragable, single click, gpuntis id, 
+     *                             type (room, teacher, class), children, semester, node key
      *
      * @return Tree nodes
      */
@@ -256,15 +247,13 @@ class THMTreeView
         {
             if ($this->nodeStatus($nodeID))
             {
-                $treeNode = new THMTreeNode($nodeData, $checked, $publicDefault, $nodeKey, $expanded
-                );
+                $treeNode = new THMTreeNode($nodeData, $checked, $publicDefault, $nodeKey, $expanded);
                 $this->_inTree[] = $gpuntisID;
             }
         }
         else
         {
-            $treeNode = new THMTreeNode($nodeData, $checked, $publicDefault, $nodeKey, $expanded
-            );
+            $treeNode = new THMTreeNode($nodeData, $checked, $publicDefault, $nodeKey, $expanded);
         }
 
         if ($publicDefault === "default")
@@ -633,7 +622,7 @@ class THMTreeView
                     {
                         $nodeName .= ", " . $childValue->firstname{0} . ".";
                     }
-                    else if(isset($childValue->forename) && strlen($childValue->forename) > 0)
+                    elseif (isset($childValue->forename) && strlen($childValue->forename) > 0)
                     {
                         $nodeName .= ", " . $childValue->forename{0} . ".";
                     }
@@ -871,10 +860,10 @@ class THMTreeView
             $fieldType = $type . "s";
             
             $filterFunction = function($obj) use ($fieldType, $nodeID)
-                              {
-                                  return isset($obj->{$fieldType}->{$nodeID});
-                              };
-            
+            {
+                return isset($obj->{$fieldType}->{$nodeID});
+            };
+
             $lessons = array_filter((array) $this->_activeScheduleData->lessons, $filterFunction);
         
             $lessonKeys = array_keys($lessons);

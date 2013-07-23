@@ -131,20 +131,12 @@ class THMTreeNode
     /**
      * Constructor with the joomla data abstraction object and configuration object
      *
-     * @param   Integer  $id                 The node id
-     * @param   String   $text               The node text
-     * @param   String   $iconCls            The nodes icon class
-     * @param   Boolean  $leaf               Is the node leaf
-     * @param   Boolean  $draggable          Is the node dragable
-     * @param   Boolean  $singleClickExpand  Should the node expand on single click
-     * @param   String   $gpuntisID          The gpuntis id for this node
-     * @param   String   $type               The nodes type (room, teacher, class)
-     * @param   Object   $children           The nodes children
-     * @param   Integer  $semesterID         In which semester is this node
-     * @param   String   $checked            Is the node checked
-     * @param   String   $publicDefault      Is this node the public default node
-     * @param   String   $nodeKey            The node key
-     * @param   Boolean  $expanded           A object which has configurations including
+     * @param   Object   $data           Contains the node id, node text, nodes icon class, leaf, dragable, single click, gpuntis id, 
+     *                                   type (room, teacher, class), children, semester, node key
+     * @param   String   $checked        Is the node checked
+     * @param   String   $publicDefault  Is this node the public default node
+     * @param   String   $nodeKey        The node key
+     * @param   Boolean  $expanded       A object which has configurations including
      */
     public function  __construct($data, $checked, $publicDefault, $nodeKey, $expanded)
     {

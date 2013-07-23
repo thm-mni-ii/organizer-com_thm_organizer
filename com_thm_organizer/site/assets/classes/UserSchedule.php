@@ -136,14 +136,51 @@ class THMUserSchedule
 			{
 				$timestamp = time();
 
-				// Alte Eintraege loeschen - Performanter als abfragen und Updaten
-				$deleteQuery = "DELETE FROM {$this->_cfg['db_table']} ";
-				$deleteQuery .= "WHERE username = '$this->_username' ";
-				@$this->_JDA->query($deleteQuery);
+				$db = JFactory::getDbo();
+				
+				$query = $db->getQuery(true);	
 
-				$insertQuery = "INSERT INTO {$this->_cfg['db_table']} ";
-				$insertQuery .= "(username, data, created) VALUES ('$this->_username', '$this->_json', '$timestamp')";
-				$result = $this->_JDA->query($insertQuery);
+				// Alte Eintraege loeschen - Performanter als abfragen und Updaten
+				$query->delete($db->quoteName("{$this->_cfg['db_table']}"));
+				$query->where("WHERE username = '$this->_username' ");
+				
+				$db->setQuery($query);
+				
+				try
+				{
+				    $result = $db->query();
+				}
+				catch (Exception $e)
+				{
+				    // Catch the error.
+				}
+				
+				// Create a new query object.
+				$query = $db->getQuery(true);
+				
+				// Insert columns.
+				$columns = array('username', 'data', 'created');
+				
+				// Insert values.
+				$values = array($db->quote($this->_username), $db->quote($this->_json), $db->quote($timestamp));
+				
+				// Prepare the insert query.
+				$query
+				->insert($db->quoteName('#__user_profiles'))
+				->columns($db->quoteName($columns))
+				->values(implode(',', $values));
+				
+				// Reset the query using our newly populated query object.
+				$db->setQuery($query);
+				try
+				{
+                    // Execute the query in Joomla 2.5.
+                    $result = $db->query();
+                }
+                catch (Exception $e)
+                {
+                    // Catch any database errors.
+                }
 				
 				if ($result === true)
 				{
