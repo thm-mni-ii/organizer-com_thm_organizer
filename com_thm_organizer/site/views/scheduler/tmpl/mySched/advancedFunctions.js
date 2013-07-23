@@ -1,9 +1,9 @@
-/*global Ext: false, MySched: false, MySchedLanguage: false */
-"use strict";
+/*global Ext: false, MySched: false, MySchedLanguage: false, _C: false, confirm: false, addNewEvent: false */
 var oldMainToolbar = MySched.layout.getMainToolbar;
 
 MySched.layout.getMainToolbar = function ()
 {
+    "use strict";
     var btnEvent = Ext.create('Ext.Button',
     {
         // Event anlegen
@@ -23,17 +23,22 @@ var addEvent = {
     icon: MySched.mainPath + "images/calendar_add.png",
     handler: function ()
     {
+        "use strict";
         addNewEvent(null, MySched.BlockMenu.day, MySched.BlockMenu.stime,
         MySched.BlockMenu.etime);
     },
     xtype: "button"
-}
+};
 
 //MySched.BlockMenu.Menu[MySched.BlockMenu.Menu.length] = addEvent;
 
 window.onbeforeunload = function ()
 {
-    if (typeof MySched.layout.tabpanel === "undefined") return;
+    "use strict";
+    if (typeof MySched.layout.tabpanel === "undefined")
+    {
+        return;
+    }
     var tabs = MySched.layout.tabpanel.items.items;
     var temptabs = tabs;
     var check = false;

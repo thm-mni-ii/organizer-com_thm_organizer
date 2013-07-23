@@ -321,7 +321,7 @@ MySched.Base = function ()
             {
                 if (Ext.isObject(lessonData[item]))
                 {
-                    var record = new mLecture(
+                    var record = new Lecture(
                     item,
                     Ext.clone(lessonData[item]),
                     MySched.class_semester_id,
@@ -491,7 +491,7 @@ MySched.Base = function ()
                                         {
                                             if (Ext.isObject(lessonData[item]))
                                             {
-                                                var record = new mLecture(
+                                                var record = new Lecture(
                                                 item,
                                                 lessonData[item], semesterID,
                                                 plantypeID);
@@ -2109,7 +2109,7 @@ MySched.layout = function ()
                                     {
                                         if (Ext.isObject(lessonData[item]))
                                         {
-                                            var record = new mLecture(
+                                            var record = new Lecture(
                                             item,
                                             lessonData[item], semesterID,
                                             plantypeID);
@@ -3009,7 +3009,7 @@ MySched.layout = function ()
                                             {
                                                 if (Ext.isObject(lessonData[item]))
                                                 {
-                                                    var record = new mLecture(
+                                                    var record = new Lecture(
                                                     item,
                                                     lessonData[item], semesterID,
                                                     plantypeID);
@@ -3718,7 +3718,7 @@ l, key)
                             };
                         }
 
-                        var record = new mLecture(
+                        var record = new Lecture(
                         values.key, values);
 
                         if (MySched.selectedSchedule.id !== "mySchedule")
@@ -4275,7 +4275,7 @@ MySched.Tree = function ()
                             {
                                 if (Ext.isObject(lessonData[item]))
                                 {
-                                    var record = new mLecture(item, lessonData[item], semesterID, plantypeID);
+                                    var record = new Lecture(item, lessonData[item], semesterID, plantypeID);
                                     MySched.Base.schedule.addLecture(record);
                                 }
                             }

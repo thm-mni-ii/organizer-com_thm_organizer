@@ -13,7 +13,7 @@ window.addEvent('domready', function() {
 
 window.addEvent('domready', function() {
     "use strict";
-    document.formvalidator.setHandler('title', function (value) { return value != ''; });
+    document.formvalidator.setHandler('title', function (value) { return value !== ''; });
 });
 
 window.addEvent('domready', function() {

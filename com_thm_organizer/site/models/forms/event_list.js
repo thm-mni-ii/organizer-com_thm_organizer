@@ -23,7 +23,7 @@ function unCheckAll()
 {
     "use strict";
     var checkbox = document.getElementsByName('eventIDs[]');
-    for (i = 0; i < checkbox.length; i++)
+    for (var i = 0; i < checkbox.length; i++)
     {
         checkbox[i].checked = false ;
     }
@@ -64,7 +64,7 @@ function resetForm()
         }
     }
     var limit = document.getElementById('limit');
-    if(limit != null)
+    if(limit !== null)
     {
         for(index = 0; index < limit.length; index++)
         {

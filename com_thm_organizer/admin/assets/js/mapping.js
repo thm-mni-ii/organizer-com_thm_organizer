@@ -67,32 +67,32 @@ function order(oldOrder)
 {
     var currentOrder = getCurrentOrder();
     var newOrder = currentOrder[oldOrder - 1].order;
-    if (newOrder == oldOrder)
+    if (newOrder === oldOrder)
     {
         return;
     }
     if (newOrder <= 0 || newOrder > currentOrder.length)
     {
         jq('#child' + oldOrder + 'order').val(oldOrder);
-        alert(Joomla.JText._(
-					'COM_THM_ORGANIZER_INVALID_ORDER'));
+        alert(Joomla.JText._('COM_THM_ORGANIZER_INVALID_ORDER'));
         return;
     }
+    var i;
     if (Math.min(newOrder, oldOrder) == newOrder)
     {
-        for (var i = newOrder - 1; i < oldOrder - 1; i++)
+        for (i = newOrder - 1; i < oldOrder - 1; i++)
         {
             currentOrder[i].order++;
         }
     }
     else
     {
-        for (var i = oldOrder ; i < newOrder; i++)
+        for (i = oldOrder ; i < newOrder; i++)
         {
             currentOrder[i].order--;
         }
     }
-    for (var i = 0; i < currentOrder.length; i++)
+    for (i = 0; i < currentOrder.length; i++)
     {
         jq('#child' + currentOrder[i].order + 'name').text(currentOrder[i].name);
         jq('#child' + currentOrder[i].order).val(currentOrder[i].id);
@@ -108,6 +108,7 @@ function order(oldOrder)
  */
 function getCurrentOrder()
 {
+    "use strict";
     var currentOrder = [];
     
     // The header row needs to be removed from the count
@@ -115,7 +116,7 @@ function getCurrentOrder()
     for (var i = 0; i < rowCount; i++)
     {
         var order = i + 1;
-        currentOrder[i] = new Object();
+        currentOrder[i] = {};
         currentOrder[i].name = jq('#child' + order + 'name').text().trim();
         currentOrder[i].id = jq('#child' + order).val();
         currentOrder[i].link = jq('#child' + order + 'link').attr('href');
@@ -133,6 +134,7 @@ function getCurrentOrder()
  */
 function remove(rowNumber)
 {
+    "use strict";
     var currentOrder = getCurrentOrder();
     jq('#childRow' + rowNumber).remove();
     for (var i = rowNumber + 1 ; i <= currentOrder.length; i++)

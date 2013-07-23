@@ -1,4 +1,5 @@
-/*global Ext: false, MySched: false, MySchedLanguage: false, blocktotime: false */
+/*global Ext: false, MySched: false, MySchedLanguage: false, blocktotime: false, weekdayEtoD: false, numbertoday: false, getMonday: false,
+_C: false, externalLinks: false, daytonumber: false */
 
 /**
  * Spezielles Grid Vordefiniert fuer Wochenstruktur mit Veranstaltungen
@@ -169,7 +170,7 @@ function showEventdesc(index)
 {
     "use strict";
 
-    if (Ext.ComponentMgr.get("datdescription") == null || typeof Ext.ComponentMgr.get("datdescription") == "undefined")
+    if (Ext.ComponentMgr.get("datdescription") === null || typeof Ext.ComponentMgr.get("datdescription") === "undefined")
     {
         this.eventWindow = Ext.create('Ext.Window',
         {
@@ -306,7 +307,8 @@ function addNewEvent(eventid, sdate, stime, etime)
         height: 450,
         modal: true,
         frame: false,
-        html: '<iframe width=100% height=100% onLoad="newEventonLoad(this)" id="iframeNewEvent" class="mysched_iframeNewEvent" src="' + externLinks.eventLink + eventid + '&tmpl=component' + adds + '"></iframe>'
+        html: '<iframe width=100% height=100% onLoad="newEventonLoad(this)" id="iframeNewEvent" class="mysched_iframeNewEvent" src="' +
+              externLinks.eventLink + eventid + '&tmpl=component' + adds + '"></iframe>'
     });
 
     win.on("beforeclose", function (panel, eOpts)

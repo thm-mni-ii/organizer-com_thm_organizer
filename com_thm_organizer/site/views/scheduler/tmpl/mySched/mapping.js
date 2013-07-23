@@ -81,7 +81,7 @@ MySched.Mapping = function ()
                     var teacherObject = this.teacher.map[teacher];
                     if(Ext.isObject(teacherObject))
                     {
-                        if(teacherObject.dbID == dbID)
+                        if(teacherObject.dbID === dbID)
                         {
                             return teacher;
                         }

@@ -30,8 +30,7 @@ Ext.extend(MySched.Collection, Ext.util.MixedCollection,
     getKey: function (el)
     {
         "use strict";
-    
-        if (typeof key === 'object' && typeof key.getId === 'function')
+        if (typeof el === 'object' && typeof el.getId === 'function')
         {
             return el.getId();
         }
@@ -125,9 +124,8 @@ var _C = function (a)
 String.prototype.equal = function (str)
 {
     "use strict";
-
     return this.toLowerCase() == str.toLowerCase();
-}
+};
 
 /**
  * Erganezt das Array Object um die AddTo methode
@@ -281,7 +279,7 @@ Ext.grid.View,
                 }
             }
             var alt = [];
-            if (stripe && ((rowIndex + 1) % 2 == 0))
+            if (stripe && ((rowIndex + 1) % 2 === 0))
             {
                 alt[0] = "x-grid3-row-alt";
             }
@@ -342,7 +340,6 @@ function cropText(sText, nCropLimit)
 function showevent(event, arr, selectedScheduleid)
 {
     "use strict";
-
     if (event.source === "estudy")
     {
         return 5;
@@ -651,7 +648,9 @@ Ext.define('Ext.ux.TabCloseOnMiddleClick', {
         observable: 'Ext.util.Observable'
     },
 
-    init : function(tabpanel){        
+    init : function(tabpanel)
+    {
+        "use strict";
         this.tabPanel = tabpanel;
         this.tabBar = tabpanel.down("tabbar");
 

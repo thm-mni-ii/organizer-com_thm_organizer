@@ -712,7 +712,7 @@ Ext.define('mSchedule',
         return;
     },
     /**
-     * Callback zum parsen der XML Datei in mLecture
+     * Callback zum parsen der XML Datei in Lecture
      * @param {Object} o
      */
     parseLectures: function (o)
@@ -768,7 +768,7 @@ Ext.define('mSchedule',
         this.markUnchanged();
     },
     /**
-     * Callback zum parsen der XML Datei in mLecture
+     * Callback zum parsen der XML Datei in Lecture
      * @param {Object} o
      * @param {Object} arg
      */
@@ -1186,7 +1186,7 @@ Ext.define('mSchedule',
  * LectureModel
  * @param {Object} lecture
  */
-Ext.define('mLecture',
+Ext.define('Lecture',
 {
     extend: 'MySched.Model',
 
@@ -1199,7 +1199,7 @@ Ext.define('mLecture',
         var etime = data.etime;
         var showtime = data.showtime;
 
-        mLecture.superclass.constructor.call(this, id, Ext.clone(data));
+        Lecture.superclass.constructor.call(this, id, Ext.clone(data));
 
         this.data.teachers = new MySched.Collection();
         this.data.teachers.addAll(data.teachers);
@@ -1535,7 +1535,7 @@ Ext.define('mLecture',
         {
             this.data.desc = this.getDesc();
         }
-        return mLecture.superclass.getData.call(this, addData);
+        return Lecture.superclass.getData.call(this, addData);
     },
     getRoomName: function (d)
     {

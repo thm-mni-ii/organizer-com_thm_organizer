@@ -6,6 +6,7 @@
  */
 var SchedJsonReader = function ()
 {
+    "use strict";
     SchedJsonReader.superclass.constructor.call(this, this.config);
 };
 Ext.extend(SchedJsonReader, Ext.data.JsonReader,
@@ -20,6 +21,7 @@ Ext.extend(SchedJsonReader, Ext.data.JsonReader,
      */
     readRecords: function (o)
     {
+        "use strict";
         var records = [],
             success = true;
         if (o.success === false)
@@ -42,14 +44,20 @@ Ext.extend(SchedJsonReader, Ext.data.JsonReader,
             {
                 for (var calendarIndex in value.calendar)
                 {
-                    var block = value.calendar[calendarIndex];
-                    for (var blockIndex in block)
+                    if (value.calendar.hasOwnProperty(calendarIndex))
                     {
-                        var data = block[blockIndex];
-                        data.lessonData["delta"] = "removed";
+                        var block = value.calendar[calendarIndex];
+                        for (var blockIndex in block)
+                        {
+                            if (block.hasOwnProperty(blockIndex))
+                            {
+                                var data = block[blockIndex];
+                                data.lessonData.delta = "removed";
+                            }
+                        }
                     }
                 }
-                records[records.length] = new mLecture(key, value, MySched.class_semester_id, "");
+                records[records.length] = new Lecture(key, value, MySched.class_semester_id, "");
             }
         });
 
