@@ -65,28 +65,40 @@ class THMScheduleDescription
 	 */
 	public function load()
 	{
-		$query = "SELECT description, startdate, enddate, creationdate ";
-		$query .= "FROM #__thm_organizer_schedules ";
-		$query .= "WHERE active != 'null' && sid = " . $this->_semID;
+	    // Get a db connection.
+	    $db = JFactory::getDbo();
+	    
+	    // Create a new query object.
+	    $query = $db->getQuery(true);
+	    
+	    // Select all records from the user profile table where key begins with "custom.".
+	    // Order it by the ordering field.
+	    $query->select('description, startdate, enddate, creationdate');
+	    $query->from('#__thm_organizer_schedules');
+	    $query->where("'active != 'null' && sid = " . $this->_semID);
+	    
+	    // Reset the query using our newly populated query object.
+	    $db->setQuery($query);
+	    
+	    $obj = $db->loadObject();
 
-		$obj = $this->_JDA->query($query);
 		if (count($obj) == 0 || $obj == false)
 		{
 			return array("success" => false, "data" => "");
 		}
 		else
 		{
-			$startdate = explode("-", $obj[0]->startdate);
+			$startdate = explode("-", $obj->startdate);
 			$startdate = $startdate[2] . "." . $startdate[1] . "." . $startdate[0];
 
-			$enddate = explode("-", $obj[0]->enddate);
+			$enddate = explode("-", $obj->enddate);
 			$enddate = $enddate[2] . "." . $enddate[1] . "." . $enddate[0];
 
-			$creationdate = explode("-", $obj[0]->creationdate);
+			$creationdate = explode("-", $obj->creationdate);
 			$creationdate = $creationdate[2] . "." . $creationdate[1] . "." . $creationdate[0];
 
 			return array("success" => true, "data" => array(
-					$obj[0]->description,
+					$obj->description,
 					$startdate,
 					$enddate,
 					$creationdate

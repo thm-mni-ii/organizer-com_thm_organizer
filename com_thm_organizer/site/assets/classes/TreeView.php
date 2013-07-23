@@ -191,9 +191,12 @@ class THMTreeView
      *
      * @return Tree nodes
      */
-    private function createTreeNode($nodeID, $text, $iconCls, $leaf, $draggable, $singleClickExpand, $gpuntisID, $type, $children, $semesterID, $nodeKey)
+    private function createTreeNode($nodeData)
     {
-
+        $nodeID = $nodeData["nodeID"];
+        $leaf = $nodeData["leaf"];
+        $nodeKey = $nodeData["nodeKey"];
+        
         $checked = null;
         $publicDefault = null;
         $treeNode = null;
@@ -253,16 +256,14 @@ class THMTreeView
         {
             if ($this->nodeStatus($nodeID))
             {
-                $treeNode = new THMTreeNode(
-                    $nodeID, $text, $iconCls, $leaf, $draggable, $singleClickExpand, $gpuntisID, $type, $children, $semesterID, $checked, $publicDefault, $nodeKey, $expanded
+                $treeNode = new THMTreeNode($nodeData, $checked, $publicDefault, $nodeKey, $expanded
                 );
                 $this->_inTree[] = $gpuntisID;
             }
         }
         else
         {
-            $treeNode = new THMTreeNode(
-                $nodeID, $text, $iconCls, $leaf, $draggable, $singleClickExpand, $gpuntisID, $type, $children, $semesterID, $checked, $publicDefault, $nodeKey, $expanded
+            $treeNode = new THMTreeNode($nodeData, $checked, $publicDefault, $nodeKey, $expanded
             );
         }
 
@@ -274,9 +275,7 @@ class THMTreeView
             }
             else
             {
-                $this->_publicDefaultNode = new THMTreeNode(
-                    $nodeID, $text, $iconCls, $leaf, $draggable, $singleClickExpand, $gpuntisID, $type, $children, $semesterID, $checked, $publicDefault, $nodeKey, $expanded
-                );
+                $this->_publicDefaultNode = new THMTreeNode($nodeData, $checked, $publicDefault, $nodeKey, $expanded);
             }
         }
 
@@ -391,10 +390,21 @@ class THMTreeView
         {
             return array("success" => false, "data" => array("tree" => array(), "treeData" => array(), "treePublicDefault" => ""));
         }
+        
+        $createTreeNodeData = array();
+        $createTreeNodeData["nodeID"] = $this->departmentSemesterSelection;
+        $createTreeNodeData["text"] = $activeSchedule->semestername;
+        $createTreeNodeData["iconCls"] = 'semesterjahr' . '-root';
+        $createTreeNodeData["leaf"] = false;
+        $createTreeNodeData["draggable"] = false;
+        $createTreeNodeData["singleClickExpand"] = true;
+        $createTreeNodeData["gpuntisID"] = $activeSchedule->id;
+        $createTreeNodeData["type"] = null;
+        $createTreeNodeData["children"] = null;
+        $createTreeNodeData["semesterID"] = $activeSchedule->id;
+        $createTreeNodeData["nodeKey"] = $activeSchedule->id;
 
-        $temp = $this->createTreeNode(
-            $this->departmentSemesterSelection, $activeSchedule->semestername, 'semesterjahr' . '-root', false, false, true, $activeSchedule->id, null, null, $activeSchedule->id, $activeSchedule->id
-        );
+        $temp = $this->createTreeNode($createTreeNodeData);
         $children = $this->StundenplanView($this->departmentSemesterSelection, $activeSchedule->id);
 
         if ($temp != null && !empty($temp))
@@ -445,9 +455,21 @@ class THMTreeView
         {
             $nodeKey = $key . ";" . $scheduleType;
             $textConstant = 'COM_THM_ORGANIZER_SCHEDULER_' . $scheduleType . 'PLAN';
-            $temp = $this->createTreeNode(
-                $nodeKey, JText::_($textConstant), 'view' . '-root', false, false, true, $scheduleType, null, null, $semesterID, $nodeKey
-            );
+            
+            $createTreeNodeData = array();
+            $createTreeNodeData["nodeID"] = $nodeKey;
+            $createTreeNodeData["text"] = JText::_($textConstant);
+            $createTreeNodeData["iconCls"] = 'view' . '-root';
+            $createTreeNodeData["leaf"] = false;
+            $createTreeNodeData["draggable"] = false;
+            $createTreeNodeData["singleClickExpand"] = true;
+            $createTreeNodeData["gpuntisID"] = $scheduleType;
+            $createTreeNodeData["type"] = null;
+            $createTreeNodeData["children"] = null;
+            $createTreeNodeData["semesterID"] = $semesterID;
+            $createTreeNodeData["nodeKey"] = $nodeKey;
+            
+            $temp = $this->createTreeNode($createTreeNodeData);
             $children = $this->getStundenplan($nodeKey, $scheduleType, $semesterID);
 
             if ($temp != null && !empty($temp))
@@ -670,9 +692,20 @@ class THMTreeView
                 $childNode = null;
                 if ($hasLessons)
                 {
-                    $childNode = $this->createTreeNode(
-                        $nodeID, $nodeName, "leaf" . "-node", true, true, false, $childValue->gpuntisID, $scheduleType, null, $semesterID, $childKey
-                    );
+                    $createTreeChildNodeData = array();
+                    $createTreeChildNodeData["nodeID"] = $nodeID;
+                    $createTreeChildNodeData["text"] = $nodeName;
+                    $createTreeChildNodeData["iconCls"] = "leaf" . "-node";
+                    $createTreeChildNodeData["leaf"] = true;
+                    $createTreeChildNodeData["draggable"] = true;
+                    $createTreeChildNodeData["singleClickExpand"] = false;
+                    $createTreeChildNodeData["gpuntisID"] = $childValue->gpuntisID;
+                    $createTreeChildNodeData["type"] = $scheduleType;
+                    $createTreeChildNodeData["children"] = null;
+                    $createTreeChildNodeData["semesterID"] = $semesterID;
+                    $createTreeChildNodeData["nodeKey"] = $childKey;
+                    
+                    $childNode = $this->createTreeNode($createTreeChildNodeData);
                 }
                 if (is_object($childNode))
                 {
@@ -687,9 +720,20 @@ class THMTreeView
             $descriptionNode = null;
             if ($childNodes != null)
             {
-                $descriptionNode = $this->createTreeNode(
-                    $descriptionID, $descriptionValue->name, "studiengang-root", false, true, false, $descriptionValue->gpuntisID, $scheduleType, $childNodes, $semesterID, $descriptionKey
-                );
+                $createTreeDescriptionNodeData = array();
+                $createTreeDescriptionNodeData["nodeID"] = $descriptionID;
+                $createTreeDescriptionNodeData["text"] = $descriptionValue->name;
+                $createTreeDescriptionNodeData["iconCls"] = "studiengang-root";
+                $createTreeDescriptionNodeData["leaf"] = false;
+                $createTreeDescriptionNodeData["draggable"] = true;
+                $createTreeDescriptionNodeData["singleClickExpand"] = false;
+                $createTreeDescriptionNodeData["gpuntisID"] = $descriptionValue->gpuntisID;
+                $createTreeDescriptionNodeData["type"] = $scheduleType;
+                $createTreeDescriptionNodeData["children"] = $childNodes;
+                $createTreeDescriptionNodeData["semesterID"] = $semesterID;
+                $createTreeDescriptionNodeData["nodeKey"] = $descriptionKey;
+                
+                $descriptionNode = $this->createTreeNode($createTreeDescriptionNodeData);
             }
 
             if (!is_null($descriptionNode) && is_object($descriptionNode))
@@ -780,60 +824,6 @@ class THMTreeView
     }
 
     /**
-     * Method to get the virtual schedule data
-     *
-     * @param   String   $type        The virtual schedule type
-     * @param   Integer  $semesterID  The semester id
-     *
-     * @return The virtual schedule data
-     */
-    private function getVirtualSchedules($type, $semesterID)
-    {
-        $select = "DISTINCT vs.id AS id, vs.vid AS gpuntisID, name AS shortname, ";
-        $select .= "name AS name, type AS type, department AS parentName, ";
-        $select .= "responsible AS responsible, eid AS elements ";
-        $vsquery = "SELECT $select ";
-        $vsquery .= "FROM #__thm_organizer_virtual_schedules AS vs ";
-        $vsquery .= "INNER JOIN #__thm_organizer_virtual_schedules_elements AS vse ON vs.id = vse.vid ";
-        $vsquery .= "WHERE type = '$type' AND vs.semesterID = '$semesterID' ";
-        $res = $this->_JDA->query($vsquery);
-
-        return $res;
-
-    }
-
-    /**
-     * Method to transform a gpuntis id to an id
-     *
-     * @param   String  $gpuntisID  The gpuntis id to transform
-     * @param   String  $type       The type
-     *
-     * @return The id for the given gpuntis id
-     */
-    private function GpuntisIDToid($gpuntisID, $type)
-    {
-        $query = "SELECT id ";
-        $query .= "FROM #__thm_organizer_";
-        switch ($type)
-        {
-            case 'room':
-                $query .= 'rooms ';
-                break;
-            case 'clas':
-                $query .= 'classes ';
-                break;
-            case 'doz':
-                $query .= 'teachers ';
-                break;
-        }
-        $query .= "WHERE gpuntisID = '" . $gpuntisID . "'";
-        $ret = $this->_JDA->query($query);
-
-        return $ret;
-
-    }
-
-    /**
      * Method to check if an tree node has lessons
      * 
      * @param   Object  $nodeID  The tree node id
@@ -861,7 +851,7 @@ class THMTreeView
                     {
                         foreach ($blockValue as $lessonValue)
                         {
-                            if(isset($lessonValue->{$nodeID}) == true)
+                            if (isset($lessonValue->{$nodeID}) == true)
                             {
                                 return true;
                             }
@@ -880,9 +870,12 @@ class THMTreeView
             
             $fieldType = $type . "s";
             
-            $lessons = array_filter((array) $this->_activeScheduleData->lessons, function($obj) use ($fieldType, $nodeID){
-                return isset($obj->{$fieldType}->{$nodeID});
-            });
+            $filterFunction = function($obj) use ($fieldType, $nodeID)
+                              {
+                                  return isset($obj->{$fieldType}->{$nodeID});
+                              };
+            
+            $lessons = array_filter((array) $this->_activeScheduleData->lessons, $filterFunction);
         
             $lessonKeys = array_keys($lessons);
         
@@ -892,9 +885,9 @@ class THMTreeView
                 {
                     foreach ($calendarValue as $blockValue)
                     {
-                        foreach($lessonKeys as $lessonKeyValue)
+                        foreach ($lessonKeys as $lessonKeyValue)
                         {
-                            if(isset($blockValue->{$lessonKeyValue}) == true)
+                            if (isset($blockValue->{$lessonKeyValue}) == true)
                             {
                                 return true;
                             }

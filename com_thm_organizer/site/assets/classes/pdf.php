@@ -133,26 +133,7 @@ class THMPDFBuilder extends THMAbstractBuilder
 
 		if (isset($username) && isset($title))
 		{
-			if ($this->_cfg['sync_files'] == 1)
-			{
-				$query = "SELECT registerDate ";
-				$query .= "FROM {$this->_cfg['jdb_table_user']} ";
-				$query .= "WHERE username='$username' ";
-				$res = $this->_JDA->query($query);
-
-				if (count($res) > 0 && trim($username) != "" && trim($username) != "undefined")
-				{
-					$path = $username . strtotime($res[0]->registerDate) . "/";
-				}
-				else
-				{
-					$path = "";
-				}
-			}
-			else
-			{
-				$path = "";
-			}
+			$path = "";
 
 			if (!$title)
 			{
