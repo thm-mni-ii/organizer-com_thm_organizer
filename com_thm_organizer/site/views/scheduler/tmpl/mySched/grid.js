@@ -1,6 +1,6 @@
 /*global Ext: false, MySched: false, MySchedLanguage: false, blocktotime: false, weekdayEtoD: false, numbertoday: false, getMonday: false,
-_C: false, externalLinks: false, daytonumber: false */
-/*jslint sloppy: true */
+_C: false, externalLinks: false, daytonumber: false, externLinks */
+/*jshint strict: false */
 
 /**
  * Spezielles Grid Vordefiniert fuer Wochenstruktur mit Veranstaltungen
@@ -80,9 +80,7 @@ function getSchedGrid()
             {
                 return {
                     rowBody: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LUNCHTIME, // do
-                    // something
-                    // with
-                    // record
+                    // something with record
                     rowBodyCls: 'MySched_pause',
                     rowBodyColspan: colspan
                 };

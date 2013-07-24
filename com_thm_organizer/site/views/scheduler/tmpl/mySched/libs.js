@@ -1,5 +1,5 @@
 /*global Ext: false, MySched: true, MySchedLanguage: false, blocktotime: false */
-/*jslint sloppy: true */
+/*jshint strict: false */
 // // // Link auf ein lokales Blankes Bild
 //Ext.BLANK_IMAGE_URL = externLinks.blankImageLink;
 Ext.MessageBox.buttonText.yes = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_YES;

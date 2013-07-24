@@ -28,139 +28,139 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldScheduler extends JFormField
 {
-	/**
-	 * The form field type
-	 *
-	 * @var    String
-	 */
+    /**
+     * The form field type
+     *
+     * @var    String
+     */
 	protected $type = 'Scheduler';
 
-	/**
-	 * Method to get the form field input
-	 *
-	 * @return  object  Custom form field
-	 */
-	protected function getInput()
-	{
-	    $libraryInstalled = jimport('extjs4.extjs4');
-	    if (!$libraryInstalled)
-	    {
-	        echo "<div style='color:red;'>" . JText::_('COM_THM_ORGANIZER_EXTJS4_LIBRARY_NOT_INSTALLED') . "</div>";
-	    }
-	    
-		$menuid = JRequest::getInt("id", 0);
+    /**
+     * Method to get the form field input
+     *
+     * @return  object  Custom form field
+     */
+    protected function getInput()
+    {
+        $libraryInstalled = jimport('extjs4.extjs4');
+        if (!$libraryInstalled)
+        {
+            echo "<div style='color:red;'>" . JText::_('COM_THM_ORGANIZER_EXTJS4_LIBRARY_NOT_INSTALLED') . "</div>";
+        }
 
-		// Get database
-		$dbo = JFactory::getDbo();
-		$query = $dbo->getQuery(true);
-		$query->select('params');
-		$query->from($dbo->nameQuote('#__menu'));
-		$query->where('id = ' . $menuid);
-		$dbo->setQuery($query);
-		$rows = $dbo->loadObjectList();
+        $menuid = JRequest::getInt("id", 0);
 
-		if (count($rows) > 0)
-		{
-			$jsonObj = json_decode($rows[0]->params);
-		}
-		
-		if (isset($jsonObj->publicDefaultID))
-		{
-			$publicDefaultID = $jsonObj->publicDefaultID;
-		}
-		else
-		{
-			$publicDefaultID = "";
-		}
+        // Get database
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('params');
+        $query->from($dbo->nameQuote('#__menu'));
+        $query->where('id = ' . $menuid);
+        $dbo->setQuery($query);
+        $rows = $dbo->loadObjectList();
 
-		if (isset($jsonObj->id))
-		{
-			$idString = $jsonObj->id;
-		}
-		else
-		{
-			$idString = "";
-		}		
+        if (count($rows) > 0)
+        {
+            $jsonObj = json_decode($rows[0]->params);
+        }
 
-		$doc = JFactory::getDocument();
-		$doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/extjs/resources/css/ext-all-gray.css");
-		$doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/models/fields/css/schedule_selection_tree.css");
-		$doc->addScript(JURI::root(true) . "/components/com_thm_organizer/models/fields/tree.js");
-		$doc->addScript(JURI::root(true) . "/components/com_thm_organizer/models/fields/departmentSemesterSelection.js");
+        if (isset($jsonObj->publicDefaultID))
+        {
+            $publicDefaultID = $jsonObj->publicDefaultID;
+        }
+        else
+        {
+            $publicDefaultID = "";
+        }
 
-		if ($idString != "")
-		{
-			$treeids = json_decode($idString);
-		}
-		else
-		{
-			$treeids = array();
-		}
-		
-		
-		?>
+        if (isset($jsonObj->id))
+        {
+            $idString = $jsonObj->id;
+        }
+        else
+        {
+            $idString = "";
+        }		
+
+        $doc = JFactory::getDocument();
+        $doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/extjs/resources/css/ext-all-gray.css");
+        $doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/models/fields/css/schedule_selection_tree.css");
+        $doc->addScript(JURI::root(true) . "/components/com_thm_organizer/models/fields/tree.js");
+        $doc->addScript(JURI::root(true) . "/components/com_thm_organizer/models/fields/departmentSemesterSelection.js");
+
+        if ($idString != "")
+        {
+            $treeids = json_decode($idString);
+        }
+        else
+        {
+            $treeids = array();
+        }
+
+
+        ?>
 
 <script type="text/javascript" charset="utf-8">
-	var menuID = <?php echo $menuid ?>;
-	var treeIDs = <?php echo json_encode($treeids); ?>;
-	var publicDefaultID = <?php echo json_encode($publicDefaultID); ?>;
-	var externLinks = [];
-	externLinks.ajaxHandler = '<?php echo JRoute::_(JURI::root() . 'index.php?option=com_thm_organizer&view=ajaxhandler&format=raw'); ?>';
-	var images = [];
-	images.base = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/';
-	images.unchecked = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/unchecked.png';
-	images.unchecked_highlighted = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/unchecked_highlighted.png';
-	images.checked = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/checked.png';
-	images.checked_highlighted = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/checked_highlighted.png';
-	images.intermediate = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/intermediate.png';
-	images.intermediate_highlighted = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/intermediate_highlighted.png';
-	images.selected = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/selected.png';
-	images.selected_highlighted = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/selected_highlighted.png';
-	images.notdefault =  '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/notdefault.png';
-	<?php echo 'images.default = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/default.png\''; ?>
+    var menuID = <?php echo $menuid ?>;
+    var treeIDs = <?php echo json_encode($treeids); ?>;
+    var publicDefaultID = <?php echo json_encode($publicDefaultID); ?>;
+    var externLinks = [];
+    externLinks.ajaxHandler = '<?php echo JRoute::_(JURI::root() . 'index.php?option=com_thm_organizer&view=ajaxhandler&format=raw'); ?>';
+    var images = [];
+    images.base = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/';
+    images.unchecked = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/unchecked.png';
+    images.unchecked_highlighted = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/unchecked_highlighted.png';
+    images.checked = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/checked.png';
+    images.checked_highlighted = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/checked_highlighted.png';
+    images.intermediate = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/intermediate.png';
+    images.intermediate_highlighted = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/intermediate_highlighted.png';
+    images.selected = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/selected.png';
+    images.selected_highlighted = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/selected_highlighted.png';
+    images.notdefault =  '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/notdefault.png';
+    <?php echo 'images.default = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/default.png\''; ?>
 
-	Joomla.submitbutton = function(task, type)
-	{
-		if(task == "item.apply" || task == "item.save" || task == "item.save2new" || task == "item.save2copy")
-		{
-			var paramID = Ext.get('jform_params_id');
-			var treeChecked = tree.getChecked();
-			var paramValue = Ext.encode(treeChecked);
-			paramID.dom.value = paramValue;
+    Joomla.submitbutton = function(task, type)
+    {
+        if(task == "item.apply" || task == "item.save" || task == "item.save2new" || task == "item.save2copy")
+        {
+            var paramID = Ext.get('jform_params_id');
+            var treeChecked = tree.getChecked();
+            var paramValue = Ext.encode(treeChecked);
+            paramID.dom.value = paramValue;
 
-			var paramID = Ext.get('jform_params_publicDefaultID');
-			var publicDefault = tree.getPublicDefault();
-			var paramValue = Ext.encode(publicDefault);
-			paramID.dom.value = paramValue;
-		}
+            var paramID = Ext.get('jform_params_publicDefaultID');
+            var publicDefault = tree.getPublicDefault();
+            var paramValue = Ext.encode(publicDefault);
+            paramID.dom.value = paramValue;
+        }
 
-		if (task == 'item.setType' || task == 'item.setMenuType') {
-		if(task == 'item.setType') {
-			document.id('item-form').elements['jform[type]'].value = type;
-			document.id('fieldtype').value = 'type';
-		} else {
-			document.id('item-form').elements['jform[menutype]'].value = type;
-		}
-		Joomla.submitform('item.setType', document.id('item-form'));
-		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
-			Joomla.submitform(task, document.id('item-form'));
-		} else {
-			// special case for modal popups validation response
-			$$('#item-form .modal-value.invalid').each(function(field){
-				var idReversed = field.id.split("").reverse().join("");
-				var separatorLocation = idReversed.indexOf('_');
-				var name = idReversed.substr(separatorLocation).split("").reverse().join("")+'name';
-				document.id(name).addClass('invalid');
-			});
-		}
+        if (task == 'item.setType' || task == 'item.setMenuType') {
+        if(task == 'item.setType') {
+            document.id('item-form').elements['jform[type]'].value = type;
+            document.id('fieldtype').value = 'type';
+        } else {
+            document.id('item-form').elements['jform[menutype]'].value = type;
+        }
+        Joomla.submitform('item.setType', document.id('item-form'));
+        } else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
+            Joomla.submitform(task, document.id('item-form'));
+        } else {
+            // special case for modal popups validation response
+            $$('#item-form .modal-value.invalid').each(function(field){
+                var idReversed = field.id.split("").reverse().join("");
+                var separatorLocation = idReversed.indexOf('_');
+                var name = idReversed.substr(separatorLocation).split("").reverse().join("")+'name';
+                document.id(name).addClass('invalid');
+            });
+        }
 
-	}
-	
+    }
+
 </script>
 
 <style type="text/css">
 .x-tree-node-cb {
-	float: none;
+    float: none;
 }
 </style>
 
@@ -168,5 +168,5 @@ class JFormFieldScheduler extends JFormField
 <div style="width: auto; height: auto;" id="tree-div"></div>
 
 <?php
-	}
+    }
 }

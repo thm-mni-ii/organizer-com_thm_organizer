@@ -1,5 +1,8 @@
-/*global Ext: false, MySched: false, MySchedLanguage: false, blocktotime: false */
-/*jslint sloppy: true */
+/*global Ext, MySched, MySchedLanguage, blocktotime, _C, getTeacherSurnameWithCutFirstName,
+ getBlocksBetweenTimes, convertEnglishDateStringToDateObject, convertGermanDateStringToDateObject, getCurrentMoFrDate,
+ displayDelta, isset, LectureModel, PoolModel, SubjectModel, TeacherModel,
+ RoomModel, weekdayEtoD, getMonday, getSchedGrid, ScheduleModel, SchedJsonReader */
+/*jshint strict: false */
 /**
  * Models von MySched
  * @author thorsten
@@ -148,7 +151,7 @@ Ext.define('ScheduleModel',
         this.title = title;
         this.visibleLessons = [];
         this.visibleEvents = [];
-        ScheduleModel.superclass.constructor.call(this, id, new MySched.Collection());
+        this.superclass.constructor.call(this, id, new MySched.Collection());
         if (config && config.type && config.value)
         {
             this.init(config.type, config.value);
@@ -527,14 +530,7 @@ Ext.define('ScheduleModel',
             scheduletask: scheduleTask
         };
 
-        if (type === 'json')
-        {
-            this.reader = new SchedJsonReader();
-        }
-        else
-        {
-            this.reader = new SchedXmlReader();
-        }
+        this.reader = new SchedJsonReader();
 
         this.proxy = Ext.create('Ext.data.proxy.Rest',
         {
@@ -762,7 +758,7 @@ Ext.define('ScheduleModel',
 
         for (var i = 0, len = r.length; i < len; i++)
         {
-            e = r[i];
+            var e = r[i];
             // Filtert Veranstaltungen ohne Datum aus
             if (Ext.isEmpty(e.data.subject) || Ext.isEmpty(e.data.dow))
             {
@@ -877,7 +873,7 @@ Ext.define('ScheduleModel',
                 {
                     if (calendarDates.hasOwnProperty(dateIndex))
                     {
-                        dateObject = convertEnglishDateStringToDateObject(dateIndex);
+                        var dateObject = convertEnglishDateStringToDateObject(dateIndex);
                         var currMOFR = getCurrentMoFrDate();
                         if (dateObject >= currMOFR.monday && dateObject <= currMOFR.friday)
                         {
@@ -1017,7 +1013,7 @@ Ext.define('ScheduleModel',
                     }
                     catch (e)
                     {
-                    	
+
                     }
                 }
             });
@@ -1164,7 +1160,7 @@ Ext.define('LectureModel',
         var etime = data.etime;
         var showtime = data.showtime;
 
-        LectureModel.superclass.constructor.call(this, id, Ext.clone(data));
+        this.superclass.constructor.call(this, id, Ext.clone(data));
 
         this.data.teachers = new MySched.Collection();
         this.data.teachers.addAll(data.teachers);
@@ -1595,7 +1591,7 @@ Ext.define('LectureModel',
         col.each(function (e)
         {
             // Abkuerzung anstatt Ausgeschrieben
-            temproom = e.getFullName();
+            var temproom = e.getFullName();
             this.push(temproom);
         }, ret);
         // Bei der kurzen Varianten ohne BLANK
@@ -1749,7 +1745,7 @@ Ext.define('LectureModel',
     },
     getCellView: function (relObj, block, dow)
     {
-        showDelta = displayDelta();
+        var showDelta = displayDelta();
 
         var d = this.getDetailData(
         {
@@ -1896,6 +1892,7 @@ Ext.define('EventListModel',
             {
                 if(eventObjects.length > 0)
                 {
+                    var dbID;
                     if(type === "teacher")
                     {
                         dbID = MySched.Mapping.getTeacherDbID(value);
@@ -2080,7 +2077,7 @@ Ext.define('EventModel',
     },
     getData: function (addData)
     {
-        return EventModel.superclass.getData.call(this, addData);
+        return this.superclass.getData.call(this, addData);
     },
     getEventView: function (type, bl, collision)
     {
@@ -2202,7 +2199,7 @@ Ext.define('RoomModel',
 
     constructor: function (room)
     {
-        RoomModel.superclass.constructor.call(this, room, room);
+        this.superclass.constructor.call(this, room, room);
     },
     getName: function ()
     {
@@ -2224,7 +2221,7 @@ Ext.define('PoolModel',
 
     constructor: function (module)
     {
-        PoolModel.superclass.constructor.call(this, module, module);
+        this.superclass.constructor.call(this, module, module);
     },
     getName: function ()
     {
@@ -2250,7 +2247,7 @@ Ext.define('SubjectModel',
 
     constructor: function (subject)
     {
-        SubjectModel.superclass.constructor.call(this, subject, subject);
+        this.superclass.constructor.call(this, subject, subject);
     },
     getName: function ()
     {
@@ -2379,10 +2376,10 @@ function zeigeTermine(rooms)
     }
 
     rooms = rooms.replace(/<[^>]*>/g, "").replace(/[\n\r]/g, '').replace(/ +/g, ' ').replace(/^\s+/g, '').replace(/\s+$/g, '').split(",");
-    var counter = 0;
+    var counter = 0, room;
     for (var i = 0; i < rooms.length; i++)
     {
-        var room = rooms[i].replace(/[\n\r]/g, '').replace(/ +/g, ' ').replace(/^\s+/g, '').replace(/\s+$/g, '');
+        room = rooms[i].replace(/[\n\r]/g, '').replace(/ +/g, ' ').replace(/^\s+/g, '').replace(/\s+$/g, '');
         var pos = room.search(/\s/);
         if (pos !== -1)
         {

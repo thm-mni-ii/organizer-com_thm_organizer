@@ -1,5 +1,5 @@
 /*global Ext: false, MySched: false, MySchedLanguage: false, _C: false, confirm: false, addNewEvent: false */
-/*jslint sloppy: true */
+/*jshint strict: false */
 var oldMainToolbar = MySched.layout.getMainToolbar;
 
 MySched.layout.getMainToolbar = function ()

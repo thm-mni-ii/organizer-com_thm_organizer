@@ -1,5 +1,5 @@
 /*global Ext: false, MySched: false, MySchedLanguage: false, LectureModel */
-/*jslint sloppy: true */
+/*jshint strict: false */
 /**
  * JsonReader for the loading and saving of schedules
  * 

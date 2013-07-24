@@ -1,5 +1,5 @@
 /*global Ext: false, MySched: false, MySchedLanguage: false */
-/*jslint sloppy: true */
+/*jshint strict: false */
 /**
  * mySched - Mainclass by Thorsten Buss and Wolf Rost
  */

@@ -1,5 +1,5 @@
 /*global Ext: false, MySched: false, MySchedLanguage: false, getTeacherSurnameWithCutFirstName: false */
-/*jslint sloppy: true */
+/*jshint strict: false */
 Ext.override(
 Ext.picker.Date,
 {

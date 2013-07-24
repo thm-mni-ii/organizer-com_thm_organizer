@@ -1,5 +1,5 @@
 /*global Ext: false, MySched: false, MySchedLanguage: false, _C: false */
-/*jslint sloppy: true */
+/*jshint strict: false */
 /**
  * Objekt zum Authentifizieren des Benutzers und der Verwaltung dessen Rechten
  * 

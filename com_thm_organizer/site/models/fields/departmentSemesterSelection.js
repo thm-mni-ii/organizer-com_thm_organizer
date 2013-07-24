@@ -1,5 +1,5 @@
-/*globals Ext: false */
-/*jslint sloppy: true */
+/*globals Ext: false, externLinks: false, menuID: false, tree: false, checkBoxEvents: false */
+/*jshint strict: false */
 var loadMask = null;
 
 Ext.onReady(function()
@@ -47,7 +47,7 @@ function loadTreeData(selectedItemValue)
         success: function (response)
         {
             var json = Ext.decode(response.responseText);
-            var newtree = json["tree"];
+            var newtree = json.tree;
             var rootNode = tree.getRootNode();
             rootNode.removeAll(true);
             rootNode.appendChild(newtree);
