@@ -1,4 +1,5 @@
 /*global Ext: false, MySched: false, MySchedLanguage: false */
+/*jslint sloppy: true */
 /**
  * mySched - Mainclass by Thorsten Buss and Wolf Rost
  */
@@ -92,8 +93,6 @@ MySched.BlockMenu.Menu = [];
  */
 MySched.Base = function ()
 {
-    "use strict";
-
     var schedule, sid, fertig = false;
 
     return {
@@ -200,12 +199,12 @@ MySched.Base = function ()
                     }
 
                     var tab = MySched.layout.tabpanel.getComponent('mySchedule');
-                    tab.mSchedule.status = "unsaved";
+                    tab.ScheduleModel.status = "unsaved";
                 },
                 'save': function (s)
                 {
                     var tab = MySched.layout.tabpanel.getComponent('mySchedule');
-                    tab.mSchedule.status = "saved";
+                    tab.ScheduleModel.status = "saved";
                     Ext.ComponentMgr.get('btnSave').disable();
                 },
                 'load': function (s)
@@ -236,12 +235,12 @@ MySched.Base = function ()
 
                     Ext.ComponentMgr.get('btnSave').enable();
                         
-                    tab.mSchedule.status = "unsaved";
+                    tab.ScheduleModel.status = "unsaved";
                 },
                 'save': function (s)
                 {
                     var tab = MySched.layout.tabpanel.getComponent(id);
-                    tab.mSchedule.status = "saved";
+                    tab.ScheduleModel.status = "saved";
                     Ext.ComponentMgr.get('btnSave').disable();
                 },
                 'clear': function (s)
@@ -259,7 +258,7 @@ MySched.Base = function ()
         {
             // Stundenplandaten werden in einem 'gesamten' Stundenplan
             // gespeichert
-            this.schedule = new mSchedule();
+            this.schedule = new ScheduleModel();
             this.afterLoad();
         },
         /**
@@ -269,7 +268,7 @@ MySched.Base = function ()
          */
         afterLoad: function (ret)
         {
-            MySched.eventlist = new mEventlist();
+            MySched.eventlist = new EventListModel();
             if (checkStartup("Events.load") === true)
             {
                 MySched.TreeManager.afterloadEvents(MySched.startup.Events.load.data);
@@ -321,7 +320,7 @@ MySched.Base = function ()
             {
                 if (Ext.isObject(lessonData[item]))
                 {
-                    var record = new Lecture(
+                    var record = new LectureModel(
                     item,
                     Ext.clone(lessonData[item]),
                     MySched.class_semester_id,
@@ -331,10 +330,10 @@ MySched.Base = function ()
             }
 
             // Initialisiert "Mein Stundenplan"
-            MySched.Schedule = new mSchedule('mySchedule', MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE);
+            MySched.Schedule = new ScheduleModel('mySchedule', MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE);
 
             // Initialisiert "Änderungen der Verantwortlichen"
-            MySched.responsibleChanges = new mSchedule("respChanges", MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_OWN);
+            MySched.responsibleChanges = new ScheduleModel("respChanges", MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_OWN);
 
             // Registriert Events bei Aenderung des eigenen Stundenplans
             MySched.Base.registerScheduleEvents();
@@ -491,7 +490,7 @@ MySched.Base = function ()
                                         {
                                             if (Ext.isObject(lessonData[item]))
                                             {
-                                                var record = new Lecture(
+                                                var record = new LectureModel(
                                                 item,
                                                 lessonData[item], semesterID,
                                                 plantypeID);
@@ -504,7 +503,7 @@ MySched.Base = function ()
                                             MySched.Calendar.addAll(lessonDate);
                                         }
 
-                                        var s = new mSchedule(
+                                        var s = new ScheduleModel(
                                         nodeID, '_tmpSchedule')
                                             .init(type, nodeKey);
 
@@ -523,7 +522,7 @@ MySched.Base = function ()
                             }
                             else
                             {
-                                var s = new mSchedule(nodeID, '_tmpSchedule').init(type, nodeKey);
+                                var s = new ScheduleModel(nodeID, '_tmpSchedule').init(type, nodeKey);
 
                                 var lectures = s.getLectures();
 
@@ -1402,7 +1401,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
             .data.responsible);
         if (tab)
         {
-            tab.mSchedule.removeLecture(tab.mSchedule.getLecture(id));
+            tab.ScheduleModel.removeLecture(tab.ScheduleModel.getLecture(id));
         }
         MySched.selectedSchedule.removeLecture(MySched.selectedSchedule.getLecture(id));
         MySched.Schedule.removeLecture(MySched.Schedule.getLecture(id));
@@ -1538,7 +1537,7 @@ function gotoExtURL(url, text)
 
     for (var i = 0; i < tabs.length; i++)
     {
-        if (tabs[i].mSchedule.status === "unsaved")
+        if (tabs[i].ScheduleModel.status === "unsaved")
         {
             tosave = true;
             Ext.Msg.show(
@@ -1564,15 +1563,15 @@ function gotoExtURL(url, text)
                         var temptabs = MySched.layout.tabpanel.items.items;
                         for (var ti = 0; ti < temptabs.length; ti++)
                         {
-                            if (temptabs[ti].mSchedule.status === "unsaved")
+                            if (temptabs[ti].ScheduleModel.status === "unsaved")
                             {
-                                if (temptabs[ti].mSchedule.id === "mySchedule")
+                                if (temptabs[ti].ScheduleModel.id === "mySchedule")
                                 {
-                                    temptabs[ti].mSchedule.save(_C('ajaxHandler'), false, "UserSchedule.save");
+                                    temptabs[ti].ScheduleModel.save(_C('ajaxHandler'), false, "UserSchedule.save");
                                 }
                                 else
                                 {
-                                    temptabs[ti].mSchedule.save(_C('ajaxHandler'), false, "ScheduleChanges.save");
+                                    temptabs[ti].ScheduleModel.save(_C('ajaxHandler'), false, "ScheduleChanges.save");
                                 }
                             }
                         }
@@ -1804,7 +1803,7 @@ MySched.TreeManager = function ()
             {
                 if (Ext.isObject(arr[e]))
                 {
-                    var event = new mEvent(arr[e].eid, arr[e]);
+                    var event = new EventModel(arr[e].eid, arr[e]);
                     MySched.eventlist.addEvent(event);
                 }
             }
@@ -1824,7 +1823,7 @@ MySched.TreeManager = function ()
             }
         },
         /**
-         * Erstellt die Teacherenten Uebersichtsliste
+         * Erstellt die Teacher Uebersichtsliste
          * 
          * @param {Object} tree Basis Tree dem die Liste hinzugefuegt wird
          */
@@ -2054,7 +2053,7 @@ MySched.layout = function ()
                     {
                         contentAnchorTip.destroy();
                     }
-                    MySched.selectedSchedule = o.mSchedule;
+                    MySched.selectedSchedule = o.ScheduleModel;
 
                     var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker').value);
 
@@ -2109,7 +2108,7 @@ MySched.layout = function ()
                                     {
                                         if (Ext.isObject(lessonData[item]))
                                         {
-                                            var record = new Lecture(
+                                            var record = new LectureModel(
                                             item,
                                             lessonData[item], semesterID,
                                             plantypeID);
@@ -2144,7 +2143,7 @@ MySched.layout = function ()
                                     }
 
                                     MySched.selectedSchedule.eventsloaded = null;
-                                    o.mSchedule.refreshView();
+                                    o.ScheduleModel.refreshView();
 
                                     // Evtl. irgendwo haengender AddLectureButton
                                     // wird ausgeblendet
@@ -2179,7 +2178,7 @@ MySched.layout = function ()
                             }
 
                             MySched.selectedSchedule.eventsloaded = null;
-                            o.mSchedule.refreshView();
+                            o.ScheduleModel.refreshView();
 
                             // Evtl. irgendwo haengender AddLectureButton
                             // wird ausgeblendet
@@ -2287,11 +2286,7 @@ MySched.layout = function ()
                 items: [this.leftviewport, this.rightviewport]
             });
             
-            loadMask = new Ext.LoadMask(
-            "selectTree",
-            {
-                msg: "Loading..."
-            });
+            loadMask = new Ext.LoadMask({ target: "selectTree" });
             loadMask.show();
 
             var calendar = Ext.ComponentMgr.get('menuedatepicker'), imgs;
@@ -2329,7 +2324,7 @@ MySched.layout = function ()
                         },
                         scope: this
                     }],
-                    html: "<small style='float:right; font-style:italic;'>Version " + MySched.version + "</small>" + "<p style='font-weight:bold;'>&Auml;nderungen sind farblich markiert: <br /> <p style='padding-left:10px;'> <span style='background-color: #00ff00;' >Neue Veranstaltung</span></p> <p style='padding-left:10px;'><span style='background-color: #ff4444;' >Gel&ouml;schte Veranstaltung</span></p> <p style='padding-left:10px;'><span style='background-color: #ffff00;' >Ge&auml;nderte Veranstatung (neuer Raum, neuer Teacherent)</span> </p><p style='padding-left:10px;'> <span style='background-color: #ffaa00;' >Ge&auml;nderte Veranstaltung (neue Zeit:von)</span>, <span style='background-color: #ffff00;' >Ge&auml;nderte Veranstaltung (neue Zeit:zu)</span></p></p>" + "<b>Version: 2.1.6:</b>" + "<ul>" + "<li style='padding-left:10px;'>NEU: Hinzuf&uuml;gen der Veranstaltungen &uuml;ber Kontextmenu (Rechtsklick auf Veranstaltung).</li>" + "<li style='padding-left:10px;'>NEU: Hinzuf&uuml;gen von eigenen Veranstaltungen &uuml;ber Kontextmenu (Rechtsklick in einen Block).</li>" + "<li style='padding-left:10px;'>NEU: Navigation &uuml;ber den Teacherent, Raum, Fachbereich einer Veranstaltung.</li>" + "<li style='padding-left:10px;'>NEU: Navigation durch einzelne Wochen &uuml;ber einen Kalender (Men&uuml;leiste).</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: Anzeige von Terminen.</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: Informationen zu Terminen &uuml;ber Termintitel (Mauszeiger &uuml;ber Titel).</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: Informationen zu Veranstaltungen &uuml;ber Veranstaltungstitel (Klick auf den Titel).</li>" + "</ul>" + "<br/>" + "<b>Version: 2.1.5:</b>" + "<ul>" + "<li style='padding-left:10px;'>NEU: Pers&ouml;nliche Termine k&ouml;nnen &uuml;ber den Men&uuml;punkt 'Neuer Termin' oder per Klick in einen Block angelegt werden.</li>" + "<li style='padding-left:10px;'>NEU: Berechtigte Benutzer d&uuml;rfen im Panel 'Einzel Termine' neue Termine anlegen oder alte editieren.</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: &Auml;nderungen werden wie ein Stundenplan aufgerufen.</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: Nur registrierte Benutzer haben Zugriff auf alle Funktionen.</li>" + "</ul>" + "<br/>" + "<b>Version: 2.1.4:</b>" + "<li style='padding-left:10px;'>NEU: In der Infoanzeige von Veranstaltungen kann die Modulbeschreibung abgerufen werden.</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: Termine werden nur noch an betroffenen Tagen angezeigt.</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: Termine werden bei Klick auf das orangene Ausrufezeichen angezeigt.</li>" + "<br/>" + "<b>Version: 2.1.3:</b>" + "" + "<li style='padding-left:10px;'>NEU: Stundenpl&auml;ne k&ouml;nnen als Terminkalendar heruntergeladen werden. (Men&uuml;punkt ICal Download)</li>" + "<li style='padding-left:10px;'>NEU: Navigationsleiste kann eingeklappt werden.</li>" + "<li style='padding-left:10px;'>NEU: Veranstaltungen k&ouml;nnen per Doppelklick hinzugef&uuml;gt / entfernt werden.</li>" + "<li style='padding-left:10px;'>NEU: Bei &Auml;nderungen zu Ihrem abgespeicherten Plan werden jetzt sinnvolle Vorschl&auml;ge gemacht.</li>" + "<li style='padding-left:10px;'>NEU: Kontrastreiche Men&uuml;s, sinnvollere Neuanordnung des Men&uuml;s.</li>" + "<li style='padding-left:10px;'>NEU: Seitentitel auch als Titel des pdf-download.</li>" + "<li style='padding-left:10px;'>NEU: Kleinere Texte bei den Einzelterminen.</li>" + "<br/>" + "<b>Version: 2.1.2:</b>" + "" + "<li style='padding-left:10px;'>NEU: MNI Style</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: PDF Download und PDF Dateiname bezieht sich auf den aktiven Tab</li>"
+                    html: "<small style='float:right; font-style:italic;'>Version " + MySched.version + "</small>" + "<p style='font-weight:bold;'>&Auml;nderungen sind farblich markiert: <br /> <p style='padding-left:10px;'> <span style='background-color: #00ff00;' >Neue Veranstaltung</span></p> <p style='padding-left:10px;'><span style='background-color: #ff4444;' >Gel&ouml;schte Veranstaltung</span></p> <p style='padding-left:10px;'><span style='background-color: #ffff00;' >Ge&auml;nderte Veranstatung (neuer Raum, neuer Dozent)</span> </p><p style='padding-left:10px;'> <span style='background-color: #ffaa00;' >Ge&auml;nderte Veranstaltung (neue Zeit:von)</span>, <span style='background-color: #ffff00;' >Ge&auml;nderte Veranstaltung (neue Zeit:zu)</span></p></p>" + "<b>Version: 2.1.6:</b>" + "<ul>" + "<li style='padding-left:10px;'>NEU: Hinzuf&uuml;gen der Veranstaltungen &uuml;ber Kontextmenu (Rechtsklick auf Veranstaltung).</li>" + "<li style='padding-left:10px;'>NEU: Hinzuf&uuml;gen von eigenen Veranstaltungen &uuml;ber Kontextmenu (Rechtsklick in einen Block).</li>" + "<li style='padding-left:10px;'>NEU: Navigation &uuml;ber den Dozent, Raum, Fachbereich einer Veranstaltung.</li>" + "<li style='padding-left:10px;'>NEU: Navigation durch einzelne Wochen &uuml;ber einen Kalender (Men&uuml;leiste).</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: Anzeige von Terminen.</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: Informationen zu Terminen &uuml;ber Termintitel (Mauszeiger &uuml;ber Titel).</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: Informationen zu Veranstaltungen &uuml;ber Veranstaltungstitel (Klick auf den Titel).</li>" + "</ul>" + "<br/>" + "<b>Version: 2.1.5:</b>" + "<ul>" + "<li style='padding-left:10px;'>NEU: Pers&ouml;nliche Termine k&ouml;nnen &uuml;ber den Men&uuml;punkt 'Neuer Termin' oder per Klick in einen Block angelegt werden.</li>" + "<li style='padding-left:10px;'>NEU: Berechtigte Benutzer d&uuml;rfen im Panel 'Einzel Termine' neue Termine anlegen oder alte editieren.</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: &Auml;nderungen werden wie ein Stundenplan aufgerufen.</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: Nur registrierte Benutzer haben Zugriff auf alle Funktionen.</li>" + "</ul>" + "<br/>" + "<b>Version: 2.1.4:</b>" + "<li style='padding-left:10px;'>NEU: In der Infoanzeige von Veranstaltungen kann die Modulbeschreibung abgerufen werden.</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: Termine werden nur noch an betroffenen Tagen angezeigt.</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: Termine werden bei Klick auf das orangene Ausrufezeichen angezeigt.</li>" + "<br/>" + "<b>Version: 2.1.3:</b>" + "" + "<li style='padding-left:10px;'>NEU: Stundenpl&auml;ne k&ouml;nnen als Terminkalendar heruntergeladen werden. (Men&uuml;punkt ICal Download)</li>" + "<li style='padding-left:10px;'>NEU: Navigationsleiste kann eingeklappt werden.</li>" + "<li style='padding-left:10px;'>NEU: Veranstaltungen k&ouml;nnen per Doppelklick hinzugef&uuml;gt / entfernt werden.</li>" + "<li style='padding-left:10px;'>NEU: Bei &Auml;nderungen zu Ihrem abgespeicherten Plan werden jetzt sinnvolle Vorschl&auml;ge gemacht.</li>" + "<li style='padding-left:10px;'>NEU: Kontrastreiche Men&uuml;s, sinnvollere Neuanordnung des Men&uuml;s.</li>" + "<li style='padding-left:10px;'>NEU: Seitentitel auch als Titel des pdf-download.</li>" + "<li style='padding-left:10px;'>NEU: Kleinere Texte bei den Einzelterminen.</li>" + "<br/>" + "<b>Version: 2.1.2:</b>" + "" + "<li style='padding-left:10px;'>NEU: MNI Style</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: PDF Download und PDF Dateiname bezieht sich auf den aktiven Tab</li>"
                 });
                 this.infoWindow.show();
             }
@@ -2357,7 +2352,7 @@ MySched.layout = function ()
                     if (type)
                     {
 
-                        var lectureData = grid.mSchedule.data.items;
+                        var lectureData = grid.ScheduleModel.data.items;
 
                         for (var lectureIndex = 0; lectureIndex < lectureData.length; lectureIndex++)
                         {
@@ -2410,7 +2405,7 @@ MySched.layout = function ()
                     Ext.getCmp('content-anchor-tip').destroy();
                 }
 
-                MySched.selectedSchedule = tab.mSchedule;
+                MySched.selectedSchedule = tab.ScheduleModel;
                 // Aufgerufener Tab wird neu geladen
                 if (MySched.Schedule.status === "unsaved")
                 {
@@ -2422,7 +2417,7 @@ MySched.layout = function ()
                 }
 
                 MySched.selectedSchedule.eventsloaded = null;
-                // tab.mSchedule.refreshView();
+                // tab.ScheduleModel.refreshView();
 
                 this.selectedTab = tab;
 
@@ -2496,7 +2491,7 @@ MySched.layout = function ()
                                     var tab = MySched.layout.tabpanel.getComponent(MySched.Base.schedule.getLecture(toremove[i]).data.responsible);
                                     if (tab)
                                     {
-                                        tab.mSchedule.removeLecture(tab.mSchedule.getLecture(toremove[i]));
+                                        tab.ScheduleModel.removeLecture(tab.ScheduleModel.getLecture(toremove[i]));
                                     }
                                     MySched.selectedSchedule.removeLecture(MySched.selectedSchedule.getLecture(toremove[i]));
                                     MySched.Schedule.removeLecture(MySched.Schedule.getLecture(toremove[i]));
@@ -3009,7 +3004,7 @@ MySched.layout = function ()
                                             {
                                                 if (Ext.isObject(lessonData[item]))
                                                 {
-                                                    var record = new Lecture(
+                                                    var record = new LectureModel(
                                                     item,
                                                     lessonData[item], semesterID,
                                                     plantypeID);
@@ -3718,7 +3713,7 @@ l, key)
                             };
                         }
 
-                        var record = new Lecture(
+                        var record = new LectureModel(
                         values.key, values);
 
                         if (MySched.selectedSchedule.id !== "mySchedule")
@@ -4235,7 +4230,7 @@ MySched.Tree = function ()
 
             if (type === "delta")
             {
-                new mSchedule(nodeID, title)
+                new ScheduleModel(nodeID, title)
                     .init(type, nodeKey)
                     .show();
             }
@@ -4275,7 +4270,7 @@ MySched.Tree = function ()
                             {
                                 if (Ext.isObject(lessonData[item]))
                                 {
-                                    var record = new Lecture(item, lessonData[item], semesterID, plantypeID);
+                                    var record = new LectureModel(item, lessonData[item], semesterID, plantypeID);
                                     MySched.Base.schedule.addLecture(record);
                                 }
                             }
@@ -4284,13 +4279,13 @@ MySched.Tree = function ()
                                 MySched.Calendar.addAll(lessonDate);
                             }
 
-                            new mSchedule(nodeID, title).init(type, nodeKey, semesterID).show();
+                            new ScheduleModel(nodeID, title).init(type, nodeKey, semesterID).show();
                         }
                     });
                 }
                 else
                 {
-                    new mSchedule(nodeID, title) .init(type, nodeKey, semesterID) .show();
+                    new ScheduleModel(nodeID, title) .init(type, nodeKey, semesterID) .show();
                 }
             }
         },

@@ -1,14 +1,14 @@
 /*global Ext: false, MySched: false, MySchedLanguage: false */
+/*jslint sloppy: true */
 /**
  * Mapping von Kuerzeln auf Namen
  * @author thorsten
  */
 /**
- * Ersaetzt Ids zu Namen Bei Teacherenten, Studiengaengen, Modulen etc.
+ * Ersaetzt Ids zu Namen Bei Dozenten, Studiengaengen, Modulen etc.
  */
 MySched.Mapping = function ()
 {
-    "use strict";
     var teacher, module, subject, lecture, room, types, roomtype, degree, field;
 
     return {

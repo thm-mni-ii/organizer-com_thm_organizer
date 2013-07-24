@@ -1,3 +1,4 @@
+/* globals jq: false */
 var jq = jQuery.noConflict();
 
 /**
@@ -9,6 +10,7 @@ var jq = jQuery.noConflict();
  */
 function moveUp(oldOrder)
 {
+    "use strict";
     if (oldOrder <= 1)
     {
         return;
@@ -36,6 +38,7 @@ function moveUp(oldOrder)
  */
 function moveDown(oldOrder)
 {
+    "use strict";
     var currentOrder = getCurrentOrder();
     if (oldOrder >= currentOrder.length)
     {
@@ -49,7 +52,7 @@ function moveDown(oldOrder)
     jq('#child' + (oldOrder) + 'link').attr('href', reorderObjects[1].link);
 
     // Set current with lower
-    newOrder = parseInt(oldOrder, 10) + 1;
+    var newOrder = parseInt(oldOrder, 10) + 1;
     jq('#child' + newOrder + 'name').text(reorderObjects[0].name);
     jq('#child' + newOrder).val(reorderObjects[0].id);
     jq('#child' + newOrder + 'link').attr('href', reorderObjects[0].link);
@@ -65,6 +68,7 @@ function moveDown(oldOrder)
  */
 function order(oldOrder)
 {
+    "use strict";
     var currentOrder = getCurrentOrder();
     var newOrder = currentOrder[oldOrder - 1].order;
     if (newOrder === oldOrder)
@@ -78,7 +82,7 @@ function order(oldOrder)
         return;
     }
     var i;
-    if (Math.min(newOrder, oldOrder) == newOrder)
+    if (Math.min(newOrder, oldOrder) === newOrder)
     {
         for (i = newOrder - 1; i < oldOrder - 1; i++)
         {

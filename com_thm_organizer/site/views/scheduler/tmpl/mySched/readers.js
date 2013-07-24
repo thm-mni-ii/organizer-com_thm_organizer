@@ -1,4 +1,5 @@
-/*global Ext: false, MySched: false, MySchedLanguage: false */
+/*global Ext: false, MySched: false, MySchedLanguage: false, LectureModel */
+/*jslint sloppy: true */
 /**
  * JsonReader for the loading and saving of schedules
  * 
@@ -21,7 +22,6 @@ Ext.extend(SchedJsonReader, Ext.data.JsonReader,
      */
     readRecords: function (o)
     {
-        "use strict";
         var records = [],
             success = true;
         if (o.success === false)
@@ -38,7 +38,7 @@ Ext.extend(SchedJsonReader, Ext.data.JsonReader,
             var lecture = MySched.Base.getLecture(key);
             if(Ext.isDefined(lecture))
             {
-                records[records.length] = lecture
+                records[records.length] = lecture;
             }
             else
             {
@@ -57,7 +57,7 @@ Ext.extend(SchedJsonReader, Ext.data.JsonReader,
                         }
                     }
                 }
-                records[records.length] = new Lecture(key, value, MySched.class_semester_id, "");
+                records[records.length] = new LectureModel(key, value, MySched.class_semester_id, "");
             }
         });
 

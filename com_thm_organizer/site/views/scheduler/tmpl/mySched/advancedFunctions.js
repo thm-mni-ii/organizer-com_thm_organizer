@@ -1,9 +1,9 @@
 /*global Ext: false, MySched: false, MySchedLanguage: false, _C: false, confirm: false, addNewEvent: false */
+/*jslint sloppy: true */
 var oldMainToolbar = MySched.layout.getMainToolbar;
 
 MySched.layout.getMainToolbar = function ()
 {
-    "use strict";
     var btnEvent = Ext.create('Ext.Button',
     {
         // Event anlegen
@@ -23,7 +23,6 @@ var addEvent = {
     icon: MySched.mainPath + "images/calendar_add.png",
     handler: function ()
     {
-        "use strict";
         addNewEvent(null, MySched.BlockMenu.day, MySched.BlockMenu.stime,
         MySched.BlockMenu.etime);
     },
@@ -34,7 +33,6 @@ var addEvent = {
 
 window.onbeforeunload = function ()
 {
-    "use strict";
     if (typeof MySched.layout.tabpanel === "undefined")
     {
         return;
@@ -48,23 +46,23 @@ window.onbeforeunload = function ()
 
     for (i = 0; i < tabs.length; i++)
     {
-        if (tabs[i].mSchedule.status === "unsaved")
+        if (tabs[i].ScheduleModel.status === "unsaved")
         {
             check = confirm(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULER_CHANGED);
             if (check === true)
             {
                 for (ti = 0; ti < temptabs.length; ti++)
                 {
-                    if (temptabs[ti].mSchedule.status === "unsaved")
+                    if (temptabs[ti].ScheduleModel.status === "unsaved")
                     {
-                        if (temptabs[ti].mSchedule.id === "mySchedule")
+                        if (temptabs[ti].ScheduleModel.id === "mySchedule")
                         {
-                            temptabs[ti].mSchedule.save(_C('ajaxHandler'),
+                            temptabs[ti].ScheduleModel.save(_C('ajaxHandler'),
                             false, "UserSchedule.save");
                         }
                         else
                         {
-                            temptabs[ti].mSchedule.save(_C('ajaxHandler'),
+                            temptabs[ti].ScheduleModel.save(_C('ajaxHandler'),
                             false, "saveScheduleChanges");
                         }
                         tosave = true;

@@ -1,5 +1,6 @@
 /*global Ext: false, MySched: false, MySchedLanguage: false, blocktotime: false, weekdayEtoD: false, numbertoday: false, getMonday: false,
 _C: false, externalLinks: false, daytonumber: false */
+/*jslint sloppy: true */
 
 /**
  * Spezielles Grid Vordefiniert fuer Wochenstruktur mit Veranstaltungen
@@ -15,8 +16,6 @@ Ext.define('SchedGrid',
 
     loadData: function (data)
     {
-        "use strict";
-
         if (MySched.daytime.length > 0)
         {
             for (var i = 1; i < MySched.daytime[1].length; i++)
@@ -43,8 +42,6 @@ Ext.define('SchedGrid',
      */
     setSporadicLectures: function (data)
     {
-        "use strict";
-
         this.sporadics = [];
         if (!data || data.length === 0)
         {
@@ -56,8 +53,6 @@ Ext.define('SchedGrid',
 
 function getSchedGrid()
 {
-    "use strict";
-
     Ext.create('Ext.data.Store',
     {
         storeId: 'gridStore',
@@ -168,8 +163,6 @@ function getSchedGrid()
 
 function showEventdesc(index)
 {
-    "use strict";
-
     if (Ext.ComponentMgr.get("datdescription") === null || typeof Ext.ComponentMgr.get("datdescription") === "undefined")
     {
         this.eventWindow = Ext.create('Ext.Window',
@@ -197,8 +190,6 @@ Ext.apply(Ext.form.VTypes,
 {
     daterange: function (val, field)
     {
-        "use strict";
-
         var date = field.parseDate(val);
 
         if (!date)
@@ -228,7 +219,6 @@ Ext.apply(Ext.form.VTypes,
 
     password: function (val, field)
     {
-        "use strict";
 
         if (field.initialPassField)
         {
@@ -243,7 +233,6 @@ Ext.apply(Ext.form.VTypes,
 
 function addNewEvent(eventid, sdate, stime, etime)
 {
-    "use strict";
 
     if (Ext.isObject(eventid) || eventid === null || typeof eventid === "undefined")
     {
@@ -356,7 +345,6 @@ function addNewEvent(eventid, sdate, stime, etime)
 
 function newEventonLoad(iframe)
 {
-    "use strict";
 
     var eventForm = Ext.DomQuery.select('form[id=eventForm]',
     iframe.contentDocument.documentElement);
@@ -402,7 +390,6 @@ function newEventonLoad(iframe)
  */
 MySched.lectureCellRenderer = function (data, meta, record, rowIndex, colIndex, store)
 {
-    "use strict";
     function cl(css)
     {
         if (MySched.freeBusyState)
@@ -427,7 +414,7 @@ MySched.lectureCellRenderer = function (data, meta, record, rowIndex, colIndex, 
         weekpointer = getMonday(weekpointer);
         weekpointer.setDate(weekpointer.getDate() + (colIndex - 1));
 
-        var headerCt = this.mSchedule.grid.getView().getHeaderCt();
+        var headerCt = this.ScheduleModel.grid.getView().getHeaderCt();
 
         var header = headerCt.getHeaderAtIndex(colIndex);
 
@@ -447,12 +434,12 @@ MySched.lectureCellRenderer = function (data, meta, record, rowIndex, colIndex, 
     }
 
     var blockStatus = MySched.Schedule.getBlockStatus(colIndex, rowIndex);
-    if (blockStatus === 1 && this.mSchedule.id !== "mySchedule")
+    if (blockStatus === 1 && this.ScheduleModel.id !== "mySchedule")
     {
         meta.tdCls += cl('blockBusy');
         meta.tdCls += cl('conMenu');
     }
-    else if (blockStatus > 1 && this.mSchedule.id !== "mySchedule")
+    else if (blockStatus > 1 && this.ScheduleModel.id !== "mySchedule")
     {
         meta.tdCls += cl('blockOccupied');
         meta.tdCls += cl('conMenu');

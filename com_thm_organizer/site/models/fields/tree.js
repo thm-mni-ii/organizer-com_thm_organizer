@@ -1,9 +1,9 @@
 /*global Ext: false, MySched: false, MySchedLanguage: false */
+/*jslint sloppy: true*/
 Ext.override(Ext.tree.Column,
 {
     initComponent: function()
     {
-        "use strict";
         var origRenderer = this.renderer || this.defaultRenderer;
         var origScope  = this.scope || window;
 
@@ -113,7 +113,6 @@ Ext.override(Ext.tree.Column,
 
 function changeIconHighlight (event)
 {
-    "use strict";
 
     var elImg = event.getTarget('.MySched_checkbox_fake', 5, true);
     var elInput = elImg.dom.getPrevious();
@@ -130,7 +129,6 @@ function changeIconHighlight (event)
 
 function setPublicDefaultStatus(event)
 {
-    "use strict";
 
     var elImg = event.getTarget('.MySched_checkbox_default_fake', 5, true);
     var elInput = elImg.dom.getPrevious();
@@ -164,7 +162,6 @@ function setPublicDefaultStatus(event)
 
 function setStatus(event)
 {
-    "use strict";
 
     var elImg = event.getTarget('.MySched_checkbox_fake', 5, true);
     var elInput = elImg.dom.getPrevious();
@@ -213,7 +210,6 @@ function setStatus(event)
 
 Ext.data.Tree.prototype.check = function(state, descend, bulk)
 {
-    "use strict";
     this.data.checked = state;
     if(this.ui.checkbox)
     {
@@ -237,8 +233,6 @@ Ext.data.Tree.prototype.check = function(state, descend, bulk)
 
 Ext.tree.Panel.prototype.getChecked = function(node, checkedArr)
 {
-    "use strict";
-
     var checked;
     if(checkedArr === null)
     {
@@ -295,8 +289,6 @@ Ext.tree.Panel.prototype.getChecked = function(node, checkedArr)
 
 Ext.tree.Panel.prototype.getPublicDefault = function(node, checkedArr)
 {
-    "use strict";
-
     var checked;
     if(checkedArr === null)
     {
@@ -339,7 +331,6 @@ Ext.tree.Panel.prototype.getPublicDefault = function(node, checkedArr)
 
 Ext.tree.Panel.prototype.doGray = function(node)
 {
-    "use strict";
     var elImg = null;
 
     if( typeof node === 'undefined' )
@@ -433,7 +424,6 @@ Ext.onReady(function()
 
 function checkBoxEvents(node)
 {
-    "use strict";
 
     if(!Ext.isDefined(node))
     {

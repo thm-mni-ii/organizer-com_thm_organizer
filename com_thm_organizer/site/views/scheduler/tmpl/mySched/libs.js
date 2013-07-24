@@ -1,4 +1,5 @@
 /*global Ext: false, MySched: true, MySchedLanguage: false, blocktotime: false */
+/*jslint sloppy: true */
 // // // Link auf ein lokales Blankes Bild
 //Ext.BLANK_IMAGE_URL = externLinks.blankImageLink;
 Ext.MessageBox.buttonText.yes = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_YES;
@@ -21,15 +22,12 @@ Ext.ns('MySched');
  */
 MySched.Collection = function ()
 {
-    "use strict";
-
     MySched.Collection.superclass.constructor.call(this);
 };
 Ext.extend(MySched.Collection, Ext.util.MixedCollection,
 {
     getKey: function (el)
     {
-        "use strict";
         if (typeof el === 'object' && typeof el.getId === 'function')
         {
             return el.getId();
@@ -38,13 +36,11 @@ Ext.extend(MySched.Collection, Ext.util.MixedCollection,
     },
     isEmpty: function ()
     {
-        "use strict";
     
         return this.getCount() === 0;
     },
     get: function (key, def)
     {
-        "use strict";
 
         var ret = MySched.Collection.superclass.get.call(this, key);
         if (Ext.isEmpty(ret))
@@ -55,7 +51,6 @@ Ext.extend(MySched.Collection, Ext.util.MixedCollection,
     },
     getField: function (field)
     {
-        "use strict";
 
         var ret = [];
         this.each(function (e) { this.push(e[field]); }, ret);
@@ -63,8 +58,6 @@ Ext.extend(MySched.Collection, Ext.util.MixedCollection,
     },
     asArray: function ()
     {
-        "use strict";
-
         return this.items;
     },
     /**
@@ -79,8 +72,6 @@ Ext.extend(MySched.Collection, Ext.util.MixedCollection,
      */
     filterBy: function (fn, scope)
     {
-        "use strict";
-
         var r = new MySched.Collection();
         r.getKey = this.getKey;
         var k = this.keys,
@@ -108,10 +99,8 @@ MySched.Calendar = new MySched.Collection();
  * @param {Object}
  *            a
  */
-var _C = function (a)
+function _C (a)
 {
-    "use strict";
-
     return MySched.Config.get(a);
 };
 
@@ -123,8 +112,7 @@ var _C = function (a)
  */
 String.prototype.equal = function (str)
 {
-    "use strict";
-    return this.toLowerCase() == str.toLowerCase();
+    return this.toLowerCase() === str.toLowerCase();
 };
 
 /**
@@ -135,8 +123,6 @@ String.prototype.equal = function (str)
  */
 Array.prototype.AddTo = function (index, value)
 {
-    "use strict";
-
     var newArray = [], i;
     for (i = 0; i < index; i++)
     {
@@ -157,7 +143,6 @@ Array.prototype.AddTo = function (index, value)
  */
 Array.prototype.contains = function (obj)
 {
-    "use strict";
     var i = this.length;
     while (i--)
     {
@@ -178,8 +163,6 @@ Ext.override(Ext.dd.DragZone,
 {
     getDragData: function (e)
     {
-        "use strict";
-
         // TreeNode
         if (Ext.dd.Registry.getHandleFromEvent(e))
         {
@@ -216,8 +199,6 @@ Ext.grid.View,
     // hinzugefuegt
     doAutoRender: function (cs, rs, ds, startRow, colCount, stripe)
     {
-        "use strict";
-
         var ts = this.templates,
             ct = ts.cell,
             rt = ts.row,
@@ -302,8 +283,6 @@ Ext.grid.View,
 
 function cropText(sText, nCropLimit)
 {
-    "use strict";
-
     if (Ext.ComponentMgr.get("leftMenu").collapsed)
     {
         nCropLimit = nCropLimit + 6;
@@ -339,7 +318,6 @@ function cropText(sText, nCropLimit)
 
 function showevent(event, arr, selectedScheduleid)
 {
-    "use strict";
     if (event.source === "estudy")
     {
         return 5;
@@ -411,8 +389,6 @@ function showevent(event, arr, selectedScheduleid)
 
 function lessoncontains(obj, arr)
 {
-    "use strict";
-
     if (obj !== null)
     {
         for (var lessonindex in arr)
@@ -446,8 +422,6 @@ function lessoncontains(obj, arr)
 
 function numbertoday(number)
 {
-    "use strict";
-
     if (number < 0 || number > 6)
     {
         return false;
@@ -469,8 +443,6 @@ function numbertoday(number)
  */
 function getMonday(date)
 {
-    "use strict";
-
     var weekpointer = null;
     if (Ext.isDate(date))
     {
@@ -489,8 +461,6 @@ function getMonday(date)
  */
 function getCurrentMoFrDate()
 {
-    "use strict";
-
     var returnData = [];
     var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker').value);
     var mondayWeekPointer = getMonday(weekpointer);
@@ -511,7 +481,6 @@ function getCurrentMoFrDate()
  */
 function showLoadMask(id)
 {
-    "use strict";
     if (!Ext.isDefined(id))
     {
         id = MySched.layout.tabpanel.getId();
@@ -520,13 +489,12 @@ function showLoadMask(id)
     {
         MySched.loadMask.destroy();
     }
-    MySched.loadMask = new Ext.LoadMask(id, { msg: "Loading..." });
+    MySched.loadMask = new Ext.LoadMask({target: id});
     MySched.loadMask.show();
 }
 
 function convertEnglishDateStringToDateObject(dateString)
 {
-    "use strict";
     var splittedDateIndex = dateString.split("-");
     if (splittedDateIndex.length === 3)
     {
@@ -542,7 +510,6 @@ function convertEnglishDateStringToDateObject(dateString)
 
 function convertGermanDateStringToDateObject(dateString)
 {
-    "use strict";
     var splittedDateIndex = dateString.split(".");
     if (splittedDateIndex.length === 3)
     {
@@ -558,7 +525,6 @@ function convertGermanDateStringToDateObject(dateString)
 
 function displayDelta()
 {
-    "use strict";
     if(!Ext.isNumber(MySched.deltaDisplayDays))
     {
         return false;
@@ -578,8 +544,6 @@ function displayDelta()
 
 function getTeacherSurnameWithCutFirstName(teacherKey)
 {
-    "use strict";
-
     var teacherName = teacherKey;
     var teacherSurname = MySched.Mapping.getTeacherSurname(teacherKey);
     var teacherFirstname = MySched.Mapping.getTeacherFirstname(teacherKey);
@@ -599,8 +563,6 @@ function getTeacherSurnameWithCutFirstName(teacherKey)
 
 function getBlocksBetweenTimes(startTime, endTime, eventStartDate, eventEndDate)
 {
-    "use strict";
-
     if(eventStartDate < eventEndDate)
     {
         endTime = "19:00";
@@ -650,7 +612,6 @@ Ext.define('Ext.ux.TabCloseOnMiddleClick', {
 
     init : function(tabpanel)
     {
-        "use strict";
         this.tabPanel = tabpanel;
         this.tabBar = tabpanel.down("tabbar");
 
@@ -663,7 +624,6 @@ Ext.define('Ext.ux.TabCloseOnMiddleClick', {
 
     onAfterLayout: function()
     {
-        "use strict";
         this.mon(this.tabBar.el, {
             scope: this,
             mousedown: this.onMouseDown,
@@ -678,13 +638,11 @@ Ext.define('Ext.ux.TabCloseOnMiddleClick', {
 
     onMouseDown: function(e)
     {
-        "use strict";
         e.preventDefault();
     },
 
     onMouseUp: function(e, target)
     {
-        "use strict";
         e.preventDefault();
         
         if( target && e.button === 1  )

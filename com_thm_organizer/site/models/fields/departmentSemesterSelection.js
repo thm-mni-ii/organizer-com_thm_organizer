@@ -1,54 +1,48 @@
+/*globals Ext: false */
+/*jslint sloppy: true */
 var loadMask = null;
 
 Ext.onReady(function()
 {
-	Ext.get('jform_params_departmentSemesterSelection').on({
-		'change': function (e) {
-			e.stopEvent();
-			var selectBox = e.getTarget();
-			var selectedItems = selectBox.getSelected();
-			var selectedItem = selectedItems[0];
-			var selectedItemValue = selectedItem.value;
-			loadTreeData(selectedItemValue);
-      	}
+    Ext.get('jform_params_departmentSemesterSelection').on({
+        'change': function (e) {
+            e.stopEvent();
+            var selectBox = e.getTarget();
+            var selectedItems = selectBox.getSelected();
+            var selectedItem = selectedItems[0];
+            var selectedItemValue = selectedItem.value;
+            loadTreeData(selectedItemValue);
+        }
     });
-	
-	var initselectBox = Ext.get('jform_params_departmentSemesterSelection');
-	var initselectedItems = initselectBox.dom.getSelected();
-	if(initselectedItems.length > 0)
-	{
-		var initselectedItem = initselectedItems[0];
-		var initselectedItemValue = initselectedItem.value;
-		loadTreeData(initselectedItemValue);
-	}
+
+    var initselectBox = Ext.get('jform_params_departmentSemesterSelection');
+    var initselectedItems = initselectBox.dom.getSelected();
+    if(initselectedItems.length > 0)
+    {
+        var initselectedItem = initselectedItems[0];
+        var initselectedItemValue = initselectedItem.value;
+        loadTreeData(initselectedItemValue);
+    }
 });
 
 function loadTreeData(selectedItemValue)
 {
-	if (loadMask)
+    if (loadMask)
     {
-		loadMask.destroy();
+        loadMask.destroy();
     }
-	loadMask = new Ext.LoadMask(
-    "selectTree",
-    {
-        msg: "Loading..."
-    });
-	loadMask.show();
-	
-	Ext.Ajax.request(
+    loadMask = new Ext.LoadMask("selectTree", { msg: "Loading..." });
+    loadMask.show();
+
+    Ext.Ajax.request(
     {
         url: externLinks.ajaxHandler,
         method: 'POST',
         params: 
         {
-        	departmentSemesterSelection: selectedItemValue,
+            departmentSemesterSelection: selectedItemValue,
             scheduletask: "TreeView.load",
             menuID: menuID
-        },
-        failure: function (response)
-        {
-        	
         },
         success: function (response)
         {
@@ -60,13 +54,13 @@ function loadTreeData(selectedItemValue)
             tree.update();
 
             checkBoxEvents();
-        	
-        	tree.doGray();
-            
+
+            tree.doGray();
+
             if (loadMask)
-		    {
-				loadMask.destroy();
-		    }
+            {
+                loadMask.destroy();
+            }
         }
     });
 }

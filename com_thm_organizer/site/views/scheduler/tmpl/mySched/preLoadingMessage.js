@@ -1,4 +1,5 @@
 /*global MySchedLanguage: false */
+/*jslint sloppy: true */
 var prediv = document.createElement("div");
 prediv.setAttribute("id", "preloadMessage");
 var prespan = document.createElement("span");
@@ -14,7 +15,6 @@ document.getElementById("MySchedMainW").appendChild(prediv);
 
 function addLoadEvent(func)
 {
-    "use strict";
     var oldonload = window.onload;
     if (typeof window.onload !== 'function ')
     {
@@ -34,6 +34,5 @@ function addLoadEvent(func)
 
 addLoadEvent(function ()
 {
-    "use strict";
     document.getElementById("preloadMessage").style.display = "none";
 });

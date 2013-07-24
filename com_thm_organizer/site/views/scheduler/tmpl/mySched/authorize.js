@@ -1,4 +1,5 @@
 /*global Ext: false, MySched: false, MySchedLanguage: false, _C: false */
+/*jslint sloppy: true */
 /**
  * Objekt zum Authentifizieren des Benutzers und der Verwaltung dessen Rechten
  * 
@@ -6,7 +7,6 @@
  */
 MySched.Authorize = function ()
 {
-    "use strict";
     var user, authWindow, authentificatedToken, accArr, role, additionalRights;
 
     return {

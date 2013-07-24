@@ -1,10 +1,10 @@
 /*global Ext: false, MySched: false, MySchedLanguage: false, getTeacherSurnameWithCutFirstName: false */
+/*jslint sloppy: true */
 Ext.override(
 Ext.picker.Date,
 {
     fullUpdate: function (date, active)
     {
-        "use strict";
         var me = this,
             cells = me.cells.elements,
             textNodes = me.textNodes,
@@ -208,7 +208,6 @@ Ext.picker.Date,
 
 function calendar_tooltip (e)
 {
-    "use strict";
     var el = e.getTarget('.calendar_tooltip', 5, true);
     var calendarTip = Ext.getCmp('mySched_calendar-tip');
     if (calendarTip)

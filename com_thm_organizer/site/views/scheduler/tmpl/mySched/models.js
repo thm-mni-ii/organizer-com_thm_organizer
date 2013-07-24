@@ -1,4 +1,5 @@
 /*global Ext: false, MySched: false, MySchedLanguage: false, blocktotime: false */
+/*jslint sloppy: true */
 /**
  * Models von MySched
  * @author thorsten
@@ -14,7 +15,6 @@ Ext.define('MySched.Model',
 
     constructor: function (id, d)
     {
-        "use strict";
         var data, responsible, object1, object2;
 
         this.id = id;
@@ -35,12 +35,10 @@ Ext.define('MySched.Model',
     },
     getId: function ()
     {
-        "use strict";
         return this.id;
     },
     getData: function (addData)
     {
-        "use strict";
         if (Ext.type(addData) !== 'object')
         {
             return this.data;
@@ -49,17 +47,14 @@ Ext.define('MySched.Model',
     },
     setParent: function (p)
     {
-        "use strict";
         this.parent = p;
     },
     getParent: function ()
     {
-        "use strict";
         return this.parent;
     },
     asArray: function ()
     {
-        "use strict";
         var ret = [];
         var d = this.data;
         if (d.asArray)
@@ -86,7 +81,6 @@ Ext.define('MySched.Model',
     },
     exportData: function (type, pers)
     {
-        "use strict";
         var d = [];
         if (pers === "personal")
         {
@@ -121,7 +115,6 @@ Ext.define('MySched.Model',
     },
     exportAllData: function ()
     {
-        "use strict";
         var d = [];
         d[0] = {};
         d[0].htmlView = this.htmlView;
@@ -141,13 +134,12 @@ Ext.define('MySched.Model',
  * Model zur Darstellung eines Stundenplans
  * @author thorsten
  */
-Ext.define('mSchedule',
+Ext.define('ScheduleModel',
 {
     extend: 'MySched.Model',
 
     constructor: function (id, title, config)
     {
-        "use strict";
         var blockCache, status;
         this.blockCache = null;
         this.title = title || id;
@@ -156,7 +148,7 @@ Ext.define('mSchedule',
         this.title = title;
         this.visibleLessons = [];
         this.visibleEvents = [];
-        mSchedule.superclass.constructor.call(this, id, new MySched.Collection());
+        ScheduleModel.superclass.constructor.call(this, id, new MySched.Collection());
         if (config && config.type && config.value)
         {
             this.init(config.type, config.value);
@@ -176,7 +168,6 @@ Ext.define('mSchedule',
     },
     init: function (type, value, semesterID)
     {
-        "use strict";
         if (type === "delta")
         {
             this.data = MySched.delta.data;
@@ -210,7 +201,6 @@ Ext.define('mSchedule',
     },
     addLecture: function (l)
     {
-        "use strict";
         if (this.fireEvent("beforeLectureAdd", l) === false)
         {
             return;
@@ -226,7 +216,6 @@ Ext.define('mSchedule',
     },
     clear: function ()
     {
-        "use strict";
         if (this.fireEvent("beforeClear", this) === false)
         {
             return this.data.clear();
@@ -237,7 +226,6 @@ Ext.define('mSchedule',
     },
     removeLecture: function (l)
     {
-        "use strict";
         if (this.fireEvent("beforeLectureRemove", l) === false)
         {
             return;
@@ -266,7 +254,6 @@ Ext.define('mSchedule',
      */
     getLecture: function (id)
     {
-        "use strict";
         if (id.match('##'))
         {
             id = id.split('##')[1];
@@ -284,7 +271,6 @@ Ext.define('mSchedule',
     },
     isEmpty: function ()
     {
-        "use strict";
         return this.data.isEmpty();
     },
     /**
@@ -295,7 +281,6 @@ Ext.define('mSchedule',
      */
     getLectures: function (type, value)
     {
-        "use strict";
         if (Ext.isEmpty(type) && Ext.isEmpty(value))
         {
             return this.data.items;
@@ -311,7 +296,6 @@ Ext.define('mSchedule',
     },
     getGridData: function ()
     {
-        "use strict";
         // 0-5 => Blocke am Tag
         var ret = [{},{},{},{},{},{}];
 
@@ -534,7 +518,6 @@ Ext.define('mSchedule',
     },
     load: function (url, type, cb, scope, username, tmi)
     {
-        "use strict";
         var scheduleTask = 'UserSchedule.load';
 
         var defaultParams = {
@@ -571,7 +554,6 @@ Ext.define('mSchedule',
      */
     checkLectureVersion: function (against)
     {
-        "use strict";
         var ret = {};
         this.data.each(function (v)
         {
@@ -658,7 +640,6 @@ Ext.define('mSchedule',
      */
     preParseLectures: function (o, arg)
     {
-        "use strict";
         // Funktion nach dem Auth ausfuehren und loeschen -> SPeichern geklickt
         if (MySched.Authorize.afterAuthCallback)
         {
@@ -669,7 +650,6 @@ Ext.define('mSchedule',
     },
     loadsavedLectures: function (o, arg)
     {
-        "use strict";
         if (o.resultSet !== null)
         {
             var r = o.resultSet.records, e;
@@ -701,7 +681,7 @@ Ext.define('mSchedule',
 
             var deltaid = semid + ".1.delta";
 
-            var deltaSched = new mSchedule(deltaid, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_CENTRAL).init("delta", deltaid);
+            var deltaSched = new ScheduleModel(deltaid, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_CENTRAL).init("delta", deltaid);
             deltaSched.show();
             MySched.layout.viewport.doLayout();
             MySched.selectedSchedule.responsible = "delta";
@@ -717,7 +697,6 @@ Ext.define('mSchedule',
      */
     parseLectures: function (o)
     {
-        "use strict";
         this.fireEvent('load', this);
         var r = o.resultSet.records;
         var l, key;
@@ -774,7 +753,6 @@ Ext.define('mSchedule',
      */
     parseLecturesdiff: function (o, arg)
     {
-        "use strict";
         // Fuegt dem Uebergabeparameter das Result hinzu
         Ext.applyIf(arg.params,
         {
@@ -799,13 +777,12 @@ Ext.define('mSchedule',
     },
     show: function (ret, closeable)
     {
-        "use strict";
         if (closeable !== false)
         {
             closeable = true;
         }
         this.grid = getSchedGrid(this.getGridData());
-        this.grid.mSchedule = this;
+        this.grid.ScheduleModel = this;
         if (ret)
         {
             return this.grid;
@@ -832,7 +809,6 @@ Ext.define('mSchedule',
     },
     refreshView: function ()
     {
-        "use strict";
         if (!this.grid)
         {
             return this.show();
@@ -855,7 +831,6 @@ Ext.define('mSchedule',
     },
     getBlockStatus: function (wd, block)
     {
-        "use strict";
         var weekdays = {
             1: "monday",
             2: "tuesday",
@@ -879,7 +854,6 @@ Ext.define('mSchedule',
     },
     getBlockCache: function (forceGenNew)
     {
-        "use strict";
         // Generiere den BlockCache neu falls notwendig
         if (forceGenNew || Ext.isEmpty(this.blockCache))
         {
@@ -929,7 +903,6 @@ Ext.define('mSchedule',
     },
     lectureExists: function (l)
     {
-        "use strict";
         if (l.getId)
         {
             l = l.getId();
@@ -942,7 +915,6 @@ Ext.define('mSchedule',
     },
     markChanged: function ()
     {
-        "use strict";
         if (this.changed)
         {
             return;
@@ -952,7 +924,6 @@ Ext.define('mSchedule',
     },
     markUnchanged: function ()
     {
-        "use strict";
         if (!this.changed)
         {
             return;
@@ -961,7 +932,6 @@ Ext.define('mSchedule',
     },
     save: function (url, success, scheduletask)
     {
-        "use strict";
         if (MySched.Authorize.user !== null)
         {
             if (this.fireEvent("beforeSave", this, url) === false)
@@ -1031,7 +1001,7 @@ Ext.define('mSchedule',
                                 MySched.Schedule.status = "unsaved";
                                 Ext.ComponentMgr.get('btnSave').enable();
                                 var tab = MySched.layout.tabpanel.getComponent(MySched.selectedSchedule.id);
-                                tab.mSchedule.status = "unsaved";
+                                tab.ScheduleModel.status = "unsaved";
                                 tab = Ext.get(MySched.layout.tabpanel.getTabEl(tab)).child('.' + MySched.selectedSchedule.type + 'Icon');
                                 if (tab)
                                 {
@@ -1067,7 +1037,6 @@ Ext.define('mSchedule',
     },
     asArray: function ()
     {
-        "use strict";
         var asArrRet = {};
         var d = this.data;
         
@@ -1084,7 +1053,6 @@ Ext.define('mSchedule',
     },
     asArrayForPDF: function ()
     {
-        "use strict";
         var asArrRet = [];
         var d = this.data;
         if (d.asArray)
@@ -1148,12 +1116,10 @@ Ext.define('mSchedule',
     },
     getLessonKeys: function ()
     {
-        "use strict";
         return this.data.keys;
     },
     asPersArray: function ()
     {
-        "use strict";
         this.asArrRet = [];
         var d = this.data;
         if (d.asArray)
@@ -1186,20 +1152,19 @@ Ext.define('mSchedule',
  * LectureModel
  * @param {Object} lecture
  */
-Ext.define('Lecture',
+Ext.define('LectureModel',
 {
     extend: 'MySched.Model',
 
     constructor: function (id, data, semesterID, plantypeID)
     {
-        "use strict";
         var teacher, module, room, cellTemplate, infoTemplate;
         var owner = data.owner;
         var stime = data.stime;
         var etime = data.etime;
         var showtime = data.showtime;
 
-        Lecture.superclass.constructor.call(this, id, Ext.clone(data));
+        LectureModel.superclass.constructor.call(this, id, Ext.clone(data));
 
         this.data.teachers = new MySched.Collection();
         this.data.teachers.addAll(data.teachers);
@@ -1231,7 +1196,6 @@ Ext.define('Lecture',
     },
     getDetailData: function (d)
     {
-        "use strict";
         return Ext.apply(this.getData(d),
         {
             'lessonTitle': this.getLessonTitle(d),
@@ -1252,7 +1216,6 @@ Ext.define('Lecture',
     },
     getCurriculumColor: function (d)
     {
-        "use strict";
         if(MySched.selectedSchedule === null)
         {
             return "";
@@ -1281,7 +1244,6 @@ Ext.define('Lecture',
     },
     getDeltaStatus: function (d)
     {
-        "use strict";
         var currentMoFrDate = getCurrentMoFrDate();
         var returnValue = "";
         if(d.showDelta === true)
@@ -1303,14 +1265,12 @@ Ext.define('Lecture',
     },
     getLessonTitle: function (d)
     {
-        "use strict";
         var firstSubject = this.data.subjects.keys[0];
         var lessonTitle = MySched.Mapping.getSubjectName(firstSubject);
         return lessonTitle;
     },
     getComment: function (d)
     {
-        "use strict";
         if (!Ext.isEmpty(d.comment) && Ext.isString(d.comment))
         {
             return "<br/>(" + d.comment + ")";
@@ -1322,14 +1282,12 @@ Ext.define('Lecture',
     },
     getEvents: function (d)
     {
-        "use strict";
         var ret = "";
         ret = MySched.eventlist.getEventsForLecture(this, d.block, d.dow);
         return ret;
     },
     getTopIcon: function (d)
     {
-        "use strict";
         if (isset(this.data.lessonChanges) && this.data.lessonChanges.status === "new")
         {
             return '<div data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_IS_NEW + '" class="top_icon_image">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NEW + '</div>';
@@ -1356,7 +1314,6 @@ Ext.define('Lecture',
     },
     getStatus: function (d)
     {
-        "use strict";
         var ret = '<div class="status_icons"> ';
 
         if (this.data.ecollaborationLink !== null)
@@ -1395,7 +1352,6 @@ Ext.define('Lecture',
     },
     getChanges: function (lec)
     {
-        "use strict";
         var r = "", t = "", c = "", l, temp;
 
         if (lec && lec.changes)
@@ -1486,47 +1442,42 @@ Ext.define('Lecture',
     },
     loadTeacher: function (arr)
     {
-        "use strict";
         if (arr)
         {
             var myteacher = arr.split(" ");
             Ext.each(myteacher, function (e)
             {
-                var nteacher = new mTeacherent(e);
+                var nteacher = new TeacherModel(e);
                 this.teacher.add(nteacher);
             }, this);
         }
     },
     loadRoom: function (arr)
     {
-        "use strict";
         if (arr)
         {
             var myroom = arr.split(" ");
-            Ext.each(myroom, function (e) { this.room.add(new mRoom(e)); }, this);
+            Ext.each(myroom, function (e) { this.room.add(new RoomModel(e)); }, this);
         }
     },
     loadSubject: function (arr)
     {
-        "use strict";
         if (arr)
         {
             var mySubject = arr.split(" ");
-            Ext.each(mySubject, function (e) { this.subject.add(new mSubject(e)); }, this);
+            Ext.each(mySubject, function (e) { this.subject.add(new SubjectModel(e)); }, this);
         }
     },
     loadClas: function (arr)
     {
-        "use strict";
         if (arr)
         {
             var mymodule = arr.split(" ");
-            Ext.each(mymodule, function (e) { this.module.add(new mClas(e)); }, this);
+            Ext.each(mymodule, function (e) { this.module.add(new PoolModel(e)); }, this);
         }
     },
     getData: function (addData)
     {
-        "use strict";
         if (!this.data.name)
         {
             this.data.name = this.getName();
@@ -1535,11 +1486,10 @@ Ext.define('Lecture',
         {
             this.data.desc = this.getDesc();
         }
-        return Lecture.superclass.getData.call(this, addData);
+        return LectureModel.superclass.getData.call(this, addData);
     },
     getRoomName: function (d)
     {
-        "use strict";   
         var rooms = this.getRooms(this);
         var ret = [];
         var removed = [];
@@ -1569,7 +1519,6 @@ Ext.define('Lecture',
     },
     getRooms: function(lesson)
     {
-        "use strict";
         var roomCollection = new MySched.Collection();
         var currentMoFrDate = getCurrentMoFrDate();
         for(var dateIndex in lesson.data.calendar)
@@ -1589,7 +1538,6 @@ Ext.define('Lecture',
     },
     getTeacherNames: function (d)
     {
-        "use strict";
         var teachers = this.data.teachers.map;
         var ret = [];
         var removed = [];
@@ -1619,7 +1567,6 @@ Ext.define('Lecture',
     },
     getNames: function (col, shortVersion)
     {
-        "use strict";
         var ret = [];
         col.each(function (e)
         {
@@ -1644,7 +1591,6 @@ Ext.define('Lecture',
     },
     getClassFull: function (col)
     {
-        "use strict";
         var ret = [];
         col.each(function (e)
         {
@@ -1657,7 +1603,6 @@ Ext.define('Lecture',
     },
     getModuleName: function (d)
     {
-        "use strict";
         var modules = this.data.modules.map;
         var ret = [];
         var removed = [];
@@ -1693,42 +1638,34 @@ Ext.define('Lecture',
     },
     getName: function ()
     {
-        "use strict";
         return MySched.Mapping.getLectureName(this.data.id);
     },
     getDesc: function ()
     {
-        "use strict";
         return MySched.Mapping.getLectureDescription(this.data.id);
     },
     getTeacher: function ()
     {
-        "use strict";
         return this.teacher;
     },
     getClas: function ()
     {
-        "use strict";
         return this.module;
     },
     getRoom: function ()
     {
-        "use strict";
         return this.room;
     },
     getWeekDay: function ()
     {
-        "use strict";
         return this.data.dow;
     },
     getBlock: function ()
     {
-        "use strict";
         return this.data.block;
     },
     getDescription: function ()
     {
-        "use strict";
         if (!Ext.isEmpty(this.data.description) && Ext.isString(this.data.description))
         {
             return "-" + this.data.description;
@@ -1740,7 +1677,6 @@ Ext.define('Lecture',
     },
     setCellTemplate: function (t)
     {
-        "use strict";
         var time = "";
         var blocktimes = blocktotime(this.data.block);
         if (this.data.showtime === "full")
@@ -1809,12 +1745,10 @@ Ext.define('Lecture',
     },
     setInfoTemplate: function (t)
     {
-        "use strict";
         this.infoTemplate.set(t, true);
     },
     getCellView: function (relObj, block, dow)
     {
-        "use strict";
         showDelta = displayDelta();
 
         var d = this.getDetailData(
@@ -1840,7 +1774,6 @@ Ext.define('Lecture',
     },
     getSporadicView: function (relObj)
     {
-        "use strict";
         var d = this.getDetailData({ parentId: relObj.getId() });
         if (relObj.getId() !== 'mySchedule' && MySched.Schedule.lectureExists(this))
         {
@@ -1850,12 +1783,10 @@ Ext.define('Lecture',
     },
     showInfoPanel: function ()
     {
-        "use strict";
         return this.infoTemplate.apply(this.getDetailData(this));
     },
     has: function (type, val)
     {
-        "use strict";
         var o = { ret: false };
 
         if (type === "teacher")
@@ -1909,24 +1840,21 @@ Ext.define('Lecture',
     },
     isSporadic: function ()
     {
-        "use strict";
         return this.data.type === 'sporadic';
     }
 });
 
-Ext.define('mEventlist',
+Ext.define('EventListModel',
 {
     extend: 'MySched.Model',
 
     constructor: function ()
     {
-        "use strict";
         var data;
         this.data = new MySched.Collection();
     },
     addEvent: function (e)
     {
-        "use strict";
         // Fuegt ein Event hinzu
         if (e.data.starttime === "00:00")
         {
@@ -1940,7 +1868,6 @@ Ext.define('mEventlist',
     },
     getEvent: function (id)
     {
-        "use strict";
         var idsplit = id.split("_");
         var datas = this.data.filterBy(function (o, k)
         {
@@ -1955,7 +1882,6 @@ Ext.define('mEventlist',
     },
     getEvents: function (type, value)
     {
-        "use strict";
         if (Ext.isEmpty(type) && Ext.isEmpty(value))
         {
             return this.data.items;
@@ -1999,7 +1925,6 @@ Ext.define('mEventlist',
     },
     getEventsForLecture: function(lecture, block, dow)
     {
-        "use strict";
         var ret = "";
 
         var data = this.data.filterBy(function (o, k)
@@ -2076,13 +2001,12 @@ Ext.define('mEventlist',
  * EventModel
  * @param {Object} Event
  */
-Ext.define('mEvent',
+Ext.define('EventModel',
 {
     extend: 'MySched.Model',
 
     constructor: function (id, data)
     {
-        "use strict";
         var eventTemplate;
         this.id = id;
         this.data = data;
@@ -2104,7 +2028,6 @@ Ext.define('mEvent',
     },
     getEventDetailData: function ()
     {
-        "use strict";
         return Ext.apply(this.getData(this),
         {
             'event_name': this.getName(),
@@ -2115,12 +2038,10 @@ Ext.define('mEvent',
     },
     getName: function ()
     {
-        "use strict";
         return this.data.title;
     },
     getTeacherName: function ()
     {
-        "use strict";
         var teacherNames = "";
 
         this.data.objects.each(function (o, k)
@@ -2140,7 +2061,6 @@ Ext.define('mEvent',
     },
     getRoomName: function ()
     {
-        "use strict";
         var roomNames = "";
 
         this.data.objects.each(function (o, k)
@@ -2160,12 +2080,10 @@ Ext.define('mEvent',
     },
     getData: function (addData)
     {
-        "use strict";
-        return mEvent.superclass.getData.call(this, addData);
+        return EventModel.superclass.getData.call(this, addData);
     },
     getEventView: function (type, bl, collision)
     {
-        "use strict";
         var d = this.getEventDetailData();
         if (MySched.Authorize.user !== null && MySched.Authorize.role !== 'user' && MySched.Authorize.role !== 'registered' && !this.eventTemplate.html.contains("MySchedEvent_joomla access"))
         {
@@ -2213,7 +2131,6 @@ Ext.define('mEvent',
     },
     getEventInfoView: function ()
     {
-        "use strict";
         var infoTemplateString = "<div id='MySchedEventInfo_" + this.id + "' class='MySchedEventInfo'>" + "<span class='MySchedEvent_desc'>" + this.data.description + "</span><br/>";
         var teacherS = "";
         var roomS = "";
@@ -2254,26 +2171,23 @@ Ext.define('mEvent',
 });
 
 /**
- * TeacherentModel
+ * DoentModel
  * @param {Object} teacher
  */
-Ext.define('mTeacherent',
+Ext.define('TeacherModel',
 {
     extend: 'MySched.Model',
 
     constructor: function (teacher)
     {
-        "use strict";
         this.superclass.constructor.call(this, teacher, teacher);
     },
     getName: function ()
     {
-        "use strict";
         return MySched.Mapping.getTeacherName(this.id);
     },
     getObjects: function ()
     {
-        "use strict";
         return MySched.Mapping.getObjects("teacher", this.id);
     }
 });
@@ -2282,23 +2196,20 @@ Ext.define('mTeacherent',
  * RoomModel
  * @param {Object} room
  */
-Ext.define('mRoom',
+Ext.define('RoomModel',
 {
     extend: 'MySched.Model',
 
     constructor: function (room)
     {
-        "use strict";
-        mRoom.superclass.constructor.call(this, room, room);
+        RoomModel.superclass.constructor.call(this, room, room);
     },
     getName: function ()
     {
-        "use strict";
         return MySched.Mapping.getRoomName(this.id);
     },
     getObjects: function ()
     {
-        "use strict";
         return MySched.Mapping.getObjects("room", this.id);
     }
 });
@@ -2307,28 +2218,24 @@ Ext.define('mRoom',
  * ClasModel
  * @param {Object} module
  */
-Ext.define('mClas',
+Ext.define('PoolModel',
 {
     extend: 'MySched.Model',
 
     constructor: function (module)
     {
-        "use strict";
-        mClas.superclass.constructor.call(this, module, module);
+        PoolModel.superclass.constructor.call(this, module, module);
     },
     getName: function ()
     {
-        "use strict";
         return MySched.Mapping.getClasName(this.id);
     },
     getFullName: function ()
     {
-        "use strict";
         return MySched.Mapping.getObjectField("module", this.id, "parentName") + " - " + MySched.Mapping.getObjectField("module", this.id, "name");
     },
     getObjects: function ()
     {
-        "use strict";
         return MySched.Mapping.getObjects("module", this.id);
     }
 });
@@ -2337,35 +2244,30 @@ Ext.define('mClas',
  * SubjectModel
  * @param {Object} module
  */
-Ext.define('mSubject',
+Ext.define('SubjectModel',
 {
     extend: 'MySched.Model',
 
     constructor: function (subject)
     {
-        "use strict";
-        mSubject.superclass.constructor.call(this, subject, subject);
+        SubjectModel.superclass.constructor.call(this, subject, subject);
     },
     getName: function ()
     {
-        "use strict";
         return MySched.Mapping.getSubjectName(this.id);
     },
     getFullName: function ()
     {
-        "use strict";
         return MySched.Mapping.getObjectField("subject", this.id, "parentName") + " - " + MySched.Mapping.getObjectField("subject", this.id, "name");
     },
     getObjects: function ()
     {
-        "use strict";
         return MySched.Mapping.getObjects("subject", this.id);
     }
 });
 
 function getModuledesc(mninr)
 {
-    "use strict";
     if (Ext.getCmp('content-anchor-tip'))
     {
         Ext.getCmp('content-anchor-tip').destroy();
@@ -2459,7 +2361,6 @@ function getModuledesc(mninr)
 
 function zeigeTermine(rooms)
 {
-    "use strict";
     if (Ext.ComponentMgr.get('sporadicPanel').collapsed)
     {
         Ext.ComponentMgr.get('sporadicPanel').expand();
