@@ -1,30 +1,23 @@
-/*global Ext, MySched, MySchedLanguage, LectureModel, ScheduleModel, EventListModel, EventModel, externLinks, addNewEvent, numbertoday, _C, getCurrentMoFrDate, showLoadMask, numbertoday */
+/*global Ext, MySched, MySchedLanguage, LectureModel, ScheduleModel, EventListModel, EventModel, externLinks, addNewEvent, numbertoday,
+ _C, getCurrentMoFrDate, showLoadMask, numbertoday, getTeacherSurnameWithCutFirstName, loadMask */
 /*jshint strict: false */
 /**
  * mySched - Mainclass by Thorsten Buss and Wolf Rost
  */
-// Zeigt farbige Frei/Belegtzeiten an
 MySched.freeBusyState = true;
-// verweiss auf aktuell ausgewaehlten Stundenplan
 MySched.selectedSchedule = null;
-// Versionsnummer
 MySched.version = '3.1.0';
-// verweiss auf den Plan mit den Aenderungen
 MySched.delta = null;
-// verweiss auf den Plan mit dem ChangeLog
 MySched.responsibleChanges = null;
 MySched.session = [];
 MySched.daytime = [];
 MySched.loadedLessons = [];
 MySched.mainPath = externLinks.mainPath;
-// set ajax timeout to 10 seconds
 Ext.Ajax.timeout = 60000;
-// Setzte die initalwerte fuer das Konfigurationsobjekt
 MySched.Config.addAll(
 {
     // Bestimt die art und weise der Anzeige von Zusatzinfos
     infoMode: 'popup',
-    // layout | popup
     ajaxHandler: externLinks.ajaxHandler,
     estudycourse: MySched.mainPath + 'php/estudy_course.php',
     infoUrl: MySched.mainPath + 'php/info.php',
@@ -3330,7 +3323,7 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
     };
 
     var clasfield = {
-        columnWidth: .33,
+        columnWidth: 0.33,
         layout: 'form',
         labelAlign: 'top',
         items: [
@@ -3446,12 +3439,13 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
                     var room = "";
                     var module = "";
 
-                    for (var a = 0; a < rooms.length; a++)
+                    var a, i, found;
+                    for (a = 0; a < rooms.length; a++)
                     {
-                        var found = false;
+                        found = false;
                         if (rooms[a] !== "")
                         {
-                            for (var i = 0; i < MySched.Mapping.room.length; i++)
+                            for (i = 0; i < MySched.Mapping.room.length; i++)
                             {
                                 if (MySched.Mapping.room.items[i].name.replace(/^\s+/, '').replace(/\s+$/, '') === rooms[a].replace(/^\s+/, '').replace(/\s+$/, ''))
                                 {
@@ -3484,12 +3478,12 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
                         }
                     }
 
-                    for (var a = 0; a < teachers.length; a++)
+                    for (a = 0; a < teachers.length; a++)
                     {
-                        var found = false;
+                        found = false;
                         if (teachers[a] !== "")
                         {
-                            for (var i = 0; i < MySched.Mapping.teacher.length; i++)
+                            for (i = 0; i < MySched.Mapping.teacher.length; i++)
                             {
                                 if (MySched.Mapping.teacher.items[i].name === teachers[a].replace(/^\s+/, '')
                                     .replace(/\s+$/, ''))
@@ -3523,12 +3517,12 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
                         }
                     }
 
-                    for (var a = 0; a < classes.length; a++)
+                    for (a = 0; a < classes.length; a++)
                     {
-                        var found = false;
+                        found = false;
                         if (classes[a] !== "")
                         {
-                            for (var i = 0; i < MySched.Mapping.module.length; i++)
+                            for (i = 0; i < MySched.Mapping.module.length; i++)
                             {
                                 if ((MySched.Mapping.module.items[i].department + " - " + MySched.Mapping.module.items[i].name) ===
                                     classes[a].replace(/^\s+/, '').replace(/\s+$/, ''))
@@ -3562,7 +3556,7 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
                         }
                     }
 
-                    for (var i = 0; i < blocks.size; i++)
+                    for (i = 0; i < blocks.size; i++)
                     {
                         var tkey = "";
                         if (Ext.getCmp('hiddenkey').getValue() === "")
@@ -3574,9 +3568,10 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
                             tkey = Ext.getCmp('hiddenkey').getValue();
                         }
 
+                        var values, blotimes;
                         if (blocks.size === 1)
                         {
-                            var values = {
+                            values = {
                                 block: blocks[i],
                                 module: module,
                                 dow: Ext.getCmp('cbdayid')
@@ -3604,7 +3599,7 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
                         }
                         else if (i === 0)
                         {
-                            var blotimes = blocktotime(blocks[i]);
+                            blotimes = blocktotime(blocks[i]);
                             if (Ext.getCmp('endtiid').getValue() !== blotimes[1])
                             {
                                 blotimes = blotimes[1];
@@ -3613,7 +3608,7 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
                             {
                                 blotimes = Ext.getCmp('endtiid').getValue();
                             }
-                            var values = {
+                            values = {
                                 block: blocks[i],
                                 module: module,
                                 dow: Ext.getCmp('cbdayid')
@@ -3640,7 +3635,7 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
                         }
                         else if ((i + 1) === blocks.size)
                         {
-                            var blotimes = blocktotime(blocks[i]);
+                            blotimes = blocktotime(blocks[i]);
                             if (Ext.getCmp('starttiid').getValue() !== blotimes[0])
                             {
                                 blotimes = blotimes[0];
@@ -3649,7 +3644,7 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
                             {
                                 blotimes = Ext.getCmp('starttiid').getValue();
                             }
-                            var values = {
+                            values = {
                                 block: blocks[i],
                                 module: module,
                                 dow: Ext.getCmp('cbdayid')
@@ -3676,8 +3671,8 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
                         }
                         else
                         {
-                            var blotimes = blocktotime(blocks[i]);
-                            var values = {
+                            blotimes = blocktotime(blocks[i]);
+                            values = {
                                 block: blocks[i],
                                 module: module,
                                 dow: Ext.getCmp('cbdayid')
@@ -3702,23 +3697,24 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
                             };
                         }
 
-                        var record = new LectureModel(
-                        values.key, values);
+                        var record = new LectureModel(values.key, values);
 
                         if (MySched.selectedSchedule.id !== "mySchedule")
                         {
                             // Änderungen den Stammdaten hinzufügen
                             MySched.Base.schedule.addLecture(record);
-                            // Änderungen den Gesamt�nderungen der Responsibles hinzufügen
+                            // Änderungen den Gesamtänderungen der Responsibles hinzufügen
                             MySched.responsibleChanges.addLecture(record);
                         }
 
                         var lessons = MySched.Schedule.getLectures();
-                        for (var a = 0; a < lessons.length; a++)
-                        if (lessons[a].data.key === values.key)
+                        for (a = 0; a < lessons.length; a++)
                         {
-                            MySched.Schedule.addLecture(record);
-                            break;
+                            if (lessons[a].data.key === values.key)
+                            {
+                                MySched.Schedule.addLecture(record);
+                                break;
+                            }
                         }
 
                         // Änderungen dem aktuellen
@@ -3800,7 +3796,10 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
 
     if (lock === "teacher")
     {
-        if (!teacher_name) setFieldValue("teacher", MySched.selectedSchedule.id);
+        if (!teacher_name)
+        {
+            setFieldValue("teacher", MySched.selectedSchedule.id);
+        }
         Ext.getCmp('teacherid').disable();
         Ext.getCmp('teacherfieldid').disable();
 
@@ -3845,7 +3844,10 @@ function setFieldValue(type, str)
                 strtemp = objtemp.name;
             }
         }
-        else strtemp = temparr[tai];
+        else
+        {
+            strtemp = temparr[tai];
+        }
         if (tempstr === "")
         {
             tempstr = strtemp;
@@ -3893,25 +3895,18 @@ function weekdayEtoD(week_day)
     {
         case "monday":
             return MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_MONDAY;
-            break;
         case "tuesday":
             return MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_TUESDAY;
-            break;
         case "wednesday":
             return MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_WEDNESDAY;
-            break;
         case "thursday":
             return MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_THURSDAY;
-            break;
         case "friday":
             return MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_FRIDAY;
-            break;
         case "saturday":
             return MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_SATURDAY;
-            break;
         case "sunday":
             return MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_SUNDAY;
-            break;
         default:
             return false;
     }
@@ -3919,8 +3914,7 @@ function weekdayEtoD(week_day)
 
 function timetoblocks(stime, etime)
 {
-    var blocks = [];
-    counter = 0;
+    var blocks = [], counter = 0;
     for (var i = 1; i <= 6; i++)
     {
         var times = blocktotime(i);
@@ -4023,10 +4017,9 @@ MySched.Tree = function ()
         init: function ()
         {
             var children = [];
-
             if(Ext.isObject(MySched.startup.TreeView.load))
             {
-                var children = MySched.startup.TreeView.load.data.tree;
+                children = MySched.startup.TreeView.load.data.tree;
             }
             else
             {
@@ -4036,10 +4029,6 @@ MySched.Tree = function ()
                     method: 'POST',
                     params: {
                         scheduletask: "TreeView.load"
-                    },
-                    failure: function (response)
-                    {
-                        var bla = response;
                     },
                     success: function (response)
                     {
@@ -4171,7 +4160,7 @@ MySched.Tree = function ()
             {
                 type = gpuntisID;
             }
-            var department = null;
+            var department = null, title;
             if (type === "delta")
             {
                 title = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_CENTRAL;
@@ -4206,7 +4195,7 @@ MySched.Tree = function ()
                 }
 
                 department = MySched.Mapping.getObjectField(type, nodeKey, departmentfield);
-                departmentName = MySched.Mapping.getObjectField(departmenttype, department, "name");
+                var departmentName = MySched.Mapping.getObjectField(departmenttype, department, "name");
                 if (typeof department === "undefined" || department === "none" || department === null || department === nodeKey)
                 {
                     title = nodeFullName;
@@ -4286,8 +4275,14 @@ MySched.Tree = function ()
          */
         setTitle: function (title, append)
         {
-            if (append === true) this.tree.setTitle(this.tree.title + title);
-            else this.tree.setTitle(title);
+            if (append === true)
+            {
+                this.tree.setTitle(this.tree.title + title);
+            }
+            else
+            {
+                this.tree.setTitle(title);
+            }
         },
         /**
          * Refresht die Daten der Liste
@@ -4326,17 +4321,17 @@ MySched.Tree = function ()
          */
         setTreeData: function (data)
         {
-            var type = data.id;
+            var type = data.id, i;
             this[type] = data;
             var imgs = Ext.DomQuery.select('img[class=x-tree-ec-icon x-tree-elbow-end-plus]',
             MySched.Tree.tree.body.dom);
-            for (var i = 0; i < imgs.length; i++)
+            for (i = 0; i < imgs.length; i++)
             {
                 imgs[i].alt = "collapsed";
             }
-            var imgs = Ext.DomQuery.select('img[class=x-tree-ec-icon x-tree-elbow-plus]',
+            imgs = Ext.DomQuery.select('img[class=x-tree-ec-icon x-tree-elbow-plus]',
             MySched.Tree.tree.body.dom);
-            for (var i = 0; i < imgs.length; i++)
+            for (i = 0; i < imgs.length; i++)
             {
                 imgs[i].alt = "collapsed";
             }

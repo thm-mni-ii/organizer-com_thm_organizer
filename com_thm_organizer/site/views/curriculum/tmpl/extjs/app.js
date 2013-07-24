@@ -1,4 +1,4 @@
-/*globals Ext, loading_icon */
+/*globals Ext, loading_icon, Curriculum */
 /*jshint strict: false */
 function App (menuID, programID, horizontalGroups, languageTag, totalWidth, totalHeight,
               horizontalPanelColor, itemWidth, defaultItemColor, electivePanelColor,
@@ -39,17 +39,20 @@ function App (menuID, programID, horizontalGroups, languageTag, totalWidth, tota
                 /* iterate over 2nd order children */
                 for ( var secondOrder in items )
                 {
-                    var item = curriculumObj.getAsset(items[secondOrder], horizontalGroups[firstOrder], 2, 2);
-
-                    if (container.items.length >= itemLineBreak)
+                    if (items.hasOwnProperty(secondOrder))
                     {
-                        container = curriculumObj.getContainer(horizontalPanelColor);
-                    }
-                    container.add(item);
+                        var item = this.curriculumObj.getAsset(items[secondOrder], horizontalGroups[firstOrder], 2, 2);
 
-                    horizontalGroup.add(container);
+                        if (container.items.length >= itemLineBreak)
+                        {
+                            container = this.curriculumObj.getContainer(horizontalPanelColor);
+                        }
+                        container.add(item);
+
+                        horizontalGroup.add(container);
+                    }
                 }
-                curriculum.add(horizontalGroup);
+                this.curriculum.add(horizontalGroup);
             }
         }
 
@@ -58,7 +61,7 @@ function App (menuID, programID, horizontalGroups, languageTag, totalWidth, tota
         var sele = "loading_"+ counter;
 
         Ext.Element.get(sele).destroy();
-        var sele = "curriculum_"+ counter;
+        sele = "curriculum_"+ counter;
         this.curriculum.render(Ext.Element.get(sele));
     };
 

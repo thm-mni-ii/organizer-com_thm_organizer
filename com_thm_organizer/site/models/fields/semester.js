@@ -38,7 +38,8 @@ function roleup() {
 
         // Write new sorted Roles into hidden paramsfield-------------
         var temp="";
-        for(i=0;i<document.getElementById('jformparamssemesters').length;i++) {
+        for(var i = 0; i < document.getElementById('jformparamssemesters').length; i++)
+        {
             temp += document.getElementById('jformparamssemesters').options[i].value + ',';
         }
         // remove the last char (,) from the string
@@ -62,8 +63,8 @@ function roledown()
         var tmpvalue = role.options[selected].value;
         //alert(role.value);
         var tmptext = role.options[selected].text;
-        document.getElementById('jformparamssemesters').options[selected].value = role.options[selected+1].value
-        document.getElementById('jformparamssemesters').options[selected].text = role.options[selected+1].text
+        document.getElementById('jformparamssemesters').options[selected].value = role.options[selected+1].value;
+        document.getElementById('jformparamssemesters').options[selected].text = role.options[selected+1].text;
         document.getElementById('jformparamssemesters').options[selected+1].value = tmpvalue;
         document.getElementById('jformparamssemesters').options[selected+1].text = tmptext;
         document.getElementById('jformparamssemesters').options[selected+1].selected=true;
@@ -85,5 +86,5 @@ function InitSubSelect()
 {
     "use strict";
     // leeres sub-<select> mit mygroup[0] füllen
-    ShowSubSelect(document.forms["myform"].elements["myselect"], "mysubselect");
+    new ShowSubSelect(document.forms.myform.elements.myselect, "mysubselect");
 }

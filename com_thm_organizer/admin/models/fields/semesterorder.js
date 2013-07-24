@@ -15,12 +15,13 @@
 
 
 // change the sort of the roles, selected role one position higher
-function roleup() {
-
+function roleup()
+{
+    "use strict";
     var role = document.getElementById('semesters');
 
     // If no Param is selected------------------------------------
-    if (role.selectedIndex == -1)
+    if (role.selectedIndex === -1)
     {
         alert("Bitte Rolle auswaehlen");
     }
@@ -30,8 +31,8 @@ function roleup() {
         var selected = role.selectedIndex;
         var tmpvalue = role.options[selected].value;
         var tmptext = role.options[selected].text;
-        document.getElementById('semesters').options[selected].value = role.options[selected-1].value
-        document.getElementById('semesters').options[selected].text = role.options[selected-1].text
+        document.getElementById('semesters').options[selected].value = role.options[selected-1].value;
+        document.getElementById('semesters').options[selected].text = role.options[selected-1].text;
         document.getElementById('semesters').options[selected-1].value = tmpvalue;
         document.getElementById('semesters').options[selected-1].text = tmptext;
         document.getElementById('semesters').options[selected-1].selected=true;
@@ -49,6 +50,7 @@ function roleup() {
 // change the sort of the roles, selected role one position down
 function roledown()
 {
+    "use strict";
     var role = document.getElementById('semesters');
     // If no Param is selected
     if (role.selectedIndex === -1)
@@ -61,8 +63,8 @@ function roledown()
         var selected = role.selectedIndex;
         var tmpvalue = role.options[selected].value;
         var tmptext = role.options[selected].text;
-        document.getElementById('semesters').options[selected].value = role.options[selected+1].value
-        document.getElementById('semesters').options[selected].text = role.options[selected+1].text
+        document.getElementById('semesters').options[selected].value = role.options[selected+1].value;
+        document.getElementById('semesters').options[selected].text = role.options[selected+1].text;
         document.getElementById('semesters').options[selected+1].value = tmpvalue;
         document.getElementById('semesters').options[selected+1].text = tmptext;
         document.getElementById('semesters').options[selected+1].selected=true;
@@ -81,6 +83,7 @@ function roledown()
 
 function InitSubSelect()
 {
+    "use strict";
     // leeres sub-<select> mit mygroup[0] füllen
     ShowSubSelect(document.forms["myform"].elements["myselect"], "mysubselect");
 }

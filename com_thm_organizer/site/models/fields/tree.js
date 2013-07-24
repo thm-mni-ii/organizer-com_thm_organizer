@@ -206,7 +206,7 @@ function setStatus(event)
         }
     }
     record.data.checked = elInput.value;
-};
+}
 
 Ext.data.Tree.prototype.check = function(state, descend, bulk)
 {

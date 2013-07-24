@@ -1,7 +1,7 @@
 /*global Ext, MySched, MySchedLanguage, blocktotime, _C, getTeacherSurnameWithCutFirstName,
  getBlocksBetweenTimes, convertEnglishDateStringToDateObject, convertGermanDateStringToDateObject, getCurrentMoFrDate,
  displayDelta, isset, LectureModel, PoolModel, SubjectModel, TeacherModel,
- RoomModel, weekdayEtoD, getMonday, getSchedGrid, ScheduleModel, SchedJsonReader */
+ RoomModel, weekdayEtoD, getMonday, getSchedGrid, ScheduleModel, SchedJsonReader, exit */
 /*jshint strict: false */
 /**
  * Models von MySched
