@@ -1,4 +1,4 @@
-/*global Ext: false */
+/*global Ext: false, responsible_icon */
 function Curriculum(menuID, programID, horizontalGroups, languageTag, totalWidth, totalHeight, 
                     horizontalPanelColor, itemWidth, defaultItemColor, electivePanelColor, 
                     cutTitle, titleLength, schedulerLink, itemLineBreak, electiveLineBreak,
@@ -116,15 +116,13 @@ function Curriculum(menuID, programID, horizontalGroups, languageTag, totalWidth
             );
         }
 
-        new Ext.ToolTip(
-            {
-                target : noteImage.el.id,
-                title : tooltipHeading,
-                html : note + ((menu_link !== 0) ? tooltipAddInfo : ''),
-                dismissDelay:0,
-                autoHide : true
-            }
-        );
+        Ext.ToolTip({
+            target : noteImage.el.id,
+            title : tooltipHeading,
+            html : note + ((menu_link !== 0) ? tooltipAddInfo : ''),
+            dismissDelay:0,
+            autoHide : true
+        });
     };
 
     /**
@@ -149,15 +147,13 @@ function Curriculum(menuID, programID, horizontalGroups, languageTag, totalWidth
             }
         );
 
-        new Ext.ToolTip(
-            {
-                target : noteImage.el.id,
-                title : tooltipHeading,
-                html : '<br>' + link + "<br>" +tooltipAddInfo,
-                dismissDelay:0,
-                autoHide : true
-            }
-        );
+        Ext.ToolTip({
+            target : noteImage.el.id,
+            title : tooltipHeading,
+            html : '<br>' + link + "<br>" +tooltipAddInfo,
+            dismissDelay:0,
+            autoHide : true
+        });
     };
 
     /**
@@ -184,15 +180,13 @@ function Curriculum(menuID, programID, horizontalGroups, languageTag, totalWidth
             }
         );
 
-        new Ext.ToolTip(
-            {
-                target : tooltipImage.el.id,
-                title : 'Details:',
-                html : schedule +tooltipAddInfo,
-                dismissDelay:0,
-                autoHide : true
-            }
-        );
+        Ext.ToolTip({
+            target : tooltipImage.el.id,
+            title : 'Details:',
+            html : schedule +tooltipAddInfo,
+            dismissDelay:0,
+            autoHide : true
+        });
     };
 	
     /**
@@ -256,15 +250,13 @@ function Curriculum(menuID, programID, horizontalGroups, languageTag, totalWidth
             );	
         }
 
-        new Ext.ToolTip(
-            {
-                target : responsilbe_tooltip.el.id,
-                title : heading ,
-                html : "<hr style='width:130px;visibility: hidden'>"+responsible_name + "<div style='margin-top:4px;margin-bottom:4px;'align='center'>"+ (responsible_picture ? responsible_picture : "")+ "</div><div>"+tooltipAddInfo+"</div><br>",
-                dismissDelay:0,
-                autoHide : true
-            }
-        );
+        Ext.ToolTip({
+            target : responsilbe_tooltip.el.id,
+            title : heading ,
+            html : "<hr style='width:130px;visibility: hidden'>"+responsible_name + "<div style='margin-top:4px;margin-bottom:4px;'align='center'>"+ (responsible_picture ? responsible_picture : "")+ "</div><div>"+tooltipAddInfo+"</div><br>",
+            dismissDelay:0,
+            autoHide : true
+        });
     };
 	
 
@@ -273,14 +265,12 @@ function Curriculum(menuID, programID, horizontalGroups, languageTag, totalWidth
      */
     Curriculum.prototype.addTitleTooltip = function(id, title)
     {
-        new Ext.ToolTip(
-            {
-                target : 'course_title-' + id ,
-                html : title, 
-                dismissDelay:0,
-                autoHide : true
-            }
-        );
+        Ext.ToolTip({
+            target : 'course_title-' + id ,
+            html : title, 
+            dismissDelay:0,
+            autoHide : true
+        });
     };
 
     /**
@@ -852,8 +842,7 @@ function Curriculum(menuID, programID, horizontalGroups, languageTag, totalWidth
     Curriculum.prototype.addCompPoolText = function(pool)
     {
         var subjectTitle = self.getTitleLabel(pool);
-        var num = new Number(pool.horizontalGroups_programIDs_id);
-        var id = num.toString();
+        var num = Number(pool.horizontalGroups_programIDs_id);
         var linkColor = self.contrastColor(pool.color);
 
         /* specify the describing text */
@@ -968,7 +957,7 @@ function Curriculum(menuID, programID, horizontalGroups, languageTag, totalWidth
                 {
                     if(compPoolFlag === true)
                     {
-                        vasset = self.getAsset(childs[i], pool_content, 1, 1);
+                        asset = self.getAsset(childs[i], pool_content, 1, 1);
                     }
                     else
                     {

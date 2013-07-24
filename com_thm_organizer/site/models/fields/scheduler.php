@@ -101,22 +101,23 @@ class JFormFieldScheduler extends JFormField
         ?>
 
 <script type="text/javascript" charset="utf-8">
+    var prefix = '<?php echo JURI::root(true); ?>';
     var menuID = <?php echo $menuid ?>;
     var treeIDs = <?php echo json_encode($treeids); ?>;
     var publicDefaultID = <?php echo json_encode($publicDefaultID); ?>;
     var externLinks = [];
     externLinks.ajaxHandler = '<?php echo JRoute::_(JURI::root() . 'index.php?option=com_thm_organizer&view=ajaxhandler&format=raw'); ?>';
     var images = [];
-    images.base = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/';
-    images.unchecked = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/unchecked.png';
-    images.unchecked_highlighted = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/unchecked_highlighted.png';
-    images.checked = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/checked.png';
-    images.checked_highlighted = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/checked_highlighted.png';
-    images.intermediate = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/intermediate.png';
-    images.intermediate_highlighted = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/intermediate_highlighted.png';
-    images.selected = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/selected.png';
-    images.selected_highlighted = '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/selected_highlighted.png';
-    images.notdefault =  '<?php echo JURI::root(true); ?>/components/com_thm_organizer/models/fields/images/notdefault.png';
+    images.base = prefix + '/components/com_thm_organizer/models/fields/images/';
+    images.unchecked = prefix + '/components/com_thm_organizer/models/fields/images/unchecked.png';
+    images.unchecked_highlighted = prefix + '/components/com_thm_organizer/models/fields/images/unchecked_highlighted.png';
+    images.checked = prefix + '/components/com_thm_organizer/models/fields/images/checked.png';
+    images.checked_highlighted = prefix + '/components/com_thm_organizer/models/fields/images/checked_highlighted.png';
+    images.intermediate = prefix + '/components/com_thm_organizer/models/fields/images/intermediate.png';
+    images.intermediate_highlighted = prefix + '/components/com_thm_organizer/models/fields/images/intermediate_highlighted.png';
+    images.selected = prefix + '/components/com_thm_organizer/models/fields/images/selected.png';
+    images.selected_highlighted = prefix + '/components/com_thm_organizer/models/fields/images/selected_highlighted.png';
+    images.notdefault =  prefix + '/components/com_thm_organizer/models/fields/images/notdefault.png';
     <?php echo 'images.default = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/default.png\''; ?>
 
     Joomla.submitbutton = function(task, type)

@@ -1133,10 +1133,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                         id: MySched.Mapping.getSubjectNo(subject),
                         text: MySched.Mapping.getSubjectName(subject),
                         icon: MySched.mainPath + "images/clasIcon.png",
-                        handler: function (element, event)
-                        {
-                            MySched.SelectionManager.showSubjectWindow(element.id);
-                        },
+                        handler: subjectNoHandler (element),
                         xtype: "button"
                     };
                 }
@@ -1477,6 +1474,11 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
     }
 });
 
+function subjectNoHandler (element)
+{
+     MySched.SelectionManager.showSubjectWindow(element.id);
+}
+
 function stripHTML(oldString)
 {
         "use strict";
@@ -1508,7 +1510,7 @@ function stripHTML(oldString)
 
 function gotoExtURL(url, text)
 {
-        "use strict";
+    "use strict";
 
     if (Ext.getCmp('content-anchor-tip'))
     {
@@ -1516,10 +1518,8 @@ function gotoExtURL(url, text)
     }
     var tabs = MySched.layout.tabpanel.items.items;
     var tosave = false;
-    var bla = document;
 
-    var myschedextwin = Ext.DomQuery.select('iframe[id=MySchedexternURL]',
-    document);
+    var myschedextwin = Ext.DomQuery.select('iframe[id=MySchedexternURL]', document);
     var myschedmainwin = Ext.DomQuery.select('div[id=MySchedMainW]', document);
 
     for (var i = 0; i < tabs.length; i++)
@@ -1531,42 +1531,12 @@ function gotoExtURL(url, text)
             {
                 title: "",
                 buttons: Ext.Msg.YESNOCANCEL,
-                buttonText: {
-                    cancel: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_CANCEL
-                },
+                buttonText: { cancel: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_CANCEL },
                 msg: text + "<br/>" + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_CHANGES_SAVE,
                 width: 400,
                 modal: true,
                 cls: "mySched_gotoMessage_index",
-                fn: function (btn)
-                {
-                    if (btn === "cancel")
-                    {
-                        Ext.MessageBox.hide();
-                        return;
-                    }
-                    if (btn === "yes")
-                    {
-                        var temptabs = MySched.layout.tabpanel.items.items;
-                        for (var ti = 0; ti < temptabs.length; ti++)
-                        {
-                            if (temptabs[ti].ScheduleModel.status === "unsaved")
-                            {
-                                if (temptabs[ti].ScheduleModel.id === "mySchedule")
-                                {
-                                    temptabs[ti].ScheduleModel.save(_C('ajaxHandler'), false, "UserSchedule.save");
-                                }
-                                else
-                                {
-                                    temptabs[ti].ScheduleModel.save(_C('ajaxHandler'), false, "ScheduleChanges.save");
-                                }
-                            }
-                        }
-                    }
-                    myschedextwin[0].src = url;
-                    myschedextwin[0].className = "MySchedexternURLClass";
-                    myschedmainwin[0].style.display = "none";
-                },
+                fn: confirmSave (myschedextwin, myschedmainwin, url, btn),
                 icon: Ext.MessageBox.QUESTION
             });
             break;
@@ -1599,6 +1569,36 @@ function gotoExtURL(url, text)
             icon: Ext.MessageBox.QUESTION
         });
     }
+}
+
+function confirmSave (myschedextwin, myschedmainwin, url, btn)
+{
+    if (btn === "cancel")
+    {
+        Ext.MessageBox.hide();
+        return;
+    }
+    if (btn === "yes")
+    {
+        var temptabs = MySched.layout.tabpanel.items.items;
+        for (var ti = 0; ti < temptabs.length; ti++)
+        {
+            if (temptabs[ti].ScheduleModel.status === "unsaved")
+            {
+                if (temptabs[ti].ScheduleModel.id === "mySchedule")
+                {
+                    temptabs[ti].ScheduleModel.save(_C('ajaxHandler'), false, "UserSchedule.save");
+                }
+                else
+                {
+                    temptabs[ti].ScheduleModel.save(_C('ajaxHandler'), false, "ScheduleChanges.save");
+                }
+            }
+        }
+    }
+    myschedextwin[0].src = url;
+    myschedextwin[0].className = "MySchedexternURLClass";
+    myschedmainwin[0].style.display = "none";
 }
 
 function showLessonMenu(e)

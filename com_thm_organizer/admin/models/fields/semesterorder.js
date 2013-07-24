@@ -85,5 +85,5 @@ function InitSubSelect()
 {
     "use strict";
     // leeres sub-<select> mit mygroup[0] füllen
-    ShowSubSelect(document.forms["myform"].elements["myselect"], "mysubselect");
+    ShowSubSelect(document.forms.myform.elements.myselect, "mysubselect");
 }
