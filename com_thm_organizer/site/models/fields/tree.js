@@ -1,4 +1,4 @@
-/*global Ext: false, MySched: false, MySchedLanguage: false */
+/*global Ext, MySched, MySchedLanguage, changePublicDefaultHighlight, images */
 /*jshint strict: false */
 Ext.override(Ext.tree.Column,
 {
@@ -28,7 +28,7 @@ Ext.override(Ext.tree.Column,
             if(record.data.checked)
             {
                 checkboxText += '<input id="' + record.data.id + '" type="hidden" value="' + record.data.checked + '" role="checkbox" class="{0}" {1} />';
-                checkboxText += '<img id="' + record.data.id + '_fake" class="MySched_checkbox_fake" src="' + images[record.data.checked] + '">';	           	
+                checkboxText += '<img id="' + record.data.id + '_fake" class="MySched_checkbox_fake" src="' + images[record.data.checked] + '">';
             }
 
             var formattedValue = origRenderer.apply(origScope, arguments);
@@ -125,7 +125,7 @@ function changeIconHighlight (event)
     {
         elImg.dom.src = images.base+elInput.value+".png";
     }
-};
+}
 
 function setPublicDefaultStatus(event)
 {
@@ -158,7 +158,7 @@ function setPublicDefaultStatus(event)
     elImg.dom.src = images[elInput.value];
 
     record.raw.publicDefault = elInput.value;
-};
+}
 
 function setStatus(event)
 {
@@ -352,7 +352,9 @@ Ext.tree.Panel.prototype.doGray = function(node)
             {
                 var state = tree.doGray(v);
                 if(state === true)
+                {
                     gray = state;
+                }
             }
         });
     }

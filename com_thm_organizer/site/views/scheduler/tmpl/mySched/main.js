@@ -1,4 +1,4 @@
-/*global Ext: false, MySched: false, MySchedLanguage: false */
+/*global Ext, MySched, MySchedLanguage, LectureModel, ScheduleModel, EventListModel, EventModel, externLinks, addNewEvent, numbertoday, _C, getCurrentMoFrDate, showLoadMask, numbertoday */
 /*jshint strict: false */
 /**
  * mySched - Mainclass by Thorsten Buss and Wolf Rost
@@ -256,8 +256,7 @@ MySched.Base = function ()
          */
         loadLectures: function (url)
         {
-            // Stundenplandaten werden in einem 'gesamten' Stundenplan
-            // gespeichert
+            // Stundenplandaten werden in einem 'gesamten' Stundenplan gespeichert
             this.schedule = new ScheduleModel();
             this.afterLoad();
         },
@@ -314,17 +313,13 @@ MySched.Base = function ()
         myschedInit: function ()
         {
             var lessonData = MySched.startup.Lessons;
-            plantypeID = "";
+            var plantypeID = "";
 
             for (var item in lessonData)
             {
                 if (Ext.isObject(lessonData[item]))
                 {
-                    var record = new LectureModel(
-                    item,
-                    Ext.clone(lessonData[item]),
-                    MySched.class_semester_id,
-                    plantypeID);
+                    var record = new LectureModel(item, Ext.clone(lessonData[item]), MySched.class_semester_id, plantypeID);
                     MySched.Base.schedule.addLecture(record);
                 }
             }
@@ -495,7 +490,6 @@ MySched.Base = function ()
                                                 lessonData[item], semesterID,
                                                 plantypeID);
                                                 MySched.Base.schedule.addLecture(record);
-                                                //															MySched.TreeManager.add(record);
                                             }
                                         }
                                         if (Ext.isObject(lessonDate))
@@ -1082,7 +1076,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
             if (this.selectLectureId)
             {
                 id = this.selectLectureId;
-                vel = Ext.get(id);
+                el = Ext.get(id);
             }
             else
             {
@@ -2286,7 +2280,7 @@ MySched.layout = function ()
                 items: [this.leftviewport, this.rightviewport]
             });
             
-            loadMask = new Ext.LoadMask({ target: "selectTree" });
+            var loadMask = new Ext.LoadMask({ target: "selectTree" });
             loadMask.show();
 
             var calendar = Ext.ComponentMgr.get('menuedatepicker'), imgs;
@@ -3009,7 +3003,6 @@ MySched.layout = function ()
                                                     lessonData[item], semesterID,
                                                     plantypeID);
                                                     MySched.Base.schedule.addLecture(record);
-                                                    //														MySched.TreeManager.add(record);
                                                 }
                                             }
                                             if (Ext.isObject(lessonDate))
@@ -3047,8 +3040,6 @@ MySched.layout = function ()
 Ext.form.VTypes.ValidTimeText = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_VALID_STARTTIME_LESSER;
 Ext.form.VTypes.ValidTime = function (arg, field)
 {
-    "use strict";
-
     if (field.id === "starttiid")
     {
         if (!Ext.getCmp('endtiid').getValue())
@@ -3077,10 +3068,8 @@ Ext.form.VTypes.ValidTime = function (arg, field)
 
 };
 
-function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_name,
-l, key)
+function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_name, l, key)
 {
-    "use strict";
     var lock;
     if (l)
     {
@@ -3163,7 +3152,7 @@ l, key)
     };
 
     var stime = {
-        columnWidth: .33,
+        columnWidth: 0.33,
         layout: 'form',
         labelAlign: 'top',
         items: [
@@ -3186,7 +3175,7 @@ l, key)
     };
 
     var etime = {
-        columnWidth: .33,
+        columnWidth: 0.33,
         layout: 'form',
         labelAlign: 'top',
         items: [
@@ -3208,8 +3197,8 @@ l, key)
         }]
     };
 
-    var roomstore = [];
-    for (var i = 0; i < MySched.Mapping.room.length; i++)
+    var roomstore = [], i;
+    for (i = 0; i < MySched.Mapping.room.length; i++)
     {
         roomstore.push(new Array(MySched.Mapping.room.items[i].id,
         MySched.Mapping.room.items[i].name.replace(/^\s+/, '')
@@ -3217,7 +3206,7 @@ l, key)
     }
 
     var teacherstore = [];
-    for (var i = 0; i < MySched.Mapping.teacher.length; i++)
+    for (i = 0; i < MySched.Mapping.teacher.length; i++)
     {
         teacherstore.push(new Array(MySched.Mapping.teacher.items[i].id,
         MySched.Mapping.teacher.items[i].name));
@@ -3225,7 +3214,7 @@ l, key)
 
     var classstore = [];
 
-    for (var i = 0; i < MySched.Mapping.module.length; i++)
+    for (i = 0; i < MySched.Mapping.module.length; i++)
     {
         classstore.push(new Array(MySched.Mapping.module.items[i].id,
         MySched.Mapping.module.items[i].department + " - " + MySched.Mapping.module.items[i].name));
@@ -3234,7 +3223,7 @@ l, key)
     var pwin;
 
     var roomitem = {
-        columnWidth: .33,
+        columnWidth: 0.33,
         layout: 'form',
         labelAlign: 'top',
         items: [
@@ -3259,7 +3248,7 @@ l, key)
     };
 
     var roomfield = {
-        columnWidth: .33,
+        columnWidth: 0.33,
         layout: 'form',
         labelAlign: 'top',
         items: [
@@ -3275,7 +3264,7 @@ l, key)
     };
 
     var teacheritem = {
-        columnWidth: .33,
+        columnWidth: 0.33,
         layout: 'form',
         labelAlign: 'top',
         items: [
@@ -3300,7 +3289,7 @@ l, key)
     };
 
     var teacherfield = {
-        columnWidth: .33,
+        columnWidth: 0.33,
         layout: 'form',
         labelAlign: 'top',
         items: [
@@ -3316,7 +3305,7 @@ l, key)
     };
 
     var clasitem = {
-        columnWidth: .33,
+        columnWidth: 0.33,
         layout: 'form',
         labelAlign: 'top',
         items: [
@@ -4180,16 +4169,16 @@ MySched.Tree = function ()
 
             if (type === null)
             {
-            	type = gpuntisID;
+                type = gpuntisID;
             }
             var department = null;
             if (type === "delta")
             {
-            	title = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_CENTRAL;
+                title = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_CENTRAL;
             }
             else if (type === "respChanges")
             {
-            	title = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_OWN;
+                title = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_OWN;
             }
             else
             {
@@ -4433,10 +4422,7 @@ MySched.Subscribe = function ()
             // Daten zum Einschreiben holen
             this.store = Ext.create('Ext.data.JsonStore',
             {
-                fields: [
-                {
-                    name: 'name'
-                }, 'subscribe', 'subscribe_info', 'subscribe_type']
+                fields: [{ name: 'name' }, 'subscribe', 'subscribe_info', 'subscribe_type']
             });
             this.store.loadData(this.data);
 

@@ -1,64 +1,67 @@
+/*globals Ext, loading_icon */
+/*jshint strict: false */
 function App (menuID, programID, horizontalGroups, languageTag, totalWidth, totalHeight,
               horizontalPanelColor, itemWidth, defaultItemColor, electivePanelColor,
               cutTitle, titleLength, schedulerLink, itemLineBreak, electiveLineBreak,
               cumpulsoryLineBreak, counter, defaultInfoLink)
 {
-    var self = this;
     this.horizontalGroups = null;
     this.curriculumObj = null;
     this.curriculum = null;
 
     App.prototype.ajaxHandler = function(response)
     {
-        curriculumObj = new Curriculum(menuID, programID, horizontalGroups, languageTag, totalWidth, totalHeight,
+        this.curriculumObj = new Curriculum(menuID, programID, horizontalGroups, languageTag, totalWidth, totalHeight,
                                        horizontalPanelColor, itemWidth, defaultItemColor, electivePanelColor,
                                        cutTitle, titleLength, schedulerLink, itemLineBreak, electiveLineBreak,
                                        cumpulsoryLineBreak, counter, defaultInfoLink);
-        curriculum = curriculumObj.getCurriculumPanel();
-		
+        this.curriculum = this.curriculumObj.getCurriculumPanel();
+
         var program = Ext.decode(response.responseText);
         horizontalGroups = program.children;
-		
+
         /* iterate over first order children of the program's curriculum */
         for ( var firstOrder in horizontalGroups)
         {
-            var horizontalGroup = curriculumObj.getHorizontalGroupPanel(horizontalGroups[firstOrder]);
-            var items = horizontalGroups[firstOrder].children;
-            if (items.length == 0)
+            if (horizontalGroups.hasOwnProperty(firstOrder))
             {
-                continue;
-            }
-            var container = curriculumObj.getContainer(horizontalPanelColor);
-            var compPoolFlag = false;
-            var textContainer = curriculumObj.getTextContainer(horizontalGroups[firstOrder]);
-            horizontalGroup.add(textContainer)
-			
-            /* iterate over 2nd order children */
-            for ( var secondOrder in items )
-            {
-                var item = curriculumObj.getAsset(items[secondOrder], horizontalGroups[firstOrder], 2, 2);
-
-                if (container.items.length >= itemLineBreak)
+                var horizontalGroup = this.curriculumObj.getHorizontalGroupPanel(horizontalGroups[firstOrder]);
+                var items = horizontalGroups[firstOrder].children;
+                if (items.length === 0)
                 {
-                    container = curriculumObj.getContainer(horizontalPanelColor);
+                    continue;
                 }
-                container.add(item);
+                var container = this.curriculumObj.getContainer(horizontalPanelColor);
+                var compPoolFlag = false;
+                var textContainer = this.curriculumObj.getTextContainer(horizontalGroups[firstOrder]);
+                horizontalGroup.add(textContainer);
 
-                horizontalGroup.add(container);
+                /* iterate over 2nd order children */
+                for ( var secondOrder in items )
+                {
+                    var item = curriculumObj.getAsset(items[secondOrder], horizontalGroups[firstOrder], 2, 2);
+
+                    if (container.items.length >= itemLineBreak)
+                    {
+                        container = curriculumObj.getContainer(horizontalPanelColor);
+                    }
+                    container.add(item);
+
+                    horizontalGroup.add(container);
+                }
+                curriculum.add(horizontalGroup);
             }
-            curriculum.add(horizontalGroup);
         }
-		
-        curriculum.doLayout();
+
+        this.curriculum.doLayout();
 
         var sele = "loading_"+ counter;
 
         Ext.Element.get(sele).destroy();
         var sele = "curriculum_"+ counter;
-        curriculum.render(Ext.Element.get(sele));
+        this.curriculum.render(Ext.Element.get(sele));
+    };
 
-    }
-	
     App.prototype.performAjaxCall = function()
     {
         var sele = "loading_"+ counter;
@@ -73,7 +76,7 @@ function App (menuID, programID, horizontalGroups, languageTag, totalWidth, tota
                         tag : 'img',
                         id : 'responsible-image',
                         cls : 'tooltip',
-                        src : loading_icon,
+                        src : loading_icon
                     } ]
                 },
                 renderTo : sele
@@ -84,9 +87,7 @@ function App (menuID, programID, horizontalGroups, languageTag, totalWidth, tota
         Ext.Ajax.request({
             url : requestURL,
             method : "GET",
-            success : self.ajaxHandler
+            success : this.ajaxHandler
         });
-
-    }
+    };
 }
-

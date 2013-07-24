@@ -102,7 +102,7 @@ MySched.Calendar = new MySched.Collection();
 function _C (a)
 {
     return MySched.Config.get(a);
-};
+}
 
 /**
  * Erganezt das String Object um die equal methode

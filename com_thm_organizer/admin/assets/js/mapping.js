@@ -1,4 +1,4 @@
-/* globals jq: false */
+/* globals jQuery, Joomla */
 var jq = jQuery.noConflict();
 
 /**

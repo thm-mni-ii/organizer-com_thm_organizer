@@ -1,3 +1,4 @@
+/*globals Request */
 window.addEvent("domready", function() {
     //alert("asd");
     });
@@ -7,8 +8,7 @@ function loadSemesters(id) {
     var ajaxCall = new Request(
     {
 
-        url : "index.php?option=com_thm_organizer&task=assets.getSemester&tmpl=component&id="
-        + id,
+        url : "index.php?option=com_thm_organizer&task=assets.getSemester&tmpl=component&id=" + id,
 
         onRequest : function() {
 
@@ -44,5 +44,4 @@ function loadSemesters(id) {
 
         }
     }).send();
-
 }

@@ -1,3 +1,4 @@
+/*globals ShowSubSelect */
 /**
  * @version		$Id: menuitemselect.js 229 2009-02-02 23:14:17Z kernelkiller $
  * @package		Joomla
@@ -20,11 +21,13 @@ function roleup() {
 
     // If no Param is selected------------------------------------
     if (role.selectedIndex == -1)
+    {
         alert("Bitte Rolle auswaehlen");
-    //------------------------------------------------------------
-    else {
+    }
+    else
+    {
         // Change Roles down------------------------------------------
-        selected = role.selectedIndex;
+        var selected = role.selectedIndex;
         var tmpvalue = role.options[selected].value;
         var tmptext = role.options[selected].text;
         document.getElementById('semesters').options[selected].value = role.options[selected-1].value
@@ -33,32 +36,30 @@ function roleup() {
         document.getElementById('semesters').options[selected-1].text = tmptext;
         document.getElementById('semesters').options[selected-1].selected=true;
         document.getElementById('semesters').options[selected].selected=false;
-        //------------------------------------------------------------
 
         // Write new sorted Roles into hidden paramsfield-------------
-        var temp="";
-        for(i=0;i<document.getElementById('semesters').length;i++) {
+        var temp="", i;
+        for(i = 0; i < document.getElementById('semesters').length; i++) {
             temp += document.getElementById('semesters').options[i].value + ',';
         }
         // remove the last char (,) from the string
         temp = temp.substr(0, temp.length-1);
-    // write sorted roles to hidden parameter box
-    //document.getElementById('jform_params_sortedgrouproles').value = temp;
-    //------------------------------------------------------------
     }
 }
 // change the sort of the roles, selected role one position down
-function roledown() {
+function roledown()
+{
     var role = document.getElementById('semesters');
-    // If no Param is selected------------------------------------
-    if (role.selectedIndex == -1)
+    // If no Param is selected
+    if (role.selectedIndex === -1)
+    {
         alert("Bitte Rolle auswaehlen");
-    //------------------------------------------------------------
-    else {
-        // Change Roles down------------------------------------------
-        selected = role.selectedIndex;
+    }
+    else
+    {
+        // Change Roles down
+        var selected = role.selectedIndex;
         var tmpvalue = role.options[selected].value;
-        //alert(role.value);
         var tmptext = role.options[selected].text;
         document.getElementById('semesters').options[selected].value = role.options[selected+1].value
         document.getElementById('semesters').options[selected].text = role.options[selected+1].text
@@ -66,18 +67,15 @@ function roledown() {
         document.getElementById('semesters').options[selected+1].text = tmptext;
         document.getElementById('semesters').options[selected+1].selected=true;
         document.getElementById('semesters').options[selected].selected=false;
-        //------------------------------------------------------------
 
         // Write new sorted Roles into hidden paramsfield-------------
-        var temp="";
-        for(i=0;i<document.getElementById('semesters').length;i++) {
+        var temp="", i;
+        for(i = 0; i < document.getElementById('semesters').length; i++)
+        {
             temp += document.getElementById('semesters').options[i].value + ',';
         }
         // remove the last char (,) from the string
         temp = temp.substr(0, temp.length-1);
-    // write sorted roles to hidden parameter box
-    //document.getElementById('jform_params_sortedgrouproles').value = temp;
-    //------------------------------------------------------------
     }
 }
 
