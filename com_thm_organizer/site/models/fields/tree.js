@@ -234,7 +234,7 @@ Ext.data.Tree.prototype.check = function(state, descend, bulk)
 Ext.tree.Panel.prototype.getChecked = function(node, checkedArr)
 {
     var checked;
-    if(checkedArr === null)
+    if(checkedArr === null || !Ext.isDefined(checkedArr))
     {
         checked = {};
     }
