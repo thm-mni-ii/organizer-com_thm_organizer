@@ -140,7 +140,7 @@ class THMTreeNode
      */
     public function  __construct($data, $checked, $publicDefault, $nodeKey, $expanded)
     {
-        $this->id = $data["id"];
+        $this->id = $data["nodeID"];
         $this->text = $data["text"];
         $this->iconCls = $data["iconCls"];
         $this->leaf = $data["leaf"];
