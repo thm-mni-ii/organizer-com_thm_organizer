@@ -1304,22 +1304,22 @@ Ext.define('LectureModel',
     {
         var ret = '<div class="status_icons"> ';
 
-        if (this.data.ecollaborationLink !== null)
+        if (this.data.ecollaborationLink != null)
         {
             ret += '<a target="_blank" href="' + this.data.ecollaborationLink + '"><img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MOODLE_CALL + '" class="status_icons_ecollabLink" src="' + MySched.mainPath + 'images/collab.png" width="12" heigth="12"/></a>';
         }
 
-        if (MySched.Authorize.user !== null && MySched.Authorize.user !== "" && typeof d.parentId !== "undefined")
+        if (MySched.Authorize.user != null && MySched.Authorize.user != "" && typeof d.parentId != "undefined")
         {
             var parentIDArr = d.parentId.split(".");
             parentIDArr = parentIDArr[(parentIDArr.length - 1)];
-            if (parentIDArr !== 'delta')
+            if (parentIDArr != 'delta')
             {
-                if (d.parentId === 'mySchedule')
+                if (d.parentId == 'mySchedule')
                 {
                     ret += '<img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_REMOVE + '" class="status_icons_add" src="' + MySched.mainPath + '/images/delete.png" width="12" heigth="12"/>';
                 }
-                else if (d.parentId !== 'mySchedule' && MySched.Schedule.lectureExists(this))
+                else if (d.parentId != 'mySchedule' && MySched.Schedule.lectureExists(this))
                 {
                     ret += '<img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_REMOVE + '" class="status_icons_add" src="' + MySched.mainPath + '/images/delete.png" width="12" heigth="12"/>';
                 }
@@ -1330,7 +1330,7 @@ Ext.define('LectureModel',
             }
         }
 
-        if ((d.owner === MySched.Authorize.user || (MySched.Authorize.user === MySched.modules_semester_author && d.type === "personal")) && MySched.Authorize.user !== null && MySched.Authorize.user !== "")
+        if ((d.owner === MySched.Authorize.user || (MySched.Authorize.user === MySched.modules_semester_author && d.type === "personal")) && MySched.Authorize.user != null && MySched.Authorize.user != "")
         {
             ret += '<img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_CHANGE + '" class="status_icons_edit" src="' + MySched.mainPath + 'images/icon-edit.png" width="12" heigth="12"/>';
             ret += '<img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_DELETE + '" class="status_icons_delete" src="' + MySched.mainPath + 'images/icon-delete.png" width="12" heigth="12"/>';
