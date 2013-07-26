@@ -798,10 +798,6 @@ Ext.define('ScheduleModel',
                 ddGroup: 'lecture'
             });
         }
-        if (MySched.loadMask)
-        {
-            MySched.loadMask.destroy();
-        }
     },
     refreshView: function ()
     {
@@ -818,10 +814,6 @@ Ext.define('ScheduleModel',
         {
             MySched.SelectionManager.stopSelection();
             MySched.SelectionManager.startSelection();
-            if (MySched.loadMask)
-            {
-                MySched.loadMask.destroy();
-            }
         };
         Ext.defer(func, 50);
     },

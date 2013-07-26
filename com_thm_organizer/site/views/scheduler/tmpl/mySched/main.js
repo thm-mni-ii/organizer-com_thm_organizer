@@ -1,5 +1,5 @@
 /*global Ext, MySched, MySchedLanguage, LectureModel, ScheduleModel, EventListModel, EventModel, externLinks, addNewEvent, numbertoday,
- _C, getCurrentMoFrDate, showLoadMask, numbertoday, getTeacherSurnameWithCutFirstName, loadMask */
+ _C, getCurrentMoFrDate, numbertoday, getTeacherSurnameWithCutFirstName, loadMask */
 /*jshint strict: false */
 /**
  * mySched - Mainclass by Thorsten Buss and Wolf Rost
@@ -2034,7 +2034,6 @@ MySched.layout = function ()
             this.tabpanel.on('tabchange',
                 function (panel, o)
                 {
-                    showLoadMask();
                     var contentAnchorTip = Ext.getCmp('content-anchor-tip');
                     if (contentAnchorTip)
                     {
@@ -2946,7 +2945,6 @@ MySched.layout = function ()
                     {
                         if (MySched.selectedSchedule !== null)
                         {
-                            showLoadMask();
                             if(MySched.selectedSchedule.id !== "mySchedule")
                             {
                                 var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker').value);
@@ -4154,8 +4152,6 @@ MySched.Tree = function ()
         },
         showScheduleTab: function (nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type)
         {
-            showLoadMask();
-
             if (type === null)
             {
                 type = gpuntisID;
