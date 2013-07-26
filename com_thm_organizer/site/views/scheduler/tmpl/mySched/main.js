@@ -2273,8 +2273,8 @@ MySched.layout = function ()
                 items: [this.leftviewport, this.rightviewport]
             });
             
-            var loadMask = new Ext.LoadMask({ target: "selectTree" });
-            loadMask.show();
+            MySched.treeLoadMask = new Ext.LoadMask(Ext.getCmp('selectTree').el, {msg:"Loading..."});
+            MySched.treeLoadMask.show();
 
             var calendar = Ext.ComponentMgr.get('menuedatepicker'), imgs;
             if (calendar)
@@ -4056,9 +4056,9 @@ MySched.Tree = function ()
                         rootNode.removeAll(true);
                         rootNode.appendChild(newtree);
 
-                        if (loadMask)
+                        if (MySched.treeLoadMask)
                         {
-                            loadMask.destroy();
+                        	MySched.treeLoadMask.destroy();
                         }
                         
                         var publicDefaultNode = json.treePublicDefault;
