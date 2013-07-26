@@ -1685,10 +1685,10 @@ function showLessonMenu(e)
 
     var menuItems = [];
 
-    if (MySched.Authorize.role !== "user")
+    if (MySched.Authorize.role != "user")
     {
         // menuItems[menuItems.length] = estudyLesson;
-        if (MySched.selectedSchedule.id === "mySchedule" || el.hasCls('lectureBox_cho'))
+        if (MySched.selectedSchedule.id == "mySchedule" || el.hasCls('lectureBox_cho'))
         {
             menuItems[menuItems.length] = delLesson;
         }
@@ -1698,7 +1698,7 @@ function showLessonMenu(e)
         }
 
     }
-    if (((lesson.data.owner === MySched.Authorize.user || MySched.Authorize.isClassSemesterAuthor()) && lesson.data.owner !== null) && lesson.data.owner !== "gpuntis")
+    if (((lesson.data.owner == MySched.Authorize.user || MySched.Authorize.isClassSemesterAuthor()) && lesson.data.owner != null) && lesson.data.owner != "gpuntis")
     {
         menuItems[menuItems.length] = editLesson;
         menuItems[menuItems.length] = deleteLesson;
