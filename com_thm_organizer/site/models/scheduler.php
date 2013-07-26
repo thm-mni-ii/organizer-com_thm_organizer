@@ -169,7 +169,7 @@ class THM_OrganizerModelScheduler extends JModel
     * @return   Array  An Array with the color for the module
     */
    public function getCurriculumModuleColors()
-   {		
+   {
        $dbo = JFactory::getDBO();
        $query = $dbo->getQuery(true);
 
