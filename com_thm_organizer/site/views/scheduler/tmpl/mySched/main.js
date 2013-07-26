@@ -101,7 +101,7 @@ MySched.Base = function ()
                 {
 
                     }
-                MySched.Base.startMySched(MySched.startup.Grid.load);
+                MySched.Base.startMySched(MySched.startup["Grid.load"]);
             }
         },
         startMySched: function (json)
@@ -263,7 +263,7 @@ MySched.Base = function ()
             MySched.eventlist = new EventListModel();
             if (checkStartup("Events.load") === true)
             {
-                MySched.TreeManager.afterloadEvents(MySched.startup.Events.load.data);
+                MySched.TreeManager.afterloadEvents(MySched.startup["Events.load"].data);
                 MySched.Base.myschedInit();
             }
             else
@@ -333,7 +333,7 @@ MySched.Base = function ()
             // Erstellt das Layout
             MySched.layout.buildLayout();
 
-            MySched.Base.setScheduleDescription(MySched.startup.ScheduleDescription.load.data);
+            MySched.Base.setScheduleDescription(MySched.startup["ScheduleDescription.load"].data);
         },
         setScheduleDescription: function (jsonData)
         {
@@ -1916,7 +1916,7 @@ MySched.TreeManager = function ()
                 if (checkStartup("TreeView.load") === true)
                 {
                     MySched.TreeManager.processTreeData(
-                    MySched.startup.TreeView.load.data, type,
+                    MySched.startup["TreeView.load"].data, type,
                     accMode, name, baseTree);
                 }
                 else
@@ -1952,7 +1952,7 @@ MySched.TreeManager = function ()
             if (type === "curtea")
             { // neu->
                 MySched.TreeManager.processTreeData(
-                MySched.startup.TreeView.curiculumTeachers.data,
+                MySched.startup["TreeView.curiculumTeachers"].data,
                 type, accMode, name, baseTree);
                 return ret;
             }
@@ -4017,9 +4017,9 @@ MySched.Tree = function ()
         init: function ()
         {
             var children = [];
-            if(Ext.isObject(MySched.startup.TreeView.load))
+            if(Ext.isObject(MySched.startup["TreeView.load"]))
             {
-                children = MySched.startup.TreeView.load.data.tree;
+                children = MySched.startup["TreeView.load"].data.tree;
             }
             else
             {
