@@ -1133,7 +1133,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                         id: MySched.Mapping.getSubjectNo(subject),
                         text: MySched.Mapping.getSubjectName(subject),
                         icon: MySched.mainPath + "images/clasIcon.png",
-                        handler: subjectNoHandler (element),
+                        handler: subjectNoHandler,
                         xtype: "button"
                     };
                 }
