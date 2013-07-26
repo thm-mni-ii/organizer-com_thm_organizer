@@ -187,6 +187,9 @@ class THMTreeView
         $nodeID = $nodeData["nodeID"];
         $leaf = $nodeData["leaf"];
         $nodeKey = $nodeData["nodeKey"];
+        $children = $nodeData["children"];
+        $gpuntisID = $nodeData["gpuntisID"];
+        
         
         $checked = null;
         $publicDefault = null;
