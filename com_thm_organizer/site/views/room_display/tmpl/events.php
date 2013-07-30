@@ -28,30 +28,30 @@ window.onload = function(){
     timer = setTimeout('auto_reload()', 60000);
 }
 </script>
-<div id="thm_organizer_is_registered">
-    <div id="thm_organizer_is_head">
-        <div id="thm_organizer_is_head_left">
-            <div id="thm_organizer_is_head_upper">
-                <div id="thm_organizer_is_thm_logo_div">
+<div id="thm_organizer_is_registered" class='thm_organizer_is_registered'>
+    <div id="thm_organizer_is_head" class='thm_organizer_is_head'>
+        <div id="thm_organizer_is_head_left" class='thm_organizer_is_head_left'>
+            <div id="thm_organizer_is_head_upper" class='thm_organizer_is_head_upper'>
+                <div id="thm_organizer_is_thm_logo_div" class='thm_organizer_is_thm_logo_div'>
                     <?php echo $this->thm_logo_image; ?>
                 </div>
-                <div id="thm_organizer_is_divider_div"></div>
-                <div id="thm_organizer_is_room_div">
+                <div id="thm_organizer_is_divider_div" class='thm_organizer_is_divider_div'></div>
+                <div id="thm_organizer_is_room_div" class='thm_organizer_is_room_div'>
                     <?php  echo $this->roomName; ?>
                 </div>
             </div>
-            <div id="thm_organizer_is_head_lower">
+            <div id="thm_organizer_is_head_lower" class='thm_organizer_is_head_lower'>
                 <?php echo $this->thm_text_image; ?>
             </div>
         </div>
-        <div id="thm_organizer_is_head_right">
+        <div id="thm_organizer_is_head_right" class='thm_organizer_is_head_right'>
             <?php echo JText::_($weekday); ?><br />
             <?php echo date('d.m.Y'); ?><br />
             <?php echo date('H:i'); ?>
         </div>
     </div><!-- end of head -->
-    <div id="thm_organizer_is_break_div"></div>
-    <div id="thm_organizer_is_schedule_area" class="thm_organizer_is_long">
+    <div id="thm_organizer_is_break_div" class='thm_organizer_is_break_div'></div>
+    <div id="thm_organizer_is_schedule_area" class="thm_organizer_is_long thm_organizer_is_schedule_area">
 <?php
 $appointmentsNo = 0;
 if (count($this->appointments))
