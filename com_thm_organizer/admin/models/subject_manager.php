@@ -25,49 +25,49 @@ class THM_OrganizerModelSubject_Manager extends JModelList
 
     public $pools = null;
 
-	/**
-	 * Constructor to set up the config array and call the parent constructor
-	 *
-	 * @param   Array  $config  Configuration  (default: Array)
-	 */
-	public function __construct($config = array())
-	{
-		if (empty($config['filter_fields']))
-		{
-			$config['filter_fields'] = array(
-					'id', 'id'
-			);
-		}
-		parent::__construct($config);
-        
-		if (!$this->__state_set)
-		{
-			$this->populateState();
-			$this->__state_set = true;
-		}
+    /**
+     * Constructor to set up the config array and call the parent constructor
+     *
+     * @param   Array  $config  Configuration  (default: Array)
+     */
+    public function __construct($config = array())
+    {
+        if (empty($config['filter_fields']))
+        {
+            $config['filter_fields'] = array(
+                    'id', 'id'
+            );
+        }
+        parent::__construct($config);
+
+        if (!$this->__state_set)
+        {
+            $this->populateState();
+            $this->__state_set = true;
+        }
         $this->setPrograms();
         $programID = $this->state->get('filter.program');
         if (!empty($programID))
         {
             $this->setPools($programID);
         }
-	}
+    }
 
-	/**
-	 * Method to select all existent assets from the database
-	 *
-	 * @return  Object  A query object
-	 */
-	protected function getListQuery()
-	{
-		$dbo = JFactory::getDBO();
+    /**
+     * Method to select all existent assets from the database
+     *
+     * @return  Object  A query object
+     */
+    protected function getListQuery()
+    {
+        $dbo = JFactory::getDBO();
         $language = explode('-', JFactory::getLanguage()->getTag());
 
-		$orderCol = $this->state->get('list.ordering');
-		$orderDir = $this->state->get('list.direction');
+        $orderCol = $this->state->get('list.ordering');
+        $orderDir = $this->state->get('list.direction');
 
-		// Create the sql query
-		$query = $dbo->getQuery(true);
+        // Create the sql query
+        $query = $dbo->getQuery(true);
         $select = 'DISTINCT s.id, lsfID, hisID, externalID, ';
         $select .= "name_{$language[0]} AS name, field, color";
         $query->select($select);
@@ -80,15 +80,15 @@ class THM_OrganizerModelSubject_Manager extends JModelList
         if (!empty($searchState))
         {
             $search = '%' . $dbo->getEscaped($searchState, true) . '%';
-                    $searchClause = "(name_de LIKE '$search' ";
-                    $searchClause .= "OR short_name_de LIKE '$search' ";
-                    $searchClause .= "OR abbreviation_de LIKE '$search' ";
-                    $searchClause .= "OR name_en LIKE '$search' ";
-                    $searchClause .= "OR short_name_en LIKE '$search' ";
-                    $searchClause .= "OR abbreviation_en LIKE '$search' ";
-                    $searchClause .= "OR lsfID LIKE '$search' ";
-                    $searchClause .= "OR hisID LIKE '$search' ";
-                    $searchClause .= "OR externalID LIKE '$search') ";
+            $searchClause = "(name_de LIKE '$search' ";
+            $searchClause .= "OR short_name_de LIKE '$search' ";
+            $searchClause .= "OR abbreviation_de LIKE '$search' ";
+            $searchClause .= "OR name_en LIKE '$search' ";
+            $searchClause .= "OR short_name_en LIKE '$search' ";
+            $searchClause .= "OR abbreviation_en LIKE '$search' ";
+            $searchClause .= "OR lsfID LIKE '$search' ";
+            $searchClause .= "OR hisID LIKE '$search' ";
+            $searchClause .= "OR externalID LIKE '$search') ";
             $query->where($searchClause);
         }
 
@@ -98,11 +98,11 @@ class THM_OrganizerModelSubject_Manager extends JModelList
             $query->where("lft > '{$borders['lft']}'");
             $query->where("rgt < '{$borders['rgt']}'");
         }
-     
-		$query->order("$orderCol $orderDir");
 
-		return $query;
-	}
+        $query->order("$orderCol $orderDir");
+
+        return $query;
+    }
 
     /**
      * Retrieves the left and right values for determining which subjects will
@@ -164,41 +164,41 @@ class THM_OrganizerModelSubject_Manager extends JModelList
         return $dbo->loadAssoc();
     }
 
-	/**
-	 * Method to get the table
-	 * 
-	 * @param   string  $order  the property to order the list by
-	 * @param   string  $dir    the direction in which the list is to be ordered
-	 *
-	 * @return  void
-	 */
-	protected function populateState($order = null, $dir = null)
-	{
-		$app = JFactory::getApplication();
+    /**
+     * Method to get the table
+     * 
+     * @param   string  $order  the property to order the list by
+     * @param   string  $dir    the direction in which the list is to be ordered
+     *
+     * @return  void
+     */
+    protected function populateState($order = null, $dir = null)
+    {
+        $app = JFactory::getApplication();
 
-		$order = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'name');
-		$this->setState('list.ordering', $order);
+        $order = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'name');
+        $this->setState('list.ordering', $order);
 
-		$dir = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
-		$this->setState('list.direction', $dir);
+        $dir = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
+        $this->setState('list.direction', $dir);
 
-		$filter = $app->getUserStateFromRequest($this->context . '.filter', 'filter', '');
-		$this->setState('filter', $filter);
+        $filter = $app->getUserStateFromRequest($this->context . '.filter', 'filter', '');
+        $this->setState('filter', $filter);
 
-		$limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
-		$this->setState('limit', $limit);
+        $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
+        $this->setState('limit', $limit);
 
-		$search = $app->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
-		$this->setState('filter.search', $search);
+        $search = $app->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
+        $this->setState('filter.search', $search);
 
-		$program = $app->getUserStateFromRequest($this->context . '.filter_program', 'filter_program', '');
-		$this->setState('filter.program', $program);
-        
-		$pool = $app->getUserStateFromRequest($this->context . '.filter_pool', 'filter_pool', '');
-		$this->setState('filter.pool', $pool);
+        $program = $app->getUserStateFromRequest($this->context . '.filter_program', 'filter_program', '');
+        $this->setState('filter.program', $program);
 
-		parent::populateState($order, $dir);
-	}
+        $pool = $app->getUserStateFromRequest($this->context . '.filter_pool', 'filter_pool', '');
+        $this->setState('filter.pool', $pool);
+
+        parent::populateState($order, $dir);
+    }
 
     /**
      * Retrieves a list of mapped pools
