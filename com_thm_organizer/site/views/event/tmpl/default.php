@@ -24,7 +24,7 @@ if ($showListLink)
             <a  class="hasTip thm_organizer_action_link"
                 title="<?php echo JText::_('COM_THM_ORGANIZER_LIST_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_LIST_DESCRIPTION');?>"
                 href="<?php echo $this->listLink ?>">
-                <span id="thm_organizer_list_span" class="thm_organizer_action_span"></span>
+                <span id="thm_organizer_list_span" class="thm_organizer_list_span thm_organizer_action_span"></span>
                 <?php echo JText::_('COM_THM_ORGANIZER_LIST'); ?>
             </a>
 <?php
@@ -54,14 +54,14 @@ if ($event['access'])
                 title="<?php echo JText::_('COM_THM_ORGANIZER_EDIT_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_EDIT_DESCRIPTION');?>"
                 href="<?php echo JRoute::_("index.php?option=com_thm_organizer&task=events.edit&eventID={$this->event['id']}&Itemid=$this->itemID");
                 ?>">
-                <span id="thm_organizer_edit_span" class="thm_organizer_action_span"></span>
+                <span id="thm_organizer_edit_span" class="thm_organizer_edit_span thm_organizer_action_span"></span>
                 <?php echo JText::_('COM_THM_ORGANIZER_EDIT'); ?>
             </a>
             <a  class="hasTip thm_organizer_action_link"
                 title="<?php echo JText::_('COM_THM_ORGANIZER_DELETE_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_DELETE_DESCRIPTION');?>"
                 href="<?php echo JRoute::_("index.php?option=com_thm_organizer&task=events.delete&eventID={$this->event['id']}&Itemid=$this->itemID");
                 ?>">
-                <span id="thm_organizer_delete_span" class="thm_organizer_action_span"></span>
+                <span id="thm_organizer_delete_span" class="thm_organizer_delete_span thm_organizer_action_span"></span>
                 <?php echo JText::_('COM_THM_ORGANIZER_DELETE'); ?>
             </a>
 <?php

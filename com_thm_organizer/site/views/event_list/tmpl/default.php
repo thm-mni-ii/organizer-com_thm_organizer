@@ -61,7 +61,7 @@ if ($this->canWrite)
                 <button class="hasTip thm_organizer_action_link"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_NEW_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_NEW_DESCRIPTION');?>"
                     onClick="action_button('events.edit');" >
-                    <span id="thm_organizer_new_span" class="thm_organizer_new_span thm_organizer_action_span"></span>
+                    <span id="thm_organizer_new_span" class="thm_organizer_new_span thm_organizer_new_span thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_NEW'); ?>
                 </button>
 <?php
@@ -72,13 +72,13 @@ if ($this->canEdit)
                 <button class="hasTip thm_organizer_action_link"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_EDIT_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_EDIT_DESCRIPTION');?>"
                     onClick="action_button('events.edit');">
-                    <span id="thm_organizer_edit_span" class="thm_organizer_action_span"></span>
+                    <span id="thm_organizer_edit_span" class="thm_organizer_edit_span thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_EDIT'); ?>
                 </button>
                 <button class="hasTip thm_organizer_action_link"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_DELETE_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_DELETE_DESCRIPTION');?>"
                     onClick="action_button('events.delete');">
-                    <span id="thm_organizer_delete_span" class="thm_organizer_action_span"></span>
+                    <span id="thm_organizer_delete_span" class="thm_organizer_delete_span thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_DELETE'); ?>
                 </button>
 <?php
@@ -93,13 +93,13 @@ if ($this->canWrite or $this->canEdit)
                 <button type="submit" class="hasTip thm_organizer_action_button"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_SUBMIT_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_SUBMIT_DESCRIPTION');?>"
                     onClick="document.getElementById('thm_organizer_el_form').submit();">
-                    <span id="thm_organizer_submit_span" class="thm_organizer_action_span"></span>
+                    <span id="thm_organizer_submit_span" class="thm_organizer_submit_span thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_SUBMIT'); ?>
                 </button>
                 <button type="button"  class="hasTip thm_organizer_action_button"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_RESET_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_RESET_DESCRIPTION');?>"
                     onclick="resetForm()">
-                    <span id="thm_organizer_back_span" class="thm_organizer_action_span"></span>
+                    <span id="thm_organizer_back_span" class="thm_organizer_back_span thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_RESET'); ?>
                 </button>
             </div>
