@@ -42,7 +42,7 @@
     margin-right: auto;
 }
 
-#thm_organizer_new_span{
+.thm_organizer_new_span{
     background-image: url("../../../../media/com_thm_organizer/images/icon-32-new.png");
 }
 
