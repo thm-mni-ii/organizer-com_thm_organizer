@@ -274,7 +274,7 @@ body.loading .loader {
 
 /* com_thm_organizer view: event***********************************************/
 
-#thm_organizer_e_title{
+.thm_organizer_e_title{
     color: #445C20;
     font-family: verdana;
     font-size: 11px;
@@ -317,7 +317,7 @@ body.loading .loader {
     min-width: 100%;
 }
 
-#thm_organizer_e_title p{
+.thm_organizer_e_title p{
     margin-top: 0;
     margin-bottom: 0;
 }

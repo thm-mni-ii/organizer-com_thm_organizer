@@ -27,12 +27,12 @@ $rowcount = 0;
 <div id="thm_organizer_el">
     <form id='thm_organizer_el_form' name='thm_organizer_el_form' enctype='multipart/form-data' method='post'
           action='<?php echo JRoute::_("index.php?option=com_thm_organizer&view=event_list"); ?>' >
-        <div id="thm_organizer_el_top_div" >
+        <div id="thm_organizer_el_top_div" class="thm_organizer_el_top_div" >
 <?php
 if ($this->categoryID != -1)
 {
 ?>
-            <div id="thm_organizer_el_category_desc_div">
+            <div id="thm_organizer_el_category_desc_div" class="thm_organizer_el_category_desc_div">
 <?php 
 	foreach ($this->categories as $category)
 	{
@@ -104,8 +104,8 @@ if ($this->canWrite or $this->canEdit)
                 </button>
             </div>
         </div>
-        <div id="thm_organizer_el_form_div" >
-            <div id='thm_organizer_el_search_div'>
+        <div id="thm_organizer_el_form_div"  class="thm_organizer_el_form_div">
+            <div id='thm_organizer_el_search_div' class='thm_organizer_el_search_div'>
                 <span class="thm_organizer_el_label_span" >
                     <?php echo $this->form->getLabel('thm_organizer_el_search_text'); ?>
                 </span>
@@ -144,8 +144,8 @@ if ($this->display_type != 1 and $this->display_type != 5)
 if (count($this->events) > 0)
 {
 ?>
-            <div id="thm_organizer_el_events_div" >
-                <table id="thm_organizer_el_eventtable">
+            <div id="thm_organizer_el_events_div" class='thm_organizer_el_events_div' >
+                <table id="thm_organizer_el_eventtable" class='thm_organizer_el_eventtable'>
                     <colgroup>
                         <col id="thm_organizer_el_col_check" />
                         <col id="thm_organizer_el_col_title" />

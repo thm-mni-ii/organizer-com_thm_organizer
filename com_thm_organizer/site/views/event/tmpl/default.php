@@ -70,7 +70,7 @@ if ($event['access'])
         </div>
     </div>
     <div class="thm_organizer_e_block_div" >        
-        <div id="thm_organizer_e_title">
+        <div id="thm_organizer_e_title" class="thm_organizer_e_title">
             <p><?php echo $event['title']; ?></p>
         </div>
         <div id="thm_organizer_e_publish_up">

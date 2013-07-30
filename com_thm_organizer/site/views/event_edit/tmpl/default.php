@@ -44,7 +44,7 @@ $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : fa
     function preview_content(response) {
         var json = jq.parseJSON(response);
         jq('#thm_organizer_ee_preview_event').append("<div id='thm_organizer_e_preview_div' >\
-                                                        <div id='thm_organizer_e_title'>"           + json.title        + "</div>\
+                                                        <div id='thm_organizer_e_title' class='thm_organizer_e_title'>"           + json.title        + "</div>\
                                                         <div id='thm_organizer_e_publish_up'>"      + json.created_at   + "</div>\
                                                         <div id='thm_organizer_e_author'>"          + json.username     + "</div>\
                                                         "                                           + json.introtext    + "\
