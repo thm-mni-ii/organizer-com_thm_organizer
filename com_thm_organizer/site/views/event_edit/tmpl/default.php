@@ -29,13 +29,13 @@ $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : fa
     jq(document).ready( function() {   
        jq('.thm_organizer_action_link_preview').live("click", function() {
            jq('.Popup').fadeIn("slow");
-           jq('#overlay').fadeIn("slow");
+           jq('.overlay').fadeIn("slow");
            return false;
        });
        
        jq('.closePopup').live("click", function() {
            jq(".Popup").fadeOut("slow");
-           jq("#overlay").fadeOut("slow", remove_preview_content());
+           jq(".overlay").fadeOut("slow", remove_preview_content());
            return false;
        });
        
@@ -222,7 +222,7 @@ Joomla.submitbutton =  function(task){
                     <div id="thm_organizer_ee_preview_event"><?php sleep(4); ?></div>                      
                     <a href="" class="closePopup"><?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_CLOSE');?></a>
                 </div>
-                <div id="overlay" class="closePopup"></div>
+                <div id="overlay" class="overlay closePopup"></div>
             </div>
         </div>
         <div id="thm_organizer_ee_name_div">
