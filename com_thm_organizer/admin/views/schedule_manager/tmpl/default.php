@@ -21,7 +21,7 @@ $direction = $this->escape($this->state->get('list.direction'));
       method="post"
       name="adminForm"
       id="adminForm">
-    <fieldset id="filter-bar">
+    <fieldset id="filter-bar" class='filter-bar'>
         <div class="filter-select fltrt">
             <select name="filter_state" class="inputbox" onchange="this.form.submit()">
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_SEARCH_STATES'); ?></option>

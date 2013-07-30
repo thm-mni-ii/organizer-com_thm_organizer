@@ -14,7 +14,7 @@ $orderby = $this->escape($this->state->get('list.ordering'));
 $direction = $this->escape($this->state->get('list.direction'));
 ?>
 <form action="index.php?option=com_thm_organizer" method="post" name="adminForm">
-    <fieldset id="filter-bar">
+    <fieldset id="filter-bar" class='filter-bar'>
         <div class="filter-select fltrt">
             <select name="filter_global" class="inputbox" onchange="this.form.submit()">
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_CAT_SEARCH_GLOBAL'); ?></option>

@@ -147,7 +147,7 @@ if (count($this->events) > 0)
             <div id="thm_organizer_el_events_div" class='thm_organizer_el_events_div' >
                 <table id="thm_organizer_el_eventtable" class='thm_organizer_el_eventtable'>
                     <colgroup>
-                        <col id="thm_organizer_el_col_check" />
+                        <col id="thm_organizer_el_col_check" class='thm_organizer_el_col_check' />
                         <col id="thm_organizer_el_col_title" />
 <?php
 	if ($this->display_type != 3 and $this->display_type != 7)

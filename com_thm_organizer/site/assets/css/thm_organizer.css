@@ -291,7 +291,7 @@ body.loading .loader {
     margin-right: 10px;
 }
 
-#thm_organizer_e_header{
+.thm_organizer_e_header{
     padding-bottom: 1px;
     width: 100%;
     height: 35px;
@@ -301,18 +301,18 @@ body.loading .loader {
     border-bottom: 1px solid #bbbbbb;
 }
 
-#thm_organizer_e_headerlinks{
+.thm_organizer_e_headerlinks{
     float: right;
     margin-right: 0px;
     margin-top: -1.5%;
 }
 
-#thm_organizer_e_resources{
+.thm_organizer_e_resources{
     padding-top: 10px;
     min-width: 100%;
 }
 
-#thm_organizer_e_content{
+.thm_organizer_e_content{
     padding-top: 10px;
     min-width: 100%;
 }
@@ -322,19 +322,19 @@ body.loading .loader {
     margin-bottom: 0;
 }
 
-#thm_organizer_e_publish_up p{
+.thm_organizer_e_publish_up p{
     font-size: 9px;
     margin-top: 0;
     margin-bottom: 0;
 }
 
-#thm_organizer_e_author p{
+.thm_organizer_e_author p{
     font-size: 9px;
     margin-top: 0;
     margin-bottom: 0;
 }
 
-#thm_organizer_e_preview_div{
+.thm_organizer_e_preview_div{
     padding-top: 10px;
     padding-right: 30px;
     margin-top: 5px;
@@ -345,19 +345,19 @@ body.loading .loader {
     text-align: left;
     white-space: normal;
 }
-#thm_organizer_e_description{
+.thm_organizer_e_description{
     margin-right: 60px;
     margin-bottom: 30px;
 }
 
 /* com_thm_organizer view: edit event******************************************/
 
-#thm_organizer_ee{
+.thm_organizer_ee{
     color: #4a5c66;
     margin-top: 12px;
 }
 
-#thm_organizer_ee_head_div{
+.thm_organizer_ee_head_div{
 	padding: 5px;
     height: 48px;
     width: 100%;
@@ -367,26 +367,26 @@ body.loading .loader {
     padding-bottom: 5px;
 }
 
-#thm_organizer_ee_title{
+.thm_organizer_ee_title{
     font-size: 20px;
     font-weight: bold;
 }
 
-#thm_organizer_ee a:visited{
+.thm_organizer_ee a:visited{
     color: #4a5c66;
 }
 
-#thm_organizer_ee option{
+.thm_organizer_ee option{
     color: #4a5c66;
 }
 
 
-#thm_organizer_ee form div table tr{
+.thm_organizer_ee form div table tr{
     padding: 2px;
     border: none;
 }
 
-#thm_organizer_ee form div table tr td{
+.thm_organizer_ee form div table tr td{
     padding: 2px;
     border: none;
 }
@@ -401,24 +401,24 @@ body.loading .loader {
 .thm_organizer_ee_data_div{
     float: left;
 }
-#thm_organizer_ee_name_div{
+.thm_organizer_ee_name_div{
     max-width: 62%;
     float: left;
     margin-bottom: 10px;
 }
 
-#thm_organizer_ee_desc_div div.thm_organizer_ee_data_div{
+.thm_organizer_ee_desc_div div.thm_organizer_ee_data_div{
 	max-width: 492px;
 }
 
-#thm_organizer_ee_desc_div{
+.thm_organizer_ee_desc_div{
     max-width: 62%;
     float: left;
     clear: left;
     margin-bottom: 10px;
 }
 
-#thm_organizer_ee_time_div{
+.thm_organizer_ee_time_div{
     max-width: 62%;
     float: left;
     clear: left;
@@ -427,14 +427,14 @@ body.loading .loader {
 }
 
 
-#thm_organizer_ee_resource_selection_div{
+.thm_organizer_ee_resource_selection_div{
     max-width: 62%;
     float: left;
     clear: left;
     margin-bottom: 10px;
 }
 
-#thm_organizer_ee_category_div{
+.thm_organizer_ee_category_div{
     width: 36%;
     float: right;
     clear: right;
@@ -443,21 +443,21 @@ body.loading .loader {
     padding: 0.4em;
 }
 
-#thm_organizer_ee_category_select_div{
+.thm_organizer_ee_category_select_div{
    width: 100%;
     margin-bottom: 25px;
 }
 
-#thm_organizer_ee_button_div {
+.thm_organizer_ee_button_div {
     float: right;
     margin-right: 5px;
 }
 
-#thm_organizer_ee #btnreset{
+.thm_organizer_ee #btnreset{
     padding: 0px 3px;
 }
 
-#thm_organizer_ee table img{
+.thm_organizer_ee table img{
     margin: 0px 3px -5px 0px;
 }
 
@@ -474,7 +474,7 @@ body.loading .loader {
     border: none;
 }
 
-#editor-xtd-buttons{ display: none; }
+.editor-xtd-buttons{ display: none; }
 
 .toggle-editor{ display: none; }
 
@@ -486,16 +486,16 @@ body.loading .loader {
 
 /* com_thm_organizer view: room list*******************************************/
 
-#thm_organizer_rs_fieldset{
+.thm_organizer_rs_fieldset{
     margin: 0 0 1em 0;
     padding: 1em;
     border: 2px solid #a8b5c5;
     width: 40%;
 }
-#thm_organizer_rs_fieldset img{
+.thm_organizer_rs_fieldset img{
     margin-bottom: -3px;
 }
-#thm_organizer_rs_legend{
+.thm_organizer_rs_legend{
     padding: 0.3em;
     font-weight: bold;
     font-size: 12px;
@@ -503,46 +503,46 @@ body.loading .loader {
 
 /* com_thm_organizer view: room display  template: default ********************/
 
-#thm_organizer_rd{
+.thm_organizer_rd{
     width: 75%;
     color: #4a5c66;
     padding: 1%;
 }
 
-#thm_organizer_rd div{
+.thm_organizer_rd div{
     color: #4a5c66;
 }
 
 
-#thm_organizer_rd a{
+.thm_organizer_rd a{
     text-decoration: none;
 }
 
-#thm_organizer_rd h3{
+.thm_organizer_rd h3{
     font-size: 150%;
     text-align: center;
 }
 
-#thm_organizer_rd_head{
+thm_organizer_rd_head{
     width: 100%;
     font-size: 200%;
     clear: both;
     padding-bottom: 4%;
 }
 
-#thm_organizer_rd_title{
+.thm_organizer_rd_title{
     float: left;
     clear: none;
     padding-left: 2%;
     padding-top: 2%;
 }
 
-#thm_organizer_rd_highlight{
+thm_organizer_rd_highlight{
     font-weight: bold;
     color: #80ba24;
 }
 
-#thm_organizer_rd_button_div{
+.thm_organizer_rd_button_div{
     float: right;
     font-size: 60%;
     width: 15%;
@@ -580,7 +580,7 @@ body.loading .loader {
     border: none;
 }
 
-#thm_organizer_rd_table tr td{
+.thm_organizer_rd_table tr td{
     padding: 5px;
     border: none;
 }
@@ -592,7 +592,7 @@ body.loading .loader {
     width: 50%;
 }
 
-#thm_organizer_rd_lessons, #thm_organizer_rd_appointments, #thm_organizer_rd_notices, #thm_organizer_rd_upcoming{
+.thm_organizer_rd_lessons, .thm_organizer_rd_appointments, .thm_organizer_rd_notices, .thm_organizer_rd_upcoming{
     width: 100%;
     clear: both;
 }
@@ -627,7 +627,7 @@ span.navi-tab.inactive a{
     color: white;
 }
 
-#filter-bar{
+.filter-bar{
     background-color: #b7bec2;
     border-top: none;
     border-left: 1px solid #a4b0bb;
@@ -638,7 +638,7 @@ span.navi-tab.inactive a{
     font-weight: bold;
 }
 
-div#filter-bar button{
+div.filter-bar button{
     padding: 3px 9px;
 }
 

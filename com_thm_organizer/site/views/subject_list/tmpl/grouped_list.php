@@ -77,7 +77,7 @@ switch ($this->state->get('groupBy'))
 </div>
 <form action="<?php echo JRoute::_('index.php?'); ?>"
       method="post" name="adminForm" id="adminForm">
-	<fieldset id="filter-bar">
+	<fieldset id="filter-bar" class='filter-bar'>
 		<div class="filter-search">
 			<label class="filter-search-lbl" for="search">
 				<?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>

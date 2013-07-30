@@ -43,12 +43,12 @@ $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : fa
     
     function preview_content(response) {
         var json = jq.parseJSON(response);
-        jq('#thm_organizer_ee_preview_event').append("<div id='thm_organizer_e_preview_div' >\
+        jq('#thm_organizer_ee_preview_event').append("<div id='thm_organizer_e_preview_div' class='thm_organizer_e_preview_div' >\
                                                         <div id='thm_organizer_e_title' class='thm_organizer_e_title'>"           + json.title        + "</div>\
                                                         <div id='thm_organizer_e_publish_up'>"      + json.created_at   + "</div>\
                                                         <div id='thm_organizer_e_author'>"          + json.username     + "</div>\
                                                         "                                           + json.introtext    + "\
-                                                        <div id='thm_organizer_e_description'>"     + json.description  + "</div>\
+                                                        <div id='thm_organizer_e_description' class='thm_organizer_e_description'>"     + json.description  + "</div>\
                                                       </div>");
     }
     
@@ -153,18 +153,18 @@ Joomla.submitbutton =  function(task){
     }
 }
 </script>
-<div id="thm_organizer_ee">
+<div id="thm_organizer_ee" class='thm_organizer_ee'>
     <form enctype="multipart/form-data"
           action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>"
           method="post"
           name="eventForm"
           id="eventForm"
           class="eventForm form-validate">
-        <div id="thm_organizer_ee_head_div">
-            <span id="thm_organizer_ee_title">
+        <div id="thm_organizer_ee_head_div" class='thm_organizer_ee_head_div'>
+            <span id="thm_organizer_ee_title" class='thm_organizer_ee_title'>
                 <?php echo ($this->event['id'] == 0)? JText::_('COM_THM_ORGANIZER_EE_NEW') : JText::_('COM_THM_ORGANIZER_EE_EDIT'); ?>
             </span>
-            <div id="thm_organizer_ee_button_div">
+            <div id="thm_organizer_ee_button_div" class='thm_organizer_ee_button_div'>
 <?php
                 if ($showListLink)
                 {
@@ -225,7 +225,7 @@ Joomla.submitbutton =  function(task){
                 <div id="overlay" class="overlay closePopup"></div>
             </div>
         </div>
-        <div id="thm_organizer_ee_name_div">
+        <div id="thm_organizer_ee_name_div" class='thm_organizer_ee_name_div'>
             <div class="thm_organizer_ee_label_div" >
                 <?php echo $this->form->getLabel('title'); ?>
             </div>
@@ -233,7 +233,7 @@ Joomla.submitbutton =  function(task){
                 <?php echo $this->form->getInput('title'); ?>
             </div>
         </div>
-        <div id="thm_organizer_ee_desc_div">
+        <div id="thm_organizer_ee_desc_div" class='thm_organizer_ee_desc_div'>
             <div class="thm_organizer_ee_label_div" >
                 <?php echo $this->form->getLabel('description'); ?>
             </div>
@@ -241,7 +241,7 @@ Joomla.submitbutton =  function(task){
                 <?php echo $this->form->getInput('description'); ?>
             </div>
         </div>
-        <div id="thm_organizer_ee_time_div">
+        <div id="thm_organizer_ee_time_div" class='thm_organizer_ee_time_div'>
             <table class="thm_organizer_ee_table">
                 <tr>
                     <td><?php echo $this->form->getLabel('startdate'); ?></td>
@@ -277,8 +277,8 @@ Joomla.submitbutton =  function(task){
                 </tr>
             </table>
         </div>
-        <div id="thm_organizer_ee_category_div">
-            <div id="thm_organizer_ee_category_select_div">
+        <div id="thm_organizer_ee_category_div" class='thm_organizer_ee_category_div'>
+            <div id="thm_organizer_ee_category_select_div" class='thm_organizer_ee_category_select_div'>
                 <div class="thm_organizer_ee_label_div" >
                     <?php echo $this->form->getLabel('categories'); ?>
                 </div>
@@ -302,7 +302,7 @@ Joomla.submitbutton =  function(task){
                 <div><?php echo $this->categories[$this->event['categoryID']]['access']; ?></div>
             </div>
         </div>
-        <div id="thm_organizer_ee_resource_selection_div" >
+        <div id="thm_organizer_ee_resource_selection_div" class='thm_organizer_ee_resource_selection_div'>
             <table class="thm_organizer_ee_table">
                 <tr>
                     <td>

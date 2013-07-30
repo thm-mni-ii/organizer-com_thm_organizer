@@ -26,14 +26,14 @@ if (isset($this->model->roomSelectLink))
     $this->backLink = $backLink;
 }
 ?>
-<div id="thm_organizer_rd">
-    <div id="thm_organizer_rd_head">
-        <div id ="thm_organizer_rd_title">
-            <span id="thm_organizer_rd_highlight">
+<div id="thm_organizer_rd" class='thm_organizer_rd'>
+    <div id="thm_organizer_rd_head" class='thm_organizer_rd_head'>
+        <div id ="thm_organizer_rd_title" class='thm_organizer_rd_title'>
+            <span id="thm_organizer_rd_highlight" class='thm_organizer_rd_highlight'>
                 <?php echo $this->roomName; ?>
             </span>
             <?php echo JText::_('COM_THM_ORGANIZER_RD_ON'); ?>
-            <span id="thm_organizer_rd_highlight" >
+            <span id="thm_organizer_rd_highlight" class='thm_organizer_rd_highlight' >
                 <?php echo date('d.m.Y', $this->date[0]); ?>
             </span>
         </div>
@@ -41,14 +41,14 @@ if (isset($this->model->roomSelectLink))
 if (isset($this->backLink))
 {
 ?>
-        <div id="thm_organizer_rd_button_div">
+        <div id="thm_organizer_rd_button_div" class='thm_organizer_rd_button_div'>
             <?php echo $this->backLink; ?>
         </div>
 <?php
 }
 ?>
     </div>
-    <div id="thm_organizer_rd_lessons">
+    <div id="thm_organizer_rd_lessons" class='thm_organizer_rd_lessons'>
 <?php
 if ($this->lessonsExist)
 {
@@ -102,10 +102,10 @@ if ($this->eventsExist)
     {
         $row = 0;
 ?>
-    <div class="thm_organizer_rd_events" id="thm_organizer_rd_appointments" >
+    <div class="thm_organizer_rd_events thm_organizer_rd_appointments" id="thm_organizer_rd_appointments" >
         <h3><?php echo JText::_('COM_THM_ORGANIZER_RD_APPOINTMENTS'); ?></h3>
         <div class="thm_organizer_rd_table_container" >
-            <table class="thm_organizer_rd_table" id="thm_organizer_rd_appointments_table" >
+            <table class="thm_organizer_rd_table thm_organizer_rd_appointments_table" id="thm_organizer_rd_appointments_table" >
 <?php
         foreach ($this->appointments as $appointment)
         {

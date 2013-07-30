@@ -15,8 +15,8 @@ $event = $this->event;
 $showListLink = (isset($this->listLink) and $this->listLink != "")? true : false;
 ?>
 <div id="thm_organizer_e">
-    <div id="thm_organizer_e_header">
-        <div id="thm_organizer_e_headerlinks">
+    <div id="thm_organizer_e_header" class='thm_organizer_e_header'>
+        <div id="thm_organizer_e_headerlinks" class='thm_organizer_e_headerlinks'>
 <?php
 if ($showListLink)
 {
@@ -128,7 +128,7 @@ if ($this->rooms)
 if (!empty($event['description']))
 {
 ?>
-        <div id="thm_organizer_e_description">
+        <div id="thm_organizer_e_description" class='thm_organizer_e_description'>
             <?php echo $event['description']; ?>
         </div>
 <?php
