@@ -1,5 +1,5 @@
 /*global Ext, MySched, MySchedLanguage, LectureModel, ScheduleModel, EventListModel, EventModel, externLinks, addNewEvent, numbertoday,
- _C, getCurrentMoFrDate, showLoadMask, numbertoday, getTeacherSurnameWithCutFirstName, loadMask */
+ _C, getCurrentMoFrDate, numbertoday, getTeacherSurnameWithCutFirstName, loadMask */
 /*jshint strict: false */
 /**
  * mySched - Mainclass by Thorsten Buss and Wolf Rost
@@ -101,7 +101,7 @@ MySched.Base = function ()
                 {
 
                     }
-                MySched.Base.startMySched(MySched.startup.Grid.load);
+                MySched.Base.startMySched(MySched.startup["Grid.load"]);
             }
         },
         startMySched: function (json)
@@ -263,7 +263,7 @@ MySched.Base = function ()
             MySched.eventlist = new EventListModel();
             if (checkStartup("Events.load") === true)
             {
-                MySched.TreeManager.afterloadEvents(MySched.startup.Events.load.data);
+                MySched.TreeManager.afterloadEvents(MySched.startup["Events.load"].data);
                 MySched.Base.myschedInit();
             }
             else
@@ -333,7 +333,7 @@ MySched.Base = function ()
             // Erstellt das Layout
             MySched.layout.buildLayout();
 
-            MySched.Base.setScheduleDescription(MySched.startup.ScheduleDescription.load.data);
+            MySched.Base.setScheduleDescription(MySched.startup["ScheduleDescription.load"].data);
         },
         setScheduleDescription: function (jsonData)
         {
@@ -1133,7 +1133,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                         id: MySched.Mapping.getSubjectNo(subject),
                         text: MySched.Mapping.getSubjectName(subject),
                         icon: MySched.mainPath + "images/clasIcon.png",
-                        handler: subjectNoHandler (element),
+                        handler: subjectNoHandler,
                         xtype: "button"
                     };
                 }
@@ -1685,10 +1685,10 @@ function showLessonMenu(e)
 
     var menuItems = [];
 
-    if (MySched.Authorize.role !== "user")
+    if (MySched.Authorize.role != "user")
     {
         // menuItems[menuItems.length] = estudyLesson;
-        if (MySched.selectedSchedule.id === "mySchedule" || el.hasCls('lectureBox_cho'))
+        if (MySched.selectedSchedule.id == "mySchedule" || el.hasCls('lectureBox_cho'))
         {
             menuItems[menuItems.length] = delLesson;
         }
@@ -1698,7 +1698,7 @@ function showLessonMenu(e)
         }
 
     }
-    if (((lesson.data.owner === MySched.Authorize.user || MySched.Authorize.isClassSemesterAuthor()) && lesson.data.owner !== null) && lesson.data.owner !== "gpuntis")
+    if (((lesson.data.owner == MySched.Authorize.user || MySched.Authorize.isClassSemesterAuthor()) && lesson.data.owner != null) && lesson.data.owner != "gpuntis")
     {
         menuItems[menuItems.length] = editLesson;
         menuItems[menuItems.length] = deleteLesson;
@@ -1916,7 +1916,7 @@ MySched.TreeManager = function ()
                 if (checkStartup("TreeView.load") === true)
                 {
                     MySched.TreeManager.processTreeData(
-                    MySched.startup.TreeView.load.data, type,
+                    MySched.startup["TreeView.load"].data, type,
                     accMode, name, baseTree);
                 }
                 else
@@ -1952,7 +1952,7 @@ MySched.TreeManager = function ()
             if (type === "curtea")
             { // neu->
                 MySched.TreeManager.processTreeData(
-                MySched.startup.TreeView.curiculumTeachers.data,
+                MySched.startup["TreeView.curiculumTeachers"].data,
                 type, accMode, name, baseTree);
                 return ret;
             }
@@ -2034,7 +2034,6 @@ MySched.layout = function ()
             this.tabpanel.on('tabchange',
                 function (panel, o)
                 {
-                    showLoadMask();
                     var contentAnchorTip = Ext.getCmp('content-anchor-tip');
                     if (contentAnchorTip)
                     {
@@ -2273,8 +2272,8 @@ MySched.layout = function ()
                 items: [this.leftviewport, this.rightviewport]
             });
             
-            var loadMask = new Ext.LoadMask({ target: "selectTree" });
-            loadMask.show();
+            MySched.treeLoadMask = new Ext.LoadMask(Ext.getCmp('selectTree').el, {msg:"Loading..."});
+            MySched.treeLoadMask.show();
 
             var calendar = Ext.ComponentMgr.get('menuedatepicker'), imgs;
             if (calendar)
@@ -2946,7 +2945,6 @@ MySched.layout = function ()
                     {
                         if (MySched.selectedSchedule !== null)
                         {
-                            showLoadMask();
                             if(MySched.selectedSchedule.id !== "mySchedule")
                             {
                                 var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker').value);
@@ -4017,9 +4015,9 @@ MySched.Tree = function ()
         init: function ()
         {
             var children = [];
-            if(Ext.isObject(MySched.startup.TreeView.load))
+            if(Ext.isObject(MySched.startup["TreeView.load"]))
             {
-                children = MySched.startup.TreeView.load.data.tree;
+                children = MySched.startup["TreeView.load"].data.tree;
             }
             else
             {
@@ -4056,9 +4054,9 @@ MySched.Tree = function ()
                         rootNode.removeAll(true);
                         rootNode.appendChild(newtree);
 
-                        if (loadMask)
+                        if (MySched.treeLoadMask)
                         {
-                            loadMask.destroy();
+                        	MySched.treeLoadMask.destroy();
                         }
                         
                         var publicDefaultNode = json.treePublicDefault;
@@ -4154,8 +4152,6 @@ MySched.Tree = function ()
         },
         showScheduleTab: function (nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type)
         {
-            showLoadMask();
-
             if (type === null)
             {
                 type = gpuntisID;
