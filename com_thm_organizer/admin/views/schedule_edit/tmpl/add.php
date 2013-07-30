@@ -18,7 +18,7 @@ defined("_JEXEC") or die;?>
       method="post"
       name="adminForm"
       id="adminForm">
-    <div id="thm_organizer_se" class="width-60 fltlft">
+    <div id="thm_organizer_se" class="width-60 fltlft thm_organizer_se">
         <fieldset class="adminform">
             <legend><?php echo $this->legend; ?></legend>
             <ul class="adminformtable">

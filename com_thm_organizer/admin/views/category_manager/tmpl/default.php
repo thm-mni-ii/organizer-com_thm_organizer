@@ -37,11 +37,11 @@ $direction = $this->escape($this->state->get('list.direction'));
     </fieldset>
     <table class="adminlist" id="thm_organizer_cat_table">
         <colgroup>
-            <col id="thm_organizer_cat_checkbox_column" align="center" />
-            <col id="thm_organizer_cat_title_column" />
-            <col id="thm_organizer_cat_global_column" />
-            <col id="thm_organizer_cat_reserves_column" />
-            <col id="thm_organizer_cat_content_cat_column" />
+            <col id="thm_organizer_cat_checkbox_column" align="center" class='thm_organizer_cat_checkbox_column' />
+            <col id="thm_organizer_cat_title_column" class='thm_organizer_cat_title_column' />
+            <col id="thm_organizer_cat_global_column" class='thm_organizer_cat_global_column' />
+            <col id="thm_organizer_cat_reserves_column" class='thm_organizer_cat_reserves_column' />
+            <col id="thm_organizer_cat_content_cat_column" class='thm_organizer_cat_content_cat_column' />
         </colgroup>
         <thead>
             <tr>

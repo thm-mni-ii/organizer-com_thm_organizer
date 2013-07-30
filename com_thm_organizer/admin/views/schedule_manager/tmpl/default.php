@@ -53,13 +53,13 @@ $direction = $this->escape($this->state->get('list.direction'));
     <div>
         <table class="adminlist" cellpadding="0">
             <colgroup>
-                <col id="thm_organizer_check_column" />
+                <col id="thm_organizer_check_column" class="thm_organizer_check_column" />
                 <col class="thm_organizer_sch_semester_column" />
                 <col class="thm_organizer_sch_semester_column" />
                 <col class="thm_organizer_sch_date_column" />
                 <col class="thm_organizer_sch_date_column" />
                 <col class="thm_organizer_sch_date_column" />
-                <col id="thm_organizer_sch_active_column" />
+                <col id="thm_organizer_sch_active_column" class='thm_organizer_sch_active_column' />
                 <col id="thm_organizer_sch_description_column" />
             </colgroup>
             <thead>
