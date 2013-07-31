@@ -35,13 +35,12 @@ class THM_OrganizerViewCurriculum extends JView
             jimport('extjs4.extjs4');
 
             $document = JFactory::getDocument();
-            $document->addStyleSheet($this->baseurl . '/components/com_thm_organizer/views/curriculum/tmpl/extjs/curriculum-minify.css');
-            $document->addScript($this->baseurl . '/components/com_thm_organizer/views/curriculum/tmpl/extjs/curriculum.js');
-            $document->addScript($this->baseurl . '/components/com_thm_organizer/views/curriculum/tmpl/extjs/app.js');
+            $document->addStyleSheet($this->baseurl . '/components/com_thm_organizer/views/curriculum/tmpl/curriculum-minify.css');
+            $document->addScript($this->baseurl . '/components/com_thm_organizer/views/curriculum/tmpl/app.js');
 
             // Get the parameters of the current view
             $this->params = JFactory::getApplication()->getMenu()->getActive()->params;
-            $this->languageTag = JRequest::getVar('languageTag', 'de');
+            $this->languageTag = JRequest::getVar('languageTag', $this->params->get('language'));
             $this->langLink = ($this->languageTag == 'de') ? 'en' : 'de';
             $this->langUrl = self::languageSwitcher($this->langLink);
             $this->pagetitle = $this->params->get('page_title');

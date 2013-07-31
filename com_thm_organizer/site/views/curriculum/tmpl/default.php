@@ -20,34 +20,37 @@ $flagClass = strlen($this->params->get('page_heading')) == 0? "flagWithoutTitle"
 
 // Javascript Application construction parameters
 $paramsString = JRequest::getVar('Itemid') . ", ";
-$paramsString .= $this->params->get('program') . ", ";
-$paramsString .= $this->params->get('horizontalGroups')? ", " : "'', ";
+$paramsString .= "{$this->params->get('programID')}, ";
+$paramsString .= $this->params->get('horizontalGroups')? "{$this->params->get('horizontalGroups')}, " : "'', ";
 $paramsString .= "'$this->languageTag', ";
-$paramsString .= $this->params->get('width') . ", ";
-$paramsString .= $this->params->get('height') . ", ";
-$paramsString .= "'" . $this->params->get('semester_body_color') . "', ";
-$paramsString .= $this->params->get('course_width') . ", ";
-$paramsString .= "'" . $this->params->get('course_body_color') . "', ";
-$paramsString .= "'" . $this->params->get('elective_pool_body_color') . "', ";
-$paramsString .= $this->params->get('title_cut_length_activate') . ", ";
-$paramsString .= $this->params->get('title_cut_length') . ", ";
-$paramsString .= "'" . $this->params->get('scheduler_link') . "', ";
-$paramsString .= $this->params->get('asset_line_break') . ", ";
-$paramsString .= $this->params->get('elective_pool_window_line_break') . ", ";
-$paramsString .= $this->params->get('compulsory_pool_line_break') . ", ";
-$paramsString .= "$this->counter, ";
-$paramsString .= "'" . $this->params->get('default_info_link') . "'";
+$paramsString .= "{$this->params->get('width')}, ";
+$paramsString .= "{$this->params->get('height')}, ";
+$paramsString .= "'{$this->params->get('horizontalPanelHeaderColor')}', ";
+$paramsString .= "'{$this->params->get('horizontalPanelColor')}', ";
+$paramsString .= "'{$this->params->get('inlinePanelColor')}', ";
+$paramsString .= "'{$this->params->get('modalPanelColor')}', ";
+$paramsString .= "{$this->params->get('itemWidth')}, ";
+$paramsString .= "{$this->params->get('itemHeight')}, ";
+$paramsString .= "'{$this->params->get('itemColor')}', ";
+$paramsString .= "{$this->params->get('titleCut')}, ";
+$paramsString .= $this->params->get('titleLength')? "{$this->params->get('titleLength')}, " : "'', ";
+$paramsString .= "{$this->params->get('maxItems')}, ";
+$paramsString .= "{$this->params->get('spacing')}, ";
+$paramsString .= $this->params->get('horizontalSpacing')? "{$this->params->get('horizontalSpacing')}, " : "'', ";
+$paramsString .= $this->params->get('inlineSpacing')? "{$this->params->get('inlineSpacing')}, " : "'', ";
+$paramsString .= $this->params->get('modalSpacing')? "{$this->params->get('modalSpacing')}" : "''";
 ?>
 <script type="text/javascript">
 /* global parameters */
-css_suffix =  <?php echo "'" . $this->params->get('css_suffix') . "'"; ?>;
-scheduler_icon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/scheduler_1.png";
-note_icon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/info_1.png";
-collab_icon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/collab.png";
-responsible_icon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/user_1.png";
-comp_pool_icon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/comp_pool_icon.png";
-place_holder_icon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/icon_place_holder.png";
-loading_icon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/ajax-loader.gif";
+suffix =  <?php echo "'" . $this->params->get('suffix') . "'"; ?>;
+schedulerLink = <?php echo "'" . $this->params->get('schedulerLink') . "'"; ?>;
+schedulerIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/scheduler_1.png";
+ecollabLink = <?php echo "'" . $this->params->get('ecollabLink') . "'"; ?>;
+ecollabIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/collab.png";
+responsibleIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/user_1.png";
+poolIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/comp_pool_icon.png";
+placeHolderIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/icon_place_holder.png";
+loadingIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/ajax-loader.gif";
 
 window.addEvent('domready', function(){
             var appObj = new App(<?php echo $paramsString; ?>);
@@ -66,5 +69,5 @@ if ($this->params->get('show_page_heading', 1) AND $this->params->get('plugin_mo
 }
 ?>
 </span>
-<div style="text-align: center" id="loading_<?php echo $this->counter; ?>"></div>
-<div class="iScroll" id="curriculum_<?php echo $this->counter; ?>"></div>
+<div style="text-align: center" id="loading"></div>
+<div class="iScroll" id="curriculum"></div>
