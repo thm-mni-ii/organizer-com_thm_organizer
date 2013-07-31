@@ -15,7 +15,7 @@ $orderby = $this->escape($this->state->get('list.ordering'));
 $direction = $this->escape($this->state->get('list.direction'));
 ?>
 <form action="index.php?option=com_thm_organizer" method="post" name="adminForm" id="adminForm">
-    <fieldset id="filter-bar">
+    <fieldset id="filter-bar" class='filter-bar'>
         <div class="filter-select fltrt">
             <select name="filter_display" class="inputbox" onchange="this.form.submit()">
                     <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_MON_SEARCH_BEHAVIOURS'); ?></option>
@@ -31,15 +31,15 @@ $direction = $this->escape($this->state->get('list.direction'));
     </fieldset>
     <div class="clr"> </div>
     <div>
-        <table class="adminlist" id="thm_organizer_mon_table">
+        <table class="adminlist" id="thm_organizer_mon_table" class='thm_organizer_mon_table'>
             <colgroup>
-                <col id="thm_organizer_mon_col_checkbox" />
-                <col id="thm_organizer_mon_col_room" />
-                <col id="thm_organizer_mon_col_ip" />
-                <col id="thm_organizer_mon_col_display" />
-                <col id="thm_organizer_mon_col_schedule_refresh" />
-                <col id="thm_organizer_mon_col_content_refresh" />
-                <col id="thm_organizer_mon_col_content" />
+                <col id="thm_organizer_mon_col_checkbox" class='thm_organizer_mon_col_checkbox'/>
+                <col id="thm_organizer_mon_col_room" class='thm_organizer_mon_col_room' />
+                <col id="thm_organizer_mon_col_ip" class='thm_organizer_mon_col_ip' />
+                <col id="thm_organizer_mon_col_display" class='thm_organizer_mon_col_display'/>
+                <col id="thm_organizer_mon_col_schedule_refresh" class='thm_organizer_mon_col_schedule_refresh' />
+                <col id="thm_organizer_mon_col_content_refresh" class='thm_organizer_mon_col_content_refresh'/>
+                <col id="thm_organizer_mon_col_content" class='thm_organizer_mon_col_content' />
             </colgroup>
             <thead>
                 <tr>

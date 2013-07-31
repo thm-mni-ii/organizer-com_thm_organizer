@@ -18,10 +18,10 @@ $logoURL = 'administrator/components/com_thm_organizer/assets/images/THM-Organiz
 <?php
     echo JHTML::_('image', $logoURL, JText::_('COM_THM_ORGANIZER'), array( 'class' => 'thm_organizer_main_image'));
 ?>
-<div id="thm_organizer_main_description">
+<div id="thm_organizer_main_description" class='thm_organizer_main_description'>
     <?php echo JText::_("COM_THM_ORGANIZER_MAIN_DESC"); ?>
 </div>
-<div id="cpanel">
+<div id="cpanel" class='cpanel'>
 <?php foreach ($this->views as $view)
 {
 ?>

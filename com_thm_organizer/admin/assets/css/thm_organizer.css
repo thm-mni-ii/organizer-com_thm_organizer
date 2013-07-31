@@ -4,17 +4,17 @@
 
 .tip-wrap{ z-index: 99; }
 
-#adminForm div.m{ padding: 5px; }
+.adminForm div.m{ padding: 5px; }
 
-#toolbar-close{ font-size: 1em; }
+.toolbar-close{ font-size: 1em; }
 
-#cpanel{ width: 100%; margin-top: 4px; }
+.cpanel{ width: 100%; margin-top: 4px; }
 
 .thm_organizer_label{ padding-right: 5px;}
 
-#thm_organizer_check_column{ width: 10px; }
+.thm_organizer_check_column{ width: 10px; }
 
-#thm_organizer_search_div{ padding-right: 8px; }
+.thm_organizer_search_div{ padding-right: 8px; }
 
 .thm_organizer_radio_button{ background: #f4f4f4; border: none; }
 
@@ -22,9 +22,9 @@
 
 /*thm_organizers view**********************************************************/
 
-#thm_organizer_main{ padding: 5px; }
+.thm_organizer_main{ padding: 5px; }
 
-#thm_organizer_main_description{ font-size: 16px; padding-bottom: 8px; }
+.thm_organizer_main_description{ font-size: 16px; padding-bottom: 8px; }
 
 .thm_organizer_main_linkdiv{ float: left; }
 
@@ -33,41 +33,41 @@
 /*category manager & category edit views***************************************/
 
 
-#thm_organizer_cat{
+.thm_organizer_cat{
     max-width: 80%;
 }
 
-#thm_organizer_cat_table thead th,
-#thm_organizer_cat_table tr td{
+.thm_organizer_cat_table thead th,
+.thm_organizer_cat_table tr td{
     text-align: left;
 }
 
-#thm_organizer_cat_checkbox_column{
+.thm_organizer_cat_checkbox_column{
     width: 10px;
 }
 
-#thm_organizer_cat_title_column{
+.thm_organizer_cat_title_column{
     min-width: 15%;
 }
 
-#thm_organizer_cat_global_column{
+.thm_organizer_cat_global_column{
     width: 15px;
 }
 
-#thm_organizer_cat_reserves_column{
+.thm_organizer_cat_reserves_column{
     width: 15px;
 }
 
-#thm_organizer_cat_content_cat_column{
+.thm_organizer_cat_content_cat_column{
     min-width: 20%;
 }
 
-#thm_organizer_cat_ecat{
+.thm_organizer_cat_ecat{
     width: 35%;
     float: left;
 }
 
-#thm_organizer_cat_ccat{
+.thm_organizer_cat_ccat{
     width: 60%;
     float: right;
 }
@@ -84,22 +84,22 @@
     font-size: 14px;
 }
 
-#thm_organizer_cat_ecat_name_div{
+.thm_organizer_cat_ecat_name_div{
     width: 100%;
     clear: both;
     margin-bottom: 30px;
 }
-#thm_organizer_cat_ccat_name_div{
+.thm_organizer_cat_ccat_name_div{
     width: 100%;
     clear: both;
     margin-bottom: 85px;
 }
-#thm_organizer_cat_ecat_desc_div{
+.thm_organizer_cat_ecat_desc_div{
     width: 100%;
     clear: both;
     margin-bottom: 20px;
 }
-#thm_organizer_cat_ccat_desc_div{
+.thm_organizer_cat_ccat_desc_div{
     width: 100%;
     clear: both;
     margin-bottom: 30px;
@@ -112,7 +112,7 @@
     padding-bottom: 10px;
 }
 
-#thm_organizer_cat_ccat_viewlevel_div{
+.thm_organizer_cat_ccat_viewlevel_div{
     width: 100%;
     clear: both;
     padding-top: 10px;
@@ -126,47 +126,47 @@
     padding-bottom: 10px;
 }
 
-#thm_organizer_cat_actions_head tr td{ border-bottom: 1px solid #cccccc; }
+.thm_organizer_cat_actions_head tr td{ border-bottom: 1px solid #cccccc; }
 
 .thm_organizer_cat_leftcolumn{ border-left: 1px solid #cccccc; }
 
-#com_thm_organizer_cat_action_column{ width: 50px; }
+.com_thm_organizer_cat_action_column{ width: 50px; }
 
 
 /*monitor manager & monitor edit views*****************************************/
 
-#thm_organizer_mon_table{ width: auto; }
+.thm_organizer_mon_table{ width: auto; }
 
-#thm_organizer_mon_table tbody tr td{ text-align: center; }
+.thm_organizer_mon_table tbody tr td{ text-align: center; }
 
-#thm_organizer_mon_col_checkbox{ width: 10px; }
+.thm_organizer_mon_col_checkbox{ width: 10px; }
 
-#thm_organizer_mon_col_room{ width: 120px; }
+.thm_organizer_mon_col_room{ width: 120px; }
 
-#thm_organizer_mon_col_ip{ width: 90px; }
+.thm_organizer_mon_col_ip{ width: 90px; }
 
-#thm_organizer_mon_col_display{ width: 150px; }
+.thm_organizer_mon_col_display{ width: 150px; }
 
-#thm_organizer_mon_col_interval{ width: 70px;}
+.thm_organizer_mon_col_interval{ width: 70px;}
 
-#thm_organizer_mon_col_content{ width: 200px;}
+.thm_organizer_mon_col_content{ width: 200px;}
 
 /*semester manager & semester edit views***************************************/
 
-#thm_organizer_sm_checkbox_column{ width: 10px; }
+.thm_organizer_sm_checkbox_column{ width: 10px; }
 
 
-#thm_organizer_sm form table.adminlist tbody tr td{ border: none; }
+.thm_organizer_sm form table.adminlist tbody tr td{ border: none; }
 
-#thm_organizer_sm form table.adminlist thead th{
+.thm_organizer_sm form table.adminlist thead th{
     border-left: none;
     border-right: none;
     text-align: left;
 }
 
-#thm_organizer_se{ color: #025a8d; }
+.thm_organizer_se{ color: #025a8d; }
 
-#thm_organizer_se table.admintable{ 
+.thm_organizer_se table.admintable{ 
 	width: 50%;
     margin-top: 10px;
 }
@@ -178,7 +178,7 @@
     padding-left: 5px;
 }
 
-#toolbar-apply button{
+.toolbar-apply button{
     background: none;
     border: none;
     color: #025a8d;
@@ -192,7 +192,7 @@ table.adminlist thead th.thm_organizer_sm_th{ text-align: left; }
 
 .thm_organizer_sch_semester_column{ width: 10%; }
 
-#thm_organizer_sch_active_column{ width: 5%; }
+.thm_organizer_sch_active_column{ width: 5%; }
 
 .thm_organizer_sch_active_td{ text-align: center; }
 
@@ -205,19 +205,19 @@ li input[disabled=disabled]{ border: none; color: black;}
 
 /*resource manager & resource edit views***************************************/
 
-#submenu li a.active{
+.submenu li a.active{
     padding: 3px 6px;
     border-top: 1px solid #cdcdcd;
     border-bottom: 1px solid #cdcdcd;
 }
 
-#submenu li a.leftend{
+.submenu li a.leftend{
     border-left: 1px solid #cdcdcd;
     border-top-left-radius: 6px;
     border-bottom-left-radius: 6px;
 }
 
-#submenu li a.rightend{
+.submenu li a.rightend{
     border-top-right-radius: 6px;
     border-bottom-right-radius: 6px;
 }

@@ -14,7 +14,7 @@ $orderby = $this->escape($this->state->get('list.ordering'));
 $direction = $this->escape($this->state->get('list.direction'));
 ?>
 <form action="index.php?option=com_thm_organizer" method="post" name="adminForm">
-    <fieldset id="filter-bar">
+    <fieldset id="filter-bar" class='filter-bar'>
         <div class="filter-select fltrt">
             <select name="filter_global" class="inputbox" onchange="this.form.submit()">
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_CAT_SEARCH_GLOBAL'); ?></option>
@@ -37,11 +37,11 @@ $direction = $this->escape($this->state->get('list.direction'));
     </fieldset>
     <table class="adminlist" id="thm_organizer_cat_table">
         <colgroup>
-            <col id="thm_organizer_cat_checkbox_column" align="center" />
-            <col id="thm_organizer_cat_title_column" />
-            <col id="thm_organizer_cat_global_column" />
-            <col id="thm_organizer_cat_reserves_column" />
-            <col id="thm_organizer_cat_content_cat_column" />
+            <col id="thm_organizer_cat_checkbox_column" align="center" class='thm_organizer_cat_checkbox_column' />
+            <col id="thm_organizer_cat_title_column" class='thm_organizer_cat_title_column' />
+            <col id="thm_organizer_cat_global_column" class='thm_organizer_cat_global_column' />
+            <col id="thm_organizer_cat_reserves_column" class='thm_organizer_cat_reserves_column' />
+            <col id="thm_organizer_cat_content_cat_column" class='thm_organizer_cat_content_cat_column' />
         </colgroup>
         <thead>
             <tr>

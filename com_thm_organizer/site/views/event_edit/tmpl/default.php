@@ -29,13 +29,13 @@ $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : fa
     jq(document).ready( function() {   
        jq('.thm_organizer_action_link_preview').live("click", function() {
            jq('.Popup').fadeIn("slow");
-           jq('#overlay').fadeIn("slow");
+           jq('.overlay').fadeIn("slow");
            return false;
        });
        
        jq('.closePopup').live("click", function() {
            jq(".Popup").fadeOut("slow");
-           jq("#overlay").fadeOut("slow", remove_preview_content());
+           jq(".overlay").fadeOut("slow", remove_preview_content());
            return false;
        });
        
@@ -43,12 +43,12 @@ $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : fa
     
     function preview_content(response) {
         var json = jq.parseJSON(response);
-        jq('#thm_organizer_ee_preview_event').append("<div id='thm_organizer_e_preview_div' >\
-                                                        <div id='thm_organizer_e_title'>"           + json.title        + "</div>\
+        jq('#thm_organizer_ee_preview_event').append("<div id='thm_organizer_e_preview_div' class='thm_organizer_e_preview_div' >\
+                                                        <div id='thm_organizer_e_title' class='thm_organizer_e_title'>"           + json.title        + "</div>\
                                                         <div id='thm_organizer_e_publish_up'>"      + json.created_at   + "</div>\
                                                         <div id='thm_organizer_e_author'>"          + json.username     + "</div>\
                                                         "                                           + json.introtext    + "\
-                                                        <div id='thm_organizer_e_description'>"     + json.description  + "</div>\
+                                                        <div id='thm_organizer_e_description' class='thm_organizer_e_description'>"     + json.description  + "</div>\
                                                       </div>");
     }
     
@@ -153,18 +153,18 @@ Joomla.submitbutton =  function(task){
     }
 }
 </script>
-<div id="thm_organizer_ee">
+<div id="thm_organizer_ee" class='thm_organizer_ee'>
     <form enctype="multipart/form-data"
           action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>"
           method="post"
           name="eventForm"
           id="eventForm"
           class="eventForm form-validate">
-        <div id="thm_organizer_ee_head_div">
-            <span id="thm_organizer_ee_title">
+        <div id="thm_organizer_ee_head_div" class='thm_organizer_ee_head_div'>
+            <span id="thm_organizer_ee_title" class='thm_organizer_ee_title'>
                 <?php echo ($this->event['id'] == 0)? JText::_('COM_THM_ORGANIZER_EE_NEW') : JText::_('COM_THM_ORGANIZER_EE_EDIT'); ?>
             </span>
-            <div id="thm_organizer_ee_button_div">
+            <div id="thm_organizer_ee_button_div" class='thm_organizer_ee_button_div'>
 <?php
                 if ($showListLink)
                 {
@@ -174,7 +174,7 @@ Joomla.submitbutton =  function(task){
                 <a  class="hasTip thm_organizer_action_link"
                     title="<?php echo $listTitle;?>"
                     href="<?php echo $this->listLink ?>">
-                    <span id="thm_organizer_list_span" class="thm_organizer_action_span"></span>
+                    <span id="thm_organizer_list_span" class="thm_organizer_list_span thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_LIST'); ?>
                 </a>
 <?php
@@ -187,7 +187,7 @@ Joomla.submitbutton =  function(task){
                 <a  class="hasTip thm_organizer_action_link"
                     title="<?php echo $eventTitle;?>"
                     href="<?php echo $this->eventLink ?>">
-                    <span id="thm_organizer_event_span" class="thm_organizer_action_span"></span>
+                    <span id="thm_organizer_event_span" class="thm_organizer_event_span thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_EVENT'); ?>
                 </a>
                 <?php
@@ -200,19 +200,19 @@ Joomla.submitbutton =  function(task){
                 <a  class="hasTip thm_organizer_action_link"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_SAVE_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_SAVE_DESCRIPTION');?>"
                     onclick="Joomla.submitbutton('events.save')">
-                    <span id="thm_organizer_save_span" class="thm_organizer_action_span"></span>
+                    <span id="thm_organizer_save_span" class="thm_organizer_save_span thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_SAVE_TITLE'); ?>
                 </a>
                 <a  class="hasTip thm_organizer_action_link"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_SAVE_NEW_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_SAVE_NEW_DESCRIPTION');?>"
                     onclick="Joomla.submitbutton('events.save2new')">
-                    <span id="thm_organizer_save_new_span" class="thm_organizer_action_span"></span>
+                    <span id="thm_organizer_save_new_span" class="thm_organizer_save_new_span thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_SAVE_NEW'); ?>
                 </a>
                 <a  class="hasTip thm_organizer_action_link_preview"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_PREVIEW_DESCRIPTION');?>"
                     onclick="Joomla.submitbutton('events.preview')">
-                    <span id="thm_organizer_preview_span" class="thm_organizer_action_span"></span>
+                    <span id="thm_organizer_preview_span" class="thm_organizer_preview_span thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_PREVIEW'); ?>
                     
                 </a>                
@@ -222,10 +222,10 @@ Joomla.submitbutton =  function(task){
                     <div id="thm_organizer_ee_preview_event"><?php sleep(4); ?></div>                      
                     <a href="" class="closePopup"><?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_CLOSE');?></a>
                 </div>
-                <div id="overlay" class="closePopup"></div>
+                <div id="overlay" class="overlay closePopup"></div>
             </div>
         </div>
-        <div id="thm_organizer_ee_name_div">
+        <div id="thm_organizer_ee_name_div" class='thm_organizer_ee_name_div'>
             <div class="thm_organizer_ee_label_div" >
                 <?php echo $this->form->getLabel('title'); ?>
             </div>
@@ -233,7 +233,7 @@ Joomla.submitbutton =  function(task){
                 <?php echo $this->form->getInput('title'); ?>
             </div>
         </div>
-        <div id="thm_organizer_ee_desc_div">
+        <div id="thm_organizer_ee_desc_div" class='thm_organizer_ee_desc_div'>
             <div class="thm_organizer_ee_label_div" >
                 <?php echo $this->form->getLabel('description'); ?>
             </div>
@@ -241,7 +241,7 @@ Joomla.submitbutton =  function(task){
                 <?php echo $this->form->getInput('description'); ?>
             </div>
         </div>
-        <div id="thm_organizer_ee_time_div">
+        <div id="thm_organizer_ee_time_div" class='thm_organizer_ee_time_div'>
             <table class="thm_organizer_ee_table">
                 <tr>
                     <td><?php echo $this->form->getLabel('startdate'); ?></td>
@@ -277,8 +277,8 @@ Joomla.submitbutton =  function(task){
                 </tr>
             </table>
         </div>
-        <div id="thm_organizer_ee_category_div">
-            <div id="thm_organizer_ee_category_select_div">
+        <div id="thm_organizer_ee_category_div" class='thm_organizer_ee_category_div'>
+            <div id="thm_organizer_ee_category_select_div" class='thm_organizer_ee_category_select_div'>
                 <div class="thm_organizer_ee_label_div" >
                     <?php echo $this->form->getLabel('categories'); ?>
                 </div>
@@ -302,7 +302,7 @@ Joomla.submitbutton =  function(task){
                 <div><?php echo $this->categories[$this->event['categoryID']]['access']; ?></div>
             </div>
         </div>
-        <div id="thm_organizer_ee_resource_selection_div" >
+        <div id="thm_organizer_ee_resource_selection_div" class='thm_organizer_ee_resource_selection_div'>
             <table class="thm_organizer_ee_table">
                 <tr>
                     <td>
