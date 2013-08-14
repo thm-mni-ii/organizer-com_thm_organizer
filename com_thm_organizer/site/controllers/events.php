@@ -14,7 +14,7 @@
 defined('_JEXEC') OR die;
 jimport('joomla.application.component.controller');
 require_once JPATH_COMPONENT . "/assets/classes/eventAccess.php";
-require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'helper' . DS . 'event_helper.php';
+require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'helper' . DS . 'event.php';
 
 /**
  * Performs access checks and user actions for events and associated resources

@@ -73,10 +73,10 @@ if ($event['access'])
         <div id="thm_organizer_e_title" class="thm_organizer_e_title">
             <p><?php echo $event['title']; ?></p>
         </div>
-        <div id="thm_organizer_e_publish_up">
+        <div class="thm_organizer_e_publish_up">
             <p><?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_CREATED') . $event['publish_up']; ?></p>
         </div>
-        <div id="thm_organizer_e_author">
+        <div class="thm_organizer_e_author">
             <p><?php echo JText::_('COM_THM_ORGANIZER_E_WRITTEN_BY') . $event['author']; ?></p>
         </div>        
         <div id="thm_organizer_e_time">
