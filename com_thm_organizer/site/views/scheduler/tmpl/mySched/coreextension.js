@@ -123,15 +123,15 @@ Ext.picker.Date,
                 len = cell.children[0].events.length;
                 if (current.compare(begin) === 0)
                 {
-                    cell.children[0].events[len] = "<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_SEMESTER_BEGIN'); ?>";
+                    cell.children[0].events[len] = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER_BEGIN;
                 }
                 else if (current.compare(end) === 0)
                 {
-                    cell.children[0].events[len] = "<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_SEMESTER_END'); ?>";
+                    cell.children[0].events[len] = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER_END;
                 }
                 else
                 {
-                    cell.children[0].events[len] = "<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_SEMESTER'); ?>";
+                    cell.children[0].events[len] = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER;
                 }
 
                 cell.className += " MySched_Semester";
