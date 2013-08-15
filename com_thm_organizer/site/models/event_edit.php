@@ -429,7 +429,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
         $query->select("link");
         $query->from("#__menu AS eg");
         $query->where("id = $menuID");
-        $query->where("link LIKE '%event_manager%'");
+        $query->where("link LIKE '%event_list%'");
         $dbo->setQuery((string) $query);
         $link = $dbo->loadResult();
         if (isset($link) and $link != "")
@@ -438,7 +438,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
         }
         if ($this->event['id'] > 0)
         {
-            $this->eventLink = JRoute::_("index.php?option=com_thm_organizer&view=event_details&eventID=" . $this->event['id'] . "&Itemid=$menuID");
+            $this->eventLink = JRoute::_("index.php?option=com_thm_organizer&view=event&eventID=" . $this->event['id'] . "&Itemid=$menuID");
         }
     }
 }

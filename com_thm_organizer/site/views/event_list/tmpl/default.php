@@ -26,7 +26,7 @@ $rowcount = 0;
 </script>   
 <div id="thm_organizer_el">
     <form id='thm_organizer_el_form' name='thm_organizer_el_form' enctype='multipart/form-data' method='post'
-          action='<?php echo JRoute::_("index.php?option=com_thm_organizer&view=event_manager"); ?>' >
+          action='<?php echo JRoute::_("index.php?option=com_thm_organizer&view=event_list"); ?>' >
         <div id="thm_organizer_el_top_div" class="thm_organizer_el_top_div" >
 <?php
 if ($this->categoryID != -1)
@@ -60,7 +60,7 @@ if ($this->canWrite)
 ?>
                 <button class="hasTip thm_organizer_action_link"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_NEW_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_NEW_DESCRIPTION');?>"
-                    onClick="action_button('event.edit');" >
+                    onClick="action_button('events.edit');" >
                     <span id="thm_organizer_new_span" class="thm_organizer_new_span thm_organizer_new_span thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_NEW'); ?>
                 </button>
@@ -71,13 +71,13 @@ if ($this->canEdit)
 ?>
                 <button class="hasTip thm_organizer_action_link"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_EDIT_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_EDIT_DESCRIPTION');?>"
-                    onClick="action_button('event.edit');">
+                    onClick="action_button('events.edit');">
                     <span id="thm_organizer_edit_span" class="thm_organizer_edit_span thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_EDIT'); ?>
                 </button>
                 <button class="hasTip thm_organizer_action_link"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_DELETE_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_DELETE_DESCRIPTION');?>"
-                    onClick="action_button('event.delete');">
+                    onClick="action_button('events.delete');">
                     <span id="thm_organizer_delete_span" class="thm_organizer_delete_span thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_DELETE'); ?>
                 </button>

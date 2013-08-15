@@ -3,7 +3,8 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerModelEvents
+ * @name        THM_OrganizerModelEvent
+ * @description create/edit appointment/event model
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -11,10 +12,10 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'helper' . DS . 'event.php';
+require_once JPATH_COMPONENT . "/assets/classes/eventAccess.php";
 
 /**
- * Handles event perssistence
+ * Retrieves stored event data
  * 
  * @category    Joomla.Component.Site
  * @package     thm_organizer
@@ -23,418 +24,265 @@ require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'h
 class THM_OrganizerModelEvent extends JModel
 {
     /**
-     * save
-     *
-     * saves event and content information
-     *
-     * @return int id on success, 0 on failure
+     * @var int the id of the event in the database
      */
-    public function save()
+    public $eventID = 0;
+
+    /**
+     * @var array of event properties
+     */
+    public $event = null;
+
+    /**
+     * @var string containing the url of the event list menu item from which
+     * the user came to this view (if the user came from the event list view)
+     */
+    public $listLink = "";
+
+    /**
+     * @var boolean true if the user is allowed to create events, otherwise false
+     */
+    public $canWrite = false;
+
+    /**
+     * construct
+     *
+     * calls class functions to load object variables with data
+     */
+    public function __construct()
     {
-        $dbo = JFactory::getDbo();
-        $dbo->transactionStart();
-        $data = $this->cleanRequestData();
-        THM_OrganizerHelperEvent::buildtext($data);
-        $eventSaved = ($data['id'] > 0)? $this->saveExistingEvent($data) : $this->saveNewEvent($data);
-        $teachersSaved = $this->saveResources("#__thm_organizer_event_teachers", "teachers", "teacherID", $data['id']);
-        $roomsSaved = $this->saveResources("#__thm_organizer_event_rooms", "rooms", "roomID", $data['id']);
-        $groupsSaved = $this->saveResources("#__thm_organizer_event_groups", "groups", "groupID", $data['id']);
-        if ($eventSaved AND $teachersSaved AND $roomsSaved AND $groupsSaved)
+        parent::__construct();
+        $this->loadEvent();
+        if ($this->event['id'] != 0)
         {
-            $dbo->transactionCommit();
-            if ($data['emailNotification'] AND count($_REQUEST['groups']))
+            $this->loadEventResources();
+            $this->setMenuLinks();
+        }
+        $this->canWrite = THMEventAccess::canCreate();
+    }
+
+    /**
+     * loadEvent
+     *
+     * creates an event as an array of properties and sets this as an object
+     * variable
+     * 
+     * @return void
+     */
+    public function loadEvent()
+    {
+        $eventID = JRequest::getInt('eventID')? JRequest::getInt('eventID'): 0;
+        $dbo = JFactory::getDBO();
+
+        $query = $dbo->getQuery(true);
+        $query->select($this->getSelect());
+        $query->from("#__thm_organizer_events AS e");
+        $query->innerJoin("#__content AS c ON e.id = c.id");
+        $query->innerJoin("#__users AS u ON c.created_by = u.id");
+        $query->innerJoin("#__thm_organizer_categories AS ecat ON e.categoryID = ecat.id");
+        $query->innerJoin("#__categories AS ccat ON ecat.contentCatID = ccat.id");
+        $query->where("e.id = '$eventID'");
+        $dbo->setQuery((string) $query);
+        $event = $dbo->loadAssoc();
+
+        if (isset($event))
+        {
+            $this->eventID = $event['id'];
+            if (!empty($event['description']))
             {
-                $this->notify($data);
+                $event['description'] = trim($event['description']);
             }
-            return $data['id'];
+            if ($event['global'] and $event['reserves'])
+            {
+                $event['displaybehavior'] = JText::_('COM_THM_ORGANIZER_E_GLOBALRESERVES_EXPLANATION');
+            }
+            elseif ($event['global'])
+            {
+                $event['displaybehavior'] = JText::_('COM_THM_ORGANIZER_E_GLOBAL_EXPLANATION');
+            }
+            elseif ($event['reserves'])
+            {
+                $event['displaybehavior'] = JText::_('COM_THM_ORGANIZER_E_RESERVES_EXPLANATION');
+            }
+            else
+            {
+                $event['displaybehavior'] = JText::_('COM_THM_ORGANIZER_E_NOGLOBALRESERVES_EXPLANATION');
+            }
+            if ($event['starttime'] == "00:00")
+            {
+                unset($event['starttime']);
+            }
+            if ($event['endtime'] == "00:00")
+            {
+                unset($event['endtime']);
+            }
+            if ($event['enddate'] == "00.00.0000")
+            {
+                unset($event['enddate']);
+            }
         }
         else
         {
-            $dbo->transactionRollback();
-            return 0;
+            $this->eventID = 0;
+            $event = array();
+            $event['id'] = 0;
+            $event['title'] = JText::_('COM_THM_ORGANIZER_E_EMPTY');
+            $event['alias'] = '';
+            $event['description'] = JText::_('COM_THM_ORGANIZER_E_EMPTY_DESC');
+            $event['categoryID'] = 0;
+            $event['contentID'] = 0;
+            $event['startdate'] = '';
+            $event['enddate'] = '';
+            $event['starttime'] = '';
+            $event['endtime'] = '';
+            $event['created_by'] = 0;
+            $event['created'] = '';
+            $event['modified_by'] = 0;
+            $event['modified'] = '';
+            $event['recurrence_number'] = 0;
+            $event['recurrence_type'] = 0;
+            $event['recurrence_counter'] = 0;
+            $event['image'] = '';
+            $event['register'] = 0;
+            $event['unregister'] = 0;
         }
+        $event['teachers'] = array();
+        $event['groups'] = array();
+        $event['rooms'] = array();
+        if ($event['id'] != 0)
+        {
+            $event['access'] = THMEventAccess::canEdit($this->event['id']);
+        }
+        $this->event = $event;
     }
 
     /**
-     * cleanRequestData
+     * getSelect
      *
-     * filters the data from the request
+     * creates the select clause for the event properties
      *
-     * @return mixed $data request data
+     * @return string select clause
      */
-    public function cleanRequestData()
+    private function getSelect()
     {
-        $data = JRequest::getVar('jform', null, null, null, 4);
-        $data['categoryID'] = JRequest::getInt('category');
-        $data['userID'] = JFactory::getUser()->id;
-        $data['title'] = addslashes($data['title']);
-        $data['alias'] = JApplication::stringURLSafe($data['title']);
-        $data['fulltext'] = $this->getDbo()->escape($data['description']);
-        return $data;
+        $select = "e.id AS id, ";
+        $select .= "e.categoryID AS eventCategoryID, ";
+        $select .= "DATE_FORMAT(e.startdate, '%d.%m.%Y') AS startdate, ";
+        $select .= "DATE_FORMAT(e.enddate, '%d.%m.%Y') AS enddate, ";
+        $select .= "SUBSTR(e.starttime, 1, 5) AS starttime, ";
+        $select .= "SUBSTR(e.endtime, 1, 5) AS endtime, ";
+        $select .= "e.recurrence_type AS rec_type, ";
+        $select .= "ecat.title AS eventCategory, ";
+        $select .= "ecat.description AS eventCategoryDesc, ";
+        $select .= "ecat.contentCatID AS contentCategoryID, ";
+        $select .= "ecat.global, ";
+        $select .= "ecat.reserves, ";
+        $select .= "c.title AS title, ";
+        $select .= "c.fulltext AS description, ";
+        $select .= "DATE_FORMAT(c.publish_up, '%d.%m.%Y') AS publish_up, ";
+        $select .= "DATE_FORMAT(c.publish_down, '%d.%m.%Y') AS publish_down, ";
+        $select .= "c.access AS contentAccess, ";
+        $select .= "ccat.title AS contentCategory, ";
+        $select .= "ccat.description AS contentCategoryDesc, ";
+        $select .= "ccat.access AS contentCategoryAccess, ";
+        $select .= "u.name AS author, ";
+        $select .= "u.id AS authorID ";
+        return $select;
     }
 
     /**
-     * Performs the update query to the appropriate tables
+     * loadEventResources
      *
-     * @param   mixed  &$data  the event data
+     * calls functions for loading differing sorts of event resources
      * 
-     * @return  boolean true on success, otherwise false
+     * @return void
      */
-    private function saveExistingEvent(&$data)
+    private function loadEventResources()
     {
-        $dbo = JFactory::getDBO();
-
-        $query = $dbo->getQuery(true);
-        $query->update('#__content');
-        $conditions = "title = '{$data['title']}', ";
-        $conditions .= "alias = '{$data['alias']}', ";
-        $conditions .= "introtext = '{$data['introtext']}', ";
-        $conditions .= "#__content.fulltext = '{$data['fulltext']}', ";
-        $conditions .= "state = '1', ";
-        $conditions .= "catid = '{$data['contentCatID']}', ";
-        $conditions .= "modified = '" . date('Y-m-d H:i:s') . "', ";
-        $conditions .= "modified_by = '{$data['userID']}', ";
-        $conditions .= "publish_up = '{$data['publish_up']}', ";
-        $conditions .= "publish_down = '{$data['publish_down']}' ";
-        $query->set($conditions);
-        $query->where("id = '{$data['id']}'");
-        $dbo->setQuery((string) $query);
-        $dbo->query();
-        if ($dbo->getErrorNum())
-        {
-            return false;
-        }
-
-        $query = $dbo->getQuery(true);
-        $query->select("id, level");
-        $query->from("#__assets");
-        $query->where("name = 'com_content.category.{$data['contentCatID']}'");
-        $dbo->setQuery((string) $query);
-        $parentID = $dbo->loadResult();
-        if ($dbo->getErrorNum())
-        {
-            return false;
-        }
-
-        $asset = JTable::getInstance('Asset');
-        $asset->loadByName("com_content.article.{$data['id']}");
-        $asset->parent_id = $parentID;
-        $asset->title = $data['title'];
-        $asset->setLocation($parentID, 'last-child');
-        if (!$asset->store())
-        {
-            $this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $dbo->stderr(true)));
-            return false;
-        }
-
-        $query = $dbo->getQuery(true);
-        $query->update("#__thm_organizer_events");
-        $conditions = "categoryID = '{$data['categoryID']}', ";
-        $conditions .= "startdate = '{$data['startdate']}', ";
-        $conditions .= "enddate = '{$data['enddate']}', ";
-        $conditions .= "starttime = '{$data['starttime']}', ";
-        $conditions .= "endtime = '{$data['endtime']}', ";
-        $conditions .= "start = '{$data['start']}', ";
-        $conditions .= "end = '{$data['end']}', ";
-        $conditions .= "recurrence_type = '{$data['rec_type']}' ";
-        $query->set($conditions);
-        $query->where("id = '{$data['id']}'");
-        $dbo->setQuery((string) $query);
-        $dbo->query();
-        if ($dbo->getErrorNum())
-        {
-            return false;
-        }
-
-        return true;
+        $this->loadEventRooms();
+        $this->loadEventTeachers();
+        $this->loadEventGroups();
     }
 
     /**
-     * Saves a new event creating appropriate entries in the content, assets,
-     * and event tables
-     * 
-     * @param   array  &$data  holds data from the request
-     * 
-     * @return  boolean true on success, otherwise false
-     */
-    private function saveNewEvent(&$data)
-    {
-        $dbo = JFactory::getDBO();
-
-        $query = $dbo->getQuery(true);
-        $statement = "#__content";
-        $statement .= "( title, alias, ";
-        $statement .= "introtext, #__content.fulltext, ";
-        $statement .= "state, catid, ";
-        $statement .= "created, access, ";
-        $statement .= "created_by, publish_up, ";
-        $statement .= "publish_down ) ";
-        $statement .= "VALUES ";
-        $statement .= "( '{$data['title']}', '{$data['alias']}', ";
-        $statement .= "'{$data['introtext']}', '{$data['fulltext']}', ";
-        $statement .= "'1', '{$data['contentCatID']}', ";
-        $statement .= "'" . date('Y-m-d H:i:s') . "', '1', ";
-        $statement .= "'{$data['userID']}', '{$data['publish_up']}', ";
-        $statement .= "'{$data['publish_down']}' ) ";
-        $query->insert($statement);
-        $dbo->setQuery((string) $query);
-        $dbo->query();
-        if ($dbo->getErrorNum())
-        {
-            return false;
-        }
-
-        $query = $dbo->getQuery(true);
-        $query->select('MAX(id)');
-        $query->from('#__content');
-        $query->where("title = '{$data['title']}'");
-        $query->where("introtext = '{$data['introtext']}'");
-        $query->where("catid = '{$data['contentCatID']}'");
-        $dbo->setQuery((string) $query);
-        $data['id'] = $dbo->loadResult();
-        if ($dbo->getErrorNum())
-        {
-            return false;
-        }
-
-        $query = $dbo->getQuery(true);
-        $query->select("id");
-        $query->from("#__assets");
-        $query->where("name = 'com_content.category.{$data['contentCatID']}'");
-        $dbo->setQuery((string) $query);
-        $parentID = $dbo->loadResult();
-        if ($dbo->getErrorNum())
-        {
-            return false;
-        }
-
-        $asset = JTable::getInstance('Asset');
-        $asset->name = "com_content.article.{$data['id']}";
-        $asset->parent_id = $parentID;
-        $asset->rules = '{}';
-        $asset->title = $data['title'];
-        $asset->setLocation($parentID, 'last-child');
-        $asset->store();
-        if ($dbo->getErrorNum())
-        {
-            return false;
-        }
-
-        $query = $dbo->getQuery(true);
-        $query->select('id');
-        $query->from('#__assets');
-        $query->where("name = 'com_content.article.{$data['id']}'");
-        $dbo->setQuery((string) $query);
-        $assetID = $dbo->loadResult();
-        if ($dbo->getErrorNum())
-        {
-            return false;
-        }
-
-        $query = $dbo->getQuery(true);
-        $query->update("#__content");
-        $query->set("asset_id = '$assetID'");
-        $query->where("id = '{$data['id']}'");
-        $dbo->setQuery((string) $query);
-        $dbo->query();
-        if ($dbo->getErrorNum())
-        {
-            return false;
-        }
-
-        $query = $dbo->getQuery(true);
-        $statement = "#__thm_organizer_events";
-        $statement .= "( id, categoryID, startdate, enddate, ";
-        $statement .= "starttime, endtime, recurrence_type, start, end ) ";
-        $statement .= "VALUES ";
-        $statement .= "( '{$data['id']}', '{$data['categoryID']}', '{$data['startdate']}', '{$data['enddate']}', ";
-        $statement .= "'{$data['starttime']}', '{$data['endtime']}', '{$data['rec_type']}', '{$data['start']}', '{$data['end']}' ) ";
-        $query->insert($statement);
-        $dbo->setQuery((string) $query);
-        $dbo->query();
-        return ($dbo->getErrorNum())? false : true;
-    }
-
-    /**
-     * saves associations of events and event resources
+     * loadEventRooms
      *
-     * @param   string  $tableName       the name of the resource association table
-     * @param   string  $requestName     the name of the request resource variable
-     * @param   string  $resourceColumn  the name of the resource id column
-     * @param   int     $eventID         the id of the event
+     * loads room data into the event
      * 
-     * @return  boolean true on success false on failure
+     * @return void
      */
-    private function saveResources($tableName, $requestName, $resourceColumn, $eventID)
-    {
-        $dbo = JFactory::getDBO();
-
-        // Remove old associations
-        $query = $dbo->getQuery(true);
-        $query->delete();
-        $query->from($tableName);
-        $query->where("eventID = '$eventID'");
-        $dbo->setQuery((string) $query);
-        $dbo->query();
-
-        // Add new ones (if requested)
-        $resources = (isset($_REQUEST[$requestName]))? JRequest::getVar($requestName) : array();
-        $noResourceIndex = array_search('-1', $resources);
-        if ($noResourceIndex)
-        {
-            unset($resources[$noResourceIndex]);
-        }
-        if (count($resources))
-        {
-            $query = $dbo->getQuery(true);
-            $statement = "$tableName ";
-            $statement .= "( eventID, $resourceColumn ) ";
-            $statement .= "VALUES ";
-            $statement .= "( '$eventID', '" . implode("' ), ( '$eventID', '", $resources) . "' ) ";
-            $query->insert($statement);
-            $dbo->setQuery((string) $query);
-            $dbo->query();
-            if ($dbo->getErrorNum())
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Deletes entries in assets, content, events, event_teachers,
-     * event_rooms, and event_groups associated with a particular event
-     *
-     * @param   int  $eventID  id of the event and associated content to be deleted
-     * 
-     * @return  boolean true on success, otherwise false
-     */
-    public function delete($eventID)
+    private function loadEventRooms()
     {
         $dbo = JFactory::getDbo();
-
         $query = $dbo->getQuery(true);
-        $query->select("id");
-        $query->from("#__assets");
-        $query->where("name = 'com_content.article.$eventID'");
+        $query->select("name");
+        $query->from("#__thm_organizer_event_rooms AS er");
+        $query->innerJoin("#__thm_organizer_rooms AS r ON er.roomID = r.id");
+        $query->where("er.eventID = '$this->eventID'");
         $dbo->setQuery((string) $query);
-        $assetID = $dbo->loadResult();
-        if ($dbo->getErrorNum())
-        {
-            return false;
-        }
-
-        $assetsTable = JTable::getInstance('asset');
-        $assetsTable->delete($assetID);
-
-        $query = $dbo->getQuery(true);
-        $query->delete();
-        $query->from("#__content");
-        $query->where("id = '$eventID'");
-        $dbo->setQuery((string) $query);
-        $dbo->query();
-        if ($dbo->getErrorNum())
-        {
-            return false;
-        }
-
-        $query = $dbo->getQuery(true);
-        $query->delete();
-        $query->from("#__thm_organizer_events");
-        $query->where("id = '$eventID'");
-        $dbo->setQuery((string) $query);
-        $dbo->query();
-        if ($dbo->getErrorNum())
-        {
-            return false;
-        }
-
-        $query = $dbo->getQuery(true);
-        $query->delete();
-        $query->from("#__thm_organizer_event_teachers");
-        $query->where("eventID = '$eventID'");
-        $dbo->setQuery((string) $query);
-        $dbo->query();
-
-        $query = $dbo->getQuery(true);
-        $query->delete();
-        $query->from("#__thm_organizer_event_rooms");
-        $query->where("eventID = '$eventID'");
-        $dbo->setQuery((string) $query);
-        $dbo->query();
-
-        $query = $dbo->getQuery(true);
-        $query->delete();
-        $query->from("#__thm_organizer_event_groups");
-        $query->where("eventID = '$eventID'");
-        $dbo->setQuery((string) $query);
-        $dbo->query();
-
-        return true;
+        $this->event['rooms'] = $dbo->loadResultArray();
     }
 
     /**
-     * Sends an email with the appointment title as subject and the introtext
-     * for the appointment as body on the members of the affected groups
-     * 
-     * @param   mixed  &$data  the event information
-     * 
-     * @return  void
-     */
-    private function notify(&$data)
-    {
-        $user = JFactory::getUser();
-        $mailer = JFactory::getMailer();
-        $sender = array($user->email, $user->name);
-        $mailer->setSender($sender);
-        $recipients = $this->getRecipients();
-        if (count($recipients))
-        {
-            $mailer->addRecipient($recipients);
-        }
-        else
-        {
-            return;
-        }
-        $mailer->setSubject(stripslashes($data['title']));
-        $mailer->setBody(strip_tags($data['introtext']));
-        $mailer->Send();
-    }
-
-    /**
-     * getRecipients
+     * loadEventTeachers
      *
-     * retrieves the users in the affected groups
-     *
-     * @return mixed array of email addresses
+     * loads teacher data into the event
+     * 
+     * @return void
      */
-    private function getRecipients()
+    private function loadEventTeachers()
     {
-        $recipients = array();
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select('DISTINCT email, name');
-        $query->from('#__users AS user');
-        $query->innerJoin('#__user_usergroup_map AS map ON user.id = map.user_id');
-        $groups = $_REQUEST['groups'];
-        foreach ($groups as $group)
+        $query->select("surname");
+        $query->from("#__thm_organizer_event_teachers AS et");
+        $query->innerJoin("#__thm_organizer_teachers AS t ON et.teacherID = t.id");
+        $query->where("et.eventID = '$this->eventID'");
+        $dbo->setQuery((string) $query);
+        $this->event['teachers'] = $dbo->loadResultArray();
+    }
+
+    /**
+     * loadEventGroups
+     *
+     * loads group data into the event
+     * 
+     * @return void
+     */
+    private function loadEventGroups()
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("title AS name");
+        $query->from("#__thm_organizer_event_groups AS eg");
+        $query->innerJoin("#__usergroups AS ug ON eg.groupID = ug.id");
+        $query->where("eg.eventID = '$this->eventID'");
+        $dbo->setQuery((string) $query);
+        $this->event['groups'] = $dbo->loadResultArray();
+    }
+
+    /**
+     * funtion setMenuLink
+     *
+     * retrieves the url of the event list menu item and sets the object
+     * variable listLink with it
+     * 
+     * @return void
+     */
+    private function setMenuLinks()
+    {
+        $menuID = JRequest::getInt('Itemid');
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("link");
+        $query->from("#__menu AS eg");
+        $query->where("id = $menuID");
+        $query->where("link LIKE '%event_list%'");
+        $dbo->setQuery((string) $query);
+        $link = $dbo->loadResult();
+        if (isset($link) and $link != "")
         {
-            $query->clear('where');
-            $query->where("map.group_id = $group");
-            $dbo->setQuery((string) $query);
-            $groupEMails = $dbo->loadResultArray();
-            if (count($groupEMails))
-            {
-                foreach ($groupEMails as $email)
-                {
-                    if (!in_array($email, $recipients))
-                    {
-                        $recipients[] = $email;
-                    }
-                }
-            }
+            $this->listLink = JRoute::_($link);
         }
-        return $recipients;
     }
 }

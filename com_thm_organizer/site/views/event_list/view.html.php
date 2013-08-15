@@ -20,7 +20,7 @@ jimport('jquery.jquery');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerViewEvent_Manager extends JView
+class THM_OrganizerViewEvent_List extends JView
 {
 	/**
      * Loads model data into context and sets variables used for html output
@@ -35,7 +35,7 @@ class THM_OrganizerViewEvent_Manager extends JView
         JHTML::_('behavior.tooltip');
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
-        $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/event_manager.js'));
+        $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/event_list.js'));
 
         $model = $this->getModel();
 
