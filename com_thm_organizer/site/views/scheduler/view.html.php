@@ -53,7 +53,7 @@ class THM_OrganizerViewScheduler extends JView
 		$doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/mySched/style.css");
 
 		$schedulerModel = $this->getModel();
-		$eventModel = JModel::getInstance('event_list', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
+		$eventModel = JModel::getInstance('event_manager', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
 		$ajaxModel = JModel::getInstance('Ajaxhandler', 'thm_organizerModel', array('ignore_request' => false));
 
 		$menuparams = JFactory::getApplication()->getParams();

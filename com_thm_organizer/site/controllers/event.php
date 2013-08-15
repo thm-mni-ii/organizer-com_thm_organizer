@@ -4,7 +4,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerControllerEvents
+ * @name        THM_OrganizerControllerEvent
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -25,7 +25,7 @@ require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'h
  * @link        www.mni.thm.de
  * @since       v0.0.1
  */
-class THM_OrganizerControllerEvents extends JController
+class THM_OrganizerControllerEvent extends JController
 {
     /**
      * edit
@@ -99,7 +99,7 @@ class THM_OrganizerControllerEvents extends JController
         if ($canSave)
         {
             $schedulerCall = JRequest::getVar('schedulerCall');
-            $model = $this->getModel('events');
+            $model = $this->getModel('event');
             $eventID = $model->save();
 
             if ($eventID)
@@ -107,11 +107,11 @@ class THM_OrganizerControllerEvents extends JController
                 $msg = JText::_('COM_THM_ORGANIZER_EVENT_SAVED');
                 if ($schedulerCall)
                 {
-                    $link = JRoute::_("index.php?option=com_thm_organizer&view=event&eventID=$eventID&tmpl=component", false);
+                    $link = JRoute::_("index.php?option=com_thm_organizer&view=event_details&eventID=$eventID&tmpl=component", false);
                 }
                 else
                 {
-                    $link = JRoute::_("index.php?option=com_thm_organizer&view=event&eventID=$eventID&Itemid=$menuID", false);
+                    $link = JRoute::_("index.php?option=com_thm_organizer&view=event_details&eventID=$eventID&Itemid=$menuID", false);
                 }
                 $this->setRedirect($link, $msg);
             }
@@ -163,7 +163,7 @@ class THM_OrganizerControllerEvents extends JController
         if ($canSave)
         {
             $schedulerCall = JRequest::getVar('schedulerCall');
-            $model = $this->getModel('events');
+            $model = $this->getModel('event');
             $eventID = $model->save();
 
             if ($eventID)
@@ -213,7 +213,7 @@ class THM_OrganizerControllerEvents extends JController
         $eventIDs = JRequest::getVar('eventIDs');
         $menuID = JRequest::getVar('Itemid');
         $success = false;
-        $model = $this->getModel('events');
+        $model = $this->getModel('event');
         if (isset($eventID) && $eventID != 0)
         {
             (THMEventAccess::canDelete($eventID))?
@@ -236,13 +236,13 @@ class THM_OrganizerControllerEvents extends JController
         if ($success)
         {
             $msg = JText::_('COM_THM_ORGANIZER_EVENT_DELETED');
-            $link = JRoute::_("index.php?option=com_thm_organizer&view=event_list&Itemid=$menuID", false);
+            $link = JRoute::_("index.php?option=com_thm_organizer&view=event_manager&Itemid=$menuID", false);
             $this->setRedirect($link, $msg);
         }
         else
         {
             $msg = JText::_('COM_THM_ORGANIZER_EVENT_DELETE_FAILED');
-            $link = JRoute::_("index.php?option=com_thm_organizer&view=event_list&Itemid=$menuID", false);
+            $link = JRoute::_("index.php?option=com_thm_organizer&view=event_manager&Itemid=$menuID", false);
             $this->setRedirect($link, $msg, 'error');
         }
     }
@@ -250,7 +250,7 @@ class THM_OrganizerControllerEvents extends JController
     /**
      * function search
      *
-     * redirects to the event_list view which reformats its sql restriction
+     * redirects to the event_manager view which reformats its sql restriction
      * 
      * @return void
      
@@ -258,7 +258,7 @@ class THM_OrganizerControllerEvents extends JController
     {
         JComponentHelper::ge
         $menuID = JRequest::getVar('Itemid');
-        $link = JRoute::_("index.php?option=com_thm_organizer&view=event_list&Itemid=$menuID", false);
+        $link = JRoute::_("index.php?option=com_thm_organizer&view=event_manager&Itemid=$menuID", false);
         $this->setRedirect($link);
     }
     */           

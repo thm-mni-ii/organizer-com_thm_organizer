@@ -730,7 +730,7 @@ class THM_OrganizerModelRoom_Display extends JModel
      */
     private function getEventLink($eventID, $title)
     {
-        $url = "index.php?option=com_thm_organizer&view=event&eventID=$eventID";
+        $url = "index.php?option=com_thm_organizer&view=event_details&eventID=$eventID";
         $attribs = array();
         $attribs['title'] = "$title::" . JText::_('COM_THM_ORGANIZER_RD_EVENT_LINK_TEXT');
         return JHtml::_('link', $url, $title, $attribs);
