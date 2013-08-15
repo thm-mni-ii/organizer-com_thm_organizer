@@ -31,10 +31,10 @@ function unCheckAll()
 function submitForm(task)
 {
     "use strict";
-    if(task === 'events.new')
+    if(task === 'event.new')
     {
         unCheckAll();
-        task = 'events.edit';
+        task = 'event.edit';
     }
     document.getElementById('task').value = task;
     document.getElementById('thm_organizer_el_form').submit();

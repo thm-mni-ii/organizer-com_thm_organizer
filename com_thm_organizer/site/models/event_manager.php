@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerModelEvent_list
+ * @name        THM_OrganizerModelEvent_manager
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -28,7 +28,7 @@ define('ALL_OWN', 7);
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelEvent_List extends JModelForm
+class THM_OrganizerModelEvent_Manager extends JModelForm
 {
     private $_callParameters = null;
 
@@ -150,7 +150,7 @@ class THM_OrganizerModelEvent_List extends JModelForm
         }
         else
         {
-            $categoryID = $application->getUserStateFromRequest('com_thm_organizer.event_list.categoryID', 'categoryID', -1, 'int');
+            $categoryID = $application->getUserStateFromRequest('com_thm_organizer.event_manager.categoryID', 'categoryID', -1, 'int');
         }
         if ($categoryID != -1)
         {
@@ -193,7 +193,7 @@ class THM_OrganizerModelEvent_List extends JModelForm
         }
         else
         {
-            $fromDate = $application->getUserStateFromRequest('com_thm_organizer.event_list.fromdate', 'fromdate', '');
+            $fromDate = $application->getUserStateFromRequest('com_thm_organizer.event_manager.fromdate', 'fromdate', '');
         }
         if (isset($fromDate))
         {
@@ -225,7 +225,7 @@ class THM_OrganizerModelEvent_List extends JModelForm
         }
         else
         {
-            $toDate = $application->getUserStateFromRequest('com_thm_organizer.event_list.todate', 'todate', '');
+            $toDate = $application->getUserStateFromRequest('com_thm_organizer.event_manager.todate', 'todate', '');
         }
         if (isset($toDate))
         {
@@ -257,7 +257,7 @@ class THM_OrganizerModelEvent_List extends JModelForm
         }
         else
         {
-            $search = $application->getUserStateFromRequest('com_thm_organizer.event_list.search', 'search', '');
+            $search = $application->getUserStateFromRequest('com_thm_organizer.event_manager.search', 'search', '');
         }
         if (isset($search))
         {
@@ -284,7 +284,7 @@ class THM_OrganizerModelEvent_List extends JModelForm
         }
         else
         {
-            $orderby = $application->getUserStateFromRequest('com_thm_organizer.event_list.orderby', 'orderby', 'date');
+            $orderby = $application->getUserStateFromRequest('com_thm_organizer.event_manager.orderby', 'orderby', 'date');
         }
         $this->setState('orderby', $orderby);
 
@@ -294,7 +294,7 @@ class THM_OrganizerModelEvent_List extends JModelForm
         }
         else
         {
-            $orderbydir = $application->getUserStateFromRequest('com_thm_organizer.event_list.orderbydir', 'orderbydir', 'ASC');
+            $orderbydir = $application->getUserStateFromRequest('com_thm_organizer.event_manager.orderbydir', 'orderbydir', 'ASC');
         }
         $this->setState('orderbydir', $orderbydir);
     }
@@ -493,8 +493,8 @@ class THM_OrganizerModelEvent_List extends JModelForm
             {
                 $events[$k]['displayDates'] = "{$v['startdate']} $timestring";
             }
-            $events[$k]['detailsLink'] = "index.php?option=com_thm_organizer&view=event&eventID={$v['id']}&Itemid=";
-            $events[$k]['categoryLink'] = "index.php?option=com_thm_organizer&view=event_list&categoryID={$v['eventCategoryID']}&Itemid=";
+            $events[$k]['detailsLink'] = "index.php?option=com_thm_organizer&view=event_details&eventID={$v['id']}&Itemid=";
+            $events[$k]['categoryLink'] = "index.php?option=com_thm_organizer&view=event_manager&categoryID={$v['eventCategoryID']}&Itemid=";
         }
         $this->total = count($events);
         $this->events = $events;
@@ -664,8 +664,8 @@ class THM_OrganizerModelEvent_List extends JModelForm
      */
     public function getForm($data = array(), $loadData = true)
     {
-        $form = $this->loadForm('com_thm_organizer.event_list',
-                                'event_list',
+        $form = $this->loadForm('com_thm_organizer.event_manager',
+                                'event_manager',
                                 array('control' => 'jform', 'load_data' => $loadData)
                                );
         if (empty($form))

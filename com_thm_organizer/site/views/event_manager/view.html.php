@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerViewEvent_list
+ * @name        THM_OrganizerViewEvent_manager
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2013 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -20,7 +20,7 @@ jimport('jquery.jquery');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerViewEvent_List extends JView
+class THM_OrganizerViewEvent_Manager extends JView
 {
 	/**
      * Loads model data into context and sets variables used for html output
@@ -35,7 +35,7 @@ class THM_OrganizerViewEvent_List extends JView
         JHTML::_('behavior.tooltip');
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
-        $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/event_list.js'));
+        $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/event_manager.js'));
 
         $model = $this->getModel();
 
