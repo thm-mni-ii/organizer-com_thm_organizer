@@ -42,6 +42,6 @@
                 name="task"
                 type="hidden"
                 class="inputbox"
-                default="events.search" />
+                default="event.search" />
     </fieldset>
 </form>

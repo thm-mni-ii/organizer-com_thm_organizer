@@ -44,11 +44,11 @@ $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : fa
     function preview_content(response) {
         var json = jq.parseJSON(response);
         jq('#thm_organizer_ee_preview_event').append("<div id='thm_organizer_e_preview_div' class='thm_organizer_e_preview_div' >\
-                                                        <div id='thm_organizer_e_title' class='thm_organizer_e_title'>"           + json.title        + "</div>\
-                                                        <div id='thm_organizer_e_publish_up'>"      + json.created_at   + "</div>\
-                                                        <div id='thm_organizer_e_author'>"          + json.username     + "</div>\
-                                                        "                                           + json.introtext    + "\
-                                                        <div id='thm_organizer_e_description' class='thm_organizer_e_description'>"     + json.description  + "</div>\
+                                                        <div class='thm_organizer_e_title'>"           + json.title        + "</div>\
+                                                        <div class='thm_organizer_e_publish_up'>"      + json.created_at   + "</div>\
+                                                        <div class='thm_organizer_e_author'>"          + json.username     + "</div>\
+                                                        "                                              + json.introtext    + "\
+                                                        <div class='thm_organizer_e_description'>"     + json.description  + "</div>\
                                                       </div>");
     }
     
@@ -110,7 +110,7 @@ Joomla.submitbutton =  function(task){
         
         if (isValid)
         {
-            if (task === 'events.preview')
+            if (task === 'event.preview')
             {
                 var description = document.getElementById("jform_description_ifr").contentWindow.document.getElementById("tinymce").innerHTML;
                 requrl = requrl + "&description=" + description;
@@ -199,19 +199,19 @@ Joomla.submitbutton =  function(task){
                 } ?>
                 <a  class="hasTip thm_organizer_action_link"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_SAVE_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_SAVE_DESCRIPTION');?>"
-                    onclick="Joomla.submitbutton('events.save')">
+                    onclick="Joomla.submitbutton('event.save')">
                     <span id="thm_organizer_save_span" class="thm_organizer_save_span thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_SAVE_TITLE'); ?>
                 </a>
                 <a  class="hasTip thm_organizer_action_link"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_SAVE_NEW_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_SAVE_NEW_DESCRIPTION');?>"
-                    onclick="Joomla.submitbutton('events.save2new')">
+                    onclick="Joomla.submitbutton('event.save2new')">
                     <span id="thm_organizer_save_new_span" class="thm_organizer_save_new_span thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_SAVE_NEW'); ?>
                 </a>
                 <a  class="hasTip thm_organizer_action_link_preview"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_PREVIEW_DESCRIPTION');?>"
-                    onclick="Joomla.submitbutton('events.preview')">
+                    onclick="Joomla.submitbutton('event.preview')">
                     <span id="thm_organizer_preview_span" class="thm_organizer_preview_span thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_PREVIEW'); ?>
                     

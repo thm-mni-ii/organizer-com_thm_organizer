@@ -105,6 +105,6 @@
 			name="task"
 			type="hidden"
 			class="inputbox"
-			default="events.save" />
+			default="event.save" />
 	</fieldset>
 </form>
