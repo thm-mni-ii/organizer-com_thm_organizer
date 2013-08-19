@@ -1,6 +1,6 @@
 /*globals Ext, loading_icon, Curriculum */
 /*jshint strict: false */
-function App (menuID, programID, horizontalGroups, languageTag, width, height,
+function Curriculum (menuID, programID, horizontalGroups, languageTag, width, height,
               hPanelHeaderColor, hPanelColor, iPanelColor, mPanelColor,
               itemWidth, itemHeight, itemColor, titleCut, titleLength, maxItems,
               spacing, horizontalSpacing, inlineSpacing, modalSpacing)
@@ -30,7 +30,7 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
     /**
      * Add a Note icon
      */
-    App.prototype.addEcollab = function(id, link)
+    Curriculum.prototype.addECollabIcon = function(id, link)
     {
         var tooltipHeading = (languageTag === 'de') ? 'Info' : 'Info';
         var tooltipAddInfo = (languageTag === 'de') ? '<br>Klicken f&uuml;r weitere Informationen' : 'Click for additional information';
@@ -43,7 +43,7 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
                     tag : 'a',
                     href : link,
                     target: "_blank",
-                    children : [ { tag : 'img', id : 'collab-image', cls : 'tooltip', src : 'collab_icon' } ]
+                    children : [ { tag : 'img', id : 'collab-image', cls : 'tooltip', src : ecollabIcon } ]
                 },
                 renderTo : 'toolcontainer-' + id
             }
@@ -61,7 +61,7 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
     /**
      * Returns a container which represents a compulsory coursepool
      */
-    App.prototype.addInlinePool = function(color, leftMargin, topMargin)
+    Curriculum.prototype.addInlinePool = function(color, leftMargin, topMargin)
     {
         return Ext.create(
             'Ext.container.Container',
@@ -80,10 +80,9 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
     /**
      * Returns a container which contains the title of a given pool (type 0)
      */
-    App.prototype.addInlinePoolText = function(pool)
+    Curriculum.prototype.addInlinePoolText = function(pool)
     {
         var subjectTitle = self.getTitleLabel(pool);
-        var num = Number(pool.horizontalGroups_programIDs_id);
         var linkColor = self.contrastColor(pool.color);
 
         /* specify the describing text */
@@ -112,9 +111,9 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
             }
         }
 
-        var html = "<span style='color: " + linkColor +";' class='course_title' id='course_title-" + pool.horizontalGroups_programIDs_id  + "'>";
+        var html = "<span style='color: " + linkColor +";' class='course_title' id='course_title-" + pool.id  + "'>";
         html += "<b>" + subjectTitle + ":</b>" + label;
-        html += "<span style='margin-left:3px' class='toolcontainer' align='center' id='toolcontainer-" + pool.horizontalGroups_programIDs_id + "'>";
+        html += "<span style='margin-left:3px' class='toolcontainer' align='center' id='toolcontainer-" + pool.id + "'>";
         html += "</span></span>";
 
         /* create the container */
@@ -133,23 +132,17 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
                     {
                         tooltipContent += "<br><br>" + pool.note;
                     }
-
-                    if(pool.note !== "" ||  pool.menu_link !== 0)
-                    {
-                        self.addNote(pool.mappingID, tooltipContent, pool.menu_link);
-                    }
                 }
             }
 
         });
-
         return container;
     };
 
     /**
      * Adds a placeholder icon
      */
-    App.prototype.addPlacehodlerIcon = function(container_id)
+    Curriculum.prototype.addPlacehodlerIcon = function(container_id)
     {
         var tooltipImage = new Ext.create(
             'Ext.Component',
@@ -158,7 +151,7 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
                     autoEl : {
                             tag : 'img',
                             id : 'tooltip-image',
-                            src : 'place_holder_icon'
+                            src : placeHolderIcon
                     },
                     renderTo : 'toolcontainer-' + container_id
             }
@@ -168,7 +161,7 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
    /**
      * Adds a Container for comp. pools
      */
-    App.prototype.addPoolContainer = function(color)
+    Curriculum.prototype.addPoolContainer = function(color)
     {
         return  Ext.create(
             'Ext.container.Container',
@@ -212,7 +205,7 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
      * Adds a pool icon to the item
      * 
      */
-    App.prototype.addPoolIcon = function(container_id, title, schedule)
+    Curriculum.prototype.addPoolIcon = function(container_id, title, schedule)
     {
         var tooltipImage = new Ext.create(
             'Ext.Component',
@@ -222,7 +215,7 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
                     tag : 'img',
                     id : 'test',
                     cls : 'comp_pool_icon',
-                    src : 'comp_pool_icon'
+                    src : poolIcon
                 },
                 renderTo : 'pool_icon_container-' + container_id
             }
@@ -231,25 +224,68 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
     };
 
     /**
-     * Adds a responsible icon
+     * Adds a tooltip
      */
-    App.prototype.addResponsibleIcon = function(id, responsible_link, responsible_name, responsible_picture)
+    Curriculum.prototype.addScheduleIcon = function(subjectID, subjectName, schedulerLink)
     {
-        var heading = (languageTag === 'de') ? 'Modulverantwortliche:' : 'Responsible:';
-        var responsilbe_tooltip = null;
-        var tooltipAddInfo  = "";
-
-        if(responsible_link)
+        if(schedulerLink !== undefined)
         {
-            tooltipAddInfo = (languageTag === 'de') ? 'Klicken f&uuml;r weitere Informationen' : 'Click for additional information';
-            responsilbe_tooltip = new Ext.create(
+            var heading = (languageTag === 'de') ? 'Stundenplan:' : 'Schedule:';
+            var toolTip, tooltipAddInfo  = "", html;
+
+            tooltipAddInfo = (languageTag === 'de') ? '<br>Klicken f&uuml;r weitere Informationen' : 'Click for additional information';
+
+            tooltip = Ext.create(
                 'Ext.Component',
                 {
                     xtype : 'box',
+                    id : 'schedule-button-' + subjectID,
+                    autoEl : {
+                            tag : 'a',
+                            href : schedulerLink,
+                            children : [ { tag : 'img', id : 'tooltip-image', cls : 'tooltip', src : schedulerIcon } ]
+                    },
+                    renderTo : 'toolcontainer-' + subjectID
+                }
+            );
+
+            html = "<hr style='width:130px; visibility: hidden;'>" + subjectName;
+            html += "<div>"+tooltipAddInfo+"</div><br>";
+
+            Ext.create(
+                'Ext.tip.ToolTip',
+                {
+                    title : heading,
+                    id: 'scheduletip-' + subjectID,
+                    target : 'schedule-button-' + subjectID,
+                    html : html,
+                    dismissDelay:0,
+                    autoHide : true
+                }
+            );
+        }
+    };
+
+    /**
+     * Adds a responsible icon
+     */
+    Curriculum.prototype.addTeacherIcon = function(id, teacherLink, teacherName)
+    {
+        var heading = (languageTag === 'de') ? 'Modulverantwortliche:' : 'Responsible:';
+        var toolTip, tooltipAddInfo  = "", html;
+
+        if(teacherLink)
+        {
+            tooltipAddInfo = (languageTag === 'de') ? 'Klicken f&uuml;r weitere Informationen' : 'Click for additional information';
+            toolTip = Ext.create(
+                'Ext.Component',
+                {
+                    xtype : 'box',
+                    id : 'teacher-button-' + id,
                     autoEl : {
                         tag : 'a',
-                        href : responsible_link,
-                        children : [ { tag : 'img', src : responsible_icon } ]
+                        href : teacherLink,
+                        children : [ { tag : 'img', src : teacherIcon } ]
                     },
                     renderTo : 'toolcontainer-' + id
                 }
@@ -257,28 +293,35 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
         } 
         else
         {
-            responsilbe_tooltip = new Ext.create(
+            toolTip = Ext.create(
                 'Ext.Component',
                 {
-                        xtype : 'box',
-                        autoEl : {
-                                cls : 'tooltip',
-                                        tag : 'img',
-                                        src : responsible_icon
+                    xtype : 'box',
+                    id : 'teacher-button-' + id,
+                    autoEl : {
+                            cls : 'tooltip',
+                            tag : 'img',
+                            src : teacherIcon
 
-                        },
-                        renderTo : 'toolcontainer-' + id
+                    },
+                    renderTo : 'toolcontainer-' + id
                 }
             );	
         }
+        html = "<hr style='width:130px; visibility: hidden;'>" + teacherName;
+        html += "<div>"+tooltipAddInfo+"</div><br>";
 
-        Ext.ToolTip({
-            target : responsilbe_tooltip.el.id,
-            title : heading ,
-            html : "<hr style='width:130px;visibility: hidden'>"+responsible_name + "<div style='margin-top:4px;margin-bottom:4px;'align='center'>"+ (responsible_picture ? responsible_picture : "")+ "</div><div>"+tooltipAddInfo+"</div><br>",
-            dismissDelay:0,
-            autoHide : true
-        });
+        Ext.create(
+            'Ext.tip.ToolTip',
+            {
+                title : heading,
+                id: 'teachertip-' + id,
+                target : 'teacher-button-' + id,
+                html : html,
+                dismissDelay:0,
+                autoHide : true
+            }
+        );
     };
 
     /**
@@ -287,7 +330,7 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
      * @param   {string}  id  the subject's id
      * @param   {string}  title  the subject's title
      */
-    App.prototype.addTitleToolTip = function(id, title)
+    Curriculum.prototype.addTitleToolTip = function(id, title)
     {
         Ext.ToolTip({
             target : 'course_title-' + id ,
@@ -297,44 +340,12 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
         });
     };
 
-    /**
-     * Adds a tooltip
-     */
-    App.prototype.addToolTip = function(container_id, title, schedule)
+    Curriculum.prototype.ajaxHandler = function(response)
     {
-        var tooltipAddInfo = null;
-        
-        if(schedulerLink !== "")
-        {
-            tooltipAddInfo = (languageTag === 'de') ? '<br>Klicken f&uuml;r weitere Informationen' : 'Click for additional information';
-        }
+        var program = Ext.decode(response.responseText),
+            basePanel = self.getBasePanel();
 
-        var tooltipImage = new Ext.create(
-            'Ext.Component',
-            {
-                xtype : 'box',
-                autoEl : {
-                        tag : 'a',
-                        href : schedulerLink,
-                        children : [ { tag : 'img', id : 'tooltip-image', cls : 'tooltip', src : 'scheduler_icon' } ]
-                },
-                renderTo : 'toolcontainer-' + container_id
-            }
-        );
-
-        Ext.ToolTip({
-            target : tooltipImage.el.id,
-            title : 'Details:',
-            html : schedule +tooltipAddInfo,
-            dismissDelay:0,
-            autoHide : true
-        });
-    };
-
-    App.prototype.ajaxHandler = function(response)
-    {
-        var basePanel = self.getBasePanel();
-        var program = Ext.decode(response.responseText);
+        Ext.fly('programName').update(program.name);
 
         /* iterate over first order children of the program's curriculum */
         for ( var firstOrder in program.children)
@@ -387,7 +398,7 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
      * 
      * @param   {string}  color  the background color of the item
      */
-    App.prototype.contrastColor = function(color)
+    Curriculum.prototype.contrastColor = function(color)
     {
         var red = parseInt(color.substring(0, 2), 16);
         var green = parseInt(color.substring(2, 4), 16);
@@ -402,7 +413,7 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
     /**
      * Determine the type of an asset and delegate to the corresponding method
      */
-    App.prototype.getAsset = function(item, parent, leftMargin, topMargin)
+    Curriculum.prototype.getAsset = function(item, parent, leftMargin, topMargin)
     {
         if(item !== undefined)
         {
@@ -435,7 +446,7 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
     /**
      * Returns the base panel for curriculum display
      */
-    App.prototype.getBasePanel = function()
+    Curriculum.prototype.getBasePanel = function()
     {
         return Ext.create(
             'Ext.container.Container',
@@ -457,7 +468,7 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
      * 
      * @param   {string}  color  the background color of the item
      */
-    App.prototype.getContainer = function(color)
+    Curriculum.prototype.getContainer = function(color)
     {
         return Ext.create(
             'Ext.container.Container',
@@ -504,12 +515,16 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
      * 
      * @param   {object}  horizontalGroup  the first order child of the program
      */
-    App.prototype.getFirstOrderPool = function(horizontalGroup)
+    Curriculum.prototype.getFirstOrderPool = function(pool)
     {
-        var contrastColor = self.contrastColor(horizontalGroup.color ? horizontalGroup.color : self.hPanelColor);
+        if (!pool.color)
+        {
+            pool.color = '666666';
+        }
+        var contrastColor = self.contrastColor(pool.color);
 
         var textColorStyle = ' color: ' + contrastColor + ';';
-        var title = (self.languageTag === "de")? horizontalGroup.name_de : horizontalGroup.name_en;
+        var title = (self.languageTag === "de")? pool.name : pool.name;
 
         // Create the window object
         return Ext.create(
@@ -527,8 +542,8 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
                     afterrender : function(c)
                     {
                         c.header.addCls('horizontalPanel');
-                        document.getElementById(c.el.id).firstChild.style.background = "#"+ horizontalGroup.color;
-                        document.getElementById(c.el.id).lastChild.style.background = "#"+ horizontalGroup.color;
+                        document.getElementById(c.el.id).firstChild.style.background = "#"+ pool.color;
+                        document.getElementById(c.el.id).lastChild.style.background = "#"+ pool.color;
                         c.body.applyStyles("background-color:" + hPanelColor);	
                     }
                 }
@@ -539,7 +554,7 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
     /**
      * Determine the childs of a pool and put them into a ExtJS container
      */
-    App.prototype.getInlinePool = function(pool, leftMargin, topMargin)
+    Curriculum.prototype.getInlinePool = function(pool, leftMargin, topMargin)
     {
         pool.color = pool.color? pool.color : self.iPanelColor;
 
@@ -588,18 +603,14 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
     /**
      *  Determine the childs of a pool and put them into a ExtJS window
      */
-    App.prototype.getModalContent = function (pool)
+    Curriculum.prototype.getModalContent = function (pool)
     {
         var item;
         pool.color = pool.color? pool.color : self.mPanelColor;
         var container = self.getContainer(pool.color);
 
         /* create the window for the childs of the given asset */
-        var window = self.getModalPoolWindow(pool.abbreviation, pool.min_creditpoints, pool.max_creditpoints, pool.color);
-
-        /* get the children of this asset */
-        var childs = pool.children;
-        var compPoolFlag = false;
+        var window = self.getModalPoolWindow(pool);
 
         /* return an empty window, if a pool has yet no children */
         if(typeof pool.children === "undefined")
@@ -613,14 +624,7 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
         {
             item = self.getAsset(pool.children[i], pool);
 
-            if (i === 0)
-            {
-                item = self.getAsset(pool.children[i], pool, 2, 2);
-            }
-            else
-            {
-                item = self.getAsset(pool.children[i], pool, 2, 2);
-            }
+            item = self.getAsset(pool.children[i], pool, 2, 2);
 
             /* apply the correct multi-row behaviour */
             if(container.items.length < self.maxItems)
@@ -643,71 +647,63 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
     /**
      * Returns a Panel which represents an elective course pool
      */
-    App.prototype.getModalPool = function(pool, window, tooltip, leftMargin, topMargin)
+    Curriculum.prototype.getModalPool = function(pool, window, tooltip, leftMargin, topMargin)
     {
         var creditpoints;
-        if(pool.min_creditpoints === pool.max_creditpoints)
+        if(pool.minCrP === pool.maxCrP)
         {
-            creditpoints = pool.min_creditpoints;
+            creditpoints = pool.minCrP;
         }
         else
         {
-            creditpoints = pool.min_creditpoints + "-" + pool.max_creditpoints;
+            creditpoints = pool.minCrP + "-" + pool.maxCrP;
         }
-        pool.color = pool.color? pool.color : self.mPanelColor;
-
-        /* determine the title */
-        var poolTitle = self.getTitleLabel(pool);
+        pool.color = pool.color? pool.color : '666666';
 
         /* calculate the appropriate font color, depening on the chosed pool color */
-        var headerFontColor = self.contrastColor(pool.color);
-        var linkColor = self.contrastColor(pool.color);
-        var poolLabel = ((self.cutTitle === 1) ? (pool.short_title.substring(0, titleLength) + "...") : poolTitle);
-        var titleSpans = "<span style='color:" + headerFontColor + ";'class='elective_pool_title course_title' >" + pool.abbreviation + "</span>";
-        titleSpans += "<span style='color:" + headerFontColor + ";'class='elective_pool_creditpoints'>" + creditpoints + " CrP" + "</span>";
+        var headerFontColor = self.contrastColor(pool.color),
+            linkColor = self.contrastColor(self.iPanelColor),
+            poolLabel = (self.cutTitle === 1) ? (pool.name.substring(0, titleLength) + "...") : pool.name,
+            titleSpan1 = "<span style='color:" + headerFontColor + ";'class='modal_title course_title' >" + pool.abbreviation + "</span>",
+            titleSpan2 = "<span style='color:" + headerFontColor + ";'class='modal_creditpoints'>" + creditpoints + " CrP</span>";
 
         /* create the panel */
         return Ext.create(
             'Ext.panel.Panel',
             {
                 xtype : 'panel',	
-                cls : "elective_pool",
-                title : titleSpans,
-                width : itemWidth,
-                height : 65,
+                cls : "modal_pool",
+                title : titleSpan1 + titleSpan2,
+                width : self.itemWidth,
+                height : self.itemHeight,
                 margin : topMargin +" 0 0 "+ leftMargin,
                 listeners : {
                     afterrender : function(c)
                     {
                         c.header.addCls('course_panel_header');
-                        self.addTitleToolTip(pool.horizontalGroups_programIDs_id, tooltip);
+                        self.addTitleToolTip(pool.id, tooltip);
                         document.getElementById(c.el.id).firstChild.style.background = "#" + pool.color;
 
-                        if(pool.note !== "" || pool.menu_link !== 0)
-                        {
-                            self.addNote(pool.horizontalGroups_programIDs_id, pool.note, pool.menu_link);
-                        }
-
-                        var iconId  = self.addPoolIcon(pool.horizontalGroups_programIDs_id, tooltip);
+                        var iconId  = self.addPoolIcon(pool.id, tooltip);
                         var selector = "#" + iconId;
 
                         Ext.select(selector).on('click', function(e) { window.show(); });
 
                     }
                 },
-                bodyStyle : { "background-color" : pool.color },
+                bodyStyle : { "background-color" : self.mPanelColor },
                 layout : { type : 'anchor', align : 'center' },
                 items : [
                     {
                         xtype : 'container',
                         anchor : '100% 35%',
-                        html : "<div id='course_title-" + pool.horizontalGroups_programIDs_id  + "' align='center' class='course-title-container'>" +
-                               "<a style='color: "+ linkColor+";' href='#' class='course-title pool" + pool.horizontalGroups_programIDs_id + "' >" +
+                        html : "<div id='course_title-" + pool.id  + "' align='center' class='course-title-container'>" +
+                               "<a style='color: "+ linkColor+";' href='#' class='course-title pool" + pool.id + "' >" +
                                poolLabel + "</a>" + "</div>",
                         listeners : {
                             afterrender : function(c)
                             {
-                                var selector = ".pool" + pool.horizontalGroups_programIDs_id;
+                                var selector = ".pool" + pool.id;
 
                                 Ext.select(selector).on('click', function(e) { window.show(); });
                             }
@@ -717,12 +713,12 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
                         xtype : 'container',
                         anchor : '100% 35%',
                         border: true,
-                        html : "<div class='pool_icon_container' align='center' id='pool_icon_container-" + pool.horizontalGroups_programIDs_id + "'></div>"
+                        html : "<div class='pool_icon_container' align='center' id='pool_icon_container-" + pool.id + "'></div>"
                     },
                     {
                         xtype : 'container',
                         anchor : '100% 30%',
-                        html : "<div style='margin-left:35px;' class='toolcontainer' align='center' id='toolcontainer-" + pool.horizontalGroups_programIDs_id + "'></div>"
+                        html : "<div style='margin-left:35px;' class='toolcontainer' align='center' id='toolcontainer-" + pool.id + "'></div>"
                     }
                 ]
 
@@ -733,25 +729,26 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
     /**
      * Returns a window which will contain the content of a elective pool
      */
-    App.prototype.getModalPoolWindow = function(title, min_crp, max_crp, header_color)
+    Curriculum.prototype.getModalPoolWindow = function(pool)
     {
         /* calculate the appropriate font color, depening on the chosed pool color */
         var color = self.contrastColor(self.hPanelHeaderColor);
 
-        var titleSpan = "<span class='window_title' style='color: " + color + ";'>";
-        titleSpan += title + " (Min: " + min_crp + " CrP, Max:" + max_crp + " CrP)"+ "</span> ";
+        var titleSpan1 = "<span class='window_title' style='color: " + pool.color + ";'>",
+            titleSpan2 = pool.name + " ( Min: " + pool.minCrP + " CrP, Max: " + pool.maxCrP + " CrP )"+ "</span> ";
 
         /* create the window object */
         var window = Ext.create(
             'Ext.window.Window',
             {
-                title : titleSpan,
-                cls : 'elective_pool_window',
+                title : titleSpan1 + titleSpan2,
+                id: 'modal-pool-' + pool.id,
+                cls : 'modal_window',
                 autoScroll : 'true',
                 layout : 'anchor',
                 closeAction : 'hide',
                 modal : true,
-                bodyStyle : { "background-color" : "white" },
+                bodyStyle : { "background-color" : self.mPanelColor },
                 listeners : {
                     afterrender : function(c)
                     {
@@ -759,17 +756,33 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
                         c.header.addCls('elective_pool_window_header');
 
                         /* set the background color */
-                        document.getElementById(c.header.id).firstChild.style.background = "#" + header_color;
+                        document.getElementById(c.header.id).firstChild.style.background = "#" + pool.color;
                     }
                 }
         });
+        if (pool.children.length)
+        {
+            var container = self.getContainer(self.mPanelColor);
+            for (var i = 0; i < pool.children.length; i++)
+            {
+                var item = self.getAsset(pool.children[i], pool, 2, 2);
+
+                if (container.items.length >= self.maxItems)
+                {
+                    window.add(container);
+                    container = self.getContainer(hPanelColor);
+                }
+                container.add(item);
+            }
+            window.add(container);
+        }
         return window;
     };
 
     /**
      * Returns a container used for spacing
      */
-    App.prototype.getSpacer = function(color, leftMargin, topMargin)
+    Curriculum.prototype.getSpacer = function(color, leftMargin, topMargin)
     {
         if (color === undefined)
         {
@@ -809,7 +822,7 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
     /**
      * Returns a panel which represents a course
      */
-    App.prototype.getSubject = function(subject, tooltipData, leftMargin, topMargin)
+    Curriculum.prototype.getSubject = function(subject, tooltipData, leftMargin, topMargin)
     {
         /* set the default margin behavoiur */
         if (leftMargin === undefined )
@@ -823,20 +836,17 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
         }
         subject.color = subject.color? subject.color : self.itemColor;
 
-        var mappingID = subject.mappingID;
-        var subjectTitle = this.getTitleLabel(subject);
         var headerColor = this.contrastColor(subject.color);
         var linkColor = this.contrastColor(subject.color);
-        var abbreviation = (this.languageTag === 'de')? subject.abbreviation_de : subject.abbreviation_en;
-        if (abbreviation === undefined)
+        if (subject.abbreviation === undefined)
         {
-            abbreviation = '';
+            subject.abbreviation = '';
         }
 
         // SEF-Route
         var moduleDescriptionLink = "index.php?option=com_thm_organizer&view=subject_details&languageTag=" + languageTag +"&id=" + subject.id +"&Itemid=" + menuID;
-        var moduleTitle = ((self.cutTitle === 1) ? (subjectTitle.substring(0, titleLength) + "...") : subjectTitle);
-        var titleSpans = "<span style='color:" + headerColor + ";"+"'class='course_title'>" + abbreviation.substr(0,10) + "</span>";
+        var moduleTitle = ((self.cutTitle === 1) ? (subject.name.substring(0, titleLength) + "...") : subject.name);
+        var titleSpans = "<span style='color:" + headerColor + ";"+"'class='course_title'>" + subject.abbreviation.substr(0,10) + "</span>";
         titleSpans += "<span style='color:" + headerColor + ";"+"'class='course_creditpoints'>" + subject.creditpoints + " CrP" + "</span>";
       
         /* creates the panel */
@@ -847,8 +857,8 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
                 cls: 'course',
                 bodyCls: 'course_body',
                 title : titleSpans,
-                width : itemWidth,
-                height : 65,
+                width : self.itemWidth,
+                height : self.itemHeight,
                 margin : topMargin + " 0 0 " + leftMargin,
                 bodyStyle : { "background-color" : self.itemColor },
                 listeners : {
@@ -863,37 +873,25 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
                         /* build the toolbar */
 
                         /* scheduler icon */
-                        if(subject.schedule !== null)
+                        if(subject.scheduleLink !== undefined)
                         {
-                            self.addToolTip(mappingID, subject.title, subject.schedule);
-                        }
-                        else
-                        {
-                            self.addPlacehodlerIcon(mappingID);
+                            self.addScheduleIcon(subject.id, subject.name, subject.scheduleLink);
                         }
 
                         /* responsible icon */
-                        if(subject.teacherName !== "")
+                        if(subject.teacherName !== undefined)
                         {
-                            self.addResponsibleIcon(mappingID, subject.teacherLink, subject.teacherName, subject.teacherPicture); 
-                        }
-                        else 
-                        {
-                            self.addPlacehodlerIcon(mappingID);
+                            self.addTeacherIcon(subject.id, subject.teacherLink, subject.teacherName); 
                         }
 
                         /* ecollab icon */
-                        if(subject.ecollabLink !== "")
+                        if(subject.ecollabLink !== undefined)
                         {
-                            self.addEcollab(mappingID, subject.ecollabLink);
-                        }
-                        else
-                        {
-                            self.addPlacehodlerIcon(mappingID);
+                            self.addECollabIcon(subject.id, subject.ecollabLink);
                         }
 
                         /* title tooltip */
-                        self.addTitleToolTip(mappingID, tooltipData);
+                        self.addTitleToolTip(subject.id, tooltipData);
                     }
                 },
                 layout : {
@@ -904,14 +902,14 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
                     {
                         xtype : 'container',
                         anchor : '100% 70%',
-                        html : "<div id='course_title-" + mappingID  + "' align='center' class='course-title-container'>" +
+                        html : "<div id='course_title-" + subject.id  + "' align='center' class='course-title-container'>" +
                                "<a style='color:" + linkColor + ";" + "'class='course-title' href='" + moduleDescriptionLink +
                                "'>" + moduleTitle + "</a>" + "</div>"
                     },
                     {
                         xtype : 'container',
                         anchor : '100% 30%',
-                        html : "<div align='center' class='toolcontainer' id='toolcontainer-"+ mappingID + "'></div>",
+                        html : "<div align='center' class='toolcontainer' id='toolcontainer-"+ subject.id + "'></div>",
                         margin : '-3 0 0 0'
                     }
                 ]
@@ -925,7 +923,7 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
      * 
      * @param   {object}  group  the group for which the text container is being created
      */
-    App.prototype.getTextContainer = function(group)
+    Curriculum.prototype.getTextContainer = function(group)
     {
         var linkColor = self.contrastColor(group.color);
         var text = (languageTag === 'de')? group.name_de : group.name_en;
@@ -943,12 +941,12 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
      * 
      * @param   {object}  item  the item being iterated
      */
-    App.prototype.getTitleLabel = function(item)
+    Curriculum.prototype.getTitleLabel = function(item)
     {
         return (languageTag === 'de')? item.name_de : item.name_en;
     };
 
-    App.prototype.performAjaxCall = function()
+    Curriculum.prototype.performAjaxCall = function()
     {
         var sele = "loading";
         var image = new Ext.create(
@@ -973,7 +971,7 @@ function App (menuID, programID, horizontalGroups, languageTag, width, height,
         Ext.Ajax.request({
             url : requestURL,
             method : "GET",
-            success : this.ajaxHandler
+            success : self.ajaxHandler
         });
     };
 }

@@ -60,7 +60,7 @@ class THM_OrganizerHelperTeacher
     {
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);
-        $query->select("t.id, t.surname, t.forename, t.title, t.username, u.id AS userID, teacherResp");
+        $query->select("t.id, t.surname, t.forename, t.title, t.username, u.id AS userID, teacherResp, gpuntisID");
         $query->from('#__thm_organizer_teachers AS t');
         $query->innerJoin('#__thm_organizer_subject_teachers AS st ON t.id = st.teacherID ');
         $query->leftJoin('#__users AS u ON t.username = u.username');

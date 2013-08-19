@@ -11,6 +11,8 @@
  * @link        www.mni.thm.de
  */
 jimport('joomla.application.component.view');
+jimport('joomla.application.component.helper');
+require_once JPATH_COMPONENT . DS . 'helper' . DS . 'language.php';
 jimport('joomla.error.profiler');
 
 /**
@@ -31,44 +33,24 @@ class THM_OrganizerViewCurriculum extends JView
 	 */
 	public function display($tpl = null)
 	{
-            JHtml::_('behavior.tooltip');
-            jimport('extjs4.extjs4');
+        JHtml::_('behavior.tooltip');
+        jimport('extjs4.extjs4');
 
-            $document = JFactory::getDocument();
-            $document->addStyleSheet($this->baseurl . '/components/com_thm_organizer/views/curriculum/tmpl/curriculum-minify.css');
-            $document->addScript($this->baseurl . '/components/com_thm_organizer/views/curriculum/tmpl/app.js');
+        $document = JFactory::getDocument();
+        $document->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/curriculum.css');
+        $document->addScript($this->baseurl . '/media/com_thm_organizer/js/curriculum.js');
 
-            // Get the parameters of the current view
-            $this->params = JFactory::getApplication()->getMenu()->getActive()->params;
-            $this->languageTag = JRequest::getVar('languageTag', $this->params->get('language'));
-            $this->langLink = ($this->languageTag == 'de') ? 'en' : 'de';
-            $this->langUrl = self::languageSwitcher($this->langLink);
-            $this->pagetitle = $this->params->get('page_title');
+        // Get the parameters of the current view
+        $this->params = JFactory::getApplication()->getMenu()->getActive()->params;
+        $this->programName = $this->getModel()->getProgramName($this->params->get('programID'));
+        $this->ecollabLink = JComponentHelper::getParams('com_thm_organizer')->get('eCollabLink');
+        $this->languageTag = JRequest::getVar('languageTag', $this->params->get('language'));
+        $this->langUrl = THM_OrganizerHelperLanguage::languageSwitch(
+                'curriculum',
+                ($this->languageTag == 'de') ? 'en' : 'de',
+                JRequest::getInt('Itemid')
+            );
 
-            parent::display($tpl);
-	}
-
-	/**
-	 * Method to switch the language
-	 *
-	 * @param   String  $langLink  language link
-	 *
-	 * @return  String
-	 */
-	public function languageSwitcher($langLink)
-	{
-		$itemid = JRequest::getVar('Itemid');
-		$group = JRequest::getVar('view');
-		$URI = JURI::getInstance('index.php');
-		$params = array('option' => 'com_thm_organizer',
-				'view' => $group,
-				'Itemid' => $itemid,
-				'languageTag' => $langLink
-		);
-		$params = array_merge($URI->getQuery(true), $params);
-		$query = $URI->buildQuery($params);
-		$URI->setQuery($query);
-
-		return $URI->toString();
+        parent::display($tpl);
 	}
 }

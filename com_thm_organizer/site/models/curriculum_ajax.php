@@ -23,6 +23,11 @@ require_once JPATH_COMPONENT . DS . 'helper' . DS . 'teacher.php';
  */
 class THM_OrganizerModelCurriculum_Ajax extends JModel
 {
+    private $_scheduleID;
+
+    private $_scheduleLink;
+
+    private $_schedule;
 
 	/**
 	 * Constructor to set up the class variables and call the parent constructor
@@ -44,6 +49,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
     {
         // Get the major in order to build the complete label of a given major/curriculum
         $program = $this->getProgramData($programID);
+        $this->setScheduleData($program->name);
         $program->children = $this->getChildren($program->lft, $program->rgt, $languageTag);
 
         if (empty($program->children))
@@ -68,8 +74,8 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
    {
 		$dbo = JFactory::getDBO();
 		$query = $dbo->getQuery(true);
-        $select = "p.id, lsfID, hisID, externalID, abbreviation_$langTag, ";
-        $select .= "name_$langTag, minCrP, maxCrP, color";
+        $select = "p.id, lsfID, hisID, externalID, abbreviation_$langTag AS abbreviation, ";
+        $select .= "name_$langTag AS name, minCrP, maxCrP, color";
 		$query->select($select);
 		$query->from('#__thm_organizer_pools AS p');
         $query->leftJoin('#__thm_organizer_fields AS f ON p.fieldID = f.id');
@@ -119,8 +125,8 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
     {
 		$dbo = JFactory::getDBO();
 		$query = $dbo->getQuery(true);
-        $select = "s.id, lsfID, hisID, externalID, abbreviation_$langTag, ";
-        $select .= "name_$langTag, creditpoints, color";
+        $select = "s.id, lsfID, hisID, externalID, abbreviation_$langTag AS abbreviation, ";
+        $select .= "name_$langTag AS name, creditpoints, color";
 		$query->select($select);
 		$query->from('#__thm_organizer_subjects AS s');
         $query->leftJoin('#__thm_organizer_fields AS f ON s.fieldID = f.id');
@@ -135,6 +141,17 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
         if (empty($subjectData->color))
         {
             $subjectData->color = 'ffffff';
+        }
+        if (!empty($subjectData->externalID) AND !empty($this->_schedule))
+        {
+            foreach ($this->_schedule->subjects AS $subjectID => $subject)
+            {
+                if ($subject->subjectNo == $subjectData->externalID)
+                {
+                    $subjectData->scheduleLink = JRoute::_($this->_scheduleLink . "&subjectID=$subjectID");
+                    break;
+                }
+            }
         }
         $this->setTeacherProperties($subjectData);
         return $subjectData;
@@ -196,6 +213,40 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
     }
 
     /**
+     * Checks for and sets schedule data if an applicable schedule is found
+     * 
+     * @param   string  $programName  the name of the program being modelled
+     * 
+     * @return  void
+     */
+    private function setScheduleData($programName)
+    {
+        $date = '2013-04-12';/*date('Y-m-d');*/
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('id, schedule')->from('#__thm_organizer_schedules');
+        $query->where("startdate <= '$date'")->where("enddate >= '$date'")->where("active = '1'");
+        $dbo->setQuery((string) $query);
+        $currentSchedules = $dbo->loadAssocList();
+
+        foreach($currentSchedules as $currentSchedule)
+        {
+            $schedule = json_decode($currentSchedule['schedule']);
+            foreach ((array)$schedule->degrees as $program)
+            {
+                if ($program->name == $programName)
+                {
+                    $this->_scheduleID = $currentSchedule['id'];
+                    $this->_scheduleLink = "index.php?option=com_thm_organizer&view=scheduler";
+                    $this->_scheduleLink .= "&scheduleID={$currentSchedule['id']}";
+                    $this->_schedule = $schedule;
+                    return;
+                }
+            }
+        }
+    }
+
+    /**
      * Sets subject properties relating to the responsible teacher
      * 
      * @param   object  &$subjectData  an object containing subject data
@@ -226,7 +277,11 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
         else
         {
             $subjectData->teacherName = $defaultName;
-            return;
+        }
+        if (!empty($teacherData['gpuntisID']))
+        {
+            $subjectData->teacherScheduleLink =
+                JRoute::_($this->_scheduleLink . "&teacherID={$teacherData['gpuntisID']}");
         }
     }    
 }

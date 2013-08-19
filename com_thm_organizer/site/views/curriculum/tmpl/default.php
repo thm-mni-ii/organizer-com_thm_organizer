@@ -12,11 +12,9 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-if (!isset($this->counter))
-{
-	$this->counter = 0;
-}
-$flagClass = strlen($this->params->get('page_heading')) == 0? "flagWithoutTitle" : "flagWithTitle";
+
+$flagPath = 'media' . DIRECTORY_SEPARATOR . 'com_thm_organizer' . DIRECTORY_SEPARATOR . 'images';
+$flagPath .= DIRECTORY_SEPARATOR . 'curriculum' . DIRECTORY_SEPARATOR . ($this->languageTag == 'de') ? 'en' : 'de';
 
 // Javascript Application construction parameters
 $paramsString = JRequest::getVar('Itemid') . ", ";
@@ -43,31 +41,41 @@ $paramsString .= $this->params->get('modalSpacing')? "{$this->params->get('modal
 <script type="text/javascript">
 /* global parameters */
 suffix =  <?php echo "'" . $this->params->get('suffix') . "'"; ?>;
-schedulerLink = <?php echo "'" . $this->params->get('schedulerLink') . "'"; ?>;
+<?php
+$schedulerLink = $this->params->get('schedulerLink');
+if (!empty($schedulerLink))
+{
+    echo "schedulerLink = '" . $this->params->get('schedulerLink') . "';";
+}
+?>
 schedulerIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/scheduler_1.png";
-ecollabLink = <?php echo "'" . $this->params->get('ecollabLink') . "'"; ?>;
+ecollabLink = <?php echo "'" . $this->ecollabLink . "'"; ?>;
 ecollabIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/collab.png";
-responsibleIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/user_1.png";
+teacherIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/user_1.png";
 poolIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/comp_pool_icon.png";
 placeHolderIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/icon_place_holder.png";
 loadingIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/ajax-loader.gif";
 
 window.addEvent('domready', function(){
-            var appObj = new App(<?php echo $paramsString; ?>);
-            appObj.performAjaxCall();
+            var curriculumObj = new Curriculum(<?php echo $paramsString; ?>);
+            curriculumObj.performAjaxCall();
         });
 </script>
-<span>
 <?php
 if ($this->params->get('show_page_heading', 1) AND $this->params->get('plugin_mode', '0') != 1)
 {
-    echo "<h1 class='componentheading'>";
-    echo $this->params->get('page_heading');
-    echo "<a class='$flagClass' href='" . JRoute::_($this->langUrl) . "'>";
-    echo "<img alt='$this->langLink' src='{$this->baseurl}/media/com_thm_organizer/images/curriculum/{$this->langLink}.png' />";
-    echo "</a></h1>";
+?>
+<div class="flag" style="float: right;">
+    <a class='naviLink' href="<?php echo JRoute::_($this->langUrl); ?>">
+        <img class="languageSwitcher"
+             alt="<?php echo ($this->languageTag == 'de') ? 'en' : 'de'; ?>"
+             src="<?php echo $flagPath; ?>" />
+    </a>
+</div>
+<h1 class="componentheading"><?php echo 'Curriculum - ' ?><span id="programName"></span></h1>
+<?php
 }
 ?>
-</span>
 <div style="text-align: center" id="loading"></div>
 <div class="iScroll" id="curriculum"></div>
+<div class="curriculum_legend" id="curriculum_legend"></div>

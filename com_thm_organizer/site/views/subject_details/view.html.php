@@ -12,6 +12,7 @@
  * @link        www.mni.thm.de
  */
 jimport('joomla.application.component.view');
+require_once JPATH_COMPONENT . DS . 'helper' . DS . 'language.php';
 
 /**
  * Class loads information about a subject into the view context
