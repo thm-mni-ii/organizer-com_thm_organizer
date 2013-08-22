@@ -149,7 +149,7 @@ class THM_OrganizerModelSubject_Details extends JModel
             $teacher['name'] = empty($teacherName)? $defaultName : $teacherName;
             if ($teacher['teacherResp'] == '1')
             {
-                $teacher['name'] .= $this->languageTag == 'de'? ' (Modulverantwörtliche)' : ' (Responsible)';
+                $teacher['name'] .= $this->languageTag == 'de'? ' (Modulverantwortliche)' : ' (Responsible)';
                 $teachers[$teacher['id']] = $teacher;
             }
             elseif (empty($teachers[$teacher['id']]))
