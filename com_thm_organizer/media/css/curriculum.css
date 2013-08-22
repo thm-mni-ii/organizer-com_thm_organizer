@@ -6599,6 +6599,9 @@ textarea.x-form-field {
 .x-accordion-hd {
     background: #e5e5e5;
     box-shadow: inset 0 0 0 0 #e5e5e5;
+    border-width: 1px 0 1px 0;
+    padding: 4px 5px 5px 5px;
+    border-top-color: #ececec;
 }
 
 .x-accordion-hd .x-tool-collapse-top,.x-accordion-hd .x-tool-collapse-right,.x-accordion-hd .x-tool-collapse-bottom,.x-accordion-hd .x-tool-collapse-left
@@ -6619,12 +6622,6 @@ textarea.x-form-field {
 .x-accordion-hd .x-tool-over .x-tool-expand-top,.x-accordion-hd .x-tool-over .x-tool-expand-right,.x-accordion-hd .x-tool-over .x-tool-expand-bottom,.x-accordion-hd .x-tool-over .x-tool-expand-left
 {
     background-position: -15px -240px;
-}
-
-.x-accordion-hd {
-    border-width: 1px 0 1px 0;
-    padding: 4px 5px 5px 5px;
-    border-top-color: #ececec;
 }
 
 .x-accordion-body {
@@ -6685,22 +6682,15 @@ textarea.x-form-field {
 }
 
 .x-box-scroller-left .x-toolbar-scroll-left {
+    width: 14px;
+    height: 22px;
+    border-bottom: 1px solid #8db2e3;
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/toolbar/scroll-left.gif');
     background-position: -14px 0;
 }
 
-.x-box-scroller-left .x-toolbar-scroll-left-hover {
-    background-position: 0 0;
-}
-
 .x-box-scroller-left .x-toolbar-scroll-left-disabled {
     background-position: -14px 0;
-}
-
-.x-box-scroller-left .x-toolbar-scroll-left {
-    width: 14px;
-    height: 22px;
-    border-bottom: 1px solid #8db2e3;
 }
 
 .x-horizontal-box-overflow-body {
@@ -6724,7 +6714,7 @@ textarea.x-form-field {
 }
 
 .x-box-scroller-right .x-toolbar-scroll-right-hover {
-    background-position: -18px 0;
+    background-position: -14px 0;
 }
 
 .x-box-scroller-right .x-toolbar-scroll-right-disabled,.x-box-scroller-right .x-tabbar-scroll-right-disabled
@@ -6736,21 +6726,14 @@ textarea.x-form-field {
 }
 
 .x-box-scroller-right .x-toolbar-scroll-right {
+    width: 14px;
+    height: 22px;
+    border-bottom: 1px solid #8db2e3;
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/toolbar/scroll-right.gif');
-}
-
-.x-box-scroller-right .x-toolbar-scroll-right-hover {
-    background-position: -14px 0;
 }
 
 .x-box-scroller-right .x-toolbar-scroll-right-disabled {
     background-position: 0 0;
-}
-
-.x-box-scroller-right .x-toolbar-scroll-right {
-    width: 14px;
-    height: 22px;
-    border-bottom: 1px solid #8db2e3;
 }
 
 .x-box-scroller-top .x-box-scroller {
@@ -7119,6 +7102,7 @@ textarea.x-form-field {
 
 .x-html table {
     display: table;
+    border-spacing: 2px;
 }
 
 .x-html tr {
@@ -7147,18 +7131,16 @@ textarea.x-form-field {
 
 .x-html td,.x-html th {
     display: table-cell;
+    vertical-align: inherit;
 }
 
 .x-html caption {
     display: table-caption;
+    text-align: center;
 }
 
 .x-html th {
     font-weight: bolder;
-    text-align: center;
-}
-
-.x-html caption {
     text-align: center;
 }
 
@@ -7238,16 +7220,8 @@ textarea.x-form-field {
     vertical-align: super;
 }
 
-.x-html table {
-    border-spacing: 2px;
-}
-
 .x-html thead,.x-html tbody,.x-html tfoot {
     vertical-align: middle;
-}
-
-.x-html td,.x-html th {
-    vertical-align: inherit;
 }
 
 .x-html s,.x-html strike,.x-html del {
