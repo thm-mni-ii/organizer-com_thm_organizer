@@ -642,7 +642,7 @@ class THM_OrganizerModelSchedule extends JModel
         $userid = trim((string) $teachernode->payrollnumber);
         if (empty($userid))
         {
-            $this->_scheduleWarnings[] = JText::sprintf("COM_THM_ORGANIZER_TR_PN_MISSING", $surname, $teacherID);
+            $this->_scheduleWarnings[] = JText::sprintf("COM_THM_ORGANIZER_TR_PN_MISSING", $teacherID, $surname);
             $this->_schedule->teachers->$teacherID->username = '';
         }
         else
