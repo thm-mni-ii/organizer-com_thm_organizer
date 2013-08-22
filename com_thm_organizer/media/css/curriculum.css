@@ -188,23 +188,20 @@ span.course-title:hover {
     width: 6px;
     height: 6px;
     float: left;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/shared/shadow.png');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/shared/shadow.png');
 }
 
 .x-frame-shadow .xsml,.x-frame-shadow .xsmr {
     width: 6px;
     float: left;
     height: 100%;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/shared/shadow-lr.png');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/shared/shadow-lr.png');
 }
 
 .x-frame-shadow .xsmc {
     float: left;
     height: 100%;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/shared/shadow-c.png');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/shared/shadow-c.png');
 }
 
 .x-frame-shadow .xst,.x-frame-shadow .xsb {
@@ -311,8 +308,7 @@ span.course-title:hover {
 }
 
 .x-box-bl {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/box/corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/corners.gif');
 }
 
 .x-box-bc {
@@ -320,18 +316,15 @@ span.course-title:hover {
 }
 
 .x-box-br {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/box/corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/corners.gif');
 }
 
 .x-box-blue .x-box-bl,.x-box-blue .x-box-br,.x-box-blue .x-box-tl,.x-box-blue .x-box-tr{
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/box/corners-blue.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/corners-blue.gif');
 }
 
 .x-box-blue .x-box-bc,.x-box-blue .x-box-mc,.x-box-blue .x-box-tc {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/box/tb-blue.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/tb-blue.gif');
 }
 
 .x-box-blue .x-box-mc {
@@ -343,13 +336,11 @@ span.course-title:hover {
 }
 
 .x-box-blue .x-box-ml {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/box/l-blue.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/l-blue.gif');
 }
 
 .x-box-blue .x-box-mr {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/box/r-blue.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/r-blue.gif');
 }
 
 .x-focus-element {
@@ -412,8 +403,7 @@ span.course-title:hover {
 
 .x-mask-msg div {
     padding: 5px 10px 5px 25px;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/loading.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/loading.gif');
     background-repeat: no-repeat;
     background-position: 5px center;
     cursor: wait;
@@ -595,34 +585,29 @@ span.course-title:hover {
 }
 
 .x-btn-arrow {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/button/arrow.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/button/arrow.gif');
     display: block;
 }
 
 .x-btn-split-right,.x-btn-over .x-btn-split-right {
     background: transparent no-repeat right center;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/button/s-arrow.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/button/s-arrow.gif');
     padding-right: 14px;
 }
 
 .x-btn-split-bottom,.x-btn-over .x-btn-split-bottom {
     background: transparent no-repeat center bottom;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/button/s-arrow-b.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/button/s-arrow-b.gif');
     padding-bottom: 14px;
 }
 
 .x-toolbar .x-btn-split-right {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/button/s-arrow-noline.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/button/s-arrow-noline.gif');
     padding-right: 12px;
 }
 
 .x-toolbar .x-btn-split-bottom {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/button/s-arrow-b-noline.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/button/s-arrow-b-noline.gif');
 }
 
 .x-btn-split {
@@ -638,13 +623,11 @@ span.course-title:hover {
 }
 
 .x-btn-over .x-btn-split-right {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/button/s-arrow-o.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/button/s-arrow-o.gif');
 }
 
 .x-btn-over .x-btn-split-bottom {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/button/s-arrow-bo.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/button/s-arrow-bo.gif');
 }
 
 .x-btn-default-small {
@@ -662,8 +645,7 @@ span.course-title:hover {
 }
 
 .x-nlg .x-btn-default-small-mc {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-bg.gif');
     background-color: #f8f8f8;
 }
 
@@ -678,14 +660,12 @@ span.course-title:hover {
 .x-nbr .x-btn-default-small-tl,.x-nbr .x-btn-default-small-bl,.x-nbr .x-btn-default-small-tr,.x-nbr .x-btn-default-small-br,.x-nbr .x-btn-default-small-tc,.x-nbr .x-btn-default-small-bc,.x-nbr .x-btn-default-small-ml,.x-nbr .x-btn-default-small-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-corners.gif');
 }
 
 .x-nbr .x-btn-default-small-ml,.x-nbr .x-btn-default-small-mr {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-sides.gif');
     background-position: 0 0;
 }
 
@@ -846,105 +826,88 @@ span.course-title:hover {
 
 .x-nbr .x-btn-default-small-over .x-frame-tl,.x-nbr .x-btn-default-small-over .x-frame-bl,.x-nbr .x-btn-default-small-over .x-frame-tr,.x-nbr .x-btn-default-small-over .x-frame-br,.x-nbr .x-btn-default-small-over .x-frame-tc,.x-nbr .x-btn-default-small-over .x-frame-bc
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-over-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-over-corners.gif');
 }
 
 .x-nbr .x-btn-default-small-over .x-frame-ml,.x-nbr .x-btn-default-small-over .x-frame-mr{
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-over-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-over-sides.gif');
 }
 
 .x-nbr .x-btn-default-small-over .x-frame-mc {
     background-color: #f3f3f3;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-over-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-over-bg.gif');
 }
 
 .x-nbr .x-btn-default-small-focus .x-frame-tl,.x-nbr .x-btn-default-small-focus .x-frame-bl,.x-nbr .x-btn-default-small-focus .x-frame-tr,.x-nbr .x-btn-default-small-focus .x-frame-br,.x-nbr .x-btn-default-small-focus .x-frame-tc,.x-nbr .x-btn-default-small-focus .x-frame-bc
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-focus-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-focus-corners.gif');
 }
 
 .x-nbr .x-btn-default-small-focus .x-frame-ml,.x-nbr .x-btn-default-small-focus .x-frame-mr
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-focus-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-focus-sides.gif');
 }
 
 .x-nbr .x-btn-default-small-focus .x-frame-mc {
     background-color: #f3f3f3;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-focus-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-focus-bg.gif');
 }
 
 .x-nbr .x-btn-default-small-menu-active .x-frame-tl,.x-nbr .x-btn-default-small-menu-active .x-frame-bl,.x-nbr .x-btn-default-small-menu-active .x-frame-tr,.x-nbr .x-btn-default-small-menu-active .x-frame-br,.x-nbr .x-btn-default-small-menu-active .x-frame-tc,.x-nbr .x-btn-default-small-menu-active .x-frame-bc,.x-nbr .x-btn-default-small-pressed .x-frame-tl,.x-nbr .x-btn-default-small-pressed .x-frame-bl,.x-nbr .x-btn-default-small-pressed .x-frame-tr,.x-nbr .x-btn-default-small-pressed .x-frame-br,.x-nbr .x-btn-default-small-pressed .x-frame-tc,.x-nbr .x-btn-default-small-pressed .x-frame-bc
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-pressed-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-pressed-corners.gif');
 }
 
 .x-nbr .x-btn-default-small-menu-active .x-frame-ml,.x-nbr .x-btn-default-small-menu-active .x-frame-mr,.x-nbr .x-btn-default-small-pressed .x-frame-ml,.x-nbr .x-btn-default-small-pressed .x-frame-mr
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-pressed-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-pressed-sides.gif');
 }
 
 .x-nbr .x-btn-default-small-menu-active .x-frame-mc,.x-nbr .x-btn-default-small-pressed .x-frame-mc
 {
     background-color: #d6d6d6;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-pressed-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-pressed-bg.gif');
 }
 
 .x-nbr .x-btn-default-small-disabled .x-frame-tl,.x-nbr .x-btn-default-small-disabled .x-frame-bl,.x-nbr .x-btn-default-small-disabled .x-frame-tr,.x-nbr .x-btn-default-small-disabled .x-frame-br,.x-nbr .x-btn-default-small-disabled .x-frame-tc,.x-nbr .x-btn-default-small-disabled .x-frame-bc
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-disabled-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-disabled-corners.gif');
 }
 
 .x-nbr .x-btn-default-small-disabled .x-frame-ml,.x-nbr .x-btn-default-small-disabled .x-frame-mr
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-disabled-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-disabled-sides.gif');
 }
 
 .x-nbr .x-btn-default-small-disabled .x-frame-mc {
     background-color: #ececec;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-disabled-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-disabled-bg.gif');
 }
 
 .x-nlg .x-btn-default-small {
     background-repeat: repeat-x;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-bg.gif');
 }
 
 .x-nlg .x-btn-default-small-over {
     background-repeat: repeat-x;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-over-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-over-bg.gif');
 }
 
 .x-nlg .x-btn-default-small-focus {
     background-repeat: repeat-x;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-focus-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-focus-bg.gif');
 }
 
 .x-nlg .x-btn-default-small-menu-active,.x-nlg .x-btn-default-small-pressed
 {
     background-repeat: repeat-x;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-pressed-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-pressed-bg.gif');
 }
 
 .x-nlg .x-btn-default-small-disabled {
     background-repeat: repeat-x;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-disabled-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-disabled-bg.gif');
 }
 
 .x-btn-default-medium {
@@ -962,8 +925,7 @@ span.course-title:hover {
 }
 
 .x-nlg .x-btn-default-medium-mc {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-bg.gif');
     background-color: #f8f8f8;
 }
 
@@ -978,14 +940,12 @@ span.course-title:hover {
 .x-nbr .x-btn-default-medium-tl,.x-nbr .x-btn-default-medium-bl,.x-nbr .x-btn-default-medium-tr,.x-nbr .x-btn-default-medium-br,.x-nbr .x-btn-default-medium-tc,.x-nbr .x-btn-default-medium-bc,.x-nbr .x-btn-default-medium-ml,.x-nbr .x-btn-default-medium-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-corners.gif');
 }
 
 .x-nbr .x-btn-default-medium-ml,.x-nbr .x-btn-default-medium-mr {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-sides.gif');
     background-position: 0 0;
 }
 
@@ -1149,106 +1109,89 @@ span.course-title:hover {
 
 .x-nbr .x-btn-default-medium-over .x-frame-tl,.x-nbr .x-btn-default-medium-over .x-frame-bl,.x-nbr .x-btn-default-medium-over .x-frame-tr,.x-nbr .x-btn-default-medium-over .x-frame-br,.x-nbr .x-btn-default-medium-over .x-frame-tc,.x-nbr .x-btn-default-medium-over .x-frame-bc
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-over-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-over-corners.gif');
 }
 
 .x-nbr .x-btn-default-medium-over .x-frame-ml,.x-nbr .x-btn-default-medium-over .x-frame-mr
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-over-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-over-sides.gif');
 }
 
 .x-nbr .x-btn-default-medium-over .x-frame-mc {
     background-color: #f3f3f3;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-over-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-over-bg.gif');
 }
 
 .x-nbr .x-btn-default-medium-focus .x-frame-tl,.x-nbr .x-btn-default-medium-focus .x-frame-bl,.x-nbr .x-btn-default-medium-focus .x-frame-tr,.x-nbr .x-btn-default-medium-focus .x-frame-br,.x-nbr .x-btn-default-medium-focus .x-frame-tc,.x-nbr .x-btn-default-medium-focus .x-frame-bc
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-focus-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-focus-corners.gif');
 }
 
 .x-nbr .x-btn-default-medium-focus .x-frame-ml,.x-nbr .x-btn-default-medium-focus .x-frame-mr
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-focus-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-focus-sides.gif');
 }
 
 .x-nbr .x-btn-default-medium-focus .x-frame-mc {
     background-color: #f3f3f3;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-focus-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-focus-bg.gif');
 }
 
 .x-nbr .x-btn-default-medium-menu-active .x-frame-tl,.x-nbr .x-btn-default-medium-menu-active .x-frame-bl,.x-nbr .x-btn-default-medium-menu-active .x-frame-tr,.x-nbr .x-btn-default-medium-menu-active .x-frame-br,.x-nbr .x-btn-default-medium-menu-active .x-frame-tc,.x-nbr .x-btn-default-medium-menu-active .x-frame-bc,.x-nbr .x-btn-default-medium-pressed .x-frame-tl,.x-nbr .x-btn-default-medium-pressed .x-frame-bl,.x-nbr .x-btn-default-medium-pressed .x-frame-tr,.x-nbr .x-btn-default-medium-pressed .x-frame-br,.x-nbr .x-btn-default-medium-pressed .x-frame-tc,.x-nbr .x-btn-default-medium-pressed .x-frame-bc
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-pressed-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-pressed-corners.gif');
 }
 
 .x-nbr .x-btn-default-medium-menu-active .x-frame-ml,.x-nbr .x-btn-default-medium-menu-active .x-frame-mr,.x-nbr .x-btn-default-medium-pressed .x-frame-ml,.x-nbr .x-btn-default-medium-pressed .x-frame-mr
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-pressed-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-pressed-sides.gif');
 }
 
 .x-nbr .x-btn-default-medium-menu-active .x-frame-mc,.x-nbr .x-btn-default-medium-pressed .x-frame-mc
 {
     background-color: #d6d6d6;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-pressed-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-pressed-bg.gif');
 }
 
 .x-nbr .x-btn-default-medium-disabled .x-frame-tl,.x-nbr .x-btn-default-medium-disabled .x-frame-bl,.x-nbr .x-btn-default-medium-disabled .x-frame-tr,.x-nbr .x-btn-default-medium-disabled .x-frame-br,.x-nbr .x-btn-default-medium-disabled .x-frame-tc,.x-nbr .x-btn-default-medium-disabled .x-frame-bc
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-disabled-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-disabled-corners.gif');
 }
 
 .x-nbr .x-btn-default-medium-disabled .x-frame-ml,.x-nbr .x-btn-default-medium-disabled .x-frame-mr
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-disabled-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-disabled-sides.gif');
 }
 
 .x-nbr .x-btn-default-medium-disabled .x-frame-mc {
     background-color: #ececec;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-disabled-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-disabled-bg.gif');
 }
 
 .x-nlg .x-btn-default-medium {
     background-repeat: repeat-x;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-bg.gif');
 }
 
 .x-nlg .x-btn-default-medium-over {
     background-repeat: repeat-x;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-over-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-over-bg.gif');
 }
 
 .x-nlg .x-btn-default-medium-focus {
     background-repeat: repeat-x;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-focus-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-focus-bg.gif');
 }
 
 .x-nlg .x-btn-default-medium-menu-active,.x-nlg .x-btn-default-medium-pressed
 {
     background-repeat: repeat-x;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-pressed-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-pressed-bg.gif');
 }
 
 .x-nlg .x-btn-default-medium-disabled {
     background-repeat: repeat-x;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-disabled-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-disabled-bg.gif');
 }
 
 .x-btn-default-large {
@@ -1266,8 +1209,7 @@ span.course-title:hover {
 }
 
 .x-nlg .x-btn-default-large-mc {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-bg.gif');
     background-color: #f8f8f8;
 }
 
@@ -1282,14 +1224,12 @@ span.course-title:hover {
 .x-nbr .x-btn-default-large-tl,.x-nbr .x-btn-default-large-bl,.x-nbr .x-btn-default-large-tr,.x-nbr .x-btn-default-large-br,.x-nbr .x-btn-default-large-tc,.x-nbr .x-btn-default-large-bc,.x-nbr .x-btn-default-large-ml,.x-nbr .x-btn-default-large-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-corners.gif');
 }
 
 .x-nbr .x-btn-default-large-ml,.x-nbr .x-btn-default-large-mr {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-sides.gif');
     background-position: 0 0;
 }
 
@@ -1453,106 +1393,89 @@ span.course-title:hover {
 
 .x-nbr .x-btn-default-large-over .x-frame-tl,.x-nbr .x-btn-default-large-over .x-frame-bl,.x-nbr .x-btn-default-large-over .x-frame-tr,.x-nbr .x-btn-default-large-over .x-frame-br,.x-nbr .x-btn-default-large-over .x-frame-tc,.x-nbr .x-btn-default-large-over .x-frame-bc
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-over-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-over-corners.gif');
 }
 
 .x-nbr .x-btn-default-large-over .x-frame-ml,.x-nbr .x-btn-default-large-over .x-frame-mr
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-over-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-over-sides.gif');
 }
 
 .x-nbr .x-btn-default-large-over .x-frame-mc {
     background-color: #f3f3f3;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-over-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-over-bg.gif');
 }
 
 .x-nbr .x-btn-default-large-focus .x-frame-tl,.x-nbr .x-btn-default-large-focus .x-frame-bl,.x-nbr .x-btn-default-large-focus .x-frame-tr,.x-nbr .x-btn-default-large-focus .x-frame-br,.x-nbr .x-btn-default-large-focus .x-frame-tc,.x-nbr .x-btn-default-large-focus .x-frame-bc
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-focus-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-focus-corners.gif');
 }
 
 .x-nbr .x-btn-default-large-focus .x-frame-ml,.x-nbr .x-btn-default-large-focus .x-frame-mr
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-focus-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-focus-sides.gif');
 }
 
 .x-nbr .x-btn-default-large-focus .x-frame-mc {
     background-color: #f3f3f3;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-focus-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-focus-bg.gif');
 }
 
 .x-nbr .x-btn-default-large-menu-active .x-frame-tl,.x-nbr .x-btn-default-large-menu-active .x-frame-bl,.x-nbr .x-btn-default-large-menu-active .x-frame-tr,.x-nbr .x-btn-default-large-menu-active .x-frame-br,.x-nbr .x-btn-default-large-menu-active .x-frame-tc,.x-nbr .x-btn-default-large-menu-active .x-frame-bc,.x-nbr .x-btn-default-large-pressed .x-frame-tl,.x-nbr .x-btn-default-large-pressed .x-frame-bl,.x-nbr .x-btn-default-large-pressed .x-frame-tr,.x-nbr .x-btn-default-large-pressed .x-frame-br,.x-nbr .x-btn-default-large-pressed .x-frame-tc,.x-nbr .x-btn-default-large-pressed .x-frame-bc
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-pressed-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-pressed-corners.gif');
 }
 
 .x-nbr .x-btn-default-large-menu-active .x-frame-ml,.x-nbr .x-btn-default-large-menu-active .x-frame-mr,.x-nbr .x-btn-default-large-pressed .x-frame-ml,.x-nbr .x-btn-default-large-pressed .x-frame-mr
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-pressed-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-pressed-sides.gif');
 }
 
 .x-nbr .x-btn-default-large-menu-active .x-frame-mc,.x-nbr .x-btn-default-large-pressed .x-frame-mc
 {
     background-color: #d6d6d6;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-pressed-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-pressed-bg.gif');
 }
 
 .x-nbr .x-btn-default-large-disabled .x-frame-tl,.x-nbr .x-btn-default-large-disabled .x-frame-bl,.x-nbr .x-btn-default-large-disabled .x-frame-tr,.x-nbr .x-btn-default-large-disabled .x-frame-br,.x-nbr .x-btn-default-large-disabled .x-frame-tc,.x-nbr .x-btn-default-large-disabled .x-frame-bc
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-disabled-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-disabled-corners.gif');
 }
 
 .x-nbr .x-btn-default-large-disabled .x-frame-ml,.x-nbr .x-btn-default-large-disabled .x-frame-mr
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-disabled-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-disabled-sides.gif');
 }
 
 .x-nbr .x-btn-default-large-disabled .x-frame-mc {
     background-color: #ececec;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-disabled-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-disabled-bg.gif');
 }
 
 .x-nlg .x-btn-default-large {
     background-repeat: repeat-x;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-bg.gif');
 }
 
 .x-nlg .x-btn-default-large-over {
     background-repeat: repeat-x;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-over-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-over-bg.gif');
 }
 
 .x-nlg .x-btn-default-large-focus {
     background-repeat: repeat-x;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-focus-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-focus-bg.gif');
 }
 
 .x-nlg .x-btn-default-large-menu-active,.x-nlg .x-btn-default-large-pressed
 {
     background-repeat: repeat-x;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-pressed-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-pressed-bg.gif');
 }
 
 .x-nlg .x-btn-default-large-disabled {
     background-repeat: repeat-x;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-disabled-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-large-disabled-bg.gif');
 }
 
 .x-btn-default-toolbar-small {
@@ -1749,69 +1672,58 @@ span.course-title:hover {
 
 .x-nbr .x-btn-default-toolbar-small-over .x-frame-tl,.x-nbr .x-btn-default-toolbar-small-over .x-frame-bl,.x-nbr .x-btn-default-toolbar-small-over .x-frame-tr,.x-nbr .x-btn-default-toolbar-small-over .x-frame-br,.x-nbr .x-btn-default-toolbar-small-over .x-frame-tc,.x-nbr .x-btn-default-toolbar-small-over .x-frame-bc
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-over-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-over-corners.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-small-over .x-frame-ml,.x-nbr .x-btn-default-toolbar-small-over .x-frame-mr
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-over-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-over-sides.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-small-over .x-frame-mc {
     background-color: #f3f3f3;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-over-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-over-bg.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-small-focus .x-frame-tl,.x-nbr .x-btn-default-toolbar-small-focus .x-frame-bl,.x-nbr .x-btn-default-toolbar-small-focus .x-frame-tr,.x-nbr .x-btn-default-toolbar-small-focus .x-frame-br,.x-nbr .x-btn-default-toolbar-small-focus .x-frame-tc,.x-nbr .x-btn-default-toolbar-small-focus .x-frame-bc
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-focus-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-focus-corners.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-small-focus .x-frame-ml,.x-nbr .x-btn-default-toolbar-small-focus .x-frame-mr
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-focus-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-focus-sides.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-small-focus .x-frame-mc {
     background-color: #f3f3f3;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-focus-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-focus-bg.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-small-menu-active .x-frame-tl,.x-nbr .x-btn-default-toolbar-small-menu-active .x-frame-bl,.x-nbr .x-btn-default-toolbar-small-menu-active .x-frame-tr,.x-nbr .x-btn-default-toolbar-small-menu-active .x-frame-br,.x-nbr .x-btn-default-toolbar-small-menu-active .x-frame-tc,.x-nbr .x-btn-default-toolbar-small-menu-active .x-frame-bc,.x-nbr .x-btn-default-toolbar-small-pressed .x-frame-tl,.x-nbr .x-btn-default-toolbar-small-pressed .x-frame-bl,.x-nbr .x-btn-default-toolbar-small-pressed .x-frame-tr,.x-nbr .x-btn-default-toolbar-small-pressed .x-frame-br,.x-nbr .x-btn-default-toolbar-small-pressed .x-frame-tc,.x-nbr .x-btn-default-toolbar-small-pressed .x-frame-bc
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-pressed-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-pressed-corners.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-small-menu-active .x-frame-ml,.x-nbr .x-btn-default-toolbar-small-menu-active .x-frame-mr,.x-nbr .x-btn-default-toolbar-small-pressed .x-frame-ml,.x-nbr .x-btn-default-toolbar-small-pressed .x-frame-mr
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-pressed-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-pressed-sides.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-small-menu-active .x-frame-mc,.x-nbr .x-btn-default-toolbar-small-pressed .x-frame-mc
 {
     background-color: #d6d6d6;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-pressed-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-pressed-bg.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-small-disabled .x-frame-tl,.x-nbr .x-btn-default-toolbar-small-disabled .x-frame-bl,.x-nbr .x-btn-default-toolbar-small-disabled .x-frame-tr,.x-nbr .x-btn-default-toolbar-small-disabled .x-frame-br,.x-nbr .x-btn-default-toolbar-small-disabled .x-frame-tc,.x-nbr .x-btn-default-toolbar-small-disabled .x-frame-bc
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-disabled-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-disabled-corners.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-small-disabled .x-frame-ml,.x-nbr .x-btn-default-toolbar-small-disabled .x-frame-mr
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-disabled-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-disabled-sides.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-small-disabled .x-frame-mc {
@@ -1820,21 +1732,18 @@ span.course-title:hover {
 
 .x-nlg .x-btn-default-toolbar-small-over {
     background-repeat: repeat-x;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-over-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-over-bg.gif');
 }
 
 .x-nlg .x-btn-default-toolbar-small-focus {
     background-repeat: repeat-x;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-focus-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-focus-bg.gif');
 }
 
 .x-nlg .x-btn-default-toolbar-small-menu-active,.x-nlg .x-btn-default-toolbar-small-pressed
 {
     background-repeat: repeat-x;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-pressed-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-small-pressed-bg.gif');
 }
 
 .x-btn-default-toolbar-medium {
@@ -2031,69 +1940,58 @@ span.course-title:hover {
 
 .x-nbr .x-btn-default-toolbar-medium-over .x-frame-tl,.x-nbr .x-btn-default-toolbar-medium-over .x-frame-bl,.x-nbr .x-btn-default-toolbar-medium-over .x-frame-tr,.x-nbr .x-btn-default-toolbar-medium-over .x-frame-br,.x-nbr .x-btn-default-toolbar-medium-over .x-frame-tc,.x-nbr .x-btn-default-toolbar-medium-over .x-frame-bc
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-over-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-over-corners.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-medium-over .x-frame-ml,.x-nbr .x-btn-default-toolbar-medium-over .x-frame-mr
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-over-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-over-sides.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-medium-over .x-frame-mc {
     background-color: #f3f3f3;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-over-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-over-bg.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-medium-focus .x-frame-tl,.x-nbr .x-btn-default-toolbar-medium-focus .x-frame-bl,.x-nbr .x-btn-default-toolbar-medium-focus .x-frame-tr,.x-nbr .x-btn-default-toolbar-medium-focus .x-frame-br,.x-nbr .x-btn-default-toolbar-medium-focus .x-frame-tc,.x-nbr .x-btn-default-toolbar-medium-focus .x-frame-bc
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-focus-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-focus-corners.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-medium-focus .x-frame-ml,.x-nbr .x-btn-default-toolbar-medium-focus .x-frame-mr
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-focus-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-focus-sides.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-medium-focus .x-frame-mc {
     background-color: #f3f3f3;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-focus-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-focus-bg.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-medium-menu-active .x-frame-tl,.x-nbr .x-btn-default-toolbar-medium-menu-active .x-frame-bl,.x-nbr .x-btn-default-toolbar-medium-menu-active .x-frame-tr,.x-nbr .x-btn-default-toolbar-medium-menu-active .x-frame-br,.x-nbr .x-btn-default-toolbar-medium-menu-active .x-frame-tc,.x-nbr .x-btn-default-toolbar-medium-menu-active .x-frame-bc,.x-nbr .x-btn-default-toolbar-medium-pressed .x-frame-tl,.x-nbr .x-btn-default-toolbar-medium-pressed .x-frame-bl,.x-nbr .x-btn-default-toolbar-medium-pressed .x-frame-tr,.x-nbr .x-btn-default-toolbar-medium-pressed .x-frame-br,.x-nbr .x-btn-default-toolbar-medium-pressed .x-frame-tc,.x-nbr .x-btn-default-toolbar-medium-pressed .x-frame-bc
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-pressed-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-pressed-corners.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-medium-menu-active .x-frame-ml,.x-nbr .x-btn-default-toolbar-medium-menu-active .x-frame-mr,.x-nbr .x-btn-default-toolbar-medium-pressed .x-frame-ml,.x-nbr .x-btn-default-toolbar-medium-pressed .x-frame-mr
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-pressed-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-pressed-sides.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-medium-menu-active .x-frame-mc,.x-nbr .x-btn-default-toolbar-medium-pressed .x-frame-mc
 {
     background-color: #d6d6d6;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-pressed-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-pressed-bg.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-medium-disabled .x-frame-tl,.x-nbr .x-btn-default-toolbar-medium-disabled .x-frame-bl,.x-nbr .x-btn-default-toolbar-medium-disabled .x-frame-tr,.x-nbr .x-btn-default-toolbar-medium-disabled .x-frame-br,.x-nbr .x-btn-default-toolbar-medium-disabled .x-frame-tc,.x-nbr .x-btn-default-toolbar-medium-disabled .x-frame-bc
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-disabled-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-disabled-corners.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-medium-disabled .x-frame-ml,.x-nbr .x-btn-default-toolbar-medium-disabled .x-frame-mr
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-disabled-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-disabled-sides.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-medium-disabled .x-frame-mc {
@@ -2102,21 +2000,18 @@ span.course-title:hover {
 
 .x-nlg .x-btn-default-toolbar-medium-over {
     background-repeat: repeat-x;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-over-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-over-bg.gif');
 }
 
 .x-nlg .x-btn-default-toolbar-medium-focus {
     background-repeat: repeat-x;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-focus-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-focus-bg.gif');
 }
 
 .x-nlg .x-btn-default-toolbar-medium-menu-active,.x-nlg .x-btn-default-toolbar-medium-pressed
 {
     background-repeat: repeat-x;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-pressed-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-medium-pressed-bg.gif');
 }
 
 .x-btn-default-toolbar-large {
@@ -2313,69 +2208,58 @@ span.course-title:hover {
 
 .x-nbr .x-btn-default-toolbar-large-over .x-frame-tl,.x-nbr .x-btn-default-toolbar-large-over .x-frame-bl,.x-nbr .x-btn-default-toolbar-large-over .x-frame-tr,.x-nbr .x-btn-default-toolbar-large-over .x-frame-br,.x-nbr .x-btn-default-toolbar-large-over .x-frame-tc,.x-nbr .x-btn-default-toolbar-large-over .x-frame-bc
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-over-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-over-corners.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-large-over .x-frame-ml,.x-nbr .x-btn-default-toolbar-large-over .x-frame-mr
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-over-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-over-sides.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-large-over .x-frame-mc {
     background-color: #f3f3f3;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-over-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-over-bg.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-large-focus .x-frame-tl,.x-nbr .x-btn-default-toolbar-large-focus .x-frame-bl,.x-nbr .x-btn-default-toolbar-large-focus .x-frame-tr,.x-nbr .x-btn-default-toolbar-large-focus .x-frame-br,.x-nbr .x-btn-default-toolbar-large-focus .x-frame-tc,.x-nbr .x-btn-default-toolbar-large-focus .x-frame-bc
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-focus-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-focus-corners.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-large-focus .x-frame-ml,.x-nbr .x-btn-default-toolbar-large-focus .x-frame-mr
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-focus-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-focus-sides.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-large-focus .x-frame-mc {
     background-color: #f3f3f3;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-focus-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-focus-bg.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-large-menu-active .x-frame-tl,.x-nbr .x-btn-default-toolbar-large-menu-active .x-frame-bl,.x-nbr .x-btn-default-toolbar-large-menu-active .x-frame-tr,.x-nbr .x-btn-default-toolbar-large-menu-active .x-frame-br,.x-nbr .x-btn-default-toolbar-large-menu-active .x-frame-tc,.x-nbr .x-btn-default-toolbar-large-menu-active .x-frame-bc,.x-nbr .x-btn-default-toolbar-large-pressed .x-frame-tl,.x-nbr .x-btn-default-toolbar-large-pressed .x-frame-bl,.x-nbr .x-btn-default-toolbar-large-pressed .x-frame-tr,.x-nbr .x-btn-default-toolbar-large-pressed .x-frame-br,.x-nbr .x-btn-default-toolbar-large-pressed .x-frame-tc,.x-nbr .x-btn-default-toolbar-large-pressed .x-frame-bc
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-pressed-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-pressed-corners.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-large-menu-active .x-frame-ml,.x-nbr .x-btn-default-toolbar-large-menu-active .x-frame-mr,.x-nbr .x-btn-default-toolbar-large-pressed .x-frame-ml,.x-nbr .x-btn-default-toolbar-large-pressed .x-frame-mr
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-pressed-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-pressed-sides.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-large-menu-active .x-frame-mc,.x-nbr .x-btn-default-toolbar-large-pressed .x-frame-mc
 {
     background-color: #d6d6d6;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-pressed-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-pressed-bg.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-large-disabled .x-frame-tl,.x-nbr .x-btn-default-toolbar-large-disabled .x-frame-bl,.x-nbr .x-btn-default-toolbar-large-disabled .x-frame-tr,.x-nbr .x-btn-default-toolbar-large-disabled .x-frame-br,.x-nbr .x-btn-default-toolbar-large-disabled .x-frame-tc,.x-nbr .x-btn-default-toolbar-large-disabled .x-frame-bc
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-disabled-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-disabled-corners.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-large-disabled .x-frame-ml,.x-nbr .x-btn-default-toolbar-large-disabled .x-frame-mr
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-disabled-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-disabled-sides.gif');
 }
 
 .x-nbr .x-btn-default-toolbar-large-disabled .x-frame-mc {
@@ -2384,21 +2268,18 @@ span.course-title:hover {
 
 .x-nlg .x-btn-default-toolbar-large-over {
     background-repeat: repeat-x;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-over-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-over-bg.gif');
 }
 
 .x-nlg .x-btn-default-toolbar-large-focus {
     background-repeat: repeat-x;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-focus-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-focus-bg.gif');
 }
 
 .x-nlg .x-btn-default-toolbar-large-menu-active,.x-nlg .x-btn-default-toolbar-large-pressed
 {
     background-repeat: repeat-x;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-pressed-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-toolbar-large-pressed-bg.gif');
 }
 
 .x-btn-default-toolbar-small-disabled,.x-btn-default-toolbar-medium-disabled,.x-btn-default-toolbar-large-disabled
@@ -2450,15 +2331,13 @@ span.course-title:hover {
 .x-nbr .x-btn-group-default-framed-tl,.x-nbr .x-btn-group-default-framed-bl,.x-nbr .x-btn-group-default-framed-tr,.x-nbr .x-btn-group-default-framed-br,.x-nbr .x-btn-group-default-framed-tc,.x-nbr .x-btn-group-default-framed-bc,.x-nbr .x-btn-group-default-framed-ml,.x-nbr .x-btn-group-default-framed-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn-group/btn-group-default-framed-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn-group/btn-group-default-framed-corners.gif');
 }
 
 .x-nbr .x-btn-group-default-framed-ml,.x-nbr .x-btn-group-default-framed-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/btn-group/btn-group-default-framed-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn-group/btn-group-default-framed-sides.gif');
     background-position: 0 0;
     background-repeat: repeat-y;
 }
@@ -2558,18 +2437,15 @@ span.course-title:hover {
 }
 
 .x-menu-item-checked .x-menu-item-icon {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/menu/checked.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/menu/checked.gif');
 }
 
 .x-menu-item-checked .x-menu-group-icon {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/menu/group-checked.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/menu/group-checked.gif');
 }
 
 .x-menu-item-unchecked .x-menu-item-icon {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/menu/unchecked.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/menu/unchecked.gif');
 }
 
 .x-menu-item-unchecked .x-menu-group-icon {
@@ -2590,8 +2466,7 @@ span.course-title:hover {
     height: 9px;
     top: 9px;
     right: 0;
-    background:
-        url('../../../../media/com_thm_organizer/images/curriculum/menu/menu-parent.gif')
+    background: url('../../../../media/com_thm_organizer/images/curriculum/menu/menu-parent.gif')
         no-repeat center center;
 }
 
@@ -2722,15 +2597,13 @@ span.course-title:hover {
 
 .x-nlg .x-grid-header-ct,.x-nlg .x-column-header {
     background: repeat-x 0 top;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/column-header-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/column-header-bg.gif');
 }
 
 .x-nlg .x-column-header-over,.x-nlg .x-column-header-sort-ASC,.x-nlg .x-column-header-sort-DESC
 {
     background: #ebf3fd repeat-x 0 top;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/column-header-over-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/column-header-over-bg.gif');
 }
 
 .x-column-header-trigger {
@@ -2739,8 +2612,7 @@ span.course-title:hover {
     width: 14px;
     background: no-repeat left center;
     background-color: #c3daf9;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/grid3-hd-btn.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/grid3-hd-btn.gif');
     position: absolute;
     right: 0;
     top: 0;
@@ -2773,15 +2645,13 @@ span.course-title:hover {
 .x-column-header-sort-ASC .x-column-header-text {
     padding-right: 16px;
     background: no-repeat right 6px;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/sort_asc.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/sort_asc.gif');
 }
 
 .x-column-header-sort-DESC .x-column-header-text {
     padding-right: 16px;
     background: no-repeat right 6px;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/sort_desc.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/sort_desc.gif');
 }
 
 .x-grid-row {
@@ -2890,8 +2760,7 @@ span.course-title:hover {
 }
 
 .x-grid-dirty-cell {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/dirty.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/dirty.gif');
     background-position: 0 0;
     background-repeat: no-repeat;
 }
@@ -2907,14 +2776,12 @@ span.course-title:hover {
 
 .x-nlg .x-grid-row .x-grid-cell-special,.x-nlg .x-grid-row-over .x-grid-cell-special
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/cell-special-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/cell-special-bg.gif');
 }
 
 .x-nlg .x-grid-row-focused .x-grid-cell-special,.x-nlg .x-grid-row-selected .x-grid-cell-special
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/cell-special-selected-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/cell-special-selected-bg.gif');
 }
 
 .x-panel-with-col-lines .x-grid-row .x-grid-cell {
@@ -2933,8 +2800,7 @@ span.course-title:hover {
 .x-property-grid .x-grid-row .x-grid-property-name .x-grid-cell-inner,.x-property-grid .x-grid-row-over .x-grid-property-name .x-grid-cell-inner
 {
     padding-left: 12px;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/property-cell-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/property-cell-bg.gif');
     background-repeat: no-repeat;
     background-position: -16px 1px;
 }
@@ -2964,8 +2830,7 @@ span.course-title:hover {
 }
 
 .x-grid-row-expander {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/group-collapse.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/group-collapse.gif');
     background-color: transparent;
     width: 9px;
     height: 13px;
@@ -2975,8 +2840,7 @@ span.course-title:hover {
 }
 
 .x-grid-row-collapsed .x-grid-row-expander {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/group-expand.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/group-expand.gif');
 }
 
 .x-grid-resize-marker {
@@ -3000,13 +2864,11 @@ span.course-title:hover {
 }
 
 .col-move-top {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/col-move-top.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/col-move-top.gif');
 }
 
 .col-move-bottom {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/col-move-bottom.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/col-move-bottom.gif');
 }
 
 .x-tbar-page-number {
@@ -3032,16 +2894,14 @@ span.course-title:hover {
 
 .x-grid-group-title {
     background: transparent no-repeat 0 -1px;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/group-collapse.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/group-collapse.gif');
     color: #616161;
     font: bold 11px tahoma, arial, verdana, sans-serif;
     padding: 0 0 0 14px;
 }
 
 .x-grid-group-hd-collapsed .x-grid-group-title {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/group-expand.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/group-expand.gif');
 }
 
 .x-grid-group-collapsed .x-grid-group-body {
@@ -3049,18 +2909,15 @@ span.course-title:hover {
 }
 
 .x-grid-group-collapsed .x-grid-group-title {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/group-expand.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/group-expand.gif');
 }
 
 .x-group-by-icon {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/group-by.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/group-by.gif');
 }
 
 .x-show-groups-icon {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/group-by.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/group-by.gif');
 }
 
 .x-column-header-checkbox .x-column-header-inner {
@@ -3074,8 +2931,7 @@ span.course-title:hover {
 .x-grid-row-checker,.x-column-header-checkbox .x-column-header-text {
     height: 14px;
     width: 14px;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/unchecked.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/unchecked.gif');
     background-position: -1px -1px;
     background-repeat: no-repeat;
     background-color: transparent;
@@ -3098,8 +2954,7 @@ span.course-title:hover {
 }
 
 .x-grid-hd-checker-on .x-column-header-text {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/checked.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/checked.gif');
 }
 
 .x-grid-row-checker {
@@ -3109,8 +2964,7 @@ span.course-title:hover {
 
 .x-grid-row-selected .x-grid-row-checker,.x-grid-row-checked .x-grid-row-checker
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/checked.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/checked.gif');
 }
 
 .x-tbar-page-first {
@@ -3150,43 +3004,35 @@ span.course-title:hover {
 }
 
 .x-item-disabled .x-tbar-page-prev {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/page-prev-disabled.gif') !important;
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/page-prev-disabled.gif') !important;
 }
 
 .xg-hmenu-sort-asc .x-menu-item-icon {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/hmenu-asc.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/hmenu-asc.gif');
 }
 
 .xg-hmenu-sort-desc .x-menu-item-icon {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/hmenu-desc.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/hmenu-desc.gif');
 }
 
 .xg-hmenu-lock .x-menu-item-icon {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/hmenu-lock.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/hmenu-lock.gif');
 }
 
 .xg-hmenu-unlock .x-menu-item-icon {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/hmenu-unlock.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/hmenu-unlock.gif');
 }
 
 .x-group-by-icon {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/group-by.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/group-by.gif');
 }
 
 .x-cols-icon .x-menu-item-icon {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/columns.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/columns.gif');
 }
 
 .x-show-groups-icon {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/group-by.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/group-by.gif');
 }
 
 .x-grid-drop-indicator {
@@ -3201,8 +3047,7 @@ span.course-title:hover {
     position: absolute;
     top: -8px;
     left: -12px;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/dd-insert-arrow-right.png');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/dd-insert-arrow-right.png');
     height: 16px;
     width: 16px;
 }
@@ -3211,20 +3056,17 @@ span.course-title:hover {
     position: absolute;
     top: -8px;
     right: -11px;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/dd-insert-arrow-left.png');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/dd-insert-arrow-left.png');
     height: 16px;
     width: 16px;
 }
 
 .x-ie6 .x-grid-drop-indicator-left {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/dd-insert-arrow-right.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/dd-insert-arrow-right.gif');
 }
 
 .x-ie6 .x-grid-drop-indicator-right {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/dd-insert-arrow-left.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/dd-insert-arrow-left.gif');
 }
 
 .x-grid-row-editor {
@@ -3281,8 +3123,7 @@ span.course-title:hover {
     width: 4px;
     height: 4px;
     bottom: 0;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel/panel-default-framed-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel/panel-default-framed-corners.gif');
 }
 
 .x-grid-row-editor-buttons-bl {
@@ -3402,8 +3243,7 @@ span.course-title:hover {
     background: repeat-x 0 0;
     border: 1px solid;
     background-color: white;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/form/text-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/form/text-bg.gif');
     border-color: #b5b8c8;
 }
 
@@ -3428,8 +3268,7 @@ textarea.x-form-field {
     line-height: normal;
     background: repeat-x 0 0;
     background-color: white;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/form/text-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/form/text-bg.gif');
     resize: none;
 }
 
@@ -3447,8 +3286,7 @@ textarea.x-form-field {
 
 .x-form-invalid-field,textarea.x-form-invalid-field {
     background-color: white;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/grid/invalid_line.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/invalid_line.gif');
     background-repeat: repeat-x;
     background-position: bottom;
     border-color: #c30;
@@ -3633,8 +3471,7 @@ textarea.x-form-field {
 }
 
 .x-form-radio {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/form/radio.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/form/radio.gif');
 }
 
 .x-form-cb-label-before {
@@ -3673,8 +3510,7 @@ textarea.x-form-field {
 }
 
 .x-form-trigger {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/form/trigger.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/form/trigger.gif');
     background-position: 0 0;
     width: 17px;
     height: 21px;
@@ -3731,19 +3567,16 @@ textarea.x-form-field {
 }
 
 .x-form-arrow-trigger .x-form-trigger-icon {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/boundlist/trigger-arrow.png');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/boundlist/trigger-arrow.png');
 }
 
 .x-form-date-trigger {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/form/date-trigger.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/form/date-trigger.gif');
 }
 
 .x-form-trigger-wrap .x-form-spinner-up,.x-form-trigger-wrap .x-form-spinner-down
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/form/spinner.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/form/spinner.gif');
     width: 17px;
     height: 11px;
     font-size: 0;
@@ -4087,18 +3920,15 @@ textarea.x-form-field {
 }
 
 .x-nlg .x-panel-header-default-bottom {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-bottom-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-bottom-bg.gif');
 }
 
 .x-nlg .x-panel-header-default-left {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-left-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-left-bg.gif');
 }
 
 .x-nlg .x-panel-header-default-right {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-right-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-right-bg.gif');
 }
 
 .x-panel-header-text-default {
@@ -4182,23 +4012,19 @@ textarea.x-form-field {
 }
 
 .x-nlg .x-panel-header-default-framed-top {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-top-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-top-bg.gif');
 }
 
 .x-nlg .x-panel-header-default-framed-bottom {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-bottom-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-bottom-bg.gif');
 }
 
 .x-nlg .x-panel-header-default-framed-left {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-left-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-left-bg.gif');
 }
 
 .x-nlg .x-panel-header-default-framed-right {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-right-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-right-bg.gif');
 }
 
 .x-panel-header-text-default-framed {
@@ -4255,14 +4081,12 @@ textarea.x-form-field {
 .x-nbr .x-panel-default-framed-tl,.x-nbr .x-panel-default-framed-bl,.x-nbr .x-panel-default-framed-tr,.x-nbr .x-panel-default-framed-br,.x-nbr .x-panel-default-framed-tc,.x-nbr .x-panel-default-framed-bc,.x-nbr .x-panel-default-framed-ml,.x-nbr .x-panel-default-framed-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel/panel-default-framed-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel/panel-default-framed-corners.gif');
 }
 
 .x-nbr .x-panel-default-framed-ml,.x-nbr .x-panel-default-framed-mr {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel/panel-default-framed-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel/panel-default-framed-sides.gif');
     background-position: 0 0;
     background-repeat: repeat-y;
 }
@@ -4285,8 +4109,7 @@ textarea.x-form-field {
 }
 
 .x-nlg .x-panel-header-default-framed-top-mc {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-top-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-top-bg.gif');
     background-color: #d7d2d2;
 }
 
@@ -4301,15 +4124,13 @@ textarea.x-form-field {
 .x-nbr .x-panel-header-default-framed-top-tl,.x-nbr .x-panel-header-default-framed-top-bl,.x-nbr .x-panel-header-default-framed-top-tr,.x-nbr .x-panel-header-default-framed-top-br,.x-nbr .x-panel-header-default-framed-top-tc,.x-nbr .x-panel-header-default-framed-top-bc,.x-nbr .x-panel-header-default-framed-top-ml,.x-nbr .x-panel-header-default-framed-top-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-top-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-top-corners.gif');
 }
 
 .x-nbr .x-panel-header-default-framed-top-ml,.x-nbr .x-panel-header-default-framed-top-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-top-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-top-sides.gif');
     background-position: 0 0;
 }
 
@@ -4331,8 +4152,7 @@ textarea.x-form-field {
 }
 
 .x-nlg .x-panel-header-default-framed-right-mc {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-right-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-right-bg.gif');
     background-color: #d7d2d2;
 }
 
@@ -4347,15 +4167,13 @@ textarea.x-form-field {
 .x-nbr .x-panel-header-default-framed-right-tl,.x-nbr .x-panel-header-default-framed-right-bl,.x-nbr .x-panel-header-default-framed-right-tr,.x-nbr .x-panel-header-default-framed-right-br,.x-nbr .x-panel-header-default-framed-right-tc,.x-nbr .x-panel-header-default-framed-right-bc,.x-nbr .x-panel-header-default-framed-right-ml,.x-nbr .x-panel-header-default-framed-right-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-right-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-right-corners.gif');
 }
 
 .x-nbr .x-panel-header-default-framed-right-tc,.x-nbr .x-panel-header-default-framed-right-bc
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-right-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-right-sides.gif');
     background-position: 0 0;
     background-repeat: repeat-x;
 }
@@ -4378,8 +4196,7 @@ textarea.x-form-field {
 }
 
 .x-nlg .x-panel-header-default-framed-bottom-mc {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-bottom-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-bottom-bg.gif');
     background-color: #d7d2d2;
 }
 
@@ -4394,15 +4211,13 @@ textarea.x-form-field {
 .x-nbr .x-panel-header-default-framed-bottom-tl,.x-nbr .x-panel-header-default-framed-bottom-bl,.x-nbr .x-panel-header-default-framed-bottom-tr,.x-nbr .x-panel-header-default-framed-bottom-br,.x-nbr .x-panel-header-default-framed-bottom-tc,.x-nbr .x-panel-header-default-framed-bottom-bc,.x-nbr .x-panel-header-default-framed-bottom-ml,.x-nbr .x-panel-header-default-framed-bottom-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-bottom-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-bottom-corners.gif');
 }
 
 .x-nbr .x-panel-header-default-framed-bottom-ml,.x-nbr .x-panel-header-default-framed-bottom-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-bottom-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-bottom-sides.gif');
     background-position: 0 0;
 }
 
@@ -4424,8 +4239,7 @@ textarea.x-form-field {
 }
 
 .x-nlg .x-panel-header-default-framed-left-mc {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-left-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-left-bg.gif');
     background-color: #d7d2d2;
 }
 
@@ -4440,15 +4254,13 @@ textarea.x-form-field {
 .x-nbr .x-panel-header-default-framed-left-tl,.x-nbr .x-panel-header-default-framed-left-bl,.x-nbr .x-panel-header-default-framed-left-tr,.x-nbr .x-panel-header-default-framed-left-br,.x-nbr .x-panel-header-default-framed-left-tc,.x-nbr .x-panel-header-default-framed-left-bc,.x-nbr .x-panel-header-default-framed-left-ml,.x-nbr .x-panel-header-default-framed-left-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-left-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-left-corners.gif');
 }
 
 .x-nbr .x-panel-header-default-framed-left-tc,.x-nbr .x-panel-header-default-framed-left-bc
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-left-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-left-sides.gif');
     background-position: 0 0;
     background-repeat: repeat-x;
 }
@@ -4515,8 +4327,7 @@ textarea.x-form-field {
 }
 
 .x-nlg .x-panel-header-default-framed-collapsed-top-mc {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-collapsed-top-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-collapsed-top-bg.gif');
     background-color: #d7d2d2;
 }
 
@@ -4559,8 +4370,7 @@ textarea.x-form-field {
 }
 
 .x-nlg .x-panel-header-default-framed-collapsed-right-mc {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-collapsed-right-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-collapsed-right-bg.gif');
     background-color: #d7d2d2;
 }
 
@@ -4575,15 +4385,13 @@ textarea.x-form-field {
 .x-nbr .x-panel-header-default-framed-collapsed-right-tl,.x-nbr .x-panel-header-default-framed-collapsed-right-bl,.x-nbr .x-panel-header-default-framed-collapsed-right-tr,.x-nbr .x-panel-header-default-framed-collapsed-right-br,.x-nbr .x-panel-header-default-framed-collapsed-right-tc,.x-nbr .x-panel-header-default-framed-collapsed-right-bc,.x-nbr .x-panel-header-default-framed-collapsed-right-ml,.x-nbr .x-panel-header-default-framed-collapsed-right-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-collapsed-right-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-collapsed-right-corners.gif');
 }
 
 .x-nbr .x-panel-header-default-framed-collapsed-right-tc,.x-nbr .x-panel-header-default-framed-collapsed-right-bc
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-collapsed-right-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-collapsed-right-sides.gif');
     background-position: 0 0;
     background-repeat: repeat-x;
 }
@@ -4606,8 +4414,7 @@ textarea.x-form-field {
 }
 
 .x-nlg .x-panel-header-default-framed-collapsed-bottom-mc {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-collapsed-bottom-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-collapsed-bottom-bg.gif');
     background-color: #d7d2d2;
 }
 
@@ -4622,15 +4429,13 @@ textarea.x-form-field {
 .x-nbr .x-panel-header-default-framed-collapsed-bottom-tl,.x-nbr .x-panel-header-default-framed-collapsed-bottom-bl,.x-nbr .x-panel-header-default-framed-collapsed-bottom-tr,.x-nbr .x-panel-header-default-framed-collapsed-bottom-br,.x-nbr .x-panel-header-default-framed-collapsed-bottom-tc,.x-nbr .x-panel-header-default-framed-collapsed-bottom-bc,.x-nbr .x-panel-header-default-framed-collapsed-bottom-ml,.x-nbr .x-panel-header-default-framed-collapsed-bottom-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-collapsed-bottom-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-collapsed-bottom-corners.gif');
 }
 
 .x-nbr .x-panel-header-default-framed-collapsed-bottom-ml,.x-nbr .x-panel-header-default-framed-collapsed-bottom-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-collapsed-bottom-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-collapsed-bottom-sides.gif');
     background-position: 0 0;
 }
 
@@ -4652,8 +4457,7 @@ textarea.x-form-field {
 }
 
 .x-nlg .x-panel-header-default-framed-collapsed-left-mc {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-collapsed-left-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-collapsed-left-bg.gif');
     background-color: #d7d2d2;
 }
 
@@ -4668,15 +4472,13 @@ textarea.x-form-field {
 .x-nbr .x-panel-header-default-framed-collapsed-left-tl,.x-nbr .x-panel-header-default-framed-collapsed-left-bl,.x-nbr .x-panel-header-default-framed-collapsed-left-tr,.x-nbr .x-panel-header-default-framed-collapsed-left-br,.x-nbr .x-panel-header-default-framed-collapsed-left-tc,.x-nbr .x-panel-header-default-framed-collapsed-left-bc,.x-nbr .x-panel-header-default-framed-collapsed-left-ml,.x-nbr .x-panel-header-default-framed-collapsed-left-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-collapsed-left-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-collapsed-left-corners.gif');
 }
 
 .x-nbr .x-panel-header-default-framed-collapsed-left-tc,.x-nbr .x-panel-header-default-framed-collapsed-left-bc
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-collapsed-left-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-collapsed-left-sides.gif');
     background-position: 0 0;
     background-repeat: repeat-x;
 }
@@ -4739,14 +4541,12 @@ textarea.x-form-field {
 .x-nbr .x-tip-tl,.x-nbr .x-tip-bl,.x-nbr .x-tip-tr,.x-nbr .x-tip-br,.x-nbr .x-tip-tc,.x-nbr .x-tip-bc,.x-nbr .x-tip-ml,.x-nbr .x-tip-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/tip/tip-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/tip/tip-corners.gif');
 }
 
 .x-nbr .x-tip-ml,.x-nbr .x-tip-mr {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/tip/tip-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/tip/tip-sides.gif');
     background-position: 0 0;
     background-repeat: repeat-y;
 }
@@ -4846,8 +4646,7 @@ textarea.x-form-field {
 
 .x-form-invalid-tip-body {
     background: 1px 1px no-repeat;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/form/exclamation.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/form/exclamation.gif');
     padding-left: 22px;
 }
 
@@ -4882,15 +4681,13 @@ textarea.x-form-field {
 .x-nbr .x-form-invalid-tip-default-tl,.x-nbr .x-form-invalid-tip-default-bl,.x-nbr .x-form-invalid-tip-default-tr,.x-nbr .x-form-invalid-tip-default-br,.x-nbr .x-form-invalid-tip-default-tc,.x-nbr .x-form-invalid-tip-default-bc,.x-nbr .x-form-invalid-tip-default-ml,.x-nbr .x-form-invalid-tip-default-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/form-invalid-tip/form-invalid-tip-default-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/form-invalid-tip/form-invalid-tip-default-corners.gif');
 }
 
 .x-nbr .x-form-invalid-tip-default-ml,.x-nbr .x-form-invalid-tip-default-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/form-invalid-tip/form-invalid-tip-default-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/form-invalid-tip/form-invalid-tip-default-sides.gif');
     background-position: 0 0;
     background-repeat: repeat-y;
 }
@@ -4993,46 +4790,38 @@ textarea.x-form-field {
 
 .x-slider-horz,.x-slider-horz .x-slider-end,.x-slider-horz .x-slider-inner
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-bg.png');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-bg.png');
 }
 
 .x-slider-horz .x-slider-thumb {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-thumb.png');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-thumb.png');
 }
 
 .x-slider-vert,.x-slider-vert .x-slider-end,.x-slider-vert .x-slider-inner
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-v-bg.png');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-v-bg.png');
 }
 
 .x-slider-vert .x-slider-thumb {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-v-thumb.png');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-v-thumb.png');
 }
 
 .x-ie6 .x-slider-horz,.x-ie6 .x-slider-horz .x-slider-end,.x-ie6 .x-slider-horz .x-slider-inner
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-bg.gif');
 }
 
 .x-ie6 .x-slider-horz .x-slider-thumb {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-thumb.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-thumb.gif');
 }
 
 .x-ie6 .x-slider-vert,.x-ie6 .x-slider-vert .x-slider-end,.x-ie6 .x-slider-vert .x-slider-inner
 {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-v-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-v-bg.gif');
 }
 
 .x-ie6 .x-slider-vert .x-slider-thumb {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-v-thumb.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-v-thumb.gif');
 }
 
 .x-progress {
@@ -5188,8 +4977,7 @@ textarea.x-form-field {
 }
 
 .x-toolbar-more-icon {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/toolbar/more.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/toolbar/more.gif');
     background-position: 2px center;
     background-repeat: no-repeat;
 }
@@ -5294,14 +5082,12 @@ textarea.x-form-field {
 .x-nbr .x-window-default-tl,.x-nbr .x-window-default-bl,.x-nbr .x-window-default-tr,.x-nbr .x-window-default-br,.x-nbr .x-window-default-tc,.x-nbr .x-window-default-bc,.x-nbr .x-window-default-ml,.x-nbr .x-window-default-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/window/window-default-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/window/window-default-corners.gif');
 }
 
 .x-nbr .x-window-default-ml,.x-nbr .x-window-default-mr {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/window/window-default-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/window/window-default-sides.gif');
     background-position: 0 0;
     background-repeat: repeat-y;
 }
@@ -5356,15 +5142,13 @@ textarea.x-form-field {
 .x-nbr .x-window-header-default-top-tl,.x-nbr .x-window-header-default-top-bl,.x-nbr .x-window-header-default-top-tr,.x-nbr .x-window-header-default-top-br,.x-nbr .x-window-header-default-top-tc,.x-nbr .x-window-header-default-top-bc,.x-nbr .x-window-header-default-top-ml,.x-nbr .x-window-header-default-top-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/window-header/window-header-default-top-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/window-header/window-header-default-top-corners.gif');
 }
 
 .x-nbr .x-window-header-default-top-ml,.x-nbr .x-window-header-default-top-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/window-header/window-header-default-top-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/window-header/window-header-default-top-sides.gif');
     background-position: 0 0;
     background-repeat: repeat-y;
 }
@@ -5399,15 +5183,13 @@ textarea.x-form-field {
 .x-nbr .x-window-header-default-right-tl,.x-nbr .x-window-header-default-right-bl,.x-nbr .x-window-header-default-right-tr,.x-nbr .x-window-header-default-right-br,.x-nbr .x-window-header-default-right-tc,.x-nbr .x-window-header-default-right-bc,.x-nbr .x-window-header-default-right-ml,.x-nbr .x-window-header-default-right-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/window-header/window-header-default-right-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/window-header/window-header-default-right-corners.gif');
 }
 
 .x-nbr .x-window-header-default-right-ml,.x-nbr .x-window-header-default-right-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/window-header/window-header-default-right-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/window-header/window-header-default-right-sides.gif');
     background-position: 0 0;
     background-repeat: repeat-y;
 }
@@ -5442,15 +5224,13 @@ textarea.x-form-field {
 .x-nbr .x-window-header-default-bottom-tl,.x-nbr .x-window-header-default-bottom-bl,.x-nbr .x-window-header-default-bottom-tr,.x-nbr .x-window-header-default-bottom-br,.x-nbr .x-window-header-default-bottom-tc,.x-nbr .x-window-header-default-bottom-bc,.x-nbr .x-window-header-default-bottom-ml,.x-nbr .x-window-header-default-bottom-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/window-header/window-header-default-bottom-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/window-header/window-header-default-bottom-corners.gif');
 }
 
 .x-nbr .x-window-header-default-bottom-ml,.x-nbr .x-window-header-default-bottom-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/window-header/window-header-default-bottom-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/window-header/window-header-default-bottom-sides.gif');
     background-position: 0 0;
     background-repeat: repeat-y;
 }
@@ -5485,15 +5265,13 @@ textarea.x-form-field {
 .x-nbr .x-window-header-default-left-tl,.x-nbr .x-window-header-default-left-bl,.x-nbr .x-window-header-default-left-tr,.x-nbr .x-window-header-default-left-br,.x-nbr .x-window-header-default-left-tc,.x-nbr .x-window-header-default-left-bc,.x-nbr .x-window-header-default-left-ml,.x-nbr .x-window-header-default-left-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/window-header/window-header-default-left-corners.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/window-header/window-header-default-left-corners.gif');
 }
 
 .x-nbr .x-window-header-default-left-ml,.x-nbr .x-window-header-default-left-mr
 {
     zoom: 1;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/window-header/window-header-default-left-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/window-header/window-header-default-left-sides.gif');
     background-position: 0 0;
     background-repeat: repeat-y;
 }
@@ -5554,28 +5332,23 @@ textarea.x-form-field {
 }
 
 .x-message-box .x-msg-box-wait {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/shared/blue-loading.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/shared/blue-loading.gif');
 }
 
 .x-message-box .ext-mb-info {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/shared/icon-info.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/shared/icon-info.gif');
 }
 
 .x-message-box .ext-mb-warning {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/shared/icon-warning.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/shared/icon-warning.gif');
 }
 
 .x-message-box .ext-mb-question {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/shared/icon-question.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/shared/icon-question.gif');
 }
 
 .x-message-box .ext-mb-error {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/shared/icon-error.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/shared/icon-error.gif');
 }
 
 .x-tab-bar {
@@ -5588,8 +5361,7 @@ textarea.x-form-field {
 }
 
 .x-nlg .x-tab-bar {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/tab-bar/tab-bar-bg.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/tab-bar/tab-bar-bg.gif');
 }
 
 .x-tab-bar-default-plain,.x-nlg .x-tab-bar-default-plain {
@@ -6038,8 +5810,7 @@ textarea.x-form-field {
 }
 
 .x-nbr .x-tab-top-over .x-frame-ml,.x-nbr .x-tab-top-over .x-frame-mr {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/tab/tab-default-top-over-sides.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/tab/tab-default-top-over-sides.gif');
 }
 
 .x-nbr .x-tab-top-over .x-frame-mc {
@@ -6634,8 +6405,7 @@ textarea.x-form-field {
 .x-resizable-over .x-resizable-handle-northeast,.x-resizable-pinned .x-resizable-handle-northeast
 {
     background-position: bottom left;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/sizer/ne-handle.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/sizer/ne-handle.gif');
 }
 
 .x-resizable-over .x-resizable-handle-southwest,.x-resizable-pinned .x-resizable-handle-southwest
@@ -6899,8 +6669,7 @@ textarea.x-form-field {
     cursor: pointer;
     height: 20px;
     background: transparent no-repeat -18px 0;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/tab-bar/scroll-left.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/tab-bar/scroll-left.gif');
 }
 
 .x-box-scroller-left .x-toolbar-scroll-left-hover {
@@ -6916,8 +6685,7 @@ textarea.x-form-field {
 }
 
 .x-box-scroller-left .x-toolbar-scroll-left {
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/toolbar/scroll-left.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/toolbar/scroll-left.gif');
     background-position: -14px 0;
 }
 
@@ -6952,8 +6720,7 @@ textarea.x-form-field {
     cursor: pointer;
     height: 20px;
     background: transparent no-repeat 0 0;
-    background-image:
-        url('../../../../media/com_thm_organizer/images/curriculum/tab-bar/scroll-right.gif');
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/tab-bar/scroll-right.gif');
 }
 
 .x-box-scroller-right .x-toolbar-scroll-right-hover {

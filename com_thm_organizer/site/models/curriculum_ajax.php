@@ -229,10 +229,10 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
         $dbo->setQuery((string) $query);
         $currentSchedules = $dbo->loadAssocList();
 
-        foreach($currentSchedules as $currentSchedule)
+        foreach ($currentSchedules as $currentSchedule)
         {
             $schedule = json_decode($currentSchedule['schedule']);
-            foreach ((array)$schedule->degrees as $program)
+            foreach ((array) $schedule->degrees as $program)
             {
                 if ($program->name == $programName)
                 {
@@ -280,8 +280,8 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
         }
         if (!empty($teacherData['gpuntisID']))
         {
-            $subjectData->teacherScheduleLink =
-                JRoute::_($this->_scheduleLink . "&teacherID={$teacherData['gpuntisID']}");
+            $subjectData->teacherScheduleLink
+                = JRoute::_($this->_scheduleLink . "&teacherID={$teacherData['gpuntisID']}");
         }
     }    
 }
