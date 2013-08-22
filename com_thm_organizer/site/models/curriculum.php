@@ -24,7 +24,7 @@ class THM_OrganizerModelCurriculum extends JModel
     /**
      * Gets the name of the program selected
      * 
-     * @param   int  $programID   the id of the degree program being modeled
+     * @param   int  $programID  the id of the degree program being modeled
      * 
      * @return  string  the name of the program
      */

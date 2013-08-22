@@ -1,13 +1,13 @@
-.flag{
+.flag {
     float: right;
     clear: both;
 }
 
-div.course-title-container{
+div.course-title-container {
     padding: 3px;
 }
 
-div.course-title-container > a.course-title{
+div.course-title-container > a.course-title {
     font-weight: normal;
 }
 
@@ -47,7 +47,7 @@ span.course-title:hover {
 .x-panel-header-horizontal,.x-panel-header,.x-panel-header-default,
 .x-panel-header-horizontal,.x-panel-header-default-horizontal,.x-top,
 .x-panel-header-top,.x-panel-header-default-top,.x-panel-header-docked-top,
-.x-panel-header-default-docked-top{
+.x-panel-header-default-docked-top {
     box-sizing: border-box;
 }
 
@@ -133,9 +133,6 @@ span.course-title:hover {
 
 .x-frame-shadow * {
     overflow: hidden;
-}
-
-.x-frame-shadow * {
     padding: 0;
     border: 0;
     margin: 0;
@@ -184,7 +181,7 @@ span.course-title:hover {
     background: transparent repeat-x 0 -6px;
 }
 
-.x-frame-shadow .xstl,.x-frame-shadow .xstc,.x-frame-shadow .xstr,.x-frame-shadow .xsbl,.x-frame-shadow .xsbc,.x-frame-shadow .xsbr{
+.x-frame-shadow .xstl,.x-frame-shadow .xstc,.x-frame-shadow .xstr,.x-frame-shadow .xsbl,.x-frame-shadow .xsbc,.x-frame-shadow .xsbr {
     width: 6px;
     height: 6px;
     float: left;
@@ -213,16 +210,19 @@ span.course-title:hover {
 .x-box-tl {
     background: transparent no-repeat 0 0;
     zoom: 1;
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/corners.gif');
 }
 
 .x-box-tc {
     height: 8px;
     background: transparent repeat-x 0 0;
     overflow: hidden;
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/tb.gif');
 }
 
 .x-box-tr {
     background: transparent no-repeat right -8px;
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/corners.gif');
 }
 
 .x-box-ml {
@@ -230,6 +230,7 @@ span.course-title:hover {
     padding-left: 4px;
     overflow: hidden;
     zoom: 1;
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/l.gif');
 }
 
 .x-box-mc {
@@ -240,27 +241,33 @@ span.course-title:hover {
 .x-box-mc h3 {
     margin: 0 0 4px 0;
     zoom: 1;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .x-box-mr {
     background: transparent repeat-y right;
     padding-right: 4px;
     overflow: hidden;
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/r.gif');
 }
 
 .x-box-bl {
     background: transparent no-repeat 0 -16px;
     zoom: 1;
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/corners.gif');
 }
 
 .x-box-bc {
     background: transparent repeat-x 0 -8px;
     height: 8px;
     overflow: hidden;
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/tb.gif');
 }
 
 .x-box-br {
     background: transparent no-repeat right -24px;
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/corners.gif');
 }
 
 .x-box-tl,.x-box-bl {
@@ -273,53 +280,15 @@ span.course-title:hover {
     overflow: hidden;
 }
 
-.x-box-tl {
-    background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/corners.gif');
-}
-
-.x-box-tc {
-    background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/tb.gif');
-}
-
-.x-box-tr {
-    background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/corners.gif');
-}
-
-.x-box-ml {
-    background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/l.gif');
-}
-
 .x-box-mc {
     background-color: #eee;
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/tb.gif');
-    font-family: "Myriad Pro", "Myriad Web", "Tahoma", "Helvetica", "Arial",
-        sans-serif;
+    font-family: "Myriad Pro", "Myriad Web", "Tahoma", "Helvetica", "Arial", sans-serif;
     color: #393939;
     font-size: 15px;
 }
 
-.x-box-mc h3 {
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.x-box-mr {
-    background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/r.gif');
-}
-
-.x-box-bl {
-    background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/corners.gif');
-}
-
-.x-box-bc {
-    background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/tb.gif');
-}
-
-.x-box-br {
-    background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/corners.gif');
-}
-
-.x-box-blue .x-box-bl,.x-box-blue .x-box-br,.x-box-blue .x-box-tl,.x-box-blue .x-box-tr{
+.x-box-blue .x-box-bl,.x-box-blue .x-box-br,.x-box-blue .x-box-tl,.x-box-blue .x-box-tr {
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/corners-blue.gif');
 }
 
@@ -360,7 +329,7 @@ span.course-title:hover {
     height: 0;
 }
 
-.x-focus-frame-top,.x-focus-frame-bottom,.x-focus-frame-left,.x-focus-frame-right{
+.x-focus-frame-top,.x-focus-frame-bottom,.x-focus-frame-left,.x-focus-frame-right {
     position: absolute;
     top: 0;
     left: 0;
@@ -516,7 +485,7 @@ span.course-title:hover {
     filter: none;
 }
 
-.x-ie6 .x-btn-disabled .x-btn-icon,.x-ie7 .x-btn-disabled .x-btn-icon,.x-ie8 .x-btn-disabled .x-btn-icon{
+.x-ie6 .x-btn-disabled .x-btn-icon,.x-ie7 .x-btn-disabled .x-btn-icon,.x-ie8 .x-btn-disabled .x-btn-icon {
     filter: alpha(opacity = 60);
     opacity: .6;
 }
@@ -530,7 +499,7 @@ span.course-title:hover {
     vertical-align: baseline;
 }
 
-.x-strict .x-ie6 .x-btn .x-frame-mc,.x-strict .x-ie7 .x-btn .x-frame-mc{
+.x-strict .x-ie6 .x-btn .x-frame-mc,.x-strict .x-ie7 .x-btn .x-frame-mc {
     height: 100%;
 }
 
@@ -632,9 +601,6 @@ span.course-title:hover {
 
 .x-btn-default-small {
     border-color: #bbb;
-}
-
-.x-btn-default-small {
     border-radius: 3px;
     padding: 2px 2px 2px 2px;
     border-width: 1px;
@@ -722,7 +688,7 @@ span.course-title:hover {
     right: auto;
 }
 
-.x-ie6 .x-btn-default-small-icon-text-left .x-btn-icon,.x-quirks .x-btn-default-small-icon-text-left .x-btn-icon{
+.x-ie6 .x-btn-default-small-icon-text-left .x-btn-icon,.x-quirks .x-btn-default-small-icon-text-left .x-btn-icon {
     height: 16px;
 }
 
@@ -745,7 +711,7 @@ span.course-title:hover {
     right: 0;
 }
 
-.x-ie6 .x-btn-default-small-icon-text-right .x-btn-icon,.x-quirks .x-btn-default-small-icon-text-right .x-btn-icon{
+.x-ie6 .x-btn-default-small-icon-text-right .x-btn-icon,.x-quirks .x-btn-default-small-icon-text-right .x-btn-icon {
     height: 16px;
 }
 
@@ -762,7 +728,7 @@ span.course-title:hover {
     right: 0;
 }
 
-.x-ie6 .x-btn-default-small-icon-text-top .x-btn-icon,.x-quirks .x-btn-default-small-icon-text-top .x-btn-icon{
+.x-ie6 .x-btn-default-small-icon-text-top .x-btn-icon,.x-quirks .x-btn-default-small-icon-text-top .x-btn-icon {
     width: 16px;
 }
 
@@ -829,7 +795,7 @@ span.course-title:hover {
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-over-corners.gif');
 }
 
-.x-nbr .x-btn-default-small-over .x-frame-ml,.x-nbr .x-btn-default-small-over .x-frame-mr{
+.x-nbr .x-btn-default-small-over .x-frame-ml,.x-nbr .x-btn-default-small-over .x-frame-mr {
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-small-over-sides.gif');
 }
 
@@ -912,9 +878,6 @@ span.course-title:hover {
 
 .x-btn-default-medium {
     border-color: #bbb;
-}
-
-.x-btn-default-medium {
     border-radius: 3px;
     padding: 3px 3px 3px 3px;
     border-width: 1px;
@@ -1183,8 +1146,7 @@ span.course-title:hover {
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-focus-bg.gif');
 }
 
-.x-nlg .x-btn-default-medium-menu-active,.x-nlg .x-btn-default-medium-pressed
-{
+.x-nlg .x-btn-default-medium-menu-active,.x-nlg .x-btn-default-medium-pressed {
     background-repeat: repeat-x;
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/btn/btn-default-medium-pressed-bg.gif');
 }
@@ -1196,9 +1158,6 @@ span.course-title:hover {
 
 .x-btn-default-large {
     border-color: #bbb;
-}
-
-.x-btn-default-large {
     border-radius: 3px;
     padding: 3px 3px 3px 3px;
     border-width: 1px;
@@ -1480,9 +1439,6 @@ span.course-title:hover {
 
 .x-btn-default-toolbar-small {
     border-color: transparent;
-}
-
-.x-btn-default-toolbar-small {
     border-radius: 3px;
     padding: 2px 2px 2px 2px;
     border-width: 1px;
@@ -1748,9 +1704,6 @@ span.course-title:hover {
 
 .x-btn-default-toolbar-medium {
     border-color: transparent;
-}
-
-.x-btn-default-toolbar-medium {
     border-radius: 3px;
     padding: 3px 3px 3px 3px;
     border-width: 1px;
@@ -2016,9 +1969,6 @@ span.course-title:hover {
 
 .x-btn-default-toolbar-large {
     border-color: transparent;
-}
-
-.x-btn-default-toolbar-large {
     border-radius: 3px;
     padding: 3px 3px 3px 3px;
     border-width: 1px;
@@ -2314,6 +2264,8 @@ span.course-title:hover {
     border-width: 1px;
     border-style: solid;
     background-color: #d0def0;
+    border-color: #b7c8d7;
+    box-shadow: #e3ebf5 0 1px 0 0 inset, #e3ebf5 0 -1px 0 0 inset, #e3ebf5 -1px 0 0 0 inset, #e3ebf5 1px 0 0 0 inset;
 }
 
 .x-nlg .x-btn-group-default-framed-mc {
@@ -2344,12 +2296,6 @@ span.course-title:hover {
 
 .x-nbr .x-btn-group-default-framed-mc {
     padding: 0;
-}
-
-.x-btn-group-default-framed {
-    border-color: #b7c8d7;
-    box-shadow: #e3ebf5 0 1px 0 0 inset, #e3ebf5 0 -1px 0 0 inset, #e3ebf5
-        -1px 0 0 0 inset, #e3ebf5 1px 0 0 0 inset;
 }
 
 .x-btn-group-header-default-framed {
@@ -2466,8 +2412,7 @@ span.course-title:hover {
     height: 9px;
     top: 9px;
     right: 0;
-    background: url('../../../../media/com_thm_organizer/images/curriculum/menu/menu-parent.gif')
-        no-repeat center center;
+    background: url('../../../../media/com_thm_organizer/images/curriculum/menu/menu-parent.gif') no-repeat center center;
 }
 
 .x-menu-item-indent {
@@ -2710,7 +2655,7 @@ span.course-title:hover {
 
 .x-grid-rowbody {
     font: normal 11px/13px tahoma, arial, verdana, sans-serif;
-    padding: 4px;
+    padding: 0px;
 }
 
 .x-grid-rowbody p {
@@ -2807,10 +2752,6 @@ span.course-title:hover {
 
 .x-quirks .x-ie .x-grid-row .x-grid-property-name .x-grid-cell-inner {
     background-position: -16px 2px;
-}
-
-.x-grid-row-body-hidden {
-    display: none;
 }
 
 .x-grid-group-collapsed {
@@ -3023,16 +2964,8 @@ span.course-title:hover {
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/hmenu-unlock.gif');
 }
 
-.x-group-by-icon {
-    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/group-by.gif');
-}
-
 .x-cols-icon .x-menu-item-icon {
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/columns.gif');
-}
-
-.x-show-groups-icon {
-    background-image: url('../../../../media/com_thm_organizer/images/curriculum/grid/group-by.gif');
 }
 
 .x-grid-drop-indicator {
@@ -3179,6 +3112,7 @@ span.course-title:hover {
     zoom: 1;
     position: relative;
     margin-bottom: 5px;
+    font: normal 12px tahoma, arial, verdana, sans-serif;
 }
 
 .x-form-item-label {
@@ -3292,10 +3226,6 @@ textarea.x-form-field {
     border-color: #c30;
 }
 
-.x-form-item {
-    font: normal 12px tahoma, arial, verdana, sans-serif;
-}
-
 .x-form-empty-field,textarea.x-form-empty-field {
     color: gray;
 }
@@ -3331,6 +3261,7 @@ textarea.x-form-field {
     padding: 10px;
     margin-bottom: 10px;
     display: block;
+    overflow: hidden;
 }
 
 .x-ie .x-fieldset {
@@ -3405,10 +3336,6 @@ textarea.x-form-field {
 .x-ie .x-fieldset-noborder legend span {
     position: absolute;
     left: 16px;
-}
-
-.x-fieldset {
-    overflow: hidden;
 }
 
 .x-fieldset-bwrap {
@@ -3656,6 +3583,9 @@ textarea.x-form-field {
 
 .x-html-editor-wrap textarea {
     background-color: white;
+    border: 0;
+    padding: 3px 2px;
+    overflow: auto;
 }
 
 .x-html-editor-tip .x-tip-bd .x-tip-bd-inner {
@@ -3669,12 +3599,6 @@ textarea.x-form-field {
 
 .x-html-editor-tb .x-font-select {
     font-size: 11px;
-}
-
-.x-html-editor-wrap textarea {
-    border: 0;
-    padding: 3px 2px;
-    overflow: auto;
 }
 
 .x-panel,.x-plain {
@@ -3692,8 +3616,8 @@ textarea.x-form-field {
 }
 
 .x-panel-header {
-    padding: 5px 4px 4px 5px;
     background-color: #fafad2;
+    padding: 1px;
 }
 
 .x-panel-header-icon,.x-window-header-icon {
@@ -3850,10 +3774,6 @@ textarea.x-form-field {
     cursor: pointer;
 }
 
-.x-panel-header {
-    padding: 1px;
-}
-
 .panel_wahlpflicht {
     font-size: 1px;
     line-height: 15px;
@@ -3920,6 +3840,7 @@ textarea.x-form-field {
 }
 
 .x-nlg .x-panel-header-default-bottom {
+    background-position: bottom left;
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-bottom-bg.gif');
 }
 
@@ -3928,6 +3849,7 @@ textarea.x-form-field {
 }
 
 .x-nlg .x-panel-header-default-right {
+    background-position: top right;
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-right-bg.gif');
 }
 
@@ -3961,10 +3883,6 @@ textarea.x-form-field {
     background-image: linear-gradient(right, #f0f0f0, #d7d7d7);
 }
 
-.x-nlg .x-panel-header-default-right {
-    background-position: top right;
-}
-
 .x-panel-header-default-top {
     box-shadow: #efeded 0 0 0 0 inset;
 }
@@ -3981,10 +3899,6 @@ textarea.x-form-field {
     box-shadow: #efeded 1px 0 0 0 inset;
 }
 
-.x-nlg .x-panel-header-default-bottom {
-    background-position: bottom left;
-}
-
 .x-panel-header-default-right-tc,.x-panel-header-default-right-mc,.x-panel-header-default-right-bc
 {
     background-position: right 0;
@@ -3997,6 +3911,11 @@ textarea.x-form-field {
 
 .x-panel-default-framed {
     border-color: #d0d0d0;
+    border-radius: 4px;
+    padding: 4px 4px 4px 4px;
+    border-width: 1px;
+    border-style: solid;
+    background-color: #f1f1f1;
 }
 
 .x-panel-header-default-framed {
@@ -4016,6 +3935,7 @@ textarea.x-form-field {
 }
 
 .x-nlg .x-panel-header-default-framed-bottom {
+    background-position: bottom left;
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/panel-header/panel-header-default-framed-bottom-bg.gif');
 }
 
@@ -4058,14 +3978,6 @@ textarea.x-form-field {
     background-image: linear-gradient(right, #f0f0f0, #d7d7d7);
 }
 
-.x-panel-default-framed {
-    border-radius: 4px;
-    padding: 4px 4px 4px 4px;
-    border-width: 1px;
-    border-style: solid;
-    background-color: #f1f1f1;
-}
-
 .x-nlg .x-panel-default-framed-mc {
     background-color: #f1f1f1;
 }
@@ -4106,6 +4018,7 @@ textarea.x-form-field {
     background-image: none;
     background-color: #d7d2d2;
     background-image: linear-gradient(top, #f0f0f0, #d7d7d7);
+    box-shadow: #efeded 0 1px 0 0 inset, #efeded -1px 0 0 0 inset, #efeded 1px 0 0 0 inset;
 }
 
 .x-nlg .x-panel-header-default-framed-top-mc {
@@ -4149,6 +4062,7 @@ textarea.x-form-field {
     background-image: none;
     background-color: #d7d2d2;
     background-image: linear-gradient(right, #f0f0f0, #d7d7d7);
+    box-shadow: #efeded 0 1px 0 0 inset, #efeded 0 -1px 0 0 inset, #efeded -1px 0 0 0 inset;
 }
 
 .x-nlg .x-panel-header-default-framed-right-mc {
@@ -4193,6 +4107,7 @@ textarea.x-form-field {
     background-image: none;
     background-color: #d7d2d2;
     background-image: linear-gradient(top, #f0f0f0, #d7d7d7);
+    box-shadow: #efeded 0 -1px 0 0 inset, #efeded -1px 0 0 0 inset, #efeded 1px 0 0 0 inset;
 }
 
 .x-nlg .x-panel-header-default-framed-bottom-mc {
@@ -4236,6 +4151,7 @@ textarea.x-form-field {
     background-image: none;
     background-color: #d7d2d2;
     background-image: linear-gradient(right, #f0f0f0, #d7d7d7);
+    box-shadow: #efeded 0 1px 0 0 inset, #efeded 0 -1px 0 0 inset, #efeded 1px 0 0 0 inset;
 }
 
 .x-nlg .x-panel-header-default-framed-left-mc {
@@ -4267,30 +4183,6 @@ textarea.x-form-field {
 
 .x-nbr .x-panel-header-default-framed-left-mc {
     padding: 0 5px 0 1px;
-}
-
-.x-panel-header-default-framed-top {
-    box-shadow: #efeded 0 1px 0 0 inset, #efeded -1px 0 0 0 inset, #efeded
-        1px 0 0 0 inset;
-}
-
-.x-panel-header-default-framed-right {
-    box-shadow: #efeded 0 1px 0 0 inset, #efeded 0 -1px 0 0 inset, #efeded
-        -1px 0 0 0 inset;
-}
-
-.x-panel-header-default-framed-bottom {
-    box-shadow: #efeded 0 -1px 0 0 inset, #efeded -1px 0 0 0 inset, #efeded
-        1px 0 0 0 inset;
-}
-
-.x-panel-header-default-framed-left {
-    box-shadow: #efeded 0 1px 0 0 inset, #efeded 0 -1px 0 0 inset, #efeded
-        1px 0 0 0 inset;
-}
-
-.x-nlg .x-panel-header-default-framed-bottom {
-    background-position: bottom left;
 }
 
 .x-panel .x-panel-header-default-framed-top {
@@ -4508,6 +4400,11 @@ textarea.x-form-field {
     border-color: #868686;
     height: auto;
     width: auto;
+    border-radius: 3px;
+    padding: 2px 2px 2px 2px;
+    border-width: 1px;
+    border-style: solid;
+    background-color: #ccc;
 }
 
 .x-tip .x-tip-header .x-box-item {
@@ -4516,14 +4413,6 @@ textarea.x-form-field {
 
 .x-tip .x-tip-header .x-tool {
     padding: 0 1px 0 0;
-}
-
-.x-tip {
-    border-radius: 3px;
-    padding: 2px 2px 2px 2px;
-    border-width: 1px;
-    border-style: solid;
-    background-color: #ccc;
 }
 
 .x-nlg .x-tip-mc {
@@ -4640,8 +4529,7 @@ textarea.x-form-field {
 
 .x-form-invalid-tip {
     border-color: #a1311f;
-    box-shadow: #d87166 0 1px 0 0 inset, #d87166 0 -1px 0 0 inset, #d87166
-        -1px 0 0 0 inset, #d87166 1px 0 0 0 inset;
+    box-shadow: #d87166 0 1px 0 0 inset, #d87166 0 -1px 0 0 inset, #d87166 -1px 0 0 0 inset, #d87166 1px 0 0 0 inset;
 }
 
 .x-form-invalid-tip-body {
@@ -4678,12 +4566,12 @@ textarea.x-form-field {
     background-position: 1100505px 1000505px;
 }
 
-.x-nbr .x-form-invalid-tip-default-tl,.x-nbr .x-form-invalid-tip-default-bl,.x-nbr .x-form-invalid-tip-default-tr,.x-nbr .x-form-invalid-tip-default-br,.x-nbr .x-form-invalid-tip-default-tc,.x-nbr .x-form-invalid-tip-default-bc,.x-nbr .x-form-invalid-tip-default-ml,.x-nbr .x-form-invalid-tip-default-mr{
+.x-nbr .x-form-invalid-tip-default-tl,.x-nbr .x-form-invalid-tip-default-bl,.x-nbr .x-form-invalid-tip-default-tr,.x-nbr .x-form-invalid-tip-default-br,.x-nbr .x-form-invalid-tip-default-tc,.x-nbr .x-form-invalid-tip-default-bc,.x-nbr .x-form-invalid-tip-default-ml,.x-nbr .x-form-invalid-tip-default-mr {
     zoom: 1;
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/form-invalid-tip/form-invalid-tip-default-corners.gif');
 }
 
-.x-nbr .x-form-invalid-tip-default-ml,.x-nbr .x-form-invalid-tip-default-mr{
+.x-nbr .x-form-invalid-tip-default-ml,.x-nbr .x-form-invalid-tip-default-mr {
     zoom: 1;
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/form-invalid-tip/form-invalid-tip-default-sides.gif');
     background-position: 0 0;
@@ -4742,6 +4630,7 @@ textarea.x-form-field {
     left: 0;
     top: 1px;
     background: transparent no-repeat 0 0;
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-thumb.png');
 }
 
 .x-slider-horz .x-slider-thumb-over {
@@ -4776,6 +4665,7 @@ textarea.x-form-field {
     left: 3px;
     bottom: 0;
     background: transparent no-repeat 0 0;
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-v-thumb.png');
 }
 
 .x-slider-vert .x-slider-thumb-over {
@@ -4786,23 +4676,15 @@ textarea.x-form-field {
     background-position: -30px -28px;
 }
 
-.x-slider-horz,.x-slider-horz .x-slider-end,.x-slider-horz .x-slider-inner{
+.x-slider-horz,.x-slider-horz .x-slider-end,.x-slider-horz .x-slider-inner {
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-bg.png');
 }
 
-.x-slider-horz .x-slider-thumb {
-    background-image: url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-thumb.png');
-}
-
-.x-slider-vert,.x-slider-vert .x-slider-end,.x-slider-vert .x-slider-inner{
+.x-slider-vert,.x-slider-vert .x-slider-end,.x-slider-vert .x-slider-inner {
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-v-bg.png');
 }
 
-.x-slider-vert .x-slider-thumb {
-    background-image: url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-v-thumb.png');
-}
-
-.x-ie6 .x-slider-horz,.x-ie6 .x-slider-horz .x-slider-end,.x-ie6 .x-slider-horz .x-slider-inner{
+.x-ie6 .x-slider-horz,.x-ie6 .x-slider-horz .x-slider-end,.x-ie6 .x-slider-horz .x-slider-inner {
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-bg.gif');
 }
 
@@ -4810,7 +4692,7 @@ textarea.x-form-field {
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-thumb.gif');
 }
 
-.x-ie6 .x-slider-vert,.x-ie6 .x-slider-vert .x-slider-end,.x-ie6 .x-slider-vert .x-slider-inner{
+.x-ie6 .x-slider-vert,.x-ie6 .x-slider-vert .x-slider-end,.x-ie6 .x-slider-vert .x-slider-inner {
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-v-bg.gif');
 }
 
@@ -5046,11 +4928,7 @@ textarea.x-form-field {
 .x-window-default {
     border-color: #a9a9a9;
     border-radius: 5px 5px;
-    box-shadow: #ebe7e7 0 1px 0 0 inset, #ebe7e7 0 -1px 0 0 inset, #ebe7e7
-        -1px 0 0 0 inset, #ebe7e7 1px 0 0 0 inset;
-}
-
-.x-window-default {
+    box-shadow: #ebe7e7 0 1px 0 0 inset, #ebe7e7 0 -1px 0 0 inset, #ebe7e7 -1px 0 0 0 inset, #ebe7e7 1px 0 0 0 inset;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
@@ -5987,10 +5865,6 @@ textarea.x-form-field {
 
 .x-grid-tree-node-expanded .x-tree-icon-parent {
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/tree/folder-open.gif');
-}
-
-.x-grid-rowbody {
-    padding: 0;
 }
 
 .x-tree-panel .x-grid-cell-inner {
