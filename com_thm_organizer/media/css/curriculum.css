@@ -4678,14 +4678,12 @@ textarea.x-form-field {
     background-position: 1100505px 1000505px;
 }
 
-.x-nbr .x-form-invalid-tip-default-tl,.x-nbr .x-form-invalid-tip-default-bl,.x-nbr .x-form-invalid-tip-default-tr,.x-nbr .x-form-invalid-tip-default-br,.x-nbr .x-form-invalid-tip-default-tc,.x-nbr .x-form-invalid-tip-default-bc,.x-nbr .x-form-invalid-tip-default-ml,.x-nbr .x-form-invalid-tip-default-mr
-{
+.x-nbr .x-form-invalid-tip-default-tl,.x-nbr .x-form-invalid-tip-default-bl,.x-nbr .x-form-invalid-tip-default-tr,.x-nbr .x-form-invalid-tip-default-br,.x-nbr .x-form-invalid-tip-default-tc,.x-nbr .x-form-invalid-tip-default-bc,.x-nbr .x-form-invalid-tip-default-ml,.x-nbr .x-form-invalid-tip-default-mr{
     zoom: 1;
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/form-invalid-tip/form-invalid-tip-default-corners.gif');
 }
 
-.x-nbr .x-form-invalid-tip-default-ml,.x-nbr .x-form-invalid-tip-default-mr
-{
+.x-nbr .x-form-invalid-tip-default-ml,.x-nbr .x-form-invalid-tip-default-mr{
     zoom: 1;
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/form-invalid-tip/form-invalid-tip-default-sides.gif');
     background-position: 0 0;
@@ -4788,8 +4786,7 @@ textarea.x-form-field {
     background-position: -30px -28px;
 }
 
-.x-slider-horz,.x-slider-horz .x-slider-end,.x-slider-horz .x-slider-inner
-{
+.x-slider-horz,.x-slider-horz .x-slider-end,.x-slider-horz .x-slider-inner{
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-bg.png');
 }
 
@@ -4797,8 +4794,7 @@ textarea.x-form-field {
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-thumb.png');
 }
 
-.x-slider-vert,.x-slider-vert .x-slider-end,.x-slider-vert .x-slider-inner
-{
+.x-slider-vert,.x-slider-vert .x-slider-end,.x-slider-vert .x-slider-inner{
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-v-bg.png');
 }
 
@@ -4806,8 +4802,7 @@ textarea.x-form-field {
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-v-thumb.png');
 }
 
-.x-ie6 .x-slider-horz,.x-ie6 .x-slider-horz .x-slider-end,.x-ie6 .x-slider-horz .x-slider-inner
-{
+.x-ie6 .x-slider-horz,.x-ie6 .x-slider-horz .x-slider-end,.x-ie6 .x-slider-horz .x-slider-inner{
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-bg.gif');
 }
 
@@ -4815,8 +4810,7 @@ textarea.x-form-field {
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-thumb.gif');
 }
 
-.x-ie6 .x-slider-vert,.x-ie6 .x-slider-vert .x-slider-end,.x-ie6 .x-slider-vert .x-slider-inner
-{
+.x-ie6 .x-slider-vert,.x-ie6 .x-slider-vert .x-slider-end,.x-ie6 .x-slider-vert .x-slider-inner{
     background-image: url('../../../../media/com_thm_organizer/images/curriculum/slider/slider-v-bg.gif');
 }
 
@@ -5125,6 +5119,7 @@ textarea.x-form-field {
     border-width: 1px;
     border-style: solid;
     background-color: #e8e8e8;
+    box-shadow: #ebe7e7 0 1px 0 0 inset, #ebe7e7 -1px 0 0 0 inset, #ebe7e7 1px 0 0 0 inset;
 }
 
 .x-nlg .x-window-header-default-top-mc {
@@ -5166,6 +5161,7 @@ textarea.x-form-field {
     border-width: 1px;
     border-style: solid;
     background-color: #e8e8e8;
+    box-shadow: #ebe7e7 0 1px 0 0 inset, #ebe7e7 0 -1px 0 0 inset, #ebe7e7 -1px 0 0 0 inset;
 }
 
 .x-nlg .x-window-header-default-right-mc {
@@ -5207,6 +5203,7 @@ textarea.x-form-field {
     border-width: 1px;
     border-style: solid;
     background-color: #e8e8e8;
+    box-shadow: #ebe7e7 0 -1px 0 0 inset, #ebe7e7 -1px 0 0 0 inset, #ebe7e7 1px 0 0 0 inset;
 }
 
 .x-nlg .x-window-header-default-bottom-mc {
@@ -5248,6 +5245,7 @@ textarea.x-form-field {
     border-width: 1px;
     border-style: solid;
     background-color: #e8e8e8;
+    box-shadow: #ebe7e7 0 1px 0 0 inset, #ebe7e7 0 -1px 0 0 inset, #ebe7e7 1px 0 0 0 inset;
 }
 
 .x-nlg .x-window-header-default-left-mc {
@@ -5278,26 +5276,6 @@ textarea.x-form-field {
 
 .x-nbr .x-window-header-default-left-mc {
     padding: 0;
-}
-
-.x-window-header-default-top {
-    box-shadow: #ebe7e7 0 1px 0 0 inset, #ebe7e7 -1px 0 0 0 inset, #ebe7e7
-        1px 0 0 0 inset;
-}
-
-.x-window-header-default-right {
-    box-shadow: #ebe7e7 0 1px 0 0 inset, #ebe7e7 0 -1px 0 0 inset, #ebe7e7
-        -1px 0 0 0 inset;
-}
-
-.x-window-header-default-bottom {
-    box-shadow: #ebe7e7 0 -1px 0 0 inset, #ebe7e7 -1px 0 0 0 inset, #ebe7e7
-        1px 0 0 0 inset;
-}
-
-.x-window-header-default-left {
-    box-shadow: #ebe7e7 0 1px 0 0 inset, #ebe7e7 0 -1px 0 0 inset, #ebe7e7
-        1px 0 0 0 inset;
 }
 
 .x-window-body-plain {
@@ -5499,6 +5477,8 @@ textarea.x-form-field {
     background-image: none;
     background-color: #eaeaea;
     background-image: linear-gradient(top, #f09e11, #f09e11);
+    box-shadow: white 0 1px 0 0 inset, white -1px 0 0 0 inset, white 1px 0 0 0 inset;
+    border-bottom: 1px solid #d0d0d0;
 }
 
 .x-nlg .x-tab-default-top-mc {
@@ -5512,6 +5492,7 @@ textarea.x-form-field {
     border-radius: 0;
     background-color: transparent;
     background-position: 1100404px 1000000px;
+    border-bottom-width: 1px;
 }
 
 .x-nbr .x-tab-default-top-tl,.x-nbr .x-tab-default-top-bl,.x-nbr .x-tab-default-top-tr,.x-nbr .x-tab-default-top-br,.x-nbr .x-tab-default-top-tc,.x-nbr .x-tab-default-top-bc,.x-nbr .x-tab-default-top-ml,.x-nbr .x-tab-default-top-mr
@@ -5541,6 +5522,8 @@ textarea.x-form-field {
     background-image: none;
     background-color: #eaeaea;
     background-image: linear-gradient(bottom, #dcdcdc, #eaeaea);
+    box-shadow: white 0 -1px 0 0 inset, white -1px 0 0 0 inset, white 1px 0 0 0 inset;
+    border-top: 1px solid #d0d0d0;
 }
 
 .x-nlg .x-tab-default-bottom-mc {
@@ -5554,6 +5537,7 @@ textarea.x-form-field {
     border-radius: 0;
     background-color: transparent;
     background-position: 1100000px 1000404px;
+    border-top-width: 1px;
 }
 
 .x-nbr .x-tab-default-bottom-tl,.x-nbr .x-tab-default-bottom-bl,.x-nbr .x-tab-default-bottom-tr,.x-nbr .x-tab-default-bottom-br,.x-nbr .x-tab-default-bottom-tc,.x-nbr .x-tab-default-bottom-bc,.x-nbr .x-tab-default-bottom-ml,.x-nbr .x-tab-default-bottom-mr
@@ -5645,11 +5629,6 @@ textarea.x-form-field {
     left: -1px;
 }
 
-.x-tab-default-top {
-    box-shadow: white 0 1px 0 0 inset, white -1px 0 0 0 inset, white 1px 0 0 0 inset;
-    border-bottom: 1px solid #d0d0d0;
-}
-
 .x-tab-default-top em {
     padding-bottom: 3px;
 }
@@ -5659,18 +5638,8 @@ textarea.x-form-field {
     line-height: 13px;
 }
 
-.x-nbr .x-tab-default-top {
-    border-bottom-width: 1px;
-}
-
 .x-tab-default-top-active {
     border-bottom-color: #eaeaea;
-}
-
-.x-tab-default-bottom {
-    box-shadow: white 0 -1px 0 0 inset, white -1px 0 0 0 inset, white 1px 0 0 0 inset;
-    border-top: 1px solid #d0d0d0;
-    box-shadow: white 0 -1px 0 0 inset, white -1px 0 0 0 inset, white 1px 0 0 0 inset;
 }
 
 .x-tab-default-bottom em {
@@ -5680,10 +5649,6 @@ textarea.x-form-field {
 .x-tab-default-bottom button,.x-tab-default-bottom .x-tab-inner {
     height: 13px;
     line-height: 13px;
-}
-
-.x-nbr .x-tab-default-bottom {
-    border-top-width: 1px;
 }
 
 .x-tab-default-bottom-active {
@@ -6030,6 +5995,7 @@ textarea.x-form-field {
 
 .x-tree-panel .x-grid-cell-inner {
     padding: 0;
+    border-width: 0;
 }
 
 .x-tree-panel .x-grid-row .x-grid-cell {
@@ -6065,10 +6031,6 @@ textarea.x-form-field {
 
 .x-tree-checkbox-checked {
     background-position: 0 -13px;
-}
-
-.x-tree-panel .x-grid-cell-inner {
-    border-width: 0;
 }
 
 .x-gecko .x-tree-panel .x-grid-row .x-grid-cell-inner {
@@ -6115,9 +6077,6 @@ textarea.x-form-field {
     display: inline-block;
     vertical-align: middle;
     *vertical-align: auto;
-}
-
-.x-surface {
     *display: inline;
 }
 
@@ -6144,14 +6103,6 @@ textarea.x-form-field {
     padding: 0;
     margin: 0;
     display: inline;
-}
-
-.x-vml-base {
-    position: relative;
-    top: 0;
-    left: 0;
-    overflow: hidden;
-    display: inline-block;
 }
 
 .x-vml-base {
