@@ -236,6 +236,11 @@ span.course-title:hover {
 .x-box-mc {
     background: repeat-x 0 -16px;
     padding: 4px 10px;
+    background-color: #eee;
+    background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/tb.gif');
+    font-family: "Myriad Pro", "Myriad Web", "Tahoma", "Helvetica", "Arial", sans-serif;
+    color: #393939;
+    font-size: 15px;
 }
 
 .x-box-mc h3 {
@@ -278,14 +283,6 @@ span.course-title:hover {
 .x-box-tr,.x-box-br {
     padding-right: 8px;
     overflow: hidden;
-}
-
-.x-box-mc {
-    background-color: #eee;
-    background-image: url('../../../../media/com_thm_organizer/images/curriculum/box/tb.gif');
-    font-family: "Myriad Pro", "Myriad Web", "Tahoma", "Helvetica", "Arial", sans-serif;
-    color: #393939;
-    font-size: 15px;
 }
 
 .x-box-blue .x-box-bl,.x-box-blue .x-box-br,.x-box-blue .x-box-tl,.x-box-blue .x-box-tr {

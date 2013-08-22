@@ -1,4 +1,4 @@
-/*globals Ext, loading_icon, Curriculum */
+/*globals Ext, loadingIcon, teacherIcon, schedulerIcon, poolIcon, placeHolderIcon, ecollabIcon */
 /*jshint strict: false */
 function Curriculum (menuID, programID, horizontalGroups, languageTag, width, height,
               hPanelHeaderColor, hPanelColor, iPanelColor, mPanelColor,
@@ -74,7 +74,6 @@ function Curriculum (menuID, programID, horizontalGroups, languageTag, width, he
                 style : { "background-color" : "#" + color }
             }
         );
-        return compulsoryPool;
     };
 
     /**
@@ -231,11 +230,11 @@ function Curriculum (menuID, programID, horizontalGroups, languageTag, width, he
         if(schedulerLink !== undefined)
         {
             var heading = (languageTag === 'de') ? 'Stundenplan:' : 'Schedule:';
-            var toolTip, tooltipAddInfo  = "", html;
+            var tooltipAddInfo  = "", html;
 
             tooltipAddInfo = (languageTag === 'de') ? '<br>Klicken f&uuml;r weitere Informationen' : 'Click for additional information';
 
-            tooltip = Ext.create(
+            Ext.create(
                 'Ext.Component',
                 {
                     xtype : 'box',
