@@ -63,7 +63,7 @@ class THM_OrganizerViewProgram_Manager extends JView
 							   true,
 							   true
 							  );
-		JToolBarHelper::deleteList('', 'program.delete', 'JTOOLBAR_DELETE');
+		JToolBarHelper::deleteList('COM_THM_ORGANIZER_PRM_DELETE_CONFIRM', 'program.delete', 'JTOOLBAR_DELETE');
 		JToolBarHelper::divider();
 		JToolBarHelper::preferences('com_thm_organizer', '500');
 	}
