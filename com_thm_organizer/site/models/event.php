@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'helper' . DS . 'event.php';
+require_once JPATH_COMPONENT . DS . 'helper' . DS . 'event.php';
 
 /**
  * Handles event perssistence

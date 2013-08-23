@@ -13,7 +13,7 @@
 defined('_JEXEC') or die;
 
 header('meta http-equiv="refresh" content="5"');
-$imagepath = 'components/com_thm_organizer/assets/images/';
+$imagepath = 'media/com_thm_organizer/images/';
 $this->thm_logo_image = JHtml::image($imagepath . 'thm_logo_giessen.png', JText::_('COM_THM_ORGANIZER_RD_LOGO_GIESSEN'));
 $this->thm_text_image = JHtml::image($imagepath . 'thm_text_dinpro_compact.png', JText::_('COM_THM_ORGANIZER_RD_THM'));
 $weekday = strtoupper(date('l'));
@@ -75,7 +75,7 @@ if (count($this->appointments))
 			<div class="thm_organizer_es_data <?php  echo $contentClass; ?>">
 				<span class="thm_organizer_is_title_span"><?php  echo $appointments['title']; ?></span>
 <?php
-		if ($appointments['extraInformation'] != '')
+		if (!empty($appointments['extraInformation']))
 		{
 ?>
 				<br />
@@ -114,7 +114,7 @@ if (count($this->upcoming) && $appointmentsNo < 8)
 			<div class="thm_organizer_es_data <?php  echo $contentClass; ?>">
 				<span class="thm_organizer_is_title_span"><?php  echo $upcoming['title']; ?></span>
 <?php
-		if ($upcoming['extraInformation'] != '')
+		if (!empty($upcoming['extraInformation']))
 		{
 ?>
 				<br />

@@ -12,6 +12,7 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 require_once JPATH_COMPONENT . DS . 'helper' . DS . 'teacher.php';
+require_once JPATH_COMPONENT . DS . 'helper' . DS . 'event.php';
 
 /**
  * Retrieves lesson and event data for a single room and day
@@ -373,7 +374,7 @@ class THM_OrganizerModelRoom_Display extends JModel
         {
             $query->where("r.longname = '$this->roomName'");
         }
-        $query->order($this->orderBy());
+        $query->order("DATE(startdate) ASC, starttime ASC");
         $dbo->setQuery((string) $query);
         $appointments = $dbo->loadAssocList();
         if (isset($appointments) and count($appointments) > 0)
@@ -410,7 +411,7 @@ class THM_OrganizerModelRoom_Display extends JModel
                     continue;
                 }
                 $this->eventIDs[] = $appointment['id'];
-                $appointments[$k]['displayDates'] = $this->makeEventDates($appointment);
+                $appointments[$k]['displayDates'] = THM_OrganizerHelperEvent::getDateText($appointment, false);
                 $appointments[$k]['link'] = $this->getEventLink($appointment['id'], $appointment['title']);
             }
             $this->eventsExist = true;
@@ -457,7 +458,7 @@ class THM_OrganizerModelRoom_Display extends JModel
                     continue;
                 }
                 $this->eventIDs[] = $notice['id'];
-                $notices[$k]['displayDates'] = $this->makeEventDates($notice);
+                $notices[$k]['displayDates'] = THM_OrganizerHelperEvent::getDateText($notice, false);
                 $notices[$k]['link'] = $this->getEventLink($notice['id'], $notice['title']);
             }
             $this->eventsExist = true;
@@ -491,7 +492,7 @@ class THM_OrganizerModelRoom_Display extends JModel
                     continue;
                 }
                 $this->eventIDs[] = $info['id'];
-                $information[$k]['displayDates'] = $this->makeEventDates($info);
+                $information[$k]['displayDates'] = THM_OrganizerHelperEvent::getDateText($info, false);
                 $information[$k]['link'] = $this->getEventLink($info['id'], $info['title']);
             }
             if ($this->layout != 'default')
@@ -521,7 +522,7 @@ class THM_OrganizerModelRoom_Display extends JModel
         $query->where($this->whereAccess());
         $query->where("ec.reserves = '1'");
         $query->where("r.longname = '$this->roomName'");
-        $query->order($this->orderBy());
+        $query->order("DATE(startdate) ASC, starttime ASC");
         $dbo->setQuery((string) $query);
         $upcoming = $dbo->loadAssocList();
         if (isset($upcoming) and count($upcoming) > 0)
@@ -534,7 +535,7 @@ class THM_OrganizerModelRoom_Display extends JModel
                     continue;
                 }
                 $this->eventIDs[] = $coming['id'];
-                $upcoming[$k]['displayDates'] = $this->makeEventDates($coming);
+                $upcoming[$k]['displayDates'] = THM_OrganizerHelperEvent::getDateText($coming, false);
                 $upcoming[$k]['link'] = $this->getEventLink($coming['id'], $coming['title']);
             }
             $this->eventsExist = true;
@@ -627,16 +628,6 @@ class THM_OrganizerModelRoom_Display extends JModel
     }
 
     /**
-     * Creates the order by clause for event queries
-     *
-     * @return  string  the order by clause
-     */
-    private function orderBy()
-    {
-    	return  "DATE(startdate) ASC, starttime ASC";
-    }
-
-    /**
      * Makes a time string from the start and end times of an event if existent
      *
      * @param   array  $event  sql result array
@@ -663,61 +654,6 @@ class THM_OrganizerModelRoom_Display extends JModel
             $timestring .= JText::_("COM_THM_ORGANIZER_EL_ALLDAY");
         }
         return $timestring;
-    }
-
-    /**
-     * Makes a date string from the start and end dates of an event if existent
-     *
-     * @param   array  $event  sql result array
-     * 
-     * @return  string  the date(s) of event
-     */
-    private function makeEventDates($event)
-    {
-        $displayDates = $timestring = "";
-        $edSet = $event['enddate'] != "00.00.0000";
-        $stSet = $event['starttime'] != "00:00";
-        $etSet = $event['endtime'] != "00:00";
-        if ($stSet and $etSet)
-        {
-            $timestring = " ({$event['starttime']} - {$event['endtime']})";
-        }
-        elseif ($stSet)
-        {
-            $timestring = " (ab {$event['starttime']})";
-        }
-        elseif ($etSet)
-        {
-            $timestring = " (bis {$event['endtime']})";
-        }
-        else
-        {
-            $timestring = " " . JText::_("COM_THM_ORGANIZER_EL_ALLDAY");
-        }
-        if ($edSet and $event['rec_type'] == 0 AND $event['startdate'] != $event['enddate'])
-        {
-            $displayDates = "{$event['startdate']}";
-            if ($stSet)
-            {
-                $displayDates .= " ({$event['starttime']})";
-            }
-            $displayDates .= JText::_('COM_THM_ORGANIZER_RD_UNTIL') . $event['enddate'];
-            if ($etSet)
-            {
-                $displayDates .= " ({$event['endtime']})";
-            }
-        }
-        elseif ($edSet and $event['rec_type'] == 1 AND $event['startdate'] != $event['enddate'])
-        {
-            $displayDates = $event['startdate'] . JText::_('COM_THM_ORGANIZER_RD_UNTIL') . $event['enddate'] . " " . $timestring;
-        }
-        else
-        {
-			$dayName = strtoupper(date('D', strtotime($event['startdate'])));
-            $displayDates = JText::_($dayName) . " ";
-            $displayDates .= $event['startdate'] . " " . $timestring;
-        }
-        return $displayDates;
     }
 
     /**

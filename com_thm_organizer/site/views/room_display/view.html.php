@@ -38,7 +38,7 @@ class THM_OrganizerViewRoom_Display extends JView
 			$document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
 			if ($model->layout == 'registered' OR $model->layout == 'events' OR $model->layout == 'content')
 			{
-				$document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/template.css");
+				$document->addStyleSheet($this->baseurl . "/media/com_thm_organizer/css/room_display.css");
 				$this->schedule_refresh = $model->schedule_refresh;
 			}
 

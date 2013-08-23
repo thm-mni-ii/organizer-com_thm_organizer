@@ -182,20 +182,30 @@ class THM_OrganizerHelperEvent
     /**
      * Creates an introductory text for events
      *
-     * @param   array  &$data  an array of preprepared date and time entries
+     * @param   array  &$data     an array of preprepared date and time entries
+     * @param   bool   $withText  whether leading and ending text should be added
      * 
      * @return  string $introText
      */
-    private static function getDateText(&$data)
+    public static function getDateText(&$data, $withText = true)
     {
         $dateText = $timeText = "";
+        if (empty($data['nativestartdate']))
+        {
+            $data['nativestartdate'] = $data['startdate'];
+        }
+        if (empty($data['nativeenddate']) AND !empty($data['enddate']))
+        {
+            $data['nativeenddate'] = $data['enddate'];
+        }
 
         // One day events and reoccuring events use the 'same' time text
         if ($data['startdate'] == $data['enddate'] or $data['rec_type'] == 1)
         {
             if ($data['starttime'] != "")
             {
-                $timeText .= JText::_('COM_THM_ORGANIZER_E_FROM') . $data['starttime'];
+                $timeText .= $withText == true? JText::_('COM_THM_ORGANIZER_E_FROM') : '';
+                $timeText .= $data['starttime'];
             }
             if ($data['endtime'] != "")
             {
@@ -210,19 +220,21 @@ class THM_OrganizerHelperEvent
         // Single day events use the same date text irregardless of repetition
         if ($data['startdate'] == $data['enddate'])
         {
-            $dateText .= JText::_('COM_THM_ORGANIZER_E_ON') . $data['nativestartdate'] . $timeText;
+            $dateText .= $withText == true? JText::_('COM_THM_ORGANIZER_E_ON') : '';
+            $dateText .= $data['nativestartdate'] . $timeText;
         }
         // Repeating events which span multiple days
         elseif ($data['rec_type'])
         {
-            $dateText .= JText::_('COM_THM_ORGANIZER_E_BETWEEN') . $data['nativestartdate'];
+            $dateText .= $withText == true? JText::_('COM_THM_ORGANIZER_E_BETWEEN') : '';
+            $dateText .= $data['nativestartdate'];
             $dateText .= JText::_('COM_THM_ORGANIZER_E_AND') . $data['nativeenddate'];
             $dateText .= $timeText;
         }
         // Block events which span multiple days
         else
         {
-            $dateText .= JText::_('COM_THM_ORGANIZER_E_FROM');
+            $dateText .= $withText == true? JText::_('COM_THM_ORGANIZER_E_FROM') : '';
             if ($data['starttime'] != "")
             {
                 $dateText .= $data['starttime'] . JText::_('COM_THM_ORGANIZER_E_ON');
@@ -238,7 +250,7 @@ class THM_OrganizerHelperEvent
                 $dateText .= JText::_("COM_THM_ORGANIZER_E_ALLDAY");
             }
         }
-        $dateText .= JText::_("COM_THM_ORGANIZER_E_DATES_END");
+        $dateText .= $withText == true? JText::_("COM_THM_ORGANIZER_E_DATES_END") : '';
         return $dateText;
     }
 

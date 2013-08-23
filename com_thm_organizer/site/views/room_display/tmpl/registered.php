@@ -12,7 +12,7 @@
  */
 defined('_JEXEC') or die;
 
-$imagepath = 'components/com_thm_organizer/assets/images/';
+$imagepath = 'media/com_thm_organizer/images/';
 $this->thm_logo_image = JHtml::image($imagepath . 'thm_logo_giessen.png', JText::_('COM_THM_ORGANIZER_RD_LOGO_GIESSEN'));
 $this->thm_text_image = JHtml::image($imagepath . 'thm_text_dinpro_compact.png', JText::_('COM_THM_ORGANIZER_RD_THM'));
 $widthClass = ($this->eventsExist) ? 'thm_organizer_is_short' : 'thm_organizer_is_long';

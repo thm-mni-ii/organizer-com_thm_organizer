@@ -44,7 +44,7 @@ body{
 }
 
 .thm_organizer_is_head_left{
-    width: 60%;
+    width: 72%;
     height: 100%;
     float: left;
 }
@@ -100,7 +100,7 @@ body{
 
 .thm_organizer_is_head_right{
     height: 100%;
-    width: 37%;
+    width: 28%;
     float: right;
     text-align: right;
     font-size: 350%;
