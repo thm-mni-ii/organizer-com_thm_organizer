@@ -204,7 +204,7 @@ class THM_OrganizerHelperEvent
         {
             if ($data['starttime'] != "")
             {
-                $timeText .= $withText == true? JText::_('COM_THM_ORGANIZER_E_FROM') : '';
+                $timeText .= $withText == true? JText::_('COM_THM_ORGANIZER_E_FROM') : ' ';
                 $timeText .= $data['starttime'];
             }
             if ($data['endtime'] != "")
