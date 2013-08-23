@@ -295,8 +295,8 @@ class THM_OrganizerModelRoom_Display extends JModel
                             $lessonName .= " - " . $schedule->lessons->$lessonID->description;
                             if (!empty($schedule->subjects->$subjectID->subjectNo))
                             {
-                                $subjectLink = "'index.php?option=com_thm_organizer&view=subject_details";
-                                $subjectLink .= "&languageTag=de&Itemid=$menuID&nrmni='";
+                                $subjectLink = "index.php?option=com_thm_organizer&view=subject_details";
+                                $subjectLink .= "&languageTag=de&Itemid=$menuID&nrmni=";
                                 $subjectLink .= $schedule->subjects->$subjectID->subjectNo;
                                 $lessonTitle = JHtml::_('link', $subjectLink, $lessonName);
                             }

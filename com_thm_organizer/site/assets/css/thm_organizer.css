@@ -125,7 +125,7 @@ body.loading .loader {
 
 .overlay{
     display: none;
-    background-color:rgba(0, 0, 0, 0.65);  
+    background-color: rgba(0, 0, 0, 0.65);  
     width: 100%;   
     height: 100%;   
     position: fixed;   
@@ -215,7 +215,7 @@ body.loading .loader {
 }
 .thm_organizer_el_eventtable{
     width: 100%;
-    cell-spacing: 0px;
+    border-spacing: 0px;
 }
 
 .thm_organizer_el_eventtable thead tr{
@@ -557,7 +557,7 @@ thm_organizer_rd_highlight{
 }
 
 .thm_organizer_rd_table tr td{
-    padding: 0.5%;
+    padding: 5px;
     border: none;
 }
 
@@ -571,11 +571,6 @@ thm_organizer_rd_highlight{
 .thm_organizer_rd_lesson_type{ width: 26%; }
 
 .thm_organizer_rd_row_odd{
-    border: none;
-}
-
-.thm_organizer_rd_table tr td{
-    padding: 5px;
     border: none;
 }
 
