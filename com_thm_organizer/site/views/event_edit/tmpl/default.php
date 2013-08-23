@@ -171,12 +171,12 @@ Joomla.submitbutton =  function(task){
                     $listTitle = JText::_('COM_THM_ORGANIZER_LIST_TITLE');
                     $listTitle .= "::" . JText::_('COM_THM_ORGANIZER_LIST_DESCRIPTION')
 ?>
-                <a  class="hasTip thm_organizer_action_link"
+                <button  class="hasTip thm_organizer_action_link"
                     title="<?php echo $listTitle;?>"
                     href="<?php echo $this->listLink ?>">
                     <span id="thm_organizer_list_span" class="thm_organizer_list_span thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_LIST'); ?>
-                </a>
+                </button>
 <?php
                 }
                 if ($showEventLink)
@@ -184,12 +184,12 @@ Joomla.submitbutton =  function(task){
                     $eventTitle = JText::_('COM_THM_ORGANIZER_EVENT_TITLE');
                     $eventTitle .= "::" . JText::_('COM_THM_ORGANIZER_EVENT_DESCRIPTION');
 ?>
-                <a  class="hasTip thm_organizer_action_link"
+                <button  class="hasTip thm_organizer_action_link"
                     title="<?php echo $eventTitle;?>"
                     href="<?php echo $this->eventLink ?>">
                     <span id="thm_organizer_event_span" class="thm_organizer_event_span thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_EVENT'); ?>
-                </a>
+                </button>
                 <?php
                 }
                 if ($showListLink or $showEventLink)
@@ -197,25 +197,25 @@ Joomla.submitbutton =  function(task){
                 <span class="thm_organizer_divider_span"></span>
                 <?php
                 } ?>
-                <a  class="hasTip thm_organizer_action_link"
+                <button  class="hasTip thm_organizer_action_link"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_SAVE_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_SAVE_DESCRIPTION');?>"
                     onclick="Joomla.submitbutton('event.save')">
                     <span id="thm_organizer_save_span" class="thm_organizer_save_span thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_SAVE_TITLE'); ?>
-                </a>
-                <a  class="hasTip thm_organizer_action_link"
+                </button>
+                <button  class="hasTip thm_organizer_action_link"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_SAVE_NEW_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_SAVE_NEW_DESCRIPTION');?>"
                     onclick="Joomla.submitbutton('event.save2new')">
                     <span id="thm_organizer_save_new_span" class="thm_organizer_save_new_span thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_SAVE_NEW'); ?>
-                </a>
-                <a  class="hasTip thm_organizer_action_link_preview"
+                </button>
+                <button  class="hasTip thm_organizer_action_link_preview"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_PREVIEW_DESCRIPTION');?>"
                     onclick="Joomla.submitbutton('event.preview')">
                     <span id="thm_organizer_preview_span" class="thm_organizer_preview_span thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_PREVIEW'); ?>
                     
-                </a>                
+                </button>                
                 <div class="Popup">
                     <div class="loader"></div>
                     <h1><?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_HEADER');?></h1>
