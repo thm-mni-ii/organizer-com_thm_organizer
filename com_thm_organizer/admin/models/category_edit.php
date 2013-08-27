@@ -34,20 +34,20 @@ class THM_OrganizerModelCategory_Edit extends JModelAdmin
     {
         // Get the form.
         $form = $this->loadForm('com_thm_organizer.category_edit', 'category_edit', array('control' => 'jform', 'load_data' => $loadData));
-		
+        
         if (empty($form))
         {
             return false;
         }
 
-		return $form;
+        return $form;
     }
 
-	/**
-	 * Method to load the form data
-	 *
-	 * @return  Object
-	 */
+    /**
+     * Method to load the form data
+     *
+     * @return  Object
+     */
     protected function loadFormData()
     {
         $categoryIDs = JRequest::getVar('cid',  null, '', 'array');
@@ -56,14 +56,14 @@ class THM_OrganizerModelCategory_Edit extends JModelAdmin
     }
 
     /**
-	 * Method to get the table
-	 *
-	 * @param   String  $type    Type  			(default: 'categories')
-	 * @param   String  $prefix  Prefix  		(default: 'THM_OrganizerTable')
-	 * @param   Array   $config  Configuration  (default: 'Array')
-	 *
-	 * @return  JTable object
-	 */
+     * Method to get the table
+     *
+     * @param   String  $type    Type              (default: 'categories')
+     * @param   String  $prefix  Prefix          (default: 'THM_OrganizerTable')
+     * @param   Array   $config  Configuration  (default: 'Array')
+     *
+     * @return  JTable object
+     */
     public function getTable($type = 'categories', $prefix = 'thm_organizerTable', $config = array())
     {
         return JTable::getInstance($type, $prefix, $config);

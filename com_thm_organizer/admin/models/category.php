@@ -98,7 +98,7 @@ class THM_OrganizerModelcategory extends JModel
                     return false;
                 }
             }
-			$dbo->transactionCommit();
+            $dbo->transactionCommit();
             return true;
         }
         return true;

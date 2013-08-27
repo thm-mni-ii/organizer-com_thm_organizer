@@ -39,240 +39,240 @@ class THM_OrganizerControllerVirtual_Schedule extends JController
         parent::display();
     }
 
-	/**
-	 * Performs access checks and redirects to the virtual schedule edit view
-	 *
-	 * @return void
-	 */
-	public function edit()
-	{
+    /**
+     * Performs access checks and redirects to the virtual schedule edit view
+     *
+     * @return void
+     */
+    public function edit()
+    {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-		JRequest::setVar('view', 'virtual_schedule_edit');
-		parent::display();
-	}
-	/**
-	 * Performs access checks, makes call to the models's save function, and
-	 * redirects to the virtual schedule manager view
-	 *
-	 * @todo clean this up
-	 * 
-	 * @return void
-	 */
-	public function save()
-	{
+        JRequest::setVar('view', 'virtual_schedule_edit');
+        parent::display();
+    }
+    /**
+     * Performs access checks, makes call to the models's save function, and
+     * redirects to the virtual schedule manager view
+     *
+     * @todo clean this up
+     * 
+     * @return void
+     */
+    public function save()
+    {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-		$model = $this->getModel('virtual_schedule_edit');
-		 
-		$data = JRequest::getVar('jform', null, null, null);
+        $model = $this->getModel('virtual_schedule_edit');
+         
+        $data = JRequest::getVar('jform', null, null, null);
 
-		$vsID = $data["id"];
-		$vid = $data["vid"];
-		$name = $data["name"];
-		$type = $data["type"];
+        $vsID = $data["id"];
+        $vid = $data["vid"];
+        $name = $data["name"];
+        $type = $data["type"];
 
-		if ($name == null)
-		{
-			$url = 'index.php?option=com_thm_organizer&view=virtual_schedule_edit';
-			$this->setRedirect($url, JText::_('COM_THM_ORGANIZER_VSE_NAME_MISSING'), 'error');
-			$session = JFactory::getSession();
-			$session->set('oldPost', $_POST);
-			return;
-		}
-		$semid = $data["semester"];
-		$resps = $data["responsible"];
-		$classesDepartments = $data["ClassDepartment"];
-		$teacherDepartments = $data["TeacherDepartment"];
-		$roomDepartments = $data["RoomDepartment"];
-		 
-		$classes = null;
-		$rooms = null;
-		$teachers = null;
-		 
-		if ($type == "room")
-		{
-			$rooms = $data["Rooms"];
-		}
-		if ($type == "class")
-		{
-			$classes = $data["Classes"];
-		}
-		if ($type == "teacher")
-		{
-			$teachers = $data["Teachers"];
-		}
+        if ($name == null)
+        {
+            $url = 'index.php?option=com_thm_organizer&view=virtual_schedule_edit';
+            $this->setRedirect($url, JText::_('COM_THM_ORGANIZER_VSE_NAME_MISSING'), 'error');
+            $session = JFactory::getSession();
+            $session->set('oldPost', $_POST);
+            return;
+        }
+        $semid = $data["semester"];
+        $resps = $data["responsible"];
+        $classesDepartments = $data["ClassDepartment"];
+        $teacherDepartments = $data["TeacherDepartment"];
+        $roomDepartments = $data["RoomDepartment"];
+         
+        $classes = null;
+        $rooms = null;
+        $teachers = null;
+         
+        if ($type == "room")
+        {
+            $rooms = $data["Rooms"];
+        }
+        if ($type == "class")
+        {
+            $classes = $data["Classes"];
+        }
+        if ($type == "teacher")
+        {
+            $teachers = $data["Teachers"];
+        }
 
-		if (!isset($name) OR !isset($type) OR !isset($semid) OR !isset($resps)
-		 OR !isset($classesDepartments) OR !isset($teacherDepartments)
-		 OR !isset($roomDepartments) OR (!isset($classes) && !isset($rooms) && !isset($teachers)))
-		{
-			$msg = "Folgende Felder haben ungültige Werte:<br/>";
-			if (!isset($name))
-			{
-				$msg .= "vscheduler_name<br/>";
-			}
-			if (!isset($type))
-			{
-				$msg .= "vscheduler_types<br/>";
-			}
-			if (!isset($semid))
-			{
-				$msg .= "vscheduler_semid<br/>";
-			}
-			if (!isset($resps))
-			{
-				$msg .= "vscheduler_resps<br/>";
-			}
-			if (!isset($classesDepartments))
-			{
-				$msg .= "vscheduler_classesDepartments<br/>";
-			}
-			if (!isset($teacherDepartments))
-			{
-				$msg .= "vscheduler_teacherDepartments<br/>";
-			}
-			if (!isset($roomDepartments))
-			{
-				$msg .= "vscheduler_roomDepartments<br/>";
-			}
-			if (!isset($classes) && $type == "class")
-			{
-				$msg .= "vscheduler_classes<br/>";
-			}
-			if (!isset($rooms) && $type == "room")
-			{
-				$msg .= "vscheduler_rooms<br/>";
-			}
-			if (!isset($teachers) && $type == "teacher")
-			{
-				$msg .= "vscheduler_teachers<br/>";
-			}
+        if (!isset($name) OR !isset($type) OR !isset($semid) OR !isset($resps)
+         OR !isset($classesDepartments) OR !isset($teacherDepartments)
+         OR !isset($roomDepartments) OR (!isset($classes) && !isset($rooms) && !isset($teachers)))
+        {
+            $msg = "Folgende Felder haben ungültige Werte:<br/>";
+            if (!isset($name))
+            {
+                $msg .= "vscheduler_name<br/>";
+            }
+            if (!isset($type))
+            {
+                $msg .= "vscheduler_types<br/>";
+            }
+            if (!isset($semid))
+            {
+                $msg .= "vscheduler_semid<br/>";
+            }
+            if (!isset($resps))
+            {
+                $msg .= "vscheduler_resps<br/>";
+            }
+            if (!isset($classesDepartments))
+            {
+                $msg .= "vscheduler_classesDepartments<br/>";
+            }
+            if (!isset($teacherDepartments))
+            {
+                $msg .= "vscheduler_teacherDepartments<br/>";
+            }
+            if (!isset($roomDepartments))
+            {
+                $msg .= "vscheduler_roomDepartments<br/>";
+            }
+            if (!isset($classes) && $type == "class")
+            {
+                $msg .= "vscheduler_classes<br/>";
+            }
+            if (!isset($rooms) && $type == "room")
+            {
+                $msg .= "vscheduler_rooms<br/>";
+            }
+            if (!isset($teachers) && $type == "teacher")
+            {
+                $msg .= "vscheduler_teachers<br/>";
+            }
 
-			$this->setRedirect('index.php?option=com_thm_organizer&view=virtual_schedule_edit', JText::_($msg), 'error');
-			$session =& JFactory::getSession();
-			$session->set('oldPost', $_POST);
-			return;
-		}
-		else
-		{
-			if ($type == "room")
-			{
-				$Departments = $roomDepartments;
-				$elements = $rooms;
-			}
-			if ($type == "class")
-			{
-				$Departments = $classesDepartments;
-				$elements = $classes;
-			}
-			if ($type == "teacher")
-			{
-				$Departments = $teacherDepartments;
-				$elements = $teachers;
-			}
+            $this->setRedirect('index.php?option=com_thm_organizer&view=virtual_schedule_edit', JText::_($msg), 'error');
+            $session =& JFactory::getSession();
+            $session->set('oldPost', $_POST);
+            return;
+        }
+        else
+        {
+            if ($type == "room")
+            {
+                $Departments = $roomDepartments;
+                $elements = $rooms;
+            }
+            if ($type == "class")
+            {
+                $Departments = $classesDepartments;
+                $elements = $classes;
+            }
+            if ($type == "teacher")
+            {
+                $Departments = $teacherDepartments;
+                $elements = $teachers;
+            }
 
-			$torf = $model->saveVirtualSchedule(
-					$vsID,
-					$vid,
-					$name,
-					$type,
-					$semid,
-					$resps,
-					$Departments,
-					$elements
-					);
+            $torf = $model->saveVirtualSchedule(
+                    $vsID,
+                    $vid,
+                    $name,
+                    $type,
+                    $semid,
+                    $resps,
+                    $Departments,
+                    $elements
+                    );
 
-			if ($torf === true)
-			{
-				$url = 'index.php?option=com_thm_organizer&view=virtual_schedule_manager';
-				if ($vsID == null)
-				{
-					$msg = JText::sprintf('COM_THM_ORGANIZER_VSE_CREATE_SUCCESS', $name);
-				}
-				else
-				{
-					$msg = JText::sprintf('COM_THM_ORGANIZER_VSE_EDIT_SUCCESS', $name);
-				}
-				$this->setRedirect($url, $msg);
-				return;
-			}
-			else
-			{
-				$url = 'index.php?option=com_thm_organizer&view=virtual_schedule_edit';
-				$this->setRedirect($url, JText::_('COM_THM_ORGANIZER_VSE_EDIT_FAIL'), 'error');
-				$session = JFactory::getSession();
-				$session->set('oldPost', $_POST);
-				return;
-			}
-		}
-	}
+            if ($torf === true)
+            {
+                $url = 'index.php?option=com_thm_organizer&view=virtual_schedule_manager';
+                if ($vsID == null)
+                {
+                    $msg = JText::sprintf('COM_THM_ORGANIZER_VSE_CREATE_SUCCESS', $name);
+                }
+                else
+                {
+                    $msg = JText::sprintf('COM_THM_ORGANIZER_VSE_EDIT_SUCCESS', $name);
+                }
+                $this->setRedirect($url, $msg);
+                return;
+            }
+            else
+            {
+                $url = 'index.php?option=com_thm_organizer&view=virtual_schedule_edit';
+                $this->setRedirect($url, JText::_('COM_THM_ORGANIZER_VSE_EDIT_FAIL'), 'error');
+                $session = JFactory::getSession();
+                $session->set('oldPost', $_POST);
+                return;
+            }
+        }
+    }
 
-	/**
-	 * Performs access checks, makes call to the models's delete function, and
-	 * redirects to the virtual schedule manager view
-	 * 
-	 * @todo clean this up
-	 *
-	 * @return void
-	 */
-	public function delete()
-	{
+    /**
+     * Performs access checks, makes call to the models's delete function, and
+     * redirects to the virtual schedule manager view
+     * 
+     * @todo clean this up
+     *
+     * @return void
+     */
+    public function delete()
+    {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-		$cid = JRequest::getVar('cid',   array(), 'post', 'array');
-		$cids = "'" . implode("', '", $cid) . "'";
+        $cid = JRequest::getVar('cid',   array(), 'post', 'array');
+        $cids = "'" . implode("', '", $cid) . "'";
 
-		$dbo = JFactory::getDBO();
-		$scheduleQuery = $dbo->getQuery(true);
-		$scheduleQuery->delete('#__thm_organizer_virtual_schedules');
-		$scheduleQuery->where("vid IN ( $cids )");
-		$dbo->setQuery((string) $scheduleQuery);
-		$dbo->query();
+        $dbo = JFactory::getDBO();
+        $scheduleQuery = $dbo->getQuery(true);
+        $scheduleQuery->delete('#__thm_organizer_virtual_schedules');
+        $scheduleQuery->where("vid IN ( $cids )");
+        $dbo->setQuery((string) $scheduleQuery);
+        $dbo->query();
 
-		if ($dbo->getErrorNum())
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_ERROR_DELETING');
-		}
-		else
-		{
-			$elementQuery = $dbo->getQuery(true);
-			$elementQuery->delete('#__thm_organizer_virtual_schedules_elements');
-			$elementQuery->where("vid IN ( $cids )");
-			$dbo->setQuery((string) $elementQuery);
-			$dbo->query();
-		}
+        if ($dbo->getErrorNum())
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_ERROR_DELETING');
+        }
+        else
+        {
+            $elementQuery = $dbo->getQuery(true);
+            $elementQuery->delete('#__thm_organizer_virtual_schedules_elements');
+            $elementQuery->where("vid IN ( $cids )");
+            $dbo->setQuery((string) $elementQuery);
+            $dbo->query();
+        }
 
-		if (count($cid) > 1)
-		{
-			$msg = JText::sprintf('COM_THM_ORGANIZER_VSE_DELETE_SUCCESSES', implode(', ', $cid));
-		}
-		else
-		{
-			$msg = JText::sprintf('COM_THM_ORGANIZER_VSE_DELETE_SUCCESS', implode(', ', $cid));
-		}
+        if (count($cid) > 1)
+        {
+            $msg = JText::sprintf('COM_THM_ORGANIZER_VSE_DELETE_SUCCESSES', implode(', ', $cid));
+        }
+        else
+        {
+            $msg = JText::sprintf('COM_THM_ORGANIZER_VSE_DELETE_SUCCESS', implode(', ', $cid));
+        }
 
-		$this->setRedirect('index.php?option=com_thm_organizer&view=virtual_schedule_manager', $msg);
+        $this->setRedirect('index.php?option=com_thm_organizer&view=virtual_schedule_manager', $msg);
 
-	}
+    }
 
-	/**
-	 * Method to cancel an edit.
-	 *
-	 * @return  void
-	 */
-	public function cancel()
-	{
+    /**
+     * Method to cancel an edit.
+     *
+     * @return  void
+     */
+    public function cancel()
+    {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-		$this->setRedirect('index.php?option=com_thm_organizer&view=virtual_schedule_manager');
-	}
+        $this->setRedirect('index.php?option=com_thm_organizer&view=virtual_schedule_manager');
+    }
 }

@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerControllerPool
+ * @name        THM_OrganizerControllerPool
  * @author      James Antrim, <James.Antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -57,90 +57,90 @@ class THM_OrganizerControllerPool extends JController
         parent::display();
     }
 
-	/**
-	 * Method to create a new pool
-	 *
-	 * @return  void
-	 */
-	public function apply()
-	{
+    /**
+     * Method to create a new pool
+     *
+     * @return  void
+     */
+    public function apply()
+    {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-		$success = $this->getModel('pool')->save();
-		if ($success)
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_POM_SAVE_SUCCESS');
-			$this->setRedirect(JRoute::_("index.php?option=com_thm_organizer&view=pool_edit&layout=edit&id=$success", false), $msg);
-		}
-		else
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_POM_SAVE_FAIL');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_edit&layout=edit&id=0', false), $msg, 'error');
-		}
-	}
+        $success = $this->getModel('pool')->save();
+        if ($success)
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_POM_SAVE_SUCCESS');
+            $this->setRedirect(JRoute::_("index.php?option=com_thm_organizer&view=pool_edit&layout=edit&id=$success", false), $msg);
+        }
+        else
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_POM_SAVE_FAIL');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_edit&layout=edit&id=0', false), $msg, 'error');
+        }
+    }
 
-	/**
-	 * Method to perform save
-	 *
-	 * @return  void
-	 */
-	public function save()
-	{
+    /**
+     * Method to perform save
+     *
+     * @return  void
+     */
+    public function save()
+    {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-		$success = $this->getModel('pool')->save();
-		if ($success)
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_POM_SAVE_SUCCESS');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_manager', false), $msg);
-		}
-		else
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_POM_SAVE_FAIL');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_manager', false), $msg, 'error');
-		}
-	}
+        $success = $this->getModel('pool')->save();
+        if ($success)
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_POM_SAVE_SUCCESS');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_manager', false), $msg);
+        }
+        else
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_POM_SAVE_FAIL');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_manager', false), $msg, 'error');
+        }
+    }
 
-	/**
-	 * Performs access checks, makes call to the models's delete function, and
-	 * redirects to the room manager view
-	 *
-	 * @return  void
-	 */
-	public function delete()
-	{
+    /**
+     * Performs access checks, makes call to the models's delete function, and
+     * redirects to the room manager view
+     *
+     * @return  void
+     */
+    public function delete()
+    {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-		$success = $this->getModel('pool')->delete();
-		if ($success)
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_POM_DELETE_SUCCESS');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_manager', false), $msg);
-		}
-		else
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_POM_DELETE_FAIL');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_manager', false), $msg, 'error');
-		}
-	}
+        $success = $this->getModel('pool')->delete();
+        if ($success)
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_POM_DELETE_SUCCESS');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_manager', false), $msg);
+        }
+        else
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_POM_DELETE_FAIL');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_manager', false), $msg, 'error');
+        }
+    }
 
-	/**
-	 * Method to perform cancel
-	 * 
-	 * @return  void
-	 */
-	public function cancel()
-	{
+    /**
+     * Method to perform cancel
+     * 
+     * @return  void
+     */
+    public function cancel()
+    {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_manager', false));
-	}
+    }
 }

@@ -7,7 +7,7 @@
 /* com thm organizer form toolbar styles **************************************/
 
 .thm_organizer_action_link{
-    display: block;
+    display: inline-block;
     float: left;
     margin: 0px;
     padding-bottom: 1px;

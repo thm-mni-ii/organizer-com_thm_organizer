@@ -58,14 +58,14 @@ class THM_OrganizerModelMonitor_Edit extends JModelAdmin
             return false;
         }
 
-		return $form;
+        return $form;
     }
 
-	/**
-	 * Method to load the form data
-	 *
-	 * @return  Object
-	 */
+    /**
+     * Method to load the form data
+     *
+     * @return  Object
+     */
     protected function loadFormData()
     {
         $monitorIDs = JRequest::getVar('cid',  null, '', 'array');
@@ -74,14 +74,14 @@ class THM_OrganizerModelMonitor_Edit extends JModelAdmin
     }
 
     /**
-	 * Method to get the table
-	 *
-	 * @param   String  $type    Type  			(default: 'monitors')
-	 * @param   String  $prefix  Prefix  		(default: 'THM_OrganizerTable')
-	 * @param   Array   $config  Configuration  (default: 'Array')
-	 *
-	 * @return  JTable object
-	 */
+     * Method to get the table
+     *
+     * @param   String  $type    Type              (default: 'monitors')
+     * @param   String  $prefix  Prefix          (default: 'THM_OrganizerTable')
+     * @param   Array   $config  Configuration  (default: 'Array')
+     *
+     * @return  JTable object
+     */
     public function getTable($type = 'monitors', $prefix = 'thm_organizerTable', $config = array())
     {
         return JTable::getInstance($type, $prefix, $config);

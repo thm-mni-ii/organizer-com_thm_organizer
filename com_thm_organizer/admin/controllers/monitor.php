@@ -103,12 +103,12 @@ class THM_OrganizerControllermonitor extends JController
         }
     }
 
-	/**
-	 * Performs access checks, makes call to the models's delete function, and
-	 * redirects to the monitor manager view
-	 *
-	 * @return  void
-	 */
+    /**
+     * Performs access checks, makes call to the models's delete function, and
+     * redirects to the monitor manager view
+     *
+     * @return  void
+     */
     public function delete()
     {
         if (!JFactory::getUser()->authorise('core.admin'))
@@ -128,17 +128,17 @@ class THM_OrganizerControllermonitor extends JController
         }
     }
 
-	/**
-	 * Method to cancel an edit.
-	 *
-	 * @return  void
-	 */
+    /**
+     * Method to cancel an edit.
+     *
+     * @return  void
+     */
     public function cancel()
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-		$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=monitor_manager', false));
+        $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=monitor_manager', false));
     }
 }

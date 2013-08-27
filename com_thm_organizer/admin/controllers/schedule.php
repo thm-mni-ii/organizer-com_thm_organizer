@@ -64,7 +64,7 @@ class THM_OrganizerControllerSchedule extends JController
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-		$url = "index.php?option=com_thm_organizer&view=schedule_manager";
+        $url = "index.php?option=com_thm_organizer&view=schedule_manager";
         $fileType = $_FILES['file']['type'];
         if ($fileType == "text/xml")
         {
@@ -108,8 +108,8 @@ class THM_OrganizerControllerSchedule extends JController
     }
 
     /**
-	 * Performs access checks, makes call to the models's save function, and
-	 * redirects to the schedule manager view
+     * Performs access checks, makes call to the models's save function, and
+     * redirects to the schedule manager view
      * 
      * @return void
      */
@@ -201,15 +201,15 @@ class THM_OrganizerControllerSchedule extends JController
         }
     }
 
-	/**
-	 * Performs access checks. Checks if the schedule is already active. If the
-	 * schedule is not already active, calls the activate function of the
-	 * schedule model.
-	 * 
-	 * @return  void
-	 */
-	public function activate()
-	{
+    /**
+     * Performs access checks. Checks if the schedule is already active. If the
+     * schedule is not already active, calls the activate function of the
+     * schedule model.
+     * 
+     * @return  void
+     */
+    public function activate()
+    {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
@@ -242,57 +242,57 @@ class THM_OrganizerControllerSchedule extends JController
         {
             $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_ACTIVATE_COUNT"), 'error');
         }
-	}
-	
-	/**
-	 * Performs access checks. Checks whether schedules qualify for a merge.
-	 * Merges schedules.
-	 *
-	 * @return  void
-	 */
-	public function mergeView()
-	{
+    }
+    
+    /**
+     * Performs access checks. Checks whether schedules qualify for a merge.
+     * Merges schedules.
+     *
+     * @return  void
+     */
+    public function mergeView()
+    {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-		$url = 'index.php?option=com_thm_organizer&view=schedule_manager';
-		$merge = $this->getModel('schedule')->checkMergeConstraints();
-		switch ($merge)
-		{
-			case MERGE:
-				JRequest::setVar('view', 'schedule_merge');
-				parent::display();
-				break;
-			case TOO_FEW:
-				$msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_TOOFEW');
-				$this->setRedirect(JRoute::_($url, false), $msg, 'warning');
-				break;
-			case CHECK_DEPARTMENTS:
-				$msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_DEPTARTMENT');
-				$this->setRedirect(JRoute::_($url, false), $msg, 'warning');
-				break;
-			case CHECK_DATES:
-				$msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_DATE');
-				$this->setRedirect(JRoute::_($url, false), $msg, 'warning');
-				break;
-			case NOT_ACTIVE:
-				$msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_ACTIVE');
-				$this->setRedirect(JRoute::_($url, false), $msg, 'warning');
-				break;
-				
-		}
-	}
+        $url = 'index.php?option=com_thm_organizer&view=schedule_manager';
+        $merge = $this->getModel('schedule')->checkMergeConstraints();
+        switch ($merge)
+        {
+            case MERGE:
+                JRequest::setVar('view', 'schedule_merge');
+                parent::display();
+                break;
+            case TOO_FEW:
+                $msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_TOOFEW');
+                $this->setRedirect(JRoute::_($url, false), $msg, 'warning');
+                break;
+            case CHECK_DEPARTMENTS:
+                $msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_DEPTARTMENT');
+                $this->setRedirect(JRoute::_($url, false), $msg, 'warning');
+                break;
+            case CHECK_DATES:
+                $msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_DATE');
+                $this->setRedirect(JRoute::_($url, false), $msg, 'warning');
+                break;
+            case NOT_ACTIVE:
+                $msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_ACTIVE');
+                $this->setRedirect(JRoute::_($url, false), $msg, 'warning');
+                break;
+                
+        }
+    }
 
-	/**
-	 * Performs access checks. Checks if the schedule is already active. If the
-	 * schedule is not already active, calls the activate function of the
-	 * schedule model.
-	 * 
-	 * @return  void
-	 */
-	public function merge()
-	{
+    /**
+     * Performs access checks. Checks if the schedule is already active. If the
+     * schedule is not already active, calls the activate function of the
+     * schedule model.
+     * 
+     * @return  void
+     */
+    public function merge()
+    {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
@@ -300,30 +300,30 @@ class THM_OrganizerControllerSchedule extends JController
 
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
 
-		$model = $this->getModel('schedule');
-		$success = $model->merge();
-		switch ($success)
-		{
-			case ERROR:
-				$msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_FAIL');
-				$this->setRedirect(JRoute::_($url, false), $msg, 'error');
-				break;
-			case MERGE:
-				$msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_SUCCESS');
-				$this->setRedirect(JRoute::_($url, false), $msg);
-				break;
-			case TOO_FEW:
-				$msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_TOOFEW');
-				$this->setRedirect(JRoute::_($url, false), $msg, 'warning');
-				break;
-		}
-	}
+        $model = $this->getModel('schedule');
+        $success = $model->merge();
+        switch ($success)
+        {
+            case ERROR:
+                $msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_FAIL');
+                $this->setRedirect(JRoute::_($url, false), $msg, 'error');
+                break;
+            case MERGE:
+                $msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_SUCCESS');
+                $this->setRedirect(JRoute::_($url, false), $msg);
+                break;
+            case TOO_FEW:
+                $msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_TOOFEW');
+                $this->setRedirect(JRoute::_($url, false), $msg, 'warning');
+                break;
+        }
+    }
 
-	/**
-	 * Method to cancel an edit.
-	 *
-	 * @return  void
-	 */
+    /**
+     * Method to cancel an edit.
+     *
+     * @return  void
+     */
     public function cancel()
     {
         if (!JFactory::getUser()->authorise('core.admin'))

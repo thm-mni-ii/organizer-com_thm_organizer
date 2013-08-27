@@ -167,7 +167,7 @@
 .thm_organizer_se{ color: #025a8d; }
 
 .thm_organizer_se table.admintable{ 
-	width: 50%;
+    width: 50%;
     margin-top: 10px;
 }
 
@@ -225,7 +225,7 @@ li input[disabled=disabled]{ border: none; color: black;}
 /* merge button ***************************************************************/
 .icon-32-merge
 {
-	background: url("../images/icon-32-merge.png");
+    background: url("../images/icon-32-merge.png");
 }
 
 /* children's area ************************************************************/

@@ -21,22 +21,22 @@ jimport('joomla.form.formfield');
  */
 class JFormFieldSubjectFields extends JFormField
 {
-	/**
-	 * Type
-	 *
-	 * @var    String
-	 */
-	protected $type = 'subjectFields';
+    /**
+     * Type
+     *
+     * @var    String
+     */
+    protected $type = 'subjectFields';
 
-	/**
-	 * Returns a selectionbox where stored coursepool can be chosen as a parent node
-	 *
-	 * @return Select box
-	 */
-	public function getInput()
-	{
-		$dbo = JFactory::getDBO();
-		$subjectID = JRequest::getInt('id');
+    /**
+     * Returns a selectionbox where stored coursepool can be chosen as a parent node
+     *
+     * @return Select box
+     */
+    public function getInput()
+    {
+        $dbo = JFactory::getDBO();
+        $subjectID = JRequest::getInt('id');
         
         $selectedQuery = $dbo->getQuery(true);
         $selectedQuery->select('fieldID')->from('#__thm_organizer_subjects')->where("id = '$subjectID'");
@@ -59,41 +59,41 @@ class JFormFieldSubjectFields extends JFormField
             $selected = $field['value'] == $selectedValue? ' selected="selected"' : '';
             $options[] = '<option value="' . $field['value'] . '"' . $style . $selected . '>' . $field['field'] . '</option>';
         }
-		return '<select name="jform[fieldID]" id="jform_fieldID"">' . implode('', $options) . "</select>";
-	}
+        return '<select name="jform[fieldID]" id="jform_fieldID"">' . implode('', $options) . "</select>";
+    }
 
-	/**
-	 * Method to get the field label
-	 *
-	 * @return String The field label
-	 */
-	public function getLabel()
-	{
-		// Initialize variables.
-		$label = '';
-		$replace = '';
+    /**
+     * Method to get the field label
+     *
+     * @return String The field label
+     */
+    public function getLabel()
+    {
+        // Initialize variables.
+        $label = '';
+        $replace = '';
 
-		// Get the label text from the XML element, defaulting to the element name.
-		$text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
+        // Get the label text from the XML element, defaulting to the element name.
+        $text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
 
-		// Build the class for the label.
-		$class = '';
-		$class .= !empty($this->description) ? 'hasTip' : '';
-		$class .= $this->required == true ? ' required' : '';
+        // Build the class for the label.
+        $class = '';
+        $class .= !empty($this->description) ? 'hasTip' : '';
+        $class .= $this->required == true ? ' required' : '';
 
-		// Add the opening label tag and main attributes attributes.
-		$label .= '<label id="' . $this->id . '-lbl" for="' . $this->id . '" class="' . $class . '"';
+        // Add the opening label tag and main attributes attributes.
+        $label .= '<label id="' . $this->id . '-lbl" for="' . $this->id . '" class="' . $class . '"';
 
-		// If a description is specified, use it to build a tooltip.
-		if (!empty($this->description))
-		{
-			$title = trim(JText::_($text), ':') . '::' . JText::_($this->description);
-			$label .= ' title="' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '"';
-		}
+        // If a description is specified, use it to build a tooltip.
+        if (!empty($this->description))
+        {
+            $title = trim(JText::_($text), ':') . '::' . JText::_($this->description);
+            $label .= ' title="' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '"';
+        }
 
-		// Add the label text and closing tag.
-		$label .= '>' . $replace . JText::_($text) . '</label>';
+        // Add the label text and closing tag.
+        $label .= '>' . $replace . JText::_($text) . '</label>';
 
-		return $label;
-	}
+        return $label;
+    }
 }

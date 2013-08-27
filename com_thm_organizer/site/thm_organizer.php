@@ -37,7 +37,7 @@ else
 {
 	$controller = '';
 }
-$classname = 'thm_organizerController' . $controller;
+$classname = 'THM_OrganizerController' . $controller;
 $controllerObj = new $classname;
 $controllerObj->execute($task);
 $controllerObj->redirect();

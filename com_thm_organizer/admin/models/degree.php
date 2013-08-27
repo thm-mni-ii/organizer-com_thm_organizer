@@ -24,38 +24,38 @@ jimport('joomla.application.component.modeladmin');
  */
 class THM_OrganizerModelDegree extends JModel
 {
-	/**
-	 * Saves degree information to the database
-	 * 
-	 * @return  boolean true on success, otherwise false
-	 */
-	public function save()
-	{
+    /**
+     * Saves degree information to the database
+     * 
+     * @return  boolean true on success, otherwise false
+     */
+    public function save()
+    {
         $data = JRequest::getVar('jform', null, null, null, 4);
         $table = JTable::getInstance('degrees', 'thm_organizerTable');
         return $table->save($data);
-	}
+    }
 
-	/**
-	 * Deletes the chosen degrees from the database
-	 * 
-	 * @return boolean true on success, otherwise false
-	 */
-	public function delete()
-	{
-		$query = $this->_db->getQuery(true);
-		$query->delete('#__thm_organizer_degrees');
-		$cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
-		$query->where("id IN ( $cids )");
-		$this->_db->setQuery((string) $query);
-		try
-		{
-			$this->_db->query();
-			return true;
-		}
-		catch ( Exception $exception)
-		{
-			return false;
-		}
-	}
+    /**
+     * Deletes the chosen degrees from the database
+     * 
+     * @return boolean true on success, otherwise false
+     */
+    public function delete()
+    {
+        $query = $this->_db->getQuery(true);
+        $query->delete('#__thm_organizer_degrees');
+        $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
+        $query->where("id IN ( $cids )");
+        $this->_db->setQuery((string) $query);
+        try
+        {
+            $this->_db->query();
+            return true;
+        }
+        catch ( Exception $exception)
+        {
+            return false;
+        }
+    }
 }

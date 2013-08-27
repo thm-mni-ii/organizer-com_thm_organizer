@@ -550,7 +550,7 @@ class THM_OrganizerModelMapping extends JModel
      * @param   int     $resourceID  the id of the resource
      * @param   string  $type        the type of resource being ordered
      * 
-	 * @return  mixed  the int value of an existing ordering or string 'last' if
+     * @return  mixed  the int value of an existing ordering or string 'last' if
      *                 none exists
      */
     private function getOrdering($parentID, $resourceID, $type = 'pool')
@@ -606,9 +606,9 @@ class THM_OrganizerModelMapping extends JModel
     /**
      * Creates and returns instance of JTable for the DB Table Mappings
      * 
-	 * @param   string  $name     The table name. Optional.
-	 * @param   string  $prefix   The class prefix. Optional.
-	 * @param   array   $options  Configuration array for model. Optional.
+     * @param   string  $name     The table name. Optional.
+     * @param   string  $prefix   The class prefix. Optional.
+     * @param   array   $options  Configuration array for model. Optional.
      * 
      * @return  JTable
      */

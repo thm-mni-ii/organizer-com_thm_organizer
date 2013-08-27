@@ -21,22 +21,22 @@ jimport('joomla.form.formfield');
  */
 class JFormFieldSubjectPrograms extends JFormField
 {
-	/**
-	 * Type
-	 *
-	 * @var    String
-	 */
-	protected $type = 'subjectPrograms';
+    /**
+     * Type
+     *
+     * @var    String
+     */
+    protected $type = 'subjectPrograms';
 
-	/**
-	 * Returns a selectionbox where stored coursepool can be chosen as a parent node
-	 *
-	 * @return Select box
-	 */
-	public function getInput()
-	{
-		$dbo = JFactory::getDBO();
-		$subjectID = JRequest::getInt('id');
+    /**
+     * Returns a selectionbox where stored coursepool can be chosen as a parent node
+     *
+     * @return Select box
+     */
+    public function getInput()
+    {
+        $dbo = JFactory::getDBO();
+        $subjectID = JRequest::getInt('id');
         
         $rangesQuery = $dbo->getQuery(true);
         $rangesQuery->select('lft, rgt')->from('#__thm_organizer_mappings')->where("subjectID = '$subjectID'");
@@ -74,45 +74,45 @@ class JFormFieldSubjectPrograms extends JFormField
         $programDefaultOptions = array();
         $programDefaultOptions[] = array('value' => '-1', 'program' => JText::_('COM_THM_ORGANIZER_SEARCH_PROGRAM'));
         $programDefaultOptions[] = array('value' => '-1', 'program' => JText::_('COM_THM_ORGANIZER_POM_NO_PROGRAM'));
-		$programs = array_merge($programDefaultOptions, empty($allPrograms)? array() : $allPrograms);
+        $programs = array_merge($programDefaultOptions, empty($allPrograms)? array() : $allPrograms);
         
         $attributes = array('multiple' => 'multiple');
         $selectedPrograms = empty($associatedPrograms)? array() : $associatedPrograms;
-		return JHTML::_("select.genericlist", $programs, "jform[programID][]", $attributes, "value", "program", $selectedPrograms);
-	}
+        return JHTML::_("select.genericlist", $programs, "jform[programID][]", $attributes, "value", "program", $selectedPrograms);
+    }
 
-	/**
-	 * Method to get the field label
-	 *
-	 * @return String The field label
-	 */
-	public function getLabel()
-	{
-		// Initialize variables.
-		$label = '';
-		$replace = '';
+    /**
+     * Method to get the field label
+     *
+     * @return String The field label
+     */
+    public function getLabel()
+    {
+        // Initialize variables.
+        $label = '';
+        $replace = '';
 
-		// Get the label text from the XML element, defaulting to the element name.
-		$text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
+        // Get the label text from the XML element, defaulting to the element name.
+        $text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
 
-		// Build the class for the label.
-		$class = '';
-		$class .= !empty($this->description) ? 'hasTip' : '';
-		$class .= $this->required == true ? ' required' : '';
+        // Build the class for the label.
+        $class = '';
+        $class .= !empty($this->description) ? 'hasTip' : '';
+        $class .= $this->required == true ? ' required' : '';
 
-		// Add the opening label tag and main attributes attributes.
-		$label .= '<label id="' . $this->id . '-lbl" for="' . $this->id . '" class="' . $class . '"';
+        // Add the opening label tag and main attributes attributes.
+        $label .= '<label id="' . $this->id . '-lbl" for="' . $this->id . '" class="' . $class . '"';
 
-		// If a description is specified, use it to build a tooltip.
-		if (!empty($this->description))
-		{
-			$title = trim(JText::_($text), ':') . '::' . JText::_($this->description);
-			$label .= ' title="' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '"';
-		}
+        // If a description is specified, use it to build a tooltip.
+        if (!empty($this->description))
+        {
+            $title = trim(JText::_($text), ':') . '::' . JText::_($this->description);
+            $label .= ' title="' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '"';
+        }
 
-		// Add the label text and closing tag.
-		$label .= '>' . $replace . JText::_($text) . '</label>';
+        // Add the label text and closing tag.
+        $label .= '>' . $replace . JText::_($text) . '</label>';
 
-		return $label;
-	}
+        return $label;
+    }
 }

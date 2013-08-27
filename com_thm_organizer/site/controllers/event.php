@@ -87,16 +87,7 @@ class THM_OrganizerControllerEvent extends JController
         $eventID = JRequest::getInt('eventID', 0);
         $menuID = JRequest::getVar('Itemid');
 
-        if ($eventID == 0)
-        {
-            $canSave = THMEventAccess::canCreate();
-        }
-        else
-        {
-            $canSave = THMEventAccess::canEdit($eventID);
-        }
-
-        if ($canSave)
+        if (THMEventAccess::canCreate() OR THMEventAccess::canEdit($eventID))
         {
             $schedulerCall = JRequest::getVar('schedulerCall');
             $model = $this->getModel('event');

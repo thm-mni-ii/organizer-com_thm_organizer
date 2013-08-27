@@ -1,84 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset name="component"
+    <fieldset name="component"
               label="COM_THM_ORGANIZER_SETTINGS_TITLE"
               description="COM_THM_ORGANIZER_SETTINGS_DESC">
-		<field name="eCollabLink"
+        <field name="eCollabLink"
                type="text"
                size="60"
                default="http://moodle.thm.de/course/view.php?idnumber="
                label="COM_THM_ORGANIZER_SETTINGS_ECOLLAB_TITLE"
                description="COM_THM_ORGANIZER_SETTINGS_ECOLLAB_DESC">
-		</field>
-	</fieldset>
-	<fieldset name="LSF-SERVICE"
+        </field>
+    </fieldset>
+    <fieldset name="LSF-SERVICE"
               label="COM_THM_ORGANIZER_LSF_SERVICE_TITLE"
               description="COM_THM_ORGANIZER_LSF_SERVICE_DESC">
-		<field name="wsURI"
+        <field name="wsURI"
                type="text"
                default="https://studien-sb-service.fh-giessen-friedberg.de/lsfadmin/services/dbinterface?wsdl"
                size="100"
                label="COM_THM_ORGANIZER_LSF_URI_TITLE"
                description="COM_THM_ORGANIZER_LSF_URI_DESC">
-		</field>
-		<field name="wsUsername"
+        </field>
+        <field name="wsUsername"
                type="text"
                default="soapclmni"
                size="30"
                label="COM_THM_ORGANIZER_LSF_USERNAME_TITLE"
                description="COM_THM_ORGANIZER_LSF_USERNAME_DESC">
-		</field>
-		<field name="wsPassword"
+        </field>
+        <field name="wsPassword"
                type="text"
                default="cByAroe5"
                size="30"
                label="COM_THM_ORGANIZER_LSF_PASSWORD_TITLE"
                description="COM_THM_ORGANIZER_LSF_PASSWORD_DESC">
-		</field>
-	</fieldset>   
-	<fieldset name="LSF-FILTER"
+        </field>
+    </fieldset>   
+    <fieldset name="LSF-FILTER"
               label="COM_THM_ORGANIZER_LSF_FILTER_TITLE"
               description="COM_THM_ORGANIZER_LSF_FILTER_DESC">
-		<field name="filter"
+        <field name="filter"
                type="radio"
                default="0"
                label="COM_THM_ORGANIZER_LSF_FILTER_ACTIVATE_TITLE"
                description="COM_THM_ORGANIZER_LSF_FILTER_ACTIVATE_DESC">
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-		<field name="filterType"
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field name="filterType"
                type="radio"
                default="0"
                label="COM_THM_ORGANIZER_LSF_FILTER_TYPE_TITLE"
                description="COM_THM_ORGANIZER_LSF_FILTER_TYPE_DESC">
-			<option value="0">COM_THM_ORGANIZER_LSF_FILTER_MODULENR</option>
-			<option value="1">COM_THM_ORGANIZER_LSF_FILTER_ABBREVIATION</option>
-		</field>
-		<field name="filterModuleList"
+            <option value="0">COM_THM_ORGANIZER_LSF_FILTER_MODULENR</option>
+            <option value="1">COM_THM_ORGANIZER_LSF_FILTER_ABBREVIATION</option>
+        </field>
+        <field name="filterModuleList"
                type="textarea"
                label="COM_THM_ORGANIZER_LSF_FILTER_MODULENR_TITLE"
                description="COM_THM_ORGANIZER_LSF_FILTER_MODULENR_DESC"
                rows="5"
                cols="30">
-		</field>
-		<field name="filterAbbrList"
+        </field>
+        <field name="filterAbbrList"
                type="textarea"
                label="COM_THM_ORGANIZER_LSF_FILTER_ABBREVIATION_TITLE"
                description="COM_THM_ORGANIZER_LSF_FILTER_ABBREVIATION_DESC"
                rows="5"
                cols="30">
-		</field>
-	</fieldset>
-	<fieldset name="permissions"
+        </field>
+    </fieldset>
+    <fieldset name="permissions"
               label="JCONFIG_PERMISSIONS_LABEL"
               description="JCONFIG_PERMISSIONS_DESC">
-		<field name="rules"
+        <field name="rules"
                type="rules"
                label="JCONFIG_PERMISSIONS_LABEL"
                validate="rules"
                filter="rules"
                component="com_thm_organizer"
                section="component" />
-	</fieldset>
+    </fieldset>
 </config>

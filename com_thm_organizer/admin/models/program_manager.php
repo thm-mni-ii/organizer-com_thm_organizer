@@ -30,34 +30,34 @@ class THM_OrganizerModelProgram_Manager extends JModelList
 
     public $fields = null;
 
-	/**
-	 * Constructor to initialise the database and call the parent constructor
-	 */
-	public function __construct()
-	{
-		parent::__construct();
+    /**
+     * Constructor to initialise the database and call the parent constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
         $this->degrees = $this->getDegrees();
         $this->versions = $this->getVersions();
         $this->fields = $this->getFields();
-	}
+    }
 
-	/**
-	 * Method to determine all majors
-	 *
-	 * @return  JDatabaseQuery
-	 */
-	protected function getListQuery()
-	{
-		$query = $this->_db->getQuery(true);
-		$select = "subject, abbreviation, version, lsfDegree, lsfFieldID, ";
-		$select .= "dp.id as id, m.id AS mapping, field, color ";
-		$query->select($select);
+    /**
+     * Method to determine all majors
+     *
+     * @return  JDatabaseQuery
+     */
+    protected function getListQuery()
+    {
+        $query = $this->_db->getQuery(true);
+        $select = "subject, abbreviation, version, lsfDegree, lsfFieldID, ";
+        $select .= "dp.id as id, m.id AS mapping, field, color ";
+        $query->select($select);
 
-		$query->from('#__thm_organizer_programs AS dp');
+        $query->from('#__thm_organizer_programs AS dp');
         $query->leftJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
-		$query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
-		$query->leftJoin('#__thm_organizer_fields AS f ON dp.fieldID = f.id');
-		$query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
+        $query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
+        $query->leftJoin('#__thm_organizer_fields AS f ON dp.fieldID = f.id');
+        $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
 
         $clue = $this->getState('filter.search');
         if (isset($clue))
@@ -91,32 +91,32 @@ class THM_OrganizerModelProgram_Manager extends JModelList
             $query->where("f.id = '$field'");
         }
 
-		$query->order("{$this->state->get('list.ordering')} {$this->state->get('list.direction')}");
+        $query->order("{$this->state->get('list.ordering')} {$this->state->get('list.direction')}");
 
-		return $query;
-	}
+        return $query;
+    }
 
-	/**
-	 * Method to populate state
-	 * 
-	 * @param   string  $orderBy    An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
-	 *
-	 * @return  void
-	 */
-	protected function populateState($orderBy = null, $direction = null)
-	{        
-		$orderBy = $this->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'subject, abbreviation, version');
-		$this->setState('list.ordering', $orderBy);
+    /**
+     * Method to populate state
+     * 
+     * @param   string  $orderBy    An optional ordering field.
+     * @param   string  $direction  An optional direction (asc|desc).
+     *
+     * @return  void
+     */
+    protected function populateState($orderBy = null, $direction = null)
+    {        
+        $orderBy = $this->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'subject, abbreviation, version');
+        $this->setState('list.ordering', $orderBy);
 
-		$direction = $this->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
-		$this->setState('list.direction', $direction);
+        $direction = $this->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
+        $this->setState('list.direction', $direction);
 
-		$filter = $this->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
-		$this->setState('filter.search', $filter);
+        $filter = $this->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
+        $this->setState('filter.search', $filter);
         
-		$limit = $this->getUserStateFromRequest($this->context . '.limit', 'limit', '');
-		$this->setState('limit', $limit);
+        $limit = $this->getUserStateFromRequest($this->context . '.limit', 'limit', '');
+        $this->setState('limit', $limit);
 
         $degree = $this->getUserStateFromRequest($this->context . '.filter.degree', 'filter_degree');
         $this->setState('filter.degree', $degree);
@@ -127,8 +127,8 @@ class THM_OrganizerModelProgram_Manager extends JModelList
         $field = $this->getUserStateFromRequest($this->context . '.filter.field', 'filter_field');
         $this->setState('filter.field', $field);
 
-		parent::populateState($orderBy, $direction);
-	}
+        parent::populateState($orderBy, $direction);
+    }
 
     /**
      * Retrieves a list of degrees and their ids

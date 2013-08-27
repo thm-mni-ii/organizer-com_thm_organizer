@@ -36,11 +36,11 @@ function showTypeResource(index)
     else if(index === 1)
     {
         roomDepartmentElement.show();
-        roomsElement.show();		
+        roomsElement.show();        
     }
     else
     {
         teacherDepartmentElement.show();
-        teachersElement.show();		
+        teachersElement.show();        
     }
 }

@@ -22,90 +22,90 @@ jimport('joomla.application.component.modellist');
  */
 class THM_OrganizerModelColor_Manager extends JModelList
 {
-	/**
-	 * Constructor to set the config array and call the parent constructor
-	 *
-	 * @param   Array  $config  Configuration  (default: Array)
-	 */
-	public function __construct($config = array())
-	{
-		if (empty($config['filter_fields']))
-		{
-			$config['filter_fields'] = array(
-					'id', 'id'
-			);
-		}
+    /**
+     * Constructor to set the config array and call the parent constructor
+     *
+     * @param   Array  $config  Configuration  (default: Array)
+     */
+    public function __construct($config = array())
+    {
+        if (empty($config['filter_fields']))
+        {
+            $config['filter_fields'] = array(
+                    'id', 'id'
+            );
+        }
 
-		parent::__construct($config);
-	}
+        parent::__construct($config);
+    }
 
-	/**
-	 * Method to get all colors from the database
-	 *
-	 * @return  JDatabaseQuery
-	 */
-	protected function getListQuery()
-	{
-		$dbo = JFactory::getDBO();
+    /**
+     * Method to get all colors from the database
+     *
+     * @return  JDatabaseQuery
+     */
+    protected function getListQuery()
+    {
+        $dbo = JFactory::getDBO();
 
-		// Get the filter values from the request
-		$orderBy = $this->state->get('list.ordering');
-		$orderDir = $this->state->get('list.direction');
+        // Get the filter values from the request
+        $orderBy = $this->state->get('list.ordering');
+        $orderDir = $this->state->get('list.direction');
 
-		// Defailt ordering
-		if ($orderBy == "")
-		{
-			$orderBy = "id";
-			$orderDir = "ASC";
-		}
+        // Defailt ordering
+        if ($orderBy == "")
+        {
+            $orderBy = "id";
+            $orderDir = "ASC";
+        }
 
-		// Create the query
-		$query = $dbo->getQuery(true);
-		$query->select("*");
-		$query->from('#__thm_organizer_colors');
-		$query->order("$orderBy $orderDir");
+        // Create the query
+        $query = $dbo->getQuery(true);
+        $query->select("*");
+        $query->from('#__thm_organizer_colors');
+        $query->order("$orderBy $orderDir");
 
-		return $query;
-	}
+        return $query;
+    }
 
-	/**
-	 * Method to get the populate state
-	 * 
-	 * @param   string  $orderBy   the property by which the results should be ordered
-	 * @param   string  $orderDir  the direction in which results should be ordered
-	 * 
-	 * @return  void
-	 */
-	protected function populateState($orderBy = null, $orderDir = null)
-	{
-		$layout = JRequest::getVar('layout');
-		if (!empty($layout))
-		{
-			$this->context .= ".$layout";
-		}
+    /**
+     * Method to get the populate state
+     * 
+     * @param   string  $orderBy   the property by which the results should be ordered
+     * @param   string  $orderDir  the direction in which results should be ordered
+     * 
+     * @return  void
+     */
+    protected function populateState($orderBy = null, $orderDir = null)
+    {
+        $layout = JRequest::getVar('layout');
+        if (!empty($layout))
+        {
+            $this->context .= ".$layout";
+        }
 
-		$app = JFactory::getApplication('administrator');
+        $app = JFactory::getApplication('administrator');
 
-		$orderBy = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', '');
-		$this->setState('list.ordering', $orderBy);
+        $orderBy = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', '');
+        $this->setState('list.ordering', $orderBy);
 
-		$orderDir = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', '');
-		$this->setState('list.direction', $orderDir);
+        $orderDir = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', '');
+        $this->setState('list.direction', $orderDir);
 
-		$filter = $app->getUserStateFromRequest($this->context . '.filter', 'filter', '');
-		$this->setState('filter', $filter);
+        $filter = $app->getUserStateFromRequest($this->context . '.filter', 'filter', '');
+        $this->setState('filter', $filter);
 
-		$limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
-		$this->setState('limit', $limit);
+        $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
+        $this->setState('limit', $limit);
 
-		// Set the default ordering behaviour
-		if ($orderBy == '' && isset($orderBy))
-		{
-			parent::populateState("id", "ASC");
-		}
-		else
-		{
-			parent::populateState($orderBy, $orderDir);
-		}
-	}
+        // Set the default ordering behaviour
+        if ($orderBy == '' && isset($orderBy))
+        {
+            parent::populateState("id", "ASC");
+        }
+        else
+        {
+            parent::populateState($orderBy, $orderDir);
+        }
+    }
 }

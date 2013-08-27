@@ -25,23 +25,23 @@ class THM_OrganizerModelPool_Manager extends JModelList
     
     public $programs = null;
 
-	/**
-	 * Constructor to initialise the database and call the parent constructor
-	 */
-	public function __construct()
-	{
-		parent::__construct();
+    /**
+     * Constructor to initialise the database and call the parent constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
         $this->setPrograms();
-	}
+    }
 
-	/**
-	 * Method to overwrite the getItems method in order to set the program name
-	 *
-	 * @return  array  an array of objects fullfilling the request criteria
-	 */
-	public function getItems()
-	{
-		$pools = parent::getItems();
+    /**
+     * Method to overwrite the getItems method in order to set the program name
+     *
+     * @return  array  an array of objects fullfilling the request criteria
+     */
+    public function getItems()
+    {
+        $pools = parent::getItems();
         if (!empty($pools))
         {
             foreach ($pools as $key => $pool)
@@ -54,25 +54,25 @@ class THM_OrganizerModelPool_Manager extends JModelList
         {
             $this->setProgramName();
         }
-		return $pools;
-	}
+        return $pools;
+    }
 
-	/**
-	 * Method to select the tree of a given major
-	 *
-	 * @return  JDatabaseQuery
-	 */
-	protected function getListQuery()
-	{
-		$dbo = JFactory::getDBO();
-		$query = $dbo->getQuery(true);
+    /**
+     * Method to select the tree of a given major
+     *
+     * @return  JDatabaseQuery
+     */
+    protected function getListQuery()
+    {
+        $dbo = JFactory::getDBO();
+        $query = $dbo->getQuery(true);
 
         $language = explode('-', JFactory::getLanguage()->getTag());
         $select = ($language[0] == 'de')? 'name_de AS name, ' : 'name_en AS name, ';
-		$select .= 'p.id, lsfID, hisID, externalID, minCrP, maxCrP, f.field, color';
-		$orderBy = $this->state->get('list.ordering', 'name');
-		$orderDir = $this->state->get('list.direction', 'ASC');
-		$search = '%' . $dbo->getEscaped($this->state->get('filter.search'), true) . '%';
+        $select .= 'p.id, lsfID, hisID, externalID, minCrP, maxCrP, f.field, color';
+        $orderBy = $this->state->get('list.ordering', 'name');
+        $orderDir = $this->state->get('list.direction', 'ASC');
+        $search = '%' . $dbo->getEscaped($this->state->get('filter.search'), true) . '%';
         if ($search != '%%')
         {
             if ($language[0] == 'de')
@@ -94,14 +94,14 @@ class THM_OrganizerModelPool_Manager extends JModelList
             $borders = $this->getProgramBorders($programID);
         }
         
-		$query->select($select);
-		$query->from('#__thm_organizer_pools AS p');
+        $query->select($select);
+        $query->from('#__thm_organizer_pools AS p');
         if (!empty($borders))
         {
             $query->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
         }
-		$query->leftJoin('#__thm_organizer_fields AS f ON p.fieldID = f.id');
-		$query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
+        $query->leftJoin('#__thm_organizer_fields AS f ON p.fieldID = f.id');
+        $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
         if (!empty($searchClause))
         {
             $query->where($searchClause);
@@ -111,10 +111,10 @@ class THM_OrganizerModelPool_Manager extends JModelList
             $query->where("lft > '{$borders['lft']}'");
             $query->where("rgt < '{$borders['rgt']}'");
         }
-		$query->order("$orderBy $orderDir");
-		
-		return $query;
-	}
+        $query->order("$orderBy $orderDir");
+        
+        return $query;
+    }
 
     /**
      * Retrieves the mapped left and right values for the requested program
@@ -203,28 +203,28 @@ class THM_OrganizerModelPool_Manager extends JModelList
     }
 
     /**
-	 * Method to auto-populate the model state.
-	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
-	 *
-	 * @return  void
-	 */
-	protected function populateState($ordering = null, $direction = null)
-	{
+     * Method to auto-populate the model state.
+     *
+     * @param   string  $ordering   An optional ordering field.
+     * @param   string  $direction  An optional direction (asc|desc).
+     *
+     * @return  void
+     */
+    protected function populateState($ordering = null, $direction = null)
+    {
         $app = JFactory::getApplication();
-		$ordering = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'name');
-		$this->setState('list.ordering', $ordering);
-		$direction = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
-		$this->setState('list.direction', $direction);
-		$search = $app->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
-		$this->setState('filter.search', $search);
-		$formProgram = $app->getUserStateFromRequest($this->context . '.filter_program', 'filter_program', '');
+        $ordering = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'name');
+        $this->setState('list.ordering', $ordering);
+        $direction = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
+        $this->setState('list.direction', $direction);
+        $search = $app->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
+        $this->setState('filter.search', $search);
+        $formProgram = $app->getUserStateFromRequest($this->context . '.filter_program', 'filter_program', '');
         $requestProgram = JRequest::getInt('programID');
-		$this->setState('filter.program', (empty($formProgram) OR $formProgram == '-1')? $requestProgram : $formProgram);
-		$limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
-		$this->setState('limit', $limit);
-	}
+        $this->setState('filter.program', (empty($formProgram) OR $formProgram == '-1')? $requestProgram : $formProgram);
+        $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
+        $this->setState('limit', $limit);
+    }
 
     /**
      * Sets the program name for title bar

@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerControllerSubject
+ * @name        THM_OrganizerControllerSubject
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -168,26 +168,26 @@ class THM_OrganizerControllerSubject extends JController
     }
     
     /**
-	 * Perfoerms access checks and makes function calls for importing LSF Data
-	 *
-	 * @return  void
-	 */
+     * Perfoerms access checks and makes function calls for importing LSF Data
+     *
+     * @return  void
+     */
     public function importLSFData()
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-		$success = $this->getModel('subject')->importLSFDataBatch();
-		if ($success)
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_SUM_FILL_SUCCESS');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false), $msg);
-		}
-		else
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_SUM_FILL_FAIL');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false), $msg, 'error');
-		}
+        $success = $this->getModel('subject')->importLSFDataBatch();
+        if ($success)
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_SUM_FILL_SUCCESS');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false), $msg);
+        }
+        else
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_SUM_FILL_FAIL');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false), $msg, 'error');
+        }
     }
 }

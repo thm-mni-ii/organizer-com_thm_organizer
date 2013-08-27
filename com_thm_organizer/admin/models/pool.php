@@ -119,14 +119,14 @@ class THM_OrganizerModelPool extends JModel
         return true;
     }
 
- 	/**
-	 * Saves
-	 *
-	 * @return  mixed  integer on successful pool creation, otherwise boolean
+     /**
+     * Saves
+     *
+     * @return  mixed  integer on successful pool creation, otherwise boolean
      *                 true/false on success/failure
-	 */
-	public function save()
-	{
+     */
+    public function save()
+    {
         $data = JRequest::getVar('jform', null, null, null, 4);
         $table = JTable::getInstance('pools', 'thm_organizerTable');
         
@@ -184,6 +184,6 @@ class THM_OrganizerModelPool extends JModel
                 }
             }
         }
-	}
+    }
 
 }

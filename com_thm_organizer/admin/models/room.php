@@ -28,14 +28,14 @@ class THM_OrganizerModelRoom extends JModel
      * 
      * @return true on success, otherwise false
      */
-	public function save()
-	{
-		$dbo = JFactory::getDbo();
+    public function save()
+    {
+        $dbo = JFactory::getDbo();
         $data = JRequest::getVar('jform', null, null, null, 4);
-		$dbo->transactionStart();
+        $dbo->transactionStart();
         $scheduleSuccess = $this->updateScheduleData($data, "'" . $data['id'] . "'");
-		if ($scheduleSuccess)
-		{
+        if ($scheduleSuccess)
+        {
             $table = JTable::getInstance('rooms', 'thm_organizerTable');
             $roomSuccess = $table->save($data);
             if ($roomSuccess)
@@ -43,10 +43,10 @@ class THM_OrganizerModelRoom extends JModel
                 $dbo->transactionCommit();
                 return true;
             }
-		}
+        }
         $dbo->transactionRollback();
         return false;
-	}
+    }
 
     /**
      * Attempts an iterative merge of all teacher entries. Due to the attempted
@@ -59,7 +59,7 @@ class THM_OrganizerModelRoom extends JModel
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-		$query->select('*')->from('#__thm_organizer_rooms')->order('longname, id ASC');
+        $query->select('*')->from('#__thm_organizer_rooms')->order('longname, id ASC');
         $dbo->setQuery((string) $query);
         $roomEntries = $dbo->loadAssocList();
 
@@ -102,8 +102,8 @@ class THM_OrganizerModelRoom extends JModel
      * 
      * @return  boolean  true on success, otherwise false
      */
-	public function autoMerge($roomEntries = null)
-	{
+    public function autoMerge($roomEntries = null)
+    {
         if (empty($roomEntries))
         {
             $dbo = JFactory::getDbo();
@@ -120,17 +120,17 @@ class THM_OrganizerModelRoom extends JModel
             $roomEntries = $dbo->loadAssocList();
         }
 
-		$data = array();
-		$otherIDs = array();
-		foreach ($roomEntries as $entry)
-		{
-			foreach ($entry as $property => $value)
-			{
-				// Property value is not set for DB Entry
-				if (empty($value))
-				{
-					continue;
-				}
+        $data = array();
+        $otherIDs = array();
+        foreach ($roomEntries as $entry)
+        {
+            foreach ($entry as $property => $value)
+            {
+                // Property value is not set for DB Entry
+                if (empty($value))
+                {
+                    continue;
+                }
                 
                 if ($property == 'gpuntisID' OR $property == 'name')
                 {
@@ -142,89 +142,89 @@ class THM_OrganizerModelRoom extends JModel
                         $value = "$building.$floor.$room";
                     }
                 }
-				
-				// Initial set of data property
-				if (!isset($data[$property]))
-				{
-					$data[$property] = $value;
-				}
-				
-				// Propery already set and a value differentiation exists => manual merge
-				elseif ($data[$property] != $value)
-				{
-					if ($property == 'id')
-					{
-						$otherIDs[] = $value;
-						continue;
-					}
-					return false;
-				}
-			}
-		}
-		$data['otherIDs'] = "'" . implode("', '", $otherIDs) . "'";
-		return $this->merge($data);
-	}
+                
+                // Initial set of data property
+                if (!isset($data[$property]))
+                {
+                    $data[$property] = $value;
+                }
+                
+                // Propery already set and a value differentiation exists => manual merge
+                elseif ($data[$property] != $value)
+                {
+                    if ($property == 'id')
+                    {
+                        $otherIDs[] = $value;
+                        continue;
+                    }
+                    return false;
+                }
+            }
+        }
+        $data['otherIDs'] = "'" . implode("', '", $otherIDs) . "'";
+        return $this->merge($data);
+    }
 
-	/**
-	 * Merges resource entries and cleans association tables.
-	 * 
-	 * @param   array  $data  array used by the automerge function to
-	 *                        automatically set room values
-	 * 
-	 * @return  boolean  true on success, otherwise false
-	 */
-	public function merge($data = null)
-	{
-		// Clean POST variables
-		if (empty($data))
-		{
-			$data['id'] = JRequest::getInt('id');
-			$data['name'] = JRequest::getString('name');
-			$data['longname'] = JRequest::getString('longname');
-			$data['gpuntisID'] = JRequest::getString('gpuntisID');
-			$data['typeID'] = JRequest::getInt('typeID')? JRequest::getInt('typeID') : null;
-			$data['otherIDs'] = "'" . implode("', '", explode(',', JRequest::getString('otherIDs'))) . "'";
-		}
+    /**
+     * Merges resource entries and cleans association tables.
+     * 
+     * @param   array  $data  array used by the automerge function to
+     *                        automatically set room values
+     * 
+     * @return  boolean  true on success, otherwise false
+     */
+    public function merge($data = null)
+    {
+        // Clean POST variables
+        if (empty($data))
+        {
+            $data['id'] = JRequest::getInt('id');
+            $data['name'] = JRequest::getString('name');
+            $data['longname'] = JRequest::getString('longname');
+            $data['gpuntisID'] = JRequest::getString('gpuntisID');
+            $data['typeID'] = JRequest::getInt('typeID')? JRequest::getInt('typeID') : null;
+            $data['otherIDs'] = "'" . implode("', '", explode(',', JRequest::getString('otherIDs'))) . "'";
+        }
 
-		$dbo = JFactory::getDbo();
-		$dbo->transactionStart();
+        $dbo = JFactory::getDbo();
+        $dbo->transactionStart();
 
-		$eventsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'event_rooms');
-		if (!$eventsSuccess)
-		{
-			$dbo->transactionRollback();
-			return false;
-		}
+        $eventsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'event_rooms');
+        if (!$eventsSuccess)
+        {
+            $dbo->transactionRollback();
+            return false;
+        }
 
-		$monitorsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'monitors');
-		if (!$monitorsSuccess)
-		{
-			$dbo->transactionRollback();
-			return false;
-		}
+        $monitorsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'monitors');
+        if (!$monitorsSuccess)
+        {
+            $dbo->transactionRollback();
+            return false;
+        }
 
-		if (!empty($data['gpuntisID']))
-		{
-			$allIDs = "'{$data['id']}', " . $data['otherIDs'];
-			$schedulesSuccess = $this->updateScheduleData($data, $allIDs);
-			if (!$schedulesSuccess)
-			{
-				$dbo->transactionRollback();
-				return false;
-			}
-		}
-		
-		// Update entry with lowest ID
+        if (!empty($data['gpuntisID']))
+        {
+            $allIDs = "'{$data['id']}', " . $data['otherIDs'];
+            $schedulesSuccess = $this->updateScheduleData($data, $allIDs);
+            if (!$schedulesSuccess)
+            {
+                $dbo->transactionRollback();
+                return false;
+            }
+        }
+        
+        // Update entry with lowest ID
         $room = JTable::getInstance('rooms', 'thm_organizerTable');
-		$success = $room->save($data);
-		if (!$success)
-		{
-			$dbo->transactionRollback();
-			return false;
-		}
+        $success = $room->save($data);
+        if (!$success)
+        {
+            $dbo->transactionRollback();
+            return false;
+        }
 
-		$deleteQuery = $dbo->getQuery(true);
-		$deleteQuery->delete('#__thm_organizer_rooms');
+        $deleteQuery = $dbo->getQuery(true);
+        $deleteQuery->delete('#__thm_organizer_rooms');
 		$deleteQuery->where("id IN ( {$data['otherIDs']} )");
 		$dbo->setQuery((string) $deleteQuery);
 		try

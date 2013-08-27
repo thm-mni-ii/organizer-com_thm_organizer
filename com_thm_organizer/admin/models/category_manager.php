@@ -128,11 +128,11 @@ class THM_OrganizerModelCategory_Manager extends JModelList
         $contentCat = $dbo->escape($this->getUserStateFromRequest($this->context . '.filter.content_cat', 'filter_content_cat'));
         $this->setState('filter.content_cat', $contentCat);
 
-		$orderBy = $this->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'ectitle');
-		$this->setState('list.ordering', $orderBy);
+        $orderBy = $this->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'ectitle');
+        $this->setState('list.ordering', $orderBy);
 
-		$direction = $this->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
-		$this->setState('list.direction', $direction);
+        $direction = $this->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
+        $this->setState('list.direction', $direction);
 
         parent::populateState($ordering, $direction);
     }

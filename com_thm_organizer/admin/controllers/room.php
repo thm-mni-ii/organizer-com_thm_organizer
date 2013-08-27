@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerControllerRoom
+ * @name        THM_OrganizerControllerRoom
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -38,20 +38,20 @@ class THM_OrganizerControllerRoom extends JController
         parent::display();
     }
 
-	/**
-	 * Performs access checks and redirects to the room edit view
-	 *
-	 * @return  void
-	 */
-	public function edit()
-	{
+    /**
+     * Performs access checks and redirects to the room edit view
+     *
+     * @return  void
+     */
+    public function edit()
+    {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
         JRequest::setVar('view', 'room_edit');
         parent::display();
-	}
+    }
 
     /**
      * Performs access checks and calls the room model's autoMergeAll function
@@ -72,128 +72,128 @@ class THM_OrganizerControllerRoom extends JController
         $msg = JText::_('COM_THM_ORGANIZER_RMM_AUTO_MERGE');
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg);
     }
-	
-	/**
-	 * Performs access checks, calls the room model's autoMerge function. Should
+    
+    /**
+     * Performs access checks, calls the room model's autoMerge function. Should
      * the room entries be mergeable based upon plausibility constraints this is
      * done automatically, otherwise a redirect is made to the room merge view.
-	 *
-	 * @return  void
-	 */
-	public function mergeView()
-	{
+     *
+     * @return  void
+     */
+    public function mergeView()
+    {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-		if (count(JRequest::getVar('cid', array(), 'post', 'array')) == 1)
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_RMM_MERGE_TOOFEW');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg, 'warning');
-		}
-		else
-		{
-			$model = $this->getModel('room');
-			$success = $model->autoMerge();
-			if ($success)
-			{
-				$msg = JText::_('COM_THM_ORGANIZER_RMM_MERGE_SUCCESS');
-				$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg);
-			}
-			else
-			{
-				JRequest::setVar('view', 'room_merge');
-				parent::display();
-			}
-		}
-	}
+        if (count(JRequest::getVar('cid', array(), 'post', 'array')) == 1)
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_RMM_MERGE_TOOFEW');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg, 'warning');
+        }
+        else
+        {
+            $model = $this->getModel('room');
+            $success = $model->autoMerge();
+            if ($success)
+            {
+                $msg = JText::_('COM_THM_ORGANIZER_RMM_MERGE_SUCCESS');
+                $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg);
+            }
+            else
+            {
+                JRequest::setVar('view', 'room_merge');
+                parent::display();
+            }
+        }
+    }
 
-	/**
-	 * Performs access checks, makes call to the models's save function, and
-	 * redirects to the room manager view
-	 *
-	 * @return  void
-	 */
-	public function save()
-	{
+    /**
+     * Performs access checks, makes call to the models's save function, and
+     * redirects to the room manager view
+     *
+     * @return  void
+     */
+    public function save()
+    {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-		$success = $this->getModel('room')->save();
-		if ($success)
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_RMM_SAVE_SUCCESS');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg);
-		}
-		else
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_RMM_SAVE_FAIL');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg, 'error');
-		}
-	}
+        $success = $this->getModel('room')->save();
+        if ($success)
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_RMM_SAVE_SUCCESS');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg);
+        }
+        else
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_RMM_SAVE_FAIL');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg, 'error');
+        }
+    }
 
-	/**
-	 * Performs access checks, makes call to the models's merge function, and
-	 * redirects to the room manager view
-	 *
-	 * @return  void
-	 */
-	public function merge()
-	{
+    /**
+     * Performs access checks, makes call to the models's merge function, and
+     * redirects to the room manager view
+     *
+     * @return  void
+     */
+    public function merge()
+    {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-		$success = $this->getModel('room')->merge();
-		if ($success)
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_RMM_MERGE_SUCCESS');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg);
-		}
-		else
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_RMM_MERGE_FAIL');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg, 'error');
-		}
-	}
+        $success = $this->getModel('room')->merge();
+        if ($success)
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_RMM_MERGE_SUCCESS');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg);
+        }
+        else
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_RMM_MERGE_FAIL');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg, 'error');
+        }
+    }
 
-	/**
-	 * Performs access checks, makes call to the models's delete function, and
-	 * redirects to the room manager view
-	 *
-	 * @return  void
-	 */
-	public function delete()
-	{
+    /**
+     * Performs access checks, makes call to the models's delete function, and
+     * redirects to the room manager view
+     *
+     * @return  void
+     */
+    public function delete()
+    {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-		$success = $this->getModel('room')->delete();
-		if ($success)
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_RMM_DELETE_SUCCESS');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg);
-		}
-		else
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_RMM_DELETE_FAIL');
-			$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg, 'error');
-		}
-	}
+        $success = $this->getModel('room')->delete();
+        if ($success)
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_RMM_DELETE_SUCCESS');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg);
+        }
+        else
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_RMM_DELETE_FAIL');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg, 'error');
+        }
+    }
 
-	/**
-	 * Method to cancel an edit.
-	 *
-	 * @return  void
-	 */
-	public function cancel()
-	{
+    /**
+     * Method to cancel an edit.
+     *
+     * @return  void
+     */
+    public function cancel()
+    {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-		$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false));
-	}
+        $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false));
+    }
 }

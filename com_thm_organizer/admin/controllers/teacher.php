@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerControllerTeacher
+ * @name        THM_OrganizerControllerTeacher
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -74,7 +74,7 @@ class THM_OrganizerControllerTeacher extends JController
     }
 
     /**
-	 * Performs access checks, calls the teacher model's autoMerge function.
+     * Performs access checks, calls the teacher model's autoMerge function.
      * Should the room entries be mergeable based upon plausibility constraints
      * this is done automatically, otherwise a redirect is made to the teacher
      * merge view.
