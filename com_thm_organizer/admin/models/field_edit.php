@@ -53,7 +53,7 @@ class THM_OrganizerModelField_Edit extends JModelAdmin
         $fieldID = (empty($fieldIDs))? JRequest::getInt('id') : $fieldIDs[0];
         return $this->getItem($fieldID);
     }
-    
+ 
     /**
      * Method to get the table
      *

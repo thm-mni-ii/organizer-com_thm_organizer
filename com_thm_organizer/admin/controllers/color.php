@@ -23,8 +23,8 @@ class THM_OrganizerControllerColor extends JController
 {
     /**
      * Performs access checks and redirects to the color edit view
-     * 
-     * @return void 
+     *
+     * @return void
      */
     public function add()
     {

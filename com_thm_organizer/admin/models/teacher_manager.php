@@ -72,10 +72,10 @@ class THM_OrganizerModelTeacher_Manager extends JModelList
 
     /**
      * Method to get the populate state
-     * 
+     *
      * @param   string  $orderBy   the property by which the results should be ordered
      * @param   string  $orderDir  the direction in which results should be ordered
-     * 
+     *
      * @return  void
      */
     protected function populateState($orderBy = null, $orderDir = null)

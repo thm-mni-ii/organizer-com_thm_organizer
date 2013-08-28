@@ -12,8 +12,8 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.table');
 /**
- * Class representing the assets table. 
- * 
+ * Class representing the assets table.
+ *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin.tables

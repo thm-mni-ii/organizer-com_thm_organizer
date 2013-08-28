@@ -129,7 +129,7 @@ class THM_OrganizerModelVirtual_Schedule_Manager extends JModel
         $query->innerJoin('#__thm_organizer_virtual_schedules_elements AS vse ON vs.id = vse.vid');
         $query->innerJoin('#__thm_organizer_semesters AS s ON vs.semesterID = s.id');
         $query->innerJoin('#__users AS u ON vs.responsible = u.username');
-        
+ 
         $umlautString = $codeErrString = $search;
 
         $umlautSearch = array("Ö" => "&Ouml;",
@@ -150,7 +150,7 @@ class THM_OrganizerModelVirtual_Schedule_Manager extends JModel
         {
             str_replace($chars, $code, $codeErrString);
         }
-        
+ 
         $searchString = '(LOWER(vs.name) LIKE \'%' . $search . '%\' ';
         $searchString .= ' OR LOWER(vs.responsible) LIKE \'%' . $search . '%\' ';
         $searchString .= ' OR LOWER(vs.department) LIKE \'%' . $search . '%\' ';
@@ -163,7 +163,7 @@ class THM_OrganizerModelVirtual_Schedule_Manager extends JModel
         $query->where($searchString);
 
         if ($groupFilter > 0)
-        { 
+        {
             $query->where("vs.type = '$groupFilter'");
         }
         if ($rolesFilter > 0)

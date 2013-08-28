@@ -59,9 +59,9 @@ class THM_OrganizerModelProgram extends JModel
 
     /**
      * Retrieves program information relevant for soap queries to the LSF system.
-     * 
+     *
      * @param   int  $programID  the id of the degree program
-     * 
+     *
      * @return  array  empty if the program could not be found
      */
     private function getLSFQueryData($programID)
@@ -102,9 +102,9 @@ class THM_OrganizerModelProgram extends JModel
 
     /**
      * Method to import data associated with a degree program from LSF
-     * 
+     *
      * @param   int  $programID  the id of the program to be imported
-     * 
+     *
      * @return  boolean  true on success, otherwise false
      */
     public function importLSFDataSingle($programID)
@@ -126,13 +126,13 @@ class THM_OrganizerModelProgram extends JModel
                 return false;
             }
         }
-        
+ 
         $lsfProgram = $client->getModules($lsfData['lsfType'], $lsfData['program'], $lsfData['degree'], $lsfData['version']);
         if (empty($lsfProgram))
         {
             return false;
         }
-        
+ 
         if (isset($lsfProgram->gruppe) AND count($lsfProgram->gruppe))
         {
             // Iterate over the entire over each course-group of the returned xml structure
@@ -157,7 +157,7 @@ class THM_OrganizerModelProgram extends JModel
                     }
                 }
             }
-            
+ 
             $mappingsAdded = $mappingModel->addLSFMappings($programID, $lsfProgram);
             if (!$mappingsAdded)
             {

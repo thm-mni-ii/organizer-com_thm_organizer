@@ -16,7 +16,7 @@ require_once JPATH_COMPONENT . DS . 'helper' . DS . 'event.php';
 
 /**
  * Retrieves lesson and event data for a single room and day
- * 
+ *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
@@ -56,7 +56,7 @@ class THM_OrganizerModelRoom_Display extends JModel
     public $roomSelectLink = "";
 
     /**
-     * Constructor 
+     * Constructor
      */
     public function __construct()
     {
@@ -109,8 +109,8 @@ class THM_OrganizerModelRoom_Display extends JModel
 
     /**
      * Redirects to the component template
-     * 
-     * @return  void 
+     *
+     * @return  void
      */
     private function redirectToComponentTemplate()
     {
@@ -124,7 +124,7 @@ class THM_OrganizerModelRoom_Display extends JModel
      * Retrieves the name and id of the room
      *
      * @param   int  $roomID  the id of the room referenced in the monitors table
-     * 
+     *
      * @return  void
      */
     private function setRoomInformation($roomID = 0)
@@ -150,7 +150,7 @@ class THM_OrganizerModelRoom_Display extends JModel
 
     /**
      * Sets information about the daily schedule
-     * 
+     *
      * @return  void
      */
     private function setScheduleInformation()
@@ -208,7 +208,7 @@ class THM_OrganizerModelRoom_Display extends JModel
 
     /**
      * Creates an array of blocks and fills them with data
-     * 
+     *
      * @return void
      */
     private function getBlocks()
@@ -239,7 +239,7 @@ class THM_OrganizerModelRoom_Display extends JModel
      * Adds basic lesson information to a block (if available)
      *
      * @param   int  $blockID  the id of the block being iterated
-     * 
+     *
      * @return void
      */
     private function setLessonData($blockID)
@@ -322,7 +322,7 @@ class THM_OrganizerModelRoom_Display extends JModel
                                 $groupsLink = THM_OrganizerHelperTeacher::getLink($userID, $teacherName);
                                 $teacherLink = JHtml::_('link', $groupsLink, $teacherName);
                             }
-                            
+ 
                             $teachers[$schedule->teachers->$key->surname] = empty($teacherLink)? $teacherName : $teacherLink;
                         }
                         $teacherText = implode(', ', $teachers);
@@ -350,7 +350,7 @@ class THM_OrganizerModelRoom_Display extends JModel
      * Retrieves reserving events for the given time frame
      *
      * @param   int  $key  the optional block key to be processed
-     * 
+     *
      * @return  void
      */
     private function setAppointments($key = null)
@@ -423,7 +423,7 @@ class THM_OrganizerModelRoom_Display extends JModel
      * Retrieves nonreserving/nonglobal events for the given time frame
      *
      * @param   int  $key  the index of the block array to be processed
-     * 
+     *
      * @return  void
      */
     private function setNotices($key)
@@ -468,7 +468,7 @@ class THM_OrganizerModelRoom_Display extends JModel
 
     /**
      * Retrieves global events for the given time frame
-     * 
+     *
      * @return void
      */
     private function setInformation()
@@ -505,7 +505,7 @@ class THM_OrganizerModelRoom_Display extends JModel
 
     /**
      * Retrieves reserving events for the future time frame
-     * 
+     *
      * @return void
      */
     private function setUpcoming()
@@ -562,7 +562,7 @@ class THM_OrganizerModelRoom_Display extends JModel
 
     /**
      * Creates the from clause for events
-     * 
+     *
      * @param   object  &$query  the query to be modified
      * @param   int     $key     an optional block for association with teacher
      *                           resources
@@ -599,7 +599,7 @@ class THM_OrganizerModelRoom_Display extends JModel
 
     /**
      * Creates an sql clause for event time restrictions based on the actual block
-     * 
+     *
      * @param   int  $key  the key of the block used as a basis for the time restriction
      *
      * @return  string  sql time restriction
@@ -619,7 +619,7 @@ class THM_OrganizerModelRoom_Display extends JModel
 
     /**
      * Creates an sql restriction to check user access
-     * 
+     *
      * @return  string  an sql where clause
      */
     private function whereAccess()
@@ -631,7 +631,7 @@ class THM_OrganizerModelRoom_Display extends JModel
      * Makes a time string from the start and end times of an event if existent
      *
      * @param   array  $event  sql result array
-     * 
+     *
      * @return  string  times of event / all day event
      */
     private function makeEventTime($event)
@@ -661,7 +661,7 @@ class THM_OrganizerModelRoom_Display extends JModel
      *
      * @param   int     $eventID  the event id
      * @param   string  $title    the event title
-     * 
+     *
      * @return  string  a span containing a link to the event
      */
     private function getEventLink($eventID, $title)
@@ -674,7 +674,7 @@ class THM_OrganizerModelRoom_Display extends JModel
 
     /**
      * Sets a link back to the room selection interface
-     * 
+     *
      * @return  void
      */
     private function setMenuLinks()
@@ -696,9 +696,9 @@ class THM_OrganizerModelRoom_Display extends JModel
 
     /**
      * Redirects from the view if requested room is invalid or no data is available
-     * 
+     *
      * @param   string  $message  the error message to be displayed after redirect
-     * 
+     *
      * @return  void
      */
     private function redirect($message = '')
@@ -712,7 +712,7 @@ class THM_OrganizerModelRoom_Display extends JModel
      * setting and session variables
      *
      * @param   object  &$monitor  a monitor entry in the db table
-     * 
+     *
      * @return  void
      */
     private function determineDisplayBehaviour(&$monitor)

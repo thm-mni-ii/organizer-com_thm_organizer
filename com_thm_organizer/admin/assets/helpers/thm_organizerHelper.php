@@ -13,7 +13,7 @@
 
 /**
  * Class providing functions usefull to multiple component files
- * 
+ *
  * @category  Joomla.Component.Admin
  * @package   thm_organizer
  */
@@ -21,9 +21,9 @@ class THM_OrganizerHelper
 {
     /**
      * Configure the Linkbar.
-     * 
+     *
      * @param   string  $thisSubmenu  the name of the submenu calling the function
-     * 
+     *
      * @return void
      */
     public static function addSubmenu($thisSubmenu)

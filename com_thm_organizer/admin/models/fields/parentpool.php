@@ -44,7 +44,7 @@ class JFormFieldParentPool extends JFormField
 
         $dbo = JFactory::getDBO();
         $poolID = JRequest::getInt('id');
-        
+ 
         $existingMappingsQuery = $dbo->getQuery(true);
         $existingMappingsQuery->select('id, parentID, lft, rgt')->from('#__thm_organizer_mappings')->where("poolID = '$poolID'");
         $existingMappingsQuery->order('lft ASC');
@@ -77,13 +77,13 @@ class JFormFieldParentPool extends JFormField
                 $childrenQuery->where("rgt < '{$mapping['rgt']}'");
                 $childrenQuery->where("parentID IS NULL");
                 $dbo->setQuery((string) $childrenQuery);
-                $childIDs = $dbo->loadResultArray();                
+                $childIDs = $dbo->loadResultArray();
                 if (!empty($childIDs))
                 {
                     $children = array_merge($children, $childIDs);
                 }
             }
-            
+ 
             // Allowing children could create infinite regression
             if (count($children))
             {
@@ -154,7 +154,7 @@ class JFormFieldParentPool extends JFormField
             $attributes = array('multiple' => 'multiple');
             return JHTML::_("select.genericlist", $pools, "jform[parentID][]", $attributes, "id", "name", $selectedParents);
         }
-        
+ 
         $attributes = array('multiple' => 'multiple');
         return JHTML::_("select.genericlist", array(), "jform[parentID][]", $attributes, 'id', 'name');
     }

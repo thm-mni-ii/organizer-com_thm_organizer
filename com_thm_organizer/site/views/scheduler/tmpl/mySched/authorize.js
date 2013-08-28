@@ -2,7 +2,7 @@
 /*jshint strict: false */
 /**
  * Objekt zum Authentifizieren des Benutzers und der Verwaltung dessen Rechten
- * 
+ *
  * @author thorsten
  */
 MySched.Authorize = function ()
@@ -21,7 +21,7 @@ MySched.Authorize = function ()
         },
         /**
          * Setzt die Zusaetzlichen Rechte (zu den RollenRechten) fest
-         * 
+         *
          * @param {Object}
          *            rights
          */
@@ -38,7 +38,7 @@ MySched.Authorize = function ()
          * Aendert die Rolle des aktuellen Users (zb. beim Anmelden von standard
          * auf spiezielle) Hierbei wird automatisch der Baum neugeladen falls
          * die Rolle sich aendert
-         * 
+         *
          * @param {Object}
          *            role
          * @param {Object}
@@ -130,15 +130,15 @@ MySched.Authorize = function ()
 
             MySched.layout.viewport.doLayout();
             MySched.selectedSchedule.responsible = this.user;
-            
-            
+ 
+ 
             MySched.Schedule.status = "saved";
         },
         /**
          * Ein Vorcheck, ob fuer einen bestimmten Typ ueberhaupt Berechtigungen
          * vorliegen oder nicht gibt 'none' -> Keinerlei Rechte, 'part' ->
          * Partielle Rechte oder 'full' -> Volle Rechte zurueck
-         * 
+         *
          * @param {Object}
          *            type
          */
@@ -263,10 +263,10 @@ MySched.Authorize = function ()
             {
                 task = "saveScheduleChanges";
             }
-            
+ 
             // Speichern bezieht sich immer auf "Mein Stundenplan"
             task = "UserSchedule.save";
-            
+ 
             MySched.selectedSchedule.save.call(MySched.selectedSchedule, _C('ajaxHandler'), showWindow, task);
         },
         isClassSemesterAuthor: function ()

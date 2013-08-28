@@ -23,11 +23,11 @@ class THM_OrganizerModelMapping extends JModel
 {
     /**
      * Adds mappings as they exist in LSF for an imported degree program
-     * 
+     *
      * @param   int              $programID  the id of the program in the local
      *                                       database
      * @param   simpleXMLObject  &$lsfData   the data recieved from the LSF system
-     * 
+     *
      * @return  boolean  true if the data was mapped, otherwise false
      */
     public function addLSFMappings($programID, &$lsfData)
@@ -89,7 +89,7 @@ class THM_OrganizerModelMapping extends JModel
                         {
                             continue;
                         }
-                        
+ 
                         $subjectData['subjectID'] = $subjectsTable->id;
                         $subjectData['ordering'] = $this->getOrdering($poolMappingID, $subjectsTable->id, 'subject');
                         $subjectAdded = $this->addSubject($subjectData);
@@ -127,10 +127,10 @@ class THM_OrganizerModelMapping extends JModel
 
     /**
      * Adds a pool mapping to a parent mapping
-     * 
+     *
      * @param   array  &$pool  an array containing data about a pool and its
      *                         children
-     * 
+     *
      * @return  bool  true on success, otherwise false
      */
     private function addPool(&$pool)
@@ -193,9 +193,9 @@ class THM_OrganizerModelMapping extends JModel
 
     /**
      * Addsa a subject mapping to the parent mapping
-     * 
+     *
      * @param   array  &$subject  an array containing data about a subject
-     * 
+     *
      * @return boolean
      */
     private function addSubject(&$subject)
@@ -234,10 +234,10 @@ class THM_OrganizerModelMapping extends JModel
 
     /**
      * Checks whether a mapping exists for the selected resource
-     * 
+     *
      * @param   int     $resourceID    the id of the resource
      * @param   string  $resourceType  the type of the resource#
-     * 
+     *
      * @return  bool true if the resource has an existing mapping, otherwise false
      */
     public function checkForMapping($resourceID, $resourceType)
@@ -252,10 +252,10 @@ class THM_OrganizerModelMapping extends JModel
 
     /**
      * Deletes mappings of a specific pool.
-     * 
+     *
      * @param   int     $resourceID  the id of the mapping
      * @param   string  $type        the mapping's type
-     * 
+     *
      * @return  boolean true on success, otherwise false
      */
     public function deleteByResourceID($resourceID, $type)
@@ -299,9 +299,9 @@ class THM_OrganizerModelMapping extends JModel
 
     /**
      * Deletes the children of a specific mapping.
-     * 
+     *
      * @param   int  $mappingID  the id of the mapping
-     * 
+     *
      * @return  boolean true on success, otherwise false
      */
     public function deleteChildren($mappingID)
@@ -329,9 +329,9 @@ class THM_OrganizerModelMapping extends JModel
 
     /**
      * Method to delete a single entry
-     * 
+     *
      * @param   int  $entryID  the id value of the entry to be deleted
-     * 
+     *
      * @return  bool  true on success, otherwise false
      */
     private function deleteEntry($entryID)
@@ -413,17 +413,17 @@ class THM_OrganizerModelMapping extends JModel
 
     /**
      * Attempt to determine the left value for the mapping to be created
-     * 
+     *
      * @param   int    $parentID  the parent of the item to be inserted
      * @param   mixed  $ordering  the targeted ordering on completion
-     * 
+     *
      * @return  mixed  int the left value for the mapping to be created, or
      *                 or boolean false on db error.
      */
     private function determineLft($parentID, $ordering)
     {
         $dbo = JFactory::getDbo();
-        
+ 
         // Try to find the right value of the next lowest sibling
         $rgtQuery = $dbo->getQuery(true);
         $rgtQuery->select('MAX(rgt)')->from('#__thm_organizer_mappings');
@@ -441,7 +441,7 @@ class THM_OrganizerModelMapping extends JModel
         {
             return false;
         }
-        
+ 
         $lftQuery = $dbo->getQuery(true);
         $lftQuery->select('lft')->from('#__thm_organizer_mappings');
         $lftQuery->where("id = '$parentID'");
@@ -459,12 +459,12 @@ class THM_OrganizerModelMapping extends JModel
 
     /**
      * Retrieves child mappings for a given pool
-     * 
+     *
      * @param   int     $resourceID  the resource id
      * @param   string  $type        the resource id (defaults: pool)
      * @param   bool    $deep        if the function should be used to find
      *                               children iteratively or not (default: false)
-     * 
+     *
      * @return  array  empty if no child data exists
      */
     public function getChildren($resourceID, $type = 'pool', $deep = true)
@@ -511,7 +511,7 @@ class THM_OrganizerModelMapping extends JModel
 
     /**
      * Filters the resource's children out of the form's POST data
-     * 
+     *
      * @return  array  an array containing the resource's children and ordering
      */
     private function getChildrenFromForm()
@@ -524,7 +524,7 @@ class THM_OrganizerModelMapping extends JModel
             $aggregateInfo = JRequest::getString($childKey);
             $resourceID = substr($aggregateInfo, 0, strlen($aggregateInfo) - 1);
             $resourceType = strpos($aggregateInfo, 'p')? 'pool' : 'subject';
-            
+ 
             if ($resourceType == 'subject')
             {
                 $children[$ordering]['poolID'] = null;
@@ -545,18 +545,18 @@ class THM_OrganizerModelMapping extends JModel
     /**
      * Retrieves the existing ordering of a pool to its parent item, or the
      * value 'last'
-     * 
+     *
      * @param   int     $parentID    the id of the parent mapping
      * @param   int     $resourceID  the id of the resource
      * @param   string  $type        the type of resource being ordered
-     * 
+     *
      * @return  mixed  the int value of an existing ordering or string 'last' if
      *                 none exists
      */
     private function getOrdering($parentID, $resourceID, $type = 'pool')
     {
         $dbo = JFactory::getDbo();
-        
+ 
         // Check for an existing ordering as child of the parent element
         $existingOrderQuery = $dbo->getQuery(true);
         $existingOrderQuery->select('ordering')->from('#__thm_organizer_mappings');
@@ -589,9 +589,9 @@ class THM_OrganizerModelMapping extends JModel
 
     /**
      * Retrieves parent data
-     * 
+     *
      * @param   int  $parentID  the id of the parent item
-     * 
+     *
      * @return  array  the parent mapping
      */
     private function getParent($parentID)
@@ -605,11 +605,11 @@ class THM_OrganizerModelMapping extends JModel
 
     /**
      * Creates and returns instance of JTable for the DB Table Mappings
-     * 
+     *
      * @param   string  $name     The table name. Optional.
      * @param   string  $prefix   The class prefix. Optional.
      * @param   array   $options  Configuration array for model. Optional.
-     * 
+     *
      * @return  JTable
      */
     public function getTable($name = 'mappings', $prefix = 'THM_OrganizerTable', $options = array())
@@ -619,9 +619,9 @@ class THM_OrganizerModelMapping extends JModel
 
     /**
      * Saves pool and dependent mappings
-     * 
+     *
      * @param   array  &$data  the pool form data from the post request
-     * 
+     *
      * @return  boolean  true on success, otherwise false
      */
     public function savePool(&$data)
@@ -638,7 +638,7 @@ class THM_OrganizerModelMapping extends JModel
         {
             $orderings[$parentID] = $this->getOrdering($parentID, $poolData['poolID']);
         }
-        
+ 
         $cleanSlate = $this->deleteByResourceID($poolData['poolID'], 'pool');
         if ($cleanSlate)
         {
@@ -663,9 +663,9 @@ class THM_OrganizerModelMapping extends JModel
     /**
      * Checks whether the degree program root mapping has already been created.
      * If it has not already been done the creation function is called.
-     * 
+     *
      * @param   int  $programID  the id of the degree program
-     * 
+     *
      * @return  boolean  true if the program root mapping exists/was created,
      *                   otherwise false
      */
@@ -729,12 +729,12 @@ class THM_OrganizerModelMapping extends JModel
             return true;
         }
     }
-    
+ 
     /**
      * Saves a subject mapping
-     * 
+     *
      * @param   array  &$data  the subject form data from the post request
-     * 
+     *
      * @return  boolean  true on success, otherwise false
      */
     public function saveSubject(&$data)
@@ -750,7 +750,7 @@ class THM_OrganizerModelMapping extends JModel
         {
             $orderings[$parentID] = $this->getOrdering($parentID, $subjectData['subjectID']);
         }
-        
+ 
         $cleanSlate = $this->deleteByResourceID($subjectData['subjectID'], 'subject');
         if ($cleanSlate)
         {
@@ -775,10 +775,10 @@ class THM_OrganizerModelMapping extends JModel
     /**
      * Shifts the ordering for existing siblings who have an ordering at or
      * above the ordering to be inserted
-     * 
+     *
      * @param   int  $parentID     the id of the parent
      * @param   int  $insertOrder  the ordering of the item to be inserted
-     * 
+     *
      * @return  boolean  true on success, otherwise false
      */
     private function shiftOrder($parentID, $insertOrder)
@@ -801,10 +801,10 @@ class THM_OrganizerModelMapping extends JModel
 
     /**
      * Shifts left and right values to allow for the values to be inserted
-     * 
+     *
      * @param   int  $value  the integer value above which left and right values
      *                       need to be shifted
-     * 
+     *
      * @return  bool  true on success, otherwise false
      */
     private function shiftRight($value)
@@ -821,7 +821,7 @@ class THM_OrganizerModelMapping extends JModel
         {
             return false;
         }
-        
+ 
         $rgtQuery = $dbo->getQuery(true);
         $rgtQuery->update('#__thm_organizer_mappings')->set('rgt = rgt + 2')->where("rgt >= '$value'");
         $dbo->setQuery((string) $rgtQuery);

@@ -88,7 +88,7 @@ $listDirn = $this->state->get('list.direction');
             <?php echo JHtml::_('form.token'); ?>
         </tfoot>
         <tbody>
-<?php 
+<?php
 foreach ($this->items as $i => $item)
 {
     $check = !empty($item->lsfFieldID) && !empty($item->lsfDegree)?

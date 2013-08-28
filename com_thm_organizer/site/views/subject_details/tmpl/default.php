@@ -34,13 +34,13 @@ $flagPath .= DIRECTORY_SEPARATOR . 'curriculum' . DIRECTORY_SEPARATOR . $this->o
     function setLanguage()
     {
         for (i = 0; i < document.getElementsByTagName("span").length; i++) {
-            if (document.getElementsByTagName("span")[i].getAttribute("xml:lang") 
+            if (document.getElementsByTagName("span")[i].getAttribute("xml:lang")
                     && document.getElementsByTagName("span")[i].getAttribute("xml:lang")!="<?php echo $this->session->get('language'); ?>") {
                 document.getElementsByTagName("span")[i].style.display = 'none';
             }
         }
     }
-    window.onload = setLanguage; 
+    window.onload = setLanguage;
 
 </script>
 <h1 class="componentheading">

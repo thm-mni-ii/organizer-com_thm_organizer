@@ -150,10 +150,10 @@ class THMDownload
                 }
                 header("Content-Length: " . filesize($file));
                 header("Content-Disposition: attachment; filename=\"" . $this->_title . "." . $this->_what . "\"");
-    
+ 
                 // Datei senden
                 @readfile($file);
-    
+ 
                 // Datei loeschen
                 @unlink($file);
             }

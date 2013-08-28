@@ -123,10 +123,10 @@ class THM_OrganizerModelScheduler extends JModel
 
     /**
      * Method to get the active schedule
-     * 
+     *
      * @param   String  $deptAndSem  The department semester selection
-     * 
-     * @return   mixed  The active schedule or false  
+     *
+     * @return   mixed  The active schedule or false
      */
     public function getActiveSchedule($deptAndSem)
     {
@@ -165,7 +165,7 @@ class THM_OrganizerModelScheduler extends JModel
 
     /**
     * Method to get the color for the modules
-    * 
+    *
     * @return   Array  An Array with the color for the module
     */
     public function getCurriculumModuleColors()

@@ -141,7 +141,7 @@ class nusoap_client_mime extends nusoap_client {
             $params['encoding']     = '8bit';
             $params['charset']      = $this->soap_defencoding;
             $mimeMessage->addSubpart($soapmsg, $params);
-                
+ 
             foreach ($this->requestAttachments as $att) {
                 unset($params);
 
@@ -234,7 +234,7 @@ class nusoap_client_mime extends nusoap_client {
             $params['include_bodies'] = true;
             $params['decode_bodies'] = true;
             $params['decode_headers'] = true;
-                
+ 
             $structure = Mail_mimeDecode::decode($params);
 
             foreach ($structure->parts as $part) {
@@ -256,7 +256,7 @@ class nusoap_client_mime extends nusoap_client {
                 $this->responseData = $root;
                 return $return;
             }
-                
+ 
             $this->setError('No root part found in multipart/related content');
             return '';
         }
@@ -371,7 +371,7 @@ class nusoap_server_mime extends nusoap_server {
             $params['encoding']     = '8bit';
             $params['charset']      = $this->soap_defencoding;
             $mimeMessage->addSubpart($soapmsg, $params);
-                
+ 
             foreach ($this->responseAttachments as $att) {
                 unset($params);
 
@@ -464,7 +464,7 @@ class nusoap_server_mime extends nusoap_server {
             $params['include_bodies'] = true;
             $params['decode_bodies'] = true;
             $params['decode_headers'] = true;
-                
+ 
             $structure = Mail_mimeDecode::decode($params);
 
             foreach ($structure->parts as $part) {
@@ -484,7 +484,7 @@ class nusoap_server_mime extends nusoap_server {
             if (isset($return)) {
                 return $return;
             }
-                
+ 
             $this->setError('No root part found in multipart/related content');
             return;
         }

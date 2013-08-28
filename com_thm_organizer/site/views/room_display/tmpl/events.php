@@ -67,7 +67,7 @@ if (count($this->appointments))
             break;
         }
         $appointmentsClass = ($appointmentsNo % 2 == 0)? 'thm_organizer_es_even' : 'thm_organizer_es_odd';
-        $activeClass = ($time >= $appointments['starttime'] AND $time <= $appointments['endtime'] AND count($this->appointments) > 1)? 
+        $activeClass = ($time >= $appointments['starttime'] AND $time <= $appointments['endtime'] AND count($this->appointments) > 1)?
                 'thm_organizer_is_active' : '';
         $contentClass = ($appointments['title'] != JText::_('COM_THM_ORGANIZER_NO_LESSON'))? 'thm_organizer_is_full' : 'thm_organizer_is_empty';
 ?>
@@ -82,7 +82,7 @@ if (count($this->appointments))
                 <span class="thm_organizer_is_extrainfo_span">
                     <?php  echo $appointments['extraInformation']; ?>
                 </span>
-<?php 
+<?php
         }
 ?>
             </div>
@@ -106,7 +106,7 @@ if (count($this->upcoming) && $appointmentsNo < 8)
         if ((count($this->appointments)) ? ($appointmentsNo + $upcomingNo >= 9) : ($upcomingNo >= 10))
         {
             break;
-        }    
+        }
         $upcomingClass = ($upcomingNo % 2 == 0)? 'thm_organizer_es_even' : 'thm_organizer_es_odd';
         $contentClass = ($upcoming['title'] != JText::_('COM_THM_ORGANIZER_NO_LESSON'))? 'thm_organizer_is_full' : 'thm_organizer_is_empty';
 ?>
@@ -121,7 +121,7 @@ if (count($this->upcoming) && $appointmentsNo < 8)
                 <span class="thm_organizer_is_extrainfo_span">
                     <?php  echo $upcoming['extraInformation']; ?>
                 </span>
-<?php 
+<?php
         }
 ?>
             </div>

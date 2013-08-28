@@ -25,7 +25,7 @@ jimport('joomla.application.component.modellist');
 class THM_OrganizerModelProgram_Manager extends JModelList
 {
     public $degrees = null;
-    
+ 
     public $versions = null;
 
     public $fields = null;
@@ -98,14 +98,14 @@ class THM_OrganizerModelProgram_Manager extends JModelList
 
     /**
      * Method to populate state
-     * 
+     *
      * @param   string  $orderBy    An optional ordering field.
      * @param   string  $direction  An optional direction (asc|desc).
      *
      * @return  void
      */
     protected function populateState($orderBy = null, $direction = null)
-    {        
+    {
         $orderBy = $this->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'subject, abbreviation, version');
         $this->setState('list.ordering', $orderBy);
 
@@ -114,7 +114,7 @@ class THM_OrganizerModelProgram_Manager extends JModelList
 
         $filter = $this->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
         $this->setState('filter.search', $filter);
-        
+ 
         $limit = $this->getUserStateFromRequest($this->context . '.limit', 'limit', '');
         $this->setState('limit', $limit);
 

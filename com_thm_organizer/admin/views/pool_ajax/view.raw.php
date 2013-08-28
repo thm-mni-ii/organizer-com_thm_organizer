@@ -14,8 +14,8 @@ jimport('joomla.application.component.view');
 jimport('joomla.application.plugin.helper');
 jimport('jquery.jquery');
 /**
- * Class loading persistent data into the view context 
- * 
+ * Class loading persistent data into the view context
+ *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
@@ -25,9 +25,9 @@ class THM_OrganizerViewPool_Ajax extends JView
 {
     /**
      * loads model data into view context
-     * 
+     *
      * @param   string  $tpl  the name of the template to be used
-     * 
+     *
      * @return void
      */
     public function display($tpl = null)
@@ -42,7 +42,7 @@ class THM_OrganizerViewPool_Ajax extends JView
 
     /**
      * Retrieves a list of pools by degree and creates select options
-     * 
+     *
      * @return  void
      */
     private function poolDegreeOptions()

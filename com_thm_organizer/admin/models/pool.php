@@ -59,9 +59,9 @@ class THM_OrganizerModelPool extends JModel
 
     /**
      * Creates a pool entry if none exists and calls
-     * 
+     *
      * @param   object  &$stub  a simplexml object containing rudimentary subject data
-     * 
+     *
      * @return  mixed  int value of subject id on success, otherwise false
      */
     public function processLSFStub(&$stub)
@@ -129,7 +129,7 @@ class THM_OrganizerModelPool extends JModel
     {
         $data = JRequest::getVar('jform', null, null, null, 4);
         $table = JTable::getInstance('pools', 'thm_organizerTable');
-        
+ 
         $dbo = JFactory::getDbo();
         $dbo->transactionStart();
 
@@ -141,14 +141,14 @@ class THM_OrganizerModelPool extends JModel
             $dbo->transactionCommit();
             return $table->id;
         }
-        
+ 
         // New pool unsuccessfully inserted
         elseif (empty($data['id']))
         {
             $dbo->transactionRollback();
-            return false; 
+            return false;
         }
-        
+ 
         // Process mapping information
         else
         {

@@ -15,7 +15,7 @@ require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_thm_organizer' 
 
 /**
  * Retrieves data about conflicting events and lessons against an event to be saved
- * 
+ *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
@@ -73,8 +73,8 @@ class THM_OrganizerModelEvent_Ajax extends JModel
 
     /**
      * Array containing the untis room keys for the resources requested
-     * 
-     * @var array 
+     *
+     * @var array
      */
     private $_roomUntisKeys;
 
@@ -91,8 +91,8 @@ class THM_OrganizerModelEvent_Ajax extends JModel
 
     /**
      * Array containing the untis teacher keys for the resources requested
-     * 
-     * @var array 
+     *
+     * @var array
      */
     private $_teacherUntisKeys;
 
@@ -119,21 +119,21 @@ class THM_OrganizerModelEvent_Ajax extends JModel
 
     /**
      * Holds conflicting lessons data
-     * 
-     * @var array 
+     *
+     * @var array
      */
     private $_lessons;
 
     /**
      * Holds conflicting events data
-     * 
-     * @var array 
+     *
+     * @var array
      */
     private $_events;
 
     /**
      * loads data into the object from an array or user request
-     * 
+     *
      * @return array array of conflicting events and lessons
      */
     public function getConflicts()
@@ -142,14 +142,14 @@ class THM_OrganizerModelEvent_Ajax extends JModel
         $categoryID = JRequest::getInt('category');
         $this->_reservingCatIDs = $this->getReservingCatIDs();
         if (strpos($this->_reservingCatIDs, "'$categoryID'") === false)
-        {   
+        {
             return $conflicts;
         }
         $this->_rooms = $this->getResourceData('rooms', 'longname', 'thm_organizer_rooms');
         $this->_teachers = $this->getResourceData('teachers', 'surname', 'thm_organizer_teachers');
         $this->_groups = $this->getResourceData('groups', 'title', 'usergroups');
         if (!count($this->_rooms) AND !count($this->_teachers) AND !count($this->_groups))
-        {   
+        {
             return $conflicts;
         }
         $this->_roomKeys = (count($this->_rooms))? "( '" . implode("', '", array_keys($this->_rooms)) . "' )" : "";
@@ -212,7 +212,7 @@ class THM_OrganizerModelEvent_Ajax extends JModel
      * @param   string  $resourceName  name of the resource variable
      * @param   string  $columnName    name of the db table column
      * @param   string  $tableName     name of the db table
-     * 
+     *
      * @return  array  array of resource ids and associated names (empty if no resources
      *                 were requested
      */
@@ -225,7 +225,7 @@ class THM_OrganizerModelEvent_Ajax extends JModel
             $$resourceName = str_replace("-1,", "", $$resourceName);
         }
         if (count($$resourceName))
-        {   
+        {
             $dbo = JFactory::getDbo();
             $query = $dbo->getQuery(true);
             $query->select("id, $columnName AS name");
@@ -248,11 +248,11 @@ class THM_OrganizerModelEvent_Ajax extends JModel
 
     /**
      * Retrieves an array of gpuntisIDs to the requested resources
-     * 
+     *
      * @param   string  $table  the name of the table in which the resource is saved
      * @param   string  $idSet  a string containing the table ids under which the
      *                          requested resources are saved
-     * 
+     *
      * @return  array  contains the gpuntisIDs of the requested resources
      */
     private function getUntisKeys($table, $idSet)
@@ -334,7 +334,7 @@ class THM_OrganizerModelEvent_Ajax extends JModel
 
     /**
      * Adds resource restrictions to the where clause if applicable
-     * 
+     *
      * @return  void
      */
     private function getEventResourceRestriction()
@@ -367,7 +367,7 @@ class THM_OrganizerModelEvent_Ajax extends JModel
      * retrieves details to conflicting daily events
      *
      * @param   JDatabaseQuery  &$query  the query to be modified
-     * 
+     *
      * @return  array of event data
      */
     private function getDailyEvents(&$query)
@@ -407,7 +407,7 @@ class THM_OrganizerModelEvent_Ajax extends JModel
 
     /**
      * creates an sql restriction for the times of daily events
-     * 
+     *
      * @return string suitable for inclusion in an sql query
      */
     private function getDailyEventTimeRestriction()
@@ -441,7 +441,7 @@ class THM_OrganizerModelEvent_Ajax extends JModel
      * Retrieves details to conflicting block events
      *
      * @param   object  &$query  the query to be modified
-     * 
+     *
      * @return  array of event data
      */
     private function getBlockEvents(&$query)
@@ -488,9 +488,9 @@ class THM_OrganizerModelEvent_Ajax extends JModel
 
     /**
      * reformats an array of conflicting events
-     * 
+     *
      * @param   array  &$events  array containing information about conflicting events
-     * 
+     *
      * @return  void
      */
     private function prepareEvents(&$events)
@@ -508,7 +508,7 @@ class THM_OrganizerModelEvent_Ajax extends JModel
      * creates a formatted text explaining the run of an event
      *
      * @param   array  $event  array containing event information
-     * 
+     *
      * @return  string formatted text explaining the run of an event
      */
     private function getEventTimeText($event)
@@ -598,7 +598,7 @@ class THM_OrganizerModelEvent_Ajax extends JModel
      *
      * @param   int  $eventID  the ID of the event which is in conflict with the
      *                         one to be created
-     * 
+     *
      * @return string preformatted text containing resource names
      */
     private function getEventResources($eventID)
@@ -637,7 +637,7 @@ class THM_OrganizerModelEvent_Ajax extends JModel
      * @param   string  $keys            a prepared list of resource keys to be
      *                                   inserted into the sql statement
      * @param   array   $namesArray      the array associating ids to names
-     * 
+     *
      * @return  array  list of associated resource ids
      */
     private function getResourceNames($tableName, $keyColumn, $resourceColumn, $eventID, $keys, $namesArray)
@@ -747,7 +747,7 @@ class THM_OrganizerModelEvent_Ajax extends JModel
     /**
      * Retrieves an array of lessons which conflict with the event to be saved
      * for one day
-     * 
+     *
      * @param   object  &$schedule  the current schedule being iterated
      * @param   string  $date       the date being iterated
      * @param   int     $dow        the numerical date of the week for the date
@@ -756,9 +756,9 @@ class THM_OrganizerModelEvent_Ajax extends JModel
      *                              iterated date
      * @param   string  $endtime    the time at which the event ends on the
      *                              iterated date
-     * 
+     *
      * @return   array  the lessons which collide with the event to be saved,
-     *                  empty if none were detected 
+     *                  empty if none were detected
      */
     private function getDailyLessons(&$schedule, $date, $dow, $starttime = '', $endtime = '')
     {
@@ -846,12 +846,12 @@ class THM_OrganizerModelEvent_Ajax extends JModel
 
     /**
      * Retrieves the affected period numbers for a single date
-     * 
+     *
      * @param   object  &$schedulePeriods  the periods object from the schedule
      * @param   int     $dow               the numerical day of the week
      * @param   string  $starttime         the start time on the day in question
      * @param   string  $endtime           the end time on the day in question
-     * 
+     *
      * @return  array  contains the numerical values of the affected periods
      */
     private function getPeriodsFromSchedule(&$schedulePeriods, $dow, $starttime = '', $endtime = '')

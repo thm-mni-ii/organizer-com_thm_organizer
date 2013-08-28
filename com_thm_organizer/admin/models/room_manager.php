@@ -79,10 +79,10 @@ class THM_OrganizerModelRoom_Manager extends JModelList
 
     /**
      * Method to get the populate state
-     * 
+     *
      * @param   string  $orderBy   the property by which the results should be ordered
      * @param   string  $orderDir  the direction in which results should be ordered
-     * 
+     *
      * @return  void
      */
     protected function populateState($orderBy = null, $orderDir = null)
@@ -100,7 +100,7 @@ class THM_OrganizerModelRoom_Manager extends JModelList
 
         $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
         $this->setState('limit', $limit);
-        
+ 
         $filter = $app->getUserStateFromRequest($this->context . '.filter', 'filter', '');
         $this->setState('filter', $filter);
 

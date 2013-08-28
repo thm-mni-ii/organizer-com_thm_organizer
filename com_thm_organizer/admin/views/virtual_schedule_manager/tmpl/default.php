@@ -59,7 +59,7 @@ $resetScript .= "this.form.getElementById('rolesFilters').value='0';this.form.su
             </th>
             <th align="center">
                 <?php echo JHTML::_(
-                                    'grid.sort', 
+                                    'grid.sort',
                                     JText::_("COM_THM_ORGANIZER_VSM_LABEL_RESPONSIBLE"),
                                     'responsible',
                                     $this->lists['order_Dir'],

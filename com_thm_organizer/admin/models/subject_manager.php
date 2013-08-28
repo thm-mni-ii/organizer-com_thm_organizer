@@ -107,7 +107,7 @@ class THM_OrganizerModelSubject_Manager extends JModelList
     /**
      * Retrieves the left and right values for determining which subjects will
      * be displayed.
-     * 
+     *
      * @return  array  the mapping borders for the where clause, empty if not
      *                 applicable
      */
@@ -149,10 +149,10 @@ class THM_OrganizerModelSubject_Manager extends JModelList
 
     /**
      * Retrieves the mapped left and right values for the requested program
-     * 
+     *
      * @param   int     $resourceID      the id of the requested resource
      * @param   string  $resourceColumn  the column with the desired resource values
-     * 
+     *
      * @return  array contains the sought left and right values
      */
     private function getBorders($resourceID, $resourceColumn)
@@ -166,7 +166,7 @@ class THM_OrganizerModelSubject_Manager extends JModelList
 
     /**
      * Method to get the table
-     * 
+     *
      * @param   string  $order  the property to order the list by
      * @param   string  $dir    the direction in which the list is to be ordered
      *
@@ -202,9 +202,9 @@ class THM_OrganizerModelSubject_Manager extends JModelList
 
     /**
      * Retrieves a list of mapped pools
-     * 
+     *
      * @param   int  $programID  the id of the selected program
-     * 
+     *
      * @return  void
      */
     private function setPools($programID)
@@ -222,7 +222,7 @@ class THM_OrganizerModelSubject_Manager extends JModelList
         $query->order('lft');
         $dbo->setQuery((string) $query);
         $pools = $dbo->loadAssocList();
-        
+ 
         if (empty($pools))
         {
             $this->pools = array();
@@ -245,7 +245,7 @@ class THM_OrganizerModelSubject_Manager extends JModelList
 
     /**
      * Retrieves a list of mapped programs
-     * 
+     *
      * @return  void
      */
     private function setPrograms()

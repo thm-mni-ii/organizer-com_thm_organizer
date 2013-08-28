@@ -37,7 +37,7 @@ class JFormFieldSubjectFields extends JFormField
     {
         $dbo = JFactory::getDBO();
         $subjectID = JRequest::getInt('id');
-        
+ 
         $selectedQuery = $dbo->getQuery(true);
         $selectedQuery->select('fieldID')->from('#__thm_organizer_subjects')->where("id = '$subjectID'");
         $dbo->setQuery((string) $selectedQuery);

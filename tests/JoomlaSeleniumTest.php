@@ -55,21 +55,21 @@ class JoomlaSeleniumTest extends PHPUnit_Extensions_SeleniumTestCase
         $this->waitForPageToLoad("30000");
     }
     
-    protected function performBackendLogin($username = NULL, $password = NULL, $language = NULL) 
+    protected function performBackendLogin($username = NULL, $password = NULL, $language = NULL)
     {
         $username = $username ?: self::DEFAULT_USER_NAME;
         $password = $password ?: self::DEFAULT_USER_PASSWORD;
         $language = $language ?: self::DEFAULT_USER_LANGUAGE;
-        
+ 
         $this->open($this->joomlaURL . "administrator/index.php");
         $this->waitForPageToLoad("30000");
-        
+ 
         $this->assertElementPresent("id=mod-login-username");
         $this->type("id=mod-login-username", $username);
-        
+ 
         $this->assertElementPresent("id=mod-login-password");
         $this->type("id=mod-login-password", $password);
-        
+ 
         $this->assertElementPresent("id=lang");
         $this->select("id=lang", "value=$language");
         

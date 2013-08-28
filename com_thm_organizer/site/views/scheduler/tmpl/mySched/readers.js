@@ -2,7 +2,7 @@
 /*jshint strict: false */
 /**
  * JsonReader for the loading and saving of schedules
- * 
+ *
  * @author Wolf Rost
  */
 var SchedJsonReader = function ()
@@ -14,7 +14,7 @@ Ext.extend(SchedJsonReader, Ext.data.JsonReader,
 {
     /**
      * Create a data block containing Ext.data.Records from an XML document.
-     * 
+     *
      * @param {Object}
      *            doc A parsed XML document.
      * @return {Object} records A data block which is used by an

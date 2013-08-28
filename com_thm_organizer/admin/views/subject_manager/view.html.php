@@ -23,9 +23,9 @@ class THM_OrganizerViewSubject_Manager extends JView
 {
     /**
      * Retrieves display items and loads them into context.
-     * 
+     *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-     * 
+     *
      * @return  void
      */
     public function display($tpl = null)
@@ -51,7 +51,7 @@ class THM_OrganizerViewSubject_Manager extends JView
 
     /**
      * Sets Joomla view title and action buttons
-     * 
+     *
      * @return  void
      */
     public function addToolBar()
@@ -72,9 +72,9 @@ class THM_OrganizerViewSubject_Manager extends JView
 
     /**
      * Retrieves a select box with the mapped programs
-     * 
+     *
      * @param   array  $programs  the mapped programs
-     * 
+     *
      * @return  string  html select box
      */
     private function getProgramSelect($programs)
@@ -92,9 +92,9 @@ class THM_OrganizerViewSubject_Manager extends JView
 
     /**
      * Retrieves a select box with the mapped programs
-     * 
+     *
      * @param   array  $pools  the mapped pools
-     * 
+     *
      * @return  string  html select box
      */
     private function getPoolSelect($pools)

@@ -75,7 +75,7 @@ function getResources(resourceID)
         {
             return selectedResources;
         }
-    }        
+    }
     else
     {
         return '';

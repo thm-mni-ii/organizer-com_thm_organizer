@@ -42,7 +42,7 @@ class JFormFieldSubjectParents extends JFormField
 
         $dbo = JFactory::getDBO();
         $subjectID = JRequest::getInt('id');
-        
+ 
         $existingMappingsQuery = $dbo->getQuery(true);
         $existingMappingsQuery->select('parentID, lft, rgt')->from('#__thm_organizer_mappings')->where("subjectID = '$subjectID'");
         $existingMappingsQuery->order('lft ASC');
@@ -128,7 +128,7 @@ class JFormFieldSubjectParents extends JFormField
             $attributes = array('multiple' => 'multiple');
             return JHTML::_("select.genericlist", $subjects, "jform[parentID][]", $attributes, "id", "name", $selectedParents);
         }
-        
+ 
         $attributes = array('multiple' => 'multiple');
         return JHTML::_("select.genericlist", array(), "jform[parentID][]", $attributes, 'id', 'name');
     }

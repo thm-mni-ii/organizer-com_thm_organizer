@@ -62,9 +62,9 @@ class THM_OrganizerModelProgram_Edit extends JModelAdmin
     /**
      * Retrieves the programs existent children and loads them into the object
      * variable
-     * 
+     *
      * @param   int  $programID  the id of the program
-     * 
+     *
      * @return  void
      */
     private function getChildren($programID)
@@ -95,9 +95,9 @@ class THM_OrganizerModelProgram_Edit extends JModelAdmin
 
     /**
      * Retrieves the name of the child element from the appropriate table
-     * 
+     *
      * @param   string  $formID  the id to be used in the program edit form
-     * 
+     *
      * @return  string  the name of the child element
      */
     private function getChildName($formID)
@@ -107,7 +107,7 @@ class THM_OrganizerModelProgram_Edit extends JModelAdmin
         $language = explode('-', JFactory::getLanguage()->getTag());
         $type = strpos($formID, 'p')? 'pool' : 'subject';
         $tableID = substr($formID, 0, strlen($formID) - 1);
-        
+ 
         $query->select("name_{$language[0]}");
         $query->from("#__thm_organizer_{$type}s");
         $query->where("id = '$tableID'");
@@ -115,7 +115,7 @@ class THM_OrganizerModelProgram_Edit extends JModelAdmin
         $dbo->setQuery((string) $query);
         return $dbo->loadResult();
     }
-    
+ 
     /**
      * Method to get the table
      *

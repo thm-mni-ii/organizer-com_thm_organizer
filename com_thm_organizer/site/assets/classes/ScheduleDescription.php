@@ -67,19 +67,19 @@ class THMScheduleDescription
     {
         // Get a db connection.
         $db = JFactory::getDbo();
-        
+ 
         // Create a new query object.
         $query = $db->getQuery(true);
-        
+ 
         // Select all records from the user profile table where key begins with "custom.".
         // Order it by the ordering field.
         $query->select('description, startdate, enddate, creationdate');
         $query->from('#__thm_organizer_schedules');
         $query->where("'active != 'null' && sid = " . $this->_semID);
-        
+ 
         // Reset the query using our newly populated query object.
         $db->setQuery($query);
-        
+ 
         $obj = $db->loadObject();
 
         if (count($obj) == 0 || $obj == false)

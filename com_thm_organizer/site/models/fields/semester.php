@@ -76,7 +76,7 @@ class JFormFieldSemester extends JFormField
                             $this->value
                             ) . $arrows;
         }
-        
+ 
         // Build the query
         $semesterQuery = $dbo->getQuery(true);
         $semesterQuery->select("sm.semester_id AS id");
@@ -125,7 +125,7 @@ class JFormFieldSemester extends JFormField
         {
             $result = $semesters;
         }
-        
+ 
         if ($result == null)
         {
             $result = array();

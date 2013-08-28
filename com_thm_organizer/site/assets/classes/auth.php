@@ -39,7 +39,7 @@ class THMAuth
 
     /**
      * Constructor with the joomla data abstraction object and configuration object
-     * 
+     *
      * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
      * @param   MySchedConfig    $cfg  A object which has configurations including
      */

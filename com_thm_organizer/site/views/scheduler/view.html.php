@@ -27,7 +27,7 @@ class THM_OrganizerViewScheduler extends JView
      * @param   String  $tpl  template
      *
      * @return void
-     * 
+     *
      * @see JView::display()
      */
     public function display($tpl = null)
@@ -39,15 +39,15 @@ class THM_OrganizerViewScheduler extends JView
         {
             return JError::raiseWarning(404, JText::_("COM_THM_ORGANIZER_EXTJS4_LIBRARY_NOT_INSTALLED"));
         }
-        
+ 
         // Check wether the FPDF library is installed
         $libraryFPDFIsInstalled = jimport('fpdf.fpdf');
         $this->libraryFPDFIsInstalled = $libraryFPDFIsInstalled;
-        
+ 
         // Check wether the iCalcreator library is installed
         $libraryiCalcreatorIsInstalled = jimport('iCalcreator.iCalcreator');
         $this->libraryiCalcreatorIsInstalled = $libraryiCalcreatorIsInstalled;
-        
+ 
         $doc = JFactory::getDocument();
         $doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/extjs/resources/css/ext-all-gray.css");
         $doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/mySched/style.css");
@@ -61,7 +61,7 @@ class THM_OrganizerViewScheduler extends JView
         $this->jsid = $schedulerModel->getSessionID();
 
         $this->searchModuleID = JRequest::getString('moduleID');
-        
+ 
         $deltaDisplayDays = (int) $menuparams->get("deltaDisplayDays", 14);
         if (is_int($deltaDisplayDays))
         {
@@ -71,7 +71,7 @@ class THM_OrganizerViewScheduler extends JView
         {
             $this->deltaDisplayDays = 14;
         }
-        
+ 
         try
         {
             $publicDefaultIDArray = (array) json_decode($menuparams->get("publicDefaultID"));
@@ -80,18 +80,18 @@ class THM_OrganizerViewScheduler extends JView
         {
             $publicDefaultIDArray = array();
         }
-                
-        $this->departmentAndSemester = $menuparams->get("departmentSemesterSelection");    
-            
+ 
+        $this->departmentAndSemester = $menuparams->get("departmentSemesterSelection");
+ 
         $schedule = $schedulerModel->getActiveSchedule($this->departmentAndSemester);
-                
+ 
         if (is_object($schedule) AND is_string($schedule->schedule))
         {
             $scheduleData = json_decode($schedule->schedule);
-        
+ 
             // To save memory unset schedule
             unset($schedule->schedule);
-                
+ 
             if ($scheduleData != null)
             {
                 $periods = $scheduleData->periods;
@@ -114,7 +114,7 @@ class THM_OrganizerViewScheduler extends JView
                 unset($scheduleData->lessons);
                 $scheduleFields = $scheduleData->fields;
                 unset($scheduleData->fields);
-        
+ 
                 if (!is_object($periods) OR !is_object($degrees) OR !is_object($rooms)
                  OR !is_object($roomTypes) OR !is_object($subjects) OR !is_object($teachers)
                  OR !is_object($modules) OR !is_object($calendar) OR !is_object($scheduleLessons)
@@ -126,7 +126,7 @@ class THM_OrganizerViewScheduler extends JView
             else
             {
                 // Cant decode json
-                return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_DATA_FLAWED')); 
+                return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_DATA_FLAWED'));
             }
         }
         else
@@ -140,9 +140,9 @@ class THM_OrganizerViewScheduler extends JView
 
         $schedulearr = array();
 
-                
+ 
         $periods->length = count((array) $periods);
-        
+ 
         foreach ($periods as $period)
         {
             if (isset($period->starttime) AND is_string($period->starttime))
@@ -154,23 +154,23 @@ class THM_OrganizerViewScheduler extends JView
                 $period->endtime = wordwrap($period->endtime, 2, ':', 1);
             }
         }
-        
+ 
         $schedulearr['CurriculumColors'] = $schedulerModel->getCurriculumModuleColors();
-        
+ 
         $schedulearr["Grid.load"] = $periods;
-        
+ 
         $schedulearr["Calendar"] = $calendar;
-        
+ 
         $schedulearr["Events.load"] = $ajaxModel->executeTask("Events.load");
 
         $schedulearr["UserSchedule.load"] = array();
-        
-        $this->loadLessonsOnStartUp = (bool) $menuparams->get("loadLessonsOnStartUp");        
+ 
+        $this->loadLessonsOnStartUp = (bool) $menuparams->get("loadLessonsOnStartUp");
 
         if ($this->loadLessonsOnStartUp == true)
         {
             $lessons = array();
-            
+ 
             foreach ($calendar as $dateKey => $dateValue)
             {
                 if (is_object($dateValue))
@@ -181,9 +181,9 @@ class THM_OrganizerViewScheduler extends JView
                         {
                             $currentDate = new DateTime($dateKey);
                             $dow = strtolower($currentDate->format("l"));
-                            
+ 
                             $lessonID = $lessonKey . $blockKey . $dow;
-                                                                    
+ 
                             if (!array_key_exists($lessonID, $lessons))
                             {
                                 $lessons[$lessonID] = clone $scheduleLessons->{$lessonKey};
@@ -191,21 +191,21 @@ class THM_OrganizerViewScheduler extends JView
                                 $lessons[$lessonID]->block = $blockKey;
                                 $lessons[$lessonID]->dow = $dow;
                             }
-                            
+ 
                             if (!isset($lessons[$lessonID]->calendar))
                             {
                                 $lessons[$lessonID]->calendar = array();
                             }
-            
+ 
                             $lessons[$lessonID]->calendar[$dateKey][$blockKey]["lessonData"] = clone $lessonValue;
                         }
                     }
                 }
             }
-                        
+ 
             $schedulearr["Lessons"] = $lessons;
         }
-                
+ 
         $schedulearr["UserSchedule.load"]["respChanges"] = $ajaxModel->executeTask("UserSchedule.load", array("username" => "respChanges"));
 
         $schedulearr["ScheduleDescription.load"] = new stdClass;

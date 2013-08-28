@@ -23,7 +23,7 @@ define('ALL_OWN', 7);
 
 /**
  * Retrieves persistent data for output in the event list view.
- * 
+ *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
@@ -52,7 +52,7 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
 
     /**
      * Builds the model for the event list view
-     * 
+     *
      * @param   array  $callParameters  an array containing the values normally in post
      *                                  for external calls on this model
      */
@@ -129,8 +129,8 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
     /**
      * Sets the category id used in the building of the event list based upon
      * menu settings and user selection
-     * 
-     * @return void 
+     *
+     * @return void
      */
     private function setCategoryID()
     {
@@ -161,8 +161,8 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
     /**
      * Sets the room id used in the search based upon menu settings and user
      * request data
-     * 
-     * @return void 
+     *
+     * @return void
      */
     private function setRoomID()
     {
@@ -176,8 +176,8 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
 
     /**
      * Sets the date from when events should be selected
-     * 
-     * @return void 
+     *
+     * @return void
      */
     private function setFromDate()
     {
@@ -208,8 +208,8 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
 
     /**
      * Sets a maximal date for the run of an event
-     * 
-     * @return void 
+     *
+     * @return void
      */
     private function setToDate()
     {
@@ -240,8 +240,8 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
 
     /**
      * Sets search parameters as entered by the user
-     * 
-     * @return void 
+     *
+     * @return void
      */
     private function setSearch()
     {
@@ -272,8 +272,8 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
 
     /**
      * Sets the column and direction of the query used for sorting
-     * 
-     * @return void 
+     *
+     * @return void
      */
     private function setOrderBy()
     {
@@ -301,8 +301,8 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
 
     /**
      * Sets the limits to the number of entries returned by the event list
-     * 
-     * @return void 
+     *
+     * @return void
      */
     private function setLimits()
     {
@@ -336,7 +336,7 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
      * Builds the query's from clause
      *
      * @param   object  &$query  JDatabaseQuery Object the query to be modified
-     * 
+     *
      * @return  void
      */
     private function getFrom(&$query)
@@ -358,7 +358,7 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
      * Build the where clause for the event list query
      *
      * @param   object  &$query  the query object used to build the list
-     * 
+     *
      * @return string $where the where clause to a query based on model state information
      */
     private function getWhere(&$query)
@@ -502,10 +502,10 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
 
     /**
      * Builds and sets the select query
-     * 
+     *
      * @param   object  &$query  the query object used for building the event list
-     * 
-     * @return  void 
+     *
+     * @return  void
      */
     private function getSelect(&$query)
     {
@@ -533,7 +533,7 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
      * Build the order clause
      *
      * @param   object  &$query  the query object to be modified
-     * 
+     *
      * @return void
      */
     private function getOrderBy(&$query)
@@ -634,8 +634,8 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
 
     /**
      * Sets which actions the user is able to perform on the respective event entries
-     * 
-     * @return void 
+     *
+     * @return void
      */
     private function setUserPermissions()
     {
@@ -659,7 +659,7 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
      *
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-     * 
+     *
      * @return  mixed               A JForm object on success, false on failure
      */
     public function getForm($data = array(), $loadData = true)
@@ -677,10 +677,10 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
 
     /**
      * Determines whether the category in question reserves resources
-     * 
+     *
      * @param   int  $catID  the id of the category to be checked
-     * 
-     * @return  void 
+     *
+     * @return  void
      */
     public function checkReserves($catID)
     {
@@ -695,10 +695,10 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
 
     /**
      * Determines whether the category in question is global
-     * 
+     *
      * @param   int  $catID  the id of the category to be checked
-     * 
-     * @return  void 
+     *
+     * @return  void
      */
     public function checkGlobal($catID)
     {

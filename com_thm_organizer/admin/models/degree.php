@@ -26,7 +26,7 @@ class THM_OrganizerModelDegree extends JModel
 {
     /**
      * Saves degree information to the database
-     * 
+     *
      * @return  boolean true on success, otherwise false
      */
     public function save()
@@ -38,7 +38,7 @@ class THM_OrganizerModelDegree extends JModel
 
     /**
      * Deletes the chosen degrees from the database
-     * 
+     *
      * @return boolean true on success, otherwise false
      */
     public function delete()

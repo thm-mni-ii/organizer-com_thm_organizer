@@ -8,14 +8,14 @@
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
- */ 
+ */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 require_once JPATH_SITE . '/components/com_thm_organizer/models/events.php';
 
 /**
- * Class storing/deleting category item information 
- * 
+ * Class storing/deleting category item information
+ *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin

@@ -36,10 +36,10 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
     {
         parent::__construct();
     }
-    
+ 
     /**
      * Method to select the Tree of the current major
-     * 
+     *
      * @param   int     $programID    the id of the program to be displayed
      * @param   string  $languageTag  the abbreviation for the language to be used
      *
@@ -64,10 +64,10 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
 
     /**
      * Retrieves pool specific information
-     * 
+     *
      * @param   int     $poolID   the id of the pool being sought
      * @param   string  $langTag  the current display language
-     * 
+     *
      * @return  mixed  The return value or null if the query failed.
      */
    private function getPoolData($poolID, $langTag)
@@ -87,13 +87,13 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
         {
             $poolData->color = 'ffffff';
         }
-        $poolData->children = array(); 
+        $poolData->children = array();
         return $poolData;
    }
 
     /**
      * Method to get program information
-     * 
+     *
      * @param   int  $programID  the id of the program being modelled
      *
      * @return  array
@@ -115,10 +115,10 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
 
     /**
      * Retrieves subject specific information
-     * 
+     *
      * @param   int     $subjectID  the id of the subject being sought
      * @param   string  $langTag    the current display language
-     * 
+     *
      * @return  mixed  The return value or null if the query failed.
      */
     private function getSubjectData($subjectID, $langTag)
@@ -159,11 +159,11 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
 
     /**
      * Retrieves program children recursively
-     * 
+     *
      * @param   int     $lft      the left boundary of the program in the nested table
      * @param   int     $rgt      the right boundary of the program in the nested table
      * @param   string  $langTag  the current display language
-     * 
+     *
      * @return  array  empty if no child data exists
      */
     public function getChildren($lft, $rgt, $langTag = 'de')
@@ -207,16 +207,16 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
                 $subjectData->mappingID = $mapping['id'];
                 $parent[(int) $mapping['ordering']] = $subjectData;
             }
-            
+ 
         }
         return $children;
     }
 
     /**
      * Checks for and sets schedule data if an applicable schedule is found
-     * 
+     *
      * @param   string  $programName  the name of the program being modelled
-     * 
+     *
      * @return  void
      */
     private function setScheduleData($programName)
@@ -248,9 +248,9 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
 
     /**
      * Sets subject properties relating to the responsible teacher
-     * 
+     *
      * @param   object  &$subjectData  an object containing subject data
-     * 
+     *
      * @return  void
      */
     private function setTeacherProperties(&$subjectData)
@@ -283,5 +283,5 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
             $subjectData->teacherScheduleLink
                 = JRoute::_($this->_scheduleLink . "&teacherID={$teacherData['gpuntisID']}");
         }
-    }    
+    }
 }

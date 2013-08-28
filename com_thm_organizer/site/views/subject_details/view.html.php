@@ -44,8 +44,8 @@ class THM_OrganizerViewSubject_Details extends JView
         $this->lang = JRequest::getVar('languageTag');
         $this->otherLanguageTag = ($this->lang == 'de') ? 'en' : 'de';
         $this->langUrl = self::languageSwitcher($this->otherLanguageTag);
-        
-        
+ 
+ 
         parent::display($tpl);
     }
 

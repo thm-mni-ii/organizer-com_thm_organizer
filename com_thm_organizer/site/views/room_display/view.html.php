@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 /**
  * Loads lesson and event data for a single room and day into view context
- * 
+ *
  * @category  Joomla.Component.Site
  * @package   thm_organizer
  */
@@ -22,10 +22,10 @@ class THM_OrganizerViewRoom_Display extends JView
 {
     /**
      * Loads persistent data into the view context
-     * 
+     *
      * @param   string  $tpl  the name of the template to load
-     * 
-     * @return  void 
+     *
+     * @return  void
      */
     public function display($tpl = null)
     {

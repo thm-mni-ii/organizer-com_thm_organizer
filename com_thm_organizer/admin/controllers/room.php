@@ -24,8 +24,8 @@ class THM_OrganizerControllerRoom extends JController
     /**
      * Performs access checks, sets the id variable to 0, and redirects to the
      * room edit view
-     * 
-     * @return void 
+     *
+     * @return void
      */
     public function add()
     {
@@ -68,11 +68,11 @@ class THM_OrganizerControllerRoom extends JController
         }
         $model = $this->getModel('room');
         $model->autoMergeAll();
-        
+ 
         $msg = JText::_('COM_THM_ORGANIZER_RMM_AUTO_MERGE');
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg);
     }
-    
+ 
     /**
      * Performs access checks, calls the room model's autoMerge function. Should
      * the room entries be mergeable based upon plausibility constraints this is

@@ -33,9 +33,9 @@ class THM_OrganizerModelSubject_List extends JModelList
     public $language = 'de';
 
     public $subjects = null;
-    
+ 
     public $groupBy = NONE;
-    
+ 
     public $groups = null;
 
     /**
@@ -81,7 +81,7 @@ class THM_OrganizerModelSubject_List extends JModelList
                 $this->groups = array();
                 break;
         }
-        
+ 
         $this->programName = $this->getProgramName();
 
         return $items;
@@ -168,7 +168,7 @@ class THM_OrganizerModelSubject_List extends JModelList
 
     /**
      * Gets the name of the program selected
-     * 
+     *
      * @return  string  the name of the program
      */
     private function getProgramName()
@@ -205,12 +205,12 @@ class THM_OrganizerModelSubject_List extends JModelList
         $languageTag = $app->getUserStateFromRequest($this->context . '.languageTag', 'languageTag');
         $groupBy = $app->getUserStateFromRequest($this->context . '.groupBy', 'groupBy');
         $menuID = $app->getUserStateFromRequest($this->context . '.menuID', 'Itemid');
-        
+ 
         $params = JFactory::getApplication()->getMenu()->getActive()->params;
         $menuProgramID = $params->get('programID');
         $menuLanguage = ($params->get('language') == '0')? 'en' : 'de';
         $menuGroupBy = $params->get('groupBy');
-        
+ 
         $this->setState('programID', empty($programID)? $menuProgramID : $programID);
         $this->setState('search', $search);
         $this->setState('list.limit', $limit);
@@ -221,18 +221,18 @@ class THM_OrganizerModelSubject_List extends JModelList
 
     /**
      * Retrieves an array of groups with references to the subjects grouped
-     * 
+     *
      * @param   array  $subjectIDs     the ids of the program subjects
      * @param   array  $programs       the program when subjects are directly
      *                                 subordinate in the hierarchy
      * @param   array  $pools          the parent pool
      * @param   array  $poolColors     the hexidecimal code of the pool's color
      * @param   array  $programColors  the hexidecimal code of the program's color
-     * 
+     *
      * @return  array  the groups according to which the subjects will be output
      */
     private function getPoolGroups($subjectIDs, $programs, $pools, $poolColors, $programColors)
-    {        
+    {
         $poolGroups = array();
         foreach (array_keys($subjectIDs) as $key)
         {
@@ -275,18 +275,18 @@ class THM_OrganizerModelSubject_List extends JModelList
 
     /**
      * Retrieves an array of groups with references to the subjects grouped
-     * 
+     *
      * @param   array  $subjectIDs      the ids of the program subjects
      * @param   array  $surnames        the surnames of responsible teachers
      * @param   array  $forenames       the forenames of responsible teachers
      * @param   array  $THMGroupsLinks  the links to the THM Groups profiles of
      *                                  the responsible teachers
      * @param   array  $teacherColors   the hexidecimal code of the teacher's color
-     * 
+     *
      * @return  array  the groups according to which the subjects will be output
      */
     private function getTeacherGroups($subjectIDs, $surnames, $forenames, $THMGroupsLinks, $teacherColors)
-    {        
+    {
         $languageTag = $this->state->get('languageTag');
         $undefined = $languageTag == 'en'? 'No teacher registered as responsible.' : 'Kein Dozent als Verantwortliche eingetragen.';
         $teacherGroups = array();
@@ -333,11 +333,11 @@ class THM_OrganizerModelSubject_List extends JModelList
 
     /**
      * Retrieves an array of groups with references to the subjects grouped
-     * 
+     *
      * @param   array  $subjectIDs   the ids of the program subjects
      * @param   array  $fields       the names of the subject fields
      * @param   array  $fieldColors  the hexidecimal code of the field's color
-     * 
+     *
      * @return  array  the groups according to which the subjects will be output
      */
     private function getFieldGroups($subjectIDs, $fields, $fieldColors)
@@ -349,7 +349,7 @@ class THM_OrganizerModelSubject_List extends JModelList
         {
             if (!empty($fields[$key]))
             {
-                $name = $fields[$key]; 
+                $name = $fields[$key];
                 if (!isset($fieldGroups[$name]))
                 {
                     $fieldGroups[$name] = array();
@@ -405,7 +405,7 @@ class THM_OrganizerModelSubject_List extends JModelList
 
     /**
      * Builds the search clause based upon user input
-     * 
+     *
      * @return  string
      */
     private function getSearch()

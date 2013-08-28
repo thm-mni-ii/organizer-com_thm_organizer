@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @category    Joomla component
  * @package     THM_Organizer
@@ -93,7 +93,7 @@ else
 }
 ?>
         Ext.application({
-            name: 'Scheduler',    
+            name: 'Scheduler',
             launch: MySched.Base.init
         });
     </script>

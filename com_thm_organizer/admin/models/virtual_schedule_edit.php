@@ -19,7 +19,7 @@ jimport('joomla.application.component.modeladmin');
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin.model
- * 
+ *
  * @todo clean this thing up
  */
 class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
@@ -64,7 +64,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
 
     /**
      * Method to get a single record.
-     * 
+     *
      * @param   integer  $cid  The id of the primary key.
      *
      * @return    mixed  Object on success, false on failure.
@@ -380,7 +380,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
      * Method check if the give id exists
      *
      * @param   Integer  $vid  Virtual schedule id
-     * 
+     *
      * @return    Boolean     True if the schedule exits, false otherwise
      */
     public function idExists($vid)

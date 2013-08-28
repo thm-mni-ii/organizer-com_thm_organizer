@@ -16,8 +16,8 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.table');
 /**
- * Class representing the degrees table. 
- * 
+ * Class representing the degrees table.
+ *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin

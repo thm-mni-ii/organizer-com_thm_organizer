@@ -18,12 +18,12 @@ $rowcount = 0;
 ?>
 <script type="text/javascript">
     var jq = jQuery.noConflict();
-    
+ 
     function action_button(task) {
         jq('#task').val(task);
         jq('#thm_organizer_el_form').submit();
     }
-</script>   
+</script>
 <div id="thm_organizer_el">
     <form id='thm_organizer_el_form' name='thm_organizer_el_form' enctype='multipart/form-data' method='post'
           action='<?php echo JRoute::_("index.php?option=com_thm_organizer&view=event_manager"); ?>' >
@@ -33,7 +33,7 @@ if ($this->categoryID != -1)
 {
 ?>
             <div id="thm_organizer_el_category_desc_div" class="thm_organizer_el_category_desc_div">
-<?php 
+<?php
     foreach ($this->categories as $category)
     {
         if ($category['id'] == $this->categoryID)
@@ -154,7 +154,7 @@ if (count($this->events) > 0)
     {
 ?>
                         <col id="thm_organizer_el_col_author" />
-<?php 
+<?php
     }
     if ($this->display_type != 2 and $this->display_type != 6)
     {
@@ -250,7 +250,7 @@ if (count($this->events) > 0)
                         <td>
                             <span><?php echo $event['author']; ?></span>
                         </td>
-<?php 
+<?php
         }
         if ($this->display_type != 2 and $this->display_type != 6)
         {

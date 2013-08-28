@@ -15,7 +15,7 @@ jimport('jquery.jquery');
 
 /**
  * Loads model data into context and sets variables used for html output
- * 
+ *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
@@ -24,10 +24,10 @@ class Thm_OrganizerViewEvent_Edit extends JView
 {
     /**
      * loads model data into context and sets variables used for html output
-     * 
+     *
      * @param   string  $tpl  the template to be used
-     * 
-     * @return void 
+     *
+     * @return void
      */
     public function display($tpl = null)
     {
@@ -80,8 +80,8 @@ class Thm_OrganizerViewEvent_Edit extends JView
 
     /**
      * Creates HTML elements from saved data
-     * 
-     * @return void 
+     *
+     * @return void
      */
     private function createHTMLElements()
     {
@@ -96,11 +96,11 @@ class Thm_OrganizerViewEvent_Edit extends JView
 
     /**
      * creates the selection boxes for resources
-     * 
+     *
      * @param   string  $name       the name of the resource
-     * 
+     *
      * @param   string  $emptyText  the text for the selection of no resources
-     * 
+     *
      * @return void
      */
     private function createResourceElement($name, $emptyText)
@@ -141,7 +141,7 @@ class Thm_OrganizerViewEvent_Edit extends JView
     /**
      * processes the categories adding a dummy to eliminate having a default
      * category, and creates the javascript output for each category
-     * 
+     *
      * @return void
      */
     private function processCategories()
@@ -174,9 +174,9 @@ class Thm_OrganizerViewEvent_Edit extends JView
 
     /**
      * creates links similar to the joomla backend action buttons
-     * 
+     *
      * @param   string  $action  the name of the action
-     * 
+     *
      * @return  void
      */
     private function createActionLink($action)

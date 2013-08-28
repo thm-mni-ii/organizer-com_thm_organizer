@@ -23,8 +23,8 @@ class THM_OrganizerControllermonitor extends JController
 {
     /**
      * Performs access checks and redirects to the monitor edit view
-     * 
-     * @return void 
+     *
+     * @return void
      */
     public function add()
     {
@@ -39,8 +39,8 @@ class THM_OrganizerControllermonitor extends JController
 
     /**
      * Performs access checks and redirects to the monitor edit view
-     * 
-     * @return void 
+     *
+     * @return void
      */
     public function edit()
     {
@@ -55,8 +55,8 @@ class THM_OrganizerControllermonitor extends JController
     /**
      * Performs access checks, saves the monitor currently being edited and
      * redirects to the monitor manager view
-     * 
-     * @return void 
+     *
+     * @return void
      */
     public function save()
     {
@@ -81,8 +81,8 @@ class THM_OrganizerControllermonitor extends JController
     /**
      * Performs access checks, saves the monitor currently being edited and
      * redirects to the monitor edit view
-     * 
-     * @return void 
+     *
+     * @return void
      */
     public function save2new()
     {

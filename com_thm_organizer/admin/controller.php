@@ -16,8 +16,8 @@ jimport('joomla.application.component.controller');
 require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
 
 /**
- * Class for non-specific component calls 
- * 
+ * Class for non-specific component calls
+ *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin

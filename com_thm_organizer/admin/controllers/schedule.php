@@ -23,7 +23,7 @@ class THM_OrganizerControllerSchedule extends JController
 {
     /**
      * Performs access checks and redirects to the schedule edit view
-     * 
+     *
      * @return void
      */
     public function add()
@@ -39,7 +39,7 @@ class THM_OrganizerControllerSchedule extends JController
 
     /**
      * Performs access checks and redirects to the schedule edit view
-     * 
+     *
      * @return void
      */
     public function edit()
@@ -47,7 +47,7 @@ class THM_OrganizerControllerSchedule extends JController
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }       
+        }
         JRequest::setVar('view', 'schedule_edit');
         parent::display();
     }
@@ -55,7 +55,7 @@ class THM_OrganizerControllerSchedule extends JController
     /**
      * Performs access checks and uses the model's upload function to validate
      * and save the file to the database should validation be successful
-     * 
+     *
      * @return void
      */
     public function upload()
@@ -110,7 +110,7 @@ class THM_OrganizerControllerSchedule extends JController
     /**
      * Performs access checks, makes call to the models's save function, and
      * redirects to the schedule manager view
-     * 
+     *
      * @return void
      */
     public function save()
@@ -138,7 +138,7 @@ class THM_OrganizerControllerSchedule extends JController
      * Performs access checks, removes schedules from the database, and
      * redirects to the schedule manager view optionally to filtered to a
      * specific semester
-     * 
+     *
      * @return void
      */
     public function delete()
@@ -163,7 +163,7 @@ class THM_OrganizerControllerSchedule extends JController
     /**
      * performs access checks, activates/deactivates the chosen schedule in the
      * context of its planning period, and redirects to the schedule manager view
-     * 
+     *
      * @return void
      */
     public function setReference()
@@ -205,7 +205,7 @@ class THM_OrganizerControllerSchedule extends JController
      * Performs access checks. Checks if the schedule is already active. If the
      * schedule is not already active, calls the activate function of the
      * schedule model.
-     * 
+     *
      * @return  void
      */
     public function activate()
@@ -243,7 +243,7 @@ class THM_OrganizerControllerSchedule extends JController
             $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_ACTIVATE_COUNT"), 'error');
         }
     }
-    
+ 
     /**
      * Performs access checks. Checks whether schedules qualify for a merge.
      * Merges schedules.
@@ -280,7 +280,7 @@ class THM_OrganizerControllerSchedule extends JController
                 $msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_ACTIVE');
                 $this->setRedirect(JRoute::_($url, false), $msg, 'warning');
                 break;
-                
+ 
         }
     }
 
@@ -288,7 +288,7 @@ class THM_OrganizerControllerSchedule extends JController
      * Performs access checks. Checks if the schedule is already active. If the
      * schedule is not already active, calls the activate function of the
      * schedule model.
-     * 
+     *
      * @return  void
      */
     public function merge()

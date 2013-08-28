@@ -61,7 +61,7 @@ class THMICALBuilder extends THMAbstractBuilder
      * @var    Object
      */
     private $_modules = null;
-    
+ 
 
     /**
      * Constructor with the joomla data abstraction object and configuration object
@@ -87,11 +87,11 @@ class THMICALBuilder extends THMAbstractBuilder
     public function createSchedule($lessons, $username, $title)
     {
         $departmentAndSemester = JRequest::getVar('departmentAndSemester');
-        
+ 
         $activeSchedule = $this->getActiveSchedule($departmentAndSemester);
-        
+ 
         $scheduleData = json_decode($activeSchedule->schedule);
-        
+ 
         // To save memory unset schedule
         unset($activeSchedule->schedule);
         $this->_subjects = $scheduleData->subjects;
@@ -100,7 +100,7 @@ class THMICALBuilder extends THMAbstractBuilder
         unset($scheduleData->teachers);
         $this->_modules = $scheduleData->modules;
         unset($scheduleData->modules);
-        
+ 
         if ($title == JText::_("COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE") && $username != "")
         {
             $title = $username . " - " . $title;
@@ -145,19 +145,19 @@ class THMICALBuilder extends THMAbstractBuilder
      * @return An array which has the result including
      */
     private function setEvent($vCalendar, $lesson)
-    {        
+    {
         $lessonSubject = key($lesson->subjects);
         $lessonName = $this->_subjects->{$lessonSubject}->longname;
-               
-        $lessonTeachers = implode(", ", 
+ 
+        $lessonTeachers = implode(", ",
                     $this->getTeacherNames(
                             array_merge(
-                                    array_keys((array) $lesson->teachers, ""), 
+                                    array_keys((array) $lesson->teachers, ""),
                                     array_keys((array) $lesson->teachers, "new")
                                     )
                             )
                 );
-              
+ 
         $lessonComment = $lesson->comment;
         foreach ($lesson->calendar as $calendarKey => $calendarValue)
         {
@@ -169,14 +169,14 @@ class THMICALBuilder extends THMAbstractBuilder
                     {
                         $lessonBlock = $blockKey;
                         $lessonRoom = $roomKey;
-                        
+ 
                         $lessonSummary = $lessonName . " bei " . $lessonTeachers . " im " . $lessonRoom;
-                        
+ 
                         $lessonDate = explode("-", $calendarKey);
                         $lessonTime = $this->blocktotime($lessonBlock);
                         $lessonBeginTime = explode(":", $lessonTime[0]);
                         $lessonEndTime = explode(":", $lessonTime[1]);
-                        
+ 
                         $lessonStartDate  = array(
                                 "year" => $lessonDate[0],
                                 "month" => $lessonDate[1],
@@ -208,10 +208,10 @@ class THMICALBuilder extends THMAbstractBuilder
                     }
                 }
             }
-        }        
+        }
         return $vCalendar;
     }
-    
+ 
     /**
      * Method to check the username and password
      *
@@ -288,7 +288,7 @@ class THMICALBuilder extends THMAbstractBuilder
         );
         return $days[$daynum];
     }
-    
+ 
     /**
      * Method to get the active schedule
      *
@@ -300,19 +300,19 @@ class THMICALBuilder extends THMAbstractBuilder
     {
         $schedulerModel = JModel::getInstance('scheduler', 'thm_organizerModel', array('ignore_request' => false));
         $activeSchedule = $schedulerModel->getActiveSchedule($departmentAndSemester);
-        
+ 
         return $activeSchedule;
     }
-    
+ 
     /**
      * Method to transform teacher ids to teacher names
-     * 
+     *
      * @param   array  $teachers  An array with teacher ids
-     * 
+     *
      * @return  array  An array with teacher names
      */
     private function getTeacherNames($teachers)
-    {        
+    {
         for ($index = 0; $index < count($teachers); $index++)
         {
             $teacher = $teachers[$index];
@@ -320,13 +320,13 @@ class THMICALBuilder extends THMAbstractBuilder
             {
                 $teachers[$index] = $this->_teachers->{$teacher}->surname;
             }
-            
+ 
             if (!empty($this->_teachers->{$teacher}->firstname))
             {
                 $teachers[$index] .= ", " . $this->_teachers->{$teacher}->firstname{0} . ".";
             }
         }
-        
+ 
         return $teachers;
     }
 }

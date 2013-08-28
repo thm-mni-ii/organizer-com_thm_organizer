@@ -26,7 +26,7 @@ class THM_OrganizerModelMonitor_Edit extends JModelAdmin
 
     /**
      * constructor
-     * 
+     *
      * @param   type  $config  an optional array of configuration information
      */
     public function  __construct($config = array())

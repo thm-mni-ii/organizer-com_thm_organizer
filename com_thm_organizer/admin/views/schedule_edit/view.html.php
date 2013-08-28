@@ -17,7 +17,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
 
 /**
  * Class loading schedule data into output context
- * 
+ *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
@@ -28,9 +28,9 @@ class THM_OrganizerViewSchedule_Edit extends JView
     /**
      * loads persistent data into view context and intitiates functions for the
      * creation of html elements
-     * 
+     *
      * @param   string  $tpl  the template to be used upon the view
-     * 
+     *
      * @return void
      */
     public function display($tpl = null)
@@ -57,8 +57,8 @@ class THM_OrganizerViewSchedule_Edit extends JView
 
     /**
      * creates the joomla adminstrative toolbar
-     * 
-     * @return void 
+     *
+     * @return void
      */
     private function addToolBar()
     {

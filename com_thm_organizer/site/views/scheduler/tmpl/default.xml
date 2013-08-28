@@ -11,7 +11,7 @@
         <message>COM_THM_ORGANIZER_RIA_LAYOUT_DESCRIPTION</message>
     </layout>
     <fields name="params" addfieldpath="/components/com_thm_organizer/models/fields">
-        <fieldset name="basic">        
+        <fieldset name="basic">
             <field     name="departmentSemesterSelection"
                     type="sql"
                     label="COM_THM_ORGANIZER_RIA_PLAN_SELECTION_TITLE"

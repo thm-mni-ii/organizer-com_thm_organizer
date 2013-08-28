@@ -37,7 +37,7 @@ class THM_OrganizersModelVirtual_Schedule_EditAdminTest extends PHPUnit_Framewor
         if (!defined('JPATH_COMPONENT')) {
             define('JPATH_COMPONENT', dirname(__FILE__));
         }
-                
+ 
 //         $this->instance = new THM_OrganizerModelVirtual_Schedule_Edit;
     }
 
@@ -62,7 +62,7 @@ class THM_OrganizersModelVirtual_Schedule_EditAdminTest extends PHPUnit_Framewor
     {
 //         $expected = null;
 //         $actual = $this->instance->get('Form');
-                
+ 
 //         $this->assertEquals($expected, $actual);
 
         $this->assertEquals(true, true);

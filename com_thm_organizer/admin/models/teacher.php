@@ -25,7 +25,7 @@ class THM_OrganizerModelTeacher extends JModel
 {
     /**
      * Attempts to save a teacher entry, updating schedule data as necessary.
-     * 
+     *
      * @return true on success, otherwise false
      */
     public function save()
@@ -52,7 +52,7 @@ class THM_OrganizerModelTeacher extends JModel
      * Attempts an iterative merge of all teacher entries.  Due to the attempted
      * merge of multiple entries with individual success codes no return value
      * is given.
-     * 
+     *
      * @return void
      */
     public function autoMergeAll()
@@ -62,7 +62,7 @@ class THM_OrganizerModelTeacher extends JModel
         $query->select('*')->from('#__thm_organizer_teachers')->order('surname, id');
         $dbo->setQuery((string) $query);
         $teacherEntries = $dbo->loadAssocList();
-        
+ 
         if (empty($teacherEntries))
         {
             return;
@@ -74,7 +74,7 @@ class THM_OrganizerModelTeacher extends JModel
             $currentEntry = $teacherEntries[$index];
             if (in_array($currentEntry['id'], $deletedIDs))
             {
-                continue; 
+                continue;
             }
 
             $nextIndex = $index + 1;
@@ -97,9 +97,9 @@ class THM_OrganizerModelTeacher extends JModel
     /**
      * Performs an automated merge of teacher entries, in as far as this is
      * possible according to plausibility constraints.
-     * 
+     *
      * @param   array  $teacherEntries  entries to be compared
-     * 
+     *
      * @return  boolean  true on success, otherwise false
      */
     public function autoMerge($teacherEntries = null)
@@ -173,10 +173,10 @@ class THM_OrganizerModelTeacher extends JModel
 
     /**
      * Merges resource entries and cleans association tables.
-     * 
+     *
      * @param   array  &$data  array used by the automerge function to
      *                         automatically set teacher values
-     * 
+     *
      * @return  boolean  true on success, otherwise false
      */
     public function merge(&$data = null)
@@ -203,7 +203,7 @@ class THM_OrganizerModelTeacher extends JModel
             $dbo->transactionRollback();
             return false;
         }
-        
+ 
         $subjectsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'subject');
         if (!$subjectsSuccess)
         {
@@ -221,7 +221,7 @@ class THM_OrganizerModelTeacher extends JModel
                 return false;
             }
         }
-        
+ 
         // Update entry with lowest ID
         $teacher = JTable::getInstance('teachers', 'thm_organizerTable');
         $success = $teacher->save($data);
@@ -251,11 +251,11 @@ class THM_OrganizerModelTeacher extends JModel
 
     /**
      * Replaces old teacher associations
-     * 
+     *
      * @param   int     $newID      the id onto which the teacher entries merge
      * @param   string  $oldIDs     a string containing the ids to be replaced
      * @param   string  $tableName  the unique part of the table name
-     * 
+     *
      * @return  boolean  true on success, otherwise false
      */
     private function updateAssociation($newID, $oldIDs, $tableName)
@@ -267,7 +267,7 @@ class THM_OrganizerModelTeacher extends JModel
         $query->set("teacherID = '$newID'");
         $query->where("teacherID IN ( $oldIDs )");
         $dbo->setQuery((string) $query);
-        try 
+        try
         {
             $dbo->query();
         }
@@ -281,11 +281,11 @@ class THM_OrganizerModelTeacher extends JModel
 
     /**
      * Updates teacher data and lesson associations in active schedules
-     * 
+     *
      * @param   array   &$data  teacher data corrresponding to a table row
      * @param   string  $IDs    a list of ids suitable for retrieval of teacher
      *                          gpuntisIDs to be replaced in saved schedules
-     * 
+     *
      * @return boolean
      */
     public function updateScheduleData(&$data, $IDs)
@@ -392,7 +392,7 @@ class THM_OrganizerModelTeacher extends JModel
 
     /**
      * Deletes teacher resource entries.
-     * 
+     *
      * @return boolean
      */
     public function delete()

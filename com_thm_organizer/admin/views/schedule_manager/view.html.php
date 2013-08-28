@@ -16,7 +16,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
 
 /**
  * Class which loads data into the view output context
- * 
+ *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
@@ -27,14 +27,14 @@ class THM_OrganizerViewSchedule_Manager extends JView
     /**
      * jpagination object holding data relevant to the number of results to be
      * displayed and query limit values
-     * 
+     *
      * @var JPagination
      */
     protected $pagination;
 
     /**
      * jstate object holding data relevant to filter information
-     * 
+     *
      * @var JState
      */
     protected $state;
@@ -42,10 +42,10 @@ class THM_OrganizerViewSchedule_Manager extends JView
     /**
      * loads data into view output context and initiates functions creating html
      * elements
-     * 
+     *
      * @param   string  $tpl  the template to be used
-     * 
-     * @return void 
+     *
+     * @return void
      */
     public function display($tpl = null)
     {
@@ -78,7 +78,7 @@ class THM_OrganizerViewSchedule_Manager extends JView
 
     /**
      * creates links to the edit view for each individual schedule
-     * 
+     *
      * @return void
      */
     private function addLinks()
@@ -92,7 +92,7 @@ class THM_OrganizerViewSchedule_Manager extends JView
 
     /**
      * creates a joomla administrative tool bar
-     * 
+     *
      * @return void
      */
     private function addToolBar()

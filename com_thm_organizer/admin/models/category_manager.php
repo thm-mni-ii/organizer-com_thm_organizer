@@ -13,8 +13,8 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modellist');
 
 /**
- * Class compiling a list of saved event categories 
- * 
+ * Class compiling a list of saved event categories
+ *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
@@ -24,14 +24,14 @@ class THM_OrganizerModelCategory_Manager extends JModelList
 {
     /**
      * An associative array containing information about saved categories
-     * 
+     *
      * @var array
      */
     public $contentCategories = null;
 
     /**
      * sets variables and configuration data
-     * 
+     *
      * @param   array  $config  the configuration parameters
      */
     public function __construct($config = array())
@@ -51,8 +51,8 @@ class THM_OrganizerModelCategory_Manager extends JModelList
 
     /**
      * generates the query to be used to fill the output list
-     * 
-     * @return JDatabaseQuery 
+     *
+     * @return JDatabaseQuery
      */
     protected function getListQuery()
     {
@@ -106,10 +106,10 @@ class THM_OrganizerModelCategory_Manager extends JModelList
 
     /**
      * takes user filter parameters and adds them to the view state
-     * 
+     *
      * @param   string  $ordering   the filter parameter to be used for ordering
      * @param   string  $direction  the direction in which results are to be ordered
-     * 
+     *
      * @return void
      */
     protected function populateState($ordering = null, $direction = null)

@@ -17,7 +17,7 @@ Ext.ns('MySched');
 
 /**
  * Spezialisierung der Collection
- * 
+ *
  * @author thorsten
  */
 MySched.Collection = function ()
@@ -36,7 +36,7 @@ Ext.extend(MySched.Collection, Ext.util.MixedCollection,
     },
     isEmpty: function ()
     {
-    
+ 
         return this.getCount() === 0;
     },
     get: function (key, def)
@@ -62,7 +62,7 @@ Ext.extend(MySched.Collection, Ext.util.MixedCollection,
     },
     /**
      * Identisch zu Superclass. Nur wird MySched.Collection zurueckgegeben
-     * 
+     *
      * @param {Function}
      *            fn The function to be called, it will receive the args o (the
      *            object), k (the key)
@@ -95,7 +95,7 @@ MySched.Calendar = new MySched.Collection();
 
 /**
  * Schnellzugriff auf Configobjekt
- * 
+ *
  * @param {Object}
  *            a
  */
@@ -106,7 +106,7 @@ function _C (a)
 
 /**
  * Erganezt das String Object um die equal methode
- * 
+ *
  * @param {Object}
  *            str String der mit dem Basisstring verglichen wird
  */
@@ -117,7 +117,7 @@ String.prototype.equal = function (str)
 
 /**
  * Erganezt das Array Object um die AddTo methode
- * 
+ *
  * @param {Integer} index Index an dem value eingefügt wird
  * @param {Object} value Das Objekt welches eingefügt werden soll
  */
@@ -138,7 +138,7 @@ Array.prototype.AddTo = function (index, value)
 
 /**
  * Erganezt das Array Object um die contains methode
- * 
+ *
  * @param {Object} obj ÜberprÜft ob obj vorhanden ist
  */
 Array.prototype.contains = function (obj)
@@ -155,7 +155,7 @@ Array.prototype.contains = function (obj)
 };
 /**
  * Erweitert Dragzone um LextureObjekte
- * 
+ *
  * @param {Object}
  *            e
  */
@@ -183,7 +183,7 @@ Ext.override(Ext.dd.DragZone,
 
 /**
  * Erweiterung des GridViews
- * 
+ *
  * @param {Object} cs
  * @param {Object} rs
  * @param {Object} ds
@@ -300,7 +300,7 @@ function cropText(sText, nCropLimit)
 /**
  * Check wheter the event objects are corresponding with the lesson objects
  * (doz, room, clas)
- * 
+ *
  * @author Wolf
  * @param {Array}
  *            event An Array which represent an event
@@ -377,7 +377,7 @@ function showevent(event, arr, selectedScheduleid)
 
 /**
  * Function to test wheter an object is the same as an element in an array
- * 
+ *
  * @author Wolf
  * @param {String}
  *            obj String representation of an event object
@@ -411,7 +411,7 @@ function lessoncontains(obj, arr)
 
 /**
  * Function which transform a number to a weekday
- * 
+ *
  * @author Wolf
  * @param {Integer}
  *            number The number of the weekday
@@ -529,12 +529,12 @@ function getTeacherSurnameWithCutFirstName(teacherKey)
     var teacherName = teacherKey;
     var teacherSurname = MySched.Mapping.getTeacherSurname(teacherKey);
     var teacherFirstname = MySched.Mapping.getTeacherFirstname(teacherKey);
-    
+ 
     if(Ext.isString(teacherSurname) && teacherSurname !== teacherKey && teacherSurname.length > 0)
     {
         teacherName = teacherSurname;
     }
-    
+ 
     if(Ext.isString(teacherFirstname) && teacherFirstname !== teacherKey && teacherFirstname.length > 0)
     {
         teacherName += ", " + teacherFirstname.charAt(0) + ".";
@@ -626,7 +626,7 @@ Ext.define('Ext.ux.TabCloseOnMiddleClick', {
     onMouseUp: function(e, target)
     {
         e.preventDefault();
-        
+ 
         if( target && e.button === 1  )
         {
             var item = this.tabBar.getComponent(target.id);

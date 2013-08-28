@@ -1,6 +1,6 @@
 <?php
 /**
- * @category    Joomla component 
+ * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name        eventAccess
@@ -12,7 +12,7 @@
 
 /**
  * Contains static functions to determine user access to events
- * 
+ *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
@@ -22,7 +22,7 @@ class THMEventAccess
 {
     /**
      * Checks if the current user is the author of a given event
-     * 
+     *
      * @param   int  $eventID  the id of the event to be checked
      *
      * @return bool true if user is the autor of the event, otherwise false
@@ -79,7 +79,7 @@ class THMEventAccess
      * Checks if the current user can edit a given event
      *
      * @param   int  $eventID  the id of the event
-     * 
+     *
      * @return  boolean true if the user can edit the event, otherwise false
      */
     public static function canEdit($eventID)
@@ -102,7 +102,7 @@ class THMEventAccess
      * Checks if the user can edit en event which he has authored
      *
      * @param   int  $eventID  the id of the event to be edited
-     * 
+     *
      * @return  boolean true if the user can edit own events, otherwise false
      */
     public static function canEditOwn($eventID)
@@ -119,7 +119,7 @@ class THMEventAccess
 
     /**
      * Checks if the current user is allowed to delete an event
-     * 
+     *
      * @param   int  $eventID  the id of the event to be checked
      *
      * @return  boolean true if the user can delete a given event, otherwise false
@@ -135,7 +135,7 @@ class THMEventAccess
 
     /**
      * Issues a generic warning when unauthorized function calls are performed
-     * 
+     *
      * @return void
      */
     public static function noAccess()

@@ -16,7 +16,7 @@ jimport('joomla.application.component.modelform');
 
 /**
  * Retrieves persistent data for output in the event edit view.
- * 
+ *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
@@ -55,8 +55,8 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
 
     /**
      * loads persistent data for the event into the model
-     * 
-     * @return void 
+     *
+     * @return void
      */
     public function loadEvent()
     {
@@ -86,8 +86,8 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
 
     /**
      * creates an emptyevent array
-     * 
-     * @return array  event 
+     *
+     * @return array  event
      */
     private function getEmptyEvent()
     {
@@ -117,8 +117,8 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
 
     /**
      * creates a string usable for the select clause
-     * 
-     * @return string 
+     *
+     * @return string
      */
     private function getSelect()
     {
@@ -137,8 +137,8 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
 
     /**
      * calls the load functions for each resource type associated with events
-     * 
-     * @return void 
+     *
+     * @return void
      */
     private function loadEventResources()
     {
@@ -149,7 +149,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
 
     /**
      * loads the rooms associated with the event
-     *  
+     *
      * @return void
      */
     private function loadEventRooms()
@@ -166,7 +166,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
 
     /**
      * loads the teachers associated with the event
-     *  
+     *
      * @return void
      */
     private function loadEventTeachers()
@@ -183,7 +183,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
 
     /**
      * loads the groups associated with the event
-     *  
+     *
      * @return void
      */
     private function loadEventGroups()
@@ -200,8 +200,8 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
 
     /**
      * calls the load functions for each resource type
-     * 
-     * @return void 
+     *
+     * @return void
      */
     private function loadResources()
     {
@@ -212,7 +212,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
 
     /**
      * loads the available rooms
-     *  
+     *
      * @return void
      */
     private function loadRooms()
@@ -229,7 +229,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
 
     /**
      * loads the available teachers
-     *  
+     *
      * @return void
      */
     private function loadTeachers()
@@ -256,7 +256,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
 
     /**
      * loads the available groups
-     *  
+     *
      * @return void
      */
     private function loadGroups()
@@ -275,7 +275,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
 
     /**
      * loads the categories for which the current user has write/edit access
-     *  
+     *
      * @return void
      */
     private function loadCategories()
@@ -396,9 +396,9 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
      * Method to get the record form.
      *
      * @param   array    $data      Data for the form.
-     * 
+     *
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-     * 
+     *
      * @return  mixed A JForm object on success, false on failure
      */
     public function getForm($data = array(), $loadData = true)
@@ -418,7 +418,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
     /**
      * sets links if the item id belongs to a menu type of event list or if the
      * event is preexistent
-     * 
+     *
      * @return void
      */
     private function setMenuLinks()

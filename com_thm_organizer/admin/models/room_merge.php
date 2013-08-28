@@ -23,7 +23,7 @@ class THM_OrganizerModelRoom_Merge extends JModel
 {
     /**
      * Array holding room entry information
-     * 
+     *
      * @var array
      */
     public $roomInformation = null;

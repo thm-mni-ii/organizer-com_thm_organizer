@@ -31,7 +31,7 @@ class AllComThmOrganizerGuiTests
 {
     /**
      * Method to initialise the test suite and bind the test files to the suite
-     * 
+     *
      * @return  PHPUnit_Framework_TestSuite  The test suite object
      */
     public static function suite()

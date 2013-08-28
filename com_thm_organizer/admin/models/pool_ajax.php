@@ -23,7 +23,7 @@ class THM_OrganizerModelPool_Ajax extends JModel
 {
     /**
      * Retrieves the parent ids of the resource in question
-     * 
+     *
      * @return  array  an array of integer values
      */
     public function getParentIDs()
@@ -38,7 +38,7 @@ class THM_OrganizerModelPool_Ajax extends JModel
 
     /**
      * Creates a list of pool options dependent upon the chosen degree program
-     * 
+     *
      * @return  array  contains arrays with id and name of program pools
      */
     public function getProgramPools()
@@ -52,7 +52,7 @@ class THM_OrganizerModelPool_Ajax extends JModel
         $IDQuery->select('id')->from('#__thm_organizer_mappings')->where("poolID = '$ownID'");
         $dbo->setQuery((string) $IDQuery);
         $ownIDs = $dbo->loadResultArray();
-        
+ 
         $bordersQuery = $dbo->getQuery(true);
         $bordersQuery->select('DISTINCT lft, rgt');
         $bordersQuery->from('#__thm_organizer_mappings');
@@ -60,7 +60,7 @@ class THM_OrganizerModelPool_Ajax extends JModel
         $bordersQuery->order('lft ASC');
         $dbo->setQuery((string) $bordersQuery);
         $borders = $dbo->loadAssocList();
-        
+ 
         $programMappings = array();
         $programMappingsQuery = $dbo->getQuery(true);
         $programMappingsQuery->select('*');
@@ -94,7 +94,7 @@ class THM_OrganizerModelPool_Ajax extends JModel
             {
                 $poolsTable->load($mapping['poolID']);
                 $name = $language[0] == 'de'? $poolsTable->name_de : $poolsTable->name_en;
-                
+ 
                 $level = 0;
                 if ($mapping['level'] != 0)
                 {
@@ -122,7 +122,7 @@ class THM_OrganizerModelPool_Ajax extends JModel
         $selectPools = array();
         $selectPools[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_POM_SEARCH_PARENT'));
         $selectPools[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_POM_NO_PARENT'));
-        
+ 
         return  array_merge($selectPools, empty($programMappings)? array() : $programMappings);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * @category    Joomla component 
+ * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name        THM_OrganizerTableMonitors
@@ -13,8 +13,8 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.table');
 
 /**
- * Class representing the monitors table. 
- * 
+ * Class representing the monitors table.
+ *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
@@ -23,7 +23,7 @@ class THM_OrganizerTableMonitors extends JTable
 {
     /**
      * Constructor to call the parent constructor
-     * 
+     *
      * @param   JDatabase  &$dbo  A database connector object
      */
     public function __construct(&$dbo)

@@ -15,7 +15,7 @@ require_once JPATH_COMPONENT . DS . 'helper' . DS . 'event.php';
 
 /**
  * Handles event perssistence
- * 
+ *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
@@ -77,7 +77,7 @@ class THM_OrganizerModelEvent extends JModel
      * Performs the update query to the appropriate tables
      *
      * @param   mixed  &$data  the event data
-     * 
+     *
      * @return  boolean true on success, otherwise false
      */
     private function saveExistingEvent(&$data)
@@ -152,9 +152,9 @@ class THM_OrganizerModelEvent extends JModel
     /**
      * Saves a new event creating appropriate entries in the content, assets,
      * and event tables
-     * 
+     *
      * @param   array  &$data  holds data from the request
-     * 
+     *
      * @return  boolean true on success, otherwise false
      */
     private function saveNewEvent(&$data)
@@ -262,7 +262,7 @@ class THM_OrganizerModelEvent extends JModel
      * @param   string  $requestName     the name of the request resource variable
      * @param   string  $resourceColumn  the name of the resource id column
      * @param   int     $eventID         the id of the event
-     * 
+     *
      * @return  boolean true on success false on failure
      */
     private function saveResources($tableName, $requestName, $resourceColumn, $eventID)
@@ -307,7 +307,7 @@ class THM_OrganizerModelEvent extends JModel
      * event_rooms, and event_groups associated with a particular event
      *
      * @param   int  $eventID  id of the event and associated content to be deleted
-     * 
+     *
      * @return  boolean true on success, otherwise false
      */
     public function delete($eventID)
@@ -377,9 +377,9 @@ class THM_OrganizerModelEvent extends JModel
     /**
      * Sends an email with the appointment title as subject and the introtext
      * for the appointment as body on the members of the affected groups
-     * 
+     *
      * @param   mixed  &$data  the event information
-     * 
+     *
      * @return  void
      */
     private function notify(&$data)

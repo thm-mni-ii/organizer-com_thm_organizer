@@ -112,7 +112,7 @@ class THMTreeView
             $menuparams = $menu->getParams($menu->getActive()->id);
             $options["hide"] = true;
         }
-        
+ 
         if (isset($options["path"]))
         {
             $this->_checked = (array) $options["path"];
@@ -177,7 +177,7 @@ class THMTreeView
     /**
      * Method to create a tree node
      *
-     * @param   Object  $nodeData  Contains the node id, node text, nodes icon class, leaf, dragable, single click, gpuntis id, 
+     * @param   Object  $nodeData  Contains the node id, node text, nodes icon class, leaf, dragable, single click, gpuntis id,
      *                             type (room, teacher, class), children, semester, node key
      *
      * @return Tree nodes
@@ -189,8 +189,8 @@ class THMTreeView
         $nodeKey = $nodeData["nodeKey"];
         $children = $nodeData["children"];
         $gpuntisID = $nodeData["gpuntisID"];
-        
-        
+ 
+ 
         $checked = null;
         $publicDefault = null;
         $treeNode = null;
@@ -350,7 +350,7 @@ class THMTreeView
                 // Cant decode json
                 return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_DATA_FLAWED'));
             }
-            
+ 
             // Get ids for teachers and rooms
             $schedulerModel = JModel::getInstance('scheduler', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
             $rooms = $schedulerModel->getRooms();
@@ -382,7 +382,7 @@ class THMTreeView
         {
             return array("success" => false, "data" => array("tree" => array(), "treeData" => array(), "treePublicDefault" => ""));
         }
-        
+ 
         $createTreeNodeData = array();
         $createTreeNodeData["nodeID"] = $this->departmentSemesterSelection;
         $createTreeNodeData["text"] = $activeSchedule->semestername;
@@ -447,7 +447,7 @@ class THMTreeView
         {
             $nodeKey = $key . ";" . $scheduleType;
             $textConstant = 'COM_THM_ORGANIZER_SCHEDULER_' . $scheduleType . 'PLAN';
-            
+ 
             $createTreeNodeData = array();
             $createTreeNodeData["nodeID"] = $nodeKey;
             $createTreeNodeData["text"] = JText::_($textConstant);
@@ -460,7 +460,7 @@ class THMTreeView
             $createTreeNodeData["children"] = null;
             $createTreeNodeData["semesterID"] = $semesterID;
             $createTreeNodeData["nodeKey"] = $nodeKey;
-            
+ 
             $temp = $this->createTreeNode($createTreeNodeData);
             $children = $this->getStundenplan($nodeKey, $scheduleType, $semesterID);
 
@@ -620,7 +620,7 @@ class THMTreeView
                     {
                         $nodeName = $childKey;
                     }
-                    
+ 
                     if (isset($childValue->firstname) && strlen($childValue->firstname) > 0)
                     {
                         $nodeName .= ", " . $childValue->firstname{0} . ".";
@@ -668,7 +668,7 @@ class THMTreeView
                     $nodeName = $childValue->gpuntisID;
                 }
 
-                // Überprüfung ob der Plan Veranstaltungen hat                
+                // Überprüfung ob der Plan Veranstaltungen hat
                 if ($this->_hideCheckBox == false)
                 {
                     $hasLessons = true;
@@ -696,7 +696,7 @@ class THMTreeView
                     $createTreeChildNodeData["children"] = null;
                     $createTreeChildNodeData["semesterID"] = $semesterID;
                     $createTreeChildNodeData["nodeKey"] = $childKey;
-                    
+ 
                     $childNode = $this->createTreeNode($createTreeChildNodeData);
                 }
                 if (is_object($childNode))
@@ -724,7 +724,7 @@ class THMTreeView
                 $createTreeDescriptionNodeData["children"] = $childNodes;
                 $createTreeDescriptionNodeData["semesterID"] = $semesterID;
                 $createTreeDescriptionNodeData["nodeKey"] = $descriptionKey;
-                
+ 
                 $descriptionNode = $this->createTreeNode($createTreeDescriptionNodeData);
             }
 
@@ -817,15 +817,15 @@ class THMTreeView
 
     /**
      * Method to check if an tree node has lessons
-     * 
+     *
      * @param   Object  $nodeID  The tree node id
      * @param   String  $type    The tree node type
-     * 
+     *
      * @return  boolean
      */
     private function treeNodeHasLessons($nodeID, $type)
     {
-        /* 
+        /*
          * We use two strategies to determine if the given tree node has lessons
          */
         $calendar = $this->_activeScheduleData->calendar;
@@ -859,18 +859,18 @@ class THMTreeView
              * the $nodeID as a subject/module/teacher.
              * And then we search the lessonID in the calendar.
              */
-            
+ 
             $fieldType = $type . "s";
-            
+ 
             $filterFunction = function($obj) use ($fieldType, $nodeID)
             {
                 return isset($obj->{$fieldType}->{$nodeID});
             };
 
             $lessons = array_filter((array) $this->_activeScheduleData->lessons, $filterFunction);
-        
+ 
             $lessonKeys = array_keys($lessons);
-        
+ 
             foreach ($calendar as $calendarValue)
             {
                 if (is_object($calendarValue))
@@ -886,9 +886,9 @@ class THMTreeView
                         }
                     }
                 }
-            } 
+            }
         }
-        
+ 
         return false;
     }
 }

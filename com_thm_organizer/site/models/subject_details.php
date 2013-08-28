@@ -34,7 +34,7 @@ class THM_OrganizerModelSubject_Details extends JModel
 
     /**
      * Builds the data model of the requested subject
-     * 
+     *
      * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
      */
     public function __construct($config = array())
@@ -82,9 +82,9 @@ class THM_OrganizerModelSubject_Details extends JModel
 
     /**
      * Resolves the external id to the internal table id
-     * 
+     *
      * @param   string  $externalID  the external id
-     * 
+     *
      * @return  int  the id of the subject
      */
     private function resolveExternalID($externalID)
@@ -98,7 +98,7 @@ class THM_OrganizerModelSubject_Details extends JModel
 
     /**
      * Loads subject information from the database
-     * 
+     *
      * @return  array  an array of information about the subject
      */
     private function getSubject()
@@ -126,7 +126,7 @@ class THM_OrganizerModelSubject_Details extends JModel
     /**
      * Loads an array of names and links into the subject model for subjects for
      * which this subject is a prerequisite.
-     * 
+     *
      * @return void
      */
     private function setTeachers()
@@ -140,7 +140,7 @@ class THM_OrganizerModelSubject_Details extends JModel
         foreach ($teacherData as $teacher)
         {
             $defaultName = THM_OrganizerHelperTeacher::getDefaultName($teacher);
-            
+ 
             if (!empty($teacher['userID']))
             {
                 $teacherName = THM_OrganizerHelperTeacher::getNameFromTHMGroups($teacher['userID']);
@@ -163,7 +163,7 @@ class THM_OrganizerModelSubject_Details extends JModel
     /**
      * Loads an array of prerequisite names and links into the subject model if
      * existent.
-     * 
+     *
      * @return void
      */
     private function setPrerequisites()
@@ -188,7 +188,7 @@ class THM_OrganizerModelSubject_Details extends JModel
     /**
      * Loads an array of names and links into the subject model for subjects for
      * which this subject is a prerequisite.
-     * 
+     *
      * @return void
      */
     private function setPrerequisiteOf()

@@ -71,7 +71,7 @@ class THM_OrganizerModelDegree_Manager extends JModelList
 
     /**
      * Method to set the populate state
-     * 
+     *
      * @param   string  $order  the property by which results should be ordered
      * @param   string  $dir    the direction in which results should be ordered
      *

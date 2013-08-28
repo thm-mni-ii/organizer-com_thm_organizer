@@ -4,7 +4,7 @@ _C: false, externalLinks: false, daytonumber: false, externLinks */
 
 /**
  * Spezielles Grid Vordefiniert fuer Wochenstruktur mit Veranstaltungen
- * 
+ *
  * @param {Object} schedObj
  * @param {Object} config
  */
@@ -37,7 +37,7 @@ Ext.define('SchedGrid',
     /**
      * Leert die aktuell vorhanden Sportaischen Veranstaltungen und setzt die
      * uebergebenen
-     * 
+     *
      * @param {Object} data
      */
     setSporadicLectures: function (data)
@@ -247,7 +247,7 @@ function addNewEvent(eventid, sdate, stime, etime)
 
     var adds = "";
     var date = null;
-    
+ 
     if (Ext.isString(sdate))
     {
         var daynumber = daytonumber(sdate);
@@ -336,7 +336,7 @@ function addNewEvent(eventid, sdate, stime, etime)
 
 /**
  * This function add a hidden input field to the form in the passed iframe
- * 
+ *
  * @author Wolf
  * @param {object} iframe The iframe which called this function
  */
@@ -377,7 +377,7 @@ function newEventonLoad(iframe)
 
 /**
  * Spezieller Renderer fuer die Veranstaltungen
- * 
+ *
  * @param {Object} data
  * @param {Object} meta
  * @param {Object} record

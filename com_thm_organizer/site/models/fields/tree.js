@@ -199,7 +199,7 @@ function setStatus(event)
             elImg.dom.src = images.base+elInput.value+"_highlighted.png";
         }
         //intermediate
-        else 
+        else
         {
             elInput.value = "unchecked";
             elImg.dom.src = images.base+elInput.value+"_highlighted.png";
@@ -363,7 +363,7 @@ Ext.tree.Panel.prototype.doGray = function(node)
     {
         elImg = Ext.DomQuery.selectNode("[id="+id+"]", tree.dom);
         if(Ext.isDefined(elImg))
-        {            
+        {
             elImg.setOpacity(0.4);
             elImg.setStyle('border', '1px solid gray');
         }
@@ -404,7 +404,7 @@ Ext.onReady(function()
 
     // render the tree
     tree.render('tree-div');
-    
+ 
     var treeView = tree.getView();
     treeView.on('itemadd', function(records, index, node, eOpts)
     {

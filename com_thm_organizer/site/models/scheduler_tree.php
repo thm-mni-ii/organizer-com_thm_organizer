@@ -97,12 +97,12 @@ class THM_OrganizerModelScheduler_Tree extends JModel
     {
         $this->_JDA = $JDA;
         $this->_cfg = $CFG->getCFG();
-        
+ 
         $menuid = JRequest::getInt("menuID", 0);
-        
+ 
         $site = new JSite;
         $menu = $site->getMenu();
-        
+ 
         if ($menuid != 0)
         {
             $menuparams = $menu->getParams($menuid);
@@ -112,7 +112,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
             $menuparams = $menu->getParams($menu->getActive()->id);
             $options["hide"] = true;
         }
-                
+ 
         if (isset($options["path"]))
         {
             $this->_checked = (array) $options["path"];
@@ -130,7 +130,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
                 $this->_checked = (array) json_decode($menuparams->get("id"));
             }
         }
-        
+ 
         if (isset($options["publicDefault"]))
         {
             $this->_publicDefault = (array) $options["publicDefault"];
@@ -147,7 +147,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
                 $this->_publicDefault = (array) json_decode($menuparams->get("publicDefaultID"));
             }
         }
-                        
+ 
         if (isset($options["hide"]))
         {
             $this->_hideCheckBox = $options["hide"];
@@ -156,7 +156,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
         {
             $this->_hideCheckBox = false;
         }
-                
+ 
         if (JRequest::getString('departmentSemesterSelection') == "")
         {
             if (isset($options["departmentSemesterSelection"]))
@@ -172,7 +172,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
         {
             $this->departmentSemesterSelection = JRequest::getString('departmentSemesterSelection');
         }
-    } 
+    }
 
     /**
      * Method to create a tree node
@@ -207,7 +207,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
         $checked = null;
         $publicDefault = null;
         $treeNode = null;
-    
+ 
         if ($this->_hideCheckBox == true)
         {
             $checked = null;
@@ -215,7 +215,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
         else
         {
             if ($this->_checked != null)
-            {                    
+            {
                 if (isset($this->_checked[$nodeID]))
                 {
                     $checked = $this->_checked[$nodeID];
@@ -382,11 +382,11 @@ class THM_OrganizerModelScheduler_Tree extends JModel
         $semesterJahrNode = array();
 
         $activeSchedule = $this->getActiveSchedule();
-        
+ 
         if (is_object($activeSchedule) && is_string($activeSchedule->schedule))
         {
             $activeScheduleData = json_decode($activeSchedule->schedule);
-                
+ 
             // To save memory unset schedule
             unset($activeSchedule->schedule);
 
@@ -406,23 +406,23 @@ class THM_OrganizerModelScheduler_Tree extends JModel
                 // Cant decode json
                 return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_DATA_FLAWED'));
             }
-            
+ 
             // Get ids for teachers and rooms
             $schedulerModel = JModel::getInstance('scheduler', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
             $rooms = $schedulerModel->getRooms();
             $teachers = $schedulerModel->getTeachers();
-            
+ 
             foreach ($this->_treeData["room"] as $roomValue)
             {
                 foreach ($rooms as $databaseRooms)
                 {
-                    if ($roomValue->gpuntisID === $databaseRooms->gpuntisID) 
+                    if ($roomValue->gpuntisID === $databaseRooms->gpuntisID)
                     {
                         $roomValue->dbID = $databaseRooms->id;
                     }
                 }
             }
-            
+ 
             foreach ($this->_treeData["teacher"] as $teacherValue)
             {
                 foreach ($teachers as $databaseTeachers)
@@ -433,7 +433,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
                     }
                 }
             }
-            
+ 
         }
         else
         {
@@ -454,11 +454,11 @@ class THM_OrganizerModelScheduler_Tree extends JModel
                 $activeSchedule->id
         );
         $children = $this->StundenplanView($this->departmentSemesterSelection, $activeSchedule->id);
-        
+ 
         if ($temp != null && !empty($temp))
         {
             $temp->setChildren($children);
-                                
+ 
             if (count($temp) == 1)
             {
                 $semesterJahrNode = $temp;
@@ -479,7 +479,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
         {
             $this->_publicDefaultNode = null;
         }
-                        
+ 
         return array("success" => true,"data" => array("tree" => $semesterJahrNode, "treeData" => $this->_treeData,
                 "treePublicDefault" => $this->_publicDefaultNode)
         );
@@ -516,7 +516,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
                     $nodeKey
             );
             $children = $this->getStundenplan($nodeKey, $scheduleType, $semesterID);
-            
+ 
             if ($temp != null && !empty($temp))
             {
                 $temp->setChildren($children);
@@ -603,7 +603,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
                     continue;
                 }
             }
-                
+ 
             if (!empty($itemField) && !in_array($itemField, $descriptions))
             {
                 $descriptions[$itemField] = $itemFieldType->{$itemField};
@@ -613,7 +613,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
         foreach ($descriptions as $descriptionKey => $descriptionValue)
         {
             $descType = $descriptionKey;
-            
+ 
             // Get data for the current description
             $filteredData = array_filter(
                     (array) $data, function ($item) use (&$descType, &$scheduleType) {
@@ -655,10 +655,10 @@ class THM_OrganizerModelScheduler_Tree extends JModel
                 return false;
                     }
             );
-            
+ 
             $childNodes = array();
             $descriptionID = $key . ";" . $descriptionKey;
-                
+ 
             foreach ($filteredData as $childKey => $childValue)
             {
                 $nodeID = $descriptionID . ";" . $childKey;
@@ -672,7 +672,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
                     {
                         $nodeName = $childKey;
                     }
-                    
+ 
                     if (strlen($childValue->firstname) > 0)
                     {
                         $nodeName .= ", " . $childValue->firstname{0} . ".";
@@ -716,19 +716,19 @@ class THM_OrganizerModelScheduler_Tree extends JModel
                     $nodeName = $childValue->gpuntisID;
                 }
 
-                // Überprüfung ob der Plan Veranstaltungen hat                
+                // Überprüfung ob der Plan Veranstaltungen hat
                 if ($this->_hideCheckBox == false)
                 {
-                    $hasLessons = true;    
+                    $hasLessons = true;
                 }
                 else
                 {
                     $hasLessons = $this->treeNodeHasLessons($childKey, $scheduleType);
                 }
-                
+ 
                 // Erstmal immer true!
 //                 $hasLessons = true;
-                
+ 
                 $childNode = null;
                 if ($hasLessons)
                 {
@@ -751,7 +751,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
                     $childNodes[] = $childNode;
                 }
             }
-                        
+ 
             if (empty($childNodes))
             {
                 $childNodes = null;
@@ -773,13 +773,13 @@ class THM_OrganizerModelScheduler_Tree extends JModel
                         $descriptionKey
                 );
             }
-                        
+ 
             if (!is_null($descriptionNode) && is_object($descriptionNode))
             {
                 $treeNode[] = $descriptionNode;
             }
         }
-        
+ 
         return $treeNode;
     }
 
@@ -834,7 +834,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
         {
             return false;
         }
-        
+ 
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);
         $query->select('*');
@@ -843,27 +843,27 @@ class THM_OrganizerModelScheduler_Tree extends JModel
         $query->where('semestername = ' . $dbo->quote($semester));
         $query->where('active = 1');
         $dbo->setQuery($query);
-        
+ 
         if ($dbo->getErrorMsg())
         {
             return false;
         }
 
         $result = $dbo->loadObject();
-        
+ 
         if ($result === null)
         {
             return false;
         }
         return $result;
     }
-    
+ 
     /**
      * Method to check if an tree node has lessons
-     * 
+     *
      * @param   Object  $nodeID  The tree node id
      * @param   String  $type    The tree node type
-     * 
+     *
      * @return  boolean
      */
     private function treeNodeHasLessons($nodeID, $type)

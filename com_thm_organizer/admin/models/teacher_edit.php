@@ -36,7 +36,7 @@ class THM_OrganizerModelTeacher_Edit extends JModelAdmin
     {
         // Get the form.
         $form = $this->loadForm('com_thm_organizer.teacher_edit', 'teacher_edit', array('control' => 'jform', 'load_data' => $loadData));
-                
+ 
         if (empty($form))
         {
             return false;

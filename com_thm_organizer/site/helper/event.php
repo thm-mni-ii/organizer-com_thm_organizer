@@ -27,11 +27,11 @@ class THM_OrganizerHelperEvent
      * Calls Methods to build the event for save and preview
      *
      * @param   array  &$data  holds data from the request
-     * 
+     *
      * @return  void
      */
     public static function buildtext(&$data)
-    {   
+    {
         self::setContentCategoryData($data);
         self::handleDatesandTimes($data);
         self::createIntroText($data);
@@ -42,7 +42,7 @@ class THM_OrganizerHelperEvent
      * data array
      *
      * @param   array  &$data  holds data from the request
-     * 
+     *
      * @return  void
      */
     private static function setContentCategoryData(&$data)
@@ -62,7 +62,7 @@ class THM_OrganizerHelperEvent
      * Cleans and sets date and time related properties
      *
      * @param   array  &$data  holds data from the request
-     * 
+     *
      * @return  void
      */
     private static function handleDatesandTimes(&$data)
@@ -132,7 +132,7 @@ class THM_OrganizerHelperEvent
      * Creates a short text to describe the appointment as such
      *
      * @param   array  &$data  holds data from the request
-     * 
+     *
      * @return  void
      */
     private static function createIntroText(&$data)
@@ -184,7 +184,7 @@ class THM_OrganizerHelperEvent
      *
      * @param   array  &$data     an array of preprepared date and time entries
      * @param   bool   $withText  whether leading and ending text should be added
-     * 
+     *
      * @return  string $introText
      */
     public static function getDateText(&$data, $withText = true)
@@ -261,7 +261,7 @@ class THM_OrganizerHelperEvent
      *                                be called upon
      * @param   string  $columnName   the column name in which the names are stored
      * @param   string  $tableName    the table which manages the resource
-     * 
+     *
      * @return  array   $names the names of the requested resources
      */
     private static function getNames($requestName, $columnName, $tableName)

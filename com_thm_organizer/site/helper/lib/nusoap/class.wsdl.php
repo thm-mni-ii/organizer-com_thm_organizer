@@ -436,7 +436,7 @@ class wsdl extends nusoap_base {
                             $this->currentPort = $attrs['name'];
                             $this->debug('current port: ' . $this->currentPort);
                             $this->ports[$this->currentPort]['binding'] = $this->getLocalPart($attrs['binding']);
-                                
+ 
                             break;
                         case 'address':
                             $this->ports[$this->currentPort]['location'] = $attrs['location'];
@@ -1238,7 +1238,7 @@ class wsdl extends nusoap_base {
         // set input params
         $xml = '';
         if (isset($opData[$direction]['parts']) && sizeof($opData[$direction]['parts']) > 0) {
-                
+ 
             $use = $opData[$direction]['use'];
             $this->debug("use=$use");
             $this->debug('got ' . count($opData[$direction]['parts']) . ' part(s)');

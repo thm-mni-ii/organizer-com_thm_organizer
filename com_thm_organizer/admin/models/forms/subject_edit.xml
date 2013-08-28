@@ -27,13 +27,13 @@
                class="inputbox"
                label="COM_THM_ORGANIZER_POM_PROGRAMS_TITLE"
                description="COM_THM_ORGANIZER_POM_PROGRAM_DESC"
-               required="false"/> 
+               required="false"/>
         <field name="parentID"
                type="subjectParents"
                class="inputbox"
                label="COM_THM_ORGANIZER_POM_PARENT_TITLE"
                description="COM_THM_ORGANIZER_POM_PARENT_DESC"
-               required="false" /> 
+               required="false" />
         <field name="creditpoints"
                type="integer"
                class="inputbox"

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     v0.1.0 
+ * @version     v0.1.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
@@ -18,7 +18,7 @@ require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'h
 
 /**
  * Performs access checks and user actions for events and associated resources
- * 
+ *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
@@ -32,7 +32,7 @@ class THM_OrganizerControllerEvent extends JController
      *
      * performs access checks for the current user against the id of the event
      * to be edited, or content (event) creation access if id is missing or 0
-     * 
+     *
      * @return void
      */
     public function edit()
@@ -79,7 +79,7 @@ class THM_OrganizerControllerEvent extends JController
      *
      * performs access checks and calls the save function of the events model
      * reroutes to the single event view of the created event upon success
-     * 
+     *
      * @return void
      */
     public function save()
@@ -132,7 +132,7 @@ class THM_OrganizerControllerEvent extends JController
      * performs access checks and calls the save function of the events model
      * reroutes to the event editing view for the creation of a new event upon
      * success
-     * 
+     *
      * @return void
      */
     public function save2new()
@@ -195,7 +195,7 @@ class THM_OrganizerControllerEvent extends JController
      *
      * performs access checks calls the delete function of the event model for
      * one or multiple eventsted items
-     * 
+     *
      * @return void
      */
     public function delete()
@@ -242,9 +242,9 @@ class THM_OrganizerControllerEvent extends JController
      * function search
      *
      * redirects to the event_manager view which reformats its sql restriction
-     * 
+     *
      * @return void
-     
+ 
     public function search()
     {
         JComponentHelper::ge
@@ -252,5 +252,5 @@ class THM_OrganizerControllerEvent extends JController
         $link = JRoute::_("index.php?option=com_thm_organizer&view=event_manager&Itemid=$menuID", false);
         $this->setRedirect($link);
     }
-    */           
+    */
 }

@@ -14,7 +14,7 @@ jimport('joomla.application.component.view');
 require_once JPATH_COMPONENT . DS . 'helper' . DS . 'language.php';
 
 /**
- * Class loads a list of subjects sorted according to different criteria into 
+ * Class loads a list of subjects sorted according to different criteria into
  * the view context
  *
  * @category    Joomla.Component.Site

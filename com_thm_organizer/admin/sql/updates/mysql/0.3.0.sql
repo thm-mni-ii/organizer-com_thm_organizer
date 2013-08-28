@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_pools` (
 
 /* Copy data from curriculum to organizer*/
 INSERT INTO `#__thm_organizer_pools` (`id`, `lsfID`, `hisID`, `externalID`, `abbreviation_de`, `short_name_de`, `short_name_en`, `name_de`, `name_en`, `minCrP`, `maxCrP`)
-SELECT `id`, `lsf_course_id`, `his_course_code`, `lsf_course_code`,  `abbreviation`, `short_title_de`, `short_title_en`,  `title_de`, `title_en`, `min_creditpoints`, `max_creditpoints` 
+SELECT `id`, `lsf_course_id`, `his_course_code`, `lsf_course_code`,  `abbreviation`, `short_title_de`, `short_title_en`,  `title_de`, `title_en`, `min_creditpoints`, `max_creditpoints`
 FROM `#__thm_curriculum_assets`
 WHERE `asset_type_id` = 2;
 

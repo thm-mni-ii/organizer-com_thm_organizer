@@ -16,8 +16,8 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.table');
 
 /**
- * Class representing the room_types table. 
- * 
+ * Class representing the room_types table.
+ *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
@@ -28,7 +28,7 @@ class THM_OrganizerTableRoom_Types extends JTable
 {
     /**
      * Constructor function for the class representing the room_types table
-     * 
+     *
      * @param   JDatabase  &$dbo  A database connector object
      */
     public function __construct(&$dbo)

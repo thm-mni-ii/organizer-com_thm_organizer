@@ -23,8 +23,8 @@ class THM_OrganizerControllerProgram extends JController
 {
     /**
      * Performs access checks and redirects to the degree program edit view
-     * 
-     * @return void 
+     *
+     * @return void
      */
     public function add()
     {

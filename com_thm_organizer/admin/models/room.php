@@ -25,7 +25,7 @@ class THM_OrganizerModelRoom extends JModel
 {
     /**
      * Attempts to save a room entry, updating schedule data as necessary.
-     * 
+     *
      * @return true on success, otherwise false
      */
     public function save()
@@ -52,7 +52,7 @@ class THM_OrganizerModelRoom extends JModel
      * Attempts an iterative merge of all teacher entries. Due to the attempted
      * merge of multiple entries with individual success codes no return value
      * is given.
-     * 
+     *
      * @return void
      */
     public function autoMergeAll()
@@ -74,7 +74,7 @@ class THM_OrganizerModelRoom extends JModel
             $currentEntry = $roomEntries[$index];
             if (in_array($currentEntry['id'], $deletedIDs))
             {
-                continue; 
+                continue;
             }
 
             $nextIndex = $index + 1;
@@ -97,9 +97,9 @@ class THM_OrganizerModelRoom extends JModel
     /**
      * Performs an automated merge of room entries, in as far as this is
      * possible according to plausibility constraints.
-     * 
+     *
      * @param   array  $roomEntries  entries to be compared
-     * 
+     *
      * @return  boolean  true on success, otherwise false
      */
     public function autoMerge($roomEntries = null)
@@ -131,7 +131,7 @@ class THM_OrganizerModelRoom extends JModel
                 {
                     continue;
                 }
-                
+ 
                 if ($property == 'gpuntisID' OR $property == 'name')
                 {
                     if (preg_match('/\.[0-9]{3}$/', $value))
@@ -142,13 +142,13 @@ class THM_OrganizerModelRoom extends JModel
                         $value = "$building.$floor.$room";
                     }
                 }
-                
+ 
                 // Initial set of data property
                 if (!isset($data[$property]))
                 {
                     $data[$property] = $value;
                 }
-                
+ 
                 // Propery already set and a value differentiation exists => manual merge
                 elseif ($data[$property] != $value)
                 {
@@ -176,10 +176,10 @@ class THM_OrganizerModelRoom extends JModel
 
     /**
      * Merges resource entries and cleans association tables.
-     * 
+     *
      * @param   array  $data  array used by the automerge function to
      *                        automatically set room values
-     * 
+     *
      * @return  boolean  true on success, otherwise false
      */
     public function merge($data = null)
@@ -222,7 +222,7 @@ class THM_OrganizerModelRoom extends JModel
                 return false;
             }
         }
-        
+ 
         // Update entry with lowest ID
         $room = JTable::getInstance('rooms', 'thm_organizerTable');
         $success = $room->save($data);
@@ -252,11 +252,11 @@ class THM_OrganizerModelRoom extends JModel
 
     /**
      * Replaces old room associations
-     * 
+     *
      * @param   int     $newID      the id onto which the room entries merge
      * @param   string  $oldIDs     a string containing the ids to be replaced
      * @param   string  $tableName  the unique part of the table name
-     * 
+     *
      * @return  boolean  true on success, otherwise false
      */
     private function updateAssociation($newID, $oldIDs, $tableName)
@@ -268,7 +268,7 @@ class THM_OrganizerModelRoom extends JModel
         $query->set("roomID = '$newID'");
         $query->where("roomID IN ( $oldIDs )");
         $dbo->setQuery((string) $query);
-        try 
+        try
         {
             $dbo->query();
         }
@@ -282,11 +282,11 @@ class THM_OrganizerModelRoom extends JModel
 
     /**
      * Updates room data and lesson associations in active schedules
-     * 
+     *
      * @param   array   &$data  room data corrresponding to a table row
      * @param   string  $IDs    a list of ids suitable for retrieval of room
      *                          gpuntisIDs to be replaced in saved schedules
-     * 
+     *
      * @return bool  true on success, otherwise false
      */
     public function updateScheduleData(&$data, $IDs)
@@ -370,7 +370,7 @@ class THM_OrganizerModelRoom extends JModel
             $scheduleObject->rooms->{$data['gpuntisID']}->gpuntisID = $data['gpuntisID'];
             $scheduleObject->rooms->{$data['gpuntisID']}->name = $data['name'];
             $scheduleObject->rooms->{$data['gpuntisID']}->longname = $data['longname'];
-            
+ 
             if (!empty($data['typeID']))
             {
                 $scheduleObject->rooms->{$data['gpuntisID']}->typeID = $data['typeID'];
@@ -393,7 +393,7 @@ class THM_OrganizerModelRoom extends JModel
     /**
      * Deletes room resource entries. Related entries in the event rooms table
      * are deleted automatically due to fk reference.
-     * 
+     *
      * @return boolean
      */
     public function delete()

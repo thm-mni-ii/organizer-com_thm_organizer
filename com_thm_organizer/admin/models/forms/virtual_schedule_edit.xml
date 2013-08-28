@@ -21,12 +21,12 @@
             validate="name"
             required="true"
         />
-        <field 
-            id="type" 
-            name="type" 
-            type="list" 
-            default="" 
-            label="COM_THM_ORGANIZER_VSE_TYPE_LABEL" 
+        <field
+            id="type"
+            name="type"
+            type="list"
+            default=""
+            label="COM_THM_ORGANIZER_VSE_TYPE_LABEL"
             description="COM_THM_ORGANIZER_VSE_TYPE_DESC">
                   <option value="class">Semester</option>
                   <option value="room">Room</option>
@@ -63,9 +63,9 @@
             description="COM_THM_ORGANIZER_VSE_TEACHERDEPARTMENT_DESC"
             class="inputbox"
             query="SELECT DISTINCT #__thm_organizer_departments.id, CONCAT(#__thm_organizer_departments.department, '-', #__thm_organizer_departments.subdepartment) as name
-                      FROM #__thm_organizer_teachers 
-                      INNER JOIN #__thm_organizer_departments 
-                      WHERE #__thm_organizer_teachers.departmentID = #__thm_organizer_departments.id 
+                      FROM #__thm_organizer_teachers
+                      INNER JOIN #__thm_organizer_departments
+                      WHERE #__thm_organizer_teachers.departmentID = #__thm_organizer_departments.id
                       ORDER BY name"
             key_field="id"
             value_field="name"
@@ -81,7 +81,7 @@
             description="COM_THM_ORGANIZER_VSE_ROOMDEPARTMENT_DESC"
             class="inputbox"
             query="SELECT DISTINCT id, IF(CHAR_LENGTH(description) = 0,category,CONCAT(category, ' (', description, ')')) as name
-                      FROM #__thm_organizer_descriptions 
+                      FROM #__thm_organizer_descriptions
                       ORDER BY name"
             key_field="id"
             value_field="name"
@@ -97,7 +97,7 @@
             description="COM_THM_ORGANIZER_VSE_CLASSDEPARTMENT_DESC"
             class="inputbox"
             query="SELECT DISTINCT major as id, major as name
-                      FROM #__thm_organizer_classes 
+                      FROM #__thm_organizer_classes
                       ORDER BY major"
             key_field="id"
             value_field="name"

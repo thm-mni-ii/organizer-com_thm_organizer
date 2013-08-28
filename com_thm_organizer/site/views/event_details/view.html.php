@@ -15,7 +15,7 @@ jimport('joomla.application.component.view');
 
 /**
  * Retrieves event data and loads it into the view context
- * 
+ *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
@@ -24,10 +24,10 @@ class THM_OrganizerViewEvent_Details extends JView
 {
     /**
      * Loads event information into the view context
-     * 
+     *
      * @param   string  $tpl  the name of the template to use
-     * 
-     * @return  void 
+     *
+     * @return  void
      */
     public function display($tpl = null)
     {
@@ -56,8 +56,8 @@ class THM_OrganizerViewEvent_Details extends JView
 
     /**
      * Creates the text elements used for event output
-     * 
-     * @return  void 
+     *
+     * @return  void
      */
     private function createTextElements()
     {

@@ -82,9 +82,9 @@ class THM_OrganizerModelSubject extends JModel
 
     /**
      * Method to import data associated with a subject from LSF
-     * 
+     *
      * @param   int  $subjectID  the id opf the subject entry
-     * 
+     *
      * @return  boolean  true on success, otherwise false
      */
     public function importLSFDataSingle($subjectID)
@@ -312,11 +312,11 @@ class THM_OrganizerModelSubject extends JModel
     /**
      * Sets a given value at a given index in the subject array if not empty.
      * This prevents overwrites of local changes to data not existent within LSF.
-     * 
+     *
      * @param   array   &$subject  the subject being filled
      * @param   string  $index     the index at which to set the value
      * @param   mixed   $value     the value to be set at the index
-     * 
+     *
      * @return  void
      */
     private function setSubjectAttribute(&$subject, $index, $value)
@@ -329,9 +329,9 @@ class THM_OrganizerModelSubject extends JModel
 
     /**
      * Resolves the text to one of 6 predefined types of lessons
-     * 
+     *
      * @param   string  $text  the contents of the method text element
-     * 
+     *
      * @return  string  a code representing course instruction methods
      */
     private function resolveMethod($text)
@@ -375,10 +375,10 @@ class THM_OrganizerModelSubject extends JModel
 
     /**
      * Saves prerequisites imported from LSF
-     * 
+     *
      * @param   int    $subjectID      the id of the subject
      * @param   array  $prerequisites  an array of external ids
-     * 
+     *
      * @return  bool  true if no database errors occured, otherwise false
      */
     private function savePrerequisitesFromLSF($subjectID, $prerequisites)
@@ -422,13 +422,13 @@ class THM_OrganizerModelSubject extends JModel
 
     /**
      * Iterates the subject responsible entries from the LSF data.
-     * 
+     *
      * @param   int    $subjectID       the id of the subject
      * @param   array  &$teacher        an array containing the responsible node
      *                                  objects
      * @param   int    $responsibility  the teacher's responsibility for the
      *                                  subject
-     * 
+     *
      * @return  bool  true on success, otherwise false
      */
     private function addLSFTeacher($subjectID, &$teacher, $responsibility)
@@ -491,9 +491,9 @@ class THM_OrganizerModelSubject extends JModel
 
     /**
      * Creates a subject entry if none exists and imports data to fill it
-     * 
+     *
      * @param   object  &$stub  a simplexml object containing rudimentary subject data
-     * 
+     *
      * @return  mixed  int value of subject id on success, otherwise false
      */
     public function processLSFStub(&$stub)
@@ -524,7 +524,7 @@ class THM_OrganizerModelSubject extends JModel
     /**
      * Attempts to save a subject entry, updating subject-teacher data as
      * necessary.
-     * 
+     *
      * @return true on success, otherwise false
      */
     public function save()
@@ -536,7 +536,7 @@ class THM_OrganizerModelSubject extends JModel
 
         $table = JTable::getInstance('subjects', 'thm_organizerTable');
         $success = $table->save($data);
-        
+ 
         // Successfully inserted a new subject
         if ($success AND empty($data['id']))
         {
@@ -548,7 +548,7 @@ class THM_OrganizerModelSubject extends JModel
         elseif (empty($data['id']))
         {
             $dbo->transactionRollback();
-            return false; 
+            return false;
         }
 
         // Process mapping & responsibilities information
@@ -623,9 +623,9 @@ class THM_OrganizerModelSubject extends JModel
 
     /**
      * Updates the entries of the subject teachers table
-     * 
+     *
      * @param   array  $data  the post data
-     * 
+     *
      * @return  boolean  true on success, otherwise false
      */
     public function updateSubjectTeachers($data)

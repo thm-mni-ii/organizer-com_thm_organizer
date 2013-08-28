@@ -40,20 +40,20 @@ class THM_OrganizerViewVirtual_Schedule_Edit extends JView
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        
+ 
         JHtml::_('behavior.framework', true);
         JHTML::_('behavior.formvalidation');
         JHTML::_('behavior.tooltip');
-        
+ 
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
         $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/virtual_schedule_edit.js'));
 
         $model = $this->getModel();
         $this->form = $this->get('Form');
-        
+ 
         $cid = $model->getID();
-        
+ 
         $title = JText::_('COM_THM_ORGANIZER') . ': ';
         $this->setLayout('default');
         $title = JText::_('COM_THM_ORGANIZER') . ': ';
@@ -61,12 +61,12 @@ class THM_OrganizerViewVirtual_Schedule_Edit extends JView
         $title .= " " . JText::_('COM_THM_ORGANIZER_VIRTUAL_SCHEDULE');
         JToolBarHelper::title($title, "mni");
         $this->addToolBar();
-        
+ 
         $this->legend = ($cid)? JText::_('JTOOLBAR_EDIT') : JText::_('JTOOLBAR_NEW');
 
         parent::display($tpl);
     }
-    
+ 
     /**
      * Method to add the toolbar
      *

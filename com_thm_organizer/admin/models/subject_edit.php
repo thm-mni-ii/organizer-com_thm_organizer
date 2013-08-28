@@ -62,9 +62,9 @@ class THM_OrganizerModelSubject_Edit extends JModelAdmin
 
     /**
      * Retrieves the teacher responsible for the subject's development
-     * 
+     *
      * @param   int  $subjectID  the id of the subject
-     * 
+     *
      * @return  int  the id of the teacher responsible for the subject
      */
     private function getResponsible($subjectID)

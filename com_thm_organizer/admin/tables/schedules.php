@@ -15,8 +15,8 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.table');
 
 /**
- * Class representing the schedules table. 
- * 
+ * Class representing the schedules table.
+ *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
@@ -26,7 +26,7 @@ class THM_OrganizerTableSchedules extends JTable
 {
     /**
      * Constructor function for the class representing the schedules table
-     * 
+     *
      * @param   JDatabase  &$dbo  A database connector object
      */
     public function __construct(&$dbo)

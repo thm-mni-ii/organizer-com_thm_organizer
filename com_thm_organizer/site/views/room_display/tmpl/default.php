@@ -94,7 +94,7 @@ else
 <?php
 }
 ?>
-    </div>    
+    </div>
 <?php
 if ($this->eventsExist)
 {

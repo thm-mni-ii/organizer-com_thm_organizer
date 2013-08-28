@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * @version     v0.1.0
  * @category    Joomla component
  * @package     THM_Organizer
@@ -17,8 +17,8 @@ jimport('joomla.application.component.view');
 require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
 
 /**
- * Class loading a list of persistent monitor entries into the view context 
- * 
+ * Class loading a list of persistent monitor entries into the view context
+ *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
@@ -86,7 +86,7 @@ class THM_OrganizerViewMonitor_Manager extends JView
      * addToolBar
      *
      * creates the toolbar for user actions
-     * 
+     *
      * @return void
      */
     private function addToolBar()

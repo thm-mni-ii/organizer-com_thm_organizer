@@ -24,8 +24,8 @@ class THM_OrganizerControllerTeacher extends JController
     /**
      * Performs access checks, sets the id variable to 0, and redirects to the
      * teacher edit view
-     * 
-     * @return void 
+     *
+     * @return void
      */
     public function add()
     {
@@ -68,7 +68,7 @@ class THM_OrganizerControllerTeacher extends JController
         }
         $model = $this->getModel('teacher');
         $model->autoMergeAll();
-        
+ 
         $msg = JText::_('COM_THM_ORGANIZER_TRM_AUTO_MERGE');
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg);
     }

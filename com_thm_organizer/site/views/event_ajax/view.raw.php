@@ -18,7 +18,7 @@ require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'h
 /**
  * Decides if its an save or preview task, outputs a string explaining possible conflicts,
  * which would merge if an event were saved or returns JSONString for preview PopUp
- * 
+ *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
@@ -27,20 +27,20 @@ class Thm_OrganizerViewEvent_Ajax extends JView
 {
     /**
      * loads model data into view context
-     * 
+     *
      * @param   string  $tpl  the name of the template to be used
-     * 
+     *
      * @return void
      */
     public function display($tpl = null)
-    {   
+    {
         $function = JRequest::getString('task');
         $this->$function();
     }
 
     /**
      * Generates a list of conflicts with event resources
-     * 
+     *
      * @return  void
      */
     private function booking()
@@ -68,11 +68,11 @@ class Thm_OrganizerViewEvent_Ajax extends JView
 
     /**
      * Generates a preview of an event
-     * 
+     *
      * @return  void
      */
     private function preview()
-    {   
+    {
         $data = array();
         $data['title'] = JRequest::getVar('title', null, null, null, 4);
         $data['id'] = JRequest::getVar('id', null, null, null, 4);
@@ -84,12 +84,12 @@ class Thm_OrganizerViewEvent_Ajax extends JView
         $data['description'] = JRequest::getVar('description', null, null, null, 4);
         THM_OrganizerHelperEvent::buildtext($data);
         $user = JFactory::getUser();
-        $username = $user->name;        
+        $username = $user->name;
         $written_by = "<p>" . JText::_('COM_THM_ORGANIZER_E_WRITTEN_BY') . $username . "</p>";
         $data['username'] = $written_by;
         $published_at = "<p>" . JText::_('COM_THM_ORGANIZER_PREVIEW_CREATED') . JFactory::getDate()->toFormat('%A %d. %B %Y %H:%M:%S') . "</p>";
         $data['created_at'] = $published_at;
         $jsonstring = json_encode($data);
-        echo $jsonstring;        
+        echo $jsonstring;
     }
 }

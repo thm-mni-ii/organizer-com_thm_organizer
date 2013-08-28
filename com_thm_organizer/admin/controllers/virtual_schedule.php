@@ -25,8 +25,8 @@ class THM_OrganizerControllerVirtual_Schedule extends JController
 {
     /**
      * Performs access checks and redirects to the virtual schedule edit view
-     * 
-     * @return void 
+     *
+     * @return void
      */
     public function add()
     {
@@ -58,7 +58,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JController
      * redirects to the virtual schedule manager view
      *
      * @todo clean this up
-     * 
+     *
      * @return void
      */
     public function save()
@@ -68,7 +68,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JController
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
         $model = $this->getModel('virtual_schedule_edit');
-         
+ 
         $data = JRequest::getVar('jform', null, null, null);
 
         $vsID = $data["id"];
@@ -89,11 +89,11 @@ class THM_OrganizerControllerVirtual_Schedule extends JController
         $classesDepartments = $data["ClassDepartment"];
         $teacherDepartments = $data["TeacherDepartment"];
         $roomDepartments = $data["RoomDepartment"];
-         
+ 
         $classes = null;
         $rooms = null;
         $teachers = null;
-         
+ 
         if ($type == "room")
         {
             $rooms = $data["Rooms"];
@@ -215,7 +215,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JController
     /**
      * Performs access checks, makes call to the models's delete function, and
      * redirects to the virtual schedule manager view
-     * 
+     *
      * @todo clean this up
      *
      * @return void

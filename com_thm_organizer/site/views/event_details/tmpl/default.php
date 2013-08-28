@@ -69,7 +69,7 @@ if ($event['access'])
 ?>
         </div>
     </div>
-    <div class="thm_organizer_e_block_div" >        
+    <div class="thm_organizer_e_block_div" >
         <div id="thm_organizer_e_title" class="thm_organizer_e_title">
             <p><?php echo $event['title']; ?></p>
         </div>
@@ -78,17 +78,17 @@ if ($event['access'])
         </div>
         <div class="thm_organizer_e_author">
             <p><?php echo JText::_('COM_THM_ORGANIZER_E_WRITTEN_BY') . $event['author']; ?></p>
-        </div>        
+        </div>
         <div id="thm_organizer_e_time">
             <p><?php echo $this->dateTimeText; ?></p>
         </div>
 
-        
+ 
 <?php
 if ($this->teachers or $this->rooms or $this->groups)
 {
 ?>
-        
+ 
 <?php
 }
 if ($this->groups)
@@ -117,13 +117,13 @@ if ($this->rooms)
                 <?php echo $this->rooms; ?>
             </p>
 
-        
+ 
 <?php
 }
 ?>
-        
+ 
             <p><?php echo JText::_('COM_THM_ORGANIZER_E_INTROTEXT_FURTHER_INFORMATIONS'); ?></p>
-        
+ 
 <?php
 if (!empty($event['description']))
 {

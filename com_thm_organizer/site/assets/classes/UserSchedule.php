@@ -77,7 +77,7 @@ class THMUserSchedule
       $this->_JDA = $JDA;
       $this->_jsid = $this->_JDA->getUserSessionID();
       $this->_json = $this->_JDA->getDBO()->getEscaped(file_get_contents("php://input"));
-      
+ 
       if (isset($options["username"]))
       {
          $this->_username = $options["username"];
@@ -137,15 +137,15 @@ class THMUserSchedule
             $timestamp = time();
 
             $db = JFactory::getDbo();
-            
-            $query = $db->getQuery(true);   
+ 
+            $query = $db->getQuery(true);
 
             // Alte Eintraege loeschen - Performanter als abfragen und Updaten
             $query->delete($db->quoteName("{$this->_cfg['db_table']}"));
             $query->where("WHERE username = '$this->_username' ");
-            
+ 
             $db->setQuery($query);
-            
+ 
             try
             {
                 $result = $db->query();
@@ -154,22 +154,22 @@ class THMUserSchedule
             {
                 // Catch the error.
             }
-            
+ 
             // Create a new query object.
             $query = $db->getQuery(true);
-            
+ 
             // Insert columns.
             $columns = array('username', 'data', 'created');
-            
+ 
             // Insert values.
             $values = array($db->quote($this->_username), $db->quote($this->_json), $db->quote($timestamp));
-            
+ 
             // Prepare the insert query.
             $query
             ->insert($db->quoteName('#__user_profiles'))
             ->columns($db->quoteName($columns))
             ->values(implode(',', $values));
-            
+ 
             // Reset the query using our newly populated query object.
             $db->setQuery($query);
             try
@@ -181,7 +181,7 @@ class THMUserSchedule
             {
                 // Catch any database errors.
             }
-            
+ 
             if ($result === true)
             {
                // ALLES OK
@@ -236,14 +236,14 @@ class THMUserSchedule
       {
          $dbo = JFactory::getDBO();
             $data = array();
-            
+ 
          $query = $dbo->getQuery(true);
          $query->select('data');
          $query->from('#__thm_organizer_user_schedules');
          $query->where("username = '$this->_username'");
          $dbo->setQuery((string) $query);
          $rows = $dbo->loadObject();
-         
+ 
          if (is_object($rows))
          {
             if (isset($rows->data))
@@ -256,7 +256,7 @@ class THMUserSchedule
          {
             return array("data" => $data);
          }
-         
+ 
          return array("success" => true, "data" => $data);
       }
       else

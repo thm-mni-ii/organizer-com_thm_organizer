@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 /**
  * Provides a form for room selection
- * 
+ *
  * @category  Joomla.Component.Site
  * @package   thm_organizer
  */
@@ -21,10 +21,10 @@ class THM_OrganizerViewRoom_Select extends JView
 {
     /**
      * Sets context variables for output
-     * 
+     *
      * @param   string  $tpl  the name of the template to be used
-     * 
-     * @return  void 
+     *
+     * @return  void
      */
     public function display($tpl = null)
     {

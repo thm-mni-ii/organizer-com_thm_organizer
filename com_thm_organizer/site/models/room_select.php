@@ -15,7 +15,7 @@ jimport('joomla.application.component.modelform');
 
 /**
  * Retrieves data for room selection
- * 
+ *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
@@ -23,7 +23,7 @@ jimport('joomla.application.component.modelform');
 class THM_OrganizerModelRoom_Select extends JModelForm
 {
     /**
-     * Constructor 
+     * Constructor
      */
     public function __construct()
     {
@@ -64,7 +64,7 @@ class THM_OrganizerModelRoom_Select extends JModelForm
      *
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-     * 
+     *
      * @return  mixed A JForm object on success, false on failure
      */
     public function getForm($data = array(), $loadData = true)

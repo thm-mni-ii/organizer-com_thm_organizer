@@ -24,10 +24,10 @@ class THM_OrganizerViewEvent_Manager extends JView
 {
     /**
      * Loads model data into context and sets variables used for html output
-     * 
+     *
      * @param   string  $tpl  the template to be used
-     * 
-     * @return void 
+     *
+     * @return void
      */
     public function display($tpl = null)
     {
@@ -45,7 +45,7 @@ class THM_OrganizerViewEvent_Manager extends JView
         $this->assign('events', $events);
         $display_type = $model->display_type;
         $this->assign('display_type', $display_type);
-        
+ 
         $categories = $model->categories;
         $this->assignRef('categories', $categories);
         $categoryID = ($model->getState('categoryID'))? $model->getState('categoryID') : - 1;
@@ -60,7 +60,7 @@ class THM_OrganizerViewEvent_Manager extends JView
 
         $total = $model->total;
         $this->assign('total', $total);
-        
+ 
         // Create the pagination object
         $pageNav = $model->pagination;
         $this->assign('pageNav', $pageNav);
@@ -75,7 +75,7 @@ class THM_OrganizerViewEvent_Manager extends JView
         $orderbydir = $model->getState('orderbydir');
         $orderbydir = (empty($orderbydir))? "ASC" : $orderbydir;
         $this->assign('orderbydir', $orderbydir);
-        
+ 
         $this->buildHTMLElements();
 
         parent::display($tpl);
@@ -195,11 +195,11 @@ class THM_OrganizerViewEvent_Manager extends JView
 
     /**
      * Method to build the category selection
-     * 
+     *
      * @param   object  $categories  the categories to be used
      * @param   object  $selected    the selected category
-     * 
-     * @return void 
+     *
+     * @return void
      */
     private function makeCategorySelect($categories, $selected)
     {

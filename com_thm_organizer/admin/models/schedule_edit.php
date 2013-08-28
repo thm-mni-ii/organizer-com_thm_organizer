@@ -15,7 +15,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
 
 /**
  * Class loading persistent data to be used for schedule edit output
- * 
+ *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
@@ -24,7 +24,7 @@ class THM_OrganizerModelSchedule_Edit extends JModelAdmin
 {
     /**
      * retrieves the jform object for this view
-     * 
+     *
      * @param   array    $data      unused
      * @param   boolean  $loadData  if the form data should be pulled dynamically
      *

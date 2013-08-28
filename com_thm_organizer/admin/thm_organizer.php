@@ -21,7 +21,7 @@ if (!empty($handler))
     {
         list($controller, $task) = $handler;
     }
-    else 
+    else
     {
         $task = JRequest::getVar('task');
     }

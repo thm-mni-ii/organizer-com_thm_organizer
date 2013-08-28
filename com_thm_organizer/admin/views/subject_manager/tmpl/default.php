@@ -32,7 +32,7 @@ if (isset($this->poolSelect))
     echo $this->poolSelect;
 }
 ?>
-            
+ 
         </div>
     </fieldset>
     <table class="adminlist">

@@ -38,7 +38,7 @@ class THM_OrganizerViewDegree_Manager extends JView
         $this->items = $items;
         $this->pagination = $pagination;
         $this->state = $this->get('State');
-                
+ 
         $this->addToolBar();
 
         parent::display($tpl);

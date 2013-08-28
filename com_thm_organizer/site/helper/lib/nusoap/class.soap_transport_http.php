@@ -647,7 +647,7 @@ class soap_transport_http extends nusoap_base {
         while ($chunk_size > 0) {
             $this->debug("chunkstart: $chunkstart chunk_size: $chunk_size");
             $chunkend = strpos( $buffer, $lb, $chunkstart + $chunk_size);
-             
+ 
             // Just in case we got a broken connection
             if ($chunkend == FALSE) {
                 $chunk = substr($buffer,$chunkstart);
@@ -656,7 +656,7 @@ class soap_transport_http extends nusoap_base {
                 $length += strlen($chunk);
                 break;
             }
-                
+ 
             // read chunk-data and CRLF
             $chunk = substr($buffer,$chunkstart,$chunkend-$chunkstart);
             // append chunk-data to entity-body
@@ -665,7 +665,7 @@ class soap_transport_http extends nusoap_base {
             $length += strlen($chunk);
             // read chunk-size and CRLF
             $chunkstart = $chunkend + strlen($lb);
-                
+ 
             $chunkend = strpos($buffer, $lb, $chunkstart) + strlen($lb);
             if ($chunkend == FALSE) {
                 break; //Just in case we got a broken connection
@@ -793,7 +793,7 @@ class soap_transport_http extends nusoap_base {
      */
     function getResponse(){
         $this->incoming_payload = '';
-      
+ 
         if ($this->io_method() == 'socket') {
             // loop until headers have been retrieved
             $data = '';
@@ -1065,7 +1065,7 @@ class soap_transport_http extends nusoap_base {
                 $this->debug('Server wants digest authentication');
                 // remove "Digest " from our elements
                 $digestString = str_replace('Digest ', '', $this->incoming_headers['www-authenticate']);
-                    
+ 
                 // parse elements into array
                 $digestElements = explode(',', $digestString);
                 foreach ($digestElements as $val) {

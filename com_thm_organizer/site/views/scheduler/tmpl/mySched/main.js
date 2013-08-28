@@ -227,7 +227,7 @@ MySched.Base = function ()
                     var tab = MySched.layout.tabpanel.getComponent(id);
 
                     Ext.ComponentMgr.get('btnSave').enable();
-                        
+ 
                     tab.ScheduleModel.status = "unsaved";
                 },
                 'save': function (s)
@@ -244,7 +244,7 @@ MySched.Base = function ()
         },
         /**
          * Laed die XML Datei und startet den Parsevorgang
-         * 
+         *
          * @param {String} url XML-Datei
          */
         loadLectures: function (url)
@@ -255,7 +255,7 @@ MySched.Base = function ()
         },
         /**
          * Aufgaben nachdem die XMLDaten erfolgreich geladen wurden
-         * 
+         *
          * @param {Object} ret ReturnObjekt vom Ladevorgang (Im Endeffet this)
          */
         afterLoad: function (ret)
@@ -536,7 +536,7 @@ MySched.Base = function ()
         },
         /**
          * Gibt die Veranstaltung mit der id zurueck
-         * 
+         *
          * @param {Object} id VeranstlatungsID
          */
         getLecture: function (id)
@@ -545,10 +545,10 @@ MySched.Base = function ()
         },
         /**
          * Gibt nur bestimmte Lectures zurueck
-         * 
+         *
          * @param {Object} type Ueber welches Feld soll Selektiert werden
          * @param {Object} value Welchen Wert muss dieses Feld haben
-         * 
+         *
          * @return {MySched.Collection}
          */
         getLectures: function (type, value)
@@ -558,7 +558,7 @@ MySched.Base = function ()
         /**
          * Handelt den FreeBusy Zustand - wird beim schalten des Buttons
          * aufgerufen
-         * 
+         *
          * @param {Object} e Event welches ausgeloest wurde
          * @param {Object} state Zustand des Buttons
          */
@@ -603,7 +603,7 @@ MySched.InfoPanel = function ()
         },
         /**
          * Zeigt eine Info in dem Info Panel unterhalb des Baumes an
-         * 
+         *
          * @param {Object} el HTML Element welches selektiert wurde
          */
         showInfo: function (el)
@@ -645,7 +645,7 @@ MySched.InfoPanel = function ()
         /**
          * Wird aufgerufen wenn ein blaues Informationsicon fuer Detailinfos
          * geklickt wird
-         * 
+         *
          * @param {Object} e Event welches ausgeloest wurde
          */
         detailInfoClick: function (e)
@@ -693,7 +693,7 @@ MySched.InfoPanel = function ()
         },
         /**
          * Zeigt Detailierte Info an
-         * 
+         *
          * @param {Object} text
          * @param {Object} title
          */
@@ -763,7 +763,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
     },
     /**
      * Stoppt die Selektierung
-     * 
+     *
      * @param {Object}
      *            o o === leer => fuer den aktiven Tab o==true =>
      *            dann fuer document, und wenn o ==
@@ -829,7 +829,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
     },
     /**
      * Startet die Selektierung
-     * 
+     *
      * @param {Object}
      *            el Tab fuer den die Selektierung gestartet
      *            werden soll wenn leer, dann fuer den aktiven
@@ -903,7 +903,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
             'mouseover': function (e)
             {
                 e.stopEvent();
-                this.showEventInformation(e);    
+                this.showEventInformation(e);
             },
             'mouseout': function ()
             {
@@ -999,7 +999,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
         var plantypeID = null;
         var semesterID = null;
         var parent = null;
-        
+ 
         nodeKey = id;
         semesterID = MySched.class_semester_name;
 
@@ -1023,7 +1023,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
         nodeID = semesterID + ";" + type + ";" + parent + ";" + nodeKey;
 
         MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
-        
+ 
         var record = MySched.Tree.tree.getRootNode().findChild("id",nodeID, true);
         var path = record.getPath("id", "#");
         MySched.Tree.tree.expandPath(path, "id", "#");
@@ -1092,7 +1092,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
         var l = MySched.selectedSchedule.getLecture(el.id);
         var subjects = l.data.subjects;
         var subjectNo = null;
-        
+ 
         this.showSubjectNoMenu(subjects, e);
     },
     showSubjectWindow: function(subjectNo)
@@ -1164,7 +1164,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
             }
             else
             {
-                menu.showAt(e.getXY());    
+                menu.showAt(e.getXY());
             }
         }
         else
@@ -1232,7 +1232,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
     },
     /**
      * Wenn das MouseOver Event ausgeloest wurde
-     * 
+     *
      * @param {Object} e Event
      */
     onMouseOver: function (e)
@@ -1258,7 +1258,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
     },
     /**
      * Wenn das MouseOut Event ausgeloest wurde
-     * 
+     *
      * @param {Object} e Event
      */
     onMouseOut: function (e)
@@ -1298,10 +1298,10 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
             el = this.selectEl;
             id = el.id;
         }
-        
+ 
         var tabID = id.split('##')[0];
         var lessonID = id.split('##')[1];
-        
+ 
         if (el.id.substr(0, 4) !== "delta" && MySched.Authorize.user !== null && MySched.Authorize.role !== "user")
         {
             // Entfernt Veranstaltung
@@ -1406,7 +1406,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
     },
     /**
      * MouseDown Event ausgeloest
-     * 
+     *
      * @param {Object} e Event
      */
     onMouseDown: function (e)
@@ -1436,7 +1436,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
     },
     /**
      * Waehlt Veranstaltung aus
-     * 
+     *
      * @param {Object} el Veranstaltungselement
      */
     select: function (el)
@@ -1451,7 +1451,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
     },
     /**
      * Waehlt Veranstaltung ab
-     * 
+     *
      * @param {Object} el Veranstaltungselement
      */
     unselect: function (el)
@@ -1752,12 +1752,12 @@ function destroyMenu()
     {
         rMenu.destroy();
     }
-    
+ 
     if (Ext.isDefined(oMenu))
     {
         oMenu.destroy();
     }
-    
+ 
     if (Ext.isDefined(sMenu))
     {
         sMenu.destroy();
@@ -1797,7 +1797,7 @@ MySched.TreeManager = function ()
         },
         /**
          * Fuegt den Listen eine Veranstaltung hinzu
-         * 
+         *
          * @param {Object} lecture Veranstaltung
          */
         add: function (lecture)
@@ -1811,7 +1811,7 @@ MySched.TreeManager = function ()
         },
         /**
          * Erstellt die Teacher Uebersichtsliste
-         * 
+         *
          * @param {Object} tree Basis Tree dem die Liste hinzugefuegt wird
          */
         createTeacherTree: function (tree)
@@ -1823,7 +1823,7 @@ MySched.TreeManager = function ()
         },
         /**
          * Erstellt die Raum Uebersichtsliste
-         * 
+         *
          * @param {Object} tree Basis Tree dem die Liste hinzugefuegt wird
          */
         createRoomTree: function (tree)
@@ -1833,7 +1833,7 @@ MySched.TreeManager = function ()
         },
         /**
          * Erstellt die Studiengang Uebersichtsliste
-         * 
+         *
          * @param {Object} tree Basis Tree dem die Liste hinzugefuegt wird
          */
         createClasTree: function (tree)
@@ -1845,7 +1845,7 @@ MySched.TreeManager = function ()
         },
         /**
          * Erstellt die Änderungen
-         * 
+         *
          * @param {Object} tree Basis Tree dem die Liste hinzugefuegt wird
          */
         createDiffTree: function (tree)
@@ -1854,7 +1854,7 @@ MySched.TreeManager = function ()
         },
         /**
          * Erstellt die Änderungen von Verantwortlichen
-         * 
+         *
          * @param {Object} tree Basis Tree dem die Liste hinzugefuegt wird
          */
         createrespChangesTree: function (tree)
@@ -1863,7 +1863,7 @@ MySched.TreeManager = function ()
         },
         /**
          * Sucht alle Lessons
-         * 
+         *
          * @param {Object} tree Basis Tree dem die Liste hinzugefuegt wird
          */
         createCurteaTree: function (tree)
@@ -1899,7 +1899,7 @@ MySched.TreeManager = function ()
         },
         /**
          * Erstellt eine Uebersichtsliste
-         * 
+         *
          * @param {Object} baseTree Baum dem die Liste hinzugefuegt wird
          * @param {Object} type Typ der Liste (teacher|module|room)
          * @param {Object} data Daten Baum mit Elementen zum Hinzufuegen
@@ -2271,7 +2271,7 @@ MySched.layout = function ()
                 maxSize: 968,
                 items: [this.leftviewport, this.rightviewport]
             });
-            
+ 
             MySched.treeLoadMask = new Ext.LoadMask(Ext.getCmp('selectTree').el, {msg:"Loading..."});
             MySched.treeLoadMask.show();
 
@@ -2317,7 +2317,7 @@ MySched.layout = function ()
         },
         /**
          * Erstellt einen neuen Stundenplan Tab
-         * 
+         *
          * @param {Object} id ID des Tabs
          * @param {Object} title Title des Tabs
          * @param {Object} grid Grid das angezeigt werden soll
@@ -2491,13 +2491,13 @@ MySched.layout = function ()
                     });
                 }
             });
-            
+ 
             var disablePDF = true;
             if(MySched.libraryFPDFIsInstalled === true)
             {
                 disablePDF = false;
             }
-            
+ 
             var btnSavePdf = Ext.create('Ext.Button',
             {
                 text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE,
@@ -2656,7 +2656,7 @@ MySched.layout = function ()
             {
                 disableICal = false;
             }
-            
+ 
             var btnICal = Ext.create('Ext.Button',
             {
                 // ICal DownloadButton
@@ -3883,7 +3883,7 @@ function daytonumber(day)
 
 /**
  * Wandelt englische Tagesname in deutsche um.
- * 
+ *
  * @param {String} week_day englischer Tagesname
  */
 
@@ -4049,7 +4049,7 @@ MySched.Tree = function ()
                                 }
                             }
                         }
-                        
+ 
                         var rootNode = MySched.Tree.tree.getRootNode();
                         rootNode.removeAll(true);
                         rootNode.appendChild(newtree);
@@ -4058,7 +4058,7 @@ MySched.Tree = function ()
                         {
                             MySched.treeLoadMask.destroy();
                         }
-                        
+ 
                         var publicDefaultNode = json.treePublicDefault;
 
                         if(publicDefaultNode !== null && publicDefaultNode.type !== "delta")
@@ -4171,7 +4171,7 @@ MySched.Tree = function ()
                 var departmentfield = "description";
                 var nodeFullName = nodeKey;
                 if (type === "teacher")
-                {                    
+                {
                     nodeFullName = getTeacherSurnameWithCutFirstName(nodeKey);
                 }
                 else if (type === "room")
@@ -4265,7 +4265,7 @@ MySched.Tree = function ()
         },
         /**
          * Setzt den Titel des Listenfelds
-         * 
+         *
          * @param {Object} title
          * @param {Object} append
          */
@@ -4365,7 +4365,7 @@ MySched.Subscribe = function ()
     return {
         /**
          * Speichert die uebergebenen Daten
-         * 
+         *
          * @param {Object} data
          */
         setData: function (data)
@@ -4382,7 +4382,7 @@ MySched.Subscribe = function ()
         /**
          * Zeigt das Fenster zur Auswahl der Veranstaltungen in die
          * Eingeschriebene werden soll an
-         * 
+         *
          * @param {Object} data Aktueller "Mein Stundenplan"
          */
         show: function (data)

@@ -28,8 +28,8 @@ class THM_OrganizerControllerPool extends JController
     /**
      * Performs access checks, sets the id variable to 0, and redirects to the
      * pool edit view
-     * 
-     * @return void 
+     *
+     * @return void
      */
     public function add()
     {
@@ -132,7 +132,7 @@ class THM_OrganizerControllerPool extends JController
 
     /**
      * Method to perform cancel
-     * 
+     *
      * @return  void
      */
     public function cancel()

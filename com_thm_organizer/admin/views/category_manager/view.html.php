@@ -15,7 +15,7 @@ jimport('joomla.application.component.view');
 require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
 /**
  * Class which loads data into the view output context
- * 
+ *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
@@ -26,9 +26,9 @@ class THM_OrganizerViewCategory_Manager extends JView
 {
     /**
      * loads persistent information into the view context
-     * 
+     *
      * @param   string  $tpl  the name of the template to be used
-     * 
+     *
      * @return void
      */
     public function display($tpl = null)
@@ -55,7 +55,7 @@ class THM_OrganizerViewCategory_Manager extends JView
 
     /**
      * generates joomla toolbar elements
-     * 
+     *
      * @return void
      */
     private function addToolBar()

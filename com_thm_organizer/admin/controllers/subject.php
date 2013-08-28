@@ -24,8 +24,8 @@ class THM_OrganizerControllerSubject extends JController
     /**
      * Performs access checks, sets the id variable to 0, and redirects to the
      * subject edit view
-     * 
-     * @return void 
+     *
+     * @return void
      */
     public function add()
     {
@@ -166,7 +166,7 @@ class THM_OrganizerControllerSubject extends JController
         }
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false));
     }
-    
+ 
     /**
      * Perfoerms access checks and makes function calls for importing LSF Data
      *

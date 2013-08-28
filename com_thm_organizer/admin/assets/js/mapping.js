@@ -3,9 +3,9 @@ var jq = jQuery.noConflict();
 
 /**
  * Moves the values of the calling row up one row in the children table
- * 
+ *
  * @param {type} oldOrder
- * 
+ *
  * @returns {void}
  */
 function moveUp(oldOrder)
@@ -31,9 +31,9 @@ function moveUp(oldOrder)
 
 /**
  * Moves the values of the calling row down one row in the children table
- * 
+ *
  * @param {type} oldOrder
- * 
+ *
  * @returns {void}
  */
 function moveDown(oldOrder)
@@ -61,9 +61,9 @@ function moveDown(oldOrder)
 /**
  * Sets the current values of a row to another row indicated by the value of the
  * order field
- * 
+ *
  * @param   {int} oldOrder
- * 
+ *
  * @returns  {void}
  */
 function order(oldOrder)
@@ -107,14 +107,14 @@ function order(oldOrder)
 
 /**
  * Retreives an array of objects mapping form values
- * 
+ *
  * @returns {Array}
  */
 function getCurrentOrder()
 {
     "use strict";
     var currentOrder = [];
-    
+ 
     // The header row needs to be removed from the count
     var rowCount = jq('#childList tr').length - 1;
     for (var i = 0; i < rowCount; i++)
@@ -131,9 +131,9 @@ function getCurrentOrder()
 
 /**
  * Removes a child row from the display
- * 
+ *
  * @param   {int}  rowNumber  the number of the row to be deleted
- * 
+ *
  * @returns  {void}
  */
 function remove(rowNumber)

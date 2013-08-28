@@ -46,9 +46,9 @@ class THM_OrganizerViewTeacher_Merge extends JView
 
     /**
      * Creates input tags for the merge form.
-     * 
+     *
      * @param   array  &$teacherEntries  the data from the database
-     * 
+     *
      * @return void
      */
     private function generateFormFields(&$teacherEntries)
@@ -93,11 +93,11 @@ class THM_OrganizerViewTeacher_Merge extends JView
 
     /**
      * Creates a label and radio buttion input for entry values.
-     * 
+     *
      * @param   string   $name      the name of the property
      * @param   string   $value     the value to be sent on form submission
      * @param   boolean  &$checked  if one of the preceding values is checked
-     * 
+     *
      * @return  void
      */
     private function setPropertyInput($name, $value, &$checked = false)

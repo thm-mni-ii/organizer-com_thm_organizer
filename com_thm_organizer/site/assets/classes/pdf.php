@@ -178,7 +178,7 @@ class THMPDFBuilder extends THMAbstractBuilder
             $sched[4][0]["TEXT"] = "14:00\n-\n15:30";
             $sched[5][0]["TEXT"] = "15:45\n-\n17:15";
             $sched[6][0]["TEXT"] = "17:30\n-\n19:00";
-                        
+ 
             if (isset($arr[0]->htmlView))
             {
                 $lessons = $arr[0]->htmlView;
@@ -216,7 +216,7 @@ class THMPDFBuilder extends THMAbstractBuilder
             else
             {
                 $lessons = $arr;
-                
+ 
                 foreach ($lessons as $k => $l)
                 {
                     if (isset($l->cell))
@@ -229,7 +229,7 @@ class THMPDFBuilder extends THMAbstractBuilder
                         $l->cell = preg_replace("/class=\"\"\s*/", "", $l->cell);
                         $l->cell = preg_replace("/class=\"roomshortname\s*\"/", "", $l->cell);
                         $l->cell = preg_replace("/class=\"oldroom\s*\"/", "", $l->cell);
-                        
+ 
                         if (($l->block) > 3)
                         {
                             $sched[$l->block][$l->dow][] = $l->cell;

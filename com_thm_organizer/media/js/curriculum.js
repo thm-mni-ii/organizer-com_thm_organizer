@@ -66,7 +66,7 @@ function Curriculum (menuID, programID, horizontalGroups, languageTag, width, he
         return Ext.create(
             'Ext.container.Container',
             {
-                xtype : 'panel',    
+                xtype : 'panel',
                 layout : 'anchor',
                 border: false,
                 margin : (topMargin - 1) + " 0 0 "+ (leftMargin - 1),
@@ -202,7 +202,7 @@ function Curriculum (menuID, programID, horizontalGroups, languageTag, width, he
 
     /**
      * Adds a pool icon to the item
-     * 
+     *
      */
     Curriculum.prototype.addPoolIcon = function(container_id, title, schedule)
     {
@@ -289,7 +289,7 @@ function Curriculum (menuID, programID, horizontalGroups, languageTag, width, he
                     renderTo : 'toolcontainer-' + id
                 }
             );
-        } 
+        }
         else
         {
             toolTip = Ext.create(
@@ -305,7 +305,7 @@ function Curriculum (menuID, programID, horizontalGroups, languageTag, width, he
                     },
                     renderTo : 'toolcontainer-' + id
                 }
-            );    
+            );
         }
         html = "<hr style='width:130px; visibility: hidden;'>" + teacherName;
         html += "<div>"+tooltipAddInfo+"</div><br>";
@@ -325,7 +325,7 @@ function Curriculum (menuID, programID, horizontalGroups, languageTag, width, he
 
     /**
      * Adds a title icon
-     * 
+     *
      * @param   {string}  id  the subject's id
      * @param   {string}  title  the subject's title
      */
@@ -333,7 +333,7 @@ function Curriculum (menuID, programID, horizontalGroups, languageTag, width, he
     {
         Ext.ToolTip({
             target : 'course_title-' + id ,
-            html : title, 
+            html : title,
             dismissDelay:0,
             autoHide : true
         });
@@ -394,7 +394,7 @@ function Curriculum (menuID, programID, horizontalGroups, languageTag, width, he
     /**
      * Calculate the contrasting color
      * Source: http://www.nbdtech.com/Blog/archive/2008/04/27/Calculating-the-Perceived-Brightness-of-a-Color.aspx
-     * 
+     *
      * @param   {string}  color  the background color of the item
      */
     Curriculum.prototype.contrastColor = function(color)
@@ -428,7 +428,7 @@ function Curriculum (menuID, programID, horizontalGroups, languageTag, width, he
                 }
                 else
                 {
-                    return self.getModalPool(item, self.getModalContent(item), item.title, leftMargin, topMargin);    
+                    return self.getModalPool(item, self.getModalContent(item), item.title, leftMargin, topMargin);
                 }
             }
             else
@@ -464,7 +464,7 @@ function Curriculum (menuID, programID, horizontalGroups, languageTag, width, he
 
     /**
      * Adds a container
-     * 
+     *
      * @param   {string}  color  the background color of the item
      */
     Curriculum.prototype.getContainer = function(color)
@@ -511,7 +511,7 @@ function Curriculum (menuID, programID, horizontalGroups, languageTag, width, he
 
     /**
      * Returns a Panel, which represents a first order child subject pool
-     * 
+     *
      * @param   {object}  horizontalGroup  the first order child of the program
      */
     Curriculum.prototype.getFirstOrderPool = function(pool)
@@ -543,7 +543,7 @@ function Curriculum (menuID, programID, horizontalGroups, languageTag, width, he
                         c.header.addCls('horizontalPanel');
                         document.getElementById(c.el.id).firstChild.style.background = "#"+ pool.color;
                         document.getElementById(c.el.id).lastChild.style.background = "#"+ pool.color;
-                        c.body.applyStyles("background-color:" + hPanelColor);    
+                        c.body.applyStyles("background-color:" + hPanelColor);
                     }
                 }
             }
@@ -591,7 +591,7 @@ function Curriculum (menuID, programID, horizontalGroups, languageTag, width, he
 
                 comPool.add(container);
             }
-        } 
+        }
 
         /* attach the name and related tooltip above the actual pool content */
         comPool.add(self.addInlinePoolText(pool));
@@ -670,7 +670,7 @@ function Curriculum (menuID, programID, horizontalGroups, languageTag, width, he
         return Ext.create(
             'Ext.panel.Panel',
             {
-                xtype : 'panel',    
+                xtype : 'panel',
                 cls : "modal_pool",
                 title : titleSpan1 + titleSpan2,
                 width : self.itemWidth,
@@ -791,7 +791,7 @@ function Curriculum (menuID, programID, horizontalGroups, languageTag, width, he
         {
             color = "#" + color;
         }
-        
+ 
         if (leftMargin === undefined)
         {
             leftMargin = "2";
@@ -847,7 +847,7 @@ function Curriculum (menuID, programID, horizontalGroups, languageTag, width, he
         var moduleTitle = ((self.cutTitle === 1) ? (subject.name.substring(0, titleLength) + "...") : subject.name);
         var titleSpans = "<span style='color:" + headerColor + ";"+"'class='course_title'>" + subject.abbreviation.substr(0,10) + "</span>";
         titleSpans += "<span style='color:" + headerColor + ";"+"'class='course_creditpoints'>" + subject.creditpoints + " CrP" + "</span>";
-      
+ 
         /* creates the panel */
         var course = Ext.create(
             'Ext.panel.Panel',
@@ -880,7 +880,7 @@ function Curriculum (menuID, programID, horizontalGroups, languageTag, width, he
                         /* responsible icon */
                         if(subject.teacherName !== undefined)
                         {
-                            self.addTeacherIcon(subject.id, subject.teacherLink, subject.teacherName); 
+                            self.addTeacherIcon(subject.id, subject.teacherLink, subject.teacherName);
                         }
 
                         /* ecollab icon */
@@ -919,7 +919,7 @@ function Curriculum (menuID, programID, horizontalGroups, languageTag, width, he
 
     /**
      * Returns a container which contains the title of a given pool
-     * 
+     *
      * @param   {object}  group  the group for which the text container is being created
      */
     Curriculum.prototype.getTextContainer = function(group)
@@ -937,7 +937,7 @@ function Curriculum (menuID, programID, horizontalGroups, languageTag, width, he
 
     /**
      * Determine the title of an item
-     * 
+     *
      * @param   {object}  item  the item being iterated
      */
     Curriculum.prototype.getTitleLabel = function(item)

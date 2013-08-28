@@ -115,6 +115,6 @@ class THMEvents
             }
         }
 
-        return array("success" => true,"data" => $eventList);   
+        return array("success" => true,"data" => $eventList);
     }
 }

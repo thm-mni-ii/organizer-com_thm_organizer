@@ -1,6 +1,6 @@
 <?php
 /**
- * @category    Joomla component 
+ * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name        THM_OrganizerTableRooms
@@ -23,7 +23,7 @@ class THM_OrganizerTableRooms extends JTable
 {
     /**
      * Constructor to call the parent constructor
-     * 
+     *
      * @param   JDatabase  &$dbo  A database connector object
      */
     public function __construct(&$dbo)

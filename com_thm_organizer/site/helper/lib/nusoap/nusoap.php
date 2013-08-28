@@ -1252,7 +1252,7 @@ class nusoap_fault extends nusoap_base
  */
 class soap_fault extends nusoap_fault
 {
-    
+ 
 }
 ?><?php
 
@@ -2432,7 +2432,7 @@ class nusoap_xmlschema extends nusoap_base
  */
 class XMLSchema extends nusoap_xmlschema
 {
-    
+ 
 }
 ?><?php
 
@@ -3442,7 +3442,7 @@ class soap_transport_http extends nusoap_base
             }
             else
             {
-                
+ 
             }
             // insert custom user-set cURL options
             foreach ($this->ch_options as $key => $val)
@@ -5322,7 +5322,7 @@ class nusoap_server extends nusoap_base
         }
         if (false == $namespace)
         {
-            
+ 
         }
         if (false == $soapaction)
         {
@@ -5504,7 +5504,7 @@ class nusoap_server extends nusoap_base
  */
 class soap_server extends nusoap_server
 {
-    
+ 
 }
 ?><?php
 
@@ -8691,7 +8691,7 @@ class nusoap_parser extends nusoap_base
  */
 class soap_parser extends nusoap_parser
 {
-    
+ 
 }
 ?><?php
 
@@ -9848,6 +9848,6 @@ if (!extension_loaded('soap'))
      */
     class soapclient extends nusoap_client
     {
-        
+ 
     }
 }

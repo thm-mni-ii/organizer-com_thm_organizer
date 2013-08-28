@@ -5,7 +5,7 @@
  * @subpackage  com_thm_organizer.admin
  * @name        category controller
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2012 TH Mittelhessen 
+ * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -14,8 +14,8 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 
 /**
- * Class performing access checks and model function calls for category actions 
- * 
+ * Class performing access checks and model function calls for category actions
+ *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
@@ -25,7 +25,7 @@ class THM_OrganizerControllerCategory extends JController
 {
     /**
      * redirects to the category_edit view for the creation of new categories
-     * 
+     *
      * @return void
      */
     public function add()
@@ -41,7 +41,7 @@ class THM_OrganizerControllerCategory extends JController
 
     /**
      * redirects to the category_edit view for the editing of existing categories
-     * 
+     *
      * @return void
      */
     public function edit()
@@ -56,7 +56,7 @@ class THM_OrganizerControllerCategory extends JController
 
     /**
      * saves changes made to the category and redirects to the category_manager view
-     * 
+     *
      * @return void
      */
     public function apply()
@@ -81,7 +81,7 @@ class THM_OrganizerControllerCategory extends JController
 
     /**
      * saves changes made to the category and redirects to the category_manager view
-     * 
+     *
      * @return void
      */
     public function save()
@@ -106,7 +106,7 @@ class THM_OrganizerControllerCategory extends JController
 
     /**
      * saves changes made to the category and redirects to the category edit view
-     * 
+     *
      * @return void
      */
     public function save2new()
@@ -131,7 +131,7 @@ class THM_OrganizerControllerCategory extends JController
 
     /**
      * deletes the selected category and redirects to the category manager
-     * 
+     *
      * @return void
      */
     public function delete()
@@ -156,8 +156,8 @@ class THM_OrganizerControllerCategory extends JController
 
     /**
      * redirects to the category manager view without making any persistent changes
-     * 
-     * @return void 
+     *
+     * @return void
      */
     public function cancel()
     {

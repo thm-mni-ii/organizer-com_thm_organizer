@@ -23,8 +23,8 @@ class THM_OrganizerControllerField extends JController
 {
     /**
      * Performs access checks and redirects to the field edit view
-     * 
-     * @return void 
+     *
+     * @return void
      */
     public function add()
     {

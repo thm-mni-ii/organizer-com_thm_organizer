@@ -29,7 +29,7 @@ class JFormFieldResponsible extends JFormField
      * @var    String
      */
     protected $type = 'Responsible';
-  
+ 
     /**
      * Method to get the form field
      *
@@ -38,19 +38,19 @@ class JFormFieldResponsible extends JFormField
     public function getInput()
     {
         $return = '<select id="' . $this->id . '" name="' . $this->name . '">';
-        
+ 
         $responsibles = $this->getResponsibles();
-                
+ 
         foreach ($responsibles AS $resp)
         {
             $return .= '<option value="' . $resp['id'] . '" >' . $resp['name'] . '</option>';
         }
-                
+ 
         $return .= '</select>';
 
         return $return;
     }
-    
+ 
     /**
      * Method to get the responsibles
      *
@@ -59,13 +59,13 @@ class JFormFieldResponsible extends JFormField
     private function getResponsibles()
     {
         $dbo = JFactory::getDBO();
-    
+ 
         $query = $dbo->getQuery(true);
         $query->select('id');
         $query->from('#__usergroups');
         $dbo->setQuery((string) $query);
         $groupIDs = $dbo->loadResultArray();
-    
+ 
         $usergroups = array();
         foreach ($groupIDs as $groupID)
         {
@@ -74,7 +74,7 @@ class JFormFieldResponsible extends JFormField
                 $usergroups[] = $groupID;
             }
         }
-    
+ 
         if (count($usergroups))
         {
             $query = $dbo->getQuery(true);

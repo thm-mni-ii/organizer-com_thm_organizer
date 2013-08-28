@@ -91,7 +91,7 @@ foreach ($this->monitors as $k => $monitor)
                     <td><?php echo JHtml::_('grid.id', $k, $monitor->id); ?></td>
                     <td><a href='<?php echo $monitor->link; ?>' >
                     <?php echo $monitor->room; ?></a></td>
-                    <td><a href='<?php echo $monitor->link; ?>' > 
+                    <td><a href='<?php echo $monitor->link; ?>' >
                     <?php echo $monitor->ip; ?></a></td>
                     <td><a href='<?php echo $monitor->link; ?>' >
                     <?php echo $monitor->display; ?></a></td>

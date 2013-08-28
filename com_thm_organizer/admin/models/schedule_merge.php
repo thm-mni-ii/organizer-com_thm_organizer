@@ -23,7 +23,7 @@ class THM_OrganizerModelSchedule_Merge extends JModel
 {
     /**
      * Array holding schedule entry information
-     * 
+     *
      * @var array
      */
     public $schedules = null;

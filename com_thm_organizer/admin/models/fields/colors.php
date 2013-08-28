@@ -57,7 +57,7 @@ class JFormFieldColors extends JFormField
 
         foreach ($colors as $color)
         {
-            $html .= "<option style='background-color:#$color->color' value='$color->id' "; 
+            $html .= "<option style='background-color:#$color->color' value='$color->id' ";
             if ($this->value == $color->id)
             {
                 $html .= "selected='selected'";

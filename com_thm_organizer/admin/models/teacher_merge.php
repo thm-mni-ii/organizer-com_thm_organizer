@@ -23,7 +23,7 @@ class THM_OrganizerModelTeacher_Merge extends JModel
 {
     /**
      * Array holding teacher entry information
-     * 
+     *
      * @var array
      */
     public $dteacherInformation = null;

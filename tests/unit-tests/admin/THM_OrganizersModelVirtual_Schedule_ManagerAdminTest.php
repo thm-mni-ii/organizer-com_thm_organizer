@@ -37,7 +37,7 @@ class THM_OrganizersModelVirtual_Schedule_ManagerAdminTest extends PHPUnit_Frame
         if (!defined('JPATH_COMPONENT')) {
             define('JPATH_COMPONENT', dirname(__FILE__));
         }
-                        
+ 
 //         $this->instance = new THM_OrganizerModelVirtual_Schedule_Manager;
     }
 
@@ -62,7 +62,7 @@ class THM_OrganizersModelVirtual_Schedule_ManagerAdminTest extends PHPUnit_Frame
     {
 //         $expected = array();
 //         $actual = $this->instance->getData();
-        
+ 
 //         $this->assertEquals($expected, $actual);
 
         $this->assertEquals(true, true);
@@ -78,12 +78,12 @@ class THM_OrganizersModelVirtual_Schedule_ManagerAdminTest extends PHPUnit_Frame
     {
 //         $expected = $this->instance->getAnz();
 //         $actual = $this->instance->getTotal();
-        
+ 
 //         $this->assertEquals($expected, $actual);
 
         $this->assertEquals(true, true);
     }
-    
+ 
     /**
      * tests getPagination,
      * function should return a JPagination object
@@ -94,12 +94,12 @@ class THM_OrganizersModelVirtual_Schedule_ManagerAdminTest extends PHPUnit_Frame
     {
 //         $expected = 'JPagination';
 //         $actual = $this->instance->getPagination();
-                
+ 
 //         $this->assertInstanceOf($expected, $actual);
 
         $this->assertEquals(true, true);
     }
-    
+ 
     /**
      * tests getElements,
      * function should return an array
@@ -110,7 +110,7 @@ class THM_OrganizersModelVirtual_Schedule_ManagerAdminTest extends PHPUnit_Frame
     {
 //         $expected = 'array';
 //         $actual = $this->instance->getElements();
-                        
+ 
 //         $this->assertInternalType($expected, $actual);
 
         $this->assertEquals(true, true);

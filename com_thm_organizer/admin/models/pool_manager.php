@@ -22,7 +22,7 @@ jimport('joomla.application.component.modellist');
 class THM_OrganizerModelPool_Manager extends JModelList
 {
     public $programName = '';
-    
+ 
     public $programs = null;
 
     /**
@@ -93,7 +93,7 @@ class THM_OrganizerModelPool_Manager extends JModelList
         {
             $borders = $this->getProgramBorders($programID);
         }
-        
+ 
         $query->select($select);
         $query->from('#__thm_organizer_pools AS p');
         if (!empty($borders))
@@ -112,15 +112,15 @@ class THM_OrganizerModelPool_Manager extends JModelList
             $query->where("rgt < '{$borders['rgt']}'");
         }
         $query->order("$orderBy $orderDir");
-        
+ 
         return $query;
     }
 
     /**
      * Retrieves the mapped left and right values for the requested program
-     * 
+     *
      * @param   int  $poolID  the id of the pool
-     * 
+     *
      * @return  array contains the sought left and right values
      */
     private function getPoolBorders($poolID)
@@ -134,10 +134,10 @@ class THM_OrganizerModelPool_Manager extends JModelList
 
     /**
      * Retrieves the names of the programs to which a pool is ordered
-     * 
+     *
      * @param   array  $poolBorders  the left and right values of the pool's
      *                               mappings
-     * 
+     *
      * @return  array  the names of the programs to which the pool is ordered
      */
     private function getPoolPrograms($poolBorders)
@@ -163,9 +163,9 @@ class THM_OrganizerModelPool_Manager extends JModelList
     /**
      * Retrieves a string value representing the degree programs to which the
      * pool is ordered.
-     * 
+     *
      * @param   int  $poolID  the id of the pool
-     * 
+     *
      * @return  string  string representing the associated program
      */
     private function getProgram($poolID)
@@ -188,9 +188,9 @@ class THM_OrganizerModelPool_Manager extends JModelList
 
     /**
      * Retrieves the mapped left and right values for the requested program
-     * 
+     *
      * @param   int  $programID  the id of the requested program
-     * 
+     *
      * @return  array contains the sought left and right values
      */
     private function getProgramBorders($programID)
@@ -228,7 +228,7 @@ class THM_OrganizerModelPool_Manager extends JModelList
 
     /**
      * Sets the program name for title bar
-     * 
+     *
      * @return  void
      */
     private function setProgramName()
@@ -245,7 +245,7 @@ class THM_OrganizerModelPool_Manager extends JModelList
 
     /**
      * Retrieves a list of mapped programs
-     * 
+     *
      * @return  void
      */
     private function setPrograms()

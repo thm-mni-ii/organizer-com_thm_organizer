@@ -15,8 +15,8 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.table');
 /**
- * Class representing the colors table. 
- * 
+ * Class representing the colors table.
+ *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin

@@ -233,12 +233,12 @@ Ext.define('ScheduleModel',
         {
             return;
         }
-        
+ 
         if (this.blockCache && Ext.type(l) === 'object')
         {
             this.blockCache[l.getWeekDay()][l.getBlock() - 1]--;
         }
-        
+ 
         if (Ext.type(l) === 'object')
         {
             this.data.removeAtKey(l.getId());
@@ -247,7 +247,7 @@ Ext.define('ScheduleModel',
         {
             this.data.removeAtKey(l);
         }
-        
+ 
         this.markChanged();
         this.fireEvent("lectureRemove", l);
     },
@@ -357,7 +357,7 @@ Ext.define('ScheduleModel',
                 }
             });
         }
-        
+ 
         var eventlist = MySched.eventlist;
         var events = eventlist;
 
@@ -681,7 +681,7 @@ Ext.define('ScheduleModel',
             deltaSched.show();
             MySched.layout.viewport.doLayout();
             MySched.selectedSchedule.responsible = "delta";
-            
+ 
             MySched.Schedule.status = "saved";
         }
 
@@ -859,7 +859,7 @@ Ext.define('ScheduleModel',
                 var wd = l.getWeekDay();
                 var b = l.getBlock();
                 b = b - 1;
-                
+ 
                 var calendarDates = l.data.calendar;
                 for (var dateIndex in calendarDates)
                 {
@@ -957,7 +957,7 @@ Ext.define('ScheduleModel',
             {
                 savewait = null;
             }
-            
+ 
             Ext.Ajax.request(
             {
                 url: url,
@@ -971,7 +971,7 @@ Ext.define('ScheduleModel',
                     {
                         Ext.MessageBox.hide();
                     }
-                    
+ 
                     try
                     {
                         var json = Ext.decode(resp.responseText);
@@ -1027,16 +1027,16 @@ Ext.define('ScheduleModel',
     {
         var asArrRet = {};
         var d = this.data;
-        
+ 
         for(var index = 0; index < d.length; index++)
         {
             var lesson = d.items[index];
-            asArrRet[lesson.id] = Ext.clone(lesson.data); 
+            asArrRet[lesson.id] = Ext.clone(lesson.data);
             asArrRet[lesson.id].modules = asArrRet[lesson.id].modules.map;
             asArrRet[lesson.id].teachers = asArrRet[lesson.id].teachers.map;
             asArrRet[lesson.id].subjects = asArrRet[lesson.id].subjects.map;
         }
-                
+ 
         return asArrRet;
     },
     asArrayForPDF: function ()
@@ -1047,15 +1047,15 @@ Ext.define('ScheduleModel',
         {
             d = d.asArray();
         }
-        
+ 
         var wpMO = null;
         var cd = Ext.ComponentMgr.get('menuedatepicker');
         var wp = null;
-        
+ 
         wp = Ext.Date.clone(cd.value);
 
         wpMO = getMonday(wp);
-        
+ 
         Ext.each(d, function (v)
         {
             var calendarDates = v.data.calendar;
@@ -1079,7 +1079,7 @@ Ext.define('ScheduleModel',
                             {
                                 var block = date[blockIndex];
                                 if (Ext.isObject(block.lessonData))
-                                {                            
+                                {
                                     if(date[blockIndex].lessonData.delta && date[blockIndex].lessonData.delta === "removed")
                                     {
                                         continue;
@@ -1098,7 +1098,7 @@ Ext.define('ScheduleModel',
                 }
             }
         });
-        
+ 
         //if (this.asArrRet.length === 1) return this.asArrRet[0];
         return asArrRet;
     },
@@ -1323,7 +1323,7 @@ Ext.define('LectureModel',
                 {
                     ret += '<img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_REMOVE + '" class="status_icons_add" src="' + MySched.mainPath + '/images/delete.png" width="12" heigth="12"/>';
                 }
-                else 
+                else
                 {
                     ret += '<img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_ADD + '" class="status_icons_add" src="' + MySched.mainPath + '/images/add.png" width="12" heigth="12"/>';
                 }
@@ -1696,7 +1696,7 @@ Ext.define('LectureModel',
                 t = MySched.selectedSchedule.type;
             }
         }
-        
+ 
         if (t === "room")
         {
             this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} scheduleBox lectureBox">' + '<b class="lecturename">{lessonTitle}{description} {comment}</b><br/>{teacherName} / {moduleName} {lessonEvents}' + time + ' {statusIcons}</div>');
@@ -1752,12 +1752,12 @@ Ext.define('LectureModel',
             d.css = ' lectureBox_cho';
         }
         var cellView =  this.cellTemplate.apply(d);
-        
+ 
         if(cellView.contains("MySchedEvent_reserve"))
         {
             cellView = cellView.replace("lectureBox", "lectureBox lectureBox_reserve");
         }
-        
+ 
         return cellView;
     },
     getSporadicView: function (relObj)
@@ -1874,7 +1874,7 @@ Ext.define('EventListModel',
         {
             return this.data.items;
         }
-        
+ 
         var data = this.data.filterBy(function (o, k)
         {
             var eventObjects = o.data.objects;

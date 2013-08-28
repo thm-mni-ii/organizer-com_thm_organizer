@@ -37,7 +37,7 @@ class JFormFieldSubjectResponsible extends JFormField
     {
         $dbo = JFactory::getDBO();
         $subjectID = JRequest::getInt('id');
-        
+ 
         $selectedQuery = $dbo->getQuery(true);
         $selectedQuery->select('teacherID')->from('#__thm_organizer_subject_teachers')->where("subjectID = '$subjectID' AND teacherResp = '1'");
         $dbo->setQuery((string) $selectedQuery);
@@ -48,7 +48,7 @@ class JFormFieldSubjectResponsible extends JFormField
         $teachersQuery->from('#__thm_organizer_teachers');
         $teachersQuery->order('surname, forename');
         $dbo->setQuery((string) $teachersQuery);
-        $teachers = $dbo->loadAssocList(); 
+        $teachers = $dbo->loadAssocList();
         foreach ($teachers as $key => $teacher)
         {
             $teachers[$key]['name'] = empty($teacher['forename'])? $teacher['surname'] : "{$teacher['surname']}, {$teacher['forename']}";

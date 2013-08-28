@@ -28,7 +28,7 @@ class THM_OrganizerViewScheduler_Tree extends JView
      * @param   String  $tpl  template
      *
      * @return void
-     * 
+     *
      * @see JView::display()
      */
     public function display($tpl = null)

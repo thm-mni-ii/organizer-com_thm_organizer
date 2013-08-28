@@ -16,7 +16,7 @@ require_once JPATH_COMPONENT . "/assets/classes/eventAccess.php";
 
 /**
  * Retrieves stored event data
- * 
+ *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
@@ -66,7 +66,7 @@ class THM_OrganizerModelEvent_Details extends JModel
      *
      * creates an event as an array of properties and sets this as an object
      * variable
-     * 
+     *
      * @return void
      */
     public function loadEvent()
@@ -194,7 +194,7 @@ class THM_OrganizerModelEvent_Details extends JModel
      * loadEventResources
      *
      * calls functions for loading differing sorts of event resources
-     * 
+     *
      * @return void
      */
     private function loadEventResources()
@@ -208,7 +208,7 @@ class THM_OrganizerModelEvent_Details extends JModel
      * loadEventRooms
      *
      * loads room data into the event
-     * 
+     *
      * @return void
      */
     private function loadEventRooms()
@@ -227,7 +227,7 @@ class THM_OrganizerModelEvent_Details extends JModel
      * loadEventTeachers
      *
      * loads teacher data into the event
-     * 
+     *
      * @return void
      */
     private function loadEventTeachers()
@@ -246,7 +246,7 @@ class THM_OrganizerModelEvent_Details extends JModel
      * loadEventGroups
      *
      * loads group data into the event
-     * 
+     *
      * @return void
      */
     private function loadEventGroups()
@@ -266,7 +266,7 @@ class THM_OrganizerModelEvent_Details extends JModel
      *
      * retrieves the url of the event list menu item and sets the object
      * variable listLink with it
-     * 
+     *
      * @return void
      */
     private function setMenuLinks()

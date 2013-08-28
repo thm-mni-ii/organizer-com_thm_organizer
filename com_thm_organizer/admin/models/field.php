@@ -41,7 +41,7 @@ class THM_OrganizerModelField extends JModel
     }
     /**
      * Removes color entries from the database
-     * 
+     *
      * @return  boolean true on success, otherwise false
      */
     public function delete()

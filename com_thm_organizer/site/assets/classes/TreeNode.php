@@ -131,7 +131,7 @@ class THMTreeNode
     /**
      * Constructor with the joomla data abstraction object and configuration object
      *
-     * @param   Object   $data           Contains the node id, node text, nodes icon class, leaf, dragable, single click, gpuntis id, 
+     * @param   Object   $data           Contains the node id, node text, nodes icon class, leaf, dragable, single click, gpuntis id,
      *                                   type (room, teacher, class), children, semester, node key
      * @param   String   $checked        Is the node checked
      * @param   String   $publicDefault  Is this node the public default node

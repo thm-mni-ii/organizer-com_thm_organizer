@@ -38,7 +38,7 @@ function loadTreeData(selectedItemValue)
     {
         url: externLinks.ajaxHandler,
         method: 'POST',
-        params: 
+        params:
         {
             departmentSemesterSelection: selectedItemValue,
             scheduletask: "TreeView.load",

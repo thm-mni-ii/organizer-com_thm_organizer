@@ -41,7 +41,7 @@ class JFormFieldPoolPrograms extends JFormField
     {
         $dbo = JFactory::getDBO();
         $poolID = JRequest::getInt('id');
-        
+ 
         $rangesQuery = $dbo->getQuery(true);
         $rangesQuery->select('lft, rgt')->from('#__thm_organizer_mappings')->where("poolID = '$poolID'");
         $dbo->setQuery((string) $rangesQuery);
@@ -74,12 +74,12 @@ class JFormFieldPoolPrograms extends JFormField
         $allProgramsQuery->order('program ASC');
         $dbo->setQuery((string) $allProgramsQuery);
         $allPrograms = $dbo->loadAssocList();
-        
+ 
         $programDefaultOptions = array();
         $programDefaultOptions[] = array('value' => '-1', 'program' => JText::_('COM_THM_ORGANIZER_SEARCH_PROGRAM'));
         $programDefaultOptions[] = array('value' => '-1', 'program' => JText::_('COM_THM_ORGANIZER_POM_NO_PROGRAM'));
         $programs = array_merge($programDefaultOptions, empty($allPrograms)? array() : $allPrograms);
-        
+ 
         $attributes = array('multiple' => 'multiple');
         $selectedPrograms = empty($associatedPrograms)? array() : $associatedPrograms;
         return JHTML::_("select.genericlist", $programs, "jform[programID][]", $attributes, "value", "program", $selectedPrograms);

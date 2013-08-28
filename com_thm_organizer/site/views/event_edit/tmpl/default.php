@@ -16,31 +16,31 @@ $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : fa
 <script type="text/javascript">
     var categories = new Array;
     var jq = jQuery.noConflict();
-    
+ 
     jq("body").on({
-        ajaxStart: function() { 
-            jq(this).addClass("loading"); 
+        ajaxStart: function() {
+            jq(this).addClass("loading");
         },
-        ajaxStop: function() { 
-            jq(this).removeClass("loading"); 
-        }    
+        ajaxStop: function() {
+            jq(this).removeClass("loading");
+        }
     });
-    
-    jq(document).ready( function() {   
+ 
+    jq(document).ready( function() {
        jq('.thm_organizer_action_link_preview').live("click", function() {
            jq('.Popup').fadeIn("slow");
            jq('.overlay').fadeIn("slow");
            return false;
        });
-       
+ 
        jq('.closePopup').live("click", function() {
            jq(".Popup").fadeOut("slow");
            jq(".overlay").fadeOut("slow", remove_preview_content());
            return false;
        });
-       
+ 
     });
-    
+ 
     function preview_content(response) {
         var json = jq.parseJSON(response);
         jq('#thm_organizer_ee_preview_event').append("<div id='thm_organizer_e_preview_div' class='thm_organizer_e_preview_div' >\
@@ -51,14 +51,14 @@ $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : fa
                                                         <div class='thm_organizer_e_description'>"     + json.description  + "</div>\
                                                       </div>");
     }
-    
+ 
     function remove_preview_content() {
         var d = document.getElementById('thm_organizer_ee_preview_event');
         var olddiv = document.getElementById('thm_organizer_e_preview_div');
         d.removeChild(olddiv);
     }
-       
-    function build_url() {        
+ 
+    function build_url() {
         var url = "<?php echo $this->baseurl; ?>";
         url = url + "/index.php?option=com_thm_organizer&view=event_ajax&format=raw&eventID=";;
         url = url + jq('#jform_id').val() + "&title=";
@@ -75,7 +75,7 @@ $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : fa
         url = url + getResources('#groups');
         return url;
     }
-   
+ 
 <?php
 foreach ($this->categories as $category)
 {
@@ -90,11 +90,11 @@ foreach ($this->categories as $category)
 Joomla.submitbutton =  function(task){
     if (task === '') { return false; }
     else
-    {   
-        var requrl = build_url();       
+    {
+        var requrl = build_url();
         var isValid = true;
         var action = task.split('.');
-        
+ 
         if (action[1] !== 'cancel' && action[1] !== 'close')
         {
             var forms = $$('form.form-validate');
@@ -107,7 +107,7 @@ Joomla.submitbutton =  function(task){
                 }
             }
         }
-        
+ 
         if (isValid)
         {
             if (task === 'event.preview')
@@ -126,7 +126,7 @@ Joomla.submitbutton =  function(task){
                     }
                 });
             }
-            else 
+            else
             {
                 requrl = requrl + "&task=booking";
                 jq.ajax( {
@@ -213,12 +213,12 @@ Joomla.submitbutton =  function(task){
                     onclick="Joomla.submitbutton('event.preview')">
                     <span id="thm_organizer_preview_span" class="thm_organizer_preview_span thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_PREVIEW'); ?>
-                    
-                </a>                
+ 
+                </a>
                 <div class="Popup">
                     <div class="loader"></div>
                     <h1><?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_HEADER');?></h1>
-                    <div id="thm_organizer_ee_preview_event"><?php sleep(4); ?></div>                      
+                    <div id="thm_organizer_ee_preview_event"><?php sleep(4); ?></div>
                     <a href="" class="closePopup"><?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_CLOSE');?></a>
                 </div>
                 <div id="overlay" class="overlay closePopup"></div>

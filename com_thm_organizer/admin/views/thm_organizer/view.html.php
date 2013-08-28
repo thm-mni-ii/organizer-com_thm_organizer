@@ -17,7 +17,7 @@ jimport('joomla.html.pane');
 
 /**
  * Class defining view output
- * 
+ *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.administrator
@@ -27,10 +27,10 @@ class THM_OrganizerViewTHM_Organizer extends JView
 {
     /**
      * loads model data into view context
-     * 
+     *
      * @param   string  $tpl  the template type to be used
-     * 
-     * @return void or JError on unauthorized access 
+     *
+     * @return void or JError on unauthorized access
      */
     public function display($tpl = null)
     {
@@ -59,7 +59,7 @@ class THM_OrganizerViewTHM_Organizer extends JView
 
     /**
      * creates a joomla administratoristrative tool bar
-     * 
+     *
      * @return void
      */
     private function addToolBar()
@@ -70,7 +70,7 @@ class THM_OrganizerViewTHM_Organizer extends JView
 
     /**
      * creates html elements for the main menu
-     * 
+     *
      * @return void
      */
     private function addViews()

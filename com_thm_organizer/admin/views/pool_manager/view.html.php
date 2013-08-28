@@ -63,9 +63,9 @@ class THM_OrganizerViewPool_Manager extends JView
 
     /**
      * Retrieves a select box with the mapped programs
-     * 
+     *
      * @param   array  $programs  the mapped programs
-     * 
+     *
      * @return  string  html select box
      */
     private function getProgramSelect($programs)
