@@ -54,12 +54,12 @@ class THM_OrganizerModelScheduleSiteTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Success test for isComAvailable
+	 * Test for isComAvailable
 	 * method should return true
 	 *
 	 * @return void
 	 */
-	public function testSuccessisComAvailable()
+	public function testisComAvailableTrue()
 	{
 		$actual = $this->instance->isComAvailable("com_users");
 				
@@ -67,12 +67,12 @@ class THM_OrganizerModelScheduleSiteTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Failure test for isComAvailable
+	 * Test for isComAvailable
 	 * method should return false
 	 *
 	 * @return void
 	 */
-	public function testFailureisComAvailable()
+	public function testisComAvailableFalse()
 	{
 		$actual = $this->instance->isComAvailable("$$$$");
 	
@@ -80,13 +80,13 @@ class THM_OrganizerModelScheduleSiteTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Success test for getSessionID
-	 * method should return an empty string
+	 * Test for getSessionID
+	 * method should a sessionid
 	 *
 	 * @return void
 	 *
 	 */
-	public function testSuccessgetSessionID()
+	public function testgetSessionIDAsUser()
 	{
 		$excepted = "1234567890hiigq4gjkkth478h01234567890";
 		$username = "MNIDummyUserForTests";
@@ -139,13 +139,13 @@ class THM_OrganizerModelScheduleSiteTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Failure test for getSessionID
+	 * Test for getSessionID
 	 * method should return an empty string
 	 *
 	 * @return void
 	 *
 	 */
-	public function testFailuregetSessionID()
+	public function testgetSessionIDAsGuest()
 	{
 		$user = JFactory::getUser();
 		
