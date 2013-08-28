@@ -21,33 +21,33 @@ jimport('joomla.application.component.modeladmin');
  */
 class THM_OrganizerModelTeacher_Merge extends JModel
 {
-	/**
-	 * Array holding teacher entry information
-	 * 
-	 * @var array
-	 */
-	public $dteacherInformation = null;
+    /**
+     * Array holding teacher entry information
+     * 
+     * @var array
+     */
+    public $dteacherInformation = null;
 
-	/**
-	 * Pulls a list of teacher data from the database
-	 *
-	 * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
-	 */
-	public function __construct($config = array())
-	{
-		parent::__construct($config);
-		$dbo = JFactory::getDbo();
-		$query = $dbo->getQuery(true);
-		$query->select('t.id, t.gpuntisID, surname, forename, username, fieldID, field, title');
-		$query->from('#__thm_organizer_teachers AS t');
-		$query->leftJoin('#__thm_organizer_fields AS f ON t.fieldID = f.id');
+    /**
+     * Pulls a list of teacher data from the database
+     *
+     * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
+     */
+    public function __construct($config = array())
+    {
+        parent::__construct($config);
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('t.id, t.gpuntisID, surname, forename, username, fieldID, field, title');
+        $query->from('#__thm_organizer_teachers AS t');
+        $query->leftJoin('#__thm_organizer_fields AS f ON t.fieldID = f.id');
 
-		$cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
-		$query->where("t.id IN ( $cids )");
+        $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
+        $query->where("t.id IN ( $cids )");
 
-		$query->order('t.id ASC');
+        $query->order('t.id ASC');
 
-		$dbo->setQuery((string) $query);
-		$this->teacherInformation = $dbo->loadAssocList();
-	}
+        $dbo->setQuery((string) $query);
+        $this->teacherInformation = $dbo->loadAssocList();
+    }
 }

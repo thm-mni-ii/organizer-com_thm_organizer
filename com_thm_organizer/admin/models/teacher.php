@@ -28,14 +28,14 @@ class THM_OrganizerModelTeacher extends JModel
      * 
      * @return true on success, otherwise false
      */
-	public function save()
-	{
-		$dbo = JFactory::getDbo();
+    public function save()
+    {
+        $dbo = JFactory::getDbo();
         $data = JRequest::getVar('jform', null, null, null, 4);
-		$dbo->transactionStart();
+        $dbo->transactionStart();
         $scheduleSuccess = $this->updateScheduleData($data, "'" . $data['id'] . "'");
-		if ($scheduleSuccess)
-		{
+        if ($scheduleSuccess)
+        {
             $table = JTable::getInstance('teachers', 'thm_organizerTable');
             $teacherSuccess = $table->save($data);
             if ($teacherSuccess)
@@ -43,10 +43,10 @@ class THM_OrganizerModelTeacher extends JModel
                 $dbo->transactionCommit();
                 return true;
             }
-		}
+        }
         $dbo->transactionRollback();
         return false;
-	}
+    }
 
     /**
      * Attempts an iterative merge of all teacher entries.  Due to the attempted
@@ -102,8 +102,8 @@ class THM_OrganizerModelTeacher extends JModel
      * 
      * @return  boolean  true on success, otherwise false
      */
-	public function autoMerge($teacherEntries = null)
-	{
+    public function autoMerge($teacherEntries = null)
+    {
         if (empty($teacherEntries))
         {
             $dbo = JFactory::getDbo();
@@ -119,12 +119,12 @@ class THM_OrganizerModelTeacher extends JModel
             $teacherEntries = $dbo->loadAssocList();
         }
 
-		$data = array();
-		$otherIDs = array();
-		foreach ($teacherEntries as $entry)
-		{
-			foreach ($entry as $property => $value)
-			{
+        $data = array();
+        $otherIDs = array();
+        foreach ($teacherEntries as $entry)
+        {
+            foreach ($entry as $property => $value)
+            {
                 $value = trim($value);
 
                 // Property value is not set for DB Entry
@@ -165,119 +165,119 @@ class THM_OrganizerModelTeacher extends JModel
                         }
                     }
                 }
-			}
-		}
-		$data['otherIDs'] = "'" . implode("', '", $otherIDs) . "'";
+            }
+        }
+        $data['otherIDs'] = "'" . implode("', '", $otherIDs) . "'";
         return $this->merge($data);
-	}
+    }
 
-	/**
-	 * Merges resource entries and cleans association tables.
-	 * 
-	 * @param   array  &$data  array used by the automerge function to
-	 *                         automatically set teacher values
-	 * 
-	 * @return  boolean  true on success, otherwise false
-	 */
-	public function merge(&$data = null)
-	{
-		// Clean POST variables
-		if (empty($data))
-		{
-			$data['id'] = JRequest::getInt('id');
-			$data['surname'] = JRequest::getString('surname');
-			$data['forename'] = JRequest::getString('forename');
-			$data['title'] = JRequest::getString('title');
-			$data['username'] = JRequest::getString('username');
-			$data['gpuntisID'] = JRequest::getString('gpuntisID');
-			$data['fieldID'] = JRequest::getInt('fieldID')? JRequest::getInt('fieldID') : null;
-			$data['otherIDs'] = "'" . implode("', '", explode(',', JRequest::getString('otherIDs'))) . "'";
-		}
+    /**
+     * Merges resource entries and cleans association tables.
+     * 
+     * @param   array  &$data  array used by the automerge function to
+     *                         automatically set teacher values
+     * 
+     * @return  boolean  true on success, otherwise false
+     */
+    public function merge(&$data = null)
+    {
+        // Clean POST variables
+        if (empty($data))
+        {
+            $data['id'] = JRequest::getInt('id');
+            $data['surname'] = JRequest::getString('surname');
+            $data['forename'] = JRequest::getString('forename');
+            $data['title'] = JRequest::getString('title');
+            $data['username'] = JRequest::getString('username');
+            $data['gpuntisID'] = JRequest::getString('gpuntisID');
+            $data['fieldID'] = JRequest::getInt('fieldID')? JRequest::getInt('fieldID') : null;
+            $data['otherIDs'] = "'" . implode("', '", explode(',', JRequest::getString('otherIDs'))) . "'";
+        }
 
-		$dbo = JFactory::getDbo();
-		$dbo->transactionStart();
+        $dbo = JFactory::getDbo();
+        $dbo->transactionStart();
 
-		$eventsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'event');
-		if (!$eventsSuccess)
-		{
-			$dbo->transactionRollback();
-			return false;
-		}
-		
-		$subjectsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'subject');
-		if (!$subjectsSuccess)
-		{
-			$dbo->transactionRollback();
-			return false;
-		}
+        $eventsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'event');
+        if (!$eventsSuccess)
+        {
+            $dbo->transactionRollback();
+            return false;
+        }
+        
+        $subjectsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'subject');
+        if (!$subjectsSuccess)
+        {
+            $dbo->transactionRollback();
+            return false;
+        }
 
-		if (!empty($data['gpuntisID']))
-		{
-			$allIDs = "'{$data['id']}', " . $data['otherIDs'];
-			$schedulesSuccess = $this->updateScheduleData($data, $allIDs);
-			if (!$schedulesSuccess)
-			{
-				$dbo->transactionRollback();
-				return false;
-			}
-		}
-		
-		// Update entry with lowest ID
+        if (!empty($data['gpuntisID']))
+        {
+            $allIDs = "'{$data['id']}', " . $data['otherIDs'];
+            $schedulesSuccess = $this->updateScheduleData($data, $allIDs);
+            if (!$schedulesSuccess)
+            {
+                $dbo->transactionRollback();
+                return false;
+            }
+        }
+        
+        // Update entry with lowest ID
         $teacher = JTable::getInstance('teachers', 'thm_organizerTable');
-		$success = $teacher->save($data);
-		if (!$success)
-		{
-			$dbo->transactionRollback();
-			return false;
-		}
+        $success = $teacher->save($data);
+        if (!$success)
+        {
+            $dbo->transactionRollback();
+            return false;
+        }
 
-		$query = $dbo->getQuery(true);
-		$query->delete('#__thm_organizer_teachers');
-		$query->where("id IN ( {$data['otherIDs']} )");
-		$dbo->setQuery((string) $query);
-		try
-		{
-			$dbo->query();
-		}
-		catch (Exception $exception)
-		{
-			$dbo->transactionRollback();
-			return false;
-		}
+        $query = $dbo->getQuery(true);
+        $query->delete('#__thm_organizer_teachers');
+        $query->where("id IN ( {$data['otherIDs']} )");
+        $dbo->setQuery((string) $query);
+        try
+        {
+            $dbo->query();
+        }
+        catch (Exception $exception)
+        {
+            $dbo->transactionRollback();
+            return false;
+        }
 
-		$dbo->transactionCommit();
-		return true;
-	}
+        $dbo->transactionCommit();
+        return true;
+    }
 
-	/**
-	 * Replaces old teacher associations
-	 * 
-	 * @param   int     $newID      the id onto which the teacher entries merge
-	 * @param   string  $oldIDs     a string containing the ids to be replaced
-	 * @param   string  $tableName  the unique part of the table name
-	 * 
-	 * @return  boolean  true on success, otherwise false
-	 */
-	private function updateAssociation($newID, $oldIDs, $tableName)
-	{
-		$dbo = JFactory::getDbo();
+    /**
+     * Replaces old teacher associations
+     * 
+     * @param   int     $newID      the id onto which the teacher entries merge
+     * @param   string  $oldIDs     a string containing the ids to be replaced
+     * @param   string  $tableName  the unique part of the table name
+     * 
+     * @return  boolean  true on success, otherwise false
+     */
+    private function updateAssociation($newID, $oldIDs, $tableName)
+    {
+        $dbo = JFactory::getDbo();
 
-		$query = $dbo->getQuery(true);
-		$query->update("#__thm_organizer_{$tableName}_teachers");
-		$query->set("teacherID = '$newID'");
-		$query->where("teacherID IN ( $oldIDs )");
-		$dbo->setQuery((string) $query);
-		try 
-		{
-			$dbo->query();
-		}
-		catch (Exception $exception)
-		{
-			$dbo->transactionRollback();
-			return false;
-		}
-		return true;
-	}
+        $query = $dbo->getQuery(true);
+        $query->update("#__thm_organizer_{$tableName}_teachers");
+        $query->set("teacherID = '$newID'");
+        $query->where("teacherID IN ( $oldIDs )");
+        $dbo->setQuery((string) $query);
+        try 
+        {
+            $dbo->query();
+        }
+        catch (Exception $exception)
+        {
+            $dbo->transactionRollback();
+            return false;
+        }
+        return true;
+    }
 
     /**
      * Updates teacher data and lesson associations in active schedules
@@ -288,9 +288,9 @@ class THM_OrganizerModelTeacher extends JModel
      * 
      * @return boolean
      */
-	public function updateScheduleData(&$data, $IDs)
-	{
-		$dbo = JFactory::getDbo();
+    public function updateScheduleData(&$data, $IDs)
+    {
+        $dbo = JFactory::getDbo();
 
         if (empty($data['gpuntisID']))
         {
@@ -301,25 +301,25 @@ class THM_OrganizerModelTeacher extends JModel
             $data['gpuntisID'] = str_replace('TR_', '', $data['gpuntisID']);
         }
 
-		$scheduleQuery = $dbo->getQuery(true);
-		$scheduleQuery->select('id, schedule');
-		$scheduleQuery->from('#__thm_organizer_schedules');
-		$dbo->setQuery((string) $scheduleQuery);
-		$schedules = $dbo->loadAssocList();
-		if (empty($schedules))
-		{
-			return true;
-		}
+        $scheduleQuery = $dbo->getQuery(true);
+        $scheduleQuery->select('id, schedule');
+        $scheduleQuery->from('#__thm_organizer_schedules');
+        $dbo->setQuery((string) $scheduleQuery);
+        $schedules = $dbo->loadAssocList();
+        if (empty($schedules))
+        {
+            return true;
+        }
 
-		if (!empty($data['fieldID']))
-		{
-			$fieldQuery = $dbo->getQuery(true);
-			$fieldQuery->select('gpuntisID');
-			$fieldQuery->from('__thm_organizer_fields');
-			$fieldQuery->where("id = '{$data['fieldID']}'");
-			$dbo->setQuery((string) $fieldQuery);
-			$field = str_replace('DS_', '', $dbo->loadResult());
-		}
+        if (!empty($data['fieldID']))
+        {
+            $fieldQuery = $dbo->getQuery(true);
+            $fieldQuery->select('gpuntisID');
+            $fieldQuery->from('__thm_organizer_fields');
+            $fieldQuery->where("id = '{$data['fieldID']}'");
+            $dbo->setQuery((string) $fieldQuery);
+            $field = str_replace('DS_', '', $dbo->loadResult());
+        }
 
         $oldNameQuery = $dbo->getQuery(true);
         $oldNameQuery->select('gpuntisID');
@@ -329,10 +329,10 @@ class THM_OrganizerModelTeacher extends JModel
         $dbo->setQuery((string) $oldNameQuery);
         $oldNames = $dbo->loadResultArray();
 
-		$scheduleTable = JTable::getInstance('schedules', 'thm_organizerTable');
-		foreach ($schedules as $schedule)
-		{
-			$scheduleObject = json_decode($schedule['schedule']);
+        $scheduleTable = JTable::getInstance('schedules', 'thm_organizerTable');
+        foreach ($schedules as $schedule)
+        {
+            $scheduleObject = json_decode($schedule['schedule']);
 
             foreach ($oldNames AS $oldName)
             {
@@ -380,36 +380,36 @@ class THM_OrganizerModelTeacher extends JModel
                 unset($scheduleObject->teachers->{$data['gpuntisID']}->firstname);
             }
 
-			$schedule['schedule'] = json_encode($scheduleObject);
-			$success = $scheduleTable->save($schedule);
-			if (!$success)
-			{
-				return false;
-			}
-		}
-		return true;
-	}
+            $schedule['schedule'] = json_encode($scheduleObject);
+            $success = $scheduleTable->save($schedule);
+            if (!$success)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 
-	/**
-	 * Deletes teacher resource entries.
-	 * 
-	 * @return boolean
-	 */
-	public function delete()
-	{
-		$query = $this->_db->getQuery(true);
-		$query->delete('#__thm_organizer_teachers');
-		$cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
-		$query->where("id IN ( $cids )");
-		$this->_db->setQuery((string) $query);
-		try
-		{
-			$this->_db->query();
-			return true;
-		}
-		catch ( Exception $exception)
-		{
-			return false;
-		}
-	}
+    /**
+     * Deletes teacher resource entries.
+     * 
+     * @return boolean
+     */
+    public function delete()
+    {
+        $query = $this->_db->getQuery(true);
+        $query->delete('#__thm_organizer_teachers');
+        $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
+        $query->where("id IN ( $cids )");
+        $this->_db->setQuery((string) $query);
+        try
+        {
+            $this->_db->query();
+            return true;
+        }
+        catch ( Exception $exception)
+        {
+            return false;
+        }
+    }
 }

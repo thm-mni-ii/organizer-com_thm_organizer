@@ -43,10 +43,10 @@ $direction = $this->escape($this->state->get('list.direction'));
             </colgroup>
             <thead>
                 <tr>
-					<th width="3%">
-						<input type="checkbox" name="toggle" value=""
-							   onclick="checkAll(<?php echo count($this->monitors); ?>);" />
-					</th>
+                    <th width="3%">
+                        <input type="checkbox" name="toggle" value=""
+                               onclick="checkAll(<?php echo count($this->monitors); ?>);" />
+                    </th>
                     <th class="thm_organizer_th hasTip"
                         title="<?php echo JText::_('COM_THM_ORGANIZER_MON_ROOM') . "::" . JText::_('COM_THM_ORGANIZER_MON_ROOM_DESC'); ?>">
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_ROOM', 'name', $direction, $orderby); ?>

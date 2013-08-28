@@ -94,7 +94,7 @@ else
 <?php
 }
 ?>
-    </div>	
+    </div>    
 <?php
 if ($this->eventsExist)
 {
@@ -133,7 +133,7 @@ if ($this->eventsExist)
         $row = 0;
 ?>
     <div class="thm_organizer_rd_events" id="thm_organizer_rd_notes" >
-	<h3><?php echo JText::_('COM_THM_ORGANIZER_RD_NOTICES'); ?></h3>
+    <h3><?php echo JText::_('COM_THM_ORGANIZER_RD_NOTICES'); ?></h3>
         <div class="thm_organizer_rd_table_container" >
             <table  class="thm_organizer_rd_table" id="thm_organizer_rd_notices_table" >
 <?php
@@ -163,7 +163,7 @@ if ($this->eventsExist)
         $row = 0;
 ?>
     <div class="thm_organizer_rd_events" id="thm_organizer_rd_futureevents" >
-	<h3><?php echo JText::_('COM_THM_ORGANIZER_RD_UPCOMING'); ?></h3>
+    <h3><?php echo JText::_('COM_THM_ORGANIZER_RD_UPCOMING'); ?></h3>
         <div class="thm_organizer_rd_table_container" >
             <table  class="thm_organizer_rd_table" id="thm_organizer_rd_futureevents_table" >
 <?php

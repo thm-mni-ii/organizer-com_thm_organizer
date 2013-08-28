@@ -21,33 +21,33 @@ jimport('joomla.application.component.modeladmin');
  */
 class THM_OrganizerModelSchedule_Merge extends JModel
 {
-	/**
-	 * Array holding schedule entry information
-	 * 
-	 * @var array
-	 */
-	public $schedules = null;
+    /**
+     * Array holding schedule entry information
+     * 
+     * @var array
+     */
+    public $schedules = null;
 
-	/**
-	 * Pulls a list of schedule data from the database
-	 *
-	 * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
-	 */
-	public function __construct($config = array())
-	{
-		parent::__construct($config);
-		$dbo = JFactory::getDbo();
-		$query = $dbo->getQuery(true);
+    /**
+     * Pulls a list of schedule data from the database
+     *
+     * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
+     */
+    public function __construct($config = array())
+    {
+        parent::__construct($config);
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
 
-		$select = "id, departmentname, semestername ";
-		$cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
+        $select = "id, departmentname, semestername ";
+        $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
 
-		$query->select($select);
-		$query->from('#__thm_organizer_schedules');
-		$query->where("id IN ( $cids )");
-		$query->order('id ASC');
+        $query->select($select);
+        $query->from('#__thm_organizer_schedules');
+        $query->where("id IN ( $cids )");
+        $query->order('id ASC');
 
-		$dbo->setQuery((string) $query);
-		$this->schedules = $dbo->loadAssocList();
-	}
+        $dbo->setQuery((string) $query);
+        $this->schedules = $dbo->loadAssocList();
+    }
 }

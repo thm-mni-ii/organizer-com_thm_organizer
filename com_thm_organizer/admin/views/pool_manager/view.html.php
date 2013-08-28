@@ -20,46 +20,46 @@ jimport('joomla.application.component.view');
  */
 class THM_OrganizerViewPool_Manager extends JView
 {
-	/**
-	 * Method to get display
-	 *
-	 * @param   Object  $tpl  template  (default: null)
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		JHtml::_('behavior.tooltip');
+    /**
+     * Method to get display
+     *
+     * @param   Object  $tpl  template  (default: null)
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        JHtml::_('behavior.tooltip');
 
-		$model = $this->getModel();
-		$this->pools = $this->get('Items');
-		$this->state = $this->get('State');
-		$this->pagination = $this->get('Pagination');
+        $model = $this->getModel();
+        $this->pools = $this->get('Items');
+        $this->state = $this->get('State');
+        $this->pagination = $this->get('Pagination');
         $this->programName = $model->programName;
 
         $this->programSelect = $this->getProgramSelect($model->programs);
 
-		$this->addToolBar();
+        $this->addToolBar();
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * Method to generate buttons for user interaction
-	 *
-	 * @return  void
-	 */
-	protected function addToolBar()
-	{
+    /**
+     * Method to generate buttons for user interaction
+     *
+     * @return  void
+     */
+    protected function addToolBar()
+    {
         $baseTitle = JText::_("COM_THM_ORGANIZER_POM_TOOLBAR_TITLE");
         $title = empty($this->programName)? $baseTitle : $baseTitle . " - " . $this->programName;
-		JToolBarHelper::title($title, 'generic.png');
-		JToolBarHelper::addNew('pool.add', 'JTOOLBAR_NEW');
-		JToolBarHelper::editList('pool.edit', 'JTOOLBAR_EDIT');
-		JToolBarHelper::deleteList('COM_THM_ORGANIZER_POM_DELETE_CONFIRM', 'pool.delete', 'JTOOLBAR_DELETE');
-		JToolBarHelper::divider();
-		JToolBarHelper::preferences('com_thm_organizer');
-	}
+        JToolBarHelper::title($title, 'generic.png');
+        JToolBarHelper::addNew('pool.add', 'JTOOLBAR_NEW');
+        JToolBarHelper::editList('pool.edit', 'JTOOLBAR_EDIT');
+        JToolBarHelper::deleteList('COM_THM_ORGANIZER_POM_DELETE_CONFIRM', 'pool.delete', 'JTOOLBAR_DELETE');
+        JToolBarHelper::divider();
+        JToolBarHelper::preferences('com_thm_organizer');
+    }
 
     /**
      * Retrieves a select box with the mapped programs

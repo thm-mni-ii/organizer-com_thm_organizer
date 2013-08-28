@@ -1164,7 +1164,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
             }
             else
             {
-                menu.showAt(e.getXY());	
+                menu.showAt(e.getXY());    
             }
         }
         else
@@ -4056,7 +4056,7 @@ MySched.Tree = function ()
 
                         if (MySched.treeLoadMask)
                         {
-                        	MySched.treeLoadMask.destroy();
+                            MySched.treeLoadMask.destroy();
                         }
                         
                         var publicDefaultNode = json.treePublicDefault;

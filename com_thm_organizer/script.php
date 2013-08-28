@@ -103,7 +103,7 @@ class Com_THM_OrganizerInstallerScript
     ?>
     
     window.addEvent('domready', function() {
-    	$('com_thm_organizer_fieldset').addClass(status);
+        $('com_thm_organizer_fieldset').addClass(status);
     });
     
     </script>
@@ -121,44 +121,44 @@ class Com_THM_OrganizerInstallerScript
             </div>
             <table style="border-radius: 5px; border-style: dashed; margin-top: 17px;">
     
-        	<!-- Table header -->
-        	
-        		<thead>
-        		</thead>
-        	
-        	<!-- Table footer -->
-        	
-        		<tfoot>
-        		</tfoot>
-        	
-        	<!-- Table body -->
-    	
-    		<tbody>
-    			<tr>
-    				<td>Database Table Fill Status</td>
-    				<td><span style='color: 
-    				<?php echo $fillColor; ?>
-    				'> 
-    				<?php echo $fillStatus; ?>
-    				</span></td>
-    			</tr>
-    			<tr>
-    				<td>Directory Status</td>
-    				<td><span style='color: 
-    				<?php echo $dirColor; ?>
-    				'> 
-    				<?php echo $dirStatus; ?>
-    				</span></td>
-    			</tr>
-    			<tr>
-    				<td>Installation Status</td>
-    				<td><span style='color: 
-    				<?php echo $instColor; ?>
-    				'> 
-    				<?php echo $instStatus; ?>
-    				</span></td>
-    			</tr>
-    		</tbody>
+            <!-- Table header -->
+            
+                <thead>
+                </thead>
+            
+            <!-- Table footer -->
+            
+                <tfoot>
+                </tfoot>
+            
+            <!-- Table body -->
+        
+            <tbody>
+                <tr>
+                    <td>Database Table Fill Status</td>
+                    <td><span style='color: 
+                    <?php echo $fillColor; ?>
+                    '> 
+                    <?php echo $fillStatus; ?>
+                    </span></td>
+                </tr>
+                <tr>
+                    <td>Directory Status</td>
+                    <td><span style='color: 
+                    <?php echo $dirColor; ?>
+                    '> 
+                    <?php echo $dirStatus; ?>
+                    </span></td>
+                </tr>
+                <tr>
+                    <td>Installation Status</td>
+                    <td><span style='color: 
+                    <?php echo $instColor; ?>
+                    '> 
+                    <?php echo $instStatus; ?>
+                    </span></td>
+                </tr>
+            </tbody>
     
     </table>
     <?php
@@ -264,12 +264,12 @@ class Com_THM_OrganizerInstallerScript
     }
     
     /**
-	 * com_thm_organizer update function
-	 *
-	 * @param   Object  $parent  JInstallerComponent
-	 *
-	 * @return void
-	 */
+     * com_thm_organizer update function
+     *
+     * @param   Object  $parent  JInstallerComponent
+     *
+     * @return void
+     */
     public function update($parent)
     {
         ?>
@@ -283,7 +283,7 @@ class Com_THM_OrganizerInstallerScript
         
         <script>        
         window.addEvent('domready', function() {
-        	$('com_thm_organizer_fieldset').addClass("com_thm_organizer_success");
+            $('com_thm_organizer_fieldset').addClass("com_thm_organizer_success");
         });
         
         </script>
@@ -300,34 +300,34 @@ class Com_THM_OrganizerInstallerScript
             </div>
             <table style="border-radius: 5px; border-style: dashed; margin-top: 17px;">
     
-            	<!-- Table header -->
-            	
-            		<thead>
-            		</thead>
-            	
-            	<!-- Table footer -->
-            	
-            		<tfoot>
-            		</tfoot>
-            	
-            	<!-- Table body -->
-        	
-        		<tbody>
-        			<tr>
-        				<td><?php echo JTEXT::_('COM_THM_ORGANIZER_UPDATE_DATABASE_STATUS')?></td>
-        				<td><span style='color: green'><?php echo JTEXT::_('COM_THM_ORGANIZER_UPDATE_DATABASE_STATUS_TEXT')?></span></td>
-        			</tr>
-        			<tr>
-        				<td><?php echo JTEXT::_('COM_THM_ORGANIZER_UPDATE_FILES_DIRECTORIES_STATUS')?></td>
-        				<td><span style='color: green'><?php echo JTEXT::_('COM_THM_ORGANIZER_UPDATE_FILES_DIRECTORIES_STATUS_TEXT')?></span></td>
-        			</tr>
-        			<tr>
-        				<td><?php echo JTEXT::_('COM_THM_ORGANIZER_UPDATE_UPDATE_STATUS')?></td>
-        				<td><span style='color: green'> 
-        				<?php echo JText::sprintf('COM_THM_ORGANIZER_UPDATE_UPDATE_TEXT', $parent->get('manifest')->version); ?>
-        				</span></td>
-        			</tr>
-        		</tbody>
+                <!-- Table header -->
+                
+                    <thead>
+                    </thead>
+                
+                <!-- Table footer -->
+                
+                    <tfoot>
+                    </tfoot>
+                
+                <!-- Table body -->
+            
+                <tbody>
+                    <tr>
+                        <td><?php echo JTEXT::_('COM_THM_ORGANIZER_UPDATE_DATABASE_STATUS')?></td>
+                        <td><span style='color: green'><?php echo JTEXT::_('COM_THM_ORGANIZER_UPDATE_DATABASE_STATUS_TEXT')?></span></td>
+                    </tr>
+                    <tr>
+                        <td><?php echo JTEXT::_('COM_THM_ORGANIZER_UPDATE_FILES_DIRECTORIES_STATUS')?></td>
+                        <td><span style='color: green'><?php echo JTEXT::_('COM_THM_ORGANIZER_UPDATE_FILES_DIRECTORIES_STATUS_TEXT')?></span></td>
+                    </tr>
+                    <tr>
+                        <td><?php echo JTEXT::_('COM_THM_ORGANIZER_UPDATE_UPDATE_STATUS')?></td>
+                        <td><span style='color: green'> 
+                        <?php echo JText::sprintf('COM_THM_ORGANIZER_UPDATE_UPDATE_TEXT', $parent->get('manifest')->version); ?>
+                        </span></td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </fieldset>
@@ -347,6 +347,6 @@ class Com_THM_OrganizerInstallerScript
         $installedVersion = explode('.', $installedVersion);
         $updateVersion = explode('.', str_replace('.sql', '', $updateVersion));
         return ($updateVersion[0] >= $installedVersion[0]) AND
-		 ($updateVersion[1] >= $installedVersion[1]) AND ($updateVersion[2] > $installedVersion[2]);
+         ($updateVersion[1] >= $installedVersion[1]) AND ($updateVersion[2] > $installedVersion[2]);
     }
 }

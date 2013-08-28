@@ -352,7 +352,7 @@ body.loading .loader {
 }
 
 .thm_organizer_ee_head_div{
-	padding: 5px;
+    padding: 5px;
     height: 48px;
     width: 100%;
     margin-top: -24px;
@@ -402,7 +402,7 @@ body.loading .loader {
 }
 
 .thm_organizer_ee_desc_div div.thm_organizer_ee_data_div{
-	max-width: 492px;
+    max-width: 492px;
 }
 
 .thm_organizer_ee_desc_div{
@@ -693,7 +693,7 @@ ul.subject-list tr th a{
 /******************************************************************************/
 .icon-32-merge
 {
-	background: url("../../../../media/com_thm_organizer/images/icon-32-merge.png");
+    background: url("../../../../media/com_thm_organizer/images/icon-32-merge.png");
 }
 
 .thm_organizer_children

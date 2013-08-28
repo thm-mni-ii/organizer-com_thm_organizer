@@ -39,38 +39,38 @@ class THM_OrganizerModelSchedule_Edit extends JModelAdmin
             return false;
         }
 
-		return $form;
+        return $form;
     }
 
-	/**
-	 * Method to load the form data
-	 *
-	 * @return  Object
-	 */
+    /**
+     * Method to load the form data
+     *
+     * @return  Object
+     */
     protected function loadFormData()
     {
         $scheduleIDs = JRequest::getVar('cid',  null, '', 'array');
         $scheduleID = (empty($scheduleIDs))? JRequest::getVar('scheduleID') : $scheduleIDs[0];
         $data = $this->getItem($scheduleID);
         if (!empty($data))
-		{
-			unset($data->schedule);
-			$data->creationdate = date("d.m.Y", strtotime($data->creationdate));
-			$data->startdate = date("d.m.Y", strtotime($data->startdate));
-			$data->enddate = date("d.m.Y", strtotime($data->enddate));
+        {
+            unset($data->schedule);
+            $data->creationdate = date("d.m.Y", strtotime($data->creationdate));
+            $data->startdate = date("d.m.Y", strtotime($data->startdate));
+            $data->enddate = date("d.m.Y", strtotime($data->enddate));
         }
         return $data;
     }
 
     /**
-	 * Method to get the table
-	 *
-	 * @param   String  $type    Type  			(default: 'schedules')
-	 * @param   String  $prefix  Prefix  		(default: 'THM_OrganizerTable')
-	 * @param   Array   $config  Configuration  (default: 'Array')
-	 *
-	 * @return  JTable object
-	 */
+     * Method to get the table
+     *
+     * @param   String  $type    Type              (default: 'schedules')
+     * @param   String  $prefix  Prefix          (default: 'THM_OrganizerTable')
+     * @param   Array   $config  Configuration  (default: 'Array')
+     *
+     * @return  JTable object
+     */
     public function getTable($type = 'schedules', $prefix = 'thm_organizerTable', $config = array())
     {
         return JTable::getInstance($type, $prefix, $config);

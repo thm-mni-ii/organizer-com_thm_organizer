@@ -87,29 +87,29 @@ class THM_OrganizerModelSubject_List extends JModelList
         return $items;
     }
 
-	/**
-	 * Gets an array of objects from the results of database query.
-	 *
-	 * @param   string   $query       The query.
-	 * @param   integer  $limitstart  Offset.
-	 * @param   integer  $limit       The number of records.
-	 *
-	 * @return  array  An array of results.
-	 */
-	protected function _getList($query, $limitstart = 0, $limit = 0)
-	{
+    /**
+     * Gets an array of objects from the results of database query.
+     *
+     * @param   string   $query       The query.
+     * @param   integer  $limitstart  Offset.
+     * @param   integer  $limit       The number of records.
+     *
+     * @return  array  An array of results.
+     */
+    protected function _getList($query, $limitstart = 0, $limit = 0)
+    {
         $dbo = JFactory::getDbo();
-		$dbo->setQuery($query, $limitstart, $limit);
-		$result = $dbo->loadObjectList('id');
-		return $result;
-	}
-	/**
-	 * Method to cache the last query constructed.
-	 *
-	 * This method ensures that the query is constructed only once for a given state of the model.
-	 *
-	 * @return  JDatabaseQuery  A JDatabaseQuery object
-	 */
+        $dbo->setQuery($query, $limitstart, $limit);
+        $result = $dbo->loadObjectList('id');
+        return $result;
+    }
+    /**
+     * Method to cache the last query constructed.
+     *
+     * This method ensures that the query is constructed only once for a given state of the model.
+     *
+     * @return  JDatabaseQuery  A JDatabaseQuery object
+     */
     protected function getListQuery()
     {
         $languageTag = $this->state->get('languageTag');
@@ -185,39 +185,39 @@ class THM_OrganizerModelSubject_List extends JModelList
         return empty($programName)? '' : $programName;
     }
 
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
-	 *
-	 * @return  void
-	 */
-	protected function populateState($ordering = null, $direction = null)
-	{
-		parent::populateState($ordering, $direction);
+    /**
+     * Method to auto-populate the model state.
+     *
+     * @param   string  $ordering   An optional ordering field.
+     * @param   string  $direction  An optional direction (asc|desc).
+     *
+     * @return  void
+     */
+    protected function populateState($ordering = null, $direction = null)
+    {
+        parent::populateState($ordering, $direction);
 
         $app = JFactory::getApplication();
         $app->set('list_limit', '0');
-		$programID = $app->getUserStateFromRequest($this->context . '.programID', 'programID');
-		$search = $app->getUserStateFromRequest($this->context . '.search', 'search', '');
-		$limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '0');
-		$languageTag = $app->getUserStateFromRequest($this->context . '.languageTag', 'languageTag');
-		$groupBy = $app->getUserStateFromRequest($this->context . '.groupBy', 'groupBy');
-		$menuID = $app->getUserStateFromRequest($this->context . '.menuID', 'Itemid');
+        $programID = $app->getUserStateFromRequest($this->context . '.programID', 'programID');
+        $search = $app->getUserStateFromRequest($this->context . '.search', 'search', '');
+        $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '0');
+        $languageTag = $app->getUserStateFromRequest($this->context . '.languageTag', 'languageTag');
+        $groupBy = $app->getUserStateFromRequest($this->context . '.groupBy', 'groupBy');
+        $menuID = $app->getUserStateFromRequest($this->context . '.menuID', 'Itemid');
         
-		$params = JFactory::getApplication()->getMenu()->getActive()->params;
+        $params = JFactory::getApplication()->getMenu()->getActive()->params;
         $menuProgramID = $params->get('programID');
         $menuLanguage = ($params->get('language') == '0')? 'en' : 'de';
         $menuGroupBy = $params->get('groupBy');
         
-		$this->setState('programID', empty($programID)? $menuProgramID : $programID);
-		$this->setState('search', $search);
-		$this->setState('list.limit', $limit);
-		$this->setState('languageTag', empty($languageTag)? $menuLanguage : $languageTag);
-		$this->setState('groupBy', empty($groupBy)? $menuGroupBy : $groupBy);
-		$this->setState('menuID', $menuID);
-	}
+        $this->setState('programID', empty($programID)? $menuProgramID : $programID);
+        $this->setState('search', $search);
+        $this->setState('list.limit', $limit);
+        $this->setState('languageTag', empty($languageTag)? $menuLanguage : $languageTag);
+        $this->setState('groupBy', empty($groupBy)? $menuGroupBy : $groupBy);
+        $this->setState('menuID', $menuID);
+    }
 
     /**
      * Retrieves an array of groups with references to the subjects grouped
@@ -411,7 +411,7 @@ class THM_OrganizerModelSubject_List extends JModelList
     private function getSearch()
     {
         $dbo = JFactory::getDbo();
-		$search = '%' . $dbo->getEscaped($this->state->get('search'), true) . '%';
+        $search = '%' . $dbo->getEscaped($this->state->get('search'), true) . '%';
         $where = "(s.name_de LIKE '$search' OR s.name_en LIKE '$search' OR ";
         $where .= "s.short_name_de LIKE '$search' OR s.short_name_en LIKE '$search' OR ";
         $where .= "s.abbreviation_de LIKE '$search' OR s.abbreviation_en LIKE '$search' OR ";

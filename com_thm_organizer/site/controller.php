@@ -22,16 +22,16 @@ jimport('joomla.application.component.controller');
  */
 class THM_OrganizerController extends JController
 {
-	/**
-	 * Method to display
-	 * 
-	 * @param   string  $cachable   (Default: false)
-	 * @param   string  $urlparams  (Default: false)
-	 * 
-	 * @return    void
-	 */
+    /**
+     * Method to display
+     * 
+     * @param   string  $cachable   (Default: false)
+     * @param   string  $urlparams  (Default: false)
+     * 
+     * @return    void
+     */
     public function display($cachable = false, $urlparams = false)
     {  
-		parent::display($cachable, $urlparams); 
+        parent::display($cachable, $urlparams); 
     }
 } 

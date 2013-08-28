@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerTableCategories
+ * @name        THM_OrganizerTableCategories
  * @description categories table class
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen

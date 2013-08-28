@@ -539,7 +539,7 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
     private function getOrderBy(&$query)
     {
         $orderby = $this->getState('orderby');
-		$orderbydir = $this->getState('orderbydir');
+        $orderbydir = $this->getState('orderbydir');
         $sortCriteria = array('title', 'author', 'eventCategory', 'date');
         if (isset($orderby) AND in_array($orderby, $sortCriteria))
         {
@@ -684,7 +684,7 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
      */
     public function checkReserves($catID)
     {
-    	$dbo = JFactory::getDbo();
+        $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("reserves");
         $query->from("#__thm_organizer_categories");
@@ -702,7 +702,7 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
      */
     public function checkGlobal($catID)
     {
-    	$dbo = JFactory::getDbo();
+        $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("global");
         $query->from("#__thm_organizer_categories");

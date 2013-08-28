@@ -3926,7 +3926,7 @@ class calendarComponent {
  * set calendar component property x-prop
  *
  * @author Kjell-Inge Gustafsson <ical@kigkonsult.se>
-	* @since 2.4.11 - 2008-11-04
+    * @since 2.4.11 - 2008-11-04
  * @param string $label
  * @param mixed $value
  * @param array $params optional

@@ -21,35 +21,35 @@ jimport('joomla.application.component.modeladmin');
  */
 class THM_OrganizerModelRoom_Merge extends JModel
 {
-	/**
-	 * Array holding room entry information
-	 * 
-	 * @var array
-	 */
-	public $roomInformation = null;
+    /**
+     * Array holding room entry information
+     * 
+     * @var array
+     */
+    public $roomInformation = null;
 
-	/**
-	 * Pulls a list of room data from the database
-	 *
-	 * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
-	 */
-	public function __construct($config = array())
-	{
-		parent::__construct($config);
-		$dbo = JFactory::getDbo();
-		$query = $dbo->getQuery(true);
-		$select = "r.id, r.gpuntisID, r.name, r.longname, r.typeID, ";
-		$select .= "CONCAT( t.type, ', ', t.subtype ) AS type";
-		$query->select($select);
-		$query->from('#__thm_organizer_rooms AS r');
-		$query->leftJoin('#__thm_organizer_room_types AS t ON r.typeID = t.id');
+    /**
+     * Pulls a list of room data from the database
+     *
+     * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
+     */
+    public function __construct($config = array())
+    {
+        parent::__construct($config);
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $select = "r.id, r.gpuntisID, r.name, r.longname, r.typeID, ";
+        $select .= "CONCAT( t.type, ', ', t.subtype ) AS type";
+        $query->select($select);
+        $query->from('#__thm_organizer_rooms AS r');
+        $query->leftJoin('#__thm_organizer_room_types AS t ON r.typeID = t.id');
 
-		$cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
-		$query->where("r.id IN ( $cids )");
+        $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
+        $query->where("r.id IN ( $cids )");
 
-		$query->order('r.id ASC');
+        $query->order('r.id ASC');
 
-		$dbo->setQuery((string) $query);
-		$this->roomInformation = $dbo->loadAssocList();
-	}
+        $dbo->setQuery((string) $query);
+        $this->roomInformation = $dbo->loadAssocList();
+    }
 }

@@ -59,13 +59,13 @@ class THM_OrganizerModelSubject extends JModel
     }
 
     /**
-	 * Method to import data associated with subjects from LSF
-	 *
-	 * @return  bool  true on success, otherwise false
-	 */
+     * Method to import data associated with subjects from LSF
+     *
+     * @return  bool  true on success, otherwise false
+     */
     public function importLSFDataBatch()
     {
-		$resourceIDs = JRequest::getVar('cid', array(), 'post', 'array');
+        $resourceIDs = JRequest::getVar('cid', array(), 'post', 'array');
         JFactory::getDbo()->transactionStart();
         foreach ($resourceIDs as $resourceID)
         {
@@ -77,7 +77,7 @@ class THM_OrganizerModelSubject extends JModel
             }
         }
         JFactory::getDbo()->transactionCommit();
-		return true;
+        return true;
     }
 
     /**
@@ -527,12 +527,12 @@ class THM_OrganizerModelSubject extends JModel
      * 
      * @return true on success, otherwise false
      */
-	public function save()
-	{
+    public function save()
+    {
         $data = JRequest::getVar('jform', null, null, null, 4);
 
-		$dbo = JFactory::getDbo();
-		$dbo->transactionStart();
+        $dbo = JFactory::getDbo();
+        $dbo->transactionStart();
 
         $table = JTable::getInstance('subjects', 'thm_organizerTable');
         $success = $table->save($data);
@@ -552,8 +552,8 @@ class THM_OrganizerModelSubject extends JModel
         }
 
         // Process mapping & responsibilities information
-		else
-		{
+        else
+        {
             $deleteQuery = $dbo->getQuery(true);
             $deleteQuery->delete('#__thm_organizer_subject_teachers')->where("subjectID = '{$data['id']}'");
             $dbo->setQuery((string) $deleteQuery);
@@ -618,8 +618,8 @@ class THM_OrganizerModelSubject extends JModel
                     return false;
                 }
             }
-		}
-	}
+        }
+    }
 
     /**
      * Updates the entries of the subject teachers table

@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerViewColor_Edit
+ * @name        THM_OrganizerViewColor_Edit
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2

@@ -22,7 +22,7 @@ jimport('jquery.jquery');
  */
 class THM_OrganizerViewEvent_Manager extends JView
 {
-	/**
+    /**
      * Loads model data into context and sets variables used for html output
      * 
      * @param   string  $tpl  the template to be used
@@ -89,16 +89,16 @@ class THM_OrganizerViewEvent_Manager extends JView
     private function buildHTMLElements()
     {
         $newImage = JHTML::_('image.site', 'add.png', 'components/com_thm_organizer/assets/images/',
-							 null, null, JText::_('COM_THM_ORGANIZER_NEW_TITLE')
-							);
+                             null, null, JText::_('COM_THM_ORGANIZER_NEW_TITLE')
+                            );
         $this->assignRef('newImage', $newImage);
         $editImage = JHTML::_('image.site', 'edit.png', 'components/com_thm_organizer/assets/images/',
-							  null, null, JText::_('COM_THM_ORGANIZER_EDIT_TITLE')
-							 );
+                              null, null, JText::_('COM_THM_ORGANIZER_EDIT_TITLE')
+                             );
         $this->assignRef('editImage', $editImage);
         $deleteImage = JHTML::_('image.site', 'delete.png', 'components/com_thm_organizer/assets/images/',
-								null, null, JText::_('COM_THM_ORGANIZER_DELETE_TITLE')
-							   );
+                                null, null, JText::_('COM_THM_ORGANIZER_DELETE_TITLE')
+                               );
         $this->assignRef('deleteImage', $deleteImage);
 
         $attribs = array();
@@ -206,8 +206,8 @@ class THM_OrganizerViewEvent_Manager extends JView
         $nocategories = array(1 => array('id' => '-1', 'title' => JText::_('COM_THM_ORGANIZER_EL_ALL_CATEGORIES')));
         $categories = array_merge($nocategories, $categories);
         $categorySelect = JHTML::_('select.genericlist', $categories, 'categoryID',
-        		 'id="categoryID" class="inputbox" size="1"', 'id', 'title', $selected
-        		);
+                 'id="categoryID" class="inputbox" size="1"', 'id', 'title', $selected
+                );
         $this->assignRef('categorySelect', $categorySelect);
     }
 }

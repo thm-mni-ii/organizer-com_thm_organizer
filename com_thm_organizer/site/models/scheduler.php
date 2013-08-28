@@ -101,7 +101,7 @@ class THM_OrganizerModelScheduler extends JModel
     public function isComAvailable($com)
     {
         $dbo = JFactory::getDBO();
-        $query	= $dbo->getQuery(true);
+        $query    = $dbo->getQuery(true);
         $query->select('extension_id AS "id", element AS "option", params, enabled');
         $query->from('#__extensions');
         $query->where('type = ' . $dbo->quote('component'));

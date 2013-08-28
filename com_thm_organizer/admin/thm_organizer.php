@@ -19,11 +19,11 @@ if (!empty($handler))
 {
     if (count($handler) == 2)
     {
-    	list($controller, $task) = $handler;
+        list($controller, $task) = $handler;
     }
     else 
     {
-    	$task = JRequest::getVar('task');
+        $task = JRequest::getVar('task');
     }
 }
 if (!empty($controller))

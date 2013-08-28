@@ -34,20 +34,20 @@ if ($this->categoryID != -1)
 ?>
             <div id="thm_organizer_el_category_desc_div" class="thm_organizer_el_category_desc_div">
 <?php 
-	foreach ($this->categories as $category)
-	{
-		if ($category['id'] == $this->categoryID)
-		{
+    foreach ($this->categories as $category)
+    {
+        if ($category['id'] == $this->categoryID)
+        {
 ?>
                 <h2><?php echo $category['title']; ?></h2>
 <?php
-			if (isset($category['description']))
-			{
-				echo $category['description'];
-			}
-			break;
-		}
-	}
+            if (isset($category['description']))
+            {
+                echo $category['description'];
+            }
+            break;
+        }
+    }
 ?>
             </div>
 <?php
@@ -150,90 +150,90 @@ if (count($this->events) > 0)
                         <col id="thm_organizer_el_col_check" class='thm_organizer_el_col_check' />
                         <col id="thm_organizer_el_col_title" />
 <?php
-	if ($this->display_type != 3 and $this->display_type != 7)
-	{
+    if ($this->display_type != 3 and $this->display_type != 7)
+    {
 ?>
                         <col id="thm_organizer_el_col_author" />
 <?php 
-	}
-	if ($this->display_type != 2 and $this->display_type != 6)
-	{
+    }
+    if ($this->display_type != 2 and $this->display_type != 6)
+    {
 ?>
-						<col id="thm_organizer_el_col_room" />
+                        <col id="thm_organizer_el_col_room" />
 <?php
-	}
-	if ($this->display_type != 1 and $this->display_type != 5)
-	{
+    }
+    if ($this->display_type != 1 and $this->display_type != 5)
+    {
 ?>
                         <col id="thm_organizer_el_col_category" />
 <?php
-	}
+    }
 ?>
                         <col id="thm_organizer_el_col_date" />
                     </colgroup>
                     <thead>
                         <tr>
 <?php
-	if ($this->canEdit)
-	{
+    if ($this->canEdit)
+    {
 ?>
                             <th align="left">
                                 <input type="checkbox" name="eventIDs[]" value="0" onclick="checkAll()" />
                             </th>
 <?php
-	}
-	else
-	{
+    }
+    else
+    {
 ?>
                             <th />
 <?php
-	}
+    }
 ?>
                             <th id="thm_organizer_el_eventtitlehead"><?php echo $this->titleHead; ?></th>
 <?php
-	if ($this->display_type != 3 and $this->display_type != 7)
-	{
+    if ($this->display_type != 3 and $this->display_type != 7)
+    {
 ?>
                             <th id="thm_organizer_el_eventauthorhead"><?php echo $this->authorHead; ?></th>
 <?php
-	}
-	if ($this->display_type != 2 and $this->display_type != 6)
-	{
+    }
+    if ($this->display_type != 2 and $this->display_type != 6)
+    {
 ?>
                             <th id="thm_organizer_el_eventroomhead"><?php echo $this->resourceHead; ?></th>
 <?php
-	}
-	if ($this->display_type != 1 and $this->display_type != 5)
-	{
+    }
+    if ($this->display_type != 1 and $this->display_type != 5)
+    {
 ?>
                             <th id="thm_organizer_el_eventcathead"><?php echo $this->categoryHead; ?></th>
 <?php
-	}
+    }
 ?>
                             <th id="thm_organizer_el_eventdthead"><?php echo $this->dateHead; ?></th>
                         </tr>
                     </thead>
 <?php
-	foreach ($this->events as $event)
-	{
-		$rowclass = ($rowcount % 2 === 0)? "thm_organizer_el_row_even" : "thm_organizer_el_row_odd";
+    foreach ($this->events as $event)
+    {
+        $rowclass = ($rowcount % 2 === 0)? "thm_organizer_el_row_even" : "thm_organizer_el_row_odd";
 ?>
                     <tr class="<?php echo $rowclass; ?>">
 <?php
-		if ($event['userCanEdit'])
-		{
+        if ($event['userCanEdit'])
+        {
 ?>
                         <td class="thm_organizer_ce_checkbox">
                             <input type="checkbox" name="eventIDs[]" value="<?php echo $event['id']; ?>">
                         </td>
 <?php
-		}
-		else
-		{
+        }
+        else
+        {
 ?>
                         <td />
 <?php
-		}
+        }
 ?>
                         <td>
                             <span class="thm_organizer_el_eventtitle hasTip"
@@ -244,16 +244,16 @@ if (count($this->events) > 0)
                             </span>
                         </td>
 <?php
-		if ($this->display_type != 3 and $this->display_type != 7)
-		{
+        if ($this->display_type != 3 and $this->display_type != 7)
+        {
 ?>
                         <td>
                             <span><?php echo $event['author']; ?></span>
                         </td>
 <?php 
-		}
-		if ($this->display_type != 2 and $this->display_type != 6)
-		{
+        }
+        if ($this->display_type != 2 and $this->display_type != 6)
+        {
 ?>
                         <td>
                             <span class="thm_organizer_el_eventroom hasTip"
@@ -262,9 +262,9 @@ if (count($this->events) > 0)
                             </span>
                         </td>
 <?php
-		}
-		if ($this->display_type != 1 and $this->display_type != 5)
-		{
+        }
+        if ($this->display_type != 1 and $this->display_type != 5)
+        {
 ?>
                         <td>
                             <span class="thm_organizer_el_eventcat hasTip"
@@ -275,17 +275,17 @@ if (count($this->events) > 0)
                             </span>
                         </td>
 <?php
-		}
+        }
 ?>
                         <td>
                             <span class="thm_organizer_el_eventdt">
-								<?php echo $event['displayDates']; ?>
+                                <?php echo $event['displayDates']; ?>
                             </span>
                         </td>
                     </tr>
 <?php
-		$rowcount++;
-	}
+        $rowcount++;
+    }
 ?>
                 </table>
             </div>

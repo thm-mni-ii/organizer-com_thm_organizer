@@ -56,82 +56,82 @@ window.onload = function(){
 $appointmentsNo = 0;
 if (count($this->appointments))
 {
-	$time = date('H:i');
+    $time = date('H:i');
 ?>
-	<div class="thm_organizer_date_title"><?php echo  JText::_('COM_THM_ORGANIZER_RD_APPOINTMENTS'); ?></div>
+    <div class="thm_organizer_date_title"><?php echo  JText::_('COM_THM_ORGANIZER_RD_APPOINTMENTS'); ?></div>
 <?php
-	foreach ($this->appointments as $appointmentsKey => $appointments)
-	{
-		if ($appointmentsNo >= 10)
-		{
-			break;
-		}
-		$appointmentsClass = ($appointmentsNo % 2 == 0)? 'thm_organizer_es_even' : 'thm_organizer_es_odd';
-		$activeClass = ($time >= $appointments['starttime'] AND $time <= $appointments['endtime'] AND count($this->appointments) > 1)? 
-	        	'thm_organizer_is_active' : '';
-		$contentClass = ($appointments['title'] != JText::_('COM_THM_ORGANIZER_NO_LESSON'))? 'thm_organizer_is_full' : 'thm_organizer_is_empty';
+    foreach ($this->appointments as $appointmentsKey => $appointments)
+    {
+        if ($appointmentsNo >= 10)
+        {
+            break;
+        }
+        $appointmentsClass = ($appointmentsNo % 2 == 0)? 'thm_organizer_es_even' : 'thm_organizer_es_odd';
+        $activeClass = ($time >= $appointments['starttime'] AND $time <= $appointments['endtime'] AND count($this->appointments) > 1)? 
+                'thm_organizer_is_active' : '';
+        $contentClass = ($appointments['title'] != JText::_('COM_THM_ORGANIZER_NO_LESSON'))? 'thm_organizer_is_full' : 'thm_organizer_is_empty';
 ?>
-		<div class="thm_organizer_es_block <?php echo $appointmentsClass . " " . $activeClass; ?>">
-			<div class="thm_organizer_es_data <?php  echo $contentClass; ?>">
-				<span class="thm_organizer_is_title_span"><?php  echo $appointments['title']; ?></span>
+        <div class="thm_organizer_es_block <?php echo $appointmentsClass . " " . $activeClass; ?>">
+            <div class="thm_organizer_es_data <?php  echo $contentClass; ?>">
+                <span class="thm_organizer_is_title_span"><?php  echo $appointments['title']; ?></span>
 <?php
-		if (!empty($appointments['extraInformation']))
-		{
+        if (!empty($appointments['extraInformation']))
+        {
 ?>
-				<br />
-				<span class="thm_organizer_is_extrainfo_span">
-					<?php  echo $appointments['extraInformation']; ?>
-				</span>
+                <br />
+                <span class="thm_organizer_is_extrainfo_span">
+                    <?php  echo $appointments['extraInformation']; ?>
+                </span>
 <?php 
-		}
+        }
 ?>
-			</div>
-			<div class="thm_organizer_es_display_dates">
-				<?php echo $appointments['displayDates']; ?>
-			</div>
-		</div>
+            </div>
+            <div class="thm_organizer_es_display_dates">
+                <?php echo $appointments['displayDates']; ?>
+            </div>
+        </div>
 <?php
-		$appointmentsNo++;
-	}
+        $appointmentsNo++;
+    }
 }
 $upcomingNo = 0;
 if (count($this->upcoming) && $appointmentsNo < 8)
 {
-	$time = date('H:i');
+    $time = date('H:i');
 ?>
-		<div class="thm_organizer_date_title"><?php echo  JText::_('COM_THM_ORGANIZER_RD_UPCOMING'); ?></div>
+        <div class="thm_organizer_date_title"><?php echo  JText::_('COM_THM_ORGANIZER_RD_UPCOMING'); ?></div>
 <?php
-	foreach ($this->upcoming as $upcomingKey => $upcoming)
-	{
-		if ((count($this->appointments)) ? ($appointmentsNo + $upcomingNo >= 9) : ($upcomingNo >= 10))
-		{
-			break;
-		}	
-		$upcomingClass = ($upcomingNo % 2 == 0)? 'thm_organizer_es_even' : 'thm_organizer_es_odd';
-		$contentClass = ($upcoming['title'] != JText::_('COM_THM_ORGANIZER_NO_LESSON'))? 'thm_organizer_is_full' : 'thm_organizer_is_empty';
+    foreach ($this->upcoming as $upcomingKey => $upcoming)
+    {
+        if ((count($this->appointments)) ? ($appointmentsNo + $upcomingNo >= 9) : ($upcomingNo >= 10))
+        {
+            break;
+        }    
+        $upcomingClass = ($upcomingNo % 2 == 0)? 'thm_organizer_es_even' : 'thm_organizer_es_odd';
+        $contentClass = ($upcoming['title'] != JText::_('COM_THM_ORGANIZER_NO_LESSON'))? 'thm_organizer_is_full' : 'thm_organizer_is_empty';
 ?>
-		<div class="thm_organizer_es_block <?php echo $upcomingClass ?>">
-			<div class="thm_organizer_es_data <?php  echo $contentClass; ?>">
-				<span class="thm_organizer_is_title_span"><?php  echo $upcoming['title']; ?></span>
+        <div class="thm_organizer_es_block <?php echo $upcomingClass ?>">
+            <div class="thm_organizer_es_data <?php  echo $contentClass; ?>">
+                <span class="thm_organizer_is_title_span"><?php  echo $upcoming['title']; ?></span>
 <?php
-		if (!empty($upcoming['extraInformation']))
-		{
+        if (!empty($upcoming['extraInformation']))
+        {
 ?>
-				<br />
-				<span class="thm_organizer_is_extrainfo_span">
-					<?php  echo $upcoming['extraInformation']; ?>
-				</span>
+                <br />
+                <span class="thm_organizer_is_extrainfo_span">
+                    <?php  echo $upcoming['extraInformation']; ?>
+                </span>
 <?php 
-		}
+        }
 ?>
-			</div>
-			<div class="thm_organizer_es_display_dates">
-				<?php echo $upcoming['displayDates']; ?>
-			</div>
-		</div>
+            </div>
+            <div class="thm_organizer_es_display_dates">
+                <?php echo $upcoming['displayDates']; ?>
+            </div>
+        </div>
 <?php
-		$upcomingNo++;
-	}
+        $upcomingNo++;
+    }
 }
 ?>
     </div>

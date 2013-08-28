@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		thm_organizerViewScheduler_Tree
+ * @name        thm_organizerViewScheduler_Tree
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @copyright   2013 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -22,19 +22,19 @@ jimport('joomla.application.component.view');
 
 class THM_OrganizerViewScheduler_Tree extends JView
 {
-	/**
-	 * Method to get extra
-	 *
-	 * @param   String  $tpl  template
-	 *
-	 * @return void
-	 * 
-	 * @see JView::display()
-	 */
-	public function display($tpl = null)
-	{
-		echo $this->model->load();
+    /**
+     * Method to get extra
+     *
+     * @param   String  $tpl  template
+     *
+     * @return void
+     * 
+     * @see JView::display()
+     */
+    public function display($tpl = null)
+    {
+        echo $this->model->load();
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 }

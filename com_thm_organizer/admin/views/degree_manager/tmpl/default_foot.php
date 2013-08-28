@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		view degrees default foot
+ * @name        view degrees default foot
  * @description THM_Curriculum component admin view
  * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
@@ -15,7 +15,7 @@ $listOrder = $this->state->get('list.ordering', 'ordering');
 $listDirn = $this->state->get('list.direction');
 ?>
 <tr>
-	<td colspan="4"><?php echo $this->pagination->getListFooter(); ?></td>
+    <td colspan="4"><?php echo $this->pagination->getListFooter(); ?></td>
 </tr>
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="0" />

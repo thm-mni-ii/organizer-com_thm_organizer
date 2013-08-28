@@ -19,26 +19,26 @@ jimport('joomla.application.component.view');
  */
 class THM_OrganizerViewRoom_Select extends JView
 {
-	/**
-	 * Sets context variables for output
-	 * 
-	 * @param   string  $tpl  the name of the template to be used
-	 * 
-	 * @return  void 
-	 */
-	public function display($tpl = null)
-	{
-		JHTML::_('behavior.formvalidation');
-		JHTML::_('behavior.tooltip');
+    /**
+     * Sets context variables for output
+     * 
+     * @param   string  $tpl  the name of the template to be used
+     * 
+     * @return  void 
+     */
+    public function display($tpl = null)
+    {
+        JHTML::_('behavior.formvalidation');
+        JHTML::_('behavior.tooltip');
 
-		$document = JFactory::getDocument();
-		$document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
-		$document->addScript(JRoute::_('components/com_thm_organizer/models/forms/event_edit.js'));
-		$document->setTitle(JText::_('COM_THM_ORGANIZER_RS_TITLE'));
+        $document = JFactory::getDocument();
+        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+        $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/event_edit.js'));
+        $document->setTitle(JText::_('COM_THM_ORGANIZER_RS_TITLE'));
 
-		$this->form = $this->get('Form');
-		$this->item = $this->get('Item');
+        $this->form = $this->get('Form');
+        $this->item = $this->get('Item');
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 }

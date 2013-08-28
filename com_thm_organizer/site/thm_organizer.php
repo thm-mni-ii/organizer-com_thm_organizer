@@ -30,12 +30,12 @@ if (!empty($controller))
     $path = JPATH_COMPONENT . DS . 'controllers' . DS . $controller . '.php';
     if (file_exists($path))
     {
-    	require_once $path;
+        require_once $path;
     }
 }
 else
 {
-	$controller = '';
+    $controller = '';
 }
 $classname = 'THM_OrganizerController' . $controller;
 $controllerObj = new $classname;

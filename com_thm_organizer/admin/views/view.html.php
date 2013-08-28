@@ -27,13 +27,13 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  */
 class THM_OrganizerViewMonitor_Manager extends JView
 {
-	/**
-	 * Loads data from the model into the view context
-	 *
-	 * @param   string  $tpl  the name of the template to be used
-	 *
-	 * @return void
-	 */
+    /**
+     * Loads data from the model into the view context
+     *
+     * @param   string  $tpl  the name of the template to be used
+     *
+     * @return void
+     */
     public function display($tpl = null)
     {
         if (!JFactory::getUser()->authorise('core.admin'))
@@ -68,14 +68,14 @@ class THM_OrganizerViewMonitor_Manager extends JView
     {
         if (!count($this->monitors))
         {
-        	return;
+            return;
         }
         $link = "index.php?option=com_thm_organizer&view=monitor_edit&monitorID=";
         foreach ($this->monitors as $k => $monitor)
         {
             if (empty($monitor->room))
             {
-            	$this->monitors[$k]->room = $monitor->roomID;
+                $this->monitors[$k]->room = $monitor->roomID;
             }
             $this->monitors[$k]->behaviour = JText::_($monitor->behaviour);
             $this->monitors[$k]->link = $link . $monitor->monitorID;
@@ -98,4 +98,4 @@ class THM_OrganizerViewMonitor_Manager extends JView
         JToolBarHelper::deleteList(JText::_('COM_THM_ORGANIZER_MON_DELETE_CONFIRM'), 'monitor.delete');
     }
 }
-	
+    

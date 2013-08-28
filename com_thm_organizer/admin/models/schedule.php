@@ -761,7 +761,7 @@ class THM_OrganizerModelSchedule extends JModel
         }
         $department = $this->_schedule->departmentname;
         $semester = $this->_schedule->semestername;
-		$lessonID = str_replace('LS_', '', $gpuntisID);
+        $lessonID = str_replace('LS_', '', $gpuntisID);
         $lessonIndex = $department . $semester . "_" . $lessonID;
         if (!isset($this->_schedule->lessons->$lessonIndex))
         {
@@ -1692,15 +1692,15 @@ class THM_OrganizerModelSchedule extends JModel
     }
 
     /**
-	 * Checks whether the selected schedules pass the merge constraints:
-	 * 1 Constraints Passed
-	 * 2 Only one schedule selected
-	 * 3 Not all schedules differ in department
-	 * 4 Not all schedule dates are the same
-	 * 5 Not all schedules are active
-	 * 
-	 * @return  integer
-	 */
+     * Checks whether the selected schedules pass the merge constraints:
+     * 1 Constraints Passed
+     * 2 Only one schedule selected
+     * 3 Not all schedules differ in department
+     * 4 Not all schedule dates are the same
+     * 5 Not all schedules are active
+     * 
+     * @return  integer
+     */
     public function checkMergeConstraints()
     {
         $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
@@ -1746,10 +1746,10 @@ class THM_OrganizerModelSchedule extends JModel
     }
 
     /**
-	 * Merges the chosen schedules into a new schedule
+     * Merges the chosen schedules into a new schedule
      * 
-	 * @return  int  a value which stands for different statuses
-	 */
+     * @return  int  a value which stands for different statuses
+     */
     public function merge()
     {
         $checkedIDs = JRequest::getVar('schedules', array(), 'post', 'array');
@@ -1812,8 +1812,8 @@ class THM_OrganizerModelSchedule extends JModel
      * 
      * @return  void
      */
-	private function mergeRecursive(&$thingOne, &$thingTwo)
-	{
+    private function mergeRecursive(&$thingOne, &$thingTwo)
+    {
         foreach ($thingTwo as $property => $value)
         {
             if (!isset($thingOne->$property))
@@ -1832,7 +1832,7 @@ class THM_OrganizerModelSchedule extends JModel
                 }
             }
         }
-	}
+    }
 
     /**
      * Persists the schedule to be uploaded

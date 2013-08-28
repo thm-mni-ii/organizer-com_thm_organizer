@@ -7,36 +7,36 @@
     <licence>GNU GPL v.2</licence>
     <authorEMail>wolfDOTrostATmniDOTthmDOTde</authorEMail>
     <authorUrl>www.mni.thm.de</authorUrl>
-	<layout title="COM_THM_ORGANIZER_RIA_LAYOUT_TITLE">
-		<message>COM_THM_ORGANIZER_RIA_LAYOUT_DESCRIPTION</message>
-	</layout>
-	<fields name="params" addfieldpath="/components/com_thm_organizer/models/fields">
-		<fieldset name="basic">		
-			<field 	name="departmentSemesterSelection"
-					type="sql"
-					label="COM_THM_ORGANIZER_RIA_PLAN_SELECTION_TITLE"
-					description="COM_THM_ORGANIZER_RIA_PLAN_SELECTION_DESCRIPTION"
-					key_field="id"
-	                value_field="name"
-	                default=""
-					query="SELECT DISTINCT CONCAT(departmentname, ';', semestername) AS id, CONCAT(departmentname, ' - ', semestername) AS name FROM #__thm_organizer_schedules ORDER BY name ASC">
-			</field>
-			<field type="spacer"
-				default="&lt;b&gt;COM_THM_ORGANIZER_RIA_SEMESTER_TREE&lt;/b&gt;&lt;hr/&gt;"></field>
-			<field name="tree" type="scheduler"
-				label="COM_THM_ORGANIZER_RIA_TREE_TITLE"
-				description="COM_THM_ORGANIZER_RIA_TREE_DESCRIPTION" />
-			<field name="id" type="hidden" description="Tooltip ;)" />
-			<field name="publicDefaultID" type="hidden"
-				description="Tooltip ;)" />
-		</fieldset>
-		<fieldset name="advanced">
-			<field name="loadLessonsOnStartUp" type="radio" label="COM_THM_ORGANIZER_RIA_OPTIONS_LOAD_ON_STARTUP_TITLE" default="1" description="COM_THM_ORGANIZER_RIA_OPTIONS_LOAD_ON_STARTUP_DESC">
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
-			</field>
-			<field name="deltaDisplayDays" default="14" class="required validate-numeric" type="text" label="COM_THM_ORGANIZER_RIA_DELTA_DISPLAY_LABEL"
-				size="5" description="COM_THM_ORGANIZER_RIA_DELTA_DISPLAY_DESC" />
-		</fieldset>
-	</fields>
+    <layout title="COM_THM_ORGANIZER_RIA_LAYOUT_TITLE">
+        <message>COM_THM_ORGANIZER_RIA_LAYOUT_DESCRIPTION</message>
+    </layout>
+    <fields name="params" addfieldpath="/components/com_thm_organizer/models/fields">
+        <fieldset name="basic">        
+            <field     name="departmentSemesterSelection"
+                    type="sql"
+                    label="COM_THM_ORGANIZER_RIA_PLAN_SELECTION_TITLE"
+                    description="COM_THM_ORGANIZER_RIA_PLAN_SELECTION_DESCRIPTION"
+                    key_field="id"
+                    value_field="name"
+                    default=""
+                    query="SELECT DISTINCT CONCAT(departmentname, ';', semestername) AS id, CONCAT(departmentname, ' - ', semestername) AS name FROM #__thm_organizer_schedules ORDER BY name ASC">
+            </field>
+            <field type="spacer"
+                default="&lt;b&gt;COM_THM_ORGANIZER_RIA_SEMESTER_TREE&lt;/b&gt;&lt;hr/&gt;"></field>
+            <field name="tree" type="scheduler"
+                label="COM_THM_ORGANIZER_RIA_TREE_TITLE"
+                description="COM_THM_ORGANIZER_RIA_TREE_DESCRIPTION" />
+            <field name="id" type="hidden" description="Tooltip ;)" />
+            <field name="publicDefaultID" type="hidden"
+                description="Tooltip ;)" />
+        </fieldset>
+        <fieldset name="advanced">
+            <field name="loadLessonsOnStartUp" type="radio" label="COM_THM_ORGANIZER_RIA_OPTIONS_LOAD_ON_STARTUP_TITLE" default="1" description="COM_THM_ORGANIZER_RIA_OPTIONS_LOAD_ON_STARTUP_DESC">
+                <option value="0">JNO</option>
+                <option value="1">JYES</option>
+            </field>
+            <field name="deltaDisplayDays" default="14" class="required validate-numeric" type="text" label="COM_THM_ORGANIZER_RIA_DELTA_DISPLAY_LABEL"
+                size="5" description="COM_THM_ORGANIZER_RIA_DELTA_DISPLAY_DESC" />
+        </fieldset>
+    </fields>
 </metadata>

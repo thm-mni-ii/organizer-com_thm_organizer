@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		curriculum view
+ * @name        curriculum view
  * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
@@ -24,15 +24,15 @@ jimport('joomla.error.profiler');
  */
 class THM_OrganizerViewCurriculum extends JView
 {
-	/**
-	 * Method to get display
-	 *
-	 * @param   Object  $tpl  template  (default: null)
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
+    /**
+     * Method to get display
+     *
+     * @param   Object  $tpl  template  (default: null)
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
         JHtml::_('behavior.tooltip');
         jimport('extjs4.extjs4');
 
@@ -52,5 +52,5 @@ class THM_OrganizerViewCurriculum extends JView
             );
 
         parent::display($tpl);
-	}
+    }
 }

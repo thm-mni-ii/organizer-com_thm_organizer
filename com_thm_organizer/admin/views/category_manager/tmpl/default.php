@@ -49,16 +49,16 @@ $direction = $this->escape($this->state->get('list.direction'));
                     <input type="checkbox" name="checkall-toggle" value="" onclick="checkAll(this)" />
                 </th>
                 <th>
-					<?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'ectitle', $direction, $orderby); ?>
+                    <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'ectitle', $direction, $orderby); ?>
                 </th>
                 <th>
-					<?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_CAT_GLOBAL'), 'global', $direction, $orderby); ?>
+                    <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_CAT_GLOBAL'), 'global', $direction, $orderby); ?>
                 </th>
                 <th>
-					<?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_CAT_RESERVES'), 'reserves', $direction, $orderby); ?>
+                    <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_CAT_RESERVES'), 'reserves', $direction, $orderby); ?>
                 </th>
                 <th>
-					<?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_CAT_CONTENT_CATEGORY'), 'cctitle', $direction, $orderby); ?>
+                    <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_CAT_CONTENT_CATEGORY'), 'cctitle', $direction, $orderby); ?>
                 </th>
             </tr>
         </thead>

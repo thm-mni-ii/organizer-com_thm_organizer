@@ -29,43 +29,43 @@ externLinks.curriculumLink = '<?php echo $curriculumLink; ?>';
 externLinks.ajaxHandler = '<?php echo $ajaxHandler; ?>';
 </script>
 <div id="MySchedMainW" class="MySchedMainW">
-	<script type="text/javascript" charset="utf-8">
-		<?php require_once "components/com_thm_organizer/views/scheduler/tmpl/mySched/language.js"; ?>
-	</script>
-	<script type="text/javascript" charset="utf-8"
-		src="components/com_thm_organizer/views/scheduler/tmpl/mySched/coreextension.js"></script>
-	<script type="text/javascript" charset="utf-8"
-		src="components/com_thm_organizer/views/scheduler/tmpl/mySched/libs.js"></script>
-	<script type="text/javascript" charset="utf-8"
-		src="components/com_thm_organizer/views/scheduler/tmpl/mySched/authorize.js"></script>
-	<script type="text/javascript" charset="utf-8"
-		src="components/com_thm_organizer/views/scheduler/tmpl/mySched/mapping.js"></script>
-	<script type="text/javascript" charset="utf-8"
-		src="components/com_thm_organizer/views/scheduler/tmpl/mySched/models.js"></script>
-	<script type="text/javascript" charset="utf-8"
-		src="components/com_thm_organizer/views/scheduler/tmpl/mySched/readers.js"></script>
-	<script type="text/javascript" charset="utf-8"
-		src="components/com_thm_organizer/views/scheduler/tmpl/mySched/grid.js"></script>
-	<script type="text/javascript" charset="utf-8"
-		src="components/com_thm_organizer/views/scheduler/tmpl/mySched/main.js"></script>
-	<script type="text/javascript" charset="utf-8"
-		src="components/com_thm_organizer/views/scheduler/tmpl/mySched/plugins.js"></script>
-	<script type="text/javascript" charset="utf-8">
+    <script type="text/javascript" charset="utf-8">
+        <?php require_once "components/com_thm_organizer/views/scheduler/tmpl/mySched/language.js"; ?>
+    </script>
+    <script type="text/javascript" charset="utf-8"
+        src="components/com_thm_organizer/views/scheduler/tmpl/mySched/coreextension.js"></script>
+    <script type="text/javascript" charset="utf-8"
+        src="components/com_thm_organizer/views/scheduler/tmpl/mySched/libs.js"></script>
+    <script type="text/javascript" charset="utf-8"
+        src="components/com_thm_organizer/views/scheduler/tmpl/mySched/authorize.js"></script>
+    <script type="text/javascript" charset="utf-8"
+        src="components/com_thm_organizer/views/scheduler/tmpl/mySched/mapping.js"></script>
+    <script type="text/javascript" charset="utf-8"
+        src="components/com_thm_organizer/views/scheduler/tmpl/mySched/models.js"></script>
+    <script type="text/javascript" charset="utf-8"
+        src="components/com_thm_organizer/views/scheduler/tmpl/mySched/readers.js"></script>
+    <script type="text/javascript" charset="utf-8"
+        src="components/com_thm_organizer/views/scheduler/tmpl/mySched/grid.js"></script>
+    <script type="text/javascript" charset="utf-8"
+        src="components/com_thm_organizer/views/scheduler/tmpl/mySched/main.js"></script>
+    <script type="text/javascript" charset="utf-8"
+        src="components/com_thm_organizer/views/scheduler/tmpl/mySched/plugins.js"></script>
+    <script type="text/javascript" charset="utf-8">
 <?php
 if ($this->canWriteEvents === true)
 {
-			require_once "components/com_thm_organizer/views/scheduler/tmpl/mySched/advancedFunctions.js";
+            require_once "components/com_thm_organizer/views/scheduler/tmpl/mySched/advancedFunctions.js";
 }
 ?>
-		MySched.SessionId = '<?php echo $this->jsid; ?>';
-		MySched.class_semester_id = '<?php echo $this->semesterID; ?>';
-		MySched.class_semester_author = '<?php echo $this->semAuthor; ?>';
-		MySched.class_semester_name = '<?php echo $this->semesterName; ?>';
-		MySched.startup = '<?php echo $this->startup; ?>';
-		MySched.searchModuleID = '<?php echo $this->searchModuleID; ?>';
-		MySched.loadLessonsOnStartUp = new Boolean('<?php echo $this->loadLessonsOnStartUp; ?>');
-		MySched.deltaDisplayDays = '<?php echo $this->deltaDisplayDays; ?>';
-		MySched.departmentAndSemester = '<?php echo $this->departmentAndSemester; ?>';
+        MySched.SessionId = '<?php echo $this->jsid; ?>';
+        MySched.class_semester_id = '<?php echo $this->semesterID; ?>';
+        MySched.class_semester_author = '<?php echo $this->semAuthor; ?>';
+        MySched.class_semester_name = '<?php echo $this->semesterName; ?>';
+        MySched.startup = '<?php echo $this->startup; ?>';
+        MySched.searchModuleID = '<?php echo $this->searchModuleID; ?>';
+        MySched.loadLessonsOnStartUp = new Boolean('<?php echo $this->loadLessonsOnStartUp; ?>');
+        MySched.deltaDisplayDays = '<?php echo $this->deltaDisplayDays; ?>';
+        MySched.departmentAndSemester = '<?php echo $this->departmentAndSemester; ?>';
 <?php
 if ($this->libraryFPDFIsInstalled)
 {
@@ -92,12 +92,12 @@ else
 <?php
 }
 ?>
-		Ext.application({
-		    name: 'Scheduler',    
-		    launch: MySched.Base.init
-		});
-	</script>
+        Ext.application({
+            name: 'Scheduler',    
+            launch: MySched.Base.init
+        });
+    </script>
 </div>
 <iframe id="MySchedexternURL" name="MySchedexternURL" src="#"
-	scrolling="auto" align="top" frameborder="0"
-	class="MySchedexternURLClass_DIS"> </iframe>
+    scrolling="auto" align="top" frameborder="0"
+    class="MySchedexternURLClass_DIS"> </iframe>

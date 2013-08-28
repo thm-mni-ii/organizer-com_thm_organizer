@@ -27,13 +27,13 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  */
 class THM_OrganizerViewVirtual_Schedule_Edit extends JView
 {
-	/**
-	 * Method to get display
-	 *
-	 * @param   Object  $tpl  template  (Default: null)
-	 *
-	 * @return void
-	 */
+    /**
+     * Method to get display
+     *
+     * @param   Object  $tpl  template  (Default: null)
+     *
+     * @return void
+     */
     public function display($tpl = null)
     {
         if (!JFactory::getUser()->authorise('core.admin'))
@@ -78,4 +78,4 @@ class THM_OrganizerViewVirtual_Schedule_Edit extends JView
         JToolBarHelper::cancel('virtual_schedule.cancel');
     }
 }
-	
+    

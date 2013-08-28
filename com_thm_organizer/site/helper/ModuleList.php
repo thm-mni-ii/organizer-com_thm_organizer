@@ -23,40 +23,40 @@
  */
 class ModuleList
 {
-	/**
-	 * List
-	 *
-	 * @var    Array
-	 */
-	public $list;
+    /**
+     * List
+     *
+     * @var    Array
+     */
+    public $list;
 
-	/**
-	 * Constructor to set up the class variables
-	 */
-	public function __construct()
-	{
-		$this->list = array();
-	}
+    /**
+     * Constructor to set up the class variables
+     */
+    public function __construct()
+    {
+        $this->list = array();
+    }
 
-	/**
-	 * Method to attach a module to the list
-	 *
-	 * @param   String  $modulObj  Module
-	 *
-	 * @return void
-	 */
-	public function modulesToList($modulObj)
-	{
-		array_push($this->list, $modulObj);
-	}
+    /**
+     * Method to attach a module to the list
+     *
+     * @param   String  $modulObj  Module
+     *
+     * @return void
+     */
+    public function modulesToList($modulObj)
+    {
+        array_push($this->list, $modulObj);
+    }
 
-	/**
-	 * Method to return the list
-	 *
-	 * @return multitype
-	 */
-	public function getList()
-	{
-		return $this->list;
-	}
+    /**
+     * Method to return the list
+     *
+     * @return multitype
+     */
+    public function getList()
+    {
+        return $this->list;
+    }
 }

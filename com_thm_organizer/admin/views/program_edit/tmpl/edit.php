@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		view degree program edit view edit layout
+ * @name        view degree program edit view edit layout
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -21,23 +21,23 @@ $rawSubjectURL = 'index.php?option=com_thm_organizer&view=subject_manager';
 $subjectURL = JRoute::_($rawSubjectURL, false);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=program_edit&id=' . (int) $this->item->id); ?>"
-	  method="post" name="adminForm" id="modulmapping-form">
-	<fieldset class="adminform">
-		<legend><?php echo JText::_('COM_THM_ORGANIZER_PRM_PROPERTIES'); ?></legend>
-		<ul class="adminformlist">
+      method="post" name="adminForm" id="modulmapping-form">
+    <fieldset class="adminform">
+        <legend><?php echo JText::_('COM_THM_ORGANIZER_PRM_PROPERTIES'); ?></legend>
+        <ul class="adminformlist">
 <?php
 foreach ($this->form->getFieldset() as $field)
 {
-	echo '<li>';
-	echo $field->label;
-	echo $field->input;
-	echo '</li>';
+    echo '<li>';
+    echo $field->label;
+    echo $field->input;
+    echo '</li>';
 }
 ?>
-		</ul>
-	</fieldset>
-	<fieldset class="adminform">
-		<legend><?php echo JText::_('COM_THM_ORGANIZER_CHILDREN'); ?></legend>
+        </ul>
+    </fieldset>
+    <fieldset class="adminform">
+        <legend><?php echo JText::_('COM_THM_ORGANIZER_CHILDREN'); ?></legend>
         <div class="thm_organizer_children">
 <?php
 if (!empty($this->children))
@@ -108,7 +108,7 @@ if (!empty($this->children))
                                     </span>
                                 </a>
                             </span>
-							<input type="text"
+                            <input type="text"
                                    name="child<?php echo $index; ?>order"
                                    id="child<?php echo $index; ?>order"
                                    size="2" value="<?php echo $index;?>" class="text-area-order"
@@ -117,7 +117,7 @@ if (!empty($this->children))
                                title="<?php echo JText::_('COM_THM_ORGANIZER_MAPPING_DELETE'); ?>"
                                onClick="remove(<?php echo $index; ?>)">
                             </a>
-						</td>
+                        </td>
                     </tr>
 <?php
     }
@@ -143,8 +143,8 @@ else
             </a>
         </div>
     </fieldset>
-	<div>
-		<input type="hidden" name="task" value="" />
-		<?php echo JHtml::_('form.token'); ?>
-	</div>
+    <div>
+        <input type="hidden" name="task" value="" />
+        <?php echo JHtml::_('form.token'); ?>
+    </div>
 </form>

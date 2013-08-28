@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		view curriculum default
+ * @name        view curriculum default
  * @description curriculum view default layout
  * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @author      James Antrim, <james.antrim@mni.thm.de>

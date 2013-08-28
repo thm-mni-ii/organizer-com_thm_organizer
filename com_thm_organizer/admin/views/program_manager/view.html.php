@@ -22,49 +22,49 @@ jimport('joomla.application.component.view');
  */
 class THM_OrganizerViewProgram_Manager extends JView
 {
-	/**
-	 * Method to get display
-	 *
-	 * @param   Object  $tpl  template  (default: null)
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		JHtml::_('behavior.tooltip');
+    /**
+     * Method to get display
+     *
+     * @param   Object  $tpl  template  (default: null)
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        JHtml::_('behavior.tooltip');
 
         $model = $this->getModel();
-		$this->items = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->state = $this->get('State');
+        $this->items = $this->get('Items');
+        $this->pagination = $this->get('Pagination');
+        $this->state = $this->get('State');
         $this->degrees = $model->degrees;
         $this->versions = $model->versions;
         $this->fields = $model->fields;
-		$this->addToolBar();
+        $this->addToolBar();
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * Method to generate buttons for user interaction
-	 *
-	 * @return  void
-	 */
-	protected function addToolBar()
-	{
-		JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_PRM_TOOLBAR_TITLE'), 'generic.png');
-		JToolBarHelper::addNew('program.add', 'JTOOLBAR_NEW');
-		JToolBarHelper::editList('program.edit', 'JTOOLBAR_EDIT');
-		JToolBarHelper::custom(
-							   'program.importLSFData',
-							   'export',
-							   '',
-							   'COM_THM_ORGANIZER_PRM_IMPORT',
-							   true,
-							   true
-							  );
-		JToolBarHelper::deleteList('COM_THM_ORGANIZER_PRM_DELETE_CONFIRM', 'program.delete', 'JTOOLBAR_DELETE');
-		JToolBarHelper::divider();
-		JToolBarHelper::preferences('com_thm_organizer', '500');
-	}
+    /**
+     * Method to generate buttons for user interaction
+     *
+     * @return  void
+     */
+    protected function addToolBar()
+    {
+        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_PRM_TOOLBAR_TITLE'), 'generic.png');
+        JToolBarHelper::addNew('program.add', 'JTOOLBAR_NEW');
+        JToolBarHelper::editList('program.edit', 'JTOOLBAR_EDIT');
+        JToolBarHelper::custom(
+                               'program.importLSFData',
+                               'export',
+                               '',
+                               'COM_THM_ORGANIZER_PRM_IMPORT',
+                               true,
+                               true
+                              );
+        JToolBarHelper::deleteList('COM_THM_ORGANIZER_PRM_DELETE_CONFIRM', 'program.delete', 'JTOOLBAR_DELETE');
+        JToolBarHelper::divider();
+        JToolBarHelper::preferences('com_thm_organizer', '500');
+    }
 }

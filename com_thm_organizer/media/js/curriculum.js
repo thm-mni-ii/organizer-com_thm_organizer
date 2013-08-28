@@ -66,7 +66,7 @@ function Curriculum (menuID, programID, horizontalGroups, languageTag, width, he
         return Ext.create(
             'Ext.container.Container',
             {
-                xtype : 'panel',	
+                xtype : 'panel',    
                 layout : 'anchor',
                 border: false,
                 margin : (topMargin - 1) + " 0 0 "+ (leftMargin - 1),
@@ -305,7 +305,7 @@ function Curriculum (menuID, programID, horizontalGroups, languageTag, width, he
                     },
                     renderTo : 'toolcontainer-' + id
                 }
-            );	
+            );    
         }
         html = "<hr style='width:130px; visibility: hidden;'>" + teacherName;
         html += "<div>"+tooltipAddInfo+"</div><br>";
@@ -428,7 +428,7 @@ function Curriculum (menuID, programID, horizontalGroups, languageTag, width, he
                 }
                 else
                 {
-                    return self.getModalPool(item, self.getModalContent(item), item.title, leftMargin, topMargin);	
+                    return self.getModalPool(item, self.getModalContent(item), item.title, leftMargin, topMargin);    
                 }
             }
             else
@@ -543,7 +543,7 @@ function Curriculum (menuID, programID, horizontalGroups, languageTag, width, he
                         c.header.addCls('horizontalPanel');
                         document.getElementById(c.el.id).firstChild.style.background = "#"+ pool.color;
                         document.getElementById(c.el.id).lastChild.style.background = "#"+ pool.color;
-                        c.body.applyStyles("background-color:" + hPanelColor);	
+                        c.body.applyStyles("background-color:" + hPanelColor);    
                     }
                 }
             }
@@ -670,7 +670,7 @@ function Curriculum (menuID, programID, horizontalGroups, languageTag, width, he
         return Ext.create(
             'Ext.panel.Panel',
             {
-                xtype : 'panel',	
+                xtype : 'panel',    
                 cls : "modal_pool",
                 title : titleSpan1 + titleSpan2,
                 width : self.itemWidth,

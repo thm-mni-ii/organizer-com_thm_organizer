@@ -26,72 +26,72 @@ include_once JPATH_COMPONENT . "/assets/classes/config.php";
  */
 class THM_OrganizerModelAjaxhandler extends JModel
 {
-	/**
-	 * Joomla data abstraction
-	 *
-	 * @var    DataAbstraction
-	 */
-	private $_JDA = null;
-	
-	/**
-	 * Configuration
-	 *
-	 * @var    object
-	 */
-	private $_CFG = null;
-	
-	/**
-	 * Constructor
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-		$this->_JDA = new THM_OrganizerDataAbstraction;
-		$this->_CFG = new mySchedConfig($this->_JDA);
-	}
+    /**
+     * Joomla data abstraction
+     *
+     * @var    DataAbstraction
+     */
+    private $_JDA = null;
+    
+    /**
+     * Configuration
+     *
+     * @var    object
+     */
+    private $_CFG = null;
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->_JDA = new THM_OrganizerDataAbstraction;
+        $this->_CFG = new mySchedConfig($this->_JDA);
+    }
 
-	/**
-	 * Method to execute tasks
-	 *
-	 * @param   String  $task     The task to execute
-	 * @param   Array   $options  An array with options to forward to the class that handle the task (Default: Array)
-	 *
-	 * @return  Array
-	 */
-	public function executeTask($task, $options = array())
-	{				
-		if (is_string($task) === true)
-		{
-			if (preg_match("/^[A-Za-z]+\.[A-Za-z]+$/", $task) === 0)
-			{
-				return array("success" => false, "data" => "Unknown task!");
-			}
-		}
-		else
-		{
-			return array("success" => false, "data" => "Unknown task!");
-		}
-						
-		$taskarr = explode(".", $task);
-		try
-		{
-			$classname = $taskarr[0];
-			require_once JPATH_COMPONENT . "/assets/classes/" . $classname . ".php";
-			$classname = "THM" . $classname;
-			
-			if (count($options) == 0)
-			{
-				$class = new $classname($this->_JDA, $this->_CFG);
-			}
-			else
-			{
-				$class = new $classname($this->_JDA, $this->_CFG, $options);
-			}
-			return $class->$taskarr[1]();
-		}
-		catch (Exception $e)
-		{
-			return array("success" => false, "data" => "Unknown task!");
-		}
-	}
+    /**
+     * Method to execute tasks
+     *
+     * @param   String  $task     The task to execute
+     * @param   Array   $options  An array with options to forward to the class that handle the task (Default: Array)
+     *
+     * @return  Array
+     */
+    public function executeTask($task, $options = array())
+    {                
+        if (is_string($task) === true)
+        {
+            if (preg_match("/^[A-Za-z]+\.[A-Za-z]+$/", $task) === 0)
+            {
+                return array("success" => false, "data" => "Unknown task!");
+            }
+        }
+        else
+        {
+            return array("success" => false, "data" => "Unknown task!");
+        }
+                        
+        $taskarr = explode(".", $task);
+        try
+        {
+            $classname = $taskarr[0];
+            require_once JPATH_COMPONENT . "/assets/classes/" . $classname . ".php";
+            $classname = "THM" . $classname;
+            
+            if (count($options) == 0)
+            {
+                $class = new $classname($this->_JDA, $this->_CFG);
+            }
+            else
+            {
+                $class = new $classname($this->_JDA, $this->_CFG, $options);
+            }
+            return $class->$taskarr[1]();
+        }
+        catch (Exception $e)
+        {
+            return array("success" => false, "data" => "Unknown task!");
+        }
+    }
 }

@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerViewField_Edit
+ * @name        THM_OrganizerViewField_Edit
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -22,41 +22,41 @@ jimport('joomla.application.component.view');
  */
 class THM_OrganizerViewField_Edit extends JView
 {
-	/**
-	 * Method to get display
-	 *
-	 * @param   Object  $tpl  template  (default: null)
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
+    /**
+     * Method to get display
+     *
+     * @param   Object  $tpl  template  (default: null)
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
 
-		JHtml::_('behavior.tooltip');
+        JHtml::_('behavior.tooltip');
 
-		$this->form = $this->get('Form');
-		$this->item = $this->get('Item');
+        $this->form = $this->get('Form');
+        $this->item = $this->get('Item');
 
-		$this->addToolBar();
+        $this->addToolBar();
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * Method to generate buttons for user interaction
-	 *
-	 * @return  void
-	 */
-	protected function addToolBar()
-	{
-		JRequest::setVar('hidemainmenu', true);
-		$isNew = ($this->item->id == 0);
-		JToolBarHelper::title($isNew ? JText::_('COM_THM_ORGANIZER_FLM_NEW_TITLE') : JText::_('COM_THM_ORGANIZER_FLM_EDIT_TITLE'));
-		JToolBarHelper::save('field.save');
-		JToolBarHelper::cancel('field.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
-	}
+    /**
+     * Method to generate buttons for user interaction
+     *
+     * @return  void
+     */
+    protected function addToolBar()
+    {
+        JRequest::setVar('hidemainmenu', true);
+        $isNew = ($this->item->id == 0);
+        JToolBarHelper::title($isNew ? JText::_('COM_THM_ORGANIZER_FLM_NEW_TITLE') : JText::_('COM_THM_ORGANIZER_FLM_EDIT_TITLE'));
+        JToolBarHelper::save('field.save');
+        JToolBarHelper::cancel('field.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+    }
 }

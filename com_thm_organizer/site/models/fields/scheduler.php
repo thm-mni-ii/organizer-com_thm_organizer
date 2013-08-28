@@ -33,7 +33,7 @@ class JFormFieldScheduler extends JFormField
      *
      * @var    String
      */
-	protected $type = 'Scheduler';
+    protected $type = 'Scheduler';
 
     /**
      * Method to get the form field input
@@ -80,7 +80,7 @@ class JFormFieldScheduler extends JFormField
         else
         {
             $idString = "";
-        }		
+        }        
 
         $doc = JFactory::getDocument();
         $doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/extjs/resources/css/ext-all-gray.css");

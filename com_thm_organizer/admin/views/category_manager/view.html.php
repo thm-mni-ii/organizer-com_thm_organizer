@@ -65,7 +65,7 @@ class THM_OrganizerViewCategory_Manager extends JView
         JToolBarHelper::addNew('category.add');
         JToolBarHelper::editList('category.edit');
         JToolBarHelper::deleteList(JText::_('COM_THM_ORGANIZER_CAT_DELETE_CONFIRM'), 'category.delete');
-		JToolBarHelper::divider();
-		JToolBarHelper::preferences('com_thm_organizer');
+        JToolBarHelper::divider();
+        JToolBarHelper::preferences('com_thm_organizer');
     }
 }

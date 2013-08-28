@@ -24,7 +24,7 @@ class THM_OrganizerViewSubject_Manager extends JView
     /**
      * Retrieves display items and loads them into context.
      * 
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      * 
      * @return  void
      */
@@ -59,14 +59,14 @@ class THM_OrganizerViewSubject_Manager extends JView
         JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_SUM_TOOLBAR_TITLE'), 'generic.png');
         JToolBarHelper::addNew('subject.add');
         JToolBarHelper::editList('subject.edit');
-		JToolBarHelper::custom(
-							   'subject.importLSFData',
-							   'export',
-							   '',
-							   'COM_THM_ORGANIZER_PRM_IMPORT',
-							   true,
-							   true
-							  );
+        JToolBarHelper::custom(
+                               'subject.importLSFData',
+                               'export',
+                               '',
+                               'COM_THM_ORGANIZER_PRM_IMPORT',
+                               true,
+                               true
+                              );
         JToolBarHelper::deleteList('COM_THM_ORGANIZER_SUM_DELETE_CONFIRM', 'subject.delete');
     }
 

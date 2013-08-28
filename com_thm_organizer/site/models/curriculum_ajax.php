@@ -29,13 +29,13 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
 
     private $_schedule;
 
-	/**
-	 * Constructor to set up the class variables and call the parent constructor
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    /**
+     * Constructor to set up the class variables and call the parent constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
     
     /**
      * Method to select the Tree of the current major
@@ -68,50 +68,50 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
      * @param   int     $poolID   the id of the pool being sought
      * @param   string  $langTag  the current display language
      * 
-	 * @return  mixed  The return value or null if the query failed.
+     * @return  mixed  The return value or null if the query failed.
      */
    private function getPoolData($poolID, $langTag)
    {
-		$dbo = JFactory::getDBO();
-		$query = $dbo->getQuery(true);
+        $dbo = JFactory::getDBO();
+        $query = $dbo->getQuery(true);
         $select = "p.id, lsfID, hisID, externalID, abbreviation_$langTag AS abbreviation, ";
         $select .= "name_$langTag AS name, minCrP, maxCrP, color";
-		$query->select($select);
-		$query->from('#__thm_organizer_pools AS p');
+        $query->select($select);
+        $query->from('#__thm_organizer_pools AS p');
         $query->leftJoin('#__thm_organizer_fields AS f ON p.fieldID = f.id');
         $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
-		$query->where("p.id = '$poolID'");
-		$dbo->setQuery((string) $query);
+        $query->where("p.id = '$poolID'");
+        $dbo->setQuery((string) $query);
         $poolData = $dbo->loadObject();
         if (empty($poolData->color))
         {
             $poolData->color = 'ffffff';
         }
         $poolData->children = array(); 
-		return $poolData;
+        return $poolData;
    }
 
-	/**
-	 * Method to get program information
+    /**
+     * Method to get program information
      * 
      * @param   int  $programID  the id of the program being modelled
-	 *
-	 * @return  array
-	 */
-	private function getProgramData($programID)
-	{
-		$dbo = JFactory::getDBO();
-		$query = $dbo->getQuery(true);
+     *
+     * @return  array
+     */
+    private function getProgramData($programID)
+    {
+        $dbo = JFactory::getDBO();
+        $query = $dbo->getQuery(true);
         $select = "CONCAT(p.subject, ' (', d.abbreviation, ' ', p.version, ')') AS name, ";
         $select .= "m.id AS mapping, m.lft, m.rgt";
-		$query->select($select);
-		$query->from('#__thm_organizer_programs AS p');
+        $query->select($select);
+        $query->from('#__thm_organizer_programs AS p');
         $query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
         $query->innerJoin('#__thm_organizer_mappings AS m ON p.id = m.programID');
-		$query->where("p.id = '$programID'");
-		$dbo->setQuery((string) $query);
-		return $dbo->loadObject();
-	}
+        $query->where("p.id = '$programID'");
+        $dbo->setQuery((string) $query);
+        return $dbo->loadObject();
+    }
 
     /**
      * Retrieves subject specific information
@@ -119,20 +119,20 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
      * @param   int     $subjectID  the id of the subject being sought
      * @param   string  $langTag    the current display language
      * 
-	 * @return  mixed  The return value or null if the query failed.
+     * @return  mixed  The return value or null if the query failed.
      */
     private function getSubjectData($subjectID, $langTag)
     {
-		$dbo = JFactory::getDBO();
-		$query = $dbo->getQuery(true);
+        $dbo = JFactory::getDBO();
+        $query = $dbo->getQuery(true);
         $select = "s.id, lsfID, hisID, externalID, abbreviation_$langTag AS abbreviation, ";
         $select .= "name_$langTag AS name, creditpoints, color";
-		$query->select($select);
-		$query->from('#__thm_organizer_subjects AS s');
+        $query->select($select);
+        $query->from('#__thm_organizer_subjects AS s');
         $query->leftJoin('#__thm_organizer_fields AS f ON s.fieldID = f.id');
         $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
-		$query->where("s.id = '$subjectID'");
-		$dbo->setQuery((string) $query);
+        $query->where("s.id = '$subjectID'");
+        $dbo->setQuery((string) $query);
         $subjectData = $dbo->loadObject();
         if (empty($subjectData))
         {

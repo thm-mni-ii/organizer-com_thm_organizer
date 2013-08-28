@@ -24,9 +24,9 @@
         </sql>
     </uninstall>
     <update>
-    	<schemas>
-    		<schemapath type="mysql">sql/updates/mysql</schemapath>
-    	</schemas>
+        <schemas>
+            <schemapath type="mysql">sql/updates/mysql</schemapath>
+        </schemas>
     </update>
     
     <!-- Media files -->
@@ -55,75 +55,75 @@
         <menu img="components/com_thm_organizer/assets/images/thm_organizer.png">COM_THM_ORGANIZER</menu>
         <submenu>
             <menu alias="Category Manager"
-            	  link="option=com_thm_organizer&amp;view=category_manager"
-            	  view="category_manager"
+                  link="option=com_thm_organizer&amp;view=category_manager"
+                  view="category_manager"
                   img="components/com_thm_organizer/assets/images/categories.png"
                   alt="THM-Organizer/Category Manager"
                   >COM_THM_ORGANIZER_CAT_TITLE</menu>
             <menu alias="Schedule Manager"
-            	  link="option=com_thm_organizer&amp;view=schedule_manager"
-            	  view="schedule_manager"
-            	  img="components/com_thm_organizer/assets/images/schedules.png"
+                  link="option=com_thm_organizer&amp;view=schedule_manager"
+                  view="schedule_manager"
+                  img="components/com_thm_organizer/assets/images/schedules.png"
                   alt="THM-Organizer/Schedule Manager"
                   >COM_THM_ORGANIZER_SCH_TITLE</menu>
             <menu alias="Virtual Schedule Manager"
-            	  link="option=com_thm_organizer&amp;view=virtual_schedule_manager"
+                  link="option=com_thm_organizer&amp;view=virtual_schedule_manager"
                   view="virtual_schedule_manager"
-            	  img="components/com_thm_organizer/assets/images/virtual_schedules.png"
+                  img="components/com_thm_organizer/assets/images/virtual_schedules.png"
                   alt="THM-Organizer/Virtual Schedule Manager"
                   >COM_THM_ORGANIZER_VSM_TITLE</menu>
             <menu alias="Degrees"
-            	  link="option=com_thm_organizer&amp;view=degree_manager"
+                  link="option=com_thm_organizer&amp;view=degree_manager"
                   view="degree_manager"
                   img="components/com_thm_organizer/assets/images/degrees.png"
                   alt="THM-Organizer/Degrees"
                   >COM_THM_ORGANIZER_DEG_TITLE</menu>
             <menu alias="Colors"
-            	  link="option=com_thm_organizer&amp;view=color_manager"
+                  link="option=com_thm_organizer&amp;view=color_manager"
                   view="color_manager"
                   img="components/com_thm_organizer/assets/images/colors.png"
                   alt="THM-Organizer/Colors"
                   >COM_THM_ORGANIZER_CLM_TITLE</menu>
             <menu alias="Fields"
-            	  link="option=com_thm_organizer&amp;view=field_manager"
+                  link="option=com_thm_organizer&amp;view=field_manager"
                   view="field_manager"
                   img="components/com_thm_organizer/assets/images/fields.png"
                   alt="THM-Organizer/Fields"
                   >COM_THM_ORGANIZER_FLM_TITLE</menu>
             <menu alias="Degree Programs"
-            	  link="option=com_thm_organizer&amp;view=program_manager"
+                  link="option=com_thm_organizer&amp;view=program_manager"
                   view="degree_program_manager"
                   img="components/com_thm_organizer/assets/images/programs.png"
                   alt="THM-Organizer/Degree Programs"
                   >COM_THM_ORGANIZER_PRM_TITLE</menu>
             <menu alias="Subject Pools"
-            	  link="option=com_thm_organizer&amp;view=pool_manager"
+                  link="option=com_thm_organizer&amp;view=pool_manager"
                   view="pool_manager"
                   img="components/com_thm_organizer/assets/images/pools.png"
                   alt="THM-Organizer/Subject Pools"
                   >COM_THM_ORGANIZER_POM_TITLE</menu>
             <menu alias="Subjects"
-            	  link="option=com_thm_organizer&amp;view=subject_manager"
+                  link="option=com_thm_organizer&amp;view=subject_manager"
                   view="subject_manager"
                   img="components/com_thm_organizer/assets/images/subjects.png"
                   alt="THM-Organizer/Subjects"
                   >COM_THM_ORGANIZER_SUM_TITLE</menu>
             <menu alias="Teachers"
-            	  link="option=com_thm_organizer&amp;view=teacher_manager"
+                  link="option=com_thm_organizer&amp;view=teacher_manager"
                   view="teacher_manager"
                   img="components/com_thm_organizer/assets/images/teachers.png"
                   alt="THM-Organizer/Teachers"
                   >COM_THM_ORGANIZER_TRM_TITLE</menu>
             <menu alias="Rooms"
-            	  link="option=com_thm_organizer&amp;view=room_manager"
+                  link="option=com_thm_organizer&amp;view=room_manager"
                   view="room_manager"
                   img="components/com_thm_organizer/assets/images/rooms.png"
                   alt="THM-Organizer/Rooms"
                   >COM_THM_ORGANIZER_RMM_TITLE</menu>
             <menu alias="Monitor Manager"
-            	  link="option=com_thm_organizer&amp;view=monitor_manager"
+                  link="option=com_thm_organizer&amp;view=monitor_manager"
                   view="monitor_manager"
-            	  img="components/com_thm_organizer/assets/images/monitors.png"
+                  img="components/com_thm_organizer/assets/images/monitors.png"
                   alt="THM-Organizer/Monitor Manager"
                   >COM_THM_ORGANIZER_MON_TITLE</menu>
         </submenu>

@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		subject edit view edit template
+ * @name        subject edit view edit template
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -59,7 +59,7 @@ jq(document).ready(function(){
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=subject_edit&id=' . (int) $this->item->id); ?>"
       method="post" name="adminForm" id="modul-form">
-	<fieldset class="adminform">
+    <fieldset class="adminform">
         <legend><?php echo JText::_('COM_THM_ORGANIZER_SUM_PROPERTIES'); ?></legend>
         <fieldset>
             <legend><?php echo JText::_('COM_THM_ORGANIZER_SUM_PROPERTIES_GENERAL'); ?></legend>
@@ -194,10 +194,10 @@ jq(document).ready(function(){
                 </li>
             </ul>
         </fieldset>
-	</fieldset>
-	<fieldset class="adminform">
+    </fieldset>
+    <fieldset class="adminform">
         <legend><?php echo JText::_('COM_THM_ORGANIZER_POM_PROPERTIES_MAPPING'); ?></legend>
-		<ul class="adminformlist">
+        <ul class="adminformlist">
             <li>
                 <?php echo $this->form->getLabel('programID'); ?>
                 <?php echo $this->form->getInput('programID'); ?>
@@ -207,10 +207,10 @@ jq(document).ready(function(){
                 <?php echo $this->form->getInput('parentID'); ?>
             </li>
         </ul>
-	</fieldset>
-	<div>
-		<input type="hidden" name="task" value="" />
+    </fieldset>
+    <div>
+        <input type="hidden" name="task" value="" />
         <?php echo $this->form->getInput('id'); ?>
-		<?php echo JHtml::_('form.token'); ?>
-	</div>
+        <?php echo JHtml::_('form.token'); ?>
+    </div>
 </form>

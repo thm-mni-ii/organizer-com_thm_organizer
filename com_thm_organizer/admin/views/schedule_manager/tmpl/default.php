@@ -47,8 +47,8 @@ $direction = $this->escape($this->state->get('list.direction'));
     </fieldset>
     <div class="clr"> </div>
 <?php if (!empty($this->schedules))
-	  { 
-	  	$k = 0;
+      { 
+          $k = 0;
 ?>
     <div>
         <table class="adminlist" cellpadding="0">
@@ -133,7 +133,7 @@ foreach ($this->schedules as $k => $schedule)
                 </tr>
             <?php 
 }
-			?>
+            ?>
             </tbody>
         </table>
     </div>

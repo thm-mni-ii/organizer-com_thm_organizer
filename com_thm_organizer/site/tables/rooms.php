@@ -28,6 +28,6 @@ class THM_OrganizerTableRooms extends JTable
      */
     public function __construct(&$dbo)
     {
-    	parent::__construct('#__thm_organizer_rooms', 'id', $dbo);
+        parent::__construct('#__thm_organizer_rooms', 'id', $dbo);
     }
 }

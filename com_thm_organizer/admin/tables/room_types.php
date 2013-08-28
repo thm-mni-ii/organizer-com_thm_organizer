@@ -4,7 +4,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerTableroom_types
+ * @name        THM_OrganizerTableroom_types
  * @description room_types table class
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen

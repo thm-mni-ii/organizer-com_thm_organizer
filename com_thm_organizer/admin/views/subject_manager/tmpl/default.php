@@ -3,27 +3,27 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerViewPool_Edit
+ * @name        THM_OrganizerViewPool_Edit
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-$listOrder	= $this->state->get('list.ordering');
-$listDirn	= $this->state->get('list.direction');
+$listOrder    = $this->state->get('list.ordering');
+$listDirn    = $this->state->get('list.direction');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=subject_manager');?>"
       method="post" name="adminForm" id="adminForm">
     <fieldset id="filter-bar" class='filter-bar'>
-		<div class="filter-search fltlft">
-			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
+        <div class="filter-search fltlft">
+            <label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
             <input type='text' name='filter_search' id='filter_search'
                    value='<?php echo $this->escape($this->state->get('filter.search')); ?>'
                    title='<?php echo JText::_('COM_CATEGORIES_ITEMS_SEARCH_FILTER'); ?>' />
-			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
-		</div>
+            <button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
+            <button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+        </div>
         <div class="filter-select fltrt">
 <?php
 echo $this->programSelect;
@@ -34,9 +34,9 @@ if (isset($this->poolSelect))
 ?>
             
         </div>
-	</fieldset>
-	<table class="adminlist">
-		<thead>
+    </fieldset>
+    <table class="adminlist">
+        <thead>
             <tr>
                 <th width="3%">
                     <input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" />
@@ -58,7 +58,7 @@ if (isset($this->poolSelect))
                 </th>
             </tr>
         </thead>
-		<tfoot>
+        <tfoot>
             <tr>
                 <td colspan="6"><?php echo $this->pagination->getListFooter(); ?></td>
             </tr>
@@ -68,7 +68,7 @@ if (isset($this->poolSelect))
             <input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
             <?php echo JHtml::_('form.token'); ?>
         </tfoot>
-		<tbody>
+        <tbody>
 <?php
 foreach ($this->items as $i => $item)
 {
@@ -78,27 +78,27 @@ foreach ($this->items as $i => $item)
                     <?php echo JHtml::_('grid.id', $i, $item->id)?>
                 </td>
                 <td>
-					<a href="index.php?option=com_thm_organizer&view=subject_edit&id=<?php echo $item->id; ?>">
+                    <a href="index.php?option=com_thm_organizer&view=subject_edit&id=<?php echo $item->id; ?>">
                         <?php echo $item->name;?>
                     </a>
                 </td>
                 <td style="background-color: #<?php echo $item->color; ?>;">
-					<a href="index.php?option=com_thm_organizer&view=subject_edit&id=<?php echo $item->id; ?>">
+                    <a href="index.php?option=com_thm_organizer&view=subject_edit&id=<?php echo $item->id; ?>">
                         <?php echo $item->field; ?>
                     </a>
                 </td>
                 <td align="center">
-					<a href="index.php?option=com_thm_organizer&view=subject_edit&id=<?php echo $item->id; ?>">
+                    <a href="index.php?option=com_thm_organizer&view=subject_edit&id=<?php echo $item->id; ?>">
                         <?php echo $item->lsfID; ?>
                     </a>
                 </td>
                 <td align="center">
-					<a href="index.php?option=com_thm_organizer&view=subject_edit&id=<?php echo $item->id; ?>">
+                    <a href="index.php?option=com_thm_organizer&view=subject_edit&id=<?php echo $item->id; ?>">
                         <?php echo $item->hisID; ?>
                     </a>
                 </td>
                 <td align="center">
-					<a href="index.php?option=com_thm_organizer&view=subject_edit&id=<?php echo $item->id; ?>">
+                    <a href="index.php?option=com_thm_organizer&view=subject_edit&id=<?php echo $item->id; ?>">
                         <?php echo $item->externalID; ?>
                     </a>
                 </td>
@@ -107,5 +107,5 @@ foreach ($this->items as $i => $item)
 }
 ?>
         </tbody>
-	</table>
+    </table>
 </form>

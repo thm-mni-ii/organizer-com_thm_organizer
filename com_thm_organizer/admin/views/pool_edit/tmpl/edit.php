@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		view pool edit template
+ * @name        view pool edit template
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -69,9 +69,9 @@ jq(document).ready(function(){
 </script>
 <form action="<?php echo JRoute::_("index.php?option=com_thm_organizer&view=pool_edit&id=$poolID"); ?>"
       method="post" name="adminForm" id="modul-form">
-	<fieldset class="adminform">
+    <fieldset class="adminform">
         <legend><?php echo JText::_('COM_THM_ORGANIZER_POM_PROPERTIES_DE'); ?></legend>
-		<ul class="adminformlist">
+        <ul class="adminformlist">
             <li>
                 <?php echo $this->form->getLabel('name_de'); ?>
                 <?php echo $this->form->getInput('name_de'); ?>
@@ -85,10 +85,10 @@ jq(document).ready(function(){
                 <?php echo $this->form->getInput('abbreviation_de'); ?>
             </li>
         </ul>
-	</fieldset>
-	<fieldset class="adminform">
+    </fieldset>
+    <fieldset class="adminform">
         <legend><?php echo JText::_('COM_THM_ORGANIZER_POM_PROPERTIES_EN'); ?></legend>
-		<ul class="adminformlist">
+        <ul class="adminformlist">
             <li>
                 <?php echo $this->form->getLabel('name_en'); ?>
                 <?php echo $this->form->getInput('name_en'); ?>
@@ -102,10 +102,10 @@ jq(document).ready(function(){
                 <?php echo $this->form->getInput('abbreviation_en'); ?>
             </li>
         </ul>
-	</fieldset>
-	<fieldset class="adminform">
+    </fieldset>
+    <fieldset class="adminform">
         <legend><?php echo JText::_('COM_THM_ORGANIZER_POM_PROPERTIES'); ?></legend>
-		<ul class="adminformlist">
+        <ul class="adminformlist">
             <li>
                 <?php echo $this->form->getLabel('lsfID'); ?>
                 <?php echo $this->form->getInput('lsfID'); ?>
@@ -131,10 +131,10 @@ jq(document).ready(function(){
                 <?php echo $this->form->getInput('fieldID'); ?>
             </li>
         </ul>
-	</fieldset>
-	<fieldset class="adminform">
+    </fieldset>
+    <fieldset class="adminform">
         <legend><?php echo JText::_('COM_THM_ORGANIZER_POM_PROPERTIES_MAPPING'); ?></legend>
-		<ul class="adminformlist">
+        <ul class="adminformlist">
             <li>
                 <?php echo $this->form->getLabel('programID'); ?>
                 <?php echo $this->form->getInput('programID'); ?>
@@ -144,9 +144,9 @@ jq(document).ready(function(){
                 <?php echo $this->form->getInput('parentID'); ?>
             </li>
         </ul>
-	</fieldset>
-	<fieldset class="adminform">
-		<legend><?php echo JText::_('COM_THM_ORGANIZER_CHILDREN'); ?></legend>
+    </fieldset>
+    <fieldset class="adminform">
+        <legend><?php echo JText::_('COM_THM_ORGANIZER_CHILDREN'); ?></legend>
 <?php
 if (!empty($this->children))
 {
@@ -217,7 +217,7 @@ if (!empty($this->children))
                                     </span>
                                 </a>
                             </span>
-							<input type="text"
+                            <input type="text"
                                    name="child<?php echo $index; ?>order"
                                    id="child<?php echo $index; ?>order"
                                    size="2" value="<?php echo $index;?>" class="text-area-order"
@@ -226,7 +226,7 @@ if (!empty($this->children))
                                title="<?php echo JText::_('COM_THM_ORGANIZER_MAPPING_DELETE'); ?>"
                                onClick="remove(<?php echo $index; ?>)">
                             </a>
-						</td>
+                        </td>
                     </tr>
 <?php
     }
@@ -247,10 +247,10 @@ if (!empty($this->children))
                 <?php echo JText::_('COM_THM_ORGANIZER_ADD_SUBJECTS'); ?>
             </a>
         </div>
-	</fieldset>
-	<div>
+    </fieldset>
+    <div>
         <?php echo $this->form->getInput('id'); ?>
-		<input type="hidden" name="task" value="" />
-		<?php echo JHtml::_('form.token'); ?>
-	</div>
+        <input type="hidden" name="task" value="" />
+        <?php echo JHtml::_('form.token'); ?>
+    </div>
 </form>

@@ -136,4 +136,4 @@ if (!empty($event['description']))
 ?>
     </div>
 </div>
-	
+    

@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name		THM_OrganizerViewDegrees
+ * @name        THM_OrganizerViewDegrees
  * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -21,39 +21,39 @@ jimport('joomla.application.component.view');
  */
 class THM_OrganizerViewDegree_Manager extends JView
 {
-	/**
-	 * Method to get display
-	 *
-	 * @param   Object  $tpl  template  (default: null)
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		JHtml::_('behavior.tooltip');
+    /**
+     * Method to get display
+     *
+     * @param   Object  $tpl  template  (default: null)
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        JHtml::_('behavior.tooltip');
 
-		$items = $this->get('Items');
-		$pagination = $this->get('Pagination');
+        $items = $this->get('Items');
+        $pagination = $this->get('Pagination');
 
-		$this->items = $items;
-		$this->pagination = $pagination;
-		$this->state = $this->get('State');
-				
-		$this->addToolBar();
+        $this->items = $items;
+        $this->pagination = $pagination;
+        $this->state = $this->get('State');
+                
+        $this->addToolBar();
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * Method to generate buttons for user interaction
-	 *
-	 * @return  void
-	 */
-	protected function addToolBar()
-	{
-		JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_DEG_TOOLBAR_TITLE'), 'generic.png');
-		JToolBarHelper::addNew('degree.add', 'JTOOLBAR_NEW');
-		JToolBarHelper::editList('degree.edit', 'JTOOLBAR_EDIT');
-		JToolBarHelper::deleteList('', 'degree.delete', 'JTOOLBAR_DELETE');
-	}
+    /**
+     * Method to generate buttons for user interaction
+     *
+     * @return  void
+     */
+    protected function addToolBar()
+    {
+        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_DEG_TOOLBAR_TITLE'), 'generic.png');
+        JToolBarHelper::addNew('degree.add', 'JTOOLBAR_NEW');
+        JToolBarHelper::editList('degree.edit', 'JTOOLBAR_EDIT');
+        JToolBarHelper::deleteList('', 'degree.delete', 'JTOOLBAR_DELETE');
+    }
 }

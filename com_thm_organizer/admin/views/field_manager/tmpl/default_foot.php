@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		view colors default foot
+ * @name        view colors default foot
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -14,7 +14,7 @@ $listOrder = $this->state->get('list.ordering', 'ordering');
 $listDirn = $this->state->get('list.direction');
 ?>
 <tr>
-	<td colspan="4"><?php echo $this->pagination->getListFooter(); ?></td>
+    <td colspan="4"><?php echo $this->pagination->getListFooter(); ?></td>
 </tr>
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="0" />

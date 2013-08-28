@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		view pool add template
+ * @name        view pool add template
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -13,9 +13,9 @@ defined('_JEXEC') or die;
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=pool_edit&id=' . (int) $this->item->id); ?>"
       method="post" name="adminForm" id="modul-form">
-	<fieldset class="adminform">
+    <fieldset class="adminform">
         <legend><?php echo JText::_('COM_THM_ORGANIZER_POM_PROPERTIES_DE'); ?></legend>
-		<ul class="adminformlist">
+        <ul class="adminformlist">
             <li>
                 <?php echo $this->form->getLabel('name_de'); ?>
                 <?php echo $this->form->getInput('name_de'); ?>
@@ -29,10 +29,10 @@ defined('_JEXEC') or die;
                 <?php echo $this->form->getInput('abbreviation_de'); ?>
             </li>
         </ul>
-	</fieldset>
-	<fieldset class="adminform">
+    </fieldset>
+    <fieldset class="adminform">
         <legend><?php echo JText::_('COM_THM_ORGANIZER_POM_PROPERTIES_EN'); ?></legend>
-		<ul class="adminformlist">
+        <ul class="adminformlist">
             <li>
                 <?php echo $this->form->getLabel('name_en'); ?>
                 <?php echo $this->form->getInput('name_en'); ?>
@@ -46,10 +46,10 @@ defined('_JEXEC') or die;
                 <?php echo $this->form->getInput('abbreviation_en'); ?>
             </li>
         </ul>
-	</fieldset>
-	<fieldset class="adminform">
+    </fieldset>
+    <fieldset class="adminform">
         <legend><?php echo JText::_('COM_THM_ORGANIZER_POM_PROPERTIES'); ?></legend>
-		<ul class="adminformlist">
+        <ul class="adminformlist">
             <li>
                 <?php echo $this->form->getLabel('lsfID'); ?>
                 <?php echo $this->form->getInput('lsfID'); ?>
@@ -75,10 +75,10 @@ defined('_JEXEC') or die;
                 <?php echo $this->form->getInput('fieldID'); ?>
             </li>
         </ul>
-	</fieldset>
-	<div>
+    </fieldset>
+    <div>
         <?php echo $this->form->getInput('id'); ?>
-		<input type="hidden" name="task" value="" />
-		<?php echo JHtml::_('form.token'); ?>
-	</div>
+        <input type="hidden" name="task" value="" />
+        <?php echo JHtml::_('form.token'); ?>
+    </div>
 </form>

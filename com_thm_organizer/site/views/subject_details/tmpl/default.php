@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		subject details view default layout
+ * @name        subject details view default layout
  * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
@@ -51,7 +51,7 @@ $flagPath .= DIRECTORY_SEPARATOR . 'curriculum' . DIRECTORY_SEPARATOR . $this->o
                  alt="<?php echo $this->otherLanguageTag; ?>"
                  src="<?php echo $flagPath; ?>" />
         </a>
-	</span>
+    </span>
 </h1>
 <div class="subject-list">
 <?php
@@ -122,21 +122,21 @@ if (!empty($subject['expenditureOutput']))
 {
     echo '<div class="subject-item">';
     echo '<div class="subject-label">' . $expenditure . '</div>';
-	echo '<div class="subject-content">' . $subject['expenditureOutput'] . '</div>';
+    echo '<div class="subject-content">' . $subject['expenditureOutput'] . '</div>';
     echo '</div>';
 }
 if (!empty($subject['method']))
 {
     echo '<div class="subject-item">';
     echo '<div class="subject-label">' . $method . '</div>';
-	echo '<div class="subject-content">' . $subject['method'] . '</div>';
+    echo '<div class="subject-content">' . $subject['method'] . '</div>';
     echo '</div>';
 }
 if (!empty($subject['preliminary_work']))
 {
     echo '<div class="subject-item">';
     echo '<div class="subject-label">' . $preliminary_work . '</div>';
-	echo '<div class="subject-content">' . $subject['preliminary_work'] . '</div>';
+    echo '<div class="subject-content">' . $subject['preliminary_work'] . '</div>';
     echo '</div>';
 }
 if (!empty($subject['proof']))
@@ -151,7 +151,7 @@ if (!empty($subject['frequency']))
 {
     echo '<div class="subject-item">';
     echo '<div class="subject-label">' . $frequency . '</div>';
-	echo '<div class="subject-content">' . $subject['frequency'] . '</div>';
+    echo '<div class="subject-content">' . $subject['frequency'] . '</div>';
     echo '</div>';
 }
 if (!empty($subject['literature']))
@@ -186,5 +186,5 @@ if (!empty($subject['prerequisiteOf']))
     echo '</div>';
 }
 ?>
-	</dl>
+    </dl>
 </div>

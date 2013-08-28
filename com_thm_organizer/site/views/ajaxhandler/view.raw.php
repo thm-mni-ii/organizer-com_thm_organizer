@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name		thm_organizerViewAjaxHandler
+ * @name        thm_organizerViewAjaxHandler
  * @description thm_organizerViewAjaxHandler file from com_thm_organizer
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
@@ -22,72 +22,72 @@ jimport('joomla.application.component.view');
 
 class THM_OrganizerViewAjaxHandler extends JView
 {
-	/**
-	 * Method to get extra
-	 *
-	 * @param   String  $tpl  template
-	 *
-	 * @return void
-	 *
-	 * @see JView::display()
-	 */
-	public function display($tpl = null)
-	{
-		$model = $this->getModel();
+    /**
+     * Method to get extra
+     *
+     * @param   String  $tpl  template
+     *
+     * @return void
+     *
+     * @see JView::display()
+     */
+    public function display($tpl = null)
+    {
+        $model = $this->getModel();
 
-		$task = JRequest::getCmd('scheduletask');
+        $task = JRequest::getCmd('scheduletask');
 
-		$output = $model->executeTask($task);
+        $output = $model->executeTask($task);
 
-		if (count($output) == 1)
-		{
-			$this->response($output["data"]);
-		}
-		else
-		{
-			$this->response($output["success"], $output["data"]);
-		}
-	}
+        if (count($output) == 1)
+        {
+            $this->response($output["data"]);
+        }
+        else
+        {
+            $this->response($output["success"], $output["data"]);
+        }
+    }
 
-	/**
-	 * Method to send a response to the client
-	 *
-	 * @param   Object  $mix  The information to send can be a array, string or boolean
-	 * @param   Array   $arr  Additional information to send
-	 *
-	 * @return void
-	 */
-	public function response($mix, $arr = array())
-	{
-		if (is_bool($mix))
-		{
-			if (is_array($arr))
-			{
-				$arr['size'] = count($arr);
-				$arr['success'] = $mix;
-				$arr['sid'] = session_id();
-			}
-		}
-		elseif (is_array($mix))
-		{
-			$arr = $mix;
-			$arr['size'] = count($arr);
-			$arr['sid'] = session_id();
-		}
-		elseif (is_string($mix))
-		$arr = $mix;
-		else
-		{
-			// TODO
-		}
+    /**
+     * Method to send a response to the client
+     *
+     * @param   Object  $mix  The information to send can be a array, string or boolean
+     * @param   Array   $arr  Additional information to send
+     *
+     * @return void
+     */
+    public function response($mix, $arr = array())
+    {
+        if (is_bool($mix))
+        {
+            if (is_array($arr))
+            {
+                $arr['size'] = count($arr);
+                $arr['success'] = $mix;
+                $arr['sid'] = session_id();
+            }
+        }
+        elseif (is_array($mix))
+        {
+            $arr = $mix;
+            $arr['size'] = count($arr);
+            $arr['sid'] = session_id();
+        }
+        elseif (is_string($mix))
+        $arr = $mix;
+        else
+        {
+            // TODO
+        }
 
-		if (is_array($arr))
-		{
-			echo json_encode($arr);
-		}
-		else
-		{
-			echo $arr;
-		}
-	}
+        if (is_array($arr))
+        {
+            echo json_encode($arr);
+        }
+        else
+        {
+            echo $arr;
+        }
+    }
 }

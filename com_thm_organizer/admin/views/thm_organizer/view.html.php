@@ -54,7 +54,7 @@ class THM_OrganizerViewTHM_Organizer extends JView
 
         $this->addViews();
 
-	parent::display($tpl);
+    parent::display($tpl);
     }
 
     /**
@@ -64,8 +64,8 @@ class THM_OrganizerViewTHM_Organizer extends JView
      */
     private function addToolBar()
     {
-    	JToolBarHelper::title(JText::_('COM_THM_ORGANIZER') . ': ' . JText::_('COM_THM_ORGANIZER_MAIN_TITLE'), 'mni');
-		JToolBarHelper::preferences('com_thm_organizer');
+        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER') . ': ' . JText::_('COM_THM_ORGANIZER_MAIN_TITLE'), 'mni');
+        JToolBarHelper::preferences('com_thm_organizer');
     }
 
     /**
