@@ -105,83 +105,83 @@ class THMTreeView
         
         if ($menuid == 0 && is_null($menu->getActive()))
         {
-        	$options["hide"] = false;
-        	$this->_checked = array();
-        	$this->_publicDefaultNode = array();
-        	$this->_publicDefaultNode = array();
-        	$this->departmentSemesterSelection = JRequest::getString('departmentSemesterSelection');
+            $options["hide"] = false;
+            $this->_checked = array();
+            $this->_publicDefaultNode = array();
+            $this->_publicDefaultNode = array();
+            $this->departmentSemesterSelection = JRequest::getString('departmentSemesterSelection');
         }
         else
         {
-	        if ($menuid != 0)
-	        {
-	            $menuparams = $menu->getParams($menuid);
-	        }
-	        else
-	        {
-	            $menuparams = $menu->getParams($menu->getActive()->id);
-	            $options["hide"] = true;
-	        }
-	        
-	        if (isset($options["path"]))
-	        {
-	            $this->_checked = (array) $options["path"];
-	        }
-	        else
-	        {
-	            $treeIDs = JRequest::getString('treeIDs');
-	            $treeIDsData = json_decode($treeIDs);
-	            if ($treeIDsData != null)
-	            {
-	                $this->_checked = (array) $treeIDsData;
-	            }
-	            else
-	            {
-	                $this->_checked = (array) json_decode($menuparams->get("id"));
-	            }
-	        }
-	
-	        if (isset($options["publicDefault"]))
-	        {
-	            $this->_publicDefault = (array) $options["publicDefault"];
-	        }
-	        else
-	        {
-	            $publicDefaultID = json_decode(JRequest::getString('publicDefaultID'));
-	            if ($publicDefaultID != null)
-	            {
-	                $this->_publicDefault = (array) $publicDefaultID;
-	            }
-	            else
-	            {
-	                $this->_publicDefault = (array) json_decode($menuparams->get("publicDefaultID"));
-	            }
-	        }
-	
-	        if (isset($options["hide"]))
-	        {
-	            $this->_hideCheckBox = $options["hide"];
-	        }
-	        else
-	        {
-	            $this->_hideCheckBox = false;
-	        }
-	
-	        if (JRequest::getString('departmentSemesterSelection') == "")
-	        {
-	            if (isset($options["departmentSemesterSelection"]))
-	            {
-	                $this->departmentSemesterSelection = $options["departmentSemesterSelection"];
-	            }
-	            else
-	            {
-	                $this->departmentSemesterSelection = $menuparams->get("departmentSemesterSelection");
-	            }
-	        }
-	        else
-	        {
-	            $this->departmentSemesterSelection = JRequest::getString('departmentSemesterSelection');
-	        }
+            if ($menuid != 0)
+            {
+                $menuparams = $menu->getParams($menuid);
+            }
+            else
+            {
+                $menuparams = $menu->getParams($menu->getActive()->id);
+                $options["hide"] = true;
+            }
+            
+            if (isset($options["path"]))
+            {
+                $this->_checked = (array) $options["path"];
+            }
+            else
+            {
+                $treeIDs = JRequest::getString('treeIDs');
+                $treeIDsData = json_decode($treeIDs);
+                if ($treeIDsData != null)
+                {
+                    $this->_checked = (array) $treeIDsData;
+                }
+                else
+                {
+                    $this->_checked = (array) json_decode($menuparams->get("id"));
+                }
+            }
+    
+            if (isset($options["publicDefault"]))
+            {
+                $this->_publicDefault = (array) $options["publicDefault"];
+            }
+            else
+            {
+                $publicDefaultID = json_decode(JRequest::getString('publicDefaultID'));
+                if ($publicDefaultID != null)
+                {
+                    $this->_publicDefault = (array) $publicDefaultID;
+                }
+                else
+                {
+                    $this->_publicDefault = (array) json_decode($menuparams->get("publicDefaultID"));
+                }
+            }
+    
+            if (isset($options["hide"]))
+            {
+                $this->_hideCheckBox = $options["hide"];
+            }
+            else
+            {
+                $this->_hideCheckBox = false;
+            }
+    
+            if (JRequest::getString('departmentSemesterSelection') == "")
+            {
+                if (isset($options["departmentSemesterSelection"]))
+                {
+                    $this->departmentSemesterSelection = $options["departmentSemesterSelection"];
+                }
+                else
+                {
+                    $this->departmentSemesterSelection = $menuparams->get("departmentSemesterSelection");
+                }
+            }
+            else
+            {
+                $this->departmentSemesterSelection = JRequest::getString('departmentSemesterSelection');
+            }
         }
     }
 

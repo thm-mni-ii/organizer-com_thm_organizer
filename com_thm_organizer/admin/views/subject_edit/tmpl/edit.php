@@ -102,12 +102,12 @@ jq(document).ready(function(){
                         <?php echo $this->form->getInput('pform'); ?>
                     </li>
                     <li>
-                        <?php echo $this->form->getLabel('frequency'); ?>
-                        <?php echo $this->form->getInput('frequency'); ?>
+                        <?php echo $this->form->getLabel('frequencyID'); ?>
+                        <?php echo $this->form->getInput('frequencyID'); ?>
                     </li>
                     <li>
-                        <?php echo $this->form->getLabel('method'); ?>
-                        <?php echo $this->form->getInput('method'); ?>
+                        <?php echo $this->form->getLabel('methodID'); ?>
+                        <?php echo $this->form->getInput('methodID'); ?>
                     </li>
                     <li>
                         <?php echo $this->form->getLabel('fieldID'); ?>

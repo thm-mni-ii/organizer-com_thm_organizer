@@ -102,7 +102,7 @@
             <option value="M">COM_THM_ORGANIZER_SUM_PFORM_VERBAL</option>
             <option value="L">COM_THM_ORGANIZER_SUM_PFORM_CERTIFICATE</option>
         </field>
-        <field name="frequency"
+        <field name="frequencyID"
                type="list"
                default="3"
                label="COM_THM_ORGANIZER_SUM_FREQUENCY_TITLE"
@@ -114,7 +114,7 @@
             <option value="4">COM_THM_ORGANIZER_SUM_FREQUENCY_ASNEEDED</option>
             <option value="0">COM_THM_ORGANIZER_SUM_FREQUENCY_APPT</option>
         </field>
-        <field name="method"
+        <field name="methodID"
                type="list"
                default="VU"
                label="COM_THM_ORGANIZER_SUM_METHOD_TITLE"

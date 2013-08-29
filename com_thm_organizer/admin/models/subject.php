@@ -91,14 +91,21 @@ class THM_OrganizerModelSubject extends JModel
     {
         $table = JTable::getInstance('subjects', 'thm_organizerTable');
         $loaded = $table->load($subjectID);
-        if (!$loaded or empty($table->lsfID))
+        if (!$loaded or (empty($table->lsfID) AND empty($table->externalID)))
         {
             return false;
         }
 
         $client = new THM_OrganizerLSFClient;
-        $lsfData = $client->getModuleByModulid($table->lsfID);
-
+        if (!empty($table->lsfID))
+        {
+            $lsfData = $client->getModuleByModulid($table->lsfID);
+        }
+        else
+        {
+            $lsfData = $client->getModuleByNrMni($table->externalID);
+        }
+//echo "<pre>" . print_r($lsfData, true) . "</pre>";die;
         $data = array();
         foreach ($lsfData->modul->children() as $child)
         {

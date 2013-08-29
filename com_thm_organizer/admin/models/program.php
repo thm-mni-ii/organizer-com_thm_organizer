@@ -68,7 +68,7 @@ class THM_OrganizerModelProgram extends JModel
     {
         $dbo = JFactory::getDbo();
         $lsfDataQuery = $dbo->getQuery(true);
-        $lsfDataQuery->select("'studiengang' AS lsfType, lsfFieldID AS program, lsfDegree AS degree, version");
+        $lsfDataQuery->select("lsfFieldID AS program, lsfDegree AS degree, version");
         $lsfDataQuery->from('#__thm_organizer_programs AS p');
         $lsfDataQuery->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
         $lsfDataQuery->where("p.id = '$programID'");
@@ -127,7 +127,7 @@ class THM_OrganizerModelProgram extends JModel
             }
         }
  
-        $lsfProgram = $client->getModules($lsfData['lsfType'], $lsfData['program'], $lsfData['degree'], $lsfData['version']);
+        $lsfProgram = $client->getModules($lsfData['program'], $lsfData['degree'], $lsfData['version']);
         if (empty($lsfProgram))
         {
             return false;

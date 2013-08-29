@@ -13,13 +13,16 @@
 defined('_JEXEC') or die;
 $resetScript = "this.form.getElementById('search').value='';this.form.getElementById('groupFilters').value='0';";
 $resetScript .= "this.form.getElementById('rolesFilters').value='0';this.form.submit();";
+$descriptionLabel = JText::_("COM_THM_ORGANIZER_VSM_LABEL_DESCRIPTION");
+$searchLabel .= JText::_("COM_THM_ORGANIZER_VSM_LABEL_SEARCH")
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>" method="post" name="adminForm">
 <table class="adminform">
     <tr>
         <td>
-            <?php
-            echo "<span title='" . JText::_("COM_THM_ORGANIZER_VSM_LABEL_DESCRIPTION") . "'>" . JText::_("COM_THM_ORGANIZER_VSM_LABEL_SEARCH") . "</span>";
+            <span title='<?php echo $descriptionLabel; ?>'>";
+                <?php echo $searchLabel; ?>
+            </span>";
             ?>
             <input type="text" name="search" id="search" value="<?php echo $this->lists['search']; ?>"
                    class="text_area" onChange="document.adminForm.submit();" />
@@ -101,7 +104,8 @@ $resetScript .= "this.form.getElementById('rolesFilters').value='0';this.form.su
     {
         $row = &$this->items[$i];
         $checked  = JHTML::_('grid.id', $i, $row->id);
-        $link = JRoute::_('index.php?option=com_thm_organizer&controller=virtual_schedule&task=virtual_schedule.edit&cid[]=' . base64_encode($row->id));
+        $url = 'index.php?option=com_thm_organizer&controller=virtual_schedule&task=virtual_schedule.edit&cid[]=';
+        $link = JRoute::_($url . base64_encode($row->id));
         ?>
     <tr class="<?php echo "row" . $k; ?>">
         <td><?php echo $row->id; ?></td>

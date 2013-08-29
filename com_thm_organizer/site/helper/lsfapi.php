@@ -21,32 +21,10 @@
  */
 class THM_OrganizerLSFClient
 {
-    /**
-     * Web-Service URI
-     *
-     * @var    String
-     */
-    private $_endpoint;
-
-    /**
-     * Nusoap client
-     *
-     * @var    Object
-     */
     private $_client;
 
-    /**
-     * Username
-     *
-     * @var    String
-     */
     private $_username;
 
-    /**
-     * Password
-     *
-     * @var    String
-     */
     private $_password;
 
     /**
@@ -56,19 +34,20 @@ class THM_OrganizerLSFClient
     {
         require_once 'lib/nusoap/nusoap.php';
 
-        $this->_endpoint = JComponentHelper::getParams('com_thm_organizer')->get('wsURI');
         $this->_username = JComponentHelper::getParams('com_thm_organizer')->get('wsUsername');
         $this->_password = JComponentHelper::getParams('com_thm_organizer')->get('wsPassword');
 
-        $proxyhost = '';
-        $proxyport = '';
-        $proxyusername = '';
-        $proxypassword = '';
+        $params = array();
+        $params['endpoint'] = JComponentHelper::getParams('com_thm_organizer')->get('wsURI');
+        $params['wsdl'] = true;
+        $params['proxyhost'] = '';
+        $params['proxyport'] = '';
+        $params['proxyusername'] = '';
+        $params['proxypassword'] = '';
+        $params['timeout'] = 120;
+        $params['responseTimeout'] = 120;
 
-        $timeout = 120;
-        $responseTimeout = 120;
-
-        $this->_client = new nusoap_client($this->_endpoint, true, $proxyhost, $proxyport, $proxyusername, $proxypassword, $timeout, $responseTimeout);
+        $this->_client = new nusoap_client($params);
     }
 
     /**
@@ -108,36 +87,23 @@ class THM_OrganizerLSFClient
     }
 
     /**
-     * Performs a soap request, in order to get the xml strucutre of the given configuration
+     * Performs a soap request, in order to get the xml strucutre of the given
+     * configuration
      *
-     * @param   String  $object       An object
-     * @param   String  $studiengang  Major
-     * @param   String  $abschluss    Graduation
-     * @param   String  $pversion     Version
+     * @param   String  $program  degree program code
+     * @param   String  $degree   associated degree
+     * @param   String  $year     year of accreditation
      *
      * @return SimpleXMLElement
      */
-    public function getModules($object, $studiengang, $abschluss = null, $pversion = null)
+    public function getModules($program, $degree = null, $year = null)
     {
-        $queryXML = "<?xml version='1.0' encoding='UTF-8'?>";
-        $queryXML .= '<SOAPDataService>';
-        $queryXML .= '<general>';
-        $queryXML .= "<object>$object</object>";
-        $queryXML .= '</general>';
-        $queryXML .= '<user-auth>';
-        $queryXML .= "<username>$this->_username</username>";
-        $queryXML .= "<password>$this->_password</password>";
-        $queryXML .= '</user-auth>';
-        $queryXML .= '<filter>';
-        $queryXML .= "<pord.abschl>$abschluss</pord.abschl>";
-        $queryXML .= "<pord.pversion>$pversion</pord.pversion>";
-
-        // BI I MI
-        $queryXML .= "<pord.stg>$studiengang</pord.stg>";
-        $queryXML .= '</filter>';
-        $queryXML .= '</SOAPDataService>';
-
-        return self::getDataXML($queryXML);
+        $XML = $this->header('studiengang');
+        $XML .= "<pord.abschl>$degree</pord.abschl>";
+        $XML .= "<pord.pversion>$year</pord.pversion>";
+        $XML .= "<pord.stg>$program</pord.stg>";
+        $XML .= $this->footer();
+        return self::getDataXML($XML);
     }
 
     /**
@@ -145,24 +111,14 @@ class THM_OrganizerLSFClient
      *
      * @param   String  $moduleID  The module mni number
      *
-     * @return Ambigous <void, string, unknown> Returns the xml strucutre of a given lsf lsf course code (CS1001, ...)
+     * @return  Mixed <void, string, unknown> Returns the xml strucutre of a given lsf lsf course code (CS1001, ...)
      */
     public function getModuleByNrMni($moduleID)
     {
-        $queryXML = "<?xml version='1.0' encoding='UTF-8'?>";
-        $queryXML .= '<SOAPDataService>';
-        $queryXML .= '<general>';
-        $queryXML .= '<object>ModuleMNI</object>';
-        $queryXML .= '</general>';
-        $queryXML .= ' <user-auth>';
-        $queryXML .= "<username>$this->_username</username>";
-        $queryXML .= "<password>$this->_password</password>";
-        $queryXML .= '</user-auth>';
-        $queryXML .= '<filter>';
-        $queryXML .= "<pord.pfnrex>$moduleID</pord.pfnrex>";
-        $queryXML .= '</filter>';
-        $queryXML .= '</SOAPDataService>';
-        return self::getDataXML($queryXML);
+        $XML = $this->header('ModuleMNI');
+        $XML .= "<pord.pfnrex>$moduleID</pord.pfnrex>";
+        $XML .= $this->footer();
+        return self::getDataXML($XML);
     }
 
     /**
@@ -170,23 +126,40 @@ class THM_OrganizerLSFClient
      *
      * @param   Integer  $moduleID  The module mni number
      *
-     * @return Ambigous <void, string, unknown> Returns the xml strucutre of a given lsf module id
+     * @return  Mixed <void, string, unknown> Returns the xml strucutre of a given lsf module id
      */
     public function getModuleByModulid($moduleID)
     {
-        $queryXML = "<?xml version='1.0' encoding='UTF-8'?>";
-        $queryXML .= '<SOAPDataService>';
-        $queryXML .= '<general>';
-        $queryXML .= '<object>ModuleMNI</object>';
-        $queryXML .= '</general>';
-        $queryXML .= '<user-auth>';
-        $queryXML .= "<username>$this->_username</username>";
-        $queryXML .= "<password>$this->_password</password>";
-        $queryXML .= '</user-auth>';
-        $queryXML .= '<filter>';
-        $queryXML .= "<pord.pordnr>$moduleID</pord.pordnr>";
-        $queryXML .= '</filter>';
-        $queryXML .= '</SOAPDataService>';
-        return self::getDataXML($queryXML);
+        $XML = $this->header('ModuleMNI');
+        $XML .= "<pord.pordnr>$moduleID</pord.pordnr>";
+        $XML .= $this->footer();
+        return self::getDataXML($XML);
+    }
+
+    /**
+     * Creates the header used by all XML queries
+     * 
+     * @param   String  $objectType  the LSF object type
+     * 
+     * @return  string  the header of the XML query
+     */
+    private function header($objectType)
+    {
+        $header = "<?xml version='1.0' encoding='UTF-8'?><SOAPDataService>";
+        $header .= "<general><object>$objectType</object></general><user-auth>";
+        $header .= "<username>$this->_username</username>";
+        $header .= "<password>$this->_password</password>";
+        $header .= "</user-auth><filter>";
+        return $header;
+    }
+
+    /**
+     * Creates the footer used by all XML queries
+     * 
+     * @return string
+     */
+    private function footer()
+    {
+       return '</filter></SOAPDataService>';
     }
 }

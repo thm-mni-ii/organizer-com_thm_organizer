@@ -414,8 +414,8 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
      * @return    Boolean     True if the schedule was successful saved, false otherwise
      */
     public function saveVirtualSchedule($vscheduler_id, $vscheduler_vid,
-        $vscheduler_name, $vscheduler_types, $vscheduler_semid, $vscheduler_resps,
-        $degrees, $vscheduler_elements)
+     $vscheduler_name, $vscheduler_types, $vscheduler_semid, $vscheduler_resps,
+     $degrees, $vscheduler_elements)
     {
         $table = JTable::getInstance('virtual_schedules', 'thm_organizerTable');
         $tableElements = JTable::getInstance('virtual_schedules_elements', 'thm_organizerTable');
