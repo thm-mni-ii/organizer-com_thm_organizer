@@ -1508,99 +1508,6 @@ function stripHTML(oldString)
     return newString;
 }
 
-function gotoExtURL(url, text)
-{
-    "use strict";
-
-    if (Ext.getCmp('content-anchor-tip'))
-    {
-        Ext.getCmp('content-anchor-tip').destroy();
-    }
-    var tabs = MySched.layout.tabpanel.items.items;
-    var tosave = false;
-
-    var myschedextwin = Ext.DomQuery.select('iframe[id=MySchedexternURL]', document);
-    var myschedmainwin = Ext.DomQuery.select('div[id=MySchedMainW]', document);
-
-    for (var i = 0; i < tabs.length; i++)
-    {
-        if (tabs[i].ScheduleModel.status === "unsaved")
-        {
-            tosave = true;
-            Ext.Msg.show(
-            {
-                title: "",
-                buttons: Ext.Msg.YESNOCANCEL,
-                buttonText: { cancel: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_CANCEL },
-                msg: text + "<br/>" + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_CHANGES_SAVE,
-                width: 400,
-                modal: true,
-                cls: "mySched_gotoMessage_index",
-                fn: confirmSave (myschedextwin, myschedmainwin, url, btn),
-                icon: Ext.MessageBox.QUESTION
-            });
-            break;
-        }
-    }
-    if (!tosave)
-    {
-        Ext.Msg.show(
-        {
-            title: "",
-            buttons: Ext.Msg.OKCANCEL,
-            buttonText: {
-                cancel: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_CANCEL
-            },
-            msg: text,
-            width: 400,
-            modal: true,
-            cls: "mySched_gotoMessage_index",
-            fn: function (btn)
-            {
-                if (btn === "cancel")
-                {
-                    Ext.MessageBox.hide();
-                    return;
-                }
-                myschedextwin[0].src = url;
-                myschedextwin[0].className = "MySchedexternURLClass";
-                myschedmainwin[0].style.display = "none";
-            },
-            icon: Ext.MessageBox.QUESTION
-        });
-    }
-}
-
-function confirmSave (myschedextwin, myschedmainwin, url, btn)
-{
-    if (btn === "cancel")
-    {
-        Ext.MessageBox.hide();
-        return;
-    }
-    if (btn === "yes")
-    {
-        var temptabs = MySched.layout.tabpanel.items.items;
-        for (var ti = 0; ti < temptabs.length; ti++)
-        {
-            if (temptabs[ti].ScheduleModel.status === "unsaved")
-            {
-                if (temptabs[ti].ScheduleModel.id === "mySchedule")
-                {
-                    temptabs[ti].ScheduleModel.save(_C('ajaxHandler'), false, "UserSchedule.save");
-                }
-                else
-                {
-                    temptabs[ti].ScheduleModel.save(_C('ajaxHandler'), false, "ScheduleChanges.save");
-                }
-            }
-        }
-    }
-    myschedextwin[0].src = url;
-    myschedextwin[0].className = "MySchedexternURLClass";
-    myschedmainwin[0].style.display = "none";
-}
-
 function showLessonMenu(e)
 {
         "use strict";
@@ -1685,10 +1592,10 @@ function showLessonMenu(e)
 
     var menuItems = [];
 
-    if (MySched.Authorize.role != "user")
+    if (MySched.Authorize.role !== "user")
     {
         // menuItems[menuItems.length] = estudyLesson;
-        if (MySched.selectedSchedule.id == "mySchedule" || el.hasCls('lectureBox_cho'))
+        if (MySched.selectedSchedule.id === "mySchedule" || el.hasCls('lectureBox_cho'))
         {
             menuItems[menuItems.length] = delLesson;
         }
@@ -1698,7 +1605,7 @@ function showLessonMenu(e)
         }
 
     }
-    if (((lesson.data.owner == MySched.Authorize.user || MySched.Authorize.isClassSemesterAuthor()) && lesson.data.owner != null) && lesson.data.owner != "gpuntis")
+    if (((lesson.data.owner === MySched.Authorize.user || MySched.Authorize.isClassSemesterAuthor()) && Ext.isDefined(lesson.data.owner)) && lesson.data.owner !== "gpuntis")
     {
         menuItems[menuItems.length] = editLesson;
         menuItems[menuItems.length] = deleteLesson;
