@@ -71,27 +71,6 @@ class THM_OrganizerModelScheduler extends JModel
     }
 
     /**
-     * Method to get the semester author by the given semester id
-     *
-     * @param   Integer  $semesterID  Semester id
-     *
-     * @return  String   The semester author
-     */
-    public function getSemesterAuthor($semesterID)
-    {
-        $dbo = JFactory::getDBO();
-        $dbo->setQuery("SELECT DISTINCT username as author FROM #__thm_organizer_semesters
-                INNER JOIN #__users ON manager = #__users.id WHERE #__thm_organizer_semesters.id = " . $semesterID
-        );
-        $rows = $dbo->loadObjectList();
-        if ($rows == null)
-        {
-            return "";
-        }
-        return $rows['0']->author;
-    }
-
-    /**
      * Method to check if the component is available
      *
      * @param   String  $com  Component name
