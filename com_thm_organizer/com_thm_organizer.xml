@@ -11,7 +11,7 @@
     <creationDate>01/01/2013</creationDate>
     <copyright>TH Mittelhessen 2013</copyright>
     <licence>GNU GPL v.2</licence>
-    <version>1.0.11</version>
+    <version>1.0.12</version>
     <scriptfile>script.php</scriptfile>
     <install>
         <sql>
@@ -38,7 +38,7 @@
             <filename>index.html</filename>
             <filename>thm_organizer.php</filename>
             <filename>controller.php</filename>
-            <filename>LICENSE.php</filename>
+            <filename>LICENSE.txt</filename>
             <folder>assets</folder>
             <folder>controllers</folder>
             <folder>helper</folder>
@@ -133,7 +133,7 @@
             <filename>index.html</filename>
             <filename>thm_organizer.php</filename>
             <filename>controller.php</filename>
-            <filename>LICENSE.php</filename>
+            <filename>LICENSE.txt</filename>
             <folder>views</folder>
             <folder>models</folder>
             <folder>controllers</folder>

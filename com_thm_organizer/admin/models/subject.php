@@ -105,7 +105,7 @@ class THM_OrganizerModelSubject extends JModel
         {
             $lsfData = $client->getModuleByNrMni($table->externalID);
         }
-//echo "<pre>" . print_r($lsfData, true) . "</pre>";die;
+
         $data = array();
         foreach ($lsfData->modul->children() as $child)
         {

@@ -1,4 +1,5 @@
 <?php
+ // @codingStandardsIgnoreFile
 /**
  * @author   Dietrich Ayala <dietrich@ganx4.com>
  * @author   Scott Nichol <snichol@users.sourceforge.net>

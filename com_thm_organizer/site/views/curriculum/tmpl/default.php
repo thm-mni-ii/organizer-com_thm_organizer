@@ -48,13 +48,13 @@ if (!empty($schedulerLink))
     echo "schedulerLink = '" . $this->params->get('schedulerLink') . "';";
 }
 ?>
-schedulerIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/scheduler_1.png";
+schedulerIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/extjs/scheduler_1.png";
 ecollabLink = <?php echo "'" . $this->ecollabLink . "'"; ?>;
-ecollabIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/collab.png";
-teacherIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/user_1.png";
-poolIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/comp_pool_icon.png";
-placeHolderIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/icon_place_holder.png";
-loadingIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/curriculum/ajax-loader.gif";
+ecollabIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/extjs/collab.png";
+teacherIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/extjs/user_1.png";
+poolIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/extjs/comp_pool_icon.png";
+placeHolderIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/extjs/icon_place_holder.png";
+loadingIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/extjs/ajax-loader.gif";
 
 window.addEvent('domready', function(){
             var curriculumObj = new Curriculum(<?php echo $paramsString; ?>);

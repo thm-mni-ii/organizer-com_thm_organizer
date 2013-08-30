@@ -7920,8 +7920,8 @@ textarea.x-form-field {
     display: -moz-inline-box;;
     -moz-box-orient: vertical;;
     display: inline-block;;
-    vertical-align: middle; *
-    vertical-align: auto
+    vertical-align: middle;
+    *vertical-align: auto
 }
 
 .x-surface { *

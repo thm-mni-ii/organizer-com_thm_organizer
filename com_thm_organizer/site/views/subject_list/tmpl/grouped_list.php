@@ -10,8 +10,8 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-$listOrder    = $this->state->get('list.ordering');
-$listDirn    = $this->state->get('list.direction');
+$listOrder = $this->state->get('list.ordering');
+$listDirn = $this->state->get('list.direction');
 $baseLink = "index.php?option=com_thm_organizer&view=subject_list&view=subject_list&Itemid={$this->state->get('menuID')}&groupBy=";
 $languageTag = $this->state->get('languageTag');
 $subjectIndex = ($languageTag == 'de')? 'Modulhandbuch' : 'Subject List';

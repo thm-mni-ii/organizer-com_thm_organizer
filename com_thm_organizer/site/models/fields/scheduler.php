@@ -83,7 +83,8 @@ class JFormFieldScheduler extends JFormField
         }
 
         $doc = JFactory::getDocument();
-        $doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/extjs/resources/css/ext-all-gray.css");
+        
+        $doc->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/scheduler.css');
         $doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/models/fields/css/schedule_selection_tree.css");
         $doc->addScript(JURI::root(true) . "/components/com_thm_organizer/models/fields/tree.js");
         $doc->addScript(JURI::root(true) . "/components/com_thm_organizer/models/fields/departmentSemesterSelection.js");
