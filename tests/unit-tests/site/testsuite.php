@@ -12,7 +12,7 @@
  * @link        www.mni.thm.de
  */
 
-require_once dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'framework_include.php';
+require_once dirname(dirname(dirname(dirname(__FILE__)))).DIRECTORY_SEPARATOR . 'framework_include.php';
 
 /**
  * Testsuite class for site component com_thm_organizer
@@ -37,7 +37,7 @@ class AllComThmOrganizerSiteTests
         // Add Test Files here (example below
         // $suite->addTestFile(__DIR__ . '/THMOrganizerTestFile.php');
         $suite->addTestFile(__DIR__ . '/THM_OrganizerModelScheduleSiteTest.php');
- 
+
         return $suite;
     }
 }

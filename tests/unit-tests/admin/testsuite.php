@@ -41,7 +41,7 @@ class AllComThmOrganizerAdminTests
         $suite->addTestFile(__DIR__ . '/THM_OrganizersControllerVirtual_ScheduleAdminTest.php');
         $suite->addTestFile(__DIR__ . '/THM_OrganizersModelVirtual_Schedule_EditAdminTest.php');
         $suite->addTestFile(__DIR__ . '/THM_OrganizersModelVirtual_Schedule_ManagerAdminTest.php');
- 
+
         return $suite;
     }
 }
