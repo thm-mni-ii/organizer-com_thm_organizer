@@ -24,7 +24,7 @@ $teacherLink = JRoute::_($baseLink . "2");
 $fieldTabText = ($languageTag == 'de')? "...nach Fachgruppe" : "...by field of study";
 $fieldLink = JRoute::_($baseLink . "3");
 $flagPath = 'media' . DIRECTORY_SEPARATOR . 'com_thm_organizer' . DIRECTORY_SEPARATOR . 'images';
-$flagPath .= DIRECTORY_SEPARATOR . 'curriculum' . DIRECTORY_SEPARATOR . $this->otherLanguageTag . '.png';
+$flagPath .= DIRECTORY_SEPARATOR . 'extjs' . DIRECTORY_SEPARATOR . $this->otherLanguageTag . '.png';
 $defaultActive = 'active';
 $poolActive = $teacherActive = $fieldActive = 'inactive';
 ?>
@@ -95,9 +95,16 @@ foreach ($this->items as $subject)
                     </a>
                 </div>
                 <div class="subject-responsible">
-                    <a href="<?php echo $subject->groupsLink; ?>">
-                        <?php echo $subject->teacherName; ?>
-                    </a>
+<?php
+if (empty($subject->groupsLink))
+{
+    echo $subject->teacherName;
+}
+else
+{
+    echo "<a href='$subject->groupsLink'>$subject->teacherName</a>";
+}
+?>
                 </div>
                 <div class="subject-crp"><?php echo $subject->creditpoints; ?> CrP</div>
             </tr>

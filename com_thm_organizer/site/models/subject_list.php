@@ -60,7 +60,7 @@ class THM_OrganizerModelSubject_List extends JModelList
         $surnames = $dbo->loadResultArray(5);
         $forenames = $dbo->loadResultArray(6);
         $fields = $dbo->loadResultArray(7);
-        $THMGroupLinks = $dbo->loadResultArray(9);
+        $THMGroupsLinks = $dbo->loadResultArray(9);
         $fieldColors = $dbo->loadResultArray(11);
         $teacherColors = $dbo->loadResultArray(11);
         $poolColors = $dbo->loadResultArray(12);
@@ -72,7 +72,7 @@ class THM_OrganizerModelSubject_List extends JModelList
                 $this->groups = $this->getPoolGroups($subjectIDs, $programs, $pools, $poolColors, $programColors);
                 break;
             case TEACHER:
-                $this->groups = $this->getTeacherGroups($subjectIDs, $surnames, $forenames, $THMGroupLinks, $teacherColors);
+                $this->groups = $this->getTeacherGroups($subjectIDs, $surnames, $forenames, $THMGroupsLinks, $teacherColors);
                 break;
             case FIELD:
                 $this->groups = $this->getFieldGroups($subjectIDs, $fields, $fieldColors);

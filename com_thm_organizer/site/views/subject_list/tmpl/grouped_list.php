@@ -24,7 +24,7 @@ $teacherLink = JRoute::_($baseLink . "2");
 $fieldTabText = ($languageTag == 'de')? "...nach Fachgruppe" : "...by field of study";
 $fieldLink = JRoute::_($baseLink . "3");
 $flagPath = 'media' . DIRECTORY_SEPARATOR . 'com_thm_organizer' . DIRECTORY_SEPARATOR . 'images';
-$flagPath .= DIRECTORY_SEPARATOR . 'curriculum' . DIRECTORY_SEPARATOR . $this->otherLanguageTag . '.png';
+$flagPath .= DIRECTORY_SEPARATOR . 'extjs' . DIRECTORY_SEPARATOR . $this->otherLanguageTag . '.png';
 switch ($this->state->get('groupBy'))
 {
     case POOL:
