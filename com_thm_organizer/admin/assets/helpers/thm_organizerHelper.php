@@ -78,4 +78,31 @@ class THM_OrganizerHelper
             }
         }
     }
+
+    /**
+     * Attempts to delete entries from a standard table
+     * 
+     * @param   string  $table  the table name
+     * 
+     * @return  boolean  true on success, otherwise false
+     */
+    public static function delete($table)
+    {
+        $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
+
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->delete("#__thm_organizer_$table");
+        $query->where("id IN ( $cids )");
+        $dbo->setQuery($query);
+        try
+        {
+            $dbo->query();
+        }
+        catch (Exception $exception)
+        {
+            return false;
+        }
+        return true;
+    }
 }
