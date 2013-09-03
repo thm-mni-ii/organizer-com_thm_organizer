@@ -32,7 +32,7 @@ class THM_OrganizerLSFClient
      */
     public function __construct()
     {
-        require_once 'lib/nusoap/nusoap.php';
+        require_once 'nusoap.php';
 
         $this->_username = JComponentHelper::getParams('com_thm_organizer')->get('wsUsername');
         $this->_password = JComponentHelper::getParams('com_thm_organizer')->get('wsPassword');

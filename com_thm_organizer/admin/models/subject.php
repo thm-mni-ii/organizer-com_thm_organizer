@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'helper' . DS . 'lsfapi.php';
+require_once JPATH_COMPONENT . DS . 'assets'  . DS . 'helpers' . DS . 'lsfapi.php';
 define('RESPONSIBLE', 1);
 define('TEACHER', 2);
 /**
@@ -562,13 +562,13 @@ class THM_OrganizerModelSubject extends JModel
         else
         {
             $deleteQuery = $dbo->getQuery(true);
-            $deleteQuery->delete('#__thm_organizer_subject_teachers')->where("subjectID = '{$data['id']}'");
+            $deleteQuery->delete('#__thm_organizer_subject_techers')->where("subjectID = '{$data['id']}'");
             $dbo->setQuery((string) $deleteQuery);
             try
             {
                 $dbo->query();
             }
-            catch (Exception $exc)
+            catch (JDatabaseException $exc)
             {
                 $dbo->transactionRollback();
                 return false;
