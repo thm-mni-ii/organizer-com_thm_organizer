@@ -11,7 +11,6 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-require_once JPATH_COMPONENT . DS . 'assets'  . DS . 'helpers' . DS . 'lsfapi.php';
 
 /**
  * Provides persistence handling for subject pools
