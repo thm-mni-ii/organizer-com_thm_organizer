@@ -71,7 +71,7 @@ $poolActive = $teacherActive = $fieldActive = 'inactive';
             </label>
             <input type="text" name="search" id="filter_search"
                 value="<?php echo $this->escape($this->state->get('search')); ?>"
-                title="<?php echo JText::_('COM_CATEGORIES_ITEMS_SEARCH_FILTER'); ?>" />
+                title="<?php echo JText::_('COM_THM_ORGANIZER_SEARCH_TITLE'); ?>" />
             <button type="submit">
                 <?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>
             </button>

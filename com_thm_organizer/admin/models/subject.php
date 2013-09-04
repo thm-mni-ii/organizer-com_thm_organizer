@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-require_once JPATH_COMPONENT . DS . 'assets' . DS . 'helpers' . DS . 'soap' . DS . 'lsfapi.php';
+require_once JPATH_COMPONENT . DS . 'assets' . DS . 'helpers' . DS . 'lsfapi.php';
 define('RESPONSIBLE', 1);
 define('TEACHER', 2);
 /**
@@ -97,6 +97,11 @@ class THM_OrganizerModelSubject extends JModel
         }
 
         $client = new THM_OrganizerLSFClient;
+        if (!$client->clientSet)
+        {
+            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_NUSOAP_EXTENSION_PROBLEM', 'error');
+            return false;
+        }
         if (!empty($table->lsfID))
         {
             $lsfData = $client->getModuleByModulid($table->lsfID);
