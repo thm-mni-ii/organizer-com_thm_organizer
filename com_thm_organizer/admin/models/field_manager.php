@@ -11,6 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modellist');
+require_once JPATH_COMPONENT . DS . 'assets' . DS . 'helpers' . DS . 'thm_organizerHelper.php';
 
 /**
  * Class THM_OrganizerModelColors for component com_thm_organizer
@@ -79,25 +80,7 @@ class THM_OrganizerModelField_Manager extends JModelList
      */
     protected function populateState($orderBy = null, $orderDir = null)
     {
-        $layout = JRequest::getVar('layout');
-        if (!empty($layout))
-        {
-            $this->context .= ".$layout";
-        }
-
-        $app = JFactory::getApplication('administrator');
-
-        $orderBy = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', '');
-        $this->setState('list.ordering', $orderBy);
-
-        $orderDir = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', '');
-        $this->setState('list.direction', $orderDir);
-
-        $filter = $app->getUserStateFromRequest($this->context . '.filter', 'filter', '');
-        $this->setState('filter', $filter);
-
-        $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
-        $this->setState('limit', $limit);
+        THM_OrganizerHelper::populateState($this);
 
         // Set the default ordering behaviour
         if ($orderBy == '' && isset($orderBy))

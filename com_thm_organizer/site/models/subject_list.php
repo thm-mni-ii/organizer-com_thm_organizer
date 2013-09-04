@@ -3,8 +3,8 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerModelIndex
- * @author      Markus Baier, <markus.baier@mni.thm.de>
+ * @name        THM_OrganizerModelSubject_List
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
@@ -21,7 +21,7 @@ define('FIELD', 3);
  * Class creates a model
  *
  * @category    Joomla.Component.Site
- * @package     thm_urriculum
+ * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
 class THM_OrganizerModelSubject_List extends JModelList
