@@ -157,11 +157,10 @@ function getSchedGrid()
         {
             features: [rowBodyFeature],
             overItemCls: '', // "disable" row over style
-            disableSelection: true,
-            style: { overflow: 'auto', overflowX: 'hidden' }
+            disableSelection: true
         },
         cls: 'MySched_ScheduleGrid',
-        scroll: false
+        scroll: true
 
     });
     return grid;
