@@ -198,29 +198,6 @@ class THM_OrganizerModelScheduler extends JModel
     }
 
     /**
-     * Method to get all room types from database
-     *
-     * @return   Array  An Array with the room types
-     */
-    public function getRoomTypes()
-    {
-        $dbo = JFactory::getDBO();
-        $query = $dbo->getQuery(true);
-
-        $query->select('*');
-        $query->from('#__thm_organizer_room_types');
-        $dbo->setQuery($query);
-        $result = $dbo->loadObjectList();
-
-        $error = $dbo->getErrorMsg();
-        if (!empty($error))
-        {
-            return array();
-        }
-        return $result;
-    }
-
-    /**
      * Method to get all teachers from database
      *
      * @return   Array  An Array with the teachers

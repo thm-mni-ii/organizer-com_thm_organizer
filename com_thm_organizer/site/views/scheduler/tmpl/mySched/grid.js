@@ -56,7 +56,7 @@ function getSchedGrid()
     Ext.create('Ext.data.Store',
     {
         storeId: 'gridStore',
-        fields: ['time', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
+        fields: ['time', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'],
         data: {
             'items': []
         },
@@ -141,6 +141,14 @@ function getSchedGrid()
                 menuDisabled: true,
                 sortable: false,
                 dataIndex: 'friday',
+                renderer: MySched.lectureCellRenderer,
+                flex: 1
+            },
+            {
+                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_SATURDAY,
+                menuDisabled: true,
+                sortable: false,
+                dataIndex: 'saturday',
                 renderer: MySched.lectureCellRenderer,
                 flex: 1
             }
