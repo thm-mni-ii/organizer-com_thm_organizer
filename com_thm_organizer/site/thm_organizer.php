@@ -10,8 +10,5 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-$helperPath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_thm_organizer';
-$helperPath .= DS . 'assets' . DS . 'helpers' . DS . 'thm_organizerHelper.php';
-require_once $helperPath;
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'assets' . DS . 'helpers' . DS . 'thm_organizerHelper.php';
 THM_OrganizerHelper::callController(false);
-

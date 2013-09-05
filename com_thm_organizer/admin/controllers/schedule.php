@@ -74,13 +74,13 @@ class THM_OrganizerControllerSchedule extends JController
             // The file contains critical inconsistancies and will not be uploaded
             if (isset($statusReport['errors']))
             {
-                $errorText = "<h3>" . JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_ERRORS") . ":</h3>";
+                $errorText = "<h3>" . JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_ERRORS") . "</h3>";
                 $msg = $errorText . $statusReport['errors'];
 
                 // Minor inconsistancies discovered
                 if (isset($statusReport['warnings']))
                 {
-                    $warningText = "<br /><h4>" . JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_ERRORS_WARNINGS") . ":</h4>";
+                    $warningText = "<br /><h4>" . JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_ERRORS_WARNINGS") . "</h4>";
                     $msg .= $warningText . $statusReport['warnings'];
                 }
                 $this->setRedirect($url, $msg, 'error');
@@ -90,7 +90,7 @@ class THM_OrganizerControllerSchedule extends JController
                 // Minor inconsistancies discovered
                 if (isset($statusReport['warnings']))
                 {
-                    $warningText = "<h4>" . JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_WARNINGS") . ":</h4>";
+                    $warningText = "<h4>" . JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_WARNINGS") . "</h4>";
                     $msg = $warningText . $statusReport['warnings'];
                     $this->setRedirect($url, $msg, 'notice');
                 }
