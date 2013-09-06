@@ -549,8 +549,7 @@ input,textarea,select {
     filter: none;
 }
 
-.x-ie6 .x-btn-disabled .x-btn-icon,.x-ie7 .x-btn-disabled .x-btn-icon,.x-ie8 .x-btn-disabled .x-btn-icon
-    {
+.x-ie6 .x-btn-disabled .x-btn-icon,.x-ie7 .x-btn-disabled .x-btn-icon,.x-ie8 .x-btn-disabled .x-btn-icon {
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
     opacity: 0.6;
 }
@@ -766,8 +765,7 @@ input,textarea,select {
     right: auto;
 }
 
-.x-ie6 .x-btn-default-small-icon-text-left .x-btn-icon,.x-quirks .x-btn-default-small-icon-text-left .x-btn-icon
-    {
+.x-ie6 .x-btn-default-small-icon-text-left .x-btn-icon,.x-quirks .x-btn-default-small-icon-text-left .x-btn-icon {
     height: 16px;
 }
 
@@ -790,8 +788,7 @@ input,textarea,select {
     right: 0;
 }
 
-.x-ie6 .x-btn-default-small-icon-text-right .x-btn-icon,.x-quirks .x-btn-default-small-icon-text-right .x-btn-icon
-    {
+.x-ie6 .x-btn-default-small-icon-text-right .x-btn-icon,.x-quirks .x-btn-default-small-icon-text-right .x-btn-icon {
     height: 16px;
 }
 
@@ -808,8 +805,7 @@ input,textarea,select {
     right: 0;
 }
 
-.x-ie6 .x-btn-default-small-icon-text-top .x-btn-icon,.x-quirks .x-btn-default-small-icon-text-top .x-btn-icon
-    {
+.x-ie6 .x-btn-default-small-icon-text-top .x-btn-icon,.x-quirks .x-btn-default-small-icon-text-top .x-btn-icon {
     width: 16px;
 }
 
@@ -826,8 +822,7 @@ input,textarea,select {
     right: 0;
 }
 
-.x-ie6 .x-btn-default-small-icon-text-bottom .x-btn-icon,.x-quirks .x-btn-default-small-icon-text-bottom .x-btn-icon
-    {
+.x-ie6 .x-btn-default-small-icon-text-bottom .x-btn-icon,.x-quirks .x-btn-default-small-icon-text-bottom .x-btn-icon {
     width: 16px;
 }
 
@@ -1058,8 +1053,7 @@ input,textarea,select {
     right: auto;
 }
 
-.x-ie6 .x-btn-default-medium-icon-text-left .x-btn-icon,.x-quirks .x-btn-default-medium-icon-text-left .x-btn-icon
-    {
+.x-ie6 .x-btn-default-medium-icon-text-left .x-btn-icon,.x-quirks .x-btn-default-medium-icon-text-left .x-btn-icon {
     height: 24px;
 }
 
@@ -1082,8 +1076,7 @@ input,textarea,select {
     right: 0;
 }
 
-.x-ie6 .x-btn-default-medium-icon-text-right .x-btn-icon,.x-quirks .x-btn-default-medium-icon-text-right .x-btn-icon
-    {
+.x-ie6 .x-btn-default-medium-icon-text-right .x-btn-icon,.x-quirks .x-btn-default-medium-icon-text-right .x-btn-icon {
     height: 24px;
 }
 
@@ -1100,8 +1093,7 @@ input,textarea,select {
     right: 0;
 }
 
-.x-ie6 .x-btn-default-medium-icon-text-top .x-btn-icon,.x-quirks .x-btn-default-medium-icon-text-top .x-btn-icon
-    {
+.x-ie6 .x-btn-default-medium-icon-text-top .x-btn-icon,.x-quirks .x-btn-default-medium-icon-text-top .x-btn-icon {
     width: 24px;
 }
 
@@ -1118,8 +1110,7 @@ input,textarea,select {
     right: 0;
 }
 
-.x-ie6 .x-btn-default-medium-icon-text-bottom .x-btn-icon,.x-quirks .x-btn-default-medium-icon-text-bottom .x-btn-icon
-    {
+.x-ie6 .x-btn-default-medium-icon-text-bottom .x-btn-icon,.x-quirks .x-btn-default-medium-icon-text-bottom .x-btn-icon {
     width: 24px;
 }
 
@@ -1350,8 +1341,7 @@ input,textarea,select {
     right: auto;
 }
 
-.x-ie6 .x-btn-default-large-icon-text-left .x-btn-icon,.x-quirks .x-btn-default-large-icon-text-left .x-btn-icon
-    {
+.x-ie6 .x-btn-default-large-icon-text-left .x-btn-icon,.x-quirks .x-btn-default-large-icon-text-left .x-btn-icon {
     height: 32px;
 }
 
@@ -1374,8 +1364,7 @@ input,textarea,select {
     right: 0;
 }
 
-.x-ie6 .x-btn-default-large-icon-text-right .x-btn-icon,.x-quirks .x-btn-default-large-icon-text-right .x-btn-icon
-    {
+.x-ie6 .x-btn-default-large-icon-text-right .x-btn-icon,.x-quirks .x-btn-default-large-icon-text-right .x-btn-icon {
     height: 32px;
 }
 
@@ -1392,8 +1381,7 @@ input,textarea,select {
     right: 0;
 }
 
-.x-ie6 .x-btn-default-large-icon-text-top .x-btn-icon,.x-quirks .x-btn-default-large-icon-text-top .x-btn-icon
-    {
+.x-ie6 .x-btn-default-large-icon-text-top .x-btn-icon,.x-quirks .x-btn-default-large-icon-text-top .x-btn-icon {
     width: 32px;
 }
 
@@ -1410,8 +1398,7 @@ input,textarea,select {
     right: 0;
 }
 
-.x-ie6 .x-btn-default-large-icon-text-bottom .x-btn-icon,.x-quirks .x-btn-default-large-icon-text-bottom .x-btn-icon
-    {
+.x-ie6 .x-btn-default-large-icon-text-bottom .x-btn-icon,.x-quirks .x-btn-default-large-icon-text-bottom .x-btn-icon {
     width: 32px;
 }
 
@@ -1634,8 +1621,7 @@ input,textarea,select {
     right: auto;
 }
 
-.x-ie6 .x-btn-default-toolbar-small-icon-text-left .x-btn-icon,.x-quirks .x-btn-default-toolbar-small-icon-text-left .x-btn-icon
-    {
+.x-ie6 .x-btn-default-toolbar-small-icon-text-left .x-btn-icon,.x-quirks .x-btn-default-toolbar-small-icon-text-left .x-btn-icon {
     height: 16px;
 }
 
@@ -1658,8 +1644,7 @@ input,textarea,select {
     right: 0;
 }
 
-.x-ie6 .x-btn-default-toolbar-small-icon-text-right .x-btn-icon,.x-quirks .x-btn-default-toolbar-small-icon-text-right .x-btn-icon
-    {
+.x-ie6 .x-btn-default-toolbar-small-icon-text-right .x-btn-icon,.x-quirks .x-btn-default-toolbar-small-icon-text-right .x-btn-icon {
     height: 16px;
 }
 
@@ -1676,8 +1661,7 @@ input,textarea,select {
     right: 0;
 }
 
-.x-ie6 .x-btn-default-toolbar-small-icon-text-top .x-btn-icon,.x-quirks .x-btn-default-toolbar-small-icon-text-top .x-btn-icon
-    {
+.x-ie6 .x-btn-default-toolbar-small-icon-text-top .x-btn-icon,.x-quirks .x-btn-default-toolbar-small-icon-text-top .x-btn-icon {
     width: 16px;
 }
 
@@ -1694,8 +1678,7 @@ input,textarea,select {
     right: 0;
 }
 
-.x-ie6 .x-btn-default-toolbar-small-icon-text-bottom .x-btn-icon,.x-quirks .x-btn-default-toolbar-small-icon-text-bottom .x-btn-icon
-    {
+.x-ie6 .x-btn-default-toolbar-small-icon-text-bottom .x-btn-icon,.x-quirks .x-btn-default-toolbar-small-icon-text-bottom .x-btn-icon {
     width: 16px;
 }
 
@@ -1904,8 +1887,7 @@ input,textarea,select {
     right: auto;
 }
 
-.x-ie6 .x-btn-default-toolbar-medium-icon-text-left .x-btn-icon,.x-quirks .x-btn-default-toolbar-medium-icon-text-left .x-btn-icon
-    {
+.x-ie6 .x-btn-default-toolbar-medium-icon-text-left .x-btn-icon,.x-quirks .x-btn-default-toolbar-medium-icon-text-left .x-btn-icon {
     height: 24px;
 }
 
@@ -1928,8 +1910,7 @@ input,textarea,select {
     right: 0;
 }
 
-.x-ie6 .x-btn-default-toolbar-medium-icon-text-right .x-btn-icon,.x-quirks .x-btn-default-toolbar-medium-icon-text-right .x-btn-icon
-    {
+.x-ie6 .x-btn-default-toolbar-medium-icon-text-right .x-btn-icon,.x-quirks .x-btn-default-toolbar-medium-icon-text-right .x-btn-icon {
     height: 24px;
 }
 
@@ -1946,8 +1927,7 @@ input,textarea,select {
     right: 0;
 }
 
-.x-ie6 .x-btn-default-toolbar-medium-icon-text-top .x-btn-icon,.x-quirks .x-btn-default-toolbar-medium-icon-text-top .x-btn-icon
-    {
+.x-ie6 .x-btn-default-toolbar-medium-icon-text-top .x-btn-icon,.x-quirks .x-btn-default-toolbar-medium-icon-text-top .x-btn-icon {
     width: 24px;
 }
 
@@ -1964,8 +1944,7 @@ input,textarea,select {
     right: 0;
 }
 
-.x-ie6 .x-btn-default-toolbar-medium-icon-text-bottom .x-btn-icon,.x-quirks .x-btn-default-toolbar-medium-icon-text-bottom .x-btn-icon
-    {
+.x-ie6 .x-btn-default-toolbar-medium-icon-text-bottom .x-btn-icon,.x-quirks .x-btn-default-toolbar-medium-icon-text-bottom .x-btn-icon {
     width: 24px;
 }
 
@@ -2174,8 +2153,7 @@ input,textarea,select {
     right: auto;
 }
 
-.x-ie6 .x-btn-default-toolbar-large-icon-text-left .x-btn-icon,.x-quirks .x-btn-default-toolbar-large-icon-text-left .x-btn-icon
-    {
+.x-ie6 .x-btn-default-toolbar-large-icon-text-left .x-btn-icon,.x-quirks .x-btn-default-toolbar-large-icon-text-left .x-btn-icon {
     height: 32px;
 }
 
@@ -2198,8 +2176,7 @@ input,textarea,select {
     right: 0;
 }
 
-.x-ie6 .x-btn-default-toolbar-large-icon-text-right .x-btn-icon,.x-quirks .x-btn-default-toolbar-large-icon-text-right .x-btn-icon
-    {
+.x-ie6 .x-btn-default-toolbar-large-icon-text-right .x-btn-icon,.x-quirks .x-btn-default-toolbar-large-icon-text-right .x-btn-icon {
     height: 32px;
 }
 
@@ -2216,8 +2193,7 @@ input,textarea,select {
     right: 0;
 }
 
-.x-ie6 .x-btn-default-toolbar-large-icon-text-top .x-btn-icon,.x-quirks .x-btn-default-toolbar-large-icon-text-top .x-btn-icon
-    {
+.x-ie6 .x-btn-default-toolbar-large-icon-text-top .x-btn-icon,.x-quirks .x-btn-default-toolbar-large-icon-text-top .x-btn-icon {
     width: 32px;
 }
 
@@ -2234,8 +2210,7 @@ input,textarea,select {
     right: 0;
 }
 
-.x-ie6 .x-btn-default-toolbar-large-icon-text-bottom .x-btn-icon,.x-quirks .x-btn-default-toolbar-large-icon-text-bottom .x-btn-icon
-    {
+.x-ie6 .x-btn-default-toolbar-large-icon-text-bottom .x-btn-icon,.x-quirks .x-btn-default-toolbar-large-icon-text-bottom .x-btn-icon {
     width: 32px;
 }
 
@@ -2768,8 +2743,7 @@ table.x-datepicker-inner .x-datepicker-disabled a {
     height: 136px;
 }
 
-.x-quirks .x-ie7 .x-monthpicker-buttons .x-btn,.x-quirks .x-ie8 .x-monthpicker-buttons .x-btn
-    {
+.x-quirks .x-ie7 .x-monthpicker-buttons .x-btn,.x-quirks .x-ie8 .x-monthpicker-buttons .x-btn {
     margin-top: 2px;
 }
 
@@ -2990,9 +2964,7 @@ table.x-datepicker-inner .x-datepicker-disabled a {
 }
 
 .x-nlg .x-menu-item-active .x-menu-item-link {
-    background: #e6e6e6
-        url('../images/extjs/menu/menu-item-active-bg.gif')
-        repeat-x left top;
+    background: #e6e6e6 url('../images/extjs/menu/menu-item-active-bg.gif') repeat-x left top;
 }
 
 .x-menu-date-item {
@@ -3218,7 +3190,7 @@ table.x-datepicker-inner .x-datepicker-disabled a {
 
 .x-grid-rowbody {
     font: normal 11px/ 13px tahoma, arial, verdana, sans-serif;
-    padding: 4px;
+    padding: 0;
 }
 
 .x-grid-rowbody p {
@@ -4007,9 +3979,7 @@ textarea.x-form-field {
 
 .x-form-invalid .x-form-checkboxgroup-body {
     border: 1px solid #c30;
-    background: white
-        url('../images/extjs/grid/invalid_line.gif')
-        repeat-x bottom;
+    background: white url('../images/extjs/grid/invalid_line.gif') repeat-x bottom;
     padding: 2px 3px;
 }
 
@@ -4120,8 +4090,7 @@ textarea.x-form-field {
     background-image: url('../images/extjs/form/date-trigger.gif');
 }
 
-.x-form-trigger-wrap .x-form-spinner-up,.x-form-trigger-wrap .x-form-spinner-down
-    {
+.x-form-trigger-wrap .x-form-spinner-up,.x-form-trigger-wrap .x-form-spinner-down {
     background-image: url('../images/extjs/form/spinner.gif');
     width: 17px;
     height: 11px;
@@ -4149,8 +4118,7 @@ textarea.x-form-field {
     background-position: -34px -11px;
 }
 
-.x-field-default-toolbar .x-form-trigger-wrap .x-form-spinner-up,.x-field-default-toolbar .x-form-trigger-wrap .x-form-spinner-down
-    {
+.x-field-default-toolbar .x-form-trigger-wrap .x-form-spinner-up,.x-field-default-toolbar .x-form-trigger-wrap .x-form-spinner-down {
     background-image: url('../images/extjs/form/spinner-small.gif');
     height: 10px;
 }
@@ -4159,8 +4127,7 @@ textarea.x-form-field {
     background-position: 0 -10px;
 }
 
-.x-field-default-toolbar .x-form-trigger-wrap-focus .x-form-spinner-down
-    {
+.x-field-default-toolbar .x-form-trigger-wrap-focus .x-form-spinner-down {
     background-position: -51px -10px;
 }
 
@@ -4203,8 +4170,7 @@ textarea.x-form-field {
 }
 
 .x-html-editor-tb .x-btn-text {
-    background: transparent
-        url('../images/extjs/editor/tb-sprite.gif') no-repeat;
+    background: transparent url('../images/extjs/editor/tb-sprite.gif') no-repeat;
 }
 
 .x-html-editor-tb .x-edit-bold,.x-menu-item img.x-edit-bold {
@@ -5649,8 +5615,7 @@ textarea.x-form-field {
 }
 
 .x-nlg .x-progress-default .x-progress-bar {
-    background: url('../images/extjs/progress/progress-default-bg.gif')
-        repeat-x;
+    background: url('../images/extjs/progress/progress-default-bg.gif') repeat-x;
 }
 
 .x-toolbar {
@@ -6529,6 +6494,7 @@ textarea.x-form-field {
     border-radius: 0;
     background-color: transparent;
     background-position: 1100000px 1000404px;
+    border-top-width: 1px !important;
 }
 
 .x-nbr .x-tab-default-bottom-tl,.x-nbr .x-tab-default-bottom-bl,.x-nbr .x-tab-default-bottom-tr,.x-nbr .x-tab-default-bottom-br,.x-nbr .x-tab-default-bottom-tc,.x-nbr .x-tab-default-bottom-bc,.x-nbr .x-tab-default-bottom-ml,.x-nbr .x-tab-default-bottom-mr {
@@ -6627,8 +6593,7 @@ textarea.x-form-field {
 .x-tab-default-top {
     -moz-box-shadow: white 0 1px 0 0 inset, white -1px 0 0 0 inset, white 1px 0 0 0 inset;
     -webkit-box-shadow: white 0 1px 0 0 inset, white -1px 0 0 0 inset, white 1px 0 0 0 inset;
-    -o-box-shadow: white 0 1px 0 0 inset, white -1px 0 0 0 inset, white
-        1px 0 0 0 inset;
+    -o-box-shadow: white 0 1px 0 0 inset, white -1px 0 0 0 inset, white 1px 0 0 0 inset;
     box-shadow: white 0 1px 0 0 inset, white -1px 0 0 0 inset, white 1px
         0 0 0 inset;
     border-bottom: 1px solid #d0d0d0 !important;
@@ -6654,17 +6619,13 @@ textarea.x-form-field {
 .x-tab-default-bottom {
     -moz-box-shadow: white 0 -1px 0 0 inset, white -1px 0 0 0 inset, white 1px 0 0 0 inset;
     -webkit-box-shadow: white 0 -1px 0 0 inset, white -1px 0 0 0 inset, white 1px 0 0 0 inset;
-    -o-box-shadow: white 0 -1px 0 0 inset, white -1px 0 0 0 inset, white
-        1px 0 0 0 inset;
-    box-shadow: white 0 -1px 0 0 inset, white -1px 0 0 0 inset, white
-        1px 0 0 0 inset;
+    -o-box-shadow: white 0 -1px 0 0 inset, white -1px 0 0 0 inset, white 1px 0 0 0 inset;
+    box-shadow: white 0 -1px 0 0 inset, white -1px 0 0 0 inset, white 1px 0 0 0 inset;
     border-top: 1px solid #d0d0d0 !important;
     -moz-box-shadow: white 0 -1px 0 0 inset, white -1px 0 0 0 inset, white 1px 0 0 0 inset;
     -webkit-box-shadow: white 0 -1px 0 0 inset, white -1px 0 0 0 inset, white 1px 0 0 0 inset;
-    -o-box-shadow: white 0 -1px 0 0 inset, white -1px 0 0 0 inset, white
-        1px 0 0 0 inset;
-    box-shadow: white 0 -1px 0 0 inset, white -1px 0 0 0 inset, white
-        1px 0 0 0 inset;
+    -o-box-shadow: white 0 -1px 0 0 inset, white -1px 0 0 0 inset, white 1px 0 0 0 inset;
+    box-shadow: white 0 -1px 0 0 inset, white -1px 0 0 0 inset, white 1px 0 0 0 inset;
 }
 
 .x-tab-default-bottom em {
@@ -6674,10 +6635,6 @@ textarea.x-form-field {
 .x-tab-default-bottom button,.x-tab-default-bottom .x-tab-inner {
     height: 14px;
     line-height: 13px;
-}
-
-.x-nbr .x-tab-default-bottom {
-    border-top-width: 1px !important;
 }
 
 .x-tab-default-bottom-active {
@@ -7047,10 +7004,6 @@ textarea.x-form-field {
 
 .x-grid-tree-node-expanded .x-tree-icon-parent {
     background-image: url('../images/extjs/tree/folder-open.gif');
-}
-
-.x-grid-rowbody {
-    padding: 0;
 }
 
 .x-tree-panel .x-grid-cell-inner {
