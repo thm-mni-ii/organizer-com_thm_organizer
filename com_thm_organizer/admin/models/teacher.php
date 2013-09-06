@@ -23,6 +23,7 @@ jimport('joomla.application.component.model');
  */
 class THM_OrganizerModelTeacher extends JModel
 {
+    private $_scheduleModel = null;
     /**
      * Attempts to save a teacher entry, updating schedule data as necessary.
      *
@@ -106,17 +107,7 @@ class THM_OrganizerModelTeacher extends JModel
     {
         if (empty($teacherEntries))
         {
-            $dbo = JFactory::getDbo();
-            $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
-
-            $query = $dbo->getQuery(true);
-            $query->select('*');
-            $query->from('#__thm_organizer_teachers');
-            $query->where("id IN ( $cids )");
-            $query->order('id ASC');
-
-            $dbo->setQuery((string) $query);
-            $teacherEntries = $dbo->loadAssocList();
+            $teacherEntries = $this->getTeacherEntries();
         }
 
         $data = array();
@@ -130,39 +121,10 @@ class THM_OrganizerModelTeacher extends JModel
                 // Property value is not set for DB Entry
                 if (!empty($value))
                 {
-                    if ($property == 'gpuntisID')
+                    $plausible = $this->checkForPlausibility($data, $entry, $property, $value, $otherIDs);
+                    if (!$plausible)
                     {
-                        $value = str_replace('TR_', '', $value);
-                    }
-
-                    // Initial set of data property
-                    if (empty($data[$property]))
-                    {
-                        $data[$property] = $value;
-                    }
-
-                    // Value differentiation
-                    elseif ($data[$property] != $value)
-                    {
-                        if ($property == 'gpuntisID' AND isset($entry['forename']))
-                        {
-                            if ($data[$property] == $value . substr($entry['forename'], 0, 1))
-                            {
-                                continue;
-                            }
-                            elseif ($data[$property] . substr($entry['forename'], 0, 1) == $value)
-                            {
-                                $data[$property] = $value;
-                            }
-                        }
-                        elseif ($property == 'id')
-                        {
-                            $otherIDs[] = $value;
-                        }
-                        else
-                        {
-                            return false;
-                        }
+                        return false;
                     }
                 }
             }
@@ -171,6 +133,74 @@ class THM_OrganizerModelTeacher extends JModel
         return $this->merge($data);
     }
 
+    /**
+     * Retrieves teacher entries from the database
+     * 
+     * @return  mixed  array on success, otherwise null
+     */
+    private function getTeacherEntries()
+    {
+        $dbo = JFactory::getDbo();
+        $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
+
+        $query = $dbo->getQuery(true);
+        $query->select('*');
+        $query->from('#__thm_organizer_teachers');
+        $query->where("id IN ( $cids )");
+        $query->order('id ASC');
+
+        $dbo->setQuery((string) $query);
+        return $dbo->loadAssocList();
+    }
+
+    /**
+     * Compares teacher entries and sets merge values
+     * 
+     * @param   array   &$data      the data for the merge
+     * @param   array   &$entry     the current entry being in the iteration
+     * @param   string  $property   the name of the property
+     * @param   string  $value      the property value
+     * @param   array   &$otherIDs  other ids to be merged
+     * 
+     * @return  boolean  true if plausible, otherwise false
+     */
+    private function checkForPlausibility(&$data, &$entry, $property, $value, &$otherIDs)
+    {
+        if ($property == 'gpuntisID')
+        {
+            $value = str_replace('TR_', '', $value);
+        }
+
+        // Initial set of data property
+        if (empty($data[$property]))
+        {
+            $data[$property] = $value;
+        }
+
+        // Value differentiation
+        elseif ($data[$property] != $value)
+        {
+            if ($property == 'gpuntisID' AND isset($entry['forename']))
+            {
+                if ($data[$property] == $value . substr($entry['forename'], 0, 1))
+                {
+                    return true;
+                }
+                elseif ($data[$property] . substr($entry['forename'], 0, 1) == $value)
+                {
+                    $data[$property] = $value;
+                    return true;
+                }
+            }
+            elseif ($property == 'id')
+            {
+                $otherIDs[] = $value;
+                return true;
+            }
+            return false;
+        }
+        return true;
+    }
     /**
      * Merges resource entries and cleans association tables.
      *
@@ -197,29 +227,11 @@ class THM_OrganizerModelTeacher extends JModel
         $dbo = JFactory::getDbo();
         $dbo->transactionStart();
 
-        $eventsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'event');
-        if (!$eventsSuccess)
+        $dependenciesUpdated = $this->updateDependencies($data);
+        if (!$dependenciesUpdated)
         {
             $dbo->transactionRollback();
             return false;
-        }
- 
-        $subjectsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'subject');
-        if (!$subjectsSuccess)
-        {
-            $dbo->transactionRollback();
-            return false;
-        }
-
-        if (!empty($data['gpuntisID']))
-        {
-            $allIDs = "'{$data['id']}', " . $data['otherIDs'];
-            $schedulesSuccess = $this->updateScheduleData($data, $allIDs);
-            if (!$schedulesSuccess)
-            {
-                $dbo->transactionRollback();
-                return false;
-            }
         }
  
         // Update entry with lowest ID
@@ -241,11 +253,45 @@ class THM_OrganizerModelTeacher extends JModel
         }
         catch (Exception $exception)
         {
+            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
             $dbo->transactionRollback();
             return false;
         }
 
         $dbo->transactionCommit();
+        return true;
+    }
+
+    /**
+     * Updates teacher dependencies
+     * 
+     * @param   array  $data  the teacher data
+     * 
+     * @return  boolean  true on success, otherwise false
+     */
+    private function updateDependencies($data)
+    {
+        $eventsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'event');
+        if (!$eventsSuccess)
+        {
+            return false;
+        }
+ 
+        $subjectsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'subject');
+        if (!$subjectsSuccess)
+        {
+            return false;
+        }
+
+        if (!empty($data['gpuntisID']))
+        {
+            $allIDs = "'{$data['id']}', " . $data['otherIDs'];
+            $schedulesSuccess = $this->updateScheduleData($data, $allIDs);
+            if (!$schedulesSuccess)
+            {
+                return false;
+            }
+        }
         return true;
     }
 
@@ -273,6 +319,7 @@ class THM_OrganizerModelTeacher extends JModel
         }
         catch (Exception $exception)
         {
+            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
             $dbo->transactionRollback();
             return false;
         }
@@ -300,6 +347,7 @@ class THM_OrganizerModelTeacher extends JModel
         {
             $data['gpuntisID'] = str_replace('TR_', '', $data['gpuntisID']);
         }
+        $newID = $data['gpuntisID'];
 
         $scheduleQuery = $dbo->getQuery(true);
         $scheduleQuery->select('id, schedule');
@@ -311,74 +359,20 @@ class THM_OrganizerModelTeacher extends JModel
             return true;
         }
 
-        if (!empty($data['fieldID']))
-        {
-            $fieldQuery = $dbo->getQuery(true);
-            $fieldQuery->select('gpuntisID');
-            $fieldQuery->from('__thm_organizer_fields');
-            $fieldQuery->where("id = '{$data['fieldID']}'");
-            $dbo->setQuery((string) $fieldQuery);
-            $field = str_replace('DS_', '', $dbo->loadResult());
-        }
-
-        $oldNameQuery = $dbo->getQuery(true);
-        $oldNameQuery->select('gpuntisID');
-        $oldNameQuery->from('#__thm_organizer_teachers');
-        $oldNameQuery->where("id IN ( $IDs )");
-        $oldNameQuery->where("gpuntisID IS NOT NULL");
-        $dbo->setQuery((string) $oldNameQuery);
-        $oldNames = $dbo->loadResultArray();
+        $field = $this->getField($data);
+        $untisIDs = $this->getUntisIDs($IDs);
 
         $scheduleTable = JTable::getInstance('schedules', 'thm_organizerTable');
         foreach ($schedules as $schedule)
         {
             $scheduleObject = json_decode($schedule['schedule']);
 
-            foreach ($oldNames AS $oldName)
+            foreach ($untisIDs AS $oldUntisID)
             {
-                if (isset($scheduleObject->teachers->{$oldName}))
-                {
-                    unset($scheduleObject->teachers->{$oldName});
-                    foreach ($scheduleObject->lessons as $lessonID => $lesson)
-                    {
-                        if (isset($lesson->teachers->$oldName))
-                        {
-                            $delta = $lesson->teachers->$oldName;
-                            unset($scheduleObject->lessons->{$lessonID}->teachers->$oldName);
-                            $scheduleObject->lessons->{$lessonID}->teachers->{$data['gpuntisID']} = $delta;
-                        }
-                    }
-                }
+                $this->replaceTeachers($scheduleObject, $oldUntisID, $newID, $field);
             }
 
-            if (!isset($scheduleObject->teachers->{$data['gpuntisID']}))
-            {
-                $scheduleObject->teachers->{$data['gpuntisID']} = new stdClass;
-            }
-
-            $scheduleObject->teachers->{$data['gpuntisID']}->gpuntisID = $data['gpuntisID'];
-            $scheduleObject->teachers->{$data['gpuntisID']}->surname = $data['surname'];
-            if (isset($data['forename']))
-            {
-                $scheduleObject->teachers->{$data['gpuntisID']}->forename = $data['forename'];
-            }
-            if (isset($data['username']))
-            {
-                $scheduleObject->teachers->{$data['gpuntisID']}->username = $data['username'];
-            }
-
-            if (!empty($data['fieldID']))
-            {
-                $scheduleObject->teachers->{$data['gpuntisID']}->fieldID = $data['fieldID'];
-                if (!empty($field))
-                {
-                    $scheduleObject->teachers->{$data['gpuntisID']}->description = $field;
-                }
-            }
-            if (isset($scheduleObject->teachers->{$data['gpuntisID']}->firstname))
-            {
-                unset($scheduleObject->teachers->{$data['gpuntisID']}->firstname);
-            }
+            $this->setScheduleTeacher($scheduleObject, $data, $newID);
 
             $schedule['schedule'] = json_encode($scheduleObject);
             $success = $scheduleTable->save($schedule);
@@ -388,6 +382,111 @@ class THM_OrganizerModelTeacher extends JModel
             }
         }
         return true;
+    }
+
+    /**
+     * Checks for the teacher's field attribute in the database
+     * 
+     * @param   array  $data  the teacher data
+     * 
+     * @return  mixed  string untis field id if existent, otherwise null
+     */
+    private function getField($data)
+    {
+        if (!empty($data['fieldID']))
+        {
+            $dbo = JFactory::getDbo();
+            $fieldQuery = $dbo->getQuery(true);
+            $fieldQuery->select('gpuntisID');
+            $fieldQuery->from('__thm_organizer_fields');
+            $fieldQuery->where("id = '{$data['fieldID']}'");
+            $dbo->setQuery((string) $fieldQuery);
+            $field = $dbo->loadResult();
+        }
+        return empty($field)? null : str_replace('DS_', '', $field);
+    }
+
+    /**
+     * Retrieves the existing/deprecated teacher untis ids from the database
+     * 
+     * @param   string  $IDs  the teacher entry ids
+     * 
+     * @return  array  array containing the untis ids
+     */
+    private function getUntisIDs($IDs)
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('gpuntisID');
+        $query->from('#__thm_organizer_teachers');
+        $query->where("id IN ( $IDs )");
+        $query->where("gpuntisID IS NOT NULL");
+        $dbo->setQuery((string) $query);
+        return $dbo->loadResultArray();
+    }
+
+    /**
+     * Removes deprecated teacher objects and replaces them in the lessons
+     * 
+     * @param   object  &$schedule  the schedule object
+     * @param   string  $oldID      the id to be replaced
+     * @param   string  $newID      the new id
+     * 
+     * @return  void
+     */
+    private function replaceTeachers(&$schedule, $oldID, $newID)
+    {
+        if (isset($schedule->teachers->$oldID))
+        {
+            unset($schedule->teachers->$oldID);
+            foreach ($schedule->lessons as $lessonID => $lesson)
+            {
+                if (isset($lesson->teachers->$oldID))
+                {
+                    $delta = $lesson->teachers->$oldID;
+                    unset($schedule->lessons->$lessonID->teachers->$oldID);
+                    $schedule->lessons->$lessonID->teachers->$newID = $delta;
+                }
+            }
+        }
+    }
+
+    /**
+     * Sets the teacher entry in the schedule object
+     * 
+     * @param   object  &$schedule  the schedule object
+     * @param   array   $teacher    the teacher data
+     * @param   string  $newID      the new teacher id
+     * @param   string  $field      the field id
+     * 
+     * @return  void
+     */
+    private function setScheduleTeacher(&$schedule, $teacher, $newID, $field)
+    {
+        if (!isset($schedule->teachers->$newID))
+        {
+            $schedule->teachers->$newID = new stdClass;
+        }
+
+        $schedule->teachers->$newID->gpuntisID = $teacher['gpuntisID'];
+        $schedule->teachers->$newID->surname = $teacher['surname'];
+        if (isset($teacher['forename']))
+        {
+            $schedule->teachers->$newID->forename = $teacher['forename'];
+        }
+        if (isset($teacher['username']))
+        {
+            $schedule->teachers->$newID->username = $teacher['username'];
+        }
+
+        if (!empty($teacher['fieldID']))
+        {
+            $schedule->teachers->$newID->fieldID = $teacher['fieldID'];
+            if (!empty($field))
+            {
+                $schedule->teachers->$newID->description = $field;
+            }
+        }
     }
 
     /**
@@ -405,11 +504,162 @@ class THM_OrganizerModelTeacher extends JModel
         try
         {
             $this->_db->query();
-            return true;
         }
         catch ( Exception $exception)
         {
+            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
             return false;
         }
+        return true;
+    }
+
+    /**
+     * Checks whether teacher nodes have the expected structure and required
+     * information
+     *
+     * @param   object  &$scheduleModel  the validating schedule model
+     * @param   object  &$teacherNode    the teacher node to be validated
+     *
+     * @return void
+     */
+    public function validate(&$scheduleModel, &$teacherNode)
+    {
+        $this->_scheduleModel = $scheduleModel;
+
+        $gpuntisID = $this->validateUntisID($teacherNode);
+        if (!$gpuntisID)
+        {
+            return;
+        }
+
+        $teacherID = str_replace('TR_', '', $gpuntisID);
+        $this->_scheduleModel->schedule->teachers->$teacherID = new stdClass;
+        $this->_scheduleModel->schedule->teachers->$teacherID->gpuntisID = $teacherID;
+        $this->_scheduleModel->schedule->teachers->$teacherID->localUntisID
+            = str_replace('TR_', '', trim((string) $teacherNode[0]['id']));
+
+        $surname = $this->validateSurname($teacherNode, $teacherID);
+        if (!$surname)
+        {
+            return;
+        }
+
+        $this->validateForename($teacherNode, $teacherID, $surname);
+        $this->validateUserID($teacherNode, $teacherID, $surname);
+        $this->validateDescription($teacherNode, $surname, $teacherID);
+    }
+
+    /**
+     * Validates the teacher's untis id
+     * 
+     * @param   object  &$teacherNode  the teacher node object
+     * 
+     * @return  mixed  string untis id if valid, otherwise false
+     */
+    private function validateUntisID(&$teacherNode)
+    {
+        $externalID = trim((string) $teacherNode->external_name);
+        $internalID = trim((string) $teacherNode[0]['id']);
+        if (empty($internalID))
+        {
+            if (!in_array(JText::_("COM_THM_ORGANIZER_TR_ID_MISSING"), $this->_scheduleModel->scheduleErrors))
+            {
+                $this->_scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_TR_ID_MISSING");
+            }
+            return false;
+        }
+        if (empty($externalID))
+        {
+            $error = JText::sprintf("COM_THM_ORGANIZER_TR_EXTID_MISSING", $internalID);
+            if (!in_array($error, $this->_scheduleModel->scheduleWarnings))
+            {
+                $this->_scheduleModel->scheduleWarnings[] = $error;
+            }
+        }
+        $gpuntisID = empty($externalID)? $internalID : $externalID;
+        return $gpuntisID;
+    }
+
+    /**
+     * Validates the teacher's untis id
+     * 
+     * @param   object  &$teacherNode  the teacher node object
+     * @param   string  $teacherID     the teacher's id
+     * 
+     * @return  mixed  string surname if valid, otherwise false
+     */
+    private function validateSurname(&$teacherNode, $teacherID)
+    {
+        $surname = trim((string) $teacherNode->surname);
+        if (empty($surname))
+        {
+            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_TR_SN_MISSING', $teacherID);
+            return false;
+        }
+        $this->_scheduleModel->schedule->teachers->$teacherID->surname = $surname;
+        return $surname;
+    }
+
+    /**
+     * Validates the teacher's forename attribute
+     * 
+     * @param   object  &$teacherNode  the teacher node object
+     * @param   string  $surname       the teacher's surname
+     * @param   string  $teacherID     the teacher's id
+     * 
+     * @return  void
+     */
+    private function validateForename(&$teacherNode, $surname, $teacherID)
+    {
+        $forename = trim((string) $teacherNode->forename);
+        if (empty($forename))
+        {
+            $this->_scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_TR_FN_MISSING', $teacherID, $surname);
+        }
+        $this->_scheduleModel->schedule->teachers->$teacherID->forename = empty($forename)? '' : $forename;
+    }
+
+    /**
+     * Validates the teacher's forename attribute
+     * 
+     * @param   object  &$teacherNode  the teacher node object
+     * @param   string  $surname       the teacher's surname
+     * @param   string  $teacherID     the teacher's id
+     * 
+     * @return  void
+     */
+    private function validateUserID(&$teacherNode, $surname, $teacherID)
+    {
+        $userid = trim((string) $teacherNode->payrollnumber);
+        if (empty($userid))
+        {
+            $this->_scheduleModel->scheduleWarnings[] = JText::sprintf("COM_THM_ORGANIZER_TR_PN_MISSING", $teacherID, $surname);
+        }
+        $this->_scheduleModel->schedule->teachers->$teacherID->username = empty($userid)? '' :$userid;
+    }
+
+    /**
+     * Validates the teacher's description attribute
+     * 
+     * @param   object  &$teacherNode  the teacher node object
+     * @param   string  $surname       the teacher's surname
+     * @param   string  $teacherID     the teacher's id
+     * 
+     * @return  void
+     */
+    private function validateDescription(&$teacherNode, $surname, $teacherID)
+    {
+        $descriptionID = str_replace('DS_', '', trim($teacherNode->teacher_description[0]['id']));
+        if (empty($descriptionID))
+        {
+            $this->_scheduleModel->scheduleWarnings[] = JText::sprintf("COM_THM_ORGANIZER_TR_FIELD_MISSING", $surname, $teacherID);
+        }
+        elseif (empty($this->_scheduleModel->schedule->fields->$descriptionID))
+        {
+            $this->_scheduleModel->scheduleWarnings[]
+                = JText::sprintf("COM_THM_ORGANIZER_TR_FIELD_LACKING", "$surname ($teacherID) ", $descriptionID);
+        }
+        $this->_scheduleModel->schedule->teachers->$teacherID->description
+            = empty($descriptionID)? '' : $descriptionID;
     }
 }

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 require_once 'lesson.php';
+require_once 'teacher.php';
 
 define('ERROR', 0);
 define('MERGE', 1);
@@ -59,17 +60,19 @@ class THM_OrganizerModelSchedule extends JModel
      */
     public $refSchedule = null;
 
+    /**
+     * Model for lesson functions
+     * 
+     * @var object 
+     */
     private $_lessonModel = null;
 
     /**
-     * Sets object variables
+     * Model for teacher functions
+     * 
+     * @var object 
      */
-    public function __construct()
-    {
-        parent::__construct();
-        $rooms_required = (bool) $formdata['rooms_assignment_required'];
-        $this->_lessonModel = new THM_OrganizerModelLesson($this, $rooms_required);
-    }
+    private $_teacherModel = null;
 
     /**
      * saves a schedule in the database for later use
@@ -121,6 +124,11 @@ class THM_OrganizerModelSchedule extends JModel
         $this->schedule         = new stdClass;
         $this->scheduleErrors   = array();
         $this->scheduleWarnings = array();
+
+        $formdata = JRequest::getVar('jform', null, null, null, 4);
+        $rooms_required = (bool) $formdata['rooms_assignment_required'];
+        $this->_lessonModel = new THM_OrganizerModelLesson($this, $rooms_required);
+        $this->_teacherModel = JModel::getInstance('teacher', 'THM_OrganizerModel');
 
         // General node
         // Creation Date & Time
@@ -294,7 +302,7 @@ class THM_OrganizerModelSchedule extends JModel
         {
             foreach ($xmlSchedule->teachers->children() as $teachernode)
             {
-                $this->validateTeacher($teachernode);
+                $this->_teacherModel->validate($this, $teachernode);
             }
         }
 
@@ -320,10 +328,9 @@ class THM_OrganizerModelSchedule extends JModel
         }
         else
         {
-            $formdata = JRequest::getVar('jform', null, null, null, 4);
             foreach ($xmlSchedule->lessons->children() as $lessonnode)
             {
-                $this->_lessonModel->validateLesson($lessonnode, $rooms_required);
+                $this->_lessonModel->validateLesson($lessonnode);
             }
         }
 
@@ -610,78 +617,6 @@ class THM_OrganizerModelSchedule extends JModel
     }
 
     /**
-     * Checks whether teacher nodes have the expected structure and required
-     * information
-     *
-     * @param   SimpleXMLNode  &$teachernode  the teacher node to be validated
-     *
-     * @return void
-     */
-    protected function validateTeacher(&$teachernode)
-    {
-        $gpuntisID = isset($teachernode->external_name)?
-            trim((string) $teachernode->external_name) : trim((string) $teachernode[0]['id']);
-        if (empty($gpuntisID))
-        {
-            if (!in_array(JText::_("COM_THM_ORGANIZER_TR_ID_MISSING"), $this->scheduleErrors))
-            {
-                $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_TR_ID_MISSING");
-            }
-            return;
-        }
-        $teacherID = str_replace('TR_', '', $gpuntisID);
-        $this->schedule->teachers->$teacherID = new stdClass;
-        $this->schedule->teachers->$teacherID->gpuntisID = $teacherID;
-        $this->schedule->teachers->$teacherID->localUntisID = str_replace('TR_', '', trim((string) $teachernode[0]['id']));
-
-        $surname = trim((string) $teachernode->surname);
-        if (empty($surname))
-        {
-            $this->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_TR_SN_MISSING', $teacherID);
-            return;
-        }
-        $this->schedule->teachers->$teacherID->surname = $surname;
-
-        $forename = trim((string) $teachernode->forename);
-        if (empty($forename))
-        {
-            $this->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_TR_FN_MISSING', $teacherID, $surname);
-            $this->schedule->teachers->$teacherID->forename = '';
-        }
-        else
-        {
-            $this->schedule->teachers->$teacherID->forename = $forename;
-        }
-
-        $userid = trim((string) $teachernode->payrollnumber);
-        if (empty($userid))
-        {
-            $this->scheduleWarnings[] = JText::sprintf("COM_THM_ORGANIZER_TR_PN_MISSING", $teacherID, $surname);
-            $this->schedule->teachers->$teacherID->username = '';
-        }
-        else
-        {
-            $this->schedule->teachers->$teacherID->username = $userid;
-        }
-
-        $descriptionID = str_replace('DS_', '', trim($teachernode->teacher_description[0]['id']));
-        if (empty($descriptionID))
-        {
-            $this->scheduleWarnings[] = JText::sprintf("COM_THM_ORGANIZER_TR_FIELD_MISSING", $surname, $teacherID);
-            $this->schedule->teachers->$teacherID->description = '';
-        }
-        elseif (empty($this->schedule->fields->$descriptionID))
-        {
-            $this->scheduleWarnings[] = JText::sprintf("COM_THM_ORGANIZER_TR_FIELD_LACKING", "$surname ($teacherID) ", $descriptionID);
-            $this->schedule->teachers->$teacherID->description = '';
-        }
-        else
-        {
-            $this->schedule->teachers->$teacherID->description = $descriptionID;
-        }
-    }
-
-    /**
      * Checks whether class nodes have the expected structure and required
      * information
      *
@@ -769,7 +704,8 @@ class THM_OrganizerModelSchedule extends JModel
         $syLength = floor(($syEndDate - $syStartDate) / 86400) + 1;
         $calendar->sylength = $syLength;
 
-        for ($currentDT = $syStartDate; $currentDT <= $syEndDate; )
+        $currentDT = $syStartDate;
+        for ($currentDT; $currentDT <= $syEndDate; $currentDT = strtotime('+1 day', $currentDT))
         {
             // Create an index for the date
             $currentDate = date('Y-m-d', $currentDT);
@@ -784,9 +720,6 @@ class THM_OrganizerModelSchedule extends JModel
                     $calendar->$currentDate->{$period->period} = new stdClass;
                 }
             }
-
-            // Raise the iterator
-            $currentDT = strtotime('+1 day', $currentDT);
         }
         $this->schedule->calendar = $calendar;
     }
@@ -1048,6 +981,7 @@ class THM_OrganizerModelSchedule extends JModel
         }
         catch (Exception $exception)
         {
+            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
             $dbo->transactionRollback();
             return false;
         }
