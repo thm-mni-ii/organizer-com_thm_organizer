@@ -6672,7 +6672,7 @@ textarea.x-form-field {
 }
 
 .x-tab-default-bottom button,.x-tab-default-bottom .x-tab-inner {
-    height: 13px;
+    height: 14px;
     line-height: 13px;
 }
 
@@ -6713,7 +6713,7 @@ textarea.x-form-field {
 .x-tab button .x-tab-icon,.x-tab a .x-tab-icon {
     position: absolute;
     background-repeat: no-repeat;
-    top: 0;
+    top: -2px;
     left: 0;
     right: auto;
     bottom: 0;
