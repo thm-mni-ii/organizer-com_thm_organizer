@@ -173,7 +173,7 @@ class THM_OrganizerModelPool extends JModel
             {
                 $mappingSaved = $model->savePool($data);
                 if ($mappingSaved)
-                {
+                {   
                     $dbo->transactionCommit();
                     return $table->id;
                 }

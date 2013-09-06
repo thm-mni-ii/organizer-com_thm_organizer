@@ -49,7 +49,7 @@ if (!empty($this->children))
                         <th>
                             <?php echo JText::_('COM_THM_ORGANIZER_NAME'); ?>
                         </th>
-                        <th width="20%">
+                        <th class="thm_organizer_pools_ordering">
                             <?php echo JText::_('COM_THM_ORGANIZER_CHILD_ORDER'); ?>
                         </th>
                     </tr>
@@ -94,7 +94,7 @@ if (!empty($this->children))
                         <td class="order">
                             <span>
                                 <a class="jgrid" href="javascript:void(0);"
-                                   onclick="moveUp('<?php echo $index; ?>')" title="Move Up">
+                                   onclick="moveUp('<?php echo $index; ?>');" title="Move Up">
                                     <span class="state uparrow">
                                         <span class="text"><?php echo JText::_('JLIB_HTML_MOVE_UP'); ?></span>
                                     </span>
@@ -102,20 +102,36 @@ if (!empty($this->children))
                             </span>
                             <span>
                                 <a class="jgrid" href="javascript:void(0);"
-                                   onclick="moveDown('<?php echo $index; ?>')" title="Move Down">
+                                   onclick="moveDown('<?php echo $index; ?>');" title="Move Down">
                                     <span class="state downarrow">
                                         <span class="text"><?php echo JText::_('JLIB_HTML_MOVE_DOWN'); ?></span>
                                     </span>
                                 </a>
                             </span>
-                            <input type="text"
+                                                       <span>
+                                <a class="jgrid" href="javascript:void(0);"
+                                   onclick="setEmptyElement('<?php echo $index; ?>');" title="Add Empty Element">
+                                    <span class="icon-16-newlevel">
+                                        <span class="text"><?php echo JText::_('JLIB_HTML_MOVE_DOWN'); ?></span>
+                                    </span>
+                                </a>
+                            </span>
+                            <span>
+                                <a class="jgrid" href="javascript:void(0);"
+                                   onclick="setElementOnLastPosition('<?php echo $index; ?>');" title="Set On Last Position">
+                                    <span class="icon-16-clear">
+                                        <span class="text"><?php echo JText::_('JLIB_HTML_MOVE_UP'); ?></span>
+                                    </span>
+                                </a>
+                            </span>
+                            <input type="text" title="Ordering"
                                    name="child<?php echo $index; ?>order"
                                    id="child<?php echo $index; ?>order"
                                    size="2" value="<?php echo $index;?>" class="text-area-order"
-                                   onChange="order(<?php echo $index; ?>)"/>
+                                   onChange="orderWithNumber(<?php echo $index; ?>);"/>
                             <a class="thm_organizer_delete_child" href="javascript:void(0);"
                                title="<?php echo JText::_('COM_THM_ORGANIZER_MAPPING_DELETE'); ?>"
-                               onClick="remove(<?php echo $index; ?>)">
+                               onClick="remove(<?php echo $index; ?>);">
                             </a>
                         </td>
                     </tr>
