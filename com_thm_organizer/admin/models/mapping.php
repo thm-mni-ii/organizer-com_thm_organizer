@@ -177,7 +177,7 @@ class THM_OrganizerModelMapping extends JModel
                     }
                     elseif (isset($child['subjectID']))
                     {
-                        if(!is_numeric($child['subjectID']))
+                        if (!is_numeric($child['subjectID'])) 
                         {
                             continue;
                         }
@@ -659,7 +659,7 @@ class THM_OrganizerModelMapping extends JModel
                 $poolAdded = $this->addPool($poolData);
                 if (!$poolAdded)
                 {
-                    JFactory::getApplication()->enqueueMessage('admin.models.mapping.php: addPool is false','error');
+                    JFactory::getApplication()->enqueueMessage('admin.models.mapping.php: addPool is false', 'error');
                     return false;
                 }
             }
