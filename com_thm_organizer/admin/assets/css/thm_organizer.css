@@ -233,21 +233,27 @@ li input[disabled=disabled]{ border: none; color: black;}
 {
     padding-top: 5px;
     float: left;
-    width: 45%;
+    width: 60%;
 }
 .thm_organizer_pools
 {
     float: right;
-    width: 45%;
+    width: 25%;
     font-size: 1.3em;
     font-weight: bold;
     padding: 5px 20px 5px 10px;
 }
+
+.thm_organizer_pools_ordering
+{
+    width: 30%;
+}
+
 .thm_organizer_subjects
 {
     clear: right;
     float: right;
-    width: 45%;
+    width: 25%;
     font-size: 1.3em;
     font-weight: bold;
     padding: 10px 20px 5px 10px;
@@ -259,8 +265,6 @@ a.thm_organizer_delete_child
     display: block;
     overflow: hidden;
     background: url(../images/trash.png) no-repeat;
-    float: right;
-    margin-right: 4px;
 }
 a.jgrid span.state
 {
