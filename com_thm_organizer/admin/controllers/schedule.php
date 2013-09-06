@@ -33,6 +33,7 @@ class THM_OrganizerControllerSchedule extends JController
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
         JRequest::setVar('view', 'schedule_edit');
+        JRequest::setVar('cid');
         JRequest::setVar('scheduleID', '0');
         parent::display();
     }
