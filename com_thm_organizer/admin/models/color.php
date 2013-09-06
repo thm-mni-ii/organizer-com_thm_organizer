@@ -11,6 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
+require_once JPATH_COMPONENT . DS . 'assets' . DS . 'helpers' . DS . 'thm_organizerHelper.php';
 
 /**
  * Class THM_OrganizerModelColor for component com_thm_organizer
@@ -43,19 +44,6 @@ class THM_OrganizerModelColor extends JModel
      */
     public function delete()
     {
-        $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
-        $query = $this->_db->getQuery(true);
-        $query->delete('#__thm_organizer_colors');
-        $query->where("id IN ( $cids )");
-        $this->_db->setQuery($query);
-        try
-        {
-            $this->_db->query();
-            return true;
-        }
-        catch (Exception $exception)
-        {
-            return false;
-        }
+        return THM_OrganizerHelper::delete('colors');
     }
 }

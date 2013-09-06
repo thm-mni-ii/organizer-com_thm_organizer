@@ -20,6 +20,54 @@
 class THM_OrganizerHelper
 {
     /**
+     * Calls the appropriate controller
+     * 
+     * @param   boolean  $isAdmin  whether the file is being called from the backend
+     * 
+     * @return  void
+     */
+    public static function callController($isAdmin = true)
+    {
+        $basePath = $isAdmin? JPATH_COMPONENT_ADMINISTRATOR : JPATH_COMPONENT_SITE;
+        
+        $controller = "";
+        $handler = explode(".", JRequest::getVar('task'));
+        if (!empty($handler))
+        {
+            if (count($handler) == 2)
+            {
+                list($controller, $task) = $handler;
+            }
+            else
+            {
+                $task = JRequest::getVar('task');
+            }
+        }
+
+        if (!empty($controller))
+        {
+            $path = $basePath . DS . 'controllers' . DS . $controller . '.php';
+            if (file_exists($path))
+            {
+                require_once $path;
+            }
+            else
+            {
+                require_once $basePath . DS . 'controller.php';
+                $controller = '';
+            }
+        }
+        else
+        {
+            require_once $basePath . DS . 'controller.php';
+        }
+        $classname = 'THM_OrganizerController' . $controller;
+        $controllerObj = new $classname;
+        $controllerObj->execute($task);
+        $controllerObj->redirect();
+    }
+
+    /**
      * Configure the Linkbar.
      *
      * @param   string  $thisSubmenu  the name of the submenu calling the function
@@ -77,5 +125,57 @@ class THM_OrganizerHelper
                 JSubMenuHelper::addEntry(JText::_($subValue['name']), $subValue['link'], false);
             }
         }
+    }
+
+    /**
+     * Attempts to delete entries from a standard table
+     * 
+     * @param   string  $table  the table name
+     * 
+     * @return  boolean  true on success, otherwise false
+     */
+    public static function delete($table)
+    {
+        $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
+
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->delete("#__thm_organizer_$table");
+        $query->where("id IN ( $cids )");
+        $dbo->setQuery($query);
+        try
+        {
+            $dbo->query();
+        }
+        catch (Exception $exception)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Provides a generic populate state function using typical list fields
+     * 
+     * @param   object  &$model  the model whose state needs to be set
+     * 
+     * @return  void
+     */
+    public static function populateState(&$model)
+    {
+        $app = JFactory::getApplication('administrator');
+        $context = $model->get('context');
+
+        $orderBy = $app->getUserStateFromRequest($context . '.filter_order', 'filter_order', '');
+        $model->setState('list.ordering', $orderBy);
+
+        $orderDir = $app->getUserStateFromRequest($context . '.filter_order_Dir', 'filter_order_Dir', '');
+        $model->setState('list.direction', $orderDir);
+
+        $filter = $app->getUserStateFromRequest($context . '.filter', 'filter', '');
+        $model->setState('filter', $filter);
+
+        $limit = $app->getUserStateFromRequest($context . '.limit', 'limit', '');
+        $model->setState('limit', $limit);
     }
 }

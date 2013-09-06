@@ -2,25 +2,27 @@
 /**
  * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
+ * @subpackage  com_thm_organizer.admin
  * @name        THM_OrganizerLSFClient
  * @author      Markus Baier, <markus.baier@mni.thm.de>
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
+jimport('nusoap.nusoap');
 /**
- * Class THM_OrganizerLSFClient for component com_thm_organizer
  * Class provides methods for lsf communication
  *
- * @category    Joomla.Component.Site
+ * @category    Joomla.Component.Admin
  * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  */
 class THM_OrganizerLSFClient
 {
+    public $clientSet = false;
+
     private $_client;
 
     private $_username;
@@ -32,22 +34,36 @@ class THM_OrganizerLSFClient
      */
     public function __construct()
     {
-        require_once 'lib/nusoap/nusoap.php';
+        $nusoapSupport = $this->nusoapSupport();
+        if ($nusoapSupport)
+        {
+            $this->_username = JComponentHelper::getParams('com_thm_organizer')->get('wsUsername');
+            $this->_password = JComponentHelper::getParams('com_thm_organizer')->get('wsPassword');
+            $endpoint = JComponentHelper::getParams('com_thm_organizer')->get('wsURI');
+            $this->_client = new nusoap_client($endpoint, true, '', '', '', '', 120, 120);
+            if (!empty($this->_client))
+            {
+                $this->clientSet = true;
+            }
+            else
+            {
+                JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_NUSOAP_CLIENT_ERROR', 'error');
+            }
+        }
+    }
 
-        $this->_username = JComponentHelper::getParams('com_thm_organizer')->get('wsUsername');
-        $this->_password = JComponentHelper::getParams('com_thm_organizer')->get('wsPassword');
-
-        $params = array();
-        $params['endpoint'] = JComponentHelper::getParams('com_thm_organizer')->get('wsURI');
-        $params['wsdl'] = true;
-        $params['proxyhost'] = '';
-        $params['proxyport'] = '';
-        $params['proxyusername'] = '';
-        $params['proxypassword'] = '';
-        $params['timeout'] = 120;
-        $params['responseTimeout'] = 120;
-
-        $this->_client = new nusoap_client($params);
+    /**
+     * Ensures the NuSoap Library is installed and enabled
+     * 
+	 * @return  mixed  the return value or null if the query failed
+     */
+    private function nusoapSupport()
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('COUNT(*)')->from('#__extensions')->where("name = 'NuSOAP' AND enabled = '1'");
+        $dbo->setQuery((string) $query);
+        return $dbo->loadResult();
     }
 
     /**

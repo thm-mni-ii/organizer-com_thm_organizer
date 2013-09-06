@@ -24,7 +24,7 @@ $teacherLink = JRoute::_($baseLink . "2");
 $fieldTabText = ($languageTag == 'de')? "...nach Fachgruppe" : "...by field of study";
 $fieldLink = JRoute::_($baseLink . "3");
 $flagPath = 'media' . DIRECTORY_SEPARATOR . 'com_thm_organizer' . DIRECTORY_SEPARATOR . 'images';
-$flagPath .= DIRECTORY_SEPARATOR . 'curriculum' . DIRECTORY_SEPARATOR . $this->otherLanguageTag . '.png';
+$flagPath .= DIRECTORY_SEPARATOR . 'extjs' . DIRECTORY_SEPARATOR . $this->otherLanguageTag . '.png';
 $defaultActive = 'active';
 $poolActive = $teacherActive = $fieldActive = 'inactive';
 ?>
@@ -71,7 +71,7 @@ $poolActive = $teacherActive = $fieldActive = 'inactive';
             </label>
             <input type="text" name="search" id="filter_search"
                 value="<?php echo $this->escape($this->state->get('search')); ?>"
-                title="<?php echo JText::_('COM_CATEGORIES_ITEMS_SEARCH_FILTER'); ?>" />
+                title="<?php echo JText::_('COM_THM_ORGANIZER_SEARCH_TITLE'); ?>" />
             <button type="submit">
                 <?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>
             </button>
@@ -95,9 +95,16 @@ foreach ($this->items as $subject)
                     </a>
                 </div>
                 <div class="subject-responsible">
-                    <a href="<?php echo $subject->groupsLink; ?>">
-                        <?php echo $subject->teacherName; ?>
-                    </a>
+<?php
+if (empty($subject->groupsLink))
+{
+    echo $subject->teacherName;
+}
+else
+{
+    echo "<a href='$subject->groupsLink'>$subject->teacherName</a>";
+}
+?>
                 </div>
                 <div class="subject-crp"><?php echo $subject->creditpoints; ?> CrP</div>
             </tr>

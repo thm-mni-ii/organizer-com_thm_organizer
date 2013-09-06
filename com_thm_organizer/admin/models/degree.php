@@ -12,6 +12,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
+require_once JPATH_COMPONENT . DS . 'assets' . DS . 'helpers' . DS . 'thm_organizerHelper.php';
 
 /**
  * Class THM_OrganizerModelDegree for component com_thm_organizer
@@ -43,19 +44,6 @@ class THM_OrganizerModelDegree extends JModel
      */
     public function delete()
     {
-        $query = $this->_db->getQuery(true);
-        $query->delete('#__thm_organizer_degrees');
-        $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
-        $query->where("id IN ( $cids )");
-        $this->_db->setQuery((string) $query);
-        try
-        {
-            $this->_db->query();
-            return true;
-        }
-        catch ( Exception $exception)
-        {
-            return false;
-        }
+        return THM_OrganizerHelper::delete('degrees');
     }
 }

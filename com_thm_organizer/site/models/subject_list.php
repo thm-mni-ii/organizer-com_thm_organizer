@@ -3,8 +3,8 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerModelIndex
- * @author      Markus Baier, <markus.baier@mni.thm.de>
+ * @name        THM_OrganizerModelSubject_List
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
@@ -21,7 +21,7 @@ define('FIELD', 3);
  * Class creates a model
  *
  * @category    Joomla.Component.Site
- * @package     thm_urriculum
+ * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
 class THM_OrganizerModelSubject_List extends JModelList
@@ -60,7 +60,7 @@ class THM_OrganizerModelSubject_List extends JModelList
         $surnames = $dbo->loadResultArray(5);
         $forenames = $dbo->loadResultArray(6);
         $fields = $dbo->loadResultArray(7);
-        $THMGroupLinks = $dbo->loadResultArray(9);
+        $THMGroupsLinks = $dbo->loadResultArray(9);
         $fieldColors = $dbo->loadResultArray(11);
         $teacherColors = $dbo->loadResultArray(11);
         $poolColors = $dbo->loadResultArray(12);
@@ -72,7 +72,7 @@ class THM_OrganizerModelSubject_List extends JModelList
                 $this->groups = $this->getPoolGroups($subjectIDs, $programs, $pools, $poolColors, $programColors);
                 break;
             case TEACHER:
-                $this->groups = $this->getTeacherGroups($subjectIDs, $surnames, $forenames, $THMGroupLinks, $teacherColors);
+                $this->groups = $this->getTeacherGroups($subjectIDs, $surnames, $forenames, $THMGroupsLinks, $teacherColors);
                 break;
             case FIELD:
                 $this->groups = $this->getFieldGroups($subjectIDs, $fields, $fieldColors);
