@@ -63,7 +63,7 @@ function setEmptyElement(position)
     "use strict";
 
     var currentOrder = getCurrentOrder();
-    var length = parseInt(currentOrder.length);
+    var length = parseInt(currentOrder.length, 10);
     
     createNewRow(length, 'childList');
 
@@ -92,7 +92,7 @@ function setElementOnLastPosition(position)
     "use strict";
 
     var currentOrder = getCurrentOrder();
-    var length = parseInt(currentOrder.length);
+    var length = parseInt(currentOrder.length, 10);
     var tmpElement = currentOrder[position - 1];
 
     pushAllUp(position, length, currentOrder);
@@ -145,6 +145,7 @@ function orderWithNumber(firstPos)
 function remove(rowNumber)
 {
     "use strict";
+    
     var currentOrder = getCurrentOrder();
     var length = currentOrder.length;
     
@@ -163,6 +164,8 @@ function remove(rowNumber)
  */
 function pushAllUp(position, length, elementArray)
 {
+    "use strict";
+    
     while (position < length)
     {
         overrideElement(position, elementArray[position]);
@@ -180,6 +183,8 @@ function pushAllUp(position, length, elementArray)
  */
 function pushAllDown(position, length, elementArray)
 {
+    "use strict";
+    
     while (position > length)
     {
         var newOrder = position;
@@ -223,6 +228,8 @@ function getCurrentOrder()
  */
 function overrideElement(newOrder, oldElement)
 {
+    "use strict";
+    
     jq('#child' + newOrder + 'name').text(oldElement.name);
     jq('#child' + newOrder).val(oldElement.id);
     jq('#child' + newOrder + 'link').attr('href', oldElement.link);
@@ -237,6 +244,8 @@ function overrideElement(newOrder, oldElement)
  */
 function overrideElementWithDummy(position)
 {
+    "use strict";
+    
     jq('#child' + position + 'name').text('');
     jq('#child' + position).val('');
     jq('#child' + position + 'link').attr('href', "");
@@ -252,6 +261,8 @@ function overrideElementWithDummy(position)
  */
 function createNewRow(lastPosition, tableID) 
 {
+    "use strict";
+    
     var nextClassRow;
     var lastClassRow = document.getElementById('childRow' + lastPosition).className;
     
@@ -267,32 +278,31 @@ function createNewRow(lastPosition, tableID)
         nextClassRow = 'row0';
     }
     
-    var pos = parseInt(lastPosition)+1;
+    var pos = parseInt(lastPosition, 10) + 1;
     
-    jq( '<tr id="childRow'+pos+'" class="'+nextClassRow+'">' 
-        + '<td>'
-        +   '<a id="child'+pos+'link" href="#">'
-        +       '<span id="child'+pos+'name">TEST OBJEKT</span>'
-        +   '</a>'
-        +   '<input id="child'+pos+'" type="hidden" value="0" name="child'+pos+'">'
-        + '</td>'
-        + '<td class="order">'
-        +   '<span><a class="jgrid" title="Move Up" onclick="moveUp(\''+pos+'\');" href="javascript:void(0);">'
-        +       '<span class="state uparrow"><span class="text">nach oben</span></span>'
-        +   '</a></span>'
-        +   '<span><a class="jgrid" title="Move Down" onclick="moveDown(\''+pos+'\');" href="javascript:void(0);">'
-        +       '<span class="state downarrow"><span class="text">nach unten</span></span>'
-        +   '</a></span>'
-        +   '<span><a class="jgrid" title="Add Empty Element" onclick="setEmptyElement(\''+pos+'\');" href="javascript:void(0);">'
-        +       '<span class="icon-16-newlevel"><span class="text">Einfügen vom Dummy</span></span>'
-        +   '</a></span>'
-        +   '<span><a class="jgrid" title="Set On Last Position" onclick="setElementOnLastPosition(\''+pos+'\');" href="javascript:void(0);">'
-        +       '<span class="icon-16-clear"><span class="text">Element auf letzte Spalte setzen</span></span>'
-        +   '</a></span>'
-        +   '<input id="child'+pos+'order" class="text-area-order" type="text" onchange="orderWithNumber('+pos+');" value="'+pos+'" size="2" name="child'+pos+'order"></input>'
-        +   '<a class="thm_organizer_delete_child" onclick="remove('+pos+');" title="Untergeordnete Struktur Entfernen" href="javascript:void(0);"></a>'
-        + '</td>'
-        + '</tr>'
+    jq( '<tr id="childRow'+pos+'" class="'+nextClassRow+'">' +
+        '<td>' +
+          '<a id="child'+pos+'link" href="#">' +
+            '<span id="child'+pos+'name">TEST OBJEKT</span>' +
+          '</a>' +
+          '<input id="child'+pos+'" type="hidden" value="0" name="child'+pos+'">' +
+        '</td>' +
+        '<td class="order">' +
+          '<span><a class="jgrid" title="Move Up" onclick="moveUp(\''+pos+'\');" href="javascript:void(0);">' +
+            '<span class="state uparrow"><span class="text">nach oben</span></span>' +
+          '</a></span>' +
+          '<span><a class="jgrid" title="Move Down" onclick="moveDown(\''+pos+'\');" href="javascript:void(0);">' +
+            '<span class="state downarrow"><span class="text">nach unten</span></span>' +
+          '</a></span>' +
+          '<span><a class="jgrid" title="Add Empty Element" onclick="setEmptyElement(\''+pos+'\');" href="javascript:void(0);">' +
+            '<span class="icon-16-newlevel"><span class="text">Einfügen vom Dummy</span></span>' +
+          '</a></span>' +
+          '<span><a class="jgrid" title="Set On Last Position" onclick="setElementOnLastPosition(\''+pos+'\');" href="javascript:void(0);">' +
+            '<span class="icon-16-clear"><span class="text">Element auf letzte Spalte setzen</span></span>' +
+          '</a></span>' +
+          '<input id="child'+pos+'order" class="text-area-order" type="text" onchange="orderWithNumber('+pos+');" value="'+pos+'" size="2" name="child'+pos+'order"></input>' +
+          '<a class="thm_organizer_delete_child" onclick="remove('+pos+');" title="Untergeordnete Struktur Entfernen" href="javascript:void(0);"></a>' +
+        '</td>' +
+        '</tr>' 
     ).appendTo(document.getElementById(tableID).tBodies[0]);
-
 }

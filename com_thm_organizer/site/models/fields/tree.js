@@ -356,6 +356,15 @@ Ext.tree.Panel.prototype.doGray = function(node)
                     gray = state;
                 }
             }
+            else
+            {
+            	var state = tree.needGray(v);
+            	if(state === true)
+                {
+                    gray = state;
+                    return;
+                }
+            }
         });
     }
 
@@ -376,6 +385,33 @@ Ext.tree.Panel.prototype.doGray = function(node)
 
     return gray;
 };
+
+Ext.tree.Panel.prototype.needGray = function (node)
+{
+	if(node.data.checked === "checked" || node.data.checked === "selected" || node.data.checked === "intermediate")
+    {
+        return true;
+    }
+	
+	var returnResult = false;
+	
+	if(node.hasChildNodes() === true)
+    {
+        node.childNodes.each(function(v, k) {   
+        	if(returnResult === true)
+        	{
+        		return;
+        	}
+            var state = tree.needGray(v);
+            if(state === true)
+            {
+            	returnResult = true;
+            	return;
+            }
+        });
+    }
+	return returnResult;
+}
 
 var tree = null;
 
