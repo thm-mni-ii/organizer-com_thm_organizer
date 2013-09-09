@@ -86,9 +86,9 @@ class THMICALBuilder extends THMAbstractBuilder
      */
     public function createSchedule($lessons, $username, $title)
     {
-        $departmentAndSemester = JRequest::getVar('departmentAndSemester');
+        $planningPeriod = JRequest::getVar('departmentAndSemester');
  
-        $activeSchedule = $this->getActiveSchedule($departmentAndSemester);
+        $activeSchedule = $this->getActiveSchedule($planningPeriod);
  
         $scheduleData = json_decode($activeSchedule->schedule);
  
@@ -252,54 +252,16 @@ class THMICALBuilder extends THMAbstractBuilder
     }
 
     /**
-     * Method to check the username and password
-     *
-     * @param   Integer  $daynum  The daynumber
-     *
-     * @return String A shortened dayname
-     */
-    private function daynumtoday($daynum)
-    {
-        $days = array(
-                1 => "MO",
-                2 => "TU",
-                3 => "WE",
-                4 => "TH",
-                5 => "FR"
-        );
-        return $days[$daynum];
-    }
-
-    /**
-     * Method to transform a number to a day
-     *
-     * @param   Integer  $daynum  A day number
-     *
-     * @return String A dayname
-     */
-    private function nummerzutag($daynum)
-    {
-        $days = array(
-             1 => JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_MONDAY"),
-                2 => JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_TUESDAY"),
-                3 => JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_WEDNESDAY"),
-                4 => JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_THURSDAY"),
-                5 => JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_FRIDAY")
-        );
-        return $days[$daynum];
-    }
- 
-    /**
      * Method to get the active schedule
      *
-     * @param   String  $departmentAndSemester  The department semester selection (Default: null)
+     * @param   String  $planningPeriod  The department semester selection (Default: null)
      *
      * @return   mixed  The active schedule or false
      */
-    private function getActiveSchedule($departmentAndSemester = null)
+    private function getActiveSchedule($planningPeriod = null)
     {
         $schedulerModel = JModel::getInstance('scheduler', 'thm_organizerModel', array('ignore_request' => false));
-        $activeSchedule = $schedulerModel->getActiveSchedule($departmentAndSemester);
+        $activeSchedule = $schedulerModel->getActiveSchedule($planningPeriod);
  
         return $activeSchedule;
     }

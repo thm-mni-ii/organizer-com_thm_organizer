@@ -35,7 +35,15 @@ class Thm_OrganizerViewEvent_Ajax extends JView
     public function display($tpl = null)
     {
         $function = JRequest::getString('task');
-        $this->$function();
+        switch ($function)
+        {
+            case 'booking':
+                $this->booking();
+                break;
+            case 'preview':
+                $this->preview();
+                break;
+        }
     }
 
     /**

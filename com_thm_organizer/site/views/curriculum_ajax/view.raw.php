@@ -14,9 +14,9 @@ jimport('joomla.application.component.view');
 /**
  * Class loading persistent data into the view context
  *
- * @category    Joomla.Component.Admin
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
  */
 class THM_OrganizerViewCurriculum_Ajax extends JView
@@ -31,7 +31,12 @@ class THM_OrganizerViewCurriculum_Ajax extends JView
     public function display($tpl = null)
     {
         $function = JRequest::getString('task');
-        $this->$function();
+        switch ($function)
+        {
+            case 'getCurriculum':
+                $this->getCurriculum();
+                break;
+        }
     }
 
     /**

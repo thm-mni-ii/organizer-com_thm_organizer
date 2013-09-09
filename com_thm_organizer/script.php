@@ -333,20 +333,4 @@ class Com_THM_OrganizerInstallerScript
     </fieldset>
     <?php
     }
- 
-    /**
-     * Compares the version numbers to see if one is greater than the other
-     *
-     * @param   string  $installedVersion  the component version currently installed
-     * @param   string  $updateVersion     the sql update file being iterated
-     *
-     * @return  boolean  true if the file has a higher version number, otherwise false
-     */
-    private function isNewer($installedVersion, $updateVersion)
-    {
-        $installedVersion = explode('.', $installedVersion);
-        $updateVersion = explode('.', str_replace('.sql', '', $updateVersion));
-        return ($updateVersion[0] >= $installedVersion[0]) AND
-         ($updateVersion[1] >= $installedVersion[1]) AND ($updateVersion[2] > $installedVersion[2]);
-    }
 }

@@ -37,7 +37,12 @@ class THM_OrganizerViewPool_Ajax extends JView
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
         $function = JRequest::getString('task');
-        $this->$function();
+        switch ($function)
+        {
+            case 'poolDegreeOptions':
+                $this->poolDegreeOptions();
+                break;
+        }
     }
 
     /**
