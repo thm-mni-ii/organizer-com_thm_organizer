@@ -19,14 +19,11 @@ function moveUp(oldOrder)
     var reorderObjects = currentOrder.splice(oldOrder - 2, 2);
 
     // Set current to lower
-    jq('#child' + (oldOrder - 1) + 'name').text(reorderObjects[1].name);
-    jq('#child' + (oldOrder - 1)).val(reorderObjects[1].id);
-    jq('#child' + (oldOrder - 1) + 'link').attr('href', reorderObjects[1].link);
+    overrideElement((oldOrder - 1), reorderObjects[1]);
 
     // Set current with lower
-    jq('#child' + (oldOrder) + 'name').text(reorderObjects[0].name);
-    jq('#child' + (oldOrder)).val(reorderObjects[0].id);
-    jq('#child' + (oldOrder) + 'link').attr('href', reorderObjects[0].link);
+    overrideElement(oldOrder, reorderObjects[0]);
+    
 }
 
 /**
@@ -47,61 +44,154 @@ function moveDown(oldOrder)
     var reorderObjects = currentOrder.splice(oldOrder - 1, 2);
 
     // Set current to lower
-    jq('#child' + (oldOrder) + 'name').text(reorderObjects[1].name);
-    jq('#child' + (oldOrder)).val(reorderObjects[1].id);
-    jq('#child' + (oldOrder) + 'link').attr('href', reorderObjects[1].link);
+    overrideElement(oldOrder, reorderObjects[1]);
 
     // Set current with lower
     var newOrder = parseInt(oldOrder, 10) + 1;
-    jq('#child' + newOrder + 'name').text(reorderObjects[0].name);
-    jq('#child' + newOrder).val(reorderObjects[0].id);
-    jq('#child' + newOrder + 'link').attr('href', reorderObjects[0].link);
+    overrideElement(newOrder, reorderObjects[0]);
+    
+}
+
+/**
+ * Add new empty level.
+ * 
+ * @param {int} position
+ * @returns {void}
+ */
+function setEmptyElement(position)
+{
+    "use strict";
+
+    var currentOrder = getCurrentOrder();
+    var length = parseInt(currentOrder.length, 10);
+    
+    createNewRow(length, 'childList');
+
+    while (position <= length)
+    {
+        var newOrder = length + 1;
+        var oldIndex = length - 1;
+        
+        overrideElement(newOrder, currentOrder[oldIndex]);
+        length--;
+    }
+
+    overrideElementWithDummy(position);
+
+}
+
+/**
+ * Pushes all rows a step up. 
+ * The first row 'position' is moved to the last postion.
+ * 
+ * @param {int} position
+ * @returns {void}
+ */
+function setElementOnLastPosition(position)
+{
+    "use strict";
+
+    var currentOrder = getCurrentOrder();
+    var length = parseInt(currentOrder.length, 10);
+    var tmpElement = currentOrder[position - 1];
+
+    pushAllUp(position, length, currentOrder);
+
+    overrideElement(length, tmpElement);
 }
 
 /**
  * Sets the current values of a row to another row indicated by the value of the
  * order field
  *
- * @param   {int} oldOrder
+ * @param   {int} firstPos
  *
  * @returns  {void}
  */
-function order(oldOrder)
+function orderWithNumber(firstPos)
 {
     "use strict";
+
     var currentOrder = getCurrentOrder();
-    var newOrder = currentOrder[oldOrder - 1].order;
-    if (newOrder === oldOrder)
+    var length = currentOrder.length;
+    
+    var tmpElement = currentOrder[firstPos - 1];
+    var secondPos = jq('#child' + firstPos + 'order').val();
+
+    if(secondPos > length)
     {
         return;
     }
-    if (newOrder <= 0 || newOrder > currentOrder.length)
+
+    if (firstPos < secondPos) 
     {
-        jq('#child' + oldOrder + 'order').val(oldOrder);
-        alert(Joomla.JText._('COM_THM_ORGANIZER_INVALID_ORDER'));
-        return;
+        pushAllUp(firstPos, secondPos, currentOrder);   
+    } 
+    else 
+    {
+        pushAllDown(firstPos, secondPos, currentOrder);
     }
-    var i;
-    if (Math.min(newOrder, oldOrder) === newOrder)
+
+    overrideElement(secondPos, tmpElement);
+}
+
+/**
+ * Removes a child row from the display
+ *
+ * @param   {int}  rowNumber  the number of the row to be deleted
+ *
+ * @returns  {void}
+ */
+function remove(rowNumber)
+{
+    "use strict";
+    
+    var currentOrder = getCurrentOrder();
+    var length = currentOrder.length;
+    
+    pushAllUp(rowNumber, length, currentOrder);
+    
+    jq('#childRow' + length).remove();
+}
+
+/**
+ * Push all Ements up.
+ * 
+ * @param {int} position
+ * @param {int} length
+ * @param {array} elementArray
+ * @returns {void}
+ */
+function pushAllUp(position, length, elementArray)
+{
+    "use strict";
+    
+    while (position < length)
     {
-        for (i = newOrder - 1; i < oldOrder - 1; i++)
-        {
-            currentOrder[i].order++;
-        }
-    }
-    else
+        overrideElement(position, elementArray[position]);
+        position++;
+    } 
+}
+
+/**
+ * Push all Elements down.
+ * 
+ * @param {int} position
+ * @param {int} length
+ * @param {array} elementArray
+ * @returns {void}
+ */
+function pushAllDown(position, length, elementArray)
+{
+    "use strict";
+    
+    while (position > length)
     {
-        for (i = oldOrder ; i < newOrder; i++)
-        {
-            currentOrder[i].order--;
-        }
-    }
-    for (i = 0; i < currentOrder.length; i++)
-    {
-        jq('#child' + currentOrder[i].order + 'name').text(currentOrder[i].name);
-        jq('#child' + currentOrder[i].order).val(currentOrder[i].id);
-        jq('#child' + currentOrder[i].order + 'link').attr('href', currentOrder[i].link);
-        jq('#child' + currentOrder[i].order + 'order').val(currentOrder[i].order);
+        var newOrder = position;
+        var oldIndex = position - 2;
+
+        overrideElement(newOrder, elementArray[oldIndex]);
+        position--;
     }
 }
 
@@ -114,7 +204,7 @@ function getCurrentOrder()
 {
     "use strict";
     var currentOrder = [];
- 
+
     // The header row needs to be removed from the count
     var rowCount = jq('#childList tr').length - 1;
     for (var i = 0; i < rowCount; i++)
@@ -130,28 +220,89 @@ function getCurrentOrder()
 }
 
 /**
- * Removes a child row from the display
- *
- * @param   {int}  rowNumber  the number of the row to be deleted
- *
- * @returns  {void}
+ * Override a DOM-Element with the ID '#child'+newOrder.
+ * 
+ * @param {int} newOrder
+ * @param {Object} oldElement
+ * @returns {void}
  */
-function remove(rowNumber)
+function overrideElement(newOrder, oldElement)
 {
     "use strict";
-    var currentOrder = getCurrentOrder();
-    jq('#childRow' + rowNumber).remove();
-    for (var i = rowNumber + 1 ; i <= currentOrder.length; i++)
-    {
-        var oneLower = i - 1;
-        jq('#childRow' + i).attr('id', '#childRow' + oneLower);
-        jq('#child' + i + 'name').text(currentOrder[oneLower].name);
-        jq('#child' + i + 'name').attr('id', '#child' + oneLower + 'name');
-        jq('#child' + i).val(currentOrder[oneLower].id);
-        jq('#child' + i).attr('id', '#child' + oneLower);
-        jq('#child' + i + 'link').attr('href', currentOrder[oneLower].link);
-        jq('#child' + i + 'link').attr('id', '#child' + oneLower + 'link');
-        jq('#child' + i + 'order').val(currentOrder[oneLower].order - 1);
-        jq('#child' + i + 'order').attr('id', '#child' + oneLower + 'order');
+    
+    jq('#child' + newOrder + 'name').text(oldElement.name);
+    jq('#child' + newOrder).val(oldElement.id);
+    jq('#child' + newOrder + 'link').attr('href', oldElement.link);
+    jq('#child' + newOrder + 'order').val(newOrder);
+}
+
+/**
+ * Overrides a DOM-Element with a Dummy-Element.
+ * 
+ * @param {int} position
+ * @returns {void}
+ */
+function overrideElementWithDummy(position)
+{
+    "use strict";
+    
+    jq('#child' + position + 'name').text('');
+    jq('#child' + position).val('');
+    jq('#child' + position + 'link').attr('href', "");
+    jq('#child' + position + 'order').val(position); 
+}
+
+/**
+ * Add a new row on the end of the table.
+ * 
+ * @param {int} lastPosition
+ * @param {int} tableID
+ * @returns {void}
+ */
+function createNewRow(lastPosition, tableID) 
+{
+    "use strict";
+    
+    var nextClassRow;
+    var lastClassRow = document.getElementById('childRow' + lastPosition).className;
+    
+    if(lastClassRow === null) {
+        nextClassRow = 'row1';
     }
+    else if(lastClassRow === 'row0') 
+    {
+        nextClassRow = 'row1';
+    } 
+    else 
+    {
+        nextClassRow = 'row0';
+    }
+    
+    var pos = parseInt(lastPosition, 10) + 1;
+    
+    jq( '<tr id="childRow'+pos+'" class="'+nextClassRow+'">' +
+        '<td>' +
+          '<a id="child'+pos+'link" href="#">' +
+            '<span id="child'+pos+'name">TEST OBJEKT</span>' +
+          '</a>' +
+          '<input id="child'+pos+'" type="hidden" value="0" name="child'+pos+'">' +
+        '</td>' +
+        '<td class="order">' +
+          '<span><a class="jgrid" title="Move Up" onclick="moveUp(\''+pos+'\');" href="javascript:void(0);">' +
+            '<span class="state uparrow"><span class="text">nach oben</span></span>' +
+          '</a></span>' +
+          '<span><a class="jgrid" title="Move Down" onclick="moveDown(\''+pos+'\');" href="javascript:void(0);">' +
+            '<span class="state downarrow"><span class="text">nach unten</span></span>' +
+          '</a></span>' +
+          '<span><a class="jgrid" title="Add Empty Element" onclick="setEmptyElement(\''+pos+'\');" href="javascript:void(0);">' +
+            '<span class="icon-16-newlevel"><span class="text">Einfügen vom Dummy</span></span>' +
+          '</a></span>' +
+          '<span><a class="jgrid" title="Set On Last Position" onclick="setElementOnLastPosition(\''+pos+'\');" href="javascript:void(0);">' +
+            '<span class="icon-16-clear"><span class="text">Element auf letzte Spalte setzen</span></span>' +
+          '</a></span>' +
+          '<input id="child'+pos+'order" class="text-area-order" type="text" onchange="orderWithNumber('+pos+');" value="'+pos+'" size="2" name="child'+pos+'order"></input>' +
+          '<a class="thm_organizer_delete_child" onclick="remove('+pos+');" title="Untergeordnete Struktur Entfernen" href="javascript:void(0);"></a>' +
+        '</td>' +
+        '</tr>' 
+    ).appendTo(document.getElementById(tableID).tBodies[0]);
 }

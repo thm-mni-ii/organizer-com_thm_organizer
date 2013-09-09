@@ -157,7 +157,7 @@ class THM_OrganizerModelMapping extends JModel
         {
             return false;
         }
-
+        
         $mapping = JTable::getInstance('mappings', 'THM_OrganizerTable');
         $mappingAdded = $mapping->save($pool);
         if ($mappingAdded)
@@ -177,6 +177,11 @@ class THM_OrganizerModelMapping extends JModel
                     }
                     elseif (isset($child['subjectID']))
                     {
+                        if (!is_numeric($child['subjectID'])) 
+                        {
+                            continue;
+                        }
+                        
                         $child['level'] = $pool['level'] + 1;
                         $childAdded = $this->addSubject($child);
                         if (!$childAdded)
@@ -480,7 +485,7 @@ class THM_OrganizerModelMapping extends JModel
         $existingQuery->select('id')->from('#__thm_organizer_mappings');
         $existingQuery->where("{$type}ID = '$resourceID'");
         $dbo->setQuery((string) $existingQuery, 0, 1);
-        $firstID = $dbo->loadResult();
+        $firstID = $dbo->loadResult();        
         if (!empty($firstID))
         {
             $childrenQuery = $dbo->getQuery(true);
@@ -517,14 +522,14 @@ class THM_OrganizerModelMapping extends JModel
     private function getChildrenFromForm()
     {
         $children = array();
-        $childKeys = preg_grep('/^child[1-9]+$/', array_keys($_POST));
+        $childKeys = preg_grep('/^child[0-9]+$/', array_keys($_POST));
         foreach ($childKeys as $childKey)
         {
             $ordering = substr($childKey, 5);
             $aggregateInfo = JRequest::getString($childKey);
-            $resourceID = substr($aggregateInfo, 0, strlen($aggregateInfo) - 1);
+            $resourceID = substr($aggregateInfo, 0, strlen($aggregateInfo) - 1);            
             $resourceType = strpos($aggregateInfo, 'p')? 'pool' : 'subject';
- 
+          
             if ($resourceType == 'subject')
             {
                 $children[$ordering]['poolID'] = null;
@@ -630,8 +635,13 @@ class THM_OrganizerModelMapping extends JModel
         $poolData['programID'] = null;
         $poolData['poolID'] = $data['id'];
         $poolData['subjectID'] = null;
+        $poolData['description_de'] = $data['description_de'];
+        $poolData['description_en'] = $data['description_en'];
+        $poolData['distance'] = $data['distance'];
+        $poolData['display_type'] = ($data['display_type'] == 0) ? (0) : (1);
+        $poolData['enable_desc'] = ($data['enable_desc'] == 0) ? (0) : (1);
         $poolData['children'] = $this->getChildrenFromForm();
-
+                
         $parentIDs = $data['parentID'];
         $orderings = array();
         foreach ($parentIDs as $parentID)
@@ -639,16 +649,17 @@ class THM_OrganizerModelMapping extends JModel
             $orderings[$parentID] = $this->getOrdering($parentID, $poolData['poolID']);
         }
  
-        $cleanSlate = $this->deleteByResourceID($poolData['poolID'], 'pool');
+        $cleanSlate = $this->deleteByResourceID($poolData['poolID'], 'pool'); 
         if ($cleanSlate)
         {
             foreach ($parentIDs as $parentID)
-            {
+            {   
                 $poolData['parentID'] = $parentID;
                 $poolData['ordering'] = $orderings[$parentID];
                 $poolAdded = $this->addPool($poolData);
                 if (!$poolAdded)
                 {
+                    JFactory::getApplication()->enqueueMessage('admin.models.mapping.php: addPool is false', 'error');
                     return false;
                 }
             }
