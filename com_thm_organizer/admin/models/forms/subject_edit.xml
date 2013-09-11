@@ -74,7 +74,7 @@
                last="900"
                step="30"
                default="120"/>
-        <field name="proof"
+        <field name="proofID"
                type="list"
                default="P"
                label="COM_THM_ORGANIZER_SUM_PROOF_TITLE"
@@ -90,7 +90,7 @@
             <option value="DA">COM_THM_ORGANIZER_SUM_PROOF_THESIS</option>
             <option value="HD">COM_THM_ORGANIZER_SUM_PROOF_DIPLOMA</option>
         </field>
-        <field name="pform"
+        <field name="pformID"
                type="list"
                default="S"
                label="COM_THM_ORGANIZER_SUM_PFORM_TITLE"

@@ -25,22 +25,15 @@ $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : fa
             jq(this).removeClass("loading");
         }
     });
- 
-    jq(document).ready( function() {
-       jq('.thm_organizer_action_link_preview').live("click", function() {
-           jq('.Popup').fadeIn("slow");
-           jq('.overlay').fadeIn("slow");
-           return false;
-       });
- 
+
+    jq(document).ready( function() { 
        jq('.closePopup').live("click", function() {
            jq(".Popup").fadeOut("slow");
            jq(".overlay").fadeOut("slow", remove_preview_content());
            return false;
        });
- 
     });
- 
+
     function preview_content(response) {
         var json = jq.parseJSON(response);
         jq('#thm_organizer_ee_preview_event').append("<div id='thm_organizer_e_preview_div' class='thm_organizer_e_preview_div' >\
@@ -91,7 +84,6 @@ Joomla.submitbutton =  function(task){
     if (task === '') { return false; }
     else
     {
-        var requrl = build_url();
         var isValid = true;
         var action = task.split('.');
  
@@ -107,42 +99,44 @@ Joomla.submitbutton =  function(task){
                 }
             }
         }
- 
-        if (isValid)
+
+        var requrl = build_url();
+        if (isValid && task === 'event.preview')
         {
-            if (task === 'event.preview')
-            {
-                var description = document.getElementById("jform_description_ifr").contentWindow.document.getElementById("tinymce").innerHTML;
-                requrl = requrl + "&description=" + description  + "&task=preview";
-                jq.ajax( {
-                    type    : "GET",
-                    url     : requrl,
-                    success : function(response) {
-                                preview_content(response);
-                                return false;
-                            },
-                    failure : function() {
-                              return false;
-                    }
-                });
-            }
-            else
-            {
-                requrl = requrl + "&task=booking";
-                jq.ajax( {
-                    type    : "GET",
-                    url     : requrl,
-                    success : function(response) {
-                        var confirmed = true;
-                        if(response){ confirmed = confirm(response); }
-                        if(confirmed){Joomla.submitform(task, document.eventForm); }
-                        return false;
-                    },
-                    failure : function() {
-                        return false;
-                    }
-                });
-            }
+            var description = document.getElementById("jform_description_ifr").contentWindow.document.getElementById("tinymce").innerHTML;
+            var descriptionString = String(description);
+            description = descriptionString.indexOf("data-mce-bogus") != -1? '' : description;
+            requrl = requrl + "&description=" + description  + "&task=preview";
+            jq.ajax( {
+                type    : "GET",
+                url     : requrl,
+                success : function(response) {
+                            preview_content(response);
+                            jq('.Popup').fadeIn("slow");
+                            jq('.overlay').fadeIn("slow");
+                            return false;
+                        },
+                failure : function() {
+                          return false;
+                }
+            });
+        }
+        else if (isValid)
+        {
+            requrl = requrl + "&task=booking";
+            jq.ajax( {
+                type    : "GET",
+                url     : requrl,
+                success : function(response) {
+                    var confirmed = true;
+                    if(response){ confirmed = confirm(response); }
+                    if(confirmed){Joomla.submitform(task, document.eventForm); }
+                    return false;
+                },
+                failure : function() {
+                    return false;
+                }
+            });
         }
         else
         {
@@ -219,7 +213,9 @@ Joomla.submitbutton =  function(task){
                     <div class="loader"></div>
                     <h1><?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_HEADER');?></h1>
                     <div id="thm_organizer_ee_preview_event"><?php sleep(4); ?></div>
-                    <a href="" class="closePopup"><?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_CLOSE');?></a>
+                    <a href="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=event_edit'); ?>" class="closePopup">
+                        <?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_CLOSE');?>
+                    </a>
                 </div>
                 <div id="overlay" class="overlay closePopup"></div>
             </div>

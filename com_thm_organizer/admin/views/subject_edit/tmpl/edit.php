@@ -94,12 +94,12 @@ jq(document).ready(function(){
                         <?php echo $this->form->getInput('independent'); ?>
                     </li>
                     <li>
-                        <?php echo $this->form->getLabel('proof'); ?>
-                        <?php echo $this->form->getInput('proof'); ?>
+                        <?php echo $this->form->getLabel('proofID'); ?>
+                        <?php echo $this->form->getInput('proofID'); ?>
                     </li>
                     <li>
-                        <?php echo $this->form->getLabel('pform'); ?>
-                        <?php echo $this->form->getInput('pform'); ?>
+                        <?php echo $this->form->getLabel('pformID'); ?>
+                        <?php echo $this->form->getInput('pformID'); ?>
                     </li>
                     <li>
                         <?php echo $this->form->getLabel('frequencyID'); ?>
