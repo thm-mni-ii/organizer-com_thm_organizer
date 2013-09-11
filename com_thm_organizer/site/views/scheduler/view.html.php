@@ -105,8 +105,15 @@ class THM_OrganizerViewScheduler extends JView
                 $subjects = $scheduleData->subjects;
                 unset($scheduleData->subjects);
                 $teachers = $scheduleData->teachers;
-                unset($scheduleData->teachers);
-                $modules = $scheduleData->modules;
+                unset($scheduleData->teachers); 
+                if(isset($scheduleData->pools))
+                {
+                	$modules = $scheduleData->pools;
+                }
+                else
+                {
+                	$modules = $scheduleData->modules;
+                }
                 unset($scheduleData->modules);
                 $calendar = $scheduleData->calendar;
                 unset($scheduleData->calendar);
