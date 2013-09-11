@@ -12,6 +12,9 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
+
+JTable::addIncludePath(JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_thm_organizer' . DS . 'tables');
+
 require_once 'lesson.php';
 require_once 'teacher.php';
 
