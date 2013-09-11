@@ -19,7 +19,7 @@
                     key_field="id"
                     value_field="name"
                     default=""
-                    query="SELECT DISTINCT CONCAT(departmentname, ';', semestername) AS id, CONCAT(departmentname, ' - ', semestername) AS name FROM #__thm_organizer_schedules ORDER BY name ASC">
+                    query="SELECT DISTINCT CONCAT(departmentname, ';', semestername, ';', startdate, ';', enddate) AS id, CONCAT(departmentname, ' - ', semestername, ' (', startdate, ' - ', enddate, ')') AS name FROM #__thm_organizer_schedules ORDER BY name ASC">
             </field>
             <field type="spacer"
                 default="&lt;b&gt;COM_THM_ORGANIZER_RIA_SEMESTER_TREE&lt;/b&gt;&lt;hr/&gt;"></field>

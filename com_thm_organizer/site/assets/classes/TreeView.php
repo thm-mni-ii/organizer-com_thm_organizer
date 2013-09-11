@@ -335,7 +335,12 @@ class THMTreeView
     {
         $semesterJahrNode = array();
 
-        $activeSchedule = $this->getActiveSchedule();
+        // Get ids for teachers and rooms
+        $schedulerModel = JModel::getInstance('scheduler', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
+        $rooms = $schedulerModel->getRooms();
+        $teachers = $schedulerModel->getTeachers();
+        
+        $activeSchedule = $schedulerModel->getActiveSchedule($this->departmentSemesterSelection);
 
         if (is_object($activeSchedule) && is_string($activeSchedule->schedule))
         {
@@ -361,11 +366,6 @@ class THMTreeView
                 return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_DATA_FLAWED'));
             }
  
-            // Get ids for teachers and rooms
-            $schedulerModel = JModel::getInstance('scheduler', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
-            $rooms = $schedulerModel->getRooms();
-            $teachers = $schedulerModel->getTeachers();
-
             foreach ($this->_treeData["room"] as $roomValue)
             {
                 foreach ($rooms as $databaseRooms)
@@ -780,48 +780,6 @@ class THMTreeView
                 $this->expandSingleNode($v->children);
             }
         }
-
-    }
-
-    /**
-     * Method to get the active schedule
-     *
-     * @return mixed  The active schedule as object or false
-     */
-    public function getActiveSchedule()
-    {
-        $departmentSemester = explode(";", $this->departmentSemesterSelection);
-        if (count($departmentSemester) == 2)
-        {
-            $department = $departmentSemester[0];
-            $semester = $departmentSemester[1];
-        }
-        else
-        {
-            return false;
-        }
-
-        $dbo = JFactory::getDBO();
-        $query = $dbo->getQuery(true);
-        $query->select('*');
-        $query->from('#__thm_organizer_schedules');
-        $query->where('departmentname = ' . $dbo->quote($department));
-        $query->where('semestername = ' . $dbo->quote($semester));
-        $query->where('active = 1');
-        $dbo->setQuery($query);
-
-        if ($dbo->getErrorMsg())
-        {
-            return false;
-        }
-
-        $result = $dbo->loadObject();
-
-        if ($result === null)
-        {
-            return false;
-        }
-        return $result;
 
     }
 
