@@ -354,11 +354,11 @@ class THMTreeView
                 $this->_activeScheduleData = $activeScheduleData;
                 if(isset($activeScheduleData->pools))
                 {
-                	$this->_treeData["pool"] = $activeScheduleData->pools;
+                	$this->_treeData["module"] = $activeScheduleData->pools;
                 }
                 else
                 {
-                	$this->_treeData["pool"] = $activeScheduleData->modules;
+                	$this->_treeData["module"] = $activeScheduleData->modules;
                 }
                 $this->_treeData["room"] = $activeScheduleData->rooms;
                 $this->_treeData["teacher"] = $activeScheduleData->teachers;
@@ -457,7 +457,7 @@ class THMTreeView
      */
     private function StundenplanView($key, $semesterID)
     {
-        $scheduleTypes = array("teacher", "room", "pool", "subject");
+        $scheduleTypes = array("teacher", "room", "module", "subject");
         $viewNode = array();
 
         foreach ($scheduleTypes as $scheduleType)
