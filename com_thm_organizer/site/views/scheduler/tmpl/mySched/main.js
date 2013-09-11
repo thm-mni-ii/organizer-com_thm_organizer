@@ -13,6 +13,7 @@ MySched.session = [];
 MySched.daytime = [];
 MySched.loadedLessons = [];
 MySched.mainPath = externLinks.mainPath;
+MySched.displaySemesterBeginDialog = true;
 Ext.Ajax.timeout = 60000;
 MySched.Config.addAll(
 {

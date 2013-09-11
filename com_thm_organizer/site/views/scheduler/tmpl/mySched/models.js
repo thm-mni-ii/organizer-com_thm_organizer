@@ -318,7 +318,7 @@ Ext.define('ScheduleModel',
         var begin = MySched.session.begin.split("-");
         begin = new Date(begin[0], begin[1] - 1, begin[2]);
 
-        if (wp < begin && !Ext.isDefined(cd.menu))
+        if (wp < begin && MySched.displaySemesterBeginDialog)
         {
             Ext.MessageBox.show(
             {
