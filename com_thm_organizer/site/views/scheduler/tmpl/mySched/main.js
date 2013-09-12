@@ -3992,6 +3992,7 @@ MySched.Tree = function ()
                             gpuntisID, semesterID, plantypeID, type);
                         }
                         
+                        // Displays teacher schedules given by get parameter
                         if(MySched.requestTeacherGPUntisIDs.length > 0)
                         {
                         	for(var i = 0; i < MySched.requestTeacherGPUntisIDs.length; i++)
@@ -4005,10 +4006,10 @@ MySched.Tree = function ()
                                 var type = "teacher";
 
                                 MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
-                            	//new ScheduleModel(nodeID, title) .init(type, nodeKey, semesterID) .show();
                         	}                        	
                         }
                         
+                        // Displays room schedules given by get parameter
                         if(MySched.requestRoomGPUntisIDs.length > 0)
                         {
                         	for(var i = 0; i < MySched.requestRoomGPUntisIDs.length; i++)
@@ -4022,7 +4023,40 @@ MySched.Tree = function ()
                                 var type = "room";
 
                                 MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
-                            	//new ScheduleModel(nodeID, title) .init(type, nodeKey, semesterID) .show();
+                        	}                        	
+                        }
+                        
+                        // Displays pool/module/group schedules given by get parameter
+                        if(MySched.requestPoolGPUntisIDs.length > 0)
+                        {
+                        	for(var i = 0; i < MySched.requestPoolGPUntisIDs.length; i++)
+                        	{
+                        		var poolGPUntisID = MySched.requestPoolGPUntisIDs[i];
+                            	var nodeID = poolGPUntisID;
+                                var nodeKey = poolGPUntisID;
+                                var gpuntisID = poolGPUntisID;
+                                var semesterID = MySched.class_semester_id;
+                                var plantypeID = null;
+                                var type = "module";
+
+                                MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
+                        	}                        	
+                        }
+
+                        // Displays subject schedules given by get parameter
+                        if(MySched.requestSubjectGPUntisIDs.length > 0)
+                        {
+                        	for(var i = 0; i < MySched.requestSubjectGPUntisIDs.length; i++)
+                        	{
+                        		var subjectGPUntisID = MySched.requestSubjectGPUntisIDs[i];
+                            	var nodeID = subjectGPUntisID;
+                                var nodeKey = subjectGPUntisID;
+                                var gpuntisID = subjectGPUntisID;
+                                var semesterID = MySched.class_semester_id;
+                                var plantypeID = null;
+                                var type = "subject";
+
+                                MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
                         	}                        	
                         }
                         

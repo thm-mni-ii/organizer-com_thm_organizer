@@ -68,6 +68,8 @@ if ($this->canWriteEvents === true)
         MySched.departmentAndSemester = '<?php echo $this->departmentAndSemester; ?>';
         MySched.requestTeacherGPUntisIDs = Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestTeacherGPUntisIDs)); ?>'));
         MySched.requestRoomGPUntisIDs =  Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestRoomGPUntisIDs)); ?>'));
+        MySched.requestPoolGPUntisIDs = Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestPoolGPUntisIDs)); ?>'));
+        MySched.requestSubjectGPUntisIDs =  Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestSubjectGPUntisIDs)); ?>'));
 <?php
 if ($this->libraryFPDFIsInstalled)
 {

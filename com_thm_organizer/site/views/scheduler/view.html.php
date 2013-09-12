@@ -194,6 +194,8 @@ class THM_OrganizerViewScheduler extends JView
          
         $this->requestTeacherGPUntisIDs = JRequest::getVar('teacherID', array(), 'default', 'array');
         $this->requestRoomGPUntisIDs = JRequest::getVar('roomID', array(), 'default', 'array');
+        $this->requestPoolGPUntisIDs = JRequest::getVar('poolID', array(), 'default', 'array');
+        $this->requestSubjectGPUntisIDs = JRequest::getVar('subjectID', array(), 'default', 'array');
         
         foreach ($periods as $period)
         {
