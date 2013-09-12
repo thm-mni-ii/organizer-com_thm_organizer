@@ -77,19 +77,18 @@ class THM_OrganizerModelLesson extends JModel
      *
      * @return void
      */
-    public function validateLesson(&$lessonNode)
+    public function validate(&$lessonNode)
     {
         $gpuntisID = $this->validateUntisID(trim((string) $lessonNode[0]['id']));
         if (!$gpuntisID)
         {
-            $this->resetIdentifiers();
             return;
         }
 
         $department = $this->_scheduleModel->schedule->departmentname;
         $semester = $this->_scheduleModel->schedule->semestername;
-        $lessonID = str_replace('LS_', '', $gpuntisID);
-        $this->_lessonIndex = $department . $semester . "_" . $lessonID;
+        $this->_lessonID = str_replace('LS_', '', $gpuntisID);
+        $this->_lessonIndex = $department . $semester . "_" . $this->_lessonID;
 
         if (!isset($this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}))
         {
@@ -101,7 +100,6 @@ class THM_OrganizerModelLesson extends JModel
         $lessonName = $this->validateSubject($subjectID, $department);
         if (!$lessonName)
         {
-            $this->resetIdentifiers();
             return;
         }
 
@@ -114,7 +112,6 @@ class THM_OrganizerModelLesson extends JModel
         $teacherValid = $this->validateTeacher($teacherID);
         if (!$teacherValid)
         {
-            $this->resetIdentifiers();
             return;
         }
 
@@ -122,7 +119,6 @@ class THM_OrganizerModelLesson extends JModel
         $poolsValid = $this->validatePools($poolIDs);
         if (!$poolsValid)
         {
-            $this->resetIdentifiers();
             return;
         }
 
@@ -131,7 +127,6 @@ class THM_OrganizerModelLesson extends JModel
         $datesValid = $this->validateDates($startDT, $endDT);
         if (!$datesValid)
         {
-            $this->resetIdentifiers();
             return;
         }
 
@@ -146,10 +141,7 @@ class THM_OrganizerModelLesson extends JModel
 
         // Cannot produce blocking errors
         $this->validatePeriodsAttribute($periods, $times);
-
         $this->validateOccurences($occurences, $startDT, $times);
-
-        $this->resetIdentifiers();
     }
 
     /**
@@ -226,13 +218,13 @@ class THM_OrganizerModelLesson extends JModel
         if (empty($descriptionID))
         {
             $this->_scheduleModel->scheduleErrors[]
-                = JText::sprintf("COM_THM_ORGANIZER_LS_TYPE_MISSING", $this->lessonName, $this->_lessonID);
+                = JText::sprintf("COM_THM_ORGANIZER_LS_TYPE_MISSING", $this->_lessonName, $this->_lessonID);
             return false;
         }
         elseif (empty($this->_scheduleModel->schedule->lessontypes->$descriptionID))
         {
             $this->_scheduleModel->scheduleErrors[]
-                = JText::sprintf('COM_THM_ORGANIZER_LS_TYPE_LACKING', $this->lessonName, $this->_lessonID, $descriptionID);
+                = JText::sprintf('COM_THM_ORGANIZER_LS_TYPE_LACKING', $this->_lessonName, $this->_lessonID, $descriptionID);
             return false;
         }
 
@@ -255,7 +247,7 @@ class THM_OrganizerModelLesson extends JModel
         $teacherFound = false;
         if (empty($teacherID))
         {
-            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_TR_MISSING', $this->lessonName, $this->_lessonID);
+            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_TR_MISSING', $this->_lessonName, $this->_lessonID);
             return false;
         }
         else
@@ -272,7 +264,7 @@ class THM_OrganizerModelLesson extends JModel
             if (!$teacherFound)
             {
                 $this->_scheduleModel->scheduleErrors[]
-                    = JText::sprintf('COM_THM_ORGANIZER_LS_TR_LACKING', $this->lessonName, $this->_lessonID, $teacherID);
+                    = JText::sprintf('COM_THM_ORGANIZER_LS_TR_LACKING', $this->_lessonName, $this->_lessonID, $teacherID);
                 return false;
             }
         }
@@ -298,7 +290,7 @@ class THM_OrganizerModelLesson extends JModel
     {
         if (empty($poolIDs) AND !isset($this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->pools))
         {
-            $this->_scheduleModel->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_LS_CL_MISSING", $this->lessonName, $this->_lessonID);
+            $this->_scheduleModel->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_LS_CL_MISSING", $this->_lessonName, $this->_lessonID);
             return false;
         }
         elseif (!empty($poolIDs))
@@ -324,7 +316,7 @@ class THM_OrganizerModelLesson extends JModel
                 if (!$poolFound)
                 {
                     $this->_scheduleModel->scheduleErrors[]
-                        = JText::sprintf('COM_THM_ORGANIZER_LS_CL_LACKING', $this->lessonName, $this->_lessonID, $poolID);
+                        = JText::sprintf('COM_THM_ORGANIZER_LS_CL_LACKING', $this->_lessonName, $this->_lessonID, $poolID);
                     return false;
                 }
                 $this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->pools->$poolID = '';
@@ -347,7 +339,7 @@ class THM_OrganizerModelLesson extends JModel
         if (empty($lessonStartDate))
         {
             $this->_scheduleModel->scheduleErrors[]
-                = JText::sprintf('COM_THM_ORGANIZER_LS_SD_MISSING', $this->lessonName, $this->_lessonID);
+                = JText::sprintf('COM_THM_ORGANIZER_LS_SD_MISSING', $this->_lessonName, $this->_lessonID);
             return false;
         }
         $startDateExists = array_key_exists($lessonStartDate, get_object_vars($this->_scheduleModel->schedule->calendar));
@@ -417,13 +409,13 @@ class THM_OrganizerModelLesson extends JModel
         if (empty($periods))
         {
             $this->_scheduleModel->scheduleWarnings[]
-                = JText::sprintf("COM_THM_ORGANIZER_LS_TP_MISSING", $this->lessonName, $this->_lessonID);
+                = JText::sprintf("COM_THM_ORGANIZER_LS_TP_MISSING", $this->_lessonName, $this->_lessonID);
         }
         $timescount = count($times->children());
         if (isset($periods) and $periods != $timescount)
         {
             $this->_scheduleModel->scheduleWarnings[]
-                = JText::sprintf('COM_THM_ORGANIZER_LS_TP_INCONSISTANT', $this->lessonName, $this->_lessonID);
+                = JText::sprintf('COM_THM_ORGANIZER_LS_TP_INCONSISTANT', $this->_lessonName, $this->_lessonID);
         }
     }
 
@@ -441,7 +433,7 @@ class THM_OrganizerModelLesson extends JModel
         foreach ($occurences as $occurence)
         {
             // Cannot take place on this index
-            if ($occurence === '0')
+            if ($occurence == '0' OR $occurence == 'F')
             {
                 $currentDT = strtotime('+1 day', $currentDT);
                 continue;
@@ -463,25 +455,23 @@ class THM_OrganizerModelLesson extends JModel
     /**
      * Validates a lesson instance
      * 
-     * @param   object  $instance   the lesson instance
+     * @param   object  &$instance  the lesson instance
      * @param   int     $currentDT  the current date time in the iteration
      * 
      * @return  boolean  true if valid, otherwise false
      */
-    private function validateInstance($instance, $currentDT)
+    private function validateInstance(&$instance, $currentDT)
     {
         $currentDate = date('Y-m-d', $currentDT);
-
         $assigned_date = strtotime(trim((string) $instance->assigned_date));
-        if ($assigned_date != $currentDT)
+        if (!empty($assigned_date) AND $assigned_date != $currentDT)
         {
-            // Does not occur on this date, no error
             return true;
         }
 
         $day = trim((string) $instance->assigned_day);
         $validDay = $this->validateInstanceDay($day, $currentDT);
-
+        
         // The day either was not valid, or was not a day on which the lesson occurs
         if ($validDay === true OR $validDay === false)
         {
@@ -493,11 +483,11 @@ class THM_OrganizerModelLesson extends JModel
         {
             return false;
         }
-
+    
         $roomAttribute = trim((string) $instance->assigned_room[0]['id']);
         if (empty($roomAttribute))
         {
-            $throwError = $this->handleMissingRooms(date('Y-m-d', $currentDT), $period);
+            $throwError = $this->handleMissingRooms($currentDT, $period);
             if ($throwError)
             {
                 return false;
@@ -511,6 +501,7 @@ class THM_OrganizerModelLesson extends JModel
                 return false;
             }
         }
+        return true;
     }
 
     /**
@@ -525,7 +516,7 @@ class THM_OrganizerModelLesson extends JModel
     {
         if (empty($period))
         {
-            $error = JText::sprintf('COM_THM_ORGANIZER_LS_TP_PERIOD_MISSING', $this->lessonName, $this->_lessonID);
+            $error = JText::sprintf('COM_THM_ORGANIZER_LS_TP_PERIOD_MISSING', $this->_lessonName, $this->_lessonID);
             if (!in_array($error, $this->_scheduleModel->scheduleErrors))
             {
                 $this->_scheduleModel->scheduleErrors[] = $error;
@@ -537,7 +528,7 @@ class THM_OrganizerModelLesson extends JModel
         {
             $error
                 = JText::sprintf('COM_THM_ORGANIZER_LS_TP_LACKING',
-                                 $this->lessonName, $this->_lessonID,
+                                 $this->_lessonName, $this->_lessonID,
                                  date('l', strtotime($currentDate)), $period
                                 );
             if (!in_array($error, $this->_scheduleModel->scheduleErrors))
@@ -563,7 +554,7 @@ class THM_OrganizerModelLesson extends JModel
     {
         if (empty($day))
         {
-            $error = JText::sprintf('COM_THM_ORGANIZER_LS_TP_DAY_MISSING', $this->lessonName, $this->_lessonID);
+            $error = JText::sprintf('COM_THM_ORGANIZER_LS_TP_DAY_MISSING', $this->_lessonName, $this->_lessonID);
             if (!in_array($error, $this->_scheduleModel->scheduleErrors))
             {
                 $this->_scheduleModel->scheduleErrors[] = $error;
@@ -593,7 +584,7 @@ class THM_OrganizerModelLesson extends JModel
         // Attribute has also not been set by any other lesson
         if (!isset($this->_scheduleModel->schedule->calendar->$currentDate->$period->{$this->_lessonIndex}))
         {
-            $error = JText::sprintf('COM_THM_ORGANIZER_LS_TP_ROOM_MISSING', $this->lessonName, $this->_lessonID, date('l', $currentDT), $period);
+            $error = JText::sprintf('COM_THM_ORGANIZER_LS_TP_ROOM_MISSING', $this->_lessonName, $this->_lessonID, date('l', $currentDT), $period);
             if (!in_array($error, $this->_scheduleModel->scheduleErrors) AND !in_array($error, $this->_scheduleModel->scheduleWarnings))
             {
                 if ($this->_roomsRequired)
@@ -650,6 +641,7 @@ class THM_OrganizerModelLesson extends JModel
                 {
                     $this->_scheduleModel->scheduleErrors[] = $error;
                 }
+                return false;
             }
             else
             {
@@ -664,16 +656,6 @@ class THM_OrganizerModelLesson extends JModel
                 }
             }
         }
-    }
-    /**
-     * Resets lesson specific object variables
-     * 
-     * @return  void
-     */
-    private function resetIdentifiers()
-    {
-        $this->_lessonName = '';
-        $this->_lessonID = '';
-        $this->_lessonIndex = '';
+        return true;
     }
 }

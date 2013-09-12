@@ -72,6 +72,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_programs` (
   `lsfFieldID` varchar(255) DEFAULT NULL,
   `degreeID` INT(11) unsigned DEFAULT NULL,
   `fieldID` INT(11) unsigned DEFAULT NULL,
+  `description_de` text DEFAULT NULL,
+  `description_en` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`degreeID`) REFERENCES `#__thm_organizer_degrees` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE

@@ -47,20 +47,20 @@ defined('_JEXEC') or die;
                     <?php echo $this->form->getInput('independent'); ?>
                 </li>
                 <li>
-                    <?php echo $this->form->getLabel('proof'); ?>
-                    <?php echo $this->form->getInput('proof'); ?>
+                    <?php echo $this->form->getLabel('proofID'); ?>
+                    <?php echo $this->form->getInput('proofID'); ?>
                 </li>
                 <li>
-                    <?php echo $this->form->getLabel('pform'); ?>
-                    <?php echo $this->form->getInput('pform'); ?>
+                    <?php echo $this->form->getLabel('pformID'); ?>
+                    <?php echo $this->form->getInput('pformID'); ?>
                 </li>
                 <li>
-                    <?php echo $this->form->getLabel('frequency'); ?>
-                    <?php echo $this->form->getInput('frequency'); ?>
+                    <?php echo $this->form->getLabel('frequencyID'); ?>
+                    <?php echo $this->form->getInput('frequencyID'); ?>
                 </li>
                 <li>
-                    <?php echo $this->form->getLabel('method'); ?>
-                    <?php echo $this->form->getInput('method'); ?>
+                    <?php echo $this->form->getLabel('methodID'); ?>
+                    <?php echo $this->form->getInput('methodID'); ?>
                 </li>
                 <li>
                     <?php echo $this->form->getLabel('fieldID'); ?>

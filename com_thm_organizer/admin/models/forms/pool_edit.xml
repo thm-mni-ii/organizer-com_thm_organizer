@@ -106,15 +106,15 @@
                class="inputbox"
                cols="30"
                row="3"
-               label="COM_THM_ORGANIZER_POM_STRUCTURAL_DESCRIPTION_DE"
-               description="COM_THM_ORGANIZER_POM_STRUCTURAL_DESCRIPTION_DE_DESC" />
+               label="COM_THM_ORGANIZER_DESC"
+               description="COM_THM_ORGANIZER_POM_DISPLAY_DESCRIPTION_DE_DESC" />
         <field name="description_en"
                type="textarea"
                class="inputbox"
                cols="30"
                row="3"
-               label="COM_THM_ORGANIZER_POM_STRUCTURAL_DESCRIPTION_EN"
-               description="COM_THM_ORGANIZER_POM_STRUCTURAL_DESCRIPTION_EN_DESC" />
+               label="COM_THM_ORGANIZER_DESC"
+               description="COM_THM_ORGANIZER_POM_DISPLAY_DESCRIPTION_EN_DESC" />
         <field name="distance"
                type="integer"
                class="inputbox"
@@ -122,23 +122,25 @@
                last="20"
                step="1"
                default="0"
-               label="COM_THM_ORGANIZER_POM_STRUCTURAL_DISTANCE"
-               description="COM_THM_ORGANIZER_POM_STRUCTURAL_DISTANCE_DESC" />
+               label="COM_THM_ORGANIZER_POM_DISPLAY_DISTANCE_TITLE"
+               description="COM_THM_ORGANIZER_POM_DISPLAY_DISTANCE_DESC" />
         <field name="enable_desc"
                type="radio"
                class="inputbox"
-               label="COM_THM_ORGANIZER_POM_STRUCTURAL_ENABLE_DESCRIPTION"
-               description="COM_THM_ORGANIZER_POM_STRUCTURAL_ENABLE_DESCRIPTION_DESC" >
-               <option value="1">Enable</option>
-               <option value="0">Disable</option> 
+               label="COM_THM_ORGANIZER_POM_ENABLE_DESCRIPTION_TITLE"
+               description="COM_THM_ORGANIZER_POM_ENABLE_DESCRIPTION_DESC"
+               default="0">
+               <option value="1">JYES</option>
+               <option value="0">JNO</option> 
         </field>
         <field name="display_type"
                type="radio"
                class="inputbox"
-               label="COM_THM_ORGANIZER_POM_STRUCTURAL_DISPLAY_TYPE"
-               description="COM_THM_ORGANIZER_POM_STRUCTURAL_DISPLAY_TYPE_DESC"> 
-               <option value="1">Inline</option>
-               <option value="0">Block</option> 
+               label="COM_THM_ORGANIZER_POM_DISPLAY_TYPE_TITLE"
+               description="COM_THM_ORGANIZER_POM_DISPLAY_TYPE_DESC"
+               default="0">
+               <option value="1">COM_THM_ORGANIZER_POM_DISPLAY_INLINE</option>
+               <option value="0">COM_THM_ORGANIZER_POM_DISPLAY_POPUP</option> 
         </field>
     </fieldset>
 </form>
