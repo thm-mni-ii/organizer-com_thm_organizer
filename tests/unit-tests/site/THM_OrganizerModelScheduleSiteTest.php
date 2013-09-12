@@ -171,22 +171,9 @@ class THM_OrganizerModelScheduleSiteTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function testgetActiveScheduleNoSemester()
-    {
-    	$actual = $this->instance->getActiveSchedule("MNI;");
-    
-    	$this->assertFalse($actual);
-    }
-
-    /**
-     * Test for getActiveSchedule
-     * method should return false
-     *
-     * @return void
-     */
     public function testgetActiveScheduleNoActiveSchedule()
     {
-    	$actual = $this->instance->getActiveSchedule("Foo;Bar");
+    	$actual = $this->instance->getActiveSchedule("Foo;Bar;bla;blubb");
     
     	$this->assertFalse($actual);
     }
@@ -217,7 +204,7 @@ class THM_OrganizerModelScheduleSiteTest extends PHPUnit_Framework_TestCase
     		// Catch any database errors.
     	}
     	    	
-    	$actual = $this->instance->getActiveSchedule("MNI;SS2013");
+    	$actual = $this->instance->getActiveSchedule("MNI;SS2013;2012-10-08;2013-10-05");
     
     	$this->assertObjectHasAttribute("id", $actual);
     	$this->assertObjectHasAttribute("departmentname", $actual);
