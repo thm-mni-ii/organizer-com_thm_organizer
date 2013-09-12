@@ -29,6 +29,8 @@ class THM_OrganizerModelCategory_Edit extends JModelAdmin
      * @param   boolean  $loadData  if the form data should be pulled dynamically
      *
      * @return  mixed    A JForm object on success, false on failure
+     * 
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getForm($data = array(), $loadData = true)
     {

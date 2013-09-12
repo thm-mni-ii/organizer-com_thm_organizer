@@ -29,6 +29,8 @@ class THM_OrganizerModelSubject_Edit extends JModelAdmin
      * @param   Boolean  $loadData  Type  (default: true)
      *
      * @return  A Form object
+     * 
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getForm($data = array(), $loadData = true)
     {

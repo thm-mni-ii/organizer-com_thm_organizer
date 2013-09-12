@@ -29,6 +29,8 @@ class THM_OrganizerModelRoom_Edit extends JModelAdmin
      * @param   Boolean  $loadData  Load data  (default: true)
      *
      * @return  A Form object
+     * 
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getForm($data = array(), $loadData = true)
     {

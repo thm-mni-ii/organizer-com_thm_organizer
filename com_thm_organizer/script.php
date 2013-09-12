@@ -31,6 +31,8 @@ class Com_THM_OrganizerInstallerScript
      * @param   object  $parent  the class calling this method
      *
      * @return void
+     * 
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function install($parent)
     {
@@ -252,6 +254,8 @@ class Com_THM_OrganizerInstallerScript
      * @param   object  $parent  the class calling this method
      *
      * @return void
+     * 
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function uninstall($parent)
     {

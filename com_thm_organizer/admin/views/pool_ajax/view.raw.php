@@ -29,6 +29,8 @@ class THM_OrganizerViewPool_Ajax extends JView
      * @param   string  $tpl  the name of the template to be used
      *
      * @return void
+     * 
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function display($tpl = null)
     {

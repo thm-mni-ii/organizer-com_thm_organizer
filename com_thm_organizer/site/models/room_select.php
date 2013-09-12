@@ -66,6 +66,8 @@ class THM_OrganizerModelRoom_Select extends JModelForm
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
      * @return  mixed A JForm object on success, false on failure
+     * 
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getForm($data = array(), $loadData = true)
     {

@@ -141,7 +141,7 @@ jq(document).ready(function(){
         </ul>
     </fieldset>
     <fieldset class="adminform"> 
-        <legend><?php echo JText::_('COM_THM_ORGANIZER_POM_PROPERTIES_STRUCTURAL'); ?></legend>
+        <legend><?php echo JText::_('COM_THM_ORGANIZER_POM_PROPERTIES_DISPLAY'); ?></legend>
         <ul class="adminformlist">
             <li>
                 <?php echo $this->form->getLabel('distance'); ?>
