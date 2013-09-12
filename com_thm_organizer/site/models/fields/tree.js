@@ -127,6 +127,10 @@ function changeIconHighlight (event)
     }
 }
 
+changePublicDefaultHighlight = function(event){
+	//Not implemented ( Keine macht mir nen Highlighted Icon :( )
+}
+
 function setPublicDefaultStatus(event)
 {
 
@@ -290,7 +294,7 @@ Ext.tree.Panel.prototype.getChecked = function(node, checkedArr)
 Ext.tree.Panel.prototype.getPublicDefault = function(node, checkedArr)
 {
     var checked;
-    if(checkedArr === null)
+    if(!Ext.isDefined(checkedArr) || checkedArr === null)
     {
         checked = {};
     }

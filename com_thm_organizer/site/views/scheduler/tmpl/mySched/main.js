@@ -373,7 +373,7 @@ MySched.Base = function ()
                     Ext.ComponentMgr.get('btnDel').disable();
                 });
 
-                if (MySched.SessionId)
+                if (MySched.SessionId && MySched.schedulerCalledWithMenu === true)
                 {
                     MySched.Authorize.verifyToken(MySched.SessionId,
                     MySched.Authorize.verifySuccess, MySched.Authorize);
@@ -2160,10 +2160,16 @@ MySched.layout = function ()
                 items: [this.w_topMenu, this.tabpanel]
             });
 
+            var hideTreePanel = false;
+            if(MySched.schedulerCalledWithMenu === false)
+            {
+            	hideTreePanel = true;
+            }
             this.leftviewport = Ext.create('Ext.Panel',
             {
                 id: "leftviewport",
                 region: 'west',
+                hidden: hideTreePanel,
                 items: [this.w_leftMenu]
             });
 
@@ -2180,8 +2186,11 @@ MySched.layout = function ()
                 items: [this.leftviewport, this.rightviewport]
             });
  
-            MySched.treeLoadMask = new Ext.LoadMask(Ext.getCmp('selectTree').el, {msg:"Loading..."});
-            MySched.treeLoadMask.show();
+            if(!hideTreePanel)
+            {
+	            MySched.treeLoadMask = new Ext.LoadMask(Ext.getCmp('selectTree').el, {msg:"Loading..."});
+	            MySched.treeLoadMask.show();
+            }
 
             var calendar = Ext.ComponentMgr.get('menuedatepicker'), imgs;
             if (calendar)
@@ -3934,7 +3943,8 @@ MySched.Tree = function ()
                     url: _C('ajaxHandler'),
                     method: 'POST',
                     params: {
-                        scheduletask: "TreeView.load"
+                        scheduletask: "TreeView.load",
+                        departmentSemesterSelection: MySched.departmentAndSemester
                     },
                     success: function (response)
                     {
@@ -3969,7 +3979,7 @@ MySched.Tree = function ()
  
                         var publicDefaultNode = json.treePublicDefault;
 
-                        if(publicDefaultNode !== null && publicDefaultNode.type !== "delta")
+                        if(publicDefaultNode !== null && publicDefaultNode.type !== "delta" && publicDefaultNode.length > 0)
                         {
                             var nodeID = publicDefaultNode.id;
                             var nodeKey = publicDefaultNode.nodeKey;
@@ -3981,6 +3991,41 @@ MySched.Tree = function ()
                             MySched.Tree.showScheduleTab(nodeID, nodeKey,
                             gpuntisID, semesterID, plantypeID, type);
                         }
+                        
+                        if(MySched.requestTeacherGPUntisIDs.length > 0)
+                        {
+                        	for(var i = 0; i < MySched.requestTeacherGPUntisIDs.length; i++)
+                        	{
+                        		var teacherGPUntisID = MySched.requestTeacherGPUntisIDs[i];
+                            	var nodeID = teacherGPUntisID;
+                                var nodeKey = teacherGPUntisID;
+                                var gpuntisID = teacherGPUntisID;
+                                var semesterID = MySched.class_semester_id;
+                                var plantypeID = null;
+                                var type = "teacher";
+
+                                MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
+                            	//new ScheduleModel(nodeID, title) .init(type, nodeKey, semesterID) .show();
+                        	}                        	
+                        }
+                        
+                        if(MySched.requestRoomGPUntisIDs.length > 0)
+                        {
+                        	for(var i = 0; i < MySched.requestRoomGPUntisIDs.length; i++)
+                        	{
+                        		var roomGPUntisID = MySched.requestRoomGPUntisIDs[i];
+                            	var nodeID = roomGPUntisID;
+                                var nodeKey = roomGPUntisID;
+                                var gpuntisID = roomGPUntisID;
+                                var semesterID = MySched.class_semester_id;
+                                var plantypeID = null;
+                                var type = "room";
+
+                                MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
+                            	//new ScheduleModel(nodeID, title) .init(type, nodeKey, semesterID) .show();
+                        	}                        	
+                        }
+                        
                     }
                 });
             }
@@ -4021,7 +4066,7 @@ MySched.Tree = function ()
                 },
                 store: treeStore
             });
-
+            
             // Bei Klick Stundenplan oeffnen
             this.tree.on('itemclick', function (me, rec, item, index, event, options)
             {
@@ -4060,6 +4105,11 @@ MySched.Tree = function ()
         },
         showScheduleTab: function (nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type)
         {
+        	if(nodeID === null)
+        	{
+        		nodeID = nodeKey;
+        	}
+        	
             if (type === null)
             {
                 type = gpuntisID;

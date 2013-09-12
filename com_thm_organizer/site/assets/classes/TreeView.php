@@ -106,7 +106,7 @@ class THMTreeView
         {
             $options["hide"] = false;
             $this->_checked = array();
-            $this->_publicDefaultNode = array();
+            $publicDefaultID = array();
             $this->_publicDefaultNode = array();
             $this->departmentSemesterSelection = JRequest::getString('departmentSemesterSelection');
         }
