@@ -83,7 +83,7 @@ class THM_OrganizerViewScheduler extends JView
         {
         	$schedulerCalledWithMenu = true; 
         }
-        else if(JRequest::getString('scheduleID'))
+        elseif(JRequest::getString('scheduleID'))
         {
         	$schedulerCalledWithMenu = false;
         }
@@ -94,7 +94,7 @@ class THM_OrganizerViewScheduler extends JView
         
         $this->schedulerCalledWithMenu = $schedulerCalledWithMenu;
                 
-        if($schedulerCalledWithMenu === true) // Called via menu item
+        if ($schedulerCalledWithMenu === true) // Called via menu item
         {
         	try
         	{
@@ -107,10 +107,10 @@ class THM_OrganizerViewScheduler extends JView
         	
         	$schedule = $schedulerModel->getActiveSchedule($menuparams->get("departmentSemesterSelection"));
         }
-        else if($schedulerCalledWithMenu === false) // Called via link
+        elseif($schedulerCalledWithMenu === false) // Called via link
         {
         	$requestSchedulerID = JRequest::getInt("scheduleID", null);
-        	if(isset($requestSchedulerID))
+        	if (isset($requestSchedulerID))
         	{
         		$schedule = $schedulerModel->getActiveScheduleByID($requestSchedulerID);
         	}
@@ -146,7 +146,7 @@ class THM_OrganizerViewScheduler extends JView
                 unset($scheduleData->subjects);
                 $teachers = $scheduleData->teachers;
                 unset($scheduleData->teachers); 
-                if(isset($scheduleData->pools))
+                if (isset($scheduleData->pools))
                 {
                 	$modules = $scheduleData->pools;
                 }
@@ -184,7 +184,7 @@ class THM_OrganizerViewScheduler extends JView
         $this->semesterID = $schedule->id;
         $this->semAuthor = "";
 
-        $this->departmentAndSemester =$schedule->departmentname .";".$schedule->semestername .";".$schedule->startdate .";".$schedule->enddate; 
+        $this->departmentAndSemester = $schedule->departmentname . ";" . $schedule->semestername . ";" . $schedule->startdate . ";" . $schedule->enddate; 
         
         $this->semesterName = $this->departmentAndSemester;
         
@@ -219,7 +219,7 @@ class THM_OrganizerViewScheduler extends JView
 
         $schedulearr["UserSchedule.load"] = array();
  
-        if($menuparams->get("loadLessonsOnStartUp") === null)
+        if ($menuparams->get("loadLessonsOnStartUp") === null)
         {
         	$this->loadLessonsOnStartUp = true;
         }

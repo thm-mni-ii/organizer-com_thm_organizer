@@ -352,7 +352,7 @@ class THMTreeView
             if ($activeScheduleData != null)
             {
                 $this->_activeScheduleData = $activeScheduleData;
-                if(isset($activeScheduleData->pools))
+                if (isset($activeScheduleData->pools))
                 {
                 	$this->_treeData["module"] = $activeScheduleData->pools;
                 }

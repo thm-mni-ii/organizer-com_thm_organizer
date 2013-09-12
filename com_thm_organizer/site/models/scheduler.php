@@ -147,7 +147,7 @@ class THM_OrganizerModelScheduler extends JModel
     /**
      * Method to get the active schedule
      *
-     * @param   String  $deptAndSem  The department semester selection
+     * @param   String  $scheduleID  The schedule ID
      *
      * @return   mixed  The active schedule or false
      */
