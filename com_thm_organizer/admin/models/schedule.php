@@ -126,7 +126,7 @@ class THM_OrganizerModelSchedule extends JModel
         $this->scheduleWarnings = array();
 
         $formdata = JRequest::getVar('jform', null, null, null, 4);
-        $rooms_required = (bool) $formdata['rooms_assignment_required'];
+        $rooms_required = isset($formdata['rooms_assignment_required']);
         $this->_lessonModel = new THM_OrganizerModelLesson($this, $rooms_required);
         $this->_teacherModel = JModel::getInstance('teacher', 'THM_OrganizerModel');
 
@@ -330,7 +330,7 @@ class THM_OrganizerModelSchedule extends JModel
         {
             foreach ($xmlSchedule->lessons->children() as $lessonnode)
             {
-                $this->_lessonModel->validateLesson($lessonnode);
+                $this->_lessonModel->validate($lessonnode);
             }
         }
 

@@ -207,7 +207,6 @@ Joomla.submitbutton =  function(task){
                     onclick="Joomla.submitbutton('event.preview')">
                     <span id="thm_organizer_preview_span" class="thm_organizer_preview_span thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_PREVIEW'); ?>
- 
                 </a>
                 <div class="Popup">
                     <div class="loader"></div>

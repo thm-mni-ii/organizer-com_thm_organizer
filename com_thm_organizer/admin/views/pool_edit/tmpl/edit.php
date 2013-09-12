@@ -140,19 +140,6 @@ jq(document).ready(function(){
             </li>
         </ul>
     </fieldset>
-    <fieldset class="adminform">
-        <legend><?php echo JText::_('COM_THM_ORGANIZER_POM_PROPERTIES_MAPPING'); ?></legend>
-        <ul class="adminformlist">
-            <li>
-                <?php echo $this->form->getLabel('programID'); ?>
-                <?php echo $this->form->getInput('programID'); ?>
-            </li>
-            <li>
-                <?php echo $this->form->getLabel('parentID'); ?>
-                <?php echo $this->form->getInput('parentID'); ?>
-            </li>
-        </ul>
-    </fieldset>
     <fieldset class="adminform"> 
         <legend><?php echo JText::_('COM_THM_ORGANIZER_POM_PROPERTIES_STRUCTURAL'); ?></legend>
         <ul class="adminformlist">
@@ -167,6 +154,19 @@ jq(document).ready(function(){
             <li>
                 <?php echo $this->form->getLabel('enable_desc'); ?>
                 <?php echo $this->form->getInput('enable_desc'); ?>
+            </li>
+        </ul>
+    </fieldset>
+    <fieldset class="adminform">
+        <legend><?php echo JText::_('COM_THM_ORGANIZER_POM_PROPERTIES_MAPPING'); ?></legend>
+        <ul class="adminformlist">
+            <li>
+                <?php echo $this->form->getLabel('programID'); ?>
+                <?php echo $this->form->getInput('programID'); ?>
+            </li>
+            <li>
+                <?php echo $this->form->getLabel('parentID'); ?>
+                <?php echo $this->form->getInput('parentID'); ?>
             </li>
         </ul>
     </fieldset>

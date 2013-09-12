@@ -76,6 +76,23 @@ defined('_JEXEC') or die;
             </li>
         </ul>
     </fieldset>
+    <fieldset class="adminform"> 
+        <legend><?php echo JText::_('COM_THM_ORGANIZER_POM_PROPERTIES_STRUCTURAL'); ?></legend>
+        <ul class="adminformlist">
+            <li>
+                <?php echo $this->form->getLabel('distance'); ?>
+                <?php echo $this->form->getInput('distance'); ?>
+            </li>
+            <li>
+                <?php echo $this->form->getLabel('display_type'); ?>
+                <?php echo $this->form->getInput('display_type'); ?>
+            </li>
+            <li>
+                <?php echo $this->form->getLabel('enable_desc'); ?>
+                <?php echo $this->form->getInput('enable_desc'); ?>
+            </li>
+        </ul>
+    </fieldset>
     <div>
         <?php echo $this->form->getInput('id'); ?>
         <input type="hidden" name="task" value="" />

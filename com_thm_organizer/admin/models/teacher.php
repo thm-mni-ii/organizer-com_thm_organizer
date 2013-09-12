@@ -544,8 +544,8 @@ class THM_OrganizerModelTeacher extends JModel
             return;
         }
 
-        $this->validateForename($teacherNode, $teacherID, $surname);
-        $this->validateUserID($teacherNode, $teacherID, $surname);
+        $this->validateForename($teacherNode, $surname, $teacherID);
+        $this->validateUserID($teacherNode, $surname, $teacherID);
         $this->validateDescription($teacherNode, $surname, $teacherID);
     }
 
