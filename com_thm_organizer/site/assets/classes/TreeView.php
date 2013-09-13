@@ -838,9 +838,12 @@ class THMTreeView
  
             $filterFunction = function($obj) use ($fieldType, $nodeID)
             {
-            	if($fieldType === "modules")
+            	if(!isset($obj->{$fieldType}))
             	{
-            	    $fieldType = "pools";
+	    		if($fieldType === "modules")
+	            	{
+	            	    $fieldType = "pools";
+	            	}
             	}
                 return isset($obj->{$fieldType}->{$nodeID});
             };
