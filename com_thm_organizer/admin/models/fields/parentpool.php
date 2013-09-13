@@ -13,6 +13,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.form.formfield');
+require_once JPATH_COMPONENT . '/assets/helpers/mapping.php';
 
 /**
  * Class JFormFieldParent for component com_thm_organizer
@@ -40,157 +41,42 @@ class JFormFieldParentPool extends JFormField
      */
     public function getInput()
     {
-        $language = explode('-', JFactory::getLanguage()->getTag());
+        $ownID = JRequest::getInt('id');
+        $mappings = array();
+        $parentIDs = array();
+        $ownIDs = array();
+        THM_OrganizerHelperMapping::getMappingData($ownID, $mappings, $parentIDs, $ownIDs);
 
-        $dbo = JFactory::getDBO();
-        $poolID = JRequest::getInt('id');
- 
-        $existingMappingsQuery = $dbo->getQuery(true);
-        $existingMappingsQuery->select('id, parentID, lft, rgt')->from('#__thm_organizer_mappings')->where("poolID = '$poolID'");
-        $existingMappingsQuery->order('lft ASC');
-        $dbo->setQuery((string) $existingMappingsQuery);
-        $existingMappings = $dbo->loadAssocList();
-        $ownMappings = $dbo->loadResultArray();
-        $selectedParents = $dbo->loadResultArray(1);
+        $options = array();
+        $options[] = '<option value="-1">' . JText::_('COM_THM_ORGANIZER_POM_NO_PARENT') . '</option>';
 
-        if (!empty($existingMappings))
+        if (!empty($mappings))
         {
-            $programs = array();
-            $children = array();
-            foreach ($existingMappings AS $mapping)
-            {
-                $programsQuery = $dbo->getQuery(true);
-                $programsQuery->select('id, programID, lft, rgt')->from('#__thm_organizer_mappings');
-                $programsQuery->where("lft < '{$mapping['lft']}'");
-                $programsQuery->where("rgt > '{$mapping['rgt']}'");
-                $programsQuery->where("parentID IS NULL");
-                $dbo->setQuery((string) $programsQuery);
-                $program = $dbo->loadAssoc();
-                if (!in_array($program, $programs))
-                {
-                    $programs[] = $program;
-                }
-
-                $childrenQuery = $dbo->getQuery(true);
-                $childrenQuery->select('id')->from('#__thm_organizer_mappings');
-                $childrenQuery->where("lft > '{$mapping['lft']}'");
-                $childrenQuery->where("rgt < '{$mapping['rgt']}'");
-                $childrenQuery->where("parentID IS NULL");
-                $dbo->setQuery((string) $childrenQuery);
-                $childIDs = $dbo->loadResultArray();
-                if (!empty($childIDs))
-                {
-                    $children = array_merge($children, $childIDs);
-                }
-            }
- 
-            // Allowing children could create infinite regression
-            if (count($children))
-            {
-                $unwantedMappings = "'" . implode("', '", array_unique($children)) . "'";
-            }
-
             $language = explode('-', JFactory::getLanguage()->getTag());
+            $programEntries = THM_OrganizerHelperMapping::getProgramEntries($mappings);
+            $programMappings = THM_OrganizerHelperMapping::getProgramMappings($programEntries);
+            $children = THM_OrganizerHelperMapping::getChildren($mappings);
+            $unwantedMappings = array_merge($ownIDs, $children);
 
-            $programMappings = array();
-            $programMappingsQuery = $dbo->getQuery(true);
-            $programMappingsQuery->select('*');
-            $programMappingsQuery->from('#__thm_organizer_mappings');
-            foreach ($programs as $program)
+            foreach ($programMappings as $mapping)
             {
-                $programMappingsQuery->clear('where');
-                $programMappingsQuery->where("lft >= '{$program['lft']}'");
-                $programMappingsQuery->where("rgt <= '{$program['rgt']}'");
-                if (count($children))
+                if (in_array($mapping['id'], $unwantedMappings) OR !empty($mapping['subjectID']))
                 {
-                    $programMappingsQuery->where("id NOT IN ( $unwantedMappings )");
-                }
-                $programMappingsQuery->order('lft ASC');
-                $dbo->setQuery((string) $programMappingsQuery);
-                $results = $dbo->loadAssocList();
-                $programMappings = array_merge($programMappings, empty($results)? array() : $results);
-            }
-
-            $poolsTable = JTable::getInstance('pools', 'THM_OrganizerTable');
-            foreach ($programMappings as $key => $mapping)
-            {
-                if (in_array($mapping['id'], $ownMappings) OR !empty($mapping['subjectID']))
-                {
-                    unset($programMappings[$key]);
                     continue;
                 }
-
                 if (!empty($mapping['poolID']))
                 {
-                    $poolsTable->load($mapping['poolID']);
-                    $name = $language[0] == 'de'? $poolsTable->name_de : $poolsTable->name_en;
-
-                    $level = 0;
-                    $indent = '';
-                    while ($level < $mapping['level'])
-                    {
-                        $indent .= "&nbsp;&nbsp;&nbsp;";
-                        $level++;
-                    }
-                    $programMappings[$key]['name'] = $indent . "|_" . $name;
+                    $options[] = THM_OrganizerHelperMapping::getPoolOption($mapping, $language, $parentIDs);
                 }
                 else
                 {
-                    $programNameQuery = $dbo->getQuery(true);
-                    $programNameQuery->select(" CONCAT( dp.subject, ', (', d.abbreviation, ' ', dp.version, ')') AS name");
-                    $programNameQuery->from('#__thm_organizer_programs AS dp');
-                    $programNameQuery->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
-                    $programNameQuery->where("dp.id = '{$mapping['programID']}'");
-                    $dbo->setQuery((string) $programNameQuery);
-                    $programMappings[$key]['name'] = $dbo->loadResult();
+                    $options[] = THM_OrganizerHelperMapping::getProgramOption($mapping, $parentIDs);
                 }
             }
-
-            $selectPools = array();
-            $selectPools[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_POM_SEARCH_PARENT'));
-            $selectPools[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_POM_NO_PARENT'));
-            $pools = array_merge($selectPools, $programMappings);
-
-            $attributes = array('multiple' => 'multiple');
-            return JHTML::_("select.genericlist", $pools, "jform[parentID][]", $attributes, "id", "name", $selectedParents);
         }
  
-        $attributes = array('multiple' => 'multiple');
-        return JHTML::_("select.genericlist", array(), "jform[parentID][]", $attributes, 'id', 'name');
-    }
-
-    /**
-     * Method to get the field label
-     *
-     * @return String The field label
-     */
-    public function getLabel()
-    {
-        // Initialize variables.
-        $label = '';
-        $replace = '';
-
-        // Get the label text from the XML element, defaulting to the element name.
-        $text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
-
-        // Build the class for the label.
-        $class = '';
-        $class .= !empty($this->description) ? 'hasTip' : '';
-        $class .= $this->required == true ? ' required' : '';
-
-        // Add the opening label tag and main attributes attributes.
-        $label .= '<label id="' . $this->id . '-lbl" for="' . $this->id . '" class="' . $class . '"';
-
-        // If a description is specified, use it to build a tooltip.
-        if (!empty($this->description))
-        {
-            $title = trim(JText::_($text), ':') . '::' . JText::_($this->description);
-            $label .= ' title="' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '"';
-        }
-
-        // Add the label text and closing tag.
-        $label .= '>' . $replace . JText::_($text) . '</label>';
-
-        return $label;
+        $select = '<select id="jformparentID" name="jform[parentID][]" multiple="multiple">';
+        $select .= implode('', $options) . '</select>';
+        return $select;
     }
 }

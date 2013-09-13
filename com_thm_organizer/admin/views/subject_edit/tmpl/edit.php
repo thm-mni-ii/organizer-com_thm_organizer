@@ -32,7 +32,7 @@ jq(document).ready(function(){
         var poolUrl = "<?php echo $this->baseurl; ?>/index.php?option=com_thm_organizer";
         poolUrl += "&view=pool_ajax&format=raw&task=poolDegreeOptions";
         poolUrl += "&ownID=<?php echo $this->form->getValue('id'); ?>";
-        poolUrl += "&programID=" + selectedPrograms;
+        poolUrl += "&programID=" + selectedPrograms + "&subject=true";
         jq.get(poolUrl, function(options){
             jq('#jformparentID').html(options);
             var newSelectedParents = jq('#jformparentID').val();
