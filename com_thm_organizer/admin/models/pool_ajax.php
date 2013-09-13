@@ -11,6 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
+require_once JPATH_COMPONENT . '/assets/helpers/mapping.php';
 
 /**
  * Class provides methods to retrieve data for pool ajax calls
@@ -22,107 +23,120 @@ jimport('joomla.application.component.model');
 class THM_OrganizerModelPool_Ajax extends JModel
 {
     /**
-     * Retrieves the parent ids of the resource in question
-     *
-     * @return  array  an array of integer values
+     * Retrieves pool options for a given curriculum element
+     * 
+     * @return string
      */
-    public function getParentIDs()
+    public function getOptions()
     {
+        $isSubject = JRequest::getBool('subject');
+        $programEntries = $this->getProgramEntries($isSubject);
+
+        // Selected programs have not been mapped, should not happen
+        if (empty($programEntries))
+        {
+            return '';
+        }
+
+        $programMappings = THM_OrganizerHelperMapping::getProgramMappings($programEntries);
+        $programIDs = JRequest::getString('programID');
+        $programIDArray = explode(',', $programIDs);
+
+        /**
+         * No program mappings or only programs have been mapped. Subjects
+         * should not be mapped to programs.
+         */
+        if (empty($programMappings) OR (count($programIDArray) == count($programMappings) AND $isSubject))
+        {
+            return '';
+        }
         $ownID = JRequest::getInt('ownID');
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('parentID')->from('#__thm_organizer_mappings')->where("poolID = '$ownID'");
-        $dbo->setQuery((string) $query);
-        return $dbo->loadResultArray();
+        $resourceID = $this->getResourceID($ownID, $isSubject);
+        $parentIDs = array();
+        $ownIDs = $isSubject? null : array();
+        $mappings = $isSubject? null : array();
+        THM_OrganizerHelperMapping::getMappingData($resourceID, $mappings, $parentIDs, $ownIDs);
+        if (!$isSubject)
+        {
+            $children = THM_OrganizerHelperMapping::getChildren($mappings);
+            $unwantedMappings = array_merge($ownIDs, $children);
+        }
+        $unwantedMappings = $isSubject? null : array_merge($ownIDs, $children);
+
+        $options = array();
+        $options[] = '<option value="-1">' . JText::_('COM_THM_ORGANIZER_POM_NO_PARENT') . '</option>';
+
+        $this->fillOptions($options, $programMappings, $unwantedMappings, $parentIDs, $isSubject);
+        return implode('', $options);
     }
 
     /**
-     * Creates a list of pool options dependent upon the chosen degree program
-     *
-     * @return  array  contains arrays with id and name of program pools
+     * Retrieves the mappings of superordinate programs
+     * 
+     * @return  array  the superordinate program mappings
      */
-    public function getProgramPools()
+    private function getProgramEntries()
     {
-        $ownID = JRequest::getInt('ownID');
         $programIDs = "'" . str_replace(",", "', '", JRequest::getString('programID')) . "'";
 
         $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('id, programID, lft, rgt');
+        $query->from('#__thm_organizer_mappings');
+        $query->where("programID IN ( $programIDs )");
+        $query->order('lft ASC');
+        $dbo->setQuery((string) $query);
+        return $dbo->loadAssocList();
+    }
 
-        $IDQuery = $dbo->getQuery(true);
-        $IDQuery->select('id')->from('#__thm_organizer_mappings')->where("poolID = '$ownID'");
-        $dbo->setQuery((string) $IDQuery);
-        $ownIDs = $dbo->loadResultArray();
- 
-        $bordersQuery = $dbo->getQuery(true);
-        $bordersQuery->select('DISTINCT lft, rgt');
-        $bordersQuery->from('#__thm_organizer_mappings');
-        $bordersQuery->where("programID IN ( $programIDs )");
-        $bordersQuery->order('lft ASC');
-        $dbo->setQuery((string) $bordersQuery);
-        $borders = $dbo->loadAssocList();
- 
-        $programMappings = array();
-        $programMappingsQuery = $dbo->getQuery(true);
-        $programMappingsQuery->select('*');
-        $programMappingsQuery->from('#__thm_organizer_mappings');
-        foreach ($borders as $border)
-        {
-            $programMappingsQuery->clear('where');
-            $programMappingsQuery->where("lft >= '{$border['lft']}'");
-            $programMappingsQuery->where("rgt <= '{$border['rgt']}'");
-            $programMappingsQuery->order('lft ASC');
-            $dbo->setQuery((string) $programMappingsQuery);
-            $results = $dbo->loadAssocList();
-            $programMappings = array_merge($programMappings, empty($results)? array() : $results);
-        }
-
+    /**
+     * Fills the options array with HTML pool options
+     * 
+     * @param   array    &$options           an array to store the options in
+     * @param   array    &$programMappings   mappings belonging to one of the requested programs
+     * @param   array    &$unwantedMappings  mappings which would lead to data inconsistency
+     * @param   array    &$parentIDs         previously mapped parents
+     * @param   boolean  $isSubject          whether the calling element is a subject
+     * 
+     * @return  void
+     */
+    private function fillOptions(&$options, &$programMappings, &$unwantedMappings, &$parentIDs, $isSubject)
+    {
         $language = explode('-', JFactory::getLanguage()->getTag());
-        $poolsTable = JTable::getInstance('pools', 'THM_OrganizerTable');
-        foreach ($programMappings as $key => $mapping)
+        foreach ($programMappings as $mapping)
         {
-            if (in_array($mapping['id'], $ownIDs))
+            if (!empty($mapping['subjectID'])
+             OR (!empty($unwantedMappings) AND in_array($mapping['id'], $unwantedMappings)))
             {
-                unset($programMappings[$key]);
-                continue;
-            }
-            if (!empty($mapping['subjectID']))
-            {
-                unset($programMappings[$key]);
                 continue;
             }
             if (!empty($mapping['poolID']))
             {
-                $poolsTable->load($mapping['poolID']);
-                $name = $language[0] == 'de'? $poolsTable->name_de : $poolsTable->name_en;
- 
-                $level = 0;
-                if ($mapping['level'] != 0)
-                {
-                    $indent = '';
-                    while ($level < $mapping['level'])
-                    {
-                        $indent .= "&nbsp;&nbsp;&nbsp;";
-                        $level++;
-                    }
-                    $programMappings[$key]['name'] = $indent . "|_" . $name;
-                }
+                $options[] = THM_OrganizerHelperMapping::getPoolOption($mapping, $language, $parentIDs);
             }
             else
             {
-                $programNameQuery = $dbo->getQuery(true);
-                $programNameQuery->select(" CONCAT( dp.subject, ', (', d.abbreviation, ' ', dp.version, ')') AS name");
-                $programNameQuery->from('#__thm_organizer_programs AS dp');
-                $programNameQuery->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
-                $programNameQuery->where("dp.id = '{$mapping['programID']}'");
-                $dbo->setQuery((string) $programNameQuery);
-                $programMappings[$key]['name'] = $dbo->loadResult();
+                $options[] = THM_OrganizerHelperMapping::getProgramOption($mapping, $parentIDs, $isSubject);
             }
         }
+    }
 
-        $selectPools = array();
-        $selectPools[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_POM_SEARCH_PARENT'));
-        $selectPools[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_POM_NO_PARENT'));
- 
-        return  array_merge($selectPools, empty($programMappings)? array() : $programMappings);
+    /**
+     * Retrieves the resource id
+     * 
+     * @param   int      $mappingID  the mapping id
+     * @param   boolean  $isSubject  if the calling element is a subject
+     * 
+     * @return  int
+     */
+    private function getResourceID($mappingID, $isSubject)
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select($isSubject? 'subjectID' : 'poolID');
+        $query->from('#__thm_organizer_mappings');
+        $query->where("id = '$mappingID'");
+        $dbo->setQuery((string) $query);
+        return $dbo->loadResult();
     }
 }

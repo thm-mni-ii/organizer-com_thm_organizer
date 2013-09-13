@@ -62,9 +62,7 @@ class THM_OrganizerViewPool_Ajax extends JView
         else
         {
             $model = $this->getModel();
-            $parentIDs = $model->getParentIDs();
-            $programPools = $model->getProgramPools();
-            echo JHTML::_('select.options', $programPools, 'id', 'name', $parentIDs);
+            echo $model->getOptions();
         }
     }
 }
