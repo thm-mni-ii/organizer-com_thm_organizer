@@ -184,7 +184,8 @@ class THM_OrganizerViewScheduler extends JView
         $this->semesterID = $schedule->id;
         $this->semAuthor = "";
 
-        $this->departmentAndSemester = $schedule->departmentname . ";" . $schedule->semestername . ";" . $schedule->startdate . ";" . $schedule->enddate; 
+        $this->departmentAndSemester = $schedule->departmentname . ";" . $schedule->semestername . ";" .
+                                        $schedule->startdate . ";" . $schedule->enddate; 
         
         $this->semesterName = $this->departmentAndSemester;
         
