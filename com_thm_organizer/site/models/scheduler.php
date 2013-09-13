@@ -109,11 +109,11 @@ class THM_OrganizerModelScheduler extends JModel
      */
     public function getActiveSchedule($deptAndSem)
     {
-        if (!is_String($deptAndSem))
+        if (!is_string($deptAndSem))
         {
             return false;
         }
-
+        
         list($department, $semester, $startdate, $enddate) = explode(";", $deptAndSem);
         if (empty($semester))
         {
@@ -142,6 +142,40 @@ class THM_OrganizerModelScheduler extends JModel
             return false;
         }
         return $result;
+    }
+    
+    /**
+     * Method to get the active schedule
+     *
+     * @param   String  $scheduleID  The schedule ID
+     *
+     * @return   mixed  The active schedule or false
+     */
+    public function getActiveScheduleByID($scheduleID)
+    {
+    	if (!is_int($scheduleID))
+    	{
+    		return false;
+    	}
+    
+    	$dbo = JFactory::getDBO();
+    	$query = $dbo->getQuery(true);
+    	$query->select('*');
+    	$query->from('#__thm_organizer_schedules');
+    	$query->where('id = ' . $scheduleID);
+    	$dbo->setQuery((string) $query);
+    	$result = $dbo->loadObject();
+    
+    	$error = $dbo->getErrorMsg();
+    	if (!empty($error))
+    	{
+    		return false;
+    	}
+    	if ($result === null)
+    	{
+    		return false;
+    	}
+    	return $result;
     }
 
     /**

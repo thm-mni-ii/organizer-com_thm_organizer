@@ -72,19 +72,59 @@ class THM_OrganizerViewScheduler extends JView
             $this->deltaDisplayDays = 14;
         }
  
-        try
+        $site = new JSite;
+        $menu = $site->getMenu();
+        $menuid = JRequest::getInt("menuID", 0);
+        
+        $schedulerCalledWithMenu = null;
+        $schedule = null;
+                
+        if ($menuid != 0 || !is_null($menu->getActive()))
         {
-            $publicDefaultIDArray = (array) json_decode($menuparams->get("publicDefaultID"));
+        	$schedulerCalledWithMenu = true; 
         }
-        catch (Exception $e)
+        elseif(JRequest::getString('scheduleID'))
         {
-            $publicDefaultIDArray = array();
+        	$schedulerCalledWithMenu = false;
         }
- 
-        $this->departmentAndSemester = $menuparams->get("departmentSemesterSelection");
- 
-        $schedule = $schedulerModel->getActiveSchedule($this->departmentAndSemester);
- 
+        else 
+        {
+        	$schedulerCalledWithMenu = null;
+        }
+        
+        $this->schedulerCalledWithMenu = $schedulerCalledWithMenu;
+                
+        if ($schedulerCalledWithMenu === true) // Called via menu item
+        {
+        	try
+        	{
+        		$publicDefaultIDArray = (array) json_decode($menuparams->get("publicDefaultID"));
+        	}
+        	catch (Exception $e)
+        	{
+        		$publicDefaultIDArray = array();
+        	}
+        	
+        	$schedule = $schedulerModel->getActiveSchedule($menuparams->get("departmentSemesterSelection"));
+        }
+        elseif($schedulerCalledWithMenu === false) // Called via link
+        {
+        	$requestSchedulerID = JRequest::getInt("scheduleID", null);
+        	if (isset($requestSchedulerID))
+        	{
+        		$schedule = $schedulerModel->getActiveScheduleByID($requestSchedulerID);
+        	}
+        	else
+        	{
+        		return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_NO_ACTIVE_SCHEDULE'));
+        	}
+        	
+        }
+        else
+        {
+        	return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_NO_ACTIVE_SCHEDULE'));
+        }
+        
         if (is_object($schedule) AND is_string($schedule->schedule))
         {
             $scheduleData = json_decode($schedule->schedule);
@@ -105,8 +145,15 @@ class THM_OrganizerViewScheduler extends JView
                 $subjects = $scheduleData->subjects;
                 unset($scheduleData->subjects);
                 $teachers = $scheduleData->teachers;
-                unset($scheduleData->teachers);
-                $modules = $scheduleData->modules;
+                unset($scheduleData->teachers); 
+                if (isset($scheduleData->pools))
+                {
+                	$modules = $scheduleData->pools;
+                }
+                else
+                {
+                	$modules = $scheduleData->modules;
+                }
                 unset($scheduleData->modules);
                 $calendar = $scheduleData->calendar;
                 unset($scheduleData->calendar);
@@ -136,13 +183,20 @@ class THM_OrganizerViewScheduler extends JView
 
         $this->semesterID = $schedule->id;
         $this->semAuthor = "";
-        $this->semesterName = $menuparams->get("departmentSemesterSelection");
 
+        $this->departmentAndSemester = $schedule->departmentname . ";" . $schedule->semestername . ";" . $schedule->startdate . ";" . $schedule->enddate; 
+        
+        $this->semesterName = $this->departmentAndSemester;
+        
         $schedulearr = array();
 
- 
         $periods->length = count((array) $periods);
- 
+         
+        $this->requestTeacherGPUntisIDs = JRequest::getVar('teacherID', array(), 'default', 'array');
+        $this->requestRoomGPUntisIDs = JRequest::getVar('roomID', array(), 'default', 'array');
+        $this->requestPoolGPUntisIDs = JRequest::getVar('poolID', array(), 'default', 'array');
+        $this->requestSubjectGPUntisIDs = JRequest::getVar('subjectID', array(), 'default', 'array');
+        
         foreach ($periods as $period)
         {
             if (isset($period->starttime) AND is_string($period->starttime))
@@ -165,7 +219,14 @@ class THM_OrganizerViewScheduler extends JView
 
         $schedulearr["UserSchedule.load"] = array();
  
-        $this->loadLessonsOnStartUp = (bool) $menuparams->get("loadLessonsOnStartUp");
+        if ($menuparams->get("loadLessonsOnStartUp") === null)
+        {
+        	$this->loadLessonsOnStartUp = true;
+        }
+        else 
+        {
+        	$this->loadLessonsOnStartUp = (bool) $menuparams->get("loadLessonsOnStartUp");
+        }
 
         if ($this->loadLessonsOnStartUp == true)
         {

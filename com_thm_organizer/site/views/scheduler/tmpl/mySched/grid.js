@@ -93,7 +93,7 @@ function getSchedGrid()
         title: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TITLE_UNKNOWN,
         store: Ext.data.StoreManager.lookup('gridStore'),
         height: 440,
-        width: 726,
+        //width: 726,
         columns:
         [
             {

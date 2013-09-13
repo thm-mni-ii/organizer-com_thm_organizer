@@ -127,6 +127,11 @@ function changeIconHighlight (event)
     }
 }
 
+function changePublicDefaultHighlight (event)
+{
+    //Not implemented ( Keine macht mir nen Highlighted Icon :( )
+}
+
 function setPublicDefaultStatus(event)
 {
 
@@ -290,7 +295,7 @@ Ext.tree.Panel.prototype.getChecked = function(node, checkedArr)
 Ext.tree.Panel.prototype.getPublicDefault = function(node, checkedArr)
 {
     var checked;
-    if(checkedArr === null)
+    if(!Ext.isDefined(checkedArr) || checkedArr === null)
     {
         checked = {};
     }
@@ -348,9 +353,10 @@ Ext.tree.Panel.prototype.doGray = function(node)
     if(node.hasChildNodes() === true)
     {
         node.childNodes.each(function(v, k) {
+            var state = null;
             if(v.isVisible())
             {
-                var state = tree.doGray(v);
+                state = tree.doGray(v);
                 if(state === true)
                 {
                     gray = state;
@@ -358,8 +364,8 @@ Ext.tree.Panel.prototype.doGray = function(node)
             }
             else
             {
-            	var state = tree.needGray(v);
-            	if(state === true)
+                state = tree.needGray(v);
+                if(state === true)
                 {
                     gray = state;
                     return;
@@ -388,30 +394,30 @@ Ext.tree.Panel.prototype.doGray = function(node)
 
 Ext.tree.Panel.prototype.needGray = function (node)
 {
-	if(node.data.checked === "checked" || node.data.checked === "selected" || node.data.checked === "intermediate")
+    if(node.data.checked === "checked" || node.data.checked === "selected" || node.data.checked === "intermediate")
     {
         return true;
     }
-	
-	var returnResult = false;
-	
-	if(node.hasChildNodes() === true)
+    
+    var returnResult = false;
+    
+    if(node.hasChildNodes() === true)
     {
         node.childNodes.each(function(v, k) {   
-        	if(returnResult === true)
-        	{
-        		return;
-        	}
+            if(returnResult === true)
+            {
+                return;
+            }
             var state = tree.needGray(v);
             if(state === true)
             {
-            	returnResult = true;
-            	return;
+                returnResult = true;
+                return;
             }
         });
     }
-	return returnResult;
-}
+    return returnResult;
+};
 
 var tree = null;
 

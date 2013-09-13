@@ -106,7 +106,7 @@ class THMTreeView
         {
             $options["hide"] = false;
             $this->_checked = array();
-            $this->_publicDefaultNode = array();
+            $publicDefaultID = array();
             $this->_publicDefaultNode = array();
             $this->departmentSemesterSelection = JRequest::getString('departmentSemesterSelection');
         }
@@ -352,7 +352,14 @@ class THMTreeView
             if ($activeScheduleData != null)
             {
                 $this->_activeScheduleData = $activeScheduleData;
-                $this->_treeData["module"] = $activeScheduleData->modules;
+                if (isset($activeScheduleData->pools))
+                {
+                	$this->_treeData["module"] = $activeScheduleData->pools;
+                }
+                else
+                {
+                	$this->_treeData["module"] = $activeScheduleData->modules;
+                }
                 $this->_treeData["room"] = $activeScheduleData->rooms;
                 $this->_treeData["teacher"] = $activeScheduleData->teachers;
                 $this->_treeData["subject"] = $activeScheduleData->subjects;
@@ -616,7 +623,7 @@ class THMTreeView
 
             $childNodes = array();
             $descriptionID = $key . ";" . $descriptionKey;
-
+            
             foreach ($filteredData as $childKey => $childValue)
             {
                 $nodeID = $descriptionID . ";" . $childKey;
@@ -686,7 +693,6 @@ class THMTreeView
                 else
                 {
                     $hasLessons = $this->treeNodeHasLessons($childKey, $scheduleType);
-
                     // Erstmal immer true!
 //                     $hasLessons = true;
                 }
@@ -832,6 +838,13 @@ class THMTreeView
  
             $filterFunction = function($obj) use ($fieldType, $nodeID)
             {
+            	if(!isset($obj->{$fieldType}))
+            	{
+	    		if($fieldType === "modules")
+	            	{
+	            	    $fieldType = "pools";
+	            	}
+            	}
                 return isset($obj->{$fieldType}->{$nodeID});
             };
 

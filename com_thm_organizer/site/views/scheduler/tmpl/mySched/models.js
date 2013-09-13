@@ -318,8 +318,9 @@ Ext.define('ScheduleModel',
         var begin = MySched.session.begin.split("-");
         begin = new Date(begin[0], begin[1] - 1, begin[2]);
 
-        if (wp < begin && cd.menu === null)
+        if (wp < begin && MySched.displaySemesterBeginDialog)
         {
+            MySched.displaySemesterBeginDialog = false;
             Ext.MessageBox.show(
             {
                 title: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER_NOT_STARTED,
