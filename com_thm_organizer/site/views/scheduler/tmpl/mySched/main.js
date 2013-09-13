@@ -3979,14 +3979,21 @@ MySched.Tree = function ()
  
                         var publicDefaultNode = json.treePublicDefault;
 
+                        var nodeID = null;
+                        var nodeKey = null;
+                        var gpuntisID = null;
+                        var plantypeID = null;
+                        var semesterID = null;
+                        var type = null;
+                        
                         if(publicDefaultNode !== null && publicDefaultNode.type !== "delta" && publicDefaultNode.length > 0)
                         {
-                            var nodeID = publicDefaultNode.id;
-                            var nodeKey = publicDefaultNode.nodeKey;
-                            var gpuntisID = publicDefaultNode.gpuntisID;
-                            var plantypeID = publicDefaultNode.plantype;
-                            var semesterID = publicDefaultNode.semesterID;
-                            var type = publicDefaultNode.type;
+                            nodeID = publicDefaultNode.id;
+                            nodeKey = publicDefaultNode.nodeKey;
+                            gpuntisID = publicDefaultNode.gpuntisID;
+                            plantypeID = publicDefaultNode.plantype;
+                            semesterID = publicDefaultNode.semesterID;
+                            type = publicDefaultNode.type;
 
                             MySched.Tree.showScheduleTab(nodeID, nodeKey,
                             gpuntisID, semesterID, plantypeID, type);
@@ -3995,19 +4002,19 @@ MySched.Tree = function ()
                         // Displays teacher schedules given by get parameter
                         if(MySched.requestTeacherGPUntisIDs.length > 0)
                         {
-                            var semesterID = MySched.class_semester_id;
-                            var plantypeID = null;
-                            var type = "teacher";
-                            for(var i = 0; i < MySched.requestTeacherGPUntisIDs.length; i++)
+                            semesterID = MySched.class_semester_id;
+                            plantypeID = null;
+                            type = "teacher";
+                            for(var teacherIndex = 0; teacherIndex < MySched.requestTeacherGPUntisIDs.length; teacherIndex++)
                             {
-                                var teacherGPUntisID = MySched.requestTeacherGPUntisIDs[i];
+                                var teacherGPUntisID = MySched.requestTeacherGPUntisIDs[teacherIndex];
                                 if(!Ext.isDefined(MySched.Mapping[type].map[teacherGPUntisID]))
                                 {
                                     continue;
                                 }
-                                var nodeID = teacherGPUntisID;
-                                var nodeKey = teacherGPUntisID;
-                                var gpuntisID = teacherGPUntisID;
+                                nodeID = teacherGPUntisID;
+                                nodeKey = teacherGPUntisID;
+                                gpuntisID = teacherGPUntisID;
 
                                 MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
                             }                            
@@ -4016,20 +4023,20 @@ MySched.Tree = function ()
                         // Displays room schedules given by get parameter
                         if(MySched.requestRoomGPUntisIDs.length > 0)
                         {
-                            var semesterID = MySched.class_semester_id;
-                            var plantypeID = null;
-                            var type = "room";
-                            for(var i = 0; i < MySched.requestRoomGPUntisIDs.length; i++)
+                            semesterID = MySched.class_semester_id;
+                            plantypeID = null;
+                            type = "room";
+                            for(var roomIndex = 0; roomIndex < MySched.requestRoomGPUntisIDs.length; roomIndex++)
                             {
-                                var roomGPUntisID = MySched.requestRoomGPUntisIDs[i];
+                                var roomGPUntisID = MySched.requestRoomGPUntisIDs[roomIndex];
 
                                 if(!Ext.isDefined(MySched.Mapping[type].map[roomGPUntisID]))
                                 {
                                     continue;
                                 }
-                                var nodeID = roomGPUntisID;
-                                var nodeKey = roomGPUntisID;
-                                var gpuntisID = roomGPUntisID;
+                                nodeID = roomGPUntisID;
+                                nodeKey = roomGPUntisID;
+                                gpuntisID = roomGPUntisID;
 
                                 MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
                             }                            
@@ -4038,20 +4045,20 @@ MySched.Tree = function ()
                         // Displays pool/module/group schedules given by get parameter
                         if(MySched.requestPoolGPUntisIDs.length > 0)
                         {
-                            var semesterID = MySched.class_semester_id;
-                            var plantypeID = null;
-                            var type = "module";
-                            for(var i = 0; i < MySched.requestPoolGPUntisIDs.length; i++)
+                            semesterID = MySched.class_semester_id;
+                            plantypeID = null;
+                            type = "module";
+                            for(var moduleIndex = 0; moduleIndex < MySched.requestPoolGPUntisIDs.length; moduleIndex++)
                             {
-                                var poolGPUntisID = MySched.requestPoolGPUntisIDs[i];
+                                var poolGPUntisID = MySched.requestPoolGPUntisIDs[moduleIndex];
                                 
                                 if(!Ext.isDefined(MySched.Mapping[type].map[poolGPUntisID]))
                                 {
                                     continue;
                                 }
-                                var nodeID = poolGPUntisID;
-                                var nodeKey = poolGPUntisID;
-                                var gpuntisID = poolGPUntisID;
+                                nodeID = poolGPUntisID;
+                                nodeKey = poolGPUntisID;
+                                gpuntisID = poolGPUntisID;
 
                                 MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
                             }                            
@@ -4060,20 +4067,20 @@ MySched.Tree = function ()
                         // Displays subject schedules given by get parameter
                         if(MySched.requestSubjectGPUntisIDs.length > 0)
                         {
-                            var semesterID = MySched.class_semester_id;
-                            var plantypeID = null;
-                            var type = "subject";
-                            for(var i = 0; i < MySched.requestSubjectGPUntisIDs.length; i++)
+                            semesterID = MySched.class_semester_id;
+                            plantypeID = null;
+                            type = "subject";
+                            for(var subjectIndex = 0; subjectIndex < MySched.requestSubjectGPUntisIDs.length; subjectIndex++)
                             {
-                                var subjectGPUntisID = MySched.requestSubjectGPUntisIDs[i];
+                                var subjectGPUntisID = MySched.requestSubjectGPUntisIDs[subjectIndex];
                                 
                                 if(!Ext.isDefined(MySched.Mapping[type].map[subjectGPUntisID]))
                                 {
                                     continue;
                                 }
-                                var nodeID = subjectGPUntisID;
-                                var nodeKey = subjectGPUntisID;
-                                var gpuntisID = subjectGPUntisID;
+                                nodeID = subjectGPUntisID;
+                                nodeKey = subjectGPUntisID;
+                                gpuntisID = subjectGPUntisID;
 
                                 MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
                             }                            
