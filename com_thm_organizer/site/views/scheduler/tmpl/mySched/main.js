@@ -2163,7 +2163,7 @@ MySched.layout = function ()
             var hideTreePanel = false;
             if(MySched.schedulerCalledWithMenu === false)
             {
-            	hideTreePanel = true;
+                hideTreePanel = true;
             }
             this.leftviewport = Ext.create('Ext.Panel',
             {
@@ -2188,8 +2188,8 @@ MySched.layout = function ()
  
             if(!hideTreePanel)
             {
-	            MySched.treeLoadMask = new Ext.LoadMask(Ext.getCmp('selectTree').el, {msg:"Loading..."});
-	            MySched.treeLoadMask.show();
+                MySched.treeLoadMask = new Ext.LoadMask(Ext.getCmp('selectTree').el, {msg:"Loading..."});
+                MySched.treeLoadMask.show();
             }
 
             var calendar = Ext.ComponentMgr.get('menuedatepicker'), imgs;
@@ -3998,19 +3998,19 @@ MySched.Tree = function ()
                             var semesterID = MySched.class_semester_id;
                             var plantypeID = null;
                             var type = "teacher";
-                        	for(var i = 0; i < MySched.requestTeacherGPUntisIDs.length; i++)
-                        	{
-                        		var teacherGPUntisID = MySched.requestTeacherGPUntisIDs[i];
-                        		if(!Ext.isDefined(MySched.Mapping[type].map[teacherGPUntisID]))
-                        		{
-                        			continue;
-                        		}
-                            	var nodeID = teacherGPUntisID;
+                            for(var i = 0; i < MySched.requestTeacherGPUntisIDs.length; i++)
+                            {
+                                var teacherGPUntisID = MySched.requestTeacherGPUntisIDs[i];
+                                if(!Ext.isDefined(MySched.Mapping[type].map[teacherGPUntisID]))
+                                {
+                                    continue;
+                                }
+                                var nodeID = teacherGPUntisID;
                                 var nodeKey = teacherGPUntisID;
                                 var gpuntisID = teacherGPUntisID;
 
                                 MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
-                        	}                        	
+                            }                            
                         }
                         
                         // Displays room schedules given by get parameter
@@ -4019,20 +4019,20 @@ MySched.Tree = function ()
                             var semesterID = MySched.class_semester_id;
                             var plantypeID = null;
                             var type = "room";
-                        	for(var i = 0; i < MySched.requestRoomGPUntisIDs.length; i++)
-                        	{
-                        		var roomGPUntisID = MySched.requestRoomGPUntisIDs[i];
+                            for(var i = 0; i < MySched.requestRoomGPUntisIDs.length; i++)
+                            {
+                                var roomGPUntisID = MySched.requestRoomGPUntisIDs[i];
 
-                        		if(!Ext.isDefined(MySched.Mapping[type].map[roomGPUntisID]))
-                        		{
-                        			continue;
-                        		}
-                            	var nodeID = roomGPUntisID;
+                                if(!Ext.isDefined(MySched.Mapping[type].map[roomGPUntisID]))
+                                {
+                                    continue;
+                                }
+                                var nodeID = roomGPUntisID;
                                 var nodeKey = roomGPUntisID;
                                 var gpuntisID = roomGPUntisID;
 
                                 MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
-                        	}                        	
+                            }                            
                         }
                         
                         // Displays pool/module/group schedules given by get parameter
@@ -4041,20 +4041,20 @@ MySched.Tree = function ()
                             var semesterID = MySched.class_semester_id;
                             var plantypeID = null;
                             var type = "module";
-                        	for(var i = 0; i < MySched.requestPoolGPUntisIDs.length; i++)
-                        	{
-                        		var poolGPUntisID = MySched.requestPoolGPUntisIDs[i];
-                        		
-                        		if(!Ext.isDefined(MySched.Mapping[type].map[poolGPUntisID]))
-                        		{
-                        			continue;
-                        		}
-                            	var nodeID = poolGPUntisID;
+                            for(var i = 0; i < MySched.requestPoolGPUntisIDs.length; i++)
+                            {
+                                var poolGPUntisID = MySched.requestPoolGPUntisIDs[i];
+                                
+                                if(!Ext.isDefined(MySched.Mapping[type].map[poolGPUntisID]))
+                                {
+                                    continue;
+                                }
+                                var nodeID = poolGPUntisID;
                                 var nodeKey = poolGPUntisID;
                                 var gpuntisID = poolGPUntisID;
 
                                 MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
-                        	}                        	
+                            }                            
                         }
 
                         // Displays subject schedules given by get parameter
@@ -4063,20 +4063,20 @@ MySched.Tree = function ()
                             var semesterID = MySched.class_semester_id;
                             var plantypeID = null;
                             var type = "subject";
-                        	for(var i = 0; i < MySched.requestSubjectGPUntisIDs.length; i++)
-                        	{
-                        		var subjectGPUntisID = MySched.requestSubjectGPUntisIDs[i];
-                        		
-                        		if(!Ext.isDefined(MySched.Mapping[type].map[subjectGPUntisID]))
-                        		{
-                        			continue;
-                        		}
-                            	var nodeID = subjectGPUntisID;
+                            for(var i = 0; i < MySched.requestSubjectGPUntisIDs.length; i++)
+                            {
+                                var subjectGPUntisID = MySched.requestSubjectGPUntisIDs[i];
+                                
+                                if(!Ext.isDefined(MySched.Mapping[type].map[subjectGPUntisID]))
+                                {
+                                    continue;
+                                }
+                                var nodeID = subjectGPUntisID;
                                 var nodeKey = subjectGPUntisID;
                                 var gpuntisID = subjectGPUntisID;
 
                                 MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
-                        	}                        	
+                            }                            
                         }
                         
                     }
@@ -4158,11 +4158,11 @@ MySched.Tree = function ()
         },
         showScheduleTab: function (nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type)
         {
-        	if(nodeID === null)
-        	{
-        		nodeID = nodeKey;
-        	}
-        	
+            if(nodeID === null)
+            {
+                nodeID = nodeKey;
+            }
+            
             if (type === null)
             {
                 type = gpuntisID;
