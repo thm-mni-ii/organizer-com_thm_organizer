@@ -320,6 +320,7 @@ Ext.define('ScheduleModel',
 
         if (wp < begin && MySched.displaySemesterBeginDialog)
         {
+        	MySched.displaySemesterBeginDialog = false;
             Ext.MessageBox.show(
             {
                 title: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER_NOT_STARTED,
