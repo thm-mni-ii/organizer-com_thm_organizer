@@ -41,18 +41,23 @@ class THM_OrganizerModelEvent extends JModel
         $groupsSaved = $this->saveResources("#__thm_organizer_event_groups", "groups", "groupID", $data['id']);
         if ($eventSaved AND $teachersSaved AND $roomsSaved AND $groupsSaved)
         {
-            $dbo->transactionCommit();
-            if ($data['emailNotification'] AND count($_REQUEST['groups']))
+            $groups = JRequest::getVar('groups');
+            if (isset($data['emailNotification']) AND count($groups))
             {
-                $this->notify($data);
+                $success = $this->notify($data);
+                if ($success)
+                {
+                    $dbo->transactionCommit();
+                    return $data['id'];
+                }
+                $dbo->transactionRollback();
+                return 0;
             }
+            $dbo->transactionCommit();
             return $data['id'];
         }
-        else
-        {
-            $dbo->transactionRollback();
-            return 0;
-        }
+        $dbo->transactionRollback();
+        return 0;
     }
 
     /**
@@ -278,7 +283,7 @@ class THM_OrganizerModelEvent extends JModel
         $dbo->query();
 
         // Add new ones (if requested)
-        $resources = (isset($_REQUEST[$requestName]))? JRequest::getVar($requestName) : array();
+        $resources = JRequest::getVar($requestName, array());
         $noResourceIndex = array_search('-1', $resources);
         if ($noResourceIndex)
         {
@@ -395,11 +400,11 @@ class THM_OrganizerModelEvent extends JModel
         }
         else
         {
-            return;
+            return true;
         }
         $mailer->setSubject(stripslashes($data['title']));
         $mailer->setBody(strip_tags($data['introtext']));
-        $mailer->Send();
+        return $mailer->Send();
     }
 
     /**
@@ -417,7 +422,7 @@ class THM_OrganizerModelEvent extends JModel
         $query->select('DISTINCT email, name');
         $query->from('#__users AS user');
         $query->innerJoin('#__user_usergroup_map AS map ON user.id = map.user_id');
-        $groups = $_REQUEST['groups'];
+        $groups = JRequest::getVar('groups');
         foreach ($groups as $group)
         {
             $query->clear('where');

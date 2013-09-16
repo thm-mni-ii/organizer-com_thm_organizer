@@ -66,8 +66,8 @@ class THM_OrganizerControllerSchedule extends JController
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
-        $fileType = $_FILES['file']['type'];
-        if ($fileType == "text/xml")
+        $file = JRequest::getVar('file', '', 'FILES');
+        if ($file['type'] == "text/xml")
         {
             $model = $this->getModel('schedule');
             $statusReport = $model->upload();

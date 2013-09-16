@@ -839,20 +839,20 @@ class THMTreeView
  
             $filterFunction = function($obj) use ($fieldType, $nodeID)
             {
-            	if (!isset($obj->{$fieldType}))
-            	{
+                if (!isset($obj->{$fieldType}))
+                {
                     if ($fieldType === "modules")
-                	{
-                	    $fieldType = "pools";
-                	}
-            	}
+                    {
+                        $fieldType = "pools";
+                    }
+                }
                 return isset($obj->{$fieldType}->{$nodeID});
             };
 
             $lessons = array_filter((array) $this->_activeScheduleData->lessons, $filterFunction);
  
             $lessonKeys = array_keys($lessons);
- 
+
             foreach ($calendar as $calendarValue)
             {
                 if (is_object($calendarValue))

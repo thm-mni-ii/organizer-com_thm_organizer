@@ -267,7 +267,7 @@ class THM_OrganizerHelperEvent
     private static function getNames($requestName, $columnName, $tableName)
     {
         $names = array();
-        $requestName = (isset($_REQUEST[$requestName])) ? JRequest::getVar($requestName)  : array();
+        $requestName = JRequest::getVar($requestName, array());
         $dummyIndex = array_search('-1', $requestName);
         if ($dummyIndex)
         {

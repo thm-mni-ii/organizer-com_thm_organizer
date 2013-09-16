@@ -57,8 +57,6 @@ class THM_OrganizerControllerVirtual_Schedule extends JController
      * Performs access checks, makes call to the models's save function, and
      * redirects to the virtual schedule manager view
      *
-     * @todo clean this up
-     *
      * @return void
      */
     public function save()
@@ -78,10 +76,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JController
 
         if ($name == null)
         {
-            $url = 'index.php?option=com_thm_organizer&view=virtual_schedule_edit';
-            $this->setRedirect($url, JText::_('COM_THM_ORGANIZER_VSE_NAME_MISSING'), 'error');
-            $session = JFactory::getSession();
-            $session->set('oldPost', $_POST);
+            // Set session variables to restore state
             return;
         }
         $semid = $data["semester"];
@@ -215,8 +210,6 @@ class THM_OrganizerControllerVirtual_Schedule extends JController
     /**
      * Performs access checks, makes call to the models's delete function, and
      * redirects to the virtual schedule manager view
-     *
-     * @todo clean this up
      *
      * @return void
      */

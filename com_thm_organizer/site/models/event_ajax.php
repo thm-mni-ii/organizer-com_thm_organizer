@@ -219,12 +219,13 @@ class THM_OrganizerModelEvent_Ajax extends JModel
     private function getResourceData($resourceName, $columnName, $tableName)
     {
         $resourceData = array();
-        $$resourceName = (isset($_REQUEST[$resourceName]))? implode(",", $_REQUEST[$resourceName]) : array();
+        $resources = JRequest::getVar($resourceName);
+        $$resourceName = !empty($resources)? implode(",", $resources) : '';
         if (strpos($$resourceName, '-1,'))
         {
             $$resourceName = str_replace("-1,", "", $$resourceName);
         }
-        if (count($$resourceName))
+        if (strlen($$resourceName))
         {
             $dbo = JFactory::getDbo();
             $query = $dbo->getQuery(true);

@@ -78,8 +78,8 @@ class THMScheduleDescription
         $query->where("'active != 'null' && sid = " . $this->_semID);
  
         // Reset the query using our newly populated query object.
-        $dbo>setQuery($query);
- 
+        $dbo->setQuery($query);
+
         $obj = $dbo->loadObject();
 
         if (count($obj) == 0 || $obj == false)

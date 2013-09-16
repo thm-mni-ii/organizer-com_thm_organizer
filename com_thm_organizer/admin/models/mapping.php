@@ -518,6 +518,8 @@ class THM_OrganizerModelMapping extends JModel
      * Filters the resource's children out of the form's POST data
      *
      * @return  array  an array containing the resource's children and ordering
+     * 
+     * @SuppressWarnings(PHPMD.Superglobals)
      */
     private function getChildrenFromForm()
     {

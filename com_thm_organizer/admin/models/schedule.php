@@ -123,7 +123,8 @@ class THM_OrganizerModelSchedule extends JModel
      */
     public function validate()
     {
-        $xmlSchedule = simplexml_load_file($_FILES['file']['tmp_name']);
+        $file = JRequest::getVar('file', '', 'FILES');
+        $xmlSchedule = simplexml_load_file($file['tmp_name']);
         $this->schedule         = new stdClass;
         $this->scheduleErrors   = array();
         $this->scheduleWarnings = array();
