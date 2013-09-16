@@ -79,38 +79,11 @@ class THMUser
     */
    public function auth()
    {
-      if (isset($this->_cfg['AUTH_TEST_MODE']))
-      {
-         if ($this->_cfg['AUTH_TEST_MODE'])
-         {
-            // HgNummer des Users - Ist die Id zum speichern des Stundenplans
-            // Jede weitere Verarbeitung wird abgebrochen
-            $_REQUEST  = array();
-
-            // Rolle des Users - bestimmt mit welchen Rechten der User die Plaene sieht
-            $role = 'registered';
-
-            // Hier koennen doz, room, clas spezifische Rechte gesetzt werden - Alle angaben ergaenzen die RollenRechte
-            $addRights = array(
-                     'doz' => array(
-                     'knei',
-                     'igle'
-                  )
-            );
-
-            // ALLES OK
-            return array("success" => true, "data" => array(
-                  'username' => $this->_username,
-                  'role' => $role, // User, registered, author, editor, publisher
-                  'additional_rights' => $addRights // 'doz' => array('knei', 'igle'), ...
-            ));
-         }
-      }
-
       // Nur Anfragen ueber HTTPS werden zugelassen -
       if (isset($this->_cfg['REQUIRE_HTTPS']))
       {
-         if ($this->_cfg['REQUIRE_HTTPS'] && !strstr(strtolower($_SERVER['SERVER_PROTOCOL']), 'https'))
+         $protocol = JRequest::getVar('SERVER_PROTOCOL', '', 'SERVER');
+         if ($this->_cfg['REQUIRE_HTTPS'] && !strstr(strtolower($protocol), 'https'))
          {
             return array("success" => true, "data" => array(
                   'error' => "Schwerer Fehler: Keine Verschl&Atilde;&frac14;sselte Verbindung vorhanden!"

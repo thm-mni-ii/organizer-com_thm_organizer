@@ -40,7 +40,7 @@ class THM_OrganizerModelRoom_Select extends JModelForm
      */
     private function checkIP()
     {
-        $ipAddress = $_SERVER['REMOTE_ADDR'];
+        $ipAddress = JRequest::getVar('REMOTE_ADDR', '', 'SERVER');
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);
         $query->select("r.longname AS name");

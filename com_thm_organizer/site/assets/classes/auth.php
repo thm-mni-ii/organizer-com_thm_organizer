@@ -136,7 +136,7 @@ class THMAuth
     public function joomla( $token )
     {
         $addRights = array( );
-        $_SESSION['joomlaSid'] = $token;
+        JFactory::getSession()->set('joomlaSid', $token);
 
         $userRoles = $this->_JDA->getUserRoles();
         $userRole = reset($userRoles);

@@ -49,10 +49,6 @@ class MySchedConfig
         $this->_cfg['estudyCreateCoursePath'] = $this->_cfg['estudyPath'] . $settings->eStudyCreateCoursePath;
         $this->_cfg['soapSchema'] = $settings->eStudySoapSchema;
 
-        // Schaltet die Authentifizierung in einen Testmodus
-        // der alle Kombinationen akzeptiert
-        $this->_cfg['AUTH_TEST_MODE'] = false;
-
         // HTTPS bei Authentifizierung erzwingen?
         $this->_cfg['REQUIRE_HTTPS'] = false;
 

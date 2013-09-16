@@ -106,9 +106,10 @@ class THMUserSchedule
    public function save()
    {
       // Wenn die Anfragen nicht durch Ajax von MySched kommt
-      if (isset($_SERVER['HTTP_X_REQUESTED_WITH']))
+      $requestedWith = JRequest::getVar('HTTP_X_REQUESTED_WITH', '', 'SERVER');
+      if (isset($requestedWith))
       {
-         if ($_SERVER['HTTP_X_REQUESTED_WITH'] != 'XMLHttpRequest')
+         if ($requestedWith != 'XMLHttpRequest')
          {
             echo JText::_("COM_THM_ORGANIZER_SCHEDULER_PERMISSION_DENIED");
             return array("success" => false,"data" => array(

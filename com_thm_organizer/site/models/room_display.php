@@ -62,7 +62,8 @@ class THM_OrganizerModelRoom_Display extends JModel
     {
         parent::__construct();
         $monitor = JTable::getInstance('monitors', 'thm_organizerTable');
-        $where = array('ip' => $_SERVER['REMOTE_ADDR']);
+        $remoteIP = JRequest::getVar('REMOTE_ADDR', '', 'SERVER');
+        $where = array('ip' => $remoteIP);
         $registered = $monitor->load($where);
         if ($registered)
         {
@@ -115,7 +116,8 @@ class THM_OrganizerModelRoom_Display extends JModel
     private function redirectToComponentTemplate()
     {
         $application = JFactory::getApplication();
-        $requestURL = $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+        $requestURL = JRequest::getVar('SERVER_NAME', '', 'SERVER');
+        $requestURL .= JRequest::getVar('REQUEST_URI', '', 'SERVER');
         $redirectURL = $requestURL . '&tmpl=component';
         $application->redirect($redirectURL);
     }
