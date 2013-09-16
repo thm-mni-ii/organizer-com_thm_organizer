@@ -58,6 +58,8 @@ class THM_OrganizerControllerVirtual_Schedule extends JController
      * redirects to the virtual schedule manager view
      *
      * @return void
+     * 
+     * @SuppressWarnings(PHPMD.Superglobals)
      */
     public function save()
     {
