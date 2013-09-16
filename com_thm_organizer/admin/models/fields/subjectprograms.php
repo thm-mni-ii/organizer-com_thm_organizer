@@ -11,6 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.form.formfield');
+require_once JPATH_COMPONENT . '/assets/helpers/mapping.php';
 
 /**
  * Class creates a form field for subject-degree program association
@@ -22,9 +23,7 @@ jimport('joomla.form.formfield');
 class JFormFieldSubjectPrograms extends JFormField
 {
     /**
-     * Type
-     *
-     * @var    String
+     * @var  string
      */
     protected $type = 'subjectPrograms';
 
@@ -35,49 +34,16 @@ class JFormFieldSubjectPrograms extends JFormField
      */
     public function getInput()
     {
-        $dbo = JFactory::getDBO();
         $subjectID = JRequest::getInt('id');
- 
-        $rangesQuery = $dbo->getQuery(true);
-        $rangesQuery->select('lft, rgt')->from('#__thm_organizer_mappings')->where("subjectID = '$subjectID'");
-        $dbo->setQuery((string) $rangesQuery);
-        $ranges = $dbo->loadAssocList();
+        $ranges = THM_OrganizerHelperMapping::getRanges('subjectID', $subjectID);
+        $selectedPrograms = !empty($ranges)?
+            THM_OrganizerHelperMapping::getSelectedPrograms($ranges) : array();
+        $allPrograms = THM_OrganizerHelperMapping::getAllPrograms();
 
-        if (!empty($ranges))
-        {
-            $rangeConditions = array();
-            foreach ($ranges as $range)
-            {
-                $rangeConditions[] = "( lft < '{$range['lft']}' AND rgt > '{$range['rgt']}' )";
-            }
-            $rangesClause = implode(' OR ', $rangeConditions);
+        $defaultOptions = array(array('value' => '-1', 'program' => JText::_('COM_THM_ORGANIZER_POM_NO_PROGRAM')));
+        $programs = array_merge($defaultOptions, $allPrograms);
 
-            $selectedProgramsQuery = $dbo->getQuery(true);
-            $selectedProgramsQuery->select("DISTINCT dp.id");
-            $selectedProgramsQuery->from('#__thm_organizer_mappings AS m');
-            $selectedProgramsQuery->innerJoin('#__thm_organizer_programs AS dp ON m.programID = dp.id');
-            $selectedProgramsQuery->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
-            $selectedProgramsQuery->where($rangesClause);
-            $dbo->setQuery((string) $selectedProgramsQuery);
-            $associatedPrograms = $dbo->loadResultArray();
-        }
-
-        $allProgramsQuery = $dbo->getQuery(true);
-        $allProgramsQuery->select("dp.id AS value, CONCAT(dp.subject, ' (', d.abbreviation, ' ', dp.version, ')') AS program");
-        $allProgramsQuery->from('#__thm_organizer_programs AS dp');
-        $allProgramsQuery->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
-        $allProgramsQuery->innerJoin('#__thm_organizer_mappings AS m ON dp.id = m.programID');
-        $allProgramsQuery->order('program ASC');
-        $dbo->setQuery((string) $allProgramsQuery);
-        $allPrograms = $dbo->loadAssocList();
- 
-        $programDefaultOptions = array();
-        $programDefaultOptions[] = array('value' => '-1', 'program' => JText::_('COM_THM_ORGANIZER_SEARCH_PROGRAM'));
-        $programDefaultOptions[] = array('value' => '-1', 'program' => JText::_('COM_THM_ORGANIZER_POM_NO_PROGRAM'));
-        $programs = array_merge($programDefaultOptions, empty($allPrograms)? array() : $allPrograms);
- 
         $attributes = array('multiple' => 'multiple');
-        $selectedPrograms = empty($associatedPrograms)? array() : $associatedPrograms;
         return JHTML::_("select.genericlist", $programs, "jform[programID][]", $attributes, "value", "program", $selectedPrograms);
     }
 }

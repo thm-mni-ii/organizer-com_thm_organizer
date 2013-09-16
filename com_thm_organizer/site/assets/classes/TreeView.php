@@ -701,20 +701,20 @@ class THMTreeView
                 $childNode = null;
                 if ($hasLessons)
                 {
-                    $createTreeChildNodeData = array();
-                    $createTreeChildNodeData["nodeID"] = $nodeID;
-                    $createTreeChildNodeData["text"] = $nodeName;
-                    $createTreeChildNodeData["iconCls"] = "leaf" . "-node";
-                    $createTreeChildNodeData["leaf"] = true;
-                    $createTreeChildNodeData["draggable"] = true;
-                    $createTreeChildNodeData["singleClickExpand"] = false;
-                    $createTreeChildNodeData["gpuntisID"] = $childValue->gpuntisID;
-                    $createTreeChildNodeData["type"] = $scheduleType;
-                    $createTreeChildNodeData["children"] = null;
-                    $createTreeChildNodeData["semesterID"] = $semesterID;
-                    $createTreeChildNodeData["nodeKey"] = $childKey;
+                    $childNodeData = array();
+                    $childNodeData["nodeID"] = $nodeID;
+                    $childNodeData["text"] = $nodeName;
+                    $childNodeData["iconCls"] = "leaf" . "-node";
+                    $childNodeData["leaf"] = true;
+                    $childNodeData["draggable"] = true;
+                    $childNodeData["singleClickExpand"] = false;
+                    $childNodeData["gpuntisID"] = $childValue->gpuntisID;
+                    $childNodeData["type"] = $scheduleType;
+                    $childNodeData["children"] = null;
+                    $childNodeData["semesterID"] = $semesterID;
+                    $childNodeData["nodeKey"] = $childKey;
  
-                    $childNode = $this->createTreeNode($createTreeChildNodeData);
+                    $childNode = $this->createTreeNode($childNodeData);
                 }
                 if (is_object($childNode))
                 {
@@ -729,20 +729,20 @@ class THMTreeView
             $descriptionNode = null;
             if ($childNodes != null)
             {
-                $createTreeDescriptionNodeData = array();
-                $createTreeDescriptionNodeData["nodeID"] = $descriptionID;
-                $createTreeDescriptionNodeData["text"] = $descriptionValue->name;
-                $createTreeDescriptionNodeData["iconCls"] = "studiengang-root";
-                $createTreeDescriptionNodeData["leaf"] = false;
-                $createTreeDescriptionNodeData["draggable"] = true;
-                $createTreeDescriptionNodeData["singleClickExpand"] = false;
-                $createTreeDescriptionNodeData["gpuntisID"] = $descriptionValue->gpuntisID;
-                $createTreeDescriptionNodeData["type"] = $scheduleType;
-                $createTreeDescriptionNodeData["children"] = $childNodes;
-                $createTreeDescriptionNodeData["semesterID"] = $semesterID;
-                $createTreeDescriptionNodeData["nodeKey"] = $descriptionKey;
+                $descriptionNodeData = array();
+                $descriptionNodeData["nodeID"] = $descriptionID;
+                $descriptionNodeData["text"] = $descriptionValue->name;
+                $descriptionNodeData["iconCls"] = "studiengang-root";
+                $descriptionNodeData["leaf"] = false;
+                $descriptionNodeData["draggable"] = true;
+                $descriptionNodeData["singleClickExpand"] = false;
+                $descriptionNodeData["gpuntisID"] = $descriptionValue->gpuntisID;
+                $descriptionNodeData["type"] = $scheduleType;
+                $descriptionNodeData["children"] = $childNodes;
+                $descriptionNodeData["semesterID"] = $semesterID;
+                $descriptionNodeData["nodeKey"] = $descriptionKey;
  
-                $descriptionNode = $this->createTreeNode($createTreeDescriptionNodeData);
+                $descriptionNode = $this->createTreeNode($descriptionNodeData);
             }
 
             if (!is_null($descriptionNode) && is_object($descriptionNode))

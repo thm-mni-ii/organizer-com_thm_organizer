@@ -41,12 +41,12 @@ class THM_OrganizerViewScheduler extends JView
         }
  
         // Check wether the FPDF library is installed
-        $libraryFPDFIsInstalled = jimport('fpdf.fpdf');
-        $this->libraryFPDFIsInstalled = $libraryFPDFIsInstalled;
+        $FPDFInstalled = jimport('fpdf.fpdf');
+        $this->FPDFInstalled = $FPDFInstalled;
  
         // Check wether the iCalcreator library is installed
-        $libraryiCalcreatorIsInstalled = jimport('iCalcreator.iCalcreator');
-        $this->libraryiCalcreatorIsInstalled = $libraryiCalcreatorIsInstalled;
+        $iCalcreatorInstalled = jimport('iCalcreator.iCalcreator');
+        $this->iCalcreatorInstalled = $iCalcreatorInstalled;
  
         $doc = JFactory::getDocument();
         $doc->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/scheduler.css');
@@ -76,53 +76,53 @@ class THM_OrganizerViewScheduler extends JView
         $menu = $site->getMenu();
         $menuid = JRequest::getInt("menuID", 0);
         
-        $schedulerCalledWithMenu = null;
+        $schedulerFromMenu = null;
         $schedule = null;
                 
         if ($menuid != 0 || !is_null($menu->getActive()))
         {
-        	$schedulerCalledWithMenu = true; 
+            $schedulerFromMenu = true; 
         }
         elseif(JRequest::getString('scheduleID'))
         {
-        	$schedulerCalledWithMenu = false;
+            $schedulerFromMenu = false;
         }
         else 
         {
-        	$schedulerCalledWithMenu = null;
+        	$schedulerFromMenu = null;
         }
         
-        $this->schedulerCalledWithMenu = $schedulerCalledWithMenu;
+        $this->schedulerFromMenu = $schedulerFromMenu;
                 
-        if ($schedulerCalledWithMenu === true) // Called via menu item
+        if ($schedulerFromMenu === true) // Called via menu item
         {
-        	try
-        	{
-        		$publicDefaultIDArray = (array) json_decode($menuparams->get("publicDefaultID"));
-        	}
-        	catch (Exception $e)
-        	{
-        		$publicDefaultIDArray = array();
-        	}
-        	
-        	$schedule = $schedulerModel->getActiveSchedule($menuparams->get("departmentSemesterSelection"));
+            try
+            {
+                $publicDefaultIDArray = (array) json_decode($menuparams->get("publicDefaultID"));
+            }
+            catch (Exception $e)
+            {
+                $publicDefaultIDArray = array();
+            }
+
+            $schedule = $schedulerModel->getActiveSchedule($menuparams->get("departmentSemesterSelection"));
         }
-        elseif($schedulerCalledWithMenu === false) // Called via link
+        elseif($schedulerFromMenu === false) // Called via link
         {
-        	$requestSchedulerID = JRequest::getInt("scheduleID", null);
-        	if (isset($requestSchedulerID))
-        	{
-        		$schedule = $schedulerModel->getActiveScheduleByID($requestSchedulerID);
-        	}
-        	else
-        	{
-        		return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_NO_ACTIVE_SCHEDULE'));
-        	}
-        	
+            $requestSchedulerID = JRequest::getInt("scheduleID", null);
+            if (isset($requestSchedulerID))
+            {
+                $schedule = $schedulerModel->getActiveScheduleByID($requestSchedulerID);
+            }
+            else
+            {
+                return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_NO_ACTIVE_SCHEDULE'));
+            }
+
         }
         else
         {
-        	return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_NO_ACTIVE_SCHEDULE'));
+            return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_NO_ACTIVE_SCHEDULE'));
         }
         
         if (is_object($schedule) AND is_string($schedule->schedule))
@@ -222,7 +222,7 @@ class THM_OrganizerViewScheduler extends JView
  
         if ($menuparams->get("loadLessonsOnStartUp") === null)
         {
-        	$this->loadLessonsOnStartUp = true;
+            $this->loadLessonsOnStartUp = true;
         }
         else 
         {

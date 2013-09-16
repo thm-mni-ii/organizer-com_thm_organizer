@@ -726,7 +726,7 @@ Ext.define('ScheduleModel',
             MySched.layout.createTab('mySchedule', MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE, grid, "mySchedule");
         }
         // Buttons aktivieren wenn nicht leer
-        if (!MySched.Schedule.isEmpty() && MySched.libraryFPDFIsInstalled)
+        if (!MySched.Schedule.isEmpty() && MySched.FPDFInstalled)
         {
             Ext.ComponentMgr.get('btnEmpty').enable();
             Ext.ComponentMgr.get('btnPdf').enable();

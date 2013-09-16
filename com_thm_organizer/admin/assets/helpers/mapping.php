@@ -21,6 +21,70 @@ defined('_JEXEC') or die;
 class THM_OrganizerHelperMapping
 {
     /**
+     * Retrieves a list of all available programs
+     * 
+     * @return  array  the ids and names of all available programs
+     */
+    public static function getAllPrograms()
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("dp.id AS value, CONCAT(dp.subject, ' (', d.abbreviation, ' ', dp.version, ')') AS program");
+        $query->from('#__thm_organizer_programs AS dp');
+        $query->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
+        $query->innerJoin('#__thm_organizer_mappings AS m ON dp.id = m.programID');
+        $query->order('program ASC');
+        $dbo->setQuery((string) $query);
+        return $dbo->loadAssocList();
+    }
+
+    /**
+     * Retrieves the ranges for the resource mappings
+     * 
+     * @param   string  $column      the name of the column to be searched
+     * @param   int     $resourceID  the id of the resource in its native table
+     * 
+     * @return  array  the left and right values of the resource's mappings
+     */
+    public static function getRanges($column, $resourceID)
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('lft, rgt');
+        $query->from('#__thm_organizer_mappings');
+        $query->where("$column = '$resourceID'");
+        $dbo->setQuery((string) $query);
+        return $dbo->loadAssocList();
+    }
+
+    /**
+     * Retrieves the ids of associated degree programs
+     * 
+     * @param   array  $ranges  the ranges for the individual subject entries
+     * 
+     * @return  array  the ids of the associated programs
+     */
+    public static function getSelectedPrograms($ranges)
+    {
+        $dbo = JFactory::getDbo();
+        $rangeConditions = array();
+        foreach ($ranges as $range)
+        {
+            $rangeConditions[] = "( lft < '{$range['lft']}' AND rgt > '{$range['rgt']}' )";
+        }
+        $rangesClause = implode(' OR ', $rangeConditions);
+
+        $query = $dbo->getQuery(true);
+        $query->select("DISTINCT dp.id");
+        $query->from('#__thm_organizer_mappings AS m');
+        $query->innerJoin('#__thm_organizer_programs AS dp ON m.programID = dp.id');
+        $query->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
+        $query->where($rangesClause);
+        $dbo->setQuery((string) $query);
+        return $dbo->loadResultArray();
+    }
+
+    /**
      * Retrieves the parent ids of the resource in question
      *
      * @param   int      $resourceID  the resource id

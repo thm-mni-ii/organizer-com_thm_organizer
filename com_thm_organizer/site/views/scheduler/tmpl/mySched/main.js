@@ -178,7 +178,7 @@ MySched.Base = function ()
                     {
                         contentAnchorTip.destroy();
                     }
-                    if (!MySched.Schedule.isEmpty() && MySched.libraryFPDFIsInstalled)
+                    if (!MySched.Schedule.isEmpty() && MySched.FPDFInstalled)
                     {
                         Ext.ComponentMgr.get('btnPdf').enable();
                         if (_C('enableSubscribing'))
@@ -187,7 +187,7 @@ MySched.Base = function ()
                         }
                     }
 
-                    if(MySched.libraryFPDFIsInstalled)
+                    if(MySched.FPDFInstalled)
                     {
                         Ext.ComponentMgr.get('btnSave').enable();
                     }
@@ -373,7 +373,7 @@ MySched.Base = function ()
                     Ext.ComponentMgr.get('btnDel').disable();
                 });
 
-                if (MySched.SessionId && MySched.schedulerCalledWithMenu === true)
+                if (MySched.SessionId && MySched.schedulerFromMenu === true)
                 {
                     MySched.Authorize.verifyToken(MySched.SessionId,
                     MySched.Authorize.verifySuccess, MySched.Authorize);
@@ -2161,7 +2161,7 @@ MySched.layout = function ()
             });
 
             var hideTreePanel = false;
-            if(MySched.schedulerCalledWithMenu === false)
+            if(MySched.schedulerFromMenu === false)
             {
                 hideTreePanel = true;
             }
@@ -2410,7 +2410,7 @@ MySched.layout = function ()
             });
  
             var disablePDF = true;
-            if(MySched.libraryFPDFIsInstalled === true)
+            if(MySched.FPDFInstalled === true)
             {
                 disablePDF = false;
             }
@@ -2569,7 +2569,7 @@ MySched.layout = function ()
             });
 
             var disableICal = true;
-            if(MySched.libraryiCalcreatorIsInstalled === true)
+            if(MySched.iCalcreatorInstalled === true)
             {
                 disableICal = false;
             }

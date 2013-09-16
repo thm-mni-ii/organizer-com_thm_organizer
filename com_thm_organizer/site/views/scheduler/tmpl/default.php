@@ -75,40 +75,40 @@ if ($this->canWriteEvents === true)
         MySched.requestSubjectGPUntisIDs = 
             Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestSubjectGPUntisIDs)); ?>'));
 <?php
-if ($this->libraryFPDFIsInstalled)
+if ($this->FPDFInstalled)
 {
 ?>
-        MySched.libraryFPDFIsInstalled = true;
+        MySched.FPDFInstalled = true;
 <?php
 }
 else
 {
 ?>
-        MySched.libraryFPDFIsInstalled = false;
+        MySched.FPDFInstalled = false;
 <?php
 }
-if ($this->libraryiCalcreatorIsInstalled)
+if ($this->iCalcreatorInstalled)
 {
 ?>
-        MySched.libraryiCalcreatorIsInstalled = true;
-<?php
-}
-else
-{
-?>
-        MySched.libraryiCalcreatorIsInstalled = false;
-<?php
-}
-if ($this->schedulerCalledWithMenu)
-{
-?>
-        MySched.schedulerCalledWithMenu = true;
+        MySched.iCalcreatorInstalled = true;
 <?php
 }
 else
 {
 ?>
-        MySched.schedulerCalledWithMenu = false;
+        MySched.iCalcreatorInstalled = false;
+<?php
+}
+if ($this->schedulerFromMenu)
+{
+?>
+        MySched.schedulerFromMenu = true;
+<?php
+}
+else
+{
+?>
+        MySched.schedulerFromMenu = false;
 <?php
 }
 ?>
