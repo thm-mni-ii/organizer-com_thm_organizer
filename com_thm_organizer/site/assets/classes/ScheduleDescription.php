@@ -66,10 +66,10 @@ class THMScheduleDescription
     public function load()
     {
         // Get a db connection.
-        $db = JFactory::getDbo();
+        $dbo = JFactory::getDbo();
  
         // Create a new query object.
-        $query = $db->getQuery(true);
+        $query = $dbo->getQuery(true);
  
         // Select all records from the user profile table where key begins with "custom.".
         // Order it by the ordering field.
@@ -78,9 +78,9 @@ class THMScheduleDescription
         $query->where("'active != 'null' && sid = " . $this->_semID);
  
         // Reset the query using our newly populated query object.
-        $db->setQuery($query);
+        $dbo>setQuery($query);
  
-        $obj = $db->loadObject();
+        $obj = $dbo->loadObject();
 
         if (count($obj) == 0 || $obj == false)
         {

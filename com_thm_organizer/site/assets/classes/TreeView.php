@@ -693,8 +693,9 @@ class THMTreeView
                 else
                 {
                     $hasLessons = $this->treeNodeHasLessons($childKey, $scheduleType);
+                    
                     // Erstmal immer true!
-//                     $hasLessons = true;
+                    // $hasLessons = true;
                 }
 
                 $childNode = null;
@@ -838,12 +839,12 @@ class THMTreeView
  
             $filterFunction = function($obj) use ($fieldType, $nodeID)
             {
-            	if(!isset($obj->{$fieldType}))
+            	if (!isset($obj->{$fieldType}))
             	{
-	    		if($fieldType === "modules")
-	            	{
-	            	    $fieldType = "pools";
-	            	}
+                    if ($fieldType === "modules")
+                	{
+                	    $fieldType = "pools";
+                	}
             	}
                 return isset($obj->{$fieldType}->{$nodeID});
             };

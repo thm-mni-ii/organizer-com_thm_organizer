@@ -136,19 +136,19 @@ class THMUserSchedule
          {
             $timestamp = time();
 
-            $db = JFactory::getDbo();
+            $dbo = JFactory::getDbo();
  
-            $query = $db->getQuery(true);
+            $query = $dbo->getQuery(true);
 
             // Alte Eintraege loeschen - Performanter als abfragen und Updaten
-            $query->delete($db->quoteName("{$this->_cfg['db_table']}"));
+            $query->delete($dbo->quoteName("{$this->_cfg['db_table']}"));
             $query->where("WHERE username = '$this->_username' ");
  
-            $db->setQuery($query);
+            $dbo->setQuery($query);
  
             try
             {
-                $result = $db->query();
+                $result = $dbo->query();
             }
             catch (Exception $e)
             {
@@ -156,26 +156,26 @@ class THMUserSchedule
             }
  
             // Create a new query object.
-            $query = $db->getQuery(true);
+            $query = $dbo->getQuery(true);
  
             // Insert columns.
             $columns = array('username', 'data', 'created');
  
             // Insert values.
-            $values = array($db->quote($this->_username), $db->quote($this->_json), $db->quote($timestamp));
+            $values = array($dbo->quote($this->_username), $dbo->quote($this->_json), $dbo->quote($timestamp));
  
             // Prepare the insert query.
             $query
-            ->insert($db->quoteName('#__user_profiles'))
-            ->columns($db->quoteName($columns))
+            ->insert($dbo->quoteName('#__user_profiles'))
+            ->columns($dbo->quoteName($columns))
             ->values(implode(',', $values));
  
             // Reset the query using our newly populated query object.
-            $db->setQuery($query);
+            $dbo->setQuery($query);
             try
             {
                 // Execute the query in Joomla 2.5.
-                $result = $db->query();
+                $result = $dbo->query();
             }
             catch (Exception $e)
             {

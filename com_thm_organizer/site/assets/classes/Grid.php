@@ -63,10 +63,10 @@ class THMGrid
         if (isset( $this->_semID))
         {
             // Get a db connection.
-            $db = JFactory::getDbo();
+            $dbo = JFactory::getDbo();
  
             // Create a new query object.
-            $query = $db->getQuery(true);
+            $query = $dbo->getQuery(true);
  
             // Select all records from the user profile table where key begins with "custom.".
             // Order it by the ordering field.
@@ -75,10 +75,10 @@ class THMGrid
             $query->order('CAST(SUBSTRING(tpid, 4) AS SIGNED INTEGER)');
  
             // Reset the query using our newly populated query object.
-            $db->setQuery($query);
+            $dbo->setQuery($query);
  
             // Load the results as a list of stdClass objects.
-            $ret = $db->loadObjectList();
+            $ret = $dbo->loadObjectList();
 
             return array(
                          "success" => false,
