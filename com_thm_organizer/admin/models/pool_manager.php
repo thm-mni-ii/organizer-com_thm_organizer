@@ -11,6 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modellist');
+require_once JPATH_COMPONENT . '/assets/helpers/mapping.php';
 
 /**
  * Class provides functions for displaying a list of pools
@@ -31,7 +32,7 @@ class THM_OrganizerModelPool_Manager extends JModelList
     public function __construct()
     {
         parent::__construct();
-        $this->setPrograms();
+        $this->programs = THM_OrganizerHelperMapping::getPrograms();
     }
 
     /**
@@ -241,23 +242,5 @@ class THM_OrganizerModelPool_Manager extends JModelList
         $nameQuery->where("dp.id = '{$this->state->get('filter.program')}'");
         $dbo->setQuery((string) $nameQuery);
         $this->programName = $dbo->loadResult();
-    }
-
-    /**
-     * Retrieves a list of mapped programs
-     *
-     * @return  void
-     */
-    private function setPrograms()
-    {
-        $dbo = JFactory::getDbo();
-        $nameQuery = $dbo->getQuery(true);
-        $nameQuery->select("dp.id, CONCAT( dp.subject, ' (', d.abbreviation, ' ', dp.version, ')') AS name");
-        $nameQuery->from('#__thm_organizer_programs AS dp');
-        $nameQuery->innerJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
-        $nameQuery->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
-        $nameQuery->order('name');
-        $dbo->setQuery((string) $nameQuery);
-        $this->programs = $dbo->loadAssocList();
     }
 }

@@ -21,6 +21,79 @@ defined('_JEXEC') or die;
 class THM_OrganizerHelperMapping
 {
     /**
+     * Retrieves a list of mapped programs
+     *
+     * @return  mixed  an array of mapped programs on success, otherwise null
+     */
+    public static function getPrograms()
+    {
+        $dbo = JFactory::getDbo();
+        $nameQuery = $dbo->getQuery(true);
+        $nameQuery->select("dp.id, CONCAT( dp.subject, ', (', d.abbreviation, ' ', dp.version, ')') AS name");
+        $nameQuery->from('#__thm_organizer_programs AS dp');
+        $nameQuery->innerJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
+        $nameQuery->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
+        $nameQuery->order('name');
+        $dbo->setQuery((string) $nameQuery);
+        return $dbo->loadAssocList();
+    }
+
+    /**
+     * Sets the children to be used in form output
+     * 
+     * @param   object  &$model    the model calling the function
+     * @param   array   $children  the children of the resource modeled
+     * 
+     * @return  void
+     */
+    public static function setChildren(&$model, $children)
+    {
+        if (!empty($children))
+        {
+            $model->children = array();
+            foreach ($children as $child)
+            {
+                $model->children[$child['ordering']] = array();
+                if (!empty($child['poolID']))
+                {
+                    $formID = $child['poolID'] . 'p';
+                }
+                else
+                {
+                    $formID = $child['subjectID'] . 's';
+                }
+                $model->children[$child['ordering']]['id'] = $formID;
+                $model->children[$child['ordering']]['name'] = self::getChildName($formID);
+                $model->children[$child['ordering']]['poolID'] = $child['poolID'];
+                $model->children[$child['ordering']]['subjectID'] = $child['subjectID'];
+            }
+        }
+    }
+
+    /**
+     * Retrieves the child's name from the database
+     * 
+     * @param   string  $formID  the id used for the child element in the form
+     * 
+     * @return  string  the name of the child element
+     */
+    private static function getChildName($formID)
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $language = explode('-', JFactory::getLanguage()->getTag());
+        $type = strpos($formID, 'p')? 'pool' : 'subject';
+        $tableID = substr($formID, 0, strlen($formID) - 1);
+ 
+        $query->select("name_{$language[0]}");
+        $query->from("#__thm_organizer_{$type}s");
+        $query->where("id = '$tableID'");
+
+        $dbo->setQuery((string) $query);
+        return $dbo->loadResult();
+    }
+
+    /**
      * Retrieves a list of all available programs
      * 
      * @return  array  the ids and names of all available programs
@@ -131,6 +204,7 @@ class THM_OrganizerHelperMapping
         }
         return $children;
     }
+
     /**
      * Retrieves the mappings of superordinate programs
      * 

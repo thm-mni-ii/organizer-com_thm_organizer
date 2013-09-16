@@ -81,15 +81,7 @@ class THM_OrganizerModelField_Manager extends JModelList
     protected function populateState($orderBy = null, $orderDir = null)
     {
         THM_OrganizerHelper::populateState($this);
-
-        // Set the default ordering behaviour
-        if ($orderBy == '' && isset($orderBy))
-        {
-            parent::populateState("id", "ASC");
-        }
-        else
-        {
-            parent::populateState($orderBy, $orderDir);
-        }
+        empty($orderBy)?
+            parent::populateState("id", "ASC") : parent::populateState($orderBy, $orderDir);
     }
 }

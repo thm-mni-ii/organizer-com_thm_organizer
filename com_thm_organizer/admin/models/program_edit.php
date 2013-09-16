@@ -13,6 +13,7 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
 require_once 'mapping.php';
+require_once JPATH_COMPONENT . '/assets/helpers/mapping.php';
 
 /**
  * Class THM_OrganizerModelMajor for component com_thm_organizer
@@ -72,52 +73,10 @@ class THM_OrganizerModelProgram_Edit extends JModelAdmin
     private function getChildren($programID)
     {
         $mappingModel = new THM_OrganizerModelMapping;
-        $results = $mappingModel->getChildren($programID, 'program', false);
-        if (!empty($results))
-        {
-            $this->children = array();
-            foreach ($results as $child)
-            {
-                $this->children[$child['ordering']] = array();
-                if (!empty($child['poolID']))
-                {
-                    $formID = $child['poolID'] . 'p';
-                }
-                else
-                {
-                    $formID = $child['subjectID'] . 's';
-                }
-                $this->children[$child['ordering']]['id'] = $formID;
-                $this->children[$child['ordering']]['name'] = $this->getChildName($formID);
-                $this->children[$child['ordering']]['poolID'] = $child['poolID'];
-                $this->children[$child['ordering']]['subjectID'] = $child['subjectID'];
-            }
-        }
+        $children = $mappingModel->getChildren($programID, 'program', false);
+        THM_OrganizerHelperMapping::setChildren($this, $children);
     }
 
-    /**
-     * Retrieves the name of the child element from the appropriate table
-     *
-     * @param   string  $formID  the id to be used in the program edit form
-     *
-     * @return  string  the name of the child element
-     */
-    private function getChildName($formID)
-    {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $language = explode('-', JFactory::getLanguage()->getTag());
-        $type = strpos($formID, 'p')? 'pool' : 'subject';
-        $tableID = substr($formID, 0, strlen($formID) - 1);
- 
-        $query->select("name_{$language[0]}");
-        $query->from("#__thm_organizer_{$type}s");
-        $query->where("id = '$tableID'");
-
-        $dbo->setQuery((string) $query);
-        return $dbo->loadResult();
-    }
- 
     /**
      * Method to get the table
      *
