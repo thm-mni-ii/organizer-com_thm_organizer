@@ -2039,6 +2039,10 @@ Ext.define('EventModel',
             if (o.type === "teacher")
             {
                 var teacherName = getTeacherSurnameWithCutFirstName(MySched.Mapping.getTeacherKeyByID(o.id));
+                if(teacherName === o.id && Ext.isDefined(o.longname) && !Ext.isEmtpy(o.longname))
+                {
+                    teacherName = o.longname;
+                }
                 if (teacherNames !== "")
                 {
                     teacherNames += ", ";
@@ -2058,6 +2062,10 @@ Ext.define('EventModel',
             if (o.type === "room")
             {
                 var roomName = MySched.Mapping.getRoomKeyByID(o.id);
+                if(roomName === o.id && Ext.isDefined(o.longname) && !Ext.isEmtpy(o.longname))
+                {
+                    roomName = o.longname;
+                }
                 if (roomNames !== "")
                 {
                     roomNames += ", ";
