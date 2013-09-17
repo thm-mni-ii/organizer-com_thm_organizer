@@ -2041,7 +2041,7 @@ Ext.define('EventModel',
                 var teacherName = getTeacherSurnameWithCutFirstName(MySched.Mapping.getTeacherKeyByID(o.id));
                 if(teacherName === o.id && Ext.isDefined(o.surname) && !Ext.isEmpty(o.surname))
                 {
-                    teacherName = o.longname;
+                    teacherName = o.surname;
                 }
                 if (teacherNames !== "")
                 {
