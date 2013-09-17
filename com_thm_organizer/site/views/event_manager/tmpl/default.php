@@ -140,6 +140,7 @@ if ($this->display_type != 1 and $this->display_type != 5)
                     <?php echo JText::_('COM_THM_ORGANIZER_EL_COUNT_COUNT2'); ?>
                 </span>
             </div>
+        <input type="submit" style="position: absolute; left: -9999px"/>
 <?php
 if (count($this->events) > 0)
 {
@@ -305,6 +306,5 @@ else
         <input type="hidden" id="orderbydir" name="orderbydir" value="<?php echo $this->orderbydir; ?>" />
         <input type="hidden" id="itemID" name="Itemid" value="<?php echo $this->itemID; ?>" />
         <input type="hidden" id="task" name="task" value="" />
-        <input type="submit" style="position: absolute; left: -9999px"/>
     </form>
 </div>
