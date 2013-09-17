@@ -236,13 +236,27 @@ function calendar_tooltip (e)
                 {
                     name += ", ";
                 }
+
                 if (o.type === "teacher")
                 {
-                    name += "<small class='dozname'>" + getTeacherSurnameWithCutFirstName(MySched.Mapping.getTeacherKeyByID(o.id)) + "</small>";
+                    var teacherName = MySched.Mapping.getTeacherKeyByID(o.id);
+
+                    if(teacherName === o.id && Ext.isDefined(o.longname) && !Ext.isEmtpy(o.longname))
+                    {
+                        teacherName = o.longname;
+                    }
+                    
+                    name += "<small class='dozname'>" + getTeacherSurnameWithCutFirstName(teacherName) + "</small>";
                 }
                 else if (o.type === "room")
                 {
-                    name += "<small class='roomshortname'>" + MySched.Mapping.getRoomName(MySched.Mapping.getRoomKeyByID(o.id)) + "</small>";
+                    var roomName = MySched.Mapping.getRoomKeyByID(o.id);
+
+                    if(roomName === o.id && Ext.isDefined(o.longname) && !Ext.isEmtpy(o.longname))
+                    {
+                        roomName = o.longname;
+                    }
+                    name += "<small class='roomshortname'>" + MySched.Mapping.getRoomName(roomName) + "</small>";
                 }
             }
 
