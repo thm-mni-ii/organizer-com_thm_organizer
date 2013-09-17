@@ -5,6 +5,7 @@
  * @subpackage  com_thm_organizer.site
  * @name        thm_organizerViewScheduler
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
+ * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2013 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
@@ -13,12 +14,12 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
- * HTML View class for the THM Organizer Component
+ * View class for the display of schedules
  *
- * @category  Joomla.Component.Site
- * @package   thm_organizer
+ * @category    Joomla.Component.Site
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.site
  */
-
 class THM_OrganizerViewScheduler extends JView
 {
     /**
@@ -41,12 +42,10 @@ class THM_OrganizerViewScheduler extends JView
         }
  
         // Check wether the FPDF library is installed
-        $FPDFInstalled = jimport('fpdf.fpdf');
-        $this->FPDFInstalled = $FPDFInstalled;
+        $this->FPDFInstalled = jimport('fpdf.fpdf');
  
         // Check wether the iCalcreator library is installed
-        $iCalcreatorInstalled = jimport('iCalcreator.iCalcreator');
-        $this->iCalcreatorInstalled = $iCalcreatorInstalled;
+        $this->iCalcreatorInstalled = jimport('iCalcreator.iCalcreator');
  
         $doc = JFactory::getDocument();
         $doc->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/scheduler.css');
@@ -148,11 +147,11 @@ class THM_OrganizerViewScheduler extends JView
                 unset($scheduleData->teachers); 
                 if (isset($scheduleData->pools))
                 {
-                	$modules = $scheduleData->pools;
+                    $modules = $scheduleData->pools;
                 }
                 else
                 {
-                	$modules = $scheduleData->modules;
+                    $modules = $scheduleData->modules;
                 }
                 unset($scheduleData->modules);
                 $calendar = $scheduleData->calendar;
@@ -226,7 +225,7 @@ class THM_OrganizerViewScheduler extends JView
         }
         else 
         {
-        	$this->loadLessonsOnStartUp = (bool) $menuparams->get("loadLessonsOnStartUp");
+            $this->loadLessonsOnStartUp = (bool) $menuparams->get("loadLessonsOnStartUp");
         }
 
         if ($this->loadLessonsOnStartUp == true)

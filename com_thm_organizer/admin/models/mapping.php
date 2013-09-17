@@ -33,94 +33,124 @@ class THM_OrganizerModelMapping extends JModel
     public function addLSFMappings($programID, &$lsfData)
     {
         $mappingsTable = JTable::getInstance('mappings', 'THM_OrganizerTable');
-        $poolsTable = JTable::getInstance('pools', 'THM_OrganizerTable');
-        $subjectsTable = JTable::getInstance('subjects', 'THM_OrganizerTable');
-
         $programMappingLoaded = $mappingsTable->load(array('programID' => $programID));
         if (!$programMappingLoaded)
         {
             return false;
         }
-        $programMappingID = $mappingsTable->id;
 
-        $child = array();
-        $child['parentID'] = $programMappingID;
         foreach ($lsfData->gruppe AS $resource)
         {
-            if ($resource->pordtyp == 'K')
+            switch ($resource->pordtyp)
             {
-                $poolLoaded = $poolsTable->load(array('lsfID' => $resource->pordid));
-                if (!$poolLoaded)
-                {
-                    return false;
-                }
-
-                $poolID = $poolsTable->id;
-                $rowExists = $mappingsTable->load(array('parentID' => $programMappingID, 'poolID' => $poolID));
-                if (!$rowExists)
-                {
-                    $child['poolID'] = $poolID;
-                    $child['subjectID'] = null;
-                    $child['ordering'] = $this->getOrdering($programMappingID, $poolID);
-                    $poolAdded = $this->addPool($child);
-                    if (!$poolAdded)
+                case 'K':
+                    $poolMapped = $this->addLSFPool($resource, $mappingsTable->id);
+                    if (!$poolMapped)
                     {
                         return false;
                     }
-                    $mappingsTable->load(array('parentID' => $programMappingID, 'poolID' => $poolID));
-                }
-                if (isset($resource->modulliste->modul))
-                {
-                    $poolMappingID = $mappingsTable->id;
-
-                    $subjectData = array();
-                    $subjectData['parentID'] = $poolMappingID;
-                    $subjectData['poolID'] = null;
-                    foreach ($resource->modulliste->modul as $subject)
+                    break;
+                default:
+                    $subjectMapped = $this->addLSFSubject($resource, $mappingsTable->id);
+                    if (!$subjectMapped)
                     {
-                        $lsfID = (string) (empty($subject->modulid)?  $subject->pordid : $subject->modulid);
-                        $subjectLoaded = $subjectsTable->load(array('lsfID' => $lsfID));
-                        if (!$subjectLoaded)
-                        {
-                            return false;
-                        }
-                        $rowExists = $mappingsTable->load(array('parentID' => $poolMappingID, 'subjectID' => $subjectsTable->id));
-                        if ($rowExists)
-                        {
-                            continue;
-                        }
- 
-                        $subjectData['subjectID'] = $subjectsTable->id;
-                        $subjectData['ordering'] = $this->getOrdering($poolMappingID, $subjectsTable->id, 'subject');
-                        $subjectAdded = $this->addSubject($subjectData);
-                        if (!$subjectAdded)
-                        {
-                            return false;
-                        }
+                        return false;
                     }
-                }
+                    break;
             }
-            else
+        }
+        return true;
+    }
+
+    /**
+     * Adds a pool from LSF to the mappings table
+     * 
+     * @param   object  &$pool             the object representing the LSF pool
+     * @param   int     $programMappingID  the id of the program mapping
+     * 
+     * @return  boolean  true if the pool is mapped, otherwise false
+     */
+    private function addLSFPool(&$pool, $programMappingID)
+    {
+        $mappingsTable = JTable::getInstance('mappings', 'THM_OrganizerTable');
+        $poolsTable = JTable::getInstance('pools', 'THM_OrganizerTable');
+        $app = JFactory::getApplication();
+
+        $poolLoaded = $poolsTable->load(array('lsfID' => $pool->pordid));
+        if (!$poolLoaded)
+        {
+            $app->enqueueMessage('COM_THM_ORGANIZER_POOL_LOAD_FAIL', 'error');
+            return false;
+        }
+
+        $mappingExists = $mappingsTable->load(array('parentID' => $programMappingID, 'poolID' => $poolsTable->id));
+        if (!$mappingExists)
+        {
+            $poolMapping = array();
+            $poolMapping['parentID'] = $programMappingID;
+            $poolMapping['poolID'] = $poolsTable->id;
+            $poolMapping['subjectID'] = null;
+            $poolMapping['ordering'] = $this->getOrdering($programMappingID, $poolsTable->id);
+            $poolAdded = $this->addPool($poolMapping);
+            if (!$poolAdded)
             {
-                $subjectLoaded = $subjectsTable->load(array('lsfID' => $resource->pordid));
-                if (!$subjectLoaded)
-                {
-                    return false;
-                }
-                $rowExists = $mappingsTable->load(array('parentID' => $programMappingID, 'subjectID' => $subjectsTable->id));
-                if ($rowExists)
-                {
-                    continue;
-                }
-                $child['poolID'] = null;
-                $child['subjectID'] = $subjectsTable->id;
-                $child['ordering'] = $this->getOrdering($programMappingID, $subjectsTable->id, 'subject');
-                $subjectAdded = $this->addSubject($child);
-                if (!$subjectAdded)
+                $app->enqueueMessage('COM_THM_ORGANIZER_POOL_ADD_FAIL', 'error');
+                return false;
+            }
+            $mappingsTable->load(array('parentID' => $programMappingID, 'poolID' => $poolsTable->id));
+        }
+        if (isset($pool->modulliste->modul))
+        {
+            foreach ($pool->modulliste->modul as $subject)
+            {
+                $subjectMapped = $this->addLSFSubject($subject, $mappingsTable->id);
+                if (!$subjectMapped)
                 {
                     return false;
                 }
             }
+        }
+        return true;
+    }
+
+    /**
+     * Adds a subject from LSF to the mappings table
+     * 
+     * @param   object  &$subject         the subject object
+     * @param   int     $parentMappingID  the id of the parent element in the
+     *                                    mappings table
+     * 
+     * @return  boolean  true if the mapping exists, otherwise false
+     */
+    private function addLSFSubject(&$subject, $parentMappingID)
+    {
+        $mappingsTable = JTable::getInstance('mappings', 'THM_OrganizerTable');
+        $subjectsTable = JTable::getInstance('subjects', 'THM_OrganizerTable');
+        $app = JFactory::getApplication();
+        
+        $lsfID = (string) (empty($subject->modulid)?  $subject->pordid : $subject->modulid);
+        $subjectLoaded = $subjectsTable->load(array('lsfID' => $lsfID));
+        if (!$subjectLoaded)
+        {
+            $app->enqueueMessage('COM_THM_ORGANIZER_SUBJECT_LOAD_FAIL', 'error');
+            return false;
+        }
+        $mappingExists = $mappingsTable->load(array('parentID' => $parentMappingID, 'subjectID' => $subjectsTable->id));
+        if ($mappingExists)
+        {
+            return true;
+        }
+
+        $subjectMapping = array();
+        $subjectMapping['parentID'] = $parentMappingID;
+        $subjectMapping['poolID'] = null;
+        $subjectMapping['subjectID'] = $subjectsTable->id;
+        $subjectMapping['ordering'] = $this->getOrdering($parentMappingID, $subjectsTable->id, 'subject');
+        $subjectAdded = $this->addSubject($subjectMapping);
+        if (!$subjectAdded)
+        {
+            $app->enqueueMessage('COM_THM_ORGANIZER_SUBJECT_ADD_FAIL', 'error');
+            return false;
         }
         return true;
     }

@@ -28,8 +28,8 @@ class THM_OrganizerViewAjaxHandler extends JView
      * @param   String  $tpl  template
      *
      * @return void
-     *
-     * @see JView::display()
+     * 
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function display($tpl = null)
     {

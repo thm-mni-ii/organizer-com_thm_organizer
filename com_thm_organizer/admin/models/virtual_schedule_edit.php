@@ -31,6 +31,8 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
      * @param   Array  $loadData  An array with data to load (Default: Array)
      *
      * @return    mixed  A JForm object on success, false on failure
+     * 
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getForm($data = array(), $loadData = true)
     {

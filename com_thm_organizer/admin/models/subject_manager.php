@@ -46,7 +46,7 @@ class THM_OrganizerModelSubject_Manager extends JModelList
             $this->populateState();
             $this->__state_set = true;
         }
-        $this->programs =  THM_OrganizerHelperMapping::getPrograms();
+        $this->programs = THM_OrganizerHelperMapping::getPrograms();
         $programID = $this->state->get('filter.program');
         if (!empty($programID))
         {
