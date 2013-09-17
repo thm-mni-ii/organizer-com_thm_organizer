@@ -241,7 +241,7 @@ function calendar_tooltip (e)
                 {
                     var teacherName = MySched.Mapping.getTeacherKeyByID(o.id);
 
-                    if(teacherName === o.id && Ext.isDefined(o.longname) && !Ext.isEmtpy(o.longname))
+                    if(teacherName === o.id && Ext.isDefined(o.longname) && !Ext.isEmpty(o.longname))
                     {
                         teacherName = o.longname;
                     }
@@ -252,7 +252,7 @@ function calendar_tooltip (e)
                 {
                     var roomName = MySched.Mapping.getRoomKeyByID(o.id);
 
-                    if(roomName === o.id && Ext.isDefined(o.longname) && !Ext.isEmtpy(o.longname))
+                    if(roomName === o.id && Ext.isDefined(o.longname) && !Ext.isEmpty(o.longname))
                     {
                         roomName = o.longname;
                     }
