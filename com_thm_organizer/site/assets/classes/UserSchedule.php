@@ -76,7 +76,7 @@ class THMUserSchedule
    {
       $this->_JDA = $JDA;
       $this->_jsid = $this->_JDA->getUserSessionID();
-      $this->_json = $this->_JDA->getDBO()->getEscaped(file_get_contents("php://input"));
+      $this->_json = file_get_contents("php://input");
  
       if (isset($options["username"]))
       {
@@ -143,7 +143,7 @@ class THMUserSchedule
 
             // Alte Eintraege loeschen - Performanter als abfragen und Updaten
             $query->delete($dbo->quoteName("{$this->_cfg['db_table']}"));
-            $query->where("WHERE username = '$this->_username' ");
+            $query->where("username = '$this->_username' ");
  
             $dbo->setQuery($query);
  
@@ -167,10 +167,10 @@ class THMUserSchedule
  
             // Prepare the insert query.
             $query
-            ->insert($dbo->quoteName('#__user_profiles'))
+            ->insert($dbo->quoteName("{$this->_cfg['db_table']}"))
             ->columns($dbo->quoteName($columns))
             ->values(implode(',', $values));
- 
+             
             // Reset the query using our newly populated query object.
             $dbo->setQuery($query);
             try
@@ -257,7 +257,7 @@ class THMUserSchedule
          {
             return array("data" => $data);
          }
- 
+          
          return array("success" => true, "data" => $data);
       }
       else
