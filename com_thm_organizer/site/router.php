@@ -117,6 +117,7 @@ function THM_organizerParseRoute($segments)
             $vars['languageTag'] = $segments[1];
             $vars['groupBy'] = explode(':', $segments[2]);
             $vars['groupBy'] = $vars['groupBy'][0];
+            
             if (!empty($segments[3]))
             {
                 $vars['Itemid'] = $segments[3];
