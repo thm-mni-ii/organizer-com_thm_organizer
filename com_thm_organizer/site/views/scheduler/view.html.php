@@ -48,7 +48,7 @@ class THM_OrganizerViewScheduler extends JView
         $this->iCalcreatorInstalled = jimport('iCalcreator.iCalcreator');
  
         $doc = JFactory::getDocument();
-        $doc->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/scheduler.css');
+        $doc->addStyleSheet($this->baseurl . '/libraries/extjs4/css/ext-all-gray.css');
         $doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/mySched/style.css");
 
         $schedulerModel = $this->getModel();
