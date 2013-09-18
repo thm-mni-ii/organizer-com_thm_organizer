@@ -251,7 +251,7 @@ class THM_OrganizerViewScheduler extends JView
                                 $lessons[$lessonID]->lessonKey = $lessonKey;
                                 $lessons[$lessonID]->block = $blockKey;
                                 $lessons[$lessonID]->dow = $dow;
-                                if(isset($lessons[$lessonID]->pools))
+                                if (isset($lessons[$lessonID]->pools))
                                 {
                                     $lessons[$lessonID]->modules = $lessons[$lessonID]->pools;
                                 }

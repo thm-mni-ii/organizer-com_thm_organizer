@@ -21,70 +21,272 @@ defined('_JEXEC') or die;
 function THM_organizerBuildRoute(&$query)
 {
     $segments = array();
-
     $menu = JFactory::getApplication()->getMenu();
     $item = empty($query['Itemid'])?
         $menu->getActive() : $menu->getItem($query['Itemid']);
-    if (!empty($item) AND
-     (empty($query['view']) OR $query['view'] == $item->query['view']))
+    $view = empty($query['view'])? $item->query['view'] : $query['view'];
+
+    // Invalid
+    if (empty($view))
     {
-        if (!empty($query['view']))
-        {
-            unset($query['view']);
-        }
         return $segments;
+    }
+
+    switch ($view)
+    {
+        case 'event_details':
+            setEventDetailsSegments($query, $segments);
+            break;
+        case 'event_edit':
+            setEventEditSegments($query, $segments, $item);
+            break;
+        case 'subject_details':
+            setSubjectDetailsSegments($query, $segments);
+            break;
+        case 'subject_list':
+            setSubjectListSegments($query, $segments, $item);
+            break;
+        case 'ajaxhandler':
+            setAjaxHandlerSegment($query, $segments);
+            break;
+        case 'scheduler':
+        case 'event_manager':
+        default:
+            break;
+    }
+    return $segments;
+}
+
+/**
+ * Sets the segments necessary for the event details view
+ * 
+ * @param   array  &$query     the url query parameters
+ * @param   array  &$segments  the segments for the sef url
+ * 
+ * @return  void
+ */
+function setEventDetailsSegments(&$query, &$segments)
+{
+    if (empty($query['eventID']))
+    {
+        return;
+    }
+
+    $segments[] = $query['view'];
+    unset($query['view']);
+
+    $segments[] = getEventSegment($query['eventID']);
+    unset($query['eventID']);
+
+    setItemidSegment($query, $segments);
+}
+
+/**
+ * Sets the segments necessary for the event edit view
+ * 
+ * @param   array   &$query     the url query parameters
+ * @param   array   &$segments  the segments for the sef url
+ * @param   object  &$item      the associated menu item (if applicable)
+ * 
+ * @return  void
+ */
+function setEventEditSegments(&$query, &$segments, &$item)
+{
+    if ($item->query['view'] == 'edit_event')
+    {
+        return;
+    }
+    $segments[] = $query['view'];
+    unset($query['view']);
+    $segments[] = empty($query['eventID'])?
+        '0:new-event' : getEventSegment($query['eventID']);
+    if (isset($query['eventID']))
+    {
+        unset($query['eventID']);
+    }
+    setItemidSegment($query, $segments);
+}
+
+/**
+ * Retrieves the sef friendly title of an existing event
+ * 
+ * @param   string  $eventID  the id of the event
+ * 
+ * @return  string  the alias (if available) and event id
+ */
+function getEventSegment($eventID)
+{
+    $dbo = JFactory::getDbo();
+    $query = $dbo->getQuery(true);
+    $query->select('alias')->from('#__content')->where("id = '$eventID'");
+    $dbo->setQuery((string) $query);
+    $alias = $dbo->loadResult();
+    return empty($alias)? $eventID : "$eventID:$alias";
+}
+
+/**
+ * Sets the segments necessary for the event details view
+ * 
+ * @param   array  &$query     the url query parameters
+ * @param   array  &$segments  the segments for the sef url
+ * 
+ * @return  void
+ */
+function setSubjectDetailsSegments(&$query, &$segments)
+{
+    if (empty($query['id']))
+    {
+        return;
+    }
+
+    $segments[] = $query['view'];
+    unset($query['view']);
+
+    $tag = getLanguageTag($query);
+    $segments[] = $tag;
+
+    $dbo = JFactory::getDbo();
+    $nameQuery = $dbo->getQuery(true);
+    $nameQuery->select("name_$tag")->from('#__thm_organizer_subjects')->where("id = '{$query['id']}'");
+    $dbo->setQuery((string) $nameQuery);
+    $name = $dbo->loadResult();
+    $safeName = JFilterOutput::stringURLSafe($name);
+    $segments[] = empty($safeName)? $query['id'] : "{$query['id']}:$safeName";
+    unset($query['id']);
+
+    setItemidSegment($query, $segments);
+}
+
+/**
+ * Sets the segments necessary for the subject list view
+ * 
+ * @param   array   &$query     the url query parameters
+ * @param   array   &$segments  the segments for the sef url
+ * @param   object  &$item      the associated menu item (if applicable)
+ * 
+ * @return  void
+ */
+function setSubjectListSegments(&$query, &$segments, &$item)
+{
+    $programID = $item->params->get('programID');
+
+    if ($item->query['view'] == 'subject_list' AND !isset($query['groupBy']) AND !isset($query['languageTag'])
+     OR empty($programID))
+    {
+        return;
     }
 
     if (!empty($query['view']))
     {
-        $view = $query['view'];
         unset($query['view']);
-        $segments[] = $view;
-
-        $activeLanguage = explode('-', JFactory::getLanguage()->getTag());
-        if (empty($query['languageTag']))
-        {
-            $languageTag = $activeLanguage[0];
-        }
-        else
-        {
-            $languageTag = $query['languageTag'];
-            unset($query['languageTag']);
-        }
-
-        switch ($view)
-        {
-            case 'event_details':
-            case 'event_edit':
-                $segments[] = !empty($query['eventID'])?
-                    getEventSegment($query['eventID']) : '0-new-event';
-                unset($query['eventID']);
-                break;
-            case 'subject_details':
-                $segments[] = $languageTag;
-                $segments[] = getSubjectSegment($query['id']);
-                unset($query['id']);
-                break;
-            case 'subject_list':
-                $segments[] = $languageTag;
-                $segments[] = getGroupBySegment(isset($query['groupBy'])? $query['groupBy'] : '0');
-                unset($query['groupBy']);
-                break;
-            case 'ajaxhandler':
-                $segments[] = $query['format'];
-                unset($query['format']);
-            case 'scheduler':
-            case 'event_manager':
-            default:
-                break;
-        }
     }
-    if (isset ($query['Itemid']))
+
+    $dbo = JFactory::getDbo();
+    $programQuery = $dbo->getQuery(true);
+    $programQuery->select("CONCAT(p.subject, ' (', d.abbreviation, ' ', p.version, ')')");
+    $programQuery->from('#__thm_organizer_programs AS p')->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
+    $programQuery->where("p.id = '$programID'");
+    $dbo->setQuery((string) $programQuery);
+    $name = $dbo->loadResult();
+
+    $segments[] = 'subject_list:' . JFilterOutput::stringURLSafe($name);
+    $segments[] = getLanguageTag($query);
+    setGroupBySegment($query, $segments);
+    setItemidSegment($query, $segments);
+}
+
+/**
+ * Gets the language tag, either from the query or the joomla framework
+ * 
+ * @param   array  &$query  the url query
+ * 
+ * @return  string  the language tag
+ */
+function getLanguageTag(&$query)
+{
+    $activeLanguage = explode('-', JFactory::getLanguage()->getTag());
+    $tag = empty($query['languageTag'])? $activeLanguage[0] : $query['languageTag'];
+    if (isset($query['languageTag']))
+    {
+        unset($query['languageTag']);
+    }
+    return $tag;
+}
+
+/**
+ * Sets the segments necessary for the ajaxhandler view
+ * 
+ * @param   array  &$query     the url query as array
+ * @param   array  &$segments  the sequential parameters
+ * 
+ * @return  void
+ */
+function setGroupBySegment(&$query, &$segments)
+{
+    if (!isset($query['groupBy']))
+    {
+        $segments[] = 'alphabetical';
+        return;
+    }
+    switch ($query['groupBy'])
+    {
+        case '0':
+            $segments[] = 'alphabetical';
+            break;
+        case '1':
+            $segments[] = 'bypool';
+            break;
+        case '2':
+            $segments[] = 'byteacher';
+            break;
+        case '3':
+            $segments[] = 'byfield';
+            break;
+    }
+    unset($query['groupBy']);
+    return;
+}
+
+/**
+ * Creates a human readable groupby segment
+ * 
+ * @param   array  &$query     the url query as array
+ * @param   array  &$segments  the sequential parameters
+ * 
+ * @return  void
+ */
+function setAjaxHandlerSegment(&$query, &$segments)
+{
+    if (empty($query['format']))
+    {
+        return;
+    }
+
+    $segments[] = $query['view'];
+    unset($query['view']);
+    $segments[] = $query['format'];
+    unset($query['format']);
+
+    setItemidSegment($query, $segments);
+}
+/**
+ * Sets the item id segment if existent
+ * 
+ * @param   array  &$query     the url query as array
+ * @param   array  &$segments  the sequential parameters
+ * 
+ * @return void
+ */
+function setItemidSegment(&$query, &$segments)
+{
+    if (!empty($query['Itemid']))
     {
         $segments[] = $query['Itemid'];
+    }
+    if (isset($query['Itemid']))
+    {
         unset($query['Itemid']);
     }
-    return $segments;
 }
 
 /**
@@ -102,7 +304,8 @@ function THM_organizerParseRoute($segments)
         return $vars;
     }
 
-    $vars['view'] = $segments[0];
+    $viewArray = explode(':', $segments[0]);
+    $vars['view'] = $viewArray[0];
     switch ($vars['view'])
     {
         case 'event_details':
@@ -124,24 +327,26 @@ function THM_organizerParseRoute($segments)
             }
             break;
         case 'subject_list':
-            if (count($segments) <= 1)
-            {
-                $activeLanguage = explode('-', JFactory::getLanguage()->getTag());
-                $vars['languageTag'] = $activeLanguage[0];
-                if (!empty($segments[1]))
-                {
-                    $vars['Itemid'] = $segments[1];
-                }
-                
-                break;
-            }
             $vars['languageTag'] = $segments[1];
-            $groupByArray = explode(':', $segments[2]);
-            $vars['groupBy'] = $groupByArray[0];
+            $groupBy = $segments[2];
+            switch ($groupBy)
+            {
+                case 'alphabetical':
+                    $vars['groupBy'] = '0';
+                    break;
+                case 'bypool';
+                    $vars['groupBy'] = '1';
+                    break;
+                case 'byteacher';
+                    $vars['groupBy'] = '2';
+                    break;
+                case 'byfield';
+                    $vars['groupBy'] = '3';
+                    break;
+            }
             if (!empty($segments[3]))
             {
-                $itemIDArray = explode(':', $segments[3]);
-                $vars['Itemid'] = $itemIDArray[0];
+                $vars['Itemid'] = $segments[3];
             }
             break;
         case 'ajaxhandler':
@@ -153,62 +358,4 @@ function THM_organizerParseRoute($segments)
             break;
     }
     return $vars;
-}
-
-/**
- * Creates a human readable event segment
- * 
- * @param   string  $eventID  the id of the event
- * 
- * @return  string  the alias (if available) and event id
- */
-function getEventSegment($eventID)
-{
-    $dbo = JFactory::getDbo();
-    $query = $dbo->getQuery(true);
-    $query->select('alias')->from('#__content')->where("id = '$eventID'");
-    $dbo->setQuery((string) $query);
-    $alias = $dbo->loadResult();
-    return empty($alias)? $eventID : "$eventID:$alias";
-}
-
-/**
- * Creates a human readable event segment
- * 
- * @param   string  $subjectID  the id of the event
- * 
- * @return  string  the alias (if available) and event id
- */
-function getSubjectSegment($subjectID)
-{
-    $languageTag = explode('-', JFactory::getLanguage()->getTag());
-    $dbo = JFactory::getDbo();
-    $query = $dbo->getQuery(true);
-    $query->select("name_{$languageTag[0]}")->from('#__thm_organizer_subjects')->where("id = '$subjectID'");
-    $dbo->setQuery((string) $query);
-    $name = $dbo->loadResult();
-    $safeName = JFilterOutput::stringURLSafe($name);
-    return empty($safeName)? $subjectID : "$subjectID:$safeName";
-}
-
-/**
- * Creates a human readable event segment
- * 
- * @param   string  $groupBy  the groupby selector
- * 
- * @return  string  the alias (if available) and event id
- */
-function getGroupBySegment($groupBy)
-{
-    switch ($groupBy)
-    {
-        case '1':
-        return '1:bysubject';
-        case '2':
-        return '2:byteacher';
-        case '3':
-        return '3:byfield';
-        case '0':
-        return '0:alphabetical';
-    }
 }
