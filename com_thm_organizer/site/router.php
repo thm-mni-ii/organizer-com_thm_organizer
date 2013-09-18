@@ -48,16 +48,20 @@ function THM_organizerBuildRoute(&$query)
                 $segments[] = $languageTag;
                 $segments[] = getGroupBySegment(isset($query['groupBy'])? $query['groupBy'] : '0');
                 unset($query['groupBy']);
+                break;
+            case 'ajaxhandler':
+                $segments[] = $query['format'];
+                unset($query['format']);
             case 'scheduler':
             case 'event_manager':
             default:
                 break;
         }
-        if (isset ($query['Itemid']))
-        {
-            $segments[] = $query['Itemid'];
-            unset($query['Itemid']);
-        }
+    }
+    if (isset ($query['Itemid']))
+    {
+        $segments[] = $query['Itemid'];
+        unset($query['Itemid']);
     }
     return $segments;
 }
@@ -115,6 +119,9 @@ function THM_organizerParseRoute($segments)
                 $vars['Itemid'] = $segments[3];
             }
             break;
+        case 'ajaxhandler':
+            $vars['format'] = $segments[1];
+            $vars['Itemid'] = $segments[2];
         case 'scheduler':
         case 'event_manager':
         default:
@@ -162,7 +169,7 @@ function getSubjectSegment($subjectID)
 /**
  * Creates a human readable event segment
  * 
- * @param   string  $groupingID  the id grouping
+ * @param   string  $groupBy  the groupby selector
  * 
  * @return  string  the alias (if available) and event id
  */
@@ -171,12 +178,12 @@ function getGroupBySegment($groupBy)
     switch ($groupBy)
     {
         case '1':
-            return '1:bysubject';
+        return '1:bysubject';
         case '2':
-            return '2:byteacher';
+        return '2:byteacher';
         case '3':
-            return '3:byfield';
+        return '3:byfield';
         case '0':
-            return '0:alphabetical';
+        return '0:alphabetical';
     }
 }

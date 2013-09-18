@@ -97,12 +97,19 @@ class THMTreeView
         $this->_JDA = $JDA;
         $this->_cfg = $CFG->getCFG();
 
-        $menuid = JRequest::getInt("menuID", 0);
+        $menuID = JRequest::getInt("menuID", 0);
+        if (!empty($menuID))
+        {
+            $isBackend = true;
+        }
+        else
+        {
+            $menuID = JRequest::getInt("Itemid", 0);
+            $isBackend = false;
+        }
+        $menuItem = JFactory::getApplication()->getMenu()->getItem($menuID);
 
-        $site = new JSite;
-        $menu = $site->getMenu();
-        
-        if ($menuid == 0 && is_null($menu->getActive()))
+        if (empty($menuItem))
         {
             $options["hide"] = false;
             $this->_checked = array();
@@ -112,16 +119,12 @@ class THMTreeView
         }
         else
         {
-            if ($menuid != 0)
+            if (!$isBackend)
             {
-                $menuparams = $menu->getParams($menuid);
-            }
-            else
-            {
-                $menuparams = $menu->getParams($menu->getActive()->id);
                 $options["hide"] = true;
             }
-            
+            $menuparams = $menuItem->params;
+
             if (isset($options["path"]))
             {
                 $this->_checked = (array) $options["path"];
