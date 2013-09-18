@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
  * @return  array  the URL arguments to use to assemble the subsequent URL.
  */
 function THM_organizerBuildRoute(&$query)
-{var_dump($query);
+{
     $segments = array();
     if (!empty($query['view']))
     {
