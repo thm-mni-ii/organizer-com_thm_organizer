@@ -41,6 +41,7 @@
             <filename>thm_organizer.php</filename>
             <filename>controller.php</filename>
             <filename>LICENSE.txt</filename>
+            <filename>router.php</filename>
             <folder>assets</folder>
             <folder>controllers</folder>
             <folder>helper</folder>
