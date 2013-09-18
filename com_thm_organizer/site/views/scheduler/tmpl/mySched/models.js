@@ -266,7 +266,7 @@ Ext.define('ScheduleModel',
             return MySched.delta.data.get(id);
         }
         var Plesson = this.data.get(id);
-        if (Plesson !== null && Plesson.data !== null && Plesson.data.type === "personal")
+        if (Plesson !== null && Ext.isDefined(Plesson) && Ext.isDefined(Plesson.data) && Plesson.data !== null && Plesson.data.type === "personal")
         {
             return MySched.Schedule.data.get(id);
         }
@@ -1036,6 +1036,7 @@ Ext.define('ScheduleModel',
             asArrRet[lesson.id].modules = asArrRet[lesson.id].modules.map;
             asArrRet[lesson.id].teachers = asArrRet[lesson.id].teachers.map;
             asArrRet[lesson.id].subjects = asArrRet[lesson.id].subjects.map;
+            asArrRet[lesson.id].rooms = asArrRet[lesson.id].rooms.map;
         }
  
         return asArrRet;
@@ -2039,6 +2040,10 @@ Ext.define('EventModel',
             if (o.type === "teacher")
             {
                 var teacherName = getTeacherSurnameWithCutFirstName(MySched.Mapping.getTeacherKeyByID(o.id));
+                if(teacherName === o.id && Ext.isDefined(o.surname) && !Ext.isEmpty(o.surname))
+                {
+                    teacherName = o.surname;
+                }
                 if (teacherNames !== "")
                 {
                     teacherNames += ", ";
@@ -2058,6 +2063,10 @@ Ext.define('EventModel',
             if (o.type === "room")
             {
                 var roomName = MySched.Mapping.getRoomKeyByID(o.id);
+                if(roomName === o.id && Ext.isDefined(o.longname) && !Ext.isEmpty(o.longname))
+                {
+                    roomName = o.longname;
+                }
                 if (roomNames !== "")
                 {
                     roomNames += ", ";
