@@ -202,16 +202,16 @@ class THM_OrganizerHelperEvent
         // One day events and reoccuring events use the 'same' time text
         if ($data['startdate'] == $data['enddate'] or $data['rec_type'] == 1)
         {
-            if ($data['starttime'] != "")
+            if ($data['starttime'] != "00:00")
             {
                 $timeText .= $withText == true? JText::_('COM_THM_ORGANIZER_E_FROM') : ' ';
                 $timeText .= $data['starttime'];
             }
-            if ($data['endtime'] != "")
+            if ($data['endtime'] != "00:00")
             {
                 $timeText .= JText::_('COM_THM_ORGANIZER_E_TO') . $data['endtime'];
             }
-            if ($data['starttime'] == "" and $data['endtime'] == "")
+            if ($data['starttime'] == "00:00" AND $data['endtime'] == "00:00")
             {
                 $timeText .= JText::_("COM_THM_ORGANIZER_E_ALLDAY");
             }
@@ -228,7 +228,7 @@ class THM_OrganizerHelperEvent
         {
             $dateText .= $withText == true? JText::_('COM_THM_ORGANIZER_E_BETWEEN') : '';
             $dateText .= $data['nativestartdate'];
-            $dateText .= JText::_('COM_THM_ORGANIZER_E_AND') . $data['nativeenddate'];
+            $dateText .= JText::_('COM_THM_ORGANIZER_E_TO') . $data['nativeenddate'];
             $dateText .= $timeText;
         }
         // Block events which span multiple days

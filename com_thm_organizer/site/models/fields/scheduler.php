@@ -119,7 +119,7 @@ class JFormFieldScheduler extends JFormField
     images.selected = prefix + '/components/com_thm_organizer/models/fields/images/selected.png';
     images.selected_highlighted = prefix + '/components/com_thm_organizer/models/fields/images/selected_highlighted.png';
     images.notdefault =  prefix + '/components/com_thm_organizer/models/fields/images/notdefault.png';
-    <?php echo 'images.default = \'' . JURI::root(true) . '/components/com_thm_organizer/models/fields/images/default.png\''; ?>
+    images.default = prefix + '/components/com_thm_organizer/models/fields/images/default.png\'';
 
     Joomla.submitbutton = function(task, type)
     {

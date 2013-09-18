@@ -206,7 +206,7 @@ class THM_OrganizerModelSubject_List extends JModelList
         $groupBy = $app->getUserStateFromRequest($this->context . '.groupBy', 'groupBy');
         $menuID = $app->getUserStateFromRequest($this->context . '.menuID', 'Itemid');
  
-        $params = JFactory::getApplication()->getMenu()->getActive()->params;
+        $params = JFactory::getApplication()->getMenu()->getItem($menuID)->params;
         $menuProgramID = $params->get('programID');
         $menuLanguage = ($params->get('language') == '0')? 'en' : 'de';
         $menuGroupBy = $params->get('groupBy');
