@@ -40,8 +40,7 @@ if ($this->canWrite)
 ?>
             <a  class="hasTip thm_organizer_action_link"
                 title="<?php echo JText::_('COM_THM_ORGANIZER_NEW_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_NEW_DESCRIPTION');?>"
-                href="<?php echo $this->baseurl; ?>/index.php?&option=com_thm_organizer&view=event_edit&Itemid=
-                <?php echo JRequest::getInt('Itemid'); ?>"  >
+                href="<?php echo JRoute::_("index.php?&option=com_thm_organizer&view=event_edit&Itemid=$this->itemID"); ?>">
                 <span id="thm_organizer_new_span" class="thm_organizer_new_span thm_organizer_action_span"></span>
                 <?php echo JText::_('COM_THM_ORGANIZER_NEW'); ?>
             </a>
@@ -52,8 +51,7 @@ if ($event['access'])
 ?>
             <a  class="hasTip thm_organizer_action_link"
                 title="<?php echo JText::_('COM_THM_ORGANIZER_EDIT_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_EDIT_DESCRIPTION');?>"
-                href="<?php echo JRoute::_("index.php?option=com_thm_organizer&task=event.edit&eventID={$this->event['id']}&Itemid=$this->itemID");
-                ?>">
+                href="<?php echo JRoute::_("index.php?option=com_thm_organizer&view=event_edit&eventID={$this->event['id']}&Itemid=$this->itemID"); ?>">
                 <span id="thm_organizer_edit_span" class="thm_organizer_edit_span thm_organizer_action_span"></span>
                 <?php echo JText::_('COM_THM_ORGANIZER_EDIT'); ?>
             </a>

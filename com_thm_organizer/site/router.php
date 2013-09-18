@@ -21,15 +21,36 @@ defined('_JEXEC') or die;
 function THM_organizerBuildRoute(&$query)
 {
     $segments = array();
+
+    $menu = JFactory::getApplication()->getMenu();
+    $item = empty($query['Itemid'])?
+        $menu->getActive() : $menu->getItem($query['Itemid']);
+    if (!empty($item) AND
+     (empty($query['view']) OR $query['view'] == $item->query['view']))
+    {
+        if (!empty($query['view']))
+        {
+            unset($query['view']);
+        }
+        return $segments;
+    }
+
     if (!empty($query['view']))
     {
         $view = $query['view'];
-        $segments[] = $view;
         unset($query['view']);
+        $segments[] = $view;
 
         $activeLanguage = explode('-', JFactory::getLanguage()->getTag());
-        $languageTag = empty($query['languageTag'])? $activeLanguage[0] : $query['languageTag'];
-        unset($query['languageTag']);
+        if (empty($query['languageTag']))
+        {
+            $languageTag = $activeLanguage[0];
+        }
+        else
+        {
+            $languageTag = $query['languageTag'];
+            unset($query['languageTag']);
+        }
 
         switch ($view)
         {
@@ -86,7 +107,8 @@ function THM_organizerParseRoute($segments)
     {
         case 'event_details':
         case 'event_edit':
-            $vars['eventID'] = explode(':', $segments[1])[0];
+            $eventIDArray = explode(':', $segments[1]);
+            $vars['eventID'] = $eventIDArray[0];
             if (!empty($segments[2]))
             {
                 $vars['Itemid'] = $segments[2];
@@ -94,7 +116,8 @@ function THM_organizerParseRoute($segments)
             break;
         case 'subject_details':
             $vars['languageTag'] = $segments[1];
-            $vars['id'] = explode(':', $segments[2])[0];
+            $idArray = explode(':', $segments[2]);
+            $vars['id'] = $idArray[0];
             if (!empty($segments[3]))
             {
                 $vars['Itemid'] = $segments[3];
@@ -113,10 +136,12 @@ function THM_organizerParseRoute($segments)
                 break;
             }
             $vars['languageTag'] = $segments[1];
-            $vars['groupBy'] = explode(':', $segments[2])[0];
+            $groupByArray = explode(':', $segments[2]);
+            $vars['groupBy'] = $groupByArray[0];
             if (!empty($segments[3]))
             {
-                $vars['Itemid'] = $segments[3];
+                $itemIDArray = explode(':', $segments[3]);
+                $vars['Itemid'] = $itemIDArray[0];
             }
             break;
         case 'ajaxhandler':
