@@ -2940,7 +2940,38 @@ MySched.layout = function ()
                     }
                 }
             });
-            return [menuedatepicker, btnSave, btnMenu, '->', btnInfo, btnEmpty, btnAdd, btnDel];
+            
+            var prevWeek = {
+                        id: 'MySched_prevWeek',
+                        tooltip: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DISPLAY_PREVIOUS_WEEK,
+                        handler: function()
+                            {
+                                var calendar = Ext.ComponentMgr.get('menuedatepicker');
+                                var currentDate = calendar.getValue();
+                                currentDate.setDate(currentDate.getDate() - 7);
+                                calendar.setValue(currentDate);
+                            },
+                        scope: this,
+                        iconCls: 'MySched_prevWeekIcon'
+                    };
+            
+
+            
+            var nextWeek = {
+                        id: 'MySched_nextWeek',
+                        tooltip: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DISPLAY_NEXT_WEEK,
+                        handler: function()
+                            {
+                                var calendar = Ext.ComponentMgr.get('menuedatepicker');
+                                var currentDate = calendar.getValue();
+                                currentDate.setDate(currentDate.getDate() + 7);
+                                calendar.setValue(currentDate);
+                            },
+                        scope: this,
+                        iconCls: 'MySched_nextWeekIcon'
+                    };
+            
+            return [prevWeek, menuedatepicker, nextWeek, btnSave, btnMenu, '->', btnInfo, btnEmpty, btnAdd, btnDel];
         }
     };
 }();

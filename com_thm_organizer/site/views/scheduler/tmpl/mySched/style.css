@@ -160,6 +160,15 @@ div.teacherInfo div ul {
     font-weight: bold;
 }
 
+/* Calendar Style */
+.MySched_nextWeekIcon{
+    background-image: url(../../../../../../media/com_thm_organizer/images/extjs/shared/right-btn.gif);
+}
+
+.MySched_prevWeekIcon{
+    background-image: url(../../../../../../media/com_thm_organizer/images/extjs/shared/left-btn.gif);
+}
+
 /* MNI Style */
 .mysched_iframeModule {
     overflow: auto;
