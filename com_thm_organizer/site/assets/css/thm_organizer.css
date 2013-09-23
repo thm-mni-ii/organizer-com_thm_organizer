@@ -9,7 +9,7 @@
 .thm_organizer_action_link{
     display: inline-block;
     float: left;
-    margin: 0px;
+    margin: 0;
     padding: 1px 5px;
     text-align: center;
     text-decoration: none;
@@ -19,10 +19,7 @@
     display: block;
     float: left;
     margin: 0;
-    padding-bottom: 1px;
-    padding-top: 1px;
-    padding-right: 5px;
-    padding-left: 5px;
+    padding: 1px 5px 1px 5px;
     text-align: center;
     text-decoration: none;
     white-space: nowrap;
@@ -33,10 +30,7 @@
     float: none;
     height: 32px;
     width: 32px;
-    margin-bottom: 0;
-    margin-top: 0;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto 0 auto;
 }
 
 .thm_organizer_new_span{
