@@ -1,14 +1,3 @@
 .x-grid-cell-inner img {
-    margin: 0px 1px 0px 0px;
-}
-
-.MySched_checkbox_fake {
-    margin: 1px !important;
-}
-
-.MySched_scheduler_selection_icons {
-    vertical-align: top;
-    width: 16px;
-    height: 16px;
-    padding-bottom: 1px;
+    margin: 0 1px 0 0;
 }
