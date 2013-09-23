@@ -1,6 +1,6 @@
 .MySched_pause {
     background-color: #A0AEBE;
-    text-align: center !important;
+    text-align: center;
 }
 
 .MySchedexternURLClass {
@@ -25,11 +25,11 @@ div.MySchedexternURLClass_DIS {
 }
 
 .timeBox {
-    text-align: center !important;
+    text-align: center;
 }
 
 .MySchedEvent_joomla {
-    font-size: 11px !important;
+    font-size: 11px;
     cursor: move;
     z-index: 1000;
     padding: 2px;
@@ -37,16 +37,16 @@ div.MySchedexternURLClass_DIS {
     background: #7fff00;
     border: 1px solid #CCC;
     -moz-opacity: 0.9;
-    text-align: center !important;
+    text-align: center;
     text-shadow: 0 1px 1px white;
     overflow: hidden;
     white-space: normal;
-    color: black !important;
-    text-decoration: none !important;
+    color: black;
+    text-decoration: none;
 }
 
 .lectureBox {
-    font-size: 11px !important;
+    font-size: 11px;
     cursor: move;
     z-index: 1000;
     padding: 2px;
@@ -54,7 +54,7 @@ div.MySchedexternURLClass_DIS {
     background: #EEE;
     border: 1px solid #CCC;
     -moz-opacity: 0.9;
-    text-align: center !important;
+    text-align: center;
     text-shadow: 0 1px 1px white;
     overflow: hidden;
     white-space: normal;
@@ -65,14 +65,14 @@ div.MySchedexternURLClass_DIS {
 }
 
 .lectureBox_dis {
-    font-size: 11px !important;
+    font-size: 11px;
     z-index: 1000;
     padding: 2px;
     margin: 2px;
     background: #EEE;
     border: 1px solid #CCC;
     -moz-opacity: 0.9;
-    text-align: center !important;
+    text-align: center;
     text-shadow: 0 1px 1px white;
     overflow: hidden;
     text-decoration: line-through;
@@ -82,8 +82,8 @@ div.MySchedexternURLClass_DIS {
 
 /* Ausgewaehlte Lectures zur Infoanzeige */
 .lectureBox_sel {
-    background: #DFE8F6 !important;
-    border: 2px solid #8DB2E3 !important;
+    background: #DFE8F6;
+    border: 2px solid #8DB2E3;
     margin: 1px;
 }
 /* Lextures die in MySchedule sind */
@@ -106,20 +106,20 @@ div.teacherInfo div ul {
     padding-left: 25px;
 }
 
-.blockFree {
-    background-color: #FFFFFF !important;
+.x-grid-row .blockFree {
+    background-color: #FFFFFF;
 }
 
-.blockBusy {
-    background-color: #667e9a !important;
+.x-grid-row .blockBusy {
+    background-color: #667e9a;
 }
 
-.blockOccupied {
-    background-color: #002959 !important;
+.x-grid-row .blockOccupied {
+    background-color: #002959;
 }
 
-.blockFree_DIS,.blockBusy_DIS,.blockOccupied_DIS {
-    background-color: #FFFFFF !important;
+.x-grid-row .blockFree_DIS,.blockBusy_DIS,.blockOccupied_DIS {
+    background-color: #FFFFFF;
 }
 
 .myScheduleIcon, .respChangesIcon, .DiffIcon {
@@ -128,18 +128,6 @@ div.teacherInfo div ul {
 
 .myScheduleIconSave, .respChangesIconSave, .DiffIconSave {
     background: url(../images/table_save.png) no-repeat left center;
-}
-
-.clas-node, .clasIcon {
-    background: url(../images/clasIcon.png) no-repeat !important;
-}
-
-.room-node, .roomIcon {
-    background: url(../images/roomIcon.png) no-repeat !important;
-}
-
-.teacher-node, .teacherIcon {
-    background: url(../images/teacherIcon.png) no-repeat !important;
 }
 
 .teacherIconSave {
@@ -176,16 +164,16 @@ div.teacherInfo div ul {
     height: 100%;
 }
 
-.content_column table th {
-    padding: 0 !important;
+.content_column table.x-grid-table th {
+    padding: 0;
 }
 
-.content_column table td {
-    padding: 0 !important;
+.content_column table.x-grid-table td {
+    padding: 0;
 }
 
-.content_column table {
-    border: 0 solid #EEEEEE !important;
+.content_column table.x-grid-table {
+    border: 0 solid #EEEEEE;
 }
 
 .content_column {
@@ -335,7 +323,7 @@ small.removed {
 
 /* Status Icons */
 .status_icons {
-    text-align: right !important;
+    text-align: right;
     padding-top: 1px;
 }
 
@@ -371,11 +359,11 @@ small.removed {
 
 /* MySched Search Result */
 .MySchedSearchResult {
-    border: 1px solid #FF8C00 !important;
+    border: 1px solid #FF8C00;
 }
 
 .searchSubject {
-    border: 1px solid #FF8C00 !important;
+    border: 1px solid #FF8C00;
 }
 
 /* Deltastyle */
