@@ -129,7 +129,7 @@ class THMTreeView
         }
         else
         {
-        if ($isBackend)
+            if ($isBackend)
             {
                 $this->_hideCheckBox = false;
             }
