@@ -15,7 +15,7 @@ $addButtonLink = JURI::root(true) . '/components/com_thm_organizer/views/schedul
 $removeButtonLink = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/images/delete.png';
 $mainPath = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/';
 $curriculumLink = 'index.php?option=com_thm_organizer&view=subject_details&tmpl=component&languageTag=de';
-$ajaxHandler = JRoute::_('index.php?option=com_thm_organizer&view=ajaxhandler&format=raw');
+$ajaxHandler = 'index.php?option=com_thm_organizer&view=ajaxhandler&format=raw';
 ?>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript" charset="utf-8">
@@ -74,6 +74,7 @@ if ($this->canWriteEvents === true)
             Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestPoolGPUntisIDs)); ?>'));
         MySched.requestSubjectGPUntisIDs =
             Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestSubjectGPUntisIDs)); ?>'));
+        MySched.joomlaItemid = '<?php echo $this->joomlaItemid; ?>';
 <?php
 if ($this->FPDFInstalled)
 {

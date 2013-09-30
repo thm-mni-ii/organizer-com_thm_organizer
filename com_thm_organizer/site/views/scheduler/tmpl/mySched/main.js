@@ -3980,7 +3980,8 @@ MySched.Tree = function ()
                     method: 'POST',
                     params: {
                         scheduletask: "TreeView.load",
-                        departmentSemesterSelection: MySched.departmentAndSemester
+                        departmentSemesterSelection: MySched.departmentAndSemester,
+                        Itemid: MySched.joomlaItemid
                     },
                     success: function (response)
                     {

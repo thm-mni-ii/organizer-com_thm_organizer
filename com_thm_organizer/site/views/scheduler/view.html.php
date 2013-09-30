@@ -75,6 +75,13 @@ class THM_OrganizerViewScheduler extends JView
         $menu = $site->getMenu();
         $menuid = JRequest::getInt("menuID", 0);
 
+        if ($menuid === 0 && !is_null($menu->getActive()))
+        {
+            $menuid = $menu->getActive()->id;
+        }
+
+        $this->joomlaItemid = $menuid;
+
         $schedulerFromMenu = null;
         $schedule = null;
 
