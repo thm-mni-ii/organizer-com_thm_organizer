@@ -58,7 +58,7 @@ Ext.picker.Date,
             value = +eDate.clearTime(current, true);
             // cell.title = eDate.format(current,
             // longDayFormat);
-            cell.title = ' ';
+            cell.title = '';
             // store dateValue number as an expando
             cell.firstChild.dateValue = value;
             if (value === today)
