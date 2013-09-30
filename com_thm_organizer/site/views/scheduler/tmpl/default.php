@@ -66,13 +66,13 @@ if ($this->canWriteEvents === true)
         MySched.loadLessonsOnStartUp = new Boolean('<?php echo $this->loadLessonsOnStartUp; ?>');
         MySched.deltaDisplayDays = '<?php echo $this->deltaDisplayDays; ?>';
         MySched.departmentAndSemester = '<?php echo $this->departmentAndSemester; ?>';
-        MySched.requestTeacherGPUntisIDs = 
+        MySched.requestTeacherGPUntisIDs =
             Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestTeacherGPUntisIDs)); ?>'));
-        MySched.requestRoomGPUntisIDs = 
+        MySched.requestRoomGPUntisIDs =
             Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestRoomGPUntisIDs)); ?>'));
-        MySched.requestPoolGPUntisIDs = 
+        MySched.requestPoolGPUntisIDs =
             Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestPoolGPUntisIDs)); ?>'));
-        MySched.requestSubjectGPUntisIDs = 
+        MySched.requestSubjectGPUntisIDs =
             Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestSubjectGPUntisIDs)); ?>'));
 <?php
 if ($this->FPDFInstalled)
@@ -118,6 +118,3 @@ else
         });
     </script>
 </div>
-<iframe id="MySchedexternURL" name="MySchedexternURL" src="#"
-    scrolling="auto" align="top" frameborder="0"
-    class="MySchedexternURLClass_DIS"> </iframe>
