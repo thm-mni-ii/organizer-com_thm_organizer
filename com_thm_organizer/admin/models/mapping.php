@@ -389,6 +389,7 @@ class THM_OrganizerModelMapping extends JModel
         }
         catch (Exception $exception)
         {
+            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
             return false;
         }
 

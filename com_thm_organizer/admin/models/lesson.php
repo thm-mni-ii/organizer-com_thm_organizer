@@ -79,6 +79,10 @@ class THM_OrganizerModelLesson extends JModel
      */
     public function validate(&$lessonNode)
     {
+        $this->_lessonID;
+        $this->_lessonIndex = '';
+        $this->_lessonName = '';
+
         $gpuntisID = $this->validateUntisID(trim((string) $lessonNode[0]['id']));
         if (!$gpuntisID)
         {
