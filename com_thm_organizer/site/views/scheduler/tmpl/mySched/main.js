@@ -228,7 +228,7 @@ MySched.Base = function ()
                     var tab = MySched.layout.tabpanel.getComponent(id);
 
                     Ext.ComponentMgr.get('btnSave').enable();
- 
+
                     tab.ScheduleModel.status = "unsaved";
                 },
                 'save': function (s)
@@ -1000,7 +1000,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
         var plantypeID = null;
         var semesterID = null;
         var parent = null;
- 
+
         nodeKey = id;
         semesterID = MySched.class_semester_name;
 
@@ -1024,7 +1024,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
         nodeID = semesterID + ";" + type + ";" + parent + ";" + nodeKey;
 
         MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
- 
+
         var record = MySched.Tree.tree.getRootNode().findChild("id",nodeID, true);
         var path = record.getPath("id", "#");
         MySched.Tree.tree.expandPath(path, "id", "#");
@@ -1093,7 +1093,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
         var l = MySched.selectedSchedule.getLecture(el.id);
         var subjects = l.data.subjects;
         var subjectNo = null;
- 
+
         this.showSubjectNoMenu(subjects, e);
     },
     showSubjectWindow: function(subjectNo)
@@ -1299,10 +1299,10 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
             el = this.selectEl;
             id = el.id;
         }
- 
+
         var tabID = id.split('##')[0];
         var lessonID = id.split('##')[1];
- 
+
         if (el.id.substr(0, 4) !== "delta" && MySched.Authorize.user !== null && MySched.Authorize.role !== "user")
         {
             // Entfernt Veranstaltung
@@ -1660,12 +1660,12 @@ function destroyMenu()
     {
         rMenu.destroy();
     }
- 
+
     if (Ext.isDefined(oMenu))
     {
         oMenu.destroy();
     }
- 
+
     if (Ext.isDefined(sMenu))
     {
         sMenu.destroy();
@@ -2185,7 +2185,7 @@ MySched.layout = function ()
                 maxSize: 968,
                 items: [this.leftviewport, this.rightviewport]
             });
- 
+
             if(!hideTreePanel)
             {
                 MySched.treeLoadMask = new Ext.LoadMask(Ext.getCmp('selectTree').el, {msg:"Loading..."});
@@ -2408,13 +2408,13 @@ MySched.layout = function ()
                     });
                 }
             });
- 
+
             var disablePDF = true;
             if(MySched.FPDFInstalled === true)
             {
                 disablePDF = false;
             }
- 
+
             var btnSavePdf = Ext.create('Ext.Button',
             {
                 text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE,
@@ -2573,7 +2573,7 @@ MySched.layout = function ()
             {
                 disableICal = false;
             }
- 
+
             var btnICal = Ext.create('Ext.Button',
             {
                 // ICal DownloadButton
@@ -2940,7 +2940,12 @@ MySched.layout = function ()
                     }
                 }
             });
-            
+
+            menuedatepicker.on('expand', function(me, e) {
+                var calendarPicker = me.getPicker();
+                calendarPicker.el.dom.firstChild.title = "";
+            }, null, {single: true});
+
             var prevWeek = {
                         id: 'MySched_prevWeek',
                         tooltip: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DISPLAY_PREVIOUS_WEEK,
@@ -2954,9 +2959,9 @@ MySched.layout = function ()
                         scope: this,
                         iconCls: 'MySched_prevWeekIcon'
                     };
-            
 
-            
+
+
             var nextWeek = {
                         id: 'MySched_nextWeek',
                         tooltip: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DISPLAY_NEXT_WEEK,
@@ -2970,7 +2975,7 @@ MySched.layout = function ()
                         scope: this,
                         iconCls: 'MySched_nextWeekIcon'
                     };
-            
+
             return [prevWeek, menuedatepicker, nextWeek, btnSave, btnMenu, '->', btnInfo, btnEmpty, btnAdd, btnDel];
         }
     };
@@ -3975,7 +3980,8 @@ MySched.Tree = function ()
                     method: 'POST',
                     params: {
                         scheduletask: "TreeView.load",
-                        departmentSemesterSelection: MySched.departmentAndSemester
+                        departmentSemesterSelection: MySched.departmentAndSemester,
+                        Itemid: MySched.joomlaItemid
                     },
                     success: function (response)
                     {
@@ -3998,7 +4004,7 @@ MySched.Tree = function ()
                                 }
                             }
                         }
- 
+
                         var rootNode = MySched.Tree.tree.getRootNode();
                         rootNode.removeAll(true);
                         rootNode.appendChild(newtree);
@@ -4007,7 +4013,7 @@ MySched.Tree = function ()
                         {
                             MySched.treeLoadMask.destroy();
                         }
- 
+
                         var publicDefaultNode = json.treePublicDefault;
 
                         var nodeID = null;
@@ -4016,7 +4022,7 @@ MySched.Tree = function ()
                         var plantypeID = null;
                         var semesterID = null;
                         var type = null;
-                        
+
                         if(publicDefaultNode !== null && publicDefaultNode.type !== "delta" && publicDefaultNode.length > 0)
                         {
                             nodeID = publicDefaultNode.id;
@@ -4029,7 +4035,7 @@ MySched.Tree = function ()
                             MySched.Tree.showScheduleTab(nodeID, nodeKey,
                             gpuntisID, semesterID, plantypeID, type);
                         }
-                        
+
                         // Displays teacher schedules given by get parameter
                         if(MySched.requestTeacherGPUntisIDs.length > 0)
                         {
@@ -4048,9 +4054,9 @@ MySched.Tree = function ()
                                 gpuntisID = teacherGPUntisID;
 
                                 MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
-                            }                            
+                            }
                         }
-                        
+
                         // Displays room schedules given by get parameter
                         if(MySched.requestRoomGPUntisIDs.length > 0)
                         {
@@ -4070,9 +4076,9 @@ MySched.Tree = function ()
                                 gpuntisID = roomGPUntisID;
 
                                 MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
-                            }                            
+                            }
                         }
-                        
+
                         // Displays pool/module/group schedules given by get parameter
                         if(MySched.requestPoolGPUntisIDs.length > 0)
                         {
@@ -4082,7 +4088,7 @@ MySched.Tree = function ()
                             for(var moduleIndex = 0; moduleIndex < MySched.requestPoolGPUntisIDs.length; moduleIndex++)
                             {
                                 var poolGPUntisID = MySched.requestPoolGPUntisIDs[moduleIndex];
-                                
+
                                 if(!Ext.isDefined(MySched.Mapping[type].map[poolGPUntisID]))
                                 {
                                     continue;
@@ -4092,7 +4098,7 @@ MySched.Tree = function ()
                                 gpuntisID = poolGPUntisID;
 
                                 MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
-                            }                            
+                            }
                         }
 
                         // Displays subject schedules given by get parameter
@@ -4104,7 +4110,7 @@ MySched.Tree = function ()
                             for(var subjectIndex = 0; subjectIndex < MySched.requestSubjectGPUntisIDs.length; subjectIndex++)
                             {
                                 var subjectGPUntisID = MySched.requestSubjectGPUntisIDs[subjectIndex];
-                                
+
                                 if(!Ext.isDefined(MySched.Mapping[type].map[subjectGPUntisID]))
                                 {
                                     continue;
@@ -4114,9 +4120,9 @@ MySched.Tree = function ()
                                 gpuntisID = subjectGPUntisID;
 
                                 MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
-                            }                            
+                            }
                         }
-                        
+
                     }
                 });
             }
@@ -4157,7 +4163,7 @@ MySched.Tree = function ()
                 },
                 store: treeStore
             });
-            
+
             // Bei Klick Stundenplan oeffnen
             this.tree.on('itemclick', function (me, rec, item, index, event, options)
             {
@@ -4200,7 +4206,7 @@ MySched.Tree = function ()
             {
                 nodeID = nodeKey;
             }
-            
+
             if (type === null)
             {
                 type = gpuntisID;

@@ -86,6 +86,13 @@ class THMTreeView
     private $_activeScheduleData = null;
 
     /**
+     * Checkboxes for children, maybe
+     *
+     * @var    Object
+     */
+    private $_checkBoxForChildrenOnly = null;
+
+    /**
      * Constructor with the joomla data abstraction object and configuration object
      *
      * @param   DataAbstraction  $JDA      A object to abstract the joomla methods
@@ -107,6 +114,9 @@ class THMTreeView
             $menuID = JRequest::getInt("Itemid", 0);
             $isBackend = false;
         }
+
+        $this->_checkBoxForChildrenOnly = JRequest::getBool("childrenCheckbox", false);
+
         $menuItem = JFactory::getApplication()->getMenu()->getItem($menuID);
 
         if (empty($menuItem))
@@ -119,10 +129,15 @@ class THMTreeView
         }
         else
         {
-            if (!$isBackend)
+            if ($isBackend)
             {
-                $options["hide"] = true;
+                $this->_hideCheckBox = false;
             }
+            else
+            {
+                $this->_hideCheckBox = true;
+            }
+
             $menuparams = $menuItem->params;
 
             if (isset($options["path"]))
@@ -142,7 +157,7 @@ class THMTreeView
                     $this->_checked = (array) json_decode($menuparams->get("id"));
                 }
             }
-    
+
             if (isset($options["publicDefault"]))
             {
                 $this->_publicDefault = (array) $options["publicDefault"];
@@ -159,16 +174,7 @@ class THMTreeView
                     $this->_publicDefault = (array) json_decode($menuparams->get("publicDefaultID"));
                 }
             }
-    
-            if (isset($options["hide"]))
-            {
-                $this->_hideCheckBox = $options["hide"];
-            }
-            else
-            {
-                $this->_hideCheckBox = false;
-            }
-    
+
             if (JRequest::getString('departmentSemesterSelection') == "")
             {
                 if (isset($options["departmentSemesterSelection"]))
@@ -202,13 +208,13 @@ class THMTreeView
         $nodeKey = $nodeData["nodeKey"];
         $children = $nodeData["children"];
         $gpuntisID = $nodeData["gpuntisID"];
- 
- 
+
+
         $checked = null;
         $publicDefault = null;
         $treeNode = null;
 
-        if ($this->_hideCheckBox == true)
+        if (($this->_hideCheckBox == true && !$this->_checkBoxForChildrenOnly) || (!$nodeData["leaf"] && $this->_checkBoxForChildrenOnly))
         {
             $checked = null;
         }
@@ -342,7 +348,7 @@ class THMTreeView
         $schedulerModel = JModel::getInstance('scheduler', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
         $rooms = $schedulerModel->getRooms();
         $teachers = $schedulerModel->getTeachers();
-        
+
         $activeSchedule = $schedulerModel->getActiveSchedule($this->departmentSemesterSelection);
 
         if (is_object($activeSchedule) && is_string($activeSchedule->schedule))
@@ -357,11 +363,11 @@ class THMTreeView
                 $this->_activeScheduleData = $activeScheduleData;
                 if (isset($activeScheduleData->pools))
                 {
-                	$this->_treeData["module"] = $activeScheduleData->pools;
+                    $this->_treeData["module"] = $activeScheduleData->pools;
                 }
                 else
                 {
-                	$this->_treeData["module"] = $activeScheduleData->modules;
+                    $this->_treeData["module"] = $activeScheduleData->modules;
                 }
                 $this->_treeData["room"] = $activeScheduleData->rooms;
                 $this->_treeData["teacher"] = $activeScheduleData->teachers;
@@ -375,7 +381,7 @@ class THMTreeView
                 // Cant decode json
                 return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_DATA_FLAWED'));
             }
- 
+
             foreach ($this->_treeData["room"] as $roomValue)
             {
                 foreach ($rooms as $databaseRooms)
@@ -402,7 +408,7 @@ class THMTreeView
         {
             return array("success" => false, "data" => array("tree" => array(), "treeData" => array(), "treePublicDefault" => ""));
         }
- 
+
         $createTreeNodeData = array();
         $createTreeNodeData["nodeID"] = $this->departmentSemesterSelection;
         $createTreeNodeData["text"] = $activeSchedule->semestername;
@@ -467,7 +473,7 @@ class THMTreeView
         {
             $nodeKey = $key . ";" . $scheduleType;
             $textConstant = 'COM_THM_ORGANIZER_SCHEDULER_' . $scheduleType . 'PLAN';
- 
+
             $createTreeNodeData = array();
             $createTreeNodeData["nodeID"] = $nodeKey;
             $createTreeNodeData["text"] = JText::_($textConstant);
@@ -480,7 +486,7 @@ class THMTreeView
             $createTreeNodeData["children"] = null;
             $createTreeNodeData["semesterID"] = $semesterID;
             $createTreeNodeData["nodeKey"] = $nodeKey;
- 
+
             $temp = $this->createTreeNode($createTreeNodeData);
             $children = $this->getStundenplan($nodeKey, $scheduleType, $semesterID);
 
@@ -626,7 +632,7 @@ class THMTreeView
 
             $childNodes = array();
             $descriptionID = $key . ";" . $descriptionKey;
-            
+
             foreach ($filteredData as $childKey => $childValue)
             {
                 $nodeID = $descriptionID . ";" . $childKey;
@@ -640,7 +646,7 @@ class THMTreeView
                     {
                         $nodeName = $childKey;
                     }
- 
+
                     if (isset($childValue->firstname) && strlen($childValue->firstname) > 0)
                     {
                         $nodeName .= ", " . $childValue->firstname{0} . ".";
@@ -696,7 +702,7 @@ class THMTreeView
                 else
                 {
                     $hasLessons = $this->treeNodeHasLessons($childKey, $scheduleType);
-                    
+
                     // Erstmal immer true!
                     // $hasLessons = true;
                 }
@@ -716,7 +722,7 @@ class THMTreeView
                     $childNodeData["children"] = null;
                     $childNodeData["semesterID"] = $semesterID;
                     $childNodeData["nodeKey"] = $childKey;
- 
+
                     $childNode = $this->createTreeNode($childNodeData);
                 }
                 if (is_object($childNode))
@@ -744,7 +750,7 @@ class THMTreeView
                 $descriptionNodeData["children"] = $childNodes;
                 $descriptionNodeData["semesterID"] = $semesterID;
                 $descriptionNodeData["nodeKey"] = $descriptionKey;
- 
+
                 $descriptionNode = $this->createTreeNode($descriptionNodeData);
             }
 
@@ -837,9 +843,9 @@ class THMTreeView
              * the $nodeID as a subject/module/teacher.
              * And then we search the lessonID in the calendar.
              */
- 
+
             $fieldType = $type . "s";
- 
+
             $filterFunction = function($obj) use ($fieldType, $nodeID)
             {
                 if (!isset($obj->{$fieldType}))
@@ -853,7 +859,7 @@ class THMTreeView
             };
 
             $lessons = array_filter((array) $this->_activeScheduleData->lessons, $filterFunction);
- 
+
             $lessonKeys = array_keys($lessons);
 
             foreach ($calendar as $calendarValue)
@@ -873,7 +879,7 @@ class THMTreeView
                 }
             }
         }
- 
+
         return false;
     }
 }

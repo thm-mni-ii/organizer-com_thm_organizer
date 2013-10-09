@@ -15,7 +15,7 @@ $addButtonLink = JURI::root(true) . '/components/com_thm_organizer/views/schedul
 $removeButtonLink = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/images/delete.png';
 $mainPath = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/';
 $curriculumLink = 'index.php?option=com_thm_organizer&view=subject_details&tmpl=component&languageTag=de';
-$ajaxHandler = JRoute::_('index.php?option=com_thm_organizer&view=ajaxhandler&format=raw');
+$ajaxHandler = 'index.php?option=com_thm_organizer&view=ajaxhandler&format=raw';
 ?>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript" charset="utf-8">
@@ -66,14 +66,15 @@ if ($this->canWriteEvents === true)
         MySched.loadLessonsOnStartUp = new Boolean('<?php echo $this->loadLessonsOnStartUp; ?>');
         MySched.deltaDisplayDays = '<?php echo $this->deltaDisplayDays; ?>';
         MySched.departmentAndSemester = '<?php echo $this->departmentAndSemester; ?>';
-        MySched.requestTeacherGPUntisIDs = 
+        MySched.requestTeacherGPUntisIDs =
             Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestTeacherGPUntisIDs)); ?>'));
-        MySched.requestRoomGPUntisIDs = 
+        MySched.requestRoomGPUntisIDs =
             Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestRoomGPUntisIDs)); ?>'));
-        MySched.requestPoolGPUntisIDs = 
+        MySched.requestPoolGPUntisIDs =
             Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestPoolGPUntisIDs)); ?>'));
-        MySched.requestSubjectGPUntisIDs = 
+        MySched.requestSubjectGPUntisIDs =
             Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestSubjectGPUntisIDs)); ?>'));
+        MySched.joomlaItemid = '<?php echo $this->joomlaItemid; ?>';
 <?php
 if ($this->FPDFInstalled)
 {
@@ -118,6 +119,3 @@ else
         });
     </script>
 </div>
-<iframe id="MySchedexternURL" name="MySchedexternURL" src="#"
-    scrolling="auto" align="top" frameborder="0"
-    class="MySchedexternURLClass_DIS"> </iframe>

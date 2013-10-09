@@ -58,7 +58,7 @@ Ext.picker.Date,
             value = +eDate.clearTime(current, true);
             // cell.title = eDate.format(current,
             // longDayFormat);
-            cell.title = ' ';
+            cell.title = '';
             // store dateValue number as an expando
             cell.firstChild.dateValue = value;
             if (value === today)
@@ -123,15 +123,15 @@ Ext.picker.Date,
                 len = cell.children[0].events.length;
                 if (current.compare(begin) === 0)
                 {
-                    cell.children[0].events[len] = "<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_SEMESTER_BEGIN'); ?>";
+                    cell.children[0].events[len] = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER_BEGIN;
                 }
                 else if (current.compare(end) === 0)
                 {
-                    cell.children[0].events[len] = "<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_SEMESTER_END'); ?>";
+                    cell.children[0].events[len] = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER_END;
                 }
                 else
                 {
-                    cell.children[0].events[len] = "<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_SEMESTER'); ?>";
+                    cell.children[0].events[len] = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER;
                 }
 
                 cell.className += " MySched_Semester";
@@ -245,7 +245,7 @@ function calendar_tooltip (e)
                     {
                         teacherName = o.longname;
                     }
-                    
+
                     name += "<small class='dozname'>" + getTeacherSurnameWithCutFirstName(teacherName) + "</small>";
                 }
                 else if (o.type === "room")

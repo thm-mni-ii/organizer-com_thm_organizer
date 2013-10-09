@@ -32,14 +32,14 @@ class THM_OrganizerModelAjaxhandler extends JModel
      * @var    DataAbstraction
      */
     private $_JDA = null;
- 
+
     /**
      * Configuration
      *
      * @var    object
      */
     private $_CFG = null;
- 
+
     /**
      * Constructor
      */
@@ -71,14 +71,14 @@ class THM_OrganizerModelAjaxhandler extends JModel
         {
             return array("success" => false, "data" => "Unknown task!");
         }
- 
+
         $taskarr = explode(".", $task);
         try
         {
             $classname = $taskarr[0];
             require_once JPATH_COMPONENT . "/assets/classes/" . $classname . ".php";
             $classname = "THM" . $classname;
- 
+
             if (count($options) == 0)
             {
                 $class = new $classname($this->_JDA, $this->_CFG);
@@ -91,7 +91,7 @@ class THM_OrganizerModelAjaxhandler extends JModel
         }
         catch (Exception $e)
         {
-            return array("success" => false, "data" => "Unknown task!");
+            return array("success" => false, "data" => "Error while perfoming the task.");
         }
     }
 }
