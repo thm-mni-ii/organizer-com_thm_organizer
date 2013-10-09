@@ -657,7 +657,7 @@ class THM_OrganizerModelTeacher extends JModel
         elseif (empty($this->_scheduleModel->schedule->fields->$descriptionID))
         {
             $this->_scheduleModel->scheduleWarnings[]
-                = JText::sprintf("COM_THM_ORGANIZER_TR_FIELD_LACKING", "$surname ($teacherID) ", $descriptionID);
+                = JText::sprintf("COM_THM_ORGANIZER_TR_FIELD_LACKING", $surname, $teacherID, $descriptionID);
         }
         $this->_scheduleModel->schedule->teachers->$teacherID->description
             = empty($descriptionID)? '' : $descriptionID;

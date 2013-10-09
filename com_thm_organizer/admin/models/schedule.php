@@ -447,16 +447,19 @@ class THM_OrganizerModelSchedule extends JModel
 
         switch ($type)
         {
+            case 'f':
             case 'F':
                 $this->schedule->fields->$descriptionID = new stdClass;
                 $this->schedule->fields->$descriptionID->gpuntisID = $gpuntisID;
                 $this->schedule->fields->$descriptionID->name = $longname;
                 break;
+            case 'r':
             case 'R':
                 $this->schedule->roomtypes->$descriptionID = new stdClass;
                 $this->schedule->roomtypes->$descriptionID->gpuntisID = $gpuntisID;
                 $this->schedule->roomtypes->$descriptionID->name = $longname;
                 break;
+            case 'u':
             case 'U':
                 $this->schedule->lessontypes->$descriptionID = new stdClass;
                 $this->schedule->lessontypes->$descriptionID->gpuntisID = $gpuntisID;
