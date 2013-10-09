@@ -83,7 +83,7 @@ class JFormFieldScheduler extends JFormField
         }
 
         $doc = JFactory::getDocument();
-        
+
         $doc->addStyleSheet(JURI::root(true) . '/libraries/extjs4/css/ext-all-gray.css');
         $doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/models/fields/css/schedule_selection_tree.css");
         $doc->addScript(JURI::root(true) . "/components/com_thm_organizer/models/fields/tree.js");
@@ -107,7 +107,7 @@ class JFormFieldScheduler extends JFormField
     var treeIDs = <?php echo json_encode($treeids); ?>;
     var publicDefaultID = <?php echo json_encode($publicDefaultID); ?>;
     var externLinks = [];
-    externLinks.ajaxHandler = '<?php echo JRoute::_(JURI::root() . 'index.php?option=com_thm_organizer&view=ajaxhandler&format=raw'); ?>';
+    externLinks.ajaxHandler = '<?php echo JURI::root() . 'index.php?option=com_thm_organizer&view=ajaxhandler&format=raw'; ?>';
     var images = [];
     images.base = prefix + '/components/com_thm_organizer/models/fields/images/';
     images.unchecked = prefix + '/components/com_thm_organizer/models/fields/images/unchecked.png';
