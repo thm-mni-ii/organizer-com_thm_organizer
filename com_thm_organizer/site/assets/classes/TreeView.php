@@ -754,7 +754,7 @@ class THMTreeView
                 $descriptionNode = $this->createTreeNode($descriptionNodeData);
             }
 
-            if (!is_null($descriptionNode) && is_object($descriptionNode))
+            if (!is_null($descriptionNode) && (is_object($descriptionNode) || is_array($descriptionNode)))
             {
                 $treeNode[] = $descriptionNode;
             }
