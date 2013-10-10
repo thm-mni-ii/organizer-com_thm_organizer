@@ -241,9 +241,9 @@ function calendar_tooltip (e)
                 {
                     var teacherName = MySched.Mapping.getTeacherKeyByID(o.id);
 
-                    if(teacherName === o.id && Ext.isDefined(o.longname) && !Ext.isEmpty(o.longname))
+                    if(teacherName === o.id && Ext.isDefined(o.surname) && !Ext.isEmpty(o.surname))
                     {
-                        teacherName = o.longname;
+                        teacherName = o.surname;
                     }
 
                     name += "<small class='dozname'>" + getTeacherSurnameWithCutFirstName(teacherName) + "</small>";
