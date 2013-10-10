@@ -1,0 +1,3738 @@
+<?xml version="1.0" encoding="utf-8"?>
+<document version="1.4" date="20131010" time="120145">
+  <general>
+    <schoolname>Untis 2013</schoolname>
+    <schoolnumber>02 EI</schoolnumber>
+    <schoolyearbegindate>20131007</schoolyearbegindate>
+    <schoolyearenddate>20141005</schoolyearenddate>
+    <header1>EI</header1>
+    <header2>2012/2013</header2>
+    <footer>WS   </footer>
+    <termbegindate>20131014</termbegindate>
+    <termenddate>20140209</termenddate>
+  </general>
+  <timeperiods>
+    <timeperiod id="TP_1">
+      <day>1</day>
+      <period>1</period>
+      <starttime>0800</starttime>
+      <endtime>0930</endtime>
+    </timeperiod>
+    <timeperiod id="TP_2">
+      <day>1</day>
+      <period>2</period>
+      <starttime>0950</starttime>
+      <endtime>1120</endtime>
+    </timeperiod>
+    <timeperiod id="TP_3">
+      <day>1</day>
+      <period>3</period>
+      <starttime>1130</starttime>
+      <endtime>1300</endtime>
+    </timeperiod>
+    <timeperiod id="TP_4">
+      <day>1</day>
+      <period>4</period>
+      <starttime>1400</starttime>
+      <endtime>1530</endtime>
+    </timeperiod>
+    <timeperiod id="TP_5">
+      <day>1</day>
+      <period>5</period>
+      <starttime>1545</starttime>
+      <endtime>1715</endtime>
+    </timeperiod>
+    <timeperiod id="TP_6">
+      <day>1</day>
+      <period>6</period>
+      <starttime>1730</starttime>
+      <endtime>1900</endtime>
+    </timeperiod>
+    <timeperiod id="TP_7">
+      <day>2</day>
+      <period>1</period>
+      <starttime>0800</starttime>
+      <endtime>0930</endtime>
+    </timeperiod>
+    <timeperiod id="TP_8">
+      <day>2</day>
+      <period>2</period>
+      <starttime>0950</starttime>
+      <endtime>1120</endtime>
+    </timeperiod>
+    <timeperiod id="TP_9">
+      <day>2</day>
+      <period>3</period>
+      <starttime>1130</starttime>
+      <endtime>1300</endtime>
+    </timeperiod>
+    <timeperiod id="TP_10">
+      <day>2</day>
+      <period>4</period>
+      <starttime>1400</starttime>
+      <endtime>1530</endtime>
+    </timeperiod>
+    <timeperiod id="TP_11">
+      <day>2</day>
+      <period>5</period>
+      <starttime>1545</starttime>
+      <endtime>1715</endtime>
+    </timeperiod>
+    <timeperiod id="TP_12">
+      <day>2</day>
+      <period>6</period>
+      <starttime>1730</starttime>
+      <endtime>1900</endtime>
+    </timeperiod>
+    <timeperiod id="TP_13">
+      <day>3</day>
+      <period>1</period>
+      <starttime>0800</starttime>
+      <endtime>0930</endtime>
+    </timeperiod>
+    <timeperiod id="TP_14">
+      <day>3</day>
+      <period>2</period>
+      <starttime>0950</starttime>
+      <endtime>1120</endtime>
+    </timeperiod>
+    <timeperiod id="TP_15">
+      <day>3</day>
+      <period>3</period>
+      <starttime>1130</starttime>
+      <endtime>1300</endtime>
+    </timeperiod>
+    <timeperiod id="TP_16">
+      <day>3</day>
+      <period>4</period>
+      <starttime>1400</starttime>
+      <endtime>1530</endtime>
+    </timeperiod>
+    <timeperiod id="TP_17">
+      <day>3</day>
+      <period>5</period>
+      <starttime>1545</starttime>
+      <endtime>1715</endtime>
+    </timeperiod>
+    <timeperiod id="TP_18">
+      <day>3</day>
+      <period>6</period>
+      <starttime>1730</starttime>
+      <endtime>1900</endtime>
+    </timeperiod>
+    <timeperiod id="TP_19">
+      <day>4</day>
+      <period>1</period>
+      <starttime>0800</starttime>
+      <endtime>0930</endtime>
+    </timeperiod>
+    <timeperiod id="TP_20">
+      <day>4</day>
+      <period>2</period>
+      <starttime>0950</starttime>
+      <endtime>1120</endtime>
+    </timeperiod>
+    <timeperiod id="TP_21">
+      <day>4</day>
+      <period>3</period>
+      <starttime>1130</starttime>
+      <endtime>1300</endtime>
+    </timeperiod>
+    <timeperiod id="TP_22">
+      <day>4</day>
+      <period>4</period>
+      <starttime>1400</starttime>
+      <endtime>1530</endtime>
+    </timeperiod>
+    <timeperiod id="TP_23">
+      <day>4</day>
+      <period>5</period>
+      <starttime>1545</starttime>
+      <endtime>1715</endtime>
+    </timeperiod>
+    <timeperiod id="TP_24">
+      <day>4</day>
+      <period>6</period>
+      <starttime>1730</starttime>
+      <endtime>1900</endtime>
+    </timeperiod>
+    <timeperiod id="TP_25">
+      <day>5</day>
+      <period>1</period>
+      <starttime>0800</starttime>
+      <endtime>0930</endtime>
+    </timeperiod>
+    <timeperiod id="TP_26">
+      <day>5</day>
+      <period>2</period>
+      <starttime>0950</starttime>
+      <endtime>1120</endtime>
+    </timeperiod>
+    <timeperiod id="TP_27">
+      <day>5</day>
+      <period>3</period>
+      <starttime>1130</starttime>
+      <endtime>1300</endtime>
+    </timeperiod>
+    <timeperiod id="TP_28">
+      <day>5</day>
+      <period>4</period>
+      <starttime>1400</starttime>
+      <endtime>1530</endtime>
+    </timeperiod>
+    <timeperiod id="TP_29">
+      <day>5</day>
+      <period>5</period>
+      <starttime>1545</starttime>
+      <endtime>1715</endtime>
+    </timeperiod>
+    <timeperiod id="TP_30">
+      <day>5</day>
+      <period>6</period>
+      <starttime>1730</starttime>
+      <endtime>1900</endtime>
+    </timeperiod>
+    <timeperiod id="TP_31">
+      <day>6</day>
+      <period>1</period>
+      <starttime>0800</starttime>
+      <endtime>0930</endtime>
+    </timeperiod>
+    <timeperiod id="TP_32">
+      <day>6</day>
+      <period>2</period>
+      <starttime>0950</starttime>
+      <endtime>1120</endtime>
+    </timeperiod>
+    <timeperiod id="TP_33">
+      <day>6</day>
+      <period>3</period>
+      <starttime>1130</starttime>
+      <endtime>1300</endtime>
+    </timeperiod>
+    <timeperiod id="TP_34">
+      <day>6</day>
+      <period>4</period>
+      <starttime>1400</starttime>
+      <endtime>1530</endtime>
+    </timeperiod>
+    <timeperiod id="TP_35">
+      <day>6</day>
+      <period>5</period>
+      <starttime>1545</starttime>
+      <endtime>1715</endtime>
+    </timeperiod>
+    <timeperiod id="TP_36">
+      <day>6</day>
+      <period>6</period>
+      <starttime>1730</starttime>
+      <endtime>1900</endtime>
+    </timeperiod>
+  </timeperiods>
+  <descriptions>
+    <description id="DS_BAU">
+      <longname>Bauwesen</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_DIV">
+      <longname>Diverse</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_INF">
+      <longname>Informatik</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_ING">
+      <longname>Ingenieurwesen</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_ING-INF">
+      <longname>Ingenieurwesen / Informatik</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_JUR">
+      <longname>Jura</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_LIN">
+      <longname>Linguistik</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_MAT">
+      <longname>Mathematik</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_MAT-INF">
+      <longname>Mathematik / Informatik</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_MAT-NAT">
+      <longname>Mathematik / Naturwissenschaften</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_MED">
+      <longname>Medizin</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_MED-INF">
+      <longname>Medizin / Informatik</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_MED-ING">
+      <longname>Medizin / Ingenieurwesen</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_MED-NAT">
+      <longname>Medizin / Naturwissenschaft</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_NAT">
+      <longname>Naturwissenschaft</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_NAT-INF">
+      <longname>Naturwissenschaften / Informatik</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_NAT-ING">
+      <longname>Naturwissenschaften / Ingenieurwesen</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_SOZ">
+      <longname>Sozialwissenschaften</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_WIR">
+      <longname>Wirtschaft</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_WIR-INF">
+      <longname>Wirtschaft / Informatik</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_WIR-ING">
+      <longname>Wirtschaft / Ingenieurwesen</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_WIR-JUR">
+      <longname>Wirtschaft / Jura</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_WIR-MAT">
+      <longname>Wirtschaft / Mathematik</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_WIR-MED">
+      <longname>Wirtschaft / Medizin</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_A1">
+      <longname>Seminarraum,  1-20 Plätze</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_A2">
+      <longname>Seminarraum, 21-33 Plätze</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_A3">
+      <longname>Seminarraum, 34-47 Plätze</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_A4">
+      <longname>Hörsaal,  48- 69 Plätze</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_A5">
+      <longname>Hörsaal,  70- 84 Plätze</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_A6">
+      <longname>Hörsaal,  85-105 Plätze</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_A7">
+      <longname>Hörsaal, 100-150 Plätze</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_A8">
+      <longname>Hörsaal, 150-200 Plätze</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_A9">
+      <longname>Hörsaal, 200-300 Plätze</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_AZ">
+      <longname>Hörsaal, 300-400 Plätze</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_B1">
+      <longname>Fachsaal, Physik-Hörsaal (gr.)</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_B2">
+      <longname>Fachsaal, Physik-Hörsaal (kl.)</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_B3">
+      <longname>Fachsaal, Chemie</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_C1">
+      <longname>Fachsaal, Praktikumsraum mit. spez. Einbauten</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_C2">
+      <longname>Fachsaal, Praktikumsraum keine spez. Einbauten</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_C3">
+      <longname>Fachsaal, Forschungslabor</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_C4">
+      <longname>Fachsaal, Mess-Stand</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_C5">
+      <longname>Fachsaal, Nebenlabor</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_C6">
+      <longname>Fachsaal, Vorbereitungsraum</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_C9">
+      <longname>Fachsaal, Betriebsraum</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_D1">
+      <longname>Rechnerraum, allgemein</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_D2">
+      <longname>Rechnerraum, fachspez.</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_D3">
+      <longname>Rechnerraum, fachspez. (Forschung)</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_D4">
+      <longname>Rechnerraum, Peripherie- / Geräteraum</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_D5">
+      <longname>Rechnerraum, Serverraum</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_D7">
+      <longname>Rechnerraum, Schulung</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_F1">
+      <longname>Projektraum, allgemein</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_F2">
+      <longname>Projektraum, Gruppenarbeitsraum</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_F3">
+      <longname>Projektraum, Übungen</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_F5">
+      <longname>Projektraum, Studiebüro</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_F6">
+      <longname>Projektraum, Sozialraum</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_H1">
+      <longname>Sonstige Räume, Archiv</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_H2">
+      <longname>Sonstige Räume, Seminar-Nebenraum</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_H3">
+      <longname>Sonstige Räume, sonstiges Lager</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_H4">
+      <longname>Sonstige Räume, Labor Lager</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_H5">
+      <longname>Sonstige Räume, Abstellraum</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_I1">
+      <longname>Büro, Büro</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_I2">
+      <longname>Büro, Labor-Ingenieur</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_I3">
+      <longname>Büro, Werkstatt</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_I4">
+      <longname>Büro, Besprechungen</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_I5">
+      <longname>Büro, Ergänzungsraum</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_I6">
+      <longname>Büro, Videokonferenzen</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_UNIMA">
+      <longname>Raum, Uni Marburg</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_W1">
+      <longname>Werkstatt, Feinmechanik</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_W2">
+      <longname>Werkstatt, Metall</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_W5">
+      <longname>Werkstatt, Elektronik</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_W7">
+      <longname>Werkstatt, Nebenraum</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_W9">
+      <longname>Werkstatt, Lager</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_X">
+      <longname>Raum, nicht bekannt</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_K">
+      <longname>Klausur</longname>
+      <flags>U</flags>
+    </description>
+    <description id="DS_P">
+      <longname>Praktikum</longname>
+      <flags>U</flags>
+    </description>
+    <description id="DS_S">
+      <longname>Seminar</longname>
+      <flags>U</flags>
+    </description>
+    <description id="DS_SU">
+      <longname>Seminar. Unterricht</longname>
+      <flags>U</flags>
+    </description>
+    <description id="DS_Ü">
+      <longname>Übung</longname>
+      <flags>U</flags>
+    </description>
+    <description id="DS_ÜG">
+      <longname>Übung groß</longname>
+      <flags>U</flags>
+    </description>
+    <description id="DS_ÜK">
+      <longname>Übung klein</longname>
+      <flags>U</flags>
+    </description>
+    <description id="DS_V">
+      <longname>Vorlesung</longname>
+      <flags>U</flags>
+    </description>
+    <description id="DS_V/P">
+      <longname>Vorlesung / Praktikum</longname>
+      <flags>U</flags>
+    </description>
+    <description id="DS_V/S">
+      <longname>Vorlesung / Seminar</longname>
+      <flags>U</flags>
+    </description>
+    <description id="DS_V/Ü">
+      <longname>Vorlesung / Übung</longname>
+      <flags>U</flags>
+    </description>
+    <description id="DS_V/Ü+P">
+      <longname>Vorlesung / Übung + Praktikum</longname>
+      <flags>U</flags>
+    </description>
+  </descriptions>
+  <departments>
+    <department id="DP_ELE">
+      <longname>Elektrotechnik (B.Eng.)</longname>
+    </department>
+    <department id="DP_AUT">
+      <longname>Automatisierungstechnik (B.Eng.)</longname>
+    </department>
+    <department id="DP_IKT">
+      <longname>Informations- und Kommunikationstechnik (B.Eng.)</longname>
+    </department>
+    <department id="DP_EIT">
+      <longname>Elektro- &amp; Informationstechnik (M.Sc.)</longname>
+    </department>
+    <department id="DP_ICE">
+      <longname>Information and Communtication Engineering (M.Sc.)</longname>
+    </department>
+    <department id="DP_GS">
+      <longname>Grundstudium (B.Eng.)</longname>
+    </department>
+  </departments>
+  <rooms>
+    <room id="RM_A10.2.03">
+      <longname>A.2.03</longname>
+      <capacity>52</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.2.03</external_name>
+    </room>
+    <room id="RM_A10.2.05">
+      <longname>A.2.05</longname>
+      <capacity>56</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.2.05</external_name>
+    </room>
+    <room id="RM_A10.4.06">
+      <longname>A.4.06</longname>
+      <capacity>64</capacity>
+      <flags>O</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.4.06</external_name>
+    </room>
+    <room id="RM_A10.5.03">
+      <longname>A.5.03</longname>
+      <capacity>52</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.5.03</external_name>
+    </room>
+    <room id="RM_A10.5.04">
+      <longname>A.5.04</longname>
+      <capacity>52</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.5.04</external_name>
+    </room>
+    <room id="RM_A10.5.20">
+      <longname>A.5.20</longname>
+      <capacity>54</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.5.20</external_name>
+    </room>
+    <room id="RM_A10.5.26">
+      <longname>A.5.26</longname>
+      <capacity>36</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A3"/>
+      <external_name>A10.5.26</external_name>
+    </room>
+    <room id="RM_A10.6.20">
+      <longname>A.6.20</longname>
+      <capacity>90</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A6"/>
+      <external_name>A10.6.20</external_name>
+    </room>
+    <room id="RM_A10.6.22">
+      <longname>A.6.22</longname>
+      <capacity>22</capacity>
+      <room_description id="DS_C1"/>
+      <external_name>A10.6.22</external_name>
+    </room>
+    <room id="RM_A10.7.23">
+      <longname>A.7.23</longname>
+      <capacity>20</capacity>
+      <room_description id="DS_C1"/>
+      <external_name>A10.7.23</external_name>
+    </room>
+    <room id="RM_A10.7.25">
+      <longname>A.7.25</longname>
+      <capacity>8</capacity>
+      <room_description id="DS_C1"/>
+      <external_name>A10.7.25</external_name>
+    </room>
+    <room id="RM_A10.8.15">
+      <longname>A.8.15</longname>
+      <capacity>168</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_B2"/>
+      <external_name>A10.8.15</external_name>
+    </room>
+    <room id="RM_A12.3.04">
+      <longname>A12.3.04</longname>
+      <capacity>94</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A6"/>
+      <external_name>A12.3.04</external_name>
+    </room>
+    <room id="RM_A12.3.05">
+      <longname>A12.3.05</longname>
+      <flags>OB</flags>
+      <room_description id="DS_A7"/>
+      <external_name>A12.3.05</external_name>
+    </room>
+    <room id="RM_A15.0.05">
+      <longname>A15.0.05</longname>
+      <capacity>15</capacity>
+      <room_description id="DS_C1"/>
+      <external_name>A15.0.05</external_name>
+    </room>
+    <room id="RM_A20.0.07">
+      <longname>A20.0.07</longname>
+      <capacity>126</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A7"/>
+      <external_name>A20.0.07</external_name>
+    </room>
+    <room id="RM_A20.1.07">
+      <longname>A20.1.07</longname>
+      <capacity>126</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A7"/>
+      <external_name>A20.1.07</external_name>
+    </room>
+    <room id="RM_A21.0.03">
+      <longname>A21.0.03</longname>
+      <capacity>160</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A8"/>
+      <external_name>A21.0.03</external_name>
+    </room>
+    <room id="RM_A21.1.01">
+      <longname>A21.1.01</longname>
+      <capacity>160</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A8"/>
+      <external_name>A21.1.01</external_name>
+    </room>
+    <room id="RM_A21.1.08">
+      <longname>A21.1.08</longname>
+      <capacity>48</capacity>
+      <room_description id="DS_C1"/>
+      <external_name>A21.1.08</external_name>
+    </room>
+    <room id="RM_A21.2.01">
+      <longname>A21.2.01</longname>
+      <capacity>36</capacity>
+      <room_description id="DS_D2"/>
+      <external_name>A21.2.01</external_name>
+    </room>
+    <room id="RM_A21.2.06">
+      <longname>A21.2.06</longname>
+      <capacity>30</capacity>
+      <room_description id="DS_C2"/>
+      <external_name>A21.2.06</external_name>
+    </room>
+    <room id="RM_A21.2.07">
+      <longname>A21.2.07</longname>
+      <capacity>48</capacity>
+      <room_description id="DS_C2"/>
+      <external_name>A21.2.07</external_name>
+    </room>
+    <room id="RM_A21.2.14">
+      <longname>A21.2.14</longname>
+      <capacity>36</capacity>
+      <room_description id="DS_D2"/>
+      <external_name>A21.2.14</external_name>
+    </room>
+    <room id="RM_A21.3.09">
+      <longname>A21.3.09</longname>
+      <capacity>48</capacity>
+      <room_description id="DS_C1"/>
+      <external_name>A21.3.09</external_name>
+    </room>
+    <room id="RM_C13.1.10">
+      <longname>C13.1.10</longname>
+      <capacity>30</capacity>
+      <flags>B</flags>
+      <room_description id="DS_A2"/>
+      <external_name>C13.1.10</external_name>
+    </room>
+  </rooms>
+  <subjects>
+    <subject id="SU_AAE">
+      <longname>Anwendungsbezogene Auswahl von E-Motoren</longname>
+      <text>E629</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_AAT">
+      <longname>Antriebe in der Automatisierungstechnik</longname>
+      <text>E604</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_AEZ">
+      <longname>Alternative Energieerzeugung</longname>
+      <text>E605</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_AMS">
+      <longname>Anwendungsbezogene Methoden der numerischen Signalverarbeitung</longname>
+      <text>E624</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_ANT">
+      <longname>Antennen</longname>
+      <text>E615</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_APA">
+      <longname>Automatisierungstechnische Projektarbeit</longname>
+      <text>E240b</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_ASQ">
+      <longname>Aktuelle Schlüsselqualkationen</longname>
+      <text>E250</text>
+      <subjectgroup>SOZ</subjectgroup>
+      <subject_description id="DS_SOZ"/>
+    </subject>
+    <subject id="SU_ATD">
+      <longname>Antriebsdimensionierung</longname>
+      <text>E616</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_ATE">
+      <longname>Aktuelle Themen der Elektrotechnik</longname>
+      <text>E698</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_ATI">
+      <longname>Aktuelle Themen der Informationstechnik</longname>
+      <text>E699</text>
+      <subjectgroup>ING-INF</subjectgroup>
+      <subject_description id="DS_ING-INF"/>
+    </subject>
+    <subject id="SU_ATT">
+      <longname>Einführung in der Antriebstechnik</longname>
+      <text>E705</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_AUT">
+      <longname>Einführung in der Automatisierungstechnik</longname>
+      <text>E706</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_BA-S">
+      <longname>Bachelor Seminar mi Kolloquium</longname>
+      <text>E904</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_BGK">
+      <longname>Baugruppenentwurf und Gerätekonstruktion</longname>
+      <text>E416</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_BPP-S">
+      <longname>Berufspraktische Phase mit Seminar</longname>
+      <text>E902</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_BSY">
+      <longname>Bussysteme der Automatisierungstechnik</longname>
+      <text>E606</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_BVG">
+      <longname>Bildverarbeitung</longname>
+      <text>E607</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_CAE">
+      <longname>Computer Aided Engineering</longname>
+      <text>E608</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_CN1">
+      <longname>Computernetzwerke 1</longname>
+      <text>E621</text>
+      <subjectgroup>ING-INF</subjectgroup>
+      <subject_description id="DS_ING-INF"/>
+    </subject>
+    <subject id="SU_CN2">
+      <longname>Computernetzwerke 2</longname>
+      <text>E622</text>
+      <subjectgroup>ING-INF</subjectgroup>
+      <subject_description id="DS_ING-INF"/>
+    </subject>
+    <subject id="SU_DBA">
+      <longname>Datenbankanwendungen</longname>
+      <text>E618</text>
+      <subjectgroup>INF</subjectgroup>
+      <subject_description id="DS_INF"/>
+    </subject>
+    <subject id="SU_DIG">
+      <longname>Digitaltechnik</longname>
+      <text>E111</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_DKT">
+      <longname>Digitale Kommunikationstechnik</longname>
+      <text>E310</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_DMRT">
+      <longname>Digitale Mess- und Regeltechnik</longname>
+      <text>E407</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_EAT">
+      <longname>Elektronische Antriebstechnik</longname>
+      <text>E412</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_EBSYS">
+      <longname>Eingebettete Systeme</longname>
+      <text>W100</text>
+      <subjectgroup>ING-INF</subjectgroup>
+      <subject_description id="DS_ING-INF"/>
+    </subject>
+    <subject id="SU_EEN">
+      <longname>Elektrische Energienetze</longname>
+      <text>W104</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_EGT">
+      <longname>Energietechnik</longname>
+      <text>E204</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_EIA">
+      <longname>Elektroniksysteme in der Automobilindustrie</longname>
+      <text>E625</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_EKO">
+      <longname>Elektrokonstruktion</longname>
+      <text>E707</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_ELK">
+      <longname>Elektronik</longname>
+      <text>E114</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_EMS">
+      <longname>Elektrische Maschinen</longname>
+      <text>E404</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_EMV">
+      <longname>Elektromagnetische Verträglichkeit</longname>
+      <text>E420</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_ENG">
+      <longname>Englisch</longname>
+      <text>E506</text>
+      <subjectgroup>LIN</subjectgroup>
+      <subject_description id="DS_LIN"/>
+    </subject>
+    <subject id="SU_EPA">
+      <longname>Entwicklungstechnische Projektarbeit</longname>
+      <text>E240c</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_EWER">
+      <longname>Energiewirtschaft / Energierecht</longname>
+      <text>E520</text>
+      <subjectgroup>WIR-JUR</subjectgroup>
+      <subject_description id="DS_WIR-JUR"/>
+    </subject>
+    <subject id="SU_EWI">
+      <longname>Elektrizitätswirtschaft</longname>
+      <text>E708</text>
+      <subjectgroup>WIR</subjectgroup>
+      <subject_description id="DS_WIR"/>
+    </subject>
+    <subject id="SU_FDA">
+      <longname>FPGA Design für die Antriebstechnik</longname>
+      <text>E701</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_FEL">
+      <longname>Felder und Wellen</longname>
+      <text>P101</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_FKE">
+      <longname>Festkörperelektronik</longname>
+      <text>P102</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_FPE">
+      <longname>Grundlagen des FPGA-Entwurfs mit VHDL</longname>
+      <text>E613</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_FSO">
+      <longname>Funksysteme für Ortung und Navigation</longname>
+      <text>E612</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_FSY">
+      <longname>Funksysteme und Mobilkommunikation</longname>
+      <text>E314</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_FTV">
+      <longname>Fotovoltaik</longname>
+      <text>E702</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_FUT">
+      <longname>Frequenzumrichtertechnik</longname>
+      <text>E601</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_FVA">
+      <longname>Fortgeschrittene Verfahren der Analogtechnik</longname>
+      <text>W106</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_GDY">
+      <longname>Grundlagen der Elektrodynamik</longname>
+      <text>E623</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_GET-LAB">
+      <longname>Elektrotechnik Laborarbeit</longname>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_GET1">
+      <longname>Elektrotechnik 1</longname>
+      <text>E101</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_GET2">
+      <longname>Elektrotechnik 2</longname>
+      <text>E102</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_GET3">
+      <longname>Elektrotechnik 3</longname>
+      <text>E103</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_GHM">
+      <longname>Grundlagen der höheren Mathematik</longname>
+      <text>E628</text>
+      <subjectgroup>MAT</subjectgroup>
+      <subject_description id="DS_MAT"/>
+    </subject>
+    <subject id="SU_GLP">
+      <longname>Grundlagen Praktikum</longname>
+      <text>E115</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_GVD">
+      <longname>Grundlagen des VLS-Designs</longname>
+      <text>E418</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_HFT">
+      <longname>Hochfrequenztechnik</longname>
+      <text>E302</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_HIN">
+      <longname>Höhere Informatik</longname>
+      <text>P104</text>
+      <subjectgroup>INF</subjectgroup>
+      <subject_description id="DS_INF"/>
+    </subject>
+    <subject id="SU_HRT">
+      <longname>Höhere Regelungstechnik / Drehfeldantriebe</longname>
+      <text>P103</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_HTB">
+      <longname>Technologie und Design von High-Tech Baugruppen</longname>
+      <text>E602</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_IEV">
+      <longname>Inustrielle Energieversorgung</longname>
+      <text>E609</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_IFI1">
+      <longname>Informatik für Ingenieure 1</longname>
+      <text>E109</text>
+      <subjectgroup>ING-INF</subjectgroup>
+      <subject_description id="DS_ING-INF"/>
+    </subject>
+    <subject id="SU_IFI2">
+      <longname>Informatik für Ingenieure 2</longname>
+      <text>E110</text>
+      <subjectgroup>ING-INF</subjectgroup>
+      <subject_description id="DS_ING-INF"/>
+    </subject>
+    <subject id="SU_INK">
+      <longname>Industrielle Kommunikation</longname>
+      <text>W102</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_IPA">
+      <longname>Informationstechnische projektarbeit</longname>
+      <text>E240a</text>
+      <subjectgroup>ING-INF</subjectgroup>
+      <subject_description id="DS_ING-INF"/>
+    </subject>
+    <subject id="SU_ITR">
+      <longname>Informationsübertragung</longname>
+      <text>E304</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_KDS">
+      <longname>Komplexe digitale Systeme</longname>
+      <text>W101</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_KMO">
+      <longname>Kleinmotoren</longname>
+      <text>E409</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_KSY1">
+      <longname>Kommunikationssysteme 1</longname>
+      <text>E306</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_KSY2">
+      <longname>Kommunikationssysteme 2</longname>
+      <text>E308</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_LEI">
+      <longname>Leistungselektronik</longname>
+      <text>E402</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_LET">
+      <longname>Leittechnik</longname>
+      <text>E408</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_LFV">
+      <longname>Leistungselektronik für die Fotovoltaik</longname>
+      <text>E703</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_LRE">
+      <longname>Leistungselektronik für die regenerative Energieversorgung</longname>
+      <text>E627</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_MAT">
+      <longname>Höhere Mathematik</longname>
+      <text>P100</text>
+      <subjectgroup>MAT</subjectgroup>
+      <subject_description id="DS_MAT"/>
+    </subject>
+    <subject id="SU_MAT1">
+      <longname>Mathematik 1</longname>
+      <text>E104</text>
+      <subjectgroup>MAT</subjectgroup>
+      <subject_description id="DS_MAT"/>
+    </subject>
+    <subject id="SU_MAT2">
+      <longname>Mathematik 2</longname>
+      <text>E105</text>
+      <subjectgroup>MAT</subjectgroup>
+      <subject_description id="DS_MAT"/>
+    </subject>
+    <subject id="SU_MAT3">
+      <longname>Mathematik 3</longname>
+      <text>E106b</text>
+      <subjectgroup>MAT</subjectgroup>
+      <subject_description id="DS_MAT"/>
+    </subject>
+    <subject id="SU_MAX">
+      <longname>Maxwell-Theorie</longname>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_MCS">
+      <longname>Mikrocomputersysteme</longname>
+      <text>E414</text>
+      <subjectgroup>ING-INF</subjectgroup>
+      <subject_description id="DS_ING-INF"/>
+    </subject>
+    <subject id="SU_MES">
+      <longname>Messtechnik</longname>
+      <text>E113</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_MFA">
+      <longname>MFA</longname>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_MMA">
+      <longname>Marketingmanagement</longname>
+      <text>E504</text>
+      <subjectgroup>WIR</subjectgroup>
+      <subject_description id="DS_WIR"/>
+    </subject>
+    <subject id="SU_MRT">
+      <longname>Mikrorechnertechnik</longname>
+      <text>E112</text>
+      <subjectgroup>ING-INF</subjectgroup>
+      <subject_description id="DS_ING-INF"/>
+    </subject>
+    <subject id="SU_MSD">
+      <longname>Mixed Signal IC-Design</longname>
+      <text>E614</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_NAE">
+      <longname>Nanoelektronik</longname>
+      <text>E422</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_NAT">
+      <longname>Nachrichtentechnik</longname>
+      <text>E201</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_NGN">
+      <longname>Next Generation Networks</longname>
+      <text>E620</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_ONT">
+      <longname>Optische Nachrichtentechnik</longname>
+      <text>E312</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_PAR">
+      <longname>Projektarbeit</longname>
+      <text>W107</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_PHY">
+      <longname>Physik</longname>
+      <text>E107a</text>
+      <subjectgroup>NAT</subjectgroup>
+      <subject_description id="DS_NAT"/>
+    </subject>
+    <subject id="SU_PMA">
+      <longname>Projektmanagement</longname>
+      <text>E501</text>
+      <subjectgroup>WIR</subjectgroup>
+      <subject_description id="DS_WIR"/>
+    </subject>
+    <subject id="SU_PMI">
+      <longname>Projektmanagement für Ingenieure</longname>
+      <text>E710</text>
+      <subjectgroup>WIR</subjectgroup>
+      <subject_description id="DS_WIR"/>
+    </subject>
+    <subject id="SU_POR">
+      <longname>Personal und Organisation</longname>
+      <text>E505</text>
+      <subjectgroup>WIR</subjectgroup>
+      <subject_description id="DS_WIR"/>
+    </subject>
+    <subject id="SU_QMA">
+      <longname>Qualitätsmanagment</longname>
+      <text>E502</text>
+      <subjectgroup>WIR</subjectgroup>
+      <subject_description id="DS_WIR"/>
+    </subject>
+    <subject id="SU_REG1">
+      <longname>Regelungstechnik 1</longname>
+      <text>E202</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_REG2">
+      <longname>Regelungstechnik 2</longname>
+      <text>E410</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_S-ABW">
+      <longname>Arbeitswissenschaften 1</longname>
+      <text>E118</text>
+      <subjectgroup>SOZ</subjectgroup>
+      <subject_description id="DS_SOZ"/>
+    </subject>
+    <subject id="SU_S-ALM">
+      <longname>Arbeits- und Lernmethoden</longname>
+      <text>E116</text>
+      <subjectgroup>SOZ</subjectgroup>
+      <subject_description id="DS_SOZ"/>
+    </subject>
+    <subject id="SU_S-BEW">
+      <longname>Bewerbung in eigener Sache</longname>
+      <text>E252</text>
+      <subjectgroup>SOZ</subjectgroup>
+      <subject_description id="DS_SOZ"/>
+    </subject>
+    <subject id="SU_S-BMA">
+      <longname>Schlüsselqualifikation 1: Betriebsmanagment</longname>
+      <text>S100</text>
+      <subjectgroup>WIR</subjectgroup>
+      <subject_description id="DS_WIR"/>
+    </subject>
+    <subject id="SU_S-BWI">
+      <longname>Betriebswirtschaftslehre für Ingenieure</longname>
+      <text>E251</text>
+      <subjectgroup>WIR-ING</subjectgroup>
+      <subject_description id="DS_WIR-ING"/>
+    </subject>
+    <subject id="SU_S-EMA">
+      <longname>Schlüsselqualifikation 2: Entwicklungsmanagement</longname>
+      <text>S101</text>
+      <subjectgroup>WIR</subjectgroup>
+      <subject_description id="DS_WIR"/>
+    </subject>
+    <subject id="SU_S-ENG">
+      <longname>Englisch für Ingenieure</longname>
+      <text>E257</text>
+      <subjectgroup>LIN</subjectgroup>
+      <subject_description id="DS_LIN"/>
+    </subject>
+    <subject id="SU_S-ENG+">
+      <longname>Preparation Course for Cambridge First Certificate in English</longname>
+      <text>E254</text>
+      <subjectgroup>LIN</subjectgroup>
+      <subject_description id="DS_LIN"/>
+    </subject>
+    <subject id="SU_S-EPM">
+      <longname>Einführung in das Projektmanagement</longname>
+      <text>E258</text>
+      <subjectgroup>WIR</subjectgroup>
+      <subject_description id="DS_WIR"/>
+    </subject>
+    <subject id="SU_S-MKT">
+      <longname>Internationales Marketing / Vertrieb</longname>
+      <text>E253</text>
+      <subjectgroup>WIR</subjectgroup>
+      <subject_description id="DS_WIR"/>
+    </subject>
+    <subject id="SU_S-QMA">
+      <longname>Einführung in das Qualitätsmanagement</longname>
+      <text>E255</text>
+      <subjectgroup>WIR</subjectgroup>
+      <subject_description id="DS_WIR"/>
+    </subject>
+    <subject id="SU_S-REC">
+      <longname>Arbeits-, Patent-, und Vertragsrecht</longname>
+      <text>E259</text>
+      <subjectgroup>JUR</subjectgroup>
+      <subject_description id="DS_JUR"/>
+    </subject>
+    <subject id="SU_S-SML">
+      <longname>Studienmethodik und Lebensgestaltung</longname>
+      <text>E120</text>
+      <subjectgroup>SOZ</subjectgroup>
+      <subject_description id="DS_SOZ"/>
+    </subject>
+    <subject id="SU_S-TDO">
+      <longname>Technische Dokumentation- / Präsentationstechnik</longname>
+      <text>E117</text>
+      <subjectgroup>SOZ</subjectgroup>
+      <subject_description id="DS_SOZ"/>
+    </subject>
+    <subject id="SU_S-UMW">
+      <longname>Umweltschutz und Recycling</longname>
+      <text>E256</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_SEA">
+      <longname>Simulation Elektrischer Antriebe</longname>
+      <text>E704</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_SEN">
+      <longname>Sensorik</longname>
+      <text>E610</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_SFB">
+      <longname>Sensoren, Feldbusse</longname>
+      <text>E709</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_SIG">
+      <longname>Signalverarbeitung</longname>
+      <text>E203</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_SIM1">
+      <longname>Bauelementsimulation FEM</longname>
+      <text>V100</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_SIM2">
+      <longname>Simulation im Entwicklungsprozess technischer Systeme</longname>
+      <text>V101</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_SIM3">
+      <longname>Schaltungssimulation am Beispiel der Leistungselektronik</longname>
+      <text>V102</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_SIM4">
+      <longname>3D Feldsimulation elektronischer Baugruppen</longname>
+      <text>V103</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_SMS">
+      <longname>Simulation mit Matlab und Simulink</longname>
+      <text>E611</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_SMT">
+      <longname>Spezielle Messtechnik</longname>
+      <text>E711</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_SQL">
+      <longname>Relationale Datenbanken</longname>
+      <subjectgroup>INF</subjectgroup>
+      <subject_description id="DS_INF"/>
+    </subject>
+    <subject id="SU_SRS">
+      <longname>Sensorlose Regelung von Servomotoren</longname>
+      <text>E619</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_STA">
+      <longname>Softwaretools und Anforderungsmanagement</longname>
+      <text>E617</text>
+      <subjectgroup>WIR-INF</subjectgroup>
+      <subject_description id="DS_WIR-INF"/>
+    </subject>
+    <subject id="SU_STL">
+      <longname>Systemtechnisches Labor</longname>
+      <text>E430</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_STPA">
+      <longname>Systemtechnische Projektarbeit</longname>
+      <text>E440</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_STT">
+      <longname>Steuerungstechnik und Robotik</longname>
+      <text>E406</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_SWE">
+      <longname>Softwareentwicklung</longname>
+      <text>E205</text>
+      <subjectgroup>INF</subjectgroup>
+      <subject_description id="DS_INF"/>
+    </subject>
+    <subject id="SU_TBM">
+      <longname>Technologie und Bauelemente der Mikroelektronik</longname>
+      <text>E603</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_TEC">
+      <longname>Technische Mechanik</longname>
+      <text>E206</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_TRA">
+      <longname>Transformationen</longname>
+      <text>E106a</text>
+      <subjectgroup>MAT</subjectgroup>
+      <subject_description id="DS_MAT"/>
+    </subject>
+    <subject id="SU_USG">
+      <longname>Unabhängige Stromversorgung in der Gebäudetechnik</longname>
+      <text>E626</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+    <subject id="SU_ZES">
+      <longname>Zuverlässigkeit elektrischer Systeme</longname>
+      <text>W105</text>
+      <subjectgroup>ING</subjectgroup>
+      <subject_description id="DS_ING"/>
+    </subject>
+  </subjects>
+  <teachers>
+    <teacher id="TR_Aschenbrenner">
+      <forename>Konstantin</forename>
+      <surname>Aschenbrenner</surname>
+      <title>Hr.
+</title>
+      <teacher_description id="DS_ING"/>
+      <external_name>AschK</external_name>
+    </teacher>
+    <teacher id="TR_Berger">
+      <forename>Jens</forename>
+      <surname>Berger</surname>
+      <teacher_description id="DS_SOZ"/>
+      <external_name>BergJ</external_name>
+    </teacher>
+    <teacher id="TR_Birkel">
+      <forename>Ulrich</forename>
+      <surname>Birkel</surname>
+      <title>Prof. Dr.-Ing.</title>
+      <teacher_description id="DS_ING"/>
+      <external_name>BirkU</external_name>
+    </teacher>
+    <teacher id="TR_Bolsch">
+      <forename>Andreas</forename>
+      <surname>Bolsch</surname>
+      <title>Prof. Dr.</title>
+      <payrollnumber>hg14363
+</payrollnumber>
+      <teacher_description id="DS_MAT"/>
+      <external_name>BolsA</external_name>
+    </teacher>
+    <teacher id="TR_Bonath">
+      <forename>Werner</forename>
+      <surname>Bonath</surname>
+      <title>Prof. Dr.-Ing.</title>
+      <teacher_description id="DS_NAT-ING"/>
+      <external_name>BonaW</external_name>
+    </teacher>
+    <teacher id="TR_Borschel">
+      <forename>Wolfgang</forename>
+      <surname>Borschel</surname>
+      <title>Prof. Dipl.-Ing.
+</title>
+      <teacher_description id="DS_ING"/>
+      <external_name>BorsW</external_name>
+    </teacher>
+    <teacher id="TR_Bramwell">
+      <forename>Mark</forename>
+      <surname>Bramwell</surname>
+      <teacher_description id="DS_LIN"/>
+      <external_name>BramM</external_name>
+    </teacher>
+    <teacher id="TR_Carle">
+      <forename>Wilfried</forename>
+      <surname>Carle</surname>
+      <teacher_description id="DS_ING"/>
+      <external_name>CarlW</external_name>
+    </teacher>
+    <teacher id="TR_Cramer">
+      <forename>Stefan</forename>
+      <surname>Cramer</surname>
+      <title>Prof. Dr.-Ing.</title>
+      <teacher_description id="DS_ING"/>
+      <external_name>CramS</external_name>
+    </teacher>
+    <teacher id="TR_Dersch">
+      <forename>Thomas</forename>
+      <surname>Dersch</surname>
+      <title>Dipl.-Ing.
+</title>
+      <teacher_description id="DS_ING"/>
+      <external_name>DersT</external_name>
+    </teacher>
+    <teacher id="TR_Diehl">
+      <forename>Rudolf</forename>
+      <surname>Diehl</surname>
+      <teacher_description id="DS_ING"/>
+      <external_name>DiehR</external_name>
+    </teacher>
+    <teacher id="TR_Dönges">
+      <forename>Thorsten</forename>
+      <surname>Dönges</surname>
+      <teacher_description id="DS_MED-ING"/>
+      <external_name>DöngT</external_name>
+    </teacher>
+    <teacher id="TR_Eisfeller">
+      <forename>Guido</forename>
+      <surname>Eisfeller</surname>
+      <title>Dipl.-Ing.</title>
+      <teacher_description id="DS_SOZ"/>
+      <external_name>EisfG</external_name>
+    </teacher>
+    <teacher id="TR_Endl">
+      <forename>Bernhard Ulrich</forename>
+      <surname>Endl</surname>
+      <title>Prof.</title>
+      <payrollnumber>hg8341
+</payrollnumber>
+      <teacher_description id="DS_ING"/>
+      <external_name>EndlBU</external_name>
+    </teacher>
+    <teacher id="TR_Fjodorow">
+      <forename>Swetlana</forename>
+      <surname>Fjodorow</surname>
+      <title>Dipl.-Ing.</title>
+      <teacher_description id="DS_ING"/>
+      <external_name>FjodS</external_name>
+    </teacher>
+    <teacher id="TR_Frey">
+      <forename>Jochen</forename>
+      <surname>Frey</surname>
+      <title>Prof. Dr.-Ing.</title>
+      <payrollnumber>jfry60
+</payrollnumber>
+      <teacher_description id="DS_ING"/>
+      <external_name>FreyJ</external_name>
+    </teacher>
+    <teacher id="TR_Garbrecht">
+      <forename>Firedrich WIlhelm</forename>
+      <surname>Garbrecht</surname>
+      <title>Prof. Dr.
+</title>
+      <teacher_description id="DS_ING"/>
+      <external_name>GarbFW</external_name>
+    </teacher>
+    <teacher id="TR_Göge">
+      <forename>Thomas</forename>
+      <surname>Göge</surname>
+      <teacher_description id="DS_ING"/>
+      <external_name>GögeT</external_name>
+    </teacher>
+    <teacher id="TR_Haberman">
+      <forename>Joachim</forename>
+      <surname>Haberman</surname>
+      <title>Prof. Dr.</title>
+      <teacher_description id="DS_ING"/>
+      <external_name>HabeJ</external_name>
+    </teacher>
+    <teacher id="TR_Henrich">
+      <forename>Dirk</forename>
+      <surname>Henrich</surname>
+      <title>Dipl.-Ing.</title>
+      <teacher_description id="DS_SOZ"/>
+      <external_name>HenrD</external_name>
+    </teacher>
+    <teacher id="TR_Jehle">
+      <forename>Bernhard</forename>
+      <surname>Jehle</surname>
+      <teacher_description id="DS_SOZ"/>
+      <external_name>JehlB</external_name>
+    </teacher>
+    <teacher id="TR_Just">
+      <forename>Bettina</forename>
+      <surname>Just</surname>
+      <title>Prof. Dr.</title>
+      <payrollnumber>bjst71
+</payrollnumber>
+      <teacher_description id="DS_MAT"/>
+      <external_name>JustB</external_name>
+    </teacher>
+    <teacher id="TR_Karry">
+      <forename>Martin</forename>
+      <surname>Karry</surname>
+      <payrollnumber>mkrr38
+</payrollnumber>
+      <teacher_description id="DS_INF"/>
+      <external_name>KarrM</external_name>
+    </teacher>
+    <teacher id="TR_Kausen">
+      <forename>Ernst</forename>
+      <surname>Kausen</surname>
+      <title>Prof. Dr.</title>
+      <teacher_description id="DS_MAT"/>
+      <external_name>KausE</external_name>
+    </teacher>
+    <teacher id="TR_Kempf">
+      <forename>Tobias</forename>
+      <surname>Kempf</surname>
+      <title>Prof. Dr.-Ing.</title>
+      <teacher_description id="DS_ING-INF"/>
+      <external_name>KempT</external_name>
+    </teacher>
+    <teacher id="TR_Klös">
+      <forename>Alexander</forename>
+      <surname>Klös</surname>
+      <title>Prof. Dr.-Ing.</title>
+      <payrollnumber>hg12499
+</payrollnumber>
+      <teacher_description id="DS_ING"/>
+      <external_name>KlösA</external_name>
+    </teacher>
+    <teacher id="TR_Klytta">
+      <forename>Marius</forename>
+      <surname>Klytta</surname>
+      <title>Prof. Dr.</title>
+      <payrollnumber>hg9386
+</payrollnumber>
+      <teacher_description id="DS_ING"/>
+      <external_name>KlytM</external_name>
+    </teacher>
+    <teacher id="TR_Kröning">
+      <forename>Michael</forename>
+      <surname>Kröning</surname>
+      <title>Dipl.-Ing.
+</title>
+      <teacher_description id="DS_ING-INF"/>
+      <external_name>KrönM</external_name>
+    </teacher>
+    <teacher id="TR_Loth">
+      <forename>Matthias</forename>
+      <surname>Loth</surname>
+      <title>Dipl.-Ing.
+</title>
+      <teacher_description id="DS_ING"/>
+      <external_name>LothMa</external_name>
+    </teacher>
+    <teacher id="TR_Münke">
+      <forename>Michael</forename>
+      <surname>Münke</surname>
+      <title>Prof. Dr.-Ing.</title>
+      <payrollnumber>hg8652
+</payrollnumber>
+      <teacher_description id="DS_ING-INF"/>
+      <external_name>MünkM</external_name>
+    </teacher>
+    <teacher id="TR_Obermann">
+      <forename>Kristof</forename>
+      <surname>Obermann</surname>
+      <title>Prof. Dr.-Ing.</title>
+      <payrollnumber>kobr60
+</payrollnumber>
+      <teacher_description id="DS_ING"/>
+      <external_name>OberK</external_name>
+    </teacher>
+    <teacher id="TR_Peppler">
+      <forename>Achim</forename>
+      <surname>Peppler</surname>
+      <teacher_description id="DS_INF"/>
+      <external_name>PeppA</external_name>
+    </teacher>
+    <teacher id="TR_Pointeau">
+      <forename>Dieter</forename>
+      <surname>Pointeau</surname>
+      <title>Dipl.-Ing.</title>
+      <teacher_description id="DS_ING"/>
+      <external_name>PoinD</external_name>
+    </teacher>
+    <teacher id="TR_Probst">
+      <forename>Uwe</forename>
+      <surname>Probst</surname>
+      <title>Prof. Dr.-Ing.</title>
+      <payrollnumber>hg13555
+</payrollnumber>
+      <teacher_description id="DS_INF"/>
+      <external_name>ProbU</external_name>
+    </teacher>
+    <teacher id="TR_Prochaska">
+      <forename>Friedhelm</forename>
+      <surname>Prochaska</surname>
+      <teacher_description id="DS_ING"/>
+      <external_name>ProcF</external_name>
+    </teacher>
+    <teacher id="TR_Ricklefs">
+      <forename>Ubbo</forename>
+      <surname>Ricklefs</surname>
+      <title>Prof. Dr.-Ing.</title>
+      <payrollnumber>hg7424
+</payrollnumber>
+      <teacher_description id="DS_ING"/>
+      <external_name>RickU</external_name>
+    </teacher>
+    <teacher id="TR_Rinn">
+      <forename>Klaus</forename>
+      <surname>Rinn</surname>
+      <title>Prof. Dr.</title>
+      <payrollnumber>hg11854
+</payrollnumber>
+      <teacher_description id="DS_NAT"/>
+      <external_name>RinnK</external_name>
+    </teacher>
+    <teacher id="TR_Röhm">
+      <forename>Anita</forename>
+      <surname>Röhm</surname>
+      <title>Prof. Dr.</title>
+      <payrollnumber>hg10857
+</payrollnumber>
+      <teacher_description id="DS_WIR"/>
+      <external_name>RöhmA</external_name>
+    </teacher>
+    <teacher id="TR_Schlapp">
+      <forename>Ernst-Dieter</forename>
+      <surname>Schlapp</surname>
+      <title>Dipl.-Kfm.
+</title>
+      <teacher_description id="DS_WIR-ING"/>
+      <external_name>SchlED</external_name>
+    </teacher>
+    <teacher id="TR_Schmitz">
+      <forename>Peter</forename>
+      <surname>Schmitz</surname>
+      <title>Prof. Dr.-Ing.</title>
+      <payrollnumber>hg7394
+</payrollnumber>
+      <teacher_description id="DS_ING"/>
+      <external_name>SchmP</external_name>
+    </teacher>
+    <teacher id="TR_Schröder">
+      <forename>Cathrin</forename>
+      <surname>Schröder</surname>
+      <title>Prof. Dr.</title>
+      <teacher_description id="DS_ING"/>
+      <external_name>SchrC</external_name>
+    </teacher>
+    <teacher id="TR_Schusser">
+      <forename>Ellen</forename>
+      <surname>Schusser-Backhaus</surname>
+      <teacher_description id="DS_JUR"/>
+      <external_name>SchuBE</external_name>
+    </teacher>
+    <teacher id="TR_Slemeyer">
+      <forename>Andreas</forename>
+      <surname>Slemeyer</surname>
+      <title>Prof. Dr.</title>
+      <payrollnumber>hg7434</payrollnumber>
+      <teacher_description id="DS_ING"/>
+      <external_name>SlemA</external_name>
+    </teacher>
+    <teacher id="TR_Thies">
+      <forename>Karl-Heinz</forename>
+      <surname>Thies</surname>
+      <payrollnumber>tkrl05</payrollnumber>
+      <teacher_description id="DS_SOZ"/>
+      <external_name>ThieKH</external_name>
+    </teacher>
+    <teacher id="TR_Thüringer">
+      <forename>Rainer</forename>
+      <surname>Thüringer</surname>
+      <title>Prof. Dr. rer. nat.</title>
+      <payrollnumber>hg7313</payrollnumber>
+      <teacher_description id="DS_ING"/>
+      <external_name>ThürR</external_name>
+    </teacher>
+    <teacher id="TR_Titzmann">
+      <forename>Thorsten</forename>
+      <surname>Titzmann</surname>
+      <title>Dr.</title>
+      <teacher_description id="DS_MAT"/>
+      <external_name>TitzT</external_name>
+    </teacher>
+    <teacher id="TR_Tutoren">
+      <surname>Tutoren</surname>
+      <teacher_description id="DS_DIV"/>
+    </teacher>
+    <teacher id="TR_UNB">
+      <surname>Unbekannt</surname>
+      <teacher_description id="DS_DIV"/>
+    </teacher>
+    <teacher id="TR_Weber">
+      <forename>Mark</forename>
+      <surname>Weber</surname>
+      <teacher_description id="DS_ING"/>
+      <external_name>WebeM</external_name>
+    </teacher>
+  </teachers>
+  <classes>
+    <class id="CL_AIE6">
+      <longname>Alle B.Eng. Studiengänge, Wahlpflicht, Jahresbetrieb</longname>
+      <classlevel>WP JB</classlevel>
+      <class_description id="DS_ING"/>
+      <class_department id="DP_ELE"/>
+    </class>
+    <class id="CL_AUT4">
+      <longname>Automatisierungstechnik (B.Eng.), ab den 4. Semester, Semesterbetrieb</longname>
+      <classlevel>4 SB</classlevel>
+      <class_description id="DS_ING"/>
+      <class_department id="DP_AUT"/>
+    </class>
+    <class id="CL_AUT5">
+      <longname>Automatisierungstechnik (B. Eng.), Vertiefungsfach, Jahresbetrieb</longname>
+      <classlevel>VT JB</classlevel>
+      <class_description id="DS_ING"/>
+      <class_department id="DP_AUT"/>
+    </class>
+    <class id="CL_EIT1">
+      <longname>Elektro- und Informationstechnik (M.Sc.)</longname>
+      <classlevel>Alle</classlevel>
+      <class_description id="DS_ING"/>
+      <class_department id="DP_EIT"/>
+    </class>
+    <class id="CL_ELE4">
+      <longname>Elektrotechnik (B.Eng.), ab den 4. Semester, Semesterbetrieb</longname>
+      <classlevel>4 SB</classlevel>
+      <class_description id="DS_ING"/>
+      <class_department id="DP_ELE"/>
+    </class>
+    <class id="CL_ELE5">
+      <longname>Elektrotechnik (B. Eng.), Vertiefungsfach, Jahresbetrieb</longname>
+      <classlevel>VT JB</classlevel>
+      <class_description id="DS_ING"/>
+      <class_department id="DP_ELE"/>
+    </class>
+    <class id="CL_G1A1">
+      <longname>Grundstudium Elektrotechnik (B.Eng.), 1. Semester, Zug A, Gruppe 1</longname>
+      <classlevel>1A1</classlevel>
+      <class_description id="DS_ING"/>
+      <class_department id="DP_GS"/>
+    </class>
+    <class id="CL_G1A2">
+      <longname>Grundstudium Elektrotechnik (B.Eng.), 1. Semester, Zug A, Gruppe 2</longname>
+      <classlevel>1A2</classlevel>
+      <class_description id="DS_ING"/>
+      <class_department id="DP_GS"/>
+    </class>
+    <class id="CL_G1B1">
+      <longname>Grundstudium Elektrotechnik (B.Eng.), 1. Semester, Zug B, Gruppe 1</longname>
+      <classlevel>1B1</classlevel>
+      <class_description id="DS_ING"/>
+      <class_department id="DP_GS"/>
+    </class>
+    <class id="CL_G1B2">
+      <longname>Grundstudium Elektrotechnik (B.Eng.), 1. Semester, Zug B, Gruppe 2</longname>
+      <classlevel>1B2</classlevel>
+      <class_description id="DS_ING"/>
+      <class_department id="DP_GS"/>
+    </class>
+    <class id="CL_G2A1">
+      <longname>Grundstudium Elektrotechnik (B.Eng.), 2. Semester, Zug A, Gruppe 1</longname>
+      <classlevel>2A1</classlevel>
+      <class_description id="DS_ING"/>
+      <class_department id="DP_GS"/>
+    </class>
+    <class id="CL_G2A2">
+      <longname>Grundstudium Elektrotechnik (B.Eng.), 2. Semester, Zug A, Gruppe 2</longname>
+      <classlevel>2A2</classlevel>
+      <class_description id="DS_ING"/>
+      <class_department id="DP_GS"/>
+    </class>
+    <class id="CL_G3A1">
+      <longname>Grundstudium Elektrotechnik (B.Eng.), 3. Semester, Zug A, Gruppe 1</longname>
+      <classlevel>3A1</classlevel>
+      <class_description id="DS_ING"/>
+      <class_department id="DP_GS"/>
+    </class>
+    <class id="CL_G3B1">
+      <longname>Grundstudium Elektrotechnik (B.Eng.), 3. Semester, Zug B, Gruppe 1</longname>
+      <classlevel>3B1</classlevel>
+      <class_description id="DS_ING"/>
+      <class_department id="DP_GS"/>
+    </class>
+    <class id="CL_IKT4">
+      <longname>Informations- und Kommunikationstechnik (B.Eng.), ab den 4. Semester, Semesterbetrieb</longname>
+      <classlevel>4 SB</classlevel>
+      <class_description id="DS_ING"/>
+      <class_department id="DP_IKT"/>
+    </class>
+    <class id="CL_IKT5">
+      <longname>Information/ und Kommunikationstechnik (B. Eng.), Vertiefungsfach, Jahresbetrieb</longname>
+      <classlevel>VT JB</classlevel>
+      <class_description id="DS_ING"/>
+      <class_department id="DP_ELE"/>
+    </class>
+  </classes>
+  <students/>
+  <lessons>
+    <lesson id="LS_8800">
+      <periods>1</periods>
+      <lesson_subject id="SU_ANT"/>
+      <lesson_teacher id="TR_Borschel"/>
+      <lesson_classes id="CL_AIE6"/>
+      <teacher_value>32692</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.5.26"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_8900">
+      <periods>2</periods>
+      <lesson_subject id="SU_ATD"/>
+      <lesson_teacher id="TR_Garbrecht"/>
+      <lesson_classes id="CL_AIE6"/>
+      <teacher_value>65384</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.4.06"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.5.03"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_9000">
+      <periods>2</periods>
+      <lesson_subject id="SU_BGK"/>
+      <lesson_teacher id="TR_Thüringer"/>
+      <lesson_classes id="CL_ELE4"/>
+      <teacher_value>65384</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.5.20"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.5.20"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_9100">
+      <periods>1</periods>
+      <lesson_subject id="SU_BPP-S"/>
+      <lesson_teacher id="TR_Fjodorow"/>
+      <lesson_classes id="CL_AIE6 CL_AUT5 CL_ELE5 CL_IKT5"/>
+      <teacher_value>32700</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>S</lesson_description>
+      <times>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.6.20"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_9200">
+      <periods>3</periods>
+      <lesson_subject id="SU_DIG"/>
+      <lesson_teacher id="TR_Cramer"/>
+      <lesson_classes id="CL_G2A1"/>
+      <teacher_value>98076</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.6.20"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.5.03"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.5.03"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_9300">
+      <periods>1</periods>
+      <lesson_subject id="SU_DIG"/>
+      <lesson_teacher id="TR_Tutoren"/>
+      <lesson_classes id="CL_G2A2"/>
+      <teacher_value>32692</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.6.20"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_9400">
+      <periods>3</periods>
+      <lesson_subject id="SU_ELK"/>
+      <lesson_teacher id="TR_Münke"/>
+      <lesson_classes id="CL_G3A1 CL_G3B1"/>
+      <teacher_value>98100</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A12.3.05"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A12.3.05"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.8.15"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_9500">
+      <periods>2</periods>
+      <lesson_subject id="SU_EMS"/>
+      <lesson_teacher id="TR_Klytta"/>
+      <lesson_classes id="CL_AUT4"/>
+      <teacher_value>65384</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.5.03"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.5.03"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_9600">
+      <periods>1</periods>
+      <lesson_subject id="SU_EMS"/>
+      <lesson_teacher id="TR_Klytta"/>
+      <lesson_classes id="CL_AUT4"/>
+      <teacher_value>32692</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.5.26"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_9601">
+      <periods>1</periods>
+      <lesson_subject id="SU_EMS"/>
+      <lesson_teacher id="TR_Pointeau"/>
+      <lesson_classes id="CL_AUT4"/>
+      <teacher_value>32692</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.5.26"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_9700">
+      <periods>2</periods>
+      <lesson_subject id="SU_EMS"/>
+      <lesson_teacher id="TR_Klytta"/>
+      <lesson_classes id="CL_AUT4"/>
+      <teacher_value>65384</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>P</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.5.20"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A10.5.20"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_9701">
+      <periods>2</periods>
+      <lesson_subject id="SU_EMS"/>
+      <lesson_teacher id="TR_Pointeau"/>
+      <lesson_classes id="CL_AUT4"/>
+      <teacher_value>65384</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>P</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.5.20"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A10.5.20"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_9800">
+      <periods>2</periods>
+      <lesson_subject id="SU_FPE"/>
+      <lesson_teacher id="TR_Münke"/>
+      <lesson_classes id="CL_AIE6"/>
+      <teacher_value>65384</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.4.06"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.5.04"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_9900">
+      <periods>3</periods>
+      <lesson_subject id="SU_FSY"/>
+      <lesson_teacher id="TR_Birkel"/>
+      <lesson_classes id="CL_IKT5"/>
+      <teacher_value>98076</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.5.26"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.5.26"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.5.26"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_10000">
+      <periods>3</periods>
+      <lesson_subject id="SU_GET1"/>
+      <lesson_teacher id="TR_Endl"/>
+      <lesson_classes id="CL_G1A1"/>
+      <teacher_value>98076</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.5.04"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.5.03"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.5.04"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_10100">
+      <periods>2</periods>
+      <lesson_subject id="SU_GET1"/>
+      <lesson_teacher id="TR_Tutoren"/>
+      <lesson_classes id="CL_G1A2"/>
+      <teacher_value>65384</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.5.04"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.5.04"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_10200">
+      <periods>2</periods>
+      <lesson_subject id="SU_GET1"/>
+      <lesson_teacher id="TR_Tutoren"/>
+      <lesson_classes id="CL_G1A2 CL_G1B2"/>
+      <teacher_value>65400</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.5.04"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.5.04"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_10300">
+      <periods>3</periods>
+      <lesson_subject id="SU_GET1"/>
+      <lesson_teacher id="TR_Frey"/>
+      <lesson_classes id="CL_G1B1"/>
+      <teacher_value>98076</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.5.04"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.4.06"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.5.04"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_10400">
+      <periods>1</periods>
+      <lesson_subject id="SU_GET1"/>
+      <lesson_teacher id="TR_Tutoren"/>
+      <lesson_classes id="CL_G1B2"/>
+      <teacher_value>32692</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.5.04"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_10500">
+      <periods>3</periods>
+      <lesson_subject id="SU_GET2"/>
+      <lesson_teacher id="TR_Birkel"/>
+      <lesson_classes id="CL_G2A1"/>
+      <teacher_value>98076</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.6.20"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.5.04"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.5.03"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_10600">
+      <periods>2</periods>
+      <lesson_subject id="SU_GET3"/>
+      <lesson_teacher id="TR_Schröder"/>
+      <lesson_classes id="CL_G3A1 CL_G3B1"/>
+      <teacher_value>65400</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.6.20"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.5.03"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_10700">
+      <periods>2</periods>
+      <lesson_subject id="SU_GHM"/>
+      <lesson_teacher id="TR_Bolsch"/>
+      <lesson_classes id="CL_AIE6"/>
+      <teacher_value>65384</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.4.06"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.4.06"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_10800">
+      <periods>2</periods>
+      <lesson_subject id="SU_GVD"/>
+      <lesson_teacher id="TR_Bonath"/>
+      <lesson_classes id="CL_AIE6"/>
+      <teacher_value>65384</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.4.06"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.2.05"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_10900">
+      <periods>2</periods>
+      <lesson_subject id="SU_HFT"/>
+      <lesson_teacher id="TR_Bonath"/>
+      <lesson_classes id="CL_ELE4 CL_IKT4"/>
+      <teacher_value>65400</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.5.03"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.5.04"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_11000">
+      <periods>1</periods>
+      <lesson_subject id="SU_HRT"/>
+      <lesson_teacher id="TR_Schmitz"/>
+      <lesson_classes id="CL_EIT1"/>
+      <teacher_value>32692</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.5.26"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_11001">
+      <periods>1</periods>
+      <lesson_subject id="SU_HRT"/>
+      <lesson_teacher id="TR_Loth"/>
+      <lesson_classes id="CL_EIT1"/>
+      <teacher_value>32692</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.5.26"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_11100">
+      <periods>1</periods>
+      <lesson_subject id="SU_HTB"/>
+      <lesson_teacher id="TR_Thüringer"/>
+      <lesson_classes id="CL_AIE6"/>
+      <teacher_value>32692</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.2.03"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_11200">
+      <periods>1</periods>
+      <lesson_subject id="SU_MFA"/>
+      <lesson_teacher id="TR_Kempf"/>
+      <lesson_classes id="CL_AIE6"/>
+      <teacher_value>32692</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.5.20"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_11300">
+      <periods>2</periods>
+      <lesson_subject id="SU_MSD"/>
+      <lesson_teacher id="TR_Bonath"/>
+      <lesson_classes id="CL_AIE6"/>
+      <teacher_value>65384</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.4.06"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.2.03"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_11500">
+      <periods>1</periods>
+      <lesson_subject id="SU_SRS"/>
+      <lesson_teacher id="TR_Garbrecht"/>
+      <lesson_classes id="CL_AIE6"/>
+      <teacher_value>32692</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.5.03"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_11600">
+      <periods>1</periods>
+      <lesson_subject id="SU_BA-S"/>
+      <lesson_teacher id="TR_Fjodorow"/>
+      <lesson_classes id="CL_AIE6"/>
+      <teacher_value>32692</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>S</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A10.6.20"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_11700">
+      <periods>3</periods>
+      <lesson_subject id="SU_NAT"/>
+      <lesson_teacher id="TR_Obermann"/>
+      <lesson_classes id="CL_AUT4 CL_ELE4 CL_IKT4"/>
+      <teacher_value>98100</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.6.20"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.6.20"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.5.03"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_11800">
+      <periods>3</periods>
+      <lesson_subject id="SU_REG1"/>
+      <lesson_teacher id="TR_Schröder"/>
+      <lesson_classes id="CL_AUT4 CL_ELE4"/>
+      <teacher_value>98100</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V/P</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.5.20"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.5.20"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.5.20"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_11900">
+      <periods>2</periods>
+      <lesson_subject id="SU_S-QMA"/>
+      <lesson_teacher id="TR_Henrich"/>
+      <lesson_classes id="CL_AUT4 CL_ELE4 CL_IKT4"/>
+      <teacher_value>65400</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.5.26"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.5.26"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_12000">
+      <periods>3</periods>
+      <lesson_subject id="SU_TEC"/>
+      <lesson_teacher id="TR_Kempf"/>
+      <lesson_classes id="CL_AUT4 CL_ELE4"/>
+      <teacher_value>98100</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.5.20"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.5.20"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.5.20"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_12100">
+      <periods>2</periods>
+      <lesson_subject id="SU_REG2"/>
+      <lesson_teacher id="TR_Schmitz"/>
+      <lesson_classes id="CL_AUT5"/>
+      <teacher_value>65384</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.5.26"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.5.26"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_12200">
+      <periods>1</periods>
+      <lesson_subject id="SU_S-ENG"/>
+      <lesson_teacher id="TR_Bramwell"/>
+      <lesson_classes id="CL_AUT5 CL_ELE5 CL_IKT5"/>
+      <teacher_value>32700</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.5.03"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_12300">
+      <periods>1</periods>
+      <lesson_subject id="SU_S-EPM"/>
+      <lesson_teacher id="TR_Thies"/>
+      <lesson_classes id="CL_AUT5 CL_ELE5 CL_IKT5"/>
+      <teacher_value>32700</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A10.5.03"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_12400">
+      <periods>2</periods>
+      <lesson_subject id="SU_INK"/>
+      <lesson_teacher id="TR_Cramer"/>
+      <lesson_classes id="CL_EIT1"/>
+      <teacher_value>65384</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.5.20"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.5.20"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_12500">
+      <periods>2</periods>
+      <lesson_subject id="SU_S-UMW"/>
+      <lesson_teacher id="TR_Jehle"/>
+      <lesson_classes id="CL_ELE4 CL_IKT4"/>
+      <teacher_value>65400</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.5.04"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A10.5.04"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_12600">
+      <periods>1</periods>
+      <lesson_subject id="SU_IFI1"/>
+      <lesson_teacher id="TR_Kröning"/>
+      <lesson_classes id="CL_G1A1 CL_G1B1"/>
+      <teacher_value>32700</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A21.0.03"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_12700">
+      <periods>3</periods>
+      <lesson_subject id="SU_MAT1"/>
+      <lesson_teacher id="TR_Kausen"/>
+      <lesson_classes id="CL_G1A1"/>
+      <teacher_value>98076</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.2.05"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.2.05"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.2.05"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_12800">
+      <periods>2</periods>
+      <lesson_subject id="SU_MAT1"/>
+      <lesson_teacher id="TR_Kausen"/>
+      <lesson_classes id="CL_G1A1"/>
+      <teacher_value>65384</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>Ü</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.2.05"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.2.05"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_12900">
+      <periods>3</periods>
+      <lesson_subject id="SU_PHY"/>
+      <lesson_teacher id="TR_Rinn"/>
+      <lesson_classes id="CL_G1A1 CL_G1B1"/>
+      <teacher_value>98100</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A10.8.15"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.8.15"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.8.15"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_13000">
+      <periods>2</periods>
+      <lesson_subject id="SU_S-ALM"/>
+      <lesson_teacher id="TR_Berger"/>
+      <lesson_classes id="CL_G1A1 CL_G1B1"/>
+      <teacher_value>65400</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.5.04"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A10.5.04"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_13100">
+      <periods>1</periods>
+      <lesson_subject id="SU_PHY"/>
+      <lesson_teacher id="TR_Rinn"/>
+      <lesson_classes id="CL_G1A1 CL_G1B1"/>
+      <teacher_value>32700</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>Ü</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A10.2.05"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_13200">
+      <periods>1</periods>
+      <lesson_subject id="SU_S-SML"/>
+      <lesson_teacher id="TR_Thies"/>
+      <lesson_classes id="CL_G1A1 CL_G1B1 CL_G2A1"/>
+      <teacher_value>32700</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_room id="RM_A10.2.05"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_13300">
+      <periods>3</periods>
+      <lesson_subject id="SU_MAT1"/>
+      <lesson_teacher id="TR_Titzmann"/>
+      <lesson_classes id="CL_G1B1"/>
+      <teacher_value>98076</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.2.05"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.5.03"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.2.05"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_13400">
+      <periods>2</periods>
+      <lesson_subject id="SU_MAT1"/>
+      <lesson_teacher id="TR_Titzmann"/>
+      <lesson_classes id="CL_G1B1"/>
+      <teacher_value>65384</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>Ü</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.5.04"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.5.03"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_13500">
+      <periods>5</periods>
+      <lesson_subject id="SU_IFI2"/>
+      <lesson_teacher id="TR_Tutoren"/>
+      <lesson_classes id="CL_G2A2"/>
+      <teacher_value>163461</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.6.20"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A10.6.20"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.6.20"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.6.20"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.6.20"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_13600">
+      <periods>4</periods>
+      <lesson_subject id="SU_MAT2"/>
+      <lesson_teacher id="TR_Kausen"/>
+      <lesson_classes id="CL_G2A1"/>
+      <teacher_value>130769</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.2.05"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.2.05"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.2.05"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.2.05"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_13700">
+      <periods>2</periods>
+      <lesson_subject id="SU_MES"/>
+      <lesson_teacher id="TR_Frey"/>
+      <lesson_classes id="CL_G2A1"/>
+      <teacher_value>65384</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.5.04"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.2.05"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_13800">
+      <periods>1</periods>
+      <lesson_subject id="SU_S-ABW"/>
+      <lesson_teacher id="TR_Eisfeller"/>
+      <lesson_classes id="CL_G2A1"/>
+      <teacher_value>32692</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A10.5.04"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_13900">
+      <periods>3</periods>
+      <lesson_subject id="SU_MAT2"/>
+      <lesson_teacher id="TR_Tutoren"/>
+      <lesson_classes id="CL_G2A2"/>
+      <teacher_value>98076</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.6.20"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.6.20"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A10.6.20"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_14100">
+      <periods>3</periods>
+      <lesson_subject id="SU_MRT"/>
+      <lesson_teacher id="TR_Frey"/>
+      <lesson_classes id="CL_G3A1 CL_G3B1"/>
+      <teacher_value>98100</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A12.3.05"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.6.20"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.2.05"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_14300">
+      <periods>4</periods>
+      <lesson_subject id="SU_TRA"/>
+      <lesson_teacher id="TR_Klytta"/>
+      <lesson_classes id="CL_G3A1 CL_G3B1"/>
+      <teacher_value>130800</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A12.3.05"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A12.3.05"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.6.20"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.6.20"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_14500">
+      <periods>1</periods>
+      <lesson_subject id="SU_PHY"/>
+      <lesson_teacher id="TR_UNB"/>
+      <lesson_classes id="CL_G1B2"/>
+      <teacher_value>32692</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.8.15"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_14600">
+      <periods>2</periods>
+      <lesson_subject id="SU_SIG"/>
+      <lesson_teacher id="TR_Obermann"/>
+      <lesson_classes id="CL_IKT4"/>
+      <teacher_value>65384</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.6.20"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.6.20"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_14700">
+      <periods>2</periods>
+      <lesson_subject id="SU_SIG"/>
+      <lesson_teacher id="TR_Obermann"/>
+      <lesson_classes id="CL_IKT4"/>
+      <teacher_value>65384</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>P</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.5.04"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A10.5.04"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_14800">
+      <periods>2</periods>
+      <lesson_subject id="SU_KSY2"/>
+      <lesson_teacher id="TR_Cramer"/>
+      <lesson_classes id="CL_IKT5"/>
+      <teacher_value>65384</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.4.06"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.4.06"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_14900">
+      <periods>2</periods>
+      <lesson_subject id="SU_ONT"/>
+      <lesson_teacher id="TR_Ricklefs"/>
+      <lesson_classes id="CL_IKT5"/>
+      <teacher_value>65384</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.5.26"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.4.06"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_15000">
+      <periods>3</periods>
+      <lesson_subject id="SU_S-QMA"/>
+      <lesson_teacher id="TR_Henrich"/>
+      <lesson_classes id="CL_AUT5"/>
+      <teacher_value>98076</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.5.26"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.5.26"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A10.5.26"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_15100">
+      <periods>1</periods>
+      <lesson_subject id="SU_GET2"/>
+      <lesson_teacher id="TR_Tutoren"/>
+      <lesson_classes id="CL_G2A2"/>
+      <teacher_value>32692</teacher_value>
+      <effectivebegindate>20131014</effectivebegindate>
+      <effectiveenddate>20140209</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>V</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.6.20"/>
+        </time>
+      </times>
+    </lesson>
+  </lessons>
+  <reductions/>
+</document>

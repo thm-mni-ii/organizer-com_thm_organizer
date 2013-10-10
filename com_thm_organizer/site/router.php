@@ -38,7 +38,10 @@ function THM_organizerBuildRoute(&$query)
             setEventDetailsSegments($query, $segments);
             break;
         case 'event_edit':
-            setEventEditSegments($query, $segments, $item);
+            if (!empty($query['view']))
+            {
+                setEventEditSegments($query, $segments, $item);
+            }
             break;
         case 'subject_details':
             setSubjectDetailsSegments($query, $segments);
@@ -92,10 +95,6 @@ function setEventDetailsSegments(&$query, &$segments)
  */
 function setEventEditSegments(&$query, &$segments, &$item)
 {
-    if ($item->query['view'] == 'edit_event')
-    {
-        return;
-    }
     $segments[] = $query['view'];
     unset($query['view']);
     $segments[] = empty($query['eventID'])?
