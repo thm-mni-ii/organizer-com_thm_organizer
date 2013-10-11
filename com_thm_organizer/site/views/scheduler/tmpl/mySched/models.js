@@ -516,6 +516,34 @@ Ext.define('ScheduleModel',
             }
         }, this);
 
+        for(var returnIndex = 0; returnIndex < ret.length; returnIndex++)
+        {
+            for(var dowIndex in ret[returnIndex])
+            {
+                for(var blockIndex = 0; blockIndex < ret[returnIndex][dowIndex].length; blockIndex++)
+                {
+                    var singleString = ret[returnIndex][dowIndex][blockIndex];
+                    if(singleString.indexOf('<div id="MySchedEvent_') === 0)
+                    {
+                        for(var blockIndexSearch = 0; blockIndexSearch < ret[returnIndex][dowIndex].length; blockIndexSearch++)
+                        {
+                            if(blockIndex !== blockIndexSearch)
+                            {
+                                var searchString = ret[returnIndex][dowIndex][blockIndexSearch];
+
+                                var modifiedSingleString = singleString.replace(new RegExp('<small class="event_resource">.*', "g"), "");
+
+                                if(searchString.indexOf(modifiedSingleString) != -1)
+                                {
+                                    delete ret[returnIndex][dowIndex][blockIndex];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         this.htmlView = Ext.clone(ret);
 
         return ret;
@@ -1877,35 +1905,32 @@ Ext.define('EventListModel',
             return [];
         }
 
+        var dbID;
+        if(type === "teacher")
+        {
+            dbID = MySched.Mapping.getTeacherDbID(value);
+        }
+        else if(type === "room")
+        {
+            dbID = MySched.Mapping.getRoomDbID(value);
+        }
+        else
+        {
+            return [];
+        }
+
         var data = this.data.filterBy(function (o, k)
         {
             var eventObjects = o.data.objects;
 
             // Events mit 0 Objekten können keinem Plan zugeordnet werden und werden erstmal nicht beachtet.
-            if(Ext.isArray(eventObjects))
+            if(Ext.isArray(eventObjects) && eventObjects.length > 0)
             {
-                if(eventObjects.length > 0)
+                for (var eventIndex = 0; eventIndex < eventObjects.length; eventIndex++)
                 {
-                    var dbID;
-                    if(type === "teacher")
+                    if (Ext.isObject(eventObjects[eventIndex]) && eventObjects[eventIndex].id === dbID && eventObjects[eventIndex].type === type)
                     {
-                        dbID = MySched.Mapping.getTeacherDbID(value);
-                    }
-                    else if(type === "room")
-                    {
-                        dbID = MySched.Mapping.getRoomDbID(value);
-                    }
-                    else
-                    {
-                        return false;
-                    }
-
-                    for (var eventIndex = 0; eventIndex < eventObjects.length; eventIndex++)
-                    {
-                        if (Ext.isObject(eventObjects[eventIndex]) && eventObjects[eventIndex].id === dbID && eventObjects[eventIndex].type === type)
-                        {
-                            return true;
-                        }
+                        return true;
                     }
                 }
             }
