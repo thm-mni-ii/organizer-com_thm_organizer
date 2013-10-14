@@ -157,10 +157,11 @@ function getSchedGrid()
         {
             features: [rowBodyFeature],
             overItemCls: '', // "disable" row over style
-            disableSelection: true
+            disableSelection: true,
+            style: { overflow: 'auto', overflowX: 'hidden' }
         },
         cls: 'MySched_ScheduleGrid',
-        scroll: true
+        scroll: false
 
     });
     return grid;
@@ -254,7 +255,7 @@ function addNewEvent(eventid, sdate, stime, etime)
 
     var adds = "";
     var date = null;
- 
+
     if (Ext.isString(sdate))
     {
         var daynumber = daytonumber(sdate);
