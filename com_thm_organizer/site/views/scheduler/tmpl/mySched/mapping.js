@@ -66,7 +66,7 @@ MySched.Mapping = function ()
         },
         getTeacherFirstname: function (id)
         {
-            return this.def(this.teacher.get(id, id), 'firstname', id);
+            return this.def(this.teacher.get(id, id), 'forename', id);
         },
         getTeacherDbID: function (id)
         {
