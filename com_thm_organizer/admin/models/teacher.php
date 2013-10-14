@@ -201,6 +201,7 @@ class THM_OrganizerModelTeacher extends JModel
         }
         return true;
     }
+
     /**
      * Merges resource entries and cleans association tables.
      *
@@ -220,8 +221,12 @@ class THM_OrganizerModelTeacher extends JModel
             $data['title'] = JRequest::getString('title');
             $data['username'] = JRequest::getString('username');
             $data['gpuntisID'] = JRequest::getString('gpuntisID');
-            $data['fieldID'] = JRequest::getInt('fieldID')? JRequest::getInt('fieldID') : null;
+            $data['fieldID'] = JRequest::getInt('fieldID')? JRequest::getInt('fieldID') :  null;
             $data['otherIDs'] = "'" . implode("', '", explode(',', JRequest::getString('otherIDs'))) . "'";
+        }
+        if (!empty($data['fieldID']) AND empty($data['description']))
+        {
+            $data['field'] = $this->getField($data);
         }
 
         $dbo = JFactory::getDbo();
@@ -372,7 +377,7 @@ class THM_OrganizerModelTeacher extends JModel
                 $this->replaceTeachers($scheduleObject, $oldUntisID, $newID, $field);
             }
 
-            $this->setScheduleTeacher($scheduleObject, $data, $newID);
+            $this->setScheduleTeacher($scheduleObject, $data, $newID, $field);
 
             $schedule['schedule'] = json_encode($scheduleObject);
             $success = $scheduleTable->save($schedule);
@@ -398,7 +403,7 @@ class THM_OrganizerModelTeacher extends JModel
             $dbo = JFactory::getDbo();
             $fieldQuery = $dbo->getQuery(true);
             $fieldQuery->select('gpuntisID');
-            $fieldQuery->from('__thm_organizer_fields');
+            $fieldQuery->from('#__thm_organizer_fields');
             $fieldQuery->where("id = '{$data['fieldID']}'");
             $dbo->setQuery((string) $fieldQuery);
             $field = $dbo->loadResult();

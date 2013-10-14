@@ -1,0 +1,2520 @@
+<?xml version="1.0" encoding="utf-8"?>
+<document version="1.4" date="20131014" time="101055">
+  <general>
+    <schoolname>Untis 2013</schoolname>
+    <schoolnumber>52_STK</schoolnumber>
+    <schoolyearbegindate>20131007</schoolyearbegindate>
+    <schoolyearenddate>20141004</schoolyearenddate>
+    <header1>STK</header1>
+    <footer>WS   </footer>
+    <termbegindate>20131014</termbegindate>
+    <termenddate>20140209</termenddate>
+  </general>
+  <timeperiods>
+    <timeperiod id="TP_1">
+      <day>1</day>
+      <period>1</period>
+      <starttime>0800</starttime>
+      <endtime>0930</endtime>
+    </timeperiod>
+    <timeperiod id="TP_2">
+      <day>1</day>
+      <period>2</period>
+      <starttime>0950</starttime>
+      <endtime>1120</endtime>
+    </timeperiod>
+    <timeperiod id="TP_3">
+      <day>1</day>
+      <period>3</period>
+      <starttime>1130</starttime>
+      <endtime>1300</endtime>
+    </timeperiod>
+    <timeperiod id="TP_4">
+      <day>1</day>
+      <period>4</period>
+      <starttime>1400</starttime>
+      <endtime>1530</endtime>
+    </timeperiod>
+    <timeperiod id="TP_5">
+      <day>1</day>
+      <period>5</period>
+      <starttime>1545</starttime>
+      <endtime>1715</endtime>
+    </timeperiod>
+    <timeperiod id="TP_6">
+      <day>1</day>
+      <period>6</period>
+      <starttime>1730</starttime>
+      <endtime>1900</endtime>
+    </timeperiod>
+    <timeperiod id="TP_7">
+      <day>2</day>
+      <period>1</period>
+      <starttime>0800</starttime>
+      <endtime>0930</endtime>
+    </timeperiod>
+    <timeperiod id="TP_8">
+      <day>2</day>
+      <period>2</period>
+      <starttime>0950</starttime>
+      <endtime>1120</endtime>
+    </timeperiod>
+    <timeperiod id="TP_9">
+      <day>2</day>
+      <period>3</period>
+      <starttime>1130</starttime>
+      <endtime>1300</endtime>
+    </timeperiod>
+    <timeperiod id="TP_10">
+      <day>2</day>
+      <period>4</period>
+      <starttime>1400</starttime>
+      <endtime>1530</endtime>
+    </timeperiod>
+    <timeperiod id="TP_11">
+      <day>2</day>
+      <period>5</period>
+      <starttime>1545</starttime>
+      <endtime>1715</endtime>
+    </timeperiod>
+    <timeperiod id="TP_12">
+      <day>2</day>
+      <period>6</period>
+      <starttime>1730</starttime>
+      <endtime>1900</endtime>
+    </timeperiod>
+    <timeperiod id="TP_13">
+      <day>3</day>
+      <period>1</period>
+      <starttime>0800</starttime>
+      <endtime>0930</endtime>
+    </timeperiod>
+    <timeperiod id="TP_14">
+      <day>3</day>
+      <period>2</period>
+      <starttime>0950</starttime>
+      <endtime>1120</endtime>
+    </timeperiod>
+    <timeperiod id="TP_15">
+      <day>3</day>
+      <period>3</period>
+      <starttime>1130</starttime>
+      <endtime>1300</endtime>
+    </timeperiod>
+    <timeperiod id="TP_16">
+      <day>3</day>
+      <period>4</period>
+      <starttime>1400</starttime>
+      <endtime>1530</endtime>
+    </timeperiod>
+    <timeperiod id="TP_17">
+      <day>3</day>
+      <period>5</period>
+      <starttime>1545</starttime>
+      <endtime>1715</endtime>
+    </timeperiod>
+    <timeperiod id="TP_18">
+      <day>3</day>
+      <period>6</period>
+      <starttime>1730</starttime>
+      <endtime>1900</endtime>
+    </timeperiod>
+    <timeperiod id="TP_19">
+      <day>4</day>
+      <period>1</period>
+      <starttime>0800</starttime>
+      <endtime>0930</endtime>
+    </timeperiod>
+    <timeperiod id="TP_20">
+      <day>4</day>
+      <period>2</period>
+      <starttime>0950</starttime>
+      <endtime>1120</endtime>
+    </timeperiod>
+    <timeperiod id="TP_21">
+      <day>4</day>
+      <period>3</period>
+      <starttime>1130</starttime>
+      <endtime>1300</endtime>
+    </timeperiod>
+    <timeperiod id="TP_22">
+      <day>4</day>
+      <period>4</period>
+      <starttime>1400</starttime>
+      <endtime>1530</endtime>
+    </timeperiod>
+    <timeperiod id="TP_23">
+      <day>4</day>
+      <period>5</period>
+      <starttime>1545</starttime>
+      <endtime>1715</endtime>
+    </timeperiod>
+    <timeperiod id="TP_24">
+      <day>4</day>
+      <period>6</period>
+      <starttime>1730</starttime>
+      <endtime>1900</endtime>
+    </timeperiod>
+    <timeperiod id="TP_25">
+      <day>5</day>
+      <period>1</period>
+      <starttime>0800</starttime>
+      <endtime>0930</endtime>
+    </timeperiod>
+    <timeperiod id="TP_26">
+      <day>5</day>
+      <period>2</period>
+      <starttime>0950</starttime>
+      <endtime>1120</endtime>
+    </timeperiod>
+    <timeperiod id="TP_27">
+      <day>5</day>
+      <period>3</period>
+      <starttime>1130</starttime>
+      <endtime>1300</endtime>
+    </timeperiod>
+    <timeperiod id="TP_28">
+      <day>5</day>
+      <period>4</period>
+      <starttime>1400</starttime>
+      <endtime>1530</endtime>
+    </timeperiod>
+    <timeperiod id="TP_29">
+      <day>5</day>
+      <period>5</period>
+      <starttime>1545</starttime>
+      <endtime>1715</endtime>
+    </timeperiod>
+    <timeperiod id="TP_30">
+      <day>5</day>
+      <period>6</period>
+      <starttime>1730</starttime>
+      <endtime>1900</endtime>
+    </timeperiod>
+    <timeperiod id="TP_31">
+      <day>6</day>
+      <period>1</period>
+      <starttime>0800</starttime>
+      <endtime>0930</endtime>
+    </timeperiod>
+    <timeperiod id="TP_32">
+      <day>6</day>
+      <period>2</period>
+      <starttime>0950</starttime>
+      <endtime>1120</endtime>
+    </timeperiod>
+    <timeperiod id="TP_33">
+      <day>6</day>
+      <period>3</period>
+      <starttime>1130</starttime>
+      <endtime>1300</endtime>
+    </timeperiod>
+    <timeperiod id="TP_34">
+      <day>6</day>
+      <period>4</period>
+      <starttime>1400</starttime>
+      <endtime>1530</endtime>
+    </timeperiod>
+    <timeperiod id="TP_35">
+      <day>6</day>
+      <period>5</period>
+      <starttime>1545</starttime>
+      <endtime>1715</endtime>
+    </timeperiod>
+    <timeperiod id="TP_36">
+      <day>6</day>
+      <period>6</period>
+      <starttime>1730</starttime>
+      <endtime>1900</endtime>
+    </timeperiod>
+  </timeperiods>
+  <descriptions>
+    <description id="DS_SU">
+      <longname>Seminaristische Unterricht</longname>
+      <flags>U</flags>
+    </description>
+    <description id="DS_INF">
+      <longname>Informatik</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_LIN">
+      <longname>Linguistik</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_MAT">
+      <longname>Mathematik</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_NAT">
+      <longname>Naturwissenschaften</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_SOZ">
+      <longname>Sozialwissenschaften</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_WIR">
+      <longname>Wirtschaftswissenschaften</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_ING">
+      <longname>Ingenieurwissenschaft</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_MED">
+      <longname>Medizin</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_A1">
+      <longname>Seminarraum, 1-20 Plätze</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_A2">
+      <longname>Seminarraum, 21-33 Plätze</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_A3">
+      <longname>Seminarraum, 34-47 Plätze</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_A4">
+      <longname>Hörsaal, 48-69 Plätze</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_B1">
+      <longname>Fachsaal, Physik-Hörsaal (gr.)</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_D2">
+      <longname>Rechnerraum, fachspez.</longname>
+      <flags>R</flags>
+    </description>
+  </descriptions>
+  <departments>
+    <department id="DP_T">
+      <longname>Schwerpunkt Technik</longname>
+    </department>
+    <department id="DP_W">
+      <longname>Schwerpunkt Wirtschaft</longname>
+    </department>
+    <department id="DP_G">
+      <longname>Schwerpunkt Gesellschaftswissenschaft</longname>
+    </department>
+    <department id="DP_M">
+      <longname>Schwerpunkt Medizin</longname>
+    </department>
+  </departments>
+  <rooms>
+    <room id="RM_A10.2.03">
+      <longname>A.2.03</longname>
+      <capacity>52</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.2.03</external_name>
+    </room>
+    <room id="RM_A10.2.05">
+      <longname>A.2.05</longname>
+      <capacity>56</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.2.05</external_name>
+    </room>
+    <room id="RM_A10.3.23">
+      <longname>A.3.23</longname>
+      <capacity>24</capacity>
+      <room_description id="DS_A2"/>
+      <external_name>A10.3.23</external_name>
+    </room>
+    <room id="RM_A10.3.24">
+      <longname>A.3.24</longname>
+      <capacity>24</capacity>
+      <flags>O</flags>
+      <room_description id="DS_A2"/>
+      <external_name>A10.3.24</external_name>
+    </room>
+    <room id="RM_A10.3.25">
+      <longname>A.3.25</longname>
+      <capacity>24</capacity>
+      <room_description id="DS_A2"/>
+      <external_name>A10.3.25</external_name>
+    </room>
+    <room id="RM_A10.3.25A">
+      <longname>A.3.25A</longname>
+      <capacity>20</capacity>
+      <room_description id="DS_A1"/>
+      <external_name>A10.3.25A</external_name>
+    </room>
+    <room id="RM_A10.4.24">
+      <longname>A.4.24</longname>
+      <capacity>34</capacity>
+      <flags>O</flags>
+      <room_description id="DS_A3"/>
+      <external_name>A10.4.24</external_name>
+    </room>
+    <room id="RM_A10.5.03">
+      <longname>A.5.03</longname>
+      <capacity>52</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.5.03</external_name>
+    </room>
+    <room id="RM_A10.5.04">
+      <longname>A.5.04</longname>
+      <capacity>52</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.5.04</external_name>
+    </room>
+    <room id="RM_A10.5.26">
+      <longname>A.5.26</longname>
+      <capacity>36</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A3"/>
+      <external_name>A10.5.26</external_name>
+    </room>
+    <room id="RM_A10.7.01">
+      <longname>A.7.01</longname>
+      <capacity>28</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_B1"/>
+      <external_name>A10.7.01</external_name>
+    </room>
+    <room id="RM_A10.8.20">
+      <longname>A.8.20</longname>
+      <capacity>63</capacity>
+      <flags>O</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.8.20</external_name>
+    </room>
+    <room id="RM_A12.1.16">
+      <longname>A12.1.16</longname>
+      <capacity>30</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A2"/>
+      <external_name>A12.1.16</external_name>
+    </room>
+    <room id="RM_A20.2.08">
+      <longname>A20.2.08</longname>
+      <capacity>20</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_D2"/>
+      <external_name>A20.2.08</external_name>
+    </room>
+    <room id="RM_C15.0.05">
+      <longname>C15.0.05</longname>
+      <capacity>30</capacity>
+      <room_description id="DS_A2"/>
+      <external_name>C15.0.05</external_name>
+    </room>
+    <room id="RM_NN">
+      <longname>unbekannter Raum</longname>
+    </room>
+    <room id="RM_A10.5.20">
+      <longname>A.5.20</longname>
+      <capacity>54</capacity>
+      <flags>OB</flags>
+      <room_description id="DS_A4"/>
+      <external_name>A10.5.20</external_name>
+    </room>
+  </rooms>
+  <subjects>
+    <subject id="SU_MAT">
+      <longname>Mathematik</longname>
+      <subjectgroup>MAT</subjectgroup>
+      <subject_description id="DS_MAT"/>
+    </subject>
+    <subject id="SU_PHY">
+      <longname>Physik</longname>
+      <subjectgroup>NAT</subjectgroup>
+      <subject_description id="DS_NAT"/>
+    </subject>
+    <subject id="SU_DEU">
+      <longname>Deutsch</longname>
+      <subjectgroup>LIN</subjectgroup>
+      <subject_description id="DS_LIN"/>
+    </subject>
+    <subject id="SU_INF">
+      <longname>Informatik</longname>
+      <subjectgroup>INF</subjectgroup>
+      <subject_description id="DS_INF"/>
+    </subject>
+    <subject id="SU_CHE">
+      <longname>Chemie</longname>
+      <subjectgroup>NAT</subjectgroup>
+      <subject_description id="DS_NAT"/>
+    </subject>
+    <subject id="SU_BIO">
+      <longname>Biologie</longname>
+      <subjectgroup>NAT</subjectgroup>
+      <subject_description id="DS_NAT"/>
+    </subject>
+    <subject id="SU_VWL">
+      <longname>Volkswirtschaftslehre</longname>
+      <subjectgroup>WIR</subjectgroup>
+      <subject_description id="DS_WIR"/>
+    </subject>
+    <subject id="SU_SOZ">
+      <longname>Soziologie</longname>
+      <subjectgroup>SOZ</subjectgroup>
+      <subject_description id="DS_SOZ"/>
+    </subject>
+    <subject id="SU_BWL">
+      <longname>Betriebswirtschaftslehre</longname>
+      <subjectgroup>WIR</subjectgroup>
+      <subject_description id="DS_WIR"/>
+    </subject>
+    <subject id="SU_DLI">
+      <longname>Deutsche Literatur</longname>
+      <subjectgroup>SOZ</subjectgroup>
+      <subject_description id="DS_SOZ"/>
+    </subject>
+    <subject id="SU_GES">
+      <longname>Geschichte</longname>
+      <subjectgroup>SOZ</subjectgroup>
+      <subject_description id="DS_SOZ"/>
+    </subject>
+    <subject id="SU_STA">
+      <longname>Statistik</longname>
+      <subjectgroup>MAT</subjectgroup>
+      <subject_description id="DS_MAT"/>
+    </subject>
+  </subjects>
+  <teachers>
+    <teacher id="TR_Anger">
+      <forename>Gisela</forename>
+      <surname>Anger</surname>
+      <teacher_description id="DS_WIR"/>
+    </teacher>
+    <teacher id="TR_Belke">
+      <forename>Thomas</forename>
+      <surname>Belke-Hurtig</surname>
+      <teacher_description id="DS_MAT"/>
+    </teacher>
+    <teacher id="TR_Bernhardt">
+      <forename>Peter</forename>
+      <surname>Bernhardt</surname>
+      <teacher_description id="DS_WIR"/>
+    </teacher>
+    <teacher id="TR_Burmester">
+      <forename>Astrid</forename>
+      <surname>Burmester</surname>
+      <teacher_description id="DS_LIN"/>
+    </teacher>
+    <teacher id="TR_Burow">
+      <forename>Angela</forename>
+      <surname>Burow</surname>
+      <teacher_description id="DS_LIN"/>
+    </teacher>
+    <teacher id="TR_Friedrich">
+      <forename>Klaus-Peter</forename>
+      <surname>Friedrich</surname>
+      <teacher_description id="DS_SOZ"/>
+    </teacher>
+    <teacher id="TR_Glatthaar">
+      <forename>Jörg</forename>
+      <surname>Glatthaar</surname>
+      <teacher_description id="DS_NAT"/>
+      <external_name>GlatJ</external_name>
+    </teacher>
+    <teacher id="TR_Haas">
+      <forename>Norbert</forename>
+      <surname>Haas</surname>
+      <teacher_description id="DS_LIN"/>
+    </teacher>
+    <teacher id="TR_Hartung">
+      <forename>Uwe</forename>
+      <surname>Hartung</surname>
+      <teacher_description id="DS_NAT"/>
+    </teacher>
+    <teacher id="TR_Heilbrock">
+      <forename>Anke</forename>
+      <surname>Heilbrock</surname>
+      <teacher_description id="DS_NAT"/>
+    </teacher>
+    <teacher id="TR_Hiller">
+      <forename>Andreas</forename>
+      <surname>Hiller</surname>
+      <teacher_description id="DS_INF"/>
+      <external_name>HillA</external_name>
+    </teacher>
+    <teacher id="TR_Ifrim">
+      <forename>Oana</forename>
+      <surname>Ifrim</surname>
+      <teacher_description id="DS_SOZ"/>
+    </teacher>
+    <teacher id="TR_Irnich">
+      <forename>Wolfgang</forename>
+      <surname>Irnich</surname>
+      <teacher_description id="DS_WIR"/>
+    </teacher>
+    <teacher id="TR_Juhàsz">
+      <forename>Renata</forename>
+      <surname>Juhàsz</surname>
+      <teacher_description id="DS_LIN"/>
+    </teacher>
+    <teacher id="TR_Klein">
+      <forename>Joachim</forename>
+      <surname>Klein</surname>
+      <teacher_description id="DS_SOZ"/>
+    </teacher>
+    <teacher id="TR_Kleinschmidt">
+      <forename>Dieter</forename>
+      <surname>Kleinschmidt</surname>
+      <teacher_description id="DS_NAT"/>
+    </teacher>
+    <teacher id="TR_Mielke">
+      <forename>Gerlind</forename>
+      <surname>Mielke</surname>
+      <teacher_description id="DS_LIN"/>
+    </teacher>
+    <teacher id="TR_Müller">
+      <forename>Michaela</forename>
+      <surname>Müller</surname>
+      <teacher_description id="DS_SOZ"/>
+    </teacher>
+    <teacher id="TR_Nagel">
+      <forename>Stefanie</forename>
+      <surname>Nagel</surname>
+      <teacher_description id="DS_NAT"/>
+    </teacher>
+    <teacher id="TR_Opitz">
+      <forename>Vera</forename>
+      <surname>Opitz</surname>
+      <teacher_description id="DS_LIN"/>
+    </teacher>
+    <teacher id="TR_Perednya">
+      <forename>Marya</forename>
+      <surname>Perednya</surname>
+      <teacher_description id="DS_MAT"/>
+    </teacher>
+    <teacher id="TR_Schärer">
+      <forename>Günter</forename>
+      <surname>Schärer-Pohlmann</surname>
+      <teacher_description id="DS_SOZ"/>
+    </teacher>
+    <teacher id="TR_Scholz">
+      <forename>Pascal</forename>
+      <surname>Scholz</surname>
+      <teacher_description id="DS_MAT"/>
+    </teacher>
+    <teacher id="TR_Siebecke">
+      <forename>Katja</forename>
+      <surname>Siebecke</surname>
+      <teacher_description id="DS_LIN"/>
+    </teacher>
+    <teacher id="TR_Starke">
+      <forename>Laura</forename>
+      <surname>Starke</surname>
+      <teacher_description id="DS_LIN"/>
+    </teacher>
+    <teacher id="TR_vStraelen">
+      <forename>Wolfgang</forename>
+      <surname>von Straelen</surname>
+      <teacher_description id="DS_SOZ"/>
+    </teacher>
+    <teacher id="TR_Waldrich">
+      <forename>Helmut</forename>
+      <surname>Waldrich</surname>
+      <teacher_description id="DS_NAT"/>
+    </teacher>
+    <teacher id="TR_Werther">
+      <forename>Thomas</forename>
+      <surname>Werther</surname>
+      <teacher_description id="DS_SOZ"/>
+    </teacher>
+    <teacher id="TR_Wiecha">
+      <forename>Ferdinand</forename>
+      <surname>Wiecha</surname>
+      <teacher_description id="DS_INF"/>
+      <external_name>WiecF</external_name>
+    </teacher>
+    <teacher id="TR_Will">
+      <forename>Wolfgang</forename>
+      <surname>Will</surname>
+      <teacher_description id="DS_MAT"/>
+    </teacher>
+    <teacher id="TR_Winter">
+      <forename>Gardy</forename>
+      <surname>Winter-Fehler</surname>
+      <teacher_description id="DS_NAT"/>
+    </teacher>
+  </teachers>
+  <classes>
+    <class id="CL_G.1">
+      <longname>Schwerpunkt Gesellschaftswissenschaft, 1. Semester</longname>
+      <classlevel>1. Semester</classlevel>
+      <class_description id="DS_SOZ"/>
+      <class_department id="DP_G"/>
+    </class>
+    <class id="CL_G.1.1">
+      <longname>Schwerpunkt Gesellschaftswissenschaft, 1. Semester, Kurs 1</longname>
+      <classlevel>1. Sem. Kurs 1</classlevel>
+      <class_description id="DS_SOZ"/>
+      <class_department id="DP_G"/>
+    </class>
+    <class id="CL_G.2">
+      <longname>Schwerpunkt Gesellschaftswissenschaft, 2. Semester</longname>
+      <classlevel>2. Semester</classlevel>
+      <class_description id="DS_SOZ"/>
+      <class_department id="DP_G"/>
+    </class>
+    <class id="CL_M.1">
+      <longname>Schwerpunkt Medizin, 1. Semester</longname>
+      <classlevel>1. Semester</classlevel>
+      <class_description id="DS_NAT"/>
+      <class_department id="DP_M"/>
+    </class>
+    <class id="CL_M.1.1">
+      <longname>Schwerpunkt Medizin, 1. Semester, Kurs 1</longname>
+      <classlevel>1. Sem. Kurs 1</classlevel>
+      <class_description id="DS_MED"/>
+      <class_department id="DP_M"/>
+    </class>
+    <class id="CL_M.1.2">
+      <longname>Schwerpunkt Medizin, 1. Semester, Kurs 2</longname>
+      <classlevel>1. Sem. Kurs 2</classlevel>
+      <class_description id="DS_MED"/>
+      <class_department id="DP_M"/>
+    </class>
+    <class id="CL_M.2">
+      <longname>Schwerpunkt Medizin, 2. Semester</longname>
+      <classlevel>2. Semester</classlevel>
+      <class_description id="DS_NAT"/>
+      <class_department id="DP_M"/>
+    </class>
+    <class id="CL_T.1">
+      <longname>Schwerpunkt Technik, 1. Semester</longname>
+      <classlevel>1. Semester</classlevel>
+      <class_description id="DS_ING"/>
+      <class_department id="DP_T"/>
+    </class>
+    <class id="CL_T.2">
+      <longname>Schwerpunkt Technik, 2. Semester</longname>
+      <classlevel>2. Semester</classlevel>
+      <class_description id="DS_ING"/>
+      <class_department id="DP_T"/>
+    </class>
+    <class id="CL_T.2.1">
+      <longname>Schwerpunkt Technik, 2. Semester, Kurs 1</longname>
+      <classlevel>2. Sem. Kurs 1</classlevel>
+      <class_description id="DS_ING"/>
+      <class_department id="DP_T"/>
+    </class>
+    <class id="CL_T.2.2">
+      <longname>Schwerpunkt Technik, 2. Semester, Kurs 2</longname>
+      <classlevel>2. Sem. Kurs 2</classlevel>
+      <class_description id="DS_ING"/>
+      <class_department id="DP_T"/>
+    </class>
+    <class id="CL_W.1">
+      <longname>Schwerpunkt Wirtschaft, 1. Semester</longname>
+      <classlevel>1. Semester</classlevel>
+      <class_description id="DS_WIR"/>
+      <class_department id="DP_W"/>
+    </class>
+    <class id="CL_W.2">
+      <longname>Schwerpunkt Wirtschaft, 2. Semester</longname>
+      <classlevel>2. Semester</classlevel>
+      <class_description id="DS_WIR"/>
+      <class_department id="DP_W"/>
+    </class>
+  </classes>
+  <students/>
+  <lessons>
+    <lesson id="LS_300">
+      <periods>3</periods>
+      <lesson_subject id="SU_DLI"/>
+      <lesson_teacher id="TR_Ifrim"/>
+      <lesson_classes id="CL_G.1.1"/>
+      <teacher_value>86538</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.5.04"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.5.04"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.5.26"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_400">
+      <periods>5</periods>
+      <lesson_subject id="SU_DEU"/>
+      <lesson_teacher id="TR_Opitz"/>
+      <lesson_classes id="CL_G.1.1"/>
+      <teacher_value>144230</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.5.03"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.3.25A"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.7.01"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.7.01"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.5.20"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_500">
+      <periods>3</periods>
+      <lesson_subject id="SU_SOZ"/>
+      <lesson_teacher id="TR_Klein"/>
+      <lesson_classes id="CL_G.1.1"/>
+      <teacher_value>86538</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.7.01"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_C15.0.05"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_C15.0.05"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_600">
+      <periods>1</periods>
+      <lesson_subject id="SU_STA"/>
+      <lesson_teacher id="TR_Perednya"/>
+      <lesson_classes id="CL_G.1.1"/>
+      <teacher_value>28846</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_C15.0.05"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_700">
+      <periods>3</periods>
+      <lesson_subject id="SU_GES"/>
+      <lesson_teacher id="TR_Friedrich"/>
+      <lesson_classes id="CL_G.1.1"/>
+      <teacher_value>86538</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_C15.0.05"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_C15.0.05"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_C15.0.05"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_800">
+      <periods>1</periods>
+      <lesson_subject id="SU_CHE"/>
+      <lesson_teacher id="TR_Nagel"/>
+      <lesson_classes id="CL_M.1.1"/>
+      <teacher_value>28846</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.3.25"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_801">
+      <periods>1</periods>
+      <lesson_subject id="SU_BIO"/>
+      <lesson_teacher id="TR_Hartung"/>
+      <lesson_classes id="CL_M.1.1"/>
+      <teacher_value>28846</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.3.25"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_900">
+      <periods>2</periods>
+      <lesson_subject id="SU_BIO"/>
+      <lesson_teacher id="TR_Hartung"/>
+      <lesson_classes id="CL_M.1.1"/>
+      <teacher_value>57692</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.3.25"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.8.20"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_1000">
+      <periods>2</periods>
+      <lesson_subject id="SU_CHE"/>
+      <lesson_teacher id="TR_Nagel"/>
+      <lesson_classes id="CL_M.1.1"/>
+      <teacher_value>57692</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.3.25"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.3.25"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_1100">
+      <periods>2</periods>
+      <lesson_subject id="SU_MAT"/>
+      <lesson_teacher id="TR_Winter"/>
+      <lesson_classes id="CL_M.1.1"/>
+      <teacher_value>57692</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.8.20"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A12.1.16"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_1200">
+      <periods>1</periods>
+      <lesson_subject id="SU_PHY"/>
+      <lesson_teacher id="TR_Winter"/>
+      <lesson_classes id="CL_M.1.1"/>
+      <teacher_value>28846</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.3.25"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_1201">
+      <periods>1</periods>
+      <lesson_subject id="SU_MAT"/>
+      <lesson_teacher id="TR_Winter"/>
+      <lesson_classes id="CL_M.1.1"/>
+      <teacher_value>28846</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_1300">
+      <periods>5</periods>
+      <lesson_subject id="SU_DEU"/>
+      <lesson_teacher id="TR_Siebecke"/>
+      <lesson_classes id="CL_M.1.1"/>
+      <teacher_value>144230</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_C15.0.05"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_C15.0.05"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.7.01"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.3.24"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.8.20"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_1400">
+      <periods>2</periods>
+      <lesson_subject id="SU_PHY"/>
+      <lesson_teacher id="TR_Winter"/>
+      <lesson_classes id="CL_M.1.1"/>
+      <teacher_value>57692</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.3.23"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.8.20"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_1500">
+      <periods>5</periods>
+      <lesson_subject id="SU_DEU"/>
+      <lesson_teacher id="TR_Mielke"/>
+      <lesson_classes id="CL_M.1.2"/>
+      <teacher_value>144230</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.4.24"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.4.24"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.3.25"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.8.20"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.3.25"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_1600">
+      <periods>2</periods>
+      <lesson_subject id="SU_BIO"/>
+      <lesson_teacher id="TR_Hartung"/>
+      <lesson_classes id="CL_M.1.2"/>
+      <teacher_value>57692</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.8.20"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.8.20"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_1700">
+      <periods>2</periods>
+      <lesson_subject id="SU_CHE"/>
+      <lesson_teacher id="TR_Belke"/>
+      <lesson_classes id="CL_M.1.2"/>
+      <teacher_value>57692</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.3.25A"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.3.25"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_1800">
+      <periods>1</periods>
+      <lesson_subject id="SU_CHE"/>
+      <lesson_teacher id="TR_Belke"/>
+      <lesson_classes id="CL_M.1.2"/>
+      <teacher_value>28846</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <text>14-tägig</text>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.3.23"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_1900">
+      <periods>2</periods>
+      <lesson_subject id="SU_MAT"/>
+      <lesson_teacher id="TR_Scholz"/>
+      <lesson_classes id="CL_M.1.2"/>
+      <teacher_value>57692</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.8.20"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.8.20"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_2000">
+      <periods>1</periods>
+      <lesson_subject id="SU_MAT"/>
+      <lesson_teacher id="TR_Scholz"/>
+      <lesson_classes id="CL_M.1.2"/>
+      <teacher_value>28846</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <text>14-tägig</text>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.3.25"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_2100">
+      <periods>1</periods>
+      <lesson_subject id="SU_PHY"/>
+      <lesson_teacher id="TR_Winter"/>
+      <lesson_classes id="CL_M.1.2"/>
+      <teacher_value>28846</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.3.25"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_2101">
+      <periods>1</periods>
+      <lesson_subject id="SU_BIO"/>
+      <lesson_teacher id="TR_Hartung"/>
+      <lesson_classes id="CL_M.1.2"/>
+      <teacher_value>28846</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.3.25"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_2200">
+      <periods>2</periods>
+      <lesson_subject id="SU_PHY"/>
+      <lesson_teacher id="TR_Winter"/>
+      <lesson_classes id="CL_M.1.2"/>
+      <teacher_value>57692</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.3.25"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.2.05"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_2300">
+      <periods>2</periods>
+      <lesson_subject id="SU_CHE"/>
+      <lesson_teacher id="TR_Glatthaar"/>
+      <lesson_classes id="CL_M.2"/>
+      <teacher_value>42307</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.8.20"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.4.24"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_2400">
+      <periods>1</periods>
+      <lesson_subject id="SU_CHE"/>
+      <lesson_teacher id="TR_Glatthaar"/>
+      <lesson_classes id="CL_M.2"/>
+      <teacher_value>21153</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <text>14-tägig</text>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.4.24"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_2500">
+      <periods>2</periods>
+      <lesson_subject id="SU_MAT"/>
+      <lesson_teacher id="TR_Winter"/>
+      <lesson_classes id="CL_M.2"/>
+      <teacher_value>42307</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.8.20"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.4.24"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_2600">
+      <periods>2</periods>
+      <lesson_subject id="SU_PHY"/>
+      <lesson_teacher id="TR_Winter"/>
+      <lesson_classes id="CL_M.2"/>
+      <teacher_value>42307</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.4.24"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.4.24"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_2700">
+      <periods>1</periods>
+      <lesson_subject id="SU_MAT"/>
+      <lesson_teacher id="TR_Winter"/>
+      <lesson_classes id="CL_M.2"/>
+      <teacher_value>21153</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.4.24"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_2701">
+      <periods>1</periods>
+      <lesson_subject id="SU_PHY"/>
+      <lesson_teacher id="TR_Winter"/>
+      <lesson_classes id="CL_M.2"/>
+      <teacher_value>21153</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.4.24"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_2800">
+      <periods>5</periods>
+      <lesson_subject id="SU_DEU"/>
+      <lesson_teacher id="TR_Burmester"/>
+      <lesson_classes id="CL_M.2"/>
+      <teacher_value>105769</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.4.24"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.4.24"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.4.24"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.4.24"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.4.24"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_2900">
+      <periods>2</periods>
+      <lesson_subject id="SU_BIO"/>
+      <lesson_teacher id="TR_Hartung"/>
+      <lesson_classes id="CL_M.2"/>
+      <teacher_value>42307</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.4.24"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.4.24"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_3000">
+      <periods>1</periods>
+      <lesson_subject id="SU_BIO"/>
+      <lesson_teacher id="TR_Hartung"/>
+      <lesson_classes id="CL_M.2"/>
+      <teacher_value>21153</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <text>14-tägig</text>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.4.24"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_3100">
+      <periods>3</periods>
+      <lesson_subject id="SU_DEU"/>
+      <lesson_teacher id="TR_Siebecke"/>
+      <lesson_classes id="CL_M.2"/>
+      <teacher_value>63461</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.5.26"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_NN"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.5.04"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_3200">
+      <periods>2</periods>
+      <lesson_subject id="SU_DEU"/>
+      <lesson_teacher id="TR_Haas"/>
+      <lesson_classes id="CL_M.2"/>
+      <teacher_value>42307</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.7.01"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.7.01"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_3300">
+      <periods>5</periods>
+      <lesson_subject id="SU_DEU"/>
+      <lesson_teacher id="TR_Burow"/>
+      <lesson_classes id="CL_T.1"/>
+      <teacher_value>144230</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.3.24"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.3.24"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.3.24"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.3.24"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.3.24"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_3400">
+      <periods>2</periods>
+      <lesson_subject id="SU_PHY"/>
+      <lesson_teacher id="TR_Nagel"/>
+      <lesson_classes id="CL_T.1"/>
+      <teacher_value>57692</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.3.24"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.3.24"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_3500">
+      <periods>2</periods>
+      <lesson_subject id="SU_INF"/>
+      <lesson_teacher id="TR_Hiller"/>
+      <lesson_classes id="CL_T.1"/>
+      <teacher_value>57692</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A20.2.08"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.3.24"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_3600">
+      <periods>3</periods>
+      <lesson_subject id="SU_MAT"/>
+      <lesson_teacher id="TR_Belke"/>
+      <lesson_classes id="CL_T.1"/>
+      <teacher_value>86538</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.3.24"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.3.23"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.3.24"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_3700">
+      <periods>1</periods>
+      <lesson_subject id="SU_MAT"/>
+      <lesson_teacher id="TR_Belke"/>
+      <lesson_classes id="CL_T.1"/>
+      <teacher_value>28846</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <text>14-tägig</text>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.3.23"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_3800">
+      <periods>2</periods>
+      <lesson_subject id="SU_CHE"/>
+      <lesson_teacher id="TR_Belke"/>
+      <lesson_classes id="CL_T.1"/>
+      <teacher_value>57692</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.3.24"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.3.23"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_3900">
+      <periods>1</periods>
+      <lesson_subject id="SU_PHY"/>
+      <lesson_teacher id="TR_Waldrich"/>
+      <lesson_classes id="CL_T.1"/>
+      <teacher_value>28846</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.3.23"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_4000">
+      <periods>1</periods>
+      <lesson_subject id="SU_PHY"/>
+      <lesson_teacher id="TR_Waldrich"/>
+      <lesson_classes id="CL_T.1"/>
+      <teacher_value>28846</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <text>14-tägig</text>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.3.24"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_4100">
+      <periods>3</periods>
+      <lesson_subject id="SU_PHY"/>
+      <lesson_teacher id="TR_Waldrich"/>
+      <lesson_classes id="CL_T.2.1"/>
+      <teacher_value>63461</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.3.23"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.3.23"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.3.23"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_4200">
+      <periods>1</periods>
+      <lesson_subject id="SU_PHY"/>
+      <lesson_teacher id="TR_Waldrich"/>
+      <lesson_classes id="CL_T.2.1"/>
+      <teacher_value>21153</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <text>14-täglich</text>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.3.23"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_4300">
+      <periods>4</periods>
+      <lesson_subject id="SU_MAT"/>
+      <lesson_teacher id="TR_Waldrich"/>
+      <lesson_classes id="CL_T.2.1"/>
+      <teacher_value>84615</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.3.23"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.3.23"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.3.23"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.3.23"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_4400">
+      <periods>5</periods>
+      <lesson_subject id="SU_DEU"/>
+      <lesson_teacher id="TR_Mielke"/>
+      <lesson_classes id="CL_T.2.1"/>
+      <teacher_value>105769</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.3.25"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.3.25"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.2.03"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.3.25"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.3.25"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_4500">
+      <periods>1</periods>
+      <lesson_subject id="SU_CHE"/>
+      <lesson_teacher id="TR_Belke"/>
+      <lesson_classes id="CL_T.2.1"/>
+      <teacher_value>21153</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.3.23"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_4600">
+      <periods>1</periods>
+      <lesson_subject id="SU_CHE"/>
+      <lesson_teacher id="TR_Belke"/>
+      <lesson_classes id="CL_T.2.1"/>
+      <teacher_value>21153</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <text>14-tägig</text>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.3.23"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_4700">
+      <periods>2</periods>
+      <lesson_subject id="SU_INF"/>
+      <lesson_teacher id="TR_Hiller"/>
+      <lesson_classes id="CL_T.2.1"/>
+      <teacher_value>42307</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A20.2.08"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A20.2.08"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_4800">
+      <periods>1</periods>
+      <lesson_subject id="SU_PHY"/>
+      <lesson_teacher id="TR_Nagel"/>
+      <lesson_classes id="CL_T.2.2"/>
+      <teacher_value>21153</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <text>14-tägig</text>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.3.25A"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_4900">
+      <periods>1</periods>
+      <lesson_subject id="SU_CHE"/>
+      <lesson_teacher id="TR_Glatthaar"/>
+      <lesson_classes id="CL_T.2.2"/>
+      <teacher_value>21153</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <text>14-tägig</text>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.3.25A"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_5000">
+      <periods>2</periods>
+      <lesson_subject id="SU_INF"/>
+      <lesson_teacher id="TR_Wiecha"/>
+      <lesson_classes id="CL_T.2.2"/>
+      <teacher_value>42307</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.3.24"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A20.2.08"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_5100">
+      <periods>1</periods>
+      <lesson_subject id="SU_PHY"/>
+      <lesson_teacher id="TR_Nagel"/>
+      <lesson_classes id="CL_T.2.2"/>
+      <teacher_value>21153</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.3.25A"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_5200">
+      <periods>1</periods>
+      <lesson_subject id="SU_CHE"/>
+      <lesson_teacher id="TR_Glatthaar"/>
+      <lesson_classes id="CL_T.2.2"/>
+      <teacher_value>21153</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.3.25A"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_5300">
+      <periods>4</periods>
+      <lesson_subject id="SU_MAT"/>
+      <lesson_teacher id="TR_Will"/>
+      <lesson_classes id="CL_T.2.2"/>
+      <teacher_value>84615</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.8.20"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.8.20"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.3.25A"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.3.25A"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_5400">
+      <periods>5</periods>
+      <lesson_subject id="SU_DEU"/>
+      <lesson_teacher id="TR_Haas"/>
+      <lesson_classes id="CL_T.2.2"/>
+      <teacher_value>105769</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.3.25A"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.3.25A"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.3.25A"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.3.25A"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.3.25A"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_5500">
+      <periods>2</periods>
+      <lesson_subject id="SU_PHY"/>
+      <lesson_teacher id="TR_Kleinschmidt"/>
+      <lesson_classes id="CL_T.2.2"/>
+      <teacher_value>42307</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20131222</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.3.25A"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.3.25A"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_5600">
+      <periods>3</periods>
+      <lesson_subject id="SU_DEU"/>
+      <lesson_teacher id="TR_Siebecke"/>
+      <lesson_classes id="CL_W.1"/>
+      <teacher_value>86538</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_C15.0.05"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_C15.0.05"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.3.25A"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_5700">
+      <periods>2</periods>
+      <lesson_subject id="SU_BWL"/>
+      <lesson_teacher id="TR_Anger"/>
+      <lesson_classes id="CL_W.1"/>
+      <teacher_value>57692</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_C15.0.05"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_C15.0.05"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_5800">
+      <periods>3</periods>
+      <lesson_subject id="SU_SOZ"/>
+      <lesson_teacher id="TR_Müller"/>
+      <lesson_classes id="CL_W.1"/>
+      <teacher_value>86538</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A12.1.16"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.4.24"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.4.24"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_5900">
+      <periods>3</periods>
+      <lesson_subject id="SU_MAT"/>
+      <lesson_teacher id="TR_Belke"/>
+      <lesson_classes id="CL_W.1"/>
+      <teacher_value>86538</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.3.24"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.3.23"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.3.23"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_6000">
+      <periods>2</periods>
+      <lesson_subject id="SU_DEU"/>
+      <lesson_teacher id="TR_Opitz"/>
+      <lesson_classes id="CL_W.1"/>
+      <teacher_value>57692</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.3.24"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.3.24"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_6100">
+      <periods>3</periods>
+      <lesson_subject id="SU_VWL"/>
+      <lesson_teacher id="TR_Bernhardt"/>
+      <lesson_classes id="CL_W.1"/>
+      <teacher_value>86538</teacher_value>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20140119</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.8.20"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.8.20"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.3.24"/>
+        </time>
+      </times>
+    </lesson>
+  </lessons>
+  <reductions/>
+</document>
