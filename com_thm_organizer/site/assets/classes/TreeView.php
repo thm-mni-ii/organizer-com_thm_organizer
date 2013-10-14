@@ -322,7 +322,9 @@ class THMTreeView
         {
             foreach ($this->_checked as $checkedKey => $checkedValue)
             {
-                if (strpos($nodeID, $checkedKey) !== false)
+                $stringPosition = strpos($nodeID, $checkedKey . ";");
+
+                if ($stringPosition !== false)
                 {
                     if ($checkedValue === "selected" || $checkedValue === "intermediate")
                     {

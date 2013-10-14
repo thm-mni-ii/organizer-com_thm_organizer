@@ -112,7 +112,7 @@ MySched.Mapping = function ()
         },
         getRoomDbID: function (id)
         {
-            return this.def(this.teacher.get(id, id), 'dbID', id);
+            return this.def(this.room.get(id, id), 'dbID', id);
         },
         getRoomKeyByID: function (dbID)
         {

@@ -4023,7 +4023,7 @@ MySched.Tree = function ()
                         var semesterID = null;
                         var type = null;
 
-                        if(Ext.isObject(publicDefaultNode) && publicDefaultNode.type !== "delta"
+                        if(Ext.isObject(publicDefaultNode) && publicDefaultNode.type !== "delta")
                         {
                             nodeID = publicDefaultNode.id;
                             nodeKey = publicDefaultNode.nodeKey;
