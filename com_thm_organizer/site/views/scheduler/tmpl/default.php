@@ -64,7 +64,7 @@ if ($this->canWriteEvents === true)
         MySched.startup = '<?php echo $this->startup; ?>';
         MySched.searchModuleID = '<?php echo $this->searchModuleID; ?>';
         MySched.loadLessonsOnStartUp = new Boolean('<?php echo $this->loadLessonsOnStartUp; ?>');
-        MySched.deltaDisplayDays = '<?php echo $this->deltaDisplayDays; ?>';
+        MySched.deltaDisplayDays = parseInt('<?php echo $this->deltaDisplayDays; ?>');
         MySched.departmentAndSemester = '<?php echo $this->departmentAndSemester; ?>';
         MySched.requestTeacherGPUntisIDs =
             Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestTeacherGPUntisIDs)); ?>'));
