@@ -1330,7 +1330,7 @@ class THM_OrganizerModelSchedule extends JModel
 
         $query = $dbo->getQuery(true);
         $query->select('departmentname, active, startdate, enddate');
-        $query->from('#__thm_organizerschedules');
+        $query->from('#__thm_organizer_schedules');
         $query->where("id IN ( $whereIDs )");
         $dbo->setQuery((string) $query);
         $schedules = $dbo->loadAssocList();
@@ -1375,18 +1375,18 @@ class THM_OrganizerModelSchedule extends JModel
         }
         $scheduleIDs = "'" . implode("', '", $checkedIDs) . "'";
 
-        $mergedSchedule = array();
-        $mergedSchedule['creationdate'] = date('Y-m-d');
-        $mergedSchedule['creationtime'] = date('is');
-        $mergedSchedule['departmentname'] = JRequest::getString('departmentname');
-        $mergedSchedule['semestername'] = JRequest::getString('semestername');
+        $newScheduleRow = array();
+        $newScheduleRow['creationdate'] = date('Y-m-d');
+        $newScheduleRow['creationtime'] = date('is');
+        $newScheduleRow['departmentname'] = JRequest::getString('departmentname');
+        $newScheduleRow['semestername'] = JRequest::getString('semestername');
 
         $dbo = JFactory::getDbo();
-        $scheduleQuery = $dbo->getQuery(true);
-        $scheduleQuery->select('schedule');
-        $scheduleQuery->from('#__thm_organizerschedules');
-        $scheduleQuery->where("id IN ( $scheduleIDs )");
-        $dbo->setQuery((string) $scheduleQuery);
+        $query = $dbo->getQuery(true);
+        $query->select('schedule');
+        $query->from('#__thm_organizer_schedules');
+        $query->where("id IN ( $scheduleIDs )");
+        $dbo->setQuery((string) $query);
         $schedules = $dbo->loadResultArray();
 
         foreach ($schedules as $key => $value)
@@ -1399,17 +1399,18 @@ class THM_OrganizerModelSchedule extends JModel
         {
             $this->mergeRecursive($baseSchedule, $schedules[$index]);
         }
-        $baseSchedule->creationdate = $mergedSchedule['creationdate'];
-        $baseSchedule->creationtime = $mergedSchedule['creationtime'];
-        $baseSchedule->departmentname = $mergedSchedule['departmentname'];
-        $baseSchedule->semestername = $mergedSchedule['semestername'];
-        $mergedSchedule['startdate'] = $baseSchedule->startdate;
-        $mergedSchedule['enddate'] = $baseSchedule->enddate;
-        $mergedSchedule['active'] = 1;
-        $mergedSchedule['schedule'] = json_encode($baseSchedule);
+
+        $baseSchedule->creationdate = date('Y-m-d');
+        $baseSchedule->creationtime = $newScheduleRow['creationtime'];
+        $baseSchedule->departmentname = $newScheduleRow['departmentname'];
+        $baseSchedule->semestername = $newScheduleRow['semestername'];
+        $newScheduleRow['startdate'] = $baseSchedule->startdate;
+        $newScheduleRow['enddate'] = $baseSchedule->enddate;
+        $newScheduleRow['active'] = 1;
+        $newScheduleRow['schedule'] = json_encode($baseSchedule);
 
         $table = JTable::getInstance('schedules', 'thm_organizerTable');
-        $success = $table->save($mergedSchedule);
+        $success = $table->save($newScheduleRow);
         if ($success)
         {
             return MERGE;
