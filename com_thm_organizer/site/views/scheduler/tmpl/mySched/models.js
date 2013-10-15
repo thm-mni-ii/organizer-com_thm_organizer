@@ -1063,6 +1063,10 @@ Ext.define('ScheduleModel',
         for(var index = 0; index < d.length; index++)
         {
             var lesson = d.items[index];
+            if(MySched.Base.schedule.data.containsKey(lesson.id) === false)
+            {
+                continue;
+            }
             asArrRet[lesson.id] = Ext.clone(lesson.data);
             asArrRet[lesson.id].modules = asArrRet[lesson.id].modules.map;
             asArrRet[lesson.id].teachers = asArrRet[lesson.id].teachers.map;
