@@ -14,6 +14,7 @@ MySched.daytime = [];
 MySched.loadedLessons = [];
 MySched.mainPath = externLinks.mainPath;
 MySched.displaySemesterBeginDialog = true;
+MySched.scheduleDataReady = false;
 Ext.Ajax.timeout = 60000;
 MySched.Config.addAll(
 {
@@ -4004,6 +4005,8 @@ MySched.Tree = function ()
                                 }
                             }
                         }
+
+                        MySched.scheduleDataReady = true;
 
                         var rootNode = MySched.Tree.tree.getRootNode();
                         rootNode.removeAll(true);

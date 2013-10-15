@@ -740,6 +740,10 @@ Ext.define('ScheduleModel',
             };
             Ext.defer(func, 50);
             this.eventsloaded = null;
+            if(MySched.scheduleDataReady === true)
+            {
+                this.refreshView();
+            }
         }
         else
         {
