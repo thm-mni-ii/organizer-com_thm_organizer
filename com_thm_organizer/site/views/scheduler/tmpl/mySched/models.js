@@ -2156,40 +2156,6 @@ Ext.define('EventModel',
     getEventInfoView: function ()
     {
         var infoTemplateString = "<div id='MySchedEventInfo_" + this.id + "' class='MySchedEventInfo'>" + "<span class='MySchedEvent_desc'>" + this.data.description + "</span><br/>";
-        var teacherS = "";
-        var roomS = "";
-
-        teacherS = this.getTeacherName();
-        roomS = this.getRoomName();
-
-        if (teacherS.length > 0)
-        {
-            if (teacherS.contains(", "))
-            {
-                teacherS = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHERS + ": " + teacherS;
-            }
-            else
-            {
-                teacherS = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHER + ": " + teacherS;
-            }
-
-            infoTemplateString += "<span class='MySchedEvent_teacher'>" + teacherS + "</span><br/>";
-        }
-
-        if (roomS.length > 0)
-        {
-            if (roomS.contains(", "))
-            {
-                roomS = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ROOMS + ": " + roomS;
-            }
-            else
-            {
-                roomS = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ROOM + ": " + roomS;
-            }
-
-            infoTemplateString += "<span class='MySchedEvent_room'>" + roomS + "</span><br/>";
-        }
-
         return infoTemplateString;
     }
 });
