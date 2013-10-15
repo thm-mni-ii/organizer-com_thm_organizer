@@ -4123,6 +4123,10 @@ MySched.Tree = function ()
                             }
                         }
 
+                        if(MySched.selectedSchedule)
+                        {
+                            MySched.selectedSchedule.refreshView();
+                        }
                     }
                 });
             }
