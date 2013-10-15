@@ -1331,7 +1331,6 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
 
             // Refresh
             MySched.selectedSchedule.refreshView();
-            MySched.Schedule.refreshView();
         }
     },
     /**
