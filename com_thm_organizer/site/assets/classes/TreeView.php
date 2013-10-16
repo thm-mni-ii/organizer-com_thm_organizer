@@ -499,7 +499,7 @@ class THMTreeView
             }
             elseif (!empty($children))
             {
-                if (count($children) == 1)
+                if(count($viewNode) === 0)
                 {
                     $viewNode = $children;
                 }
@@ -738,27 +738,39 @@ class THMTreeView
                 $childNodes = null;
             }
             $descriptionNode = null;
-            if ($childNodes != null)
-            {
-                $descriptionNodeData = array();
-                $descriptionNodeData["nodeID"] = $descriptionID;
-                $descriptionNodeData["text"] = $descriptionValue->name;
-                $descriptionNodeData["iconCls"] = "studiengang-root";
-                $descriptionNodeData["leaf"] = false;
-                $descriptionNodeData["draggable"] = true;
-                $descriptionNodeData["singleClickExpand"] = false;
-                $descriptionNodeData["gpuntisID"] = $descriptionValue->gpuntisID;
-                $descriptionNodeData["type"] = $scheduleType;
-                $descriptionNodeData["children"] = $childNodes;
-                $descriptionNodeData["semesterID"] = $semesterID;
-                $descriptionNodeData["nodeKey"] = $descriptionKey;
 
-                $descriptionNode = $this->createTreeNode($descriptionNodeData);
-            }
+            $descriptionNodeData = array();
+            $descriptionNodeData["nodeID"] = $descriptionID;
+            $descriptionNodeData["text"] = $descriptionValue->name;
+            $descriptionNodeData["iconCls"] = "studiengang-root";
+            $descriptionNodeData["leaf"] = false;
+            $descriptionNodeData["draggable"] = true;
+            $descriptionNodeData["singleClickExpand"] = false;
+            $descriptionNodeData["gpuntisID"] = $descriptionValue->gpuntisID;
+            $descriptionNodeData["type"] = $scheduleType;
+            $descriptionNodeData["children"] = $childNodes;
+            $descriptionNodeData["semesterID"] = $semesterID;
+            $descriptionNodeData["nodeKey"] = $descriptionKey;
+
+            $descriptionNode = $this->createTreeNode($descriptionNodeData);
 
             if (!is_null($descriptionNode) && (is_object($descriptionNode) || is_array($descriptionNode)))
             {
-                $treeNode[] = $descriptionNode;
+                if($childNodes === $descriptionNode && count($treeNode) === 0)
+                {
+                    $treeNode = $descriptionNode;
+                }
+                else
+                {
+                    if(is_array($descriptionNode))
+                    {
+                        $treeNode = array_merge($treeNode, $descriptionNode);
+                    }
+                    else
+                    {
+                        $treeNode[] = $descriptionNode;
+                    }
+                }
             }
         }
 
