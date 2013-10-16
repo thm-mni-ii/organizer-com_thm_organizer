@@ -31,12 +31,12 @@
                 description="Tooltip ;)" />
         </fieldset>
         <fieldset name="advanced">
-            <field name="loadLessonsOnStartUp" type="radio" label="COM_THM_ORGANIZER_RIA_OPTIONS_LOAD_ON_STARTUP_TITLE" default="1" description="COM_THM_ORGANIZER_RIA_OPTIONS_LOAD_ON_STARTUP_DESC">
+            <field name="loadLessonsOnStartUp" type="radio" label="COM_THM_ORGANIZER_SCHEDULER_OPTIONS_LOAD_ON_STARTUP_TITLE" default="1" description="COM_THM_ORGANIZER_SCHEDULER_OPTIONS_LOAD_ON_STARTUP_DESC">
                 <option value="0">JNO</option>
                 <option value="1">JYES</option>
             </field>
-            <field name="deltaDisplayDays" default="14" class="required validate-numeric" type="text" label="COM_THM_ORGANIZER_RIA_DELTA_DISPLAY_LABEL"
-                size="5" description="COM_THM_ORGANIZER_RIA_DELTA_DISPLAY_DESC" />
+            <field name="deltaDisplayDays" default="14" class="required validate-numeric" type="text" label="COM_THM_ORGANIZER_SCHEDULER_DELTA_DISPLAY_TITLE"
+                size="5" description="COM_THM_ORGANIZER_SCHEDULER_DELTA_DISPLAY_DESC" />
         </fieldset>
     </fields>
 </metadata>
