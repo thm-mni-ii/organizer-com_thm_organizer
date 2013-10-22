@@ -33,7 +33,7 @@ class THM_OrganizerModelField_Manager extends JModelList
         if (empty($config['filter_fields']))
         {
             $config['filter_fields'] = array(
-                    'id', 'id'
+                    'id', 'field'
             );
         }
 
@@ -56,13 +56,13 @@ class THM_OrganizerModelField_Manager extends JModelList
         // Defailt ordering
         if ($orderBy == "")
         {
-            $orderBy = "id";
+            $orderBy = "field";
             $orderDir = "ASC";
         }
 
         // Create the query
         $query = $dbo->getQuery(true);
-        $query->select("f.id, f.gpuntisID, f.field, c.name, c.color");
+        $query->select("f.id, gpuntisID, field, name, color");
         $query->from('#__thm_organizer_fields AS f');
         $query->innerJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
         $query->order("$orderBy $orderDir");
@@ -80,8 +80,21 @@ class THM_OrganizerModelField_Manager extends JModelList
      */
     protected function populateState($orderBy = null, $orderDir = null)
     {
-        THM_OrganizerHelper::populateState($this);
-        empty($orderBy)?
-            parent::populateState("id", "ASC") : parent::populateState($orderBy, $orderDir);
+        $app = JFactory::getApplication('administrator');
+        $context = $this->get('context');
+
+        $orderBy = $app->getUserStateFromRequest($context . '.filter_order', 'filter_order', 'field');
+        $this->setState('list.ordering', $orderBy);
+
+        $orderDir = $app->getUserStateFromRequest($context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
+        $this->setState('list.direction', $orderDir);
+
+        $filter = $app->getUserStateFromRequest($context . '.filter', 'filter', '');
+        $this->setState('filter', $filter);
+
+        $limit = $app->getUserStateFromRequest($context . '.limit', 'limit', '');
+        $this->setState('limit', $limit);
+
+        parent::populateState($orderBy, $orderDir);
     }
 }

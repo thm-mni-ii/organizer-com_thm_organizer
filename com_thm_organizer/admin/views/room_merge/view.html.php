@@ -32,6 +32,9 @@ class THM_OrganizerViewRoom_Merge extends JView
     {
         JHtml::_('behavior.tooltip');
 
+        $document = JFactory::getDocument();
+        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+
         $model = $this->getModel();
 
         $data = $model->roomInformation;
@@ -113,7 +116,7 @@ class THM_OrganizerViewRoom_Merge extends JView
     protected function addToolBar()
     {
         JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_RMM_MERGE_TITLE'));
-        JToolBarHelper::save('room.merge', 'COM_THM_ORGANIZER_MERGE');
+        JToolBarHelper::custom('room.merge', 'merge', 'merge', 'COM_THM_ORGANIZER_MERGE', false);
         JToolBarHelper::cancel('room.cancel', 'JTOOLBAR_CANCEL');
     }
 }

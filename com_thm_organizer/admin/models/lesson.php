@@ -107,9 +107,12 @@ class THM_OrganizerModelLesson extends JModel
             return;
         }
 
+        // Set before competion so that the error message is built correctly
+        $this->_lessonName = $lessonName;
+
         $descriptionID = $this->validateDescription(str_replace('DS_', '', trim((string) $lessonNode->lesson_description)));
         $lessonName .= " - $descriptionID";
-        $this->_lessonName = $lessonName;
+        $this->_lessonName .= " - $descriptionID";
         $this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->name = $lessonName;
 
         $teacherID = str_replace('TR_', '', trim((string) $lessonNode->lesson_teacher[0]['id']));
