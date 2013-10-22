@@ -41,6 +41,7 @@ div.MySchedexternURLClass_DIS {
     text-shadow: 0 1px 1px white;
     overflow: hidden;
     white-space: normal;
+    word-wrap: break-word;
     color: black;
     text-decoration: none;
 }
