@@ -11,7 +11,7 @@
     <creationDate>01/01/2013</creationDate>
     <copyright>TH Mittelhessen 2013</copyright>
     <licence>GNU GPL v.2</licence>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
     <scriptfile>script.php</scriptfile>
     <install>
         <sql>
@@ -153,5 +153,8 @@
     <packages>
        <package name="pkg_thm_organizer" git="git://scm.thm.de/icampus/pkg_thm_organizer.git"/>
     </packages>
+    <updateservers>
+        <server type="extension" name="THM Organizer Component Update Site" priority="1">https://jenkins.mni.thm.de/jenkins/job/J.THM.Releases/lastSuccessfulBuild/artifact/updates/com_thm_organizer.xml</server>
+    </updateservers>
 </extension>
 
