@@ -32,6 +32,9 @@ class THM_OrganizerViewSchedule_Merge extends JView
     {
         JHtml::_('behavior.tooltip');
 
+        $document = JFactory::getDocument();
+        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+
         $model = $this->getModel();
 
         $this->schedules = $model->schedules;
@@ -51,7 +54,7 @@ class THM_OrganizerViewSchedule_Merge extends JView
     protected function addToolBar()
     {
         JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_SCH_MERGE_TITLE'));
-        JToolBarHelper::save('schedule.merge', 'COM_THM_ORGANIZER_MERGE');
+        JToolBarHelper::custom('schedule.merge', 'merge', 'merge', 'COM_THM_ORGANIZER_MERGE', false);
         JToolBarHelper::cancel('schedule.cancel', 'JTOOLBAR_CANCEL');
     }
 }

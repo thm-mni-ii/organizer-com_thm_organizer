@@ -296,7 +296,8 @@ class THM_OrganizerModelRoom_Display extends JModel
                             $shortname = $schedule->subjects->$subjectID->name;
                             $lessonName = (strlen($longname) <= 30)? $longname : $shortname;
                             $lessonName .= " - " . $schedule->lessons->$lessonID->description;
-                            if (!empty($schedule->subjects->$subjectID->subjectNo))
+                            if (!empty($schedule->subjects->$subjectID->subjectNo)
+                             AND $this->layout != 'registered')
                             {
                                 $subjectLink = "index.php?option=com_thm_organizer&view=subject_details";
                                 $subjectLink .= "&languageTag=de&Itemid=$menuID&nrmni=";
@@ -319,7 +320,7 @@ class THM_OrganizerModelRoom_Display extends JModel
                             }
                             $teacherName = $schedule->teachers->$key->surname;
                             $userID = THM_OrganizerHelperTeacher::getUserIDfromUntisID($key);
-                            if (!empty($userID))
+                            if (!empty($userID) AND $this->layout != 'registered')
                             {
                                 $groupsLink = THM_OrganizerHelperTeacher::getLink($userID, $teacherName);
                                 $teacherLink = JHtml::_('link', $groupsLink, $teacherName);
