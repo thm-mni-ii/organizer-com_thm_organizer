@@ -3,6 +3,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 /* Tables which no loger exist are still mentioned herre to ensure a clean
    database. */
 
+DROP TABLE IF EXISTS `#__thm_organizer_prerequisites`;
 DROP TABLE IF EXISTS `#__thm_organizer_soap_queries`;
 DROP TABLE IF EXISTS `#__thm_organizer_user_schedules`;
 DROP TABLE IF EXISTS `#__thm_organizer_lecturers_assets`;

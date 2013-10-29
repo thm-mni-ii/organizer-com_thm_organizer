@@ -149,6 +149,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
   `objective_en` text DEFAULT NULL,
   `content_de` text DEFAULT NULL,
   `content_en` text DEFAULT NULL,
+  `prerequisites_de` text DEFAULT NULL,
+  `prerequisites_en` text DEFAULT NULL,
   `preliminary_work_de` varchar(255) DEFAULT NULL,
   `preliminary_work_en` varchar(255) DEFAULT NULL,
   `instructionLanguage` varchar (2) DEFAULT NULL,
