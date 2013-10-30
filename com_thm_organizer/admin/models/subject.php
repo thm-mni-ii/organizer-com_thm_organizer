@@ -212,22 +212,9 @@ class THM_OrganizerModelSubject extends JModel
                         $method = $this->resolveMethod((string) $child[0]->txt);
                         $this->setSubjectAttribute($data, 'methodID', $method);
                     }
-                    break;
                 case 'zwvoraussetzungen':
-                    $requirements = $lsfData->xpath('//modul/zwvoraussetzungen');
-                    foreach ($requirements as $requirement)
-                    {
-                        if ($requirement->sprache == 'de')
-                        {
-                            $text = $this->resolvePrerequisites((string) $requirement->txt, 'de');
-                            $this->setSubjectAttribute($data, 'prerequisites_de', $text);
-                        }
-                        elseif ($requirement->sprache == 'en')
-                        {
-                            $text = $this->resolvePrerequisites((string) $requirement->txt, 'en');
-                            $this->setSubjectAttribute($data, 'prerequisites_en', $text);
-                        }
-                    }
+                    $prerequisites = explode(',', (string) $child[0]->txt);
+                    $this->setSubjectAttribute($data, 'prerequisites', $prerequisites);
                     break;
                 case 'lernziel':
                     $objectives = $lsfData->xpath('//modul/lernziel');
@@ -289,12 +276,21 @@ class THM_OrganizerModelSubject extends JModel
         if (empty($data['name_en']) AND isset($data['name_de']))
         {
             $this->setSubjectAttribute($data, 'name_en', $data['name_de']);
-        }var_dump($data); die;
+        }
 
         $subjectSaved = $table->save($data);
         if (!$subjectSaved)
         {
             return false;
+        }
+
+        if (!empty($data['prerequisites']))
+        {
+            $prerequisitesSaved = $this->savePrerequisitesFromLSF($table->id, $data['prerequisites']);
+            if (!$prerequisitesSaved)
+            {
+                return false;
+            }
         }
 
         $responsible = $lsfData->xpath('//modul/verantwortliche');
@@ -387,6 +383,53 @@ class THM_OrganizerModelSubject extends JModel
         {
             return '';
         }
+    }
+
+    /**
+     * Saves prerequisites imported from LSF
+     *
+     * @param   int    $subjectID      the id of the subject
+     * @param   array  $prerequisites  an array of external ids
+     *
+     * @return  bool  true if no database errors occured, otherwise false
+     */
+    private function savePrerequisitesFromLSF($subjectID, $prerequisites)
+    {
+        $dbo = JFactory::getDbo();
+        $deleteQuery = $dbo->getQuery(true);
+        $deleteQuery->delete('#__thm_organizer_prerequisites');
+        $deleteQuery->where("subjectID = '$subjectID'");
+        $dbo->setQuery((string) $deleteQuery);
+        try
+        {
+            $dbo->query();
+        }
+        catch (Exception $exc)
+        {
+            return false;
+        }
+
+        foreach ($prerequisites as $externalID)
+        {
+            $resolutionQuery = $dbo->getQuery(true);
+            $resolutionQuery->select('id')->from('#__thm_organizer_subjects')->where("externalID = '$externalID'");
+            $dbo->setQuery((string) $resolutionQuery);
+            $internalID = $dbo->loadResult();
+            if (empty($internalID))
+            {
+                continue;
+            }
+
+            $insertQuery = $dbo->getQuery(true);
+            $insertQuery->insert('#__thm_organizer_prerequisites')->columns('subjectID, prerequisite')->values("'$subjectID', '$internalID'");
+            $dbo->setQuery((string) $insertQuery);
+            $success = $dbo->query();
+            if ($success == false)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -639,69 +682,5 @@ class THM_OrganizerModelSubject extends JModel
             return false;
         }
         return true;
-    }
-
-    /**
-     * Parces the prerequisites text and replaces subject references with links to the subjects
-     * 
-     * @param   string  $originalText  the original text of the object
-     * @param   string  $languageTag   the desired output language
-     * 
-     * @return  string  the text for the subject's prereuisites
-     */
-    private function resolvePrerequisites($originalText, $languageTag)
-    {
-        $modules = array();
-        $parts = preg_split('[\,|\ ]', $originalText);
-        foreach ($parts as $part)
-        {
-            if (preg_match('/[0-9]+/', $part))
-            {
-                $moduleLink = $this->getModuleLink($part, $languageTag);
-                if (!empty($moduleLink))
-                {
-                    $modules[$part] = $moduleLink;
-                }
-            }
-        }
-        if (!empty($modules))
-        {
-            foreach ($modules AS $number => $link)
-            {
-                $originalText = str_replace($number, $link, $originalText);
-            }
-        }
-        return $originalText;
-    }
-
-    /**
-     * Builds a link to a subject description if available
-     * 
-     * @param   string  $moduleNumber  the external id of the subject
-     * @param   string  $languageTag   the language tag
-     * 
-     * @return  mixed  html link string on success, otherwise false
-     */
-    private function getModuleLink($moduleNumber, $languageTag)
-    {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select("id, name_$languageTag AS name");
-        $query->from('#__thm_organizer_subjects')->where("externalID = '$moduleNumber'");
-        $dbo->setQuery((string) $query);
-        $subjectInfo = $dbo->loadAssoc();
-        if (empty($subjectInfo))
-        {
-            return false;
-        }
-
-        $subjectURL = JURI::root() . 'index.php?option=com_thm_organizer&view=subject_details';
-        $subjectURL .= "&languageTag=$languageTag&id={$subjectInfo['id']}";
-        
-        $itemID = JRequest::getInt('Itemid');
-        $subjectURL .= !empty($itemID)? "&Itemid=$itemID" : '';
-        $href = JRoute::_($subjectURL);
-
-        return JHtml::link($href, $subjectInfo['name']);
     }
 }
