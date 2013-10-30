@@ -27,7 +27,7 @@ $frequency = ($this->lang == 'de')? 'Turnus' : 'Frequency';
 $language = ($this->lang == 'de')? 'Sprache' : 'Language';
 $preliminary_work = ($this->lang == 'de')? 'Vorleistung' : 'Requirement';
 $flagPath = 'media' . DIRECTORY_SEPARATOR . 'com_thm_organizer' . DIRECTORY_SEPARATOR . 'images';
-$flagPath .= DIRECTORY_SEPARATOR . 'extjs' . DIRECTORY_SEPARATOR . $this->otherLanguageTag . '.png';
+$flagPath .= DIRECTORY_SEPARATOR . $this->otherLanguageTag . '.png';
 ?>
 <script type="text/javascript">
 
