@@ -165,13 +165,9 @@ if (!empty($subject['prerequisites']))
 {
     echo '<div class="subject-item">';
     echo '<div class="subject-label">' . $prerequisites . '</div>';
-    echo '<div class="subject-content" id="voraussetzung"><ul>';
-    foreach ($subject['prerequisites'] as $prerequisite)
-    {
-        echo '<li><a href="' . $prerequisite['link'] . '">' . $prerequisite['name'] . '</a></li>';
-    }
-    echo '</ul></div>';
-    echo '</div>';
+    echo '<div class="subject-content" id="voraussetzung">';
+    echo $subject['prerequisites'];
+    echo '</div></div>';
 }
 if (!empty($subject['prerequisiteOf']))
 {

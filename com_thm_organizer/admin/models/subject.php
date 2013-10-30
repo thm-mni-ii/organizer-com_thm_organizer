@@ -213,7 +213,21 @@ class THM_OrganizerModelSubject extends JModel
                         $this->setSubjectAttribute($data, 'methodID', $method);
                     }
                 case 'zwvoraussetzungen':
-                    $prerequisites = explode(',', (string) $child[0]->txt);
+                    $prerequisites = array();
+                    $requirements = $lsfData->xpath('//modul/zwvoraussetzungen');
+                    foreach ($requirements as $requirement)
+                    {
+                        if ($requirement->sprache == 'de')
+                        {
+                            $text = $this->resolvePrerequisites((string) $requirement->txt, 'de', $prerequisites);
+                            $this->setSubjectAttribute($data, 'prerequisites_de', $text);
+                        }
+                        elseif ($requirement->sprache == 'en')
+                        {
+                            $text = $this->resolvePrerequisites((string) $requirement->txt, 'en', $prerequisites);
+                            $this->setSubjectAttribute($data, 'prerequisites_en', $text);
+                        }
+                    }
                     $this->setSubjectAttribute($data, 'prerequisites', $prerequisites);
                     break;
                 case 'lernziel':
@@ -406,22 +420,16 @@ class THM_OrganizerModelSubject extends JModel
         }
         catch (Exception $exc)
         {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
             return false;
         }
 
-        foreach ($prerequisites as $externalID)
+        foreach ($prerequisites as $prereqID)
         {
-            $resolutionQuery = $dbo->getQuery(true);
-            $resolutionQuery->select('id')->from('#__thm_organizer_subjects')->where("externalID = '$externalID'");
-            $dbo->setQuery((string) $resolutionQuery);
-            $internalID = $dbo->loadResult();
-            if (empty($internalID))
-            {
-                continue;
-            }
-
             $insertQuery = $dbo->getQuery(true);
-            $insertQuery->insert('#__thm_organizer_prerequisites')->columns('subjectID, prerequisite')->values("'$subjectID', '$internalID'");
+            $insertQuery->insert('#__thm_organizer_prerequisites');
+            $insertQuery->columns('subjectID, prerequisite');
+            $insertQuery->values("'$subjectID', '$prereqID'");
             $dbo->setQuery((string) $insertQuery);
             $success = $dbo->query();
             if ($success == false)
@@ -682,5 +690,76 @@ class THM_OrganizerModelSubject extends JModel
             return false;
         }
         return true;
+    }
+
+    /**
+     * Parces the prerequisites text and replaces subject references with links to the subjects
+     * 
+     * @param   string  $originalText    the original text of the object
+     * @param   string  $languageTag     the desired output language
+     * @param   array   &$prerequisites  an array containing prerequisite ids
+     * 
+     * @return  string  the text for the subject's prereuisites
+     */
+    private function resolvePrerequisites($originalText, $languageTag, &$prerequisites)
+    {
+        $modules = array();
+        $parts = preg_split('[\,|\ ]', $originalText);
+        foreach ($parts as $part)
+        {
+            if (preg_match('/[0-9]+/', $part))
+            {
+                $moduleLink = $this->getModuleInformation($part, $languageTag, $prerequisites);
+                if (!empty($moduleLink))
+                {
+                    $modules[$part] = $moduleLink;
+                }
+            }
+        }
+        if (!empty($modules))
+        {
+            foreach ($modules AS $number => $link)
+            {
+                $originalText = str_replace($number, $link, $originalText);
+            }
+        }
+        return $originalText;
+    }
+
+    /**
+     * Builds a link to a subject description if available
+     * 
+     * @param   string  $moduleNumber    the external id of the subject
+     * @param   string  $languageTag     the language tag
+     * @param   array   &$prerequisites  an array containing prerequisite ids
+     * 
+     * @return  mixed  html link string on success, otherwise false
+     */
+    private function getModuleInformation($moduleNumber, $languageTag, &$prerequisites)
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("id, name_$languageTag AS name");
+        $query->from('#__thm_organizer_subjects')->where("externalID = '$moduleNumber'");
+        $dbo->setQuery((string) $query);
+        $subjectInfo = $dbo->loadAssoc();
+        if (empty($subjectInfo))
+        {
+            return false;
+        }
+
+        if (!in_array($subjectInfo['id'], $prerequisites))
+        {
+            $prerequisites[] = $subjectInfo['id'];
+        }
+
+        $subjectURL = JURI::root() . 'index.php?option=com_thm_organizer&view=subject_details';
+        $subjectURL .= "&languageTag=$languageTag&id={$subjectInfo['id']}";
+        
+        $itemID = JRequest::getInt('Itemid');
+        $subjectURL .= !empty($itemID)? "&Itemid=$itemID" : '';
+        $href = JRoute::_($subjectURL);
+
+        return JHtml::link($href, $subjectInfo['name']);
     }
 }

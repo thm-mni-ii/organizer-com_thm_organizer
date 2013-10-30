@@ -74,7 +74,6 @@ class THM_OrganizerModelSubject_Details extends JModel
                     }
                 }
             }
-            $this->setPrerequisites();
             $this->setPrerequisiteOf();
             $this->setTeachers();
         }
@@ -110,7 +109,8 @@ class THM_OrganizerModelSubject_Details extends JModel
         $select .= "objective_$this->languageTag AS objective, content_$this->languageTag AS content, instructionLanguage, ";
         $select .= "preliminary_work_$this->languageTag AS preliminary_work, literature, creditpoints, expenditure, ";
         $select .= "present, independent, proof_$this->languageTag AS proof, frequency_$this->languageTag AS frequency, ";
-        $select .= "method_$this->languageTag AS method, pform_$this->languageTag AS pform";
+        $select .= "method_$this->languageTag AS method, pform_$this->languageTag AS pform, ";
+        $select .= "prerequisites_$this->languageTag AS prerequisites";
 
         $query->select($select);
         $query->from('#__thm_organizer_subjects AS s');
