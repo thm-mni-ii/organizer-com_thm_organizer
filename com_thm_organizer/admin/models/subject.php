@@ -289,7 +289,7 @@ class THM_OrganizerModelSubject extends JModel
         if (empty($data['name_en']) AND isset($data['name_de']))
         {
             $this->setSubjectAttribute($data, 'name_en', $data['name_de']);
-        }
+        }var_dump($data); die;
 
         $subjectSaved = $table->save($data);
         if (!$subjectSaved)
