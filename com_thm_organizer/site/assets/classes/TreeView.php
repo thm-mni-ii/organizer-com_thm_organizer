@@ -499,7 +499,7 @@ class THMTreeView
             }
             elseif (!empty($children))
             {
-                if(count($viewNode) === 0)
+                if (count($viewNode) === 0)
                 {
                     $viewNode = $children;
                 }
@@ -754,15 +754,16 @@ class THMTreeView
 
             $descriptionNode = $this->createTreeNode($descriptionNodeData);
 
-            if (!is_null($descriptionNode) && (is_object($descriptionNode) || is_array($descriptionNode)) && (is_object($descriptionNode->children) || is_array($descriptionNode->children)))
+            if (!is_null($descriptionNode) && (is_object($descriptionNode) || is_array($descriptionNode))
+             && (is_object($descriptionNode->children) || is_array($descriptionNode->children)))
             {
-                if($childNodes === $descriptionNode && count($treeNode) === 0)
+                if ($childNodes === $descriptionNode && count($treeNode) === 0)
                 {
                     $treeNode = $descriptionNode;
                 }
                 else
                 {
-                    if(is_array($descriptionNode))
+                    if (is_array($descriptionNode))
                     {
                         $treeNode = array_merge($treeNode, $descriptionNode);
                     }
