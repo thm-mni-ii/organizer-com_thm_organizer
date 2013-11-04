@@ -520,22 +520,25 @@ Ext.define('ScheduleModel',
         {
             for(var dowIndex in ret[returnIndex])
             {
-                for(var blockIndex = 0; blockIndex < ret[returnIndex][dowIndex].length; blockIndex++)
+                if(Ext.isArray(ret[returnIndex][dowIndex]))
                 {
-                    var singleString = ret[returnIndex][dowIndex][blockIndex];
-                    if(singleString.indexOf('<div id="MySchedEvent_') === 0)
+                    for(var blockIndex = 0; blockIndex < ret[returnIndex][dowIndex].length; blockIndex++)
                     {
-                        for(var blockIndexSearch = 0; blockIndexSearch < ret[returnIndex][dowIndex].length; blockIndexSearch++)
+                        var singleString = ret[returnIndex][dowIndex][blockIndex];
+                        if(singleString.indexOf('<div id="MySchedEvent_') === 0)
                         {
-                            if(blockIndex !== blockIndexSearch)
+                            for(var blockIndexSearch = 0; blockIndexSearch < ret[returnIndex][dowIndex].length; blockIndexSearch++)
                             {
-                                var searchString = ret[returnIndex][dowIndex][blockIndexSearch];
-
-                                var modifiedSingleString = singleString.replace(new RegExp('<small class="event_resource">.*', "g"), "");
-
-                                if(searchString.indexOf(modifiedSingleString) != -1)
+                                if(blockIndex !== blockIndexSearch)
                                 {
-                                    delete ret[returnIndex][dowIndex][blockIndex];
+                                    var searchString = ret[returnIndex][dowIndex][blockIndexSearch];
+
+                                    var modifiedSingleString = singleString.replace(new RegExp('<small class="event_resource">.*', "g"), "");
+
+                                    if(searchString.indexOf(modifiedSingleString) !== -1)
+                                    {
+                                        delete ret[returnIndex][dowIndex][blockIndex];
+                                    }
                                 }
                             }
                         }
