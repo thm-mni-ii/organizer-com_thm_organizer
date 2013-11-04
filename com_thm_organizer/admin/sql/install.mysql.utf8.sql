@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
   `departmentname` VARCHAR ( 50 ) NOT NULL,
   `semestername` VARCHAR ( 50 ) NOT NULL,
   `creationdate` date DEFAULT NULL,
+  `creationtime` time DEFAULT NULL,
   `description` TEXT NOT NULL,
   `schedule` mediumblob NOT NULL,
   `active` TINYINT ( 1 ) NOT NULL DEFAULT '0',

@@ -17,6 +17,9 @@ JTable::addIncludePath(JPATH_BASE . DS . 'administrator' . DS . 'components' . D
 
 require_once 'lesson.php';
 require_once 'teacher.php';
+require_once 'room.php';
+require_once 'subject.php';
+require_once 'pool.php';
 
 define('ERROR', 0);
 define('MERGE', 1);
@@ -62,20 +65,6 @@ class THM_OrganizerModelSchedule extends JModel
      * @var object
      */
     public $refSchedule = null;
-
-    /**
-     * Model for lesson functions
-     * 
-     * @var object 
-     */
-    private $_lessonModel = null;
-
-    /**
-     * Model for teacher functions
-     * 
-     * @var object 
-     */
-    private $_teacherModel = null;
 
     /**
      * saves a schedule in the database for later use
@@ -131,7 +120,6 @@ class THM_OrganizerModelSchedule extends JModel
 
         $formdata = JRequest::getVar('jform', null, null, null, 4);
         $rooms_required = isset($formdata['rooms_assignment_required']);
-        $this->_lessonModel = new THM_OrganizerModelLesson($this, $rooms_required);
         $this->_teacherModel = JModel::getInstance('teacher', 'THM_OrganizerModel');
 
         // General node
@@ -152,7 +140,7 @@ class THM_OrganizerModelSchedule extends JModel
         }
         else
         {
-            $this->schedule->creationtime = substr($creationTime, 0, 4);
+            $this->schedule->creationtime = $creationTime;
         }
 
         // Schoolyear dates
@@ -278,9 +266,10 @@ class THM_OrganizerModelSchedule extends JModel
         }
         else
         {
+            $roomModel = JModel::getInstance('room', 'THM_OrganizerModel');
             foreach ($xmlSchedule->rooms->children() as $roomnode)
             {
-                $this->validateRoom($roomnode);
+                $roomModel->validate($this, $roomnode);
             }
         }
 
@@ -291,9 +280,10 @@ class THM_OrganizerModelSchedule extends JModel
         }
         else
         {
+            $subjectModel = JModel::getInstance('subject', 'THM_OrganizerModel');
             foreach ($xmlSchedule->subjects->children() as $subjectnode)
             {
-                $this->validateSubject($subjectnode);
+                $subjectModel->validate($this, $subjectnode);
             }
         }
 
@@ -304,9 +294,10 @@ class THM_OrganizerModelSchedule extends JModel
         }
         else
         {
+            $teacherModel = JModel::getInstance('teacher', 'THM_OrganizerModel');
             foreach ($xmlSchedule->teachers->children() as $teachernode)
             {
-                $this->_teacherModel->validate($this, $teachernode);
+                $teacherModel->validate($this, $teachernode);
             }
         }
 
@@ -318,9 +309,10 @@ class THM_OrganizerModelSchedule extends JModel
         }
         else
         {
-            foreach ($xmlSchedule->classes->children() as $classnode)
+            $poolModel = JModel::getInstance('pool', 'THM_OrganizerModel');
+            foreach ($xmlSchedule->classes->children() as $poolNode)
             {
-                $this->validateModule($classnode);
+                $poolModel->validate($this, $poolNode);
             }
         }
 
@@ -332,9 +324,10 @@ class THM_OrganizerModelSchedule extends JModel
         }
         else
         {
+            $lessonModel = new THM_OrganizerModelLesson($this, $rooms_required);
             foreach ($xmlSchedule->lessons->children() as $lessonnode)
             {
-                $this->_lessonModel->validate($lessonnode);
+                $lessonModel->validate($lessonnode);
             }
         }
 
@@ -498,129 +491,6 @@ class THM_OrganizerModelSchedule extends JModel
             return;
         }
         $this->schedule->degrees->$degreeID->name = $degreeName;
-    }
-
-    /**
-     * Checks whether room nodes have the expected structure and required
-     * information
-     *
-     * @param   SimpleXMLNode  &$roomnode  the room node to be validated
-     *
-     * @return void
-     */
-    protected function validateRoom(&$roomnode)
-    {
-        $gpuntisID = isset($roomnode->external_name)?
-            trim((string) $roomnode->external_name) : trim((string) $roomnode[0]['id']);
-        if (empty($gpuntisID))
-        {
-            if (!in_array(JText::_("COM_THM_ORGANIZER_RM_ID_MISSING"), $this->scheduleErrors))
-            {
-                $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_RM_ID_MISSING");
-            }
-            return;
-        }
-        $roomID = str_replace('RM_', '', $gpuntisID);
-        $this->schedule->rooms->$roomID = new stdClass;
-        $this->schedule->rooms->$roomID->gpuntisID = $gpuntisID;
-        $this->schedule->rooms->$roomID->name = $roomID;
-        $this->schedule->rooms->$roomID->localUntisID = str_replace('RM_', '', trim((string) $roomnode[0]['id']));
-
-        $longname = trim((string) $roomnode->longname);
-        if (empty($longname))
-        {
-            $this->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_RM_LN_MISSING", $roomID);
-            return;
-        }
-        else
-        {
-            $this->schedule->rooms->$roomID->longname = $longname;
-        }
-
-        $capacity = trim((int) $roomnode->capacity);
-        $this->schedule->rooms->$roomID->capacity = (empty($capacity))? '' : $capacity;
-
-        $descriptionID = str_replace('DS_', '', trim((string) $roomnode->room_description[0]['id']));
-        if (empty($descriptionID))
-        {
-            $this->scheduleWarnings[] = JText::sprintf("COM_THM_ORGANIZER_RM_DESC_MISSING", $longname, $roomID);
-            $this->schedule->rooms->$roomID->description = '';
-        }
-        elseif (empty($this->schedule->roomtypes->$descriptionID))
-        {
-            $this->scheduleWarnings[] = JText::sprintf("COM_THM_ORGANIZER_RM_DESC_MISSING", $longname, $roomID, $descriptionID);
-            $this->schedule->rooms->$roomID->description = '';
-        }
-        else
-        {
-            $this->schedule->rooms->$roomID->description = $descriptionID;
-        }
-    }
-
-    /**
-     * Checks whether subject nodes have the expected structure and required
-     * information
-     *
-     * @param   SimpleXMLNode  &$subjectnode  the subject node to be validated
-     *
-     * @return void
-     */
-    protected function validateSubject(&$subjectnode)
-    {
-        $gpuntisID = trim((string) $subjectnode[0]['id']);
-        if (empty($gpuntisID))
-        {
-            if (!in_array(JText::_("COM_THM_ORGANIZER_SU_ID_MISSING"), $this->scheduleErrors))
-            {
-                $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SU_ID_MISSING");
-            }
-            return;
-        }
-        $department = $this->schedule->departmentname;
-        $subjectID = str_replace('SU_', '', $gpuntisID);
-        $subjectIndex = $department . "_" . $subjectID;
-        $this->schedule->subjects->$subjectIndex = new stdClass;
-        $this->schedule->subjects->$subjectIndex->gpuntisID = $gpuntisID;
-        $this->schedule->subjects->$subjectIndex->name = $subjectID;
-
-        $longname = trim((string) $subjectnode->longname);
-        if (empty($longname))
-        {
-            $this->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_SU_LN_MISSING', $subjectID);
-            return;
-        }
-        else
-        {
-            $this->schedule->subjects->$subjectIndex->longname = $longname;
-        }
-
-        $subjectNo = trim((string) $subjectnode->text);
-        if (empty($subjectNo))
-        {
-            $this->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_SU_MN_MISSING', $subjectID, $longname);
-            $this->schedule->subjects->$subjectIndex->subjectNo = '';
-        }
-        else
-        {
-            $this->schedule->subjects->$subjectIndex->subjectNo = $subjectNo;
-        }
-
-        $descriptionID = str_replace('DS_', '', trim($subjectnode->subject_description[0]['id']));
-        if (empty($descriptionID))
-        {
-            $this->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_SU_FIELD_MISSING', $longname, $subjectID);
-            $this->schedule->subjects->$subjectIndex->description = '';
-        }
-        elseif (empty($this->schedule->fields->$descriptionID))
-        {
-            $this->scheduleWarnings[] = JText::sprintf("COM_THM_ORGANIZER_SU_FIELD_LACKING", $longname, $subjectID, $descriptionID);
-            $this->schedule->subjects->$subjectIndex->description = '';
-            return;
-        }
-        else
-        {
-            $this->schedule->subjects->$subjectIndex->description = $descriptionID;
-        }
     }
 
     /**
@@ -1401,7 +1271,7 @@ class THM_OrganizerModelSchedule extends JModel
         }
 
         $baseSchedule->creationdate = date('Y-m-d');
-        $baseSchedule->creationtime = $newScheduleRow['creationtime'];
+        $baseSchedule->creationtime = date('Hiu');
         $baseSchedule->departmentname = $newScheduleRow['departmentname'];
         $baseSchedule->semestername = $newScheduleRow['semestername'];
         $newScheduleRow['startdate'] = $baseSchedule->startdate;
@@ -1462,6 +1332,7 @@ class THM_OrganizerModelSchedule extends JModel
         $data['departmentname'] = $this->schedule->departmentname;
         $data['semestername'] = $this->schedule->semestername;
         $data['creationdate'] = $this->schedule->creationdate;
+        $data['creationtime'] = $this->schedule->creationtime;
         $formdata = JRequest::getVar('jform', null, null, null, 4);
         $data['description'] = JFactory::getDbo()->escape($formdata['description']);
         $data['schedule'] = json_encode($this->schedule);

@@ -73,6 +73,11 @@
     background-image: url("../../../../media/com_thm_organizer/images/icon-32-preview.png");
 }
 
+.thm_organizer_cancel_span{
+    background-image: url("../../../../media/com_thm_organizer/images/icon-32-cancel.png");
+}
+
+
 .Popup{
     display: none;
     background: #fff;

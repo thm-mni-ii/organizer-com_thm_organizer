@@ -59,6 +59,7 @@ $direction = $this->escape($this->state->get('list.direction'));
                 <col class="thm_organizer_sch_date_column" />
                 <col class="thm_organizer_sch_date_column" />
                 <col class="thm_organizer_sch_date_column" />
+                <col class="thm_organizer_sch_date_column" />
                 <col id="thm_organizer_sch_active_column" class='thm_organizer_sch_active_column' />
                 <col id="thm_organizer_sch_description_column" />
             </colgroup>
@@ -73,6 +74,9 @@ $direction = $this->escape($this->state->get('list.direction'));
                     </th>
                     <th class="thm_organizer_sch_th" >
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_SCH_CREATION_DATE', 'creationdate', $direction, $orderby); ?>
+                    </th>
+                    <th class="thm_organizer_sch_th" >
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_SCH_CREATION_TIME', 'creationtime', $direction, $orderby); ?>
                     </th>
                     <th class="thm_organizer_sch_th" >
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_SCH_START_DATE', 'creationdate', $direction, $orderby); ?>
@@ -90,7 +94,7 @@ $direction = $this->escape($this->state->get('list.direction'));
             </thead>
             <tfoot>
                 <tr>
-                    <td colspan="8">
+                    <td colspan="9">
                         <?php echo $this->pagination->getListFooter(); ?>
                     </td>
                 </tr>
@@ -114,6 +118,11 @@ foreach ($this->schedules as $k => $schedule)
                     <td>
                         <a href="<?php echo $schedule->url; ?>">
                             <?php echo $schedule->creationdate; ?>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="<?php echo $schedule->url; ?>">
+                            <?php echo $schedule->creationtime; ?>
                         </a>
                     </td>
                     <td>

@@ -50,7 +50,7 @@ class THM_OrganizerModelSchedule_Manager extends JModelList
                     'department', 'departmentname',
                     'semester', 'semestername',
                     'creationdate', 'creationdate',
-                    'state', 'active'
+                    'state', 'active', 'creationtime'
                 );
         }
         parent::__construct($config);
@@ -70,6 +70,7 @@ class THM_OrganizerModelSchedule_Manager extends JModelList
 
         $select = "id, departmentname, semestername, active, description, ";
         $select .= "DATE_FORMAT(creationdate, '%d.%m.%Y') AS creationdate, ";
+        $select .= "TIME_FORMAT(creationtime, '%H:%i') AS creationtime, ";
         $select .= "DATE_FORMAT(startdate, '%d.%m.%Y') AS startdate, ";
         $select .= "DATE_FORMAT(enddate, '%d.%m.%Y') AS enddate ";
         $query->select($this->getState("list.select", $select));

@@ -12,6 +12,17 @@
 defined('_JEXEC') or die;
 $showListLink = (isset($this->listLink) and $this->listLink != "")? true : false;
 $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : false;
+$eventID = $this->form->getValue('id');
+if (!empty($eventID))
+{
+    $cancelText = JText::_('COM_THM_ORGANIZER_CANCEL');
+    $cancelTip = JText::_('COM_THM_ORGANIZER_CANCEL_TOOLTIP');
+}
+else
+{
+    $cancelText = JText::_('COM_THM_ORGANIZER_CLOSE');
+    $cancelTip = JText::_('COM_THM_ORGANIZER_CLOSE_TOOLTIP');
+}
 ?>
 <script type="text/javascript">
     var categories = new Array;
@@ -207,6 +218,12 @@ Joomla.submitbutton =  function(task){
                     onclick="Joomla.submitbutton('event.preview')">
                     <span id="thm_organizer_preview_span" class="thm_organizer_preview_span thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_PREVIEW'); ?>
+                </a>
+                <a  class="hasTip thm_organizer_action_link"
+                    title="<?php echo $cancelTip;?>"
+                    onclick="window.history.back()">
+                    <span id="thm_organizer_cancel_span" class="thm_organizer_cancel_span thm_organizer_action_span"></span>
+                    <?php echo $cancelText; ?>
                 </a>
                 <div class="Popup">
                     <div class="loader"></div>

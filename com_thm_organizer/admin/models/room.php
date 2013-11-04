@@ -24,6 +24,8 @@ require_once JPATH_COMPONENT . DS . 'assets' . DS . 'helpers' . DS . 'thm_organi
  */
 class THM_OrganizerModelRoom extends JModel
 {
+    private $_scheduleModel = null;
+
     /**
      * Attempts to save a room entry, updating schedule data as necessary.
      *
@@ -50,7 +52,7 @@ class THM_OrganizerModelRoom extends JModel
     }
 
     /**
-     * Attempts an iterative merge of all teacher entries. Due to the attempted
+     * Attempts an iterative merge of all room entries. Due to the attempted
      * merge of multiple entries with individual success codes no return value
      * is given.
      *
@@ -400,5 +402,120 @@ class THM_OrganizerModelRoom extends JModel
     public function delete()
     {
         return THM_OrganizerHelper::delete('rooms');
+    }
+
+    /**
+     * Checks whether room nodes have the expected structure and required
+     * information
+     *
+     * @param   object  &$scheduleModel  the validating schedule model
+     * @param   object  &$roomNode       the room node to be validated
+     *
+     * @return void
+     */
+    public function validate(&$scheduleModel, &$roomNode)
+    {
+        $this->_scheduleModel = $scheduleModel;
+
+        $warningString = '';
+        $gpuntisID = $this->validateUntisID($roomNode, $warningString);
+        if (!$gpuntisID)
+        {
+            return;
+        }
+
+        $roomID = str_replace('RM_', '', $gpuntisID);
+        $this->_scheduleModel->schedule->rooms->$roomID = new stdClass;
+        $this->_scheduleModel->schedule->rooms->$roomID->gpuntisID = $roomID;
+        $this->_scheduleModel->schedule->rooms->$roomID->localUntisID
+            = str_replace('RM_', '', trim((string) $roomNode[0]['id']));
+
+        $longname = $this->validateLongname($roomNode, $roomID);
+        if (!$longname)
+        {
+            return;
+        }
+
+        $capacity = trim((int) $roomNode->capacity);
+        $this->_scheduleModel->schedule->rooms->$roomID->capacity = (empty($capacity))? '' : $capacity;
+
+        $this->validateDescription($roomNode, $roomID, $warningString);
+        
+        if (!empty($warningString))
+        {
+            $warning = JText::sprintf("COM_THM_ORGANIZER_RM_FIELD_MISSING", $longname, $roomID, $warningString);
+            $this->_scheduleModel->scheduleWarnings[] = $warning;
+        }
+    }
+
+    /**
+     * Validates the room's untis id
+     * 
+     * @param   object  &$roomNode       the room node object
+     * @param   string  &$warningString  a string with missing fields
+     * 
+     * @return  mixed  string untis id if valid, otherwise false
+     */
+    private function validateUntisID(&$roomNode, &$warningString)
+    {
+        $externalID = trim((string) $roomNode->external_name);
+        $internalID = trim((string) $roomNode[0]['id']);
+        if (empty($internalID))
+        {
+            if (!in_array(JText::_("COM_THM_ORGANIZER_RM_ID_MISSING"), $this->_scheduleModel->scheduleErrors))
+            {
+                $this->_scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_RM_ID_MISSING");
+            }
+            return false;
+        }
+        if (empty($externalID))
+        {
+            $warningString .= empty($warningString)? '' : ', ';
+            $warningString .= JText::_('COM_THM_ORGANIZER_EXTERNALID');
+        }
+        $gpuntisID = empty($externalID)? $internalID : $externalID;
+        return $gpuntisID;
+    }
+
+    /**
+     * Validates the room's longname
+     * 
+     * @param   object  &$roomNode  the room node object
+     * @param   string  $roomID     the room's id
+     * 
+     * @return  mixed  string longname if valid, otherwise false
+     */
+    private function validateLongname(&$roomNode, $roomID)
+    {
+        $longname = trim((string) $roomNode->longname);
+        if (empty($longname))
+        {
+            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_RM_LN_MISSING', $roomID);
+            return false;
+        }
+        $this->_scheduleModel->schedule->rooms->$roomID->longname = $longname;
+        return $longname;
+    }
+
+    /**
+     * Validates the room's description attribute
+     * 
+     * @param   object  &$roomNode       the room node object
+     * @param   string  $roomID          the room's id
+     * @param   string  &$warningString  a string with missing fields
+     * 
+     * @return  void
+     */
+    private function validateDescription(&$roomNode, $roomID, &$warningString)
+    {
+        $descriptionID = str_replace('DS_', '', trim((string) $roomNode->room_description[0]['id']));
+        if (empty($descriptionID)
+         OR empty($this->_scheduleModel->schedule->roomtypes->$descriptionID))
+        {
+            $warningString .= empty($warningString)? '' : ', ';
+            $warningString .= JText::_('COM_THM_ORGANIZER_DESCRIPTION_PROPERTY');
+        }
+        $this->_scheduleModel->schedule->rooms->$roomID->description
+            = empty($descriptionID)? '' : $descriptionID;
     }
 }
