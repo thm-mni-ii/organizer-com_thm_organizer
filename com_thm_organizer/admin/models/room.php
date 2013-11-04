@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-require_once JPATH_COMPONENT . DS . 'assets' . DS . 'helpers' . DS . 'thm_organizerHelper.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'assets' . DS . 'helpers' . DS . 'thm_organizerHelper.php';
 
 /**
  * Class THM_OrganizerModelLecturer for component com_thm_organizer
