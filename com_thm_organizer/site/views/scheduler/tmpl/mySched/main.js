@@ -1101,19 +1101,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
     {
         "use strict";
 
-        var modulewin = Ext.create('Ext.Window',
-        {
-            id: 'moduleWin',
-            width: 700,
-            height: 450,
-            modal: true,
-            frame: false,
-            hideLabel: true,
-            closeable: true,
-            html: '<iframe id="iframeModule" class="mysched_iframeModule" src="' + externLinks.curriculumLink + '&nrmni=' + subjectNo.toUpperCase() + '"></iframe>'
-        });
-
-        modulewin.show();
+        window.open(externLinks.curriculumLink + '&nrmni=' + subjectNo.toUpperCase());
     },
     showSubjectNoMenu: function(subjects, e)
     {
