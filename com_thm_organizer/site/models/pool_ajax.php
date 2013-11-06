@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-require_once JPATH_COMPONENT . '/assets/helpers/mapping.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/mapping.php';
 
 /**
  * Class provides methods to retrieve data for pool ajax calls

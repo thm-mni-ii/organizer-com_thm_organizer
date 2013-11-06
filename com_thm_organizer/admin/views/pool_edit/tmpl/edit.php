@@ -39,7 +39,7 @@ jq(document).ready(function(){
             jq("#jformprogramID").find('option').removeAttr("selected");
             return false;
         }
-        var poolUrl = "<?php echo $this->baseurl; ?>/index.php?option=com_thm_organizer";
+        var poolUrl = "<?php echo JURI::root(); ?>index.php?option=com_thm_organizer";
         poolUrl += "&view=pool_ajax&format=raw&task=poolDegreeOptions";
         poolUrl += "&ownID=<?php echo $this->form->getValue('id'); ?>";
         poolUrl += "&programID=" + selectedPrograms;

@@ -2,26 +2,24 @@
 /**
  * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerViewAjax_Handler
+ * @subpackage  com_thm_organizer.site
+ * @name        THM_OrganizerViewSubject_Ajax
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @copyright   2013 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
-jimport('joomla.application.plugin.helper');
-jimport('jquery.jquery');
 /**
  * Class loading persistent data into the view context
  *
- * @category    Joomla.Component.Admin
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
  */
-class THM_OrganizerViewPool_Ajax extends JView
+class THM_OrganizerViewSubject_Ajax extends JView
 {
     /**
      * loads model data into view context
@@ -34,35 +32,32 @@ class THM_OrganizerViewPool_Ajax extends JView
      */
     public function display($tpl = null)
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
         $function = JRequest::getString('task');
         switch ($function)
         {
-            case 'poolDegreeOptions':
-                $this->poolDegreeOptions();
+            case 'getSubjects':
+                $this->getSubjects();
                 break;
         }
     }
 
     /**
-     * Retrieves a list of pools by degree and creates select options
+     * Retrieves a degree program's curriculum
      *
-     * @return  void
+     * @return void
      */
-    private function poolDegreeOptions()
+    private function getCurriculum()
     {
-        $requestedPrograms = JRequest::getString('programID');
-        if (empty($requestedPrograms))
+        $program = JRequest::getString('id');
+        $languageTag = JRequest::getString('languageTag');
+        if (empty($program))
         {
             echo '';
         }
         else
         {
             $model = $this->getModel();
-            echo $model->getOptions();
+            echo $model->getCurriculum($program, $languageTag);
         }
     }
 }

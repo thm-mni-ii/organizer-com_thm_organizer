@@ -5,7 +5,8 @@
  * @subpackage  com_thm_organizer.site
  * @name        THM_OrganizerHelperTeacher
  * @author      Markus Baier, <markus.baier@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @copyright   2013 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
