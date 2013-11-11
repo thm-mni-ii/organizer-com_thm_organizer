@@ -100,6 +100,18 @@ else
         MySched.iCalcreatorInstalled = false;
 <?php
 }
+if ($this->PHPExcelInstalled)
+{
+    ?>
+        MySched.PHPExcelInstalled = true;
+<?php
+}
+else
+{
+?>
+        MySched.PHPExcelInstalled = false;
+<?php
+}
 if ($this->schedulerFromMenu)
 {
 ?>

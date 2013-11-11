@@ -2690,13 +2690,18 @@ MySched.layout = function ()
                 }
             });
 
+            var disableExcel = true;
+            if(MySched.PHPExcelInstalled === true)
+            {
+                disableExcel = false;
+            }
             var btnSaveTxt = Ext.create('Ext.Button',
             {
                 // TxT DownloadButton
                 text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EXCEL,
                 id: 'btnTxt',
                 iconCls: 'tbSaveTxt',
-                disabled: true,
+                disabled: disableExcel,
                 tooltip: { text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_EXCEL_DESC },
                 handler: function ()
                 {

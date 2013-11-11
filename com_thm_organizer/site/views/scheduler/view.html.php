@@ -47,6 +47,9 @@ class THM_OrganizerViewScheduler extends JView
         // Check wether the iCalcreator library is installed
         $this->iCalcreatorInstalled = jimport('iCalcreator.iCalcreator');
 
+        // Check wether the PHPExcel library is installed
+        $this->PHPExcelInstalled = jimport('PHPExcel.PHPExcel');
+
         $doc = JFactory::getDocument();
         $doc->addStyleSheet($this->baseurl . '/libraries/extjs4/css/ext-all-gray.css');
         $doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/mySched/style.css");
