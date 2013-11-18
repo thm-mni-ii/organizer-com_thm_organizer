@@ -2,26 +2,24 @@
 /**
  * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerViewAjax_Handler
+ * @subpackage  com_thm_organizer.site
+ * @name        THM_OrganizerViewTeacher_Ajax
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @copyright   2013 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
-jimport('joomla.application.plugin.helper');
-jimport('jquery.jquery');
 /**
  * Class loading persistent data into the view context
  *
- * @category    Joomla.Component.Admin
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
  */
-class THM_OrganizerViewPool_Ajax extends JView
+class THM_OrganizerViewTeacher_Ajax extends JView
 {
     /**
      * loads model data into view context
@@ -35,7 +33,7 @@ class THM_OrganizerViewPool_Ajax extends JView
     public function display($tpl = null)
     {
         $model = $this->getModel();
-        $function = JRequest::getString('task');
-        echo $model->$function();
+        $task = JRequest::getString('task');
+        echo $model->$task();
     }
 }

@@ -27,7 +27,7 @@ class THM_OrganizerModelPool_Ajax extends JModel
      * 
      * @return string
      */
-    public function getOptions()
+    public function poolDegreeOptions()
     {
         $isSubject = JRequest::getBool('subject');
         $programEntries = $this->getProgramEntries($isSubject);
@@ -138,5 +138,52 @@ class THM_OrganizerModelPool_Ajax extends JModel
         $query->where("id = '$mappingID'");
         $dbo->setQuery((string) $query);
         return $dbo->loadResult();
+    }
+
+    /**
+     * Retrieves pool entries from the database based upon selected program and
+     * teacher
+     * 
+     * @return  string  the subjects which fit the selected resource
+     */
+    public function poolsByProgramOrTeacher()
+    {
+        $programBounds = THM_OrganizerHelperMapping::getBoundaries('program', JRequest::getInt('programID'));
+        $teacherClauses = THM_OrganizerHelperMapping::getTeacherMappingClauses();
+
+        if (empty($programBounds))
+        {
+            return '';
+        }
+
+        $lang = explode('-', JFactory::getLanguage()->getTag());
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("p.id, p.name_{$lang[0]} AS name, m.level");
+        $query->from('#__thm_organizer_pools AS p');
+        $query->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
+        if (!empty($programBounds))
+        {
+            $query->where("m.lft >= '{$programBounds['lft']}'");
+            $query->where("m.rgt <= '{$programBounds['rgt']}'");
+        }
+        if (!empty($teacherClauses))
+        {
+            $query->where("( ( " . implode(') OR (', $teacherClauses) . ") )");
+        }
+        $query->order('lft');
+        $dbo->setQuery((string) $query);//echo (string) $query;
+        $pools = $dbo->loadObjectList();
+
+        if (empty($pools))
+        {
+            return '';
+        }
+
+        foreach ($pools AS $key => $value)
+        {
+            $pools[$key]->name  = THM_OrganizerHelperMapping::getIndentedPoolName($value->name, $value->level, false);
+        }
+        return json_encode($pools);
     }
 }

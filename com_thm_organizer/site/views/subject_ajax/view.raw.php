@@ -11,6 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
+
 /**
  * Class loading persistent data into the view context
  *
@@ -32,32 +33,8 @@ class THM_OrganizerViewSubject_Ajax extends JView
      */
     public function display($tpl = null)
     {
-        $function = JRequest::getString('task');
-        switch ($function)
-        {
-            case 'getSubjects':
-                $this->getSubjects();
-                break;
-        }
-    }
-
-    /**
-     * Retrieves a degree program's curriculum
-     *
-     * @return void
-     */
-    private function getCurriculum()
-    {
-        $program = JRequest::getString('id');
-        $languageTag = JRequest::getString('languageTag');
-        if (empty($program))
-        {
-            echo '';
-        }
-        else
-        {
-            $model = $this->getModel();
-            echo $model->getCurriculum($program, $languageTag);
-        }
+        $model = $this->getModel();
+        $task = JRequest::getString('task');
+        echo $model->$task();
     }
 }

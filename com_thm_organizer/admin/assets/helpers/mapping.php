@@ -278,18 +278,38 @@ class THM_OrganizerHelperMapping
         $poolsTable = JTable::getInstance('pools', 'THM_OrganizerTable');
         $poolsTable->load($mapping['poolID']);
 
-        $level = 0;
+        $nameColumn = 'name_' . $language[0];
+        $indentedName = self::getIndentedPoolName($poolsTable->$nameColumn, $mapping['level']);
+        
+        $selected = in_array($mapping['id'], $selectedParents)? 'selected' : '';
+        return "<option value='{$mapping['id']}' $selected>$indentedName</option>";
+    }
+
+    /**
+     * Provides an indentation according to the structural depth of a pool
+     * 
+     * @param   string  $name          the name of the pool
+     * @param   int     $level         the pool's structural depth
+     * @param   bool    $withPrograms  if programs will be listed with the pools
+     * 
+     * @return  string
+     */
+    public static function getIndentedPoolName($name, $level, $withPrograms = true)
+    {
+        if ($level == 1 and $withPrograms == false)
+        {
+            return $name;
+        }
+
+        $iteration = $withPrograms? 0 : 1;
         $indent = '';
-        while ($level < $mapping['level'])
+        while ($iteration < $level)
         {
             $indent .= "&nbsp;&nbsp;&nbsp;";
-            $level++;
+            $iteration++;
         }
-        
-        $nameColumn = 'name_' . $language[0];
-        $name = $indent . "|_" . $poolsTable->$nameColumn;
-        $selected = in_array($mapping['id'], $selectedParents)? 'selected' : '';
-        return "<option value='{$mapping['id']}' $selected>$name</option>";
+
+        return $indent . "|_" . $name;
     }
 
     /**
@@ -314,5 +334,51 @@ class THM_OrganizerHelperMapping
         $selected = in_array($mapping['id'], $selectedParents)? 'selected' : '';
         $disabled = $isSubject? 'disabled' : '';
         return "<option value='{$mapping['id']}' $selected $disabled>$name</option>";
+    }
+
+    /**
+     * Retrieves the mapping boundaries of the selected resource
+     * 
+     * @param   string  $resourceType  the type of the selected resource
+     * @param   int     $resourceID    the id of the selected resource
+     * 
+     * @return  mixed  array with boundary values on success, otherwise false
+     */
+    public static function getBoundaries($resourceType, $resourceID)
+    {
+        if ($resourceID == '-1')
+        {
+            return false;
+        }
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('lft, rgt')->from('#__thm_organizer_mappings');
+        $query->where("{$resourceType}ID = '$resourceID'");
+        $dbo->setQuery((string) $query);
+        return $dbo->loadAssoc();
+    }
+
+    /**
+     * Retrieves the nested slice values for subjects associated with the
+     * selected teacher
+     * 
+     * @return  mixed  array on success, otherwise boolean false
+     */
+    public static function getTeacherMappingClauses()
+    {
+        $teacherID = JRequest::getInt('teacherID');
+        if (empty($teacherID) OR $teacherID == '-1' OR $teacherID == 'null')
+        {
+            return false;
+        }
+
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("DISTINCT CONCAT('m.lft <= ', m.lft, ' AND m.rgt >= ', m.rgt)");
+        $query->from('#__thm_organizer_subject_teachers AS st');
+        $query->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = st.subjectID');
+        $query->where("st.teacherID = '$teacherID'");
+        $dbo->setQuery((string) $query);
+        return $dbo->loadResultArray();
     }
 }

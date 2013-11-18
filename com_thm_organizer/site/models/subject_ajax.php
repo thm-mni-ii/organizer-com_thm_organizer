@@ -11,6 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
+require_once JPATH_ADMINISTRATOR . '/components/com_thm_organizer/assets/helpers/mapping.php';
 
 /**
  * Class provides methods for building a model of the curriculum in JSON format
@@ -30,165 +31,72 @@ class THM_OrganizerModelSubject_Ajax extends JModel
     }
 
     /**
-     * Call DB and select all pool names.
+     * Retrieves subject entries from the database
      * 
-     * @return  echo  json array
+     * @return  string  the subjects which fit the selected resource
      */
-    public function loadpoolnames()
+    public function getSubjects()
     {
-        $sql = "SELECT p.`id`, p.`subject`, p.`version`, p.`lsfFieldID`, m.`lft`, m.`rgt`, p.`degreeID`
-                  FROM jos_thm_organizer_mappings m, jos_thm_organizer_programs p
-                  WHERE m.programID IS NOT NULL 
-                  AND m.programID = p.id
-                  ORDER BY p.`subject`";
-
-        $result = mysql_query($sql);
-
-        if (!$result) 
+        $programID = JRequest::getString('programID');
+        $poolID = JRequest::getString('poolID');
+        $teacherID = JRequest::getString('teacherID');
+        if ($programID == '-1' AND ($poolID == '-1' OR $poolID == 'null') AND $teacherID == '-1')
         {
-            echo 'Query error : ' . mysql_error();
+            return '';
         }
 
-        $pools = array();
-        while ($row = mysql_fetch_object($result)) 
-        {
-            $pools[] = array(
-                'id' => $row->id,
-                'subject' => $row->subject,
-                'version' => $row->version,
-                'lsfFieldID' => $row->lsfFieldID,
-                'lft' => $row->lft,
-                'rgt' => $row->rgt,
-                'degreeID' => $row->degreeID
-            );
-        }
+        $boundaries = $this->getBoundaries();
 
-        echo json_encode($pools);
-    }
-
-    /**
-     * Call DB and select teachers.
-     * 
-     * @return  echo  json array
-     */
-    public function loadTeacherNames()
-    {
-       $sql = "SELECT `id`, `forename`, `surname` 
-               FROM `jos_thm_organizer_teachers`
-               ORDER BY `surname`";
-
-       $result = mysql_query($sql);
-
-        if (!$result) 
-        {
-            echo 'Query error : ' . mysql_error();
-        }
-
-        $teachers = array();
-        while ($row = mysql_fetch_object($result)) 
-        {
-            $teachers[] = array(
-                'id' => $row->id,
-                'name' => $row->surname . ' ' . $row->forename
-            );
-        }
-
-        echo json_encode($teachers);
-    }
-
-    /**
-     * Call DB and select subjects with lft and rgt.
-     *  
-     * @param   string  $lft  lft
-     * @param   string  $rgt  rgt
-     * 
-     * @return  echo  json array
-     */
-    public function loadSubjects($lft, $rgt)
-    {
-        $sql = "SELECT DISTINCT s.`id`, s.`name_de`, s.`name_en`, s.`abbreviation_de`, s.`abbreviation_en`, s.`externalID` 
-                  FROM jos_thm_organizer_mappings m, jos_thm_organizer_subjects s  
-                  WHERE m.lft >= " . $lft . " AND m.rgt <= " . $rgt . "
-                  AND m.subjectID = s.id
-                  ORDER BY s.`name_de`";
-
-        $result = mysql_query($sql);
-
-        if (!$result) 
-        {
-            echo 'Query error : ' . mysql_error();
-        }
-
-        $subjects = array();
-        while ($row = mysql_fetch_object($result)) 
-        {
-            $subjects[] = array(
-                'id' => $row->id,
-                'name_de' => $row->name_de,
-                'name_en' => $row->name_en,
-                'abbreviation_de' => $row->abbreviation_de,
-                'abbreviation_en' => $row->abbreviation_en,
-                'externalID' => $row->externalID
-            );
-        }
-
-        echo json_encode($subjects);
-    }
-
-    /**
-     * Call DB and select subjects with teacher id.
-     *  
-     * @param   string  $teacherID  ID from teacher.
-     * 
-     * @return  echo  json array
-     */
-    public function loadSubjectsFromTeacher($teacherID)
-    {
-        $sql = "SELECT DISTINCT s.`id`, s.`name_de`, s.`name_en`, s.`abbreviation_de`, s.`abbreviation_en`, s.`externalID`
-                FROM jos_thm_organizer_subject_teachers s_t, jos_thm_organizer_subjects s 
-                WHERE s_t.teacherID = " . $teacherID . "
-                AND s_t.subjectID = s.id";
-
-        $result = mysql_query($sql);
-
-        if (!$result) 
-        {
-            echo 'Query error : ' . mysql_error();
-        }
-
-        $subjects = array();
-        while ($row = mysql_fetch_object($result)) 
-        {
-            $subjects[] = array(
-                'id' => $row->id,
-                'name_de' => $row->name_de,
-                'name_en' => $row->name_en,
-                'abbreviation_de' => $row->abbreviation_de,
-                'abbreviation_en' => $row->abbreviation_en,
-                'externalID' => $row->externalID
-            );
-        }
-
-        echo json_encode($subjects);
-    }
-
-    public function getSubjects($resourceID, $byResource = 'program')
-    {
         $lang = explode('-', JFactory::getLanguage()->getTag());
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $select = "DISTINCT s.id, s.name_{$lang[0]} AS abbreviation, s.abbreviation_{$lang[0]}, s.externalID";
+        $select = "DISTINCT s.id, s.name_{$lang[0]} AS name, s.externalID";
         $query->select($select)->from('#__thm_organizer_subjects AS s');
-        switch ($byResource)
+        if (!empty($boundaries))
         {
-            case 'teacher':
-                $query->innerJoin
-                
+            $query->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = s.id');
+            $query->where("m.lft >= '{$boundaries['lft']}'");
+            $query->where("m.rgt <= '{$boundaries['rgt']}'");
         }
-        $sql = "SELECT 
-                FROM jos_thm_organizer_subject_teachers s_t, jos_thm_organizer_subjects s 
-                WHERE s_t.teacherID = " . $teacherID . "
-                AND s_t.subjectID = s.id";
-        
+        if ($teacherID != '-1')
+        {
+            $query->innerJoin('#__thm_organizer_subject_teachers AS st ON st.subjectID = s.id');
+            $query->where("st.teacherID = '$teacherID'");
+        }
+        $query->order('name');
+        $dbo->setQuery((string) $query);
+        $subjects = $dbo->loadObjectList();
+
+        return empty($subjects)? '' : json_encode($subjects);
+    }
+
+    /**
+     * Retrieves the left and right boundaries of the nested program or pool
+     * 
+     * @return  array
+     */
+    private function getBoundaries()
+    {
+        $programID = JRequest::getString('programID');
+        $poolID = JRequest::getString('poolID');
+
+        if ($poolID != '-1' AND $poolID != 'null')
+        {
+            $resourceType = 'pool';
+            $resourceID = $poolID;
+        }
+        else
+        {
+            $resourceType = 'program';
+            $resourceID = $programID;
+        }
+
+        $boundaries = THM_OrganizerHelperMapping::getBoundaries($resourceType, $resourceID);
+        if (empty($boundaries))
+        {
+            return array();
+        }
+
+        return $boundaries;
     }
 }
