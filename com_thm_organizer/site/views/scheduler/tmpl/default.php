@@ -14,7 +14,7 @@ $blankImageLink = JURI::root(true) . '/components/com_thm_organizer/views/schedu
 $addButtonLink = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/images/add.png';
 $removeButtonLink = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/images/delete.png';
 $mainPath = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/';
-$curriculumLink = 'index.php?option=com_thm_organizer&view=subject_details&tmpl=component&languageTag=de';
+$curriculumLink = JURI::root(true) . '/index.php?option=com_thm_organizer&view=subject_details&languageTag=de&Itemid=' . JRequest::getInt("Itemid");
 $ajaxHandler = 'index.php?option=com_thm_organizer&view=ajaxhandler&format=raw';
 ?>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -98,6 +98,18 @@ else
 {
 ?>
         MySched.iCalcreatorInstalled = false;
+<?php
+}
+if ($this->PHPExcelInstalled)
+{
+    ?>
+        MySched.PHPExcelInstalled = true;
+<?php
+}
+else
+{
+?>
+        MySched.PHPExcelInstalled = false;
 <?php
 }
 if ($this->schedulerFromMenu)

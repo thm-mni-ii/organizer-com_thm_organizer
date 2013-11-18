@@ -1101,19 +1101,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
     {
         "use strict";
 
-        var modulewin = Ext.create('Ext.Window',
-        {
-            id: 'moduleWin',
-            width: 700,
-            height: 450,
-            modal: true,
-            frame: false,
-            hideLabel: true,
-            closeable: true,
-            html: '<iframe id="iframeModule" class="mysched_iframeModule" src="' + externLinks.curriculumLink + '&nrmni=' + subjectNo.toUpperCase() + '"></iframe>'
-        });
-
-        modulewin.show();
+        window.open(externLinks.curriculumLink + '&nrmni=' + subjectNo.toUpperCase());
     },
     showSubjectNoMenu: function(subjects, e)
     {
@@ -2702,13 +2690,18 @@ MySched.layout = function ()
                 }
             });
 
+            var disableExcel = true;
+            if(MySched.PHPExcelInstalled === true)
+            {
+                disableExcel = false;
+            }
             var btnSaveTxt = Ext.create('Ext.Button',
             {
                 // TxT DownloadButton
                 text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EXCEL,
                 id: 'btnTxt',
                 iconCls: 'tbSaveTxt',
-                disabled: true,
+                disabled: disableExcel,
                 tooltip: { text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_EXCEL_DESC },
                 handler: function ()
                 {
