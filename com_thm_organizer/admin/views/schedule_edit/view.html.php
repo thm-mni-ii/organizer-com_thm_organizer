@@ -77,7 +77,7 @@ class THM_OrganizerViewSchedule_Edit extends JView
             $title .= JText::_("JTOOLBAR_NEW") . ' ' . JText::_('COM_THM_ORGANIZER_PLAN');
             JToolBarHelper::custom('schedule.upload', 'upload', 'upload', 'COM_THM_ORGANIZER_SCH_UPLOAD', false);
         }
-        JToolBarHelper::title($title, "mni");
+        JToolBarHelper::title($title, "organizer_schedules");
         JToolBarHelper::cancel('schedule.cancel');
     }
 }

@@ -33,6 +33,9 @@ class THM_OrganizerViewRoom_Edit extends JView
     {
         JHtml::_('behavior.tooltip');
 
+        $document = JFactory::getDocument();
+        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+
         // Get the Data
         $this->form = $this->get('Form');
         $this->item = $this->get('Item');
@@ -51,7 +54,7 @@ class THM_OrganizerViewRoom_Edit extends JView
      */
     protected function addToolBar()
     {
-        JToolBarHelper::title($this->item->id == 0 ? JText::_("COM_THM_ORGANIZER_RMM_NEW_TITLE") : JText::_("COM_THM_ORGANIZER_RMM_EDIT_TITLE"));
+        JToolBarHelper::title($this->item->id == 0 ? JText::_("COM_THM_ORGANIZER_RMM_NEW_TITLE") : JText::_("COM_THM_ORGANIZER_RMM_EDIT_TITLE"), 'organizer_rooms');
         JToolBarHelper::save('room.save');
         JToolBarHelper::cancel('room.cancel', $this->item->id == 0 ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
     }

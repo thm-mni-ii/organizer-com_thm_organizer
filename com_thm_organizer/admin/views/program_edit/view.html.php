@@ -64,7 +64,7 @@ class THM_OrganizerViewProgram_Edit extends JView
         JRequest::setVar('hidemainmenu', true);
         $isNew = $this->item->id == 0;
         $title = $isNew ? JText::_("COM_THM_ORGANIZER_PRM_NEW") : JText::_("COM_THM_ORGANIZER_PRM_EDIT");
-        JToolBarHelper::title($title);
+        JToolBarHelper::title($title, 'organizer_degree_programs');
         $applyText = $isNew? JText::_('COM_THM_ORGANIZER_APPLY_NEW') : JText::_('COM_THM_ORGANIZER_APPLY_EDIT');
         JToolBarHelper::apply('program.apply', $applyText);
         JToolBarHelper::save('program.save');

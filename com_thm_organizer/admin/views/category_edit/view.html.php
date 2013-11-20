@@ -68,7 +68,7 @@ class THM_OrganizerViewCategory_Edit extends JView
             $applyText = JText::_('COM_THM_ORGANIZER_APPLY_EDIT');
             $cancelText = JText::_('JTOOLBAR_CLOSE');
         }
-        JToolBarHelper::title($title, 'mni');
+        JToolBarHelper::title($title, 'organizer_categories');
         JToolBarHelper::apply('category.apply', $applyText);
         JToolBarHelper::save('category.save');
         JToolBarHelper::save2new('category.save2new');

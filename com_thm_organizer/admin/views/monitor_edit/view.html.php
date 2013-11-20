@@ -11,7 +11,7 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
- 
+
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
@@ -64,7 +64,7 @@ class THM_OrganizerViewMonitor_Edit extends JView
         $title = JText::_('COM_THM_ORGANIZER') . ': ';
         $title .= ($this->form->getValue('id'))? JText::_('JTOOLBAR_EDIT') : JText::_('JTOOLBAR_NEW');
         $title .= " " . JText::_('COM_THM_ORGANIZER_MONITOR');
-        JToolBarHelper::title($title, 'mni');
+        JToolBarHelper::title($title, 'organizer_monitors');
         JToolBarHelper::save('monitor.save');
         JToolBarHelper::save2new('monitor.save2new');
         JToolBarHelper::cancel('monitor.cancel');

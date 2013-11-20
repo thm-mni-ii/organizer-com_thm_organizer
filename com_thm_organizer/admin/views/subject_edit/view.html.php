@@ -32,6 +32,9 @@ class THM_OrganizerViewSubject_Edit extends JView
     {
         JHtml::_('behavior.tooltip');
 
+        $document = JFactory::getDocument();
+        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+
         // Assign the Data
         $this->form = $this->get('Form');
         $this->item = $this->get('Item');
@@ -52,7 +55,7 @@ class THM_OrganizerViewSubject_Edit extends JView
     protected function addToolBar()
     {
         $isNew = $this->item->id == 0;
-        JToolBarHelper::title($isNew? JText::_('COM_THM_ORGANIZER_SUM_NEW') : JText::_('COM_THM_ORGANIZER_SUM_EDIT'));
+        JToolBarHelper::title($isNew? JText::_('COM_THM_ORGANIZER_SUM_NEW') : JText::_('COM_THM_ORGANIZER_SUM_EDIT'), 'organizer_subjects');
         JToolBarHelper::apply('subject.apply', $isNew? JText::_('COM_THM_ORGANIZER_APPLY_NEW') : JText::_('COM_THM_ORGANIZER_APPLY_EDIT'));
         JToolBarHelper::save('subject.save');
         JToolBarHelper::save2new('subject.save');
