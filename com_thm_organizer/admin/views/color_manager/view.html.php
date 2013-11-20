@@ -38,6 +38,9 @@ class THM_OrganizerViewColor_Manager extends JView
         JHtml::_('behavior.tooltip');
         JHtml::_('behavior.multiselect');
 
+        $document = JFactory::getDocument();
+        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+
         $this->items = $this->get('Items');
         $this->pagination = $this->get('Pagination');
         $this->state = $this->get('State');
@@ -53,7 +56,7 @@ class THM_OrganizerViewColor_Manager extends JView
      */
     protected function addToolBar()
     {
-        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_CLM_TOOLBAR_TITLE'), 'generic.png');
+        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_CLM_TOOLBAR_TITLE'), 'organizer_colors');
         JToolBarHelper::addNew('color.add', 'JTOOLBAR_NEW');
         JToolBarHelper::editList('color.edit', 'JTOOLBAR_EDIT');
         JToolBarHelper::deleteList('', 'color.delete', 'JTOOLBAR_DELETE');

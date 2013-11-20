@@ -75,7 +75,7 @@ class THM_OrganizerViewMonitor_Manager extends JView
      */
     private function addToolBar()
     {
-        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_MON_TOOLBAR_TITLE'), 'mni');
+        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_MON_TOOLBAR_TITLE'), 'organizer_monitors');
         JToolBarHelper::addNew('monitor.add');
         JToolBarHelper::editList('monitor.edit');
         JToolBarHelper::deleteList(JText::_('COM_THM_ORGANIZER_MON_DELETE_CONFIRM'), 'monitor.delete');

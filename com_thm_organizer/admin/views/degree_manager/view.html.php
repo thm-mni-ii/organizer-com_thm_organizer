@@ -32,13 +32,16 @@ class THM_OrganizerViewDegree_Manager extends JView
     {
         JHtml::_('behavior.tooltip');
 
+        $document = JFactory::getDocument();
+        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+
         $items = $this->get('Items');
         $pagination = $this->get('Pagination');
 
         $this->items = $items;
         $this->pagination = $pagination;
         $this->state = $this->get('State');
- 
+
         $this->addToolBar();
 
         parent::display($tpl);
@@ -51,7 +54,7 @@ class THM_OrganizerViewDegree_Manager extends JView
      */
     protected function addToolBar()
     {
-        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_DEG_TOOLBAR_TITLE'), 'generic.png');
+        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_DEG_TOOLBAR_TITLE'), 'organizer_degrees');
         JToolBarHelper::addNew('degree.add', 'JTOOLBAR_NEW');
         JToolBarHelper::editList('degree.edit', 'JTOOLBAR_EDIT');
         JToolBarHelper::deleteList('', 'degree.delete', 'JTOOLBAR_DELETE');

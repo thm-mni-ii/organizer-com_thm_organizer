@@ -98,7 +98,7 @@ class THM_OrganizerViewSchedule_Manager extends JView
     private function addToolBar()
     {
         $title = JText::_('COM_THM_ORGANIZER') . ': ' . JText::_('COM_THM_ORGANIZER_SCH_TITLE');
-        JToolBarHelper::title($title, 'mni');
+        JToolBarHelper::title($title, 'organizer_schedules');
         JToolBarHelper::addNew('schedule.add');
         JToolBarHelper::editList('schedule.edit');
         JToolBarHelper::custom('schedule.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_MERGE', true);

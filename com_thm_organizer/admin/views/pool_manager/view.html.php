@@ -31,6 +31,9 @@ class THM_OrganizerViewPool_Manager extends JView
     {
         JHtml::_('behavior.tooltip');
 
+        $document = JFactory::getDocument();
+        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+
         $model = $this->getModel();
         $this->pools = $this->get('Items');
         $this->state = $this->get('State');
@@ -53,7 +56,7 @@ class THM_OrganizerViewPool_Manager extends JView
     {
         $baseTitle = JText::_("COM_THM_ORGANIZER_POM_TOOLBAR_TITLE");
         $title = empty($this->programName)? $baseTitle : $baseTitle . " - " . $this->programName;
-        JToolBarHelper::title($title, 'generic.png');
+        JToolBarHelper::title($title, 'organizer_subject_pools');
         JToolBarHelper::addNew('pool.add', 'JTOOLBAR_NEW');
         JToolBarHelper::editList('pool.edit', 'JTOOLBAR_EDIT');
         JToolBarHelper::deleteList('COM_THM_ORGANIZER_POM_DELETE_CONFIRM', 'pool.delete', 'JTOOLBAR_DELETE');

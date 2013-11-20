@@ -64,7 +64,7 @@ class THM_OrganizerViewTHM_Organizer extends JView
      */
     private function addToolBar()
     {
-        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER') . ': ' . JText::_('COM_THM_ORGANIZER_MAIN_TITLE'), 'mni');
+        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER') . ': ' . JText::_('COM_THM_ORGANIZER_MAIN_TITLE'), 'organizer');
         JToolBarHelper::preferences('com_thm_organizer');
     }
 

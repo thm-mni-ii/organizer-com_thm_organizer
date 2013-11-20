@@ -37,6 +37,9 @@ class THM_OrganizerViewField_Manager extends JView
 
         JHtml::_('behavior.tooltip');
 
+        $document = JFactory::getDocument();
+        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+
         $items = $this->get('Items');
         $pagination = $this->get('Pagination');
 
@@ -55,7 +58,7 @@ class THM_OrganizerViewField_Manager extends JView
      */
     protected function addToolBar()
     {
-        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_FLM_TOOLBAR_TITLE'), 'generic.png');
+        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_FLM_TOOLBAR_TITLE'), 'organizer_fields');
         JToolBarHelper::addNew('field.add', 'JTOOLBAR_NEW');
         JToolBarHelper::editList('field.edit', 'JTOOLBAR_EDIT');
         JToolBarHelper::deleteList('', 'field.delete', 'JTOOLBAR_DELETE');

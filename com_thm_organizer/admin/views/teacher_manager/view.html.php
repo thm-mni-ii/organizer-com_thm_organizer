@@ -48,7 +48,7 @@ class THM_OrganizerViewTeacher_Manager extends JView
      */
     protected function addToolBar()
     {
-        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_TRM_TOOLBAR_TITLE'), 'generic.png');
+        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_TRM_TOOLBAR_TITLE'), 'organizer_teachers');
         JToolBarHelper::addNew('teacher.add', 'JTOOLBAR_NEW');
         JToolBarHelper::editList('teacher.edit', 'JTOOLBAR_EDIT');
         JToolBarHelper::custom('teacher.mergeAll', 'merge', 'merge', 'COM_THM_ORGANIZER_MERGE_ALL', false);

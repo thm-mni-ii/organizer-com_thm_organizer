@@ -33,6 +33,9 @@ class THM_OrganizerViewProgram_Manager extends JView
     {
         JHtml::_('behavior.tooltip');
 
+        $document = JFactory::getDocument();
+        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+
         $model = $this->getModel();
         $this->items = $this->get('Items');
         $this->pagination = $this->get('Pagination');
@@ -52,7 +55,7 @@ class THM_OrganizerViewProgram_Manager extends JView
      */
     protected function addToolBar()
     {
-        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_PRM_TOOLBAR_TITLE'), 'generic.png');
+        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_PRM_TOOLBAR_TITLE'), 'organizer_degree_programs');
         JToolBarHelper::addNew('program.add', 'JTOOLBAR_NEW');
         JToolBarHelper::editList('program.edit', 'JTOOLBAR_EDIT');
         JToolBarHelper::custom(

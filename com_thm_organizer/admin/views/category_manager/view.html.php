@@ -61,7 +61,7 @@ class THM_OrganizerViewCategory_Manager extends JView
     private function addToolBar()
     {
         $title = JText::_('COM_THM_ORGANIZER') . ': ' . JText::_('COM_THM_ORGANIZER_CAT_TITLE');
-        JToolBarHelper::title($title, 'mni');
+        JToolBarHelper::title($title, 'organizer_categories');
         JToolBarHelper::addNew('category.add');
         JToolBarHelper::editList('category.edit');
         JToolBarHelper::deleteList(JText::_('COM_THM_ORGANIZER_CAT_DELETE_CONFIRM'), 'category.delete');

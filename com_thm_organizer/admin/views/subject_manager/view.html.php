@@ -33,6 +33,9 @@ class THM_OrganizerViewSubject_Manager extends JView
         JHtml::_('behavior.tooltip');
         JHTML::_('behavior.modal', 'a.modal-button');
 
+        $document = JFactory::getDocument();
+        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+
         $this->items = $this->get('Items');
         $this->pagination = $this->get('Pagination');
         $this->state = $this->get('State');
@@ -56,7 +59,7 @@ class THM_OrganizerViewSubject_Manager extends JView
      */
     public function addToolBar()
     {
-        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_SUM_TOOLBAR_TITLE'), 'generic.png');
+        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_SUM_TOOLBAR_TITLE'), 'organizer_subjects');
         JToolBarHelper::addNew('subject.add');
         JToolBarHelper::editList('subject.edit');
         JToolBarHelper::custom(
