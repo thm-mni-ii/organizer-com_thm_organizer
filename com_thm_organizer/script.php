@@ -111,7 +111,7 @@ class Com_THM_OrganizerInstallerScript
     </script>
         <fieldset id="com_thm_organizer_fieldset" style="border-radius:10px;">
         <legend>
-            <img style="float:none;" src="../media/com_thm_organizer/images/THM_Organizer_Logo.jpg" alt="THM Organizer Logo"/>
+            <img style="float:none;" src="../media/com_thm_organizer/images/THM_Organizer_Logo.png" alt="THM Organizer Logo"/>
         </legend>
         <div style="padding-left:17px;">
             <div style="color:#146295; font-size: 1.182em; font-weight:bold; padding-bottom: 17px" >
@@ -294,7 +294,7 @@ class Com_THM_OrganizerInstallerScript
 
         <fieldset id="com_thm_organizer_fieldset" style="border-radius:10px;">
         <legend>
-            <img style="float:none;" src="../media/com_thm_organizer/images/THM_Organizer_Logo.jpg" alt="THM Organizer Logo"/>
+            <img style="float:none;" src="../media/com_thm_organizer/images/THM_Organizer_Logo.png" alt="THM Organizer Logo"/>
         </legend>
 
         <div style="padding-left: 17px; padding-bottom: 20px">
