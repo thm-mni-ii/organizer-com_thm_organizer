@@ -67,17 +67,20 @@ class THM_OrganizerModelPool extends JModel
      */
     public function processLSFStub(&$stub)
     {
-        if (empty($stub->pordid) OR empty($stub->nrhis))
+        if ((empty($stub->pordid) OR empty($stub->nrhis))
+         AND (empty($stub->modulid) OR empty($stub->modulnrhis)))
         {
             return false;
         }
+        $lsfID = empty($stub->pordid)? (string) $stub->modulid: (string) $stub->pordid;
+        $hisID = empty($stub->nrhis)? (string) $stub->modulnrhis : (string) $stub->nrhis;
 
         $table = JTable::getInstance('pools', 'thm_organizerTable');
-        $table->load(array('lsfID' => $stub->pordid));
+        $table->load(array('lsfID' => $lsfID, 'hisID' => $hisID));
 
         $data = array();
-        $data['lsfID'] = (string) $stub->pordid;
-        $data['hisID'] = (string) $stub->nrhis;
+        $data['lsfID'] = $lsfID;
+        $data['hisID'] = $hisID;
         $data['externalID'] = (string) $stub->alphaid;
         $data['abbreviation_de'] = (string) $stub->kuerzel;
         $data['abbreviation_en'] = (string) $stub->kuerzelen;
@@ -108,11 +111,18 @@ class THM_OrganizerModelPool extends JModel
         if (isset($stub->modulliste->modul))
         {
             $subjectModel = JModel::getInstance('subject', 'THM_OrganizerModel');
-            foreach ($stub->modulliste->modul as $subjectStub)
+            foreach ($stub->modulliste->modul as $subStub)
             {
-                $subjectProcessed = $subjectModel->processLSFStub($subjectStub);
-                if (!$subjectProcessed)
+                if (isset($subStub->modulliste->modul))
                 {
+                    $stubProcessed = $this->processLSFStub($subStub);
+                }
+                else
+                {
+                    $stubProcessed = $subjectModel->processLSFStub($subStub);
+                }
+                if (!$stubProcessed)
+                {echo "<pre>" . print_r($subStub, true) . "</pre>"; die;
                     return false;
                 }
             }

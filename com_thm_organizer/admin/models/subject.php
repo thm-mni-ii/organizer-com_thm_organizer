@@ -526,7 +526,7 @@ class THM_OrganizerModelSubject extends JModel
         }
         $lsfID = (string) (empty($stub->modulid)?  $stub->pordid : $stub->modulid);
         $hisID = (string) (empty($stub->modulnrhis)?  $stub->nrhis: $stub->modulnrhis);
-
+echo (string) $stub->titelde . " as subject<br />";
         $table = JTable::getInstance('subjects', 'thm_organizerTable');
         $table->load(array('lsfID' => $lsfID));
 

@@ -41,22 +41,17 @@ class THM_OrganizerModelMapping extends JModel
 
         foreach ($lsfData->gruppe AS $resource)
         {
-            switch ($resource->pordtyp)
+            if (isset($resource->modulliste->modul))
             {
-                case 'K':
-                    $poolMapped = $this->addLSFPool($resource, $mappingsTable->id);
-                    if (!$poolMapped)
-                    {
-                        return false;
-                    }
-                    break;
-                default:
-                    $subjectMapped = $this->addLSFSubject($resource, $mappingsTable->id);
-                    if (!$subjectMapped)
-                    {
-                        return false;
-                    }
-                    break;
+                $mapped = $this->addLSFPool($resource, $mappingsTable->id);
+            }
+            else
+            {
+                $mapped = $this->addLSFSubject($resource, $mappingsTable->id);
+            }
+            if (!$mapped)
+            {
+                return false;
             }
         }
         return true;
@@ -76,7 +71,9 @@ class THM_OrganizerModelMapping extends JModel
         $poolsTable = JTable::getInstance('pools', 'THM_OrganizerTable');
         $app = JFactory::getApplication();
 
-        $poolLoaded = $poolsTable->load(array('lsfID' => $pool->pordid));
+        $lsfID = empty($pool->pordid)? (string) $pool->modulid: (string) $pool->pordid;
+
+        $poolLoaded = $poolsTable->load(array('lsfID' => $lsfID));
         if (!$poolLoaded)
         {
             $app->enqueueMessage('COM_THM_ORGANIZER_POOL_LOAD_FAIL', 'error');
@@ -101,10 +98,17 @@ class THM_OrganizerModelMapping extends JModel
         }
         if (isset($pool->modulliste->modul))
         {
-            foreach ($pool->modulliste->modul as $subject)
+            foreach ($pool->modulliste->modul as $sub)
             {
-                $subjectMapped = $this->addLSFSubject($subject, $mappingsTable->id);
-                if (!$subjectMapped)
+                if (isset($sub->modulliste->modul))
+                {
+                    $mapped = $this->addLSFPool($sub, $mappingsTable->id);
+                }
+                else
+                {
+                    $mapped = $this->addLSFSubject($sub, $mappingsTable->id);
+                }
+                if (!$mapped)
                 {
                     return false;
                 }
