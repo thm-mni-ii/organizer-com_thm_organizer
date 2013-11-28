@@ -1,4 +1,3 @@
-
 <studiengang>
     <statistics>
         <rows>1</rows>
@@ -18,6 +17,7 @@
         <versemester>20132</versemester>
         <verstandbearb>400</verstandbearb>
         <sprache />
+        <sperrmh />
         <modulliste>
             <modul>
                 <modulid>15877</modulid>
@@ -30,6 +30,7 @@
                 <ppflichtzuord />
                 <versemester>20132</versemester>
                 <sprache />
+                <sperrmh />
                 <titelen>Computer Science</titelen>
                 <fachgruppe>
                     <fachgruppe />
@@ -46,6 +47,7 @@
                         <ppflichtzuord>PF</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Biology</titelen>
                         <fachgruppe>Bioinformatik</fachgruppe>
                     </modul>
@@ -60,6 +62,7 @@
                         <ppflichtzuord>PF</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>E</sprache>
+                        <sperrmh />
                         <titelen>Genetics, Genomics</titelen>
                         <fachgruppe>Bioinformatik</fachgruppe>
                     </modul>
@@ -74,6 +77,7 @@
                         <ppflichtzuord>PF</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>E</sprache>
+                        <sperrmh />
                         <titelen>Seminar Bioinformatics</titelen>
                         <fachgruppe>Bioinformatik</fachgruppe>
                     </modul>
@@ -88,6 +92,7 @@
                         <ppflichtzuord>PF</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Biochemistry 1</titelen>
                         <fachgruppe>Bioinformatik</fachgruppe>
                     </modul>
@@ -102,6 +107,7 @@
                         <ppflichtzuord>PF</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Molecular Biology</titelen>
                         <fachgruppe>Bioinformatik</fachgruppe>
                     </modul>
@@ -116,6 +122,7 @@
                         <ppflichtzuord>PF</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>DNA and protein sequences</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -130,6 +137,7 @@
                         <ppflichtzuord>PF</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Biochemistry 2</titelen>
                         <fachgruppe>Bioinformatik</fachgruppe>
                     </modul>
@@ -144,6 +152,7 @@
                         <ppflichtzuord>PF</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Analysis of sequence data</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -158,6 +167,7 @@
                         <ppflichtzuord>PF</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Systems biology</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -172,6 +182,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20122</versemester>
                         <sprache />
+                        <sperrmh />
                         <titelen>Scripting languages in bioinformatics</titelen>
                         <fachgruppe>
                             <fachgruppe />
@@ -188,6 +199,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20122</versemester>
                         <sprache />
+                        <sperrmh />
                         <titelen>Fundamentals of Bioinformatics</titelen>
                         <fachgruppe>
                             <fachgruppe />
@@ -204,6 +216,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20122</versemester>
                         <sprache />
+                        <sperrmh />
                         <titelen>Biomedical Data Analysis</titelen>
                         <fachgruppe>
                             <fachgruppe />
@@ -220,6 +233,7 @@
                         <ppflichtzuord>PF</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Object-oriented Programming</titelen>
                         <fachgruppe>Informatik-Module</fachgruppe>
                     </modul>
@@ -234,6 +248,7 @@
                         <ppflichtzuord>PF</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Fundamentals of Computer Science</titelen>
                         <fachgruppe>Informatik-Module</fachgruppe>
                     </modul>
@@ -248,6 +263,7 @@
                         <ppflichtzuord>PF</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Programming of interactive Systems</titelen>
                         <fachgruppe>Informatik-Module</fachgruppe>
                     </modul>
@@ -262,6 +278,7 @@
                         <ppflichtzuord>PF</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Algorithms and Data Structures</titelen>
                         <fachgruppe>Informatik-Module</fachgruppe>
                     </modul>
@@ -276,6 +293,7 @@
                         <ppflichtzuord>PF</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Database Systems</titelen>
                         <fachgruppe>Informatik-Module</fachgruppe>
                     </modul>
@@ -290,6 +308,7 @@
                         <ppflichtzuord>PF</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Software Engineering</titelen>
                         <fachgruppe>Informatik-Module</fachgruppe>
                     </modul>
@@ -304,6 +323,7 @@
                         <ppflichtzuord>PF</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Software Engineering Project</titelen>
                         <fachgruppe>Informatik-Module</fachgruppe>
                     </modul>
@@ -318,6 +338,7 @@
                         <ppflichtzuord>PF</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Seminar</titelen>
                         <fachgruppe>Informatik-Module</fachgruppe>
                     </modul>
@@ -332,6 +353,7 @@
                         <ppflichtzuord>PF</ppflichtzuord>
                         <versemester>20112</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Operating Systems (BI/MI)</titelen>
                         <fachgruppe>
                             <fachgruppe />
@@ -348,6 +370,7 @@
                         <ppflichtzuord>PF</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Discrete Mathematics</titelen>
                         <fachgruppe>Mathematische und naturwissenschaftlich-technische Grundlagen</fachgruppe>
                     </modul>
@@ -362,6 +385,7 @@
                         <ppflichtzuord>PF</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Linear Algebra</titelen>
                         <fachgruppe>Mathematische und naturwissenschaftlich-technische Grundlagen</fachgruppe>
                     </modul>
@@ -376,6 +400,7 @@
                         <ppflichtzuord>PF</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Stochastics</titelen>
                         <fachgruppe>Mathematische und naturwissenschaftlich-technische Grundlagen</fachgruppe>
                     </modul>
@@ -390,6 +415,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Chemistry for Bioinformatics</titelen>
                         <fachgruppe>Mathematische und naturwissenschaftlich-technische Grundlagen</fachgruppe>
                     </modul>
@@ -406,6 +432,7 @@
                 <ppflichtzuord />
                 <versemester>20132</versemester>
                 <sprache />
+                <sperrmh />
                 <titelen>Bioinformatics Elective Modules</titelen>
                 <fachgruppe>
                     <fachgruppe />
@@ -422,6 +449,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Project management</titelen>
                         <fachgruppe>Wirtschaftswissenschaftliche Grundlagen und Betriebswirtschaftslehre</fachgruppe>
                     </modul>
@@ -436,6 +464,7 @@
                         <ppflichtzuord />
                         <versemester>20102</versemester>
                         <sprache>E</sprache>
+                        <sperrmh />
                         <titelen>Biophysics</titelen>
                         <fachgruppe>Bioinformatik</fachgruppe>
                     </modul>
@@ -450,6 +479,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Bioinformatics Algorithms</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -464,6 +494,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Bioinformatics in Drug Research</titelen>
                         <fachgruppe>Bioinformatik-Wahlpflichtthemen</fachgruppe>
                     </modul>
@@ -478,6 +509,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Data Analysis in Bioinformatics</titelen>
                         <fachgruppe>Informatik-Wahlpflichtthemen</fachgruppe>
                     </modul>
@@ -492,6 +524,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Genetic Algorithms</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -506,6 +539,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Protein-3D structures</titelen>
                         <fachgruppe>Bioinformatik-Wahlpflichtthemen</fachgruppe>
                     </modul>
@@ -520,6 +554,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Bioanalytics</titelen>
                         <fachgruppe>Bioinformatik-Wahlpflichtthemen</fachgruppe>
                     </modul>
@@ -534,6 +569,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Chemical and biological dversity</titelen>
                         <fachgruppe>Bioinformatik-Wahlpflichtthemen</fachgruppe>
                     </modul>
@@ -548,6 +584,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Bioinformatics in Cancer Research</titelen>
                         <fachgruppe>Bioinformatik-Wahlpflichtthemen</fachgruppe>
                     </modul>
@@ -562,6 +599,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Multivariate Statistics</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -576,6 +614,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Genomics / Proteomics</titelen>
                         <fachgruppe>Bioinformatik-Wahlpflichtthemen</fachgruppe>
                     </modul>
@@ -590,6 +629,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Immune analysis</titelen>
                         <fachgruppe>Bioinformatik-Wahlpflichtthemen</fachgruppe>
                     </modul>
@@ -604,6 +644,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Molecular Interaction</titelen>
                         <fachgruppe>Informatik- und Ingenieur-Wahlpflichtthemen</fachgruppe>
                     </modul>
@@ -618,6 +659,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20121</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Introduction to Molecular Modelling</titelen>
                         <fachgruppe>
                             <fachgruppe />
@@ -634,6 +676,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20122</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Protein Crystallography</titelen>
                         <fachgruppe>
                             <fachgruppe />
@@ -650,6 +693,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20122</versemester>
                         <sprache />
+                        <sperrmh />
                         <titelen>Next Generation Sequencing</titelen>
                         <fachgruppe>
                             <fachgruppe />
@@ -666,6 +710,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Internet-Based Information Systems</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -680,6 +725,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Software Ergonomics</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -694,6 +740,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Refactoring</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -708,6 +755,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Web Basics</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -722,6 +770,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Fundamentals of Computer Graphics</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -736,6 +785,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Human Machine Communication</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -750,6 +800,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Methods of Artificial Intelligence</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -764,6 +815,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Open Source Programming Tools</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -778,6 +830,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Software Engineering Processes</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -792,6 +845,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Components and Frameworks</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -806,6 +860,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Computer Architecture</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -820,6 +875,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Ruby On Rails</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -834,6 +890,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Systems Programming</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -848,6 +905,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Introduction to Image Processing</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -862,6 +920,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Business process modeling and implementation as with SAP</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -876,6 +935,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20112</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Platform independent software with Java</titelen>
                         <fachgruppe>
                             <fachgruppe />
@@ -892,6 +952,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20111</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Functional Programming</titelen>
                         <fachgruppe>Informatik-Wahlpflichtthemen</fachgruppe>
                     </modul>
@@ -906,6 +967,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20112</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Server architecture and virtualization</titelen>
                         <fachgruppe>
                             <fachgruppe />
@@ -922,6 +984,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20131</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Web Programming Weeks 1</titelen>
                         <fachgruppe>
                             <fachgruppe />
@@ -938,6 +1001,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Digital Image Processing and Introduction into Pattern recognition</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -952,6 +1016,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>3D data acquisition and processing</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -966,6 +1031,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Introduction to robotics</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -980,6 +1046,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Introduction to systematic software testing</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -994,6 +1061,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Programmable logic</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -1008,6 +1076,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Knowledge-Based Systems</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -1022,6 +1091,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Imaging Techniques in Medicine</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -1036,6 +1106,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Brain Imaging</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -1050,6 +1121,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Basics of Pharmacology</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -1064,6 +1136,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Medical Biological Metrology</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -1078,6 +1151,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Applied Medical Physics</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -1092,6 +1166,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Image Processing</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -1106,6 +1181,7 @@
                         <ppflichtzuord />
                         <versemester>20121</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Development of web-based modules in medicine</titelen>
                         <fachgruppe>
                             <fachgruppe />
@@ -1122,6 +1198,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Analysis and numerical methods</titelen>
                         <fachgruppe>Informatik-Wahlpflichtthemen</fachgruppe>
                     </modul>
@@ -1133,9 +1210,10 @@
                         <abschl />
                         <pversion>-1</pversion>
                         <titelde>Chemie 1</titelde>
-                        <ppflichtzuord />
+                        <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh>x</sperrmh>
                         <titelen>Chemistry 1</titelen>
                         <fachgruppe>Mathematische und naturwissenschaftlich-technische Grundlagen</fachgruppe>
                     </modul>
@@ -1150,6 +1228,7 @@
                         <ppflichtzuord />
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh>x</sperrmh>
                         <titelen>Physics 1</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -1164,6 +1243,7 @@
                         <ppflichtzuord />
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh>x</sperrmh>
                         <titelen>Physics 2</titelen>
                         <fachgruppe>Mathematische und naturwissenschaftlich-technische Grundlagen</fachgruppe>
                     </modul>
@@ -1178,6 +1258,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Higher Analysis</titelen>
                         <fachgruppe>Informatik-Wahlpflichtthemen</fachgruppe>
                     </modul>
@@ -1192,6 +1273,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Law for Information science</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -1206,6 +1288,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Presentation techniques</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -1220,6 +1303,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Techniques of Scientific Work</titelen>
                         <fachgruppe>Wahlpflicht-Module</fachgruppe>
                     </modul>
@@ -1234,6 +1318,7 @@
                         <ppflichtzuord />
                         <versemester>20132</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Leadership skills and soft skills</titelen>
                         <fachgruppe>
                             <fachgruppe />
@@ -1250,6 +1335,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Data Warehousing</titelen>
                         <fachgruppe>Informatik-Wahlpflichtthemen</fachgruppe>
                     </modul>
@@ -1264,6 +1350,7 @@
                         <ppflichtzuord>WP</ppflichtzuord>
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Information Management</titelen>
                         <fachgruppe>Informatik-Wahlpflichtthemen</fachgruppe>
                     </modul>
@@ -1280,6 +1367,7 @@
                 <ppflichtzuord />
                 <versemester>20132</versemester>
                 <sprache />
+                <sperrmh />
                 <titelen>Bioinformatics Elective Modules</titelen>
                 <fachgruppe>
                     <fachgruppe />
@@ -1296,6 +1384,7 @@
                         <ppflichtzuord />
                         <versemester>20102</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Software Engineering Project</titelen>
                         <fachgruppe>Informatik-Module</fachgruppe>
                     </modul>
@@ -1310,6 +1399,7 @@
                         <ppflichtzuord />
                         <versemester>20132</versemester>
                         <sprache>E</sprache>
+                        <sperrmh>x</sperrmh>
                         <titelen>Lecture Series - Current aspects of business and research</titelen>
                         <fachgruppe>
                             <fachgruppe />
@@ -1328,6 +1418,7 @@
                 <ppflichtzuord />
                 <versemester>20132</versemester>
                 <sprache />
+                <sperrmh />
                 <titelen>Project and Thesis</titelen>
                 <fachgruppe>
                     <fachgruppe />
@@ -1344,6 +1435,7 @@
                         <ppflichtzuord />
                         <versemester>20132</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Project</titelen>
                         <fachgruppe>
                             <fachgruppe />
@@ -1360,6 +1452,7 @@
                         <ppflichtzuord />
                         <versemester>20132</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Project seminar</titelen>
                         <fachgruppe>
                             <fachgruppe />
@@ -1376,6 +1469,7 @@
                         <ppflichtzuord />
                         <versemester>20132</versemester>
                         <sprache>D</sprache>
+                        <sperrmh />
                         <titelen>Bachelor thesis with colloquium</titelen>
                         <fachgruppe>
                             <fachgruppe />
