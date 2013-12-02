@@ -122,7 +122,7 @@ class THM_OrganizerModelPool extends JModel
                     $stubProcessed = $subjectModel->processLSFStub($subStub);
                 }
                 if (!$stubProcessed)
-                {echo "<pre>" . print_r($subStub, true) . "</pre>"; die;
+                {
                     return false;
                 }
             }

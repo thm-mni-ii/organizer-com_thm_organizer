@@ -142,7 +142,7 @@ function orderWithNumber(firstPos)
  *
  * @returns  {void}
  */
-function remove(rowNumber)
+function removeRow(rowNumber)
 {
     "use strict";
     

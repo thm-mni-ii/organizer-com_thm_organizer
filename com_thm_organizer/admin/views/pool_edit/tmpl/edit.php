@@ -265,7 +265,7 @@ if (!empty($this->children))
                                    onChange="orderWithNumber(<?php echo $index; ?>);"/>
                             <a class="thm_organizer_delete_child" href="javascript:void(0);"
                                title="<?php echo JText::_('COM_THM_ORGANIZER_MAPPING_DELETE'); ?>"
-                               onClick="remove(<?php echo $index; ?>);">
+                               onClick="removeRow(<?php echo $index; ?>);">
                             </a>
                         </td> 
                     </tr>

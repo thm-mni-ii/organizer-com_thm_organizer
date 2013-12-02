@@ -60,7 +60,7 @@ class THM_OrganizerModelMapping extends JModel
     /**
      * Adds a pool from LSF to the mappings table
      * 
-     * @param   object  &$pool             the object representing the LSF pool
+     * @param   object  &$pool            the object representing the LSF pool
      * @param   int     $parentMappingID  the id of the program mapping
      * 
      * @return  boolean  true if the pool is mapped, otherwise false
@@ -79,7 +79,7 @@ class THM_OrganizerModelMapping extends JModel
             $app->enqueueMessage('COM_THM_ORGANIZER_POOL_LOAD_FAIL', 'error');
             return false;
         }
-        $doNotMap = ((string)$pool->sperrmh) == 'x';
+        $doNotMap = ((string) $pool->sperrmh) == 'x';
 
         $mappingExists = $mappingsTable->load(array('parentID' => $parentMappingID, 'poolID' => $poolsTable->id));
 
@@ -151,7 +151,7 @@ class THM_OrganizerModelMapping extends JModel
             $app->enqueueMessage('COM_THM_ORGANIZER_SUBJECT_LOAD_FAIL', 'error');
             return false;
         }
-        $doNotMap = ((string)$subject->sperrmh) == 'x';
+        $doNotMap = ((string) $subject->sperrmh) == 'x';
         $mappingExists = $mappingsTable->load(array('parentID' => $parentMappingID, 'subjectID' => $subjectsTable->id));
 
         if ($mappingExists)

@@ -81,7 +81,7 @@ if (!empty($this->children))
                         class="row<?php echo $index % 2; ?>">
                         <td>
                             <a id="child<?php echo $index; ?>link"
-                                href="<?php echo $editURL; ?>">
+                               href="<?php echo $editURL; ?>">
                                 <span id="child<?php echo $index; ?>name">
                                     <?php echo $name ?>
                                 </span>
@@ -101,37 +101,46 @@ if (!empty($this->children))
                                 </a>
                             </span>
                             <span>
-                                <a class="jgrid" href="javascript:void(0);"
-                                   onclick="moveDown('<?php echo $index; ?>');" title="Move Down">
+                                <a class="jgrid"
+                                   href="javascript:void(0);"
+                                   onclick="moveDown('<?php echo $index; ?>');"
+                                   title="Move Down">
                                     <span class="state downarrow">
                                         <span class="text"><?php echo JText::_('JLIB_HTML_MOVE_DOWN'); ?></span>
                                     </span>
                                 </a>
                             </span>
-                                                       <span>
-                                <a class="jgrid" href="javascript:void(0);"
-                                   onclick="setEmptyElement('<?php echo $index; ?>');" title="Add Empty Element">
+                            <span>
+                                <a class="jgrid"
+                                   href="javascript:void(0);"
+                                   onclick="setEmptyElement('<?php echo $index; ?>');"
+                                   title="Add Empty Element">
                                     <span class="icon-16-newlevel">
                                         <span class="text"><?php echo JText::_('JLIB_HTML_MOVE_DOWN'); ?></span>
                                     </span>
                                 </a>
                             </span>
                             <span>
-                                <a class="jgrid" href="javascript:void(0);"
-                                   onclick="setElementOnLastPosition('<?php echo $index; ?>');" title="Set On Last Position">
+                                <a class="jgrid"
+                                   href="javascript:void(0);"
+                                   onclick="setElementOnLastPosition('<?php echo $index; ?>');"
+                                   title="Set On Last Position">
                                     <span class="icon-16-clear">
                                         <span class="text"><?php echo JText::_('JLIB_HTML_MOVE_UP'); ?></span>
                                     </span>
                                 </a>
                             </span>
-                            <input type="text" title="Ordering"
+                            <input type="text"
+                                   title="Ordering"
                                    name="child<?php echo $index; ?>order"
                                    id="child<?php echo $index; ?>order"
-                                   size="2" value="<?php echo $index;?>" class="text-area-order"
+                                   size="2" value="<?php echo $index;?>"
+                                   class="text-area-order"
                                    onChange="orderWithNumber(<?php echo $index; ?>);"/>
-                            <a class="thm_organizer_delete_child" href="javascript:void(0);"
+                            <a class="thm_organizer_delete_child"
+                               href="javascript:void(0);"
                                title="<?php echo JText::_('COM_THM_ORGANIZER_MAPPING_DELETE'); ?>"
-                               onClick="remove(<?php echo $index; ?>);">
+                               onClick="removeRow(<?php echo $index; ?>);">
                             </a>
                         </td>
                     </tr>

@@ -110,11 +110,6 @@ class THM_OrganizerModelProgram extends JModel
     public function importLSFDataSingle($programID)
     {
         $client = new THM_OrganizerLSFClient;
-        if (!$client->clientSet)
-        {
-            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_NUSOAP_EXTENSION_PROBLEM', 'error');
-            return false;
-        }
         $lsfData = $this->getLSFQueryData($programID);
         if (empty($lsfData))
         {

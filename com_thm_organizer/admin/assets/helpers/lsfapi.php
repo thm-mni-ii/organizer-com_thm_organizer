@@ -10,7 +10,7 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-jimport('nusoap.nusoap');
+
 /**
  * Class provides methods for lsf communication
  *
@@ -34,36 +34,13 @@ class THM_OrganizerLSFClient
      */
     public function __construct()
     {
-        $nusoapSupport = $this->nusoapSupport();
-        if ($nusoapSupport)
-        {
-            $this->_username = JComponentHelper::getParams('com_thm_organizer')->get('wsUsername');
-            $this->_password = JComponentHelper::getParams('com_thm_organizer')->get('wsPassword');
-            $endpoint = JComponentHelper::getParams('com_thm_organizer')->get('wsURI');
-            $this->_client = new nusoap_client($endpoint, true, '', '', '', '', 120, 120);
-            if (!empty($this->_client))
-            {
-                $this->clientSet = true;
-            }
-            else
-            {
-                JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_NUSOAP_CLIENT_ERROR', 'error');
-            }
-        }
-    }
+        $this->_username = JComponentHelper::getParams('com_thm_organizer')->get('wsUsername');
+        $this->_password = JComponentHelper::getParams('com_thm_organizer')->get('wsPassword');
 
-    /**
-     * Ensures the NuSoap Library is installed and enabled
-     * 
-	 * @return  mixed  the return value or null if the query failed
-     */
-    private function nusoapSupport()
-    {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('COUNT(*)')->from('#__extensions')->where("name = 'NuSOAP' AND enabled = '1'");
-        $dbo->setQuery((string) $query);
-        return $dbo->loadResult();
+        $options = array();
+        $options['uri'] = JComponentHelper::getParams('com_thm_organizer')->get('wsURI');
+        $options['location'] = JComponentHelper::getParams('com_thm_organizer')->get('wsURI');
+        $this->_client = new SoapClient(null, $options);
     }
 
     /**
@@ -76,7 +53,7 @@ class THM_OrganizerLSFClient
     private function getDataXML($query)
     {
         $para = array('xmlParams' => $query);
-        $sres = $this->_client->call('getDataXML', $para);
+        $sres = $this->_client->__soapCall('getDataXML', $para);
 
         if (!$sres)
         {

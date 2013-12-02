@@ -99,11 +99,6 @@ class THM_OrganizerModelSubject extends JModel
         }
 
         $client = new THM_OrganizerLSFClient;
-        if (!$client->clientSet)
-        {
-            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_NUSOAP_EXTENSION_PROBLEM', 'error');
-            return false;
-        }
         if (!empty($table->lsfID))
         {
             $lsfData = $client->getModuleByModulid($table->lsfID);
@@ -526,7 +521,7 @@ class THM_OrganizerModelSubject extends JModel
         }
         $lsfID = (string) (empty($stub->modulid)?  $stub->pordid : $stub->modulid);
         $hisID = (string) (empty($stub->modulnrhis)?  $stub->nrhis: $stub->modulnrhis);
-echo (string) $stub->titelde . " as subject<br />";
+
         $table = JTable::getInstance('subjects', 'thm_organizerTable');
         $table->load(array('lsfID' => $lsfID));
 
