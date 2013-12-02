@@ -79,7 +79,7 @@ class THM_OrganizerModelMapping extends JModel
             $app->enqueueMessage('COM_THM_ORGANIZER_POOL_LOAD_FAIL', 'error');
             return false;
         }
-        $doNotMap = ((string) $pool->sperrmh) == 'x';
+        $doNotMap = ((string) $pool->sperrmh) == 'x';var_dump($pool);
 
         $mappingExists = $mappingsTable->load(array('parentID' => $parentMappingID, 'poolID' => $poolsTable->id));
 
