@@ -141,7 +141,7 @@ class THM_OrganizerModelProgram extends JModel
             $poolModel = JModel::getInstance('pool', 'THM_OrganizerModel');
             foreach ($lsfProgram->gruppe as $resource)
             {
-                if ($resource->pordtyp == 'K')
+                if ($resource->modulliste->modul)
                 {
                     $poolProcessed = $poolModel->processLSFStub($resource);
                     if (!$poolProcessed)
