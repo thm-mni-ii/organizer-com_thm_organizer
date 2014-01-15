@@ -64,7 +64,7 @@ class THM_OrganizerLSFClient
         {
             if ($sres != "error in soap-request")
             {
-                $xmlheader = "<?xml version='1.0' encoding='ISO-8859-15'?>";
+                $xmlheader = "<?xml version='1.0' encoding='utf-8'?>";
                 $final = $xmlheader . $sres;
                 $xml = simplexml_load_string($final);
 

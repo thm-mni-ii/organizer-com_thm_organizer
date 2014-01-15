@@ -30,103 +30,47 @@ class THM_OrganizerModelPool extends JModel
      */
     public function delete()
     {
-        $resourceIDs = JRequest::getVar('cid', array(0), 'post', 'array');
-        if (!empty($resourceIDs))
+        $poolIDs = JRequest::getVar('cid', array(0), 'post', 'array');
+        if (!empty($poolIDs))
         {
-            $dbo = JFactory::getDbo();
-            $dbo->transactionStart();
-            $table = JTable::getInstance('pools', 'thm_organizerTable');
-            $model = JModel::getInstance('mapping', 'THM_OrganizerModel');
-            foreach ($resourceIDs as $resourceID)
+            $this->_db->transactionStart();
+            foreach ($poolIDs as $poolID)
             {
-                $mappingsDeleted = $model->deleteByResourceID($resourceID, 'pool');
-                if (!$mappingsDeleted)
+                $deleted = $this->deleteEntry($poolID);
+                if (!$deleted)
                 {
-                    $dbo->transactionRollback();
-                    return false;
-                }
-
-                $resourceDeleted = $table->delete($resourceID);
-                if (!$resourceDeleted)
-                {
-                    $dbo->transactionRollback();
+                    $this->_db->transactionRollback();
                     return false;
                 }
             }
-            $dbo->transactionCommit();
+            $this->_db->transactionCommit();
         }
         return true;
     }
 
     /**
-     * Creates a pool entry if none exists and calls
-     *
-     * @param   object  &$stub  a simplexml object containing rudimentary subject data
-     *
-     * @return  mixed  int value of subject id on success, otherwise false
+     * Removes a single pool and mappings
+     * 
+     * @param   int  $poolID  the pool id
+     * 
+     * @return  boolean  true on success, otherwise false
      */
-    public function processLSFStub(&$stub)
+    public function deleteEntry($poolID)
     {
-        if ((empty($stub->pordid) OR empty($stub->nrhis))
-         AND (empty($stub->modulid) OR empty($stub->modulnrhis)))
-        {
-            return false;
-        }
-        $lsfID = empty($stub->pordid)? (string) $stub->modulid: (string) $stub->pordid;
-        $hisID = empty($stub->nrhis)? (string) $stub->modulnrhis : (string) $stub->nrhis;
-
         $table = JTable::getInstance('pools', 'thm_organizerTable');
-        $table->load(array('lsfID' => $lsfID, 'hisID' => $hisID));
-
-        $data = array();
-        $data['lsfID'] = $lsfID;
-        $data['hisID'] = $hisID;
-        $data['externalID'] = (string) $stub->alphaid;
-        $data['abbreviation_de'] = (string) $stub->kuerzel;
-        $data['abbreviation_en'] = (string) $stub->kuerzelen;
-        $data['short_name_de'] = (string) $stub->kurzname;
-        $data['short_name_en'] = (string) $stub->kurznameen;
-        $data['name_de'] = (string) $stub->titelde;
-        $data['name_en'] = (string) $stub->titelen;
-
-        if (empty($data['abbreviation_en']))
-        {
-            $data['abbreviation_en'] = $data['abbreviation_de'];
-        }
-        if (empty($data['short_name_en']))
-        {
-            $data['short_name_en'] = $data['short_name_de'];
-        }
-        if (empty($data['name_en']))
-        {
-            $data['name_en'] = $data['name_de'];
-        }
-
-        $stubSaved = $table->save($data);
-        if (!$stubSaved)
+        $model = JModel::getInstance('mapping', 'THM_OrganizerModel');
+        $mappingsDeleted = $model->deleteByResourceID($poolID, 'pool');
+        if (!$mappingsDeleted)
         {
             return false;
         }
 
-        if (isset($stub->modulliste->modul))
+        $poolDeleted = $table->delete($poolID);
+        if (!$poolDeleted)
         {
-            $subjectModel = JModel::getInstance('subject', 'THM_OrganizerModel');
-            foreach ($stub->modulliste->modul as $subStub)
-            {
-                if (isset($subStub->modulliste->modul))
-                {
-                    $stubProcessed = $this->processLSFStub($subStub);
-                }
-                else
-                {
-                    $stubProcessed = $subjectModel->processLSFStub($subStub);
-                }
-                if (!$stubProcessed)
-                {
-                    return false;
-                }
-            }
+            return false;
         }
+
         return true;
     }
 
@@ -141,22 +85,21 @@ class THM_OrganizerModelPool extends JModel
         $data = JRequest::getVar('jform', null, null, null, 4);
         $table = JTable::getInstance('pools', 'thm_organizerTable');
  
-        $dbo = JFactory::getDbo();
-        $dbo->transactionStart();
+        $this->_db->transactionStart();
 
         $success = $table->save($data);
 
         // Successfully inserted a new pool
         if ($success AND empty($data['id']))
         {
-            $dbo->transactionCommit();
+            $this->_db->transactionCommit();
             return $table->id;
         }
  
         // New pool unsuccessfully inserted
         elseif (empty($data['id']))
         {
-            $dbo->transactionRollback();
+            $this->_db->transactionRollback();
             return false;
         }
  
@@ -171,12 +114,12 @@ class THM_OrganizerModelPool extends JModel
                 $mappingsDeleted = $model->deleteByResourceID($table->id, 'pool');
                 if ($mappingsDeleted)
                 {
-                    $dbo->transactionCommit();
+                    $this->_db->transactionCommit();
                     return $table->id;
                 }
                 else
                 {
-                    $dbo->transactionRollback();
+                    $this->_db->transactionRollback();
                     return false;
                 }
             }
@@ -185,12 +128,12 @@ class THM_OrganizerModelPool extends JModel
                 $mappingSaved = $model->savePool($data);
                 if ($mappingSaved)
                 {   
-                    $dbo->transactionCommit();
+                    $this->_db->transactionCommit();
                     return $table->id;
                 }
                 else
                 {
-                    $dbo->transactionRollback();
+                    $this->_db->transactionRollback();
                     return false;
                 }
             }

@@ -11,7 +11,6 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modellist');
-require_once JPATH_COMPONENT . DS . 'assets' . DS . 'helpers' . DS . 'thm_organizerHelper.php';
 
 /**
  * Class THM_OrganizerModelColors for component com_thm_organizer
@@ -30,13 +29,6 @@ class THM_OrganizerModelColor_Manager extends JModelList
      */
     public function __construct($config = array())
     {
-        if (empty($config['filter_fields']))
-        {
-            $config['filter_fields'] = array(
-                    'id', 'id'
-            );
-        }
-
         parent::__construct($config);
     }
 
@@ -47,40 +39,41 @@ class THM_OrganizerModelColor_Manager extends JModelList
      */
     protected function getListQuery()
     {
-        $dbo = JFactory::getDBO();
-
-        // Get the filter values from the request
-        $orderBy = $this->state->get('list.ordering');
-        $orderDir = $this->state->get('list.direction');
-
-        // Defailt ordering
-        if ($orderBy == "")
-        {
-            $orderBy = "id";
-            $orderDir = "ASC";
-        }
-
-        // Create the query
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
         $query->select("*");
         $query->from('#__thm_organizer_colors');
-        $query->order("$orderBy $orderDir");
+
+        $search = '%' . $this->_db->getEscaped($this->state->get('filter.search'), true) . '%';
+        if ($search != '%%')
+        {
+            $query->where("name LIKE '$search' OR color LIKE '$search'");
+        }
+
+        $query->order("{$this->state->get('list.ordering', 'name')} {$this->state->get('list.direction', 'ASC')}");
 
         return $query;
     }
 
     /**
-     * Method to get the populate state
+     * Method to populate state
      *
-     * @param   string  $orderBy   the property by which the results should be ordered
-     * @param   string  $orderDir  the direction in which results should be ordered
+     * @param   string  $orderBy    An optional ordering field.
+     * @param   string  $direction  An optional direction (asc|desc).
      *
      * @return  void
      */
     protected function populateState($orderBy = null, $orderDir = null)
     {
-        THM_OrganizerHelper::populateState($this);
-        empty($orderBy)?
-            parent::populateState("id", "ASC") : parent::populateState($orderBy, $orderDir);
+        $orderBy = $this->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'id');
+        $this->setState('list.ordering', $orderBy);
+
+        $orderDir = $this->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
+        $this->setState('list.direction', $orderDir);
+
+        $search = $this->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
+        $this->setState('filter.search', $search);
+
+        $limit = $this->getUserStateFromRequest($this->context . '.limit', 'limit', '');
+        $this->setState('list.limit', $limit);
     }
 }

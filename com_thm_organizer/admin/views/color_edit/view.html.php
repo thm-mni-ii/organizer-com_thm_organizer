@@ -40,7 +40,7 @@ class THM_OrganizerViewColor_Edit extends JView
         $item = $this->get('Item');
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
 
         if (count($errors = $this->get('Errors')))
         {

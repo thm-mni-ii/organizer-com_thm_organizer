@@ -39,8 +39,9 @@ class THM_OrganizerViewColor_Manager extends JView
         JHtml::_('behavior.multiselect');
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
 
+        $model = $this->getModel();
         $this->items = $this->get('Items');
         $this->pagination = $this->get('Pagination');
         $this->state = $this->get('State');

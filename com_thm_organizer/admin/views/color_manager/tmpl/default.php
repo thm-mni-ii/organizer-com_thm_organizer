@@ -18,6 +18,23 @@ $colorTitle = JText::_('COM_THM_ORGANIZER_COLOR') . '::' . JText::_('COM_THM_ORG
 $hexTitle = JText::_('COM_THM_ORGANIZER_CLM_CODE') . '::' . JText::_('COM_THM_ORGANIZER_CLM_CODE_DESC');
 ?>
 <form action="index.php?option=com_thm_organizer" method="post" name="adminForm" id="adminForm">
+    <fieldset id="filter-bar" class='filter-bar'>
+        <div class="filter-search fltlft">
+            <label class="filter-search-lbl" for="filter_search">
+                <?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>
+            </label>
+            <input type="text" name="filter_search" id="filter_search"
+                value="<?php echo $this->escape($this->state->get('filter.search')); ?>"
+                title="<?php echo JText::_('COM_THM_ORGANIZER_SEARCH_TITLE'); ?>" />
+            <button type="submit">
+                <?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>
+            </button>
+            <button type="button"
+                onclick="document.id('filter_search').value='';this.form.submit();">
+                <?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>
+            </button>
+        </div>
+    </fieldset>
     <div>
         <table class="adminlist">
             <thead>

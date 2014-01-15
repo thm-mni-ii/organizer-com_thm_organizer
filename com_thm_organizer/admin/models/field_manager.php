@@ -30,13 +30,6 @@ class THM_OrganizerModelField_Manager extends JModelList
      */
     public function __construct($config = array())
     {
-        if (empty($config['filter_fields']))
-        {
-            $config['filter_fields'] = array(
-                    'id', 'field'
-            );
-        }
-
         parent::__construct($config);
     }
 
@@ -47,25 +40,19 @@ class THM_OrganizerModelField_Manager extends JModelList
      */
     protected function getListQuery()
     {
-        $dbo = JFactory::getDBO();
-
-        // Get the filter values from the request
-        $orderBy = $this->state->get('list.ordering');
-        $orderDir = $this->state->get('list.direction');
-
-        // Defailt ordering
-        if ($orderBy == "")
-        {
-            $orderBy = "field";
-            $orderDir = "ASC";
-        }
-
         // Create the query
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
         $query->select("f.id, gpuntisID, field, name, color");
         $query->from('#__thm_organizer_fields AS f');
         $query->innerJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
-        $query->order("$orderBy $orderDir");
+
+        $search = '%' . $this->_db->getEscaped($this->state->get('filter.search'), true) . '%';
+        if ($search != '%%')
+        {
+            $query->where("field LIKE '$search' OR gpuntisID LIKE '$search'");
+        }
+
+        $query->order("{$this->state->get('list.ordering', 'field')} {$this->state->get('list.direction', 'ASC')}");
 
         return $query;
     }
@@ -81,20 +68,17 @@ class THM_OrganizerModelField_Manager extends JModelList
     protected function populateState($orderBy = null, $orderDir = null)
     {
         $app = JFactory::getApplication('administrator');
-        $context = $this->get('context');
 
-        $orderBy = $app->getUserStateFromRequest($context . '.filter_order', 'filter_order', 'field');
+        $orderBy = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'field');
         $this->setState('list.ordering', $orderBy);
 
-        $orderDir = $app->getUserStateFromRequest($context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
+        $orderDir = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
         $this->setState('list.direction', $orderDir);
 
-        $filter = $app->getUserStateFromRequest($context . '.filter', 'filter', '');
-        $this->setState('filter', $filter);
+        $search = $app->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
+        $this->setState('filter.search', $search);
 
-        $limit = $app->getUserStateFromRequest($context . '.limit', 'limit', '');
-        $this->setState('limit', $limit);
-
-        parent::populateState($orderBy, $orderDir);
+        $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
+        $this->setState('list.limit', $limit);
     }
 }

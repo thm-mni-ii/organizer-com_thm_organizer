@@ -11,9 +11,8 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'assets' . DS . 'helpers' . DS . 'lsfapi.php';
-define('RESPONSIBLE', 1);
-define('TEACHER', 2);
+defined('RESPONSIBLE') OR define('RESPONSIBLE', 1);
+defined('TEACHER') OR define('TEACHER', 2);
 /**
  * Provides persistence handling for subjects
  *
@@ -32,30 +31,45 @@ class THM_OrganizerModelSubject extends JModel
      */
     public function delete()
     {
-        $resourceIDs = JRequest::getVar('cid', array(0), 'post', 'array');
-        if (!empty($resourceIDs))
+        $subjectIDs = JRequest::getVar('cid', array(0), 'post', 'array');
+        if (!empty($subjectIDs))
         {
-            $dbo = JFactory::getDbo();
-            $dbo->transactionStart();
-            $table = JTable::getInstance('subjects', 'thm_organizerTable');
-            $model = JModel::getInstance('mapping', 'THM_OrganizerModel');
-            foreach ($resourceIDs as $resourceID)
+            $this->_db->transactionStart();
+            foreach ($subjectIDs as $subjectID)
             {
-                $mappingsDeleted = $model->deleteByResourceID($resourceID, 'subject');
-                if (!$mappingsDeleted)
+                $deleted = $this->deleteEntry($subjectID);
+                if (!$deleted)
                 {
-                    $dbo->transactionRollback();
-                    return false;
-                }
-
-                $resourceDeleted = $table->delete($resourceID);
-                if (!$resourceDeleted)
-                {
-                    $dbo->transactionRollback();
+                    $this->_db->transactionRollback();
                     return false;
                 }
             }
-            $dbo->transactionCommit();
+            $this->_db->transactionCommit();
+        }
+        return true;
+    }
+
+    /**
+     * Deletes an individual subject entry in the mappings and subjects tables
+     * 
+     * @param   int  $subjectID  the id of the subject to be deleted
+     * 
+     * @return  boolean  true if successful, otherwise false
+     */
+    public function deleteEntry($subjectID)
+    {
+        $table = JTable::getInstance('subjects', 'thm_organizerTable');
+        $mappingModel = JModel::getInstance('mapping', 'THM_OrganizerModel');
+        $mappingsDeleted = $mappingModel->deleteByResourceID($subjectID, 'subject');
+        if (!$mappingsDeleted)
+        {
+            return false;
+        }
+
+        $subjectDeleted = $table->delete($subjectID);
+        if (!$subjectDeleted)
+        {
+            return false;
         }
         return true;
     }
@@ -67,268 +81,18 @@ class THM_OrganizerModelSubject extends JModel
      */
     public function importLSFDataBatch()
     {
-        $resourceIDs = JRequest::getVar('cid', array(), 'post', 'array');
-        JFactory::getDbo()->transactionStart();
-        foreach ($resourceIDs as $resourceID)
+        $subjectIDs = JRequest::getVar('cid', array(), 'post', 'array');
+        $this->_db->transactionStart();
+        foreach ($subjectIDs as $subjectID)
         {
-            $resourceImported = $this->importLSFDataSingle($resourceID);
-            if (!$resourceImported)
+            $subjectImported = $this->importLSFDataSingle($subjectID);
+            if ($subjectImported == 'error')
             {
-                JFactory::getDbo()->transactionRollback();
+                $this->_db->transactionRollback();
                 return false;
             }
         }
-        JFactory::getDbo()->transactionCommit();
-        return true;
-    }
-
-    /**
-     * Method to import data associated with a subject from LSF
-     *
-     * @param   int  $subjectID  the id opf the subject entry
-     *
-     * @return  boolean  true on success, otherwise false
-     */
-    public function importLSFDataSingle($subjectID)
-    {
-        $table = JTable::getInstance('subjects', 'thm_organizerTable');
-        $loaded = $table->load($subjectID);
-        if (!$loaded or (empty($table->lsfID) AND empty($table->externalID)))
-        {
-            return false;
-        }
-
-        $client = new THM_OrganizerLSFClient;
-        if (!empty($table->lsfID))
-        {
-            $lsfData = $client->getModuleByModulid($table->lsfID);
-        }
-        else
-        {
-            $lsfData = $client->getModuleByNrMni($table->externalID);
-        }
-
-        $data = array();
-        foreach ($lsfData->modul->children() as $child)
-        {
-            $name = $child->getName();
-            switch ($name)
-            {
-                case 'nrmni':
-                    $this->setSubjectAttribute($data, 'externalID', (string) $child);
-                    break;
-                case 'kuerzel':
-                    $this->setSubjectAttribute($data, 'abbreviation_de', (string) $child);
-                    break;
-                case 'kurzname':
-                    $this->setSubjectAttribute($data, 'short_name_de', (string) $child);
-                    break;
-                case 'titelde':
-                    $this->setSubjectAttribute($data, 'name_de', (string) $child);
-                    break;
-                case 'ktxtpform':
-                    $this->setSubjectAttribute($data, 'pformID', (string) $child);
-                    break;
-                case 'ktextpart':
-                    $this->setSubjectAttribute($data, 'proofID', (string) $child);
-                    break;
-                case 'sprache':
-                    $this->setSubjectAttribute($data, 'instructionLanguage', (string) $child);
-                    break;
-                case 'lp':
-                    $this->setSubjectAttribute($data, 'creditpoints', (string) $child);
-                    break;
-                case 'aufwand':
-                    $this->setSubjectAttribute($data, 'expenditure', (string) $child);
-                    break;
-                case 'praesenzzeit':
-                    $this->setSubjectAttribute($data, 'present', (string) $child);
-                    break;
-                case 'selbstzeit':
-                    $this->setSubjectAttribute($data, 'independent', (string) $child);
-                    break;
-                case 'verart':
-                    $this->setSubjectAttribute($data, 'methodID', (string) $child);
-                    break;
-                case 'turnus':
-                    $this->setSubjectAttribute($data, 'frequencyID', (string) $child);
-                    break;
-                case 'titelen':
-                    $this->setSubjectAttribute($data, 'name_en', (string) $child);
-                    break;
-                case 'kurznameen':
-                    $this->setSubjectAttribute($data, 'short_name_en', (string) $child);
-                    break;
-                case 'kuerzelen':
-                    $this->setSubjectAttribute($data, 'abbreviation_en', (string) $child);
-                    break;
-                case 'kurzbeschr':
-                    $descriptions = $lsfData->xpath('//modul/kurzbeschr');
-                    foreach ($descriptions as $description)
-                    {
-                        if ($description->sprache == 'de')
-                        {
-                            $this->setSubjectAttribute($data, 'description_de', (string) $description->txt);
-                        }
-                        if ($description->sprache == 'en')
-                        {
-                            $this->setSubjectAttribute($data, 'description_en', (string) $description->txt);
-                        }
-                    }
-                    break;
-                case 'arbeitsaufwand':
-                    $matches = array();
-                    preg_match_all('/[0-9]+/', (string) $child[0]->txt, $matches, PREG_PATTERN_ORDER);
-                    if (!empty($matches) AND !empty($matches[0]) AND count($matches[0]) == 3)
-                    {
-                        if (empty($data['creditpoints']))
-                        {
-                            $this->setSubjectAttribute($data, 'creditpoints', $matches[0][0]);
-                        }
-                        if (empty($data['expenditure']))
-                        {
-                            $this->setSubjectAttribute($data, 'expenditure', $matches[0][1]);
-                        }
-                        if (empty($data['present']))
-                        {
-                            $this->setSubjectAttribute($data, 'present', $matches[0][2]);
-                        }
-                        if (empty($data['independent']))
-                        {
-                            $this->setSubjectAttribute($data, 'present', $data['expenditure'] - $data['present']);
-                        }
-                    }
-                    break;
-                case 'lernform':
-                    if (!empty($data['methodID']))
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        $method = $this->resolveMethod((string) $child[0]->txt);
-                        $this->setSubjectAttribute($data, 'methodID', $method);
-                    }
-                case 'zwvoraussetzungen':
-                    $prerequisites = array();
-                    $requirements = $lsfData->xpath('//modul/zwvoraussetzungen');
-                    foreach ($requirements as $requirement)
-                    {
-                        if ($requirement->sprache == 'de')
-                        {
-                            $text = $this->resolvePrerequisites((string) $requirement->txt, 'de', $prerequisites);
-                            $this->setSubjectAttribute($data, 'prerequisites_de', $text);
-                        }
-                        elseif ($requirement->sprache == 'en')
-                        {
-                            $text = $this->resolvePrerequisites((string) $requirement->txt, 'en', $prerequisites);
-                            $this->setSubjectAttribute($data, 'prerequisites_en', $text);
-                        }
-                    }
-                    $this->setSubjectAttribute($data, 'prerequisites', $prerequisites);
-                    break;
-                case 'lernziel':
-                    $objectives = $lsfData->xpath('//modul/lernziel');
-                    foreach ($objectives as $objective)
-                    {
-                        if ($objective->sprache == 'de')
-                        {
-                            $this->setSubjectAttribute($data, 'objective_de', (string) $objective->txt);
-                        }
-                        if ($objective->sprache == 'en')
-                        {
-                            $this->setSubjectAttribute($data, 'objective_en', (string) $objective->txt);
-                        }
-                    }
-                    break;
-                case 'lerninhalt':
-                    $contents = $lsfData->xpath('//modul/lerninhalt');
-                    foreach ($contents as $content)
-                    {
-                        if ($content->sprache == 'de')
-                        {
-                            $this->setSubjectAttribute($data, 'content_de', (string) $content->txt);
-                        }
-                        if ($content->sprache == 'en')
-                        {
-                            $this->setSubjectAttribute($data, 'content_en', (string) $content->txt);
-                        }
-                    }
-                    break;
-                case 'vorleistung':
-                    $preliminaries = $lsfData->xpath('//modul/vorleistung');
-                    foreach ($preliminaries as $preliminary)
-                    {
-                        if ($preliminary->sprache == 'de')
-                        {
-                            $this->setSubjectAttribute($data, 'preliminary_work_de', (string) $preliminary->txt);
-                        }
-                        if ($preliminary->sprache == 'en')
-                        {
-                            $this->setSubjectAttribute($data, 'preliminary_work_en', (string) $preliminary->txt);
-                        }
-                    }
-                    break;
-                case 'litverz':
-                    $this->setSubjectAttribute($data, 'literature', (string) $child->txt);
-                    break;
-                default:
-                    break;
-            }
-        }
-        if (empty($data['abbreviation_en']) AND isset($data['abbreviation_de']))
-        {
-            $this->setSubjectAttribute($data, 'abbreviation_en', $data['abbreviation_de']);
-        }
-        if (empty($data['short_name_en']) AND isset($data['short_name_de']))
-        {
-            $this->setSubjectAttribute($data, 'short_name_en', $data['short_name_de']);
-        }
-        if (empty($data['name_en']) AND isset($data['name_de']))
-        {
-            $this->setSubjectAttribute($data, 'name_en', $data['name_de']);
-        }
-
-        $subjectSaved = $table->save($data);
-        if (!$subjectSaved)
-        {
-            return false;
-        }
-
-        if (!empty($data['prerequisites']))
-        {
-            $prerequisitesSaved = $this->savePrerequisitesFromLSF($table->id, $data['prerequisites']);
-            if (!$prerequisitesSaved)
-            {
-                return false;
-            }
-        }
-
-        $responsible = $lsfData->xpath('//modul/verantwortliche');
-        if (!empty($responsible))
-        {
-            foreach ($responsible as $teacher)
-            {
-                $responsibleAdded = $this->addLSFTeacher($table->id, $teacher, RESPONSIBLE);
-                if (!$responsibleAdded)
-                {
-                    return false;
-                }
-            }
-        }
-
-        $teachers = $lsfData->xpath('//modul/dozent');
-        if (!empty($teachers))
-        {
-            foreach ($teachers as $teacher)
-            {
-                $teacherAdded = $this->addLSFTeacher($table->id, $teacher, TEACHER);
-                if (!$teacherAdded)
-                {
-                    return false;
-                }
-            }
-        }
+        $this->_db->transactionCommit();
         return true;
     }
 
@@ -351,191 +115,59 @@ class THM_OrganizerModelSubject extends JModel
     }
 
     /**
-     * Resolves the text to one of 6 predefined types of lessons
-     *
-     * @param   string  $text  the contents of the method text element
-     *
-     * @return  string  a code representing course instruction methods
+     * Sets description attributes
+     * 
+     * @param   array  &$subject      the subject data
+     * @param   array  $descriptions  an array of description objects
+     * 
+     * @return  void
      */
-    private function resolveMethod($text)
+    private function setDescriptionAttributes(&$subject, $descriptions)
     {
-        $lecture = strpos($text, 'Vorlesung');
-        $seminar = strpos($text, 'Seminar');
-        $project = strpos($text, 'Praktikum');
-        $practice = strpos($text, 'Übung');
-        if ($lecture !== false)
+        foreach ($descriptions as $description)
         {
-            if ($practice !== false)
+            if ($description->sprache == 'de')
             {
-                return 'VU';
+                $this->setSubjectAttribute($subject, 'description_de', (string) $description->txt);
             }
-            elseif ($seminar !== false)
+            if ($description->sprache == 'en')
             {
-                return 'SV';
+                $this->setSubjectAttribute($subject, 'description_en', (string) $description->txt);
             }
-            elseif ($project !== false)
-            {
-                return 'VG';
-            }
-            else
-            {
-                return 'V';
-            }
-        }
-        elseif($project !== false)
-        {
-            return 'P';
-        }
-        elseif ($seminar !== false)
-        {
-            return 'S';
-        }
-        else
-        {
-            return '';
         }
     }
 
     /**
-     * Saves prerequisites imported from LSF
-     *
-     * @param   int    $subjectID      the id of the subject
-     * @param   array  $prerequisites  an array of external ids
-     *
-     * @return  bool  true if no database errors occured, otherwise false
+     * Sets attributes dealing with required student expenditure
+     * 
+     * @param   array   &$subject  the subject data
+     * @param   string  $text      the text of the expenditure node
+     * 
+     * @return void
      */
-    private function savePrerequisitesFromLSF($subjectID, $prerequisites)
+    private function setExpenditureAttributes(&$subject, $text)
     {
-        $dbo = JFactory::getDbo();
-        $deleteQuery = $dbo->getQuery(true);
-        $deleteQuery->delete('#__thm_organizer_prerequisites');
-        $deleteQuery->where("subjectID = '$subjectID'");
-        $dbo->setQuery((string) $deleteQuery);
-        try
+        $matches = array();
+        preg_match_all('/[0-9]+/', $text, $matches, PREG_PATTERN_ORDER);
+        if (!empty($matches) AND !empty($matches[0]) AND count($matches[0]) == 3)
         {
-            $dbo->query();
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            return false;
-        }
-
-        foreach ($prerequisites as $prereqID)
-        {
-            $insertQuery = $dbo->getQuery(true);
-            $insertQuery->insert('#__thm_organizer_prerequisites');
-            $insertQuery->columns('subjectID, prerequisite');
-            $insertQuery->values("'$subjectID', '$prereqID'");
-            $dbo->setQuery((string) $insertQuery);
-            $success = $dbo->query();
-            if ($success == false)
+            if (empty($subject['creditpoints']))
             {
-                return false;
+                $this->setSubjectAttribute($subject, 'creditpoints', $matches[0][0]);
+            }
+            if (empty($subject['expenditure']))
+            {
+                $this->setSubjectAttribute($subject, 'expenditure', $matches[0][1]);
+            }
+            if (empty($subject['present']))
+            {
+                $this->setSubjectAttribute($subject, 'present', $matches[0][2]);
+            }
+            if (empty($subject['independent']))
+            {
+                $this->setSubjectAttribute($subject, 'present', $subject['expenditure'] - $subject['present']);
             }
         }
-        return true;
-    }
-
-    /**
-     * Iterates the subject responsible entries from the LSF data.
-     *
-     * @param   int    $subjectID       the id of the subject
-     * @param   array  &$teacher        an array containing the responsible node
-     *                                  objects
-     * @param   int    $responsibility  the teacher's responsibility for the
-     *                                  subject
-     *
-     * @return  bool  true on success, otherwise false
-     */
-    private function addLSFTeacher($subjectID, &$teacher, $responsibility)
-    {
-        $teacherData = array();
-        $surnameAttribue = $responsibility == RESPONSIBLE? 'nachname' : 'personal.nachname';
-        $surnamePath = $teacher->personinfo->$surnameAttribue;
-        $teacherData['surname'] = (string) $surnamePath[0];
-        $forenameAttribue = $responsibility == RESPONSIBLE? 'vorname' : 'personal.vorname';
-        $forenamePath = $teacher->personinfo->$forenameAttribue;
-        $teacherData['forename'] = (string) $forenamePath[0];
-
-        /**
-         * Prevents null entries from being added to the database without preventing
-         * import completion.
-         */
-        if (empty($teacherData['surname']))
-        {
-            return true;
-        }
-
-        $teacherData['forename'] = (string) $teacher->personinfo->$forenameAttribue;
-        $table = JTable::getInstance('teachers', 'thm_organizerTable');
-        if (!empty($teacher->hgnr))
-        {
-            $table->load(array('username' => (string) $teacher->hgnr));
-            $teacherData['username'] = (string) $teacher->hgnr;
-        }
-        else
-        {
-            $table->load($teacherData);
-        }
-
-        $teacherSaved = $table->save($teacherData);
-        if (!$teacherSaved)
-        {
-            return false;
-        }
-
-        $dbo = JFactory::getDbo();
-
-        $checkQuery = $dbo->getQuery(true);
-        $checkQuery->select("COUNT(*)")->from('#__thm_organizer_subject_teachers');
-        $checkQuery->where("subjectID = '$subjectID' AND teacherID = '$table->id' AND teacherResp = '$responsibility'");
-        $dbo->setQuery((string) $checkQuery);
-        $exists = $dbo->loadResult();
-        if (!empty($exists))
-        {
-            return true;
-        }
-        else
-        {
-            $insertQuery = $dbo->getQuery(true);
-            $insertQuery->insert('#__thm_organizer_subject_teachers')->columns('subjectID, teacherID, teacherResp');
-            $insertQuery->values("'$subjectID', '$table->id', '$responsibility'");
-            $dbo->setQuery((string) $insertQuery);
-            return (bool) $dbo->query();
-        }
-    }
-
-    /**
-     * Creates a subject entry if none exists and imports data to fill it
-     *
-     * @param   object  &$stub  a simplexml object containing rudimentary subject data
-     *
-     * @return  mixed  int value of subject id on success, otherwise false
-     */
-    public function processLSFStub(&$stub)
-    {
-        if ((empty($stub->modulid) AND empty($stub->pordid)) OR (empty($stub->modulnrhis) AND empty($stub->nrhis)))
-        {
-            return false;
-        }
-        $lsfID = (string) (empty($stub->modulid)?  $stub->pordid : $stub->modulid);
-        $hisID = (string) (empty($stub->modulnrhis)?  $stub->nrhis: $stub->modulnrhis);
-
-        $table = JTable::getInstance('subjects', 'thm_organizerTable');
-        $table->load(array('lsfID' => $lsfID));
-
-        if (empty($table->id))
-        {
-            $data = array('lsfID' => $lsfID, 'hisID' => $hisID);
-            $stubSaved = $table->save($data);
-            if (!$stubSaved)
-            {
-                return false;
-            }
-        }
- 
-        return $this->importLSFDataSingle($table->id);
     }
 
     /**
@@ -548,141 +180,160 @@ class THM_OrganizerModelSubject extends JModel
     {
         $data = JRequest::getVar('jform', null, null, null, 4);
 
-        $dbo = JFactory::getDbo();
-        $dbo->transactionStart();
+        $this->_db->transactionStart();
 
         $table = JTable::getInstance('subjects', 'thm_organizerTable');
         $success = $table->save($data);
  
-        // Successfully inserted a new subject
+        // New subjects have no mappings
         if ($success AND empty($data['id']))
         {
-            $dbo->transactionCommit();
-            return $table->id;
-        }
-
-        // New subject unsuccessfully inserted
-        elseif (empty($data['id']))
-        {
-            $dbo->transactionRollback();
+            if ($success)
+            {
+                $this->_db->transactionCommit();
+                return $table->id;
+            }
+            $this->_db->transactionRollback();
             return false;
         }
-
-        // Process mapping & responsibilities information
         else
         {
-            $deleteQuery = $dbo->getQuery(true);
-            $deleteQuery->delete('#__thm_organizer_subject_techers')->where("subjectID = '{$data['id']}'");
-            $dbo->setQuery((string) $deleteQuery);
             try
             {
-                $dbo->query();
-            }
-            catch (JDatabaseException $exc)
-            {
-                $dbo->transactionRollback();
-                return false;
-            }
-
-            $insertQuery = $dbo->getQuery(true);
-            $insertQuery->insert('#__thm_organizer_subject_teachers');
-            $insertQuery->columns(array('subjectID', 'teacherID', 'teacherResp'));
-            foreach ($data['responsibleID'] AS $responsible)
-            {
-                $insertQuery->values("'{$data['id' ]}', '$responsible', '1'");
-            }
-            foreach ($data['teacherID'] AS $teacher)
-            {
-                $insertQuery->values("'{$data['id' ]}', '$teacher', '2'");
-            }
-            $dbo->setQuery((string) $insertQuery);
-            try
-            {
-                $dbo->query();
+                $this->processFormTeachers($data);
             }
             catch (Exception $exc)
             {
-                $dbo->transactionRollback();
+                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                $this->_db->transactionRollback();
                 return false;
             }
-
-
-            $model = JModel::getInstance('mapping', 'THM_OrganizerModel');
-            $mappingsDeleted = $model->deleteByResourceID($table->id, 'subject');
-
-            // No mappings desired
-            if (empty($data['parentID']) AND $mappingsDeleted)
+            
+            $success = $this->processFormMappings($table->id, $data);
+            if (!$success)
             {
-                    $dbo->transactionCommit();
-                    return $table->id;
-            }
-            elseif (empty($data['parentID']))
-            {
-                $dbo->transactionRollback();
+                $this->_db->transactionRollback();
                 return false;
-            }
-            else
-            {
-                $mappingSaved = $model->saveSubject($data);
-                if ($mappingSaved)
-                {
-                    $dbo->transactionCommit();
-                    return $table->id;
-                }
-                else
-                {
-                    $dbo->transactionRollback();
-                    return false;
-                }
             }
         }
+        $this->_db->transactionCommit();
+        return $table->id;
     }
 
     /**
-     * Updates the entries of the subject teachers table
-     *
-     * @param   array  $data  the post data
-     *
-     * @return  boolean  true on success, otherwise false
+     * Processes the teachers selected for the subject
+     * 
+     * @param   array  &$data  the post data
+     * 
+     * @return  void
      */
-    public function updateSubjectTeachers($data)
+    private function processFormTeachers(&$data)
     {
-        $dbo = JFactory::getDbo();
-        $deleteQuery = $dbo->getQuery(true);
-        $deleteQuery->delete('#__thm_organizer_subject_teachers');
-        $deleteQuery->where("subjectID = '{$data['id']}'");
-        $dbo->setQuery((string) $deleteQuery);
+        $subjectID = $data['id'];
+        $this->removeTeachers($subjectID);
+
+        foreach ($data['responsibleID'] AS $responsibleID)
+        {
+            $respAdded = $this->addTeacher($subjectID, $responsibleID, RESPONSIBLE);
+            if (!$respAdded)
+            {
+                return false;
+            }
+        }
+        foreach ($data['teacherID'] AS $teacherID)
+        {
+            $teacherAdded = $this->addTeacher($subjectID, $teacherID, TEACHER);
+            if (!$teacherAdded)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Removes teacher associations for the given subject and level of
+     * responsibility.
+     * 
+     * @param   int  $subjectID       the subject id
+     * @param   int  $responsibility  the teacher responsibility level (1|2)
+     * 
+     * @return boolean
+     */
+    public function removeTeachers($subjectID, $responsibility = null)
+    {
+        $query = $this->_db->getQuery(true);
+        $query->delete('#__thm_organizer_subject_teachers')->where("subjectID = '$subjectID'");
+        if (!empty($responsibility))
+        {
+            $query->where("teacherResp = '$responsibility'");
+        }
+        $this->_db->setQuery((string) $query);
         try
         {
-            $dbo->query();
+            $this->_db->query();
         }
-        catch (Exception $exception)
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Adds a teacher association
+     *
+     * @param   int    $subjectID       the id of the subject
+     * @param   array  $teacherID       the id of the teacher
+     * @param   int    $responsibility  the teacher's responsibility for the
+     *                                  subject
+     *
+     * @return  bool  true on success, otherwise false
+     */
+    public function addTeacher($subjectID, $teacherID, $responsibility)
+    {
+        $query = $this->_db->getQuery(true);
+        $query->insert('#__thm_organizer_subject_teachers')->columns('subjectID, teacherID, teacherResp');
+        $query->values("'$subjectID', '$teacherID', '$responsibility'");
+        $this->_db->setQuery((string) $query);
+        try
+        {
+            $this->_db->query();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Processes the mappings of the subject selected
+     * 
+     * @param   int    $subjectID  the id of the subject
+     * @param   array  &$data      the post data
+     * 
+     * @return  boolean  true on success, otherwise false
+     */
+    private function processFormMappings($subjectID, &$data)
+    {
+        $model = JModel::getInstance('mapping', 'THM_OrganizerModel');
+        $mappingsDeleted = $model->deleteByResourceID($subjectID, 'subject');
+        if (!$mappingsDeleted)
         {
             return false;
         }
 
-        $subjectTeachers = array();
-        $teacherValues = $data['teacher'];
-        foreach ($teacherValues as $key => $teacherID)
+        // No mappings desired
+        if (empty($data['parentID']))
         {
-            $subjectTeachers[] = "'{$data['id']}', '$teacherID', '2'";
-        }
-        $responsibleValues = $data['responsible'];
-        foreach ($responsibleValues as $key => $responsibleID)
-        {
-            $teacherValues[] = "'{$data['id']}', '$responsibleID', '1'";
+            return true;
         }
 
-        $teachersQuery = $dbo->getQuery(true);
-        $teachersQuery->insert('#__thm_organizer_subject_teachers');
-        $teachersQuery->columns('subjectID, teacherID, teacherResp');
-        $teachersQuery->values($teacherValues);
-        $dbo->setQuery((string) $teachersQuery);
-        try
-        {
-            $dbo->query();
-        }
-        catch (Exception $exception)
+        $mappingSaved = $model->saveSubject($data);
+        if (!$mappingSaved)
         {
             return false;
         }
@@ -734,12 +385,11 @@ class THM_OrganizerModelSubject extends JModel
      */
     private function getModuleInformation($moduleNumber, $languageTag, &$prerequisites)
     {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
         $query->select("id, name_$languageTag AS name");
         $query->from('#__thm_organizer_subjects')->where("externalID = '$moduleNumber'");
-        $dbo->setQuery((string) $query);
-        $subjectInfo = $dbo->loadAssoc();
+        $this->_db->setQuery((string) $query);
+        $subjectInfo = $this->_db->loadAssoc();
         if (empty($subjectInfo))
         {
             return false;

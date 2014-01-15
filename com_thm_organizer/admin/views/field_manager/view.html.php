@@ -38,7 +38,7 @@ class THM_OrganizerViewField_Manager extends JView
         JHtml::_('behavior.tooltip');
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
 
         $items = $this->get('Items');
         $pagination = $this->get('Pagination');
@@ -62,5 +62,7 @@ class THM_OrganizerViewField_Manager extends JView
         JToolBarHelper::addNew('field.add', 'JTOOLBAR_NEW');
         JToolBarHelper::editList('field.edit', 'JTOOLBAR_EDIT');
         JToolBarHelper::deleteList('', 'field.delete', 'JTOOLBAR_DELETE');
+        JToolBarHelper::divider();
+        JToolBarHelper::preferences('com_thm_organizer');
     }
 }

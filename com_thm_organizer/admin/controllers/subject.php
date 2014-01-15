@@ -178,7 +178,7 @@ class THM_OrganizerControllerSubject extends JController
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        $success = $this->getModel('subject')->importLSFDataBatch();
+        $success = $this->getModel('LSFSubject')->importBatch();
         if ($success)
         {
             $msg = JText::_('COM_THM_ORGANIZER_SUM_FILL_SUCCESS');

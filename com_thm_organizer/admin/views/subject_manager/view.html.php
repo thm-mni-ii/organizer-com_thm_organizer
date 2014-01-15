@@ -34,7 +34,7 @@ class THM_OrganizerViewSubject_Manager extends JView
         JHTML::_('behavior.modal', 'a.modal-button');
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
 
         $this->items = $this->get('Items');
         $this->pagination = $this->get('Pagination');
@@ -85,6 +85,7 @@ class THM_OrganizerViewSubject_Manager extends JView
         $selectPrograms = array();
         $selectPrograms[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_SEARCH_PROGRAM'));
         $selectPrograms[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_ALL_PROGRAMS'));
+        $selectPrograms[] = array('id' => '-2', 'name' => JText::_('COM_THM_ORGANIZER_NO_PROGRAMS'));
         $programs = array_merge($selectPrograms, $programs);
         $programSelect = JHTML::_('select.genericlist', $programs, 'filter_program',
                                   'onchange="this.form.submit();"', 'id', 'name',
@@ -105,6 +106,7 @@ class THM_OrganizerViewSubject_Manager extends JView
         $selectPools = array();
         $selectPools[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_SUM_SEARCH_POOLS'));
         $selectPools[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_SUM_ALL_POOLS'));
+        $selectPools[] = array('id' => '-2', 'name' => JText::_('COM_THM_ORGANIZER_SUM_NO_POOLS'));
         $pools = array_merge($selectPools, $pools);
         $poolSelect = JHTML::_('select.genericlist', $pools, 'filter_pool',
                                'onchange="this.form.submit();"', 'id', 'name',

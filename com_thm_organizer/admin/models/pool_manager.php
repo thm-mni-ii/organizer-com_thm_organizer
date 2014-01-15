@@ -65,54 +65,49 @@ class THM_OrganizerModelPool_Manager extends JModelList
      */
     protected function getListQuery()
     {
-        $dbo = JFactory::getDBO();
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
 
         $language = explode('-', JFactory::getLanguage()->getTag());
-        $select = ($language[0] == 'de')? 'name_de AS name, ' : 'name_en AS name, ';
-        $select .= 'p.id, lsfID, hisID, externalID, minCrP, maxCrP, f.field, color';
-        $orderBy = $this->state->get('list.ordering', 'name');
-        $orderDir = $this->state->get('list.direction', 'ASC');
-        $search = '%' . $dbo->getEscaped($this->state->get('filter.search'), true) . '%';
-        if ($search != '%%')
+        $select = "DISTINCT p.id, name_{$language[0]} AS name, lsfID, hisID, ";
+        $select .= 'externalID, minCrP, maxCrP, f.field, color';
+        $query->select($select);
+
+        $query->from('#__thm_organizer_pools AS p');
+        $query->leftJoin('#__thm_organizer_fields AS f ON p.fieldID = f.id');
+        $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
+
+        $programID = $this->state->get('filter.program', '-1');
+        if (!empty($programID) OR $programID != '-1')
         {
-            if ($language[0] == 'de')
+            if ($programID == '-2')
             {
-                $searchClause = "(name_de LIKE '$search' ";
-                $searchClause .= "OR short_name_de LIKE '$search' ";
-                $searchClause .= "OR abbreviation_de LIKE '$search')";
+                $where = "p.id NOT IN ( ";
+                $where .= "SELECT poolID FROM #__thm_organizer_mappings ";
+                $where .= "WHERE poolID IS NOT null )";
+                $query->where($where);
             }
             else
             {
-                $searchClause = "(name_en LIKE '$search' ";
-                $searchClause .= "OR short_name_en LIKE '$search' ";
-                $searchClause .= "OR abbreviation_en LIKE '$search')";
+                $borders = $this->getBorders($programID, 'program');
+                if (!empty($borders))
+                {
+                    $query->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
+                    $query->where("lft > '{$borders['lft']}'");
+                    $query->where("rgt < '{$borders['rgt']}'");
+                }
             }
         }
-        $programID = $this->state->get('filter.program');
-        if (!empty($programID))
+
+        $search = '%' . $this->_db->getEscaped($this->state->get('filter.search'), true) . '%';
+        if ($search != '%%')
         {
-            $borders = $this->getProgramBorders($programID);
-        }
- 
-        $query->select($select);
-        $query->from('#__thm_organizer_pools AS p');
-        if (!empty($borders))
-        {
-            $query->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
-        }
-        $query->leftJoin('#__thm_organizer_fields AS f ON p.fieldID = f.id');
-        $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
-        if (!empty($searchClause))
-        {
+            $searchClause = "(name_{$language[0]} LIKE '$search' ";
+            $searchClause .= "OR short_name_{$language[0]} LIKE '$search' ";
+            $searchClause .= "OR abbreviation_{$language[0]} LIKE '$search')";
             $query->where($searchClause);
         }
-        if (!empty($borders))
-        {
-            $query->where("lft > '{$borders['lft']}'");
-            $query->where("rgt < '{$borders['rgt']}'");
-        }
-        $query->order("$orderBy $orderDir");
+
+        $query->order("{$this->state->get('list.ordering', 'name')} {$this->state->get('list.direction', 'ASC')}");
  
         return $query;
     }
@@ -120,17 +115,18 @@ class THM_OrganizerModelPool_Manager extends JModelList
     /**
      * Retrieves the mapped left and right values for the requested program
      *
-     * @param   int  $poolID  the id of the pool
+     * @param   int     $resourceID  the id of the pool
+     * @param   string  $type        the type of resource being checked
      *
      * @return  array contains the sought left and right values
      */
-    private function getPoolBorders($poolID)
+    private function getBorders($resourceID, $type = 'pool')
     {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('DISTINCT lft, rgt')->from('#__thm_organizer_mappings')->where("poolID = '$poolID'");
-        $dbo->setQuery((string) $query);
-        return $dbo->loadAssocList();
+        $query = $this->_db->getQuery(true);
+        $query->select('DISTINCT lft, rgt')->from('#__thm_organizer_mappings');
+        $query->where("{$type}ID = '$resourceID'");
+        $this->_db->setQuery((string) $query);
+        return $type == 'pool'? $this->_db->loadAssocList() : $this->_db->loadAssoc();
     }
 
     /**
@@ -148,16 +144,16 @@ class THM_OrganizerModelPool_Manager extends JModelList
         {
             $bordersClauses[] = "( lft < '{$border['lft']}' AND rgt > '{$border['rgt']}')";
         }
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
+
+        $query = $this->_db->getQuery(true);
         $query->select("DISTINCT CONCAT( dp.subject, ' (', d.abbreviation, ' ', dp.version, ')') AS name");
         $query->from('#__thm_organizer_programs AS dp');
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
         $query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
         $query->where($bordersClauses, 'OR');
         $query->order('name');
-        $dbo->setQuery((string) $query);
-        $programs = $dbo->loadResultArray();
+        $this->_db->setQuery((string) $query);
+        $programs = $this->_db->loadResultArray();
         return $programs;
     }
 
@@ -171,7 +167,7 @@ class THM_OrganizerModelPool_Manager extends JModelList
      */
     private function getProgram($poolID)
     {
-        $poolBorders = $this->getPoolBorders($poolID);
+        $poolBorders = $this->getBorders($poolID);
         if (empty($poolBorders))
         {
             return JText::_('COM_THM_ORGANIZER_POM_NO_MAPPINGS');
@@ -188,22 +184,6 @@ class THM_OrganizerModelPool_Manager extends JModelList
     }
 
     /**
-     * Retrieves the mapped left and right values for the requested program
-     *
-     * @param   int  $programID  the id of the requested program
-     *
-     * @return  array contains the sought left and right values
-     */
-    private function getProgramBorders($programID)
-    {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('lft, rgt')->from('#__thm_organizer_mappings')->where("programID = '$programID'");
-        $dbo->setQuery((string) $query);
-        return $dbo->loadAssoc();
-    }
-
-    /**
      * Method to auto-populate the model state.
      *
      * @param   string  $ordering   An optional ordering field.
@@ -213,18 +193,21 @@ class THM_OrganizerModelPool_Manager extends JModelList
      */
     protected function populateState($ordering = null, $direction = null)
     {
-        $app = JFactory::getApplication();
-        $ordering = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'name');
+        $ordering = $this->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'name');
         $this->setState('list.ordering', $ordering);
-        $direction = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
+
+        $direction = $this->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
         $this->setState('list.direction', $direction);
-        $search = $app->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
+
+        $search = $this->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
         $this->setState('filter.search', $search);
-        $formProgram = $app->getUserStateFromRequest($this->context . '.filter_program', 'filter_program', '');
+
+        $formProgram = $this->getUserStateFromRequest($this->context . '.filter_program', 'filter_program', '');
         $requestProgram = JRequest::getInt('programID');
         $this->setState('filter.program', (empty($formProgram) OR $formProgram == '-1')? $requestProgram : $formProgram);
-        $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
-        $this->setState('limit', $limit);
+
+        $limit = $this->getUserStateFromRequest($this->context . '.limit', 'limit');
+        $this->setState('list.limit', $limit);
     }
 
     /**
@@ -234,13 +217,12 @@ class THM_OrganizerModelPool_Manager extends JModelList
      */
     private function setProgramName()
     {
-        $dbo = JFactory::getDbo();
-        $nameQuery = $dbo->getQuery(true);
+        $nameQuery = $this->_db->getQuery(true);
         $nameQuery->select("CONCAT( dp.subject, ' (', d.abbreviation, ' ', dp.version, ')') AS name");
         $nameQuery->from('#__thm_organizer_programs AS dp');
         $nameQuery->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
         $nameQuery->where("dp.id = '{$this->state->get('filter.program')}'");
-        $dbo->setQuery((string) $nameQuery);
-        $this->programName = $dbo->loadResult();
+        $this->_db->setQuery((string) $nameQuery);
+        $this->programName = $this->_db->loadResult();
     }
 }

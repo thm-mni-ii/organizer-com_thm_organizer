@@ -42,6 +42,42 @@ class THM_OrganizerModelProgram_Manager extends JModelList
     }
 
     /**
+     * Retrieves a list of degrees and their ids
+     *
+     * @return  array
+     */
+    private function getDegrees()
+    {
+        $dbo = $this->getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('DISTINCT d.id AS id, d.name AS name');
+        $this->setFrom($query);
+        $this->setSearch($query);
+        $query->order('name ASC');
+        $dbo->setQuery((string) $query);
+        $degrees = $dbo->loadAssocList();
+        return empty($degrees)? array() : $degrees;
+    }
+
+    /**
+     * Retrieves a list of fields
+     *
+     * @return  array
+     */
+    private function getFields()
+    {
+        $dbo = $this->getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('DISTINCT f.id AS id, f.field AS field');
+        $this->setFrom($query);
+        $this->setSearch($query);
+        $query->order('field ASC');
+        $dbo->setQuery((string) $query);
+        $fields = $dbo->loadAssocList();
+        return empty($fields)? array() : $fields;
+    }
+
+    /**
      * Method to determine all majors
      *
      * @return  JDatabaseQuery
@@ -53,25 +89,9 @@ class THM_OrganizerModelProgram_Manager extends JModelList
         $select .= "dp.id as id, m.id AS mapping, field, color ";
         $query->select($select);
 
-        $query->from('#__thm_organizer_programs AS dp');
-        $query->leftJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
-        $query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
-        $query->leftJoin('#__thm_organizer_fields AS f ON dp.fieldID = f.id');
-        $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
+        $this->setFrom($query);
 
-        $clue = $this->getState('filter.search');
-        if (isset($clue))
-        {
-            $clue = trim($clue);
-            if (!empty($clue))
-            {
-                $search = '%' . $this->_db->getEscaped($clue, true) . '%';
-                $whereClause = "( subject LIKE '$search' ";
-                $whereClause .= "OR version LIKE '$search' ";
-                $whereClause .= "OR d.name LIKE '$search' )";
-                $query->where($whereClause);
-            }
-        }
+        $this->setSearch($query);
 
         $degree = $this->getState('filter.degree');
         if (is_numeric($degree))
@@ -97,6 +117,24 @@ class THM_OrganizerModelProgram_Manager extends JModelList
     }
 
     /**
+     * Retrieves a list of versions
+     *
+     * @return  array
+     */
+    private function getVersions()
+    {
+        $dbo = $this->getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('DISTINCT dp.version AS id, dp.version AS value');
+        $this->setFrom($query);
+        $this->setSearch($query);
+        $query->order('version ASC');
+        $dbo->setQuery((string) $query);
+        $versions = $dbo->loadAssocList();
+        return empty($versions)? array() : $versions;
+    }
+
+    /**
      * Method to populate state
      *
      * @param   string  $orderBy    An optional ordering field.
@@ -116,7 +154,7 @@ class THM_OrganizerModelProgram_Manager extends JModelList
         $this->setState('filter.search', $filter);
  
         $limit = $this->getUserStateFromRequest($this->context . '.limit', 'limit', '');
-        $this->setState('limit', $limit);
+        $this->setState('list.limit', $limit);
 
         $degree = $this->getUserStateFromRequest($this->context . '.filter.degree', 'filter_degree');
         $this->setState('filter.degree', $degree);
@@ -126,58 +164,45 @@ class THM_OrganizerModelProgram_Manager extends JModelList
 
         $field = $this->getUserStateFromRequest($this->context . '.filter.field', 'filter_field');
         $this->setState('filter.field', $field);
-
-        parent::populateState($orderBy, $direction);
     }
 
     /**
-     * Retrieves a list of degrees and their ids
-     *
-     * @return  array
+     * Sets the from clauses of the queries used
+     * 
+     * @param   object  &$query  the query object
+     * 
+     * @return  void
      */
-    private function getDegrees()
+    private function setFrom(&$query)
     {
-        $dbo = $this->getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('id, name');
-        $query->from("#__thm_organizer_degrees");
-        $query->order('name ASC');
-        $dbo->setQuery((string) $query);
-        $degrees = $dbo->loadAssocList();
-        return empty($degrees)? array() : $degrees;
+        $query->from('#__thm_organizer_programs AS dp');
+        $query->leftJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
+        $query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
+        $query->leftJoin('#__thm_organizer_fields AS f ON dp.fieldID = f.id');
+        $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
     }
-
+    
     /**
-     * Retrieves a list of versions
-     *
-     * @return  array
+     * Sets the search clause dependent upon user request
+     * 
+     * @param   object  &$query  the query object
+     * 
+     * @return  void
      */
-    private function getVersions()
+    private function setSearch(&$query)
     {
-        $dbo = $this->getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('DISTINCT version AS id, version AS value');
-        $query->from("#__thm_organizer_programs");
-        $query->order('version ASC');
-        $dbo->setQuery((string) $query);
-        $versions = $dbo->loadAssocList();
-        return empty($versions)? array() : $versions;
-    }
-
-    /**
-     * Retrieves a list of fields
-     *
-     * @return  array
-     */
-    private function getFields()
-    {
-        $dbo = $this->getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('id, field');
-        $query->from("#__thm_organizer_fields");
-        $query->order('field ASC');
-        $dbo->setQuery((string) $query);
-        $fields = $dbo->loadAssocList();
-        return empty($fields)? array() : $fields;
+        $clue = $this->getState('filter.search');
+        if (isset($clue))
+        {
+            $clue = trim($clue);
+            if (!empty($clue))
+            {
+                $search = '%' . $this->_db->getEscaped($clue, true) . '%';
+                $whereClause = "( subject LIKE '$search' ";
+                $whereClause .= "OR version LIKE '$search' ";
+                $whereClause .= "OR d.name LIKE '$search' )";
+                $query->where($whereClause);
+            }
+        }
     }
 }

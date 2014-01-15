@@ -97,7 +97,7 @@ foreach ($this->items as $i => $item)
     {
         $mappingLink = "<a title='" . JText::_('COM_THM_ORGANIZER_PRM_CHILDREN') . "' ";
         $mappingLink .= "href='" . JRoute::_('index.php?option=com_thm_organizer&view=pool_manager&programID=' . $item->id) . "' >";
-        $mappingLink .= "<img src='components/com_thm_organizer/assets/images/pools.png' /></a>";
+        $mappingLink .= "<img src='" . JURI::root() . "media/com_thm_organizer/images/pools.png' /></a>";
     }
     else
     {

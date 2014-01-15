@@ -34,7 +34,7 @@ class THM_OrganizerViewProgram_Manager extends JView
         JHtml::_('behavior.tooltip');
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+        $document->addStyleSheet(JURI::root() . "media/com_thm_organizer/css/thm_organizer.css");
 
         $model = $this->getModel();
         $this->items = $this->get('Items');
@@ -63,7 +63,6 @@ class THM_OrganizerViewProgram_Manager extends JView
                                'export',
                                '',
                                'COM_THM_ORGANIZER_PRM_IMPORT',
-                               true,
                                true
                               );
         JToolBarHelper::deleteList('COM_THM_ORGANIZER_PRM_DELETE_CONFIRM', 'program.delete', 'JTOOLBAR_DELETE');

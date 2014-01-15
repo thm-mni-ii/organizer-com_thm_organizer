@@ -41,14 +41,8 @@ class THM_OrganizerModelMapping extends JModel
 
         foreach ($lsfData->gruppe AS $resource)
         {
-            if (isset($resource->modulliste->modul))
-            {
-                $mapped = $this->addLSFPool($resource, $mappingsTable->id);
-            }
-            else
-            {
-                $mapped = $this->addLSFSubject($resource, $mappingsTable->id);
-            }
+            $mapped = (isset($resource->modulliste->modul))?
+                $this->addLSFPool($resource, $mappingsTable->id) : $this->addLSFSubject($resource, $mappingsTable->id);
             if (!$mapped)
             {
                 return false;
@@ -67,49 +61,38 @@ class THM_OrganizerModelMapping extends JModel
      */
     private function addLSFPool(&$pool, $parentMappingID)
     {
-        $mappingsTable = JTable::getInstance('mappings', 'THM_OrganizerTable');
-        $poolsTable = JTable::getInstance('pools', 'THM_OrganizerTable');
-        $app = JFactory::getApplication();
-
         $lsfID = empty($pool->pordid)? (string) $pool->modulid: (string) $pool->pordid;
+        $unwanted = !empty($pool->sperrmh) AND strtolower((string) $pool->sperrmh) == 'x';
 
-        $poolLoaded = $poolsTable->load(array('lsfID' => $lsfID));
-        if (!$poolLoaded)
+        $poolsTable = JTable::getInstance('pools', 'THM_OrganizerTable');
+        $poolExists = $poolsTable->load(array('lsfID' => $lsfID));
+        if ($poolExists)
         {
-            $app->enqueueMessage('COM_THM_ORGANIZER_POOL_LOAD_FAIL', 'error');
-            return false;
-        }
-        $doNotMap = ((string) $pool->sperrmh) == 'x';var_dump($pool);
-
-        $mappingExists = $mappingsTable->load(array('parentID' => $parentMappingID, 'poolID' => $poolsTable->id));
-
-        if ($doNotMap)
-        {
-            if ($mappingExists)
+            if ($unwanted)
             {
-                return $this->deleteEntry($mappingsTable->id);
+                $poolModel = JModel::getInstance('pool', 'THM_OrganizerModel');
+                return $poolModel->deleteEntry($poolsTable->id);
             }
-            return true;
-        }
-        if (!$mappingExists)
-        {
-            $poolMapping = array();
-            $poolMapping['parentID'] = $parentMappingID;
-            $poolMapping['poolID'] = $poolsTable->id;
-            $poolMapping['subjectID'] = null;
-            $poolMapping['ordering'] = $this->getOrdering($parentMappingID, $poolsTable->id);
-            $poolAdded = $this->addPool($poolMapping);
-            if (!$poolAdded)
-            {
-                $app->enqueueMessage('COM_THM_ORGANIZER_POOL_ADD_FAIL', 'error');
-                return false;
-            }
-            $mappingsTable->load(array('parentID' => $parentMappingID, 'poolID' => $poolsTable->id));
-        }
 
-        
-        if (isset($pool->modulliste->modul))
-        {
+            $mappingsTable = JTable::getInstance('mappings', 'THM_OrganizerTable');
+            $mappingExists = $mappingsTable->load(array('parentID' => $parentMappingID, 'poolID' => $poolsTable->id));
+
+            if (!$mappingExists)
+            {
+                $poolMapping = array();
+                $poolMapping['parentID'] = $parentMappingID;
+                $poolMapping['poolID'] = $poolsTable->id;
+                $poolMapping['subjectID'] = null;
+                $poolMapping['ordering'] = $this->getOrdering($parentMappingID, $poolsTable->id);
+                $poolAdded = $this->addPool($poolMapping);
+                if (!$poolAdded)
+                {
+                    JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_POOL_ADD_FAIL', 'error');
+                    return false;
+                }
+                $mappingsTable->load(array('parentID' => $parentMappingID, 'poolID' => $poolsTable->id));
+            }
+
             foreach ($pool->modulliste->modul as $sub)
             {
                 if (isset($sub->modulliste->modul))
@@ -125,8 +108,15 @@ class THM_OrganizerModelMapping extends JModel
                     return false;
                 }
             }
+            return true;
         }
-        return true;
+        if ($unwanted)
+        {
+            return true;
+        }
+
+        JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_POOL_LOAD_FAIL', 'error');
+        return false;
     }
 
     /**
@@ -140,41 +130,43 @@ class THM_OrganizerModelMapping extends JModel
      */
     private function addLSFSubject(&$subject, $parentMappingID)
     {
-        $mappingsTable = JTable::getInstance('mappings', 'THM_OrganizerTable');
-        $subjectsTable = JTable::getInstance('subjects', 'THM_OrganizerTable');
-        $app = JFactory::getApplication();
-        
         $lsfID = (string) (empty($subject->modulid)?  $subject->pordid : $subject->modulid);
-        $subjectLoaded = $subjectsTable->load(array('lsfID' => $lsfID));
-        if (!$subjectLoaded)
-        {
-            $app->enqueueMessage('COM_THM_ORGANIZER_SUBJECT_LOAD_FAIL', 'error');
-            return false;
-        }
-        $doNotMap = ((string) $subject->sperrmh) == 'x';
-        $mappingExists = $mappingsTable->load(array('parentID' => $parentMappingID, 'subjectID' => $subjectsTable->id));
+        $unwanted = !empty($subject->sperrmh) AND strtolower((string) $subject->sperrmh) == 'x';
 
-        if ($mappingExists)
+        $subjectsTable = JTable::getInstance('subjects', 'THM_OrganizerTable');
+        $subjectExists = $subjectsTable->load(array('lsfID' => $lsfID));
+        if ($subjectExists)
         {
-            if ($doNotMap)
+            $mappingsTable = JTable::getInstance('mappings', 'THM_OrganizerTable');
+            $mappingExists = $mappingsTable->load(array('parentID' => $parentMappingID, 'subjectID' => $subjectsTable->id));
+            if ($mappingExists)
             {
-                return $this->deleteEntry($mappingsTable->id);
+                if ($unwanted)
+                {
+                    return $this->deleteEntry($mappingsTable->id);
+                }
+                return true;
+            }
+
+            $subjectMapping = array();
+            $subjectMapping['parentID'] = $parentMappingID;
+            $subjectMapping['poolID'] = null;
+            $subjectMapping['subjectID'] = $subjectsTable->id;
+            $subjectMapping['ordering'] = $this->getOrdering($parentMappingID, $subjectsTable->id, 'subject');
+            $subjectAdded = $this->addSubject($subjectMapping);
+            if (!$subjectAdded)
+            {
+                JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_SUBJECT_ADD_FAIL', 'error');
+                return false;
             }
             return true;
         }
-
-        $subjectMapping = array();
-        $subjectMapping['parentID'] = $parentMappingID;
-        $subjectMapping['poolID'] = null;
-        $subjectMapping['subjectID'] = $subjectsTable->id;
-        $subjectMapping['ordering'] = $this->getOrdering($parentMappingID, $subjectsTable->id, 'subject');
-        $subjectAdded = $this->addSubject($subjectMapping);
-        if (!$subjectAdded)
+        if ($unwanted)
         {
-            $app->enqueueMessage('COM_THM_ORGANIZER_SUBJECT_ADD_FAIL', 'error');
-            return false;
+            return true;
         }
-        return true;
+        JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_SUBJECT_LOAD_FAIL', 'error');
+        return false;
     }
 
     /**

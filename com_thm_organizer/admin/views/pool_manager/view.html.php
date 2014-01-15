@@ -32,7 +32,7 @@ class THM_OrganizerViewPool_Manager extends JView
         JHtml::_('behavior.tooltip');
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
 
         $model = $this->getModel();
         $this->pools = $this->get('Items');
@@ -76,6 +76,7 @@ class THM_OrganizerViewPool_Manager extends JView
         $selectPrograms = array();
         $selectPrograms[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_SEARCH_PROGRAM'));
         $selectPrograms[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_ALL_PROGRAMS'));
+        $selectPrograms[] = array('id' => '-2', 'name' => JText::_('COM_THM_ORGANIZER_NO_PROGRAMS'));
         $programs = array_merge($selectPrograms, $programs);
         return JHTML::_(
                         'select.genericlist',

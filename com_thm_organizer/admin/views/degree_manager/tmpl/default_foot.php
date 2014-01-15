@@ -14,9 +14,6 @@ defined('_JEXEC') or die;
 $listOrder = $this->state->get('list.ordering', 'ordering');
 $listDirn = $this->state->get('list.direction');
 ?>
-<tr>
-    <td colspan="4"><?php echo $this->pagination->getListFooter(); ?></td>
-</tr>
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />

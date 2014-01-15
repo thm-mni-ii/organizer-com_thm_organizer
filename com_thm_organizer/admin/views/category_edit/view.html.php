@@ -41,7 +41,7 @@ class THM_OrganizerViewCategory_Edit extends JView
         JHtml::_('behavior.tooltip');
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
 
         $this->form = $this->get('Form');
         $this->addToolBar();

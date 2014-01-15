@@ -40,51 +40,7 @@ class THM_OrganizerViewVirtual_Schedule_Manager extends JView
         }
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
-
-        $app = JFactory::getApplication("administrator");
-        $filter_order = $app->getUserStateFromRequest(
-                ".filter_order", 'filter_order',
-                'vs.semesterID, vs.vid', ''
-        );
-        $filter_order_Dir = $app->getUserStateFromRequest(".filter_order_Dir", 'filter_order_Dir',    '', '');
-
-        // Table ordering
-        $lists['order_Dir']    = $filter_order_Dir;
-        $lists['order']        = $filter_order;
-
-        $model = $this->getModel();
-
-        $elements = array();
-        foreach ($model->getElements() as $element)
-        {
-            if (!isset($elements[$element->vid]))
-            {
-                $elements[$element->vid] = $element;
-            }
-            else
-            {
-                $elements[$element->vid]->eid .= ";" . $element->eid;
-            }
-        }
-
-        $items = $this->get('Data');
-        foreach ($items as $item)
-        {
-            foreach ($elements as $element)
-            {
-                if ($item->id == $element->vid)
-                {
-                    $item->eid = $element->eid;
-                }
-            }
-        }
-
-        // Assign data to template
-        $this->assignRef('lists', $lists);
-        $this->assignRef('items', $items);
-        $this->pagination = $this->get('Pagination');
-        $this->assignRef('lists', $lists);
+        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
 
         $this->addToolBar();
         parent::display($tpl);
@@ -99,10 +55,5 @@ class THM_OrganizerViewVirtual_Schedule_Manager extends JView
     {
         $title = JText::_('COM_THM_ORGANIZER') . ': ' . JText::_('COM_THM_ORGANIZER_VSM_TITLE');
         JToolBarHelper::title($title, 'mni');
-        JToolBarHelper::addNewX('virtual_schedule.add');
-        JToolBarHelper::editListX('virtual_schedule.edit');
-        JToolBarHelper::deleteListX('Really?', 'virtual_schedule.remove');
-        JToolBarHelper::divider();
-        JToolBarHelper::preferences('com_thm_organizer');
     }
 }

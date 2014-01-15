@@ -38,7 +38,7 @@ class THM_OrganizerViewMonitor_Manager extends JView
 
         JHtml::_('behavior.tooltip');
         JHtml::_('behavior.multiselect');
-        JFactory::getDocument()->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+        JFactory::getDocument()->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
 
         $this->monitors = $this->get('Items');
         $this->state = $this->get('State');

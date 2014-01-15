@@ -46,7 +46,7 @@ class THM_OrganizerViewVirtual_Schedule_Edit extends JView
         JHTML::_('behavior.tooltip');
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
         $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/virtual_schedule_edit.js'));
 
         $model = $this->getModel();
