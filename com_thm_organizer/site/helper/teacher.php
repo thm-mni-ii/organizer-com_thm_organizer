@@ -38,8 +38,7 @@ class THM_OrganizerHelperTeacher
 
         if (!empty($picture))
         {
-            $path = JURI::base() . "components/com_thm_groups/img/portraits/$picture";
-            return JHTML::image("$path", JText::_('COM_THM_ORGANIZER_RESPONSIBLE'), array());
+            return JURI::root() . "components/com_thm_groups/img/portraits/$picture";
         }
         else
         {
@@ -141,8 +140,7 @@ class THM_OrganizerHelperTeacher
      */
     public static function getLink($userID, $surname = null)
     {
-        $link = "index.php?option=com_thm_groups&view=profile&layout=default&gsuid=$userID";
-        $link .= "&name=$surname&Itemid=" . JRequest::getVar('Itemid');
+        $link = "index.php?option=com_thm_groups&view=profile&layout=default&gsuid=$userID&name=$surname";
         return JRoute::_($link);
     }
 

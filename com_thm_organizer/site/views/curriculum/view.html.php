@@ -12,8 +12,8 @@
  */
 jimport('joomla.application.component.view');
 jimport('joomla.application.component.helper');
+jimport('jquery.jquery');
 require_once JPATH_COMPONENT . DS . 'helper' . DS . 'language.php';
-jimport('joomla.error.profiler');
 
 /**
  * Class loasd curriculum information into the view context
@@ -34,7 +34,6 @@ class THM_OrganizerViewCurriculum extends JView
     public function display($tpl = null)
     {
         JHtml::_('behavior.tooltip');
-        jimport('extjs4.extjs4');
 
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/curriculum.css');

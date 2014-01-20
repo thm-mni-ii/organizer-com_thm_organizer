@@ -1,36 +1,114 @@
-.curriculum_container{
-
+/*csslint important: false*/
+/* curriculum container */
+div.curriuculum_container.ui-accordion.ui-widget.ui-helper-reset{
+    width: 620px;
+    padding: 0px 5px;
+    font-family: Verdana,Arial;
+    float: left;
 }
-.icon_container { 
-    margin: 0 5px 5px 5px; 
-    font-size: 0.8em; 
-    width: 105px; 
-    height: 70px; 
+
+h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-top.ui-accordion-icons {
+    background-image: none;
+    background-color: rgb(238, 238, 238);
+    border: rgb(187, 187, 187) 1px solid;
+    box-shadow: 2px 2px 4px rgb(221, 221, 221);
+    font-family: Verdana, Arial;
+    font-size: 13px;
+    color: rgb(74, 92, 102);
+}
+
+h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-all.ui-accordion-icons {
+    background-image: none;
+    background-color: rgb(238, 238, 238);
+    border: rgb(187, 187, 187) 1px solid;
+    font-family: Verdana, Arial;
+    font-size: 13px;
+    color: rgb(74, 92, 102);
+    font-weight: normal;
+}
+
+h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-all.ui-accordion-icons.ui-state-hover {
+    background-color: rgb(74, 92, 102);
+    color: rgb(238, 238, 238);
+}
+
+/* tab switch image active */
+h3 > span.ui-accordion-header-icon.ui-icon.ui-icon-triangle-1-s {
+    background: url('../images/active_tab.png') 0 0 no-repeat;
+}
+
+h3 > span.ui-accordion-header-icon.ui-icon.ui-icon-triangle-1-e {
+    background: url('../images/default_tab.png') 0 0 no-repeat;
+}
+
+/* horizontal item container */
+div.gridster.ready.ui-accordion-content.ui-helper-reset.ui-widget-content.ui-corner-bottom.ui-accordion-content-active{
+    padding: 5px;
+    background-color: rgb(255, 255, 255);
+    border-top: none;
+    border-left: rgb(187, 187, 187) 1px solid;
+    border-right: rgb(187, 187, 187) 1px solid;
+    border-bottom: rgb(187, 187, 187) 1px solid;
+    box-shadow: 2px 2px 4px rgb(221, 221, 221);
+}
+
+/* item */
+li.icon_container.gs-w {
+    position: absolute;
     display: inline-block; 
-    border: 1px solid; 
-    background-color: #D8D8D8;
-    color: #000;
+    border: rgb(187, 187, 187) 1px solid;
+    border-radius: 3px;
+    background-color: rgb(238, 238, 238);
+    box-shadow: 2px 2px 4px rgb(221, 221, 221);
 }
 
+/* item head */
+.icon_container_head {
+    font-size: 11px; 
+    text-align: left;
+    padding: 2px;
+    border-bottom: rgb(187, 187, 187) 1px solid;
+}
+
+.dark-text {
+    color: rgb(74, 92, 102);
+}
+
+.light-text {
+    color: rgb(238, 238, 238);
+}
+
+/* item body */
+.icon_container_body {
+    font-size: 11px; 
+    font-weight: normal;
+    color: rgb(74, 92, 102);
+    hyphens: auto;
+    word-wrap: break-word;
+    padding: 5px;
+}
+
+/* item title (is a link)*/
 a.curriculumLink:link, a.curriculumLink:hover, a.curriculumLink:visited,a.curriculumLink:focus {
     font-weight: normal;
-    color: #000;
+    color: rgb(74, 92, 102);
+    text-decoration: none;
+    outline: none;
+    font-family: Verdana,Arial;
+    font-size: 11px;
 }
 
-.itemName {
-    word-wrap: break-word;
-}
-.empty {
-    visibility: hidden;
-}
-
-.icon_container_head {
-    text-align: left;
+/* item tools */
+.itemTools {
+    position: absolute;
+    top: 70%;
+    left: 25%;
 }
 
-.icon_container_body {
-    margin-top: 10px;
-    text-align: center; 
+/* teacher link image */
+.teacherImage {
+    max-height: 25px;
+    width: 20px;
 }
 
 #curriculum_dialog_list
@@ -52,4 +130,15 @@ a.curriculumLink:link, a.curriculumLink:hover, a.curriculumLink:visited,a.curric
 
 .ui-widget-content {
     z-index:20;
+}
+
+/* jquery ui writes inline styles for this element :( */
+div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front {
+    top: 175px !important;
+    max-height: 425px !important;
+    overflow-y: auto;
+    width: 638px !important;
+    font-family: Verdana,Arial;
+    border: rgb(187, 187, 187) 1px solid;
+    box-shadow: 2px 2px 8px rgb(150, 150, 150);
 }

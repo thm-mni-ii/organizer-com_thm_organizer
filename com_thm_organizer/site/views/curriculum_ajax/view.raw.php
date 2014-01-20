@@ -33,31 +33,7 @@ class THM_OrganizerViewCurriculum_Ajax extends JView
     public function display($tpl = null)
     {
         $function = JRequest::getString('task');
-        switch ($function)
-        {
-            case 'getCurriculum':
-                $this->getCurriculum();
-                break;
-        }
-    }
-
-    /**
-     * Retrieves a degree program's curriculum
-     *
-     * @return void
-     */
-    private function getCurriculum()
-    {
-        $program = JRequest::getString('id');
-        $languageTag = JRequest::getString('languageTag');
-        if (empty($program))
-        {
-            echo '';
-        }
-        else
-        {
-            $model = $this->getModel();
-            echo $model->getCurriculum($program, $languageTag);
-        }
+        $model = $this->getModel();
+        echo $model->$function();
     }
 }

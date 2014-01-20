@@ -57,7 +57,6 @@ class THM_OrganizerModelLSFSubject extends JModel
         $lsfID = (string) (empty($stub->modulid)?  $stub->pordid : $stub->modulid);
         if (empty($lsfID))
         {
-            echo 'lsf id?';
             return false;
         }
 
@@ -75,7 +74,6 @@ class THM_OrganizerModelLSFSubject extends JModel
             $stubSaved = $table->save($data);
             if (!$stubSaved)
             {
-            echo 'subject not saved?';
                 return false;
             }
         }
@@ -155,12 +153,7 @@ class THM_OrganizerModelLSFSubject extends JModel
         $this->setPreliminaries($subject, $lsfData->xpath('//modul/vorleistung'));
         $this->setAttribute($subject, 'literature', $lsfData->modul->litverz);
 
-        $saved = $subject->store();
-        if (!$saved)
-        {
-            echo "<pre>" . print_r($this->_db->getErrorMsg(), true);
-        }
-        return $saved;
+        return $subject->store();
     }
 
     /**

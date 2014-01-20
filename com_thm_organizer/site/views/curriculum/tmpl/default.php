@@ -13,69 +13,69 @@
  */
 defined('_JEXEC') or die;
 
-$flagPath = 'media' . DIRECTORY_SEPARATOR . 'com_thm_organizer' . DIRECTORY_SEPARATOR . 'images';
-$flagPath .= DIRECTORY_SEPARATOR . 'curriculum' . DIRECTORY_SEPARATOR . ($this->languageTag == 'de') ? 'en' : 'de';
-
-// Javascript Application construction parameters
-$paramsString = JRequest::getVar('Itemid') . ", ";
-$paramsString .= "{$this->params->get('programID')}, ";
-$paramsString .= $this->params->get('horizontalGroups')? "{$this->params->get('horizontalGroups')}, " : "'', ";
-$paramsString .= "'$this->languageTag', ";
-$paramsString .= "{$this->params->get('width')}, ";
-$paramsString .= "{$this->params->get('height')}, ";
-$paramsString .= "'{$this->params->get('horizontalPanelHeaderColor')}', ";
-$paramsString .= "'{$this->params->get('horizontalPanelColor')}', ";
-$paramsString .= "'{$this->params->get('inlinePanelColor')}', ";
-$paramsString .= "'{$this->params->get('modalPanelColor')}', ";
-$paramsString .= "{$this->params->get('itemWidth')}, ";
-$paramsString .= "{$this->params->get('itemHeight')}, ";
-$paramsString .= "'{$this->params->get('itemColor')}', ";
-$paramsString .= "{$this->params->get('titleCut')}, ";
-$paramsString .= $this->params->get('titleLength')? "{$this->params->get('titleLength')}, " : "'', ";
-$paramsString .= "{$this->params->get('maxItems')}, ";
-$paramsString .= "{$this->params->get('spacing')}, ";
-$paramsString .= $this->params->get('horizontalSpacing')? "{$this->params->get('horizontalSpacing')}, " : "'', ";
-$paramsString .= $this->params->get('inlineSpacing')? "{$this->params->get('inlineSpacing')}, " : "'', ";
-$paramsString .= $this->params->get('modalSpacing')? "{$this->params->get('modalSpacing')}" : "''";
+$flagPath = 'media/com_thm_organizer/images/';
+$flagPath .= ($this->languageTag == 'de')? 'en.png' : 'de.png';
 ?>
 <script type="text/javascript">
-/* global parameters */
-suffix =  <?php echo "'" . $this->params->get('suffix') . "'"; ?>;
-<?php
-$schedulerLink = $this->params->get('schedulerLink');
-if (!empty($schedulerLink))
-{
-    echo "schedulerLink = '" . $this->params->get('schedulerLink') . "';";
-}
-?>
-schedulerIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/extjs/scheduler_1.png";
-ecollabLink = <?php echo "'" . $this->ecollabLink . "'"; ?>;
-ecollabIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/extjs/collab.png";
-teacherIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/extjs/user_1.png";
-poolIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/extjs/comp_pool_icon.png";
-placeHolderIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/extjs/icon_place_holder.png";
-loadingIcon = "<?php echo $this->baseurl; ?>/media/com_thm_organizer/images/extjs/ajax-loader.gif";
+    /* global parameters */
+    var parameters = new Object();
+    parameters.itemID = '<?php echo JRequest::getVar('Itemid', ''); ?>';
+    parameters.programID = '<?php echo $this->params->get('programID'); ?>';
+    parameters.poolIDs = '<?php echo $this->params->get('poolIDs', ''); ?>';
+    parameters.languageTag = '<?php echo $this->languageTag; ?>';
+    parameters.baseURL = '<?php echo JURI::root(); ?>';
 
-window.addEvent('domready', function(){
-            var curriculumObj = new Curriculum(<?php echo $paramsString; ?>);
-            curriculumObj.performAjaxCall();
-        });
+    parameters.rowItems = <?php echo $this->params->get('maxItems', 6); ?>;
+    parameters.horizontalSpacing = <?php echo $this->params->get('horizontalSpacing', 5); ?>;
+    parameters.verticalSpacing = <?php echo $this->params->get('verticalSpacing', 5); ?>;
+    parameters.itemWidth = <?php echo $this->params->get('itemWidth', 120); ?>;
+    parameters.itemHeight = <?php echo $this->params->get('itemHeight', 120); ?>;
+
+    parameters.schedulerLink = '<?php $this->params->get('schedulerLink', ''); ?>';
+    parameters.ecollabLink = '<?php echo $this->ecollabLink; ?>';
+
+    parameters.schedulerIcon = parameters.baseURL + 'media/com_thm_organizer/images/schedules.png';
+    parameters.teacherIcon = parameters.baseURL + 'media/com_thm_organizer/images/teachers.png';
+    parameters.poolIcon = parameters.baseURL + 'media/com_thm_organizer/images/pools.png';
+    parameters.ecollabIcon = parameters.baseURL + 'media/com_thm_organizer/images/moodle.png';
+
+    window.addEvent('domready', function() {
+        var curriculumObj = new Curriculum(parameters);
+        curriculumObj.getData();
+        curriculumObj.render();
+    });
+
+    $( ".poolDialog" ).dialog({
+        autoOpen: false,
+        height: parameters.modalHeight,
+        width: parameters.modalWidth,
+        buttons: [
+            {
+                text: "OK",
+                click: function() {
+                    $( this ).dialog( "close" );
+                }
+            },
+            {
+                text: "<?php echo JText::_('JTOOLBAR_CLOSE'); ?>",
+                click: function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        ]
+    });
 </script>
 <?php
 if ($this->params->get('show_page_heading', 1) AND $this->params->get('plugin_mode', '0') != 1)
 {
 ?>
-<div class="flag" style="float: right;">
-    <a class='naviLink' href="<?php echo JRoute::_($this->langUrl); ?>">
-        <img class="languageSwitcher"
-             alt="<?php echo ($this->languageTag == 'de') ? 'en' : 'de'; ?>"
-             src="<?php echo $flagPath; ?>" />
-    </a>
-</div>
-<h1 class="componentheading"><?php echo 'Curriculum - ' ?><span id="programName"></span></h1>
+    <div class="flag" style="float: right;">
+        <a class='naviLink' href="<?php echo JRoute::_($this->langUrl); ?>">
+            <img class="languageSwitcher"
+                 alt="<?php echo ($this->languageTag == 'de') ? 'en' : 'de'; ?>"
+                 src="<?php echo $flagPath; ?>" />
+        </a>
+    </div>
+    <h1 class="componentheading"><?php echo 'Curriculum - ' ?><span id="programName"></span></h1>
 <?php
 }
-?>
-<div style="text-align: center" id="loading"></div>
-<div class="iScroll" id="curriculum"></div>
-<div class="curriculum_legend" id="curriculum_legend"></div>

@@ -114,7 +114,7 @@ class THM_OrganizerModelLSFProgram extends JModel
  
             $mappingsAdded = $mappingModel->addLSFMappings($programID, $lsfProgram);
             if (!$mappingsAdded)
-            {echo "program mapping failed";die;
+            {
                 return false;
             }
         }
