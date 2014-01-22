@@ -704,9 +704,6 @@ class THMTreeView
                 else
                 {
                     $hasLessons = $this->treeNodeHasLessons($childKey, $scheduleType);
-
-                    // Erstmal immer true!
-                    // $hasLessons = true;
                 }
 
                 $childNode = null;
@@ -754,7 +751,7 @@ class THMTreeView
 
             $descriptionNode = $this->createTreeNode($descriptionNodeData);
 
-            if((is_object($descriptionNode) && isset($descriptionNode->children) && !is_null($descriptionNode->children)) || is_array($descriptionNode))
+            if (is_object($descriptionNode) AND !empty($descriptionNode->children) OR is_array($descriptionNode))
             {
                 if ($childNodes === $descriptionNode && count($treeNode) === 0)
                 {

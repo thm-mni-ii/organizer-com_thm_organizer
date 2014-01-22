@@ -27,6 +27,8 @@ class THM_OrganizerViewColor_Manager extends JView
      * @param   Object  $tpl  template  (default: null)
      *
      * @return  void
+     * 
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function display($tpl = null)
     {
@@ -41,6 +43,7 @@ class THM_OrganizerViewColor_Manager extends JView
         $document = JFactory::getDocument();
         $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
 
+        // Model must be instanced in order for the following functions to work
         $model = $this->getModel();
         $this->items = $this->get('Items');
         $this->pagination = $this->get('Pagination');

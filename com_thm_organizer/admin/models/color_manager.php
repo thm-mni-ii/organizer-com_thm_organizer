@@ -57,8 +57,8 @@ class THM_OrganizerModelColor_Manager extends JModelList
     /**
      * Method to populate state
      *
-     * @param   string  $orderBy    An optional ordering field.
-     * @param   string  $direction  An optional direction (asc|desc).
+     * @param   string  $orderBy   An optional ordering field.
+     * @param   string  $orderDir  An optional direction (asc|desc).
      *
      * @return  void
      */

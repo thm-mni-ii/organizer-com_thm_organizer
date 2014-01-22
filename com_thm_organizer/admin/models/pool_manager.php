@@ -145,8 +145,9 @@ class THM_OrganizerModelPool_Manager extends JModelList
             $bordersClauses[] = "( lft < '{$border['lft']}' AND rgt > '{$border['rgt']}')";
         }
 
+        $language = explode('-', JFactory::getLanguage()->getTag());
         $query = $this->_db->getQuery(true);
-        $query->select("DISTINCT CONCAT( dp.subject, ' (', d.abbreviation, ' ', dp.version, ')') AS name");
+        $query->select("DISTINCT CONCAT( dp.subject_{$language[0]}, ' (', d.abbreviation, ' ', dp.version, ')') AS name");
         $query->from('#__thm_organizer_programs AS dp');
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
         $query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
@@ -217,8 +218,9 @@ class THM_OrganizerModelPool_Manager extends JModelList
      */
     private function setProgramName()
     {
+        $language = explode('-', JFactory::getLanguage()->getTag());
         $nameQuery = $this->_db->getQuery(true);
-        $nameQuery->select("CONCAT( dp.subject, ' (', d.abbreviation, ' ', dp.version, ')') AS name");
+        $nameQuery->select("CONCAT( dp.subject_{$language[0]}, ' (', d.abbreviation, ' ', dp.version, ')') AS name");
         $nameQuery->from('#__thm_organizer_programs AS dp');
         $nameQuery->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
         $nameQuery->where("dp.id = '{$this->state->get('filter.program')}'");

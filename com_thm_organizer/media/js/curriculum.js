@@ -3,7 +3,7 @@
 function Curriculum(parameters) {
     'use strict';
 
-    var self = this;
+    var self = this, horizontalPanelHeaders;
 
     self.getData = function () {
         var requestURL = parameters.baseURL, xmlhttp = new XMLHttpRequest();

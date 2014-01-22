@@ -68,7 +68,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_degrees` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_programs` (
   `id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
-  `subject` varchar(255) NOT NULL,
+  `subject_de` varchar(255) NOT NULL,
+  `subject_en` varchar(255) NOT NULL,
   `version` year (4) DEFAULT NULL,
   `lsfFieldID` varchar(255) DEFAULT NULL,
   `degreeID` INT(11) unsigned DEFAULT NULL,

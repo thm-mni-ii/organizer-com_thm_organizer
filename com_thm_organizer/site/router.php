@@ -92,6 +92,8 @@ function setEventDetailsSegments(&$query, &$segments)
  * @param   object  &$item      the associated menu item (if applicable)
  * 
  * @return  void
+ * 
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 function setEventEditSegments(&$query, &$segments, &$item)
 {

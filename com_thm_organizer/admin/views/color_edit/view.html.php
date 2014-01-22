@@ -65,7 +65,8 @@ class THM_OrganizerViewColor_Edit extends JView
     {
         JRequest::setVar('hidemainmenu', true);
         $isNew = ($this->item->id == 0);
-        JToolBarHelper::title($isNew ? JText::_('COM_THM_ORGANIZER_CLM_NEW_TITLE') : JText::_('COM_THM_ORGANIZER_CLM_EDIT_TITLE'), 'organizer_colors');
+        $title = $isNew? JText::_('COM_THM_ORGANIZER_CLM_NEW_TITLE') : JText::_('COM_THM_ORGANIZER_CLM_EDIT_TITLE');
+        JToolBarHelper::title($title, 'organizer_colors');
         JToolBarHelper::save('color.save');
         JToolBarHelper::cancel('color.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
     }

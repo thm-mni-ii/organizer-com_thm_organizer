@@ -53,7 +53,10 @@ class THM_OrganizerViewTeacher_Edit extends JView
      */
     protected function addToolBar()
     {
-        JToolBarHelper::title($this->item->id == 0 ? JText::_("COM_THM_ORGANIZER_TRM_NEW_TITLE") : JText::_("COM_THM_ORGANIZER_TRM_EDIT_TITLE"), 'organizer_teachers');
+        JRequest::setVar('hidemainmenu', true);
+        $title = $this->item->id == 0 ?
+            JText::_("COM_THM_ORGANIZER_TRM_NEW_TITLE") : JText::_("COM_THM_ORGANIZER_TRM_EDIT_TITLE");
+        JToolBarHelper::title($title, 'organizer_teachers');
         JToolBarHelper::save('teacher.save');
         JToolBarHelper::cancel('teacher.cancel', $this->item->id == 0 ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
     }

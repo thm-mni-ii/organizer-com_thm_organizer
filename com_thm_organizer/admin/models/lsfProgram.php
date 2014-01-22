@@ -107,7 +107,7 @@ class THM_OrganizerModelLSFProgram extends JModel
                 $stubProcessed = isset($resource->modulliste->modul)?
                     $lsfPoolModel->processStub($resource) : $lsfSubjectModel->processStub($resource);
                 if (!$stubProcessed)
-                {die;
+                {
                     return false;
                 }
             }

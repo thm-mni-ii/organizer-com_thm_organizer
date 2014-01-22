@@ -25,15 +25,48 @@ $subjectURL = JRoute::_($rawSubjectURL, false);
     <fieldset class="adminform">
         <legend><?php echo JText::_('COM_THM_ORGANIZER_PRM_PROPERTIES'); ?></legend>
         <ul class="adminformlist">
-<?php
-foreach ($this->form->getFieldset() as $field)
-{
-    echo '<li>';
-    echo $field->label;
-    echo $field->input;
-    echo '</li>';
-}
-?>
+            <li>
+                <?php echo $this->form->getLabel('lsfFieldID'); ?>
+                <?php echo $this->form->getInput('lsfFieldID'); ?>
+            </li>
+            <li>
+                <?php echo $this->form->getLabel('degreeID'); ?>
+                <?php echo $this->form->getInput('degreeID'); ?>
+            </li>
+            <li>
+                <?php echo $this->form->getLabel('version'); ?>
+                <?php echo $this->form->getInput('version'); ?>
+            </li>
+            <li>
+                <?php echo $this->form->getLabel('fieldID'); ?>
+                <?php echo $this->form->getInput('fieldID'); ?>
+            </li>
+        </ul>
+    </fieldset>
+    <fieldset class="adminform">
+        <legend><?php echo JText::_('COM_THM_ORGANIZER_PROPERTIES_DE'); ?></legend>
+        <ul class="adminformlist">
+            <li>
+                <?php echo $this->form->getLabel('subject_de'); ?>
+                <?php echo $this->form->getInput('subject_de'); ?>
+            </li>
+            <li>
+                <?php echo $this->form->getLabel('description_de'); ?>
+                <?php echo $this->form->getInput('description_de'); ?>
+            </li>
+        </ul>
+    </fieldset>
+    <fieldset class="adminform">
+        <legend><?php echo JText::_('COM_THM_ORGANIZER_PROPERTIES_EN'); ?></legend>
+        <ul class="adminformlist">
+            <li>
+                <?php echo $this->form->getLabel('subject_en'); ?>
+                <?php echo $this->form->getInput('subject_en'); ?>
+            </li>
+            <li>
+                <?php echo $this->form->getLabel('description_en'); ?>
+                <?php echo $this->form->getInput('description_en'); ?>
+            </li>
         </ul>
     </fieldset>
     <fieldset class="adminform">
@@ -169,6 +202,7 @@ else
         </div>
     </fieldset>
     <div>
+        <?php echo $this->form->getInput('id'); ?>
         <input type="hidden" name="task" value="" />
         <?php echo JHtml::_('form.token'); ?>
     </div>

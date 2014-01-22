@@ -27,9 +27,10 @@ class THM_OrganizerHelperMapping
      */
     public static function getPrograms()
     {
+        $language = explode('-', JFactory::getLanguage()->getTag());
         $dbo = JFactory::getDbo();
         $nameQuery = $dbo->getQuery(true);
-        $nameQuery->select("dp.id, CONCAT( dp.subject, ', (', d.abbreviation, ' ', dp.version, ')') AS name");
+        $nameQuery->select("dp.id, CONCAT( dp.subject_{$language[0]}, ', (', d.abbreviation, ' ', dp.version, ')') AS name");
         $nameQuery->from('#__thm_organizer_programs AS dp');
         $nameQuery->innerJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
         $nameQuery->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
@@ -100,9 +101,10 @@ class THM_OrganizerHelperMapping
      */
     public static function getAllPrograms()
     {
+        $language = explode('-', JFactory::getLanguage()->getTag());
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("dp.id AS value, CONCAT(dp.subject, ' (', d.abbreviation, ' ', dp.version, ')') AS program");
+        $query->select("dp.id AS value, CONCAT(dp.subject_{$language[0]}, ' (', d.abbreviation, ' ', dp.version, ')') AS program");
         $query->from('#__thm_organizer_programs AS dp');
         $query->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
         $query->innerJoin('#__thm_organizer_mappings AS m ON dp.id = m.programID');
@@ -323,9 +325,10 @@ class THM_OrganizerHelperMapping
      */
     public static function getProgramOption(&$mapping, &$selectedParents, $isSubject = false)
     {
+        $language = explode('-', JFactory::getLanguage()->getTag());
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select(" CONCAT( dp.subject, ', (', d.abbreviation, ' ', dp.version, ')') AS name");
+        $query->select(" CONCAT( dp.subject_{$language[0]}, ', (', d.abbreviation, ' ', dp.version, ')') AS name");
         $query->from('#__thm_organizer_programs AS dp');
         $query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
         $query->where("dp.id = '{$mapping['programID']}'");

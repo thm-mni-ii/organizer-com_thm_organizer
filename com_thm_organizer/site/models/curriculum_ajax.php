@@ -106,10 +106,11 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
      */
     private function getProgramData($programID)
     {
+        $languageTag = JRequest::getString('languageTag', 'de');
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);
-        $select = "CONCAT(p.subject, ' (', d.abbreviation, ' ', p.version, ')') AS name, ";
-        $select .= "m.id AS mappingID, m.lft, m.rgt";
+        $select = "CONCAT(p.subject_{$languageTag}, ' (', d.abbreviation, ' ', p.version, ')') AS name, ";
+        $select .= "m.id AS mappingID, m.lft, m.rgt, p.description_{$languageTag} AS description";
         $query->select($select);
         $query->from('#__thm_organizer_programs AS p');
         $query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');

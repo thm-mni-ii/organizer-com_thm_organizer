@@ -53,6 +53,7 @@ class THM_OrganizerViewSchedule_Merge extends JView
      */
     protected function addToolBar()
     {
+        JRequest::setVar('hidemainmenu', true);
         JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_SCH_MERGE_TITLE'));
         JToolBarHelper::custom('schedule.merge', 'merge', 'merge', 'COM_THM_ORGANIZER_MERGE', false);
         JToolBarHelper::cancel('schedule.cancel', 'JTOOLBAR_CANCEL');

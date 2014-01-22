@@ -172,7 +172,7 @@ class THM_OrganizerModelPool_Ajax extends JModel
             $query->where("( ( " . implode(') OR (', $teacherClauses) . ") )");
         }
         $query->order('lft');
-        $dbo->setQuery((string) $query);//echo (string) $query;
+        $dbo->setQuery((string) $query);
         $pools = $dbo->loadObjectList();
 
         if (empty($pools))

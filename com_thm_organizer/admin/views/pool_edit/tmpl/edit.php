@@ -70,7 +70,7 @@ jq(document).ready(function(){
 <form action="<?php echo JRoute::_("index.php?option=com_thm_organizer&view=pool_edit&id=$poolID"); ?>"
       method="post" name="adminForm" id="modul-form">
     <fieldset class="adminform">
-        <legend><?php echo JText::_('COM_THM_ORGANIZER_POM_PROPERTIES_DE'); ?></legend>
+        <legend><?php echo JText::_('COM_THM_ORGANIZER_PROPERTIES_DE'); ?></legend>
         <ul class="adminformlist">
             <li>
                 <?php echo $this->form->getLabel('name_de'); ?>
@@ -91,7 +91,7 @@ jq(document).ready(function(){
         </ul>
     </fieldset>
     <fieldset class="adminform">
-        <legend><?php echo JText::_('COM_THM_ORGANIZER_POM_PROPERTIES_EN'); ?></legend>
+        <legend><?php echo JText::_('COM_THM_ORGANIZER_PROPERTIES_EN'); ?></legend>
         <ul class="adminformlist">
             <li>
                 <?php echo $this->form->getLabel('name_en'); ?>

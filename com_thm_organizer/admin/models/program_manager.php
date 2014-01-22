@@ -84,9 +84,10 @@ class THM_OrganizerModelProgram_Manager extends JModelList
      */
     protected function getListQuery()
     {
+        $language = explode('-', JFactory::getLanguage()->getTag());
         $query = $this->_db->getQuery(true);
-        $select = "subject, abbreviation, version, lsfDegree, lsfFieldID, ";
-        $select .= "dp.id as id, m.id AS mapping, field, color ";
+        $select = "subject_{$language[0]} AS subject, version, lsfDegree, lsfFieldID, ";
+        $select .= "dp.id as id, m.id AS mapping, field, color, abbreviation ";
         $query->select($select);
 
         $this->setFrom($query);

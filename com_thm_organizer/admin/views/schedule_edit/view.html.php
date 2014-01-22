@@ -62,6 +62,7 @@ class THM_OrganizerViewSchedule_Edit extends JView
      */
     private function addToolBar()
     {
+        JRequest::setVar('hidemainmenu', true);
         $title = JText::_('COM_THM_ORGANIZER') . ': ';
         if ($this->form->getValue('id'))
         {
