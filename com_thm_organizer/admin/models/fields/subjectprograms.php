@@ -43,7 +43,7 @@ class JFormFieldSubjectPrograms extends JFormField
         $defaultOptions = array(array('value' => '-1', 'program' => JText::_('COM_THM_ORGANIZER_POM_NO_PROGRAM')));
         $programs = array_merge($defaultOptions, $allPrograms);
 
-        $attributes = array('multiple' => 'multiple');
+        $attributes = array('multiple' => 'multiple', 'size' => '10');
         return JHTML::_("select.genericlist", $programs, "jform[programID][]", $attributes, "value", "program", $selectedPrograms);
     }
 }

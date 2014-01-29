@@ -21,6 +21,29 @@ jimport('joomla.application.component.model');
  */
 class THM_OrganizerModelCurriculum extends JModel
 {
+    private $_id;
+
+    private $_languageTag;
+
+    public $name = '';
+
+    public $description = '';
+
+    public $fields = array();
+
+    public $icons = array();
+
+    public function __construct()
+    {
+        parent::__construct();
+        $params = JFactory::getApplication()->getMenu()->getActive()->params;
+        $this->_id = $params->get('programID');
+        $this->_languageTag = JRequest::getVar('languageTag', $params->get('language'));
+        $this->setNameAndDescription();
+//        $this->setFields();
+//        $this->setIcons();
+    }
+
     /**
      * Gets the name of the program selected
      *
@@ -28,15 +51,20 @@ class THM_OrganizerModelCurriculum extends JModel
      *
      * @return  string  the name of the program
      */
-    public function getProgramName($programID)
+    public function setNameAndDescription()
     {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select("CONCAT(p.subject, ' (', d.abbreviation, ' ', p.version, ')')");
+        $query = $this->_db->getQuery(true);
+        $select = "CONCAT(p.subject_{$this->_languageTag}, ' (', d.abbreviation, ' ', p.version, ')') AS name, ";
+        $select .= "p.description_{$this->_languageTag} AS description";
+        $query->select($select);
         $query->from('#__thm_organizer_programs AS p')->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
-        $query->where("p.id = '$programID'");
-        $dbo->setQuery((string) $query);
-        $programName = $dbo->loadResult();
-        return empty($programName)? '' : $programName;
+        $query->where("p.id = '{$this->_id}'");
+        $this->_db->setQuery((string) $query);
+        $results = $this->_db->loadAssoc();
+        if (!empty($results) AND count($results) == 2)
+        {
+            $this->name = $results['name'];
+            $this->description = $results['description'];
+        }
     }
 }

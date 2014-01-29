@@ -202,7 +202,7 @@ class THM_OrganizerControllerProgram extends JController
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        $success = $this->getModel('program')->importLSFDataBatch();
+        $success = $this->getModel('LSFProgram')->importBatch();
         if ($success)
         {
             $msg = JText::_('COM_THM_ORGANIZER_PRM_FILL_SUCCESS');

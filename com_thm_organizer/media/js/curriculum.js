@@ -74,82 +74,85 @@ function Curriculum(parameters) {
         }).data('gridster').disable();
         gridster.cols = parameters.rowItems;
 
-        $.each(semester.children, function (key, value) {
-            var colorClass;
+        if (semester.children !== undefined)
+        {
+            $.each(semester.children, function (key, value) {
+                var colorClass;
 
-            // Ignore inherited 'children'
-            if (!semester.children.hasOwnProperty(key)) {
-                return true;
-            }
+                // Ignore inherited 'children'
+                if (!semester.children.hasOwnProperty(key)) {
+                    return true;
+                }
 
-            while (lastKey < (parseInt(key, 10) - 1)) {
-                if (lastKey % parameters.rowItems === 0) {
+                while (lastKey < (parseInt(key, 10) - 1)) {
+                    if (lastKey % parameters.rowItems === 0) {
+                        rowNumber = rowNumber + 1;
+                    }
+                    columnNumber = lastKey % parameters.rowItems;
+                    html = '<li class="icon_container empty" data-sizex="1" data-sizey="1" ';
+                    html += 'data-col="' + columnNumber + '" data-row="' + rowNumber + '">';
+                    html += '<div class="icon_container_head"></div>';
+                    html += '<div class="icon_container_body"></div></li>';
+                    gridster.add_widget(html);
+                    lastKey = lastKey + 1;
+                }
+
+                if (parseInt(key, 10) % parameters.rowItems === 0) {
                     rowNumber = rowNumber + 1;
                 }
-                columnNumber = lastKey % parameters.rowItems;
-                html = '<li class="icon_container empty" data-sizex="1" data-sizey="1" ';
+                columnNumber = parseInt(key, 10) % parameters.rowItems;
+
+                colorClass = getColorClass(value.color);
+                html = '<li class="icon_container" data-sizex="1" data-sizey="1" ';
                 html += 'data-col="' + columnNumber + '" data-row="' + rowNumber + '">';
-                html += '<div class="icon_container_head"></div>';
-                html += '<div class="icon_container_body"></div></li>';
-                gridster.add_widget(html);
-                lastKey = lastKey + 1;
-            }
-
-            if (parseInt(key, 10) % parameters.rowItems === 0) {
-                rowNumber = rowNumber + 1;
-            }
-            columnNumber = parseInt(key, 10) % parameters.rowItems;
-
-            colorClass = getColorClass(value.color);
-            html = '<li class="icon_container" data-sizex="1" data-sizey="1" ';
-            html += 'data-col="' + columnNumber + '" data-row="' + rowNumber + '">';
-            html += '<div class="icon_container_head ' + colorClass + '" ';
-            html += 'style="background-color: #' + value.color + '">';
-            html += '<span>' + value.externalID + ' (' + value.maxCrP + ' CrP)</span>';
-            html += '</div>';
-            html += '<div class="icon_container_body">';
-            if (value.link !== undefined) {
-                html += '<a class="curriculumLink" href=' + value.link + ' target="_blank">' + value.name + '</a>';
-            } else {
-                html +=  value.name;
-            }
-            html += '</div><div class="itemTools">';
-            if (value.teacherName !== undefined) {
-                teacherPicture = value.teacherPicture !== undefined && value.teacherPicture !== '' ?
-                        value.teacherPicture : parameters.teacherIcon;
-                teacherImage = '<img id="teacher' + value.mappingID + '" class="teacherImage" ';
-                teacherImage += 'src="' + teacherPicture + '" title="' + value.teacherName + '">';
-                if (value.teacherProfileLink !== undefined) {
-                    html += '<a href="' + value.teacherProfileLink + '" target="_blank">';
-                    html += teacherImage + '</a>';
+                html += '<div class="icon_container_head ' + colorClass + '" ';
+                html += 'style="background-color: #' + value.color + '">';
+                html += '<span>' + value.externalID + ' (' + value.maxCrP + ' CrP)</span>';
+                html += '</div>';
+                html += '<div class="icon_container_body">';
+                if (value.link !== undefined) {
+                    html += '<a class="curriculumLink" href=' + value.link + ' target="_blank">' + value.name + '</a>';
                 } else {
-                    html += teacherImage;
+                    html +=  value.name;
                 }
-            }
-            if (value.hasOwnProperty('children')) {
-                html += '<a href="#" id="pool' + value.mappingID + 'Link" >';
-                html += '<img width="20px" height="20px" src="' + parameters.poolIcon + '"></a>';
-                html += '<div id="pool' + value.mappingID + '" class="poolDialog">';
-                html += '<ul id="pool' + value.id + '"></ul></div>';
-            }
-            html += '</div></li>';
-            gridster.add_widget(html);
-            $('#teacher' + value.mappingID).tooltip();
-            if (value.hasOwnProperty('children')) {
-                $('#pool' + value.mappingID).dialog({
-                    autoOpen: false,
-                    resizable: false,
-                    draggable: false,
-                    title: value.name,
-                    center: true
-                });
-                $('#pool' + value.mappingID + 'Link').click(function (event) {
-                    $('#pool' + value.mappingID).dialog("open");
-                });
-                addItemToPool(value);
-            }
-            lastKey = parseInt(key, 10);
-        });
+                html += '</div><div class="itemTools">';
+                if (value.teacherName !== undefined) {
+                    teacherPicture = value.teacherPicture !== undefined && value.teacherPicture !== '' ?
+                            value.teacherPicture : parameters.teacherIcon;
+                    teacherImage = '<img id="teacher' + value.mappingID + '" class="teacherImage" ';
+                    teacherImage += 'src="' + teacherPicture + '" title="' + value.teacherName + '">';
+                    if (value.teacherProfileLink !== undefined) {
+                        html += '<a href="' + value.teacherProfileLink + '" target="_blank">';
+                        html += teacherImage + '</a>';
+                    } else {
+                        html += teacherImage;
+                    }
+                }
+                if (value.hasOwnProperty('children')) {
+                    html += '<a href="#" id="pool' + value.mappingID + 'Link" >';
+                    html += '<img width="20px" height="20px" src="' + parameters.poolIcon + '"></a>';
+                    html += '<div id="pool' + value.mappingID + '" class="poolDialog">';
+                    html += '<ul id="pool' + value.id + '"></ul></div>';
+                }
+                html += '</div></li>';
+                gridster.add_widget(html);
+                $('#teacher' + value.mappingID).tooltip();
+                if (value.hasOwnProperty('children')) {
+                    $('#pool' + value.mappingID).dialog({
+                        autoOpen: false,
+                        resizable: false,
+                        draggable: false,
+                        title: value.name,
+                        center: true
+                    });
+                    $('#pool' + value.mappingID + 'Link').click(function (event) {
+                        $('#pool' + value.mappingID).dialog("open");
+                    });
+                    addItemToPool(value);
+                }
+                lastKey = parseInt(key, 10);
+            });
+        }
     }
 
     function buildPoolList(key, semester) {
@@ -158,6 +161,7 @@ function Curriculum(parameters) {
     }
 
     self.render = function () {
+        var html;
         $('<span>' + self.data.name + '</span>').appendTo('#programName');
         $('<div id="accordion" class="curriuculum_container"></div>').appendTo('#contentwrapper');
         $.each(self.data.children, buildPoolList);
@@ -166,6 +170,10 @@ function Curriculum(parameters) {
                 collapsible: true,
                 heightStyle: "content"
             });
+        html = '<div class="curriculum_legend">';
+        html += '<p>' + self.data.description + '</p>';
+        html += '</div>';
+        $(html).appendTo('#contentwrapper');
     };
 
     function openDialog() {

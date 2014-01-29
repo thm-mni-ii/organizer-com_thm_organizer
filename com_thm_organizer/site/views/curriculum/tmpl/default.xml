@@ -10,16 +10,17 @@
     <layout title="COM_THM_ORGANIZER_CUR_LAYOUT_TITLE">
         <message>COM_THM_ORGANIZER_CUR_LAYOUT_DESCRIPTION</message>
     </layout>
-    <fields name="params">
+    <fields name="params" addfieldpath="/components/com_thm_organizer/models/fields">
         <fieldset name="basic">
             <field type="spacer"
                    label="COM_THM_ORGANIZER_CUR_BASIC_SETTINGS" />
             <field name="programID"
-                   type="sql"
-                   label="COM_THM_ORGANIZER_DEGREE_PROGRAM_TITLE"
-                   description="COM_THM_ORGANIZER_DEGREE_PROGRAM_DESCRIPTION"
-                   query="SELECT p.id AS value, CONCAT(subject, ' (', d.name, ', ', version, ')') AS programID FROM #__thm_organizer_programs AS p INNER JOIN #__thm_organizer_degrees AS d ON d.id = p.degreeID INNER JOIN #__thm_organizer_mappings AS m ON m.programID = p.id ORDER BY programID" />
-             <field name="language"
+                   type="programs"
+                   class="inputbox"
+                   label="COM_THM_ORGANIZER_PROGRAM"
+                   description="COM_THM_ORGANIZER_CUR_PROGRAMS_DESC"
+                   required="true"/>
+            <field name="language"
                    type="radio"
                    default="de"
                    required="true"

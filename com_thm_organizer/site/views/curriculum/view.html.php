@@ -39,10 +39,13 @@ class THM_OrganizerViewCurriculum extends JView
         $document->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/curriculum.css');
         $document->addScript($this->baseurl . '/media/com_thm_organizer/js/curriculum.js');
 
-        // Get the parameters of the current view
-        $this->params = JFactory::getApplication()->getMenu()->getActive()->params;
-        $this->programName = $this->getModel()->getProgramName($this->params->get('programID'));
+        $model = $this->getModel();
+        $this->name = $model->name;
+        $this->description = $model->description;
+        $this->fields = $model->fields;
+        $this->icons = $model->icons;
         $this->ecollabLink = JComponentHelper::getParams('com_thm_organizer')->get('eCollabLink');
+        $this->params = JFactory::getApplication()->getMenu()->getActive()->params;
         $this->languageTag = JRequest::getVar('languageTag', $this->params->get('language'));
         $this->langUrl = THM_OrganizerHelperLanguage::languageSwitch(
                 'curriculum',

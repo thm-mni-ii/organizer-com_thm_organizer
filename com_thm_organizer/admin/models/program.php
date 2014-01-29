@@ -32,8 +32,7 @@ class THM_OrganizerModelProgram extends JModel
            $resourceIDs = JRequest::getVar('cid', array(), 'post', 'array');
         if (!empty($resourceIDs))
         {
-            $dbo = JFactory::getDbo();
-            $dbo->transactionStart();
+            $this->_db->transactionStart();
             $table = JTable::getInstance('programs', 'thm_organizerTable');
             $model = JModel::getInstance('mapping', 'THM_OrganizerModel');
             foreach ($resourceIDs as $resourceID)
@@ -41,129 +40,18 @@ class THM_OrganizerModelProgram extends JModel
                 $mappingDeleted = $model->deleteByResourceID($resourceID, 'program');
                 if (!$mappingDeleted)
                 {
-                    $dbo->transactionRollback();
+                    $this->_db->transactionRollback();
                     return false;
                 }
 
                 $resourceDeleted = $table->delete($resourceID);
                 if (!$resourceDeleted)
                 {
-                    $dbo->transactionRollback();
+                    $this->_db->transactionRollback();
                     return false;
                 }
             }
-            $dbo->transactionCommit();
-        }
-        return true;
-    }
-
-    /**
-     * Retrieves program information relevant for soap queries to the LSF system.
-     *
-     * @param   int  $programID  the id of the degree program
-     *
-     * @return  array  empty if the program could not be found
-     */
-    private function getLSFQueryData($programID)
-    {
-        $dbo = JFactory::getDbo();
-        $lsfDataQuery = $dbo->getQuery(true);
-        $lsfDataQuery->select("lsfFieldID AS program, lsfDegree AS degree, version");
-        $lsfDataQuery->from('#__thm_organizer_programs AS p');
-        $lsfDataQuery->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
-        $lsfDataQuery->where("p.id = '$programID'");
-        $dbo->setQuery((string) $lsfDataQuery);
-        $lsfData = $dbo->loadAssoc();
-        return empty($lsfData)? array() : $lsfData;
-    }
-
-    /**
-     * Method to import data associated with degree programs from LSF
-     *
-     * @return  bool  true on success, otherwise false
-     */
-    public function importLSFDataBatch()
-    {
-        $dbo = JFactory::getDbo();
-        $dbo->transactionStart();
-        $resourceIDs = JRequest::getVar('cid', array(), 'post', 'array');
-        foreach ($resourceIDs as $resourceID)
-        {
-            $resourceImported = $this->importLSFDataSingle($resourceID);
-            if (!$resourceImported)
-            {
-                $dbo->transactionRollback();
-                return false;
-            }
-        }
-        $dbo->transactionCommit();
-        return true;
-    }
-
-    /**
-     * Method to import data associated with a degree program from LSF
-     *
-     * @param   int  $programID  the id of the program to be imported
-     *
-     * @return  boolean  true on success, otherwise false
-     */
-    public function importLSFDataSingle($programID)
-    {
-        $client = new THM_OrganizerLSFClient;
-        $lsfData = $this->getLSFQueryData($programID);
-        if (empty($lsfData))
-        {
-            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_LSFDATA_MISSING', 'error');
-            return false;
-        }
-
-        $mappingModel = JModel::getInstance('mapping', 'THM_OrganizerModel');
-        $mappingExists = $mappingModel->checkForMapping($programID, 'program');
-        if (empty($mappingExists))
-        {
-            $mappingCreated = $mappingModel->saveProgram($programID);
-            if (empty($mappingCreated))
-            {
-                return false;
-            }
-        }
- 
-        $lsfProgram = $client->getModules($lsfData['program'], $lsfData['degree'], $lsfData['version']);
-        if (empty($lsfProgram))
-        {
-            return false;
-        }
- 
-        if (isset($lsfProgram->gruppe) AND count($lsfProgram->gruppe))
-        {
-            // Iterate over the entire over each course-group of the returned xml structure
-            $subjectModel = JModel::getInstance('subject', 'THM_OrganizerModel');
-            $poolModel = JModel::getInstance('pool', 'THM_OrganizerModel');
-            foreach ($lsfProgram->gruppe as $resource)
-            {
-                if ($resource->modulliste->modul)
-                {
-                    $poolProcessed = $poolModel->processLSFStub($resource);
-                    if (!$poolProcessed)
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    $subjectProcessed = $subjectModel->processLSFStub($resource);
-                    if (!$subjectProcessed)
-                    {
-                        return false;
-                    }
-                }
-            }
- 
-            $mappingsAdded = $mappingModel->addLSFMappings($programID, $lsfProgram);
-            if (!$mappingsAdded)
-            {
-                return false;
-            }
+            $this->_db->transactionCommit();
         }
         return true;
     }
@@ -175,9 +63,8 @@ class THM_OrganizerModelProgram extends JModel
      */
     public function save()
     {
-        $dbo = JFactory::getDbo();
         $data = JRequest::getVar('jform', null, null, null, 4);
-        $dbo->transactionStart();
+        $this->_db->transactionStart();
         $table = JTable::getInstance('programs', 'thm_organizerTable');
         $dpSuccess = $table->save($data);
         if ($dpSuccess)
@@ -186,11 +73,11 @@ class THM_OrganizerModelProgram extends JModel
             $mappingSuccess = $model->saveProgram($table->id);
             if ($mappingSuccess)
             {
-                $dbo->transactionCommit();
+                $this->_db->transactionCommit();
                 return $table->id;
             }
         }
-        $dbo->transactionRollback();
+        $this->_db->transactionRollback();
         return false;
     }
 
@@ -201,13 +88,12 @@ class THM_OrganizerModelProgram extends JModel
      */
     public function save2copy()
     {
-        $dbo = JFactory::getDbo();
         $data = JRequest::getVar('jform', null, null, null, 4);
         if (isset($data['id']))
         {
             unset($data['id']);
         }
-        $dbo->transactionStart();
+        $this->_db->transactionStart();
         $table = JTable::getInstance('programs', 'thm_organizerTable');
         $dpSuccess = $table->save($data);
         if ($dpSuccess)
@@ -216,11 +102,11 @@ class THM_OrganizerModelProgram extends JModel
             $mappingSuccess = $model->saveProgram($table->id);
             if ($mappingSuccess)
             {
-                $dbo->transactionCommit();
+                $this->_db->transactionCommit();
                 return true;
             }
         }
-        $dbo->transactionRollback();
+        $this->_db->transactionRollback();
         return false;
     }
 }

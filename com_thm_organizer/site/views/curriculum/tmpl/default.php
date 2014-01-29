@@ -76,6 +76,6 @@ if ($this->params->get('show_page_heading', 1) AND $this->params->get('plugin_mo
                  src="<?php echo $flagPath; ?>" />
         </a>
     </div>
-    <h1 class="componentheading"><?php echo 'Curriculum - ' ?><span id="programName"></span></h1>
+    <h1 class="componentheading"><?php echo 'Curriculum - '; ?><span id="programName"></span></h1>
 <?php
 }
