@@ -20,7 +20,7 @@ $poolURL = JRoute::_($rawPoolURL, false);
 $rawSubjectURL = 'index.php?option=com_thm_organizer&view=subject_manager';
 $subjectURL = JRoute::_($rawSubjectURL, false);
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=program_edit&id=' . (int) $this->item->id); ?>"
+<form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=program_edit&id=' . $this->form->getValue('id')); ?>"
       method="post" name="adminForm" id="modulmapping-form">
     <fieldset class="adminform">
         <legend><?php echo JText::_('COM_THM_ORGANIZER_PRM_PROPERTIES'); ?></legend>

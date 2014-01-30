@@ -41,8 +41,7 @@ class THM_OrganizerViewProgram_Edit extends JView
         $document->addScript($this->baseurl . "/components/com_thm_organizer/assets/js/mapping.js");
 
         $this->form = $this->get('Form');
-        $this->item = $this->get('Item');
-        $isNew = $this->item->id == 0;
+        $isNew = $this->form->getValue('id') == 0;
         $this->_layout = $isNew? 'add' : 'edit';
         if (!$isNew)
         {
@@ -62,7 +61,7 @@ class THM_OrganizerViewProgram_Edit extends JView
     protected function addToolBar()
     {
         JRequest::setVar('hidemainmenu', true);
-        $isNew = $this->item->id == 0;
+        $isNew = $this->form->getValue('id') == 0;
         $title = $isNew ? JText::_("COM_THM_ORGANIZER_PRM_NEW") : JText::_("COM_THM_ORGANIZER_PRM_EDIT");
         JToolBarHelper::title($title, 'organizer_degree_programs');
         $applyText = $isNew? JText::_('COM_THM_ORGANIZER_APPLY_NEW') : JText::_('COM_THM_ORGANIZER_APPLY_EDIT');
