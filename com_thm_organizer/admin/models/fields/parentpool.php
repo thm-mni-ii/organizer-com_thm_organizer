@@ -75,7 +75,7 @@ class JFormFieldParentPool extends JFormField
             }
         }
  
-        $select = '<select id="jformparentID" name="jform[parentID][]" multiple="multiple">';
+        $select = '<select id="jformparentID" name="jform[parentID][]" multiple="multiple" size="10">';
         $select .= implode('', $options) . '</select>';
         return $select;
     }
