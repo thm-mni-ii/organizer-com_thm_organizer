@@ -26,8 +26,8 @@ $flagPath .= ($this->languageTag == 'de')? 'en.png' : 'de.png';
     parameters.baseURL = '<?php echo JURI::root(); ?>';
 
     parameters.rowItems = <?php echo $this->params->get('maxItems', 6); ?>;
-    parameters.horizontalSpacing = <?php echo $this->params->get('horizontalSpacing', 5); ?>;
-    parameters.verticalSpacing = <?php echo $this->params->get('verticalSpacing', 5); ?>;
+    parameters.horizontalSpacing = <?php echo $this->params->get('horizontalSpacing', 2); ?>;
+    parameters.verticalSpacing = <?php echo $this->params->get('verticalSpacing', 2); ?>;
     parameters.itemWidth = <?php echo $this->params->get('itemWidth', 120); ?>;
     parameters.itemHeight = <?php echo $this->params->get('itemHeight', 120); ?>;
 

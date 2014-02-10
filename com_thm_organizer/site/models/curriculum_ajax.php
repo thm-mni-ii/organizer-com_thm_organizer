@@ -36,7 +36,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
     {
         parent::__construct();
     }
- 
+
     /**
      * Method to select the Tree of the current major
      *
@@ -57,6 +57,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
         $program = $this->getProgramData($programID);
         $this->setScheduleData($program->name);
         $program->children = $this->getChildren($program->lft, $program->rgt, $languageTag);
+        $program->fields = $this->getFieldColors($program->lft, $program->rgt);
 
         if (empty($program->children))
         {
@@ -66,6 +67,29 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
         {
             return json_encode($program);
         }
+    }
+
+    /**
+     * Retrieves a list of the fields associated with program subjects their colors
+     *
+     * @param   int  $left   the left value for the program
+     * @param   int  $right  the right value for the program
+     *
+     * @return  mixed  array on success, otherwise false
+     */
+    private function getFieldColors($left, $right)
+    {
+        $query = $this->_db->getQuery(true);
+        $query->select('DISTINCT field, color');
+
+        $query->from('#__thm_organizer_fields AS f');
+        $query->innerJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
+        $query->innerJoin('#__thm_organizer_subjects AS s ON s.fieldID = f.id');
+        $query->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = s.id');
+        $query->where("m.lft >= '$left'");
+        $query->where("m.rgt <= '$right'");
+        $query->order('field');
+        return $this->_db->setQuery((string) $query)->loadAssocList();
     }
 
     /**
@@ -80,8 +104,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
    {
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);
-        $select = "p.id, lsfID, hisID, externalID, abbreviation_$langTag AS abbreviation, ";
-        $select .= "name_$langTag AS name, minCrP, maxCrP, color";
+        $select = "p.id, lsfID, hisID, externalID, name_$langTag AS name, minCrP, maxCrP, color";
         $query->select($select);
         $query->from('#__thm_organizer_pools AS p');
         $query->leftJoin('#__thm_organizer_fields AS f ON p.fieldID = f.id');
@@ -132,8 +155,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
     {
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);
-        $select = "s.id, lsfID, hisID, externalID, abbreviation_$langTag AS abbreviation, ";
-        $select .= "name_$langTag AS name, creditpoints AS maxCrP, color, ";
+        $select = "s.id, lsfID, hisID, externalID, name_$langTag AS name, creditpoints AS maxCrP, color, ";
         $select .= "CONCAT('index.php?option=com_thm_organizer&view=subject_details&languageTag=', ";
         $select .= "'$langTag', '&id=', s.id) AS link";
         $query->select($select);
@@ -218,16 +240,16 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
                 $subjectData->mappingID = $mapping['id'];
                 $parent[(int) $mapping['ordering']] = $subjectData;
             }
- 
+
         }
         return $children;
     }
 
     /**
      * Retrieves the ordering of the last direct child element
-     * 
+     *
      * @param   int  $mappingID  the id of the mapped element
-     * 
+     *
      * @return  int  the last child element's ordering value
      */
     private function lastChildOrder($mappingID)

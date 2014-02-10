@@ -3345,7 +3345,7 @@ table.x-datepicker-inner .x-datepicker-disabled a {
     border-bottom: 0 none;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
     font: normal 11px/ 15px tahoma, arial, verdana, sans-serif;
-    color: null;
+    color: inherit;
     font: normal 11px tahoma, arial, verdana, sans-serif;
     background-image: none;
     background-color: #c5c5c5;
@@ -3466,7 +3466,7 @@ table.x-datepicker-inner .x-datepicker-disabled a {
 }
 
 .x-grid-row .x-grid-cell {
-    color: null;
+    color: inherit;
     font: normal 11px tahoma, arial, verdana, sans-serif;
     border-color: #ededed;
     border-style: solid;
@@ -4429,17 +4429,17 @@ textarea.x-form-field {
 
 .x-form-trigger-wrap-focus .x-form-trigger {
     background-position: -51px 0;
-    border-bottom-color: #a1a1a1
+    border-bottom-color: #a1a1a1;
 }
 
 .x-form-trigger-wrap-focus .x-form-trigger-over {
     background-position: -68px 0;
-    border-bottom-color: null
+    border-bottom-color: inherit;
 }
 
 .x-form-trigger-click,.x-form-trigger-wrap-focus .x-form-trigger-click {
     background-position: -34px 0;
-    border-bottom-color: null
+    border-bottom-color: inherit;
 }
 
 .x-form-trigger-icon {

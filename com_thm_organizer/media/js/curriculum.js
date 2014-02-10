@@ -3,7 +3,7 @@
 function Curriculum(parameters) {
     'use strict';
 
-    var self = this, horizontalPanelHeaders;
+    var self = this;
 
     self.getData = function () {
         var requestURL = parameters.baseURL, xmlhttp = new XMLHttpRequest();
@@ -172,6 +172,17 @@ function Curriculum(parameters) {
             });
         html = '<div class="curriculum_legend">';
         html += '<p>' + self.data.description + '</p>';
+        if (self.data.fields !== false)
+        {
+            html += '<ul class="fieldList">';
+            $.each(self.data.fields, function(key, field){
+                html += '<li class="fieldItem">';
+                html += '<span class="fieldColor" style="background-color: #' + field.color + ';">&nbsp;</span>';
+                html += '<span class="fieldText">' + field.field + '</span>';
+                html += '</li>';
+            });
+            html += '</ul>';
+        }
         html += '</div>';
         $(html).appendTo('#contentwrapper');
     };

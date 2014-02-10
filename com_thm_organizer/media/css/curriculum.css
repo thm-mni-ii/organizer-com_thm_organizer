@@ -1,23 +1,47 @@
 /*csslint important: false*/
 /*legend container*/
 div.curriculum_legend {
-    width: 300px;
+    width: 245px;
     padding: 5px;
     font-family: Verdana,Arial;
     float: right;
     background-color: rgb(238, 238, 238);
     border: rgb(187, 187, 187) 1px solid;
+    border-radius: 2px;
     box-shadow: 2px 2px 4px rgb(221, 221, 221);
     font-family: Verdana, Arial;
     font-size: 13px;
     color: rgb(74, 92, 102);
+    margin-top: 2px;
     margin-right: 5px;
+}
+
+ul.fieldList {
+    list-style-type: none;
+    font-size: 12px;
+    padding: 0px 2px;
+}
+
+li.fieldItem {
+    padding: 2px 0px;
+}
+
+span.fieldColor {
+    display: inline-block;
+    border: rgb(187, 187, 187) 1px solid;
+    height: 11px;
+    width: 11px;
+}
+
+span.fieldText {
+    display: inline-block;
+    padding: 0px 0px 2px 2px ;
 }
 
 /* curriculum container */
 div.curriuculum_container.ui-accordion.ui-widget.ui-helper-reset {
-    width: 620px;
-    padding: 0px 5px;
+    width: 686px;
+    padding: 0px 4px;
     font-family: Verdana,Arial;
     float: left;
 }
@@ -58,7 +82,7 @@ h3 > span.ui-accordion-header-icon.ui-icon.ui-icon-triangle-1-e {
 
 /* horizontal item container */
 div.gridster.ready.ui-accordion-content.ui-helper-reset.ui-widget-content.ui-corner-bottom.ui-accordion-content-active{
-    padding: 5px;
+    padding: 4px;
     background-color: rgb(255, 255, 255);
     border-top: none;
     border-left: rgb(187, 187, 187) 1px solid;
@@ -75,6 +99,10 @@ li.icon_container.gs-w {
     border-radius: 3px;
     background-color: rgb(238, 238, 238);
     box-shadow: 2px 2px 4px rgb(221, 221, 221);
+}
+
+li.icon_container.empty.gs-w {
+    visibility: hidden;
 }
 
 /* item head */

@@ -16,7 +16,7 @@ jimport('jquery.jquery');
 require_once JPATH_COMPONENT . DS . 'helper' . DS . 'language.php';
 
 /**
- * Class loasd curriculum information into the view context
+ * Class loads curriculum information into the view context
  *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
@@ -39,11 +39,6 @@ class THM_OrganizerViewCurriculum extends JView
         $document->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/curriculum.css');
         $document->addScript($this->baseurl . '/media/com_thm_organizer/js/curriculum.js');
 
-        $model = $this->getModel();
-        $this->name = $model->name;
-        $this->description = $model->description;
-        $this->fields = $model->fields;
-        $this->icons = $model->icons;
         $this->ecollabLink = JComponentHelper::getParams('com_thm_organizer')->get('eCollabLink');
         $this->params = JFactory::getApplication()->getMenu()->getActive()->params;
         $this->languageTag = JRequest::getVar('languageTag', $this->params->get('language'));
