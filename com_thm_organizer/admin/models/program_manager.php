@@ -25,7 +25,7 @@ jimport('joomla.application.component.modellist');
 class THM_OrganizerModelProgram_Manager extends JModelList
 {
     public $degrees = null;
- 
+
     public $versions = null;
 
     public $fields = null;
@@ -153,7 +153,7 @@ class THM_OrganizerModelProgram_Manager extends JModelList
 
         $filter = $this->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
         $this->setState('filter.search', $filter);
- 
+
         $limit = $this->getUserStateFromRequest($this->context . '.limit', 'limit', '');
         $this->setState('list.limit', $limit);
 
@@ -169,9 +169,9 @@ class THM_OrganizerModelProgram_Manager extends JModelList
 
     /**
      * Sets the from clauses of the queries used
-     * 
+     *
      * @param   object  &$query  the query object
-     * 
+     *
      * @return  void
      */
     private function setFrom(&$query)
@@ -182,12 +182,12 @@ class THM_OrganizerModelProgram_Manager extends JModelList
         $query->leftJoin('#__thm_organizer_fields AS f ON dp.fieldID = f.id');
         $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
     }
-    
+
     /**
      * Sets the search clause dependent upon user request
-     * 
+     *
      * @param   object  &$query  the query object
-     * 
+     *
      * @return  void
      */
     private function setSearch(&$query)
@@ -199,7 +199,8 @@ class THM_OrganizerModelProgram_Manager extends JModelList
             if (!empty($clue))
             {
                 $search = '%' . $this->_db->getEscaped($clue, true) . '%';
-                $whereClause = "( subject LIKE '$search' ";
+                $whereClause = "( subject_de LIKE '$search' ";
+                $whereClause .= "OR subject_en LIKE '$search' ";
                 $whereClause .= "OR version LIKE '$search' ";
                 $whereClause .= "OR d.name LIKE '$search' )";
                 $query->where($whereClause);

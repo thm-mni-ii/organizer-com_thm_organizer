@@ -24,7 +24,7 @@ class THM_OrganizerModelPool_Ajax extends JModel
 {
     /**
      * Retrieves pool options for a given curriculum element
-     * 
+     *
      * @return string
      */
     public function poolDegreeOptions()
@@ -42,14 +42,14 @@ class THM_OrganizerModelPool_Ajax extends JModel
         $programIDs = JRequest::getString('programID');
         $programIDArray = explode(',', $programIDs);
 
-        /**
-         * No program mappings or only programs have been mapped. Subjects
-         * should not be mapped to programs.
-         */
-        if (empty($programMappings) OR (count($programIDArray) == count($programMappings) AND $isSubject))
+        $noProgramsMappings = empty($programMappings) ;
+        $noValidMappings = (count($programIDArray) == count($programMappings)) AND $isSubject;
+        $dontOfferOptions = $noProgramsMappings OR $noValidMappings;
+        if ($dontOfferOptions)
         {
             return '';
         }
+
         $ownID = JRequest::getInt('ownID');
         $resourceID = $this->getResourceID($ownID, $isSubject);
         $parentIDs = array();
@@ -72,7 +72,7 @@ class THM_OrganizerModelPool_Ajax extends JModel
 
     /**
      * Retrieves the mappings of superordinate programs
-     * 
+     *
      * @return  array  the superordinate program mappings
      */
     private function getProgramEntries()
@@ -91,13 +91,13 @@ class THM_OrganizerModelPool_Ajax extends JModel
 
     /**
      * Fills the options array with HTML pool options
-     * 
+     *
      * @param   array    &$options           an array to store the options in
      * @param   array    &$programMappings   mappings belonging to one of the requested programs
      * @param   array    &$unwantedMappings  mappings which would lead to data inconsistency
      * @param   array    &$parentIDs         previously mapped parents
      * @param   boolean  $isSubject          whether the calling element is a subject
-     * 
+     *
      * @return  void
      */
     private function fillOptions(&$options, &$programMappings, &$unwantedMappings, &$parentIDs, $isSubject)
@@ -123,10 +123,10 @@ class THM_OrganizerModelPool_Ajax extends JModel
 
     /**
      * Retrieves the resource id
-     * 
+     *
      * @param   int      $mappingID  the mapping id
      * @param   boolean  $isSubject  if the calling element is a subject
-     * 
+     *
      * @return  int
      */
     private function getResourceID($mappingID, $isSubject)
@@ -143,7 +143,7 @@ class THM_OrganizerModelPool_Ajax extends JModel
     /**
      * Retrieves pool entries from the database based upon selected program and
      * teacher
-     * 
+     *
      * @return  string  the subjects which fit the selected resource
      */
     public function poolsByProgramOrTeacher()
