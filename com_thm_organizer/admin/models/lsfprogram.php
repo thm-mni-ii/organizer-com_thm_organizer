@@ -79,7 +79,70 @@ class THM_OrganizerModelLSFProgram extends JModel
             return false;
         }
 
-        $mappingModel = JModel::getInstance('mapping', 'THM_OrganizerModel');
+        $client = new THM_OrganizerLSFClient;
+        $program = $client->getModules($lsfData['program'], $lsfData['degree'], $lsfData['version']);
+        if (empty($program))
+        {
+            return false;
+        }
+
+        if (!empty($program->gruppe))
+        {
+            $mappingModel = JModel::getInstance('mapping', 'THM_OrganizerModel');
+            $programMappingExists = $this->processProgramMapping($programID, $mappingModel);
+            if (!$programMappingExists)
+            {
+                return false;
+            }
+
+            $childrenImported = $this->processChildNodes($program);
+            if (!$childrenImported)
+            {
+                return false;
+            }
+
+            $mappingsAdded = $mappingModel->addLSFMappings($programID, $program);
+            if (!$mappingsAdded)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Processes the child nodes of the program root node
+     *
+     * @param   object  &$program  the simplexml object object containing program information
+     *
+     * @return  boolean  true on success, otherwise false
+     */
+    private function processChildNodes(&$program)
+    {
+        $lsfSubjectModel = JModel::getInstance('LSFSubject', 'THM_OrganizerModel');
+        $lsfPoolModel = JModel::getInstance('LSFPool', 'THM_OrganizerModel');
+        foreach ($program->gruppe as $resource)
+        {
+            $stubProcessed = isset($resource->modulliste->modul)?
+                $lsfPoolModel->processStub($resource) : $lsfSubjectModel->processStub($resource);
+            if (!$stubProcessed)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Checks for a program mapping, creating one if non-existant
+     *
+     * @param   int       $programID          the id of the program
+     * @param   object  &$mappingModel  the mapping model
+     *
+     * @return  boolean  true on existant/created mapping, otherwise false
+     */
+    private function processProgramMapping($programID, &$mappingModel)
+    {
         $mappingExists = $mappingModel->checkForMapping($programID, 'program');
         if (empty($mappingExists))
         {
@@ -89,36 +152,6 @@ class THM_OrganizerModelLSFProgram extends JModel
                 return false;
             }
         }
- 
-        $client = new THM_OrganizerLSFClient;
-        $lsfProgram = $client->getModules($lsfData['program'], $lsfData['degree'], $lsfData['version']);
-        if (empty($lsfProgram))
-        {
-            return false;
-        }
- 
-        if (isset($lsfProgram->gruppe) AND count($lsfProgram->gruppe))
-        {
-            // Iterate over the entire over each course-group of the returned xml structure
-            $lsfSubjectModel = JModel::getInstance('LSFSubject', 'THM_OrganizerModel');
-            $lsfPoolModel = JModel::getInstance('LSFPool', 'THM_OrganizerModel');
-            foreach ($lsfProgram->gruppe as $resource)
-            {
-                $stubProcessed = isset($resource->modulliste->modul)?
-                    $lsfPoolModel->processStub($resource) : $lsfSubjectModel->processStub($resource);
-                if (!$stubProcessed)
-                {
-                    return false;
-                }
-            }
- 
-            $mappingsAdded = $mappingModel->addLSFMappings($programID, $lsfProgram);
-            if (!$mappingsAdded)
-            {
-                return false;
-            }
-        }
         return true;
     }
-
 }
