@@ -42,7 +42,7 @@ class THM_OrganizerModelPool_Ajax extends JModel
         $programIDs = JRequest::getString('programID');
         $programIDArray = explode(',', $programIDs);
 
-        $noProgramsMappings = empty($programMappings) ;
+        $noProgramsMappings = empty($programMappings);
         $noValidMappings = (count($programIDArray) == count($programMappings)) AND $isSubject;
         $dontOfferOptions = $noProgramsMappings OR $noValidMappings;
         if ($dontOfferOptions)

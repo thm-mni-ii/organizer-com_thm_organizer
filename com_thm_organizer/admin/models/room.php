@@ -33,9 +33,8 @@ class THM_OrganizerModelRoom extends JModel
      */
     public function save()
     {
-        $dbo = JFactory::getDbo();
         $data = JRequest::getVar('jform', null, null, null, 4);
-        $dbo->transactionStart();
+        $this->_db->transactionStart();
         $scheduleSuccess = $this->updateScheduleData($data, "'" . $data['id'] . "'");
         if ($scheduleSuccess)
         {
@@ -43,11 +42,11 @@ class THM_OrganizerModelRoom extends JModel
             $roomSuccess = $table->save($data);
             if ($roomSuccess)
             {
-                $dbo->transactionCommit();
+                $this->_db->transactionCommit();
                 return true;
             }
         }
-        $dbo->transactionRollback();
+        $this->_db->transactionRollback();
         return false;
     }
 
@@ -60,11 +59,10 @@ class THM_OrganizerModelRoom extends JModel
      */
     public function autoMergeAll()
     {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
         $query->select('*')->from('#__thm_organizer_rooms')->order('longname, id ASC');
-        $dbo->setQuery((string) $query);
-        $roomEntries = $dbo->loadAssocList();
+        $this->_db->setQuery((string) $query);
+        $roomEntries = $this->_db->loadAssocList();
 
         if (empty($roomEntries))
         {
@@ -109,8 +107,7 @@ class THM_OrganizerModelRoom extends JModel
     {
         if (empty($roomEntries))
         {
-            $dbo = JFactory::getDbo();
-            $query = $dbo->getQuery(true);
+            $query = $this->_db->getQuery(true);
             $query->select('r.id, r.gpuntisID, r.name, r.longname, r.typeID');
             $query->from('#__thm_organizer_rooms AS r');
 
@@ -119,8 +116,8 @@ class THM_OrganizerModelRoom extends JModel
 
             $query->order('r.id ASC');
 
-            $dbo->setQuery((string) $query);
-            $roomEntries = $dbo->loadAssocList();
+            $this->_db->setQuery((string) $query);
+            $roomEntries = $this->_db->loadAssocList();
         }
 
         $data = array();
@@ -198,20 +195,19 @@ class THM_OrganizerModelRoom extends JModel
             $data['otherIDs'] = "'" . implode("', '", explode(',', JRequest::getString('otherIDs'))) . "'";
         }
 
-        $dbo = JFactory::getDbo();
-        $dbo->transactionStart();
+        $this->_db->transactionStart();
 
         $eventsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'event_rooms');
         if (!$eventsSuccess)
         {
-            $dbo->transactionRollback();
+            $this->_db->transactionRollback();
             return false;
         }
 
         $monitorsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'monitors');
         if (!$monitorsSuccess)
         {
-            $dbo->transactionRollback();
+            $this->_db->transactionRollback();
             return false;
         }
 
@@ -221,7 +217,7 @@ class THM_OrganizerModelRoom extends JModel
             $schedulesSuccess = $this->updateScheduleData($data, $allIDs);
             if (!$schedulesSuccess)
             {
-                $dbo->transactionRollback();
+                $this->_db->transactionRollback();
                 return false;
             }
         }
@@ -231,25 +227,25 @@ class THM_OrganizerModelRoom extends JModel
         $success = $room->save($data);
         if (!$success)
         {
-            $dbo->transactionRollback();
+            $this->_db->transactionRollback();
             return false;
         }
 
-        $deleteQuery = $dbo->getQuery(true);
+        $deleteQuery = $this->_db->getQuery(true);
         $deleteQuery->delete('#__thm_organizer_rooms');
         $deleteQuery->where("id IN ( {$data['otherIDs']} )");
-        $dbo->setQuery((string) $deleteQuery);
+        $this->_db->setQuery((string) $deleteQuery);
         try
         {
-            $dbo->query();
+            $this->_db->query();
         }
         catch (Exception $exception)
         {
-            $dbo->transactionRollback();
+            $this->_db->transactionRollback();
             return false;
         }
 
-        $dbo->transactionCommit();
+        $this->_db->transactionCommit();
         return true;
     }
 
@@ -264,20 +260,18 @@ class THM_OrganizerModelRoom extends JModel
      */
     private function updateAssociation($newID, $oldIDs, $tableName)
     {
-        $dbo = JFactory::getDbo();
-
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
         $query->update("#__thm_organizer_{$tableName}");
         $query->set("roomID = '$newID'");
         $query->where("roomID IN ( $oldIDs )");
-        $dbo->setQuery((string) $query);
+        $this->_db->setQuery((string) $query);
         try
         {
-            $dbo->query();
+            $this->_db->query();
         }
         catch (Exception $exception)
         {
-            $dbo->transactionRollback();
+            $this->_db->transactionRollback();
             return false;
         }
         return true;
@@ -294,95 +288,47 @@ class THM_OrganizerModelRoom extends JModel
      */
     public function updateScheduleData(&$data, $IDs)
     {
-        $dbo = JFactory::getDbo();
-
         if (empty($data['gpuntisID']))
         {
             return true;
         }
-        else
-        {
-            $data['gpuntisID'] = str_replace('RM_', '', $data['gpuntisID']);
-        }
 
-        $scheduleQuery = $dbo->getQuery(true);
+        $data['gpuntisID'] = $newName = str_replace('RM_', '', $data['gpuntisID']);
+
+        $scheduleQuery = $this->_db->getQuery(true);
         $scheduleQuery->select('id, schedule');
         $scheduleQuery->from('#__thm_organizer_schedules');
-        $dbo->setQuery((string) $scheduleQuery);
-        $schedules = $dbo->loadAssocList();
+        $this->_db->setQuery((string) $scheduleQuery);
+        $schedules = $this->_db->loadAssocList();
         if (empty($schedules))
         {
             return true;
         }
 
+        $type = '';
         if (!empty($data['typeID']))
         {
-            $typeQuery = $dbo->getQuery(true);
+            $typeQuery = $this->_db->getQuery(true);
             $typeQuery->select('gpuntisID');
             $typeQuery->from('__thm_organizer_room_types');
             $typeQuery->where("id = '{$data['typeID']}'");
-            $dbo->setQuery((string) $typeQuery);
-            $type = str_replace('DS_', '', $dbo->loadResult());
+            $this->_db->setQuery((string) $typeQuery);
+            $type .= str_replace('DS_', '', $this->_db->loadResult());
         }
 
-        $oldNameQuery = $dbo->getQuery(true);
+        $oldNameQuery = $this->_db->getQuery(true);
         $oldNameQuery->select('gpuntisID');
         $oldNameQuery->from('#__thm_organizer_rooms');
         $oldNameQuery->where("id IN ( $IDs )");
         $oldNameQuery->where("gpuntisID IS NOT NULL");
-        $dbo->setQuery((string) $oldNameQuery);
-        $oldNames = $dbo->loadResultArray();
+        $this->_db->setQuery((string) $oldNameQuery);
+        $oldNames = $this->_db->loadResultArray();
 
         $scheduleTable = JTable::getInstance('schedules', 'thm_organizerTable');
         foreach ($schedules as $schedule)
         {
             $scheduleObject = json_decode($schedule['schedule']);
-
-            foreach ($oldNames AS $oldName)
-            {
-                if (isset($scheduleObject->rooms->{$oldName}))
-                {
-                    unset($scheduleObject->rooms->{$oldName});
-                }
-                foreach ($scheduleObject->calendar as $date => $blocks)
-                {
-                    if (is_object($blocks))
-                    {
-                        foreach ($blocks as $block => $lessons)
-                        {
-                            $lessonIDs = array_keys((array) $lessons);
-                            foreach ($lessonIDs as $lessonID)
-                            {
-                                if (isset($scheduleObject->calendar->$date->$block->$lessonID->$oldName))
-                                {
-                                    $delta = $scheduleObject->calendar->$date->$block->$lessonID->$oldName;
-                                    unset($scheduleObject->calendar->$date->$block->$lessonID->$oldName);
-                                    $scheduleObject->calendar->$date->$block->$lessonID->{$data['gpuntisID']} = $delta;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (!isset($scheduleObject->rooms->{$data['gpuntisID']}))
-            {
-                $scheduleObject->rooms->{$data['gpuntisID']} = new stdClass;
-            }
-
-            $scheduleObject->rooms->{$data['gpuntisID']}->gpuntisID = $data['gpuntisID'];
-            $scheduleObject->rooms->{$data['gpuntisID']}->name = $data['name'];
-            $scheduleObject->rooms->{$data['gpuntisID']}->longname = $data['longname'];
- 
-            if (!empty($data['typeID']))
-            {
-                $scheduleObject->rooms->{$data['gpuntisID']}->typeID = $data['typeID'];
-                if (!empty($type))
-                {
-                    $scheduleObject->rooms->{$data['gpuntisID']}->description = $type;
-                }
-            }
-
+            $this->processSchedule($scheduleObject, $data, $oldNames, $newName, $type);
             $schedule['schedule'] = json_encode($scheduleObject);
             $success = $scheduleTable->save($schedule);
             if (!$success)
@@ -391,6 +337,112 @@ class THM_OrganizerModelRoom extends JModel
             }
         }
         return true;
+    }
+
+    /**
+     * Processes the data for an individual schedule
+     * 
+     * @param   object   &$schedule    the schedule being processed
+     * @param   array    &$data        the data for the schedule db entry
+     * @param   array    $oldNames     the deprecated room names
+     * @param   string   $newName      the new name for the room
+     * @param   string   $description  the room description
+     * 
+     * @return  void
+     */
+    private function processSchedule(&$schedule, &$data, &$oldNames, $newName, $type)
+    {
+        foreach ($oldNames AS $oldName)
+        {
+            $this->replaceReferences($schedule, $oldName, $newName);
+        }
+
+        if (!isset($schedule->rooms->$newName))
+        {
+            $schedule->rooms->$newName = new stdClass;
+        }
+
+        $schedule->rooms->$newName->gpuntisID = $newName;
+        $schedule->rooms->$newName->name = $data['name'];
+        $schedule->rooms->$newName->longname = $data['longname'];
+
+        if (!empty($data['typeID']))
+        {
+            $schedule->rooms->$newName->typeID = $data['typeID'];
+            if (!empty($type))
+            {
+                $schedule->rooms->$newName->description = $type;
+            }
+        }
+    }
+
+    /**
+     * Replaces the references using the old room name
+     * 
+     * @param   object   &$schedule  the schedule being processed
+     * @param   string   $oldName    the old name of the room
+     * @param   string   $newName    the new name for the room
+     * 
+     * @return  void
+     */
+    private function replaceReferences(&$schedule, $oldName, $newName)
+    {
+        if (isset($schedule->rooms->$oldName))
+        {
+            unset($schedule->rooms->$oldName);
+        }
+        foreach ($schedule->calendar as $date => $blocks)
+        {
+            $this->processDateReferences($schedule, $date, $blocks, $oldName, $newName);
+        }
+    }
+
+    /**
+     * Processes the references for a single date
+     * 
+     * @param   object   &$schedule  the schedule being processed
+     * @param   string   $date       the date being currently iterated
+     * @param   object   &$blocks    the block being currently iterated
+     * @param   string   $oldName    the old name of the room
+     * @param   string   $newName    the new name for the room
+     * 
+     * @return  void
+     */
+    private function processDateReferences(&$schedule, $date, &$blocks, $oldName, $newName)
+    {
+        if (is_object($blocks))
+        {
+            foreach ($blocks as $block => $lessons)
+            {
+                $lessonIDs = array_keys((array) $lessons);
+                foreach ($lessonIDs as $lessonID)
+                {
+                    $this->replaceRoomReference($schedule, $date, $block, $lessonID, $oldName, $newName);
+                }
+            }
+        }
+    }
+
+    /**
+     * Replaces references to a deprecated room name
+     * 
+     * @param   object   &$schedule  the schedule being processed
+     * @param   string   $date       the date being currently iterated
+     * @param   int      $block      the block being currently iterated
+     * @param   int      $lessonID   the id of the lesson being currently iterated
+     * @param   string   $oldName    the old name of the room
+     * @param   string   $newName    the new name for the room
+     * 
+     * @return  void
+     */
+    private function replaceRoomReference(&$schedule, $date, $block, $lessonID, $oldName, $newName)
+    {
+        if (isset($schedule->calendar->$date->$block->$lessonID->$oldName))
+        {
+            $delta = $schedule->calendar->$date->$block->$lessonID->$oldName;
+            unset($schedule->calendar->$date->$block->$lessonID->$oldName);
+            $schedule->calendar->$date->$block->$lessonID->$newName = $delta;
+        }
     }
 
     /**

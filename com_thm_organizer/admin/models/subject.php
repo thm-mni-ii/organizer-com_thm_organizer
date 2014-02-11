@@ -115,62 +115,6 @@ class THM_OrganizerModelSubject extends JModel
     }
 
     /**
-     * Sets description attributes
-     * 
-     * @param   array  &$subject      the subject data
-     * @param   array  $descriptions  an array of description objects
-     * 
-     * @return  void
-     */
-    private function setDescriptionAttributes(&$subject, $descriptions)
-    {
-        foreach ($descriptions as $description)
-        {
-            if ($description->sprache == 'de')
-            {
-                $this->setSubjectAttribute($subject, 'description_de', (string) $description->txt);
-            }
-            if ($description->sprache == 'en')
-            {
-                $this->setSubjectAttribute($subject, 'description_en', (string) $description->txt);
-            }
-        }
-    }
-
-    /**
-     * Sets attributes dealing with required student expenditure
-     * 
-     * @param   array   &$subject  the subject data
-     * @param   string  $text      the text of the expenditure node
-     * 
-     * @return void
-     */
-    private function setExpenditureAttributes(&$subject, $text)
-    {
-        $matches = array();
-        preg_match_all('/[0-9]+/', $text, $matches, PREG_PATTERN_ORDER);
-        if (!empty($matches) AND !empty($matches[0]) AND count($matches[0]) == 3)
-        {
-            if (empty($subject['creditpoints']))
-            {
-                $this->setSubjectAttribute($subject, 'creditpoints', $matches[0][0]);
-            }
-            if (empty($subject['expenditure']))
-            {
-                $this->setSubjectAttribute($subject, 'expenditure', $matches[0][1]);
-            }
-            if (empty($subject['present']))
-            {
-                $this->setSubjectAttribute($subject, 'present', $matches[0][2]);
-            }
-            if (empty($subject['independent']))
-            {
-                $this->setSubjectAttribute($subject, 'present', $subject['expenditure'] - $subject['present']);
-            }
-        }
-    }
-
-    /**
      * Attempts to save a subject entry, updating subject-teacher data as
      * necessary.
      *
@@ -208,7 +152,7 @@ class THM_OrganizerModelSubject extends JModel
                 $this->_db->transactionRollback();
                 return false;
             }
-            
+
             $success = $this->processFormMappings($table->id, $data);
             if (!$success)
             {
@@ -338,40 +282,6 @@ class THM_OrganizerModelSubject extends JModel
             return false;
         }
         return true;
-    }
-
-    /**
-     * Parces the prerequisites text and replaces subject references with links to the subjects
-     * 
-     * @param   string  $originalText    the original text of the object
-     * @param   string  $languageTag     the desired output language
-     * @param   array   &$prerequisites  an array containing prerequisite ids
-     * 
-     * @return  string  the text for the subject's prereuisites
-     */
-    private function resolvePrerequisites($originalText, $languageTag, &$prerequisites)
-    {
-        $modules = array();
-        $parts = preg_split('[\,|\ ]', $originalText);
-        foreach ($parts as $part)
-        {
-            if (preg_match('/[0-9]+/', $part))
-            {
-                $moduleLink = $this->getModuleInformation($part, $languageTag, $prerequisites);
-                if (!empty($moduleLink))
-                {
-                    $modules[$part] = $moduleLink;
-                }
-            }
-        }
-        if (!empty($modules))
-        {
-            foreach ($modules AS $number => $link)
-            {
-                $originalText = str_replace($number, $link, $originalText);
-            }
-        }
-        return $originalText;
     }
 
     /**

@@ -273,46 +273,46 @@ class THM_OrganizerModelLSFSubject extends JModel
             return '';
         }
 
-        $text = (string) $methods[0];
+        $text = (string) $methods[0]->txt;
+        $method = '';
         $isLecture = strpos($text, 'Vorlesung') !== false;
         $isSeminar = strpos($text, 'Seminar') !== false;
         $isProject = strpos($text, 'Praktikum') !== false;
         $isPractice = strpos($text, 'Übung') !== false;
-        if ($isLecture)
+        $lectureSeminar = ($isLecture AND $isSeminar AND !$isProject AND !$isPractice);
+        $lectureProject = ($isLecture AND !$isSeminar AND $isProject AND !$isPractice);
+        $lecturePractice = ($isLecture AND !$isSeminar AND !$isProject AND $isPractice);
+        $lecture = ($isLecture AND !$isSeminar AND !$isProject AND !$isPractice);
+        $seminar = (!$isLecture AND $isSeminar AND !$isProject AND !$isPractice);
+        $project = (!$isLecture AND !$isSeminar AND $isProject AND !$isPractice);
+        if ($lectureSeminar)
         {
-            if ($isSeminar)
-            {
-                $method = 'SV';
-            }
-            elseif ($isPractice)
-            {
-                $method = 'VU';
-            }
-            elseif ($isProject)
-            {
-                $method = 'VG';
-            }
-            else
-            {
-                $method = 'V';
-            }
+            $method .= 'SV';
         }
-        elseif ($isSeminar)
+        if ($lecturePractice)
         {
-            $method = 'S';
+            $method .= 'VU';
         }
-        elseif ($isProject)
+        if ($lectureProject)
         {
-            $method = 'P';
+            $method .= 'VG';
         }
-        else
+        if ($lecture)
         {
-            $method = '';
+            $method .= 'V';
+        }
+        if ($seminar)
+        {
+            $method .= 'S';
+        }
+        if ($project)
+        {
+            $method .= 'P';
         }
 
-        if (empty($subject->methodID))
+        if (!empty($method))
         {
-            $this->setNullAttribute($subject, 'methodID', $method);
+            $this->setAttribute($subject, 'methodID', $method);
         }
     }
 

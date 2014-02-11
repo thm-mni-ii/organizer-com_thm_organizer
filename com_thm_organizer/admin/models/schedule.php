@@ -83,21 +83,20 @@ class THM_OrganizerModelSchedule extends JModel
             return $statusReport;
         }
 
-        $dbo = JFactory::getDbo();
-        $dbo->transactionStart();
+        $this->_db->transactionStart();
         $this->saveFields();
         $this->saveTeachers();
         $this->saveRoomTypes();
         $this->saveRooms();
         $this->setReference();
         $statusReport['scheduleID'] = $this->saveSchedule();
-        if ($dbo->getErrorMsg())
+        if ($this->_db->getErrorMsg())
         {
-            $dbo->transactionRollback();
+            $this->_db->transactionRollback();
         }
         else
         {
-            $dbo->transactionCommit();
+            $this->_db->transactionCommit();
         }
 
         return $statusReport;
@@ -784,8 +783,7 @@ class THM_OrganizerModelSchedule extends JModel
         $this->sanitizeSchedule($this->refSchedule);
         if (isset($referenceID))
         {
-            $dbo = JFactory::getDbo();
-            $dbo->transactionStart();
+            $this->_db->transactionStart();
         }
         $referenceDate = $reference->creationdate;
         $reference->schedule = json_encode($this->refSchedule);
@@ -793,7 +791,7 @@ class THM_OrganizerModelSchedule extends JModel
         $success = $reference->store();
         if (isset($referenceID) and !$success)
         {
-            $dbo->transactionRollback();
+            $this->_db->transactionRollback();
             return false;
         }
         unset($reference);
@@ -808,12 +806,12 @@ class THM_OrganizerModelSchedule extends JModel
             $success = $actual->store();
             if (!$success)
             {
-                $dbo->transactionRollback();
+                $this->_db->transactionRollback();
                 return false;
             }
             else
             {
-                $dbo->transactionCommit();
+                $this->_db->transactionCommit();
             }
         }
 
@@ -843,34 +841,33 @@ class THM_OrganizerModelSchedule extends JModel
         $scheduleRow->schedule = json_encode($schedule);
         $scheduleRow->active = 1;
 
-        $dbo = JFactory::getDbo();
-        $dbo->transactionStart();
+        $this->_db->transactionStart();
 
-        $zeroQuery = $dbo->getQuery(true);
+        $zeroQuery = $this->_db->getQuery(true);
         $zeroQuery->update('#__thm_organizerschedules');
         $zeroQuery->set("active = '0'");
         $zeroQuery->where("departmentname = '$scheduleRow->departmentname'");
         $zeroQuery->where("semestername = '$scheduleRow->semestername'");
-        $dbo->setQuery((string) $zeroQuery);
+        $this->_db->setQuery((string) $zeroQuery);
         try
         {
-            $dbo->Query();
+            $this->_db->Query();
         }
         catch (Exception $exception)
         {
             JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-            $dbo->transactionRollback();
+            $this->_db->transactionRollback();
             return false;
         }
         $success = $scheduleRow->store();
         if ($success)
         {
-            $dbo->transactionCommit();
+            $this->_db->transactionCommit();
             return true;
         }
         else
         {
-            $dbo->transactionRollback();
+            $this->_db->transactionRollback();
             return false;
         }
     }
@@ -1196,14 +1193,12 @@ class THM_OrganizerModelSchedule extends JModel
         }
         $whereIDs = "'" . implode("', '", $scheduleIDs) . "'";
 
-        $dbo = JFactory::getDbo();
-
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
         $query->select('departmentname, active, startdate, enddate');
         $query->from('#__thm_organizer_schedules');
         $query->where("id IN ( $whereIDs )");
-        $dbo->setQuery((string) $query);
-        $schedules = $dbo->loadAssocList();
+        $this->_db->setQuery((string) $query);
+        $schedules = $this->_db->loadAssocList();
 
         $departments = array();
         $startdate = $schedules[0]['startdate'];
@@ -1251,13 +1246,12 @@ class THM_OrganizerModelSchedule extends JModel
         $newScheduleRow['departmentname'] = JRequest::getString('departmentname');
         $newScheduleRow['semestername'] = JRequest::getString('semestername');
 
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
         $query->select('schedule');
         $query->from('#__thm_organizer_schedules');
         $query->where("id IN ( $scheduleIDs )");
-        $dbo->setQuery((string) $query);
-        $schedules = $dbo->loadResultArray();
+        $this->_db->setQuery((string) $query);
+        $schedules = $this->_db->loadResultArray();
 
         foreach ($schedules as $key => $value)
         {
@@ -1334,7 +1328,7 @@ class THM_OrganizerModelSchedule extends JModel
         $data['creationdate'] = $this->schedule->creationdate;
         $data['creationtime'] = $this->schedule->creationtime;
         $formdata = JRequest::getVar('jform', null, null, null, 4);
-        $data['description'] = JFactory::getDbo()->escape($formdata['description']);
+        $data['description'] = $this->_db->escape($formdata['description']);
         $data['schedule'] = json_encode($this->schedule);
         $data['startdate'] = $this->schedule->startdate;
         $data['enddate'] = $this->schedule->enddate;
@@ -1353,7 +1347,7 @@ class THM_OrganizerModelSchedule extends JModel
     public function saveComment()
     {
         $data = JRequest::getVar('jform', null, null, null, 4);
-        $data['description'] = JFactory::getDbo()->escape($data['description']);
+        $data['description'] = $this->_db->escape($data['description']);
         unset($data->startdate, $data->enddate, $data->creationdate);
         $table = JTable::getInstance('schedules', 'thm_organizerTable');
         return $table->save($data);
@@ -1374,10 +1368,7 @@ class THM_OrganizerModelSchedule extends JModel
             $schedule->load($scheduleID);
             return $schedule->active;
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     /**
@@ -1388,28 +1379,24 @@ class THM_OrganizerModelSchedule extends JModel
      */
     public function delete()
     {
-        $dbo = JFactory::getDbo();
-        $dbo->transactionStart();
+        $this->_db->transactionStart();
         $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
         foreach ($scheduleIDs as $scheduleID)
         {
             $success = $this->deleteSingle($scheduleID);
             if (!$success)
             {
-                $dbo->transactionRollback();
+                $this->_db->transactionRollback();
                 return false;
             }
         }
-        if ($dbo->getErrorNum())
+        if ($this->_db->getErrorNum())
         {
-            $dbo->transactionRollback();
+            $this->_db->transactionRollback();
             return false;
         }
-        else
-        {
-            $dbo->transactionCommit();
-            return true;
-        }
+        $this->_db->transactionCommit();
+        return true;
     }
 
     /**
