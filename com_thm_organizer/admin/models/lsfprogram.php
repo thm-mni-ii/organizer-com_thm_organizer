@@ -136,7 +136,7 @@ class THM_OrganizerModelLSFProgram extends JModel
     /**
      * Checks for a program mapping, creating one if non-existant
      *
-     * @param   int       $programID          the id of the program
+     * @param   int     $programID      the id of the program
      * @param   object  &$mappingModel  the mapping model
      *
      * @return  boolean  true on existant/created mapping, otherwise false

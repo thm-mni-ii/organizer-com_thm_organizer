@@ -305,7 +305,7 @@ class THM_OrganizerModelRoom extends JModel
             return true;
         }
 
-        $type = '';
+        $description = '';
         if (!empty($data['typeID']))
         {
             $typeQuery = $this->_db->getQuery(true);
@@ -313,7 +313,7 @@ class THM_OrganizerModelRoom extends JModel
             $typeQuery->from('__thm_organizer_room_types');
             $typeQuery->where("id = '{$data['typeID']}'");
             $this->_db->setQuery((string) $typeQuery);
-            $type .= str_replace('DS_', '', $this->_db->loadResult());
+            $description .= str_replace('DS_', '', $this->_db->loadResult());
         }
 
         $oldNameQuery = $this->_db->getQuery(true);
@@ -328,7 +328,7 @@ class THM_OrganizerModelRoom extends JModel
         foreach ($schedules as $schedule)
         {
             $scheduleObject = json_decode($schedule['schedule']);
-            $this->processSchedule($scheduleObject, $data, $oldNames, $newName, $type);
+            $this->processSchedule($scheduleObject, $data, $oldNames, $newName, $description);
             $schedule['schedule'] = json_encode($scheduleObject);
             $success = $scheduleTable->save($schedule);
             if (!$success)
@@ -342,15 +342,15 @@ class THM_OrganizerModelRoom extends JModel
     /**
      * Processes the data for an individual schedule
      * 
-     * @param   object   &$schedule    the schedule being processed
-     * @param   array    &$data        the data for the schedule db entry
-     * @param   array    $oldNames     the deprecated room names
-     * @param   string   $newName      the new name for the room
-     * @param   string   $description  the room description
+     * @param   object  &$schedule    the schedule being processed
+     * @param   array   &$data        the data for the schedule db entry
+     * @param   array   &$oldNames    the deprecated room names
+     * @param   string  $newName      the new name for the room
+     * @param   string  $description  the room description
      * 
      * @return  void
      */
-    private function processSchedule(&$schedule, &$data, &$oldNames, $newName, $type)
+    private function processSchedule(&$schedule, &$data, &$oldNames, $newName, $description)
     {
         foreach ($oldNames AS $oldName)
         {
@@ -369,9 +369,9 @@ class THM_OrganizerModelRoom extends JModel
         if (!empty($data['typeID']))
         {
             $schedule->rooms->$newName->typeID = $data['typeID'];
-            if (!empty($type))
+            if (!empty($description))
             {
-                $schedule->rooms->$newName->description = $type;
+                $schedule->rooms->$newName->description = $description;
             }
         }
     }
@@ -379,9 +379,9 @@ class THM_OrganizerModelRoom extends JModel
     /**
      * Replaces the references using the old room name
      * 
-     * @param   object   &$schedule  the schedule being processed
-     * @param   string   $oldName    the old name of the room
-     * @param   string   $newName    the new name for the room
+     * @param   object  &$schedule  the schedule being processed
+     * @param   string  $oldName    the old name of the room
+     * @param   string  $newName    the new name for the room
      * 
      * @return  void
      */
@@ -400,11 +400,11 @@ class THM_OrganizerModelRoom extends JModel
     /**
      * Processes the references for a single date
      * 
-     * @param   object   &$schedule  the schedule being processed
-     * @param   string   $date       the date being currently iterated
-     * @param   object   &$blocks    the block being currently iterated
-     * @param   string   $oldName    the old name of the room
-     * @param   string   $newName    the new name for the room
+     * @param   object  &$schedule  the schedule being processed
+     * @param   string  $date       the date being currently iterated
+     * @param   object  &$blocks    the block being currently iterated
+     * @param   string  $oldName    the old name of the room
+     * @param   string  $newName    the new name for the room
      * 
      * @return  void
      */
@@ -426,12 +426,12 @@ class THM_OrganizerModelRoom extends JModel
     /**
      * Replaces references to a deprecated room name
      * 
-     * @param   object   &$schedule  the schedule being processed
-     * @param   string   $date       the date being currently iterated
-     * @param   int      $block      the block being currently iterated
-     * @param   int      $lessonID   the id of the lesson being currently iterated
-     * @param   string   $oldName    the old name of the room
-     * @param   string   $newName    the new name for the room
+     * @param   object  &$schedule  the schedule being processed
+     * @param   string  $date       the date being currently iterated
+     * @param   int     $block      the block being currently iterated
+     * @param   int     $lessonID   the id of the lesson being currently iterated
+     * @param   string  $oldName    the old name of the room
+     * @param   string  $newName    the new name for the room
      * 
      * @return  void
      */
