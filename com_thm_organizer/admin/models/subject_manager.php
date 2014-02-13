@@ -98,6 +98,11 @@ class THM_OrganizerModelSubject_Manager extends JModelList
         {
             $query->where("lft > '{$borders['lft']}'");
             $query->where("rgt < '{$borders['rgt']}'");
+            $poolID = $this->state->get('filter.pool');
+            if (!empty($poolID) AND $poolID != -1)
+            {
+                $query->where("parentID = '{$borders['id']}'");
+            }
         }
 
         $query->order("$orderCol $orderDir");
@@ -149,7 +154,7 @@ class THM_OrganizerModelSubject_Manager extends JModelList
     }
 
     /**
-     * Retrieves the mapped left and right values for the requested program
+     * Retrieves the mapped id, left and right values for the resoource
      *
      * @param   int     $resourceID      the id of the requested resource
      * @param   string  $resourceColumn  the column with the desired resource values
@@ -160,7 +165,7 @@ class THM_OrganizerModelSubject_Manager extends JModelList
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select('lft, rgt')->from('#__thm_organizer_mappings')->where("$resourceColumn = '$resourceID'");
+        $query->select('id, lft, rgt')->from('#__thm_organizer_mappings')->where("$resourceColumn = '$resourceID'");
         $dbo->setQuery((string) $query);
         return $dbo->loadAssoc();
     }

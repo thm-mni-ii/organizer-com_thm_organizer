@@ -40,7 +40,7 @@ span.fieldText {
 
 /* curriculum container */
 div.curriuculum_container.ui-accordion.ui-widget.ui-helper-reset {
-    width: 686px;
+    width: 682px;
     padding: 0px 4px;
     font-family: Verdana,Arial;
     float: left;
@@ -176,8 +176,12 @@ div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front {
     top: 175px !important;
     max-height: 425px !important;
     overflow-y: auto;
-    width: 638px !important;
+    width: 694px !important;
     font-family: Verdana,Arial;
     border: rgb(187, 187, 187) 1px solid;
     box-shadow: 2px 2px 8px rgb(150, 150, 150);
+}
+
+div.poolDialog.ui-dialog-content.ui-widget-content.ready {
+    padding: 5px;
 }

@@ -49,7 +49,7 @@ function Curriculum(parameters) {
         blue = parseInt(colorCode.substring(4), 16);
         brightness = (red * 299) + (green * 587) + (blue * 114);
         brightness = brightness / 255000;
-        if (brightness >= 0.5)
+        if (brightness >= 0.6)
         {
             return "dark-text";
         }

@@ -75,46 +75,6 @@ class THM_OrganizerModelSubject extends JModel
     }
 
     /**
-     * Method to import data associated with subjects from LSF
-     *
-     * @return  bool  true on success, otherwise false
-     */
-    public function importLSFDataBatch()
-    {
-        $subjectIDs = JRequest::getVar('cid', array(), 'post', 'array');
-        $this->_db->transactionStart();
-        foreach ($subjectIDs as $subjectID)
-        {
-            $subjectImported = $this->importLSFDataSingle($subjectID);
-            if ($subjectImported == 'error')
-            {
-                $this->_db->transactionRollback();
-                return false;
-            }
-        }
-        $this->_db->transactionCommit();
-        return true;
-    }
-
-    /**
-     * Sets a given value at a given index in the subject array if not empty.
-     * This prevents overwrites of local changes to data not existent within LSF.
-     *
-     * @param   array   &$subject  the subject being filled
-     * @param   string  $index     the index at which to set the value
-     * @param   mixed   $value     the value to be set at the index
-     *
-     * @return  void
-     */
-    private function setSubjectAttribute(&$subject, $index, $value)
-    {
-        if (!empty($value))
-        {
-            $subject[$index] = $value;
-        }
-    }
-
-    /**
      * Attempts to save a subject entry, updating subject-teacher data as
      * necessary.
      *
@@ -176,20 +136,26 @@ class THM_OrganizerModelSubject extends JModel
         $subjectID = $data['id'];
         $this->removeTeachers($subjectID);
 
-        foreach ($data['responsibleID'] AS $responsibleID)
+        if (!empty($data['responsibleID']))
         {
-            $respAdded = $this->addTeacher($subjectID, $responsibleID, RESPONSIBLE);
-            if (!$respAdded)
+            foreach ($data['responsibleID'] AS $responsibleID)
             {
-                return false;
+                $respAdded = $this->addTeacher($subjectID, $responsibleID, RESPONSIBLE);
+                if (!$respAdded)
+                {
+                    return false;
+                }
             }
         }
-        foreach ($data['teacherID'] AS $teacherID)
+        if (!empty($data['teacherID']))
         {
-            $teacherAdded = $this->addTeacher($subjectID, $teacherID, TEACHER);
-            if (!$teacherAdded)
+            foreach ($data['teacherID'] AS $teacherID)
             {
-                return false;
+                $teacherAdded = $this->addTeacher($subjectID, $teacherID, TEACHER);
+                if (!$teacherAdded)
+                {
+                    return false;
+                }
             }
         }
         return true;
@@ -264,24 +230,14 @@ class THM_OrganizerModelSubject extends JModel
     private function processFormMappings($subjectID, &$data)
     {
         $model = JModel::getInstance('mapping', 'THM_OrganizerModel');
-        $mappingsDeleted = $model->deleteByResourceID($subjectID, 'subject');
-        if (!$mappingsDeleted)
-        {
-            return false;
-        }
 
         // No mappings desired
         if (empty($data['parentID']))
         {
-            return true;
+            return $model->deleteByResourceID($subjectID, 'subject');
         }
 
-        $mappingSaved = $model->saveSubject($data);
-        if (!$mappingSaved)
-        {
-            return false;
-        }
-        return true;
+        return $model->saveSubject($data);
     }
 
     /**

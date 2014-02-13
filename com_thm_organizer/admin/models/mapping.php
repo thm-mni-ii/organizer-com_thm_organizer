@@ -797,37 +797,77 @@ class THM_OrganizerModelMapping extends JModel
      */
     public function saveSubject(&$data)
     {
-        $subjectData = array();
-        $subjectData['programID'] = null;
-        $subjectData['poolID'] = null;
-        $subjectData['subjectID'] = $data['id'];
+        $subjectTemplate = array();
+        $subjectTemplate['programID'] = null;
+        $subjectTemplate['poolID'] = null;
+        $subjectTemplate['subjectID'] = $data['id'];
+        $subjectTemplate['ordering'] = 'last';
 
-        $parentIDs = $data['parentID'];
-        $orderings = array();
-        foreach ($parentIDs as $parentID)
+        $selectedParents = $data['parentID'];
+        $existingMappings = $this->getExistingMappings($data['id']);
+        if (!empty($existingMappings))
         {
-            $orderings[$parentID] = $this->getOrdering($parentID, $subjectData['subjectID']);
-        }
- 
-        $cleanSlate = $this->deleteByResourceID($subjectData['subjectID'], 'subject');
-        if ($cleanSlate)
-        {
-            foreach ($parentIDs as $parentID)
+            $success = $this->processExistingSubjects($selectedParents, $existingMappings);
+            if (!$success)
             {
-                $subjectData['parentID'] = $parentID;
-                $subjectData['ordering'] = $orderings[$parentID];
-                $subjectAdded = $this->addSubject($subjectData);
-                if (!$subjectAdded)
+                return false;
+            }
+        }
+
+        foreach ($selectedParents as $newParentID)
+        {
+            $subjectTemplate['parentID'] = $newParentID;
+            $subjectAdded = $this->addSubject($subjectTemplate);
+            if (!$subjectAdded)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Retrieves existing mappings
+     * 
+     * @param   int     $resourceID  the id of the resource in its resource table
+     * @param   string  $type        the type of resource entry being searched for
+     * 
+     * @return  mixed  array on success, otherwise false
+     */
+    private function getExistingMappings($resourceID, $type = 'subject')
+    {
+        $query = $this->_db->getQuery(true);
+        $query->select('*')->from('#__thm_organizer_mappings')->where("{$type}ID = '$resourceID'");
+        return $this->_db->setQuery((string) $query)->loadAssocList();
+    }
+
+    /**
+     * Processes existing subject entries against the selected parents, deleting
+     * existing entries with parents no longer selected from the database, and
+     * deleting selected parent entries which already exist from the selection.
+     * 
+     * @param   array  &$selectedParents  the parent pools selected by the user
+     * @param   array  $existingMappings  the existing mappings for the subject
+     * 
+     * @return  boolean  true on success, otherwise false
+     */
+    private function processExistingSubjects(&$selectedParents, $existingMappings)
+    {
+        foreach ($existingMappings as $existingMapping)
+        {
+            $index = array_search($existingMapping['parentID'], $selectedParents);
+            if ($index === false)
+            {
+                $deprecatedDeleted = $this->deleteEntry($existingMapping['id']);
+                if (!$deprecatedDeleted)
                 {
                     return false;
                 }
+                continue;
             }
-            return true;
+            unset($selectedParents[$index]);
         }
-        else
-        {
-            return false;
-        }
+        return true;
     }
 
     /**
