@@ -1,4 +1,4 @@
-/*csslint important: false*/
+/*csslint important: false, overqualified-elements: false, box-sizing: false, adjoining-classes: false*/
 /*legend container*/
 div.curriculum_legend {
     width: 245px;
@@ -9,7 +9,6 @@ div.curriculum_legend {
     border: rgb(187, 187, 187) 1px solid;
     border-radius: 2px;
     box-shadow: 2px 2px 4px rgb(221, 221, 221);
-    font-family: Verdana, Arial;
     font-size: 13px;
     color: rgb(74, 92, 102);
     margin-top: 2px;
@@ -35,13 +34,13 @@ span.fieldColor {
 
 span.fieldText {
     display: inline-block;
-    padding: 0px 0px 2px 2px ;
+    padding: 0 0 2px 2px ;
 }
 
 /* curriculum container */
 div.curriuculum_container.ui-accordion.ui-widget.ui-helper-reset {
     width: 682px;
-    padding: 0px 4px;
+    padding: 0 4px;
     font-family: Verdana,Arial;
     float: left;
 }
@@ -154,7 +153,7 @@ a.curriculumLink:link, a.curriculumLink:hover, a.curriculumLink:visited,a.curric
     width: 20px;
 }
 
-#curriculum_dialog_list
+.curriculum_dialog_list
 {
     margin: 15px 10px 10px 10px;
     text-align: center;
@@ -163,12 +162,6 @@ a.curriculumLink:link, a.curriculumLink:hover, a.curriculumLink:visited,a.curric
 
 .semesterHeader {
     background-color: #B0B0B0;
-}
-
-#pooldialog {
-    background-color: #FFFFFF;
-    padding: 10px 10px 10px 10px;
-
 }
 
 /* jquery ui writes inline styles for this element :( */

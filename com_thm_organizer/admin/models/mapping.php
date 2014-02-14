@@ -602,8 +602,8 @@ class THM_OrganizerModelMapping extends JModel
      * @param   int     $resourceID  the id of the resource
      * @param   string  $type        the type of resource being ordered
      *
-     * @return  mixed  the int value of an existing ordering or string 'last' if
-     *                 none exists
+     * @return  int  the value of the highest existing ordering or 1 if none
+     *               exist
      */
     private function getOrdering($parentID, $resourceID, $type = 'pool')
     {
@@ -801,7 +801,6 @@ class THM_OrganizerModelMapping extends JModel
         $subjectTemplate['programID'] = null;
         $subjectTemplate['poolID'] = null;
         $subjectTemplate['subjectID'] = $data['id'];
-        $subjectTemplate['ordering'] = 'last';
 
         $selectedParents = $data['parentID'];
         $existingMappings = $this->getExistingMappings($data['id']);
@@ -816,6 +815,7 @@ class THM_OrganizerModelMapping extends JModel
 
         foreach ($selectedParents as $newParentID)
         {
+            $subjectTemplate['ordering'] = $this->getOrdering($newParentID, $resourceID, 'subject');
             $subjectTemplate['parentID'] = $newParentID;
             $subjectAdded = $this->addSubject($subjectTemplate);
             if (!$subjectAdded)

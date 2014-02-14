@@ -192,9 +192,11 @@ function Curriculum(parameters) {
 
         if (curricula_dialog) {
             $(curricula_dialog).dialog().open();
-        } else {
+        }
+        else
+        {
             // if it does not exist
-            $('<div id="curriculum_dialog-modal"><ul id="curriculum_dialog_list"></ul></div>').dialog().open();
+            $('<div id="curriculum_dialog-modal"><ul id="curriculum_dialog_list"class="curriculum_dialog_list"></ul></div>').dialog().open();
         }
     }
 
