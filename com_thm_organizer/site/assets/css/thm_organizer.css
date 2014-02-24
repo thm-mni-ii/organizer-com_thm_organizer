@@ -1,5 +1,4 @@
-@CHARSET "ISO-8859-1";
-
+/*csslint important: false, overqualified-elements: false, box-sizing: false, adjoining-classes: false*/
 /******************************************************************************/
 /* com_thm_organizer front end styles                                         */
 /******************************************************************************/
@@ -8,7 +7,6 @@
 
 .thm_organizer_action_link{
     display: inline-block;
-    float: left;
     margin: 0;
     padding: 1px 5px;
     text-align: center;

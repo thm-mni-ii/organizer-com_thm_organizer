@@ -49,7 +49,7 @@ class THM_OrganizerHelperTeacher
     /**
      * Retrieves the teacher responsible for the subject's development
      *
-     * @param   int   $teacherID       the teacher's id
+     * @param   int  $teacherID  the teacher's id
      *
      * @return  array  an array of teacher data
      */

@@ -255,8 +255,6 @@ class THM_OrganizerModelSubject_List extends JModelList
         parent::populateState($ordering, $direction);
 
         $app = JFactory::getApplication();
-//                echo "<pre>" . print_r($_REQUEST, true) . "</pre>";
-//        die;
         $app->set('list_limit', '0');
         $programID = $app->getUserStateFromRequest($this->context . '.programID', 'programID');
         $search = $app->getUserStateFromRequest($this->context . '.search', 'search', '');
