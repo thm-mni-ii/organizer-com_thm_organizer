@@ -34,9 +34,7 @@ class THM_OrganizerModelSubject_List extends JModelList
 
     public $subjects = null;
  
-    public $groupBy = NONE;
- 
-    public $groups = null;
+    public $groups = array();
 
     /**
      * Method to get an array of data items.
@@ -45,64 +43,118 @@ class THM_OrganizerModelSubject_List extends JModelList
      */
     public function getItems()
     {
+        $programInformation = $this->getProgramInformation();
+        $this->programName = $programInformation['name'];
+
         $items = parent::getItems();
+
         foreach ($items AS $key => $value)
         {
-            $forename = empty($value->forename)? '' : ", $value->forename";
-            $items[$key]->teacherName = $value->surname . $forename;
+            $this->setTeacherProperties($items, $key, $value);
+            switch ($this->state->get('groupBy', '0'))
+            {
+                case POOL:
+                    $this->processPoolGroup($value->groupID);
+                    break;
+                case TEACHER:
+                    $this->processTeacherGroup($value->groupID);
+                    break;
+                case FIELD:
+                    $this->processFieldGroup($value->groupID);
+                    break;
+                default :
+                    break;
+            }
         }
 
-        // Get reference information before changing the query
-        $dbo = JFactory::getDbo();
-        $subjectIDs = $dbo->loadResultArray(0);
-        $programs = $dbo->loadResultArray(3);
-        $pools = $dbo->loadResultArray(4);
-        $surnames = $dbo->loadResultArray(5);
-        $forenames = $dbo->loadResultArray(6);
-        $fields = $dbo->loadResultArray(7);
-        $THMGroupsLinks = $dbo->loadResultArray(9);
-        $fieldColors = $dbo->loadResultArray(11);
-        $teacherColors = $dbo->loadResultArray(11);
-        $poolColors = $dbo->loadResultArray(12);
-        $programColors = $dbo->loadResultArray(13);
-
-        switch ($this->state->get('groupBy', '0'))
+        if (!empty($this->groups))
         {
-            case POOL:
-                $this->groups = $this->getPoolGroups($subjectIDs, $programs, $pools, $poolColors, $programColors);
-                break;
-            case TEACHER:
-                $this->groups = $this->getTeacherGroups($subjectIDs, $surnames, $forenames, $THMGroupsLinks, $teacherColors);
-                break;
-            case FIELD:
-                $this->groups = $this->getFieldGroups($subjectIDs, $fields, $fieldColors);
-                break;
-            default:
-                $this->groups = array();
-                break;
+            foreach ($this->groups AS $key => $group)
+            {
+                $this->groups[$key]['bgColor'] = $this->getBGColors($group['bgColor']);
+                $this->groups[$key]['textColor'] = $this->getTextColorClass($this->groups[$key]['bgColor']);
+            }
+            ksort($this->groups);
         }
- 
-        $this->programName = $this->getProgramName();
 
         return $items;
     }
 
     /**
-     * Gets an array of objects from the results of database query.
-     *
-     * @param   string   $query       The query.
-     * @param   integer  $limitstart  Offset.
-     * @param   integer  $limit       The number of records.
-     *
-     * @return  array  An array of results.
+     * Creates a string of integer values seperated by commas corresponding to
+     * the hexadecimal color code
+     * 
+     * @param   string  $hexCode  the hexidecimal field color
+     * 
+     * @return  string a comma seperated list of lolor integer values
      */
-    protected function _getList($query, $limitstart = 0, $limit = 0)
+    private function getBGColors($hexCode)
     {
-        $dbo = JFactory::getDbo();
-        $dbo->setQuery($query, $limitstart, $limit);
-        $result = $dbo->loadObjectList('id');
-        return $result;
+        if (empty($hexCode))
+        {
+            $hexCode = 'ffffff';
+        }
+
+        $red = hexdec(substr($hexCode, 0, 2));
+        $green = hexdec(substr($hexCode, 2, 2));
+        $blue = hexdec(substr($hexCode, 4, 2));
+
+        return "$red,$green,$blue";
     }
+
+    /**
+     * Gets a text class which states the recommended color brightness the
+     * actual value for this class should be set in the included css file.
+     * 
+     * @param   string  $colorString  a string containing color values seperated
+     *                                by commas
+     * 
+     * @return  'light-text' for dark colors, 'dark-text' for light ones
+     */
+    private function getTextColorClass($colorString)
+    {
+        $colorValues = explode(',', $colorString);
+
+        $brightness = (($colorValues[0] * 299) + ($colorValues[1] * 587) + ($colorValues[2] * 114)) / 255000;
+        if ($brightness >= 0.6)
+        {
+            return "dark-text";
+        }
+        else 
+        {
+            return "light-text";
+        }
+    }
+
+    /**
+     * Sets teacher properties for subjects
+     * 
+     * @param   array   &$subjects  the subjects for the given degree program
+     * @param   int     $index      the current index being iterated
+     * @param   object  $subject    the subject object at the given index
+     * 
+     * @return  void
+     */
+    private function setTeacherProperties(&$subjects, $index, $subject)
+    {
+        $teacherData = THM_OrganizerHelperTeacher::getDataBySubject($subject->id, 1);
+        if (empty($teacherData))
+        {
+            return;
+        }
+
+        $defaultName = THM_OrganizerHelperTeacher::getDefaultName($teacherData);
+        $groupsName = THM_OrganizerHelperTeacher::getNameFromTHMGroups($teacherData['userID']);
+        if (!$groupsName)
+        {
+            $subjects[$index]->teacherName = $defaultName;
+            return;
+        }
+
+        $subjects[$index]->teacherName = $groupsName;
+        $subjects[$index]->groupsLink = THM_OrganizerHelperTeacher::getLink($teacherData['userID'], $teacherData['surname']);
+    }
+
     /**
      * Method to cache the last query constructed.
      *
@@ -112,77 +164,82 @@ class THM_OrganizerModelSubject_List extends JModelList
      */
     protected function getListQuery()
     {
-        $languageTag = $this->state->get('languageTag');
-        $menuID = $this->state->get('menuID');
-        $programID = $this->state->get('programID');
-        $search = $this->state->get('search');
-
-        $dbo = JFactory::getDbo();
-
-        $nestedQuery = $dbo->getQuery(true);
-        $nestedQuery->select("lft, rgt")->from('#__thm_organizer_mappings')->where("programID = '$programID'");
-        $dbo->setQuery((string) $nestedQuery);
-        $boundaries = $dbo->loadAssoc();
-        if (empty($boundaries))
+        $programInformation = $this->getProgramInformation();
+        if (empty($programInformation))
         {
-            return $dbo->getQuery(true);
+            return $this->_db->getQuery(true);
         }
 
+        $menuID = $this->state->get('menuID');
+        $languageTag = $this->state->get('languageTag');
         $subjectLink = "'index.php?option=com_thm_organizer&view=subject_details&languageTag=$languageTag&Itemid=$menuID&id='";
-        $groupsLink = "'index.php?option=com_thm_groups&view=profile&Itemid=$menuID&layout=default&gsuid='";
 
-        $select = "DISTINCT s.id, s.name_$languageTag AS name, creditpoints, ";
-        $select .= "CONCAT(dp.subject_$languageTag, ' (', d.abbreviation, ' ', dp.version, ')') AS program, p.name_$languageTag AS pool, ";
-        $select .= "surname, forename, sf.field, ";
-        $select .= "CONCAT($subjectLink, s.id) AS subjectLink, CONCAT($groupsLink, u.id, '&name=', t.surname) AS groupsLink, ";
-        $select .= "sc.color AS fieldColor, tc.color AS teacherColor, pc.color AS poolColor, dpc.color AS programColor ";
-        $subjectQuery = $dbo->getQuery(true);
-        $subjectQuery->select($select);
-        $subjectQuery->from('#__thm_organizer_subjects AS s');
-        $subjectQuery->innerJoin('#__thm_organizer_mappings AS m1 ON m1.subjectID = s.id');
-        $subjectQuery->innerJoin('#__thm_organizer_mappings AS m2 ON m1.parentID = m2.id');
-        $subjectQuery->leftJoin('#__thm_organizer_subject_teachers AS st ON s.id = st.subjectID');
-        $subjectQuery->leftJoin('#__thm_organizer_teachers AS t ON st.teacherID = t.id');
-        $subjectQuery->leftJoin('#__users AS u ON t.username = u.username');
-        $subjectQuery->leftJoin('#__thm_organizer_programs AS dp ON m2.programID = dp.id');
-        $subjectQuery->leftJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
-        $subjectQuery->leftJoin('#__thm_organizer_pools AS p ON m2.poolID = p.id');
-        $subjectQuery->leftJoin('#__thm_organizer_fields AS sf ON s.fieldID = sf.id');
-        $subjectQuery->leftJoin('#__thm_organizer_colors AS sc ON sf.colorID = sc.id');
-        $subjectQuery->leftJoin('#__thm_organizer_fields AS tf ON t.fieldID = tf.id');
-        $subjectQuery->leftJoin('#__thm_organizer_colors AS tc ON tf.colorID = tc.id');
-        $subjectQuery->leftJoin('#__thm_organizer_fields AS pf ON p.fieldID = pf.id');
-        $subjectQuery->leftJoin('#__thm_organizer_colors AS pc ON pf.colorID = pc.id');
-        $subjectQuery->leftJoin('#__thm_organizer_fields AS dpf ON dp.fieldID = dpf.id');
-        $subjectQuery->leftJoin('#__thm_organizer_colors AS dpc ON dpf.colorID = dpc.id');
-        $subjectQuery->where("m1.lft BETWEEN {$boundaries['lft']} AND {$boundaries['rgt']}");
-        $subjectQuery->where("m1.rgt BETWEEN {$boundaries['lft']} AND {$boundaries['rgt']}");
-        $subjectQuery->where("st.teacherResp = '1'");
+        $subjectsQuery = $this->_db->getQuery(true);
+        $subjectsQuery->from('#__thm_organizer_subjects AS s');
+
+        $select = array();
+        $subjectsQuery->innerJoin('#__thm_organizer_mappings AS m1 ON m1.subjectID = s.id');
+        switch ($this->state->get('groupBy', '0'))
+        {
+            case NONE:
+                
+                // Non-grouped lists should only have distinct subjects
+                $select[] = 'DISTINCT s.id AS id';
+                break;
+            case POOL:
+                $select[] = 's.id AS id';
+                $select[] = "m2.poolID AS groupID";
+                $subjectsQuery->innerJoin('#__thm_organizer_mappings AS m2 ON m1.parentID = m2.id');
+                break;
+            case TEACHER:
+                $select[] = 's.id AS id';
+                $select[] = "t.teacherID AS groupID";
+                $subjectsQuery->leftJoin('#__thm_organizer_subject_teachers AS t ON s.id = t.subjectID');
+                break;
+            case FIELD:
+                $select[] = 's.id AS id';
+                $select[] = "f.id AS groupID";
+                $subjectsQuery->leftJoin('#__thm_organizer_fields AS f ON s.fieldID = f.id');
+                break;
+            default :
+                break;
+        }
+        $select[] = "s.name_$languageTag AS name";
+        $select[] = 's.creditpoints';
+        $select[] = 's.externalID';
+        $select[] = "CONCAT($subjectLink, s.id) AS subjectLink";
+        $subjectsQuery->select($select);
+        $subjectsQuery->where("m1.lft > '{$programInformation['lft']}' AND  m1.rgt < '{$programInformation['rgt']}'");
+
+        $search = $this->state->get('search');
         if (!empty($search))
         {
-            $subjectQuery->where($this->getSearch());
+            $subjectsQuery->leftJoin('#__thm_organizer_subject_teachers AS st ON s.id = st.subjectID');
+            $subjectsQuery->innerJoin('#__thm_organizer_teachers AS t2 ON st.teacherID = t2.id');
+            $subjectsQuery->where($this->getSearch());
         }
-        $subjectQuery->order($this->state->get('groupBy') == POOL? 'm2.lft' : 'name');
-        return $subjectQuery;
+        $subjectsQuery->order('name ASC');
+        return $subjectsQuery;
     }
 
     /**
-     * Gets the name of the program selected
-     *
-     * @return  string  the name of the program
+     * Retrieves program information (name and nesting values)
+     * 
+     * @return  mixed  array on success, otherwise false
      */
-    private function getProgramName()
+    private function getProgramInformation()
     {
-        $dbo = JFactory::getDbo();
         $programID = $this->state->get('programID');
+        $languageTag = $this->state->get('languageTag');
 
-        $query = $dbo->getQuery(true);
-        $query->select("CONCAT(p.subject, ' (', d.abbreviation, ' ', p.version, ')')");
-        $query->from('#__thm_organizer_programs AS p')->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
+        $query = $this->_db->getQuery(true);
+        $query->select("CONCAT(p.subject_$languageTag, ' (', d.abbreviation, ' ', p.version, ')') AS name, lft, rgt");
+        $query->from('#__thm_organizer_programs AS p');
+        $query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
+        $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.id');
         $query->where("p.id = '$programID'");
-        $dbo->setQuery((string) $query);
-        $programName = $dbo->loadResult();
-        return empty($programName)? '' : $programName;
+        $this->_db->setQuery((string) $query);
+        return $this->_db->loadAssoc();
     }
 
     /**
@@ -198,6 +255,8 @@ class THM_OrganizerModelSubject_List extends JModelList
         parent::populateState($ordering, $direction);
 
         $app = JFactory::getApplication();
+//                echo "<pre>" . print_r($_REQUEST, true) . "</pre>";
+//        die;
         $app->set('list_limit', '0');
         $programID = $app->getUserStateFromRequest($this->context . '.programID', 'programID');
         $search = $app->getUserStateFromRequest($this->context . '.search', 'search', '');
@@ -220,186 +279,105 @@ class THM_OrganizerModelSubject_List extends JModelList
     }
 
     /**
-     * Retrieves an array of groups with references to the subjects grouped
+     * Sets properties for a pool group
      *
-     * @param   array  $subjectIDs     the ids of the program subjects
-     * @param   array  $programs       the program when subjects are directly
-     *                                 subordinate in the hierarchy
-     * @param   array  $pools          the parent pool
-     * @param   array  $poolColors     the hexidecimal code of the pool's color
-     * @param   array  $programColors  the hexidecimal code of the program's color
+     * @param   int  $poolID  the poolID
      *
-     * @return  array  the groups according to which the subjects will be output
+     * @return  void
      */
-    private function getPoolGroups($subjectIDs, $programs, $pools, $poolColors, $programColors)
+    private function processPoolGroup($poolID)
     {
-        $poolGroups = array();
-        foreach (array_keys($subjectIDs) as $key)
-        {
-            if (!empty($pools[$key]))
-            {
-                $name = $pools[$key];
-                if (!isset($poolGroups[$name]))
-                {
-                    $poolGroups[$name] = array();
-                    if (!empty($poolColors[$key]))
-                    {
-                        $poolGroups[$name]['bgColor'] = $poolColors[$key];
-                        $poolGroups[$name]['textColor'] = $this->textColor($poolColors[$key]);
-                    }
-                }
-                $poolGroups[$pools[$key]][] = $subjectIDs[$key];
-            }
-            elseif (!empty($programs[$key]))
-            {
-                $name = $programs[$key];
-                if (!isset($poolGroups[$name]))
-                {
-                    $poolGroups[$name] = array();
-                    if (!empty($programColors[$key]))
-                    {
-                        $poolGroups[$name]['bgColor'] = $programColors[$key];
-                        $poolGroups[$name]['textColor'] = $this->textColor($programColors[$key]);
-                    }
-                }
-                $poolGroups[$name][] = $subjectIDs[$key];
-            }
-            if (empty($poolGroups[$name]['bgColor']))
-            {
-                $poolGroups[$name]['bgColor'] = 'b7bec2';
-                $poolGroups[$name]['textColor'] = 'ffffff';
-            }
-        }
-        return $poolGroups;
-    }
-
-    /**
-     * Retrieves an array of groups with references to the subjects grouped
-     *
-     * @param   array  $subjectIDs      the ids of the program subjects
-     * @param   array  $surnames        the surnames of responsible teachers
-     * @param   array  $forenames       the forenames of responsible teachers
-     * @param   array  $THMGroupsLinks  the links to the THM Groups profiles of
-     *                                  the responsible teachers
-     * @param   array  $teacherColors   the hexidecimal code of the teacher's color
-     *
-     * @return  array  the groups according to which the subjects will be output
-     */
-    private function getTeacherGroups($subjectIDs, $surnames, $forenames, $THMGroupsLinks, $teacherColors)
-    {
+        $programInformation = $this->getProgramInformation();
         $languageTag = $this->state->get('languageTag');
-        $undefined = $languageTag == 'en'? 'No teacher registered as responsible.' : 'Kein Dozent als Verantwortliche eingetragen.';
-        $teacherGroups = array();
-        foreach ($subjectIDs as $key => $value)
+        $query = $this->_db->getQuery(true);
+        $query->select("p.id, m.lft, p.name_{$languageTag} AS name, c.color AS bgColor");
+        $query->from('#__thm_organizer_pools AS p');
+        $query->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
+        $query->leftJoin('#__thm_organizer_fields AS f ON p.fieldID = f.id');
+        $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
+        $query->where("p.id ='$poolID'");
+        $query->where("m.lft > '{$programInformation['lft']}' AND  m.rgt < '{$programInformation['rgt']}'");
+        $this->_db->setQuery((string) $query);
+        $pools = $this->_db->loadAssocList();
+        if (empty($pools))
         {
-            if (!empty($surnames[$key]))
-            {
-                $forename = empty($forenames[$key])? '' : ", {$forenames[$key]} ";
-                $name = $surnames[$key] . $forename;
-
-                if (!isset($teacherGroups[$name]))
-                {
-                    $teacherGroups[$name] = array();
-                    if (!isset($teacherGroups[$name]['link']))
-                    {
-                        $teacherGroups[$name]['link'] = $THMGroupsLinks[$key];
-                    }
-                    if ($teacherColors[$key])
-                    {
-                        $teacherGroups[$name]['bgColor'] = $teacherColors[$key];
-                        $teacherGroups[$name]['textColor'] = $this->textColor($teacherColors[$key]);
-                    }
-                }
-                $teacherGroups[$name][] = $value;
-            }
-            else
-            {
-                $name = $undefined;
-                if (!isset($teacherGroups[$name]))
-                {
-                    $teacherGroups[$name] = array();
-                }
-                $teacherGroups[$name][] = $value;
-            }
-            if (empty($teacherGroups[$name]['bgColor']))
-            {
-                $teacherGroups[$name]['bgColor'] = 'b7bec2';
-                $teacherGroups[$name]['textColor'] = 'FFFFFF';
-            }
+            return;
         }
-        ksort($teacherGroups);
-        return $teacherGroups;
+
+        foreach ($pools as $pool)
+        {
+            $this->groups[$pool['lft']] = $pool;
+        }
+    }
+
+    /**
+     * Retrieves a group which references a subject's teacher
+     *
+     * @param   array  $teacherID  the ids of the teacher
+     *
+     * @return  array  the group according to which the subjects will be output
+     */
+    private function processTeacherGroup($teacherID)
+    {
+        $query = $this->_db->getQuery(true);
+        $query->select("t.id, c.color AS bgColor");
+        $query->from('#__thm_organizer_teachers AS t');
+        $query->leftJoin('#__thm_organizer_fields AS f ON t.fieldID = f.id');
+        $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
+        $query->where("t.id ='$teacherID'");
+        $this->_db->setQuery((string) $query);
+        $teacher = $this->_db->loadAssoc();
+
+        if (empty($teacher))
+        {
+            return;
+        }
+
+        $teacherData = THM_OrganizerHelperTeacher::getDataByID($teacher['id']);
+        if (empty($teacherData))
+        {
+            return;
+        }
+
+        if (empty($this->groups[$teacher['id']]))
+        {
+            $sortName = $teacherData['surname'];
+            $sortName .= empty($teacherData['forename'])? '' : $teacherData['forename'];
+            $this->groups[$sortName] = $teacher;
+
+            $defaultName = THM_OrganizerHelperTeacher::getDefaultName($teacherData);
+            $groupsName = THM_OrganizerHelperTeacher::getNameFromTHMGroups($teacherData['userID']);
+            if (!$groupsName)
+            {
+                $this->groups[$sortName]['name'] = $defaultName;
+                return;
+            }
+
+            $this->groups[$sortName]['name'] = $groupsName;
+            $this->groups[$sortName]['groupsLink'] = THM_OrganizerHelperTeacher::getLink($teacherData['userID'], $teacherData['surname']);
+        }
     }
 
     /**
      * Retrieves an array of groups with references to the subjects grouped
      *
-     * @param   array  $subjectIDs   the ids of the program subjects
-     * @param   array  $fields       the names of the subject fields
-     * @param   array  $fieldColors  the hexidecimal code of the field's color
+     * @param   array  $fieldID  the id of the field of study
      *
-     * @return  array  the groups according to which the subjects will be output
+     * @return  array  the group according to which the subjects will be output
      */
-    private function getFieldGroups($subjectIDs, $fields, $fieldColors)
+    private function processFieldGroup($fieldID)
     {
-        $languageTag = $this->state->get('languageTag');
-        $undefined = $languageTag == 'en'? 'Undefined' : 'Nicht festgelegt';
-        $fieldGroups = array();
-        foreach ($subjectIDs as $key => $value)
-        {
-            if (!empty($fields[$key]))
-            {
-                $name = $fields[$key];
-                if (!isset($fieldGroups[$name]))
-                {
-                    $fieldGroups[$name] = array();
-                    if (!empty($fieldColors[$key]))
-                    {
-                        $fieldGroups[$name]['bgColor'] = $fieldColors[$key];
-                        $fieldGroups[$name]['textColor'] = $this->textColor($fieldColors[$key]);
-                    }
-                }
-                $fieldGroups[$fields[$key]][] = $value;
-            }
-            else
-            {
-                $name = $undefined;
-                if (!isset($fieldGroups[$name]))
-                {
-                    $fieldGroups[$name] = array();
-                }
-                $fieldGroups[$undefined][] = $value;
-            }
-            if (empty($fieldGroups[$name]['bgColor']))
-            {
-                $fieldGroups[$name]['bgColor'] = 'b7bec2';
-                $fieldGroups[$name]['textColor'] = 'ffffff';
-            }
-        }
-        ksort($fieldGroups);
-        return $fieldGroups;
-    }
+        $query = $this->_db->getQuery(true);
+        $query->select("f.id, f.field AS name, c.color AS bgColor");
+        $query->from('#__thm_organizer_fields AS f');
+        $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
+        $query->where("f.id ='$fieldID'");
+        $this->_db->setQuery((string) $query);
+        $field = $this->_db->loadAssoc();
 
-    /**
-     * Method to get an appropriate text color based upon the background color
-     *
-     * @param   string  $color  the background color of the item in hex
-     *
-     * @return  mixed  JHTML image or an empty string
-     */
-    private function textColor($color)
-    {
-        $red = hexdec(substr($color, 0, 2));
-        $green = hexdec(substr($color, 2, 2));
-        $blue = hexdec(substr($color, 4, 2));
-        $median = ($red + $green + $blue) / 3;
-        if ($median <= 127)
+        if (!empty($field))
         {
-            return 'FFFFFF';
-        }
-        else
-        {
-            return '3d494f';
+            $this->groups[$field['name']] = $field;
         }
     }
 
@@ -410,18 +388,12 @@ class THM_OrganizerModelSubject_List extends JModelList
      */
     private function getSearch()
     {
-        $dbo = JFactory::getDbo();
-        $search = '%' . $dbo->getEscaped($this->state->get('search'), true) . '%';
+        $search = '%' . $this->_db->getEscaped($this->state->get('search'), true) . '%';
         $where = "(s.name_de LIKE '$search' OR s.name_en LIKE '$search' OR ";
         $where .= "s.short_name_de LIKE '$search' OR s.short_name_en LIKE '$search' OR ";
         $where .= "s.abbreviation_de LIKE '$search' OR s.abbreviation_en LIKE '$search' OR ";
-        $where .= "s.description_de LIKE '$search' OR s.description_en LIKE '$search' OR ";
-        $where .= "s.content_de LIKE '$search' OR s.content_en LIKE '$search' OR ";
-        $where .= "s.objective_de LIKE '$search' OR s.objective_en LIKE '$search' OR ";
-        $where .= "p.name_de LIKE '$search' OR p.name_en LIKE '$search' OR ";
-        $where .= "p.short_name_de LIKE '$search' OR p.short_name_en LIKE '$search' OR ";
-        $where .= "p.abbreviation_de LIKE '$search' OR p.abbreviation_en LIKE '$search' OR ";
-        $where .= "t.surname LIKE '$search')";
+        $where .= "s.externalID LIKE '$search' OR ";
+        $where .= "t2.surname LIKE '$search')";
         return $where;
     }
 }

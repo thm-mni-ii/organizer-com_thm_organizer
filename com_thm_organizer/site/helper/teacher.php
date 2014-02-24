@@ -45,7 +45,27 @@ class THM_OrganizerHelperTeacher
             return '';
         }
     }
-    
+
+    /**
+     * Retrieves the teacher responsible for the subject's development
+     *
+     * @param   int   $teacherID       the teacher's id
+     *
+     * @return  array  an array of teacher data
+     */
+    public static function getDataByID($teacherID)
+    {
+        $dbo = JFactory::getDBO();
+        $query = $dbo->getQuery(true);
+        $query->select("t.id, t.surname, t.forename, t.title, t.username, u.id AS userID, teacherResp, gpuntisID");
+        $query->from('#__thm_organizer_teachers AS t');
+        $query->innerJoin('#__thm_organizer_subject_teachers AS st ON t.id = st.teacherID ');
+        $query->leftJoin('#__users AS u ON t.username = u.username');
+        $query->where("t.id= '$teacherID'");
+        $dbo->setQuery((string) $query);
+        return $dbo->loadAssoc();
+    }
+
     /**
      * Retrieves the teacher responsible for the subject's development
      *
@@ -56,7 +76,7 @@ class THM_OrganizerHelperTeacher
      *
      * @return  array  an array of teacher data
      */
-    public static function getData($subjectID, $responsibility = null, $multiple = false)
+    public static function getDataBySubject($subjectID, $responsibility = null, $multiple = false)
     {
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);
@@ -123,10 +143,7 @@ class THM_OrganizerHelperTeacher
         {
             return "{$abomination['title']} {$abomination['forename']} {$abomination['surname']}";
         }
-        else
-        {
-            return  '';
-        }
+        return  '';
     }
 
     

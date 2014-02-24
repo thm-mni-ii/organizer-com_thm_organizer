@@ -454,16 +454,18 @@ class THM_OrganizerModelLSFSubject extends JModel
             return true;
         }
 
+        $surnameAttribute = $responsibility == RESPONSIBLE? 'nachname' : 'personal.nachname';
+        $forenameAttribute = $responsibility == RESPONSIBLE? 'vorname' : 'personal.vorname';
         foreach ($teachers as $teacher)
         {
             $teacherData = array();
-            $teacherData['surname'] = (string) $teacher->personinfo->nachname;
+            $teacherData['surname'] = (string) $teacher->personinfo->$surnameAttribute;
             if (empty($teacherData['surname']))
             {
                 continue;
             }
 
-            $teacherData['forename'] = (string) $teacher->personinfo->vorname;
+            $teacherData['forename'] = (string) $teacher->personinfo->$forenameAttribute;
 
             $teacherTable = JTable::getInstance('teachers', 'thm_organizerTable');
             if (!empty($teacher->hgnr))

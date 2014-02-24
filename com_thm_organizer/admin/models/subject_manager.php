@@ -93,15 +93,25 @@ class THM_OrganizerModelSubject_Manager extends JModelList
             $query->where($searchClause);
         }
 
-        $borders = $this->getListBorders();
-        if (!empty($borders))
+        if ($this->state->get('filter.program') == '-2')
         {
-            $query->where("lft > '{$borders['lft']}'");
-            $query->where("rgt < '{$borders['rgt']}'");
-            $poolID = $this->state->get('filter.pool');
-            if (!empty($poolID) AND $poolID != -1)
+            $where = "s.id NOT IN ( ";
+            $where .= "SELECT subjectID FROM #__thm_organizer_mappings ";
+            $where .= "WHERE subjectID IS NOT null )";
+            $query->where($where);
+        }
+        else
+        {
+            $borders = $this->getListBorders();
+            if (!empty($borders))
             {
-                $query->where("parentID = '{$borders['id']}'");
+                $query->where("lft > '{$borders['lft']}'");
+                $query->where("rgt < '{$borders['rgt']}'");
+                $poolID = $this->state->get('filter.pool');
+                if (!empty($poolID) AND $poolID != -1)
+                {
+                    $query->where("parentID = '{$borders['id']}'");
+                }
             }
         }
 

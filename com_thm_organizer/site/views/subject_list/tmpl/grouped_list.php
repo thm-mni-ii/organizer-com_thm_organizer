@@ -10,68 +10,39 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-$listOrder = $this->state->get('list.ordering');
-$listDirn = $this->state->get('list.direction');
-$baseLink = "index.php?option=com_thm_organizer&view=subject_list&view=subject_list&Itemid={$this->state->get('menuID')}&groupBy=";
-$languageTag = $this->state->get('languageTag');
-$subjectIndex = ($languageTag == 'de')? 'Modulhandbuch' : 'Subject List';
-$defaultTabText = ($languageTag == 'de')? "...im Übersicht" : "...in Overview";
-$defaultLink = JRoute::_($baseLink . "0");
-$poolTabText = ($languageTag == 'de')? "...nach Modulpool" : "...by subjectpool";
-$poolLink = JRoute::_($baseLink . "1");
-$teacherTabText = ($languageTag == 'de')? "...nach Dozent" : "...by teacher";
-$teacherLink = JRoute::_($baseLink . "2");
-$fieldTabText = ($languageTag == 'de')? "...nach Fachgruppe" : "...by field of study";
-$fieldLink = JRoute::_($baseLink . "3");
-$flagPath = 'media' . DIRECTORY_SEPARATOR . 'com_thm_organizer' . DIRECTORY_SEPARATOR . 'images';
-$flagPath .= DIRECTORY_SEPARATOR . 'extjs' . DIRECTORY_SEPARATOR . $this->otherLanguageTag . '.png';
-switch ($this->state->get('groupBy'))
-{
-    case POOL:
-        $poolActive = 'active';
-        $defaultActive = $teacherActive = $fieldActive = 'inactive';
-        break;
-    case TEACHER:
-        $teacherActive = 'active';
-        $defaultActive = $poolActive = $fieldActive = 'inactive';
-        break;
-    case FIELD:
-        $fieldActive = 'active';
-        $defaultActive = $poolActive = $teacherActive = 'inactive';
-        break;
-}
 ?>
 <span class="flag" style="float: right;">
-    <a class='naviLink' href="<?php echo JRoute::_($this->langURI); ?>">
+    <a class='naviLink' 
+       onclick="$('#languageTag').val('<?php echo $this->otherLanguageTag; ?>');$('#adminForm').submit();">
         <img class="languageSwitcher"
              alt="<?php echo $this->otherLanguageTag; ?>"
-             src="<?php echo $flagPath; ?>" />
+             src="<?php echo $this->flagPath; ?>" />
     </a>
 </span>
-<h1 class="componentheading"><?php echo $subjectIndex . ' - ' . $this->programName; ?></h1>
+<h1 class="componentheading"><?php echo $this->subjectListText . ' - ' . $this->programName; ?></h1>
 <div class="navi-bar">
-    <span class="navi-tab <?php echo $defaultActive; ?>">
+    <span class="navi-tab <?php echo $this->alphabeticalActive; ?>">
         <a class='naviLink'
-           href="<?php echo $defaultLink; ?>">
-            <?php echo $defaultTabText; ?>
+           onclick="$('#groupBy').val('<?php echo NONE; ?>');$('#adminForm').submit();">
+            <?php echo $this->alphabeticalTabText; ?>
         </a>
     </span>
-    <span class="navi-tab <?php echo $poolActive; ?>">
+    <span class="navi-tab <?php echo $this->poolActive; ?>">
         <a class='naviLink'
-           href="<?php echo $poolLink; ?>">
-            <?php echo $poolTabText; ?>
+           onclick="$('#groupBy').val('<?php echo POOL; ?>');$('#adminForm').submit();">
+            <?php echo $this->poolTabText; ?>
         </a>
     </span>
-    <span class="navi-tab <?php echo $teacherActive; ?>">
+    <span class="navi-tab <?php echo $this->teacherActive; ?>">
         <a class='naviLink'
-           href="<?php echo $teacherLink; ?>">
-            <?php echo $teacherTabText; ?>
+           onclick="$('#groupBy').val('<?php echo TEACHER; ?>');$('#adminForm').submit();">
+            <?php echo $this->teacherTabText; ?>
         </a>
     </span>
-    <span class="navi-tab <?php echo $fieldActive; ?>">
+    <span class="navi-tab <?php echo $this->fieldActive; ?>">
         <a class='naviLink'
-           href="<?php echo $fieldLink; ?>">
-            <?php echo $fieldTabText; ?>
+           onclick="$('#groupBy').val('<?php echo FIELD; ?>');$('#adminForm').submit();">
+            <?php echo $this->fieldTabText; ?>
         </a>
     </span>
 </div>
@@ -94,52 +65,53 @@ switch ($this->state->get('groupBy'))
             </button>
         </div>
     </fieldset>
+    <input type="hidden" name="option" value="com_thm_organizer" />
+    <input type="hidden" name="view" value="subject_list" />
+    <input type="hidden" id="groupBy" name="groupBy" value="<?php echo $this->state->get('groupBy'); ?>" />
+    <input type="hidden" id="languageTag" name="languageTag" value="<?php echo $this->state->get('languageTag'); ?>" />
+    <input type="hidden" name="filter_order" value="<?php echo $this->state->get('list.ordering'); ?>" />
+    <input type="hidden" name="filter_order_Dir" value="<?php echo $this->state->get('list.direction'); ?>" />
+    <?php echo JHtml::_('form.token'); ?>
+</form>
+<div id="accordion" class="module_catalogue">
 <?php
 foreach ($this->groups as $key => $group)
 {
 ?>
-    <fieldset class="group-bar"
-              style="background-color: #<?php echo "{$group['bgColor']}"; ?>;">
-<?php
-if (isset($group['link']))
-{
-    echo "<a href='{$group['link']}' ><span style='color: #{$group['textColor']};'>$key</span></a>";
-}
-else
-{
-    echo "<span style='color: #{$group['textColor']};'>$key</span>";
-}
-?>
-    </fieldset>
+    <h3 class="group-bar"
+        style="background-color: rgba(<?php echo $group['bgColor']; ?>,.5);">
+        <?php echo $group['name']; ?>
+    </h3>
     <div class='subject-div'>
-        <ul class="subject-list">
+        <ul class="subject-list grouped">
 <?php
     $count = 0;
     foreach ($this->items as $subject)
     {
-        if (!in_array($subject->id, $group))
+        if ($subject->groupID != $group['id'])
         {
             continue;
         }
+        $externalID = empty($subject->externalID)? '' : " ({$subject->externalID})";
 ?>
             <li class="row<?php echo $count % 2;?> subject-item">
                 <div class="subject-name">
-                    <a href="<?php echo $subject->subjectLink; ?>">
-                        <?php echo $subject->name; ?>
+                    <a target="_blank" href="<?php echo $subject->subjectLink; ?>">
+                        <?php echo $subject->name . $externalID; ?>
                     </a>
                 </div>
-<?php
-        if ($this->state->get('groupBy') != TEACHER)
-        {
-?>
                 <div class="subject-responsible">
-                    <a href="<?php echo $subject->groupsLink; ?>">
-                        <?php echo $subject->teacherName; ?>
-                    </a>
-                </div>
 <?php
+        if (!empty($subject->groupsLink))
+        {
+            echo "<a target='_blank' href='$subject->groupsLink'>$subject->teacherName</a>";
+        }
+        else
+        {
+            echo $subject->teacherName;
         }
 ?>
+                </div>
                 <div class="subject-crp"><?php echo $subject->creditpoints; ?> CrP</div>
             </li>
 <?php
@@ -151,10 +123,12 @@ else
 <?php
 }
 ?>
-    <input type="hidden" name="option" value="com_thm_organizer" />
-    <input type="hidden" name="view" value="subject_list" />
-    <input type="hidden" name="task" value="" />
-    <input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
-    <input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
-    <?php echo JHtml::_('form.token'); ?>
-</form>
+</div>
+<script type="text/javascript">
+    $("#accordion").accordion(
+        {
+            active: false,
+            collapsible: true,
+            heightStyle: "content"
+        });
+</script>

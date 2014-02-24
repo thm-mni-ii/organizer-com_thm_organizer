@@ -12,7 +12,7 @@
 defined('_JEXEC') or die;
 JHtml::_('behavior.tooltip');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=program_edit&id=' . (int) $this->item->id); ?>"
+<form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=program_edit&id=0'); ?>"
       method="post" name="adminForm" id="modulmapping-form">
     <fieldset class="adminform">
         <legend><?php echo JText::_('COM_THM_ORGANIZER_PRM_PROPERTIES'); ?></legend>
