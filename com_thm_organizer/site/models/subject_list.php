@@ -33,8 +33,10 @@ class THM_OrganizerModelSubject_List extends JModelList
     public $language = 'de';
 
     public $subjects = null;
- 
+
     public $groups = array();
+
+    private $_poolIDs = array();
 
     /**
      * Method to get an array of data items.
@@ -304,7 +306,11 @@ class THM_OrganizerModelSubject_List extends JModelList
 
         foreach ($pools as $pool)
         {
-            $this->groups[$pool['lft']] = $pool;
+            if (!in_array($pool['id'], $this->_poolIDs))
+            {
+                $this->_poolIDs[] = $pool['id'];
+                $this->groups[$pool['lft']] = $pool;
+            }
         }
     }
 
