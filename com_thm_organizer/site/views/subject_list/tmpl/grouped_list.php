@@ -12,7 +12,7 @@
  */
 ?>
 <span class="flag" style="float: right;">
-    <a class='naviLink' 
+    <a class='naviLink' href="#"
        onclick="$('#languageTag').val('<?php echo $this->otherLanguageTag; ?>');$('#adminForm').submit();">
         <img class="languageSwitcher"
              alt="<?php echo $this->otherLanguageTag; ?>"
@@ -22,25 +22,25 @@
 <h1 class="componentheading"><?php echo $this->subjectListText . ' - ' . $this->programName; ?></h1>
 <div class="navi-bar">
     <span class="navi-tab <?php echo $this->alphabeticalActive; ?>">
-        <a class='naviLink'
+        <a class='naviLink' href="#"
            onclick="$('#groupBy').val('<?php echo NONE; ?>');$('#adminForm').submit();">
             <?php echo $this->alphabeticalTabText; ?>
         </a>
     </span>
     <span class="navi-tab <?php echo $this->poolActive; ?>">
-        <a class='naviLink'
+        <a class='naviLink' href="#"
            onclick="$('#groupBy').val('<?php echo POOL; ?>');$('#adminForm').submit();">
             <?php echo $this->poolTabText; ?>
         </a>
     </span>
     <span class="navi-tab <?php echo $this->teacherActive; ?>">
-        <a class='naviLink'
+        <a class='naviLink' href="#"
            onclick="$('#groupBy').val('<?php echo TEACHER; ?>');$('#adminForm').submit();">
             <?php echo $this->teacherTabText; ?>
         </a>
     </span>
     <span class="navi-tab <?php echo $this->fieldActive; ?>">
-        <a class='naviLink'
+        <a class='naviLink' href="#"
            onclick="$('#groupBy').val('<?php echo FIELD; ?>');$('#adminForm').submit();">
             <?php echo $this->fieldTabText; ?>
         </a>

@@ -38,6 +38,8 @@ class THM_OrganizerModelSubject_List extends JModelList
 
     private $_poolIDs = array();
 
+    private $_uniqueItems = array();
+
     /**
      * Method to get an array of data items.
      *
@@ -52,6 +54,13 @@ class THM_OrganizerModelSubject_List extends JModelList
 
         foreach ($items AS $key => $value)
         {
+            $item = array('id' => $value->id, 'groupID' => $value->groupID);
+            if (in_array($item, $this->_uniqueItems))
+            {
+                unset($items[$key]);
+                continue;
+            }
+            $this->_uniqueItems[] = $item;
             $this->setTeacherProperties($items, $key, $value);
             switch ($this->state->get('groupBy', '0'))
             {
@@ -195,8 +204,8 @@ class THM_OrganizerModelSubject_List extends JModelList
                 break;
             case TEACHER:
                 $select[] = 's.id AS id';
-                $select[] = "t.teacherID AS groupID";
-                $subjectsQuery->leftJoin('#__thm_organizer_subject_teachers AS t ON s.id = t.subjectID');
+                $select[] = "st.teacherID AS groupID";
+                $subjectsQuery->leftJoin('#__thm_organizer_subject_teachers AS st ON s.id = st.subjectID');
                 break;
             case FIELD:
                 $select[] = 's.id AS id';
@@ -216,8 +225,11 @@ class THM_OrganizerModelSubject_List extends JModelList
         $search = $this->state->get('search');
         if (!empty($search))
         {
-            $subjectsQuery->leftJoin('#__thm_organizer_subject_teachers AS st ON s.id = st.subjectID');
-            $subjectsQuery->innerJoin('#__thm_organizer_teachers AS t2 ON st.teacherID = t2.id');
+            if (!$this->state->get('groupBy') == TEACHER)
+            {
+                $subjectsQuery->leftJoin('#__thm_organizer_subject_teachers AS st ON s.id = st.subjectID');
+            }
+            $subjectsQuery->innerJoin('#__thm_organizer_teachers AS t ON st.teacherID = t.id');
             $subjectsQuery->where($this->getSearch());
         }
         $subjectsQuery->order('name ASC');
@@ -397,7 +409,7 @@ class THM_OrganizerModelSubject_List extends JModelList
         $where .= "s.short_name_de LIKE '$search' OR s.short_name_en LIKE '$search' OR ";
         $where .= "s.abbreviation_de LIKE '$search' OR s.abbreviation_en LIKE '$search' OR ";
         $where .= "s.externalID LIKE '$search' OR ";
-        $where .= "t2.surname LIKE '$search')";
+        $where .= "t.surname LIKE '$search')";
         return $where;
     }
 }

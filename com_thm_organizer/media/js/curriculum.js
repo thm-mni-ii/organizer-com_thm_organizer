@@ -61,7 +61,7 @@ function Curriculum(parameters) {
 
     function addItemToPool(semester) {
         var html, rowNumber = 1, columnNumber = 1, gridster, lastKey = 1,
-            teacherPicture, teacherImage;
+            teacherPicture, teacherImage, poolHtml;
 
         if (semester === null) {
             return;
@@ -128,28 +128,34 @@ function Curriculum(parameters) {
                         html += teacherImage;
                     }
                 }
-                if (value.hasOwnProperty('children')) {
+                if (value.hasOwnProperty('children'))
+                {
                     html += '<a href="#" id="pool' + value.mappingID + 'Link" >';
                     html += '<img width="20px" height="20px" src="' + parameters.poolIcon + '"></a>';
-                    html += '<div id="pool' + value.mappingID + '" class="poolDialog">';
-                    html += '<ul id="pool' + value.id + '"></ul></div>';
+
+                    if ($('#pool' + value.id + 'Dialog').size() === 0)
+                    {
+                        poolHtml = '<div id="pool' + value.id + 'Dialog" class="poolDialog">';
+                        poolHtml += '<ul id="pool' + value.id + '"></ul></div>'
+                        $(poolHtml).dialog({
+                            autoOpen: false,
+                            resizable: false,
+                            draggable: false,
+                            title: value.name,
+                            center: true
+                        });
+                        addItemToPool(value);
+                    }
                 }
                 html += '</div></li>';
                 gridster.add_widget(html);
-                $('#teacher' + value.mappingID).tooltip();
-                if (value.hasOwnProperty('children')) {
-                    $('#pool' + value.mappingID).dialog({
-                        autoOpen: false,
-                        resizable: false,
-                        draggable: false,
-                        title: value.name,
-                        center: true
-                    });
+                if (value.hasOwnProperty('children'))
+                {
                     $('#pool' + value.mappingID + 'Link').click(function (event) {
-                        $('#pool' + value.mappingID).dialog("open");
+                        $('#pool' + value.id + 'Dialog').dialog("open");
                     });
-                    addItemToPool(value);
                 }
+                $('#teacher' + value.mappingID).tooltip();
                 lastKey = parseInt(key, 10);
             });
         }
@@ -163,6 +169,7 @@ function Curriculum(parameters) {
     self.render = function () {
         var html;
         $('<span>' + self.data.name + '</span>').appendTo('#programName');
+        $('<div id="modalStorage"></div>').appendTo('#contentwrapper');
         $('<div id="accordion" class="curriuculum_container"></div>').appendTo('#contentwrapper');
         $.each(self.data.children, buildPoolList);
         $("#accordion").accordion(
