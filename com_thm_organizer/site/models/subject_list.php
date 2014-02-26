@@ -50,28 +50,25 @@ class THM_OrganizerModelSubject_List extends JModelList
         $programInformation = $this->getProgramInformation();
         $this->programName = $programInformation['name'];
 
-        $items = parent::getItems();
+        $subjectEntries = parent::getItems();
 
-        foreach ($items AS $key => $value)
+        foreach ($subjectEntries AS $index => $entry)
         {
-            $item = array('id' => $value->id, 'groupID' => $value->groupID);
-            if (in_array($item, $this->_uniqueItems))
+            if (!empty($entry->groupID))
             {
-                unset($items[$key]);
-                continue;
+                $this->ensureUnique($subjectEntries, $index, $entry);
             }
-            $this->_uniqueItems[] = $item;
-            $this->setTeacherProperties($items, $key, $value);
+            $this->setTeacherProperties($subjectEntries, $index, $entry);
             switch ($this->state->get('groupBy', '0'))
             {
                 case POOL:
-                    $this->processPoolGroup($value->groupID);
+                    $this->processPoolGroup($entry->groupID);
                     break;
                 case TEACHER:
-                    $this->processTeacherGroup($value->groupID);
+                    $this->processTeacherGroup($entry->groupID);
                     break;
                 case FIELD:
-                    $this->processFieldGroup($value->groupID);
+                    $this->processFieldGroup($entry->groupID);
                     break;
                 default :
                     break;
@@ -88,7 +85,27 @@ class THM_OrganizerModelSubject_List extends JModelList
             ksort($this->groups);
         }
 
-        return $items;
+        return $subjectEntries;
+    }
+
+    /**
+     * Ensures subject entries only occur once per group
+     * 
+     * @param   array   &$items  the subject entries
+     * @param   int     $index   the index being currently iterated
+     * @param   object  $entry   the subect entry at the specified index
+     * 
+     * @return  void
+     */
+    private function ensureUnique(&$subjectEntries, $index, $entry)
+    {
+        $item = array('id' => $entry->id, 'groupID' => $entry->groupID);
+        if (in_array($item, $this->_uniqueItems))
+        {
+            unset($subjectEntries[$index]);
+            return;
+        }
+        $this->_uniqueItems[] = $item;
     }
 
     /**
@@ -151,6 +168,7 @@ class THM_OrganizerModelSubject_List extends JModelList
         $teacherData = THM_OrganizerHelperTeacher::getDataBySubject($subject->id, 1);
         if (empty($teacherData))
         {
+            $subjects[$index]->teacherName = '';
             return;
         }
 
@@ -163,7 +181,7 @@ class THM_OrganizerModelSubject_List extends JModelList
         }
 
         $subjects[$index]->teacherName = $groupsName;
-        $subjects[$index]->groupsLink = THM_OrganizerHelperTeacher::getLink($teacherData['userID'], $teacherData['surname']);
+        $subjects[$index]->groupsLink = THM_OrganizerHelperTeacher::getLink($teacherData['userID'], $teacherData['surname'], $this->state->get('menuID'));
     }
 
     /**

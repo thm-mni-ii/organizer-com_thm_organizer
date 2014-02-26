@@ -11,6 +11,7 @@ function Curriculum(parameters) {
         requestURL += '&programID=' + parameters.programID;
         requestURL += '&poolIDs=' + parameters.poolIDs;
         requestURL += '&languageTag=' + parameters.languageTag;
+        requestURL += '&Itemid=' + parameters.itemID;
 
         xmlhttp.open("GET", requestURL, false);
         xmlhttp.send();

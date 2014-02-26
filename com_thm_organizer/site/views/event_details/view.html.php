@@ -36,7 +36,7 @@ class THM_OrganizerViewEvent_Details extends JView
         $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
 
         $model = $this->getModel();
-    $this->event = $model->event;
+        $this->event = $model->event;
         $this->itemID = JRequest::getVar('Itemid');
         $this->listLink = $model->listLink;
         $this->canWrite = $model->canWrite;

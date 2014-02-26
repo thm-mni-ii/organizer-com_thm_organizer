@@ -153,11 +153,12 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
      */
     private function getSubjectData($subjectID, $langTag)
     {
+        $itemID = JFactory::getApplication()->input->get('Itemid');
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);
         $select = "s.id, lsfID, hisID, externalID, name_$langTag AS name, creditpoints AS maxCrP, color, ";
         $select .= "CONCAT('index.php?option=com_thm_organizer&view=subject_details&languageTag=', ";
-        $select .= "'$langTag', '&id=', s.id) AS link";
+        $select .= "'$langTag', '&id=', s.id, '&Itemid=', '$itemID') AS link";
         $query->select($select);
         $query->from('#__thm_organizer_subjects AS s');
         $query->leftJoin('#__thm_organizer_fields AS f ON s.fieldID = f.id');
@@ -304,6 +305,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
      */
     private function setTeacherProperties(&$subjectData)
     {
+        $itemID = JFactory::getApplication()->input->get('Itemid');
         $teacherData = THM_OrganizerHelperTeacher::getDataBySubject($subjectData->id, 1);
         if (empty($teacherData))
         {
@@ -322,7 +324,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
             }
             $subjectData->teacherPicture = THM_OrganizerHelperTeacher::getPicture($teacherData['userID']);
             $subjectData->teacherName = $teacherName;
-            $subjectData->teacherProfileLink = THM_OrganizerHelperTeacher::getLink($teacherData['userID'], $teacherData['surname']);
+            $subjectData->teacherProfileLink = THM_OrganizerHelperTeacher::getLink($teacherData['userID'], $teacherData['surname'], $itemID);
         }
         else
         {

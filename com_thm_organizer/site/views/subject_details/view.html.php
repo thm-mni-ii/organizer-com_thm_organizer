@@ -35,6 +35,12 @@ class THM_OrganizerViewSubject_Details extends JView
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl . '/components/com_thm_organizer/assets/css/thm_organizer.css');
 
+        $itemID = JFactory::getApplication()->input->get('Itemid');
+        if (!empty($itemID))
+        {
+            JFactory::getApplication()->getMenu()->setActive($itemID);
+        }
+
         $model = $this->getModel();
         $this->subject = $model->subject;
         $this->session = JFactory::getSession();

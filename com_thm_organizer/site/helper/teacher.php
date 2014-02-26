@@ -152,12 +152,14 @@ class THM_OrganizerHelperTeacher
      *
      * @param   int     $userID   the teacher's user ID
      * @param   string  $surname  the teacher's surname
+     * @param   int     $itemID   the menu item id from which the link will be
+     *                            called
      *
      * @return  string  the url of the teacher's thm groups details
      */
-    public static function getLink($userID, $surname = null)
+    public static function getLink($userID, $surname = null, $itemID = null)
     {
-        $link = "index.php?option=com_thm_groups&view=profile&layout=default&gsuid=$userID&name=$surname";
+        $link = "index.php?option=com_thm_groups&view=profile&layout=default&gsuid=$userID&name=$surname&Itemid=$itemID";
         return JRoute::_($link);
     }
 
