@@ -42,7 +42,7 @@ class THM_OrganizerModelSubject_Ajax extends JModel
         $teacherID = JRequest::getString('teacherID');
         if ($programID == '-1' AND ($poolID == '-1' OR $poolID == 'null') AND $teacherID == '-1')
         {
-            return '';
+            return '[]';
         }
 
         $boundaries = $this->getBoundaries();
@@ -67,7 +67,7 @@ class THM_OrganizerModelSubject_Ajax extends JModel
         $dbo->setQuery((string) $query);
         $subjects = $dbo->loadObjectList();
 
-        return empty($subjects)? '' : json_encode($subjects);
+        return empty($subjects)? '[]' : json_encode($subjects);
     }
 
     /**

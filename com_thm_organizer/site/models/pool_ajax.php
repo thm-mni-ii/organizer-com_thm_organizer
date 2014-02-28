@@ -153,7 +153,7 @@ class THM_OrganizerModelPool_Ajax extends JModel
 
         if (empty($programBounds))
         {
-            return '';
+            return '[]';
         }
 
         $lang = explode('-', JFactory::getLanguage()->getTag());
@@ -177,7 +177,7 @@ class THM_OrganizerModelPool_Ajax extends JModel
 
         if (empty($pools))
         {
-            return '';
+            return '[]';
         }
 
         foreach ($pools AS $key => $value)

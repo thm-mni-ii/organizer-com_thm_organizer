@@ -38,8 +38,9 @@ class THM_OrganizerModelProgram_Ajax extends JModel
     public function programsByTeacher()
     {
         $dbo = JFactory::getDbo();
+        $language = explode('-', JFactory::getLanguage()->getTag());
         $query = $dbo->getQuery(true);
-        $query->select("dp.id, CONCAT( dp.subject, ', (', d.abbreviation, ' ', dp.version, ')') AS name");
+        $query->select("dp.id, CONCAT( dp.subject_{$language[0]}, ', (', d.abbreviation, ' ', dp.version, ')') AS name");
         $query->from('#__thm_organizer_programs AS dp');
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
         $query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
