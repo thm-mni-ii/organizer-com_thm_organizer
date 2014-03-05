@@ -32,8 +32,30 @@ class THM_OrganizerModelmonitor extends JModel
     public function save()
     {
         $data = JRequest::getVar('jform', null, null, null, 4);
+        $data['content'] = $data['content'] == '-1'? '' : $data['content'];
         $table = JTable::getInstance('monitors', 'thm_organizerTable');
         return $table->save($data);
+    }
+
+    /**
+     * Saves the default behaviour as chosen in the monitor manager
+     * 
+     * @return  boolean  true on success, otherwise false
+     */
+    public function saveDefaultBehaviour()
+    {
+        $input = JFactory::getApplication()->input;
+        $monitorID = $input->getInt('id');
+        $plausibleID = (!empty($monitorID) AND is_numeric($monitorID));
+        if ($plausibleID)
+        {
+            $useDefaults = $input->getInt('useDefaults');
+            $table = JTable::getInstance('monitors', 'thm_organizerTable');
+            $table->load($monitorID);
+            $table->useDefaults = $useDefaults? '0' : '1';
+            return $table->store();
+        }
+        return false;
     }
 
     /**

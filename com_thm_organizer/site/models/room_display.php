@@ -62,41 +62,47 @@ class THM_OrganizerModelRoom_Display extends JModel
     {
         parent::__construct();
         $monitor = JTable::getInstance('monitors', 'thm_organizerTable');
-        $remoteIP = JRequest::getVar('REMOTE_ADDR', '', 'SERVER');
-        $where = array('ip' => $remoteIP);
-        $registered = $monitor->load($where);
+        $remoteIPData = array('ip' => JRequest::getVar('REMOTE_ADDR', '', 'SERVER'));
+        $registered = $monitor->load($remoteIPData);
+
         if ($registered)
         {
             $templateSet = JRequest::getString('tmpl') == 'component';
-            $this->schedule_refresh = $monitor->schedule_refresh;
-            $this->content_refresh = $monitor->content_refresh;
             if (!$templateSet)
             {
                 $this->redirectToComponentTemplate();
+            }
+
+            if ($monitor->useDefaults)
+            {
+                $display = JComponentHelper::getParams('com_thm_organizer')->get('display');
+                $this->schedule_refresh = JComponentHelper::getParams('com_thm_organizer')->get('schedule_refresh');
+                $this->content_refresh = JComponentHelper::getParams('com_thm_organizer')->get('content_refresh');
+                $this->content = JComponentHelper::getParams('com_thm_organizer')->get('content');
+            }
+            else
+            {
+                $display = $monitor->display;
+                $this->schedule_refresh = $monitor->schedule_refresh;
+                $this->content_refresh = $monitor->content_refresh;
+                $this->content = $monitor->content;
             }
             switch ($monitor->display)
             {
                 case 1:
                     $this->layout = 'registered';
-                    $this->setRoomInformation($monitor->roomID);
-                    $this->setScheduleInformation();
                     break;
                 case 2:
-                    $this->determineDisplayBehaviour($monitor);
+                    $this->setAlternatingLayout();
                     break;
                 case 3:
                     $this->layout = 'content';
-                    $this->content = $monitor->content;
                     break;
                 case 4:
                     $this->layout = 'events';
-                    $this->setRoomInformation($monitor->roomID);
-                    $this->setScheduleInformation();
                     break;
                 default:
                     $this->layout = 'registered';
-                    $this->setRoomInformation($monitor->roomID);
-                    $this->setScheduleInformation();
                     break;
             }
         }
@@ -104,8 +110,10 @@ class THM_OrganizerModelRoom_Display extends JModel
         {
             $this->layout = 'default';
             $this->setRoomInformation();
-            $this->setScheduleInformation();
         }
+        $roomID = empty($monitor->roomID)? null : $monitor->roomID;
+        $this->setRoomInformation($roomID);
+        $this->setScheduleInformation();
     }
 
     /**
@@ -129,9 +137,9 @@ class THM_OrganizerModelRoom_Display extends JModel
      *
      * @return  void
      */
-    private function setRoomInformation($roomID = 0)
+    private function setRoomInformation($roomID = null)
     {
-        if (!$roomID)
+        if (empty($roomID))
         {
             $form = JRequest::getVar('jform');
             $roomID = $form['room'];
@@ -714,39 +722,23 @@ class THM_OrganizerModelRoom_Display extends JModel
      * Determines which display behaviour is desired based on the interval
      * setting and session variables
      *
-     * @param   object  &$monitor  a monitor entry in the db table
-     *
      * @return  void
      */
-    private function determineDisplayBehaviour(&$monitor)
+    private function setAlternatingLayout()
     {
         $session = JFactory::getSession();
-        $displayTime = $session->get('displayTime', 0);
         $displayContent = $session->get('displayContent', 'schedule');
-        if ($displayTime % $monitor->interval == 0)
-        {
-            $displayContent = ($displayContent == 'schedule')? 'content' : 'schedule';
-        }
-        $displayTime++;
-        $session->set('displayTime', $displayTime);
-        $session->set('displayContent', $displayContent);
+        $session->set('displayContent', ($displayContent == 'schedule')? 'content' : 'schedule');
 
-        switch ($displayContent)
+        if ($displayContent == 'schedule')
         {
-            case 'schedule':
-                $this->layout = 'registered';
-                $this->setRoomInformation($monitor->roomID);
-                $this->setScheduleInformation();
-                break;
-            case 'content':
-                $this->layout = 'content';
-                $this->content = $monitor->content;
-                break;
-            default:
-                $this->layout = 'registered';
-                $this->setRoomInformation($monitor->roomID);
-                $this->setScheduleInformation();
-                break;
+            $this->layout = 'registered';
+            return;
+        }
+        if ($displayContent == 'content')
+        {
+            $this->layout = 'content';
+            return;
         }
     }
 }

@@ -255,6 +255,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_monitors` (
   `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
   `roomID` INT ( 11 ) UNSIGNED NOT NULL,
   `ip` VARCHAR ( 15 ) NOT NULL,
+  `useDefaults` TINYINT( 1 ) NOT NULL DEFAULT '0',
   `display` INT ( 1 ) UNSIGNED NOT NULL DEFAULT '1' COMMENT 'the display behaviour of the monitor',
   `schedule_refresh` INT ( 3 ) UNSIGNED NOT NULL DEFAULT  '60' COMMENT  'the amount of seconds before the schedule refreshes',
   `content_refresh` INT ( 3 ) UNSIGNED NOT NULL DEFAULT  '60' COMMENT  'the amount of time in seconds before the content refreshes',

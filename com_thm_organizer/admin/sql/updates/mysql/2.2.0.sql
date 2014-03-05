@@ -1,0 +1,1 @@
+ALTER TABLE  `#__thm_organizer_monitors` ADD  `useDefaults` TINYINT( 1 ) NOT NULL DEFAULT '0' AFTER `ip` ;

@@ -156,9 +156,11 @@
 
 .thm_organizer_mon_col_checkbox{ width: 10px; }
 
-.thm_organizer_mon_col_room{ width: 120px; }
+.thm_organizer_mon_col_room{ width: 65px; }
 
-.thm_organizer_mon_col_ip{ width: 90px; }
+.thm_organizer_mon_col_ip{ width: 50px; }
+
+.thm_organizer_mon_col_use_defaults{ width: 50px; }
 
 .thm_organizer_mon_col_display{ width: 150px; }
 

@@ -35,40 +35,50 @@
                label="COM_THM_ORGANIZER_LSF_PASSWORD_TITLE"
                description="COM_THM_ORGANIZER_LSF_PASSWORD_DESC">
         </field>
-    </fieldset>   
-    <fieldset name="LSF-FILTER"
-              label="COM_THM_ORGANIZER_LSF_FILTER_TITLE"
-              description="COM_THM_ORGANIZER_LSF_FILTER_DESC">
-        <field name="filter"
-               type="radio"
-               default="0"
-               label="COM_THM_ORGANIZER_LSF_FILTER_ACTIVATE_TITLE"
-               description="COM_THM_ORGANIZER_LSF_FILTER_ACTIVATE_DESC">
-            <option value="0">JNO</option>
-            <option value="1">JYES</option>
+    </fieldset>
+    <fieldset name="monitor"
+              label="COM_THM_ORGANIZER_MONITOR_SETTINGS_TITLE"
+              description="COM_THM_ORGANIZER_MONITOR_SETTINGS_DESC">
+        <field
+            type="list"
+            id="display"
+            name="display"
+            label="COM_THM_ORGANIZER_MON_DISPLAY"
+            description="COM_THM_ORGANIZER_MON_DISPLAY_DESC"
+            class="inputbox">
+            <option value='1'>COM_THM_ORGANIZER_MON_SCHEDULE</option>
+            <option value='2'>COM_THM_ORGANIZER_MON_MIXED</option>
+            <option value='3'>COM_THM_ORGANIZER_MON_CONTENT</option>
+            <option value='4'>COM_THM_ORGANIZER_MON_EVENTS</option>
         </field>
-        <field name="filterType"
-               type="radio"
-               default="0"
-               label="COM_THM_ORGANIZER_LSF_FILTER_TYPE_TITLE"
-               description="COM_THM_ORGANIZER_LSF_FILTER_TYPE_DESC">
-            <option value="0">COM_THM_ORGANIZER_LSF_FILTER_MODULENR</option>
-            <option value="1">COM_THM_ORGANIZER_LSF_FILTER_ABBREVIATION</option>
-        </field>
-        <field name="filterModuleList"
-               type="textarea"
-               label="COM_THM_ORGANIZER_LSF_FILTER_MODULENR_TITLE"
-               description="COM_THM_ORGANIZER_LSF_FILTER_MODULENR_DESC"
-               rows="5"
-               cols="30">
-        </field>
-        <field name="filterAbbrList"
-               type="textarea"
-               label="COM_THM_ORGANIZER_LSF_FILTER_ABBREVIATION_TITLE"
-               description="COM_THM_ORGANIZER_LSF_FILTER_ABBREVIATION_DESC"
-               rows="5"
-               cols="30">
-        </field>
+        <field
+            id="schedule_refresh"
+            name="schedule_refresh"
+            type="integer"
+            label="COM_THM_ORGANIZER_MON_SCHEDULE_REFRESH"
+            description="COM_THM_ORGANIZER_MON_SCHEDULE_REFRESH_DESC"
+            first="10"
+            last="990"
+            step="10"
+            default="60"/>
+        <field
+            id="content_refresh"
+            name="content_refresh"
+            type="integer"
+            label="COM_THM_ORGANIZER_MON_CONTENT_REFRESH"
+            description="COM_THM_ORGANIZER_MON_CONTENT_REFRESH_DESC"
+            first="10"
+            last="990"
+            step="10"
+            default="60"/>
+        <field
+            id="content"
+            name="content"
+            type="filelist"
+            label="COM_THM_ORGANIZER_MON_CONTENT"
+            description="COM_THM_ORGANIZER_MON_CONTENT_DESC"
+            directory="images/thm_organizer/"
+            exclude=""/>
     </fieldset>
     <fieldset name="permissions"
               label="JCONFIG_PERMISSIONS_LABEL"

@@ -40,6 +40,13 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
     public $rooms = null;
 
     /**
+     * Array holding indexes and names of files for the selection box
+     * 
+     * @var array 
+     */
+    public $contents = null;
+
+    /**
      * constructor
      * 
      * @param   array  $config  configurations parameter
@@ -52,6 +59,7 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
                                              'roomID', 'roomID',
                                              'room', 'name',
                                              'ip', 'ip',
+                                             'useDefaults', 'useDefaults',
                                              'display', 'display',
                                              'schedule_refresh', 'schedule_refresh',
                                              'content_refresh', 'content_refresh',
@@ -59,13 +67,24 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
                                             );
         }
         parent::__construct($config);
+    }
+
+    /**
+     * Method to overwrite the getItems method in order to set the program name
+     *
+     * @return  array  an array of objects fullfilling the request criteria
+     */
+    public function getItems()
+    {
+        $this->rooms = $this->getRooms();
         $this->behaviours = array(
                                   1 => JText::_('COM_THM_ORGANIZER_MON_SCHEDULE'),
                                   2 => JText::_('COM_THM_ORGANIZER_MON_MIXED'),
                                   3 => JText::_('COM_THM_ORGANIZER_MON_CONTENT'),
                                   4 => JText::_('COM_THM_ORGANIZER_MON_EVENTS')
                                  );
-        $this->rooms = $this->getRooms();
+        $this->contents = $this->getContents();
+        return parent::getItems();
     }
 
     /**
@@ -78,29 +97,83 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
         $dbo = $this->getDbo();
         $query = $dbo->getQuery(true);
 
-        $select = "m.id, roomID, ip, display, schedule_refresh, content_refresh, content, longname AS room, ";
+        $select = "m.id, roomID, ip, useDefaults, display, schedule_refresh, content_refresh, content, longname AS room, ";
         $select .= "CONCAT ('index.php?option=com_thm_organizer&view=monitor_edit&monitorID=', m.id) AS link ";
         $query->select($this->getState("list.select", $select));
         $query->from("#__thm_organizer_monitors AS m");
         $query->leftjoin("#__thm_organizer_rooms AS r ON r.id = m.roomID");
 
-        $room = $this->getState('filter.room');
-        if (is_numeric($room))
-        {
-            $query->where("m.roomID = $room");
-        }
-
-        $display = $this->getState('filter.display');
-        if (is_numeric($display))
-        {
-            $query->where("m.display = $display");
-        }
+        $this->setRestriction($query);
 
         $orderby = $dbo->getEscaped($this->getState('list.ordering', 'r.name'));
         $direction = $dbo->getEscaped($this->getState('list.direction', 'ASC'));
         $query->order("$orderby $direction");
-
         return $query;
+    }
+
+    private function setRestriction(&$query)
+    {
+        $filterSearch = '%' . $this->_db->getEscaped($this->state->get('filter.search'), true) . '%';
+        $useFilterSearch = $filterSearch != '%%';
+        $filterRoom = $this->getState('filter.room');
+        $useFilterRoom = is_numeric($filterRoom);
+        $filterDisplay = $this->getState('filter.display');
+        $useFilterDisplay = is_numeric($filterDisplay);
+        $contentID =$this->getState('filter.content');
+        $filterContent = is_numeric($contentID)? $this->contents[$contentID] : '';
+        $useFilterContent = !empty($filterContent);
+
+        $useFilters = ($useFilterSearch OR $useFilterRoom OR $useFilterDisplay OR $useFilterContent);
+        if (!$useFilters)
+        {
+            return;
+        }
+
+        $where = '';
+        if ($useFilterDisplay OR $useFilterContent)
+        {
+            $componentDisplay = JComponentHelper::getParams('com_thm_organizer')->get('display', '1');
+            $useComponentDisplay = ($useFilterDisplay AND $filterDisplay == $componentDisplay);
+            $componentContent = JComponentHelper::getParams('com_thm_organizer')->get('content', '');
+            $useComponentContent = ($useFilterContent AND $filterContent == $componentContent);
+
+            $where .= '(';
+            if (($useComponentDisplay AND $useComponentContent)
+                OR ($useComponentDisplay AND !$useFilterContent)
+                OR (!$useFilterDisplay AND $useComponentContent))
+            {
+                $where .= "m.useDefaults ='1' ";
+            }
+            else
+            {
+                $where .= "m.useDefaults ='0' ";
+            }
+
+            if ($useFilterDisplay)
+            {
+                $where .= $useComponentDisplay? "OR " : "AND ";
+                $where .= "m.display ='$filterDisplay' ";
+            }
+
+            if ($useFilterContent)
+            {
+                $where .= $useComponentContent? "OR " : "AND ";
+                $where .= "m.content ='$filterDisplay' ";
+            }
+
+            $where .= ')';
+            $query->where($where);
+        }
+
+        if ($useFilterRoom)
+        {
+            $query->where("m.roomID = '$filterRoom'");
+        }
+
+        if ($useFilterSearch)
+        {
+            $query->where("longname LIKE '$filterSearch' OR ip LIKE '$filterSearch'");
+        }
     }
 
     /**
@@ -113,11 +186,17 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
      */
     protected function populateState($ordering = null, $direction = null)
     {
+        $search = $this->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
+        $this->setState('filter.search', $search);
+
         $room = $this->getUserStateFromRequest($this->context . '.filter.room', 'filter_room');
         $this->setState('filter.room', $room);
 
         $display = $this->getUserStateFromRequest($this->context . '.filter.display', 'filter_display');
         $this->setState('filter.display', $display);
+
+        $content = $this->getUserStateFromRequest($this->context . '.filter.content', 'filter_content');
+        $this->setState('filter.content', $content);
 
         // List state information.
         parent::populateState($ordering, $direction);
@@ -148,5 +227,15 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
             }
         }
         return $rooms;
+    }
+
+    /**
+     * Gets the files uploaded for the component
+     * 
+     * @return  array  an array of files
+     */
+    private function getContents()
+    {
+        return JFolder::files(JPATH_ROOT . '/images/thm_organizer');
     }
 }

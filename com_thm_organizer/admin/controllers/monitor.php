@@ -77,6 +77,31 @@ class THM_OrganizerControllermonitor extends JController
             $this->setRedirect('index.php?option=com_thm_organizer&view=monitor_manager', $msg, 'error');
         }
     }
+    /**
+     * Performs access checks, saves the monitor currently being edited and
+     * redirects to the monitor manager view
+     *
+     * @return void
+     */
+    public function saveDefaultBehaviour()
+    {
+        if (!JFactory::getUser()->authorise('core.admin'))
+        {
+            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        }
+        $model = $this->getModel('monitor');
+        $result = $model->saveDefaultBehaviour();
+        if ($result)
+        {
+            $msg = JText::_("COM_THM_ORGANIZER_MON_SAVE_SUCCESS");
+            $this->setRedirect('index.php?option=com_thm_organizer&view=monitor_manager', $msg);
+        }
+        else
+        {
+            $msg = JText::_("COM_THM_ORGANIZER_MON_SAVE_FAIL");
+            $this->setRedirect('index.php?option=com_thm_organizer&view=monitor_manager', $msg, 'error');
+        }
+    }
 
     /**
      * Performs access checks, saves the monitor currently being edited and

@@ -27,7 +27,7 @@ class THM_OrganizerViewMonitor_Manager extends JView
      *
      * @param   string  $tpl  the name of the template to be used
      *
-     * @return void
+     * @return  void
      */
     public function display($tpl = null)
     {
@@ -43,29 +43,12 @@ class THM_OrganizerViewMonitor_Manager extends JView
         $this->monitors = $this->get('Items');
         $this->state = $this->get('State');
         $this->pagination = $this->get('Pagination');
-        $this->behaviours = $this->getModel()->behaviours;
         $this->rooms = $this->getModel()->rooms;
-        $this->prepareBehaviours();
+        $this->behaviours = $this->getModel()->behaviours;;
+        $this->contents = $this->getModel()->contents;
         $this->addToolBar();
 
         parent::display($tpl);
-    }
-
-    /**
-     * resolves the display constant to text
-     *
-     * @return void
-     */
-    private function prepareBehaviours()
-    {
-        if (!count($this->monitors))
-        {
-            return;
-        }
-        foreach (array_keys($this->monitors) as $key)
-        {
-            $this->monitors[$key]->display = $this->behaviours[$this->monitors[$key]->display];
-        }
     }
 
     /**
