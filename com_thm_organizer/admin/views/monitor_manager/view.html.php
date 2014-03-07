@@ -44,7 +44,7 @@ class THM_OrganizerViewMonitor_Manager extends JView
         $this->state = $this->get('State');
         $this->pagination = $this->get('Pagination');
         $this->rooms = $this->getModel()->rooms;
-        $this->behaviours = $this->getModel()->behaviours;;
+        $this->behaviours = $this->getModel()->behaviours;
         $this->contents = $this->getModel()->contents;
         $this->addToolBar();
 

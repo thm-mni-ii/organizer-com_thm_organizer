@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.1.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -19,8 +18,6 @@ jimport('joomla.application.component.modellist');
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
- * @since       v0.1.0
  */
 class THM_OrganizerModelMonitor_Manager extends JModelList
 {
@@ -103,7 +100,7 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
         $query->from("#__thm_organizer_monitors AS m");
         $query->leftjoin("#__thm_organizer_rooms AS r ON r.id = m.roomID");
 
-        $this->setRestriction($query);
+        $this->setWhere($query);
 
         $orderby = $dbo->getEscaped($this->getState('list.ordering', 'r.name'));
         $direction = $dbo->getEscaped($this->getState('list.direction', 'ASC'));
@@ -111,7 +108,14 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
         return $query;
     }
 
-    private function setRestriction(&$query)
+    /**
+     * Sets the query's where clause
+     * 
+     * @param   object  &$query  the query to be modified
+     * 
+     * @return  void
+     */
+    private function setWhere(&$query)
     {
         $filterSearch = '%' . $this->_db->getEscaped($this->state->get('filter.search'), true) . '%';
         $useFilterSearch = $filterSearch != '%%';
@@ -119,7 +123,7 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
         $useFilterRoom = is_numeric($filterRoom);
         $filterDisplay = $this->getState('filter.display');
         $useFilterDisplay = is_numeric($filterDisplay);
-        $contentID =$this->getState('filter.content');
+        $contentID = $this->getState('filter.content');
         $filterContent = is_numeric($contentID)? $this->contents[$contentID] : '';
         $useFilterContent = !empty($filterContent);
 
@@ -139,8 +143,8 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
 
             $where .= '(';
             if (($useComponentDisplay AND $useComponentContent)
-                OR ($useComponentDisplay AND !$useFilterContent)
-                OR (!$useFilterDisplay AND $useComponentContent))
+             OR ($useComponentDisplay AND !$useFilterContent)
+             OR (!$useFilterDisplay AND $useComponentContent))
             {
                 $where .= "m.useDefaults ='1' ";
             }

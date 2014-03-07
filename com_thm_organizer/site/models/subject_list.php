@@ -91,9 +91,9 @@ class THM_OrganizerModelSubject_List extends JModelList
     /**
      * Ensures subject entries only occur once per group
      * 
-     * @param   array   &$items  the subject entries
-     * @param   int     $index   the index being currently iterated
-     * @param   object  $entry   the subect entry at the specified index
+     * @param   array   &$subjectEntries  the subject entries
+     * @param   int     $index            the index being currently iterated
+     * @param   object  $entry            the subect entry at the specified index
      * 
      * @return  void
      */
@@ -181,7 +181,8 @@ class THM_OrganizerModelSubject_List extends JModelList
         }
 
         $subjects[$index]->teacherName = $groupsName;
-        $subjects[$index]->groupsLink = THM_OrganizerHelperTeacher::getLink($teacherData['userID'], $teacherData['surname'], $this->state->get('menuID'));
+        $subjects[$index]->groupsLink
+            = THM_OrganizerHelperTeacher::getLink($teacherData['userID'], $teacherData['surname'], $this->state->get('menuID'));
     }
 
     /**

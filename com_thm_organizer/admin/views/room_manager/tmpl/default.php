@@ -31,6 +31,30 @@ $listDirn = $this->state->get('list.direction');
                 <?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>
             </button>
         </div>
+        <div class="filter-select fltrt">
+            <select name="filter_building" class="inputbox" onchange="this.form.submit()">
+                    <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_RMM_SEARCH_BUILDINGS'); ?></option>
+                    <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_RMM_ALL_BUILDINGS'); ?></option>
+                    <?php echo JHtml::_('select.options', $this->buildings, 'id', 'name', $this->state->get('filter.building'));?>
+            </select>
+<?php
+if ($this->state->get('filter.building') != '*' AND !empty($this->floors))
+{
+?>
+            <select name="filter_floor" class="inputbox" onchange="this.form.submit()">
+                    <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_RMM_SEARCH_FLOORS'); ?></option>
+                    <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_RMM_ALL_FLOORS'); ?></option>
+                    <?php echo JHtml::_('select.options', $this->floors, 'id', 'name', $this->state->get('filter.floor'));?>
+            </select>
+<?php
+}
+?>
+            <select name="filter_type" class="inputbox" onchange="this.form.submit()">
+                    <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_RMM_SEARCH_TYPES'); ?></option>
+                    <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_RMM_ALL_TYPES'); ?></option>
+                    <?php echo JHtml::_('select.options', $this->types, 'id', 'type', $this->state->get('filter.type'));?>
+            </select>
+        </div>
     </fieldset>
     <table class="adminlist">
         <thead>
@@ -61,6 +85,7 @@ $listDirn = $this->state->get('list.direction');
             </tr>
             <input type="hidden" name="task" value="" />
             <input type="hidden" name="boxchecked" value="0" />
+            <input type="hidden" name="oldBuilding" value="<?php echo $this->state->get('filter.building');?>" />
             <input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
             <input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
             <?php echo JHtml::_('form.token');?>

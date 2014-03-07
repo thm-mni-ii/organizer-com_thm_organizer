@@ -33,7 +33,11 @@ class THM_OrganizerViewRoom_Manager extends JView
         $doc = JFactory::getDocument();
         $doc->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
 
+        $model = $this->getModel();
         $this->items = $this->get('Items');
+        $this->buildings = $model->buildings;
+        $this->floors = $model->floors;
+        $this->types = $model->types;
         $this->pagination = $this->get('Pagination');
         $this->state = $this->get('State');
 

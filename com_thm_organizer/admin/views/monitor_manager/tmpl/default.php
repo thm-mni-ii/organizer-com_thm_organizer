@@ -74,19 +74,23 @@ $defaultContent = JComponentHelper::getParams('com_thm_organizer')->get('content
                                onclick="checkAll(<?php echo count($this->monitors); ?>);" />
                     </th>
                     <th class="thm_organizer_th hasTip"
-                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_ROOM') . "::" . JText::_('COM_THM_ORGANIZER_MON_ROOM_DESC'); ?>">
+                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_ROOM') . "::"
+                                . JText::_('COM_THM_ORGANIZER_MON_ROOM_DESC'); ?>">
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_ROOM', 'name', $direction, $orderby); ?>
                     </th>
                     <th class="thm_organizer_th hasTip"
-                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_IP') . "::" . JText::_('COM_THM_ORGANIZER_MON_IP_DESC'); ?>">
+                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_IP') . "::"
+                                . JText::_('COM_THM_ORGANIZER_MON_IP_DESC'); ?>">
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_IP', 'ip', $direction, $orderby); ?>
                     </th>
                     <th class="thm_organizer_th hasTip"
-                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS') . "::" . JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS_DESC'); ?>">
+                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS') . "::"
+                                . JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS_DESC'); ?>">
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_USEDEFAULTS', 'useDefaults', $direction, $orderby); ?>
                     </th>
                     <th class="thm_organizer_th hasTip"
-                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_DISPLAY') . "::" . JText::_('COM_THM_ORGANIZER_MON_DISPLAY_DESC'); ?>">
+                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_DISPLAY') . "::"
+                                . JText::_('COM_THM_ORGANIZER_MON_DISPLAY_DESC'); ?>">
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_DISPLAY', 'display', $direction, $orderby); ?>
                     </th>
                     <th class="thm_organizer_th hasTip"
@@ -100,7 +104,8 @@ $defaultContent = JComponentHelper::getParams('com_thm_organizer')->get('content
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_CONTENT_REFRESH', 'content_refresh', $direction, $orderby); ?>
                     </th>
                     <th class="thm_organizer_th hasTip"
-                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_CONTENT') . "::" . JText::_('COM_THM_ORGANIZER_MON_CONTENT_DESC'); ?>">
+                        title="<?php echo JText::_('COM_THM_ORGANIZER_MON_CONTENT') . "::"
+                                . JText::_('COM_THM_ORGANIZER_MON_CONTENT_DESC'); ?>">
                         <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_CONTENT', 'content', $direction, $orderby); ?>
                     </th>
                 </tr>
