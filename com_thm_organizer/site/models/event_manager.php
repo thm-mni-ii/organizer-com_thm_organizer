@@ -578,7 +578,7 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
             $query->where("id = '$categoryID'");
         }
         $dbo->setQuery((string) $query);
-        $this->categories = $dbo->loadAssocList();
+        $this->categories = $dbo->loadAssocList('id');
     }
 
     /**

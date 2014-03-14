@@ -33,7 +33,7 @@ class THM_OrganizerViewSubject_Details extends JView
     public function display($tpl = null)
     {
         $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl . '/components/com_thm_organizer/assets/css/thm_organizer.css');
+        $document->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/thm_organizer.css');
 
         $itemID = JFactory::getApplication()->input->get('Itemid');
         if (!empty($itemID))

@@ -1,4 +1,4 @@
-/*global jq: false, categories: false*/
+/*global $: false, categories: false, invalidMessage: false, closeMessage: false, previewTitle: false, baseURL: false */
 window.addEvent('domready', function() {
     "use strict";
     document.formvalidator.setHandler('germandate',
@@ -20,6 +20,65 @@ window.addEvent('domready', function() {
     "use strict";
     document.formvalidator.setHandler('category', function (value) { return value > 0; });
 });
+
+$("body").on({
+    ajaxStart: function() {
+        $(this).addClass("loading");
+    },
+    ajaxStop: function() {
+        $(this).removeClass("loading");
+    }
+});
+
+$(document).ready( function() { 
+   $('.closePopup').on("click", function() {
+       $(".Popup").fadeOut("slow");
+       $(".overlay").fadeOut("slow", remove_preview_content());
+       return false;
+   });
+});
+
+function preview_content(response) {
+    var json = $.parseJSON(response), previewHTML;
+    previewHTML = "<div id='thm_organizer_e_preview_div' class='thm_organizer_e_preview_div' >";
+    previewHTML += "<div class='thm_organizer_e_title'>" + json.title + "</div>";
+    previewHTML += "<div class='thm_organizer_e_publish_up'>" + json.created_at + "</div>";
+    previewHTML += "<div class='thm_organizer_e_author'>" + json.username + "</div>";
+    previewHTML += json.introtext;
+    previewHTML += "<div class='thm_organizer_e_description'>" + json.description + "</div>";
+    previewHTML += "</div>";
+    $(previewHTML).dialog({
+        autoOpen: false,
+        resizable: false,
+        draggable: false,
+        title: previewTitle,
+        center: true
+    });
+}
+
+function remove_preview_content() {
+    var d = document.getElementById('thm_organizer_ee_preview_event');
+    var olddiv = document.getElementById('thm_organizer_e_preview_div');
+    d.removeChild(olddiv);
+}
+
+function build_url() {
+    var url = baseURL;
+    url = url + "/index.php?option=com_thm_organizer&view=event_ajax&format=raw&eventID=";;
+    url = url + $('#jform_id').val() + "&title=";
+    url = url + $('#jform_title').val() + "&id=";
+    url = url + $('#jform_id').val() + "&startdate=";
+    url = url + $('#jform_startdate').val() + "&enddate=";
+    url = url + $('#jform_enddate').val() + "&starttime=";
+    url = url + $('#jform_starttime').val() + "&endtime=";
+    url = url + $('#jform_endtime').val() + "&category=";
+    url = url + $('#category').val() + "&rec_type=";
+    url = url + getRecType() + "&teachers[]=";
+    url = url + getResources('#teachers') + "&rooms[]=";
+    url = url + getResources('#rooms') + "&groups[]=";
+    url = url + getResources('#groups');
+    return url;
+}
 
 /**
 * Changes a dynamically generated list
@@ -59,14 +118,14 @@ function getRecType()
 function getResources(resourceID)
 {
     "use strict";
-    var selectedResources = jq(resourceID).val();
+    var selectedResources = $(resourceID).val();
     if(typeof selectedResources !== 'undefined'){
-        if(jq.isArray(selectedResources))
+        if($.isArray(selectedResources))
         {
             selectedResources = selectedResources.join(",");
             return selectedResources;
         }
-        if(jq.isNumeric(selectedResources))
+        if($.isNumeric(selectedResources))
         {
             selectedResources = selectedResources.toString();
             return selectedResources;
@@ -98,3 +157,91 @@ function toggleCheckValue(isitchecked)
         document.eventForm.jform_emailNotification.value--;
     }
 }
+
+Joomla.submitbutton =  function(task){
+    if (task === '') { return false; }
+    else
+    {
+        var isValid = true;
+        var action = task.split('.');
+ 
+        if (action[1] !== 'cancel' && action[1] !== 'close')
+        {
+            var forms = $$('form.form-validate');
+            for (var i=0;i<forms.length;i++)
+            {
+                if (!document.formvalidator.isValid(forms[i]))
+                {
+                    isValid = false;
+                    break;
+                }
+            }
+        }
+
+        var requrl = build_url();
+        if (isValid && task === 'event.preview')
+        {
+            var description = document.getElementById("jform_description_ifr").contentWindow.document.getElementById("tinymce").innerHTML;
+            var descriptionString = String(description);
+            description = descriptionString.indexOf("data-mce-bogus") != -1? '' : description;
+            requrl = requrl + "&description=" + description  + "&task=preview";
+            $.ajax( {
+                type    : "GET",
+                url     : requrl,
+                success : function(response) {
+                            preview_content(response);
+                            $('.Popup').fadeIn("slow");
+                            $('.overlay').fadeIn("slow");
+                            return false;
+                        },
+                failure : function() {
+                          return false;
+                }
+            });
+        }
+        else if (isValid)
+        {
+            requrl = requrl + "&task=booking";
+            $.ajax( {
+                type    : "GET",
+                url     : requrl,
+                success : function(response) {
+                    var confirmed = true;
+                    if(response){ confirmed = confirm(response); }
+                    if(confirmed){Joomla.submitform(task, document.eventForm); }
+                    return false;
+                },
+                failure : function() {
+                    return false;
+                }
+            });
+        }
+        else
+        {
+            alert(invalidMessage);
+            return false;
+        }
+    }
+}
+
+$( ".previewDialog" ).dialog({
+    autoOpen: false,
+    buttons: [
+        {
+            text: "OK",
+            click: function() {
+                $( this ).dialog( "close" );
+            }
+        },
+        {
+            text: closeMessage,
+            click: function() {
+                $( this ).dialog( "close" );
+            }
+        }
+    ]
+});
+
+$('#previewLink').click(function (event) {
+    $('#previewDialog').dialog("open");
+});

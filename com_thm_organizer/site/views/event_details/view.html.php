@@ -33,7 +33,7 @@ class THM_OrganizerViewEvent_Details extends JView
     {
         JHTML::_('behavior.tooltip');
         $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+        $document->addStyleSheet($this->baseurl . "/media/com_thm_organizer/css/thm_organizer.css");
 
         $model = $this->getModel();
         $this->event = $model->event;
