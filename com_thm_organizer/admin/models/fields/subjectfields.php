@@ -48,7 +48,7 @@ class JFormFieldSubjectFields extends JFormField
         $fieldsQuery->select("f.id AS value, color, field");
         $fieldsQuery->from('#__thm_organizer_fields AS f');
         $fieldsQuery->leftJoin('#__thm_organizer_colors AS c on f.colorID = c.id');
-        $fieldsQuery->order('value');
+        $fieldsQuery->order('field');
         $dbo->setQuery((string) $fieldsQuery);
         $fields = $dbo->loadAssocList();
 
