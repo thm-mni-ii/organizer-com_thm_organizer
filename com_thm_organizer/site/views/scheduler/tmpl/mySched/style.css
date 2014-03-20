@@ -151,11 +151,11 @@ div.teacherInfo div ul {
 
 /* Calendar Style */
 .MySched_nextWeekIcon{
-    background-image: url(../../../../../../media/com_thm_organizer/images/extjs/shared/right-btn.gif);
+    background-image: url(../../../../../../media/com_thm_organizer/images/right-btn.gif);
 }
 
 .MySched_prevWeekIcon{
-    background-image: url(../../../../../../media/com_thm_organizer/images/extjs/shared/left-btn.gif);
+    background-image: url(../../../../../../media/com_thm_organizer/images/left-btn.gif);
 }
 
 /* MNI Style */
