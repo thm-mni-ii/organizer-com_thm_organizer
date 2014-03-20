@@ -84,11 +84,6 @@ class THMEventAccess
      */
     public static function canEdit($eventID)
     {
-        if ($eventID == 0)
-        {
-            return false;
-        }
-
         $user = JFactory::getUser();
         $eventID = JRequest::getInt('eventID');
         $assetname = "com_content.article.$eventID";
@@ -112,11 +107,6 @@ class THMEventAccess
      */
     public static function canEditOwn($eventID)
     {
-        if ($eventID == 0)
-        {
-            return false;
-        }
-
         $user = JFactory::getUser();
         $assetname = "com_content.article.$eventID";
         $canEditOwn = $user->authorise('core.edit.own', $assetname);

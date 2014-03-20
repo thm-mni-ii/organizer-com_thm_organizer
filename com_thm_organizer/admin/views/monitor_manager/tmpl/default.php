@@ -53,6 +53,7 @@ $defaultContent = JComponentHelper::getParams('com_thm_organizer')->get('content
             </select>
         </div>
     </fieldset>
+    </form>
     <div class="clr"> </div>
     <div>
         <table class="adminlist" id="thm_organizer_mon_table" class='thm_organizer_mon_table'>

@@ -37,14 +37,30 @@ class THM_OrganizerControllerEvent extends JController
      */
     public function edit()
     {
-        $input = JFactory::getApplication()->input;
-        $requestID = $input->getInt('eventID', 0);
-        $requestIDs = $input->get('cid', null, 'array');
-        $eventID = empty($requestID)? empty($requestIDs)? 0 : $requestIDs[0] : $requestID;
-        $menuID = $input->getInt('Itemid');
-        $access = THMEventAccess::canEdit($eventID)
-                   OR THMEventAccess::canEditOwn($eventID)
-                   OR THMEventAccess::canCreate();
+        $eventID = JRequest::getInt('eventID', null);
+        $eventIDs = JRequest::getVar('eventIDs', null);
+        $menuID = JRequest::getInt('Itemid');
+        $access = false;
+        if (!isset($eventID) and isset($eventIDs))
+        {
+            $eventID = 0;
+            foreach ($eventIDs as $selectedID)
+            {
+                if ($selectedID)
+                {
+                    $eventID = $selectedID;
+                    break;
+                }
+            }
+        }
+        if (isset($eventID) and $eventID > 0)
+        {
+            $access = THMEventAccess::canEdit($eventID) or THMEventAccess::canEditOwn($eventID);
+        }
+        else
+        {
+            $access = THMEventAccess::canCreate();
+        }
         if ($access)
         {
             $url = "index.php?option=com_thm_organizer&view=event_edit";

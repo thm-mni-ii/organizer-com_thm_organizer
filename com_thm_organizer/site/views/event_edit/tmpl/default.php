@@ -13,49 +13,172 @@ defined('_JEXEC') or die;
 $showListLink = (isset($this->listLink) and $this->listLink != "")? true : false;
 $showEventLink = (isset($this->eventLink) and $this->eventLink != "")? true : false;
 $eventID = $this->form->getValue('id');
-if ($this->event['id'] == 0)
+if (!empty($eventID))
 {
-    $headerTitle = JText::_('COM_THM_ORGANIZER_EE_NEW');
     $cancelText = JText::_('COM_THM_ORGANIZER_CANCEL');
-    $cancelTip = JText::_('COM_THM_ORGANIZER_EE_CANCEL_TIP');
+    $cancelTip = JText::_('COM_THM_ORGANIZER_CANCEL_TOOLTIP');
 }
 else
 {
-    $headerTitle = JText::_('COM_THM_ORGANIZER_EE_EDIT');
     $cancelText = JText::_('COM_THM_ORGANIZER_CLOSE');
-    $cancelTip = JText::_('COM_THM_ORGANIZER_EE_CLOSE_TIP');
+    $cancelTip = JText::_('COM_THM_ORGANIZER_CLOSE_TOOLTIP');
 }
 ?>
 <script type="text/javascript">
-    var baseURL, invalidMessage, closeMessage, previewTitle, categories = [];
-    baseURL = '<?php echo $this->baseurl; ?>';
-    invalidMessage = '<?php echo addslashes(JText::_('COM_THM_ORGANIZER_EE_INVALID_FORM')); ?>';
-    closeMessage = '<?php echo addslashes(JText::_('JTOOLBAR_CLOSE')); ?>';
-    previewTitle = '<?php echo addslashes(JText::_('COM_THM_ORGANIZER_PREVIEW_HEADER'));?>';
+    var categories = new Array;
+    var jq = jQuery.noConflict();
+ 
+    jq("body").on({
+        ajaxStart: function() {
+            jq(this).addClass("loading");
+        },
+        ajaxStop: function() {
+            jq(this).removeClass("loading");
+        }
+    });
+
+    jq(document).ready( function() { 
+       jq('.closePopup').live("click", function() {
+           jq(".Popup").fadeOut("slow");
+           jq(".overlay").fadeOut("slow", remove_preview_content());
+           return false;
+       });
+    });
+
+    function preview_content(response) {
+        var json = jq.parseJSON(response);
+        jq('#thm_organizer_ee_preview_event').append("<div id='thm_organizer_e_preview_div' class='thm_organizer_e_preview_div' >\
+                                                        <div class='thm_organizer_e_title'>"           + json.title        + "</div>\
+                                                        <div class='thm_organizer_e_publish_up'>"      + json.created_at   + "</div>\
+                                                        <div class='thm_organizer_e_author'>"          + json.username     + "</div>\
+                                                        "                                              + json.introtext    + "\
+                                                        <div class='thm_organizer_e_description'>"     + json.description  + "</div>\
+                                                      </div>");
+    }
+ 
+    function remove_preview_content() {
+        var d = document.getElementById('thm_organizer_ee_preview_event');
+        var olddiv = document.getElementById('thm_organizer_e_preview_div');
+        d.removeChild(olddiv);
+    }
+ 
+    function build_url() {
+        var url = "<?php echo $this->baseurl; ?>";
+        url = url + "/index.php?option=com_thm_organizer&view=event_ajax&format=raw&eventID=";;
+        url = url + jq('#jform_id').val() + "&title=";
+        url = url + jq('#jform_title').val() + "&id=";
+        url = url + jq('#jform_id').val() + "&startdate=";
+        url = url + jq('#jform_startdate').val() + "&enddate=";
+        url = url + jq('#jform_enddate').val() + "&starttime=";
+        url = url + jq('#jform_starttime').val() + "&endtime=";
+        url = url + jq('#jform_endtime').val() + "&category=";
+        url = url + jq('#category').val() + "&rec_type=";
+        url = url + getRecType() + "&teachers[]=";
+        url = url + getResources('#teachers') + "&rooms[]=";
+        url = url + getResources('#rooms') + "&groups[]=";
+        url = url + getResources('#groups');
+        return url;
+    }
+ 
 <?php
 foreach ($this->categories as $category)
 {
-    echo "\t" . $category['javascript'] . "\n";
+    echo $category['javascript'];
 }
 ?>
+
+/**
+ * was not moved to edit_event.js because of use of joomla language support in
+ * alert output
+ */
+Joomla.submitbutton =  function(task){
+    if (task === '') { return false; }
+    else
+    {
+        var isValid = true;
+        var action = task.split('.');
+ 
+        if (action[1] !== 'cancel' && action[1] !== 'close')
+        {
+            var forms = $$('form.form-validate');
+            for (var i=0;i<forms.length;i++)
+            {
+                if (!document.formvalidator.isValid(forms[i]))
+                {
+                    isValid = false;
+                    break;
+                }
+            }
+        }
+
+        var requrl = build_url();
+        if (isValid && task === 'event.preview')
+        {
+            var description = document.getElementById("jform_description_ifr").contentWindow.document.getElementById("tinymce").innerHTML;
+            var descriptionString = String(description);
+            description = descriptionString.indexOf("data-mce-bogus") != -1? '' : description;
+            requrl = requrl + "&description=" + description  + "&task=preview";
+            jq.ajax( {
+                type    : "GET",
+                url     : requrl,
+                success : function(response) {
+                            preview_content(response);
+                            jq('.Popup').fadeIn("slow");
+                            jq('.overlay').fadeIn("slow");
+                            return false;
+                        },
+                failure : function() {
+                          return false;
+                }
+            });
+        }
+        else if (isValid)
+        {
+            requrl = requrl + "&task=booking";
+            jq.ajax( {
+                type    : "GET",
+                url     : requrl,
+                success : function(response) {
+                    var confirmed = true;
+                    if(response){ confirmed = confirm(response); }
+                    if(confirmed){Joomla.submitform(task, document.eventForm); }
+                    return false;
+                },
+                failure : function() {
+                    return false;
+                }
+            });
+        }
+        else
+        {
+            alert('<?php echo addslashes(JText::_('COM_THM_ORGANIZER_EE_INVALID_FORM')); ?>');
+            return false;
+        }
+    }
+}
 </script>
-<form id="eventForm" name="eventForm" enctype="multipart/form-data"
-      method="post" action="index.php" class="eventForm form-validate">
-    <div class='toolbar-box'>
-        <div class='title-bar'>
-            <h2><?php echo $headerTitle; ?></h2>
-        </div>
-        <div class='action-bar'>
+<div id="thm_organizer_ee" class='thm_organizer_ee'>
+    <form enctype="multipart/form-data"
+          action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=event_edit'); ?>"
+          method="post"
+          name="eventForm"
+          id="eventForm"
+          class="eventForm form-validate">
+        <div id="thm_organizer_ee_head_div" class='thm_organizer_ee_head_div'>
+            <span id="thm_organizer_ee_title" class='thm_organizer_ee_title'>
+                <?php echo ($this->event['id'] == 0)? JText::_('COM_THM_ORGANIZER_EE_NEW') : JText::_('COM_THM_ORGANIZER_EE_EDIT'); ?>
+            </span>
+            <div id="thm_organizer_ee_button_div" class='thm_organizer_ee_button_div'>
 <?php
                 if ($showListLink)
                 {
                     $listTitle = JText::_('COM_THM_ORGANIZER_LIST_TITLE');
                     $listTitle .= "::" . JText::_('COM_THM_ORGANIZER_LIST_DESCRIPTION')
 ?>
-                <a  class="hasTip action-link"
+                <a  class="hasTip thm_organizer_action_link"
                     title="<?php echo $listTitle;?>"
                     href="<?php echo $this->listLink ?>">
-                    <span class="list-span action-span"></span>
+                    <span id="thm_organizer_list_span" class="thm_organizer_list_span thm_organizer_action_span"></span>
                     <?php echo JText::_('COM_THM_ORGANIZER_LIST'); ?>
                 </a>
 <?php
@@ -65,152 +188,164 @@ foreach ($this->categories as $category)
                     $eventTitle = JText::_('COM_THM_ORGANIZER_EVENT_TITLE');
                     $eventTitle .= "::" . JText::_('COM_THM_ORGANIZER_EVENT_DESCRIPTION');
 ?>
-            <a  class="hasTip action-link"
-                title="<?php echo $eventTitle;?>"
-                href="<?php echo $this->eventLink ?>">
-                <span class="event-span action-span"></span>
-                <?php echo JText::_('COM_THM_ORGANIZER_EVENT'); ?>
-            </a>
-            <?php
-            }
-            if ($showListLink or $showEventLink)
-            {?>
-            <span class="divider-span"> </span>
-            <?php
-            } ?>
-            <a  class="hasTip action-link" title="<?php echo JText::_('COM_THM_ORGANIZER_EE_SAVE_TIP');?>"
-                href="#" onclick="Joomla.submitbutton('event.save')">
-                <span class="save-span action-span"></span>
-                <?php echo JText::_('COM_THM_ORGANIZER_SAVE_TITLE'); ?>
-            </a>
-            <a  class="hasTip action-link" title="<?php echo JText::_('COM_THM_ORGANIZER_EE_SAVE_NEW_TIP');?>"
-                href="#" onclick="Joomla.submitbutton('event.save2new')">
-                <span class="save-new-span action-span"></span>
-                <?php echo JText::_('COM_THM_ORGANIZER_SAVE_NEW'); ?>
-            </a>
-            <a  class="hasTip action-link" title="<?php echo JText::_('COM_THM_ORGANIZER_EE_PREVIEW_TIP');?>"
-                href="#" id="previewLink">
-                <span class="preview-span action-span"></span>
-                <?php echo JText::_('COM_THM_ORGANIZER_PREVIEW'); ?>
-            </a>
-            <a  class="hasTip action-link" title="<?php echo $cancelTip;?>"
-                href ="#" onclick="window.history.back()">
-                <span class="cancel-span action-span"></span>
-                <?php echo $cancelText; ?>
-            </a>
+                <a  class="hasTip thm_organizer_action_link"
+                    title="<?php echo $eventTitle;?>"
+                    href="<?php echo $this->eventLink ?>">
+                    <span id="thm_organizer_event_span" class="thm_organizer_event_span thm_organizer_action_span"></span>
+                    <?php echo JText::_('COM_THM_ORGANIZER_EVENT'); ?>
+                </a>
+                <?php
+                }
+                if ($showListLink or $showEventLink)
+                {?>
+                <span class="thm_organizer_divider_span"></span>
+                <?php
+                } ?>
+                <a  class="hasTip thm_organizer_action_link"
+                    title="<?php echo JText::_('COM_THM_ORGANIZER_SAVE_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_SAVE_DESCRIPTION');?>"
+                    onclick="Joomla.submitbutton('event.save')">
+                    <span id="thm_organizer_save_span" class="thm_organizer_save_span thm_organizer_action_span"></span>
+                    <?php echo JText::_('COM_THM_ORGANIZER_SAVE_TITLE'); ?>
+                </a>
+                <a  class="hasTip thm_organizer_action_link"
+                    title="<?php echo JText::_('COM_THM_ORGANIZER_SAVE_NEW_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_SAVE_NEW_DESCRIPTION');?>"
+                    onclick="Joomla.submitbutton('event.save2new')">
+                    <span id="thm_organizer_save_new_span" class="thm_organizer_save_new_span thm_organizer_action_span"></span>
+                    <?php echo JText::_('COM_THM_ORGANIZER_SAVE_NEW'); ?>
+                </a>
+                <a  class="hasTip thm_organizer_action_link_preview"
+                    title="<?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_PREVIEW_DESCRIPTION');?>"
+                    onclick="Joomla.submitbutton('event.preview')">
+                    <span id="thm_organizer_preview_span" class="thm_organizer_preview_span thm_organizer_action_span"></span>
+                    <?php echo JText::_('COM_THM_ORGANIZER_PREVIEW'); ?>
+                </a>
+                <a  class="hasTip thm_organizer_action_link"
+                    title="<?php echo $cancelTip;?>"
+                    onclick="window.history.back()">
+                    <span id="thm_organizer_cancel_span" class="thm_organizer_cancel_span thm_organizer_action_span"></span>
+                    <?php echo $cancelText; ?>
+                </a>
+                <div class="Popup">
+                    <div class="loader"></div>
+                    <h1><?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_HEADER');?></h1>
+                    <div id="thm_organizer_ee_preview_event"><?php sleep(4); ?></div>
+                    <a href="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=event_edit'); ?>" class="closePopup">
+                        <?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_CLOSE');?>
+                    </a>
+                </div>
+                <div id="overlay" class="overlay closePopup"></div>
+            </div>
         </div>
-    </div>
-    <div id="thm_organizer_ee_name_div" class='thm_organizer_ee_name_div'>
-        <div class="thm_organizer_ee_label_div" >
-            <?php echo $this->form->getLabel('title'); ?>
-        </div>
-        <div class="thm_organizer_ee_data_div" >
-            <?php echo $this->form->getInput('title'); ?>
-        </div>
-    </div>
-    <div id="thm_organizer_ee_desc_div" class='thm_organizer_ee_desc_div'>
-        <div class="thm_organizer_ee_label_div" >
-            <?php echo $this->form->getLabel('description'); ?>
-        </div>
-        <div class="thm_organizer_ee_data_div" >
-            <?php echo $this->form->getInput('description'); ?>
-        </div>
-    </div>
-    <div id="thm_organizer_ee_time_div" class='thm_organizer_ee_time_div'>
-        <table class="thm_organizer_ee_table">
-            <tr>
-                <td><?php echo $this->form->getLabel('startdate'); ?></td>
-                <td><?php echo $this->form->getInput('startdate'); ?></td>
-                <td><?php echo $this->form->getLabel('starttime'); ?></td>
-                <td><?php echo $this->form->getInput('starttime'); ?></td>
-                <td>
-                    <label for="rec_type_block">
-                        <span class="hasTip" title="<?php echo JText::_('COM_THM_ORGANIZER_EE_BLOCK_TITLE_ATTR'); ?>">
-                            <?php echo JText::_('COM_THM_ORGANIZER_CONTINUOUS') . ":"; ?>
-                        </span>
-                    </label>
-                </td>
-                <td>
-                    <input type="radio" id="rec_type_block" name="rec_type" <?php echo $this->blockchecked;?> value="0">
-                </td>
-            </tr>
-            <tr>
-                <td><?php echo $this->form->getLabel('enddate'); ?></td>
-                <td><?php echo $this->form->getInput('enddate'); ?></td>
-                <td><?php echo $this->form->getLabel('endtime'); ?></td>
-                <td><?php echo $this->form->getInput('endtime'); ?></td>
-                <td>
-                    <label for="rec_type_daily">
-                       <span class="hasTip" title="<?php echo JText::_('COM_THM_ORGANIZER_EE_DAILY_TITLE_ATTR'); ?>">
-                            <?php echo JText::_('COM_THM_ORGANIZER_DAILY') . ":"; ?>
-                        </span>
-                    </label>
-                </td>
-                <td>
-                    <input type="radio" id="rec_type_daily" name="rec_type" <?php echo $this->dailychecked;?> value="1">
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div id="thm_organizer_ee_category_div" class='thm_organizer_ee_category_div'>
-        <div id="thm_organizer_ee_category_select_div" class='thm_organizer_ee_category_select_div'>
+        <div id="thm_organizer_ee_name_div" class='thm_organizer_ee_name_div'>
             <div class="thm_organizer_ee_label_div" >
-                <?php echo $this->form->getLabel('categories'); ?>
+                <?php echo $this->form->getLabel('title'); ?>
             </div>
             <div class="thm_organizer_ee_data_div" >
-                <?php echo $this->categoryselect; ?>
+                <?php echo $this->form->getInput('title'); ?>
             </div>
         </div>
-        <div id="thm_organizer_ee_event_cat_desc_div" >
-            <div><?php echo $this->categories[$this->event['categoryID']]['description']; ?></div>
+        <div id="thm_organizer_ee_desc_div" class='thm_organizer_ee_desc_div'>
+            <div class="thm_organizer_ee_label_div" >
+                <?php echo $this->form->getLabel('description'); ?>
+            </div>
+            <div class="thm_organizer_ee_data_div" >
+                <?php echo $this->form->getInput('description'); ?>
+            </div>
         </div>
-        <div id="thm_organizer_ee_event_cat_disp_div" >
-            <div><?php echo $this->categories[$this->event['categoryID']]['display']; ?></div>
+        <div id="thm_organizer_ee_time_div" class='thm_organizer_ee_time_div'>
+            <table class="thm_organizer_ee_table">
+                <tr>
+                    <td><?php echo $this->form->getLabel('startdate'); ?></td>
+                    <td><?php echo $this->form->getInput('startdate'); ?></td>
+                    <td><?php echo $this->form->getLabel('starttime'); ?></td>
+                    <td><?php echo $this->form->getInput('starttime'); ?></td>
+                    <td>
+                        <label for="rec_type_block">
+                            <span class="hasTip" title="<?php echo JText::_('COM_THM_ORGANIZER_EE_BLOCK_TITLE_ATTR'); ?>">
+                                <?php echo JText::_('COM_THM_ORGANIZER_CONTINUOUS') . ":"; ?>
+                            </span>
+                        </label>
+                    </td>
+                    <td>
+                        <input type="radio" id="rec_type_block" name="rec_type" <?php echo $this->blockchecked;?> value="0">
+                    </td>
+                </tr>
+                <tr>
+                    <td><?php echo $this->form->getLabel('enddate'); ?></td>
+                    <td><?php echo $this->form->getInput('enddate'); ?></td>
+                    <td><?php echo $this->form->getLabel('endtime'); ?></td>
+                    <td><?php echo $this->form->getInput('endtime'); ?></td>
+                    <td>
+                        <label for="rec_type_daily">
+                           <span class="hasTip" title="<?php echo JText::_('COM_THM_ORGANIZER_EE_DAILY_TITLE_ATTR'); ?>">
+                                <?php echo JText::_('COM_THM_ORGANIZER_DAILY') . ":"; ?>
+                            </span>
+                        </label>
+                    </td>
+                    <td>
+                        <input type="radio" id="rec_type_daily" name="rec_type" <?php echo $this->dailychecked;?> value="1">
+                    </td>
+                </tr>
+            </table>
         </div>
-        <div id="thm_organizer_ee_content_cat_name_div" >
-            <div><?php echo $this->categories[$this->event['categoryID']]['contentCat']; ?></div>
+        <div id="thm_organizer_ee_category_div" class='thm_organizer_ee_category_div'>
+            <div id="thm_organizer_ee_category_select_div" class='thm_organizer_ee_category_select_div'>
+                <div class="thm_organizer_ee_label_div" >
+                    <?php echo $this->form->getLabel('categories'); ?>
+                </div>
+                <div class="thm_organizer_ee_data_div" >
+                    <?php echo $this->categoryselect; ?>
+                </div>
+            </div>
+            <div id="thm_organizer_ee_event_cat_desc_div" >
+                <div><?php echo $this->categories[$this->event['categoryID']]['description']; ?></div>
+            </div>
+            <div id="thm_organizer_ee_event_cat_disp_div" >
+                <div><?php echo $this->categories[$this->event['categoryID']]['display']; ?></div>
+            </div>
+            <div id="thm_organizer_ee_content_cat_name_div" >
+                <div><?php echo $this->categories[$this->event['categoryID']]['contentCat']; ?></div>
+            </div>
+            <div id="thm_organizer_ee_content_cat_desc_div" >
+                <div><?php echo $this->categories[$this->event['categoryID']]['contentCatDesc']; ?></div>
+            </div>
+            <div id="thm_organizer_ee_content_cat_access_div" >
+                <div><?php echo $this->categories[$this->event['categoryID']]['access']; ?></div>
+            </div>
         </div>
-        <div id="thm_organizer_ee_content_cat_desc_div" >
-            <div><?php echo $this->categories[$this->event['categoryID']]['contentCatDesc']; ?></div>
+        <div id="thm_organizer_ee_resource_selection_div" class='thm_organizer_ee_resource_selection_div'>
+            <table class="thm_organizer_ee_table">
+                <tr>
+                    <td>
+                        <?php echo $this->form->getLabel('teachers'); ?>
+                    </td>
+                    <td>
+                        <?php echo $this->form->getLabel('rooms'); ?>
+                    </td>
+                    <td>
+                        <?php echo $this->form->getLabel('groups'); ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td><?php echo $this->teachersselect; ?></td>
+                    <td><?php echo $this->roomsselect; ?></td>
+                    <td><?php echo $this->groupsselect; ?></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <?php echo $this->form->getLabel('emailNotification'); ?>
+                    </td>
+                    <td>
+                        <?php echo $this->form->getInput('emailNotification'); ?>
+                    </td>
+                </tr>
+            </table>
         </div>
-        <div id="thm_organizer_ee_content_cat_access_div" >
-            <div><?php echo $this->categories[$this->event['categoryID']]['access']; ?></div>
-        </div>
-    </div>
-    <div id="thm_organizer_ee_resource_selection_div" class='thm_organizer_ee_resource_selection_div'>
-        <table class="thm_organizer_ee_table">
-            <tr>
-                <td>
-                    <?php echo $this->form->getLabel('teachers'); ?>
-                </td>
-                <td>
-                    <?php echo $this->form->getLabel('rooms'); ?>
-                </td>
-                <td>
-                    <?php echo $this->form->getLabel('groups'); ?>
-                </td>
-            </tr>
-            <tr>
-                <td><?php echo $this->teachersselect; ?></td>
-                <td><?php echo $this->roomsselect; ?></td>
-                <td><?php echo $this->groupsselect; ?></td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <?php echo $this->form->getLabel('emailNotification'); ?>
-                </td>
-                <td>
-                    <?php echo $this->form->getInput('emailNotification'); ?>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <?php echo $this->form->getInput('id'); ?>
-    <input type='hidden' name='Itemid' value="<?php echo JRequest::getVar('Itemid'); ?>" />
-    <input type='hidden' name='option' value='com_thm_organizer' />
-    <input type='hidden' name='view' value='event_edit' />
-    <input type='hidden' name='task' value='event.save' />
-    <input type='hidden' name='schedulerCall' value='<?php echo JRequest::getBool('schedulerCall'); ?>' />
-    <?php echo JHtml::_('form.token'); ?>
-</form>
+        <?php echo $this->form->getInput('id'); ?>
+        <input type='hidden' name='Itemid' value="<?php echo JRequest::getVar('Itemid'); ?>" />
+        <input type='hidden' name='task' value='event.save' />
+        <input type='hidden' name='schedulerCall' value='<?php echo JRequest::getBool('schedulerCall'); ?>' />
+        <?php echo JHtml::_('form.token'); ?>
+    </form>
+</div>
 <div class="loader"></div>

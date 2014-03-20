@@ -32,7 +32,7 @@ class THM_OrganizerViewRoom_Select extends JView
         JHTML::_('behavior.tooltip');
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl . "/media/com_thm_organizer/css/thm_organizer.css");
+        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
         $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/event_edit.js'));
         $document->setTitle(JText::_('COM_THM_ORGANIZER_RS_TITLE'));
 

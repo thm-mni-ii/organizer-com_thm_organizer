@@ -31,6 +31,50 @@
     margin: 0 auto 0 auto;
 }
 
+.thm_organizer_new_span{
+    background-image: url("../../../../media/com_thm_organizer/images/icon-32-new.png");
+}
+
+.thm_organizer_edit_span{
+    background-image: url("../../../../media/com_thm_organizer/images/icon-32-edit.png");
+}
+
+.thm_organizer_delete_span{
+    background-image: url("../../../../media/com_thm_organizer/images/icon-32-trash.png");
+}
+
+.thm_organizer_submit_span{
+    background-image: url("../../../../media/com_thm_organizer/images/icon-32-forward.png");
+}
+
+.thm_organizer_back_span{
+    background-image: url("../../../../media/com_thm_organizer/images/icon-32-refresh.png");
+}
+
+.thm_organizer_list_span{
+    background-image: url("../../../../media/com_thm_organizer/images/icon-32-list.png");
+}
+
+.thm_organizer_event_span{
+    background-image: url("../../../../media/com_thm_organizer/images/icon-32-event.png");
+}
+
+.thm_organizer_save_span{
+    background-image: url("../../../../media/com_thm_organizer/images/icon-32-save.png");
+}
+
+.thm_organizer_save_new_span{
+    background-image: url("../../../../media/com_thm_organizer/images/icon-32-save-new.png");
+}
+
+.thm_organizer_preview_span{
+    background-image: url("../../../../media/com_thm_organizer/images/icon-32-preview.png");
+}
+
+.thm_organizer_cancel_span{
+    background-image: url("../../../../media/com_thm_organizer/images/icon-32-cancel.png");
+}
+
 
 .Popup{
     display: none;

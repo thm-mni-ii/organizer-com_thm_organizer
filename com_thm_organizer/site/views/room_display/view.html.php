@@ -35,7 +35,7 @@ class THM_OrganizerViewRoom_Display extends JView
         if ($model->layout == 'default' or $model->layout == 'registered' or $model->layout == 'events')
         {
             $document = JFactory::getDocument();
-            $document->addStyleSheet($this->baseurl . "/media/com_thm_organizer/css/thm_organizer.css");
+            $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
             if ($model->layout == 'registered' OR $model->layout == 'events' OR $model->layout == 'content')
             {
                 $document->addStyleSheet($this->baseurl . "/media/com_thm_organizer/css/room_display.css");

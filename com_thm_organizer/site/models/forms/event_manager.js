@@ -3,6 +3,31 @@ window.addEvent('domready', function() {
     document.formvalidator.setHandler('germandate',
         function (value) { return (/^[0-3][0-9].[0-1][0-9].[0-9]{4}$/).test(value); });
 });
+function checkAll()
+{
+    "use strict";
+    var checkbox = document.getElementsByName('eventIDs[]');
+    if(checkbox[0].checked === true)
+    {
+        for (var i = 0; i < checkbox.length; i++)
+        {
+            checkbox[i].checked = true;
+        }
+    }
+    else
+    {
+        unCheckAll();
+    }
+}
+function unCheckAll()
+{
+    "use strict";
+    var checkbox = document.getElementsByName('eventIDs[]');
+    for (var i = 0; i < checkbox.length; i++)
+    {
+        checkbox[i].checked = false ;
+    }
+}
 function submitForm(task)
 {
     "use strict";
@@ -12,14 +37,14 @@ function submitForm(task)
         task = 'event.edit';
     }
     document.getElementById('task').value = task;
-    document.getElementById('adminForm').submit();
+    document.getElementById('thm_organizer_el_form').submit();
 }
 function reSort( col, dir )
 {
     "use strict";
     document.getElementById('orderby').value=col;
     document.getElementById('orderbydir').value=dir;
-    document.getElementById('adminForm').submit();
+    document.getElementById('thm_organizer_el_form').submit();
 }
 function resetForm()
 {
@@ -51,5 +76,5 @@ function resetForm()
     }
     document.getElementById('jform_fromdate').value='';
     document.getElementById('jform_todate').value='';
-    document.getElementById('adminForm').submit();
+    document.getElementById('thm_organizer_el_form').submit();
 }
