@@ -58,10 +58,10 @@ $listDirn = $this->state->get('list.direction');
                     <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_POM_EXTERNALID_TITLE'), 'externalID', $listDirn, $listOrder); ?>
                 </th>
                 <th width="5%">
-                    <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_POM_MAXCRP_TITLE'), 'maxCrP', $listDirn, $listOrder); ?>
+                    <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_POM_MINCRP_TITLE'), 'minCrP', $listDirn, $listOrder); ?>
                 </th>
                 <th width="5%">
-                    <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_POM_MINCRP_TITLE'), 'minCrP', $listDirn, $listOrder); ?>
+                    <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_POM_MAXCRP_TITLE'), 'maxCrP', $listDirn, $listOrder); ?>
                 </th>
                 <th>
                     <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_POM_FIELD_TITLE'), 'field', $listDirn, $listOrder); ?>
@@ -110,12 +110,12 @@ foreach ($this->pools as $pool)
                 </td>
                 <td>
                     <a href="index.php?option=com_thm_organizer&view=pool_edit&id=<?php echo $pool->id; ?>">
-                        <?php echo $pool->maxCrP; ?>
+                        <?php echo $pool->minCrP; ?>
                     </a>
                 </td>
                 <td>
                     <a href="index.php?option=com_thm_organizer&view=pool_edit&id=<?php echo $pool->id; ?>">
-                        <?php echo $pool->minCrP; ?>
+                        <?php echo $pool->maxCrP; ?>
                     </a>
                 </td>
                 <td style="background-color: #<?php echo $pool->color; ?>">

@@ -18,23 +18,25 @@ function Curriculum(parameters) {
         self.data = $.parseJSON(xmlhttp.responseText);
     };
 
+    function getCrPText(resource)
+    {
+        if (resource.minCrP !== undefined && resource.maxCrP !== undefined)
+        {
+            if (resource.minCrP === resource.maxCrP)
+            {
+                return ' (' + resource.maxCrP + ' CrP)';
+            }
+            return ' (' + resource.minCrP + '-' + resource.maxCrP + ' CrP)';
+        }
+        if (resource.maxCrP !== undefined)
+        {
+            return ' (' + resource.maxCrP + ' CrP)';
+        }
+        return '';
+    }
+
     function setSemesterContainer(pool) {
-        var html, CrP;
-        if (pool.minCrP !== undefined && pool.minCrP !== pool.maxCrP)
-        {
-            CrP = ' (' + pool.minCrP + '-' + pool.maxCrP + ' CrP)';
-        }
-        else
-        {
-            if (pool.minCrP === pool.maxCrP)
-            {
-                CrP = ' (' + pool.maxCrP + ' CrP)';
-            }
-            else
-            {
-                CrP = '';
-            }
-        }
+        var html, CrP = getCrPText(pool);
         html = '<h3>' + pool.name + CrP + '</h3>';
         $(html).appendTo('#accordion');
         html = '<div class="gridster">';
@@ -78,7 +80,7 @@ function Curriculum(parameters) {
         if (semester.children !== undefined)
         {
             $.each(semester.children, function (key, value) {
-                var colorClass;
+                var colorClass, CrP;
 
                 // Ignore inherited 'children'
                 if (!semester.children.hasOwnProperty(key)) {
@@ -104,11 +106,13 @@ function Curriculum(parameters) {
                 columnNumber = parseInt(key, 10) % parameters.rowItems;
 
                 colorClass = getColorClass(value.color);
+                CrP = getCrPText(value);
+
                 html = '<li class="icon_container" data-sizex="1" data-sizey="1" ';
                 html += 'data-col="' + columnNumber + '" data-row="' + rowNumber + '">';
                 html += '<div class="icon_container_head ' + colorClass + '" ';
                 html += 'style="background-color: #' + value.color + '">';
-                html += '<span>' + value.externalID + ' (' + value.maxCrP + ' CrP)</span>';
+                html += '<span>' + value.externalID + CrP +'</span>';
                 html += '</div>';
                 html += '<div class="icon_container_body">';
                 if (value.link !== undefined) {
