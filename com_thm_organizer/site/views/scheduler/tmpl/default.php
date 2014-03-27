@@ -124,6 +124,18 @@ else
         MySched.schedulerFromMenu = false;
 <?php
 }
+if ($this->displayModuleNumber)
+{
+?>
+        MySched.displayModuleNumber = true;
+<?php
+}
+else
+{
+?>
+		MySched.displayModuleNumber = false;
+<?php
+}
 ?>
         Ext.application({
             name: 'Scheduler',

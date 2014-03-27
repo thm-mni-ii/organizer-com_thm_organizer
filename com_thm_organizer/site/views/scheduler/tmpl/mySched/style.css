@@ -58,7 +58,7 @@ div.MySchedexternURLClass_DIS {
     text-align: center;
     text-shadow: 0 1px 1px white;
     overflow: hidden;
-    white-space: normal;
+    white-space: pre-wrap;
 }
 
 .lectureBox_reserve {

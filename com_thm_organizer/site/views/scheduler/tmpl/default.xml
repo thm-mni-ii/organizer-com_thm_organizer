@@ -35,6 +35,10 @@
                 <option value="0">JNO</option>
                 <option value="1">JYES</option>
             </field>
+            <field name="displayModuleNumber" type="radio" label="COM_THM_ORGANIZER_SCHEDULER_OPTIONS_DISPLAY_MODULE_NUMBER_TITLE" default="1" description="COM_THM_ORGANIZER_SCHEDULER_OPTIONS_DISPLAY_MODULE_NUMBER_DESC">
+                <option value="0">JNO</option>
+                <option value="1">JYES</option>
+            </field>
             <field name="deltaDisplayDays" default="14" class="required validate-numeric" type="text" label="COM_THM_ORGANIZER_SCHEDULER_DELTA_DISPLAY_TITLE"
                 size="5" description="COM_THM_ORGANIZER_SCHEDULER_DELTA_DISPLAY_DESC" />
         </fieldset>

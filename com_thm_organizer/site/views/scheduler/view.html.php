@@ -64,6 +64,9 @@ class THM_OrganizerViewScheduler extends JView
 
         $this->searchModuleID = JRequest::getString('moduleID');
 
+        $displayModuleNumber = (boolean) $menuparams->get("displayModuleNumber", true);
+        $this->displayModuleNumber = $displayModuleNumber;
+        
         $deltaDisplayDays = (int) $menuparams->get("deltaDisplayDays", 14);
         if (is_int($deltaDisplayDays))
         {
@@ -73,7 +76,7 @@ class THM_OrganizerViewScheduler extends JView
         {
             $this->deltaDisplayDays = 14;
         }
-
+        
         $site = new JSite;
         $menu = $site->getMenu();
         $menuid = JRequest::getInt("menuID", 0);
