@@ -9,12 +9,12 @@ MySched.layout.getMainToolbar = function ()
         // Event anlegen
         text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EVENT_CREATE,
         id: 'btnEvent',
-        hidden: true,
+        hidden: false,
         iconCls: 'tbEvent',
         handler: addNewEvent
     });
     var ToolbarObjects = oldMainToolbar();
-    var newMainToolbar = ToolbarObjects.AddTo(3, btnEvent);
+    var newMainToolbar = ToolbarObjects.AddTo(5, btnEvent);
     return newMainToolbar;
 };
 
@@ -29,7 +29,7 @@ var addEvent = {
     xtype: "button"
 };
 
-//MySched.BlockMenu.Menu[MySched.BlockMenu.Menu.length] = addEvent;
+MySched.BlockMenu.Menu[MySched.BlockMenu.Menu.length] = addEvent;
 
 window.onbeforeunload = function ()
 {

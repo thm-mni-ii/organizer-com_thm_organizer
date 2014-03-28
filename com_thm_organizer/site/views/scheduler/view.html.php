@@ -34,7 +34,7 @@ class THM_OrganizerViewScheduler extends JView
     public function display($tpl = null)
     {
         JHTML::_('behavior.tooltip');
-
+        
         $libraryInstalled = jimport('extjs4.extjs4');
         if (!$libraryInstalled)
         {

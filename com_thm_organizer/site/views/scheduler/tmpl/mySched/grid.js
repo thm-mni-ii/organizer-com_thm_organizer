@@ -250,11 +250,13 @@ function addNewEvent(eventid, sdate, stime, etime)
         eventid = eventid[1];
     }
 
-    var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker')
-        .value);
+    var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker').value);
 
     var adds = "";
     var date = null;
+
+    console.log(MySched.selectedSchedule);
+    console.log(MySched.Mapping);
 
     if (Ext.isString(sdate))
     {
@@ -291,55 +293,41 @@ function addNewEvent(eventid, sdate, stime, etime)
         stime = "";
     }
 
-    adds = "&startdate=" + date + "&starttime=" + stime + "&endtime=" + etime;
-
-    var win = Ext.create('Ext.window.Window',
+    if(!Ext.isEmpty(date))
     {
-        layout: { type: 'fit' },
-        id: 'terminWin',
-        width: 800,
-        title: "",
-        height: 450,
-        modal: true,
-        frame: false,
-        html: '<iframe width=100% height=100% onLoad="newEventonLoad(this)" id="iframeNewEvent" class="mysched_iframeNewEvent" src="' +
-              externLinks.eventLink + eventid + '&tmpl=component' + adds + '"></iframe>'
-    });
-
-    win.on("beforeclose", function (panel, eOpts)
+    	adds = "&startdate=" + date;
+    }
+    
+    if(!Ext.isEmpty(stime))
     {
-        Ext.Ajax.request(
-        {
-            url: _C('ajaxHandler'),
-            method: 'POST',
-            params: {
-                jsid: MySched.SessionId,
-                scheduletask: "Events.load"
-            },
-            success: function (response, request)
-            {
-                try
-                {
-                    var jsonData = [];
+    	adds += "&starttime=" + stime;
+    }
+    
+    if(!Ext.isEmpty(etime))
+    {
+    	adds += "&endtime=" + etime;
+    }
 
-                    if (response.responseText.length > 0)
-                    {
-                        jsonData = Ext.decode(response.responseText);
-                    }
-                    MySched.selectedSchedule.eventsloaded = null;
-                    MySched.TreeManager.afterloadEvents(jsonData);
-                    MySched.selectedSchedule.refreshView();
-                }
-                catch (e)
-                {
-                    return true;
-                }
-            }
-        });
-        return true;
-    });
+	var key = MySched.selectedSchedule.key;
+	
+    if(MySched.selectedSchedule.type === "room")
+    {
+    	var roomID = MySched.Mapping.getRoomDbID(key);
+    	if(roomID != key)
+    	{
+    		adds += "&roomID=" + roomID;
+    	}
+    }
+    else if(MySched.selectedSchedule.type === "teacher")
+    {
+    	var teacherID = MySched.Mapping.getTeacherDbID(key);
+    	if(teacherID != key)
+    	{
+    		adds += "&teacherID=" + teacherID;
+    	}
+    }
 
-    win.show();
+    window.open(externLinks.eventLink + eventid + adds);
 }
 
 /**
