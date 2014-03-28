@@ -869,7 +869,7 @@ Ext.define('ScheduleModel',
         {
             wd = weekdays[wd];
         }
-        if (this.getBlockCache()[wd] && this.blockCache[wd][block])
+        if (this.getBlockCache(true)[wd] && this.blockCache[wd][block])
         {
             return this.blockCache[wd][block];
         }

@@ -435,14 +435,22 @@ MySched.Base = function ()
                 // Akzeptiert lectures
                 notifyDrop: function (dd, e, data)
                 {
-                    if (!Ext.isEmpty(data.records))
+                    if (!Ext.isEmpty(data.records) || !Ext.isEmpty(data.patientData))
                     {
-                        if (data.records[0].isLeaf())
+                    	var n = {};
+                        if(!Ext.isEmpty(data.patientData))
+                        {
+                        	n = data.patientData;
+                        }
+                        else if(data.records[0].isLeaf())
+                        {
+                        	n = data.records[0].raw;
+                        }
+                        
+                        if (!Ext.isEmpty(n))
                         {
                             // Fuegt gesammten SemesterPlan dem eigenen
                             // Stundenplan hinzu
-                            var n = data.records[0].raw;
-
                             var nodeID = n.id;
                             var nodeKey = n.nodeKey;
                             var gpuntisID = n.gpuntisID;
@@ -1926,7 +1934,7 @@ MySched.layout = function ()
                 plugins: [Ext.create('Ext.ux.TabCloseOnMiddleClick')],
                 region: 'center'
             });
-
+            
             this.tabpanel.on('tabchange',
                 function (panel, o)
                 {
@@ -2315,7 +2323,21 @@ MySched.layout = function ()
                 // Wechselt zum neu erstellten Tab
                 this.tabpanel.setActiveTab(tab);
                 MySched.Base.regScheduleEvents(id);
+                
+                if (type != "mySchedule")
+                {
+                	var tabData = {};
+                	tabData.id = tab.ScheduleModel.id;
+                	tabData.nodeKey = tab.ScheduleModel.id;
+                	tabData.gpuntisID = tab.ScheduleModel.gpuntisID;
+                	tabData.semesterID = tab.ScheduleModel.semesterID;
+                	tabData.type = tab.ScheduleModel.type;
+                	tabData.nodeKey = tab.ScheduleModel.key;
 
+                	var tabBar = this.tabpanel.getTabBar();
+                	initializePatientDragZone(tabBar.activeTab, tabData);
+                }
+                
                 if(this.tabpanel.items.length === 1)
                 {
                     MySched.selectedSchedule.refreshView();
@@ -4522,6 +4544,39 @@ MySched.Subscribe = function ()
         }
     };
 }();
+
+function initializePatientDragZone(dragElement, tabData) {
+	dragElement.dragZone = Ext.create('Ext.dd.DragZone', dragElement.getEl(), {
+
+//      On receipt of a mousedown event, see if it is within a draggable element.
+//      Return a drag data object if so. The data object can contain arbitrary application
+//      data, but it should also contain a DOM element in the ddel property to provide
+//      a proxy to drag.
+    	ddGroup: 'lecture',
+    	containerScroll: true,
+        getDragData: function(e) {
+            var sourceEl = e.currentTarget;
+            if (sourceEl) {
+                var d = sourceEl.cloneNode(true);
+                d.id = Ext.id();
+                d.style.left = 0;
+
+                return (dragElement.dragData = {
+                    sourceEl: sourceEl,
+                    repairXY: Ext.fly(sourceEl).getXY(),
+                    ddel: d,
+                    patientData: tabData
+                });
+            }
+        },
+
+//      Provide coordinates for the proxy to slide back to on failed drag.
+//      This is the original XY coordinates of the draggable element.
+        getRepairXY: function() {
+            return this.dragData.repairXY;
+        }
+    });
+}
 
 function isset(me)
 {
