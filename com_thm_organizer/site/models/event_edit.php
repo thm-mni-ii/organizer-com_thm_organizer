@@ -60,7 +60,8 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
      */
     public function loadEvent()
     {
-        $eventid = JRequest::getInt('eventID')? JRequest::getInt('eventID'): 0;
+    	$input = JFactory::getApplication()->input;
+        $eventid = $input->getInt('eventID')? $input->getInt('eventID'): 0;
         $dbo = JFactory::getDBO();
 
         $query = $dbo->getQuery(true);
@@ -80,7 +81,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
         $event['endtime'] = ($event['endtime'] == '00:00')? '' : $event['endtime'];
         $form = $this->getForm();
         $form->bind($event);
-
+        
         $this->event = $event;
     }
 
@@ -91,6 +92,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
      */
     private function getEmptyEvent()
     {
+    	$input = JFactory::getApplication()->input;
         $event = array();
         $event['id'] = 0;
         $event['title'] = '';
@@ -98,10 +100,10 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
         $event['description'] = '';
         $event['categoryID'] = 0;
         $event['contentID'] = 0;
-        $event['startdate'] = (JRequest::getString('startdate'))? JRequest::getString('startdate'): '';
+        $event['startdate'] = ($input->getString('startdate'))? $input->getString('startdate'): '';
         $event['enddate'] = '';
-        $event['starttime'] = (JRequest::getString('starttime'))? JRequest::getString('starttime'): '';
-        $event['endtime'] = (JRequest::getString('endtime'))? JRequest::getString('endtime'): '';
+        $event['starttime'] = ($input->getString('starttime'))? $input->getString('starttime'): '';
+        $event['endtime'] = ($input->getString('endtime'))? $input->getString('endtime'): '';
         $event['created_by'] = 0;
         $event['created'] = '';
         $event['modified_by'] = 0;
@@ -112,6 +114,8 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
         $event['image'] = '';
         $event['register'] = 0;
         $event['unregister'] = 0;
+        $event['rooms'] = ($input->getString('roomID')) ? array($input->getString('roomID')) : array();
+        $event['teachers'] = ($input->getString('teacherID')) ? array($input->getString('teacherID')) : array();
         return $event;
     }
 
@@ -425,7 +429,8 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
      */
     private function setMenuLinks()
     {
-        $menuID = JRequest::getInt('Itemid');
+    	$input = JFactory::getApplication()->input;
+        $menuID = $input->getInt('Itemid');
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("link");
