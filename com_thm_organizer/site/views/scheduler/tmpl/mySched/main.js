@@ -437,14 +437,14 @@ MySched.Base = function ()
                 {
                     if (!Ext.isEmpty(data.records) || !Ext.isEmpty(data.patientData))
                     {
-                    	var n = {};
+                        var n = {};
                         if(!Ext.isEmpty(data.patientData))
                         {
-                        	n = data.patientData;
+                            n = data.patientData;
                         }
                         else if(data.records[0].isLeaf())
                         {
-                        	n = data.records[0].raw;
+                            n = data.records[0].raw;
                         }
                         
                         if (!Ext.isEmpty(n))
@@ -2324,18 +2324,18 @@ MySched.layout = function ()
                 this.tabpanel.setActiveTab(tab);
                 MySched.Base.regScheduleEvents(id);
                 
-                if (type != "mySchedule")
+                if (type !== "mySchedule")
                 {
-                	var tabData = {};
-                	tabData.id = tab.ScheduleModel.id;
-                	tabData.nodeKey = tab.ScheduleModel.id;
-                	tabData.gpuntisID = tab.ScheduleModel.gpuntisID;
-                	tabData.semesterID = tab.ScheduleModel.semesterID;
-                	tabData.type = tab.ScheduleModel.type;
-                	tabData.nodeKey = tab.ScheduleModel.key;
+                    var tabData = {};
+                    tabData.id = tab.ScheduleModel.id;
+                    tabData.nodeKey = tab.ScheduleModel.id;
+                    tabData.gpuntisID = tab.ScheduleModel.gpuntisID;
+                    tabData.semesterID = tab.ScheduleModel.semesterID;
+                    tabData.type = tab.ScheduleModel.type;
+                    tabData.nodeKey = tab.ScheduleModel.key;
 
-                	var tabBar = this.tabpanel.getTabBar();
-                	initializePatientDragZone(tabBar.activeTab, tabData);
+                    var tabBar = this.tabpanel.getTabBar();
+                    initializePatientDragZone(tabBar.activeTab, tabData);
                 }
                 
                 if(this.tabpanel.items.length === 1)
@@ -4546,14 +4546,14 @@ MySched.Subscribe = function ()
 }();
 
 function initializePatientDragZone(dragElement, tabData) {
-	dragElement.dragZone = Ext.create('Ext.dd.DragZone', dragElement.getEl(), {
+    dragElement.dragZone = Ext.create('Ext.dd.DragZone', dragElement.getEl(), {
 
 //      On receipt of a mousedown event, see if it is within a draggable element.
 //      Return a drag data object if so. The data object can contain arbitrary application
 //      data, but it should also contain a DOM element in the ddel property to provide
 //      a proxy to drag.
-    	ddGroup: 'lecture',
-    	containerScroll: true,
+        ddGroup: 'lecture',
+        containerScroll: true,
         getDragData: function(e) {
             var sourceEl = e.currentTarget;
             if (sourceEl) {
@@ -4561,12 +4561,12 @@ function initializePatientDragZone(dragElement, tabData) {
                 d.id = Ext.id();
                 d.style.left = 0;
 
-                return (dragElement.dragData = {
+                return dragElement.dragData = {
                     sourceEl: sourceEl,
                     repairXY: Ext.fly(sourceEl).getXY(),
                     ddel: d,
                     patientData: tabData
-                });
+                };
             }
         },
 

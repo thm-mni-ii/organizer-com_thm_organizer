@@ -1247,9 +1247,9 @@ Ext.define('LectureModel',
     {
         var firstSubject = this.data.subjects.keys[0];
         var moduleNr = MySched.Mapping.getSubjectNo(firstSubject);
-        if(moduleNr != firstSubject && MySched.displayModuleNumber === true)
+        if (moduleNr !== firstSubject && MySched.displayModuleNumber === true)
         {
-        	return "(" + moduleNr + ")"
+            return "(" + moduleNr + ")";
         }
         return "";
     },

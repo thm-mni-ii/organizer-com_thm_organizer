@@ -295,36 +295,36 @@ function addNewEvent(eventid, sdate, stime, etime)
 
     if(!Ext.isEmpty(date))
     {
-    	adds = "&startdate=" + date;
+        adds = "&startdate=" + date;
     }
     
     if(!Ext.isEmpty(stime))
     {
-    	adds += "&starttime=" + stime;
+        adds += "&starttime=" + stime;
     }
     
     if(!Ext.isEmpty(etime))
     {
-    	adds += "&endtime=" + etime;
+        adds += "&endtime=" + etime;
     }
 
-	var key = MySched.selectedSchedule.key;
-	
+    var key = MySched.selectedSchedule.key;
+
     if(MySched.selectedSchedule.type === "room")
     {
-    	var roomID = MySched.Mapping.getRoomDbID(key);
-    	if(roomID != key)
-    	{
-    		adds += "&roomID=" + roomID;
-    	}
+        var roomID = MySched.Mapping.getRoomDbID(key);
+        if(roomID != key)
+        {
+            adds += "&roomID=" + roomID;
+        }
     }
     else if(MySched.selectedSchedule.type === "teacher")
     {
-    	var teacherID = MySched.Mapping.getTeacherDbID(key);
-    	if(teacherID != key)
-    	{
-    		adds += "&teacherID=" + teacherID;
-    	}
+        var teacherID = MySched.Mapping.getTeacherDbID(key);
+        if(teacherID != key)
+        {
+            adds += "&teacherID=" + teacherID;
+        }
     }
 
     window.open(externLinks.eventLink + eventid + adds);

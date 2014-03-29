@@ -60,7 +60,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
      */
     public function loadEvent()
     {
-    	$input = JFactory::getApplication()->input;
+        $input = JFactory::getApplication()->input;
         $eventid = $input->getInt('eventID')? $input->getInt('eventID'): 0;
         $dbo = JFactory::getDBO();
 
@@ -92,7 +92,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
      */
     private function getEmptyEvent()
     {
-    	$input = JFactory::getApplication()->input;
+        $input = JFactory::getApplication()->input;
         $event = array();
         $event['id'] = 0;
         $event['title'] = '';
@@ -429,7 +429,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
      */
     private function setMenuLinks()
     {
-    	$input = JFactory::getApplication()->input;
+        $input = JFactory::getApplication()->input;
         $menuID = $input->getInt('Itemid');
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
