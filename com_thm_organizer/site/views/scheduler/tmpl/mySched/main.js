@@ -4560,13 +4560,14 @@ function initializePatientDragZone(dragElement, tabData) {
                 var d = sourceEl.cloneNode(true);
                 d.id = Ext.id();
                 d.style.left = 0;
-
-                return dragElement.dragData = {
-                    sourceEl: sourceEl,
-                    repairXY: Ext.fly(sourceEl).getXY(),
-                    ddel: d,
-                    patientData: tabData
-                };
+                
+                dragElement.dragData = {
+                        sourceEl: sourceEl,
+                        repairXY: Ext.fly(sourceEl).getXY(),
+                        ddel: d,
+                        patientData: tabData
+                    };
+                return dragElement.dragData;
             }
         },
 

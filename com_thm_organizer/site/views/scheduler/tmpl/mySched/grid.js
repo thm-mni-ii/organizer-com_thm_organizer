@@ -313,7 +313,7 @@ function addNewEvent(eventid, sdate, stime, etime)
     if(MySched.selectedSchedule.type === "room")
     {
         var roomID = MySched.Mapping.getRoomDbID(key);
-        if(roomID != key)
+        if(roomID !== key)
         {
             adds += "&roomID=" + roomID;
         }
@@ -321,7 +321,7 @@ function addNewEvent(eventid, sdate, stime, etime)
     else if(MySched.selectedSchedule.type === "teacher")
     {
         var teacherID = MySched.Mapping.getTeacherDbID(key);
-        if(teacherID != key)
+        if(teacherID !== key)
         {
             adds += "&teacherID=" + teacherID;
         }
