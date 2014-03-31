@@ -334,7 +334,6 @@ class THMTreeView
             }
         }
         return false;
-
     }
 
     /**
@@ -585,15 +584,33 @@ class THMTreeView
                 $descriptions[$itemField] = $itemFieldType->{$itemField};
             }
         }
+        
 
+        // Special node that contains all nodes
+        $descriptionALLKey = "ALL";
+        
+        $descriptionALLNodeData = array();
+        $descriptionALLNodeData["nodeID"] = $key . ";" . $descriptionALLKey;
+        $descriptionALLNodeData["text"] = JText::_('COM_THM_ORGANIZER_SCHEDULER_DATA_MYSCHED_ALL');
+        $descriptionALLNodeData["iconCls"] = "studiengang-root";
+        $descriptionALLNodeData["leaf"] = false;
+        $descriptionALLNodeData["draggable"] = true;
+        $descriptionALLNodeData["singleClickExpand"] = false;
+        $descriptionALLNodeData["gpuntisID"] = "mySched_ALL";
+        $descriptionALLNodeData["type"] = $scheduleType;
+        $descriptionALLNodeData["children"] = array();
+        $descriptionALLNodeData["semesterID"] = $semesterID;
+        $descriptionALLNodeData["nodeKey"] = $descriptionALLKey;
+        
         foreach ($descriptions as $descriptionKey => $descriptionValue)
         {
             $descType = $descriptionKey;
-
+            
             // Get data for the current description
             $filteredData = array_filter(
                 (array) $data, function ($item) use (&$descType, &$scheduleType) {
                     $itemField = null;
+                    
                     if ($scheduleType === "teacher")
                     {
                         if (isset($item->description))
@@ -749,32 +766,61 @@ class THMTreeView
             $descriptionNodeData["semesterID"] = $semesterID;
             $descriptionNodeData["nodeKey"] = $descriptionKey;
 
-            $descriptionNode = $this->createTreeNode($descriptionNodeData);
-
-            if (is_object($descriptionNode) AND !empty($descriptionNode->children) OR is_array($descriptionNode))
+            $childAllNodes = $childNodes;
+            
+            if($childAllNodes)
             {
-                if ($childNodes === $descriptionNode && count($treeNode) === 0)
+                foreach ($childAllNodes as $childNodeObject)
                 {
-                    $treeNode = $descriptionNode;
+                    $childNodeObject->id = str_replace(";" . $descriptionKey . ";", ";" . $descriptionALLKey . ";", $childNodeObject->id);
                 }
-                else
-                {
-                    if (is_array($descriptionNode))
-                    {
-                        $treeNode = array_merge($treeNode, $descriptionNode);
-                    }
-                    else
-                    {
-                        $treeNode[] = $descriptionNode;
-                    }
-                }
+            
+                $descriptionALLNodeData["children"] = array_merge($descriptionALLNodeData["children"], $childAllNodes);
             }
-        }
 
+            $descriptionNode = $this->createTreeNode($descriptionNodeData);
+            
+            $treeNode = $this->checkTreeNode($treeNode, $descriptionNode, $childNodes);
+        }
+        
+        $descriptionNode = $this->createTreeNode($descriptionALLNodeData);
+        $treeNode = $this->checkTreeNode($treeNode, $descriptionNode, null);
+        
         return $treeNode;
 
     }
 
+    /**
+     * Method to check the treeNode structure.
+     * 
+     * @param   Object  $treeNode         The overall tree node
+     * @param   Object  $descriptionNode  A subnode to add
+     * @param   Object  $childNodes       Child nodes
+     * 
+     * @return  Object
+     */
+    private function checkTreeNode ($treeNode, $descriptionNode, $childNodes)
+    {
+        if (is_object($descriptionNode) AND !empty($descriptionNode->children) OR is_array($descriptionNode))
+        {
+            if ($childNodes === $descriptionNode && count($treeNode) === 0)
+            {
+                $treeNode = $descriptionNode;
+            }
+            else
+            {
+                if (is_array($descriptionNode))
+                {
+                    $treeNode = array_merge($treeNode, $descriptionNode);
+                }
+                else
+                {
+                    $treeNode[] = $descriptionNode;
+                }
+            }
+        }
+        return $treeNode;
+    }
     /**
      * Method to mark a single node as expanded
      *
