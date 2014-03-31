@@ -4268,7 +4268,7 @@ MySched.Tree = function ()
 
                 department = MySched.Mapping.getObjectField(type, nodeKey, departmentfield);
                 var departmentName = MySched.Mapping.getObjectField(departmenttype, department, "name");
-                if (typeof department === "undefined" || department === "none" || department === null || department === nodeKey)
+                if (typeof department === "undefined" || department === "none" || department === null || department === departmentName)
                 {
                     title = nodeFullName;
                 }
