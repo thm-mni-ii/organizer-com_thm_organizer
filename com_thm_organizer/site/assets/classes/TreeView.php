@@ -158,6 +158,8 @@ class THMTreeView
                 }
             }
 
+            uksort($this->_checked, array($this, "checkedSortFunction"));
+
             if (isset($options["publicDefault"]))
             {
                 $this->_publicDefault = (array) $options["publicDefault"];
@@ -191,6 +193,22 @@ class THMTreeView
                 $this->departmentSemesterSelection = JRequest::getString('departmentSemesterSelection');
             }
         }
+    }
+    
+    /**
+     * Method to sort the checked array
+     * 
+     * @param   String  $a  First argument
+     * @param   String  $b  Second argument
+     * 
+     * @return  integer
+     */
+    private function checkedSortFunction ($a, $b)
+    {                
+        $countA = substr_count($a, ";");
+        $countB = substr_count($b, ";");
+        
+        return $countB - $countA;
     }
 
     /**
@@ -323,12 +341,19 @@ class THMTreeView
             foreach ($this->_checked as $checkedKey => $checkedValue)
             {
                 $stringPosition = strpos($nodeID, $checkedKey . ";");
-
                 if ($stringPosition !== false)
                 {
                     if ($checkedValue === "selected" || $checkedValue === "intermediate")
                     {
                         return true;
+                    }
+                    elseif($checkedValue === "hidden")
+                    {
+                    	return false;
+                    }
+                    else
+                    {
+                    	
                     }
                 }
             }
@@ -724,6 +749,7 @@ class THMTreeView
                 }
 
                 $childNode = null;
+                $childAllNode = null;
                 if ($hasLessons)
                 {
                     $childNodeData = array();
@@ -740,10 +766,19 @@ class THMTreeView
                     $childNodeData["nodeKey"] = $childKey;
 
                     $childNode = $this->createTreeNode($childNodeData);
+
+                    $childNodeData["nodeID"] = str_replace(";" . $descriptionKey . ";", ";" . $descriptionALLKey . ";", $childNodeData["nodeID"]);
+                    
+                    $childAllNode = $this->createTreeNode($childNodeData);
                 }
                 if (is_object($childNode))
                 {
                     $childNodes[] = $childNode;
+                }
+                
+                if (is_object($childAllNode))
+                {
+                    array_push($descriptionALLNodeData["children"], $childAllNode);
                 }
             }
 
@@ -765,18 +800,6 @@ class THMTreeView
             $descriptionNodeData["children"] = $childNodes;
             $descriptionNodeData["semesterID"] = $semesterID;
             $descriptionNodeData["nodeKey"] = $descriptionKey;
-
-            $childAllNodes = $childNodes;
-            
-            if($childAllNodes)
-            {
-                foreach ($childAllNodes as $childNodeObject)
-                {
-                    $childNodeObject->id = str_replace(";" . $descriptionKey . ";", ";" . $descriptionALLKey . ";", $childNodeObject->id);
-                }
-            
-                $descriptionALLNodeData["children"] = array_merge($descriptionALLNodeData["children"], $childAllNodes);
-            }
 
             $descriptionNode = $this->createTreeNode($descriptionNodeData);
             

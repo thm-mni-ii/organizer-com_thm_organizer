@@ -118,6 +118,8 @@ class JFormFieldScheduler extends JFormField
     images.intermediate_highlighted = prefix + '/components/com_thm_organizer/models/fields/images/intermediate_highlighted.png';
     images.selected = prefix + '/components/com_thm_organizer/models/fields/images/selected.png';
     images.selected_highlighted = prefix + '/components/com_thm_organizer/models/fields/images/selected_highlighted.png';
+    images.hidden = prefix + '/components/com_thm_organizer/models/fields/images/hidden.png';
+    images.hidden_highlighted = prefix + '/components/com_thm_organizer/models/fields/images/hideen_highlighted.png';
     images.notdefault =  prefix + '/components/com_thm_organizer/models/fields/images/notdefault.png';
     images.default = prefix + '/components/com_thm_organizer/models/fields/images/default.png';
 
