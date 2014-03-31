@@ -346,7 +346,7 @@ MySched.Base = function ()
                 MySched.session.begin = jsonData.startdate;
                 MySched.session.end = jsonData.enddate;
                 MySched.session.creationdate = jsonData.creationdate;
-                Ext.ComponentMgr.get('leftMenu').setTitle(
+                Ext.ComponentMgr.get('selectTree').setTitle(
                 MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AS_OF + " " + MySched.session.creationdate);
                 // Managed die Sichtbarkeit der Add/Del Buttons in der Toolbar
                 MySched.SelectionManager.on('select', function (el)
@@ -382,7 +382,7 @@ MySched.Base = function ()
             }
             else
             {
-                Ext.ComponentMgr.get('leftMenu')
+                Ext.ComponentMgr.get('selectTree')
                     .setTitle(
                 MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_INVALID);
                 Ext.ComponentMgr.get('topMenu')
@@ -2108,30 +2108,33 @@ MySched.layout = function ()
             }
 
             var treeData = MySched.Tree.init();
-
+            
             // Linker Bereich der Info und Ubersichtsliste enthaelt
-            this.w_leftMenu = Ext.create('Ext.panel.Panel',
-            {
-                id: 'leftMenu',
-                title: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_LOADING,
-                region: 'center',
-                split: false,
-                width: 242,
-                minSize: 242,
-                maxSize: 242,
-                collapsible: false,
-                collapsed: false,
-                autoScroll: true,
-                headerCfg: {
-                    tag: '',
-                    cls: 'x-panel-header mySched_techheader',
-                    // Default class not applied if Custom
-                    // element specified
-                    html: ''
-                },
-                items: [treeData]
-            });
-
+//            this.w_leftMenu = Ext.create('Ext.panel.Panel',
+//            {
+//                id: 'leftMenu',
+//                title: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_LOADING,
+//                region: 'west',
+////                hidden: hideTreePanel,
+//                split: false,
+//                width: 242,
+//                minSize: 242,
+//                maxSize: 242,
+//                collapsible: false,
+//                collapsed: false,
+//                autoScroll: false,
+//                headerCfg: {
+//                    tag: '',
+//                    cls: 'x-panel-header mySched_techheader',
+//                    // Default class not applied if Custom
+//                    // element specified
+//                    html: ''
+//                },
+//                items: [treeData]
+//            });
+            
+            this.w_leftMenu = treeData;
+            
             this.w_leftMenu.on("expand", function ()
             {
                 if (MySched.selectedSchedule)
@@ -2140,6 +2143,7 @@ MySched.layout = function ()
                     MySched.selectedSchedule.refreshView();
                 }
             });
+            
             this.w_leftMenu.on("collapse", function ()
             {
                 if (MySched.selectedSchedule)
@@ -2155,19 +2159,16 @@ MySched.layout = function ()
                 region: 'center',
                 items: [this.w_topMenu, this.tabpanel]
             });
-
-            var hideTreePanel = false;
-            if(MySched.schedulerFromMenu === false)
-            {
-                hideTreePanel = true;
-            }
-            this.leftviewport = Ext.create('Ext.Panel',
-            {
-                id: "leftviewport",
-                region: 'west',
-                hidden: hideTreePanel,
-                items: [this.w_leftMenu]
-            });
+            
+//            this.leftviewport = Ext.create('Ext.Panel',
+//            {
+//                id: "leftviewport",
+//                region: 'west',
+//                hidden: hideTreePanel,
+//                items: [this.w_leftMenu]
+//            });
+            
+            this.leftviewport = this.w_leftMenu;
 
             // und schliesslich erstellung des gesamten Layouts
             this.viewport = Ext.create('Ext.panel.Panel',
@@ -2182,6 +2183,12 @@ MySched.layout = function ()
                 items: [this.leftviewport, this.rightviewport]
             });
 
+            var hideTreePanel = false;
+            if(MySched.schedulerFromMenu === false)
+            {
+                hideTreePanel = true;
+            }
+            
             if(!hideTreePanel)
             {
                 MySched.treeLoadMask = new Ext.LoadMask(Ext.getCmp('selectTree').el, {msg:"Loading..."});
@@ -4159,16 +4166,26 @@ MySched.Tree = function ()
                     children: children
                 }
             });
-
+            
+            var hideTreePanel = false;
+            if(MySched.schedulerFromMenu === false)
+            {
+                hideTreePanel = true;
+            }
+            
             this.tree = Ext.create('Ext.tree.Panel',
             {
-                title: ' ',
+                title: 'Stand vom',
                 singleExpand: false,
                 id: 'selectTree',
-                preventHeader: true,
+                region: 'west',
+                width: 242,
+                hidden: hideTreePanel,
+                minSize: 242,
+                maxSize: 242,
                 height: 470,
-                autoscroll: false,
                 rootVisible: false,
+                scroll: false,
                 bodyCls: 'MySched_SelectTree',
                 viewConfig: {
                     plugins: {
@@ -4177,7 +4194,8 @@ MySched.Tree = function ()
                         enableDrop: false,
                         enableDrag: true
                     },
-                    autoScroll: false
+                    scroll: 'both',
+                    autoScroll: true
                 },
                 layout: {
                     type: 'fit'
