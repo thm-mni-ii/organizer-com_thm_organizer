@@ -469,3 +469,7 @@ button .x-tab-inner {
     overflow-x: hidden;
     overflow-y: hidden;
 }
+
+.x-border-box .x-tab-bar-top .x-tab-bar-strip {
+	height: 7px;
+}
