@@ -181,7 +181,7 @@ div.teacherInfo div ul {
     padding-top: 0 !important;
 }
 
-.MySchedMainW * {
+#topMenu * {
     -moz-box-sizing: border-box;
     -ms-box-sizing: border-box;
     -webkit-box-sizing: border-box;
