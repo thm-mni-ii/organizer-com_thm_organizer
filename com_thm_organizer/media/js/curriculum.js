@@ -141,7 +141,7 @@ function Curriculum(parameters) {
                     if ($('#pool' + value.id + 'Dialog').size() === 0)
                     {
                         poolHtml = '<div id="pool' + value.id + 'Dialog" class="poolDialog">';
-                        poolHtml += '<ul id="pool' + value.id + '"></ul></div>'
+                        poolHtml += '<ul id="pool' + value.id + '"></ul></div>';
                         $(poolHtml).dialog({
                             autoOpen: false,
                             resizable: false,

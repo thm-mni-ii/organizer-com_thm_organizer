@@ -346,7 +346,7 @@ MySched.Base = function ()
                 MySched.session.begin = jsonData.startdate;
                 MySched.session.end = jsonData.enddate;
                 MySched.session.creationdate = jsonData.creationdate;
-                Ext.ComponentMgr.get('leftMenu').setTitle(
+                Ext.ComponentMgr.get('selectTree').setTitle(
                 MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AS_OF + " " + MySched.session.creationdate);
                 // Managed die Sichtbarkeit der Add/Del Buttons in der Toolbar
                 MySched.SelectionManager.on('select', function (el)
@@ -382,7 +382,7 @@ MySched.Base = function ()
             }
             else
             {
-                Ext.ComponentMgr.get('leftMenu')
+                Ext.ComponentMgr.get('selectTree')
                     .setTitle(
                 MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_INVALID);
                 Ext.ComponentMgr.get('topMenu')
@@ -435,14 +435,22 @@ MySched.Base = function ()
                 // Akzeptiert lectures
                 notifyDrop: function (dd, e, data)
                 {
-                    if (!Ext.isEmpty(data.records))
+                    if (!Ext.isEmpty(data.records) || !Ext.isEmpty(data.patientData))
                     {
-                        if (data.records[0].isLeaf())
+                        var n = {};
+                        if(!Ext.isEmpty(data.patientData))
+                        {
+                            n = data.patientData;
+                        }
+                        else if(data.records[0].isLeaf())
+                        {
+                            n = data.records[0].raw;
+                        }
+                        
+                        if (!Ext.isEmpty(n))
                         {
                             // Fuegt gesammten SemesterPlan dem eigenen
                             // Stundenplan hinzu
-                            var n = data.records[0].raw;
-
                             var nodeID = n.id;
                             var nodeKey = n.nodeKey;
                             var gpuntisID = n.gpuntisID;
@@ -1926,7 +1934,7 @@ MySched.layout = function ()
                 plugins: [Ext.create('Ext.ux.TabCloseOnMiddleClick')],
                 region: 'center'
             });
-
+            
             this.tabpanel.on('tabchange',
                 function (panel, o)
                 {
@@ -2100,30 +2108,33 @@ MySched.layout = function ()
             }
 
             var treeData = MySched.Tree.init();
-
+            
             // Linker Bereich der Info und Ubersichtsliste enthaelt
-            this.w_leftMenu = Ext.create('Ext.panel.Panel',
-            {
-                id: 'leftMenu',
-                title: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_LOADING,
-                region: 'center',
-                split: false,
-                width: 242,
-                minSize: 242,
-                maxSize: 242,
-                collapsible: false,
-                collapsed: false,
-                autoScroll: true,
-                headerCfg: {
-                    tag: '',
-                    cls: 'x-panel-header mySched_techheader',
-                    // Default class not applied if Custom
-                    // element specified
-                    html: ''
-                },
-                items: [treeData]
-            });
-
+//            this.w_leftMenu = Ext.create('Ext.panel.Panel',
+//            {
+//                id: 'leftMenu',
+//                title: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_LOADING,
+//                region: 'west',
+////                hidden: hideTreePanel,
+//                split: false,
+//                width: 242,
+//                minSize: 242,
+//                maxSize: 242,
+//                collapsible: false,
+//                collapsed: false,
+//                autoScroll: false,
+//                headerCfg: {
+//                    tag: '',
+//                    cls: 'x-panel-header mySched_techheader',
+//                    // Default class not applied if Custom
+//                    // element specified
+//                    html: ''
+//                },
+//                items: [treeData]
+//            });
+            
+            this.w_leftMenu = treeData;
+            
             this.w_leftMenu.on("expand", function ()
             {
                 if (MySched.selectedSchedule)
@@ -2132,6 +2143,7 @@ MySched.layout = function ()
                     MySched.selectedSchedule.refreshView();
                 }
             });
+            
             this.w_leftMenu.on("collapse", function ()
             {
                 if (MySched.selectedSchedule)
@@ -2147,19 +2159,16 @@ MySched.layout = function ()
                 region: 'center',
                 items: [this.w_topMenu, this.tabpanel]
             });
-
-            var hideTreePanel = false;
-            if(MySched.schedulerFromMenu === false)
-            {
-                hideTreePanel = true;
-            }
-            this.leftviewport = Ext.create('Ext.Panel',
-            {
-                id: "leftviewport",
-                region: 'west',
-                hidden: hideTreePanel,
-                items: [this.w_leftMenu]
-            });
+            
+//            this.leftviewport = Ext.create('Ext.Panel',
+//            {
+//                id: "leftviewport",
+//                region: 'west',
+//                hidden: hideTreePanel,
+//                items: [this.w_leftMenu]
+//            });
+            
+            this.leftviewport = this.w_leftMenu;
 
             // und schliesslich erstellung des gesamten Layouts
             this.viewport = Ext.create('Ext.panel.Panel',
@@ -2174,6 +2183,12 @@ MySched.layout = function ()
                 items: [this.leftviewport, this.rightviewport]
             });
 
+            var hideTreePanel = false;
+            if(MySched.schedulerFromMenu === false)
+            {
+                hideTreePanel = true;
+            }
+            
             if(!hideTreePanel)
             {
                 MySched.treeLoadMask = new Ext.LoadMask(Ext.getCmp('selectTree').el, {msg:"Loading..."});
@@ -2315,7 +2330,21 @@ MySched.layout = function ()
                 // Wechselt zum neu erstellten Tab
                 this.tabpanel.setActiveTab(tab);
                 MySched.Base.regScheduleEvents(id);
+                
+                if (type !== "mySchedule")
+                {
+                    var tabData = {};
+                    tabData.id = tab.ScheduleModel.id;
+                    tabData.nodeKey = tab.ScheduleModel.id;
+                    tabData.gpuntisID = tab.ScheduleModel.gpuntisID;
+                    tabData.semesterID = tab.ScheduleModel.semesterID;
+                    tabData.type = tab.ScheduleModel.type;
+                    tabData.nodeKey = tab.ScheduleModel.key;
 
+                    var tabBar = this.tabpanel.getTabBar();
+                    initializePatientDragZone(tabBar.activeTab, tabData);
+                }
+                
                 if(this.tabpanel.items.length === 1)
                 {
                     MySched.selectedSchedule.refreshView();
@@ -4137,16 +4166,26 @@ MySched.Tree = function ()
                     children: children
                 }
             });
-
+            
+            var hideTreePanel = false;
+            if(MySched.schedulerFromMenu === false)
+            {
+                hideTreePanel = true;
+            }
+            
             this.tree = Ext.create('Ext.tree.Panel',
             {
-                title: ' ',
+                title: 'Stand vom',
                 singleExpand: false,
                 id: 'selectTree',
-                preventHeader: true,
+                region: 'west',
+                width: 242,
+                hidden: hideTreePanel,
+                minSize: 242,
+                maxSize: 242,
                 height: 470,
-                autoscroll: false,
                 rootVisible: false,
+                scroll: false,
                 bodyCls: 'MySched_SelectTree',
                 viewConfig: {
                     plugins: {
@@ -4155,7 +4194,8 @@ MySched.Tree = function ()
                         enableDrop: false,
                         enableDrag: true
                     },
-                    autoScroll: false
+                    scroll: 'both',
+                    autoScroll: true
                 },
                 layout: {
                     type: 'fit'
@@ -4246,7 +4286,7 @@ MySched.Tree = function ()
 
                 department = MySched.Mapping.getObjectField(type, nodeKey, departmentfield);
                 var departmentName = MySched.Mapping.getObjectField(departmenttype, department, "name");
-                if (typeof department === "undefined" || department === "none" || department === null || department === nodeKey)
+                if (typeof department === "undefined" || department === "none" || department === null || department === departmentName)
                 {
                     title = nodeFullName;
                 }
@@ -4522,6 +4562,40 @@ MySched.Subscribe = function ()
         }
     };
 }();
+
+function initializePatientDragZone(dragElement, tabData) {
+    dragElement.dragZone = Ext.create('Ext.dd.DragZone', dragElement.getEl(), {
+
+//      On receipt of a mousedown event, see if it is within a draggable element.
+//      Return a drag data object if so. The data object can contain arbitrary application
+//      data, but it should also contain a DOM element in the ddel property to provide
+//      a proxy to drag.
+        ddGroup: 'lecture',
+        containerScroll: true,
+        getDragData: function(e) {
+            var sourceEl = e.currentTarget;
+            if (sourceEl) {
+                var d = sourceEl.cloneNode(true);
+                d.id = Ext.id();
+                d.style.left = 0;
+                
+                dragElement.dragData = {
+                        sourceEl: sourceEl,
+                        repairXY: Ext.fly(sourceEl).getXY(),
+                        ddel: d,
+                        patientData: tabData
+                    };
+                return dragElement.dragData;
+            }
+        },
+
+//      Provide coordinates for the proxy to slide back to on failed drag.
+//      This is the original XY coordinates of the draggable element.
+        getRepairXY: function() {
+            return this.dragData.repairXY;
+        }
+    });
+}
 
 function isset(me)
 {

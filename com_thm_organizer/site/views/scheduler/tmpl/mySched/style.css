@@ -58,7 +58,7 @@ div.MySchedexternURLClass_DIS {
     text-align: center;
     text-shadow: 0 1px 1px white;
     overflow: hidden;
-    white-space: normal;
+    white-space: pre-wrap;
 }
 
 .lectureBox_reserve {
@@ -181,7 +181,7 @@ div.teacherInfo div ul {
     padding-top: 0 !important;
 }
 
-.MySchedMainW * {
+#topMenu * {
     -moz-box-sizing: border-box;
     -ms-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -468,4 +468,8 @@ small.removed {
 button .x-tab-inner {
     overflow-x: hidden;
     overflow-y: hidden;
+}
+
+.x-border-box .x-tab-bar-top .x-tab-bar-strip {
+	height: 7px;
 }

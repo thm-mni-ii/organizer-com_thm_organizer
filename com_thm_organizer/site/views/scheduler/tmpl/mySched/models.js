@@ -869,7 +869,7 @@ Ext.define('ScheduleModel',
         {
             wd = weekdays[wd];
         }
-        if (this.getBlockCache()[wd] && this.blockCache[wd][block])
+        if (this.getBlockCache(true)[wd] && this.blockCache[wd][block])
         {
             return this.blockCache[wd][block];
         }
@@ -1239,8 +1239,19 @@ Ext.define('LectureModel',
             'comment': this.getComment(d),
             'deltaStatus': this.getDeltaStatus(d),
             'curriculumColor': this.getCurriculumColor(d),
-            'lessonEvents': this.getEvents(d)
+            'lessonEvents': this.getEvents(d),
+            'moduleNr': this.getModuleNr(d)
         });
+    },
+    getModuleNr: function (d)
+    {
+        var firstSubject = this.data.subjects.keys[0];
+        var moduleNr = MySched.Mapping.getSubjectNo(firstSubject);
+        if (moduleNr !== firstSubject && MySched.displayModuleNumber === true)
+        {
+            return "(" + moduleNr + ")";
+        }
+        return "";
     },
     getCurriculumColor: function (d)
     {
@@ -1301,7 +1312,7 @@ Ext.define('LectureModel',
     {
         if (!Ext.isEmpty(d.comment) && Ext.isString(d.comment))
         {
-            return "<br/>(" + d.comment + ")";
+            return "<br/>" + d.comment + "";
         }
         else
         {
@@ -1342,7 +1353,7 @@ Ext.define('LectureModel',
     },
     getStatus: function (d)
     {
-        var ret = '<div class="status_icons"> ';
+        var ret = '<div class="status_icons">';
 
         if (Ext.isDefined(this.data.ecollaborationLink))
         {
@@ -1376,7 +1387,7 @@ Ext.define('LectureModel',
             ret += '<img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_DELETE + '" class="status_icons_delete" src="' + MySched.mainPath + 'images/icon-delete.png" width="12" heigth="12"/>';
         }
 
-        return ret + ' </div>';
+        return ret + '</div>';
     },
     getChanges: function (lec)
     {
@@ -1739,11 +1750,11 @@ Ext.define('LectureModel',
 
         if (t === "room")
         {
-            this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} scheduleBox lectureBox">' + '<b class="lecturename">{lessonTitle}{description} {comment}</b><br/>{teacherName} / {moduleName} {lessonEvents}' + time + ' {statusIcons}</div>');
+            this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} scheduleBox lectureBox">' + '<b class="lecturename">{lessonTitle}{description}</b> {moduleNr} {comment}<br/>{teacherName} / {moduleName} {lessonEvents}' + time + '{statusIcons}</div>');
         }
         else if (t === "teacher")
         {
-            this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} scheduleBox lectureBox">' + '<b class="lecturename">{lessonTitle}{description} {comment}</b><br/>{moduleName} / {roomName} {lessonEvents}' + time + ' {statusIcons}</div>');
+            this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} scheduleBox lectureBox">' + '<b class="lecturename">{lessonTitle}{description}</b> {moduleNr} {comment}<br/>{moduleName} / {roomName} {lessonEvents}' + time + '{statusIcons}</div>');
         }
         else
         {
@@ -1768,7 +1779,7 @@ Ext.define('LectureModel',
                 lecturecss = "lecturename";
             }
 
-            this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" style="{curriculumColor}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} ' + modulescss + '">' + '{topIcon}<b class="' + lecturecss + '">{lessonTitle}{description} {comment}</b><br/>{teacherName} / {roomName} {lessonEvents}' + time + ' {statusIcons}</div>');
+            this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" style="{curriculumColor}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} ' + modulescss + '">' + '{topIcon}<b class="' + lecturecss + '">{lessonTitle}{description} </b> {moduleNr} {comment}<br/>{teacherName} / {roomName} {lessonEvents}' + time + '{statusIcons}</div>');
         }
     },
     setInfoTemplate: function (t)

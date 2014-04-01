@@ -281,22 +281,6 @@ Ext.grid.View,
     }
 });
 
-function cropText(sText, nCropLimit)
-{
-    if (Ext.ComponentMgr.get("leftMenu").collapsed)
-    {
-        nCropLimit = nCropLimit + 6;
-    }
-    if (nCropLimit < sText.length)
-    {
-        return sText.substring(0, nCropLimit) + " ...";
-    }
-    else
-    {
-        return sText;
-    }
-}
-
 /**
  * Check wheter the event objects are corresponding with the lesson objects
  * (doz, room, clas)

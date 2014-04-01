@@ -158,6 +158,8 @@ class THMTreeView
                 }
             }
 
+            uksort($this->_checked, array($this, "checkedSortFunction"));
+
             if (isset($options["publicDefault"]))
             {
                 $this->_publicDefault = (array) $options["publicDefault"];
@@ -191,6 +193,22 @@ class THMTreeView
                 $this->departmentSemesterSelection = JRequest::getString('departmentSemesterSelection');
             }
         }
+    }
+    
+    /**
+     * Method to sort the checked array
+     * 
+     * @param   String  $a  First argument
+     * @param   String  $b  Second argument
+     * 
+     * @return  integer
+     */
+    private function checkedSortFunction ($a, $b)
+    {                
+        $countA = substr_count($a, ";");
+        $countB = substr_count($b, ";");
+        
+        return $countB - $countA;
     }
 
     /**
@@ -323,18 +341,24 @@ class THMTreeView
             foreach ($this->_checked as $checkedKey => $checkedValue)
             {
                 $stringPosition = strpos($nodeID, $checkedKey . ";");
-
                 if ($stringPosition !== false)
                 {
                     if ($checkedValue === "selected" || $checkedValue === "intermediate")
                     {
                         return true;
                     }
+                    elseif($checkedValue === "hidden")
+                    {
+                    	return false;
+                    }
+                    else
+                    {
+                    	
+                    }
                 }
             }
         }
         return false;
-
     }
 
     /**
@@ -585,15 +609,33 @@ class THMTreeView
                 $descriptions[$itemField] = $itemFieldType->{$itemField};
             }
         }
+        
 
+        // Special node that contains all nodes
+        $descriptionALLKey = "ALL";
+        
+        $descriptionALLNodeData = array();
+        $descriptionALLNodeData["nodeID"] = $key . ";" . $descriptionALLKey;
+        $descriptionALLNodeData["text"] = JText::_('COM_THM_ORGANIZER_SCHEDULER_DATA_MYSCHED_ALL');
+        $descriptionALLNodeData["iconCls"] = "studiengang-root";
+        $descriptionALLNodeData["leaf"] = false;
+        $descriptionALLNodeData["draggable"] = true;
+        $descriptionALLNodeData["singleClickExpand"] = false;
+        $descriptionALLNodeData["gpuntisID"] = "mySched_ALL";
+        $descriptionALLNodeData["type"] = $scheduleType;
+        $descriptionALLNodeData["children"] = array();
+        $descriptionALLNodeData["semesterID"] = $semesterID;
+        $descriptionALLNodeData["nodeKey"] = $descriptionALLKey;
+        
         foreach ($descriptions as $descriptionKey => $descriptionValue)
         {
             $descType = $descriptionKey;
-
+            
             // Get data for the current description
             $filteredData = array_filter(
                 (array) $data, function ($item) use (&$descType, &$scheduleType) {
                     $itemField = null;
+                    
                     if ($scheduleType === "teacher")
                     {
                         if (isset($item->description))
@@ -707,6 +749,7 @@ class THMTreeView
                 }
 
                 $childNode = null;
+                $childAllNode = null;
                 if ($hasLessons)
                 {
                     $childNodeData = array();
@@ -723,10 +766,19 @@ class THMTreeView
                     $childNodeData["nodeKey"] = $childKey;
 
                     $childNode = $this->createTreeNode($childNodeData);
+
+                    $childNodeData["nodeID"] = str_replace(";" . $descriptionKey . ";", ";" . $descriptionALLKey . ";", $childNodeData["nodeID"]);
+                    
+                    $childAllNode = $this->createTreeNode($childNodeData);
                 }
                 if (is_object($childNode))
                 {
                     $childNodes[] = $childNode;
+                }
+                
+                if (is_object($childAllNode))
+                {
+                    array_push($descriptionALLNodeData["children"], $childAllNode);
                 }
             }
 
@@ -750,31 +802,48 @@ class THMTreeView
             $descriptionNodeData["nodeKey"] = $descriptionKey;
 
             $descriptionNode = $this->createTreeNode($descriptionNodeData);
-
-            if (is_object($descriptionNode) AND !empty($descriptionNode->children) OR is_array($descriptionNode))
-            {
-                if ($childNodes === $descriptionNode && count($treeNode) === 0)
-                {
-                    $treeNode = $descriptionNode;
-                }
-                else
-                {
-                    if (is_array($descriptionNode))
-                    {
-                        $treeNode = array_merge($treeNode, $descriptionNode);
-                    }
-                    else
-                    {
-                        $treeNode[] = $descriptionNode;
-                    }
-                }
-            }
+            
+            $treeNode = $this->checkTreeNode($treeNode, $descriptionNode, $childNodes);
         }
-
+        
+        $descriptionNode = $this->createTreeNode($descriptionALLNodeData);
+        $treeNode = $this->checkTreeNode($treeNode, $descriptionNode, null);
+        
         return $treeNode;
 
     }
 
+    /**
+     * Method to check the treeNode structure.
+     * 
+     * @param   Object  $treeNode         The overall tree node
+     * @param   Object  $descriptionNode  A subnode to add
+     * @param   Object  $childNodes       Child nodes
+     * 
+     * @return  Object
+     */
+    private function checkTreeNode ($treeNode, $descriptionNode, $childNodes)
+    {
+        if (is_object($descriptionNode) AND !empty($descriptionNode->children) OR is_array($descriptionNode))
+        {
+            if ($childNodes === $descriptionNode && count($treeNode) === 0)
+            {
+                $treeNode = $descriptionNode;
+            }
+            else
+            {
+                if (is_array($descriptionNode))
+                {
+                    $treeNode = array_merge($treeNode, $descriptionNode);
+                }
+                else
+                {
+                    $treeNode[] = $descriptionNode;
+                }
+            }
+        }
+        return $treeNode;
+    }
     /**
      * Method to mark a single node as expanded
      *

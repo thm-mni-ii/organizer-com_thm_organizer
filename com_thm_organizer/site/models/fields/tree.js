@@ -182,6 +182,11 @@ function setStatus(event)
         }
         else if(elInput.value === "checked")
         {
+            elInput.value = "hidden";
+            elImg.dom.src = images.base+elInput.value+"_highlighted.png";
+        }
+        else if(elInput.value === "hidden")
+        {
             elInput.value = "unchecked";
             elImg.dom.src = images.base+elInput.value+"_highlighted.png";
         }
@@ -203,7 +208,12 @@ function setStatus(event)
             elInput.value = "intermediate";
             elImg.dom.src = images.base+elInput.value+"_highlighted.png";
         }
-        //intermediate
+        else if(elInput.value === "intermediate")
+        {
+            elInput.value = "hidden";
+            elImg.dom.src = images.base+elInput.value+"_highlighted.png";
+        }
+        // hide
         else
         {
             elInput.value = "unchecked";
@@ -384,7 +394,7 @@ Ext.tree.Panel.prototype.doGray = function(node)
         }
     }
 
-    if(node.data.checked === "checked" || node.data.checked === "selected" || node.data.checked === "intermediate")
+    if(node.data.checked === "checked" || node.data.checked === "selected" || node.data.checked === "intermediate" || node.data.checked === "hidden")
     {
         gray = true;
     }
@@ -394,7 +404,7 @@ Ext.tree.Panel.prototype.doGray = function(node)
 
 Ext.tree.Panel.prototype.needGray = function (node)
 {
-    if(node.data.checked === "checked" || node.data.checked === "selected" || node.data.checked === "intermediate")
+    if(node.data.checked === "checked" || node.data.checked === "selected" || node.data.checked === "intermediate" || node.data.checked === "hidden")
     {
         return true;
     }
