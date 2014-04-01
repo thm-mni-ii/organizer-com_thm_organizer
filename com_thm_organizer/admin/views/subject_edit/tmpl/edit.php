@@ -82,6 +82,10 @@ jq(document).ready(function(){
                         <?php echo $this->form->getInput('creditpoints'); ?>
                     </li>
                     <li>
+                        <?php echo $this->form->getLabel('sws'); ?>
+                        <?php echo $this->form->getInput('sws'); ?>
+                    </li>
+                    <li>
                         <?php echo $this->form->getLabel('expenditure'); ?>
                         <?php echo $this->form->getInput('expenditure'); ?>
                     </li>
@@ -112,6 +116,22 @@ jq(document).ready(function(){
                     <li>
                         <?php echo $this->form->getLabel('fieldID'); ?>
                         <?php echo $this->form->getInput('fieldID'); ?>
+                    </li>
+                    <li>
+                        <?php echo $this->form->getLabel('expertise'); ?>
+                        <?php echo $this->form->getInput('expertise'); ?>
+                    </li>
+                    <li>
+                        <?php echo $this->form->getLabel('self_competence'); ?>
+                        <?php echo $this->form->getInput('self_competence'); ?>
+                    </li>
+                    <li>
+                        <?php echo $this->form->getLabel('method_competence'); ?>
+                        <?php echo $this->form->getInput('method_competence'); ?>
+                    </li>
+                    <li>
+                        <?php echo $this->form->getLabel('social_competence'); ?>
+                        <?php echo $this->form->getInput('social_competence'); ?>
                     </li>
                     <li>
                         <?php echo $this->form->getLabel('responsible'); ?>
@@ -157,6 +177,14 @@ jq(document).ready(function(){
                     <?php echo $this->form->getLabel('preliminary_work_de'); ?>
                     <?php echo $this->form->getInput('preliminary_work_de'); ?>
                 </li>
+                <li>
+                    <?php echo $this->form->getLabel('aids_de'); ?>
+                    <?php echo $this->form->getInput('aids_de'); ?>
+                </li>
+                <li>
+                    <?php echo $this->form->getLabel('evaluation_de'); ?>
+                    <?php echo $this->form->getInput('evaluation_de'); ?>
+                </li>
             </ul>
         </fieldset>
         <fieldset>
@@ -191,6 +219,14 @@ jq(document).ready(function(){
                 <li>
                     <?php echo $this->form->getLabel('preliminary_work_en'); ?>
                     <?php echo $this->form->getInput('preliminary_work_en'); ?>
+                </li>
+                <li>
+                    <?php echo $this->form->getLabel('aids_en'); ?>
+                    <?php echo $this->form->getInput('aids_en'); ?>
+                </li>
+                <li>
+                    <?php echo $this->form->getLabel('evaluation_en'); ?>
+                    <?php echo $this->form->getInput('evaluation_en'); ?>
                 </li>
             </ul>
         </fieldset>

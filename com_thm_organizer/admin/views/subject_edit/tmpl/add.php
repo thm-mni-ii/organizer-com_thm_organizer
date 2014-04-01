@@ -35,6 +35,10 @@ defined('_JEXEC') or die;
                     <?php echo $this->form->getInput('creditpoints'); ?>
                 </li>
                 <li>
+                    <?php echo $this->form->getLabel('sws'); ?>
+                    <?php echo $this->form->getInput('sws'); ?>
+                </li>
+                <li>
                     <?php echo $this->form->getLabel('expenditure'); ?>
                     <?php echo $this->form->getInput('expenditure'); ?>
                 </li>
@@ -109,6 +113,10 @@ defined('_JEXEC') or die;
                     <?php echo $this->form->getLabel('preliminary_work_de'); ?>
                     <?php echo $this->form->getInput('preliminary_work_de'); ?>
                 </li>
+                <li>
+                    <?php echo $this->form->getLabel('aids_de'); ?>
+                    <?php echo $this->form->getInput('aids_de'); ?>
+                </li>
             </ul>
         </fieldset>
         <fieldset>
@@ -143,6 +151,10 @@ defined('_JEXEC') or die;
                 <li>
                     <?php echo $this->form->getLabel('preliminary_work_en'); ?>
                     <?php echo $this->form->getInput('preliminary_work_en'); ?>
+                </li>
+                <li>
+                    <?php echo $this->form->getLabel('aids_en'); ?>
+                    <?php echo $this->form->getInput('aids_en'); ?>
                 </li>
             </ul>
         </fieldset>

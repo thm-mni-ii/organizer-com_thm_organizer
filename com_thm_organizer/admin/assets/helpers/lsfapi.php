@@ -108,7 +108,7 @@ class THM_OrganizerLSFClient
      */
     public function getModuleByNrMni($moduleID)
     {
-        $XML = $this->header('ModuleMNI');
+        $XML = $this->header('ModuleAll');
         $XML .= "<pord.pfnrex>$moduleID</pord.pfnrex>";
         $XML .= $this->footer();
         return self::getDataXML($XML);
@@ -123,7 +123,7 @@ class THM_OrganizerLSFClient
      */
     public function getModuleByModulid($moduleID)
     {
-        $XML = $this->header('ModuleMNI');
+        $XML = $this->header('ModuleAll');
         $XML .= "<pord.pordnr>$moduleID</pord.pordnr>";
         $XML .= $this->footer();
         return self::getDataXML($XML);
