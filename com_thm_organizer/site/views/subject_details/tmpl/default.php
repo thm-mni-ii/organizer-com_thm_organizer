@@ -26,8 +26,18 @@ $proof = ($this->lang == 'de')? 'Leistungsnachweis' : 'Testing Method';
 $frequency = ($this->lang == 'de')? 'Turnus' : 'Frequency';
 $language = ($this->lang == 'de')? 'Sprache' : 'Language';
 $preliminary_work = ($this->lang == 'de')? 'Vorleistung' : 'Requirement';
+$aids = ($this->lang == 'de')? 'Studienhilfsmittel' : 'Study Aids';
+$evaluation = ($this->lang == 'de')? 'Bewertung' : 'Evaluation';
+$semesterHours = ($this->lang == 'de')? 'SWS' : 'Semester Hours';
+$expertise = ($this->lang == 'de')? 'Fachkompetenz' : 'Expertise';
+$methodCompetence = ($this->lang == 'de')? 'Methodenkompetenz' : 'Method Competence';
+$selfCompetence = ($this->lang == 'de')? 'Selbstkompetenz' : 'Self Competence';
+$socialCompetence = ($this->lang == 'de')? 'Sozialkompetenz' : 'Social Competence';
 $flagPath = 'media' . DIRECTORY_SEPARATOR . 'com_thm_organizer' . DIRECTORY_SEPARATOR . 'images';
 $flagPath .= DIRECTORY_SEPARATOR . $this->otherLanguageTag . '.png';
+$oneStar = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/1stars.png', 'COM_THM_ORGANIZER_SUM_ONESTAR');
+$twoStars = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/2stars.png', 'COM_THM_ORGANIZER_SUM_TWOSTARS');
+$threeStars = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/3stars.png', 'COM_THM_ORGANIZER_SUM_TWOSTARs');
 ?>
 <script type="text/javascript">
 
@@ -104,6 +114,82 @@ if (!empty($subject['objective']))
     echo '<div class="subject-content">' . $subject['objective'] . '</div>';
     echo '</div>';
 }
+if (!empty($subject['expertise']))
+{
+    echo '<div class="subject-item">';
+    echo '<div class="subject-label">' . $expertise . '</div>';
+    echo '<div class="subject-content">';
+    if ($subject['expertise'] == '3')
+    {
+        echo $threeStars;
+    }
+    elseif ($subject['expertise'] == '2')
+    {
+        echo $twoStars;
+    }
+    elseif ($subject['expertise'] == '1')
+    {
+        echo $oneStar;
+    }
+    echo '</div></div>';
+}
+if (!empty($subject['method_competence']))
+{
+    echo '<div class="subject-item">';
+    echo '<div class="subject-label">' . $methodCompetence . '</div>';
+    echo '<div class="subject-content">';
+    if ($subject['method_competence'] == '3')
+    {
+        echo $threeStars;
+    }
+    elseif ($subject['method_competence'] == '2')
+    {
+        echo $twoStars;
+    }
+    elseif ($subject['method_competence'] == '1')
+    {
+        echo $oneStar;
+    }
+    echo '</div></div>';
+}
+if (!empty($subject['social_competence']))
+{
+    echo '<div class="subject-item">';
+    echo '<div class="subject-label">' . $socialCompetence . '</div>';
+    echo '<div class="subject-content">';
+    if ($subject['social_competence'] == '3')
+    {
+        echo $threeStars;
+    }
+    elseif ($subject['social_competence'] == '2')
+    {
+        echo $twoStars;
+    }
+    elseif ($subject['social_competence'] == '1')
+    {
+        echo $oneStar;
+    }
+    echo '</div></div>';
+}
+if (!empty($subject['self_competence']))
+{
+    echo '<div class="subject-item">';
+    echo '<div class="subject-label">' . $selfCompetence . '</div>';
+    echo '<div class="subject-content">';
+    if ($subject['self_competence'] == '3')
+    {
+        echo $threeStars;
+    }
+    elseif ($subject['self_competence'] == '2')
+    {
+        echo $twoStars;
+    }
+    elseif ($subject['self_competence'] == '1')
+    {
+        echo $oneStar;
+    }
+    echo '</div></div>';
+}
 if (!empty($subject['content']))
 {
     echo '<div class="subject-item">';
@@ -123,6 +209,13 @@ if (!empty($subject['expenditureOutput']))
     echo '<div class="subject-item">';
     echo '<div class="subject-label">' . $expenditure . '</div>';
     echo '<div class="subject-content">' . $subject['expenditureOutput'] . '</div>';
+    echo '</div>';
+}
+if (!empty($subject['sws']))
+{
+    echo '<div class="subject-item">';
+    echo '<div class="subject-label">' . $semesterHours . '</div>';
+    echo '<div class="subject-content">' . $subject['sws'] . '</div>';
     echo '</div>';
 }
 if (!empty($subject['method']))
@@ -159,6 +252,13 @@ if (!empty($subject['literature']))
     echo '<div class="subject-item">';
     echo '<div class="subject-label">' . $references . '</div>';
     echo '<div class="subject-content" id="litverz">' . $subject['literature'] . '</div>';
+    echo '</div>';
+}
+if (!empty($subject['aids']))
+{
+    echo '<div class="subject-item">';
+    echo '<div class="subject-label">' . $aids . '</div>';
+    echo '<div class="subject-content">' . $subject['aids'] . '</div>';
     echo '</div>';
 }
 if (!empty($subject['prerequisites']))

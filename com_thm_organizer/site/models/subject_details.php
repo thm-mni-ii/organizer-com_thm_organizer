@@ -110,7 +110,8 @@ class THM_OrganizerModelSubject_Details extends JModel
         $select .= "preliminary_work_$this->languageTag AS preliminary_work, literature, creditpoints, expenditure, ";
         $select .= "present, independent, proof_$this->languageTag AS proof, frequency_$this->languageTag AS frequency, ";
         $select .= "method_$this->languageTag AS method, pform_$this->languageTag AS pform, ";
-        $select .= "prerequisites_$this->languageTag AS prerequisites";
+        $select .= "prerequisites_$this->languageTag AS prerequisites, aids_$this->languageTag AS aids, ";
+        $select .= "evaluation_$this->languageTag AS evaluation, sws, expertise, method_competence, self_competence, social_competence";
 
         $query->select($select);
         $query->from('#__thm_organizer_subjects AS s');
