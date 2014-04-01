@@ -372,11 +372,11 @@ class THMTreeView
                     }
                     elseif($checkedValue === "hidden")
                     {
-                    	return false;
+                        return false;
                     }
                     else
                     {
-                    	
+                        
                     }
                 }
             }
@@ -429,7 +429,7 @@ class THMTreeView
                 
                 if ($this->_languageTag === "en-GB" || $siteLanguageTag === "en-GB")
                 {
-                	$this->getEnglishSubjectNames($schedulerModel->getSubjectsEnglishInfo());
+                    $this->getEnglishSubjectNames($schedulerModel->getSubjectsEnglishInfo());
                 }
                 
             }
@@ -525,10 +525,10 @@ class THMTreeView
         $subjects = $this->_treeData["subject"];
         foreach ($subjects as $subject)
         {
-         	if (isset($databaseSubjects[$subject->subjectNo]) && !empty($databaseSubjects[$subject->subjectNo]->name_en))
-         	{
-         	    $subject->longname = $databaseSubjects[$subject->subjectNo]->name_en;
-         	}
+         if (isset($databaseSubjects[$subject->subjectNo]) && !empty($databaseSubjects[$subject->subjectNo]->name_en))
+             {
+                 $subject->longname = $databaseSubjects[$subject->subjectNo]->name_en;
+             }
         }
         $this->_treeData["subject"] = $subjects;
     }
