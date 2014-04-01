@@ -48,7 +48,11 @@ class THM_OrganizerViewScheduler extends JView
         /* Set the base directory for the language */
         $base_dir = JPATH_SITE;
         /* Load the language */
-        $language->load($extension, $base_dir, $tag, true);
+        
+        if ($tag === "en-GB")
+        {
+            $language->load($extension, $base_dir, $tag, true);
+        }
         
         $libraryInstalled = jimport('extjs4.extjs4');
         if (!$libraryInstalled)
@@ -158,7 +162,7 @@ class THM_OrganizerViewScheduler extends JView
 
             // To save memory unset schedule
             unset($schedule->schedule);
-
+            
             if ($scheduleData != null)
             {
                 $periods = $scheduleData->periods;

@@ -147,7 +147,10 @@ class THMTreeView
             /* Set the base directory for the language */
             $base_dir = JPATH_SITE;
             /* Load the language */
-            $language->load($extension, $base_dir, $this->_languageTag, true);
+            if ($this->_languageTag === "en-GB")
+            {
+                $language->load($extension, $base_dir, $this->_languageTag, true);
+            }
             
             if ($isBackend)
             {
