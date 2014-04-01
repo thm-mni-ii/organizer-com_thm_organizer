@@ -129,6 +129,19 @@ class THMTreeView
         }
         else
         {
+            $activeItemLanguage = $menuItem->language;
+            
+            /* Set your tag */
+            $tag = $activeItemLanguage;
+            /* Set your extension (component or module) */
+            $extension = "com_thm_organizer";
+            /* Get the Joomla core language object */
+            $language =& JFactory::getLanguage();
+            /* Set the base directory for the language */
+            $base_dir = JPATH_SITE;
+            /* Load the language */
+            $language->load($extension, $base_dir, $tag, true);
+            
             if ($isBackend)
             {
                 $this->_hideCheckBox = false;
