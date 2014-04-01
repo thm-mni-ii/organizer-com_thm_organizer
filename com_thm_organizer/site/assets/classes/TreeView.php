@@ -93,6 +93,13 @@ class THMTreeView
     private $_checkBoxForChildrenOnly = null;
 
     /**
+     * Contains the current languageTag
+     *
+     * @var    Object
+     */
+    private $_languageTag = "DE_de";
+
+    /**
      * Constructor with the joomla data abstraction object and configuration object
      *
      * @param   DataAbstraction  $JDA      A object to abstract the joomla methods
@@ -132,7 +139,7 @@ class THMTreeView
             $activeItemLanguage = $menuItem->language;
             
             /* Set your tag */
-            $tag = $activeItemLanguage;
+            $this->_languageTag = $activeItemLanguage;
             /* Set your extension (component or module) */
             $extension = "com_thm_organizer";
             /* Get the Joomla core language object */
@@ -140,7 +147,7 @@ class THMTreeView
             /* Set the base directory for the language */
             $base_dir = JPATH_SITE;
             /* Load the language */
-            $language->load($extension, $base_dir, $tag, true);
+            $language->load($extension, $base_dir, $this->_languageTag, true);
             
             if ($isBackend)
             {
@@ -393,7 +400,7 @@ class THMTreeView
         if (is_object($activeSchedule) && is_string($activeSchedule->schedule))
         {
             $activeScheduleData = json_decode($activeSchedule->schedule);
-
+            
             // To save memory unset schedule
             unset($activeSchedule->schedule);
 
@@ -410,10 +417,16 @@ class THMTreeView
                 }
                 $this->_treeData["room"] = $activeScheduleData->rooms;
                 $this->_treeData["teacher"] = $activeScheduleData->teachers;
-                $this->_treeData["subject"] = $activeScheduleData->subjects;
+                $this->_treeData["subject"] = $activeScheduleData->subjects;                
                 $this->_treeData["roomtype"] = $activeScheduleData->roomtypes;
                 $this->_treeData["degree"] = $activeScheduleData->degrees;
                 $this->_treeData["field"] = $activeScheduleData->fields;
+                
+                if ($this->_languageTag === "en-GB")
+                {
+                	$this->getEnglishSubjectNames($schedulerModel->getSubjectsEnglishInfo());
+                }
+                
             }
             else
             {
@@ -493,6 +506,26 @@ class THMTreeView
                 "treePublicDefault" => $this->_publicDefaultNode)
         );
 
+    }
+    
+    /**
+     * Method to get the english subject names from the db
+     * 
+     * @param   Array  $databaseSubjects  An array with the subjects from the database
+     * 
+     * @return  void
+     */
+    private function getEnglishSubjectNames($databaseSubjects)
+    {
+        $subjects = $this->_treeData["subject"];
+        foreach ($subjects as $subject)
+        {
+         	if (isset($databaseSubjects[$subject->subjectNo]) && !empty($databaseSubjects[$subject->subjectNo]->name_en))
+         	{
+         	    $subject->longname = $databaseSubjects[$subject->subjectNo]->name_en;
+         	}
+        }
+        $this->_treeData["subject"] = $subjects;
     }
 
     /**
@@ -623,7 +656,6 @@ class THMTreeView
             }
         }
         
-
         // Special node that contains all nodes
         $descriptionALLKey = "ALL";
         
