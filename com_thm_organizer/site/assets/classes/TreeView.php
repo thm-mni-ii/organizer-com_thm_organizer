@@ -219,18 +219,18 @@ class THMTreeView
     }
     
     /**
-     * Method to sort the checked array
+     * Method to sort the checked array !_DONT DELETE_ this function, it is used for uksort()!
      * 
-     * @param   String  $a  First argument
-     * @param   String  $b  Second argument
+     * @param   String  $firstElement  First argument
+     * @param   String  $secondElement  Second argument
      * 
      * @return  integer
      */
-    private function checkedSortFunction ($a, $b)
+    private function checkedSortFunction ($firstElement, $secondElement)
     {                
-        $countA = substr_count($a, ";");
-        $countB = substr_count($b, ";");
-        
+        $countA = substr_count($firstElement, ";");
+        $countB = substr_count($secondElement, ";");
+
         return $countB - $countA;
     }
 
@@ -664,18 +664,18 @@ class THMTreeView
         // Special node that contains all nodes
         $descriptionALLKey = "ALL";
         
-        $descriptionALLNodeData = array();
-        $descriptionALLNodeData["nodeID"] = $key . ";" . $descriptionALLKey;
-        $descriptionALLNodeData["text"] = JText::_('COM_THM_ORGANIZER_SCHEDULER_DATA_MYSCHED_ALL');
-        $descriptionALLNodeData["iconCls"] = "studiengang-root";
-        $descriptionALLNodeData["leaf"] = false;
-        $descriptionALLNodeData["draggable"] = true;
-        $descriptionALLNodeData["singleClickExpand"] = false;
-        $descriptionALLNodeData["gpuntisID"] = "mySched_ALL";
-        $descriptionALLNodeData["type"] = $scheduleType;
-        $descriptionALLNodeData["children"] = array();
-        $descriptionALLNodeData["semesterID"] = $semesterID;
-        $descriptionALLNodeData["nodeKey"] = $descriptionALLKey;
+        $allNodeData = array();
+        $allNodeData["nodeID"] = $key . ";" . $descriptionALLKey;
+        $allNodeData["text"] = JText::_('COM_THM_ORGANIZER_SCHEDULER_DATA_MYSCHED_ALL');
+        $allNodeData["iconCls"] = "studiengang-root";
+        $allNodeData["leaf"] = false;
+        $allNodeData["draggable"] = true;
+        $allNodeData["singleClickExpand"] = false;
+        $allNodeData["gpuntisID"] = "mySched_ALL";
+        $allNodeData["type"] = $scheduleType;
+        $allNodeData["children"] = array();
+        $allNodeData["semesterID"] = $semesterID;
+        $allNodeData["nodeKey"] = $descriptionALLKey;
         
         foreach ($descriptions as $descriptionKey => $descriptionValue)
         {
@@ -828,7 +828,7 @@ class THMTreeView
                 
                 if (is_object($childAllNode))
                 {
-                    array_push($descriptionALLNodeData["children"], $childAllNode);
+                    array_push($allNodeData["children"], $childAllNode);
                 }
             }
 
@@ -856,7 +856,7 @@ class THMTreeView
             $treeNode = $this->checkTreeNode($treeNode, $descriptionNode, $childNodes);
         }
         
-        $descriptionNode = $this->createTreeNode($descriptionALLNodeData);
+        $descriptionNode = $this->createTreeNode($allNodeData);
         $treeNode = $this->checkTreeNode($treeNode, $descriptionNode, null);
         
         return $treeNode;
