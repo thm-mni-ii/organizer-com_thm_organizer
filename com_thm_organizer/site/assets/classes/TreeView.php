@@ -425,7 +425,9 @@ class THMTreeView
                 $this->_treeData["degree"] = $activeScheduleData->degrees;
                 $this->_treeData["field"] = $activeScheduleData->fields;
                 
-                if ($this->_languageTag === "en-GB")
+                $siteLanguageTag = JFactory::getLanguage()->getTag();
+                
+                if ($this->_languageTag === "en-GB" || $siteLanguageTag === "en-GB")
                 {
                 	$this->getEnglishSubjectNames($schedulerModel->getSubjectsEnglishInfo());
                 }
