@@ -174,7 +174,7 @@ class THM_OrganizerModelRoom_Manager extends JModelList
 
         $this->addSearchFilter($query);
 
-        if ($this->state->get('filter.building') != '*')
+        if (!empty($this->state->get('filter.building')) AND $this->state->get('filter.building') != '*')
         {
             $locationFilter = $this->state->get('filter.building') . '.';
             $locationFilter .= $this->state->get('filter.floor') != '*'? $this->state->get('filter.floor') : '';
@@ -216,7 +216,7 @@ class THM_OrganizerModelRoom_Manager extends JModelList
      */
     private function addTypeFilter(&$query)
     {
-        if ($this->state->get('filter.type') != '*')
+        if (!empty($this->state->get('filter.type') ) AND $this->state->get('filter.type') != '*')
         {
             $query->where("r.typeID = '{$this->state->get('filter.type')}'");
         }
