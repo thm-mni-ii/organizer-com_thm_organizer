@@ -175,9 +175,7 @@ class JFormFieldScheduler extends JFormField
 
 
 <div style="width: auto; height: auto;" id="tree-div"></div>
-<div>
 <?php
-    echo JText::_("COM_THM_ORGANIZER_RIA_TREE_DESCRIPTION");
+    echo "<div>" . JText::_("COM_THM_ORGANIZER_RIA_TREE_DESCRIPTION") . "</div>";
     }
-} ?>
-</div>
+}
