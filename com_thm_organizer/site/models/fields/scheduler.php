@@ -166,6 +166,11 @@ class JFormFieldScheduler extends JFormField
 .x-tree-node-cb {
     float: none;
 }
+
+.MySched_scheduler_selection_icons
+{
+    margin: 0;
+}
 </style>
 
 
