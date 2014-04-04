@@ -11,6 +11,7 @@
  */
 defined('_JEXEC') or die;
 JHtml::_('behavior.tooltip');
+
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=program_edit&id=0'); ?>"
       method="post" name="adminForm" id="modulmapping-form">
