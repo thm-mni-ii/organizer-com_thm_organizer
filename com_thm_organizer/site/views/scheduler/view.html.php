@@ -52,6 +52,11 @@ class THM_OrganizerViewScheduler extends JView
         if ($tag === "en-GB")
         {
             $language->load($extension, $base_dir, $tag, true);
+            $this->languageTag = "en";
+        }
+        else
+        {
+            $this->languageTag = "de";
         }
         
         $libraryInstalled = jimport('extjs4.extjs4');
