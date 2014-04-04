@@ -58,7 +58,7 @@
                    maxlength="1" />
             <field name="displayECollabLink"
                    type="radio"
-                   default="1"
+                   default="0"
                    required="true"
                    label="COM_THM_ORGANIZER_DISPLAY_ECOLLAB_TITLE"
                    description="COM_THM_ORGANIZER_DISPLAY_ECOLLAB_DESCRIPTION">

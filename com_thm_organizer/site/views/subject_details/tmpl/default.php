@@ -281,7 +281,8 @@ if (!empty($subject['prerequisiteOf']))
     echo '</ul></div>';
     echo '</div>';
 }
-if (!empty($subject['externalID']))
+$displayeCollab = JComponentHelper::getParams('com_thm_organizer')->get('displayeCollabLink');
+if (!empty($subject['externalID']) AND !empty($displayeCollab))
 {
     $ecollabLink = JComponentHelper::getParams('com_thm_organizer')->get('eCollabLink');
     $ecollabIcon = JURI::root() . 'media/com_thm_organizer/images/icon-32-moodle.png';
