@@ -174,7 +174,8 @@ class THM_OrganizerModelRoom_Manager extends JModelList
 
         $this->addSearchFilter($query);
 
-        if (!empty($this->state->get('filter.building')) AND $this->state->get('filter.building') != '*')
+        $buildingFilter = $this->state->get('filter.building');
+        if (!empty($buildingFilter) AND $buildingFilter != '*')
         {
             $locationFilter = $this->state->get('filter.building') . '.';
             $locationFilter .= $this->state->get('filter.floor') != '*'? $this->state->get('filter.floor') : '';
