@@ -217,7 +217,8 @@ class THM_OrganizerModelRoom_Manager extends JModelList
      */
     private function addTypeFilter(&$query)
     {
-        if (!empty($this->state->get('filter.type') ) AND $this->state->get('filter.type') != '*')
+        $typeFilter = $this->state->get('filter.type');
+        if (!empty($typeFilter) AND $typeFilter != '*')
         {
             $query->where("r.typeID = '{$this->state->get('filter.type')}'");
         }
