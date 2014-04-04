@@ -1113,7 +1113,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
         
         if(!Ext.isEmpty(subjectNo))
         {
-            adds += "&nrmni=" + subjectNo.toUpperCase()
+            adds += "&nrmni=" + subjectNo.toUpperCase();
         }
         
         if(!Ext.isEmpty(MySched.languageTag))
