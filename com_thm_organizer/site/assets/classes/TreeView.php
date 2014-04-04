@@ -93,6 +93,13 @@ class THMTreeView
     private $_checkBoxForChildrenOnly = null;
 
     /**
+     * Contains the current languageTag
+     *
+     * @var    Object
+     */
+    private $_languageTag = "DE_de";
+
+    /**
      * Constructor with the joomla data abstraction object and configuration object
      *
      * @param   DataAbstraction  $JDA      A object to abstract the joomla methods
@@ -129,6 +136,22 @@ class THMTreeView
         }
         else
         {
+            $activeItemLanguage = $menuItem->language;
+            
+            /* Set your tag */
+            $this->_languageTag = $activeItemLanguage;
+            /* Set your extension (component or module) */
+            $extension = "com_thm_organizer";
+            /* Get the Joomla core language object */
+            $language =& JFactory::getLanguage();
+            /* Set the base directory for the language */
+            $base_dir = JPATH_SITE;
+            /* Load the language */
+            if ($this->_languageTag === "en-GB")
+            {
+                $language->load($extension, $base_dir, $this->_languageTag, true);
+            }
+            
             if ($isBackend)
             {
                 $this->_hideCheckBox = false;
@@ -196,18 +219,18 @@ class THMTreeView
     }
     
     /**
-     * Method to sort the checked array
+     * Method to sort the checked array !_DONT DELETE_ this function, it is used for uksort()!
      * 
-     * @param   String  $a  First argument
-     * @param   String  $b  Second argument
+     * @param   String  $firstElement  First argument
+     * @param   String  $secondElement  Second argument
      * 
      * @return  integer
      */
-    private function checkedSortFunction ($a, $b)
+    private function checkedSortFunction ($firstElement, $secondElement)
     {                
-        $countA = substr_count($a, ";");
-        $countB = substr_count($b, ";");
-        
+        $countA = substr_count($firstElement, ";");
+        $countB = substr_count($secondElement, ";");
+
         return $countB - $countA;
     }
 
@@ -349,11 +372,11 @@ class THMTreeView
                     }
                     elseif($checkedValue === "hidden")
                     {
-                    	return false;
+                        return false;
                     }
                     else
                     {
-                    	
+                        
                     }
                 }
             }
@@ -380,7 +403,7 @@ class THMTreeView
         if (is_object($activeSchedule) && is_string($activeSchedule->schedule))
         {
             $activeScheduleData = json_decode($activeSchedule->schedule);
-
+            
             // To save memory unset schedule
             unset($activeSchedule->schedule);
 
@@ -397,10 +420,18 @@ class THMTreeView
                 }
                 $this->_treeData["room"] = $activeScheduleData->rooms;
                 $this->_treeData["teacher"] = $activeScheduleData->teachers;
-                $this->_treeData["subject"] = $activeScheduleData->subjects;
+                $this->_treeData["subject"] = $activeScheduleData->subjects;                
                 $this->_treeData["roomtype"] = $activeScheduleData->roomtypes;
                 $this->_treeData["degree"] = $activeScheduleData->degrees;
                 $this->_treeData["field"] = $activeScheduleData->fields;
+                
+                $siteLanguageTag = JFactory::getLanguage()->getTag();
+                
+                if ($this->_languageTag === "en-GB" || $siteLanguageTag === "en-GB")
+                {
+                    $this->getEnglishSubjectNames($schedulerModel->getSubjectsEnglishInfo());
+                }
+                
             }
             else
             {
@@ -480,6 +511,26 @@ class THMTreeView
                 "treePublicDefault" => $this->_publicDefaultNode)
         );
 
+    }
+    
+    /**
+     * Method to get the english subject names from the db
+     * 
+     * @param   Array  $databaseSubjects  An array with the subjects from the database
+     * 
+     * @return  void
+     */
+    private function getEnglishSubjectNames($databaseSubjects)
+    {
+        $subjects = $this->_treeData["subject"];
+        foreach ($subjects as $subject)
+        {
+         if (isset($databaseSubjects[$subject->subjectNo]) && !empty($databaseSubjects[$subject->subjectNo]->name_en))
+             {
+                 $subject->longname = $databaseSubjects[$subject->subjectNo]->name_en;
+             }
+        }
+        $this->_treeData["subject"] = $subjects;
     }
 
     /**
@@ -610,22 +661,21 @@ class THMTreeView
             }
         }
         
-
         // Special node that contains all nodes
         $descriptionALLKey = "ALL";
         
-        $descriptionALLNodeData = array();
-        $descriptionALLNodeData["nodeID"] = $key . ";" . $descriptionALLKey;
-        $descriptionALLNodeData["text"] = JText::_('COM_THM_ORGANIZER_SCHEDULER_DATA_MYSCHED_ALL');
-        $descriptionALLNodeData["iconCls"] = "studiengang-root";
-        $descriptionALLNodeData["leaf"] = false;
-        $descriptionALLNodeData["draggable"] = true;
-        $descriptionALLNodeData["singleClickExpand"] = false;
-        $descriptionALLNodeData["gpuntisID"] = "mySched_ALL";
-        $descriptionALLNodeData["type"] = $scheduleType;
-        $descriptionALLNodeData["children"] = array();
-        $descriptionALLNodeData["semesterID"] = $semesterID;
-        $descriptionALLNodeData["nodeKey"] = $descriptionALLKey;
+        $allNodeData = array();
+        $allNodeData["nodeID"] = $key . ";" . $descriptionALLKey;
+        $allNodeData["text"] = JText::_('COM_THM_ORGANIZER_SCHEDULER_DATA_MYSCHED_ALL');
+        $allNodeData["iconCls"] = "studiengang-root";
+        $allNodeData["leaf"] = false;
+        $allNodeData["draggable"] = true;
+        $allNodeData["singleClickExpand"] = false;
+        $allNodeData["gpuntisID"] = "mySched_ALL";
+        $allNodeData["type"] = $scheduleType;
+        $allNodeData["children"] = array();
+        $allNodeData["semesterID"] = $semesterID;
+        $allNodeData["nodeKey"] = $descriptionALLKey;
         
         foreach ($descriptions as $descriptionKey => $descriptionValue)
         {
@@ -778,7 +828,7 @@ class THMTreeView
                 
                 if (is_object($childAllNode))
                 {
-                    array_push($descriptionALLNodeData["children"], $childAllNode);
+                    array_push($allNodeData["children"], $childAllNode);
                 }
             }
 
@@ -806,7 +856,7 @@ class THMTreeView
             $treeNode = $this->checkTreeNode($treeNode, $descriptionNode, $childNodes);
         }
         
-        $descriptionNode = $this->createTreeNode($descriptionALLNodeData);
+        $descriptionNode = $this->createTreeNode($allNodeData);
         $treeNode = $this->checkTreeNode($treeNode, $descriptionNode, null);
         
         return $treeNode;

@@ -75,6 +75,7 @@ if ($this->canWriteEvents === true)
         MySched.requestSubjectGPUntisIDs =
             Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestSubjectGPUntisIDs)); ?>'));
         MySched.joomlaItemid = '<?php echo $this->joomlaItemid; ?>';
+        MySched.languageTag = '<?php echo $this->languageTag; ?>';
 <?php
 if ($this->FPDFInstalled)
 {

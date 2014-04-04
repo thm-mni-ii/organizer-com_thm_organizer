@@ -278,4 +278,29 @@ class THM_OrganizerModelScheduler extends JModel
         }
         return $result;
     }
+
+    /**
+     * Method to get all subjects (externalID AND english name) from database
+     *
+     * @return   Array  An Array with the subejects
+     */
+    public function getSubjectsEnglishInfo()
+    {
+        $dbo = JFactory::getDBO();
+        $query = $dbo->getQuery(true);
+
+        $query->select('externalID, name_en');
+        $query->from('#__thm_organizer_subjects');
+        $query->where('externalID IS NOT NULL');
+        $query->where('externalID <> ""');
+        $dbo->setQuery($query);
+        $result = $dbo->loadObjectList("externalID");
+
+        $error = $dbo->getErrorMsg();
+        if (!empty($error))
+        {
+            return array();
+        }
+        return $result;
+    }
 }

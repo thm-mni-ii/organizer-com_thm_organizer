@@ -166,11 +166,16 @@ class JFormFieldScheduler extends JFormField
 .x-tree-node-cb {
     float: none;
 }
+
+.MySched_scheduler_selection_icons
+{
+    margin: 0;
+}
 </style>
 
 
 <div style="width: auto; height: auto;" id="tree-div"></div>
-
 <?php
+    echo "<div>" . JText::_("COM_THM_ORGANIZER_RIA_TREE_DESCRIPTION") . "</div>";
     }
 }

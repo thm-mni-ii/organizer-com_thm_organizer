@@ -1109,7 +1109,19 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
     {
         "use strict";
 
-        window.open(externLinks.curriculumLink + '&nrmni=' + subjectNo.toUpperCase());
+        var adds = "";
+        
+        if(!Ext.isEmpty(subjectNo))
+        {
+            adds += "&nrmni=" + subjectNo.toUpperCase();
+        }
+        
+        if(!Ext.isEmpty(MySched.languageTag))
+        {
+            adds += "&languageTag=" + MySched.languageTag;
+        }
+        
+        window.open(externLinks.curriculumLink + adds);
     },
     showSubjectNoMenu: function(subjects, e)
     {
@@ -2278,7 +2290,6 @@ MySched.layout = function ()
                         Ext.apply(grid,
                         {
                             cls: 'MySched_ScheduleTab',
-                            tabTip: title,
                             closable: false
                         }),
                         {
@@ -2289,13 +2300,14 @@ MySched.layout = function ()
                     }
                     else
                     {
+                        
                         tab = Ext.apply(
                         // Defaultwerte - wenn schon gesetzt bleiben sie
                         Ext.apply(grid,
                         {
                             cls: 'MySched_ScheduleTab',
-                            tabTip: title,
-                            closable: closeable
+                            closable: closeable,
+                            title: title
                             // iconCls: type + 'Icon',
                         }),
                         {

@@ -35,6 +35,30 @@ class THM_OrganizerViewScheduler extends JView
     {
         JHTML::_('behavior.tooltip');
         
+        $menu = JFactory::getApplication()->getMenu();
+        $active = $menu->getActive();
+        $activeItemLanguage = $active->language;
+        
+        /* Set your tag */
+        $tag = $activeItemLanguage;
+        /* Set your extension (component or module) */
+        $extension = "com_thm_organizer";
+        /* Get the Joomla core language object */
+        $language =& JFactory::getLanguage();
+        /* Set the base directory for the language */
+        $base_dir = JPATH_SITE;
+        /* Load the language */
+        
+        if ($tag === "en-GB")
+        {
+            $language->load($extension, $base_dir, $tag, true);
+            $this->languageTag = "en";
+        }
+        else
+        {
+            $this->languageTag = "de";
+        }
+        
         $libraryInstalled = jimport('extjs4.extjs4');
         if (!$libraryInstalled)
         {
@@ -143,7 +167,7 @@ class THM_OrganizerViewScheduler extends JView
 
             // To save memory unset schedule
             unset($schedule->schedule);
-
+            
             if ($scheduleData != null)
             {
                 $periods = $scheduleData->periods;
