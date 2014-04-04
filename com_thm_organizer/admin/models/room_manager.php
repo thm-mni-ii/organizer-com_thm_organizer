@@ -11,7 +11,6 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modellist');
-
 /**
  * Class THM_OrganizerModelRooms for component com_thm_organizer
  * Class provides methods to deal with rooms
