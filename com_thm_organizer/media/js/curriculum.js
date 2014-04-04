@@ -64,7 +64,7 @@ function Curriculum(parameters) {
 
     function addItemToPool(semester) {
         var html, rowNumber = 1, columnNumber = 1, gridster, lastKey = 1,
-            teacherPicture, teacherImage, poolHtml;
+            teacherPicture, teacherImage, eCollabPicture, eCollabImage, poolHtml;
 
         if (semester === null) {
             return;
@@ -133,6 +133,11 @@ function Curriculum(parameters) {
                         html += teacherImage;
                     }
                 }
+                if (value.externalID !== undefined && parameters.displayECollab === 1) {
+                    eCollabImage = '<img class="eCollabImage" src="' + parameters.ecollabIcon + '" title="eCollabLink">';
+                    html += '<a href="' + parameters.ecollabLink + value.externalID + '" target="_blank">';
+                    html += eCollabImage + '</a>'
+                }
                 if (value.hasOwnProperty('children'))
                 {
                     html += '<a href="#" id="pool' + value.mappingID + 'Link" >';
@@ -183,7 +188,10 @@ function Curriculum(parameters) {
                 heightStyle: "content"
             });
         html = '<div class="curriculum_legend">';
-        html += '<p>' + self.data.description + '</p>';
+        if (self.data.description !== undefined && self.data.description !== null)
+        {
+            html += '<p>' + self.data.description + '</p>';
+        }
         if (self.data.fields !== false)
         {
             html += '<ul class="fieldList">';

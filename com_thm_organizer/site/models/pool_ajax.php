@@ -79,14 +79,13 @@ class THM_OrganizerModelPool_Ajax extends JModel
     {
         $programIDs = "'" . str_replace(",", "', '", JRequest::getString('programID')) . "'";
 
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
         $query->select('id, programID, lft, rgt');
         $query->from('#__thm_organizer_mappings');
         $query->where("programID IN ( $programIDs )");
         $query->order('lft ASC');
-        $dbo->setQuery((string) $query);
-        return $dbo->loadAssocList();
+        $this->_db->setQuery((string) $query);
+        return $this->_db->loadAssocList();
     }
 
     /**
@@ -131,13 +130,12 @@ class THM_OrganizerModelPool_Ajax extends JModel
      */
     private function getResourceID($mappingID, $isSubject)
     {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
         $query->select($isSubject? 'subjectID' : 'poolID');
         $query->from('#__thm_organizer_mappings');
         $query->where("id = '$mappingID'");
-        $dbo->setQuery((string) $query);
-        return $dbo->loadResult();
+        $this->_db->setQuery((string) $query);
+        return $this->_db->loadResult();
     }
 
     /**
@@ -148,7 +146,14 @@ class THM_OrganizerModelPool_Ajax extends JModel
      */
     public function poolsByProgramOrTeacher()
     {
-        $programBounds = THM_OrganizerHelperMapping::getBoundaries('program', JRequest::getInt('programID'));
+        $input = JFactory::getApplication()->input;
+        $selectedProgram = $input->getInt('programID');
+        if (empty($selectedProgram) OR $selectedProgram == '-1')
+        {
+            return '[]';
+        }
+
+        $programBounds = THM_OrganizerHelperMapping::getBoundaries('program', $selectedProgram);
         $teacherClauses = THM_OrganizerHelperMapping::getTeacherMappingClauses();
 
         if (empty($programBounds))
@@ -157,8 +162,7 @@ class THM_OrganizerModelPool_Ajax extends JModel
         }
 
         $lang = explode('-', JFactory::getLanguage()->getTag());
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
         $query->select("p.id, p.name_{$lang[0]} AS name, m.level");
         $query->from('#__thm_organizer_pools AS p');
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
@@ -172,8 +176,8 @@ class THM_OrganizerModelPool_Ajax extends JModel
             $query->where("( ( " . implode(') OR (', $teacherClauses) . ") )");
         }
         $query->order('lft');
-        $dbo->setQuery((string) $query);
-        $pools = $dbo->loadObjectList();
+        $this->_db->setQuery((string) $query);
+        $pools = $this->_db->loadObjectList();
 
         if (empty($pools))
         {

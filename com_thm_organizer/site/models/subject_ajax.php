@@ -40,7 +40,7 @@ class THM_OrganizerModelSubject_Ajax extends JModel
         $programID = JRequest::getString('programID');
         $poolID = JRequest::getString('poolID');
         $teacherID = JRequest::getString('teacherID');
-        if ($programID == '-1' AND ($poolID == '-1' OR $poolID == 'null') AND $teacherID == '-1')
+        if ($programID == '-1' AND $teacherID == '-1')
         {
             return '[]';
         }

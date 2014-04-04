@@ -56,6 +56,15 @@
                    description="COM_THM_ORGANIZER_CUR_MAXITEMS_DESCRIPTION"
                    size="2"
                    maxlength="1" />
+            <field name="displayECollabLink"
+                   type="radio"
+                   default="1"
+                   required="true"
+                   label="COM_THM_ORGANIZER_DISPLAY_ECOLLAB_TITLE"
+                   description="COM_THM_ORGANIZER_DISPLAY_ECOLLAB_DESCRIPTION">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
         </fieldset>
     </fields>
 </metadata>

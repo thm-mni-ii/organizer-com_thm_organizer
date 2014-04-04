@@ -281,6 +281,17 @@ if (!empty($subject['prerequisiteOf']))
     echo '</ul></div>';
     echo '</div>';
 }
+if (!empty($subject['externalID']))
+{
+    $ecollabLink = JComponentHelper::getParams('com_thm_organizer')->get('eCollabLink');
+    $ecollabIcon = JURI::root() . 'media/com_thm_organizer/images/icon-32-moodle.png';
+    echo '<div class="subject-item">';
+    echo '<div class="subject-label">eCollaboration Link</div>';
+    echo '<div class="subject-content">';
+    echo '<a href="' . $ecollabLink . '107" target="_blank">';
+    echo "<img class='eCollabImage' src='$ecollabIcon' title='eCollabLink'></a>";
+    echo '</div></div>';
+}
 ?>
     </dl>
 </div>
