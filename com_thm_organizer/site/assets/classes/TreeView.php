@@ -143,7 +143,7 @@ class THMTreeView
             /* Set your extension (component or module) */
             $extension = "com_thm_organizer";
             /* Get the Joomla core language object */
-            $language =& JFactory::getLanguage();
+            $language = JFactory::getLanguage();
             /* Set the base directory for the language */
             $base_dir = JPATH_SITE;
             /* Load the language */
