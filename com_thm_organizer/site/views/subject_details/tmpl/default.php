@@ -114,6 +114,13 @@ if (!empty($subject['objective']))
     echo '<div class="subject-content">' . $subject['objective'] . '</div>';
     echo '</div>';
 }
+if (!empty($subject['content']))
+{
+    echo '<div class="subject-item">';
+    echo '<div class="subject-label">' . $contents . '</div>';
+    echo '<div class="subject-content">' . $subject['content'] . '</div>';
+    echo '</div>';
+}
 if (!empty($subject['expertise']))
 {
     echo '<div class="subject-item">';
@@ -189,13 +196,6 @@ if (!empty($subject['self_competence']))
         echo $oneStar;
     }
     echo '</div></div>';
-}
-if (!empty($subject['content']))
-{
-    echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . $contents . '</div>';
-    echo '<div class="subject-content">' . $subject['content'] . '</div>';
-    echo '</div>';
 }
 if (!empty($subject['language']))
 {
