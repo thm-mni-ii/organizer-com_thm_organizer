@@ -89,34 +89,19 @@ class THM_OrganizerControllerEvent extends JController
 
         if (THMEventAccess::canCreate() OR THMEventAccess::canEdit($eventID))
         {
-            $schedulerCall = JRequest::getVar('schedulerCall');
             $model = $this->getModel('event');
             $eventID = $model->save();
 
             if ($eventID)
             {
                 $msg = JText::_('COM_THM_ORGANIZER_EVENT_SAVED');
-                if ($schedulerCall)
-                {
-                    $link = JRoute::_("index.php?option=com_thm_organizer&view=event_details&eventID=$eventID&tmpl=component", false);
-                }
-                else
-                {
                     $link = JRoute::_("index.php?option=com_thm_organizer&view=event_details&eventID=$eventID&Itemid=$menuID", false);
-                }
                 $this->setRedirect($link, $msg);
             }
             else
             {
                 $msg = JText::_('COM_THM_ORGANIZER_EVENT_SAVE_FAILED');
-                if ($schedulerCall)
-                {
-                    $link = JRoute::_('index.php?option=com_thm_organizer&view=event_edit&eventID=0&tmpl=component', false);
-                }
-                else
-                {
                     $link = JRoute::_("index.php?option=com_thm_organizer&view=event_edit&Itemid=$menuID", false);
-                }
                 $this->setRedirect($link, $msg, 'error');
             }
         }
@@ -153,34 +138,19 @@ class THM_OrganizerControllerEvent extends JController
 
         if ($canSave)
         {
-            $schedulerCall = JRequest::getVar('schedulerCall');
             $model = $this->getModel('event');
             $eventID = $model->save();
 
             if ($eventID)
             {
                 $msg = JText::_('COM_THM_ORGANIZER_EVENT_SAVED');
-                if ($schedulerCall)
-                {
-                    $link = JRoute::_('index.php?option=com_thm_organizer&view=event_edit&eventID=0&tmpl=component', false);
-                }
-                else
-                {
-                    $link = JRoute::_("index.php?option=com_thm_organizer&view=event_edit&eventID=0&Itemid=$menuID", false);
-                }
+                $link = JRoute::_("index.php?option=com_thm_organizer&view=event_edit&eventID=0&Itemid=$menuID", false);
                 $this->setRedirect($link, $msg);
             }
             else
             {
                 $msg = JText::_('COM_THM_ORGANIZER_EVENT_SAVE_FAILED');
-                if ($schedulerCall)
-                {
-                    $link = JRoute::_('index.php?option=com_thm_organizer&view=event_edit&eventID=0&tmpl=component', false);
-                }
-                else
-                {
-                    $link = JRoute::_("index.php?option=com_thm_organizer&view=event_edit&eventID=0&Itemid=$menuID", false);
-                }
+                $link = JRoute::_("index.php?option=com_thm_organizer&view=event_edit&eventID=0&Itemid=$menuID", false);
                 $this->setRedirect($link, $msg, 'error');
             }
         }
