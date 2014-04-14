@@ -9,7 +9,7 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-$editEventURL = 'index.php?option=com_thm_organizer&view=event_edit&schedulerCall=true&eventID=';
+$editEventURL = 'index.php?option=com_thm_organizer&view=event_edit&eventID=';
 $blankImageLink = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/ext_bak/resources/images/default/s.gif';
 $addButtonLink = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/images/add.png';
 $removeButtonLink = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/images/delete.png';
