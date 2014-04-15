@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<document version="1.4" date="20140414" time="092810">
+<document version="1.4" date="20140414" time="172611">
   <general>
     <schoolname>Untis 2014</schoolname>
     <schoolyearbegindate>20131007</schoolyearbegindate>
@@ -5994,9 +5994,9 @@
       <teacher_value>30800</teacher_value>
       <forecolor>#FFFFFF</forecolor>
       <backcolor>#008000</backcolor>
-      <effectivebegindate>20140407</effectivebegindate>
-      <effectiveenddate>20140727</effectiveenddate>
-      <occurence>000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F111111F1111FFFF11111F111F11F111111F111111F111111F111F11F000000FF11111F111F11F111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20141005</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F1111FFFF11111F111F11F111111F111111F111111F111F11F111111FF11111F111F11F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F1111F1F</occurence>
       <lesson_description>V</lesson_description>
       <times>
         <time>
@@ -6004,54 +6004,6 @@
           <assigned_period>5</assigned_period>
           <assigned_starttime>1545</assigned_starttime>
           <assigned_endtime>1715</assigned_endtime>
-          <assigned_date>20140703</assigned_date>
-          <assigned_room id="RM_A20.0.08"/>
-        </time>
-        <time>
-          <assigned_day>4</assigned_day>
-          <assigned_period>6</assigned_period>
-          <assigned_starttime>1730</assigned_starttime>
-          <assigned_endtime>1900</assigned_endtime>
-          <assigned_date>20140703</assigned_date>
-          <assigned_room id="RM_A20.0.08"/>
-        </time>
-        <time>
-          <assigned_day>4</assigned_day>
-          <assigned_period>5</assigned_period>
-          <assigned_starttime>1545</assigned_starttime>
-          <assigned_endtime>1715</assigned_endtime>
-          <assigned_date>20140717</assigned_date>
-          <assigned_room id="RM_A20.0.08"/>
-        </time>
-        <time>
-          <assigned_day>4</assigned_day>
-          <assigned_period>6</assigned_period>
-          <assigned_starttime>1730</assigned_starttime>
-          <assigned_endtime>1900</assigned_endtime>
-          <assigned_date>20140717</assigned_date>
-          <assigned_room id="RM_A20.0.08"/>
-        </time>
-        <time>
-          <assigned_day>4</assigned_day>
-          <assigned_period>5</assigned_period>
-          <assigned_starttime>1545</assigned_starttime>
-          <assigned_endtime>1715</assigned_endtime>
-          <assigned_date>20140612</assigned_date>
-          <assigned_room id="RM_A20.0.08"/>
-        </time>
-        <time>
-          <assigned_day>4</assigned_day>
-          <assigned_period>6</assigned_period>
-          <assigned_starttime>1730</assigned_starttime>
-          <assigned_endtime>1900</assigned_endtime>
-          <assigned_date>20140612</assigned_date>
-          <assigned_room id="RM_A20.0.08"/>
-        </time>
-        <time>
-          <assigned_day>4</assigned_day>
-          <assigned_period>5</assigned_period>
-          <assigned_starttime>1545</assigned_starttime>
-          <assigned_endtime>1715</assigned_endtime>
           <assigned_date>20140410</assigned_date>
           <assigned_room id="RM_A20.0.08"/>
         </time>
@@ -6077,6 +6029,102 @@
           <assigned_starttime>1730</assigned_starttime>
           <assigned_endtime>1900</assigned_endtime>
           <assigned_date>20140508</assigned_date>
+          <assigned_room id="RM_A20.0.08"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_date>20140515</assigned_date>
+          <assigned_room id="RM_A20.0.08"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20140515</assigned_date>
+          <assigned_room id="RM_A20.0.08"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_date>20140717</assigned_date>
+          <assigned_room id="RM_A20.0.08"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20140717</assigned_date>
+          <assigned_room id="RM_A20.0.08"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_date>20140703</assigned_date>
+          <assigned_room id="RM_A20.0.08"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20140703</assigned_date>
+          <assigned_room id="RM_A20.0.08"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_date>20140626</assigned_date>
+          <assigned_room id="RM_A20.0.08"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20140626</assigned_date>
+          <assigned_room id="RM_A20.0.08"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_date>20140710</assigned_date>
+          <assigned_room id="RM_A20.0.08"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20140710</assigned_date>
+          <assigned_room id="RM_A20.0.08"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_date>20140612</assigned_date>
+          <assigned_room id="RM_A20.0.08"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20140612</assigned_date>
           <assigned_room id="RM_A20.0.08"/>
         </time>
       </times>
@@ -7470,11 +7518,11 @@
       </times>
     </lesson>
     <lesson id="LS_296100">
-      <periods>30</periods>
+      <periods>1</periods>
       <lesson_subject id="SU_RPMA"/>
       <lesson_teacher id="TR_Voge"/>
       <lesson_classes id="CL_TRMD"/>
-      <teacher_value>865384</teacher_value>
+      <teacher_value>28846</teacher_value>
       <forecolor>#000000</forecolor>
       <backcolor>#80FF80</backcolor>
       <effectivebegindate>20140407</effectivebegindate>
@@ -8912,9 +8960,9 @@
       <teacher_value>26900</teacher_value>
       <forecolor>#FFFFFF</forecolor>
       <backcolor>#008000</backcolor>
-      <effectivebegindate>20140407</effectivebegindate>
-      <effectiveenddate>20140727</effectiveenddate>
-      <occurence>000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F111111F1111FFFF11111F111F11F111111F111111F111111F111F11F000000FF11111F111F11F111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <effectivebegindate>20131007</effectivebegindate>
+      <effectiveenddate>20141005</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111FFFFFFFFFFFFFFF111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F1111FFFF11111F111F11F111111F111111F111111F111F11F111111FF11111F111F11F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F1111F1F</occurence>
       <lesson_description>V</lesson_description>
       <times>
         <time>
@@ -8922,8 +8970,56 @@
           <assigned_period>5</assigned_period>
           <assigned_starttime>1545</assigned_starttime>
           <assigned_endtime>1715</assigned_endtime>
+          <assigned_date>20140410</assigned_date>
+          <assigned_room id="RM_A12.1.16"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20140410</assigned_date>
+          <assigned_room id="RM_A12.1.16"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_date>20140424</assigned_date>
+          <assigned_room id="RM_A12.1.16"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20140424</assigned_date>
+          <assigned_room id="RM_A12.1.16"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_date>20140515</assigned_date>
+          <assigned_room id="RM_A12.1.16"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20140515</assigned_date>
+          <assigned_room id="RM_A12.1.16"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
           <assigned_date>20140605</assigned_date>
-          <assigned_room id="RM_A20.0.08"/>
+          <assigned_room id="RM_A12.1.16"/>
         </time>
         <time>
           <assigned_day>4</assigned_day>
@@ -8931,7 +9027,55 @@
           <assigned_starttime>1730</assigned_starttime>
           <assigned_endtime>1900</assigned_endtime>
           <assigned_date>20140605</assigned_date>
-          <assigned_room id="RM_A20.0.08"/>
+          <assigned_room id="RM_A12.1.16"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_date>20140626</assigned_date>
+          <assigned_room id="RM_A12.1.16"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20140626</assigned_date>
+          <assigned_room id="RM_A12.1.16"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_date>20140710</assigned_date>
+          <assigned_room id="RM_A12.1.16"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20140710</assigned_date>
+          <assigned_room id="RM_A12.1.16"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_date>20140612</assigned_date>
+          <assigned_room id="RM_A12.1.16"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20140612</assigned_date>
+          <assigned_room id="RM_A12.1.16"/>
         </time>
       </times>
     </lesson>
@@ -11266,38 +11410,6 @@
       <lesson_description>SU</lesson_description>
       <times>
         <time>
-          <assigned_day>1</assigned_day>
-          <assigned_period>2</assigned_period>
-          <assigned_starttime>0950</assigned_starttime>
-          <assigned_endtime>1120</assigned_endtime>
-          <assigned_date>20140915</assigned_date>
-          <assigned_room id="RM_A20.2.10"/>
-        </time>
-        <time>
-          <assigned_day>1</assigned_day>
-          <assigned_period>3</assigned_period>
-          <assigned_starttime>1130</assigned_starttime>
-          <assigned_endtime>1300</assigned_endtime>
-          <assigned_date>20140915</assigned_date>
-          <assigned_room id="RM_A20.2.10"/>
-        </time>
-        <time>
-          <assigned_day>4</assigned_day>
-          <assigned_period>2</assigned_period>
-          <assigned_starttime>0950</assigned_starttime>
-          <assigned_endtime>1120</assigned_endtime>
-          <assigned_date>20140918</assigned_date>
-          <assigned_room id="RM_A20.2.10"/>
-        </time>
-        <time>
-          <assigned_day>4</assigned_day>
-          <assigned_period>3</assigned_period>
-          <assigned_starttime>1130</assigned_starttime>
-          <assigned_endtime>1300</assigned_endtime>
-          <assigned_date>20140918</assigned_date>
-          <assigned_room id="RM_A20.2.10"/>
-        </time>
-        <time>
           <assigned_day>4</assigned_day>
           <assigned_period>2</assigned_period>
           <assigned_starttime>0950</assigned_starttime>
@@ -11343,6 +11455,38 @@
           <assigned_starttime>1130</assigned_starttime>
           <assigned_endtime>1300</assigned_endtime>
           <assigned_date>20140324</assigned_date>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_date>20140915</assigned_date>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_date>20140915</assigned_date>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_date>20140918</assigned_date>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_date>20140918</assigned_date>
           <assigned_room id="RM_A20.2.10"/>
         </time>
       </times>
@@ -12883,6 +13027,249 @@
           <assigned_starttime>1130</assigned_starttime>
           <assigned_endtime>1300</assigned_endtime>
           <assigned_room id="RM_A20.2.11"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_349300">
+      <periods>30</periods>
+      <lesson_subject id="SU_TRMD"/>
+      <lesson_teacher id="TR_Voge"/>
+      <lesson_classes id="CL_TRMD"/>
+      <teacher_value>57692</teacher_value>
+      <effectivebegindate>20140602</effectivebegindate>
+      <effectiveenddate>20140608</effectiveenddate>
+      <occurence>000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000F00F000000F000000F000000F000F00F111111FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_room id="RM_A20.2.10"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_349800">
+      <periods>1</periods>
+      <lesson_subject id="SU_NTG"/>
+      <lesson_teacher id="TR_Rinn"/>
+      <lesson_classes id="CL_I.1 CL_II.1 CL_MI.H.W"/>
+      <teacher_value>28900</teacher_value>
+      <effectivebegindate>20140407</effectivebegindate>
+      <effectiveenddate>20140727</effectiveenddate>
+      <occurence>000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000FFFFFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F111111F1111FFFF11111F111F11F111111F111111F111111F111F11F000000FF11111F111F11F111111F111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000F0F</occurence>
+      <lesson_description>Ü</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.7.01"/>
         </time>
       </times>
     </lesson>

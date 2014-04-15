@@ -1105,27 +1105,11 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
 
         this.showSubjectNoMenu(subjects, e);
     },
-    showSubjectWindow: function(subjectNo)
-    {
-        "use strict";
-
-        var adds = "";
-        
-        if(!Ext.isEmpty(subjectNo))
-        {
-            adds += "&nrmni=" + subjectNo.toUpperCase();
-        }
-        
-        if(!Ext.isEmpty(MySched.languageTag))
-        {
-            adds += "&languageTag=" + MySched.languageTag;
-        }
-        
-        window.open(externLinks.curriculumLink + adds);
-    },
     showSubjectNoMenu: function(subjects, e)
     {
         "use strict";
+        
+        var link;
 
         subjectNo = MySched.Mapping.getSubjectNo(subjects.keys[0]);
 
@@ -1170,7 +1154,11 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                     return;
                 }
 
-                this.showSubjectWindow(subjectNo);
+                link = MySched.Mapping.getSubjectLink(subjects.keys[0]);
+                if (link !== '')
+                {
+                    window.open(link);
+                }
             }
             else
             {
@@ -1485,7 +1473,11 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
 
 function subjectNoHandler (element)
 {
-     MySched.SelectionManager.showSubjectWindow(element.id);
+    var link = MySched.Mapping.getSubjectLink(element.id);
+    if (link !== '')
+    {
+        window.open(link);
+    }
 }
 
 function stripHTML(oldString)
@@ -1840,7 +1832,7 @@ MySched.TreeManager = function ()
                     Ext.Ajax.request(
                     {
                     url: _C('ajaxHandler'),
-                    method: 'POST',
+                    method: 'GET',
                     params: {
                         type: type,
                         semesterID: MySched.class_semester_id,
@@ -4011,7 +4003,7 @@ MySched.Tree = function ()
                 Ext.Ajax.request(
                 {
                     url: _C('ajaxHandler'),
-                    method: 'POST',
+                    method: 'GET',
                     params: {
                         scheduletask: "TreeView.load",
                         departmentSemesterSelection: MySched.departmentAndSemester,
