@@ -91,11 +91,9 @@ body{
     height: 100%;
     float: left;
     text-align: left;
-    font-size: 1050%;
+    font-size: 875%;
     font-weight: bold;
     color: #80ba24;
-    line-height: 75%;
-    padding-top: 3%;
 }
 
 .thm_organizer_is_head_right{
