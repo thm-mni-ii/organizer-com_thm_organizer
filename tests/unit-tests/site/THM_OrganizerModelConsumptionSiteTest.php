@@ -44,7 +44,7 @@ class THM_OrganizerModelConsumptionSiteTest extends iCampusDatabaseTestCase {
      */
     protected function getDataSet()
     {
-        return $this->createXMLDataSet(JPATH_BASE . '/tests/com_thm_organizer/unit/stubs/jos_thm_organizer_schedules.xml');
+        return $this->createXMLDataSet(JPATH_BASE . '/tests/com_thm_organizer/unit-tests/stubs/jos_thm_organizer_schedules.xml');
     }
     
     /**
@@ -94,7 +94,7 @@ class THM_OrganizerModelConsumptionSiteTest extends iCampusDatabaseTestCase {
      */
     public function testgetScheduleFromDB()
     {
-        $expected = JPATH_BASE . '/tests/com_thm_organizer/unit/stubs/MNI_WS_schedule.json';
+        $expected = JPATH_BASE . '/tests/com_thm_organizer/unit-tests/stubs/MNI_WS_schedule.json';
         $actual = $this->object->getScheduleJSONFromDB(122);
         
         $this->assertJsonStringEqualsJsonFile($expected, $actual->schedule);
@@ -107,8 +107,8 @@ class THM_OrganizerModelConsumptionSiteTest extends iCampusDatabaseTestCase {
      */
     public function testgetConsumptionFromSchedule()
     {
-        $expected = JPATH_BASE . '/tests/com_thm_organizer/unit/stubs/MNI_WS_consumption.json';
-        $actual = $this->object->getConsumptionFromSchedule(json_decode(file_get_contents(JPATH_BASE . '/tests/com_thm_organizer/unit/stubs/MNI_WS_schedule.json')));
+        $expected = JPATH_BASE . '/tests/com_thm_organizer/unit-tests/stubs/MNI_WS_consumption.json';
+        $actual = $this->object->getConsumptionFromSchedule(json_decode(file_get_contents(JPATH_BASE . '/tests/com_thm_organizer/unit-tests/stubs/MNI_WS_schedule.json')));
                 
         $this->assertObjectHasAttribute('rooms', $actual);
         $this->assertObjectHasAttribute('teachers', $actual);
@@ -123,11 +123,11 @@ class THM_OrganizerModelConsumptionSiteTest extends iCampusDatabaseTestCase {
      */
     public function testgetConsumptionTable()
     {
-        $expectedTeacherTable = file_get_contents(JPATH_BASE . '/tests/com_thm_organizer/unit/stubs/MNI_WS_Teacher_Table.txt');
-        $expectedRoomTable = file_get_contents(JPATH_BASE . '/tests/com_thm_organizer/unit/stubs/MNI_WS_Room_Table.txt');
+        $expectedTeacherTable = file_get_contents(JPATH_BASE . '/tests/com_thm_organizer/unit-tests/stubs/MNI_WS_Teacher_Table.txt');
+        $expectedRoomTable = file_get_contents(JPATH_BASE . '/tests/com_thm_organizer/unit-tests/stubs/MNI_WS_Room_Table.txt');
         
-        $consumptions = json_decode(file_get_contents(JPATH_BASE . '/tests/com_thm_organizer/unit/stubs/MNI_WS_consumption.json'));
-        $schedule = json_decode(file_get_contents(JPATH_BASE . '/tests/com_thm_organizer/unit/stubs/MNI_WS_schedule.json'));
+        $consumptions = json_decode(file_get_contents(JPATH_BASE . '/tests/com_thm_organizer/unit-tests/stubs/MNI_WS_consumption.json'));
+        $schedule = json_decode(file_get_contents(JPATH_BASE . '/tests/com_thm_organizer/unit-tests/stubs/MNI_WS_schedule.json'));
 
         /**
          * Room consumption
@@ -179,8 +179,8 @@ class THM_OrganizerModelConsumptionSiteTest extends iCampusDatabaseTestCase {
                             "DIV" => "Diverse Veranstaltungen",
                             "TRMD" => "Technische Redaktion & Multimedia Dokumentation (M.A.)"
                     );
-        $consumptions = json_decode(file_get_contents(JPATH_BASE . '/tests/com_thm_organizer/unit/stubs/MNI_WS_consumption.json'));
-        $schedule = json_decode(file_get_contents(JPATH_BASE . '/tests/com_thm_organizer/unit/stubs/MNI_WS_schedule.json'));
+        $consumptions = json_decode(file_get_contents(JPATH_BASE . '/tests/com_thm_organizer/unit-tests/stubs/MNI_WS_consumption.json'));
+        $schedule = json_decode(file_get_contents(JPATH_BASE . '/tests/com_thm_organizer/unit-tests/stubs/MNI_WS_schedule.json'));
         $roomDegrees = array_keys(get_object_vars($consumptions->rooms));
         $teacherDegrees = array_keys(get_object_vars($consumptions->teachers));
         
@@ -228,8 +228,8 @@ class THM_OrganizerModelConsumptionSiteTest extends iCampusDatabaseTestCase {
                             "A12.0.12" => "A12.0.12",
                             "B14.3.05" => "B14.3.05"
                     );
-        $consumptions = json_decode(file_get_contents(JPATH_BASE . '/tests/com_thm_organizer/unit/stubs/MNI_WS_consumption.json'));
-        $schedule = json_decode(file_get_contents(JPATH_BASE . '/tests/com_thm_organizer/unit/stubs/MNI_WS_schedule.json'));
+        $consumptions = json_decode(file_get_contents(JPATH_BASE . '/tests/com_thm_organizer/unit-tests/stubs/MNI_WS_consumption.json'));
+        $schedule = json_decode(file_get_contents(JPATH_BASE . '/tests/com_thm_organizer/unit-tests/stubs/MNI_WS_schedule.json'));
         
         $roomRows = array();
         
@@ -320,8 +320,8 @@ class THM_OrganizerModelConsumptionSiteTest extends iCampusDatabaseTestCase {
                             "VogeRB" => "Voges, Rainer Bernd",
                             "LidwA" => "Lidwin, Adrian"
                     );
-        $consumptions = json_decode(file_get_contents(JPATH_BASE . '/tests/com_thm_organizer/unit/stubs/MNI_WS_consumption.json'));
-        $schedule = json_decode(file_get_contents(JPATH_BASE . '/tests/com_thm_organizer/unit/stubs/MNI_WS_schedule.json'));
+        $consumptions = json_decode(file_get_contents(JPATH_BASE . '/tests/com_thm_organizer/unit-tests/stubs/MNI_WS_consumption.json'));
+        $schedule = json_decode(file_get_contents(JPATH_BASE . '/tests/com_thm_organizer/unit-tests/stubs/MNI_WS_schedule.json'));
         
         $teacherRows = array();
         
