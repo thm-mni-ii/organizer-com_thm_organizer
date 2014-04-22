@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="bootstrap.php" colors="false" 
+<phpunit bootstrap="../../../bootstrap.php" colors="false" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.0/phpunit.xsd">
     <testsuites>
         <testsuite name="com_thm_organizer_site">
-            <directory>site</directory>
+            <file>THM_OrganizerModelConsumptionSiteTest.php</file>
         </testsuite>
         <!-- <testsuite name="com_thm_organizer_admin">
             <directory>tests/com_thm_organizer/unit/admin</directory>
@@ -13,6 +13,5 @@
     
     <php>
         <server name='HTTP_HOST' value='http://localhost' />
-        <server name='REQUEST_METHOD' value='GET' />
     </php>
 </phpunit>
