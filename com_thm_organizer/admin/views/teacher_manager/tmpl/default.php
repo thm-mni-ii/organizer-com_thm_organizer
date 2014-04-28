@@ -16,7 +16,7 @@ $listDirn = $this->state->get('list.direction');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager'); ?>"
       method="post" name="adminForm" id="adminForm">
-    <fieldset id="filter-bar" class='filter-bar'>
+    <div id="filter-bar" class='filter-bar'>
         <div class="filter-search fltlft">
             <label class="filter-search-lbl" for="filter_search">
                 <?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>
@@ -32,8 +32,8 @@ $listDirn = $this->state->get('list.direction');
                 <?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>
             </button>
         </div>
-    </fieldset>
-    <table class="adminlist">
+    </div>
+    <table class="table table-striped">
         <thead>
         <tr>
             <th width="5%">
@@ -41,22 +41,22 @@ $listDirn = $this->state->get('list.direction');
                        onclick="checkAll(<?php echo count($this->items); ?>);" />
             </th>
             <th width="12%">
-                <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_TRM_SURNAME_TITLE'), 'surname', $listDirn, $listOrder); ?>
+                <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_TRM_SURNAME_TITLE'), 'surname', $listDirn, $listOrder); ?>
             </th>
             <th width="15%">
-                <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_TRM_FORENAME_TITLE'), 'forename', $listDirn, $listOrder); ?>
+                <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_TRM_FORENAME_TITLE'), 'forename', $listDirn, $listOrder); ?>
             </th>
             <th width="10%">
-                <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_TRM_TITLE_TITLE'), 'forename', $listDirn, $listOrder); ?>
+                <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_TRM_TITLE_TITLE'), 'forename', $listDirn, $listOrder); ?>
             </th>
             <th width="10%">
-                <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_TRM_USERNAME_TITLE'), 'username', $listDirn, $listOrder); ?>
+                <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_TRM_USERNAME_TITLE'), 'username', $listDirn, $listOrder); ?>
             </th>
             <th width="5%">
-                <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_GPUNTISID'), 'id', $listDirn, $listOrder); ?>
+                <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_GPUNTISID'), 'id', $listDirn, $listOrder); ?>
             </th>
             <th width="15%">
-                <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_TRM_FIELD_TITLE'), 'id', $listDirn, $listOrder); ?>
+                <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_TRM_FIELD_TITLE'), 'id', $listDirn, $listOrder); ?>
             </th>
         </tr>
         </thead>

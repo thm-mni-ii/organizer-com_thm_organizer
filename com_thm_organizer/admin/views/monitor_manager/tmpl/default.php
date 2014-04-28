@@ -18,8 +18,8 @@ $defaultScheduleRefresh = JComponentHelper::getParams('com_thm_organizer')->get(
 $defaultContentRefresh = JComponentHelper::getParams('com_thm_organizer')->get('content_refresh');
 $defaultContent = JComponentHelper::getParams('com_thm_organizer')->get('content');
 ?>
-<form action="index.php?option=com_thm_organizer&view=monitor_manager" method="post" name="adminForm" id="adminForm">
-    <fieldset id="filter-bar" class='filter-bar'>
+<form id="adminForm" action="index.php?option=com_thm_organizer&view=monitor_manager" method="post" name="adminForm">
+    <div id="filter-bar" class='filter-bar'>
         <div class="filter-search fltlft">
             <label class="filter-search-lbl" for="filter_search">
                 <?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>
@@ -52,11 +52,11 @@ $defaultContent = JComponentHelper::getParams('com_thm_organizer')->get('content
                     <?php echo JHtml::_('select.options', $this->contents, 'name', 'name', $this->state->get('filter.content'));?>
             </select>
         </div>
-    </fieldset>
+    </div>
     </form>
     <div class="clr"> </div>
     <div>
-        <table class="adminlist" id="thm_organizer_mon_table" class='thm_organizer_mon_table'>
+        <table class="adminlist" id="thm_organizer_mon_table" class='thm_organizer_mon_table table table-striped'>
             <colgroup>
                 <col class='thm_organizer_mon_col_checkbox'/>
                 <col class='thm_organizer_mon_col_room' />

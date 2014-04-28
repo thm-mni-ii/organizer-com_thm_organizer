@@ -21,7 +21,7 @@ $direction = $this->escape($this->state->get('list.direction'));
       method="post"
       name="adminForm"
       id="adminForm">
-    <fieldset id="filter-bar" class='filter-bar'>
+    <div id="filter-bar" class='filter-bar'>
         <div class="filter-select fltrt">
             <select name="filter_state" class="inputbox" onchange="this.form.submit()">
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_SEARCH_STATES'); ?></option>
@@ -44,14 +44,14 @@ $direction = $this->escape($this->state->get('list.direction'));
                 <?php echo JHtml::_('select.options', $this->departments, 'name', 'name', $this->state->get('filter.department'));?>
             </select>
         </div>
-    </fieldset>
+    </div>
     <div class="clr"> </div>
 <?php if (!empty($this->schedules))
       {
           $k = 0;
 ?>
     <div>
-        <table class="adminlist" cellpadding="0">
+        <table class="table table-striped" cellpadding="0">
             <colgroup>
                 <col id="thm_organizer_check_column" class="thm_organizer_check_column" />
                 <col class="thm_organizer_sch_semester_column" />
