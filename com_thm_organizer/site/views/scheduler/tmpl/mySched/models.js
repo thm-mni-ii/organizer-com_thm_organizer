@@ -1305,7 +1305,7 @@ Ext.define('LectureModel',
     getLessonTitle: function (d)
     {
         var firstSubject = this.data.subjects.keys[0];
-        var lessonTitle = MySched.Mapping.getSubjectName(firstSubject);
+        var lessonTitle = MySched.Mapping.getSubjectShortName(firstSubject);
         return lessonTitle;
     },
     getComment: function (d)

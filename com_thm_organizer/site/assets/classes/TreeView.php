@@ -425,12 +425,11 @@ class THMTreeView
                 $this->_treeData["degree"] = $activeScheduleData->degrees;
                 $this->_treeData["field"] = $activeScheduleData->fields;
                 
-                $siteLanguageTag = JFactory::getLanguage()->getTag();
-                
-                if ($this->_languageTag === "en-GB" || $siteLanguageTag === "en-GB")
-                {
-                    $this->getEnglishSubjectNames($schedulerModel->getSubjectsEnglishInfo());
-                }
+                $siteLanguage = JFactory::getLanguage()->getTag();
+                $tag = ($this->_languageTag === "en-GB" || $siteLanguage === "en-GB")?
+                        'en' : 'de';
+                $subjectsData = $schedulerModel->getDBData($tag);
+                $this->setDBData($subjectsData);
                 
             }
             else
@@ -516,19 +515,22 @@ class THMTreeView
     /**
      * Method to get the english subject names from the db
      * 
-     * @param   Array  $databaseSubjects  An array with the subjects from the database
+     * @param   Array  $dbSubjects  An array with the subjects from the database
      * 
      * @return  void
      */
-    private function getEnglishSubjectNames($databaseSubjects)
+    private function setDBData($dbSubjects)
     {
         $subjects = $this->_treeData["subject"];
         foreach ($subjects as $subject)
         {
-         if (isset($databaseSubjects[$subject->subjectNo]) && !empty($databaseSubjects[$subject->subjectNo]->name_en))
-             {
-                 $subject->longname = $databaseSubjects[$subject->subjectNo]->name_en;
-             }
+            if (isset($dbSubjects[$subject->subjectNo]))
+            {
+                $subject->longname = $dbSubjects[$subject->subjectNo]->name;
+                $subject->shortname = $dbSubjects[$subject->subjectNo]->shortname;
+                $subject->abbreviation = $dbSubjects[$subject->subjectNo]->abbreviation;
+                $subject->link = JRoute::_($dbSubjects[$subject->subjectNo]->link);
+            }
         }
         $this->_treeData["subject"] = $subjects;
     }
@@ -655,7 +657,7 @@ class THMTreeView
                 }
             }
 
-            if (!empty($itemField) && !in_array($itemField, $descriptions))
+            if (!empty($itemField) && !empty($itemFieldType->{$itemField}) && !in_array($itemField, $descriptions))
             {
                 $descriptions[$itemField] = $itemFieldType->{$itemField};
             }
@@ -774,7 +776,11 @@ class THMTreeView
                 }
                 elseif ($scheduleType === "subject")
                 {
-                    if (strlen($childValue->longname) > 0)
+                    if (!empty($childValue->shortname))
+                    {
+                        $nodeName = $childValue->shortname;
+                    }
+                    elseif (!empty($childValue->longname))
                     {
                         $nodeName = $childValue->longname;
                     }

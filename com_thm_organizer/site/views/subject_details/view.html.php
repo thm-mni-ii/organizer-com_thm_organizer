@@ -67,31 +67,17 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
         $itemid = JRequest::getVar('Itemid');
         $group = JRequest::getVar('view');
         $URI = JURI::getInstance('index.php');
-        $tmpl = null;
-        $mysched = null;
+        $moduleID = JRequest::getVar('id');
 
-        if (JRequest::getVar('mysched'))
-        {
-            $moduleID = JRequest::getVar('nrmni');
-            $tmpl = "component";
-            $mysched = "true";
-        }
-        else
-        {
-            $moduleID = JRequest::getVar('id');
-        }
-
-        $params = array('option' => 'com_thm_organizer',
+        $switchParams = array('option' => 'com_thm_organizer',
                 'view' => $group,
                 'Itemid' => $itemid,
                 'id' => $moduleID,
-                'languageTag' => $langLink,
-                'tmpl' => $tmpl,
-                'mysched' => $mysched
+                'languageTag' => $langLink
         );
 
-        $params = array_merge($URI->getQuery(true), $params);
-        $query = $URI->buildQuery($params);
+        $URIparams = array_merge($URI->getQuery(true), $switchParams);
+        $query = $URI->buildQuery($URIparams);
         $URI->setQuery($query);
 
         return $URI->toString();

@@ -9,7 +9,7 @@
  */
 MySched.Mapping = function ()
 {
-    var teacher, module, subject, lecture, room, types, roomtype, degree, field;
+    var teacher, module, subject, lecture, room, types, roomtype, degree, field, buffer;
 
     return {
         init: function ()
@@ -139,6 +139,18 @@ MySched.Mapping = function ()
         getSubjectName: function (id)
         {
             return this.def(this.subject.get(id, id), 'longname', id);
+        },
+        getSubjectShortName: function (id)
+        {
+            return this.def(this.subject.get(id, id), 'shortname', id);
+        },
+        getSubjectAbbreviation: function (id)
+        {
+            return this.def(this.subject.get(id, id), 'abbreviation', id);
+        },
+        getSubjectLink: function (id)
+        {
+            return this.def(this.subject.get(id, id), 'link', '');
         },
         getSubjectNo: function (id)
         {
