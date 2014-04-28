@@ -22,7 +22,7 @@ jimport('joomla.application.component.model');
  * @subpackage  com_thm_organizer.admin.model
  * @link        www.mni.thm.de
  */
-class THM_OrganizerModelVirtual_Schedule_Manager extends JModel
+class THM_OrganizerModelVirtual_Schedule_Manager extends JModelList
 {
     /**
      * Total records

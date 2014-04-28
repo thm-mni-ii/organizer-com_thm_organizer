@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'assets' . DS . 'helpers' . DS . 'lsfapi.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/lsfapi.php';
 defined('RESPONSIBLE') OR define('RESPONSIBLE', 1);
 defined('TEACHER') OR define('TEACHER', 2);
 /**

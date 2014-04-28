@@ -19,7 +19,7 @@ jimport('jquery.jquery');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewSubject_Edit extends JView
+class THM_OrganizerViewSubject_Edit extends JViewLegacy
 {
     /**
      * Method to get display
@@ -56,10 +56,10 @@ class THM_OrganizerViewSubject_Edit extends JView
     {
         JRequest::setVar('hidemainmenu', true);
         $isNew = $this->item->id == 0;
-        JToolBarHelper::title($isNew? JText::_('COM_THM_ORGANIZER_SUM_NEW') : JText::_('COM_THM_ORGANIZER_SUM_EDIT'), 'organizer_subjects');
-        JToolBarHelper::apply('subject.apply', $isNew? JText::_('COM_THM_ORGANIZER_APPLY_NEW') : JText::_('COM_THM_ORGANIZER_APPLY_EDIT'));
-        JToolBarHelper::save('subject.save');
-        JToolBarHelper::save2new('subject.save');
-        JToolBarHelper::cancel('subject.cancel', $this->item->id == 0 ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+        JToolbarHelper::title($isNew? JText::_('COM_THM_ORGANIZER_SUM_NEW') : JText::_('COM_THM_ORGANIZER_SUM_EDIT'), 'organizer_subjects');
+        JToolbarHelper::apply('subject.apply', $isNew? JText::_('COM_THM_ORGANIZER_APPLY_NEW') : JText::_('COM_THM_ORGANIZER_APPLY_EDIT'));
+        JToolbarHelper::save('subject.save');
+        JToolbarHelper::save2new('subject.save');
+        JToolbarHelper::cancel('subject.cancel', $this->item->id == 0 ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
     }
 }

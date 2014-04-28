@@ -13,7 +13,7 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 jimport('jquery.jquery');
-require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'helper' . DS . 'event.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/helper/event.php';
 
 /**
  * Decides if its an save or preview task, outputs a string explaining possible conflicts,
@@ -23,7 +23,7 @@ require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'h
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class Thm_OrganizerViewEvent_Ajax extends JView
+class Thm_OrganizerViewEvent_Ajax extends JViewLegacy
 {
     /**
      * loads model data into view context

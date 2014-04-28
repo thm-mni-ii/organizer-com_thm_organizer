@@ -19,7 +19,7 @@ jimport('joomla.application.component.view');
  * @package     thm_curriculum
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewDegree_Manager extends JView
+class THM_OrganizerViewDegree_Manager extends JViewLegacy
 {
     /**
      * Method to get display
@@ -52,11 +52,11 @@ class THM_OrganizerViewDegree_Manager extends JView
      */
     protected function addToolBar()
     {
-        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_DEG_TOOLBAR_TITLE'), 'organizer_degrees');
-        JToolBarHelper::addNew('degree.add', 'JTOOLBAR_NEW');
-        JToolBarHelper::editList('degree.edit', 'JTOOLBAR_EDIT');
-        JToolBarHelper::deleteList('', 'degree.delete', 'JTOOLBAR_DELETE');
-        JToolBarHelper::divider();
-        JToolBarHelper::preferences('com_thm_organizer');
+        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_DEG_TOOLBAR_TITLE'), 'organizer_degrees');
+        JToolbarHelper::addNew('degree.add', 'JTOOLBAR_NEW');
+        JToolbarHelper::editList('degree.edit', 'JTOOLBAR_EDIT');
+        JToolbarHelper::deleteList('', 'degree.delete', 'JTOOLBAR_DELETE');
+        JToolbarHelper::divider();
+        JToolbarHelper::preferences('com_thm_organizer');
     }
 }

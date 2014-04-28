@@ -19,7 +19,7 @@ jimport('joomla.application.component.controller');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerControllerProgram extends JController
+class THM_OrganizerControllerProgram extends JControllerAdmin
 {
     /**
      * Performs access checks and redirects to the degree program edit view

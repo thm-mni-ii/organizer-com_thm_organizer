@@ -14,10 +14,10 @@
 defined('_JEXEC') or die;?>
 <form action="index.php?option=com_thm_organizer"
       enctype="multipart/form-data" method="post" name="adminForm" id="adminForm">
-    <div id="thm_organizer_cat" class="width-60 fltlft thm_organizer_cat">
+    <div id="thm_organizer_cat" class="width-60 fltlft thm_organizer_cat tab-content">
         <fieldset class="adminform">
             <legend><?php echo ($this->form->getValue('id'))? JText::_('JTOOLBAR_EDIT') : JText::_('JTOOLBAR_NEW'); ?></legend>
-            <ul class="adminformlist">
+            <ul class="tab-pane [active] adminformlist" id="adminformlist">
                 <li>
                     <?php echo $this->form->getLabel('title'); ?>
                     <?php echo $this->form->getInput('title'); ?>

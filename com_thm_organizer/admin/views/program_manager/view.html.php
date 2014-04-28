@@ -20,7 +20,7 @@ jimport('joomla.application.component.view');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewProgram_Manager extends JView
+class THM_OrganizerViewProgram_Manager extends JViewLegacy
 {
     /**
      * Method to get display
@@ -55,18 +55,18 @@ class THM_OrganizerViewProgram_Manager extends JView
      */
     protected function addToolBar()
     {
-        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_PRM_TOOLBAR_TITLE'), 'organizer_degree_programs');
-        JToolBarHelper::addNew('program.add', 'JTOOLBAR_NEW');
-        JToolBarHelper::editList('program.edit', 'JTOOLBAR_EDIT');
-        JToolBarHelper::custom(
+        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_PRM_TOOLBAR_TITLE'), 'organizer_degree_programs');
+        JToolbarHelper::addNew('program.add', 'JTOOLBAR_NEW');
+        JToolbarHelper::editList('program.edit', 'JTOOLBAR_EDIT');
+        JToolbarHelper::custom(
                                'program.importLSFData',
                                'export',
                                '',
                                'COM_THM_ORGANIZER_PRM_IMPORT',
                                true
                               );
-        JToolBarHelper::deleteList('COM_THM_ORGANIZER_PRM_DELETE_CONFIRM', 'program.delete', 'JTOOLBAR_DELETE');
-        JToolBarHelper::divider();
-        JToolBarHelper::preferences('com_thm_organizer', '500');
+        JToolbarHelper::deleteList('COM_THM_ORGANIZER_PRM_DELETE_CONFIRM', 'program.delete', 'JTOOLBAR_DELETE');
+        JToolbarHelper::divider();
+        JToolbarHelper::preferences('com_thm_organizer', '500');
     }
 }

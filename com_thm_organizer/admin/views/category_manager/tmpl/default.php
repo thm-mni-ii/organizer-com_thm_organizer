@@ -13,8 +13,8 @@ defined('_JEXEC') or die;
 $orderby = $this->escape($this->state->get('list.ordering'));
 $direction = $this->escape($this->state->get('list.direction'));
 ?>
-<form action="index.php?option=com_thm_organizer" method="post" name="adminForm">
-    <fieldset id="filter-bar" class='filter-bar'>
+<form id="adminForm" action="index.php?option=com_thm_organizer" method="post" name="adminForm" >
+    <div id="filter-bar" class="btn-toolbar">
         <div class="filter-select fltrt">
             <select name="filter_global" class="inputbox" onchange="this.form.submit()">
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_CAT_SEARCH_GLOBAL'); ?></option>
@@ -34,8 +34,8 @@ $direction = $this->escape($this->state->get('list.direction'));
                 <?php echo JHtml::_('select.options', $this->contentCategories, 'id', 'title', $this->state->get('filter.content_cat'));?>
             </select>
         </div>
-    </fieldset>
-    <table class="adminlist" id="thm_organizer_cat_table">
+    </div>
+    <table class="adminlist table table-striped" id="thm_organizer_cat_table">
         <colgroup>
             <col id="thm_organizer_cat_checkbox_column" align="center" class='thm_organizer_cat_checkbox_column' />
             <col id="thm_organizer_cat_title_column" class='thm_organizer_cat_title_column' />
@@ -49,16 +49,16 @@ $direction = $this->escape($this->state->get('list.direction'));
                     <input type="checkbox" name="checkall-toggle" value="" onclick="checkAll(this)" />
                 </th>
                 <th>
-                    <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'ectitle', $direction, $orderby); ?>
+                    <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'ectitle', $direction, $orderby); ?>
                 </th>
                 <th>
-                    <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_CAT_GLOBAL'), 'global', $direction, $orderby); ?>
+                    <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_CAT_GLOBAL'), 'global', $direction, $orderby); ?>
                 </th>
                 <th>
-                    <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_CAT_RESERVES'), 'reserves', $direction, $orderby); ?>
+                    <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_CAT_RESERVES'), 'reserves', $direction, $orderby); ?>
                 </th>
                 <th>
-                    <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_CAT_CONTENT_CATEGORY'), 'cctitle', $direction, $orderby); ?>
+                    <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_CAT_CONTENT_CATEGORY'), 'cctitle', $direction, $orderby); ?>
                 </th>
             </tr>
         </thead>
@@ -69,7 +69,7 @@ if (!empty($this->categories))
 {
     foreach ($this->categories as $category)
     {
-        $checked = JHTML::_('grid.id', $k, $category->id);
+        $checked = JHtml::_('grid.id', $k, $category->id);
         $class = ($k % 2 == 0)?  'row0' : 'row1';
         $k++
 ?>

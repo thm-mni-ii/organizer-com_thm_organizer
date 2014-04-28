@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_thm_organizer' . DS . 'models' . DS . 'schedule.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_thm_organizer/models/schedule.php';
 
 /**
  * Retrieves data about conflicting events and lessons against an event to be saved

@@ -20,7 +20,7 @@ jimport('joomla.application.component.view');
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  */
-class THM_OrganizerViewCategory_Edit extends JView
+class THM_OrganizerViewCategory_Edit extends JViewLegacy
 {
     /**
      * loads model data into view context
@@ -69,10 +69,10 @@ class THM_OrganizerViewCategory_Edit extends JView
             $applyText = JText::_('COM_THM_ORGANIZER_APPLY_EDIT');
             $cancelText = JText::_('JTOOLBAR_CLOSE');
         }
-        JToolBarHelper::title($title, 'organizer_categories');
-        JToolBarHelper::apply('category.apply', $applyText);
-        JToolBarHelper::save('category.save');
-        JToolBarHelper::save2new('category.save2new');
-        JToolBarHelper::cancel('category.cancel', $cancelText);
+        JToolbarHelper::title($title, 'organizer_categories');
+        JToolbarHelper::apply('category.apply', $applyText);
+        JToolbarHelper::save('category.save');
+        JToolbarHelper::save2new('category.save2new');
+        JToolbarHelper::cancel('category.cancel', $cancelText);
     }
 }

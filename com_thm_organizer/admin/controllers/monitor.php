@@ -19,7 +19,7 @@ jimport('joomla.application.component.controller');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerControllermonitor extends JController
+class THM_OrganizerControllermonitor extends JControllerAdmin
 {
     /**
      * Performs access checks and redirects to the monitor edit view

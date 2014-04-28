@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modellist');
-require_once JPATH_COMPONENT . DS . 'helper' . DS . 'teacher.php';
+require_once JPATH_COMPONENT . '/helper/teacher.php';
 define('NONE', 0);
 define('POOL', 1);
 define('TEACHER', 2);

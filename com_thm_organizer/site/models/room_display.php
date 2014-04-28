@@ -11,8 +11,8 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-require_once JPATH_COMPONENT . DS . 'helper' . DS . 'teacher.php';
-require_once JPATH_COMPONENT . DS . 'helper' . DS . 'event.php';
+require_once JPATH_COMPONENT . '/helper/teacher.php';
+require_once JPATH_COMPONENT . '/helper/event.php';
 
 /**
  * Retrieves lesson and event data for a single room and day

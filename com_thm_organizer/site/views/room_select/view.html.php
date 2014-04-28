@@ -17,7 +17,7 @@ jimport('joomla.application.component.view');
  * @category  Joomla.Component.Site
  * @package   thm_organizer
  */
-class THM_OrganizerViewRoom_Select extends JView
+class THM_OrganizerViewRoom_Select extends JViewLegacy
 {
     /**
      * Sets context variables for output

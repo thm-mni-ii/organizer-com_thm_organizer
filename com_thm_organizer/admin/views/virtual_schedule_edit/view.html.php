@@ -25,7 +25,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * @subpackage  com_thm_organizer.admin.view
  * @link        www.mni.thm.de
  */
-class THM_OrganizerViewVirtual_Schedule_Edit extends JView
+class THM_OrganizerViewVirtual_Schedule_Edit extends JViewLegacy
 {
     /**
      * Method to get display
@@ -59,7 +59,7 @@ class THM_OrganizerViewVirtual_Schedule_Edit extends JView
         $title = JText::_('COM_THM_ORGANIZER') . ': ';
         $title .= ($cid)? JText::_('JTOOLBAR_EDIT') : JText::_('JTOOLBAR_NEW');
         $title .= " " . JText::_('COM_THM_ORGANIZER_VIRTUAL_SCHEDULE');
-        JToolBarHelper::title($title, "organizer_virtual_schedules");
+        JToolbarHelper::title($title, "organizer_virtual_schedules");
         $this->addToolBar();
 
         $this->legend = ($cid)? JText::_('JTOOLBAR_EDIT') : JText::_('JTOOLBAR_NEW');
@@ -74,7 +74,7 @@ class THM_OrganizerViewVirtual_Schedule_Edit extends JView
      */
     private function addToolBar()
     {
-        JToolBarHelper::save('virtual_schedule.save');
-        JToolBarHelper::cancel('virtual_schedule.cancel');
+        JToolbarHelper::save('virtual_schedule.save');
+        JToolbarHelper::cancel('virtual_schedule.cancel');
     }
 }

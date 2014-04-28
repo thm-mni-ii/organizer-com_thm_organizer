@@ -20,7 +20,7 @@ jimport('joomla.application.component.view');
  * @package     thm_curriculum
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewField_Edit extends JView
+class THM_OrganizerViewField_Edit extends JViewLegacy
 {
     /**
      * Method to get display
@@ -59,8 +59,8 @@ class THM_OrganizerViewField_Edit extends JView
         JRequest::setVar('hidemainmenu', true);
         $isNew = ($this->item->id == 0);
         $title = $isNew ? JText::_('COM_THM_ORGANIZER_FLM_NEW_TITLE') : JText::_('COM_THM_ORGANIZER_FLM_EDIT_TITLE');
-        JToolBarHelper::title($title, 'organizer_fields');
-        JToolBarHelper::save('field.save');
-        JToolBarHelper::cancel('field.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+        JToolbarHelper::title($title, 'organizer_fields');
+        JToolbarHelper::save('field.save');
+        JToolbarHelper::cancel('field.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
     }
 }

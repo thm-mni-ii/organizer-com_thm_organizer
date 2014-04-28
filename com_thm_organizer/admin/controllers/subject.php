@@ -19,7 +19,7 @@ jimport('joomla.application.component.controller');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerControllerSubject extends JController
+class THM_OrganizerControllerSubject extends JControllerAdmin
 {
     /**
      * Performs access checks, sets the id variable to 0, and redirects to the

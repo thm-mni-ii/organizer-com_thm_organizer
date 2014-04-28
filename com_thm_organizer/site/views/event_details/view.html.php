@@ -20,7 +20,7 @@ jimport('joomla.application.component.view');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerViewEvent_Details extends JView
+class THM_OrganizerViewEvent_Details extends JViewLegacy
 {
     /**
      * Loads event information into the view context

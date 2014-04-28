@@ -200,7 +200,7 @@ class Com_THM_OrganizerInstallerScript
      */
     private function SQLPath()
     {
-        return JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_thm_organizer' . DS . 'sql';
+        return JPATH_SITE . '/administrator/components/com_thm_organizer/sql';
     }
 
     /**
@@ -229,7 +229,7 @@ class Com_THM_OrganizerInstallerScript
     private function fillTables()
     {
         $return = true;
-        $fill = JFile::read($this->SQLPath() . DS . 'fill.mysql.utf8.sql');
+        $fill = JFile::read($this->SQLPath() . '/fill.mysql.utf8.sql');
         $dbo = JFactory::getDbo();
         $queries = $dbo->splitSql($fill);
 

@@ -13,7 +13,7 @@
 jimport('joomla.application.component.view');
 jimport('joomla.application.component.helper');
 jimport('jquery.jquery');
-require_once JPATH_COMPONENT . DS . 'helper' . DS . 'language.php';
+require_once JPATH_COMPONENT . '/helper/language.php';
 
 /**
  * Class loads curriculum information into the view context
@@ -22,7 +22,7 @@ require_once JPATH_COMPONENT . DS . 'helper' . DS . 'language.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerViewCurriculum extends JView
+class THM_OrganizerViewCurriculum extends JViewLegacy
 {
     /**
      * Method to get display

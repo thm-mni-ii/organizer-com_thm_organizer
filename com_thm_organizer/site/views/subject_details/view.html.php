@@ -12,7 +12,7 @@
  * @link        www.mni.thm.de
  */
 jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT . DS . 'helper' . DS . 'language.php';
+require_once JPATH_COMPONENT . '/helper/language.php';
 
 /**
  * Class loads information about a subject into the view context
@@ -21,7 +21,7 @@ require_once JPATH_COMPONENT . DS . 'helper' . DS . 'language.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerViewSubject_Details extends JView
+class THM_OrganizerViewSubject_Details extends JViewLegacy
 {
     /**
      * Method to get display

@@ -10,5 +10,5 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'assets' . DS . 'helpers' . DS . 'thm_organizerHelper.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/thm_organizerHelper.php';
 THM_OrganizerHelper::callController(false);

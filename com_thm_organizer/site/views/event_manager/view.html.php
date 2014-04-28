@@ -20,7 +20,7 @@ jimport('jquery.jquery');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerViewEvent_Manager extends JView
+class THM_OrganizerViewEvent_Manager extends JViewLegacy
 {
     /**
      * Loads model data into context and sets variables used for html output

@@ -20,7 +20,7 @@ jimport('joomla.application.component.view');
  * @package   thm_organizer
  */
 
-class THM_OrganizerViewAjaxHandler extends JView
+class THM_OrganizerViewAjaxHandler extends JViewLegacy
 {
     /**
      * Method to get extra

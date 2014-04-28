@@ -46,20 +46,20 @@ class THM_OrganizerHelper
 
         if (!empty($controller))
         {
-            $path = $basePath . DS . 'controllers' . DS . $controller . '.php';
+            $path = $basePath . '/controllers/' . $controller . '.php';
             if (file_exists($path))
             {
                 require_once $path;
             }
             else
             {
-                require_once $basePath . DS . 'controller.php';
+                require_once $basePath . '/controller.php';
                 $controller = '';
             }
         }
         else
         {
-            require_once $basePath . DS . 'controller.php';
+            require_once $basePath . '/controller.php';
         }
         $classname = 'THM_OrganizerController' . $controller;
         $controllerObj = new $classname;

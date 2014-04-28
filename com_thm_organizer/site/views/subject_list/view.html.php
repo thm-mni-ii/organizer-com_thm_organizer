@@ -11,7 +11,7 @@
  * @link        www.mni.thm.de
  */
 jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT . DS . 'helper' . DS . 'language.php';
+require_once JPATH_COMPONENT . '/helper/language.php';
 jimport('jquery.jquery');
 
 /**
@@ -22,7 +22,7 @@ jimport('jquery.jquery');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerViewSubject_List extends JView
+class THM_OrganizerViewSubject_List extends JViewLegacy
 {
     /**
      * Method to get display

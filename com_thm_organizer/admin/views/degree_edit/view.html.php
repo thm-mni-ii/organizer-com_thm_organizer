@@ -18,7 +18,7 @@ jimport('joomla.application.component.view');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewDegree_Edit extends JView
+class THM_OrganizerViewDegree_Edit extends JViewLegacy
 {
     /**
      * Method to get display
@@ -66,8 +66,8 @@ class THM_OrganizerViewDegree_Edit extends JView
         JRequest::setVar('hidemainmenu', true);
         $isNew = ($this->item->id == 0);
         $title = $isNew? JText::_('COM_THM_ORGANIZER_DEG_NEW_TITLE') : JText::_('COM_THM_ORGANIZER_DEG_EDIT_TITLE');
-        JToolBarHelper::title($title, 'organizer_degrees');
-        JToolBarHelper::save('degree.save');
-        JToolBarHelper::cancel('degree.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+        JToolbarHelper::title($title, 'organizer_degrees');
+        JToolbarHelper::save('degree.save');
+        JToolbarHelper::cancel('degree.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
     }
 }

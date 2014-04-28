@@ -23,7 +23,7 @@ jimport('joomla.application.component.controller');
  * @link        www.mni.thm.de
  * @since       v1.5.0
  */
-class THM_OrganizerControllerPool extends JController
+class THM_OrganizerControllerPool extends JControllerAdmin
 {
     /**
      * Performs access checks, sets the id variable to 0, and redirects to the

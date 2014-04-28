@@ -20,7 +20,7 @@ jimport('joomla.application.component.view');
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  */
-class THM_OrganizerViewProgram_Ajax extends JView
+class THM_OrganizerViewProgram_Ajax extends JViewLegacy
 {
     /**
      * loads model data into view context

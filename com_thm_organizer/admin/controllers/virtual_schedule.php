@@ -21,7 +21,7 @@ jimport('joomla.application.component.controller');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerControllerVirtual_Schedule extends JController
+class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
 {
     /**
      * Performs access checks and redirects to the virtual schedule edit view

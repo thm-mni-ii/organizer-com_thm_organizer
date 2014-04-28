@@ -13,7 +13,7 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.path');
-require_once JPATH_COMPONENT . DS . 'helper' . DS . 'teacher.php';
+require_once JPATH_COMPONENT . '/helper/teacher.php';
 
 /**
  * Class THM_OrganizerModeldetails for component com_thm_organizer
