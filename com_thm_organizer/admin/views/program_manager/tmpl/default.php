@@ -16,7 +16,7 @@ $listDirn = $this->state->get('list.direction');
 <form
     action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>"
     method="post" name="adminForm">
-    <fieldset id="filter-bar" class='filter-bar'>
+    <div id="filter-bar" class='filter-bar'>
         <div class="filter-search fltlft">
             <label class="filter-search-lbl" for="filter_search">
                 <?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>
@@ -49,24 +49,24 @@ $listDirn = $this->state->get('list.direction');
                     <?php echo JHtml::_('select.options', $this->fields, 'id', 'field', $this->state->get('filter.field'));?>
             </select>
         </div>
-    </fieldset>
-    <table class="adminlist">
+    </div>
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th width="3%"><input type="checkbox" name="toggle" value=""
                     onclick="checkAll(<?php echo count($this->items); ?>);" />
                 </th>
                 <th width="32%">
-                    <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_PRM_DEGREE_PROGRAM'), 'subject', $listDirn, $listOrder); ?>
+                    <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_PRM_DEGREE_PROGRAM'), 'subject', $listDirn, $listOrder); ?>
                 </th>
                 <th width="10%">
-                    <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_DEGREE'), 'd.name', $listDirn, $listOrder); ?>
+                    <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_DEGREE'), 'd.name', $listDirn, $listOrder); ?>
                 </th>
                 <th width="10%">
-                    <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_VERSION'), 'version', $listDirn, $listOrder); ?>
+                    <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_VERSION'), 'version', $listDirn, $listOrder); ?>
                 </th>
                 <th width="20%">
-                    <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_FIELD'), 'field', $listDirn, $listOrder); ?>
+                    <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_FIELD'), 'field', $listDirn, $listOrder); ?>
                 </th>
                 <th width="10%">
                     <?php echo JText::_('COM_THM_ORGANIZER_PRM_LSF_MODELED'); ?>

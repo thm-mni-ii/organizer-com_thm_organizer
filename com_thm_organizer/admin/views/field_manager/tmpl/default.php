@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=field_manager'); ?>"
       method="post"
       name="adminForm">
-    <fieldset id="filter-bar" class='filter-bar'>
+    <div id="filter-bar" class='filter-bar'>
         <div class="filter-search fltlft">
             <label class="filter-search-lbl" for="filter_search">
                 <?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>
@@ -30,8 +30,8 @@ defined('_JEXEC') or die;
                 <?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>
             </button>
         </div>
-    </fieldset>
-    <table class="adminlist">
+    </div>
+    <table class="table table-striped">
         <thead>
             <?php echo $this->loadTemplate('head'); ?>
         </thead>
