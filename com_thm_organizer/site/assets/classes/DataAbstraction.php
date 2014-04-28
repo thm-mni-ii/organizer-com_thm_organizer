@@ -102,7 +102,7 @@ class THM_OrganizerDataAbstraction
     public function getDownloadFolder()
     {
         $confObject = JFactory::getApplication();
-        $tmpPath = $confObject->getCfg('tmp_path') . DS;
+        $tmpPath = $confObject->getCfg('tmp_path') . DIRECTORY_SEPARATOR;
         return $tmpPath;
     }
 

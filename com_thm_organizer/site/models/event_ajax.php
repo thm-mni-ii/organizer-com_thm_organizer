@@ -20,7 +20,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_thm_organizer/models/schedul
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelEvent_Ajax extends JModel
+class THM_OrganizerModelEvent_Ajax extends JModelLegacy
 {
     /**
      * @var int the id of an existing event

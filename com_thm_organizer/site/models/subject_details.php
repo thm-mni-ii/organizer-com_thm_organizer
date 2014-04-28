@@ -24,7 +24,7 @@ require_once JPATH_COMPONENT . '/helper/teacher.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelSubject_Details extends JModel
+class THM_OrganizerModelSubject_Details extends JModelLegacy
 {
     public $subjectID = null;
 

@@ -31,8 +31,8 @@ class THM_OrganizerViewEvent_Manager extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        JHTML::_('behavior.formvalidation');
-        JHTML::_('behavior.tooltip');
+        JHtml::_('behavior.formvalidation');
+        JHtml::_('behavior.tooltip');
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
         $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/event_manager.js'));
@@ -88,25 +88,21 @@ class THM_OrganizerViewEvent_Manager extends JViewLegacy
      */
     private function buildHTMLElements()
     {
-        $newImage = JHTML::_('image.site', 'add.png', 'components/com_thm_organizer/assets/images/',
-                             null, null, JText::_('COM_THM_ORGANIZER_NEW_TITLE')
-                            );
+        $newImage = JHtml::image('components/com_thm_organizer/assets/images/add.png', JText::_('COM_THM_ORGANIZER_NEW_TITLE'), null, null, null);
         $this->assignRef('newImage', $newImage);
-        $editImage = JHTML::_('image.site', 'edit.png', 'components/com_thm_organizer/assets/images/',
-                              null, null, JText::_('COM_THM_ORGANIZER_EDIT_TITLE')
-                             );
+
+        $editImage = JHtml::image('components/com_thm_organizer/assets/images/edit.png', JText::_('COM_THM_ORGANIZER_EDIT_TITLE'), null, null, null);
+        
         $this->assignRef('editImage', $editImage);
-        $deleteImage = JHTML::_('image.site', 'delete.png', 'components/com_thm_organizer/assets/images/',
-                                null, null, JText::_('COM_THM_ORGANIZER_DELETE_TITLE')
-                               );
+        $deleteImage = JHtml::image('components/com_thm_organizer/assets/images/delete.png', JText::_('COM_THM_ORGANIZER_DELETE_TITLE'), null, null, null);
         $this->assignRef('deleteImage', $deleteImage);
 
         $attribs = array();
         $attribs['class'] = "thm_organizer_el_sortLink hasTip";
         $spanOpen = "<span class='thm_organizer_el_th'>";
         $spanClose = "</span>";
-        $ascImage = JHTML::_('image.site', 'sort_asc.png', 'media/system/images/', null, null, JText::_('COM_THM_ORGANIZER_EL_ASC_DESCRIPTION'));
-        $descImage = JHTML::_('image.site', 'sort_desc.png', 'media/system/images/', null, null, JText::_('COM_THM_ORGANIZER_EL_DESC_DESCRIPTION'));
+        $ascImage = JHtml::image('media/system/images/sort_asc.png', JText::_('COM_THM_ORGANIZER_EL_ASC_DESCRIPTION'), null, null, null);
+        $descImage = JHtml::image('media/system/images/sort_desc.png', JText::_('COM_THM_ORGANIZER_EL_DESC_DESCRIPTION'), null, null, null);
 
         $titleText = JText::_('COM_THM_ORGANIZER_EL_TITLE');
         $titleAttribs = array();
@@ -125,7 +121,7 @@ class THM_OrganizerViewEvent_Manager extends JViewLegacy
             $titleLink .= "'title', 'ASC')";
         }
         $titleAttribs = array_merge($titleAttribs, $attribs);
-        $titleHead = $spanOpen . JHTML::_('link', $titleLink, $titleText, $titleAttribs) . $spanClose;
+        $titleHead = $spanOpen . JHtml::_('link', $titleLink, $titleText, $titleAttribs) . $spanClose;
         $this->assignRef('titleHead', $titleHead);
 
 
@@ -146,7 +142,7 @@ class THM_OrganizerViewEvent_Manager extends JViewLegacy
             $authorLink .= "'author', 'ASC')";
         }
         $authorAttribs = array_merge($authorAttribs, $attribs);
-        $authorHead = $spanOpen . JHTML::_('link', $authorLink, $authorText, $authorAttribs) . $spanClose;
+        $authorHead = $spanOpen . JHtml::_('link', $authorLink, $authorText, $authorAttribs) . $spanClose;
         $this->assignRef('authorHead', $authorHead);
 
         $resourceHead = $spanOpen . JText::_('COM_THM_ORGANIZER_EL_RESOURCE') . $spanClose;
@@ -169,7 +165,7 @@ class THM_OrganizerViewEvent_Manager extends JViewLegacy
             $categoryLink .= "'eventCategory', 'ASC')";
         }
         $categoryAttribs = array_merge($categoryAttribs, $attribs);
-        $categoryHead = $spanOpen . JHTML::_('link', $categoryLink, $categoryText, $categoryAttribs) . $spanClose;
+        $categoryHead = $spanOpen . JHtml::_('link', $categoryLink, $categoryText, $categoryAttribs) . $spanClose;
         $this->assignRef('categoryHead', $categoryHead);
 
         $dateText = JText::_('COM_THM_ORGANIZER_EL_DATE');
@@ -189,7 +185,7 @@ class THM_OrganizerViewEvent_Manager extends JViewLegacy
             $dateLink .= "'date', 'ASC')";
         }
         $dateAttribs = array_merge($dateAttribs, $attribs);
-        $dateHead = $spanOpen . JHTML::_('link', $dateLink, $dateText, $dateAttribs) . $spanClose;
+        $dateHead = $spanOpen . JHtml::_('link', $dateLink, $dateText, $dateAttribs) . $spanClose;
         $this->assignRef('dateHead', $dateHead);
     }
 
@@ -205,7 +201,7 @@ class THM_OrganizerViewEvent_Manager extends JViewLegacy
     {
         $nocategories = array(1 => array('id' => '-1', 'title' => JText::_('COM_THM_ORGANIZER_EL_ALL_CATEGORIES')));
         $categories = array_merge($nocategories, $categories);
-        $categorySelect = JHTML::_('select.genericlist', $categories, 'categoryID',
+        $categorySelect = JHtml::_('select.genericlist', $categories, 'categoryID',
                  'id="categoryID" class="inputbox" size="1"', 'id', 'title', $selected
                 );
         $this->assignRef('categorySelect', $categorySelect);

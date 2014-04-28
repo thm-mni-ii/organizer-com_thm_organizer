@@ -116,7 +116,7 @@ class Thm_OrganizerViewEvent_Edit extends JViewLegacy
         $selectname = $name . 'select';
         if (isset($this->event[$name]))
         {
-            $selectbox = JHTML::_('select.genericlist',
+            $selectbox = JHtml::_('select.genericlist',
                                           $resources,
                                           $name . '[]',
                                           $attributes,
@@ -127,7 +127,7 @@ class Thm_OrganizerViewEvent_Edit extends JViewLegacy
         }
         else
         {
-            $selectbox = JHTML::_('select.genericlist',
+            $selectbox = JHtml::_('select.genericlist',
                                           $resources,
                                           $name . '[]',
                                           $attributes,
@@ -151,7 +151,7 @@ class Thm_OrganizerViewEvent_Edit extends JViewLegacy
         $attributes['class'] = 'inputbox validate-category';
         $attributes['onChange'] = 'changeCategoryInformation()';
         $attributes['required'] = 'true';
-        $this->categoryselect = JHTML::_('select.genericlist',
+        $this->categoryselect = JHtml::_('select.genericlist',
                                             $this->categories,
                                             'category',
                                             $attributes,
@@ -182,7 +182,7 @@ class Thm_OrganizerViewEvent_Edit extends JViewLegacy
     private function createActionLink($action)
     {
         $linkname = $action . 'link';
-        $image = JHTML::_('image',
+        $image = JHtml::_('image',
                               "components/com_thm_organizer/assets/images/$action.png",
                               JText::_(ucfirst($action)),
                               array( 'class' => 'thm_organizer_ee_image_button',

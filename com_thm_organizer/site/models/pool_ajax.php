@@ -20,7 +20,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/mapping.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelPool_Ajax extends JModel
+class THM_OrganizerModelPool_Ajax extends JModelLegacy
 {
     /**
      * Retrieves pool options for a given curriculum element

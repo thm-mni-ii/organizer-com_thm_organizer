@@ -21,7 +21,7 @@ require_once JPATH_COMPONENT . '/helper/event.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelRoom_Display extends JModel
+class THM_OrganizerModelRoom_Display extends JModelLegacy
 {
     public $roomName;
 

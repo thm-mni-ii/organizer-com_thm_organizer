@@ -21,7 +21,7 @@ require_once JPATH_COMPONENT . "/assets/classes/eventAccess.php";
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelEvent_Details extends JModel
+class THM_OrganizerModelEvent_Details extends JModelLegacy
 {
     /**
      * @var int the id of the event in the database

@@ -21,7 +21,7 @@ require_once JPATH_COMPONENT . '/helper/teacher.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelCurriculum_Ajax extends JModel
+class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 {
     private $_scheduleID;
 

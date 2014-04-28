@@ -28,7 +28,7 @@ define('ALL_OWN', 7);
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelEvent_Manager extends JModelForm
+class THM_OrganizerModelEvent_Manager extends JModelList
 {
     private $_callParameters = null;
 
@@ -320,7 +320,7 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
      *
      * @return int $total
      */
-    private function getTotal()
+    public function getTotal()
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);

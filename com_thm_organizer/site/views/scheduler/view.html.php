@@ -33,7 +33,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        JHTML::_('behavior.tooltip');
+        JHtml::_('behavior.tooltip');
         
         $menu = JFactory::getApplication()->getMenu();
         $active = $menu->getActive();
