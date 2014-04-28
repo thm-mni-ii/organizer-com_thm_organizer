@@ -19,7 +19,7 @@ jimport('joomla.application.component.controller');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerControllerSchedule extends JControllerAdmin
+class THM_OrganizerControllerSchedule extends JControllerLegacy
 {
     /**
      * Performs access checks and redirects to the schedule edit view
@@ -32,10 +32,9 @@ class THM_OrganizerControllerSchedule extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'schedule_edit');
         JRequest::setVar('cid');
         JRequest::setVar('scheduleID', '0');
-        parent::display();
+        $this->setRedirect('index.php?option=com_thm_organizer&view=schedule_edit');
     }
 
     /**
@@ -49,8 +48,8 @@ class THM_OrganizerControllerSchedule extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'schedule_edit');
-        parent::display();
+        
+        $this->setRedirect('index.php?option=com_thm_organizer&view=schedule_edit');
     }
 
     /**

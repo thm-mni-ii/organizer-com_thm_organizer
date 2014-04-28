@@ -22,7 +22,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/thm_organizerHelpe
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelRoom extends JModel
+class THM_OrganizerModelRoom extends JModelLegacy
 {
     private $_scheduleModel = null;
 

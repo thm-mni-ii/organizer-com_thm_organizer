@@ -19,7 +19,7 @@ jimport('joomla.application.component.modeladmin');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelRoom_Merge extends JModel
+class THM_OrganizerModelRoom_Merge extends JModelLegacy
 {
     /**
      * Array holding room entry information

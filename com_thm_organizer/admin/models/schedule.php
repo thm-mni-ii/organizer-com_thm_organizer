@@ -36,7 +36,7 @@ define('NOT_ACTIVE', 5);
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelSchedule extends JModel
+class THM_OrganizerModelSchedule extends JModelLegacy
 {
     /**
      * Array to hold error strings relating to critical data inconsistencies
@@ -119,7 +119,7 @@ class THM_OrganizerModelSchedule extends JModel
 
         $formdata = JRequest::getVar('jform', null, null, null, 4);
         $rooms_required = isset($formdata['rooms_assignment_required']);
-        $this->_teacherModel = JModel::getInstance('teacher', 'THM_OrganizerModel');
+        $this->_teacherModel = JModelLegacy::getInstance('teacher', 'THM_OrganizerModel');
 
         // General node
         // Creation Date & Time
@@ -265,7 +265,7 @@ class THM_OrganizerModelSchedule extends JModel
         }
         else
         {
-            $roomModel = JModel::getInstance('room', 'THM_OrganizerModel');
+            $roomModel = JModelLegacy::getInstance('room', 'THM_OrganizerModel');
             foreach ($xmlSchedule->rooms->children() as $roomnode)
             {
                 $roomModel->validate($this, $roomnode);
@@ -279,7 +279,7 @@ class THM_OrganizerModelSchedule extends JModel
         }
         else
         {
-            $subjectModel = JModel::getInstance('subject', 'THM_OrganizerModel');
+            $subjectModel = JModelLegacy::getInstance('subject', 'THM_OrganizerModel');
             foreach ($xmlSchedule->subjects->children() as $subjectnode)
             {
                 $subjectModel->validate($this, $subjectnode);
@@ -293,7 +293,7 @@ class THM_OrganizerModelSchedule extends JModel
         }
         else
         {
-            $teacherModel = JModel::getInstance('teacher', 'THM_OrganizerModel');
+            $teacherModel = JModelLegacy::getInstance('teacher', 'THM_OrganizerModel');
             foreach ($xmlSchedule->teachers->children() as $teachernode)
             {
                 $teacherModel->validate($this, $teachernode);
@@ -308,7 +308,7 @@ class THM_OrganizerModelSchedule extends JModel
         }
         else
         {
-            $poolModel = JModel::getInstance('pool', 'THM_OrganizerModel');
+            $poolModel = JModelLegacy::getInstance('pool', 'THM_OrganizerModel');
             foreach ($xmlSchedule->classes->children() as $poolNode)
             {
                 $poolModel->validate($this, $poolNode);

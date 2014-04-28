@@ -100,7 +100,7 @@ class THM_OrganizerModelVirtual_Schedule_Manager extends JModelList
                 '',
                 'int'
             );
-        $search = $this->_db->getEscaped(
+        $search = $this->_db->escape(
             trim(
                 JString::strtolower(
                     $mainframe->getUserStateFromRequest(

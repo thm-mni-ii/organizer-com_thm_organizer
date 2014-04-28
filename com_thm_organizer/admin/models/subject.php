@@ -20,7 +20,7 @@ defined('TEACHER') OR define('TEACHER', 2);
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelSubject extends JModel
+class THM_OrganizerModelSubject extends JModelLegacy
 {
     private $_scheduleModel = null;
 
@@ -59,7 +59,7 @@ class THM_OrganizerModelSubject extends JModel
     public function deleteEntry($subjectID)
     {
         $table = JTable::getInstance('subjects', 'thm_organizerTable');
-        $mappingModel = JModel::getInstance('mapping', 'THM_OrganizerModel');
+        $mappingModel = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
         $mappingsDeleted = $mappingModel->deleteByResourceID($subjectID, 'subject');
         if (!$mappingsDeleted)
         {
@@ -229,7 +229,7 @@ class THM_OrganizerModelSubject extends JModel
      */
     private function processFormMappings($subjectID, &$data)
     {
-        $model = JModel::getInstance('mapping', 'THM_OrganizerModel');
+        $model = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
 
         // No mappings desired
         if (empty($data['parentID']))

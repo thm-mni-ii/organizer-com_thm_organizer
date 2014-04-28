@@ -97,8 +97,8 @@ class THM_OrganizerModelCategory_Manager extends JModelList
             $query->where("ec.contentCatID = '$contentCatID'");
         }
 
-        $orderby = $dbo->getEscaped($this->getState('list.ordering', 'ectitle'));
-        $direction = $dbo->getEscaped($this->getState('list.direction'));
+        $orderby = $dbo->escape($this->getState('list.ordering', 'ectitle'));
+        $direction = $dbo->escape($this->getState('list.direction'));
         $query->order("$orderby $direction");
 
         return $query;

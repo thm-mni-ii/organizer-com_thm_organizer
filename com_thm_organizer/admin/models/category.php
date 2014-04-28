@@ -20,7 +20,7 @@ require_once JPATH_SITE . '/components/com_thm_organizer/models/events.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelcategory extends JModel
+class THM_OrganizerModelcategory extends JModelLegacy
 {
     /**
      * saves the event category

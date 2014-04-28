@@ -104,8 +104,8 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
 
         $this->setWhere($query);
 
-        $orderby = $dbo->getEscaped($this->getState('list.ordering', 'r.name'));
-        $direction = $dbo->getEscaped($this->getState('list.direction', 'ASC'));
+        $orderby = $dbo->escape($this->getState('list.ordering', 'r.name'));
+        $direction = $dbo->escape($this->getState('list.direction', 'ASC'));
         $query->order("$orderby $direction");
         return $query;
     }
@@ -119,7 +119,7 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
      */
     private function setWhere(&$query)
     {
-        $filterSearch = '%' . $this->_db->getEscaped($this->state->get('filter.search'), true) . '%';
+        $filterSearch = '%' . $this->_db->escape($this->state->get('filter.search'), true) . '%';
         $useFilterSearch = $filterSearch != '%%';
         $filterRoom = $this->getState('filter.room');
         $useFilterRoom = is_numeric($filterRoom);

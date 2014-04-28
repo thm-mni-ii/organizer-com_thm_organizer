@@ -21,7 +21,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelColor extends JModel
+class THM_OrganizerModelColor extends JModelLegacy
 {
     /**
      * save

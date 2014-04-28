@@ -20,7 +20,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/lsfapi.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelLSFProgram extends JModel
+class THM_OrganizerModelLSFProgram extends JModelLegacy
 {
     /**
      * Retrieves program information relevant for soap queries to the LSF system.
@@ -88,7 +88,7 @@ class THM_OrganizerModelLSFProgram extends JModel
 
         if (!empty($program->gruppe))
         {
-            $mappingModel = JModel::getInstance('mapping', 'THM_OrganizerModel');
+            $mappingModel = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
             $programMappingExists = $this->processProgramMapping($programID, $mappingModel);
             if (!$programMappingExists)
             {
@@ -119,8 +119,8 @@ class THM_OrganizerModelLSFProgram extends JModel
      */
     private function processChildNodes(&$program)
     {
-        $lsfSubjectModel = JModel::getInstance('LSFSubject', 'THM_OrganizerModel');
-        $lsfPoolModel = JModel::getInstance('LSFPool', 'THM_OrganizerModel');
+        $lsfSubjectModel = JModelLegacy::getInstance('LSFSubject', 'THM_OrganizerModel');
+        $lsfPoolModel = JModelLegacy::getInstance('LSFPool', 'THM_OrganizerModel');
         foreach ($program->gruppe as $resource)
         {
             $stubProcessed = isset($resource->modulliste->modul)?

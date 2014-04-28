@@ -21,7 +21,7 @@ defined('TEACHER') OR define('TEACHER', 2);
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelLSFSubject extends JModel
+class THM_OrganizerModelLSFSubject extends JModelLegacy
 {
     /**
      * Method to import data associated with subjects from LSF
@@ -106,7 +106,7 @@ class THM_OrganizerModelLSFSubject extends JModel
         $blocked = strtolower((string) $lsfData->modul->sperrmh) == 'x';
         if ($blocked)
         {
-            $subjectModel = JModel::getInstance('subject', 'THM_OrganizerModel');
+            $subjectModel = JModelLegacy::getInstance('subject', 'THM_OrganizerModel');
             return $subjectModel->deleteEntry($subject->id);
         }
 
@@ -478,7 +478,7 @@ class THM_OrganizerModelLSFSubject extends JModel
      */
     private function setTeachersByResponsibility($subjectID, &$teachers, $responsibility)
     {
-        $subjectModel = JModel::getInstance('subject', 'THM_OrganizerModel');
+        $subjectModel = JModelLegacy::getInstance('subject', 'THM_OrganizerModel');
         $removed = $subjectModel->removeTeachers($subjectID, $responsibility);
         if (!$removed)
         {

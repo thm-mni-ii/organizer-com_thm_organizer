@@ -19,7 +19,7 @@ jimport('joomla.application.component.model');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelMapping extends JModel
+class THM_OrganizerModelMapping extends JModelLegacy
 {
     /**
      * Adds mappings as they exist in LSF for an imported degree program
@@ -70,7 +70,7 @@ class THM_OrganizerModelMapping extends JModel
         {
             if ($unwanted)
             {
-                $poolModel = JModel::getInstance('pool', 'THM_OrganizerModel');
+                $poolModel = JModelLegacy::getInstance('pool', 'THM_OrganizerModel');
                 return $poolModel->deleteEntry($poolsTable->id);
             }
 
