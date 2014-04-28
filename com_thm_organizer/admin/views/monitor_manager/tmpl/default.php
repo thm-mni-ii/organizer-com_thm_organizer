@@ -119,33 +119,34 @@ $defaultContent = JComponentHelper::getParams('com_thm_organizer')->get('content
             </tfoot>
             <tbody>
 <?php
-foreach ($this->monitors as $k => $monitor)
-{
-    $url = "index.php?option=com_thm_organizer&task=monitor.saveDefaultBehaviour&id=";
-    $url .= "$monitor->id&useDefaults=$monitor->useDefaults";
-    $href = JRoute::_($url);
-    if ($monitor->useDefaults)
-    {
-        $defaultText = JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS_ACTIVE');
-        $defaultClass = 'publish';
-        $defaultTitle = JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS') . '::';
-        $defaultTitle .= JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS_INACTIVE_TOGGLE');
-        $display = $this->behaviours[$defaultDisplay];
-        $scheduleRefresh = $defaultScheduleRefresh;
-        $contentRefresh = $defaultContentRefresh;
-        $content = $defaultContent;
-    }
-    else
-    {
-        $defaultText = JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS_INACTIVE');
-        $defaultClass = 'unpublish';
-        $defaultTitle = JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS') . '::';
-        $defaultTitle .= JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS_ACTIVE_TOGGLE');
-        $display = $this->behaviours[$monitor->display];
-        $scheduleRefresh = $monitor->schedule_refresh;
-        $contentRefresh = $monitor->content_refresh;
-        $content = $monitor->content;
-    }
+if($this->monitors !== false){
+	foreach ($this->monitors as $k => $monitor)
+	{
+	    $url = "index.php?option=com_thm_organizer&task=monitor.saveDefaultBehaviour&id=";
+	    $url .= "$monitor->id&useDefaults=$monitor->useDefaults";
+	    $href = JRoute::_($url);
+	    if ($monitor->useDefaults)
+	    {
+	        $defaultText = JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS_ACTIVE');
+	        $defaultClass = 'publish';
+	        $defaultTitle = JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS') . '::';
+	        $defaultTitle .= JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS_INACTIVE_TOGGLE');
+	        $display = $this->behaviours[$defaultDisplay];
+	        $scheduleRefresh = $defaultScheduleRefresh;
+	        $contentRefresh = $defaultContentRefresh;
+	        $content = $defaultContent;
+	    }
+	    else
+	    {
+	        $defaultText = JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS_INACTIVE');
+	        $defaultClass = 'unpublish';
+	        $defaultTitle = JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS') . '::';
+	        $defaultTitle .= JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS_ACTIVE_TOGGLE');
+	        $display = $this->behaviours[$monitor->display];
+	        $scheduleRefresh = $monitor->schedule_refresh;
+	        $contentRefresh = $monitor->content_refresh;
+	        $content = $monitor->content;
+	    }
 ?>
                 <tr class="row<?php echo $k % 2;?>">
                     <td><?php echo JHtml::_('grid.id', $k, $monitor->id); ?></td>
@@ -190,6 +191,7 @@ foreach ($this->monitors as $k => $monitor)
                     </td>
                 </tr>
 <?php
+	}
 }
 ?>
             </tbody>

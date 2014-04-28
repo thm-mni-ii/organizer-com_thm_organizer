@@ -12,6 +12,8 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modellist');
+jimport('joomla.filesystem.folder');
+
 /**
  * Class compiling a list of saved monitors 
  * 
