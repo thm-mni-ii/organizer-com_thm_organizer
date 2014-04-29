@@ -37,9 +37,9 @@ class THM_OrganizerControllerEvent extends JControllerAdmin
      */
     public function edit()
     {
-        $eventID = JRequest::getInt('eventID', null);
-        $eventIDs = JRequest::getVar('eventIDs', null);
-        $menuID = JRequest::getInt('Itemid');
+        $eventID = JFactory::getApplication()->input->getInt('eventID', null);
+        $eventIDs = JFactory::getApplication()->input->get('eventIDs', null);
+        $menuID = JFactory::getApplication()->input->getInt('Itemid');
         $access = false;
         if (!isset($eventID) and isset($eventIDs))
         {
@@ -84,8 +84,8 @@ class THM_OrganizerControllerEvent extends JControllerAdmin
      */
     public function save()
     {
-        $eventID = JRequest::getInt('eventID', 0);
-        $menuID = JRequest::getVar('Itemid');
+        $eventID = JFactory::getApplication()->input->getInt('eventID', 0);
+        $menuID = JFactory::getApplication()->input->get('Itemid');
 
         if (THMEventAccess::canCreate() OR THMEventAccess::canEdit($eventID))
         {
@@ -122,8 +122,8 @@ class THM_OrganizerControllerEvent extends JControllerAdmin
      */
     public function save2new()
     {
-        $eventID = JRequest::getInt('id', 0);
-        $menuID = JRequest::getVar('Itemid');
+        $eventID = JFactory::getApplication()->input->getInt('id', 0);
+        $menuID = JFactory::getApplication()->input->get('Itemid');
 
         if ($eventID == 0)
         {
@@ -170,9 +170,9 @@ class THM_OrganizerControllerEvent extends JControllerAdmin
      */
     public function delete()
     {
-        $eventID = JRequest::getInt('eventID');
-        $eventIDs = JRequest::getVar('eventIDs');
-        $menuID = JRequest::getVar('Itemid');
+        $eventID = JFactory::getApplication()->input->getInt('eventID');
+        $eventIDs = JFactory::getApplication()->input->get('eventIDs');
+        $menuID = JFactory::getApplication()->input->get('Itemid');
         $success = false;
         $model = $this->getModel('event');
         if (isset($eventID) && $eventID != 0)

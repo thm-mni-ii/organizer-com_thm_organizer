@@ -37,9 +37,9 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
      */
     public function getSubjects()
     {
-        $programID = JRequest::getString('programID');
-        $poolID = JRequest::getString('poolID');
-        $teacherID = JRequest::getString('teacherID');
+        $programID = JFactory::getApplication()->input->getString('programID');
+        $poolID = JFactory::getApplication()->input->getString('poolID');
+        $teacherID = JFactory::getApplication()->input->getString('teacherID');
         if ($programID == '-1' AND $teacherID == '-1')
         {
             return '[]';
@@ -77,8 +77,8 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
      */
     private function getBoundaries()
     {
-        $programID = JRequest::getString('programID');
-        $poolID = JRequest::getString('poolID');
+        $programID = JFactory::getApplication()->input->getString('programID');
+        $poolID = JFactory::getApplication()->input->getString('poolID');
 
         if ($poolID != '-1' AND $poolID != 'null')
         {

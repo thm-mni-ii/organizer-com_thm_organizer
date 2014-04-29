@@ -164,7 +164,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
         $query->from('#__thm_organizer_event_rooms');
         $query->where("eventID = '{$this->event['id']}'");
         $dbo->setQuery((string) $query);
-        $rooms = $dbo->loadResultArray();
+        $rooms = $dbo->loadColumn();
         $this->event['rooms'] = count($rooms)? $rooms : array();
     }
 
@@ -181,7 +181,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
         $query->from('#__thm_organizer_event_teachers');
         $query->where("eventID = '{$this->event['id']}'");
         $dbo->setQuery((string) $query);
-        $teachers = $dbo->loadResultArray();
+        $teachers = $dbo->loadColumn();
         $this->event['teachers'] = count($teachers)? $teachers : array();
     }
 
@@ -198,7 +198,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
         $query->from('#__thm_organizer_event_groups');
         $query->where("eventID = '{$this->event['id']}'");
         $dbo->setQuery((string) $query);
-        $groups = $dbo->loadResultArray();
+        $groups = $dbo->loadColumn();
         $this->event['groups'] = count($groups)? $groups : array();
     }
 

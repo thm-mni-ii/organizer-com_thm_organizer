@@ -29,7 +29,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
      */
     public function poolDegreeOptions()
     {
-        $isSubject = JRequest::getBool('subject');
+        $isSubject = JFactory::getApplication()->input->getBool('subject');
         $programEntries = $this->getProgramEntries($isSubject);
 
         // Selected programs have not been mapped, should not happen
@@ -39,7 +39,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
         }
 
         $programMappings = THM_OrganizerHelperMapping::getProgramMappings($programEntries);
-        $programIDs = JRequest::getString('programID');
+        $programIDs = JFactory::getApplication()->input->getString('programID');
         $programIDArray = explode(',', $programIDs);
 
         $noProgramsMappings = empty($programMappings);
@@ -50,7 +50,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
             return '';
         }
 
-        $ownID = JRequest::getInt('ownID');
+        $ownID = JFactory::getApplication()->input->getInt('ownID');
         $resourceID = $this->getResourceID($ownID, $isSubject);
         $parentIDs = array();
         $ownIDs = $isSubject? null : array();
@@ -77,7 +77,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
      */
     private function getProgramEntries()
     {
-        $programIDs = "'" . str_replace(",", "', '", JRequest::getString('programID')) . "'";
+        $programIDs = "'" . str_replace(",", "', '", JFactory::getApplication()->input->getString('programID')) . "'";
 
         $query = $this->_db->getQuery(true);
         $query->select('id, programID, lft, rgt');

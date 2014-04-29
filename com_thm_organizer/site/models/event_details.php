@@ -71,7 +71,7 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
      */
     public function loadEvent()
     {
-        $eventID = JRequest::getInt('eventID')? JRequest::getInt('eventID'): 0;
+        $eventID = JFactory::getApplication()->input->getInt('eventID')? JFactory::getApplication()->input->getInt('eventID'): 0;
         $dbo = JFactory::getDBO();
 
         $query = $dbo->getQuery(true);
@@ -220,7 +220,7 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
         $query->innerJoin("#__thm_organizer_rooms AS r ON er.roomID = r.id");
         $query->where("er.eventID = '$this->eventID'");
         $dbo->setQuery((string) $query);
-        $this->event['rooms'] = $dbo->loadResultArray();
+        $this->event['rooms'] = $dbo->loadColumn();
     }
 
     /**
@@ -239,7 +239,7 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
         $query->innerJoin("#__thm_organizer_teachers AS t ON et.teacherID = t.id");
         $query->where("et.eventID = '$this->eventID'");
         $dbo->setQuery((string) $query);
-        $this->event['teachers'] = $dbo->loadResultArray();
+        $this->event['teachers'] = $dbo->loadColumn();
     }
 
     /**
@@ -258,7 +258,7 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
         $query->innerJoin("#__usergroups AS ug ON eg.groupID = ug.id");
         $query->where("eg.eventID = '$this->eventID'");
         $dbo->setQuery((string) $query);
-        $this->event['groups'] = $dbo->loadResultArray();
+        $this->event['groups'] = $dbo->loadColumn();
     }
 
     /**
@@ -271,7 +271,7 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
      */
     private function setMenuLinks()
     {
-        $menuID = JRequest::getInt('Itemid');
+        $menuID = JFactory::getApplication()->input->getInt('Itemid');
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("link");

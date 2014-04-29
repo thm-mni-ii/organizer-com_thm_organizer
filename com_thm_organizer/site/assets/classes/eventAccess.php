@@ -58,7 +58,7 @@ class THMEventAccess
         $query->from("#__categories AS c");
         $query->innerJoin("#__thm_organizer_categories AS ec ON ec.contentCatID = c.id");
         $dbo->setQuery((string) $query);
-        $categoryIDs = $dbo->loadResultArray();
+        $categoryIDs = $dbo->loadColumn();
 
         if (isset($categoryIDs) and count($categoryIDs))
         {
@@ -85,7 +85,7 @@ class THMEventAccess
     public static function canEdit($eventID)
     {
         $user = JFactory::getUser();
-        $eventID = JRequest::getInt('eventID');
+        $eventID = JFactory::getApplication()->input->getInt('eventID');
         $assetname = "com_content.article.$eventID";
         $canEdit = $canEditOwn = false;
         $canEdit = $user->authorise('core.edit', $assetname);

@@ -54,8 +54,8 @@ class THM_OrganizerModelPool_Edit extends JModelAdmin
      */
     protected function loadFormData()
     {
-        $poolIDs = JRequest::getVar('cid',  null, '', 'array');
-        $poolID = (empty($poolIDs))? JRequest::getVar('id') : $poolIDs[0];
+        $poolIDs = JFactory::getApplication()->input->get('cid',  null, 'array');
+        $poolID = (empty($poolIDs))? JFactory::getApplication()->input->get('id') : $poolIDs[0];
         $this->getChildren($poolID);
         return $this->getItem($poolID);
     }

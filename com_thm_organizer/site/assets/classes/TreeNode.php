@@ -154,7 +154,7 @@ class THMTreeNode
         $this->publicDefault = $publicDefault;
         $this->nodeKey = $nodeKey;
         $this->expanded = $expanded;
-        if ($this->publicDefault === "default" && JRequest::getString('showSchedule') != "" && JRequest::getString('moduleID') != "")
+        if ($this->publicDefault === "default" && JFactory::getApplication()->input->getString('showSchedule') != "" && JFactory::getApplication()->input->getString('moduleID') != "")
         {
             $this->cls = "MySchedSearchResult";
         }

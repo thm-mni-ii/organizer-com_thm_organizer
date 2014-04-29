@@ -125,12 +125,12 @@ class THM_OrganizerDataAbstraction
             }
             else
             {
-                $data = $this->_dbo->loadResultArray();
+                $data = $this->_dbo->loadColumn();
             }
         }
         else
         {
-            $this->_dbo->query();
+            $this->_dbo->execute();
             $data = true;
         }
         if ($this->_dbo->getErrorNum())
@@ -178,7 +178,7 @@ class THM_OrganizerDataAbstraction
         $query->select('*');
         $query->from('#__thm_organizer_settings');
         $query->where("id = '1'");
-        $settings = $this->query((string) $query);
+        $settings = $this->execute((string) $query);
         if ($settings)
         {
             $settings = $settings[ 0 ];
@@ -230,7 +230,7 @@ class THM_OrganizerDataAbstraction
      */
     public function getSemID()
     {
-        $semesterID = JRequest::getString('semesterID');
+        $semesterID = JFactory::getApplication()->input->getString('semesterID');
         return $semesterID;
     }
 

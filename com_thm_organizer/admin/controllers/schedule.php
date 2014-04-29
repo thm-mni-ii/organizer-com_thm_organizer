@@ -32,8 +32,8 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('cid');
-        JRequest::setVar('scheduleID', '0');
+        JFactory::getApplication()->input->set('cid');
+        JFactory::getApplication()->input->set('scheduleID', '0');
         $this->setRedirect('index.php?option=com_thm_organizer&view=schedule_edit');
     }
 
@@ -65,7 +65,7 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
-        $file = JRequest::getVar('file', '', 'FILES');
+        $file = JFactory::getApplication()->input->files->get('file', '');
         if ($file['type'] == "text/xml")
         {
             $model = $this->getModel('schedule');
@@ -174,7 +174,7 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
         }
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
 
-        if (JRequest::getInt("boxchecked") === 1)
+        if (JFactory::getApplication()->input->get("boxchecked", 0, 'INT') === 1)
         {
             $model = $this->getModel('schedule');
             $active = $model->checkIfActive();
@@ -217,7 +217,7 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
 
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
 
-        if (JRequest::getInt("boxchecked") === 1)
+        if (JFactory::getApplication()->input->get("boxchecked", 0, 'INT') === 1)
         {
             $model = $this->getModel('schedule');
             $active = $model->checkIfActive();
@@ -261,7 +261,7 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
         switch ($merge)
         {
             case MERGE:
-                JRequest::setVar('view', 'schedule_merge');
+                JFactory::getApplication()->input->set('view', 'schedule_merge');
                 parent::display();
                 break;
             case TOO_FEW:

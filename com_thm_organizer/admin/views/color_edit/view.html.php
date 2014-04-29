@@ -63,7 +63,7 @@ class THM_OrganizerViewColor_Edit extends JViewLegacy
      */
     protected function addToolBar()
     {
-        JRequest::setVar('hidemainmenu', true);
+        JFactory::getApplication()->input->set('hidemainmenu', true);
         $isNew = ($this->item->id == 0);
         $title = $isNew? JText::_('COM_THM_ORGANIZER_CLM_NEW_TITLE') : JText::_('COM_THM_ORGANIZER_CLM_EDIT_TITLE');
         JToolbarHelper::title($title, 'organizer_colors');

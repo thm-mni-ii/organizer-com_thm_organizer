@@ -41,7 +41,7 @@ class JFormFieldParentPool extends JFormField
      */
     public function getInput()
     {
-        $ownID = JRequest::getInt('id');
+        $ownID = JFactory::getApplication()->input->getInt('id');
         $mappings = array();
         $parentIDs = array();
         $ownIDs = array();

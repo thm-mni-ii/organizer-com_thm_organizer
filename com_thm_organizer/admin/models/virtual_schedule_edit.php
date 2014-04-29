@@ -111,7 +111,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         $query->from('#__thm_organizer_virtual_schedules_elements');
         $query->where("vid = '$vid'");
         $dbo->setQuery((string) $query);
-        return $dbo->loadResultArray();
+        return $dbo->loadColumn();
     }
 
     /**
@@ -486,7 +486,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         $query->from('#__thm_organizer_virtual_schedules_elements');
         $query->where("vid = '$vid'");
         $dbo->setQuery((string) $query);
-        $dbo->query();
+        $dbo->execute();
         return true;
     }
 
@@ -506,7 +506,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         $query->innerJoin('#__thm_organizer_virtual_schedules_elements AS vse ON vs.id = vse.vid');
         $query->where("vs.id = '$vid'");
         $dbo->setQuery((string) $query);
-        $dbo->query();
+        $dbo->execute();
         if ($dbo->getErrorNum())
         {
             return "0";

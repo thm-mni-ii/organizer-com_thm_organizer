@@ -30,7 +30,7 @@ class THM_OrganizerModelPool extends JModelLegacy
      */
     public function delete()
     {
-        $poolIDs = JRequest::getVar('cid', array(0), 'post', 'array');
+        $poolIDs = JFactory::getApplication()->input->post->get('cid', array(0), 'array');
         if (!empty($poolIDs))
         {
             $this->_db->transactionStart();

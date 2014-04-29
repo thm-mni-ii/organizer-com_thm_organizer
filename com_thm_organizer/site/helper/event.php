@@ -67,7 +67,7 @@ class THM_OrganizerHelperEvent
      */
     private static function handleDatesandTimes(&$data)
     {
-        $data['rec_type'] = JRequest::getInt('rec_type');
+        $data['rec_type'] = JFactory::getApplication()->input->getInt('rec_type');
         $data['startdate'] = trim($data['startdate']);
         $data['nativestartdate'] = $data['startdate'];
         $data['startdate'] = explode(".", $data['startdate']);
@@ -267,7 +267,7 @@ class THM_OrganizerHelperEvent
     private static function getNames($requestName, $columnName, $tableName)
     {
         $names = array();
-        $requestName = JRequest::getVar($requestName, array());
+        $requestName = JFactory::getApplication()->input->get($requestName, array());
         $dummyIndex = array_search('-1', $requestName);
         if ($dummyIndex)
         {
@@ -282,7 +282,7 @@ class THM_OrganizerHelperEvent
             $requestedIDs = "( " . implode(", ", $requestName) . " )";
             $query->where("id IN $requestedIDs");
             $dbo->setQuery((string) $query);
-            $names = $dbo->loadResultArray();
+            $names = $dbo->loadColumn();
             $names = (count($names)) ? $names : array();
         }
         return $names;

@@ -319,7 +319,7 @@ Joomla.submitbutton =  function(task){
             </table>
         </div>
         <?php echo $this->form->getInput('id'); ?>
-        <input type='hidden' name='Itemid' value="<?php echo JRequest::getVar('Itemid'); ?>" />
+        <input type='hidden' name='Itemid' value="<?php echo JFactory::getApplication()->input->get('Itemid'); ?>" />
         <input type='hidden' name='task' value='event.save' />
         <?php echo JHtml::_('form.token'); ?>
     </form>

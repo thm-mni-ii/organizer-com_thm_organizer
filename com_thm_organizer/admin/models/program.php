@@ -29,7 +29,7 @@ class THM_OrganizerModelProgram extends JModelLegacy
      */
     public function delete()
     {
-           $resourceIDs = JRequest::getVar('cid', array(), 'post', 'array');
+           $resourceIDs = JFactory::getApplication()->input->post->get('cid', array(), 'array');
         if (!empty($resourceIDs))
         {
             $this->_db->transactionStart();

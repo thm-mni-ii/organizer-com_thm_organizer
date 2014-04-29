@@ -39,7 +39,7 @@ class JFormFieldSubjectParents extends JFormField
      */
     public function getInput()
     {
-        $subjectID = JRequest::getInt('id');
+        $subjectID = JFactory::getApplication()->input->getInt('id');
         $existingMappings = array();
         $selectedParents = array();
         $this->getExistingMappings($subjectID, $existingMappings, $selectedParents);
@@ -94,6 +94,6 @@ class JFormFieldSubjectParents extends JFormField
         $query->order('lft ASC');
         $dbo->setQuery((string) $query);
         $existingMappings = array_merge($existingMappings, $dbo->loadAssocList());
-        $selectedParents = array_merge($selectedParents, $dbo->loadResultArray());
+        $selectedParents = array_merge($selectedParents, $dbo->loadColumn());
     }
 }

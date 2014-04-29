@@ -47,7 +47,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 
         // Comma seperated lecturer data */
         $this->moduleNavigation = json_decode($this->session->get('navi_json'));
-        $this->lang = JRequest::getVar('languageTag');
+        $this->lang = JFactory::getApplication()->input->get('languageTag');
         $this->otherLanguageTag = ($this->lang == 'de') ? 'en' : 'de';
         $this->langUrl = self::languageSwitcher($this->otherLanguageTag);
  
@@ -64,10 +64,10 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
      */
     private function languageSwitcher($langLink)
     {
-        $itemid = JRequest::getVar('Itemid');
-        $group = JRequest::getVar('view');
+        $itemid = JFactory::getApplication()->input->get('Itemid');
+        $group = JFactory::getApplication()->input->get('view');
         $URI = JURI::getInstance('index.php');
-        $moduleID = JRequest::getVar('id');
+        $moduleID = JFactory::getApplication()->input->get('id');
 
         $switchParams = array('option' => 'com_thm_organizer',
                 'view' => $group,

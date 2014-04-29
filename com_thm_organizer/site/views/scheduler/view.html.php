@@ -86,7 +86,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
         $this->canWriteEvents = $eventModel->canWrite;
         $this->jsid = $schedulerModel->getSessionID();
 
-        $this->searchModuleID = JRequest::getString('moduleID');
+        $this->searchModuleID = JFactory::getApplication()->input->getString('moduleID');
 
         $displayModuleNumber = (boolean) $menuparams->get("displayModuleNumber", true);
         $this->displayModuleNumber = $displayModuleNumber;
@@ -103,7 +103,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
         
         $site = new JSite;
         $menu = $site->getMenu();
-        $menuid = JRequest::getInt("menuID", 0);
+        $menuid = JFactory::getApplication()->input->getInt("menuID", 0);
 
         if ($menuid === 0 && !is_null($menu->getActive()))
         {
@@ -119,7 +119,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
         {
             $schedulerFromMenu = true;
         }
-        elseif(JRequest::getString('scheduleID'))
+        elseif(JFactory::getApplication()->input->getString('scheduleID'))
         {
             $schedulerFromMenu = false;
         }
@@ -145,7 +145,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
         }
         elseif($schedulerFromMenu === false) // Called via link
         {
-            $requestSchedulerID = JRequest::getInt("scheduleID", null);
+            $requestSchedulerID = JFactory::getApplication()->input->getInt("scheduleID", null);
             if (isset($requestSchedulerID))
             {
                 $schedule = $schedulerModel->getActiveScheduleByID($requestSchedulerID);
@@ -229,10 +229,10 @@ class THM_OrganizerViewScheduler extends JViewLegacy
 
         $periods->length = count((array) $periods);
 
-        $this->requestTeacherGPUntisIDs = JRequest::getVar('teacherID', array(), 'default', 'array');
-        $this->requestRoomGPUntisIDs = JRequest::getVar('roomID', array(), 'default', 'array');
-        $this->requestPoolGPUntisIDs = JRequest::getVar('poolID', array(), 'default', 'array');
-        $this->requestSubjectGPUntisIDs = JRequest::getVar('subjectID', array(), 'default', 'array');
+        $this->requestTeacherGPUntisIDs = JFactory::getApplication()->input->get('teacherID', array(), 'array');
+        $this->requestRoomGPUntisIDs = JFactory::getApplication()->input->get('roomID', array(), 'array');
+        $this->requestPoolGPUntisIDs = JFactory::getApplication()->input->get('poolID', array(), 'array');
+        $this->requestSubjectGPUntisIDs = JFactory::getApplication()->input->get('subjectID', array(), 'array');
 
         foreach ($periods as $period)
         {

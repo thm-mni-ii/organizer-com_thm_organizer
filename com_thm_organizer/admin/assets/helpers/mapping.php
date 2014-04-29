@@ -156,7 +156,7 @@ class THM_OrganizerHelperMapping
         $query->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
         $query->where($rangesClause);
         $dbo->setQuery((string) $query);
-        return $dbo->loadResultArray();
+        return $dbo->loadColumn();
     }
 
     /**
@@ -179,8 +179,8 @@ class THM_OrganizerHelperMapping
         $query->where($isSubject? "subjectID = '$resourceID'" : "poolID = '$resourceID'");
         $dbo->setQuery((string) $query);
         $mappings = array_merge($mappings, $dbo->loadAssocList());
-        $parentIDs = array_merge($parentIDs, $dbo->loadResultArray());
-        $ownIDs = array_merge($ownIDs, $dbo->loadResultArray(1));
+        $parentIDs = array_merge($parentIDs, $dbo->loadColumn());
+        $ownIDs = array_merge($ownIDs, $dbo->loadColumn(1));
     }
 
     /**
@@ -202,7 +202,7 @@ class THM_OrganizerHelperMapping
             $childrenQuery->where("rgt < '{$mapping['rgt']}'");
             $childrenQuery->where("parentID IS NULL");
             $dbo->setQuery((string) $childrenQuery);
-            $children = array_merge($children, $dbo->loadResultArray());
+            $children = array_merge($children, $dbo->loadColumn());
         }
         return $children;
     }
@@ -369,7 +369,7 @@ class THM_OrganizerHelperMapping
      */
     public static function getTeacherMappingClauses()
     {
-        $teacherID = JRequest::getInt('teacherID');
+        $teacherID = JFactory::getApplication()->input->get('teacherID', null, 'INT');
         if (empty($teacherID) OR $teacherID == '-1' OR $teacherID == 'null')
         {
             return false;
@@ -382,6 +382,6 @@ class THM_OrganizerHelperMapping
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = st.subjectID');
         $query->where("st.teacherID = '$teacherID'");
         $dbo->setQuery((string) $query);
-        return $dbo->loadResultArray();
+        return $dbo->loadColumn();
     }
 }

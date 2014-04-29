@@ -60,7 +60,7 @@ class THM_OrganizerModelcategory extends JModelLegacy
      */
     public function delete()
     {
-        $categoryIDs = JRequest::getVar('cid', array(0), 'post', 'array');
+        $categoryIDs = JFactory::getApplication()->input->post->get('cid', array(0), 'array');
         if (count($categoryIDs))
         {
             $dbo = $this->getDbo();
@@ -72,7 +72,7 @@ class THM_OrganizerModelcategory extends JModelLegacy
             $query->from("#__thm_organizer_events");
             $query->where("categoryID IN ( '" . implode("', '", $categoryIDs) . "' )");
             $dbo->setQuery((string) $query);
-            $eventIDs = $dbo->loadResultArray();
+            $eventIDs = $dbo->loadColumn();
 
             if (count($eventIDs))
             {

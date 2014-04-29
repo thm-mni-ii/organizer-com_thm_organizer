@@ -64,7 +64,7 @@ class JFormFieldResponsible extends JFormField
         $query->select('id');
         $query->from('#__usergroups');
         $dbo->setQuery((string) $query);
-        $groupIDs = $dbo->loadResultArray();
+        $groupIDs = $dbo->loadColumn();
  
         $usergroups = array();
         foreach ($groupIDs as $groupID)

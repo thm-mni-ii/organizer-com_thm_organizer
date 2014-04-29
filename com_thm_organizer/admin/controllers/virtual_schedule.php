@@ -34,8 +34,8 @@ class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'virtual_schedule_edit');
-        JRequest::setVar('id', '0');
+        JFactory::getApplication()->input->set('view', 'virtual_schedule_edit');
+        JFactory::getApplication()->input->set('id', '0');
         parent::display();
     }
 
@@ -50,7 +50,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'virtual_schedule_edit');
+        JFactory::getApplication()->input->set('view', 'virtual_schedule_edit');
         parent::display();
     }
     /**
@@ -83,7 +83,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        $cid = JRequest::getVar('cid',   array(), 'post', 'array');
+        $cid = JFactory::getApplication()->input->post->get('cid', array(), 'post', 'array');
         $cids = "'" . implode("', '", $cid) . "'";
 
         $dbo = JFactory::getDBO();
@@ -91,7 +91,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
         $scheduleQuery->delete('#__thm_organizer_virtual_schedules');
         $scheduleQuery->where("vid IN ( $cids )");
         $dbo->setQuery((string) $scheduleQuery);
-        $dbo->query();
+        $dbo->execute();
 
         if ($dbo->getErrorNum())
         {
@@ -103,7 +103,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
             $elementQuery->delete('#__thm_organizer_virtual_schedules_elements');
             $elementQuery->where("vid IN ( $cids )");
             $dbo->setQuery((string) $elementQuery);
-            $dbo->query();
+            $dbo->execute();
         }
 
         if (count($cid) > 1)

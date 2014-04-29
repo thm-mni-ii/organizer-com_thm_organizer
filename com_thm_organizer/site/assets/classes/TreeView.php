@@ -111,18 +111,18 @@ class THMTreeView
         $this->_JDA = $JDA;
         $this->_cfg = $CFG->getCFG();
 
-        $menuID = JRequest::getInt("menuID", 0);
+        $menuID = JFactory::getApplication()->input->getInt("menuID", 0);
         if (!empty($menuID))
         {
             $isBackend = true;
         }
         else
         {
-            $menuID = JRequest::getInt("Itemid", 0);
+            $menuID = JFactory::getApplication()->input->getInt("Itemid", 0);
             $isBackend = false;
         }
 
-        $this->_checkBoxForChildrenOnly = JRequest::getBool("childrenCheckbox", false);
+        $this->_checkBoxForChildrenOnly = JFactory::getApplication()->input->getBool("childrenCheckbox", false);
 
         $menuItem = JFactory::getApplication()->getMenu()->getItem($menuID);
 
@@ -132,7 +132,7 @@ class THMTreeView
             $this->_checked = array();
             $publicDefaultID = array();
             $this->_publicDefaultNode = array();
-            $this->departmentSemesterSelection = JRequest::getString('departmentSemesterSelection');
+            $this->departmentSemesterSelection = JFactory::getApplication()->input->getString('departmentSemesterSelection');
         }
         else
         {
@@ -169,7 +169,7 @@ class THMTreeView
             }
             else
             {
-                $treeIDs = JRequest::getString('treeIDs');
+                $treeIDs = JFactory::getApplication()->input->getString('treeIDs');
                 $treeIDsData = json_decode($treeIDs);
                 if ($treeIDsData != null)
                 {
@@ -189,7 +189,7 @@ class THMTreeView
             }
             else
             {
-                $publicDefaultID = json_decode(JRequest::getString('publicDefaultID'));
+                $publicDefaultID = json_decode(JFactory::getApplication()->input->getString('publicDefaultID'));
                 if ($publicDefaultID != null)
                 {
                     $this->_publicDefault = (array) $publicDefaultID;
@@ -200,7 +200,7 @@ class THMTreeView
                 }
             }
 
-            if (JRequest::getString('departmentSemesterSelection') == "")
+            if (JFactory::getApplication()->input->getString('departmentSemesterSelection') == "")
             {
                 if (isset($options["departmentSemesterSelection"]))
                 {
@@ -213,7 +213,7 @@ class THMTreeView
             }
             else
             {
-                $this->departmentSemesterSelection = JRequest::getString('departmentSemesterSelection');
+                $this->departmentSemesterSelection = JFactory::getApplication()->input->getString('departmentSemesterSelection');
             }
         }
     }

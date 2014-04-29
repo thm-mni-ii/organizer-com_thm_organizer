@@ -42,7 +42,7 @@ class THM_OrganizerModelTeacher_Merge extends JModelLegacy
         $query->from('#__thm_organizer_teachers AS t');
         $query->leftJoin('#__thm_organizer_fields AS f ON t.fieldID = f.id');
 
-        $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
+        $cids = "'" . implode("', '", JFactory::getApplication()->input->post->get('cid', array(), 'array')) . "'";
         $query->where("t.id IN ( $cids )");
 
         $query->order('t.id ASC');

@@ -62,12 +62,12 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     {
         parent::__construct();
         $monitor = JTable::getInstance('monitors', 'thm_organizerTable');
-        $remoteIPData = array('ip' => JRequest::getVar('REMOTE_ADDR', '', 'SERVER'));
+        $remoteIPData = array('ip' => JFactory::getApplication()->input->server->get('REMOTE_ADDR', ''));
         $registered = $monitor->load($remoteIPData);
 
         if ($registered)
         {
-            $templateSet = JRequest::getString('tmpl') == 'component';
+            $templateSet = JFactory::getApplication()->input->getString('tmpl') == 'component';
             if (!$templateSet)
             {
                 $this->redirectToComponentTemplate();
@@ -124,8 +124,8 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     private function redirectToComponentTemplate()
     {
         $application = JFactory::getApplication();
-        $requestURL = JRequest::getVar('SERVER_NAME', '', 'SERVER');
-        $requestURL .= JRequest::getVar('REQUEST_URI', '', 'SERVER');
+        $requestURL = JFactory::getApplication()->input->server->get('SERVER_NAME', '');
+        $requestURL .= JFactory::getApplication()->input->server->get('REQUEST_URI', '');
         $redirectURL = $requestURL . '&tmpl=component';
         $application->redirect($redirectURL);
     }
@@ -141,7 +141,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     {
         if (empty($roomID))
         {
-            $form = JRequest::getVar('jform');
+            $form = JFactory::getApplication()->input->get('jform');
             $roomID = $form['room'];
         }
         $room = JTable::getInstance('rooms', 'thm_organizerTable');
@@ -165,7 +165,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      */
     private function setScheduleInformation()
     {
-        $request = JRequest::getVar('jform');
+        $request = JFactory::getApplication()->input->get('jform');
         if (!empty($request['date']))
         {
             $this->date = getDate(strtotime($request['date']));
@@ -201,7 +201,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
          $query->where("enddate >= '$this->_dbDate'");
          $query->where("active = 1");
          $dbo->setQuery((string) $query);
-         $schedules = $dbo->loadResultArray();
+         $schedules = $dbo->loadColumn();
          if (empty($schedules))
          {
              $this->redirect(JText::_('COM_THM_ORGANIZER_NO_SCHEDULES'));
@@ -254,7 +254,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      */
     private function setLessonData($blockID)
     {
-        $menuID = JRequest::getInt('Itemid');
+        $menuID = JFactory::getApplication()->input->getInt('Itemid');
         $lessonFound = false;
         foreach ($this->_schedules as $schedule)
         {
@@ -690,7 +690,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      */
     private function setMenuLinks()
     {
-        $menuID = JRequest::getInt('Itemid');
+        $menuID = JFactory::getApplication()->input->getInt('Itemid');
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("link");

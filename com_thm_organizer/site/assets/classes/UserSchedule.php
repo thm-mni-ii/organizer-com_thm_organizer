@@ -106,7 +106,7 @@ class THMUserSchedule
    public function save()
    {
       // Wenn die Anfragen nicht durch Ajax von MySched kommt
-      $requestedWith = JRequest::getVar('HTTP_X_REQUESTED_WITH', '', 'SERVER');
+      $requestedWith = JFactory::getApplication()->input->server->get('HTTP_X_REQUESTED_WITH', '');
       if (isset($requestedWith))
       {
          if ($requestedWith != 'XMLHttpRequest')
@@ -149,7 +149,7 @@ class THMUserSchedule
  
             try
             {
-                $result = $dbo->query();
+                $result = $dbo->execute();
             }
             catch (Exception $e)
             {
@@ -176,7 +176,7 @@ class THMUserSchedule
             try
             {
                 // Execute the query in Joomla 2.5.
-                $result = $dbo->query();
+                $result = $dbo->execute();
             }
             catch (Exception $e)
             {

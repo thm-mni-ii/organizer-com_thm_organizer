@@ -154,7 +154,7 @@ class THM_OrganizerModelPool_Manager extends JModelList
         $query->where($bordersClauses, 'OR');
         $query->order('name');
         $this->_db->setQuery((string) $query);
-        $programs = $this->_db->loadResultArray();
+        $programs = $this->_db->loadColumn();
         return $programs;
     }
 
@@ -204,7 +204,7 @@ class THM_OrganizerModelPool_Manager extends JModelList
         $this->setState('filter.search', $search);
 
         $formProgram = $this->getUserStateFromRequest($this->context . '.filter_program', 'filter_program', '');
-        $requestProgram = JRequest::getInt('programID');
+        $requestProgram = JFactory::getApplication()->input->getInt('programID');
         $this->setState('filter.program', (empty($formProgram) OR $formProgram == '-1')? $requestProgram : $formProgram);
 
         $limit = $this->getUserStateFromRequest($this->context . '.limit', 'limit');

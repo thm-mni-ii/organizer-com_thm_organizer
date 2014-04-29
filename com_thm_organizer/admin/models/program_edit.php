@@ -56,8 +56,8 @@ class THM_OrganizerModelProgram_Edit extends JModelAdmin
      */
     protected function loadFormData()
     {
-        $programIDs = JRequest::getVar('cid',  null, '', 'array');
-        $programID = (empty($programIDs))? JRequest::getInt('id') : $programIDs[0];
+        $programIDs = JFactory::getApplication()->input->get('cid',  null, 'array');
+        $programID = (empty($programIDs))? JFactory::getApplication()->input->getInt('id') : $programIDs[0];
         $this->getChildren($programID);
         return $this->getItem($programID);
     }

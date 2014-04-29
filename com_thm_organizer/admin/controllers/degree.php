@@ -33,8 +33,8 @@ class THM_OrganizerControllerDegree extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'degree_edit');
-        JRequest::setVar('id', '0');
+        JFactory::getApplication()->input->set('view', 'degree_edit');
+        JFactory::getApplication()->input->set('id', '0');
         parent::display();
     }
 
@@ -49,7 +49,7 @@ class THM_OrganizerControllerDegree extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'degree_edit');
+        JFactory::getApplication()->input->set('view', 'degree_edit');
         parent::display();
     }
 

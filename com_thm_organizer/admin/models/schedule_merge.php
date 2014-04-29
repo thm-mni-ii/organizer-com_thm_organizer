@@ -40,7 +40,7 @@ class THM_OrganizerModelSchedule_Merge extends JModelLegacy
         $query = $dbo->getQuery(true);
 
         $select = "id, departmentname, semestername ";
-        $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
+        $cids = "'" . implode("', '", JFactory::getApplication()->input->post->get('cid', array(), 'array')) . "'";
 
         $query->select($select);
         $query->from('#__thm_organizer_schedules');

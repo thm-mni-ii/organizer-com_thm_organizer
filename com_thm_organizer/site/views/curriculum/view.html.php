@@ -41,11 +41,11 @@ class THM_OrganizerViewCurriculum extends JViewLegacy
 
         $this->ecollabLink = JComponentHelper::getParams('com_thm_organizer')->get('eCollabLink');
         $this->params = JFactory::getApplication()->getMenu()->getActive()->params;
-        $this->languageTag = JRequest::getVar('languageTag', $this->params->get('language'));
+        $this->languageTag = JFactory::getApplication()->input->get('languageTag', $this->params->get('language'));
         $this->langUrl = THM_OrganizerHelperLanguage::languageSwitch(
                 'curriculum',
                 ($this->languageTag == 'de') ? 'en' : 'de',
-                JRequest::getInt('Itemid')
+                JFactory::getApplication()->input->getInt('Itemid')
             );
 
         parent::display($tpl);

@@ -33,8 +33,8 @@ class THM_OrganizerControllerTeacher extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'teacher_edit');
-        JRequest::setVar('id', '0');
+        JFactory::getApplication()->input->set('view', 'teacher_edit');
+        JFactory::getApplication()->input->set('id', '0');
         parent::display();
     }
 
@@ -49,7 +49,7 @@ class THM_OrganizerControllerTeacher extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'teacher_edit');
+        JFactory::getApplication()->input->set('view', 'teacher_edit');
         parent::display();
     }
 
@@ -87,7 +87,7 @@ class THM_OrganizerControllerTeacher extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        if (count(JRequest::getVar('cid', array(), 'post', 'array')) == 1)
+        if (count(JFactory::getApplication()->input->post->get('cid', array(), 'array')) == 1)
         {
             $msg = JText::_('COM_THM_ORGANIZER_TRM_MERGE_TOOFEW');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg, 'warning');
@@ -103,7 +103,7 @@ class THM_OrganizerControllerTeacher extends JControllerAdmin
             }
             else
             {
-                JRequest::setVar('view', 'teacher_merge');
+                JFactory::getApplication()->input->set('view', 'teacher_merge');
                 parent::display();
             }
         }

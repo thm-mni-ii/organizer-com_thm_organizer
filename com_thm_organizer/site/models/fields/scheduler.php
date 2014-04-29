@@ -48,13 +48,13 @@ class JFormFieldScheduler extends JFormField
             echo "<div style='color:red;'>" . JText::_('COM_THM_ORGANIZER_EXTJS4_LIBRARY_NOT_INSTALLED') . "</div>";
         }
 
-        $menuid = JRequest::getInt("id", 0);
+        $menuid = JFactory::getApplication()->input->getInt("id", 0);
 
         // Get database
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('params');
-        $query->from($dbo->nameQuote('#__menu'));
+        $query->from($dbo->quoteName('#__menu'));
         $query->where('id = ' . $menuid);
         $dbo->setQuery($query);
         $rows = $dbo->loadObjectList();

@@ -34,8 +34,8 @@ class THM_OrganizerControllerCategory extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'category_edit');
-        JRequest::setVar('categoryID', '0');
+        JFactory::getApplication()->input->set('view', 'category_edit');
+        JFactory::getApplication()->input->set('categoryID', '0');
         parent::display();
     }
 
@@ -50,7 +50,7 @@ class THM_OrganizerControllerCategory extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'category_edit');
+        JFactory::getApplication()->input->set('view', 'category_edit');
         parent::display();
     }
 

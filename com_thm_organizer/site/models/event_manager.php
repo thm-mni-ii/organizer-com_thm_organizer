@@ -144,9 +144,9 @@ class THM_OrganizerModelEvent_Manager extends JModelList
         {
             $categoryID = $this->_menuParameters->get('category_restriction');
         }
-        elseif (JRequest::getVar('categoryID'))
+        elseif (JFactory::getApplication()->input->get('categoryID'))
         {
-            $categoryID = JRequest::getVar('categoryID');
+            $categoryID = JFactory::getApplication()->input->get('categoryID');
         }
         else
         {
@@ -182,7 +182,7 @@ class THM_OrganizerModelEvent_Manager extends JModelList
     private function setFromDate()
     {
         $application = JFactory::getApplication();
-        $jform = JRequest::getVar('jform');
+        $jform = JFactory::getApplication()->input->get('jform');
         if (isset($this->_callParameters) and isset($this->_callParameters["fromDate"]))
         {
             $fromDate = $this->_callParameters["fromDate"];
@@ -214,7 +214,7 @@ class THM_OrganizerModelEvent_Manager extends JModelList
     private function setToDate()
     {
         $application = JFactory::getApplication();
-        $jform = JRequest::getVar('jform');
+        $jform = JFactory::getApplication()->input->get('jform');
         if (isset($this->_callParameters) and isset($this->_callParameters["toDate"]))
         {
             $toDate = $this->_callParameters["fromDate"];
@@ -246,7 +246,7 @@ class THM_OrganizerModelEvent_Manager extends JModelList
     private function setSearch()
     {
         $application = JFactory::getApplication();
-        $jform = JRequest::getVar('jform');
+        $jform = JFactory::getApplication()->input->get('jform');
         if (isset($this->_callParameters) and isset($this->_callParameters["search"]))
         {
             $search = $this->_callParameters["search"];
@@ -306,10 +306,10 @@ class THM_OrganizerModelEvent_Manager extends JModelList
      */
     private function setLimits()
     {
-        $limit = (JRequest::getInt('limit'))? JRequest::getInt('limit') : 0;
+        $limit = (JFactory::getApplication()->input->getInt('limit'))? JFactory::getApplication()->input->getInt('limit') : 0;
         $this->setState('limit', $limit);
 
-        $limitstart = (JRequest::getInt('limitstart'))? JRequest::getInt('limitstart') : 0;
+        $limitstart = (JFactory::getApplication()->input->getInt('limitstart'))? JFactory::getApplication()->input->getInt('limitstart') : 0;
         $this->setState('limitstart', $limitstart);
     }
 
@@ -601,7 +601,7 @@ class THM_OrganizerModelEvent_Manager extends JModelList
             $groupQuery->where("eventID = '$id'");
             $dbo->setQuery((string) $groupQuery);
             $groups = $dbo->loadAssocList();
-            $groupNames = $dbo->loadResultArray(1);
+            $groupNames = $dbo->loadColumn(1);
 
             $teacherQuery = $dbo->getQuery(true);
             $teacherQuery->select('id, surname, "teacher" AS type');
@@ -610,7 +610,7 @@ class THM_OrganizerModelEvent_Manager extends JModelList
             $teacherQuery->where("eventID = '$id'");
             $dbo->setQuery((string) $teacherQuery);
             $teachers = $dbo->loadAssocList();
-            $teacherNames = $dbo->loadResultArray(1);
+            $teacherNames = $dbo->loadColumn(1);
 
             $roomQuery = $dbo->getQuery(true);
             $roomQuery->select('id, longname, "room" AS type');
@@ -619,9 +619,10 @@ class THM_OrganizerModelEvent_Manager extends JModelList
             $roomQuery->where("eventID = '$id'");
             $dbo->setQuery((string) $roomQuery);
             $rooms = $dbo->loadAssocList();
-            $roomNames = $dbo->loadResultArray(1);
+            $roomNames = $dbo->loadColumn(1);
 
             $resources = array_merge($groups, array_merge($teachers, $rooms));
+
             $resourceNames = array_merge($groupNames, array_merge($teacherNames, $roomNames));
 
             $resourceNameList = (count($resourceNames))? implode(", ", $resourceNames) : "";

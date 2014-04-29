@@ -31,7 +31,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      */
     public function delete()
     {
-        $subjectIDs = JRequest::getVar('cid', array(0), 'post', 'array');
+        $subjectIDs = JFactory::getApplication()->input->post->get('cid', array(0), 'array');
         if (!empty($subjectIDs))
         {
             $this->_db->transactionStart();
@@ -181,7 +181,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
         $this->_db->setQuery((string) $query);
         try
         {
-            $this->_db->query();
+            $this->_db->execute();
         }
         catch (Exception $exc)
         {
@@ -209,7 +209,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
         $this->_db->setQuery((string) $query);
         try
         {
-            $this->_db->query();
+            $this->_db->execute();
         }
         catch (Exception $exc)
         {
@@ -269,7 +269,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
         $subjectURL = JURI::root() . 'index.php?option=com_thm_organizer&view=subject_details';
         $subjectURL .= "&languageTag=$languageTag&id={$subjectInfo['id']}";
         
-        $itemID = JRequest::getInt('Itemid');
+        $itemID = JFactory::getApplication()->input->getInt('Itemid');
         $subjectURL .= !empty($itemID)? "&Itemid=$itemID" : '';
         $href = JRoute::_($subjectURL);
 
