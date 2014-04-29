@@ -79,8 +79,8 @@ class THM_OrganizerViewScheduler extends JViewLegacy
         $doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/mySched/style.css");
 
         $schedulerModel = $this->getModel();
-        $eventModel = JModel::getInstance('event_manager', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
-        $ajaxModel = JModel::getInstance('Ajaxhandler', 'thm_organizerModel', array('ignore_request' => false));
+        $eventModel = JModelLegacy::getInstance('event_manager', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
+        $ajaxModel = JModelLegacy::getInstance('Ajaxhandler', 'thm_organizerModel', array('ignore_request' => false));
 
         $menuparams = JFactory::getApplication()->getParams();
         $this->canWriteEvents = $eventModel->canWrite;
@@ -246,7 +246,8 @@ class THM_OrganizerViewScheduler extends JViewLegacy
             }
         }
 
-        $schedulearr['CurriculumColors'] = $schedulerModel->getCurriculumModuleColors();
+//         $schedulearr['CurriculumColors'] = $schedulerModel->getCurriculumModuleColors();
+        $schedulearr['CurriculumColors'] = array();
 
         $schedulearr["Grid.load"] = $periods;
 
