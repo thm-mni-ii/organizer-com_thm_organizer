@@ -394,7 +394,7 @@ class THMTreeView
         $semesterJahrNode = array();
 
         // Get ids for teachers and rooms
-        $schedulerModel = JModel::getInstance('scheduler', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
+        $schedulerModel = JModelLegacy::getInstance('scheduler', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
         $rooms = $schedulerModel->getRooms();
         $teachers = $schedulerModel->getTeachers();
 
