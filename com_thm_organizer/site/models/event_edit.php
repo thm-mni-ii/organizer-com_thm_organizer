@@ -308,6 +308,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
         $query->order('toc.title ASC');
         $dbo->setQuery((string) $query);
         $results = $dbo->loadAssocList();
+        
         if (count($results))
         {
             $userID = JFactory::getUser()->id;

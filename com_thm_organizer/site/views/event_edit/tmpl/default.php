@@ -164,6 +164,7 @@ Joomla.submitbutton =  function(task){
           name="eventForm"
           id="eventForm"
           class="eventForm form-validate">
+          <?php echo $this->getToolbar(); ?>
         <div id="thm_organizer_ee_head_div" class='thm_organizer_ee_head_div'>
             <span id="thm_organizer_ee_title" class='thm_organizer_ee_title'>
                 <?php echo ($this->event['id'] == 0)? JText::_('COM_THM_ORGANIZER_EE_NEW') : JText::_('COM_THM_ORGANIZER_EE_EDIT'); ?>
@@ -201,30 +202,6 @@ Joomla.submitbutton =  function(task){
                 <span class="thm_organizer_divider_span"></span>
                 <?php
                 } ?>
-                <a  class="hasTip thm_organizer_action_link"
-                    title="<?php echo JText::_('COM_THM_ORGANIZER_SAVE_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_SAVE_DESCRIPTION');?>"
-                    onclick="Joomla.submitbutton('event.save')">
-                    <span id="thm_organizer_save_span" class="thm_organizer_save_span thm_organizer_action_span"></span>
-                    <?php echo JText::_('COM_THM_ORGANIZER_SAVE_TITLE'); ?>
-                </a>
-                <a  class="hasTip thm_organizer_action_link"
-                    title="<?php echo JText::_('COM_THM_ORGANIZER_SAVE_NEW_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_SAVE_NEW_DESCRIPTION');?>"
-                    onclick="Joomla.submitbutton('event.save2new')">
-                    <span id="thm_organizer_save_new_span" class="thm_organizer_save_new_span thm_organizer_action_span"></span>
-                    <?php echo JText::_('COM_THM_ORGANIZER_SAVE_NEW'); ?>
-                </a>
-                <a  class="hasTip thm_organizer_action_link_preview"
-                    title="<?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_PREVIEW_DESCRIPTION');?>"
-                    onclick="Joomla.submitbutton('event.preview')">
-                    <span id="thm_organizer_preview_span" class="thm_organizer_preview_span thm_organizer_action_span"></span>
-                    <?php echo JText::_('COM_THM_ORGANIZER_PREVIEW'); ?>
-                </a>
-                <a  class="hasTip thm_organizer_action_link"
-                    title="<?php echo $cancelTip;?>"
-                    onclick="window.history.back()">
-                    <span id="thm_organizer_cancel_span" class="thm_organizer_cancel_span thm_organizer_action_span"></span>
-                    <?php echo $cancelText; ?>
-                </a>
                 <div class="Popup">
                     <div class="loader"></div>
                     <h1><?php echo JText::_('COM_THM_ORGANIZER_PREVIEW_HEADER');?></h1>
