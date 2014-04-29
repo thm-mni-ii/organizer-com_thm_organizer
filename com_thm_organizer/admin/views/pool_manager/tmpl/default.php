@@ -15,7 +15,7 @@ $listDirn = $this->state->get('list.direction');
 ?>
 <form
     action="<?php echo JRoute::_('index.php?option=com_thm_organizer'); ?>"
-    method="post" name="adminForm">
+    method="post" name="adminForm" id="adminForm">
     <div id="filter-bar" class='filter-bar'>
         <div class="filter-search fltlft">
             <label class="filter-search-lbl" for="filter_search">

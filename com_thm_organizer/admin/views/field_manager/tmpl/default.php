@@ -13,7 +13,8 @@ defined('_JEXEC') or die;
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=field_manager'); ?>"
       method="post"
-      name="adminForm">
+      name="adminForm"
+      id="adminForm">
     <div id="filter-bar" class='filter-bar'>
         <div class="filter-search fltlft">
             <label class="filter-search-lbl" for="filter_search">
