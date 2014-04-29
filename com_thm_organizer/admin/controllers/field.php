@@ -32,9 +32,8 @@ class THM_OrganizerControllerField extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        $this->input->set('view', 'field_edit');
         $this->input->set('id', '0');
-        parent::display();
+        $this->setRedirect("index.php?option=com_thm_organizer&view=field_edit");
     }
 
     /**
@@ -48,8 +47,7 @@ class THM_OrganizerControllerField extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        $this->input->set('view', 'field_edit');
-        parent::display();
+        $this->setRedirect("index.php?option=com_thm_organizer&view=field_edit");
     }
 
     /**

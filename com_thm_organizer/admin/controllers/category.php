@@ -34,9 +34,8 @@ class THM_OrganizerControllerCategory extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        $this->input->set('view', 'category_edit');
         $this->input->set('categoryID', '0');
-        parent::display();
+        $this->setRedirect("index.php?option=com_thm_organizer&view=category_edit");
     }
 
     /**
@@ -50,8 +49,7 @@ class THM_OrganizerControllerCategory extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        $this->input->set('view', 'category_edit');
-        parent::display();
+        $this->setRedirect("index.php?option=com_thm_organizer&view=category_edit");
     }
 
     /**

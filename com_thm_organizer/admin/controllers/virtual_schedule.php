@@ -34,9 +34,8 @@ class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        $this->input->set('view', 'virtual_schedule_edit');
         $this->input->set('id', '0');
-        parent::display();
+        $this->setRedirect("index.php?option=com_thm_organizer&view=virtual_schedule_edit");
     }
 
     /**
@@ -50,8 +49,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        $this->input->set('view', 'virtual_schedule_edit');
-        parent::display();
+        $this->setRedirect("index.php?option=com_thm_organizer&view=virtual_schedule_edit");
     }
     /**
      * Performs access checks, makes call to the models's save function, and

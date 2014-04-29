@@ -33,9 +33,8 @@ class THM_OrganizerControllerRoom extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        $this->input->set('view', 'room_edit');
         $this->input->set('id', '0');
-        parent::display();
+        $this->setRedirect("index.php?option=com_thm_organizer&view=room_edit");
     }
 
     /**
@@ -49,8 +48,7 @@ class THM_OrganizerControllerRoom extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        $this->input->set('view', 'room_edit');
-        parent::display();
+        $this->setRedirect("index.php?option=com_thm_organizer&view=room_edit");
     }
 
     /**
