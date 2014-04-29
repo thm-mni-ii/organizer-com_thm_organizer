@@ -33,8 +33,8 @@ class THM_OrganizerControllerRoom extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JFactory::getApplication()->input->set('view', 'room_edit');
-        JFactory::getApplication()->input->set('id', '0');
+        $this->input->set('view', 'room_edit');
+        $this->input->set('id', '0');
         parent::display();
     }
 
@@ -49,7 +49,7 @@ class THM_OrganizerControllerRoom extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JFactory::getApplication()->input->set('view', 'room_edit');
+        $this->input->set('view', 'room_edit');
         parent::display();
     }
 
@@ -86,7 +86,7 @@ class THM_OrganizerControllerRoom extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        if (count(JFactory::getApplication()->input->post->get('cid', array(), 'array')) == 1)
+        if (count($this->input->post->get('cid', array(), 'array')) == 1)
         {
             $msg = JText::_('COM_THM_ORGANIZER_RMM_MERGE_TOOFEW');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg, 'warning');
@@ -102,7 +102,7 @@ class THM_OrganizerControllerRoom extends JControllerAdmin
             }
             else
             {
-                JFactory::getApplication()->input->set('view', 'room_merge');
+                $this->input->set('view', 'room_merge');
                 parent::display();
             }
         }

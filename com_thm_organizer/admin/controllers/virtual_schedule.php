@@ -34,8 +34,8 @@ class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JFactory::getApplication()->input->set('view', 'virtual_schedule_edit');
-        JFactory::getApplication()->input->set('id', '0');
+        $this->input->set('view', 'virtual_schedule_edit');
+        $this->input->set('id', '0');
         parent::display();
     }
 
@@ -50,7 +50,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JFactory::getApplication()->input->set('view', 'virtual_schedule_edit');
+        $this->input->set('view', 'virtual_schedule_edit');
         parent::display();
     }
     /**
@@ -83,7 +83,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        $cid = JFactory::getApplication()->input->post->get('cid', array(), 'post', 'array');
+        $cid = $this->input->post->get('cid', array(), 'post', 'array');
         $cids = "'" . implode("', '", $cid) . "'";
 
         $dbo = JFactory::getDBO();

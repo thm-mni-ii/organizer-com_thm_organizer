@@ -32,8 +32,8 @@ class THM_OrganizerControllermonitor extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JFactory::getApplication()->input->set('view', 'monitor_edit');
-        JFactory::getApplication()->input->set('monitorID', '0');
+        $this->input->set('view', 'monitor_edit');
+        $this->input->set('monitorID', '0');
         parent::display();
     }
 
@@ -48,7 +48,7 @@ class THM_OrganizerControllermonitor extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JFactory::getApplication()->input->set('view', 'monitor_edit');
+        $this->input->set('view', 'monitor_edit');
         parent::display();
     }
 
