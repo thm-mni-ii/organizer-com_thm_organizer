@@ -177,7 +177,17 @@ class THM_OrganizerModelSubject_Manager extends JModelList
         $query = $dbo->getQuery(true);
         $query->select('id, lft, rgt')->from('#__thm_organizer_mappings')->where("$resourceColumn = '$resourceID'");
         $dbo->setQuery((string) $query);
-        return $dbo->loadAssoc();
+        
+        try
+        {
+            $mappingData = $dbo->loadAssoc();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+        }
+        
+        return $mappingData;
     }
 
     /**
@@ -237,7 +247,15 @@ class THM_OrganizerModelSubject_Manager extends JModelList
         $query->where("rgt < '{$borders['rgt']}'");
         $query->order('lft');
         $dbo->setQuery((string) $query);
-        $pools = $dbo->loadAssocList();
+        
+        try
+        {
+            $pools = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_POOLS"), 500);
+        }
  
         if (empty($pools))
         {

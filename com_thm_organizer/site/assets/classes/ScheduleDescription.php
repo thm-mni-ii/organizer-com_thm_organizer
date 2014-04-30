@@ -80,7 +80,14 @@ class THMScheduleDescription
         // Reset the query using our newly populated query object.
         $dbo->setQuery($query);
 
-        $obj = $dbo->loadObject();
+        try 
+        {
+            $obj = $dbo->loadObject();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULE_INFORMATION"), 500);
+        }
 
         if (count($obj) == 0 || $obj == false)
         {

@@ -48,6 +48,14 @@ class THM_OrganizerModelTeacher_Merge extends JModelLegacy
         $query->order('t.id ASC');
 
         $dbo->setQuery((string) $query);
-        $this->teacherInformation = $dbo->loadAssocList();
+        
+        try 
+        {
+            $this->teacherInformation = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHER_DATA"), 500);
+        }
     }
 }

@@ -849,7 +849,14 @@ class THM_OrganizerModelScheduler_Tree extends JModelLegacy
             return false;
         }
 
-        $result = $dbo->loadObject();
+        try 
+        {
+            $result = $dbo->loadObject();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULE"), 500);
+        }
  
         if ($result === null)
         {

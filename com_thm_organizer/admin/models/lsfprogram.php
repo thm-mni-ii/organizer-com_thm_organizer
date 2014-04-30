@@ -37,7 +37,16 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
         $lsfDataQuery->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
         $lsfDataQuery->where("p.id = '$programID'");
         $this->_db->setQuery((string) $lsfDataQuery);
-        $lsfData = $this->_db->loadAssoc();
+        
+        try 
+        {
+            $lsfData = $this->_db->loadAssoc();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_LSF_QUERY_DATA"), 500);
+        }
+        
         return empty($lsfData)? array() : $lsfData;
     }
 

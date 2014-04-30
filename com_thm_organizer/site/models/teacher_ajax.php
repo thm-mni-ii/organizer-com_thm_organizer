@@ -65,7 +65,15 @@ class THM_OrganizerModelTeacher_Ajax extends JModelLegacy
         }
         $query->order('t.surname');
         $dbo->setQuery((string) $query);
-        $teachers = $dbo->loadObjectList();
+        
+        try 
+        {
+            $teachers = $dbo->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHERS"), 500);
+        }
 
         if (empty($teachers))
         {

@@ -223,7 +223,16 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
         $query->innerJoin("#__thm_organizer_monitors AS m ON m.roomID = r.id");
         $query->order('r.longname ASC');
         $dbo->setQuery((string) $query);
-        $results = $dbo->loadAssocList();
+        
+        try
+        {
+            $results = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ROOMS"), 500);
+        }
+        
         $rooms = array();
         if (count($results))
         {

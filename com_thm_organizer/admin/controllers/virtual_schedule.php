@@ -89,7 +89,15 @@ class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
         $scheduleQuery->delete('#__thm_organizer_virtual_schedules');
         $scheduleQuery->where("vid IN ( $cids )");
         $dbo->setQuery((string) $scheduleQuery);
-        $dbo->execute();
+        
+        try 
+        {
+            $dbo->execute();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_ERROR_DELETING"), 500);
+        }
 
         if ($dbo->getErrorNum())
         {
@@ -101,7 +109,15 @@ class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
             $elementQuery->delete('#__thm_organizer_virtual_schedules_elements');
             $elementQuery->where("vid IN ( $cids )");
             $dbo->setQuery((string) $elementQuery);
-            $dbo->execute();
+            
+            try
+            {
+                $dbo->execute();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_DELETE_VIRTUAL_SCHEDULE_ELEMENTS"), 500);
+            }
         }
 
         if (count($cid) > 1)

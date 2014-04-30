@@ -151,7 +151,16 @@ class THM_OrganizerModelCategory_Manager extends JModelList
         $query->where("id IN (SELECT DISTINCT contentCatID FROM #__thm_organizer_categories)");
         $query->order('title ASC');
         $dbo->setQuery((string) $query);
-        $contentCategories = $dbo->loadAssocList();
+        
+        try 
+        {
+            $contentCategories = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_CONTENT_CATEGORIES"), 500);
+        }
+        
         return (count($contentCategories))? $contentCategories : array();
     }
 }

@@ -65,7 +65,15 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
         }
         $query->order('name');
         $dbo->setQuery((string) $query);
-        $subjects = $dbo->loadObjectList();
+        
+        try 
+        {
+            $subjects = $dbo->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SUBJECTS"), 500);
+        }
 
         return empty($subjects)? '[]' : json_encode($subjects);
     }

@@ -72,7 +72,15 @@ class THM_OrganizerModelcategory extends JModelLegacy
             $query->from("#__thm_organizer_events");
             $query->where("categoryID IN ( '" . implode("', '", $categoryIDs) . "' )");
             $dbo->setQuery((string) $query);
-            $eventIDs = $dbo->loadColumn();
+            
+            try 
+            {
+                $eventIDs = $dbo->loadColumn();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT"), 500);
+            }
 
             if (count($eventIDs))
             {

@@ -48,6 +48,14 @@ class THM_OrganizerModelSchedule_Merge extends JModelLegacy
         $query->order('id ASC');
 
         $dbo->setQuery((string) $query);
-        $this->schedules = $dbo->loadAssocList();
+        
+        try 
+        {
+            $this->schedules = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULES"), 500);
+        }
     }
 }

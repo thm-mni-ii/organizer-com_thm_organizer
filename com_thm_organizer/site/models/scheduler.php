@@ -65,7 +65,16 @@ class THM_OrganizerModelScheduler extends JModelLegacy
         $query->where("s.username = '{$user->get('username')}'");
         $query->where("s.guest = '0'");
         $this->_db->setQuery((string) $query);
-        $rows = $this->_db->loadObjectList();
+        
+        try 
+        {
+            $rows = $this->_db->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SESSION_INFORMATION"), 500);
+        }
+        
         return $rows['0']->session_id;
     }
 
@@ -84,7 +93,15 @@ class THM_OrganizerModelScheduler extends JModelLegacy
         $query->where('type = ' . $this->_db->quote('component'));
         $query->where('element = ' . $this->_db->quote($com));
         $this->_db->setQuery((string) $query);
+        
+        try
+        {
         $result = $this->_db->loadObject();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_COMPONENT_CHECK"), 500);
+        }
 
         $error = $this->_db->getErrorMsg();
         if (!empty($error))
@@ -127,8 +144,16 @@ class THM_OrganizerModelScheduler extends JModelLegacy
         $query->where('enddate = ' . $this->_db->quote($enddate));
         $query->where('active = 1');
         $this->_db->setQuery((string) $query);
-        $result = $this->_db->loadObject();
-
+        
+        try
+        {
+            $result = $this->_db->loadObject();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULE"), 500);
+        }
+        
         $error = $this->_db->getErrorMsg();
         if (!empty($error))
         {
@@ -160,7 +185,15 @@ class THM_OrganizerModelScheduler extends JModelLegacy
         $query->from('#__thm_organizer_schedules');
         $query->where('id = ' . $scheduleID);
         $this->_db->setQuery((string) $query);
-        $result = $this->_db->loadObject();
+        
+        try 
+        {
+            $result = $this->_db->loadObject();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULE"), 500);
+        }
 
         $error = $this->_db->getErrorMsg();
         if (!empty($error))
@@ -189,7 +222,15 @@ class THM_OrganizerModelScheduler extends JModelLegacy
         $query->innerJoin('#__thm_curriculum_majors AS cm ON cm.id = sm.major_id');
         $query->innerJoin('#__thm_curriculum_colors AS c ON c.id = s.color_id');
         $this->_db->setQuery((string) $query);
-        $result = $this->_db->loadObjectList();
+        
+        try 
+        {
+            $result = $this->_db->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_COLORS"), 500);
+        }
 
          $error = $this->_db->getErrorMsg();
          if (!empty($error))
@@ -212,19 +253,27 @@ class THM_OrganizerModelScheduler extends JModelLegacy
      */
     public function getRooms()
     {
-       $query = $this->_db->getQuery(true);
+        $query = $this->_db->getQuery(true);
 
-       $query->select('*');
-       $query->from('#__thm_organizer_rooms');
-       $this->_db->setQuery((string) $query);
-       $result = $this->_db->loadObjectList();
+        $query->select('*');
+        $query->from('#__thm_organizer_rooms');
+        $this->_db->setQuery((string) $query);
+        
+        try 
+        {
+            $result = $this->_db->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ROOMS"), 500);
+        }
 
-       $error = $this->_db->getErrorMsg();
-       if (!empty($error))
-       {
-           return array();
-       }
-       return $result;
+        $error = $this->_db->getErrorMsg();
+        if (!empty($error))
+        {
+            return array();
+        }
+        return $result;
     }
 
     /**
@@ -239,7 +288,15 @@ class THM_OrganizerModelScheduler extends JModelLegacy
         $query->select('*');
         $query->from('#__thm_organizer_teachers');
         $this->_db->setQuery((string) $query);
-        $result = $this->_db->loadObjectList();
+        
+        try 
+        {
+            $result = $this->_db->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHERS"), 500);
+        }
 
         $error = $this->_db->getErrorMsg();
         if (!empty($error))
@@ -261,7 +318,15 @@ class THM_OrganizerModelScheduler extends JModelLegacy
         $query->select('*');
         $query->from('#__thm_organizer_teacher_fields');
         $this->_db->setQuery($query);
-        $result = $this->_db->loadObjectList();
+        
+        try 
+        {
+            $result = $this->_db->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHERS_TYPES"), 500);
+        }
 
         $error = $this->_db->getErrorMsg();
         if (!empty($error))
@@ -289,7 +354,15 @@ class THM_OrganizerModelScheduler extends JModelLegacy
         $query->from('#__thm_organizer_subjects');
         $query->where('externalID IS NOT NULL AND externalID <> ""');
         $this->_db->setQuery($query);
-        $result = $this->_db->loadObjectList("externalID");
+        
+        try 
+        {
+            $result = $this->_db->loadObjectList("externalID");
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SUBJECTS_EXTERNALID_ENGLISHNAME"), 500);
+        }
 
         $error = $this->_db->getErrorMsg();
         if (!empty($error))

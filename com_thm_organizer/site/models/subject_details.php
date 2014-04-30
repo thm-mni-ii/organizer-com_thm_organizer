@@ -92,7 +92,17 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
         $query = $dbo->getQuery(true);
         $query->select('id')->from('#__thm_organizer_subjects')->where("externalID = '$externalID'");
         $dbo->setQuery((string) $query);
-        return $dbo->loadResult();
+        
+        try 
+        {
+            $subjectID = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SUBJECT_DATA"), 500);
+        }
+        
+        return $subjectID;
     }
 
     /**
@@ -121,7 +131,17 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
         $query->leftJoin('#__thm_organizer_pforms AS form ON s.pformID = form.id');
         $query->where("s.id = '$this->subjectID'");
         $dbo->setQuery((string) $query);
-        return $dbo->loadAssoc();
+        
+        try 
+        {
+            $subject =  $dbo->loadAssoc();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SUBJECT_DATA"), 500);
+        }
+        
+        return $subject;
     }
 
     /**
@@ -178,7 +198,15 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
         $query->where("p.subjectID = '$this->subjectID'");
         $query->order('name');
         $dbo->setQuery((string) $query);
-        $prerequisites = $dbo->loadAssocList();
+        
+        try 
+        {
+            $prerequisites = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_PREREQUISITES"), 500);
+        }
 
         if (!empty($prerequisites))
         {
@@ -203,7 +231,15 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
         $query->where("p.prerequisite = '$this->subjectID'");
         $query->order('name');
         $dbo->setQuery((string) $query);
-        $prerequisiteOf = $dbo->loadAssocList();
+        
+        try 
+        {
+            $prerequisiteOf = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_PREREQUISITES"), 500);
+        }
 
         if (!empty($prerequisiteOf))
         {

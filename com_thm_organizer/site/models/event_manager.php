@@ -328,7 +328,16 @@ class THM_OrganizerModelEvent_Manager extends JModelList
         $this->getFrom($query);
         $this->getWhere($query);
         $dbo->setQuery((string) $query);
-        $total = $dbo->loadResult();
+        
+        try
+        {
+            $total = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_QUERY"), 500);
+        }
+        
         $this->total = $total;
     }
 
@@ -446,7 +455,15 @@ class THM_OrganizerModelEvent_Manager extends JModelList
         $this->getWhere($query);
         $this->getOrderBy($query);
         $dbo->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
-        $events = $dbo->loadAssocList();
+        
+        try 
+        {
+            $events = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENTS"), 500);
+        }
 
         // Check for empty
         foreach ($events as $k => $v)
@@ -578,7 +595,15 @@ class THM_OrganizerModelEvent_Manager extends JModelList
             $query->where("id = '$categoryID'");
         }
         $dbo->setQuery((string) $query);
-        $this->categories = $dbo->loadAssocList();
+        
+        try 
+        {
+            $this->categories = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_CATEGORIES"), 500);
+        }
     }
 
     /**
@@ -600,8 +625,24 @@ class THM_OrganizerModelEvent_Manager extends JModelList
             $groupQuery->innerJoin('#__usergroups AS ug ON eg.groupID = ug.id');
             $groupQuery->where("eventID = '$id'");
             $dbo->setQuery((string) $groupQuery);
-            $groups = $dbo->loadAssocList();
-            $groupNames = $dbo->loadColumn(1);
+            
+            try 
+            {
+                $groups = $dbo->loadAssocList();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT_GROUPS"), 500);
+            }
+            
+            try
+            {
+                $groupNames = $dbo->loadColumn(1);
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT_GROUPS"), 500);
+            }
 
             $teacherQuery = $dbo->getQuery(true);
             $teacherQuery->select('id, surname, "teacher" AS type');
@@ -609,8 +650,24 @@ class THM_OrganizerModelEvent_Manager extends JModelList
             $teacherQuery->innerJoin('#__thm_organizer_teachers AS t ON et.teacherID = t.id');
             $teacherQuery->where("eventID = '$id'");
             $dbo->setQuery((string) $teacherQuery);
-            $teachers = $dbo->loadAssocList();
-            $teacherNames = $dbo->loadColumn(1);
+            
+            try
+            {
+                $teachers = $dbo->loadAssocList();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT_TEACHERS"), 500);
+            }
+            
+            try
+            {
+                $teacherNames = $dbo->loadColumn(1);
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT_TEACHERS"), 500);
+            }
 
             $roomQuery = $dbo->getQuery(true);
             $roomQuery->select('id, longname, "room" AS type');
@@ -618,8 +675,24 @@ class THM_OrganizerModelEvent_Manager extends JModelList
             $roomQuery->innerJoin('#__thm_organizer_rooms AS r ON er.roomID = r.id');
             $roomQuery->where("eventID = '$id'");
             $dbo->setQuery((string) $roomQuery);
-            $rooms = $dbo->loadAssocList();
-            $roomNames = $dbo->loadColumn(1);
+            
+            try 
+            {
+                $rooms = $dbo->loadAssocList();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT_ROOMS"), 500);
+            }
+            
+            try
+            {
+                $roomNames = $dbo->loadColumn(1);
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT_ROOMS"), 500);
+            }
 
             $resources = array_merge($groups, array_merge($teachers, $rooms));
 
@@ -693,7 +766,16 @@ class THM_OrganizerModelEvent_Manager extends JModelList
         $query->from("#__thm_organizer_categories");
         $query->where("id = $catID");
         $dbo->setQuery((string) $query);
-        return (bool) $dbo->loadResult();
+        try 
+        {
+            $reserves = (bool) $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_CATEGORIES"), 500);
+        }
+        
+        return $reserves;
     }
 
     /**
@@ -711,6 +793,16 @@ class THM_OrganizerModelEvent_Manager extends JModelList
         $query->from("#__thm_organizer_categories");
         $query->where("id = $catID");
         $dbo->setQuery((string) $query);
-        return (bool) $dbo->loadResult();
+        
+        try
+        {
+            $global =  (bool) $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_CATEGORIES"), 500);
+        }
+        
+        return $global;
     }
 }

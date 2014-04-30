@@ -596,7 +596,16 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         $query->select("id, name_$languageTag AS name");
         $query->from('#__thm_organizer_subjects')->where("externalID = '$moduleNumber'");
         $this->_db->setQuery((string) $query);
-        $subjectInfo = $this->_db->loadAssoc();
+        
+        try 
+        {
+            $subjectInfo = $this->_db->loadAssoc();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MODULE_INFORMATION"), 500);
+        }
+        
         if (empty($subjectInfo))
         {
             return false;
@@ -704,7 +713,17 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         $query->select("id");
         $query->from('#__thm_organizer_subjects')->where("externalID = '$possibleModuleNumber'");
         $this->_db->setQuery((string) $query);
-        return $this->_db->loadResult();
+        
+        try 
+        {
+            $moduleID = $this->_db->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SUBJECT_DATA"), 500);
+        }
+        
+        return $moduleID;
     }
 
     /**
@@ -727,7 +746,15 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
             $checkQuery->select("COUNT(*)");
             $checkQuery->from('#__thm_organizer_subjects')->where("subjectID = '$moduleID'")->where("prerequisite = '$subjectID'");
             $this->_db->setQuery((string) $checkQuery);
-            $entryExists = $this->_db->loadResult();
+            
+            try
+            {
+                $entryExists = $this->_db->loadResult();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SUBJECT_DATA"), 500);
+            }
 
             if (!$entryExists)
             {

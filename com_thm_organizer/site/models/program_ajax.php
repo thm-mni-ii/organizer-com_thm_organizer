@@ -53,7 +53,16 @@ class THM_OrganizerModelProgram_Ajax extends JModelLegacy
 
         $query->order('name');
         $dbo->setQuery((string) $query);
-        $programs = $dbo->loadObjectList();
+        
+        try
+        {
+            $programs = $dbo->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHERS_PROGRAMS"), 500);
+        }
+        
         return json_encode($programs);
     }
 }

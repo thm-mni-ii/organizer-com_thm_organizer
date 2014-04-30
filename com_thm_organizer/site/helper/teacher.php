@@ -34,7 +34,15 @@ class THM_OrganizerHelperTeacher
         $query = $dbo->getQuery(true);
         $query->select("value")->from('#__thm_groups_picture')->where("userid = '$userID'")->order('structid DESC');
         $dbo->setQuery((string) $query, 0, 1);
-        $picture = $dbo->loadResult();
+        
+        try
+        {
+            $picture = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_PICTURE"), 500);
+        }
 
         if (!empty($picture))
         {
@@ -63,7 +71,17 @@ class THM_OrganizerHelperTeacher
         $query->leftJoin('#__users AS u ON t.username = u.username');
         $query->where("t.id= '$teacherID'");
         $dbo->setQuery((string) $query);
-        return $dbo->loadAssoc();
+        
+        try
+        {
+            $teacherData = $dbo->loadAssoc();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHER_DATA"), 500);
+        }
+        
+        return $teacherData;
     }
 
     /**
@@ -92,11 +110,29 @@ class THM_OrganizerHelperTeacher
         $dbo->setQuery((string) $query);
         if ($multiple)
         {
-            return $dbo->loadAssocList();
+            try 
+            {
+                $subjectDataList = $dbo->loadAssocList();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SUBJECT_DATA"), 500);
+            }
+            
+            return $subjectDataList;
         }
         else
         {
-            return $dbo->loadAssoc();
+            try 
+            {
+                $subjectData = $dbo->loadAssoc();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SUBJECT_DATA"), 500);
+            }
+            
+            return $subjectData;
         }
     }
 
@@ -137,7 +173,15 @@ class THM_OrganizerHelperTeacher
         $query->where('text3.structid = 5');
         $query->where("text1.userid = '$userID'");
         $dbo->setQuery((string) $query);
-        $abomination = $dbo->loadAssoc();
+        
+        try
+        {
+            $abomination = $dbo->loadAssoc();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_NAMES"), 500);
+        }
 
         if (!empty($abomination))
         {
@@ -177,6 +221,16 @@ class THM_OrganizerHelperTeacher
         $query->select('u.id')->from('#__users AS u')->innerJoin('#__thm_organizer_teachers AS t ON t.username = u.username');
         $query->where("t.gpuntisID = '$gpuntisID'");
         $dbo->setQuery((string) $query);
-        return $dbo->loadResult();
+        
+        try
+        {
+            $userID = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_USER_ID"), 500);
+        }
+        
+        return $userID;
     }
 }

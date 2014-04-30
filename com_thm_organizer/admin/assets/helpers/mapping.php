@@ -36,7 +36,17 @@ class THM_OrganizerHelperMapping
         $nameQuery->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
         $nameQuery->order('name');
         $dbo->setQuery((string) $nameQuery);
-        return $dbo->loadAssocList();
+        
+        try 
+        {
+            $programs = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_PROGRAMS"), 500);
+        }
+        
+        return $programs;
     }
 
     /**
@@ -91,7 +101,17 @@ class THM_OrganizerHelperMapping
         $query->where("id = '$tableID'");
 
         $dbo->setQuery((string) $query);
-        return $dbo->loadResult();
+        
+        try 
+        {
+            $childName = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_CHILD_NAME"), 500);
+        }
+        
+        return $childName;
     }
 
     /**
@@ -110,7 +130,17 @@ class THM_OrganizerHelperMapping
         $query->innerJoin('#__thm_organizer_mappings AS m ON dp.id = m.programID');
         $query->order('program ASC');
         $dbo->setQuery((string) $query);
-        return $dbo->loadAssocList();
+        
+        try 
+        {
+            $programs = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_PROGRAMS"), 500);
+        }
+        
+        return $programs;
     }
 
     /**
@@ -129,7 +159,17 @@ class THM_OrganizerHelperMapping
         $query->from('#__thm_organizer_mappings');
         $query->where("$column = '$resourceID'");
         $dbo->setQuery((string) $query);
-        return $dbo->loadAssocList();
+        
+        try 
+        {
+            $ranges = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_RANGES"), 500);
+        }
+        
+        return $ranges;
     }
 
     /**
@@ -156,7 +196,17 @@ class THM_OrganizerHelperMapping
         $query->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
         $query->where($rangesClause);
         $dbo->setQuery((string) $query);
-        return $dbo->loadColumn();
+        
+        try 
+        {
+            $selectedPrograms = $dbo->loadColumn();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SELECTED_PROGRAMS"), 500);
+        }
+        
+        return $selectedPrograms;
     }
 
     /**
@@ -178,9 +228,33 @@ class THM_OrganizerHelperMapping
         $query->from('#__thm_organizer_mappings');
         $query->where($isSubject? "subjectID = '$resourceID'" : "poolID = '$resourceID'");
         $dbo->setQuery((string) $query);
-        $mappings = array_merge($mappings, $dbo->loadAssocList());
-        $parentIDs = array_merge($parentIDs, $dbo->loadColumn());
-        $ownIDs = array_merge($ownIDs, $dbo->loadColumn(1));
+        
+        try 
+        {
+            $mappings = array_merge($mappings, $dbo->loadAssocList());
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+        }
+        
+        try 
+        {
+            $parentIDs = array_merge($parentIDs, $dbo->loadColumn());
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+        }
+        
+        try 
+        {
+            $ownIDs = array_merge($ownIDs, $dbo->loadColumn(1));
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+        }
     }
 
     /**
@@ -202,7 +276,14 @@ class THM_OrganizerHelperMapping
             $childrenQuery->where("rgt < '{$mapping['rgt']}'");
             $childrenQuery->where("parentID IS NULL");
             $dbo->setQuery((string) $childrenQuery);
-            $children = array_merge($children, $dbo->loadColumn());
+            try 
+            {
+                $children = array_merge($children, $dbo->loadColumn());
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_CHILDREN"), 500);
+            }
         }
         return $children;
     }
@@ -229,7 +310,16 @@ class THM_OrganizerHelperMapping
             $query->where("rgt > '{$mapping['rgt']}'");
             $query->where("parentID IS NULL");
             $dbo->setQuery((string) $query);
-            $program = $dbo->loadAssoc();
+            
+            try 
+            {
+                $program = $dbo->loadAssoc();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_PROGRAM_ENTRIES"), 500);
+            }
+            
             if (!in_array($program, $programs))
             {
                 $programs[] = $program;
@@ -260,7 +350,16 @@ class THM_OrganizerHelperMapping
             $query->where("rgt <= '{$programEntry['rgt']}'");
             $query->order('lft ASC');
             $dbo->setQuery((string) $query);
-            $results = $dbo->loadAssocList();
+            
+            try 
+            {
+                $results = $dbo->loadAssocList();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_PROGRAM_MAPPINGS"), 500);
+            }
+            
             $programMappings = array_merge($programMappings, empty($results)? array() : $results);
         }
         return $programMappings;
@@ -278,7 +377,15 @@ class THM_OrganizerHelperMapping
     public static function getPoolOption(&$mapping, $language, &$selectedParents)
     {
         $poolsTable = JTable::getInstance('pools', 'THM_OrganizerTable');
-        $poolsTable->load($mapping['poolID']);
+        
+        try 
+        {
+            $poolsTable->load($mapping['poolID']);
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_POOL_OPTION"), 500);
+        }
 
         $nameColumn = 'name_' . $language[0];
         $indentedName = self::getIndentedPoolName($poolsTable->$nameColumn, $mapping['level']);
@@ -333,7 +440,15 @@ class THM_OrganizerHelperMapping
         $query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
         $query->where("dp.id = '{$mapping['programID']}'");
         $dbo->setQuery((string) $query);
-        $name = $dbo->loadResult();
+        try 
+        {
+            $name = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_PROGRAM_OPTION"), 500);
+        }
+        
         $selected = in_array($mapping['id'], $selectedParents)? 'selected' : '';
         $disabled = $isSubject? 'disabled' : '';
         return "<option value='{$mapping['id']}' $selected $disabled>$name</option>";
@@ -358,7 +473,17 @@ class THM_OrganizerHelperMapping
         $query->select('lft, rgt')->from('#__thm_organizer_mappings');
         $query->where("{$resourceType}ID = '$resourceID'");
         $dbo->setQuery((string) $query);
-        return $dbo->loadAssoc();
+        
+        try 
+        {
+            $boundaries =  $dbo->loadAssoc();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_BOUNDARIES"), 500);
+        }
+        
+        return $boundaries;
     }
 
     /**
@@ -382,6 +507,16 @@ class THM_OrganizerHelperMapping
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = st.subjectID');
         $query->where("st.teacherID = '$teacherID'");
         $dbo->setQuery((string) $query);
-        return $dbo->loadColumn();
+        
+        try 
+        {
+            $teacherMappingClauses = $dbo->loadColumn();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHER_MAPPING_CLAUSES"), 500);
+        }
+        
+        return $teacherMappingClauses;
     }
 }

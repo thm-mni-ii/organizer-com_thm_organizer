@@ -1198,7 +1198,15 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $query->from('#__thm_organizer_schedules');
         $query->where("id IN ( $whereIDs )");
         $this->_db->setQuery((string) $query);
-        $schedules = $this->_db->loadAssocList();
+        
+        try 
+        {
+            $schedules = $this->_db->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULES"), 500);
+        }
 
         $departments = array();
         $startdate = $schedules[0]['startdate'];
@@ -1251,7 +1259,15 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $query->from('#__thm_organizer_schedules');
         $query->where("id IN ( $scheduleIDs )");
         $this->_db->setQuery((string) $query);
-        $schedules = $this->_db->loadColumn();
+        
+        try 
+        {
+            $schedules = $this->_db->loadColumn();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULES"), 500);
+        }
 
         foreach ($schedules as $key => $value)
         {

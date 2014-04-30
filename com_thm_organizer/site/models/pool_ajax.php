@@ -85,7 +85,17 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
         $query->where("programID IN ( $programIDs )");
         $query->order('lft ASC');
         $this->_db->setQuery((string) $query);
-        return $this->_db->loadAssocList();
+        
+        try
+        {
+            $programEntries = $this->_db->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_PROGRAM_ENTRIES"), 500);
+        }
+        
+        return $programEntries;
     }
 
     /**
@@ -135,7 +145,17 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
         $query->from('#__thm_organizer_mappings');
         $query->where("id = '$mappingID'");
         $this->_db->setQuery((string) $query);
-        return $this->_db->loadResult();
+        
+        try 
+        {
+            $resourceID = $this->_db->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_RESOURCE_DATA"), 500);
+        }
+        
+        return $resourceID;
     }
 
     /**
@@ -177,7 +197,14 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
         }
         $query->order('lft');
         $this->_db->setQuery((string) $query);
-        $pools = $this->_db->loadObjectList();
+        try
+        {
+            $pools = $this->_db->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_POOLS"), 500);
+        }
 
         if (empty($pools))
         {

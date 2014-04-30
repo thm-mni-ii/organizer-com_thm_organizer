@@ -255,7 +255,16 @@ class THM_OrganizerModelSubject extends JModelLegacy
         $query->select("id, name_$languageTag AS name");
         $query->from('#__thm_organizer_subjects')->where("externalID = '$moduleNumber'");
         $this->_db->setQuery((string) $query);
-        $subjectInfo = $this->_db->loadAssoc();
+        
+        try 
+        {
+            $subjectInfo = $this->_db->loadAssoc();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SUBJECT_DATA"), 500);
+        }
+        
         if (empty($subjectInfo))
         {
             return false;

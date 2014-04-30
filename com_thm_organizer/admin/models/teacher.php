@@ -62,7 +62,15 @@ class THM_OrganizerModelTeacher extends JModelLegacy
         $query = $dbo->getQuery(true);
         $query->select('*')->from('#__thm_organizer_teachers')->order('surname, id');
         $dbo->setQuery((string) $query);
-        $teacherEntries = $dbo->loadAssocList();
+        
+        try 
+        {
+            $teacherEntries = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHER_DATA"), 500);
+        }
  
         if (empty($teacherEntries))
         {
@@ -150,7 +158,17 @@ class THM_OrganizerModelTeacher extends JModelLegacy
         $query->order('id ASC');
 
         $dbo->setQuery((string) $query);
-        return $dbo->loadAssocList();
+        
+        try 
+        {
+            $teachers = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHER_DATA"), 500);
+        }
+        
+        return $teachers;
     }
 
     /**
@@ -358,7 +376,16 @@ class THM_OrganizerModelTeacher extends JModelLegacy
         $scheduleQuery->select('id, schedule');
         $scheduleQuery->from('#__thm_organizer_schedules');
         $dbo->setQuery((string) $scheduleQuery);
-        $schedules = $dbo->loadAssocList();
+        
+        try 
+        {
+            $schedules = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULES"), 500);
+        }
+        
         if (empty($schedules))
         {
             return true;
@@ -406,7 +433,15 @@ class THM_OrganizerModelTeacher extends JModelLegacy
             $fieldQuery->from('#__thm_organizer_fields');
             $fieldQuery->where("id = '{$data['fieldID']}'");
             $dbo->setQuery((string) $fieldQuery);
-            $field = $dbo->loadResult();
+            
+            try
+            {
+                $field = $dbo->loadResult();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_FIELDS"), 500);
+            }
         }
         return empty($field)? null : str_replace('DS_', '', $field);
     }
@@ -427,7 +462,17 @@ class THM_OrganizerModelTeacher extends JModelLegacy
         $query->where("id IN ( $IDs )");
         $query->where("gpuntisID IS NOT NULL");
         $dbo->setQuery((string) $query);
-        return $dbo->loadColumn();
+        
+        try
+        {
+            $teacherUntisIDs = $dbo->loadColumn();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHER_DATA"), 500);
+        }
+        
+        return $teacherUntisIDs;
     }
 
     /**

@@ -224,8 +224,15 @@ class THMICSBuilder extends THMAbstractBuilder
             // Reset the query using our newly populated query object.
             $db->setQuery($query);
  
-            // Load the results as a list of stdClass objects.
-            $classes = $db->loadObjectList();
+            try 
+            {
+                // Load the results as a list of stdClass objects.
+                $classes = $db->loadObjectList();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_CLASSES"), 500);
+            }
  
             // Create a new query object.
             $query = $db->getQuery(true);
@@ -239,8 +246,15 @@ class THMICSBuilder extends THMAbstractBuilder
             // Reset the query using our newly populated query object.
             $db->setQuery($query);
  
-            // Load the results as a list of stdClass objects.
-            $teachers = $db->loadObjectList();
+            try
+            {
+                // Load the results as a list of stdClass objects.
+                $teachers = $db->loadObjectList();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHERS"), 500);
+            }
  
             // Create a new query object.
             $query = $db->getQuery(true);
@@ -254,8 +268,15 @@ class THMICSBuilder extends THMAbstractBuilder
             // Reset the query using our newly populated query object.
             $db->setQuery($query);
  
-            // Load the results as a list of stdClass objects.
-            $rooms = $db->loadObjectList();
+            try 
+            {
+                // Load the results as a list of stdClass objects.
+                $rooms = $db->loadObjectList();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ROOMS"), 500);
+            }
 
             $resources = array_merge($classes, array_merge($teachers, $rooms));
             if (count($resources) > 0)
@@ -535,7 +556,14 @@ class THMICSBuilder extends THMAbstractBuilder
             return false;
         }
  
-        $result = $dbo->loadObject();
+        try 
+        {
+            $result = $dbo->loadObject();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULE"), 500);
+        }
  
         if ($result === null)
         {

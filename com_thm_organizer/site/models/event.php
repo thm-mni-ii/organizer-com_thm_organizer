@@ -115,7 +115,16 @@ class THM_OrganizerModelEvent extends JModelLegacy
         $query->from("#__assets");
         $query->where("name = 'com_content.category.{$data['contentCatID']}'");
         $dbo->setQuery((string) $query);
-        $parentID = $dbo->loadResult();
+        
+        try 
+        {
+            $parentID = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_CONTENT_CATEGORIES"), 500);
+        }
+        
         if ($dbo->getErrorNum())
         {
             return false;
@@ -196,7 +205,16 @@ class THM_OrganizerModelEvent extends JModelLegacy
         $query->where("introtext = '{$data['introtext']}'");
         $query->where("catid = '{$data['contentCatID']}'");
         $dbo->setQuery((string) $query);
-        $data['id'] = $dbo->loadResult();
+        
+        try 
+        {
+            $data['id'] = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_CONTENT"), 500);
+        }
+        
         if ($dbo->getErrorNum())
         {
             return false;
@@ -207,7 +225,16 @@ class THM_OrganizerModelEvent extends JModelLegacy
         $query->from("#__assets");
         $query->where("name = 'com_content.category.{$data['contentCatID']}'");
         $dbo->setQuery((string) $query);
-        $parentID = $dbo->loadResult();
+        
+        try 
+        {
+            $parentID = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ASSETS"), 500);
+        }
+        
         if ($dbo->getErrorNum())
         {
             return false;
@@ -230,7 +257,16 @@ class THM_OrganizerModelEvent extends JModelLegacy
         $query->from('#__assets');
         $query->where("name = 'com_content.article.{$data['id']}'");
         $dbo->setQuery((string) $query);
-        $assetID = $dbo->loadResult();
+        
+        try 
+        {
+            $assetID = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ASSETS"), 500);
+        }
+        
         if ($dbo->getErrorNum())
         {
             return false;
@@ -280,7 +316,15 @@ class THM_OrganizerModelEvent extends JModelLegacy
         $query->from($tableName);
         $query->where("eventID = '$eventID'");
         $dbo->setQuery((string) $query);
-        $dbo->execute();
+        
+        try 
+        {
+            $dbo->execute();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_RESOURCE_SAVE"), 500);
+        }
 
         // Add new ones (if requested)
         $resources = JFactory::getApplication()->input->get($requestName, array());
@@ -324,7 +368,16 @@ class THM_OrganizerModelEvent extends JModelLegacy
         $query->from("#__assets");
         $query->where("name = 'com_content.article.$eventID'");
         $dbo->setQuery((string) $query);
-        $assetID = $dbo->loadResult();
+        
+        try 
+        {
+            $assetID = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ASSETS"), 500);
+        }
+        
         if ($dbo->getErrorNum())
         {
             return false;
@@ -360,21 +413,45 @@ class THM_OrganizerModelEvent extends JModelLegacy
         $query->from("#__thm_organizer_event_teachers");
         $query->where("eventID = '$eventID'");
         $dbo->setQuery((string) $query);
-        $dbo->execute();
+        
+        try
+        {
+            $dbo->execute();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT_TEACHERS_DELETE"), 500);
+        }
 
         $query = $dbo->getQuery(true);
         $query->delete();
         $query->from("#__thm_organizer_event_rooms");
         $query->where("eventID = '$eventID'");
         $dbo->setQuery((string) $query);
-        $dbo->execute();
+        
+        try 
+        {
+            $dbo->execute();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT_ROOMS_DELETE"), 500);
+        }
 
         $query = $dbo->getQuery(true);
         $query->delete();
         $query->from("#__thm_organizer_event_groups");
         $query->where("eventID = '$eventID'");
         $dbo->setQuery((string) $query);
-        $dbo->execute();
+        
+        try 
+        {
+            $dbo->execute();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT_GROUPS_DELETE"), 500);
+        }
 
         return true;
     }
@@ -428,7 +505,16 @@ class THM_OrganizerModelEvent extends JModelLegacy
             $query->clear('where');
             $query->where("map.group_id = $group");
             $dbo->setQuery((string) $query);
-            $groupEMails = $dbo->loadColumn();
+            
+            try
+            {
+                $groupEMails = $dbo->loadColumn();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_GROUP_EMAILS"), 500);
+            }
+            
             if (count($groupEMails))
             {
                 foreach ($groupEMails as $email)

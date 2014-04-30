@@ -41,7 +41,14 @@ class THM_OrganizerModelConsumption extends JModelLegacy
         $query->order('departmentname, semestername');
         
         $dbo->setQuery((string) $query);
-        $result = $dbo->loadObjectList();
+        try 
+        {
+            $result = $dbo->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULES"), 500);
+        }
         
         return $result;
     }
@@ -74,9 +81,9 @@ class THM_OrganizerModelConsumption extends JModelLegacy
             $dbo->setQuery((string) $query);
             $result = $dbo->loadObject();
         }
-        catch (RuntimeException $e)
+        catch (runtimeException $e)
         {
-            JError::raiseWarning(500, "Get schedule exception.");
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULE"), 500);
         }
         
         return $result;

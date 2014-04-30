@@ -48,7 +48,16 @@ class THM_OrganizerModelRoom_Select extends JModelForm
         $query->innerJoin("#__thm_organizer_rooms AS r ON m.roomID = r.id");
         $query->where("ip = '$ipAddress'");
         $dbo->setQuery((string) $query);
+        
+        try 
+        {
         $room = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ROOM_DATA"), 500);
+        }
+        
         if (isset($room) AND $room != '')
         {
             $application = JFactory::getApplication();

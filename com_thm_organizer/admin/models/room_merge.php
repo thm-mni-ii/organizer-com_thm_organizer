@@ -50,6 +50,14 @@ class THM_OrganizerModelRoom_Merge extends JModelLegacy
         $query->order('r.id ASC');
 
         $dbo->setQuery((string) $query);
-        $this->roomInformation = $dbo->loadAssocList();
+        
+        try 
+        {
+            $this->roomInformation = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ROOM_DATA"), 500);
+        }
     }
 }

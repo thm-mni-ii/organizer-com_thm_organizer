@@ -57,7 +57,14 @@ class JFormFieldScheduler extends JFormField
         $query->from($dbo->quoteName('#__menu'));
         $query->where('id = ' . $menuid);
         $dbo->setQuery($query);
-        $rows = $dbo->loadObjectList();
+        try 
+        {
+            $rows = $dbo->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MENU_PARAMETERS"), 500);
+        }
 
         if (count($rows) > 0)
         {
