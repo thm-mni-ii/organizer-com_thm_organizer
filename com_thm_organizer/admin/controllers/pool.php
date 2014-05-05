@@ -37,9 +37,8 @@ class THM_OrganizerControllerPool extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'pool_edit');
-        JRequest::setVar('id', '0');
-        parent::display();
+        $this->input->set('id', '0');
+        $this->setRedirect("index.php?option=com_thm_organizer&view=pool_edit");
     }
 
     /**
@@ -53,8 +52,7 @@ class THM_OrganizerControllerPool extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'pool_edit');
-        parent::display();
+        $this->setRedirect("index.php?option=com_thm_organizer&view=pool_edit");
     }
 
     /**

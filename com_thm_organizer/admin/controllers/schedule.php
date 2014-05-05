@@ -19,7 +19,7 @@ jimport('joomla.application.component.controller');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerControllerSchedule extends JControllerAdmin
+class THM_OrganizerControllerSchedule extends JControllerLegacy
 {
     /**
      * Performs access checks and redirects to the schedule edit view
@@ -32,10 +32,9 @@ class THM_OrganizerControllerSchedule extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'schedule_edit');
-        JRequest::setVar('cid');
-        JRequest::setVar('scheduleID', '0');
-        parent::display();
+        $this->input->set('cid');
+        $this->input->set('scheduleID', '0');
+        $this->setRedirect('index.php?option=com_thm_organizer&view=schedule_edit');
     }
 
     /**
@@ -49,8 +48,8 @@ class THM_OrganizerControllerSchedule extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'schedule_edit');
-        parent::display();
+        
+        $this->setRedirect('index.php?option=com_thm_organizer&view=schedule_edit');
     }
 
     /**
@@ -66,7 +65,7 @@ class THM_OrganizerControllerSchedule extends JControllerAdmin
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
-        $file = JRequest::getVar('file', '', 'FILES');
+        $file = $this->input->files->get('file', '');
         if ($file['type'] == "text/xml")
         {
             $model = $this->getModel('schedule');
@@ -175,7 +174,7 @@ class THM_OrganizerControllerSchedule extends JControllerAdmin
         }
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
 
-        if (JRequest::getInt("boxchecked") === 1)
+        if ($this->input->get("boxchecked", 0, 'INT') === 1)
         {
             $model = $this->getModel('schedule');
             $active = $model->checkIfActive();
@@ -218,7 +217,7 @@ class THM_OrganizerControllerSchedule extends JControllerAdmin
 
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
 
-        if (JRequest::getInt("boxchecked") === 1)
+        if ($this->input->get("boxchecked", 0, 'INT') === 1)
         {
             $model = $this->getModel('schedule');
             $active = $model->checkIfActive();
@@ -262,7 +261,7 @@ class THM_OrganizerControllerSchedule extends JControllerAdmin
         switch ($merge)
         {
             case MERGE:
-                JRequest::setVar('view', 'schedule_merge');
+                $this->input->set('view', 'schedule_merge');
                 parent::display();
                 break;
             case TOO_FEW:

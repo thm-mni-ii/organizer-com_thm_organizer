@@ -40,7 +40,7 @@ class THM_OrganizerModelRoom_Select extends JModelForm
      */
     private function checkIP()
     {
-        $ipAddress = JRequest::getVar('REMOTE_ADDR', '', 'SERVER');
+        $ipAddress = JFactory::getApplication()->input->server->get('REMOTE_ADDR', '');
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);
         $query->select("r.longname AS name");
@@ -48,11 +48,20 @@ class THM_OrganizerModelRoom_Select extends JModelForm
         $query->innerJoin("#__thm_organizer_rooms AS r ON m.roomID = r.id");
         $query->where("ip = '$ipAddress'");
         $dbo->setQuery((string) $query);
+        
+        try 
+        {
         $room = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ROOM_DATA"), 500);
+        }
+        
         if (isset($room) AND $room != '')
         {
             $application = JFactory::getApplication();
-            $menuID = JRequest::getInt('Itemid');
+            $menuID = JFactory::getApplication()->input->getInt('Itemid');
             $rd_string = 'index.php?option=com_thm_organizer&view=room_display';
             $rd_string .= "&room=$room&tmpl=component&Itemid=$menuID";
             $application->redirect($rd_string);

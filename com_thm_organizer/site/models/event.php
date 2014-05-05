@@ -20,7 +20,7 @@ require_once JPATH_COMPONENT . '/helper/event.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelEvent extends JModel
+class THM_OrganizerModelEvent extends JModelLegacy
 {
     /**
      * save
@@ -41,7 +41,7 @@ class THM_OrganizerModelEvent extends JModel
         $groupsSaved = $this->saveResources("#__thm_organizer_event_groups", "groups", "groupID", $data['id']);
         if ($eventSaved AND $teachersSaved AND $roomsSaved AND $groupsSaved)
         {
-            $groups = JRequest::getVar('groups');
+            $groups = JFactory::getApplication()->input->get('groups');
             if (isset($data['emailNotification']) AND count($groups))
             {
                 $success = $this->notify($data);
@@ -70,7 +70,7 @@ class THM_OrganizerModelEvent extends JModel
     public function cleanRequestData()
     {
         $data = JRequest::getVar('jform', null, null, null, 4);
-        $data['categoryID'] = JRequest::getInt('category');
+        $data['categoryID'] = JFactory::getApplication()->input->getInt('category');
         $data['userID'] = JFactory::getUser()->id;
         $data['title'] = addslashes($data['title']);
         $data['alias'] = JApplication::stringURLSafe($data['title']);
@@ -104,7 +104,7 @@ class THM_OrganizerModelEvent extends JModel
         $query->set($conditions);
         $query->where("id = '{$data['id']}'");
         $dbo->setQuery((string) $query);
-        $dbo->query();
+        $dbo->execute();
         if ($dbo->getErrorNum())
         {
             return false;
@@ -115,7 +115,16 @@ class THM_OrganizerModelEvent extends JModel
         $query->from("#__assets");
         $query->where("name = 'com_content.category.{$data['contentCatID']}'");
         $dbo->setQuery((string) $query);
-        $parentID = $dbo->loadResult();
+        
+        try 
+        {
+            $parentID = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_CONTENT_CATEGORIES"), 500);
+        }
+        
         if ($dbo->getErrorNum())
         {
             return false;
@@ -145,7 +154,7 @@ class THM_OrganizerModelEvent extends JModel
         $query->set($conditions);
         $query->where("id = '{$data['id']}'");
         $dbo->setQuery((string) $query);
-        $dbo->query();
+        $dbo->execute();
         if ($dbo->getErrorNum())
         {
             return false;
@@ -183,7 +192,7 @@ class THM_OrganizerModelEvent extends JModel
         $statement .= "'{$data['publish_down']}' ) ";
         $query->insert($statement);
         $dbo->setQuery((string) $query);
-        $dbo->query();
+        $dbo->execute();
         if ($dbo->getErrorNum())
         {
             return false;
@@ -196,7 +205,16 @@ class THM_OrganizerModelEvent extends JModel
         $query->where("introtext = '{$data['introtext']}'");
         $query->where("catid = '{$data['contentCatID']}'");
         $dbo->setQuery((string) $query);
-        $data['id'] = $dbo->loadResult();
+        
+        try 
+        {
+            $data['id'] = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_CONTENT"), 500);
+        }
+        
         if ($dbo->getErrorNum())
         {
             return false;
@@ -207,7 +225,16 @@ class THM_OrganizerModelEvent extends JModel
         $query->from("#__assets");
         $query->where("name = 'com_content.category.{$data['contentCatID']}'");
         $dbo->setQuery((string) $query);
-        $parentID = $dbo->loadResult();
+        
+        try 
+        {
+            $parentID = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ASSETS"), 500);
+        }
+        
         if ($dbo->getErrorNum())
         {
             return false;
@@ -230,7 +257,16 @@ class THM_OrganizerModelEvent extends JModel
         $query->from('#__assets');
         $query->where("name = 'com_content.article.{$data['id']}'");
         $dbo->setQuery((string) $query);
-        $assetID = $dbo->loadResult();
+        
+        try 
+        {
+            $assetID = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ASSETS"), 500);
+        }
+        
         if ($dbo->getErrorNum())
         {
             return false;
@@ -241,7 +277,7 @@ class THM_OrganizerModelEvent extends JModel
         $query->set("asset_id = '$assetID'");
         $query->where("id = '{$data['id']}'");
         $dbo->setQuery((string) $query);
-        $dbo->query();
+        $dbo->execute();
         if ($dbo->getErrorNum())
         {
             return false;
@@ -256,7 +292,7 @@ class THM_OrganizerModelEvent extends JModel
         $statement .= "'{$data['starttime']}', '{$data['endtime']}', '{$data['rec_type']}', '{$data['start']}', '{$data['end']}' ) ";
         $query->insert($statement);
         $dbo->setQuery((string) $query);
-        $dbo->query();
+        $dbo->execute();
         return ($dbo->getErrorNum())? false : true;
     }
 
@@ -280,10 +316,18 @@ class THM_OrganizerModelEvent extends JModel
         $query->from($tableName);
         $query->where("eventID = '$eventID'");
         $dbo->setQuery((string) $query);
-        $dbo->query();
+        
+        try 
+        {
+            $dbo->execute();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_RESOURCE_SAVE"), 500);
+        }
 
         // Add new ones (if requested)
-        $resources = JRequest::getVar($requestName, array());
+        $resources = JFactory::getApplication()->input->get($requestName, array());
         $noResourceIndex = array_search('-1', $resources);
         if ($noResourceIndex)
         {
@@ -298,7 +342,7 @@ class THM_OrganizerModelEvent extends JModel
             $statement .= "( '$eventID', '" . implode("' ), ( '$eventID', '", $resources) . "' ) ";
             $query->insert($statement);
             $dbo->setQuery((string) $query);
-            $dbo->query();
+            $dbo->execute();
             if ($dbo->getErrorNum())
             {
                 return false;
@@ -324,7 +368,16 @@ class THM_OrganizerModelEvent extends JModel
         $query->from("#__assets");
         $query->where("name = 'com_content.article.$eventID'");
         $dbo->setQuery((string) $query);
-        $assetID = $dbo->loadResult();
+        
+        try 
+        {
+            $assetID = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ASSETS"), 500);
+        }
+        
         if ($dbo->getErrorNum())
         {
             return false;
@@ -338,7 +391,7 @@ class THM_OrganizerModelEvent extends JModel
         $query->from("#__content");
         $query->where("id = '$eventID'");
         $dbo->setQuery((string) $query);
-        $dbo->query();
+        $dbo->execute();
         if ($dbo->getErrorNum())
         {
             return false;
@@ -349,7 +402,7 @@ class THM_OrganizerModelEvent extends JModel
         $query->from("#__thm_organizer_events");
         $query->where("id = '$eventID'");
         $dbo->setQuery((string) $query);
-        $dbo->query();
+        $dbo->execute();
         if ($dbo->getErrorNum())
         {
             return false;
@@ -360,21 +413,45 @@ class THM_OrganizerModelEvent extends JModel
         $query->from("#__thm_organizer_event_teachers");
         $query->where("eventID = '$eventID'");
         $dbo->setQuery((string) $query);
-        $dbo->query();
+        
+        try
+        {
+            $dbo->execute();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT_TEACHERS_DELETE"), 500);
+        }
 
         $query = $dbo->getQuery(true);
         $query->delete();
         $query->from("#__thm_organizer_event_rooms");
         $query->where("eventID = '$eventID'");
         $dbo->setQuery((string) $query);
-        $dbo->query();
+        
+        try 
+        {
+            $dbo->execute();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT_ROOMS_DELETE"), 500);
+        }
 
         $query = $dbo->getQuery(true);
         $query->delete();
         $query->from("#__thm_organizer_event_groups");
         $query->where("eventID = '$eventID'");
         $dbo->setQuery((string) $query);
-        $dbo->query();
+        
+        try 
+        {
+            $dbo->execute();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT_GROUPS_DELETE"), 500);
+        }
 
         return true;
     }
@@ -422,13 +499,22 @@ class THM_OrganizerModelEvent extends JModel
         $query->select('DISTINCT email, name');
         $query->from('#__users AS user');
         $query->innerJoin('#__user_usergroup_map AS map ON user.id = map.user_id');
-        $groups = JRequest::getVar('groups');
+        $groups = JFactory::getApplication()->input->get('groups');
         foreach ($groups as $group)
         {
             $query->clear('where');
             $query->where("map.group_id = $group");
             $dbo->setQuery((string) $query);
-            $groupEMails = $dbo->loadResultArray();
+            
+            try
+            {
+                $groupEMails = $dbo->loadColumn();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_GROUP_EMAILS"), 500);
+            }
+            
             if (count($groupEMails))
             {
                 foreach ($groupEMails as $email)

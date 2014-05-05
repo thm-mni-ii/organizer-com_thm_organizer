@@ -23,7 +23,7 @@
             <?php echo $this->form->getInput('date'); ?>
             <br /><br />
             <input type="submit" value="Submit">
-            <input type="hidden" name="Itemid" value="<?php echo JRequest::getInt('Itemid'); ?>">
+            <input type="hidden" name="Itemid" value="<?php echo JFactory::getApplication()->input->getInt('Itemid'); ?>">
     </form>
     </fieldset>
 </div>

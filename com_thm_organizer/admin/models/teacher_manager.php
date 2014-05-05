@@ -57,7 +57,7 @@ class THM_OrganizerModelTeacher_Manager extends JModelList
         $searchFilter = $this->state->get('filter.search');
         if (!empty($searchFilter))
         {
-            $search = '%' . $dbo->getEscaped($this->state->get('filter.search'), true) . '%';
+            $search = '%' . $dbo->escape($this->state->get('filter.search'), true) . '%';
             $whereClause = "(surname LIKE '$search'";
             $whereClause .= "OR forename LIKE '$search')";
             $query->where($whereClause);

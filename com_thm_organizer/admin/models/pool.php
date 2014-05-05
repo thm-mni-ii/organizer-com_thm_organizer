@@ -19,7 +19,7 @@ jimport('joomla.application.component.model');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelPool extends JModel
+class THM_OrganizerModelPool extends JModelLegacy
 {
     private $_scheduleModel = null;
 
@@ -30,7 +30,7 @@ class THM_OrganizerModelPool extends JModel
      */
     public function delete()
     {
-        $poolIDs = JRequest::getVar('cid', array(0), 'post', 'array');
+        $poolIDs = JFactory::getApplication()->input->post->get('cid', array(0), 'array');
         if (!empty($poolIDs))
         {
             $this->_db->transactionStart();
@@ -58,7 +58,7 @@ class THM_OrganizerModelPool extends JModel
     public function deleteEntry($poolID)
     {
         $table = JTable::getInstance('pools', 'thm_organizerTable');
-        $model = JModel::getInstance('mapping', 'THM_OrganizerModel');
+        $model = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
         $mappingsDeleted = $model->deleteByResourceID($poolID, 'pool');
         if (!$mappingsDeleted)
         {
@@ -106,7 +106,7 @@ class THM_OrganizerModelPool extends JModel
         // Process mapping information
         else
         {
-            $model = JModel::getInstance('mapping', 'THM_OrganizerModel');
+            $model = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
 
             // No mappings desired
             if (empty($data['parentID']))

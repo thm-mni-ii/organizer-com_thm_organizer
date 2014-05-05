@@ -51,8 +51,8 @@ class THM_OrganizerModelField_Edit extends JModelAdmin
      */
     protected function loadFormData()
     {
-        $fieldIDs = JRequest::getVar('cid',  null, '', 'array');
-        $fieldID = (empty($fieldIDs))? JRequest::getInt('id') : $fieldIDs[0];
+        $fieldIDs = JFactory::getApplication()->input->get('cid',  null, 'array');
+        $fieldID = (empty($fieldIDs))? JFactory::getApplication()->input->getInt('id') : $fieldIDs[0];
         return $this->getItem($fieldID);
     }
  

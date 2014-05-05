@@ -36,12 +36,21 @@ class JFormFieldSubjectFields extends JFormField
     public function getInput()
     {
         $dbo = JFactory::getDBO();
-        $subjectID = JRequest::getInt('id');
+        $subjectID = JFactory::getApplication()->input->getInt('id');
  
         $selectedQuery = $dbo->getQuery(true);
         $selectedQuery->select('fieldID')->from('#__thm_organizer_subjects')->where("id = '$subjectID'");
         $dbo->setQuery((string) $selectedQuery);
-        $result = $dbo->loadResult();
+        
+        try 
+        {
+            $result = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SUBJECT_DATA"), 500);
+        }
+        
         $selectedValue = empty($result)? '' : $result;
 
         $fieldsQuery = $dbo->getQuery(true);
@@ -50,7 +59,15 @@ class JFormFieldSubjectFields extends JFormField
         $fieldsQuery->leftJoin('#__thm_organizer_colors AS c on f.colorID = c.id');
         $fieldsQuery->order('field');
         $dbo->setQuery((string) $fieldsQuery);
-        $fields = $dbo->loadAssocList();
+        
+        try
+        {
+            $fields = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_FIELDS"), 500);
+        }
 
         $options = array();
         foreach ($fields as $field)

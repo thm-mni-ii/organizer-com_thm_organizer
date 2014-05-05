@@ -121,7 +121,16 @@ function getEventSegment($eventID)
     $query = $dbo->getQuery(true);
     $query->select('alias')->from('#__content')->where("id = '$eventID'");
     $dbo->setQuery((string) $query);
-    $alias = $dbo->loadResult();
+    
+    try 
+    {
+        $alias = $dbo->loadResult();
+    }
+    catch (runtimeException $e)
+    {
+        throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_CONTENT_DATA"), 500);
+    }
+    
     return empty($alias)? $eventID : "$eventID:$alias";
 }
 
@@ -150,7 +159,16 @@ function setSubjectDetailsSegments(&$query, &$segments)
     $nameQuery = $dbo->getQuery(true);
     $nameQuery->select("name_$tag")->from('#__thm_organizer_subjects')->where("id = '{$query['id']}'");
     $dbo->setQuery((string) $nameQuery);
-    $name = $dbo->loadResult();
+    
+    try 
+    {
+        $name = $dbo->loadResult();
+    }
+    catch (runtimeException $e)
+    {
+        throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SUBJECT_DATA"), 500);
+    }
+    
     $safeName = JFilterOutput::stringURLSafe($name);
     $segments[] = empty($safeName)? $query['id'] : "{$query['id']}:$safeName";
     unset($query['id']);
@@ -188,7 +206,15 @@ function setSubjectListSegments(&$query, &$segments, &$item)
     $programQuery->from('#__thm_organizer_programs AS p')->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
     $programQuery->where("p.id = '$programID'");
     $dbo->setQuery((string) $programQuery);
-    $name = $dbo->loadResult();
+    
+    try 
+    {
+        $name = $dbo->loadResult();
+    }
+    catch (runtimeException $e)
+    {
+        throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_DEGREE_DATA"), 500);
+    }
 
     $segments[] = 'subject_list:' . JFilterOutput::stringURLSafe($name);
     $segments[] = getLanguageTag($query);

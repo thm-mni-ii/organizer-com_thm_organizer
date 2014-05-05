@@ -98,7 +98,7 @@ class THM_OrganizerModelPool_Manager extends JModelList
             }
         }
 
-        $search = '%' . $this->_db->getEscaped($this->state->get('filter.search'), true) . '%';
+        $search = '%' . $this->_db->escape($this->state->get('filter.search'), true) . '%';
         if ($search != '%%')
         {
             $searchClause = "(name_{$language[0]} LIKE '$search' ";
@@ -126,7 +126,17 @@ class THM_OrganizerModelPool_Manager extends JModelList
         $query->select('DISTINCT lft, rgt')->from('#__thm_organizer_mappings');
         $query->where("{$type}ID = '$resourceID'");
         $this->_db->setQuery((string) $query);
-        return $type == 'pool'? $this->_db->loadAssocList() : $this->_db->loadAssoc();
+        
+        try 
+        {
+            $borders = $type == 'pool'? $this->_db->loadAssocList() : $this->_db->loadAssoc();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+        }
+        
+        return $borders;
     }
 
     /**
@@ -154,7 +164,16 @@ class THM_OrganizerModelPool_Manager extends JModelList
         $query->where($bordersClauses, 'OR');
         $query->order('name');
         $this->_db->setQuery((string) $query);
-        $programs = $this->_db->loadResultArray();
+        
+        try 
+        {
+            $programs = $this->_db->loadColumn();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_POOL_PROGRAMS"), 500);
+        }
+        
         return $programs;
     }
 
@@ -204,7 +223,7 @@ class THM_OrganizerModelPool_Manager extends JModelList
         $this->setState('filter.search', $search);
 
         $formProgram = $this->getUserStateFromRequest($this->context . '.filter_program', 'filter_program', '');
-        $requestProgram = JRequest::getInt('programID');
+        $requestProgram = JFactory::getApplication()->input->getInt('programID');
         $this->setState('filter.program', (empty($formProgram) OR $formProgram == '-1')? $requestProgram : $formProgram);
 
         $limit = $this->getUserStateFromRequest($this->context . '.limit', 'limit');
@@ -225,6 +244,14 @@ class THM_OrganizerModelPool_Manager extends JModelList
         $nameQuery->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
         $nameQuery->where("dp.id = '{$this->state->get('filter.program')}'");
         $this->_db->setQuery((string) $nameQuery);
-        $this->programName = $this->_db->loadResult();
+        
+        try 
+        {
+            $this->programName = $this->_db->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_PROGRAM_NAME"), 500);
+        }
     }
 }

@@ -20,7 +20,7 @@ jimport('joomla.application.component.model');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelmonitor extends JModel
+class THM_OrganizerModelmonitor extends JModelLegacy
 {
     /**
      * save
@@ -68,7 +68,7 @@ class THM_OrganizerModelmonitor extends JModel
     public function delete()
     {
         $success = true;
-        $monitorIDs = JRequest::getVar('cid', array(0), 'post', 'array');
+        $monitorIDs = JFactory::getApplication()->input->post->get('cid', array(0), 'array');
         $table = JTable::getInstance('monitors', 'thm_organizerTable');
         if (isset($monitorIDs) and count($monitorIDs) > 0)
         {

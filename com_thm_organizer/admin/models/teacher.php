@@ -21,7 +21,7 @@ jimport('joomla.application.component.model');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelTeacher extends JModel
+class THM_OrganizerModelTeacher extends JModelLegacy
 {
     private $_scheduleModel = null;
     /**
@@ -62,7 +62,15 @@ class THM_OrganizerModelTeacher extends JModel
         $query = $dbo->getQuery(true);
         $query->select('*')->from('#__thm_organizer_teachers')->order('surname, id');
         $dbo->setQuery((string) $query);
-        $teacherEntries = $dbo->loadAssocList();
+        
+        try 
+        {
+            $teacherEntries = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHER_DATA"), 500);
+        }
  
         if (empty($teacherEntries))
         {
@@ -141,7 +149,7 @@ class THM_OrganizerModelTeacher extends JModel
     private function getTeacherEntries()
     {
         $dbo = JFactory::getDbo();
-        $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
+        $cids = "'" . implode("', '", JFactory::getApplication()->input->post->get('cid', array(), 'array')) . "'";
 
         $query = $dbo->getQuery(true);
         $query->select('*');
@@ -150,7 +158,17 @@ class THM_OrganizerModelTeacher extends JModel
         $query->order('id ASC');
 
         $dbo->setQuery((string) $query);
-        return $dbo->loadAssocList();
+        
+        try 
+        {
+            $teachers = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHER_DATA"), 500);
+        }
+        
+        return $teachers;
     }
 
     /**
@@ -215,14 +233,14 @@ class THM_OrganizerModelTeacher extends JModel
         // Clean POST variables
         if (empty($data))
         {
-            $data['id'] = JRequest::getInt('id');
-            $data['surname'] = JRequest::getString('surname');
-            $data['forename'] = JRequest::getString('forename');
-            $data['title'] = JRequest::getString('title');
-            $data['username'] = JRequest::getString('username');
-            $data['gpuntisID'] = JRequest::getString('gpuntisID');
-            $data['fieldID'] = JRequest::getInt('fieldID')? JRequest::getInt('fieldID') :  null;
-            $data['otherIDs'] = "'" . implode("', '", explode(',', JRequest::getString('otherIDs'))) . "'";
+            $data['id'] = JFactory::getApplication()->input->getInt('id');
+            $data['surname'] = JFactory::getApplication()->input->getString('surname');
+            $data['forename'] = JFactory::getApplication()->input->getString('forename');
+            $data['title'] = JFactory::getApplication()->input->getString('title');
+            $data['username'] = JFactory::getApplication()->input->getString('username');
+            $data['gpuntisID'] = JFactory::getApplication()->input->getString('gpuntisID');
+            $data['fieldID'] = JFactory::getApplication()->input->getInt('fieldID')? JFactory::getApplication()->input->getInt('fieldID') :  null;
+            $data['otherIDs'] = "'" . implode("', '", explode(',', JFactory::getApplication()->input->getString('otherIDs'))) . "'";
         }
         if (!empty($data['fieldID']) AND empty($data['description']))
         {
@@ -254,7 +272,7 @@ class THM_OrganizerModelTeacher extends JModel
         $dbo->setQuery((string) $query);
         try
         {
-            $dbo->query();
+            $dbo->execute();
         }
         catch (Exception $exception)
         {
@@ -320,7 +338,7 @@ class THM_OrganizerModelTeacher extends JModel
         $dbo->setQuery((string) $query);
         try
         {
-            $dbo->query();
+            $dbo->execute();
         }
         catch (Exception $exception)
         {
@@ -358,7 +376,16 @@ class THM_OrganizerModelTeacher extends JModel
         $scheduleQuery->select('id, schedule');
         $scheduleQuery->from('#__thm_organizer_schedules');
         $dbo->setQuery((string) $scheduleQuery);
-        $schedules = $dbo->loadAssocList();
+        
+        try 
+        {
+            $schedules = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULES"), 500);
+        }
+        
         if (empty($schedules))
         {
             return true;
@@ -406,7 +433,15 @@ class THM_OrganizerModelTeacher extends JModel
             $fieldQuery->from('#__thm_organizer_fields');
             $fieldQuery->where("id = '{$data['fieldID']}'");
             $dbo->setQuery((string) $fieldQuery);
-            $field = $dbo->loadResult();
+            
+            try
+            {
+                $field = $dbo->loadResult();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_FIELDS"), 500);
+            }
         }
         return empty($field)? null : str_replace('DS_', '', $field);
     }
@@ -427,7 +462,17 @@ class THM_OrganizerModelTeacher extends JModel
         $query->where("id IN ( $IDs )");
         $query->where("gpuntisID IS NOT NULL");
         $dbo->setQuery((string) $query);
-        return $dbo->loadResultArray();
+        
+        try
+        {
+            $teacherUntisIDs = $dbo->loadColumn();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHER_DATA"), 500);
+        }
+        
+        return $teacherUntisIDs;
     }
 
     /**
@@ -503,12 +548,12 @@ class THM_OrganizerModelTeacher extends JModel
     {
         $query = $this->_db->getQuery(true);
         $query->delete('#__thm_organizer_teachers');
-        $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
+        $cids = "'" . implode("', '", JFactory::getApplication()->input->post->get('cid', array(), 'array')) . "'";
         $query->where("id IN ( $cids )");
         $this->_db->setQuery((string) $query);
         try
         {
-            $this->_db->query();
+            $this->_db->execute();
         }
         catch ( Exception $exception)
         {

@@ -33,7 +33,7 @@ class THM_OrganizerViewTeacher_Ajax extends JViewLegacy
     public function display($tpl = null)
     {
         $model = $this->getModel();
-        $task = JRequest::getString('task');
+        $task = JFactory::getApplication()->input->getString('task');
         echo $model->$task();
     }
 }

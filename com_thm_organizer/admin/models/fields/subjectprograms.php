@@ -34,7 +34,7 @@ class JFormFieldSubjectPrograms extends JFormField
      */
     public function getInput()
     {
-        $subjectID = JRequest::getInt('id');
+        $subjectID = JFactory::getApplication()->input->getInt('id');
         $ranges = THM_OrganizerHelperMapping::getRanges('subjectID', $subjectID);
         $selectedPrograms = !empty($ranges)?
             THM_OrganizerHelperMapping::getSelectedPrograms($ranges) : array();

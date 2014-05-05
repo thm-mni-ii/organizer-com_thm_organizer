@@ -36,19 +36,36 @@ class JFormFieldSubjectTeachers extends JFormField
     public function getInput()
     {
         $dbo = JFactory::getDBO();
-        $subjectID = JRequest::getInt('id');
+        $subjectID = JFactory::getApplication()->input->getInt('id');
  
         $selectedQuery = $dbo->getQuery(true);
         $selectedQuery->select('teacherID')->from('#__thm_organizer_subject_teachers')->where("subjectID = '$subjectID' AND teacherResp = '2'");
         $dbo->setQuery((string) $selectedQuery);
-        $selected = $dbo->loadResultArray();
+        
+        try 
+        {
+            $selected = $dbo->loadColumn();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHER"), 500);
+        }
 
         $teachersQuery = $dbo->getQuery(true);
         $teachersQuery->select("id AS value, surname, forename, username");
         $teachersQuery->from('#__thm_organizer_teachers');
         $teachersQuery->order('surname, forename');
         $dbo->setQuery((string) $teachersQuery);
-        $teachers = $dbo->loadAssocList();
+        
+        try 
+        {
+            $teachers = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHERS"), 500);
+        }
+        
         foreach ($teachers as $key => $teacher)
         {
             $teachers[$key]['name'] = empty($teacher['forename'])? $teacher['surname'] : "{$teacher['surname']}, {$teacher['forename']}";

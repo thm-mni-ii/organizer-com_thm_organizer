@@ -28,8 +28,8 @@ class THM_OrganizerViewRoom_Select extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        JHTML::_('behavior.formvalidation');
-        JHTML::_('behavior.tooltip');
+        JHtml::_('behavior.formvalidation');
+        JHtml::_('behavior.tooltip');
 
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");

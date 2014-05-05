@@ -21,7 +21,7 @@ require_once JPATH_COMPONENT . "/assets/classes/eventAccess.php";
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelEvent_Details extends JModel
+class THM_OrganizerModelEvent_Details extends JModelLegacy
 {
     /**
      * @var int the id of the event in the database
@@ -71,7 +71,7 @@ class THM_OrganizerModelEvent_Details extends JModel
      */
     public function loadEvent()
     {
-        $eventID = JRequest::getInt('eventID')? JRequest::getInt('eventID'): 0;
+        $eventID = JFactory::getApplication()->input->getInt('eventID')? JFactory::getApplication()->input->getInt('eventID'): 0;
         $dbo = JFactory::getDBO();
 
         $query = $dbo->getQuery(true);
@@ -83,7 +83,15 @@ class THM_OrganizerModelEvent_Details extends JModel
         $query->innerJoin("#__categories AS ccat ON ecat.contentCatID = ccat.id");
         $query->where("e.id = '$eventID'");
         $dbo->setQuery((string) $query);
-        $event = $dbo->loadAssoc();
+        
+        try
+        {
+            $event = $dbo->loadAssoc();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT"), 500);
+        }
 
         if (isset($event))
         {
@@ -220,7 +228,15 @@ class THM_OrganizerModelEvent_Details extends JModel
         $query->innerJoin("#__thm_organizer_rooms AS r ON er.roomID = r.id");
         $query->where("er.eventID = '$this->eventID'");
         $dbo->setQuery((string) $query);
-        $this->event['rooms'] = $dbo->loadResultArray();
+        
+        try
+        {
+            $this->event['rooms'] = $dbo->loadColumn();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT_ROOMS"), 500);
+        }
     }
 
     /**
@@ -239,7 +255,15 @@ class THM_OrganizerModelEvent_Details extends JModel
         $query->innerJoin("#__thm_organizer_teachers AS t ON et.teacherID = t.id");
         $query->where("et.eventID = '$this->eventID'");
         $dbo->setQuery((string) $query);
-        $this->event['teachers'] = $dbo->loadResultArray();
+        
+        try
+        {
+            $this->event['teachers'] = $dbo->loadColumn();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT_TEACHERS"), 500);
+        }
     }
 
     /**
@@ -258,7 +282,15 @@ class THM_OrganizerModelEvent_Details extends JModel
         $query->innerJoin("#__usergroups AS ug ON eg.groupID = ug.id");
         $query->where("eg.eventID = '$this->eventID'");
         $dbo->setQuery((string) $query);
-        $this->event['groups'] = $dbo->loadResultArray();
+        
+        try 
+        {
+            $this->event['groups'] = $dbo->loadColumn();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT_GROUPS"), 500);
+        }
     }
 
     /**
@@ -271,7 +303,7 @@ class THM_OrganizerModelEvent_Details extends JModel
      */
     private function setMenuLinks()
     {
-        $menuID = JRequest::getInt('Itemid');
+        $menuID = JFactory::getApplication()->input->getInt('Itemid');
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("link");
@@ -279,7 +311,16 @@ class THM_OrganizerModelEvent_Details extends JModel
         $query->where("id = $menuID");
         $query->where("link LIKE '%event_manager%'");
         $dbo->setQuery((string) $query);
-        $link = $dbo->loadResult();
+        
+        try
+        {
+            $link = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MENU_LINK"), 500);
+        }
+        
         if (isset($link) and $link != "")
         {
             $this->listLink = JRoute::_($link);

@@ -19,7 +19,7 @@ jimport('joomla.application.component.model');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelMapping extends JModel
+class THM_OrganizerModelMapping extends JModelLegacy
 {
     /**
      * Adds mappings as they exist in LSF for an imported degree program
@@ -70,7 +70,7 @@ class THM_OrganizerModelMapping extends JModel
         {
             if ($unwanted)
             {
-                $poolModel = JModel::getInstance('pool', 'THM_OrganizerModel');
+                $poolModel = JModelLegacy::getInstance('pool', 'THM_OrganizerModel');
                 return $poolModel->deleteEntry($poolsTable->id);
             }
 
@@ -295,7 +295,16 @@ class THM_OrganizerModelMapping extends JModel
         $query = $dbo->getQuery(true);
         $query->select('COUNT(*)')->from('#__thm_organizer_mappings')->where("{$resourceType}ID = '$resourceID'");
         $dbo->setQuery((string) $query);
-        $count = $dbo->loadResult();
+        
+        try 
+        {
+            $count = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+        }
+        
         return empty($count)? false : true;
     }
 
@@ -330,7 +339,15 @@ class THM_OrganizerModelMapping extends JModel
                 break;
         }
         $dbo->setQuery((string) $mappingIDsQuery);
-        $mappingIDs = $dbo->loadResultArray();
+        
+        try
+        {
+            $mappingIDs = $dbo->loadColumn();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPINGS"), 500);
+        }
 
         if (!empty($mappingIDs))
         {
@@ -360,7 +377,15 @@ class THM_OrganizerModelMapping extends JModel
         $mappingIDsQuery = $dbo->getQuery(true);
         $mappingIDsQuery->select('id')->from('#__thm_organizer_mappings')->where("parentID = '$mappingID'");
         $dbo->setQuery((string) $mappingIDsQuery);
-        $mappingIDs = $dbo->loadResultArray();
+        
+        try 
+        {
+            $mappingIDs = $dbo->loadColumn();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPINGS"), 500);
+        }
 
         if (!empty($mappingIDs))
         {
@@ -391,7 +416,15 @@ class THM_OrganizerModelMapping extends JModel
         $mappingQuery = $dbo->getQuery(true);
         $mappingQuery->select('*, (rgt - lft + 1) AS width')->from('#__thm_organizer_mappings')->where("id = '$entryID'");
         $dbo->setQuery((string) $mappingQuery);
-        $mapping = $dbo->loadAssoc();
+        
+        try
+        {
+            $mapping = $dbo->loadAssoc();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+        }
 
         // Deletes the mapping
         $deleteQuery = $dbo->getQuery(true);
@@ -399,7 +432,7 @@ class THM_OrganizerModelMapping extends JModel
         $dbo->setQuery((string) $deleteQuery);
         try
         {
-            $dbo->query();
+            $dbo->execute();
         }
         catch (Exception $exception)
         {
@@ -416,7 +449,7 @@ class THM_OrganizerModelMapping extends JModel
         $dbo->setQuery((string) $siblingsQuery);
         try
         {
-            $dbo->query();
+            $dbo->execute();
         }
         catch (Exception $exception)
         {
@@ -434,7 +467,7 @@ class THM_OrganizerModelMapping extends JModel
         $dbo->setQuery((string) $updateLeftQuery);
         try
         {
-            $dbo->query();
+            $dbo->execute();
         }
         catch (Exception $exception)
         {
@@ -452,7 +485,7 @@ class THM_OrganizerModelMapping extends JModel
         $dbo->setQuery((string) $updateRightQuery);
         try
         {
-            $dbo->query();
+            $dbo->execute();
         }
         catch (Exception $exception)
         {
@@ -530,7 +563,16 @@ class THM_OrganizerModelMapping extends JModel
         $existingQuery->select('id')->from('#__thm_organizer_mappings');
         $existingQuery->where("{$type}ID = '$resourceID'");
         $dbo->setQuery((string) $existingQuery, 0, 1);
-        $firstID = $dbo->loadResult();        
+        
+        try
+        {
+            $firstID = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+        }
+        
         if (!empty($firstID))
         {
             $childrenQuery = $dbo->getQuery(true);
@@ -539,7 +581,15 @@ class THM_OrganizerModelMapping extends JModel
             $childrenQuery->where("parentID = '$firstID'");
             $childrenQuery->order('lft ASC');
             $dbo->setQuery((string) $childrenQuery);
-            $results = $dbo->loadAssocList();
+            
+            try
+            {
+                $results = $dbo->loadAssocList();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+            }
 
             if (!empty($results))
             {
@@ -573,7 +623,7 @@ class THM_OrganizerModelMapping extends JModel
         foreach ($childKeys as $childKey)
         {
             $ordering = substr($childKey, 5);
-            $aggregateInfo = JRequest::getString($childKey);
+            $aggregateInfo = JFactory::getApplication()->input->getString($childKey);
             $resourceID = substr($aggregateInfo, 0, strlen($aggregateInfo) - 1);            
             $resourceType = strpos($aggregateInfo, 'p')? 'pool' : 'subject';
           
@@ -622,7 +672,16 @@ class THM_OrganizerModelMapping extends JModel
             $existingOrderQuery->where("poolID = '$resourceID'");
         }
         $dbo->setQuery((string) $existingOrderQuery);
-        $existingOrder = $dbo->loadResult();
+        
+        try 
+        {
+            $existingOrder = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+        }
+        
         if ( !empty($existingOrder))
         {
             return $existingOrder;
@@ -635,7 +694,16 @@ class THM_OrganizerModelMapping extends JModel
         $maxOrderQuery = $dbo->getQuery(true);
         $maxOrderQuery->select('MAX(ordering)')->from('#__thm_organizer_mappings')->where("parentID = '$parentID'");
         $dbo->setQuery((string) $maxOrderQuery);
-        $maxOrder = $dbo->loadResult();
+        
+        try 
+        {
+            $maxOrder = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+        }
+        
         return empty($maxOrder)? 1 : $maxOrder + 1;
     }
 
@@ -652,7 +720,17 @@ class THM_OrganizerModelMapping extends JModel
         $parentQuery = $dbo->getQuery(true);
         $parentQuery->select('*')->from('#__thm_organizer_mappings')->where("id = '$parentID'");
         $dbo->setQuery((string) $parentQuery);
-        return $dbo->loadAssoc();
+        
+        try 
+        {
+            $mappings = $dbo->loadAssoc();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+        }
+        
+        return $mappings;
     }
 
     /**
@@ -733,13 +811,30 @@ class THM_OrganizerModelMapping extends JModel
         $findQuery = $dbo->getQuery(true);
         $findQuery->select('*')->from('#__thm_organizer_mappings')->where('parentID IS NULL')->where("programID = '$programID'");
         $dbo->setQuery((string) $findQuery);
-        $rootMapping = $dbo->loadAssoc();
+        
+        try 
+        {
+            $rootMapping = $dbo->loadAssoc();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+        }
+        
         if (empty($rootMapping))
         {
             $leftQuery = $dbo->getQuery(true);
             $leftQuery->select("MAX(rgt)")->from('#__thm_organizer_mappings');
             $dbo->setQuery((string) $leftQuery);
-            $maxRgt = $dbo->loadResult();
+            
+            try 
+            {
+                $maxRgt = $dbo->loadResult();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+            }
 
             $data = array();
             $data['programID'] = $programID;
@@ -838,7 +933,17 @@ class THM_OrganizerModelMapping extends JModel
     {
         $query = $this->_db->getQuery(true);
         $query->select('*')->from('#__thm_organizer_mappings')->where("{$type}ID = '$resourceID'");
-        return $this->_db->setQuery((string) $query)->loadAssocList();
+        
+        try
+        {
+            $mappings = $this->_db->setQuery((string) $query)->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+        }
+        
+        return $mappings;
     }
 
     /**
@@ -888,7 +993,7 @@ class THM_OrganizerModelMapping extends JModel
         $dbo->setQuery((string) $query);
         try
         {
-            $dbo->query();
+            $dbo->execute();
         }
         catch (Exception $exc)
         {
@@ -913,7 +1018,7 @@ class THM_OrganizerModelMapping extends JModel
         $dbo->setQuery((string) $lftQuery);
         try
         {
-            $dbo->query();
+            $dbo->execute();
         }
         catch (Exception $exc)
         {
@@ -925,7 +1030,7 @@ class THM_OrganizerModelMapping extends JModel
         $dbo->setQuery((string) $rgtQuery);
         try
         {
-            $dbo->query();
+            $dbo->execute();
         }
         catch (Exception $exc)
         {

@@ -53,6 +53,13 @@ $defaultContent = JComponentHelper::getParams('com_thm_organizer')->get('content
             </select>
         </div>
     </div>
+    
+    <input type="hidden" name="task" value="" />
+    <input type="hidden" name="boxchecked" value="0" />
+    <input type="hidden" name="boxchecked" value="0" />
+    <input type="hidden" name="filter_order" value="<?php echo $orderby; ?>" />
+    <input type="hidden" name="filter_order_Dir" value="<?php echo $direction; ?>" />
+    <input type="hidden" name="view" value="monitor_manager" />
     </form>
     <div class="clr"> </div>
     <div>
@@ -191,17 +198,10 @@ if($this->monitors !== false){
                     </td>
                 </tr>
 <?php
-	}
+    }
 }
 ?>
             </tbody>
         </table>
     </div>
-    <input type="hidden" name="task" value="" />
-    <input type="hidden" name="boxchecked" value="0" />
-    <input type="hidden" name="boxchecked" value="0" />
-    <input type="hidden" name="filter_order" value="<?php echo $orderby; ?>" />
-    <input type="hidden" name="filter_order_Dir" value="<?php echo $direction; ?>" />
-    <input type="hidden" name="view" value="monitor_manager" />
     <?php echo JHtml::_('form.token'); ?>
-</form>

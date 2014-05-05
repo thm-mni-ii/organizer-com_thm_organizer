@@ -20,7 +20,7 @@ defined('TEACHER') OR define('TEACHER', 2);
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelSubject extends JModel
+class THM_OrganizerModelSubject extends JModelLegacy
 {
     private $_scheduleModel = null;
 
@@ -31,7 +31,7 @@ class THM_OrganizerModelSubject extends JModel
      */
     public function delete()
     {
-        $subjectIDs = JRequest::getVar('cid', array(0), 'post', 'array');
+        $subjectIDs = JFactory::getApplication()->input->post->get('cid', array(0), 'array');
         if (!empty($subjectIDs))
         {
             $this->_db->transactionStart();
@@ -59,7 +59,7 @@ class THM_OrganizerModelSubject extends JModel
     public function deleteEntry($subjectID)
     {
         $table = JTable::getInstance('subjects', 'thm_organizerTable');
-        $mappingModel = JModel::getInstance('mapping', 'THM_OrganizerModel');
+        $mappingModel = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
         $mappingsDeleted = $mappingModel->deleteByResourceID($subjectID, 'subject');
         if (!$mappingsDeleted)
         {
@@ -181,7 +181,7 @@ class THM_OrganizerModelSubject extends JModel
         $this->_db->setQuery((string) $query);
         try
         {
-            $this->_db->query();
+            $this->_db->execute();
         }
         catch (Exception $exc)
         {
@@ -209,7 +209,7 @@ class THM_OrganizerModelSubject extends JModel
         $this->_db->setQuery((string) $query);
         try
         {
-            $this->_db->query();
+            $this->_db->execute();
         }
         catch (Exception $exc)
         {
@@ -229,7 +229,7 @@ class THM_OrganizerModelSubject extends JModel
      */
     private function processFormMappings($subjectID, &$data)
     {
-        $model = JModel::getInstance('mapping', 'THM_OrganizerModel');
+        $model = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
 
         // No mappings desired
         if (empty($data['parentID']))
@@ -255,7 +255,16 @@ class THM_OrganizerModelSubject extends JModel
         $query->select("id, name_$languageTag AS name");
         $query->from('#__thm_organizer_subjects')->where("externalID = '$moduleNumber'");
         $this->_db->setQuery((string) $query);
-        $subjectInfo = $this->_db->loadAssoc();
+        
+        try 
+        {
+            $subjectInfo = $this->_db->loadAssoc();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SUBJECT_DATA"), 500);
+        }
+        
         if (empty($subjectInfo))
         {
             return false;
@@ -269,7 +278,7 @@ class THM_OrganizerModelSubject extends JModel
         $subjectURL = JURI::root() . 'index.php?option=com_thm_organizer&view=subject_details';
         $subjectURL .= "&languageTag=$languageTag&id={$subjectInfo['id']}";
         
-        $itemID = JRequest::getInt('Itemid');
+        $itemID = JFactory::getApplication()->input->getInt('Itemid');
         $subjectURL .= !empty($itemID)? "&Itemid=$itemID" : '';
         $href = JRoute::_($subjectURL);
 

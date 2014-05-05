@@ -32,9 +32,8 @@ class THM_OrganizerControllermonitor extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'monitor_edit');
-        JRequest::setVar('monitorID', '0');
-        parent::display();
+        $this->input->set('monitorID', '0');
+        $this->setRedirect("index.php?option=com_thm_organizer&view=monitor_edit");
     }
 
     /**
@@ -48,8 +47,7 @@ class THM_OrganizerControllermonitor extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'monitor_edit');
-        parent::display();
+        $this->setRedirect("index.php?option=com_thm_organizer&view=monitor_edit");
     }
 
     /**

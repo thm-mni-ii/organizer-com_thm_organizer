@@ -104,8 +104,8 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
 
         $this->setWhere($query);
 
-        $orderby = $dbo->getEscaped($this->getState('list.ordering', 'r.name'));
-        $direction = $dbo->getEscaped($this->getState('list.direction', 'ASC'));
+        $orderby = $dbo->escape($this->getState('list.ordering', 'r.name'));
+        $direction = $dbo->escape($this->getState('list.direction', 'ASC'));
         $query->order("$orderby $direction");
         return $query;
     }
@@ -119,7 +119,7 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
      */
     private function setWhere(&$query)
     {
-        $filterSearch = '%' . $this->_db->getEscaped($this->state->get('filter.search'), true) . '%';
+        $filterSearch = '%' . $this->_db->escape($this->state->get('filter.search'), true) . '%';
         $useFilterSearch = $filterSearch != '%%';
         $filterRoom = $this->getState('filter.room');
         $useFilterRoom = is_numeric($filterRoom);
@@ -223,7 +223,16 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
         $query->innerJoin("#__thm_organizer_monitors AS m ON m.roomID = r.id");
         $query->order('r.longname ASC');
         $dbo->setQuery((string) $query);
-        $results = $dbo->loadAssocList();
+        
+        try
+        {
+            $results = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ROOMS"), 500);
+        }
+        
         $rooms = array();
         if (count($results))
         {

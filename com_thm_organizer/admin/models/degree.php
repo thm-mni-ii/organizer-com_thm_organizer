@@ -23,7 +23,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelDegree extends JModel
+class THM_OrganizerModelDegree extends JModelLegacy
 {
     /**
      * Saves degree information to the database

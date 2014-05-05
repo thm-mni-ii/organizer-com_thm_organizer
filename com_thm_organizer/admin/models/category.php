@@ -20,7 +20,7 @@ require_once JPATH_SITE . '/components/com_thm_organizer/models/events.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelcategory extends JModel
+class THM_OrganizerModelcategory extends JModelLegacy
 {
     /**
      * saves the event category
@@ -60,7 +60,7 @@ class THM_OrganizerModelcategory extends JModel
      */
     public function delete()
     {
-        $categoryIDs = JRequest::getVar('cid', array(0), 'post', 'array');
+        $categoryIDs = JFactory::getApplication()->input->post->get('cid', array(0), 'array');
         if (count($categoryIDs))
         {
             $dbo = $this->getDbo();
@@ -72,7 +72,15 @@ class THM_OrganizerModelcategory extends JModel
             $query->from("#__thm_organizer_events");
             $query->where("categoryID IN ( '" . implode("', '", $categoryIDs) . "' )");
             $dbo->setQuery((string) $query);
-            $eventIDs = $dbo->loadResultArray();
+            
+            try 
+            {
+                $eventIDs = $dbo->loadColumn();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT"), 500);
+            }
 
             if (count($eventIDs))
             {

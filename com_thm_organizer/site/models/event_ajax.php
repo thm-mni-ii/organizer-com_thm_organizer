@@ -20,7 +20,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_thm_organizer/models/schedul
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelEvent_Ajax extends JModel
+class THM_OrganizerModelEvent_Ajax extends JModelLegacy
 {
     /**
      * @var int the id of an existing event
@@ -139,7 +139,7 @@ class THM_OrganizerModelEvent_Ajax extends JModel
     public function getConflicts()
     {
         $conflicts = array();
-        $categoryID = JRequest::getInt('category');
+        $categoryID = JFactory::getApplication()->input->getInt('category');
         $this->_reservingCatIDs = $this->getReservingCatIDs();
         if (strpos($this->_reservingCatIDs, "'$categoryID'") === false)
         {
@@ -157,12 +157,12 @@ class THM_OrganizerModelEvent_Ajax extends JModel
         $this->_teacherKeys = (count($this->_teachers))? "( '" . implode("', '", array_keys($this->_teachers)) . "' )" : "";
         $this->_teacherUntisKeys = $this->getUntisKeys('teachers', $this->_teacherKeys);
         $this->_groupKeys = (count($this->_groups))? "( '" . implode("', '", array_keys($this->_groups)) . "' )" : "";
-        $this->_eventID = JRequest::getInt('eventID');
-        $this->_startdate = date('Y-m-d', strtotime(JRequest::getString('startdate')));
-        $this->_enddate = (JRequest::getString('enddate') != '')? date('Y-m-d', strtotime(JRequest::getString('enddate'))) : $this->_startdate;
-        $this->_starttime = JRequest::getString('starttime');
-        $this->_endtime = JRequest::getString('endtime');
-        $this->_rec_type = JRequest::getInt('rec_type');
+        $this->_eventID = JFactory::getApplication()->input->getInt('eventID');
+        $this->_startdate = date('Y-m-d', strtotime(JFactory::getApplication()->input->getString('startdate')));
+        $this->_enddate = (JFactory::getApplication()->input->getString('enddate') != '')? date('Y-m-d', strtotime(JFactory::getApplication()->input->getString('enddate'))) : $this->_startdate;
+        $this->_starttime = JFactory::getApplication()->input->getString('starttime');
+        $this->_endtime = JFactory::getApplication()->input->getString('endtime');
+        $this->_rec_type = JFactory::getApplication()->input->getInt('rec_type');
         $this->getEvents();
         if (isset($this->_events))
         {
@@ -194,7 +194,16 @@ class THM_OrganizerModelEvent_Ajax extends JModel
         $query->from('#__thm_organizer_categories');
         $query->where('reserves = 1');
         $dbo->setQuery((string) $query);
-        $resultArray = $dbo->loadResultArray();
+        
+        try
+        {
+            $resultArray = $dbo->loadColumn();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_CATEGORIES"), 500);
+        }
+        
         if (count($resultArray))
         {
             $reservingCatIDs = "( '" . implode("', '", $resultArray) . "' )";
@@ -219,7 +228,7 @@ class THM_OrganizerModelEvent_Ajax extends JModel
     private function getResourceData($resourceName, $columnName, $tableName)
     {
         $resourceData = array();
-        $resources = JRequest::getVar($resourceName);
+        $resources = JFactory::getApplication()->input->get($resourceName);
         $$resourceName = !empty($resources)? implode(",", $resources) : '';
         if (strpos($$resourceName, '-1,'))
         {
@@ -235,7 +244,16 @@ class THM_OrganizerModelEvent_Ajax extends JModel
             $query->where("id IN $requestedIDs");
             $query->order("id");
             $dbo->setQuery((string) $query);
-            $results = $dbo->loadAssocList();
+            
+            try
+            {
+                $results = $dbo->loadAssocList();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_RESOURCE_DATA"), 500);
+            }
+            
             if (count($results))
             {
                 foreach ($results as $result)
@@ -264,7 +282,16 @@ class THM_OrganizerModelEvent_Ajax extends JModel
         $query->from("#__thm_organizer_$table");
         $query->where("id IN $idSet");
         $dbo->setQuery((string) $query);
-        $result = $dbo->loadAssocList();
+        
+        try
+        {
+            $result = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_UNTIS_KEYS"), 500);
+        }
+        
         if (count($result))
         {
             $gpuntisIDs = array();
@@ -388,7 +415,17 @@ class THM_OrganizerModelEvent_Ajax extends JModel
             $query->where("e.id != '{$this->_eventID}'");
         }
         $dbo->setQuery((string) $query);
-        return $dbo->loadAssocList();
+        
+        try
+        {
+            $dailyEvents =  $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_DAILY_EVENTS"), 500);
+        }
+        
+        return $dailyEvents;
     }
 
     /**
@@ -458,7 +495,17 @@ class THM_OrganizerModelEvent_Ajax extends JModel
             $query->where("e.id != '{$this->_eventID}'");
         }
         $dbo->setQuery((string) $query);
-        return $dbo->loadAssocList();
+        
+        try
+        {
+            $blockEvents = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_BLOCK_EVENTS"), 500);
+        }
+        
+        return $blockEvents;
     }
 
     /**
@@ -650,7 +697,16 @@ class THM_OrganizerModelEvent_Ajax extends JModel
         $query->where("$keyColumn = '$eventID'");
         $query->where("$resourceColumn IN $keys");
         $dbo->setQuery((string) $query);
-        $IDsArray = $dbo->loadResultArray();
+        
+        try
+        {
+            $IDsArray = $dbo->loadColumn();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_RESOURCE_DATA"), 500);
+        }
+        
         if (count($IDsArray))
         {
             $resources = array();
@@ -682,7 +738,16 @@ class THM_OrganizerModelEvent_Ajax extends JModel
         $query->where("startdate <= '{$this->_startdate}'");
         $query->where("enddate >= '{$this->_enddate}'");
         $dbo->setQuery((string) $query);
-        $results = $dbo->loadAssocList();
+        
+        try
+        {
+            $results = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULE"), 500);
+        }
+        
         if (count($results))
         {
             $scheduleModel = new thm_organizerModelschedule;

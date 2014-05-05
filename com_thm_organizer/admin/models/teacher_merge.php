@@ -19,7 +19,7 @@ jimport('joomla.application.component.modeladmin');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelTeacher_Merge extends JModel
+class THM_OrganizerModelTeacher_Merge extends JModelLegacy
 {
     /**
      * Array holding teacher entry information
@@ -42,12 +42,20 @@ class THM_OrganizerModelTeacher_Merge extends JModel
         $query->from('#__thm_organizer_teachers AS t');
         $query->leftJoin('#__thm_organizer_fields AS f ON t.fieldID = f.id');
 
-        $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
+        $cids = "'" . implode("', '", JFactory::getApplication()->input->post->get('cid', array(), 'array')) . "'";
         $query->where("t.id IN ( $cids )");
 
         $query->order('t.id ASC');
 
         $dbo->setQuery((string) $query);
-        $this->teacherInformation = $dbo->loadAssocList();
+        
+        try 
+        {
+            $this->teacherInformation = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHER_DATA"), 500);
+        }
     }
 }

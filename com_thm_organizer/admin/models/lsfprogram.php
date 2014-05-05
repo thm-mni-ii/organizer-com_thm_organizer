@@ -20,7 +20,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/lsfapi.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelLSFProgram extends JModel
+class THM_OrganizerModelLSFProgram extends JModelLegacy
 {
     /**
      * Retrieves program information relevant for soap queries to the LSF system.
@@ -37,7 +37,16 @@ class THM_OrganizerModelLSFProgram extends JModel
         $lsfDataQuery->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
         $lsfDataQuery->where("p.id = '$programID'");
         $this->_db->setQuery((string) $lsfDataQuery);
-        $lsfData = $this->_db->loadAssoc();
+        
+        try 
+        {
+            $lsfData = $this->_db->loadAssoc();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_LSF_QUERY_DATA"), 500);
+        }
+        
         return empty($lsfData)? array() : $lsfData;
     }
 
@@ -49,7 +58,7 @@ class THM_OrganizerModelLSFProgram extends JModel
     public function importBatch()
     {
         $this->_db->transactionStart();
-        $programIDs = JRequest::getVar('cid', array(), 'post', 'array');
+        $programIDs = JFactory::getApplication()->input->post->get('cid', array(), 'array');
         foreach ($programIDs as $programID)
         {
             $programImported = $this->importSingle($programID);
@@ -88,7 +97,7 @@ class THM_OrganizerModelLSFProgram extends JModel
 
         if (!empty($program->gruppe))
         {
-            $mappingModel = JModel::getInstance('mapping', 'THM_OrganizerModel');
+            $mappingModel = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
             $programMappingExists = $this->processProgramMapping($programID, $mappingModel);
             if (!$programMappingExists)
             {
@@ -119,8 +128,8 @@ class THM_OrganizerModelLSFProgram extends JModel
      */
     private function processChildNodes(&$program)
     {
-        $lsfSubjectModel = JModel::getInstance('LSFSubject', 'THM_OrganizerModel');
-        $lsfPoolModel = JModel::getInstance('LSFPool', 'THM_OrganizerModel');
+        $lsfSubjectModel = JModelLegacy::getInstance('LSFSubject', 'THM_OrganizerModel');
+        $lsfPoolModel = JModelLegacy::getInstance('LSFPool', 'THM_OrganizerModel');
         foreach ($program->gruppe as $resource)
         {
             $stubProcessed = isset($resource->modulliste->modul)?

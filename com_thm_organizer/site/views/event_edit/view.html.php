@@ -79,6 +79,31 @@ class Thm_OrganizerViewEvent_Edit extends JViewLegacy
     }
 
     /**
+     * Create the toolbar
+     * 
+     * @return string
+     */
+    function getToolbar() {
+        // add required stylesheets from admin template
+        $document = JFactory::getDocument();
+        $document->addStyleSheet('administrator/templates/isis/css/template.css');
+        //now we add the necessary stylesheets from the administrator template
+        //in this case i make reference to the isis default administrator template in joomla 3.2
+        $document->addCustomTag( '<link href="administrator/templates/isis/css/template.css" rel="stylesheet" type="text/css" />'."\n\n" );
+        //load the JToolBar library and create a toolbar
+        jimport('cms.html.toolbar');
+        $bar = new JToolBar( 'toolbar' );
+        //and make whatever calls you require
+        $bar->appendButton( 'Standard', 'save', 'Save', 'event.save', false );
+        $bar->appendButton( 'Standard', 'save-new', 'Save & New', 'event.save2new', false );
+        $bar->appendButton('Popup', 'preview', 'Preview', '#' );
+        $bar->appendButton( 'Separator' );
+        $bar->appendButton( 'Standard', 'cancel', 'Cancel', 'event.cancel', false );
+        //generate the html and return
+        return $bar->render();
+    }
+    
+    /**
      * Creates HTML elements from saved data
      *
      * @return void
@@ -116,7 +141,7 @@ class Thm_OrganizerViewEvent_Edit extends JViewLegacy
         $selectname = $name . 'select';
         if (isset($this->event[$name]))
         {
-            $selectbox = JHTML::_('select.genericlist',
+            $selectbox = JHtml::_('select.genericlist',
                                           $resources,
                                           $name . '[]',
                                           $attributes,
@@ -127,7 +152,7 @@ class Thm_OrganizerViewEvent_Edit extends JViewLegacy
         }
         else
         {
-            $selectbox = JHTML::_('select.genericlist',
+            $selectbox = JHtml::_('select.genericlist',
                                           $resources,
                                           $name . '[]',
                                           $attributes,
@@ -151,7 +176,7 @@ class Thm_OrganizerViewEvent_Edit extends JViewLegacy
         $attributes['class'] = 'inputbox validate-category';
         $attributes['onChange'] = 'changeCategoryInformation()';
         $attributes['required'] = 'true';
-        $this->categoryselect = JHTML::_('select.genericlist',
+        $this->categoryselect = JHtml::_('select.genericlist',
                                             $this->categories,
                                             'category',
                                             $attributes,
@@ -182,7 +207,7 @@ class Thm_OrganizerViewEvent_Edit extends JViewLegacy
     private function createActionLink($action)
     {
         $linkname = $action . 'link';
-        $image = JHTML::_('image',
+        $image = JHtml::_('image',
                               "components/com_thm_organizer/assets/images/$action.png",
                               JText::_(ucfirst($action)),
                               array( 'class' => 'thm_organizer_ee_image_button',

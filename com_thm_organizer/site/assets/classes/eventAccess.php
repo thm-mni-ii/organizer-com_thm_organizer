@@ -36,7 +36,16 @@ class THMEventAccess
         $query->from("#__content");
         $query->where("id = '$eventID'");
         $dbo->setQuery((string) $query);
-        $author = $dbo->loadResult();
+        
+        try 
+        {
+            $author = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_CONTENT_AUTHOR"), 500);
+        }
+        
         $isAuthor = ($user->id == $author)? true : false;
         return $isAuthor;
     }
@@ -58,7 +67,15 @@ class THMEventAccess
         $query->from("#__categories AS c");
         $query->innerJoin("#__thm_organizer_categories AS ec ON ec.contentCatID = c.id");
         $dbo->setQuery((string) $query);
-        $categoryIDs = $dbo->loadResultArray();
+        
+        try
+        {
+            $categoryIDs = $dbo->loadColumn();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_CATEGORIES"), 500);
+        }
 
         if (isset($categoryIDs) and count($categoryIDs))
         {
@@ -85,7 +102,7 @@ class THMEventAccess
     public static function canEdit($eventID)
     {
         $user = JFactory::getUser();
-        $eventID = JRequest::getInt('eventID');
+        $eventID = JFactory::getApplication()->input->getInt('eventID');
         $assetname = "com_content.article.$eventID";
         $canEdit = $canEditOwn = false;
         $canEdit = $user->authorise('core.edit', $assetname);

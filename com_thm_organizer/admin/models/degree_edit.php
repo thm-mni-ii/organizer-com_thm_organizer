@@ -50,8 +50,8 @@ class THM_OrganizerModelDegree_Edit extends JModelAdmin
      */
     protected function loadFormData()
     {
-        $degreeIDs = JRequest::getVar('cid',  null, '', 'array');
-        $degreeID = (empty($degreeIDs))? JRequest::getInt('id') : $degreeIDs[0];
+        $degreeIDs = JFactory::getApplication()->input->get('cid',  null, 'array');
+        $degreeID = (empty($degreeIDs))? JFactory::getApplication()->input->getInt('id') : $degreeIDs[0];
         return $this->getItem($degreeID);
     }
 

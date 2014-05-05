@@ -13,7 +13,7 @@
 defined('_JEXEC') or die;
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=degree_manager'); ?>"
-      method="post" name="adminForm">
+      method="post" name="adminForm" id="adminForm">
     <table class="table table-striped">
         <thead>
             <?php echo $this->loadTemplate('head'); ?>

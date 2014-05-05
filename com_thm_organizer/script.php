@@ -229,7 +229,7 @@ class Com_THM_OrganizerInstallerScript
     private function fillTables()
     {
         $return = true;
-        $fill = JFile::read($this->SQLPath() . '/fill.mysql.utf8.sql');
+        $fill = file_get_contents($this->SQLPath() . '/fill.mysql.utf8.sql');
         $dbo = JFactory::getDbo();
         $queries = $dbo->splitSql($fill);
 
@@ -238,7 +238,7 @@ class Com_THM_OrganizerInstallerScript
             if (trim($query))
             {
                 $dbo->setQuery($query);
-                if (!$dbo->query())
+                if (!$dbo->execute())
                 {
                     $return = false;
                     JError::raiseWarning(1, JText::sprintf($dbo->getErrorMsg(), $dbo->stderr(true)));

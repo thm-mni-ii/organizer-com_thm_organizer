@@ -24,7 +24,7 @@ require_once JPATH_COMPONENT . '/helper/teacher.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelSubject_Details extends JModel
+class THM_OrganizerModelSubject_Details extends JModelLegacy
 {
     public $subjectID = null;
 
@@ -41,14 +41,14 @@ class THM_OrganizerModelSubject_Details extends JModel
     {
         parent::__construct($config);
 
-        $this->menuID = JRequest::getInt('Itemid');
-        $this->subjectID = JRequest::getInt('id');
-        $externalID = JRequest::getString('nrmni');
+        $this->menuID = JFactory::getApplication()->input->getInt('Itemid');
+        $this->subjectID = JFactory::getApplication()->input->getInt('id');
+        $externalID = JFactory::getApplication()->input->getString('nrmni');
         if (empty($this->subjectID) AND !empty($externalID))
         {
             $this->subjectID = $this->resolveExternalID($externalID);
         }
-        $this->languageTag = JRequest::getString('languageTag', 'de');
+        $this->languageTag = JFactory::getApplication()->input->getString('languageTag', 'de');
 
         if (!empty($this->subjectID))
         {
@@ -92,7 +92,17 @@ class THM_OrganizerModelSubject_Details extends JModel
         $query = $dbo->getQuery(true);
         $query->select('id')->from('#__thm_organizer_subjects')->where("externalID = '$externalID'");
         $dbo->setQuery((string) $query);
-        return $dbo->loadResult();
+        
+        try 
+        {
+            $subjectID = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SUBJECT_DATA"), 500);
+        }
+        
+        return $subjectID;
     }
 
     /**
@@ -121,7 +131,17 @@ class THM_OrganizerModelSubject_Details extends JModel
         $query->leftJoin('#__thm_organizer_pforms AS form ON s.pformID = form.id');
         $query->where("s.id = '$this->subjectID'");
         $dbo->setQuery((string) $query);
-        return $dbo->loadAssoc();
+        
+        try 
+        {
+            $subject =  $dbo->loadAssoc();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SUBJECT_DATA"), 500);
+        }
+        
+        return $subject;
     }
 
     /**
@@ -178,7 +198,15 @@ class THM_OrganizerModelSubject_Details extends JModel
         $query->where("p.subjectID = '$this->subjectID'");
         $query->order('name');
         $dbo->setQuery((string) $query);
-        $prerequisites = $dbo->loadAssocList();
+        
+        try 
+        {
+            $prerequisites = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_PREREQUISITES"), 500);
+        }
 
         if (!empty($prerequisites))
         {
@@ -203,7 +231,15 @@ class THM_OrganizerModelSubject_Details extends JModel
         $query->where("p.prerequisite = '$this->subjectID'");
         $query->order('name');
         $dbo->setQuery((string) $query);
-        $prerequisiteOf = $dbo->loadAssocList();
+        
+        try 
+        {
+            $prerequisiteOf = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_PREREQUISITES"), 500);
+        }
 
         if (!empty($prerequisiteOf))
         {

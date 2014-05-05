@@ -21,7 +21,7 @@ require_once JPATH_ROOT . "/components/com_thm_organizer/assets/classes/TreeNode
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelScheduler_Tree extends JModel
+class THM_OrganizerModelScheduler_Tree extends JModelLegacy
 {
     /**
      * Joomla data abstraction
@@ -98,7 +98,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
         $this->_JDA = $JDA;
         $this->_cfg = $CFG->getCFG();
  
-        $menuid = JRequest::getInt("menuID", 0);
+        $menuid = JFactory::getApplication()->input->getInt("menuID", 0);
  
         $site = new JSite;
         $menu = $site->getMenu();
@@ -119,7 +119,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
         }
         else
         {
-            $treeIDs = JRequest::getString('treeIDs');
+            $treeIDs = JFactory::getApplication()->input->getString('treeIDs');
             $treeIDsData = json_decode($treeIDs);
             if ($treeIDsData != null)
             {
@@ -137,7 +137,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
         }
         else
         {
-            $publicDefaultID = json_decode(JRequest::getString('publicDefaultID'));
+            $publicDefaultID = json_decode(JFactory::getApplication()->input->getString('publicDefaultID'));
             if ($publicDefaultID != null)
             {
                 $this->_publicDefault = (array) $publicDefaultID;
@@ -157,7 +157,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
             $this->_hideCheckBox = false;
         }
  
-        if (JRequest::getString('departmentSemesterSelection') == "")
+        if (JFactory::getApplication()->input->getString('departmentSemesterSelection') == "")
         {
             if (isset($options["departmentSemesterSelection"]))
             {
@@ -170,7 +170,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
         }
         else
         {
-            $this->departmentSemesterSelection = JRequest::getString('departmentSemesterSelection');
+            $this->departmentSemesterSelection = JFactory::getApplication()->input->getString('departmentSemesterSelection');
         }
     }
 
@@ -849,7 +849,14 @@ class THM_OrganizerModelScheduler_Tree extends JModel
             return false;
         }
 
-        $result = $dbo->loadObject();
+        try 
+        {
+            $result = $dbo->loadObject();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULE"), 500);
+        }
  
         if ($result === null)
         {

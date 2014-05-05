@@ -46,7 +46,7 @@ class THM_OrganizerViewConsumption extends JViewLegacy
         
         array_push(
             $options,
-            JHTML::_('select.option',
+            JHtml::_('select.option',
                 0,
                 JText::_("COM_THM_ORGANIZER_CONSUMPTION_SELECT_SCHEDULE"))
         );
@@ -55,14 +55,14 @@ class THM_OrganizerViewConsumption extends JViewLegacy
         {
             array_push(
                 $options,
-                JHTML::_('select.option',
+                JHtml::_('select.option',
                     $schedule->id,
                     $schedule->departmentname . " - " . $schedule->semestername . " - " . $schedule->creationdate .
                     " (" . $schedule->startdate . " - " . $schedule->enddate . ")")
             );
         }
         
-        $this->schedulesSelectBox = JHTML::_('select.genericlist', $options, 'activated', null, 'value', 'text', $currentValue);
+        $this->schedulesSelectBox = JHtml::_('select.genericlist', $options, 'activated', null, 'value', 'text', $currentValue);
         
         $this->consumptionRoomTable = "";
         $this->consumptionTeacherTable = "";

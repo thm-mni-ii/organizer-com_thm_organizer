@@ -39,7 +39,7 @@ class JFormFieldSubjectParents extends JFormField
      */
     public function getInput()
     {
-        $subjectID = JRequest::getInt('id');
+        $subjectID = JFactory::getApplication()->input->getInt('id');
         $existingMappings = array();
         $selectedParents = array();
         $this->getExistingMappings($subjectID, $existingMappings, $selectedParents);
@@ -93,7 +93,23 @@ class JFormFieldSubjectParents extends JFormField
         $query->where("subjectID = '$subjectID'");
         $query->order('lft ASC');
         $dbo->setQuery((string) $query);
-        $existingMappings = array_merge($existingMappings, $dbo->loadAssocList());
-        $selectedParents = array_merge($selectedParents, $dbo->loadResultArray());
+        
+        try 
+        {
+            $existingMappings = array_merge($existingMappings, $dbo->loadAssocList());
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPINGS"), 500);
+        }
+        
+        try 
+        {
+            $selectedParents = array_merge($selectedParents, $dbo->loadColumn());
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPINGS"), 500);
+        }
     }
 }

@@ -21,7 +21,7 @@ defined('TEACHER') OR define('TEACHER', 2);
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelLSFSubject extends JModel
+class THM_OrganizerModelLSFSubject extends JModelLegacy
 {
     /**
      * Method to import data associated with subjects from LSF
@@ -30,7 +30,7 @@ class THM_OrganizerModelLSFSubject extends JModel
      */
     public function importBatch()
     {
-        $subjectIDs = JRequest::getVar('cid', array(), 'post', 'array');
+        $subjectIDs = JFactory::getApplication()->input->post->get('cid', array(), 'array');
         $this->_db->transactionStart();
         foreach ($subjectIDs as $subjectID)
         {
@@ -106,7 +106,7 @@ class THM_OrganizerModelLSFSubject extends JModel
         $blocked = strtolower((string) $lsfData->modul->sperrmh) == 'x';
         if ($blocked)
         {
-            $subjectModel = JModel::getInstance('subject', 'THM_OrganizerModel');
+            $subjectModel = JModelLegacy::getInstance('subject', 'THM_OrganizerModel');
             return $subjectModel->deleteEntry($subject->id);
         }
 
@@ -478,7 +478,7 @@ class THM_OrganizerModelLSFSubject extends JModel
      */
     private function setTeachersByResponsibility($subjectID, &$teachers, $responsibility)
     {
-        $subjectModel = JModel::getInstance('subject', 'THM_OrganizerModel');
+        $subjectModel = JModelLegacy::getInstance('subject', 'THM_OrganizerModel');
         $removed = $subjectModel->removeTeachers($subjectID, $responsibility);
         if (!$removed)
         {
@@ -596,7 +596,16 @@ class THM_OrganizerModelLSFSubject extends JModel
         $query->select("id, name_$languageTag AS name");
         $query->from('#__thm_organizer_subjects')->where("externalID = '$moduleNumber'");
         $this->_db->setQuery((string) $query);
-        $subjectInfo = $this->_db->loadAssoc();
+        
+        try 
+        {
+            $subjectInfo = $this->_db->loadAssoc();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MODULE_INFORMATION"), 500);
+        }
+        
         if (empty($subjectInfo))
         {
             return false;
@@ -610,7 +619,7 @@ class THM_OrganizerModelLSFSubject extends JModel
         $subjectURL = JURI::root() . 'index.php?option=com_thm_organizer&view=subject_details';
         $subjectURL .= "&languageTag=$languageTag&id={$subjectInfo['id']}";
         
-        $itemID = JRequest::getInt('Itemid');
+        $itemID = JFactory::getApplication()->input->getInt('Itemid');
         $subjectURL .= !empty($itemID)? "&Itemid=$itemID" : '';
         $href = JRoute::_($subjectURL);
 
@@ -633,7 +642,7 @@ class THM_OrganizerModelLSFSubject extends JModel
         $this->_db->setQuery((string) $deleteQuery);
         try
         {
-            $this->_db->query();
+            $this->_db->execute();
         }
         catch (Exception $exc)
         {
@@ -652,7 +661,7 @@ class THM_OrganizerModelLSFSubject extends JModel
                 $this->_db->setQuery((string) $insertQuery);
                 try
                 {
-                    $this->_db->query();
+                    $this->_db->execute();
                 }
                 catch (Exception $exc)
                 {
@@ -704,7 +713,17 @@ class THM_OrganizerModelLSFSubject extends JModel
         $query->select("id");
         $query->from('#__thm_organizer_subjects')->where("externalID = '$possibleModuleNumber'");
         $this->_db->setQuery((string) $query);
-        return $this->_db->loadResult();
+        
+        try 
+        {
+            $moduleID = $this->_db->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SUBJECT_DATA"), 500);
+        }
+        
+        return $moduleID;
     }
 
     /**
@@ -727,7 +746,15 @@ class THM_OrganizerModelLSFSubject extends JModel
             $checkQuery->select("COUNT(*)");
             $checkQuery->from('#__thm_organizer_subjects')->where("subjectID = '$moduleID'")->where("prerequisite = '$subjectID'");
             $this->_db->setQuery((string) $checkQuery);
-            $entryExists = $this->_db->loadResult();
+            
+            try
+            {
+                $entryExists = $this->_db->loadResult();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SUBJECT_DATA"), 500);
+            }
 
             if (!$entryExists)
             {
@@ -738,7 +765,7 @@ class THM_OrganizerModelLSFSubject extends JModel
                 $this->_db->setQuery((string) $insertQuery);
                 try
                 {
-                    $this->_db->query();
+                    $this->_db->execute();
                 }
                 catch (Exception $exc)
                 {

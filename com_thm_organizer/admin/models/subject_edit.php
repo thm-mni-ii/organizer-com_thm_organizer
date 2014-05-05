@@ -52,8 +52,8 @@ class THM_OrganizerModelSubject_Edit extends JModelAdmin
      */
     protected function loadFormData()
     {
-        $subjectIDs = JRequest::getVar('cid',  null, '', 'array');
-        $subjectID = (empty($subjectIDs))? JRequest::getVar('subjectID') : $subjectIDs[0];
+        $subjectIDs = JFactory::getApplication()->input->get('cid',  null, 'array');
+        $subjectID = (empty($subjectIDs))? JFactory::getApplication()->input->get('subjectID') : $subjectIDs[0];
         $item = $this->getItem($subjectID);
         if (!empty($item->id))
         {
@@ -76,7 +76,16 @@ class THM_OrganizerModelSubject_Edit extends JModelAdmin
         $query->select('teacherID')->from('#__thm_organizer_subject_teachers');
         $query->where("subjectID = '$subjectID'")->where("teacherResp = '1'");
         $dbo->setQuery((string) $query);
-        $respID = $dbo->loadResult();
+        
+        try 
+        {
+            $respID = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_RESPONSIBLES"), 500);
+        }
+        
         return empty($respID)? 0 : $respID;
     }
 

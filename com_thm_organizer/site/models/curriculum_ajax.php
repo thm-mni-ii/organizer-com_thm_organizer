@@ -21,7 +21,7 @@ require_once JPATH_COMPONENT . '/helper/teacher.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelCurriculum_Ajax extends JModel
+class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 {
     private $_scheduleID;
 
@@ -44,14 +44,14 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
      */
     public function getCurriculum()
     {
-        $programID = JRequest::getInt('programID');
+        $programID = JFactory::getApplication()->input->getInt('programID');
 
         if (empty($programID))
         {
             return '';
         }
 
-        $languageTag = JRequest::getString('languageTag', 'de');
+        $languageTag = JFactory::getApplication()->input->getString('languageTag', 'de');
 
         // Get the major in order to build the complete label of a given major/curriculum
         $program = $this->getProgramData($programID);
@@ -89,7 +89,17 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
         $query->where("m.lft >= '$left'");
         $query->where("m.rgt <= '$right'");
         $query->order('field');
-        return $this->_db->setQuery((string) $query)->loadAssocList();
+        
+        try 
+        {
+            $fieldColors =  $this->_db->setQuery((string) $query)->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_FIELD_COLORS"), 500);
+        }
+        
+        return $fieldColors;
     }
 
     /**
@@ -111,7 +121,16 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
         $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
         $query->where("p.id = '$poolID'");
         $dbo->setQuery((string) $query);
-        $poolData = $dbo->loadObject();
+        
+        try 
+        {
+            $poolData = $dbo->loadObject();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_POOL_DATA"), 500);
+        }
+        
         if (empty($poolData->color))
         {
             $poolData->color = 'ffffff';
@@ -129,7 +148,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
      */
     private function getProgramData($programID)
     {
-        $languageTag = JRequest::getString('languageTag', 'de');
+        $languageTag = JFactory::getApplication()->input->getString('languageTag', 'de');
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);
         $select = "CONCAT(p.subject_{$languageTag}, ' (', d.abbreviation, ' ', p.version, ')') AS name, ";
@@ -140,7 +159,17 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
         $query->innerJoin('#__thm_organizer_mappings AS m ON p.id = m.programID');
         $query->where("p.id = '$programID'");
         $dbo->setQuery((string) $query);
-        return $dbo->loadObject();
+        
+        try
+        {
+             $programData = $dbo->loadObject();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_PROGRAM_DATA"), 500);
+        }
+        
+        return $programData;
     }
 
     /**
@@ -165,7 +194,16 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
         $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
         $query->where("s.id = '$subjectID'");
         $dbo->setQuery((string) $query);
-        $subjectData = $dbo->loadObject();
+        
+        try 
+        {
+            $subjectData = $dbo->loadObject();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SUBJECT_DATA"), 500);
+        }
+        
         if (empty($subjectData))
         {
             return null;
@@ -210,7 +248,16 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
         $mappingsQuery->where("rgt < '$rgt'");
         $mappingsQuery->order('lft');
         $dbo->setQuery((string) $mappingsQuery);
-        $mappings = $dbo->loadAssocList();
+        
+        try
+        {
+            $mappings = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+        }
+        
         if (empty($mappings))
         {
             return $children;
@@ -259,7 +306,17 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
         $query = $dbo->getQuery(true);
         $query->select('MAX(ordering)')->from('#__thm_organizer_mappings')->where("parentID = '$mappingID'");
         $dbo->setQuery((string) $query);
-        return $dbo->loadResult();
+        
+        try 
+        {
+            $childOrder = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_CHILD"), 500);
+        }
+        
+        return $childOrder;
     }
 
     /**
@@ -277,7 +334,15 @@ class THM_OrganizerModelCurriculum_Ajax extends JModel
         $query->select('id, schedule')->from('#__thm_organizer_schedules');
         $query->where("startdate <= '$date'")->where("enddate >= '$date'")->where("active = '1'");
         $dbo->setQuery((string) $query);
-        $currentSchedules = $dbo->loadAssocList();
+        
+        try
+        {
+            $currentSchedules = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULE"), 500);
+        }
 
         foreach ($currentSchedules as $currentSchedule)
         {

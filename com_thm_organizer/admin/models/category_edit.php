@@ -52,8 +52,8 @@ class THM_OrganizerModelCategory_Edit extends JModelAdmin
      */
     protected function loadFormData()
     {
-        $categoryIDs = JRequest::getVar('cid',  null, '', 'array');
-        $categoryID = (empty($categoryIDs))? JRequest::getVar('categoryID') : $categoryIDs[0];
+        $categoryIDs = JFactory::getApplication()->input->get('cid',  null, 'array');
+        $categoryID = (empty($categoryIDs))? JFactory::getApplication()->input->get('categoryID') : $categoryIDs[0];
         return $this->getItem($categoryID);
     }
 

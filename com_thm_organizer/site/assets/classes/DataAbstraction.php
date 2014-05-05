@@ -102,7 +102,7 @@ class THM_OrganizerDataAbstraction
     public function getDownloadFolder()
     {
         $confObject = JFactory::getApplication();
-        $tmpPath = $confObject->getCfg('tmp_path') . DS;
+        $tmpPath = $confObject->getCfg('tmp_path') . DIRECTORY_SEPARATOR;
         return $tmpPath;
     }
 
@@ -121,16 +121,38 @@ class THM_OrganizerDataAbstraction
         {
             if ($arr == false)
             {
-                $data = $this->_dbo->loadObjectList();
+                try 
+                {
+                    $data = $this->_dbo->loadObjectList();
+                }
+                catch (runtimeException $e)
+                {
+                    throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_QUERY"), 500);
+                }
             }
             else
             {
-                $data = $this->_dbo->loadResultArray();
+                try
+                {
+                    $data = $this->_dbo->loadColumn();
+                }
+                catch (runtimeException $e)
+                {
+                    throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_QUERY"), 500);
+                }
             }
         }
         else
         {
-            $this->_dbo->query();
+            try 
+            {
+                $this->_dbo->execute();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EXECUTE"), 500);
+            }
+            
             $data = true;
         }
         if ($this->_dbo->getErrorNum())
@@ -178,7 +200,16 @@ class THM_OrganizerDataAbstraction
         $query->select('*');
         $query->from('#__thm_organizer_settings');
         $query->where("id = '1'");
-        $settings = $this->query((string) $query);
+        
+        try 
+        {
+            $settings = $this->execute((string) $query);
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SETTINGS"), 500);
+        }
+        
         if ($settings)
         {
             $settings = $settings[ 0 ];
@@ -213,7 +244,14 @@ class THM_OrganizerDataAbstraction
             return false;
         }
 
-        $result = $this->_dbo->loadObject();
+        try 
+        {
+            $result = $this->_dbo->loadObject();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_COMPONENT_CHECK"), 500);
+        }
 
         if ($result === null)
         {
@@ -230,7 +268,7 @@ class THM_OrganizerDataAbstraction
      */
     public function getSemID()
     {
-        $semesterID = JRequest::getString('semesterID');
+        $semesterID = JFactory::getApplication()->input->getString('semesterID');
         return $semesterID;
     }
 

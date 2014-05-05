@@ -19,7 +19,7 @@ jimport('joomla.application.component.modeladmin');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelRoom_Merge extends JModel
+class THM_OrganizerModelRoom_Merge extends JModelLegacy
 {
     /**
      * Array holding room entry information
@@ -44,12 +44,20 @@ class THM_OrganizerModelRoom_Merge extends JModel
         $query->from('#__thm_organizer_rooms AS r');
         $query->leftJoin('#__thm_organizer_room_types AS t ON r.typeID = t.id');
 
-        $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
+        $cids = "'" . implode("', '", JFactory::getApplication()->input->post->get('cid', array(), 'array')) . "'";
         $query->where("r.id IN ( $cids )");
 
         $query->order('r.id ASC');
 
         $dbo->setQuery((string) $query);
-        $this->roomInformation = $dbo->loadAssocList();
+        
+        try 
+        {
+            $this->roomInformation = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ROOM_DATA"), 500);
+        }
     }
 }

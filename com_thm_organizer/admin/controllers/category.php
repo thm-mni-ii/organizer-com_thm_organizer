@@ -25,18 +25,6 @@ jimport('joomla.application.component.controlleradmin');
  */
 class THM_OrganizerControllerCategory extends JControllerAdmin
 {
-	/**
-	 * Proxy for getModel.
-	 * @since       2.5
-	 */
-	/*
-	public function getModel($name = 'OrganizerModelcategory', $prefix = 'THM_')
-	{
-		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
-		return $model;
-	}
-    */
-    
     /**
      * redirects to the category_edit view for the creation of new categories
      *
@@ -49,10 +37,8 @@ class THM_OrganizerControllerCategory extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'category_edit');
-        JRequest::setVar('categoryID', '0');
-        //var_dump();
-        //parent::display();
+        $this->input->set('categoryID', '0');
+        $this->setRedirect("index.php?option=com_thm_organizer&view=category_edit");
     }
 
     /**
@@ -66,8 +52,7 @@ class THM_OrganizerControllerCategory extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'category_edit');
-        parent::display();
+        $this->setRedirect("index.php?option=com_thm_organizer&view=category_edit");
     }
 
     /**
