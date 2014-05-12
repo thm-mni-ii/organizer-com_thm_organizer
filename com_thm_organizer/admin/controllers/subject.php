@@ -19,7 +19,7 @@ jimport('joomla.application.component.controller');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerControllerSubject extends JControllerAdmin
+class THM_OrganizerControllerSubject extends JControllerLegacy
 {
     /**
      * Performs access checks, sets the id variable to 0, and redirects to the
@@ -33,7 +33,7 @@ class THM_OrganizerControllerSubject extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        $this->input->set('id', '0');
+        JRequest::setVar('id', '0');
         $this->setRedirect("index.php?option=com_thm_organizer&view=subject_edit");
     }
 
