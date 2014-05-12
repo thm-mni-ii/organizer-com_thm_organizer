@@ -16,8 +16,8 @@ $orderby = $this->escape($this->state->get('list.ordering'));
 $direction = $this->escape($this->state->get('list.direction'));
 ?>
 <form id="adminForm" action="index.php?option=com_thm_organizer" method="post" name="adminForm" >
-    <div id="filter-bar" class="btn-toolbar">
-        <div class="filter-select fltrt">
+    <div id="filter-bar" class="filter-bar">
+        <div class="filter-select fltrt pull-right">
             <select name="filter_global" class="inputbox" onchange="this.form.submit()">
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_CAT_SEARCH_GLOBAL'); ?></option>
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_CAT_ALL_GLOBAL'); ?></option>

@@ -22,7 +22,7 @@ $direction = $this->escape($this->state->get('list.direction'));
       name="adminForm"
       id="adminForm">
     <div id="filter-bar" class='filter-bar'>
-        <div class="filter-select fltrt">
+        <div class="filter-select fltrt pull-right">
             <select name="filter_state" class="inputbox" onchange="this.form.submit()">
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_SEARCH_STATES'); ?></option>
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_ALL_STATES'); ?></option>
@@ -43,6 +43,7 @@ $direction = $this->escape($this->state->get('list.direction'));
                 <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_ALL_DEPARTMENTS'); ?></option>
                 <?php echo JHtml::_('select.options', $this->departments, 'name', 'name', $this->state->get('filter.department'));?>
             </select>
+            <div class="clr"> </div>
         </div>
     </div>
     <div class="clr"> </div>

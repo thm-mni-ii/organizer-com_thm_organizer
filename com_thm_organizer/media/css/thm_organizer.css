@@ -42,6 +42,38 @@
 
 .thm_organizer_main{ padding: 5px; }
 .thm_organizer_main_description{ font-size: 16px; padding-bottom: 8px; }
+.thm_organizer_main_submenu a { 
+	background-color: #FFFFFF;
+    background-position: -30px center;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    color: #565656;
+    display: block;
+    float: left;
+    height: 97px;
+    text-decoration: none;
+    transition-duration: 0.8s;
+    transition-property: background-position, -moz-border-radius-bottomleft, -moz-box-shadow;
+    vertical-align: middle;
+    width: 108px; 
+}
+.thm_organizer_main_submenu div.icon {
+	float: left;
+    margin-bottom: 15px;
+    margin-right: 15px;
+    text-align: center;
+}
+.thm_organizer_main_submenu img{
+	border: 0 none;
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+    padding: 10px 0;
+}
+.thm_organizer_main_submenu span{
+	display: block;
+    text-align: center;
+}
 .thm_organizer_main_linkdiv{ float: left; }
 
 
@@ -345,6 +377,15 @@ div.filter-bar {
     clear: both;
     z-index: 12;
     box-shadow: 2px 2px 4px rgb(221, 221, 221);
+    overflow: auto;
+}
+
+div.filter-bar label{
+	display:inline;
+}
+
+div.filter-bar input{
+	margin-bottom:0px;
 }
 
 div.filter-search label {
