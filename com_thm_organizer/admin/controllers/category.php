@@ -23,7 +23,7 @@ jimport('joomla.application.component.controlleradmin');
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  */
-class THM_OrganizerControllerCategory extends JControllerAdmin
+class THM_OrganizerControllerCategory extends JControllerLegacy
 {
     /**
      * redirects to the category_edit view for the creation of new categories
@@ -37,8 +37,9 @@ class THM_OrganizerControllerCategory extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        $this->input->set('categoryID', '0');
-        $this->setRedirect("index.php?option=com_thm_organizer&view=category_edit");
+        JRequest::setVar('view', 'category_edit');
+        JRequest::setVar('categoryID', '0');
+        parent::display();
     }
 
     /**
