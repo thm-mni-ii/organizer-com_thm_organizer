@@ -19,7 +19,7 @@ jimport('joomla.application.component.controller');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerControllerField extends JControllerAdmin
+class THM_OrganizerControllerField extends JControllerLegacy
 {
     /**
      * Performs access checks and redirects to the field edit view
@@ -32,7 +32,7 @@ class THM_OrganizerControllerField extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        $this->input->set('id', '0');
+        JRequest::setVar('id', '0');
         $this->setRedirect("index.php?option=com_thm_organizer&view=field_edit");
     }
 
