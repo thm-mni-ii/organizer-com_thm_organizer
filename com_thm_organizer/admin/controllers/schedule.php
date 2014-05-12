@@ -32,8 +32,13 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
+        /*
         $this->input->set('cid');
         $this->input->set('scheduleID', '0');
+        $this->setRedirect('index.php?option=com_thm_organizer&view=schedule_edit');
+        */
+        JRequest::setVar('cid');
+        JRequest::setVar('scheduleID', '0');
         $this->setRedirect('index.php?option=com_thm_organizer&view=schedule_edit');
     }
 
@@ -65,7 +70,7 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
-        $file = $this->input->files->get('file', '');
+        $file = JRequest::getVar('file', '', 'FILES');
         if ($file['type'] == "text/xml")
         {
             $model = $this->getModel('schedule');
