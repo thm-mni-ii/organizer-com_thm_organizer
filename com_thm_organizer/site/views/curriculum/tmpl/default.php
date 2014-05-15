@@ -15,8 +15,6 @@ defined('_JEXEC') or die;
 
 $flagPath = 'media/com_thm_organizer/images/';
 $flagPath .= ($this->languageTag == 'de')? 'en.png' : 'de.png';
-echo "<pre>" . print_r($this->params, true) . "</pre>";
-die;
 ?>
 <script type="text/javascript">
     /* global parameters */
