@@ -44,7 +44,7 @@ class THM_OrganizerModelConsumptionSiteTest extends iCampusDatabaseTestCase {
      */
     protected function getDataSet()
     {
-        return $this->createXMLDataSet(JPATH_BASE . '/tests/com_thm_organizer/unit-tests/stubs/jos_thm_organizer_schedules.xml');
+        return $this->createXMLDataSet(JPATH_BASE . '/tests/com_thm_organizer/unit-tests/stubs/#__thm_organizer_schedules.xml');
     }
     
     /**
