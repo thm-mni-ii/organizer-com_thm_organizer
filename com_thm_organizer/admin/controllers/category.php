@@ -32,7 +32,6 @@ class THM_OrganizerControllerCategory extends JControllerLegacy
      */
     public function add()
     {
-    	
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));

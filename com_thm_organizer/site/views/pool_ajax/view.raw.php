@@ -35,7 +35,7 @@ class THM_OrganizerViewPool_Ajax extends JViewLegacy
     public function display($tpl = null)
     {
         $model = $this->getModel();
-        $function = JFactory::getApplication()->input->getString('task');
+        $function = JRequest::getString('task');
         echo $model->$function();
     }
 }

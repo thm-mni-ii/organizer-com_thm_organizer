@@ -56,7 +56,7 @@ class THM_OrganizerViewCategory_Edit extends JViewLegacy
      */
     private function addToolBar()
     {
-        JFactory::getApplication()->input->set('hidemainmenu', true);
+        JRequest::setVar('hidemainmenu', true);
         if ($this->form->getValue('id') == 0)
         {
             $title = JText::_('COM_THM_ORGANIZER_CAT_NEW_TITLE');

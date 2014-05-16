@@ -64,7 +64,6 @@ class THM_OrganizerViewSchedule_Manager extends JViewLegacy
 
         $this->state = $this->get('State');
         $this->schedules = $this->get('Items');
-        
         $this->pagination = $this->get('Pagination');
         $this->departments = $model->departments;
         $this->semesters = $model->semesters;

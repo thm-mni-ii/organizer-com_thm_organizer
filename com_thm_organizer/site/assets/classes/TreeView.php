@@ -111,18 +111,18 @@ class THMTreeView
         $this->_JDA = $JDA;
         $this->_cfg = $CFG->getCFG();
 
-        $menuID = JFactory::getApplication()->input->getInt("menuID", 0);
+        $menuID = JRequest::getInt("menuID", 0);
         if (!empty($menuID))
         {
             $isBackend = true;
         }
         else
         {
-            $menuID = JFactory::getApplication()->input->getInt("Itemid", 0);
+            $menuID = JRequest::getInt("Itemid", 0);
             $isBackend = false;
         }
 
-        $this->_checkBoxForChildrenOnly = JFactory::getApplication()->input->getBool("childrenCheckbox", false);
+        $this->_checkBoxForChildrenOnly = JRequest::getBool("childrenCheckbox", false);
 
         $menuItem = JFactory::getApplication()->getMenu()->getItem($menuID);
 
@@ -189,7 +189,7 @@ class THMTreeView
             }
             else
             {
-                $publicDefaultID = json_decode(JFactory::getApplication()->input->getString('publicDefaultID'));
+                $publicDefaultID = json_decode(JRequest::getString('publicDefaultID'));
                 if ($publicDefaultID != null)
                 {
                     $this->_publicDefault = (array) $publicDefaultID;
@@ -200,7 +200,7 @@ class THMTreeView
                 }
             }
 
-            if (JFactory::getApplication()->input->getString('departmentSemesterSelection') == "")
+            if (JRequest::getString('departmentSemesterSelection') == "")
             {
                 if (isset($options["departmentSemesterSelection"]))
                 {

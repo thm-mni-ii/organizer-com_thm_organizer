@@ -81,7 +81,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        $cid = $this->input->post->get('cid', array(), 'post', 'array');
+        $cid = JRequest::getVar('cid',   array(), 'post', 'array');
         $cids = "'" . implode("', '", $cid) . "'";
 
         $dbo = JFactory::getDBO();
@@ -92,7 +92,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
         
         try 
         {
-            $dbo->execute();
+            $dbo->query();
         }
         catch (runtimeException $e)
         {
@@ -112,7 +112,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
             
             try
             {
-                $dbo->execute();
+                $dbo->query();
             }
             catch (runtimeException $e)
             {

@@ -51,8 +51,8 @@ class THM_OrganizerModelSchedule_Edit extends JModelAdmin
      */
     protected function loadFormData()
     {
-        $scheduleIDs = JFactory::getApplication()->input->get('cid',  null, 'array');
-        $scheduleID = (empty($scheduleIDs))? JFactory::getApplication()->input->get('scheduleID') : $scheduleIDs[0];
+        $scheduleIDs = JRequest::getVar('cid',  null, '', 'array');
+        $scheduleID = (empty($scheduleIDs))? JRequest::getVar('scheduleID') : $scheduleIDs[0];
         $data = $this->getItem($scheduleID);
         if (!empty($data))
         {

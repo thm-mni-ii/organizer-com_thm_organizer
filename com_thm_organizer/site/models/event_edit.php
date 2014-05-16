@@ -175,7 +175,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
         
         try
         {
-            $rooms = $dbo->loadColumn();
+            $rooms = $dbo->loadResultArray();
         }
         catch (runtimeException $e)
         {
@@ -201,7 +201,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
         
         try
         {
-            $teachers = $dbo->loadColumn();
+            $teachers = $dbo->loadResultArray();
         }
         catch (runtimeException $e)
         {
@@ -227,7 +227,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
         
         try
         {
-            $groups = $dbo->loadColumn();
+            $groups = $dbo->loadResultArray();
         }
         catch (runtimeException $e)
         {

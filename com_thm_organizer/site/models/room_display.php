@@ -62,12 +62,12 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     {
         parent::__construct();
         $monitor = JTable::getInstance('monitors', 'thm_organizerTable');
-        $remoteIPData = array('ip' => JFactory::getApplication()->input->server->get('REMOTE_ADDR', ''));
+        $remoteIPData = array('ip' => JRequest::getVar('REMOTE_ADDR', '', 'SERVER'));
         $registered = $monitor->load($remoteIPData);
 
         if ($registered)
         {
-            $templateSet = JFactory::getApplication()->input->getString('tmpl') == 'component';
+            $templateSet = JRequest::getString('tmpl') == 'component';
             if (!$templateSet)
             {
                 $this->redirectToComponentTemplate();
@@ -141,7 +141,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     {
         if (empty($roomID))
         {
-            $form = JFactory::getApplication()->input->get('jform');
+            $form = JRequest::getVar('jform');
             $roomID = $form['room'];
         }
         $room = JTable::getInstance('rooms', 'thm_organizerTable');
@@ -165,7 +165,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      */
     private function setScheduleInformation()
     {
-        $request = JFactory::getApplication()->input->get('jform');
+        $request = JRequest::getVar('jform');
         if (!empty($request['date']))
         {
             $this->date = getDate(strtotime($request['date']));
@@ -204,7 +204,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
          
         try 
         {
-            $schedules = $dbo->loadColumn();
+            $schedules = $dbo->loadResultArray();
         }
         catch (runtimeException $e)
         {
@@ -263,7 +263,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      */
     private function setLessonData($blockID)
     {
-        $menuID = JFactory::getApplication()->input->getInt('Itemid');
+        $menuID = JRequest::getInt('Itemid');
         $lessonFound = false;
         foreach ($this->_schedules as $schedule)
         {
@@ -735,7 +735,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      */
     private function setMenuLinks()
     {
-        $menuID = JFactory::getApplication()->input->getInt('Itemid');
+        $menuID = JRequest::getInt('Itemid');
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("link");

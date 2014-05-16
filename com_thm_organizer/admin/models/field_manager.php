@@ -46,7 +46,7 @@ class THM_OrganizerModelField_Manager extends JModelList
         $query->from('#__thm_organizer_fields AS f');
         $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
 
-        $search = '%' . $this->_db->escape($this->state->get('filter.search'), true) . '%';
+        $search = '%' . $this->_db->getEscaped($this->state->get('filter.search'), true) . '%';
         if ($search != '%%')
         {
             $query->where("field LIKE '$search' OR gpuntisID LIKE '$search'");

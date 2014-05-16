@@ -134,7 +134,7 @@ class THM_OrganizerDataAbstraction
             {
                 try
                 {
-                    $data = $this->_dbo->loadColumn();
+                    $data = $this->_dbo->loadResultArray();
                 }
                 catch (runtimeException $e)
                 {
@@ -268,7 +268,7 @@ class THM_OrganizerDataAbstraction
      */
     public function getSemID()
     {
-        $semesterID = JFactory::getApplication()->input->getString('semesterID');
+        $semesterID = JRequest::getString('semesterID');
         return $semesterID;
     }
 

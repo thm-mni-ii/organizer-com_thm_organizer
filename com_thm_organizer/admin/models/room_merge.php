@@ -44,7 +44,7 @@ class THM_OrganizerModelRoom_Merge extends JModelLegacy
         $query->from('#__thm_organizer_rooms AS r');
         $query->leftJoin('#__thm_organizer_room_types AS t ON r.typeID = t.id');
 
-        $cids = "'" . implode("', '", JFactory::getApplication()->input->post->get('cid', array(), 'array')) . "'";
+        $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
         $query->where("r.id IN ( $cids )");
 
         $query->order('r.id ASC');

@@ -31,7 +31,7 @@ class THM_OrganizerHelper
         $basePath = $isAdmin? JPATH_COMPONENT_ADMINISTRATOR : JPATH_COMPONENT_SITE;
         
         $controller = "";
-        $handler = explode(".", JFactory::getApplication()->input->get('task'));
+        $handler = explode(".", JRequest::getVar('task'));
         if (!empty($handler))
         {
             if (count($handler) == 2)
@@ -40,7 +40,7 @@ class THM_OrganizerHelper
             }
             else
             {
-                $task = JFactory::getApplication()->input->get('task');
+                $task = JRequest::getVar('task');
             }
         }
 
@@ -136,7 +136,7 @@ class THM_OrganizerHelper
      */
     public static function delete($table)
     {
-        $cids = "'" . implode("', '", JFactory::getApplication()->input->post->get('cid', array(), 'array')) . "'";
+        $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
 
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
@@ -145,7 +145,7 @@ class THM_OrganizerHelper
         $dbo->setQuery($query);
         try
         {
-            $dbo->execute();
+            $dbo->query();
         }
         catch (Exception $exception)
         {

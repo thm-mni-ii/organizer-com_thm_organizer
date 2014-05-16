@@ -51,8 +51,8 @@ class THM_OrganizerModelRoom_Edit extends JModelAdmin
      */
     protected function loadFormData()
     {
-        $roomIDs = JFactory::getApplication()->input->get('cid',  null, 'array');
-        $roomID = (empty($roomIDs))? JFactory::getApplication()->input->get('roomID') : $roomIDs[0];
+        $roomIDs = JRequest::getVar('cid',  null, '', 'array');
+        $roomID = (empty($roomIDs))? JRequest::getVar('roomID') : $roomIDs[0];
         return $this->getItem($roomID);
     }
 

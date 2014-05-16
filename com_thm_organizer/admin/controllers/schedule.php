@@ -179,7 +179,7 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
         }
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
 
-        if ($this->input->get("boxchecked", 0, 'INT') === 1)
+        if (JRequest::getInt("boxchecked") === 1)
         {
             $model = $this->getModel('schedule');
             $active = $model->checkIfActive();
@@ -222,7 +222,7 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
 
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
 
-        if ($this->input->get("boxchecked", 0, 'INT') === 1)
+        if (JRequest::getInt("boxchecked") === 1)
         {
             $model = $this->getModel('schedule');
             $active = $model->checkIfActive();
@@ -266,7 +266,7 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
         switch ($merge)
         {
             case MERGE:
-                $this->input->set('view', 'schedule_merge');
+                JRequest::setVar('view', 'schedule_merge');
                 parent::display();
                 break;
             case TOO_FEW:

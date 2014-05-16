@@ -54,7 +54,7 @@ class THM_OrganizerViewRoom_Edit extends JViewLegacy
      */
     protected function addToolBar()
     {
-        JFactory::getApplication()->input->set('hidemainmenu', true);
+        JRequest::setVar('hidemainmenu', true);
         $title = $this->item->id == 0 ?
             JText::_("COM_THM_ORGANIZER_RMM_NEW_TITLE") : JText::_("COM_THM_ORGANIZER_RMM_EDIT_TITLE");
         JToolbarHelper::title($title, 'organizer_rooms');

@@ -85,7 +85,7 @@ class THM_OrganizerControllerTeacher extends JControllerLegacy
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        if (count($this->input->post->get('cid', array(), 'array')) == 1)
+        if (count(JRequest::getVar('cid', array(), 'post', 'array')) == 1)
         {
             $msg = JText::_('COM_THM_ORGANIZER_TRM_MERGE_TOOFEW');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg, 'warning');
@@ -101,7 +101,7 @@ class THM_OrganizerControllerTeacher extends JControllerLegacy
             }
             else
             {
-                $this->input->set('view', 'teacher_merge');
+                JRequest::setVar('view', 'teacher_merge');
                 parent::display();
             }
         }

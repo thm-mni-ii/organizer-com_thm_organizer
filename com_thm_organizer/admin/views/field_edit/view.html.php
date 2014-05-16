@@ -56,7 +56,7 @@ class THM_OrganizerViewField_Edit extends JViewLegacy
      */
     protected function addToolBar()
     {
-        JFactory::getApplication()->input->set('hidemainmenu', true);
+        JRequest::setVar('hidemainmenu', true);
         $isNew = ($this->item->id == 0);
         $title = $isNew ? JText::_('COM_THM_ORGANIZER_FLM_NEW_TITLE') : JText::_('COM_THM_ORGANIZER_FLM_EDIT_TITLE');
         JToolbarHelper::title($title, 'organizer_fields');

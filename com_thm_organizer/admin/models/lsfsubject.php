@@ -30,7 +30,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      */
     public function importBatch()
     {
-        $subjectIDs = JFactory::getApplication()->input->post->get('cid', array(), 'array');
+        $subjectIDs = JRequest::getVar('cid', array(), 'post', 'array');
         $this->_db->transactionStart();
         foreach ($subjectIDs as $subjectID)
         {
@@ -619,7 +619,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         $subjectURL = JURI::root() . 'index.php?option=com_thm_organizer&view=subject_details';
         $subjectURL .= "&languageTag=$languageTag&id={$subjectInfo['id']}";
         
-        $itemID = JFactory::getApplication()->input->getInt('Itemid');
+        $itemID = JRequest::getInt('Itemid');
         $subjectURL .= !empty($itemID)? "&Itemid=$itemID" : '';
         $href = JRoute::_($subjectURL);
 
@@ -642,7 +642,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         $this->_db->setQuery((string) $deleteQuery);
         try
         {
-            $this->_db->execute();
+            $this->_db->query();
         }
         catch (Exception $exc)
         {
@@ -661,7 +661,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 $this->_db->setQuery((string) $insertQuery);
                 try
                 {
-                    $this->_db->execute();
+                    $this->_db->query();
                 }
                 catch (Exception $exc)
                 {
@@ -765,7 +765,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 $this->_db->setQuery((string) $insertQuery);
                 try
                 {
-                    $this->_db->execute();
+                    $this->_db->query();
                 }
                 catch (Exception $exc)
                 {

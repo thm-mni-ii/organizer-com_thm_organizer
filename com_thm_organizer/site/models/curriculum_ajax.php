@@ -44,7 +44,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
      */
     public function getCurriculum()
     {
-        $programID = JFactory::getApplication()->input->getInt('programID');
+        $programID = JRequest::getInt('programID');
 
         if (empty($programID))
         {
@@ -148,7 +148,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
      */
     private function getProgramData($programID)
     {
-        $languageTag = JFactory::getApplication()->input->getString('languageTag', 'de');
+        $languageTag = JRequest::getString('languageTag', 'de');
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);
         $select = "CONCAT(p.subject_{$languageTag}, ' (', d.abbreviation, ' ', p.version, ')') AS name, ";

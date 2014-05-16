@@ -36,7 +36,7 @@ class Thm_OrganizerViewEvent_Ajax extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        $function = JFactory::getApplication()->input->getString('task');
+        $function = JRequest::getString('task');
         switch ($function)
         {
             case 'booking':
@@ -90,7 +90,7 @@ class Thm_OrganizerViewEvent_Ajax extends JViewLegacy
         $data['enddate'] = JRequest::getVar('enddate', null, null, null, 4);
         $data['starttime'] = JRequest::getVar('starttime', null, null, null, 4);
         $data['endtime'] = JRequest::getVar('endtime', null, null, null, 4);
-        $data['categoryID'] = JFactory::getApplication()->input->getInt('category');
+        $data['categoryID'] = JRequest::getInt('category');
         $data['description'] = JRequest::getVar('description', null, null, null, 4);
         THM_OrganizerHelperEvent::buildtext($data);
         $user = JFactory::getUser();

@@ -39,7 +39,7 @@ class JFormFieldSubjectParents extends JFormField
      */
     public function getInput()
     {
-        $subjectID = JFactory::getApplication()->input->getInt('id');
+        $subjectID = JRequest::getInt('id');
         $existingMappings = array();
         $selectedParents = array();
         $this->getExistingMappings($subjectID, $existingMappings, $selectedParents);
@@ -105,7 +105,7 @@ class JFormFieldSubjectParents extends JFormField
         
         try 
         {
-            $selectedParents = array_merge($selectedParents, $dbo->loadColumn());
+            $selectedParents = array_merge($selectedParents, $dbo->loadResultArray());
         }
         catch (runtimeException $e)
         {

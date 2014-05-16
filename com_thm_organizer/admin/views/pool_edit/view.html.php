@@ -40,7 +40,7 @@ class THM_OrganizerViewPool_Edit extends JViewLegacy
         // Get the Data
         $form = $this->get('Form');
         $item = $this->get('Item');
-        $poolID = empty($item->id)? JFactory::getApplication()->input->getInt('id') : $item->id;
+        $poolID = empty($item->id)? JRequest::getInt('id') : $item->id;
         $this->_layout = empty($poolID)? 'add' : 'edit';
         if (!empty($poolID))
         {
@@ -66,7 +66,7 @@ class THM_OrganizerViewPool_Edit extends JViewLegacy
     protected function addToolBar()
     {
         $isNew = ($this->item->id == 0);
-        JFactory::getApplication()->input->set('hidemainmenu', true);
+        JRequest::setVar('hidemainmenu', true);
         $title = $isNew ? JText::_('COM_THM_ORGANIZER_POM_NEW_TITLE') : JText::_('COM_THM_ORGANIZER_POM_EDIT_TITLE');
         JToolbarHelper::title($title, 'organizer_subject_pools');
         JToolbarHelper::apply('pool.apply', $isNew ? 'COM_THM_ORGANIZER_APPLY_NEW' : 'COM_THM_ORGANIZER_APPLY_EDIT');

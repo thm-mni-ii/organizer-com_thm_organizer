@@ -119,7 +119,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
             $query->select('r.id, r.gpuntisID, r.name, r.longname, r.typeID');
             $query->from('#__thm_organizer_rooms AS r');
 
-            $cids = "'" . implode("', '", JFactory::getApplication()->input->post->get('cid', array(), 'array')) . "'";
+            $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
             $query->where("r.id IN ( $cids )");
 
             $query->order('r.id ASC');
@@ -203,12 +203,12 @@ class THM_OrganizerModelRoom extends JModelLegacy
         // Clean POST variables
         if (empty($data))
         {
-            $data['id'] = JFactory::getApplication()->input->getInt('id');
-            $data['name'] = JFactory::getApplication()->input->getString('name');
-            $data['longname'] = JFactory::getApplication()->input->getString('longname');
-            $data['gpuntisID'] = JFactory::getApplication()->input->getString('gpuntisID');
-            $data['typeID'] = JFactory::getApplication()->input->getInt('typeID')? JFactory::getApplication()->input->getInt('typeID') : null;
-            $data['otherIDs'] = "'" . implode("', '", explode(',', JFactory::getApplication()->input->getString('otherIDs'))) . "'";
+            $data['id'] = JRequest::getInt('id');
+            $data['name'] = JRequest::getString('name');
+            $data['longname'] = JRequest::getString('longname');
+            $data['gpuntisID'] = JRequest::getString('gpuntisID');
+            $data['typeID'] = JRequest::getInt('typeID')? JRequest::getInt('typeID') : null;
+            $data['otherIDs'] = "'" . implode("', '", explode(',', JRequest::getString('otherIDs'))) . "'";
         }
 
         $this->_db->transactionStart();
@@ -253,7 +253,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
         $this->_db->setQuery((string) $deleteQuery);
         try
         {
-            $this->_db->execute();
+            $this->_db->query();
         }
         catch (Exception $exception)
         {
@@ -283,7 +283,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
         $this->_db->setQuery((string) $query);
         try
         {
-            $this->_db->execute();
+            $this->_db->query();
         }
         catch (Exception $exception)
         {
@@ -358,7 +358,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
         
         try
         {
-            $oldNames = $this->_db->loadColumn();
+            $oldNames = $this->_db->loadResultArray();
         }
         catch (runtimeException $e)
         {

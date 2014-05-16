@@ -139,7 +139,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
     public function getConflicts()
     {
         $conflicts = array();
-        $categoryID = JFactory::getApplication()->input->getInt('category');
+        $categoryID = JRequest::getInt('category');
         $this->_reservingCatIDs = $this->getReservingCatIDs();
         if (strpos($this->_reservingCatIDs, "'$categoryID'") === false)
         {
@@ -157,12 +157,12 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         $this->_teacherKeys = (count($this->_teachers))? "( '" . implode("', '", array_keys($this->_teachers)) . "' )" : "";
         $this->_teacherUntisKeys = $this->getUntisKeys('teachers', $this->_teacherKeys);
         $this->_groupKeys = (count($this->_groups))? "( '" . implode("', '", array_keys($this->_groups)) . "' )" : "";
-        $this->_eventID = JFactory::getApplication()->input->getInt('eventID');
-        $this->_startdate = date('Y-m-d', strtotime(JFactory::getApplication()->input->getString('startdate')));
-        $this->_enddate = (JFactory::getApplication()->input->getString('enddate') != '')? date('Y-m-d', strtotime(JFactory::getApplication()->input->getString('enddate'))) : $this->_startdate;
-        $this->_starttime = JFactory::getApplication()->input->getString('starttime');
-        $this->_endtime = JFactory::getApplication()->input->getString('endtime');
-        $this->_rec_type = JFactory::getApplication()->input->getInt('rec_type');
+        $this->_eventID = JRequest::getInt('eventID');
+        $this->_startdate = date('Y-m-d', strtotime(JRequest::getString('startdate')));
+        $this->_enddate = (JRequest::getString('enddate') != '')? date('Y-m-d', strtotime(JRequest::getString('enddate'))) : $this->_startdate;
+        $this->_starttime = JRequest::getString('starttime');
+        $this->_endtime = JRequest::getString('endtime');
+        $this->_rec_type = JRequest::getInt('rec_type');
         $this->getEvents();
         if (isset($this->_events))
         {
@@ -197,7 +197,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         
         try
         {
-            $resultArray = $dbo->loadColumn();
+            $resultArray = $dbo->loadResultArray();
         }
         catch (runtimeException $e)
         {
@@ -228,7 +228,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
     private function getResourceData($resourceName, $columnName, $tableName)
     {
         $resourceData = array();
-        $resources = JFactory::getApplication()->input->get($resourceName);
+        $resources = JRequest::getVar($resourceName);
         $$resourceName = !empty($resources)? implode(",", $resources) : '';
         if (strpos($$resourceName, '-1,'))
         {
@@ -700,7 +700,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         
         try
         {
-            $IDsArray = $dbo->loadColumn();
+            $IDsArray = $dbo->loadResultArray();
         }
         catch (runtimeException $e)
         {

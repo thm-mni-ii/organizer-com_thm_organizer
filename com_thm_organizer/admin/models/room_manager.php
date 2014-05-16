@@ -227,7 +227,7 @@ class THM_OrganizerModelRoom_Manager extends JModelList
      */
     private function addSearchFilter(&$query)
     {
-        $search = '%' . $this->_db->escape($this->state->get('filter.search'), true) . '%';
+        $search = '%' . $this->_db->getEscaped($this->state->get('filter.search'), true) . '%';
         if ($search != '%%')
         {
             $query->where("(r.name LIKE '$search' OR r.longname LIKE '$search')");

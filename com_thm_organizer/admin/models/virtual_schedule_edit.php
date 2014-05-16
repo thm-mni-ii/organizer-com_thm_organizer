@@ -114,7 +114,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         
         try
         {
-            $elements = $dbo->loadColumn();
+            $elements = $dbo->loadResultArray();
         }
         catch (runtimeException $e)
         {
@@ -593,7 +593,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         
         try
         {
-            $dbo->execute();
+            $dbo->query();
         }
         catch (runtimeException $e)
         {
@@ -621,7 +621,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         
         try 
         {
-            $dbo->execute();
+            $dbo->query();
         }
         catch (runtimeException $e)
         {

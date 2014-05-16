@@ -34,7 +34,7 @@ class JFormFieldPoolPrograms extends JFormField
      */
     public function getInput()
     {
-        $poolID = JFactory::getApplication()->input->getInt('id');
+        $poolID = JRequest::getInt('id');
         $ranges = THM_OrganizerHelperMapping::getRanges('poolID', $poolID);
         $selectedPrograms = !empty($ranges)?
             THM_OrganizerHelperMapping::getSelectedPrograms($ranges) : array();

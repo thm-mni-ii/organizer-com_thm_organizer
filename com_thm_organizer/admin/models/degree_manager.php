@@ -81,7 +81,7 @@ class THM_OrganizerModelDegree_Manager extends JModelList
     {
         $app = JFactory::getApplication('administrator');
 
-        $layout = JFactory::getApplication()->input->get('layout');
+        $layout = JRequest::getVar('layout');
         if (!empty($layout))
         {
             $this->context .= '.' . $layout;

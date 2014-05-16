@@ -84,7 +84,7 @@ class THM_OrganizerControllerRoom extends JControllerLegacy
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        if (count($this->input->post->get('cid', array(), 'array')) == 1)
+        if (count(JRequest::getVar('cid', array(), 'post', 'array')) == 1)
         {
             $msg = JText::_('COM_THM_ORGANIZER_RMM_MERGE_TOOFEW');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg, 'warning');
@@ -100,7 +100,7 @@ class THM_OrganizerControllerRoom extends JControllerLegacy
             }
             else
             {
-                $this->input->set('view', 'room_merge');
+                JRequest::setVar('view', 'room_merge');
                 parent::display();
             }
         }

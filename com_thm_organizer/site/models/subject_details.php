@@ -41,14 +41,14 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
     {
         parent::__construct($config);
 
-        $this->menuID = JFactory::getApplication()->input->getInt('Itemid');
-        $this->subjectID = JFactory::getApplication()->input->getInt('id');
-        $externalID = JFactory::getApplication()->input->getString('nrmni');
+        $this->menuID = JRequest::getInt('Itemid');
+        $this->subjectID = JRequest::getInt('id');
+        $externalID = JRequest::getString('nrmni');
         if (empty($this->subjectID) AND !empty($externalID))
         {
             $this->subjectID = $this->resolveExternalID($externalID);
         }
-        $this->languageTag = JFactory::getApplication()->input->getString('languageTag', 'de');
+        $this->languageTag = JRequest::getString('languageTag', 'de');
 
         if (!empty($this->subjectID))
         {

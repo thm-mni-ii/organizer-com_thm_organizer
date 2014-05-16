@@ -41,7 +41,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
         $groupsSaved = $this->saveResources("#__thm_organizer_event_groups", "groups", "groupID", $data['id']);
         if ($eventSaved AND $teachersSaved AND $roomsSaved AND $groupsSaved)
         {
-            $groups = JFactory::getApplication()->input->get('groups');
+            $groups = JRequest::getVar('groups');
             if (isset($data['emailNotification']) AND count($groups))
             {
                 $success = $this->notify($data);
@@ -70,7 +70,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
     public function cleanRequestData()
     {
         $data = JRequest::getVar('jform', null, null, null, 4);
-        $data['categoryID'] = JFactory::getApplication()->input->getInt('category');
+        $data['categoryID'] = JRequest::getInt('category');
         $data['userID'] = JFactory::getUser()->id;
         $data['title'] = addslashes($data['title']);
         $data['alias'] = JApplication::stringURLSafe($data['title']);
@@ -104,7 +104,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
         $query->set($conditions);
         $query->where("id = '{$data['id']}'");
         $dbo->setQuery((string) $query);
-        $dbo->execute();
+        $dbo->query();
         if ($dbo->getErrorNum())
         {
             return false;
@@ -154,7 +154,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
         $query->set($conditions);
         $query->where("id = '{$data['id']}'");
         $dbo->setQuery((string) $query);
-        $dbo->execute();
+        $dbo->query();
         if ($dbo->getErrorNum())
         {
             return false;
@@ -192,7 +192,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
         $statement .= "'{$data['publish_down']}' ) ";
         $query->insert($statement);
         $dbo->setQuery((string) $query);
-        $dbo->execute();
+        $dbo->query();
         if ($dbo->getErrorNum())
         {
             return false;
@@ -277,7 +277,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
         $query->set("asset_id = '$assetID'");
         $query->where("id = '{$data['id']}'");
         $dbo->setQuery((string) $query);
-        $dbo->execute();
+        $dbo->query();
         if ($dbo->getErrorNum())
         {
             return false;
@@ -292,7 +292,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
         $statement .= "'{$data['starttime']}', '{$data['endtime']}', '{$data['rec_type']}', '{$data['start']}', '{$data['end']}' ) ";
         $query->insert($statement);
         $dbo->setQuery((string) $query);
-        $dbo->execute();
+        $dbo->query();
         return ($dbo->getErrorNum())? false : true;
     }
 
@@ -319,7 +319,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
         
         try 
         {
-            $dbo->execute();
+            $dbo->query();
         }
         catch (runtimeException $e)
         {
@@ -327,7 +327,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
         }
 
         // Add new ones (if requested)
-        $resources = JFactory::getApplication()->input->get($requestName, array());
+        $resources = JRequest::getVar($requestName, array());
         $noResourceIndex = array_search('-1', $resources);
         if ($noResourceIndex)
         {
@@ -342,7 +342,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
             $statement .= "( '$eventID', '" . implode("' ), ( '$eventID', '", $resources) . "' ) ";
             $query->insert($statement);
             $dbo->setQuery((string) $query);
-            $dbo->execute();
+            $dbo->query();
             if ($dbo->getErrorNum())
             {
                 return false;
@@ -391,7 +391,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
         $query->from("#__content");
         $query->where("id = '$eventID'");
         $dbo->setQuery((string) $query);
-        $dbo->execute();
+        $dbo->query();
         if ($dbo->getErrorNum())
         {
             return false;
@@ -416,7 +416,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
         
         try
         {
-            $dbo->execute();
+            $dbo->query();
         }
         catch (runtimeException $e)
         {
@@ -431,7 +431,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
         
         try 
         {
-            $dbo->execute();
+            $dbo->query();
         }
         catch (runtimeException $e)
         {
@@ -446,7 +446,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
         
         try 
         {
-            $dbo->execute();
+            $dbo->query();
         }
         catch (runtimeException $e)
         {
@@ -499,7 +499,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
         $query->select('DISTINCT email, name');
         $query->from('#__users AS user');
         $query->innerJoin('#__user_usergroup_map AS map ON user.id = map.user_id');
-        $groups = JFactory::getApplication()->input->get('groups');
+        $groups = JRequest::getVar('groups');
         foreach ($groups as $group)
         {
             $query->clear('where');
@@ -508,7 +508,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
             
             try
             {
-                $groupEMails = $dbo->loadColumn();
+                $groupEMails = $dbo->loadResultArray();
             }
             catch (runtimeException $e)
             {

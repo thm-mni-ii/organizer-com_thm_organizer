@@ -4,6 +4,7 @@
 .project
 .settings
 nbproject/
+com_thm_organizer/admin/com_thm_organizer.xml
 
 # OS generated files   #
 ########################

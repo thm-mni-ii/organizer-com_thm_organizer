@@ -98,7 +98,7 @@ class THM_OrganizerModelPool_Manager extends JModelList
             }
         }
 
-        $search = '%' . $this->_db->escape($this->state->get('filter.search'), true) . '%';
+        $search = '%' . $this->_db->getEscaped($this->state->get('filter.search'), true) . '%';
         if ($search != '%%')
         {
             $searchClause = "(name_{$language[0]} LIKE '$search' ";
@@ -167,7 +167,7 @@ class THM_OrganizerModelPool_Manager extends JModelList
         
         try 
         {
-            $programs = $this->_db->loadColumn();
+            $programs = $this->_db->loadResultArray();
         }
         catch (runtimeException $e)
         {
@@ -223,7 +223,7 @@ class THM_OrganizerModelPool_Manager extends JModelList
         $this->setState('filter.search', $search);
 
         $formProgram = $this->getUserStateFromRequest($this->context . '.filter_program', 'filter_program', '');
-        $requestProgram = JFactory::getApplication()->input->getInt('programID');
+        $requestProgram = JRequest::getInt('programID');
         $this->setState('filter.program', (empty($formProgram) OR $formProgram == '-1')? $requestProgram : $formProgram);
 
         $limit = $this->getUserStateFromRequest($this->context . '.limit', 'limit');

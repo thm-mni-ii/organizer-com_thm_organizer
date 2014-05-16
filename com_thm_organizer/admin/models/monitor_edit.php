@@ -70,8 +70,8 @@ class THM_OrganizerModelMonitor_Edit extends JModelAdmin
      */
     protected function loadFormData()
     {
-        $monitorIDs = JFactory::getApplication()->input->get('cid',  null, 'array');
-        $monitorID = (empty($monitorIDs))? JFactory::getApplication()->input->getInt('monitorID') : $monitorIDs[0];
+        $monitorIDs = JRequest::getVar('cid',  null, '', 'array');
+        $monitorID = (empty($monitorIDs))? JRequest::getInt('monitorID') : $monitorIDs[0];
         return $this->getItem($monitorID);
     }
 

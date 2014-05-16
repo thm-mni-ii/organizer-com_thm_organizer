@@ -54,7 +54,7 @@ class THM_OrganizerViewSubject_Edit extends JViewLegacy
      */
     protected function addToolBar()
     {
-        JFactory::getApplication()->input->set('hidemainmenu', true);
+        JRequest::setVar('hidemainmenu', true);
         $isNew = $this->item->id == 0;
         JToolbarHelper::title($isNew? JText::_('COM_THM_ORGANIZER_SUM_NEW') : JText::_('COM_THM_ORGANIZER_SUM_EDIT'), 'organizer_subjects');
         JToolbarHelper::apply('subject.apply', $isNew? JText::_('COM_THM_ORGANIZER_APPLY_NEW') : JText::_('COM_THM_ORGANIZER_APPLY_EDIT'));

@@ -14,7 +14,7 @@ $blankImageLink = JURI::root(true) . '/components/com_thm_organizer/views/schedu
 $addButtonLink = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/images/add.png';
 $removeButtonLink = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/images/delete.png';
 $mainPath = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/';
-$curriculumLink = JURI::root(true) . '/index.php?option=com_thm_organizer&view=subject_details&languageTag=de&Itemid=' . JFactory::getApplication()->input->getInt("Itemid");
+$curriculumLink = JURI::root(true) . '/index.php?option=com_thm_organizer&view=subject_details&languageTag=de&Itemid=' . JRequest::getInt("Itemid");
 $ajaxHandler = 'index.php?option=com_thm_organizer&view=ajaxhandler&format=raw';
 ?>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">

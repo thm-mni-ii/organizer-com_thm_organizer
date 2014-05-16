@@ -225,7 +225,7 @@ class THM_OrganizerModelProgram_Manager extends JModelList
             $clue = trim($clue);
             if (!empty($clue))
             {
-                $search = '%' . $this->_db->escape($clue, true) . '%';
+                $search = '%' . $this->_db->getEscaped($clue, true) . '%';
                 $whereClause = "( subject_de LIKE '$search' ";
                 $whereClause .= "OR subject_en LIKE '$search' ";
                 $whereClause .= "OR version LIKE '$search' ";

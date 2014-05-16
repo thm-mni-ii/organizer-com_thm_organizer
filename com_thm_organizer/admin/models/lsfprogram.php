@@ -58,7 +58,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
     public function importBatch()
     {
         $this->_db->transactionStart();
-        $programIDs = JFactory::getApplication()->input->post->get('cid', array(), 'array');
+        $programIDs = JRequest::getVar('cid', array(), 'post', 'array');
         foreach ($programIDs as $programID)
         {
             $programImported = $this->importSingle($programID);

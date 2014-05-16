@@ -53,7 +53,7 @@ class THM_OrganizerViewTeacher_Edit extends JViewLegacy
      */
     protected function addToolBar()
     {
-        JFactory::getApplication()->input->set('hidemainmenu', true);
+        JRequest::setVar('hidemainmenu', true);
         $title = $this->item->id == 0 ?
             JText::_("COM_THM_ORGANIZER_TRM_NEW_TITLE") : JText::_("COM_THM_ORGANIZER_TRM_EDIT_TITLE");
         JToolbarHelper::title($title, 'organizer_teachers');

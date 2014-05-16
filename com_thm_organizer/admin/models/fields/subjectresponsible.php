@@ -36,7 +36,7 @@ class JFormFieldSubjectResponsible extends JFormField
     public function getInput()
     {
         $dbo = JFactory::getDBO();
-        $subjectID = JFactory::getApplication()->input->getInt('id');
+        $subjectID = JRequest::getInt('id');
  
         $selectedQuery = $dbo->getQuery(true);
         $selectedQuery->select('teacherID')->from('#__thm_organizer_subject_teachers')->where("subjectID = '$subjectID' AND teacherResp = '1'");
@@ -44,7 +44,7 @@ class JFormFieldSubjectResponsible extends JFormField
         
         try 
         {
-            $selected = $dbo->loadColumn();
+            $selected = $dbo->loadResultArray();
         }
         catch (runtimeException $e)
         {

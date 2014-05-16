@@ -56,7 +56,7 @@ class THM_OrganizerViewEvent_Manager extends JViewLegacy
         $this->assignRef('canWrite', $canWrite);
         $canEdit = $model->canEdit;
         $this->assignRef('canEdit', $canEdit);
-        $this->assign('itemID', JFactory::getApplication()->input->getInt('Itemid'));
+        $this->assign('itemID', JRequest::getInt('Itemid'));
 
         $total = $model->total;
         $this->assign('total', $total);

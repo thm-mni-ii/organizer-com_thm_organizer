@@ -19,7 +19,7 @@ $flagPath .= ($this->languageTag == 'de')? 'en.png' : 'de.png';
 <script type="text/javascript">
     /* global parameters */
     var parameters = new Object();
-    parameters.itemID = '<?php echo JFactory::getApplication()->input->get('Itemid', ''); ?>';
+    parameters.itemID = '<?php echo JRequest::getVar('Itemid', ''); ?>';
     parameters.programID = '<?php echo $this->params->get('programID'); ?>';
     parameters.poolIDs = '<?php echo $this->params->get('poolIDs', ''); ?>';
     parameters.languageTag = '<?php echo $this->languageTag; ?>';

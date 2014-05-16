@@ -115,7 +115,7 @@ class THM_OrganizerViewRoom_Merge extends JViewLegacy
      */
     protected function addToolBar()
     {
-        JFactory::getApplication()->input->set('hidemainmenu', true);
+        JRequest::setVar('hidemainmenu', true);
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_RMM_MERGE_TITLE'));
         JToolbarHelper::custom('room.merge', 'merge', 'merge', 'COM_THM_ORGANIZER_MERGE', false);
         JToolbarHelper::cancel('room.cancel', 'JTOOLBAR_CANCEL');

@@ -144,7 +144,7 @@ class THM_OrganizerModelEvent_Manager extends JModelList
         {
             $categoryID = $this->_menuParameters->get('category_restriction');
         }
-        elseif (JFactory::getApplication()->input->get('categoryID'))
+        elseif (JRequest::getVar('categoryID'))
         {
             $categoryID = JFactory::getApplication()->input->get('categoryID');
         }
@@ -182,7 +182,7 @@ class THM_OrganizerModelEvent_Manager extends JModelList
     private function setFromDate()
     {
         $application = JFactory::getApplication();
-        $jform = JFactory::getApplication()->input->get('jform');
+        $jform = JRequest::getVar('jform');
         if (isset($this->_callParameters) and isset($this->_callParameters["fromDate"]))
         {
             $fromDate = $this->_callParameters["fromDate"];
@@ -214,7 +214,7 @@ class THM_OrganizerModelEvent_Manager extends JModelList
     private function setToDate()
     {
         $application = JFactory::getApplication();
-        $jform = JFactory::getApplication()->input->get('jform');
+        $jform = JRequest::getVar('jform');
         if (isset($this->_callParameters) and isset($this->_callParameters["toDate"]))
         {
             $toDate = $this->_callParameters["fromDate"];
@@ -246,7 +246,7 @@ class THM_OrganizerModelEvent_Manager extends JModelList
     private function setSearch()
     {
         $application = JFactory::getApplication();
-        $jform = JFactory::getApplication()->input->get('jform');
+        $jform = JRequest::getVar('jform');
         if (isset($this->_callParameters) and isset($this->_callParameters["search"]))
         {
             $search = $this->_callParameters["search"];
@@ -306,10 +306,10 @@ class THM_OrganizerModelEvent_Manager extends JModelList
      */
     private function setLimits()
     {
-        $limit = (JFactory::getApplication()->input->getInt('limit'))? JFactory::getApplication()->input->getInt('limit') : 0;
+        $limit = (JRequest::getInt('limit'))? JRequest::getInt('limit') : 0;
         $this->setState('limit', $limit);
 
-        $limitstart = (JFactory::getApplication()->input->getInt('limitstart'))? JFactory::getApplication()->input->getInt('limitstart') : 0;
+        $limitstart = (JRequest::getInt('limitstart'))? JRequest::getInt('limitstart') : 0;
         $this->setState('limitstart', $limitstart);
     }
 
@@ -637,7 +637,7 @@ class THM_OrganizerModelEvent_Manager extends JModelList
             
             try
             {
-                $groupNames = $dbo->loadColumn(1);
+                $groupNames = $dbo->loadResultArray(1);
             }
             catch (runtimeException $e)
             {
@@ -662,7 +662,7 @@ class THM_OrganizerModelEvent_Manager extends JModelList
             
             try
             {
-                $teacherNames = $dbo->loadColumn(1);
+                $teacherNames = $dbo->loadResultArray(1);
             }
             catch (runtimeException $e)
             {
@@ -687,7 +687,7 @@ class THM_OrganizerModelEvent_Manager extends JModelList
             
             try
             {
-                $roomNames = $dbo->loadColumn(1);
+                $roomNames = $dbo->loadResultArray(1);
             }
             catch (runtimeException $e)
             {

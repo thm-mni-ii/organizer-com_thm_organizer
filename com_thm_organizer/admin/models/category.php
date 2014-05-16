@@ -60,7 +60,7 @@ class THM_OrganizerModelcategory extends JModelLegacy
      */
     public function delete()
     {
-        $categoryIDs = JFactory::getApplication()->input->post->get('cid', array(0), 'array');
+        $categoryIDs = JRequest::getVar('cid', array(0), 'post', 'array');
         if (count($categoryIDs))
         {
             $dbo = $this->getDbo();
@@ -75,7 +75,7 @@ class THM_OrganizerModelcategory extends JModelLegacy
             
             try 
             {
-                $eventIDs = $dbo->loadColumn();
+                $eventIDs = $dbo->loadResultArray();
             }
             catch (runtimeException $e)
             {

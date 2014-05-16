@@ -727,7 +727,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     public function setReference()
     {
         $reference = JTable::getInstance('schedules', 'thm_organizerTable');
-        $referenceIDs = JFactory::getApplication()->input->post->get('cid', array(), 'array');
+        $referenceIDs = JRequest::getVar('cid', array(), 'post', 'array');
         if (!empty($referenceIDs))
         {
             $referenceID = $referenceIDs[0];
@@ -826,7 +826,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     public function activate()
     {
         $scheduleRow = JTable::getInstance('schedules', 'thm_organizerTable');
-        $scheduleIDs = JFactory::getApplication()->input->post->get('cid', array(), 'array');
+        $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
         if (!empty($scheduleIDs))
         {
             $scheduleExists = $scheduleRow->load($scheduleIDs[0]);
@@ -1186,7 +1186,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      */
     public function checkMergeConstraints()
     {
-        $scheduleIDs = JFactory::getApplication()->input->post->get('cid', array(), 'array');
+        $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
         if (empty($scheduleIDs) OR count($scheduleIDs) < 2)
         {
             return TOO_FEW;
@@ -1251,8 +1251,8 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $newScheduleRow = array();
         $newScheduleRow['creationdate'] = date('Y-m-d');
         $newScheduleRow['creationtime'] = date('is');
-        $newScheduleRow['departmentname'] = JFactory::getApplication()->input->getString('departmentname');
-        $newScheduleRow['semestername'] = JFactory::getApplication()->input->getString('semestername');
+        $newScheduleRow['departmentname'] = JRequest::getString('departmentname');
+        $newScheduleRow['semestername'] = JRequest::getString('semestername');
 
         $query = $this->_db->getQuery(true);
         $query->select('schedule');
@@ -1262,7 +1262,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         
         try 
         {
-            $schedules = $this->_db->loadColumn();
+            $schedules = $this->_db->loadResultArray();
         }
         catch (runtimeException $e)
         {
@@ -1376,7 +1376,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      */
     public function checkIfActive()
     {
-        $scheduleIDs = JFactory::getApplication()->input->post->get('cid', array(), 'array');
+        $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
         if (!empty($scheduleIDs))
         {
             $scheduleID = $scheduleIDs[0];
@@ -1396,7 +1396,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     public function delete()
     {
         $this->_db->transactionStart();
-        $scheduleIDs = JFactory::getApplication()->input->post->get('cid', array(), 'array');
+        $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
         foreach ($scheduleIDs as $scheduleID)
         {
             $success = $this->deleteSingle($scheduleID);

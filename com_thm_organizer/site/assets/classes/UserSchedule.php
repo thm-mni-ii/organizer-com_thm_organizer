@@ -106,7 +106,7 @@ class THMUserSchedule
    public function save()
    {
       // Wenn die Anfragen nicht durch Ajax von MySched kommt
-      $requestedWith = JFactory::getApplication()->input->server->get('HTTP_X_REQUESTED_WITH', '');
+      $requestedWith = JRequest::getVar('HTTP_X_REQUESTED_WITH', '', 'SERVER');
       if (isset($requestedWith))
       {
          if ($requestedWith != 'XMLHttpRequest')

@@ -342,7 +342,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         
         try
         {
-            $mappingIDs = $dbo->loadColumn();
+            $mappingIDs = $dbo->loadResultArray();
         }
         catch (runtimeException $e)
         {
@@ -380,7 +380,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         
         try 
         {
-            $mappingIDs = $dbo->loadColumn();
+            $mappingIDs = $dbo->loadResultArray();
         }
         catch (runtimeException $e)
         {
@@ -432,7 +432,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         $dbo->setQuery((string) $deleteQuery);
         try
         {
-            $dbo->execute();
+            $dbo->query();
         }
         catch (Exception $exception)
         {
@@ -449,7 +449,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         $dbo->setQuery((string) $siblingsQuery);
         try
         {
-            $dbo->execute();
+            $dbo->query();
         }
         catch (Exception $exception)
         {
@@ -467,7 +467,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         $dbo->setQuery((string) $updateLeftQuery);
         try
         {
-            $dbo->execute();
+            $dbo->query();
         }
         catch (Exception $exception)
         {
@@ -485,7 +485,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         $dbo->setQuery((string) $updateRightQuery);
         try
         {
-            $dbo->execute();
+            $dbo->query();
         }
         catch (Exception $exception)
         {
@@ -623,7 +623,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         foreach ($childKeys as $childKey)
         {
             $ordering = substr($childKey, 5);
-            $aggregateInfo = JFactory::getApplication()->input->getString($childKey);
+            $aggregateInfo = JRequest::getString($childKey);
             $resourceID = substr($aggregateInfo, 0, strlen($aggregateInfo) - 1);            
             $resourceType = strpos($aggregateInfo, 'p')? 'pool' : 'subject';
           
@@ -993,7 +993,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         $dbo->setQuery((string) $query);
         try
         {
-            $dbo->execute();
+            $dbo->query();
         }
         catch (Exception $exc)
         {
@@ -1030,7 +1030,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         $dbo->setQuery((string) $rgtQuery);
         try
         {
-            $dbo->execute();
+            $dbo->query();
         }
         catch (Exception $exc)
         {

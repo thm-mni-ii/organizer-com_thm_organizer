@@ -50,8 +50,8 @@ class THM_OrganizerModelColor_Edit extends JModelAdmin
      */
     protected function loadFormData()
     {
-        $colorIDs = JFactory::getApplication()->input->get('cid',  null, 'array');
-        $colorID = (empty($colorIDs))? JFactory::getApplication()->input->getInt('id') : $colorIDs[0];
+        $colorIDs = JRequest::getVar('cid',  null, '', 'array');
+        $colorID = (empty($colorIDs))? JRequest::getInt('id') : $colorIDs[0];
         return  $this->getItem($colorID);
     }
 

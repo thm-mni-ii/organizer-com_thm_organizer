@@ -40,7 +40,7 @@ class THM_OrganizerModelRoom_Select extends JModelForm
      */
     private function checkIP()
     {
-        $ipAddress = JFactory::getApplication()->input->server->get('REMOTE_ADDR', '');
+        $ipAddress = JRequest::getVar('REMOTE_ADDR', '', 'SERVER');
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);
         $query->select("r.longname AS name");
@@ -61,7 +61,7 @@ class THM_OrganizerModelRoom_Select extends JModelForm
         if (isset($room) AND $room != '')
         {
             $application = JFactory::getApplication();
-            $menuID = JFactory::getApplication()->input->getInt('Itemid');
+            $menuID = JRequest::getInt('Itemid');
             $rd_string = 'index.php?option=com_thm_organizer&view=room_display';
             $rd_string .= "&room=$room&tmpl=component&Itemid=$menuID";
             $application->redirect($rd_string);

@@ -68,7 +68,7 @@ class THM_OrganizerModelmonitor extends JModelLegacy
     public function delete()
     {
         $success = true;
-        $monitorIDs = JFactory::getApplication()->input->post->get('cid', array(0), 'array');
+        $monitorIDs = JRequest::getVar('cid', array(0), 'post', 'array');
         $table = JTable::getInstance('monitors', 'thm_organizerTable');
         if (isset($monitorIDs) and count($monitorIDs) > 0)
         {

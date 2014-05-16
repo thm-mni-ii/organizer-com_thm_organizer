@@ -53,8 +53,8 @@ class THM_OrganizerModelTeacher_Edit extends JModelAdmin
      */
     protected function loadFormData()
     {
-        $teacherIDs = JFactory::getApplication()->input->get('cid',  null, 'array');
-        $teacherID = (empty($teacherIDs))? JFactory::getApplication()->input->get('teacherID') : $teacherIDs[0];
+        $teacherIDs = JRequest::getVar('cid',  null, '', 'array');
+        $teacherID = (empty($teacherIDs))? JRequest::getVar('teacherID') : $teacherIDs[0];
         return $this->getItem($teacherID);
     }
 

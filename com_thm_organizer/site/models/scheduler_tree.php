@@ -98,7 +98,7 @@ class THM_OrganizerModelScheduler_Tree extends JModelLegacy
         $this->_JDA = $JDA;
         $this->_cfg = $CFG->getCFG();
  
-        $menuid = JFactory::getApplication()->input->getInt("menuID", 0);
+        $menuid = JRequest::getInt("menuID", 0);
  
         $site = new JSite;
         $menu = $site->getMenu();
@@ -119,7 +119,7 @@ class THM_OrganizerModelScheduler_Tree extends JModelLegacy
         }
         else
         {
-            $treeIDs = JFactory::getApplication()->input->getString('treeIDs');
+            $treeIDs = JRequest::getString('treeIDs');
             $treeIDsData = json_decode($treeIDs);
             if ($treeIDsData != null)
             {
@@ -137,7 +137,7 @@ class THM_OrganizerModelScheduler_Tree extends JModelLegacy
         }
         else
         {
-            $publicDefaultID = json_decode(JFactory::getApplication()->input->getString('publicDefaultID'));
+            $publicDefaultID = json_decode(JRequest::getString('publicDefaultID'));
             if ($publicDefaultID != null)
             {
                 $this->_publicDefault = (array) $publicDefaultID;
@@ -157,7 +157,7 @@ class THM_OrganizerModelScheduler_Tree extends JModelLegacy
             $this->_hideCheckBox = false;
         }
  
-        if (JFactory::getApplication()->input->getString('departmentSemesterSelection') == "")
+        if (JRequest::getString('departmentSemesterSelection') == "")
         {
             if (isset($options["departmentSemesterSelection"]))
             {
@@ -170,7 +170,7 @@ class THM_OrganizerModelScheduler_Tree extends JModelLegacy
         }
         else
         {
-            $this->departmentSemesterSelection = JFactory::getApplication()->input->getString('departmentSemesterSelection');
+            $this->departmentSemesterSelection = JRequest::getString('departmentSemesterSelection');
         }
     }
 

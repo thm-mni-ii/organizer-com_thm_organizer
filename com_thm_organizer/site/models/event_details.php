@@ -71,7 +71,7 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
      */
     public function loadEvent()
     {
-        $eventID = JFactory::getApplication()->input->getInt('eventID')? JFactory::getApplication()->input->getInt('eventID'): 0;
+        $eventID = JRequest::getInt('eventID')? JRequest::getInt('eventID'): 0;
         $dbo = JFactory::getDBO();
 
         $query = $dbo->getQuery(true);
@@ -231,7 +231,7 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
         
         try
         {
-            $this->event['rooms'] = $dbo->loadColumn();
+            $this->event['rooms'] = $dbo->loadResultArray();
         }
         catch (runtimeException $e)
         {
@@ -258,7 +258,7 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
         
         try
         {
-            $this->event['teachers'] = $dbo->loadColumn();
+            $this->event['teachers'] = $dbo->loadResultArray();
         }
         catch (runtimeException $e)
         {
@@ -285,7 +285,7 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
         
         try 
         {
-            $this->event['groups'] = $dbo->loadColumn();
+            $this->event['groups'] = $dbo->loadResultArray();
         }
         catch (runtimeException $e)
         {
@@ -303,7 +303,7 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
      */
     private function setMenuLinks()
     {
-        $menuID = JFactory::getApplication()->input->getInt('Itemid');
+        $menuID = JRequest::getInt('Itemid');
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("link");

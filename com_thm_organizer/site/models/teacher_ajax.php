@@ -37,8 +37,8 @@ class THM_OrganizerModelTeacher_Ajax extends JModelLegacy
      */
     public function teachersByProgramOrPool()
     {
-        $programID = JFactory::getApplication()->input->getString('programID');
-        $poolID = JFactory::getApplication()->input->getString('poolID');
+        $programID = JRequest::getString('programID');
+        $poolID = JRequest::getString('poolID');
 
         if (!empty($poolID) AND $poolID != '-1' AND $poolID != 'null')
         {

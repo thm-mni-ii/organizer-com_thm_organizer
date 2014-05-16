@@ -61,7 +61,7 @@ class THM_OrganizerViewMonitor_Edit extends JViewLegacy
      */
     private function addToolBar()
     {
-        JFactory::getApplication()->input->set('hidemainmenu', true);
+        JRequest::setVar('hidemainmenu', true);
         $title = JText::_('COM_THM_ORGANIZER') . ': ';
         $title .= ($this->form->getValue('id'))? JText::_('JTOOLBAR_EDIT') : JText::_('JTOOLBAR_NEW');
         $title .= " " . JText::_('COM_THM_ORGANIZER_MONITOR');

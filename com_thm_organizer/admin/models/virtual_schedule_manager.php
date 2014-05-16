@@ -52,7 +52,7 @@ class THM_OrganizerModelVirtual_Schedule_Manager extends JModelLegacy
 
         $mainframe = JFactory::getApplication("administrator");
         $option = $mainframe->scope;
-        $view = JFactory::getApplication()->input->getString('view');
+        $view = JRequest::getString('view');
 
         // Get pagination request variables
         $limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
@@ -74,7 +74,7 @@ class THM_OrganizerModelVirtual_Schedule_Manager extends JModelLegacy
     {
         $mainframe = JFactory::getApplication("administrator");
         $option = $mainframe->scope;
-        $view = JFactory::getApplication()->input->getString('view');
+        $view = JRequest::getString('view');
 
         $filter_order = $mainframe->getUserStateFromRequest(
                 "$option.$view.filter_order",
@@ -100,7 +100,7 @@ class THM_OrganizerModelVirtual_Schedule_Manager extends JModelLegacy
                 '',
                 'int'
             );
-        $search = $this->_db->escape(
+        $search = $this->_db->getEscaped(
             trim(
                 JString::strtolower(
                     $mainframe->getUserStateFromRequest(

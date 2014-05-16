@@ -80,7 +80,7 @@ class THM_OrganizerModelSubject_Manager extends JModelList
         $searchState = $this->state->get('filter.search');
         if (!empty($searchState))
         {
-            $search = '%' . $dbo->escape($searchState, true) . '%';
+            $search = '%' . $dbo->getEscaped($searchState, true) . '%';
             $searchClause = "(name_de LIKE '$search' ";
             $searchClause .= "OR short_name_de LIKE '$search' ";
             $searchClause .= "OR abbreviation_de LIKE '$search' ";

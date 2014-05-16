@@ -70,7 +70,7 @@ class THMEventAccess
         
         try
         {
-            $categoryIDs = $dbo->loadColumn();
+            $categoryIDs = $dbo->loadResultArray();
         }
         catch (runtimeException $e)
         {
@@ -102,7 +102,7 @@ class THMEventAccess
     public static function canEdit($eventID)
     {
         $user = JFactory::getUser();
-        $eventID = JFactory::getApplication()->input->getInt('eventID');
+        $eventID = JRequest::getInt('eventID');
         $assetname = "com_content.article.$eventID";
         $canEdit = $canEditOwn = false;
         $canEdit = $user->authorise('core.edit', $assetname);

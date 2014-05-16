@@ -29,7 +29,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
      */
     public function poolDegreeOptions()
     {
-        $isSubject = JFactory::getApplication()->input->getBool('subject');
+        $isSubject = JRequest::getBool('subject');
         $programEntries = $this->getProgramEntries($isSubject);
 
         // Selected programs have not been mapped, should not happen
@@ -39,7 +39,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
         }
 
         $programMappings = THM_OrganizerHelperMapping::getProgramMappings($programEntries);
-        $programIDs = JFactory::getApplication()->input->getString('programID');
+        $programIDs = JRequest::getString('programID');
         $programIDArray = explode(',', $programIDs);
 
         $noProgramsMappings = empty($programMappings);
@@ -50,7 +50,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
             return '';
         }
 
-        $ownID = JFactory::getApplication()->input->getInt('ownID');
+        $ownID = JRequest::getInt('ownID');
         $resourceID = $this->getResourceID($ownID, $isSubject);
         $parentIDs = array();
         $ownIDs = $isSubject? null : array();
