@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension method="upgrade" type="component" version="2.5">
+    <name>COM_THM_ORGANIZER</name>
+    <author>James Antrim</author>
+    <authorEMail>james.antrim@mni.thm.de</authorEMail>
+    <author>Wolf Rost</author>
+    <authorEMail>wolf.rost@mni.thm.de</authorEMail>
+    <author>Markus Baier</author>
+    <authorEmail>markus.baier@mni.thm.de</authorEmail>
+    <authorUrl>www.mni.thm.de</authorUrl>
+    <creationDate>01/01/2013</creationDate>
+    <copyright>TH Mittelhessen 2013</copyright>
+    <licence>GNU GPL v.2</licence>
+    <version>2.3.1</version>
+
+    <scriptfile>script.php</scriptfile>
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+        </sql>
+    </install>
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+        </sql>
+    </uninstall>
+    <update>
+        <schemas>
+            <schemapath type="mysql">sql/updates/mysql</schemapath>
+        </schemas>
+    </update>
+    <!-- Media files -->
+    <media destination="com_thm_organizer" folder="media">
+        <folder>images</folder>
+        <folder>js</folder>
+        <folder>css</folder>
+        <filename>index.html</filename>
+    </media>
+
+    <files folder="site">
+            <filename>index.html</filename>
+            <filename>thm_organizer.php</filename>
+            <filename>controller.php</filename>
+            <filename>LICENSE.txt</filename>
+            <filename>router.php</filename>
+            <folder>assets</folder>
+            <folder>controllers</folder>
+            <folder>helper</folder>
+            <folder>models</folder>
+            <folder>tables</folder>
+            <folder>views</folder>
+    </files>
+    <languages>
+        <language tag="en-GB" client="site">language/en-GB/en-GB.com_thm_organizer.ini</language>
+        <language tag="de-DE" client="site">language/de-DE/de-DE.com_thm_organizer.ini</language>
+    </languages>
+    <administration>
+        <menu img="../media/com_thm_organizer/images/thm_organizer.png">COM_THM_ORGANIZER</menu>
+        <submenu>
+            <menu alias="Category Manager"
+                  link="option=com_thm_organizer&amp;view=category_manager"
+                  view="category_manager"
+                  img="../media/com_thm_organizer/images/categories.png"
+                  alt="THM-Organizer/Category Manager"
+                  >COM_THM_ORGANIZER_CAT_TITLE</menu>
+            <menu alias="Schedule Manager"
+                  link="option=com_thm_organizer&amp;view=schedule_manager"
+                  view="schedule_manager"
+                  img="../media/com_thm_organizer/images/schedules.png"
+                  alt="THM-Organizer/Schedule Manager"
+                  >COM_THM_ORGANIZER_SCH_TITLE</menu>
+            <menu alias="Virtual Schedule Manager"
+                  link="option=com_thm_organizer&amp;view=virtual_schedule_manager"
+                  view="virtual_schedule_manager"
+                  img="../media/com_thm_organizer/images/virtual_schedules.png"
+                  alt="THM-Organizer/Virtual Schedule Manager"
+                  >COM_THM_ORGANIZER_VSM_TITLE</menu>
+            <menu alias="Degrees"
+                  link="option=com_thm_organizer&amp;view=degree_manager"
+                  view="degree_manager"
+                  img="../media/com_thm_organizer/images/degrees.png"
+                  alt="THM-Organizer/Degrees"
+                  >COM_THM_ORGANIZER_DEG_TITLE</menu>
+            <menu alias="Colors"
+                  link="option=com_thm_organizer&amp;view=color_manager"
+                  view="color_manager"
+                  img="../media/com_thm_organizer/images/colors.png"
+                  alt="THM-Organizer/Colors"
+                  >COM_THM_ORGANIZER_CLM_TITLE</menu>
+            <menu alias="Fields"
+                  link="option=com_thm_organizer&amp;view=field_manager"
+                  view="field_manager"
+                  img="../media/com_thm_organizer/images/fields.png"
+                  alt="THM-Organizer/Fields"
+                  >COM_THM_ORGANIZER_FLM_TITLE</menu>
+            <menu alias="Degree Programs"
+                  link="option=com_thm_organizer&amp;view=program_manager"
+                  view="degree_program_manager"
+                  img="../media/com_thm_organizer/images/programs.png"
+                  alt="THM-Organizer/Degree Programs"
+                  >COM_THM_ORGANIZER_PRM_TITLE</menu>
+            <menu alias="Subject Pools"
+                  link="option=com_thm_organizer&amp;view=pool_manager"
+                  view="pool_manager"
+                  img="../media/com_thm_organizer/images/pools.png"
+                  alt="THM-Organizer/Subject Pools"
+                  >COM_THM_ORGANIZER_POM_TITLE</menu>
+            <menu alias="Subjects"
+                  link="option=com_thm_organizer&amp;view=subject_manager"
+                  view="subject_manager"
+                  img="../media/com_thm_organizer/images/subjects.png"
+                  alt="THM-Organizer/Subjects"
+                  >COM_THM_ORGANIZER_SUM_TITLE</menu>
+            <menu alias="Teachers"
+                  link="option=com_thm_organizer&amp;view=teacher_manager"
+                  view="teacher_manager"
+                  img="../media/com_thm_organizer/images/teachers.png"
+                  alt="THM-Organizer/Teachers"
+                  >COM_THM_ORGANIZER_TRM_TITLE</menu>
+            <menu alias="Rooms"
+                  link="option=com_thm_organizer&amp;view=room_manager"
+                  view="room_manager"
+                  img="../media/com_thm_organizer/images/rooms.png"
+                  alt="THM-Organizer/Rooms"
+                  >COM_THM_ORGANIZER_RMM_TITLE</menu>
+            <menu alias="Monitor Manager"
+                  link="option=com_thm_organizer&amp;view=monitor_manager"
+                  view="monitor_manager"
+                  img="../media/com_thm_organizer/images/monitors.png"
+                  alt="THM-Organizer/Monitor Manager"
+                  >COM_THM_ORGANIZER_MON_TITLE</menu>
+        </submenu>
+        <files folder="admin">
+            <filename>access.xml</filename>
+            <filename>config.xml</filename>
+            <filename>index.html</filename>
+            <filename>thm_organizer.php</filename>
+            <filename>controller.php</filename>
+            <filename>LICENSE.txt</filename>
+            <folder>views</folder>
+            <folder>models</folder>
+            <folder>controllers</folder>
+            <folder>assets</folder>
+            <folder>tables</folder>
+            <folder>sql</folder>
+        </files>
+        <languages>
+            <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.ini</language>
+            <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.sys.ini</language>
+            <language tag="de-DE">language/de-DE/de-DE.com_thm_organizer.ini</language>
+            <language tag="de-DE">language/de-DE/de-DE.com_thm_organizer.sys.ini</language>
+        </languages>
+    </administration>
+    <packages>
+       <package name="pkg_thm_organizer" git="git://scm.thm.de/icampus/pkg_thm_organizer.git"/>
+    </packages>
+    <updateservers>
+        <server type="extension" name="THM Organizer Component Update Site" priority="1">https://jenkins.mni.thm.de/jenkins/job/J.THM.Releases/lastSuccessfulBuild/artifact/updates/com_thm_organizer.xml</server>
+    </updateservers>
+</extension>
+
