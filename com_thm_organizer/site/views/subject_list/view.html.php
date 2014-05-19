@@ -61,7 +61,7 @@ class THM_OrganizerViewSubject_List extends JView
         $this->baseLink = "index.php?option=com_thm_organizer&view=subject_list&view=subject_list&Itemid={$this->state->get('menuID')}&groupBy=";
         $languageTag = $this->state->get('languageTag');
         $this->subjectListText = ($languageTag == 'de')? 'Modulhandbuch' : 'Subject List';
-        $this->alphabeticalTabText = ($languageTag == 'de')? "...im Übersicht" : "...in overview";
+        $this->alphabeticalTabText = ($languageTag == 'de')? "...Übersicht" : "...overview";
         $this->alphabeticalLink = JRoute::_($this->baseLink . NONE);
         $this->poolTabText = ($languageTag == 'de')? "...nach Modulpool" : "...by subject pool";
         $this->poolLink = JRoute::_($this->baseLink . POOL);

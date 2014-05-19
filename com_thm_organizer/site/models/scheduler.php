@@ -58,15 +58,14 @@ class THM_OrganizerModelScheduler extends JModel
             return "";
         }
 
-        $dbo = JFactory::getDBO();
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
         $query->select('DISTINCT s.session_id, s.username, s.usertype, u.email');
         $query->from('#__session AS s');
         $query->leftJoin('#__users AS u ON s.username = u.username');
         $query->where("s.username = '{$user->get('username')}'");
         $query->where("s.guest = '0'");
-        $dbo->setQuery((string) $query);
-        $rows = $dbo->loadObjectList();
+        $this->_db->setQuery((string) $query);
+        $rows = $this->_db->loadObjectList();
         return $rows['0']->session_id;
     }
 
@@ -79,16 +78,15 @@ class THM_OrganizerModelScheduler extends JModel
      */
     public function isComAvailable($com)
     {
-        $dbo = JFactory::getDBO();
-        $query    = $dbo->getQuery(true);
+        $query    = $this->_db->getQuery(true);
         $query->select('extension_id AS "id", element AS "option", params, enabled');
         $query->from('#__extensions');
-        $query->where('type = ' . $dbo->quote('component'));
-        $query->where('element = ' . $dbo->quote($com));
-        $dbo->setQuery((string) $query);
-        $result = $dbo->loadObject();
+        $query->where('type = ' . $this->_db->quote('component'));
+        $query->where('element = ' . $this->_db->quote($com));
+        $this->_db->setQuery((string) $query);
+        $result = $this->_db->loadObject();
 
-        $error = $dbo->getErrorMsg();
+        $error = $this->_db->getErrorMsg();
         if (!empty($error))
         {
             return false;
@@ -120,19 +118,18 @@ class THM_OrganizerModelScheduler extends JModel
             return false;
         }
 
-        $dbo = JFactory::getDBO();
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
         $query->select('*');
         $query->from('#__thm_organizer_schedules');
-        $query->where('departmentname = ' . $dbo->quote($department));
-        $query->where('semestername = ' . $dbo->quote($semester));
-        $query->where('startdate = ' . $dbo->quote($startdate));
-        $query->where('enddate = ' . $dbo->quote($enddate));
+        $query->where('departmentname = ' . $this->_db->quote($department));
+        $query->where('semestername = ' . $this->_db->quote($semester));
+        $query->where('startdate = ' . $this->_db->quote($startdate));
+        $query->where('enddate = ' . $this->_db->quote($enddate));
         $query->where('active = 1');
-        $dbo->setQuery((string) $query);
-        $result = $dbo->loadObject();
+        $this->_db->setQuery((string) $query);
+        $result = $this->_db->loadObject();
 
-        $error = $dbo->getErrorMsg();
+        $error = $this->_db->getErrorMsg();
         if (!empty($error))
         {
             return false;
@@ -158,15 +155,14 @@ class THM_OrganizerModelScheduler extends JModel
             return false;
         }
 
-        $dbo = JFactory::getDBO();
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
         $query->select('*');
         $query->from('#__thm_organizer_schedules');
         $query->where('id = ' . $scheduleID);
-        $dbo->setQuery((string) $query);
-        $result = $dbo->loadObject();
+        $this->_db->setQuery((string) $query);
+        $result = $this->_db->loadObject();
 
-        $error = $dbo->getErrorMsg();
+        $error = $this->_db->getErrorMsg();
         if (!empty($error))
         {
             return false;
@@ -185,18 +181,17 @@ class THM_OrganizerModelScheduler extends JModel
     */
     public function getCurriculumModuleColors()
     {
-        $dbo = JFactory::getDBO();
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
 
         $query->select('c.color AS hexColorCode, s.name AS semesterName, cm.organizer_major AS organizerMajorName');
         $query->from('#__thm_semesters AS s');
         $query->innerJoin('#__thm_curriculum_semesters_majors AS sm ON s.id = sm.semester_id');
         $query->innerJoin('#__thm_curriculum_majors AS cm ON cm.id = sm.major_id');
         $query->innerJoin('#__thm_curriculum_colors AS c ON c.id = s.color_id');
-        $dbo->setQuery((string) $query);
-        $result = $dbo->loadObjectList();
+        $this->_db->setQuery((string) $query);
+        $result = $this->_db->loadObjectList();
 
-         $error = $dbo->getErrorMsg();
+         $error = $this->_db->getErrorMsg();
          if (!empty($error))
          {
              return array();
@@ -217,15 +212,14 @@ class THM_OrganizerModelScheduler extends JModel
      */
     public function getRooms()
     {
-       $dbo = JFactory::getDBO();
-       $query = $dbo->getQuery(true);
+       $query = $this->_db->getQuery(true);
 
        $query->select('*');
        $query->from('#__thm_organizer_rooms');
-       $dbo->setQuery((string) $query);
-       $result = $dbo->loadObjectList();
+       $this->_db->setQuery((string) $query);
+       $result = $this->_db->loadObjectList();
 
-       $error = $dbo->getErrorMsg();
+       $error = $this->_db->getErrorMsg();
        if (!empty($error))
        {
            return array();
@@ -240,15 +234,14 @@ class THM_OrganizerModelScheduler extends JModel
      */
     public function getTeachers()
     {
-        $dbo = JFactory::getDBO();
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
 
         $query->select('*');
         $query->from('#__thm_organizer_teachers');
-        $dbo->setQuery((string) $query);
-        $result = $dbo->loadObjectList();
+        $this->_db->setQuery((string) $query);
+        $result = $this->_db->loadObjectList();
 
-        $error = $dbo->getErrorMsg();
+        $error = $this->_db->getErrorMsg();
         if (!empty($error))
         {
             return array();
@@ -263,15 +256,14 @@ class THM_OrganizerModelScheduler extends JModel
      */
     public function getTeacherTypes()
     {
-        $dbo = JFactory::getDBO();
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
 
         $query->select('*');
         $query->from('#__thm_organizer_teacher_fields');
-        $dbo->setQuery($query);
-        $result = $dbo->loadObjectList();
+        $this->_db->setQuery($query);
+        $result = $this->_db->loadObjectList();
 
-        $error = $dbo->getErrorMsg();
+        $error = $this->_db->getErrorMsg();
         if (!empty($error))
         {
             return array();
@@ -284,19 +276,22 @@ class THM_OrganizerModelScheduler extends JModel
      *
      * @return   Array  An Array with the subejects
      */
-    public function getSubjectsEnglishInfo()
+    public function getDBData($languageTag)
     {
-        $dbo = JFactory::getDBO();
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
+        $itemID = JFactory::getApplication()->input->getInt('Itemid');
 
-        $query->select('externalID, name_en');
+        $select = "name_$languageTag AS name, short_name_$languageTag AS shortname, ";
+        $select .= "abbreviation_$languageTag AS abbreviation, externalID, ";
+        $select .= "CONCAT('index.php?option=com_thm_organizer&view=subject_details&languageTag=', ";
+        $select .= "'$languageTag', '&id=', id, '&Itemid=', '$itemID') AS link";
+        $query->select($select);
         $query->from('#__thm_organizer_subjects');
-        $query->where('externalID IS NOT NULL');
-        $query->where('externalID <> ""');
-        $dbo->setQuery($query);
-        $result = $dbo->loadObjectList("externalID");
+        $query->where('externalID IS NOT NULL AND externalID <> ""');
+        $this->_db->setQuery($query);
+        $result = $this->_db->loadObjectList("externalID");
 
-        $error = $dbo->getErrorMsg();
+        $error = $this->_db->getErrorMsg();
         if (!empty($error))
         {
             return array();

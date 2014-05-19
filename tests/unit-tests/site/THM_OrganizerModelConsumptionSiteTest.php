@@ -128,7 +128,7 @@ class THM_OrganizerModelConsumptionSiteTest extends TestCaseDatabase {
         
         $consumptions = json_decode(file_get_contents(JPATH_TEST_STUBS . '/MNI_WS_consumption.json'));
         $schedule = json_decode(file_get_contents(JPATH_TEST_STUBS . '/MNI_WS_schedule.json'));
-
+        
         /**
          * Room consumption
          */

@@ -37,7 +37,7 @@ $flagPath .= ($this->languageTag == 'de')? 'en.png' : 'de.png';
     parameters.schedulerIcon = parameters.baseURL + 'media/com_thm_organizer/images/schedules.png';
     parameters.teacherIcon = parameters.baseURL + 'media/com_thm_organizer/images/teachers.png';
     parameters.poolIcon = parameters.baseURL + 'media/com_thm_organizer/images/pools.png';
-    parameters.displayECollab = <?php echo $this->params->get('displayECollabLink', 1); ?>;
+    parameters.displayECollab = <?php echo $this->params->get('displayECollabLink', 0); ?>;
     parameters.ecollabIcon = parameters.baseURL + 'media/com_thm_organizer/images/icon-32-moodle.png';
 
     window.addEvent('domready', function() {
