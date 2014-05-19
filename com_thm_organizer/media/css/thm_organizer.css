@@ -371,6 +371,7 @@ ul li.row1.subject-item {
 
 div.subject-name, div.subject-responsible, div.subject-crp {
     display: inline-block;
+    float: left;
 }
 
 div.subject-name, div.subject-responsible, div.subject-name a, div.subject-responsible a {
@@ -385,11 +386,11 @@ div.subject-name {
 }
 
 div.subject-responsible {
-    width: 35%;
+    width: 25%;
 }
 
 div.subject-crp {
-    width: 5%;
+    width: 10%;
 }
 
 div.module_catalogue.ui-accordion.ui-widget.ui-helper-reset {
