@@ -28,7 +28,7 @@ define('ALL_OWN', 7);
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelEvent_Manager extends JModelList
+class THM_OrganizerModelEvent_Manager extends JModelForm
 {
     private $_callParameters = null;
 
