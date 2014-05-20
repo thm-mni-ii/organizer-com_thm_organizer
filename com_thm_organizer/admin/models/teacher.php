@@ -548,10 +548,11 @@ class THM_OrganizerModelTeacher extends JModel
         if (!$surname)
         {
             return;
-        }
+        } 
 
         $this->validateForename($teacherNode, $teacherID, $warningString);
-        $this->validateUserID($teacherNode, $teacherID, $warningString);
+        $userid = trim((string) $teacherNode->payrollnumber);
+        $this->_scheduleModel->schedule->teachers->$teacherID->username = empty($userid)? '' :$userid;
         $this->validateDescription($teacherNode, $teacherID, $warningString);
 
         if (!empty($warningString))
@@ -628,26 +629,6 @@ class THM_OrganizerModelTeacher extends JModel
             $warningString .= JText::_('COM_THM_ORGANIZER_FORENAME');
         }
         $this->_scheduleModel->schedule->teachers->$teacherID->forename = empty($forename)? '' : $forename;
-    }
-
-    /**
-     * Validates the teacher's forename attribute
-     * 
-     * @param   object  &$teacherNode    the teacher node object
-     * @param   string  $teacherID       the teacher's id
-     * @param   string  &$warningString  a string with missing fields
-     * 
-     * @return  void
-     */
-    private function validateUserID(&$teacherNode, $teacherID, &$warningString)
-    {
-        $userid = trim((string) $teacherNode->payrollnumber);
-        if (empty($userid))
-        {
-            $warningString .= empty($warningString)? '' : ', ';
-            $warningString .= JText::_('COM_THM_ORGANIZER_USERNAME');
-        }
-        $this->_scheduleModel->schedule->teachers->$teacherID->username = empty($userid)? '' :$userid;
     }
 
     /**
