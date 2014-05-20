@@ -18,6 +18,7 @@ defined('_JEXEC') or die;
         action='<?php echo JRoute::_("index.php?option=com_thm_organizer&view=consumption"); ?>' >
         <?php echo $this->schedulesSelectBox; ?>
         <input type="submit" value="<?php echo JTEXT::_("CON_THM_ORGANIZER_CONSUMPTION_GET_STATISTIC");?>" name="get_statistic" id="thm_organizer_get_statistic" />
+        <input type="hidden" name="task" value="consumption.getConsumption" />
 </form>
         <?php echo $this->consumptionRoomTable; ?>
         <?php echo $this->consumptionTeacherTable;

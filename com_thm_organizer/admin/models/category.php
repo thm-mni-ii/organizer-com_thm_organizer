@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-require_once JPATH_SITE . '/components/com_thm_organizer/models/events.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/models/event.php';
 
 /**
  * Class storing/deleting category item information
@@ -76,7 +76,7 @@ class THM_OrganizerModelcategory extends JModel
 
             if (count($eventIDs))
             {
-                $eventsModel = new THM_OrganizerModelevents;
+                $eventsModel = new THM_OrganizerModelEvent;
                 foreach ($eventIDs as $eventID)
                 {
                     $success = $eventsModel->delete($eventID);

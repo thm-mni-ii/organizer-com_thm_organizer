@@ -30,19 +30,39 @@ class THM_OrganizerModelConsumption extends JModelLegacy
     {
         $dbo = $this->_db;
         $query = $dbo->getQuery(true);
-        
+
         $select = "id, departmentname, semestername, active, description, ";
-        $select .= "DATE_FORMAT(creationdate, '%d.%m.%Y') AS creationdate, ";
-        $select .= "TIME_FORMAT(creationtime, '%H:%i') AS creationtime, ";
-        $select .= "DATE_FORMAT(startdate, '%d.%m.%Y') AS startdate, ";
-        $select .= "DATE_FORMAT(enddate, '%d.%m.%Y') AS enddate ";
+        $select .= "creationdate, ";
+        $select .= "creationtime, ";
+        $select .= "startdate, ";
+        $select .= "enddate ";
         $query->select($select);
         $query->from("#__thm_organizer_schedules");
         $query->order('departmentname, semestername');
-        
+
+
+
         $dbo->setQuery((string) $query);
-        $result = $dbo->loadObjectList();
-        
+        try 
+        {
+            $result = $dbo->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULES"), 500);
+        }
+
+        if(!empty($result))
+        {
+            foreach($result as $schedule)
+            {
+                $schedule->creationdate = date('d.m.Y' ,strtotime($schedule->creationdate));
+                $schedule->startdate = date('d.m.Y' ,strtotime($schedule->startdate));
+                $schedule->enddate = date('d.m.Y' ,strtotime($schedule->enddate));
+                $schedule->creationtime = date('H:i' ,strtotime($schedule->creationtime));
+            }
+        }
+
         return $result;
     }
     
@@ -74,9 +94,9 @@ class THM_OrganizerModelConsumption extends JModelLegacy
             $dbo->setQuery((string) $query);
             $result = $dbo->loadObject();
         }
-        catch (RuntimeException $e)
+        catch (runtimeException $e)
         {
-            JError::raiseWarning(500, "Get schedule exception.");
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULE"), 500);
         }
         
         return $result;
