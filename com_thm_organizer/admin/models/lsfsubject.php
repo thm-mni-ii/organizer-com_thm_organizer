@@ -298,7 +298,11 @@ class THM_OrganizerModelLSFSubject extends JModel
     {
         $CrPMatch = array();
         preg_match('/(\d) CrP/', (string) $text, $CrPMatch);
-        $this->setAttribute($subject, 'creditpoints', $CrPMatch[1]);
+        if (!empty($CrPMatch[1]))
+        {
+            $this->setAttribute($subject, 'creditpoints', $CrPMatch[1]);
+        }
+
         $hoursMatches = array();
         preg_match_all('/(\d+)+ Stunden/', (string) $text, $hoursMatches);
         if (!empty($hoursMatches[1]))
@@ -431,7 +435,10 @@ class THM_OrganizerModelLSFSubject extends JModel
         {
             $proofID = 'VL';
         }
-        $this->setAttribute($subject, 'proofID', $proofID);
+        if (!empty($proofID))
+        {
+            $this->setAttribute($subject, 'proofID', $proofID);
+        }
     }
 
     /**
@@ -648,7 +655,7 @@ class THM_OrganizerModelLSFSubject extends JModel
                 $insertQuery = $this->_db->getQuery(true);
                 $insertQuery->insert('#__thm_organizer_prerequisites');
                 $insertQuery->columns('subjectID, prerequisite');
-                $insertQuery->values("'$subject->id', '$prerequisite'");
+                $insertQuery->values("'$subjectID', '$prerequisite'");
                 $this->_db->setQuery((string) $insertQuery);
                 try
                 {
@@ -721,11 +728,11 @@ class THM_OrganizerModelLSFSubject extends JModel
         {
             return true;
         }
-        foreach ($postrequisites AS $moduleID)
+        foreach ($postrequisites AS $postrequisiteID)
         {
             $checkQuery = $this->_db->getQuery(true);
             $checkQuery->select("COUNT(*)");
-            $checkQuery->from('#__thm_organizer_subjects')->where("subjectID = '$moduleID'")->where("prerequisite = '$subjectID'");
+            $checkQuery->from('#__thm_organizer_subjects')->where("subjectID = '$postrequisiteID'")->where("prerequisite = '$subjectID'");
             $this->_db->setQuery((string) $checkQuery);
             $entryExists = $this->_db->loadResult();
 
@@ -781,5 +788,43 @@ class THM_OrganizerModelLSFSubject extends JModel
                 break;
         }
         $subject->$attributeName = $value;
+    }
+
+    /**
+     * Updates all subject descriptions stored in the database
+     * 
+     * @return  void
+     */
+    public function updateAll()
+    {
+        // The execution time is dynamic and higher than most servers are configured to
+        ini_set('MAX_EXECUTION_TIME', -1);
+
+        $query = $this->_db->getQuery(true);
+        $query->select("DISTINCT id")->from('#__thm_organizer_subjects');
+        $this->_db->setQuery((string) $query);
+        $subjectIDs = $this->_db->loadColumn();
+
+        if (empty($subjectIDs))
+        {
+            return;
+        }
+
+        $failed = array();
+        foreach ($subjectIDs as $subjectID)
+        {
+            $success = $this->importSingle($subjectID);
+            if (!$success)
+            {
+                $failed[] = $subjectID;
+            }
+        }
+
+        if (!empty($failed))
+        {
+            $failedIDs = implode(', ', $failed);
+            $message = JText::sprintf('COM_THM_ORGANIZER_SUBJECTS_WHERE_UPDATE_FAILED', $failedIDs);
+            JFactory::getApplication()->enqueueMessage($message, 'notice');
+        }
     }
 }
