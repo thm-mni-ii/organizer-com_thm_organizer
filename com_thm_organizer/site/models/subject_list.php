@@ -56,8 +56,13 @@ class THM_OrganizerModelSubject_List extends JModelList
         {
             if (!empty($entry->groupID))
             {
-                $this->ensureUnique($subjectEntries, $index, $entry);
+                $deleted = $this->ensureUnique($subjectEntries, $index, $entry);
+                if ($deleted)
+                {
+                    continue;
+                }
             }
+
             $this->setTeacherProperties($subjectEntries, $index, $entry);
             switch ($this->state->get('groupBy', '0'))
             {
@@ -95,7 +100,7 @@ class THM_OrganizerModelSubject_List extends JModelList
      * @param   int     $index            the index being currently iterated
      * @param   object  $entry            the subect entry at the specified index
      * 
-     * @return  void
+     * @return  boolean true if a duplicate entry was removed, otherwise false
      */
     private function ensureUnique(&$subjectEntries, $index, $entry)
     {
@@ -103,9 +108,10 @@ class THM_OrganizerModelSubject_List extends JModelList
         if (in_array($item, $this->_uniqueItems))
         {
             unset($subjectEntries[$index]);
-            return;
+            return true;
         }
         $this->_uniqueItems[] = $item;
+        return false;
     }
 
     /**
@@ -174,7 +180,7 @@ class THM_OrganizerModelSubject_List extends JModelList
 
         $defaultName = THM_OrganizerHelperTeacher::getDefaultName($teacherData);
         $groupsName = THM_OrganizerHelperTeacher::getNameFromTHMGroups($teacherData['userID']);
-        if (!$groupsName)
+        if (empty($groupsName))
         {
             $subjects[$index]->teacherName = $defaultName;
             return;
