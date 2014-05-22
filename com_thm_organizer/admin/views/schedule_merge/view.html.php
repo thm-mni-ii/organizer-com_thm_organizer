@@ -19,7 +19,7 @@ jimport('joomla.application.component.view');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewSchedule_Merge extends JView
+class THM_OrganizerViewSchedule_Merge extends JViewLegacy
 {
     /**
      * Method to get display
@@ -54,8 +54,8 @@ class THM_OrganizerViewSchedule_Merge extends JView
     protected function addToolBar()
     {
         JRequest::setVar('hidemainmenu', true);
-        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_SCH_MERGE_TITLE'));
-        JToolBarHelper::custom('schedule.merge', 'merge', 'merge', 'COM_THM_ORGANIZER_MERGE', false);
-        JToolBarHelper::cancel('schedule.cancel', 'JTOOLBAR_CANCEL');
+        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_SCH_MERGE_TITLE'));
+        JToolbarHelper::custom('schedule.merge', 'merge', 'merge', 'COM_THM_ORGANIZER_MERGE', false);
+        JToolbarHelper::cancel('schedule.cancel', 'JTOOLBAR_CANCEL');
     }
 }

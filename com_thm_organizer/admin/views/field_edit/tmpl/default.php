@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=field_edit&id=' . (int) $this->item->id); ?>"
       method="post"
       name="adminForm"
-      id="field-form">
+      id="adminForm">
     <fieldset class="adminform">
         <legend><?php echo JText::_('COM_THM_ORGANIZER_FLM_PROPERTIES'); ?></legend>
         <ul class="adminformlist">

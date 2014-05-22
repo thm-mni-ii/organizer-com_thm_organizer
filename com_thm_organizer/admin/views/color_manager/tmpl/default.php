@@ -17,8 +17,8 @@ $nameTitle = JText::_('COM_THM_ORGANIZER_NAME') . '::' . JText::_('COM_THM_ORGAN
 $colorTitle = JText::_('COM_THM_ORGANIZER_COLOR') . '::' . JText::_('COM_THM_ORGANIZER_CLM_COLOR_DESC');
 $hexTitle = JText::_('COM_THM_ORGANIZER_CLM_CODE') . '::' . JText::_('COM_THM_ORGANIZER_CLM_CODE_DESC');
 ?>
-<form action="index.php?option=com_thm_organizer" method="post" name="adminForm" id="adminForm">
-    <fieldset id="filter-bar" class='filter-bar'>
+<form id="adminForm" action="index.php?option=com_thm_organizer" method="post" name="adminForm" >
+    <div id="filter-bar" class="filter-bar">
         <div class="filter-search fltlft">
             <label class="filter-search-lbl" for="filter_search">
                 <?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>
@@ -34,9 +34,9 @@ $hexTitle = JText::_('COM_THM_ORGANIZER_CLM_CODE') . '::' . JText::_('COM_THM_OR
                 <?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>
             </button>
         </div>
-    </fieldset>
+    </div>
     <div>
-        <table class="adminlist">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th width="3%">
@@ -44,10 +44,10 @@ $hexTitle = JText::_('COM_THM_ORGANIZER_CLM_CODE') . '::' . JText::_('COM_THM_OR
                                onclick="checkAll(<?php echo count($this->items); ?>);" />
                     </th>
                     <th title="<?php echo $nameTitle; ?>" class="hasTip" width="30%">
-                        <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'name', $listDirn, $listOrder); ?>
+                        <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'name', $listDirn, $listOrder); ?>
                     </th>
                     <th title="<?php echo $hexTitle; ?>" class="hasTip" width="15%">
-                        <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_CLM_CODE'), 'color', $listDirn, $listOrder); ?>
+                        <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_CLM_CODE'), 'color', $listDirn, $listOrder); ?>
                     </th>
                     <th title="<?php echo $colorTitle; ?>" class="hasTip" width="20%">
                         <?php echo JText::_('COM_THM_ORGANIZER_COLOR'); ?>

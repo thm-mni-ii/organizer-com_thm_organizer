@@ -23,10 +23,10 @@ JHtml::_('behavior.tooltip');
                onclick="checkAll(<?php echo count($this->items); ?>);" />
     </th>
     <th title="<?php echo $nameTitle; ?>" class="hasTip" width="42%">
-        <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'field', $listDirn, $listOrder); ?>
+        <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'field', $listDirn, $listOrder); ?>
     </th>
     <th title="<?php echo $idTitle; ?>" class="hasTip" width="22%">
-        <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_GPUNTISID'), 'gpuntisID', $listDirn, $listOrder); ?>
+        <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_GPUNTISID'), 'gpuntisID', $listDirn, $listOrder); ?>
     </th>
     <th title="<?php echo $colorTitle; ?>" class="hasTip" width="22%">
         <?php echo JText::_('COM_THM_ORGANIZER_COLOR'); ?>

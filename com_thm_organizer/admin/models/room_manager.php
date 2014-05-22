@@ -53,7 +53,16 @@ class THM_OrganizerModelRoom_Manager extends JModelList
         $query->clear('where');
         $this->addSearchFilter($query);
         $this->addTypeFilter($query);
-        $roomNames = $this->_db->setQuery((string) $query)->loadColumn(2);
+        
+        try 
+        {
+            $roomNames = $this->_db->setQuery((string) $query)->loadColumn(2);
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ROOMS"), 500);
+        }
+        
         if (!empty($roomNames))
         {
             $this->buildings = array();
@@ -90,7 +99,16 @@ class THM_OrganizerModelRoom_Manager extends JModelList
             $query->where("r.name LIKE '{$this->state->get('filter.building')}.%'");
         }
         $this->addTypeFilter($query);
-        $roomNames = $this->_db->setQuery((string) $query)->loadColumn(2);
+        
+        try 
+        {
+            $roomNames = $this->_db->setQuery((string) $query)->loadColumn(2);
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ROOMS"), 500);
+        }
+        
         if (!empty($roomNames))
         {
             $floorNames = array(
@@ -142,7 +160,16 @@ class THM_OrganizerModelRoom_Manager extends JModelList
             $locationFilter .= $this->state->get('filter.floor') != '*'? $this->state->get('filter.floor') : '';
             $query->where("r.name LIKE '$locationFilter%'");
         }
-        $rooms = $this->_db->setQuery((string) $query)->loadObjectList();
+        
+        try 
+        {
+            $rooms = $this->_db->setQuery((string) $query)->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ROOMS"), 500);
+        }
+        
         if (!empty($rooms))
         {
             foreach ($rooms as $room)

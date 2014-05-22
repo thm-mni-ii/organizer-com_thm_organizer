@@ -12,7 +12,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
-require_once JPATH_COMPONENT . DS . 'assets' . DS . 'helpers' . DS . 'thm_organizerHelper.php';
+require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
 
 /**
  * Class THM_OrganizerModelDegree for component com_thm_organizer
@@ -23,7 +23,7 @@ require_once JPATH_COMPONENT . DS . 'assets' . DS . 'helpers' . DS . 'thm_organi
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelDegree extends JModel
+class THM_OrganizerModelDegree extends JModelLegacy
 {
     /**
      * Saves degree information to the database

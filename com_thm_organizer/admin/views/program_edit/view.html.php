@@ -20,7 +20,7 @@ jimport('jquery.jquery');
  * @package     thm_curriculum
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewProgram_Edit extends JView
+class THM_OrganizerViewProgram_Edit extends JViewLegacy
 {
     /**
      * Method to get display
@@ -63,19 +63,19 @@ class THM_OrganizerViewProgram_Edit extends JView
         JRequest::setVar('hidemainmenu', true);
         $isNew = $this->form->getValue('id') == 0;
         $title = $isNew ? JText::_("COM_THM_ORGANIZER_PRM_NEW") : JText::_("COM_THM_ORGANIZER_PRM_EDIT");
-        JToolBarHelper::title($title, 'organizer_degree_programs');
+        JToolbarHelper::title($title, 'organizer_degree_programs');
         $applyText = $isNew? JText::_('COM_THM_ORGANIZER_APPLY_NEW') : JText::_('COM_THM_ORGANIZER_APPLY_EDIT');
-        JToolBarHelper::apply('program.apply', $applyText);
-        JToolBarHelper::save('program.save');
-        JToolBarHelper::save2new('program.save2new');
+        JToolbarHelper::apply('program.apply', $applyText);
+        JToolbarHelper::save('program.save');
+        JToolbarHelper::save2new('program.save2new');
         if ($isNew)
         {
-            JToolBarHelper::cancel('program.cancel', 'JTOOLBAR_CANCEL');
+            JToolbarHelper::cancel('program.cancel', 'JTOOLBAR_CANCEL');
         }
         else
         {
-            JToolBarHelper::save2copy('program.save2copy');
-            JToolBarHelper::cancel('program.cancel', 'JTOOLBAR_CLOSE');
+            JToolbarHelper::save2copy('program.save2copy');
+            JToolbarHelper::cancel('program.cancel', 'JTOOLBAR_CLOSE');
         }
     }
 }

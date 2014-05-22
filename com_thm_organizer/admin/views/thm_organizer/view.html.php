@@ -13,8 +13,11 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
-jimport('joomla.html.pane');
+// deprecated
+//jimport('joomla.html.pane');
 
+// instead of pane use this:
+// jimport( 'joomla.html.html.tabs' );
 /**
  * Class defining view output
  *
@@ -23,7 +26,7 @@ jimport('joomla.html.pane');
  * @subpackage  com_thm_organizer.administrator
  * @link        www.mni.thm.de
  */
-class THM_OrganizerViewTHM_Organizer extends JView
+class THM_OrganizerViewTHM_Organizer extends JViewLegacy
 {
     /**
      * loads model data into view context
@@ -44,8 +47,9 @@ class THM_OrganizerViewTHM_Organizer extends JView
         $document = JFactory::getDocument();
         $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
 
-        $pane = JPane::getInstance('sliders');
-        $this->pane = $pane;
+        // deprecated
+        //$pane = JPane::getInstance('sliders');
+        //$this->pane = $pane;
 
         $application = JFactory::getApplication("administratoristrator");
         $this->option = $application->scope;
@@ -64,8 +68,8 @@ class THM_OrganizerViewTHM_Organizer extends JView
      */
     private function addToolBar()
     {
-        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER') . ': ' . JText::_('COM_THM_ORGANIZER_MAIN_TITLE'), 'organizer');
-        JToolBarHelper::preferences('com_thm_organizer');
+        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER') . ': ' . JText::_('COM_THM_ORGANIZER_MAIN_TITLE'), 'organizer');
+        JToolbarHelper::preferences('com_thm_organizer');
     }
 
     /**

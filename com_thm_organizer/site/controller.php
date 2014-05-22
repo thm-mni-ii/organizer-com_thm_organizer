@@ -20,7 +20,7 @@ jimport('joomla.application.component.controller');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerController extends JController
+class THM_OrganizerController extends JControllerLegacy
 {
     /**
      * Method to display

@@ -17,7 +17,7 @@ jimport('joomla.application.component.view');
  * @category  Joomla.Component.Site
  * @package   thm_organizer
  */
-class THM_OrganizerViewRoom_Select extends JView
+class THM_OrganizerViewRoom_Select extends JViewLegacy
 {
     /**
      * Sets context variables for output
@@ -28,8 +28,8 @@ class THM_OrganizerViewRoom_Select extends JView
      */
     public function display($tpl = null)
     {
-        JHTML::_('behavior.formvalidation');
-        JHTML::_('behavior.tooltip');
+        JHtml::_('behavior.formvalidation');
+        JHtml::_('behavior.tooltip');
 
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");

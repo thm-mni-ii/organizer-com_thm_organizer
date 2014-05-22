@@ -19,7 +19,7 @@ jimport('joomla.application.component.controller');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerControllerProgram extends JController
+class THM_OrganizerControllerProgram extends JControllerLegacy
 {
     /**
      * Performs access checks and redirects to the degree program edit view
@@ -32,9 +32,8 @@ class THM_OrganizerControllerProgram extends JController
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'program_edit');
         JRequest::setVar('id', '0');
-        parent::display();
+        $this->setRedirect("index.php?option=com_thm_organizer&view=program_edit");
     }
 
     /**
@@ -48,8 +47,7 @@ class THM_OrganizerControllerProgram extends JController
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'program_edit');
-        parent::display();
+        $this->setRedirect("index.php?option=com_thm_organizer&view=program_edit");
     }
 
     /**

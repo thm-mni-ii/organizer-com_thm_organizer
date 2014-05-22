@@ -6,6 +6,7 @@
  * @name        THM_OrganizerViewcategory_manager
  * @description view output file for event category lists
  * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @author		Alexander Boll, <alexander.boll@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
@@ -22,7 +23,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * @link        www.mni.thm.de
  * @since       v0.1.0
  */
-class THM_OrganizerViewCategory_Manager extends JView
+class THM_OrganizerViewCategory_Manager extends JViewLegacy
 {
     /**
      * loads persistent information into the view context
@@ -61,11 +62,11 @@ class THM_OrganizerViewCategory_Manager extends JView
     private function addToolBar()
     {
         $title = JText::_('COM_THM_ORGANIZER') . ': ' . JText::_('COM_THM_ORGANIZER_CAT_TITLE');
-        JToolBarHelper::title($title, 'organizer_categories');
-        JToolBarHelper::addNew('category.add');
-        JToolBarHelper::editList('category.edit');
-        JToolBarHelper::deleteList(JText::_('COM_THM_ORGANIZER_CAT_DELETE_CONFIRM'), 'category.delete');
-        JToolBarHelper::divider();
-        JToolBarHelper::preferences('com_thm_organizer');
+        JToolbarHelper::title($title, 'organizer_categories');
+        JToolbarHelper::addNew('category.add');
+        JToolbarHelper::editList('category.edit');
+        JToolbarHelper::deleteList(JText::_('COM_THM_ORGANIZER_CAT_DELETE_CONFIRM'), 'category.delete');
+        JToolbarHelper::divider();
+        JToolbarHelper::preferences('com_thm_organizer');
     }
 }

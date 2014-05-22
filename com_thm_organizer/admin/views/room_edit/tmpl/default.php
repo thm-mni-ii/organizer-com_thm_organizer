@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 ?>
 <form
     action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=room_edit&id=' . (int) $this->item->id); ?>"
-    method="post" name="adminForm" id="room-form">
+    method="post" name="adminForm" id="adminForm">
     <fieldset class="adminform">
         <legend><?php echo JText::_('COM_THM_ORGANIZER_RMM_PROPERTIES'); ?></legend>
         <ul class="adminformlist">

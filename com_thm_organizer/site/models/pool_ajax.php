@@ -20,7 +20,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/mapping.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelPool_Ajax extends JModel
+class THM_OrganizerModelPool_Ajax extends JModelLegacy
 {
     /**
      * Retrieves pool options for a given curriculum element
@@ -77,7 +77,7 @@ class THM_OrganizerModelPool_Ajax extends JModel
      */
     private function getProgramEntries()
     {
-        $programIDs = "'" . str_replace(",", "', '", JRequest::getString('programID')) . "'";
+        $programIDs = "'" . str_replace(",", "', '", JFactory::getApplication()->input->getString('programID')) . "'";
 
         $query = $this->_db->getQuery(true);
         $query->select('id, programID, lft, rgt');
@@ -85,7 +85,17 @@ class THM_OrganizerModelPool_Ajax extends JModel
         $query->where("programID IN ( $programIDs )");
         $query->order('lft ASC');
         $this->_db->setQuery((string) $query);
-        return $this->_db->loadAssocList();
+        
+        try
+        {
+            $programEntries = $this->_db->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_PROGRAM_ENTRIES"), 500);
+        }
+        
+        return $programEntries;
     }
 
     /**
@@ -135,7 +145,17 @@ class THM_OrganizerModelPool_Ajax extends JModel
         $query->from('#__thm_organizer_mappings');
         $query->where("id = '$mappingID'");
         $this->_db->setQuery((string) $query);
-        return $this->_db->loadResult();
+        
+        try 
+        {
+            $resourceID = $this->_db->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_RESOURCE_DATA"), 500);
+        }
+        
+        return $resourceID;
     }
 
     /**
@@ -177,7 +197,14 @@ class THM_OrganizerModelPool_Ajax extends JModel
         }
         $query->order('lft');
         $this->_db->setQuery((string) $query);
-        $pools = $this->_db->loadObjectList();
+        try
+        {
+            $pools = $this->_db->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_POOLS"), 500);
+        }
 
         if (empty($pools))
         {

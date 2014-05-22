@@ -19,7 +19,7 @@ jimport('joomla.application.component.model');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelLesson extends JModel
+class THM_OrganizerModelLesson extends JModelLegacy
 {
     /**
      * The schedule model

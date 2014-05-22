@@ -18,9 +18,9 @@ $defaultScheduleRefresh = JComponentHelper::getParams('com_thm_organizer')->get(
 $defaultContentRefresh = JComponentHelper::getParams('com_thm_organizer')->get('content_refresh');
 $defaultContent = JComponentHelper::getParams('com_thm_organizer')->get('content');
 ?>
-<form action="index.php?option=com_thm_organizer&view=monitor_manager" method="post" name="adminForm" id="adminForm">
-    <fieldset id="filter-bar" class='filter-bar'>
-        <div class="filter-search fltlft">
+<form id="adminForm" action="index.php?option=com_thm_organizer&view=monitor_manager" method="post" name="adminForm">
+    <div id="filter-bar" class='filter-bar'>
+        <div class="filter-search fltlft pull-left">
             <label class="filter-search-lbl" for="filter_search">
                 <?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>
             </label>
@@ -35,7 +35,7 @@ $defaultContent = JComponentHelper::getParams('com_thm_organizer')->get('content
                 <?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>
             </button>
         </div>
-        <div class="filter-select fltrt">
+        <div class="filter-select fltrt pull-right">
             <select name="filter_room" class="inputbox" onchange="this.form.submit()">
                     <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_MON_SEARCH_ROOMS'); ?></option>
                     <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_MON_ALL_ROOMS'); ?></option>
@@ -52,11 +52,18 @@ $defaultContent = JComponentHelper::getParams('com_thm_organizer')->get('content
                     <?php echo JHtml::_('select.options', $this->contents, 'name', 'name', $this->state->get('filter.content'));?>
             </select>
         </div>
-    </fieldset>
+    </div>
+    
+    <input type="hidden" name="task" value="" />
+    <input type="hidden" name="boxchecked" value="0" />
+    <input type="hidden" name="boxchecked" value="0" />
+    <input type="hidden" name="filter_order" value="<?php echo $orderby; ?>" />
+    <input type="hidden" name="filter_order_Dir" value="<?php echo $direction; ?>" />
+    <input type="hidden" name="view" value="monitor_manager" />
     </form>
     <div class="clr"> </div>
     <div>
-        <table class="adminlist" id="thm_organizer_mon_table" class='thm_organizer_mon_table'>
+        <table class="adminlist" id="thm_organizer_mon_table" class='thm_organizer_mon_table table table-striped'>
             <colgroup>
                 <col class='thm_organizer_mon_col_checkbox'/>
                 <col class='thm_organizer_mon_col_room' />
@@ -119,33 +126,34 @@ $defaultContent = JComponentHelper::getParams('com_thm_organizer')->get('content
             </tfoot>
             <tbody>
 <?php
-foreach ($this->monitors as $k => $monitor)
-{
-    $url = "index.php?option=com_thm_organizer&task=monitor.saveDefaultBehaviour&id=";
-    $url .= "$monitor->id&useDefaults=$monitor->useDefaults";
-    $href = JRoute::_($url);
-    if ($monitor->useDefaults)
-    {
-        $defaultText = JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS_ACTIVE');
-        $defaultClass = 'publish';
-        $defaultTitle = JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS') . '::';
-        $defaultTitle .= JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS_INACTIVE_TOGGLE');
-        $display = $this->behaviours[$defaultDisplay];
-        $scheduleRefresh = $defaultScheduleRefresh;
-        $contentRefresh = $defaultContentRefresh;
-        $content = $defaultContent;
-    }
-    else
-    {
-        $defaultText = JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS_INACTIVE');
-        $defaultClass = 'unpublish';
-        $defaultTitle = JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS') . '::';
-        $defaultTitle .= JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS_ACTIVE_TOGGLE');
-        $display = $this->behaviours[$monitor->display];
-        $scheduleRefresh = $monitor->schedule_refresh;
-        $contentRefresh = $monitor->content_refresh;
-        $content = $monitor->content;
-    }
+if($this->monitors !== false){
+	foreach ($this->monitors as $k => $monitor)
+	{
+	    $url = "index.php?option=com_thm_organizer&task=monitor.saveDefaultBehaviour&id=";
+	    $url .= "$monitor->id&useDefaults=$monitor->useDefaults";
+	    $href = JRoute::_($url);
+	    if ($monitor->useDefaults)
+	    {
+	        $defaultText = JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS_ACTIVE');
+	        $defaultClass = 'publish';
+	        $defaultTitle = JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS') . '::';
+	        $defaultTitle .= JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS_INACTIVE_TOGGLE');
+	        $display = $this->behaviours[$defaultDisplay];
+	        $scheduleRefresh = $defaultScheduleRefresh;
+	        $contentRefresh = $defaultContentRefresh;
+	        $content = $defaultContent;
+	    }
+	    else
+	    {
+	        $defaultText = JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS_INACTIVE');
+	        $defaultClass = 'unpublish';
+	        $defaultTitle = JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS') . '::';
+	        $defaultTitle .= JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS_ACTIVE_TOGGLE');
+	        $display = $this->behaviours[$monitor->display];
+	        $scheduleRefresh = $monitor->schedule_refresh;
+	        $contentRefresh = $monitor->content_refresh;
+	        $content = $monitor->content;
+	    }
 ?>
                 <tr class="row<?php echo $k % 2;?>">
                     <td><?php echo JHtml::_('grid.id', $k, $monitor->id); ?></td>
@@ -190,16 +198,10 @@ foreach ($this->monitors as $k => $monitor)
                     </td>
                 </tr>
 <?php
+    }
 }
 ?>
             </tbody>
         </table>
     </div>
-    <input type="hidden" name="task" value="" />
-    <input type="hidden" name="boxchecked" value="0" />
-    <input type="hidden" name="boxchecked" value="0" />
-    <input type="hidden" name="filter_order" value="<?php echo $orderby; ?>" />
-    <input type="hidden" name="filter_order_Dir" value="<?php echo $direction; ?>" />
-    <input type="hidden" name="view" value="monitor_manager" />
     <?php echo JHtml::_('form.token'); ?>
-</form>

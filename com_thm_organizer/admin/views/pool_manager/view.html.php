@@ -18,7 +18,7 @@ jimport('joomla.application.component.view');
  * @package     thm_curriculum
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewPool_Manager extends JView
+class THM_OrganizerViewPool_Manager extends JViewLegacy
 {
     /**
      * Method to get display
@@ -56,12 +56,12 @@ class THM_OrganizerViewPool_Manager extends JView
     {
         $baseTitle = JText::_("COM_THM_ORGANIZER_POM_TOOLBAR_TITLE");
         $title = empty($this->programName)? $baseTitle : $baseTitle . " - " . $this->programName;
-        JToolBarHelper::title($title, 'organizer_subject_pools');
-        JToolBarHelper::addNew('pool.add', 'JTOOLBAR_NEW');
-        JToolBarHelper::editList('pool.edit', 'JTOOLBAR_EDIT');
-        JToolBarHelper::deleteList('COM_THM_ORGANIZER_POM_DELETE_CONFIRM', 'pool.delete', 'JTOOLBAR_DELETE');
-        JToolBarHelper::divider();
-        JToolBarHelper::preferences('com_thm_organizer');
+        JToolbarHelper::title($title, 'organizer_subject_pools');
+        JToolbarHelper::addNew('pool.add', 'JTOOLBAR_NEW');
+        JToolbarHelper::editList('pool.edit', 'JTOOLBAR_EDIT');
+        JToolbarHelper::deleteList('COM_THM_ORGANIZER_POM_DELETE_CONFIRM', 'pool.delete', 'JTOOLBAR_DELETE');
+        JToolbarHelper::divider();
+        JToolbarHelper::preferences('com_thm_organizer');
     }
 
     /**

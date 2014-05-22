@@ -21,7 +21,7 @@ jimport('joomla.application.component.controller');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerControllerVirtual_Schedule extends JController
+class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
 {
     /**
      * Performs access checks and redirects to the virtual schedule edit view
@@ -34,9 +34,8 @@ class THM_OrganizerControllerVirtual_Schedule extends JController
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'virtual_schedule_edit');
-        JRequest::setVar('id', '0');
-        parent::display();
+        $this->input->set('id', '0');
+        $this->setRedirect("index.php?option=com_thm_organizer&view=virtual_schedule_edit");
     }
 
     /**
@@ -50,8 +49,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JController
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'virtual_schedule_edit');
-        parent::display();
+        $this->setRedirect("index.php?option=com_thm_organizer&view=virtual_schedule_edit");
     }
     /**
      * Performs access checks, makes call to the models's save function, and
@@ -91,7 +89,15 @@ class THM_OrganizerControllerVirtual_Schedule extends JController
         $scheduleQuery->delete('#__thm_organizer_virtual_schedules');
         $scheduleQuery->where("vid IN ( $cids )");
         $dbo->setQuery((string) $scheduleQuery);
-        $dbo->query();
+        
+        try 
+        {
+            $dbo->query();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_ERROR_DELETING"), 500);
+        }
 
         if ($dbo->getErrorNum())
         {
@@ -103,7 +109,15 @@ class THM_OrganizerControllerVirtual_Schedule extends JController
             $elementQuery->delete('#__thm_organizer_virtual_schedules_elements');
             $elementQuery->where("vid IN ( $cids )");
             $dbo->setQuery((string) $elementQuery);
-            $dbo->query();
+            
+            try
+            {
+                $dbo->query();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_DELETE_VIRTUAL_SCHEDULE_ELEMENTS"), 500);
+            }
         }
 
         if (count($cid) > 1)

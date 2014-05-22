@@ -14,7 +14,7 @@ JHtml::_('behavior.tooltip');
 
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=program_edit&id=0'); ?>"
-      method="post" name="adminForm" id="modulmapping-form">
+      method="post" name="adminForm" id="adminForm">
     <fieldset class="adminform">
         <legend><?php echo JText::_('COM_THM_ORGANIZER_PRM_PROPERTIES'); ?></legend>
         <ul class="adminformlist">

@@ -21,7 +21,7 @@ require_once JPATH_ROOT . "/components/com_thm_organizer/assets/classes/TreeNode
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelScheduler_Tree extends JModel
+class THM_OrganizerModelScheduler_Tree extends JModelLegacy
 {
     /**
      * Joomla data abstraction
@@ -849,7 +849,14 @@ class THM_OrganizerModelScheduler_Tree extends JModel
             return false;
         }
 
-        $result = $dbo->loadObject();
+        try 
+        {
+            $result = $dbo->loadObject();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULE"), 500);
+        }
  
         if ($result === null)
         {

@@ -20,7 +20,7 @@ jimport('joomla.application.component.view');
  * @package   thm_organizer
  */
 
-class THM_OrganizerViewScheduler_Tree extends JView
+class THM_OrganizerViewScheduler_Tree extends JViewLegacy
 {
     /**
      * Method to get extra
@@ -29,7 +29,7 @@ class THM_OrganizerViewScheduler_Tree extends JView
      *
      * @return void
      *
-     * @see JView::display()
+     * @see JViewLegacy::display()
      */
     public function display($tpl = null)
     {

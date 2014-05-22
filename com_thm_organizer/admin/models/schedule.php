@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-JTable::addIncludePath(JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_thm_organizer' . DS . 'tables');
+JTable::addIncludePath(JPATH_BASE . '/administrator/components/com_thm_organizer/tables');
 
 require_once 'lesson.php';
 require_once 'teacher.php';
@@ -36,7 +36,7 @@ define('NOT_ACTIVE', 5);
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelSchedule extends JModel
+class THM_OrganizerModelSchedule extends JModelLegacy
 {
     /**
      * Array to hold error strings relating to critical data inconsistencies
@@ -119,7 +119,7 @@ class THM_OrganizerModelSchedule extends JModel
 
         $formdata = JRequest::getVar('jform', null, null, null, 4);
         $rooms_required = isset($formdata['rooms_assignment_required']);
-        $this->_teacherModel = JModel::getInstance('teacher', 'THM_OrganizerModel');
+        $this->_teacherModel = JModelLegacy::getInstance('teacher', 'THM_OrganizerModel');
 
         // General node
         // Creation Date & Time
@@ -265,7 +265,7 @@ class THM_OrganizerModelSchedule extends JModel
         }
         else
         {
-            $roomModel = JModel::getInstance('room', 'THM_OrganizerModel');
+            $roomModel = JModelLegacy::getInstance('room', 'THM_OrganizerModel');
             foreach ($xmlSchedule->rooms->children() as $roomnode)
             {
                 $roomModel->validate($this, $roomnode);
@@ -279,7 +279,7 @@ class THM_OrganizerModelSchedule extends JModel
         }
         else
         {
-            $subjectModel = JModel::getInstance('subject', 'THM_OrganizerModel');
+            $subjectModel = JModelLegacy::getInstance('subject', 'THM_OrganizerModel');
             foreach ($xmlSchedule->subjects->children() as $subjectnode)
             {
                 $subjectModel->validate($this, $subjectnode);
@@ -293,7 +293,7 @@ class THM_OrganizerModelSchedule extends JModel
         }
         else
         {
-            $teacherModel = JModel::getInstance('teacher', 'THM_OrganizerModel');
+            $teacherModel = JModelLegacy::getInstance('teacher', 'THM_OrganizerModel');
             foreach ($xmlSchedule->teachers->children() as $teachernode)
             {
                 $teacherModel->validate($this, $teachernode);
@@ -308,7 +308,7 @@ class THM_OrganizerModelSchedule extends JModel
         }
         else
         {
-            $poolModel = JModel::getInstance('pool', 'THM_OrganizerModel');
+            $poolModel = JModelLegacy::getInstance('pool', 'THM_OrganizerModel');
             foreach ($xmlSchedule->classes->children() as $poolNode)
             {
                 $poolModel->validate($this, $poolNode);
@@ -1198,7 +1198,15 @@ class THM_OrganizerModelSchedule extends JModel
         $query->from('#__thm_organizer_schedules');
         $query->where("id IN ( $whereIDs )");
         $this->_db->setQuery((string) $query);
-        $schedules = $this->_db->loadAssocList();
+        
+        try 
+        {
+            $schedules = $this->_db->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULES"), 500);
+        }
 
         $departments = array();
         $startdate = $schedules[0]['startdate'];
@@ -1233,7 +1241,7 @@ class THM_OrganizerModelSchedule extends JModel
      */
     public function merge()
     {
-        $checkedIDs = JRequest::getVar('schedules', array(), 'post', 'array');
+        $checkedIDs = JFactory::getApplication()->input->post->get('schedules', array(), 'array');
         if (empty($checkedIDs) OR count($checkedIDs) < 2)
         {
             return TOO_FEW;
@@ -1251,7 +1259,15 @@ class THM_OrganizerModelSchedule extends JModel
         $query->from('#__thm_organizer_schedules');
         $query->where("id IN ( $scheduleIDs )");
         $this->_db->setQuery((string) $query);
-        $schedules = $this->_db->loadResultArray();
+        
+        try 
+        {
+            $schedules = $this->_db->loadResultArray();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULES"), 500);
+        }
 
         foreach ($schedules as $key => $value)
         {

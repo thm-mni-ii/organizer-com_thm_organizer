@@ -20,7 +20,7 @@ jimport('joomla.application.component.view');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewMonitor_Manager extends JView
+class THM_OrganizerViewMonitor_Manager extends JViewLegacy
 {
     /**
      * Loads data from the model into the view context
@@ -58,11 +58,11 @@ class THM_OrganizerViewMonitor_Manager extends JView
      */
     private function addToolBar()
     {
-        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_MON_TOOLBAR_TITLE'), 'organizer_monitors');
-        JToolBarHelper::addNew('monitor.add');
-        JToolBarHelper::editList('monitor.edit');
-        JToolBarHelper::deleteList(JText::_('COM_THM_ORGANIZER_MON_DELETE_CONFIRM'), 'monitor.delete');
-        JToolBarHelper::divider();
-        JToolBarHelper::preferences('com_thm_organizer');
+        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_MON_TOOLBAR_TITLE'), 'organizer_monitors');
+        JToolbarHelper::addNew('monitor.add');
+        JToolbarHelper::editList('monitor.edit');
+        JToolbarHelper::deleteList(JText::_('COM_THM_ORGANIZER_MON_DELETE_CONFIRM'), 'monitor.delete');
+        JToolbarHelper::divider();
+        JToolbarHelper::preferences('com_thm_organizer');
     }
 }

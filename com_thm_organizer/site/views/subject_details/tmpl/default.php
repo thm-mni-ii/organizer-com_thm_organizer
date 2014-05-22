@@ -257,7 +257,7 @@ if (!empty($subject['literature']))
 if (!empty($subject['aids']))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . $aids . '</div>';
+    echo '<div class="subject-label">' . $ai . '/</div>';
     echo '<div class="subject-content">' . $subject['aids'] . '</div>';
     echo '</div>';
 }

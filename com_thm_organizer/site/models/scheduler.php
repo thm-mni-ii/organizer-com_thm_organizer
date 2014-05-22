@@ -21,7 +21,7 @@ jimport('joomla.application.component.model');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelScheduler extends JModel
+class THM_OrganizerModelScheduler extends JModelLegacy
 {
     /**
     * Semester id

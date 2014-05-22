@@ -356,7 +356,7 @@ Ext.tree.Panel.prototype.doGray = function(node)
     elImg = Ext.DomQuery.selectNode("[id="+id+"]", tree.dom);
     if(Ext.isDefined(elImg))
     {
-        elImg.setOpacity(1);
+        elImg.setStyle('opacity', '1');
         elImg.setStyle('border', 'none');
     }
     var gray = false;
@@ -389,7 +389,7 @@ Ext.tree.Panel.prototype.doGray = function(node)
         elImg = Ext.DomQuery.selectNode("[id="+id+"]", tree.dom);
         if(Ext.isDefined(elImg))
         {
-            elImg.setOpacity(0.4);
+            elImg.setStyle('opacity', '0.4');
             elImg.setStyle('border', '1px solid gray');
         }
     }

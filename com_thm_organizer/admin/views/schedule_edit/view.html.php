@@ -23,7 +23,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  */
-class THM_OrganizerViewSchedule_Edit extends JView
+class THM_OrganizerViewSchedule_Edit extends JViewLegacy
 {
     /**
      * loads persistent data into view context and intitiates functions for the
@@ -69,16 +69,16 @@ class THM_OrganizerViewSchedule_Edit extends JView
             $this->setLayout('edit');
             $this->legend = JText::_('JTOOLBAR_EDIT') . ' ' . JText::_('COM_THM_ORGANIZER_PLAN');
             $title .= JText::_('JTOOLBAR_EDIT') . ' ' . JText::_('COM_THM_ORGANIZER_PLAN');
-            JToolBarHelper::save('schedule.save');
+            JToolbarHelper::save('schedule.save');
         }
         else
         {
             $this->setLayout('add');
             $this->legend = JText::_('JTOOLBAR_NEW') . ' ' . JText::_('COM_THM_ORGANIZER_PLAN');
             $title .= JText::_("JTOOLBAR_NEW") . ' ' . JText::_('COM_THM_ORGANIZER_PLAN');
-            JToolBarHelper::custom('schedule.upload', 'upload', 'upload', 'COM_THM_ORGANIZER_SCH_UPLOAD', false);
+            JToolbarHelper::custom('schedule.upload', 'upload', 'upload', 'COM_THM_ORGANIZER_SCH_UPLOAD', false);
         }
-        JToolBarHelper::title($title, "organizer_schedules");
-        JToolBarHelper::cancel('schedule.cancel');
+        JToolbarHelper::title($title, "organizer_schedules");
+        JToolbarHelper::cancel('schedule.cancel');
     }
 }

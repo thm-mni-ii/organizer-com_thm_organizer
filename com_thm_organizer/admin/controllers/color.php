@@ -19,7 +19,7 @@ jimport('joomla.application.component.controller');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerControllerColor extends JController
+class THM_OrganizerControllerColor extends JControllerLegacy
 {
     /**
      * Performs access checks and redirects to the color edit view
@@ -32,9 +32,8 @@ class THM_OrganizerControllerColor extends JController
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'color_edit');
         JRequest::setVar('id', '0');
-        parent::display();
+        $this->setRedirect("index.php?option=com_thm_organizer&view=color_edit");
     }
 
     /**
@@ -48,8 +47,7 @@ class THM_OrganizerControllerColor extends JController
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'color_edit');
-        parent::display();
+        $this->setRedirect("index.php?option=com_thm_organizer&view=color_edit");
     }
 
     /**

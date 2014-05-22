@@ -23,7 +23,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * @subpackage  com_thm_organizer.admin.view
  * @link        www.mni.thm.de
  */
-class THM_OrganizerViewVirtual_Schedule_Manager extends JView
+class THM_OrganizerViewVirtual_Schedule_Manager extends JViewLegacy
 {
     /**
      * Method to get display
@@ -54,6 +54,6 @@ class THM_OrganizerViewVirtual_Schedule_Manager extends JView
     private function addToolBar()
     {
         $title = JText::_('COM_THM_ORGANIZER') . ': ' . JText::_('COM_THM_ORGANIZER_VSM_TITLE');
-        JToolBarHelper::title($title, 'mni');
+        JToolbarHelper::title($title, 'mni');
     }
 }

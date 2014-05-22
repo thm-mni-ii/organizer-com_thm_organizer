@@ -11,7 +11,9 @@
  */
 
 defined('_JEXEC') or die;
-jimport('joomla.application.component.controller');
+//jimport('joomla.application.component.controller');
+//jimport('joomla.application.component.controllerform');
+jimport('joomla.application.component.controlleradmin');
 
 /**
  * Class performing access checks and model function calls for category actions
@@ -21,7 +23,7 @@ jimport('joomla.application.component.controller');
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  */
-class THM_OrganizerControllerCategory extends JController
+class THM_OrganizerControllerCategory extends JControllerLegacy
 {
     /**
      * redirects to the category_edit view for the creation of new categories
@@ -50,8 +52,7 @@ class THM_OrganizerControllerCategory extends JController
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'category_edit');
-        parent::display();
+        $this->setRedirect("index.php?option=com_thm_organizer&view=category_edit");
     }
 
     /**

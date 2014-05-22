@@ -77,8 +77,15 @@ class THMGrid
             // Reset the query using our newly populated query object.
             $dbo->setQuery($query);
  
-            // Load the results as a list of stdClass objects.
-            $ret = $dbo->loadObjectList();
+            try 
+            {
+                // Load the results as a list of stdClass objects.
+                $ret = $dbo->loadObjectList();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_GRID_DATA"), 500);
+            }
 
             return array(
                          "success" => false,

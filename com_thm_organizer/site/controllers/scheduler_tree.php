@@ -21,7 +21,7 @@ jimport('joomla.application.component.controller');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerControllerScheduler_Tree extends JController
+class THM_OrganizerControllerScheduler_Tree extends JControllerAdmin
 {
     /**
      * Redirects to the ajax information which represents the view

@@ -132,7 +132,7 @@ class THMTreeView
             $this->_checked = array();
             $publicDefaultID = array();
             $this->_publicDefaultNode = array();
-            $this->departmentSemesterSelection = JRequest::getString('departmentSemesterSelection');
+            $this->departmentSemesterSelection = JFactory::getApplication()->input->getString('departmentSemesterSelection');
         }
         else
         {
@@ -169,7 +169,7 @@ class THMTreeView
             }
             else
             {
-                $treeIDs = JRequest::getString('treeIDs');
+                $treeIDs = JFactory::getApplication()->input->getString('treeIDs');
                 $treeIDsData = json_decode($treeIDs);
                 if ($treeIDsData != null)
                 {
@@ -213,7 +213,7 @@ class THMTreeView
             }
             else
             {
-                $this->departmentSemesterSelection = JRequest::getString('departmentSemesterSelection');
+                $this->departmentSemesterSelection = JFactory::getApplication()->input->getString('departmentSemesterSelection');
             }
         }
     }
@@ -394,7 +394,7 @@ class THMTreeView
         $semesterJahrNode = array();
 
         // Get ids for teachers and rooms
-        $schedulerModel = JModel::getInstance('scheduler', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
+        $schedulerModel = JModelLegacy::getInstance('scheduler', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
         $rooms = $schedulerModel->getRooms();
         $teachers = $schedulerModel->getTeachers();
 

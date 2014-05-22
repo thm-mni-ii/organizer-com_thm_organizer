@@ -55,7 +55,16 @@ class THM_OrganizerModelProgram_Manager extends JModelList
         $this->setSearch($query);
         $query->order('name ASC');
         $dbo->setQuery((string) $query);
-        $degrees = $dbo->loadAssocList();
+        
+        try 
+        {
+            $degrees = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_DEGREES"), 500);
+        }
+        
         return empty($degrees)? array() : $degrees;
     }
 
@@ -73,7 +82,16 @@ class THM_OrganizerModelProgram_Manager extends JModelList
         $this->setSearch($query);
         $query->order('field ASC');
         $dbo->setQuery((string) $query);
-        $fields = $dbo->loadAssocList();
+        
+        try
+        {
+            $fields = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_FIELDS"), 500);
+        }
+        
         return empty($fields)? array() : $fields;
     }
 
@@ -131,7 +149,16 @@ class THM_OrganizerModelProgram_Manager extends JModelList
         $this->setSearch($query);
         $query->order('version ASC');
         $dbo->setQuery((string) $query);
-        $versions = $dbo->loadAssocList();
+        
+        try 
+        {
+            $versions = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_PROGRAM_VERSIONS"), 500);
+        }
+        
         return empty($versions)? array() : $versions;
     }
 

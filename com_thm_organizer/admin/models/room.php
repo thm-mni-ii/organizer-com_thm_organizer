@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'assets' . DS . 'helpers' . DS . 'thm_organizerHelper.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/thm_organizerHelper.php';
 
 /**
  * Class THM_OrganizerModelLecturer for component com_thm_organizer
@@ -22,7 +22,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'assets' . DS . 'helpers' . DS
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelRoom extends JModel
+class THM_OrganizerModelRoom extends JModelLegacy
 {
     private $_scheduleModel = null;
 
@@ -62,7 +62,15 @@ class THM_OrganizerModelRoom extends JModel
         $query = $this->_db->getQuery(true);
         $query->select('*')->from('#__thm_organizer_rooms')->order('longname, id ASC');
         $this->_db->setQuery((string) $query);
-        $roomEntries = $this->_db->loadAssocList();
+        
+        try
+        {
+            $roomEntries = $this->_db->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ROOMS"), 500);
+        }
 
         if (empty($roomEntries))
         {
@@ -117,7 +125,15 @@ class THM_OrganizerModelRoom extends JModel
             $query->order('r.id ASC');
 
             $this->_db->setQuery((string) $query);
-            $roomEntries = $this->_db->loadAssocList();
+            
+            try
+            {
+                $roomEntries = $this->_db->loadAssocList();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ROOMS"), 500);
+            }
         }
 
         $data = array();
@@ -299,7 +315,16 @@ class THM_OrganizerModelRoom extends JModel
         $scheduleQuery->select('id, schedule');
         $scheduleQuery->from('#__thm_organizer_schedules');
         $this->_db->setQuery((string) $scheduleQuery);
-        $schedules = $this->_db->loadAssocList();
+        
+        try
+        {
+            $schedules = $this->_db->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULES"), 500);
+        }
+        
         if (empty($schedules))
         {
             return true;
@@ -313,7 +338,15 @@ class THM_OrganizerModelRoom extends JModel
             $typeQuery->from('__thm_organizer_room_types');
             $typeQuery->where("id = '{$data['typeID']}'");
             $this->_db->setQuery((string) $typeQuery);
-            $description .= str_replace('DS_', '', $this->_db->loadResult());
+            
+            try 
+            {
+                $description .= str_replace('DS_', '', $this->_db->loadResult());
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ROOM_TYPES"), 500);
+            }
         }
 
         $oldNameQuery = $this->_db->getQuery(true);
@@ -322,7 +355,15 @@ class THM_OrganizerModelRoom extends JModel
         $oldNameQuery->where("id IN ( $IDs )");
         $oldNameQuery->where("gpuntisID IS NOT NULL");
         $this->_db->setQuery((string) $oldNameQuery);
-        $oldNames = $this->_db->loadResultArray();
+        
+        try
+        {
+            $oldNames = $this->_db->loadResultArray();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ROOM_DATA"), 500);
+        }
 
         $scheduleTable = JTable::getInstance('schedules', 'thm_organizerTable');
         foreach ($schedules as $schedule)

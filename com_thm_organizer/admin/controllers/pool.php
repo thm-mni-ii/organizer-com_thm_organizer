@@ -23,7 +23,7 @@ jimport('joomla.application.component.controller');
  * @link        www.mni.thm.de
  * @since       v1.5.0
  */
-class THM_OrganizerControllerPool extends JController
+class THM_OrganizerControllerPool extends JControllerLegacy
 {
     /**
      * Performs access checks, sets the id variable to 0, and redirects to the
@@ -37,9 +37,8 @@ class THM_OrganizerControllerPool extends JController
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'pool_edit');
         JRequest::setVar('id', '0');
-        parent::display();
+        $this->setRedirect("index.php?option=com_thm_organizer&view=pool_edit");
     }
 
     /**
@@ -53,8 +52,7 @@ class THM_OrganizerControllerPool extends JController
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'pool_edit');
-        parent::display();
+        $this->setRedirect("index.php?option=com_thm_organizer&view=pool_edit");
     }
 
     /**

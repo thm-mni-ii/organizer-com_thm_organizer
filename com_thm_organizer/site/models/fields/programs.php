@@ -36,6 +36,6 @@ class JFormFieldPrograms extends JFormField
     {
         $programs = THM_OrganizerHelperMapping::getAllPrograms();
 
-        return JHTML::_("select.genericlist", $programs, "jform[params][programID]", null, "value", "program", $this->value);
+        return JHtml::_("select.genericlist", $programs, "jform[params][programID]", null, "value", "program", $this->value);
     }
 }

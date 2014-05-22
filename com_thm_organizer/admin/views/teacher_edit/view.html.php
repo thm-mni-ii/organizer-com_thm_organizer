@@ -19,7 +19,7 @@ jimport('joomla.application.component.view');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewTeacher_Edit extends JView
+class THM_OrganizerViewTeacher_Edit extends JViewLegacy
 {
     /**
      * Method to get display
@@ -56,8 +56,8 @@ class THM_OrganizerViewTeacher_Edit extends JView
         JRequest::setVar('hidemainmenu', true);
         $title = $this->item->id == 0 ?
             JText::_("COM_THM_ORGANIZER_TRM_NEW_TITLE") : JText::_("COM_THM_ORGANIZER_TRM_EDIT_TITLE");
-        JToolBarHelper::title($title, 'organizer_teachers');
-        JToolBarHelper::save('teacher.save');
-        JToolBarHelper::cancel('teacher.cancel', $this->item->id == 0 ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+        JToolbarHelper::title($title, 'organizer_teachers');
+        JToolbarHelper::save('teacher.save');
+        JToolbarHelper::cancel('teacher.cancel', $this->item->id == 0 ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
     }
 }
