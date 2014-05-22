@@ -20,7 +20,7 @@ jimport('joomla.application.component.view');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerViewEvent_Details extends JView
+class THM_OrganizerViewEvent_Details extends JViewLegacy
 {
     /**
      * Loads event information into the view context
@@ -31,7 +31,7 @@ class THM_OrganizerViewEvent_Details extends JView
      */
     public function display($tpl = null)
     {
-        JHTML::_('behavior.tooltip');
+        JHtml::_('behavior.tooltip');
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
 

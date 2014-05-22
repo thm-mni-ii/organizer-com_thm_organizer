@@ -20,7 +20,7 @@ require_once JPATH_SITE . '/components/com_thm_organizer/models/event.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelcategory extends JModel
+class THM_OrganizerModelcategory extends JModelLegacy
 {
     /**
      * saves the event category
@@ -72,7 +72,15 @@ class THM_OrganizerModelcategory extends JModel
             $query->from("#__thm_organizer_events");
             $query->where("categoryID IN ( '" . implode("', '", $categoryIDs) . "' )");
             $dbo->setQuery((string) $query);
-            $eventIDs = $dbo->loadResultArray();
+            
+            try 
+            {
+                $eventIDs = $dbo->loadResultArray();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT"), 500);
+            }
 
             if (count($eventIDs))
             {

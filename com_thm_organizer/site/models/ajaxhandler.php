@@ -24,7 +24,7 @@ include_once JPATH_COMPONENT . "/assets/classes/config.php";
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelAjaxhandler extends JModel
+class THM_OrganizerModelAjaxhandler extends JModelLegacy
 {
     /**
      * Joomla data abstraction

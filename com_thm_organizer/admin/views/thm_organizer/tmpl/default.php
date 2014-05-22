@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 $logoURL = 'media/com_thm_organizer/images/THM_Organizer_Logo_trans.png';
 ?>
 <?php
-    echo JHTML::_('image', $logoURL, JText::_('COM_THM_ORGANIZER'), array( 'class' => 'thm_organizer_main_image'));
+    echo JHtml::_('image', $logoURL, JText::_('COM_THM_ORGANIZER'), array( 'class' => 'thm_organizer_main_image'));
 ?>
 <div id="thm_organizer_main_description" class='thm_organizer_main_description'>
     <?php echo JText::_("COM_THM_ORGANIZER_MAIN_DESC"); ?>
@@ -31,7 +31,7 @@ $logoURL = 'media/com_thm_organizer/images/THM_Organizer_Logo_trans.png';
                 <a href='<?php echo $view['url']; ?>'
                    class='hasTip' title='<?php echo $view['tooltip']; ?>' >
 <?php
-    echo JHTML::_('image', $view['image'], $view['title'], array( 'class' => 'thm_organizer_main_image'));
+    echo JHtml::_('image', $view['image'], $view['title'], array( 'class' => 'thm_organizer_main_image'));
 ?>
                     <span><?php echo $view['title']; ?></span>
                 </a>

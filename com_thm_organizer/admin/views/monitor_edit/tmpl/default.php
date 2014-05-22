@@ -25,7 +25,7 @@ $show = $this->form->getValue('useDefaults')? 'none' : 'block';
         radio2.onclick = function(){document.getElementById('specificSettings').style.display = 'block'};
     });
 </script>
-<form action="index.php?option=com_thm_organizer" method="post" name="adminForm">
+<form action="index.php?option=com_thm_organizer" method="post" name="adminForm" id="adminForm">
     <div class="width-60 fltlft">
         <fieldset class="adminform">
             <legend><?php echo $boxTitle; ?></legend>

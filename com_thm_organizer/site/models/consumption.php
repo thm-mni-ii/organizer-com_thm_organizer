@@ -62,7 +62,6 @@ class THM_OrganizerModelConsumption extends JModelLegacy
                 $schedule->creationtime = date('H:i' ,strtotime($schedule->creationtime));
             }
         }
-
         return $result;
     }
     

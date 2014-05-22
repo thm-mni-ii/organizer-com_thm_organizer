@@ -22,7 +22,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerController extends JController
+class THM_OrganizerController extends JControllerLegacy
 {
     /**
      * Typical view method for MVC based architecture
@@ -33,7 +33,7 @@ class THM_OrganizerController extends JController
      * @param   boolean  $cachable   If true, the view output will be cached
      * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
      *
-     * @return  JController  A JController object to support chaining.
+     * @return  JControllerAdmin  A JControllerAdmin object to support chaining.
      */
     public function display($cachable = false, $urlparams = false)
     {

@@ -19,7 +19,7 @@ jimport('joomla.application.component.model');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelLSFPool extends JModel
+class THM_OrganizerModelLSFPool extends JModelLegacy
 {
 
     /**
@@ -104,7 +104,7 @@ class THM_OrganizerModelLSFPool extends JModel
     {
         if (!empty($stub->modulliste->modul))
         {
-            $lsfSubjectModel = JModel::getInstance('LSFSubject', 'THM_OrganizerModel');
+            $lsfSubjectModel = JModelLegacy::getInstance('LSFSubject', 'THM_OrganizerModel');
             foreach ($stub->modulliste->modul as $subStub)
             {
                 if (isset($subStub->modulliste->modul))

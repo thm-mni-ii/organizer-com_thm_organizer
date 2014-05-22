@@ -20,12 +20,12 @@ $listDirn = $this->state->get('list.direction');
                onclick="checkAll(<?php echo count($this->items); ?>);" />
     </th>
     <th width="50%">
-        <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'name', $listDirn, $listOrder); ?>
+        <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'name', $listDirn, $listOrder); ?>
     </th>
     <th width="22%">
-        <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_ABBREVIATION'), 'abbreviation', $listDirn, $listOrder); ?>
+        <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_ABBREVIATION'), 'abbreviation', $listDirn, $listOrder); ?>
     </th>
     <th width="22%">
-        <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_DEG_LSF_DEGREE_TITLE'), 'lsfDegree', $listDirn, $listOrder); ?>
+        <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_DEG_LSF_DEGREE_TITLE'), 'lsfDegree', $listDirn, $listOrder); ?>
     </th>
 </tr>

@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-require_once JPATH_COMPONENT . DS . 'assets' . DS . 'helpers' . DS . 'lsfapi.php';
+require_once JPATH_COMPONENT . '/assets/helpers/lsfapi.php';
 
 /**
  * Provides persistence handling for degree programs
@@ -20,7 +20,7 @@ require_once JPATH_COMPONENT . DS . 'assets' . DS . 'helpers' . DS . 'lsfapi.php
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelProgram extends JModel
+class THM_OrganizerModelProgram extends JModelLegacy
 {
     /**
      * Attempts to delete the selected degree program entries and related mappings
@@ -34,7 +34,7 @@ class THM_OrganizerModelProgram extends JModel
         {
             $this->_db->transactionStart();
             $table = JTable::getInstance('programs', 'thm_organizerTable');
-            $model = JModel::getInstance('mapping', 'THM_OrganizerModel');
+            $model = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
             foreach ($resourceIDs as $resourceID)
             {
                 $mappingDeleted = $model->deleteByResourceID($resourceID, 'program');
@@ -69,7 +69,7 @@ class THM_OrganizerModelProgram extends JModel
         $dpSuccess = $table->save($data);
         if ($dpSuccess)
         {
-            $model = JModel::getInstance('mapping', 'THM_OrganizerModel');
+            $model = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
             $mappingSuccess = $model->saveProgram($table->id);
             if ($mappingSuccess)
             {
@@ -98,7 +98,7 @@ class THM_OrganizerModelProgram extends JModel
         $dpSuccess = $table->save($data);
         if ($dpSuccess)
         {
-            $model = JModel::getInstance('mapping', 'THM_OrganizerModel');
+            $model = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
             $mappingSuccess = $model->saveProgram($table->id);
             if ($mappingSuccess)
             {

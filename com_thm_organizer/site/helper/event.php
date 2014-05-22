@@ -53,7 +53,16 @@ class THM_OrganizerHelperEvent
         $query->from('#__thm_organizer_categories');
         $query->where("id = '{$data['categoryID']}'");
         $dbo->setQuery((string) $query);
-        $category = $dbo->loadAssoc();
+        
+        try
+        {
+            $category = $dbo->loadAssoc();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_CATEGORIES"), 500);
+        }
+        
         $data['contentCatName'] = $category['title'];
         $data['contentCatID'] = $category['contentCatID'];
     }
@@ -282,7 +291,16 @@ class THM_OrganizerHelperEvent
             $requestedIDs = "( " . implode(", ", $requestName) . " )";
             $query->where("id IN $requestedIDs");
             $dbo->setQuery((string) $query);
-            $names = $dbo->loadResultArray();
+            
+            try
+            {
+                $names = $dbo->loadResultArray();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_NAMES"), 500);
+            }
+            
             $names = (count($names)) ? $names : array();
         }
         return $names;

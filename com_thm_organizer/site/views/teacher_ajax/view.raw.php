@@ -19,7 +19,7 @@ jimport('joomla.application.component.view');
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
  */
-class THM_OrganizerViewTeacher_Ajax extends JView
+class THM_OrganizerViewTeacher_Ajax extends JViewLegacy
 {
     /**
      * loads model data into view context

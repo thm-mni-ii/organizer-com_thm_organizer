@@ -111,7 +111,17 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         $query->from('#__thm_organizer_virtual_schedules_elements');
         $query->where("vid = '$vid'");
         $dbo->setQuery((string) $query);
-        return $dbo->loadResultArray();
+        
+        try
+        {
+            $elements = $dbo->loadResultArray();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ELEMENTS"), 500);
+        }
+        
+        return $elements;
     }
 
     /**
@@ -186,7 +196,15 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         $groupQuery->select('id');
         $groupQuery->from('#__usergroups');
         $dbo->setQuery((string) $groupQuery);
-        $groups = $dbo->loadAssocList();
+        
+        try 
+        {
+            $groups = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_USERGROUPS"), 500);
+        }
 
         $usergroups = array();
         foreach ($groups as $group)
@@ -205,7 +223,15 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         $userQuery->where("ug.id IN ('" . implode("','", $usergroups) . "')");
         $userQuery->order('name');
         $dbo->setQuery((string) $userQuery);
-        $resps = $dbo->loadObjectList();
+        
+        try
+        {
+            $resps = $dbo->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_RESPONSIBLES"), 500);
+        }
 
         return $resps;
     }
@@ -225,7 +251,15 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         $query->from('#__thm_organizer_classes');
         $query->order('name');
         $dbo->setQuery((string) $query);
-        $classes = $dbo->loadObjectList();
+        
+        try 
+        {
+            $classes = $dbo->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_CLASSES"), 500);
+        }
         return $classes;
     }
 
@@ -244,7 +278,14 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         $query->from('#__thm_organizer_rooms');
         $query->order('name');
         $dbo->setQuery((string) $query);
-        $rooms = $dbo->loadObjectList();
+        try 
+        {
+            $rooms = $dbo->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ROOMS"), 500);
+        }
         return $rooms;
     }
 
@@ -263,7 +304,15 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         $query->from('#__thm_organizer_teachers');
         $query->order('name');
         $dbo->setQuery((string) $query);
-        $teachers = $dbo->loadObjectList();
+        
+        try 
+        {
+            $teachers = $dbo->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHERS"), 500);
+        }
         return $teachers;
     }
 
@@ -282,7 +331,15 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         $query->from('#__thm_organizer_semesters');
         $query->order('name');
         $dbo->setQuery((string) $query);
-        $semesters = $dbo->loadObjectList();
+        
+        try 
+        {
+            $semesters = $dbo->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SEMESTERS"), 500);
+        }
         return $semesters;
     }
 
@@ -301,7 +358,15 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         $query->from('#__thm_organizer_descriptions');
         $query->order('name');
         $dbo->setQuery((string) $query);
-        $departments = $dbo->loadObjectList();
+        
+        try 
+        {
+            $departments = $dbo->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ROOMS_DEPARTMENTS"), 500);
+        }
         return $departments;
     }
 
@@ -321,7 +386,15 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         $query->innerJoin('#__thm_organizer_departments AS d ON t.departmentID = d.id');
         $query->order('name');
         $dbo->setQuery((string) $query);
-        $departments = $dbo->loadObjectList();
+        
+        try 
+        {
+            $departments = $dbo->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHERS_DEPARTMENTS"), 500);
+        }
         return $departments;
     }
 
@@ -340,7 +413,15 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         $query->from("#__thm_organizer_$type");
         $query->order('major');
         $dbo->setQuery((string) $query);
-        $departments = $dbo->loadObjectList();
+        
+        try 
+        {
+            $departments = $dbo->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_DEPARTMENTS"), 500);
+        }
         return $departments;
     }
 
@@ -357,7 +438,14 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         $query->from('#__thm_organizer_rooms');
         $query->order('name');
         $dbo->setQuery((string) $query);
-        $roomType = $dbo->loadObjectList();
+        try 
+        {
+            $roomType = $dbo->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ROOMS_TYPES"), 500);
+        }
         return $roomType;
     }
 
@@ -374,7 +462,14 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         $query->from('#__thm_organizer_classes');
         $query->order('name');
         $dbo->setQuery((string) $query);
-        $classTypes = $dbo->loadObjectList();
+        try 
+        {
+            $classTypes = $dbo->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_CLASSES_TYPES"), 500);
+        }
         return $classTypes;
     }
 
@@ -393,7 +488,16 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         $query->from('#__thm_organizer_virtual_schedules');
         $query->where("id = '$vid'");
         $dbo->setQuery((string) $query);
-        $vid_anz = $dbo->loadObjectList();
+        
+        try 
+        {
+            $vid_anz = $dbo->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_VIRTUAL_SCHEDULE_ID_EXISTS"), 500);
+        }
+        
         if ($vid_anz[0]->id_anz == "0")
         {
             return false;
@@ -486,7 +590,15 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         $query->from('#__thm_organizer_virtual_schedules_elements');
         $query->where("vid = '$vid'");
         $dbo->setQuery((string) $query);
-        $dbo->query();
+        
+        try
+        {
+            $dbo->query();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_DELETE_VIRTUAL_SCHEDULE_ELEMENTS"), 500);
+        }
         return true;
     }
 
@@ -506,14 +618,30 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         $query->innerJoin('#__thm_organizer_virtual_schedules_elements AS vse ON vs.id = vse.vid');
         $query->where("vs.id = '$vid'");
         $dbo->setQuery((string) $query);
-        $dbo->query();
+        
+        try 
+        {
+            $dbo->query();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_VIRTUAL_SCHEDULE"), 500);
+        }
+        
         if ($dbo->getErrorNum())
         {
             return "0";
         }
         else
         {
-            $data = $dbo->loadObjectList();
+            try 
+            {
+                $data = $dbo->loadObjectList();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_VIRTUAL_SCHEDULES"), 500);
+            }
         }
         return $data;
     }

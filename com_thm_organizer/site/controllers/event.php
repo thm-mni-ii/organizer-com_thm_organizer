@@ -14,7 +14,7 @@
 defined('_JEXEC') OR die;
 jimport('joomla.application.component.controller');
 require_once JPATH_COMPONENT . "/assets/classes/eventAccess.php";
-require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'helper' . DS . 'event.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/helper/event.php';
 
 /**
  * Performs access checks and user actions for events and associated resources
@@ -25,7 +25,7 @@ require_once JPATH_SITE . DS . 'components' . DS . 'com_thm_organizer' . DS . 'h
  * @link        www.mni.thm.de
  * @since       v0.0.1
  */
-class THM_OrganizerControllerEvent extends JController
+class THM_OrganizerControllerEvent extends JControllerAdmin
 {
     /**
      * edit

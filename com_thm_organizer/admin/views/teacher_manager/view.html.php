@@ -18,7 +18,7 @@ jimport('joomla.application.component.view');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewTeacher_Manager extends JView
+class THM_OrganizerViewTeacher_Manager extends JViewLegacy
 {
     /**
      * Method to get display
@@ -48,13 +48,13 @@ class THM_OrganizerViewTeacher_Manager extends JView
      */
     protected function addToolBar()
     {
-        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_TRM_TOOLBAR_TITLE'), 'organizer_teachers');
-        JToolBarHelper::addNew('teacher.add', 'JTOOLBAR_NEW');
-        JToolBarHelper::editList('teacher.edit', 'JTOOLBAR_EDIT');
-        JToolBarHelper::custom('teacher.mergeAll', 'merge', 'merge', 'COM_THM_ORGANIZER_MERGE_ALL', false);
-        JToolBarHelper::custom('teacher.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_MERGE', true);
-        JToolBarHelper::deleteList('', 'teacher.delete', 'JTOOLBAR_DELETE');
-        JToolBarHelper::divider();
-        JToolBarHelper::preferences('com_thm_organizer');
+        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_TRM_TOOLBAR_TITLE'), 'organizer_teachers');
+        JToolbarHelper::addNew('teacher.add', 'JTOOLBAR_NEW');
+        JToolbarHelper::editList('teacher.edit', 'JTOOLBAR_EDIT');
+        JToolbarHelper::custom('teacher.mergeAll', 'merge', 'merge', 'COM_THM_ORGANIZER_MERGE_ALL', false);
+        JToolbarHelper::custom('teacher.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_MERGE', true);
+        JToolbarHelper::deleteList('', 'teacher.delete', 'JTOOLBAR_DELETE');
+        JToolbarHelper::divider();
+        JToolbarHelper::preferences('com_thm_organizer');
     }
 }

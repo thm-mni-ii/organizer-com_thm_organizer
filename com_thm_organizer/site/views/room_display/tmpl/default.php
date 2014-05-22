@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
+JHtml::_('behavior.tooltip');
 $title = JText::_('COM_THM_ORGANIZER_RD_TITLE') . $this->roomName;
 $title .= JText::_('COM_THM_ORGANIZER_RD_ON') . date('d.m.Y', $this->date[0]);
 JFactory::getDocument()->setTitle($title);

@@ -15,7 +15,7 @@ $listDirn    = $this->state->get('list.direction');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=subject_manager');?>"
       method="post" name="adminForm" id="adminForm">
-    <fieldset id="filter-bar" class='filter-bar'>
+    <div id="filter-bar" class='filter-bar'>
         <div class="filter-search fltlft">
             <label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
             <input type='text' name='filter_search' id='filter_search'
@@ -36,27 +36,27 @@ if (isset($this->poolSelect))
 ?>
  
         </div>
-    </fieldset>
-    <table class="adminlist">
+    </div>
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th width="3%">
                     <input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" />
                 </th>
                 <th width="55%">
-                    <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'name', $listDirn, $listOrder);  ?>
+                    <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'name', $listDirn, $listOrder);  ?>
                 </th>
                 <th width="13%">
-                    <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_FIELD'), 'field', $listDirn, $listOrder);  ?>
+                    <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_FIELD'), 'field', $listDirn, $listOrder);  ?>
                 </th>
                 <th width="8%">
-                    <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUM_LSFID_TITLE'), 'lsfID', $listDirn, $listOrder);  ?>
+                    <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUM_LSFID_TITLE'), 'lsfID', $listDirn, $listOrder);  ?>
                 </th>
                 <th width="8%">
-                    <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUM_HISID_TITLE'), 'hisID', $listDirn, $listOrder);  ?>
+                    <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUM_HISID_TITLE'), 'hisID', $listDirn, $listOrder);  ?>
                 </th>
                 <th width="8%">
-                    <?php echo JHTML::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUM_EXTERNALID_TITLE'), 'externalID', $listDirn, $listOrder);  ?>
+                    <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_SUM_EXTERNALID_TITLE'), 'externalID', $listDirn, $listOrder);  ?>
                 </th>
             </tr>
         </thead>

@@ -74,7 +74,7 @@ class THMEvents
      */
     public function load()
     {
-        $eventmodel = JModel::getInstance('event_manager', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
+        $eventmodel = JModelLegacy::getInstance('event_manager', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
 
         $events = $eventmodel->events;
 

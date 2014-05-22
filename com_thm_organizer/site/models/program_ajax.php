@@ -20,7 +20,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_thm_organizer/assets/helpers
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelProgram_Ajax extends JModel
+class THM_OrganizerModelProgram_Ajax extends JModelLegacy
 {
     /**
      * Constructor to set up the class variables and call the parent constructor
@@ -53,7 +53,16 @@ class THM_OrganizerModelProgram_Ajax extends JModel
 
         $query->order('name');
         $dbo->setQuery((string) $query);
-        $programs = $dbo->loadObjectList();
+        
+        try
+        {
+            $programs = $dbo->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHERS_PROGRAMS"), 500);
+        }
+        
         return json_encode($programs);
     }
 }

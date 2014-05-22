@@ -20,7 +20,7 @@ jimport('joomla.application.component.view');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerViewScheduler extends JView
+class THM_OrganizerViewScheduler extends JViewLegacy
 {
     /**
      * Method to get extra
@@ -29,11 +29,11 @@ class THM_OrganizerViewScheduler extends JView
      *
      * @return void
      *
-     * @see JView::display()
+     * @see JViewLegacy::display()
      */
     public function display($tpl = null)
     {
-        JHTML::_('behavior.tooltip');
+        JHtml::_('behavior.tooltip');
         
         $menu = JFactory::getApplication()->getMenu();
         $active = $menu->getActive();
@@ -79,8 +79,8 @@ class THM_OrganizerViewScheduler extends JView
         $doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/mySched/style.css");
 
         $schedulerModel = $this->getModel();
-        $eventModel = JModel::getInstance('event_manager', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
-        $ajaxModel = JModel::getInstance('Ajaxhandler', 'thm_organizerModel', array('ignore_request' => false));
+        $eventModel = JModelLegacy::getInstance('event_manager', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
+        $ajaxModel = JModelLegacy::getInstance('Ajaxhandler', 'thm_organizerModel', array('ignore_request' => false));
 
         $menuparams = JFactory::getApplication()->getParams();
         $this->canWriteEvents = $eventModel->canWrite;
@@ -246,7 +246,8 @@ class THM_OrganizerViewScheduler extends JView
             }
         }
 
-        $schedulearr['CurriculumColors'] = $schedulerModel->getCurriculumModuleColors();
+//         $schedulearr['CurriculumColors'] = $schedulerModel->getCurriculumModuleColors();
+        $schedulearr['CurriculumColors'] = array();
 
         $schedulearr["Grid.load"] = $periods;
 

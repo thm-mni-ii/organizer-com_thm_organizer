@@ -19,7 +19,7 @@ jimport('joomla.application.component.modeladmin');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelSchedule_Merge extends JModel
+class THM_OrganizerModelSchedule_Merge extends JModelLegacy
 {
     /**
      * Array holding schedule entry information
@@ -48,6 +48,14 @@ class THM_OrganizerModelSchedule_Merge extends JModel
         $query->order('id ASC');
 
         $dbo->setQuery((string) $query);
-        $this->schedules = $dbo->loadAssocList();
+        
+        try 
+        {
+            $this->schedules = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULES"), 500);
+        }
     }
 }

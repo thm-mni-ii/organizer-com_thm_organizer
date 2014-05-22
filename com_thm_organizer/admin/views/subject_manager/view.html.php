@@ -19,7 +19,7 @@ jimport('joomla.application.component.view');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewSubject_Manager extends JView
+class THM_OrganizerViewSubject_Manager extends JViewLegacy
 {
     /**
      * Retrieves display items and loads them into context.
@@ -59,10 +59,10 @@ class THM_OrganizerViewSubject_Manager extends JView
      */
     public function addToolBar()
     {
-        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_SUM_TOOLBAR_TITLE'), 'organizer_subjects');
-        JToolBarHelper::addNew('subject.add');
-        JToolBarHelper::editList('subject.edit');
-        JToolBarHelper::custom(
+        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_SUM_TOOLBAR_TITLE'), 'organizer_subjects');
+        JToolbarHelper::addNew('subject.add');
+        JToolbarHelper::editList('subject.edit');
+        JToolbarHelper::custom(
                                'subject.importLSFData',
                                'export',
                                '',
@@ -70,7 +70,7 @@ class THM_OrganizerViewSubject_Manager extends JView
                                true,
                                true
                               );
-        JToolBarHelper::deleteList('COM_THM_ORGANIZER_SUM_DELETE_CONFIRM', 'subject.delete');
+        JToolbarHelper::deleteList('COM_THM_ORGANIZER_SUM_DELETE_CONFIRM', 'subject.delete');
     }
 
     /**

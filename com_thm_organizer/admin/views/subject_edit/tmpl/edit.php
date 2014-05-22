@@ -58,7 +58,7 @@ jq(document).ready(function(){
 });
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=subject_edit&id=' . (int) $this->item->id); ?>"
-      method="post" name="adminForm" id="modul-form">
+      method="post" name="adminForm" id="adminForm">
     <fieldset class="adminform">
         <legend><?php echo JText::_('COM_THM_ORGANIZER_SUM_PROPERTIES'); ?></legend>
         <fieldset>

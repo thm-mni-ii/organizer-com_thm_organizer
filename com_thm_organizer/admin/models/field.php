@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-require_once JPATH_COMPONENT . DS . 'assets' . DS . 'helpers' . DS . 'thm_organizerHelper.php';
+require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
 
 /**
  * Class THM_OrganizerModelField for component com_thm_organizer
@@ -21,7 +21,7 @@ require_once JPATH_COMPONENT . DS . 'assets' . DS . 'helpers' . DS . 'thm_organi
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelField extends JModel
+class THM_OrganizerModelField extends JModelLegacy
 {
     /**
      * save

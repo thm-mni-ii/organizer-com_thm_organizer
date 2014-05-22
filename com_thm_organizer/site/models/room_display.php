@@ -11,8 +11,8 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-require_once JPATH_COMPONENT . DS . 'helper' . DS . 'teacher.php';
-require_once JPATH_COMPONENT . DS . 'helper' . DS . 'event.php';
+require_once JPATH_COMPONENT . '/helper/teacher.php';
+require_once JPATH_COMPONENT . '/helper/event.php';
 
 /**
  * Retrieves lesson and event data for a single room and day
@@ -21,7 +21,7 @@ require_once JPATH_COMPONENT . DS . 'helper' . DS . 'event.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelRoom_Display extends JModel
+class THM_OrganizerModelRoom_Display extends JModelLegacy
 {
     public $roomName;
 
@@ -124,8 +124,8 @@ class THM_OrganizerModelRoom_Display extends JModel
     private function redirectToComponentTemplate()
     {
         $application = JFactory::getApplication();
-        $requestURL = JRequest::getVar('SERVER_NAME', '', 'SERVER');
-        $requestURL .= JRequest::getVar('REQUEST_URI', '', 'SERVER');
+        $requestURL = JFactory::getApplication()->input->server->get('SERVER_NAME', '');
+        $requestURL .= JFactory::getApplication()->input->server->get('REQUEST_URI', '');
         $redirectURL = $requestURL . '&tmpl=component';
         $application->redirect($redirectURL);
     }
@@ -201,7 +201,16 @@ class THM_OrganizerModelRoom_Display extends JModel
          $query->where("enddate >= '$this->_dbDate'");
          $query->where("active = 1");
          $dbo->setQuery((string) $query);
-         $schedules = $dbo->loadResultArray();
+         
+        try 
+        {
+            $schedules = $dbo->loadResultArray();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULES"), 500);
+        }
+        
          if (empty($schedules))
          {
              $this->redirect(JText::_('COM_THM_ORGANIZER_NO_SCHEDULES'));
@@ -387,7 +396,16 @@ class THM_OrganizerModelRoom_Display extends JModel
         }
         $query->order("DATE(startdate) ASC, starttime ASC");
         $dbo->setQuery((string) $query);
-        $appointments = $dbo->loadAssocList();
+        
+        try 
+        {
+            $appointments = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_APPOINTMENTS"), 500);
+        }
+        
         if (isset($appointments) and count($appointments) > 0)
         {
             if (isset($key))
@@ -458,7 +476,16 @@ class THM_OrganizerModelRoom_Display extends JModel
             $query->where("r.longname = '$this->name'");
         }
         $dbo->setQuery((string) $query);
-        $notices = $dbo->loadAssocList();
+        
+        try 
+        {
+            $notices = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_NOTICES"), 500);
+        }
+        
         if (isset($notices) and count($notices) > 0)
         {
             foreach ($notices as $k => $notice)
@@ -492,7 +519,16 @@ class THM_OrganizerModelRoom_Display extends JModel
         $query->where($this->whereAccess());
         $query->where("ec.global = '1'");
         $dbo->setQuery((string) $query);
-        $information = $dbo->loadAssocList();
+        
+        try 
+        {
+            $information = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_QUERY"), 500);
+        }
+        
         if (isset($information) and count($information) > 0)
         {
             foreach ($information as $k => $info)
@@ -535,7 +571,16 @@ class THM_OrganizerModelRoom_Display extends JModel
         $query->where("r.longname = '$this->roomName'");
         $query->order("DATE(startdate) ASC, starttime ASC");
         $dbo->setQuery((string) $query);
-        $upcoming = $dbo->loadAssocList();
+        
+        try 
+        {
+            $upcoming = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_QUERY"), 500);
+        }
+        
         if (isset($upcoming) and count($upcoming) > 0)
         {
             foreach ($upcoming as $k => $coming)
@@ -698,7 +743,15 @@ class THM_OrganizerModelRoom_Display extends JModel
         $query->where("id = $menuID");
         $query->where("link LIKE '%room_select%'");
         $dbo->setQuery((string) $query);
-        $link = $dbo->loadResult();
+        try 
+        {
+            $link = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MENU_LINK"), 500);
+        }
+        
         if (isset($link) and $link != "")
         {
             $this->roomSelectLink = JRoute::_($link);

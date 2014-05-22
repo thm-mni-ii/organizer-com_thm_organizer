@@ -19,7 +19,7 @@ jimport('joomla.application.component.view');
  * @package     thm_curriculum
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewField_Manager extends JView
+class THM_OrganizerViewField_Manager extends JViewLegacy
 {
     /**
      * Method to get display
@@ -58,11 +58,11 @@ class THM_OrganizerViewField_Manager extends JView
      */
     protected function addToolBar()
     {
-        JToolBarHelper::title(JText::_('COM_THM_ORGANIZER_FLM_TOOLBAR_TITLE'), 'organizer_fields');
-        JToolBarHelper::addNew('field.add', 'JTOOLBAR_NEW');
-        JToolBarHelper::editList('field.edit', 'JTOOLBAR_EDIT');
-        JToolBarHelper::deleteList('', 'field.delete', 'JTOOLBAR_DELETE');
-        JToolBarHelper::divider();
-        JToolBarHelper::preferences('com_thm_organizer');
+        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_FLM_TOOLBAR_TITLE'), 'organizer_fields');
+        JToolbarHelper::addNew('field.add', 'JTOOLBAR_NEW');
+        JToolbarHelper::editList('field.edit', 'JTOOLBAR_EDIT');
+        JToolbarHelper::deleteList('', 'field.delete', 'JTOOLBAR_DELETE');
+        JToolbarHelper::divider();
+        JToolbarHelper::preferences('com_thm_organizer');
     }
 }

@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modellist');
-require_once JPATH_COMPONENT . DS . 'helper' . DS . 'teacher.php';
+require_once JPATH_COMPONENT . '/helper/teacher.php';
 define('NONE', 0);
 define('POOL', 1);
 define('TEACHER', 2);
@@ -272,7 +272,17 @@ class THM_OrganizerModelSubject_List extends JModelList
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.id');
         $query->where("p.id = '$programID'");
         $this->_db->setQuery((string) $query);
-        return $this->_db->loadAssoc();
+        
+        try 
+        {
+            $programData = $this->_db->loadAssoc();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_PROGRAM_DATA"), 500);
+        }
+        
+        return $programData;
     }
 
     /**
@@ -329,7 +339,16 @@ class THM_OrganizerModelSubject_List extends JModelList
         $query->where("p.id ='$poolID'");
         $query->where("m.lft > '{$programInformation['lft']}' AND  m.rgt < '{$programInformation['rgt']}'");
         $this->_db->setQuery((string) $query);
-        $pools = $this->_db->loadAssocList();
+        
+        try 
+        {
+            $pools = $this->_db->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_POOLS"), 500);
+        }
+        
         if (empty($pools))
         {
             return;
@@ -361,7 +380,15 @@ class THM_OrganizerModelSubject_List extends JModelList
         $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
         $query->where("t.id ='$teacherID'");
         $this->_db->setQuery((string) $query);
-        $teacher = $this->_db->loadAssoc();
+        
+        try
+        {
+            $teacher = $this->_db->loadAssoc();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHER_DATA"), 500);
+        }
 
         if (empty($teacher))
         {
@@ -408,7 +435,15 @@ class THM_OrganizerModelSubject_List extends JModelList
         $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
         $query->where("f.id ='$fieldID'");
         $this->_db->setQuery((string) $query);
-        $field = $this->_db->loadAssoc();
+        
+        try 
+        {
+            $field = $this->_db->loadAssoc();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_FIELD_DATA"), 500);
+        }
 
         if (!empty($field))
         {

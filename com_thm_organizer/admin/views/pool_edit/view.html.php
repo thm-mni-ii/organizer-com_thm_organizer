@@ -21,7 +21,7 @@ jimport('jquery.jquery');
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  */
-class THM_OrganizerViewPool_Edit extends JView
+class THM_OrganizerViewPool_Edit extends JViewLegacy
 {
     /**
      * Method to get display
@@ -68,9 +68,9 @@ class THM_OrganizerViewPool_Edit extends JView
         $isNew = ($this->item->id == 0);
         JRequest::setVar('hidemainmenu', true);
         $title = $isNew ? JText::_('COM_THM_ORGANIZER_POM_NEW_TITLE') : JText::_('COM_THM_ORGANIZER_POM_EDIT_TITLE');
-        JToolBarHelper::title($title, 'organizer_subject_pools');
-        JToolBarHelper::apply('pool.apply', $isNew ? 'COM_THM_ORGANIZER_APPLY_NEW' : 'COM_THM_ORGANIZER_APPLY_EDIT');
-        JToolBarHelper::save('pool.save');
-        JToolBarHelper::cancel('pool.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+        JToolbarHelper::title($title, 'organizer_subject_pools');
+        JToolbarHelper::apply('pool.apply', $isNew ? 'COM_THM_ORGANIZER_APPLY_NEW' : 'COM_THM_ORGANIZER_APPLY_EDIT');
+        JToolbarHelper::save('pool.save');
+        JToolbarHelper::cancel('pool.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
     }
 }

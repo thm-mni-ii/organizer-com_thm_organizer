@@ -21,7 +21,7 @@ jimport('jquery.jquery');
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  */
-class THM_OrganizerViewPool_Ajax extends JView
+class THM_OrganizerViewPool_Ajax extends JViewLegacy
 {
     /**
      * loads model data into view context

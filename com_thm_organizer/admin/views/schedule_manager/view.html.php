@@ -22,7 +22,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  */
-class THM_OrganizerViewSchedule_Manager extends JView
+class THM_OrganizerViewSchedule_Manager extends JViewLegacy
 {
     /**
      * jpagination object holding data relevant to the number of results to be
@@ -98,14 +98,14 @@ class THM_OrganizerViewSchedule_Manager extends JView
     private function addToolBar()
     {
         $title = JText::_('COM_THM_ORGANIZER') . ': ' . JText::_('COM_THM_ORGANIZER_SCH_TITLE');
-        JToolBarHelper::title($title, 'organizer_schedules');
-        JToolBarHelper::addNew('schedule.add');
-        JToolBarHelper::editList('schedule.edit');
-        JToolBarHelper::custom('schedule.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_MERGE', true);
-        JToolBarHelper::custom('schedule.activate', 'default', 'default', 'COM_THM_ORGANIZER_SCH_ACTIVATE_TITLE', true);
-        JToolBarHelper::custom('schedule.setReference', 'move', 'move', 'COM_THM_ORGANIZER_SCH_REFERENCE_TITLE', true);
-        JToolBarHelper::deleteList(JText::_('COM_THM_ORGANIZER_SCH_DELETE_CONFIRM'), 'schedule.delete');
-        JToolBarHelper::divider();
-        JToolBarHelper::preferences('com_thm_organizer');
+        JToolbarHelper::title($title, 'organizer_schedules');
+        JToolbarHelper::addNew('schedule.add');
+        JToolbarHelper::editList('schedule.edit');
+        JToolbarHelper::custom('schedule.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_MERGE', true);
+        JToolbarHelper::custom('schedule.activate', 'default', 'default', 'COM_THM_ORGANIZER_SCH_ACTIVATE_TITLE', true);
+        JToolbarHelper::custom('schedule.setReference', 'move', 'move', 'COM_THM_ORGANIZER_SCH_REFERENCE_TITLE', true);
+        JToolbarHelper::deleteList(JText::_('COM_THM_ORGANIZER_SCH_DELETE_CONFIRM'), 'schedule.delete');
+        JToolbarHelper::divider();
+        JToolbarHelper::preferences('com_thm_organizer');
     }
 }

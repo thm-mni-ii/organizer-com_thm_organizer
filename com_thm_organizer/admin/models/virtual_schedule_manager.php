@@ -22,7 +22,7 @@ jimport('joomla.application.component.model');
  * @subpackage  com_thm_organizer.admin.model
  * @link        www.mni.thm.de
  */
-class THM_OrganizerModelVirtual_Schedule_Manager extends JModel
+class THM_OrganizerModelVirtual_Schedule_Manager extends JModelLegacy
 {
     /**
      * Total records
@@ -210,7 +210,17 @@ class THM_OrganizerModelVirtual_Schedule_Manager extends JModel
             $query->select('count(*)');
             $query->from('#__thm_organizer_virtual_schedules');
             $dbo->setQuery((string) $query);
-            return $dbo->loadResult();
+            
+            try 
+            {
+                $virtualSchedulesNumber = $dbo->loadResult();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_VIRTUAL_SCHEDULES"), 500);
+            }
+            
+            return $virtualSchedulesNumber;
         }
     }
 
@@ -242,6 +252,16 @@ class THM_OrganizerModelVirtual_Schedule_Manager extends JModel
         $query->select('*');
         $query->from('#__thm_organizer_virtual_schedules_elements');
         $dbo->setQuery((string) $query);
-        return $dbo->loadObjectList();
+        
+        try 
+        {
+            $elements = $dbo->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ELEMENTS"), 500);
+        }
+        
+        return $elements;
     }
 }

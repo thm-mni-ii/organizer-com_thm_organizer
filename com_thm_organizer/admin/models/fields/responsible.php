@@ -64,7 +64,15 @@ class JFormFieldResponsible extends JFormField
         $query->select('id');
         $query->from('#__usergroups');
         $dbo->setQuery((string) $query);
-        $groupIDs = $dbo->loadResultArray();
+        
+        try 
+        {
+            $groupIDs = $dbo->loadResultArray();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_RESPONSIBLES"), 500);
+        }
  
         $usergroups = array();
         foreach ($groupIDs as $groupID)
@@ -84,7 +92,15 @@ class JFormFieldResponsible extends JFormField
             $query->where("#__usergroups.id IN('" . implode("', '", $usergroups) . "')");
             $query->order('name');
             $dbo->setQuery((string) $query);
-            $resps = $dbo->loadAssocList();
+            
+            try 
+            {
+                $resps = $dbo->loadAssocList();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_USERS"), 500);
+            }
         }
         else
         {

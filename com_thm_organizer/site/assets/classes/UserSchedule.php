@@ -149,11 +149,11 @@ class THMUserSchedule
  
             try
             {
-                $result = $dbo->query();
+                $result = $dbo->execute();
             }
-            catch (Exception $e)
+            catch (runtimeException $e)
             {
-                // Catch the error.
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_USERSCHEDULE_DELETE"), 500);
             }
  
             // Create a new query object.
@@ -176,11 +176,11 @@ class THMUserSchedule
             try
             {
                 // Execute the query in Joomla 2.5.
-                $result = $dbo->query();
+                $result = $dbo->execute();
             }
-            catch (Exception $e)
+            catch (runtimeException $e)
             {
-                // Catch any database errors.
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_USERSCHEDULE_INSERT"), 500);
             }
  
             if ($result === true)
@@ -231,19 +231,27 @@ class THMUserSchedule
     *
     * @return Array An array with information about the loaded schedule
     */
-   public function load()
-   {
-      if (isset($this->_username))
-      {
-         $dbo = JFactory::getDBO();
+    public function load()
+    {
+        if (isset($this->_username))
+        {
+            $dbo = JFactory::getDBO();
             $data = array();
- 
-         $query = $dbo->getQuery(true);
-         $query->select('data');
-         $query->from('#__thm_organizer_user_schedules');
-         $query->where("username = '$this->_username'");
-         $dbo->setQuery((string) $query);
-         $rows = $dbo->loadObject();
+     
+            $query = $dbo->getQuery(true);
+            $query->select('data');
+            $query->from('#__thm_organizer_user_schedules');
+            $query->where("username = '$this->_username'");
+            $dbo->setQuery((string) $query);
+             
+            try 
+            {
+                $rows = $dbo->loadObject();
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_USER_SCHEDULE"), 500);
+            }
  
          if (is_object($rows))
          {

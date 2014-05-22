@@ -18,7 +18,7 @@ jimport('joomla.application.component.view');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewColor_Edit extends JView
+class THM_OrganizerViewColor_Edit extends JViewLegacy
 {
     /**
      * Method to get display
@@ -66,8 +66,8 @@ class THM_OrganizerViewColor_Edit extends JView
         JRequest::setVar('hidemainmenu', true);
         $isNew = ($this->item->id == 0);
         $title = $isNew? JText::_('COM_THM_ORGANIZER_CLM_NEW_TITLE') : JText::_('COM_THM_ORGANIZER_CLM_EDIT_TITLE');
-        JToolBarHelper::title($title, 'organizer_colors');
-        JToolBarHelper::save('color.save');
-        JToolBarHelper::cancel('color.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+        JToolbarHelper::title($title, 'organizer_colors');
+        JToolbarHelper::save('color.save');
+        JToolbarHelper::cancel('color.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
     }
 }

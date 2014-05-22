@@ -20,7 +20,7 @@ jimport('joomla.application.component.controller');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerControllerDegree extends JController
+class THM_OrganizerControllerDegree extends JControllerLegacy
 {
     /**
      * Performs access checks and redirects to the degree edit view
@@ -32,10 +32,9 @@ class THM_OrganizerControllerDegree extends JController
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
-        JRequest::setVar('view', 'degree_edit');
+        }        
         JRequest::setVar('id', '0');
-        parent::display();
+        $this->setRedirect("index.php?option=com_thm_organizer&view=degree_edit");
     }
 
     /**
@@ -49,8 +48,7 @@ class THM_OrganizerControllerDegree extends JController
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'degree_edit');
-        parent::display();
+        $this->setRedirect("index.php?option=com_thm_organizer&view=degree_edit");
     }
 
     /**

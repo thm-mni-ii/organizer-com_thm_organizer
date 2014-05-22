@@ -19,7 +19,7 @@ jimport('joomla.application.component.controller');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerControllerTeacher extends JController
+class THM_OrganizerControllerTeacher extends JControllerLegacy
 {
     /**
      * Performs access checks, sets the id variable to 0, and redirects to the
@@ -33,9 +33,8 @@ class THM_OrganizerControllerTeacher extends JController
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'teacher_edit');
         JRequest::setVar('id', '0');
-        parent::display();
+        $this->setRedirect("index.php?option=com_thm_organizer&view=teacher_edit");
     }
 
     /**
@@ -49,8 +48,7 @@ class THM_OrganizerControllerTeacher extends JController
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'teacher_edit');
-        parent::display();
+        $this->setRedirect("index.php?option=com_thm_organizer&view=teacher_edit");
     }
 
     /**
