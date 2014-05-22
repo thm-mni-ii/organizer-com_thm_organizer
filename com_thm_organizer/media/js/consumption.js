@@ -3,7 +3,7 @@
  */
 
 $(document).ready(function () {
-    $("#btnRoomExport").click(function(e) {
+    $("#roomsExport").click(function(e) {
         //getting values of current time for generating the file name
         var dt = new Date();
         var day = dt.getDate();
@@ -27,7 +27,7 @@ $(document).ready(function () {
         e.preventDefault();
     });
 
-    $("#btnTeacherExport").click(function(e) {
+    $("#teachersExport").click(function(e) {
         //getting values of current time for generating the file name
         var dt = new Date();
         var day = dt.getDate();

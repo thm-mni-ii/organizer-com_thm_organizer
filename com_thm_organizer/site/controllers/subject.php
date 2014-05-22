@@ -11,7 +11,6 @@
  */
 
 defined('_JEXEC') OR die;
-jimport('joomla.application.component.controller');
 
 /**
  * Performs access checks and user actions for events and associated resources
@@ -20,7 +19,7 @@ jimport('joomla.application.component.controller');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerControllerSubject extends JController
+class THM_OrganizerControllerSubject extends JControllerLegacy
 {
     /**
      * edit

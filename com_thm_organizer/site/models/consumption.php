@@ -21,291 +21,342 @@ defined('_JEXEC') or die();
  */
 class THM_OrganizerModelConsumption extends JModelLegacy
 {
+    public $schedule = null;
+
+    public $consumption = null;
+
+    public $roomNames = null;
+
+    public $teacherNames = null;
+
+
+    /**
+     * Sets construction model properties
+     * 
+     * @param type $config
+     */
+    public function __construct($config = array())
+    {
+        parent::__construct($config);
+        $this->setSchedule();
+        $this->setConsumption();
+    }
+
     /**
      * Gets all schedules in the database
      *
      * @return array An array with the schedules
      */
-    public function getSchedulesFromDB()
+    public function getActiveSchedules()
     {
-        $dbo = $this->_db;
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
 
-        $select = "id, departmentname, semestername, active, description, ";
-        $select .= "creationdate, ";
-        $select .= "creationtime, ";
-        $select .= "startdate, ";
-        $select .= "enddate ";
+        $concatColumns = array('departmentname', 'semestername');
+        $select = 'id, ' . $query->concatenate($concatColumns, ' - ') . ' AS name';
         $query->select($select);
         $query->from("#__thm_organizer_schedules");
-        $query->order('departmentname, semestername');
+        $query->order('name');
 
-
-
-        $dbo->setQuery((string) $query);
+        $this->_db->setQuery((string) $query);
         try 
         {
-            $result = $dbo->loadObjectList();
+            $result = $this->_db->loadAssocList();
         }
-        catch (runtimeException $e)
+        catch (Exception $exception)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULES"), 500);
-        }
-
-        if(!empty($result))
-        {
-            foreach($result as $schedule)
+            if (defined('DEBUG'))
             {
-                $schedule->creationdate = date('d.m.Y' ,strtotime($schedule->creationdate));
-                $schedule->startdate = date('d.m.Y' ,strtotime($schedule->startdate));
-                $schedule->enddate = date('d.m.Y' ,strtotime($schedule->enddate));
-                $schedule->creationtime = date('H:i' ,strtotime($schedule->creationtime));
-            }
-        }
-
-        return $result;
-    }
-    
-    /**
-     * Method to get a schedule by its id from the database
-     *
-     * @param   integer  $scheduleID  A schedule database id
-     *
-     * @return  object   An schedule object
-     */
-    public function getScheduleJSONFromDB($scheduleID)
-    {
-        $result = null;
-        if (! is_int($scheduleID))
-        {
-            return new stdClass;
-        }
-        
-        $dbo = $this->_db;
-        $query = $dbo->getQuery(true);
-        
-        $select = "schedule";
-        $query->select($select);
-        $query->from("#__thm_organizer_schedules");
-        $query->where("id=" . $scheduleID);
-        
-        try
-        {
-            $dbo->setQuery((string) $query);
-            $result = $dbo->loadObject();
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULE"), 500);
-        }
-        
-        return $result;
-    }
-    
-    /**
-     * Method to get a room consumtion from a schedule
-     *
-     * @param   string  $schedule  A schedule object
-     *
-     * @return array An consumption array
-     */
-    public function getConsumptionFromSchedule($schedule)
-    {
-        $consumption = new stdClass;
-        $consumption->rooms = new stdClass;
-        $consumption->teachers = new stdClass;
-        
-        $scheduleCalendar = $schedule->calendar;
-        $scheduleLessons = $schedule->lessons;
-        $schedulePools = $schedule->pools;
-        
-        // To save memory
-        unset($schedule->calendar); 
-        
-        // To save memory
-        unset($schedule->subjects); 
-        
-        // To save memory
-        unset($schedule->lessons); 
-        
-        foreach ($scheduleCalendar as $day)
-        {
-            if (is_object($day))
-            {
-                foreach ($day as $block)
-                {
-                    foreach ($block as $lessonKey => $lessonValue)
-                    {
-                        foreach ($lessonValue as $roomKey => $roomValue)
-                        {
-                            if ($roomKey !== "delta" && $roomValue !== "removed")
-                            {
-                                $lessonPools = $scheduleLessons->{$lessonKey}->pools;
-                                $lessonTeachers = $scheduleLessons->{$lessonKey}->teachers;
-                                
-                                foreach ($lessonPools as $lessonPoolKey => $lessonPoolValue)
-                                {
-                                    if ($lessonPoolValue !== "removed")
-                                    {
-                                        $pool = $schedulePools->{$lessonPoolKey};
-                                        $degree = $pool->degree;
-                                        
-                                        if (! isset($consumption->rooms->{$degree}))
-                                        {
-                                            $consumption->rooms->{$degree} = new stdClass;
-                                        }
-                                        
-                                        if (! isset($consumption->rooms->{$degree}->{$roomKey}))
-                                        {
-                                            $consumption->rooms->{$degree}->{$roomKey} = 1;
-                                        }
-                                        else
-                                        {
-                                            $consumption->rooms->{$degree}->{$roomKey} ++;
-                                        }
-                                        
-                                        foreach ($lessonTeachers as $lessonTeacherKey => $lessonTeacherValue)
-                                        {
-                                            if ($lessonTeacherValue !== "removed")
-                                            {
-                                                if (! isset($consumption->teachers->{$degree}))
-                                                {
-                                                    $consumption->teachers->{$degree} = new stdClass;
-                                                }
-                                                
-                                                if (! isset($consumption->teachers->{$degree}->{$lessonTeacherKey}))
-                                                {
-                                                    $consumption->teachers->{$degree}->{$lessonTeacherKey} = 1;
-                                                }
-                                                else
-                                                {
-                                                    $consumption->teachers->{$degree}->{$lessonTeacherKey} ++;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
             }
             else
             {
-            	
+                JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_DB_ERROR', 'error');
             }
         }
-        
-        return $consumption;
+        return $result;
     }
     
+    /**
+     * Method to set a schedule by its id from the database
+     *
+     * @return  object  an schedule object on success, otherwise an empty object
+     */
+    public function setSchedule()
+    {        
+        $scheduleID = JFactory::getApplication()->input->getInt('activated', 0);
+        $query = $this->_db->getQuery(true);
+        $query->select('schedule');
+        $query->from("#__thm_organizer_schedules");
+        $query->where("id = '$scheduleID'");
+        $this->_db->setQuery((string) $query);
+        try
+        {
+            $result = $this->_db->loadResult();
+            $this->schedule = json_decode($result);
+        }
+        catch (Exception $exception)
+        {
+            if (defined('DEBUG'))
+            {
+                JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+            }
+            else
+            {
+                JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_DB_ERROR', 'error');
+            }
+            $this->schedule = new stdClass();
+        }
+        
+    }
     
+    /**
+     * Calculates resource consumtion from a schedule
+     *
+     * @param   object  &$schedule  a schedule object
+     *
+     * @return  object  an object modeling resource consumption
+     */
+    public function setConsumption()
+    {
+        $this->consumption = array();
+        $this->consumption['rooms'] = array();
+        $this->consumption['teachers'] = array();
+        
+        foreach ($this->schedule->calendar as $day => $blocks)
+        {
+            // Sylength is not relevant for consumption and does not have object as a value
+            if ($day != 'sylength')
+            {
+                $this->setConsumptionByInstance($day, $blocks);
+            }
+        }
+    }
+
+    /**
+     * Sets consumtion by instance (block + lesson)
+     * 
+     * @param   string  $day  the date being currently iterated
+     * @param   object  $blocks  the blocks of the date being iterated
+     * 
+     * @return  void
+     */
+    private function setConsumptionByInstance($day, &$blocks)
+    {
+        foreach ($blocks as $block)
+        {
+            foreach ($block as $lessonID => $lessonValues)
+            {
+                if (isset($lessonValues->delta) AND $lessonValues->delta == 'removed')
+                {
+                    continue;
+                }
+                foreach ($lessonValues as $roomID => $roomDelta)
+                {
+                    $this->setConsumptionByRoom($lessonID, $roomID, $roomDelta);
+                }
+            }
+        }
+    }
+
+    /**
+     * Sets resource consumption values by room
+     * 
+     * @param   string  $lessonID   the id of the lesson being iterated
+     * @param   string  $roomID     the id of the room being iterated
+     * @param   string  $roomDelta  the room's delta value
+     */
+    private function setConsumptionByRoom($lessonID, $roomID, $roomDelta)
+    {
+        if ($roomID !== "delta" && $roomDelta !== "removed")
+        {
+            $lessonPools = $this->schedule->lessons->$lessonID->pools;
+            $lessonTeachers = $this->schedule->lessons->$lessonID->teachers;
+
+            foreach ($lessonPools as $lessonPoolID => $lessonPoolDelta)
+            {
+                $degree = $this->schedule->pools->$lessonPoolID->degree;
+                $this->setConsumptionByPool($degree, $lessonPoolDelta, $roomID, $lessonTeachers);
+            }
+        }
+    }
+
+    /**
+     * Sets consumption values for a lesson instance
+     * 
+     * @param   string  $degree           the degree name
+     * @param   string  $lessonPoolDelta  the lesson's delta value
+     * @param   string  $roomID           the room id
+     * @param   object  &$teachers        the lesson's teachers
+     */
+    private function setConsumptionByPool($degree, $lessonPoolDelta, $roomID, &$teachers)
+    {
+        if ($lessonPoolDelta !== "removed")
+        {
+            $this->setRoomConsumption($degree, $roomID);
+
+            foreach ($teachers as $teacherID => $teacherDelta)
+            {
+                $this->setTeacherConsumption($degree, $teacherID, $teacherDelta);
+            }
+        }
+    }
+
+    /**
+     * Sets room consumption values, creating the storage objects if not set
+     * 
+     * @param   string  $degree  the degree name
+     * @param   string  $roomID  the room id
+     * 
+     * @return  void
+     */
+    private function setRoomConsumption($degree, $roomID)
+    {
+        if (!isset($this->consumption['rooms'][$degree]))
+        {
+            $this->consumption['rooms'][$degree] = array();
+        }
+
+        if (!isset($this->consumption['rooms'][$degree][$roomID]))
+        {
+            $this->consumption['rooms'][$degree][$roomID] = 1;
+        }
+        else
+        {
+            $this->consumption['rooms'][$degree][$roomID] ++;
+        }
+    }
+
+    /**
+     * Sets teacher consumption values, creating the storage objects if not set
+     * 
+     * @param   string  $degree     the degree name
+     * @param   string  $teacherID  the teacher id
+     * @param   string  $delta      the teacher's delta information for the
+     *                              lesson being iterated
+     * 
+     * @return  void
+     */
+    private function setTeacherConsumption($degree, $teacherID, $delta)
+    {
+        if ($delta !== "removed")
+        {
+            if (!isset($this->consumption['teachers'][$degree]))
+            {
+                $this->consumption['teachers'][$degree] = array();
+            }
+
+            if (!isset($this->consumption['teachers'][$degree][$teacherID]))
+            {
+                $this->consumption['teachers'][$degree][$teacherID] = 1;
+            }
+            else
+            {
+            $this->consumption['teachers'][$degree][$teacherID] ++;
+            }
+        }
+    }
+
     /**
      * Method to get a schedule table for consumptions
      * 
-     * @param   array   $consumptionColumns  The column headlines
-     * @param   array   $consumptionRows     The row headlines
-     * @param   objet   $consumptions        The cell data
      * @param   string  $type                Either teachers or rooms
      * @param   string  $schedule            The actual schedule
      * 
      * @return HTML_Table  A html table with the consumptions
      */
-    public function getConsumptionTable($consumptionColumns, $consumptionRows, $consumptions, $type, $schedule = null)
+    public function getConsumptionTable($type)
     {
-        $consumptionTable = '<table id="thm_organizer_' . $type . '_consumption_table" ' .
-                            'class="thm_organizer_consumption_table_class"><thead><tr><td />';
-
-        $modifier = 1.5;
-        
-        $consumption = $consumptions->{$type};
-        
-        $degreeLongnames = $this->getDegreesLongname($consumptionColumns, $schedule);
-        
-        foreach ($consumptionColumns as $column)
+        if ($type != 'rooms' AND $type != 'teachers')
         {
-            $consumptionTable .= '<th>' . $degreeLongnames[$column] . '</th>';
+            return;
         }
-        
-        $consumptionTable .= '</tr></thead><tbody>';
-        
-        foreach ($consumptionRows as $key => $value)
+        $table = "<table id='thm_organizer_{$type}_consumption_table' ";
+        $table .= "class='thm_organizer_consumption_table_class'>";
+
+        $columns = array_keys($this->consumption[$type]);
+        asort($columns);
+
+        $rowKeys = array();
+        foreach ($this->consumption[$type] as $resourceConsumption)
         {
-            $consumptionTable .= '<tr>';
+            $rowKeys = array_merge($rowKeys, array_keys($resourceConsumption));
+        }
+        asort($rowKeys);
+        $rows = array_unique($rowKeys);
+
+        $this->roomNames = $this->getNameArray('rooms', $rows, array('longname'));
+        $properties = array('surname', 'forename');
+        $this->teacherNames = $this->getNameArray('teachers', $rows, $properties, ', ');
+
+        $table .= $this->getTableHead($columns);
+        $table .= $this->getTableBody($columns, $rows, $type);
+        
+        $table .= '</table>';
+        return $table;
+    }
+
+    /**
+     * Builds the consumption table head
+     * 
+     * @param   array  $columns  the columns of the table
+     * 
+     * @return  string  the table head as a string
+     */
+    private function getTableHead($columns)
+    {
+        $names = $this->getNameArray('degrees', $columns, array('name'));
+        $tableHead = '<thead><tr><td />';
+        foreach ($columns as $column)
+        {
+            $tableHead .= '<th>' . $names[$column] . '</th>';
+        }
+        $tableHead .= '</tr></thead>';
+        return $tableHead;
+    }
+
+    /**
+     * Creates the consumption table body
+     * 
+     * @param   array   $columns  the columns used in the table
+     * @param   array   $rows     the rows used in the table
+     * @param   string  $type     the type of resource being observed
+     * 
+     * @return  string  a html sting containing the table body
+     */
+    private function getTableBody($columns, $rows, $type)
+    {
+        $modifier = 1.5;
+        $tableBody = '<tbody>';
+
+        foreach ($rows as $row)
+        {
+            $tableBody .= '<tr>';
             
             if ($type === "rooms")
             {
-                $roomLongnames = $this->getRoomsLongname(array_keys($consumptionRows), $schedule);
-                $roonLongname = $roomLongnames[$key];
-                $consumptionTable .= '<td>' . $roonLongname . '</td>';
+                $tableBody .= "<td>{$this->roomNames[$row]}</td>";
             }
-            elseif ($type === "teachers")
+            if ($type === "teachers")
             {
-                $teacherLongnames = $this->getTeachersLongname(array_keys($consumptionRows), $schedule);
-                $teacherLongname = $teacherLongnames[$key];
-                $consumptionTable .= '<td>' . $teacherLongname . '</td>';
+                $tableBody .= "<td>{$this->teacherNames[$row]}</td>";
             }
-            else
+
+            foreach ($columns as $column)
             {
-                $consumptionTable .= '<td>' . $key . '</td>';
-            }
-            foreach ($consumptionColumns as $column)
-            {
-                if (isset($consumption->{$column}->{$key}))
+                if (isset($this->consumption[$type][$column][$row]))
                 {
-                    $consumptionTime = $consumption->{$column}->{$key};
-                    $consumptionTime = $consumptionTime * $modifier;
-                    $consumptionTable .= '<td>' . str_replace(".", ",", $consumptionTime) . '</td>';
+                    $consumptionTime = $this->consumption[$type][$column][$row]  * $modifier;
+                    $tableBody .= '<td>' . str_replace(".", ",", $consumptionTime) . '</td>';
                 }
                 else
                 {
-                    $consumptionTable .= '<td/>';
+                    $tableBody .= '<td/>';
                 }
             }
-            $consumptionTable .= '</tr>';
+            $tableBody .= '</tr>';
         }
-        $consumptionTable .= '</tbody></table>';
-        return $consumptionTable;
-    }
-    
-    /**
-     * Method to get the longname of degrees
-     * 
-     * @param   array   $degrees   All degrees to get the longname for.
-     * @param   object  $schedule  A schedule object
-     * 
-     * @return array Degrees with longnames
-     */
-    public function getDegreesLongname($degrees, $schedule)
-    {
-        $return = array();
-        $scheduleDegrees = $schedule->degrees;
-        foreach ($degrees as $degree)
-        {
-            $return[$degree] = $scheduleDegrees->{$degree}->name;
-        }
-        
-        return $return;
-    }
-
-    /**
-     * Method to get the longname of rooms
-     *
-     * @param   array   $rooms     All rooms to get the longname for.
-     * @param   object  $schedule  A schedule object
-     *
-     * @return array Rooms with longnames
-     */
-    public function getRoomsLongname($rooms, $schedule)
-    {
-        $return = array();
-        $scheduleRooms = $schedule->rooms;
-        foreach ($rooms as $room)
-        {
-            $return[$room] = $scheduleRooms->{$room}->longname;
-        }
-        
-        return $return;
+        $tableBody .= '</tbody>';
+        return $tableBody;
     }
 
     /**
@@ -316,16 +367,31 @@ class THM_OrganizerModelConsumption extends JModelLegacy
      *
      * @return array Teachers with longnames
      */
-    public function getTeachersLongname($teachers, $schedule)
+    public function getNameArray($resourceName, $resources, $properties, $seperator = ' ')
     {
-        $return = array();
-        $scheduleTeachers = $schedule->teachers;
-        
-        foreach ($teachers as $teacher)
+        $names = array();
+        foreach ($resources as $resource)
         {
-            $return[$teacher] = $scheduleTeachers->{$teacher}->surname . ", " . $scheduleTeachers->{$teacher}->forename;
+            $initial = true;
+            $names[$resource] = '';
+            foreach ($properties as $property)
+            {
+                if (empty($this->schedule->{$resourceName}->$resource->{$property}))
+                {
+                    continue;
+                }
+                if (!$initial)
+                {
+                    $names[$resource] .= $seperator;
+                }
+                $names[$resource] .= $this->schedule->{$resourceName}->$resource->{$property};
+                $initial = false;
+            }
+            if (empty($names[$resource]))
+            {
+                unset($names[$resource]);
+            }
         }
-        
-        return $return;
+        return $names;
     }
 }
