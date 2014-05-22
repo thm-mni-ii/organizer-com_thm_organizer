@@ -16,7 +16,7 @@ $listDirn = $this->state->get('list.direction');
 <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=room_manager'); ?>"
       method="post" name="adminForm" id="adminForm">
     <div id="filter-bar" class='filter-bar'>
-        <div class="filter-search fltlft">
+        <div class="filter-search fltlft pull-left">
             <label class="filter-search-lbl" for="filter_search">
                 <?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>
             </label>
@@ -31,7 +31,7 @@ $listDirn = $this->state->get('list.direction');
                 <?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>
             </button>
         </div>
-        <div class="filter-select fltrt">
+        <div class="filter-select fltrt pull-right">
             <select name="filter_building" class="inputbox" onchange="this.form.submit()">
                     <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_RMM_SEARCH_BUILDINGS'); ?></option>
                     <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_RMM_ALL_BUILDINGS'); ?></option>

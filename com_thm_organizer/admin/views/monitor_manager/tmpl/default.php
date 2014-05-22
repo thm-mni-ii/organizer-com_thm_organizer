@@ -20,7 +20,7 @@ $defaultContent = JComponentHelper::getParams('com_thm_organizer')->get('content
 ?>
 <form id="adminForm" action="index.php?option=com_thm_organizer&view=monitor_manager" method="post" name="adminForm">
     <div id="filter-bar" class='filter-bar'>
-        <div class="filter-search fltlft">
+        <div class="filter-search fltlft pull-left">
             <label class="filter-search-lbl" for="filter_search">
                 <?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>
             </label>
@@ -35,7 +35,7 @@ $defaultContent = JComponentHelper::getParams('com_thm_organizer')->get('content
                 <?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>
             </button>
         </div>
-        <div class="filter-select fltrt">
+        <div class="filter-select fltrt pull-right">
             <select name="filter_room" class="inputbox" onchange="this.form.submit()">
                     <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_MON_SEARCH_ROOMS'); ?></option>
                     <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_MON_ALL_ROOMS'); ?></option>

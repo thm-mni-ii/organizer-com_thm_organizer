@@ -380,6 +380,10 @@ div.filter-bar {
     overflow: auto;
 }
 
+div#filter-bar div.filter-select select{
+    margin-bottom: 0px;
+}
+
 div.filter-bar label{
 	display:inline;
 }
