@@ -217,14 +217,17 @@ class THMTreeView
             }
         }
     }
-    
+
     /**
-     * Method to sort the checked array !_DONT DELETE_ this function, it is used for uksort()!
+     * Method to sort the checked array. Used in uksort($array, $callback) in the
+     * __construct function.
      * 
      * @param   String  $firstElement  First argument
      * @param   String  $secondElement  Second argument
      * 
      * @return  integer
+     * 
+     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
      */
     private function checkedSortFunction ($firstElement, $secondElement)
     {                
@@ -261,21 +264,8 @@ class THMTreeView
         }
         else
         {
-            if ($this->_checked != null)
-            {
-                if (isset($this->_checked[$nodeID]))
-                {
-                    $checked = $this->_checked[$nodeID];
-                }
-                else
-                {
-                    $checked = "unchecked";
-                }
-            }
-            else
-            {
-                $checked = "unchecked";
-            }
+            $checkedExists = ($this->_checked != null AND isset($this->_checked[$nodeID]));
+            $checked = $checkedExists? $this->_checked[$nodeID] : "unchecked";
         }
 
         $expanded = false;
@@ -291,14 +281,8 @@ class THMTreeView
             }
             if ($leaf === true)
             {
-                if (isset($this->_publicDefault[$nodeID]))
-                {
-                    $publicDefault = $this->_publicDefault[$nodeID];
-                }
-                else
-                {
-                    $publicDefault = "notdefault";
-                }
+                $publicDefault = isset($this->_publicDefault[$nodeID])?
+                    $this->_publicDefault[$nodeID] : $publicDefault = "notdefault";
             }
         }
         elseif ($leaf === true)
@@ -321,14 +305,8 @@ class THMTreeView
 
         if ($publicDefault === "default")
         {
-            if ($treeNode != null)
-            {
-                $this->_publicDefaultNode = $treeNode;
-            }
-            else
-            {
-                $this->_publicDefaultNode = new THMTreeNode($nodeData, $checked, $publicDefault, $nodeKey, $expanded);
-            }
+            $this->_publicDefaultNode = !empty($treeNode)?
+                $treeNode : new THMTreeNode($nodeData, $checked, $publicDefault, $nodeKey, $expanded);
         }
 
         if ($treeNode == null)
@@ -392,77 +370,53 @@ class THMTreeView
     public function load()
     {
         $semesterJahrNode = array();
+        $return = array();
 
         // Get ids for teachers and rooms
-        $schedulerModel = JModelLegacy::getInstance('scheduler', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
-        $rooms = $schedulerModel->getRooms();
-        $teachers = $schedulerModel->getTeachers();
+        $modelConfig = array('ignore_request' => false, 'display_type' => 4);
+        $schedulerModel = JModelLegacy::getInstance('scheduler', 'thm_organizerModel', $modelConfig);
 
         $activeSchedule = $schedulerModel->getActiveSchedule($this->departmentSemesterSelection);
 
-        if (is_object($activeSchedule) && is_string($activeSchedule->schedule))
+        if (!empty($activeSchedule))
         {
-            $activeScheduleData = json_decode($activeSchedule->schedule);
+            $this->_activeScheduleData = json_decode($activeSchedule->schedule);
             
             // To save memory unset schedule
             unset($activeSchedule->schedule);
 
-            if ($activeScheduleData != null)
+            if ($this->_activeScheduleData != null)
             {
-                $this->_activeScheduleData = $activeScheduleData;
-                if (isset($activeScheduleData->pools))
-                {
-                    $this->_treeData["module"] = $activeScheduleData->pools;
-                }
-                else
-                {
-                    $this->_treeData["module"] = $activeScheduleData->modules;
-                }
-                $this->_treeData["room"] = $activeScheduleData->rooms;
-                $this->_treeData["teacher"] = $activeScheduleData->teachers;
-                $this->_treeData["subject"] = $activeScheduleData->subjects;                
-                $this->_treeData["roomtype"] = $activeScheduleData->roomtypes;
-                $this->_treeData["degree"] = $activeScheduleData->degrees;
-                $this->_treeData["field"] = $activeScheduleData->fields;
+                $this->_treeData["module"] = isset($this->_activeScheduleData->pools)?
+                    $this->_activeScheduleData->pools : $this->_activeScheduleData->modules;
+                $this->_treeData["room"] = $this->_activeScheduleData->rooms;
+                $this->_treeData["teacher"] = $this->_activeScheduleData->teachers;
+                $this->_treeData["subject"] = $this->_activeScheduleData->subjects;
+                $this->_treeData["roomtype"] = $this->_activeScheduleData->roomtypes;
+                $this->_treeData["degree"] = $this->_activeScheduleData->degrees;
+                $this->_treeData["field"] = $this->_activeScheduleData->fields;
                 
                 $siteLanguage = JFactory::getLanguage()->getTag();
-                $tag = ($this->_languageTag === "en-GB" || $siteLanguage === "en-GB")?
-                        'en' : 'de';
-                $subjectsData = $schedulerModel->getDBData($tag);
+                $inEnglish = ($this->_languageTag === "en-GB" OR $siteLanguage === "en-GB");
+                $tag = $inEnglish? 'en' : 'de';
+                $subjectsData = $this->getSubjectsData($tag);
                 $this->setDBData($subjectsData);
-                
             }
             else
             {
                 // Cant decode json
-                return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_DATA_FLAWED'));
+                JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_DATA_FLAWED'));
+                return $return;
             }
 
-            foreach ($this->_treeData["room"] as $roomValue)
-            {
-                foreach ($rooms as $databaseRooms)
-                {
-                    if ($roomValue->gpuntisID === $databaseRooms->gpuntisID)
-                    {
-                        $roomValue->dbID = $databaseRooms->id;
-                    }
-                }
-            }
-
-            foreach ($this->_treeData["teacher"] as $teacherValue)
-            {
-                foreach ($teachers as $databaseTeachers)
-                {
-                    if ($teacherValue->gpuntisID === $databaseTeachers->gpuntisID)
-                    {
-                        $teacherValue->dbID = $databaseTeachers->id;
-                    }
-                }
-            }
+            $this->resolveRooms($schedulerModel->getRooms());
+            $this->resolveTeachers($schedulerModel->getTeachers());
         }
         else
         {
-            return array("success" => false, "data" => array("tree" => array(), "treeData" => array(), "treePublicDefault" => ""));
+            $return['success'] = false;
+            $return['data'] = array("tree" => array(), "treeData" => array(), "treePublicDefault" => "");
+            return $return;
         }
 
         $createTreeNodeData = array();
@@ -506,12 +460,82 @@ class THMTreeView
             $this->_publicDefaultNode = null;
         }
 
-        return array("success" => true, "data" => array("tree" => $semesterJahrNode, "treeData" => $this->_treeData,
-                "treePublicDefault" => $this->_publicDefaultNode)
+        $return['success'] = true;
+        $return['data'] = array(
+            "tree" => $semesterJahrNode,
+            "treeData" => $this->_treeData,
+            "treePublicDefault" => $this->_publicDefaultNode
         );
-
+        return $return;
     }
-    
+
+    /**
+     * Resolves the Untis rooms with the rooms stored in the database
+     * 
+     * @param   array  $rooms  an array of room objects
+     * 
+     * @return  void
+     */
+    private function resolveRooms($rooms)
+    {
+        foreach ($this->_treeData["room"] as $roomValue)
+        {
+            foreach ($rooms as $room)
+            {
+                if ($roomValue->gpuntisID === $room->gpuntisID)
+                {
+                    $roomValue->dbID = $room->id;
+                }
+            }
+        }
+    }
+
+    /**
+     * Resolves the Untis teachers with the teachers stored in the database
+     * 
+     * @param   array  $teachers  an array of teacher objects
+     * 
+     * @return  void
+     */
+    private function resolveTeachers($teachers)
+    {
+        foreach ($this->_treeData["teacher"] as $teacherValue)
+        {
+            foreach ($teachers as $teacher)
+            {
+                if ($teacherValue->gpuntisID === $teacher->gpuntisID)
+                {
+                    $teacherValue->dbID = $teacher->id;
+                }
+            }
+        }
+    }
+
+    /**
+     * Method to get all subjects (externalID AND english name) from database
+     *
+     * @return   Array  An Array with the subejects
+     */
+    public function getSubjectsData($tag)
+    {
+        $dbo = JFactory::getDBO();
+        $query = $dbo->getQuery(true);
+
+        $query->select("externalID, name_$tag");
+        $query->from('#__thm_organizer_subjects');
+        $query->where('externalID IS NOT NULL');
+        $query->where('externalID <> ""');
+        $dbo->setQuery($query);
+        $result = $dbo->loadObjectList("externalID");
+
+        $error = $dbo->getErrorMsg();
+        if (!empty($error))
+        {
+            return array();
+        }
+        return $result;
+    }
+
     /**
      * Method to get the english subject names from the db
      * 
