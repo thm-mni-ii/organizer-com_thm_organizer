@@ -12,7 +12,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.controller');
 
 /**
  * Class performs access checks, redirects and model function calls for data persistence
