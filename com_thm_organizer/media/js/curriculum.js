@@ -136,7 +136,7 @@ function Curriculum(parameters) {
                 if (value.externalID !== undefined && parameters.displayECollab === 1) {
                     eCollabImage = '<img class="eCollabImage" src="' + parameters.ecollabIcon + '" title="eCollabLink">';
                     html += '<a href="' + parameters.ecollabLink + value.externalID + '" target="_blank">';
-                    html += eCollabImage + '</a>'
+                    html += eCollabImage + '</a>';
                 }
                 if (value.hasOwnProperty('children'))
                 {

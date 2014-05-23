@@ -1,9 +1,16 @@
-/**
- * Code from http://www.kubilayerdogan.net/javascript-export-html-table-to-excel-with-custom-file-name/
- */
+/* global $*/
 
-$(document).ready(function () {
-    $("#roomsExport").click(function(e) {
+/**
+ * Code i part from
+ * http://www.kubilayerdogan.net/javascript-export-html-table-to-excel-with-custom-file-name/
+ *
+ **/
+
+$(document).ready(function ()
+{
+    $("#roomsExport").click(function(e)
+    {
+        "use strict";
         //getting values of current time for generating the file name
         var dt = new Date();
         var day = dt.getDate();
@@ -27,7 +34,9 @@ $(document).ready(function () {
         e.preventDefault();
     });
 
-    $("#teachersExport").click(function(e) {
+    $("#teachersExport").click(function(e)
+    {
+        "use strict";
         //getting values of current time for generating the file name
         var dt = new Date();
         var day = dt.getDate();
