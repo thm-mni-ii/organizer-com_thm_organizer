@@ -40,6 +40,7 @@ class THM_OrganizerViewSubject_Manager extends JViewLegacy
         $this->pagination = $this->get('Pagination');
         $this->state = $this->get('State');
         $model = $this->getModel();
+
         $this->programSelect = $this->getProgramSelect($model->programs);
         $programID = $this->state->get('filter.program');
         if (!empty($programID) and !empty($model->pools))
