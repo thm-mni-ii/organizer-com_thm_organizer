@@ -37,7 +37,7 @@ function loadTreeData(selectedItemValue)
     Ext.Ajax.request(
     {
         url: externLinks.ajaxHandler,
-        method: 'POST',
+        method: 'GET',
         params:
         {
             departmentSemesterSelection: selectedItemValue,

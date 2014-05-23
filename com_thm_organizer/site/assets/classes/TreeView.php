@@ -518,8 +518,14 @@ class THMTreeView
      */
     public function getSubjectsData($tag)
     {
-        $query = $this->_db->getQuery(true);
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
 
+        /**
+         * the menu item should be in the url as well, but i can't invest the
+         * effort right now because of differentiating between calls from the
+         * scheduler itself and the menu settings interface in the backend
+         */
         $link = JURI::root() . 'index.php?option=com_thm_organizer&view=subject_details';
         $link .= "&languageTag=$tag&id=";
         $linkItems = array("'$link'", "id");
@@ -527,15 +533,15 @@ class THMTreeView
         $select = "externalID, name_$tag AS name, short_name_$tag AS shortname, ";
         $select .= "abbreviation_$tag AS abbreviation, ";
         $select .= $query->concatenate($linkItems) . " AS link";
-        $query->select("externalID, name_$tag");
+        $query->select($select);
         $query->from('#__thm_organizer_subjects');
         $query->where('externalID IS NOT NULL');
         $query->where('externalID <> ""');
-        $this->_db->setQuery($query);
+        $dbo->setQuery($query);
 
         try
         {
-            $result = $this->_db->loadObjectList("externalID");
+            $result = $dbo->loadObjectList("externalID");
             return $result;
         }
         catch (Exception $exception)
