@@ -512,28 +512,44 @@ class THMTreeView
     }
 
     /**
-     * Method to get all subjects (externalID AND english name) from database
+     * Method to get subject information from the database
      *
-     * @return   Array  An Array with the subejects
+     * @return   Array  An Array with the subjects
      */
     public function getSubjectsData($tag)
     {
-        $dbo = JFactory::getDBO();
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
 
+        $link = JURI::root() . 'index.php?option=com_thm_organizer&view=subject_details';
+        $link .= "&languageTag=$tag&id=";
+        $linkItems = array("'$link'", "id");
+
+        $select = "externalID, name_$tag AS name, short_name_$tag AS shortname, ";
+        $select .= "abbreviation_$tag AS abbreviation, ";
+        $select .= $query->concatenate($linkItems) . " AS link";
         $query->select("externalID, name_$tag");
         $query->from('#__thm_organizer_subjects');
         $query->where('externalID IS NOT NULL');
         $query->where('externalID <> ""');
-        $dbo->setQuery($query);
-        $result = $dbo->loadObjectList("externalID");
+        $this->_db->setQuery($query);
 
-        $error = $dbo->getErrorMsg();
-        if (!empty($error))
+        try
         {
+            $result = $this->_db->loadObjectList("externalID");
+            return $result;
+        }
+        catch (Exception $exception)
+        {
+            if (defined('DEBUG'))
+            {
+                JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+            }
+            else
+            {
+                JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_DATABASE_ERROR'), 'error');
+            }
             return array();
         }
-        return $result;
     }
 
     /**
