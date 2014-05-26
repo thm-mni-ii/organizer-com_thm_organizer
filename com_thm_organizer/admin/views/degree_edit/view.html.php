@@ -10,7 +10,8 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.view');
+include_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/editview.php';
+
 /**
  * Class loads persistent degree information into edit display context
  *
@@ -29,30 +30,8 @@ class THM_OrganizerViewDegree_Edit extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        JHtml::_('behavior.tooltip');
-
-        // Get the Data
-        $form = $this->get('Form');
-        $item = $this->get('Item');
-
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
-
-        // Check for errors.
-        if (count($errors = $this->get('Errors')))
-        {
-            JError::raiseError(500, implode('<br />', $errors));
-            return false;
-        }
-
-        // Assign the Data
-        $this->form = $form;
-        $this->item = $item;
-
-        // Set the toolbar
+        THM_OrganizerHelperEditView::setStandardEditView($this);
         $this->addToolBar();
-
-        // Display the template
         parent::display($tpl);
     }
 

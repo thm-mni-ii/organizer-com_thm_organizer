@@ -231,19 +231,7 @@ jq(document).ready(function(){
             </ul>
         </fieldset>
     </fieldset>
-    <fieldset class="adminform">
-        <legend><?php echo JText::_('COM_THM_ORGANIZER_POM_PROPERTIES_MAPPING'); ?></legend>
-        <ul class="adminformlist">
-            <li>
-                <?php echo $this->form->getLabel('programID'); ?>
-                <?php echo $this->form->getInput('programID'); ?>
-            </li>
-            <li>
-                <?php echo $this->form->getLabel('parentID'); ?>
-                <?php echo $this->form->getInput('parentID'); ?>
-            </li>
-        </ul>
-    </fieldset>
+    <?php    include JPATH_COMPONENT_ADMINISTRATOR . '/templates/mapping.php'; ?>
     <div>
         <input type="hidden" name="task" value="" />
         <?php echo $this->form->getInput('id'); ?>

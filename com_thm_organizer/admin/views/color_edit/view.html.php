@@ -10,7 +10,8 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.view');
+include_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/editview.php';
+
 /**
  * Class loads persistent color information into display context
  *
@@ -29,30 +30,8 @@ class THM_OrganizerViewColor_Edit extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
-
-        JHtml::_('behavior.tooltip');
-
-        $form = $this->get('Form');
-        $item = $this->get('Item');
-
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
-
-        if (count($errors = $this->get('Errors')))
-        {
-            JError::raiseError(500, implode('<br />', $errors));
-            return false;
-        }
-
-        $this->form = $form;
-        $this->item = $item;
-
+        THM_OrganizerHelperEditView::setStandardEditView($this);
         $this->addToolBar();
-
         parent::display($tpl);
     }
 

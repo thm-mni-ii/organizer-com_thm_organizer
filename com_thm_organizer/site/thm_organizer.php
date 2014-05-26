@@ -19,13 +19,9 @@ $componentName = "com_thm_organizer";
 
 // Get the date.
 $date = JFactory::getDate()->format('Y-m');
-
-$xml = JFactory::getXML(JPATH_ADMINISTRATOR .DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . $componentName . DIRECTORY_SEPARATOR . $componentName . '.xml');
-$componentVersion = (string)$xml->version;
-
 JLog::addLogger(
 array(
-    'text_file' => $componentName . '_' . $componentVersion . '_site' . DIRECTORY_SEPARATOR . $componentName . '_' . $date . '.php'
+    'text_file' => $componentName . '_site' . DIRECTORY_SEPARATOR . $componentName . '_' . $date . '.php'
     ),
     JLog::ALL & ~JLog::DEBUG,
     array($componentName)

@@ -29,15 +29,16 @@ class THM_OrganizerHelperMapping
     {
         $language = explode('-', JFactory::getLanguage()->getTag());
         $dbo = JFactory::getDbo();
-        $nameQuery = $dbo->getQuery(true);        
-        $nameQuery->select("dp.id, " . $nameQuery->concatenate(["dp.subject_{$language[0]}","', ('", "d.abbreviation", "' '", "dp.version", "')'"],"") . " AS name");
+        $nameQuery = $dbo->getQuery(true);
+        $name = self::getProgramNameSelect($language[0]);
+        $nameQuery->select("dp.id, $name");
         $nameQuery->from('#__thm_organizer_programs AS dp');
         $nameQuery->innerJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
         $nameQuery->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
         $nameQuery->order('name');
         $dbo->setQuery((string) $nameQuery);
         
-        try 
+        try
         {
             $programs = $dbo->loadAssocList();
         }
@@ -47,6 +48,25 @@ class THM_OrganizerHelperMapping
         }
         
         return $programs;
+    }
+
+    /**
+     * Creates a standardized name selection for use in db queries
+     * 
+     * @param  string  $language  the language in which the program should be
+     *                            displayed
+     * @param  string  $alias     the alias for the name
+     * 
+     * @return  string  the name selection string
+     */
+    public static function getProgramNameSelect($language = 'de', $alias = 'name')
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $degreeAndYear = $query->concatenate(array('d.abbreviation', 'dp.version'), ', ');
+        $nameSelect = $query->concatenate(array("dp.subject_{$language}", "($degreeAndYear)"), ', ');
+        $nameSelect.= " AS $alias";
+        return $nameSelect;
     }
 
     /**
@@ -124,7 +144,8 @@ class THM_OrganizerHelperMapping
         $language = explode('-', JFactory::getLanguage()->getTag());
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("dp.id AS value, " . $query->concatenate(["dp.subject_{$language[0]}","', ('", "d.abbreviation", "' '", "dp.version", "')'"],"") . " AS program");
+        $name = self::getProgramNameSelect($language[0], 'program');
+        $query->select("dp.id AS value, $name");
         $query->from('#__thm_organizer_programs AS dp');
         $query->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
         $query->innerJoin('#__thm_organizer_mappings AS m ON dp.id = m.programID');
@@ -434,8 +455,9 @@ class THM_OrganizerHelperMapping
     {
         $language = explode('-', JFactory::getLanguage()->getTag());
         $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);        
-        $query->select($query->concatenate(["dp.subject_{$language[0]}","', ('", "d.abbreviation", "' '", "dp.version", "')'"],"") . " AS name");
+        $query = $dbo->getQuery(true);
+        $name = self::getProgramNameSelect($language[0]);
+        $query->select($name);
         $query->from('#__thm_organizer_programs AS dp');
         $query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
         $query->where("dp.id = '{$mapping['programID']}'");
@@ -501,8 +523,9 @@ class THM_OrganizerHelperMapping
         }
 
         $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);        
-        $query->select("DISTINCT " . $query->concatenate(["'m.lft <= '","m.lft", "' AND m.rgt >= '", " m.rgt"],""));
+        $query = $dbo->getQuery(true);
+        $mappingClause = $query->concatenate(array("'m.lft <= '", 'm.lft', "' AND m.rgt >= '", 'm.rgt'));
+        $query->select("DISTINCT $mappingClause");
         $query->from('#__thm_organizer_subject_teachers AS st');
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = st.subjectID');
         $query->where("st.teacherID = '$teacherID'");
