@@ -150,8 +150,8 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
     {
         $languageTag = JRequest::getString('languageTag', 'de');
         $dbo = JFactory::getDBO();
-        $query = $dbo->getQuery(true);
-        $select = "CONCAT(p.subject_{$languageTag}, ' (', d.abbreviation, ' ', p.version, ')') AS name, ";
+        $query = $dbo->getQuery(true);        
+        $select = $query->concatenate(["p.subject_{$languageTag}","' ('", "d.abbreviation", "' '", "p.version", "')'"],"") . " AS name, ";
         $select .= "m.id AS mappingID, m.lft, m.rgt, p.description_{$languageTag} AS description";
         $query->select($select);
         $query->from('#__thm_organizer_programs AS p');
@@ -186,8 +186,8 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);
         $select = "s.id, lsfID, hisID, externalID, name_$langTag AS name, creditpoints AS maxCrP, color, ";
-        $select .= "CONCAT('index.php?option=com_thm_organizer&view=subject_details&languageTag=', ";
-        $select .= "'$langTag', '&id=', s.id, '&Itemid=', '$itemID') AS link";
+        $select .= $query->concatenate(["'index.php?option=com_thm_organizer&view=subject_details&languageTag='","'$langTag'", "'&id='", "s.id", "'&Itemid='", "'$itemID'"],"");
+        $select .= " AS link";
         $query->select($select);
         $query->from('#__thm_organizer_subjects AS s');
         $query->leftJoin('#__thm_organizer_fields AS f ON s.fieldID = f.id');
