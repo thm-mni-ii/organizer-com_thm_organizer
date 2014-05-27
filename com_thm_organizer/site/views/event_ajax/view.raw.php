@@ -55,8 +55,8 @@ class Thm_OrganizerViewEvent_Ajax extends JViewLegacy
      */
     private function booking()
     {
-        $model = $this->getModel();
-        $conflicts = $model->getConflicts();
+        $model = $this->getModel();        
+        $conflicts = $model->getConflicts();        
         if (count($conflicts))
         {
             $count = 0;

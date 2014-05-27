@@ -91,7 +91,7 @@ class Thm_OrganizerViewEvent_Edit extends JViewLegacy
         //in this case i make reference to the isis default administrator template in joomla 3.2
         $document->addCustomTag( '<link href="administrator/templates/isis/css/template.css" rel="stylesheet" type="text/css" />'."\n\n" );
         //load the JToolBar library and create a toolbar
-        jimport('cms.html.toolbar');
+        jimport('joomla.html.toolbar');
         $bar = new JToolBar( 'toolbar' );
         //and make whatever calls you require
         $bar->appendButton( 'Standard', 'save', 'Save', 'event.save', false );
@@ -109,7 +109,7 @@ class Thm_OrganizerViewEvent_Edit extends JViewLegacy
      * @return void
      */
     private function createHTMLElements()
-    {
+    {        
         $this->createResourceElement('rooms', JText::_('COM_THM_ORGANIZER_NO_ROOMS'));
         $this->createResourceElement('teachers', JText::_('COM_THM_ORGANIZER_NO_TEACHERS'));
         $this->createResourceElement('groups', JText::_('COM_THM_ORGANIZER_NO_GROUPS'));
