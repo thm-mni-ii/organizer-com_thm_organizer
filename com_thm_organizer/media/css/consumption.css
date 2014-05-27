@@ -1,8 +1,6 @@
-@CHARSET "UTF-8";
-
-table.thm_organizer_consumption_table_class
+.thm_organizer_consumption_table_class
 {
-	display: block;
+    display: block;
     max-width: 100%;
     overflow: auto;
 }

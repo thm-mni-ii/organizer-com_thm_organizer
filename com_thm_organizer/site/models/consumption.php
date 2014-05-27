@@ -122,12 +122,15 @@ class THM_OrganizerModelConsumption extends JModelLegacy
         $this->consumption['rooms'] = array();
         $this->consumption['teachers'] = array();
         
-        foreach ($this->schedule->calendar as $day => $blocks)
+        if (!empty($this->schedule))
         {
-            // Sylength is not relevant for consumption and does not have object as a value
-            if ($day != 'sylength')
+            foreach ($this->schedule->calendar as $day => $blocks)
             {
-                $this->setConsumptionByInstance($day, $blocks);
+                // Sylength is not relevant for consumption and does not have object as a value
+                if ($day != 'sylength')
+                {
+                    $this->setConsumptionByInstance($day, $blocks);
+                }
             }
         }
     }
