@@ -118,22 +118,22 @@ foreach ($this->schedules as $k => $schedule)
                     </td>
                     <td>
                         <a href="<?php echo $schedule->url; ?>">
-                            <?php echo $schedule->creationdate; ?>
+                            <?php echo date_format(date_create($schedule->creationdate), 'd.m.Y'); ?>
                         </a>
                     </td>
                     <td>
                         <a href="<?php echo $schedule->url; ?>">
-                            <?php echo $schedule->creationtime; ?>
+                            <?php echo date_format(date_create($schedule->creationtime), 'H:i'); ?>
                         </a>
                     </td>
                     <td>
                         <a href="<?php echo $schedule->url; ?>">
-                            <?php echo $schedule->startdate; ?>
+                            <?php echo date_format(date_create($schedule->startdate), 'd.m.Y'); ?>
                         </a>
                     </td>
                     <td>
                         <a href="<?php echo $schedule->url; ?>">
-                            <?php echo $schedule->enddate; ?>
+                            <?php echo date_format(date_create($schedule->enddate), 'd.m.Y'); ?>
                         </a>
                     </td>
                     <td class="thm_organizer_sch_active_td jgrid">

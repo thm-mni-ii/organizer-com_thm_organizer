@@ -69,10 +69,10 @@ class THM_OrganizerModelSchedule_Manager extends JModelList
         $query = $dbo->getQuery(true);
 
         $select = "id, departmentname, semestername, active, description, ";
-        $select .= "DATE_FORMAT(creationdate, '%d.%m.%Y') AS creationdate, ";
-        $select .= "TIME_FORMAT(creationtime, '%H:%i') AS creationtime, ";
-        $select .= "DATE_FORMAT(startdate, '%d.%m.%Y') AS startdate, ";
-        $select .= "DATE_FORMAT(enddate, '%d.%m.%Y') AS enddate ";
+        $select .= "creationdate AS creationdate, ";
+        $select .= "creationtime AS creationtime, ";
+        $select .= "startdate AS startdate, ";
+        $select .= "enddate AS enddate ";
         $query->select($this->getState("list.select", $select));
         $query->from("#__thm_organizer_schedules");
 
