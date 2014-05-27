@@ -25,48 +25,86 @@ $show = $this->form->getValue('useDefaults')? 'none' : 'block';
         radio2.onclick = function(){document.getElementById('specificSettings').style.display = 'block'};
     });
 </script>
-<form action="index.php?option=com_thm_organizer" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_thm_organizer"
+      method="post"
+      name="adminForm"
+      id="adminForm"
+      class="form-horizontal">
     <div class="width-60 fltlft">
         <fieldset class="adminform">
             <legend><?php echo $boxTitle; ?></legend>
-            <ul class="adminformlist">
-                <li>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('roomID'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('roomID'); ?>
-                </li>
-                <li>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('ip'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('ip'); ?>
-                </li>
-                <li>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('useDefaults'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('useDefaults'); ?>
-                </li>
-            </ul>
+                </div>
+            </div>
+
             <fieldset id='specificSettings' class="adminform" style="display: <?php echo $show; ?>;">
                 <legend><?php echo JText::_('COM_THM_ORGANIZER_MON_SPECIFIC_SETTINGS'); ?></legend>
-                <ul>
-                    <li>
+
+                <div class="control-group">
+                    <div class="control-label">
                         <?php echo $this->form->getLabel('display'); ?>
+                    </div>
+                    <div class="controls">
                         <?php echo $this->form->getInput('display'); ?>
-                    </li>
-                    <li>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
                         <?php echo $this->form->getLabel('schedule_refresh'); ?>
+                    </div>
+                    <div class="controls">
                         <?php echo $this->form->getInput('schedule_refresh'); ?>
-                    </li>
-                    <li>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
                         <?php echo $this->form->getLabel('content_refresh'); ?>
+                    </div>
+                    <div class="controls">
                         <?php echo $this->form->getInput('content_refresh'); ?>
-                    </li>
-                    <li>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
                         <?php echo $this->form->getLabel('content'); ?>
+                    </div>
+                    <div class="controls">
                         <?php echo $this->form->getInput('content'); ?>
-                    </li>
-                </ul>
+                    </div>
+                </div>
             </fieldset>
         </fieldset>
-        <?php echo $this->form->getInput('id'); ?>
-        <input type="hidden" name="task" value="" />
-        <?php echo JHtml::_('form.token'); ?>
+        <div>
+            <?php echo $this->form->getInput('id'); ?>
+            <?php echo JHtml::_('form.token'); ?>
+            <input type="hidden" name="task" value="" />
+        </div>
     </div>
 </form>

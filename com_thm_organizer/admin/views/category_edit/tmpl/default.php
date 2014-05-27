@@ -13,34 +13,64 @@
 
 defined('_JEXEC') or die;?>
 <form action="index.php?option=com_thm_organizer"
-      enctype="multipart/form-data" method="post" name="adminForm" id="adminForm">
+      enctype="multipart/form-data"
+      method="post"
+      name="adminForm"
+      id="adminForm"
+      class="form-horizontal">
     <div id="thm_organizer_cat" class="width-60 fltlft thm_organizer_cat tab-content">
         <fieldset class="adminform">
             <legend><?php echo ($this->form->getValue('id'))? JText::_('JTOOLBAR_EDIT') : JText::_('JTOOLBAR_NEW'); ?></legend>
-            <ul class="tab-pane [active] adminformlist" id="adminformlist">
-                <li>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('title'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('title'); ?>
-                </li>
-                <li>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('description'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('description'); ?>
-                </li>
-                <li>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('contentCatID'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('contentCatID'); ?>
-                </li>
-                <li>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('global'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('global'); ?>
-                </li>
-                <li>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('reserves'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('reserves'); ?>
-                </li>
-            </ul>
+                </div>
+            </div>
         </fieldset>
     </div>
-    <input type="hidden" name="task" value="" />
-    <?php echo $this->form->getInput('id'); ?>
+    <div>
+        <?php echo $this->form->getInput('id'); ?>
+        <?php echo JHtml::_('form.token'); ?>
+        <input type="hidden" name="task" value="" />
+    </div>
 </form>

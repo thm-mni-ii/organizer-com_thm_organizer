@@ -58,177 +58,359 @@ jq(document).ready(function(){
 });
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=subject_edit&id=' . (int) $this->item->id); ?>"
-      method="post" name="adminForm" id="adminForm">
+      method="post"
+      name="adminForm"
+      id="adminForm"
+      class="form-horizontal">
     <fieldset class="adminform">
         <legend><?php echo JText::_('COM_THM_ORGANIZER_SUM_PROPERTIES'); ?></legend>
         <fieldset>
             <legend><?php echo JText::_('COM_THM_ORGANIZER_SUM_PROPERTIES_GENERAL'); ?></legend>
             <div id="propertiesDiv">
-                <ul class="adminformlist">
-                    <li>
+
+                <div class="control-group">
+                    <div class="control-label">
                         <?php echo $this->form->getLabel('lsfID'); ?>
+                    </div>
+                    <div class="controls">
                         <?php echo $this->form->getInput('lsfID'); ?>
-                    </li>
-                    <li>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
                         <?php echo $this->form->getLabel('hisID'); ?>
+                    </div>
+                    <div class="controls">
                         <?php echo $this->form->getInput('hisID'); ?>
-                    </li>
-                    <li>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
                         <?php echo $this->form->getLabel('externalID'); ?>
+                    </div>
+                    <div class="controls">
                         <?php echo $this->form->getInput('externalID'); ?>
-                    </li>
-                    <li>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
                         <?php echo $this->form->getLabel('creditpoints'); ?>
+                    </div>
+                    <div class="controls">
                         <?php echo $this->form->getInput('creditpoints'); ?>
-                    </li>
-                    <li>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
                         <?php echo $this->form->getLabel('sws'); ?>
+                    </div>
+                    <div class="controls">
                         <?php echo $this->form->getInput('sws'); ?>
-                    </li>
-                    <li>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
                         <?php echo $this->form->getLabel('expenditure'); ?>
+                    </div>
+                    <div class="controls">
                         <?php echo $this->form->getInput('expenditure'); ?>
-                    </li>
-                    <li>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
                         <?php echo $this->form->getLabel('present'); ?>
+                    </div>
+                    <div class="controls">
                         <?php echo $this->form->getInput('present'); ?>
-                    </li>
-                    <li>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
                         <?php echo $this->form->getLabel('independent'); ?>
+                    </div>
+                    <div class="controls">
                         <?php echo $this->form->getInput('independent'); ?>
-                    </li>
-                    <li>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
                         <?php echo $this->form->getLabel('proofID'); ?>
+                    </div>
+                    <div class="controls">
                         <?php echo $this->form->getInput('proofID'); ?>
-                    </li>
-                    <li>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
                         <?php echo $this->form->getLabel('pformID'); ?>
+                    </div>
+                    <div class="controls">
                         <?php echo $this->form->getInput('pformID'); ?>
-                    </li>
-                    <li>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
                         <?php echo $this->form->getLabel('frequencyID'); ?>
+                    </div>
+                    <div class="controls">
                         <?php echo $this->form->getInput('frequencyID'); ?>
-                    </li>
-                    <li>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
                         <?php echo $this->form->getLabel('methodID'); ?>
+                    </div>
+                    <div class="controls">
                         <?php echo $this->form->getInput('methodID'); ?>
-                    </li>
-                    <li>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
                         <?php echo $this->form->getLabel('fieldID'); ?>
+                    </div>
+                    <div class="controls">
                         <?php echo $this->form->getInput('fieldID'); ?>
-                    </li>
-                    <li>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
                         <?php echo $this->form->getLabel('expertise'); ?>
+                    </div>
+                    <div class="controls">
                         <?php echo $this->form->getInput('expertise'); ?>
-                    </li>
-                    <li>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
                         <?php echo $this->form->getLabel('self_competence'); ?>
+                    </div>
+                    <div class="controls">
                         <?php echo $this->form->getInput('self_competence'); ?>
-                    </li>
-                    <li>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
                         <?php echo $this->form->getLabel('method_competence'); ?>
+                    </div>
+                    <div class="controls">
                         <?php echo $this->form->getInput('method_competence'); ?>
-                    </li>
-                    <li>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
                         <?php echo $this->form->getLabel('social_competence'); ?>
+                    </div>
+                    <div class="controls">
                         <?php echo $this->form->getInput('social_competence'); ?>
-                    </li>
-                    <li>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
                         <?php echo $this->form->getLabel('responsible'); ?>
+                    </div>
+                    <div class="controls">
                         <?php echo $this->form->getInput('responsible'); ?>
-                    </li>
-                    <li>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
                         <?php echo $this->form->getLabel('teacherID'); ?>
+                    </div>
+                    <div class="controls">
                         <?php echo $this->form->getInput('teacherID'); ?>
-                    </li>
-                </ul>
+                    </div>
+                </div>
             </div>
         </fieldset>
         <fieldset>
             <legend>
                 <?php echo JText::_('COM_THM_ORGANIZER_SUM_PROPERTIES_DE'); ?>
             </legend>
-            <ul class="adminformlist">
-                <li>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('name_de'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('name_de'); ?>
-                </li>
-                <li>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('short_name_de'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('short_name_de'); ?>
-                </li>
-                <li>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('abbreviation_de'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('abbreviation_de'); ?>
-                </li>
-                <li>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('description_de'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('description_de'); ?>
-                </li>
-                <li>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('objective_de'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('objective_de'); ?>
-                </li>
-                <li>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('content_de'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('content_de'); ?>
-                </li>
-                <li>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('preliminary_work_de'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('preliminary_work_de'); ?>
-                </li>
-                <li>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('aids_de'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('aids_de'); ?>
-                </li>
-                <li>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('evaluation_de'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('evaluation_de'); ?>
-                </li>
-            </ul>
+                </div>
+            </div>
         </fieldset>
         <fieldset>
             <legend>
                 <?php echo JText::_('COM_THM_ORGANIZER_SUM_PROPERTIES_EN'); ?>
             </legend>
-                <ul class="adminformlist">
-                <li>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('name_en'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('name_en'); ?>
-                </li>
-                <li>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('short_name_en'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('short_name_en'); ?>
-                </li>
-                <li>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('abbreviation_en'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('abbreviation_en'); ?>
-                </li>
-                <li>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('description_en'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('description_en'); ?>
-                </li>
-                <li>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('objective_en'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('objective_en'); ?>
-                </li>
-                <li>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('content_en'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('content_en'); ?>
-                </li>
-                <li>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('preliminary_work_en'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('preliminary_work_en'); ?>
-                </li>
-                <li>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('aids_en'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('aids_en'); ?>
-                </li>
-                <li>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('evaluation_en'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('evaluation_en'); ?>
-                </li>
-            </ul>
+                </div>
+            </div>
         </fieldset>
     </fieldset>
     <?php    include JPATH_COMPONENT_ADMINISTRATOR . '/templates/mapping.php'; ?>
