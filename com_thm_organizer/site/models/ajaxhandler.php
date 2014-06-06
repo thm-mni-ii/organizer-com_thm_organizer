@@ -75,6 +75,11 @@ class THM_OrganizerModelAjaxhandler extends JModelLegacy
         $taskarr = explode(".", $task);
         try
         {
+            if ($taskarr[0] == 'TreeView' AND $taskarr[1] == 'load')
+            {
+                $schedNavModel = JModel::getInstance('Schedule_Navigation', 'THM_OrganizerModel', $options);
+                return $schedNavModel->load($options);
+            }
             $classname = $taskarr[0];
             require_once JPATH_COMPONENT . "/assets/classes/" . $classname . ".php";
             $classname = "THM" . $classname;

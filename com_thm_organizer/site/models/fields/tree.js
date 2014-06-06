@@ -19,8 +19,12 @@ Ext.override(Ext.tree.Column,
 
             var checkboxText = "";
 
-            if(record.raw && record.raw.publicDefault)
+            if(record.isLeaf())
             {
+                if(record.raw.publicDefault === undefined || record.raw.publicDefault === '')
+                {
+                    record.raw.publicDefault = 'notdefault';
+                }
                 checkboxText += '<input id="'+record.data.id+'_default" type="hidden" value="'+record.raw.publicDefault+'" role="checkbox" />';
                 checkboxText += '<img id="'+record.data.id+'_default_fake" class="MySched_checkbox_default_fake" src="'+images[record.raw.publicDefault]+'">';
             }
