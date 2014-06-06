@@ -396,10 +396,15 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         }
         $query->order("DATE(startdate) ASC, starttime ASC");
         $dbo->setQuery((string) $query);
-        
         try 
         {
             $appointments = $dbo->loadAssocList();
+            foreach ($appointments as &$event) {
+                $event['startdate'] = date_format(date_create($event['startdate']),'d.m.Y');
+                $event['enddate'] = date_format(date_create($event['enddate']),'d.m.Y');
+                $event['starttime'] = date_format(date_create($event['starttime']),'H:i');
+                $event['endtime'] = date_format(date_create($event['endtime']),'H:i');
+            }
         }
         catch (runtimeException $e)
         {
@@ -480,6 +485,12 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         try 
         {
             $notices = $dbo->loadAssocList();
+            foreach ($notices as &$event) {
+                $event['startdate'] = date_format(date_create($event['startdate']),'d.m.Y');
+                $event['enddate'] = date_format(date_create($event['enddate']),'d.m.Y');
+                $event['starttime'] = date_format(date_create($event['starttime']),'H:i');
+                $event['endtime'] = date_format(date_create($event['endtime']),'H:i');
+            }
         }
         catch (runtimeException $e)
         {
@@ -523,6 +534,12 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         try 
         {
             $information = $dbo->loadAssocList();
+            foreach ($information as &$event) {
+                $event['startdate'] = date_format(date_create($event['startdate']),'d.m.Y');
+                $event['enddate'] = date_format(date_create($event['enddate']),'d.m.Y');
+                $event['starttime'] = date_format(date_create($event['starttime']),'H:i');
+                $event['endtime'] = date_format(date_create($event['endtime']),'H:i');
+            }
         }
         catch (runtimeException $e)
         {
@@ -575,6 +592,12 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         try 
         {
             $upcoming = $dbo->loadAssocList();
+            foreach ($upcoming as &$event) {
+                $event['startdate'] = date_format(date_create($event['startdate']),'d.m.Y');
+                $event['enddate'] = date_format(date_create($event['enddate']),'d.m.Y');
+                $event['starttime'] = date_format(date_create($event['starttime']),'H:i');
+                $event['endtime'] = date_format(date_create($event['endtime']),'H:i');
+            }
         }
         catch (runtimeException $e)
         {
@@ -607,11 +630,11 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     private function select()
     {
         $select = "DISTINCT (e.id) AS id, c.title AS title, ";
-        $select .= "DATE_FORMAT(e.startdate, '%d.%m.%Y') AS startdate, ";
-        $select .= "DATE_FORMAT(e.enddate, '%d.%m.%Y') AS enddate, ";
+        $select .= "e.startdate AS startdate, ";
+        $select .= "e.enddate AS enddate, ";
         $select .= "c.fulltext AS description, ";
-        $select .= "SUBSTRING(e.starttime, 1, 5) AS starttime, ";
-        $select .= "SUBSTRING(e.endtime, 1, 5) AS endtime, ";
+        $select .= "e.starttime AS starttime, ";
+        $select .= "e.endtime AS endtime, ";
         $select .= "e.recurrence_type AS rec_type";
         return $select;
     }

@@ -27,6 +27,6 @@
                type="sql"
                label="COM_THM_ORGANIZER_RMM_TYPE_TITLE"
                description="COM_THM_ORGANIZER_RMM_TYPE_DESC"
-               query="SELECT id AS value, CONCAT(type, ', ', subtype) AS typeID FROM #__thm_organizer_room_types" />
+               query="SELECT id AS value, CONCATENATE(type, ', ', subtype) AS typeID FROM #__thm_organizer_room_types" />
     </fieldset>
 </form>

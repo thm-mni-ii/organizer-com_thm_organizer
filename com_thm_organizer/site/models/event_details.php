@@ -75,7 +75,7 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
         $dbo = JFactory::getDBO();
 
         $query = $dbo->getQuery(true);
-        $query->select($this->getSelect());
+        $query->select($this->getSelect());        
         $query->from("#__thm_organizer_events AS e");
         $query->innerJoin("#__content AS c ON e.id = c.id");
         $query->innerJoin("#__users AS u ON c.created_by = u.id");
@@ -87,7 +87,13 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
         try
         {
             $event = $dbo->loadAssoc();
-        }
+            $event['startdate'] =  date_format(date_create($event['startdate']),'d.m.Y');
+            $event['enddate'] =  date_format(date_create($event['enddate']),'d.m.Y');
+            $event['publish_up'] =  date_format(date_create($event['publish_up']),'d.m.Y');
+            $event['starttime'] =  date_format(date_create($event['starttime']),'H:i');
+            $event['endtime'] =  date_format(date_create($event['endtime']),'H:i');
+             
+        }        
         catch (runtimeException $e)
         {
             throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT"), 500);
@@ -175,10 +181,10 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
     {
         $select = "e.id AS id, ";
         $select .= "e.categoryID AS eventCategoryID, ";
-        $select .= "DATE_FORMAT(e.startdate, '%d.%m.%Y') AS startdate, ";
-        $select .= "DATE_FORMAT(e.enddate, '%d.%m.%Y') AS enddate, ";
-        $select .= "SUBSTR(e.starttime, 1, 5) AS starttime, ";
-        $select .= "SUBSTR(e.endtime, 1, 5) AS endtime, ";
+        $select .= "e.startdate AS startdate, ";
+        $select .= "e.enddate AS enddate, ";
+        $select .= "e.starttime AS starttime, ";
+        $select .= "e.endtime AS endtime, ";
         $select .= "e.recurrence_type AS rec_type, ";
         $select .= "ecat.title AS eventCategory, ";
         $select .= "ecat.description AS eventCategoryDesc, ";
@@ -187,8 +193,8 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
         $select .= "ecat.reserves, ";
         $select .= "c.title AS title, ";
         $select .= "c.fulltext AS description, ";
-        $select .= "DATE_FORMAT(c.publish_up, '%d.%m.%Y') AS publish_up, ";
-        $select .= "DATE_FORMAT(c.publish_down, '%d.%m.%Y') AS publish_down, ";
+        $select .= "c.publish_up AS publish_up, ";
+        $select .= "c.publish_down AS publish_down, ";
         $select .= "c.access AS contentAccess, ";
         $select .= "ccat.title AS contentCategory, ";
         $select .= "ccat.description AS contentCategoryDesc, ";

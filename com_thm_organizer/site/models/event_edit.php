@@ -74,6 +74,10 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
         try 
         {
             $event = $dbo->loadAssoc();
+            $event['startdate'] =  date_format(date_create($event['startdate']),'d.m.Y');
+            $event['enddate'] =  date_format(date_create($event['enddate']),'d.m.Y');
+            $event['starttime'] =  date_format(date_create($event['starttime']),'H:i');
+            $event['endtime'] =  date_format(date_create($event['endtime']),'H:i');            
         }
         catch (runtimeException $e)
         {
@@ -136,10 +140,10 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
     {
         $select = "e.id AS id, ";
         $select .= "e.categoryID AS categoryID, ";
-        $select .= "DATE_FORMAT(e.startdate, '%d.%m.%Y') AS startdate, ";
-        $select .= "DATE_FORMAT(e.enddate, '%d.%m.%Y') AS enddate, ";
-        $select .= "SUBSTR(e.starttime, 1, 5) AS starttime, ";
-        $select .= "SUBSTR(e.endtime, 1, 5) AS endtime, ";
+        $select .= "e.startdate AS startdate, ";
+        $select .= "e.enddate AS enddate, ";
+        $select .= "e.starttime  AS starttime, ";
+        $select .= "e.endtime AS endtime, ";
         $select .= "e.recurrence_type, ";
         $select .= "c.title AS title, ";
         $select .= "c.fulltext AS description, ";

@@ -201,8 +201,8 @@ function setSubjectListSegments(&$query, &$segments, &$item)
     }
 
     $dbo = JFactory::getDbo();
-    $programQuery = $dbo->getQuery(true);
-    $programQuery->select("CONCAT(p.subject, ' (', d.abbreviation, ' ', p.version, ')')");
+    $programQuery = $dbo->getQuery(true);    
+    $programQuery->select($programQuery->concatenate(["p.subject","' ('", "d.abbreviation", ' ', "p.version", "')'"],""));
     $programQuery->from('#__thm_organizer_programs AS p')->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
     $programQuery->where("p.id = '$programID'");
     $dbo->setQuery((string) $programQuery);

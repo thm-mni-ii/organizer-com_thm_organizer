@@ -51,8 +51,8 @@ class THM_OrganizerModelConsumption extends JModelLegacy
     {
         $query = $this->_db->getQuery(true);
 
-        $concatColumns = array('departmentname', 'semestername');
-        $select = 'id, ' . $query->concatenate($concatColumns, ' - ') . ' AS name';
+        $Columns = array('departmentname', 'semestername');
+        $select = 'id, ' . $query->concatenate($Columns, ' - ') . ' AS name';
         $query->select($select);
         $query->from("#__thm_organizer_schedules");
         $query->order('name');
@@ -121,8 +121,8 @@ class THM_OrganizerModelConsumption extends JModelLegacy
         $this->consumption = array();
         $this->consumption['rooms'] = array();
         $this->consumption['teachers'] = array();
-        
-        if (!empty($this->schedule))
+
+        if(isset($this->schedule->calendar))
         {
             foreach ($this->schedule->calendar as $day => $blocks)
             {

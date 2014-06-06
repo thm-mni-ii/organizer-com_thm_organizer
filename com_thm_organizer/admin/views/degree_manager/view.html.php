@@ -55,7 +55,7 @@ class THM_OrganizerViewDegree_Manager extends JViewLegacy
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_DEG_TOOLBAR_TITLE'), 'organizer_degrees');
         JToolbarHelper::addNew('degree.add', 'JTOOLBAR_NEW');
         JToolbarHelper::editList('degree.edit', 'JTOOLBAR_EDIT');
-        JToolbarHelper::deleteList('', 'degree.delete', 'JTOOLBAR_DELETE');
+        JToolbarHelper::deleteList(JText::_('COM_THM_ORGANIZER_DEG_DELETE_CONFIRM'), 'degree.delete', 'JTOOLBAR_DELETE');
         JToolbarHelper::divider();
         JToolbarHelper::preferences('com_thm_organizer');
     }

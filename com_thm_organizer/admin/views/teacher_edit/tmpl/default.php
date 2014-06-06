@@ -14,24 +14,30 @@ defined('_JEXEC') or die;
 ?>
 <form
     action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=teacher_edit&id=' . (int) $this->item->id); ?>"
-    method="post" name="adminForm" id="adminForm">
+    method="post"
+    name="adminForm"
+    id="adminForm"
+    class="form-horizontal">
     <fieldset class="adminform">
         <legend><?php echo JText::_('COM_THM_ORGANIZER_TRM_PROPERTIES'); ?></legend>
         <ul class="adminformlist">
 <?php
 foreach ($this->form->getFieldset() as $field)
 {
-    echo '<li>';
+    echo "<div class=\"control-group\">";
+    echo "<div class=\"control-label\">";
     echo $field->label;
+    echo "</div>";
+    echo "<div class=\"controls\">";
     echo $field->input;
-    echo '</li>';
-
+    echo "</div>";
+    echo "</div>";
 }
 ?>
         </ul>
     </fieldset>
     <div>
-        <input type="hidden" name="task" value="teacher.edit" />
         <?php echo JHtml::_('form.token'); ?>
+        <input type="hidden" name="task" value="teacher.edit" />
     </div>
 </form>

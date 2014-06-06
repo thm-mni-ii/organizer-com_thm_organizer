@@ -22,5 +22,6 @@ defined('_JEXEC') or die;
     <?php echo $this->schedulesSelectBox; ?>
     <input type="hidden" name="task" value="consumption.getConsumption" />
 </form>
-<?php echo $this->roomsTable; ?>
-<?php echo $this->teachersTable;
+<?php
+echo $this->roomsTable;
+echo $this->teachersTable;

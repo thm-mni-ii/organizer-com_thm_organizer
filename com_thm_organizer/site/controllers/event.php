@@ -25,7 +25,7 @@ require_once JPATH_SITE . '/components/com_thm_organizer/helper/event.php';
  * @link        www.mni.thm.de
  * @since       v0.0.1
  */
-class THM_OrganizerControllerEvent extends JControllerAdmin
+class THM_OrganizerControllerEvent extends JControllerLegacy
 {
     /**
      * edit

@@ -62,7 +62,7 @@ else
         d.removeChild(olddiv);
     }
  
-    function build_url() {
+    function build_url() {        
         var url = "<?php echo $this->baseurl; ?>";
         url = url + "/index.php?option=com_thm_organizer&view=event_ajax&format=raw&eventID=";;
         url = url + jq('#jform_id').val() + "&title=";

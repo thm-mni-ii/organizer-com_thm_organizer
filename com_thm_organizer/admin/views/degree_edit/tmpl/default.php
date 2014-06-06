@@ -13,25 +13,42 @@ defined('_JEXEC') or die;
 ?>
 <form
     action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=degree_edit&id=' . (int) $this->item->id); ?>"
-    method="post" name="adminForm" id="adminForm">
-    <fieldset class="adminform">
+    method="post"
+    name="adminForm"
+    id="adminForm"
+    class="form-horizontal">
+    <fieldset>
         <legend>
             <?php echo JText::_('COM_THM_ORGANIZER_DEG_PROPERTIES')?>
         </legend>
-        <ul class="adminformlist">
-            <li>
+
+        <div class="control-group">
+            <div class="control-label">
                 <?php echo $this->form->getLabel('name'); ?>
+            </div>
+            <div class="controls">
                 <?php echo $this->form->getInput('name'); ?>
-            </li>
-            <li>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
                 <?php echo $this->form->getLabel('abbreviation'); ?>
+            </div>
+            <div class="controls">
                 <?php echo $this->form->getInput('abbreviation'); ?>
-            </li>
-            <li>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
                 <?php echo $this->form->getLabel('lsfDegree'); ?>
+            </div>
+            <div class="controls">
                 <?php echo $this->form->getInput('lsfDegree'); ?>
-            </li>
-        </ul>
+            </div>
+        </div>
+
     </fieldset>
     <div>
         <?php echo $this->form->getInput('id'); ?>

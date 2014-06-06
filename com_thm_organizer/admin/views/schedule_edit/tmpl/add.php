@@ -17,28 +17,44 @@ defined("_JEXEC") or die;?>
       enctype="multipart/form-data"
       method="post"
       name="adminForm"
-      id="adminForm">
+      id="adminForm"
+      class="form-horizontal">
     <div id="thm_organizer_se" class="width-60 fltlft thm_organizer_se">
         <fieldset class="adminform">
             <legend><?php echo $this->legend; ?></legend>
-            <ul class="adminformtable">
-                <li>
+
+            <div class="control-group">
+                <div class="control-label">
                     <label class="thm_organizer_label" for="file">
                         <?php echo JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_TITLE"); ?>
                     </label>
+                </div>
+                <div class="controls">
                     <input name="file" type="file" />
-                </li>
-                <li>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('rooms_assignment_required'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('rooms_assignment_required'); ?>
-                </li>
-                <li>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('description'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('description'); ?>
-                </li>
-            </ul>
+                </div>
+            </div>
+
         </fieldset>
     </div>
-    <input type="hidden" name="task" value="" />
     <input type="hidden" name="scheduleID" value="<?php echo $this->form->getValue('id'); ?>" />
+    <?php echo JHtml::_('form.token'); ?>
+    <input type="hidden" name="task" value="" />
 </form>

@@ -317,10 +317,10 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $select = "DISTINCT(c.id), c.title, u.name AS author, e.recurrence_type AS rec_type, ";
-        $select .= "DATE_FORMAT(e.startdate, '%d.%m.%Y') AS startdate, ";
-        $select .= "DATE_FORMAT(e.enddate, '%d.%m.%Y') AS enddate, ";
-        $select .= "SUBSTR(e.starttime, 1, 5) AS starttime, ";
-        $select .= "SUBSTR(e.endtime, 1, 5) AS endtime ";
+        $select .= "e.startdate AS startdate, ";
+        $select .= "e.enddate AS enddate, ";
+        $select .= "e.starttime AS starttime, ";
+        $select .= "e.endtime AS endtime ";
         $query->select($select);
         $query->from("#__thm_organizer_events AS e");
         $query->innerJoin("#__content AS c ON e.id = c.id");
@@ -337,9 +337,20 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         {
             $query->leftJoin("#__thm_organizer_event_groups AS eg ON e.id = eg.eventID");
         }
-        $dailyEvents = $this->getDailyEvents($query);
+        $dailyEvents = $this->getDailyEvents($query);             
+        foreach ($dailyEvents as &$event) {
+            $event['startdate'] = date_format(date_create($event['startdate']), 'd.m.Y');
+            $event['enddate'] = date_format(date_create($event['enddate']), 'd.m.Y');
+            $event['starttime'] = date_format(date_create($event['starttime']), 'H:i');
+            $event['endtime'] = date_format(date_create($event['endtime']), 'H:i');
+        }
         $blockEvents = $this->getBlockEvents($query);
-
+        foreach ($blockEvents as &$event) {
+            $event['startdate'] = date_format(date_create($event['startdate']), 'd.m.Y');
+            $event['enddate'] = date_format(date_create($event['enddate']), 'd.m.Y');
+            $event['starttime'] = date_format(date_create($event['starttime']), 'H:i');
+            $event['endtime'] = date_format(date_create($event['endtime']), 'H:i');
+        }
         $events = array();
         if (isset($dailyEvents) and isset($blockEvents))
         {
@@ -418,7 +429,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         
         try
         {
-            $dailyEvents =  $dbo->loadAssocList();
+            $dailyEvents =  $dbo->loadAssocList();            
         }
         catch (runtimeException $e)
         {

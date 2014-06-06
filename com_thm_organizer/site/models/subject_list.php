@@ -242,8 +242,8 @@ class THM_OrganizerModelSubject_List extends JModelList
         }
         $select[] = "s.name_$languageTag AS name";
         $select[] = 's.creditpoints';
-        $select[] = 's.externalID';
-        $select[] = "CONCAT($subjectLink, s.id) AS subjectLink";
+        $select[] = 's.externalID';        
+        $select[] = $subjectsQuery->concatenate(["$subjectLink","s.id"],"") . " AS subjectLink";
         $subjectsQuery->select($select);
         $subjectsQuery->where("m1.lft > '{$programInformation['lft']}' AND  m1.rgt < '{$programInformation['rgt']}'");
 
@@ -271,8 +271,8 @@ class THM_OrganizerModelSubject_List extends JModelList
         $programID = $this->state->get('programID');
         $languageTag = $this->state->get('languageTag');
 
-        $query = $this->_db->getQuery(true);
-        $query->select("CONCAT(p.subject_$languageTag, ' (', d.abbreviation, ' ', p.version, ')') AS name, lft, rgt");
+        $query = $this->_db->getQuery(true);        
+        $query->select($query->concatenate(["p.subject_$languageTag","' ('", "d.abbreviation", ' ', "p.version", "')'"],"") . " AS name, lft, rgt");
         $query->from('#__thm_organizer_programs AS p');
         $query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.id');

@@ -13,55 +13,108 @@
 defined("_JEXEC") or die;
 ?>
 <form action="<?php echo JRoute::_("index.php?option=com_thm_organizer"); ?>"
-      enctype="multipart/form-data" method="post" name="adminForm" id="adminForm">
+      enctype="multipart/form-data"
+      method="post"
+      name="adminForm"
+      id="adminForm"
+      class="form-horizontal">
     <div id="thm_organizer_se" class="width-60 fltlft thm_organizer_se">
         <fieldset class="adminform">
             <legend><?php echo $this->legend; ?></legend>
-            <ul class="adminformtable">
-                <li id="vse_name">
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('name'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('name'); ?>
-                </li>
-                <li id="vse_type">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('type'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('type'); ?>
-                </li>
-                <li id="vse_semester">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('semester'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('semester'); ?>
-                </li>
-                <li id="vse_responsible">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('responsible'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('responsible'); ?>
-                </li>
-                <li id="vse_teacherDepartment">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('TeacherDepartment'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('TeacherDepartment'); ?>
-                </li>
-                <li id="vse_roomDepartment">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('RoomDepartment'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('RoomDepartment'); ?>
-                </li>
-                <li id="vse_classDepartment">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('ClassDepartment'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('ClassDepartment'); ?>
-                </li>
-                <li id="vse_teachers">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('Teachers'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('Teachers'); ?>
-                </li>
-                <li id="vse_rooms">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('Rooms'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('Rooms'); ?>
-                </li>
-                <li id="vse_classes">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('Classes'); ?>
+                </div>
+                <div class="controls">
                     <?php echo $this->form->getInput('Classes'); ?>
-                </li>
-            </ul>
+                </div>
+            </div>
         </fieldset>
     </div>
-    <input type="hidden" name="task" value="" />
     <?php echo $this->form->getInput('vid'); ?>
     <?php echo $this->form->getInput('id'); ?>
+    <?php echo JHtml::_('form.token'); ?>
+    <input type="hidden" name="task" value="" />
 </form>
