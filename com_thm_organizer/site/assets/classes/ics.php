@@ -182,14 +182,7 @@ class THMICSBuilder extends THMAbstractBuilder
         ->setCellValue('G1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TIME_OF"))
         ->setCellValue('H1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TO_TIME"));
 
-        $this->_objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
-        $this->_objPHPExcel->getActiveSheet()->getStyle('B1')->getFont()->setBold(true);
-        $this->_objPHPExcel->getActiveSheet()->getStyle('C1')->getFont()->setBold(true);
-        $this->_objPHPExcel->getActiveSheet()->getStyle('D1')->getFont()->setBold(true);
-        $this->_objPHPExcel->getActiveSheet()->getStyle('E1')->getFont()->setBold(true);
-        $this->_objPHPExcel->getActiveSheet()->getStyle('F1')->getFont()->setBold(true);
-        $this->_objPHPExcel->getActiveSheet()->getStyle('G1')->getFont()->setBold(true);
-        $this->_objPHPExcel->getActiveSheet()->getStyle('H1')->getFont()->setBold(true);
+        $this->_objPHPExcel->getActiveSheet()->getStyle('A1:H1')->getFont()->setBold(true);
     }
 
     /**
@@ -315,15 +308,7 @@ class THMICSBuilder extends THMAbstractBuilder
         ->setCellValue('H1', JText::_("COM_THM_ORGANIZER_SCHEDULER_ROOM"))
         ->setCellValue('I1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TEACHER"));
 
-        $this->_objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
-        $this->_objPHPExcel->getActiveSheet()->getStyle('B1')->getFont()->setBold(true);
-        $this->_objPHPExcel->getActiveSheet()->getStyle('C1')->getFont()->setBold(true);
-        $this->_objPHPExcel->getActiveSheet()->getStyle('D1')->getFont()->setBold(true);
-        $this->_objPHPExcel->getActiveSheet()->getStyle('E1')->getFont()->setBold(true);
-        $this->_objPHPExcel->getActiveSheet()->getStyle('F1')->getFont()->setBold(true);
-        $this->_objPHPExcel->getActiveSheet()->getStyle('G1')->getFont()->setBold(true);
-        $this->_objPHPExcel->getActiveSheet()->getStyle('H1')->getFont()->setBold(true);
-        $this->_objPHPExcel->getActiveSheet()->getStyle('I1')->getFont()->setBold(true);
+        $this->_objPHPExcel->getActiveSheet()->getStyle('A1:I1')->getFont()->setBold(true);
     }
 
     /**

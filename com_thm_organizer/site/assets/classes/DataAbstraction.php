@@ -279,7 +279,7 @@ class THM_OrganizerDataAbstraction
      */
     public function getDoc()
     {
-        $doc =& JFactory::getDocument();
+        $doc = JFactory::getDocument();
         return $doc;
     }
 }
