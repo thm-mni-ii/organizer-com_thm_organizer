@@ -182,39 +182,6 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
     }
 
     /**
-     * Loads an array of prerequisite names and links into the subject model if
-     * existent.
-     *
-     * @return void
-     */
-    private function setPrerequisites()
-    {
-        $link = "index.php?option=com_thm_organizer&view=subject_details&languageTag={$this->languageTag}&Itemid={$this->menuID}&id=";
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);        
-        $query->select("name_$this->languageTag AS name, " . $query->concatenate(["'$link'","prerequisite"],"") . " AS link");
-        $query->from('#__thm_organizer_prerequisites AS p');
-        $query->innerJoin('#__thm_organizer_subjects AS s ON p.prerequisite = s.id');
-        $query->where("p.subjectID = '$this->subjectID'");
-        $query->order('name');
-        $dbo->setQuery((string) $query);
-        
-        try 
-        {
-            $prerequisites = $dbo->loadAssocList();
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_PREREQUISITES"), 500);
-        }
-
-        if (!empty($prerequisites))
-        {
-            $this->subject['prerequisites'] = $prerequisites;
-        }
-    }
-
-    /**
      * Loads an array of names and links into the subject model for subjects for
      * which this subject is a prerequisite.
      *

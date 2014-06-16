@@ -10,6 +10,8 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
+$languageLongTag = explode('-', JFactory::getLanguage()->getTag());
+$language = $languageLongTag[0];
 ?>
 <script type="text/javascript">
 var jq = jQuery.noConflict();
@@ -33,6 +35,7 @@ jq(document).ready(function(){
         poolUrl += "&view=pool_ajax&format=raw&task=poolDegreeOptions";
         poolUrl += "&ownID=<?php echo $this->form->getValue('id'); ?>";
         poolUrl += "&programID=" + selectedPrograms + "&subject=true";
+        poolUrl += "&languageTag=" + '<?php echo $language; ?>';
         jq.get(poolUrl, function(options){
             jq('#jformparentID').html(options);
             var newSelectedParents = jq('#jformparentID').val();

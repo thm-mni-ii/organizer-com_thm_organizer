@@ -20,6 +20,9 @@ $rawPoolURL = 'index.php?option=com_thm_organizer&view=pool_manager';
 $poolURL = JRoute::_($rawPoolURL, false);
 $rawSubjectURL = 'index.php?option=com_thm_organizer&view=subject_manager';
 $subjectURL = JRoute::_($rawSubjectURL, false);
+$languageLongTag = explode('-', JFactory::getLanguage()->getTag());
+$language = $languageLongTag[0];
+
 ?>
 <script type="text/javascript">
 var jq = jQuery.noConflict();
@@ -43,6 +46,7 @@ jq(document).ready(function(){
         poolUrl += "&view=pool_ajax&format=raw&task=poolDegreeOptions";
         poolUrl += "&ownID=<?php echo $this->form->getValue('id'); ?>";
         poolUrl += "&programID=" + selectedPrograms;
+        poolUrl += "&languageTag=" + '<?php echo $language; ?>';
         jq.get(poolUrl, function(options){
             jq('#jformparentID').html(options);
             var newSelectedParents = jq('#jformparentID').val();
@@ -210,8 +214,8 @@ jq(document).ready(function(){
         </div>
 
     </fieldset>
-    <?php    include JPATH_COMPONENT_ADMINISTRATOR . '/templates/mapping.php'; ?>
-    <?php    include JPATH_COMPONENT_ADMINISTRATOR . '/templates/children.php'; ?>
+    <?php include_once JPATH_COMPONENT_ADMINISTRATOR . '/templates/mapping.php'; ?>
+    <?php include_once JPATH_COMPONENT_ADMINISTRATOR . '/templates/children.php'; ?>
     <div>
         <?php echo $this->form->getInput('id'); ?>
         <?php echo JHtml::_('form.token'); ?>

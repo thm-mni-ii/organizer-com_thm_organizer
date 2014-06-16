@@ -25,48 +25,41 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
     /**
      * Retrieves pool options for a given curriculum element
      *
-     * @return string
+     * @return  string
      */
     public function poolDegreeOptions()
     {
-        $isSubject = JRequest::getBool('subject');
+        $input = JFactory::getApplication()->input;
+        $isSubject = $input->getBool('subject', false);
+        $ownID = $input->getInt('ownID', 0);
         $programEntries = $this->getProgramEntries($isSubject);
 
-        // Selected programs have not been mapped, should not happen
-        if (empty($programEntries))
+        // Called from a new resource or the selected programs have not been mapped
+        $callerInvalid = (empty($ownID) OR empty($programEntries));
+        if ($callerInvalid)
         {
             return '';
         }
 
         $programMappings = THM_OrganizerHelperMapping::getProgramMappings($programEntries);
-        $programIDs = JRequest::getString('programID');
+        $programIDs = $input->getString('programID', '');
         $programIDArray = explode(',', $programIDs);
 
-        $noProgramsMappings = empty($programMappings);
-        $noValidMappings = (count($programIDArray) == count($programMappings)) AND $isSubject;
-        $dontOfferOptions = $noProgramsMappings OR $noValidMappings;
-        if ($dontOfferOptions)
+        $offerOptions = $this->offerOptions($programMappings, $programIDArray, $isSubject);
+        if (!$offerOptions)
         {
             return '';
         }
 
-        $ownID = JRequest::getInt('ownID');
-        $resourceID = $this->getResourceID($ownID, $isSubject);
-        $parentIDs = array();
-        $ownIDs = $isSubject? null : array();
-        $mappings = $isSubject? null : array();
-        THM_OrganizerHelperMapping::getMappingData($resourceID, $mappings, $parentIDs, $ownIDs);
-        if (!$isSubject)
-        {
-            $children = THM_OrganizerHelperMapping::getChildren($mappings);
-            $unwantedMappings = array_merge($ownIDs, $children);
-        }
-        $unwantedMappings = $isSubject? null : array_merge($ownIDs, $children);
+        $parentIDs = $ownIDs = $mappings = array();
+        THM_OrganizerHelperMapping::getMappingData($ownID, $mappings, $parentIDs, $ownIDs);
+        $unSelectableMappings = $this->getUnselectableMappings($isSubject, $mappings, $ownIDs);
 
         $options = array();
         $options[] = '<option value="-1">' . JText::_('COM_THM_ORGANIZER_POM_NO_PARENT') . '</option>';
 
-        $this->fillOptions($options, $programMappings, $unwantedMappings, $parentIDs, $isSubject);
+        $language = $input->getString('languageTag', 'de');
+        $this->fillOptions($options, $programMappings, $unSelectableMappings, $parentIDs, $isSubject, $language);
         return implode('', $options);
     }
 
@@ -77,7 +70,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
      */
     private function getProgramEntries()
     {
-        $programIDs = "'" . str_replace(",", "', '", JFactory::getApplication()->input->getString('programID')) . "'";
+        $programIDs = "'" . str_replace(",", "', '", JFactory::getApplication()->input->getString('programID', '0')) . "'";
 
         $query = $this->_db->getQuery(true);
         $query->select('id, programID, lft, rgt');
@@ -99,23 +92,74 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
     }
 
     /**
+     * Retrieves an array of mappings which should not be available for selection
+     * as the parent of the resource
+     * 
+     * @param   boolean  $isSubject  whether or not the resource is a subject
+     * @param   array    &$mappings  the existing mappings of the resource
+     * @param   array    &$ownIDs    the mapping ids for the resource
+     * 
+     * @return  array  the ids which should be unselectable
+     */
+    private function getUnselectableMappings($isSubject, &$mappings, &$ownIDs)
+    {
+        if ($isSubject)
+        {
+            return array();
+        }
+        $children = THM_OrganizerHelperMapping::getChildren($mappings);
+        return array_merge($ownIDs, $children);
+    }
+
+    /**
+     * Determines whether association options should be offered
+     * 
+     * @param   array    &$programMappings  the program mappings retrieved
+     * @param   array    &$programIDArray   the requested program ids
+     * @param   boolean  $isSubject         whether or not the request was sent
+     *                                      from the subject edit view
+     * 
+     * @return  boolean  true if association options should be offered, otherwise
+     *                   false
+     */
+    private function offerOptions(&$programMappings, &$programIDArray, $isSubject)
+    {
+        // No valid mappings
+        if (empty($programMappings))
+        {
+            return false;
+        }
+
+        // If there are only program mappings, subjects cannot be mapped
+        if (count($programIDArray) == count($programMappings) AND $isSubject)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Fills the options array with HTML pool options
      *
-     * @param   array    &$options           an array to store the options in
-     * @param   array    &$programMappings   mappings belonging to one of the requested programs
-     * @param   array    &$unwantedMappings  mappings which would lead to data inconsistency
-     * @param   array    &$parentIDs         previously mapped parents
-     * @param   boolean  $isSubject          whether the calling element is a subject
+     * @param   array    &$options               an array to store the options in
+     * @param   array    &$programMappings       mappings belonging to one of the
+     *                                           requested programs
+     * @param   array    &$unselectableMappings  mappings which would lead to data
+     *                                           inconsistency
+     * @param   array    &$parentIDs             previously mapped parents
+     * @param   boolean  $isSubject              whether the calling element is a
+     *                                           subject
+     * @param   string   $language               the language tag of the active language
      *
      * @return  void
      */
-    private function fillOptions(&$options, &$programMappings, &$unwantedMappings, &$parentIDs, $isSubject)
+    private function fillOptions(&$options, &$programMappings, &$unselectableMappings, &$parentIDs, $isSubject, $language = 'de')
     {
-        $language = explode('-', JFactory::getLanguage()->getTag());
         foreach ($programMappings as $mapping)
         {
             if (!empty($mapping['subjectID'])
-             OR (!empty($unwantedMappings) AND in_array($mapping['id'], $unwantedMappings)))
+             OR (!empty($unselectableMappings) AND in_array($mapping['id'], $unselectableMappings)))
             {
                 continue;
             }
@@ -125,37 +169,9 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
             }
             else
             {
-                $options[] = THM_OrganizerHelperMapping::getProgramOption($mapping, $parentIDs, $isSubject);
+                $options[] = THM_OrganizerHelperMapping::getProgramOption($mapping, $language, $parentIDs, $isSubject);
             }
         }
-    }
-
-    /**
-     * Retrieves the resource id
-     *
-     * @param   int      $mappingID  the mapping id
-     * @param   boolean  $isSubject  if the calling element is a subject
-     *
-     * @return  int
-     */
-    private function getResourceID($mappingID, $isSubject)
-    {
-        $query = $this->_db->getQuery(true);
-        $query->select($isSubject? 'subjectID' : 'poolID');
-        $query->from('#__thm_organizer_mappings');
-        $query->where("id = '$mappingID'");
-        $this->_db->setQuery((string) $query);
-        
-        try 
-        {
-            $resourceID = $this->_db->loadResult();
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_RESOURCE_DATA"), 500);
-        }
-        
-        return $resourceID;
     }
 
     /**
@@ -167,7 +183,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
     public function poolsByProgramOrTeacher()
     {
         $input = JFactory::getApplication()->input;
-        $selectedProgram = $input->getInt('programID');
+        $selectedProgram = $input->getInt('programID', 0);
         if (empty($selectedProgram) OR $selectedProgram == '-1')
         {
             return '[]';
@@ -181,9 +197,9 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
             return '[]';
         }
 
-        $lang = explode('-', JFactory::getLanguage()->getTag());
+        $lang = JFactory::getApplication()->input->getString('languageTag', 'de');
         $query = $this->_db->getQuery(true);
-        $query->select("p.id, p.name_{$lang[0]} AS name, m.level");
+        $query->select("p.id, p.name_{$lang} AS name, m.level");
         $query->from('#__thm_organizer_pools AS p');
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
         if (!empty($programBounds))
