@@ -119,16 +119,13 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
         $select .= "objective_$this->languageTag AS objective, content_$this->languageTag AS content, instructionLanguage, ";
         $select .= "preliminary_work_$this->languageTag AS preliminary_work, literature, creditpoints, expenditure, ";
         $select .= "present, independent, proof_$this->languageTag AS proof, frequency_$this->languageTag AS frequency, ";
-        $select .= "method_$this->languageTag AS method, pform_$this->languageTag AS pform, ";
+        $select .= "method_$this->languageTag AS method, ";
         $select .= "prerequisites_$this->languageTag AS prerequisites, aids_$this->languageTag AS aids, ";
         $select .= "evaluation_$this->languageTag AS evaluation, sws, expertise, method_competence, self_competence, social_competence";
 
         $query->select($select);
         $query->from('#__thm_organizer_subjects AS s');
         $query->leftJoin('#__thm_organizer_frequencies AS f ON s.frequencyID = f.id');
-        $query->leftJoin('#__thm_organizer_methods AS m ON s.methodID = m.id');
-        $query->leftJoin('#__thm_organizer_proof AS p ON s.proofID = p.id');
-        $query->leftJoin('#__thm_organizer_pforms AS form ON s.pformID = form.id');
         $query->where("s.id = '$this->subjectID'");
         $dbo->setQuery((string) $query);
         

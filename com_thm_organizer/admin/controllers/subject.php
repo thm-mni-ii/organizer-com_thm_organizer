@@ -22,22 +22,6 @@ jimport('joomla.application.component.controller');
 class THM_OrganizerControllerSubject extends JControllerLegacy
 {
     /**
-     * Performs access checks, sets the id variable to 0, and redirects to the
-     * subject edit view
-     *
-     * @return void
-     */
-    public function add()
-    {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
-        JRequest::setVar('id', '0');
-        $this->setRedirect("index.php?option=com_thm_organizer&view=subject_edit");
-    }
-
-    /**
      * Performs access checks and redirects to the subject edit view
      *
      * @return  void

@@ -139,98 +139,26 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         $this->setAttribute($subject, 'short_name_en', (string) $dataObject->kurznameen, $subject->short_name_de);
         $this->setAttribute($subject, 'name_de', (string) $dataObject->titelde);
         $this->setAttribute($subject, 'name_en', (string) $dataObject->titelen, $subject->name_de);
-        $this->setAttribute($subject, 'pformID', (string) $dataObject->ktextpform, 'S');
-        $this->setAttribute($subject, 'proofID', (string) $dataObject->ktextpart, 'P');
         $this->setAttribute($subject, 'instructionLanguage', (string) $dataObject->sprache, 'D');
         $this->setAttribute($subject, 'frequencyID', (string) $dataObject->turnus);
         foreach ($dataObject->beschreibungen AS $textNode)
         {
-            $category = (string) $textNode->kategorie;
-            $language = (string) $textNode->sprache;
-            $text = (string) $textNode->txt;
-            switch ($category)
-            {
-                case 'Creditpoints/Arbeitsaufwand':
-                    if ($language == 'de' AND !empty($text))
-                    {
-                        $this->setExpendituresFromText($subject, $text);
-                    }
-                    break;
-                case 'Lehrformen':
-                    if ($language == 'de' AND !empty($text))
-                    {
-                        $this->setStructureFromText($subject, $text);
-                    }
-                    break;
-                case 'Voraussetzungen für die Vergabe von Creditpoints':
-                    if ($language == 'de' AND !empty($text))
-                    {
-                        $this->setProofFromText($subject, $text);
-                    }
-                    break;
-                case 'Kurzbeschreibung':
-                    $this->setAttribute($subject, "description_$language", $text);
-                    break;
-                case 'Literatur':
-                    $this->setAttribute($subject, 'literature', $text);
-                    break;
-                case 'Voraussetzungen':
-                    break;
-                case 'Qualifikations und Lernziele':
-                    $this->setAttribute($subject, "objective_$language", $text);
-                    break;
-                case 'Inhalt':
-                    $this->setAttribute($subject, "content_$language", $text);
-                    break;
-                case 'Voraussetzungen':
-                    $prerequisites = $this->setPrerequisites($subject, $text, $language);
-                    $prerequisitesSaved = $this->savePrerequisites($subject->id, $prerequisites);
-                    if (!$prerequisitesSaved)
-                    {
-                        JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_SUM_ERROR_PREREQ_IMPORT'), 'error');
-                        return false;
-                    }
-                    $this->setAttribute($subject, "content_$language", $text);
-                    break;
-                case 'Verwendbarkeit des Moduls':
-                    $prerequisites = $this->setPostrequisites($subject, $text, $language);
-                    $postrequisitesSaved = $this->savePostrequisites($subject->id, $prerequisites);
-                    if (!$postrequisitesSaved)
-                    {
-                        JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_SUM_ERROR_POSTREQ_IMPORT'), 'error');
-                        return false;
-                    }
-                    $this->setAttribute($subject, "content_$language", $text);
-                    break;
-                case 'Prüfungsvorleistungen':
-                    $this->setAttribute($subject, "preliminary_work_$language", $text);
-                    break;
-                case 'Studienhilfsmittel':
-                    $this->setAttribute($subject, "aids_$language", $text);
-                    break;
-                case 'Bewertung, Note':
-                    $this->setAttribute($subject, "evaluation_$language", $text);
-                    break;
-                case 'Empfohlene Voraussetzungen':
-                    $prerequisites = $this->setPrerequisites($subject, $text, $language);
-                    $prerequisitesSaved = $this->savePrerequisites($subject->id, $prerequisites);
-                    if (!$prerequisitesSaved)
-                    {
-                        JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_SUM_ERROR_PREREQ_IMPORT'), 'error');
-                        return false;
-                    }
-                    $this->setAttribute($subject, "content_$language", $text);
-                    break;
-                case 'Fachkompetenz':
-                case 'Methodenkompetenz':
-                case 'Sozialkompetenz':
-                case 'Selbstkompetenz':
-                    $this->setStarAttribute($subject, $category, $text);
-                    break;
-            }
+            $this->setObjectProperty($subject, $textNode);
         }
 
-        // Attributes that can be set by text or individual fields :(
+        $unusableProofValue = (empty($subject->proof_en) OR strlen($subject->proof_en) < 4);
+        if ($unusableProofValue AND !empty($subject->proof_de))
+        {
+            $subject->proof_en = $subject->proof_de;
+        }
+
+        $unusableMethodValue = (empty($subject->method_en) OR strlen($subject->method_en) < 4);
+        if ($unusableMethodValue AND !empty($subject->method_de))
+        {
+            $subject->proof_en = $subject->proof_de;
+        }
+
+        // Attributes that can be set by text or individual fields
         if (!empty($dataObject->lp))
         {
             $this->setAttribute($subject, 'creditpoints', (int) $dataObject->lp);
@@ -250,14 +178,6 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         if (!empty($dataObject->sws))
         {
             $this->setAttribute($subject, 'sws', (int) $dataObject->sws);
-        }
-        if (!empty($dataObject->verart))
-        {
-            $this->setAttribute($subject, 'methodID', (string) $dataObject->verart);
-        }
-        if (!empty($dataObject->ktextpart))
-        {
-            $this->setAttribute($subject, 'proofID', (string) $dataObject->ktextpart);
         }
 
         return $subject->store();
@@ -286,11 +206,88 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         }
     }
 
+    private function setObjectProperty(&$subject, &$textNode)
+    {
+        $category = (string) $textNode->kategorie;
+        $language = (string) $textNode->sprache;
+        $text = (string) $textNode->txt;
+        switch ($category)
+        {
+            case 'Creditpoints/Arbeitsaufwand':
+                if ($language == 'de' AND !empty($text))
+                {
+                    $this->setExpendituresFromText($subject, $text);
+                }
+                break;
+            case 'Lehrformen':
+                $this->setAttribute($subject, "method_$language", $text);
+                break;
+            case 'Voraussetzungen für die Vergabe von Creditpoints':
+                $this->setAttribute($subject, "proof_$language", $text);
+                break;
+            case 'Kurzbeschreibung':
+                $this->setAttribute($subject, "description_$language", $text);
+                break;
+            case 'Literatur':
+                $this->setAttribute($subject, 'literature', $text);
+                break;
+            case 'Qualifikations und Lernziele':
+                $this->setAttribute($subject, "objective_$language", $text);
+                break;
+            case 'Inhalt':
+                $this->setAttribute($subject, "content_$language", $text);
+                break;
+            case 'Voraussetzungen':
+                $prerequisites = $this->setPrerequisites($subject, $text, $language);
+                $prerequisitesSaved = $this->savePrerequisites($subject->id, $prerequisites);
+                if (!$prerequisitesSaved)
+                {
+                    JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_SUM_ERROR_PREREQ_IMPORT'), 'warning');
+                }
+                $this->setAttribute($subject, "content_$language", $text);
+                break;
+            case 'Verwendbarkeit des Moduls':
+                $prerequisites = $this->getPostrequisites($text);
+                $postrequisitesSaved = $this->savePostrequisites($subject->id, $prerequisites);
+                if (!$postrequisitesSaved)
+                {
+                    JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_SUM_ERROR_POSTREQ_IMPORT'), 'warning');
+                    return false;
+                }
+                $this->setAttribute($subject, "content_$language", $text);
+                break;
+            case 'Prüfungsvorleistungen':
+                $this->setAttribute($subject, "preliminary_work_$language", $text);
+                break;
+            case 'Studienhilfsmittel':
+                $this->setAttribute($subject, "aids_$language", $text);
+                break;
+            case 'Bewertung, Note':
+                $this->setAttribute($subject, "evaluation_$language", $text);
+                break;
+            case 'Empfohlene Voraussetzungen':
+                $prerequisites = $this->setPrerequisites($subject, $text, $language);
+                $prerequisitesSaved = $this->savePrerequisites($subject->id, $prerequisites);
+                if (!$prerequisitesSaved)
+                {
+                    JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_SUM_ERROR_PREREQ_IMPORT'), 'warning');
+                }
+                $this->setAttribute($subject, "content_$language", $text);
+                break;
+            case 'Fachkompetenz':
+            case 'Methodenkompetenz':
+            case 'Sozialkompetenz':
+            case 'Selbstkompetenz':
+                $this->setStarAttribute($subject, $category, $text);
+                break;
+        }
+    }
+
     /**
      * Sets attributes dealing with required student expenditure
      * 
-     * @param   array  &$subject  the subject data
-     * @param   array  $text      the expenditure text
+     * @param   object  &$subject  the subject data
+     * @param   array   $text      the expenditure text
      * 
      * @return  void
      */
@@ -320,128 +317,6 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
     }
 
     /**
-     * Resolves the text to one of 6 predefined types of lessons
-     *
-     * @param   array  &$subject  the subject information
-     * @param   array  $text      the method text elements
-     *
-     * @return  void
-     */
-    private function setStructureFromText(&$subject, $text)
-    {
-        $hoursMatches = array();
-        preg_match_all('/(\d+)/', (string) $text, $hoursMatches);
-        if (!empty($hoursMatches[1]))
-        {
-            $sws = 0;
-            foreach ($hoursMatches[1] AS $hours)
-            {
-                $sws = $sws + ((int) $hours);
-            }
-            $this->setAttribute($subject, 'sws', $sws);
-        }
-
-        $isLecture = strpos($text, 'Vorlesung') !== false;
-        $isSeminar = strpos($text, 'Seminar') !== false;
-        $isProject = strpos($text, 'Praktikum') !== false;
-        $isPractice = strpos($text, 'Übung') !== false;
-
-        $lectureSeminar = ($isLecture AND $isSeminar AND !$isProject AND !$isPractice);
-        $lectureProject = ($isLecture AND !$isSeminar AND $isProject AND !$isPractice);
-        $lecturePractice = ($isLecture AND !$isSeminar AND !$isProject AND $isPractice);
-        $lecture = ($isLecture AND !$isSeminar AND !$isProject AND !$isPractice);
-        $seminar = (!$isLecture AND $isSeminar AND !$isProject AND !$isPractice);
-        $project = (!$isLecture AND !$isSeminar AND $isProject AND !$isPractice);
-
-        if ($lectureSeminar)
-        {
-            $method = 'SV';
-        }
-        elseif ($lecturePractice)
-        {
-            $method = 'VU';
-        }
-        elseif ($lectureProject)
-        {
-            $method = 'VG';
-        }
-        elseif ($lecture)
-        {
-            $method = 'V';
-        }
-        elseif ($seminar)
-        {
-            $method = 'S';
-        }
-        elseif ($project)
-        {
-            $method = 'P';
-        }
-
-        if (!empty($method))
-        {
-            $this->setAttribute($subject, 'methodID', $method);
-        }
-    }
-
-    /**
-     * Resolves the text to predefined types of tests
-     *
-     * @param   array  &$subject  the subject information
-     * @param   array  $text      the method text elements
-     *
-     * @return  void
-     */
-    private function setProofFromText(&$subject, $text)
-    {
-        $isLecture = strpos($text, 'Vorlesung') !== false;
-        if (strpos($text, 'Klausur') !== false)
-        {
-            $proofID = 'P';
-        }
-        elseif(strpos($text, 'Belegung') !== false)
-        {
-            $proofID = 'BL';
-        }
-        elseif(strpos($text, 'Diplom') !== false)
-        {
-            $proofID = 'DA';
-        }
-        elseif(strpos($text, 'Fachprüfung') !== false)
-        {
-            $proofID = 'FP';
-        }
-        elseif(strpos($text, 'Abschlussarbeit') !== false)
-        {
-            $proofID = 'HD';
-        }
-        elseif(strpos($text, 'Leistungsnachweis') !== false)
-        {
-            $proofID = 'LN';
-        }
-        elseif(strpos($text, 'Praktikum') !== false)
-        {
-            $proofID = 'P1';
-        }
-        elseif(strpos($text, 'Studienleistung') !== false)
-        {
-            $proofID = 'ST';
-        }
-        elseif(strpos($text, 'Teilleistung') !== false)
-        {
-            $proofID = 'TL';
-        }
-        elseif(strpos($text, 'Vorleistung') !== false)
-        {
-            $proofID = 'VL';
-        }
-        if (!empty($proofID))
-        {
-            $this->setAttribute($subject, 'proofID', $proofID);
-        }
-    }
-
-    /**
      * Sets the responsible teachers in the association table
      *
      * @param   int    $subjectID    the id of the subject
@@ -458,8 +333,8 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
             return true;
         }
 
-        $responibleSet = $this->setTeachersByResponsibility($subjectID, $responsible, RESPONSIBLE);
-        if (!$responibleSet)
+        $responsibleSet = $this->setTeachersByResponsibility($subjectID, $responsible, RESPONSIBLE);
+        if (!$responsibleSet)
         {
             return false;
         }
@@ -544,7 +419,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param   array   $text      the subjects language specific requirements
      * @param   string  $language  the language tag
      * 
-     * @return  void
+     * @return  array  an array with prerequisites if any were found
      */
     private function setPrerequisites(&$subject, $text, $language)
     {
@@ -555,13 +430,13 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
     }
 
     /**
-     * Parces the prerequisites text and replaces subject references with links to the subjects
+     * Parses the prerequisites text and replaces subject references with links to the subjects
      * 
      * @param   string  $originalText    the original text of the object
      * @param   string  $languageTag     the desired output language
      * @param   array   &$prerequisites  an array containing prerequisite ids
      * 
-     * @return  string  the text for the subject's prereuisites
+     * @return  string  the text for the subject's prerequisites
      */
     private function resolvePrerequisites($originalText, $languageTag, &$prerequisites)
     {
@@ -626,7 +501,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         $subjectURL = JURI::root() . 'index.php?option=com_thm_organizer&view=subject_details';
         $subjectURL .= "&languageTag=$languageTag&id={$subjectInfo['id']}";
         
-        $itemID = JRequest::getInt('Itemid');
+        $itemID = JFactory::getApplication()->input->getInt('Itemid', 0);
         $subjectURL .= !empty($itemID)? "&Itemid=$itemID" : '';
         $href = JRoute::_($subjectURL);
 
@@ -636,7 +511,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
     /**
      * Saves prerequisites imported from LSF
      *
-     * @param   ing    $subjectID      the id of the subject
+     * @param   string    $subjectID      the id of the subject
      * @param   array  $prerequisites  an array of prerequisites
      *
      * @return  bool  true if no database errors occured, otherwise false
@@ -682,14 +557,12 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 
     /**
      * Sets the prerequisite attributes
+     *
+     * @param   array   $text  the subjects language specific requirements
      * 
-     * @param   int     $subjectID  the id of the subject data
-     * @param   array   $text       the subjects language specific requirements
-     * @param   string  $language   the language tag
-     * 
-     * @return  void
+     * @return  array  an array of module id
      */
-    private function setPostrequisites($subjectID, $text, $language)
+    private function getPostrequisites($text)
     {
         $postrequisites = array();
         $parts = preg_split('[\,|\ ]', $text);

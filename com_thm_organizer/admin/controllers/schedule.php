@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        schedule controller
+ * @name        THM_OrganizerControllerSchedule
  * @author      James Antrim, <James.Antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -30,7 +30,7 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         /*
         $this->input->set('cid');
@@ -51,7 +51,7 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         
         $this->setRedirect('index.php?option=com_thm_organizer&view=schedule_edit');
@@ -67,7 +67,7 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
         $file = JRequest::getVar('file', '', 'FILES');
@@ -122,7 +122,7 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $model = $this->getModel('schedule');
         $result = $model->saveComment();
@@ -150,7 +150,7 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $success = $this->getModel('schedule')->delete();
         if ($success)
@@ -175,7 +175,7 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
 
@@ -217,7 +217,7 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
 
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
@@ -259,7 +259,7 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $url = 'index.php?option=com_thm_organizer&view=schedule_manager';
         $merge = $this->getModel('schedule')->checkMergeConstraints();
@@ -274,7 +274,7 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
                 $this->setRedirect(JRoute::_($url, false), $msg, 'warning');
                 break;
             case CHECK_DEPARTMENTS:
-                $msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_DEPTARTMENT');
+                $msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_DEPARTMENT');
                 $this->setRedirect(JRoute::_($url, false), $msg, 'warning');
                 break;
             case CHECK_DATES:
@@ -300,7 +300,7 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
 
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
@@ -333,7 +333,7 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $this->setRedirect("index.php?option=com_thm_organizer&view=schedule_manager");
     }

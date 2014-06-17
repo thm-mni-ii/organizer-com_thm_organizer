@@ -52,8 +52,9 @@ class THM_OrganizerModelSubject_Edit extends JModelAdmin
      */
     protected function loadFormData()
     {
-        $subjectIDs = JRequest::getVar('cid',  null, '', 'array');
-        $subjectID = (empty($subjectIDs))? JRequest::getVar('subjectID') : $subjectIDs[0];
+        $input = JFactory::getApplication()->input;
+        $subjectIDs = $input->get('cid', null, 'array');
+        $subjectID = (empty($subjectIDs))? $input->getInt('subjectID', 0) : $subjectIDs[0];
         $item = $this->getItem($subjectID);
         if (!empty($item->id))
         {

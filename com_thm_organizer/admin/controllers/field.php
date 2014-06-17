@@ -30,7 +30,7 @@ class THM_OrganizerControllerField extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         JRequest::setVar('id', '0');
         $this->setRedirect("index.php?option=com_thm_organizer&view=field_edit");
@@ -45,7 +45,7 @@ class THM_OrganizerControllerField extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $this->setRedirect("index.php?option=com_thm_organizer&view=field_edit");
     }
@@ -60,7 +60,7 @@ class THM_OrganizerControllerField extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $success = $this->getModel('field')->save();
         if ($success)
@@ -85,7 +85,7 @@ class THM_OrganizerControllerField extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $success = $this->getModel('field')->delete();
         if ($success)
@@ -110,7 +110,7 @@ class THM_OrganizerControllerField extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=field_manager', false));
     }

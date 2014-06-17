@@ -30,7 +30,7 @@ class THM_OrganizerControllerColor extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         JRequest::setVar('id', '0');
         $this->setRedirect("index.php?option=com_thm_organizer&view=color_edit");
@@ -45,7 +45,7 @@ class THM_OrganizerControllerColor extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $this->setRedirect("index.php?option=com_thm_organizer&view=color_edit");
     }
@@ -60,7 +60,7 @@ class THM_OrganizerControllerColor extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $success = $this->getModel('color')->save();
         if ($success)
@@ -85,7 +85,7 @@ class THM_OrganizerControllerColor extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $success = $this->getModel('color')->delete();
         if ($success)
@@ -109,7 +109,7 @@ class THM_OrganizerControllerColor extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=color_manager', false));
     }

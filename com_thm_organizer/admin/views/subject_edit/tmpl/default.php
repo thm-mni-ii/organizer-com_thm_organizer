@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        subject edit view edit template
+ * @name        subject edit view default template
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -304,6 +304,15 @@ jq(document).ready(function(){
 
             <div class="control-group">
                 <div class="control-label">
+                    <?php echo $this->form->getLabel('method_de'); ?>
+                </div>
+                <div class="controls">
+                    <?php echo $this->form->getInput('method_de'); ?>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('preliminary_work_de'); ?>
                 </div>
                 <div class="controls">
@@ -317,6 +326,15 @@ jq(document).ready(function(){
                 </div>
                 <div class="controls">
                     <?php echo $this->form->getInput('aids_de'); ?>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    <?php echo $this->form->getLabel('proof_de'); ?>
+                </div>
+                <div class="controls">
+                    <?php echo $this->form->getInput('proof_de'); ?>
                 </div>
             </div>
 
@@ -390,6 +408,15 @@ jq(document).ready(function(){
 
             <div class="control-group">
                 <div class="control-label">
+                    <?php echo $this->form->getLabel('method_en'); ?>
+                </div>
+                <div class="controls">
+                    <?php echo $this->form->getInput('method_en'); ?>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
                     <?php echo $this->form->getLabel('preliminary_work_en'); ?>
                 </div>
                 <div class="controls">
@@ -403,6 +430,15 @@ jq(document).ready(function(){
                 </div>
                 <div class="controls">
                     <?php echo $this->form->getInput('aids_en'); ?>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    <?php echo $this->form->getLabel('proof_de'); ?>
+                </div>
+                <div class="controls">
+                    <?php echo $this->form->getInput('proof_de'); ?>
                 </div>
             </div>
 
