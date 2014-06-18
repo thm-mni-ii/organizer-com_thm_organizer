@@ -51,7 +51,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
     {
         $query = $this->_db->getQuery(true);
 
-        $Columns = array('departmentname', 'semestername');
+        $Columns = array('departmentname', 'semestername');        
         $select = 'id, ' . $query->concatenate($Columns, ' - ') . ' AS name';
         $query->select($select);
         $query->from("#__thm_organizer_schedules");

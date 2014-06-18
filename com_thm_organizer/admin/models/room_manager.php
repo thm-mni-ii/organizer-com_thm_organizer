@@ -193,7 +193,8 @@ class THM_OrganizerModelRoom_Manager extends JModelList
     {
         $query = $this->_db->getQuery(true);
         $select = "r.id, r.gpuntisID, r.name, r.longname, ";
-        $select .= "t.id AS typeID, " . $query->concatenate(["t.type","', '", "t.subtype"],"") . " AS type ";
+        $concateSelect = array("t.type","', '", "t.subtype");
+        $select .= "t.id AS typeID, " . $query->concatenate($concateSelect,"") . " AS type ";
         $query->select($select);
         $query->from('#__thm_organizer_rooms AS r');
         $query->leftJoin('#__thm_organizer_room_types AS t ON r.typeID = t.id');

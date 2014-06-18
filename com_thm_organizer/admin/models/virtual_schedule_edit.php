@@ -247,7 +247,8 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
     {
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);        
-        $query->select("gpuntisID as id, " . $query->concatenate(["major","' '", "semester"],"") . " as name");
+        $concateQuery = array("major","' '", "semester");
+        $query->select("gpuntisID as id, " . $query->concatenate($concateQuery,"") . " as name");
         $query->from('#__thm_organizer_classes');
         $query->order('name');
         $dbo->setQuery((string) $query);
@@ -326,8 +327,9 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
     public function getSemesters()
     {
         $dbo = JFactory::getDBO();
-        $query = $dbo->getQuery(true);        
-        $query->select("id, " . $query->concatenate(["organization","'-'", "semesterDesc"],"")  . " as name");
+        $query = $dbo->getQuery(true); 
+        $concateQuery = array("organization","'-'", "semesterDesc");
+        $query->select("id, " . $query->concatenate($concateQuery,"")  . " as name");
         $query->from('#__thm_organizer_semesters');
         $query->order('name');
         $dbo->setQuery((string) $query);
@@ -353,8 +355,9 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
     public function getRoomDepartments()
     {
         $dbo = JFactory::getDBO();
-        $query = $dbo->getQuery(true);        
-        $query->select("DISTINCT id, if (CHAR_LENGTH(description) = 0,category," . $query->concatenate(["category","' ('", "description", "')'"],"")  . ")) as name");
+        $query = $dbo->getQuery(true);      
+        $concateQuery = array("category","' ('", "description", "')'");
+        $query->select("DISTINCT id, if (CHAR_LENGTH(description) = 0,category," . $query->concatenate($concateQuery,"")  . ")) as name");
         $query->from('#__thm_organizer_descriptions');
         $query->order('name');
         $dbo->setQuery((string) $query);
@@ -381,7 +384,8 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
     {
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);        
-        $query->select("DISTINCT d.id, " . $query->concatenate(["d.department","'-'", "d.subdepartment"],"")  . " as name");
+        $concateQuery = array("d.department","'-'", "d.subdepartment");
+        $query->select("DISTINCT d.id, " . $query->concatenate($concateQuery,"")  . " as name");
         $query->from('#__thm_organizer_teachers AS t');
         $query->innerJoin('#__thm_organizer_departments AS d ON t.departmentID = d.id');
         $query->order('name');

@@ -464,6 +464,8 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
                $event['startdate'] = date_format(date_create($event['startdate']),'d.m.Y');
                $event['startdateStandardFormat'] = date_format(date_create($event['startdateStandardFormat']),'Y.m.d');
                $event['enddate'] = date_format(date_create($event['enddate']),'d.m.Y');
+               $event['starttime'] = date_format(date_create($event['starttime']),'H:i');
+               $event['endtime'] = date_format(date_create($event['endtime']),'H:i'); 
             }
         }
         catch (runtimeException $e)
@@ -537,8 +539,8 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
         $select .= "e.startdate AS startdate, ";
         $select .= "e.startdate AS startdateStandardFormat, ";
         $select .= "e.enddate AS enddate, ";
-        $select .= "SUBSTR(e.starttime, 1, 5) AS starttime, ";
-        $select .= "SUBSTR(e.endtime, 1, 5) AS endtime, ";
+        $select .= "e.starttime AS starttime, ";
+        $select .= "e.endtime AS endtime, ";
         $select .= "e.recurrence_type AS rec_type, ";
         $select .= "ecat.title AS eventCategory, ";
         $select .= "ecat.contentCatID AS contentCategoryID, ";
