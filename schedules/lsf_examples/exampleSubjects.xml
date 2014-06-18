@@ -1,497 +1,500 @@
+<?xml version="1.0" encoding="utf-8"?>
+<document version="1.4" date="20140618" time="100849">
 <!-- Entwicklungsprojekt MNI Informatik MSc 2010 -->
-<module>
-    <statistics>
-        <rows>1</rows>
-        <countDS>1</countDS>
-    </statistics>
-    <modul>
-        <modulid>11951</modulid>
-        <nrhis>215002</nrhis>
-        <modulecode>MS5002</modulecode>
-        <kuerzel>Entwproj</kuerzel>
-        <kurzname>Entwicklungsprojekt</kurzname>
-        <titelde>Entwicklungsprojekt (inkl. Begleitseminar)</titelde>
-        <studiengang>I</studiengang>
-        <abschluss>MS</abschluss>
-        <pversion>2010</pversion>
-        <ktxtppflicht>PF</ktxtppflicht>
-        <ktxtpform>S</ktxtpform>
-        <ktxtpart>LN</ktxtpart>
-        <modultyp>M</modultyp>
-        <sprache>D</sprache>
-        <lp>15.0</lp>
-        <sws>8.0</sws>
-        <pfsem>3</pfsem>
-        <aufwand />
-        <praesenzzeit />
-        <selbstzeit />
-        <verart />
-        <gruppengr>0</gruppengr>
-        <turnus>3</turnus>
-        <dauer>1 Semester</dauer>
-        <standbearb />
-        <fb>MI</fb>
-        <versemester>20141</versemester>
-        <verstandbearb>400</verstandbearb>
-        <sperrmh />
-        <titelen>Project with Workshop</titelen>
-        <kurznameen>Project with Workshop</kurznameen>
-        <kuerzelen>ProjWork</kuerzelen>
-        <stgtext>Informatik</stgtext>
-        <abschltext>Master of Science</abschltext>
-        <pplichttext>Pflichtfach</pplichttext>
-        <pformtext>schriftlich</pformtext>
-        <fbktext>MNI</fbktext>
-        <parents />
-        <verantwortliche>
-            <personinfo>
-                <vorname>Burkhardt</vorname>
-                <nachname>Renz</nachname>
-            </personinfo>
-            <hgnr>hg11260</hgnr>
-        </verantwortliche>
-        <beschreibungen>
-            <txt>15 CrP; 450 Stunden, davon etwa 120 Stunden Präsenzzeit</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R3</r_blobs.artblob>
-            <kategorie>Creditpoints/Arbeitsaufwand</kategorie>
-            <k_artblob.blobsort>A</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>15 CrP; 450 Stunden, davon etwa 120 Stunden Präsenzzeit</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R3</r_blobs.artblob>
-            <kategorie>Creditpoints/Arbeitsaufwand</kategorie>
-            <k_artblob.blobsort>A</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>15 CrP; 450 hours thereof about 120 hours time of attendance</txt>
-            <sprache>en</sprache>
-            <r_blobs.artblob>R3</r_blobs.artblob>
-            <kategorie>Creditpoints/Arbeitsaufwand</kategorie>
-            <k_artblob.blobsort>A</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>15 CrP; 450 hours thereof about 120 hours time of attendance</txt>
-            <sprache>en</sprache>
-            <r_blobs.artblob>R3</r_blobs.artblob>
-            <kategorie>Creditpoints/Arbeitsaufwand</kategorie>
-            <k_artblob.blobsort>A</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Seminar 2 SWS Projekt 6 SWS</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R2</r_blobs.artblob>
-            <kategorie>Lehrformen</kategorie>
-            <k_artblob.blobsort>B</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Seminar 2 SWS Projekt 6 SWS</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R2</r_blobs.artblob>
-            <kategorie>Lehrformen</kategorie>
-            <k_artblob.blobsort>B</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Seminar  2  sppw  Study Project  6  sppw   </txt>
-            <sprache>en</sprache>
-            <r_blobs.artblob>R2</r_blobs.artblob>
-            <kategorie>Lehrformen</kategorie>
-            <k_artblob.blobsort>B</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Seminar  2  sppw  Study Project  6  sppw   </txt>
-            <sprache>en</sprache>
-            <r_blobs.artblob>R2</r_blobs.artblob>
-            <kategorie>Lehrformen</kategorie>
-            <k_artblob.blobsort>B</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Mindestens 48 Creditpoints bereits erreicht</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R17</r_blobs.artblob>
-            <kategorie>Voraussetzungen</kategorie>
-            <k_artblob.blobsort>C</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Mindestens 48 Creditpoints bereits erreicht</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R17</r_blobs.artblob>
-            <kategorie>Voraussetzungen</kategorie>
-            <k_artblob.blobsort>C</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>At least 48 Creditpoints already achieved</txt>
-            <sprache>en</sprache>
-            <r_blobs.artblob>R17</r_blobs.artblob>
-            <kategorie>Voraussetzungen</kategorie>
-            <k_artblob.blobsort>C</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>At least 48 Creditpoints already achieved</txt>
-            <sprache>en</sprache>
-            <r_blobs.artblob>R17</r_blobs.artblob>
-            <kategorie>Voraussetzungen</kategorie>
-            <k_artblob.blobsort>C</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Die Studierenden sind in der Lage eine realitätsrelevante Problemstellung als Softwareentwicklungsprojekt durchzuführen. Die Studierenden &lt;ul&gt; &lt;li&gt;besitzen Wissen, Methoden und Techniken aus verschiedenen Teilgebieten der Informatik, und wenden sie auf ein konkretes Problem an, &lt;/li&gt; &lt;li&gt;können sich rasch und methodisch in ein Anwendungsgebiete so weit einarbeiten, dass sie den Bereichsexperten eine qualitativ hochstehende Softwarelösung bieten können, &lt;/li&gt; &lt;li&gt;gehen arbeitsteilig und organisiert nach den Methoden der Softwaretechnik vor, &lt;/li&gt; &lt;li&gt;bewältigen die sachlichen und organisatorischen Schwierigkeiten, die mit Projekten verbunden sind, die zeit- und mittelgerecht erstellt werden müssen, &lt;/li&gt; &lt;li&gt;besitzen Kommunikationsfähigkeit und Urteilsbildung in der Auseinandersetzung mit Experten des Anwendungsgebiets &lt;/li&gt; &lt;li&gt;reflektieren das Entwicklungsprojekt durch theoretische Kenntnisse&lt;/li&gt; &lt;/ul&gt;</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R9</r_blobs.artblob>
-            <kategorie>Qualifikations und Lernziele</kategorie>
-            <k_artblob.blobsort>F</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Die Studierenden sind in der Lage eine realitätsrelevante Problemstellung als Softwareentwicklungsprojekt durchzuführen. Die Studierenden &lt;ul&gt; &lt;li&gt;besitzen Wissen, Methoden und Techniken aus verschiedenen Teilgebieten der Informatik, und wenden sie auf ein konkretes Problem an, &lt;/li&gt; &lt;li&gt;können sich rasch und methodisch in ein Anwendungsgebiete so weit einarbeiten, dass sie den Bereichsexperten eine qualitativ hochstehende Softwarelösung bieten können, &lt;/li&gt; &lt;li&gt;gehen arbeitsteilig und organisiert nach den Methoden der Softwaretechnik vor, &lt;/li&gt; &lt;li&gt;bewältigen die sachlichen und organisatorischen Schwierigkeiten, die mit Projekten verbunden sind, die zeit- und mittelgerecht erstellt werden müssen, &lt;/li&gt; &lt;li&gt;besitzen Kommunikationsfähigkeit und Urteilsbildung in der Auseinandersetzung mit Experten des Anwendungsgebiets &lt;/li&gt; &lt;li&gt;reflektieren das Entwicklungsprojekt durch theoretische Kenntnisse&lt;/li&gt; &lt;/ul&gt;</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R9</r_blobs.artblob>
-            <kategorie>Qualifikations und Lernziele</kategorie>
-            <k_artblob.blobsort>F</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>The field of software engineering is marked by fast innovation of technology and methods, by growing size and complexity of projects and finally by increasing quality requirements.&lt;br/&gt; In the project the participants learn to meet these demands.&lt;br/&gt; For that they develop software for a relevant task. Participants &lt;ul&gt; &lt;li&gt;improve and extend their knowledge of computer science and apply it to a concrete problem,&lt;/li&gt; &lt;li&gt;settle quickly into the application domain, so that they can offer domain experts solutions of high quality,&lt;/li&gt; &lt;li&gt;proceed according to methods and principles of software engineering,&lt;/li&gt; &lt;li&gt;solve technical and organizational problems of the project&lt;/li&gt; &lt;li&gt;train their ability to communicate and to judge in the collaboration with domain experts.&lt;/li&gt; &lt;/ul&gt;</txt>
-            <sprache>en</sprache>
-            <r_blobs.artblob>R9</r_blobs.artblob>
-            <kategorie>Qualifikations und Lernziele</kategorie>
-            <k_artblob.blobsort>F</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>The field of software engineering is marked by fast innovation of technology and methods, by growing size and complexity of projects and finally by increasing quality requirements.&lt;br/&gt; In the project the participants learn to meet these demands.&lt;br/&gt; For that they develop software for a relevant task. Participants &lt;ul&gt; &lt;li&gt;improve and extend their knowledge of computer science and apply it to a concrete problem,&lt;/li&gt; &lt;li&gt;settle quickly into the application domain, so that they can offer domain experts solutions of high quality,&lt;/li&gt; &lt;li&gt;proceed according to methods and principles of software engineering,&lt;/li&gt; &lt;li&gt;solve technical and organizational problems of the project&lt;/li&gt; &lt;li&gt;train their ability to communicate and to judge in the collaboration with domain experts.&lt;/li&gt; &lt;/ul&gt;</txt>
-            <sprache>en</sprache>
-            <r_blobs.artblob>R9</r_blobs.artblob>
-            <kategorie>Qualifikations und Lernziele</kategorie>
-            <k_artblob.blobsort>F</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Das Entwicklungsprojekt besteht in der Erarbeitung einer Lösung für eine realitätsrelevante Fragestellung, in der Regel für ein reales Projekt aus der Berufspraxis, das von der Hochschule in Zusammenarbeit mit externen Partnern entwickelt wird. Der Lehrinhalt umfasst also u.a. &lt;ul&gt; &lt;li&gt;Kenntnisse der berührten Fachgebiete der Informatik&lt;/li&gt; &lt;li&gt;Kenntnisse des Anwendungsgebiets&lt;/li&gt; &lt;li&gt;Kenntnisse der Softwaretechnik&lt;/li&gt; &lt;/ul&gt; Das Begleitseminar zum Entwicklungsprojekt vertieft die theoretischen Kenntnisse, die für die erfolgreiche Durchführung des Entwicklungsprojektes benötigt werden. Es entspricht der Natur des Entwicklungsprojekts, dass die Themenstellung des Seminars sowohl aus dem Bereich der theoretischen Grundlagen der Informatik, der Softwaretechnik oder der Wahlpflichtbereiche des Projekts sein kann.</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R1</r_blobs.artblob>
-            <kategorie>Inhalt</kategorie>
-            <k_artblob.blobsort>G</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Das Entwicklungsprojekt besteht in der Erarbeitung einer Lösung für eine realitätsrelevante Fragestellung, in der Regel für ein reales Projekt aus der Berufspraxis, das von der Hochschule in Zusammenarbeit mit externen Partnern entwickelt wird. Der Lehrinhalt umfasst also u.a. &lt;ul&gt; &lt;li&gt;Kenntnisse der berührten Fachgebiete der Informatik&lt;/li&gt; &lt;li&gt;Kenntnisse des Anwendungsgebiets&lt;/li&gt; &lt;li&gt;Kenntnisse der Softwaretechnik&lt;/li&gt; &lt;/ul&gt; Das Begleitseminar zum Entwicklungsprojekt vertieft die theoretischen Kenntnisse, die für die erfolgreiche Durchführung des Entwicklungsprojektes benötigt werden. Es entspricht der Natur des Entwicklungsprojekts, dass die Themenstellung des Seminars sowohl aus dem Bereich der theoretischen Grundlagen der Informatik, der Softwaretechnik oder der Wahlpflichtbereiche des Projekts sein kann.</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R1</r_blobs.artblob>
-            <kategorie>Inhalt</kategorie>
-            <k_artblob.blobsort>G</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>The subject of the project is the solution of a relevant question, normally a joint project with a partner in industry. The project needs knowledge &lt;ul&gt; &lt;li&gt;of concerned fields of computer science&lt;/li&gt; &lt;li&gt;of the application domain&lt;/li&gt; &lt;li&gt;of software engineering&lt;/li&gt; &lt;/ul&gt; The workshop goes further into the knowledge needed to achieve the goals of the development project.</txt>
-            <sprache>en</sprache>
-            <r_blobs.artblob>R1</r_blobs.artblob>
-            <kategorie>Inhalt</kategorie>
-            <k_artblob.blobsort>G</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>The subject of the project is the solution of a relevant question, normally a joint project with a partner in industry. The project needs knowledge &lt;ul&gt; &lt;li&gt;of concerned fields of computer science&lt;/li&gt; &lt;li&gt;of the application domain&lt;/li&gt; &lt;li&gt;of software engineering&lt;/li&gt; &lt;/ul&gt; The workshop goes further into the knowledge needed to achieve the goals of the development project.</txt>
-            <sprache>en</sprache>
-            <r_blobs.artblob>R1</r_blobs.artblob>
-            <kategorie>Inhalt</kategorie>
-            <k_artblob.blobsort>G</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Regelmäßige, aktive Teilnahme am Begleitseminar</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R14</r_blobs.artblob>
-            <kategorie>Prüfungsvorleistungen</kategorie>
-            <k_artblob.blobsort>H</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Regelmäßige, aktive Teilnahme am Begleitseminar</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R14</r_blobs.artblob>
-            <kategorie>Prüfungsvorleistungen</kategorie>
-            <k_artblob.blobsort>H</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Participation at workshop</txt>
-            <sprache>en</sprache>
-            <r_blobs.artblob>R14</r_blobs.artblob>
-            <kategorie>Prüfungsvorleistungen</kategorie>
-            <k_artblob.blobsort>H</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Participation at workshop</txt>
-            <sprache>en</sprache>
-            <r_blobs.artblob>R14</r_blobs.artblob>
-            <kategorie>Prüfungsvorleistungen</kategorie>
-            <k_artblob.blobsort>H</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Projektarbeit; individuelle Leistung im Team</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R7</r_blobs.artblob>
-            <kategorie>Voraussetzungen für die Vergabe von Creditpoints</kategorie>
-            <k_artblob.blobsort>J</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Projektarbeit; individuelle Leistung im Team</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R7</r_blobs.artblob>
-            <kategorie>Voraussetzungen für die Vergabe von Creditpoints</kategorie>
-            <k_artblob.blobsort>J</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Artifacts of the development project, individual contribution to the project</txt>
-            <sprache>en</sprache>
-            <r_blobs.artblob>R7</r_blobs.artblob>
-            <kategorie>Voraussetzungen für die Vergabe von Creditpoints</kategorie>
-            <k_artblob.blobsort>J</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Artifacts of the development project, individual contribution to the project</txt>
-            <sprache>en</sprache>
-            <r_blobs.artblob>R7</r_blobs.artblob>
-            <kategorie>Voraussetzungen für die Vergabe von Creditpoints</kategorie>
-            <k_artblob.blobsort>J</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>&lt;ul&gt;&lt;li&gt;&lt;span xml:lang='de'&gt;Je nach Thema des Entwicklungsprojekts und des Seminars&lt;/span&gt; &lt;span xml:lang='en'&gt;Depends on contents of the project and seminar&lt;/span&gt; &lt;/li&gt;&lt;/ul&gt;</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R10</r_blobs.artblob>
-            <kategorie>Literatur</kategorie>
-            <k_artblob.blobsort>L</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>&lt;ul&gt;&lt;li&gt;&lt;span xml:lang='de'&gt;Je nach Thema des Entwicklungsprojekts und des Seminars&lt;/span&gt; &lt;span xml:lang='en'&gt;Depends on contents of the project and seminar&lt;/span&gt; &lt;/li&gt;&lt;/ul&gt;</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R10</r_blobs.artblob>
-            <kategorie>Literatur</kategorie>
-            <k_artblob.blobsort>L</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>&lt;p&gt;Depends on contents of the project and seminar&lt;/p&gt;</txt>
-            <sprache>en</sprache>
-            <r_blobs.artblob>R10</r_blobs.artblob>
-            <kategorie>Literatur</kategorie>
-            <k_artblob.blobsort>L</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Durchführung eines Softwareprojeks mit einer konkreten, relevanten Aufgabe - in der Regel mit einem Partner außerhalb der Hochschule.</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R100</r_blobs.artblob>
-            <kategorie>Kurzbeschreibung</kategorie>
-            <k_artblob.blobsort>Z</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Durchführung eines Softwareprojeks mit einer konkreten, relevanten Aufgabe - in der Regel mit einem Partner außerhalb der Hochschule.</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R100</r_blobs.artblob>
-            <kategorie>Kurzbeschreibung</kategorie>
-            <k_artblob.blobsort>Z</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Realization of a software project with a concrete, relevant task - often with partners outside university</txt>
-            <sprache>en</sprache>
-            <r_blobs.artblob>R100</r_blobs.artblob>
-            <kategorie>Kurzbeschreibung</kategorie>
-            <k_artblob.blobsort>Z</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Realization of a software project with a concrete, relevant task - often with partners outside university</txt>
-            <sprache>en</sprache>
-            <r_blobs.artblob>R100</r_blobs.artblob>
-            <kategorie>Kurzbeschreibung</kategorie>
-            <k_artblob.blobsort>Z</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Durchführung eines Softwareprojeks mit einer konkreten, relevanten Aufgabe - in der Regel mit einem Partner außerhalb der Hochschule.</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R201</r_blobs.artblob>
-            <kategorie>Kurzbeschr-original</kategorie>
-            <k_artblob.blobsort>b</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Durchführung eines Softwareprojeks mit einer konkreten, relevanten Aufgabe - in der Regel mit einem Partner außerhalb der Hochschule.</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R201</r_blobs.artblob>
-            <kategorie>Kurzbeschr-original</kategorie>
-            <k_artblob.blobsort>b</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Realization of a software project with a concrete, relevant task - often with partners outside university</txt>
-            <sprache>en</sprache>
-            <r_blobs.artblob>R201</r_blobs.artblob>
-            <kategorie>Kurzbeschr-original</kategorie>
-            <k_artblob.blobsort>b</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Realization of a software project with a concrete, relevant task - often with partners outside university</txt>
-            <sprache>en</sprache>
-            <r_blobs.artblob>R201</r_blobs.artblob>
-            <kategorie>Kurzbeschr-original</kategorie>
-            <k_artblob.blobsort>b</k_artblob.blobsort>
-        </beschreibungen>
-    </modul>
-</module>
+    <module>
+        <statistics>
+            <rows>1</rows>
+            <countDS>1</countDS>
+        </statistics>
+        <modul>
+            <modulid>11951</modulid>
+            <nrhis>215002</nrhis>
+            <modulecode>MS5002</modulecode>
+            <kuerzel>Entwproj</kuerzel>
+            <kurzname>Entwicklungsprojekt</kurzname>
+            <titelde>Entwicklungsprojekt (inkl. Begleitseminar)</titelde>
+            <studiengang>I</studiengang>
+            <abschluss>MS</abschluss>
+            <pversion>2010</pversion>
+            <ktxtppflicht>PF</ktxtppflicht>
+            <ktxtpform>S</ktxtpform>
+            <ktxtpart>LN</ktxtpart>
+            <modultyp>M</modultyp>
+            <sprache>D</sprache>
+            <lp>15.0</lp>
+            <sws>8.0</sws>
+            <pfsem>3</pfsem>
+            <aufwand />
+            <praesenzzeit />
+            <selbstzeit />
+            <verart />
+            <gruppengr>0</gruppengr>
+            <turnus>3</turnus>
+            <dauer>1 Semester</dauer>
+            <standbearb />
+            <fb>MI</fb>
+            <versemester>20141</versemester>
+            <verstandbearb>400</verstandbearb>
+            <sperrmh />
+            <titelen>Project with Workshop</titelen>
+            <kurznameen>Project with Workshop</kurznameen>
+            <kuerzelen>ProjWork</kuerzelen>
+            <stgtext>Informatik</stgtext>
+            <abschltext>Master of Science</abschltext>
+            <pplichttext>Pflichtfach</pplichttext>
+            <pformtext>schriftlich</pformtext>
+            <fbktext>MNI</fbktext>
+            <parents />
+            <verantwortliche>
+                <personinfo>
+                    <vorname>Burkhardt</vorname>
+                    <nachname>Renz</nachname>
+                </personinfo>
+                <hgnr>hg11260</hgnr>
+            </verantwortliche>
+            <beschreibungen>
+                <txt>15 CrP; 450 Stunden, davon etwa 120 Stunden Präsenzzeit</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R3</r_blobs.artblob>
+                <kategorie>Creditpoints/Arbeitsaufwand</kategorie>
+                <k_artblob.blobsort>A</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>15 CrP; 450 Stunden, davon etwa 120 Stunden Präsenzzeit</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R3</r_blobs.artblob>
+                <kategorie>Creditpoints/Arbeitsaufwand</kategorie>
+                <k_artblob.blobsort>A</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>15 CrP; 450 hours thereof about 120 hours time of attendance</txt>
+                <sprache>en</sprache>
+                <r_blobs.artblob>R3</r_blobs.artblob>
+                <kategorie>Creditpoints/Arbeitsaufwand</kategorie>
+                <k_artblob.blobsort>A</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>15 CrP; 450 hours thereof about 120 hours time of attendance</txt>
+                <sprache>en</sprache>
+                <r_blobs.artblob>R3</r_blobs.artblob>
+                <kategorie>Creditpoints/Arbeitsaufwand</kategorie>
+                <k_artblob.blobsort>A</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Seminar 2 SWS Projekt 6 SWS</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R2</r_blobs.artblob>
+                <kategorie>Lehrformen</kategorie>
+                <k_artblob.blobsort>B</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Seminar 2 SWS Projekt 6 SWS</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R2</r_blobs.artblob>
+                <kategorie>Lehrformen</kategorie>
+                <k_artblob.blobsort>B</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Seminar  2  sppw  Study Project  6  sppw   </txt>
+                <sprache>en</sprache>
+                <r_blobs.artblob>R2</r_blobs.artblob>
+                <kategorie>Lehrformen</kategorie>
+                <k_artblob.blobsort>B</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Seminar  2  sppw  Study Project  6  sppw   </txt>
+                <sprache>en</sprache>
+                <r_blobs.artblob>R2</r_blobs.artblob>
+                <kategorie>Lehrformen</kategorie>
+                <k_artblob.blobsort>B</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Mindestens 48 Creditpoints bereits erreicht</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R17</r_blobs.artblob>
+                <kategorie>Voraussetzungen</kategorie>
+                <k_artblob.blobsort>C</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Mindestens 48 Creditpoints bereits erreicht</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R17</r_blobs.artblob>
+                <kategorie>Voraussetzungen</kategorie>
+                <k_artblob.blobsort>C</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>At least 48 Creditpoints already achieved</txt>
+                <sprache>en</sprache>
+                <r_blobs.artblob>R17</r_blobs.artblob>
+                <kategorie>Voraussetzungen</kategorie>
+                <k_artblob.blobsort>C</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>At least 48 Creditpoints already achieved</txt>
+                <sprache>en</sprache>
+                <r_blobs.artblob>R17</r_blobs.artblob>
+                <kategorie>Voraussetzungen</kategorie>
+                <k_artblob.blobsort>C</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Die Studierenden sind in der Lage eine realitätsrelevante Problemstellung als Softwareentwicklungsprojekt durchzuführen. Die Studierenden &lt;ul&gt; &lt;li&gt;besitzen Wissen, Methoden und Techniken aus verschiedenen Teilgebieten der Informatik, und wenden sie auf ein konkretes Problem an, &lt;/li&gt; &lt;li&gt;können sich rasch und methodisch in ein Anwendungsgebiete so weit einarbeiten, dass sie den Bereichsexperten eine qualitativ hochstehende Softwarelösung bieten können, &lt;/li&gt; &lt;li&gt;gehen arbeitsteilig und organisiert nach den Methoden der Softwaretechnik vor, &lt;/li&gt; &lt;li&gt;bewältigen die sachlichen und organisatorischen Schwierigkeiten, die mit Projekten verbunden sind, die zeit- und mittelgerecht erstellt werden müssen, &lt;/li&gt; &lt;li&gt;besitzen Kommunikationsfähigkeit und Urteilsbildung in der Auseinandersetzung mit Experten des Anwendungsgebiets &lt;/li&gt; &lt;li&gt;reflektieren das Entwicklungsprojekt durch theoretische Kenntnisse&lt;/li&gt; &lt;/ul&gt;</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R9</r_blobs.artblob>
+                <kategorie>Qualifikations und Lernziele</kategorie>
+                <k_artblob.blobsort>F</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Die Studierenden sind in der Lage eine realitätsrelevante Problemstellung als Softwareentwicklungsprojekt durchzuführen. Die Studierenden &lt;ul&gt; &lt;li&gt;besitzen Wissen, Methoden und Techniken aus verschiedenen Teilgebieten der Informatik, und wenden sie auf ein konkretes Problem an, &lt;/li&gt; &lt;li&gt;können sich rasch und methodisch in ein Anwendungsgebiete so weit einarbeiten, dass sie den Bereichsexperten eine qualitativ hochstehende Softwarelösung bieten können, &lt;/li&gt; &lt;li&gt;gehen arbeitsteilig und organisiert nach den Methoden der Softwaretechnik vor, &lt;/li&gt; &lt;li&gt;bewältigen die sachlichen und organisatorischen Schwierigkeiten, die mit Projekten verbunden sind, die zeit- und mittelgerecht erstellt werden müssen, &lt;/li&gt; &lt;li&gt;besitzen Kommunikationsfähigkeit und Urteilsbildung in der Auseinandersetzung mit Experten des Anwendungsgebiets &lt;/li&gt; &lt;li&gt;reflektieren das Entwicklungsprojekt durch theoretische Kenntnisse&lt;/li&gt; &lt;/ul&gt;</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R9</r_blobs.artblob>
+                <kategorie>Qualifikations und Lernziele</kategorie>
+                <k_artblob.blobsort>F</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>The field of software engineering is marked by fast innovation of technology and methods, by growing size and complexity of projects and finally by increasing quality requirements.&lt;br/&gt; In the project the participants learn to meet these demands.&lt;br/&gt; For that they develop software for a relevant task. Participants &lt;ul&gt; &lt;li&gt;improve and extend their knowledge of computer science and apply it to a concrete problem,&lt;/li&gt; &lt;li&gt;settle quickly into the application domain, so that they can offer domain experts solutions of high quality,&lt;/li&gt; &lt;li&gt;proceed according to methods and principles of software engineering,&lt;/li&gt; &lt;li&gt;solve technical and organizational problems of the project&lt;/li&gt; &lt;li&gt;train their ability to communicate and to judge in the collaboration with domain experts.&lt;/li&gt; &lt;/ul&gt;</txt>
+                <sprache>en</sprache>
+                <r_blobs.artblob>R9</r_blobs.artblob>
+                <kategorie>Qualifikations und Lernziele</kategorie>
+                <k_artblob.blobsort>F</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>The field of software engineering is marked by fast innovation of technology and methods, by growing size and complexity of projects and finally by increasing quality requirements.&lt;br/&gt; In the project the participants learn to meet these demands.&lt;br/&gt; For that they develop software for a relevant task. Participants &lt;ul&gt; &lt;li&gt;improve and extend their knowledge of computer science and apply it to a concrete problem,&lt;/li&gt; &lt;li&gt;settle quickly into the application domain, so that they can offer domain experts solutions of high quality,&lt;/li&gt; &lt;li&gt;proceed according to methods and principles of software engineering,&lt;/li&gt; &lt;li&gt;solve technical and organizational problems of the project&lt;/li&gt; &lt;li&gt;train their ability to communicate and to judge in the collaboration with domain experts.&lt;/li&gt; &lt;/ul&gt;</txt>
+                <sprache>en</sprache>
+                <r_blobs.artblob>R9</r_blobs.artblob>
+                <kategorie>Qualifikations und Lernziele</kategorie>
+                <k_artblob.blobsort>F</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Das Entwicklungsprojekt besteht in der Erarbeitung einer Lösung für eine realitätsrelevante Fragestellung, in der Regel für ein reales Projekt aus der Berufspraxis, das von der Hochschule in Zusammenarbeit mit externen Partnern entwickelt wird. Der Lehrinhalt umfasst also u.a. &lt;ul&gt; &lt;li&gt;Kenntnisse der berührten Fachgebiete der Informatik&lt;/li&gt; &lt;li&gt;Kenntnisse des Anwendungsgebiets&lt;/li&gt; &lt;li&gt;Kenntnisse der Softwaretechnik&lt;/li&gt; &lt;/ul&gt; Das Begleitseminar zum Entwicklungsprojekt vertieft die theoretischen Kenntnisse, die für die erfolgreiche Durchführung des Entwicklungsprojektes benötigt werden. Es entspricht der Natur des Entwicklungsprojekts, dass die Themenstellung des Seminars sowohl aus dem Bereich der theoretischen Grundlagen der Informatik, der Softwaretechnik oder der Wahlpflichtbereiche des Projekts sein kann.</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R1</r_blobs.artblob>
+                <kategorie>Inhalt</kategorie>
+                <k_artblob.blobsort>G</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Das Entwicklungsprojekt besteht in der Erarbeitung einer Lösung für eine realitätsrelevante Fragestellung, in der Regel für ein reales Projekt aus der Berufspraxis, das von der Hochschule in Zusammenarbeit mit externen Partnern entwickelt wird. Der Lehrinhalt umfasst also u.a. &lt;ul&gt; &lt;li&gt;Kenntnisse der berührten Fachgebiete der Informatik&lt;/li&gt; &lt;li&gt;Kenntnisse des Anwendungsgebiets&lt;/li&gt; &lt;li&gt;Kenntnisse der Softwaretechnik&lt;/li&gt; &lt;/ul&gt; Das Begleitseminar zum Entwicklungsprojekt vertieft die theoretischen Kenntnisse, die für die erfolgreiche Durchführung des Entwicklungsprojektes benötigt werden. Es entspricht der Natur des Entwicklungsprojekts, dass die Themenstellung des Seminars sowohl aus dem Bereich der theoretischen Grundlagen der Informatik, der Softwaretechnik oder der Wahlpflichtbereiche des Projekts sein kann.</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R1</r_blobs.artblob>
+                <kategorie>Inhalt</kategorie>
+                <k_artblob.blobsort>G</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>The subject of the project is the solution of a relevant question, normally a joint project with a partner in industry. The project needs knowledge &lt;ul&gt; &lt;li&gt;of concerned fields of computer science&lt;/li&gt; &lt;li&gt;of the application domain&lt;/li&gt; &lt;li&gt;of software engineering&lt;/li&gt; &lt;/ul&gt; The workshop goes further into the knowledge needed to achieve the goals of the development project.</txt>
+                <sprache>en</sprache>
+                <r_blobs.artblob>R1</r_blobs.artblob>
+                <kategorie>Inhalt</kategorie>
+                <k_artblob.blobsort>G</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>The subject of the project is the solution of a relevant question, normally a joint project with a partner in industry. The project needs knowledge &lt;ul&gt; &lt;li&gt;of concerned fields of computer science&lt;/li&gt; &lt;li&gt;of the application domain&lt;/li&gt; &lt;li&gt;of software engineering&lt;/li&gt; &lt;/ul&gt; The workshop goes further into the knowledge needed to achieve the goals of the development project.</txt>
+                <sprache>en</sprache>
+                <r_blobs.artblob>R1</r_blobs.artblob>
+                <kategorie>Inhalt</kategorie>
+                <k_artblob.blobsort>G</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Regelmäßige, aktive Teilnahme am Begleitseminar</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R14</r_blobs.artblob>
+                <kategorie>Prüfungsvorleistungen</kategorie>
+                <k_artblob.blobsort>H</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Regelmäßige, aktive Teilnahme am Begleitseminar</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R14</r_blobs.artblob>
+                <kategorie>Prüfungsvorleistungen</kategorie>
+                <k_artblob.blobsort>H</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Participation at workshop</txt>
+                <sprache>en</sprache>
+                <r_blobs.artblob>R14</r_blobs.artblob>
+                <kategorie>Prüfungsvorleistungen</kategorie>
+                <k_artblob.blobsort>H</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Participation at workshop</txt>
+                <sprache>en</sprache>
+                <r_blobs.artblob>R14</r_blobs.artblob>
+                <kategorie>Prüfungsvorleistungen</kategorie>
+                <k_artblob.blobsort>H</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Projektarbeit; individuelle Leistung im Team</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R7</r_blobs.artblob>
+                <kategorie>Voraussetzungen für die Vergabe von Creditpoints</kategorie>
+                <k_artblob.blobsort>J</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Projektarbeit; individuelle Leistung im Team</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R7</r_blobs.artblob>
+                <kategorie>Voraussetzungen für die Vergabe von Creditpoints</kategorie>
+                <k_artblob.blobsort>J</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Artifacts of the development project, individual contribution to the project</txt>
+                <sprache>en</sprache>
+                <r_blobs.artblob>R7</r_blobs.artblob>
+                <kategorie>Voraussetzungen für die Vergabe von Creditpoints</kategorie>
+                <k_artblob.blobsort>J</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Artifacts of the development project, individual contribution to the project</txt>
+                <sprache>en</sprache>
+                <r_blobs.artblob>R7</r_blobs.artblob>
+                <kategorie>Voraussetzungen für die Vergabe von Creditpoints</kategorie>
+                <k_artblob.blobsort>J</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>&lt;ul&gt;&lt;li&gt;&lt;span xml:lang='de'&gt;Je nach Thema des Entwicklungsprojekts und des Seminars&lt;/span&gt; &lt;span xml:lang='en'&gt;Depends on contents of the project and seminar&lt;/span&gt; &lt;/li&gt;&lt;/ul&gt;</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R10</r_blobs.artblob>
+                <kategorie>Literatur</kategorie>
+                <k_artblob.blobsort>L</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>&lt;ul&gt;&lt;li&gt;&lt;span xml:lang='de'&gt;Je nach Thema des Entwicklungsprojekts und des Seminars&lt;/span&gt; &lt;span xml:lang='en'&gt;Depends on contents of the project and seminar&lt;/span&gt; &lt;/li&gt;&lt;/ul&gt;</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R10</r_blobs.artblob>
+                <kategorie>Literatur</kategorie>
+                <k_artblob.blobsort>L</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>&lt;p&gt;Depends on contents of the project and seminar&lt;/p&gt;</txt>
+                <sprache>en</sprache>
+                <r_blobs.artblob>R10</r_blobs.artblob>
+                <kategorie>Literatur</kategorie>
+                <k_artblob.blobsort>L</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Durchführung eines Softwareprojeks mit einer konkreten, relevanten Aufgabe - in der Regel mit einem Partner außerhalb der Hochschule.</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R100</r_blobs.artblob>
+                <kategorie>Kurzbeschreibung</kategorie>
+                <k_artblob.blobsort>Z</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Durchführung eines Softwareprojeks mit einer konkreten, relevanten Aufgabe - in der Regel mit einem Partner außerhalb der Hochschule.</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R100</r_blobs.artblob>
+                <kategorie>Kurzbeschreibung</kategorie>
+                <k_artblob.blobsort>Z</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Realization of a software project with a concrete, relevant task - often with partners outside university</txt>
+                <sprache>en</sprache>
+                <r_blobs.artblob>R100</r_blobs.artblob>
+                <kategorie>Kurzbeschreibung</kategorie>
+                <k_artblob.blobsort>Z</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Realization of a software project with a concrete, relevant task - often with partners outside university</txt>
+                <sprache>en</sprache>
+                <r_blobs.artblob>R100</r_blobs.artblob>
+                <kategorie>Kurzbeschreibung</kategorie>
+                <k_artblob.blobsort>Z</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Durchführung eines Softwareprojeks mit einer konkreten, relevanten Aufgabe - in der Regel mit einem Partner außerhalb der Hochschule.</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R201</r_blobs.artblob>
+                <kategorie>Kurzbeschr-original</kategorie>
+                <k_artblob.blobsort>b</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Durchführung eines Softwareprojeks mit einer konkreten, relevanten Aufgabe - in der Regel mit einem Partner außerhalb der Hochschule.</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R201</r_blobs.artblob>
+                <kategorie>Kurzbeschr-original</kategorie>
+                <k_artblob.blobsort>b</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Realization of a software project with a concrete, relevant task - often with partners outside university</txt>
+                <sprache>en</sprache>
+                <r_blobs.artblob>R201</r_blobs.artblob>
+                <kategorie>Kurzbeschr-original</kategorie>
+                <k_artblob.blobsort>b</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Realization of a software project with a concrete, relevant task - often with partners outside university</txt>
+                <sprache>en</sprache>
+                <r_blobs.artblob>R201</r_blobs.artblob>
+                <kategorie>Kurzbeschr-original</kategorie>
+                <k_artblob.blobsort>b</k_artblob.blobsort>
+            </beschreibungen>
+        </modul>
+    </module>
 
 
 
-<!-- Angewandte Mikroökonomie W BWL BSc 2009 -->
-<module>
-    <statistics>
-        <rows>1</rows>
-        <countDS>1</countDS>
-    </statistics>
-    <modul>
-        <modulid>9313</modulid>
-        <nrhis>104</nrhis>
-        <modulecode>104</modulecode>
-        <kuerzel>Mikroökono</kuerzel>
-        <kurzname>Angewandte Mikroökonomie</kurzname>
-        <titelde>Angewandte Mikroökonomie</titelde>
-        <studiengang>W</studiengang>
-        <abschluss>BA</abschluss>
-        <pversion>2009</pversion>
-        <ktxtppflicht>PF</ktxtppflicht>
-        <ktxtpform>S</ktxtpform>
-        <ktxtpart>P</ktxtpart>
-        <modultyp>M</modultyp>
-        <sprache>D</sprache>
-        <lp>5.0</lp>
-        <sws>4.0</sws>
-        <pfsem>1</pfsem>
-        <aufwand>150</aufwand>
-        <praesenzzeit>60</praesenzzeit>
-        <selbstzeit>90</selbstzeit>
-        <verart>0</verart>
-        <gruppengr>0</gruppengr>
-        <turnus>3</turnus>
-        <dauer />
-        <standbearb />
-        <fb>W</fb>
-        <versemester>20101</versemester>
-        <verstandbearb>400</verstandbearb>
-        <sperrmh />
-        <titelen>Applied microeconomics</titelen>
-        <kurznameen />
-        <kuerzelen />
-        <stgtext>Betriebswirtschaft</stgtext>
-        <abschltext>Bachelor of Arts</abschltext>
-        <pplichttext>Pflichtfach</pplichttext>
-        <pformtext>schriftlich</pformtext>
-        <fbktext>W</fbktext>
-        <parents />
-        <verantwortliche>
-            <personinfo>
-                <vorname>Derk-Hayo</vorname>
-                <nachname>Reimers</nachname>
-            </personinfo>
-            <hgnr>hg7742</hgnr>
-        </verantwortliche>
-        <dozent>
-            <personinfo>
-                <personal.vorname>Alexander</personal.vorname>
-                <personal.nachname>Schwab</personal.nachname>
-            </personinfo>
-            <hgnr>aswb11</hgnr>
-        </dozent>
-        <beschreibungen>
-            <txt>&lt;p&gt;Vorlesung, &amp;Uuml;bungen&lt;/p&gt;</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R2</r_blobs.artblob>
-            <kategorie>Lehrformen</kategorie>
-            <k_artblob.blobsort>B</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>&lt;p&gt;728&lt;/p&gt;</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R6</r_blobs.artblob>
-            <kategorie>Verwendbarkeit des Moduls</kategorie>
-            <k_artblob.blobsort>E</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>&lt;p&gt;Das Modul soll das Verst&amp;auml;ndnis f&amp;uuml;r mikro&amp;ouml;konomische Zusammenh&amp;auml;nge und Verhaltensmuster auf G&amp;uuml;term&amp;auml;rkten wecken. Es soll die F&amp;auml;higkeit herausbilden, mikro&amp;ouml;konomisch fundierte wirtschaftspolitische Entscheidungen hinsichtlich ihrer Allokations- und Verteilungswirkungen auf M&amp;auml;rkten zu analysieren und zu&lt;br /&gt;bewerten.&lt;/p&gt;</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R9</r_blobs.artblob>
-            <kategorie>Qualifikations und Lernziele</kategorie>
-            <k_artblob.blobsort>F</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>***</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R104</r_blobs.artblob>
-            <kategorie>Fachkompetenz</kategorie>
-            <k_artblob.blobsort>FA</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>***</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R105</r_blobs.artblob>
-            <kategorie>Methodenkompetenz</kategorie>
-            <k_artblob.blobsort>FB</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>*</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R106</r_blobs.artblob>
-            <kategorie>Sozialkompetenz</kategorie>
-            <k_artblob.blobsort>FC</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>**</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R107</r_blobs.artblob>
-            <kategorie>Selbstkompetenz</kategorie>
-            <k_artblob.blobsort>FD</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>&lt;p&gt;Einzelwirtschaftliches Angebots- und Nachfrageverhalten von Unternehmen und Haushalten auf G&amp;uuml;term&amp;auml;rkten: Konsumtheorie; Produktions- &amp;amp; Kostentheorie; Gleichgewichtsl&amp;ouml;sungen der G&amp;uuml;term&amp;auml;rkte bei funktionsf&amp;auml;higem Wettbewerb. Mikro&amp;ouml;konomisch fundierte Wirtschaftspolitik: Typische Marktunvollkommenheiten (monopolistische und oligopolistische Marktformen, externe Effekte, Fehlen &amp;ouml;ffentlicher G&amp;uuml;ter, sozial- und verteilungspolitische Fehlentwicklungen); Spieltheorie und asymmetrische Informationen. Die allokativen und distributiven Eingriffe des Staates zur Marktregulierung; die allokativen und distributiven Wirkungen der Finanzierung der Staatst&amp;auml;tigkeit.&lt;/p&gt;</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R1</r_blobs.artblob>
-            <kategorie>Inhalt</kategorie>
-            <k_artblob.blobsort>G</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>&lt;p&gt;Klausur&lt;/p&gt;</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R7</r_blobs.artblob>
-            <kategorie>Voraussetzungen für die Vergabe von Creditpoints</kategorie>
-            <k_artblob.blobsort>J</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>&lt;p&gt;Bewertung entsprechend &amp;sect; 9 der Allgemeinen Bestimmungen (Teil I der Pr&amp;uuml;fungsordnung)&lt;/p&gt;</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R8</r_blobs.artblob>
-            <kategorie>Bewertung, Note</kategorie>
-            <k_artblob.blobsort>K</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>&lt;ul&gt;&#xD;
-                &lt;li&gt;Ba&amp;szlig;eler, Heinrich, Koch: Grundlagen und Probleme der Volkswirtschaft, 18. Aufl., &amp;nbsp;Stuttgart 2006&lt;/li&gt;&#xD;
-                &lt;li&gt;Bofinger, Peter:Grundz&amp;uuml;ge der Volkswirtschaftslehre, 3. Aufl., &amp;nbsp;M&amp;uuml;nchen 2011&lt;/li&gt;&#xD;
-                &lt;li&gt;Demmler, H.: Grundlagen der Mikro&amp;ouml;kologie, 4. Auflage , M&amp;uuml;nchen , 2000&lt;/li&gt;&#xD;
-                &lt;li&gt;Hildmann, Gabriele: Mikro&amp;ouml;konomie &amp;ndash; Intensivtraining, 2. Aufl., Wiesbaden 2005&lt;/li&gt;&#xD;
-                &lt;li&gt;Pindyck, Robert S./Rubinfeld, Daniel L.: Mikro&amp;ouml;konomie, 6. Aufl., M&amp;uuml;nchen 2007&lt;/li&gt;&#xD;
-                &lt;li&gt;Vogt, Gustav:Faszinierende Mikro&amp;ouml;konomie: Eine erlebnisorientierte Einf&amp;uuml;hrung, 2. Aufl., M&amp;uuml;nchen 2007&lt;/li&gt;&#xD;
-                &lt;/ul&gt;</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R10</r_blobs.artblob>
-            <kategorie>Literatur</kategorie>
-            <k_artblob.blobsort>L</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>&lt;p&gt;Skript VWL I (Angewandte Mikro&amp;ouml;konomie)&lt;/p&gt;</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R25</r_blobs.artblob>
-            <kategorie>Studienhilfsmittel</kategorie>
-            <k_artblob.blobsort>M</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Angebots- und Nachfrageverhalten von Unternehmen und Haushalten&#xD;
-                mikroökonomisch fundierte Umwelt-, Finanz- und Wettbewerbspolitik</txt>
-            <sprache>de</sprache>
-            <r_blobs.artblob>R100</r_blobs.artblob>
-            <kategorie>Kurzbeschreibung</kategorie>
-            <k_artblob.blobsort>Z</k_artblob.blobsort>
-        </beschreibungen>
-        <beschreibungen>
-            <txt>Theory of supply and demand: goods and service markets</txt>
-            <sprache>en</sprache>
-            <r_blobs.artblob>R100</r_blobs.artblob>
-            <kategorie>Kurzbeschreibung</kategorie>
-            <k_artblob.blobsort>Z</k_artblob.blobsort>
-        </beschreibungen>
-    </modul>
-</module>
+    <!-- Angewandte Mikroökonomie W BWL BSc 2009 -->
+    <module>
+        <statistics>
+            <rows>1</rows>
+            <countDS>1</countDS>
+        </statistics>
+        <modul>
+            <modulid>9313</modulid>
+            <nrhis>104</nrhis>
+            <modulecode>104</modulecode>
+            <kuerzel>Mikroökono</kuerzel>
+            <kurzname>Angewandte Mikroökonomie</kurzname>
+            <titelde>Angewandte Mikroökonomie</titelde>
+            <studiengang>W</studiengang>
+            <abschluss>BA</abschluss>
+            <pversion>2009</pversion>
+            <ktxtppflicht>PF</ktxtppflicht>
+            <ktxtpform>S</ktxtpform>
+            <ktxtpart>P</ktxtpart>
+            <modultyp>M</modultyp>
+            <sprache>D</sprache>
+            <lp>5.0</lp>
+            <sws>4.0</sws>
+            <pfsem>1</pfsem>
+            <aufwand>150</aufwand>
+            <praesenzzeit>60</praesenzzeit>
+            <selbstzeit>90</selbstzeit>
+            <verart>0</verart>
+            <gruppengr>0</gruppengr>
+            <turnus>3</turnus>
+            <dauer />
+            <standbearb />
+            <fb>W</fb>
+            <versemester>20101</versemester>
+            <verstandbearb>400</verstandbearb>
+            <sperrmh />
+            <titelen>Applied microeconomics</titelen>
+            <kurznameen />
+            <kuerzelen />
+            <stgtext>Betriebswirtschaft</stgtext>
+            <abschltext>Bachelor of Arts</abschltext>
+            <pplichttext>Pflichtfach</pplichttext>
+            <pformtext>schriftlich</pformtext>
+            <fbktext>W</fbktext>
+            <parents />
+            <verantwortliche>
+                <personinfo>
+                    <vorname>Derk-Hayo</vorname>
+                    <nachname>Reimers</nachname>
+                </personinfo>
+                <hgnr>hg7742</hgnr>
+            </verantwortliche>
+            <dozent>
+                <personinfo>
+                    <personal.vorname>Alexander</personal.vorname>
+                    <personal.nachname>Schwab</personal.nachname>
+                </personinfo>
+                <hgnr>aswb11</hgnr>
+            </dozent>
+            <beschreibungen>
+                <txt>&lt;p&gt;Vorlesung, &amp;Uuml;bungen&lt;/p&gt;</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R2</r_blobs.artblob>
+                <kategorie>Lehrformen</kategorie>
+                <k_artblob.blobsort>B</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>&lt;p&gt;728&lt;/p&gt;</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R6</r_blobs.artblob>
+                <kategorie>Verwendbarkeit des Moduls</kategorie>
+                <k_artblob.blobsort>E</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>&lt;p&gt;Das Modul soll das Verst&amp;auml;ndnis f&amp;uuml;r mikro&amp;ouml;konomische Zusammenh&amp;auml;nge und Verhaltensmuster auf G&amp;uuml;term&amp;auml;rkten wecken. Es soll die F&amp;auml;higkeit herausbilden, mikro&amp;ouml;konomisch fundierte wirtschaftspolitische Entscheidungen hinsichtlich ihrer Allokations- und Verteilungswirkungen auf M&amp;auml;rkten zu analysieren und zu&lt;br /&gt;bewerten.&lt;/p&gt;</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R9</r_blobs.artblob>
+                <kategorie>Qualifikations und Lernziele</kategorie>
+                <k_artblob.blobsort>F</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>***</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R104</r_blobs.artblob>
+                <kategorie>Fachkompetenz</kategorie>
+                <k_artblob.blobsort>FA</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>***</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R105</r_blobs.artblob>
+                <kategorie>Methodenkompetenz</kategorie>
+                <k_artblob.blobsort>FB</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>*</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R106</r_blobs.artblob>
+                <kategorie>Sozialkompetenz</kategorie>
+                <k_artblob.blobsort>FC</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>**</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R107</r_blobs.artblob>
+                <kategorie>Selbstkompetenz</kategorie>
+                <k_artblob.blobsort>FD</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>&lt;p&gt;Einzelwirtschaftliches Angebots- und Nachfrageverhalten von Unternehmen und Haushalten auf G&amp;uuml;term&amp;auml;rkten: Konsumtheorie; Produktions- &amp;amp; Kostentheorie; Gleichgewichtsl&amp;ouml;sungen der G&amp;uuml;term&amp;auml;rkte bei funktionsf&amp;auml;higem Wettbewerb. Mikro&amp;ouml;konomisch fundierte Wirtschaftspolitik: Typische Marktunvollkommenheiten (monopolistische und oligopolistische Marktformen, externe Effekte, Fehlen &amp;ouml;ffentlicher G&amp;uuml;ter, sozial- und verteilungspolitische Fehlentwicklungen); Spieltheorie und asymmetrische Informationen. Die allokativen und distributiven Eingriffe des Staates zur Marktregulierung; die allokativen und distributiven Wirkungen der Finanzierung der Staatst&amp;auml;tigkeit.&lt;/p&gt;</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R1</r_blobs.artblob>
+                <kategorie>Inhalt</kategorie>
+                <k_artblob.blobsort>G</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>&lt;p&gt;Klausur&lt;/p&gt;</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R7</r_blobs.artblob>
+                <kategorie>Voraussetzungen für die Vergabe von Creditpoints</kategorie>
+                <k_artblob.blobsort>J</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>&lt;p&gt;Bewertung entsprechend &amp;sect; 9 der Allgemeinen Bestimmungen (Teil I der Pr&amp;uuml;fungsordnung)&lt;/p&gt;</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R8</r_blobs.artblob>
+                <kategorie>Bewertung, Note</kategorie>
+                <k_artblob.blobsort>K</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>&lt;ul&gt;&#xD;
+                    &lt;li&gt;Ba&amp;szlig;eler, Heinrich, Koch: Grundlagen und Probleme der Volkswirtschaft, 18. Aufl., &amp;nbsp;Stuttgart 2006&lt;/li&gt;&#xD;
+                    &lt;li&gt;Bofinger, Peter:Grundz&amp;uuml;ge der Volkswirtschaftslehre, 3. Aufl., &amp;nbsp;M&amp;uuml;nchen 2011&lt;/li&gt;&#xD;
+                    &lt;li&gt;Demmler, H.: Grundlagen der Mikro&amp;ouml;kologie, 4. Auflage , M&amp;uuml;nchen , 2000&lt;/li&gt;&#xD;
+                    &lt;li&gt;Hildmann, Gabriele: Mikro&amp;ouml;konomie &amp;ndash; Intensivtraining, 2. Aufl., Wiesbaden 2005&lt;/li&gt;&#xD;
+                    &lt;li&gt;Pindyck, Robert S./Rubinfeld, Daniel L.: Mikro&amp;ouml;konomie, 6. Aufl., M&amp;uuml;nchen 2007&lt;/li&gt;&#xD;
+                    &lt;li&gt;Vogt, Gustav:Faszinierende Mikro&amp;ouml;konomie: Eine erlebnisorientierte Einf&amp;uuml;hrung, 2. Aufl., M&amp;uuml;nchen 2007&lt;/li&gt;&#xD;
+                    &lt;/ul&gt;</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R10</r_blobs.artblob>
+                <kategorie>Literatur</kategorie>
+                <k_artblob.blobsort>L</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>&lt;p&gt;Skript VWL I (Angewandte Mikro&amp;ouml;konomie)&lt;/p&gt;</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R25</r_blobs.artblob>
+                <kategorie>Studienhilfsmittel</kategorie>
+                <k_artblob.blobsort>M</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Angebots- und Nachfrageverhalten von Unternehmen und Haushalten&#xD;
+                    mikroökonomisch fundierte Umwelt-, Finanz- und Wettbewerbspolitik</txt>
+                <sprache>de</sprache>
+                <r_blobs.artblob>R100</r_blobs.artblob>
+                <kategorie>Kurzbeschreibung</kategorie>
+                <k_artblob.blobsort>Z</k_artblob.blobsort>
+            </beschreibungen>
+            <beschreibungen>
+                <txt>Theory of supply and demand: goods and service markets</txt>
+                <sprache>en</sprache>
+                <r_blobs.artblob>R100</r_blobs.artblob>
+                <kategorie>Kurzbeschreibung</kategorie>
+                <k_artblob.blobsort>Z</k_artblob.blobsort>
+            </beschreibungen>
+        </modul>
+    </module>
+</document>
