@@ -497,7 +497,15 @@ class THM_OrganizerModelSchedule_Navigation
             $resources = array_filter(
                 (array) $subcategoriesData, function ($resource) use ($category, $subcategoryKey)
                 {
-                    return $this->resourceInCategory($resource, $category, $subcategoryKey);
+                    if ($category === "module" AND isset($resource->degree))
+                    {
+                        return $subcategoryKey === $resource->degree;
+                    }
+                    if (isset($resource->description))
+                    {
+                        return $subcategoryKey === $resource->description;
+                    }
+                    return false;
                 }
             );
 
@@ -553,29 +561,6 @@ class THM_OrganizerModelSchedule_Navigation
         }
 
         return $subcategoryNodes;
-    }
-
-    /**
-     * Checks whether an item's categorization matches that which is being
-     * iterated. Forms the body of a callback function.
-     * 
-     * @param   object  &$resource     the resource
-     * @param   string  $category  the resource type
-     * @param   string  $categoryKey   the category being iterated
-     * 
-     * @return  boolean  true if the resource is associated with the category
-     */
-    private function resourceInCategory(&$resource, $category, $categoryKey)
-    {
-        if ($category === "module" AND isset($resource->degree))
-        {
-            return $categoryKey === $resource->degree;
-        }
-        if (isset($resource->description))
-        {
-            return $categoryKey === $resource->description;
-        }
-        return false;
     }
 
     /**
