@@ -188,8 +188,9 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
     {
         $link = "index.php?option=com_thm_organizer&view=subject_details&languageTag={$this->languageTag}&Itemid={$this->menuID}&id=";
         $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);        
-        $query->select("name_$this->languageTag AS name, " . $query->concatenate(["'$link'","subjectID"],"") . " AS link");
+        $query = $dbo->getQuery(true);
+        $parts = array("'$link'","subjectID");
+        $query->select("name_$this->languageTag AS name, " . $query->concatenate($parts,"") . " AS link");
         $query->from('#__thm_organizer_prerequisites AS p');
         $query->innerJoin('#__thm_organizer_subjects AS s ON p.subjectID = s.id');
         $query->where("p.prerequisite = '$this->subjectID'");

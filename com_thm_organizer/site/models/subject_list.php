@@ -242,8 +242,9 @@ class THM_OrganizerModelSubject_List extends JModelList
         }
         $select[] = "s.name_$languageTag AS name";
         $select[] = 's.creditpoints';
-        $select[] = 's.externalID';        
-        $select[] = $subjectsQuery->concatenate(["$subjectLink","s.id"],"") . " AS subjectLink";
+        $select[] = 's.externalID';
+        $parts = array("$subjectLink","s.id");
+        $select[] = $subjectsQuery->concatenate($parts,"") . " AS subjectLink";
         $subjectsQuery->select($select);
         $subjectsQuery->where("m1.lft > '{$programInformation['lft']}' AND  m1.rgt < '{$programInformation['rgt']}'");
 
