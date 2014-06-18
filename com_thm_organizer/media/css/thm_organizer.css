@@ -364,7 +364,7 @@ span.navi-tab.inactive a {
     font-weight: normal;
 }
 
-div.filter-bar {
+fieldset.filter-bar ,div.filter-bar {
     font-family: Verdana, Arial;
     font-size: 13px;
     color: rgb(74, 92, 102);
