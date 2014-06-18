@@ -271,8 +271,9 @@ class THM_OrganizerModelSubject_List extends JModelList
         $programID = $this->state->get('programID');
         $languageTag = $this->state->get('languageTag');
 
-        $query = $this->_db->getQuery(true);        
-        $query->select($query->concatenate(["p.subject_$languageTag","' ('", "d.abbreviation", '\' \'', "p.version", "')'"],"") . " AS name, lft, rgt");
+        $query = $this->_db->getQuery(true);   
+        $concateQuery= array("p.subject_$languageTag","' ('", "d.abbreviation", '\' \'', "p.version", "')'");
+        $query->select($query->concatenate($concateQuery,"") . " AS name, lft, rgt");
         $query->from('#__thm_organizer_programs AS p');
         $query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.id');

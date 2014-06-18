@@ -63,8 +63,10 @@ class THM_OrganizerHelperMapping
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $degreeAndYear = $query->concatenate(array('d.abbreviation', 'dp.version'), ', ');
-        $nameSelect = $query->concatenate(array("dp.subject_{$language}", "($degreeAndYear)"), ', ');
+        $concateDegreeAndYear = array('d.abbreviation', 'dp.version');
+        $degreeAndYear = $query->concatenate($concateDegreeAndYear, ', ');
+        $concateNameSelect = array("dp.subject_{$language}", "($degreeAndYear)");
+        $nameSelect = $query->concatenate($concateNameSelect, ', ');
         $nameSelect.= " AS $alias";
         return $nameSelect;
     }
@@ -524,7 +526,8 @@ class THM_OrganizerHelperMapping
 
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $mappingClause = $query->concatenate(array("'m.lft <= '", 'm.lft', "' AND m.rgt >= '", 'm.rgt'));
+        $concateMappingClause = array("'m.lft <= '", 'm.lft', "' AND m.rgt >= '", 'm.rgt');
+        $mappingClause = $query->concatenate($concateMappingClause);
         $query->select("DISTINCT $mappingClause");
         $query->from('#__thm_organizer_subject_teachers AS st');
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = st.subjectID');

@@ -157,7 +157,8 @@ class THM_OrganizerModelPool_Manager extends JModelList
 
         $language = explode('-', JFactory::getLanguage()->getTag());
         $query = $this->_db->getQuery(true);
-        $select = "DISTINCT " . $query->concatenate(["dp.subject_{$language[0]}","' ('", "d.abbreviation", "' '", "dp.version", "')'"],"") . " As name";
+        $concateSelect = array("dp.subject_{$language[0]}","' ('", "d.abbreviation", "' '", "dp.version", "')'");
+        $select = "DISTINCT " . $query->concatenate($concateSelect,"") . " As name";
         $query->select($select);       
         $query->from('#__thm_organizer_programs AS dp');
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
@@ -240,7 +241,8 @@ class THM_OrganizerModelPool_Manager extends JModelList
     {
         $language = explode('-', JFactory::getLanguage()->getTag());
         $nameQuery = $this->_db->getQuery(true);
-        $select = $nameQuery->concatenate(["dp.subject_{$language[0]}","' ('", "d.abbreviation", "' '", "dp.version", "')'"],"") . "AS name ";
+        $concateSelect = array("dp.subject_{$language[0]}","' ('", "d.abbreviation", "' '", "dp.version", "')'");
+        $select = $nameQuery->concatenate($concateSelect,"") . "AS name ";
         $nameQuery->select($select);
         $nameQuery->from('#__thm_organizer_programs AS dp');
         $nameQuery->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
