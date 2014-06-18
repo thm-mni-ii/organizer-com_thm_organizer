@@ -31,7 +31,7 @@ class THM_OrganizerControllerTeacher extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         JRequest::setVar('id', '0');
         $this->setRedirect("index.php?option=com_thm_organizer&view=teacher_edit");
@@ -46,7 +46,7 @@ class THM_OrganizerControllerTeacher extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $this->setRedirect("index.php?option=com_thm_organizer&view=teacher_edit");
     }
@@ -62,7 +62,7 @@ class THM_OrganizerControllerTeacher extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $model = $this->getModel('teacher');
         $model->autoMergeAll();
@@ -83,7 +83,7 @@ class THM_OrganizerControllerTeacher extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         if (count(JRequest::getVar('cid', array(), 'post', 'array')) == 1)
         {
@@ -117,7 +117,7 @@ class THM_OrganizerControllerTeacher extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $success = $this->getModel('teacher')->save();
         if ($success)
@@ -142,7 +142,7 @@ class THM_OrganizerControllerTeacher extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $success = $this->getModel('teacher')->merge();
         if ($success)
@@ -167,7 +167,7 @@ class THM_OrganizerControllerTeacher extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $success = $this->getModel('teacher')->delete();
         if ($success)
@@ -191,7 +191,7 @@ class THM_OrganizerControllerTeacher extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false));
     }

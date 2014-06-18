@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        JFormFieldSubjectResponsible
+ * @name        JFormFieldSubjectTeachers
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -20,14 +20,14 @@ include_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/subjectTeachers.ph
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class JFormFieldSubjectResponsible extends JFormField
+class JFormFieldSubjectTeacher extends JFormField
 {
     /**
      * Type
      *
      * @var    String
      */
-    protected $type = 'subjectResponsible';
+    protected $type = 'subjectTeacher';
 
     /**
      * Returns a selectionbox where stored coursepool can be chosen as a parent node
@@ -37,7 +37,7 @@ class JFormFieldSubjectResponsible extends JFormField
     public function getInput()
     {
         $subjectID = JRequest::getInt('id');
-        $input = THM_OrganizerHelperSubjectTeachers::getInput($subjectID, 'responsibleID', '1');
+        $input = THM_OrganizerHelperSubjectTeachers::getInput($subjectID, 'teacherID', '2');
         return $input;
     }
 }

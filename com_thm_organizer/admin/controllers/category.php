@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        category controller
+ * @name        THM_OrganizerControllerCategory
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -11,8 +11,6 @@
  */
 
 defined('_JEXEC') or die;
-//jimport('joomla.application.component.controller');
-//jimport('joomla.application.component.controllerform');
 jimport('joomla.application.component.controlleradmin');
 
 /**

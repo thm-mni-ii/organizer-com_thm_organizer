@@ -72,8 +72,7 @@ class THM_OrganizerLSFClient
             }
             else
             {
-                echo "<span align='center' style='color:red;border:1px dotted black;'>";
-                echo "<big>Web-Service Fehler: Bitte SOAP-Query Parameter &uuml;berpr&uuml;fen</big></span>";
+                echo "<span>Web-Service Fehler: Bitte SOAP-Query Parameter &uuml;berpr&uuml;fen</span>";
                 return "";
             }
         }

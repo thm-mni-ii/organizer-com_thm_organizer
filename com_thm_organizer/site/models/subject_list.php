@@ -272,7 +272,7 @@ class THM_OrganizerModelSubject_List extends JModelList
         $languageTag = $this->state->get('languageTag');
 
         $query = $this->_db->getQuery(true);        
-        $query->select($query->concatenate(["p.subject_$languageTag","' ('", "d.abbreviation", ' ', "p.version", "')'"],"") . " AS name, lft, rgt");
+        $query->select($query->concatenate(["p.subject_$languageTag","' ('", "d.abbreviation", '\' \'', "p.version", "')'"],"") . " AS name, lft, rgt");
         $query->from('#__thm_organizer_programs AS p');
         $query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.id');
@@ -304,25 +304,30 @@ class THM_OrganizerModelSubject_List extends JModelList
         parent::populateState($ordering, $direction);
 
         $app = JFactory::getApplication();
-        $app->set('list_limit', '0');
-        $programID = $app->getUserStateFromRequest($this->context . '.programID', 'programID');
-        $search = $app->getUserStateFromRequest($this->context . '.search', 'search', '');
-        $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '0');
-        $languageTag = $app->getUserStateFromRequest($this->context . '.languageTag', 'languageTag');
-        $groupBy = $app->getUserStateFromRequest($this->context . '.groupBy', 'groupBy');
+
         $menuID = $app->getUserStateFromRequest($this->context . '.menuID', 'Itemid');
- 
-        $params = JFactory::getApplication()->getMenu()->getItem($menuID)->params;
-        $menuProgramID = $params->get('programID');
-        $menuLanguage = ($params->get('language') == '0')? 'en' : 'de';
-        $menuGroupBy = $params->get('groupBy');
- 
-        $this->setState('programID', empty($programID)? $menuProgramID : $programID);
-        $this->setState('search', $search);
-        $this->setState('list.limit', $limit);
-        $this->setState('languageTag', empty($languageTag)? $menuLanguage : $languageTag);
-        $this->setState('groupBy', empty($groupBy)? $menuGroupBy : $groupBy);
         $this->setState('menuID', $menuID);
+
+        $params = JFactory::getApplication()->getMenu()->getItem($menuID)->params;
+
+        $menuProgramID = $params->get('programID');
+        $programID = $app->getUserStateFromRequest($this->context . '.programID', 'programID', $menuProgramID);
+        $this->setState('programID', $programID);
+
+        $search = $app->getUserStateFromRequest($this->context . '.search', 'search', '');
+        $this->setState('search', $search);
+
+        $app->set('list_limit', '0');
+        $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '0');
+        $this->setState('list.limit', $limit);
+
+        $menuLanguage = ($params->get('language') == '0')? 'en' : 'de';
+        $languageTag = $app->getUserStateFromRequest($this->context . '.languageTag', 'languageTag', $menuLanguage);
+        $this->setState('languageTag', $languageTag);
+
+        $menuGroupBy = $params->get('groupBy');
+        $groupBy = $app->getUserStateFromRequest($this->context . '.groupBy', 'groupBy', $menuGroupBy);
+        $this->setState('groupBy', $groupBy);
     }
 
     /**

@@ -30,7 +30,7 @@ class THM_OrganizerControllerProgram extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         JRequest::setVar('id', '0');
         $this->setRedirect("index.php?option=com_thm_organizer&view=program_edit");
@@ -45,7 +45,7 @@ class THM_OrganizerControllerProgram extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $this->setRedirect("index.php?option=com_thm_organizer&view=program_edit");
     }
@@ -60,7 +60,7 @@ class THM_OrganizerControllerProgram extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $success = $this->getModel('program')->save();
         if ($success)
@@ -85,7 +85,7 @@ class THM_OrganizerControllerProgram extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $success = $this->getModel('program')->save();
         if ($success)
@@ -111,7 +111,7 @@ class THM_OrganizerControllerProgram extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $success = $this->getModel('program')->save();
         if ($success)
@@ -136,7 +136,7 @@ class THM_OrganizerControllerProgram extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $success = $this->getModel('program')->save2copy();
         if ($success)
@@ -160,7 +160,7 @@ class THM_OrganizerControllerProgram extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $success = $this->getModel('program')->delete();
         if ($success)
@@ -184,13 +184,13 @@ class THM_OrganizerControllerProgram extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=program_manager', false));
     }
 
     /**
-     * Perfoerms access checks and makes function calls for importing LSF Data
+     * Performs access checks and makes function calls for importing LSF Data
      *
      * @return  void
      */
@@ -198,7 +198,7 @@ class THM_OrganizerControllerProgram extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $success = $this->getModel('LSFProgram')->importBatch();
         if ($success)

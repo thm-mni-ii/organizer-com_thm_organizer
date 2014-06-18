@@ -113,27 +113,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_frequencies` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_proof` (
-  `id` varchar (2) NOT NULL,
-  `proof_de` varchar (45) DEFAULT NULL,
-  `proof_en` varchar (45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_pforms` (
-  `id` varchar (2) NOT NULL,
-  `pform_de` varchar (45) DEFAULT NULL,
-  `pform_en` varchar (45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_methods` (
-  `id` varchar (2) NOT NULL,
-  `method_de` varchar (45) DEFAULT NULL,
-  `method_en` varchar (45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
   `id` INT (11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `lsfID` INT(11) UNSIGNED DEFAULT NULL,
@@ -161,10 +140,11 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
   `expenditure` INT(4) UNSIGNED DEFAULT NULL,
   `present` INT(4) UNSIGNED DEFAULT NULL,
   `independent` INT(4) UNSIGNED DEFAULT NULL,
-  `proofID` varchar(2) DEFAULT NULL,
-  `pformID` varchar(2) DEFAULT NULL,
+  `proof_de` varchar(255) DEFAULT NULL,
+  `proof_en` varchar(255) DEFAULT NULL,
   `frequencyID` INT(1) UNSIGNED DEFAULT NULL,
-  `methodID` varchar(2) DEFAULT NULL,
+  `method_de` varchar(255) DEFAULT NULL,
+  `method_en` varchar(255) DEFAULT NULL,
   `fieldID` INT(11) unsigned DEFAULT NULL,
   `sws` INT( 2 ) UNSIGNED NOT NULL ,
   `aids_en` TEXT NOT NULL ,
@@ -176,11 +156,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
   `method_competence` INT( 1 ) UNSIGNED NOT NULL ,
   `social_competence` INT( 1 ) UNSIGNED NOT NULL ,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`proofID`) REFERENCES `#__thm_organizer_proof` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  FOREIGN KEY (`pformID`) REFERENCES `#__thm_organizer_pforms` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  FOREIGN KEY (`frequencyID`) REFERENCES `#__thm_organizer_frequencies` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  FOREIGN KEY (`methodID`) REFERENCES `#__thm_organizer_methods` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+  CONSTRAINT `frequencyID_fk` FOREIGN KEY (`frequencyID`) REFERENCES `#__thm_organizer_frequencies` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `fieldID_fk`FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_prerequisites` (

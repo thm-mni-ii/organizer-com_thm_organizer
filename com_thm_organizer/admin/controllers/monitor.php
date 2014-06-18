@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        monitor controller
+ * @name        THM_OrganizerControllermonitor
  * @author      James Antrim, <James.Antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -30,7 +30,7 @@ class THM_OrganizerControllermonitor extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
        	JRequest::setVar('id', '0');
         $this->setRedirect("index.php?option=com_thm_organizer&view=monitor_edit");
@@ -45,7 +45,7 @@ class THM_OrganizerControllermonitor extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $this->setRedirect("index.php?option=com_thm_organizer&view=monitor_edit");
     }
@@ -60,7 +60,7 @@ class THM_OrganizerControllermonitor extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $model = $this->getModel('monitor');
         $result = $model->save();
@@ -85,7 +85,7 @@ class THM_OrganizerControllermonitor extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $model = $this->getModel('monitor');
         $result = $model->saveDefaultBehaviour();
@@ -111,7 +111,7 @@ class THM_OrganizerControllermonitor extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $result = $this->getModel('monitor')->save();
         if ($result)
@@ -136,7 +136,7 @@ class THM_OrganizerControllermonitor extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $result = $this->getModel('monitor')->delete();
         if ($result)
@@ -160,7 +160,7 @@ class THM_OrganizerControllermonitor extends JControllerLegacy
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=monitor_manager', false));
     }

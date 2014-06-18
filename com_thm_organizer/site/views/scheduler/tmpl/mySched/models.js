@@ -1756,6 +1756,10 @@ Ext.define('LectureModel',
         {
             this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} scheduleBox lectureBox">' + '<b class="lecturename">{lessonTitle}{description}</b> {moduleNr} {comment}<br/>{moduleName} / {roomName} {lessonEvents}' + time + '{statusIcons}</div>');
         }
+        else if (t === "subject")
+        {
+            this.cellTemplate = new Ext.Template('<div id="{parentId}##{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} scheduleBox lectureBox">' + '<b class="lecturename">{lessonTitle}{description}</b> {moduleNr} {comment}<br/>{moduleName} / {teacherName} / {roomName} {lessonEvents}' + time + '{statusIcons}</div>');
+        }
         else
         {
             var modulescss = "scheduleBox";

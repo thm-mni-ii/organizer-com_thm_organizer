@@ -8,9 +8,9 @@
 
 $(document).ready(function ()
 {
+    "use strict";
     $("#roomsExport").click(function(e)
     {
-        "use strict";
         //getting values of current time for generating the file name
         var dt = new Date();
         var day = dt.getDate();
@@ -36,7 +36,6 @@ $(document).ready(function ()
 
     $("#teachersExport").click(function(e)
     {
-        "use strict";
         //getting values of current time for generating the file name
         var dt = new Date();
         var day = dt.getDate();

@@ -3,14 +3,13 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        JFormFieldSubjectTeachers
+ * @name        THM_OrganizerHelperSubjectTeachers
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.form.formfield');
 
 /**
  * Class loads a list of teachers for selection
@@ -19,29 +18,23 @@ jimport('joomla.form.formfield');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class JFormFieldSubjectTeachers extends JFormField
+class THM_OrganizerHelperSubjectTeachers
 {
-    /**
-     * Type
-     *
-     * @var    String
-     */
-    protected $type = 'subjectTeachers';
-
     /**
      * Returns a selectionbox where stored coursepool can be chosen as a parent node
      *
      * @return Select box
      */
-    public function getInput()
+    public static function getInput($subjectID, $name, $responsibilityKey = 1)
     {
         $dbo = JFactory::getDBO();
-        $subjectID = JRequest::getInt('id');
  
         $selectedQuery = $dbo->getQuery(true);
-        $selectedQuery->select('teacherID')->from('#__thm_organizer_subject_teachers')->where("subjectID = '$subjectID' AND teacherResp = '2'");
+        $selectedQuery->select('teacherID');
+        $selectedQuery->from('#__thm_organizer_subject_teachers');
+        $selectedQuery->where("subjectID = '$subjectID' AND teacherResp = '$responsibilityKey'");
         $dbo->setQuery((string) $selectedQuery);
-        
+
         try 
         {
             $selected = $dbo->loadResultArray();
@@ -73,6 +66,6 @@ class JFormFieldSubjectTeachers extends JFormField
 
         $attributes = array('multiple' => 'multiple', 'class' => 'inputbox', 'size' => '10');
         $selectedTeachers = empty($selected)? array() : $selected;
-        return JHTML::_("select.genericlist", $teachers, "jform[teacherID][]", $attributes, "value", "name", $selectedTeachers);
+        return JHTML::_("select.genericlist", $teachers, "jform[$name][]", $attributes, "value", "name", $selectedTeachers);
     }
 }

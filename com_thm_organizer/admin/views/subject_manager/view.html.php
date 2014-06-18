@@ -61,7 +61,7 @@ class THM_OrganizerViewSubject_Manager extends JViewLegacy
     public function addToolBar()
     {
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_SUM_TOOLBAR_TITLE'), 'organizer_subjects');
-        JToolbarHelper::addNew('subject.add');
+        JToolbarHelper::addNew('subject.edit');
         JToolbarHelper::editList('subject.edit');
         JToolbarHelper::custom(
                                'subject.importLSFData',

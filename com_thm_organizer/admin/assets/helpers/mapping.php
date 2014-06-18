@@ -249,7 +249,7 @@ class THM_OrganizerHelperMapping
         $query->from('#__thm_organizer_mappings');
         $query->where($isSubject? "subjectID = '$resourceID'" : "poolID = '$resourceID'");
         $dbo->setQuery((string) $query);
-        
+
         try 
         {
             $mappings = array_merge($mappings, $dbo->loadAssocList());
@@ -258,7 +258,7 @@ class THM_OrganizerHelperMapping
         {
             throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
         }
-        
+
         try 
         {
             $parentIDs = array_merge($parentIDs, $dbo->loadColumn());
@@ -267,8 +267,8 @@ class THM_OrganizerHelperMapping
         {
             throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
         }
-        
-        try 
+
+        try
         {
             $ownIDs = array_merge($ownIDs, $dbo->loadColumn(1));
         }
@@ -408,7 +408,7 @@ class THM_OrganizerHelperMapping
             throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_POOL_OPTION"), 500);
         }
 
-        $nameColumn = 'name_' . $language[0];
+        $nameColumn = 'name_' . $language;
         $indentedName = self::getIndentedPoolName($poolsTable->$nameColumn, $mapping['level']);
         
         $selected = in_array($mapping['id'], $selectedParents)? 'selected' : '';
@@ -446,18 +446,18 @@ class THM_OrganizerHelperMapping
      * Gets a HTML option based upon a program mapping
      * 
      * @param   array    &$mapping          the program mapping entry
+     * @param   string   $language          the display language
      * @param   array    &$selectedParents  the selected parents
      * @param   boolean  $isSubject         if the calling element is a subject
      * 
      * @return  string  HTML option
      */
-    public static function getProgramOption(&$mapping, &$selectedParents, $isSubject = false)
+    public static function getProgramOption(&$mapping, $language, &$selectedParents, $isSubject = false)
     {
-        $language = explode('-', JFactory::getLanguage()->getTag());
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $name = self::getProgramNameSelect($language[0]);
-        $query->select($name);
+        $nameSelect = self::getProgramNameSelect($language);
+        $query->select($nameSelect);
         $query->from('#__thm_organizer_programs AS dp');
         $query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
         $query->where("dp.id = '{$mapping['programID']}'");
@@ -478,10 +478,10 @@ class THM_OrganizerHelperMapping
 
     /**
      * Retrieves the mapping boundaries of the selected resource
-     * 
+     *
      * @param   string  $resourceType  the type of the selected resource
      * @param   int     $resourceID    the id of the selected resource
-     * 
+     *
      * @return  mixed  array with boundary values on success, otherwise false
      */
     public static function getBoundaries($resourceType, $resourceID)
@@ -533,13 +533,13 @@ class THM_OrganizerHelperMapping
         
         try 
         {
-            $teacherMappingClauses = $dbo->loadColumn();
+            $clauses = $dbo->loadColumn();
         }
         catch (runtimeException $e)
         {
             throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHER_MAPPING_CLAUSES"), 500);
         }
         
-        return $teacherMappingClauses;
+        return $clauses;
     }
 }

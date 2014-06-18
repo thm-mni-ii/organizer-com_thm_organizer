@@ -61,11 +61,11 @@ class JFormFieldSubjectParents extends JFormField
                 }
                 if (!empty($mapping['poolID']))
                 {
-                    $options[] = THM_OrganizerHelperMapping::getPoolOption($mapping, $language, $selectedParents);
+                    $options[] = THM_OrganizerHelperMapping::getPoolOption($mapping, $language[0], $selectedParents);
                 }
                 else
                 {
-                    $options[] = THM_OrganizerHelperMapping::getProgramOption($mapping, $selectedParents, true);
+                    $options[] = THM_OrganizerHelperMapping::getProgramOption($mapping, $language[0], $selectedParents, true);
                 }
             }
         }

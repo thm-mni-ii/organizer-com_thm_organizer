@@ -37,9 +37,10 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
      */
     public function getSubjects()
     {
-        $programID = JRequest::getString('programID');
-        $poolID = JRequest::getString('poolID');
-        $teacherID = JRequest::getString('teacherID');
+        $input = JFactory::getApplication()->input;
+        $programID = $input->getString('programID', '-1');
+        $teacherID = $input->getString('teacherID', '-1');
+        $lang = $input->getString('languageTag', 'de');
         if ($programID == '-1' AND $teacherID == '-1')
         {
             return '[]';
@@ -47,10 +48,9 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
 
         $boundaries = $this->getBoundaries();
 
-        $lang = explode('-', JFactory::getLanguage()->getTag());
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $select = "DISTINCT s.id, s.name_{$lang[0]} AS name, s.externalID";
+        $select = "DISTINCT s.id, s.name_{$lang} AS name, s.externalID";
         $query->select($select)->from('#__thm_organizer_subjects AS s');
         if (!empty($boundaries))
         {
@@ -86,25 +86,47 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
     private function getBoundaries()
     {
         $programID = JRequest::getString('programID');
-        $poolID = JRequest::getString('poolID');
+        $programBoundaries = THM_OrganizerHelperMapping::getBoundaries('program', $programID);
 
-        if ($poolID != '-1' AND $poolID != 'null')
-        {
-            $resourceType = 'pool';
-            $resourceID = $poolID;
-        }
-        else
-        {
-            $resourceType = 'program';
-            $resourceID = $programID;
-        }
-
-        $boundaries = THM_OrganizerHelperMapping::getBoundaries($resourceType, $resourceID);
-        if (empty($boundaries))
+        if (empty($programBoundaries))
         {
             return array();
         }
 
-        return $boundaries;
+        $poolID = JRequest::getString('poolID');
+        if ($poolID != '-1' AND $poolID != 'null')
+        {
+            $poolBoundaries = THM_OrganizerHelperMapping::getBoundaries('pool', $poolID);
+        }
+
+        if (!empty($poolBoundaries))
+        {
+            if ($this->poolInProgram($poolBoundaries, $programBoundaries))
+            {
+                return $poolBoundaries;
+            }
+        }
+
+        return $programBoundaries;
+    }
+
+    /**
+     * Checks whether the pool is subordinate to the selected program
+     * 
+     * @param   array  $poolBoundaries     the pool's left and right values
+     * @param   array  $programBoundaries  the program's left and right values
+     * 
+     * @return  boolean  true if the pool is subordinate to the program,
+     *                   otherwise false
+     */
+    private function poolInProgram($poolBoundaries, $programBoundaries)
+    {
+        $leftValid = $poolBoundaries['lft'] > $programBoundaries['lft'];
+        $rightValid = $poolBoundaries['rgt'] < $programBoundaries['rgt'];
+        if ($leftValid AND $rightValid)
+        {
+            return true;
+        }
+        return false;
     }
 }

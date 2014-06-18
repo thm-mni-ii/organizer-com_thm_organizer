@@ -20,6 +20,9 @@ $rawPoolURL = 'index.php?option=com_thm_organizer&view=pool_manager';
 $poolURL = JRoute::_($rawPoolURL, false);
 $rawSubjectURL = 'index.php?option=com_thm_organizer&view=subject_manager';
 $subjectURL = JRoute::_($rawSubjectURL, false);
+$languageLongTag = explode('-', JFactory::getLanguage()->getTag());
+$language = $languageLongTag[0];
+
 ?>
 <script type="text/javascript">
 var jq = jQuery.noConflict();
@@ -43,6 +46,7 @@ jq(document).ready(function(){
         poolUrl += "&view=pool_ajax&format=raw&task=poolDegreeOptions";
         poolUrl += "&ownID=<?php echo $this->form->getValue('id'); ?>";
         poolUrl += "&programID=" + selectedPrograms;
+        poolUrl += "&languageTag=" + '<?php echo $language; ?>';
         jq.get(poolUrl, function(options){
             jq('#jformparentID').html(options);
             var newSelectedParents = jq('#jformparentID').val();
@@ -68,83 +72,153 @@ jq(document).ready(function(){
 });
 </script>
 <form action="<?php echo JRoute::_("index.php?option=com_thm_organizer&view=pool_edit&id=$poolID"); ?>"
-      method="post" name="adminForm" id="adminForm">
+      method="post"
+      name="adminForm"
+      id="adminForm"
+      class="form-horizontal">
     <fieldset class="adminform">
         <legend><?php echo JText::_('COM_THM_ORGANIZER_PROPERTIES_DE'); ?></legend>
-        <ul class="adminformlist">
-            <li>
+
+        <div class="control-group">
+            <div class="control-label">
                 <?php echo $this->form->getLabel('name_de'); ?>
+            </div>
+            <div class="controls">
                 <?php echo $this->form->getInput('name_de'); ?>
-            </li>
-            <li>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
                 <?php echo $this->form->getLabel('short_name_de'); ?>
+            </div>
+            <div class="controls">
                 <?php echo $this->form->getInput('short_name_de'); ?>
-            </li>
-            <li>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
                 <?php echo $this->form->getLabel('abbreviation_de'); ?>
+            </div>
+            <div class="controls">
                 <?php echo $this->form->getInput('abbreviation_de'); ?>
-            </li>
-            <li>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
                 <?php echo $this->form->getLabel('description_de'); ?>
+            </div>
+            <div class="controls">
                 <?php echo $this->form->getInput('description_de'); ?>
-            </li>
-        </ul>
+            </div>
+        </div>
     </fieldset>
     <fieldset class="adminform">
         <legend><?php echo JText::_('COM_THM_ORGANIZER_PROPERTIES_EN'); ?></legend>
-        <ul class="adminformlist">
-            <li>
+
+        <div class="control-group">
+            <div class="control-label">
                 <?php echo $this->form->getLabel('name_en'); ?>
+            </div>
+            <div class="controls">
                 <?php echo $this->form->getInput('name_en'); ?>
-            </li>
-            <li>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
                 <?php echo $this->form->getLabel('short_name_en'); ?>
+            </div>
+            <div class="controls">
                 <?php echo $this->form->getInput('short_name_en'); ?>
-            </li>
-            <li>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
                 <?php echo $this->form->getLabel('abbreviation_en'); ?>
+            </div>
+            <div class="controls">
                 <?php echo $this->form->getInput('abbreviation_en'); ?>
-            </li>
-            <li>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
                 <?php echo $this->form->getLabel('description_en'); ?>
-                <?php echo $this->form->getInput('description_en'); ?>                
-            </li>
-        </ul>
+            </div>
+            <div class="controls">
+                <?php echo $this->form->getInput('description_en'); ?>
+            </div>
+        </div>
+
     </fieldset>
     <fieldset class="adminform">
         <legend><?php echo JText::_('COM_THM_ORGANIZER_POM_PROPERTIES'); ?></legend>
-        <ul class="adminformlist">
-            <li>
+
+
+        <div class="control-group">
+            <div class="control-label">
                 <?php echo $this->form->getLabel('lsfID'); ?>
+            </div>
+            <div class="controls">
                 <?php echo $this->form->getInput('lsfID'); ?>
-            </li>
-            <li>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
                 <?php echo $this->form->getLabel('hisID'); ?>
+            </div>
+            <div class="controls">
                 <?php echo $this->form->getInput('hisID'); ?>
-            </li>
-            <li>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
                 <?php echo $this->form->getLabel('externalID'); ?>
+            </div>
+            <div class="controls">
                 <?php echo $this->form->getInput('externalID'); ?>
-            </li>
-            <li>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
                 <?php echo $this->form->getLabel('minCrP'); ?>
+            </div>
+            <div class="controls">
                 <?php echo $this->form->getInput('minCrP'); ?>
-            </li>
-            <li>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
                 <?php echo $this->form->getLabel('maxCrP'); ?>
+            </div>
+            <div class="controls">
                 <?php echo $this->form->getInput('maxCrP'); ?>
-            </li>
-            <li>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
                 <?php echo $this->form->getLabel('fieldID'); ?>
+            </div>
+            <div class="controls">
                 <?php echo $this->form->getInput('fieldID'); ?>
-            </li>
-        </ul>
+            </div>
+        </div>
+
     </fieldset>
-    <?php    include JPATH_COMPONENT_ADMINISTRATOR . '/templates/mapping.php'; ?>
-    <?php    include JPATH_COMPONENT_ADMINISTRATOR . '/templates/children.php'; ?>
+    <?php include_once JPATH_COMPONENT_ADMINISTRATOR . '/templates/mapping.php'; ?>
+    <?php include_once JPATH_COMPONENT_ADMINISTRATOR . '/templates/children.php'; ?>
     <div>
         <?php echo $this->form->getInput('id'); ?>
-        <input type="hidden" name="task" value="" />
         <?php echo JHtml::_('form.token'); ?>
+        <input type="hidden" name="task" value="" />
     </div>
 </form>

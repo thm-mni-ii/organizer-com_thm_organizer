@@ -31,9 +31,9 @@ class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
-        $this->input->set('id', '0');
+        JFactory::getApplication()->input->set('id', '0');
         $this->setRedirect("index.php?option=com_thm_organizer&view=virtual_schedule_edit");
     }
 
@@ -46,7 +46,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $this->setRedirect("index.php?option=com_thm_organizer&view=virtual_schedule_edit");
     }
@@ -62,7 +62,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $url = 'index.php?option=com_thm_organizer';
         $this->setRedirect($url, 'How did you get here?');
@@ -78,7 +78,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $cid = JRequest::getVar('cid',   array(), 'post', 'array');
         $cids = "'" . implode("', '", $cid) . "'";
@@ -98,11 +98,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
             throw new Exception(JText::_("COM_THM_ORGANIZER_ERROR_DELETING"), 500);
         }
 
-        if ($dbo->getErrorNum())
-        {
-            $msg = JText::_('COM_THM_ORGANIZER_ERROR_DELETING');
-        }
-        else
+        if (!$dbo->getErrorNum())
         {
             $elementQuery = $dbo->getQuery(true);
             $elementQuery->delete('#__thm_organizer_virtual_schedules_elements');
@@ -141,7 +137,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+            return;
         }
         $this->setRedirect('index.php?option=com_thm_organizer&view=virtual_schedule_manager');
     }

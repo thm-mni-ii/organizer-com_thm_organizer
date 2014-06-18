@@ -38,7 +38,6 @@ class THM_OrganizerViewSubject_Edit extends JViewLegacy
         // Assign the Data
         $this->form = $this->get('Form');
         $this->item = $this->get('Item');
-        $this->_layout = $this->item->id == 0? 'add' : 'edit';
 
         // Set the toolbar
         $this->addToolBar();

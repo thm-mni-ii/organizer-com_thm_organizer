@@ -119,16 +119,13 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
         $select .= "objective_$this->languageTag AS objective, content_$this->languageTag AS content, instructionLanguage, ";
         $select .= "preliminary_work_$this->languageTag AS preliminary_work, literature, creditpoints, expenditure, ";
         $select .= "present, independent, proof_$this->languageTag AS proof, frequency_$this->languageTag AS frequency, ";
-        $select .= "method_$this->languageTag AS method, pform_$this->languageTag AS pform, ";
+        $select .= "method_$this->languageTag AS method, ";
         $select .= "prerequisites_$this->languageTag AS prerequisites, aids_$this->languageTag AS aids, ";
         $select .= "evaluation_$this->languageTag AS evaluation, sws, expertise, method_competence, self_competence, social_competence";
 
         $query->select($select);
         $query->from('#__thm_organizer_subjects AS s');
         $query->leftJoin('#__thm_organizer_frequencies AS f ON s.frequencyID = f.id');
-        $query->leftJoin('#__thm_organizer_methods AS m ON s.methodID = m.id');
-        $query->leftJoin('#__thm_organizer_proof AS p ON s.proofID = p.id');
-        $query->leftJoin('#__thm_organizer_pforms AS form ON s.pformID = form.id');
         $query->where("s.id = '$this->subjectID'");
         $dbo->setQuery((string) $query);
         
@@ -179,39 +176,6 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
             }
         }
         $this->subject['teachers'] = $teachers;
-    }
-
-    /**
-     * Loads an array of prerequisite names and links into the subject model if
-     * existent.
-     *
-     * @return void
-     */
-    private function setPrerequisites()
-    {
-        $link = "index.php?option=com_thm_organizer&view=subject_details&languageTag={$this->languageTag}&Itemid={$this->menuID}&id=";
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);        
-        $query->select("name_$this->languageTag AS name, " . $query->concatenate(["'$link'","prerequisite"],"") . " AS link");
-        $query->from('#__thm_organizer_prerequisites AS p');
-        $query->innerJoin('#__thm_organizer_subjects AS s ON p.prerequisite = s.id');
-        $query->where("p.subjectID = '$this->subjectID'");
-        $query->order('name');
-        $dbo->setQuery((string) $query);
-        
-        try 
-        {
-            $prerequisites = $dbo->loadAssocList();
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_PREREQUISITES"), 500);
-        }
-
-        if (!empty($prerequisites))
-        {
-            $this->subject['prerequisites'] = $prerequisites;
-        }
     }
 
     /**

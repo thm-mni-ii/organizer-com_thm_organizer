@@ -31,7 +31,7 @@ class THM_OrganizerHelper
         $basePath = $isAdmin? JPATH_COMPONENT_ADMINISTRATOR : JPATH_COMPONENT_SITE;
         
         $controller = "";
-        $handler = explode(".", JRequest::getVar('task'));
+        $handler = explode(".", JFactory::getApplication()->input->getCmd('task', ''));
         if (!empty($handler))
         {
             if (count($handler) == 2)
