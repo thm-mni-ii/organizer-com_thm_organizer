@@ -32,8 +32,8 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 
     /**
      * Sets construction model properties
-     * 
-     * @param type $config
+     *
+     * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
      */
     public function __construct($config = array())
     {
@@ -122,7 +122,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
         $this->consumption['rooms'] = array();
         $this->consumption['teachers'] = array();
 
-        if(isset($this->schedule->calendar))
+        if (isset($this->schedule->calendar))
         {
             foreach ($this->schedule->calendar as $day => $blocks)
             {

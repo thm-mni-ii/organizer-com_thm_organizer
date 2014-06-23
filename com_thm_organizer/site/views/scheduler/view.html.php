@@ -119,7 +119,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
         {
             $schedulerFromMenu = true;
         }
-        elseif(JRequest::getString('scheduleID'))
+        elseif (JRequest::getString('scheduleID'))
         {
             $schedulerFromMenu = false;
         }
@@ -143,7 +143,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
 
             $schedule = $schedulerModel->getActiveSchedule($menuparams->get("departmentSemesterSelection"));
         }
-        elseif($schedulerFromMenu === false) // Called via link
+        elseif ($schedulerFromMenu === false) // Called via link
         {
             $requestSchedulerID = JRequest::getInt("scheduleID", null);
             if (isset($requestSchedulerID))

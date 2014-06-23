@@ -132,7 +132,7 @@ class JFormFieldScheduler extends JFormField
 
     Joomla.submitbutton = function(task, type)
     {
-        if(task == "item.apply" || task == "item.save" || task == "item.save2new" || task == "item.save2copy")
+        if (task == "item.apply" || task == "item.save" || task == "item.save2new" || task == "item.save2copy")
         {
             var paramID = Ext.get('jform_params_id');
             var treeChecked = tree.getChecked();
@@ -146,7 +146,7 @@ class JFormFieldScheduler extends JFormField
         }
 
         if (task == 'item.setType' || task == 'item.setMenuType') {
-        if(task == 'item.setType') {
+        if (task == 'item.setType') {
             document.id('item-form').elements['jform[type]'].value = type;
             document.id('fieldtype').value = 'type';
         } else {

@@ -126,22 +126,19 @@ class THM_OrganizerLeaf
     public $cls = "";
 
     /**
-     * 
-     * @param type $leafID
-     * @param type $leafKey
-     * @param type $gpuntisID
-     * @param type $type
-     * @param type $semesterID
+     * Creates the leaf for the navigation tree
+     *
+     * @param   array  $parameters  the configuration parameters
      */
-    public function  __construct($paramters)
+    public function  __construct($parameters)
     {
-        $this->id = $paramters['id'];
-        $this->nodeKey = $paramters['nodeKey'];
-        $this->gpuntisID = $paramters['resource']->gpuntisID;
-        $this->type = $paramters['category'];
-        $this->semesterID = $paramters['scheduleID'];
-        $this->setName($paramters['resource']);
-        $this->setDynamicProperties($paramters['checked'], $paramters['publicDefault']);
+        $this->id = $parameters['id'];
+        $this->nodeKey = $parameters['nodeKey'];
+        $this->gpuntisID = $parameters['resource']->gpuntisID;
+        $this->type = $parameters['category'];
+        $this->semesterID = $parameters['scheduleID'];
+        $this->setName($parameters['resource']);
+        $this->setDynamicProperties($parameters['checked'], $parameters['publicDefault']);
     }
 
     /**

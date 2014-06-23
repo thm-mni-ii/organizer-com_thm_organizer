@@ -133,8 +133,8 @@ Joomla.submitbutton =  function(task){
                 url     : requrl,
                 success : function(response) {
                     var confirmed = true;
-                    if(response){ confirmed = confirm(response); }
-                    if(confirmed){Joomla.submitform(task, document.eventForm); }
+                    if (response){ confirmed = confirm(response); }
+                    if (confirmed){Joomla.submitform(task, document.eventForm); }
                     return false;
                 },
                 failure : function() {
