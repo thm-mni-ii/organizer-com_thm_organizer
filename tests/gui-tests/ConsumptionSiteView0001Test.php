@@ -67,7 +67,7 @@ class ConsumptionSiteView0001Test extends JoomlaWebdriverTestCase
 
         $inputFields = $this->consumptionView->getInputFields();
 
-        foreach($inputFields as $xPath)
+        foreach ($inputFields as $xPath)
         {
             $this->assertNotNull($this->driver->findElement(By::xPath($xPath)));
         }
