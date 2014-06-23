@@ -148,7 +148,7 @@ class THM_OrganizerModelSchedule_Manager extends JModelList
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_DEPARTMENTS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         return (count($departments))? $departments : array();
@@ -173,7 +173,7 @@ class THM_OrganizerModelSchedule_Manager extends JModelList
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SEMESTERS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         return (count($semesters))? $semesters : array();

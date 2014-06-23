@@ -302,7 +302,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         return empty($count)? false : true;
@@ -346,7 +346,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPINGS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
 
         if (!empty($mappingIDs))
@@ -384,7 +384,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPINGS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
 
         if (!empty($mappingIDs))
@@ -423,7 +423,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
 
         // Deletes the mapping
@@ -570,7 +570,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         if (!empty($firstID))
@@ -588,7 +588,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
             }
             catch (runtimeException $e)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
             }
 
             if (!empty($results))
@@ -679,7 +679,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         if ( !empty($existingOrder))
@@ -701,7 +701,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         return empty($maxOrder)? 1 : $maxOrder + 1;
@@ -727,7 +727,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         return $mappings;
@@ -818,7 +818,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         if (empty($rootMapping))
@@ -833,7 +833,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
             }
             catch (runtimeException $e)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
             }
 
             $data = array();
@@ -940,7 +940,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         return $mappings;

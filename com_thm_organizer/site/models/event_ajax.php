@@ -201,7 +201,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_CATEGORIES"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         if (count($resultArray))
@@ -251,7 +251,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
             }
             catch (runtimeException $e)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_RESOURCE_DATA"), 500);
+                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
             }
             
             if (count($results))
@@ -289,7 +289,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_UNTIS_KEYS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         if (count($result))
@@ -433,7 +433,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_DAILY_EVENTS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         return $dailyEvents;
@@ -513,7 +513,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_BLOCK_EVENTS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         return $blockEvents;
@@ -715,7 +715,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_RESOURCE_DATA"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         if (count($IDsArray))
@@ -756,7 +756,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULE"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         if (count($results))

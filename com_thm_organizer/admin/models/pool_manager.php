@@ -133,7 +133,7 @@ class THM_OrganizerModelPool_Manager extends JModelList
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MAPPING_DATA"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         return $borders;
@@ -173,7 +173,7 @@ class THM_OrganizerModelPool_Manager extends JModelList
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_POOL_PROGRAMS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         return $programs;
@@ -255,7 +255,7 @@ class THM_OrganizerModelPool_Manager extends JModelList
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_PROGRAM_NAME"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
     }
 }

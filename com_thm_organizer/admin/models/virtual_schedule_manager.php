@@ -218,7 +218,7 @@ class THM_OrganizerModelVirtual_Schedule_Manager extends JModelLegacy
             }
             catch (runtimeException $e)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_VIRTUAL_SCHEDULES"), 500);
+                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
             }
             
             return $virtualSchedulesNumber;
@@ -260,7 +260,7 @@ class THM_OrganizerModelVirtual_Schedule_Manager extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ELEMENTS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         return $elements;

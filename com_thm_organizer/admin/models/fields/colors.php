@@ -54,7 +54,7 @@ class JFormFieldColors extends JFormField
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_COLORS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
 
         $html = "<select id = 'colorID' name='jform[colorID]'>";

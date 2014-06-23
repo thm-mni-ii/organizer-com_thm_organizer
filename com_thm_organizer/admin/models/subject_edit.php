@@ -84,7 +84,7 @@ class THM_OrganizerModelSubject_Edit extends JModelAdmin
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_RESPONSIBLES"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         return empty($respID)? 0 : $respID;

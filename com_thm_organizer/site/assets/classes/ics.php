@@ -224,7 +224,7 @@ class THMICSBuilder extends THMAbstractBuilder
             }
             catch (runtimeException $e)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_CLASSES"), 500);
+                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
             }
  
             // Create a new query object.
@@ -246,7 +246,7 @@ class THMICSBuilder extends THMAbstractBuilder
             }
             catch (runtimeException $e)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHERS"), 500);
+                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
             }
  
             // Create a new query object.
@@ -268,7 +268,7 @@ class THMICSBuilder extends THMAbstractBuilder
             }
             catch (runtimeException $e)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ROOMS"), 500);
+                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
             }
 
             $resources = array_merge($classes, array_merge($teachers, $rooms));
@@ -547,7 +547,7 @@ class THMICSBuilder extends THMAbstractBuilder
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SCHEDULE"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
  
         if ($result === null)

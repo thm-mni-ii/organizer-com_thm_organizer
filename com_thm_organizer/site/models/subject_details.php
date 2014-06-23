@@ -99,7 +99,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SUBJECT_DATA"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         return $subjectID;
@@ -135,7 +135,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SUBJECT_DATA"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         return $subject;
@@ -203,7 +203,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_PREREQUISITES"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
 
         if (!empty($prerequisiteOf))

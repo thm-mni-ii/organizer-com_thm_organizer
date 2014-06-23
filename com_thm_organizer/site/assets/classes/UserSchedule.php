@@ -153,7 +153,7 @@ class THMUserSchedule
             }
             catch (runtimeException $e)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_USERSCHEDULE_DELETE"), 500);
+                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
             }
  
             // Create a new query object.
@@ -180,7 +180,7 @@ class THMUserSchedule
             }
             catch (runtimeException $e)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_USERSCHEDULE_INSERT"), 500);
+                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
             }
  
             if ($result === true)
@@ -250,7 +250,7 @@ class THMUserSchedule
             }
             catch (runtimeException $e)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_USER_SCHEDULE"), 500);
+                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
             }
  
          if (is_object($rows))

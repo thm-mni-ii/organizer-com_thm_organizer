@@ -128,7 +128,7 @@ function getEventSegment($eventID)
     }
     catch (runtimeException $e)
     {
-        throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_CONTENT_DATA"), 500);
+        throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
     }
     
     return empty($alias)? $eventID : "$eventID:$alias";
@@ -166,7 +166,7 @@ function setSubjectDetailsSegments(&$query, &$segments)
     }
     catch (runtimeException $e)
     {
-        throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SUBJECT_DATA"), 500);
+        throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
     }
     
     $safeName = JFilterOutput::stringURLSafe($name);
@@ -214,7 +214,7 @@ function setSubjectListSegments(&$query, &$segments, &$item)
     }
     catch (runtimeException $e)
     {
-        throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_DEGREE_DATA"), 500);
+        throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
     }
 
     $segments[] = 'subject_list:' . JFilterOutput::stringURLSafe($name);

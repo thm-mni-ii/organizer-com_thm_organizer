@@ -62,7 +62,7 @@ class THM_OrganizerModelProgram_Manager extends JModelList
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_DEGREES"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         return empty($degrees)? array() : $degrees;
@@ -89,7 +89,7 @@ class THM_OrganizerModelProgram_Manager extends JModelList
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_FIELDS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         return empty($fields)? array() : $fields;
@@ -156,7 +156,7 @@ class THM_OrganizerModelProgram_Manager extends JModelList
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_PROGRAM_VERSIONS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         return empty($versions)? array() : $versions;

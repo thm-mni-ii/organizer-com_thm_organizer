@@ -118,7 +118,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ELEMENTS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         return $elements;
@@ -203,7 +203,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_USERGROUPS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
 
         $usergroups = array();
@@ -230,7 +230,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_RESPONSIBLES"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
 
         return $resps;
@@ -259,7 +259,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_CLASSES"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         return $classes;
     }
@@ -285,7 +285,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ROOMS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         return $rooms;
     }
@@ -312,7 +312,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHERS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         return $teachers;
     }
@@ -340,7 +340,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SEMESTERS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         return $semesters;
     }
@@ -368,7 +368,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ROOMS_DEPARTMENTS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         return $departments;
     }
@@ -397,7 +397,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHERS_DEPARTMENTS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         return $departments;
     }
@@ -424,7 +424,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_DEPARTMENTS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         return $departments;
     }
@@ -448,7 +448,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ROOMS_TYPES"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         return $roomType;
     }
@@ -472,7 +472,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_CLASSES_TYPES"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         return $classTypes;
     }
@@ -499,7 +499,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_VIRTUAL_SCHEDULE_ID_EXISTS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         if ($vid_anz[0]->id_anz == "0")
@@ -601,7 +601,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_DELETE_VIRTUAL_SCHEDULE_ELEMENTS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         return true;
     }
@@ -629,7 +629,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_VIRTUAL_SCHEDULE"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         if ($dbo->getErrorNum())
@@ -644,7 +644,7 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
             }
             catch (runtimeException $e)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_VIRTUAL_SCHEDULES"), 500);
+                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
             }
         }
         return $data;

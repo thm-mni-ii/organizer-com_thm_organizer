@@ -127,7 +127,7 @@ class THM_OrganizerDataAbstraction
                 }
                 catch (runtimeException $e)
                 {
-                    throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_QUERY"), 500);
+                    throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
                 }
             }
             else
@@ -138,7 +138,7 @@ class THM_OrganizerDataAbstraction
                 }
                 catch (runtimeException $e)
                 {
-                    throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_QUERY"), 500);
+                    throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
                 }
             }
         }
@@ -150,7 +150,7 @@ class THM_OrganizerDataAbstraction
             }
             catch (runtimeException $e)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EXECUTE"), 500);
+                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
             }
             
             $data = true;
@@ -207,7 +207,7 @@ class THM_OrganizerDataAbstraction
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_SETTINGS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         if ($settings)
@@ -250,7 +250,7 @@ class THM_OrganizerDataAbstraction
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_COMPONENT_CHECK"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
 
         if ($result === null)

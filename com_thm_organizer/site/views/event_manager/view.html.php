@@ -139,7 +139,7 @@ class THM_OrganizerViewEvent_Manager extends JViewLegacy
 
         $columnHead = "<span class='thm_organizer_el_th'>";
         $columnHead .= JHtml::_('link', $link, $text, $attribs);
-        $columnHead .$spanClose = "</span>";
+        $columnHead .= "</span>";
         return $columnHead;
     }
 

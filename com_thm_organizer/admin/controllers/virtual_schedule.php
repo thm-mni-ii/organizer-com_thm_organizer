@@ -111,7 +111,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
             }
             catch (runtimeException $e)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_DELETE_VIRTUAL_SCHEDULE_ELEMENTS"), 500);
+                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
             }
         }
 

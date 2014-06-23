@@ -83,7 +83,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
             }
             catch (runtimeException $e)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT"), 500);
+                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
             }
 
             $event['enddate'] = ($event['enddate'] == '00.00.0000')? '' : $event['enddate'];
@@ -187,7 +187,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT_ROOMS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         $this->event['rooms'] = count($rooms)? $rooms : array();
@@ -213,7 +213,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT_TEACHERS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         $this->event['teachers'] = count($teachers)? $teachers : array();
@@ -239,7 +239,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT_GROUPS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         $this->event['groups'] = count($groups)? $groups : array();
@@ -277,7 +277,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_ROOMS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         $this->rooms = count($rooms)? $rooms : array();
@@ -303,7 +303,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_TEACHERS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         if (count($teachers))
@@ -341,7 +341,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_GROUPS"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         $this->groups = count($groups)? $groups : array();
@@ -384,7 +384,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_CATEGORIES"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         if (count($results))
@@ -524,7 +524,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_MENU_LINK"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
         
         if (isset($link) and $link != "")
