@@ -45,7 +45,7 @@ class THM_OrganizerModelRoom_Manager extends JModelList
      * Retrieves an array of data items and builds filter arrays based upon
      * those items.
      * 
-	 * @return  mixed  An array of data items on success, false on failure.
+     * @return  mixed  An array of data items on success, false on failure.
      */
     public function setBuildings()
     {
@@ -82,7 +82,7 @@ class THM_OrganizerModelRoom_Manager extends JModelList
      * Retrieves an array of data items and builds filter arrays based upon
      * those items.
      * 
-	 * @return  mixed  An array of data items on success, false on failure.
+     * @return  mixed  An array of data items on success, false on failure.
      */
     public function setFloors()
     {
@@ -147,7 +147,7 @@ class THM_OrganizerModelRoom_Manager extends JModelList
      * Retrieves an array of data items and builds filter arrays based upon
      * those items.
      * 
-	 * @return  mixed  An array of data items on success, false on failure.
+     * @return  mixed  An array of data items on success, false on failure.
      */
     public function setTypes()
     {

@@ -32,7 +32,7 @@ class THM_OrganizerControllermonitor extends JControllerLegacy
         {
             return;
         }
-       	JRequest::setVar('id', '0');
+        JRequest::setVar('id', '0');
         $this->setRedirect("index.php?option=com_thm_organizer&view=monitor_edit");
     }
 

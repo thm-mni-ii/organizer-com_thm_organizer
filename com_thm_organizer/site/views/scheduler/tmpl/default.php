@@ -134,7 +134,7 @@ if ($this->displayModuleNumber)
 else
 {
 ?>
-		MySched.displayModuleNumber = false;
+        MySched.displayModuleNumber = false;
 <?php
 }
 ?>

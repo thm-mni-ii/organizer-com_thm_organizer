@@ -6,7 +6,7 @@
  * @name        THM_OrganizerViewcategory_manager
  * @description view output file for event category lists
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @author		Alexander Boll, <alexander.boll@mni.thm.de>
+ * @author      Alexander Boll, <alexander.boll@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
