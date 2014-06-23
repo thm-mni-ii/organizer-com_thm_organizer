@@ -61,36 +61,40 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
     public function loadEvent()
     {
         $input = JFactory::getApplication()->input;
-        $eventid = $input->getInt('eventID')? $input->getInt('eventID'): 0;
-        $dbo = JFactory::getDBO();
+        $eventID = $input->getInt('eventID', 0);
 
-        $query = $dbo->getQuery(true);
-        $query->select($this->getSelect());
-        $query->from("#__thm_organizer_events AS e");
-        $query->innerJoin("#__content AS c ON e.id = c.id");
-        $query->where("e.id = '$eventid'");
-        $dbo->setQuery((string) $query);
-        
-        try 
+        if ($eventID)
         {
-            $event = $dbo->loadAssoc();
-            $event['startdate'] =  date_format(date_create($event['startdate']),'d.m.Y');
-            $event['enddate'] =  date_format(date_create($event['enddate']),'d.m.Y');
-            $event['starttime'] =  date_format(date_create($event['starttime']),'H:i');
-            $event['endtime'] =  date_format(date_create($event['endtime']),'H:i');            
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT"), 500);
-        }
+                $dbo = JFactory::getDBO();
+                $query = $dbo->getQuery(true);
+                $query->select($this->getSelect());
+                $query->from("#__thm_organizer_events AS e");
+                $query->innerJoin("#__content AS c ON e.id = c.id");
+                $query->where("e.id = '$eventID'");
+                $dbo->setQuery((string) $query);
 
-        if (!isset($event))
+            try
+            {
+                $event = $dbo->loadAssoc();
+                $event['startdate'] =  date_format(date_create($event['startdate']),'d.m.Y');
+                $event['enddate'] =  date_format(date_create($event['enddate']),'d.m.Y');
+                $event['starttime'] =  date_format(date_create($event['starttime']),'H:i');
+                $event['endtime'] =  date_format(date_create($event['endtime']),'H:i');
+            }
+            catch (runtimeException $e)
+            {
+                throw new Exception(JText::_("COM_THM_ORGANIZER_EXCEPTION_DATABASE_EVENT"), 500);
+            }
+
+            $event['enddate'] = ($event['enddate'] == '00.00.0000')? '' : $event['enddate'];
+            $event['starttime'] = ($event['starttime'] == '00:00')? '' : $event['starttime'];
+            $event['endtime'] = ($event['endtime'] == '00:00')? '' : $event['endtime'];
+        }
+        else
         {
             $event = $this->getEmptyEvent();
         }
-        $event['enddate'] = ($event['enddate'] == '00.00.0000')? '' : $event['enddate'];
-        $event['starttime'] = ($event['starttime'] == '00:00')? '' : $event['starttime'];
-        $event['endtime'] = ($event['endtime'] == '00:00')? '' : $event['endtime'];
+
         $form = $this->getForm();
         $form->bind($event);
         

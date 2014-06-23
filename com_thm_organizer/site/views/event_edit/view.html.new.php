@@ -79,6 +79,48 @@ class Thm_OrganizerViewEvent_Edit extends JViewLegacy
     }
 
     /**
+     * Create the toolbar
+     * 
+     * @return string
+     */
+    public function getToolbar()
+    {
+        // Add required stylesheets from admin template
+        $document = JFactory::getDocument();
+        $jVersion = new JVersion();
+        $isJ2 = version_compare($jVersion->getShortVersion(), '3.0.0', 'lt');
+        $template = $customTag = '';
+        if ($isJ2)
+        {
+            $template .= "administrator/templates/system/css/system.css";
+            $document->addStyleSheet($template);
+            $customTag .= '<link href="administrator/templates/bluestork/css/template.css" rel="stylesheet" type="text/css" />' . "\n";
+            $customTag .= '<link rel="stylesheet" href="administrator/templates/bluestork/css/rounded.css" type="text/css" />' . "\n";
+            $document->addCustomTag($customTag);
+        }
+        else
+        {
+            $template .= "administrator/templates/isis/css/template.css";
+            $document->addStyleSheet($template);
+            $customTag .= '<link href="$template" rel="stylesheet" type="text/css" />' . "\n";
+            $document->addCustomTag($customTag);
+        }
+
+        jimport('joomla.html.toolbar');
+        $bar = new JToolBar('toolbar');
+        if (!empty($this->listLink))
+        {
+            $bar->appendButton('Standard', 'stats', 'Save', 'event.save', false);
+        }
+        $bar->appendButton('Standard', 'save', 'Save', 'event.save', false);
+        $bar->appendButton('Standard', 'save-new', 'Save & New', 'event.save2new', false);
+        $bar->appendButton('Popup', 'preview', 'Preview', '#');
+        $bar->appendButton('Standard', 'cancel', 'Cancel', 'event.cancel', false);
+
+        return $bar->render();
+    }
+    
+    /**
      * Creates HTML elements from saved data
      *
      * @return void
