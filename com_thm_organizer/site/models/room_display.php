@@ -61,13 +61,14 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     public function __construct()
     {
         parent::__construct();
+        $input = JFactory::getApplication()->input;
         $monitor = JTable::getInstance('monitors', 'thm_organizerTable');
-        $remoteIPData = array('ip' => JRequest::getVar('REMOTE_ADDR', '', 'SERVER'));
+        $remoteIPData = array('ip' => $input->server->getString('REMOTE_ADDR', ''));
         $registered = $monitor->load($remoteIPData);
 
         if ($registered)
         {
-            $templateSet = JRequest::getString('tmpl') == 'component';
+            $templateSet = $input->getString('tmpl', '') == 'component';
             if (!$templateSet)
             {
                 $this->redirectToComponentTemplate();
@@ -123,9 +124,9 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      */
     private function redirectToComponentTemplate()
     {
-        $application = JFactory::getApplication();
-        $requestURL = JFactory::getApplication()->input->server->get('SERVER_NAME', '');
-        $requestURL .= JFactory::getApplication()->input->server->get('REQUEST_URI', '');
+        $application = JFactory::getApplication()->input;
+        $requestURL = $application->input->server->get('SERVER_NAME', '');
+        $requestURL .= $application->input->server->get('REQUEST_URI', '');
         $redirectURL = $requestURL . '&tmpl=component';
         $application->redirect($redirectURL);
     }
@@ -141,7 +142,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     {
         if (empty($roomID))
         {
-            $form = JRequest::getVar('jform');
+            $form = JFactory::getApplication()->input->get('jform', null, 'array');
             $roomID = $form['room'];
         }
         $room = JTable::getInstance('rooms', 'thm_organizerTable');
@@ -263,8 +264,9 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      */
     private function setLessonData($blockID)
     {
-        $menuID = JRequest::getInt('Itemid');
+        $menuID = JFactory::getApplication()->input->getInt('Itemid', 0);
         $lessonFound = false;
+        $lessonTitle = $teacherText = '';
         foreach ($this->_schedules as $schedule)
         {
             if ($lessonFound)
@@ -319,11 +321,11 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
                                 $subjectLink = "index.php?option=com_thm_organizer&view=subject_details";
                                 $subjectLink .= "&languageTag=de&Itemid=$menuID&nrmni=";
                                 $subjectLink .= $schedule->subjects->$subjectID->subjectNo;
-                                $lessonTitle = JHtml::_('link', $subjectLink, $lessonName);
+                                $lessonTitle .= JHtml::_('link', $subjectLink, $lessonName);
                             }
                             else
                             {
-                                $lessonTitle = $lessonName;
+                                $lessonTitle .= $lessonName;
                             }
                         }
                         $teachersIDs = (array) $schedule->lessons->$lessonID->teachers;
@@ -345,7 +347,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
  
                             $teachers[$schedule->teachers->$key->surname] = empty($teacherLink)? $teacherName : $teacherLink;
                         }
-                        $teacherText = implode(', ', $teachers);
+                        $teacherText .= implode(', ', $teachers);
                     }
                 }
             }
@@ -454,7 +456,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     }
 
     /**
-     * Retrieves nonreserving/nonglobal events for the given time frame
+     * Retrieves non-reserving/non-global events for the given time frame
      *
      * @param   int  $key  the index of the block array to be processed
      *
@@ -746,9 +748,8 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     private function getEventLink($eventID, $title)
     {
         $url = "index.php?option=com_thm_organizer&view=event_details&eventID=$eventID";
-        $attribs = array();
-        $attribs['title'] = "$title::" . JText::_('COM_THM_ORGANIZER_RD_EVENT_LINK_TEXT');
-        return JHtml::_('link', $url, $title, $attribs);
+        $attributes = array('title' => "$title::" . JText::_('COM_THM_ORGANIZER_RD_EVENT_LINK_TEXT'));
+        return JHtml::_('link', $url, $title, $attributes);
     }
 
     /**
@@ -758,7 +759,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      */
     private function setMenuLinks()
     {
-        $menuID = JRequest::getInt('Itemid');
+        $menuID = JFactory::getApplication()->input->getInt('Itemid', 0);
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("link");

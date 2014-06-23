@@ -518,7 +518,7 @@ class THM_OrganizerHelperMapping
      */
     public static function getTeacherMappingClauses()
     {
-        $teacherID = JFactory::getApplication()->input->get('teacherID', null, 'INT');
+        $teacherID = JFactory::getApplication()->input->getInt('teacherID', 0);
         if (empty($teacherID) OR $teacherID == '-1' OR $teacherID == 'null')
         {
             return false;

@@ -193,8 +193,8 @@ class THM_OrganizerModelRoom_Manager extends JModelList
     {
         $query = $this->_db->getQuery(true);
         $select = "r.id, r.gpuntisID, r.name, r.longname, ";
-        $concateSelect = array("t.type","', '", "t.subtype");
-        $select .= "t.id AS typeID, " . $query->concatenate($concateSelect,"") . " AS type ";
+        $parts = array("t.type","', '", "t.subtype");
+        $select .= "t.id AS typeID, " . $query->concatenate($parts,"") . " AS type ";
         $query->select($select);
         $query->from('#__thm_organizer_rooms AS r');
         $query->leftJoin('#__thm_organizer_room_types AS t ON r.typeID = t.id');
@@ -228,7 +228,7 @@ class THM_OrganizerModelRoom_Manager extends JModelList
      */
     private function addSearchFilter(&$query)
     {
-        $search = '%' . $this->_db->getEscaped($this->state->get('filter.search'), true) . '%';
+        $search = '%' . $this->_db->escape($this->state->get('filter.search'), true) . '%';
         if ($search != '%%')
         {
             $query->where("(r.name LIKE '$search' OR r.longname LIKE '$search')");
@@ -278,9 +278,9 @@ class THM_OrganizerModelRoom_Manager extends JModelList
         $building = $app->getUserStateFromRequest($this->context . '.filter_building', 'filter_building', '');
         $this->setState('filter.building', $building);
 
-        $resetFloor = $building == $app->input->get('oldBuilding');
+        $resetFloors = $building !== $app->input->get('oldBuilding');
         $floor = $app->getUserStateFromRequest($this->context . '.filter_floor', 'filter_floor', '');
-        $this->setState('filter.floor', $resetFloor? '' : $floor);
+        $this->setState('filter.floor', $resetFloors? '' : $floor);
 
         $type = $app->getUserStateFromRequest($this->context . '.filter_type', 'filter_type', '');
         $this->setState('filter.type', $type);

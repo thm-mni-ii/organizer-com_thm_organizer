@@ -45,14 +45,13 @@ class THM_OrganizerModelmonitor extends JModelLegacy
     public function saveDefaultBehaviour()
     {
         $input = JFactory::getApplication()->input;
-        $monitorID = $input->getInt('id');
-        $plausibleID = (!empty($monitorID) AND is_numeric($monitorID));
+        $monitorID = $input->getInt('id', 0);
+        $plausibleID = ($monitorID > 0);
         if ($plausibleID)
         {
-            $useDefaults = $input->getInt('useDefaults');
             $table = JTable::getInstance('monitors', 'thm_organizerTable');
             $table->load($monitorID);
-            $table->useDefaults = $useDefaults? '0' : '1';
+            $table->useDefaults = $input->getInt('useDefaults', 0);
             return $table->store();
         }
         return false;
