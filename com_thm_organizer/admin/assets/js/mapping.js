@@ -118,7 +118,7 @@ function orderWithNumber(firstPos)
     var tmpElement = currentOrder[firstPos - 1];
     var secondPos = jq('#child' + firstPos + 'order').val();
 
-    if(secondPos > length)
+    if (secondPos > length)
     {
         return;
     }
@@ -266,10 +266,10 @@ function createNewRow(lastPosition, tableID)
     var nextClassRow;
     var lastClassRow = document.getElementById('childRow' + lastPosition).className;
     
-    if(lastClassRow === null) {
+    if (lastClassRow === null) {
         nextClassRow = 'row1';
     }
-    else if(lastClassRow === 'row0') 
+    else if (lastClassRow === 'row0')
     {
         nextClassRow = 'row1';
     } 

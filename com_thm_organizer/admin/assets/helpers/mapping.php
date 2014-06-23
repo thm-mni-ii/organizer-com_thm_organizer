@@ -53,9 +53,9 @@ class THM_OrganizerHelperMapping
     /**
      * Creates a standardized name selection for use in db queries
      * 
-     * @param  string  $language  the language in which the program should be
-     *                            displayed
-     * @param  string  $alias     the alias for the name
+     * @param   string  $language  the language in which the program should be
+     *                             displayed
+     * @param   string  $alias     the alias for the name
      * 
      * @return  string  the name selection string
      */

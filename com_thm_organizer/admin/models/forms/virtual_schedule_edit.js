@@ -28,12 +28,12 @@ function showTypeResource(index)
     teachersElement.hide();
     roomsElement.hide();
     classesElement.hide();
-    if(index === 0)
+    if (index === 0)
     {
         classDepartmentElement.show();
         classesElement.show();
     }
-    else if(index === 1)
+    else if (index === 1)
     {
         roomDepartmentElement.show();
         roomsElement.show();

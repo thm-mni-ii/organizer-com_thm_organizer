@@ -19,19 +19,19 @@ function setRessource()
     teacherDepartments.dom.parentNode.style.display = "none";
     classesDepartments.dom.parentNode.style.display = "none";
 
-    if(types.getValue() === "class")
+    if (types.getValue() === "class")
     {
         classes.dom.parentNode.style.display = "block";
         classesDepartments.dom.parentNode.style.display = "block";
     }
     else
-    if(types.getValue() === "room")
+    if (types.getValue() === "room")
     {
         rooms.dom.parentNode.style.display = "block";
         roomDepartments.dom.parentNode.style.display = "block";
     }
     else
-    if(types.getValue() === "teacher")
+    if (types.getValue() === "teacher")
     {
         teachers.dom.parentNode.style.display = "block";
         teacherDepartments.dom.parentNode.style.display = "block";

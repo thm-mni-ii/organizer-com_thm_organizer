@@ -80,7 +80,7 @@
             label="COM_THM_ORGANIZER_VSE_ROOMDEPARTMENT_LABEL"
             description="COM_THM_ORGANIZER_VSE_ROOMDEPARTMENT_DESC"
             class="inputbox"
-            query="SELECT DISTINCT id, IF(CHAR_LENGTH(description) = 0,category,CONCAT(category, ' (', description, ')')) as name
+            query="SELECT DISTINCT id, IF(CHAR_LENGTH(description) = 0, category, CONCAT(category, ' (', description, ')')) as name
                       FROM #__thm_organizer_descriptions
                       ORDER BY name"
             key_field="id"
