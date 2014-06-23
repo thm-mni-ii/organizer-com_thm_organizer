@@ -83,12 +83,6 @@ if ($this->canEdit)
                 </a>
 <?php
 }
-if ($this->canWrite or $this->canEdit)
-{
-?>
-                <span id="thm_organizer_el_divider_span" class="thm_organizer_divider_span"></span>
-<?php
-}
 ?>
                 <a class="hasTip thm_organizer_action_link"
                     title="<?php echo JText::_('COM_THM_ORGANIZER_SUBMIT_TITLE') . "::" . JText::_('COM_THM_ORGANIZER_SUBMIT_DESCRIPTION');?>"

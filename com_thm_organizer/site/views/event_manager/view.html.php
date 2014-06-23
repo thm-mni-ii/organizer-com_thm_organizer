@@ -48,15 +48,13 @@ class THM_OrganizerViewEvent_Manager extends JViewLegacy
  
         $categories = $model->categories;
         $this->assignRef('categories', $categories);
-        $categoryID = ($model->getState('categoryID'))? $model->getState('categoryID') : - 1;
+        $categoryID = $model->getState('categoryID', '-1');
         $this->assignRef('categoryID', $categoryID);
         $this->makeCategorySelect($categories, $categoryID);
 
-        $canWrite = $model->canWrite;
-        $this->assignRef('canWrite', $canWrite);
-        $canEdit = $model->canEdit;
-        $this->assignRef('canEdit', $canEdit);
-        $this->assign('itemID', JRequest::getInt('Itemid'));
+        $this->assignRef('canWrite', $model->canWrite);
+        $this->assignRef('canEdit', $model->canEdit);
+        $this->assign('itemID', JFactory::getApplication()->input->getInt('Itemid', 0));
 
         $total = $model->total;
         $this->assign('total', $total);
@@ -69,11 +67,9 @@ class THM_OrganizerViewEvent_Manager extends JViewLegacy
         $search = $model->getState('search');
         $search = (empty($search))? "" : $search;
         $this->assignRef('search', $search);
-        $orderby = $model->getState('orderby');
-        $orderby = (empty($orderby))? "startdate" : $orderby;
+        $orderby = $model->getState('orderby', 'startdate');
         $this->assign('orderby', $orderby);
-        $orderbydir = $model->getState('orderbydir');
-        $orderbydir = (empty($orderbydir))? "ASC" : $orderbydir;
+        $orderbydir = $model->getState('orderbydir', 'ASC');
         $this->assign('orderbydir', $orderbydir);
  
         $this->buildHTMLElements();
@@ -88,119 +84,77 @@ class THM_OrganizerViewEvent_Manager extends JViewLegacy
      */
     private function buildHTMLElements()
     {
-        $newImage = JHtml::image('components/com_thm_organizer/assets/images/add.png', JText::_('COM_THM_ORGANIZER_NEW_TITLE'), null, null, null);
-        $this->assignRef('newImage', $newImage);
+        $titleHead = $this->getColumnHead('title');
+        $this->assignRef('titleHead', $titleHead);
+        $authorHead = $this->getColumnHead('author');
+        $this->assignRef('authorHead', $authorHead);
+        $categoryHead = $this->getColumnHead('category', 'eventCategory');
+        $this->assignRef('categoryHead', $categoryHead);
+        $dateHead = $this->getColumnHead('date');
+        $this->assignRef('dateHead', $dateHead);
 
-        $editImage = JHtml::image('components/com_thm_organizer/assets/images/edit.png', JText::_('COM_THM_ORGANIZER_EDIT_TITLE'), null, null, null);
-        
-        $this->assignRef('editImage', $editImage);
-        $deleteImage = JHtml::image('components/com_thm_organizer/assets/images/delete.png', JText::_('COM_THM_ORGANIZER_DELETE_TITLE'), null, null, null);
-        $this->assignRef('deleteImage', $deleteImage);
+        $resourceHead = "<span class='thm_organizer_el_th'>" . JText::_('COM_THM_ORGANIZER_EL_RESOURCE') . "</span>";
+        $this->assignRef('resourceHead', $resourceHead);
+    }
 
-        $attribs = array();
-        $attribs['class'] = "thm_organizer_el_sortLink hasTip";
-        $spanOpen = "<span class='thm_organizer_el_th'>";
-        $spanClose = "</span>";
+    /**
+     * Gets the HTML for the table column headers
+     *
+     * @param   string  $columnName  the name of the column
+     * @param   string  $queryName   the name used in the query for the column
+     *
+     * @return  string  HTML span with the name and sort function for the column
+     */
+    private function getColumnHead($columnName, $queryName = '')
+    {
         $ascImage = JHtml::image('media/system/images/sort_asc.png', JText::_('COM_THM_ORGANIZER_EL_ASC_DESCRIPTION'), null, null, null);
         $descImage = JHtml::image('media/system/images/sort_desc.png', JText::_('COM_THM_ORGANIZER_EL_DESC_DESCRIPTION'), null, null, null);
 
-        $titleText = JText::_('COM_THM_ORGANIZER_EL_TITLE');
-        $titleAttribs = array();
-        $titleAttribs['title'] = JText::_('COM_THM_ORGANIZER_EL_SORT');
-        $titleLink = "javascript:reSort(";
-        if ($this->orderby == 'title' and $this->orderbydir == 'ASC')
+        if (empty($queryName))
         {
-            $titleText .= $ascImage;
-            $titleAttribs['title'] .= "::" . JText::_('COM_THM_ORGANIZER_EL_DESC_DESCRIPTION');
-            $titleLink .= "'title', 'DESC')";
+            $queryName = $columnName;
+        }
+
+        $textConstant = 'COM_THM_ORGANIZER_EL_' . strtoupper($columnName);
+        $text = JText::_($textConstant);
+        if ($this->orderby == $queryName)
+        {
+            $text .= $this->orderbydir == 'ASC'? $ascImage : $descImage;
+        }
+
+        $attribs = array();
+        $attribs['class'] = "thm_organizer_el_sortLink hasTip";
+        $attribs['title'] = JText::_('COM_THM_ORGANIZER_EL_SORT');
+        $link = "javascript:reSort(";
+        if ($this->orderby == $queryName AND $this->orderbydir == 'ASC')
+        {
+            $attribs['title'] .= "::" . JText::_('COM_THM_ORGANIZER_EL_DESC_DESCRIPTION');
+            $link .= "'$queryName', 'DESC')";
         }
         else
         {
-            $titleText .= ($this->orderby == 'title')? $descImage : "";
-            $titleAttribs['title'] .= "::" . JText::_('COM_THM_ORGANIZER_EL_ASC_DESCRIPTION');
-            $titleLink .= "'title', 'ASC')";
+            $attribs['title'] .= "::" . JText::_('COM_THM_ORGANIZER_EL_ASC_DESCRIPTION');
+            $link .= "'$queryName', 'ASC')";
         }
-        $titleAttribs = array_merge($titleAttribs, $attribs);
-        $titleHead = $spanOpen . JHtml::_('link', $titleLink, $titleText, $titleAttribs) . $spanClose;
-        $this->assignRef('titleHead', $titleHead);
 
-
-        $authorText = JText::_('COM_THM_ORGANIZER_EL_AUTHOR');
-        $authorAttribs = array();
-        $authorAttribs['title'] = JText::_('COM_THM_ORGANIZER_EL_SORT');
-        $authorLink = "javascript:reSort(";
-        if ($this->orderby == 'author' and $this->orderbydir == 'ASC')
-        {
-            $authorText .= $ascImage;
-            $authorAttribs['title'] .= "::" . JText::_('COM_THM_ORGANIZER_EL_DESC_DESCRIPTION');
-            $authorLink .= "'author', 'DESC')";
-        }
-        else
-        {
-            $authorText .= ($this->orderby == 'author')? $descImage : "";
-            $authorAttribs['title'] .= "::" . JText::_('COM_THM_ORGANIZER_EL_ASC_DESCRIPTION');
-            $authorLink .= "'author', 'ASC')";
-        }
-        $authorAttribs = array_merge($authorAttribs, $attribs);
-        $authorHead = $spanOpen . JHtml::_('link', $authorLink, $authorText, $authorAttribs) . $spanClose;
-        $this->assignRef('authorHead', $authorHead);
-
-        $resourceHead = $spanOpen . JText::_('COM_THM_ORGANIZER_EL_RESOURCE') . $spanClose;
-        $this->assignRef('resourceHead', $resourceHead);
-
-        $categoryText = JText::_('COM_THM_ORGANIZER_EL_CATEGORY');
-        $categoryAttribs = array();
-        $categoryAttribs['title'] = JText::_('COM_THM_ORGANIZER_EL_SORT');
-        $categoryLink = "javascript:reSort(";
-        if ($this->orderby == 'eventCategory' and $this->orderbydir == 'ASC')
-        {
-            $categoryText .= $ascImage;
-            $categoryAttribs['title'] .= "::" . JText::_('COM_THM_ORGANIZER_EL_DESC_DESCRIPTION');
-            $categoryLink .= "'eventCategory', 'DESC')";
-        }
-        else
-        {
-            $categoryText .= ($this->orderby == 'eventCategory')? $descImage : "";
-            $categoryAttribs['title'] .= "::" . JText::_('COM_THM_ORGANIZER_EL_ASC_DESCRIPTION');
-            $categoryLink .= "'eventCategory', 'ASC')";
-        }
-        $categoryAttribs = array_merge($categoryAttribs, $attribs);
-        $categoryHead = $spanOpen . JHtml::_('link', $categoryLink, $categoryText, $categoryAttribs) . $spanClose;
-        $this->assignRef('categoryHead', $categoryHead);
-
-        $dateText = JText::_('COM_THM_ORGANIZER_EL_DATE');
-        $dateAttribs = array();
-        $dateAttribs['title'] = JText::_('COM_THM_ORGANIZER_EL_SORT');
-        $dateLink = "javascript:reSort(";
-        if ($this->orderby == 'date' and $this->orderbydir == 'ASC')
-        {
-            $dateText .= $ascImage;
-            $dateAttribs['title'] .= "::" . JText::_('COM_THM_ORGANIZER_EL_DESC_DESCRIPTION');
-            $dateLink .= "'date', 'DESC')";
-        }
-        else
-        {
-            $dateText .= ($this->orderby == 'date')? $descImage : "";
-            $dateAttribs['title'] .= "::" . JText::_('COM_THM_ORGANIZER_EL_ASC_DESCRIPTION');
-            $dateLink .= "'date', 'ASC')";
-        }
-        $dateAttribs = array_merge($dateAttribs, $attribs);
-        $dateHead = $spanOpen . JHtml::_('link', $dateLink, $dateText, $dateAttribs) . $spanClose;
-        $this->assignRef('dateHead', $dateHead);
+        $columnHead = "<span class='thm_organizer_el_th'>";
+        $columnHead .= JHtml::_('link', $link, $text, $attribs);
+        $columnHead .$spanClose = "</span>";
+        return $columnHead;
     }
 
     /**
      * Method to build the category selection
      *
-     * @param   object  $categories  the categories to be used
-     * @param   object  $selected    the selected category
+     * @param   object  $authCategories  the categories authorized to be used
+     * @param   object  $selected        the selected category
      *
      * @return void
      */
-    private function makeCategorySelect($categories, $selected)
+    private function makeCategorySelect($authCategories, $selected)
     {
-        $nocategories = array(1 => array('id' => '-1', 'title' => JText::_('COM_THM_ORGANIZER_EL_ALL_CATEGORIES')));
-        $categories = array_merge($nocategories, $categories);
+        $noCategories = array(1 => array('id' => '-1', 'title' => JText::_('COM_THM_ORGANIZER_EL_ALL_CATEGORIES')));
+        $categories = array_merge($noCategories, $authCategories);
         $categorySelect = JHtml::_('select.genericlist', $categories, 'categoryID',
                  'id="categoryID" class="inputbox" size="1"', 'id', 'title', $selected
                 );

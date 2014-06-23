@@ -289,7 +289,7 @@ if (!empty($subject['externalID']) AND !empty($displayeCollab))
     echo '<div class="subject-item">';
     echo '<div class="subject-label">eCollaboration Link</div>';
     echo '<div class="subject-content">';
-    echo '<a href="' . $ecollabLink . $subject['externalID'] .'" target="_blank">';
+    echo '<a href="' . $ecollabLink . $subject['externalID'] . '" target="_blank">';
     echo "<img class='eCollabImage' src='$ecollabIcon' title='eCollabLink'></a>";
     echo '</div></div>';
 }
