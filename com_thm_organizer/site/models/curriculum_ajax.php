@@ -92,7 +92,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
         
         try 
         {
-            $fieldColors =  $this->_db->setQuery((string) $query)->loadAssocList();
+            $fieldColors = $this->_db->setQuery((string) $query)->loadAssocList();
         }
         catch (runtimeException $e)
         {
@@ -148,11 +148,11 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
      */
     private function getProgramData($programID)
     {
-        $languageTag = JRequest::getString('languageTag', 'de');
+        $languageTag = JFactory::getApplication()->input->getString('languageTag', 'de');
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);     
-        $concateQuery = array("p.subject_{$languageTag}","' ('", "d.abbreviation", "' '", "p.version", "')'");
-        $select = $query->concatenate($concateQuery,"") . " AS name, ";
+        $parts = array("p.subject_{$languageTag}","' ('", "d.abbreviation", "' '", "p.version", "')'");
+        $select = $query->concatenate($parts, "") . " AS name, ";
         $select .= "m.id AS mappingID, m.lft, m.rgt, p.description_{$languageTag} AS description";
         $query->select($select);
         $query->from('#__thm_organizer_programs AS p');

@@ -239,51 +239,6 @@ class THM_OrganizerModelSubject extends JModelLegacy
 
         return $model->saveSubject($data);
     }
-
-    /**
-     * Builds a link to a subject description if available
-     * 
-     * @param   string  $moduleNumber    the external id of the subject
-     * @param   string  $languageTag     the language tag
-     * @param   array   &$prerequisites  an array containing prerequisite ids
-     * 
-     * @return  mixed  html link string on success, otherwise false
-     */
-    private function getModuleInformation($moduleNumber, $languageTag, &$prerequisites)
-    {
-        $query = $this->_db->getQuery(true);
-        $query->select("id, name_$languageTag AS name");
-        $query->from('#__thm_organizer_subjects')->where("externalID = '$moduleNumber'");
-        $this->_db->setQuery((string) $query);
-        
-        try 
-        {
-            $subjectInfo = $this->_db->loadAssoc();
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
-        
-        if (empty($subjectInfo))
-        {
-            return false;
-        }
-
-        if (!in_array($subjectInfo['id'], $prerequisites))
-        {
-            $prerequisites[] = $subjectInfo['id'];
-        }
-
-        $subjectURL = JURI::root() . 'index.php?option=com_thm_organizer&view=subject_details';
-        $subjectURL .= "&languageTag=$languageTag&id={$subjectInfo['id']}";
-        
-        $itemID = JRequest::getInt('Itemid');
-        $subjectURL .= !empty($itemID)? "&Itemid=$itemID" : '';
-        $href = JRoute::_($subjectURL);
-
-        return JHtml::link($href, $subjectInfo['name']);
-    }
     
     /**
      * Checks whether subject nodes have the expected structure and required

@@ -226,11 +226,11 @@ class THMUserSchedule
       }
    }
 
-   /**
-    * Method to load a user schedule
-    *
-    * @return Array An array with information about the loaded schedule
-    */
+    /**
+     * Method to load a user schedule
+     *
+     * @return Array An array with information about the loaded schedule
+     */
     public function load()
     {
         if (isset($this->_username))
@@ -253,27 +253,24 @@ class THMUserSchedule
                 throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
             }
  
-         if (is_object($rows))
-         {
-            if (isset($rows->data))
+            if (is_object($rows) AND isset($rows->data))
             {
                $data = $rows->data;
             }
-         }
 
-         if (count($data) === 0)
-         {
-            return array("data" => $data);
-         }
-          
-         return array("success" => true, "data" => $data);
-      }
-      else
-      {
-         // SESSION FEHLER
-         return array("success" => false, "data" => array('code' => 'expire',
+            if (count($data) === 0)
+            {
+                return array("data" => $data);
+            }
+
+            return array("success" => true, "data" => $data);
+        }
+        else
+        {
+            // SESSION FEHLER
+            return array("success" => false, "data" => array('code' => 'expire',
                'errors' => array('reason' => JText::_("COM_THM_ORGANIZER_SCHEDULER_INVALID_SESSION")))
-         );
-      }
-   }
+            );
+        }
+    }
 }

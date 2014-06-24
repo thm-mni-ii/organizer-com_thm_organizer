@@ -461,11 +461,11 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
             $events = $dbo->loadAssocList();
             foreach ($events as &$event) 
             {
-               $event['startdate'] = date_format(date_create($event['startdate']),'d.m.Y');
-               $event['startdateStandardFormat'] = date_format(date_create($event['startdateStandardFormat']),'Y.m.d');
-               $event['enddate'] = date_format(date_create($event['enddate']),'d.m.Y');
-               $event['starttime'] = date_format(date_create($event['starttime']),'H:i');
-               $event['endtime'] = date_format(date_create($event['endtime']),'H:i'); 
+               $event['startdate'] = date_format(date_create($event['startdate']), 'd.m.Y');
+               $event['startdateStandardFormat'] = date_format(date_create($event['startdateStandardFormat']), 'Y.m.d');
+               $event['enddate'] = date_format(date_create($event['enddate']), 'd.m.Y');
+               $event['starttime'] = date_format(date_create($event['starttime']), 'H:i');
+               $event['endtime'] = date_format(date_create($event['endtime']), 'H:i');
             }
         }
         catch (runtimeException $e)
@@ -804,7 +804,7 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
         
         try
         {
-            $global =  (bool) $dbo->loadResult();
+            $global = (bool) $dbo->loadResult();
         }
         catch (runtimeException $e)
         {

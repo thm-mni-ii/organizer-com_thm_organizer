@@ -401,11 +401,9 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         try 
         {
             $appointments = $dbo->loadAssocList();
-            foreach ($appointments as &$event) {
-                $event['startdate'] = date_format(date_create($event['startdate']),'d.m.Y');
-                $event['enddate'] = date_format(date_create($event['enddate']),'d.m.Y');
-                $event['starttime'] = date_format(date_create($event['starttime']),'H:i');
-                $event['endtime'] = date_format(date_create($event['endtime']),'H:i');
+            foreach ($appointments as &$event)
+            {
+                $this->localizeEvent($event);
             }
         }
         catch (runtimeException $e)
@@ -487,11 +485,9 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         try 
         {
             $notices = $dbo->loadAssocList();
-            foreach ($notices as &$event) {
-                $event['startdate'] = date_format(date_create($event['startdate']),'d.m.Y');
-                $event['enddate'] = date_format(date_create($event['enddate']),'d.m.Y');
-                $event['starttime'] = date_format(date_create($event['starttime']),'H:i');
-                $event['endtime'] = date_format(date_create($event['endtime']),'H:i');
+            foreach ($notices as &$event)
+            {
+                $this->localizeEvent($event);
             }
         }
         catch (runtimeException $e)
@@ -536,11 +532,9 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         try 
         {
             $information = $dbo->loadAssocList();
-            foreach ($information as &$event) {
-                $event['startdate'] = date_format(date_create($event['startdate']),'d.m.Y');
-                $event['enddate'] = date_format(date_create($event['enddate']),'d.m.Y');
-                $event['starttime'] = date_format(date_create($event['starttime']),'H:i');
-                $event['endtime'] = date_format(date_create($event['endtime']),'H:i');
+            foreach ($information as &$event)
+            {
+                $this->localizeEvent($event);
             }
         }
         catch (runtimeException $e)
@@ -594,11 +588,9 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         try 
         {
             $upcoming = $dbo->loadAssocList();
-            foreach ($upcoming as &$event) {
-                $event['startdate'] = date_format(date_create($event['startdate']),'d.m.Y');
-                $event['enddate'] = date_format(date_create($event['enddate']),'d.m.Y');
-                $event['starttime'] = date_format(date_create($event['starttime']),'H:i');
-                $event['endtime'] = date_format(date_create($event['endtime']),'H:i');
+            foreach ($upcoming as &$event)
+            {
+                $this->localizeEvent($event);
             }
         }
         catch (runtimeException $e)
@@ -817,5 +809,20 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
             $this->layout = 'content';
             return;
         }
+    }
+
+    /**
+     * Reformats events dates and times to the german standard
+     *
+     * @param   array  $event  the event to be processed
+     *
+     * @return  void
+     */
+    private function localizeEvent(&$event)
+    {
+        $event['startdate'] = date_format(date_create($event['startdate']), 'd.m.Y');
+        $event['enddate'] = date_format(date_create($event['enddate']), 'd.m.Y');
+        $event['starttime'] = date_format(date_create($event['starttime']), 'H:i');
+        $event['endtime'] = date_format(date_create($event['endtime']), 'H:i');
     }
 }

@@ -60,9 +60,9 @@ class THM_OrganizerModelCategory_Manager extends JModelList
         $query = $dbo->getQuery(true);
 
         $select = 'ec.id AS id, ec.title AS ectitle, ec.global, ec.reserves, cc.title AS cctitle, ';
-        $concateSelect = array("'index.php?option=com_thm_organizer&view=category_edit&categoryID='", "ec.id");
-        $select .= $query->concatenate($concateSelect, "") . " AS link";
-        $query->select($this->getState("list.select", $select ));
+        $parts = array("'index.php?option=com_thm_organizer&view=category_edit&categoryID='", "ec.id");
+        $select .= $query->concatenate($parts, "") . " AS link";
+        $query->select($this->getState("list.select", $select));
         $query->from('#__thm_organizer_categories AS ec');
         $query->innerJoin('#__categories AS cc ON ec.contentCatID = cc.id');
 

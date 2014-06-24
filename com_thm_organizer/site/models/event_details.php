@@ -87,11 +87,11 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
         try
         {
             $event = $dbo->loadAssoc();
-            $event['startdate'] =  date_format(date_create($event['startdate']),'d.m.Y');
-            $event['enddate'] =  date_format(date_create($event['enddate']),'d.m.Y');
-            $event['publish_up'] =  date_format(date_create($event['publish_up']),'d.m.Y');
-            $event['starttime'] =  date_format(date_create($event['starttime']),'H:i');
-            $event['endtime'] =  date_format(date_create($event['endtime']),'H:i');
+            $event['startdate'] = date_format(date_create($event['startdate']), 'd.m.Y');
+            $event['enddate'] = date_format(date_create($event['enddate']), 'd.m.Y');
+            $event['publish_up'] = date_format(date_create($event['publish_up']), 'd.m.Y');
+            $event['starttime'] = date_format(date_create($event['starttime']), 'H:i');
+            $event['endtime'] = date_format(date_create($event['endtime']), 'H:i');
              
         }        
         catch (runtimeException $e)

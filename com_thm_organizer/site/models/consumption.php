@@ -104,15 +104,13 @@ class THM_OrganizerModelConsumption extends JModelLegacy
             {
                 JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_DB_ERROR', 'error');
             }
-            $this->schedule = new stdClass();
+            $this->schedule = new stdClass;
         }
         
     }
     
     /**
-     * Calculates resource consumtion from a schedule
-     *
-     * @param   object  &$schedule  a schedule object
+     * Calculates resource consumption from a schedule
      *
      * @return  object  an object modeling resource consumption
      */
@@ -129,21 +127,20 @@ class THM_OrganizerModelConsumption extends JModelLegacy
                 // Sylength is not relevant for consumption and does not have object as a value
                 if ($day != 'sylength')
                 {
-                    $this->setConsumptionByInstance($day, $blocks);
+                    $this->setConsumptionByInstance($blocks);
                 }
             }
         }
     }
 
     /**
-     * Sets consumtion by instance (block + lesson)
-     * 
-     * @param   string  $day  the date being currently iterated
-     * @param   object  $blocks  the blocks of the date being iterated
+     * Sets consumption by instance (block + lesson)
+     *
+     * @param   object  &$blocks  the blocks of the date being iterated
      * 
      * @return  void
      */
-    private function setConsumptionByInstance($day, &$blocks)
+    private function setConsumptionByInstance(&$blocks)
     {
         foreach ($blocks as $block)
         {
@@ -167,6 +164,8 @@ class THM_OrganizerModelConsumption extends JModelLegacy
      * @param   string  $lessonID   the id of the lesson being iterated
      * @param   string  $roomID     the id of the room being iterated
      * @param   string  $roomDelta  the room's delta value
+     *
+     * @return  void
      */
     private function setConsumptionByRoom($lessonID, $roomID, $roomDelta)
     {
@@ -190,6 +189,8 @@ class THM_OrganizerModelConsumption extends JModelLegacy
      * @param   string  $lessonPoolDelta  the lesson's delta value
      * @param   string  $roomID           the room id
      * @param   object  &$teachers        the lesson's teachers
+     *
+     * @return  void
      */
     private function setConsumptionByPool($degree, $lessonPoolDelta, $roomID, &$teachers)
     {
@@ -260,12 +261,11 @@ class THM_OrganizerModelConsumption extends JModelLegacy
     }
 
     /**
-     * Method to get a schedule table for consumptions
+     * Function to get a table displaying resource consumption for a schedule
      * 
-     * @param   string  $type                Either teachers or rooms
-     * @param   string  $schedule            The actual schedule
+     * @param   string  $type  either teachers or rooms
      * 
-     * @return HTML_Table  A html table with the consumptions
+     * @return  string  a HTML string for a consumption table
      */
     public function getConsumptionTable($type)
     {
@@ -348,7 +348,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
             {
                 if (isset($this->consumption[$type][$column][$row]))
                 {
-                    $consumptionTime = $this->consumption[$type][$column][$row]  * $modifier;
+                    $consumptionTime = $this->consumption[$type][$column][$row] * $modifier;
                     $tableBody .= '<td>' . str_replace(".", ",", $consumptionTime) . '</td>';
                 }
                 else
@@ -363,14 +363,16 @@ class THM_OrganizerModelConsumption extends JModelLegacy
     }
 
     /**
-     * Method to get the longname of teachers
+     * Gets a list of resource names
      *
-     * @param   array   $teachers  All teachers to get the longname for.
-     * @param   object  $schedule  A schedule object
+     * @param   string  $category    the resource category (rooms|teachers)
+     * @param   array   $resources   the resources
+     * @param   array   $properties  the properties used to build the name
+     * @param   string  $separator   an optional separator to place between property values
      *
-     * @return array Teachers with longnames
+     * @return  array  a list of resource names
      */
-    public function getNameArray($resourceName, $resources, $properties, $seperator = ' ')
+    public function getNameArray($category, $resources, $properties, $separator = ' ')
     {
         $names = array();
         foreach ($resources as $resource)
@@ -379,15 +381,15 @@ class THM_OrganizerModelConsumption extends JModelLegacy
             $names[$resource] = '';
             foreach ($properties as $property)
             {
-                if (empty($this->schedule->{$resourceName}->$resource->{$property}))
+                if (empty($this->schedule->$category->$resource->$property))
                 {
                     continue;
                 }
                 if (!$initial)
                 {
-                    $names[$resource] .= $seperator;
+                    $names[$resource] .= $separator;
                 }
-                $names[$resource] .= $this->schedule->{$resourceName}->$resource->{$property};
+                $names[$resource] .= $this->schedule->$category->$resource->$property;
                 $initial = false;
             }
             if (empty($names[$resource]))

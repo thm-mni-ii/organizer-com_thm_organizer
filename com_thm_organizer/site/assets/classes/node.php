@@ -128,14 +128,9 @@ class THM_OrganizerNode
     /**
      * Constructor with the joomla data abstraction object and configuration object
      *
-     * @param   Object   $data           Contains the node id, node text, nodes icon class, leaf, dragable, single click, gpuntis id,
-     *                                   type (room, teacher, class), children, semester, node key
-     * @param   String   $checked        Is the node checked
-     * @param   String   $publicDefault  Is this node the public default node
-     * @param   String   $nodeKey        The node key
-     * @param   Boolean  $expanded       A object which has configurations including
+     * @param   array  $parameters  the configuration parameters
      */
-    public function  __construct($config)
+    public function  __construct($parameters)
     {
         $this->id = $config['id'];
         $this->nodeKey = $config['nodeKey'];
@@ -150,15 +145,16 @@ class THM_OrganizerNode
     /**
      * Sets individual node properties
      * 
-     * @param   array  $config  the checked nodes
+     * @param   array  &$config  the checked nodes
      * 
      * @return  void  sets class properties
      */
     private function setCalculatedProperties(&$config)
     {
-        $menuID = JRequest::getInt("menuID", 0);
+        $input = JFactory::getApplication()->input;
+        $menuID = $input->getInt("menuID", 0);
         $frontend = empty($menuID)? true : false;
-        $childrenCheckbox = JRequest::getBool("childrenCheckbox", false);
+        $childrenCheckbox = $input->getBool("childrenCheckbox", false);
         if (($frontend AND !$childrenCheckbox) OR $childrenCheckbox)
         {
             $this->checked = null;
@@ -178,9 +174,9 @@ class THM_OrganizerNode
             }
         }
 
-        $showSchedule = JRequest::getString('showSchedule');
-        $moduleID = JRequest::getString('moduleID');
-        if ($this->publicDefault === "default" AND $showSchedule != '' AND $moduleID != "")
+        $showSchedule = $input->getString('showSchedule', '');
+        $moduleID = $input->getString('moduleID', '');
+        if ($this->publicDefault === "default" AND $showSchedule != '' AND $moduleID != '')
         {
             $this->cls = "MySchedSearchResult";
         }

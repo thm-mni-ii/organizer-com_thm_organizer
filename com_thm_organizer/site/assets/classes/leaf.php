@@ -144,7 +144,7 @@ class THM_OrganizerLeaf
     /**
      * Sets the name displayed for the leaf
      * 
-     * @param   object  $resource  the resource associated with the leaf
+     * @param   object  &$resource  the resource associated with the leaf
      * 
      * @return  void  sets the object attribute text
      */

@@ -76,10 +76,10 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
             try
             {
                 $event = $dbo->loadAssoc();
-                $event['startdate'] =  date_format(date_create($event['startdate']),'d.m.Y');
-                $event['enddate'] =  date_format(date_create($event['enddate']),'d.m.Y');
-                $event['starttime'] =  date_format(date_create($event['starttime']),'H:i');
-                $event['endtime'] =  date_format(date_create($event['endtime']),'H:i');
+                $event['startdate'] = date_format(date_create($event['startdate']), 'd.m.Y');
+                $event['enddate'] = date_format(date_create($event['enddate']), 'd.m.Y');
+                $event['starttime'] = date_format(date_create($event['starttime']), 'H:i');
+                $event['endtime'] = date_format(date_create($event['endtime']), 'H:i');
             }
             catch (runtimeException $e)
             {

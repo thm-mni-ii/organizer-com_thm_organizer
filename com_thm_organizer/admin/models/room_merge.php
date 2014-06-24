@@ -39,8 +39,8 @@ class THM_OrganizerModelRoom_Merge extends JModelLegacy
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $select = "r.id, r.gpuntisID, r.name, r.longname, r.typeID, ";
-        $concateSelect = array("t.type","', '", "t.subtype");
-        $select .= $query->concatenate($concateSelect,"") . " AS type";
+        $parts = array("t.type","', '", "t.subtype");
+        $select .= $query->concatenate($parts, "") . " AS type";
         $query->select($select);
         $query->from('#__thm_organizer_rooms AS r');
         $query->leftJoin('#__thm_organizer_room_types AS t ON r.typeID = t.id');

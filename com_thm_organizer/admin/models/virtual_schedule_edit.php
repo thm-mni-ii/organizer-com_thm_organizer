@@ -247,8 +247,8 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
     {
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);        
-        $concateQuery = array("major","' '", "semester");
-        $query->select("gpuntisID as id, " . $query->concatenate($concateQuery,"") . " as name");
+        $parts = array("major","' '", "semester");
+        $query->select("gpuntisID as id, " . $query->concatenate($parts, "") . " as name");
         $query->from('#__thm_organizer_classes');
         $query->order('name');
         $dbo->setQuery((string) $query);
@@ -268,8 +268,6 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
      * Method to get the rooms
      *
      * @return    Array    An Array of rooms
-     *
-     * @since    v0.0.1
      */
     public function getRooms()
     {
@@ -294,8 +292,6 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
      * Method to get the teachers
      *
      * @return    Array    An Array of teachers
-     *
-     * @since    v0.0.1
      */
     public function getTeachers()
     {
@@ -321,15 +317,13 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
      * Method to get the semesters
      *
      * @return    Array    An Array of responsibles
-     *
-     * @since    v0.0.1
      */
     public function getSemesters()
     {
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true); 
-        $concateQuery = array("organization","'-'", "semesterDesc");
-        $query->select("id, " . $query->concatenate($concateQuery,"")  . " as name");
+        $parts = array("organization","'-'", "semesterDesc");
+        $query->select("id, " . $query->concatenate($parts, "") . " as name");
         $query->from('#__thm_organizer_semesters');
         $query->order('name');
         $dbo->setQuery((string) $query);
@@ -349,15 +343,16 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
      * Method to get the room departments
      *
      * @return    Array    An Array of room departments
-     *
-     * @since    v0.0.1
      */
     public function getRoomDepartments()
     {
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);      
-        $concateQuery = array("category","' ('", "description", "')'");
-        $query->select("DISTINCT id, if (CHAR_LENGTH(description) = 0,category," . $query->concatenate($concateQuery,"")  . ")) as name");
+        $parts = array("category","' ('", "description", "')'");
+        $select = "DISTINCT id, if (CHAR_LENGTH(description) = 0,category,";
+        $select .= $query->concatenate($parts, "");
+        $select .= ")) as name";
+        $query->select($select);
         $query->from('#__thm_organizer_descriptions');
         $query->order('name');
         $dbo->setQuery((string) $query);
@@ -377,15 +372,13 @@ class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
      * Method to get the teacher departments
      *
      * @return    Array    An Array of teacher departments
-     *
-     * @since    v0.0.1
      */
     public function getTeacherDepartments()
     {
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);        
-        $concateQuery = array("d.department","'-'", "d.subdepartment");
-        $query->select("DISTINCT d.id, " . $query->concatenate($concateQuery,"")  . " as name");
+        $parts = array("d.department","'-'", "d.subdepartment");
+        $query->select("DISTINCT d.id, " . $query->concatenate($parts, "") . " as name");
         $query->from('#__thm_organizer_teachers AS t');
         $query->innerJoin('#__thm_organizer_departments AS d ON t.departmentID = d.id');
         $query->order('name');

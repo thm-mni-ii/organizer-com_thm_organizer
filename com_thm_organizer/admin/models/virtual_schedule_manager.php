@@ -123,8 +123,8 @@ class THM_OrganizerModelVirtual_Schedule_Manager extends JModelLegacy
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $select = 'DISTINCT vs.id as id, vs.name, vs.type, u.name as responsible, ';    
-        $concateSelect = array("s.organization","'-'", "s.semesterDesc ");
-        $select .= 'department, ' . $query->concatenate($concateSelect,"") . ' as semesterID';
+        $parts = array("s.organization","'-'", "s.semesterDesc ");
+        $select .= 'department, ' . $query->concatenate($parts, "") . ' as semesterID';
         $query->select($select);
         $query->from('#__thm_organizer_virtual_schedules AS vs');
         $query->innerJoin('#__thm_organizer_virtual_schedules_elements AS vse ON vs.id = vse.vid');

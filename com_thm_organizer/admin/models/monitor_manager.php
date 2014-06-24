@@ -97,8 +97,8 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
         $query = $dbo->getQuery(true);
 
         $select = "m.id, roomID, ip, useDefaults, display, schedule_refresh, content_refresh, content, longname AS room, ";
-        $concateSelect = array("'index.php?option=com_thm_organizer&view=monitor_edit&monitorID='","m.id");
-        $select .= $query->concatenate($concateSelect,"") . "AS link ";
+        $parts = array("'index.php?option=com_thm_organizer&view=monitor_edit&monitorID='","m.id");
+        $select .= $query->concatenate($parts, "") . "AS link ";
         $query->select($this->getState("list.select", $select));
         $query->from("#__thm_organizer_monitors AS m");
         $query->leftjoin("#__thm_organizer_rooms AS r ON r.id = m.roomID");

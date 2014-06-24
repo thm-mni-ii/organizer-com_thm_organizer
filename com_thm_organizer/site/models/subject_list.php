@@ -244,7 +244,7 @@ class THM_OrganizerModelSubject_List extends JModelList
         $select[] = 's.creditpoints';
         $select[] = 's.externalID';
         $parts = array("$subjectLink","s.id");
-        $select[] = $subjectsQuery->concatenate($parts,"") . " AS subjectLink";
+        $select[] = $subjectsQuery->concatenate($parts, "") . " AS subjectLink";
         $subjectsQuery->select($select);
         $subjectsQuery->where("m1.lft > '{$programInformation['lft']}' AND  m1.rgt < '{$programInformation['rgt']}'");
 
@@ -274,7 +274,7 @@ class THM_OrganizerModelSubject_List extends JModelList
 
         $query = $this->_db->getQuery(true);
         $parts = array("p.subject_$languageTag","' ('", "d.abbreviation", "' '", "p.version", "')'");
-        $query->select($query->concatenate($parts,"") . " AS name, lft, rgt");
+        $query->select($query->concatenate($parts, "") . " AS name, lft, rgt");
         $query->from('#__thm_organizer_programs AS p');
         $query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.id');
@@ -455,7 +455,7 @@ class THM_OrganizerModelSubject_List extends JModelList
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTIONw"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
 
         if (!empty($field))

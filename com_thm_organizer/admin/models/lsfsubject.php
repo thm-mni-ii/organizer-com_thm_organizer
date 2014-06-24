@@ -206,6 +206,14 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         }
     }
 
+    /**
+     * Sets subject properties according to those of the dynamic lsf properties
+     *
+     * @param   object  &$subject   the subject object
+     * @param   object  &$textNode  the object containing lsf texts
+     *
+     * @return  void
+     */
     private function setObjectProperty(&$subject, &$textNode)
     {
         $category = (string) $textNode->kategorie;
@@ -252,7 +260,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 if (!$postrequisitesSaved)
                 {
                     JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_SUM_ERROR_POSTREQ_IMPORT'), 'warning');
-                    return false;
+                    break;
                 }
                 $this->setAttribute($subject, "content_$language", $text);
                 break;
@@ -271,6 +279,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 if (!$prerequisitesSaved)
                 {
                     JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_SUM_ERROR_PREREQ_IMPORT'), 'warning');
+                    break;
                 }
                 $this->setAttribute($subject, "content_$language", $text);
                 break;
@@ -511,8 +520,8 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
     /**
      * Saves prerequisites imported from LSF
      *
-     * @param   string    $subjectID      the id of the subject
-     * @param   array  $prerequisites  an array of prerequisites
+     * @param   string  $subjectID      the id of the subject
+     * @param   array   $prerequisites  an array of prerequisites
      *
      * @return  bool  true if no database errors occured, otherwise false
      */
@@ -558,7 +567,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
     /**
      * Sets the prerequisite attributes
      *
-     * @param   array   $text  the subjects language specific requirements
+     * @param   array  $text  the subjects language specific requirements
      * 
      * @return  array  an array of module id
      */

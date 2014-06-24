@@ -41,7 +41,7 @@ class THM_OrganizerModelProgram_Ajax extends JModelLegacy
         $language = explode('-', JFactory::getLanguage()->getTag());
         $query = $dbo->getQuery(true);        
         $concateQuery = array("dp.subject_{$language[0]}","', ('", "d.abbreviation", "' '", " dp.version", "')'");
-        $query->select("dp.id, " . $query->concatenate($concateQuery,"") . " AS name");
+        $query->select("dp.id, " . $query->concatenate($concateQuery, "") . " AS name");
         $query->from('#__thm_organizer_programs AS dp');
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
         $query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');

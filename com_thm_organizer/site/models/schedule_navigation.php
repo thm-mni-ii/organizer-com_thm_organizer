@@ -11,7 +11,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-require_once JPATH_ROOT . "/components/com_thm_organizer/assets/classes/TreeNode.php";
 require_once JPATH_ROOT . "/components/com_thm_organizer/assets/classes/node.php";
 require_once JPATH_ROOT . "/components/com_thm_organizer/assets/classes/leaf.php";
 /**
@@ -27,7 +26,7 @@ class THM_OrganizerModelSchedule_Navigation
     /**
      * Checked
      *
-     * @var    String
+     * @var    string
      */
     private $_checked = array();
 
@@ -100,7 +99,7 @@ class THM_OrganizerModelSchedule_Navigation
 
         if (empty($menuItem))
         {
-            $this->schedule = $app->input->getString('departmentSemesterSelection');
+            $this->schedule = $app->input->getString('departmentSemesterSelection', '');
         }
         else
         {
@@ -115,8 +114,9 @@ class THM_OrganizerModelSchedule_Navigation
      */
     private function processMenuLocation()
     {
-        $backendID = JRequest::getInt("menuID", 0);
-        $frontendID = JRequest::getInt("Itemid", 0);
+        $input = JFactory::getApplication()->input;
+        $backendID = $input->getInt("menuID", 0);
+        $frontendID = $input->getInt("Itemid", 0);
         if ($backendID)
         {
             $this->_frontend = false;
@@ -129,7 +129,7 @@ class THM_OrganizerModelSchedule_Navigation
     /**
      * Sets properties which depend on the menu settings
      * 
-     * @param   object  $menuItem  the menu item
+     * @param   object  &$menuItem  the menu item
      * 
      * @return  void  sets object variables
      */
@@ -137,7 +137,7 @@ class THM_OrganizerModelSchedule_Navigation
     {
         $menuLanguage = $menuItem->language;
         $siteLanguage = JFactory::getLanguage()->getTag();
-        $this->_languageTag =  $menuLanguage == '*'? $siteLanguage : $menuLanguage;
+        $this->_languageTag = ($menuLanguage == '*')? $siteLanguage : $menuLanguage;
 
         $language = JFactory::getLanguage();
         $language->load('com_thm_organizer', JPATH_SITE, $this->_languageTag, true);
@@ -150,18 +150,18 @@ class THM_OrganizerModelSchedule_Navigation
 
         $this->_publicDefault = (array) json_decode($params->get("publicDefaultID"));
 
-        $requestSchedule = JRequest::getString('departmentSemesterSelection');
+        $requestSchedule = JFactory::getApplication()->input->getString('departmentSemesterSelection', '');
         $paramsSchedule = $params->get('departmentSemesterSelection', '');
         $this->schedule = empty($requestSchedule)?
                 $paramsSchedule : $requestSchedule;
     }
 
     /**
-     * Method to sort the checked array. Used in uksort($array, $callback) in the
+     * Function to sort the checked array. Used in uksort($array, $callback) in the
      * __construct function.
      * 
-     * @param   String  $firstElement  First argument
-     * @param   String  $secondElement  Second argument
+     * @param   string  $firstElement   First argument
+     * @param   string  $secondElement  Second argument
      * 
      * @return  integer
      * 
@@ -266,9 +266,7 @@ class THM_OrganizerModelSchedule_Navigation
     }
 
     /**
-     * Method to get the english subject names from the db
-     * 
-     * @param   Array  $dbSubjects  An array with the subjects from the database
+     * Function to get the subject information available in the database
      * 
      * @return  void
      */
@@ -472,11 +470,12 @@ class THM_OrganizerModelSchedule_Navigation
     /**
      * Method to get the schedule lessons
      *
-     * @param   Integer  $key         the node key
-     * @param   String   $category    the resource category
-     * @param   Integer  $scheduleID  The semester id
+     * @param   integer  $key         the node key
+     * @param   string   $category    the resource category
+     * @param   integer  $scheduleID  the schedule id
+     * @param   boolean  $allDisplayed  whether the all node should be displayed
      *
-     * @return A tree node
+     * @return  array  an array of  subcategory nodes
      */
     private function getSubcategoryNodes($key, $category, $scheduleID, $allDisplayed)
     {
@@ -663,7 +662,7 @@ class THM_OrganizerModelSchedule_Navigation
     /**
      * Method to mark a node as expanded that has only one child element
      *
-     * @param   array  &$arr  An reference to a node child
+     * @param   array  &$children  An reference to a node child
      *
      * @return void
      */
@@ -683,8 +682,8 @@ class THM_OrganizerModelSchedule_Navigation
     /**
      * Method to check if an tree node has lessons
      *
-     * @param   object  $resourceID    the resource id
-     * @param   string  $category  the resource type
+     * @param   object  $resourceID  the resource id
+     * @param   string  $category    the resource type
      *
      * @return  boolean
      */
@@ -699,9 +698,8 @@ class THM_OrganizerModelSchedule_Navigation
 
     /**
      * Checks if a room is used in a lesson
-     * 
-     * @param   object  $calendar  the lesson calendar
-     * @param   string  $roomID    the room id
+     *
+     * @param   string  $roomID  the room id
      * 
      * @return  boolean  true if the room is used in a lesson
      */
@@ -808,10 +806,19 @@ class THM_OrganizerModelSchedule_Navigation
         return false;
     }
 
-    private function getAllNode($key, $category, $scheduleID)
+    /**
+     * Gets a node to hold all the resources of one category
+     *
+     * @param   string  $categoryKey  the key of the parent category
+     * @param   string  $category     the name of the parent category
+     * @param   string  $scheduleID   the id of the schedule which it came from
+     *
+     * @return  THM_OrganizerNode
+     */
+    private function getAllNode($categoryKey, $category, $scheduleID)
     {
         $allNodeData = array(
-            'id' => "$key;ALL",
+            'id' => "$categoryKey;ALL",
             'nodeKey' => 'ALL',
             'text' => JText::_('COM_THM_ORGANIZER_SCHEDULER_DATA_MYSCHED_ALL'),
             'gpuntisID' => "mySched_ALL",

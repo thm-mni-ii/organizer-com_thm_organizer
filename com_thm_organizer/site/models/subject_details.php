@@ -131,7 +131,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
         
         try 
         {
-            $subject =  $dbo->loadAssoc();
+            $subject = $dbo->loadAssoc();
         }
         catch (runtimeException $e)
         {
@@ -190,7 +190,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $parts = array("'$link'","subjectID");
-        $query->select("name_$this->languageTag AS name, " . $query->concatenate($parts,"") . " AS link");
+        $query->select("name_$this->languageTag AS name, " . $query->concatenate($parts, "") . " AS link");
         $query->from('#__thm_organizer_prerequisites AS p');
         $query->innerJoin('#__thm_organizer_subjects AS s ON p.subjectID = s.id');
         $query->where("p.prerequisite = '$this->subjectID'");

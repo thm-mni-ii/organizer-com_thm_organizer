@@ -338,14 +338,16 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
             $query->leftJoin("#__thm_organizer_event_groups AS eg ON e.id = eg.eventID");
         }
         $dailyEvents = $this->getDailyEvents($query);             
-        foreach ($dailyEvents as &$event) {
+        foreach ($dailyEvents as &$event)
+        {
             $event['startdate'] = date_format(date_create($event['startdate']), 'd.m.Y');
             $event['enddate'] = date_format(date_create($event['enddate']), 'd.m.Y');
             $event['starttime'] = date_format(date_create($event['starttime']), 'H:i');
             $event['endtime'] = date_format(date_create($event['endtime']), 'H:i');
         }
         $blockEvents = $this->getBlockEvents($query);
-        foreach ($blockEvents as &$event) {
+        foreach ($blockEvents as &$event)
+        {
             $event['startdate'] = date_format(date_create($event['startdate']), 'd.m.Y');
             $event['enddate'] = date_format(date_create($event['enddate']), 'd.m.Y');
             $event['starttime'] = date_format(date_create($event['starttime']), 'H:i');
