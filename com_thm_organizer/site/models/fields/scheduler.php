@@ -42,80 +42,27 @@ class JFormFieldScheduler extends JFormField
      */
     protected function getInput()
     {
+
         $libraryInstalled = jimport('extjs4.extjs4');
         if (!$libraryInstalled)
         {
             echo "<div style='color:red;'>" . JText::_('COM_THM_ORGANIZER_EXTJS4_LIBRARY_NOT_INSTALLED') . "</div>";
+            return;
         }
 
-        $menuid = JRequest::getInt("id", 0);
+        $this->prepareDocument();
 
-        // Get database
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('params');
-        $query->from($dbo->quoteName('#__menu'));
-        $query->where('id = ' . $menuid);
-        $dbo->setQuery($query);
-        try 
-        {
-            $rows = $dbo->loadObjectList();
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
-
-        if (count($rows) > 0)
-        {
-            $jsonObj = json_decode($rows[0]->params);
-        }
-
-        if (isset($jsonObj->publicDefaultID))
-        {
-            $publicDefaultID = $jsonObj->publicDefaultID;
-        }
-        else
-        {
-            $publicDefaultID = "";
-        }
-
-        if (isset($jsonObj->id))
-        {
-            $idString = $jsonObj->id;
-        }
-        else
-        {
-            $idString = "";
-        }
-
-        $doc = JFactory::getDocument();
-
-        $doc->addStyleSheet(JURI::root(true) . '/libraries/extjs4/css/ext-all-gray.css');
-        $doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/models/fields/css/schedule_selection_tree.css");
-        $doc->addScript(JURI::root(true) . "/components/com_thm_organizer/models/fields/tree.js");
-        $doc->addScript(JURI::root(true) . "/components/com_thm_organizer/models/fields/departmentSemesterSelection.js");
-
-        if ($idString != "")
-        {
-            $treeids = json_decode($idString);
-        }
-        else
-        {
-            $treeids = array();
-        }
-
-
-        ?>
-
+        $menuID = JFactory::getApplication()->input->getInt("id", 0);
+        $params = $this->getParams($menuID);
+?>
 <script type="text/javascript" charset="utf-8">
-    var prefix = '<?php echo JURI::root(true); ?>';
-    var menuID = <?php echo $menuid ?>;
-    var treeIDs = <?php echo json_encode($treeids); ?>;
-    var publicDefaultID = <?php echo json_encode($publicDefaultID); ?>;
-    var externLinks = [];
+    var prefix = '<?php echo JURI::root(true); ?>',
+        menuID = <?php echo $menuID ?>,
+        treeIDs = <?php echo $params->id; ?>,
+        publicDefaultID = <?php echo $params->publicDefaultID; ?>,
+        externLinks = [], images = [];
+
     externLinks.ajaxHandler = '<?php echo JURI::root() . 'index.php?option=com_thm_organizer&view=ajaxhandler&format=raw'; ?>';
-    var images = [];
     images.base = prefix + '/components/com_thm_organizer/models/fields/images/';
     images.unchecked = prefix + '/components/com_thm_organizer/models/fields/images/unchecked.png';
     images.unchecked_highlighted = prefix + '/components/com_thm_organizer/models/fields/images/unchecked_highlighted.png';
@@ -134,28 +81,34 @@ class JFormFieldScheduler extends JFormField
     {
         if (task == "item.apply" || task == "item.save" || task == "item.save2new" || task == "item.save2copy")
         {
-            var paramID = Ext.get('jform_params_id');
-            var treeChecked = tree.getChecked();
-            var paramValue = Ext.encode(treeChecked);
-            paramID.dom.value = paramValue;
+            var dbElement = Ext.get('jform_params_id'),
+                dbValue = Ext.encode(tree.getChecked()),
+                pdElement = Ext.get('jform_params_publicDefaultID'),
+                pdValue = Ext.encode(tree.getPublicDefault());
 
-            var paramID = Ext.get('jform_params_publicDefaultID');
-            var publicDefault = tree.getPublicDefault();
-            var paramValue = Ext.encode(publicDefault);
-            paramID.dom.value = paramValue;
+            dbElement.dom.value = dbValue;
+            pdElement.dom.value = pdValue;
         }
 
-        if (task == 'item.setType' || task == 'item.setMenuType') {
-        if (task == 'item.setType') {
-            document.id('item-form').elements['jform[type]'].value = type;
-            document.id('fieldtype').value = 'type';
-        } else {
-            document.id('item-form').elements['jform[menutype]'].value = type;
+        if (task == 'item.setType' || task == 'item.setMenuType')
+        {
+            if (task == 'item.setType')
+            {
+                document.id('item-form').elements['jform[type]'].value = type;
+                document.id('fieldtype').value = 'type';
+            }
+            else
+            {
+                document.id('item-form').elements['jform[menutype]'].value = type;
+            }
+            Joomla.submitform('item.setType', document.id('item-form'));
         }
-        Joomla.submitform('item.setType', document.id('item-form'));
-        } else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
+        else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form')))
+        {
             Joomla.submitform(task, document.id('item-form'));
-        } else {
+        }
+        else
+        {
             // special case for modal popups validation response
             $$('#item-form .modal-value.invalid').each(function(field){
                 var idReversed = field.id.split("").reverse().join("");
@@ -169,20 +122,73 @@ class JFormFieldScheduler extends JFormField
 
 </script>
 
-<style type="text/css">
-.x-tree-node-cb {
-    float: none;
-}
-
-.MySched_scheduler_selection_icons
-{
-    margin: 0;
-}
-</style>
-
-
-<div style="width: auto; height: auto;" id="tree-div"></div>
+        <style type="text/css">
+        .x-tree-node-cb { float: none; }
+        .MySched_scheduler_selection_icons { margin: 0; }
+        </style>
+        <div style="width: auto; height: auto;" id="tree-div"></div>
+        <div><?php echo JText::_("COM_THM_ORGANIZER_RIA_TREE_DESCRIPTION"); ?></div>
 <?php
-    echo "<div>" . JText::_("COM_THM_ORGANIZER_RIA_TREE_DESCRIPTION") . "</div>";
+    }
+
+    /**
+     * Loads required files into the document
+     *
+     * @return  void
+     */
+    private function prepareDocument()
+    {
+        $doc = JFactory::getDocument();
+        $root = JURI::root(true);
+        $doc->addStyleSheet("$root/libraries/extjs4/css/ext-all-gray.css");
+        $doc->addStyleSheet("$root/components/com_thm_organizer/models/fields/css/schedule_selection_tree.css");
+        $doc->addScript("$root/components/com_thm_organizer/models/fields/tree.js");
+        $doc->addScript("$root/components/com_thm_organizer/models/fields/departmentSemesterSelection.js");
+    }
+
+    /**
+     * Retrieves the saved menu parameters creating default values if none exist
+     *
+     * @param   int  $menuID  the id of the menu entry
+     *
+     * @return  object  an object with the menu parameters
+     *
+     * @throws  exception
+     */
+    private function getParams($menuID)
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('params');
+        $query->from($dbo->quoteName('#__menu'));
+        $query->where("id = '$menuID'");
+        $dbo->setQuery($query);
+        try
+        {
+            $rawParams = $dbo->loadResult();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+        }
+
+        if (!empty($rawParams))
+        {
+            $params = json_decode($rawParams);
+        }
+        else
+        {
+            $params = new stdClass;
+        }
+
+        $defaultValues = empty($params->publicDefaultID)? '{}' : $params->publicDefaultID;
+        $params->publicDefaultID = json_encode($defaultValues);
+
+        if (empty($params->id))
+        {
+            $params->id = json_encode(new stdClass);
+        }
+
+        return $params;
     }
 }

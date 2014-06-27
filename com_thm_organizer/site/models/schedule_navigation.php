@@ -11,8 +11,8 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-require_once JPATH_ROOT . "/components/com_thm_organizer/assets/classes/node.php";
-require_once JPATH_ROOT . "/components/com_thm_organizer/assets/classes/leaf.php";
+require_once JPATH_COMPONENT_SITE . "/assets/classes/node.php";
+require_once JPATH_COMPONENT_SITE . "/assets/classes/leaf.php";
 /**
  * Class TreeView for component com_thm_organizer
  * Class provides methods to create the tree view for mysched
@@ -115,15 +115,15 @@ class THM_OrganizerModelSchedule_Navigation
     private function processMenuLocation()
     {
         $input = JFactory::getApplication()->input;
-        $backendID = $input->getInt("menuID", 0);
-        $frontendID = $input->getInt("Itemid", 0);
-        if ($backendID)
+        $backendID = $input->getInt("menuID", -1);
+        $frontendID = $input->get("Itemid", 0);
+        if ($backendID < 0)
         {
-            $this->_frontend = false;
-            return $backendID;
+            $this->_frontend = true;
+            return $frontendID;
         }
-        $this->_frontend = true;
-        return $frontendID;
+        $this->_frontend = false;
+        return $backendID;
     }
 
     /**
@@ -593,8 +593,8 @@ class THM_OrganizerModelSchedule_Navigation
 
                 if ($parameters['allDisplayed'])
                 {
-                    $allNodeLeaf = clone $leafNode;
-                    $allNodeLeaf->id = str_replace(";$resourceKey;", ";ALL;", $allNodeLeaf->id);
+                    $parameters['id'] = $parameters['key'] . ";ALL;$resourceKey";
+                    $allNodeLeaf = new THM_OrganizerLeaf($parameters);
                     $parameters['allNodes'][] = $allNodeLeaf;
                 }
             }
@@ -604,58 +604,62 @@ class THM_OrganizerModelSchedule_Navigation
     /**
      * Sets the categories (nodes) for schedule navigation
      * 
-     * @param   string  $type               the resource category
-     * @param   array   &$categories        the array in which the categories
-     *                                      are stored
-     * @param   object  &$resourceCategory  the object modeling the category
+     * @param   string  $type             the resource category
+     * @param   array   &$subcategories  the array in which the categories are stored
+     * @param   object  &$resource       the object modeling the resource
      * 
      * @return  void  sets values in the
      */
-    private function setSubCategories($type, &$categories, &$resourceCategory)
+    private function setSubCategories($type, &$subcategories, &$resource)
     {
         $subcategorySet = false;
         switch ($type)
         {
-            case "teacher":
-                if (isset($resourceCategory->description))
-                {
-                    $subcategory = $resourceCategory->description;
-                    $itemFieldType = $this->_activeScheduleData->fields;
-                    $subcategorySet = true;
-                }
-                break;
             case "room":
-                if (isset($resourceCategory->description))
+                if (isset($resource->description))
                 {
-                    $subcategory = $resourceCategory->description;
+                    $subcategory = $resource->description;
                     $itemFieldType = $this->_activeScheduleData->roomtypes;
                     $subcategorySet = true;
                 }
+                else
+                {
+                    return;
+                }
                 break;
             case "module":
-                if (isset($resourceCategory->degree))
+                if (isset($resource->degree))
                 {
-                    $subcategory = $resourceCategory->degree;
+                    $subcategory = $resource->degree;
                     $itemFieldType = $this->_activeScheduleData->degrees;
                     $subcategorySet = true;
                 }
-                break;
-            case "subject":
-                if (isset($resourceCategory->description))
+                else
                 {
-                    $subcategory = $resourceCategory->description;
+                    return;
+                }
+                break;
+            case "teacher":
+            case "subject":
+                if (isset($resource->description))
+                {
+                    $subcategory = $resource->description;
                     $itemFieldType = $this->_activeScheduleData->fields;
                     $subcategorySet = true;
+                }
+                else
+                {
+                    return;
                 }
                 break;
         }
 
         $subcategoryExists = !empty($itemFieldType->$subcategory);
-        $subcategoryAlreadyIndex = in_array($subcategory, $categories);
+        $subcategoryAlreadyIndex = in_array($subcategory, $subcategories);
         $setSubCategory = ($subcategorySet AND $subcategoryExists AND !$subcategoryAlreadyIndex);
         if ($setSubCategory)
         {
-            $categories[$subcategory] = $itemFieldType->{$subcategory};
+            $subcategories[$subcategory] = $itemFieldType->{$subcategory};
         }
     }
 

@@ -13,11 +13,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
-// deprecated
-//jimport('joomla.html.pane');
 
-// instead of pane use this:
-// jimport( 'joomla.html.html.tabs' );
 /**
  * Class defining view output
  *
@@ -46,10 +42,6 @@ class THM_OrganizerViewTHM_Organizer extends JViewLegacy
 
         $document = JFactory::getDocument();
         $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
-
-        // deprecated
-        //$pane = JPane::getInstance('sliders');
-        //$this->pane = $pane;
 
         $application = JFactory::getApplication("administratoristrator");
         $this->option = $application->scope;

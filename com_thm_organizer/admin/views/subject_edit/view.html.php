@@ -58,7 +58,7 @@ class THM_OrganizerViewSubject_Edit extends JViewLegacy
         JToolbarHelper::title($isNew? JText::_('COM_THM_ORGANIZER_SUM_NEW') : JText::_('COM_THM_ORGANIZER_SUM_EDIT'), 'organizer_subjects');
         JToolbarHelper::apply('subject.apply', $isNew? JText::_('COM_THM_ORGANIZER_APPLY_NEW') : JText::_('COM_THM_ORGANIZER_APPLY_EDIT'));
         JToolbarHelper::save('subject.save');
-        JToolbarHelper::save2new('subject.save');
+        JToolbarHelper::save2new('subject.save2new');
         JToolbarHelper::cancel('subject.cancel', $this->item->id == 0 ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
     }
 }

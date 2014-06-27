@@ -38,18 +38,12 @@ class THM_OrganizerViewPool_Edit extends JViewLegacy
         $document->addScript($this->baseurl . "/components/com_thm_organizer/assets/js/mapping.js");
 
         // Get the Data
-        $form = $this->get('Form');
-        $item = $this->get('Item');
-        $poolID = empty($item->id)? JRequest::getInt('id') : $item->id;
-        $this->_layout = empty($poolID)? 'add' : 'edit';
-        if (!empty($poolID))
+        $this->form= $this->get('Form');
+        $this->item = $this->get('Item');
+        if (!empty($this->item->id))
         {
             $this->children = $this->getModel()->children;
         }
-
-        // Assign the Data
-        $this->form = $form;
-        $this->item = $item;
 
         // Set the toolbar
         $this->addToolBar();

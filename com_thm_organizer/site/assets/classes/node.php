@@ -102,7 +102,7 @@ class THM_OrganizerNode
      *
      * @var String
      */
-    public $checked = null;
+    public $checked =  'unchecked';
 
     /**
      * Is expanded
@@ -132,41 +132,41 @@ class THM_OrganizerNode
      */
     public function  __construct($parameters)
     {
-        $this->id = $config['id'];
-        $this->nodeKey = $config['nodeKey'];
-        $this->text = $config['text'];
-        $this->gpuntisID = $config['gpuntisID'];
-        $this->type = $config['type'];
-        $this->semesterID = $config['semesterID'];
-        $this->iconCls = $config['iconCls'];
-        $this->setCalculatedProperties($config);
+        $this->id = $parameters['id'];
+        $this->nodeKey = $parameters['nodeKey'];
+        $this->text = $parameters['text'];
+        $this->gpuntisID = $parameters['gpuntisID'];
+        $this->type = $parameters['type'];
+        $this->semesterID = $parameters['semesterID'];
+        $this->iconCls = $parameters['iconCls'];
+        $this->setCalculatedProperties($parameters);
     }
 
     /**
      * Sets individual node properties
      * 
-     * @param   array  &$config  the checked nodes
+     * @param   array  &$parameters  the checked nodes
      * 
      * @return  void  sets class properties
      */
-    private function setCalculatedProperties(&$config)
+    private function setCalculatedProperties(&$parameters)
     {
         $input = JFactory::getApplication()->input;
-        $menuID = $input->getInt("menuID", 0);
-        $frontend = empty($menuID)? true : false;
+        $menuID = $input->getInt("menuID", -1);
+        $frontend = $menuID < 0? true : false;
         $childrenCheckbox = $input->getBool("childrenCheckbox", false);
-        if (($frontend AND !$childrenCheckbox) OR $childrenCheckbox)
+        if ($frontend)
         {
             $this->checked = null;
         }
         else
         {
-            $this->checked = !empty($config['checked'][$this->id])? $config['checked'][$this->id] : "unchecked";
+            $this->checked = !empty($parameters['checked'][$this->id])? $parameters['checked'][$this->id] : "unchecked";
         }
 
-        if (!empty($config['publicDefault']))
+        if (!empty($parameters['publicDefault']))
         {
-            $firstValue = each($config['publicDefault']);
+            $firstValue = each($parameters['publicDefault']);
 
             if (strpos($firstValue["key"], $this->id) === 0)
             {

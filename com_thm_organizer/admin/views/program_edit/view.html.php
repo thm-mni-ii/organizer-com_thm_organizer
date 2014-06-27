@@ -41,9 +41,8 @@ class THM_OrganizerViewProgram_Edit extends JViewLegacy
         $document->addScript($this->baseurl . "/components/com_thm_organizer/assets/js/mapping.js");
 
         $this->form = $this->get('Form');
-        $isNew = $this->form->getValue('id') == 0;
-        $this->_layout = $isNew? 'add' : 'edit';
-        if (!$isNew)
+        $this->item = $this->get('Item');
+        if ($this->item->id)
         {
             $this->children = $this->getModel()->children;
         }

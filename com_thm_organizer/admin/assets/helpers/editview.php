@@ -13,7 +13,14 @@ defined('_JEXEC') or die;
 
 class THM_OrganizerHelperEditView
 {
-    public static function setStandardEditView($view)
+    /**
+     * Performs standard actions for edit views
+     *
+     * @param   object  &$view  the view to be processed
+     *
+     * @return  mixed  JError object if the user is not authorized to use this view, false if errors occurred, otherwise void
+     */
+    public static function setStandardEditView(&$view)
     {
         if (!JFactory::getUser()->authorise('core.admin'))
         {

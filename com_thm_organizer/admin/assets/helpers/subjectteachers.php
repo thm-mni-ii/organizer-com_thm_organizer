@@ -21,9 +21,15 @@ defined('_JEXEC') or die;
 class THM_OrganizerHelperSubjectTeachers
 {
     /**
-     * Returns a selectionbox where stored coursepool can be chosen as a parent node
+     * Returns a select box where stored teachers are listed
      *
-     * @return Select box
+     * @param   int     $subjectID          the id of the subject
+     * @param   string  $name               the name of the input
+     * @param   int     $responsibilityKey  the teacher responsibility (1|2)
+     *
+     * @return   string  HTML string encoding a select box for teachers
+     *
+     * @throws  exception
      */
     public static function getInput($subjectID, $name, $responsibilityKey = 1)
     {

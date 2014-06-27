@@ -139,14 +139,15 @@ function changePublicDefaultHighlight (event)
 function setPublicDefaultStatus(event)
 {
 
-    var elImg = event.getTarget('.MySched_checkbox_default_fake', 5, true);
-    var elInput = elImg.dom.getPrevious();
+    var clickBox = event.getTarget('.MySched_checkbox_default_fake', 5, true);
+    var inputField = clickBox.dom.getPrevious();
     var newStatus = null;
     var treeRoot = tree.getRootNode();
 
-    var record = treeRoot.findChild('id',elInput.id.replace("_default", ""),true);
+    var recordID = inputField.id.replace("_default", "");
+    var record = treeRoot.findChild('id', recordID, true);
 
-    if(elInput.value === "default")
+    if(inputField.value === "default")
     {
         newStatus = "notdefault";
     }
@@ -157,74 +158,75 @@ function setPublicDefaultStatus(event)
         {
            item.src = images.notdefault;
            item.getPrevious().value = "notdefault";
-           var nodeTemp = treeRoot.findChild('id',item.id.replace("_default_fake", ""),true);
+           var otherRecordID = item.id.replace("_default_fake", "");
+           var nodeTemp = treeRoot.findChild('id', otherRecordID, true);
            nodeTemp.raw.publicDefault = "notdefault";
         });
         newStatus = "default";
     }
 
-    elInput.value = newStatus;
-    elImg.dom.src = images[elInput.value];
+    inputField.value = newStatus;
+    clickBox.dom.src = images[inputField.value];
 
-    record.raw.publicDefault = elInput.value;
+    record.raw.publicDefault = inputField.value;
 }
 
 function setStatus(event)
 {
 
-    var elImg = event.getTarget('.MySched_checkbox_fake', 5, true);
-    var elInput = elImg.dom.getPrevious();
+    var clickBox = event.getTarget('.MySched_checkbox_fake', 5, true);
+    var inputField = clickBox.dom.getPrevious();
 
-    var record = tree.getRootNode().findChild('id',elInput.id,true);
+    var record = tree.getRootNode().findChild('id',inputField.id,true);
 
     if(record.isLeaf() === true)
     {
-        if(elInput.value === "unchecked")
+        if(inputField.value === "unchecked")
         {
-            elInput.value = "checked";
-            elImg.dom.src = images.base+elInput.value+"_highlighted.png";
+            inputField.value = "checked";
+            clickBox.dom.src = images.base+inputField.value+"_highlighted.png";
         }
-        else if(elInput.value === "checked")
+        else if(inputField.value === "checked")
         {
-            elInput.value = "hidden";
-            elImg.dom.src = images.base+elInput.value+"_highlighted.png";
+            inputField.value = "hidden";
+            clickBox.dom.src = images.base+inputField.value+"_highlighted.png";
         }
-        else if(elInput.value === "hidden")
+        else if(inputField.value === "hidden")
         {
-            elInput.value = "unchecked";
-            elImg.dom.src = images.base+elInput.value+"_highlighted.png";
+            inputField.value = "unchecked";
+            clickBox.dom.src = images.base+inputField.value+"_highlighted.png";
         }
     }
     else
     {
-        if(elInput.value === "unchecked")
+        if(inputField.value === "unchecked")
         {
-            elInput.value = "checked";
-            elImg.dom.src = images.base+elInput.value+"_highlighted.png";
+            inputField.value = "checked";
+            clickBox.dom.src = images.base+inputField.value+"_highlighted.png";
         }
-        else if(elInput.value === "checked")
+        else if(inputField.value === "checked")
         {
-            elInput.value = "selected";
-            elImg.dom.src = images.base+elInput.value+"_highlighted.png";
+            inputField.value = "selected";
+            clickBox.dom.src = images.base+inputField.value+"_highlighted.png";
         }
-        else if(elInput.value === "selected")
+        else if(inputField.value === "selected")
         {
-            elInput.value = "intermediate";
-            elImg.dom.src = images.base+elInput.value+"_highlighted.png";
+            inputField.value = "intermediate";
+            clickBox.dom.src = images.base+inputField.value+"_highlighted.png";
         }
-        else if(elInput.value === "intermediate")
+        else if(inputField.value === "intermediate")
         {
-            elInput.value = "hidden";
-            elImg.dom.src = images.base+elInput.value+"_highlighted.png";
+            inputField.value = "hidden";
+            clickBox.dom.src = images.base+inputField.value+"_highlighted.png";
         }
         // hide
         else
         {
-            elInput.value = "unchecked";
-            elImg.dom.src = images.base+elInput.value+"_highlighted.png";
+            inputField.value = "unchecked";
+            clickBox.dom.src = images.base+inputField.value+"_highlighted.png";
         }
     }
-    record.data.checked = elInput.value;
+    record.data.checked = inputField.value;
 }
 
 Ext.data.Tree.prototype.check = function(state, descend, bulk)
@@ -350,18 +352,18 @@ Ext.tree.Panel.prototype.getPublicDefault = function(node, checkedArr)
 
 Ext.tree.Panel.prototype.doGray = function(node)
 {
-    var elImg = null;
+    var clickBox = null;
 
     if( typeof node === 'undefined' )
     {
         node = this.getRootNode();
     }
     var id = node.data.id+"_fake";
-    elImg = Ext.DomQuery.selectNode("[id="+id+"]", tree.dom);
-    if(Ext.isDefined(elImg))
+    clickBox = Ext.DomQuery.selectNode("[id="+id+"]", tree.dom);
+    if(Ext.isDefined(clickBox))
     {
-        elImg.setStyle('opacity', '1');
-        elImg.setStyle('border', 'none');
+        clickBox.setStyle('opacity', '1');
+        clickBox.setStyle('border', 'none');
     }
     var gray = false;
     if(node.hasChildNodes() === true)
@@ -390,11 +392,11 @@ Ext.tree.Panel.prototype.doGray = function(node)
 
     if(gray === true)
     {
-        elImg = Ext.DomQuery.selectNode("[id="+id+"]", tree.dom);
-        if(Ext.isDefined(elImg))
+        clickBox = Ext.DomQuery.selectNode("[id="+id+"]", tree.dom);
+        if(Ext.isDefined(clickBox))
         {
-            elImg.setStyle('opacity', '0.4');
-            elImg.setStyle('border', '1px solid gray');
+            clickBox.setStyle('opacity', '0.4');
+            clickBox.setStyle('border', '1px solid gray');
         }
     }
 

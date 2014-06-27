@@ -57,7 +57,7 @@ class THM_OrganizerViewPool_Manager extends JViewLegacy
         $baseTitle = JText::_("COM_THM_ORGANIZER_POM_TOOLBAR_TITLE");
         $title = empty($this->programName)? $baseTitle : $baseTitle . " - " . $this->programName;
         JToolbarHelper::title($title, 'organizer_subject_pools');
-        JToolbarHelper::addNew('pool.add', 'JTOOLBAR_NEW');
+        JToolbarHelper::addNew('pool.edit', 'JTOOLBAR_NEW');
         JToolbarHelper::editList('pool.edit', 'JTOOLBAR_EDIT');
         JToolbarHelper::deleteList('COM_THM_ORGANIZER_POM_DELETE_CONFIRM', 'pool.delete', 'JTOOLBAR_DELETE');
         JToolbarHelper::divider();

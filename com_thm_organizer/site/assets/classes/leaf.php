@@ -102,7 +102,7 @@ class THM_OrganizerLeaf
      *
      * @var String
      */
-    public $checked = null;
+    public $checked = 'unchecked';
 
     /**
      * Is expanded
@@ -209,10 +209,11 @@ class THM_OrganizerLeaf
      */
     private function setDynamicProperties(&$checked, &$publicDefault)
     {
-        $menuID = JRequest::getInt("menuID", 0);
-        $frontend = empty($menuID)? true : false;
-        $childrenCheckbox = JRequest::getBool("childrenCheckbox", false);
-        if ($frontend AND !$childrenCheckbox)
+        $input = JFactory::getApplication()->input;
+        $menuID = $input->getInt("menuID", -1);
+        $frontend = $menuID < 0? true : false;
+        $childrenCheckbox = $input->getBool("childrenCheckbox", false);
+        if ($frontend)
         {
             $this->checked = null;
         }

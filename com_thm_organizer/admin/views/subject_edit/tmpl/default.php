@@ -452,7 +452,7 @@ jq(document).ready(function(){
             </div>
         </fieldset>
     </fieldset>
-    <?php    include JPATH_COMPONENT_ADMINISTRATOR . '/templates/mapping.php'; ?>
+    <?php include_once JPATH_COMPONENT_ADMINISTRATOR . '/templates/mapping.php'; ?>
     <div>
         <input type="hidden" name="task" value="" />
         <?php echo $this->form->getInput('id'); ?>

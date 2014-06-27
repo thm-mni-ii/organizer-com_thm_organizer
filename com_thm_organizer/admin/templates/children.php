@@ -10,12 +10,14 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
+if (!empty($this->item->id))
+{
 ?>
     <fieldset class="adminform">
         <legend><?php echo JText::_('COM_THM_ORGANIZER_CHILDREN'); ?></legend>
 <?php
-if (!empty($this->children))
-{
+    if (!empty($this->children))
+    {
 ?>
         <div class="thm_organizer_children">
             <table id="childList" class="adminlist">
@@ -31,26 +33,26 @@ if (!empty($this->children))
                 </thead>
                 <tbody>
 <?php
-    for ($index = 1; $index <= $maxOrdering; $index++)
-    {
-        if (isset($this->children[$index]))
+        for ($index = 1; $index <= $maxOrdering; $index++)
         {
-            $name = $this->children[$index]['name'];
-            $id = $this->children[$index]['id'];
-            if (!empty($this->children[$index]['poolID']))
+            if (isset($this->children[$index]))
             {
-                $rawEditURL = 'index.php?option=com_thm_organizer&view=pool_edit&id=' . $this->children[$index]['poolID'];
+                $name = $this->children[$index]['name'];
+                $id = $this->children[$index]['id'];
+                if (!empty($this->children[$index]['poolID']))
+                {
+                    $rawEditURL = 'index.php?option=com_thm_organizer&view=pool_edit&id=' . $this->children[$index]['poolID'];
+                }
+                else
+                {
+                    $rawEditURL = 'index.php?option=com_thm_organizer&view=subject_edit&id=' . $this->children[$index]['subjectID'];
+                }
+                $editURL = JRoute::_($rawEditURL, false);
             }
             else
             {
-                $rawEditURL = 'index.php?option=com_thm_organizer&view=subject_edit&id=' . $this->children[$index]['subjectID'];
+                $editURL = $name = $id = '';
             }
-            $editURL = JRoute::_($rawEditURL, false);
-        }
-        else
-        {
-            $editURL = $name = $id = '';
-        }
 ?>
                     <tr id="childRow<?php echo $index; ?>"
                         class="row<?php echo $index % 2; ?>">
@@ -111,13 +113,13 @@ if (!empty($this->children))
                         </td> 
                     </tr>
 <?php
-    }
+        }
 ?>
                 </tbody>
             </table>
         </div>
 <?php
-}
+    }
 ?>
         <div class="thm_organizer_pools">
             <a href="<?php echo $poolURL; ?>">
@@ -130,4 +132,5 @@ if (!empty($this->children))
             </a>
         </div>
     </fieldset>
-
+<?php
+}

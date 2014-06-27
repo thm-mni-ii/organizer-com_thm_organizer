@@ -11,6 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/referrer.php';
 
 /**
  * Class THM_OrganizerControllerPool for component com_thm_organizer
@@ -25,22 +26,6 @@ jimport('joomla.application.component.controller');
  */
 class THM_OrganizerControllerPool extends JControllerLegacy
 {
-    /**
-     * Performs access checks, sets the id variable to 0, and redirects to the
-     * pool edit view
-     *
-     * @return void
-     */
-    public function add()
-    {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
-        JRequest::setVar('id', '0');
-        $this->setRedirect("index.php?option=com_thm_organizer&view=pool_edit");
-    }
-
     /**
      * Performs access checks and redirects to the pool edit view
      *
@@ -93,13 +78,22 @@ class THM_OrganizerControllerPool extends JControllerLegacy
         $success = $this->getModel('pool')->save();
         if ($success)
         {
+            $referrer = THM_OrganizerHelperReferrer::getReferrer('pool');
             $msg = JText::_('COM_THM_ORGANIZER_POM_SAVE_SUCCESS');
-            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_manager', false), $msg);
+            $msgType = 'message';
         }
         else
         {
             $msg = JText::_('COM_THM_ORGANIZER_POM_SAVE_FAIL');
-            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_manager', false), $msg, 'error');
+            $msgType = 'error';
+        }
+        if (empty($referrer))
+        {
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_manager', false), $msg, $msgType);
+        }
+        else
+        {
+            $this->setRedirect($referrer, $msg);
         }
     }
 
@@ -139,6 +133,14 @@ class THM_OrganizerControllerPool extends JControllerLegacy
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_manager', false));
+        $referrer = THM_OrganizerHelperReferrer::getReferrer('pool');
+        if (empty($referrer))
+        {
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_manager', false));
+        }
+        else
+        {
+            $this->setRedirect($referrer);
+        }
     }
 }

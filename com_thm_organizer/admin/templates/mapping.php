@@ -10,6 +10,8 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
+if (!empty($this->item->id))
+{
 ?>
 <fieldset class="adminform">
     <legend><?php echo JText::_('COM_THM_ORGANIZER_POM_PROPERTIES_MAPPING'); ?></legend>
@@ -24,4 +26,5 @@ defined('_JEXEC') or die;
         </li>
     </ul>
 </fieldset>
-
+<?php
+}

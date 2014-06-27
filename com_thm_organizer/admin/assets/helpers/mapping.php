@@ -24,6 +24,8 @@ class THM_OrganizerHelperMapping
      * Retrieves a list of mapped programs
      *
      * @return  mixed  an array of mapped programs on success, otherwise null
+     *
+     * @throws  exception
      */
     public static function getPrograms()
     {
@@ -109,6 +111,8 @@ class THM_OrganizerHelperMapping
      * @param   string  $formID  the id used for the child element in the form
      * 
      * @return  string  the name of the child element
+     *
+     * @throws  exception
      */
     private static function getChildName($formID)
     {
@@ -138,8 +142,10 @@ class THM_OrganizerHelperMapping
 
     /**
      * Retrieves a list of all available programs
-     * 
+     *
      * @return  array  the ids and names of all available programs
+     *
+     * @throws  exception
      */
     public static function getAllPrograms()
     {
@@ -173,6 +179,8 @@ class THM_OrganizerHelperMapping
      * @param   int     $resourceID  the id of the resource in its native table
      * 
      * @return  array  the left and right values of the resource's mappings
+     *
+     * @throws  exception
      */
     public static function getRanges($column, $resourceID)
     {
@@ -201,6 +209,8 @@ class THM_OrganizerHelperMapping
      * @param   array  $ranges  the ranges for the individual subject entries
      * 
      * @return  array  the ids of the associated programs
+     *
+     * @throws  exception
      */
     public static function getSelectedPrograms($ranges)
     {
@@ -242,6 +252,8 @@ class THM_OrganizerHelperMapping
      * @param   boolean  $isSubject   if the calling element is a subject
      * 
      * @return  void
+     *
+     * @throws  exception
      */
     public static function getMappingData($resourceID, &$mappings, &$parentIDs, &$ownIDs, $isSubject = false)
     {
@@ -286,6 +298,8 @@ class THM_OrganizerHelperMapping
      * @param   array  &$mappings  the current mappings of the pool
      * 
      * @return  array  the ids of the children of a pool
+     *
+     * @throws  exception
      */
     public static function getChildren(&$mappings)
     {
@@ -317,6 +331,8 @@ class THM_OrganizerHelperMapping
      * @param   array  &$mappings  the existing mappings of the element
      * 
      * @return  array  the superordinate program mappings
+     *
+     * @throws  exception
      */
     public static function getProgramEntries(&$mappings)
     {
@@ -357,6 +373,8 @@ class THM_OrganizerHelperMapping
      * @param   array  &$programEntries  the program mappings themselves
      * 
      * @return  array  an array containing information for all program mappings
+     *
+     * @throws  exception
      */
     public static function getProgramMappings(&$programEntries)
     {
@@ -396,6 +414,8 @@ class THM_OrganizerHelperMapping
      * @param   array   &$selectedParents  the selected parents
      * 
      * @return  string  HTML option
+     *
+     * @throws  exception
      */
     public static function getPoolOption(&$mapping, $language, &$selectedParents)
     {
@@ -453,6 +473,8 @@ class THM_OrganizerHelperMapping
      * @param   boolean  $isSubject         if the calling element is a subject
      * 
      * @return  string  HTML option
+     *
+     * @throws  exception
      */
     public static function getProgramOption(&$mapping, $language, &$selectedParents, $isSubject = false)
     {
@@ -485,6 +507,8 @@ class THM_OrganizerHelperMapping
      * @param   int     $resourceID    the id of the selected resource
      *
      * @return  mixed  array with boundary values on success, otherwise false
+     *
+     * @throws  exception
      */
     public static function getBoundaries($resourceType, $resourceID)
     {
@@ -500,7 +524,7 @@ class THM_OrganizerHelperMapping
         
         try 
         {
-            $boundaries =  $dbo->loadAssoc();
+            $boundaries = $dbo->loadAssoc();
         }
         catch (runtimeException $e)
         {
@@ -515,6 +539,8 @@ class THM_OrganizerHelperMapping
      * selected teacher
      * 
      * @return  mixed  array on success, otherwise boolean false
+     *
+     * @throws  exception
      */
     public static function getTeacherMappingClauses()
     {

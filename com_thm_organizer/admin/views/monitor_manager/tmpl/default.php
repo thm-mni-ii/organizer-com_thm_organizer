@@ -205,4 +205,5 @@ if ($this->monitors !== false)
             </tbody>
         </table>
     </div>
-    <?php echo JHtml::_('form.token'); ?>
+<?php
+echo JHtml::_('form.token');

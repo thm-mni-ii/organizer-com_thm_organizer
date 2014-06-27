@@ -11,6 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/referrer.php';
 
 /**
  * Class THM_OrganizerModelSubject_Edit for component com_thm_organizer
@@ -60,6 +61,7 @@ class THM_OrganizerModelSubject_Edit extends JModelAdmin
         {
             $item->responsible = $this->getResponsible($item->id);
         }
+        THM_OrganizerHelperReferrer::setReferrer('subject');
         return $item;
     }
 

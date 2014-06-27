@@ -11,6 +11,8 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/referrer.php';
+
 
 /**
  * Class performs access checks, redirects and model function calls for data persistence
@@ -75,13 +77,24 @@ class THM_OrganizerControllerSubject extends JControllerLegacy
         $success = $this->getModel('subject')->save();
         if ($success)
         {
+            $referrer = THM_OrganizerHelperReferrer::getReferrer('subject');
             $msg = JText::_('COM_THM_ORGANIZER_SUM_SAVE_SUCCESS');
-            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false), $msg);
+            $msgType = 'message';
         }
         else
         {
             $msg = JText::_('COM_THM_ORGANIZER_SUM_SAVE_FAIL');
-            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false), $msg, 'error');
+            $msgType = 'error';
+        }
+        if (empty($referrer))
+        {
+            $this->setRedirect($referrer, $msg);
+            $this->setRedirect(JRoute::_("index.php?option=com_thm_organizer&view=subject_edit&id=0", false), $msg, $msgType);
+
+        }
+        else
+        {
+            $this->setRedirect($referrer, $msg);
         }
     }
 
@@ -146,7 +159,15 @@ class THM_OrganizerControllerSubject extends JControllerLegacy
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false));
+        $referrer = THM_OrganizerHelperReferrer::getReferrer('subject');
+        if (empty($referrer))
+        {
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false));
+        }
+        else
+        {
+            $this->setRedirect($referrer);
+        }
     }
  
     /**

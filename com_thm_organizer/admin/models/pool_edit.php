@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
 require_once 'mapping.php';
 require_once JPATH_COMPONENT . '/assets/helpers/mapping.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/referrer.php';
 
 /**
  * Creates form data for a subject pool from information in the database.
@@ -54,9 +55,11 @@ class THM_OrganizerModelPool_Edit extends JModelAdmin
      */
     protected function loadFormData()
     {
-        $poolIDs = JRequest::getVar('cid',  null, '', 'array');
-        $poolID = (empty($poolIDs))? JRequest::getVar('id') : $poolIDs[0];
+        $input = JFactory::getApplication()->input;
+        $poolIDs = $input->get('cid',  null, 'array');
+        $poolID = (empty($poolIDs))? $input->getInt('id', 0) : $poolIDs[0];
         $this->getChildren($poolID);
+        THM_OrganizerHelperReferrer::setReferrer('pool');
         return $this->getItem($poolID);
     }
 

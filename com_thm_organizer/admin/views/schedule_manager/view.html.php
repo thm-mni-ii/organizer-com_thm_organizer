@@ -84,7 +84,8 @@ class THM_OrganizerViewSchedule_Manager extends JViewLegacy
     private function addLinks()
     {
         $editURL = 'index.php?option=com_thm_organizer&view=schedule_edit&scheduleID=';
-        if ($this->schedules){
+        if ($this->schedules)
+        {
             foreach ($this->schedules as $key => $schedule)
             {
                 $this->schedules[$key]->url = $editURL . $schedule->id;
