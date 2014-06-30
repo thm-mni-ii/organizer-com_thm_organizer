@@ -199,7 +199,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
             "'index.php?option=com_thm_organizer&view=subject_details&languageTag='",
             "'$langTag'", "'&id='", "s.id", "'&Itemid='", "'$itemID'"
         );
-        $select .= $query->concatenate($concateSelect,"");
+        $select .= $query->concatenate($concateSelect, "");
         $select .= " AS link";
         $query->select($select);
         $query->from('#__thm_organizer_subjects AS s');

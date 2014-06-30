@@ -23,7 +23,7 @@ class THM_OrganizerHelperReferrer
     /**
      * Gets the referrer field value for pools and subjects
      *
-     * @param  string  $type  the type of resource being processed
+     * @param   string  $type  the type of resource being processed
      *
      * @return  string  the url referring to the pool or subject edit view
      */
