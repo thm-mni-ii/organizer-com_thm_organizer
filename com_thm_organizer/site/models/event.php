@@ -22,6 +22,7 @@ require_once JPATH_COMPONENT_SITE . '/helper/event.php';
  */
 class THM_OrganizerModelEvent extends JModelLegacy
 {
+
     /**
      * save
      *
@@ -33,7 +34,12 @@ class THM_OrganizerModelEvent extends JModelLegacy
     {
         $dbo = JFactory::getDbo();
         $dbo->transactionStart();
-        $data = $this->cleanRequestData();
+        $data = $this->processRequestData();
+        if (empty($data))
+        {
+            return 0;
+        }
+
         THM_OrganizerHelperEvent::buildtext($data);
         $eventSaved = ($data['id'] > 0)? $this->saveExistingEvent($data) : $this->saveNewEvent($data);
         $teachersSaved = $this->saveResources("#__thm_organizer_event_teachers", "teachers", "teacherID", $data['id']);
@@ -61,20 +67,25 @@ class THM_OrganizerModelEvent extends JModelLegacy
     }
 
     /**
-     * cleanRequestData
+     * Processes the request data, reformatting, and consolidating it-
      *
-     * filters the data from the request
-     *
-     * @return mixed $data request data
+     * @return  array  $data  array of request data, empty if the form object could not be found
      */
-    public function cleanRequestData()
+    public function processRequestData()
     {
-        $data = JRequest::getVar('jform', null, null, null, 4);
-        $data['categoryID'] = JRequest::getInt('category');
-        $data['userID'] = JFactory::getUser()->id;
+        $input = JFactory::getApplication()->input;
+        $data = $input->get('jform', null, 'array');
+        if (empty($data))
+        {
+            return array();
+        }
+
         $data['title'] = addslashes($data['title']);
         $data['alias'] = JApplication::stringURLSafe($data['title']);
-        $data['fulltext'] = $this->getDbo()->escape($data['description']);
+        $data['fulltext'] = JFactory::getDbo()->escape($data['description']);
+        $data['categoryID'] = $input->getInt('category', 0);
+        $data['rec_type'] = $input->getInt('rec_type', 0);
+        $data['userID'] = JFactory::getUser()->id;
         return $data;
     }
 
@@ -173,8 +184,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
      */
     private function saveNewEvent(&$data)
     {
-        $dbo = JFactory::getDBO();
-
+        $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $statement = "#__content";
         $statement .= "( title, alias, ";
@@ -297,7 +307,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
     }
 
     /**
-     * saves associations of events and event resources
+     * Saves associations of events and event resources
      *
      * @param   string  $tableName       the name of the resource association table
      * @param   string  $requestName     the name of the request resource variable
@@ -308,7 +318,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
      */
     private function saveResources($tableName, $requestName, $resourceColumn, $eventID)
     {
-        $dbo = JFactory::getDBO();
+        $dbo = JFactory::getDbo();
 
         // Remove old associations
         $query = $dbo->getQuery(true);
@@ -327,7 +337,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
         }
 
         // Add new ones (if requested)
-        $resources = JRequest::getVar($requestName, array());
+        $resources = JFactory::getApplication()->input->get($requestName, array(), 'array');
         $noResourceIndex = array_search('-1', $resources);
         if ($noResourceIndex)
         {
@@ -362,7 +372,6 @@ class THM_OrganizerModelEvent extends JModelLegacy
     public function delete($eventID)
     {
         $dbo = JFactory::getDbo();
-
         $query = $dbo->getQuery(true);
         $query->select("id");
         $query->from("#__assets");
@@ -485,9 +494,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
     }
 
     /**
-     * getRecipients
-     *
-     * retrieves the users in the affected groups
+     * Retrieves the users in the affected groups
      *
      * @return mixed array of email addresses
      */
@@ -508,7 +515,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
             
             try
             {
-                $groupEMails = $dbo->loadResultArray();
+                $groupEMails = $dbo->loadColumn();
             }
             catch (runtimeException $e)
             {

@@ -11,6 +11,13 @@
  */
 defined('_JEXEC') or die;
 
+/**
+ * Class handles referrer handling over the session
+ *
+ * @category    Joomla.Component.Admin
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.admin
+ */
 class THM_OrganizerHelperReferrer
 {
     /**
@@ -30,7 +37,7 @@ class THM_OrganizerHelperReferrer
     /**
      * Sets the referrer field value of the item given if the reference is valid in context
      *
-     * @params  string  $type  the type of resource being processed
+     * @param   string  $type  the type of resource being processed
      *
      * @return  void
      */
@@ -47,7 +54,7 @@ class THM_OrganizerHelperReferrer
     /**
      * Checks whether the reference to the referrer is usable in the current context
      *
-     * @param  string  $type  the type of resource being processed
+     * @param   string  $type  the type of resource being processed
      *
      * @return  boolean  true if the parameters are the same, otherwise false
      */
@@ -75,7 +82,7 @@ class THM_OrganizerHelperReferrer
         }
 
         $referrerParams = array();
-        parse_str(parse_url($httpReferrer,PHP_URL_QUERY), $referrerParams);
+        parse_str(parse_url($httpReferrer, PHP_URL_QUERY), $referrerParams);
         if (empty($referrerParams) OR empty($referrerParams['view']))
         {
             return true;
@@ -87,9 +94,9 @@ class THM_OrganizerHelperReferrer
     /**
      * Checks if the current view is usable as the referrer. Allows for customized validation.
      *
-     * @param  string  $type           the type of resource being processed
-     * @param  string  $currentView    the current view
-     * @param  string  $referringView  the view which directed to this one
+     * @param   string  $type           the type of resource being processed
+     * @param   string  $currentView    the current view
+     * @param   string  $referringView  the view which directed to this one
      *
      * @return  bool  true if the view context is valid as referrer, otherwise false
      */

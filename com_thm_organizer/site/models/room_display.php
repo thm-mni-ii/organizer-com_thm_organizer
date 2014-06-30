@@ -814,7 +814,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     /**
      * Reformats events dates and times to the german standard
      *
-     * @param   array  $event  the event to be processed
+     * @param   array  &$event  the event to be processed
      *
      * @return  void
      */

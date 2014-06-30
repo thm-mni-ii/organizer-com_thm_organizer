@@ -102,7 +102,7 @@ class THM_OrganizerNode
      *
      * @var String
      */
-    public $checked =  'unchecked';
+    public $checked = 'unchecked';
 
     /**
      * Is expanded

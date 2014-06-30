@@ -470,9 +470,9 @@ class THM_OrganizerModelSchedule_Navigation
     /**
      * Method to get the schedule lessons
      *
-     * @param   integer  $key         the node key
-     * @param   string   $category    the resource category
-     * @param   integer  $scheduleID  the schedule id
+     * @param   integer  $key           the node key
+     * @param   string   $category      the resource category
+     * @param   integer  $scheduleID    the schedule id
      * @param   boolean  $allDisplayed  whether the all node should be displayed
      *
      * @return  array  an array of  subcategory nodes
@@ -604,7 +604,7 @@ class THM_OrganizerModelSchedule_Navigation
     /**
      * Sets the categories (nodes) for schedule navigation
      * 
-     * @param   string  $type             the resource category
+     * @param   string  $type            the resource category
      * @param   array   &$subcategories  the array in which the categories are stored
      * @param   object  &$resource       the object modeling the resource
      * 

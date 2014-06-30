@@ -76,6 +76,8 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
      * @param   int  $right  the right value for the program
      *
      * @return  mixed  array on success, otherwise false
+     *
+     * @throws  exception
      */
     private function getFieldColors($left, $right)
     {
@@ -109,6 +111,8 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
      * @param   string  $langTag  the current display language
      *
      * @return  mixed  The return value or null if the query failed.
+     *
+     * @throws  exception
      */
    private function getPoolData($poolID, $langTag)
    {
@@ -145,6 +149,8 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
      * @param   int  $programID  the id of the program being modelled
      *
      * @return  array
+     *
+     * @throws  exception
      */
     private function getProgramData($programID)
     {
@@ -180,6 +186,8 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
      * @param   string  $langTag    the current display language
      *
      * @return  mixed  The return value or null if the query failed.
+     *
+     * @throws  exception
      */
     private function getSubjectData($subjectID, $langTag)
     {
@@ -187,7 +195,10 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);
         $select = "s.id, lsfID, hisID, externalID, name_$langTag AS name, creditpoints AS maxCrP, color, ";
-        $concateSelect = array("'index.php?option=com_thm_organizer&view=subject_details&languageTag='","'$langTag'", "'&id='", "s.id", "'&Itemid='", "'$itemID'");
+        $concateSelect = array(
+            "'index.php?option=com_thm_organizer&view=subject_details&languageTag='",
+            "'$langTag'", "'&id='", "s.id", "'&Itemid='", "'$itemID'"
+        );
         $select .= $query->concatenate($concateSelect,"");
         $select .= " AS link";
         $query->select($select);
@@ -238,6 +249,8 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
      * @param   string  $langTag  the current display language
      *
      * @return  array  empty if no child data exists
+     *
+     * @throws  exception
      */
     public function getChildren($lft, $rgt, $langTag = 'de')
     {
@@ -301,6 +314,8 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
      * @param   int  $mappingID  the id of the mapped element
      *
      * @return  int  the last child element's ordering value
+     *
+     * @throws  exception
      */
     private function lastChildOrder($mappingID)
     {
@@ -327,6 +342,8 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
      * @param   string  $programName  the name of the program being modelled
      *
      * @return  void
+     *
+     * @throws  exception
      */
     private function setScheduleData($programName)
     {

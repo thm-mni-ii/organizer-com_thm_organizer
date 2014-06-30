@@ -69,7 +69,7 @@ class THM_OrganizerHelperMapping
         $degreeAndYear = $query->concatenate($concateDegreeAndYear, ', ');
         $concateNameSelect = array("dp.subject_{$language}", "($degreeAndYear)");
         $nameSelect = $query->concatenate($concateNameSelect, ', ');
-        $nameSelect.= " AS $alias";
+        $nameSelect .= " AS $alias";
         return $nameSelect;
     }
 

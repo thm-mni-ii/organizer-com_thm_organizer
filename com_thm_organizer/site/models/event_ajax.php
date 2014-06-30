@@ -431,7 +431,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         
         try
         {
-            $dailyEvents =  $dbo->loadAssocList();            
+            $dailyEvents = $dbo->loadAssocList();
         }
         catch (runtimeException $e)
         {

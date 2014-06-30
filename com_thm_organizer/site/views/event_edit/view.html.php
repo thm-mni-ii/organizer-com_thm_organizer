@@ -23,7 +23,7 @@ jimport('jquery.jquery');
 class Thm_OrganizerViewEvent_Edit extends JViewLegacy
 {
     /**
-     * loads model data into context and sets variables used for html output
+     * Loads model data into context and sets variables used for html output
      *
      * @param   string  $tpl  the template to be used
      *
@@ -43,32 +43,23 @@ class Thm_OrganizerViewEvent_Edit extends JViewLegacy
         $this->item = $this->get('Item');
 
         $model = $this->getModel();
+        $this->categories = $model->categories;
+        if (!count($this->categories))
+        {
+            JFactory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+            return false;
+        }
+
         $this->event = $model->event;
         $this->rooms = $model->rooms;
         $this->teachers = $model->teachers;
         $this->groups = $model->groups;
-        $this->categories = $model->categories;
-
-        if (!count($this->categories))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
 
         $this->listLink = $model->listLink;
         $this->eventLink = $model->eventLink;
 
-        $blockchecked = $dailychecked = '';
-        switch ($this->event['recurrence_type'])
-        {
-            case 0:
-                $dailychecked = 'checked';
-                break;
-            case 1:
-                $blockchecked = 'checked';
-                break;
-        }
-        $this->blockchecked = $blockchecked;
-        $this->dailychecked = $dailychecked;
+        $this->blockchecked = ($this->event['recurrence_type'] == 0)? 'checked' : '';
+        $this->dailychecked = ($this->event['recurrence_type'] == 1)? 'checked' : '';
 
         $title = ($this->event['id'] == 0)?
                 JText::_('COM_THM_ORGANIZER_EE_TITLE_NEW') : JText::_('COM_THM_ORGANIZER_EE_TITLE_EDIT');

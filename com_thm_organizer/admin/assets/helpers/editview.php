@@ -11,6 +11,13 @@
  */
 defined('_JEXEC') or die;
 
+/**
+ * Class provides a standardize handling of edit views
+ *
+ * @category    Joomla.Component.Admin
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.admin
+ */
 class THM_OrganizerHelperEditView
 {
     /**
