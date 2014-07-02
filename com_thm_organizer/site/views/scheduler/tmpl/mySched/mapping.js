@@ -9,13 +9,13 @@
  */
 MySched.Mapping = function ()
 {
-    var teacher, module, subject, lecture, room, types, roomtype, degree, field, buffer;
+    var teacher, pool, subject, lecture, room, types, roomtype, degree, field, buffer;
 
     return {
         init: function ()
         {
             this.teacher = new MySched.Collection();
-            this.module = new MySched.Collection();
+            this.pool = new MySched.Collection();
             this.subject = new MySched.Collection();
             this.room = new MySched.Collection();
             this.roomtype = new MySched.Collection();
@@ -23,7 +23,7 @@ MySched.Mapping = function ()
             this.field = new MySched.Collection();
             this.types = {
                 teacher: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHER,
-                module: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER,
+                pool: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_POOL,
                 room: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ROOM,
                 subject: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SUBJECTS,
                 roomtype: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ROOMTYPE,
@@ -90,17 +90,17 @@ MySched.Mapping = function ()
             }
             return dbID;
         },
-        getModuleName: function (id)
+        getPoolName: function (id)
         {
-            return this.def(this.module.get(id, id), 'name', id);
+            return this.def(this.pool.get(id, id), 'name', id);
         },
-        getModuleFullName: function (id)
+        getPoolFullName: function (id)
         {
-            return this.def(this.module.get(id, id), 'restriction', id);
+            return this.def(this.pool.get(id, id), 'restriction', id);
         },
-        getModuleParent: function(id)
+        getPoolParent: function(id)
         {
-            return this.def(this.module.get(id, id), 'degree', id);
+            return this.def(this.pool.get(id, id), 'degree', id);
         },
         getRoomParent: function(id)
         {
