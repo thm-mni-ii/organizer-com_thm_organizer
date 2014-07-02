@@ -796,7 +796,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
             Ext.select('.MySchedEvent_joomla', false, dom).removeAllListeners();
             Ext.select('.lecturename', false, dom).removeAllListeners();
             Ext.select('.roomname', false, dom).removeAllListeners();
-            Ext.select('.modulename', false, dom).removeAllListeners();
+            Ext.select('.poolname', false, dom).removeAllListeners();
             Ext.select('.status_icons_add', false, dom).removeAllListeners();
             Ext.select('.status_icons_info', false, dom).removeAllListeners();
             Ext.select('.status_icons_estudy', false, dom).removeAllListeners();
@@ -813,7 +813,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
             Ext.select('.MySched_event_joomla').removeAllListeners();
             Ext.select('.lecturename').removeAllListeners();
             Ext.select('.roomname').removeAllListeners();
-            Ext.select('.modulename').removeAllListeners();
+            Ext.select('.poolname').removeAllListeners();
             Ext.select('.status_icons_add').removeAllListeners();
             Ext.select('.status_icons_info').removeAllListeners();
             Ext.select('.status_icons_estudy').removeAllListeners();
@@ -831,7 +831,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
             Ext.select('.MySchedEvent_joomla', false, activeTabDom).removeAllListeners();
             Ext.select('.lecturename', false, activeTabDom).removeAllListeners();
             Ext.select('.roomname', false, activeTabDom).removeAllListeners();
-            Ext.select('.modulename', false, activeTabDom).removeAllListeners();
+            Ext.select('.poolname', false, activeTabDom).removeAllListeners();
             Ext.select('.status_icons_add', false, activeTabDom).removeAllListeners();
             Ext.select('.status_icons_info', false, activeTabDom).removeAllListeners();
             Ext.select('.status_icons_estudy', false, activeTabDom).removeAllListeners();
@@ -1017,9 +1017,9 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
         {
             parent = MySched.Mapping.getTeacherParent(id);
         }
-        else if(type === "module")
+        else if(type === "pool")
         {
-            parent = MySched.Mapping.getModuleParent(id);
+            parent = MySched.Mapping.getPoolParent(id);
         }
         else if(type === "room")
         {
@@ -1351,7 +1351,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
         var lesson = MySched.Base.getLecture(id);
         newPEvent(numbertoday(lesson.data.dow),
         lesson.data.stime, lesson.data.etime,
-        lesson.data.subject, lesson.data.teacher.replace(/\s+/g, ','), lesson.data.module.replace(/\s+/g, ','), lesson.data.room.replace(/\s+/g, ','), lesson.data.lock,
+        lesson.data.subject, lesson.data.teacher.replace(/\s+/g, ','), lesson.data.pool.replace(/\s+/g, ','), lesson.data.room.replace(/\s+/g, ','), lesson.data.lock,
         lesson.data.key);
     },
     /**
@@ -1744,11 +1744,9 @@ MySched.TreeManager = function ()
          *
          * @param {Object} tree Basis Tree dem die Liste hinzugefuegt wird
          */
-        createClasTree: function (tree)
+        createPoolTree: function (tree)
         {
-            return this.createTree(
-            tree, 'module',
-            this.clasTree,
+            return this.createTree(tree, 'pool',this.poolTree,
             MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_SEMESTER);
         },
         /**
@@ -1809,7 +1807,7 @@ MySched.TreeManager = function ()
          * Erstellt eine Uebersichtsliste
          *
          * @param {Object} baseTree Baum dem die Liste hinzugefuegt wird
-         * @param {Object} type Typ der Liste (teacher|module|room)
+         * @param {Object} type Typ der Liste (teacher|pool|room)
          * @param {Object} data Daten Baum mit Elementen zum Hinzufuegen
          * @param {Object} name Name der Listengruppe
          */
@@ -3184,10 +3182,10 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
 
     var classstore = [];
 
-    for (i = 0; i < MySched.Mapping.module.length; i++)
+    for (i = 0; i < MySched.Mapping.pool.length; i++)
     {
-        classstore.push(new Array(MySched.Mapping.module.items[i].id,
-        MySched.Mapping.module.items[i].department + " - " + MySched.Mapping.module.items[i].name));
+        classstore.push(new Array(MySched.Mapping.pool.items[i].id,
+        MySched.Mapping.pool.items[i].department + " - " + MySched.Mapping.pool.items[i].name));
     }
 
     var pwin;
@@ -3274,16 +3272,16 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
         }]
     };
 
-    var clasitem = {
+    var poolitem = {
         columnWidth: 0.33,
         layout: 'form',
         labelAlign: 'top',
         items: [
         {
             xtype: "multiselect",
-            fieldLabel: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER,
-            name: 'module',
-            id: 'clasid',
+            fieldLabel: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_POOL,
+            name: 'pool',
+            id: 'poolid',
             title: '',
             store: new Ext.data.ArrayStore(
             {
@@ -3299,7 +3297,7 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
         }]
     };
 
-    var clasfield = {
+    var poolfield = {
         columnWidth: 0.33,
         layout: 'form',
         labelAlign: 'top',
@@ -3309,7 +3307,7 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
             fieldLabel: '',
             name: 'clasfield',
             id: 'clasfieldid',
-            emptyText: 'Semester eintragen',
+            emptyText: 'Modulpool eintragen',
             labelStyle: 'padding:0px;',
             width: 170
         }]
@@ -3392,7 +3390,7 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
                         .getValue();
                     var rooms = Ext.getCmp('roomid')
                         .getValue();
-                    var classes = Ext.getCmp('clasid')
+                    var pools = Ext.getCmp('poolid')
                         .getValue();
 
                     if (Ext.getCmp('teacherfieldid').getValue().replace(/^\s+/, '').replace(/\s+$/, '') !== "")
@@ -3403,18 +3401,18 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
                     {
                         rooms = rooms + "," + Ext.getCmp('roomfieldid').getValue();
                     }
-                    if (Ext.getCmp('clasfieldid').getValue().replace(/^\s+/, '').replace(/\s+$/, '') !== "")
+                    if (Ext.getCmp('poolfieldid').getValue().replace(/^\s+/, '').replace(/\s+$/, '') !== "")
                     {
-                        classes = classes + "," + Ext.getCmp('clasfieldid').getValue();
+                        pools = pools + "," + Ext.getCmp('poolfieldid').getValue();
                     }
 
                     teachers = teachers.split(",");
                     rooms = rooms.split(",");
-                    classes = classes.split(",");
+                    pools = pools.split(",");
 
                     var teacher = "";
                     var room = "";
-                    var module = "";
+                    var pool = "";
 
                     var a, i, found;
                     for (a = 0; a < rooms.length; a++)
@@ -3494,25 +3492,25 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
                         }
                     }
 
-                    for (a = 0; a < classes.length; a++)
+                    for (a = 0; a < pools.length; a++)
                     {
                         found = false;
                         if (classes[a] !== "")
                         {
-                            for (i = 0; i < MySched.Mapping.module.length; i++)
+                            for (i = 0; i < MySched.Mapping.pool.length; i++)
                             {
-                                if ((MySched.Mapping.module.items[i].department + " - " + MySched.Mapping.module.items[i].name) ===
+                                if ((MySched.Mapping.pool.items[i].department + " - " + MySched.Mapping.pool.items[i].name) ===
                                     classes[a].replace(/^\s+/, '').replace(/\s+$/, ''))
                                 {
-                                    if (!module.contains(MySched.Mapping.module.items[i].id))
+                                    if (!pool.contains(MySched.Mapping.pool.items[i].id))
                                     {
-                                        if (module === "")
+                                        if (pool === "")
                                         {
-                                            module = MySched.Mapping.module.items[i].id;
+                                            pool = MySched.Mapping.pool.items[i].id;
                                         }
                                         else
                                         {
-                                            module = module + " " + MySched.Mapping.module.items[i].id;
+                                            pool = pool + " " + MySched.Mapping.pool.items[i].id;
                                         }
                                     }
                                     found = true;
@@ -3521,13 +3519,13 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
                             }
                             if (!found)
                             {
-                                if (module === "")
+                                if (pool === "")
                                 {
-                                    module = classes[a].replace(/^\s+/, '').replace(/\s+$/, '').replace(/\s+/, '_');
+                                    pool = classes[a].replace(/^\s+/, '').replace(/\s+$/, '').replace(/\s+/, '_');
                                 }
                                 else
                                 {
-                                    module = module + " " + classes[a].replace(/^\s+/, '').replace(/\s+$/, '').replace(/\s+/, '_');
+                                    pool = pool + " " + classes[a].replace(/^\s+/, '').replace(/\s+$/, '').replace(/\s+/, '_');
                                 }
                             }
                         }
@@ -3550,7 +3548,7 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
                         {
                             values = {
                                 block: blocks[i],
-                                module: module,
+                                pool: pool,
                                 dow: Ext.getCmp('cbdayid')
                                     .getValue(),
                                 teacher: teacher,
@@ -3587,7 +3585,7 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
                             }
                             values = {
                                 block: blocks[i],
-                                module: module,
+                                pool: pool,
                                 dow: Ext.getCmp('cbdayid')
                                     .getValue(),
                                 teacher: teacher,
@@ -3623,7 +3621,7 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
                             }
                             values = {
                                 block: blocks[i],
-                                module: module,
+                                pool: pool,
                                 dow: Ext.getCmp('cbdayid')
                                     .getValue(),
                                 teacher: teacher,
@@ -3651,7 +3649,7 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
                             blotimes = blocktotime(blocks[i]);
                             values = {
                                 block: blocks[i],
-                                module: module,
+                                pool: pool,
                                 dow: Ext.getCmp('cbdayid')
                                     .getValue(),
                                 teacher: teacher,
@@ -3752,13 +3750,13 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
         Ext.getCmp('hiddenkey').setValue(key);
     }
 
-    Ext.getCmp('clasid').setValue(clas_name);
+    Ext.getCmp('poolid').setValue(pool_name);
     Ext.getCmp('roomid').setValue(room_name);
     Ext.getCmp('teacherid').setValue(teacher_name);
 
-    if (clas_name)
+    if (pool_name)
     {
-        setFieldValue("module", clas_name);
+        setFieldValue("pool", pool_name);
     }
 
     if (room_name)
@@ -3790,14 +3788,14 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
         Ext.getCmp('roomid').disable();
         Ext.getCmp('roomfieldid').disable();
     }
-    else if (lock === "module")
+    else if (lock === "pool")
     {
-        if (!clas_name)
+        if (!pool_name)
         {
-            setFieldValue("module", MySched.selectedSchedule.id);
+            setFieldValue("pool", MySched.selectedSchedule.id);
         }
-        Ext.getCmp('clasid').disable();
-        Ext.getCmp('clasfieldid').disable();
+        Ext.getCmp('poolid').disable();
+        Ext.getCmp('poolfieldid').disable();
     }
 }
 
@@ -3812,7 +3810,7 @@ function setFieldValue(type, str)
         var strtemp = "";
         if (Ext.isObject(objtemp))
         {
-            if (type === "module")
+            if (type === "pool")
             {
                 strtemp = objtemp.department + " - " + objtemp.name;
             }
@@ -3988,7 +3986,7 @@ Ext.ux.collapsedPanelTitlePlugin = function ()
  */
 MySched.Tree = function ()
 {
-    var tree, teacher, room, module, diff, dragNode, respChanges, curtea;
+    var tree, teacher, room, pool, diff, dragNode, respChanges, curtea;
 
     return {
         init: function ()
@@ -4065,14 +4063,14 @@ MySched.Tree = function ()
                         }
 
                         // Displays teacher schedules given by get parameter
-                        if(MySched.requestTeacherGPUntisIDs.length > 0)
+                        if(MySched.requestTeacherIDs.length > 0)
                         {
                             semesterID = MySched.class_semester_id;
                             plantypeID = null;
                             type = "teacher";
-                            for(var teacherIndex = 0; teacherIndex < MySched.requestTeacherGPUntisIDs.length; teacherIndex++)
+                            for(var teacherIndex = 0; teacherIndex < MySched.requestTeacherIDs.length; teacherIndex++)
                             {
-                                var teacherGPUntisID = MySched.requestTeacherGPUntisIDs[teacherIndex];
+                                var teacherGPUntisID = MySched.requestTeacherIDs[teacherIndex];
                                 if(!Ext.isDefined(MySched.Mapping[type].map[teacherGPUntisID]))
                                 {
                                     continue;
@@ -4086,14 +4084,14 @@ MySched.Tree = function ()
                         }
 
                         // Displays room schedules given by get parameter
-                        if(MySched.requestRoomGPUntisIDs.length > 0)
+                        if(MySched.requestRoomIDs.length > 0)
                         {
                             semesterID = MySched.class_semester_id;
                             plantypeID = null;
                             type = "room";
-                            for(var roomIndex = 0; roomIndex < MySched.requestRoomGPUntisIDs.length; roomIndex++)
+                            for(var roomIndex = 0; roomIndex < MySched.requestRoomIDs.length; roomIndex++)
                             {
-                                var roomGPUntisID = MySched.requestRoomGPUntisIDs[roomIndex];
+                                var roomGPUntisID = MySched.requestRoomIDs[roomIndex];
 
                                 if(!Ext.isDefined(MySched.Mapping[type].map[roomGPUntisID]))
                                 {
@@ -4107,15 +4105,15 @@ MySched.Tree = function ()
                             }
                         }
 
-                        // Displays pool/module/group schedules given by get parameter
-                        if(MySched.requestPoolGPUntisIDs.length > 0)
+                        // Displays pool/group schedules given by get parameter
+                        if(MySched.requestPoolIDs.length > 0)
                         {
                             semesterID = MySched.class_semester_id;
                             plantypeID = null;
-                            type = "module";
-                            for(var moduleIndex = 0; moduleIndex < MySched.requestPoolGPUntisIDs.length; moduleIndex++)
+                            type = "pool";
+                            for(var poolIndex = 0; poolIndex < MySched.requestPoolIDs.length; poolIndex++)
                             {
-                                var poolGPUntisID = MySched.requestPoolGPUntisIDs[moduleIndex];
+                                var poolGPUntisID = MySched.requestPoolIDs[poolIndex];
 
                                 if(!Ext.isDefined(MySched.Mapping[type].map[poolGPUntisID]))
                                 {
@@ -4130,14 +4128,14 @@ MySched.Tree = function ()
                         }
 
                         // Displays subject schedules given by get parameter
-                        if(MySched.requestSubjectGPUntisIDs.length > 0)
+                        if(MySched.requestSubjectIDs.length > 0)
                         {
                             semesterID = MySched.class_semester_id;
                             plantypeID = null;
                             type = "subject";
-                            for(var subjectIndex = 0; subjectIndex < MySched.requestSubjectGPUntisIDs.length; subjectIndex++)
+                            for(var subjectIndex = 0; subjectIndex < MySched.requestSubjectIDs.length; subjectIndex++)
                             {
-                                var subjectGPUntisID = MySched.requestSubjectGPUntisIDs[subjectIndex];
+                                var subjectGPUntisID = MySched.requestSubjectIDs[subjectIndex];
 
                                 if(!Ext.isDefined(MySched.Mapping[type].map[subjectGPUntisID]))
                                 {
@@ -4254,7 +4252,7 @@ MySched.Tree = function ()
             {
                 type = gpuntisID;
             }
-            var department = null, title;
+            var department = null;
             if (type === "delta")
             {
                 title = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_CENTRAL;
@@ -4277,9 +4275,9 @@ MySched.Tree = function ()
                     nodeFullName = MySched.Mapping.getRoomName(nodeKey);
                     departmenttype = "roomtype";
                 }
-                else if (type === "module")
+                else if (type === "pool")
                 {
-                    nodeFullName = MySched.Mapping.getModuleFullName(nodeKey);
+                    nodeFullName = MySched.Mapping.getPoolFullName(nodeKey);
                     departmenttype = "degree";
                     departmentfield = "degree";
                 }
@@ -4302,9 +4300,7 @@ MySched.Tree = function ()
 
             if (type === "delta")
             {
-                new ScheduleModel(nodeID, title)
-                    .init(type, nodeKey)
-                    .show();
+                new ScheduleModel(nodeID, title).init(type, nodeKey).show();
             }
             else
             {
@@ -4391,9 +4387,9 @@ MySched.Tree = function ()
             {
                 this.root.removeChild(this.room);
             }
-            if (this.module)
+            if (this.pool)
             {
-                this.root.removeChild(this.module);
+                this.root.removeChild(this.pool);
             }
             if (this.diff)
             {
