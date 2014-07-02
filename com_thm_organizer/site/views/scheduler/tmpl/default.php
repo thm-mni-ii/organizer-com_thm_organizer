@@ -63,81 +63,24 @@ if ($this->canWriteEvents === true)
         MySched.class_semester_name = '<?php echo $this->semesterName; ?>';
         MySched.startup = '<?php echo $this->startup; ?>';
         MySched.searchModuleID = '<?php echo $this->searchModuleID; ?>';
-        MySched.loadLessonsOnStartUp = new Boolean('<?php echo $this->loadLessonsOnStartUp; ?>');
-        MySched.deltaDisplayDays = parseInt('<?php echo $this->deltaDisplayDays; ?>');
+        MySched.loadLessonsOnStartUp = <?php echo $this->loadLessonsOnStartUp? 'true' : 'false'; ?>;
+        MySched.deltaDisplayDays = <?php echo $this->deltaDisplayDays; ?>;
         MySched.departmentAndSemester = '<?php echo $this->departmentAndSemester; ?>';
-        MySched.requestTeacherGPUntisIDs =
-            Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestTeacherGPUntisIDs)); ?>'));
-        MySched.requestRoomGPUntisIDs =
-            Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestRoomGPUntisIDs)); ?>'));
-        MySched.requestPoolGPUntisIDs =
-            Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestPoolGPUntisIDs)); ?>'));
-        MySched.requestSubjectGPUntisIDs =
-            Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestSubjectGPUntisIDs)); ?>'));
+        MySched.requestTeacherIDs =
+            Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestTeacherIDs)); ?>'));
+        MySched.requestRoomIDs =
+            Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestRoomIDs)); ?>'));
+        MySched.requestPoolIDs =
+            Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestPoolIDs)); ?>'));
+        MySched.requestSubjectIDs =
+            Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestSubjectIDs)); ?>'));
         MySched.joomlaItemid = '<?php echo $this->joomlaItemid; ?>';
         MySched.languageTag = '<?php echo $this->languageTag; ?>';
-<?php
-if ($this->FPDFInstalled)
-{
-?>
-        MySched.FPDFInstalled = true;
-<?php
-}
-else
-{
-?>
-        MySched.FPDFInstalled = false;
-<?php
-}
-if ($this->iCalcreatorInstalled)
-{
-?>
-        MySched.iCalcreatorInstalled = true;
-<?php
-}
-else
-{
-?>
-        MySched.iCalcreatorInstalled = false;
-<?php
-}
-if ($this->PHPExcelInstalled)
-{
-    ?>
-        MySched.PHPExcelInstalled = true;
-<?php
-}
-else
-{
-?>
-        MySched.PHPExcelInstalled = false;
-<?php
-}
-if ($this->schedulerFromMenu)
-{
-?>
-        MySched.schedulerFromMenu = true;
-<?php
-}
-else
-{
-?>
-        MySched.schedulerFromMenu = false;
-<?php
-}
-if ($this->displayModuleNumber)
-{
-?>
-        MySched.displayModuleNumber = true;
-<?php
-}
-else
-{
-?>
-        MySched.displayModuleNumber = false;
-<?php
-}
-?>
+        MySched.FPDFInstalled = <?php echo $this->FPDFInstalled? 'true' : 'false'; ?>;
+        MySched.iCalcreatorInstalled = <?php echo $this->iCalcreatorInstalled? 'true' : 'false'; ?>;
+        MySched.PHPExcelInstalled = <?php echo $this->PHPExcelInstalled? 'true' : 'false'; ?>;
+        MySched.schedulerFromMenu = <?php echo $this->schedulerFromMenu? 'true' : 'false'; ?>;
+        MySched.displayModuleNumber = <?php echo $this->displayModuleNumber? 'true' : 'false'; ?>;
         Ext.application({
             name: 'Scheduler',
             launch: MySched.Base.init

@@ -194,8 +194,7 @@ class THM_OrganizerModelSchedule_Navigation
         $this->_activeScheduleData = json_decode($activeSchedule->schedule);
         unset($activeSchedule->schedule);
 
-        $this->_treeData["module"] = isset($this->_activeScheduleData->pools)?
-            $this->_activeScheduleData->pools : $this->_activeScheduleData->modules;
+        $this->_treeData["pool"] = $this->_activeScheduleData->pools;
         $this->_treeData["room"] = $this->_activeScheduleData->rooms;
         $this->_treeData["teacher"] = $this->_activeScheduleData->teachers;
         $this->_treeData["subject"] = $this->_activeScheduleData->subjects;
@@ -421,7 +420,7 @@ class THM_OrganizerModelSchedule_Navigation
     private function getCategoryNodes($key, $scheduleID)
     {
         $categoryNodes = array();
-        $categories = array("teacher", "room", "module", "subject");
+        $categories = array("teacher", "room", "pool", "subject");
 
         foreach ($categories as $category)
         {
@@ -496,7 +495,7 @@ class THM_OrganizerModelSchedule_Navigation
             $resources = array_filter(
                 (array) $subcategoriesData, function ($resource) use ($category, $subcategoryKey)
                 {
-                    if ($category === "module" AND isset($resource->degree))
+                    if ($category === "pool" AND isset($resource->degree))
                     {
                         return $subcategoryKey === $resource->degree;
                     }
@@ -627,7 +626,7 @@ class THM_OrganizerModelSchedule_Navigation
                     return;
                 }
                 break;
-            case "module":
+            case "pool":
                 if (isset($resource->degree))
                 {
                     $subcategory = $resource->degree;
@@ -742,13 +741,6 @@ class THM_OrganizerModelSchedule_Navigation
         $category = "{$category}s";
         $filterFunction = function($lessons) use ($resourceID, $category)
         {
-            if (!isset($lessons->{$category}))
-            {
-                if ($category === "modules")
-                {
-                    $category = "pools";
-                }
-            }
             return isset($lessons->$category->$resourceID);
         };
 

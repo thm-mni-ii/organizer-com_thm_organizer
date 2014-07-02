@@ -172,7 +172,7 @@ class THM_OrganizerLeaf
                 }
                 $this->text = $this->nodeKey;
                 break;
-            case  "module":
+            case  "pool":
                 if (!empty($resource->restriction))
                 {
                     $this->text = $resource->restriction;

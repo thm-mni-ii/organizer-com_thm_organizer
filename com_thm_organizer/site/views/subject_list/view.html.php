@@ -58,20 +58,64 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
         $this->langURI = THM_OrganizerHelperLanguage::languageSwitch(
                 'subject_list', $this->otherLanguageTag, $this->state->get('menuID'), $this->state->get('groupBy')
             );
-        $this->baseLink = "index.php?option=com_thm_organizer&view=subject_list&view=subject_list&Itemid={$this->state->get('menuID')}&groupBy=";
+        $this->baseLink = "index.php?option=com_thm_organizer&view=subject_list&view=subject_list";
+        $this->baseLink .= "&Itemid={$this->state->get('menuID')}&groupBy=";
         $languageTag = $this->state->get('languageTag');
-        $this->subjectListText = ($languageTag == 'de')? 'Modulhandbuch' : 'Subject List';
-        $this->alphabeticalTabText = ($languageTag == 'de')? "...Übersicht" : "...overview";
+        if ($languageTag == 'en')
+        {
+            $this->setEnglishTexts();
+        }
+        else
+        {
+            $this->setGermanTexts();
+        }
         $this->alphabeticalLink = JRoute::_($this->baseLink . NONE);
-        $this->poolTabText = ($languageTag == 'de')? "...nach Modulpool" : "...by subject pool";
         $this->poolLink = JRoute::_($this->baseLink . POOL);
-        $this->teacherTabText = ($languageTag == 'de')? "...nach Dozent" : "...by teacher";
         $this->teacherLink = JRoute::_($this->baseLink . TEACHER);
-        $this->fieldTabText = ($languageTag == 'de')? "...nach Fachgruppe" : "...by field of study";
         $this->fieldLink = JRoute::_($this->baseLink . FIELD);
-        $this->searchText = ($languageTag == 'de')? "Suchen" : "Search";
-        $this->resetText = ($languageTag == 'de')? "Löschen" : "Reset";
         $this->flagPath = "media/com_thm_organizer/images/{$this->otherLanguageTag}.png";
+        $this->setTabFocus();
+    }
+
+    /**
+     * Gives context variables English language values
+     *
+     * @return  void
+     */
+    private function setEnglishTexts()
+    {
+        $this->subjectListText = 'Subject List';
+        $this->alphabeticalTabText = "...overview";
+        $this->poolTabText = "...by subject pool";
+        $this->teacherTabText = "...by teacher";
+        $this->fieldTabText = "...by field of study";
+        $this->searchText = "Search";
+        $this->resetText = "Reset";
+    }
+
+    /**
+     * Gives context variables German language values
+     *
+     * @return  void
+     */
+    private function setGermanTexts()
+    {
+        $this->subjectListText = 'Modulhandbuch';
+        $this->alphabeticalTabText = "...Übersicht";
+        $this->poolTabText = "...nach Modulpool";
+        $this->teacherTabText = "...nach Dozent";
+        $this->fieldTabText = "...nach Fachgruppe";
+        $this->searchText = "Suchen";
+        $this->resetText = "Löschen";
+    }
+
+    /**
+     * Sets the variables determining tab focus
+     *
+     * @return  void
+     */
+    private function setTabFocus()
+    {
         switch ($this->state->get('groupBy', NONE))
         {
             case NONE:
@@ -92,6 +136,4 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
                 break;
         }
     }
-
-
 }
