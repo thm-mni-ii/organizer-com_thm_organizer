@@ -3036,7 +3036,7 @@ Ext.form.VTypes.ValidTime = function (arg, field)
 
 };
 
-function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_name, l, key)
+function newPEvent(pday, pstime, petime, title, teacher_name, pool_name, room_name, l, key)
 {
     var lock;
     if (l)
@@ -3333,7 +3333,7 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
             autoHeight: true,
             hideBorders: true,
             layout: 'column',
-            items: [roomitem, teacheritem, clasitem]
+            items: [roomitem, teacheritem, poolitem]
         },
         {
             xtype: 'fieldset',
@@ -3342,7 +3342,7 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
             autoHeight: true,
             hideBorders: true,
             layout: 'column',
-            items: [roomfield, teacherfield, clasfield]
+            items: [roomfield, teacherfield, poolfield]
         },
         {
             xtype: 'fieldset',
@@ -3495,12 +3495,12 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
                     for (a = 0; a < pools.length; a++)
                     {
                         found = false;
-                        if (classes[a] !== "")
+                        if (pools[a] !== "")
                         {
                             for (i = 0; i < MySched.Mapping.pool.length; i++)
                             {
                                 if ((MySched.Mapping.pool.items[i].department + " - " + MySched.Mapping.pool.items[i].name) ===
-                                    classes[a].replace(/^\s+/, '').replace(/\s+$/, ''))
+                                    pools[a].replace(/^\s+/, '').replace(/\s+$/, ''))
                                 {
                                     if (!pool.contains(MySched.Mapping.pool.items[i].id))
                                     {
@@ -3521,11 +3521,11 @@ function newPEvent(pday, pstime, petime, title, teacher_name, clas_name, room_na
                             {
                                 if (pool === "")
                                 {
-                                    pool = classes[a].replace(/^\s+/, '').replace(/\s+$/, '').replace(/\s+/, '_');
+                                    pool = pools[a].replace(/^\s+/, '').replace(/\s+$/, '').replace(/\s+/, '_');
                                 }
                                 else
                                 {
-                                    pool = pool + " " + classes[a].replace(/^\s+/, '').replace(/\s+$/, '').replace(/\s+/, '_');
+                                    pool = pool + " " + pools[a].replace(/^\s+/, '').replace(/\s+$/, '').replace(/\s+/, '_');
                                 }
                             }
                         }
@@ -4243,6 +4243,7 @@ MySched.Tree = function ()
         },
         showScheduleTab: function (nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type)
         {
+            var title;
             if(nodeID === null)
             {
                 nodeID = nodeKey;
@@ -4263,9 +4264,7 @@ MySched.Tree = function ()
             }
             else
             {
-                var departmenttype = "field";
-                var departmentfield = "description";
-                var nodeFullName = nodeKey;
+                var departmentType = "field", departmentField = "description", nodeFullName = nodeKey;
                 if (type === "teacher")
                 {
                     nodeFullName = getTeacherSurnameWithCutFirstName(nodeKey);
@@ -4273,21 +4272,21 @@ MySched.Tree = function ()
                 else if (type === "room")
                 {
                     nodeFullName = MySched.Mapping.getRoomName(nodeKey);
-                    departmenttype = "roomtype";
+                    departmentType = "roomtype";
                 }
                 else if (type === "pool")
                 {
                     nodeFullName = MySched.Mapping.getPoolFullName(nodeKey);
-                    departmenttype = "degree";
-                    departmentfield = "degree";
+                    departmentType = "degree";
+                    departmentField = "degree";
                 }
                 else if (type === "subject")
                 {
                     nodeFullName = MySched.Mapping.getSubjectName(nodeKey);
                 }
 
-                department = MySched.Mapping.getObjectField(type, nodeKey, departmentfield);
-                var departmentName = MySched.Mapping.getObjectField(departmenttype, department, "name");
+                department = MySched.Mapping.getObjectField(type, nodeKey, departmentField);
+                var departmentName = MySched.Mapping.getObjectField(departmentType, department, "name");
                 if (typeof department === "undefined" || department === "none" || department === null || department === departmentName)
                 {
                     title = nodeFullName;

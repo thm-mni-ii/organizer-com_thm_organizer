@@ -276,7 +276,7 @@ class THM_OrganizerHelperEvent
     private static function getNames($requestName, $columnName, $tableName)
     {
         $names = array();
-        $requestName = JRequest::getVar($requestName, array());
+        $requestName = JFactory::getApplication()->input->get($requestName, array(), 'array');
         $dummyIndex = array_search('-1', $requestName);
         if ($dummyIndex)
         {
@@ -294,16 +294,33 @@ class THM_OrganizerHelperEvent
             
             try
             {
-                $names = $dbo->loadResultArray();
+                $names = $dbo->loadColumn();
+                if (empty($names))
+                {
+                    $names = array();
+                }
             }
-            catch (runtimeException $e)
+            catch (Exception $exc)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
             }
-            
-            $names = (count($names)) ? $names : array();
+
         }
         return $names;
     }
 
+    /**
+     * Reformats events dates and times to the german standard
+     *
+     * @param   array  &$event  the event to be processed
+     *
+     * @return  void
+     */
+    public static  function localizeEvent(&$event)
+    {
+        $event['startdate'] = date_format(date_create($event['startdate']), 'd.m.Y');
+        $event['enddate'] = date_format(date_create($event['enddate']), 'd.m.Y');
+        $event['starttime'] = date_format(date_create($event['starttime']), 'H:i');
+        $event['endtime'] = date_format(date_create($event['endtime']), 'H:i');
+    }
 }

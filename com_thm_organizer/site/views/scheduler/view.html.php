@@ -215,7 +215,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
     {
         $model = $this->getModel();
         $app = JFactory::getApplication();
-        if ($this->schedulerFromMenu) // Called via menu item
+        if ($this->schedulerFromMenu)
         {
             $params = $app->getMenu()->getActive()->params;
             return $model->getActiveSchedule($params->get("departmentSemesterSelection"));
@@ -272,51 +272,10 @@ class THM_OrganizerViewScheduler extends JViewLegacy
      */
     private function validateResources(&$schedule)
     {
-        if (empty($schedule->periods))
-        {
-            return false;
-        }
-        if (empty($schedule->fields))
-        {
-            return false;
-        }
-        if (empty($schedule->roomtypes))
-        {
-            return false;
-        }
-        if (empty($schedule->lessontypes))
-        {
-            return false;
-        }
-        if (empty($schedule->degrees))
-        {
-            return false;
-        }
-        if (empty($schedule->rooms))
-        {
-            return false;
-        }
-        if (empty($schedule->subjects))
-        {
-            return false;
-        }
-        if (empty($schedule->teachers))
-        {
-            return false;
-        }
-        if (empty($schedule->pools))
-        {
-            return false;
-        }
-        if (empty($schedule->calendar))
-        {
-            return false;
-        }
-        if (empty($schedule->lessons))
-        {
-            return false;
-        }
-        return true;
+        return (!empty($schedule->periods) AND !empty($schedule->fields) AND !empty($schedule->roomtypes)
+            AND !empty($schedule->lessontypes) AND !empty($schedule->degrees) AND !empty($schedule->rooms)
+            AND !empty($schedule->subjects) AND !empty($schedule->teachers) AND !empty($schedule->pools)
+            AND !empty($schedule->calendar) AND !empty($schedule->lessons));
     }
 
     /**

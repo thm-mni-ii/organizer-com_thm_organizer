@@ -12,6 +12,7 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 require_once JPATH_ADMINISTRATOR . '/components/com_thm_organizer/models/schedule.php';
+require_once JPATH_COMPONENT . '/helper/event.php';
 
 /**
  * Retrieves data about conflicting events and lessons against an event to be saved
@@ -138,45 +139,48 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
      */
     public function getConflicts()
     {
+        $input = JFactory::getApplication()->input;
         $conflicts = array();
-        $categoryID = JRequest::getInt('category');
+
+        // If the event isn't associated with a reserving category it cannot reserve
+        $categoryID = $input->getInt('category', 0);
         $this->_reservingCatIDs = $this->getReservingCatIDs();
         if (strpos($this->_reservingCatIDs, "'$categoryID'") === false)
         {
             return $conflicts;
         }
-        $this->_rooms = $this->getResourceData('rooms', 'longname', 'thm_organizer_rooms');
-        $this->_teachers = $this->getResourceData('teachers', 'surname', 'thm_organizer_teachers');
-        $this->_groups = $this->getResourceData('groups', 'title', 'usergroups');
-        if (!count($this->_rooms) AND !count($this->_teachers) AND !count($this->_groups))
+
+        // If the event isn't associated with a resource it cannot reserve
+        $resourcesSet = $this->setResourceVariables();
+        if (!$resourcesSet)
         {
             return $conflicts;
         }
-        $this->_roomKeys = (count($this->_rooms))? "( '" . implode("', '", array_keys($this->_rooms)) . "' )" : "";
-        $this->_roomUntisKeys = $this->getUntisKeys('rooms', $this->_roomKeys);
-        $this->_teacherKeys = (count($this->_teachers))? "( '" . implode("', '", array_keys($this->_teachers)) . "' )" : "";
-        $this->_teacherUntisKeys = $this->getUntisKeys('teachers', $this->_teacherKeys);
-        $this->_groupKeys = (count($this->_groups))? "( '" . implode("', '", array_keys($this->_groups)) . "' )" : "";
-        $this->_eventID = JRequest::getInt('eventID');
-        $this->_startdate = date('Y-m-d', strtotime(JRequest::getString('startdate')));
-        $this->_enddate = (JRequest::getString('enddate') != '')? date('Y-m-d', strtotime(JRequest::getString('enddate'))) : $this->_startdate;
-        $this->_starttime = JRequest::getString('starttime');
-        $this->_endtime = JRequest::getString('endtime');
-        $this->_rec_type = JRequest::getInt('rec_type');
+
+        $this->_eventID = $input->getInt('eventID', 0);
+        $this->_startdate = date('Y-m-d', strtotime($input->getString('startdate', '')));
+        $this->_enddate = date('Y-m-d', strtotime($input->getString('enddate', $this->_startdate)));
+        $this->_starttime = $input->getString('starttime', '00:00');
+        $this->_endtime = $input->getString('endtime', '00:00');
+        $this->_rec_type = $input->getInt('rec_type', 0);
+
         $this->getEvents();
-        if (isset($this->_events))
+        if (!empty($this->_events))
         {
             $conflicts = array_merge($conflicts, $this->_events);
         }
+
         $this->_activeSchedules = $this->getActiveSchedules();
-        if ((!empty($this->_roomKeys) OR !empty($this->_teacherKeys)) AND count($this->_activeSchedules))
+        $potentialLessons = ((!empty($this->_roomKeys) OR !empty($this->_teacherKeys)) AND count($this->_activeSchedules));
+        if ($potentialLessons)
         {
             $this->getLessons();
         }
-        if (isset($this->_lessons))
+        if (!empty($this->_lessons))
         {
             $conflicts = array_merge($conflicts, $this->_lessons);
         }
+
         return $conflicts;
     }
 
@@ -185,6 +189,8 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
      * them in a string suitable for sql
      *
      * @return  string  reserving event category ids
+     *
+     * @throws  exception
      */
     private function getReservingCatIDs()
     {
@@ -197,22 +203,35 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         
         try
         {
-            $resultArray = $dbo->loadResultArray();
+            $resultArray = $dbo->loadColumn();
+            return empty($resultArray)? '' : "( '" . implode("', '", $resultArray) . "' )";
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return '';
         }
-        
-        if (count($resultArray))
-        {
-            $reservingCatIDs = "( '" . implode("', '", $resultArray) . "' )";
-        }
-        else
-        {
-            $reservingCatIDs = "";
-        }
-        return $reservingCatIDs;
+    }
+
+    /**
+     * Sets the resource collection variables with data from the database
+     *
+     * @return  bool  true if resources have been set, otherwise false
+     */
+    private function setResourceVariables()
+    {
+        $this->_rooms = $this->getResourceData('rooms', 'longname', 'thm_organizer_rooms');
+        $this->_roomKeys = empty($this->_rooms)? '' : "( '" . implode("', '", array_keys($this->_rooms)) . "' )";
+        $this->_roomUntisKeys = $this->getUntisKeys('rooms', $this->_roomKeys);
+
+        $this->_teachers = $this->getResourceData('teachers', 'surname', 'thm_organizer_teachers');
+        $this->_teacherKeys = empty($this->_teachers)? '' : "( '" . implode("', '", array_keys($this->_teachers)) . "' )";
+        $this->_teacherUntisKeys = $this->getUntisKeys('teachers', $this->_teacherKeys);
+
+        $this->_groups = $this->getResourceData('groups', 'title', 'usergroups');
+        $this->_groupKeys = empty($this->_groups)? '' : "( '" . implode("', '", array_keys($this->_groups)) . "' )";
+
+        return (!empty($this->_rooms) OR !empty($this->_teachers) OR !empty($this->_groups));
     }
 
     /**
@@ -224,42 +243,49 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
      *
      * @return  array  array of resource ids and associated names (empty if no resources
      *                 were requested
+     *
+     * @throws  exception
      */
     private function getResourceData($resourceName, $columnName, $tableName)
     {
         $resourceData = array();
-        $resources = JRequest::getVar($resourceName);
-        $$resourceName = !empty($resources)? implode(",", $resources) : '';
+        $resources = JFactory::getApplication()->input->get($resourceName, '');
+        if (empty($resources))
+        {
+            return $resourceData;
+        }
+        $$resourceName = implode(',', $resources);
         if (strpos($$resourceName, '-1,'))
         {
-            $$resourceName = str_replace("-1,", "", $$resourceName);
+            $$resourceName = str_replace('-1,', '', $$resourceName);
         }
-        if (strlen($$resourceName))
+        if (empty($$resourceName))
         {
-            $dbo = JFactory::getDbo();
-            $query = $dbo->getQuery(true);
-            $query->select("id, $columnName AS name");
-            $query->from("#__$tableName");
-            $requestedIDs = "(" . $$resourceName . ")";
-            $query->where("id IN $requestedIDs");
-            $query->order("id");
-            $dbo->setQuery((string) $query);
-            
-            try
+            return $resourceData;
+        }
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("id, $columnName AS name");
+        $query->from("#__$tableName");
+        $requestedIDs = "(" . $$resourceName . ")";
+        $query->where("id IN $requestedIDs");
+        $query->order("id");
+        $dbo->setQuery((string) $query);
+
+        try
+        {
+            $results = $dbo->loadAssocList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+        }
+
+        if (count($results))
+        {
+            foreach ($results as $result)
             {
-                $results = $dbo->loadAssocList();
-            }
-            catch (runtimeException $e)
-            {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-            }
-            
-            if (count($results))
-            {
-                foreach ($results as $result)
-                {
-                    $resourceData[$result['id']] = $result['name'];
-                }
+                $resourceData[$result['id']] = $result['name'];
             }
         }
         return $resourceData;
@@ -273,9 +299,12 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
      *                          requested resources are saved
      *
      * @return  array  contains the gpuntisIDs of the requested resources
+     *
+     * @throws  exception
      */
     private function getUntisKeys($table, $idSet)
     {
+        $untisKeys = array();
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("DISTINCT id, gpuntisID");
@@ -287,24 +316,20 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         {
             $result = $dbo->loadAssocList();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return $untisKeys;
         }
         
         if (count($result))
         {
-            $gpuntisIDs = array();
             foreach ($result as $entry)
             {
-                $gpuntisIDs[$entry['id']] = substr($entry['gpuntisID'], 3);
+                $untisKeys[$entry['id']] = substr($entry['gpuntisID'], 3);
             }
-            return $gpuntisIDs;
         }
-        else
-        {
-            return array();
-        }
+        return $untisKeys;
     }
 
     /**
@@ -337,36 +362,22 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         {
             $query->leftJoin("#__thm_organizer_event_groups AS eg ON e.id = eg.eventID");
         }
+
         $dailyEvents = $this->getDailyEvents($query);             
         foreach ($dailyEvents as &$event)
         {
-            $event['startdate'] = date_format(date_create($event['startdate']), 'd.m.Y');
-            $event['enddate'] = date_format(date_create($event['enddate']), 'd.m.Y');
-            $event['starttime'] = date_format(date_create($event['starttime']), 'H:i');
-            $event['endtime'] = date_format(date_create($event['endtime']), 'H:i');
+            THM_OrganizerHelperEvent::localizeEvent($event);
         }
+
         $blockEvents = $this->getBlockEvents($query);
         foreach ($blockEvents as &$event)
         {
-            $event['startdate'] = date_format(date_create($event['startdate']), 'd.m.Y');
-            $event['enddate'] = date_format(date_create($event['enddate']), 'd.m.Y');
-            $event['starttime'] = date_format(date_create($event['starttime']), 'H:i');
-            $event['endtime'] = date_format(date_create($event['endtime']), 'H:i');
+            THM_OrganizerHelperEvent::localizeEvent($event);
         }
-        $events = array();
-        if (isset($dailyEvents) and isset($blockEvents))
-        {
-            $events = array_merge($dailyEvents, $blockEvents);
-        }
-        elseif (isset($dailyEvents))
-        {
-            $events = $dailyEvents;
-        }
-        elseif (isset($blockEvents))
-        {
-            $events = $blockEvents;
-        }
-        if (count($events))
+
+        $events = array_merge($dailyEvents, $blockEvents);
+
+        if (!empty($events))
         {
             $this->prepareEvents($events);
         }
@@ -380,28 +391,20 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
      */
     private function getEventResourceRestriction()
     {
-        $restriction = "( ";
-        if ($this->_roomKeys)
+        $restriction = array();
+        if (!empty($this->_roomKeys))
         {
-            $restriction .= "er.roomID IN {$this->_roomKeys} ";
+            $restriction[] = "er.roomID IN {$this->_roomKeys}";
         }
-        if ($this->_teacherKeys)
+        if (!empty($this->_teacherKeys))
         {
-            if ($this->_roomKeys)
-            {
-                $restriction .= "OR ";
-            }
-            $restriction .= "et.teacherID IN {$this->_teacherKeys} ";
+            $restriction .= "et.teacherID IN {$this->_teacherKeys}";
         }
-        if ($this->_groupKeys)
+        if (!empty($this->_groupKeys))
         {
-            if ($this->_roomKeys or $this->_teacherKeys)
-            {
-                $restriction .= "OR ";
-            }
-            $restriction .= "eg.groupID IN {$this->_groupKeys} ";
+            $restriction .= "eg.groupID IN {$this->_groupKeys}";
         }
-        return $restriction . ") ";
+        return "( " . implode(' OR ', $restriction) . " ) ";
     }
 
     /**
@@ -428,17 +431,17 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
             $query->where("e.id != '{$this->_eventID}'");
         }
         $dbo->setQuery((string) $query);
-        
+
         try
         {
             $dailyEvents = $dbo->loadAssocList();
+            return empty($dailyEvents)? array() : $dailyEvents;
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return array();
         }
-        
-        return $dailyEvents;
     }
 
     /**
@@ -512,13 +515,13 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         try
         {
             $blockEvents = $dbo->loadAssocList();
+            return empty($blockEvents)? array() : $blockEvents;
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return array();
         }
-        
-        return $blockEvents;
     }
 
     /**
@@ -574,83 +577,146 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
      */
     private function getEventTimeText($event)
     {
-        if ($event['starttime'] == "00:00")
+        $useStartTime = $event['starttime'] == "00:00"? false : true;
+        $useEndTime = $event['endtime'] == "00:00"? false : true;
+        $useTimes = ($useStartTime OR $useEndTime);
+        $singleDay = ($event['enddate'] == "00.00.0000" OR $event['startdate'] == $event['enddate']);
+
+        if ($singleDay)
         {
-            unset($event['starttime']);
-        }
-        if ($event['endtime'] == "00:00")
-        {
-            unset($event['endtime']);
-        }
-        if ($event['enddate'] == "00.00.0000" or $event['startdate'] == $event['enddate'])
-        {
-            unset($event['enddate']);
+            return $this->getSingleDayText($event);
         }
 
-        // Creation of the sentence display of the dates & times
-        $eventTimeText = $timeText = "";
-        if (isset($event['starttime']) && isset($event['endtime']))
+        if ($event['rec_type'] == 0 AND $useTimes)
         {
-            $timeText = " " . JText::_("COM_THM_ORGANIZER_B_BETWEEN");
-            $timeText .= " " . $event['starttime'];
-            $timeText .= " " . JText::_("COM_THM_ORGANIZER_B_AND");
-            $timeText .= " " . $event['endtime'];
-        }
-        elseif (isset($event['starttime']))
-        {
-            $timeText = " " . JText::_("COM_THM_ORGANIZER_B_FROM") . " " . $event['starttime'];
-        }
-        elseif (isset($event['endtime']))
-        {
-            $timeText = " " . JText::_("COM_THM_ORGANIZER_B_TO") . " " . $event['endtime'];
-        }
-        else
-        {
-            $timeText = " " . JText::_("COM_THM_ORGANIZER_B_ALLDAY");
+            return $this->getBlockText($event);
         }
 
-        if (isset($event['startdate']) and isset($event['enddate']) and $event['startdate'] != $event['enddate'])
+        if ($event['rec_type'] == 1 AND $useTimes)
         {
-            if ($event['rec_type'] == 0)
-            {
-                if (isset($event['starttime']) && isset($event['endtime']))
-                {
-                    $eventTimeText .= " " . JText::_("COM_THM_ORGANIZER_B_BETWEEN") . " " . $event['starttime'];
-                    $eventTimeText .= " " . JText::_("COM_THM_ORGANIZER_B_ON") . " " . $event['startdate'];
-                    $eventTimeText .= " " . JText::_("COM_THM_ORGANIZER_B_AND") . " " . $event['endtime'];
-                    $eventTimeText .= " " . JText::_("COM_THM_ORGANIZER_B_ON") . " " . $event['enddate'];
-                }
-                elseif (isset($event['starttime']))
-                {
-                    $eventTimeText .= " " . JText::_("COM_THM_ORGANIZER_B_FROM") . " " . $event['starttime'];
-                    $eventTimeText .= " " . JText::_("COM_THM_ORGANIZER_B_ON") . " " . $event['startdate'];
-                    $eventTimeText .= " " . JText::_("COM_THM_ORGANIZER_B_TO") . " " . $event['enddate'];
-                }
-                elseif (isset($event['endtime']))
-                {
-                    $eventTimeText .= " " . JText::_("COM_THM_ORGANIZER_B_FROM") . " " . $event['startdate'];
-                    $eventTimeText .= " " . JText::_("COM_THM_ORGANIZER_B_TO") . " " . $event['endtime'];
-                    $eventTimeText .= " " . JText::_("COM_THM_ORGANIZER_B_ON") . " " . $event['enddate'];
-                }
-                else
-                {
-                    $eventTimeText .= " " . JText::_("COM_THM_ORGANIZER_B_FROM") . " " . $event['startdate'];
-                    $eventTimeText .= " " . JText::_("COM_THM_ORGANIZER_B_UNTIL") . " " . $event['enddate'];
-                    $eventTimeText .= $timeText;
-                }
-            }
-            else
-            {
-                $eventTimeText .= " " . JText::_("COM_THM_ORGANIZER_B_FROM") . " " . $event['startdate'];
-                $eventTimeText .= " " . JText::_("COM_THM_ORGANIZER_B_UNTIL") . " " . $event['enddate'];
-                $eventTimeText .= $timeText;
-            }
+            return $this->getDailyText($event);
         }
-        else
+
+        return JText::sprintf('COM_THM_ORGANIZER_B_MULTIPLENOTIME', $event['startdate'], $event['enddate']);
+    }
+
+    /**
+     * Gets a formatted text for events that take place on a single day
+     *
+     * @param   array  &$event  the event array
+     *
+     * @return  string  formatted text for date/time output
+     */
+    private function getSingleDayText(&$event)
+    {
+        $useStartTime = $event['starttime'] == "00:00"? false : true;
+        $useEndTime = $event['endtime'] == "00:00"? false : true;
+        if ($useStartTime AND $useEndTime)
         {
-            $eventTimeText .= " " . JText::_("COM_THM_ORGANIZER_B_ON") . " " . $event['startdate'] . $timeText;
+            return JText::sprintf(COM_THM_ORGANIZER_B_SINGLESTARTEND, $event['startdate'], $event['starttime'], $event['endtime']);
         }
-        return $eventTimeText;
+
+        if ($useStartTime)
+        {
+            return JText::sprintf(COM_THM_ORGANIZER_B_SINGLESTART, $event['startdate'], $event['starttime']);
+        }
+
+        if ($useEndTime)
+        {
+            return JText::sprintf(COM_THM_ORGANIZER_B_SINGLEEND, $event['startdate'], $event['endtime']);
+        }
+
+        return JText::sprintf(COM_THM_ORGANIZER_B_SINGLE, $event['startdate']);
+    }
+
+    /**
+     * Gets a formatted text for block events that take place on a multiple days and use times
+     *
+     * @param   array  &$event  the event array
+     *
+     * @return  string  formatted text for date/time output
+     */
+    private function getBlockText(&$event)
+    {
+        $useStartTime = $event['starttime'] == "00:00"? false : true;
+        $useEndTime = $event['endtime'] == "00:00"? false : true;
+        if ($useStartTime AND $useEndTime)
+        {
+            return JText::sprintf(
+                COM_THM_ORGANIZER_B_BLOCKSTARTEND,
+                $event['startdate'],
+                $event['starttime'],
+                $event['endtime'],
+                $event['enddate']
+            );
+        }
+
+        if ($useStartTime)
+        {
+            return JText::sprintf(
+                COM_THM_ORGANIZER_B_BLOCKSTART,
+                $event['startdate'],
+                $event['starttime'],
+                $event['enddate']
+            );
+        }
+
+        if ($useEndTime)
+        {
+            return JText::sprintf(
+                COM_THM_ORGANIZER_B_BLOCKEND,
+                $event['startdate'],
+                $event['endtime'],
+                $event['enddate']
+            );
+        }
+
+        return '';
+    }
+
+    /**
+     * Gets a formatted text for daily events that take place on a multiple days and use times
+     *
+     * @param   array  &$event  the event array
+     *
+     * @return  string  formatted text for date/time output
+     */
+    private function getDailyText(&$event)
+    {
+        $useStartTime = $event['starttime'] == "00:00"? false : true;
+        $useEndTime = $event['endtime'] == "00:00"? false : true;
+        if ($useStartTime AND $useEndTime)
+        {
+            return JText::sprintf(
+                COM_THM_ORGANIZER_B_DAILYSTARTEND,
+                $event['startdate'],
+                $event['enddate'],
+                $event['starttime'],
+                $event['endtime']
+            );
+        }
+
+        if ($useStartTime)
+        {
+            return JText::sprintf(
+                COM_THM_ORGANIZER_B_DAILYSTART,
+                $event['startdate'],
+                $event['enddate'],
+                $event['starttime']
+            );
+        }
+
+        if ($useEndTime)
+        {
+            return JText::sprintf(
+                COM_THM_ORGANIZER_B_DAILYEND,
+                $event['startdate'],
+                $event['enddate'],
+                $event['endtime']
+            );
+        }
+
+        return '';
     }
 
     /**
@@ -660,7 +726,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
      * @param   int  $eventID  the ID of the event which is in conflict with the
      *                         one to be created
      *
-     * @return string preformatted text containing resource names
+     * @return  string  formatted text containing resource names
      */
     private function getEventResources($eventID)
     {
@@ -713,30 +779,31 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         
         try
         {
-            $IDsArray = $dbo->loadResultArray();
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
-        
-        if (count($IDsArray))
-        {
-            $resources = array();
-            foreach ($IDsArray as $resourceID)
+            $IDsArray = $dbo->loadColumn();
+            if (count($IDsArray))
             {
-                $resources[] = $namesArray[$resourceID];
+                $resources = array();
+                foreach ($IDsArray as $resourceID)
+                {
+                    $resources[] = $namesArray[$resourceID];
+                }
+                return $resources;
             }
-            return $resources;
+            else
+            {
+                return array();
+            }
         }
-        else
+        catch (Exception $exc)
         {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
             return array();
         }
+
     }
 
     /**
-     * retrieves a sql formatted list of active schedule ids whos dates overlap
+     * Retrieves a sql formatted list of active schedule ids whos dates overlap
      * those of the event
      *
      * @return array  the actual schedules
@@ -755,25 +822,25 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         try
         {
             $results = $dbo->loadAssocList();
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
-        
-        if (count($results))
-        {
-            $scheduleModel = new thm_organizerModelschedule;
-            foreach ($results as $key => $value)
+            if (count($results))
             {
-                $schedule = json_decode($value['schedule']);
-                $scheduleModel->sanitizeSchedule($schedule);
-                $results[$key] = $schedule;
+                $scheduleModel = new THM_OrganizerControllerSchedule;
+                foreach ($results as $key => $value)
+                {
+                    $schedule = json_decode($value['schedule']);
+                    $scheduleModel->sanitizeSchedule($schedule);
+                    $results[$key] = $schedule;
+                }
+                return $results;
             }
-            return $results;
+            else
+            {
+                return array();
+            }
         }
-        else
+        catch (Exception $exc)
         {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
             return array();
         }
     }
