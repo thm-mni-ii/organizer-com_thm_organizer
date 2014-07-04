@@ -212,7 +212,6 @@ class THM_OrganizerLeaf
         $input = JFactory::getApplication()->input;
         $menuID = $input->getInt("menuID", -1);
         $frontend = $menuID < 0? true : false;
-        $childrenCheckbox = $input->getBool("childrenCheckbox", false);
         if ($frontend)
         {
             $this->checked = null;
@@ -238,9 +237,9 @@ class THM_OrganizerLeaf
             $publicDefault = "notdefault";
         }
 
-        $showSchedule = JRequest::getString('showSchedule');
-        $moduleID = JRequest::getString('moduleID');
-        if ($this->publicDefault === "default" AND $showSchedule != '' AND $moduleID != "")
+        $showSchedule = $input->getString('showSchedule', '');
+        $moduleID = $input->getString('moduleID', '');
+        if ($this->publicDefault === "default" AND $showSchedule != '' AND $moduleID != '')
         {
             $this->cls = "MySchedSearchResult";
         }

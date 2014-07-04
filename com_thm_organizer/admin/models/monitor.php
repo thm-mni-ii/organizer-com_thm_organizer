@@ -31,7 +31,7 @@ class THM_OrganizerModelmonitor extends JModelLegacy
      */
     public function save()
     {
-        $data = JRequest::getVar('jform', null, null, null, 4);
+        $data = JFactory::getApplication()->input->get('jform', array(), 'array');
         $data['content'] = $data['content'] == '-1'? '' : $data['content'];
         $table = JTable::getInstance('monitors', 'thm_organizerTable');
         return $table->save($data);
@@ -51,8 +51,8 @@ class THM_OrganizerModelmonitor extends JModelLegacy
         {
             $table = JTable::getInstance('monitors', 'thm_organizerTable');
             $table->load($monitorID);
-            $table->useDefaults = $input->getInt('useDefaults', 0);
-            return $table->store();
+            $table->set('useDefaults', $input->getInt('useDefaults', 0));
+            $success = $table->store();
         }
         return false;
     }

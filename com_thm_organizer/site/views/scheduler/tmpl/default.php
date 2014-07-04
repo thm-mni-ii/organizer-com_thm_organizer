@@ -60,12 +60,12 @@ if ($this->canWriteEvents === true)
         MySched.SessionId = '<?php echo $this->jsid; ?>';
         MySched.class_semester_id = '<?php echo $this->semesterID; ?>';
         MySched.class_semester_author = '<?php echo $this->semAuthor; ?>';
-        MySched.class_semester_name = '<?php echo $this->semesterName; ?>';
+        MySched.class_semester_name = '<?php echo $this->scheduleName; ?>';
         MySched.startup = '<?php echo $this->startup; ?>';
         MySched.searchModuleID = '<?php echo $this->searchModuleID; ?>';
         MySched.loadLessonsOnStartUp = <?php echo $this->loadLessonsOnStartUp? 'true' : 'false'; ?>;
         MySched.deltaDisplayDays = <?php echo $this->deltaDisplayDays; ?>;
-        MySched.departmentAndSemester = '<?php echo $this->departmentAndSemester; ?>';
+        MySched.departmentAndSemester = '<?php echo $this->scheduleName; ?>';
         MySched.requestTeacherIDs =
             Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestTeacherIDs)); ?>'));
         MySched.requestRoomIDs =

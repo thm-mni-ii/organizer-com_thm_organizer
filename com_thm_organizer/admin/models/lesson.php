@@ -353,21 +353,21 @@ class THM_OrganizerModelLesson extends JModelLegacy
         if (!$startDateExists)
         {
             $this->_scheduleModel->scheduleErrors[]
-                = JText::sprintf('COM_THM_ORGANIZER_LS_SD_OOB', $this->lessonName, $this->_lessonID, $lessonStartDate);
+                = JText::sprintf('COM_THM_ORGANIZER_LS_SD_OOB', $this->_lessonName, $this->_lessonID, $lessonStartDate);
             return false;
         }
 
         $lessonEndDate = date('Y-m-d', $endDT);
         if (empty($lessonEndDate))
         {
-            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_ED_MISSING', $this->lessonName, $this->_lessonID);
+            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_ED_MISSING', $this->_lessonName, $this->_lessonID);
             return false;
         }
 
         // Checks if startdate is before enddate
         if (strtotime($lessonEndDate) <= $startDT )
         {
-            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_SDED_INCONSISTANT', $this->lessonName, $this->_lessonID);
+            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_SDED_INCONSISTENT', $this->_lessonName, $this->_lessonID);
             return false;
         }
         return true;
@@ -386,12 +386,12 @@ class THM_OrganizerModelLesson extends JModelLegacy
     {
         if (empty($raw))
         {
-            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_OCC_MISSING', $this->lessonName, $this->_lessonID);
+            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_OCC_MISSING', $this->_lessonName, $this->_lessonID);
             return false;
         }
         elseif (strlen($raw) != $this->_scheduleModel->schedule->calendar->sylength)
         {
-            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_OCC_LEN_BAD', $this->lessonName, $this->_lessonID);
+            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_OCC_LEN_BAD', $this->_lessonName, $this->_lessonID);
             return false;
         }
 
@@ -422,7 +422,7 @@ class THM_OrganizerModelLesson extends JModelLegacy
         if (isset($periods) and $periods != $timescount)
         {
             $this->_scheduleModel->scheduleWarnings[]
-                = JText::sprintf('COM_THM_ORGANIZER_LS_TP_INCONSISTANT', $this->_lessonName, $this->_lessonID);
+                = JText::sprintf('COM_THM_ORGANIZER_LS_TP_INCONSISTENT', $this->_lessonName, $this->_lessonID);
         }
     }
 

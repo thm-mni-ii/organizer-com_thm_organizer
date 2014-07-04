@@ -130,8 +130,9 @@ if ($this->monitors !== false)
 {
     foreach ($this->monitors as $k => $monitor)
     {
+        $useDefaults = $monitor->useDefaults? 0 : 1;
         $url = "index.php?option=com_thm_organizer&task=monitor.saveDefaultBehaviour&id=";
-        $url .= "$monitor->id&useDefaults=$monitor->useDefaults";
+        $url .= "$monitor->id&useDefaults=$useDefaults";
         $href = JRoute::_($url);
         if ($monitor->useDefaults)
         {

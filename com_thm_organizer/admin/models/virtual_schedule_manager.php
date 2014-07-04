@@ -200,7 +200,9 @@ class THM_OrganizerModelVirtual_Schedule_Manager extends JModelLegacy
     /**
      * Method to get the total number of records
      *
-     * @return    Integer     The total number of records
+     * @return   integer  the total number of records
+     *
+     * @throws  exception
      */
     public function getTotal()
     {
@@ -214,14 +216,14 @@ class THM_OrganizerModelVirtual_Schedule_Manager extends JModelLegacy
             
             try 
             {
-                $virtualSchedulesNumber = $dbo->loadResult();
+                $count = $dbo->loadResult();
             }
             catch (runtimeException $e)
             {
                 throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
             }
             
-            return $virtualSchedulesNumber;
+            return $count;
         }
     }
 

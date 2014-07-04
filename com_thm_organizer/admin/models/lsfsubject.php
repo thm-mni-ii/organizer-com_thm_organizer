@@ -146,39 +146,10 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
             $this->setObjectProperty($subject, $textNode);
         }
 
-        $unusableProofValue = (empty($subject->proof_en) OR strlen($subject->proof_en) < 4);
-        if ($unusableProofValue AND !empty($subject->proof_de))
-        {
-            $subject->proof_en = $subject->proof_de;
-        }
-
-        $unusableMethodValue = (empty($subject->method_en) OR strlen($subject->method_en) < 4);
-        if ($unusableMethodValue AND !empty($subject->method_de))
-        {
-            $subject->proof_en = $subject->proof_de;
-        }
+        $this->checkProofAndMethod($subject);
 
         // Attributes that can be set by text or individual fields
-        if (!empty($dataObject->lp))
-        {
-            $this->setAttribute($subject, 'creditpoints', (int) $dataObject->lp);
-        }
-        if (!empty($dataObject->aufwand))
-        {
-            $this->setAttribute($subject, 'expenditure', (int) $dataObject->aufwand);
-        }
-        if (!empty($dataObject->praesenzzeit))
-        {
-            $this->setAttribute($subject, 'present', (int) $dataObject->praesenzzeit);
-        }
-        if (!empty($dataObject->selbstzeit))
-        {
-            $this->setAttribute($subject, 'independent', (int) $dataObject->selbstzeit);
-        }
-        if (!empty($dataObject->sws))
-        {
-            $this->setAttribute($subject, 'sws', (int) $dataObject->sws);
-        }
+        $this->processSpecialFields($dataObject, $subject);
 
         return $subject->store();
     }
@@ -322,6 +293,61 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
             {
                 $this->setAttribute($subject, 'independent', $hoursMatches[1][2]);
             }
+        }
+    }
+
+    /**
+     * Checks whether proof and method values are valid and set, and filling them with values
+     * from other languages if possible
+     *
+     * @param   object  &$subject  the subject object
+     *
+     * @return  void
+     */
+    private function checkProofAndMethod(&$subject)
+    {
+        $unusableProofValue = (empty($subject->proof_en) OR strlen($subject->proof_en) < 4);
+        if ($unusableProofValue AND !empty($subject->proof_de))
+        {
+            $subject->proof_en = $subject->proof_de;
+        }
+
+        $unusableMethodValue = (empty($subject->method_en) OR strlen($subject->method_en) < 4);
+        if ($unusableMethodValue AND !empty($subject->method_de))
+        {
+            $subject->proof_en = $subject->proof_de;
+        }
+    }
+
+    /**
+     * Checks for the existence and viability of seldom used fields
+     *
+     * @param   object  &$dataObject  the data object
+     * @param   object  &$subject     the subject object
+     *
+     * @return  void
+     */
+    private function processSpecialFields(&$dataObject, &$subject)
+    {
+        if (!empty($dataObject->lp))
+        {
+            $this->setAttribute($subject, 'creditpoints', (int) $dataObject->lp);
+        }
+        if (!empty($dataObject->aufwand))
+        {
+            $this->setAttribute($subject, 'expenditure', (int) $dataObject->aufwand);
+        }
+        if (!empty($dataObject->praesenzzeit))
+        {
+            $this->setAttribute($subject, 'present', (int) $dataObject->praesenzzeit);
+        }
+        if (!empty($dataObject->selbstzeit))
+        {
+            $this->setAttribute($subject, 'independent', (int) $dataObject->selbstzeit);
+        }
+        if (!empty($dataObject->sws))
+        {
+            $this->setAttribute($subject, 'sws', (int) $dataObject->sws);
         }
     }
 
@@ -480,6 +506,8 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param   array   &$prerequisites  an array containing prerequisite ids
      * 
      * @return  mixed  html link string on success, otherwise false
+     *
+     * @throws  exception
      */
     private function getModuleInformation($moduleNumber, $languageTag, &$prerequisites)
     {
@@ -595,6 +623,8 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param   string  $possibleModuleNumber  a possible external id of the subject
      * 
      * @return  mixed  int  subject id on success, otherwise false
+     *
+     * @throws  exception
      */
     private function getModuleID($possibleModuleNumber)
     {
@@ -622,6 +652,8 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param   array  $postrequisites  the id for which this subject is required
      * 
      * @return  boolean  true on success, otherwise false
+     *
+     * @throws  exception
      */
     private function savePostrequisites($subjectID, $postrequisites)
     {

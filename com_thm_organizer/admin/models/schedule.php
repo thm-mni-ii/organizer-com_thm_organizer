@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        data abstraction and business logic class for xml schedules
+ * @name        THM_OrganizerModelSchedule
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -84,19 +84,21 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         }
 
         $this->_db->transactionStart();
-        $this->saveFields();
-        $this->saveTeachers();
-        $this->saveRoomTypes();
-        $this->saveRooms();
-        $this->setReference();
-        $statusReport['scheduleID'] = $this->saveSchedule();
-        if ($this->_db->getErrorMsg())
+
+        try
         {
-            $this->_db->transactionRollback();
-        }
-        else
-        {
+            $this->saveFields();
+            $this->saveTeachers();
+            $this->saveRoomTypes();
+            $this->saveRooms();
+            $this->setReference();
+            $statusReport['scheduleID'] = $this->saveSchedule();
             $this->_db->transactionCommit();
+        }
+        catch (Exception $exception)
+        {
+            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+            $this->_db->transactionRollback();
         }
 
         return $statusReport;
@@ -106,109 +108,56 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      * Checks a given schedule in gp-untis xml format for data completeness and
      * consistency and gives it basic structure
      *
-     * @return $status array of strings listing inconsistancies empty if none
-     *          were found
+     * @return  array  array of strings listing inconsistencies empty if none
+     *                 were found
      */
     public function validate()
     {
-        $file = JRequest::getVar('file', '', 'FILES');
+        $input = JFactory::getApplication()->input;
+        $file = $input->files->get('file');
         $xmlSchedule = simplexml_load_file($file['tmp_name']);
         $this->schedule         = new stdClass;
         $this->scheduleErrors   = array();
         $this->scheduleWarnings = array();
 
-        $formdata = JRequest::getVar('jform', null, null, null, 4);
-        $rooms_required = isset($formdata['rooms_assignment_required']);
+        $formData = $input->get('jform', array(), 'array');
+        $rooms_required = isset($formData['rooms_assignment_required']);
         $this->_teacherModel = JModelLegacy::getInstance('teacher', 'THM_OrganizerModel');
 
         // General node
         // Creation Date & Time
         $creationDate = trim((string) $xmlSchedule[0]['date']);
-        if (empty($creationDate))
-        {
-            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_CREATION_DATE_MISSING");
-        }
-        else
-        {
-            $this->schedule->creationdate = date('Y-m-d', strtotime($creationDate));
-        }
+        $this->validateDateAttribute('creationdate', $creationDate, 'CREATION_DATE', 'error');
         $creationTime = trim((string) $xmlSchedule[0]['time']);
-        if (empty($creationTime))
-        {
-            $this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_SCH_CREATION_TIME_MISSING");
-        }
-        else
-        {
-            $this->schedule->creationtime = $creationTime;
-        }
+        $this->validateTextAttribute('creationtime', $creationTime, 'CREATION_TIME', 'error');
 
-        // Schoolyear dates
-        $syStartDate = strtotime(trim((string) $xmlSchedule->general->schoolyearbegindate));
-        if (empty($syStartDate))
-        {
-            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_START_DATE_MISSING");
-        }
-        else
-        {
-            $this->schedule->startdate = date('Y-m-d', $syStartDate);
-        }
-        $syEndDate = strtotime(trim((string) $xmlSchedule->general->schoolyearenddate));
-        if (empty($syEndDate))
-        {
-            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_END_DATE_MISSING");
-        }
-        else
-        {
-            $this->schedule->enddate = date('Y-m-d', $syEndDate);
-        }
+        // School year dates
+        $syStartDate = trim((string) $xmlSchedule->general->schoolyearbegindate);
+        $this->validateDateAttribute('startdate', $syStartDate, 'START_DATE', 'error');
+        $syEndDate = trim((string) $xmlSchedule->general->schoolyearenddate);
+        $this->validateDateAttribute('enddate', $syEndDate, 'END_DATE', 'error');
 
         // Organizational Data
         $departmentname = trim((string) $xmlSchedule->general->header1);
-        if (empty($departmentname))
-        {
-            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_ORGANIZATION_MISSING");
-        }
-        elseif (preg_match('/[\#\;]/', $departmentname))
-        {
-            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_ORGANIZATION_INVALID");
-        }
-        else
-        {
-            $this->schedule->departmentname = $departmentname;
-        }
+        $this->validateTextAttribute('departmentname', $departmentname, 'ORGANIZATION', 'error', '/[\#\;]/');
         $semestername = trim((string) $xmlSchedule->general->footer);
-        if (empty($semestername))
-        {
-            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_SCHOOLYEARNAME_MISSING");
-        }
-        elseif (preg_match('/[\#\;]/', $departmentname))
-        {
-            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_SCHOOLYEARNAME_INVALID");
-        }
-        else
-        {
-            $this->schedule->semestername = $semestername;
-        }
+        $this->validateTextAttribute('semestername', $semestername, 'SCHOOLYEARNAME', 'error', '/[\#\;]/');
 
-        // Term Start & Enddates
+        // Term start & end dates
         $startDate = trim((string) $xmlSchedule->general->termbegindate);
-        if (empty($startDate))
-        {
-            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_START_DATE_MISSING");
-        }
+        $this->validateDateAttribute('termStartDate', $startDate, 'START_DATE');
         $endDate = trim((string) $xmlSchedule->general->termenddate);
-        if (empty($endDate))
-        {
-            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_END_DATE_MISSING");
-        }
+        $this->validateDateAttribute('termEndDate', $endDate, 'END_DATE');
 
-        // Checks if term and schoolyear dates are consistent
+        // Checks if term and school year dates are consistent
+        $syStartTime = strtotime($syStartDate);
+        $syEndTime = strtotime($syEndDate);
         $termStartDT = strtotime($startDate);
         $termEndDT = strtotime($endDate);
-        if ($termStartDT < $syStartDate OR $termEndDT > $syEndDate OR $termStartDT >= $termEndDT)
+        if ($termStartDT < $syStartTime OR $termEndDT > $syEndTime OR $termStartDT >= $termEndDT)
         {
             $this->scheduleErrors[] = JText::sprintf(
-                                                      'COM_THM_ORGANIZER_SCH_DATES_INCONSISTANT',
+                                                      'COM_THM_ORGANIZER_SCH_DATES_INCONSISTENT',
                                                       date('d.m.Y', $syStartDate),
                                                       date('d.m.Y', $syEndDate),
                                                       date('d.m.Y', $termStartDT),
@@ -217,105 +166,30 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         }
 
         $this->schedule->periods = new stdClass;
-        if (empty($xmlSchedule->timeperiods))
-        {
-            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_TP_MISSING");
-        }
-        else
-        {
-            foreach ($xmlSchedule->timeperiods->children() as $periodnode)
-            {
-                $this->validatePeriod($periodnode);
-            }
-        }
+        $this->validateResourceNode('timeperiods', 'Period', $xmlSchedule, 'TP');
 
         $this->schedule->fields = new stdClass;
         $this->schedule->roomtypes = new stdClass;
         $this->schedule->lessontypes = new stdClass;
-        if (empty($xmlSchedule->descriptions))
-        {
-            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_DSM_MISSING");
-        }
-        else
-        {
-            foreach ($xmlSchedule->descriptions->children() as $descriptionnode)
-            {
-                $this->validateDescription($descriptionnode);
-            }
-        }
+        $this->validateResourceNode('descriptions', 'Description', $xmlSchedule, 'DSM');
 
         // Departments node holds degree names
         $this->schedule->degrees = new stdClass;
-        if (empty($xmlSchedule->departments))
-        {
-            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_DP_MISSING");
-        }
-        else
-        {
-            foreach ($xmlSchedule->departments->children() as $departmentnode)
-            {
-                $this->validateDegree($departmentnode);
-            }
-        }
+        $this->validateResourceNode('departments', 'Degree', $xmlSchedule, 'DP');
 
         $this->schedule->rooms = new stdClass;
-        if (empty($xmlSchedule->rooms))
-        {
-            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_RM_MISSING");
-        }
-        else
-        {
-            $roomModel = JModelLegacy::getInstance('room', 'THM_OrganizerModel');
-            foreach ($xmlSchedule->rooms->children() as $roomnode)
-            {
-                $roomModel->validate($this, $roomnode);
-            }
-        }
+        $this->validateResourceNode('rooms', 'room', $xmlSchedule, 'RM', true);
 
         $this->schedule->subjects = new stdClass;
-        if (empty($xmlSchedule->subjects))
-        {
-            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SU_MISSING");
-        }
-        else
-        {
-            $subjectModel = JModelLegacy::getInstance('subject', 'THM_OrganizerModel');
-            foreach ($xmlSchedule->subjects->children() as $subjectnode)
-            {
-                $subjectModel->validate($this, $subjectnode);
-            }
-        }
+        $this->validateResourceNode('subjects', 'subject', $xmlSchedule, 'SU', true);
 
         $this->schedule->teachers = new stdClass;
-        if (empty($xmlSchedule->teachers))
-        {
-            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_TR_MISSING");
-        }
-        else
-        {
-            $teacherModel = JModelLegacy::getInstance('teacher', 'THM_OrganizerModel');
-            foreach ($xmlSchedule->teachers->children() as $teachernode)
-            {
-                $teacherModel->validate($this, $teachernode);
-            }
-        }
+        $this->validateResourceNode('teachers', 'teacher', $xmlSchedule, 'TR', true);
 
-        // Classes node holds information about pools
         $this->schedule->pools = new stdClass;
-        if (empty($xmlSchedule->classes))
-        {
-            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_CL_MISSING");
-        }
-        else
-        {
-            $poolModel = JModelLegacy::getInstance('pool', 'THM_OrganizerModel');
-            foreach ($xmlSchedule->classes->children() as $poolNode)
-            {
-                $poolModel->validate($this, $poolNode);
-            }
-        }
+        $this->validateResourceNode('classes', 'pool', $xmlSchedule, 'CL', true);
 
-        $this->initializeCalendar($syStartDate, $syEndDate);
+        $this->initializeCalendar($syStartTime, $syEndTime);
         $this->schedule->lessons = new stdClass;
         if (empty($xmlSchedule->lessons))
         {
@@ -324,9 +198,9 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         else
         {
             $lessonModel = new THM_OrganizerModelLesson($this, $rooms_required);
-            foreach ($xmlSchedule->lessons->children() as $lessonnode)
+            foreach ($xmlSchedule->lessons->children() as $lessonNode)
             {
-                $lessonModel->validate($lessonnode);
+                $lessonModel->validate($lessonNode);
             }
         }
 
@@ -335,15 +209,122 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     }
 
     /**
-     * validates an individual period
+     * Validates a date attribute
      *
-     * @param   SimpleXMLNode  &$periodnode  a resource node
+     * @param   string  $name      the attribute name
+     * @param   string  $value     the attribute value
+     * @param   string  $constant  the unique text constant fragment
+     * @param   string  $severity  the severity of the item being inspected
+     *
+     * @return  void
+     */
+    public function validateDateAttribute($name, $value, $constant, $severity = 'error')
+    {
+        if (empty($value))
+        {
+            if ($severity == 'error')
+            {
+                $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_{$constant}_MISSING");
+                return;
+            }
+            if ($severity == 'warning')
+            {
+                $this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_SCH_{$constant}_MISSING");
+            }
+        }
+        $this->schedule->$name = date('Y-m-d', strtotime($value));
+        return;
+    }
+
+    /**
+     * Validates a text attribute
+     *
+     * @param   string  $name      the attribute name
+     * @param   string  $value     the attribute value
+     * @param   string  $constant  the unique text constant fragment
+     * @param   string  $severity  the severity of the item being inspected
+     * @param   string  $regex     the regex to check the text against
+     *
+     * @return  void
+     */
+    private function validateTextAttribute($name, $value, $constant, $severity = 'error', $regex = '')
+    {
+        if (empty($value))
+        {
+            if ($severity == 'error')
+            {
+                $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_{$constant}_MISSING");
+                return;
+            }
+            if ($severity == 'warning')
+            {
+                $this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_SCH_{$constant}_MISSING");
+            }
+        }
+        if (!empty($regex) AND preg_match($regex, $value))
+        {
+            if ($severity == 'error')
+            {
+                $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SCH_{$constant}_INVALID");
+                return;
+            }
+            if ($severity == 'warning')
+            {
+                $this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_SCH_{$constant}_INVALID");
+            }
+        }
+        $this->schedule->$name = $value;
+        return;
+    }
+
+    /**
+     * Validates a resource node which has no external model
+     *
+     * @param   string  $nodeName      the name of the node to be processed (external name)
+     * @param   string  $resourceName  the name of the resource to be processed (internal name)
+     * @param   object  &$xmlObject    the xml object being validated
+     * @param   string  $constant      the unique text constant fragment
+     * @param   bool    $external      if the validation is in an external model
+     *
+     * @return  void
+     */
+    private function validateResourceNode($nodeName, $resourceName, &$xmlObject, $constant, $external = false)
+    {
+        if (empty($xmlObject->$nodeName))
+        {
+            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_{$constant}_MISSING");
+            return;
+        }
+
+        if ($external)
+        {
+            $model = JModelLegacy::getInstance($resourceName, 'THM_OrganizerModel');
+            foreach ($xmlObject->$nodeName->children() as $resourceNode)
+            {
+                $model->validate($this, $resourceNode);
+            }
+            return;
+        }
+
+        $function = "validate$resourceName";
+        foreach ($xmlObject->$nodeName->children() as $resourceNode)
+        {
+            $this->$function($resourceNode);
+        }
+    }
+
+    /**
+     * Validates an individual period. (called dynamically from validateResourceNode)
+     *
+     * @param   object  &$periodNode  a resource node (SimpleXML)
      *
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
      */
-    protected function validatePeriod(&$periodnode)
+    protected function validatePeriod(&$periodNode)
     {
-        $gpuntisID = trim((string) $periodnode[0]['id']);
+        $gpuntisID = trim((string) $periodNode[0]['id']);
         $periodID = str_replace('TP_', '', $gpuntisID);
         if (empty($gpuntisID))
         {
@@ -356,7 +337,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $this->schedule->periods->$periodID = new stdClass;
         $this->schedule->periods->$periodID->gpuntisID = $gpuntisID;
 
-        $day = (int) $periodnode->day;
+        $day = (int) $periodNode->day;
         if (empty($day))
         {
             $this->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_TP_DAY_MISSING", $periodID);
@@ -367,7 +348,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $this->schedule->periods->$periodID->day = $day;
         }
 
-        $period = (int) $periodnode->period;
+        $period = (int) $periodNode->period;
         if (empty($period))
         {
             $this->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_TP_PERIOD_MISSING", $periodID);
@@ -378,7 +359,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $this->schedule->periods->$periodID->period = $period;
         }
 
-        $starttime = trim((string) $periodnode->starttime);
+        $starttime = trim((string) $periodNode->starttime);
         if (empty($starttime))
         {
             $this->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_TP_STARTTIME_MISSING", $periodID);
@@ -388,7 +369,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $this->schedule->periods->$periodID->starttime = $starttime;
         }
 
-        $endtime = trim((string) $periodnode->endtime);
+        $endtime = trim((string) $periodNode->endtime);
         if (empty($endtime))
         {
             $this->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_TP_ENDTIME_MISSING", $periodID);
@@ -401,15 +382,17 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
     /**
      * Checks whether department nodes have the expected structure and required
-     * information
+     * information. (called dynamically from validateResourceNode)
      *
-     * @param   SimpleXMLNode  &$descriptionnode  the description node to be validated
+     * @param   object  &$descriptionNode  the description node to be validated (SimpleXML)
      *
-     * @return void
+     * @return  void
+     *
+     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
      */
-    private function validateDescription(&$descriptionnode)
+    private function validateDescription(&$descriptionNode)
     {
-        $gpuntisID = trim((string) $descriptionnode[0]['id']);
+        $gpuntisID = trim((string) $descriptionNode[0]['id']);
         if (empty($gpuntisID))
         {
             if (!in_array(JText::_("COM_THM_ORGANIZER_DSM_ID_MISSING"), $this->scheduleErrors))
@@ -420,14 +403,14 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         }
         $descriptionID = str_replace('DS_', '', $gpuntisID);
 
-        $longname = trim((string) $descriptionnode->longname);
+        $longname = trim((string) $descriptionNode->longname);
         if (empty($longname))
         {
             $this->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_DSM_DESC_MISSING", $descriptionID);
             return;
         }
 
-        $type = trim((string) $descriptionnode->flags);
+        $type = trim((string) $descriptionNode->flags);
         if (empty($type))
         {
             if (!in_array(JText::_("COM_THM_ORGANIZER_DSM_TYPE_MISSING"), $this->scheduleErrors))
@@ -462,15 +445,17 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
     /**
      * Checks whether department nodes have the expected structure and required
-     * information
+     * information. (called dynamically from validateResourceNode)
      *
-     * @param   SimpleXMLNode  &$departmentnode  the department node to be validated
+     * @param   SimpleXMLNode  &$departmentNode  the department node to be validated
      *
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
      */
-    protected function validateDegree(&$departmentnode)
+    protected function validateDegree(&$departmentNode)
     {
-        $gpuntisID = trim((string) $departmentnode[0]['id']);
+        $gpuntisID = trim((string) $departmentNode[0]['id']);
         if (empty($gpuntisID))
         {
             if (!in_array(JText::_("COM_THM_ORGANIZER_DP_ID_MISSING"), $this->scheduleErrors))
@@ -483,85 +468,13 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $this->schedule->degrees->$degreeID = new stdClass;
         $this->schedule->degrees->$degreeID->gpuntisID = $gpuntisID;
 
-        $degreeName = (string) $departmentnode->longname;
+        $degreeName = (string) $departmentNode->longname;
         if (!isset($degreeName))
         {
             $this->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_DP_LN_MISSING", $degreeID);
             return;
         }
         $this->schedule->degrees->$degreeID->name = $degreeName;
-    }
-
-    /**
-     * Checks whether class nodes have the expected structure and required
-     * information
-     *
-     * @param   SimpleXMLNode  &$classnode  the class node to be validated
-     *
-     * @return void
-     */
-    protected function validateModule(&$classnode)
-    {
-        $gpuntisID = isset($classnode->external_name)?
-            trim((string) $classnode->external_name) : trim((string) $classnode[0]['id']);
-        if (empty($gpuntisID))
-        {
-            if (!in_array(JText::_("COM_THM_ORGANIZER_CL_ID_MISSING"), $this->scheduleErrors))
-            {
-                $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_CL_ID_MISSING");
-            }
-            return;
-        }
-        $moduleID = str_replace('CL_', '', $gpuntisID);
-        $this->schedule->pools->$moduleID = new stdClass;
-        $this->schedule->pools->$moduleID->gpuntisID = $gpuntisID;
-        $this->schedule->pools->$moduleID->name = $moduleID;
-        $this->schedule->pools->$moduleID->localUntisID = str_replace('CL_', '', trim((string) $classnode[0]['id']));
-
-        $longname = trim((string) $classnode->longname);
-        if (empty($longname))
-        {
-            $this->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_CL_LN_MISSING', $moduleID);
-            return;
-        }
-        $this->schedule->pools->$moduleID->longname = $moduleID;
-
-        $restriction = trim((string) $classnode->classlevel);
-        if (empty($restriction))
-        {
-            $this->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_CL_RESTRICTION_MISSING', $moduleID);
-            return;
-        }
-        $this->schedule->pools->$moduleID->restriction = $restriction;
-
-        $degreeID = str_replace('DP_', '', trim((string) $classnode->class_department[0]['id']));
-        if (empty($degreeID))
-        {
-            $this->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_CL_DEGREE_MISSING', $moduleID);
-            return;
-        }
-        elseif (empty($this->schedule->degrees->$degreeID))
-        {
-            $this->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_CL_DEGREE_LACKING', $moduleID, $degreeID);
-            return;
-        }
-        $this->schedule->pools->$moduleID->degree = $degreeID;
-
-        $descriptionID = str_replace('DS_', '', trim((string) $classnode->class_description[0]['id']));
-        if (empty($descriptionID))
-        {
-            $this->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_CL_FIELD_MISSING', $moduleID);
-            $this->schedule->pools->$moduleID->description = '';
-        }
-        elseif (empty($this->schedule->fields->$descriptionID))
-        {
-            $this->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_CL_FIELD_LACKING', $moduleID, $descriptionID);
-            $this->schedule->pools->$moduleID->description = '';
-        }
-        else
-        {
-            $this->schedule->pools->$moduleID->description = $descriptionID;
-        }
     }
 
     /**
@@ -576,7 +489,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     {
         $calendar = new stdClass;
 
-        // Calculate the schoolyear length
+        // Calculate the school year length
         $syLength = floor(($syEndDate - $syStartDate) / 86400) + 1;
         $calendar->sylength = $syLength;
 
@@ -726,51 +639,24 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      */
     public function setReference()
     {
-        $reference = JTable::getInstance('schedules', 'thm_organizerTable');
-        $referenceIDs = JRequest::getVar('cid', array(), 'post', 'array');
-        if (!empty($referenceIDs))
-        {
-            $referenceID = $referenceIDs[0];
-            $referenceExists = $reference->load($referenceID);
-        }
-        elseif (!empty($this->schedule))
-        {
-            $pullData = array(
-                'departmentname' => $this->schedule->departmentname,
-                'semestername' => $this->schedule->semestername,
-                'startdate' => $this->schedule->startdate,
-                'enddate' => $this->schedule->enddate,
-                'active' => 1
-            );
-            $reference->bind($pullData);
-            $referenceExists = $reference->load($pullData);
-        }
-
-        // The schedule to be referenced could not be found
-        if (!$referenceExists and isset($referenceID))
-        {
-            return false;
-        }
-        // There was no reference schedule available
-        elseif (!$referenceExists)
+        $reference = $this->getReferenceSchedule();
+        if (empty($reference->id))
         {
             return true;
         }
-        else
-        {
-            $this->refSchedule = json_decode($reference->schedule);
-        }
 
-        if (isset($referenceID))
+        $this->refSchedule = json_decode($reference->schedule);
+
+        $actual = JTable::getInstance('schedules', 'thm_organizerTable');
+        if (empty($this->schedule))
         {
             $pullData = array(
-                'departmentname' => $reference->departmentname,
-                'semestername' => $reference->semestername,
-                'startdate' => $reference->startdate,
-                'enddate' => $reference->enddate,
+                'departmentname' => $this->refSchedule->departmentname,
+                'semestername' => $this->refSchedule->semestername,
+                'startdate' => $this->refSchedule->startdate,
+                'enddate' => $this->refSchedule->enddate,
                 'active' => 1
             );
-            $actual = JTable::getInstance('schedules', 'thm_organizerTable');
             $actualExists = $actual->load($pullData);
             if (!$actualExists)
             {
@@ -779,43 +665,77 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $this->schedule = json_decode($actual->schedule);
         }
 
-        $this->sanitizeSchedule($this->schedule);
         $this->sanitizeSchedule($this->refSchedule);
-        if (isset($referenceID))
-        {
-            $this->_db->transactionStart();
-        }
+        $this->sanitizeSchedule($this->schedule);
+
+        $this->_db->transactionStart();
         $referenceDate = $reference->creationdate;
-        $reference->schedule = json_encode($this->refSchedule);
-        $reference->active = 0;
-        $success = $reference->store();
-        if (isset($referenceID) and !$success)
+        $reference->set('schedule', json_encode($this->refSchedule));
+        $reference->set('active', 0);
+        $refSuccess = $reference->store();
+        if (!$refSuccess)
         {
             $this->_db->transactionRollback();
             return false;
         }
         unset($reference);
 
+        $this->schedule->referencedate = $referenceDate;
         $this->setLessonReference($this->schedule->lessons, $this->refSchedule->lessons);
         $this->setCalendarReference($this->schedule->calendar, $this->refSchedule->calendar);
-        $this->schedule->referencedate = $referenceDate;
 
-        if (isset($referenceID))
+        $actual->set('schedule', json_encode($this->schedule));
+        $actualSuccess = $actual->store();
+        if (!$actualSuccess)
         {
-            $actual->schedule = json_encode($this->schedule);
-            $success = $actual->store();
-            if (!$success)
-            {
-                $this->_db->transactionRollback();
-                return false;
-            }
-            else
-            {
-                $this->_db->transactionCommit();
-            }
+            $this->_db->transactionRollback();
+            return false;
         }
 
+        $this->_db->transactionCommit();
         return true;
+    }
+
+    /**
+     * Sets the schedule to be referenced against
+     *
+     * @return  mixed  object if successful, otherwise null
+     */
+    private function getReferenceSchedule()
+    {
+        $reference = JTable::getInstance('schedules', 'thm_organizerTable');
+        $referenceIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
+
+        // Entry by upload of new schedule
+        if (empty($referenceIDs))
+        {
+            if (empty($this->schedule))
+            {
+                return null;
+            }
+            if (!empty($this->schedule))
+            {
+                $pullData = array();
+                $pullData['departmentname'] = $this->schedule->departmentname;
+                $pullData['semestername'] = $this->schedule->semestername;
+                $pullData['startdate'] = $this->schedule->startdate;
+                $pullData['enddate'] = $this->schedule->enddate;
+                $pullData['active'] = 1;
+            }
+        }
+        // Entry through schedule manager
+        else
+        {
+            $pullData = $referenceIDs[0];
+        }
+        $referenceLoaded = $reference->load($pullData);
+
+        if ($referenceLoaded)
+        {
+            return $reference;
+        }
+
+        return null;
     }
 
     /**
@@ -826,14 +746,15 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     public function activate()
     {
         $scheduleRow = JTable::getInstance('schedules', 'thm_organizerTable');
-        $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
-        if (!empty($scheduleIDs))
+        $scheduleIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
+        if (empty($scheduleIDs))
         {
-            $scheduleExists = $scheduleRow->load($scheduleIDs[0]);
+            return true;
         }
+        $scheduleExists = $scheduleRow->load($scheduleIDs[0]);
         if (!$scheduleExists)
         {
-            return false;
+            return true;
         }
 
         $schedule = json_decode($scheduleRow->schedule);
@@ -957,48 +878,51 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     {
         foreach ($calendar as $date => $periods)
         {
-            if (is_object($calendar->$date) and count($periods))
+            if (!is_object($calendar->$date) OR empty($periods))
             {
-                foreach ($periods as $period => $lessons)
+                continue;
+            }
+            foreach ($periods as $period => $lessons)
+            {
+                if (empty($lessons))
                 {
-                    if (count($lessons))
+                    continue;
+                }
+                foreach ($lessons as $lesson => $rooms)
+                {
+                    if (empty($calendar->$date->$period->$lesson->delta))
                     {
-                        foreach ($lessons as $lesson => $rooms)
-                        {
-                            if (isset($calendar->$date->$period->$lesson->delta))
+                        continue;
+                    }
+                    switch ($calendar->$date->$period->$lesson->delta)
+                    {
+                        case 'new':
+                            unset($calendar->$date->$period->$lesson->delta);
+                            break;
+                        case 'removed':
+                            unset($calendar->$date->$period->$lesson);
+                            break;
+                        case 'changed':
+                            foreach ($rooms as $roomID => $delta)
                             {
-                                switch ($calendar->$date->$period->$lesson->delta)
+                                if ($roomID == 'delta')
+                                {
+                                    continue;
+                                }
+                                switch ($delta)
                                 {
                                     case 'new':
-                                        unset($calendar->$date->$period->$lesson->delta);
-                                        break;
+                                        $calendar->$date->$period->$lesson->$roomID = '';
+                                    continue;
+                                    case '':
+                                    continue;
                                     case 'removed':
-                                        unset($calendar->$date->$period->$lesson);
-                                        break;
-                                    case 'changed':
-                                        foreach ($rooms as $roomID => $delta)
-                                        {
-                                            if ($roomID == 'delta')
-                                            {
-                                                continue;
-                                            }
-                                            switch ($delta)
-                                            {
-                                                case 'new':
-                                                    $calendar->$date->$period->$lesson->$roomID = '';
-                                                continue;
-                                                case '':
-                                                continue;
-                                                case 'removed':
-                                                    unset($calendar->$date->$period->$lesson->$roomID);
-                                                continue;
-                                            }
-                                        }
-                                        unset($calendar->$date->$period->$lesson->delta);
-                                        break;
+                                        unset($calendar->$date->$period->$lesson->$roomID);
+                                    continue;
                                 }
                             }
-                        }
+                            unset($calendar->$date->$period->$lesson->delta);
+                            break;
                     }
                 }
             }
@@ -1096,34 +1020,36 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     {
         foreach ($calendar as $date => $periods)
         {
-            if (is_object($calendar->$date) and count($periods))
+            if (!is_object($calendar->$date) OR empty($periods))
             {
-                foreach ($periods as $period => $lessons)
+                continue;
+            }
+            foreach ($periods as $period => $lessons)
+            {
+                if (empty($lessons))
                 {
-                    if (count($lessons))
+                    continue;
+                }
+                foreach ($lessons as $lessonID => $rooms)
+                {
+                    if (!isset($refCalendar->$date->$period->$lessonID))
                     {
-                        foreach ($lessons as $lessonID => $rooms)
+                        $calendar->$date->$period->$lessonID->delta = 'new';
+                        continue;
+                    }
+                    else
+                    {
+                        foreach ($rooms as $roomID => $delta)
                         {
-                            if (!isset($refCalendar->$date->$period->$lessonID))
+                            if ($roomID == 'delta' or empty($roomID))
                             {
-                                $calendar->$date->$period->$lessonID->delta = 'new';
                                 continue;
                             }
-                            else
+                            if (!isset($refCalendar->$date->$period->$lessonID->$roomID))
                             {
-                                foreach ($rooms as $roomID => $delta)
-                                {
-                                    if ($roomID == 'delta' or empty($roomID))
-                                    {
-                                        continue;
-                                    }
-                                    if (!isset($refCalendar->$date->$period->$lessonID->$roomID))
-                                    {
-                                        $calendar->$date->$period->$lessonID->$roomID = 'new';
-                                        $calendar->$date->$period->$lessonID->delta = 'changed';
-                                        continue;
-                                    }
-                                }
+                                $calendar->$date->$period->$lessonID->$roomID = 'new';
+                                $calendar->$date->$period->$lessonID->delta = 'changed';
+                                continue;
                             }
                         }
                     }
@@ -1133,40 +1059,39 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
         foreach ($refCalendar as $date => $periods)
         {
-            if (is_object($calendar->$date) and count($periods))
+            if (!is_object($calendar->$date) OR empty($periods))
             {
-                foreach ($periods as $period => $lessons)
+                continue;
+            }
+            foreach ($periods as $period => $lessons)
+            {
+                if (empty($lessons))
                 {
-                    if (count($lessons))
+                    continue;
+                }
+                foreach ($lessons as $lessonID => $rooms)
+                {
+                    if (!isset($calendar->$date->$period->$lessonID))
                     {
-                        foreach ($lessons as $lessonID => $rooms)
+                        $calendar->$date->$period->$lessonID = new stdClass;
+                        foreach ($rooms as $roomID => $delta)
                         {
-                            if (!isset($calendar->$date->$period->$lessonID))
-                            {
-                                $calendar->$date->$period->$lessonID = new stdClass;
-                                foreach ($rooms as $roomID => $delta)
-                                {
-                                    $calendar->$date->$period->$lessonID->$roomID = '';
-                                }
-                                $calendar->$date->$period->$lessonID->delta = 'removed';
-                                continue;
-                            }
-                            else
-                            {
-                                foreach ($rooms as $roomID => $delta)
-                                {
-                                    if ($roomID == 'delta')
-                                    {
-                                        continue;
-                                    }
-                                    if (!isset($calendar->$date->$period->$lessonID->$roomID))
-                                    {
-                                        $calendar->$date->$period->$lessonID->$roomID = 'removed';
-                                        $calendar->$date->$period->$lessonID->delta = 'changed';
-                                        continue;
-                                    }
-                                }
-                            }
+                            $calendar->$date->$period->$lessonID->$roomID = '';
+                        }
+                        $calendar->$date->$period->$lessonID->delta = 'removed';
+                        continue;
+                    }
+                    foreach ($rooms as $roomID => $delta)
+                    {
+                        if ($roomID == 'delta')
+                        {
+                            continue;
+                        }
+                        if (!isset($calendar->$date->$period->$lessonID->$roomID))
+                        {
+                            $calendar->$date->$period->$lessonID->$roomID = 'removed';
+                            $calendar->$date->$period->$lessonID->delta = 'changed';
+                            continue;
                         }
                     }
                 }
@@ -1183,10 +1108,12 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      * 5 Not all schedules are active
      *
      * @return  integer
+     *
+     * @throws  exception
      */
     public function checkMergeConstraints()
     {
-        $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
+        $scheduleIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
         if (empty($scheduleIDs) OR count($scheduleIDs) < 2)
         {
             return TOO_FEW;
@@ -1238,6 +1165,8 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      * Merges the chosen schedules into a new schedule
      *
      * @return  int  a value which stands for different statuses
+     *
+     * @throws  Exception
      */
     public function merge()
     {
@@ -1248,11 +1177,18 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         }
         $scheduleIDs = "'" . implode("', '", $checkedIDs) . "'";
 
+        $input = JFactory::getApplication()->input;
         $newScheduleRow = array();
         $newScheduleRow['creationdate'] = date('Y-m-d');
         $newScheduleRow['creationtime'] = date('is');
-        $newScheduleRow['departmentname'] = JRequest::getString('departmentname');
-        $newScheduleRow['semestername'] = JRequest::getString('semestername');
+        $newScheduleRow['departmentname'] = $input->getString('departmentname', '');
+        $newScheduleRow['semestername'] = $input->getString('semestername', '');
+
+        $invalid = (empty($newScheduleRow['departmentname']) OR empty($newScheduleRow['semestername']));
+        if ($invalid)
+        {
+            return ERROR;
+        }
 
         $query = $this->_db->getQuery(true);
         $query->select('schedule');
@@ -1262,7 +1198,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         
         try 
         {
-            $schedules = $this->_db->loadResultArray();
+            $schedules = $this->_db->loadColumn();
         }
         catch (runtimeException $e)
         {
@@ -1334,7 +1270,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     /**
      * Persists the schedule to be uploaded
      *
-     * @return void
+     * @return  mixed  integer scheduleID on success, otherwise false
      */
     private function saveSchedule()
     {
@@ -1343,8 +1279,8 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $data['semestername'] = $this->schedule->semestername;
         $data['creationdate'] = $this->schedule->creationdate;
         $data['creationtime'] = $this->schedule->creationtime;
-        $formdata = JRequest::getVar('jform', null, null, null, 4);
-        $data['description'] = $this->_db->escape($formdata['description']);
+        $formData = JFactory::getApplication()->input->get('jform', array(), 'array');
+        $data['description'] = $this->_db->escape($formData['description']);
         $data['schedule'] = json_encode($this->schedule);
         $data['startdate'] = $this->schedule->startdate;
         $data['enddate'] = $this->schedule->enddate;
@@ -1362,7 +1298,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      */
     public function saveComment()
     {
-        $data = JRequest::getVar('jform', null, null, null, 4);
+        $data = JFactory::getApplication()->input->get('jform', array(), 'array');
         $data['description'] = $this->_db->escape($data['description']);
         unset($data->startdate, $data->enddate, $data->creationdate);
         $table = JTable::getInstance('schedules', 'thm_organizerTable');
@@ -1376,7 +1312,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      */
     public function checkIfActive()
     {
-        $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
+        $scheduleIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
         if (!empty($scheduleIDs))
         {
             $scheduleID = $scheduleIDs[0];
@@ -1396,20 +1332,24 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     public function delete()
     {
         $this->_db->transactionStart();
-        $scheduleIDs = JRequest::getVar('cid', array(), 'post', 'array');
+        $scheduleIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
         foreach ($scheduleIDs as $scheduleID)
         {
-            $success = $this->deleteSingle($scheduleID);
+            try
+            {
+                $success = $this->deleteSingle($scheduleID);
+            }
+            catch (Exception $exception)
+            {
+                JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+                $this->_db->transactionRollback();
+                return false;
+            }
             if (!$success)
             {
                 $this->_db->transactionRollback();
                 return false;
             }
-        }
-        if ($this->_db->getErrorNum())
-        {
-            $this->_db->transactionRollback();
-            return false;
         }
         $this->_db->transactionCommit();
         return true;

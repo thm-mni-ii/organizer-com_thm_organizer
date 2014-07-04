@@ -42,7 +42,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
 
     public $semAuthor = "";
 
-    public $departmentAndSemester = "";
+    public $scheduleName = "";
 
     public $semesterName = "";
 
@@ -115,10 +115,8 @@ class THM_OrganizerViewScheduler extends JViewLegacy
         $this->deltaDisplayDays = (int) $params->get("deltaDisplayDays", 14);
         $this->semesterID = $scheduleRow->id;
         $this->semAuthor = "";
-        $this->departmentAndSemester = $scheduleRow->departmentname . ";" . $scheduleRow->semestername . ";";
-        $this->departmentAndSemester .= $scheduleRow->startdate . ";" . $scheduleRow->enddate;
-        $this->semesterName = $this->departmentAndSemester;
-
+        $this->scheduleName = $scheduleRow->departmentname . ";" . $scheduleRow->semestername . ";";
+        $this->scheduleName .= $scheduleRow->startdate . ";" . $scheduleRow->enddate;
 
         $this->_schedule->periods->length = count((array) $this->_schedule->periods);
         foreach ($this->_schedule->periods as &$period)

@@ -910,7 +910,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 
         foreach ($selectedParents as $newParentID)
         {
-            $subjectTemplate['ordering'] = $this->getOrdering($newParentID, $resourceID, 'subject');
+            $subjectTemplate['ordering'] = $this->getOrdering($newParentID, $data['id'], 'subject');
             $subjectTemplate['parentID'] = $newParentID;
             $subjectAdded = $this->addSubject($subjectTemplate);
             if (!$subjectAdded)

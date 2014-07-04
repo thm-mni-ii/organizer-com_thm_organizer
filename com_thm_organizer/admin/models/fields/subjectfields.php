@@ -29,14 +29,16 @@ class JFormFieldSubjectFields extends JFormField
     protected $type = 'subjectFields';
 
     /**
-     * Returns a selectionbox where stored coursepool can be chosen as a parent node
+     * Returns a selection box where stored course pool can be chosen as a parent node
      *
-     * @return Select box
+     * @return  string  a HTML String representing the field selection box
+     *
+     * @throws  exception
      */
     public function getInput()
     {
         $dbo = JFactory::getDBO();
-        $subjectID = JRequest::getInt('id');
+        $subjectID = JFactory::getApplication()->input->getInt('id', 0);
  
         $selectedQuery = $dbo->getQuery(true);
         $selectedQuery->select('fieldID')->from('#__thm_organizer_subjects')->where("id = '$subjectID'");
@@ -72,10 +74,24 @@ class JFormFieldSubjectFields extends JFormField
         $options = array();
         foreach ($fields as $field)
         {
-            $style = empty($field['color'])? '' : ' style="background-color:#' . $field['color'] . '"';
-            $selected = $field['value'] == $selectedValue? ' selected="selected"' : '';
-            $options[] = '<option value="' . $field['value'] . '"' . $style . $selected . '>' . $field['field'] . '</option>';
+            $options[] = $this->getOption($field, $selectedValue);
         }
         return '<select name="jform[fieldID]" id="jform_fieldID"">' . implode('', $options) . "</select>";
+    }
+
+    /**
+     * Creates a HTML Option Tag for the subject field
+     *
+     * @param   array   $field          the array containing field information
+     * @param   string  $selectedValue  the selected field value
+     *
+     * @return string
+     */
+    private function getOption($field, $selectedValue)
+    {
+        $style = empty($field['color'])? '' : ' style="background-color:#' . $field['color'] . '"';
+        $selected = $field['value'] == $selectedValue? ' selected="selected"' : '';
+        return '<option value="' . $field['value'] . '"' . $style . $selected . '>' . $field['field'] . '</option>';
+
     }
 }

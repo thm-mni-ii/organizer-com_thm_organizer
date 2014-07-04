@@ -60,7 +60,6 @@ class THM_OrganizerHelperReferrer
      */
     private static function validateReferrer($type)
     {
-        $app = JFactory::getApplication();
         $server = JFactory::getApplication()->input->server;
         $currentQuery = $server->getString('QUERY_STRING', '');
         if (empty($currentQuery))

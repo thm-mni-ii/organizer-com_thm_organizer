@@ -154,7 +154,6 @@ class THM_OrganizerNode
         $input = JFactory::getApplication()->input;
         $menuID = $input->getInt("menuID", -1);
         $frontend = $menuID < 0? true : false;
-        $childrenCheckbox = $input->getBool("childrenCheckbox", false);
         if ($frontend)
         {
             $this->checked = null;

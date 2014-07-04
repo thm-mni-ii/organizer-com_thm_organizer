@@ -45,13 +45,6 @@ class THM_OrganizerModelSchedule_Navigation
     private $_frontend = null;
 
     /**
-     * Which schedules are in the tree
-     *
-     * @var    Object
-     */
-    private $_inTree = array();
-
-    /**
      * The tree data
      *
      * @var    Array
@@ -654,8 +647,8 @@ class THM_OrganizerModelSchedule_Navigation
         }
 
         $subcategoryExists = !empty($itemFieldType->$subcategory);
-        $subcategoryAlreadyIndex = in_array($subcategory, $subcategories);
-        $setSubCategory = ($subcategorySet AND $subcategoryExists AND !$subcategoryAlreadyIndex);
+        $subcategoryIndexed = in_array($subcategory, $subcategories);
+        $setSubCategory = ($subcategorySet AND $subcategoryExists AND !$subcategoryIndexed);
         if ($setSubCategory)
         {
             $subcategories[$subcategory] = $itemFieldType->{$subcategory};

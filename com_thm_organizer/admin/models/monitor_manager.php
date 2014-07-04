@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        monitor manager model
+ * @name        THM_OrganizerModelMonitor_Manager
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @author      Daniel Kirsten, <daniel.kirsten@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
@@ -89,12 +89,11 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
     /**
      * builds the query used to compile the items for the lsit ouput
      * 
-     * @return void
+     * @return  object
      */
     protected function getListQuery()
     {
-        $dbo = $this->getDbo();
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
 
         $select = "m.id, roomID, ip, useDefaults, display, schedule_refresh, content_refresh, content, longname AS room, ";
         $parts = array("'index.php?option=com_thm_organizer&view=monitor_edit&monitorID='","m.id");
@@ -105,8 +104,8 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
 
         $this->setWhere($query);
 
-        $orderby = $dbo->getEscaped($this->getState('list.ordering', 'r.name'));
-        $direction = $dbo->getEscaped($this->getState('list.direction', 'ASC'));
+        $orderby = $this->_db->escape($this->getState('list.ordering', 'r.name'));
+        $direction = $this->_db->escape($this->getState('list.direction', 'ASC'));
         $query->order("$orderby $direction");
         return $query;
     }
@@ -120,7 +119,7 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
      */
     private function setWhere(&$query)
     {
-        $filterSearch = '%' . $this->_db->getEscaped($this->state->get('filter.search'), true) . '%';
+        $filterSearch = '%' . $this->_db->escape($this->state->get('filter.search'), true) . '%';
         $useFilterSearch = $filterSearch != '%%';
         $filterRoom = $this->getState('filter.room');
         $useFilterRoom = is_numeric($filterRoom);
@@ -136,40 +135,9 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
             return;
         }
 
-        $where = '';
         if ($useFilterDisplay OR $useFilterContent)
         {
-            $componentDisplay = JComponentHelper::getParams('com_thm_organizer')->get('display', '1');
-            $useComponentDisplay = ($useFilterDisplay AND $filterDisplay == $componentDisplay);
-            $componentContent = JComponentHelper::getParams('com_thm_organizer')->get('content', '');
-            $useComponentContent = ($useFilterContent AND $filterContent == $componentContent);
-
-            $where .= '(';
-            if (($useComponentDisplay AND $useComponentContent)
-             OR ($useComponentDisplay AND !$useFilterContent)
-             OR (!$useFilterDisplay AND $useComponentContent))
-            {
-                $where .= "m.useDefaults ='1' ";
-            }
-            else
-            {
-                $where .= "m.useDefaults ='0' ";
-            }
-
-            if ($useFilterDisplay)
-            {
-                $where .= $useComponentDisplay? "OR " : "AND ";
-                $where .= "m.display ='$filterDisplay' ";
-            }
-
-            if ($useFilterContent)
-            {
-                $where .= $useComponentContent? "OR " : "AND ";
-                $where .= "m.content ='$filterDisplay' ";
-            }
-
-            $where .= ')';
-            $query->where($where);
+            $this->addDisplayFilter($query);
         }
 
         if ($useFilterRoom)
@@ -181,6 +149,53 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
         {
             $query->where("longname LIKE '$filterSearch' OR ip LIKE '$filterSearch'");
         }
+    }
+
+    /**
+     * Adds the filter settings for display behaviour and displayed content
+     *
+     * @param   object  &$query  the query object
+     *
+     * @return  void
+     */
+    private function addDisplayFilter(&$query)
+    {
+        $filterDisplay = $this->getState('filter.display', '1');
+        $useFilterDisplay = is_numeric($filterDisplay);
+        $contentID = $this->getState('filter.content', '');
+        $filterContent = is_numeric($contentID)? $this->contents[$contentID] : '';
+        $useFilterContent = !empty($filterContent);
+
+        $componentDisplay = JComponentHelper::getParams('com_thm_organizer')->get('display', '1');
+        $useComponentDisplay = ($useFilterDisplay AND $filterDisplay == $componentDisplay);
+        $componentContent = JComponentHelper::getParams('com_thm_organizer')->get('content', '');
+        $useComponentContent = ($useFilterContent AND $filterContent == $componentContent);
+
+        $rowWhere = '';
+        if ($useFilterDisplay)
+        {
+            $rowWhere .= "m.display ='$filterDisplay'";
+        }
+
+        if ($useFilterContent)
+        {
+            $rowWhere .= $useFilterDisplay? " AND " : '';
+            $rowWhere .= "m.content ='$filterDisplay' ";
+        }
+
+        /**
+         * One:    Both display and content are being filtered, and the component settings match both
+         * Two:    Display alone is being filtered and matches component settings
+         * Three:  Content alone is being filtered and matches component settings
+         **/
+        $conditionOne = ($useComponentDisplay AND $useComponentContent);
+        $conditionTwo = ($useComponentDisplay AND !$useFilterContent);
+        $conditionThree = (!$useFilterDisplay AND $useComponentContent);
+
+        $useComponent = ($conditionOne OR $conditionTwo OR $conditionThree);
+        $componentWhere = $useComponent? "OR m.useDefaults ='1'" : '';
+
+        $query->where("( ( $rowWhere ) $componentWhere )");
     }
 
     /**
@@ -217,17 +232,16 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
      */
     private function getRooms()
     {
-        $dbo = $this->getDbo();
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
         $query->select('r.id, r.longname');
         $query->from("#__thm_organizer_rooms AS r");
         $query->innerJoin("#__thm_organizer_monitors AS m ON m.roomID = r.id");
         $query->order('r.longname ASC');
-        $dbo->setQuery((string) $query);
+        $this->_db->setQuery((string) $query);
         
         try
         {
-            $results = $dbo->loadAssocList();
+            $results = $this->_db->loadAssocList();
         }
         catch (runtimeException $e)
         {
