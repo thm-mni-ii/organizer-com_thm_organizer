@@ -239,7 +239,8 @@ class THM_OrganizerLeaf
 
         $showSchedule = $input->getString('showSchedule', '');
         $moduleID = $input->getString('moduleID', '');
-        if ($this->publicDefault === "default" AND $showSchedule != '' AND $moduleID != '')
+        $highlightResult = ($this->publicDefault === "default" AND $showSchedule != '' AND $moduleID != '');
+        if ($highlightResult)
         {
             $this->cls = "MySchedSearchResult";
         }

@@ -52,7 +52,7 @@ class THM_OrganizerModelmonitor extends JModelLegacy
             $table = JTable::getInstance('monitors', 'thm_organizerTable');
             $table->load($monitorID);
             $table->set('useDefaults', $input->getInt('useDefaults', 0));
-            $success = $table->store();
+            return $table->store();
         }
         return false;
     }

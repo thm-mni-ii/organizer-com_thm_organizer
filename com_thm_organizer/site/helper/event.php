@@ -164,12 +164,11 @@ class THM_OrganizerHelperEvent
     /**
      * Creates an introductory text for events
      *
-     * @param   array  &$event     an array of preprepared date and time entries
-     * @param   bool   $withText  whether leading and ending text should be added
+     * @param   array  &$event    an array of preprepared date and time entries
      *
      * @return  string $introText
      */
-    public static function getDateText(&$event, $withText = true)
+    public static function getDateText(&$event)
     {
         $useStartTime = $event['starttime'] == "00:00"? false : true;
         $useEndTime = $event['endtime'] == "00:00"? false : true;
