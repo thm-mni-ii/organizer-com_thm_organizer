@@ -67,7 +67,7 @@ class JFormFieldResponsible extends JFormField
         
         try 
         {
-            $groupIDs = $dbo->loadResultArray();
+            $groupIDs = $dbo->loadColumn();
         }
         catch (runtimeException $e)
         {

@@ -181,7 +181,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
         $this->_db->setQuery((string) $query);
         try
         {
-            $this->_db->query();
+            $this->_db->execute();
         }
         catch (Exception $exc)
         {
@@ -209,7 +209,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
         $this->_db->setQuery((string) $query);
         try
         {
-            $this->_db->query();
+            $this->_db->execute();
         }
         catch (Exception $exc)
         {

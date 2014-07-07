@@ -71,9 +71,14 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
      */
     public function loadEvent()
     {
-        $eventID = JRequest::getInt('eventID')? JRequest::getInt('eventID'): 0;
-        $dbo = JFactory::getDBO();
+        $app = JFactory::getApplication();
+        $eventID = $app->input->getInt('eventID', 0);
+        if (empty($eventID))
+        {
+            return;
+        }
 
+        $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);
         $query->select($this->getSelect());        
         $query->from("#__thm_organizer_events AS e");
@@ -87,82 +92,22 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
         try
         {
             $event = $dbo->loadAssoc();
-            $event['startdate'] = date_format(date_create($event['startdate']), 'd.m.Y');
-            $event['enddate'] = date_format(date_create($event['enddate']), 'd.m.Y');
-            $event['publish_up'] = date_format(date_create($event['publish_up']), 'd.m.Y');
-            $event['starttime'] = date_format(date_create($event['starttime']), 'H:i');
-            $event['endtime'] = date_format(date_create($event['endtime']), 'H:i');
-             
         }        
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            $app->enqueueMessage($exc->getMessage(), 'error');
+            return;
         }
 
-        if (isset($event))
+        if (empty($event))
         {
-            $this->eventID = $event['id'];
-            if (!empty($event['description']))
-            {
-                $event['description'] = trim($event['description']);
-            }
-            if ($event['global'] and $event['reserves'])
-            {
-                $event['displaybehavior'] = JText::_('COM_THM_ORGANIZER_E_GLOBALRESERVES_EXPLANATION');
-            }
-            elseif ($event['global'])
-            {
-                $event['displaybehavior'] = JText::_('COM_THM_ORGANIZER_E_GLOBAL_EXPLANATION');
-            }
-            elseif ($event['reserves'])
-            {
-                $event['displaybehavior'] = JText::_('COM_THM_ORGANIZER_E_RESERVES_EXPLANATION');
-            }
-            else
-            {
-                $event['displaybehavior'] = JText::_('COM_THM_ORGANIZER_E_NOGLOBALRESERVES_EXPLANATION');
-            }
-            if ($event['starttime'] == "00:00")
-            {
-                unset($event['starttime']);
-            }
-            if ($event['endtime'] == "00:00")
-            {
-                unset($event['endtime']);
-            }
-            if ($event['enddate'] == "00.00.0000")
-            {
-                unset($event['enddate']);
-            }
+            return;
         }
-        else
-        {
-            $this->eventID = 0;
-            $event = array();
-            $event['id'] = 0;
-            $event['title'] = JText::_('COM_THM_ORGANIZER_E_EMPTY');
-            $event['alias'] = '';
-            $event['description'] = JText::_('COM_THM_ORGANIZER_E_EMPTY_DESC');
-            $event['categoryID'] = 0;
-            $event['contentID'] = 0;
-            $event['startdate'] = '';
-            $event['enddate'] = '';
-            $event['starttime'] = '';
-            $event['endtime'] = '';
-            $event['created_by'] = 0;
-            $event['created'] = '';
-            $event['modified_by'] = 0;
-            $event['modified'] = '';
-            $event['recurrence_number'] = 0;
-            $event['recurrence_type'] = 0;
-            $event['recurrence_counter'] = 0;
-            $event['image'] = '';
-            $event['register'] = 0;
-            $event['unregister'] = 0;
-        }
-        $event['teachers'] = array();
-        $event['groups'] = array();
-        $event['rooms'] = array();
+
+        THM_OrganizerHelperEvent::localizeEvent($event);
+        $event['publish_up'] = date_format(date_create($event['publish_up']), 'd.m.Y');
+
+        $this->eventID = $event['id'];
         if ($event['id'] != 0)
         {
             $event['access'] = THMEventAccess::canEdit($this->event['id']);
@@ -188,7 +133,6 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
         $select .= "e.recurrence_type AS rec_type, ";
         $select .= "ecat.title AS eventCategory, ";
         $select .= "ecat.description AS eventCategoryDesc, ";
-        $select .= "ecat.contentCatID AS contentCategoryID, ";
         $select .= "ecat.global, ";
         $select .= "ecat.reserves, ";
         $select .= "c.title AS title, ";
@@ -196,6 +140,7 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
         $select .= "c.publish_up AS publish_up, ";
         $select .= "c.publish_down AS publish_down, ";
         $select .= "c.access AS contentAccess, ";
+        $select .= "ccat.id AS categoryID, ";
         $select .= "ccat.title AS contentCategory, ";
         $select .= "ccat.description AS contentCategoryDesc, ";
         $select .= "ccat.access AS contentCategoryAccess, ";
@@ -229,7 +174,7 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("name");
+        $query->select("id");
         $query->from("#__thm_organizer_event_rooms AS er");
         $query->innerJoin("#__thm_organizer_rooms AS r ON er.roomID = r.id");
         $query->where("er.eventID = '$this->eventID'");
@@ -237,7 +182,7 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
         
         try
         {
-            $this->event['rooms'] = $dbo->loadResultArray();
+            $this->event['rooms'] = $dbo->loadColumn();
         }
         catch (runtimeException $e)
         {
@@ -256,7 +201,7 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("surname");
+        $query->select("id");
         $query->from("#__thm_organizer_event_teachers AS et");
         $query->innerJoin("#__thm_organizer_teachers AS t ON et.teacherID = t.id");
         $query->where("et.eventID = '$this->eventID'");
@@ -264,7 +209,7 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
         
         try
         {
-            $this->event['teachers'] = $dbo->loadResultArray();
+            $this->event['teachers'] = $dbo->loadColumn();
         }
         catch (runtimeException $e)
         {
@@ -283,7 +228,7 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("title AS name");
+        $query->select("id");
         $query->from("#__thm_organizer_event_groups AS eg");
         $query->innerJoin("#__usergroups AS ug ON eg.groupID = ug.id");
         $query->where("eg.eventID = '$this->eventID'");
@@ -291,7 +236,7 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
         
         try 
         {
-            $this->event['groups'] = $dbo->loadResultArray();
+            $this->event['groups'] = $dbo->loadColumn();
         }
         catch (runtimeException $e)
         {

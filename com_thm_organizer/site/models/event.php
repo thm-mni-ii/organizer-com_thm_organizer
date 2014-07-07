@@ -40,14 +40,14 @@ class THM_OrganizerModelEvent extends JModelLegacy
             return 0;
         }
 
-        THM_OrganizerHelperEvent::buildtext($data);
-        $eventSaved = ($data['id'] > 0)? $this->saveExistingEvent($data) : $this->saveNewEvent($data);
-        $teachersSaved = $this->saveResources("#__thm_organizer_event_teachers", "teachers", "teacherID", $data['id']);
-        $roomsSaved = $this->saveResources("#__thm_organizer_event_rooms", "rooms", "roomID", $data['id']);
-        $groupsSaved = $this->saveResources("#__thm_organizer_event_groups", "groups", "groupID", $data['id']);
+        THM_OrganizerHelperEvent::buildText($data);
+        $eventSaved = ($data['id'] > 0)? $this->updateEvent($data) : $this->insertEvent($data);
+        $teachersSaved = $this->saveResources('#__thm_organizer_event_teachers', 'teachers', 'teacherID', $data['id']);
+        $roomsSaved = $this->saveResources('#__thm_organizer_event_rooms', 'rooms', 'roomID', $data['id']);
+        $groupsSaved = $this->saveResources('#__thm_organizer_event_groups', 'groups', 'groupID', $data['id']);
         if ($eventSaved AND $teachersSaved AND $roomsSaved AND $groupsSaved)
         {
-            $groups = JRequest::getVar('groups');
+            $groups = JFactory::getApplication()->input->get('groups', array(), 'array');
             if (isset($data['emailNotification']) AND count($groups))
             {
                 $success = $this->notify($data);
@@ -92,100 +92,184 @@ class THM_OrganizerModelEvent extends JModelLegacy
     /**
      * Performs the update query to the appropriate tables
      *
-     * @param   mixed  &$data  the event data
+     * @param   mixed  &$event  the event data
      *
      * @return  boolean true on success, otherwise false
      */
-    private function saveExistingEvent(&$data)
+    private function updateEvent(&$event)
     {
-        $dbo = JFactory::getDBO();
-
-        $query = $dbo->getQuery(true);
-        $query->update('#__content');
-        $conditions = "title = '{$data['title']}', ";
-        $conditions .= "alias = '{$data['alias']}', ";
-        $conditions .= "introtext = '{$data['introtext']}', ";
-        $conditions .= "#__content.fulltext = '{$data['fulltext']}', ";
-        $conditions .= "state = '1', ";
-        $conditions .= "catid = '{$data['contentCatID']}', ";
-        $conditions .= "modified = '" . date('Y-m-d H:i:s') . "', ";
-        $conditions .= "modified_by = '{$data['userID']}', ";
-        $conditions .= "publish_up = '{$data['publish_up']}', ";
-        $conditions .= "publish_down = '{$data['publish_down']}' ";
-        $query->set($conditions);
-        $query->where("id = '{$data['id']}'");
-        $dbo->setQuery((string) $query);
-        $dbo->query();
-        if ($dbo->getErrorNum())
+        $contentUpdated = $this->updateContent($event);
+        if (!$contentUpdated)
         {
             return false;
         }
 
-        $query = $dbo->getQuery(true);
+        $assetUpdated = $this->updateAsset($event);
+        if (!$assetUpdated)
+        {
+            return false;
+        }
+
+        $query = $this->_db->getQuery(true);
+        $query->update('#__thm_organizer_events');
+        $conditions = "categoryID = '{$event['categoryID']}', ";
+        $conditions .= "startdate = '{$event['startdate']}', ";
+        $conditions .= "enddate = '{$event['enddate']}', ";
+        $conditions .= "starttime = '{$event['starttime']}', ";
+        $conditions .= "endtime = '{$event['endtime']}', ";
+        $conditions .= "start = '{$event['start']}', ";
+        $conditions .= "end = '{$event['end']}', ";
+        $conditions .= "recurrence_type = '{$event['rec_type']}' ";
+        $query->set($conditions);
+        $query->where("id = '{$event['id']}'");
+        $this->_db->setQuery((string) $query);
+        try
+        {
+            $this->_db->execute();
+            return true;
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
+        }
+    }
+
+    /**
+     * Updates the content entry values
+     *
+     * @param   array  &$event  holds data from the request
+     *
+     * @return  bool  true on success, otherwise false
+     */
+    private function updateContent(&$event)
+    {
+        $query = $this->_db->getQuery(true);
+        $query->update('#__content');
+        $conditions = "title = '{$event['title']}', ";
+        $conditions .= "alias = '{$event['alias']}', ";
+        $conditions .= "introtext = '{$event['introtext']}', ";
+        $conditions .= "#__content.fulltext = '{$event['fulltext']}', ";
+        $conditions .= "state = '1', ";
+        $conditions .= "catid = '{$event['contentCatID']}', ";
+        $conditions .= "modified = '" . date('Y-m-d H:i:s') . "', ";
+        $conditions .= "modified_by = '{$event['userID']}', ";
+        $conditions .= "publish_up = '{$event['publish_up']}', ";
+        $conditions .= "publish_down = '{$event['publish_down']}' ";
+        $query->set($conditions);
+        $query->where("id = '{$event['id']}'");
+        $this->_db->setQuery((string) $query);
+        try
+        {
+            $this->_db->execute();
+            return true;
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
+        }
+    }
+
+    /**
+     * Updates the asset entry values
+     *
+     * @param   array  &$event  holds data from the request
+     *
+     * @return  bool  true on success, otherwise false
+     */
+    private function updateAsset(&$event)
+    {
+        // Gets the parent id (it may have changed)
+        $query = $this->_db->getQuery(true);
         $query->select("id, level");
         $query->from("#__assets");
-        $query->where("name = 'com_content.category.{$data['contentCatID']}'");
-        $dbo->setQuery((string) $query);
-        
-        try 
+        $query->where("name = 'com_content.category.{$event['contentCatID']}'");
+        $this->_db->setQuery((string) $query);
+        try
         {
-            $parentID = $dbo->loadResult();
+            $parentID = $this->_db->loadResult();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
         }
-        
-        if ($dbo->getErrorNum())
+        if (empty($parentID))
         {
             return false;
         }
 
         $asset = JTable::getInstance('Asset');
-        $asset->loadByName("com_content.article.{$data['id']}");
+        $asset->loadByName("com_content.article.{$event['id']}");
         $asset->parent_id = $parentID;
-        $asset->title = $data['title'];
+        $asset->title = $event['title'];
         $asset->setLocation($parentID, 'last-child');
-        if (!$asset->store())
+        try
         {
-            $this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $dbo->stderr(true)));
+            $asset->store();
+            return true;
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
             return false;
         }
-
-        $query = $dbo->getQuery(true);
-        $query->update("#__thm_organizer_events");
-        $conditions = "categoryID = '{$data['categoryID']}', ";
-        $conditions .= "startdate = '{$data['startdate']}', ";
-        $conditions .= "enddate = '{$data['enddate']}', ";
-        $conditions .= "starttime = '{$data['starttime']}', ";
-        $conditions .= "endtime = '{$data['endtime']}', ";
-        $conditions .= "start = '{$data['start']}', ";
-        $conditions .= "end = '{$data['end']}', ";
-        $conditions .= "recurrence_type = '{$data['rec_type']}' ";
-        $query->set($conditions);
-        $query->where("id = '{$data['id']}'");
-        $dbo->setQuery((string) $query);
-        $dbo->query();
-        if ($dbo->getErrorNum())
-        {
-            return false;
-        }
-
-        return true;
     }
 
     /**
      * Saves a new event creating appropriate entries in the content, assets,
      * and event tables
      *
-     * @param   array  &$data  holds data from the request
+     * @param   array  &$event  holds data from the request
      *
      * @return  boolean true on success, otherwise false
      */
-    private function saveNewEvent(&$data)
+    private function insertEvent(&$event)
     {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
+        $contentSaved = $this->insertContent($event);
+        if (!$contentSaved)
+        {
+            return false;
+        }
+
+        $assetSaved = $this->insertAsset($event);
+        if (!$assetSaved)
+        {
+            return false;
+        }
+
+        $query = $this->_db->getQuery(true);
+        $statement = "#__thm_organizer_events";
+        $statement .= "( id, categoryID, startdate, enddate, ";
+        $statement .= "starttime, endtime, recurrence_type, start, end ) ";
+        $statement .= "VALUES ";
+        $statement .= "( '{$event['id']}', '{$event['categoryID']}', '{$event['startdate']}', '{$event['enddate']}', ";
+        $statement .= "'{$event['starttime']}', '{$event['endtime']}', '{$event['rec_type']}', '{$event['start']}', '{$event['end']}' ) ";
+        $query->insert($statement);
+        $this->_db->setQuery((string) $query);
+        try
+        {
+            $this->_db->execute();
+            return true;
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
+        }
+    }
+
+    /**
+     * Saves a new event's content
+     *
+     * @param   array  &$event  the event information
+     *
+     * @return  bool  true if no exception has been
+     */
+    private function insertContent(&$event)
+    {
+        $query = $this->_db->getQuery(true);
         $statement = "#__content";
         $statement .= "( title, alias, ";
         $statement .= "introtext, #__content.fulltext, ";
@@ -194,116 +278,142 @@ class THM_OrganizerModelEvent extends JModelLegacy
         $statement .= "created_by, publish_up, ";
         $statement .= "publish_down ) ";
         $statement .= "VALUES ";
-        $statement .= "( '{$data['title']}', '{$data['alias']}', ";
-        $statement .= "'{$data['introtext']}', '{$data['fulltext']}', ";
-        $statement .= "'1', '{$data['contentCatID']}', ";
+        $statement .= "( '{$event['title']}', '{$event['alias']}', ";
+        $statement .= "'{$event['introtext']}', '{$event['fulltext']}', ";
+        $statement .= "'1', '{$event['contentCatID']}', ";
         $statement .= "'" . date('Y-m-d H:i:s') . "', '1', ";
-        $statement .= "'{$data['userID']}', '{$data['publish_up']}', ";
-        $statement .= "'{$data['publish_down']}' ) ";
+        $statement .= "'{$event['userID']}', '{$event['publish_up']}', ";
+        $statement .= "'{$event['publish_down']}' ) ";
         $query->insert($statement);
-        $dbo->setQuery((string) $query);
-        $dbo->query();
-        if ($dbo->getErrorNum())
+        $this->_db->setQuery((string) $query);
+        try
         {
+            $this->_db->execute();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
             return false;
         }
 
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
         $query->select('MAX(id)');
         $query->from('#__content');
-        $query->where("title = '{$data['title']}'");
-        $query->where("introtext = '{$data['introtext']}'");
-        $query->where("catid = '{$data['contentCatID']}'");
-        $dbo->setQuery((string) $query);
-        
-        try 
+        $query->where("title = '{$event['title']}'");
+        $query->where("introtext = '{$event['introtext']}'");
+        $query->where("catid = '{$event['contentCatID']}'");
+        $this->_db->setQuery((string) $query);
+        try
         {
-            $data['id'] = $dbo->loadResult();
+            $event['id'] = $this->_db->loadResult();
+            return empty($event['id'])? false : true;
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
-        
-        if ($dbo->getErrorNum())
-        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
             return false;
         }
+    }
 
-        $query = $dbo->getQuery(true);
+    /**
+     * Saves a new entry in the asset table and sets the corresponding content value
+     *
+     * @param   array  &$event  the event information
+     *
+     * @return  bool  true on success, otherwise false
+     */
+    private function insertAsset(&$event)
+    {
+        // Get the content category asset id
+        $query = $this->_db->getQuery(true);
         $query->select("id");
         $query->from("#__assets");
-        $query->where("name = 'com_content.category.{$data['contentCatID']}'");
-        $dbo->setQuery((string) $query);
-        
-        try 
+        $query->where("name = 'com_content.category.{$event['contentCatID']}'");
+        $this->_db->setQuery((string) $query);
+        try
         {
-            $parentID = $dbo->loadResult();
+            $categoryAssetID = $this->_db->loadResult();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
         }
-        
-        if ($dbo->getErrorNum())
+        if (empty($categoryAssetID))
         {
             return false;
         }
 
+        // Create the new asset
         $asset = JTable::getInstance('Asset');
-        $asset->name = "com_content.article.{$data['id']}";
-        $asset->parent_id = $parentID;
+        $asset->name = "com_content.article.{$event['id']}";
+        $asset->parent_id = $categoryAssetID;
         $asset->rules = '{}';
-        $asset->title = $data['title'];
-        $asset->setLocation($parentID, 'last-child');
-        $asset->store();
-        if ($dbo->getErrorNum())
+        $asset->title = $event['title'];
+        $asset->setLocation($categoryAssetID, 'last-child');
+        try
         {
+            $asset->store();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
             return false;
         }
 
-        $query = $dbo->getQuery(true);
+        // Get the id of the new asset
+        $query = $this->_db->getQuery(true);
         $query->select('id');
         $query->from('#__assets');
-        $query->where("name = 'com_content.article.{$data['id']}'");
-        $dbo->setQuery((string) $query);
-        
-        try 
+        $query->where("name = 'com_content.article.{$event['id']}'");
+        $this->_db->setQuery((string) $query);
+        try
         {
-            $assetID = $dbo->loadResult();
+            $assetID = $this->_db->loadResult();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
         }
-        
-        if ($dbo->getErrorNum())
+        if (empty($assetID))
         {
             return false;
         }
 
-        $query = $dbo->getQuery(true);
+        // Update the asset id value for the previously created content
+        $query = $this->_db->getQuery(true);
         $query->update("#__content");
         $query->set("asset_id = '$assetID'");
-        $query->where("id = '{$data['id']}'");
-        $dbo->setQuery((string) $query);
-        $dbo->query();
-        if ($dbo->getErrorNum())
+        $query->where("id = '{$event['id']}'");
+        $this->_db->setQuery((string) $query);
+        try
         {
+            $this->_db->execute();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
             return false;
         }
 
-        $query = $dbo->getQuery(true);
-        $statement = "#__thm_organizer_events";
-        $statement .= "( id, categoryID, startdate, enddate, ";
-        $statement .= "starttime, endtime, recurrence_type, start, end ) ";
-        $statement .= "VALUES ";
-        $statement .= "( '{$data['id']}', '{$data['categoryID']}', '{$data['startdate']}', '{$data['enddate']}', ";
-        $statement .= "'{$data['starttime']}', '{$data['endtime']}', '{$data['rec_type']}', '{$data['start']}', '{$data['end']}' ) ";
-        $query->insert($statement);
-        $dbo->setQuery((string) $query);
-        $dbo->query();
-        return ($dbo->getErrorNum())? false : true;
+        // Confirm the content was updated
+        $query = $this->_db->getQuery(true);
+        $query->select('COUNT(*)');
+        $query->from('#__assets');
+        $query->where("asset_id = '$assetID'");
+        $query->where("id = '{$event['id']}'");
+        $this->_db->setQuery((string) $query);
+        try
+        {
+            $count = $this->_db->loadResult();
+            return $count == 1;
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
+        }
     }
 
     /**
@@ -318,22 +428,20 @@ class THM_OrganizerModelEvent extends JModelLegacy
      */
     private function saveResources($tableName, $requestName, $resourceColumn, $eventID)
     {
-        $dbo = JFactory::getDbo();
-
         // Remove old associations
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
         $query->delete();
         $query->from($tableName);
         $query->where("eventID = '$eventID'");
-        $dbo->setQuery((string) $query);
-        
+        $this->_db->setQuery((string) $query);
         try 
         {
-            $dbo->query();
+            $this->_db->execute();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
         }
 
         // Add new ones (if requested)
@@ -343,18 +451,22 @@ class THM_OrganizerModelEvent extends JModelLegacy
         {
             unset($resources[$noResourceIndex]);
         }
-        if (count($resources))
+        if (!empty($resources))
         {
-            $query = $dbo->getQuery(true);
+            $query = $this->_db->getQuery(true);
             $statement = "$tableName ";
             $statement .= "( eventID, $resourceColumn ) ";
             $statement .= "VALUES ";
             $statement .= "( '$eventID', '" . implode("' ), ( '$eventID', '", $resources) . "' ) ";
             $query->insert($statement);
-            $dbo->setQuery((string) $query);
-            $dbo->query();
-            if ($dbo->getErrorNum())
+            $this->_db->setQuery((string) $query);
+            try
             {
+                $this->_db->execute();
+            }
+            catch (Exception $exc)
+            {
+                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
                 return false;
             }
         }
@@ -371,97 +483,122 @@ class THM_OrganizerModelEvent extends JModelLegacy
      */
     public function delete($eventID)
     {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
+        // Get the asset id
+        $query = $this->_db->getQuery(true);
         $query->select("id");
         $query->from("#__assets");
         $query->where("name = 'com_content.article.$eventID'");
-        $dbo->setQuery((string) $query);
-        
+        $this->_db->setQuery((string) $query);
         try 
         {
-            $assetID = $dbo->loadResult();
+            $assetID = $this->_db->loadResult();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
         }
-        
-        if ($dbo->getErrorNum())
+        if (empty($assetID))
         {
             return false;
         }
 
-        $assetsTable = JTable::getInstance('asset');
-        $assetsTable->delete($assetID);
+        $this->_db->transactionStart();
 
-        $query = $dbo->getQuery(true);
+        $assetsTable = JTable::getInstance('asset');
+        try
+        {
+            $assetsTable->delete($assetID);
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            $this->_db->transactionRollback();
+            return false;
+        }
+
+        $query = $this->_db->getQuery(true);
         $query->delete();
         $query->from("#__content");
         $query->where("id = '$eventID'");
-        $dbo->setQuery((string) $query);
-        $dbo->query();
-        if ($dbo->getErrorNum())
+        $this->_db->setQuery((string) $query);
+        try
         {
+            $this->_db->execute();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            $this->_db->transactionRollback();
             return false;
         }
 
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
         $query->delete();
         $query->from("#__thm_organizer_events");
         $query->where("id = '$eventID'");
-        $dbo->setQuery((string) $query);
-        $dbo->execute();
-        if ($dbo->getErrorNum())
+        $this->_db->setQuery((string) $query);
+        try
         {
+            $this->_db->execute();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            $this->_db->transactionRollback();
             return false;
         }
 
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
         $query->delete();
         $query->from("#__thm_organizer_event_teachers");
         $query->where("eventID = '$eventID'");
-        $dbo->setQuery((string) $query);
-        
+        $this->_db->setQuery((string) $query);
         try
         {
-            $dbo->query();
+            $this->_db->execute();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            $this->_db->transactionRollback();
+            return false;
         }
 
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
         $query->delete();
         $query->from("#__thm_organizer_event_rooms");
         $query->where("eventID = '$eventID'");
-        $dbo->setQuery((string) $query);
-        
+        $this->_db->setQuery((string) $query);
         try 
         {
-            $dbo->query();
+            $this->_db->execute();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            $this->_db->transactionRollback();
+            return false;
         }
 
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
         $query->delete();
         $query->from("#__thm_organizer_event_groups");
         $query->where("eventID = '$eventID'");
-        $dbo->setQuery((string) $query);
+        $this->_db->setQuery((string) $query);
         
         try 
         {
-            $dbo->query();
+            $this->_db->execute();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            $this->_db->transactionRollback();
+            return false;
         }
 
+        $this->_db->transactionCommit();
         return true;
     }
 
@@ -469,18 +606,18 @@ class THM_OrganizerModelEvent extends JModelLegacy
      * Sends an email with the appointment title as subject and the introtext
      * for the appointment as body on the members of the affected groups
      *
-     * @param   mixed  &$data  the event information
+     * @param   mixed  &$event  the event information
      *
-     * @return  void
+     * @return  boolean  true on success, otherwise
      */
-    private function notify(&$data)
+    private function notify(&$event)
     {
         $user = JFactory::getUser();
         $mailer = JFactory::getMailer();
         $sender = array($user->email, $user->name);
         $mailer->setSender($sender);
         $recipients = $this->getRecipients();
-        if (count($recipients))
+        if (!empty($recipients))
         {
             $mailer->addRecipient($recipients);
         }
@@ -488,9 +625,10 @@ class THM_OrganizerModelEvent extends JModelLegacy
         {
             return true;
         }
-        $mailer->setSubject(stripslashes($data['title']));
-        $mailer->setBody(strip_tags($data['introtext']));
-        return $mailer->Send();
+        $mailer->setSubject(stripslashes($event['title']));
+        $mailer->setBody(strip_tags($event['introtext']));
+        $success = $mailer->Send();
+        return ($success === true)? true : false;
     }
 
     /**
@@ -501,29 +639,24 @@ class THM_OrganizerModelEvent extends JModelLegacy
     private function getRecipients()
     {
         $recipients = array();
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
         $query->select('DISTINCT email, name');
         $query->from('#__users AS user');
         $query->innerJoin('#__user_usergroup_map AS map ON user.id = map.user_id');
-        $groups = JRequest::getVar('groups');
+        $groups = JFactory::getApplication()->input->get('groups', array(), 'array');
         foreach ($groups as $group)
         {
             $query->clear('where');
             $query->where("map.group_id = $group");
-            $dbo->setQuery((string) $query);
+            $this->_db->setQuery((string) $query);
             
             try
             {
-                $groupEMails = $dbo->loadColumn();
-            }
-            catch (runtimeException $e)
-            {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-            }
-            
-            if (count($groupEMails))
-            {
+                $groupEMails = $this->_db->loadColumn();
+                if (empty($groupEMails))
+                {
+                    continue;
+                }
                 foreach ($groupEMails as $email)
                 {
                     if (!in_array($email, $recipients))
@@ -531,6 +664,11 @@ class THM_OrganizerModelEvent extends JModelLegacy
                         $recipients[] = $email;
                     }
                 }
+            }
+            catch (Exception $exc)
+            {
+                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                return $recipients;
             }
         }
         return $recipients;

@@ -12,6 +12,7 @@
 
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
+require_once JPATH_COMPONENT . '/helper/event.php';
 
 /**
  * Retrieves event data and loads it into the view context
@@ -49,7 +50,7 @@ class THM_OrganizerViewEvent_Details extends JViewLegacy
         $this->event['description'] = $item->text;
         unset($item);
 
-        $this->createTextElements();
+        THM_OrganizerHelperEvent::buildText($this->event);
 
         parent::display($tpl);
     }

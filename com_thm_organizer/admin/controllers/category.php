@@ -34,8 +34,9 @@ class THM_OrganizerControllerCategory extends JControllerLegacy
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        JRequest::setVar('view', 'category_edit');
-        JRequest::setVar('categoryID', '0');
+        $input = JFactory::getApplication()->input;
+        $input->set('view', 'category_edit');
+        $input->set('categoryID', '0');
         parent::display();
     }
 

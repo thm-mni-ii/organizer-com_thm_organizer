@@ -342,7 +342,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         
         try
         {
-            $mappingIDs = $dbo->loadResultArray();
+            $mappingIDs = $dbo->loadColumn();
         }
         catch (runtimeException $e)
         {
@@ -380,7 +380,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         
         try 
         {
-            $mappingIDs = $dbo->loadResultArray();
+            $mappingIDs = $dbo->loadColumn();
         }
         catch (runtimeException $e)
         {
@@ -432,7 +432,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         $dbo->setQuery((string) $deleteQuery);
         try
         {
-            $dbo->query();
+            $dbo->execute();
         }
         catch (Exception $exception)
         {
@@ -449,7 +449,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         $dbo->setQuery((string) $siblingsQuery);
         try
         {
-            $dbo->query();
+            $dbo->execute();
         }
         catch (Exception $exception)
         {
@@ -467,7 +467,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         $dbo->setQuery((string) $updateLeftQuery);
         try
         {
-            $dbo->query();
+            $dbo->execute();
         }
         catch (Exception $exception)
         {
@@ -485,7 +485,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         $dbo->setQuery((string) $updateRightQuery);
         try
         {
-            $dbo->query();
+            $dbo->execute();
         }
         catch (Exception $exception)
         {
@@ -993,7 +993,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         $dbo->setQuery((string) $query);
         try
         {
-            $dbo->query();
+            $dbo->execute();
         }
         catch (Exception $exc)
         {
@@ -1030,7 +1030,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         $dbo->setQuery((string) $rgtQuery);
         try
         {
-            $dbo->query();
+            $dbo->execute();
         }
         catch (Exception $exc)
         {

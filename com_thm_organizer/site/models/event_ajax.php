@@ -114,7 +114,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
     private $_reservingCatIDs;
 
     /**
-     * @var string formatted list of active schedule ids for use in sql queries
+     * @var array the schedules which are currently active
      */
     private $_activeSchedules;
 
@@ -249,25 +249,28 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
     private function getResourceData($resourceName, $columnName, $tableName)
     {
         $resourceData = array();
-        $resources = JFactory::getApplication()->input->get($resourceName, '');
+        if (empty($resources))
+        {
+            $resources = JFactory::getApplication()->input->get($resourceName, array(), 'array');
+        }
+
+        // Remove the dummy index if selected
+        $dummyIndex = array_search('-1', $resources);
+        if ($dummyIndex)
+        {
+            unset($resources[$dummyIndex]);
+        }
+
         if (empty($resources))
         {
             return $resourceData;
         }
-        $$resourceName = implode(',', $resources);
-        if (strpos($$resourceName, '-1,'))
-        {
-            $$resourceName = str_replace('-1,', '', $$resourceName);
-        }
-        if (empty($$resourceName))
-        {
-            return $resourceData;
-        }
+
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("id, $columnName AS name");
         $query->from("#__$tableName");
-        $requestedIDs = "(" . $$resourceName . ")";
+        $requestedIDs = "( " . implode(", ", $resources) . " )";
         $query->where("id IN $requestedIDs");
         $query->order("id");
         $dbo->setQuery((string) $query);
@@ -281,7 +284,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
             throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
 
-        if (count($results))
+        if (!empty($results))
         {
             foreach ($results as $result)
             {
@@ -387,7 +390,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
     /**
      * Adds resource restrictions to the where clause if applicable
      *
-     * @return  void
+     * @return  string  a string containing the resource restriction clauses
      */
     private function getEventResourceRestriction()
     {
@@ -398,11 +401,11 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         }
         if (!empty($this->_teacherKeys))
         {
-            $restriction .= "et.teacherID IN {$this->_teacherKeys}";
+            $restriction[] = "et.teacherID IN {$this->_teacherKeys}";
         }
         if (!empty($this->_groupKeys))
         {
-            $restriction .= "eg.groupID IN {$this->_groupKeys}";
+            $restriction[] = "eg.groupID IN {$this->_groupKeys}";
         }
         return "( " . implode(' OR ', $restriction) . " ) ";
     }
@@ -410,7 +413,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
     /**
      * retrieves details to conflicting daily events
      *
-     * @param   JDatabaseQuery  &$query  the query to be modified
+     * @param   object  &$query  the query to be modified
      *
      * @return  array of event data
      */
@@ -613,20 +616,20 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         $useEndTime = $event['endtime'] == "00:00"? false : true;
         if ($useStartTime AND $useEndTime)
         {
-            return JText::sprintf(COM_THM_ORGANIZER_B_SINGLESTARTEND, $event['startdate'], $event['starttime'], $event['endtime']);
+            return JText::sprintf('COM_THM_ORGANIZER_B_SINGLESTARTEND', $event['startdate'], $event['starttime'], $event['endtime']);
         }
 
         if ($useStartTime)
         {
-            return JText::sprintf(COM_THM_ORGANIZER_B_SINGLESTART, $event['startdate'], $event['starttime']);
+            return JText::sprintf('COM_THM_ORGANIZER_B_SINGLESTART', $event['startdate'], $event['starttime']);
         }
 
         if ($useEndTime)
         {
-            return JText::sprintf(COM_THM_ORGANIZER_B_SINGLEEND, $event['startdate'], $event['endtime']);
+            return JText::sprintf('COM_THM_ORGANIZER_B_SINGLEEND', $event['startdate'], $event['endtime']);
         }
 
-        return JText::sprintf(COM_THM_ORGANIZER_B_SINGLE, $event['startdate']);
+        return JText::sprintf('COM_THM_ORGANIZER_B_SINGLE', $event['startdate']);
     }
 
     /**
@@ -643,7 +646,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         if ($useStartTime AND $useEndTime)
         {
             return JText::sprintf(
-                COM_THM_ORGANIZER_B_BLOCKSTARTEND,
+                'COM_THM_ORGANIZER_B_BLOCKSTARTEND',
                 $event['startdate'],
                 $event['starttime'],
                 $event['endtime'],
@@ -654,7 +657,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         if ($useStartTime)
         {
             return JText::sprintf(
-                COM_THM_ORGANIZER_B_BLOCKSTART,
+                'COM_THM_ORGANIZER_B_BLOCKSTART',
                 $event['startdate'],
                 $event['starttime'],
                 $event['enddate']
@@ -664,7 +667,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         if ($useEndTime)
         {
             return JText::sprintf(
-                COM_THM_ORGANIZER_B_BLOCKEND,
+                'COM_THM_ORGANIZER_B_BLOCKEND',
                 $event['startdate'],
                 $event['endtime'],
                 $event['enddate']
@@ -688,7 +691,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         if ($useStartTime AND $useEndTime)
         {
             return JText::sprintf(
-                COM_THM_ORGANIZER_B_DAILYSTARTEND,
+                'COM_THM_ORGANIZER_B_DAILYSTARTEND',
                 $event['startdate'],
                 $event['enddate'],
                 $event['starttime'],
@@ -699,7 +702,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         if ($useStartTime)
         {
             return JText::sprintf(
-                COM_THM_ORGANIZER_B_DAILYSTART,
+                'COM_THM_ORGANIZER_B_DAILYSTART',
                 $event['startdate'],
                 $event['enddate'],
                 $event['starttime']
@@ -709,7 +712,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
         if ($useEndTime)
         {
             return JText::sprintf(
-                COM_THM_ORGANIZER_B_DAILYEND,
+                'COM_THM_ORGANIZER_B_DAILYEND',
                 $event['startdate'],
                 $event['enddate'],
                 $event['endtime']
@@ -824,7 +827,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
             $results = $dbo->loadAssocList();
             if (count($results))
             {
-                $scheduleModel = new THM_OrganizerControllerSchedule;
+                $scheduleModel = JModel::getInstance('Schedule', 'THM_OrganizerModel');
                 foreach ($results as $key => $value)
                 {
                     $schedule = json_decode($value['schedule']);
@@ -903,15 +906,14 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
      * @param   string  $endtime    the time at which the event ends on the
      *                              iterated date
      *
-     * @return   array  the lessons which collide with the event to be saved,
-     *                  empty if none were detected
+     * @return   void  the lessons which collide with the event to be saved are place in the lessons object variable
      */
     private function getDailyLessons(&$schedule, $date, $dow, $starttime = '', $endtime = '')
     {
         $affectedPeriods = $this->getPeriodsFromSchedule($schedule->periods, $dow, $starttime, $endtime);
         if (empty($affectedPeriods))
         {
-            return array();
+            return;
         }
         else
         {

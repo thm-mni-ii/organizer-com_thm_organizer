@@ -134,7 +134,7 @@ class THM_OrganizerDataAbstraction
             {
                 try
                 {
-                    $data = $this->_dbo->loadResultArray();
+                    $data = $this->_dbo->loadColumn();
                 }
                 catch (runtimeException $e)
                 {

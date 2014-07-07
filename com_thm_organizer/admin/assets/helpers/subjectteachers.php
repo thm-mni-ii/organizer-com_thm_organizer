@@ -43,7 +43,7 @@ class THM_OrganizerHelperSubjectTeachers
 
         try 
         {
-            $selected = $dbo->loadResultArray();
+            $selected = $dbo->loadColumn();
         }
         catch (runtimeException $e)
         {

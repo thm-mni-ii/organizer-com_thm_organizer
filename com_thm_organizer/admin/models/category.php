@@ -75,7 +75,7 @@ class THM_OrganizerModelcategory extends JModelLegacy
             
             try 
             {
-                $eventIDs = $dbo->loadResultArray();
+                $eventIDs = $dbo->loadColumn();
             }
             catch (runtimeException $e)
             {

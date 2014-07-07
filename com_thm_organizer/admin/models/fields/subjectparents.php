@@ -105,7 +105,7 @@ class JFormFieldSubjectParents extends JFormField
         
         try 
         {
-            $selectedParents = array_merge($selectedParents, $dbo->loadResultArray());
+            $selectedParents = array_merge($selectedParents, $dbo->loadColumn());
         }
         catch (runtimeException $e)
         {

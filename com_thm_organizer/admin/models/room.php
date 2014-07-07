@@ -253,7 +253,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
         $this->_db->setQuery((string) $deleteQuery);
         try
         {
-            $this->_db->query();
+            $this->_db->execute();
         }
         catch (Exception $exception)
         {
@@ -283,7 +283,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
         $this->_db->setQuery((string) $query);
         try
         {
-            $this->_db->query();
+            $this->_db->execute();
         }
         catch (Exception $exception)
         {
@@ -358,7 +358,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
         
         try
         {
-            $oldNames = $this->_db->loadResultArray();
+            $oldNames = $this->_db->loadColumn();
         }
         catch (runtimeException $e)
         {

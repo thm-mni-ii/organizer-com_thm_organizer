@@ -169,7 +169,7 @@ class THM_OrganizerModelPool_Manager extends JModelList
         
         try 
         {
-            $programs = $this->_db->loadResultArray();
+            $programs = $this->_db->loadColumn();
         }
         catch (runtimeException $e)
         {

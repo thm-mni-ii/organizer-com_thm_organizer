@@ -205,7 +205,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
          
         try 
         {
-            $schedules = $dbo->loadResultArray();
+            $schedules = $dbo->loadColumn();
         }
         catch (runtimeException $e)
         {

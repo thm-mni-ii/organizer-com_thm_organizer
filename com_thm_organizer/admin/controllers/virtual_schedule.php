@@ -91,7 +91,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
         
         try 
         {
-            $dbo->query();
+            $dbo->execute();
         }
         catch (runtimeException $e)
         {
@@ -107,7 +107,7 @@ class THM_OrganizerControllerVirtual_Schedule extends JControllerAdmin
             
             try
             {
-                $dbo->query();
+                $dbo->execute();
             }
             catch (runtimeException $e)
             {

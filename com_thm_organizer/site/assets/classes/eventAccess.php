@@ -70,7 +70,7 @@ class THMEventAccess
         
         try
         {
-            $categoryIDs = $dbo->loadResultArray();
+            $categoryIDs = $dbo->loadColumn();
         }
         catch (runtimeException $e)
         {

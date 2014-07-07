@@ -36,7 +36,7 @@ class Thm_OrganizerViewEvent_Ajax extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        $function = JRequest::getString('task');
+        $function = JFactory::getApplication()->input->getString('task', '');
         switch ($function)
         {
             case 'booking':
@@ -83,23 +83,23 @@ class Thm_OrganizerViewEvent_Ajax extends JViewLegacy
      */
     private function preview()
     {
+        $input = JFactory::getApplication()->input;
         $data = array();
-        $data['title'] = JRequest::getVar('title', null, null, null, 4);
-        $data['id'] = JRequest::getVar('id', null, null, null, 4);
-        $data['startdate'] = JRequest::getVar('startdate', null, null, null, 4);
-        $data['enddate'] = JRequest::getVar('enddate', null, null, null, 4);
-        $data['starttime'] = JRequest::getVar('starttime', null, null, null, 4);
-        $data['endtime'] = JRequest::getVar('endtime', null, null, null, 4);
-        $data['categoryID'] = JRequest::getInt('category');
-        $data['description'] = JRequest::getVar('description', null, null, null, 4);
-        THM_OrganizerHelperEvent::buildtext($data);
+        $data['title'] = $input->getString('title', '');
+        $data['id'] = $input->getInt('id', 0);
+        $data['startdate'] = $input->getString('startdate', '');
+        $data['enddate'] = $input->getString('enddate', $data['startdate']);
+        $data['starttime'] = $input->getString('starttime', '');
+        $data['endtime'] = $input->getString('endtime', '');
+        $data['categoryID'] = $input->getInt('category', 0);
+        $data['description'] = $input->getString('description', '');
+        THM_OrganizerHelperEvent::buildText($data);
         $user = JFactory::getUser();
         $username = $user->name;
         $written_by = "<p>" . JText::_('COM_THM_ORGANIZER_E_WRITTEN_BY') . $username . "</p>";
         $data['username'] = $written_by;
         $published_at = "<p>" . JText::_('COM_THM_ORGANIZER_PREVIEW_CREATED') . JFactory::getDate()->toFormat('%A %d. %B %Y %H:%M:%S') . "</p>";
         $data['created_at'] = $published_at;
-        $jsonstring = json_encode($data);
-        echo $jsonstring;
+        echo json_encode($data);
     }
 }

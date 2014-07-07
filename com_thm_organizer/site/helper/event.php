@@ -30,10 +30,14 @@ class THM_OrganizerHelperEvent
      *
      * @return  void
      */
-    public static function buildtext(&$data)
+    public static function buildText(&$data)
     {
         self::setContentCategoryData($data);
-        self::handleDatesandTimes($data);
+        $requestTitle = JFactory::getApplication()->input->getString('title', '');
+        if (!empty($requestTitle))
+        {
+            self::cleanRequestTimeData($data);
+        }
         self::createIntroText($data);
     }
 
@@ -58,9 +62,10 @@ class THM_OrganizerHelperEvent
         {
             $category = $dbo->loadAssoc();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return;
         }
         
         $data['contentCatName'] = $category['title'];
@@ -74,24 +79,18 @@ class THM_OrganizerHelperEvent
      *
      * @return  void
      */
-    private static function handleDatesandTimes(&$data)
+    private static function cleanRequestTimeData(&$data)
     {
-        $data['rec_type'] = JRequest::getInt('rec_type');
-        $data['startdate'] = trim($data['startdate']);
-        $data['nativestartdate'] = $data['startdate'];
-        $data['startdate'] = explode(".", $data['startdate']);
-        $data['startdate'] = "{$data['startdate'][2]}-{$data['startdate'][1]}-{$data['startdate'][0]}";
+        $data['rec_type'] = JFactory::getApplication()->input->getInt('rec_type', 0);
+        $startdate = trim($data['startdate']);
+        $sdParts = explode(".", $startdate);
+        $data['startdate'] = "{$sdParts[2]}-{$sdParts[1]}-{$sdParts[0]}";
 
         if (!empty($data['enddate']))
         {
-            $data['enddate'] = trim($data['enddate']);
-            $data['nativeenddate'] = $data['enddate'];
-            $data['enddate'] = explode(".", $data['enddate']);
-            $data['enddate'] = "{$data['enddate'][2]}-{$data['enddate'][1]}-{$data['enddate'][0]}";
-            if ($data['enddate'] < $data['startdate'])
-            {
-                $data['enddate'] = $data['startdate'];
-            }
+            $enddate = trim($data['enddate']);
+            $edParts = explode(".", $enddate);
+            $data['enddate'] = "{$edParts[2]}-{$edParts[1]}-{$edParts[0]}";
             $data['publish_down'] = date("Y-m-d H:i:s", strtotime('+1 day', strtotime($data['enddate'])));
         }
         else
@@ -99,11 +98,12 @@ class THM_OrganizerHelperEvent
             $data['enddate'] = $data['startdate'];
             $data['publish_down'] = date("Y-m-d H:i:s", strtotime('+1 day', strtotime($data['enddate'])));
         }
-        $data['starttime'] = (strlen($data['starttime']) == 4) ?
-            "0{$data['starttime']}" : $data['starttime'];
-        $data['endtime'] = (strlen($data['endtime']) == 4) ?
-            "0{$data['endtime']}" : $data['endtime'];
 
+        // Extends three digit times
+        $data['starttime'] = (strlen($data['starttime']) == 4)? "0{$data['starttime']}" : $data['starttime'];
+        $data['endtime'] = (strlen($data['endtime']) == 4) ? "0{$data['endtime']}" : $data['endtime'];
+
+        // Converts the times to integer for easier comparison later
         $data['start'] = strtotime("{$data['startdate']} {$data['starttime']}");
         $data['end'] = strtotime("{$data['enddate']} {$data['endtime']}");
 
@@ -138,129 +138,196 @@ class THM_OrganizerHelperEvent
     }
 
     /**
-     * Creates a short text to describe the appointment as such
+     * Creates a short text to describe the appointment
      *
-     * @param   array  &$data  holds data from the request
+     * @param   array  &$event  holds data from the request
      *
      * @return  void
      */
-    private static function createIntroText(&$data)
+    private static function createIntroText(&$event)
     {
-        $introText = "<p>";
-        $introText .= "<p>" . JText::_('COM_THM_ORGANIZER_E_DATES_START');
-        $introText .= self::getDateText($data);
-        $introText .= "</p>";
+        $introText = '<p>';
+        $introText .= self::getDateText($event);
+        $introText .= self::getNames('groups', 'title', '#__usergroups', 'GROUP', $event['groups']);
+        $introText .= self::getNames('teachers', 'surname', '#__thm_organizer_teachers', 'TEACHER', $event['teachers']);
+        $introText .= self::getNames('rooms', 'name', '#__thm_organizer_rooms', 'ROOM', $event['rooms']);
 
-        $groupNames = self::getNames('groups', 'title', '#__usergroups');
-        if (count($groupNames))
+        if (!empty($event['description']))
         {
-            $introText .= "<p>" . JText::_('COM_THM_ORGANIZER_E_AFFECTED') . implode(", ", $groupNames) . "</p>";
+            $introText .= '<p><strong>' . JText::_('COM_THM_ORGANIZER_E_INTROTEXT_FURTHER_INFORMATION') . '</strong></p>';
         }
-
-        $teacherNames = self::getNames('teachers', 'surname', '#__thm_organizer_teachers');
-        if (count($teacherNames))
-        {
-            if (count($teacherNames) == 1)
-            {
-                $introText .= "<p>" . JText::_('COM_THM_ORGANIZER_E_TEACHER') . $teacherNames[0] . "</p>";
-            }
-            else
-            {
-                $introText .= "<p>" . JText::_('COM_THM_ORGANIZER_E_TEACHERS') . implode(', ', $teacherNames) . "</p>";
-            }
-        }
-
-        $roomNames = self::getNames('rooms', 'name', '#__thm_organizer_rooms');
-        if (count($roomNames))
-        {
-            if (count($roomNames) == 1)
-            {
-                $introText .= "<p>" . JText::_('COM_THM_ORGANIZER_E_ROOM') . $roomNames[0] . "</p>";
-            }
-            else
-            {
-                $introText .= "<p>" . JText::_('COM_THM_ORGANIZER_E_ROOMS') . implode(', ', $roomNames) . "</p>";
-            }
-        }
-        $introText .= "<p>" . JText::_('COM_THM_ORGANIZER_E_INTROTEXT_FURTHER_INFORMATIONS') . "</p>";
 
         $introText .= "</p>";
-        $data['introtext'] = $introText;
+        $event['introtext'] = $introText;
     }
 
     /**
      * Creates an introductory text for events
      *
-     * @param   array  &$data     an array of preprepared date and time entries
+     * @param   array  &$event     an array of preprepared date and time entries
      * @param   bool   $withText  whether leading and ending text should be added
      *
      * @return  string $introText
      */
-    public static function getDateText(&$data, $withText = true)
+    public static function getDateText(&$event, $withText = true)
     {
-        $dateText = $timeText = "";
-        if (empty($data['nativestartdate']))
+        $useStartTime = $event['starttime'] == "00:00"? false : true;
+        $useEndTime = $event['endtime'] == "00:00"? false : true;
+        $useTimes = ($useStartTime OR $useEndTime);
+        $singleDay = ($event['enddate'] == "00.00.0000" OR $event['startdate'] == $event['enddate']);
+
+        if ($singleDay)
         {
-            $data['nativestartdate'] = $data['startdate'];
-        }
-        if (empty($data['nativeenddate']) AND !empty($data['enddate']))
-        {
-            $data['nativeenddate'] = $data['enddate'];
+            return self::getSingleDayText($event);
         }
 
-        // One day events and reoccuring events use the 'same' time text
-        if ($data['startdate'] == $data['enddate'] or $data['rec_type'] == 1)
+        if ($event['rec_type'] == 0 AND $useTimes)
         {
-            if ($data['starttime'] != "00:00")
-            {
-                $timeText .= $withText == true? JText::_('COM_THM_ORGANIZER_E_FROM') : ' ';
-                $timeText .= $data['starttime'];
-            }
-            if ($data['endtime'] != "00:00")
-            {
-                $timeText .= JText::_('COM_THM_ORGANIZER_E_TO') . $data['endtime'];
-            }
-            if ($data['starttime'] == "00:00" AND $data['endtime'] == "00:00")
-            {
-                $timeText .= JText::_("COM_THM_ORGANIZER_E_ALLDAY");
-            }
+            return self::getBlockText($event);
         }
 
-        // Single day events use the same date text irregardless of repetition
-        if ($data['startdate'] == $data['enddate'])
+        if ($event['rec_type'] == 1 AND $useTimes)
         {
-            $dateText .= $withText == true? JText::_('COM_THM_ORGANIZER_E_ON') : '';
-            $dateText .= $data['nativestartdate'] . $timeText;
+            return self::getDailyText($event);
         }
-        // Repeating events which span multiple days
-        elseif ($data['rec_type'])
+
+        return JText::sprintf(
+            'COM_THM_ORGANIZER_E_MULTIPLENOTIME',
+            self::localizeDate($event['startdate']),
+            self::localizeDate($event['enddate'])
+        );
+    }
+
+    /**
+     * Creates the text for events which take place on only one day.
+     *
+     * @param   array  &$event  the event to be processed
+     *
+     * @return  string  the text output
+     */
+    private static function getSingleDayText(&$event)
+    {
+        $useStartTime = $event['starttime'] == "00:00"? false : true;
+        $useEndTime = $event['endtime'] == "00:00"? false : true;
+        if ($useStartTime AND $useEndTime)
         {
-            $dateText .= $withText == true? JText::_('COM_THM_ORGANIZER_E_BETWEEN') : '';
-            $dateText .= $data['nativestartdate'];
-            $dateText .= JText::_('COM_THM_ORGANIZER_E_TO') . $data['nativeenddate'];
-            $dateText .= $timeText;
+            return JText::sprintf(
+                'COM_THM_ORGANIZER_E_SINGLESTARTEND',
+                self::localizeDate($event['startdate']),
+                $event['starttime'],
+                $event['endtime']
+            );
         }
-        // Block events which span multiple days
-        else
+
+        if ($useStartTime)
         {
-            $dateText .= $withText == true? JText::_('COM_THM_ORGANIZER_E_FROM') : '';
-            if ($data['starttime'] != "")
-            {
-                $dateText .= $data['starttime'] . JText::_('COM_THM_ORGANIZER_E_ON');
-            }
-            $dateText .= $data['nativestartdate'] . JText::_('COM_THM_ORGANIZER_E_TO');
-            if ($data['endtime'] != "")
-            {
-                $dateText .= $data['endtime'] . JText::_('COM_THM_ORGANIZER_E_ON');
-            }
-            $dateText .= $data['nativeenddate'];
-            if ($data['starttime'] == "" and $data['endtime'] == "")
-            {
-                $dateText .= JText::_("COM_THM_ORGANIZER_E_ALLDAY");
-            }
+            return JText::sprintf(
+                'COM_THM_ORGANIZER_E_SINGLESTART',
+                self::localizeDate($event['startdate']),
+                $event['starttime']
+            );
         }
-        $dateText .= $withText == true? JText::_("COM_THM_ORGANIZER_E_DATES_END") : '';
-        return $dateText;
+
+        if ($useEndTime)
+        {
+            return JText::sprintf(
+                'COM_THM_ORGANIZER_E_SINGLEEND',
+                self::localizeDate($event['startdate']),
+                $event['endtime']
+            );
+        }
+
+        return JText::sprintf('COM_THM_ORGANIZER_E_SINGLE', self::localizeDate($event['startdate']));
+    }
+
+    /**
+     * Gets a formatted text for block events that take place on a multiple days and use times
+     *
+     * @param   array  &$event  the event array
+     *
+     * @return  string  formatted text for date/time output
+     */
+    private static function getBlockText(&$event)
+    {
+        $useStartTime = $event['starttime'] == "00:00"? false : true;
+        $useEndTime = $event['endtime'] == "00:00"? false : true;
+        if ($useStartTime AND $useEndTime)
+        {
+            return JText::sprintf(
+                'COM_THM_ORGANIZER_E_BLOCKSTARTEND',
+                self::localizeDate($event['startdate']),
+                $event['starttime'],
+                $event['endtime'],
+                self::localizeDate($event['enddate'])
+            );
+        }
+
+        if ($useStartTime)
+        {
+            return JText::sprintf(
+                'COM_THM_ORGANIZER_E_BLOCKSTART',
+                self::localizeDate($event['startdate']),
+                $event['starttime'],
+                self::localizeDate($event['enddate'])
+            );
+        }
+
+        if ($useEndTime)
+        {
+            return JText::sprintf(
+                'COM_THM_ORGANIZER_E_BLOCKEND',
+                self::localizeDate($event['startdate']),
+                $event['endtime'],
+                self::localizeDate($event['enddate'])
+            );
+        }
+
+        return '';
+    }
+
+    /**
+     * Gets a formatted text for daily events that take place on a multiple days and use times
+     *
+     * @param   array  &$event  the event array
+     *
+     * @return  string  formatted text for date/time output
+     */
+    private static function getDailyText(&$event)
+    {
+        $useStartTime = $event['starttime'] == "00:00"? false : true;
+        $useEndTime = $event['endtime'] == "00:00"? false : true;
+        if ($useStartTime AND $useEndTime)
+        {
+            return JText::sprintf(
+                'COM_THM_ORGANIZER_E_DAILYSTARTEND',
+                self::localizeDate($event['startdate']),
+                self::localizeDate($event['enddate']),
+                $event['starttime'],
+                $event['endtime']
+            );
+        }
+
+        if ($useStartTime)
+        {
+            return JText::sprintf(
+                'COM_THM_ORGANIZER_E_DAILYSTART',
+                self::localizeDate($event['startdate']),
+                self::localizeDate($event['enddate']),
+                $event['starttime']
+            );
+        }
+
+        if ($useEndTime)
+        {
+            return JText::sprintf(
+                'COM_THM_ORGANIZER_E_DAILYEND',
+                self::localizeDate($event['startdate']),
+                self::localizeDate($event['enddate']),
+                $event['endtime']
+            );
+        }
+
+        return '';
     }
 
     /**
@@ -270,43 +337,67 @@ class THM_OrganizerHelperEvent
      *                                be called upon
      * @param   string  $columnName   the column name in which the names are stored
      * @param   string  $tableName    the table which manages the resource
+     * @param   string  $textRoot     the root text
+     * @param   object  &$resources   the event resources (when not called from a form)
      *
      * @return  array   $names the names of the requested resources
      */
-    private static function getNames($requestName, $columnName, $tableName)
+    private static function getNames($requestName, $columnName, $tableName, $textRoot, &$resources = null)
     {
-        $names = array();
-        $requestName = JFactory::getApplication()->input->get($requestName, array(), 'array');
-        $dummyIndex = array_search('-1', $requestName);
+        if (empty($resources))
+        {
+            $resources = JFactory::getApplication()->input->get($requestName, array(), 'array');
+        }
+
+        // Remove the dummy index if selected
+        $dummyIndex = array_search('-1', $resources);
         if ($dummyIndex)
         {
-            unset($requestName[$dummyIndex]);
+            unset($resources[$dummyIndex]);
         }
-        if (count($requestName))
-        {
-            $dbo = JFactory::getDbo();
-            $query = $dbo->getQuery(true);
-            $query->select("$columnName");
-            $query->from("$tableName");
-            $requestedIDs = "( " . implode(", ", $requestName) . " )";
-            $query->where("id IN $requestedIDs");
-            $dbo->setQuery((string) $query);
-            
-            try
-            {
-                $names = $dbo->loadColumn();
-                if (empty($names))
-                {
-                    $names = array();
-                }
-            }
-            catch (Exception $exc)
-            {
-                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            }
 
+        if (empty($resources))
+        {
+            return '';
         }
-        return $names;
+
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("$columnName");
+        $query->from("$tableName");
+        $requestedIDs = "( " . implode(", ", $resources) . " )";
+        $query->where("id IN $requestedIDs");
+        $dbo->setQuery((string) $query);
+
+        try
+        {
+            $names = $dbo->loadColumn();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return '';
+        }
+
+        if (empty($names))
+        {
+            return '';
+        }
+
+        $text = '<p>';
+        if (count($names) == 1)
+        {
+            $text .= '<strong>' . JText::_("COM_THM_ORGANIZER_E_{$textRoot}") . '</strong>';
+            $text .= $names[0];
+        }
+        else
+        {
+            $text .= '<strong>' . JText::_("COM_THM_ORGANIZER_E_{$textRoot}S") . '</strong>';
+            $text .= implode(', ', $names);
+        }
+        $text .= '</p>';
+
+        return $text;
     }
 
     /**
@@ -316,11 +407,23 @@ class THM_OrganizerHelperEvent
      *
      * @return  void
      */
-    public static  function localizeEvent(&$event)
+    public static function localizeEvent(&$event)
     {
-        $event['startdate'] = date_format(date_create($event['startdate']), 'd.m.Y');
-        $event['enddate'] = date_format(date_create($event['enddate']), 'd.m.Y');
+        $event['startdate'] = self::localizeDate($event['startdate']);
+        $event['enddate'] = self::localizeDate($event['enddate']);
         $event['starttime'] = date_format(date_create($event['starttime']), 'H:i');
         $event['endtime'] = date_format(date_create($event['endtime']), 'H:i');
+    }
+
+    /**
+     * COnverts a date string into the locally accepted format
+     *
+     * @param   string  $date  the date string in format Y-m-d
+     *
+     * @return  string  date sting in local format
+     */
+    public static function localizeDate($date)
+    {
+        return date_format(date_create($date), 'd.m.Y');
     }
 }

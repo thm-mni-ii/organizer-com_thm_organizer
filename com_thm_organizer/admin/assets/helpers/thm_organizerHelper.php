@@ -40,7 +40,7 @@ class THM_OrganizerHelper
             }
             else
             {
-                $task = JRequest::getVar('task');
+                $task = JFactory::getApplication()->input->getString('task', '');
             }
         }
 
@@ -136,16 +136,17 @@ class THM_OrganizerHelper
      */
     public static function delete($table)
     {
-        $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
+        $cids = JFactory::getApplication()->input->get('cid', array(), 'array');
+        $formattedIDs = "'" . implode("', '", $cids) . "'";
 
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->delete("#__thm_organizer_$table");
-        $query->where("id IN ( $cids )");
+        $query->where("id IN ( $formattedIDs )");
         $dbo->setQuery($query);
         try
         {
-            $dbo->query();
+            $dbo->execute();
         }
         catch (Exception $exception)
         {

@@ -272,7 +272,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
         $dbo->setQuery((string) $query);
         try
         {
-            $dbo->query();
+            $dbo->execute();
         }
         catch (Exception $exception)
         {
@@ -338,7 +338,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
         $dbo->setQuery((string) $query);
         try
         {
-            $dbo->query();
+            $dbo->execute();
         }
         catch (Exception $exception)
         {
@@ -465,7 +465,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
         
         try
         {
-            $teacherUntisIDs = $dbo->loadResultArray();
+            $teacherUntisIDs = $dbo->loadColumn();
         }
         catch (runtimeException $e)
         {
@@ -553,7 +553,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
         $this->_db->setQuery((string) $query);
         try
         {
-            $this->_db->query();
+            $this->_db->execute();
         }
         catch ( Exception $exception)
         {

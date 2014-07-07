@@ -561,7 +561,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         $this->_db->setQuery((string) $deleteQuery);
         try
         {
-            $this->_db->query();
+            $this->_db->execute();
         }
         catch (Exception $exc)
         {
@@ -580,7 +580,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 $this->_db->setQuery((string) $insertQuery);
                 try
                 {
-                    $this->_db->query();
+                    $this->_db->execute();
                 }
                 catch (Exception $exc)
                 {
@@ -686,7 +686,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 $this->_db->setQuery((string) $insertQuery);
                 try
                 {
-                    $this->_db->query();
+                    $this->_db->execute();
                 }
                 catch (Exception $exc)
                 {

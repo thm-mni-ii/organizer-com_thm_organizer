@@ -37,7 +37,8 @@ class THM_OrganizerController extends JControllerLegacy
      */
     public function display($cachable = false, $urlparams = false)
     {
-        thm_organizerHelper::addSubmenu(JRequest::getCmd('view'));
+        $view = JFactory::getApplication()->input->getCmd('view', '');
+        thm_organizerHelper::addSubmenu($view);
         parent::display($cachable, $urlparams);
     }
 }
