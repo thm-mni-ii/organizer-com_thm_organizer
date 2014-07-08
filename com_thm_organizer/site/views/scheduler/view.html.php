@@ -24,45 +24,21 @@ class THM_OrganizerViewScheduler extends JViewLegacy
 {
     private $_schedule = null;
 
-    public $schedulerFromMenu = false;
-
     public $joomlaItemid = 0;
-
-    public $canWriteEvents = false;
-
-    public $jsid = '';
 
     public $searchModuleID = '';
 
     public $displayModuleNumber = true;
 
-    public $deltaDisplayDays = 14;
-
     public $semesterID = 0;
 
-    public $semAuthor = "";
+    public $config = array();
 
-    public $scheduleName = "";
+    public $libraries = array();
 
-    public $semesterName = "";
-
-    public $languageTag = 'de';
-
-    public $FPDFInstalled = false;
-
-    public $iCalcreatorInstalled = false;
-
-    public $PHPExcelInstalled = false;
+    public $requestResources = array();
 
     public $startup = null;
-
-    public $requestTeacherIDs = array();
-
-    public $requestRoomIDs = array();
-
-    public $requestPoolIDs = array();
-
-    public $requestSubjectIDs = array();
 
     public $loadLessonsOnStartUp = true;
 
@@ -102,21 +78,22 @@ class THM_OrganizerViewScheduler extends JViewLegacy
             return false;
         }
 
-        $this->joomlaItemid = $this->schedulerFromMenu? $app->getMenu()->getActive()->id : 0;
+        $this->joomlaItemid = $this->config['isMenu']? $app->getMenu()->getActive()->id : 0;
 
         $schedulerModel = $this->getModel();
         $eventModel = JModelLegacy::getInstance('event_manager', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
 
         $params = $app->getMenu()->getActive()->params;
-        $this->canWriteEvents = $eventModel->canWrite;
-        $this->jsid = $schedulerModel->getSessionID();
+        $this->config['canWrite'] = $eventModel->canWrite;
+        $this->config['sessionID'] = $schedulerModel->getSessionID();
         $this->searchModuleID = $input->getString('moduleID', '');
         $this->displayModuleNumber = (bool) $params->get("displayModuleNumber", true);
-        $this->deltaDisplayDays = (int) $params->get("deltaDisplayDays", 14);
+        $this->config['deltaDisplayDays'] = (int) $params->get("deltaDisplayDays", 14);
+        $this->config['name'] = $scheduleRow->departmentname . ";" . $scheduleRow->semestername . ";";
+        $this->config['name'] .= $scheduleRow->startdate . ";" . $scheduleRow->enddate;
+
+        // Leaving this parameter alone for now because it may have side effects
         $this->semesterID = $scheduleRow->id;
-        $this->semAuthor = "";
-        $this->scheduleName = $scheduleRow->departmentname . ";" . $scheduleRow->semestername . ";";
-        $this->scheduleName .= $scheduleRow->startdate . ";" . $scheduleRow->enddate;
 
         $this->_schedule->periods->length = count((array) $this->_schedule->periods);
         foreach ($this->_schedule->periods as &$period)
@@ -146,12 +123,12 @@ class THM_OrganizerViewScheduler extends JViewLegacy
         if ($tag === "en-GB")
         {
             $languageHandler->load("com_thm_organizer", JPATH_SITE, $tag, true);
-            $this->languageTag = "en";
+            $this->config['languageTag'] = "en";
         }
         else
         {
             $languageHandler->load("com_thm_organizer", JPATH_SITE, 'de-DE', true);
-            $this->languageTag = "de";
+            $this->config['languageTag'] = "de";
         }
     }
 
@@ -168,12 +145,12 @@ class THM_OrganizerViewScheduler extends JViewLegacy
         $validMenu = (!empty($menu) AND !empty($menu->id));
         if ($validMenu)
         {
-            $this->schedulerFromMenu = true;
+            $this->config['isMenu'] = true;
             return true;
         }
         elseif ($requestedSchedule > 0)
         {
-            $this->schedulerFromMenu = false;
+            $this->config['isMenu'] = false;
             return true;
         }
         else
@@ -189,9 +166,9 @@ class THM_OrganizerViewScheduler extends JViewLegacy
      */
     private function checkLibraries()
     {
-        $this->FPDFInstalled = jimport('fpdf.fpdf');
-        $this->iCalcreatorInstalled = jimport('iCalcreator.iCalcreator');
-        $this->PHPExcelInstalled = jimport('PHPExcel.PHPExcel');
+        $this->libraries['fpdf'] = jimport('fpdf.fpdf');
+        $this->libraries['iCalcreator'] = jimport('iCalcreator.iCalcreator');
+        $this->libraries['PHPExcel'] = jimport('PHPExcel.PHPExcel');
     }
 
     /**
@@ -215,7 +192,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
     {
         $model = $this->getModel();
         $app = JFactory::getApplication();
-        if ($this->schedulerFromMenu)
+        if ($this->config['isMenu'])
         {
             $params = $app->getMenu()->getActive()->params;
             return $model->getActiveSchedule($params->get("departmentSemesterSelection"));
@@ -328,7 +305,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
         $scheduleObject["ScheduleDescription.load"]->data = $scheduleRow;
 
         $params = JFactory::getApplication()->getMenu()->getActive()->params;
-        $this->loadLessonsOnStartUp = $this->schedulerFromMenu? (bool) $params->get('loadLessonsOnStartUp', true) : true;
+        $this->loadLessonsOnStartUp = $this->config['isMenu']? (bool) $params->get('loadLessonsOnStartUp', true) : true;
 
         if ($this->loadLessonsOnStartUp)
         {
@@ -419,9 +396,9 @@ class THM_OrganizerViewScheduler extends JViewLegacy
     private function setRequestedResources()
     {
         $input = JFactory::getApplication()->input;
-        $this->requestTeacherIDs = $input->get('teacherID', array(), 'array');
-        $this->requestRoomIDs = $input->get('roomID', array(), 'array');
-        $this->requestPoolIDs = $input->get('poolID', array(), 'array');
-        $this->requestSubjectIDs = $input->get('subjectID', array(), 'array');
+        $this->requestResources['teachers'] = $input->get('teacherID', array(), 'array');
+        $this->requestResources['rooms'] = $input->get('roomID', array(), 'array');
+        $this->requestResources['pools'] = $input->get('poolID', array(), 'array');
+        $this->requestResources['subjects'] = $input->get('subjectID', array(), 'array');
     }
 }

@@ -14,7 +14,9 @@ $blankImageLink = JURI::root(true) . '/components/com_thm_organizer/views/schedu
 $addButtonLink = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/images/add.png';
 $removeButtonLink = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/images/delete.png';
 $mainPath = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/';
-$curriculumLink = JURI::root(true) . '/index.php?option=com_thm_organizer&view=subject_details&languageTag=de&Itemid=' . JRequest::getInt("Itemid");
+$curriculumLink = JURI::root(true);
+$curriculumLink .= "/index.php?option=com_thm_organizer&view=subject_details&languageTag={$this->config['languageTag']}&Itemid=";
+$curriculumLink .= JFactory::getApplication()->input->getInt('Itemid', 0);
 $ajaxHandler = 'index.php?option=com_thm_organizer&view=ajaxhandler&format=raw';
 ?>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -52,34 +54,34 @@ externLinks.ajaxHandler = '<?php echo $ajaxHandler; ?>';
         src="components/com_thm_organizer/views/scheduler/tmpl/mySched/plugins.js"></script>
     <script type="text/javascript" charset="utf-8">
 <?php
-if ($this->canWriteEvents === true)
+if ($this->config['canWrite'] === true)
 {
             require_once "components/com_thm_organizer/views/scheduler/tmpl/mySched/advancedFunctions.js";
 }
 ?>
-        MySched.SessionId = '<?php echo $this->jsid; ?>';
+        MySched.SessionId = '<?php echo $this->config['sessionID']; ?>';
         MySched.class_semester_id = '<?php echo $this->semesterID; ?>';
-        MySched.class_semester_author = '<?php echo $this->semAuthor; ?>';
-        MySched.class_semester_name = '<?php echo $this->scheduleName; ?>';
+        MySched.class_semester_author = '';
+        MySched.class_semester_name = '<?php echo $this->config['name']; ?>';
         MySched.startup = '<?php echo $this->startup; ?>';
         MySched.searchModuleID = '<?php echo $this->searchModuleID; ?>';
         MySched.loadLessonsOnStartUp = <?php echo $this->loadLessonsOnStartUp? 'true' : 'false'; ?>;
-        MySched.deltaDisplayDays = <?php echo $this->deltaDisplayDays; ?>;
-        MySched.departmentAndSemester = '<?php echo $this->scheduleName; ?>';
+        MySched.deltaDisplayDays = <?php echo $this->config['deltaDisplayDays']; ?>;
+        MySched.departmentAndSemester = '<?php echo $this->config['name']; ?>';
         MySched.requestTeacherIDs =
-            Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestTeacherIDs)); ?>'));
+            Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestResources['teachers'])); ?>'));
         MySched.requestRoomIDs =
-            Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestRoomIDs)); ?>'));
+            Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestResources['rooms'])); ?>'));
         MySched.requestPoolIDs =
-            Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestPoolIDs)); ?>'));
+            Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestResources['pools'])); ?>'));
         MySched.requestSubjectIDs =
-            Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestSubjectIDs)); ?>'));
+            Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestResources['subjects'])); ?>'));
         MySched.joomlaItemid = '<?php echo $this->joomlaItemid; ?>';
-        MySched.languageTag = '<?php echo $this->languageTag; ?>';
-        MySched.FPDFInstalled = <?php echo $this->FPDFInstalled? 'true' : 'false'; ?>;
-        MySched.iCalcreatorInstalled = <?php echo $this->iCalcreatorInstalled? 'true' : 'false'; ?>;
-        MySched.PHPExcelInstalled = <?php echo $this->PHPExcelInstalled? 'true' : 'false'; ?>;
-        MySched.schedulerFromMenu = <?php echo $this->schedulerFromMenu? 'true' : 'false'; ?>;
+        MySched.languageTag = '<?php echo $this->config['languageTag']; ?>';
+        MySched.FPDFInstalled = <?php echo $this->libraries['fpdf']? 'true' : 'false'; ?>;
+        MySched.iCalcreatorInstalled = <?php echo $this->libraries['iCalcreator']? 'true' : 'false'; ?>;
+        MySched.PHPExcelInstalled = <?php echo $this->libraries['PHPExcel']? 'true' : 'false'; ?>;
+        MySched.schedulerFromMenu = <?php echo $this->config['isMenu']; ?>;
         MySched.displayModuleNumber = <?php echo $this->displayModuleNumber? 'true' : 'false'; ?>;
         Ext.application({
             name: 'Scheduler',

@@ -1606,7 +1606,7 @@ function showLessonMenu(e)
         }
 
     }
-    if (((lesson.data.owner === MySched.Authorize.user || MySched.Authorize.isClassSemesterAuthor()) && Ext.isDefined(lesson.data.owner)) && lesson.data.owner !== "gpuntis")
+    if ((lesson.data.owner === MySched.Authorize.user && Ext.isDefined(lesson.data.owner)) && lesson.data.owner !== "gpuntis")
     {
         menuItems[menuItems.length] = editLesson;
         menuItems[menuItems.length] = deleteLesson;
@@ -2397,7 +2397,7 @@ MySched.layout = function ()
                             var i;
                             for (i = 0; i < lessons.length; i++)
                             {
-                                if ((lessons[i].data.type === "personal" && ((lessons[i].data.owner === MySched.Authorize.user && lessons[i].data.responsible === MySched.selectedSchedule.id) || MySched.Authorize.isClassSemesterAuthor())) || MySched.selectedSchedule.id === "mySchedule")
+                                if ((lessons[i].data.type === "personal" && (lessons[i].data.owner === MySched.Authorize.user && lessons[i].data.responsible === MySched.selectedSchedule.id)) || MySched.selectedSchedule.id === "mySchedule")
                                 {
                                     toremove[toremove.length] = lessons[i].data.key;
                                 }

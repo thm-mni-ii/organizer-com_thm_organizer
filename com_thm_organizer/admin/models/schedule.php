@@ -668,14 +668,23 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $this->sanitizeSchedule($this->refSchedule);
         $this->sanitizeSchedule($this->schedule);
 
-        $this->_db->transactionStart();
+        // Function called from controller
+        if (!empty($actual->id))
+        {
+            $this->_db->transactionStart();
+        }
+
         $referenceDate = $reference->creationdate;
         $reference->set('schedule', json_encode($this->refSchedule));
         $reference->set('active', 0);
         $refSuccess = $reference->store();
         if (!$refSuccess)
         {
-            $this->_db->transactionRollback();
+            // Function called from controller
+            if (!empty($actual->id))
+            {
+                $this->_db->transactionRollback();
+            }
             return false;
         }
         unset($reference);
@@ -684,15 +693,19 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $this->setLessonReference($this->schedule->lessons, $this->refSchedule->lessons);
         $this->setCalendarReference($this->schedule->calendar, $this->refSchedule->calendar);
 
-        $actual->set('schedule', json_encode($this->schedule));
-        $actualSuccess = $actual->store();
-        if (!$actualSuccess)
+        // Function called from controller
+        if (!empty($actual->id))
         {
-            $this->_db->transactionRollback();
-            return false;
-        }
+            $actual->set('schedule', json_encode($this->schedule));
+            $actualSuccess = $actual->store();
+            if (!$actualSuccess)
+            {
+                $this->_db->transactionRollback();
+                return false;
+            }
 
-        $this->_db->transactionCommit();
+            $this->_db->transactionCommit();
+        }
         return true;
     }
 

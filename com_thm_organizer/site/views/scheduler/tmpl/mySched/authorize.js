@@ -268,14 +268,6 @@ MySched.Authorize = function ()
             task = "UserSchedule.save";
  
             MySched.selectedSchedule.save.call(MySched.selectedSchedule, _C('ajaxHandler'), showWindow, task);
-        },
-        isClassSemesterAuthor: function ()
-        {
-            if (this.user === MySched.class_semester_author)
-            {
-                return true;
-            }
-            return false;
         }
     };
 }();
