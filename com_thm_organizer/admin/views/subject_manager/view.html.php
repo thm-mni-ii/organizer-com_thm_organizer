@@ -64,13 +64,19 @@ class THM_OrganizerViewSubject_Manager extends JViewLegacy
         JToolbarHelper::addNew('subject.edit');
         JToolbarHelper::editList('subject.edit');
         JToolbarHelper::custom(
-                               'subject.importLSFData',
-                               'export',
-                               '',
-                               'COM_THM_ORGANIZER_PRM_IMPORT',
-                               true,
-                               true
-                              );
+            'subject.importLSFData',
+            'export',
+            '',
+            'COM_THM_ORGANIZER_PRM_IMPORT',
+            true
+        );
+        JToolbarHelper::custom(
+            'subject.updateAll',
+            'export',
+            '',
+            'COM_THM_ORGANIZER_SUM_IMPORTALL',
+            false
+        );
         JToolbarHelper::deleteList('COM_THM_ORGANIZER_SUM_DELETE_CONFIRM', 'subject.delete');
     }
 

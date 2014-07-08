@@ -763,9 +763,21 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 
         if (!empty($failed))
         {
-            $failedIDs = implode(', ', $failed);
-            $message = JText::sprintf('COM_THM_ORGANIZER_SUBJECTS_WHERE_UPDATE_FAILED', $failedIDs);
-            JFactory::getApplication()->enqueueMessage($message, 'notice');
+            $completeFail = count($failed) == count($subjectIDs);
+            if ($completeFail)
+            {
+                $msgType = 'error';
+                $msg = JText::_('COM_THM_ORGANIZER_SUM_UPDATE_FAILEDCOMPLETE');
+            }
+            else
+            {
+                $msgType = 'notice';
+                $msg = JText::_('COM_THM_ORGANIZER_SUM_UPDATE_FAILEDPARTIAL');
+            }
+            JFactory::getApplication()->enqueueMessage($msg, $msgType);
+            return;
         }
+        $msg = JText::_('COM_THM_ORGANIZER_SUM_UPDATE_SUCCESS');
+        JFactory::getApplication()->enqueueMessage($msg);
     }
 }

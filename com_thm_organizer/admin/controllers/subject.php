@@ -193,4 +193,19 @@ class THM_OrganizerControllerSubject extends JControllerLegacy
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false), $msg, 'error');
         }
     }
+
+    /**
+     * edit
+     *
+     * performs access checks for the current user against the id of the event
+     * to be edited, or content (event) creation access if id is missing or 0
+     *
+     * @return void
+     */
+    public function updateAll()
+    {
+        $model = JModel::getInstance('LSFSubject', 'THM_OrganizerModel');
+        $model->updateAll();
+        $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false));
+    }
 }
