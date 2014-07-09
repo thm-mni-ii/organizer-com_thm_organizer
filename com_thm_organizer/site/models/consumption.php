@@ -50,30 +50,24 @@ class THM_OrganizerModelConsumption extends JModelLegacy
     public function getActiveSchedules()
     {
         $query = $this->_db->getQuery(true);
-
-        $Columns = array('departmentname', 'semestername');        
-        $select = 'id, ' . $query->concatenate($Columns, ' - ') . ' AS name';
+        $columns = array('departmentname', 'semestername');
+        $select = 'id, ' . $query->concatenate($columns, ' - ') . ' AS name';
         $query->select($select);
         $query->from("#__thm_organizer_schedules");
+        $query->where("active = '1'");
         $query->order('name');
 
         $this->_db->setQuery((string) $query);
         try 
         {
             $result = $this->_db->loadAssocList();
+            return $result;
         }
-        catch (Exception $exception)
+        catch (Exception $exc)
         {
-            if (defined('DEBUG'))
-            {
-                JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-            }
-            else
-            {
-                JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_DB_ERROR', 'error');
-            }
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return array();
         }
-        return $result;
     }
     
     /**
@@ -96,17 +90,9 @@ class THM_OrganizerModelConsumption extends JModelLegacy
         }
         catch (Exception $exception)
         {
-            if (defined('DEBUG'))
-            {
-                JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-            }
-            else
-            {
-                JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_DB_ERROR', 'error');
-            }
+            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
             $this->schedule = new stdClass;
         }
-        
     }
     
     /**
@@ -274,7 +260,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
             return;
         }
         $table = "<table id='thm_organizer_{$type}_consumption_table' ";
-        $table .= "class='thm_organizer_consumption_table_class'>";
+        $table .= "class='consumption_table'>";
 
         $columns = array_keys($this->consumption[$type]);
         asort($columns);
@@ -291,7 +277,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
         $properties = array('surname', 'forename');
         $this->teacherNames = $this->getNameArray('teachers', $rows, $properties, ', ');
 
-        $table .= $this->getTableHead($columns);
+        $table .= $this->getTableHead($columns, $type);
         $table .= $this->getTableBody($columns, $rows, $type);
         
         $table .= '</table>';
@@ -305,10 +291,11 @@ class THM_OrganizerModelConsumption extends JModelLegacy
      * 
      * @return  string  the table head as a string
      */
-    private function getTableHead($columns)
+    private function getTableHead($columns, $type)
     {
         $names = $this->getNameArray('degrees', $columns, array('name'));
-        $tableHead = '<thead><tr><td />';
+        $tableName = 'COM_THM_ORGANIZER_' . strtoupper($type);
+        $tableHead = '<thead><tr><th>' . JText::_($tableName) . '</th>';
         foreach ($columns as $column)
         {
             $tableHead .= '<th>' . $names[$column] . '</th>';
@@ -337,24 +324,24 @@ class THM_OrganizerModelConsumption extends JModelLegacy
             
             if ($type === "rooms")
             {
-                $tableBody .= "<td>{$this->roomNames[$row]}</td>";
+                $tableBody .= '<td class="index_column">' . $this->roomNames[$row] . '</td>';
             }
             if ($type === "teachers")
             {
-                $tableBody .= "<td>{$this->teacherNames[$row]}</td>";
+                $tableBody .= '<td class="index_column">' . $this->teacherNames[$row] . '</td>';
             }
 
-            foreach ($columns as $column)
+            $columnKeys = array_keys($columns);
+            $lastKey = end($columnKeys);
+            foreach ($columns as $key => $column)
             {
+                $tableBody .= $key == $lastKey? '<td class="last_column">' : '<td class="middle_column">';
                 if (isset($this->consumption[$type][$column][$row]))
                 {
                     $consumptionTime = $this->consumption[$type][$column][$row] * $modifier;
-                    $tableBody .= '<td>' . str_replace(".", ",", $consumptionTime) . '</td>';
+                    $tableBody .= str_replace(".", ",", $consumptionTime);
                 }
-                else
-                {
-                    $tableBody .= '<td/>';
-                }
+                $tableBody .= '</td>';
             }
             $tableBody .= '</tr>';
         }

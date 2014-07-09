@@ -1,6 +1,46 @@
-.thm_organizer_consumption_table_class
+.consumption table.consumption_table
 {
+    background-image: none;
+    border: rgb(187, 187, 187) 1px solid;
+    box-shadow: 2px 2px 4px rgb(221, 221, 221);
+    font-family: Verdana, Arial;
+    font-size: 13px;
+    color: rgb(74, 92, 102);
     display: block;
     max-width: 100%;
     overflow: auto;
+    margin-top: .4em;
+    margin-bottom: .4em;
+    border-radius: 3px;
+}
+
+.consumption table.consumption_table thead tr th, table.consumption_table tbody tr td
+{
+    border-style: inherit;
+    text-align: center;
+    min-width: 8em;
+    height: 1.4em;
+}
+
+.consumption table.consumption_table thead tr
+{
+    outline: rgb(187, 187, 187) 1px solid;
+    background-color: rgb(238, 238, 238);
+    padding: .5em .5em .5em .7em;
+    box-shadow: 2px 2px 4px rgb(221, 221, 221);
+}
+
+.consumption .consumption_table tbody tr td
+{
+    border-bottom: rgb(187, 187, 187) 1px solid;
+}
+
+.consumption table.consumption_table td.index_column
+{
+    border-right: rgb(187, 187, 187) .3em solid;
+}
+
+.consumption table.consumption_table td.middle_column
+{
+    border-right: rgb(187, 187, 187) .1em solid;
 }
