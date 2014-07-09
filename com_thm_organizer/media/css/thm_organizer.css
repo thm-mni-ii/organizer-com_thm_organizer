@@ -54,7 +54,6 @@
     text-decoration: none;
     transition-duration: 0.8s;
     transition-property: background-position, -moz-border-radius-bottomleft, -moz-box-shadow;
-    vertical-align: middle;
     width: 108px; 
 }
 .thm_organizer_main_submenu div.icon {
@@ -381,7 +380,7 @@ fieldset.filter-bar ,div.filter-bar {
 }
 
 div#filter-bar div.filter-select select{
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 div.filter-bar label{
@@ -389,7 +388,7 @@ div.filter-bar label{
 }
 
 div.filter-bar input{
-    margin-bottom:0px;
+    margin-bottom: 0;
 }
 
 div.filter-search label {
@@ -416,7 +415,6 @@ ul li.row1.subject-item {
 
 div.subject-name, div.subject-responsible, div.subject-crp {
     display: inline-block;
-    float: left;
 }
 
 div.subject-name, div.subject-responsible, div.subject-name a, div.subject-responsible a {

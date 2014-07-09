@@ -18,11 +18,11 @@ div.curriculum_legend {
 ul.fieldList {
     list-style-type: none;
     font-size: 12px;
-    padding: 0px 2px;
+    padding: 0 2px;
 }
 
 li.fieldItem {
-    padding: 2px 0px;
+    padding: 2px 0;
 }
 
 span.fieldColor {
