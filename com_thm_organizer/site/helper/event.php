@@ -79,7 +79,7 @@ class THM_OrganizerHelperEvent
      *
      * @return  void
      */
-    private static function cleanRequestTimeData(&$data)
+    public static function cleanRequestTimeData(&$data)
     {
         $data['rec_type'] = JFactory::getApplication()->input->getInt('rec_type', 0);
         $startdate = trim($data['startdate']);
@@ -170,8 +170,8 @@ class THM_OrganizerHelperEvent
      */
     public static function getDateText(&$event)
     {
-        $useStartTime = $event['starttime'] == "00:00"? false : true;
-        $useEndTime = $event['endtime'] == "00:00"? false : true;
+        $useStartTime = (empty($event['starttime']) OR $event['starttime'] == "00:00")? false : true;
+        $useEndTime = (empty($event['endtime']) OR $event['endtime'] == "00:00")? false : true;
         $useTimes = ($useStartTime OR $useEndTime);
         $singleDay = ($event['enddate'] == "00.00.0000" OR $event['startdate'] == $event['enddate']);
 
@@ -248,8 +248,8 @@ class THM_OrganizerHelperEvent
      */
     private static function getBlockText(&$event)
     {
-        $useStartTime = $event['starttime'] == "00:00"? false : true;
-        $useEndTime = $event['endtime'] == "00:00"? false : true;
+        $useStartTime = (empty($event['starttime']) OR $event['starttime'] == "00:00")? false : true;
+        $useEndTime = (empty($event['endtime']) OR $event['endtime'] == "00:00")? false : true;
         if ($useStartTime AND $useEndTime)
         {
             return JText::sprintf(

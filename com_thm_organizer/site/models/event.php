@@ -40,6 +40,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
             return 0;
         }
 
+        THM_OrganizerHelperEvent::cleanRequestTimeData($data);
         THM_OrganizerHelperEvent::buildText($data);
         $eventSaved = ($data['id'] > 0)? $this->updateEvent($data) : $this->insertEvent($data);
         $teachersSaved = $this->saveResources('#__thm_organizer_event_teachers', 'teachers', 'teacherID', $data['id']);
@@ -400,7 +401,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
         // Confirm the content was updated
         $query = $this->_db->getQuery(true);
         $query->select('COUNT(*)');
-        $query->from('#__assets');
+        $query->from('#__content');
         $query->where("asset_id = '$assetID'");
         $query->where("id = '{$event['id']}'");
         $this->_db->setQuery((string) $query);
