@@ -112,27 +112,49 @@ class THM_OrganizerHelperTeacher
         {
             try 
             {
-                $subjectDataList = $dbo->loadAssocList();
+                $teacherList = $dbo->loadAssocList();
             }
-            catch (runtimeException $e)
+            catch (Exception $exc)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                return array();
             }
-            
-            return $subjectDataList;
+            self::ensureUnique($teacherList);
+            return $teacherList;
         }
-        else
+        try
         {
-            try 
+            return $dbo->loadAssoc();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return array();
+        }
+    }
+
+    /**
+     * Checks for multiple teacher entries (responsibilities) for a subject and removes the lesser
+     *
+     * @param   array  &$list  the list of teachers responsilbe for a subject
+     *
+     * @return  void  removes duplicate list entries dependent on responsibility
+     */
+    private static function ensureUnique(&$list)
+    {
+        $keysToIds = array();
+        foreach ($list as $key => $item)
+        {
+            $keysToIds[$key] = $item['id'];
+        }
+        $valueCount = array_count_values($keysToIds);
+        foreach($list as $key => $item)
+        {
+            $unset = ($valueCount[$item['id']] > 1 AND $item['teacherResp'] > 1);
+            if ($unset)
             {
-                $subjectData = $dbo->loadAssoc();
+                unset($list[$key]);
             }
-            catch (runtimeException $e)
-            {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-            }
-            
-            return $subjectData;
         }
     }
 

@@ -41,14 +41,16 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
     {
         parent::__construct($config);
 
-        $this->menuID = JRequest::getInt('Itemid');
-        $this->subjectID = JRequest::getInt('id');
-        $externalID = JRequest::getString('nrmni');
-        if (empty($this->subjectID) AND !empty($externalID))
+        $input = JFactory::getApplication()->input;
+        $this->menuID = $input->getInt('Itemid', 0);
+        $this->subjectID = $input->getInt('id', 0);
+        $externalID = $input->getString('nrmni', '');
+        $resolveExternalID = (empty($this->subjectID) AND !empty($externalID));
+        if ($resolveExternalID)
         {
             $this->subjectID = $this->resolveExternalID($externalID);
         }
-        $this->languageTag = JRequest::getString('languageTag', 'de');
+        $this->languageTag = $input->getString('languageTag', 'de');
 
         if (!empty($this->subjectID))
         {
@@ -95,14 +97,13 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
         
         try 
         {
-            $subjectID = $dbo->loadResult();
+            return $dbo->loadResult();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return 0;
         }
-        
-        return $subjectID;
     }
 
     /**
@@ -133,9 +134,10 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
         {
             $subject = $dbo->loadAssoc();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return array();
         }
         
         return $subject;
@@ -201,9 +203,10 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
         {
             $prerequisiteOf = $dbo->loadAssocList();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return;
         }
 
         if (!empty($prerequisiteOf))
